@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { buildBreadcrumbs, type BreadcrumbItem } from "@/lib/breadcrumb-builder";
 
+import { useI18n } from "@/lib/i18n";
 interface BreadcrumbNavProps {
   items?: BreadcrumbItem[];
   title?: string;
@@ -10,6 +11,7 @@ interface BreadcrumbNavProps {
 }
 
 export function BreadcrumbNav({ items: customItems, title, className = "" }: BreadcrumbNavProps) {
+  const { t } = useI18n();
   const [location] = useLocation();
 
   const items = useMemo(() => {
@@ -22,7 +24,7 @@ export function BreadcrumbNav({ items: customItems, title, className = "" }: Bre
   const DOMAIN = "https://www.nursenest.ca";
 
   return (
-    <nav aria-label="Breadcrumb" className={`mb-4 text-sm text-gray-500 ${className}`} data-testid="nav-breadcrumb">
+    <nav aria-label={t("components.breadcrumbNav.breadcrumb")} className={`mb-4 text-sm text-gray-500 ${className}`} data-testid="nav-breadcrumb">
       <ol className="flex items-center gap-1 flex-wrap">
         {items.map((item, i) => {
           const isLast = i === items.length - 1;

@@ -2,6 +2,7 @@ import { LocaleLink } from "@/lib/LocaleLink";
 import { NEW_GRAD_PROFESSIONS, CLINICAL_SKILLS_CATEGORIES, UNIT_GUIDES, CAREER_DEVELOPMENT_PATHS } from "@shared/new-grad-professions";
 import { ArrowRight, BookOpen, GraduationCap, TrendingUp, Stethoscope } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface InternalLinksProps {
   currentPath: string;
   profession?: string;
@@ -9,6 +10,7 @@ interface InternalLinksProps {
 }
 
 export function InternalLinks({ currentPath, profession, professionName }: InternalLinksProps) {
+  const { t } = useI18n();
   const profData = profession ? NEW_GRAD_PROFESSIONS[profession] : null;
 
   const professionLinks = Object.values(NEW_GRAD_PROFESSIONS)
@@ -90,7 +92,7 @@ export function InternalLinks({ currentPath, profession, professionName }: Inter
   return (
     <section className="py-12 bg-white border-t border-gray-100" data-testid="section-internal-links">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-lg font-bold text-gray-900 mb-6">Related Resources</h2>
+        <h2 className="text-lg font-bold text-gray-900 mb-6">{t("components.newGradInternalLinks.relatedResources")}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {Object.entries(grouped)
             .sort(([a], [b]) => {

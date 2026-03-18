@@ -14,6 +14,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 
+import { useI18n } from "@/lib/i18n";
 const COLOR_MAP: Record<string, { bg: string; text: string; border: string; gradientFrom: string }> = {
   blue: { bg: "bg-blue-50", text: "text-blue-600", border: "border-blue-100", gradientFrom: "from-blue-50" },
   pink: { bg: "bg-pink-50", text: "text-pink-600", border: "border-pink-100", gradientFrom: "from-pink-50" },
@@ -29,6 +30,7 @@ const COLOR_MAP: Record<string, { bg: string; text: string; border: string; grad
 };
 
 export default function HealthcareCareerDetail() {
+  const { t } = useI18n();
   const { slug } = useParams<{ slug: string }>();
   const career = slug ? HEALTHCARE_CAREER_DATA[slug] : null;
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -39,8 +41,8 @@ export default function HealthcareCareerDetail() {
         <Navigation />
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center max-w-md px-4">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">Career Not Found</h1>
-            <p className="text-gray-600 mb-6">The healthcare career you're looking for isn't available.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">{t("pages.healthcareCareerDetail.careerNotFound")}</h1>
+            <p className="text-gray-600 mb-6">{t("pages.healthcareCareerDetail.theHealthcareCareerYoureLooking")}</p>
             <LocaleLink href="/healthcare-careers" className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors" data-testid="link-back-to-careers">
               Back to Careers Hub <ArrowRight className="w-4 h-4" />
             </LocaleLink>
@@ -94,9 +96,9 @@ export default function HealthcareCareerDetail() {
           <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradientFrom} via-white to-white`} />
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-              <LocaleLink href="/" className="hover:text-purple-600">Home</LocaleLink>
+              <LocaleLink href="/" className="hover:text-purple-600">{t("pages.healthcareCareerDetail.home")}</LocaleLink>
               <ChevronRight className="w-3.5 h-3.5" />
-              <LocaleLink href="/healthcare-careers" className="hover:text-purple-600">Healthcare Careers</LocaleLink>
+              <LocaleLink href="/healthcare-careers" className="hover:text-purple-600">{t("pages.healthcareCareerDetail.healthcareCareers")}</LocaleLink>
               <ChevronRight className="w-3.5 h-3.5" />
               <span className={`${colors.text} font-medium`}>{career.name}</span>
             </div>
@@ -112,22 +114,22 @@ export default function HealthcareCareerDetail() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div className="bg-white rounded-xl border border-gray-200 p-4 text-center" data-testid="stat-salary">
                 <DollarSign className="w-5 h-5 text-green-500 mx-auto mb-1" />
-                <p className="text-xs text-gray-500">Salary Range</p>
+                <p className="text-xs text-gray-500">{t("pages.healthcareCareerDetail.salaryRange")}</p>
                 <p className="text-sm font-bold text-gray-900">{career.salaryRange}</p>
               </div>
               <div className="bg-white rounded-xl border border-gray-200 p-4 text-center" data-testid="stat-education">
                 <Clock className="w-5 h-5 text-blue-500 mx-auto mb-1" />
-                <p className="text-xs text-gray-500">Education</p>
+                <p className="text-xs text-gray-500">{t("pages.healthcareCareerDetail.education")}</p>
                 <p className="text-sm font-bold text-gray-900">{career.educationLength}</p>
               </div>
               <div className="bg-white rounded-xl border border-gray-200 p-4 text-center" data-testid="stat-growth">
                 <TrendingUp className="w-5 h-5 text-purple-500 mx-auto mb-1" />
-                <p className="text-xs text-gray-500">Job Growth</p>
+                <p className="text-xs text-gray-500">{t("pages.healthcareCareerDetail.jobGrowth")}</p>
                 <p className="text-sm font-bold text-gray-900">{career.growthRate} (10-year)</p>
               </div>
               <div className="bg-white rounded-xl border border-gray-200 p-4 text-center" data-testid="stat-median">
                 <Award className="w-5 h-5 text-orange-500 mx-auto mb-1" />
-                <p className="text-xs text-gray-500">Median Salary</p>
+                <p className="text-xs text-gray-500">{t("pages.healthcareCareerDetail.medianSalary")}</p>
                 <p className="text-sm font-bold text-gray-900">{career.salaryMedian}</p>
               </div>
             </div>
@@ -136,7 +138,7 @@ export default function HealthcareCareerDetail() {
 
         <section className="py-12 px-4" data-testid="section-overview">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 mb-5">Role Overview</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-5">{t("pages.healthcareCareerDetail.roleOverview")}</h2>
             <div className="space-y-4">
               {career.overview.map((p, i) => (
                 <p key={i} className="text-gray-600 leading-relaxed" data-testid={`text-overview-${i}`}>{p}</p>
@@ -147,7 +149,7 @@ export default function HealthcareCareerDetail() {
 
         <section className="py-12 px-4 bg-gray-50" data-testid="section-education">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Education Pathways</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCareerDetail.educationPathways")}</h2>
             <div className="space-y-4">
               {career.educationPathways.map((path, i) => (
                 <div key={i} className="flex gap-4 bg-white rounded-xl border border-gray-200 p-6" data-testid={`card-edu-${i}`}>
@@ -166,7 +168,7 @@ export default function HealthcareCareerDetail() {
 
         <section className="py-12 px-4" data-testid="section-licensing">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Licensing Requirements</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCareerDetail.licensingRequirements")}</h2>
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <ul className="space-y-3">
                 {career.licensingRequirements.map((req, i) => (
@@ -184,7 +186,7 @@ export default function HealthcareCareerDetail() {
           <div className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8">
               <div>
-                <h2 className="text-xl font-bold text-gray-900 mb-5">Typical Responsibilities</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-5">{t("pages.healthcareCareerDetail.typicalResponsibilities")}</h2>
                 <ul className="space-y-2.5">
                   {career.typicalResponsibilities.map((resp, i) => (
                     <li key={i} className="flex items-start gap-2.5 text-sm text-gray-700">
@@ -195,7 +197,7 @@ export default function HealthcareCareerDetail() {
                 </ul>
               </div>
               <div>
-                <h2 className="text-xl font-bold text-gray-900 mb-5">Work Environments</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-5">{t("pages.healthcareCareerDetail.workEnvironments")}</h2>
                 <ul className="space-y-2.5">
                   {career.workEnvironments.map((env, i) => (
                     <li key={i} className="flex items-start gap-2.5 text-sm text-gray-700">
@@ -211,7 +213,7 @@ export default function HealthcareCareerDetail() {
 
         <section className="py-12 px-4" data-testid="section-advancement">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Advancement Opportunities</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCareerDetail.advancementOpportunities")}</h2>
             <div className="grid sm:grid-cols-2 gap-3">
               {career.advancementOpportunities.map((opp, i) => (
                 <div key={i} className={`flex items-center gap-3 px-4 py-3 rounded-lg ${colors.bg} ${colors.border} border`} data-testid={`text-advancement-${i}`}>
@@ -225,7 +227,7 @@ export default function HealthcareCareerDetail() {
 
         <section className="py-12 px-4 bg-gray-50" data-testid="section-resources">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Study Resources & Career Tools</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCareerDetail.studyResourcesCareerTools")}</h2>
             <div className="grid sm:grid-cols-3 gap-6">
               <div>
                 <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
@@ -276,7 +278,7 @@ export default function HealthcareCareerDetail() {
         {career.faqs.length > 0 && (
           <section className="py-12 px-4" data-testid="section-faqs">
             <div className="max-w-5xl mx-auto">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCareerDetail.frequentlyAskedQuestions")}</h2>
               <div className="space-y-3">
                 {career.faqs.map((faq, i) => (
                   <div key={i} className="border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-item-${i}`}>

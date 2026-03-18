@@ -5,12 +5,14 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useI18n } from "@/lib/i18n";
 import {
   Users, TrendingUp, Target, BarChart3, AlertTriangle,
   Brain, Flame, GraduationCap
 } from "lucide-react";
 
 export default function AdminStudyAnalytics() {
+  const { t } = useI18n();
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -59,8 +61,8 @@ export default function AdminStudyAnalytics() {
   return (
     <div className="container mx-auto p-4 md:p-6 space-y-6" data-testid="admin-study-analytics">
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold" data-testid="text-page-title">Study Analytics</h1>
-        <p className="text-muted-foreground">Aggregate student performance data</p>
+        <h1 className="text-2xl md:text-3xl font-bold" data-testid="text-page-title">{t("pages.adminStudyAnalytics.studyAnalytics")}</h1>
+        <p className="text-muted-foreground">{t("pages.adminStudyAnalytics.aggregateStudentPerformanceData")}</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -68,28 +70,28 @@ export default function AdminStudyAnalytics() {
           <CardContent className="p-4 text-center">
             <Users className="w-8 h-8 mx-auto text-blue-500 mb-2" />
             <div className="text-2xl font-bold">{analytics?.totalStudents || 0}</div>
-            <div className="text-xs text-muted-foreground">Total Students</div>
+            <div className="text-xs text-muted-foreground">{t("pages.adminStudyAnalytics.totalStudents")}</div>
           </CardContent>
         </Card>
         <Card data-testid="card-avg-readiness">
           <CardContent className="p-4 text-center">
             <Target className="w-8 h-8 mx-auto text-green-500 mb-2" />
             <div className="text-2xl font-bold">{analytics?.avgReadinessScore || 0}%</div>
-            <div className="text-xs text-muted-foreground">Avg Readiness</div>
+            <div className="text-xs text-muted-foreground">{t("pages.adminStudyAnalytics.avgReadiness")}</div>
           </CardContent>
         </Card>
         <Card data-testid="card-avg-probability">
           <CardContent className="p-4 text-center">
             <GraduationCap className="w-8 h-8 mx-auto text-purple-500 mb-2" />
             <div className="text-2xl font-bold">{analytics?.avgPassProbability || 0}%</div>
-            <div className="text-xs text-muted-foreground">Avg Pass Probability</div>
+            <div className="text-xs text-muted-foreground">{t("pages.adminStudyAnalytics.avgPassProbability")}</div>
           </CardContent>
         </Card>
         <Card data-testid="card-practice-stats">
           <CardContent className="p-4 text-center">
             <BarChart3 className="w-8 h-8 mx-auto text-orange-500 mb-2" />
             <div className="text-2xl font-bold">{analytics?.practiceSessionStats?.total_sessions || 0}</div>
-            <div className="text-xs text-muted-foreground">Practice Sessions</div>
+            <div className="text-xs text-muted-foreground">{t("pages.adminStudyAnalytics.practiceSessions")}</div>
           </CardContent>
         </Card>
       </div>
@@ -97,7 +99,7 @@ export default function AdminStudyAnalytics() {
       <div className="grid md:grid-cols-2 gap-4">
         <Card data-testid="card-readiness-distribution">
           <CardHeader>
-            <CardTitle className="text-lg">Readiness Distribution</CardTitle>
+            <CardTitle className="text-lg">{t("pages.adminStudyAnalytics.readinessDistribution")}</CardTitle>
           </CardHeader>
           <CardContent>
             {(analytics?.readinessDistribution || []).length > 0 ? (
@@ -117,7 +119,7 @@ export default function AdminStudyAnalytics() {
                 })}
               </div>
             ) : (
-              <p className="text-muted-foreground text-sm">No readiness data yet</p>
+              <p className="text-muted-foreground text-sm">{t("pages.adminStudyAnalytics.noReadinessDataYet")}</p>
             )}
           </CardContent>
         </Card>
@@ -139,7 +141,7 @@ export default function AdminStudyAnalytics() {
                 ))}
               </div>
             ) : (
-              <p className="text-muted-foreground text-sm">No streak data yet</p>
+              <p className="text-muted-foreground text-sm">{t("pages.adminStudyAnalytics.noStreakDataYet")}</p>
             )}
           </CardContent>
         </Card>
@@ -166,7 +168,7 @@ export default function AdminStudyAnalytics() {
                 ))}
               </div>
             ) : (
-              <p className="text-muted-foreground text-sm">No weak topic data yet</p>
+              <p className="text-muted-foreground text-sm">{t("pages.adminStudyAnalytics.noWeakTopicDataYet")}</p>
             )}
           </CardContent>
         </Card>
@@ -191,7 +193,7 @@ export default function AdminStudyAnalytics() {
                 ))}
               </div>
             ) : (
-              <p className="text-muted-foreground text-sm">No strong topic data yet</p>
+              <p className="text-muted-foreground text-sm">{t("pages.adminStudyAnalytics.noStrongTopicDataYet")}</p>
             )}
           </CardContent>
         </Card>
@@ -209,10 +211,10 @@ export default function AdminStudyAnalytics() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b">
-                    <th className="text-left p-2">Date</th>
-                    <th className="text-right p-2">Questions</th>
-                    <th className="text-right p-2">Avg Accuracy</th>
-                    <th className="text-right p-2">Active Students</th>
+                    <th className="text-left p-2">{t("pages.adminStudyAnalytics.date")}</th>
+                    <th className="text-right p-2">{t("pages.adminStudyAnalytics.questions")}</th>
+                    <th className="text-right p-2">{t("pages.adminStudyAnalytics.avgAccuracy")}</th>
+                    <th className="text-right p-2">{t("pages.adminStudyAnalytics.activeStudents")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -228,7 +230,7 @@ export default function AdminStudyAnalytics() {
               </table>
             </div>
           ) : (
-            <p className="text-muted-foreground text-sm">No activity data yet</p>
+            <p className="text-muted-foreground text-sm">{t("pages.adminStudyAnalytics.noActivityDataYet")}</p>
           )}
         </CardContent>
       </Card>
@@ -246,7 +248,7 @@ export default function AdminStudyAnalytics() {
 
           {(blueprints || []).length > 0 ? (
             <div className="space-y-2">
-              <h3 className="text-sm font-medium">Available Blueprints</h3>
+              <h3 className="text-sm font-medium">{t("pages.adminStudyAnalytics.availableBlueprints")}</h3>
               {(blueprints || []).map((bp: any) => (
                 <div key={bp.id} className="flex items-center justify-between border rounded-lg p-3" data-testid={`blueprint-${bp.id}`}>
                   <div>
@@ -269,12 +271,12 @@ export default function AdminStudyAnalytics() {
               ))}
             </div>
           ) : (
-            <p className="text-muted-foreground text-sm">No exam blueprints configured yet.</p>
+            <p className="text-muted-foreground text-sm">{t("pages.adminStudyAnalytics.noExamBlueprintsConfiguredYet")}</p>
           )}
 
           {(courses || []).length > 0 && (
             <div className="space-y-2 mt-6">
-              <h3 className="text-sm font-medium">Generated Courses</h3>
+              <h3 className="text-sm font-medium">{t("pages.adminStudyAnalytics.generatedCourses")}</h3>
               {(courses || []).map((course: any) => (
                 <div key={course.id} className="border rounded-lg p-3" data-testid={`course-${course.id}`}>
                   <div className="flex items-center justify-between">

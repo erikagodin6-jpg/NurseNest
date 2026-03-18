@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AutoRelatedContent } from "@/components/auto-related-content";
 
+import { useI18n } from "@/lib/i18n";
 interface ProfessionSection {
   name: string;
   slug: string;
@@ -194,12 +195,13 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 export default function ExamPrepHub() {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen bg-background" data-testid="exam-prep-hub-page">
       <Navigation />
       <SEO
-        title="Exam Prep Hub: Healthcare Certification Study Resources | NurseNest"
-        description="Central hub for all healthcare exam preparation resources. Practice questions, mock exams, flashcards, and lessons for nursing, paramedic, MLT, respiratory therapy, medical imaging, pharmacy tech, social work, and occupational therapy certifications."
+        title={t("pages.examPrepHub.examPrepHubHealthcareCertification")}
+        description={t("pages.examPrepHub.centralHubForAllHealthcare")}
         keywords="healthcare exam prep, nursing exam prep, NCLEX prep, paramedic exam prep, MLT exam prep, RRT exam prep, medical imaging exam prep, pharmacy tech exam prep, ASWB exam prep, NBCOT exam prep"
         canonicalPath="/exam-prep"
         structuredData={collectionStructuredData}
@@ -212,9 +214,9 @@ export default function ExamPrepHub() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-16">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <LocaleLink href="/" className="hover:text-blue-600">Home</LocaleLink>
+          <LocaleLink href="/" className="hover:text-blue-600">{t("pages.examPrepHub.home")}</LocaleLink>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-blue-700 font-medium">Exam Prep Hub</span>
+          <span className="text-blue-700 font-medium">{t("pages.examPrepHub.examPrepHub")}</span>
         </div>
 
         <section className="mb-12" data-testid="section-exam-prep-hero">
@@ -238,26 +240,26 @@ export default function ExamPrepHub() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-professions">
                 <p className="text-lg sm:text-xl font-bold text-gray-900">8+</p>
-                <p className="text-xs text-slate-500 mt-1">Professions</p>
+                <p className="text-xs text-slate-500 mt-1">{t("pages.examPrepHub.professions")}</p>
               </div>
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-exams">
                 <p className="text-lg sm:text-xl font-bold text-gray-900">20+</p>
-                <p className="text-xs text-slate-500 mt-1">Certification Exams</p>
+                <p className="text-xs text-slate-500 mt-1">{t("pages.examPrepHub.certificationExams")}</p>
               </div>
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-questions">
                 <p className="text-lg sm:text-xl font-bold text-gray-900">10,000+</p>
-                <p className="text-xs text-slate-500 mt-1">Practice Questions</p>
+                <p className="text-xs text-slate-500 mt-1">{t("pages.examPrepHub.practiceQuestions")}</p>
               </div>
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-tools">
                 <p className="text-lg sm:text-xl font-bold text-gray-900">50+</p>
-                <p className="text-xs text-slate-500 mt-1">Study Tools</p>
+                <p className="text-xs text-slate-500 mt-1">{t("pages.examPrepHub.studyTools")}</p>
               </div>
             </div>
           </div>
         </section>
 
         <section className="mb-12" data-testid="section-professions">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Browse by Profession</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">{t("pages.examPrepHub.browseByProfession")}</h2>
           <div className="space-y-6">
             {PROFESSIONS.map((prof) => {
               const Icon = prof.icon;
@@ -298,7 +300,7 @@ export default function ExamPrepHub() {
         </section>
 
         <section className="mb-12" data-testid="section-cross-links">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Related Resources</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">{t("pages.examPrepHub.relatedResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <LocaleLink href="/new-graduate-support">
               <Card className="h-full hover:shadow-md hover:border-indigo-200 transition-all cursor-pointer group" data-testid="card-cross-new-grad">
@@ -308,8 +310,8 @@ export default function ExamPrepHub() {
                       <GraduationCap className="w-5 h-5 text-indigo-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-indigo-600 transition-colors">New Graduate Support</h3>
-                      <p className="text-xs text-slate-500 mt-1">Interview prep, resume tools, and first-year survival guides for new healthcare graduates.</p>
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-indigo-600 transition-colors">{t("pages.examPrepHub.newGraduateSupport")}</h3>
+                      <p className="text-xs text-slate-500 mt-1">{t("pages.examPrepHub.interviewPrepResumeToolsAnd")}</p>
                     </div>
                     <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-indigo-600 shrink-0 mt-1" />
                   </div>
@@ -324,8 +326,8 @@ export default function ExamPrepHub() {
                       <Award className="w-5 h-5 text-purple-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-purple-600 transition-colors">Healthcare Careers</h3>
-                      <p className="text-xs text-slate-500 mt-1">Explore career paths, salary guides, and certification requirements across healthcare professions.</p>
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-purple-600 transition-colors">{t("pages.examPrepHub.healthcareCareers")}</h3>
+                      <p className="text-xs text-slate-500 mt-1">{t("pages.examPrepHub.exploreCareerPathsSalaryGuides")}</p>
                     </div>
                     <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-purple-600 shrink-0 mt-1" />
                   </div>
@@ -340,8 +342,8 @@ export default function ExamPrepHub() {
                       <Brain className="w-5 h-5 text-teal-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-teal-600 transition-colors">Healthcare Encyclopedia</h3>
-                      <p className="text-xs text-slate-500 mt-1">Browse clinical reference content organized by profession and topic area.</p>
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-teal-600 transition-colors">{t("pages.examPrepHub.healthcareEncyclopedia")}</h3>
+                      <p className="text-xs text-slate-500 mt-1">{t("pages.examPrepHub.browseClinicalReferenceContentOrganized")}</p>
                     </div>
                     <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-teal-600 shrink-0 mt-1" />
                   </div>
@@ -352,7 +354,7 @@ export default function ExamPrepHub() {
         </section>
 
         <section className="mb-12" data-testid="section-exam-prep-faq">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">{t("pages.examPrepHub.frequentlyAskedQuestions")}</h2>
           <div className="space-y-4">
             {FAQ_DATA.map((faq, idx) => (
               <Card key={idx} className="border-slate-200/60" data-testid={`card-faq-${idx}`}>
@@ -368,7 +370,7 @@ export default function ExamPrepHub() {
         <AutoRelatedContent
           slug="exam-prep"
           contentType="exam-prep"
-          title="Exam Preparation"
+          title={t("pages.examPrepHub.examPreparation")}
           category="exam-prep"
           className="pt-8 border-t border-gray-200"
           sectionTitle="Related Study Resources"

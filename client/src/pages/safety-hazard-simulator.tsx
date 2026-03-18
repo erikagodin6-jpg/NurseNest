@@ -37,6 +37,7 @@ import {
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
+import { useI18n } from "@/lib/i18n";
 const imgMedSurg = getAssetUrl("safety-medsurg-room.png");
 const imgMedPrep = getAssetUrl("safety-med-prep-area.png");
 const imgPostOp = getAssetUrl("safety-post-op-room.png");
@@ -1209,15 +1210,15 @@ function ScenarioRunner({
                           {item.isHazard ? (
                             <>
                               <div>
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Risk</p>
+                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">{t("pages.safetyHazardSimulator.risk")}</p>
                                 <p className="text-xs text-gray-600 leading-relaxed">{item.riskExplanation}</p>
                               </div>
                               <div>
-                                <p className="text-[10px] font-bold text-rose-500 uppercase tracking-wider mb-0.5">Potential Harm</p>
+                                <p className="text-[10px] font-bold text-rose-500 uppercase tracking-wider mb-0.5">{t("pages.safetyHazardSimulator.potentialHarm")}</p>
                                 <p className="text-xs text-gray-600 leading-relaxed">{item.potentialHarm}</p>
                               </div>
                               <div>
-                                <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider mb-0.5">Nursing Action</p>
+                                <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider mb-0.5">{t("pages.safetyHazardSimulator.nursingAction")}</p>
                                 <p className="text-xs text-gray-600 leading-relaxed">{item.nursingAction}</p>
                               </div>
                             </>
@@ -1258,20 +1259,20 @@ function ScenarioRunner({
           <CardContent className="p-6">
             <div className="flex items-center gap-3 mb-4">
               <Trophy className="w-6 h-6 text-primary" />
-              <h3 className="text-lg font-bold text-gray-900">Scenario Results</h3>
+              <h3 className="text-lg font-bold text-gray-900">{t("pages.safetyHazardSimulator.scenarioResults")}</h3>
             </div>
             <div className="grid grid-cols-3 gap-4 mb-4">
               <div className="text-center p-3 bg-white rounded-lg border border-gray-100">
                 <p className="text-2xl font-bold text-primary">{scorePercent}%</p>
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Score</p>
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t("pages.safetyHazardSimulator.score")}</p>
               </div>
               <div className="text-center p-3 bg-white rounded-lg border border-gray-100">
                 <p className="text-2xl font-bold text-emerald-600">{correctlyIdentified}</p>
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Hazards Found</p>
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t("pages.safetyHazardSimulator.hazardsFound")}</p>
               </div>
               <div className="text-center p-3 bg-white rounded-lg border border-gray-100">
                 <p className="text-2xl font-bold text-rose-500">{incorrectSelections}</p>
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">False Alarms</p>
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t("pages.safetyHazardSimulator.falseAlarms")}</p>
               </div>
             </div>
             {correctlyIdentified < totalHazards && (
@@ -1298,6 +1299,7 @@ function ScenarioRunner({
 }
 
 export default function SafetyHazardSimulatorPage() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [activeScenario, setActiveScenario] = useState<Scenario | null>(null);
   const [completedScenarios, setCompletedScenarios] = useState<Set<string>>(new Set());
@@ -1328,8 +1330,8 @@ export default function SafetyHazardSimulatorPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
       <SEO
-        title="Safety & Hazard Detection Engine - Free Patient Safety Training | NurseNest"
-        description="Practice identifying patient safety hazards in clinical environments. Free interactive nursing module covering fall risks, medication errors, infection control, and equipment safety."
+        title={t("pages.safetyHazardSimulator.safetyHazardDetectionEngineFree")}
+        description={t("pages.safetyHazardSimulator.practiceIdentifyingPatientSafetyHazards")}
         keywords="patient safety nursing, hazard detection nursing, clinical safety training, fall prevention nursing, medication error prevention, infection control nursing, nursing safety simulation"
         canonicalPath="/safety-hazard-simulator"
         ogType="website"

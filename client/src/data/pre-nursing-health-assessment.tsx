@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { Stethoscope, ClipboardList, Activity, Eye } from "lucide-react";
 
 export function HealthAssessmentModule() {
+  const { t } = useI18n();
   const subjectiveVsObjectiveContent = useEditableText("ha-subjective-objective-content", "Subjective data is information reported by the patient — symptoms, feelings, perceptions, and history. Only the patient can provide this data (e.g., 'I feel dizzy,' 'My pain is 7/10'). Objective data is observable, measurable information obtained through examination, diagnostic tests, and direct observation (e.g., BP 148/92, temperature 38.5°C, crackles auscultated in lung bases). The distinction matters because nursing diagnoses and clinical decisions require both types of data to form a complete clinical picture.");
   const redFlagsContent = useEditableText("ha-red-flags-content", "Red flags are assessment findings that require immediate intervention or escalation. Key red flags include: sudden change in level of consciousness (stroke, hypoglycemia, increased ICP), new-onset chest pain with diaphoresis (MI), respiratory distress with SpO2 < 90% (respiratory failure), systolic BP < 90 mmHg (shock), unilateral weakness or speech changes (stroke), rigid/board-like abdomen (peritonitis), and asymmetric pupils (increased ICP, herniation). When you identify a red flag, stop the routine assessment and activate the appropriate emergency response.");
   const documentationContent = useEditableText("ha-documentation-content", "SOAP notes organize documentation into Subjective (patient's report), Objective (measurable findings), Assessment (clinical judgment/diagnosis), and Plan (interventions). Focus charting uses DAR: Data (subjective + objective), Action (nursing interventions), and Response (patient outcomes). Narrative charting tells the story chronologically but can be disorganized. Exception-based charting documents only deviations from normal, saving time but risking missed documentation. Always document assessment findings promptly, accurately, and objectively — avoid subjective language like 'patient seems fine.'");
@@ -35,7 +37,7 @@ export function HealthAssessmentModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Subjective vs Objective Distinction"
+          title={t("data.pre_nursing_health_assessment.subjectiveVsObjectiveDistinction")}
           content={subjectiveVsObjectiveContent}
         />
       </MicroLesson>
@@ -43,7 +45,7 @@ export function HealthAssessmentModule() {
       <MicroLesson title="IPPA Techniques" subtitle="Inspection, Palpation, Percussion, Auscultation" icon={<Stethoscope className="w-5 h-5" />}>
         <EditableModuleText sectionKey="ha-ippa-intro" defaultText="IPPA represents the four systematic techniques used in physical examination, always performed in this specific order (except for the abdomen, where auscultation precedes palpation and percussion to avoid altering bowel sounds)." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="The Four Assessment Techniques"
+          title={t("data.pre_nursing_health_assessment.theFourAssessmentTechniques")}
           cards={[
             {
               id: "ha-inspect",
@@ -83,12 +85,12 @@ export function HealthAssessmentModule() {
           <div className="p-4 bg-purple-50/60 rounded-xl border border-purple-100">
             <p className="text-xs font-semibold text-purple-700 mb-2">Normal Adult Vital Sign Ranges</p>
             <div className="grid grid-cols-2 gap-2 text-xs text-purple-600">
-              <div><strong>Temperature:</strong> 36.1–37.2°C (97.0–99.0°F)</div>
-              <div><strong>Pulse:</strong> 60–100 bpm, regular rhythm</div>
-              <div><strong>Respirations:</strong> 12–20 breaths/min, unlabored</div>
-              <div><strong>Blood Pressure:</strong> Systolic &lt;120 / Diastolic &lt;80 mmHg</div>
-              <div><strong>SpO2:</strong> 95–100% on room air</div>
-              <div><strong>Pain:</strong> 0/10 (the sixth vital sign)</div>
+              <div><strong>{t("data.pre_nursing_health_assessment.temperature")}</strong> 36.1–37.2°C (97.0–99.0°F)</div>
+              <div><strong>{t("data.pre_nursing_health_assessment.pulse")}</strong> 60–100 bpm, regular rhythm</div>
+              <div><strong>{t("data.pre_nursing_health_assessment.respirations")}</strong> 12–20 breaths/min, unlabored</div>
+              <div><strong>{t("data.pre_nursing_health_assessment.bloodPressure")}</strong>{t("data.pre_nursing_health_assessment.systolicLt120DiastolicLt80Mmhg")}</div>
+              <div><strong>{t("data.pre_nursing_health_assessment.spo2")}</strong> 95–100% on room air</div>
+              <div><strong>{t("data.pre_nursing_health_assessment.pain")}</strong> 0/10 (the sixth vital sign)</div>
             </div>
           </div>
           <div className="p-4 bg-teal-50/60 rounded-xl border border-teal-100">
@@ -103,33 +105,33 @@ export function HealthAssessmentModule() {
         <div className="p-4 bg-indigo-50/60 rounded-xl border border-indigo-100 mt-3">
           <p className="text-xs font-semibold text-indigo-700 mb-2">Head-to-Toe Assessment Order</p>
           <div className="space-y-1 text-xs text-indigo-600">
-            <p><strong>1. General survey:</strong> Overall appearance, body habitus, hygiene, level of consciousness, gait</p>
-            <p><strong>2. Neurological:</strong> LOC (Glasgow Coma Scale), orientation (person/place/time/situation), pupil response (PERRLA), cranial nerves, sensation, motor strength</p>
-            <p><strong>3. Head/Face:</strong> Skull symmetry, facial expression, TMJ, sinuses</p>
-            <p><strong>4. Eyes/Ears/Nose/Throat:</strong> Visual acuity, hearing, nasal patency, oral mucosa, tonsils</p>
-            <p><strong>5. Neck:</strong> Lymph nodes, thyroid, jugular vein distention (JVD), carotid pulses, tracheal midline</p>
-            <p><strong>6. Chest/Lungs:</strong> Respiratory effort, breath sounds all fields, chest expansion symmetry</p>
-            <p><strong>7. Cardiovascular:</strong> Heart sounds (S1/S2), rhythm, PMI, peripheral pulses, capillary refill, edema</p>
-            <p><strong>8. Abdomen:</strong> Inspect → Auscultate → Percuss → Palpate; bowel sounds, distention, tenderness</p>
-            <p><strong>9. Musculoskeletal:</strong> ROM, strength, gait, joint swelling or deformity</p>
-            <p><strong>10. Integumentary:</strong> Skin color, turgor, moisture, lesions, wound assessment, pressure injury risk</p>
-            <p><strong>11. Extremities:</strong> Pulses, edema, sensation, skin integrity, IV sites</p>
+            <p><strong>1. General survey:</strong>{t("data.pre_nursing_health_assessment.overallAppearanceBodyHabitusHygiene")}</p>
+            <p><strong>2. Neurological:</strong>{t("data.pre_nursing_health_assessment.locGlasgowComaScaleOrientation")}</p>
+            <p><strong>3. Head/Face:</strong>{t("data.pre_nursing_health_assessment.skullSymmetryFacialExpressionTmj")}</p>
+            <p><strong>4. Eyes/Ears/Nose/Throat:</strong>{t("data.pre_nursing_health_assessment.visualAcuityHearingNasalPatency")}</p>
+            <p><strong>5. Neck:</strong>{t("data.pre_nursing_health_assessment.lymphNodesThyroidJugularVein")}</p>
+            <p><strong>6. Chest/Lungs:</strong>{t("data.pre_nursing_health_assessment.respiratoryEffortBreathSoundsAll")}</p>
+            <p><strong>7. Cardiovascular:</strong>{t("data.pre_nursing_health_assessment.heartSoundsS1s2RhythmPmi")}</p>
+            <p><strong>8. Abdomen:</strong>{t("data.pre_nursing_health_assessment.inspectAuscultatePercussPalpateBowel")}</p>
+            <p><strong>9. Musculoskeletal:</strong>{t("data.pre_nursing_health_assessment.romStrengthGaitJointSwelling")}</p>
+            <p><strong>10. Integumentary:</strong>{t("data.pre_nursing_health_assessment.skinColorTurgorMoistureLesions")}</p>
+            <p><strong>11. Extremities:</strong>{t("data.pre_nursing_health_assessment.pulsesEdemaSensationSkinIntegrity")}</p>
           </div>
         </div>
         <CognitiveCard
           type="concept"
-          title="Documentation Methods"
+          title={t("data.pre_nursing_health_assessment.documentationMethods")}
           content={documentationContent}
         />
         <CognitiveCard
           type="warning"
-          title="Red Flags Requiring Immediate Action"
+          title={t("data.pre_nursing_health_assessment.redFlagsRequiringImmediateAction")}
           content={redFlagsContent}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Assessment Concept"
+        title={t("data.pre_nursing_health_assessment.matchTheAssessmentConcept")}
         pairs={[
           { id: "subjective", term: "Subjective data", definition: "Information reported by the patient (symptoms)" },
           { id: "objective", term: "Objective data", definition: "Observable, measurable findings (signs)" },
@@ -141,7 +143,7 @@ export function HealthAssessmentModule() {
       />
 
       <SelfCheckQuiz
-        title="Health Assessment Quiz"
+        title={t("data.pre_nursing_health_assessment.healthAssessmentQuiz")}
         questions={[
           {
             id: "ha1",

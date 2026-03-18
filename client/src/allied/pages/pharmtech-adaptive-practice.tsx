@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   Zap, Target, CheckCircle, XCircle, ArrowRight, AlertCircle,
   BarChart3, BookOpen, Brain, ChevronRight, Settings, TrendingUp,
@@ -68,6 +69,7 @@ const MASTERY_BAR_COLORS: Record<string, string> = {
 };
 
 export default function PharmtechAdaptivePractice() {
+  const { t } = useI18n();
   const [view, setView] = useState<"setup" | "active" | "results" | "mastery">("setup");
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
@@ -302,7 +304,7 @@ export default function PharmtechAdaptivePractice() {
 
             {lastResult && lastResult.rationale && (
               <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
-                <p className="text-sm font-medium text-blue-900 mb-1">Rationale</p>
+                <p className="text-sm font-medium text-blue-900 mb-1">{t("allied.pharmtechAdaptivePractice.rationale")}</p>
                 <p className="text-sm text-blue-800">{lastResult.rationale}</p>
               </div>
             )}
@@ -328,9 +330,9 @@ export default function PharmtechAdaptivePractice() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-10" data-testid="pharmtech-adaptive-setup">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href="/allied-health/pharmacy-technician" className="hover:text-green-600">Pharmacy Technician</Link>
+        <Link href="/allied-health/pharmacy-technician" className="hover:text-green-600">{t("allied.pharmtechAdaptivePractice.pharmacyTechnician")}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-green-700 font-medium">Adaptive Practice</span>
+        <span className="text-green-700 font-medium">{t("allied.pharmtechAdaptivePractice.adaptivePractice")}</span>
       </div>
 
       <div className="text-center mb-8">
@@ -363,8 +365,8 @@ export default function PharmtechAdaptivePractice() {
           <div className="w-10 h-10 rounded-xl bg-green-500 flex items-center justify-center mb-3">
             <Play className="w-5 h-5 text-white" />
           </div>
-          <h3 className="font-bold text-gray-900 mb-1">Start Adaptive Practice</h3>
-          <p className="text-sm text-gray-500">Begin a continuous practice session. Questions adapt to your level.</p>
+          <h3 className="font-bold text-gray-900 mb-1">{t("allied.pharmtechAdaptivePractice.startAdaptivePractice")}</h3>
+          <p className="text-sm text-gray-500">{t("allied.pharmtechAdaptivePractice.beginAContinuousPracticeSession")}</p>
         </button>
 
         <button
@@ -375,8 +377,8 @@ export default function PharmtechAdaptivePractice() {
           <div className="w-10 h-10 rounded-xl bg-blue-500 flex items-center justify-center mb-3">
             <Award className="w-5 h-5 text-white" />
           </div>
-          <h3 className="font-bold text-gray-900 mb-1">Mastery Dashboard</h3>
-          <p className="text-sm text-gray-500">View your mastery level across all categories.</p>
+          <h3 className="font-bold text-gray-900 mb-1">{t("allied.pharmtechAdaptivePractice.masteryDashboard")}</h3>
+          <p className="text-sm text-gray-500">{t("allied.pharmtechAdaptivePractice.viewYourMasteryLevelAcross")}</p>
         </button>
       </div>
 
@@ -394,7 +396,7 @@ export default function PharmtechAdaptivePractice() {
         {showSettings && (
           <div className="mt-4 space-y-4 pt-4 border-t border-gray-100">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Starting Difficulty (1-5)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t("allied.pharmtechAdaptivePractice.startingDifficulty15")}</label>
               <div className="flex gap-2">
                 {[1, 2, 3, 4, 5].map(d => (
                   <button
@@ -446,15 +448,15 @@ export default function PharmtechAdaptivePractice() {
           <div className="grid grid-cols-3 gap-4">
             <div className="text-center">
               <div className="text-2xl font-bold text-green-700" data-testid="text-total-sessions">{masteryData.totalSessions}</div>
-              <div className="text-xs text-gray-500">Sessions</div>
+              <div className="text-xs text-gray-500">{t("allied.pharmtechAdaptivePractice.sessions")}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-blue-700" data-testid="text-total-questions">{masteryData.totalQuestionsAnswered}</div>
-              <div className="text-xs text-gray-500">Questions</div>
+              <div className="text-xs text-gray-500">{t("allied.pharmtechAdaptivePractice.questions")}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-emerald-700" data-testid="text-overall-accuracy">{masteryData.overallAccuracy}%</div>
-              <div className="text-xs text-gray-500">Accuracy</div>
+              <div className="text-xs text-gray-500">{t("allied.pharmtechAdaptivePractice.accuracy")}</div>
             </div>
           </div>
         </div>
@@ -463,7 +465,7 @@ export default function PharmtechAdaptivePractice() {
       {loading && (
         <div className="text-center mt-6">
           <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-          <p className="text-sm text-gray-500">Preparing questions...</p>
+          <p className="text-sm text-gray-500">{t("allied.pharmtechAdaptivePractice.preparingQuestions")}</p>
         </div>
       )}
     </div>
@@ -479,7 +481,7 @@ function ResultsView({ analytics, onNewSession, onViewMastery }: {
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-adaptive-results">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Session Results</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">{t("allied.pharmtechAdaptivePractice.sessionResults")}</h1>
 
       <div className={`rounded-2xl p-8 text-center mb-8 ${passed ? "bg-green-50 border-2 border-green-200" : "bg-amber-50 border-2 border-amber-200"}`}>
         <div className={`text-5xl font-bold mb-2 ${passed ? "text-green-700" : "text-amber-700"}`} data-testid="text-final-score">
@@ -493,7 +495,7 @@ function ResultsView({ analytics, onNewSession, onViewMastery }: {
         </div>
       </div>
 
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Category Breakdown</h2>
+      <h2 className="text-lg font-semibold text-gray-900 mb-4">{t("allied.pharmtechAdaptivePractice.categoryBreakdown")}</h2>
       <div className="space-y-3 mb-8">
         {Object.entries(analytics.categoryStats).map(([cat, data]) => {
           const mastery = analytics.masteryLevels[cat];
@@ -560,8 +562,8 @@ function ResultsView({ analytics, onNewSession, onViewMastery }: {
               ))}
             </div>
             <div className="flex justify-between mt-2 text-xs text-gray-400">
-              <span>Start</span>
-              <span>End</span>
+              <span>{t("allied.pharmtechAdaptivePractice.start")}</span>
+              <span>{t("allied.pharmtechAdaptivePractice.end")}</span>
             </div>
           </div>
         </div>
@@ -629,8 +631,8 @@ function MasteryDashboard({ masteryData, onBack }: {
     return (
       <div className="max-w-3xl mx-auto px-4 py-10 text-center" data-testid="pharmtech-mastery-dashboard">
         <Award className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Mastery Dashboard</h1>
-        <p className="text-gray-500 mb-6">Complete adaptive practice sessions to see your mastery levels here.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.pharmtechAdaptivePractice.masteryDashboard2")}</h1>
+        <p className="text-gray-500 mb-6">{t("allied.pharmtechAdaptivePractice.completeAdaptivePracticeSessionsTo")}</p>
         <button onClick={onBack} className="px-6 py-2.5 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700" data-testid="button-back-setup">
           Start Practicing
         </button>
@@ -644,8 +646,8 @@ function MasteryDashboard({ masteryData, onBack }: {
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-mastery-dashboard">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Mastery Dashboard</h1>
-          <p className="text-sm text-gray-500 mt-1">Track your progress across all pharmacy technician categories</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t("allied.pharmtechAdaptivePractice.masteryDashboard3")}</h1>
+          <p className="text-sm text-gray-500 mt-1">{t("allied.pharmtechAdaptivePractice.trackYourProgressAcrossAll")}</p>
         </div>
         <button onClick={onBack} className="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-200" data-testid="button-back-setup-mastery">
           Back
@@ -655,24 +657,24 @@ function MasteryDashboard({ masteryData, onBack }: {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-2xl font-bold text-green-700">{masteryData.totalSessions}</div>
-          <div className="text-xs text-gray-500">Sessions</div>
+          <div className="text-xs text-gray-500">{t("allied.pharmtechAdaptivePractice.sessions2")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-2xl font-bold text-blue-700">{masteryData.totalQuestionsAnswered}</div>
-          <div className="text-xs text-gray-500">Questions</div>
+          <div className="text-xs text-gray-500">{t("allied.pharmtechAdaptivePractice.questions2")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-2xl font-bold text-emerald-700">{masteryData.overallAccuracy}%</div>
-          <div className="text-xs text-gray-500">Accuracy</div>
+          <div className="text-xs text-gray-500">{t("allied.pharmtechAdaptivePractice.accuracy2")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-2xl font-bold text-purple-700">{masteryData.weakAreas.length}</div>
-          <div className="text-xs text-gray-500">Weak Areas</div>
+          <div className="text-xs text-gray-500">{t("allied.pharmtechAdaptivePractice.weakAreas")}</div>
         </div>
       </div>
 
       <div className="flex items-center gap-4 mb-4 flex-wrap">
-        <span className="text-sm font-medium text-gray-500">Mastery Levels:</span>
+        <span className="text-sm font-medium text-gray-500">{t("allied.pharmtechAdaptivePractice.masteryLevels")}</span>
         {["Advanced", "Proficient", "Developing", "Beginner"].map(level => {
           const colors = MASTERY_COLORS[level];
           return (

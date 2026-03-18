@@ -5,6 +5,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { HubHero, FilterChip } from "./components";
 import { ECGStrip, WaveformDetailCard, MonitorPanel } from "./ecg-components";
 
+import { useI18n } from "@/lib/i18n";
 const CATEGORIES = [
   { label: "All", value: "" },
   { label: "Cardiac Rhythms", value: "Cardiac Rhythms" },
@@ -28,6 +29,7 @@ const WAVEFORM_TYPES = [
 ];
 
 function getCategoryIcon(category: string) {
+
   switch (category) {
     case "Cardiac Rhythms": return Heart;
     case "Heart Blocks": return AlertTriangle;
@@ -68,15 +70,15 @@ export default function ECGLibraryPage() {
   return (
     <div data-testid="ecg-library-page">
       <AlliedSEO
-        title="ECG & Waveform Library — Paramedic Rhythm Interpretation | NurseNest"
-        description="Browse clinically accurate ECG rhythm strips, 12-lead patterns, and capnography waveforms. Practice cardiac rhythm interpretation with educational annotations for paramedic exam prep."
+        title={t("allied.paramedicEcgLibrary.ecgWaveformLibraryParamedicRhythm")}
+        description={t("allied.paramedicEcgLibrary.browseClinicallyAccurateEcgRhythm")}
         keywords="ECG library, cardiac rhythm strips, 12-lead ECG patterns, capnography waveforms, paramedic rhythm interpretation, STEMI patterns, heart blocks"
         canonicalPath="/allied-health/paramedic/ecg-library"
       />
 
       <HubHero
-        title="ECG & Waveform Library"
-        subtitle="Browse clinically accurate ECG rhythm strips, 12-lead patterns, and capnography waveforms with detailed clinical annotations and treatment notes."
+        title={t("allied.paramedicEcgLibrary.ecgWaveformLibrary")}
+        subtitle={t("allied.ecg_library.browseClinicallyAccurateEcgRhythm")}
         breadcrumbs={[
           { label: "Paramedic Academy", href: "/allied-health/paramedic" },
           { label: "ECG Library" },
@@ -90,7 +92,7 @@ export default function ECGLibraryPage() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search rhythms, waveforms..."
+                placeholder={t("allied.paramedicEcgLibrary.searchRhythmsWaveforms")}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
@@ -143,7 +145,7 @@ export default function ECGLibraryPage() {
 
               {showMonitor && (
                 <div className="mt-6">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-3">Monitor View</h3>
+                  <h3 className="text-sm font-semibold text-gray-700 mb-3">{t("allied.paramedicEcgLibrary.monitorView")}</h3>
                   <MonitorPanel
                     svgPathData={selectedWaveform.svgPathData}
                     rhythmName={selectedWaveform.name}
@@ -201,10 +203,10 @@ export default function ECGLibraryPage() {
 
                       <div className="flex flex-wrap gap-2 text-xs">
                         {w.rate && (
-                          <span className="text-gray-500"><span className="font-medium text-gray-700">Rate:</span> {w.rate}</span>
+                          <span className="text-gray-500"><span className="font-medium text-gray-700">{t("allied.paramedicEcgLibrary.rate")}</span> {w.rate}</span>
                         )}
                         {w.regularity && (
-                          <span className="text-gray-500"><span className="font-medium text-gray-700">Rhythm:</span> {w.regularity}</span>
+                          <span className="text-gray-500"><span className="font-medium text-gray-700">{t("allied.paramedicEcgLibrary.rhythm")}</span> {w.regularity}</span>
                         )}
                       </div>
 

@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
+import { useI18n } from "@/lib/i18n";
 interface FAQ {
   question: string;
   answer: string;
@@ -597,6 +598,7 @@ const CORNERSTONE_PAGES: Record<string, CornerstonePage> = {
 };
 
 function SectionHeading({ id, title, icon: Icon, color }: { id: string; title: string; icon: typeof BookOpen; color: string }) {
+  const { t } = useI18n();
   return (
     <h2 id={id} className="text-xl sm:text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3 scroll-mt-24" data-testid={`heading-${id}`}>
       <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${color}15` }}>
@@ -644,10 +646,10 @@ export default function ExamPrepCornerstonePage({ slug }: { slug: string }) {
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-page-not-found">Page Not Found</h1>
-          <p className="text-gray-600 mb-6">The exam preparation page you are looking for does not exist.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-page-not-found">{t("pages.examPrepCornerstonePages.pageNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.examPrepCornerstonePages.theExamPreparationPageYou")}</p>
           <LocaleLink href="/exam-prep">
-            <Button data-testid="button-back-to-exam-prep">Browse Exam Prep Resources</Button>
+            <Button data-testid="button-back-to-exam-prep">{t("pages.examPrepCornerstonePages.browseExamPrepResources")}</Button>
           </LocaleLink>
         </div>
         <Footer />
@@ -781,7 +783,7 @@ export default function ExamPrepCornerstonePage({ slug }: { slug: string }) {
                   {section.examTip && (
                     <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
                       <p className="text-sm text-amber-800">
-                        <span className="font-semibold">Exam Tip:</span> {section.examTip}
+                        <span className="font-semibold">{t("pages.examPrepCornerstonePages.examTip")}</span> {section.examTip}
                       </p>
                     </div>
                   )}
@@ -789,8 +791,8 @@ export default function ExamPrepCornerstonePage({ slug }: { slug: string }) {
 
                 {idx === 1 && (
                   <div className="my-8 rounded-xl p-6 text-center" style={{ backgroundColor: `${page.color}10`, borderLeft: `4px solid ${page.color}` }} data-testid="cta-mid-questions">
-                    <h3 className="text-lg font-bold text-gray-900 mb-1">Start Practice Questions</h3>
-                    <p className="text-sm text-gray-600 mb-4">Test your knowledge with exam-style questions and detailed clinical rationales.</p>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">{t("pages.examPrepCornerstonePages.startPracticeQuestions")}</h3>
+                    <p className="text-sm text-gray-600 mb-4">{t("pages.examPrepCornerstonePages.testYourKnowledgeWithExamstyle")}</p>
                     <LocaleLink href="/practice-questions">
                       <Button className="text-white" style={{ backgroundColor: page.color }} data-testid="button-cta-mid-questions">
                         Start Practice Questions <ArrowRight className="w-4 h-4 ml-2" />
@@ -801,8 +803,8 @@ export default function ExamPrepCornerstonePage({ slug }: { slug: string }) {
 
                 {idx === 3 && (
                   <div className="my-8 rounded-xl p-6 text-center" style={{ backgroundColor: `${page.color}10`, borderLeft: `4px solid ${page.color}` }} data-testid="cta-mid-flashcards">
-                    <h3 className="text-lg font-bold text-gray-900 mb-1">Explore Flashcard Decks</h3>
-                    <p className="text-sm text-gray-600 mb-4">Reinforce your learning with spaced-repetition flashcards.</p>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">{t("pages.examPrepCornerstonePages.exploreFlashcardDecks")}</h3>
+                    <p className="text-sm text-gray-600 mb-4">{t("pages.examPrepCornerstonePages.reinforceYourLearningWithSpacedrepetition")}</p>
                     <LocaleLink href="/flashcards">
                       <Button className="text-white" style={{ backgroundColor: page.color }} data-testid="button-cta-mid-flashcards">
                         Explore Flashcards <ArrowRight className="w-4 h-4 ml-2" />
@@ -814,7 +816,7 @@ export default function ExamPrepCornerstonePage({ slug }: { slug: string }) {
             ))}
 
             <section id="internal-links" className="mb-12 scroll-mt-24" data-testid="section-internal-links">
-              <SectionHeading id="heading-internal-links" title="Study Resources" icon={Layers} color={page.color} />
+              <SectionHeading id="heading-internal-links" title={t("pages.examPrepCornerstonePages.studyResources")} icon={Layers} color={page.color} />
               <div className="grid sm:grid-cols-2 gap-3">
                 {page.internalLinks.map((link, i) => (
                   <LocaleLink key={i} href={link.url}>
@@ -836,7 +838,7 @@ export default function ExamPrepCornerstonePage({ slug }: { slug: string }) {
             </section>
 
             <section id="faq" className="mb-12 scroll-mt-24" data-testid="section-faq">
-              <SectionHeading id="heading-faq" title="Frequently Asked Questions" icon={HelpCircle} color={page.color} />
+              <SectionHeading id="heading-faq" title={t("pages.examPrepCornerstonePages.frequentlyAskedQuestions")} icon={HelpCircle} color={page.color} />
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => (
                   <div key={i} className="bg-white rounded-xl border border-gray-200 overflow-hidden" data-testid={`faq-item-${i}`}>

@@ -5,6 +5,7 @@ import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { Atom, ArrowLeft, Search, Filter, ChevronDown, ChevronUp, CheckCircle2, BarChart3 } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const EXAM_MAP: Record<string, { exam: string }> = {
   canada: { exam: "CAMRT" },
   usa: { exam: "ARRT" },
@@ -39,6 +40,7 @@ const SEED_TOPICS = [
 ];
 
 function toSlug(title: string): string {
+  const { t } = useI18n();
   return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
@@ -131,7 +133,7 @@ export default function ImagingPhysicsPage() {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <BarChart3 className="w-5 h-5 text-purple-600" />
-              <span className="font-semibold text-gray-900">Your Progress</span>
+              <span className="font-semibold text-gray-900">{t("pages.imagingPhysics.yourProgress")}</span>
             </div>
             <span className="text-sm text-purple-600 font-medium" data-testid="text-progress-count">{completedCount} / {totalCount} topics</span>
           </div>
@@ -145,7 +147,7 @@ export default function ImagingPhysicsPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
-              placeholder="Search physics topics..."
+              placeholder={t("pages.imagingPhysics.searchPhysicsTopics")}
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-purple-400"
@@ -174,7 +176,7 @@ export default function ImagingPhysicsPage() {
         ) : filteredTopics.length === 0 ? (
           <div className="text-center py-20 bg-gray-50 rounded-xl">
             <Atom className="w-10 h-10 mx-auto mb-3 text-gray-300" />
-            <p className="font-medium text-gray-500">No topics found matching your search</p>
+            <p className="font-medium text-gray-500">{t("pages.imagingPhysics.noTopicsFoundMatchingYour")}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -9,6 +9,7 @@ import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { getPracticalNurseExamName } from "@shared/constants";
 import { useRegion } from "@/hooks/use-region";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, ArrowLeft, Check, Clock, BookOpen, Target,
   GraduationCap, Brain, Loader2, ChevronRight
@@ -37,6 +38,7 @@ const npDomains = [
 ];
 
 function getDomainsForTier(tier: string): string[] {
+
   if (tier === "np") return npDomains;
   if (tier === "rn") return rnDomains;
   return rpnDomains;
@@ -98,8 +100,8 @@ export default function OnboardingPlanPage() {
           <Card className="w-full max-w-md border-none shadow-xl">
             <CardContent className="p-8 text-center space-y-4">
               <GraduationCap className="w-12 h-12 text-primary mx-auto" />
-              <h2 className="text-2xl font-bold">Sign In Required</h2>
-              <p className="text-gray-500">Please log in to create your personalized study plan.</p>
+              <h2 className="text-2xl font-bold">{t("pages.onboardingPlan.signInRequired")}</h2>
+              <p className="text-gray-500">{t("pages.onboardingPlan.pleaseLogInToCreate")}</p>
               <Button onClick={() => navigate("/login")} className="rounded-full px-8" data-testid="button-login-redirect">
                 Log In
               </Button>
@@ -165,7 +167,7 @@ export default function OnboardingPlanPage() {
             <h1 className="text-2xl sm:text-3xl font-bold mb-2" data-testid="text-onboarding-title">
               Build Your Study Plan
             </h1>
-            <p className="text-gray-500">Takes about 3 minutes. We will create a personalized week-by-week schedule.</p>
+            <p className="text-gray-500">{t("pages.onboardingPlan.takesAbout3MinutesWe")}</p>
           </div>
 
           <div className="flex items-center justify-center gap-2 mb-8">
@@ -192,7 +194,7 @@ export default function OnboardingPlanPage() {
             <Card className="border-none shadow-lg" data-testid="card-step-goal">
               <CardContent className="p-6 sm:p-8 space-y-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2">Exam Type</label>
+                  <label className="block text-sm font-medium mb-2">{t("pages.onboardingPlan.examType")}</label>
                   <div className="flex flex-wrap gap-2">
                     {(effectiveTier === "np"
                       ? ["FNP", "AGPCNP", "PMHNP", "Other NP"]
@@ -217,7 +219,7 @@ export default function OnboardingPlanPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Study Timeframe</label>
+                  <label className="block text-sm font-medium mb-2">{t("pages.onboardingPlan.studyTimeframe")}</label>
                   <div className="flex flex-wrap gap-2">
                     {[2, 4, 6, 8].map((weeks) => (
                       <button
@@ -237,7 +239,7 @@ export default function OnboardingPlanPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Daily Study Time</label>
+                  <label className="block text-sm font-medium mb-2">{t("pages.onboardingPlan.dailyStudyTime")}</label>
                   <div className="flex flex-wrap gap-2">
                     {[15, 30, 60, 90].map((min) => (
                       <button
@@ -258,7 +260,7 @@ export default function OnboardingPlanPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Learning Style</label>
+                  <label className="block text-sm font-medium mb-2">{t("pages.onboardingPlan.learningStyle")}</label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {[
                       { id: "read_then_practice" as const, label: "Learn first, then practice", desc: "Read lessons before attempting questions" },
@@ -394,7 +396,7 @@ export default function OnboardingPlanPage() {
                     <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
                       <Check className="w-8 h-8 text-primary" />
                     </div>
-                    <h3 className="text-xl font-bold">Assessment Complete</h3>
+                    <h3 className="text-xl font-bold">{t("pages.onboardingPlan.assessmentComplete")}</h3>
                     <p className="text-gray-500 text-sm">
                       You answered {Object.keys(quizAnswers).length} of {quizQuestions.length} questions.
                       We are ready to build your personalized study plan.
@@ -407,7 +409,7 @@ export default function OnboardingPlanPage() {
                       data-testid="button-generate-plan"
                     >
                       {generating ? (
-                        <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Building Your Plan...</>
+                        <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> {t("pages.onboardingPlan.buildingYourPlan")}</>
                       ) : (
                         <>Generate My Study Plan <ArrowRight className="w-4 h-4 ml-2" /></>
                       )}

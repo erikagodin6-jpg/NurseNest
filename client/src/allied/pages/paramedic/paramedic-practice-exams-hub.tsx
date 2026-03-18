@@ -1,17 +1,19 @@
 import { Link } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { HubHero, FinalCTASection } from "./components";
+import { useI18n } from "@/lib/i18n";
 import {
   FileText, CheckCircle2, ArrowRight, Target, TrendingUp,
   Clock, Brain, BarChart3, Shield
 } from "lucide-react";
 
 export default function ParamedicPracticeExamsHub() {
+  const { t } = useI18n();
   return (
     <div data-testid="paramedic-practice-exams-hub">
       <AlliedSEO
-        title="Paramedic Practice Exams — Full-Length Timed Mock Tests | NurseNest"
-        description="Take full-length, blueprint-weighted paramedic practice exams with adaptive difficulty. Get detailed domain-level performance analytics and readiness scoring."
+        title={t("allied.paramedicParamedicPracticeExamsHub.paramedicPracticeExamsFulllengthTimed")}
+        description={t("allied.paramedicParamedicPracticeExamsHub.takeFulllengthBlueprintweightedParamedicPra")}
         keywords="paramedic practice exam, paramedic mock test, NREMT practice exam, paramedic certification test, full length paramedic exam, paramedic readiness test"
         canonicalPath="/allied-health/paramedic/practice-exams"
         structuredData={{
@@ -24,8 +26,8 @@ export default function ParamedicPracticeExamsHub() {
       />
 
       <HubHero
-        title="Paramedic Practice Exams"
-        subtitle="Full-length, timed practice exams that replicate the real certification testing experience. Blueprint-weighted, adaptive, and analyzed down to the domain level."
+        title={t("allied.paramedicParamedicPracticeExamsHub.paramedicPracticeExams")}
+        subtitle={t("allied.paramedic_practice_exams_hub.fulllengthTimedPracticeExamsThat")}
         breadcrumbs={[
           { label: "Paramedic", href: "/allied-health/paramedic" },
           { label: "Practice Exams" },
@@ -35,30 +37,30 @@ export default function ParamedicPracticeExamsHub() {
       <section className="py-16 sm:py-20 bg-white" data-testid="section-how-it-works">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">How Practice Exams Work</h2>
-            <p className="text-gray-600 max-w-xl mx-auto">Our mock exams are designed to simulate the real certification testing experience so nothing surprises you on exam day.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.paramedicParamedicPracticeExamsHub.howPracticeExamsWork")}</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">{t("allied.paramedicParamedicPracticeExamsHub.ourMockExamsAreDesigned")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-100 to-teal-100 flex items-center justify-center mx-auto mb-4">
                 <Clock className="w-7 h-7 text-teal-600" />
               </div>
-              <h3 className="text-base font-semibold text-gray-900 mb-2">Timed & Realistic</h3>
-              <p className="text-sm text-gray-500">Each exam runs under timed conditions matching your certification format. Experience the same time pressure as the real test.</p>
+              <h3 className="text-base font-semibold text-gray-900 mb-2">{t("allied.paramedicParamedicPracticeExamsHub.timedRealistic")}</h3>
+              <p className="text-sm text-gray-500">{t("allied.paramedicParamedicPracticeExamsHub.eachExamRunsUnderTimed")}</p>
             </div>
             <div className="text-center">
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-100 to-teal-100 flex items-center justify-center mx-auto mb-4">
                 <Shield className="w-7 h-7 text-teal-600" />
               </div>
-              <h3 className="text-base font-semibold text-gray-900 mb-2">Blueprint-Weighted</h3>
-              <p className="text-sm text-gray-500">Questions are distributed across domains according to the official exam blueprint — trauma, cardiac, medical, operations, and more.</p>
+              <h3 className="text-base font-semibold text-gray-900 mb-2">{t("allied.paramedicParamedicPracticeExamsHub.blueprintweighted")}</h3>
+              <p className="text-sm text-gray-500">{t("allied.paramedicParamedicPracticeExamsHub.questionsAreDistributedAcrossDomains")}</p>
             </div>
             <div className="text-center">
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-100 to-teal-100 flex items-center justify-center mx-auto mb-4">
                 <BarChart3 className="w-7 h-7 text-teal-600" />
               </div>
-              <h3 className="text-base font-semibold text-gray-900 mb-2">Detailed Analytics</h3>
-              <p className="text-sm text-gray-500">After each exam, see your score breakdown by domain, difficulty trends, time analysis, and a personalized readiness prediction.</p>
+              <h3 className="text-base font-semibold text-gray-900 mb-2">{t("allied.paramedicParamedicPracticeExamsHub.detailedAnalytics")}</h3>
+              <p className="text-sm text-gray-500">{t("allied.paramedicParamedicPracticeExamsHub.afterEachExamSeeYour")}</p>
             </div>
           </div>
         </div>
@@ -67,18 +69,18 @@ export default function ParamedicPracticeExamsHub() {
       <section className="py-16 sm:py-20 bg-gradient-to-b from-purple-50/30 to-white" data-testid="section-exam-types">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Available Exam Formats</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.paramedicParamedicPracticeExamsHub.availableExamFormats")}</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white rounded-2xl border border-gray-100 p-6" data-testid="card-exam-full">
               <div className="flex items-center gap-3 mb-4">
                 <FileText className="w-8 h-8 text-teal-500" />
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Full-Length Mock Exam</h3>
-                  <span className="text-xs text-gray-400">Free (1 attempt) · Unlimited with Pro</span>
+                  <h3 className="text-lg font-semibold text-gray-900">{t("allied.paramedicParamedicPracticeExamsHub.fulllengthMockExam")}</h3>
+                  <span className="text-xs text-gray-400">{t("allied.paramedicParamedicPracticeExamsHub.free1AttemptUnlimitedWith")}</span>
                 </div>
               </div>
-              <p className="text-sm text-gray-500 mb-4">Complete exam simulation with all domains represented. Adaptive difficulty that adjusts based on your performance.</p>
+              <p className="text-sm text-gray-500 mb-4">{t("allied.paramedicParamedicPracticeExamsHub.completeExamSimulationWithAll")}</p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-start gap-2 text-sm text-gray-600">
                   <CheckCircle2 className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
@@ -106,11 +108,11 @@ export default function ParamedicPracticeExamsHub() {
               <div className="flex items-center gap-3 mb-4">
                 <Target className="w-8 h-8 text-purple-500" />
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Domain-Specific Practice Sets</h3>
-                  <span className="text-xs text-gray-400">Pro members only</span>
+                  <h3 className="text-lg font-semibold text-gray-900">{t("allied.paramedicParamedicPracticeExamsHub.domainspecificPracticeSets")}</h3>
+                  <span className="text-xs text-gray-400">{t("allied.paramedicParamedicPracticeExamsHub.proMembersOnly")}</span>
                 </div>
               </div>
-              <p className="text-sm text-gray-500 mb-4">Focused practice sets targeting individual domains. Perfect for drilling weak areas identified by your diagnostic or mock exam results.</p>
+              <p className="text-sm text-gray-500 mb-4">{t("allied.paramedicParamedicPracticeExamsHub.focusedPracticeSetsTargetingIndividual")}</p>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-start gap-2 text-sm text-gray-600">
                   <CheckCircle2 className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
@@ -140,7 +142,7 @@ export default function ParamedicPracticeExamsHub() {
       <section className="py-16 sm:py-20 bg-white" data-testid="section-after-exam">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">What Happens After Your Practice Exam</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.paramedicParamedicPracticeExamsHub.whatHappensAfterYourPractice")}</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -160,7 +162,7 @@ export default function ParamedicPracticeExamsHub() {
       </section>
 
       <FinalCTASection
-        title="Take Your First Practice Exam"
+        title={t("allied.paramedicParamedicPracticeExamsHub.takeYourFirstPracticeExam")}
         subtitle="See where you stand with a free mock exam, then use your results to build a targeted study plan for exam day."
         primaryCTA={{ label: "Start Free Mock Exam", href: "/allied-health/paramedic/exam-launcher" }}
         secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}

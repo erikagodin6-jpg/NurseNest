@@ -6,12 +6,14 @@ import {
   ALLIED_HEALTH_PROFESSION_SLUGS,
 } from "@/allied/data/allied-health-professions";
 import { ALLIED_HEALTH_ARTICLE_TOPICS } from "@/allied/data/allied-health-article-topics";
+import { useI18n } from "@/lib/i18n";
 import {
   Plus, RefreshCw, Send, Trash2, Edit3, Eye, Check, X,
   FileText, Sparkles, ChevronDown, Filter, ExternalLink
 } from "lucide-react";
 
 export default function AdminAlliedHealthArticles() {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [selectedProfession, setSelectedProfession] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
@@ -197,14 +199,14 @@ export default function AdminAlliedHealthArticles() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Profession</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAlliedHealthArticles.profession")}</label>
                 <select
                   value={generateForm.profession}
                   onChange={(e) => setGenerateForm({ profession: e.target.value, topicSlug: "", title: "", targetKeyword: "", primaryCategory: "" })}
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                   data-testid="select-profession"
                 >
-                  <option value="">Select profession...</option>
+                  <option value="">{t("pages.adminAlliedHealthArticles.selectProfession")}</option>
                   {ALLIED_HEALTH_PROFESSION_SLUGS.map((slug) => (
                     <option key={slug} value={slug}>
                       {ALLIED_HEALTH_PROFESSIONS[slug].name}
@@ -213,7 +215,7 @@ export default function AdminAlliedHealthArticles() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Topic</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAlliedHealthArticles.topic")}</label>
                 <select
                   value={generateForm.topicSlug}
                   onChange={(e) => handleTopicSelect(e.target.value)}
@@ -221,7 +223,7 @@ export default function AdminAlliedHealthArticles() {
                   disabled={!generateForm.profession}
                   data-testid="select-topic"
                 >
-                  <option value="">Select topic...</option>
+                  <option value="">{t("pages.adminAlliedHealthArticles.selectTopic")}</option>
                   {topics.map((topic) => (
                     <option key={topic.slug} value={topic.slug}>
                       {topic.title}
@@ -232,29 +234,29 @@ export default function AdminAlliedHealthArticles() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAlliedHealthArticles.title")}</label>
                 <input
                   type="text"
                   value={generateForm.title}
                   onChange={(e) => setGenerateForm((prev) => ({ ...prev, title: e.target.value }))}
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                  placeholder="Article title..."
+                  placeholder={t("pages.adminAlliedHealthArticles.articleTitle")}
                   data-testid="input-title"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Target Keyword</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAlliedHealthArticles.targetKeyword")}</label>
                 <input
                   type="text"
                   value={generateForm.targetKeyword}
                   onChange={(e) => setGenerateForm((prev) => ({ ...prev, targetKeyword: e.target.value }))}
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                  placeholder="SEO target keyword..."
+                  placeholder={t("pages.adminAlliedHealthArticles.seoTargetKeyword")}
                   data-testid="input-keyword"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAlliedHealthArticles.category")}</label>
                 <input
                   type="text"
                   value={generateForm.primaryCategory}
@@ -273,9 +275,9 @@ export default function AdminAlliedHealthArticles() {
                 data-testid="button-generate"
               >
                 {generateMutation.isPending ? (
-                  <><RefreshCw className="w-4 h-4 animate-spin" /> Generating...</>
+                  <><RefreshCw className="w-4 h-4 animate-spin" /> {t("pages.adminAlliedHealthArticles.generating")}</>
                 ) : (
-                  <><Sparkles className="w-4 h-4" /> Generate with GPT-4o</>
+                  <><Sparkles className="w-4 h-4" /> {t("pages.adminAlliedHealthArticles.generateWithGpt4o")}</>
                 )}
               </button>
               <button
@@ -323,15 +325,15 @@ export default function AdminAlliedHealthArticles() {
             </div>
             <div className="space-y-3 mb-4">
               <div>
-                <span className="text-xs text-gray-500 uppercase tracking-wider">Meta Title</span>
+                <span className="text-xs text-gray-500 uppercase tracking-wider">{t("pages.adminAlliedHealthArticles.metaTitle")}</span>
                 <p className="text-sm text-gray-900 font-medium">{generatedContent.metaTitle}</p>
               </div>
               <div>
-                <span className="text-xs text-gray-500 uppercase tracking-wider">Meta Description</span>
+                <span className="text-xs text-gray-500 uppercase tracking-wider">{t("pages.adminAlliedHealthArticles.metaDescription")}</span>
                 <p className="text-sm text-gray-600">{generatedContent.metaDescription}</p>
               </div>
               <div>
-                <span className="text-xs text-gray-500 uppercase tracking-wider">Word Count</span>
+                <span className="text-xs text-gray-500 uppercase tracking-wider">{t("pages.adminAlliedHealthArticles.wordCount")}</span>
                 <p className="text-sm text-gray-600">{generatedContent.wordCount} words</p>
               </div>
             </div>
@@ -356,7 +358,7 @@ export default function AdminAlliedHealthArticles() {
                 className="px-3 py-1.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500"
                 data-testid="filter-profession"
               >
-                <option value="">All Professions</option>
+                <option value="">{t("pages.adminAlliedHealthArticles.allProfessions")}</option>
                 {ALLIED_HEALTH_PROFESSION_SLUGS.map((slug) => (
                   <option key={slug} value={slug}>
                     {ALLIED_HEALTH_PROFESSIONS[slug].name}
@@ -370,11 +372,11 @@ export default function AdminAlliedHealthArticles() {
               className="px-3 py-1.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500"
               data-testid="filter-status"
             >
-              <option value="">All Statuses</option>
-              <option value="draft">Draft</option>
-              <option value="published">Published</option>
-              <option value="generating">Generating</option>
-              <option value="failed">Failed</option>
+              <option value="">{t("pages.adminAlliedHealthArticles.allStatuses")}</option>
+              <option value="draft">{t("pages.adminAlliedHealthArticles.draft")}</option>
+              <option value="published">{t("pages.adminAlliedHealthArticles.published")}</option>
+              <option value="generating">{t("pages.adminAlliedHealthArticles.generating2")}</option>
+              <option value="failed">{t("pages.adminAlliedHealthArticles.failed")}</option>
             </select>
             <span className="text-sm text-gray-500 ml-auto">
               {articles.length} article{articles.length !== 1 ? "s" : ""}
@@ -382,11 +384,11 @@ export default function AdminAlliedHealthArticles() {
           </div>
 
           {isLoading ? (
-            <div className="p-8 text-center text-gray-500" data-testid="articles-loading">Loading articles...</div>
+            <div className="p-8 text-center text-gray-500" data-testid="articles-loading">{t("pages.adminAlliedHealthArticles.loadingArticles")}</div>
           ) : articles.length === 0 ? (
             <div className="p-8 text-center text-gray-500" data-testid="articles-empty">
               <FileText className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-              <p>No articles found. Use the generator to create your first article.</p>
+              <p>{t("pages.adminAlliedHealthArticles.noArticlesFoundUseThe")}</p>
             </div>
           ) : (
             <div className="divide-y divide-gray-100">
@@ -406,7 +408,7 @@ export default function AdminAlliedHealthArticles() {
                         value={editingArticle.metaTitle || ""}
                         onChange={(e) => setEditingArticle({ ...editingArticle, metaTitle: e.target.value })}
                         className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
-                        placeholder="Meta title..."
+                        placeholder={t("pages.adminAlliedHealthArticles.metaTitle2")}
                         data-testid="edit-meta-title"
                       />
                       <textarea
@@ -414,7 +416,7 @@ export default function AdminAlliedHealthArticles() {
                         onChange={(e) => setEditingArticle({ ...editingArticle, metaDescription: e.target.value })}
                         className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
                         rows={2}
-                        placeholder="Meta description..."
+                        placeholder={t("pages.adminAlliedHealthArticles.metaDescription2")}
                         data-testid="edit-meta-description"
                       />
                       <textarea
@@ -422,7 +424,7 @@ export default function AdminAlliedHealthArticles() {
                         onChange={(e) => setEditingArticle({ ...editingArticle, contentMd: e.target.value })}
                         className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-mono"
                         rows={10}
-                        placeholder="Article content (Markdown)..."
+                        placeholder={t("pages.adminAlliedHealthArticles.articleContentMarkdown")}
                         data-testid="edit-content"
                       />
                       <div className="flex gap-2">
@@ -474,7 +476,7 @@ export default function AdminAlliedHealthArticles() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="p-2 text-gray-400 hover:text-teal-600 transition-colors"
-                            title="View"
+                            title={t("pages.adminAlliedHealthArticles.view")}
                             data-testid={`button-view-${article.id}`}
                           >
                             <ExternalLink className="w-4 h-4" />
@@ -483,7 +485,7 @@ export default function AdminAlliedHealthArticles() {
                         <button
                           onClick={() => setEditingArticle({ ...article })}
                           className="p-2 text-gray-400 hover:text-teal-600 transition-colors"
-                          title="Edit"
+                          title={t("pages.adminAlliedHealthArticles.edit")}
                           data-testid={`button-edit-${article.id}`}
                         >
                           <Edit3 className="w-4 h-4" />
@@ -493,7 +495,7 @@ export default function AdminAlliedHealthArticles() {
                             onClick={() => publishMutation.mutate(article.id)}
                             disabled={publishMutation.isPending}
                             className="p-2 text-gray-400 hover:text-green-600 transition-colors"
-                            title="Publish"
+                            title={t("pages.adminAlliedHealthArticles.publish")}
                             data-testid={`button-publish-${article.id}`}
                           >
                             <Send className="w-4 h-4" />
@@ -504,7 +506,7 @@ export default function AdminAlliedHealthArticles() {
                             if (confirm("Delete this article?")) deleteMutation.mutate(article.id);
                           }}
                           className="p-2 text-gray-400 hover:text-red-600 transition-colors"
-                          title="Delete"
+                          title={t("pages.adminAlliedHealthArticles.delete")}
                           data-testid={`button-delete-${article.id}`}
                         >
                           <Trash2 className="w-4 h-4" />

@@ -3,6 +3,7 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { getSpecialtyBySlug, SPECIALTY_CONFIGS, type SpecialtyConfig } from "@/data/specialty-hub-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, BookOpen, ChevronRight, Check, GraduationCap,
   ClipboardList, Layers, Award
@@ -18,13 +19,14 @@ const SLUG_TO_SPECIALTY: Record<string, string> = {
 };
 
 function CertificationNotFound() {
+  const { t } = useI18n();
   return (
     <div data-testid="page-certification-not-found">
       <Navigation />
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center max-w-md px-4">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">Certification Not Found</h1>
-          <p className="text-gray-600 mb-6">The certification page you are looking for is not available.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">{t("pages.newGradCertificationPage.certificationNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.newGradCertificationPage.theCertificationPageYouAre")}</p>
           <Link href="/new-grad" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors" data-testid="link-back-to-new-grad">
             Back to New Grad Hub <ArrowRight className="w-4 h-4" />
           </Link>
@@ -61,9 +63,9 @@ function CertificationContent({ specialty, certSlug }: { specialty: SpecialtyCon
         <div className={`absolute inset-0 bg-gradient-to-br ${specialty.gradientFrom} via-white/50 ${specialty.gradientTo}`} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="nav-breadcrumb">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.newGradCertificationPage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/new-grad" className="hover:text-blue-600">New Grad Hub</Link>
+            <Link href="/new-grad" className="hover:text-blue-600">{t("pages.newGradCertificationPage.newGradHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-blue-700 font-medium">{specialty.name} Certification</span>
           </div>
@@ -112,7 +114,7 @@ function CertificationContent({ specialty, certSlug }: { specialty: SpecialtyCon
             </div>
             <p className="text-gray-600 text-lg mb-6" data-testid="text-guide-desc">{specialty.newGradGuideDescription}</p>
             <div className="bg-white rounded-xl border border-blue-100 p-6">
-              <h3 className="font-semibold text-gray-900 mb-2">Clinical Context</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">{t("pages.newGradCertificationPage.clinicalContext")}</h3>
               <p className="text-gray-600" data-testid="text-clinical-context">{specialty.clinicalContext}</p>
             </div>
           </div>
@@ -122,7 +124,7 @@ function CertificationContent({ specialty, certSlug }: { specialty: SpecialtyCon
       <section className="py-16 bg-gray-50" data-testid="section-topics">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-topics-heading">What You'll Learn</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-topics-heading">{t("pages.newGradCertificationPage.whatYoullLearn")}</h2>
             <p className="text-gray-600">Core topics covered in the {specialty.name} track to prepare for certification.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -139,7 +141,7 @@ function CertificationContent({ specialty, certSlug }: { specialty: SpecialtyCon
       <section className="py-16 bg-white" data-testid="section-certifications">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-certs-heading">Certifications to Pursue</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-certs-heading">{t("pages.newGradCertificationPage.certificationsToPursue")}</h2>
             <p className="text-gray-600">Key certifications for {specialty.name.toLowerCase()} nurses.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -149,7 +151,7 @@ function CertificationContent({ specialty, certSlug }: { specialty: SpecialtyCon
                   <Award className={`w-6 h-6 ${specialty.iconColor}`} />
                 </div>
                 <h3 className="font-bold text-gray-900 text-lg">{cert}</h3>
-                <p className="text-sm text-gray-500 mt-1">Specialty Certification</p>
+                <p className="text-sm text-gray-500 mt-1">{t("pages.newGradCertificationPage.specialtyCertification")}</p>
               </div>
             ))}
           </div>
@@ -159,7 +161,7 @@ function CertificationContent({ specialty, certSlug }: { specialty: SpecialtyCon
       <section className="py-16 bg-gray-50" data-testid="section-resources">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-resources-heading">Study Resources</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-resources-heading">{t("pages.newGradCertificationPage.studyResources")}</h2>
             <p className="text-gray-600">Everything included to prepare for {specialty.name.toLowerCase()} certification.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -168,7 +170,7 @@ function CertificationContent({ specialty, certSlug }: { specialty: SpecialtyCon
                 <div className={`w-12 h-12 rounded-xl ${specialty.bgColor} flex items-center justify-center mb-4`}>
                   <BookOpen className={`w-6 h-6 ${specialty.iconColor}`} />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Lesson Library</h3>
+                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">{t("pages.newGradCertificationPage.lessonLibrary")}</h3>
                 <p className="text-sm text-gray-500 mb-3">In-depth lessons specific to {specialty.name.toLowerCase()}.</p>
                 <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600">
                   Browse Lessons <ArrowRight className="w-3.5 h-3.5" />
@@ -180,7 +182,7 @@ function CertificationContent({ specialty, certSlug }: { specialty: SpecialtyCon
                 <div className={`w-12 h-12 rounded-xl ${specialty.bgColor} flex items-center justify-center mb-4`}>
                   <ClipboardList className={`w-6 h-6 ${specialty.iconColor}`} />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Test Bank</h3>
+                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">{t("pages.newGradCertificationPage.testBank")}</h3>
                 <p className="text-sm text-gray-500 mb-3">Practice questions for {specialty.certifications.join(", ")} certification prep.</p>
                 <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600">
                   Practice Now <ArrowRight className="w-3.5 h-3.5" />
@@ -192,7 +194,7 @@ function CertificationContent({ specialty, certSlug }: { specialty: SpecialtyCon
                 <div className={`w-12 h-12 rounded-xl ${specialty.bgColor} flex items-center justify-center mb-4`}>
                   <Layers className={`w-6 h-6 ${specialty.iconColor}`} />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Flashcard Decks</h3>
+                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">{t("pages.newGradCertificationPage.flashcardDecks")}</h3>
                 <p className="text-sm text-gray-500 mb-3">Spaced-repetition flashcards for {specialty.name.toLowerCase()} concepts.</p>
                 <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600">
                   Study Flashcards <ArrowRight className="w-3.5 h-3.5" />
@@ -206,7 +208,7 @@ function CertificationContent({ specialty, certSlug }: { specialty: SpecialtyCon
       <section className="py-16 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-faq-heading">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-faq-heading">{t("pages.newGradCertificationPage.frequentlyAskedQuestions")}</h2>
             <p className="text-gray-600">Common questions about {specialty.name.toLowerCase()} for new graduates</p>
           </div>
           <div className="space-y-3">
@@ -224,7 +226,7 @@ function CertificationContent({ specialty, certSlug }: { specialty: SpecialtyCon
         <section className="py-16 bg-gray-50" data-testid="section-related">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-related-heading">Related Specialties</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-related-heading">{t("pages.newGradCertificationPage.relatedSpecialties")}</h2>
               <p className="text-gray-600">Explore specialties that complement {specialty.name.toLowerCase()}.</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

@@ -6,6 +6,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { getCrossPlatformLinksForCareer } from "@/data/internal-links";
 import { buildJobPostingStructuredData, buildEducationalOrganizationStructuredData } from "@/lib/structured-data";
 
+import { useI18n } from "@/lib/i18n";
 const CAREER_TO_GUIDE_SLUG: Record<string, string> = Object.values(CAREER_GUIDES).reduce((acc, guide) => {
   acc[guide.careerSlug] = guide.slug;
   return acc;
@@ -25,11 +26,12 @@ const ALLIED_CAREERS = [
 ];
 
 export default function CareerDirectoryPage() {
+  const { t } = useI18n();
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" data-testid="career-directory-page">
       <AlliedSEO
-        title="Allied Health Career Directory - Choose Your Certification Path"
-        description="Browse all allied health career paths. Access tailored question banks, mock exams, flashcards, AI tools, and study plans for RRT, Paramedic, Pharmacy Tech, MLT, and Medical Imaging certifications."
+        title={t("allied.careerDirectory.alliedHealthCareerDirectoryChoose")}
+        description={t("allied.careerDirectory.browseAllAlliedHealthCareer")}
         keywords="allied health careers, healthcare careers directory, RRT career, paramedic career, pharmacy technician career, MLT career, medical imaging career, certification prep"
         canonicalPath="/careers"
         structuredData={{
@@ -56,8 +58,8 @@ export default function CareerDirectoryPage() {
         ]}
       />
       <div className="text-center mb-12">
-        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-directory-title">Allied Health Career Directory</h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">Choose your certification path. Each career includes a full question bank, mock exams, flashcards, AI tools, and a personalized study planner.</p>
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-directory-title">{t("allied.careerDirectory.alliedHealthCareerDirectory")}</h1>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t("allied.careerDirectory.chooseYourCertificationPathEach")}</p>
       </div>
 
       <div className="space-y-6">
@@ -81,10 +83,10 @@ export default function CareerDirectoryPage() {
                   ))}
                 </div>
                 <div className="flex flex-wrap gap-4 text-sm text-gray-500 mb-4">
-                  <span className="flex items-center gap-1"><BookOpen className="w-4 h-4 text-teal-500" /> Practice Questions</span>
-                  <span className="flex items-center gap-1"><FileText className="w-4 h-4 text-teal-500" /> Mock Exams</span>
-                  <span className="flex items-center gap-1"><Brain className="w-4 h-4 text-teal-500" /> Flashcards</span>
-                  <span className="flex items-center gap-1"><Wrench className="w-4 h-4 text-teal-500" /> AI Tools</span>
+                  <span className="flex items-center gap-1"><BookOpen className="w-4 h-4 text-teal-500" /> {t("allied.careerDirectory.practiceQuestions")}</span>
+                  <span className="flex items-center gap-1"><FileText className="w-4 h-4 text-teal-500" /> {t("allied.careerDirectory.mockExams")}</span>
+                  <span className="flex items-center gap-1"><Brain className="w-4 h-4 text-teal-500" /> {t("allied.careerDirectory.flashcards")}</span>
+                  <span className="flex items-center gap-1"><Wrench className="w-4 h-4 text-teal-500" /> {t("allied.careerDirectory.aiTools")}</span>
                 </div>
                 <div className="flex flex-wrap gap-1.5 mb-4">
                   {career.domains.slice(0, 5).map(domain => (
@@ -106,7 +108,7 @@ export default function CareerDirectoryPage() {
                 </div>
                 {crossLinks.length > 0 && (
                   <div className="mt-4 pt-4 border-t border-gray-100">
-                    <p className="text-xs font-medium text-gray-500 mb-2">Related Resources</p>
+                    <p className="text-xs font-medium text-gray-500 mb-2">{t("allied.careerDirectory.relatedResources")}</p>
                     <div className="flex flex-wrap gap-2">
                       {crossLinks.slice(0, 4).map((link, i) => (
                         <Link

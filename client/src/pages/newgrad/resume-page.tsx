@@ -94,19 +94,19 @@ export default function ResumePage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div className="bg-white rounded-xl border border-pink-100 p-3 text-center" data-testid="stat-bullets">
               <div className="text-xl font-bold text-pink-700">{totalBullets}+</div>
-              <div className="text-xs text-gray-500">Resume Bullets</div>
+              <div className="text-xs text-gray-500">{t("pages.newgrad.resumePage.resumeBullets")}</div>
             </div>
             <div className="bg-white rounded-xl border border-pink-100 p-3 text-center" data-testid="stat-cover-letters">
               <div className="text-xl font-bold text-pink-700">{totalCoverLetters}</div>
-              <div className="text-xs text-gray-500">Cover Letter Examples</div>
+              <div className="text-xs text-gray-500">{t("pages.newgrad.resumePage.coverLetterExamples")}</div>
             </div>
             <div className="bg-white rounded-xl border border-pink-100 p-3 text-center" data-testid="stat-statements">
               <div className="text-xl font-bold text-pink-700">{totalStatements}</div>
-              <div className="text-xs text-gray-500">Statement Prompts</div>
+              <div className="text-xs text-gray-500">{t("pages.newgrad.resumePage.statementPrompts")}</div>
             </div>
             <div className="bg-white rounded-xl border border-pink-100 p-3 text-center" data-testid="stat-templates">
               <div className="text-xl font-bold text-pink-700">16+</div>
-              <div className="text-xs text-gray-500">Templates</div>
+              <div className="text-xs text-gray-500">{t("pages.newgrad.resumePage.templates")}</div>
             </div>
           </div>
         </div>
@@ -133,7 +133,7 @@ export default function ResumePage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 mb-2">
             <Copy className="w-5 h-5 text-pink-500" />
-            <h2 className="text-2xl font-bold text-gray-900">Resume Bullet Bank</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{t("pages.newgrad.resumePage.resumeBulletBank")}</h2>
           </div>
           <p className="text-gray-500 text-sm mb-6">
             {totalBullets}+ copy-paste resume bullets organized by category. Click any bullet to copy it to your clipboard.
@@ -186,7 +186,7 @@ export default function ResumePage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 mb-2">
             <PenTool className="w-5 h-5 text-pink-500" />
-            <h2 className="text-2xl font-bold text-gray-900">Cover Letter Example Bank</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{t("pages.newgrad.resumePage.coverLetterExampleBank")}</h2>
           </div>
           <p className="text-gray-500 text-sm mb-6">
             {totalCoverLetters} specialty-specific cover letter examples with customizable frameworks. Each includes key elements to include and adapt for your application.
@@ -260,7 +260,7 @@ export default function ResumePage() {
                         <div className="px-6 pb-5 border-t border-gray-100 pt-4 space-y-4">
                           <pre className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap font-sans">{letter.content}</pre>
                           <div className="bg-pink-50 rounded-lg p-3">
-                            <h4 className="text-sm font-semibold text-pink-800 mb-2">Key Elements</h4>
+                            <h4 className="text-sm font-semibold text-pink-800 mb-2">{t("pages.newgrad.resumePage.keyElements")}</h4>
                             <ul className="space-y-1">
                               {letter.keyElements.map((elem, j) => (
                                 <li key={j} className="text-sm text-pink-700 flex items-start gap-1.5">
@@ -285,7 +285,7 @@ export default function ResumePage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 mb-2">
             <GraduationCap className="w-5 h-5 text-pink-500" />
-            <h2 className="text-2xl font-bold text-gray-900">Personal Statement & Scholarship Prompt Bank</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{t("pages.newgrad.resumePage.personalStatementScholarshipPromptBank")}</h2>
           </div>
           <p className="text-gray-500 text-sm mb-6">
             {totalStatements} personal statement prompts for nursing school applications, scholarship essays, and graduate program admissions. Each includes writing tips and a sample opening.
@@ -309,7 +309,7 @@ export default function ResumePage() {
                   {isExpanded && (
                     <div className="px-6 pb-5 border-t border-gray-100 pt-4 space-y-4">
                       <div>
-                        <h4 className="text-sm font-semibold text-gray-900 mb-2">Prompt</h4>
+                        <h4 className="text-sm font-semibold text-gray-900 mb-2">{t("pages.newgrad.resumePage.prompt")}</h4>
                         <p className="text-sm text-gray-600 leading-relaxed">{prompt.prompt}</p>
                       </div>
                       <div className="bg-amber-50 rounded-lg p-3">
@@ -326,7 +326,7 @@ export default function ResumePage() {
                         </ul>
                       </div>
                       <div className="bg-blue-50 rounded-lg p-3">
-                        <h4 className="text-sm font-semibold text-blue-800 mb-2">Sample Opening</h4>
+                        <h4 className="text-sm font-semibold text-blue-800 mb-2">{t("pages.newgrad.resumePage.sampleOpening")}</h4>
                         <p className="text-sm text-blue-700 italic leading-relaxed">{prompt.sampleOpener}</p>
                       </div>
                     </div>
@@ -376,7 +376,7 @@ export default function ResumePage() {
                             </ul>
                           </div>
                           <div className="bg-blue-50 rounded-lg p-3">
-                            <h4 className="text-sm font-semibold text-blue-800 mb-2">Sample Opening</h4>
+                            <h4 className="text-sm font-semibold text-blue-800 mb-2">{t("pages.newgrad.resumePage.sampleOpening2")}</h4>
                             <p className="text-sm text-blue-700 italic">{prompt.sampleOpener}</p>
                           </div>
                         </div>

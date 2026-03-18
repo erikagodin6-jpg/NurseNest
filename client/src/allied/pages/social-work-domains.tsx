@@ -27,6 +27,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
+import { useI18n } from "@/lib/i18n";
 const SW_DATA = PROFESSION_HUB_DATA["social-work"];
 
 interface DomainInfo {
@@ -40,6 +41,7 @@ interface DomainInfo {
 }
 
 function getDomainQuestionCount(domain: DomainInfo): number {
+
   const manifest = getManifest();
   const byCategory = manifest.static.alliedHealth?.socialWorker?.byCategory || {};
   return domain.manifestCategories.reduce(
@@ -82,11 +84,11 @@ function SocialWorkHero() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-cyan-100/40 via-transparent to-transparent" />
       <div className="relative max-w-7xl mx-auto px-4 py-12 md:py-16">
         <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-          <Link href="/allied-health/home" className="hover:text-teal-600">Allied Health</Link>
+          <Link href="/allied-health/home" className="hover:text-teal-600">{t("allied.socialWorkDomains.alliedHealth")}</Link>
           <span>/</span>
-          <Link href="/allied-health/social-work" className="hover:text-teal-600">Social Work</Link>
+          <Link href="/allied-health/social-work" className="hover:text-teal-600">{t("allied.socialWorkDomains.socialWork")}</Link>
           <span>/</span>
-          <span className="text-gray-700 font-medium">Exam Domains</span>
+          <span className="text-gray-700 font-medium">{t("allied.socialWorkDomains.examDomains")}</span>
         </nav>
 
         <div className="grid lg:grid-cols-2 gap-8 items-center">
@@ -136,8 +138,8 @@ function SocialWorkHero() {
                   <Star className="w-5 h-5 text-teal-600" />
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900">ASWB Exam Readiness</p>
-                  <p className="text-sm text-gray-500">Track your progress across all domains</p>
+                  <p className="font-semibold text-gray-900">{t("allied.socialWorkDomains.aswbExamReadiness")}</p>
+                  <p className="text-sm text-gray-500">{t("allied.socialWorkDomains.trackYourProgressAcrossAll")}</p>
                 </div>
               </div>
               <div className="space-y-3">
@@ -154,7 +156,7 @@ function SocialWorkHero() {
                     </div>
                   </div>
                 ))}
-                <p className="text-xs text-gray-400 text-center pt-2">Sample progress dashboard preview</p>
+                <p className="text-xs text-gray-400 text-center pt-2">{t("allied.socialWorkDomains.sampleProgressDashboardPreview")}</p>
               </div>
             </div>
           </div>
@@ -194,7 +196,7 @@ function DomainCard({ domain }: { domain: DomainInfo }) {
 function ConversionBanner() {
   return (
     <section className="bg-gradient-to-r from-teal-600 to-cyan-700 rounded-2xl p-8 md:p-12 text-white text-center" data-testid="section-conversion-banner">
-      <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to Pass the ASWB Exam?</h2>
+      <h2 className="text-2xl md:text-3xl font-bold mb-3">{t("allied.socialWorkDomains.readyToPassTheAswb")}</h2>
       <p className="text-teal-100 mb-6 max-w-2xl mx-auto">
         Join thousands of social work students using NurseNest Allied to prepare for ASWB Clinical, Masters, and Advanced Generalist licensing exams.
       </p>
@@ -251,8 +253,8 @@ export default function SocialWorkDomainsPage() {
   return (
     <div className="min-h-screen bg-gray-50" data-testid="page-social-work-domains">
       <AlliedSEO
-        title="ASWB Exam Domains — 1,000+ Social Work Practice Questions by Topic"
-        description="Browse 1,000+ ASWB-aligned practice questions organized across 20 content domains. Prepare for Clinical, Masters, and Advanced Generalist licensing exams with detailed rationales."
+        title={t("allied.socialWorkDomains.aswbExamDomains1000Social")}
+        description={t("allied.socialWorkDomains.browse1000AswbalignedPracticeQuestions")}
         keywords="ASWB exam domains, social work practice questions, ASWB content areas, LCSW exam prep, social work exam topics, ASWB clinical exam domains"
         canonicalPath="/allied-health/social-work/domains"
         structuredData={structuredData}
@@ -280,7 +282,7 @@ export default function SocialWorkDomainsPage() {
         <ConversionBanner />
 
         <section className="mt-16" data-testid="section-cross-links">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Related Study Resources</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-6">{t("allied.socialWorkDomains.relatedStudyResources")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
               { label: "Test Bank", href: "/allied-health/social-work/test-bank", desc: "Full question bank with filtering by domain, difficulty, and exam level" },
@@ -310,10 +312,10 @@ export function SocialWorkDomainDetailPage({ slug }: { slug: string }) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Domain Not Found</h1>
-          <p className="text-gray-600 mb-4">The requested content domain could not be found.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.socialWorkDomains.domainNotFound")}</h1>
+          <p className="text-gray-600 mb-4">{t("allied.socialWorkDomains.theRequestedContentDomainCould")}</p>
           <Link href="/allied-health/social-work/domains">
-            <Button variant="outline" data-testid="button-back-domains">Back to All Domains</Button>
+            <Button variant="outline" data-testid="button-back-domains">{t("allied.socialWorkDomains.backToAllDomains")}</Button>
           </Link>
         </div>
       </div>
@@ -359,11 +361,11 @@ export function SocialWorkDomainDetailPage({ slug }: { slug: string }) {
       <section className="bg-gradient-to-br from-cyan-50 to-teal-50 border-b">
         <div className="max-w-7xl mx-auto px-4 py-10">
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-domain-detail">
-            <Link href="/allied-health/home" className="hover:text-teal-600">Allied Health</Link>
+            <Link href="/allied-health/home" className="hover:text-teal-600">{t("allied.socialWorkDomains.alliedHealth2")}</Link>
             <span>/</span>
-            <Link href="/allied-health/social-work" className="hover:text-teal-600">Social Work</Link>
+            <Link href="/allied-health/social-work" className="hover:text-teal-600">{t("allied.socialWorkDomains.socialWork2")}</Link>
             <span>/</span>
-            <Link href="/allied-health/social-work/domains" className="hover:text-teal-600">Domains</Link>
+            <Link href="/allied-health/social-work/domains" className="hover:text-teal-600">{t("allied.socialWorkDomains.domains")}</Link>
             <span>/</span>
             <span className="text-gray-700 font-medium">{domain.label}</span>
           </nav>
@@ -377,7 +379,7 @@ export function SocialWorkDomainDetailPage({ slug }: { slug: string }) {
               <p className="text-gray-600 max-w-2xl mb-4">{domain.description}</p>
               <div className="flex items-center gap-4 text-sm text-gray-500">
                 <span className="flex items-center gap-1"><BookOpen className="w-4 h-4" /> {domain.questionCount} questions</span>
-                <span className="flex items-center gap-1"><Target className="w-4 h-4" /> ASWB-aligned</span>
+                <span className="flex items-center gap-1"><Target className="w-4 h-4" /> {t("allied.socialWorkDomains.aswbaligned")}</span>
               </div>
             </div>
           </div>
@@ -388,7 +390,7 @@ export function SocialWorkDomainDetailPage({ slug }: { slug: string }) {
         <div className="grid md:grid-cols-3 gap-6 mb-10">
           <Card className="md:col-span-2" data-testid="card-domain-overview">
             <CardContent className="p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">What You'll Practice</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">{t("allied.socialWorkDomains.whatYoullPractice")}</h2>
               <p className="text-gray-600 mb-4">
                 This domain covers {domain.questionCount} practice questions designed to test your knowledge of {domain.label.toLowerCase()} as it appears on the ASWB licensing exams. Questions include clinical case vignettes, ethical scenarios, and evidence-based practice applications.
               </p>
@@ -406,7 +408,7 @@ export function SocialWorkDomainDetailPage({ slug }: { slug: string }) {
 
           <Card data-testid="card-quick-links">
             <CardContent className="p-6">
-              <h3 className="font-semibold text-gray-900 mb-4">Quick Links</h3>
+              <h3 className="font-semibold text-gray-900 mb-4">{t("allied.socialWorkDomains.quickLinks")}</h3>
               <div className="space-y-3">
                 <Link href="/allied-health/social-work/domains" className="flex items-center gap-2 text-sm text-teal-600 hover:text-teal-800">
                   <ArrowRight className="w-3.5 h-3.5" /> All 20 Domains
@@ -428,7 +430,7 @@ export function SocialWorkDomainDetailPage({ slug }: { slug: string }) {
         <ConversionBanner />
 
         <section className="mt-10" data-testid="section-other-domains">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Explore Other Domains</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">{t("allied.socialWorkDomains.exploreOtherDomains")}</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {SOCIAL_WORK_DOMAINS.filter((d) => d.slug !== domain.slug).slice(0, 8).map((d) => {
               const DIcon = d.icon;
@@ -466,8 +468,8 @@ export function SocialWorkTestBankPage() {
   return (
     <div className="min-h-screen bg-gray-50" data-testid="page-social-work-test-bank">
       <AlliedSEO
-        title="ASWB Test Bank — 1,000+ Social Work Practice Questions | NurseNest Allied"
-        description="Access our comprehensive ASWB test bank with 1,000+ practice questions across 20 content domains. Prepare for Clinical, Masters, and Advanced Generalist licensing exams."
+        title={t("allied.socialWorkDomains.aswbTestBank1000Social")}
+        description={t("allied.socialWorkDomains.accessOurComprehensiveAswbTest")}
         keywords="ASWB test bank, social work practice questions, ASWB question bank, LCSW exam prep, social work test prep, ASWB clinical questions"
         canonicalPath="/allied-health/social-work/test-bank"
         structuredData={structuredData}
@@ -476,13 +478,13 @@ export function SocialWorkTestBankPage() {
       <section className="bg-gradient-to-br from-cyan-50 to-teal-50 border-b">
         <div className="max-w-7xl mx-auto px-4 py-10">
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-test-bank">
-            <Link href="/allied-health/home" className="hover:text-teal-600">Allied Health</Link>
+            <Link href="/allied-health/home" className="hover:text-teal-600">{t("allied.socialWorkDomains.alliedHealth3")}</Link>
             <span>/</span>
-            <Link href="/allied-health/social-work" className="hover:text-teal-600">Social Work</Link>
+            <Link href="/allied-health/social-work" className="hover:text-teal-600">{t("allied.socialWorkDomains.socialWork3")}</Link>
             <span>/</span>
-            <span className="text-gray-700 font-medium">Test Bank</span>
+            <span className="text-gray-700 font-medium">{t("allied.socialWorkDomains.testBank")}</span>
           </nav>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3" data-testid="heading-test-bank">ASWB Test Bank</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3" data-testid="heading-test-bank">{t("allied.socialWorkDomains.aswbTestBank")}</h1>
           <p className="text-lg text-gray-600 max-w-3xl mb-6">
             1,000+ ASWB-aligned practice questions with detailed clinical rationales. Filter by domain, difficulty level, and exam type to create a personalized study experience.
           </p>
@@ -503,7 +505,7 @@ export function SocialWorkTestBankPage() {
       </section>
 
       <main className="max-w-7xl mx-auto px-4 py-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="heading-domain-breakdown">Questions by Domain</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="heading-domain-breakdown">{t("allied.socialWorkDomains.questionsByDomain")}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
           {SOCIAL_WORK_DOMAINS.map((domain) => {
             const Icon = domain.icon;

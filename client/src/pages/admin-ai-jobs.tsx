@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useI18n } from "@/lib/i18n";
 import {
   Play,
   Pause,
@@ -66,6 +67,7 @@ const MODEL_TIER_LABELS: Record<string, string> = {
 };
 
 function StatusBadge({ status }: { status: string }) {
+  const { t } = useI18n();
   const variants: Record<string, string> = {
     pending: "bg-yellow-100 text-yellow-800 border-yellow-200",
     validating: "bg-blue-50 text-blue-700 border-blue-200",
@@ -339,7 +341,7 @@ export default function AdminAiJobs() {
               <h1 className="text-2xl font-bold flex items-center gap-2" data-testid="text-page-title">
                 <Zap className="w-6 h-6 text-blue-600" /> AI Jobs
               </h1>
-              <p className="text-sm text-gray-500 mt-0.5">Runs only when you start it — no automatic execution</p>
+              <p className="text-sm text-gray-500 mt-0.5">{t("pages.adminAiJobs.runsOnlyWhenYouStart")}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -359,8 +361,8 @@ export default function AdminAiJobs() {
           <div className="bg-red-600 text-white p-4 rounded-lg flex items-center gap-3 shadow-lg" data-testid="banner-kill-switch">
             <AlertTriangle className="w-6 h-6 flex-shrink-0" />
             <div>
-              <p className="font-bold text-lg">All AI Jobs Disabled — Emergency Kill Switch Active</p>
-              <p className="text-red-100 text-sm">No new AI jobs can be created or started. Running jobs will stop at their next checkpoint.</p>
+              <p className="font-bold text-lg">{t("pages.adminAiJobs.allAiJobsDisabledEmergency")}</p>
+              <p className="text-red-100 text-sm">{t("pages.adminAiJobs.noNewAiJobsCan")}</p>
             </div>
           </div>
         )}
@@ -370,7 +372,7 @@ export default function AdminAiJobs() {
             <CardContent className="pt-4 pb-3">
               <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
                 <DollarSign className="w-4 h-4" />
-                <span>Today</span>
+                <span>{t("pages.adminAiJobs.today")}</span>
               </div>
               <p className="text-xl font-bold" data-testid="text-daily-spend">
                 ${(spendData?.daily || 0).toFixed(2)}
@@ -382,7 +384,7 @@ export default function AdminAiJobs() {
             <CardContent className="pt-4 pb-3">
               <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
                 <DollarSign className="w-4 h-4" />
-                <span>This Week</span>
+                <span>{t("pages.adminAiJobs.thisWeek")}</span>
               </div>
               <p className="text-xl font-bold" data-testid="text-weekly-spend">
                 ${(spendData?.weekly || 0).toFixed(2)}
@@ -394,7 +396,7 @@ export default function AdminAiJobs() {
             <CardContent className="pt-4 pb-3">
               <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
                 <DollarSign className="w-4 h-4" />
-                <span>This Month</span>
+                <span>{t("pages.adminAiJobs.thisMonth")}</span>
               </div>
               <p className="text-xl font-bold" data-testid="text-monthly-spend">
                 ${(spendData?.monthly || 0).toFixed(2)}
@@ -406,7 +408,7 @@ export default function AdminAiJobs() {
             <CardContent className="pt-4 pb-3">
               <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
                 <Activity className="w-4 h-4" />
-                <span>Active</span>
+                <span>{t("pages.adminAiJobs.active")}</span>
               </div>
               <p className="text-xl font-bold" data-testid="text-active-jobs">{stats.running || 0}</p>
             </CardContent>
@@ -415,7 +417,7 @@ export default function AdminAiJobs() {
             <CardContent className="pt-4 pb-3">
               <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
                 <CheckCircle className="w-4 h-4" />
-                <span>Completed</span>
+                <span>{t("pages.adminAiJobs.completed")}</span>
               </div>
               <p className="text-xl font-bold" data-testid="text-completed-jobs">{stats.completed || 0}</p>
             </CardContent>
@@ -444,7 +446,7 @@ export default function AdminAiJobs() {
           <TabsContent value="queue" className="mt-4">
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Job Queue</CardTitle>
+                <CardTitle className="text-lg">{t("pages.adminAiJobs.jobQueue")}</CardTitle>
               </CardHeader>
               <CardContent>
                 {jobsLoading ? (
@@ -454,7 +456,7 @@ export default function AdminAiJobs() {
                 ) : jobs.length === 0 ? (
                   <div className="text-center py-12">
                     <Zap className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-                    <p className="text-gray-500" data-testid="text-no-jobs">No jobs yet. Create one to get started.</p>
+                    <p className="text-gray-500" data-testid="text-no-jobs">{t("pages.adminAiJobs.noJobsYetCreateOne")}</p>
                     <Button variant="outline" className="mt-3" onClick={() => setActiveTab("create")} data-testid="button-go-create">
                       <Plus className="w-4 h-4 mr-1" /> Create Job
                     </Button>
@@ -489,7 +491,7 @@ export default function AdminAiJobs() {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Job Type</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAiJobs.jobType")}</label>
                     <Select value={jobType} onValueChange={setJobType}>
                       <SelectTrigger data-testid="select-job-type">
                         <SelectValue />
@@ -502,7 +504,7 @@ export default function AdminAiJobs() {
                     </Select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Tier</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAiJobs.tier")}</label>
                     <Select value={jobTier} onValueChange={setJobTier}>
                       <SelectTrigger data-testid="select-tier">
                         <SelectValue />
@@ -515,7 +517,7 @@ export default function AdminAiJobs() {
                     </Select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Model</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAiJobs.model")}</label>
                     <Select value={modelTier} onValueChange={setModelTier}>
                       <SelectTrigger data-testid="select-model-tier">
                         <SelectValue />
@@ -555,11 +557,11 @@ export default function AdminAiJobs() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Topic (optional)</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAiJobs.topicOptional")}</label>
                     <Input
                       value={configTopic}
                       onChange={(e) => setConfigTopic(e.target.value)}
-                      placeholder="Auto-selected if empty"
+                      placeholder={t("pages.adminAiJobs.autoselectedIfEmpty")}
                       data-testid="input-topic"
                     />
                   </div>
@@ -567,7 +569,7 @@ export default function AdminAiJobs() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Specialty (optional)</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAiJobs.specialtyOptional")}</label>
                     <Input
                       value={configSpecialty}
                       onChange={(e) => setConfigSpecialty(e.target.value)}
@@ -577,33 +579,33 @@ export default function AdminAiJobs() {
                   </div>
                   {(jobType === "qbank" || jobType === "exam_questions" || jobType === "cat_questions") && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Exam Type</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAiJobs.examType")}</label>
                       <Select value={configExamKey} onValueChange={setConfigExamKey}>
                         <SelectTrigger data-testid="select-exam-type">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="nclex-rn">NCLEX-RN</SelectItem>
-                          <SelectItem value="nclex-pn">NCLEX-PN</SelectItem>
-                          <SelectItem value="rex-pn">REx-PN</SelectItem>
+                          <SelectItem value="nclex-rn">{t("pages.adminAiJobs.nclexrn")}</SelectItem>
+                          <SelectItem value="nclex-pn">{t("pages.adminAiJobs.nclexpn")}</SelectItem>
+                          <SelectItem value="rex-pn">{t("pages.adminAiJobs.rexpn")}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                   )}
                   {jobType === "allied" && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Career</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAiJobs.career")}</label>
                       <Select value={configCareer} onValueChange={setConfigCareer}>
                         <SelectTrigger data-testid="select-career">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="respiratory_therapy">Respiratory Therapy</SelectItem>
-                          <SelectItem value="paramedic_ems">Paramedic / EMS</SelectItem>
-                          <SelectItem value="pharmacy_tech">Pharmacy Tech</SelectItem>
-                          <SelectItem value="mlt">Medical Lab Tech</SelectItem>
-                          <SelectItem value="radiology">Radiology</SelectItem>
-                          <SelectItem value="socialWorker">Social Work</SelectItem>
+                          <SelectItem value="respiratory_therapy">{t("pages.adminAiJobs.respiratoryTherapy")}</SelectItem>
+                          <SelectItem value="paramedic_ems">{t("pages.adminAiJobs.paramedicEms")}</SelectItem>
+                          <SelectItem value="pharmacy_tech">{t("pages.adminAiJobs.pharmacyTech")}</SelectItem>
+                          <SelectItem value="mlt">{t("pages.adminAiJobs.medicalLabTech")}</SelectItem>
+                          <SelectItem value="radiology">{t("pages.adminAiJobs.radiology")}</SelectItem>
+                          <SelectItem value="socialWorker">{t("pages.adminAiJobs.socialWork")}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -642,8 +644,8 @@ export default function AdminAiJobs() {
                     {createJobMutation.isPending ? <RefreshCw className="w-4 h-4 animate-spin mr-2" /> : <Plus className="w-4 h-4 mr-2" />}
                     Create Job
                   </Button>
-                  {dryRun && <span className="text-sm text-amber-600 font-medium">Dry run mode — nothing will be generated</span>}
-                  {isKillSwitchActive && <span className="text-sm text-red-600 font-medium">Kill switch active — cannot create jobs</span>}
+                  {dryRun && <span className="text-sm text-amber-600 font-medium">{t("pages.adminAiJobs.dryRunModeNothingWill")}</span>}
+                  {isKillSwitchActive && <span className="text-sm text-red-600 font-medium">{t("pages.adminAiJobs.killSwitchActiveCannotCreate")}</span>}
                 </div>
               </CardContent>
             </Card>
@@ -658,22 +660,22 @@ export default function AdminAiJobs() {
               </CardHeader>
               <CardContent>
                 {(historyData?.jobs || []).length === 0 ? (
-                  <p className="text-gray-500 text-center py-8" data-testid="text-no-history">No completed jobs yet.</p>
+                  <p className="text-gray-500 text-center py-8" data-testid="text-no-history">{t("pages.adminAiJobs.noCompletedJobsYet")}</p>
                 ) : (
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="text-left border-b text-gray-500">
                           <th className="pb-2 pr-3">ID</th>
-                          <th className="pb-2 pr-3">Type</th>
-                          <th className="pb-2 pr-3">Tier</th>
-                          <th className="pb-2 pr-3">Status</th>
-                          <th className="pb-2 pr-3">Items</th>
-                          <th className="pb-2 pr-3">Dups</th>
-                          <th className="pb-2 pr-3">Failed</th>
-                          <th className="pb-2 pr-3">Cost</th>
-                          <th className="pb-2 pr-3">Model</th>
-                          <th className="pb-2">Completed</th>
+                          <th className="pb-2 pr-3">{t("pages.adminAiJobs.type")}</th>
+                          <th className="pb-2 pr-3">{t("pages.adminAiJobs.tier2")}</th>
+                          <th className="pb-2 pr-3">{t("pages.adminAiJobs.status")}</th>
+                          <th className="pb-2 pr-3">{t("pages.adminAiJobs.items")}</th>
+                          <th className="pb-2 pr-3">{t("pages.adminAiJobs.dups")}</th>
+                          <th className="pb-2 pr-3">{t("pages.adminAiJobs.failed")}</th>
+                          <th className="pb-2 pr-3">{t("pages.adminAiJobs.cost")}</th>
+                          <th className="pb-2 pr-3">{t("pages.adminAiJobs.model2")}</th>
+                          <th className="pb-2">{t("pages.adminAiJobs.completed2")}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -772,7 +774,7 @@ export default function AdminAiJobs() {
               </CardHeader>
               <CardContent>
                 {(budgetLogsData?.logs || []).length === 0 ? (
-                  <p className="text-gray-500 text-center py-6">No budget events logged yet.</p>
+                  <p className="text-gray-500 text-center py-6">{t("pages.adminAiJobs.noBudgetEventsLoggedYet")}</p>
                 ) : (
                   <div className="max-h-96 overflow-y-auto space-y-2">
                     {(budgetLogsData?.logs || []).map((log: any) => (
@@ -805,7 +807,7 @@ export default function AdminAiJobs() {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="p-4 rounded-lg border bg-white">
-                    <h4 className="font-medium text-sm mb-2">Database Connection</h4>
+                    <h4 className="font-medium text-sm mb-2">{t("pages.adminAiJobs.databaseConnection")}</h4>
                     {env ? (
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
@@ -816,39 +818,39 @@ export default function AdminAiJobs() {
                         <p className="text-xs text-gray-500">Host: {env.dbHost}</p>
                       </div>
                     ) : (
-                      <p className="text-sm text-gray-500">Loading...</p>
+                      <p className="text-sm text-gray-500">{t("pages.adminAiJobs.loading")}</p>
                     )}
                   </div>
                   <div className="p-4 rounded-lg border bg-white">
-                    <h4 className="font-medium text-sm mb-2">Kill Switch</h4>
+                    <h4 className="font-medium text-sm mb-2">{t("pages.adminAiJobs.killSwitch")}</h4>
                     <div className="flex items-center gap-2">
                       {isKillSwitchActive ? (
-                        <><AlertTriangle className="w-4 h-4 text-red-600" /><span className="text-sm text-red-600 font-medium">Active — all AI jobs blocked</span></>
+                        <><AlertTriangle className="w-4 h-4 text-red-600" /><span className="text-sm text-red-600 font-medium">{t("pages.adminAiJobs.activeAllAiJobsBlocked")}</span></>
                       ) : (
-                        <><CheckCircle className="w-4 h-4 text-green-600" /><span className="text-sm text-green-600">Inactive — jobs can run</span></>
+                        <><CheckCircle className="w-4 h-4 text-green-600" /><span className="text-sm text-green-600">{t("pages.adminAiJobs.inactiveJobsCanRun")}</span></>
                       )}
                     </div>
                   </div>
                 </div>
 
                 <div className="p-4 rounded-lg border bg-white">
-                  <h4 className="font-medium text-sm mb-2">Concurrency</h4>
-                  <p className="text-sm text-gray-600">Only one AI job can run at a time. Attempting to start a second job while one is running will be blocked.</p>
+                  <h4 className="font-medium text-sm mb-2">{t("pages.adminAiJobs.concurrency")}</h4>
+                  <p className="text-sm text-gray-600">{t("pages.adminAiJobs.onlyOneAiJobCan")}</p>
                 </div>
 
                 <div className="p-4 rounded-lg border bg-white">
-                  <h4 className="font-medium text-sm mb-2">Failsafe Rules</h4>
+                  <h4 className="font-medium text-sm mb-2">{t("pages.adminAiJobs.failsafeRules")}</h4>
                   <ul className="text-sm text-gray-600 space-y-1">
-                    <li>Max 3 retries per job (configurable per job)</li>
-                    <li>Max 2 retries per individual item within a job</li>
-                    <li>No infinite loops — jobs stop on cap or error threshold</li>
-                    <li>No silent auto-resume — paused jobs stay paused</li>
-                    <li>Kill switch stops all jobs at next checkpoint</li>
+                    <li>{t("pages.adminAiJobs.max3RetriesPerJob")}</li>
+                    <li>{t("pages.adminAiJobs.max2RetriesPerIndividual")}</li>
+                    <li>{t("pages.adminAiJobs.noInfiniteLoopsJobsStop")}</li>
+                    <li>{t("pages.adminAiJobs.noSilentAutoresumePausedJobs")}</li>
+                    <li>{t("pages.adminAiJobs.killSwitchStopsAllJobs")}</li>
                   </ul>
                 </div>
 
                 <div className="p-4 rounded-lg border bg-white">
-                  <h4 className="font-medium text-sm mb-2">Batch Size Limits</h4>
+                  <h4 className="font-medium text-sm mb-2">{t("pages.adminAiJobs.batchSizeLimits")}</h4>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm">
                     {Object.entries(BATCH_LIMITS).map(([type, limits]: [string, any]) => (
                       <div key={type} className="flex justify-between bg-gray-50 rounded px-2 py-1">
@@ -860,16 +862,16 @@ export default function AdminAiJobs() {
                 </div>
 
                 <div className="p-4 rounded-lg border bg-white">
-                  <h4 className="font-medium text-sm mb-2">Job Statistics</h4>
+                  <h4 className="font-medium text-sm mb-2">{t("pages.adminAiJobs.jobStatistics")}</h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
-                    <div><span className="text-gray-500">Total Jobs:</span> <span className="font-medium">{stats.total || 0}</span></div>
-                    <div><span className="text-gray-500">Pending:</span> <span className="font-medium">{stats.pending || 0}</span></div>
-                    <div><span className="text-gray-500">Running:</span> <span className="font-medium">{stats.running || 0}</span></div>
-                    <div><span className="text-gray-500">Completed:</span> <span className="font-medium">{stats.completed || 0}</span></div>
-                    <div><span className="text-gray-500">Failed:</span> <span className="font-medium">{stats.failed || 0}</span></div>
-                    <div><span className="text-gray-500">Cancelled:</span> <span className="font-medium">{stats.cancelled || 0}</span></div>
-                    <div><span className="text-gray-500">Paused:</span> <span className="font-medium">{stats.paused || 0}</span></div>
-                    <div><span className="text-gray-500">Stopped:</span> <span className="font-medium">{stats.stopped || 0}</span></div>
+                    <div><span className="text-gray-500">{t("pages.adminAiJobs.totalJobs")}</span> <span className="font-medium">{stats.total || 0}</span></div>
+                    <div><span className="text-gray-500">{t("pages.adminAiJobs.pending")}</span> <span className="font-medium">{stats.pending || 0}</span></div>
+                    <div><span className="text-gray-500">{t("pages.adminAiJobs.running")}</span> <span className="font-medium">{stats.running || 0}</span></div>
+                    <div><span className="text-gray-500">{t("pages.adminAiJobs.completed3")}</span> <span className="font-medium">{stats.completed || 0}</span></div>
+                    <div><span className="text-gray-500">{t("pages.adminAiJobs.failed2")}</span> <span className="font-medium">{stats.failed || 0}</span></div>
+                    <div><span className="text-gray-500">{t("pages.adminAiJobs.cancelled")}</span> <span className="font-medium">{stats.cancelled || 0}</span></div>
+                    <div><span className="text-gray-500">{t("pages.adminAiJobs.paused")}</span> <span className="font-medium">{stats.paused || 0}</span></div>
+                    <div><span className="text-gray-500">{t("pages.adminAiJobs.stopped")}</span> <span className="font-medium">{stats.stopped || 0}</span></div>
                   </div>
                 </div>
               </CardContent>
@@ -920,7 +922,7 @@ function JobCard({ job, isKillSwitchActive, onStart, onPause, onCancel, onRetry 
           <span className="font-medium text-sm">{JOB_TYPE_LABELS[job.type] || job.type}</span>
           {job.tier && <Badge variant="outline" className="text-xs">{TIER_LABELS[job.tier] || job.tier}</Badge>}
           {job.model_tier && <Badge variant="secondary" className="text-xs">{job.model_tier}</Badge>}
-          {job.dry_run && <Badge variant="outline" className="text-xs text-amber-600 border-amber-300">DRY RUN</Badge>}
+          {job.dry_run && <Badge variant="outline" className="text-xs text-amber-600 border-amber-300">{t("pages.adminAiJobs.dryRun")}</Badge>}
           <span className="text-xs text-gray-400 font-mono">{job.id?.slice(0, 8)}</span>
         </div>
         <div className="flex items-center gap-1.5">

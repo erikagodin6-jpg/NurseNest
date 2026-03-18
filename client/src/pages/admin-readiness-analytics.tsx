@@ -17,6 +17,7 @@ import {
 } from "recharts";
 import { CONTENT_EXPANSION_ROADMAP } from "@shared/schema";
 
+import { useI18n } from "@/lib/i18n";
 const DEMO_AGGREGATE = {
   totalStudents: 1247,
   avgReadinessScore: 68,
@@ -67,6 +68,7 @@ const DEMO_ACCURACY_TRACKING = [
 ];
 
 export default function AdminReadinessAnalytics() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -89,8 +91,8 @@ export default function AdminReadinessAnalytics() {
       <div className="min-h-screen bg-gray-50">
         <Navigation />
         <div className="max-w-4xl mx-auto p-8 text-center">
-          <h1 className="text-2xl font-bold" data-testid="text-access-denied">Access Denied</h1>
-          <p className="text-gray-600 mt-2">Admin access required to view readiness analytics.</p>
+          <h1 className="text-2xl font-bold" data-testid="text-access-denied">{t("pages.adminReadinessAnalytics.accessDenied")}</h1>
+          <p className="text-gray-600 mt-2">{t("pages.adminReadinessAnalytics.adminAccessRequiredToView")}</p>
         </div>
       </div>
     );
@@ -140,12 +142,12 @@ export default function AdminReadinessAnalytics() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      <SEO title="Readiness Analytics - Admin" description="Admin readiness analytics dashboard" />
+      <SEO title={t("pages.adminReadinessAnalytics.readinessAnalyticsAdmin")} description={t("pages.adminReadinessAnalytics.adminReadinessAnalyticsDashboard")} />
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">Readiness Analytics</h1>
-            <p className="text-gray-600 mt-1">Aggregate exam readiness data, prediction accuracy, and topic trends</p>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">{t("pages.adminReadinessAnalytics.readinessAnalytics")}</h1>
+            <p className="text-gray-600 mt-1">{t("pages.adminReadinessAnalytics.aggregateExamReadinessDataPrediction")}</p>
           </div>
           <Button variant="outline" size="sm" onClick={() => window.location.reload()} data-testid="button-refresh">
             <RefreshCw className="w-4 h-4 mr-1" /> Refresh
@@ -161,28 +163,28 @@ export default function AdminReadinessAnalytics() {
                 <CardContent className="p-4 text-center">
                   <Users className="w-8 h-8 mx-auto text-blue-500 mb-2" />
                   <div className="text-2xl font-bold">{aggregate.totalStudents.toLocaleString()}</div>
-                  <div className="text-xs text-gray-500">Total Students</div>
+                  <div className="text-xs text-gray-500">{t("pages.adminReadinessAnalytics.totalStudents")}</div>
                 </CardContent>
               </Card>
               <Card data-testid="card-avg-readiness">
                 <CardContent className="p-4 text-center">
                   <Gauge className="w-8 h-8 mx-auto text-violet-500 mb-2" />
                   <div className="text-2xl font-bold">{aggregate.avgReadinessScore}%</div>
-                  <div className="text-xs text-gray-500">Avg Readiness Score</div>
+                  <div className="text-xs text-gray-500">{t("pages.adminReadinessAnalytics.avgReadinessScore")}</div>
                 </CardContent>
               </Card>
               <Card data-testid="card-avg-probability">
                 <CardContent className="p-4 text-center">
                   <GraduationCap className="w-8 h-8 mx-auto text-emerald-500 mb-2" />
                   <div className="text-2xl font-bold">{aggregate.avgPassProbability}%</div>
-                  <div className="text-xs text-gray-500">Avg Pass Probability</div>
+                  <div className="text-xs text-gray-500">{t("pages.adminReadinessAnalytics.avgPassProbability")}</div>
                 </CardContent>
               </Card>
               <Card data-testid="card-prediction-accuracy">
                 <CardContent className="p-4 text-center">
                   <Target className="w-8 h-8 mx-auto text-amber-500 mb-2" />
                   <div className="text-2xl font-bold">{aggregate.predictionAccuracy}%</div>
-                  <div className="text-xs text-gray-500">Prediction Accuracy</div>
+                  <div className="text-xs text-gray-500">{t("pages.adminReadinessAnalytics.predictionAccuracy")}</div>
                 </CardContent>
               </Card>
             </div>
@@ -193,7 +195,7 @@ export default function AdminReadinessAnalytics() {
                   <CheckCircle2 className="w-6 h-6 text-emerald-500" />
                   <div>
                     <div className="text-lg font-bold text-emerald-600">{aggregate.studentsReady}</div>
-                    <div className="text-xs text-gray-500">Exam Ready</div>
+                    <div className="text-xs text-gray-500">{t("pages.adminReadinessAnalytics.examReady")}</div>
                   </div>
                 </CardContent>
               </Card>
@@ -202,7 +204,7 @@ export default function AdminReadinessAnalytics() {
                   <TrendingUp className="w-6 h-6 text-amber-500" />
                   <div>
                     <div className="text-lg font-bold text-amber-600">{aggregate.studentsDeveloping}</div>
-                    <div className="text-xs text-gray-500">Developing</div>
+                    <div className="text-xs text-gray-500">{t("pages.adminReadinessAnalytics.developing")}</div>
                   </div>
                 </CardContent>
               </Card>
@@ -211,7 +213,7 @@ export default function AdminReadinessAnalytics() {
                   <AlertTriangle className="w-6 h-6 text-red-500" />
                   <div>
                     <div className="text-lg font-bold text-red-600">{aggregate.studentsNotReady}</div>
-                    <div className="text-xs text-gray-500">Not Ready</div>
+                    <div className="text-xs text-gray-500">{t("pages.adminReadinessAnalytics.notReady")}</div>
                   </div>
                 </CardContent>
               </Card>
@@ -220,7 +222,7 @@ export default function AdminReadinessAnalytics() {
             <div className="grid md:grid-cols-2 gap-6">
               <Card data-testid="card-readiness-distribution">
                 <CardHeader>
-                  <CardTitle className="text-lg flex items-center gap-2"><BarChart3 className="w-5 h-5" /> Readiness Score Distribution</CardTitle>
+                  <CardTitle className="text-lg flex items-center gap-2"><BarChart3 className="w-5 h-5" /> {t("pages.adminReadinessAnalytics.readinessScoreDistribution")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-end gap-3 h-48">
@@ -240,7 +242,7 @@ export default function AdminReadinessAnalytics() {
 
               <Card data-testid="card-progression">
                 <CardHeader>
-                  <CardTitle className="text-lg flex items-center gap-2"><TrendingUp className="w-5 h-5" /> Readiness Progression Over Time</CardTitle>
+                  <CardTitle className="text-lg flex items-center gap-2"><TrendingUp className="w-5 h-5" /> {t("pages.adminReadinessAnalytics.readinessProgressionOverTime")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="h-48">
@@ -262,7 +264,7 @@ export default function AdminReadinessAnalytics() {
 
             <Card data-testid="card-topic-difficulty">
               <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2"><Brain className="w-5 h-5" /> Topic Difficulty Heatmap</CardTitle>
+                <CardTitle className="text-lg flex items-center gap-2"><Brain className="w-5 h-5" /> {t("pages.adminReadinessAnalytics.topicDifficultyHeatmap")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -291,7 +293,7 @@ export default function AdminReadinessAnalytics() {
 
             <Card data-testid="card-prediction-accuracy-chart">
               <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2"><Target className="w-5 h-5" /> Prediction Accuracy Tracking</CardTitle>
+                <CardTitle className="text-lg flex items-center gap-2"><Target className="w-5 h-5" /> {t("pages.adminReadinessAnalytics.predictionAccuracyTracking")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="h-56">
@@ -316,14 +318,14 @@ export default function AdminReadinessAnalytics() {
             <div className="grid md:grid-cols-2 gap-6">
               <Card data-testid="card-build-priority">
                 <CardHeader>
-                  <CardTitle className="text-lg flex items-center gap-2"><Settings className="w-5 h-5" /> Active Build Priority</CardTitle>
+                  <CardTitle className="text-lg flex items-center gap-2"><Settings className="w-5 h-5" /> {t("pages.adminReadinessAnalytics.activeBuildPriority")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
                     <div className="p-4 rounded-xl bg-violet-50 border border-violet-100">
                       <div className="flex items-center gap-2 mb-2">
                         <Sparkles className="w-4 h-4 text-violet-600" />
-                        <span className="text-sm font-bold text-violet-700">Current Priority</span>
+                        <span className="text-sm font-bold text-violet-700">{t("pages.adminReadinessAnalytics.currentPriority")}</span>
                       </div>
                       {activeBuildPriority ? (
                         <>
@@ -338,7 +340,7 @@ export default function AdminReadinessAnalytics() {
                           </div>
                         </>
                       ) : (
-                        <p className="text-sm text-gray-500" data-testid="text-build-priority">Loading config...</p>
+                        <p className="text-sm text-gray-500" data-testid="text-build-priority">{t("pages.adminReadinessAnalytics.loadingConfig")}</p>
                       )}
                     </div>
                   </div>
@@ -347,7 +349,7 @@ export default function AdminReadinessAnalytics() {
 
               <Card data-testid="card-expansion-roadmap">
                 <CardHeader>
-                  <CardTitle className="text-lg flex items-center gap-2"><Activity className="w-5 h-5" /> Content Expansion Roadmap</CardTitle>
+                  <CardTitle className="text-lg flex items-center gap-2"><Activity className="w-5 h-5" /> {t("pages.adminReadinessAnalytics.contentExpansionRoadmap")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">

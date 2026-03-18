@@ -8,6 +8,7 @@ import { SEO } from "@/components/seo";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { CAREER_CONFIGS, getEnabledCareers, type CareerConfig, type CareerType } from "@shared/careers";
+import { useI18n } from "@/lib/i18n";
 import {
   BookOpen,
   Users,
@@ -48,6 +49,7 @@ const ICON_MAP: Record<string, any> = {
 };
 
 export default function AdminCareersPage() {
+  const { t } = useI18n();
   const { isAdmin } = useAuth();
   const [, setLocation] = useLocation();
   const [stats, setStats] = useState<Record<string, { questions: number; subscribers: number }>>({});
@@ -74,7 +76,7 @@ export default function AdminCareersPage() {
 
   return (
     <>
-      <SEO title="Career Management - Admin | NurseNest" description="Manage career verticals and content" />
+      <SEO title={t("pages.adminCareers.careerManagementAdminNursenest")} description={t("pages.adminCareers.manageCareerVerticalsAndContent")} />
       <Navigation />
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 py-8">
@@ -100,7 +102,7 @@ export default function AdminCareersPage() {
                   </div>
                   <div>
                     <p className="text-2xl font-bold" data-testid="text-total-careers">{allCareers.length}</p>
-                    <p className="text-sm text-gray-500">Career Verticals</p>
+                    <p className="text-sm text-gray-500">{t("pages.adminCareers.careerVerticals")}</p>
                   </div>
                 </div>
               </CardContent>
@@ -113,7 +115,7 @@ export default function AdminCareersPage() {
                   </div>
                   <div>
                     <p className="text-2xl font-bold" data-testid="text-enabled-careers">{getEnabledCareers().length}</p>
-                    <p className="text-sm text-gray-500">Enabled</p>
+                    <p className="text-sm text-gray-500">{t("pages.adminCareers.enabled")}</p>
                   </div>
                 </div>
               </CardContent>
@@ -126,7 +128,7 @@ export default function AdminCareersPage() {
                   </div>
                   <div>
                     <p className="text-2xl font-bold" data-testid="text-total-questions">{totalQuestions.toLocaleString()}</p>
-                    <p className="text-sm text-gray-500">Total Questions</p>
+                    <p className="text-sm text-gray-500">{t("pages.adminCareers.totalQuestions")}</p>
                   </div>
                 </div>
               </CardContent>
@@ -139,7 +141,7 @@ export default function AdminCareersPage() {
                   </div>
                   <div>
                     <p className="text-2xl font-bold" data-testid="text-total-subscribers">{totalSubscribers.toLocaleString()}</p>
-                    <p className="text-sm text-gray-500">Subscribers</p>
+                    <p className="text-sm text-gray-500">{t("pages.adminCareers.subscribers")}</p>
                   </div>
                 </div>
               </CardContent>
@@ -147,14 +149,14 @@ export default function AdminCareersPage() {
           </div>
 
           <div className="mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-1">Core Platform</h2>
-            <p className="text-sm text-gray-500 mb-4">Original nursing exam preparation platform</p>
+            <h2 className="text-xl font-bold text-gray-900 mb-1">{t("pages.adminCareers.corePlatform")}</h2>
+            <p className="text-sm text-gray-500 mb-4">{t("pages.adminCareers.originalNursingExamPreparationPlatform")}</p>
             <CareerCard career={nursingCareer} stats={stats[nursingCareer.id]} />
           </div>
 
           <div className="mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-1">Allied Health Careers</h2>
-            <p className="text-sm text-gray-500 mb-4">Phase 1-4 career vertical expansion</p>
+            <h2 className="text-xl font-bold text-gray-900 mb-1">{t("pages.adminCareers.alliedHealthCareers")}</h2>
+            <p className="text-sm text-gray-500 mb-4">{t("pages.adminCareers.phase14CareerVerticalExpansion")}</p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {alliedCareers.map(career => (
                 <CareerCard key={career.id} career={career} stats={stats[career.id]} />
@@ -197,9 +199,9 @@ function CareerCard({ career, stats }: { career: CareerConfig; stats?: { questio
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="text-xs">{phase}</Badge>
             {career.enabled ? (
-              <Badge className="bg-green-100 text-green-700 text-xs">Active</Badge>
+              <Badge className="bg-green-100 text-green-700 text-xs">{t("pages.adminCareers.active")}</Badge>
             ) : (
-              <Badge variant="secondary" className="text-xs">Disabled</Badge>
+              <Badge variant="secondary" className="text-xs">{t("pages.adminCareers.disabled")}</Badge>
             )}
           </div>
         </div>
@@ -207,15 +209,15 @@ function CareerCard({ career, stats }: { career: CareerConfig; stats?: { questio
         <div className="grid grid-cols-3 gap-2 text-center">
           <div className="bg-gray-50 rounded p-2">
             <p className="text-lg font-bold text-gray-900">{questionCount.toLocaleString()}</p>
-            <p className="text-xs text-gray-500">Questions</p>
+            <p className="text-xs text-gray-500">{t("pages.adminCareers.questions")}</p>
           </div>
           <div className="bg-gray-50 rounded p-2">
             <p className="text-lg font-bold text-gray-900">{subscriberCount}</p>
-            <p className="text-xs text-gray-500">Subscribers</p>
+            <p className="text-xs text-gray-500">{t("pages.adminCareers.subscribers2")}</p>
           </div>
           <div className="bg-gray-50 rounded p-2">
             <p className="text-lg font-bold text-gray-900">{career.domains.length}</p>
-            <p className="text-xs text-gray-500">Domains</p>
+            <p className="text-xs text-gray-500">{t("pages.adminCareers.domains")}</p>
           </div>
         </div>
 

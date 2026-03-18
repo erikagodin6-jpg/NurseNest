@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -339,6 +340,7 @@ const appliedQuiz: import("@/components/interactive-learning").QuizQuestion[] = 
 ];
 
 export function ResearchStatisticsModule() {
+  const { t } = useI18n();
   const whyMattersContent = useEditableText("research-why-matters", "On the NCLEX, you'll encounter questions asking you to differentiate research from QI from EBP. Remember: research creates knowledge, EBP applies it, QI improves local processes.");
   const reliabilityValidityContent = useEditableText("research-reliability-validity", "Reliability = consistency (does it give the same result each time?). Validity = accuracy (does it measure what it claims to?). A bathroom scale that always reads 5 lbs too heavy is reliable but not valid. A tool must be reliable before it can be valid.");
   const clinicalExampleContent = useEditableText("research-clinical-example", "Hospital length-of-stay data is typically right-skewed (most patients stay a few days, but some stay weeks). The median is a better measure than the mean because it isn't inflated by a few very long stays.");
@@ -373,8 +375,8 @@ export function ResearchStatisticsModule() {
         </div>
 
         <MicroLesson
-          title="What Is Nursing Research?"
-          subtitle="Understanding the purpose and scope of research in nursing"
+          title={t("data.pre_nursing_research.whatIsNursingResearch")}
+          subtitle={t("data.pre_nursing_research.understandingThePurposeAndScope")}
           icon={<BookOpen className="w-5 h-5" />}
         >
           <p className="text-sm text-gray-600 leading-relaxed">
@@ -401,14 +403,14 @@ export function ResearchStatisticsModule() {
           </div>
           <CognitiveCard
             type="concept"
-            title="Why This Matters"
+            title={t("data.pre_nursing_research.whyThisMatters")}
             content={whyMattersContent}
           />
         </MicroLesson>
 
         <MicroLesson
-          title="Variables, Reliability & Validity"
-          subtitle="Core concepts that underpin all research"
+          title={t("data.pre_nursing_research.variablesReliabilityValidity")}
+          subtitle={t("data.pre_nursing_research.coreConceptsThatUnderpinAll")}
           icon={<Search className="w-5 h-5" />}
         >
           <div className="space-y-3">
@@ -427,14 +429,14 @@ export function ResearchStatisticsModule() {
           </div>
           <CognitiveCard
             type="remember"
-            title="Reliability vs Validity"
+            title={t("data.pre_nursing_research.reliabilityVsValidity")}
             content={reliabilityValidityContent}
           />
         </MicroLesson>
 
         <MatchingExercise
-          title="Research Terminology"
-          description="Match each research term to its definition"
+          title={t("data.pre_nursing_research.researchTerminology")}
+          description={t("data.pre_nursing_research.matchEachResearchTermTo")}
           pairs={[
             { id: "rt1", term: "Null Hypothesis", definition: "States there is NO significant difference or relationship" },
             { id: "rt2", term: "Sampling Bias", definition: "Systematic error in participant selection" },
@@ -446,7 +448,7 @@ export function ResearchStatisticsModule() {
         />
 
         <ProgressiveReveal
-          title="Levels of Evidence Pyramid"
+          title={t("data.pre_nursing_research.levelsOfEvidencePyramid")}
           cards={[
             {
               id: "loe1",
@@ -493,7 +495,7 @@ export function ResearchStatisticsModule() {
           ]}
         />
 
-        <SelfCheckQuiz title="Knowledge Check: Research Foundations" questions={foundationsQuiz} />
+        <SelfCheckQuiz title={t("data.pre_nursing_research.knowledgeCheckResearchFoundations")} questions={foundationsQuiz} />
       </section>
 
       <section className="space-y-6">
@@ -505,8 +507,8 @@ export function ResearchStatisticsModule() {
         </div>
 
         <MicroLesson
-          title="Descriptive vs Inferential Statistics"
-          subtitle="Two fundamental approaches to analyzing data"
+          title={t("data.pre_nursing_research.descriptiveVsInferentialStatistics")}
+          subtitle={t("data.pre_nursing_research.twoFundamentalApproachesToAnalyzing")}
           icon={<BarChart3 className="w-5 h-5" />}
         >
           <p className="text-sm text-gray-600 leading-relaxed">
@@ -534,8 +536,8 @@ export function ResearchStatisticsModule() {
         </MicroLesson>
 
         <MicroLesson
-          title="Mean, Median, Mode & Variability"
-          subtitle="Understanding central tendency and spread"
+          title={t("data.pre_nursing_research.meanMedianModeVariability")}
+          subtitle={t("data.pre_nursing_research.understandingCentralTendencyAndSpread")}
           icon={<TrendingUp className="w-5 h-5" />}
         >
           <div className="space-y-3">
@@ -554,24 +556,24 @@ export function ResearchStatisticsModule() {
           </div>
           <CognitiveCard
             type="concept"
-            title="Clinical Example"
+            title={t("data.pre_nursing_research.clinicalExample")}
             content={clinicalExampleContent}
           />
           <CognitiveCard
             type="remember"
-            title="Standard Deviation (SD)"
+            title={t("data.pre_nursing_research.standardDeviationSd")}
             content={standardDeviationContent}
           />
         </MicroLesson>
 
         <MicroLesson
-          title="P-Values, Significance & Confidence Intervals"
-          subtitle="The most misunderstood concepts in statistics"
+          title={t("data.pre_nursing_research.pvaluesSignificanceConfidenceIntervals")}
+          subtitle={t("data.pre_nursing_research.theMostMisunderstoodConceptsIn")}
           icon={<Lightbulb className="w-5 h-5" />}
         >
           <CognitiveCard
             type="concept"
-            title="What a P-Value Actually Means"
+            title={t("data.pre_nursing_research.whatAPvalueActuallyMeans")}
             content={pvalueMeaningContent}
           />
           <div className="grid sm:grid-cols-2 gap-3 mt-3">
@@ -586,14 +588,14 @@ export function ResearchStatisticsModule() {
           </div>
           <CognitiveCard
             type="remember"
-            title="Confidence Intervals"
+            title={t("data.pre_nursing_research.confidenceIntervals")}
             content={confidenceIntervalsContent}
           />
         </MicroLesson>
 
         <MatchingExercise
-          title="Statistics Concept Matching"
-          description="Match each statistical concept to its meaning"
+          title={t("data.pre_nursing_research.statisticsConceptMatching")}
+          description={t("data.pre_nursing_research.matchEachStatisticalConceptTo")}
           pairs={[
             { id: "sc1", term: "P-value", definition: "Probability of results if null hypothesis is true" },
             { id: "sc2", term: "Confidence Interval", definition: "Range of plausible values for the true effect" },
@@ -604,7 +606,7 @@ export function ResearchStatisticsModule() {
           ]}
         />
 
-        <SelfCheckQuiz title="Knowledge Check: Core Statistics" questions={statisticsQuiz} />
+        <SelfCheckQuiz title={t("data.pre_nursing_research.knowledgeCheckCoreStatistics")} questions={statisticsQuiz} />
       </section>
 
       <section className="space-y-6">
@@ -616,8 +618,8 @@ export function ResearchStatisticsModule() {
         </div>
 
         <MicroLesson
-          title="Quantitative vs Qualitative Research"
-          subtitle="Two complementary approaches to knowing"
+          title={t("data.pre_nursing_research.quantitativeVsQualitativeResearch")}
+          subtitle={t("data.pre_nursing_research.twoComplementaryApproachesToKnowing")}
           icon={<FlaskConical className="w-5 h-5" />}
         >
           <div className="grid sm:grid-cols-2 gap-3">
@@ -634,13 +636,13 @@ export function ResearchStatisticsModule() {
           </div>
           <CognitiveCard
             type="concept"
-            title="When to Use Each"
+            title={t("data.pre_nursing_research.whenToUseEach")}
             content={whenToUseContent}
           />
         </MicroLesson>
 
         <ProgressiveReveal
-          title="Study Design Hierarchy"
+          title={t("data.pre_nursing_research.studyDesignHierarchy")}
           cards={[
             {
               id: "sd1",
@@ -682,8 +684,8 @@ export function ResearchStatisticsModule() {
         />
 
         <MicroLesson
-          title="Validity in Research Design"
-          subtitle="Can we trust the results?"
+          title={t("data.pre_nursing_research.validityInResearchDesign")}
+          subtitle={t("data.pre_nursing_research.canWeTrustTheResults")}
           icon={<Search className="w-5 h-5" />}
         >
           <div className="grid sm:grid-cols-2 gap-3">
@@ -698,12 +700,12 @@ export function ResearchStatisticsModule() {
           </div>
           <CognitiveCard
             type="remember"
-            title="Common Threats to Validity"
+            title={t("data.pre_nursing_research.commonThreatsToValidity")}
             content={validityThreatsContent}
           />
         </MicroLesson>
 
-        <SelfCheckQuiz title="Knowledge Check: Research Design" questions={designQuiz} />
+        <SelfCheckQuiz title={t("data.pre_nursing_research.knowledgeCheckResearchDesign")} questions={designQuiz} />
       </section>
 
       <section className="space-y-6">
@@ -715,8 +717,8 @@ export function ResearchStatisticsModule() {
         </div>
 
         <MicroLesson
-          title="The Three Pillars of EBP"
-          subtitle="Integrating evidence, expertise, and patient values"
+          title={t("data.pre_nursing_research.theThreePillarsOfEbp")}
+          subtitle={t("data.pre_nursing_research.integratingEvidenceExpertiseAndPatient")}
           icon={<Lightbulb className="w-5 h-5" />}
         >
           <div className="grid sm:grid-cols-3 gap-3">
@@ -735,19 +737,19 @@ export function ResearchStatisticsModule() {
           </div>
           <CognitiveCard
             type="concept"
-            title="Clinical Scenario"
+            title={t("data.pre_nursing_research.clinicalScenario")}
             content={clinicalScenarioContent}
           />
         </MicroLesson>
 
         <MicroLesson
-          title="Clinical vs Statistical Significance"
-          subtitle="Not every significant p-value matters at the bedside"
+          title={t("data.pre_nursing_research.clinicalVsStatisticalSignificance")}
+          subtitle={t("data.pre_nursing_research.notEverySignificantPvalueMatters")}
           icon={<TrendingUp className="w-5 h-5" />}
         >
           <CognitiveCard
             type="concept"
-            title="The Difference"
+            title={t("data.pre_nursing_research.theDifference")}
             content={statVsClinicalContent}
           />
           <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100 mt-3">
@@ -758,7 +760,7 @@ export function ResearchStatisticsModule() {
           </div>
         </MicroLesson>
 
-        <SelfCheckQuiz title="Knowledge Check: Evidence-Based Practice" questions={ebpQuiz} />
+        <SelfCheckQuiz title={t("data.pre_nursing_research.knowledgeCheckEvidencebasedPractice")} questions={ebpQuiz} />
       </section>
 
       <section className="space-y-6">
@@ -770,13 +772,13 @@ export function ResearchStatisticsModule() {
         </div>
 
         <MicroLesson
-          title="How to Read a Research Paper"
-          subtitle="A systematic approach for busy nurses"
+          title={t("data.pre_nursing_research.howToReadAResearch")}
+          subtitle={t("data.pre_nursing_research.aSystematicApproachForBusy")}
           icon={<BookOpen className="w-5 h-5" />}
         >
           <ProgressiveReveal
-            title="Steps for Appraising a Study"
-            description="Follow this sequence when evaluating any research article"
+            title={t("data.pre_nursing_research.stepsForAppraisingAStudy")}
+            description={t("data.pre_nursing_research.followThisSequenceWhenEvaluating")}
             steps={[
               {
                 id: "ap1",
@@ -813,8 +815,8 @@ export function ResearchStatisticsModule() {
         </MicroLesson>
 
         <MicroLesson
-          title="Recognizing Misleading Statistics"
-          subtitle="Common tricks and pitfalls in data presentation"
+          title={t("data.pre_nursing_research.recognizingMisleadingStatistics")}
+          subtitle={t("data.pre_nursing_research.commonTricksAndPitfallsIn")}
           icon={<Lightbulb className="w-5 h-5" />}
         >
           <div className="space-y-3">
@@ -837,7 +839,7 @@ export function ResearchStatisticsModule() {
           </div>
         </MicroLesson>
 
-        <SelfCheckQuiz title="Knowledge Check: Critical Appraisal" questions={appraisalQuiz} />
+        <SelfCheckQuiz title={t("data.pre_nursing_research.knowledgeCheckCriticalAppraisal")} questions={appraisalQuiz} />
       </section>
 
       <section className="space-y-6">
@@ -849,8 +851,8 @@ export function ResearchStatisticsModule() {
         </div>
 
         <MicroLesson
-          title="Sensitivity, Specificity & Predictive Values"
-          subtitle="Understanding diagnostic test performance"
+          title={t("data.pre_nursing_research.sensitivitySpecificityPredictiveValues")}
+          subtitle={t("data.pre_nursing_research.understandingDiagnosticTestPerformance")}
           icon={<Search className="w-5 h-5" />}
         >
           <div className="grid sm:grid-cols-2 gap-3">
@@ -865,7 +867,7 @@ export function ResearchStatisticsModule() {
           </div>
           <CognitiveCard
             type="remember"
-            title="SNout & SPin"
+            title={t("data.pre_nursing_research.snoutSpin")}
             content={snoutSpinContent}
           />
           <div className="grid sm:grid-cols-2 gap-3 mt-3">
@@ -881,13 +883,13 @@ export function ResearchStatisticsModule() {
         </MicroLesson>
 
         <MicroLesson
-          title="NNT, Risk Communication & Clinical Decision-Making"
-          subtitle="Translating numbers into patient care"
+          title={t("data.pre_nursing_research.nntRiskCommunicationClinicalDecisionmaki")}
+          subtitle={t("data.pre_nursing_research.translatingNumbersIntoPatientCare")}
           icon={<TrendingUp className="w-5 h-5" />}
         >
           <CognitiveCard
             type="concept"
-            title="Number Needed to Treat (NNT)"
+            title={t("data.pre_nursing_research.numberNeededToTreatNnt")}
             content={nntContent}
           />
           <div className="space-y-3 mt-3">
@@ -903,8 +905,8 @@ export function ResearchStatisticsModule() {
         </MicroLesson>
 
         <MatchingExercise
-          title="Applied Interpretation Matching"
-          description="Match each clinical research concept to its application"
+          title={t("data.pre_nursing_research.appliedInterpretationMatching")}
+          description={t("data.pre_nursing_research.matchEachClinicalResearchConcept")}
           pairs={[
             { id: "ai1", term: "NNT", definition: "Patients treated per additional benefit" },
             { id: "ai2", term: "Sensitivity", definition: "Ability of a test to detect true positives" },
@@ -915,7 +917,7 @@ export function ResearchStatisticsModule() {
           ]}
         />
 
-        <SelfCheckQuiz title="Knowledge Check: Clinical Interpretation" questions={appliedQuiz} />
+        <SelfCheckQuiz title={t("data.pre_nursing_research.knowledgeCheckClinicalInterpretation")} questions={appliedQuiz} />
       </section>
 
       <section className="space-y-6">
@@ -927,8 +929,8 @@ export function ResearchStatisticsModule() {
         </div>
 
         <MicroLesson
-          title="Sampling Methods"
-          subtitle="How participants are selected shapes the entire study"
+          title={t("data.pre_nursing_research.samplingMethods")}
+          subtitle={t("data.pre_nursing_research.howParticipantsAreSelectedShapes")}
           icon={<Users className="w-5 h-5" />}
         >
           <p className="text-sm text-gray-600 leading-relaxed">
@@ -961,19 +963,19 @@ export function ResearchStatisticsModule() {
 
           <CognitiveCard
             type="concept"
-            title="Why Sample Size Matters"
+            title={t("data.pre_nursing_research.whySampleSizeMatters")}
             content={sampleSizeContent}
           />
           <CognitiveCard
             type="remember"
-            title="Sampling Bias"
+            title={t("data.pre_nursing_research.samplingBias")}
             content={samplingBiasContent}
           />
         </MicroLesson>
 
         <MicroLesson
-          title="Ethical Considerations in Research"
-          subtitle="Protecting participants is a non-negotiable foundation"
+          title={t("data.pre_nursing_research.ethicalConsiderationsInResearch")}
+          subtitle={t("data.pre_nursing_research.protectingParticipantsIsANonnegotiable")}
           icon={<Shield className="w-5 h-5" />}
         >
           <p className="text-sm text-gray-600 leading-relaxed">
@@ -996,7 +998,7 @@ export function ResearchStatisticsModule() {
           </div>
 
           <ProgressiveReveal
-            title="The Belmont Report: Three Core Principles"
+            title={t("data.pre_nursing_research.theBelmontReportThreeCore")}
             cards={[
               {
                 id: "bp1",
@@ -1021,14 +1023,14 @@ export function ResearchStatisticsModule() {
 
           <CognitiveCard
             type="concept"
-            title="Vulnerable Populations"
+            title={t("data.pre_nursing_research.vulnerablePopulations")}
             content={vulnerablePopContent}
           />
         </MicroLesson>
 
         <MicroLesson
-          title="Data Visualization & Interpretation"
-          subtitle="Reading graphs correctly is a critical research literacy skill"
+          title={t("data.pre_nursing_research.dataVisualizationInterpretation")}
+          subtitle={t("data.pre_nursing_research.readingGraphsCorrectlyIsA")}
           icon={<PieChart className="w-5 h-5" />}
         >
           <div className="space-y-3">
@@ -1048,7 +1050,7 @@ export function ResearchStatisticsModule() {
 
           <CognitiveCard
             type="concept"
-            title="Interpreting Graphs: Key Questions"
+            title={t("data.pre_nursing_research.interpretingGraphsKeyQuestions")}
             content={interpretingGraphsContent}
           />
 
@@ -1069,8 +1071,8 @@ export function ResearchStatisticsModule() {
         </MicroLesson>
 
         <MicroLesson
-          title="Systematic Reviews & Meta-Analysis"
-          subtitle="The pinnacle of the evidence hierarchy"
+          title={t("data.pre_nursing_research.systematicReviewsMetaanalysis")}
+          subtitle={t("data.pre_nursing_research.thePinnacleOfTheEvidence")}
           icon={<Layers className="w-5 h-5" />}
         >
           <p className="text-sm text-gray-600 leading-relaxed">
@@ -1087,7 +1089,7 @@ export function ResearchStatisticsModule() {
           </p>
 
           <ProgressiveReveal
-            title="How a Systematic Review Is Conducted"
+            title={t("data.pre_nursing_research.howASystematicReviewIs")}
             cards={[
               {
                 id: "sr1",
@@ -1139,16 +1141,16 @@ export function ResearchStatisticsModule() {
 
           <CognitiveCard
             type="remember"
-            title="Why Systematic Reviews Are Powerful"
+            title={t("data.pre_nursing_research.whySystematicReviewsArePowerful")}
             content={systematicReviewsPowerContent}
           />
         </MicroLesson>
 
-        <SelfCheckQuiz title="Knowledge Check: Advanced Research Topics" questions={advancedTopicsQuiz} />
+        <SelfCheckQuiz title={t("data.pre_nursing_research.knowledgeCheckAdvancedResearchTopics")} questions={advancedTopicsQuiz} />
 
         <MatchingExercise
-          title="Advanced Research Concepts"
-          description="Match each research concept to its correct definition"
+          title={t("data.pre_nursing_research.advancedResearchConcepts")}
+          description={t("data.pre_nursing_research.matchEachResearchConceptTo")}
           pairs={[
             { id: "ar1", term: "Convenience Sampling", definition: "Selecting participants based on easy availability" },
             { id: "ar2", term: "Belmont Report", definition: "Foundational document establishing respect, beneficence, and justice in research" },

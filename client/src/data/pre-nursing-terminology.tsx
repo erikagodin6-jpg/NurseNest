@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { BookOpen, Layers, Brain, FileText } from "lucide-react";
 
 export function MedicalTerminologyModule() {
+  const { t } = useI18n();
   const decodingAction = useEditableText("medterm-decoding-action", "Electrocardiography: electr/o (electrical) + cardi/o (heart) + -graphy (process of recording) = the process of recording the electrical activity of the heart. You don't need to memorize this — you can construct the meaning from parts.");
   const otomyConfusion = useEditableText("medterm-otomy-confusion", "These three sound similar but mean very different things. -Otomy = cutting into (the structure remains). -Ostomy = creating a permanent opening. -Ectomy = removing entirely. A tracheotomy cuts into the trachea; a tracheostomy creates a permanent opening; a tonsillectomy removes the tonsils.");
 
@@ -38,7 +40,7 @@ export function MedicalTerminologyModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Decoding in Action"
+          title={t("data.pre_nursing_terminology.decodingInAction")}
           content={decodingAction}
         />
       </MicroLesson>
@@ -46,7 +48,7 @@ export function MedicalTerminologyModule() {
       <MicroLesson title="Body System Roots" subtitle="Core word roots organized by organ system" icon={<Layers className="w-5 h-5" />}>
         <EditableModuleText sectionKey="medterm-body-roots-content" defaultText="Each body system has characteristic word roots that appear repeatedly in clinical vocabulary. Learning these roots gives you a foundation for interpreting terms across all of healthcare." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="System-by-System Root Words"
+          title={t("data.pre_nursing_terminology.systembysystemRootWords")}
           cards={[
             {
               id: "mt1",
@@ -94,14 +96,14 @@ export function MedicalTerminologyModule() {
           <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100">
             <p className="text-xs font-semibold text-amber-700 mb-2">Location & Direction Prefixes</p>
             <div className="grid grid-cols-2 gap-1 text-xs text-amber-600">
-              <span><strong>Epi-</strong> = upon, above (epidermis)</span>
-              <span><strong>Sub-</strong> = below (subcutaneous)</span>
-              <span><strong>Endo-</strong> = within (endoscopy)</span>
-              <span><strong>Peri-</strong> = around (pericardium)</span>
-              <span><strong>Inter-</strong> = between (intercostal)</span>
-              <span><strong>Intra-</strong> = within (intravenous)</span>
-              <span><strong>Retro-</strong> = behind (retroperitoneal)</span>
-              <span><strong>Trans-</strong> = across (transdermal)</span>
+              <span><strong>{t("data.pre_nursing_terminology.epi")}</strong> = upon, above (epidermis)</span>
+              <span><strong>{t("data.pre_nursing_terminology.sub")}</strong> = below (subcutaneous)</span>
+              <span><strong>{t("data.pre_nursing_terminology.endo")}</strong> = within (endoscopy)</span>
+              <span><strong>{t("data.pre_nursing_terminology.peri")}</strong> = around (pericardium)</span>
+              <span><strong>{t("data.pre_nursing_terminology.inter")}</strong> = between (intercostal)</span>
+              <span><strong>{t("data.pre_nursing_terminology.intra")}</strong> = within (intravenous)</span>
+              <span><strong>{t("data.pre_nursing_terminology.retro")}</strong> = behind (retroperitoneal)</span>
+              <span><strong>{t("data.pre_nursing_terminology.trans")}</strong> = across (transdermal)</span>
             </div>
           </div>
           <div className="p-4 bg-rose-50/60 rounded-xl border border-rose-100">
@@ -133,7 +135,7 @@ export function MedicalTerminologyModule() {
         </div>
         <CognitiveCard
           type="warning"
-          title="Common Confusion: -otomy vs -ostomy vs -ectomy"
+          title={t("data.pre_nursing_terminology.commonConfusionOtomyVsOstomy")}
           content={otomyConfusion}
         />
       </MicroLesson>
@@ -170,8 +172,8 @@ export function MedicalTerminologyModule() {
           <div className="grid grid-cols-2 gap-1 text-xs text-cyan-600">
             <span><strong>WBC</strong> = white blood cells</span>
             <span><strong>RBC</strong> = red blood cells</span>
-            <span><strong>Hgb</strong> = hemoglobin</span>
-            <span><strong>Hct</strong> = hematocrit</span>
+            <span><strong>{t("data.pre_nursing_terminology.hgb")}</strong> = hemoglobin</span>
+            <span><strong>{t("data.pre_nursing_terminology.hct")}</strong> = hematocrit</span>
             <span><strong>BUN</strong> = blood urea nitrogen</span>
             <span><strong>ABG</strong> = arterial blood gas</span>
             <span><strong>CBC</strong> = complete blood count</span>
@@ -206,24 +208,24 @@ export function MedicalTerminologyModule() {
           <div className="p-4 bg-sky-50/60 rounded-xl border border-sky-100">
             <p className="text-xs font-semibold text-sky-700 mb-2">Position Pairs</p>
             <div className="grid grid-cols-2 gap-1 text-xs text-sky-600">
-              <span><strong>Superior</strong> = above, toward the head</span>
-              <span><strong>Inferior</strong> = below, toward the feet</span>
-              <span><strong>Anterior (ventral)</strong> = front of the body</span>
-              <span><strong>Posterior (dorsal)</strong> = back of the body</span>
-              <span><strong>Medial</strong> = toward the midline</span>
-              <span><strong>Lateral</strong> = away from the midline</span>
-              <span><strong>Proximal</strong> = closer to the trunk</span>
-              <span><strong>Distal</strong> = farther from the trunk</span>
-              <span><strong>Superficial</strong> = near the surface</span>
-              <span><strong>Deep</strong> = farther from the surface</span>
+              <span><strong>{t("data.pre_nursing_terminology.superior")}</strong> = above, toward the head</span>
+              <span><strong>{t("data.pre_nursing_terminology.inferior")}</strong> = below, toward the feet</span>
+              <span><strong>{t("data.pre_nursing_terminology.anteriorVentral")}</strong> = front of the body</span>
+              <span><strong>{t("data.pre_nursing_terminology.posteriorDorsal")}</strong> = back of the body</span>
+              <span><strong>{t("data.pre_nursing_terminology.medial")}</strong> = toward the midline</span>
+              <span><strong>{t("data.pre_nursing_terminology.lateral")}</strong> = away from the midline</span>
+              <span><strong>{t("data.pre_nursing_terminology.proximal")}</strong> = closer to the trunk</span>
+              <span><strong>{t("data.pre_nursing_terminology.distal")}</strong> = farther from the trunk</span>
+              <span><strong>{t("data.pre_nursing_terminology.superficial")}</strong> = near the surface</span>
+              <span><strong>{t("data.pre_nursing_terminology.deep")}</strong> = farther from the surface</span>
             </div>
           </div>
           <div className="p-4 bg-fuchsia-50/60 rounded-xl border border-fuchsia-100">
             <p className="text-xs font-semibold text-fuchsia-700 mb-2">Body Planes</p>
             <div className="grid grid-cols-1 gap-1 text-xs text-fuchsia-600">
-              <span><strong>Sagittal plane</strong> divides the body into left and right halves. A midsagittal cut creates equal halves.</span>
-              <span><strong>Frontal (coronal) plane</strong> divides the body into anterior and posterior sections.</span>
-              <span><strong>Transverse (horizontal) plane</strong> divides the body into superior and inferior sections. CT scans typically produce transverse cross-sections.</span>
+              <span><strong>{t("data.pre_nursing_terminology.sagittalPlane")}</strong> divides the body into left and right halves. A midsagittal cut creates equal halves.</span>
+              <span><strong>{t("data.pre_nursing_terminology.frontalCoronalPlane")}</strong> divides the body into anterior and posterior sections.</span>
+              <span><strong>{t("data.pre_nursing_terminology.transverseHorizontalPlane")}</strong> divides the body into superior and inferior sections. CT scans typically produce transverse cross-sections.</span>
             </div>
           </div>
           <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100">
@@ -238,7 +240,7 @@ export function MedicalTerminologyModule() {
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Root to Its Meaning"
+        title={t("data.pre_nursing_terminology.matchTheRootToIts")}
         pairs={[
           { term: "Cardi/o", definition: "Heart" },
           { term: "Hepat/o", definition: "Liver" },
@@ -252,7 +254,7 @@ export function MedicalTerminologyModule() {
       />
 
       <SelfCheckQuiz
-        title="Medical Terminology Quiz"
+        title={t("data.pre_nursing_terminology.medicalTerminologyQuiz")}
         questions={[
           {
             id: "t1",

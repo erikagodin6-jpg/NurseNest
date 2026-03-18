@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import { ChecklistGate, FlashcardCTA, PracticeQuestionCTA } from "@/components/marketing-cta";
 import { getProfessionBySlug, PROFESSION_LIST } from "./profession-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, ChevronRight, ChevronDown, HelpCircle,
   GraduationCap, DollarSign, TrendingUp, MapPin, Award,
@@ -23,6 +24,7 @@ const HERO_BG_MAP: Record<string, string> = {
 };
 
 function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   return (
     <div className="border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-item-${index}`}>
@@ -53,9 +55,9 @@ export default function NewGradProfessionHub() {
         <Navigation />
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Profession Not Found</h1>
-            <p className="text-gray-600 mb-4">The profession hub you're looking for doesn't exist.</p>
-            <Link href="/new-grad" className="text-blue-600 hover:underline">Back to New Grad Hub</Link>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.newGrad.professionHub.professionNotFound")}</h1>
+            <p className="text-gray-600 mb-4">{t("pages.newGrad.professionHub.theProfessionHubYoureLooking")}</p>
+            <Link href="/new-grad" className="text-blue-600 hover:underline">{t("pages.newGrad.professionHub.backToNewGradHub")}</Link>
           </div>
         </div>
         <Footer />
@@ -106,9 +108,9 @@ export default function NewGradProfessionHub() {
         <div className={`absolute inset-0 ${HERO_BG_MAP[profession.color] || HERO_BG_MAP.blue}`} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="nav-breadcrumb">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.newGrad.professionHub.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/new-grad" className="hover:text-blue-600">New Grad Hub</Link>
+            <Link href="/new-grad" className="hover:text-blue-600">{t("pages.newGrad.professionHub.newGradHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-gray-800 font-medium">{profession.name}</span>
           </div>
@@ -141,22 +143,22 @@ export default function NewGradProfessionHub() {
             <div data-testid="stat-salary">
               <DollarSign className="w-5 h-5 text-gray-400 mx-auto mb-1" />
               <div className="text-lg font-bold text-gray-900">{profession.salaryRange}</div>
-              <div className="text-sm text-gray-500">Salary Range</div>
+              <div className="text-sm text-gray-500">{t("pages.newGrad.professionHub.salaryRange")}</div>
             </div>
             <div data-testid="stat-growth">
               <TrendingUp className="w-5 h-5 text-gray-400 mx-auto mb-1" />
               <div className="text-lg font-bold text-gray-900">{profession.jobGrowth}</div>
-              <div className="text-sm text-gray-500">Job Growth</div>
+              <div className="text-sm text-gray-500">{t("pages.newGrad.professionHub.jobGrowth")}</div>
             </div>
             <div data-testid="stat-settings">
               <MapPin className="w-5 h-5 text-gray-400 mx-auto mb-1" />
               <div className="text-lg font-bold text-gray-900">{profession.settingsCount}</div>
-              <div className="text-sm text-gray-500">Work Settings</div>
+              <div className="text-sm text-gray-500">{t("pages.newGrad.professionHub.workSettings")}</div>
             </div>
             <div data-testid="stat-certs">
               <Award className="w-5 h-5 text-gray-400 mx-auto mb-1" />
               <div className="text-lg font-bold text-gray-900">{profession.certifications.length}</div>
-              <div className="text-sm text-gray-500">Key Certifications</div>
+              <div className="text-sm text-gray-500">{t("pages.newGrad.professionHub.keyCertifications")}</div>
             </div>
           </div>
         </div>
@@ -164,7 +166,7 @@ export default function NewGradProfessionHub() {
 
       <section className="py-16" data-testid="section-career-overview">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4" data-testid="text-overview-title">Career Overview</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4" data-testid="text-overview-title">{t("pages.newGrad.professionHub.careerOverview")}</h2>
           <p className="text-gray-600 leading-relaxed mb-6" data-testid="text-overview-body">{profession.careerOverview}</p>
           <div className="flex flex-wrap gap-2">
             {profession.certifications.map((cert, i) => (
@@ -178,8 +180,8 @@ export default function NewGradProfessionHub() {
 
       <section className="py-16 bg-gray-50" data-testid="section-first-year">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-first-year-title">What to Expect in Your First Year</h2>
-          <p className="text-gray-600 mb-8">Key milestones and expectations during your transition to practice.</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-first-year-title">{t("pages.newGrad.professionHub.whatToExpectInYour")}</h2>
+          <p className="text-gray-600 mb-8">{t("pages.newGrad.professionHub.keyMilestonesAndExpectationsDuring")}</p>
           <div className="space-y-4">
             {profession.firstYearExpectations.map((item, i) => (
               <div key={i} className="flex items-start gap-3 bg-white rounded-xl border border-gray-100 p-4" data-testid={`expectation-${i}`}>
@@ -194,7 +196,7 @@ export default function NewGradProfessionHub() {
       <section className="py-16" data-testid="section-challenges">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-challenges-title">Common New Grad Challenges</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-challenges-title">{t("pages.newGrad.professionHub.commonNewGradChallenges")}</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">Every new {profession.name.toLowerCase()} professional faces these hurdles. Knowing what to expect helps you prepare.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -220,7 +222,7 @@ export default function NewGradProfessionHub() {
       <section className="py-16 bg-gray-50" data-testid="section-clinical-tips">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-tips-title">Clinical Tips for New Graduates</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-tips-title">{t("pages.newGrad.professionHub.clinicalTipsForNewGraduates")}</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">Practical advice from experienced {profession.name.toLowerCase()} professionals to help you succeed.</p>
           </div>
           <div className="space-y-5">
@@ -242,8 +244,8 @@ export default function NewGradProfessionHub() {
       <section className="py-16" data-testid="section-resources">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-resources-title">Learning Resources</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Tools and resources to help you prepare for certification exams and build clinical confidence.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-resources-title">{t("pages.newGrad.professionHub.learningResources")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.newGrad.professionHub.toolsAndResourcesToHelp")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {profession.resources.map((resource, i) => (
@@ -272,7 +274,7 @@ export default function NewGradProfessionHub() {
       <section className="py-16 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-faq-title">Frequently Asked Questions</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-faq-title">{t("pages.newGrad.professionHub.frequentlyAskedQuestions")}</h2>
             <p className="text-gray-600">Common questions from new {profession.name.toLowerCase()} graduates</p>
           </div>
           <div className="space-y-3">
@@ -300,15 +302,15 @@ export default function NewGradProfessionHub() {
             </Link>
           </div>
           <div className="flex items-center justify-center gap-6 mt-8 text-blue-200 text-sm">
-            <span className="flex items-center gap-1.5"><Shield className="w-4 h-4" /> 14-day guarantee</span>
-            <span className="flex items-center gap-1.5"><Star className="w-4 h-4" /> Cancel anytime</span>
+            <span className="flex items-center gap-1.5"><Shield className="w-4 h-4" /> {t("pages.newGrad.professionHub.14dayGuarantee")}</span>
+            <span className="flex items-center gap-1.5"><Star className="w-4 h-4" /> {t("pages.newGrad.professionHub.cancelAnytime")}</span>
           </div>
         </div>
       </section>
 
       <section className="py-12 bg-gray-50" data-testid="section-other-professions">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Explore Other Professions</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">{t("pages.newGrad.professionHub.exploreOtherProfessions")}</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             {PROFESSION_LIST.filter(p => p.slug !== profession.slug).map((p) => {
               const PIcon = p.icon;

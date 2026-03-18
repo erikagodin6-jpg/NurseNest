@@ -3,6 +3,7 @@ import { Bold, Italic, Underline, Strikethrough, List, ListOrdered, Heading2, Re
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+import { useI18n } from "@/lib/i18n";
 const FONT_COLORS = [
   { label: "Black", value: "#000000" },
   { label: "Dark Gray", value: "#4b5563" },
@@ -43,6 +44,7 @@ const toolbarButtons = [
 ] as const;
 
 export function RichTextEditor({ value, onChange, className, placeholder = "Start typing...", minHeight = "120px" }: RichTextEditorProps) {
+  const { t } = useI18n();
   const editorRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
@@ -222,7 +224,7 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
           const reader = new FileReader();
           reader.onload = () => {
             editorRef.current?.focus();
-            document.execCommand("insertHTML", false, `<img src="${reader.result}" alt="Pasted image" style="max-width:100%;border-radius:8px;margin:8px 0;" />`);
+            document.execCommand("insertHTML", false, `<img src="${reader.result}" alt={t("components.richTextEditor.pastedImage")} style="max-width:100%;border-radius:8px;margin:8px 0;" />`);
             emitChange();
           };
           reader.readAsDataURL(file);
@@ -294,7 +296,7 @@ export function RichTextEditor({ value, onChange, className, placeholder = "Star
                 return !prev;
               });
             }}
-            title="Font Color"
+            title={t("components.richTextEditor.fontColor")}
             data-testid="button-font-color"
           >
             <Palette className="w-3.5 h-3.5" />
@@ -386,7 +388,7 @@ export function RichTextListEditor({ items, onChange, placeholder = "Enter item.
             onClick={() => onChange(items.filter((_, idx) => idx !== i))}
             data-testid={`button-remove-item-${i}`}
           >
-            <span className="text-lg leading-none">&times;</span>
+            <span className="text-lg leading-none">{t("components.richTextEditor.times")}</span>
           </Button>
         </div>
       ))}

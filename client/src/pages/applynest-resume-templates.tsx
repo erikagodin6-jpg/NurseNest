@@ -3,7 +3,9 @@ import { Link } from "wouter";
 import { ArrowLeft, FileText, Download, Tag, ArrowRight, Briefcase } from "lucide-react";
 import { useState } from "react";
 
+import { useI18n } from "@/lib/i18n";
 export default function ApplyNestResumeTemplates() {
+  const { t } = useI18n();
   const [activeCategory, setActiveCategory] = useState("all");
 
   const { data: templates, isLoading } = useQuery({
@@ -61,9 +63,9 @@ export default function ApplyNestResumeTemplates() {
         </div>
 
         {isLoading ? (
-          <div className="text-center py-12 text-gray-500">Loading templates...</div>
+          <div className="text-center py-12 text-gray-500">{t("pages.applynestResumeTemplates.loadingTemplates")}</div>
         ) : filtered.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">No templates found in this category.</div>
+          <div className="text-center py-12 text-gray-500">{t("pages.applynestResumeTemplates.noTemplatesFoundInThis")}</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6" data-testid="grid-templates">
             {filtered.map((template: any) => (
@@ -94,7 +96,7 @@ export default function ApplyNestResumeTemplates() {
 
                 {template.templateContent?.sections && (
                   <div className="mb-4">
-                    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Sections Included:</p>
+                    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">{t("pages.applynestResumeTemplates.sectionsIncluded")}</p>
                     <div className="flex flex-wrap gap-1.5">
                       {template.templateContent.sections.map((section: string, i: number) => (
                         <span key={i} className="text-xs px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
@@ -107,7 +109,7 @@ export default function ApplyNestResumeTemplates() {
 
                 {template.tips && template.tips.length > 0 && (
                   <div className="p-3 rounded-lg bg-purple-50 dark:bg-purple-900/20 mb-4">
-                    <p className="text-xs font-medium text-purple-700 dark:text-purple-300 mb-1.5">Tips:</p>
+                    <p className="text-xs font-medium text-purple-700 dark:text-purple-300 mb-1.5">{t("pages.applynestResumeTemplates.tips")}</p>
                     <ul className="space-y-1">
                       {template.tips.slice(0, 3).map((tip: string, i: number) => (
                         <li key={i} className="text-xs text-purple-600 dark:text-purple-400 flex items-start gap-1.5">
@@ -124,7 +126,7 @@ export default function ApplyNestResumeTemplates() {
         )}
 
         <div className="mt-12 p-6 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Need More Help?</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{t("pages.applynestResumeTemplates.needMoreHelp")}</h2>
           <div className="flex flex-wrap gap-4">
             <Link href="/applynest/interview-prep" className="flex items-center gap-2 text-teal-600 dark:text-teal-400 font-medium hover:underline" data-testid="link-interview-from-resume">
               Interview Prep <ArrowRight className="w-4 h-4" />

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/lib/auth";
 import { getTierTrust, type TierTestimonial } from "@shared/tier-messaging";
+import { useI18n } from "@/lib/i18n";
 import {
   BookOpen,
   ClipboardList,
@@ -25,6 +26,7 @@ interface ContentCounts {
 }
 
 export function SocialProofBar({ variant = "default", tier }: SocialProofBarProps) {
+  const { t } = useI18n();
   const { effectiveTier } = useAuth();
   const [counts, setCounts] = useState<ContentCounts>({ lessons: 240, questions: 1000, flashcards: 500 });
   const [testimonialIdx, setTestimonialIdx] = useState(0);
@@ -107,24 +109,24 @@ export function SocialProofBar({ variant = "default", tier }: SocialProofBarProp
     <div className="space-y-4" data-testid="social-proof-bar">
       <div className="flex items-center gap-2">
         <Users className="w-5 h-5 text-primary" />
-        <h3 className="text-lg font-bold text-gray-900">Trusted by Students</h3>
+        <h3 className="text-lg font-bold text-gray-900">{t("components.conversionFunnelSocialProofBar.trustedByStudents")}</h3>
       </div>
 
       <div className="grid grid-cols-3 gap-3 mb-4">
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center" data-testid="stat-lessons-count">
           <BookOpen className="w-6 h-6 text-primary mx-auto mb-1" />
           <p className="text-2xl font-bold text-gray-900">{formatCount(counts.lessons)}</p>
-          <p className="text-xs text-gray-500">Lessons</p>
+          <p className="text-xs text-gray-500">{t("components.conversionFunnelSocialProofBar.lessons")}</p>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center" data-testid="stat-questions-count">
           <ClipboardList className="w-6 h-6 text-primary mx-auto mb-1" />
           <p className="text-2xl font-bold text-gray-900">{formatCount(counts.questions)}</p>
-          <p className="text-xs text-gray-500">Questions</p>
+          <p className="text-xs text-gray-500">{t("components.conversionFunnelSocialProofBar.questions")}</p>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center" data-testid="stat-flashcards-count">
           <Layers className="w-6 h-6 text-primary mx-auto mb-1" />
           <p className="text-2xl font-bold text-gray-900">{formatCount(counts.flashcards)}</p>
-          <p className="text-xs text-gray-500">Flashcards</p>
+          <p className="text-xs text-gray-500">{t("components.conversionFunnelSocialProofBar.flashcards")}</p>
         </div>
       </div>
 

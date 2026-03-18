@@ -7,6 +7,7 @@ import { AnswerOption } from "@/components/premium-study";
 import { cn } from "@/lib/utils";
 import { canAccessFeature } from "@/lib/entitlements";
 import { canonicalDisplayName } from "@/lib/canonical-display";
+import { useI18n } from "@/lib/i18n";
 import {
   BookOpen, Brain, Zap, Target, BarChart3, Clock,
   ChevronRight, CheckCircle2, XCircle,
@@ -88,6 +89,7 @@ const SESSION_TYPES: { id: SessionType; label: string; desc: string; icon: any; 
 ];
 
 function trackStudyModeSelected(mode: string) {
+  const { t } = useI18n();
   try {
     if (typeof window !== "undefined" && (window as any).gtag) {
       (window as any).gtag("event", "study_mode_selected", { mode });
@@ -118,7 +120,7 @@ function ConfidenceSelector({ onSelect, selected }: { onSelect: (c: Confidence) 
   ];
   return (
     <div className="space-y-2" data-testid="confidence-selector">
-      <p className="text-xs font-semibold text-gray-600 text-center">How sure were you?</p>
+      <p className="text-xs font-semibold text-gray-600 text-center">{t("components.adaptiveStudy.howSureWereYou")}</p>
       <div className="flex items-center gap-2 justify-center">
         {options.map(opt => {
           const Icon = opt.icon;
@@ -208,7 +210,7 @@ function PremiumGate({ children, isPremium, feature }: { children: React.ReactNo
       <div className="blur-[2px] pointer-events-none opacity-60">{children}</div>
       <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 rounded-2xl">
         <Lock className="w-8 h-8 text-rose-400 mb-2" />
-        <p className="text-sm font-semibold text-gray-700 mb-1">Premium Feature</p>
+        <p className="text-sm font-semibold text-gray-700 mb-1">{t("components.adaptiveStudy.premiumFeature")}</p>
         <p className="text-xs text-gray-500 text-center max-w-[200px] mb-3">{feature}</p>
         <a href="/pricing" className="inline-flex items-center gap-1.5 px-4 py-2 bg-rose-500 text-white text-xs font-semibold rounded-lg hover:bg-rose-600 transition" data-testid="button-upgrade-cta">
           <Crown className="w-3.5 h-3.5" /> Upgrade Now
@@ -459,31 +461,31 @@ export function AdaptiveStudyHub({ userId, userTier, onBack, initialMode }: { us
             <div className="w-20 h-20 bg-gradient-to-br from-rose-100 to-violet-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Trophy className="w-10 h-10 text-rose-500" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2" data-testid="text-report-title">Session Complete!</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2" data-testid="text-report-title">{t("components.adaptiveStudy.sessionComplete")}</h1>
             <p className="text-gray-500 text-sm">{SESSION_TYPES.find(m => m.id === selectedSessionType)?.label} Session</p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
             <Card className="border-0 shadow-md rounded-2xl p-4 text-center">
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Accuracy</p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("components.adaptiveStudy.accuracy")}</p>
               <p className="text-3xl font-black text-rose-500" data-testid="text-report-accuracy">{accuracy}%</p>
             </Card>
             <Card className="border-0 shadow-md rounded-2xl p-4 text-center">
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Correct</p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("components.adaptiveStudy.correct")}</p>
               <p className="text-3xl font-black text-emerald-500" data-testid="text-report-correct">{correctCount}</p>
             </Card>
             <Card className="border-0 shadow-md rounded-2xl p-4 text-center">
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Total</p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("components.adaptiveStudy.total")}</p>
               <p className="text-3xl font-black text-gray-800" data-testid="text-report-total">{totalCount}</p>
             </Card>
             <Card className="border-0 shadow-md rounded-2xl p-4 text-center">
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Time</p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("components.adaptiveStudy.time")}</p>
               <p className="text-3xl font-black text-blue-500">{Math.floor(totalTime / 60)}m</p>
             </Card>
           </div>
 
           <div className="bg-white rounded-2xl shadow-md p-5 mb-6">
-            <h3 className="text-sm font-semibold text-gray-700 mb-3">Confidence Breakdown</h3>
+            <h3 className="text-sm font-semibold text-gray-700 mb-3">{t("components.adaptiveStudy.confidenceBreakdown")}</h3>
             <div className="grid grid-cols-3 gap-2">
               {(["confident", "unsure", "guess"] as Confidence[]).map(c => {
                 const count = sessionResults.filter(r => r.confidence === c).length;
@@ -500,8 +502,8 @@ export function AdaptiveStudyHub({ userId, userTier, onBack, initialMode }: { us
           {!isPremium && (
             <div className="bg-gradient-to-r from-rose-50 to-violet-50 rounded-2xl border border-rose-200 p-5 mb-6 text-center">
               <Crown className="w-8 h-8 text-rose-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-gray-700 mb-1">Unlock Full Adaptive Engine</p>
-              <p className="text-xs text-gray-500 mb-3">Save mastery progress, get spaced repetition, weak areas analysis, and more</p>
+              <p className="text-sm font-semibold text-gray-700 mb-1">{t("components.adaptiveStudy.unlockFullAdaptiveEngine")}</p>
+              <p className="text-xs text-gray-500 mb-3">{t("components.adaptiveStudy.saveMasteryProgressGetSpaced")}</p>
               <a href="/pricing" className="inline-flex items-center gap-1.5 px-4 py-2 bg-rose-500 text-white text-xs font-semibold rounded-lg hover:bg-rose-600" data-testid="button-report-upgrade">
                 <Crown className="w-3.5 h-3.5" /> Upgrade to Premium
               </a>
@@ -577,14 +579,14 @@ export function AdaptiveStudyHub({ userId, userTier, onBack, initialMode }: { us
                       <div className="bg-emerald-50 rounded-lg border border-emerald-100 p-3">
                         <div className="flex items-center gap-2 mb-1">
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                          <span className="text-[10px] font-semibold text-emerald-700 uppercase">Answer</span>
+                          <span className="text-[10px] font-semibold text-emerald-700 uppercase">{t("components.adaptiveStudy.answer")}</span>
                         </div>
                         <p className="text-sm text-gray-700">{currentCard.options ? getOptionText(currentCard.options[correctIdx]) : currentCard.back}</p>
                       </div>
                       {currentCard.rationaleCorrect && <p className="text-xs text-gray-500 leading-relaxed">{currentCard.rationaleCorrect}</p>}
                       <ConfidenceSelector selected={confidence} onSelect={setConfidence} />
                       <PostAnswerControls card={currentCard} userId={userId} onStudyAgain={() => setStudyAgainMessage(true)} isPremium={isPremium} />
-                      {studyAgainMessage && <p className="text-xs text-emerald-600 font-medium text-center">This card will appear again soon</p>}
+                      {studyAgainMessage && <p className="text-xs text-emerald-600 font-medium text-center">{t("components.adaptiveStudy.thisCardWillAppearAgain")}</p>}
                       <div className="flex gap-2 pt-2">
                         <Button size="sm" variant="outline" className="flex-1 rounded-lg border-red-200 text-red-600 hover:bg-red-50" onClick={() => handleRapidNext(false)} data-testid="button-rapid-incorrect">
                           <XCircle className="w-3.5 h-3.5 mr-1" /> Got it Wrong
@@ -603,7 +605,7 @@ export function AdaptiveStudyHub({ userId, userTier, onBack, initialMode }: { us
                         </button>
                       ))}
                       {!currentCard.options?.length && (
-                        <Button onClick={() => setShowRationale(true)} className="w-full rounded-lg" data-testid="button-rapid-reveal">Reveal Answer</Button>
+                        <Button onClick={() => setShowRationale(true)} className="w-full rounded-lg" data-testid="button-rapid-reveal">{t("components.adaptiveStudy.revealAnswer")}</Button>
                       )}
                     </div>
                   )}
@@ -633,7 +635,7 @@ export function AdaptiveStudyHub({ userId, userTier, onBack, initialMode }: { us
                 <Card className="border-0 shadow-md rounded-2xl overflow-hidden">
                   <div className="px-5 pt-4 pb-2 flex items-center gap-2 border-b border-gray-100">
                     <div className="w-6 h-6 rounded-lg bg-rose-50 flex items-center justify-center"><BookOpen className="w-3 h-3 text-rose-500" /></div>
-                    <h3 className="text-xs font-semibold text-rose-600 tracking-wide">Rationale & Review</h3>
+                    <h3 className="text-xs font-semibold text-rose-600 tracking-wide">{t("components.adaptiveStudy.rationaleReview")}</h3>
                   </div>
                   <CardContent className="p-5 space-y-3">
                     <div className={cn("rounded-lg border p-3", isCorrect ? "bg-emerald-50/50 border-emerald-100" : "bg-amber-50/50 border-amber-100")}>
@@ -645,13 +647,13 @@ export function AdaptiveStudyHub({ userId, userTier, onBack, initialMode }: { us
                     </div>
                     {currentCard.rationaleCorrect && (
                       <div className="bg-white rounded-lg border border-gray-100 p-3">
-                        <div className="flex items-center gap-2 mb-1"><Lightbulb className="w-3.5 h-3.5 text-amber-500" /><span className="text-[10px] font-semibold text-gray-500 uppercase">Why This Is Correct</span></div>
+                        <div className="flex items-center gap-2 mb-1"><Lightbulb className="w-3.5 h-3.5 text-amber-500" /><span className="text-[10px] font-semibold text-gray-500 uppercase">{t("components.adaptiveStudy.whyThisIsCorrect")}</span></div>
                         <p className="text-sm text-gray-600 leading-relaxed">{currentCard.rationaleCorrect}</p>
                       </div>
                     )}
                     {currentCard.options && currentCard.options.length > 1 && (
                       <div className="bg-white rounded-lg border border-gray-100 p-3">
-                        <div className="flex items-center gap-2 mb-2"><XCircle className="w-3.5 h-3.5 text-rose-400" /><span className="text-[10px] font-semibold text-gray-500 uppercase">Why Other Options Are Incorrect</span></div>
+                        <div className="flex items-center gap-2 mb-2"><XCircle className="w-3.5 h-3.5 text-rose-400" /><span className="text-[10px] font-semibold text-gray-500 uppercase">{t("components.adaptiveStudy.whyOtherOptionsAreIncorrect")}</span></div>
                         <div className="space-y-2">
                           {currentCard.options.map((opt: any, idx: number) => {
                             if (isCorrectAnswer(currentCard, idx)) return null;
@@ -670,13 +672,13 @@ export function AdaptiveStudyHub({ userId, userTier, onBack, initialMode }: { us
                     )}
                     {currentCard.clinicalTakeaway && (
                       <div className="bg-blue-50/50 rounded-lg border border-blue-100 p-3">
-                        <div className="flex items-center gap-2 mb-1"><BookOpen className="w-3 h-3 text-blue-600" /><span className="text-[10px] font-semibold text-blue-600 uppercase">Clinical Takeaway</span></div>
+                        <div className="flex items-center gap-2 mb-1"><BookOpen className="w-3 h-3 text-blue-600" /><span className="text-[10px] font-semibold text-blue-600 uppercase">{t("components.adaptiveStudy.clinicalTakeaway")}</span></div>
                         <p className="text-xs text-gray-600 leading-relaxed">{currentCard.clinicalTakeaway}</p>
                       </div>
                     )}
                     {currentCard.examPearl && (
                       <div className="bg-gradient-to-r from-amber-50/70 to-rose-50/50 rounded-lg border border-amber-100 p-3">
-                        <div className="flex items-center gap-2 mb-1"><Sparkles className="w-3 h-3 text-amber-600" /><span className="text-[10px] font-semibold text-amber-700 uppercase">Exam Pearl</span></div>
+                        <div className="flex items-center gap-2 mb-1"><Sparkles className="w-3 h-3 text-amber-600" /><span className="text-[10px] font-semibold text-amber-700 uppercase">{t("components.adaptiveStudy.examPearl")}</span></div>
                         <p className="text-xs text-amber-700 leading-relaxed">{currentCard.examPearl}</p>
                       </div>
                     )}
@@ -684,9 +686,9 @@ export function AdaptiveStudyHub({ userId, userTier, onBack, initialMode }: { us
                       <div className="bg-rose-50/50 rounded-lg border-2 border-rose-200 p-3">
                         <div className="flex items-center gap-2 mb-2">
                           <AlertTriangle className="w-3.5 h-3.5 text-rose-500" />
-                          <span className="text-[10px] font-semibold text-rose-600 uppercase">Review Recommended</span>
+                          <span className="text-[10px] font-semibold text-rose-600 uppercase">{t("components.adaptiveStudy.reviewRecommended")}</span>
                         </div>
-                        <p className="text-xs text-gray-600 mb-2">Consider reviewing the related lesson to strengthen this concept.</p>
+                        <p className="text-xs text-gray-600 mb-2">{t("components.adaptiveStudy.considerReviewingTheRelatedLesson")}</p>
                         {currentCard.lessonLinks.map((link: any, i: number) => (
                           <a key={i} href={link.lessonUrl} className="flex items-center gap-2 text-xs text-rose-600 hover:text-rose-800 hover:underline font-medium" data-testid={`link-remediation-${i}`}>
                             <ChevronRight className="w-3 h-3" /> {canonicalDisplayName(link.lessonTitle || "Related Lesson")}
@@ -708,7 +710,7 @@ export function AdaptiveStudyHub({ userId, userTier, onBack, initialMode }: { us
                   ))}
                 </div>
                 {isTestMode && selectedOption !== null && !showRationale && (
-                  <Button className="w-full mt-4 rounded-xl bg-rose-500 hover:bg-rose-600 text-white h-11" onClick={handleSubmit} data-testid="button-submit-answer">Submit Answer</Button>
+                  <Button className="w-full mt-4 rounded-xl bg-rose-500 hover:bg-rose-600 text-white h-11" onClick={handleSubmit} data-testid="button-submit-answer">{t("components.adaptiveStudy.submitAnswer")}</Button>
                 )}
               </CardContent>
             </Card>
@@ -719,11 +721,11 @@ export function AdaptiveStudyHub({ userId, userTier, onBack, initialMode }: { us
               <>
                 <ConfidenceSelector selected={confidence} onSelect={setConfidence} />
                 <PostAnswerControls card={currentCard} userId={userId} onStudyAgain={() => setStudyAgainMessage(true)} isPremium={isPremium} />
-                {studyAgainMessage && <p className="text-xs text-emerald-600 font-medium text-center">This card will appear again soon</p>}
+                {studyAgainMessage && <p className="text-xs text-emerald-600 font-medium text-center">{t("components.adaptiveStudy.thisCardWillAppearAgain2")}</p>}
               </>
             )}
             <div className="flex items-center justify-between">
-              <Button variant="ghost" size="sm" onClick={() => { setView("modes"); setLocation("/study"); }} className="text-gray-400 hover:text-gray-600 text-xs" data-testid="button-exit-study">Exit Session</Button>
+              <Button variant="ghost" size="sm" onClick={() => { setView("modes"); setLocation("/study"); }} className="text-gray-400 hover:text-gray-600 text-xs" data-testid="button-exit-study">{t("components.adaptiveStudy.exitSession")}</Button>
               {showRationale && (
                 <Button size="sm" disabled={!confidence} onClick={handleNext} className="bg-rose-500 hover:bg-rose-600 text-white rounded-lg text-xs h-8 px-4 shadow-sm disabled:opacity-50" data-testid="button-next-card">
                   {cardIndex < cards.length - 1 ? "Next" : "Finish"} <ChevronRight className="w-4 h-4 ml-1" />
@@ -747,7 +749,7 @@ export function AdaptiveStudyHub({ userId, userTier, onBack, initialMode }: { us
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2" data-testid="text-adaptive-title">
               <Brain className="w-6 h-6 text-rose-500" /> Adaptive Study Engine
             </h1>
-            <p className="text-sm text-gray-500 mt-1">Personalized study powered by your performance data</p>
+            <p className="text-sm text-gray-500 mt-1">{t("components.adaptiveStudy.personalizedStudyPoweredByYour")}</p>
           </div>
           <div className="flex items-center gap-2">
             {isAdmin && (
@@ -841,30 +843,30 @@ export function AdaptiveStudyHub({ userId, userTier, onBack, initialMode }: { us
 
         <Card className="border-0 shadow-md rounded-2xl overflow-hidden mb-6">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm flex items-center gap-2"><Filter className="w-4 h-4 text-gray-400" /> Advanced Filters</CardTitle>
+            <CardTitle className="text-sm flex items-center gap-2"><Filter className="w-4 h-4 text-gray-400" /> {t("components.adaptiveStudy.advancedFilters")}</CardTitle>
           </CardHeader>
           <CardContent className="pt-2">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               <div>
-                <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-wide block mb-1">Topic</label>
+                <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-wide block mb-1">{t("components.adaptiveStudy.topic")}</label>
                 <select value={filters.topic || ""} onChange={e => setFilters(f => ({ ...f, topic: e.target.value || undefined }))} className="w-full text-xs border border-gray-200 rounded-lg px-2 py-1.5 bg-white" data-testid="select-filter-topic">
-                  <option value="">All Topics</option>
+                  <option value="">{t("components.adaptiveStudy.allTopics")}</option>
                   {["Cardiovascular", "Respiratory", "Neurological", "GI", "Renal", "Endocrine", "Hematology", "Pediatrics", "Maternal", "Neonatal", "Oncology", "Pharmacology", "Mental Health", "Infection Control", "Procedures", "Fundamentals", "Delegation", "Skin", "Musculoskeletal"].map(t => (
                     <option key={t} value={t}>{t}</option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-wide block mb-1">Difficulty</label>
+                <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-wide block mb-1">{t("components.adaptiveStudy.difficulty")}</label>
                 <select value={filters.difficulty || ""} onChange={e => setFilters(f => ({ ...f, difficulty: e.target.value ? parseInt(e.target.value) : undefined }))} className="w-full text-xs border border-gray-200 rounded-lg px-2 py-1.5 bg-white" data-testid="select-filter-difficulty">
-                  <option value="">Any Difficulty</option>
-                  <option value="1">Easy</option><option value="2">Medium</option><option value="3">Hard</option><option value="4">Expert</option><option value="5">Master</option>
+                  <option value="">{t("components.adaptiveStudy.anyDifficulty")}</option>
+                  <option value="1">{t("components.adaptiveStudy.easy")}</option><option value="2">{t("components.adaptiveStudy.medium")}</option><option value="3">{t("components.adaptiveStudy.hard")}</option><option value="4">{t("components.adaptiveStudy.expert")}</option><option value="5">{t("components.adaptiveStudy.master")}</option>
                 </select>
               </div>
               <div>
-                <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-wide block mb-1">Type</label>
+                <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-wide block mb-1">{t("components.adaptiveStudy.type")}</label>
                 <select value={filters.questionType || ""} onChange={e => setFilters(f => ({ ...f, questionType: e.target.value || undefined }))} className="w-full text-xs border border-gray-200 rounded-lg px-2 py-1.5 bg-white" data-testid="select-filter-type">
-                  <option value="">All Types</option><option value="mcq">Multiple Choice</option><option value="sata">Select All That Apply</option>
+                  <option value="">{t("components.adaptiveStudy.allTypes")}</option><option value="mcq">{t("components.adaptiveStudy.multipleChoice")}</option><option value="sata">{t("components.adaptiveStudy.selectAllThatApply")}</option>
                 </select>
               </div>
             </div>
@@ -874,7 +876,7 @@ export function AdaptiveStudyHub({ userId, userTier, onBack, initialMode }: { us
                 Missed cards only
               </label>
               {Object.values(filters).some(v => v !== undefined) && (
-                <Button variant="ghost" size="sm" className="text-xs text-gray-400 h-6" onClick={() => setFilters({})}><X className="w-3 h-3 mr-1" /> Clear filters</Button>
+                <Button variant="ghost" size="sm" className="text-xs text-gray-400 h-6" onClick={() => setFilters({})}><X className="w-3 h-3 mr-1" /> {t("components.adaptiveStudy.clearFilters")}</Button>
               )}
             </div>
           </CardContent>
@@ -883,8 +885,8 @@ export function AdaptiveStudyHub({ userId, userTier, onBack, initialMode }: { us
         {!isPremium && (
           <div className="bg-gradient-to-r from-rose-50 to-violet-50 rounded-2xl border border-rose-200 p-6 text-center">
             <Crown className="w-10 h-10 text-rose-400 mx-auto mb-3" />
-            <h3 className="text-lg font-bold text-gray-800 mb-1">Unlock the Full Adaptive Engine</h3>
-            <p className="text-sm text-gray-500 mb-4 max-w-md mx-auto">Get unlimited cards, saved mastery progress, spaced repetition, weak areas mode, full analytics dashboard, and all 7 session types</p>
+            <h3 className="text-lg font-bold text-gray-800 mb-1">{t("components.adaptiveStudy.unlockTheFullAdaptiveEngine")}</h3>
+            <p className="text-sm text-gray-500 mb-4 max-w-md mx-auto">{t("components.adaptiveStudy.getUnlimitedCardsSavedMastery")}</p>
             <a href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-rose-500 text-white font-semibold rounded-xl hover:bg-rose-600 transition" data-testid="button-hub-upgrade">
               <Crown className="w-4 h-4" /> Upgrade to Premium
             </a>
@@ -905,7 +907,7 @@ function DashboardView({ userId, dashboard, loading, onRefresh, onBack, onStartS
       <div className="min-h-screen bg-warmwhite flex items-center justify-center">
         <div className="text-center">
           <RefreshCw className="w-8 h-8 text-rose-400 animate-spin mx-auto mb-3" />
-          <p className="text-sm text-gray-500">Loading your performance data...</p>
+          <p className="text-sm text-gray-500">{t("components.adaptiveStudy.loadingYourPerformanceData")}</p>
         </div>
       </div>
     );
@@ -925,43 +927,43 @@ function DashboardView({ userId, dashboard, loading, onRefresh, onBack, onStartS
               <BarChart3 className="w-6 h-6 text-rose-500" /> Adaptive Analytics Dashboard
             </h1>
           </div>
-          <Button variant="outline" size="sm" onClick={onRefresh} className="rounded-lg text-xs gap-1"><RefreshCw className="w-3.5 h-3.5" /> Refresh</Button>
+          <Button variant="outline" size="sm" onClick={onRefresh} className="rounded-lg text-xs gap-1"><RefreshCw className="w-3.5 h-3.5" /> {t("components.adaptiveStudy.refresh")}</Button>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
           <Card className="border-0 shadow-md rounded-2xl p-4">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Overall Mastery</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("components.adaptiveStudy.overallMastery")}</p>
             <p className="text-2xl font-black text-rose-500" data-testid="stat-overall-mastery">{dashboard.overallAccuracy}%</p>
           </Card>
           <Card className="border-0 shadow-md rounded-2xl p-4">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Due for Review</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("components.adaptiveStudy.dueForReview")}</p>
             <p className="text-2xl font-black text-amber-500" data-testid="stat-due-review">{dashboard.cardsDueForReview}</p>
           </Card>
           <Card className="border-0 shadow-md rounded-2xl p-4">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Flagged</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("components.adaptiveStudy.flagged")}</p>
             <p className="text-2xl font-black text-orange-500" data-testid="stat-flagged">{dashboard.flaggedCount}</p>
           </Card>
           <Card className="border-0 shadow-md rounded-2xl p-4">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Mastered</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("components.adaptiveStudy.mastered")}</p>
             <p className="text-2xl font-black text-emerald-500" data-testid="stat-mastered">{dashboard.masteredCount}</p>
           </Card>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
           <Card className="border-0 shadow-md rounded-2xl p-4">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Total Studied</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("components.adaptiveStudy.totalStudied")}</p>
             <p className="text-2xl font-black text-gray-800" data-testid="stat-total-studied">{dashboard.totalCardsStudied}</p>
           </Card>
           <Card className="border-0 shadow-md rounded-2xl p-4">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">7-Day Accuracy</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("components.adaptiveStudy.7dayAccuracy")}</p>
             <p className="text-2xl font-black text-blue-500" data-testid="stat-recent-accuracy">{dashboard.recentAccuracy}%</p>
           </Card>
           <Card className="border-0 shadow-md rounded-2xl p-4">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Streak</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("components.adaptiveStudy.streak")}</p>
             <p className="text-2xl font-black text-violet-500" data-testid="stat-streak">{dashboard.streakDays} day{dashboard.streakDays !== 1 ? "s" : ""}</p>
           </Card>
           <Card className="border-0 shadow-md rounded-2xl p-4">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Best Topic</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{t("components.adaptiveStudy.bestTopic")}</p>
             <p className="text-sm font-bold text-emerald-600 truncate" data-testid="stat-best-topic">{dashboard.bestTopic || "—"}</p>
           </Card>
         </div>
@@ -970,7 +972,7 @@ function DashboardView({ userId, dashboard, loading, onRefresh, onBack, onStartS
           <Card className="border-0 shadow-md rounded-2xl p-4 mb-6 bg-gradient-to-r from-rose-50 to-amber-50">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[10px] font-bold text-rose-500 uppercase tracking-widest mb-1">Recommended Next Session</p>
+                <p className="text-[10px] font-bold text-rose-500 uppercase tracking-widest mb-1">{t("components.adaptiveStudy.recommendedNextSession")}</p>
                 <p className="text-sm font-semibold text-gray-800">
                   {SESSION_TYPES.find(s => s.id === recommendedType)?.label || "Recommended"} — focus on <span className="text-rose-600">{dashboard.weakestTopic}</span>
                 </p>
@@ -985,7 +987,7 @@ function DashboardView({ userId, dashboard, loading, onRefresh, onBack, onStartS
         {dashboard.masteryDistribution && dashboard.masteryDistribution.length > 0 && (
           <Card className="border-0 shadow-md rounded-2xl overflow-hidden mb-6">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm flex items-center gap-2"><Star className="w-4 h-4 text-violet-500" /> Mastery Distribution</CardTitle>
+              <CardTitle className="text-sm flex items-center gap-2"><Star className="w-4 h-4 text-violet-500" /> {t("components.adaptiveStudy.masteryDistribution")}</CardTitle>
             </CardHeader>
             <CardContent className="pt-1">
               <div className="flex gap-2">
@@ -1036,10 +1038,10 @@ function DashboardView({ userId, dashboard, loading, onRefresh, onBack, onStartS
         {dashboard.lessonRemediation && dashboard.lessonRemediation.length > 0 && (
           <Card className="border-0 shadow-md rounded-2xl overflow-hidden mb-6 border-l-4 border-l-rose-400">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm flex items-center gap-2"><BookOpen className="w-4 h-4 text-rose-500" /> Lesson Remediation Recommended</CardTitle>
+              <CardTitle className="text-sm flex items-center gap-2"><BookOpen className="w-4 h-4 text-rose-500" /> {t("components.adaptiveStudy.lessonRemediationRecommended")}</CardTitle>
             </CardHeader>
             <CardContent className="pt-1">
-              <p className="text-xs text-gray-500 mb-3">You've missed 3+ questions in these concepts. Reviewing the related lessons may help.</p>
+              <p className="text-xs text-gray-500 mb-3">{t("components.adaptiveStudy.youveMissed3QuestionsIn")}</p>
               <div className="space-y-2">
                 {dashboard.lessonRemediation.map((item, i) => (
                   <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-rose-50/50 border border-rose-100">
@@ -1062,7 +1064,7 @@ function DashboardView({ userId, dashboard, loading, onRefresh, onBack, onStartS
         {dashboard.masteryByTopic.length > 0 && (
           <Card className="border-0 shadow-md rounded-2xl overflow-hidden mb-6">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm flex items-center gap-2"><TrendingUp className="w-4 h-4 text-emerald-500" /> Mastery by Topic</CardTitle>
+              <CardTitle className="text-sm flex items-center gap-2"><TrendingUp className="w-4 h-4 text-emerald-500" /> {t("components.adaptiveStudy.masteryByTopic")}</CardTitle>
             </CardHeader>
             <CardContent className="pt-1">
               <div className="space-y-3">
@@ -1088,7 +1090,7 @@ function DashboardView({ userId, dashboard, loading, onRefresh, onBack, onStartS
         {dashboard.confidenceTrend.length > 0 && (
           <Card className="border-0 shadow-md rounded-2xl overflow-hidden mb-6">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm flex items-center gap-2"><TrendingUp className="w-4 h-4 text-blue-500" /> Confidence Trend (30 days)</CardTitle>
+              <CardTitle className="text-sm flex items-center gap-2"><TrendingUp className="w-4 h-4 text-blue-500" /> {t("components.adaptiveStudy.confidenceTrend30Days")}</CardTitle>
             </CardHeader>
             <CardContent className="pt-1">
               <div className="flex items-end gap-1 h-20">
@@ -1098,8 +1100,8 @@ function DashboardView({ userId, dashboard, loading, onRefresh, onBack, onStartS
                 ))}
               </div>
               <div className="flex justify-between mt-1">
-                <span className="text-[9px] text-gray-400">30 days ago</span>
-                <span className="text-[9px] text-gray-400">Today</span>
+                <span className="text-[9px] text-gray-400">{t("components.adaptiveStudy.30DaysAgo")}</span>
+                <span className="text-[9px] text-gray-400">{t("components.adaptiveStudy.today")}</span>
               </div>
             </CardContent>
           </Card>
@@ -1108,8 +1110,8 @@ function DashboardView({ userId, dashboard, loading, onRefresh, onBack, onStartS
         {dashboard.totalCardsStudied === 0 && (
           <div className="text-center py-12">
             <Brain className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-600 mb-2">No study data yet</h3>
-            <p className="text-sm text-gray-400 mb-6">Start a study session to see your performance analytics</p>
+            <h3 className="text-lg font-semibold text-gray-600 mb-2">{t("components.adaptiveStudy.noStudyDataYet")}</h3>
+            <p className="text-sm text-gray-400 mb-6">{t("components.adaptiveStudy.startAStudySessionTo")}</p>
             <Button className="rounded-xl bg-rose-500 hover:bg-rose-600 text-white" onClick={() => onStartSession("recommended")} data-testid="button-start-first-session">
               <Play className="w-4 h-4 mr-2" /> Start Learning
             </Button>
@@ -1183,7 +1185,7 @@ function AdminAdaptiveControls({ onBack }: { onBack: () => void }) {
         {tab === "config" && config && (
           <div className="space-y-4">
             <Card className="border-0 shadow-md rounded-2xl overflow-hidden">
-              <CardHeader className="pb-2"><CardTitle className="text-sm">Priority Scoring Weights</CardTitle></CardHeader>
+              <CardHeader className="pb-2"><CardTitle className="text-sm">{t("components.adaptiveStudy.priorityScoringWeights")}</CardTitle></CardHeader>
               <CardContent className="pt-2">
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {[
@@ -1205,7 +1207,7 @@ function AdminAdaptiveControls({ onBack }: { onBack: () => void }) {
             </Card>
 
             <Card className="border-0 shadow-md rounded-2xl overflow-hidden">
-              <CardHeader className="pb-2"><CardTitle className="text-sm">Spaced Repetition Intervals (days)</CardTitle></CardHeader>
+              <CardHeader className="pb-2"><CardTitle className="text-sm">{t("components.adaptiveStudy.spacedRepetitionIntervalsDays")}</CardTitle></CardHeader>
               <CardContent className="pt-2">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {[
@@ -1225,7 +1227,7 @@ function AdminAdaptiveControls({ onBack }: { onBack: () => void }) {
             </Card>
 
             <Card className="border-0 shadow-md rounded-2xl overflow-hidden">
-              <CardHeader className="pb-2"><CardTitle className="text-sm">Mastery & Weak Area Thresholds</CardTitle></CardHeader>
+              <CardHeader className="pb-2"><CardTitle className="text-sm">{t("components.adaptiveStudy.masteryWeakAreaThresholds")}</CardTitle></CardHeader>
               <CardContent className="pt-2">
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {[
@@ -1254,7 +1256,7 @@ function AdminAdaptiveControls({ onBack }: { onBack: () => void }) {
         {tab === "analytics" && analytics && (
           <div className="space-y-4">
             <Card className="border-0 shadow-md rounded-2xl overflow-hidden">
-              <CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-2"><XCircle className="w-4 h-4 text-red-500" /> Most Missed Cards</CardTitle></CardHeader>
+              <CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-2"><XCircle className="w-4 h-4 text-red-500" /> {t("components.adaptiveStudy.mostMissedCards")}</CardTitle></CardHeader>
               <CardContent className="pt-1">
                 {analytics.mostMissedCards?.length > 0 ? (
                   <div className="space-y-2">
@@ -1268,12 +1270,12 @@ function AdminAdaptiveControls({ onBack }: { onBack: () => void }) {
                       </div>
                     ))}
                   </div>
-                ) : <p className="text-xs text-gray-400">No data available</p>}
+                ) : <p className="text-xs text-gray-400">{t("components.adaptiveStudy.noDataAvailable")}</p>}
               </CardContent>
             </Card>
 
             <Card className="border-0 shadow-md rounded-2xl overflow-hidden">
-              <CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-2"><Flag className="w-4 h-4 text-amber-500" /> Most Flagged Cards</CardTitle></CardHeader>
+              <CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-2"><Flag className="w-4 h-4 text-amber-500" /> {t("components.adaptiveStudy.mostFlaggedCards")}</CardTitle></CardHeader>
               <CardContent className="pt-1">
                 {analytics.mostFlaggedCards?.length > 0 ? (
                   <div className="space-y-2">
@@ -1287,12 +1289,12 @@ function AdminAdaptiveControls({ onBack }: { onBack: () => void }) {
                       </div>
                     ))}
                   </div>
-                ) : <p className="text-xs text-gray-400">No data available</p>}
+                ) : <p className="text-xs text-gray-400">{t("components.adaptiveStudy.noDataAvailable2")}</p>}
               </CardContent>
             </Card>
 
             <Card className="border-0 shadow-md rounded-2xl overflow-hidden">
-              <CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-2"><Target className="w-4 h-4 text-violet-500" /> Most Difficult Subtopics by Tier</CardTitle></CardHeader>
+              <CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-2"><Target className="w-4 h-4 text-violet-500" /> {t("components.adaptiveStudy.mostDifficultSubtopicsByTier")}</CardTitle></CardHeader>
               <CardContent className="pt-1">
                 {analytics.difficultSubtopicsByTier?.length > 0 ? (
                   <div className="space-y-2">
@@ -1306,12 +1308,12 @@ function AdminAdaptiveControls({ onBack }: { onBack: () => void }) {
                       </div>
                     ))}
                   </div>
-                ) : <p className="text-xs text-gray-400">No data available</p>}
+                ) : <p className="text-xs text-gray-400">{t("components.adaptiveStudy.noDataAvailable3")}</p>}
               </CardContent>
             </Card>
 
             <Card className="border-0 shadow-md rounded-2xl overflow-hidden">
-              <CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-red-500" /> Weak Area Patterns (Global)</CardTitle></CardHeader>
+              <CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-red-500" /> {t("components.adaptiveStudy.weakAreaPatternsGlobal")}</CardTitle></CardHeader>
               <CardContent className="pt-1">
                 {analytics.weakAreaPatterns?.length > 0 ? (
                   <div className="space-y-2">
@@ -1325,7 +1327,7 @@ function AdminAdaptiveControls({ onBack }: { onBack: () => void }) {
                       </div>
                     ))}
                   </div>
-                ) : <p className="text-xs text-gray-400">No data available</p>}
+                ) : <p className="text-xs text-gray-400">{t("components.adaptiveStudy.noDataAvailable4")}</p>}
               </CardContent>
             </Card>
           </div>

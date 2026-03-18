@@ -420,7 +420,7 @@ export default function Home() {
                       }`}
                       data-testid="button-region-us"
                     >
-                      <span className="text-xl" role="img" aria-label="US flag">🇺🇸</span>
+                      <span className="text-xl" role="img" aria-label={t("pages.home.usFlag")}>🇺🇸</span>
                       <span>{t("home.region.us")}</span>
                       {region === "US" && <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />}
                     </button>
@@ -434,7 +434,7 @@ export default function Home() {
                       }`}
                       data-testid="button-region-ca"
                     >
-                      <span className="text-xl" role="img" aria-label="Canadian flag">🇨🇦</span>
+                      <span className="text-xl" role="img" aria-label={t("pages.home.canadianFlag")}>🇨🇦</span>
                       <span>{t("home.region.ca")}</span>
                       {region === "CA" && <CheckCircle2 className="w-4 h-4 text-red-600 shrink-0" />}
                     </button>
@@ -720,8 +720,8 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
           <a href="/languages" className="inline-flex items-center gap-2 text-sm text-[var(--theme-muted-text)] hover:text-primary transition-colors" data-testid="link-home-languages">
             <span>🌐</span>
-            <span>Available in 20 languages — Study nursing in your language</span>
-            <span>&rarr;</span>
+            <span>{t("pages.home.availableIn20LanguagesStudy")}</span>
+            <span>{t("pages.home.rarr")}</span>
           </a>
         </div>
 
@@ -730,7 +730,7 @@ export default function Home() {
       {isAdmin && heroStats?.breakdown && (
         <div className="max-w-4xl mx-auto px-4 py-6" data-testid="section-admin-hero-debug">
           <details className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <summary className="text-sm font-bold text-gray-600 cursor-pointer">Admin: Lesson Count Breakdown</summary>
+            <summary className="text-sm font-bold text-gray-600 cursor-pointer">{t("pages.home.adminLessonCountBreakdown")}</summary>
             <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
               {(["rpn", "rn", "np", "free"] as const).map(tier => (
                 <div key={tier} className="bg-white p-3 rounded border">
@@ -743,16 +743,16 @@ export default function Home() {
             </div>
             <div className="mt-3 grid grid-cols-3 gap-3 text-xs">
               <div className="bg-white p-3 rounded border">
-                <p className="font-bold text-gray-900">Total Lessons</p>
+                <p className="font-bold text-gray-900">{t("pages.home.totalLessons")}</p>
                 <p className="text-lg font-bold">{heroStats.totalLessons}</p>
               </div>
               <div className="bg-white p-3 rounded border">
-                <p className="font-bold text-gray-900">Total Questions</p>
+                <p className="font-bold text-gray-900">{t("pages.home.totalQuestions")}</p>
                 <p className="text-lg font-bold">{heroStats.questionCount}</p>
                 <p className="text-gray-500">incl. {heroStats.storeQuestionCount || 0} store</p>
               </div>
               <div className="bg-white p-3 rounded border">
-                <p className="font-bold text-gray-900">Store Products</p>
+                <p className="font-bold text-gray-900">{t("pages.home.storeProducts")}</p>
                 <p className="text-lg font-bold">{heroStats.storeProductCount || 0}</p>
               </div>
             </div>

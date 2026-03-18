@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useLocation } from "wouter";
 import { useAuth } from "@/lib/auth";
 import { apiRequest } from "@/lib/queryClient";
+import { useI18n } from "@/lib/i18n";
 import {
   ChevronLeft, ChevronRight, Flag, Clock, CheckCircle2, XCircle,
   AlertTriangle, ArrowRight, Zap, Brain, BarChart3, Menu, X
@@ -52,6 +53,7 @@ const EXAM_CONFIGS: Record<string, { questions: number; timeMinutes: number; lab
 };
 
 export default function ParamedicExamSimulator() {
+  const { t } = useI18n();
   const params = useParams<{ sessionId: string }>();
   const [, navigate] = useLocation();
   const { user } = useAuth();
@@ -273,8 +275,8 @@ export default function ParamedicExamSimulator() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50" data-testid="exam-login-required">
         <div className="text-center max-w-md px-6">
           <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Sign In Required</h2>
-          <p className="text-gray-600 mb-6">You need to be signed in to take practice exams.</p>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">{t("allied.paramedicParamedicExamSimulator.signInRequired")}</h2>
+          <p className="text-gray-600 mb-6">{t("allied.paramedicParamedicExamSimulator.youNeedToBeSigned")}</p>
           <a href="/login" className="px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors" data-testid="link-login">
             Sign In
           </a>
@@ -288,7 +290,7 @@ export default function ParamedicExamSimulator() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50" data-testid="exam-loading">
         <div className="text-center space-y-3">
           <div className="w-8 h-8 border-3 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-sm text-gray-500">Loading exam...</p>
+          <p className="text-sm text-gray-500">{t("allied.paramedicParamedicExamSimulator.loadingExam")}</p>
         </div>
       </div>
     );
@@ -299,7 +301,7 @@ export default function ParamedicExamSimulator() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50" data-testid="exam-error">
         <div className="text-center max-w-md px-6">
           <XCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Error</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">{t("allied.paramedicParamedicExamSimulator.error")}</h2>
           <p className="text-gray-600 mb-6">{error || "Session not found"}</p>
           <button onClick={() => navigate("/allied-health/paramedic/practice-exams")} className="px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors" data-testid="button-back-to-exams">
             Back to Practice Exams
@@ -371,7 +373,7 @@ export default function ParamedicExamSimulator() {
         <aside className={`${showNav ? "fixed inset-0 z-20 bg-black/50 lg:relative lg:bg-transparent" : "hidden"} lg:block`}>
           <div className={`${showNav ? "w-72 h-full" : "w-64"} bg-white border-r border-gray-200 p-4 overflow-y-auto h-full`} data-testid="question-navigator">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold text-gray-700">Question Navigator</h3>
+              <h3 className="text-sm font-semibold text-gray-700">{t("allied.paramedicParamedicExamSimulator.questionNavigator")}</h3>
               <button onClick={() => setShowNav(false)} className="lg:hidden p-1 hover:bg-gray-100 rounded" data-testid="button-close-nav">
                 <X className="w-4 h-4" />
               </button>
@@ -547,7 +549,7 @@ export default function ParamedicExamSimulator() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-500">No question available at this position.</p>
+              <p className="text-gray-500">{t("allied.paramedicParamedicExamSimulator.noQuestionAvailableAtThis")}</p>
               <button onClick={handleCompleteExam} className="mt-4 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold" data-testid="button-finish-early">
                 Finish Exam
               </button>

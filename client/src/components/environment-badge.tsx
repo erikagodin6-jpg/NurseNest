@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Shield, Database, Server } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface EnvironmentInfo {
   appMode: string;
   deploymentTarget: string;
@@ -12,6 +13,7 @@ interface EnvironmentInfo {
 }
 
 export function EnvironmentBadge() {
+  const { t } = useI18n();
   const [info, setInfo] = useState<EnvironmentInfo | null>(null);
 
   useEffect(() => {
@@ -59,7 +61,7 @@ interface TargetSelectorProps {
 export function TargetSelector({ value, onChange, disabled }: TargetSelectorProps) {
   return (
     <div className="flex items-center gap-2" data-testid="target-selector">
-      <label className="text-sm font-medium text-gray-700">Target:</label>
+      <label className="text-sm font-medium text-gray-700">{t("components.environmentBadge.target")}</label>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -107,24 +109,24 @@ export function ProductionConfirmModal({
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 space-y-4">
         <div className="flex items-center gap-2">
           <Shield className="w-6 h-6 text-red-600" />
-          <h2 className="text-lg font-bold text-red-600">Production Write Confirmation</h2>
+          <h2 className="text-lg font-bold text-red-600">{t("components.environmentBadge.productionWriteConfirmation")}</h2>
         </div>
 
         <div className="space-y-3 text-sm">
           <div className="flex justify-between">
-            <span className="text-gray-600">Target:</span>
+            <span className="text-gray-600">{t("components.environmentBadge.target2")}</span>
             <Badge className="bg-red-600 text-white" data-testid="modal-target">{target.toUpperCase()}</Badge>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-600">DB Fingerprint:</span>
+            <span className="text-gray-600">{t("components.environmentBadge.dbFingerprint")}</span>
             <span className="font-mono text-xs" data-testid="modal-fingerprint">{dbFingerprint || "unknown"}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-600">Items Affected:</span>
+            <span className="text-gray-600">{t("components.environmentBadge.itemsAffected")}</span>
             <span className="font-bold" data-testid="modal-item-count">{itemCount}</span>
           </div>
           <div>
-            <span className="text-gray-600">Summary:</span>
+            <span className="text-gray-600">{t("components.environmentBadge.summary")}</span>
             <p className="mt-1 text-gray-800 bg-gray-50 p-2 rounded" data-testid="modal-summary">{writeSummary}</p>
           </div>
         </div>

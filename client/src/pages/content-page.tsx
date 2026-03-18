@@ -58,6 +58,7 @@ interface ContentBlock {
 }
 
 function QuizQuestionBlock({ content }: { content: string }) {
+  const { t } = useI18n();
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showResult, setShowResult] = useState(false);
 
@@ -198,7 +199,7 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
                 <Lightbulb className="w-5 h-5 text-amber-600" />
               </div>
               <div>
-                <p className="text-sm font-bold text-amber-700 uppercase tracking-wider mb-1">Clinical Pearl</p>
+                <p className="text-sm font-bold text-amber-700 uppercase tracking-wider mb-1">{t("pages.contentPage.clinicalPearl")}</p>
                 <p className="text-gray-800 leading-relaxed">{content}</p>
               </div>
             </div>
@@ -215,7 +216,7 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
                 <Pill className="w-5 h-5 text-purple-600" />
               </div>
               <div>
-                <p className="text-sm font-bold text-purple-700 uppercase tracking-wider mb-1">Medication Information</p>
+                <p className="text-sm font-bold text-purple-700 uppercase tracking-wider mb-1">{t("pages.contentPage.medicationInformation")}</p>
                 <p className="text-gray-800 leading-relaxed">{content}</p>
               </div>
             </div>
@@ -232,7 +233,7 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
                 <AlertTriangle className="w-5 h-5 text-red-600" />
               </div>
               <div>
-                <p className="text-sm font-bold text-red-700 uppercase tracking-wider mb-1">Warning</p>
+                <p className="text-sm font-bold text-red-700 uppercase tracking-wider mb-1">{t("pages.contentPage.warning")}</p>
                 <p className="text-gray-800 leading-relaxed">{content}</p>
               </div>
             </div>
@@ -253,7 +254,7 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
                 <BookOpen className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-sm font-bold text-blue-700 uppercase tracking-wider mb-1">Key Point</p>
+                <p className="text-sm font-bold text-blue-700 uppercase tracking-wider mb-1">{t("pages.contentPage.keyPoint")}</p>
                 <p className="text-gray-800 leading-relaxed">{content}</p>
               </div>
             </div>
@@ -270,7 +271,7 @@ function ContentBlockRenderer({ block }: { block: ContentBlock }) {
                 <BookOpen className="w-5 h-5 text-indigo-600" />
               </div>
               <div>
-                <p className="text-sm font-bold text-indigo-700 uppercase tracking-wider mb-1">Flashcard</p>
+                <p className="text-sm font-bold text-indigo-700 uppercase tracking-wider mb-1">{t("pages.contentPage.flashcard")}</p>
                 <p className="text-gray-800 leading-relaxed whitespace-pre-line">{content}</p>
               </div>
             </div>
@@ -441,7 +442,7 @@ function InlineEditorPanel({
       <div className="absolute inset-0 bg-black/30" onClick={onClose} />
       <div className="relative ml-auto w-full max-w-lg bg-white shadow-2xl flex flex-col h-full overflow-hidden animate-in slide-in-from-right duration-300">
         <div className="flex items-center justify-between p-4 border-b bg-gray-50">
-          <h2 className="text-lg font-bold text-gray-900">Edit Page</h2>
+          <h2 className="text-lg font-bold text-gray-900">{t("pages.contentPage.editPage")}</h2>
           <div className="flex items-center gap-2">
             <Button
               onClick={handleSave}
@@ -472,7 +473,7 @@ function InlineEditorPanel({
 
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Title</label>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("pages.contentPage.title")}</label>
             <Input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -481,7 +482,7 @@ function InlineEditorPanel({
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Summary</label>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("pages.contentPage.summary")}</label>
             <Textarea
               value={summary}
               onChange={(e) => setSummary(e.target.value)}
@@ -492,7 +493,7 @@ function InlineEditorPanel({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Tier</label>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("pages.contentPage.tier")}</label>
               <Select value={tier} onValueChange={setTier}>
                 <SelectTrigger data-testid="select-inline-tier">
                   <SelectValue />
@@ -505,33 +506,33 @@ function InlineEditorPanel({
               </Select>
             </div>
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Status</label>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("pages.contentPage.status")}</label>
               <Select value={status} onValueChange={setStatus}>
                 <SelectTrigger data-testid="select-inline-status">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="draft">Draft</SelectItem>
-                  <SelectItem value="published">Published</SelectItem>
-                  <SelectItem value="archived">Archived</SelectItem>
+                  <SelectItem value="draft">{t("pages.contentPage.draft")}</SelectItem>
+                  <SelectItem value="published">{t("pages.contentPage.published")}</SelectItem>
+                  <SelectItem value="archived">{t("pages.contentPage.archived")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Tags (comma separated)</label>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("pages.contentPage.tagsCommaSeparated")}</label>
             <Input
               value={tagsStr}
               onChange={(e) => setTagsStr(e.target.value)}
-              placeholder="nursing, pathophysiology, clinical"
+              placeholder={t("pages.contentPage.nursingPathophysiologyClinical")}
               data-testid="input-inline-tags"
             />
           </div>
 
           <div className="pt-2 border-t">
             <div className="flex items-center justify-between mb-3">
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Content Blocks</label>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{t("pages.contentPage.contentBlocks")}</label>
               <Button
                 variant="outline"
                 size="sm"
@@ -666,14 +667,14 @@ export default function ContentPage() {
   if (isNotFound) {
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
-        <SEO title="Content Not Found - NurseNest" description="The requested content could not be found." />
+        <SEO title={t("pages.contentPage.contentNotFoundNursenest")} description={t("pages.contentPage.theRequestedContentCouldNot")} />
         <Navigation />
         <main className="max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-6">
           <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
             <BookOpen className="w-10 h-10 text-gray-400" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">Content Not Found</h1>
-          <p className="text-gray-600">The page you're looking for doesn't exist or hasn't been published yet.</p>
+          <h1 className="text-3xl font-bold text-gray-900">{t("pages.contentPage.contentNotFound")}</h1>
+          <p className="text-gray-600">{t("pages.contentPage.thePageYoureLookingFor")}</p>
           <LocaleLink href="/">
             <Button className="rounded-full px-8" data-testid="button-go-home">
               <Home className="w-4 h-4 mr-2" /> Go Home
@@ -791,7 +792,7 @@ export default function ContentPage() {
         data-testid="article-content"
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-          <nav aria-label="Breadcrumb" className="mb-6 text-sm text-gray-500" data-testid="nav-breadcrumb">
+          <nav aria-label={t("pages.contentPage.breadcrumb")} className="mb-6 text-sm text-gray-500" data-testid="nav-breadcrumb">
             <ol className="flex items-center gap-1 flex-wrap">
               <li>
                 <LocaleLink href="/" className="hover:text-primary transition-colors">
@@ -878,14 +879,14 @@ export default function ContentPage() {
           {showApplyNestBacklink && (
             <div className="mt-8 p-5 bg-purple-50/50 border border-purple-100 rounded-xl" data-testid="section-applynest-backlink">
               <p className="text-sm text-gray-700 leading-relaxed">
-                Exploring applications, scholarships, or career preparation? <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-purple-600 font-medium hover:underline" data-testid="link-applynest-blog-article">ApplyNest provides healthcare program application tools and resources</a> to help you navigate the next step in your career.
+                Exploring applications, scholarships, or career preparation? <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-purple-600 font-medium hover:underline" data-testid="link-applynest-blog-article">{t("pages.contentPage.applynestProvidesHealthcareProgramApplication")}</a> to help you navigate the next step in your career.
               </p>
             </div>
           )}
 
           {tags.length > 0 && (
             <section className="mt-12 pt-8 border-t border-gray-200" data-testid="section-tags">
-              <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Topics</h2>
+              <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">{t("pages.contentPage.topics")}</h2>
               <div className="flex flex-wrap gap-2">
                 {tags.map((tag) => (
                   <Badge key={tag} variant="secondary" className="text-sm" data-testid={`badge-tag-${tag}`}>
@@ -905,7 +906,7 @@ export default function ContentPage() {
 
           {relatedItems && relatedItems.length > 0 && (
             <section className="mt-12 pt-8 border-t border-gray-200" data-testid="section-related-content">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Related Articles</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-6">{t("pages.contentPage.relatedArticles")}</h2>
               <div className="grid gap-4 sm:grid-cols-2">
                 {relatedItems.map((item) => (
                   <LocaleLink key={item.slug} href={`/learn/${item.slug}`}>

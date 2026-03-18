@@ -3278,7 +3278,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
               <div className="mx-auto mb-2 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
                 <Lock className="w-6 h-6 text-red-600" />
               </div>
-              <DialogTitle className="text-center text-xl">Free Card Limit Reached</DialogTitle>
+              <DialogTitle className="text-center text-xl">{t("pages.flashcards.freeCardLimitReached")}</DialogTitle>
               <DialogDescription className="text-center">
                 You've used all {entitlement.limit} free {isTestBank ? "questions" : "flashcards"}. Upgrade for unlimited {isTestBank ? "practice questions" : "cards"}, spaced repetition, and exam-mode testing.
               </DialogDescription>
@@ -3286,14 +3286,14 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
             <div className="space-y-3 py-4">
               <div className="flex items-center justify-between p-3 bg-violet-50 rounded-lg border border-violet-100">
                 <div>
-                  <p className="font-semibold text-sm">Monthly</p>
-                  <p className="text-xs text-muted-foreground">Billed monthly</p>
+                  <p className="font-semibold text-sm">{t("pages.flashcards.monthly")}</p>
+                  <p className="text-xs text-muted-foreground">{t("pages.flashcards.billedMonthly")}</p>
                 </div>
                 <span className="font-bold text-violet-700">$4.99/mo</span>
               </div>
               <div className="flex items-center justify-between p-3 bg-violet-50 rounded-lg border-2 border-violet-300">
                 <div>
-                  <p className="font-semibold text-sm">Yearly <span className="text-xs text-emerald-600 ml-1">Best Value</span></p>
+                  <p className="font-semibold text-sm">Yearly <span className="text-xs text-emerald-600 ml-1">{t("pages.flashcards.bestValue")}</span></p>
                   <p className="text-xs text-muted-foreground">Save $20.88/year</p>
                 </div>
                 <span className="font-bold text-violet-700">$39/yr</span>
@@ -3412,15 +3412,15 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                           <Settings2 className="w-4 h-4 text-white" />
                         </div>
                         <div>
-                          <h2 className="text-sm font-semibold text-foreground">Study Setup</h2>
-                          <p className="text-[11px] text-muted-foreground">Configure your session</p>
+                          <h2 className="text-sm font-semibold text-foreground">{t("pages.flashcards.studySetup")}</h2>
+                          <p className="text-[11px] text-muted-foreground">{t("pages.flashcards.configureYourSession")}</p>
                         </div>
                       </div>
                     </div>
 
                     <div className="px-6 py-5 space-y-5">
                       <div>
-                        <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block mb-2.5">Card Type</label>
+                        <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block mb-2.5">{t("pages.flashcards.cardType")}</label>
                         <div className="grid grid-cols-3 gap-1.5">
                           {(["all", "term", "question"] as const).map(ct => (
                             <button
@@ -3441,7 +3441,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                       </div>
 
                       <div>
-                        <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block mb-2.5">Sort Order</label>
+                        <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block mb-2.5">{t("pages.flashcards.sortOrder")}</label>
                         <div className="grid grid-cols-5 gap-1">
                           {([
                             { value: "default", label: "Default" },
@@ -3469,7 +3469,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
 
                       <div>
                         <div className="flex items-center justify-between mb-2.5">
-                          <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Topics</label>
+                          <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">{t("pages.flashcards.topics")}</label>
                           <div className="flex items-center gap-2">
                             {selectedCategories.length > 0 && (
                               <span className="text-[11px] font-medium text-violet-600 bg-violet-50 px-2 py-0.5 rounded-full">
@@ -3565,7 +3565,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                 <div className="max-w-2xl mx-auto">
                   <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-3">
-                      <h2 className="text-base font-semibold text-foreground">Select Topics</h2>
+                      <h2 className="text-base font-semibold text-foreground">{t("pages.flashcards.selectTopics")}</h2>
                       {selectedCategories.length > 0 && (
                         <span className="text-xs font-medium text-violet-600 bg-violet-50 px-2.5 py-1 rounded-full border border-violet-100">
                           {selectedCategories.length} of {categories.length}
@@ -3595,7 +3595,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="relative mb-5">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/60" />
                     <Input
-                      placeholder="Search topics or systems..."
+                      placeholder={t("pages.flashcards.searchTopicsOrSystems")}
                       value={topicSearch}
                       onChange={(e) => setTopicSearch(e.target.value)}
                       className="pl-9 h-10 rounded-xl border-violet-100 bg-violet-50/30 text-sm placeholder:text-muted-foreground/60 focus:border-violet-300 focus:ring-violet-200"
@@ -3684,8 +3684,8 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                 <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-how-it-works-title">{isTestBank ? "How the Test Bank Works" : "How NurseNest Flashcards Work"}</h2>
                 <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
                   {isTestBank
-                    ? <>Every question mirrors real exam scenarios — clinical stems, plausible distractors, and evidence-based rationales that teach you <em>why</em>.</>
-                    : <>Every card mirrors real nursing exam questions — clinical stems, plausible distractors, and evidence-based rationales that teach you <em>why</em>.</>}
+                    ? <>Every question mirrors real exam scenarios — clinical stems, plausible distractors, and evidence-based rationales that teach you <em>{t("pages.flashcards.why")}</em>.</>
+                    : <>Every card mirrors real nursing exam questions — clinical stems, plausible distractors, and evidence-based rationales that teach you <em>{t("pages.flashcards.why2")}</em>.</>}
                 </p>
               </div>
               <div className="grid sm:grid-cols-3 gap-6">
@@ -3693,7 +3693,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-12 h-12 rounded-2xl bg-violet-100 flex items-center justify-center mx-auto mb-4">
                     <Stethoscope className="w-6 h-6 text-violet-600" />
                   </div>
-                  <h3 className="text-sm font-bold text-foreground mb-2">Clinical Scenario</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-2">{t("pages.flashcards.clinicalScenario")}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Each card presents a realistic patient scenario with clinical findings, lab values, and decision points.
                   </p>
@@ -3702,7 +3702,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center mx-auto mb-4">
                     <Brain className="w-6 h-6 text-blue-600" />
                   </div>
-                  <h3 className="text-sm font-bold text-foreground mb-2">Critical Thinking</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-2">{t("pages.flashcards.criticalThinking")}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Choose from carefully crafted options that test your clinical reasoning — not just memorization.
                   </p>
@@ -3711,7 +3711,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center mx-auto mb-4">
                     <Lightbulb className="w-6 h-6 text-emerald-600" />
                   </div>
-                  <h3 className="text-sm font-bold text-foreground mb-2">Full Rationale</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-2">{t("pages.flashcards.fullRationale")}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Get detailed explanations for every answer — correct and incorrect — plus clinical pearls and exam tips.
                   </p>
@@ -3724,7 +3724,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           <section className="py-14 bg-gradient-to-b from-violet-50/30 to-white" data-testid="section-tier-selector">
             <div className="max-w-5xl mx-auto px-4 sm:px-6">
               <div className="text-center mb-10">
-                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-tier-title">Choose Your Exam Tier</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-tier-title">{t("pages.flashcards.chooseYourExamTier")}</h2>
                 <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
                   Content is calibrated to your certification level — from foundational RPN concepts to advanced NP clinical decision-making.
                 </p>
@@ -3735,7 +3735,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                     <Heart className="w-6 h-6 text-emerald-600" />
                   </div>
                   <h3 className="text-lg font-bold text-foreground mb-1">RPN</h3>
-                  <p className="text-xs text-emerald-600 font-medium mb-3">Registered Practical Nurse</p>
+                  <p className="text-xs text-emerald-600 font-medium mb-3">{t("pages.flashcards.registeredPracticalNurse")}</p>
                   <p className="text-xs text-muted-foreground leading-relaxed mb-5">
                     Foundational nursing concepts, safety, medication administration, and core clinical skills for RPN certification.
                   </p>
@@ -3757,7 +3757,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                     <GraduationCap className="w-6 h-6 text-blue-600" />
                   </div>
                   <h3 className="text-lg font-bold text-foreground mb-1">RN</h3>
-                  <p className="text-xs text-blue-600 font-medium mb-3">Registered Nurse</p>
+                  <p className="text-xs text-blue-600 font-medium mb-3">{t("pages.flashcards.registeredNurse")}</p>
                   <p className="text-xs text-muted-foreground leading-relaxed mb-5">
                     Advanced clinical reasoning, complex patient scenarios, pharmacology, and multi-system management for NCLEX-RN prep.
                   </p>
@@ -3786,7 +3786,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                     <Award className="w-6 h-6 text-violet-600" />
                   </div>
                   <h3 className="text-lg font-bold text-foreground mb-1">NP</h3>
-                  <p className="text-xs text-violet-600 font-medium mb-3">Nurse Practitioner</p>
+                  <p className="text-xs text-violet-600 font-medium mb-3">{t("pages.flashcards.nursePractitioner")}</p>
                   <p className="text-xs text-muted-foreground leading-relaxed mb-5">
                     Graduate-level pharmacology, differential diagnosis, evidence-based practice, and autonomous clinical decision-making.
                   </p>
@@ -3832,7 +3832,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-11 h-11 rounded-2xl bg-blue-100 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
                     <BookOpen className="w-5 h-5 text-blue-600" />
                   </div>
-                  <h3 className="text-sm font-bold text-foreground mb-1.5">Learn Mode</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-1.5">{t("pages.flashcards.learnMode")}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Flip through terms and concepts at your own pace with detailed explanations.
                   </p>
@@ -3850,7 +3850,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-11 h-11 rounded-2xl bg-violet-100 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
                     <ClipboardCheck className="w-5 h-5 text-violet-600" />
                   </div>
-                  <h3 className="text-sm font-bold text-foreground mb-1.5">Test Mode</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-1.5">{t("pages.flashcards.testMode")}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Multiple-choice questions with immediate rationale and distractor analysis.
                   </p>
@@ -3915,7 +3915,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-11 h-11 rounded-2xl bg-rose-100 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
                     <Zap className="w-5 h-5 text-rose-600" />
                   </div>
-                  <h3 className="text-sm font-bold text-foreground mb-1.5">Rapid Review</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-1.5">{t("pages.flashcards.rapidReview")}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     CAT-style exam simulation with adaptive difficulty and clinical pearls.
                   </p>
@@ -4013,7 +4013,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center mb-3">
                     <Flag className="w-4 h-4 text-amber-500" />
                   </div>
-                  <span className="text-xs font-semibold text-foreground/70 mb-0.5">Flagged for Review</span>
+                  <span className="text-xs font-semibold text-foreground/70 mb-0.5">{t("pages.flashcards.flaggedForReview")}</span>
                   <span className="text-[11px] text-muted-foreground">
                     {bookmarks.length > 0 ? `${bookmarks.length} cards saved` : "No cards flagged"}
                   </span>
@@ -4027,7 +4027,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center mb-3">
                     <Trophy className="w-4 h-4 text-emerald-500" />
                   </div>
-                  <span className="text-xs font-semibold text-foreground/70 mb-0.5">Mastered Cards</span>
+                  <span className="text-xs font-semibold text-foreground/70 mb-0.5">{t("pages.flashcards.masteredCards")}</span>
                   <span className="text-[11px] text-muted-foreground">
                     {mastered.length > 0 ? `${mastered.length} cards mastered` : "None yet"}
                   </span>
@@ -4041,7 +4041,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center mb-3">
                     <Plus className="w-4 h-4 text-blue-500" />
                   </div>
-                  <span className="text-xs font-semibold text-foreground/70 mb-0.5">My Flashcards</span>
+                  <span className="text-xs font-semibold text-foreground/70 mb-0.5">{t("pages.flashcards.myFlashcards")}</span>
                   <span className="text-[11px] text-muted-foreground">{user ? "Create and manage" : "Sign in to create"}</span>
                 </button>
 
@@ -4058,8 +4058,8 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-9 h-9 rounded-xl bg-violet-50 flex items-center justify-center mb-3">
                     <Layers className="w-4 h-4 text-violet-500" />
                   </div>
-                  <span className="text-xs font-semibold text-foreground/70 mb-0.5">Study Decks</span>
-                  <span className="text-[11px] text-muted-foreground">Custom & shared</span>
+                  <span className="text-xs font-semibold text-foreground/70 mb-0.5">{t("pages.flashcards.studyDecks")}</span>
+                  <span className="text-[11px] text-muted-foreground">{t("pages.flashcards.customShared")}</span>
                 </button>
 
                 <button
@@ -4080,8 +4080,8 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center mb-3">
                     <BookOpen className="w-4 h-4 text-blue-500" />
                   </div>
-                  <span className="text-xs font-semibold text-foreground/70 mb-0.5">Adaptive Learn</span>
-                  <span className="text-[11px] text-muted-foreground">Exam-style, personalized</span>
+                  <span className="text-xs font-semibold text-foreground/70 mb-0.5">{t("pages.flashcards.adaptiveLearn")}</span>
+                  <span className="text-[11px] text-muted-foreground">{t("pages.flashcards.examstylePersonalized")}</span>
                 </button>
 
                 <button
@@ -4102,8 +4102,8 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-9 h-9 rounded-xl bg-rose-50 flex items-center justify-center mb-3">
                     <ShieldAlert className="w-4 h-4 text-rose-500" />
                   </div>
-                  <span className="text-xs font-semibold text-foreground/70 mb-0.5">Adaptive Test</span>
-                  <span className="text-[11px] text-muted-foreground">Exam prep, no hints</span>
+                  <span className="text-xs font-semibold text-foreground/70 mb-0.5">{t("pages.flashcards.adaptiveTest")}</span>
+                  <span className="text-[11px] text-muted-foreground">{t("pages.flashcards.examPrepNoHints")}</span>
                 </button>
               </div>
 
@@ -4133,7 +4133,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   </div>
                   {entitlement.percentage >= 100 && (
                     <p className="mt-2 text-[11px] text-red-600" data-testid="text-limit-reached">
-                      Limit reached. <a href="/upgrade" className="font-semibold underline">Upgrade</a> for unlimited cards.
+                      Limit reached. <a href="/upgrade" className="font-semibold underline">{t("pages.flashcards.upgrade")}</a> for unlimited cards.
                     </p>
                   )}
                 </div>
@@ -4165,7 +4165,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center mb-3">
                     <BookOpen className="w-5 h-5 text-blue-600" />
                   </div>
-                  <h3 className="text-sm font-bold text-foreground mb-1">Learn Mode</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-1">{t("pages.flashcards.learnMode2")}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Exam-style questions with immediate answer reveal, rationale, clinical pearls, and lesson links.
                   </p>
@@ -4185,7 +4185,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center mb-3">
                     <ShieldAlert className="w-5 h-5 text-rose-600" />
                   </div>
-                  <h3 className="text-sm font-bold text-foreground mb-1">Test Mode</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-1">{t("pages.flashcards.testMode2")}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Answer first, then reveal rationale. No timer pressure. Tracks confidence and weak areas.
                   </p>
@@ -4195,7 +4195,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-10 h-10 rounded-xl bg-violet-100 flex items-center justify-center mb-3">
                     <Target className="w-5 h-5 text-violet-600" />
                   </div>
-                  <h3 className="text-sm font-bold text-foreground mb-1">Adaptive Engine</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-1">{t("pages.flashcards.adaptiveEngine")}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Cards are prioritized based on your missed questions, weak areas, and spaced repetition schedule.
                   </p>
@@ -4208,7 +4208,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           <section className="py-14 bg-white border-b border-violet-50" data-testid="section-why-nursenest">
             <div className="max-w-5xl mx-auto px-4 sm:px-6">
               <div className="text-center mb-10">
-                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-why-title">Why NurseNest Flashcards</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-why-title">{t("pages.flashcards.whyNursenestFlashcards")}</h2>
                 <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
                   Purpose-built for nursing students and new grads preparing for RPN, RN, and NP certification exams.
                 </p>
@@ -4218,7 +4218,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-10 h-10 rounded-xl bg-violet-100 flex items-center justify-center mb-3">
                     <Sparkles className="w-5 h-5 text-violet-600" />
                   </div>
-                  <h3 className="text-sm font-bold text-foreground mb-1">Exam-Style Questions</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-1">{t("pages.flashcards.examstyleQuestions")}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Every question mirrors real NCLEX, CPNRE, and NP certification exam formats with clinical stems.
                   </p>
@@ -4227,7 +4227,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center mb-3">
                     <CheckCircle2 className="w-5 h-5 text-blue-600" />
                   </div>
-                  <h3 className="text-sm font-bold text-foreground mb-1">Evidence-Based Rationales</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-1">{t("pages.flashcards.evidencebasedRationales")}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Detailed explanations reference current clinical guidelines, pharmacology standards, and best practices.
                   </p>
@@ -4237,13 +4237,13 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   {!isPaid && (
                     <div className="absolute top-3 right-3 flex items-center gap-1 bg-violet-100 text-violet-700 px-2 py-0.5 rounded-full">
                       <Crown className="w-3 h-3" />
-                      <span className="text-[10px] font-semibold">Premium</span>
+                      <span className="text-[10px] font-semibold">{t("pages.flashcards.premium")}</span>
                     </div>
                   )}
                   <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center mb-3">
                     <TrendingUp className="w-5 h-5 text-emerald-600" />
                   </div>
-                  <h3 className="text-sm font-bold text-foreground mb-1">Progress Tracking</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-1">{t("pages.flashcards.progressTracking")}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Track mastered cards, flagged weak areas, and session performance to focus your study time.
                   </p>
@@ -4252,7 +4252,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center mb-3">
                     <GraduationCap className="w-5 h-5 text-rose-600" />
                   </div>
-                  <h3 className="text-sm font-bold text-foreground mb-1">Tier-Specific Content</h3>
+                  <h3 className="text-sm font-bold text-foreground mb-1">{t("pages.flashcards.tierspecificContent")}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     RPN, RN, and NP cards are calibrated to scope of practice and exam complexity at each level.
                   </p>
@@ -4261,7 +4261,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                 <div className="p-5 rounded-xl border border-border bg-secondary/50 relative opacity-75" data-testid="card-mode-adaptive">
                   <div className="absolute top-3 right-3 flex items-center gap-1 bg-violet-100 text-violet-700 px-2 py-0.5 rounded-full">
                     <Crown className="w-3 h-3" />
-                    <span className="text-[10px] font-semibold">Premium</span>
+                    <span className="text-[10px] font-semibold">{t("pages.flashcards.premium2")}</span>
                   </div>
                   <div className="w-9 h-9 rounded-lg bg-amber-50 flex items-center justify-center mb-3.5">
                     <Zap className="w-4.5 h-4.5 text-amber-500" />
@@ -4275,7 +4275,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                 <div className="p-5 rounded-xl border border-border bg-secondary/50 relative opacity-75" data-testid="card-mode-weak-areas">
                   <div className="absolute top-3 right-3 flex items-center gap-1 bg-violet-100 text-violet-700 px-2 py-0.5 rounded-full">
                     <Crown className="w-3 h-3" />
-                    <span className="text-[10px] font-semibold">Premium</span>
+                    <span className="text-[10px] font-semibold">{t("pages.flashcards.premium3")}</span>
                   </div>
                   <div className="w-9 h-9 rounded-lg bg-red-50 flex items-center justify-center mb-3.5">
                     <AlertTriangle className="w-4.5 h-4.5 text-red-500" />
@@ -4293,7 +4293,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           <section className="py-14 bg-gradient-to-b from-violet-50/20 to-white" data-testid="section-screenshot-preview">
             <div className="max-w-5xl mx-auto px-4 sm:px-6">
               <div className="text-center mb-10">
-                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-preview-title">See How It Works</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" data-testid="text-preview-title">{t("pages.flashcards.seeHowItWorks")}</h2>
                 <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
                   Each flashcard presents a clinical scenario with multiple-choice options, followed by a comprehensive rationale.
                 </p>
@@ -4310,9 +4310,9 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   </div>
                   <div className="p-6 sm:p-8" data-testid="preview-question-card">
                     <div className="flex items-center gap-2 mb-4">
-                      <span className="px-2.5 py-0.5 rounded-lg bg-blue-50 text-blue-600 text-[10px] font-semibold border border-blue-100">Cardiovascular</span>
-                      <span className="px-2.5 py-0.5 rounded-lg bg-amber-50 text-amber-600 text-[10px] font-semibold border border-amber-100">Difficulty: 3</span>
-                      <span className="px-2.5 py-0.5 rounded-lg bg-violet-50 text-violet-600 text-[10px] font-semibold border border-violet-100">RN Tier</span>
+                      <span className="px-2.5 py-0.5 rounded-lg bg-blue-50 text-blue-600 text-[10px] font-semibold border border-blue-100">{t("pages.flashcards.cardiovascular")}</span>
+                      <span className="px-2.5 py-0.5 rounded-lg bg-amber-50 text-amber-600 text-[10px] font-semibold border border-amber-100">{t("pages.flashcards.difficulty3")}</span>
+                      <span className="px-2.5 py-0.5 rounded-lg bg-violet-50 text-violet-600 text-[10px] font-semibold border border-violet-100">{t("pages.flashcards.rnTier")}</span>
                     </div>
                     <p className="text-sm font-medium text-foreground leading-relaxed mb-5">
                       A client with acute STEMI has just received alteplase (tPA). Which assessment finding requires the MOST immediate nursing intervention?
@@ -4343,7 +4343,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                     <div className="mt-5 p-4 rounded-xl bg-emerald-50/60 border border-emerald-100/60">
                       <div className="flex items-center gap-2 mb-2">
                         <Lightbulb className="w-4 h-4 text-emerald-600" />
-                        <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Clinical Pearl</span>
+                        <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">{t("pages.flashcards.clinicalPearl")}</span>
                       </div>
                       <p className="text-xs text-emerald-800/80 leading-relaxed">
                         After administering tPA, perform neurological checks every 15 minutes for the first 2 hours. Any sudden change warrants immediate CT scan...
@@ -4359,7 +4359,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           {(dbFlashcardSets.length > 0 || user) && (
             <section className="py-10 bg-white border-b border-violet-50" data-testid="section-personal-tools">
               <div className="max-w-5xl mx-auto px-4 sm:px-6">
-                <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-5">Study Tools</h2>
+                <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-5">{t("pages.flashcards.studyTools")}</h2>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
                   {user && (
                     <button
@@ -4371,8 +4371,8 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                         <Plus className="w-4 h-4 text-emerald-500" />
                       </div>
                       <div>
-                        <span className="text-xs font-semibold text-foreground/70 block">Create Custom Cards</span>
-                        <span className="text-[11px] text-muted-foreground">Accuracy validated</span>
+                        <span className="text-xs font-semibold text-foreground/70 block">{t("pages.flashcards.createCustomCards")}</span>
+                        <span className="text-[11px] text-muted-foreground">{t("pages.flashcards.accuracyValidated")}</span>
                       </div>
                     </button>
                   )}
@@ -4386,8 +4386,8 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                       <Globe className="w-4 h-4 text-violet-500" />
                     </div>
                     <div>
-                      <span className="text-xs font-semibold text-foreground/70 block">Shared Decks</span>
-                      <span className="text-[11px] text-muted-foreground">Browse community</span>
+                      <span className="text-xs font-semibold text-foreground/70 block">{t("pages.flashcards.sharedDecks")}</span>
+                      <span className="text-[11px] text-muted-foreground">{t("pages.flashcards.browseCommunity")}</span>
                     </div>
                   </button>
 
@@ -4401,8 +4401,8 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                         <Layers className="w-4 h-4 text-blue-500" />
                       </div>
                       <div>
-                        <span className="text-xs font-semibold text-foreground/70 block">My Saved Decks</span>
-                        <span className="text-[11px] text-muted-foreground">Personal collection</span>
+                        <span className="text-xs font-semibold text-foreground/70 block">{t("pages.flashcards.mySavedDecks")}</span>
+                        <span className="text-[11px] text-muted-foreground">{t("pages.flashcards.personalCollection")}</span>
                       </div>
                     </button>
                   )}
@@ -4417,7 +4417,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                         <BookOpen className="w-4 h-4 text-amber-500" />
                       </div>
                       <div>
-                        <span className="text-xs font-semibold text-foreground/70 block">Curated Sets</span>
+                        <span className="text-xs font-semibold text-foreground/70 block">{t("pages.flashcards.curatedSets")}</span>
                         <span className="text-[11px] text-muted-foreground">{dbFlashcardSets.length} {dbFlashcardSets.length === 1 ? "set" : "sets"} available</span>
                       </div>
                     </button>
@@ -4667,8 +4667,8 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                 <Wand2 className="w-4 h-4 text-primary" />
               </div>
               <div className="flex-1">
-                <h3 className="text-lg font-bold text-foreground">AI Flashcard Generator</h3>
-                <p className="text-xs text-muted-foreground">Generate flashcards from a topic or your study notes</p>
+                <h3 className="text-lg font-bold text-foreground">{t("pages.flashcards.aiFlashcardGenerator")}</h3>
+                <p className="text-xs text-muted-foreground">{t("pages.flashcards.generateFlashcardsFromATopic")}</p>
               </div>
               <ChevronRight className={cn("w-5 h-5 text-muted-foreground transition-transform", mycardsShowAi && "rotate-90")} />
             </button>
@@ -4699,7 +4699,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                 {mycardsAiMode === "topic" ? (
                   <>
                     <div>
-                      <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest block mb-2">Topic or prompt</label>
+                      <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest block mb-2">{t("pages.flashcards.topicOrPrompt")}</label>
                       <Input
                         placeholder="e.g., Cardiac medications and their side effects"
                         value={mycardsAiPrompt}
@@ -4710,7 +4710,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                       />
                     </div>
                     <div className="flex items-center gap-3">
-                      <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Cards</label>
+                      <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{t("pages.flashcards.cards")}</label>
                       <select
                         value={mycardsAiCount}
                         onChange={(e) => setMycardsAiCount(parseInt(e.target.value))}
@@ -4743,8 +4743,8 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                       />
                       <label htmlFor="mycards-notes-file" className="cursor-pointer flex flex-col items-center gap-2">
                         <Upload className="w-8 h-8 text-blue-300" />
-                        <span className="text-xs text-blue-600 font-medium">Click to upload a text file</span>
-                        <span className="text-[10px] text-muted-foreground">.txt, .md, .csv, .rtf (max 5 MB)</span>
+                        <span className="text-xs text-blue-600 font-medium">{t("pages.flashcards.clickToUploadAText")}</span>
+                        <span className="text-[10px] text-muted-foreground">{t("pages.flashcards.txtMdCsvRtfMax")}</span>
                       </label>
                       {mycardsNotesFileName && (
                         <div className="mt-2 inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-medium px-3 py-1.5 rounded-lg" data-testid="text-mycards-notes-filename">
@@ -4754,7 +4754,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                       )}
                     </div>
                     <Textarea
-                      placeholder="Or paste your study notes here... e.g., lecture notes, textbook summaries, clinical observations"
+                      placeholder={t("pages.flashcards.orPasteYourStudyNotes")}
                       value={mycardsNotesText}
                       onChange={(e) => setMycardsNotesText(e.target.value)}
                       className="rounded-xl min-h-[120px] border-blue-200 focus:border-blue-400 text-sm"
@@ -4764,7 +4764,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                       <p className="text-[10px] text-muted-foreground">{mycardsNotesText.length.toLocaleString()} characters</p>
                     )}
                     <div className="flex items-center gap-3">
-                      <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Cards</label>
+                      <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{t("pages.flashcards.cards2")}</label>
                       <select
                         value={mycardsAiCount}
                         onChange={(e) => setMycardsAiCount(parseInt(e.target.value))}
@@ -4839,10 +4839,10 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   className="text-xs border rounded-lg px-2 py-1.5 bg-card text-foreground/70 cursor-pointer"
                   data-testid="select-mycards-sort"
                 >
-                  <option value="default">Default Order</option>
-                  <option value="alpha-asc">A to Z</option>
-                  <option value="alpha-desc">Z to A</option>
-                  <option value="category">By Topic</option>
+                  <option value="default">{t("pages.flashcards.defaultOrder")}</option>
+                  <option value="alpha-asc">{t("pages.flashcards.aToZ")}</option>
+                  <option value="alpha-desc">{t("pages.flashcards.zToA")}</option>
+                  <option value="category">{t("pages.flashcards.byTopic")}</option>
                 </select>
                 {customCategories.length > 1 && (
                   <div className="flex gap-1 flex-wrap">
@@ -5143,8 +5143,8 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           </Button>
 
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-foreground" data-testid="text-admin-sets-heading">Additional Study Sets</h1>
-            <p className="text-foreground/60 mt-1">Curated flashcard sets from our clinical education team</p>
+            <h1 className="text-3xl font-bold text-foreground" data-testid="text-admin-sets-heading">{t("pages.flashcards.additionalStudySets")}</h1>
+            <p className="text-foreground/60 mt-1">{t("pages.flashcards.curatedFlashcardSetsFromOur")}</p>
           </div>
 
           {dbSetsLoading ? (
@@ -5154,7 +5154,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           ) : dbFlashcardSets.length === 0 ? (
             <div className="text-center py-24 bg-card rounded-3xl border-2 border-dashed border-border">
               <BookOpen className="w-12 h-12 text-muted-foreground/40 mx-auto mb-4" />
-              <p className="text-muted-foreground font-medium">No study sets available yet</p>
+              <p className="text-muted-foreground font-medium">{t("pages.flashcards.noStudySetsAvailableYet")}</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -5228,7 +5228,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
             <div className="text-center py-24 bg-card rounded-3xl border-2 border-dashed border-border">
               <BookOpen className="w-12 h-12 text-muted-foreground/40 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-foreground mb-2">{activeDbSet.title}</h3>
-              <p className="text-muted-foreground">No flashcards found in this set. Content may be structured as lesson blocks.</p>
+              <p className="text-muted-foreground">{t("pages.flashcards.noFlashcardsFoundInThis")}</p>
             </div>
           </main>
           <Footer />
@@ -5274,7 +5274,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
             )}>
               <Card className="absolute inset-0 w-full h-full backface-hidden bg-card border-none shadow-xl rounded-[40px] flex flex-col items-center justify-center p-8 sm:p-12 text-center overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-2 bg-amber-400/40" />
-                <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest mb-8">Front</span>
+                <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest mb-8">{t("pages.flashcards.front")}</span>
                 <h2 className="text-2xl sm:text-3xl font-black text-foreground leading-tight" data-testid="text-db-study-front">
                   {currentFlashcard?.front || currentFlashcard?.question || currentFlashcard?.title || ""}
                 </h2>
@@ -5598,7 +5598,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           <main className="max-w-4xl mx-auto px-4 py-24 w-full flex-1 flex items-center justify-center">
             <div className="text-center">
               <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-muted-foreground font-medium">Loading exam study cards...</p>
+              <p className="text-muted-foreground font-medium">{t("pages.flashcards.loadingExamStudyCards")}</p>
             </div>
           </main>
           <Footer />
@@ -5612,9 +5612,9 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           <Navigation />
           <main className="max-w-4xl mx-auto px-4 py-24 w-full flex-1 text-center">
             <ShieldAlert className="w-12 h-12 text-muted-foreground/60 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-foreground mb-2">No Exam Cards Available</h2>
-            <p className="text-muted-foreground mb-6">Exam flashcards haven't been synced yet. Check back soon!</p>
-            <Button onClick={() => setView("setup")} data-testid="button-back-exam">Back to Flashcards</Button>
+            <h2 className="text-2xl font-bold text-foreground mb-2">{t("pages.flashcards.noExamCardsAvailable")}</h2>
+            <p className="text-muted-foreground mb-6">{t("pages.flashcards.examFlashcardsHaventBeenSynced")}</p>
+            <Button onClick={() => setView("setup")} data-testid="button-back-exam">{t("pages.flashcards.backToFlashcards")}</Button>
           </main>
           <Footer />
         </div>
@@ -5627,7 +5627,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
         <main className={cn("mx-auto px-4 py-4 sm:py-8 w-full flex-1 flex flex-col", examShowRationale ? "max-w-[1200px]" : "max-w-[820px]")}>
           <div className="mb-3 flex items-center justify-between">
             <div>
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground" data-testid="text-exam-session-title">CAT Exam Study Cards</h1>
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground" data-testid="text-exam-session-title">{t("pages.flashcards.catExamStudyCards")}</h1>
               <QuestionContextHeader
                 focusArea={examCard.bodySystem || examCard.category}
                 topic={examCard.topic}
@@ -5708,7 +5708,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                         <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center">
                           <BookOpen className="w-3 h-3 text-primary" />
                         </div>
-                        <h3 className="text-xs font-semibold text-primary tracking-wide">Rationale & Review</h3>
+                        <h3 className="text-xs font-semibold text-primary tracking-wide">{t("pages.flashcards.rationaleReview")}</h3>
                       </div>
 
                       <CardContent className="px-5 py-4 space-y-3.5" data-testid="section-exam-rationale"><ProtectedContent>
@@ -5854,9 +5854,9 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   data-testid="button-exam-bookmark"
                 >
                   {examBookmarks.includes(examCard.id) ? (
-                    <><BookmarkCheck className="w-3.5 h-3.5" /> Saved</>
+                    <><BookmarkCheck className="w-3.5 h-3.5" /> {t("pages.flashcards.saved")}</>
                   ) : (
-                    <><Bookmark className="w-3.5 h-3.5" /> Save</>
+                    <><Bookmark className="w-3.5 h-3.5" /> {t("pages.flashcards.save")}</>
                   )}
                 </Button>
                 <Button
@@ -5870,9 +5870,9 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   data-testid="button-exam-mastered"
                 >
                   {examMastered.includes(examCard.id) ? (
-                    <><CheckCircle2 className="w-3.5 h-3.5" /> Mastered</>
+                    <><CheckCircle2 className="w-3.5 h-3.5" /> {t("pages.flashcards.mastered")}</>
                   ) : (
-                    <><Trophy className="w-3.5 h-3.5" /> Master</>
+                    <><Trophy className="w-3.5 h-3.5" /> {t("pages.flashcards.master")}</>
                   )}
                 </Button>
               </div>
@@ -5900,7 +5900,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           </Button>
 
           <div className="mb-6">
-            <h1 className="text-2xl font-bold text-foreground" data-testid="text-admin-exam-title">Exam Question Manager</h1>
+            <h1 className="text-2xl font-bold text-foreground" data-testid="text-admin-exam-title">{t("pages.flashcards.examQuestionManager")}</h1>
             <p className="text-sm text-muted-foreground mt-1">
               {adminExamTotal.toLocaleString()} questions matching filters
               {Object.keys(adminTierCounts).length > 0 && (
@@ -5945,53 +5945,53 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
             <CardContent className="px-5 py-4">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div>
-                  <label className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">Tier</label>
+                  <label className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">{t("pages.flashcards.tier")}</label>
                   <select
                     value={adminExamTier}
                     onChange={e => { setAdminExamTier(e.target.value); setAdminExamPage(0); fetchAdminExamQuestions(e.target.value, undefined, undefined, undefined, 0); }}
                     className="w-full h-9 px-3 rounded-lg border border-border bg-background text-sm"
                     data-testid="select-admin-tier"
                   >
-                    <option value="all">All Tiers</option>
+                    <option value="all">{t("pages.flashcards.allTiers")}</option>
                     <option value="rn">RN</option>
-                    <option value="rpn">RPN/LPN</option>
+                    <option value="rpn">{t("pages.flashcards.rpnlpn")}</option>
                     <option value="np">NP</option>
-                    <option value="free">Free</option>
+                    <option value="free">{t("pages.flashcards.free")}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">Topic</label>
+                  <label className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">{t("pages.flashcards.topic")}</label>
                   <select
                     value={adminExamTopic}
                     onChange={e => { setAdminExamTopic(e.target.value); setAdminExamPage(0); fetchAdminExamQuestions(undefined, e.target.value, undefined, undefined, 0); }}
                     className="w-full h-9 px-3 rounded-lg border border-border bg-background text-sm"
                     data-testid="select-admin-topic"
                   >
-                    <option value="all">All Topics</option>
+                    <option value="all">{t("pages.flashcards.allTopics")}</option>
                     {adminFilterTopics.map(t => <option key={t} value={t}>{t}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">Body System</label>
+                  <label className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">{t("pages.flashcards.bodySystem")}</label>
                   <select
                     value={adminExamBodySystem}
                     onChange={e => { setAdminExamBodySystem(e.target.value); setAdminExamPage(0); fetchAdminExamQuestions(undefined, undefined, undefined, e.target.value, 0); }}
                     className="w-full h-9 px-3 rounded-lg border border-border bg-background text-sm"
                     data-testid="select-admin-body-system"
                   >
-                    <option value="all">All Body Systems</option>
+                    <option value="all">{t("pages.flashcards.allBodySystems")}</option>
                     {adminFilterSystems.map(s => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">Difficulty</label>
+                  <label className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">{t("pages.flashcards.difficulty")}</label>
                   <select
                     value={adminExamDifficulty}
                     onChange={e => { setAdminExamDifficulty(e.target.value); setAdminExamPage(0); fetchAdminExamQuestions(undefined, undefined, e.target.value, undefined, 0); }}
                     className="w-full h-9 px-3 rounded-lg border border-border bg-background text-sm"
                     data-testid="select-admin-difficulty"
                   >
-                    <option value="all">All Levels</option>
+                    <option value="all">{t("pages.flashcards.allLevels")}</option>
                     {[1,2,3,4,5].map(d => <option key={d} value={String(d)}>Level {d}</option>)}
                   </select>
                 </div>
@@ -6031,7 +6031,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           ) : adminExamQuestions.length === 0 ? (
             <div className="text-center py-16 bg-card rounded-2xl border border-dashed border-border">
               <BookOpen className="w-10 h-10 text-muted-foreground/40 mx-auto mb-3" />
-              <p className="text-muted-foreground">No questions match your filters</p>
+              <p className="text-muted-foreground">{t("pages.flashcards.noQuestionsMatchYourFilters")}</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -6063,11 +6063,11 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                           </div>
                           <p className="text-sm text-foreground leading-snug line-clamp-2" data-testid={`text-question-stem-${q.id}`}>{q.stem}</p>
                           <div className="flex items-center gap-1 mt-2 flex-wrap">
-                            {hasRationale && <span className="text-[9px] text-emerald-600 bg-emerald-50 px-1 py-0.5 rounded">Rationale</span>}
-                            {hasPearl && <span className="text-[9px] text-amber-600 bg-amber-50 px-1 py-0.5 rounded">Pearl</span>}
-                            {hasStrategy && <span className="text-[9px] text-blue-600 bg-blue-50 px-1 py-0.5 rounded">Strategy</span>}
-                            {hasHook && <span className="text-[9px] text-violet-600 bg-violet-50 px-1 py-0.5 rounded">Hook</span>}
-                            {hasDistractors && <span className="text-[9px] text-rose-600 bg-rose-50 px-1 py-0.5 rounded">Distractors</span>}
+                            {hasRationale && <span className="text-[9px] text-emerald-600 bg-emerald-50 px-1 py-0.5 rounded">{t("pages.flashcards.rationale")}</span>}
+                            {hasPearl && <span className="text-[9px] text-amber-600 bg-amber-50 px-1 py-0.5 rounded">{t("pages.flashcards.pearl")}</span>}
+                            {hasStrategy && <span className="text-[9px] text-blue-600 bg-blue-50 px-1 py-0.5 rounded">{t("pages.flashcards.strategy")}</span>}
+                            {hasHook && <span className="text-[9px] text-violet-600 bg-violet-50 px-1 py-0.5 rounded">{t("pages.flashcards.hook")}</span>}
+                            {hasDistractors && <span className="text-[9px] text-rose-600 bg-rose-50 px-1 py-0.5 rounded">{t("pages.flashcards.distractors")}</span>}
                           </div>
                         </div>
                         <span className="shrink-0 text-[9px] text-muted-foreground/60 font-mono" data-testid={`text-qid-${q.id}`}>
@@ -6128,8 +6128,8 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           <main className="max-w-4xl mx-auto px-4 py-24 w-full flex-1 flex items-center justify-center">
             <div className="text-center">
               <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-muted-foreground font-medium" data-testid="text-adaptive-loading">Building your personalized study session...</p>
-              <p className="text-xs text-muted-foreground/60 mt-2">Analyzing your weak areas and selecting priority cards</p>
+              <p className="text-muted-foreground font-medium" data-testid="text-adaptive-loading">{t("pages.flashcards.buildingYourPersonalizedStudySession")}</p>
+              <p className="text-xs text-muted-foreground/60 mt-2">{t("pages.flashcards.analyzingYourWeakAreasAnd")}</p>
             </div>
           </main>
           <Footer />
@@ -6143,9 +6143,9 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           <Navigation />
           <main className="max-w-4xl mx-auto px-4 py-24 w-full flex-1 text-center">
             <ShieldAlert className="w-12 h-12 text-muted-foreground/60 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-foreground mb-2" data-testid="text-no-adaptive-cards">No Exam Cards Available</h2>
-            <p className="text-muted-foreground mb-6">No exam questions are available for your tier. Please try again later.</p>
-            <Button onClick={() => setView("setup")} data-testid="button-back-adaptive">Back to Flashcards</Button>
+            <h2 className="text-2xl font-bold text-foreground mb-2" data-testid="text-no-adaptive-cards">{t("pages.flashcards.noExamCardsAvailable2")}</h2>
+            <p className="text-muted-foreground mb-6">{t("pages.flashcards.noExamQuestionsAreAvailable")}</p>
+            <Button onClick={() => setView("setup")} data-testid="button-back-adaptive">{t("pages.flashcards.backToFlashcards2")}</Button>
           </main>
           <Footer />
         </div>
@@ -6230,7 +6230,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                         <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center">
                           <BookOpen className="w-3 h-3 text-primary" />
                         </div>
-                        <h3 className="text-xs font-semibold text-primary tracking-wide">Rationale & Review</h3>
+                        <h3 className="text-xs font-semibold text-primary tracking-wide">{t("pages.flashcards.rationaleReview2")}</h3>
                       </div>
                       <CardContent className="px-5 py-4 space-y-3.5" data-testid="section-adaptive-rationale">
                         <div className="themed-correct-answer-bg rounded-lg border p-3">
@@ -6242,7 +6242,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
 
                         {aCard.distractorRationales && Object.keys(aCard.distractorRationales).length > 0 && (
                           <div className="bg-card rounded-lg border border-border p-3">
-                            <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-2.5">Why Other Options Are Incorrect</p>
+                            <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-2.5">{t("pages.flashcards.whyOtherOptionsAreIncorrect")}</p>
                             <div className="space-y-2">
                               {Object.entries(aCard.distractorRationales).map(([key, rationale]) => (
                                 <div key={key} className="flex gap-2 text-sm">
@@ -6308,7 +6308,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                     {needsConfidence && (
                       <Card className="border-2 border-primary/30 shadow-md bg-card rounded-2xl overflow-hidden animate-in slide-in-from-bottom-2 duration-300" data-testid="card-confidence-rating">
                         <div className="px-5 pt-4 pb-2 flex items-center gap-2.5 border-b border-border">
-                          <h3 className="text-xs font-semibold text-foreground tracking-wide">How confident were you?</h3>
+                          <h3 className="text-xs font-semibold text-foreground tracking-wide">{t("pages.flashcards.howConfidentWereYou")}</h3>
                         </div>
                         <CardContent className="px-5 py-4">
                           <div className="grid grid-cols-3 gap-2">
@@ -6318,7 +6318,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                               data-testid="button-confidence-guessing"
                             >
                               <span className="text-lg">🎲</span>
-                              <p className="text-xs font-semibold text-red-700 mt-1">Guessing</p>
+                              <p className="text-xs font-semibold text-red-700 mt-1">{t("pages.flashcards.guessing")}</p>
                             </button>
                             <button
                               onClick={() => recordAdaptiveConfidence("somewhat")}
@@ -6326,7 +6326,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                               data-testid="button-confidence-somewhat"
                             >
                               <span className="text-lg">🤔</span>
-                              <p className="text-xs font-semibold text-amber-700 mt-1">Somewhat</p>
+                              <p className="text-xs font-semibold text-amber-700 mt-1">{t("pages.flashcards.somewhat")}</p>
                             </button>
                             <button
                               onClick={() => recordAdaptiveConfidence("very_confident")}
@@ -6334,7 +6334,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                               data-testid="button-confidence-confident"
                             >
                               <span className="text-lg">💪</span>
-                              <p className="text-xs font-semibold text-emerald-700 mt-1">Confident</p>
+                              <p className="text-xs font-semibold text-emerald-700 mt-1">{t("pages.flashcards.confident")}</p>
                             </button>
                           </div>
                         </CardContent>
@@ -6397,7 +6397,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                   onClick={() => toggleAdaptiveBookmark(aCard.id)}
                   data-testid="button-adaptive-bookmark"
                 >
-                  {adaptiveBookmarks.includes(aCard.id) ? <><BookmarkCheck className="w-3.5 h-3.5" /> Saved</> : <><Bookmark className="w-3.5 h-3.5" /> Save</>}
+                  {adaptiveBookmarks.includes(aCard.id) ? <><BookmarkCheck className="w-3.5 h-3.5" /> {t("pages.flashcards.saved2")}</> : <><Bookmark className="w-3.5 h-3.5" /> {t("pages.flashcards.save2")}</>}
                 </Button>
               </div>
               <Button
@@ -6481,20 +6481,20 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
             <h1 className="text-3xl font-bold text-foreground mb-2" data-testid="text-adaptive-report-title">
               {adaptiveMode === "learn" ? "Learn" : "Test"} Session Complete
             </h1>
-            <p className="text-foreground/60">Adaptive study session results</p>
+            <p className="text-foreground/60">{t("pages.flashcards.adaptiveStudySessionResults")}</p>
           </div>
 
           <div className="grid grid-cols-3 gap-4 mb-8">
             <Card className="border-none shadow-md bg-card p-6 rounded-2xl text-center">
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Accuracy</p>
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">{t("pages.flashcards.accuracy")}</p>
               <p className={cn("text-4xl font-black", reportScore >= 70 ? "text-emerald-500" : reportScore >= 50 ? "text-amber-500" : "text-red-500")} data-testid="text-adaptive-accuracy">{reportScore}%</p>
             </Card>
             <Card className="border-none shadow-md bg-card p-6 rounded-2xl text-center">
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Correct</p>
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">{t("pages.flashcards.correct")}</p>
               <p className="text-4xl font-black text-emerald-500" data-testid="text-adaptive-correct">{reportCorrect}</p>
             </Card>
             <Card className="border-none shadow-md bg-card p-6 rounded-2xl text-center">
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Total</p>
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">{t("pages.flashcards.total")}</p>
               <p className="text-4xl font-black text-foreground" data-testid="text-adaptive-total">{reportTotal}</p>
             </Card>
           </div>
@@ -6549,15 +6549,15 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                 <div className="grid grid-cols-3 gap-3">
                   <div className="text-center p-3 rounded-xl bg-red-50/50 border border-red-100">
                     <p className="text-2xl font-bold text-red-600">{confCounts.guessing}</p>
-                    <p className="text-xs text-red-600/70 font-medium">Guessing</p>
+                    <p className="text-xs text-red-600/70 font-medium">{t("pages.flashcards.guessing2")}</p>
                   </div>
                   <div className="text-center p-3 rounded-xl bg-amber-50/50 border border-amber-100">
                     <p className="text-2xl font-bold text-amber-600">{confCounts.somewhat}</p>
-                    <p className="text-xs text-amber-600/70 font-medium">Somewhat</p>
+                    <p className="text-xs text-amber-600/70 font-medium">{t("pages.flashcards.somewhat2")}</p>
                   </div>
                   <div className="text-center p-3 rounded-xl bg-emerald-50/50 border border-emerald-100">
                     <p className="text-2xl font-bold text-emerald-600">{confCounts.very_confident}</p>
-                    <p className="text-xs text-emerald-600/70 font-medium">Confident</p>
+                    <p className="text-xs text-emerald-600/70 font-medium">{t("pages.flashcards.confident2")}</p>
                   </div>
                 </div>
               </CardContent>
@@ -6649,20 +6649,20 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           <div className="w-24 h-24 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
             <Trophy className="w-12 h-12 text-rose-500" />
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2" data-testid="text-exam-report-title">Exam Session Complete!</h1>
-          <p className="text-foreground/60 mb-12">Here's how you performed on the CAT exam study cards</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2" data-testid="text-exam-report-title">{t("pages.flashcards.examSessionComplete")}</h1>
+          <p className="text-foreground/60 mb-12">{t("pages.flashcards.heresHowYouPerformedOn")}</p>
 
           <div className="grid grid-cols-3 gap-4 mb-12">
             <Card className="border-none shadow-md bg-card p-8 rounded-3xl text-center">
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Accuracy</p>
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">{t("pages.flashcards.accuracy2")}</p>
               <p className="text-4xl font-black text-rose-500" data-testid="text-exam-accuracy">{examScore}%</p>
             </Card>
             <Card className="border-none shadow-md bg-card p-8 rounded-3xl text-center">
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Correct</p>
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">{t("pages.flashcards.correct2")}</p>
               <p className="text-4xl font-black text-emerald-500" data-testid="text-exam-correct">{examCorrectCount}</p>
             </Card>
             <Card className="border-none shadow-md bg-card p-8 rounded-3xl text-center">
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Total</p>
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">{t("pages.flashcards.total2")}</p>
               <p className="text-4xl font-black text-foreground" data-testid="text-exam-total">{examTotalCount}</p>
             </Card>
           </div>
@@ -6886,7 +6886,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           const labels: Record<string, string> = { review_queue: "Review", weak_area: "Weak Areas", srs_due: "Due", fresh: "New" };
           return (
             <div className="flex items-center gap-2 mb-4 text-[10px] text-muted-foreground" data-testid="session-source-summary">
-              <span className="font-medium">Personalized mix:</span>
+              <span className="font-medium">{t("pages.flashcards.personalizedMix")}</span>
               {Object.entries(counts).filter(([, v]) => v > 0).map(([k, v]) => (
                 <span key={k} className={cn("px-1.5 py-0.5 rounded border font-medium",
                   k === "review_queue" ? "bg-rose-50 text-rose-600 border-rose-100" :
@@ -6905,7 +6905,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           <div className="flex items-center justify-between mb-4 px-3 py-2 rounded-lg bg-amber-50 border border-amber-200" data-testid="preview-cards-remaining">
             <div className="flex items-center gap-2 text-xs text-amber-800">
               <Eye className="w-3.5 h-3.5" />
-              <span className="font-medium">Preview Mode</span>
+              <span className="font-medium">{t("pages.flashcards.previewMode")}</span>
               <span className="text-amber-600">·</span>
               <span>{previewStatus.sessionRemaining} cards remaining this session</span>
               <span className="text-amber-600">·</span>
@@ -6967,14 +6967,14 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                           <div className="w-5 h-5 rounded-md bg-primary/10 flex items-center justify-center">
                             <BookOpen className="w-2.5 h-2.5 text-primary" />
                           </div>
-                          <h3 className="text-[11px] font-semibold text-primary tracking-wide">Rationale & Review</h3>
+                          <h3 className="text-[11px] font-semibold text-primary tracking-wide">{t("pages.flashcards.rationaleReview3")}</h3>
                         </div>
 
                         <CardContent className="px-4 py-3 space-y-2.5">
                           <div className="themed-correct-answer-bg rounded-lg border p-2.5">
                             <div className="flex items-center gap-1.5 mb-1">
                               <CheckCircle2 className="w-3 h-3 theme-icon" />
-                              <span className="text-[10px] font-semibold themed-correct-answer-label uppercase tracking-wide">Correct Answer</span>
+                              <span className="text-[10px] font-semibold themed-correct-answer-label uppercase tracking-wide">{t("pages.flashcards.correctAnswer")}</span>
                             </div>
                             <p className="text-xs font-medium pl-4.5 text-foreground">
                               {currentCard.options?.[currentCard.correctIndex ?? 0]}
@@ -6984,7 +6984,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                           <div className="bg-card rounded-lg border border-border p-2.5">
                             <div className="flex items-center gap-1.5 mb-1">
                               <Lightbulb className="w-3 h-3 theme-icon" />
-                              <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">Why This Is Correct</span>
+                              <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">{t("pages.flashcards.whyThisIsCorrect")}</span>
                             </div>
                             <p className="text-xs leading-relaxed text-muted-foreground">{currentCard.detailedRationale || currentCard.answer}</p>
                           </div>
@@ -6993,7 +6993,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                             <div className="bg-card rounded-lg border border-border p-2.5">
                               <div className="flex items-center gap-1.5 mb-2">
                                 <AlertCircle className="w-3 h-3 text-rose-400" />
-                                <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">Why Other Options Are Incorrect</span>
+                                <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">{t("pages.flashcards.whyOtherOptionsAreIncorrect2")}</span>
                               </div>
                               <div className="space-y-1.5">
                                 {currentCard.options.map((opt, idx) => {
@@ -7016,7 +7016,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                           <div className="bg-gradient-to-r from-amber-50/70 to-rose-50/50 rounded-lg border border-amber-100/50 p-2.5">
                             <div className="flex items-center gap-1.5 mb-1">
                               <Star className="w-3 h-3 theme-icon" />
-                              <span className="text-[10px] font-semibold text-muted-foreground">Clinical Pearl</span>
+                              <span className="text-[10px] font-semibold text-muted-foreground">{t("pages.flashcards.clinicalPearl2")}</span>
                             </div>
                             <p className="text-[11px] leading-relaxed text-muted-foreground">
                               {currentCard.clinicalPearl || `For ${catLabel(currentCard.category)} questions, focus on priority assessment and immediate nursing interventions. Always identify the most critical patient need first, then select the intervention that addresses it directly. Remember the ABCs (Airway, Breathing, Circulation) and Maslow's hierarchy when prioritizing.`}
@@ -7030,7 +7030,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                           <div className="bg-gradient-to-r from-blue-50/60 to-violet-50/40 rounded-lg border border-blue-100/50 p-2.5">
                             <div className="flex items-center gap-1.5 mb-1">
                               <Target className="w-3 h-3 theme-icon" />
-                              <span className="text-[10px] font-semibold text-muted-foreground">Key Exam Concept</span>
+                              <span className="text-[10px] font-semibold text-muted-foreground">{t("pages.flashcards.keyExamConcept")}</span>
                             </div>
                             <p className="text-[11px] leading-relaxed text-muted-foreground">
                               {currentCard.examStrategy || currentCard.detailedRationale || currentCard.answer}
@@ -7041,7 +7041,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                             <div className="bg-gradient-to-r from-violet-50/60 to-purple-50/40 rounded-lg border border-violet-100/50 p-2.5">
                               <div className="flex items-center gap-1.5 mb-1">
                                 <Lightbulb className="w-3 h-3 theme-icon" />
-                                <span className="text-[10px] font-semibold text-muted-foreground">Memory Hook</span>
+                                <span className="text-[10px] font-semibold text-muted-foreground">{t("pages.flashcards.memoryHook")}</span>
                               </div>
                               <p className="text-[11px] leading-relaxed text-muted-foreground">{currentCard.memoryHook}</p>
                             </div>
@@ -7067,7 +7067,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                                 <BookOpen className="w-3 h-3 theme-icon" />
                               </div>
                               <div className="flex-1 min-w-0">
-                                <p className="text-[10px] font-medium text-primary/70 uppercase tracking-wide">Related Lesson</p>
+                                <p className="text-[10px] font-medium text-primary/70 uppercase tracking-wide">{t("pages.flashcards.relatedLesson")}</p>
                                 <p className="text-xs font-medium text-primary truncate">{relatedLesson.title}</p>
                               </div>
                               <ChevronRight className="w-3 h-3 text-primary/30 group-hover:text-primary/60 transition-colors shrink-0" />
@@ -7214,9 +7214,9 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                 data-testid="button-bookmark"
               >
                 {bookmarks.includes(currentCard.id) ? (
-                  <><BookmarkCheck className="w-3.5 h-3.5" /> Saved</>
+                  <><BookmarkCheck className="w-3.5 h-3.5" /> {t("pages.flashcards.saved3")}</>
                 ) : (
-                  <><Bookmark className="w-3.5 h-3.5" /> Flag</>
+                  <><Bookmark className="w-3.5 h-3.5" /> {t("pages.flashcards.flag")}</>
                 )}
               </Button>
               <Button
@@ -7232,9 +7232,9 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                 data-testid="button-mastered"
               >
                 {mastered.includes(currentCard.id) ? (
-                  <><CheckCircle2 className="w-3.5 h-3.5" /> Mastered</>
+                  <><CheckCircle2 className="w-3.5 h-3.5" /> {t("pages.flashcards.mastered2")}</>
                 ) : (
-                  <><Trophy className="w-3.5 h-3.5" /> Master</>
+                  <><Trophy className="w-3.5 h-3.5" /> {t("pages.flashcards.master2")}</>
                 )}
               </Button>
             </div>

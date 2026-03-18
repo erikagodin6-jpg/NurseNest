@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   Plus, Settings, Rocket, Trash2, ChevronRight, BarChart3,
   BookOpen, FileText, Brain, Target, Globe, Eye, Pencil, X,
@@ -63,6 +64,7 @@ const DEFAULT_PROFESSIONS = [
 ];
 
 export default function AdminProfessionsPage() {
+  const { t } = useI18n();
   const { isAdmin } = useAuth();
   const [, navigate] = useLocation();
   const queryClient = useQueryClient();
@@ -97,7 +99,7 @@ export default function AdminProfessionsPage() {
   });
 
   if (!isAdmin) {
-    return <div className="p-8 text-center text-gray-500">Admin access required</div>;
+    return <div className="p-8 text-center text-gray-500">{t("pages.adminProfessions.adminAccessRequired")}</div>;
   }
 
   const handleSave = () => {
@@ -134,8 +136,8 @@ export default function AdminProfessionsPage() {
     <div className="max-w-7xl mx-auto px-4 py-8" data-testid="admin-professions-page">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900" data-testid="text-page-title">Profession Management</h1>
-          <p className="text-gray-500 mt-1">Add and configure healthcare professions for the platform</p>
+          <h1 className="text-3xl font-bold text-gray-900" data-testid="text-page-title">{t("pages.adminProfessions.professionManagement")}</h1>
+          <p className="text-gray-500 mt-1">{t("pages.adminProfessions.addAndConfigureHealthcareProfessions")}</p>
         </div>
         <div className="flex gap-3">
           <button onClick={() => navigate("/en/admin/universal-import")} className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium" data-testid="button-go-importer">
@@ -179,12 +181,12 @@ export default function AdminProfessionsPage() {
       {activeTab === "list" && (
         <>
           {isLoading ? (
-            <div className="text-center py-12 text-gray-500">Loading professions...</div>
+            <div className="text-center py-12 text-gray-500">{t("pages.adminProfessions.loadingProfessions")}</div>
           ) : professions.length === 0 ? (
             <div className="text-center py-16 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
               <Layers className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">No professions yet</h3>
-              <p className="text-gray-500 mb-6">Start by using a template or creating a custom profession</p>
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">{t("pages.adminProfessions.noProfessionsYet")}</h3>
+              <p className="text-gray-500 mb-6">{t("pages.adminProfessions.startByUsingATemplate")}</p>
               <button onClick={() => setActiveTab("templates")} className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium" data-testid="button-view-templates">
                 View Templates
               </button>
@@ -216,15 +218,15 @@ export default function AdminProfessionsPage() {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <button onClick={() => startEdit(p)} className="p-2 hover:bg-gray-100 rounded-lg" title="Edit" data-testid={`button-edit-${p.slug}`}>
+                        <button onClick={() => startEdit(p)} className="p-2 hover:bg-gray-100 rounded-lg" title={t("pages.adminProfessions.edit")} data-testid={`button-edit-${p.slug}`}>
                           <Pencil className="w-4 h-4 text-gray-500" />
                         </button>
                         {p.status !== "launched" && (
-                          <button onClick={() => launchMutation.mutate(p.id)} className="p-2 hover:bg-green-50 rounded-lg" title="Launch" data-testid={`button-launch-${p.slug}`}>
+                          <button onClick={() => launchMutation.mutate(p.id)} className="p-2 hover:bg-green-50 rounded-lg" title={t("pages.adminProfessions.launch")} data-testid={`button-launch-${p.slug}`}>
                             <Rocket className="w-4 h-4 text-green-600" />
                           </button>
                         )}
-                        <button onClick={() => { if (confirm(`Delete ${p.name}?`)) deleteMutation.mutate(p.id); }} className="p-2 hover:bg-red-50 rounded-lg" title="Delete" data-testid={`button-delete-${p.slug}`}>
+                        <button onClick={() => { if (confirm(`Delete ${p.name}?`)) deleteMutation.mutate(p.id); }} className="p-2 hover:bg-red-50 rounded-lg" title={t("pages.adminProfessions.delete")} data-testid={`button-delete-${p.slug}`}>
                           <Trash2 className="w-4 h-4 text-red-500" />
                         </button>
                       </div>
@@ -250,61 +252,61 @@ export default function AdminProfessionsPage() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
-                  <input value={formData.name || ""} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" placeholder="Respiratory Therapy" data-testid="input-name" />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminProfessions.name")}</label>
+                  <input value={formData.name || ""} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" placeholder={t("pages.adminProfessions.respiratoryTherapy")} data-testid="input-name" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Short Name</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminProfessions.shortName")}</label>
                   <input value={formData.shortName || ""} onChange={(e) => setFormData({ ...formData, shortName: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" placeholder="RRT" data-testid="input-short-name" />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">URL Slug *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminProfessions.urlSlug")}</label>
                   <input value={formData.slug || ""} onChange={(e) => setFormData({ ...formData, slug: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" placeholder="respiratory-therapy" data-testid="input-slug" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Route Prefix *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminProfessions.routePrefix")}</label>
                   <input value={formData.routePrefix || ""} onChange={(e) => setFormData({ ...formData, routePrefix: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" placeholder="/respiratory-therapy" data-testid="input-route-prefix" />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                <textarea value={formData.description || ""} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} placeholder="Brief description of this profession" data-testid="input-description" />
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminProfessions.description")}</label>
+                <textarea value={formData.description || ""} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} placeholder={t("pages.adminProfessions.briefDescriptionOfThisProfession")} data-testid="input-description" />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Brand Color</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminProfessions.brandColor")}</label>
                   <div className="flex gap-2">
                     <input type="color" value={formData.color || "#6C63FF"} onChange={(e) => setFormData({ ...formData, color: e.target.value })} className="w-10 h-10 rounded border cursor-pointer" data-testid="input-color" />
                     <input value={formData.color || "#6C63FF"} onChange={(e) => setFormData({ ...formData, color: e.target.value })} className="flex-1 px-3 py-2 border rounded-lg text-sm" data-testid="input-color-hex" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminProfessions.country")}</label>
                   <select value={formData.country || "ALL"} onChange={(e) => setFormData({ ...formData, country: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" data-testid="select-country">
-                    <option value="ALL">All Countries</option>
-                    <option value="US">United States</option>
-                    <option value="CA">Canada</option>
+                    <option value="ALL">{t("pages.adminProfessions.allCountries")}</option>
+                    <option value="US">{t("pages.adminProfessions.unitedStates")}</option>
+                    <option value="CA">{t("pages.adminProfessions.canada")}</option>
                   </select>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Exam Names (comma-separated)</label>
-                <input value={(formData.examNames || []).join(", ")} onChange={(e) => setFormData({ ...formData, examNames: e.target.value.split(",").map(s => s.trim()).filter(Boolean) })} className="w-full px-3 py-2 border rounded-lg text-sm" placeholder="NBRC TMC, NBRC CSE" data-testid="input-exam-names" />
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminProfessions.examNamesCommaseparated")}</label>
+                <input value={(formData.examNames || []).join(", ")} onChange={(e) => setFormData({ ...formData, examNames: e.target.value.split(",").map(s => s.trim()).filter(Boolean) })} className="w-full px-3 py-2 border rounded-lg text-sm" placeholder={t("pages.adminProfessions.nbrcTmcNbrcCse")} data-testid="input-exam-names" />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Domains (comma-separated)</label>
-                <input value={(formData.domains || []).join(", ")} onChange={(e) => setFormData({ ...formData, domains: e.target.value.split(",").map(s => s.trim()).filter(Boolean) })} className="w-full px-3 py-2 border rounded-lg text-sm" placeholder="Patient Assessment, Airway Management, ..." data-testid="input-domains" />
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminProfessions.domainsCommaseparated")}</label>
+                <input value={(formData.domains || []).join(", ")} onChange={(e) => setFormData({ ...formData, domains: e.target.value.split(",").map(s => s.trim()).filter(Boolean) })} className="w-full px-3 py-2 border rounded-lg text-sm" placeholder={t("pages.adminProfessions.patientAssessmentAirwayManagement")} data-testid="input-domains" />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Enabled Modules</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("pages.adminProfessions.enabledModules")}</label>
                 <div className="grid grid-cols-2 gap-2">
                   {MODULE_OPTIONS.map((m) => (
                     <label key={m.key} className="flex items-center gap-2 text-sm cursor-pointer">
@@ -317,20 +319,20 @@ export default function AdminProfessionsPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminProfessions.status")}</label>
                 <select value={formData.status || "draft"} onChange={(e) => setFormData({ ...formData, status: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" data-testid="select-status">
-                  <option value="draft">Draft</option>
-                  <option value="active">Active</option>
-                  <option value="launched">Launched</option>
+                  <option value="draft">{t("pages.adminProfessions.draft")}</option>
+                  <option value="active">{t("pages.adminProfessions.active")}</option>
+                  <option value="launched">{t("pages.adminProfessions.launched")}</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Hub Title (optional)</label>
-                <input value={formData.hubTitle || ""} onChange={(e) => setFormData({ ...formData, hubTitle: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" placeholder="Your Respiratory Therapy Exam Prep Hub" data-testid="input-hub-title" />
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminProfessions.hubTitleOptional")}</label>
+                <input value={formData.hubTitle || ""} onChange={(e) => setFormData({ ...formData, hubTitle: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" placeholder={t("pages.adminProfessions.yourRespiratoryTherapyExamPrep")} data-testid="input-hub-title" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Hub Description (optional)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminProfessions.hubDescriptionOptional")}</label>
                 <textarea value={formData.hubDescription || ""} onChange={(e) => setFormData({ ...formData, hubDescription: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-hub-description" />
               </div>
             </div>

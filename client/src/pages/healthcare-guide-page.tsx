@@ -38,7 +38,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
+import { useI18n } from "@/lib/i18n";
 function TableOfContents({ guide, hasClusterPages }: { guide: HealthcareGuide; hasClusterPages?: boolean }) {
+  const { t } = useI18n();
   const sections = [
     { id: "introduction", title: "Introduction" },
     ...(guide.whatYouWillLearn && guide.whatYouWillLearn.length > 0 ? [{ id: "what-you-will-learn", title: "What You Will Learn" }] : []),
@@ -148,10 +150,10 @@ export default function HealthcareGuidePage() {
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-guide-not-found">Guide Not Found</h1>
-          <p className="text-gray-600 mb-6">The guide you are looking for does not exist.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-guide-not-found">{t("pages.healthcareGuidePage.guideNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.healthcareGuidePage.theGuideYouAreLooking")}</p>
           <LocaleLink href="/guides">
-            <Button data-testid="button-back-to-guides">Browse All Guides</Button>
+            <Button data-testid="button-back-to-guides">{t("pages.healthcareGuidePage.browseAllGuides")}</Button>
           </LocaleLink>
         </div>
         <Footer />
@@ -247,9 +249,9 @@ export default function HealthcareGuidePage() {
           <div className="mt-6 max-w-3xl">
             <Badge className="mb-4 text-white" style={{ backgroundColor: guide.color }} data-testid="badge-guide-category">
               {guide.category === "nursing-specialty" ? (
-                <><Stethoscope className="w-3 h-3 mr-1" /> Nursing Specialty Guide</>
+                <><Stethoscope className="w-3 h-3 mr-1" /> {t("pages.healthcareGuidePage.nursingSpecialtyGuide")}</>
               ) : (
-                <><Briefcase className="w-3 h-3 mr-1" /> Allied Health Career Guide</>
+                <><Briefcase className="w-3 h-3 mr-1" /> {t("pages.healthcareGuidePage.alliedHealthCareerGuide")}</>
               )}
             </Badge>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight" data-testid="text-guide-title">
@@ -340,7 +342,7 @@ export default function HealthcareGuidePage() {
 
             {guide.whatYouWillLearn && guide.whatYouWillLearn.length > 0 && (
             <section id="what-you-will-learn" className="mb-12 scroll-mt-24" data-testid="section-what-you-will-learn">
-              <SectionHeading id="what-you-will-learn-heading" title="What You Will Learn in This Guide" icon={GraduationCap} color={guide.color} />
+              <SectionHeading id="what-you-will-learn-heading" title={t("pages.healthcareGuidePage.whatYouWillLearnIn")} icon={GraduationCap} color={guide.color} />
               <div className="bg-white rounded-xl border border-gray-200 p-6">
                 <ul className="space-y-3">
                   {guide.whatYouWillLearn.map((item, i) => (
@@ -358,7 +360,7 @@ export default function HealthcareGuidePage() {
 
             {guide.spokeGuides && guide.spokeGuides.length > 0 && (
               <section id="topic-guides" className="mb-12 scroll-mt-24" data-testid="section-spoke-guides">
-                <SectionHeading id="topic-guides-heading" title="In-Depth Topic Guides" icon={BookOpen} color={guide.color} />
+                <SectionHeading id="topic-guides-heading" title={t("pages.healthcareGuidePage.indepthTopicGuides")} icon={BookOpen} color={guide.color} />
                 <p className="text-sm text-gray-600 mb-4">
                   Explore detailed sub-topic guides that dive deeper into key areas of {guide.title.replace(" Ultimate Guide", "")} practice.
                 </p>
@@ -391,8 +393,8 @@ export default function HealthcareGuidePage() {
 
             {clusterPages.length > 0 && (
               <section id="cluster-topics" className="mb-12 scroll-mt-24" data-testid="section-cluster-topics">
-                <SectionHeading id="cluster-heading" title="Deep Dive Topics" icon={Layers} color={guide.color} />
-                <p className="text-sm text-gray-600 mb-4">Explore in-depth guides on specific topics within this specialty.</p>
+                <SectionHeading id="cluster-heading" title={t("pages.healthcareGuidePage.deepDiveTopics")} icon={Layers} color={guide.color} />
+                <p className="text-sm text-gray-600 mb-4">{t("pages.healthcareGuidePage.exploreIndepthGuidesOnSpecific")}</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {clusterPages.map((cp) => (
                     <LocaleLink key={cp.slug} href={`/guides/${guide.slug}/${cp.slug}`}>
@@ -415,7 +417,7 @@ export default function HealthcareGuidePage() {
 
             {guide.conditions.length > 0 && (
               <section id="conditions" className="mb-12 scroll-mt-24" data-testid="section-conditions">
-                <SectionHeading id="conditions-heading" title="Key Conditions & Clinical Topics" icon={ClipboardList} color={guide.color} />
+                <SectionHeading id="conditions-heading" title={t("pages.healthcareGuidePage.keyConditionsClinicalTopics")} icon={ClipboardList} color={guide.color} />
                 <div className="space-y-6">
                   {guide.conditions.map((condition, i) => (
                     <Card key={i} className="overflow-hidden" data-testid={`card-condition-${i}`}>
@@ -444,7 +446,7 @@ export default function HealthcareGuidePage() {
 
             {guide.clinicalSkills.length > 0 && (
               <section id="clinical-skills" className="mb-12 scroll-mt-24" data-testid="section-clinical-skills">
-                <SectionHeading id="skills-heading" title="Important Clinical Skills" icon={Activity} color={guide.color} />
+                <SectionHeading id="skills-heading" title={t("pages.healthcareGuidePage.importantClinicalSkills")} icon={Activity} color={guide.color} />
                 <div className="bg-white rounded-xl border border-gray-200 p-5">
                   <ol className="space-y-3">
                     {guide.clinicalSkills.map((skill, i) => (
@@ -465,7 +467,7 @@ export default function HealthcareGuidePage() {
 
             {guide.procedures.length > 0 && (
               <section id="procedures" className="mb-12 scroll-mt-24" data-testid="section-procedures">
-                <SectionHeading id="procedures-heading" title="Common Procedures & Equipment" icon={Target} color={guide.color} />
+                <SectionHeading id="procedures-heading" title={t("pages.healthcareGuidePage.commonProceduresEquipment")} icon={Target} color={guide.color} />
                 <div className="grid gap-4">
                   {guide.procedures.map((proc, i) => (
                     <div key={i} className="bg-white rounded-xl border border-gray-200 p-5" data-testid={`card-procedure-${i}`}>
@@ -485,7 +487,7 @@ export default function HealthcareGuidePage() {
 
             {guide.medications.length > 0 && (
               <section id="medications" className="mb-12 scroll-mt-24" data-testid="section-medications">
-                <SectionHeading id="medications-heading" title="Medications Frequently Used" icon={Pill} color={guide.color} />
+                <SectionHeading id="medications-heading" title={t("pages.healthcareGuidePage.medicationsFrequentlyUsed")} icon={Pill} color={guide.color} />
                 <div className="space-y-4">
                   {guide.medications.map((med, i) => (
                     <Card key={i} data-testid={`card-medication-${i}`}>
@@ -494,9 +496,9 @@ export default function HealthcareGuidePage() {
                           <h3 className="font-bold text-gray-900">{med.drugClass}</h3>
                           <Badge variant="outline" className="text-xs shrink-0">{med.examples.split(",").length} drugs</Badge>
                         </div>
-                        <p className="text-sm text-gray-500 mb-2"><span className="font-medium text-gray-700">Examples:</span> {med.examples}</p>
+                        <p className="text-sm text-gray-500 mb-2"><span className="font-medium text-gray-700">{t("pages.healthcareGuidePage.examples")}</span> {med.examples}</p>
                         <div className="bg-amber-50 border border-amber-100 rounded-lg p-3">
-                          <p className="text-sm text-amber-800"><span className="font-semibold">Nursing Considerations:</span> {med.nursingConsiderations}</p>
+                          <p className="text-sm text-amber-800"><span className="font-semibold">{t("pages.healthcareGuidePage.nursingConsiderations")}</span> {med.nursingConsiderations}</p>
                         </div>
                       </CardContent>
                     </Card>
@@ -532,7 +534,7 @@ export default function HealthcareGuidePage() {
 
             {guide.scenarios.length > 0 && (
               <section id="scenarios" className="mb-12 scroll-mt-24" data-testid="section-scenarios">
-                <SectionHeading id="scenarios-heading" title="Clinical Scenarios" icon={Brain} color={guide.color} />
+                <SectionHeading id="scenarios-heading" title={t("pages.healthcareGuidePage.clinicalScenarios")} icon={Brain} color={guide.color} />
                 <div className="space-y-6">
                   {guide.scenarios.map((scenario, i) => (
                     <Card key={i} className="overflow-hidden border-l-4" style={{ borderLeftColor: guide.color }} data-testid={`card-scenario-${i}`}>
@@ -542,10 +544,10 @@ export default function HealthcareGuidePage() {
                           <h3 className="font-bold text-gray-900">{scenario.title}</h3>
                         </div>
                         <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                          <p className="text-sm font-medium text-gray-800 mb-1">Patient Presentation:</p>
+                          <p className="text-sm font-medium text-gray-800 mb-1">{t("pages.healthcareGuidePage.patientPresentation")}</p>
                           <p className="text-sm text-gray-600">{scenario.presentation}</p>
                         </div>
-                        <p className="text-sm font-medium text-gray-800 mb-2">Priority Nursing Actions:</p>
+                        <p className="text-sm font-medium text-gray-800 mb-2">{t("pages.healthcareGuidePage.priorityNursingActions")}</p>
                         <ol className="space-y-2">
                           {scenario.keyActions.map((action, j) => (
                             <li key={j} className="flex items-start gap-2 text-sm text-gray-700">
@@ -565,7 +567,7 @@ export default function HealthcareGuidePage() {
 
             {guide.practiceQuestionsLinks && guide.practiceQuestionsLinks.length > 0 && (
             <section id="practice-questions" className="mb-12 scroll-mt-24" data-testid="section-practice-questions">
-              <SectionHeading id="practice-heading" title="Practice Questions" icon={FileText} color={guide.color} />
+              <SectionHeading id="practice-heading" title={t("pages.healthcareGuidePage.practiceQuestions")} icon={FileText} color={guide.color} />
               {guide.practiceQuestionsIntro && <p className="text-sm text-gray-600 mb-4">{guide.practiceQuestionsIntro}</p>}
               <div className="grid sm:grid-cols-2 gap-3">
                 {guide.practiceQuestionsLinks.map((link, i) => (
@@ -590,7 +592,7 @@ export default function HealthcareGuidePage() {
 
             {guide.flashcardLinks && guide.flashcardLinks.length > 0 && (
             <section id="flashcard-review" className="mb-12 scroll-mt-24" data-testid="section-flashcard-review">
-              <SectionHeading id="flashcards-heading" title="Flashcard Review" icon={Layers} color={guide.color} />
+              <SectionHeading id="flashcards-heading" title={t("pages.healthcareGuidePage.flashcardReview")} icon={Layers} color={guide.color} />
               {guide.flashcardReviewIntro && <p className="text-sm text-gray-600 mb-4">{guide.flashcardReviewIntro}</p>}
               <div className="grid sm:grid-cols-2 gap-3">
                 {guide.flashcardLinks.map((link, i) => (
@@ -614,7 +616,7 @@ export default function HealthcareGuidePage() {
             )}
 
             <section id="career-overview" className="mb-12 scroll-mt-24" data-testid="section-career-overview">
-              <SectionHeading id="career-heading" title="Career Overview" icon={Briefcase} color={guide.color} />
+              <SectionHeading id="career-heading" title={t("pages.healthcareGuidePage.careerOverview")} icon={Briefcase} color={guide.color} />
               <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
                 <div className="p-6">
                   <p className="text-sm text-gray-700 leading-relaxed mb-6">{renderTextWithContextualLinks(guide.careerOverview.description, guide.contextualLinks, linkTracker)}</p>
@@ -623,14 +625,14 @@ export default function HealthcareGuidePage() {
                     <div className="bg-gray-50 rounded-lg p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <DollarSign className="w-4 h-4" style={{ color: guide.color }} />
-                        <h4 className="text-sm font-semibold text-gray-900">Salary Range</h4>
+                        <h4 className="text-sm font-semibold text-gray-900">{t("pages.healthcareGuidePage.salaryRange")}</h4>
                       </div>
                       <p className="text-sm text-gray-600">{guide.careerOverview.salaryRange}</p>
                     </div>
                     <div className="bg-gray-50 rounded-lg p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <TrendingUp className="w-4 h-4" style={{ color: guide.color }} />
-                        <h4 className="text-sm font-semibold text-gray-900">Job Outlook</h4>
+                        <h4 className="text-sm font-semibold text-gray-900">{t("pages.healthcareGuidePage.jobOutlook")}</h4>
                       </div>
                       <p className="text-sm text-gray-600">{guide.careerOverview.outlook}</p>
                     </div>
@@ -665,7 +667,7 @@ export default function HealthcareGuidePage() {
             </section>
 
             <section id="faq" className="mb-12 scroll-mt-24" data-testid="section-faq">
-              <SectionHeading id="faq-heading" title="Frequently Asked Questions" icon={HelpCircle} color={guide.color} />
+              <SectionHeading id="faq-heading" title={t("pages.healthcareGuidePage.frequentlyAskedQuestions")} icon={HelpCircle} color={guide.color} />
               <div className="space-y-3">
                 {guide.faqs.map((faq, i) => (
                   <div
@@ -696,7 +698,7 @@ export default function HealthcareGuidePage() {
 
             {relatedGuides.length > 0 && (
               <section id="related-guides" className="mb-12 scroll-mt-24" data-testid="section-related-guides">
-                <SectionHeading id="related-guides-heading" title="Related Nursing Specialties" icon={Stethoscope} color={guide.color} />
+                <SectionHeading id="related-guides-heading" title={t("pages.healthcareGuidePage.relatedNursingSpecialties")} icon={Stethoscope} color={guide.color} />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {relatedGuides.map((rg) => (
                     <LocaleLink key={rg.slug} href={`/guides/${rg.slug}`}>
@@ -770,8 +772,8 @@ export function HealthcareGuidesIndex() {
     <div className="min-h-screen bg-gray-50" data-testid="healthcare-guides-index">
       <Navigation />
       <SEO
-        title="Healthcare Ultimate Guides | Specialty & Career Guides | NurseNest"
-        description="Comprehensive healthcare guides covering nursing specialties and allied health professions. Each guide includes clinical conditions, skills, procedures, medications, scenarios, practice questions, flashcards, and career overviews."
+        title={t("pages.healthcareGuidePage.healthcareUltimateGuidesSpecialtyCareer")}
+        description={t("pages.healthcareGuidePage.comprehensiveHealthcareGuidesCoveringNursing")}
         keywords="healthcare guides, nursing specialty guides, ICU nursing guide, paramedic career guide, respiratory therapy guide, occupational therapy guide, physical therapy guide"
         canonicalPath="/guides"
         breadcrumbs={[
@@ -808,7 +810,7 @@ export function HealthcareGuidesIndex() {
           <h2 className="text-xl font-bold text-gray-900 mb-2 flex items-center gap-2" data-testid="heading-nursing-specialties">
             <Stethoscope className="w-5 h-5 text-blue-600" /> Nursing Specialty Guides
           </h2>
-          <p className="text-sm text-gray-500 mb-6">Deep clinical knowledge for nursing specialties</p>
+          <p className="text-sm text-gray-500 mb-6">{t("pages.healthcareGuidePage.deepClinicalKnowledgeForNursing")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {nursingGuides.map((guide) => (
               <LocaleLink key={guide.slug} href={`/guides/${guide.slug}`}>
@@ -822,10 +824,10 @@ export function HealthcareGuidesIndex() {
                     </h3>
                     <p className="text-sm text-gray-500 mb-4 line-clamp-3">{guide.metaDescription}</p>
                     <div className="flex flex-wrap gap-1.5 mb-4">
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-50 text-red-600 font-medium">Conditions</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium">Skills</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 font-medium">Medications</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-50 text-green-600 font-medium">Career</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-50 text-red-600 font-medium">{t("pages.healthcareGuidePage.conditions")}</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium">{t("pages.healthcareGuidePage.skills")}</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 font-medium">{t("pages.healthcareGuidePage.medications")}</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-50 text-green-600 font-medium">{t("pages.healthcareGuidePage.career")}</span>
                     </div>
                     <span className="inline-flex items-center gap-1 text-sm text-blue-600 font-medium">
                       Read Guide <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -841,7 +843,7 @@ export function HealthcareGuidesIndex() {
           <h2 className="text-xl font-bold text-gray-900 mb-2 flex items-center gap-2" data-testid="heading-allied-health">
             <Briefcase className="w-5 h-5 text-indigo-600" /> Allied Health Career Guides
           </h2>
-          <p className="text-sm text-gray-500 mb-6">Career pathways and clinical knowledge for allied health professions</p>
+          <p className="text-sm text-gray-500 mb-6">{t("pages.healthcareGuidePage.careerPathwaysAndClinicalKnowledge")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {alliedGuides.map((guide) => (
               <LocaleLink key={guide.slug} href={`/guides/${guide.slug}`}>
@@ -855,9 +857,9 @@ export function HealthcareGuidesIndex() {
                     </h3>
                     <p className="text-sm text-gray-500 mb-4 line-clamp-3">{guide.metaDescription}</p>
                     <div className="flex flex-wrap gap-1.5 mb-4">
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-50 text-red-600 font-medium">Clinical</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium">Skills</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 font-medium">Career</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-50 text-red-600 font-medium">{t("pages.healthcareGuidePage.clinical")}</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium">{t("pages.healthcareGuidePage.skills2")}</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 font-medium">{t("pages.healthcareGuidePage.career2")}</span>
                     </div>
                     <span className="inline-flex items-center gap-1 text-sm text-indigo-600 font-medium">
                       Read Guide <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -873,7 +875,7 @@ export function HealthcareGuidesIndex() {
           <h2 className="text-xl font-bold text-gray-900 mb-2 flex items-center gap-2" data-testid="heading-career-guides">
             <GraduationCap className="w-5 h-5 text-purple-600" /> Career Path Guides
           </h2>
-          <p className="text-sm text-gray-500 mb-6">Complete career guides from exam prep to job placement</p>
+          <p className="text-sm text-gray-500 mb-6">{t("pages.healthcareGuidePage.completeCareerGuidesFromExam")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {AUTHORITY_GUIDES.map((guide) => (
               <LocaleLink key={guide.slug} href={`/guides/${guide.slug}`}>
@@ -887,9 +889,9 @@ export function HealthcareGuidesIndex() {
                     </h3>
                     <p className="text-sm text-gray-500 mb-4 line-clamp-3">{guide.heroSubtitle}</p>
                     <div className="flex flex-wrap gap-1.5 mb-4">
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 font-medium">Exam Prep</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium">Clinical</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 font-medium">Career</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 font-medium">{t("pages.healthcareGuidePage.examPrep")}</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium">{t("pages.healthcareGuidePage.clinical2")}</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 font-medium">{t("pages.healthcareGuidePage.career3")}</span>
                     </div>
                     <span className="inline-flex items-center gap-1 text-sm text-purple-600 font-medium">
                       Read Guide <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />

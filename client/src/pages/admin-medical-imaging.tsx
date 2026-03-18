@@ -4,6 +4,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/lib/auth";
 import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { useI18n } from "@/lib/i18n";
 import {
   Radio, Plus, Trash2, Edit2, Check, X, Filter,
   FileText, Zap, Image, BookOpen, Atom, MapPin,
@@ -34,6 +35,7 @@ const TABS: { key: Tab; label: string; icon: typeof FileText }[] = [
 ];
 
 export default function AdminMedicalImaging() {
+  const { t } = useI18n();
   const { isAdmin } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>("questions");
   const [countryFilter, setCountryFilter] = useState("");
@@ -42,15 +44,15 @@ export default function AdminMedicalImaging() {
   if (!isAdmin) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h1>
-        <p className="text-gray-600">You need admin access to view this page.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.adminMedicalImaging.accessDenied")}</h1>
+        <p className="text-gray-600">{t("pages.adminMedicalImaging.youNeedAdminAccessTo")}</p>
       </div>
     );
   }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="admin-medical-imaging-page">
-      <SEO title="Admin - Medical Imaging" description="Manage medical imaging content" noindex />
+      <SEO title={t("pages.adminMedicalImaging.adminMedicalImaging")} description={t("pages.adminMedicalImaging.manageMedicalImagingContent")} noindex />
 
       <BreadcrumbNav items={[
         { name: "Home", url: "https://www.nursenest.ca/" },
@@ -61,8 +63,8 @@ export default function AdminMedicalImaging() {
       <div className="flex items-center gap-3 mb-8">
         <Radio className="w-8 h-8 text-indigo-600" />
         <div>
-          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-admin-imaging-title">Medical Imaging Content Manager</h1>
-          <p className="text-sm text-gray-500">Manage questions, flashcards, case studies, image assets, positioning entries, and physics topics</p>
+          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-admin-imaging-title">{t("pages.adminMedicalImaging.medicalImagingContentManager")}</h1>
+          <p className="text-sm text-gray-500">{t("pages.adminMedicalImaging.manageQuestionsFlashcardsCaseStudies")}</p>
         </div>
       </div>
 
@@ -91,8 +93,8 @@ export default function AdminMedicalImaging() {
           className="px-3 py-2 border border-gray-200 rounded-lg text-sm"
           data-testid="select-country-filter"
         >
-          <option value="">All Countries</option>
-          <option value="canada">Canada</option>
+          <option value="">{t("pages.adminMedicalImaging.allCountries")}</option>
+          <option value="canada">{t("pages.adminMedicalImaging.canada")}</option>
           <option value="usa">USA</option>
         </select>
         <select
@@ -101,12 +103,12 @@ export default function AdminMedicalImaging() {
           className="px-3 py-2 border border-gray-200 rounded-lg text-sm"
           data-testid="select-status-filter"
         >
-          <option value="">All Statuses</option>
-          <option value="draft">Draft</option>
-          <option value="pending_review">Pending Review</option>
-          <option value="approved">Approved</option>
-          <option value="published">Published</option>
-          <option value="archived">Archived</option>
+          <option value="">{t("pages.adminMedicalImaging.allStatuses")}</option>
+          <option value="draft">{t("pages.adminMedicalImaging.draft")}</option>
+          <option value="pending_review">{t("pages.adminMedicalImaging.pendingReview")}</option>
+          <option value="approved">{t("pages.adminMedicalImaging.approved")}</option>
+          <option value="published">{t("pages.adminMedicalImaging.published")}</option>
+          <option value="archived">{t("pages.adminMedicalImaging.archived")}</option>
         </select>
       </div>
 
@@ -158,12 +160,12 @@ function QuestionsPanel({ countryFilter, statusFilter }: { countryFilter: string
       {showForm && <QuestionForm onClose={() => setShowForm(false)} />}
 
       {isLoading ? (
-        <div className="text-center py-8 text-gray-500">Loading...</div>
+        <div className="text-center py-8 text-gray-500">{t("pages.adminMedicalImaging.loading")}</div>
       ) : questions.length === 0 ? (
         <div className="text-center py-12 text-gray-400 bg-gray-50 rounded-xl">
           <FileText className="w-10 h-10 mx-auto mb-3 opacity-40" />
-          <p className="font-medium">No questions found</p>
-          <p className="text-sm">Add questions or adjust filters</p>
+          <p className="font-medium">{t("pages.adminMedicalImaging.noQuestionsFound")}</p>
+          <p className="text-sm">{t("pages.adminMedicalImaging.addQuestionsOrAdjustFilters")}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -187,11 +189,11 @@ function QuestionsPanel({ countryFilter, statusFilter }: { countryFilter: string
                     className="text-xs border border-gray-200 rounded px-2 py-1"
                     data-testid={`select-status-${q.id}`}
                   >
-                    <option value="draft">Draft</option>
-                    <option value="pending_review">Pending Review</option>
-                    <option value="approved">Approved</option>
-                    <option value="published">Published</option>
-                    <option value="archived">Archived</option>
+                    <option value="draft">{t("pages.adminMedicalImaging.draft2")}</option>
+                    <option value="pending_review">{t("pages.adminMedicalImaging.pendingReview2")}</option>
+                    <option value="approved">{t("pages.adminMedicalImaging.approved2")}</option>
+                    <option value="published">{t("pages.adminMedicalImaging.published2")}</option>
+                    <option value="archived">{t("pages.adminMedicalImaging.archived2")}</option>
                   </select>
                   <button onClick={() => deleteMutation.mutate(q.id)} className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded" data-testid={`button-delete-${q.id}`}>
                     <Trash2 className="w-4 h-4" />
@@ -235,33 +237,33 @@ function QuestionForm({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-4 mb-4" data-testid="form-add-question">
-      <h3 className="font-semibold text-gray-900 mb-3">New Question</h3>
+      <h3 className="font-semibold text-gray-900 mb-3">{t("pages.adminMedicalImaging.newQuestion")}</h3>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
         <select value={form.country} onChange={e => setForm({ ...form, country: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-country">
-          <option value="canada">Canada</option>
+          <option value="canada">{t("pages.adminMedicalImaging.canada2")}</option>
           <option value="usa">USA</option>
         </select>
         <select value={form.exam} onChange={e => setForm({ ...form, exam: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-exam">
           <option value="camrt">CAMRT</option>
           <option value="arrt">ARRT</option>
         </select>
-        <input placeholder="Topic" value={form.topic} onChange={e => setForm({ ...form, topic: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-topic" />
+        <input placeholder={t("pages.adminMedicalImaging.topic")} value={form.topic} onChange={e => setForm({ ...form, topic: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-topic" />
         <select value={String(form.difficulty)} onChange={e => setForm({ ...form, difficulty: parseInt(e.target.value) })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-difficulty">
-          <option value="1">Easy (1)</option>
-          <option value="2">Medium (2)</option>
-          <option value="3">Hard (3)</option>
+          <option value="1">{t("pages.adminMedicalImaging.easy1")}</option>
+          <option value="2">{t("pages.adminMedicalImaging.medium2")}</option>
+          <option value="3">{t("pages.adminMedicalImaging.hard3")}</option>
         </select>
       </div>
       <div className="grid grid-cols-2 gap-3 mb-3">
-        <input placeholder="Category" value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-category" />
-        <input placeholder="Body Part (optional)" value={form.bodyPart} onChange={e => setForm({ ...form, bodyPart: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-bodypart" />
+        <input placeholder={t("pages.adminMedicalImaging.category")} value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-category" />
+        <input placeholder={t("pages.adminMedicalImaging.bodyPartOptional")} value={form.bodyPart} onChange={e => setForm({ ...form, bodyPart: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-bodypart" />
       </div>
-      <textarea placeholder="Question text" value={form.question} onChange={e => setForm({ ...form, question: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm mb-3" rows={3} data-testid="input-question-text" />
+      <textarea placeholder={t("pages.adminMedicalImaging.questionText")} value={form.question} onChange={e => setForm({ ...form, question: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm mb-3" rows={3} data-testid="input-question-text" />
       <div className="grid grid-cols-2 gap-3 mb-3">
-        <input placeholder="Option A" value={form.optionA} onChange={e => setForm({ ...form, optionA: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-option-a" />
-        <input placeholder="Option B" value={form.optionB} onChange={e => setForm({ ...form, optionB: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-option-b" />
-        <input placeholder="Option C" value={form.optionC} onChange={e => setForm({ ...form, optionC: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-option-c" />
-        <input placeholder="Option D" value={form.optionD} onChange={e => setForm({ ...form, optionD: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-option-d" />
+        <input placeholder={t("pages.adminMedicalImaging.optionA")} value={form.optionA} onChange={e => setForm({ ...form, optionA: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-option-a" />
+        <input placeholder={t("pages.adminMedicalImaging.optionB")} value={form.optionB} onChange={e => setForm({ ...form, optionB: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-option-b" />
+        <input placeholder={t("pages.adminMedicalImaging.optionC")} value={form.optionC} onChange={e => setForm({ ...form, optionC: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-option-c" />
+        <input placeholder={t("pages.adminMedicalImaging.optionD")} value={form.optionD} onChange={e => setForm({ ...form, optionD: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-option-d" />
       </div>
       <div className="grid grid-cols-2 gap-3 mb-3">
         <select value={form.correctAnswer} onChange={e => setForm({ ...form, correctAnswer: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-correct-answer">
@@ -270,9 +272,9 @@ function QuestionForm({ onClose }: { onClose: () => void }) {
           <option value="C">C</option>
           <option value="D">D</option>
         </select>
-        <input placeholder="Modality (optional)" value={form.modality} onChange={e => setForm({ ...form, modality: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-modality" />
+        <input placeholder={t("pages.adminMedicalImaging.modalityOptional")} value={form.modality} onChange={e => setForm({ ...form, modality: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-question-modality" />
       </div>
-      <textarea placeholder="Rationale" value={form.rationale} onChange={e => setForm({ ...form, rationale: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm mb-3" rows={2} data-testid="input-question-rationale" />
+      <textarea placeholder={t("pages.adminMedicalImaging.rationale")} value={form.rationale} onChange={e => setForm({ ...form, rationale: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm mb-3" rows={2} data-testid="input-question-rationale" />
       <div className="flex gap-2">
         <button onClick={() => createMutation.mutate(form)} disabled={!form.question || !form.optionA || !form.optionB || !form.optionC || !form.optionD || !form.correctAnswer} className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 disabled:opacity-50" data-testid="button-save-question">
           Save Question
@@ -305,11 +307,11 @@ function FlashcardsPanel({ countryFilter, statusFilter }: { countryFilter: strin
     <div data-testid="panel-flashcards">
       <h2 className="text-lg font-semibold text-gray-900 mb-4">Imaging Flashcards ({flashcards.length})</h2>
       {isLoading ? (
-        <div className="text-center py-8 text-gray-500">Loading...</div>
+        <div className="text-center py-8 text-gray-500">{t("pages.adminMedicalImaging.loading2")}</div>
       ) : flashcards.length === 0 ? (
         <div className="text-center py-12 text-gray-400 bg-gray-50 rounded-xl">
           <Zap className="w-10 h-10 mx-auto mb-3 opacity-40" />
-          <p className="font-medium">No flashcards found</p>
+          <p className="font-medium">{t("pages.adminMedicalImaging.noFlashcardsFound")}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -357,11 +359,11 @@ function CaseStudiesPanel({ countryFilter, statusFilter }: { countryFilter: stri
     <div data-testid="panel-case-studies">
       <h2 className="text-lg font-semibold text-gray-900 mb-4">Case Studies ({studies.length})</h2>
       {isLoading ? (
-        <div className="text-center py-8 text-gray-500">Loading...</div>
+        <div className="text-center py-8 text-gray-500">{t("pages.adminMedicalImaging.loading3")}</div>
       ) : studies.length === 0 ? (
         <div className="text-center py-12 text-gray-400 bg-gray-50 rounded-xl">
           <BookOpen className="w-10 h-10 mx-auto mb-3 opacity-40" />
-          <p className="font-medium">No case studies found</p>
+          <p className="font-medium">{t("pages.adminMedicalImaging.noCaseStudiesFound")}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -451,7 +453,7 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
         <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-4" data-testid="form-upload-asset">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
             <div>
-              <label className="text-xs font-medium text-gray-500">Title</label>
+              <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.title")}</label>
               <input
                 type="text"
                 value={uploadForm.seoTitle}
@@ -462,36 +464,36 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
               />
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500">Asset Type</label>
+              <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.assetType")}</label>
               <select
                 value={uploadForm.assetType}
                 onChange={e => setUploadForm(p => ({ ...p, assetType: e.target.value }))}
                 className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm"
                 data-testid="select-asset-type"
               >
-                <option value="radiograph">Radiograph</option>
-                <option value="ct_scan">CT Scan</option>
+                <option value="radiograph">{t("pages.adminMedicalImaging.radiograph")}</option>
+                <option value="ct_scan">{t("pages.adminMedicalImaging.ctScan")}</option>
                 <option value="mri">MRI</option>
-                <option value="ultrasound">Ultrasound</option>
-                <option value="diagram">Diagram</option>
-                <option value="anatomy">Anatomy</option>
+                <option value="ultrasound">{t("pages.adminMedicalImaging.ultrasound")}</option>
+                <option value="diagram">{t("pages.adminMedicalImaging.diagram")}</option>
+                <option value="anatomy">{t("pages.adminMedicalImaging.anatomy")}</option>
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500">Country</label>
+              <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.country")}</label>
               <select
                 value={uploadForm.country}
                 onChange={e => setUploadForm(p => ({ ...p, country: e.target.value }))}
                 className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm"
                 data-testid="select-asset-country"
               >
-                <option value="canada">Canada</option>
+                <option value="canada">{t("pages.adminMedicalImaging.canada3")}</option>
                 <option value="usa">USA</option>
-                <option value="both">Both</option>
+                <option value="both">{t("pages.adminMedicalImaging.both")}</option>
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500">Modality</label>
+              <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.modality")}</label>
               <input
                 type="text"
                 value={uploadForm.modality}
@@ -502,7 +504,7 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
               />
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500">Body Region</label>
+              <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.bodyRegion")}</label>
               <input
                 type="text"
                 value={uploadForm.bodyRegion}
@@ -513,7 +515,7 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
               />
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500">Projection</label>
+              <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.projection")}</label>
               <input
                 type="text"
                 value={uploadForm.projection}
@@ -524,7 +526,7 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
               />
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500">Exam Type</label>
+              <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.examType")}</label>
               <input
                 type="text"
                 value={uploadForm.examType}
@@ -535,7 +537,7 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
               />
             </div>
             <div className="sm:col-span-2">
-              <label className="text-xs font-medium text-gray-500">Thumbnail URL</label>
+              <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.thumbnailUrl")}</label>
               <input
                 type="url"
                 value={uploadForm.thumbnailUrl}
@@ -546,7 +548,7 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
               />
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500">Teaching Image URL</label>
+              <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.teachingImageUrl")}</label>
               <input
                 type="url"
                 value={uploadForm.teachingUrl}
@@ -557,7 +559,7 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
               />
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500">Exam Image URL</label>
+              <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.examImageUrl")}</label>
               <input
                 type="url"
                 value={uploadForm.examUrl}
@@ -581,12 +583,12 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
       )}
 
       {isLoading ? (
-        <div className="text-center py-8 text-gray-500">Loading...</div>
+        <div className="text-center py-8 text-gray-500">{t("pages.adminMedicalImaging.loading4")}</div>
       ) : assets.length === 0 && !showUploadForm ? (
         <div className="text-center py-12 text-gray-400 bg-gray-50 rounded-xl">
           <Image className="w-10 h-10 mx-auto mb-3 opacity-40" />
-          <p className="font-medium">No image assets found</p>
-          <p className="text-sm mt-1">Click "Add Asset" to upload your first image</p>
+          <p className="font-medium">{t("pages.adminMedicalImaging.noImageAssetsFound")}</p>
+          <p className="text-sm mt-1">{t("pages.adminMedicalImaging.clickAddAssetToUpload")}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -607,9 +609,9 @@ function AssetsPanel({ countryFilter }: { countryFilter: string }) {
                   className="text-xs border border-gray-200 rounded px-2 py-1 flex-1"
                   data-testid={`select-approval-${a.id}`}
                 >
-                  <option value="pending">Pending</option>
-                  <option value="approved">Approved</option>
-                  <option value="rejected">Rejected</option>
+                  <option value="pending">{t("pages.adminMedicalImaging.pending")}</option>
+                  <option value="approved">{t("pages.adminMedicalImaging.approved3")}</option>
+                  <option value="rejected">{t("pages.adminMedicalImaging.rejected")}</option>
                 </select>
                 <button onClick={() => deleteMutation.mutate(a.id)} className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded" data-testid={`button-delete-asset-${a.id}`}>
                   <Trash2 className="w-4 h-4" />
@@ -661,12 +663,12 @@ function PositioningPanel({ countryFilter, statusFilter }: { countryFilter: stri
       {showForm && <PositioningForm editId={editingId} onClose={() => { setShowForm(false); setEditingId(null); }} />}
 
       {isLoading ? (
-        <div className="text-center py-8 text-gray-500">Loading...</div>
+        <div className="text-center py-8 text-gray-500">{t("pages.adminMedicalImaging.loading5")}</div>
       ) : entries.length === 0 ? (
         <div className="text-center py-12 text-gray-400 bg-gray-50 rounded-xl">
           <MapPin className="w-10 h-10 mx-auto mb-3 opacity-40" />
-          <p className="font-medium">No positioning entries found</p>
-          <p className="text-sm mt-1">Click "Add Entry" to create your first positioning guide</p>
+          <p className="font-medium">{t("pages.adminMedicalImaging.noPositioningEntriesFound")}</p>
+          <p className="text-sm mt-1">{t("pages.adminMedicalImaging.clickAddEntryToCreate")}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -690,9 +692,9 @@ function PositioningPanel({ countryFilter, statusFilter }: { countryFilter: stri
                     className="text-xs border border-gray-200 rounded px-2 py-1"
                     data-testid={`select-status-positioning-${e.id}`}
                   >
-                    <option value="draft">Draft</option>
-                    <option value="published">Published</option>
-                    <option value="archived">Archived</option>
+                    <option value="draft">{t("pages.adminMedicalImaging.draft3")}</option>
+                    <option value="published">{t("pages.adminMedicalImaging.published3")}</option>
+                    <option value="archived">{t("pages.adminMedicalImaging.archived3")}</option>
                   </select>
                   <button onClick={() => { setEditingId(e.id); setShowForm(true); }} className="p-1.5 text-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 rounded" data-testid={`button-edit-positioning-${e.id}`}>
                     <Edit2 className="w-4 h-4" />
@@ -704,11 +706,11 @@ function PositioningPanel({ countryFilter, statusFilter }: { countryFilter: stri
               </div>
               {expandedId === e.id && (
                 <div className="mt-3 pt-3 border-t border-gray-100 grid grid-cols-2 gap-3 text-xs">
-                  <div><span className="font-semibold text-gray-500">Central Ray:</span> <span className="text-gray-700">{e.centralRay}</span></div>
-                  <div><span className="font-semibold text-gray-500">SID:</span> <span className="text-gray-700">{e.sid || "—"}</span></div>
-                  <div><span className="font-semibold text-gray-500">Anatomy:</span> <span className="text-gray-700">{e.anatomyDemonstrated || "—"}</span></div>
-                  <div><span className="font-semibold text-gray-500">Film Size:</span> <span className="text-gray-700">{e.filmSize || "—"}</span></div>
-                  {e.tips && <div className="col-span-2"><span className="font-semibold text-gray-500">Tips:</span> <span className="text-gray-700">{e.tips}</span></div>}
+                  <div><span className="font-semibold text-gray-500">{t("pages.adminMedicalImaging.centralRay")}</span> <span className="text-gray-700">{e.centralRay}</span></div>
+                  <div><span className="font-semibold text-gray-500">{t("pages.adminMedicalImaging.sid")}</span> <span className="text-gray-700">{e.sid || "—"}</span></div>
+                  <div><span className="font-semibold text-gray-500">{t("pages.adminMedicalImaging.anatomy2")}</span> <span className="text-gray-700">{e.anatomyDemonstrated || "—"}</span></div>
+                  <div><span className="font-semibold text-gray-500">{t("pages.adminMedicalImaging.filmSize")}</span> <span className="text-gray-700">{e.filmSize || "—"}</span></div>
+                  {e.tips && <div className="col-span-2"><span className="font-semibold text-gray-500">{t("pages.adminMedicalImaging.tips")}</span> <span className="text-gray-700">{e.tips}</span></div>}
                 </div>
               )}
             </div>
@@ -798,144 +800,144 @@ function PositioningForm({ editId, onClose }: { editId: string | null; onClose: 
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         <div>
-          <label className="text-xs font-medium text-gray-500">Projection Name *</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.projectionName")}</label>
           <input value={form.projectionName} onChange={set("projectionName")} onBlur={autoSlug}
             className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="e.g., PA Erect Chest"
             data-testid="input-pos-projection-name" />
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">Slug *</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.slug")}</label>
           <input value={form.slug} onChange={set("slug")}
             className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm font-mono" placeholder="pa-erect-chest"
             data-testid="input-pos-slug" />
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">Body Part *</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.bodyPart")}</label>
           <input value={form.bodyPart} onChange={set("bodyPart")}
             className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="e.g., Chest"
             data-testid="input-pos-body-part" />
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">Body Region</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.bodyRegion2")}</label>
           <select value={form.bodyRegion} onChange={set("bodyRegion")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-pos-body-region">
-            <option value="">Select Region</option>
+            <option value="">{t("pages.adminMedicalImaging.selectRegion")}</option>
             {["Chest", "Upper Extremity", "Lower Extremity", "Spine", "Abdomen", "Pelvis/Hip", "Shoulder", "Skull"].map(r => (
               <option key={r} value={r}>{r}</option>
             ))}
           </select>
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">Country</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.country2")}</label>
           <select value={form.country} onChange={set("country")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-pos-country">
-            <option value="canada">Canada</option>
+            <option value="canada">{t("pages.adminMedicalImaging.canada4")}</option>
             <option value="usa">USA</option>
           </select>
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">Exam Relevance</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.examRelevance")}</label>
           <select value={form.examRelevance} onChange={set("examRelevance")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-pos-relevance">
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
+            <option value="low">{t("pages.adminMedicalImaging.low")}</option>
+            <option value="medium">{t("pages.adminMedicalImaging.medium")}</option>
+            <option value="high">{t("pages.adminMedicalImaging.high")}</option>
           </select>
         </div>
         <div className="sm:col-span-2 lg:col-span-3">
-          <label className="text-xs font-medium text-gray-500">Patient Position *</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.patientPosition")}</label>
           <textarea value={form.patientPosition} onChange={set("patientPosition")} rows={2}
-            className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="Patient stands upright facing..."
+            className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder={t("pages.adminMedicalImaging.patientStandsUprightFacing")}
             data-testid="input-pos-patient-position" />
         </div>
         <div className="sm:col-span-2 lg:col-span-3">
-          <label className="text-xs font-medium text-gray-500">Central Ray *</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.centralRay2")}</label>
           <textarea value={form.centralRay} onChange={set("centralRay")} rows={2}
-            className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="Perpendicular to T7..."
+            className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder={t("pages.adminMedicalImaging.perpendicularToT7")}
             data-testid="input-pos-central-ray" />
         </div>
         <div>
           <label className="text-xs font-medium text-gray-500">SID</label>
-          <input value={form.sid} onChange={set("sid")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="72 inches" data-testid="input-pos-sid" />
+          <input value={form.sid} onChange={set("sid")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder={t("pages.adminMedicalImaging.72Inches")} data-testid="input-pos-sid" />
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">Film/IR Size</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.filmirSize")}</label>
           <input value={form.filmSize} onChange={set("filmSize")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="14x17" data-testid="input-pos-film-size" />
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">Status</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.status")}</label>
           <select value={form.status} onChange={set("status")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-pos-status">
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
-            <option value="archived">Archived</option>
+            <option value="draft">{t("pages.adminMedicalImaging.draft4")}</option>
+            <option value="published">{t("pages.adminMedicalImaging.published4")}</option>
+            <option value="archived">{t("pages.adminMedicalImaging.archived4")}</option>
           </select>
         </div>
         <div className="sm:col-span-2 lg:col-span-3">
-          <label className="text-xs font-medium text-gray-500">Body Part Position</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.bodyPartPosition")}</label>
           <textarea value={form.bodyPartPosition} onChange={set("bodyPartPosition")} rows={2}
             className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-body-part-position" />
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">Central Ray Direction</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.centralRayDirection")}</label>
           <input value={form.centralRayDirection} onChange={set("centralRayDirection")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-cr-direction" />
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">Detector Placement</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.detectorPlacement")}</label>
           <input value={form.detectorPlacement} onChange={set("detectorPlacement")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-detector" />
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">Collimation Guidance</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.collimationGuidance")}</label>
           <input value={form.collimationGuidance} onChange={set("collimationGuidance")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-collimation" />
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">Breathing Instructions</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.breathingInstructions")}</label>
           <input value={form.breathingInstructions} onChange={set("breathingInstructions")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-breathing" />
         </div>
         <div className="sm:col-span-2 lg:col-span-3">
-          <label className="text-xs font-medium text-gray-500">Anatomy Demonstrated</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.anatomyDemonstrated")}</label>
           <textarea value={form.anatomyDemonstrated} onChange={set("anatomyDemonstrated")} rows={2}
             className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-anatomy" />
         </div>
         <div className="sm:col-span-2 lg:col-span-3">
-          <label className="text-xs font-medium text-gray-500">Evaluation Criteria</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.evaluationCriteria")}</label>
           <textarea value={form.evaluationCriteria} onChange={set("evaluationCriteria")} rows={2}
             className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-evaluation" />
         </div>
         <div className="sm:col-span-2 lg:col-span-3">
-          <label className="text-xs font-medium text-gray-500">Tips</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.tips2")}</label>
           <textarea value={form.tips} onChange={set("tips")} rows={2}
             className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-tips" />
         </div>
         <div className="sm:col-span-2 lg:col-span-3">
-          <label className="text-xs font-medium text-gray-500">Exam Tips</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.examTips")}</label>
           <textarea value={form.examTips} onChange={set("examTips")} rows={2}
             className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-exam-tips" />
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">Teaching Image URL</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.teachingImageUrl2")}</label>
           <input value={form.teachingImageUrl} onChange={set("teachingImageUrl")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-teaching-img" />
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">Exam Image URL</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.examImageUrl2")}</label>
           <input value={form.examImageUrl} onChange={set("examImageUrl")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-exam-img" />
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">Diagram URL</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.diagramUrl")}</label>
           <input value={form.positioningDiagramUrl} onChange={set("positioningDiagramUrl")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-diagram" />
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">Incorrect Image URL</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.incorrectImageUrl")}</label>
           <input value={form.incorrectImageUrl} onChange={set("incorrectImageUrl")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-incorrect-img" />
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">SEO Title</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.seoTitle")}</label>
           <input value={form.seoTitle} onChange={set("seoTitle")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-seo-title" />
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">SEO Description</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminMedicalImaging.seoDescription")}</label>
           <input value={form.seoDescription} onChange={set("seoDescription")} className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-pos-seo-desc" />
         </div>
       </div>
       <div className="mt-4 space-y-3">
-        <h4 className="text-sm font-semibold text-gray-700">Interactive Content (JSON)</h4>
-        <p className="text-xs text-gray-400">Enter valid JSON arrays for the interactive module fields below.</p>
+        <h4 className="text-sm font-semibold text-gray-700">{t("pages.adminMedicalImaging.interactiveContentJson")}</h4>
+        <p className="text-xs text-gray-400">{t("pages.adminMedicalImaging.enterValidJsonArraysFor")}</p>
         {(["learningSteps", "positioningErrors", "quizQuestions", "labelOverlays", "commonErrors"] as const).map(field => (
           <div key={field}>
             <label className="text-xs font-medium text-gray-500">{field.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())}</label>
@@ -973,7 +975,7 @@ function PositioningForm({ editId, onClose }: { editId: string | null; onClose: 
           <Check className="w-4 h-4" />
           {createMutation.isPending ? "Saving..." : editId ? "Update Entry" : "Create Entry"}
         </button>
-        <button onClick={onClose} className="px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200" data-testid="button-cancel-positioning">Cancel</button>
+        <button onClick={onClose} className="px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200" data-testid="button-cancel-positioning">{t("pages.adminMedicalImaging.cancel")}</button>
       </div>
     </div>
   );
@@ -999,11 +1001,11 @@ function PhysicsPanel({ countryFilter, statusFilter }: { countryFilter: string; 
     <div data-testid="panel-physics">
       <h2 className="text-lg font-semibold text-gray-900 mb-4">Physics Topics ({topics.length})</h2>
       {isLoading ? (
-        <div className="text-center py-8 text-gray-500">Loading...</div>
+        <div className="text-center py-8 text-gray-500">{t("pages.adminMedicalImaging.loading6")}</div>
       ) : topics.length === 0 ? (
         <div className="text-center py-12 text-gray-400 bg-gray-50 rounded-xl">
           <Atom className="w-10 h-10 mx-auto mb-3 opacity-40" />
-          <p className="font-medium">No physics topics found</p>
+          <p className="font-medium">{t("pages.adminMedicalImaging.noPhysicsTopicsFound")}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -1075,45 +1077,45 @@ function ProductsPanel() {
       {showForm && (
         <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-4 space-y-3" data-testid="product-form">
           <div className="grid grid-cols-2 gap-3">
-            <input placeholder="Title" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-product-title" />
-            <input placeholder="Slug" value={form.slug} onChange={e => setForm({ ...form, slug: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-product-slug" />
+            <input placeholder={t("pages.adminMedicalImaging.title2")} value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-product-title" />
+            <input placeholder={t("pages.adminMedicalImaging.slug2")} value={form.slug} onChange={e => setForm({ ...form, slug: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-product-slug" />
           </div>
-          <input placeholder="Description" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-product-description" />
+          <input placeholder={t("pages.adminMedicalImaging.description")} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-product-description" />
           <div className="grid grid-cols-3 gap-3">
             <select value={form.productType} onChange={e => setForm({ ...form, productType: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-product-type">
-              <option value="study_pack">Study Pack</option>
-              <option value="question_pack">Question Pack</option>
-              <option value="flashcard_deck">Flashcard Deck</option>
-              <option value="exam_bundle">Exam Bundle</option>
-              <option value="subscription">Subscription</option>
-              <option value="bundle">Bundle</option>
+              <option value="study_pack">{t("pages.adminMedicalImaging.studyPack")}</option>
+              <option value="question_pack">{t("pages.adminMedicalImaging.questionPack")}</option>
+              <option value="flashcard_deck">{t("pages.adminMedicalImaging.flashcardDeck")}</option>
+              <option value="exam_bundle">{t("pages.adminMedicalImaging.examBundle")}</option>
+              <option value="subscription">{t("pages.adminMedicalImaging.subscription")}</option>
+              <option value="bundle">{t("pages.adminMedicalImaging.bundle")}</option>
             </select>
             <select value={form.billingInterval} onChange={e => setForm({ ...form, billingInterval: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-billing-interval">
-              <option value="">One-time</option>
-              <option value="monthly">Monthly</option>
-              <option value="yearly">Yearly</option>
+              <option value="">{t("pages.adminMedicalImaging.onetime")}</option>
+              <option value="monthly">{t("pages.adminMedicalImaging.monthly")}</option>
+              <option value="yearly">{t("pages.adminMedicalImaging.yearly")}</option>
             </select>
             <select value={form.country} onChange={e => setForm({ ...form, country: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-country">
-              <option value="">Both</option>
-              <option value="canada">Canada</option>
+              <option value="">{t("pages.adminMedicalImaging.both2")}</option>
+              <option value="canada">{t("pages.adminMedicalImaging.canada5")}</option>
               <option value="usa">USA</option>
             </select>
           </div>
           <div className="grid grid-cols-4 gap-3">
-            <input type="number" placeholder="Price CAD (cents)" value={form.priceCAD} onChange={e => setForm({ ...form, priceCAD: Number(e.target.value) })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-price-cad" />
-            <input type="number" placeholder="Price USD (cents)" value={form.priceUSD} onChange={e => setForm({ ...form, priceUSD: Number(e.target.value) })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-price-usd" />
-            <input type="number" placeholder="Compare CAD" value={form.compareAtPriceCAD} onChange={e => setForm({ ...form, compareAtPriceCAD: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-compare-cad" />
-            <input type="number" placeholder="Compare USD" value={form.compareAtPriceUSD} onChange={e => setForm({ ...form, compareAtPriceUSD: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-compare-usd" />
+            <input type="number" placeholder={t("pages.adminMedicalImaging.priceCadCents")} value={form.priceCAD} onChange={e => setForm({ ...form, priceCAD: Number(e.target.value) })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-price-cad" />
+            <input type="number" placeholder={t("pages.adminMedicalImaging.priceUsdCents")} value={form.priceUSD} onChange={e => setForm({ ...form, priceUSD: Number(e.target.value) })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-price-usd" />
+            <input type="number" placeholder={t("pages.adminMedicalImaging.compareCad")} value={form.compareAtPriceCAD} onChange={e => setForm({ ...form, compareAtPriceCAD: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-compare-cad" />
+            <input type="number" placeholder={t("pages.adminMedicalImaging.compareUsd")} value={form.compareAtPriceUSD} onChange={e => setForm({ ...form, compareAtPriceUSD: e.target.value })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-compare-usd" />
           </div>
           <div className="grid grid-cols-3 gap-3">
-            <input type="number" placeholder="Questions" value={form.questionCount} onChange={e => setForm({ ...form, questionCount: Number(e.target.value) })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-question-count" />
-            <input type="number" placeholder="Flashcards" value={form.flashcardCount} onChange={e => setForm({ ...form, flashcardCount: Number(e.target.value) })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-flashcard-count" />
-            <input type="number" placeholder="Exams" value={form.examCount} onChange={e => setForm({ ...form, examCount: Number(e.target.value) })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-exam-count" />
+            <input type="number" placeholder={t("pages.adminMedicalImaging.questions")} value={form.questionCount} onChange={e => setForm({ ...form, questionCount: Number(e.target.value) })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-question-count" />
+            <input type="number" placeholder={t("pages.adminMedicalImaging.flashcards")} value={form.flashcardCount} onChange={e => setForm({ ...form, flashcardCount: Number(e.target.value) })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-flashcard-count" />
+            <input type="number" placeholder={t("pages.adminMedicalImaging.exams")} value={form.examCount} onChange={e => setForm({ ...form, examCount: Number(e.target.value) })} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-exam-count" />
           </div>
-          <textarea placeholder="Features (one per line)" value={form.features} onChange={e => setForm({ ...form, features: e.target.value })} rows={3} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-features" />
+          <textarea placeholder={t("pages.adminMedicalImaging.featuresOnePerLine")} value={form.features} onChange={e => setForm({ ...form, features: e.target.value })} rows={3} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-features" />
           <div className="flex items-center gap-4">
-            <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.popular} onChange={e => setForm({ ...form, popular: e.target.checked })} /> Popular badge</label>
-            <input type="number" placeholder="Sort order" value={form.sortOrder} onChange={e => setForm({ ...form, sortOrder: Number(e.target.value) })} className="w-24 px-3 py-2 border border-gray-200 rounded-lg text-sm" />
+            <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.popular} onChange={e => setForm({ ...form, popular: e.target.checked })} /> {t("pages.adminMedicalImaging.popularBadge")}</label>
+            <input type="number" placeholder={t("pages.adminMedicalImaging.sortOrder")} value={form.sortOrder} onChange={e => setForm({ ...form, sortOrder: Number(e.target.value) })} className="w-24 px-3 py-2 border border-gray-200 rounded-lg text-sm" />
           </div>
           <div className="flex gap-2">
             <button onClick={saveProduct} className="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700" data-testid="button-save-product">
@@ -1127,12 +1129,12 @@ function ProductsPanel() {
       )}
 
       {loading ? (
-        <div className="text-center py-8 text-gray-500">Loading...</div>
+        <div className="text-center py-8 text-gray-500">{t("pages.adminMedicalImaging.loading7")}</div>
       ) : products.length === 0 ? (
         <div className="text-center py-12 text-gray-400 bg-gray-50 rounded-xl">
           <CreditCard className="w-10 h-10 mx-auto mb-3 opacity-40" />
-          <p className="font-medium">No products created yet</p>
-          <p className="text-sm mt-1">Add your first imaging product</p>
+          <p className="font-medium">{t("pages.adminMedicalImaging.noProductsCreatedYet")}</p>
+          <p className="text-sm mt-1">{t("pages.adminMedicalImaging.addYourFirstImagingProduct")}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -1140,7 +1142,7 @@ function ProductsPanel() {
             <div key={p.id} className="bg-white border border-gray-100 rounded-xl p-4" data-testid={`product-${p.id}`}>
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 mb-1">{p.title} {p.popular && <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded ml-2">Popular</span>}</p>
+                  <p className="text-sm font-medium text-gray-900 mb-1">{p.title} {p.popular && <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded ml-2">{t("pages.adminMedicalImaging.popular")}</span>}</p>
                   <div className="flex flex-wrap gap-2 text-xs">
                     <span className="px-2 py-0.5 bg-gray-100 rounded">{p.productType}</span>
                     <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded">CAD ${(p.priceCAD / 100).toFixed(2)}</span>
@@ -1193,10 +1195,10 @@ function PreviewConfigPanel() {
 
   return (
     <div data-testid="panel-preview-config">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Free Preview Limits</h2>
-      <p className="text-sm text-gray-500 mb-6">Configure how much free content users can access before requiring a paid plan.</p>
+      <h2 className="text-lg font-semibold text-gray-900 mb-4">{t("pages.adminMedicalImaging.freePreviewLimits")}</h2>
+      <p className="text-sm text-gray-500 mb-6">{t("pages.adminMedicalImaging.configureHowMuchFreeContent")}</p>
       {loading ? (
-        <div className="text-center py-8 text-gray-500">Loading...</div>
+        <div className="text-center py-8 text-gray-500">{t("pages.adminMedicalImaging.loading8")}</div>
       ) : (
         <div className="space-y-4">
           {defaultTypes.map(type => {
@@ -1222,10 +1224,10 @@ function PreviewConfigRow({ contentType, initialLimit, initialMessage, onSave }:
         <div className="flex-1">
           <p className="text-sm font-medium text-gray-900 capitalize mb-1">{contentType}</p>
           <div className="flex gap-3 items-center">
-            <label className="text-xs text-gray-500">Free limit:</label>
+            <label className="text-xs text-gray-500">{t("pages.adminMedicalImaging.freeLimit")}</label>
             <input type="number" value={limit} onChange={e => { setLimit(Number(e.target.value)); setDirty(true); }} className="w-20 px-2 py-1 border border-gray-200 rounded text-sm" data-testid={`input-limit-${contentType}`} />
           </div>
-          <input placeholder="Preview message" value={message} onChange={e => { setMessage(e.target.value); setDirty(true); }} className="w-full mt-2 px-3 py-1.5 border border-gray-200 rounded text-sm" data-testid={`input-message-${contentType}`} />
+          <input placeholder={t("pages.adminMedicalImaging.previewMessage")} value={message} onChange={e => { setMessage(e.target.value); setDirty(true); }} className="w-full mt-2 px-3 py-1.5 border border-gray-200 rounded text-sm" data-testid={`input-message-${contentType}`} />
         </div>
         {dirty && (
           <button onClick={() => { onSave(contentType, limit, message); setDirty(false); }} className="px-3 py-1.5 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700" data-testid={`button-save-config-${contentType}`}>

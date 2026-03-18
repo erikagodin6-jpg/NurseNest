@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { paramedicQuestions } from "@/data/career-questions/paramedic-questions";
 
+import { useI18n } from "@/lib/i18n";
 const CATEGORY_COUNTS: Record<string, number> = {};
 paramedicQuestions.forEach(q => {
   CATEGORY_COUNTS[q.category] = (CATEGORY_COUNTS[q.category] || 0) + 1;
@@ -29,11 +30,12 @@ const PCP_FAQS = [
 ];
 
 export default function ParamedicPCPPage() {
+  const { t } = useI18n();
   return (
     <div data-testid="paramedic-pcp-page">
       <AlliedSEO
-        title="PCP Exam Prep — Primary Care Paramedic Practice Questions | NurseNest"
-        description="Prepare for your PCP exam with 500+ practice questions aligned to COPR standards. Covers patient assessment, airway management, trauma, and BLS protocols with 600+ word clinical rationales."
+        title={t("allied.paramedicParamedicPcp.pcpExamPrepPrimaryCare")}
+        description={t("allied.paramedicParamedicPcp.prepareForYourPcpExam")}
         keywords="pcp exam canada, primary care paramedic exam prep, COPR exam, PCP practice questions, paramedic exam canada, PCP certification, paramedic study guide canada"
         canonicalPath="/allied-health/paramedic/pcp"
         structuredData={{
@@ -47,9 +49,9 @@ export default function ParamedicPCPPage() {
 
       <HeroCTA
         badge="PCP Exam Prep — Canada"
-        title="Pass Your PCP Exam"
+        title={t("allied.paramedicParamedicPcp.passYourPcpExam")}
         titleHighlight="on the First Attempt"
-        subtitle="COPR-aligned practice questions, provincial protocol coverage, and BLS-focused clinical scenarios — everything a Primary Care Paramedic student needs to study effectively."
+        subtitle={t("allied.paramedic_pcp.copralignedPracticeQuestionsProvincialPr")}
         primaryCTA={{ label: "Start Free PCP Diagnostic", href: "/diagnostic?career=paramedic" }}
         secondaryCTA={{ label: "Browse PCP Questions", href: "/qbank?career=paramedic" }}
       />
@@ -57,16 +59,16 @@ export default function ParamedicPCPPage() {
       <section className="py-16 sm:py-20 bg-white" data-testid="section-pcp-overview">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">What Makes Our PCP Prep Different</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Built specifically for Canadian PCP students — not a watered-down version of a US paramedic bank. Our content reflects COPR competencies, Canadian drug names, and provincial protocols.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.paramedicParamedicPcp.whatMakesOurPcpPrep")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("allied.paramedicParamedicPcp.builtSpecificallyForCanadianPcp")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <FeatureCard icon={Shield} title="COPR-Aligned Content" description="Every question maps to the national COPR competency profile for Primary Care Paramedics, covering all tested domains and skill levels." />
-            <FeatureCard icon={BookOpen} title="600+ Word Rationales" description="Clinical rationales that explain the pathophysiology, assessment approach, and management reasoning — building the judgment your exam tests." />
-            <FeatureCard icon={Ambulance} title="PCP Scope-Specific" description="Content filtered to PCP scope of practice. No ACP-level interventions cluttering your study — only what you need to know for your exam." />
-            <FeatureCard icon={FileText} title="Blueprint-Weighted Mocks" description="Timed mock exams weighted to the PCP exam blueprint so your practice mirrors the real test format and domain distribution." />
-            <FeatureCard icon={Brain} title="Spaced Repetition Flashcards" description="Master BLS protocols, drug dosages, assessment mnemonics, and clinical decision rules with adaptive flashcard decks." />
-            <FeatureCard icon={Zap} title="Clinical Scenarios" description="Dispatch-to-disposition scenarios within PCP scope that test your assessment, management, and transport decisions." />
+            <FeatureCard icon={Shield} title={t("allied.paramedicParamedicPcp.copralignedContent")} description={t("allied.paramedicParamedicPcp.everyQuestionMapsToThe")} />
+            <FeatureCard icon={BookOpen} title={t("allied.paramedicParamedicPcp.600WordRationales")} description={t("allied.paramedicParamedicPcp.clinicalRationalesThatExplainThe")} />
+            <FeatureCard icon={Ambulance} title={t("allied.paramedicParamedicPcp.pcpScopespecific")} description={t("allied.paramedicParamedicPcp.contentFilteredToPcpScope")} />
+            <FeatureCard icon={FileText} title={t("allied.paramedicParamedicPcp.blueprintweightedMocks")} description={t("allied.paramedicParamedicPcp.timedMockExamsWeightedTo")} />
+            <FeatureCard icon={Brain} title={t("allied.paramedicParamedicPcp.spacedRepetitionFlashcards")} description={t("allied.paramedicParamedicPcp.masterBlsProtocolsDrugDosages")} />
+            <FeatureCard icon={Zap} title={t("allied.paramedicParamedicPcp.clinicalScenarios")} description={t("allied.paramedicParamedicPcp.dispatchtodispositionScenariosWithinPcpScope")} />
           </div>
         </div>
       </section>
@@ -74,8 +76,8 @@ export default function ParamedicPCPPage() {
       <section className="py-16 sm:py-20 bg-gradient-to-b from-purple-50/30 to-white" data-testid="section-pcp-topics">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">High-Yield PCP Topic Categories</h2>
-            <p className="text-gray-600 max-w-xl mx-auto">Focus your study time on the domains that carry the most weight on the PCP exam.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.paramedicParamedicPcp.highyieldPcpTopicCategories")}</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">{t("allied.paramedicParamedicPcp.focusYourStudyTimeOn")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {PCP_TOPICS.map(t => (
@@ -95,8 +97,8 @@ export default function ParamedicPCPPage() {
       </section>
 
       <FreePreviewBlock
-        title="Try PCP Prep Free"
-        subtitle="See where you stand with a free diagnostic, then dive into 5 practice questions with full clinical rationales."
+        title={t("allied.paramedicParamedicPcp.tryPcpPrepFree")}
+        subtitle={t("allied.paramedic_pcp.seeWhereYouStandWith")}
         previewItems={[
           { label: "15-Question Diagnostic", description: "Identify your PCP strengths and gaps" },
           { label: "5 Practice Questions", description: "Full 600+ word rationales included" },
@@ -106,13 +108,13 @@ export default function ParamedicPCPPage() {
         ctaLabel="Start Free PCP Diagnostic"
       />
 
-      <FAQSection title="PCP Exam Prep FAQ" faqs={PCP_FAQS} />
+      <FAQSection title={t("allied.paramedicParamedicPcp.pcpExamPrepFaq")} faqs={PCP_FAQS} />
 
       <TrustBlock />
 
       <FinalCTASection
-        title="Ready to Start Studying for Your PCP Exam?"
-        subtitle="Take the free diagnostic today and get a personalized study plan targeting your weakest PCP domains."
+        title={t("allied.paramedicParamedicPcp.readyToStartStudyingFor")}
+        subtitle={t("allied.paramedic_pcp.takeTheFreeDiagnosticToday")}
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
         secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}
       />

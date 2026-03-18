@@ -9,6 +9,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { CheckCircle, XCircle, AlertTriangle, Search, Filter, ArrowLeft } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface ReviewEntry {
   id: string;
   originalTopic: string;
@@ -36,6 +37,7 @@ interface TaxonomyRegistry {
 }
 
 export default function AdminTaxonomyReview() {
+  const { t } = useI18n();
   const [statusFilter, setStatusFilter] = useState("pending");
   const [systemFilter, setSystemFilter] = useState("all");
   const [testTopic, setTestTopic] = useState("");
@@ -131,32 +133,32 @@ export default function AdminTaxonomyReview() {
         <Button variant="ghost" size="sm" onClick={() => window.history.back()} data-testid="button-back">
           <ArrowLeft className="w-4 h-4 mr-1" /> Back
         </Button>
-        <h1 className="text-2xl font-bold" data-testid="text-page-title">Taxonomy Review Queue</h1>
+        <h1 className="text-2xl font-bold" data-testid="text-page-title">{t("pages.adminTaxonomyReview.taxonomyReviewQueue")}</h1>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <Card data-testid="card-stat-pending">
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold text-yellow-600">{stats.pending || 0}</div>
-            <div className="text-sm text-muted-foreground">Pending</div>
+            <div className="text-sm text-muted-foreground">{t("pages.adminTaxonomyReview.pending")}</div>
           </CardContent>
         </Card>
         <Card data-testid="card-stat-resolved">
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold text-green-600">{stats.resolved || 0}</div>
-            <div className="text-sm text-muted-foreground">Resolved</div>
+            <div className="text-sm text-muted-foreground">{t("pages.adminTaxonomyReview.resolved")}</div>
           </CardContent>
         </Card>
         <Card data-testid="card-stat-dismissed">
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold text-gray-600">{stats.dismissed || 0}</div>
-            <div className="text-sm text-muted-foreground">Dismissed</div>
+            <div className="text-sm text-muted-foreground">{t("pages.adminTaxonomyReview.dismissed")}</div>
           </CardContent>
         </Card>
         <Card data-testid="card-stat-topics">
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold text-blue-600">{registryData?.totalTopics || 0}</div>
-            <div className="text-sm text-muted-foreground">Canonical Topics</div>
+            <div className="text-sm text-muted-foreground">{t("pages.adminTaxonomyReview.canonicalTopics")}</div>
           </CardContent>
         </Card>
       </div>
@@ -170,7 +172,7 @@ export default function AdminTaxonomyReview() {
         <CardContent>
           <div className="flex flex-wrap gap-3 items-end">
             <div className="flex-1 min-w-[200px]">
-              <label className="text-sm font-medium mb-1 block">Topic</label>
+              <label className="text-sm font-medium mb-1 block">{t("pages.adminTaxonomyReview.topic")}</label>
               <Input
                 value={testTopic}
                 onChange={(e) => setTestTopic(e.target.value)}
@@ -179,7 +181,7 @@ export default function AdminTaxonomyReview() {
               />
             </div>
             <div className="w-[180px]">
-              <label className="text-sm font-medium mb-1 block">System</label>
+              <label className="text-sm font-medium mb-1 block">{t("pages.adminTaxonomyReview.system")}</label>
               <Select value={testSystem} onValueChange={setTestSystem}>
                 <SelectTrigger data-testid="select-test-system">
                   <SelectValue />
@@ -191,16 +193,16 @@ export default function AdminTaxonomyReview() {
                 </SelectContent>
               </Select>
             </div>
-            <Button onClick={() => runTest()} data-testid="button-test-normalize">Test</Button>
+            <Button onClick={() => runTest()} data-testid="button-test-normalize">{t("pages.adminTaxonomyReview.test")}</Button>
           </div>
           {(testResult as any)?.result && (
             <div className="mt-3 p-3 bg-muted rounded-md text-sm" data-testid="text-test-result">
               <div className="grid grid-cols-2 gap-2">
-                <div><strong>Canonical System:</strong> {(testResult as any).result.canonicalSystem}</div>
-                <div><strong>Canonical Topic:</strong> {(testResult as any).result.canonicalTopic}</div>
-                <div><strong>Confidence:</strong> {((testResult as any).result.confidence * 100).toFixed(1)}%</div>
-                <div><strong>Method:</strong> {(testResult as any).result.method}</div>
-                <div><strong>Fallback:</strong> {(testResult as any).result.fallbackApplied ? "Yes" : "No"}</div>
+                <div><strong>{t("pages.adminTaxonomyReview.canonicalSystem")}</strong> {(testResult as any).result.canonicalSystem}</div>
+                <div><strong>{t("pages.adminTaxonomyReview.canonicalTopic")}</strong> {(testResult as any).result.canonicalTopic}</div>
+                <div><strong>{t("pages.adminTaxonomyReview.confidence")}</strong> {((testResult as any).result.confidence * 100).toFixed(1)}%</div>
+                <div><strong>{t("pages.adminTaxonomyReview.method")}</strong> {(testResult as any).result.method}</div>
+                <div><strong>{t("pages.adminTaxonomyReview.fallback")}</strong> {(testResult as any).result.fallbackApplied ? "Yes" : "No"}</div>
               </div>
             </div>
           )}
@@ -216,21 +218,21 @@ export default function AdminTaxonomyReview() {
             <div className="flex gap-2">
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger className="w-[130px]" data-testid="select-status-filter">
-                  <SelectValue placeholder="Status" />
+                  <SelectValue placeholder={t("pages.adminTaxonomyReview.status")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="resolved">Resolved</SelectItem>
-                  <SelectItem value="dismissed">Dismissed</SelectItem>
-                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="pending">{t("pages.adminTaxonomyReview.pending2")}</SelectItem>
+                  <SelectItem value="resolved">{t("pages.adminTaxonomyReview.resolved2")}</SelectItem>
+                  <SelectItem value="dismissed">{t("pages.adminTaxonomyReview.dismissed2")}</SelectItem>
+                  <SelectItem value="all">{t("pages.adminTaxonomyReview.all")}</SelectItem>
                 </SelectContent>
               </Select>
               <Select value={systemFilter} onValueChange={setSystemFilter}>
                 <SelectTrigger className="w-[150px]" data-testid="select-system-filter">
-                  <SelectValue placeholder="All Systems" />
+                  <SelectValue placeholder={t("pages.adminTaxonomyReview.allSystems2")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Systems</SelectItem>
+                  <SelectItem value="all">{t("pages.adminTaxonomyReview.allSystems")}</SelectItem>
                   {bodySystems.map((s: string) => (
                     <SelectItem key={s} value={s}>{s}</SelectItem>
                   ))}
@@ -241,7 +243,7 @@ export default function AdminTaxonomyReview() {
         </CardHeader>
         <CardContent>
           {queueLoading ? (
-            <div className="text-center py-8 text-muted-foreground">Loading...</div>
+            <div className="text-center py-8 text-muted-foreground">{t("pages.adminTaxonomyReview.loading")}</div>
           ) : entries.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground" data-testid="text-empty-queue">
               No entries found
@@ -265,14 +267,14 @@ export default function AdminTaxonomyReview() {
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
                         <div>
-                          <span className="font-medium text-muted-foreground">Original:</span>{" "}
+                          <span className="font-medium text-muted-foreground">{t("pages.adminTaxonomyReview.original")}</span>{" "}
                           <span data-testid="text-original-topic">{entry.originalTopic || "N/A"}</span>
                           {entry.originalSystem && (
                             <span className="text-muted-foreground"> ({entry.originalSystem})</span>
                           )}
                         </div>
                         <div>
-                          <span className="font-medium text-muted-foreground">Suggested:</span>{" "}
+                          <span className="font-medium text-muted-foreground">{t("pages.adminTaxonomyReview.suggested")}</span>{" "}
                           <span data-testid="text-suggested-topic">{entry.suggestedTopic || "N/A"}</span>
                           {entry.suggestedSystem && (
                             <span className="text-muted-foreground"> ({entry.suggestedSystem})</span>
@@ -328,7 +330,7 @@ export default function AdminTaxonomyReview() {
       {registryData && (
         <Card className="mt-6">
           <CardHeader>
-            <CardTitle className="text-lg">Canonical Taxonomy Overview</CardTitle>
+            <CardTitle className="text-lg">{t("pages.adminTaxonomyReview.canonicalTaxonomyOverview")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

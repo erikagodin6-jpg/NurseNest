@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRoute } from "wouter";
 import { AlliedSEO } from "../allied-seo";
+import { useI18n } from "@/lib/i18n";
 import {
   Breadcrumbs, FAQAccordion, ConversionCTA, ClinicalPearlCard, ExamTipCard,
 } from "../components/paramedic-seo-components";
@@ -23,6 +24,7 @@ const PROFESSION_META: Record<string, { label: string; hubPath: string; color: s
 };
 
 function professionQuestionsPath(profession: string): string {
+  const { t } = useI18n();
   const map: Record<string, string> = {
     paramedic: "/allied-health/paramedic/questions",
     "respiratory-therapy": "/allied-health/rrt/questions",
@@ -77,8 +79,8 @@ export default function EncyclopediaTopicPage({ profession: propProfession }: { 
   if (error || !data) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Topic Not Found</h1>
-        <p className="text-gray-600">This encyclopedia topic doesn't exist or hasn't been published yet.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.encyclopediaTopicPage.topicNotFound")}</h1>
+        <p className="text-gray-600">{t("allied.encyclopediaTopicPage.thisEncyclopediaTopicDoesntExist")}</p>
         <a href={meta.hubPath} className="inline-block mt-4 px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-encyclopedia">
           Back to {meta.label} Encyclopedia
         </a>
@@ -135,43 +137,43 @@ export default function EncyclopediaTopicPage({ profession: propProfession }: { 
       <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
         <article className="flex-1 min-w-0">
           {data.overview && (
-            <Section icon={<BookOpen className="w-5 h-5" />} title="Overview" testId="section-overview">
+            <Section icon={<BookOpen className="w-5 h-5" />} title={t("allied.encyclopediaTopicPage.overview")} testId="section-overview">
               <p className="text-gray-700 leading-relaxed whitespace-pre-line">{data.overview}</p>
             </Section>
           )}
 
           {data.mechanism && (
-            <Section icon={<Activity className="w-5 h-5" />} title="Mechanism / Physiology" testId="section-mechanism">
+            <Section icon={<Activity className="w-5 h-5" />} title={t("allied.encyclopediaTopicPage.mechanismPhysiology")} testId="section-mechanism">
               <p className="text-gray-700 leading-relaxed whitespace-pre-line">{data.mechanism}</p>
             </Section>
           )}
 
           {data.clinicalRelevance && (
-            <Section icon={<Stethoscope className="w-5 h-5" />} title="Clinical Relevance" testId="section-clinical-relevance">
+            <Section icon={<Stethoscope className="w-5 h-5" />} title={t("allied.encyclopediaTopicPage.clinicalRelevance")} testId="section-clinical-relevance">
               <p className="text-gray-700 leading-relaxed whitespace-pre-line">{data.clinicalRelevance}</p>
             </Section>
           )}
 
           {data.signsSymptoms && (
-            <Section icon={<AlertTriangle className="w-5 h-5" />} title="Signs & Symptoms" testId="section-signs-symptoms">
+            <Section icon={<AlertTriangle className="w-5 h-5" />} title={t("allied.encyclopediaTopicPage.signsSymptoms")} testId="section-signs-symptoms">
               <p className="text-gray-700 leading-relaxed whitespace-pre-line">{data.signsSymptoms}</p>
             </Section>
           )}
 
           {data.assessmentMethods && (
-            <Section icon={<ClipboardList className="w-5 h-5" />} title="Assessment / Diagnostic Methods" testId="section-assessment">
+            <Section icon={<ClipboardList className="w-5 h-5" />} title={t("allied.encyclopediaTopicPage.assessmentDiagnosticMethods")} testId="section-assessment">
               <p className="text-gray-700 leading-relaxed whitespace-pre-line">{data.assessmentMethods}</p>
             </Section>
           )}
 
           {data.management && (
-            <Section icon={<Shield className="w-5 h-5" />} title="Management / Professional Practice" testId="section-management">
+            <Section icon={<Shield className="w-5 h-5" />} title={t("allied.encyclopediaTopicPage.managementProfessionalPractice")} testId="section-management">
               <p className="text-gray-700 leading-relaxed whitespace-pre-line">{data.management}</p>
             </Section>
           )}
 
           {data.complications && (
-            <Section icon={<AlertTriangle className="w-5 h-5" />} title="Complications" testId="section-complications">
+            <Section icon={<AlertTriangle className="w-5 h-5" />} title={t("allied.encyclopediaTopicPage.complications")} testId="section-complications">
               <p className="text-gray-700 leading-relaxed whitespace-pre-line">{data.complications}</p>
             </Section>
           )}
@@ -210,7 +212,7 @@ export default function EncyclopediaTopicPage({ profession: propProfession }: { 
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 my-8" data-testid="cta-section">
             <CTACard
-              title="Test Your Knowledge"
+              title={t("allied.encyclopediaTopicPage.testYourKnowledge")}
               description={`Practice ${meta.label} questions on this topic`}
               href={professionQuestionsPath(profession)}
               icon={<ClipboardList className="w-5 h-5" />}
@@ -218,15 +220,15 @@ export default function EncyclopediaTopicPage({ profession: propProfession }: { 
               testId="cta-test-knowledge"
             />
             <CTACard
-              title="Review Flashcards"
-              description="Reinforce key concepts with spaced repetition"
+              title={t("allied.encyclopediaTopicPage.reviewFlashcards")}
+              description={t("allied.encyclopediaTopicPage.reinforceKeyConceptsWithSpaced")}
               href={`/${profession === "respiratory-therapy" ? "rrt" : profession}/flashcards`}
               icon={<Brain className="w-5 h-5" />}
               color="purple"
               testId="cta-flashcards"
             />
             <CTACard
-              title="Start a Mock Exam"
+              title={t("allied.encyclopediaTopicPage.startAMockExam")}
               description={`Full-length ${meta.label} practice exam`}
               href={`/${profession === "respiratory-therapy" ? "rrt" : profession}/mock-exams`}
               icon={<Microscope className="w-5 h-5" />}
@@ -243,7 +245,7 @@ export default function EncyclopediaTopicPage({ profession: propProfession }: { 
 
         <aside className="lg:w-72 shrink-0 space-y-6">
           {relatedTopics.length > 0 && (
-            <SidebarCard title="Related Topics" testId="sidebar-related-topics">
+            <SidebarCard title={t("allied.encyclopediaTopicPage.relatedTopics")} testId="sidebar-related-topics">
               {relatedTopics.map((topic: any) => (
                 <a
                   key={topic.id}
@@ -259,7 +261,7 @@ export default function EncyclopediaTopicPage({ profession: propProfession }: { 
           )}
 
           {crossProfessionTopics.length > 0 && (
-            <SidebarCard title="Cross-Profession Links" testId="sidebar-cross-profession">
+            <SidebarCard title={t("allied.encyclopediaTopicPage.crossprofessionLinks")} testId="sidebar-cross-profession">
               {crossProfessionTopics.map((topic: any) => {
                 const tMeta = PROFESSION_META[topic.profession] || PROFESSION_META.paramedic;
                 return (
@@ -282,7 +284,7 @@ export default function EncyclopediaTopicPage({ profession: propProfession }: { 
           {relatedContent && (
             <>
               {(relatedContent.lessons || []).length > 0 && (
-                <SidebarCard title="Related Lessons" testId="sidebar-lessons">
+                <SidebarCard title={t("allied.encyclopediaTopicPage.relatedLessons")} testId="sidebar-lessons">
                   {relatedContent.lessons.map((lesson: any) => (
                     <a
                       key={lesson.id}
@@ -297,7 +299,7 @@ export default function EncyclopediaTopicPage({ profession: propProfession }: { 
                 </SidebarCard>
               )}
               {(relatedContent.questions || []).length > 0 && (
-                <SidebarCard title="Practice Questions" testId="sidebar-questions">
+                <SidebarCard title={t("allied.encyclopediaTopicPage.practiceQuestions")} testId="sidebar-questions">
                   {relatedContent.questions.map((q: any, i: number) => (
                     <a
                       key={i}

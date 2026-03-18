@@ -336,8 +336,8 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-background animate-page-enter" data-testid="dashboard-page">
       <SEO
-        title="My Dashboard - Personalized Learning Hub"
-        description="Your personalized nursing learning dashboard. Track study progress, review flashcards, access clinical tools, and prepare for NCLEX exams all in one place."
+        title={t("pages.dashboard.myDashboardPersonalizedLearningHub")}
+        description={t("pages.dashboard.yourPersonalizedNursingLearningDashboard")}
         keywords="nursing dashboard, NCLEX study tracker, nursing education progress, clinical learning tools"
         canonicalPath="/dashboard"
         structuredData={{
@@ -359,8 +359,8 @@ export default function DashboardPage() {
         onClose={() => setShouldShowModal(false)}
         onSubmit={submitResult}
       />
-      <main className="container mx-auto px-4 py-6 sm:py-8 max-w-6xl" role="main" aria-label="Learning Dashboard">
-        <nav aria-label="Breadcrumb" className="mb-4">
+      <main className="container mx-auto px-4 py-6 sm:py-8 max-w-6xl" role="main" aria-label={t("pages.dashboard.learningDashboard")}>
+        <nav aria-label={t("pages.dashboard.breadcrumb")} className="mb-4">
           <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
             <li><LocaleLink href="/" className="hover:text-primary transition-colors" data-testid="link-breadcrumb-home">{t("dashboard.breadcrumbHome")}</LocaleLink></li>
             <li aria-hidden="true">/</li>
@@ -382,19 +382,19 @@ export default function DashboardPage() {
           <div className="flex gap-2 flex-shrink-0">
             {editing ? (
               <>
-                <Button variant="outline" size="sm" onClick={handleReset} data-testid="button-reset-dashboard" aria-label="Reset dashboard to default layout">
+                <Button variant="outline" size="sm" onClick={handleReset} data-testid="button-reset-dashboard" aria-label={t("pages.dashboard.resetDashboardToDefaultLayout")}>
                   <RotateCcw className="h-4 w-4 mr-1.5" />
                   <span className="hidden sm:inline">{t("dashboard.reset")}</span>
                 </Button>
                 <Button size="sm" onClick={handleSave} disabled={saving} data-testid="button-save-dashboard">
                   {saving ? t("dashboard.saving") : t("dashboard.saveLayout")}
                 </Button>
-                <Button variant="ghost" size="sm" onClick={() => setEditing(false)} data-testid="button-cancel-edit" aria-label="Cancel editing">
+                <Button variant="ghost" size="sm" onClick={() => setEditing(false)} data-testid="button-cancel-edit" aria-label={t("pages.dashboard.cancelEditing")}>
                   <X className="h-4 w-4" />
                 </Button>
               </>
             ) : (
-              <Button variant="outline" size="sm" onClick={() => setEditing(true)} className="text-muted-foreground" data-testid="button-customize-dashboard" aria-label="Customize dashboard layout">
+              <Button variant="outline" size="sm" onClick={() => setEditing(true)} className="text-muted-foreground" data-testid="button-customize-dashboard" aria-label={t("pages.dashboard.customizeDashboardLayout")}>
                 <SlidersHorizontal className="h-4 w-4 mr-1.5" />
                 {t("dashboard.customize")}
               </Button>
@@ -403,7 +403,7 @@ export default function DashboardPage() {
         </header>
 
         {editing && availableToAdd.length > 0 && (
-          <section className="mb-6" aria-label="Add widgets">
+          <section className="mb-6" aria-label={t("pages.dashboard.addWidgets")}>
             <Card className="border-dashed border-primary/30">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -438,7 +438,7 @@ export default function DashboardPage() {
         )}
 
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6" aria-busy="true" aria-label="Loading dashboard">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6" aria-busy="true" aria-label={t("pages.dashboard.loadingDashboard")}>
             {[1, 2, 3, 4].map((i) => (
               <Card key={i} className="overflow-hidden">
                 <CardHeader className="pb-3">
@@ -459,7 +459,7 @@ export default function DashboardPage() {
             ))}
           </div>
         ) : (
-          <section className="space-y-8" aria-label="Dashboard widgets">
+          <section className="space-y-8" aria-label={t("pages.dashboard.dashboardWidgets")}>
             {(() => {
               const displayWidgets = editing ? widgets : visibleWidgets;
               const sectionOrder = ["post_exam", "progress", "study", "smart"];
@@ -905,11 +905,11 @@ function StudyStreakWidget({ user }: { user: any }) {
           </div>
           <div>
             <p className="text-2xl font-bold" data-testid="text-streak-count">{streak}</p>
-            <p className="text-xs text-muted-foreground">Day Streak</p>
+            <p className="text-xs text-muted-foreground">{t("pages.dashboard.dayStreak")}</p>
           </div>
         </div>
         <div className="text-right">
-          <p className="text-xs text-muted-foreground">Longest</p>
+          <p className="text-xs text-muted-foreground">{t("pages.dashboard.longest")}</p>
           <p className="text-sm font-semibold" data-testid="text-longest-streak">{longestStreak} days</p>
         </div>
       </div>
@@ -1289,8 +1289,8 @@ function StudyWorkloadWidget({ user }: { user: any }) {
       return (
         <div className="text-center py-4" data-testid="widget-content-study-workload-passed">
           <CheckCircle2 className="h-8 w-8 mx-auto text-emerald-500 mb-2" />
-          <p className="text-sm font-medium">Your exam date has passed</p>
-          <p className="text-xs text-muted-foreground mt-1 mb-3">Set a new exam date to create a fresh study plan.</p>
+          <p className="text-sm font-medium">{t("pages.dashboard.yourExamDateHasPassed")}</p>
+          <p className="text-xs text-muted-foreground mt-1 mb-3">{t("pages.dashboard.setANewExamDate")}</p>
           <Button size="sm" variant="outline" onClick={() => navigate("/study-plan")} data-testid="button-new-exam-date">
             Set New Date
           </Button>
@@ -1301,8 +1301,8 @@ function StudyWorkloadWidget({ user }: { user: any }) {
     return (
       <div className="text-center py-4" data-testid="widget-content-study-workload-empty">
         <CalendarClock className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-        <p className="text-sm font-medium mb-1">Your Study Plan</p>
-        <p className="text-xs text-muted-foreground mb-3">Set your exam date and get a personalized study plan with weekly goals, pacing targets, and smart recommendations.</p>
+        <p className="text-sm font-medium mb-1">{t("pages.dashboard.yourStudyPlan")}</p>
+        <p className="text-xs text-muted-foreground mb-3">{t("pages.dashboard.setYourExamDateAnd")}</p>
         <Button size="sm" onClick={() => navigate("/study-plan")} className="rounded-full" data-testid="button-set-exam-date">
           <CalendarClock className="h-4 w-4 mr-1.5" /> Create Study Plan
         </Button>
@@ -1348,7 +1348,7 @@ function StudyWorkloadWidget({ user }: { user: any }) {
             </div>
             <div className="text-right">
               <p className="text-lg font-bold text-primary" data-testid="text-days-remaining">{daysRemaining}</p>
-              <p className="text-[10px] text-muted-foreground uppercase">days left</p>
+              <p className="text-[10px] text-muted-foreground uppercase">{t("pages.dashboard.daysLeft")}</p>
             </div>
           </div>
         )}
@@ -1363,22 +1363,22 @@ function StudyWorkloadWidget({ user }: { user: any }) {
           <div className="grid grid-cols-3 gap-1.5">
             <div className="p-2 rounded-lg bg-muted/50 text-center">
               <p className="text-base font-bold text-primary" data-testid="text-daily-questions">{pacing.questionsPerDay}</p>
-              <p className="text-[9px] text-muted-foreground uppercase tracking-wider">Q/Day</p>
+              <p className="text-[9px] text-muted-foreground uppercase tracking-wider">{t("pages.dashboard.qday")}</p>
             </div>
             <div className="p-2 rounded-lg bg-muted/50 text-center">
               <p className="text-base font-bold text-primary" data-testid="text-weekly-flashcards">{pacing.flashcardsPerWeek}</p>
-              <p className="text-[9px] text-muted-foreground uppercase tracking-wider">Cards/Wk</p>
+              <p className="text-[9px] text-muted-foreground uppercase tracking-wider">{t("pages.dashboard.cardswk")}</p>
             </div>
             <div className="p-2 rounded-lg bg-muted/50 text-center">
               <p className="text-base font-bold text-primary" data-testid="text-mocks-target">{pacing.mocksToTake}</p>
-              <p className="text-[9px] text-muted-foreground uppercase tracking-wider">Mocks</p>
+              <p className="text-[9px] text-muted-foreground uppercase tracking-wider">{t("pages.dashboard.mocks")}</p>
             </div>
           </div>
         )}
 
         {recs.length > 0 && (
           <div className="space-y-1.5">
-            <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Next Steps</p>
+            <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">{t("pages.dashboard.nextSteps")}</p>
             {recs.slice(0, 2).map((rec: any, i: number) => (
               <div key={i} className="flex items-start gap-2 text-xs" data-testid={`rec-item-${i}`}>
                 <Sparkles className="w-3 h-3 text-primary flex-shrink-0 mt-0.5" />
@@ -1410,8 +1410,8 @@ function QuickStudyWidget({ user }: { user: any }) {
       <div className="w-14 h-14 rounded-full bg-[#BFA6F6]/15 flex items-center justify-center mx-auto mb-3">
         <PlayCircle className="h-7 w-7 text-[#BFA6F6]" />
       </div>
-      <h3 className="text-sm font-semibold mb-1">Quick Study</h3>
-      <p className="text-xs text-muted-foreground mb-4">10-minute focused session from your study areas</p>
+      <h3 className="text-sm font-semibold mb-1">{t("pages.dashboard.quickStudy")}</h3>
+      <p className="text-xs text-muted-foreground mb-4">{t("pages.dashboard.10minuteFocusedSessionFromYour")}</p>
       <Button
         size="sm"
         onClick={() => navigate("/quick-study")}
@@ -1440,7 +1440,7 @@ function ReviewDueWidget({ user }: { user: any }) {
   if (loading) {
     return (
       <div className="text-center py-6" data-testid="widget-content-review-due-loading">
-        <p className="text-xs text-muted-foreground">Loading review status...</p>
+        <p className="text-xs text-muted-foreground">{t("pages.dashboard.loadingReviewStatus")}</p>
       </div>
     );
   }
@@ -1449,8 +1449,8 @@ function ReviewDueWidget({ user }: { user: any }) {
     return (
       <div className="text-center py-4" data-testid="widget-content-review-due-empty">
         <CheckCircle2 className="h-8 w-8 mx-auto text-emerald-500 mb-2" />
-        <p className="text-sm font-medium text-emerald-700">All caught up</p>
-        <p className="text-xs text-muted-foreground mt-1">No flashcards due for review today</p>
+        <p className="text-sm font-medium text-emerald-700">{t("pages.dashboard.allCaughtUp")}</p>
+        <p className="text-xs text-muted-foreground mt-1">{t("pages.dashboard.noFlashcardsDueForReview")}</p>
       </div>
     );
   }
@@ -1460,7 +1460,7 @@ function ReviewDueWidget({ user }: { user: any }) {
       <div className="w-14 h-14 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-3">
         <RotateCcw className="h-7 w-7 text-amber-600" />
       </div>
-      <h3 className="text-sm font-semibold mb-1">Review Due Today</h3>
+      <h3 className="text-sm font-semibold mb-1">{t("pages.dashboard.reviewDueToday")}</h3>
       <p className="text-2xl font-bold text-amber-600 mb-1">{dueCount}</p>
       <p className="text-xs text-muted-foreground mb-4">flashcard{dueCount !== 1 ? "s" : ""} ready for review</p>
       <Button
@@ -1493,7 +1493,7 @@ function TopicMasteryWidget({ user }: { user: any }) {
   if (loading) {
     return (
       <div className="text-center py-6" data-testid="widget-topic-mastery-loading">
-        <p className="text-xs text-muted-foreground">Loading mastery data...</p>
+        <p className="text-xs text-muted-foreground">{t("pages.dashboard.loadingMasteryData")}</p>
       </div>
     );
   }
@@ -1502,7 +1502,7 @@ function TopicMasteryWidget({ user }: { user: any }) {
     return (
       <div className="text-center py-5" data-testid="widget-topic-mastery-empty">
         <BarChart className="h-8 w-8 mx-auto text-gray-300 mb-2" />
-        <p className="text-sm text-muted-foreground">Complete practice questions to see your topic mastery</p>
+        <p className="text-sm text-muted-foreground">{t("pages.dashboard.completePracticeQuestionsToSee")}</p>
         <Button
           size="sm"
           variant="outline"
@@ -1550,10 +1550,10 @@ function TopicMasteryWidget({ user }: { user: any }) {
         ))}
       </div>
       <div className="flex items-center justify-center gap-4 text-[10px] text-muted-foreground">
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500" /> Strong</span>
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-500" /> Moderate</span>
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500" /> Weak</span>
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-gray-300" /> Untested</span>
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500" /> {t("pages.dashboard.strong")}</span>
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-500" /> {t("pages.dashboard.moderate")}</span>
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500" /> {t("pages.dashboard.weak")}</span>
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-gray-300" /> {t("pages.dashboard.untested")}</span>
       </div>
     </div>
   );
@@ -1694,8 +1694,8 @@ function WeakTopicsWidget({ user }: { user: any }) {
     return (
       <div className="text-center py-4" data-testid="widget-weak-topics-empty">
         <CheckCircle2 className="h-8 w-8 mx-auto text-emerald-500 mb-2" />
-        <p className="text-sm font-medium text-emerald-700">No weak areas detected</p>
-        <p className="text-xs text-muted-foreground mt-1">Keep practicing to maintain your strengths</p>
+        <p className="text-sm font-medium text-emerald-700">{t("pages.dashboard.noWeakAreasDetected")}</p>
+        <p className="text-xs text-muted-foreground mt-1">{t("pages.dashboard.keepPracticingToMaintainYour")}</p>
       </div>
     );
   }
@@ -1707,7 +1707,7 @@ function WeakTopicsWidget({ user }: { user: any }) {
 
   return (
     <div data-testid="widget-content-weak-topics">
-      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3" data-testid="text-recommended-focus-heading">Recommended Focus</p>
+      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3" data-testid="text-recommended-focus-heading">{t("pages.dashboard.recommendedFocus")}</p>
       <div className="space-y-3 mb-3">
         {recommendations.map((rec, i) => (
           <div key={i} className="p-2.5 rounded-lg border bg-card" data-testid={`weak-topic-${i}`}>
@@ -1825,19 +1825,19 @@ function PerformanceOverviewWidget({ user }: { user: any }) {
       <div className="grid grid-cols-2 gap-2 mb-4">
         <div className="p-2.5 rounded-lg bg-blue-50 text-center">
           <p className="text-lg font-bold text-blue-700" data-testid="perf-total-questions">{totalQuestions}</p>
-          <p className="text-[10px] text-muted-foreground">Questions</p>
+          <p className="text-[10px] text-muted-foreground">{t("pages.dashboard.questions")}</p>
         </div>
         <div className="p-2.5 rounded-lg bg-green-50 text-center">
           <p className="text-lg font-bold text-green-700" data-testid="perf-accuracy">{overallAccuracy}%</p>
-          <p className="text-[10px] text-muted-foreground">Accuracy</p>
+          <p className="text-[10px] text-muted-foreground">{t("pages.dashboard.accuracy")}</p>
         </div>
         <div className="p-2.5 rounded-lg bg-amber-50 text-center">
           <p className="text-lg font-bold text-amber-700" data-testid="perf-study-time">{studyTimeHours}h</p>
-          <p className="text-[10px] text-muted-foreground">Study Time</p>
+          <p className="text-[10px] text-muted-foreground">{t("pages.dashboard.studyTime")}</p>
         </div>
         <div className="p-2.5 rounded-lg bg-purple-50 text-center">
           <p className="text-lg font-bold text-purple-700" data-testid="perf-exams">{mockExamsCompleted}</p>
-          <p className="text-[10px] text-muted-foreground">Mock Exams</p>
+          <p className="text-[10px] text-muted-foreground">{t("pages.dashboard.mockExams")}</p>
         </div>
       </div>
       <Button size="sm" variant="outline" className="w-full gap-1.5" onClick={() => navigate("/performance-analytics")} data-testid="button-full-analytics">
@@ -1911,7 +1911,7 @@ function QotdTeaserWidget({ user }: { user: any }) {
         </div>
       ) : (
         <div className="text-center py-4">
-          <p className="text-sm text-muted-foreground">Loading today's question...</p>
+          <p className="text-sm text-muted-foreground">{t("pages.dashboard.loadingTodaysQuestion")}</p>
         </div>
       )}
     </div>

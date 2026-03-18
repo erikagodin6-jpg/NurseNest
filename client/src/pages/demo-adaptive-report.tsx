@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { demoProfiles, type DemoProfile } from "@/data/demo-adaptive-profiles";
 
+import { useI18n } from "@/lib/i18n";
 const statusColor = (status: string) => {
   switch (status) {
     case "Strong": case "Mastered": return "bg-emerald-50 text-emerald-700 border-emerald-100";
@@ -58,6 +59,7 @@ const TrendIcon = ({ trend }: { trend: string }) => {
 };
 
 function ReadinessGauge({ score }: { score: number }) {
+  const { t } = useI18n();
   const circumference = 2 * Math.PI * 54;
   const offset = circumference - (score / 100) * circumference;
   const gradientId = "readiness-gradient";
@@ -84,7 +86,7 @@ function ReadinessGauge({ score }: { score: number }) {
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-3xl font-bold text-slate-800">{score}%</span>
-        <span className="text-[10px] text-slate-500 font-medium tracking-wide uppercase">Readiness</span>
+        <span className="text-[10px] text-slate-500 font-medium tracking-wide uppercase">{t("pages.demoAdaptiveReport.readiness")}</span>
       </div>
     </div>
   );
@@ -133,7 +135,7 @@ export default function DemoAdaptiveReport() {
   if (!user || !isAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#FCFAFF" }}>
-        <p className="text-slate-500">Admin access required.</p>
+        <p className="text-slate-500">{t("pages.demoAdaptiveReport.adminAccessRequired")}</p>
       </div>
     );
   }
@@ -164,7 +166,7 @@ export default function DemoAdaptiveReport() {
         <div className="max-w-7xl mx-auto px-6 pt-4 pb-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Eye className="w-4 h-4 text-violet-500" />
-            <span className="text-xs font-medium text-violet-600">Demo Screenshot Mode</span>
+            <span className="text-xs font-medium text-violet-600">{t("pages.demoAdaptiveReport.demoScreenshotMode")}</span>
             <button
               onClick={() => setScreenshotMode(!screenshotMode)}
               className={cn("relative inline-flex h-5 w-9 items-center rounded-full transition-colors", screenshotMode ? "bg-violet-500" : "bg-slate-300")}
@@ -198,7 +200,7 @@ export default function DemoAdaptiveReport() {
                 {p.initials}
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Adaptive Performance Report</h1>
+                <h1 className="text-2xl font-bold text-slate-800 tracking-tight">{t("pages.demoAdaptiveReport.adaptivePerformanceReport")}</h1>
                 <p className="text-sm text-slate-500 mt-0.5">
                   {p.name} &middot; {p.track} &middot; {p.studyWindow}
                 </p>
@@ -226,7 +228,7 @@ export default function DemoAdaptiveReport() {
             <Card className="border-0 shadow-md bg-white rounded-2xl h-full">
               <CardContent className="p-6 flex flex-col items-center justify-center h-full text-center">
                 <ReadinessGauge score={p.readinessScore} />
-                <h3 className="text-sm font-semibold text-slate-700 mt-4 mb-1">Exam Readiness</h3>
+                <h3 className="text-sm font-semibold text-slate-700 mt-4 mb-1">{t("pages.demoAdaptiveReport.examReadiness")}</h3>
                 <p className="text-xs text-slate-500 leading-relaxed max-w-[260px]">
                   Above average progress. Continue focusing on pharmacology and prioritization questions to improve predicted pass outcome.
                 </p>
@@ -236,12 +238,12 @@ export default function DemoAdaptiveReport() {
 
           <div className="col-span-12 lg:col-span-8">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              <StatCard icon={<Target className="w-4.5 h-4.5" />} label="Pass Probability" value={`${p.predictedPassProbability}%`} sub="Based on adaptive trends" />
-              <StatCard icon={<Brain className="w-4.5 h-4.5" />} label="Difficulty Level" value={`${p.adaptiveDifficultyLevel} / 10`} sub="Adaptive scaling" />
-              <StatCard icon={<Flame className="w-4.5 h-4.5" />} label="Study Streak" value={`${p.studyStreak} days`} sub="Consecutive" />
-              <StatCard icon={<BarChart3 className="w-4.5 h-4.5" />} label="Questions Done" value={p.questionsCompleted.toLocaleString()} sub={`${p.overallAccuracy}% accuracy`} />
-              <StatCard icon={<Clock className="w-4.5 h-4.5" />} label="Time Studied" value={`${p.totalStudyHours}h`} sub={p.studyBehaviour.averageSessionLength + " avg"} />
-              <StatCard icon={<BookOpen className="w-4.5 h-4.5" />} label="Flashcards" value={p.flashcardsReviewed.toLocaleString()} sub={`${p.lessonsCompleted} lessons`} />
+              <StatCard icon={<Target className="w-4.5 h-4.5" />} label={t("pages.demoAdaptiveReport.passProbability")} value={`${p.predictedPassProbability}%`} sub="Based on adaptive trends" />
+              <StatCard icon={<Brain className="w-4.5 h-4.5" />} label={t("pages.demoAdaptiveReport.difficultyLevel")} value={`${p.adaptiveDifficultyLevel} / 10`} sub="Adaptive scaling" />
+              <StatCard icon={<Flame className="w-4.5 h-4.5" />} label={t("pages.demoAdaptiveReport.studyStreak")} value={`${p.studyStreak} days`} sub="Consecutive" />
+              <StatCard icon={<BarChart3 className="w-4.5 h-4.5" />} label={t("pages.demoAdaptiveReport.questionsDone")} value={p.questionsCompleted.toLocaleString()} sub={`${p.overallAccuracy}% accuracy`} />
+              <StatCard icon={<Clock className="w-4.5 h-4.5" />} label={t("pages.demoAdaptiveReport.timeStudied")} value={`${p.totalStudyHours}h`} sub={p.studyBehaviour.averageSessionLength + " avg"} />
+              <StatCard icon={<BookOpen className="w-4.5 h-4.5" />} label={t("pages.demoAdaptiveReport.flashcards")} value={p.flashcardsReviewed.toLocaleString()} sub={`${p.lessonsCompleted} lessons`} />
             </div>
           </div>
         </div>
@@ -252,8 +254,8 @@ export default function DemoAdaptiveReport() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h3 className="text-sm font-semibold text-slate-700">Adaptive Growth Trend</h3>
-                    <p className="text-xs text-slate-400 mt-0.5">Readiness score progression over 8 weeks</p>
+                    <h3 className="text-sm font-semibold text-slate-700">{t("pages.demoAdaptiveReport.adaptiveGrowthTrend")}</h3>
+                    <p className="text-xs text-slate-400 mt-0.5">{t("pages.demoAdaptiveReport.readinessScoreProgressionOver8")}</p>
                   </div>
                   <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">
                     <TrendingUp className="w-3 h-3" /> +{p.growthTrend[p.growthTrend.length - 1] - p.growthTrend[0]}pts
@@ -284,25 +286,25 @@ export default function DemoAdaptiveReport() {
           <div className="col-span-12 lg:col-span-4">
             <Card className="border-0 shadow-md bg-white rounded-2xl h-full">
               <CardContent className="p-6">
-                <h3 className="text-sm font-semibold text-slate-700 mb-1">Study Activity</h3>
-                <p className="text-xs text-slate-400 mb-4">Last 28 days</p>
+                <h3 className="text-sm font-semibold text-slate-700 mb-1">{t("pages.demoAdaptiveReport.studyActivity")}</h3>
+                <p className="text-xs text-slate-400 mb-4">{t("pages.demoAdaptiveReport.last28Days")}</p>
                 <ActivityHeatmap data={p.weeklyActivity} />
                 <div className="grid grid-cols-2 gap-3 mt-5">
                   <div className="text-center">
                     <p className="text-lg font-bold text-slate-800">{p.studyBehaviour.dailyAverageQuestions}</p>
-                    <p className="text-[10px] text-slate-400">Avg daily questions</p>
+                    <p className="text-[10px] text-slate-400">{t("pages.demoAdaptiveReport.avgDailyQuestions")}</p>
                   </div>
                   <div className="text-center">
                     <p className="text-lg font-bold text-slate-800">{p.studyBehaviour.weeklyConsistency}%</p>
-                    <p className="text-[10px] text-slate-400">Weekly consistency</p>
+                    <p className="text-[10px] text-slate-400">{t("pages.demoAdaptiveReport.weeklyConsistency")}</p>
                   </div>
                   <div className="text-center">
                     <p className="text-lg font-bold text-slate-800">{p.studyBehaviour.averageSessionLength}</p>
-                    <p className="text-[10px] text-slate-400">Avg session</p>
+                    <p className="text-[10px] text-slate-400">{t("pages.demoAdaptiveReport.avgSession")}</p>
                   </div>
                   <div className="text-center">
                     <p className="text-lg font-bold text-slate-800">{p.studyBehaviour.reviewCompletionRate}%</p>
-                    <p className="text-[10px] text-slate-400">Review completion</p>
+                    <p className="text-[10px] text-slate-400">{t("pages.demoAdaptiveReport.reviewCompletion")}</p>
                   </div>
                 </div>
                 <div className="mt-4 flex items-center gap-2 text-xs text-slate-500">
@@ -319,8 +321,8 @@ export default function DemoAdaptiveReport() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-5">
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-700">Category Performance</h3>
-                  <p className="text-xs text-slate-400 mt-0.5">Mastery level by content domain</p>
+                  <h3 className="text-sm font-semibold text-slate-700">{t("pages.demoAdaptiveReport.categoryPerformance")}</h3>
+                  <p className="text-xs text-slate-400 mt-0.5">{t("pages.demoAdaptiveReport.masteryLevelByContentDomain")}</p>
                 </div>
               </div>
               <div className="space-y-3">
@@ -356,14 +358,14 @@ export default function DemoAdaptiveReport() {
                   <div className="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center">
                     <Star className="w-3.5 h-3.5 text-emerald-500" />
                   </div>
-                  <h3 className="text-sm font-semibold text-slate-700">Top Strengths</h3>
+                  <h3 className="text-sm font-semibold text-slate-700">{t("pages.demoAdaptiveReport.topStrengths")}</h3>
                 </div>
                 <div className="space-y-2.5">
                   {p.strongestAreas.map((area, i) => (
                     <div key={area} className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-emerald-50/50 border border-emerald-100/60">
                       <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-[10px] font-bold">{i + 1}</span>
                       <span className="text-sm text-slate-700 font-medium">{area}</span>
-                      <span className="ml-auto text-[10px] font-semibold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded">Confident</span>
+                      <span className="ml-auto text-[10px] font-semibold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded">{t("pages.demoAdaptiveReport.confident")}</span>
                     </div>
                   ))}
                 </div>
@@ -378,14 +380,14 @@ export default function DemoAdaptiveReport() {
                   <div className="w-7 h-7 rounded-lg bg-rose-50 flex items-center justify-center">
                     <Target className="w-3.5 h-3.5 text-rose-500" />
                   </div>
-                  <h3 className="text-sm font-semibold text-slate-700">Top Focus Areas</h3>
+                  <h3 className="text-sm font-semibold text-slate-700">{t("pages.demoAdaptiveReport.topFocusAreas")}</h3>
                 </div>
                 <div className="space-y-2.5">
                   {p.weakestAreas.map((area, i) => (
                     <div key={area} className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-rose-50/50 border border-rose-100/60">
                       <span className="w-5 h-5 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-[10px] font-bold">{i + 1}</span>
                       <span className="text-sm text-slate-700 font-medium">{area}</span>
-                      <span className="ml-auto text-[10px] font-semibold text-rose-600 bg-rose-100 px-1.5 py-0.5 rounded">Review</span>
+                      <span className="ml-auto text-[10px] font-semibold text-rose-600 bg-rose-100 px-1.5 py-0.5 rounded">{t("pages.demoAdaptiveReport.review")}</span>
                     </div>
                   ))}
                 </div>
@@ -398,8 +400,8 @@ export default function DemoAdaptiveReport() {
           <div className="col-span-12 lg:col-span-7">
             <Card className="border-0 shadow-md bg-white rounded-2xl">
               <CardContent className="p-6">
-                <h3 className="text-sm font-semibold text-slate-700 mb-1">Question Type Performance</h3>
-                <p className="text-xs text-slate-400 mb-4">Accuracy and confidence by question format</p>
+                <h3 className="text-sm font-semibold text-slate-700 mb-1">{t("pages.demoAdaptiveReport.questionTypePerformance")}</h3>
+                <p className="text-xs text-slate-400 mb-4">{t("pages.demoAdaptiveReport.accuracyAndConfidenceByQuestion")}</p>
                 <div className="space-y-2.5">
                   {p.questionTypePerformance.map((qt) => (
                     <div key={qt.type} className="flex items-center gap-3 py-2 px-3 rounded-xl hover:bg-slate-50/50 transition-colors">
@@ -422,8 +424,8 @@ export default function DemoAdaptiveReport() {
           <div className="col-span-12 lg:col-span-5">
             <Card className="border-0 shadow-md bg-white rounded-2xl h-full">
               <CardContent className="p-6">
-                <h3 className="text-sm font-semibold text-slate-700 mb-1">Confidence vs Performance</h3>
-                <p className="text-xs text-slate-400 mb-3">Mastery quadrant analysis</p>
+                <h3 className="text-sm font-semibold text-slate-700 mb-1">{t("pages.demoAdaptiveReport.confidenceVsPerformance")}</h3>
+                <p className="text-xs text-slate-400 mb-3">{t("pages.demoAdaptiveReport.masteryQuadrantAnalysis")}</p>
                 <ResponsiveContainer width="100%" height={210}>
                   <ScatterChart margin={{ top: 10, right: 10, bottom: 5, left: -10 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
@@ -450,10 +452,10 @@ export default function DemoAdaptiveReport() {
                   </ScatterChart>
                 </ResponsiveContainer>
                 <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 justify-center">
-                  <span className="flex items-center gap-1 text-[10px] text-slate-500"><span className="w-2 h-2 rounded-full bg-[#6ee7b7]" /> Mastered</span>
-                  <span className="flex items-center gap-1 text-[10px] text-slate-500"><span className="w-2 h-2 rounded-full bg-[#93c5fd]" /> Underconfident</span>
-                  <span className="flex items-center gap-1 text-[10px] text-slate-500"><span className="w-2 h-2 rounded-full bg-[#fbbf24]" /> Overconfident</span>
-                  <span className="flex items-center gap-1 text-[10px] text-slate-500"><span className="w-2 h-2 rounded-full bg-[#fca5a5]" /> Focus needed</span>
+                  <span className="flex items-center gap-1 text-[10px] text-slate-500"><span className="w-2 h-2 rounded-full bg-[#6ee7b7]" /> {t("pages.demoAdaptiveReport.mastered")}</span>
+                  <span className="flex items-center gap-1 text-[10px] text-slate-500"><span className="w-2 h-2 rounded-full bg-[#93c5fd]" /> {t("pages.demoAdaptiveReport.underconfident")}</span>
+                  <span className="flex items-center gap-1 text-[10px] text-slate-500"><span className="w-2 h-2 rounded-full bg-[#fbbf24]" /> {t("pages.demoAdaptiveReport.overconfident")}</span>
+                  <span className="flex items-center gap-1 text-[10px] text-slate-500"><span className="w-2 h-2 rounded-full bg-[#fca5a5]" /> {t("pages.demoAdaptiveReport.focusNeeded")}</span>
                 </div>
               </CardContent>
             </Card>
@@ -468,8 +470,8 @@ export default function DemoAdaptiveReport() {
                   <Sparkles className="w-3.5 h-3.5 text-violet-500" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-700">Next Best Actions</h3>
-                  <p className="text-xs text-slate-400 mt-0.5">Personalized recommendations based on your adaptive performance</p>
+                  <h3 className="text-sm font-semibold text-slate-700">{t("pages.demoAdaptiveReport.nextBestActions")}</h3>
+                  <p className="text-xs text-slate-400 mt-0.5">{t("pages.demoAdaptiveReport.personalizedRecommendationsBasedOnYour")}</p>
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -501,7 +503,7 @@ export default function DemoAdaptiveReport() {
                   <GraduationCap className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-slate-700">Recommended Milestone</p>
+                  <p className="text-sm font-semibold text-slate-700">{t("pages.demoAdaptiveReport.recommendedMilestone")}</p>
                   <p className="text-xs text-slate-500">Reach {Math.min(p.readinessScore + 4, 95)}% readiness before full CAT simulation</p>
                 </div>
               </div>

@@ -13,6 +13,7 @@ import { Slider } from "@/components/ui/slider";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { canAccessFeature } from "@/lib/entitlements";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { useI18n } from "@/lib/i18n";
 import {
   Gauge, Lock, ArrowRight, TrendingUp, AlertTriangle,
   Info, Trophy, Target, BookOpen, Clock, Brain, BarChart3
@@ -90,6 +91,7 @@ const SLIDER_CONFIG = [
 ] as const;
 
 function getRiskColor(category: string) {
+
   const lower = category?.toLowerCase() || "";
   if (lower.includes("low") || lower.includes("ready")) return "text-green-600 bg-green-50 border-green-200";
   if (lower.includes("moderate") || lower.includes("medium")) return "text-yellow-600 bg-yellow-50 border-yellow-200";
@@ -161,7 +163,7 @@ export default function ProbabilitySimulatorPage() {
         <Navigation />
         <main className="container mx-auto px-4 py-12 max-w-4xl text-center">
           <BreadcrumbNav />
-          <p className="text-muted-foreground">Please log in to access the Probability Improvement Simulator.</p>
+          <p className="text-muted-foreground">{t("pages.probabilitySimulator.pleaseLogInToAccess")}</p>
           <Button className="mt-4" onClick={() => navigate("/login")} data-testid="button-login-redirect">
             Log In
           </Button>
@@ -220,7 +222,7 @@ export default function ProbabilitySimulatorPage() {
             <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-8">
               <div className="bg-background/95 backdrop-blur-sm rounded-2xl p-8 text-center shadow-lg border max-w-md">
                 <Lock className="h-10 w-10 text-primary mx-auto mb-4" />
-                <h2 className="text-xl font-bold mb-2" data-testid="text-premium-gate-title">Premium Feature</h2>
+                <h2 className="text-xl font-bold mb-2" data-testid="text-premium-gate-title">{t("pages.probabilitySimulator.premiumFeature")}</h2>
                 <p className="text-muted-foreground text-sm mb-6">
                   The Probability Improvement Simulator is available on premium plans. Upgrade to unlock predictive analytics and personalized improvement insights.
                 </p>
@@ -243,19 +245,19 @@ export default function ProbabilitySimulatorPage() {
                 <CardContent>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="text-center p-3 rounded-lg bg-muted/50">
-                      <p className="text-xs text-muted-foreground mb-1">Current Probability</p>
+                      <p className="text-xs text-muted-foreground mb-1">{t("pages.probabilitySimulator.currentProbability")}</p>
                       <p className="text-2xl font-bold" data-testid="text-current-probability">
                         {result.baseline.probability}%
                       </p>
                     </div>
                     <div className="text-center p-3 rounded-lg bg-muted/50">
-                      <p className="text-xs text-muted-foreground mb-1">Risk Category</p>
+                      <p className="text-xs text-muted-foreground mb-1">{t("pages.probabilitySimulator.riskCategory")}</p>
                       <Badge variant="outline" className={getRiskColor(result.baseline.riskCategory)} data-testid="text-current-risk">
                         {result.baseline.riskCategory}
                       </Badge>
                     </div>
                     <div className="text-center p-3 rounded-lg bg-muted/50">
-                      <p className="text-xs text-muted-foreground mb-1">Confidence Band</p>
+                      <p className="text-xs text-muted-foreground mb-1">{t("pages.probabilitySimulator.confidenceBand")}</p>
                       <p className="text-sm font-medium" data-testid="text-confidence-band">
                         {result.projected.lowerBound}% – {result.projected.upperBound}%
                       </p>
@@ -351,7 +353,7 @@ export default function ProbabilitySimulatorPage() {
                     <div className="space-y-6">
                       <div className="space-y-3">
                         <div className="flex items-center justify-between text-sm">
-                          <span className="text-muted-foreground">Current</span>
+                          <span className="text-muted-foreground">{t("pages.probabilitySimulator.current")}</span>
                           <span className="font-medium">{result.baseline.probability}%</span>
                         </div>
                         <div className="relative h-4 rounded-full bg-muted overflow-hidden">
@@ -363,7 +365,7 @@ export default function ProbabilitySimulatorPage() {
                         </div>
 
                         <div className="flex items-center justify-between text-sm">
-                          <span className="text-muted-foreground">Projected</span>
+                          <span className="text-muted-foreground">{t("pages.probabilitySimulator.projected")}</span>
                           <span className="font-bold text-primary">{result.projected.probability}%</span>
                         </div>
                         <div className="relative h-4 rounded-full bg-muted overflow-hidden">
@@ -377,19 +379,19 @@ export default function ProbabilitySimulatorPage() {
 
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div className="text-center p-3 rounded-lg bg-green-50 border border-green-200">
-                          <p className="text-xs text-green-600 mb-1">Probability Lift</p>
+                          <p className="text-xs text-green-600 mb-1">{t("pages.probabilitySimulator.probabilityLift")}</p>
                           <p className="text-xl font-bold text-green-700" data-testid="text-lift">
                             +{result.lift}%
                           </p>
                         </div>
                         <div className="text-center p-3 rounded-lg bg-muted/50">
-                          <p className="text-xs text-muted-foreground mb-1">Projected Risk</p>
+                          <p className="text-xs text-muted-foreground mb-1">{t("pages.probabilitySimulator.projectedRisk")}</p>
                           <Badge variant="outline" className={getRiskColor(result.projected.riskCategory)} data-testid="text-projected-risk">
                             {result.projected.riskCategory}
                           </Badge>
                         </div>
                         <div className="text-center p-3 rounded-lg bg-muted/50">
-                          <p className="text-xs text-muted-foreground mb-1">Risk Change</p>
+                          <p className="text-xs text-muted-foreground mb-1">{t("pages.probabilitySimulator.riskChange")}</p>
                           <p className="text-sm font-medium" data-testid="text-risk-change">
                             {result.baseline.riskCategory === result.projected.riskCategory
                               ? "No change"

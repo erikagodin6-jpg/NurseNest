@@ -381,7 +381,7 @@ export default function PricingPage() {
           <div className="text-center py-12 text-gray-500">{t("pricing.loadingPlans")}</div>
         ) : plansError || tierPlans.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-gray-500 mb-2">Plans are being configured. Check back soon!</p>
+            <p className="text-gray-500 mb-2">{t("pages.pricing.plansAreBeingConfiguredCheck")}</p>
             <Button variant="outline" className="rounded-full" onClick={() => window.location.reload()} data-testid="button-refresh-plans">
               Refresh
             </Button>
@@ -399,7 +399,7 @@ export default function PricingPage() {
     return (
       <div data-testid="section-allied">
         <div className="text-center mb-6">
-          <h3 className="text-xl font-bold text-gray-900 mb-1" data-testid="text-allied-title">Allied Health Plans</h3>
+          <h3 className="text-xl font-bold text-gray-900 mb-1" data-testid="text-allied-title">{t("pages.pricing.alliedHealthPlans")}</h3>
           <p className="text-gray-500 text-sm max-w-xl mx-auto">
             Full access to exam-style questions, flashcards, clinical lessons, and performance tools for RRT, Paramedic, Pharmacy Tech, MLT, and more.
           </p>
@@ -488,7 +488,7 @@ export default function PricingPage() {
     return (
       <div data-testid="section-imaging">
         <div className="text-center mb-6">
-          <h3 className="text-xl font-bold text-gray-900 mb-1" data-testid="text-imaging-title">Medical Imaging Plans</h3>
+          <h3 className="text-xl font-bold text-gray-900 mb-1" data-testid="text-imaging-title">{t("pages.pricing.medicalImagingPlans")}</h3>
           <p className="text-gray-500 text-sm max-w-xl mx-auto">
             CAMRT & ARRT exam preparation with practice questions, flashcards, positioning guides, and physics modules.
           </p>
@@ -497,14 +497,14 @@ export default function PricingPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8" data-testid="imaging-plans-grid">
           <Card className="relative border-2 border-gray-200 bg-white" data-testid="card-imaging-free">
             <CardHeader className="pb-4">
-              <Badge variant="secondary" className="text-xs w-fit">Free</Badge>
-              <CardTitle className="text-xl font-bold text-gray-900">Explorer</CardTitle>
-              <p className="text-sm text-gray-500 mt-1">Try before you buy</p>
+              <Badge variant="secondary" className="text-xs w-fit">{t("pages.pricing.free")}</Badge>
+              <CardTitle className="text-xl font-bold text-gray-900">{t("pages.pricing.explorer")}</CardTitle>
+              <p className="text-sm text-gray-500 mt-1">{t("pages.pricing.tryBeforeYouBuy")}</p>
             </CardHeader>
             <CardContent>
               <div className="mb-6">
                 <span className="text-4xl font-bold text-gray-900">{currencySymbol}0</span>
-                <span className="text-gray-500 ml-1">/ forever</span>
+                <span className="text-gray-500 ml-1">{t("pages.pricing.forever")}</span>
               </div>
               <ul className="space-y-3 mb-8">
                 {["5 free practice questions daily", "10 free flashcards daily", "1 free practice exam", "5 positioning guides", "3 physics topics", "Basic progress tracking"].map((f, i) => (
@@ -580,7 +580,7 @@ export default function PricingPage() {
     return (
       <div data-testid="section-newgrad">
         <div className="text-center mb-6">
-          <h3 className="text-xl font-bold text-gray-900 mb-1" data-testid="text-newgrad-title">New Grad Plans</h3>
+          <h3 className="text-xl font-bold text-gray-900 mb-1" data-testid="text-newgrad-title">{t("pages.pricing.newGradPlans")}</h3>
           <p className="text-gray-500 text-sm max-w-xl mx-auto">
             Career toolkit for new graduate nurses and allied health professionals — interview prep, resume builder, salary guides, and professional development.
           </p>
@@ -743,11 +743,11 @@ export default function PricingPage() {
 
           <div className="flex items-center justify-center gap-2 mt-2 py-1.5 px-3 bg-gray-50 rounded-full" data-testid={`bnpl-badges-${plan.duration}`}>
             <span className="text-[10px] text-gray-400 font-medium">{t("pricing.alsoAccepted")}</span>
-            <span className="text-[10px] font-semibold text-[#FFB3C7]">Klarna</span>
+            <span className="text-[10px] font-semibold text-[#FFB3C7]">{t("pages.pricing.klarna")}</span>
             <span className="text-[10px] text-gray-300">|</span>
-            <span className="text-[10px] font-semibold text-[#B2FCE4]">Afterpay</span>
+            <span className="text-[10px] font-semibold text-[#B2FCE4]">{t("pages.pricing.afterpay")}</span>
             <span className="text-[10px] text-gray-300">|</span>
-            <span className="text-[10px] font-semibold text-[#4A4AFF]">Affirm</span>
+            <span className="text-[10px] font-semibold text-[#4A4AFF]">{t("pages.pricing.affirm")}</span>
           </div>
 
           {paypalAvailable && (
@@ -801,8 +801,8 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 animate-page-enter">
       <SEO
-        title="NurseNest Pricing — All Plans in One Place"
-        description="Affordable nursing and healthcare exam prep plans for RPN, RN, NP, Allied Health, Medical Imaging, and New Grad. 40,000+ practice questions, 13,000+ flashcards, and adaptive mock exams."
+        title={t("pages.pricing.nursenestPricingAllPlansIn")}
+        description={t("pages.pricing.affordableNursingAndHealthcareExam")}
         canonicalPath="/pricing"
       />
       <Navigation />
@@ -839,7 +839,7 @@ export default function PricingPage() {
             </p>
             {isCAD && (
               <div className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-50/80 border border-red-200/40 text-sm shadow-sm" data-testid="badge-canadian-pricing">
-                <span role="img" aria-label="maple leaf">🍁</span>
+                <span role="img" aria-label={t("pages.pricing.mapleLeaf")}>🍁</span>
                 <span className="text-gray-700">
                   <span className="font-semibold text-gray-900">{t("pricing.canadianPricingTitle")}</span> - {t("pricing.canadianPricingDesc")}
                 </span>
@@ -959,7 +959,7 @@ export default function PricingPage() {
           </div>
 
           <div className="mb-16 max-w-3xl mx-auto" data-testid="pricing-faq">
-            <h2 className="text-2xl font-bold text-center text-gray-900 mb-8">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-center text-gray-900 mb-8">{t("pages.pricing.frequentlyAskedQuestions")}</h2>
             <div className="space-y-3">
               {FAQ_ITEMS.map((faq, idx) => (
                 <div
@@ -1005,8 +1005,8 @@ export default function PricingPage() {
             </div>
 
             <div className="bg-gradient-to-r from-primary/10 to-purple-100/50 rounded-3xl p-8 sm:p-12 max-w-2xl w-full" data-testid="bottom-cta">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">Ready to Start Your Exam Prep?</h2>
-              <p className="text-gray-600 mb-6 max-w-md mx-auto">Join thousands of healthcare professionals who passed their exams with NurseNest.</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("pages.pricing.readyToStartYourExam")}</h2>
+              <p className="text-gray-600 mb-6 max-w-md mx-auto">{t("pages.pricing.joinThousandsOfHealthcareProfessionals")}</p>
               <Button
                 className="rounded-full font-semibold bg-primary hover:brightness-110 text-white px-10 h-12 text-base shadow-lg shadow-primary/20"
                 onClick={() => navigate(user ? "/dashboard" : "/register")}

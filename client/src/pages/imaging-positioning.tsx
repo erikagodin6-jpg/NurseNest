@@ -5,6 +5,7 @@ import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { MapPin, ArrowLeft, Search, Target, Eye, BookOpen, Star } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const EXAM_MAP: Record<string, { exam: string; label: string }> = {
   canada: { exam: "CAMRT", label: "Canada" },
   usa: { exam: "ARRT", label: "USA" },
@@ -40,6 +41,7 @@ const RELEVANCE_ICONS: Record<string, string> = {
 };
 
 export default function ImagingPositioningPage() {
+  const { t } = useI18n();
   const [, params] = useRoute("/medical-imaging/:country/positioning");
   const country = params?.country || "canada";
   const examInfo = EXAM_MAP[country] || EXAM_MAP.canada;
@@ -124,7 +126,7 @@ export default function ImagingPositioningPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
-              placeholder="Search projections, body parts, anatomy..."
+              placeholder={t("pages.imagingPositioning.searchProjectionsBodyPartsAnatomy")}
               value={search}
               onChange={e => setSearch(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
@@ -153,13 +155,13 @@ export default function ImagingPositioningPage() {
         {isLoading ? (
           <div className="text-center py-16 text-gray-400">
             <MapPin className="w-10 h-10 mx-auto mb-3 animate-pulse" />
-            <p>Loading positioning entries...</p>
+            <p>{t("pages.imagingPositioning.loadingPositioningEntries")}</p>
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-16 bg-gray-50 rounded-2xl">
             <MapPin className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-            <p className="font-medium text-gray-500">No positioning entries found</p>
-            <p className="text-sm text-gray-400 mt-1">Try adjusting your search or filter</p>
+            <p className="font-medium text-gray-500">{t("pages.imagingPositioning.noPositioningEntriesFound")}</p>
+            <p className="text-sm text-gray-400 mt-1">{t("pages.imagingPositioning.tryAdjustingYourSearchOr")}</p>
           </div>
         ) : (
           <div className="space-y-10">
@@ -217,10 +219,10 @@ export default function ImagingPositioningPage() {
                               <p className="text-xs text-gray-500 line-clamp-2 mb-3 flex-1">{entry.patientPosition}</p>
                             )}
                             <div className="flex items-center gap-3 text-xs text-gray-400 mt-auto pt-2 border-t border-gray-50">
-                              <span className="flex items-center gap-1"><Eye className="w-3 h-3" /> View</span>
-                              <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" /> Learn</span>
+                              <span className="flex items-center gap-1"><Eye className="w-3 h-3" /> {t("pages.imagingPositioning.view")}</span>
+                              <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" /> {t("pages.imagingPositioning.learn")}</span>
                               {entry.quizQuestions && (entry.quizQuestions as any[]).length > 0 && (
-                                <span className="flex items-center gap-1"><Target className="w-3 h-3" /> Quiz</span>
+                                <span className="flex items-center gap-1"><Target className="w-3 h-3" /> {t("pages.imagingPositioning.quiz")}</span>
                               )}
                             </div>
                           </div>

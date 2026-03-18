@@ -4,6 +4,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { Breadcrumbs } from "@/allied/components/paramedic-seo-components";
 import { FinalCTASection, RegionSelector, RegionNotesCallout } from "./components";
 import { useParamedicRegion } from "@/allied/contexts/paramedic-region-context";
+import { useI18n } from "@/lib/i18n";
 import {
   Loader2, CheckCircle2, XCircle, ArrowRight, BookOpen,
   Target, ChevronDown, ChevronUp, Lock, FileText
@@ -37,6 +38,7 @@ interface TopicData {
 }
 
 function DifficultyBadge({ level }: { level: number }) {
+  const { t } = useI18n();
   const config = level <= 2
     ? { label: "Foundational", color: "bg-green-100 text-green-700" }
     : level <= 3
@@ -59,14 +61,14 @@ function QuestionCard({ question, index, isLocked }: { question: SampleQuestion;
         <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-10">
           <div className="text-center">
             <Lock className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-600">Sign up for free to access more questions</p>
+            <p className="text-sm font-medium text-gray-600">{t("allied.paramedicParamedicQuestionSeo.signUpForFreeTo")}</p>
             <Link href="/diagnostic?career=paramedic" className="inline-flex items-center gap-1 text-teal-600 text-sm font-semibold mt-2 hover:text-teal-700" data-testid="link-unlock-questions">
               Start Free <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
         </div>
         <div className="blur-sm">
-          <p className="text-sm text-gray-700 mb-4">Question preview is locked...</p>
+          <p className="text-sm text-gray-700 mb-4">{t("allied.paramedicParamedicQuestionSeo.questionPreviewIsLocked")}</p>
           <div className="space-y-2">
             {[1, 2, 3, 4].map(i => (
               <div key={i} className="h-10 bg-gray-100 rounded-lg" />
@@ -129,13 +131,13 @@ function QuestionCard({ question, index, isLocked }: { question: SampleQuestion;
 
       {showAnswer && (
         <div className="bg-teal-50 border border-teal-200 rounded-lg p-4 mt-4" data-testid={`rationale-${index}`}>
-          <h4 className="text-sm font-semibold text-teal-800 mb-2">Rationale</h4>
+          <h4 className="text-sm font-semibold text-teal-800 mb-2">{t("allied.paramedicParamedicQuestionSeo.rationale")}</h4>
           <p className="text-sm text-teal-900 leading-relaxed">{question.rationale}</p>
         </div>
       )}
 
       {!showAnswer && selectedOption === null && (
-        <p className="text-xs text-gray-400 mt-2">Click an answer to reveal the rationale</p>
+        <p className="text-xs text-gray-400 mt-2">{t("allied.paramedicParamedicQuestionSeo.clickAnAnswerToReveal")}</p>
       )}
     </div>
   );
@@ -172,8 +174,8 @@ export default function ParamedicQuestionSeoPage() {
   if (error || !data) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Topic Not Found</h1>
-        <p className="text-gray-600 mb-4">The paramedic question topic you're looking for doesn't exist.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.paramedicParamedicQuestionSeo.topicNotFound")}</h1>
+        <p className="text-gray-600 mb-4">{t("allied.paramedicParamedicQuestionSeo.theParamedicQuestionTopicYoure")}</p>
         <Link href="/allied-health/paramedic/questions" className="inline-block px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-to-topics">
           Browse All Topics
         </Link>
@@ -347,27 +349,27 @@ export default function ParamedicQuestionSeoPage() {
 
       <section className="py-8 border-t border-gray-100" data-testid="section-internal-links">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">More Paramedic Study Resources</h2>
+          <h2 className="text-lg font-bold text-gray-900 mb-4">{t("allied.paramedicParamedicQuestionSeo.moreParamedicStudyResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Link href="/allied-health/paramedic/lessons" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-lessons">
               <BookOpen className="w-5 h-5 text-teal-500" />
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">Lessons</h3>
-                <p className="text-xs text-gray-500">In-depth clinical guides</p>
+                <h3 className="text-sm font-semibold text-gray-900">{t("allied.paramedicParamedicQuestionSeo.lessons")}</h3>
+                <p className="text-xs text-gray-500">{t("allied.paramedicParamedicQuestionSeo.indepthClinicalGuides")}</p>
               </div>
             </Link>
             <Link href="/allied-health/paramedic/exams" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-exams">
               <FileText className="w-5 h-5 text-teal-500" />
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">Practice Exams</h3>
-                <p className="text-xs text-gray-500">Blueprint-weighted mocks</p>
+                <h3 className="text-sm font-semibold text-gray-900">{t("allied.paramedicParamedicQuestionSeo.practiceExams")}</h3>
+                <p className="text-xs text-gray-500">{t("allied.paramedicParamedicQuestionSeo.blueprintweightedMocks")}</p>
               </div>
             </Link>
             <Link href="/allied-health/paramedic/questions" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-all-topics">
               <Target className="w-5 h-5 text-teal-500" />
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">All Topics</h3>
-                <p className="text-xs text-gray-500">Browse by clinical topic</p>
+                <h3 className="text-sm font-semibold text-gray-900">{t("allied.paramedicParamedicQuestionSeo.allTopics")}</h3>
+                <p className="text-xs text-gray-500">{t("allied.paramedicParamedicQuestionSeo.browseByClinicalTopic")}</p>
               </div>
             </Link>
           </div>

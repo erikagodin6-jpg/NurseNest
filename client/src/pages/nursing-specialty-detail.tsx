@@ -5,6 +5,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import { getSpecialtyBySlug, NURSING_SPECIALTIES } from "@/data/nursing-specialties-detail-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight,
   ChevronRight,
@@ -21,6 +22,7 @@ import {
 } from "lucide-react";
 
 function PracticeQuestion({ q, index }: { q: { question: string; options: string[]; correct: number; rationale: string }; index: number }) {
+  const { t } = useI18n();
   const [selected, setSelected] = useState<number | null>(null);
   const [showRationale, setShowRationale] = useState(false);
 
@@ -65,7 +67,7 @@ function PracticeQuestion({ q, index }: { q: { question: string; options: string
       </div>
       {showRationale && (
         <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 mt-3" data-testid={`question-${index}-rationale`}>
-          <p className="text-sm font-semibold text-blue-900 mb-1">Rationale</p>
+          <p className="text-sm font-semibold text-blue-900 mb-1">{t("pages.nursingSpecialtyDetail.rationale")}</p>
           <p className="text-sm text-gray-700 leading-relaxed">{q.rationale}</p>
         </div>
       )}
@@ -100,8 +102,8 @@ function SpecialtyNotFound() {
       <Navigation />
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="text-center max-w-md px-4">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">Specialty Not Found</h1>
-          <p className="text-gray-600 mb-6">The nursing specialty you are looking for is not available. Browse our specialties below.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">{t("pages.nursingSpecialtyDetail.specialtyNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.nursingSpecialtyDetail.theNursingSpecialtyYouAre")}</p>
           <div className="flex flex-wrap gap-2 justify-center">
             {NURSING_SPECIALTIES.map(spec => (
               <Link key={spec.slug} href={`/nursing-specialties/${spec.slug}`} className="text-blue-600 hover:underline text-sm" data-testid={`link-specialty-${spec.slug}`}>
@@ -170,9 +172,9 @@ export default function NursingSpecialtyDetail() {
         <div className={`absolute inset-0 bg-gradient-to-br ${specialty.gradientFrom} via-white/50 to-white`} />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.nursingSpecialtyDetail.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/nursing-specialties" className="hover:text-blue-600">Nursing Specialties</Link>
+            <Link href="/nursing-specialties" className="hover:text-blue-600">{t("pages.nursingSpecialtyDetail.nursingSpecialties")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-blue-700 font-medium">{specialty.name}</span>
           </nav>
@@ -218,7 +220,7 @@ export default function NursingSpecialtyDetail() {
             <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
               <ClipboardList className="w-5 h-5 text-blue-600" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900">Skills Required</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{t("pages.nursingSpecialtyDetail.skillsRequired")}</h2>
           </div>
           <div className="bg-white border border-gray-200 rounded-xl p-6">
             <ul className="grid sm:grid-cols-2 gap-3">
@@ -237,7 +239,7 @@ export default function NursingSpecialtyDetail() {
             <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
               <Award className="w-5 h-5 text-amber-600" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900">Certifications</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{t("pages.nursingSpecialtyDetail.certifications")}</h2>
           </div>
           <div className="space-y-3">
             {specialty.certifications.map((cert, i) => (
@@ -257,7 +259,7 @@ export default function NursingSpecialtyDetail() {
             <div className={`w-10 h-10 rounded-xl ${specialty.bgColor} flex items-center justify-center`}>
               <SpecIcon className={`w-5 h-5 ${specialty.iconColor}`} />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900">Common Conditions Treated</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{t("pages.nursingSpecialtyDetail.commonConditionsTreated")}</h2>
           </div>
           <div className="bg-white border border-gray-200 rounded-xl p-6">
             <div className="grid sm:grid-cols-2 gap-2">
@@ -276,7 +278,7 @@ export default function NursingSpecialtyDetail() {
             <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
               <HelpCircle className="w-5 h-5 text-indigo-600" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900">Practice Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{t("pages.nursingSpecialtyDetail.practiceQuestions")}</h2>
           </div>
           <p className="text-gray-600 mb-4">Test your {specialty.name.toLowerCase()} knowledge. Select an answer to reveal the rationale.</p>
           <div className="space-y-4">
@@ -291,13 +293,13 @@ export default function NursingSpecialtyDetail() {
             <div className="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center">
               <BookOpen className="w-5 h-5 text-violet-600" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900">Related Resources</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{t("pages.nursingSpecialtyDetail.relatedResources")}</h2>
           </div>
           <div className="grid sm:grid-cols-3 gap-4">
             <div className="bg-white border border-gray-200 rounded-xl p-5">
               <div className="flex items-center gap-2 mb-3">
                 <BookOpen className="w-4 h-4 text-blue-600" />
-                <h3 className="font-semibold text-gray-900 text-sm">Lessons</h3>
+                <h3 className="font-semibold text-gray-900 text-sm">{t("pages.nursingSpecialtyDetail.lessons")}</h3>
               </div>
               <ul className="space-y-2">
                 {specialty.relatedLessons.map((lesson, i) => (
@@ -312,7 +314,7 @@ export default function NursingSpecialtyDetail() {
             <div className="bg-white border border-gray-200 rounded-xl p-5">
               <div className="flex items-center gap-2 mb-3">
                 <FileText className="w-4 h-4 text-emerald-600" />
-                <h3 className="font-semibold text-gray-900 text-sm">Practice Questions</h3>
+                <h3 className="font-semibold text-gray-900 text-sm">{t("pages.nursingSpecialtyDetail.practiceQuestions2")}</h3>
               </div>
               <ul className="space-y-2">
                 {specialty.relatedQuestions.map((q, i) => (
@@ -327,7 +329,7 @@ export default function NursingSpecialtyDetail() {
             <div className="bg-white border border-gray-200 rounded-xl p-5">
               <div className="flex items-center gap-2 mb-3">
                 <Layers className="w-4 h-4 text-purple-600" />
-                <h3 className="font-semibold text-gray-900 text-sm">Flashcards</h3>
+                <h3 className="font-semibold text-gray-900 text-sm">{t("pages.nursingSpecialtyDetail.flashcards")}</h3>
               </div>
               <ul className="space-y-2">
                 {specialty.relatedFlashcards.map((fc, i) => (
@@ -347,7 +349,7 @@ export default function NursingSpecialtyDetail() {
             <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center">
               <HelpCircle className="w-5 h-5 text-gray-600" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{t("pages.nursingSpecialtyDetail.frequentlyAskedQuestions")}</h2>
           </div>
           <div className="space-y-3">
             {specialty.faq.map((faq, i) => (
@@ -374,7 +376,7 @@ export default function NursingSpecialtyDetail() {
         </section>
 
         <section data-testid="section-other-specialties">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">Explore Other Specialties</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">{t("pages.nursingSpecialtyDetail.exploreOtherSpecialties")}</h2>
           <div className="flex flex-wrap gap-2 justify-center">
             {NURSING_SPECIALTIES.filter(s => s.slug !== specialty.slug).map(s => {
               const OtherIcon = s.icon;

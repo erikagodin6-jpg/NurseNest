@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { useI18n } from "@/lib/i18n";
 import {
   conversionEntries,
   convertValue,
@@ -48,6 +49,7 @@ const categoryIcons: Record<string, any> = {
 const categories = Object.keys(categoryLabels);
 
 function ConverterCard({ entry }: { entry: ConversionEntry }) {
+  const { t } = useI18n();
   const [inputValue, setInputValue] = useState("");
   const [direction, setDirection] = useState<ConversionDirection>("si-to-conv");
   const [showPrecise, setShowPrecise] = useState(false);
@@ -149,7 +151,7 @@ function ConverterCard({ entry }: { entry: ConversionEntry }) {
 
         {entry.formula && (
           <div className="mt-2 text-[11px] text-gray-400 bg-gray-50 rounded px-2 py-1.5">
-            <strong>Formula:</strong> {entry.formula}
+            <strong>{t("pages.siConventionalConverter.formula")}</strong> {entry.formula}
           </div>
         )}
 
@@ -176,12 +178,12 @@ function QuickReferenceTable() {
       <table className="w-full text-sm border-collapse" data-testid="table-quick-reference">
         <thead>
           <tr className="border-b border-gray-200">
-            <th className="text-left py-2 px-3 font-semibold text-gray-700">Analyte</th>
-            <th className="text-left py-2 px-3 font-semibold text-gray-700">SI Unit</th>
-            <th className="text-left py-2 px-3 font-semibold text-gray-700">SI Normal</th>
-            <th className="text-left py-2 px-3 font-semibold text-gray-700">Conv. Unit</th>
-            <th className="text-left py-2 px-3 font-semibold text-gray-700">Conv. Normal</th>
-            <th className="text-left py-2 px-3 font-semibold text-gray-700">Factor</th>
+            <th className="text-left py-2 px-3 font-semibold text-gray-700">{t("pages.siConventionalConverter.analyte")}</th>
+            <th className="text-left py-2 px-3 font-semibold text-gray-700">{t("pages.siConventionalConverter.siUnit")}</th>
+            <th className="text-left py-2 px-3 font-semibold text-gray-700">{t("pages.siConventionalConverter.siNormal")}</th>
+            <th className="text-left py-2 px-3 font-semibold text-gray-700">{t("pages.siConventionalConverter.convUnit")}</th>
+            <th className="text-left py-2 px-3 font-semibold text-gray-700">{t("pages.siConventionalConverter.convNormal")}</th>
+            <th className="text-left py-2 px-3 font-semibold text-gray-700">{t("pages.siConventionalConverter.factor")}</th>
           </tr>
         </thead>
         <tbody>
@@ -370,8 +372,8 @@ export default function SIConventionalConverterPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[var(--theme-gradient-from)] to-[var(--theme-gradient-to)]">
       <SEO
-        title="SI to Conventional Units Converter — Nursing Lab Value Calculator"
-        description="Free nursing unit converter: convert between SI (Canadian) and conventional (U.S.) units for glucose, creatinine, hemoglobin, cholesterol, BUN, and more. Quick-reference tables, formulas, and educational content for NCLEX & REx-PN prep."
+        title={t("pages.siConventionalConverter.siToConventionalUnitsConverter")}
+        description={t("pages.siConventionalConverter.freeNursingUnitConverterConvert")}
         keywords="SI to conventional units nursing, glucose mmol/L to mg/dL, Canadian to American lab values, nursing unit converter, lab value conversion, NCLEX units, SI units nursing, conventional units nursing"
         canonicalPath="/si-to-conventional-units-converter"
         structuredData={medicalWebPageData}
@@ -391,15 +393,15 @@ export default function SIConventionalConverterPage() {
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900" data-testid="text-page-title">
                 SI ↔ Conventional Units Converter
               </h1>
-              <p className="text-gray-500 mt-1">Convert between Canadian SI units and U.S. conventional units for common lab values and clinical measurements</p>
+              <p className="text-gray-500 mt-1">{t("pages.siConventionalConverter.convertBetweenCanadianSiUnits")}</p>
             </div>
           </div>
 
           <div className="flex items-center gap-3 bg-primary/5 border border-primary/15 rounded-xl px-4 py-3 hover:bg-primary/10 transition-colors mt-4">
             <GraduationCap className="w-5 h-5 text-primary flex-shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-gray-900">Free Study Tool for Nursing Students</p>
-              <p className="text-xs text-gray-500">RPN, RN, NP, NCLEX & REx-PN — master both unit systems for exams and cross-border practice</p>
+              <p className="text-sm font-semibold text-gray-900">{t("pages.siConventionalConverter.freeStudyToolForNursing")}</p>
+              <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.rpnRnNpNclexRexpn")}</p>
             </div>
           </div>
         </div>
@@ -459,35 +461,35 @@ export default function SIConventionalConverterPage() {
 
           <Card className="border border-gray-200">
             <CardContent className="p-5 space-y-4">
-              <h3 className="font-semibold text-gray-900">What Are SI and Conventional Units?</h3>
+              <h3 className="font-semibold text-gray-900">{t("pages.siConventionalConverter.whatAreSiAndConventional")}</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
-                The <strong>International System of Units (SI)</strong> is the globally standardized measurement system adopted by most countries — including Canada, the UK, Australia, and much of Europe — for clinical laboratory reporting. SI units typically express substance concentration in moles per liter (e.g., mmol/L, µmol/L).
+                The <strong>{t("pages.siConventionalConverter.internationalSystemOfUnitsSi")}</strong> is the globally standardized measurement system adopted by most countries — including Canada, the UK, Australia, and much of Europe — for clinical laboratory reporting. SI units typically express substance concentration in moles per liter (e.g., mmol/L, µmol/L).
               </p>
               <p className="text-sm text-gray-600 leading-relaxed">
-                <strong>Conventional units</strong> (also called traditional or U.S. customary units) express concentration as mass per volume (e.g., mg/dL, g/dL). These are the primary system used in the United States. Each analyte has its own conversion factor based on molecular weight.
+                <strong>{t("pages.siConventionalConverter.conventionalUnits")}</strong> (also called traditional or U.S. customary units) express concentration as mass per volume (e.g., mg/dL, g/dL). These are the primary system used in the United States. Each analyte has its own conversion factor based on molecular weight.
               </p>
             </CardContent>
           </Card>
 
           <Card className="border border-gray-200">
             <CardContent className="p-5 space-y-4">
-              <h3 className="font-semibold text-gray-900">Why This Matters for Nursing Students</h3>
+              <h3 className="font-semibold text-gray-900">{t("pages.siConventionalConverter.whyThisMattersForNursing")}</h3>
               <ul className="text-sm text-gray-600 space-y-3">
                 <li className="flex items-start gap-2">
                   <Stethoscope className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                  <span><strong>NCLEX & REx-PN exams</strong> may present lab values in either unit system. Being fluent in both prevents misinterpretation during high-stakes testing.</span>
+                  <span><strong>{t("pages.siConventionalConverter.nclexRexpnExams")}</strong> {t("pages.siConventionalConverter.mayPresentLabValuesIn")}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <ArrowRightLeft className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                  <span><strong>Cross-border practice:</strong> Canadian nurses working in the U.S. (or vice versa) must translate between systems to avoid clinical errors.</span>
+                  <span><strong>{t("pages.siConventionalConverter.crossborderPractice")}</strong> {t("pages.siConventionalConverter.canadianNursesWorkingInThe")}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <BookOpen className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                  <span><strong>Textbook literacy:</strong> Many nursing textbooks — especially U.S.-published ones — report values in conventional units. Canadian students need to convert these to their clinical context.</span>
+                  <span><strong>{t("pages.siConventionalConverter.textbookLiteracy")}</strong> {t("pages.siConventionalConverter.manyNursingTextbooksEspeciallyUspublished")}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <AlertTriangle className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
-                  <span><strong>Patient safety:</strong> Misinterpreting a glucose of 10 mmol/L (180 mg/dL — elevated) as 10 mg/dL (dangerously low) could lead to a critical error.</span>
+                  <span><strong>{t("pages.siConventionalConverter.patientSafety")}</strong> {t("pages.siConventionalConverter.misinterpretingAGlucoseOf10")}</span>
                 </li>
               </ul>
             </CardContent>
@@ -495,31 +497,31 @@ export default function SIConventionalConverterPage() {
 
           <Card className="border border-gray-200">
             <CardContent className="p-5 space-y-4">
-              <h3 className="font-semibold text-gray-900">Common Nursing Examples</h3>
+              <h3 className="font-semibold text-gray-900">{t("pages.siConventionalConverter.commonNursingExamples")}</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-600">
                 <div className="bg-blue-50/50 rounded-lg p-3 space-y-1">
-                  <p className="font-medium text-gray-800">Glucose Check</p>
+                  <p className="font-medium text-gray-800">{t("pages.siConventionalConverter.glucoseCheck")}</p>
                   <p>Patient glucose: <strong>8.5 mmol/L</strong></p>
-                  <p>Converted: 8.5 × 18 = <strong>153 mg/dL</strong></p>
-                  <p className="text-xs text-gray-500">Above fasting normal — assess for diabetes management</p>
+                  <p>Converted: 8.5 × 18 = <strong>{t("pages.siConventionalConverter.153Mgdl")}</strong></p>
+                  <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.aboveFastingNormalAssessFor")}</p>
                 </div>
                 <div className="bg-green-50/50 rounded-lg p-3 space-y-1">
-                  <p className="font-medium text-gray-800">Hemoglobin Assessment</p>
+                  <p className="font-medium text-gray-800">{t("pages.siConventionalConverter.hemoglobinAssessment")}</p>
                   <p>Patient Hgb: <strong>95 g/L</strong></p>
                   <p>Converted: 95 ÷ 10 = <strong>9.5 g/dL</strong></p>
-                  <p className="text-xs text-gray-500">Below normal — assess for anemia symptoms</p>
+                  <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.belowNormalAssessForAnemia")}</p>
                 </div>
                 <div className="bg-amber-50/50 rounded-lg p-3 space-y-1">
-                  <p className="font-medium text-gray-800">Creatinine Evaluation</p>
-                  <p>Patient creatinine: <strong>150 µmol/L</strong></p>
+                  <p className="font-medium text-gray-800">{t("pages.siConventionalConverter.creatinineEvaluation")}</p>
+                  <p>Patient creatinine: <strong>{t("pages.siConventionalConverter.150Moll")}</strong></p>
                   <p>Converted: 150 ÷ 88.42 = <strong>1.7 mg/dL</strong></p>
-                  <p className="text-xs text-gray-500">Elevated — assess renal function and fluid status</p>
+                  <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.elevatedAssessRenalFunctionAnd")}</p>
                 </div>
                 <div className="bg-purple-50/50 rounded-lg p-3 space-y-1">
-                  <p className="font-medium text-gray-800">Temperature Assessment</p>
+                  <p className="font-medium text-gray-800">{t("pages.siConventionalConverter.temperatureAssessment")}</p>
                   <p>Patient temp: <strong>38.5°C</strong></p>
                   <p>Converted: (38.5 × 9/5) + 32 = <strong>101.3°F</strong></p>
-                  <p className="text-xs text-gray-500">Fever — implement fever management protocol</p>
+                  <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.feverImplementFeverManagementProtocol")}</p>
                 </div>
               </div>
             </CardContent>
@@ -530,9 +532,9 @@ export default function SIConventionalConverterPage() {
               <div className="flex items-start gap-3">
                 <AlertTriangle className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Safety Note</h3>
+                  <h3 className="font-semibold text-gray-900 mb-2">{t("pages.siConventionalConverter.safetyNote")}</h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    This converter is an <strong>educational study tool</strong> for nursing students. While all conversion factors are based on standard clinical references, always verify critical lab values against your institution's reference ranges before making clinical decisions. Normal ranges may vary between laboratories, testing methods, and patient populations. Never substitute this tool for institutional clinical decision support systems in patient care settings.
+                    This converter is an <strong>{t("pages.siConventionalConverter.educationalStudyTool")}</strong> for nursing students. While all conversion factors are based on standard clinical references, always verify critical lab values against your institution's reference ranges before making clinical decisions. Normal ranges may vary between laboratories, testing methods, and patient populations. Never substitute this tool for institutional clinical decision support systems in patient care settings.
                   </p>
                 </div>
               </div>
@@ -553,15 +555,15 @@ export default function SIConventionalConverterPage() {
             <BookOpen className="w-5 h-5 text-primary" />
             In-Depth Conversion Guides
           </h2>
-          <p className="text-sm text-gray-500 mb-4">Explore detailed educational guides for specific lab value conversions — each with clinical context, reference charts, worked examples, and FAQs for nursing students.</p>
+          <p className="text-sm text-gray-500 mb-4">{t("pages.siConventionalConverter.exploreDetailedEducationalGuidesFor")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <LocaleLink href="/canadian-vs-american-lab-values">
               <Card className="border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all cursor-pointer group h-full" data-testid="link-guide-canadian-vs-american">
                 <CardContent className="p-4 flex items-center gap-3">
                   <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Canadian vs American Lab Values</p>
-                    <p className="text-xs text-gray-500">SI vs conventional units — why they differ and how to convert</p>
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">{t("pages.siConventionalConverter.canadianVsAmericanLabValues")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.siVsConventionalUnitsWhy")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
                 </CardContent>
@@ -572,8 +574,8 @@ export default function SIConventionalConverterPage() {
                 <CardContent className="p-4 flex items-center gap-3">
                   <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Glucose mmol/L ↔ mg/dL</p>
-                    <p className="text-xs text-gray-500">Blood sugar conversion with diabetes thresholds</p>
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">{t("pages.siConventionalConverter.glucoseMmollMgdl")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.bloodSugarConversionWithDiabetes")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
                 </CardContent>
@@ -584,8 +586,8 @@ export default function SIConventionalConverterPage() {
                 <CardContent className="p-4 flex items-center gap-3">
                   <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Creatinine µmol/L ↔ mg/dL</p>
-                    <p className="text-xs text-gray-500">Renal function context with CKD staging</p>
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">{t("pages.siConventionalConverter.creatinineMollMgdl")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.renalFunctionContextWithCkd")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
                 </CardContent>
@@ -596,8 +598,8 @@ export default function SIConventionalConverterPage() {
                 <CardContent className="p-4 flex items-center gap-3">
                   <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Hemoglobin g/L ↔ g/dL</p>
-                    <p className="text-xs text-gray-500">Anemia classification and transfusion thresholds</p>
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">{t("pages.siConventionalConverter.hemoglobinGlGdl")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.anemiaClassificationAndTransfusionThresholds")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
                 </CardContent>
@@ -608,8 +610,8 @@ export default function SIConventionalConverterPage() {
                 <CardContent className="p-4 flex items-center gap-3">
                   <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Bilirubin µmol/L ↔ mg/dL</p>
-                    <p className="text-xs text-gray-500">Liver function and neonatal jaundice context</p>
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">{t("pages.siConventionalConverter.bilirubinMollMgdl")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.liverFunctionAndNeonatalJaundice")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
                 </CardContent>
@@ -620,8 +622,8 @@ export default function SIConventionalConverterPage() {
                 <CardContent className="p-4 flex items-center gap-3">
                   <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Calcium mmol/L ↔ mg/dL</p>
-                    <p className="text-xs text-gray-500">Hypo/hypercalcemia with corrected calcium formula</p>
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">{t("pages.siConventionalConverter.calciumMmollMgdl")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.hypohypercalcemiaWithCorrectedCalciumFormula")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
                 </CardContent>
@@ -632,8 +634,8 @@ export default function SIConventionalConverterPage() {
                 <CardContent className="p-4 flex items-center gap-3">
                   <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Urea to BUN Conversion</p>
-                    <p className="text-xs text-gray-500">Why it's not a simple relabeling — molecular weight matters</p>
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">{t("pages.siConventionalConverter.ureaToBunConversion")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.whyItsNotASimple")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
                 </CardContent>
@@ -644,8 +646,8 @@ export default function SIConventionalConverterPage() {
                 <CardContent className="p-4 flex items-center gap-3">
                   <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Cholesterol & Triglyceride Conversion</p>
-                    <p className="text-xs text-gray-500">Lipid panel conversions with cardiovascular risk context</p>
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">{t("pages.siConventionalConverter.cholesterolTriglycerideConversion")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.lipidPanelConversionsWithCardiovascular")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
                 </CardContent>
@@ -656,8 +658,8 @@ export default function SIConventionalConverterPage() {
                 <CardContent className="p-4 flex items-center gap-3">
                   <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">kg to lb Nursing Conversion</p>
-                    <p className="text-xs text-gray-500">Weight-based medication dosing and safety</p>
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">{t("pages.siConventionalConverter.kgToLbNursingConversion")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.weightbasedMedicationDosingAndSafety")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
                 </CardContent>
@@ -668,8 +670,8 @@ export default function SIConventionalConverterPage() {
                 <CardContent className="p-4 flex items-center gap-3">
                   <FlaskConical className="w-7 h-7 text-primary/70 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">°C to °F Nursing Conversion</p>
-                    <p className="text-xs text-gray-500">Fever thresholds, hypothermia classification, vital signs</p>
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">{t("pages.siConventionalConverter.cToFNursingConversion")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.feverThresholdsHypothermiaClassificationVita")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
                 </CardContent>
@@ -689,8 +691,8 @@ export default function SIConventionalConverterPage() {
                 <CardContent className="p-4 flex items-center gap-3">
                   <Calculator className="w-8 h-8 text-primary/70 flex-shrink-0" />
                   <div className="flex-1">
-                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Med Math & Dosage Calculations</p>
-                    <p className="text-xs text-gray-500">Practice dosage, IV flow rate, and weight-based calculations</p>
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">{t("pages.siConventionalConverter.medMathDosageCalculations")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.practiceDosageIvFlowRate")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
                 </CardContent>
@@ -702,8 +704,8 @@ export default function SIConventionalConverterPage() {
                 <CardContent className="p-4 flex items-center gap-3">
                   <FlaskConical className="w-8 h-8 text-primary/70 flex-shrink-0" />
                   <div className="flex-1">
-                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Lab Values Interpretation</p>
-                    <p className="text-xs text-gray-500">Interpret abnormal lab clusters with clinical scenarios</p>
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">{t("pages.siConventionalConverter.labValuesInterpretation")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.interpretAbnormalLabClustersWith")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
                 </CardContent>
@@ -715,8 +717,8 @@ export default function SIConventionalConverterPage() {
                 <CardContent className="p-4 flex items-center gap-3">
                   <Beaker className="w-8 h-8 text-primary/70 flex-shrink-0" />
                   <div className="flex-1">
-                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Medication Mastery / Pharmacology</p>
-                    <p className="text-xs text-gray-500">Master drug classes, interactions, and nursing considerations</p>
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">{t("pages.siConventionalConverter.medicationMasteryPharmacology")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.masterDrugClassesInteractionsAnd")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
                 </CardContent>
@@ -728,8 +730,8 @@ export default function SIConventionalConverterPage() {
                 <CardContent className="p-4 flex items-center gap-3">
                   <GraduationCap className="w-8 h-8 text-primary/70 flex-shrink-0" />
                   <div className="flex-1">
-                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">Practice Questions</p>
-                    <p className="text-xs text-gray-500">NCLEX-RN, NCLEX-PN, and REx-PN style questions</p>
+                    <p className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">{t("pages.siConventionalConverter.practiceQuestions")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.siConventionalConverter.nclexrnNclexpnAndRexpnStyle")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
                 </CardContent>

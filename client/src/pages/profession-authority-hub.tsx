@@ -14,11 +14,13 @@ import { PROFESSION_AUTHORITY_DATA, type ProfessionAuthorityData } from "@shared
 import { getAuthorityContentPagesByProfession } from "@shared/authority-content-data";
 import { SocialProofBar } from "@/components/conversion-funnel";
 
+import { useI18n } from "@/lib/i18n";
 interface ProfessionAuthorityHubProps {
   data: ProfessionAuthorityData;
 }
 
 function SalaryCard({ title, salary, flag }: { title: string; salary: { entry: string; mid: string; senior: string; source: string }; flag: string }) {
+  const { t } = useI18n();
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-6" data-testid={`salary-card-${title.toLowerCase().replace(/\s+/g, '-')}`}>
       <div className="flex items-center gap-2 mb-4">
@@ -27,15 +29,15 @@ function SalaryCard({ title, salary, flag }: { title: string; salary: { entry: s
       </div>
       <div className="space-y-3">
         <div className="flex justify-between items-center">
-          <span className="text-sm text-gray-500">Entry-Level</span>
+          <span className="text-sm text-gray-500">{t("pages.professionAuthorityHub.entrylevel")}</span>
           <span className="text-sm font-semibold text-gray-900">{salary.entry}</span>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-sm text-gray-500">Mid-Career</span>
+          <span className="text-sm text-gray-500">{t("pages.professionAuthorityHub.midcareer")}</span>
           <span className="text-sm font-semibold text-gray-900">{salary.mid}</span>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-sm text-gray-500">Senior / Specialized</span>
+          <span className="text-sm text-gray-500">{t("pages.professionAuthorityHub.seniorSpecialized")}</span>
           <span className="text-sm font-semibold text-green-700 font-bold">{salary.senior}</span>
         </div>
       </div>
@@ -123,10 +125,10 @@ function ExamInfoTable({ exams, color }: { exams: { name: string; format: string
         <table className="w-full min-w-[600px]">
           <thead>
             <tr className="border-b border-gray-100">
-              <th className="text-left px-5 py-3 text-sm font-semibold text-gray-500">Exam</th>
-              <th className="text-left px-5 py-3 text-sm font-semibold text-gray-500">Format</th>
-              <th className="text-left px-5 py-3 text-sm font-semibold text-gray-500">Passing Score</th>
-              <th className="text-left px-5 py-3 text-sm font-semibold text-gray-500">Duration</th>
+              <th className="text-left px-5 py-3 text-sm font-semibold text-gray-500">{t("pages.professionAuthorityHub.exam")}</th>
+              <th className="text-left px-5 py-3 text-sm font-semibold text-gray-500">{t("pages.professionAuthorityHub.format")}</th>
+              <th className="text-left px-5 py-3 text-sm font-semibold text-gray-500">{t("pages.professionAuthorityHub.passingScore")}</th>
+              <th className="text-left px-5 py-3 text-sm font-semibold text-gray-500">{t("pages.professionAuthorityHub.duration")}</th>
             </tr>
           </thead>
           <tbody>
@@ -257,29 +259,29 @@ export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubP
 
       <section className="py-12 bg-white border-y border-gray-100" data-testid="section-overview">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4" data-testid="text-overview-h2">Profession Overview</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4" data-testid="text-overview-h2">{t("pages.professionAuthorityHub.professionOverview")}</h2>
           <p className="text-gray-600 leading-relaxed text-base" data-testid="text-overview">{data.overview}</p>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
             <div className="text-center p-4 rounded-xl" style={{ backgroundColor: data.colorAccent }}>
               <Building2 className="w-5 h-5 mx-auto mb-2" style={{ color: data.color }} />
               <p className="text-sm font-semibold text-gray-900">{data.workSettings.length}+</p>
-              <p className="text-xs text-gray-500">Work Settings</p>
+              <p className="text-xs text-gray-500">{t("pages.professionAuthorityHub.workSettings")}</p>
             </div>
             <div className="text-center p-4 rounded-xl" style={{ backgroundColor: data.colorAccent }}>
               <Award className="w-5 h-5 mx-auto mb-2" style={{ color: data.color }} />
               <p className="text-sm font-semibold text-gray-900">{data.examInfo.length}</p>
-              <p className="text-xs text-gray-500">Certification Exams</p>
+              <p className="text-xs text-gray-500">{t("pages.professionAuthorityHub.certificationExams")}</p>
             </div>
             <div className="text-center p-4 rounded-xl" style={{ backgroundColor: data.colorAccent }}>
               <TrendingUp className="w-5 h-5 mx-auto mb-2" style={{ color: data.color }} />
               <p className="text-sm font-semibold text-gray-900">{data.careerPathway.length}</p>
-              <p className="text-xs text-gray-500">Career Stages</p>
+              <p className="text-xs text-gray-500">{t("pages.professionAuthorityHub.careerStages")}</p>
             </div>
             <div className="text-center p-4 rounded-xl" style={{ backgroundColor: data.colorAccent }}>
               <Target className="w-5 h-5 mx-auto mb-2" style={{ color: data.color }} />
               <p className="text-sm font-semibold text-gray-900">{data.keySkills.length}</p>
-              <p className="text-xs text-gray-500">Key Skills</p>
+              <p className="text-xs text-gray-500">{t("pages.professionAuthorityHub.keySkills")}</p>
             </div>
           </div>
         </div>
@@ -292,7 +294,7 @@ export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubP
               <GraduationCap className="w-7 h-7 inline-block mr-2 -mt-1" style={{ color: data.color }} />
               Education Requirements
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">The educational pathway and credentials needed to enter and advance in this profession.</p>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.professionAuthorityHub.theEducationalPathwayAndCredentials")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {data.education.map((edu, i) => (
@@ -309,7 +311,7 @@ export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubP
               <Briefcase className="w-7 h-7 inline-block mr-2 -mt-1" style={{ color: data.color }} />
               Career Pathway
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">From student to senior leader — a typical career progression with expected experience levels.</p>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.professionAuthorityHub.fromStudentToSeniorLeader")}</p>
           </div>
           <CareerPathwayTimeline steps={visibleSteps} color={data.color} />
           {data.careerPathway.length > 4 && !showAllSteps && (
@@ -334,11 +336,11 @@ export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubP
               <DollarSign className="w-7 h-7 inline-block mr-2 -mt-1" style={{ color: data.color }} />
               Salary Information
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Expected salary ranges by experience level in Canada and the United States.</p>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.professionAuthorityHub.expectedSalaryRangesByExperience")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <SalaryCard title="Canada" salary={data.salaryCanada} flag="🇨🇦" />
-            <SalaryCard title="United States" salary={data.salaryUSA} flag="🇺🇸" />
+            <SalaryCard title={t("pages.professionAuthorityHub.canada")} salary={data.salaryCanada} flag="🇨🇦" />
+            <SalaryCard title={t("pages.professionAuthorityHub.unitedStates")} salary={data.salaryUSA} flag="🇺🇸" />
           </div>
         </div>
       </section>
@@ -350,7 +352,7 @@ export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubP
               <Shield className="w-7 h-7 inline-block mr-2 -mt-1" style={{ color: data.color }} />
               Licensing & Certification
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Requirements to become licensed and certified in your jurisdiction.</p>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.professionAuthorityHub.requirementsToBecomeLicensedAnd")}</p>
           </div>
           <LicensingSection licensing={data.licensing} color={data.color} />
         </div>
@@ -363,7 +365,7 @@ export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubP
               <FileText className="w-7 h-7 inline-block mr-2 -mt-1" style={{ color: data.color }} />
               Certification Exams
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Key details about the certification exams you need to pass.</p>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.professionAuthorityHub.keyDetailsAboutTheCertification")}</p>
           </div>
           <ExamInfoTable exams={data.examInfo} color={data.color} />
         </div>
@@ -415,14 +417,14 @@ export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubP
               <BookOpen className="w-7 h-7 inline-block mr-2 -mt-1" style={{ color: data.color }} />
               Study Resources & Exam Prep
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Prepare for your certification exam with adaptive practice questions, flashcards, and mock exams.</p>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.professionAuthorityHub.prepareForYourCertificationExam")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             <Link href={data.ctaPrimary.href} className="group" data-testid="resource-card-practice">
               <div className="bg-white rounded-xl border border-gray-100 p-6 hover:shadow-lg hover:border-gray-200 transition-all h-full">
                 <FileText className="w-7 h-7 mb-3" style={{ color: data.color }} />
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:transition-colors">Practice Exams</h3>
-                <p className="text-sm text-gray-500">Blueprint-weighted mock exams that simulate real certification test conditions.</p>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:transition-colors">{t("pages.professionAuthorityHub.practiceExams")}</h3>
+                <p className="text-sm text-gray-500">{t("pages.professionAuthorityHub.blueprintweightedMockExamsThatSimulate")}</p>
                 <span className="text-sm font-medium mt-3 flex items-center gap-1 group-hover:gap-2 transition-all" style={{ color: data.color }}>
                   Start Practicing <ArrowRight className="w-4 h-4" />
                 </span>
@@ -431,8 +433,8 @@ export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubP
             <Link href={data.ctaSecondary.href} className="group" data-testid="resource-card-questions">
               <div className="bg-white rounded-xl border border-gray-100 p-6 hover:shadow-lg hover:border-gray-200 transition-all h-full">
                 <Brain className="w-7 h-7 mb-3" style={{ color: data.color }} />
-                <h3 className="font-semibold text-gray-900 mb-1">Test Bank</h3>
-                <p className="text-sm text-gray-500">Practice questions with detailed rationales covering every exam domain.</p>
+                <h3 className="font-semibold text-gray-900 mb-1">{t("pages.professionAuthorityHub.testBank")}</h3>
+                <p className="text-sm text-gray-500">{t("pages.professionAuthorityHub.practiceQuestionsWithDetailedRationales")}</p>
                 <span className="text-sm font-medium mt-3 flex items-center gap-1 group-hover:gap-2 transition-all" style={{ color: data.color }}>
                   Browse Questions <ArrowRight className="w-4 h-4" />
                 </span>
@@ -441,8 +443,8 @@ export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubP
             <Link href={data.flashcardsHref} className="group" data-testid="resource-card-flashcards">
               <div className="bg-white rounded-xl border border-gray-100 p-6 hover:shadow-lg hover:border-gray-200 transition-all h-full">
                 <BookOpen className="w-7 h-7 mb-3" style={{ color: data.color }} />
-                <h3 className="font-semibold text-gray-900 mb-1">Flashcards</h3>
-                <p className="text-sm text-gray-500">Spaced-repetition flashcards to master key concepts and terminology.</p>
+                <h3 className="font-semibold text-gray-900 mb-1">{t("pages.professionAuthorityHub.flashcards")}</h3>
+                <p className="text-sm text-gray-500">{t("pages.professionAuthorityHub.spacedrepetitionFlashcardsToMasterKey")}</p>
                 <span className="text-sm font-medium mt-3 flex items-center gap-1 group-hover:gap-2 transition-all" style={{ color: data.color }}>
                   Study Flashcards <ArrowRight className="w-4 h-4" />
                 </span>
@@ -453,7 +455,7 @@ export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubP
                 <div className="bg-white rounded-xl border border-gray-100 p-6 hover:shadow-lg hover:border-gray-200 transition-all h-full">
                   <Target className="w-7 h-7 mb-3" style={{ color: data.color }} />
                   <h3 className="font-semibold text-gray-900 mb-1">{acp.heroTitle}</h3>
-                  <p className="text-sm text-gray-500">Comprehensive guide with practice questions, key concepts, and expert rationales.</p>
+                  <p className="text-sm text-gray-500">{t("pages.professionAuthorityHub.comprehensiveGuideWithPracticeQuestions")}</p>
                   <span className="text-sm font-medium mt-3 flex items-center gap-1 group-hover:gap-2 transition-all" style={{ color: data.color }}>
                     Read Guide <ArrowRight className="w-4 h-4" />
                   </span>
@@ -471,7 +473,7 @@ export default function ProfessionAuthorityHub({ data }: ProfessionAuthorityHubP
               <Users className="w-7 h-7 inline-block mr-2 -mt-1 text-gray-400" />
               Explore Other Healthcare Professions
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Discover career pathways, salary info, and exam prep for related healthcare professions.</p>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.professionAuthorityHub.discoverCareerPathwaysSalaryInfo")}</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {Object.values(PROFESSION_AUTHORITY_DATA)

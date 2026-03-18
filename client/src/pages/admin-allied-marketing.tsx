@@ -3,6 +3,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n";
 import {
   BarChart3, FileText, Mail, Share2, Target, BookOpen, Users, TrendingUp,
   RefreshCw, ChevronDown, ChevronRight, Globe, Sparkles, CheckCircle2,
@@ -51,6 +52,7 @@ interface AnalyticsData {
 function StatCard({ icon: Icon, label, value, subValue, color = "indigo" }: {
   icon: any; label: string; value: string | number; subValue?: string; color?: string;
 }) {
+  const { t } = useI18n();
   const colorClasses: Record<string, string> = {
     indigo: "bg-indigo-50 text-indigo-600",
     emerald: "bg-emerald-50 text-emerald-600",
@@ -124,36 +126,36 @@ function ProfessionRow({ slug, stats, onGenerateBlog }: {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
             <div className="bg-white rounded-lg p-3 border border-gray-100">
               <p className="text-lg font-bold text-indigo-600">{stats.seoArticles?.total || 0}</p>
-              <p className="text-xs text-gray-500">SEO Articles</p>
+              <p className="text-xs text-gray-500">{t("pages.adminAlliedMarketing.seoArticles")}</p>
               <p className="text-xs text-gray-400">{stats.seoArticles?.published || 0} published</p>
             </div>
             <div className="bg-white rounded-lg p-3 border border-gray-100">
               <p className="text-lg font-bold text-emerald-600">{stats.authorityPages}</p>
-              <p className="text-xs text-gray-500">Authority Pages</p>
+              <p className="text-xs text-gray-500">{t("pages.adminAlliedMarketing.authorityPages")}</p>
             </div>
             <div className="bg-white rounded-lg p-3 border border-gray-100">
               <p className="text-lg font-bold text-purple-600">{stats.blogTopicsAvailable}</p>
-              <p className="text-xs text-gray-500">Blog Topics Ready</p>
+              <p className="text-xs text-gray-500">{t("pages.adminAlliedMarketing.blogTopicsReady")}</p>
             </div>
             <div className="bg-white rounded-lg p-3 border border-gray-100">
               <p className="text-lg font-bold text-amber-600">{stats.socialTemplates}</p>
-              <p className="text-xs text-gray-500">Social Templates</p>
+              <p className="text-xs text-gray-500">{t("pages.adminAlliedMarketing.socialTemplates")}</p>
             </div>
             <div className="bg-white rounded-lg p-3 border border-gray-100">
               <p className="text-lg font-bold text-blue-600">{stats.seoPages}</p>
-              <p className="text-xs text-gray-500">SEO Landing Pages</p>
+              <p className="text-xs text-gray-500">{t("pages.adminAlliedMarketing.seoLandingPages")}</p>
             </div>
             <div className="bg-white rounded-lg p-3 border border-gray-100">
               <p className="text-lg font-bold text-rose-600">{stats.mockExamAttempts}</p>
-              <p className="text-xs text-gray-500">Mock Exam Attempts</p>
+              <p className="text-xs text-gray-500">{t("pages.adminAlliedMarketing.mockExamAttempts")}</p>
             </div>
             <div className="bg-white rounded-lg p-3 border border-gray-100">
               <p className="text-lg font-bold text-teal-600">{stats.practiceQuestions}</p>
-              <p className="text-xs text-gray-500">Practice Questions</p>
+              <p className="text-xs text-gray-500">{t("pages.adminAlliedMarketing.practiceQuestions")}</p>
             </div>
             <div className="bg-white rounded-lg p-3 border border-gray-100">
               <p className="text-lg font-bold text-orange-600">{stats.emailCaptures}</p>
-              <p className="text-xs text-gray-500">Email Captures</p>
+              <p className="text-xs text-gray-500">{t("pages.adminAlliedMarketing.emailCaptures")}</p>
             </div>
           </div>
           <div className="flex gap-2">
@@ -270,16 +272,16 @@ export default function AdminAlliedMarketing() {
           <>
             {report && (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
-                <StatCard icon={Layers} label="Professions" value={report.summary.totalProfessions} color="indigo" />
-                <StatCard icon={FileText} label="SEO Articles" value={report.summary.totalSeoArticles} subValue={`${report.summary.publishedArticles} published`} color="emerald" />
-                <StatCard icon={Mail} label="Email Captures" value={report.summary.totalEmailCaptures} color="amber" />
-                <StatCard icon={Share2} label="Social Posts" value={report.summary.totalSocialPosts} color="purple" />
-                <StatCard icon={Target} label="Authority Pages" value={report.summary.totalAuthorityPages} color="blue" />
-                <StatCard icon={BookOpen} label="Blog Topics" value={report.summary.totalBlogTopics} color="rose" />
-                <StatCard icon={MessageSquare} label="Social Templates" value={report.summary.totalSocialTemplates} color="indigo" />
-                <StatCard icon={Layers} label="SEO Clusters" value={report.summary.totalSeoClusters} color="emerald" />
-                <StatCard icon={TrendingUp} label="Total Words" value={report.summary.totalWords.toLocaleString()} color="purple" />
-                <StatCard icon={CheckCircle2} label="Published" value={report.summary.publishedArticles} color="blue" />
+                <StatCard icon={Layers} label={t("pages.adminAlliedMarketing.professions")} value={report.summary.totalProfessions} color="indigo" />
+                <StatCard icon={FileText} label={t("pages.adminAlliedMarketing.seoArticles2")} value={report.summary.totalSeoArticles} subValue={`${report.summary.publishedArticles} published`} color="emerald" />
+                <StatCard icon={Mail} label={t("pages.adminAlliedMarketing.emailCaptures2")} value={report.summary.totalEmailCaptures} color="amber" />
+                <StatCard icon={Share2} label={t("pages.adminAlliedMarketing.socialPosts")} value={report.summary.totalSocialPosts} color="purple" />
+                <StatCard icon={Target} label={t("pages.adminAlliedMarketing.authorityPages2")} value={report.summary.totalAuthorityPages} color="blue" />
+                <StatCard icon={BookOpen} label={t("pages.adminAlliedMarketing.blogTopics")} value={report.summary.totalBlogTopics} color="rose" />
+                <StatCard icon={MessageSquare} label={t("pages.adminAlliedMarketing.socialTemplates2")} value={report.summary.totalSocialTemplates} color="indigo" />
+                <StatCard icon={Layers} label={t("pages.adminAlliedMarketing.seoClusters")} value={report.summary.totalSeoClusters} color="emerald" />
+                <StatCard icon={TrendingUp} label={t("pages.adminAlliedMarketing.totalWords")} value={report.summary.totalWords.toLocaleString()} color="purple" />
+                <StatCard icon={CheckCircle2} label={t("pages.adminAlliedMarketing.published")} value={report.summary.publishedArticles} color="blue" />
               </div>
             )}
 
@@ -307,7 +309,7 @@ export default function AdminAlliedMarketing() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-500 text-center py-8">No data available</p>
+                  <p className="text-gray-500 text-center py-8">{t("pages.adminAlliedMarketing.noDataAvailable")}</p>
                 )}
               </CardContent>
             </Card>
@@ -325,11 +327,11 @@ export default function AdminAlliedMarketing() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <Card className="border border-gray-100 shadow-sm">
                     <CardHeader className="pb-3">
-                      <CardTitle className="text-sm font-semibold">Events by Type (Last 30 Days)</CardTitle>
+                      <CardTitle className="text-sm font-semibold">{t("pages.adminAlliedMarketing.eventsByTypeLast30")}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       {analytics.eventsByType.length === 0 ? (
-                        <p className="text-sm text-gray-400 text-center py-4">No events recorded yet</p>
+                        <p className="text-sm text-gray-400 text-center py-4">{t("pages.adminAlliedMarketing.noEventsRecordedYet")}</p>
                       ) : (
                         <div className="space-y-2">
                           {analytics.eventsByType.map((e, i) => (
@@ -345,11 +347,11 @@ export default function AdminAlliedMarketing() {
 
                   <Card className="border border-gray-100 shadow-sm">
                     <CardHeader className="pb-3">
-                      <CardTitle className="text-sm font-semibold">Events by Profession (Last 30 Days)</CardTitle>
+                      <CardTitle className="text-sm font-semibold">{t("pages.adminAlliedMarketing.eventsByProfessionLast30")}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       {analytics.eventsByProfession.length === 0 ? (
-                        <p className="text-sm text-gray-400 text-center py-4">No events recorded yet</p>
+                        <p className="text-sm text-gray-400 text-center py-4">{t("pages.adminAlliedMarketing.noEventsRecordedYet2")}</p>
                       ) : (
                         <div className="space-y-2">
                           {analytics.eventsByProfession.map((e, i) => (
@@ -366,13 +368,13 @@ export default function AdminAlliedMarketing() {
 
                 <Card className="border border-gray-100 shadow-sm">
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-sm font-semibold">Email Captures by Profession</CardTitle>
+                    <CardTitle className="text-sm font-semibold">{t("pages.adminAlliedMarketing.emailCapturesByProfession")}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center gap-3 mb-4">
                       <Mail className="w-5 h-5 text-indigo-600" />
                       <span className="text-2xl font-bold text-gray-900" data-testid="stat-total-emails">{analytics.emailCaptures}</span>
-                      <span className="text-sm text-gray-500">total captures (30 days)</span>
+                      <span className="text-sm text-gray-500">{t("pages.adminAlliedMarketing.totalCaptures30Days")}</span>
                     </div>
                     {analytics.emailsByProfession.length > 0 && (
                       <div className="space-y-2">
@@ -389,11 +391,11 @@ export default function AdminAlliedMarketing() {
 
                 <Card className="border border-gray-100 shadow-sm">
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-sm font-semibold">Top Pages (Last 30 Days)</CardTitle>
+                    <CardTitle className="text-sm font-semibold">{t("pages.adminAlliedMarketing.topPagesLast30Days")}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     {analytics.topPages.length === 0 ? (
-                      <p className="text-sm text-gray-400 text-center py-4">No page data yet</p>
+                      <p className="text-sm text-gray-400 text-center py-4">{t("pages.adminAlliedMarketing.noPageDataYet")}</p>
                     ) : (
                       <div className="space-y-2">
                         {analytics.topPages.slice(0, 15).map((p, i) => (
@@ -408,7 +410,7 @@ export default function AdminAlliedMarketing() {
                 </Card>
               </>
             ) : (
-              <p className="text-gray-500 text-center py-8">Unable to load analytics</p>
+              <p className="text-gray-500 text-center py-8">{t("pages.adminAlliedMarketing.unableToLoadAnalytics")}</p>
             )}
           </div>
         )}
@@ -461,7 +463,7 @@ export default function AdminAlliedMarketing() {
                     <div key={variant} className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-100">
                       <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                       <span className="text-sm text-gray-700 capitalize">{variant} variant</span>
-                      <Badge variant="outline" className="ml-auto text-xs">A/B ready</Badge>
+                      <Badge variant="outline" className="ml-auto text-xs">{t("pages.adminAlliedMarketing.abReady")}</Badge>
                     </div>
                   ))}
                 </div>
@@ -484,9 +486,9 @@ export default function AdminAlliedMarketing() {
                     <div key={slug} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg text-sm">
                       <span className="font-medium text-gray-700">{stats.label}</span>
                       <div className="flex gap-1">
-                        <Badge variant="secondary" className="text-xs">Top 100 Qs</Badge>
-                        <Badge variant="secondary" className="text-xs">Study Guide</Badge>
-                        <Badge variant="secondary" className="text-xs">Ultimate Guide</Badge>
+                        <Badge variant="secondary" className="text-xs">{t("pages.adminAlliedMarketing.top100Qs")}</Badge>
+                        <Badge variant="secondary" className="text-xs">{t("pages.adminAlliedMarketing.studyGuide")}</Badge>
+                        <Badge variant="secondary" className="text-xs">{t("pages.adminAlliedMarketing.ultimateGuide")}</Badge>
                       </div>
                     </div>
                   ))}

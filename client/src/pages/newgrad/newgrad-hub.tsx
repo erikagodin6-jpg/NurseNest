@@ -180,7 +180,7 @@ export default function NewGradHub() {
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-5 leading-tight" data-testid="text-hero-title">
               Land Your First Nursing Job with{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Confidence</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">{t("pages.newgrad.newgradHub.confidence")}</span>
             </h1>
             <p className="text-lg text-gray-600 mb-4 leading-relaxed" data-testid="text-hero-subtitle">
               Practice real interview questions, build workplace confidence, and prepare for clinical scenarios — everything you need to go from graduation to your first day on the unit.
@@ -208,10 +208,10 @@ export default function NewGradHub() {
       <section className="py-12 bg-white border-y border-gray-100" data-testid="section-stats">
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div data-testid="stat-questions"><div className="text-2xl font-bold text-gray-900">{interviewQuestionCount}+</div><div className="text-sm text-gray-500">Interview Questions</div></div>
-            <div data-testid="stat-scenarios"><div className="text-2xl font-bold text-gray-900">{scenarioCount}</div><div className="text-sm text-gray-500">Workplace Scenarios</div></div>
-            <div data-testid="stat-simulations"><div className="text-2xl font-bold text-gray-900">{simulationSetCount}</div><div className="text-sm text-gray-500">Simulation Sets</div></div>
-            <div data-testid="stat-categories"><div className="text-2xl font-bold text-gray-900">{new Set(INTERVIEW_QUESTION_BANK.map(q => q.category)).size}</div><div className="text-sm text-gray-500">Question Categories</div></div>
+            <div data-testid="stat-questions"><div className="text-2xl font-bold text-gray-900">{interviewQuestionCount}+</div><div className="text-sm text-gray-500">{t("pages.newgrad.newgradHub.interviewQuestions")}</div></div>
+            <div data-testid="stat-scenarios"><div className="text-2xl font-bold text-gray-900">{scenarioCount}</div><div className="text-sm text-gray-500">{t("pages.newgrad.newgradHub.workplaceScenarios")}</div></div>
+            <div data-testid="stat-simulations"><div className="text-2xl font-bold text-gray-900">{simulationSetCount}</div><div className="text-sm text-gray-500">{t("pages.newgrad.newgradHub.simulationSets")}</div></div>
+            <div data-testid="stat-categories"><div className="text-2xl font-bold text-gray-900">{new Set(INTERVIEW_QUESTION_BANK.map(q => q.category)).size}</div><div className="text-sm text-gray-500">{t("pages.newgrad.newgradHub.questionCategories")}</div></div>
           </div>
         </div>
       </section>
@@ -219,8 +219,8 @@ export default function NewGradHub() {
       <section className="py-16 bg-gray-50" data-testid="section-struggles">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">What New Nurses Struggle With</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">These are the real challenges new graduates face — and exactly what this practice system is designed to address.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{t("pages.newgrad.newgradHub.whatNewNursesStruggleWith")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.newgrad.newgradHub.theseAreTheRealChallenges")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {STRUGGLE_POINTS.map((point, i) => {
@@ -246,8 +246,8 @@ export default function NewGradHub() {
       <section className="py-16" data-testid="section-prepares-you">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">What This Bank Prepares You For</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Build the skills that interviewers and nurse managers are looking for — with practice tools built by experienced nurses.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{t("pages.newgrad.newgradHub.whatThisBankPreparesYou")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.newgrad.newgradHub.buildTheSkillsThatInterviewers")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {PREPARES_YOU.map((item, i) => {
@@ -276,8 +276,8 @@ export default function NewGradHub() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-blue-100 text-blue-700">
               <Zap className="w-4 h-4" /> Practice System
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">How the Practice System Works</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Four practice modes designed to build your confidence systematically — from browsing questions to full timed interviews.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{t("pages.newgrad.newgradHub.howThePracticeSystemWorks")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.newgrad.newgradHub.fourPracticeModesDesignedTo")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {PRACTICE_MODES.map((mode, i) => {
@@ -293,9 +293,9 @@ export default function NewGradHub() {
                         <div className="flex items-center gap-2 mb-1">
                           <h3 className="font-bold text-gray-900 group-hover:text-blue-700 transition-colors">{mode.title}</h3>
                           {mode.free ? (
-                            <span className="text-xs px-2 py-0.5 rounded-full bg-green-50 text-green-600 font-medium">Free preview</span>
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-green-50 text-green-600 font-medium">{t("pages.newgrad.newgradHub.freePreview")}</span>
                           ) : (
-                            <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 font-medium">Premium</span>
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 font-medium">{t("pages.newgrad.newgradHub.premium")}</span>
                           )}
                         </div>
                         <p className="text-sm text-gray-500">{mode.desc}</p>

@@ -8,9 +8,11 @@ import {
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 
+import { useI18n } from "@/lib/i18n";
 const ADMIN_ID = "d9b0e5b3-83c7-4e08-b6b7-6cf9cc33b225";
 
 async function apiFetch(url: string, opts?: RequestInit) {
+  const { t } = useI18n();
   const sep = url.includes("?") ? "&" : "?";
   const res = await fetch(`${url}${sep}adminId=${ADMIN_ID}`, {
     ...opts,
@@ -307,8 +309,8 @@ export default function ParamedicBulkUpload() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-access-denied">Admin Access Required</h1>
-        <p className="text-gray-600">You need admin privileges to access this page.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-access-denied">{t("allied.paramedicBulkUpload.adminAccessRequired")}</h1>
+        <p className="text-gray-600">{t("allied.paramedicBulkUpload.youNeedAdminPrivilegesTo")}</p>
       </div>
     );
   }
@@ -336,12 +338,12 @@ export default function ParamedicBulkUpload() {
         <div className="flex items-center gap-3">
           <Upload className="w-7 h-7 text-red-600" />
           <div>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-bulk-title">Paramedic Bulk Upload Manager</h1>
-            <p className="text-sm text-gray-500">Import, validate, and publish paramedic educational content</p>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-bulk-title">{t("allied.paramedicBulkUpload.paramedicBulkUploadManager")}</h1>
+            <p className="text-sm text-gray-500">{t("allied.paramedicBulkUpload.importValidateAndPublishParamedic")}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="px-2.5 py-1 text-xs font-medium bg-red-50 text-red-700 rounded-full" data-testid="badge-domain">contentDomain: paramedic</span>
+          <span className="px-2.5 py-1 text-xs font-medium bg-red-50 text-red-700 rounded-full" data-testid="badge-domain">{t("allied.paramedicBulkUpload.contentdomainParamedic")}</span>
         </div>
       </div>
 
@@ -369,7 +371,7 @@ export default function ParamedicBulkUpload() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Content Type</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.paramedicBulkUpload.contentType")}</label>
                 <select
                   value={contentType}
                   onChange={(e) => setContentType(e.target.value)}
@@ -382,23 +384,23 @@ export default function ParamedicBulkUpload() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Input Format (auto-detected)</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.paramedicBulkUpload.inputFormatAutodetected")}</label>
                 <select
                   value={inputFormat}
                   onChange={(e) => setInputFormat(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
                   data-testid="select-format"
                 >
-                  <option value="">Auto-detect</option>
+                  <option value="">{t("allied.paramedicBulkUpload.autodetect")}</option>
                   <option value="json">JSON</option>
                   <option value="csv">CSV</option>
-                  <option value="tabular">Tabular (Tab / Pipe)</option>
+                  <option value="tabular">{t("allied.paramedicBulkUpload.tabularTabPipe")}</option>
                 </select>
               </div>
             </div>
 
             <div className="mb-4">
-              <label className="block text-xs font-medium text-gray-600 mb-1">Upload File</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.paramedicBulkUpload.uploadFile")}</label>
               <input
                 type="file"
                 accept=".json,.csv,.txt,.tsv"
@@ -409,7 +411,7 @@ export default function ParamedicBulkUpload() {
             </div>
 
             <div className="mb-4">
-              <label className="block text-xs font-medium text-gray-600 mb-1">Or Paste Content (JSON, CSV, or Tabular)</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.paramedicBulkUpload.orPasteContentJsonCsv")}</label>
               <textarea
                 value={rawInput}
                 onChange={(e) => setRawInput(e.target.value)}
@@ -477,11 +479,11 @@ export default function ParamedicBulkUpload() {
             <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <ArrowRight className="w-5 h-5 text-red-500" /> Field Mapping
             </h3>
-            <p className="text-sm text-gray-600 mb-4">Map your input columns to the expected schema fields for <strong>{contentType}</strong> content.</p>
+            <p className="text-sm text-gray-600 mb-4">Map your input columns to the expected schema fields for <strong>{contentType}</strong> {t("allied.paramedicBulkUpload.content")}</p>
 
             {mappingTemplates.length > 0 && (
               <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-                <p className="text-xs font-medium text-gray-600 mb-2">Load Saved Template:</p>
+                <p className="text-xs font-medium text-gray-600 mb-2">{t("allied.paramedicBulkUpload.loadSavedTemplate")}</p>
                 <div className="flex flex-wrap gap-2">
                   {mappingTemplates.map((t: any) => (
                     <button
@@ -512,7 +514,7 @@ export default function ParamedicBulkUpload() {
                       }`}
                       data-testid={`mapping-${header}`}
                     >
-                      <option value="">-- Skip / Not Mapped --</option>
+                      <option value="">{t("allied.paramedicBulkUpload.skipNotMapped")}</option>
                       {allFields.map((f: string) => (
                         <option key={f} value={f}>{f} {schemaFields?.required?.includes(f) ? "(required)" : ""}</option>
                       ))}
@@ -527,7 +529,7 @@ export default function ParamedicBulkUpload() {
 
             {schemaFields && (
               <div className="p-3 bg-amber-50 rounded-lg mb-4">
-                <p className="text-xs font-medium text-amber-700 mb-1">Unmapped Required Fields:</p>
+                <p className="text-xs font-medium text-amber-700 mb-1">{t("allied.paramedicBulkUpload.unmappedRequiredFields")}</p>
                 <div className="flex flex-wrap gap-1">
                   {(schemaFields.required || [])
                     .filter((f: string) => !Object.values(fieldMappings).includes(f))
@@ -535,7 +537,7 @@ export default function ParamedicBulkUpload() {
                       <span key={f} className="px-2 py-0.5 text-xs bg-amber-100 text-amber-800 rounded">{f}</span>
                     ))}
                   {(schemaFields.required || []).every((f: string) => Object.values(fieldMappings).includes(f)) && (
-                    <span className="text-xs text-green-700">All required fields mapped!</span>
+                    <span className="text-xs text-green-700">{t("allied.paramedicBulkUpload.allRequiredFieldsMapped")}</span>
                   )}
                 </div>
               </div>
@@ -546,7 +548,7 @@ export default function ParamedicBulkUpload() {
                 type="text"
                 value={mappingTemplateName}
                 onChange={(e) => setMappingTemplateName(e.target.value)}
-                placeholder="Template name..."
+                placeholder={t("allied.paramedicBulkUpload.templateName")}
                 className="px-3 py-1.5 border border-gray-200 rounded-lg text-sm"
                 data-testid="input-mapping-name"
               />
@@ -578,19 +580,19 @@ export default function ParamedicBulkUpload() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="bg-white rounded-xl border border-gray-100 p-4" data-testid="stat-total">
                 <div className="text-2xl font-bold text-gray-900">{importData.import?.total_items || 0}</div>
-                <div className="text-xs text-gray-500">Total Items</div>
+                <div className="text-xs text-gray-500">{t("allied.paramedicBulkUpload.totalItems")}</div>
               </div>
               <div className="bg-white rounded-xl border border-green-100 p-4" data-testid="stat-valid">
                 <div className="text-2xl font-bold text-green-700">{importData.import?.valid_items || 0}</div>
-                <div className="text-xs text-gray-500">Valid</div>
+                <div className="text-xs text-gray-500">{t("allied.paramedicBulkUpload.valid")}</div>
               </div>
               <div className="bg-white rounded-xl border border-red-100 p-4" data-testid="stat-errors">
                 <div className="text-2xl font-bold text-red-700">{importData.import?.error_items || 0}</div>
-                <div className="text-xs text-gray-500">Errors</div>
+                <div className="text-xs text-gray-500">{t("allied.paramedicBulkUpload.errors")}</div>
               </div>
               <div className="bg-white rounded-xl border border-gray-100 p-4" data-testid="stat-status">
                 <div className="text-lg font-bold text-gray-900 capitalize">{importData.import?.status || "—"}</div>
-                <div className="text-xs text-gray-500">Status</div>
+                <div className="text-xs text-gray-500">{t("allied.paramedicBulkUpload.status")}</div>
               </div>
             </div>
           )}
@@ -625,18 +627,18 @@ export default function ParamedicBulkUpload() {
             {filteredErrors.length === 0 ? (
               <div className="text-center py-8 text-gray-500">
                 <CheckCircle2 className="w-10 h-10 text-green-500 mx-auto mb-2" />
-                <p className="font-medium">All items pass validation!</p>
+                <p className="font-medium">{t("allied.paramedicBulkUpload.allItemsPassValidation")}</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-xs" data-testid="validation-table">
                   <thead>
                     <tr className="bg-gray-50">
-                      <th className="px-3 py-2 text-left font-medium text-gray-600">Row</th>
-                      <th className="px-3 py-2 text-left font-medium text-gray-600">Status</th>
-                      <th className="px-3 py-2 text-left font-medium text-gray-600">Field</th>
-                      <th className="px-3 py-2 text-left font-medium text-gray-600">Problem</th>
-                      <th className="px-3 py-2 text-left font-medium text-gray-600">Suggested Fix</th>
+                      <th className="px-3 py-2 text-left font-medium text-gray-600">{t("allied.paramedicBulkUpload.row")}</th>
+                      <th className="px-3 py-2 text-left font-medium text-gray-600">{t("allied.paramedicBulkUpload.status2")}</th>
+                      <th className="px-3 py-2 text-left font-medium text-gray-600">{t("allied.paramedicBulkUpload.field")}</th>
+                      <th className="px-3 py-2 text-left font-medium text-gray-600">{t("allied.paramedicBulkUpload.problem")}</th>
+                      <th className="px-3 py-2 text-left font-medium text-gray-600">{t("allied.paramedicBulkUpload.suggestedFix")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -743,7 +745,7 @@ export default function ParamedicBulkUpload() {
                   >
                     <Save className="w-4 h-4" /> Save & Revalidate
                   </button>
-                  <button onClick={() => setEditingItem(null)} className="px-4 py-2 bg-gray-100 rounded-lg text-sm" data-testid="button-cancel-edit">Cancel</button>
+                  <button onClick={() => setEditingItem(null)} className="px-4 py-2 bg-gray-100 rounded-lg text-sm" data-testid="button-cancel-edit">{t("allied.paramedicBulkUpload.cancel")}</button>
                 </div>
               </div>
             </div>
@@ -786,11 +788,11 @@ export default function ParamedicBulkUpload() {
                       {item.content_type === "flashcard" && (
                         <div className="grid grid-cols-2 gap-3">
                           <div className="p-3 bg-gray-50 rounded">
-                            <p className="text-[10px] text-gray-500 mb-1">Front</p>
+                            <p className="text-[10px] text-gray-500 mb-1">{t("allied.paramedicBulkUpload.front")}</p>
                             <p className="text-sm">{data.front}</p>
                           </div>
                           <div className="p-3 bg-green-50 rounded">
-                            <p className="text-[10px] text-gray-500 mb-1">Back</p>
+                            <p className="text-[10px] text-gray-500 mb-1">{t("allied.paramedicBulkUpload.back")}</p>
                             <p className="text-sm">{data.back}</p>
                           </div>
                         </div>
@@ -804,8 +806,8 @@ export default function ParamedicBulkUpload() {
                       {item.content_type === "scenario" && (
                         <div>
                           <h4 className="text-sm font-medium text-gray-900 mb-1">{data.title}</h4>
-                          <p className="text-xs text-gray-600"><strong>Dispatch:</strong> {data.dispatchInfo}</p>
-                          <p className="text-xs text-gray-600"><strong>Category:</strong> {data.category}</p>
+                          <p className="text-xs text-gray-600"><strong>{t("allied.paramedicBulkUpload.dispatch")}</strong> {data.dispatchInfo}</p>
+                          <p className="text-xs text-gray-600"><strong>{t("allied.paramedicBulkUpload.category")}</strong> {data.category}</p>
                         </div>
                       )}
                       {!["question", "flashcard", "lesson", "scenario"].includes(item.content_type) && (
@@ -819,7 +821,7 @@ export default function ParamedicBulkUpload() {
                 })}
               </div>
             ) : (
-              <p className="text-sm text-gray-500 text-center py-8">No import data. Upload and validate content first.</p>
+              <p className="text-sm text-gray-500 text-center py-8">{t("allied.paramedicBulkUpload.noImportDataUploadAnd")}</p>
             )}
           </div>
         </div>
@@ -865,7 +867,7 @@ export default function ParamedicBulkUpload() {
                 </button>
               </>
             ) : (
-              <p className="text-sm text-gray-500 text-center py-8">No items in publish queue. Import content first.</p>
+              <p className="text-sm text-gray-500 text-center py-8">{t("allied.paramedicBulkUpload.noItemsInPublishQueue")}</p>
             )}
           </div>
         </div>
@@ -888,7 +890,7 @@ export default function ParamedicBulkUpload() {
                 className="px-3 py-1.5 border border-gray-200 rounded-lg text-xs"
                 data-testid="select-library-type"
               >
-                <option value="">All Types</option>
+                <option value="">{t("allied.paramedicBulkUpload.allTypes")}</option>
                 {CONTENT_TYPES.map(ct => (
                   <option key={ct.id} value={ct.id}>{ct.label}</option>
                 ))}
@@ -899,10 +901,10 @@ export default function ParamedicBulkUpload() {
                 className="px-3 py-1.5 border border-gray-200 rounded-lg text-xs"
                 data-testid="select-library-status"
               >
-                <option value="">All Statuses</option>
-                <option value="draft">Draft</option>
-                <option value="published">Published</option>
-                <option value="archived">Archived</option>
+                <option value="">{t("allied.paramedicBulkUpload.allStatuses")}</option>
+                <option value="draft">{t("allied.paramedicBulkUpload.draft")}</option>
+                <option value="published">{t("allied.paramedicBulkUpload.published")}</option>
+                <option value="archived">{t("allied.paramedicBulkUpload.archived")}</option>
               </select>
               <div className="flex-1" />
               {selectedIds.size > 0 && (
@@ -924,7 +926,7 @@ export default function ParamedicBulkUpload() {
             </div>
 
             {library.length === 0 ? (
-              <p className="text-sm text-gray-500 text-center py-8">No content found. Import some content first.</p>
+              <p className="text-sm text-gray-500 text-center py-8">{t("allied.paramedicBulkUpload.noContentFoundImportSome")}</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-xs" data-testid="library-table">
@@ -941,8 +943,8 @@ export default function ParamedicBulkUpload() {
                         />
                       </th>
                       <th className="px-3 py-2 text-left font-medium text-gray-600">ID</th>
-                      <th className="px-3 py-2 text-left font-medium text-gray-600">Type</th>
-                      <th className="px-3 py-2 text-left font-medium text-gray-600">Created</th>
+                      <th className="px-3 py-2 text-left font-medium text-gray-600">{t("allied.paramedicBulkUpload.type")}</th>
+                      <th className="px-3 py-2 text-left font-medium text-gray-600">{t("allied.paramedicBulkUpload.created")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -983,7 +985,7 @@ export default function ParamedicBulkUpload() {
               <AlertCircle className="w-5 h-5 text-red-500" /> Error Details
             </h3>
             {validationErrors.length === 0 ? (
-              <p className="text-sm text-gray-500 text-center py-8">No errors to display.</p>
+              <p className="text-sm text-gray-500 text-center py-8">{t("allied.paramedicBulkUpload.noErrorsToDisplay")}</p>
             ) : (
               <>
                 <div className="mb-4 flex items-center gap-4">
@@ -1007,11 +1009,11 @@ export default function ParamedicBulkUpload() {
                   <table className="w-full text-xs">
                     <thead>
                       <tr className="bg-gray-50">
-                        <th className="px-3 py-2 text-left font-medium text-gray-600">Row</th>
-                        <th className="px-3 py-2 text-left font-medium text-gray-600">Severity</th>
-                        <th className="px-3 py-2 text-left font-medium text-gray-600">Field</th>
-                        <th className="px-3 py-2 text-left font-medium text-gray-600">Message</th>
-                        <th className="px-3 py-2 text-left font-medium text-gray-600">Fix</th>
+                        <th className="px-3 py-2 text-left font-medium text-gray-600">{t("allied.paramedicBulkUpload.row2")}</th>
+                        <th className="px-3 py-2 text-left font-medium text-gray-600">{t("allied.paramedicBulkUpload.severity")}</th>
+                        <th className="px-3 py-2 text-left font-medium text-gray-600">{t("allied.paramedicBulkUpload.field2")}</th>
+                        <th className="px-3 py-2 text-left font-medium text-gray-600">{t("allied.paramedicBulkUpload.message")}</th>
+                        <th className="px-3 py-2 text-left font-medium text-gray-600">{t("allied.paramedicBulkUpload.fix")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1054,7 +1056,7 @@ export default function ParamedicBulkUpload() {
             </div>
 
             {history.length === 0 ? (
-              <p className="text-sm text-gray-500 text-center py-8">No import history yet.</p>
+              <p className="text-sm text-gray-500 text-center py-8">{t("allied.paramedicBulkUpload.noImportHistoryYet")}</p>
             ) : (
               <div className="space-y-3">
                 {history.map((imp: any) => (
@@ -1073,10 +1075,10 @@ export default function ParamedicBulkUpload() {
                       <span className="text-xs text-gray-500">{imp.created_at ? new Date(imp.created_at).toLocaleString() : "—"}</span>
                     </div>
                     <div className="grid grid-cols-4 gap-3 text-center text-xs mb-3">
-                      <div><div className="font-bold text-gray-900">{imp.total_items}</div><div className="text-gray-500">Total</div></div>
-                      <div><div className="font-bold text-green-700">{imp.valid_items}</div><div className="text-gray-500">Valid</div></div>
-                      <div><div className="font-bold text-red-700">{imp.error_items}</div><div className="text-gray-500">Errors</div></div>
-                      <div><div className="font-bold text-blue-700">{imp.published_items}</div><div className="text-gray-500">Published</div></div>
+                      <div><div className="font-bold text-gray-900">{imp.total_items}</div><div className="text-gray-500">{t("allied.paramedicBulkUpload.total")}</div></div>
+                      <div><div className="font-bold text-green-700">{imp.valid_items}</div><div className="text-gray-500">{t("allied.paramedicBulkUpload.valid2")}</div></div>
+                      <div><div className="font-bold text-red-700">{imp.error_items}</div><div className="text-gray-500">{t("allied.paramedicBulkUpload.errors2")}</div></div>
+                      <div><div className="font-bold text-blue-700">{imp.published_items}</div><div className="text-gray-500">{t("allied.paramedicBulkUpload.published2")}</div></div>
                     </div>
                     <div className="flex gap-2">
                       {imp.status === "published" && imp.rollback_data && (
@@ -1110,7 +1112,7 @@ export default function ParamedicBulkUpload() {
             <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <Settings className="w-5 h-5 text-red-500" /> Download Templates
             </h3>
-            <p className="text-sm text-gray-600 mb-4">Download empty templates for each content type to fill in offline.</p>
+            <p className="text-sm text-gray-600 mb-4">{t("allied.paramedicBulkUpload.downloadEmptyTemplatesForEach")}</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {CONTENT_TYPES.map(ct => (
                 <button
@@ -1132,16 +1134,16 @@ export default function ParamedicBulkUpload() {
                 >
                   <ct.icon className="w-6 h-6 text-red-500" />
                   <span className="text-xs font-medium">{ct.label}</span>
-                  <span className="text-[10px] text-gray-500">Download JSON</span>
+                  <span className="text-[10px] text-gray-500">{t("allied.paramedicBulkUpload.downloadJson")}</span>
                 </button>
               ))}
             </div>
           </div>
 
           <div className="bg-white rounded-xl border border-gray-100 p-6">
-            <h3 className="font-semibold text-gray-900 mb-4">Saved Field Mapping Templates</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">{t("allied.paramedicBulkUpload.savedFieldMappingTemplates")}</h3>
             {mappingTemplates.length === 0 ? (
-              <p className="text-sm text-gray-500 text-center py-4">No saved mapping templates yet.</p>
+              <p className="text-sm text-gray-500 text-center py-4">{t("allied.paramedicBulkUpload.noSavedMappingTemplatesYet")}</p>
             ) : (
               <div className="space-y-2">
                 {mappingTemplates.map((t: any) => (

@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 
 function getAuthHeaders(): Record<string, string> {
+
   try {
     const creds = localStorage.getItem("nursenest-credentials");
     if (creds) {
@@ -699,7 +700,7 @@ export default function MockExamSession() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center font-sans">
         <div className="text-center space-y-4">
           <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-500">Loading exam...</p>
+          <p className="text-gray-500">{t("pages.mockExamSession.loadingExam")}</p>
         </div>
       </div>
     );
@@ -725,7 +726,7 @@ export default function MockExamSession() {
         <div className="sticky top-0 z-50 bg-white border-b border-gray-200">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <h2 className="text-sm font-bold text-gray-900">Review Mode</h2>
+              <h2 className="text-sm font-bold text-gray-900">{t("pages.mockExamSession.reviewMode")}</h2>
               <span className="text-xs text-gray-400">Q {reviewIdx + 1} of {reviewQuestions.length}</span>
             </div>
             <div className="flex items-center gap-2">
@@ -735,9 +736,9 @@ export default function MockExamSession() {
                 className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 bg-white"
                 data-testid="select-review-filter"
               >
-                <option value="all">All Questions</option>
-                <option value="incorrect">Incorrect Only</option>
-                <option value="flagged">Flagged Only</option>
+                <option value="all">{t("pages.mockExamSession.allQuestions")}</option>
+                <option value="incorrect">{t("pages.mockExamSession.incorrectOnly")}</option>
+                <option value="flagged">{t("pages.mockExamSession.flaggedOnly")}</option>
               </select>
               <Button
                 variant="outline"
@@ -788,9 +789,9 @@ export default function MockExamSession() {
         <main className="max-w-3xl mx-auto px-4 sm:px-6 py-6 pb-24 md:ml-20">
           {!rq && (
             <div className="text-center py-12 text-gray-400" data-testid="review-empty-state">
-              <p className="text-lg font-medium">No questions match this filter</p>
-              <p className="text-sm mt-1">Try switching to "All Questions"</p>
-              <Button variant="outline" className="mt-4" onClick={() => setReviewFilter("all")}>Show All Questions</Button>
+              <p className="text-lg font-medium">{t("pages.mockExamSession.noQuestionsMatchThisFilter")}</p>
+              <p className="text-sm mt-1">{t("pages.mockExamSession.trySwitchingToAllQuestions")}</p>
+              <Button variant="outline" className="mt-4" onClick={() => setReviewFilter("all")}>{t("pages.mockExamSession.showAllQuestions")}</Button>
             </div>
           )}
           {rq && (
@@ -843,8 +844,8 @@ export default function MockExamSession() {
                           <span className="font-semibold mr-1">{letterLabel}.</span>
                           {optionText}
                         </span>
-                        {isCorrectOption && <span className="text-xs text-emerald-600 ml-2 font-medium">(Correct Answer)</span>}
-                        {isUserAnswer && !isCorrectOption && <span className="text-xs text-red-600 ml-2 font-medium">(Your Answer)</span>}
+                        {isCorrectOption && <span className="text-xs text-emerald-600 ml-2 font-medium">{t("pages.mockExamSession.correctAnswer")}</span>}
+                        {isUserAnswer && !isCorrectOption && <span className="text-xs text-red-600 ml-2 font-medium">{t("pages.mockExamSession.yourAnswer")}</span>}
                       </div>
                     </div>
                   );
@@ -854,7 +855,7 @@ export default function MockExamSession() {
               {(rq.rationale || rq.explanation) && (
                 <Card className="border-none shadow-sm bg-blue-50/50" data-testid="review-rationale">
                   <CardContent className="p-4 space-y-2">
-                    <p className="text-xs font-bold text-blue-700 uppercase tracking-wider">Rationale</p>
+                    <p className="text-xs font-bold text-blue-700 uppercase tracking-wider">{t("pages.mockExamSession.rationale")}</p>
                     <p className="text-sm text-gray-700 leading-relaxed">{rq.rationale || rq.explanation}</p>
                   </CardContent>
                 </Card>
@@ -863,7 +864,7 @@ export default function MockExamSession() {
               {(rq as any).clinicalPearl && (
                 <Card className="border-none shadow-sm bg-amber-50/50" data-testid="review-clinical-pearl">
                   <CardContent className="p-4 space-y-2">
-                    <p className="text-xs font-bold text-amber-700 uppercase tracking-wider">Clinical Pearl</p>
+                    <p className="text-xs font-bold text-amber-700 uppercase tracking-wider">{t("pages.mockExamSession.clinicalPearl")}</p>
                     <p className="text-sm text-gray-700 leading-relaxed">{(rq as any).clinicalPearl}</p>
                   </CardContent>
                 </Card>
@@ -872,7 +873,7 @@ export default function MockExamSession() {
               {(rq as any).examStrategy && (
                 <Card className="border-none shadow-sm bg-violet-50/50" data-testid="review-exam-strategy">
                   <CardContent className="p-4 space-y-2">
-                    <p className="text-xs font-bold text-violet-700 uppercase tracking-wider">Exam Strategy</p>
+                    <p className="text-xs font-bold text-violet-700 uppercase tracking-wider">{t("pages.mockExamSession.examStrategy")}</p>
                     <p className="text-sm text-gray-700 leading-relaxed">{(rq as any).examStrategy}</p>
                   </CardContent>
                 </Card>
@@ -970,7 +971,7 @@ export default function MockExamSession() {
 
               {report?.domainBreakdown && report.domainBreakdown.length > 0 && (
                 <div className="space-y-2">
-                  <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Category Breakdown</p>
+                  <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">{t("pages.mockExamSession.categoryBreakdown")}</p>
                   {report.domainBreakdown.map((d: any) => (
                     <div key={d.name} className="flex items-center justify-between py-1.5">
                       <span className="text-sm text-gray-700 flex-1">{d.name}</span>
@@ -992,7 +993,7 @@ export default function MockExamSession() {
 
               {strengthAreas.length > 0 && (
                 <div className="space-y-1.5">
-                  <p className="text-xs font-bold text-emerald-600 uppercase tracking-wider">Strengths</p>
+                  <p className="text-xs font-bold text-emerald-600 uppercase tracking-wider">{t("pages.mockExamSession.strengths")}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {strengthAreas.slice(0, 3).map((area: any) => (
                       <span key={area.topic} className="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded-full">
@@ -1005,7 +1006,7 @@ export default function MockExamSession() {
 
               {weakAreasList.length > 0 && (
                 <div className="space-y-1.5">
-                  <p className="text-xs font-bold text-red-500 uppercase tracking-wider">Areas to Improve</p>
+                  <p className="text-xs font-bold text-red-500 uppercase tracking-wider">{t("pages.mockExamSession.areasToImprove")}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {weakAreasList.slice(0, 3).map((area: any) => (
                       <span key={area.topic || area.system} className="text-xs bg-red-50 text-red-700 px-2 py-1 rounded-full">
@@ -1131,7 +1132,7 @@ export default function MockExamSession() {
                 questions[currentQ] && flagged.includes(questions[currentQ].id) ? "text-amber-500" : "text-gray-300 hover:text-amber-500"
               }`}
               data-testid="button-flag-topbar"
-              aria-label="Flag question"
+              aria-label={t("pages.mockExamSession.flagQuestion")}
             >
               <Flag className="w-4 h-4" />
             </button>
@@ -1165,8 +1166,8 @@ export default function MockExamSession() {
           <Card className="border-none shadow-2xl max-w-sm">
             <CardContent className="p-8 text-center space-y-4">
               <Pause className="w-12 h-12 text-amber-500 mx-auto" />
-              <h2 className="text-2xl font-bold">Exam Paused</h2>
-              <p className="text-gray-500 text-sm">The timer has stopped. Click resume to continue.</p>
+              <h2 className="text-2xl font-bold">{t("pages.mockExamSession.examPaused")}</h2>
+              <p className="text-gray-500 text-sm">{t("pages.mockExamSession.theTimerHasStoppedClick")}</p>
               <Button onClick={() => setPaused(false)} className="rounded-full px-8" data-testid="button-resume">
                 <Play className="w-4 h-4 mr-2" /> Resume Exam
               </Button>
@@ -1180,11 +1181,11 @@ export default function MockExamSession() {
           <Card className="border-none shadow-2xl max-w-lg w-full mx-4 max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <CardContent className="p-6 space-y-4">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-                <h3 className="font-bold text-lg">Question Navigator</h3>
+                <h3 className="font-bold text-lg">{t("pages.mockExamSession.questionNavigator")}</h3>
                 <div className="flex flex-wrap gap-3 text-xs text-gray-400">
-                  <span className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-emerald-500" /> Answered</span>
-                  <span className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-amber-500" /> Flagged</span>
-                  <span className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-gray-200" /> Unanswered</span>
+                  <span className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-emerald-500" /> {t("pages.mockExamSession.answered")}</span>
+                  <span className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-amber-500" /> {t("pages.mockExamSession.flagged")}</span>
+                  <span className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-gray-200" /> {t("pages.mockExamSession.unanswered")}</span>
                 </div>
               </div>
               <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2">
@@ -1232,7 +1233,7 @@ export default function MockExamSession() {
           <Card className="border-none shadow-2xl max-w-sm">
             <CardContent className="p-8 space-y-4">
               <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto" />
-              <h2 className="text-xl font-bold text-center">Submit Exam?</h2>
+              <h2 className="text-xl font-bold text-center">{t("pages.mockExamSession.submitExam")}</h2>
               {unansweredCount > 0 && (
                 <p className="text-amber-600 text-sm text-center font-medium">
                   You have {unansweredCount} unanswered question{unansweredCount !== 1 ? "s" : ""}.
@@ -1243,7 +1244,7 @@ export default function MockExamSession() {
                   {flagged.length} question{flagged.length !== 1 ? "s" : ""} flagged for review.
                 </p>
               )}
-              <p className="text-sm text-gray-400 text-center">Once submitted, you cannot change your answers.</p>
+              <p className="text-sm text-gray-400 text-center">{t("pages.mockExamSession.onceSubmittedYouCannotChange")}</p>
               <div className="flex gap-3">
                 <Button variant="outline" className="flex-1" onClick={() => setShowConfirmSubmit(false)} data-testid="button-cancel-submit">
                   Go Back
@@ -1262,7 +1263,7 @@ export default function MockExamSession() {
           <Card className="border-none shadow-2xl max-w-sm">
             <CardContent className="p-8 space-y-4 text-center">
               <Eye className="w-12 h-12 text-red-500 mx-auto" />
-              <h2 className="text-xl font-bold">Tab Switch Detected</h2>
+              <h2 className="text-xl font-bold">{t("pages.mockExamSession.tabSwitchDetected")}</h2>
               <p className="text-sm text-gray-500">
                 You navigated away from the exam. This has been recorded.
               </p>
@@ -1282,7 +1283,7 @@ export default function MockExamSession() {
           <Card className="border-none shadow-2xl max-w-sm">
             <CardContent className="p-8 space-y-4 text-center">
               <Coffee className="w-12 h-12 text-blue-500 mx-auto" />
-              <h2 className="text-xl font-bold">Scheduled Break</h2>
+              <h2 className="text-xl font-bold">{t("pages.mockExamSession.scheduledBreak")}</h2>
               <p className="text-sm text-gray-500">
                 You've been testing for {Math.floor(timeSpent / 3600)} hour{Math.floor(timeSpent / 3600) !== 1 ? "s" : ""}. Consider taking a short break.
               </p>
@@ -1305,7 +1306,7 @@ export default function MockExamSession() {
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-gray-400 font-medium uppercase tracking-wide">{question.bodySystem}</span>
                   {flagged.includes(question.id) && (
-                    <span className="text-xs bg-amber-50 text-amber-600 px-2 py-0.5 rounded font-medium">Flagged</span>
+                    <span className="text-xs bg-amber-50 text-amber-600 px-2 py-0.5 rounded font-medium">{t("pages.mockExamSession.flagged2")}</span>
                   )}
                 </div>
                 <h2 className="text-lg sm:text-xl font-semibold text-[#2E3A59] leading-relaxed" data-testid="text-question">
@@ -1324,7 +1325,7 @@ export default function MockExamSession() {
               </button>
             </div>
 
-            <div className="space-y-1" role="radiogroup" aria-label="Answer options">
+            <div className="space-y-1" role="radiogroup" aria-label={t("pages.mockExamSession.answerOptions")}>
               {(optionShuffleMap[question.id] || question.options.map((_, i) => i)).map((originalIdx, displayIdx) => {
                 const rawOption = question.options[originalIdx];
                 const option = typeof rawOption === "object" && rawOption !== null && typeof rawOption.text === "string" ? rawOption.text : String(rawOption ?? "");

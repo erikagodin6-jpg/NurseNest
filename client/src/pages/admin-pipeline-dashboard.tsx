@@ -10,7 +10,9 @@ import { Input } from "@/components/ui/input";
 import { ArrowLeft, Play, CheckCircle, XCircle, Clock, AlertTriangle, Loader2, BarChart3 } from "lucide-react";
 import { Link } from "wouter";
 
+import { useI18n } from "@/lib/i18n";
 function StatusBadge({ status }: { status: string }) {
+  const { t } = useI18n();
   const colors: Record<string, string> = {
     queued: "bg-yellow-100 text-yellow-800",
     running: "bg-blue-100 text-blue-800",
@@ -67,7 +69,7 @@ function OverviewTab() {
     },
   });
 
-  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading pipeline status...</div>;
+  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> {t("pages.adminPipelineDashboard.loadingPipelineStatus")}</div>;
 
   return (
     <div className="space-y-6">
@@ -95,12 +97,12 @@ function OverviewTab() {
 
       <Card data-testid="card-manual-run">
         <CardHeader>
-          <CardTitle className="text-lg">Manual Generation Run</CardTitle>
+          <CardTitle className="text-lg">{t("pages.adminPipelineDashboard.manualGenerationRun")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3 items-end">
             <div>
-              <label className="text-sm text-muted-foreground block mb-1">Tier</label>
+              <label className="text-sm text-muted-foreground block mb-1">{t("pages.adminPipelineDashboard.tier")}</label>
               <Select value={runTier} onValueChange={setRunTier}>
                 <SelectTrigger className="w-32" data-testid="select-tier"><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -111,17 +113,17 @@ function OverviewTab() {
               </Select>
             </div>
             <div>
-              <label className="text-sm text-muted-foreground block mb-1">Content Type</label>
+              <label className="text-sm text-muted-foreground block mb-1">{t("pages.adminPipelineDashboard.contentType")}</label>
               <Select value={runType} onValueChange={setRunType}>
                 <SelectTrigger className="w-48" data-testid="select-content-type"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="exam_questions">Exam Questions</SelectItem>
-                  <SelectItem value="flashcards">Flashcards</SelectItem>
+                  <SelectItem value="exam_questions">{t("pages.adminPipelineDashboard.examQuestions")}</SelectItem>
+                  <SelectItem value="flashcards">{t("pages.adminPipelineDashboard.flashcards")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <label className="text-sm text-muted-foreground block mb-1">Count (max 50)</label>
+              <label className="text-sm text-muted-foreground block mb-1">{t("pages.adminPipelineDashboard.countMax50")}</label>
               <Input
                 type="number"
                 min="1"
@@ -137,7 +139,7 @@ function OverviewTab() {
               disabled={runMutation.isPending}
               data-testid="button-run-pipeline"
             >
-              {runMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Running...</> : <><Play className="mr-2 h-4 w-4" /> Run Now</>}
+              {runMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> {t("pages.adminPipelineDashboard.running")}</> : <><Play className="mr-2 h-4 w-4" /> {t("pages.adminPipelineDashboard.runNow")}</>}
             </Button>
           </div>
           {runMutation.isSuccess && (
@@ -204,9 +206,9 @@ function QuestionReviewTab() {
     <div className="space-y-4">
       <div className="flex gap-3 items-center flex-wrap">
         <Select value={tier} onValueChange={setTier}>
-          <SelectTrigger className="w-32" data-testid="select-review-tier"><SelectValue placeholder="Tier" /></SelectTrigger>
+          <SelectTrigger className="w-32" data-testid="select-review-tier"><SelectValue placeholder={t("pages.adminPipelineDashboard.tier2")} /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Tiers</SelectItem>
+            <SelectItem value="all">{t("pages.adminPipelineDashboard.allTiers")}</SelectItem>
             <SelectItem value="rpn">RPN</SelectItem>
             <SelectItem value="rn">RN</SelectItem>
             <SelectItem value="np">NP</SelectItem>
@@ -215,10 +217,10 @@ function QuestionReviewTab() {
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-40" data-testid="select-review-status"><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="needs_review">Needs Review</SelectItem>
-            <SelectItem value="approved">Approved</SelectItem>
-            <SelectItem value="rejected">Rejected</SelectItem>
+            <SelectItem value="all">{t("pages.adminPipelineDashboard.allStatus")}</SelectItem>
+            <SelectItem value="needs_review">{t("pages.adminPipelineDashboard.needsReview")}</SelectItem>
+            <SelectItem value="approved">{t("pages.adminPipelineDashboard.approved")}</SelectItem>
+            <SelectItem value="rejected">{t("pages.adminPipelineDashboard.rejected")}</SelectItem>
           </SelectContent>
         </Select>
         {selected.size > 0 && (
@@ -236,9 +238,9 @@ function QuestionReviewTab() {
       </div>
 
       {isLoading ? (
-        <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading...</div>
+        <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> {t("pages.adminPipelineDashboard.loading")}</div>
       ) : items.length === 0 ? (
-        <p className="text-muted-foreground py-8 text-center">No items to review</p>
+        <p className="text-muted-foreground py-8 text-center">{t("pages.adminPipelineDashboard.noItemsToReview")}</p>
       ) : (
         <div className="space-y-3">
           {items.map((q: any) => (
@@ -364,7 +366,7 @@ function FlashcardReviewTab() {
         <Select value={tier} onValueChange={setTier}>
           <SelectTrigger className="w-32" data-testid="select-flashcard-tier"><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Tiers</SelectItem>
+            <SelectItem value="all">{t("pages.adminPipelineDashboard.allTiers2")}</SelectItem>
             <SelectItem value="rpn">RPN</SelectItem>
             <SelectItem value="rn">RN</SelectItem>
             <SelectItem value="np">NP</SelectItem>
@@ -373,10 +375,10 @@ function FlashcardReviewTab() {
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-40" data-testid="select-flashcard-status"><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="needs_review">Needs Review</SelectItem>
-            <SelectItem value="approved">Approved</SelectItem>
-            <SelectItem value="rejected">Rejected</SelectItem>
+            <SelectItem value="all">{t("pages.adminPipelineDashboard.allStatus2")}</SelectItem>
+            <SelectItem value="needs_review">{t("pages.adminPipelineDashboard.needsReview2")}</SelectItem>
+            <SelectItem value="approved">{t("pages.adminPipelineDashboard.approved2")}</SelectItem>
+            <SelectItem value="rejected">{t("pages.adminPipelineDashboard.rejected2")}</SelectItem>
           </SelectContent>
         </Select>
         {selected.size > 0 && (
@@ -394,9 +396,9 @@ function FlashcardReviewTab() {
       </div>
 
       {isLoading ? (
-        <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading...</div>
+        <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> {t("pages.adminPipelineDashboard.loading2")}</div>
       ) : items.length === 0 ? (
-        <p className="text-muted-foreground py-8 text-center">No flashcards to review</p>
+        <p className="text-muted-foreground py-8 text-center">{t("pages.adminPipelineDashboard.noFlashcardsToReview")}</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {items.map((f: any) => (
@@ -448,12 +450,12 @@ function JobHistoryTab() {
     queryFn: () => fetch("/api/admin/pipeline/jobs?limit=100", { credentials: "include" }).then(r => r.json()),
   });
 
-  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading...</div>;
+  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> {t("pages.adminPipelineDashboard.loading3")}</div>;
 
   return (
     <div className="space-y-3">
       {(!jobs || jobs.length === 0) ? (
-        <p className="text-muted-foreground py-8 text-center">No generation jobs yet</p>
+        <p className="text-muted-foreground py-8 text-center">{t("pages.adminPipelineDashboard.noGenerationJobsYet")}</p>
       ) : (
         jobs.map((j: any) => (
           <Card key={j.id} data-testid={`card-job-${j.id}`}>
@@ -497,16 +499,16 @@ export default function AdminPipelineDashboard() {
             <h1 className="text-2xl font-bold flex items-center gap-2" data-testid="text-pipeline-title">
               <BarChart3 className="h-6 w-6" /> Content Pipeline
             </h1>
-            <p className="text-sm text-muted-foreground">AI-powered exam question and flashcard generation with clinical verification</p>
+            <p className="text-sm text-muted-foreground">{t("pages.adminPipelineDashboard.aipoweredExamQuestionAndFlashcard")}</p>
           </div>
         </div>
 
         <Tabs defaultValue="overview">
           <TabsList className="mb-4" data-testid="tabs-pipeline">
-            <TabsTrigger value="overview" data-testid="tab-overview">Overview</TabsTrigger>
-            <TabsTrigger value="questions" data-testid="tab-questions">Question Review</TabsTrigger>
-            <TabsTrigger value="flashcards" data-testid="tab-flashcards">Flashcard Review</TabsTrigger>
-            <TabsTrigger value="history" data-testid="tab-history">Job History</TabsTrigger>
+            <TabsTrigger value="overview" data-testid="tab-overview">{t("pages.adminPipelineDashboard.overview")}</TabsTrigger>
+            <TabsTrigger value="questions" data-testid="tab-questions">{t("pages.adminPipelineDashboard.questionReview")}</TabsTrigger>
+            <TabsTrigger value="flashcards" data-testid="tab-flashcards">{t("pages.adminPipelineDashboard.flashcardReview")}</TabsTrigger>
+            <TabsTrigger value="history" data-testid="tab-history">{t("pages.adminPipelineDashboard.jobHistory")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview"><OverviewTab /></TabsContent>

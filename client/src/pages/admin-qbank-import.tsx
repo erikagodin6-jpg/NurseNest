@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 
+import { useI18n } from "@/lib/i18n";
 interface ImportQuestion {
   question: string;
   option_a: string;
@@ -58,6 +59,7 @@ const SAMPLE_QUESTION: ImportQuestion = {
 };
 
 export default function AdminQBankImport() {
+  const { t } = useI18n();
   const [jsonText, setJsonText] = useState("");
   const [parsed, setParsed] = useState<ImportQuestion[] | null>(null);
   const [parseError, setParseError] = useState<string | null>(null);
@@ -171,13 +173,13 @@ export default function AdminQBankImport() {
               <ArrowLeft className="h-4 w-4 mr-1" /> Admin
             </Button>
           </Link>
-          <h1 className="text-2xl font-bold text-[#2E3A59]" data-testid="heading-qbank-import">Question Bank Import</h1>
+          <h1 className="text-2xl font-bold text-[#2E3A59]" data-testid="heading-qbank-import">{t("pages.adminQbankImport.questionBankImport")}</h1>
         </div>
 
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle className="text-[#2E3A59]">Import Questions</CardTitle>
+              <CardTitle className="text-[#2E3A59]">{t("pages.adminQbankImport.importQuestions")}</CardTitle>
               <Button variant="outline" size="sm" onClick={downloadTemplate} data-testid="btn-download-template">
                 <Download className="h-4 w-4 mr-1" /> Download Template
               </Button>
@@ -199,7 +201,7 @@ export default function AdminQBankImport() {
               >
                 <Upload className="h-4 w-4 mr-1" /> Upload JSON File
               </Button>
-              <span className="text-sm text-gray-500 self-center">or paste JSON below</span>
+              <span className="text-sm text-gray-500 self-center">{t("pages.adminQbankImport.orPasteJsonBelow")}</span>
             </div>
 
             <Textarea
@@ -225,7 +227,7 @@ export default function AdminQBankImport() {
 
                   <div className="grid grid-cols-3 gap-4 text-sm">
                     <div>
-                      <p className="font-medium text-[#2E3A59] mb-1">By Exam</p>
+                      <p className="font-medium text-[#2E3A59] mb-1">{t("pages.adminQbankImport.byExam")}</p>
                       {Object.entries(examCounts).map(([exam, count]) => (
                         <div key={exam} className="flex justify-between">
                           <span className="text-gray-600">{exam}</span>
@@ -234,7 +236,7 @@ export default function AdminQBankImport() {
                       ))}
                     </div>
                     <div>
-                      <p className="font-medium text-[#2E3A59] mb-1">By Category</p>
+                      <p className="font-medium text-[#2E3A59] mb-1">{t("pages.adminQbankImport.byCategory")}</p>
                       <div className="max-h-32 overflow-y-auto space-y-1">
                         {Object.entries(categoryCounts).map(([cat, count]) => (
                           <div key={cat} className="flex justify-between">
@@ -245,7 +247,7 @@ export default function AdminQBankImport() {
                       </div>
                     </div>
                     <div>
-                      <p className="font-medium text-[#2E3A59] mb-1">By Difficulty</p>
+                      <p className="font-medium text-[#2E3A59] mb-1">{t("pages.adminQbankImport.byDifficulty")}</p>
                       {Object.entries(difficultyCounts).map(([diff, count]) => (
                         <div key={diff} className="flex justify-between">
                           <span className="text-gray-600">{diff}</span>
@@ -261,11 +263,11 @@ export default function AdminQBankImport() {
                     <thead className="bg-gray-50 border-b sticky top-0">
                       <tr>
                         <th className="p-2 text-left w-8">#</th>
-                        <th className="p-2 text-left">Question</th>
-                        <th className="p-2 text-left w-20">Exam</th>
-                        <th className="p-2 text-left w-20">Category</th>
-                        <th className="p-2 text-left w-16">Diff</th>
-                        <th className="p-2 text-left w-10">Ans</th>
+                        <th className="p-2 text-left">{t("pages.adminQbankImport.question")}</th>
+                        <th className="p-2 text-left w-20">{t("pages.adminQbankImport.exam")}</th>
+                        <th className="p-2 text-left w-20">{t("pages.adminQbankImport.category")}</th>
+                        <th className="p-2 text-left w-16">{t("pages.adminQbankImport.diff")}</th>
+                        <th className="p-2 text-left w-10">{t("pages.adminQbankImport.ans")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -303,7 +305,7 @@ export default function AdminQBankImport() {
                     data-testid="btn-import"
                   >
                     {importing ? (
-                      <><Loader2 className="h-4 w-4 mr-1 animate-spin" /> Importing...</>
+                      <><Loader2 className="h-4 w-4 mr-1 animate-spin" /> {t("pages.adminQbankImport.importing")}</>
                     ) : (
                       <><FileText className="h-4 w-4 mr-1" /> Import {parsed.length} Questions</>
                     )}
@@ -314,29 +316,29 @@ export default function AdminQBankImport() {
 
             {result && (
               <div className={`rounded-lg p-4 border ${result.inserted > 0 ? "bg-green-50 border-green-200" : "bg-yellow-50 border-yellow-200"}`} data-testid="div-import-result">
-                <h3 className="font-medium text-[#2E3A59] mb-2">Import Results</h3>
+                <h3 className="font-medium text-[#2E3A59] mb-2">{t("pages.adminQbankImport.importResults")}</h3>
                 <div className="grid grid-cols-4 gap-4 text-sm mb-3">
                   <div>
-                    <span className="text-gray-600">Total</span>
+                    <span className="text-gray-600">{t("pages.adminQbankImport.total")}</span>
                     <p className="text-xl font-bold text-[#2E3A59]">{result.total}</p>
                   </div>
                   <div>
-                    <span className="text-green-600">Inserted</span>
+                    <span className="text-green-600">{t("pages.adminQbankImport.inserted")}</span>
                     <p className="text-xl font-bold text-green-700" data-testid="text-inserted-count">{result.inserted}</p>
                   </div>
                   <div>
-                    <span className="text-yellow-600">Skipped (duplicates)</span>
+                    <span className="text-yellow-600">{t("pages.adminQbankImport.skippedDuplicates")}</span>
                     <p className="text-xl font-bold text-yellow-700">{result.skipped}</p>
                   </div>
                   <div>
-                    <span className="text-red-600">Errors</span>
+                    <span className="text-red-600">{t("pages.adminQbankImport.errors")}</span>
                     <p className="text-xl font-bold text-red-700">{result.validationErrors.length + result.insertErrors.length}</p>
                   </div>
                 </div>
 
                 {result.validationErrors.length > 0 && (
                   <div className="space-y-1 max-h-40 overflow-y-auto">
-                    <p className="text-xs font-medium text-red-700">Validation Errors:</p>
+                    <p className="text-xs font-medium text-red-700">{t("pages.adminQbankImport.validationErrors")}</p>
                     {result.validationErrors.map((e, i) => (
                       <div key={i} className="flex gap-2 text-xs text-red-600">
                         <AlertTriangle className="h-3 w-3 mt-0.5 flex-shrink-0" />
@@ -352,36 +354,36 @@ export default function AdminQBankImport() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-[#2E3A59] text-base">Import Format Reference</CardTitle>
+            <CardTitle className="text-[#2E3A59] text-base">{t("pages.adminQbankImport.importFormatReference")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-600">
               <div>
-                <p className="font-medium text-[#2E3A59] mb-1">Required Fields</p>
+                <p className="font-medium text-[#2E3A59] mb-1">{t("pages.adminQbankImport.requiredFields")}</p>
                 <ul className="space-y-1 list-disc pl-4">
-                  <li><code>question</code> - Question stem (min 10 chars)</li>
-                  <li><code>option_a</code> through <code>option_d</code> - All 4 required</li>
-                  <li><code>correct_answer</code> - A, B, C, or D</li>
-                  <li><code>rationale</code> - Explanation (min 20 chars)</li>
-                  <li><code>difficulty</code> - easy, moderate, or hard</li>
-                  <li><code>exam</code> - NCLEX-PN, REx-PN, NCLEX-RN, AANP, ANCC</li>
-                  <li><code>country</code> - US or Canada</li>
+                  <li><code>{t("pages.adminQbankImport.question2")}</code> {t("pages.adminQbankImport.questionStemMin10Chars")}</li>
+                  <li><code>option_a</code> through <code>option_d</code> {t("pages.adminQbankImport.all4Required")}</li>
+                  <li><code>correct_answer</code> {t("pages.adminQbankImport.aBCOrD")}</li>
+                  <li><code>{t("pages.adminQbankImport.rationale")}</code> {t("pages.adminQbankImport.explanationMin20Chars")}</li>
+                  <li><code>{t("pages.adminQbankImport.difficulty")}</code> {t("pages.adminQbankImport.easyModerateOrHard")}</li>
+                  <li><code>{t("pages.adminQbankImport.exam2")}</code> {t("pages.adminQbankImport.nclexpnRexpnNclexrnAanpAncc")}</li>
+                  <li><code>{t("pages.adminQbankImport.country")}</code> {t("pages.adminQbankImport.usOrCanada")}</li>
                 </ul>
               </div>
               <div>
-                <p className="font-medium text-[#2E3A59] mb-1">Optional Fields</p>
+                <p className="font-medium text-[#2E3A59] mb-1">{t("pages.adminQbankImport.optionalFields")}</p>
                 <ul className="space-y-1 list-disc pl-4">
-                  <li><code>category</code> - Body system / clinical area</li>
-                  <li><code>question_type</code> - standard, priority, delegation, etc.</li>
-                  <li><code>client_needs</code> - NCLEX client needs category</li>
-                  <li><code>topic</code> - Specific clinical topic</li>
-                  <li><code>status</code> - active (default)</li>
+                  <li><code>{t("pages.adminQbankImport.category2")}</code> {t("pages.adminQbankImport.bodySystemClinicalArea")}</li>
+                  <li><code>question_type</code> {t("pages.adminQbankImport.standardPriorityDelegationEtc")}</li>
+                  <li><code>client_needs</code> {t("pages.adminQbankImport.nclexClientNeedsCategory")}</li>
+                  <li><code>{t("pages.adminQbankImport.topic")}</code> {t("pages.adminQbankImport.specificClinicalTopic")}</li>
+                  <li><code>{t("pages.adminQbankImport.status")}</code> {t("pages.adminQbankImport.activeDefault")}</li>
                 </ul>
-                <p className="font-medium text-[#2E3A59] mt-3 mb-1">Exam Mapping</p>
+                <p className="font-medium text-[#2E3A59] mt-3 mb-1">{t("pages.adminQbankImport.examMapping")}</p>
                 <ul className="space-y-1 list-disc pl-4">
-                  <li>NCLEX-PN / REx-PN maps to <strong>RPN tier</strong></li>
-                  <li>NCLEX-RN maps to <strong>RN tier</strong></li>
-                  <li>AANP / ANCC maps to <strong>NP tier</strong></li>
+                  <li>NCLEX-PN / REx-PN maps to <strong>{t("pages.adminQbankImport.rpnTier")}</strong></li>
+                  <li>NCLEX-RN maps to <strong>{t("pages.adminQbankImport.rnTier")}</strong></li>
+                  <li>AANP / ANCC maps to <strong>{t("pages.adminQbankImport.npTier")}</strong></li>
                 </ul>
               </div>
             </div>

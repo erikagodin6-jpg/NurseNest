@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { adminFetch } from "@/lib/admin-fetch";
+import { useI18n } from "@/lib/i18n";
 import {
   Loader2, RefreshCw, Plus, Play, Pause, CheckCircle2, XCircle,
   TrendingUp, BarChart3, Calendar, Clock, Zap, FileText,
@@ -99,6 +100,7 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 function formatDate(d: string | null): string {
+
   if (!d) return "Never";
   const date = new Date(d);
   const now = new Date();
@@ -262,8 +264,8 @@ export default function AdminContentGrowth() {
         <div className="flex items-center gap-3">
           <TrendingUp className="w-6 h-6 text-blue-600" />
           <div>
-            <h2 className="text-xl font-bold text-gray-900" data-testid="text-content-growth-title">Content Growth Engine</h2>
-            <p className="text-sm text-gray-500">Automated content generation with quality validation</p>
+            <h2 className="text-xl font-bold text-gray-900" data-testid="text-content-growth-title">{t("pages.adminContentGrowth.contentGrowthEngine")}</h2>
+            <p className="text-sm text-gray-500">{t("pages.adminContentGrowth.automatedContentGenerationWithQuality")}</p>
           </div>
         </div>
         <button
@@ -279,21 +281,21 @@ export default function AdminContentGrowth() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4" data-testid="section-growth-stats">
           <div className="bg-white rounded-xl border border-gray-100 p-4">
             <div className="text-2xl font-bold text-gray-900" data-testid="stat-total-generated">{stats.runs.total_generated}</div>
-            <div className="text-xs text-gray-500">Total Generated</div>
+            <div className="text-xs text-gray-500">{t("pages.adminContentGrowth.totalGenerated")}</div>
           </div>
           <div className="bg-white rounded-xl border border-gray-100 p-4">
             <div className="text-2xl font-bold text-green-600" data-testid="stat-total-accepted">{stats.runs.total_accepted}</div>
-            <div className="text-xs text-gray-500">Accepted</div>
+            <div className="text-xs text-gray-500">{t("pages.adminContentGrowth.accepted")}</div>
           </div>
           <div className="bg-white rounded-xl border border-gray-100 p-4">
             <div className="text-2xl font-bold text-red-600" data-testid="stat-total-rejected">{stats.runs.total_rejected}</div>
-            <div className="text-xs text-gray-500">Rejected</div>
+            <div className="text-xs text-gray-500">{t("pages.adminContentGrowth.rejected")}</div>
           </div>
           <div className="bg-white rounded-xl border border-gray-100 p-4">
             <div className="text-2xl font-bold text-blue-600" data-testid="stat-pending-review">
               {(stats.pendingReview.contentItems.draft_count || 0) + (stats.pendingReview.contentItems.needs_review_count || 0) + stats.pendingReview.flashcards + stats.pendingReview.examQuestions}
             </div>
-            <div className="text-xs text-gray-500">Pending Review</div>
+            <div className="text-xs text-gray-500">{t("pages.adminContentGrowth.pendingReview")}</div>
           </div>
         </div>
       )}
@@ -317,22 +319,22 @@ export default function AdminContentGrowth() {
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white rounded-xl border border-gray-100 p-5">
-              <h3 className="font-semibold text-gray-900 mb-4">Schedule Summary</h3>
+              <h3 className="font-semibold text-gray-900 mb-4">{t("pages.adminContentGrowth.scheduleSummary")}</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Total Schedules</span>
+                  <span className="text-gray-600">{t("pages.adminContentGrowth.totalSchedules")}</span>
                   <span className="font-medium">{stats.schedules.total_schedules}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Active Schedules</span>
+                  <span className="text-gray-600">{t("pages.adminContentGrowth.activeSchedules")}</span>
                   <span className="font-medium text-green-600">{stats.schedules.active_schedules}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Total Runs</span>
+                  <span className="text-gray-600">{t("pages.adminContentGrowth.totalRuns")}</span>
                   <span className="font-medium">{stats.runs.total_runs}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Success Rate</span>
+                  <span className="text-gray-600">{t("pages.adminContentGrowth.successRate")}</span>
                   <span className="font-medium">
                     {stats.runs.total_runs > 0
                       ? `${Math.round((stats.runs.completed_runs / stats.runs.total_runs) * 100)}%`
@@ -343,7 +345,7 @@ export default function AdminContentGrowth() {
             </div>
 
             <div className="bg-white rounded-xl border border-gray-100 p-5">
-              <h3 className="font-semibold text-gray-900 mb-4">Quick Generate</h3>
+              <h3 className="font-semibold text-gray-900 mb-4">{t("pages.adminContentGrowth.quickGenerate")}</h3>
               <div className="space-y-3">
                 <div className="flex gap-2">
                   <select
@@ -381,7 +383,7 @@ export default function AdminContentGrowth() {
 
           {stats.recentRuns.length > 0 && (
             <div className="bg-white rounded-xl border border-gray-100 p-5">
-              <h3 className="font-semibold text-gray-900 mb-4">Recent Runs</h3>
+              <h3 className="font-semibold text-gray-900 mb-4">{t("pages.adminContentGrowth.recentRuns")}</h3>
               <div className="space-y-2">
                 {stats.recentRuns.slice(0, 5).map(run => {
                   const typeInfo = CONTENT_TYPE_LABELS[run.content_type] || { label: run.content_type, color: "text-gray-600" };
@@ -409,7 +411,7 @@ export default function AdminContentGrowth() {
       {activeSubTab === "schedules" && (
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="font-semibold text-gray-900">Generation Schedules</h3>
+            <h3 className="font-semibold text-gray-900">{t("pages.adminContentGrowth.generationSchedules")}</h3>
             <button
               onClick={() => setShowNewSchedule(!showNewSchedule)}
               className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
@@ -423,7 +425,7 @@ export default function AdminContentGrowth() {
             <div className="bg-blue-50 rounded-xl border border-blue-100 p-5 space-y-3" data-testid="form-new-schedule">
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-xs text-gray-600 mb-1">Content Type</label>
+                  <label className="block text-xs text-gray-600 mb-1">{t("pages.adminContentGrowth.contentType")}</label>
                   <select
                     value={newSchedule.contentType}
                     onChange={e => setNewSchedule({ ...newSchedule, contentType: e.target.value })}
@@ -436,19 +438,19 @@ export default function AdminContentGrowth() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-600 mb-1">Cadence</label>
+                  <label className="block text-xs text-gray-600 mb-1">{t("pages.adminContentGrowth.cadence")}</label>
                   <select
                     value={newSchedule.cadence}
                     onChange={e => setNewSchedule({ ...newSchedule, cadence: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
                     data-testid="select-schedule-cadence"
                   >
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
+                    <option value="daily">{t("pages.adminContentGrowth.daily")}</option>
+                    <option value="weekly">{t("pages.adminContentGrowth.weekly")}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-600 mb-1">Items per Run</label>
+                  <label className="block text-xs text-gray-600 mb-1">{t("pages.adminContentGrowth.itemsPerRun")}</label>
                   <input
                     type="number"
                     min={1}
@@ -460,7 +462,7 @@ export default function AdminContentGrowth() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-600 mb-1">Run Time (UTC Hour)</label>
+                  <label className="block text-xs text-gray-600 mb-1">{t("pages.adminContentGrowth.runTimeUtcHour")}</label>
                   <input
                     type="number"
                     min={0}
@@ -472,14 +474,14 @@ export default function AdminContentGrowth() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-600 mb-1">Target Tier</label>
+                  <label className="block text-xs text-gray-600 mb-1">{t("pages.adminContentGrowth.targetTier")}</label>
                   <select
                     value={newSchedule.targetTier}
                     onChange={e => setNewSchedule({ ...newSchedule, targetTier: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
                     data-testid="select-schedule-tier"
                   >
-                    <option value="rpn">RPN/LVN</option>
+                    <option value="rpn">{t("pages.adminContentGrowth.rpnlvn")}</option>
                     <option value="rn">RN</option>
                     <option value="np">NP</option>
                   </select>
@@ -507,7 +509,7 @@ export default function AdminContentGrowth() {
           {schedules.length === 0 ? (
             <div className="text-center py-10 text-gray-500" data-testid="text-no-schedules">
               <Calendar className="w-10 h-10 mx-auto mb-3 text-gray-300" />
-              <p>No schedules configured yet. Create one to start automatic content generation.</p>
+              <p>{t("pages.adminContentGrowth.noSchedulesConfiguredYetCreate")}</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -565,11 +567,11 @@ export default function AdminContentGrowth() {
 
       {activeSubTab === "runs" && (
         <div className="space-y-4">
-          <h3 className="font-semibold text-gray-900">Generation History</h3>
+          <h3 className="font-semibold text-gray-900">{t("pages.adminContentGrowth.generationHistory")}</h3>
           {runs.length === 0 ? (
             <div className="text-center py-10 text-gray-500" data-testid="text-no-runs">
               <Play className="w-10 h-10 mx-auto mb-3 text-gray-300" />
-              <p>No generation runs yet. Use Quick Generate or create a schedule to get started.</p>
+              <p>{t("pages.adminContentGrowth.noGenerationRunsYetUse")}</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -603,19 +605,19 @@ export default function AdminContentGrowth() {
                       <div className="border-t border-gray-100 p-4 space-y-3">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
                           <div>
-                            <span className="text-gray-500 block text-xs">Target Count</span>
+                            <span className="text-gray-500 block text-xs">{t("pages.adminContentGrowth.targetCount")}</span>
                             <span className="font-medium">{run.target_count}</span>
                           </div>
                           <div>
-                            <span className="text-gray-500 block text-xs">Generated</span>
+                            <span className="text-gray-500 block text-xs">{t("pages.adminContentGrowth.generated")}</span>
                             <span className="font-medium">{run.generated_count}</span>
                           </div>
                           <div>
-                            <span className="text-gray-500 block text-xs">Started</span>
+                            <span className="text-gray-500 block text-xs">{t("pages.adminContentGrowth.started")}</span>
                             <span className="font-medium">{formatDate(run.started_at)}</span>
                           </div>
                           <div>
-                            <span className="text-gray-500 block text-xs">Completed</span>
+                            <span className="text-gray-500 block text-xs">{t("pages.adminContentGrowth.completed")}</span>
                             <span className="font-medium">{formatDate(run.completed_at)}</span>
                           </div>
                         </div>
@@ -629,7 +631,7 @@ export default function AdminContentGrowth() {
 
                         {Array.isArray(run.topics_prioritized) && run.topics_prioritized.length > 0 && (
                           <div>
-                            <span className="text-xs text-gray-500 block mb-1">Prioritized Topics</span>
+                            <span className="text-xs text-gray-500 block mb-1">{t("pages.adminContentGrowth.prioritizedTopics")}</span>
                             <div className="flex flex-wrap gap-1">
                               {run.topics_prioritized.map((topic: string, i: number) => (
                                 <span key={i} className="px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full text-xs">{topic}</span>
@@ -640,7 +642,7 @@ export default function AdminContentGrowth() {
 
                         {Array.isArray(run.validation_results) && run.validation_results.length > 0 && (
                           <div>
-                            <span className="text-xs text-gray-500 block mb-1">Validation Results</span>
+                            <span className="text-xs text-gray-500 block mb-1">{t("pages.adminContentGrowth.validationResults")}</span>
                             <div className="space-y-1 max-h-48 overflow-y-auto">
                               {run.validation_results.map((vr: any, i: number) => (
                                 <div key={i} className="flex items-center gap-2 text-xs">
@@ -670,14 +672,14 @@ export default function AdminContentGrowth() {
       {activeSubTab === "drafts" && (
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="font-semibold text-gray-900">Pending Drafts for Review</h3>
+            <h3 className="font-semibold text-gray-900">{t("pages.adminContentGrowth.pendingDraftsForReview")}</h3>
             <span className="text-sm text-gray-500">{drafts.length} items</span>
           </div>
 
           {drafts.length === 0 ? (
             <div className="text-center py-10 text-gray-500" data-testid="text-no-drafts">
               <CheckCircle2 className="w-10 h-10 mx-auto mb-3 text-gray-300" />
-              <p>No pending drafts to review. All content has been processed.</p>
+              <p>{t("pages.adminContentGrowth.noPendingDraftsToReview")}</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -727,7 +729,7 @@ export default function AdminContentGrowth() {
       {activeSubTab === "gaps" && (
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="font-semibold text-gray-900">Content Gap Analysis</h3>
+            <h3 className="font-semibold text-gray-900">{t("pages.adminContentGrowth.contentGapAnalysis")}</h3>
             <button
               onClick={fetchGapAnalysis}
               className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-blue-700 bg-blue-50 rounded-lg hover:bg-blue-100"
@@ -744,7 +746,7 @@ export default function AdminContentGrowth() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-white rounded-xl border border-gray-100 p-5">
-                <h4 className="font-semibold text-gray-900 mb-3">Content Library Totals</h4>
+                <h4 className="font-semibold text-gray-900 mb-3">{t("pages.adminContentGrowth.contentLibraryTotals")}</h4>
                 <div className="space-y-2">
                   {Object.entries(gapAnalysis.totalContentByType).map(([type, count]) => (
                     <div key={type} className="flex justify-between items-center text-sm" data-testid={`gap-total-${type}`}>
@@ -756,9 +758,9 @@ export default function AdminContentGrowth() {
               </div>
 
               <div className="bg-white rounded-xl border border-gray-100 p-5">
-                <h4 className="font-semibold text-gray-900 mb-3">Underrepresented Body Systems</h4>
+                <h4 className="font-semibold text-gray-900 mb-3">{t("pages.adminContentGrowth.underrepresentedBodySystems")}</h4>
                 {gapAnalysis.underrepresentedSystems.length === 0 ? (
-                  <p className="text-sm text-gray-500">All body systems have adequate coverage.</p>
+                  <p className="text-sm text-gray-500">{t("pages.adminContentGrowth.allBodySystemsHaveAdequate")}</p>
                 ) : (
                   <div className="space-y-2">
                     {gapAnalysis.underrepresentedSystems.slice(0, 8).map(sys => (
@@ -782,9 +784,9 @@ export default function AdminContentGrowth() {
               </div>
 
               <div className="bg-white rounded-xl border border-gray-100 p-5 md:col-span-2">
-                <h4 className="font-semibold text-gray-900 mb-3">Suggested SEO Keywords (Untargeted)</h4>
+                <h4 className="font-semibold text-gray-900 mb-3">{t("pages.adminContentGrowth.suggestedSeoKeywordsUntargeted")}</h4>
                 {gapAnalysis.suggestedKeywords.length === 0 ? (
-                  <p className="text-sm text-gray-500">All suggested keywords are already targeted.</p>
+                  <p className="text-sm text-gray-500">{t("pages.adminContentGrowth.allSuggestedKeywordsAreAlready")}</p>
                 ) : (
                   <div className="flex flex-wrap gap-2">
                     {gapAnalysis.suggestedKeywords.map((kw, i) => (

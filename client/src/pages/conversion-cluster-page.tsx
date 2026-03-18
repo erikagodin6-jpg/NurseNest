@@ -33,7 +33,9 @@ import {
 } from "@/lib/unit-conversions";
 import type { ClusterPageData } from "@/data/conversion-cluster-data";
 
+import { useI18n } from "@/lib/i18n";
 function MiniConverter({ entry }: { entry: ConversionEntry }) {
+  const { t } = useI18n();
   const [inputValue, setInputValue] = useState("");
   const [direction, setDirection] = useState<ConversionDirection>("si-to-conv");
 
@@ -187,8 +189,8 @@ export default function ConversionClusterPage({ data }: { data: ClusterPageData 
           <div className="flex items-center gap-3 bg-primary/5 border border-primary/15 rounded-xl px-4 py-3 hover:bg-primary/10 transition-colors mt-4">
             <GraduationCap className="w-5 h-5 text-primary flex-shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-gray-900">Free Study Tool for Nursing Students</p>
-              <p className="text-xs text-gray-500">RPN, RN, NP, NCLEX & REx-PN — essential unit conversion knowledge</p>
+              <p className="text-sm font-semibold text-gray-900">{t("pages.conversionClusterPage.freeStudyToolForNursing")}</p>
+              <p className="text-xs text-gray-500">{t("pages.conversionClusterPage.rpnRnNpNclexRexpn")}</p>
             </div>
           </div>
         </div>
@@ -281,10 +283,10 @@ export default function ConversionClusterPage({ data }: { data: ClusterPageData 
                 <table className="w-full text-sm border-collapse" data-testid="table-cluster-reference">
                   <thead>
                     <tr className="border-b border-gray-200">
-                      <th className="text-left py-2 px-3 font-semibold text-gray-700">Condition / Range</th>
-                      <th className="text-left py-2 px-3 font-semibold text-gray-700">SI Value</th>
-                      <th className="text-left py-2 px-3 font-semibold text-gray-700">Conv. Value</th>
-                      <th className="text-left py-2 px-3 font-semibold text-gray-700">Clinical Significance</th>
+                      <th className="text-left py-2 px-3 font-semibold text-gray-700">{t("pages.conversionClusterPage.conditionRange")}</th>
+                      <th className="text-left py-2 px-3 font-semibold text-gray-700">{t("pages.conversionClusterPage.siValue")}</th>
+                      <th className="text-left py-2 px-3 font-semibold text-gray-700">{t("pages.conversionClusterPage.convValue")}</th>
+                      <th className="text-left py-2 px-3 font-semibold text-gray-700">{t("pages.conversionClusterPage.clinicalSignificance")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -337,8 +339,8 @@ export default function ConversionClusterPage({ data }: { data: ClusterPageData 
                   <Calculator className="w-6 h-6 text-primary" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-bold text-gray-900 group-hover:text-primary transition-colors">Full SI ↔ Conventional Units Converter</p>
-                  <p className="text-sm text-gray-500">Convert all lab values and clinical measurements in one place — interactive calculators for every analyte</p>
+                  <p className="font-bold text-gray-900 group-hover:text-primary transition-colors">{t("pages.conversionClusterPage.fullSiConventionalUnitsConverter")}</p>
+                  <p className="text-sm text-gray-500">{t("pages.conversionClusterPage.convertAllLabValuesAnd")}</p>
                 </div>
                 <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform flex-shrink-0" />
               </CardContent>
@@ -401,9 +403,9 @@ export default function ConversionClusterPage({ data }: { data: ClusterPageData 
             <div className="flex items-start gap-3">
               <AlertTriangle className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
               <div>
-                <h3 className="font-semibold text-gray-900 mb-2">Safety Note</h3>
+                <h3 className="font-semibold text-gray-900 mb-2">{t("pages.conversionClusterPage.safetyNote")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">
-                  This converter is an <strong>educational study tool</strong> for nursing students. While all conversion factors are based on standard clinical references, always verify critical lab values against your institution's reference ranges before making clinical decisions. Normal ranges may vary between laboratories, testing methods, and patient populations.
+                  This converter is an <strong>{t("pages.conversionClusterPage.educationalStudyTool")}</strong> for nursing students. While all conversion factors are based on standard clinical references, always verify critical lab values against your institution's reference ranges before making clinical decisions. Normal ranges may vary between laboratories, testing methods, and patient populations.
                 </p>
               </div>
             </div>

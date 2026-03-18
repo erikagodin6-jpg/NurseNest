@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link } from "wouter";
 import { BookOpen, ArrowRight, Beaker, Heart, Brain, Activity, Stethoscope, GraduationCap } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const PHYSIOLOGY_TOPICS = [
   {
     slug: "why-burns-cause-hyperkalemia",
@@ -69,8 +70,9 @@ const EXAM_TIERS = [
 ];
 
 export default function NursingPhysiologyHub() {
+  const { t } = useI18n();
   useEffect(() => {
-    document.title = "Nursing Physiology Explained | Clinical Pathophysiology for Nurses | NurseNest";
+    document.title = {t("pages.nursing_physiology_hub.nursingPhysiologyExplainedClinicalPathop")};
     const meta = document.querySelector('meta[name="description"]');
     if (meta) {
       meta.setAttribute("content", "Explore nursing pathophysiology topics explained clearly for students. Burns and hyperkalemia, cardiac conduction, acid-base disorders, pyloric stenosis, and ECG interpretation.");
@@ -81,21 +83,21 @@ export default function NursingPhysiologyHub() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <nav className="flex items-center gap-2 text-sm text-slate-500 mb-8" data-testid="breadcrumb-nav">
-          <Link href="/" className="hover:text-blue-600" data-testid="breadcrumb-home">Home</Link>
+          <Link href="/" className="hover:text-blue-600" data-testid="breadcrumb-home">{t("pages.nursingPhysiologyHub.home")}</Link>
           <span>/</span>
-          <span className="text-slate-900 font-medium">Nursing Physiology Explained</span>
+          <span className="text-slate-900 font-medium">{t("pages.nursingPhysiologyHub.nursingPhysiologyExplained")}</span>
         </nav>
 
         <header className="text-center mb-16">
           <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
             <BookOpen className="w-4 h-4" />
-            <span>Clinical Pathophysiology</span>
+            <span>{t("pages.nursingPhysiologyHub.clinicalPathophysiology")}</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4" data-testid="page-title">
             Nursing Physiology Explained
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto" data-testid="page-subtitle">
-            Go beyond memorization. Understand the <em>why</em> behind clinical conditions, electrolyte imbalances, and cardiac conduction — the knowledge that makes you a safer, more confident nurse.
+            Go beyond memorization. Understand the <em>{t("pages.nursingPhysiologyHub.why")}</em> behind clinical conditions, electrolyte imbalances, and cardiac conduction — the knowledge that makes you a safer, more confident nurse.
           </p>
         </header>
 
@@ -130,7 +132,7 @@ export default function NursingPhysiologyHub() {
                     </div>
                   </div>
                   <div className="flex items-center gap-1 text-sm text-blue-600 font-medium mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span>Read more</span>
+                    <span>{t("pages.nursingPhysiologyHub.readMore")}</span>
                     <ArrowRight className="w-4 h-4" />
                   </div>
                 </Link>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { useI18n } from "@/lib/i18n";
 import {
   BookOpen, ArrowRight, FileText, Brain, Radio, Target, Zap,
   CheckCircle2, Star, Users, Award
@@ -143,6 +144,7 @@ const LANDING_PAGES: Record<string, LandingConfig> = {
 };
 
 function FAQSectionLanding({ faqs }: { faqs: { question: string; answer: string }[] }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState<number | null>(null);
 
   const faqSchema = {
@@ -158,7 +160,7 @@ function FAQSectionLanding({ faqs }: { faqs: { question: string; answer: string 
   return (
     <section className="mt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Frequently Asked Questions</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t("pages.imagingSeoLanding.frequentlyAskedQuestions")}</h2>
       <div className="max-w-3xl mx-auto space-y-3">
         {faqs.map((faq, i) => (
           <div key={i} className="border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-landing-${i}`}>
@@ -231,7 +233,7 @@ function SEOLandingPage({ pageKey }: { pageKey: string }) {
         </header>
 
         <section className="mb-16" data-testid="section-features">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">What You'll Get</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("pages.imagingSeoLanding.whatYoullGet")}</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {config.features.map((feature, i) => {
               const Icon = feature.icon;
@@ -249,7 +251,7 @@ function SEOLandingPage({ pageKey }: { pageKey: string }) {
         </section>
 
         <section className="mb-16" data-testid="section-country-resources">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Resources by Country</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("pages.imagingSeoLanding.resourcesByCountry")}</h2>
           <div className="grid md:grid-cols-2 gap-8">
             {config.sections.map((section, si) => (
               <div key={si} className={`border-2 rounded-2xl p-6 ${section.country === "canada" ? "border-red-200 bg-red-50/50" : "border-blue-200 bg-blue-50/50"}`} data-testid={`card-country-${section.country}`}>
@@ -275,8 +277,8 @@ function SEOLandingPage({ pageKey }: { pageKey: string }) {
         <FAQSectionLanding faqs={config.faqs} />
 
         <section className="mt-16 text-center bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-10 text-white" data-testid="section-bottom-cta">
-          <h2 className="text-2xl font-bold mb-3">Ready to Start Studying?</h2>
-          <p className="text-white/90 max-w-lg mx-auto mb-6">Join thousands of radiography students preparing for their certification exams with NurseNest's Medical Imaging Academy.</p>
+          <h2 className="text-2xl font-bold mb-3">{t("pages.imagingSeoLanding.readyToStartStudying")}</h2>
+          <p className="text-white/90 max-w-lg mx-auto mb-6">{t("pages.imagingSeoLanding.joinThousandsOfRadiographyStudents")}</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href="/medical-imaging" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-gray-900 rounded-xl font-semibold hover:bg-gray-100 transition-colors" data-testid="link-explore-academy">
               Explore the Academy <ArrowRight className="w-4 h-4" />

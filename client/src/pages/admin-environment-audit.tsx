@@ -8,6 +8,7 @@ import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { ClipboardList, RefreshCw, Filter, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface AuditEntry {
   id: string;
   actor_id: string | null;
@@ -31,6 +32,7 @@ interface AuditEntry {
 }
 
 export default function AdminEnvironmentAudit() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const [entries, setEntries] = useState<AuditEntry[]>([]);
@@ -73,8 +75,8 @@ export default function AdminEnvironmentAudit() {
           <div className="flex items-center gap-4">
             <ClipboardList className="w-8 h-8 text-blue-600" />
             <div>
-              <h1 className="text-2xl font-bold" data-testid="text-audit-title">Environment Write Audit Log</h1>
-              <p className="text-sm text-gray-500">Every generation, edit, publish, and bulk action recorded</p>
+              <h1 className="text-2xl font-bold" data-testid="text-audit-title">{t("pages.adminEnvironmentAudit.environmentWriteAuditLog")}</h1>
+              <p className="text-sm text-gray-500">{t("pages.adminEnvironmentAudit.everyGenerationEditPublishAnd")}</p>
             </div>
           </div>
           <EnvironmentBadge />
@@ -96,30 +98,30 @@ export default function AdminEnvironmentAudit() {
           <CardContent>
             <div className="flex gap-4">
               <div>
-                <label className="text-sm font-medium text-gray-700">Target</label>
+                <label className="text-sm font-medium text-gray-700">{t("pages.adminEnvironmentAudit.target")}</label>
                 <select
                   value={targetFilter}
                   onChange={(e) => setTargetFilter(e.target.value)}
                   className="ml-2 px-2 py-1 border rounded text-sm"
                   data-testid="filter-target"
                 >
-                  <option value="">All</option>
-                  <option value="development">Development</option>
-                  <option value="staging">Staging</option>
-                  <option value="production">Production</option>
+                  <option value="">{t("pages.adminEnvironmentAudit.all")}</option>
+                  <option value="development">{t("pages.adminEnvironmentAudit.development")}</option>
+                  <option value="staging">{t("pages.adminEnvironmentAudit.staging")}</option>
+                  <option value="production">{t("pages.adminEnvironmentAudit.production")}</option>
                 </select>
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-700">Status</label>
+                <label className="text-sm font-medium text-gray-700">{t("pages.adminEnvironmentAudit.status")}</label>
                 <select
                   value={successFilter}
                   onChange={(e) => setSuccessFilter(e.target.value)}
                   className="ml-2 px-2 py-1 border rounded text-sm"
                   data-testid="filter-success"
                 >
-                  <option value="">All</option>
-                  <option value="true">Success</option>
-                  <option value="false">Failed/Blocked</option>
+                  <option value="">{t("pages.adminEnvironmentAudit.all2")}</option>
+                  <option value="true">{t("pages.adminEnvironmentAudit.success")}</option>
+                  <option value="false">{t("pages.adminEnvironmentAudit.failedblocked")}</option>
                 </select>
               </div>
             </div>
@@ -132,9 +134,9 @@ export default function AdminEnvironmentAudit() {
           </CardHeader>
           <CardContent>
             {loading ? (
-              <div className="text-center py-8 text-gray-500" data-testid="text-loading">Loading audit log...</div>
+              <div className="text-center py-8 text-gray-500" data-testid="text-loading">{t("pages.adminEnvironmentAudit.loadingAuditLog")}</div>
             ) : entries.length === 0 ? (
-              <div className="text-center py-8 text-gray-500" data-testid="text-empty">No audit entries found</div>
+              <div className="text-center py-8 text-gray-500" data-testid="text-empty">{t("pages.adminEnvironmentAudit.noAuditEntriesFound")}</div>
             ) : (
               <div className="space-y-3">
                 {entries.map((entry) => (
@@ -171,7 +173,7 @@ export default function AdminEnvironmentAudit() {
                           {entry.selected_target.toUpperCase()}
                         </Badge>
                         {entry.dry_run && (
-                          <Badge className="bg-blue-100 text-blue-700">DRY RUN</Badge>
+                          <Badge className="bg-blue-100 text-blue-700">{t("pages.adminEnvironmentAudit.dryRun")}</Badge>
                         )}
                       </div>
                       <span className="text-xs text-gray-500">
@@ -180,25 +182,25 @@ export default function AdminEnvironmentAudit() {
                     </div>
                     <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-2 text-xs text-gray-600">
                       <div>
-                        <span className="font-medium">Actor:</span> {entry.actor_username || "system"}
+                        <span className="font-medium">{t("pages.adminEnvironmentAudit.actor")}</span> {entry.actor_username || "system"}
                       </div>
                       <div>
-                        <span className="font-medium">Content:</span> {entry.content_type}
+                        <span className="font-medium">{t("pages.adminEnvironmentAudit.content")}</span> {entry.content_type}
                       </div>
                       <div>
-                        <span className="font-medium">Items:</span> {entry.item_count}
+                        <span className="font-medium">{t("pages.adminEnvironmentAudit.items")}</span> {entry.item_count}
                       </div>
                       <div>
-                        <span className="font-medium">Environment:</span> {entry.actual_environment}
+                        <span className="font-medium">{t("pages.adminEnvironmentAudit.environment")}</span> {entry.actual_environment}
                       </div>
                       {entry.provider_model && (
                         <div>
-                          <span className="font-medium">Model:</span> {entry.provider_model}
+                          <span className="font-medium">{t("pages.adminEnvironmentAudit.model")}</span> {entry.provider_model}
                         </div>
                       )}
                       {entry.actual_db_fingerprint && (
                         <div>
-                          <span className="font-medium">DB:</span>{" "}
+                          <span className="font-medium">{t("pages.adminEnvironmentAudit.db")}</span>{" "}
                           <span className="font-mono">{entry.actual_db_fingerprint.substring(0, 8)}</span>
                         </div>
                       )}

@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { useParams, Link } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { useI18n } from "@/lib/i18n";
 import {
   PTA_SEO_CONTENT_PAGES,
   PTA_BLOG_PAGES,
@@ -43,8 +44,8 @@ function QuestionCard({ question, index, total, isLocked, onNext }: {
       <div className="relative bg-white rounded-2xl border border-gray-100 p-6 overflow-hidden" data-testid={`card-locked-question-${index}`}>
         <div className="absolute inset-0 backdrop-blur-sm bg-white/70 z-10 flex flex-col items-center justify-center">
           <Lock className="w-8 h-8 text-teal-400 mb-2" />
-          <p className="font-semibold text-gray-800 text-sm">Premium Question</p>
-          <p className="text-xs text-gray-500 mb-3">Unlock all PTA questions with Allied Pro</p>
+          <p className="font-semibold text-gray-800 text-sm">{t("allied.ptaSeoContentPage.premiumQuestion")}</p>
+          <p className="text-xs text-gray-500 mb-3">{t("allied.ptaSeoContentPage.unlockAllPtaQuestionsWith")}</p>
           <Link
             href="/allied-health/pricing"
             className="inline-flex items-center gap-2 px-4 py-2 bg-teal-600 text-white rounded-lg text-xs font-semibold hover:bg-teal-700"
@@ -113,7 +114,7 @@ function QuestionCard({ question, index, total, isLocked, onNext }: {
       </div>
       {showRationale && (
         <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-3" data-testid={`text-rationale-${index}`}>
-          <h4 className="text-sm font-semibold text-blue-900 mb-1">Rationale</h4>
+          <h4 className="text-sm font-semibold text-blue-900 mb-1">{t("allied.ptaSeoContentPage.rationale")}</h4>
           <p className="text-sm text-blue-800 leading-relaxed">{question.rationale}</p>
         </div>
       )}
@@ -127,11 +128,12 @@ function QuestionCard({ question, index, total, isLocked, onNext }: {
 }
 
 function ConversionCTA({ variant }: { variant: "mid" | "end" }) {
+  const { t } = useI18n();
   if (variant === "mid") {
     return (
       <div className="bg-gradient-to-r from-teal-50 to-emerald-50 rounded-2xl border border-teal-100 p-8 text-center my-10" data-testid="cta-mid-page">
         <GraduationCap className="w-10 h-10 text-teal-500 mx-auto mb-3" />
-        <h3 className="text-xl font-bold text-gray-900 mb-2">Master PTA Exams Faster</h3>
+        <h3 className="text-xl font-bold text-gray-900 mb-2">{t("allied.ptaSeoContentPage.masterPtaExamsFaster")}</h3>
         <p className="text-gray-600 text-sm mb-5 max-w-lg mx-auto">
           Access 2,000+ NPTE-PTA practice questions with detailed clinical rationales, 5 mock exams, flashcards, and adaptive study tools.
         </p>
@@ -158,7 +160,7 @@ function ConversionCTA({ variant }: { variant: "mid" | "end" }) {
   return (
     <section className="bg-gradient-to-r from-teal-600 to-emerald-600 py-16 mt-12" data-testid="cta-end-page">
       <div className="max-w-3xl mx-auto px-4 text-center">
-        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">Unlock the Full PTA Question Bank</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">{t("allied.ptaSeoContentPage.unlockTheFullPtaQuestion")}</h2>
         <p className="text-teal-100 mb-6 max-w-xl mx-auto">
           Join thousands of PTA students mastering the NPTE-PTA with 2,000+ practice questions, detailed rationales, and comprehensive study tools.
         </p>
@@ -214,7 +216,7 @@ function RelatedTopicsBlock({ page }: { page: PtaContentPage }) {
 
   return (
     <section className="mb-12">
-      <h2 className="text-xl font-bold text-gray-900 mb-4" data-testid="heading-related-topics">Related PTA Topics</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-4" data-testid="heading-related-topics">{t("allied.ptaSeoContentPage.relatedPtaTopics")}</h2>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {directLinks.map((link) => {
           const Icon = CLUSTER_ICONS[link.cluster];
@@ -287,8 +289,8 @@ export default function PtaSeoContentPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1>
-          <p className="text-gray-600 mb-4">The requested PTA content page could not be found.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.ptaSeoContentPage.pageNotFound")}</h1>
+          <p className="text-gray-600 mb-4">{t("allied.ptaSeoContentPage.theRequestedPtaContentPage")}</p>
           <Link href="/allied-health/physiotherapy-assistant" className="text-teal-600 hover:text-teal-700 font-medium" data-testid="link-back-hub">
             Back to PTA Hub
           </Link>
@@ -338,7 +340,7 @@ export default function PtaSeoContentPage() {
         <section className="bg-gradient-to-br from-teal-50 via-emerald-50 to-cyan-50 border-b border-gray-100">
           <div className="max-w-5xl mx-auto px-4 py-12">
             <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-              <Link href="/allied-health" className="hover:text-teal-600">Allied Health</Link>
+              <Link href="/allied-health" className="hover:text-teal-600">{t("allied.ptaSeoContentPage.alliedHealth")}</Link>
               <ChevronRight className="w-3 h-3" />
               <Link href="/allied-health/physiotherapy-assistant" className="hover:text-teal-600">PTA</Link>
               <ChevronRight className="w-3 h-3" />
@@ -391,7 +393,7 @@ export default function PtaSeoContentPage() {
             </div>
             {lockedQuestions.length > 0 && (
               <div className="mt-6 space-y-4">
-                <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">Premium Questions</p>
+                <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">{t("allied.ptaSeoContentPage.premiumQuestions")}</p>
                 {lockedQuestions.map((q, i) => (
                   <QuestionCard
                     key={freeQuestionCount + i}
@@ -435,7 +437,7 @@ export default function PtaSeoContentPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4" data-testid="heading-pta-resources">PTA Study Resources</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4" data-testid="heading-pta-resources">{t("allied.ptaSeoContentPage.ptaStudyResources")}</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
                 { label: "PTA Practice Questions", href: "/allied-health/physiotherapy-assistant/practice-questions", desc: "2,000+ NPTE-PTA questions" },
@@ -479,8 +481,8 @@ export function PtaBlogPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1>
-          <p className="text-gray-600 mb-4">The requested article could not be found.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.ptaSeoContentPage.pageNotFound2")}</h1>
+          <p className="text-gray-600 mb-4">{t("allied.ptaSeoContentPage.theRequestedArticleCouldNot")}</p>
           <Link href="/allied-health/physiotherapy-assistant" className="text-teal-600 hover:text-teal-700 font-medium">
             Back to PTA Hub
           </Link>
@@ -524,7 +526,7 @@ export function PtaBlogPage() {
         <section className="bg-gradient-to-br from-teal-50 via-emerald-50 to-cyan-50 border-b border-gray-100">
           <div className="max-w-4xl mx-auto px-4 py-12">
             <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-              <Link href="/allied-health" className="hover:text-teal-600">Allied Health</Link>
+              <Link href="/allied-health" className="hover:text-teal-600">{t("allied.ptaSeoContentPage.alliedHealth2")}</Link>
               <ChevronRight className="w-3 h-3" />
               <Link href="/allied-health/physiotherapy-assistant" className="hover:text-teal-600">PTA</Link>
               <ChevronRight className="w-3 h-3" />
@@ -549,7 +551,7 @@ export function PtaBlogPage() {
           ))}
 
           <section className="mb-12">
-            <h2 className="text-xl font-bold text-gray-900 mb-4" data-testid="heading-blog-faq">Frequently Asked Questions</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4" data-testid="heading-blog-faq">{t("allied.ptaSeoContentPage.frequentlyAskedQuestions")}</h2>
             <div className="space-y-3">
               {page.faqs.map((faq, i) => (
                 <div key={i} className="bg-gray-50 rounded-xl border border-gray-100 overflow-hidden">
@@ -604,7 +606,7 @@ export function PtaBlogPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">More PTA Articles</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("allied.ptaSeoContentPage.morePtaArticles")}</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {PTA_BLOG_PAGES.filter((p) => p.slug !== slug).map((blog) => (
                 <Link

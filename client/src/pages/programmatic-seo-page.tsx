@@ -5,6 +5,7 @@ import { SEO } from "@/components/seo";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import {
   ChevronRight,
   BookOpen,
@@ -68,6 +69,7 @@ function parseSafe<T>(val: T | string | null, fallback: T): T {
 }
 
 export default function ProgrammaticSeoPage() {
+  const { t } = useI18n();
   const params = useParams<{ careerSlug: string; pageType: string; topicSlug: string }>();
   const [location, navigate] = useLocation();
   const [page, setPage] = useState<ProgrammaticPageData | null>(null);
@@ -98,7 +100,7 @@ export default function ProgrammaticSeoPage() {
     <>
       <Navigation />
       <div className="min-h-screen bg-gray-50 flex items-center justify-center" data-testid="loading-programmatic">
-        <div className="animate-pulse text-gray-400">Loading...</div>
+        <div className="animate-pulse text-gray-400">{t("pages.programmaticSeoPage.loading")}</div>
       </div>
     </>
   );
@@ -107,16 +109,16 @@ export default function ProgrammaticSeoPage() {
     <>
       <Navigation />
       <SEO
-        title="Page Not Found"
-        description="The requested page could not be found."
+        title={t("pages.programmaticSeoPage.pageNotFound2")}
+        description={t("pages.programmaticSeoPage.theRequestedPageCouldNot")}
         noindex={true}
       />
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="max-w-md mx-auto">
           <CardContent className="p-8 text-center">
-            <h1 className="text-xl font-bold mb-2" data-testid="heading-error">Page Not Found</h1>
+            <h1 className="text-xl font-bold mb-2" data-testid="heading-error">{t("pages.programmaticSeoPage.pageNotFound")}</h1>
             <p className="text-gray-600 mb-4" data-testid="text-error">{error || "This page could not be found."}</p>
-            <Button onClick={() => navigate("/")} data-testid="button-go-home">Go Home</Button>
+            <Button onClick={() => navigate("/")} data-testid="button-go-home">{t("pages.programmaticSeoPage.goHome")}</Button>
           </CardContent>
         </Card>
       </div>
@@ -189,7 +191,7 @@ export default function ProgrammaticSeoPage() {
       <main className="min-h-screen bg-gray-50">
         <div className="max-w-5xl mx-auto px-4 py-8">
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6 flex-wrap" data-testid="nav-breadcrumb">
-            <button onClick={() => navigate("/")} className="hover:text-primary" data-testid="breadcrumb-home">Home</button>
+            <button onClick={() => navigate("/")} className="hover:text-primary" data-testid="breadcrumb-home">{t("pages.programmaticSeoPage.home")}</button>
             <ChevronRight className="w-3 h-3" />
             <button onClick={() => navigate(`/${page.careerTrack}`)} className="hover:text-primary" data-testid="breadcrumb-career">{careerLabel}</button>
             <ChevronRight className="w-3 h-3" />
@@ -336,8 +338,8 @@ export default function ProgrammaticSeoPage() {
               )}
 
               <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl p-8 text-center" data-testid="section-cta">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Ready to Start Studying?</h3>
-                <p className="text-gray-600 mb-4">Explore more study resources and practice questions for your exam.</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{t("pages.programmaticSeoPage.readyToStartStudying")}</h3>
+                <p className="text-gray-600 mb-4">{t("pages.programmaticSeoPage.exploreMoreStudyResourcesAnd")}</p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Button onClick={() => navigate(`/${page.careerTrack}`)} data-testid="button-cta-career">
                     Explore {careerLabel}

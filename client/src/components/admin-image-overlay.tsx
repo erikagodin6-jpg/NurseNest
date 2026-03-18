@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 
+import { useI18n } from "@/lib/i18n";
 interface SiteImageOverride {
   id: string;
   imageKey: string;
@@ -111,7 +112,7 @@ export function AdminImageOverlay({
         onClick={(e) => { e.stopPropagation(); setShowEditor(true); }}
         className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow-md border border-gray-200 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:bg-primary hover:text-white hover:border-primary"
         data-testid={`button-edit-image-${imageKey}`}
-        title="Change image"
+        title={t("components.adminImageOverlay.changeImage2")}
       >
         <Camera className="w-4 h-4" />
       </button>
@@ -228,14 +229,14 @@ function ImageEditorModal({
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={onClose}>
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 space-y-4" onClick={(e) => e.stopPropagation()} data-testid="modal-image-editor">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-gray-900">Change Image</h3>
+          <h3 className="text-lg font-semibold text-gray-900">{t("components.adminImageOverlay.changeImage")}</h3>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         <div className="rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
-          <img src={previewUrl} alt="Preview" className="w-full h-48 object-contain p-2" />
+          <img src={previewUrl} alt={t("components.adminImageOverlay.preview")} className="w-full h-48 object-contain p-2" />
         </div>
 
         <div className="flex gap-2">
@@ -272,7 +273,7 @@ function ImageEditorModal({
               disabled={uploading}
               data-testid="button-upload-image"
             >
-              {uploading ? <><Loader2 className="w-4 h-4 animate-spin" /> Uploading...</> : <><Upload className="w-4 h-4" /> Choose File</>}
+              {uploading ? <><Loader2 className="w-4 h-4 animate-spin" /> {t("components.adminImageOverlay.uploading")}</> : <><Upload className="w-4 h-4" /> {t("components.adminImageOverlay.chooseFile")}</>}
             </Button>
           </div>
         )}
@@ -291,7 +292,7 @@ function ImageEditorModal({
         <Input
           value={altInput}
           onChange={(e) => setAltInput(e.target.value)}
-          placeholder="Alt text (optional)"
+          placeholder={t("components.adminImageOverlay.altTextOptional")}
           data-testid="input-image-alt"
         />
 

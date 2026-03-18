@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
+import { useI18n } from "@/lib/i18n";
 import {
   BookOpen,
   FileText,
@@ -79,6 +80,7 @@ function useLeadCapture(
   professionContext?: string,
   source?: string
 ) {
+  const { t } = useI18n();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -171,7 +173,7 @@ export function InlineLeadCapture({
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <Input
                       type="email"
-                      placeholder="Enter your email address"
+                      placeholder={t("components.leadCapture.enterYourEmailAddress")}
                       value={email}
                       onChange={(e) => {
                         setEmail(e.target.value);
@@ -273,7 +275,7 @@ export function EndOfContentLeadCapture({
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <Input
                     type="email"
-                    placeholder="Enter your email address"
+                    placeholder={t("components.leadCapture.enterYourEmailAddress2")}
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
@@ -393,7 +395,7 @@ export function StickyLeadBanner({
             <div className="relative">
               <Input
                 type="email"
-                placeholder="Your email"
+                placeholder={t("components.leadCapture.yourEmail")}
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -416,7 +418,7 @@ export function StickyLeadBanner({
               ) : (
                 <>
                   <span className="hidden sm:inline">{config.buttonText}</span>
-                  <span className="sm:hidden">Get Free</span>
+                  <span className="sm:hidden">{t("components.leadCapture.getFree")}</span>
                 </>
               )}
             </Button>
@@ -524,7 +526,7 @@ export function BlogInlineLeadCapture({
           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <Input
             type="email"
-            placeholder="Enter your email"
+            placeholder={t("components.leadCapture.enterYourEmail")}
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);

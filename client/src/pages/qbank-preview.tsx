@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import {
   Search,
   BookOpen,
@@ -19,6 +20,7 @@ import {
 } from "lucide-react";
 
 function getAuthHeaders(): Record<string, string> {
+
   try {
     const creds = localStorage.getItem("nursenest-credentials");
     if (creds) {
@@ -122,8 +124,8 @@ export default function QBankPreviewPage() {
       <div className="container mx-auto px-4 py-6 max-w-5xl">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white" data-testid="text-preview-title">Test Bank</h1>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">Browse and explore available questions</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white" data-testid="text-preview-title">{t("pages.qbankPreview.testBank")}</h1>
+            <p className="text-gray-500 dark:text-gray-400 text-sm">{t("pages.qbankPreview.browseAndExploreAvailableQuestions")}</p>
           </div>
           <div className="flex gap-2">
             <Button variant={tab === "browse" ? "default" : "outline"} size="sm" onClick={() => setTab("browse")} data-testid="button-tab-browse">
@@ -142,18 +144,18 @@ export default function QBankPreviewPage() {
                 <div className="flex flex-wrap gap-2 items-center">
                   <div className="relative flex-1 min-w-[200px]">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search questions, topics..." className="pl-9" data-testid="input-preview-search" />
+                    <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t("pages.qbankPreview.searchQuestionsTopics")} className="pl-9" data-testid="input-preview-search" />
                   </div>
                   <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)} className="border rounded px-2 py-2 text-sm bg-white dark:bg-gray-800" data-testid="select-preview-category">
-                    <option value="">All Categories</option>
+                    <option value="">{t("pages.qbankPreview.allCategories")}</option>
                     {categories.map((c) => <option key={c} value={c}>{c}</option>)}
                   </select>
                   <select value={filterDifficulty} onChange={(e) => setFilterDifficulty(e.target.value)} className="border rounded px-2 py-2 text-sm bg-white dark:bg-gray-800" data-testid="select-preview-difficulty">
-                    <option value="">All Difficulties</option>
-                    <option value="easy">Easy</option>
-                    <option value="moderate">Moderate</option>
-                    <option value="hard">Hard</option>
-                    <option value="very_hard">Very Hard</option>
+                    <option value="">{t("pages.qbankPreview.allDifficulties")}</option>
+                    <option value="easy">{t("pages.qbankPreview.easy")}</option>
+                    <option value="moderate">{t("pages.qbankPreview.moderate")}</option>
+                    <option value="hard">{t("pages.qbankPreview.hard")}</option>
+                    <option value="very_hard">{t("pages.qbankPreview.veryHard")}</option>
                   </select>
                 </div>
               </CardContent>
@@ -162,11 +164,11 @@ export default function QBankPreviewPage() {
             <div className="text-sm text-gray-500 mb-3" data-testid="text-question-count">{filteredQuestions.length} questions found</div>
 
             {loading ? (
-              <div className="text-center py-12 text-gray-400">Loading...</div>
+              <div className="text-center py-12 text-gray-400">{t("pages.qbankPreview.loading")}</div>
             ) : filteredQuestions.length === 0 ? (
               <div className="text-center py-12" data-testid="text-no-questions">
                 <Database className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-500">No questions found matching your filters.</p>
+                <p className="text-gray-500">{t("pages.qbankPreview.noQuestionsFoundMatchingYour")}</p>
               </div>
             ) : (
               <div className="space-y-3">
@@ -208,7 +210,7 @@ export default function QBankPreviewPage() {
                           </div>
                           <div className="flex items-center gap-2">
                             <Button size="sm" variant="outline" onClick={() => toggleAnswer(q.id)} data-testid={`button-toggle-answer-${q.id}`}>
-                              {showAnswer.has(q.id) ? <><EyeOff className="h-3 w-3 mr-1" />Hide Answer</> : <><Eye className="h-3 w-3 mr-1" />Show Answer</>}
+                              {showAnswer.has(q.id) ? <><EyeOff className="h-3 w-3 mr-1" />{t("pages.qbankPreview.hideAnswer")}</> : <><Eye className="h-3 w-3 mr-1" />{t("pages.qbankPreview.showAnswer")}</>}
                             </Button>
                           </div>
                           {showAnswer.has(q.id) && (
@@ -231,17 +233,17 @@ export default function QBankPreviewPage() {
         {tab === "analytics" && (
           <div className="space-y-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-blue-600" data-testid="text-total-questions">{questions.length}</div><div className="text-xs text-gray-500">Total Questions</div></CardContent></Card>
-              <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-green-600" data-testid="text-total-categories">{categories.length}</div><div className="text-xs text-gray-500">Categories</div></CardContent></Card>
-              <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-purple-600" data-testid="text-total-attempts">{analytics.reduce((s, a) => s + a.totalAttempts, 0)}</div><div className="text-xs text-gray-500">Total Attempts</div></CardContent></Card>
-              <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-orange-600" data-testid="text-avg-score">{analytics.length > 0 ? Math.round(analytics.reduce((s, a) => s + a.correctRate, 0) / analytics.length) : 0}%</div><div className="text-xs text-gray-500">Avg Score</div></CardContent></Card>
+              <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-blue-600" data-testid="text-total-questions">{questions.length}</div><div className="text-xs text-gray-500">{t("pages.qbankPreview.totalQuestions")}</div></CardContent></Card>
+              <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-green-600" data-testid="text-total-categories">{categories.length}</div><div className="text-xs text-gray-500">{t("pages.qbankPreview.categories")}</div></CardContent></Card>
+              <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-purple-600" data-testid="text-total-attempts">{analytics.reduce((s, a) => s + a.totalAttempts, 0)}</div><div className="text-xs text-gray-500">{t("pages.qbankPreview.totalAttempts")}</div></CardContent></Card>
+              <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-orange-600" data-testid="text-avg-score">{analytics.length > 0 ? Math.round(analytics.reduce((s, a) => s + a.correctRate, 0) / analytics.length) : 0}%</div><div className="text-xs text-gray-500">{t("pages.qbankPreview.avgScore")}</div></CardContent></Card>
             </div>
 
             <Card>
-              <CardHeader><CardTitle className="text-lg flex items-center gap-2"><TrendingUp className="h-5 w-5" />Category Distribution</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-lg flex items-center gap-2"><TrendingUp className="h-5 w-5" />{t("pages.qbankPreview.categoryDistribution")}</CardTitle></CardHeader>
               <CardContent>
                 {categoryCounts.length === 0 ? (
-                  <p className="text-gray-400 text-sm">No data available</p>
+                  <p className="text-gray-400 text-sm">{t("pages.qbankPreview.noDataAvailable")}</p>
                 ) : (
                   <div className="space-y-2">
                     {categoryCounts.map((cat) => (
@@ -263,16 +265,16 @@ export default function QBankPreviewPage() {
 
             {analytics.length > 0 && (
               <Card>
-                <CardHeader><CardTitle className="text-lg flex items-center gap-2"><BarChart3 className="h-5 w-5" />Performance by Category & Difficulty</CardTitle></CardHeader>
+                <CardHeader><CardTitle className="text-lg flex items-center gap-2"><BarChart3 className="h-5 w-5" />{t("pages.qbankPreview.performanceByCategoryDifficulty")}</CardTitle></CardHeader>
                 <CardContent>
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="border-b">
-                          <th className="text-left py-2 px-3">Category</th>
-                          <th className="text-left py-2 px-3">Difficulty</th>
-                          <th className="text-right py-2 px-3">Attempts</th>
-                          <th className="text-right py-2 px-3">Correct Rate</th>
+                          <th className="text-left py-2 px-3">{t("pages.qbankPreview.category")}</th>
+                          <th className="text-left py-2 px-3">{t("pages.qbankPreview.difficulty")}</th>
+                          <th className="text-right py-2 px-3">{t("pages.qbankPreview.attempts")}</th>
+                          <th className="text-right py-2 px-3">{t("pages.qbankPreview.correctRate")}</th>
                         </tr>
                       </thead>
                       <tbody>

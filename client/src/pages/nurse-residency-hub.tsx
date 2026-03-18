@@ -55,7 +55,7 @@ export default function NurseResidencyHub() {
         <div className="absolute top-20 right-10 w-72 h-72 bg-indigo-100/20 rounded-full blur-3xl" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-indigo-600" data-testid="link-breadcrumb-home">Home</Link>
+            <Link href="/" className="hover:text-indigo-600" data-testid="link-breadcrumb-home">{t("pages.nurseResidencyHub.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-indigo-700 font-medium">{t("nurseResidency.hub.title")}</span>
           </div>
@@ -149,14 +149,14 @@ export default function NurseResidencyHub() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Link href="/newgrad" className="group" data-testid="link-newgrad">
               <div className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-blue-200 transition-all">
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 text-sm">New Grad Career Hub</h3>
-                <p className="text-xs text-gray-500">Career guides, interview prep, and resources for new graduate nurses.</p>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 text-sm">{t("pages.nurseResidencyHub.newGradCareerHub")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nurseResidencyHub.careerGuidesInterviewPrepAnd")}</p>
               </div>
             </Link>
             <Link href="/applynest" className="group" data-testid="link-applynest">
               <div className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-teal-200 transition-all">
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-teal-700 text-sm">ApplyNest Career Tools</h3>
-                <p className="text-xs text-gray-500">Resume templates, interview prep, and job search resources for nurses.</p>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-teal-700 text-sm">{t("pages.nurseResidencyHub.applynestCareerTools")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nurseResidencyHub.resumeTemplatesInterviewPrepAnd")}</p>
               </div>
             </Link>
           </div>

@@ -7,6 +7,7 @@ import { rrtPharmacologyQuestions } from "@/data/career-questions/rrt-pharmacolo
 import type { CareerQuestion } from "@/data/career-questions/rrt-questions";
 import { AlliedSEO } from "@/allied/allied-seo";
 
+import { useI18n } from "@/lib/i18n";
 const PHARMACOLOGY_CATEGORIES = [
   "Route of Administration",
   "Device Selection",
@@ -35,6 +36,7 @@ interface ExamAnswer {
 }
 
 export default function RrtPharmacologyQBank() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const isPro = user?.tier === "admin" || user?.subscriptionStatus === "active";
 
@@ -222,8 +224,8 @@ export default function RrtPharmacologyQBank() {
     return (
       <>
         <AlliedSEO
-          title="RRT Pharmacology Question Bank - 155 TMC-Style Questions"
-          description="Master respiratory pharmacology with 155 original TMC-style questions covering 12 categories. Practice Mode with structured rationales and Exam Mode with deferred scoring."
+          title={t("allied.rrtPharmacologyQbank.rrtPharmacologyQuestionBank155")}
+          description={t("allied.rrtPharmacologyQbank.masterRespiratoryPharmacologyWith155")}
           keywords="RRT pharmacology questions, respiratory therapy pharmacology, TMC exam pharmacology, bronchodilator questions, respiratory medication exam prep"
           canonicalPath="/allied-health/rrt/pharmacology-qbank"
         />
@@ -231,7 +233,7 @@ export default function RrtPharmacologyQBank() {
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
             <Link href="/allied-health/rrt" className="hover:text-teal-600">RRT</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-teal-700 font-medium">Pharmacology QBank</span>
+            <span className="text-teal-700 font-medium">{t("allied.rrtPharmacologyQbank.pharmacologyQbank")}</span>
           </div>
 
           <div className="text-center mb-10">
@@ -279,15 +281,15 @@ export default function RrtPharmacologyQBank() {
                   <Stethoscope className="w-5 h-5 text-teal-600" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900">Practice Mode</h3>
-                  <p className="text-xs text-gray-500">Instant feedback with structured rationales</p>
+                  <h3 className="font-bold text-gray-900">{t("allied.rrtPharmacologyQbank.practiceMode")}</h3>
+                  <p className="text-xs text-gray-500">{t("allied.rrtPharmacologyQbank.instantFeedbackWithStructuredRationales")}</p>
                 </div>
               </div>
               <ul className="space-y-2 text-sm text-gray-600 mb-6">
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-500 flex-shrink-0" /> Immediate answer reveal</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-500 flex-shrink-0" /> Why correct + why each wrong</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-500 flex-shrink-0" /> Clinical concept & exam tip</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-500 flex-shrink-0" /> Safety pearl for every question</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-500 flex-shrink-0" /> {t("allied.rrtPharmacologyQbank.immediateAnswerReveal")}</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-500 flex-shrink-0" /> {t("allied.rrtPharmacologyQbank.whyCorrectWhyEachWrong")}</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-500 flex-shrink-0" /> {t("allied.rrtPharmacologyQbank.clinicalConceptExamTip")}</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-500 flex-shrink-0" /> {t("allied.rrtPharmacologyQbank.safetyPearlForEveryQuestion")}</li>
               </ul>
               <button onClick={startPractice} disabled={!isPro && freeUsed >= FREE_LIMIT} className="w-full px-4 py-3 bg-teal-600 text-white rounded-xl font-medium hover:bg-teal-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" data-testid="button-start-practice">
                 Start Practice Mode
@@ -300,15 +302,15 @@ export default function RrtPharmacologyQBank() {
                   <GraduationCap className="w-5 h-5 text-orange-600" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900">Exam Mode</h3>
-                  <p className="text-xs text-gray-500">Simulate real exam conditions</p>
+                  <h3 className="font-bold text-gray-900">{t("allied.rrtPharmacologyQbank.examMode")}</h3>
+                  <p className="text-xs text-gray-500">{t("allied.rrtPharmacologyQbank.simulateRealExamConditions")}</p>
                 </div>
               </div>
               <ul className="space-y-2 text-sm text-gray-600 mb-6">
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-orange-500 flex-shrink-0" /> Answers hidden until submission</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-orange-500 flex-shrink-0" /> Final score with breakdown</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-orange-500 flex-shrink-0" /> Review incorrect answers</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-orange-500 flex-shrink-0" /> Retake missed questions only</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-orange-500 flex-shrink-0" /> {t("allied.rrtPharmacologyQbank.answersHiddenUntilSubmission")}</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-orange-500 flex-shrink-0" /> {t("allied.rrtPharmacologyQbank.finalScoreWithBreakdown")}</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-orange-500 flex-shrink-0" /> {t("allied.rrtPharmacologyQbank.reviewIncorrectAnswers")}</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-orange-500 flex-shrink-0" /> {t("allied.rrtPharmacologyQbank.retakeMissedQuestionsOnly")}</li>
               </ul>
               <button onClick={startExam} disabled={!isPro && freeUsed >= FREE_LIMIT} className="w-full px-4 py-3 bg-orange-600 text-white rounded-xl font-medium hover:bg-orange-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" data-testid="button-start-exam">
                 Start Exam Mode
@@ -326,7 +328,7 @@ export default function RrtPharmacologyQBank() {
             <div className="bg-gray-50 rounded-xl border border-gray-100 p-4 mb-8 space-y-4" data-testid="pharm-filters">
               <div className="flex flex-wrap gap-4">
                 <div>
-                  <label className="text-xs font-medium text-gray-500 mb-1 block">Category</label>
+                  <label className="text-xs font-medium text-gray-500 mb-1 block">{t("allied.rrtPharmacologyQbank.category")}</label>
                   <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm" data-testid="select-category">
                     <option value="">All Categories ({rrtPharmacologyQuestions.length})</option>
                     {PHARMACOLOGY_CATEGORIES.map(c => (
@@ -335,9 +337,9 @@ export default function RrtPharmacologyQBank() {
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500 mb-1 block">Difficulty</label>
+                  <label className="text-xs font-medium text-gray-500 mb-1 block">{t("allied.rrtPharmacologyQbank.difficulty")}</label>
                   <select value={difficultyFilter || ""} onChange={e => setDifficultyFilter(e.target.value ? Number(e.target.value) : null)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm" data-testid="select-difficulty">
-                    <option value="">All Levels</option>
+                    <option value="">{t("allied.rrtPharmacologyQbank.allLevels")}</option>
                     {[2, 3, 4, 5].map(d => <option key={d} value={d}>Level {d}</option>)}
                   </select>
                 </div>
@@ -389,15 +391,15 @@ export default function RrtPharmacologyQBank() {
           <div className="grid grid-cols-3 gap-4 mb-8 max-w-md mx-auto">
             <div className="bg-green-50 rounded-xl p-4">
               <div className="text-2xl font-bold text-green-700" data-testid="text-correct-count">{examCorrectCount}</div>
-              <div className="text-xs text-green-600">Correct</div>
+              <div className="text-xs text-green-600">{t("allied.rrtPharmacologyQbank.correct")}</div>
             </div>
             <div className="bg-red-50 rounded-xl p-4">
               <div className="text-2xl font-bold text-red-700" data-testid="text-incorrect-count">{questions.length - examCorrectCount}</div>
-              <div className="text-xs text-red-600">Incorrect</div>
+              <div className="text-xs text-red-600">{t("allied.rrtPharmacologyQbank.incorrect")}</div>
             </div>
             <div className="bg-blue-50 rounded-xl p-4">
               <div className="text-2xl font-bold text-blue-700" data-testid="text-percent-score">{percent}%</div>
-              <div className="text-xs text-blue-600">Score</div>
+              <div className="text-xs text-blue-600">{t("allied.rrtPharmacologyQbank.score")}</div>
             </div>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -426,8 +428,8 @@ export default function RrtPharmacologyQBank() {
     if (!reviewQ) {
       return (
         <div className="max-w-3xl mx-auto px-4 py-8 text-center">
-          <p className="text-gray-600">No incorrect questions to review.</p>
-          <button onClick={backToLanding} className="mt-4 px-6 py-3 bg-teal-600 text-white rounded-xl font-medium hover:bg-teal-700">Back to QBank</button>
+          <p className="text-gray-600">{t("allied.rrtPharmacologyQbank.noIncorrectQuestionsToReview")}</p>
+          <button onClick={backToLanding} className="mt-4 px-6 py-3 bg-teal-600 text-white rounded-xl font-medium hover:bg-teal-700">{t("allied.rrtPharmacologyQbank.backToQbank")}</button>
         </div>
       );
     }
@@ -435,7 +437,7 @@ export default function RrtPharmacologyQBank() {
       <div className="max-w-4xl mx-auto px-4 py-8" data-testid="exam-review">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold text-gray-900">Review Incorrect — {reviewIndex + 1} of {incorrectQuestions.length}</h2>
-          <button onClick={() => setExamPhase("results")} className="text-sm text-gray-500 hover:text-gray-700" data-testid="button-back-results">Back to Results</button>
+          <button onClick={() => setExamPhase("results")} className="text-sm text-gray-500 hover:text-gray-700" data-testid="button-back-results">{t("allied.rrtPharmacologyQbank.backToResults")}</button>
         </div>
         <div className="w-full bg-gray-100 rounded-full h-1.5 mb-6">
           <div className="bg-teal-500 h-1.5 rounded-full transition-all" style={{ width: `${((reviewIndex + 1) / incorrectQuestions.length) * 100}%` }} />
@@ -464,10 +466,10 @@ export default function RrtPharmacologyQBank() {
     return (
       <div className="max-w-3xl mx-auto px-4 py-20 text-center">
         <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">No Questions Available</h3>
-        <p className="text-gray-500 text-sm mb-4">Try adjusting your filters or upgrade to access all questions.</p>
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("allied.rrtPharmacologyQbank.noQuestionsAvailable")}</h3>
+        <p className="text-gray-500 text-sm mb-4">{t("allied.rrtPharmacologyQbank.tryAdjustingYourFiltersOr")}</p>
         <div className="flex gap-3 justify-center">
-          <button onClick={backToLanding} className="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-200" data-testid="button-back">Back to QBank</button>
+          <button onClick={backToLanding} className="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-200" data-testid="button-back">{t("allied.rrtPharmacologyQbank.backToQbank2")}</button>
           {!isPro && (
             <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="button-upgrade">
               <Lock className="w-4 h-4" /> Unlock Full QBank
@@ -481,7 +483,7 @@ export default function RrtPharmacologyQBank() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8" data-testid="pharm-qbank-session">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-        <button onClick={backToLanding} className="hover:text-teal-600">Pharmacology QBank</button>
+        <button onClick={backToLanding} className="hover:text-teal-600">{t("allied.rrtPharmacologyQbank.pharmacologyQbank2")}</button>
         <ChevronRight className="w-3.5 h-3.5" />
         <span className="text-teal-700 font-medium">{appMode === "practice" ? "Practice Mode" : "Exam Mode"}</span>
       </div>
@@ -616,7 +618,7 @@ function StructuredRationale({ question, selectedAnswer }: { question: CareerQue
       <div className="bg-green-50 rounded-xl p-5 border border-green-100">
         <div className="flex items-center gap-2 mb-2">
           <CheckCircle2 className="w-4 h-4 text-green-600" />
-          <h4 className="font-semibold text-green-800 text-sm">Why Correct</h4>
+          <h4 className="font-semibold text-green-800 text-sm">{t("allied.rrtPharmacologyQbank.whyCorrect")}</h4>
         </div>
         <p className="text-sm text-green-900 leading-relaxed">{question.rationale}</p>
       </div>
@@ -625,7 +627,7 @@ function StructuredRationale({ question, selectedAnswer }: { question: CareerQue
         <div className="bg-red-50 rounded-xl p-5 border border-red-100">
           <div className="flex items-center gap-2 mb-3">
             <XCircle className="w-4 h-4 text-red-600" />
-            <h4 className="font-semibold text-red-800 text-sm">Why Other Options Are Wrong</h4>
+            <h4 className="font-semibold text-red-800 text-sm">{t("allied.rrtPharmacologyQbank.whyOtherOptionsAreWrong")}</h4>
           </div>
           <div className="space-y-2">
             {question.distractorExplanations.map((exp, idx) => {
@@ -647,7 +649,7 @@ function StructuredRationale({ question, selectedAnswer }: { question: CareerQue
         <div className="bg-blue-50 rounded-xl p-5 border border-blue-100">
           <div className="flex items-center gap-2 mb-2">
             <Stethoscope className="w-4 h-4 text-blue-600" />
-            <h4 className="font-semibold text-blue-800 text-sm">Clinical Concept</h4>
+            <h4 className="font-semibold text-blue-800 text-sm">{t("allied.rrtPharmacologyQbank.clinicalConcept")}</h4>
           </div>
           <p className="text-sm text-blue-900 leading-relaxed">{question.clinicalConcept}</p>
         </div>
@@ -657,7 +659,7 @@ function StructuredRationale({ question, selectedAnswer }: { question: CareerQue
         <div className="bg-amber-50 rounded-xl p-5 border border-amber-100">
           <div className="flex items-center gap-2 mb-2">
             <Lightbulb className="w-4 h-4 text-amber-600" />
-            <h4 className="font-semibold text-amber-800 text-sm">Exam Tip</h4>
+            <h4 className="font-semibold text-amber-800 text-sm">{t("allied.rrtPharmacologyQbank.examTip")}</h4>
           </div>
           <p className="text-sm text-amber-900 leading-relaxed">{question.examTip}</p>
         </div>
@@ -667,7 +669,7 @@ function StructuredRationale({ question, selectedAnswer }: { question: CareerQue
         <div className="bg-purple-50 rounded-xl p-5 border border-purple-100">
           <div className="flex items-center gap-2 mb-2">
             <Shield className="w-4 h-4 text-purple-600" />
-            <h4 className="font-semibold text-purple-800 text-sm">Safety Pearl</h4>
+            <h4 className="font-semibold text-purple-800 text-sm">{t("allied.rrtPharmacologyQbank.safetyPearl")}</h4>
           </div>
           <p className="text-sm text-purple-900 leading-relaxed">{question.safetyPearl}</p>
         </div>

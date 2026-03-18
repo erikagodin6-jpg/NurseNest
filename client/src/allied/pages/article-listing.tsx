@@ -5,6 +5,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { AlliedBreadcrumb } from "@/components/allied-breadcrumb";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 
+import { useI18n } from "@/lib/i18n";
 const ALLIED_DOMAIN = "https://www.nursenest.ca/allied-health";
 
 const PROFESSION_DISPLAY: Record<string, { name: string; shortName: string; color: string; colorAccent: string }> = {
@@ -53,6 +54,7 @@ interface ArticleSummary {
 }
 
 export default function ArticleListingPage() {
+  const { t } = useI18n();
   const params = useParams<{ professionSlug: string }>();
   const profSlug = params.professionSlug || "";
   const [articles, setArticles] = useState<ArticleSummary[]>([]);
@@ -74,9 +76,9 @@ export default function ArticleListingPage() {
   if (!profession) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Profession Not Found</h1>
-        <p className="text-gray-600">The profession you're looking for doesn't exist.</p>
-        <Link href="/careers" className="inline-block mt-4 px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-careers">Browse Careers</Link>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.articleListing.professionNotFound")}</h1>
+        <p className="text-gray-600">{t("allied.articleListing.theProfessionYoureLookingFor")}</p>
+        <Link href="/careers" className="inline-block mt-4 px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-careers">{t("allied.articleListing.browseCareers")}</Link>
       </div>
     );
   }
@@ -170,7 +172,7 @@ export default function ArticleListingPage() {
           ) : filteredArticles.length === 0 ? (
             <div className="text-center py-20">
               <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h2 className="text-lg font-semibold text-gray-900 mb-2">No Articles Yet</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-2">{t("allied.articleListing.noArticlesYet")}</h2>
               <p className="text-gray-500 mb-6">Articles for {profession.shortName} are coming soon. Check back later!</p>
               <Link href={`/${profSlug}`} className="text-teal-600 font-medium hover:underline" data-testid="link-back-hub">
                 Back to {profession.shortName} Hub →
@@ -217,7 +219,7 @@ export default function ArticleListingPage() {
       <section className="py-12 bg-gradient-to-b from-teal-50/40 to-white border-t border-gray-100" data-testid="section-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-xl font-bold text-gray-900 mb-4">Ready to Start Your {profession.shortName} Exam Prep?</h2>
-          <p className="text-gray-600 mb-6">Practice with exam-authentic questions, adaptive mock exams, and personalized study plans.</p>
+          <p className="text-gray-600 mb-6">{t("allied.articleListing.practiceWithExamauthenticQuestionsAdaptive")}</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href={`/diagnostic?career=${profSlug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200" data-testid="button-cta-diagnostic">
               Start Free Diagnostic <ArrowRight className="w-4 h-4" />

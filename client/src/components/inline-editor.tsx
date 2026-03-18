@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { AIAssistant } from "@/components/ai-assistant";
 
+import { useI18n } from "@/lib/i18n";
 const TRANSLATION_LANGS = [
   { code: "en", label: "English (Source)" },
   { code: "fr", label: "French" },
@@ -48,6 +49,7 @@ type EditableBlock = {
 };
 
 function blockToEditable(block: any): EditableBlock {
+  const { t } = useI18n();
   if (block.items && Array.isArray(block.items)) {
     return { type: block.type, editText: block.items.join("\n"), originalShape: "items" };
   }
@@ -290,7 +292,7 @@ export function InlineEditorPanel({ contentItem, onClose, onSaved }: InlineEdito
       <div className="absolute inset-0 bg-black/30" onClick={onClose} />
       <div className="relative ml-auto w-full max-w-lg bg-white shadow-2xl flex flex-col h-full overflow-hidden animate-in slide-in-from-right duration-300">
         <div className="flex items-center justify-between p-4 border-b bg-gray-50">
-          <h2 className="text-lg font-bold text-gray-900">Edit Page</h2>
+          <h2 className="text-lg font-bold text-gray-900">{t("components.inlineEditor.editPage")}</h2>
           <div className="flex items-center gap-2">
             {status !== "published" && (
               <Button
@@ -325,18 +327,18 @@ export function InlineEditorPanel({ contentItem, onClose, onSaved }: InlineEdito
 
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Title</label>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("components.inlineEditor.title")}</label>
             <Input value={title} onChange={(e) => setTitle(e.target.value)} data-testid="input-inline-title" />
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Summary</label>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("components.inlineEditor.summary")}</label>
             <Textarea value={summary} onChange={(e) => setSummary(e.target.value)} rows={2} data-testid="input-inline-summary" />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Tier</label>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("components.inlineEditor.tier")}</label>
               <Select value={tier} onValueChange={setTier}>
                 <SelectTrigger data-testid="select-inline-tier"><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -347,21 +349,21 @@ export function InlineEditorPanel({ contentItem, onClose, onSaved }: InlineEdito
               </Select>
             </div>
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Status</label>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("components.inlineEditor.status")}</label>
               <Select value={status} onValueChange={setStatus}>
                 <SelectTrigger data-testid="select-inline-status"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="draft">Draft</SelectItem>
-                  <SelectItem value="published">Published</SelectItem>
-                  <SelectItem value="archived">Archived</SelectItem>
+                  <SelectItem value="draft">{t("components.inlineEditor.draft")}</SelectItem>
+                  <SelectItem value="published">{t("components.inlineEditor.published")}</SelectItem>
+                  <SelectItem value="archived">{t("components.inlineEditor.archived")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Tags (comma separated)</label>
-            <Input value={tagsStr} onChange={(e) => setTagsStr(e.target.value)} placeholder="nursing, pathophysiology, clinical" data-testid="input-inline-tags" />
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("components.inlineEditor.tagsCommaSeparated")}</label>
+            <Input value={tagsStr} onChange={(e) => setTagsStr(e.target.value)} placeholder={t("components.inlineEditor.nursingPathophysiologyClinical")} data-testid="input-inline-tags" />
           </div>
 
           <div className="pt-2 border-t">
@@ -381,7 +383,7 @@ export function InlineEditorPanel({ contentItem, onClose, onSaved }: InlineEdito
 
           <div className="pt-2 border-t">
             <div className="flex items-center justify-between mb-3">
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Content Blocks</label>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{t("components.inlineEditor.contentBlocks")}</label>
               <Button variant="outline" size="sm" className="gap-1 text-xs" onClick={() => addBlock(blocks.length - 1)} data-testid="button-inline-add-block">
                 <Plus className="w-3 h-3" /> Add Block
               </Button>
@@ -517,7 +519,7 @@ export function QuickCreatePanel({ pageName, defaultTier = "free", defaultCatego
       <div className="absolute inset-0 bg-black/30" onClick={onClose} />
       <div className="relative ml-auto w-full max-w-lg bg-white shadow-2xl flex flex-col h-full overflow-hidden animate-in slide-in-from-right duration-300">
         <div className="flex items-center justify-between p-4 border-b bg-emerald-50">
-          <h2 className="text-lg font-bold text-gray-900">Create New Content</h2>
+          <h2 className="text-lg font-bold text-gray-900">{t("components.inlineEditor.createNewContent")}</h2>
           <div className="flex items-center gap-2">
             <Button onClick={handleCreate} disabled={saving} size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-700" data-testid="button-create-save">
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
@@ -535,18 +537,18 @@ export function QuickCreatePanel({ pageName, defaultTier = "free", defaultCatego
 
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Title</label>
-            <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Enter page title..." data-testid="input-create-title" />
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("components.inlineEditor.title2")}</label>
+            <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("components.inlineEditor.enterPageTitle")} data-testid="input-create-title" />
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Summary</label>
-            <Textarea value={summary} onChange={(e) => setSummary(e.target.value)} rows={2} placeholder="Brief description..." data-testid="input-create-summary" />
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("components.inlineEditor.summary2")}</label>
+            <Textarea value={summary} onChange={(e) => setSummary(e.target.value)} rows={2} placeholder={t("components.inlineEditor.briefDescription")} data-testid="input-create-summary" />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Tier</label>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("components.inlineEditor.tier2")}</label>
               <Select value={tier} onValueChange={setTier}>
                 <SelectTrigger data-testid="select-create-tier"><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -557,12 +559,12 @@ export function QuickCreatePanel({ pageName, defaultTier = "free", defaultCatego
               </Select>
             </div>
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Status</label>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("components.inlineEditor.status2")}</label>
               <Select value={status} onValueChange={setStatus}>
                 <SelectTrigger data-testid="select-create-status"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="draft">Draft</SelectItem>
-                  <SelectItem value="published">Published</SelectItem>
+                  <SelectItem value="draft">{t("components.inlineEditor.draft2")}</SelectItem>
+                  <SelectItem value="published">{t("components.inlineEditor.published2")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -585,7 +587,7 @@ export function QuickCreatePanel({ pageName, defaultTier = "free", defaultCatego
 
           <div className="pt-2 border-t">
             <div className="flex items-center justify-between mb-3">
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Content Blocks</label>
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{t("components.inlineEditor.contentBlocks2")}</label>
               <Button variant="outline" size="sm" className="gap-1 text-xs" onClick={() => addBlock(blocks.length - 1)} data-testid="button-create-add-block">
                 <Plus className="w-3 h-3" /> Add Block
               </Button>

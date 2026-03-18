@@ -81,7 +81,7 @@ export function EditableModuleText({
           onChange={(v) => updateSection(sectionKey, { ...override, content: v })}
           className={className}
           minHeight="80px"
-          placeholder="Enter content..."
+          placeholder={t("components.moduleEditContext.enterContent")}
         />
       ) : (
         <input

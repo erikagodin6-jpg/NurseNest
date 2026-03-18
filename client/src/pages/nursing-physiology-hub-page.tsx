@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
+import { useI18n } from "@/lib/i18n";
 const PHYSIOLOGY_TOPICS = [
   {
     slug: "why-burns-cause-hyperkalemia",
@@ -97,6 +98,7 @@ const breadcrumbItems = [
 ];
 
 export default function NursingPhysiologyHubPage() {
+  const { t } = useI18n();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const faqStructuredData = buildFaqStructuredData(HUB_FAQS);
@@ -126,8 +128,8 @@ export default function NursingPhysiologyHubPage() {
     <div className="min-h-screen bg-gray-50" data-testid="page-nursing-physiology-hub">
       <Navigation />
       <SEO
-        title="Nursing Physiology Explained | Clinical Pathophysiology for Nurses | NurseNest"
-        description="Comprehensive nursing physiology hub covering electrolytes, acid-base balance, cardiac conduction, and respiratory physiology with clinical applications and NCLEX exam prep."
+        title={t("pages.nursingPhysiologyHubPage.nursingPhysiologyExplainedClinicalPathophysi")}
+        description={t("pages.nursingPhysiologyHubPage.comprehensiveNursingPhysiologyHubCovering")}
         keywords="nursing physiology, pathophysiology nursing, electrolyte imbalance nursing, acid-base balance, cardiac conduction nursing, NCLEX physiology"
         canonicalPath="/nursing-physiology-explained"
         structuredData={structuredData}
@@ -190,8 +192,8 @@ export default function NursingPhysiologyHubPage() {
         </section>
 
         <div className="my-8 rounded-xl p-6 text-center bg-violet-50 border-l-4 border-violet-600" data-testid="cta-practice">
-          <h3 className="text-lg font-bold text-gray-900 mb-1">Test Your Physiology Knowledge</h3>
-          <p className="text-sm text-gray-600 mb-4">Practice with exam-style questions covering electrolytes, acid-base, and cardiac physiology.</p>
+          <h3 className="text-lg font-bold text-gray-900 mb-1">{t("pages.nursingPhysiologyHubPage.testYourPhysiologyKnowledge")}</h3>
+          <p className="text-sm text-gray-600 mb-4">{t("pages.nursingPhysiologyHubPage.practiceWithExamstyleQuestionsCovering")}</p>
           <LocaleLink href="/practice-questions">
             <Button className="text-white bg-violet-600 hover:bg-violet-700" data-testid="button-cta-practice">
               Start Practice Questions <ArrowRight className="w-4 h-4 ml-2" />
@@ -208,7 +210,7 @@ export default function NursingPhysiologyHubPage() {
           </h2>
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <p className="text-sm text-gray-700 leading-relaxed mb-4">
-              Physiology is not just a prerequisite course — it is the foundation of clinical nursing judgment. Every assessment finding, lab value, and medication decision is rooted in how the body works. When you understand <em>why</em> hyperkalemia causes peaked T waves, or <em>why</em> pyloric stenosis causes metabolic alkalosis, you can anticipate complications, prioritize interventions, and provide safer patient care.
+              Physiology is not just a prerequisite course — it is the foundation of clinical nursing judgment. Every assessment finding, lab value, and medication decision is rooted in how the body works. When you understand <em>{t("pages.nursingPhysiologyHubPage.why")}</em> hyperkalemia causes peaked T waves, or <em>{t("pages.nursingPhysiologyHubPage.why2")}</em> pyloric stenosis causes metabolic alkalosis, you can anticipate complications, prioritize interventions, and provide safer patient care.
             </p>
             <p className="text-sm text-gray-700 leading-relaxed">
               The topics in this hub are organized around the physiological concepts most frequently encountered in clinical practice and most heavily tested on nursing exams. Each page connects the underlying physiology to specific nursing interventions, medications, and clinical decision-making.
@@ -228,8 +230,8 @@ export default function NursingPhysiologyHubPage() {
               <Card className="h-full hover:shadow-md transition-all cursor-pointer group" data-testid="link-lessons">
                 <CardContent className="p-4 text-center">
                   <BookOpen className="w-6 h-6 text-violet-600 mx-auto mb-2" />
-                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">Clinical Lessons</h3>
-                  <p className="text-xs text-gray-500 mt-1">In-depth pathophysiology lessons</p>
+                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">{t("pages.nursingPhysiologyHubPage.clinicalLessons")}</h3>
+                  <p className="text-xs text-gray-500 mt-1">{t("pages.nursingPhysiologyHubPage.indepthPathophysiologyLessons")}</p>
                 </CardContent>
               </Card>
             </LocaleLink>
@@ -237,8 +239,8 @@ export default function NursingPhysiologyHubPage() {
               <Card className="h-full hover:shadow-md transition-all cursor-pointer group" data-testid="link-flashcards">
                 <CardContent className="p-4 text-center">
                   <Brain className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">Flashcards</h3>
-                  <p className="text-xs text-gray-500 mt-1">Spaced-repetition review cards</p>
+                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">{t("pages.nursingPhysiologyHubPage.flashcards")}</h3>
+                  <p className="text-xs text-gray-500 mt-1">{t("pages.nursingPhysiologyHubPage.spacedrepetitionReviewCards")}</p>
                 </CardContent>
               </Card>
             </LocaleLink>
@@ -246,8 +248,8 @@ export default function NursingPhysiologyHubPage() {
               <Card className="h-full hover:shadow-md transition-all cursor-pointer group" data-testid="link-lab-values">
                 <CardContent className="p-4 text-center">
                   <Beaker className="w-6 h-6 text-emerald-600 mx-auto mb-2" />
-                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">Lab Values</h3>
-                  <p className="text-xs text-gray-500 mt-1">Normal ranges and clinical significance</p>
+                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">{t("pages.nursingPhysiologyHubPage.labValues")}</h3>
+                  <p className="text-xs text-gray-500 mt-1">{t("pages.nursingPhysiologyHubPage.normalRangesAndClinicalSignificance")}</p>
                 </CardContent>
               </Card>
             </LocaleLink>

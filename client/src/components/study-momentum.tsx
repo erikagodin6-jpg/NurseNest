@@ -3,6 +3,7 @@ import { useAuth } from "@/lib/auth";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useLocation } from "wouter";
 import { getExamNameForTier, type Region } from "@shared/constants";
+import { useI18n } from "@/lib/i18n";
 import {
   Flame,
   Target,
@@ -48,6 +49,7 @@ type ExamReadiness = {
 };
 
 function GoalProgressBar({ completed, target, label }: { completed: number; target: number; label: string }) {
+  const { t } = useI18n();
   const pct = target > 0 ? Math.min(100, Math.round((completed / target) * 100)) : 0;
   return (
     <div className="space-y-1">
@@ -115,12 +117,12 @@ export function StudyMomentumPanel() {
               <Flame className="w-5 h-5 text-orange-500" />
             </div>
             <div>
-              <p className="text-xs text-gray-500 font-medium">Study Streak</p>
-              <p data-testid="text-streak-count" className="text-2xl font-bold text-gray-900">{streak} <span className="text-sm font-normal text-gray-500">days</span></p>
+              <p className="text-xs text-gray-500 font-medium">{t("components.studyMomentum.studyStreak")}</p>
+              <p data-testid="text-streak-count" className="text-2xl font-bold text-gray-900">{streak} <span className="text-sm font-normal text-gray-500">{t("components.studyMomentum.days")}</span></p>
             </div>
           </div>
-          {streak >= 7 && <p className="text-xs text-orange-600 font-medium">Keep it up! You're on a roll.</p>}
-          {streak === 0 && <p className="text-xs text-gray-400">Start studying to begin your streak.</p>}
+          {streak >= 7 && <p className="text-xs text-orange-600 font-medium">{t("components.studyMomentum.keepItUpYoureOn")}</p>}
+          {streak === 0 && <p className="text-xs text-gray-400">{t("components.studyMomentum.startStudyingToBeginYour")}</p>}
         </div>
 
         <div data-testid="card-exam-readiness" className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
@@ -150,8 +152,8 @@ export function StudyMomentumPanel() {
               <Clock className="w-5 h-5 text-blue-500" />
             </div>
             <div>
-              <p className="text-xs text-gray-500 font-medium">Review Due Today</p>
-              <p data-testid="text-review-count" className="text-2xl font-bold text-gray-900">{reviewQueue?.total || 0} <span className="text-sm font-normal text-gray-500">items</span></p>
+              <p className="text-xs text-gray-500 font-medium">{t("components.studyMomentum.reviewDueToday")}</p>
+              <p data-testid="text-review-count" className="text-2xl font-bold text-gray-900">{reviewQueue?.total || 0} <span className="text-sm font-normal text-gray-500">{t("components.studyMomentum.items")}</span></p>
             </div>
           </div>
           {(reviewQueue?.total || 0) > 0 && (
@@ -176,12 +178,12 @@ export function StudyMomentumPanel() {
             <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
               <Target className="w-5 h-5 text-emerald-500" />
             </div>
-            <p className="text-xs text-gray-500 font-medium">Today's Goals</p>
+            <p className="text-xs text-gray-500 font-medium">{t("components.studyMomentum.todaysGoals")}</p>
           </div>
           {goals && (
             <div className="space-y-2">
-              <GoalProgressBar completed={goals.lessonsCompleted} target={goals.lessonsTarget} label="Lessons" />
-              <GoalProgressBar completed={goals.questionsCompleted} target={goals.questionsTarget} label="Questions" />
+              <GoalProgressBar completed={goals.lessonsCompleted} target={goals.lessonsTarget} label={t("components.studyMomentum.lessons")} />
+              <GoalProgressBar completed={goals.questionsCompleted} target={goals.questionsTarget} label={t("components.studyMomentum.questions")} />
             </div>
           )}
         </div>
@@ -191,7 +193,7 @@ export function StudyMomentumPanel() {
         <div data-testid="panel-weak-areas" className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
           <div className="flex items-center gap-2 mb-4">
             <AlertTriangle className="w-4 h-4 text-amber-500" />
-            <h3 className="text-sm font-semibold text-gray-800">Needs Review</h3>
+            <h3 className="text-sm font-semibold text-gray-800">{t("components.studyMomentum.needsReview")}</h3>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {weakAreas.slice(0, 6).map((area, idx) => (
@@ -264,7 +266,7 @@ export function ConfidenceRatingModal({
       <div className="bg-white rounded-2xl shadow-xl max-w-sm w-full p-6">
         <div className="flex items-center gap-2 mb-4">
           <HelpCircle className="w-5 h-5 text-primary" />
-          <h3 className="text-lg font-semibold text-gray-900">How confident were you?</h3>
+          <h3 className="text-lg font-semibold text-gray-900">{t("components.studyMomentum.howConfidentWereYou")}</h3>
         </div>
         <div className="space-y-2 mb-5">
           {options.map((opt) => (
@@ -336,7 +338,7 @@ export function InlineConfidenceRating({
 
   return (
     <div data-testid="inline-confidence-rating" className="flex items-center gap-2 py-2 px-1">
-      <span className="text-xs text-gray-500 shrink-0">Confidence:</span>
+      <span className="text-xs text-gray-500 shrink-0">{t("components.studyMomentum.confidence")}</span>
       <div className="flex gap-1.5">
         {options.map((opt) => (
           <button

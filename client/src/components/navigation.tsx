@@ -524,7 +524,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
   const MobileNav = () => (
     <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="md:hidden text-softgray h-8 w-8 shrink-0" aria-label="Open menu">
+        <Button variant="ghost" size="icon" className="md:hidden text-softgray h-8 w-8 shrink-0" aria-label={t("components.navigation.openMenu")}>
           <Menu className="w-5 h-5" />
         </Button>
       </SheetTrigger>
@@ -534,7 +534,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
             <SheetTitle className="text-left flex items-center justify-between">
               <ThemedLogo width={160} />
               <SheetClose asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8" aria-label="Close menu">
+                <Button variant="ghost" size="icon" className="h-8 w-8" aria-label={t("components.navigation.closeMenu")}>
                   <X className="w-4 h-4" />
                 </Button>
               </SheetClose>
@@ -606,7 +606,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
             </div>
 
             <div className="mb-4">
-              <p className="text-[10px] font-bold text-purple-600 uppercase tracking-widest mb-2 px-3">NP Exam Preparation</p>
+              <p className="text-[10px] font-bold text-purple-600 uppercase tracking-widest mb-2 px-3">{t("components.navigation.npExamPreparation")}</p>
               <div className="flex flex-col gap-1 px-1">
                 <SheetClose asChild>
                   <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/np-exam-prep")} data-testid="mobile-np-exam-prep">
@@ -753,7 +753,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
             </SheetClose>
             <SheetClose asChild>
               <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-primary hover:bg-primary/5 gap-2 h-9" onClick={() => navTo("/si-to-conventional-units-converter")}>
-                <span className="flex items-center gap-2"><ArrowRightLeft className="w-4 h-4" /> SI ↔ Conventional Converter</span>
+                <span className="flex items-center gap-2"><ArrowRightLeft className="w-4 h-4" /> {t("components.navigation.siConventionalConverter")}</span>
               </Button>
             </SheetClose>
             <SheetClose asChild>
@@ -1058,7 +1058,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
             <span className="hidden sm:inline" style={{ opacity: 0.3 }}>|</span>
             <LocaleLink href={appendUtmParams("/international-nurses")} className="flex items-center gap-1.5 px-2 py-1 rounded-full transition-colors" style={{ color: "inherit" }} onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")} onMouseLeave={e => (e.currentTarget.style.background = "transparent")} data-testid="ecosystem-link-international-nurses" onClick={() => trackCrossSectionClick(getPlatformSection(location), "international_nurses", "International Nurses")}>
               <Globe className="w-3 h-3" />
-              <span className="hidden sm:inline">International Nurses</span>
+              <span className="hidden sm:inline">{t("components.navigation.internationalNurses")}</span>
               <span className="sm:hidden">IEN</span>
             </LocaleLink>
           </div>
@@ -1187,7 +1187,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                     {t("nav.medicationMastery")}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase px-2 mb-1.5 tracking-wider">Free Tools</p>
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase px-2 mb-1.5 tracking-wider">{t("components.navigation.freeTools")}</p>
                   <DropdownMenuItem className="cursor-pointer gap-2 text-gray-700 hover:text-primary hover:bg-primary/5" onClick={() => navTo("/si-to-conventional-units-converter")}>
                     <ArrowRightLeft className="w-4 h-4 text-primary/70" />
                     SI ↔ Conventional Converter

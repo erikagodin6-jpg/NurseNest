@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRegion } from "@/allied/use-region";
+import { useI18n } from "@/lib/i18n";
 import {
   BarChart3, Users, Target, TrendingUp, AlertTriangle, Download,
   Globe, ChevronDown, Activity, BookOpen, Shield, FileText,
@@ -61,7 +62,8 @@ const FACULTY_CAREERS: Career[] = [
   },
 ];
 
-function getDomainSeverity(score: number): { color: string; bg: string; label: string } {
+function getDomainSeverity(score: number): {
+color: string; bg: string; label: string } {
   if (score > 75) return { color: "text-green-700", bg: "bg-green-100", label: "On Track" };
   if (score >= 60) return { color: "text-amber-700", bg: "bg-amber-100", label: "At Risk" };
   return { color: "text-red-700", bg: "bg-red-100", label: "Critical" };
@@ -182,7 +184,7 @@ export default function AlliedFacultyDashboard() {
           <h1 className="text-2xl font-bold text-gray-900" data-testid="text-faculty-title">
             Faculty Dashboard
           </h1>
-          <p className="text-sm text-gray-500 mt-1">Cohort performance overview and at-risk student tracking</p>
+          <p className="text-sm text-gray-500 mt-1">{t("allied.alliedFacultyDashboard.cohortPerformanceOverviewAndAtrisk")}</p>
         </div>
         <div className="flex items-center gap-3 flex-wrap">
           <div className="flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-lg" data-testid="faculty-region-toggle">
@@ -233,12 +235,12 @@ export default function AlliedFacultyDashboard() {
         <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="stat-active-students">
           <Users className="w-6 h-6 text-teal-500 mb-2" />
           <div className="text-2xl font-bold text-gray-900">47</div>
-          <div className="text-sm text-gray-500">Active Students</div>
+          <div className="text-sm text-gray-500">{t("allied.alliedFacultyDashboard.activeStudents")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="stat-avg-readiness">
           <Target className="w-6 h-6 text-teal-500 mb-2" />
           <div className="text-2xl font-bold text-gray-900">68%</div>
-          <div className="text-sm text-gray-500">Avg Readiness</div>
+          <div className="text-sm text-gray-500">{t("allied.alliedFacultyDashboard.avgReadiness")}</div>
           <div className="w-full bg-gray-100 rounded-full h-2 mt-2">
             <div className="h-2 rounded-full bg-teal-500" style={{ width: "68%" }} />
           </div>
@@ -246,7 +248,7 @@ export default function AlliedFacultyDashboard() {
         <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="stat-avg-mock-score">
           <BarChart3 className="w-6 h-6 text-teal-500 mb-2" />
           <div className="text-2xl font-bold text-gray-900">72%</div>
-          <div className="text-sm text-gray-500">Avg Mock Score</div>
+          <div className="text-sm text-gray-500">{t("allied.alliedFacultyDashboard.avgMockScore")}</div>
           <div className="w-full bg-gray-100 rounded-full h-2 mt-2">
             <div className="h-2 rounded-full bg-teal-500" style={{ width: "72%" }} />
           </div>
@@ -254,7 +256,7 @@ export default function AlliedFacultyDashboard() {
         <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="stat-pass-probability">
           <TrendingUp className="w-6 h-6 text-green-500 mb-2" />
           <div className="text-2xl font-bold text-gray-900">84%</div>
-          <div className="text-sm text-gray-500">Pass Probability</div>
+          <div className="text-sm text-gray-500">{t("allied.alliedFacultyDashboard.passProbability")}</div>
           <div className="w-full bg-gray-100 rounded-full h-2 mt-2">
             <div className="h-2 rounded-full bg-green-500" style={{ width: "84%" }} />
           </div>
@@ -290,15 +292,15 @@ export default function AlliedFacultyDashboard() {
           <div className="flex items-center gap-4 mt-4 text-xs text-gray-500">
             <div className="flex items-center gap-1">
               <div className="w-3 h-3 rounded bg-red-100 border border-red-200" />
-              <span>Critical (&lt;60%)</span>
+              <span>{t("allied.alliedFacultyDashboard.criticalLt60")}</span>
             </div>
             <div className="flex items-center gap-1">
               <div className="w-3 h-3 rounded bg-amber-100 border border-amber-200" />
-              <span>At Risk (60-75%)</span>
+              <span>{t("allied.alliedFacultyDashboard.atRisk6075")}</span>
             </div>
             <div className="flex items-center gap-1">
               <div className="w-3 h-3 rounded bg-green-100 border border-green-200" />
-              <span>On Track (&gt;75%)</span>
+              <span>{t("allied.alliedFacultyDashboard.onTrackGt75")}</span>
             </div>
           </div>
         </div>
@@ -336,10 +338,10 @@ export default function AlliedFacultyDashboard() {
           <table className="w-full text-sm" data-testid="table-at-risk">
             <thead>
               <tr className="border-b border-gray-100">
-                <th className="text-left py-2 px-3 font-medium text-gray-500">Student</th>
-                <th className="text-left py-2 px-3 font-medium text-gray-500">Weak Domain</th>
-                <th className="text-center py-2 px-3 font-medium text-gray-500">Score</th>
-                <th className="text-left py-2 px-3 font-medium text-gray-500">Recommendation</th>
+                <th className="text-left py-2 px-3 font-medium text-gray-500">{t("allied.alliedFacultyDashboard.student")}</th>
+                <th className="text-left py-2 px-3 font-medium text-gray-500">{t("allied.alliedFacultyDashboard.weakDomain")}</th>
+                <th className="text-center py-2 px-3 font-medium text-gray-500">{t("allied.alliedFacultyDashboard.score")}</th>
+                <th className="text-left py-2 px-3 font-medium text-gray-500">{t("allied.alliedFacultyDashboard.recommendation")}</th>
               </tr>
             </thead>
             <tbody>
@@ -398,8 +400,8 @@ export default function AlliedFacultyDashboard() {
             >
               <Download className="w-5 h-5 text-teal-600" />
               <div>
-                <div className="text-sm font-medium text-gray-800">CSV Performance Report</div>
-                <div className="text-xs text-gray-500">Student scores, domain mastery, and trends</div>
+                <div className="text-sm font-medium text-gray-800">{t("allied.alliedFacultyDashboard.csvPerformanceReport")}</div>
+                <div className="text-xs text-gray-500">{t("allied.alliedFacultyDashboard.studentScoresDomainMasteryAnd")}</div>
               </div>
             </button>
             <button
@@ -408,8 +410,8 @@ export default function AlliedFacultyDashboard() {
             >
               <Download className="w-5 h-5 text-teal-600" />
               <div>
-                <div className="text-sm font-medium text-gray-800">PDF Accreditation Report</div>
-                <div className="text-xs text-gray-500">Formatted for program accreditation review</div>
+                <div className="text-sm font-medium text-gray-800">{t("allied.alliedFacultyDashboard.pdfAccreditationReport")}</div>
+                <div className="text-xs text-gray-500">{t("allied.alliedFacultyDashboard.formattedForProgramAccreditationReview")}</div>
               </div>
             </button>
           </div>
@@ -422,23 +424,23 @@ export default function AlliedFacultyDashboard() {
             <div className="grid grid-cols-2 gap-3">
               <div className="text-center px-3 py-2 bg-teal-50 rounded-lg">
                 <div className="text-lg font-bold text-teal-700">5</div>
-                <div className="text-xs text-gray-500">At-Risk Students</div>
+                <div className="text-xs text-gray-500">{t("allied.alliedFacultyDashboard.atriskStudents")}</div>
               </div>
               <div className="text-center px-3 py-2 bg-teal-50 rounded-lg">
                 <div className="text-lg font-bold text-teal-700">
                   {domainScores.filter(d => d.score < 60).length}
                 </div>
-                <div className="text-xs text-gray-500">Critical Domains</div>
+                <div className="text-xs text-gray-500">{t("allied.alliedFacultyDashboard.criticalDomains")}</div>
               </div>
               <div className="text-center px-3 py-2 bg-green-50 rounded-lg">
                 <div className="text-lg font-bold text-green-700">
                   {domainScores.filter(d => d.score > 75).length}
                 </div>
-                <div className="text-xs text-gray-500">Strong Domains</div>
+                <div className="text-xs text-gray-500">{t("allied.alliedFacultyDashboard.strongDomains")}</div>
               </div>
               <div className="text-center px-3 py-2 bg-gray-50 rounded-lg">
                 <div className="text-lg font-bold text-gray-700">12</div>
-                <div className="text-xs text-gray-500">Mock Exams Run</div>
+                <div className="text-xs text-gray-500">{t("allied.alliedFacultyDashboard.mockExamsRun")}</div>
               </div>
             </div>
           </div>

@@ -9,6 +9,7 @@ function useLocaleCode(): string | undefined {
 }
 
 export function AlliedFooter() {
+  const { t } = useI18n();
   const locale = useLocaleCode();
 
   const mainSiteHome = getMainSiteUrl("/", locale);
@@ -22,28 +23,28 @@ export function AlliedFooter() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-8">
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">Careers</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("allied.alliedFooter.careers")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li><Link href="/allied-health/rrt" className="hover:text-teal-600 transition-colors" data-testid="link-footer-rrt">Respiratory Therapist</Link></li>
-              <li><Link href="/allied-health/paramedic" className="hover:text-teal-600 transition-colors" data-testid="link-footer-paramedic">Paramedic</Link></li>
-              <li><Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600 transition-colors" data-testid="link-footer-pharmacy-tech">Pharmacy Technician</Link></li>
-              <li><Link href="/allied-health/mlt" className="hover:text-teal-600 transition-colors" data-testid="link-footer-mlt">Medical Lab Tech</Link></li>
-              <li><Link href="/allied-health/imaging" className="hover:text-teal-600 transition-colors" data-testid="link-footer-imaging">Diagnostic Imaging</Link></li>
-              <li><Link href="/allied-health/occupational-therapy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-occupational-therapy">Occupational Therapy</Link></li>
-              <li><Link href="/allied-health/physical-therapy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-physical-therapy">Physical Therapy</Link></li>
-              <li><Link href="/allied-health/social-work" className="hover:text-teal-600 transition-colors" data-testid="link-footer-social-work">Social Work</Link></li>
-              <li><Link href="/allied-health/psychotherapy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-psychotherapy">Psychotherapy</Link></li>
+              <li><Link href="/allied-health/rrt" className="hover:text-teal-600 transition-colors" data-testid="link-footer-rrt">{t("allied.alliedFooter.respiratoryTherapist")}</Link></li>
+              <li><Link href="/allied-health/paramedic" className="hover:text-teal-600 transition-colors" data-testid="link-footer-paramedic">{t("allied.alliedFooter.paramedic")}</Link></li>
+              <li><Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600 transition-colors" data-testid="link-footer-pharmacy-tech">{t("allied.alliedFooter.pharmacyTechnician")}</Link></li>
+              <li><Link href="/allied-health/mlt" className="hover:text-teal-600 transition-colors" data-testid="link-footer-mlt">{t("allied.alliedFooter.medicalLabTech")}</Link></li>
+              <li><Link href="/allied-health/imaging" className="hover:text-teal-600 transition-colors" data-testid="link-footer-imaging">{t("allied.alliedFooter.diagnosticImaging")}</Link></li>
+              <li><Link href="/allied-health/occupational-therapy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-occupational-therapy">{t("allied.alliedFooter.occupationalTherapy")}</Link></li>
+              <li><Link href="/allied-health/physical-therapy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-physical-therapy">{t("allied.alliedFooter.physicalTherapy")}</Link></li>
+              <li><Link href="/allied-health/social-work" className="hover:text-teal-600 transition-colors" data-testid="link-footer-social-work">{t("allied.alliedFooter.socialWork")}</Link></li>
+              <li><Link href="/allied-health/psychotherapy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-psychotherapy">{t("allied.alliedFooter.psychotherapy")}</Link></li>
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">Study Tools</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("allied.alliedFooter.studyTools")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li><Link href="/careers" className="hover:text-teal-600 transition-colors" data-testid="link-footer-careers">Career Directory</Link></li>
-              <li><Link href="/pricing/allied" className="hover:text-teal-600 transition-colors" data-testid="link-footer-pricing">Pricing</Link></li>
+              <li><Link href="/careers" className="hover:text-teal-600 transition-colors" data-testid="link-footer-careers">{t("allied.alliedFooter.careerDirectory")}</Link></li>
+              <li><Link href="/pricing/allied" className="hover:text-teal-600 transition-colors" data-testid="link-footer-pricing">{t("allied.alliedFooter.pricing")}</Link></li>
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">NurseNest Main Site</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("allied.alliedFooter.nursenestMainSite")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">
               <li>
                 <a href={mainSiteHome} className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-main-home">
@@ -73,7 +74,7 @@ export function AlliedFooter() {
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">NurseNest Ecosystem</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("allied.alliedFooter.nursenestEcosystem")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">
               <li>
                 <a href={mainSiteCareerTools} className="hover:text-teal-600 transition-colors flex items-center gap-1" data-testid="link-footer-healthcare-jobs">
@@ -83,16 +84,16 @@ export function AlliedFooter() {
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">Legal</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("allied.alliedFooter.legal")}</h3>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li><a href="https://www.nursenest.ca/en/terms" className="hover:text-teal-600 transition-colors" data-testid="link-footer-terms">Terms</a></li>
-              <li><a href="https://www.nursenest.ca/en/privacy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-privacy">Privacy</a></li>
-              <li><a href="https://www.nursenest.ca/en/disclaimer" className="hover:text-teal-600 transition-colors" data-testid="link-footer-disclaimer">Disclaimer</a></li>
+              <li><a href="https://www.nursenest.ca/en/terms" className="hover:text-teal-600 transition-colors" data-testid="link-footer-terms">{t("allied.alliedFooter.terms")}</a></li>
+              <li><a href="https://www.nursenest.ca/en/privacy" className="hover:text-teal-600 transition-colors" data-testid="link-footer-privacy">{t("allied.alliedFooter.privacy")}</a></li>
+              <li><a href="https://www.nursenest.ca/en/disclaimer" className="hover:text-teal-600 transition-colors" data-testid="link-footer-disclaimer">{t("allied.alliedFooter.disclaimer")}</a></li>
             </ul>
           </div>
         </div>
         <div className="border-t border-gray-100 pt-6 pb-6 mb-6">
-          <h3 className="text-sm font-semibold text-gray-900 mb-3">Study Nursing in Your Language</h3>
+          <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("allied.alliedFooter.studyNursingInYourLanguage")}</h3>
           <div className="flex flex-wrap gap-2 mb-3">
             {[
               { locale: "en", flag: "\ud83c\uddec\ud83c\udde7", name: "English" },
@@ -136,8 +137,8 @@ export function AlliedFooter() {
             <div className="w-7 h-7 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-lg flex items-center justify-center">
               <GraduationCap className="w-4 h-4 text-white" />
             </div>
-            <span className="text-sm font-semibold text-gray-900">NurseNest Allied</span>
-            <span className="text-xs text-gray-400">Healthcare Exam Academy</span>
+            <span className="text-sm font-semibold text-gray-900">{t("allied.alliedFooter.nursenestAllied")}</span>
+            <span className="text-xs text-gray-400">{t("allied.alliedFooter.healthcareExamAcademy")}</span>
           </div>
           <div className="text-sm text-gray-500">
             &copy; {new Date().getFullYear()} NurseNest Allied. All rights reserved.

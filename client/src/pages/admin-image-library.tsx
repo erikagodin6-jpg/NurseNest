@@ -4,6 +4,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/lib/auth";
 import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { useI18n } from "@/lib/i18n";
 import {
   Image, Plus, Trash2, Edit2, Check, X, Filter,
   Layers, Target, GitCompare, Bone, Atom, FileText,
@@ -60,6 +61,7 @@ const BRIEF_CATEGORIES = [...ASSET_CATEGORIES];
 const PRIORITIES = ["low", "medium", "high", "urgent"];
 
 export default function AdminImageLibrary() {
+  const { t } = useI18n();
   const { isAdmin } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>("positioning");
   const [statusFilter, setStatusFilter] = useState("");
@@ -73,15 +75,15 @@ export default function AdminImageLibrary() {
   if (!isAdmin) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h1>
-        <p className="text-gray-600">You need admin access to view this page.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.adminImageLibrary.accessDenied")}</h1>
+        <p className="text-gray-600">{t("pages.adminImageLibrary.youNeedAdminAccessTo")}</p>
       </div>
     );
   }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="admin-image-library-page">
-      <SEO title="Admin - Imaging Library" description="Manage radiography image and diagram library" noindex />
+      <SEO title={t("pages.adminImageLibrary.adminImagingLibrary")} description={t("pages.adminImageLibrary.manageRadiographyImageAndDiagram")} noindex />
 
       <BreadcrumbNav items={[
         { name: "Home", url: "/" },
@@ -92,8 +94,8 @@ export default function AdminImageLibrary() {
       <div className="flex items-center gap-3 mb-6">
         <Layers className="w-8 h-8 text-indigo-600" />
         <div>
-          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-image-library-title">Radiography Image & Diagram Library</h1>
-          <p className="text-sm text-gray-500">Manage image assets, artifacts, comparisons, anatomy diagrams, physics visuals, and image briefs</p>
+          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-image-library-title">{t("pages.adminImageLibrary.radiographyImageDiagramLibrary")}</h1>
+          <p className="text-sm text-gray-500">{t("pages.adminImageLibrary.manageImageAssetsArtifactsComparisons")}</p>
         </div>
       </div>
 
@@ -140,11 +142,11 @@ export default function AdminImageLibrary() {
           className="px-3 py-2 border border-gray-200 rounded-lg text-sm"
           data-testid="select-status-filter"
         >
-          <option value="">All Statuses</option>
-          <option value="draft">Draft</option>
-          <option value="pending">Pending</option>
-          <option value="approved">Approved</option>
-          <option value="published">Published</option>
+          <option value="">{t("pages.adminImageLibrary.allStatuses")}</option>
+          <option value="draft">{t("pages.adminImageLibrary.draft")}</option>
+          <option value="pending">{t("pages.adminImageLibrary.pending")}</option>
+          <option value="approved">{t("pages.adminImageLibrary.approved")}</option>
+          <option value="published">{t("pages.adminImageLibrary.published")}</option>
         </select>
       </div>
 
@@ -240,7 +242,7 @@ function PositioningEntriesTab({ statusFilter }: { statusFilter: string }) {
         <h2 className="text-lg font-semibold" data-testid="text-positioning-heading">Positioning Entries ({items.length})</h2>
         <div className="flex gap-2">
           <select value={bodyRegionFilter} onChange={e => setBodyRegionFilter(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-positioning-body-region-filter">
-            <option value="">All Regions</option>
+            <option value="">{t("pages.adminImageLibrary.allRegions")}</option>
             {BODY_REGIONS.map(r => <option key={r} value={r}>{r.replace(/_/g, " ")}</option>)}
           </select>
           <button onClick={() => seedMutation.mutate()}
@@ -260,28 +262,28 @@ function PositioningEntriesTab({ statusFilter }: { statusFilter: string }) {
       {showForm && (
         <div className="bg-white border rounded-lg p-4 mb-4 space-y-3" data-testid="form-positioning">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            <input placeholder="Projection Name" value={form.projectionName} onChange={e => setForm({ ...form, projectionName: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-positioning-projection-name" />
-            <input placeholder="Body Part" value={form.bodyPart} onChange={e => setForm({ ...form, bodyPart: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-positioning-body-part" />
+            <input placeholder={t("pages.adminImageLibrary.projectionName")} value={form.projectionName} onChange={e => setForm({ ...form, projectionName: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-positioning-projection-name" />
+            <input placeholder={t("pages.adminImageLibrary.bodyPart")} value={form.bodyPart} onChange={e => setForm({ ...form, bodyPart: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-positioning-body-part" />
             <select value={form.bodyRegion} onChange={e => setForm({ ...form, bodyRegion: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-positioning-body-region">
-              <option value="">Select Body Region</option>
+              <option value="">{t("pages.adminImageLibrary.selectBodyRegion")}</option>
               {BODY_REGIONS.map(r => <option key={r} value={r}>{r.replace(/_/g, " ")}</option>)}
             </select>
-            <input placeholder="Film Size" value={form.filmSize} onChange={e => setForm({ ...form, filmSize: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-positioning-film-size" />
+            <input placeholder={t("pages.adminImageLibrary.filmSize")} value={form.filmSize} onChange={e => setForm({ ...form, filmSize: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-positioning-film-size" />
             <input placeholder="SID" value={form.sid} onChange={e => setForm({ ...form, sid: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-positioning-sid" />
-            <input placeholder="Image URL" value={form.imageUrl} onChange={e => setForm({ ...form, imageUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-positioning-image-url" />
-            <input placeholder="Teaching Image URL" value={form.teachingImageUrl} onChange={e => setForm({ ...form, teachingImageUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-positioning-teaching-url" />
-            <input placeholder="Exam Image URL" value={form.examImageUrl} onChange={e => setForm({ ...form, examImageUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-positioning-exam-url" />
+            <input placeholder={t("pages.adminImageLibrary.imageUrl")} value={form.imageUrl} onChange={e => setForm({ ...form, imageUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-positioning-image-url" />
+            <input placeholder={t("pages.adminImageLibrary.teachingImageUrl")} value={form.teachingImageUrl} onChange={e => setForm({ ...form, teachingImageUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-positioning-teaching-url" />
+            <input placeholder={t("pages.adminImageLibrary.examImageUrl")} value={form.examImageUrl} onChange={e => setForm({ ...form, examImageUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-positioning-exam-url" />
             <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-positioning-status">
-              <option value="draft">Draft</option>
-              <option value="published">Published</option>
+              <option value="draft">{t("pages.adminImageLibrary.draft2")}</option>
+              <option value="published">{t("pages.adminImageLibrary.published2")}</option>
             </select>
           </div>
-          <textarea placeholder="Patient Position" value={form.patientPosition} onChange={e => setForm({ ...form, patientPosition: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-positioning-patient-position" />
-          <textarea placeholder="Detector Placement" value={form.detectorPlacement} onChange={e => setForm({ ...form, detectorPlacement: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-positioning-detector-placement" />
-          <textarea placeholder="Central Ray" value={form.centralRay} onChange={e => setForm({ ...form, centralRay: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-positioning-central-ray" />
-          <textarea placeholder="Anatomy Demonstrated" value={form.anatomyDemonstrated} onChange={e => setForm({ ...form, anatomyDemonstrated: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-positioning-anatomy-demonstrated" />
-          <textarea placeholder="Common Errors (comma-separated)" value={form.commonErrors} onChange={e => setForm({ ...form, commonErrors: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-positioning-common-errors" />
-          <textarea placeholder="Tips" value={form.tips} onChange={e => setForm({ ...form, tips: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-positioning-tips" />
+          <textarea placeholder={t("pages.adminImageLibrary.patientPosition2")} value={form.patientPosition} onChange={e => setForm({ ...form, patientPosition: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-positioning-patient-position" />
+          <textarea placeholder={t("pages.adminImageLibrary.detectorPlacement2")} value={form.detectorPlacement} onChange={e => setForm({ ...form, detectorPlacement: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-positioning-detector-placement" />
+          <textarea placeholder={t("pages.adminImageLibrary.centralRay2")} value={form.centralRay} onChange={e => setForm({ ...form, centralRay: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-positioning-central-ray" />
+          <textarea placeholder={t("pages.adminImageLibrary.anatomyDemonstrated2")} value={form.anatomyDemonstrated} onChange={e => setForm({ ...form, anatomyDemonstrated: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-positioning-anatomy-demonstrated" />
+          <textarea placeholder={t("pages.adminImageLibrary.commonErrorsCommaseparated")} value={form.commonErrors} onChange={e => setForm({ ...form, commonErrors: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-positioning-common-errors" />
+          <textarea placeholder={t("pages.adminImageLibrary.tips2")} value={form.tips} onChange={e => setForm({ ...form, tips: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-positioning-tips" />
           <div className="flex gap-2">
             <button onClick={handleSubmit}
               className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700" data-testid="button-save-positioning">
@@ -295,7 +297,7 @@ function PositioningEntriesTab({ statusFilter }: { statusFilter: string }) {
         </div>
       )}
 
-      {isLoading ? <p className="text-gray-500">Loading...</p> : (
+      {isLoading ? <p className="text-gray-500">{t("pages.adminImageLibrary.loading")}</p> : (
         <div className="space-y-2">
           {items.map((item: any) => (
             <div key={item.id} className="bg-white border rounded-lg p-4" data-testid={`positioning-item-${item.id}`}>
@@ -320,19 +322,19 @@ function PositioningEntriesTab({ statusFilter }: { statusFilter: string }) {
               </div>
               {expandedId === item.id && (
                 <div className="mt-3 pt-3 border-t space-y-2 text-xs text-gray-700">
-                  {item.patientPosition && <div><span className="font-medium">Patient Position:</span> {item.patientPosition}</div>}
-                  {item.detectorPlacement && <div><span className="font-medium">Detector Placement:</span> {item.detectorPlacement}</div>}
-                  {item.centralRay && <div><span className="font-medium">Central Ray:</span> {item.centralRay}</div>}
-                  {item.anatomyDemonstrated && <div><span className="font-medium">Anatomy Demonstrated:</span> {item.anatomyDemonstrated}</div>}
-                  {item.commonErrors && item.commonErrors.length > 0 && <div><span className="font-medium">Common Errors:</span> {item.commonErrors.join(", ")}</div>}
-                  {item.tips && <div><span className="font-medium">Tips:</span> {item.tips}</div>}
-                  {item.teachingImageUrl && <div><span className="font-medium">Teaching URL:</span> <a href={item.teachingImageUrl} className="text-indigo-600 underline" target="_blank" rel="noreferrer">{item.teachingImageUrl}</a></div>}
-                  {item.examImageUrl && <div><span className="font-medium">Exam URL:</span> <a href={item.examImageUrl} className="text-indigo-600 underline" target="_blank" rel="noreferrer">{item.examImageUrl}</a></div>}
+                  {item.patientPosition && <div><span className="font-medium">{t("pages.adminImageLibrary.patientPosition")}</span> {item.patientPosition}</div>}
+                  {item.detectorPlacement && <div><span className="font-medium">{t("pages.adminImageLibrary.detectorPlacement")}</span> {item.detectorPlacement}</div>}
+                  {item.centralRay && <div><span className="font-medium">{t("pages.adminImageLibrary.centralRay")}</span> {item.centralRay}</div>}
+                  {item.anatomyDemonstrated && <div><span className="font-medium">{t("pages.adminImageLibrary.anatomyDemonstrated")}</span> {item.anatomyDemonstrated}</div>}
+                  {item.commonErrors && item.commonErrors.length > 0 && <div><span className="font-medium">{t("pages.adminImageLibrary.commonErrors")}</span> {item.commonErrors.join(", ")}</div>}
+                  {item.tips && <div><span className="font-medium">{t("pages.adminImageLibrary.tips")}</span> {item.tips}</div>}
+                  {item.teachingImageUrl && <div><span className="font-medium">{t("pages.adminImageLibrary.teachingUrl")}</span> <a href={item.teachingImageUrl} className="text-indigo-600 underline" target="_blank" rel="noreferrer">{item.teachingImageUrl}</a></div>}
+                  {item.examImageUrl && <div><span className="font-medium">{t("pages.adminImageLibrary.examUrl")}</span> <a href={item.examImageUrl} className="text-indigo-600 underline" target="_blank" rel="noreferrer">{item.examImageUrl}</a></div>}
                 </div>
               )}
             </div>
           ))}
-          {items.length === 0 && <p className="text-sm text-gray-500 py-8 text-center">No positioning entries found. Click "Add Entry" to create one, or use "Seed All Libraries" to populate with standard positioning data.</p>}
+          {items.length === 0 && <p className="text-sm text-gray-500 py-8 text-center">{t("pages.adminImageLibrary.noPositioningEntriesFoundClick")}</p>}
         </div>
       )}
     </div>
@@ -398,30 +400,30 @@ function ImageAssetsTab({ statusFilter }: { statusFilter: string }) {
       {showForm && (
         <div className="bg-white border rounded-lg p-4 mb-4 space-y-3" data-testid="form-asset">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            <input placeholder="Title" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-asset-title" />
+            <input placeholder={t("pages.adminImageLibrary.title")} value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-asset-title" />
             <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-asset-category">
               {ASSET_CATEGORIES.map(c => <option key={c} value={c}>{c.replace(/_/g, " ")}</option>)}
             </select>
             <select value={form.country} onChange={e => setForm({ ...form, country: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-asset-country">
-              <option value="canada">Canada</option>
+              <option value="canada">{t("pages.adminImageLibrary.canada")}</option>
               <option value="usa">USA</option>
             </select>
-            <input placeholder="Modality" value={form.modality} onChange={e => setForm({ ...form, modality: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-asset-modality" />
+            <input placeholder={t("pages.adminImageLibrary.modality")} value={form.modality} onChange={e => setForm({ ...form, modality: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-asset-modality" />
             <select value={form.bodyRegion} onChange={e => setForm({ ...form, bodyRegion: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-asset-body-region">
-              <option value="">Select Body Region</option>
+              <option value="">{t("pages.adminImageLibrary.selectBodyRegion2")}</option>
               {BODY_REGIONS.map(r => <option key={r} value={r}>{r.replace(/_/g, " ")}</option>)}
             </select>
-            <input placeholder="Projection" value={form.projection} onChange={e => setForm({ ...form, projection: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-asset-projection" />
-            <input placeholder="Teaching Version URL" value={form.teachingUrl} onChange={e => setForm({ ...form, teachingUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-asset-teaching-url" />
-            <input placeholder="Exam Version URL" value={form.examUrl} onChange={e => setForm({ ...form, examUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-asset-exam-url" />
+            <input placeholder={t("pages.adminImageLibrary.projection")} value={form.projection} onChange={e => setForm({ ...form, projection: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-asset-projection" />
+            <input placeholder={t("pages.adminImageLibrary.teachingVersionUrl")} value={form.teachingUrl} onChange={e => setForm({ ...form, teachingUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-asset-teaching-url" />
+            <input placeholder={t("pages.adminImageLibrary.examVersionUrl")} value={form.examUrl} onChange={e => setForm({ ...form, examUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-asset-exam-url" />
             <select value={form.approvalStatus} onChange={e => setForm({ ...form, approvalStatus: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-asset-status">
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="published">Published</option>
-              <option value="draft">Draft</option>
+              <option value="pending">{t("pages.adminImageLibrary.pending2")}</option>
+              <option value="approved">{t("pages.adminImageLibrary.approved2")}</option>
+              <option value="published">{t("pages.adminImageLibrary.published3")}</option>
+              <option value="draft">{t("pages.adminImageLibrary.draft3")}</option>
             </select>
           </div>
-          <textarea placeholder="Description" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-asset-description" />
+          <textarea placeholder={t("pages.adminImageLibrary.description")} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-asset-description" />
           <div className="flex gap-2">
             <button onClick={() => editId ? updateMutation.mutate({ id: editId, data: form }) : createMutation.mutate(form)}
               className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700" data-testid="button-save-asset">
@@ -435,7 +437,7 @@ function ImageAssetsTab({ statusFilter }: { statusFilter: string }) {
         </div>
       )}
 
-      {isLoading ? <p className="text-gray-500">Loading...</p> : (
+      {isLoading ? <p className="text-gray-500">{t("pages.adminImageLibrary.loading2")}</p> : (
         <div className="space-y-2">
           {items.map((item: any) => (
             <div key={item.id} className="bg-white border rounded-lg p-4 flex items-start justify-between gap-3" data-testid={`asset-item-${item.id}`}>
@@ -457,7 +459,7 @@ function ImageAssetsTab({ statusFilter }: { statusFilter: string }) {
               </div>
             </div>
           ))}
-          {items.length === 0 && <p className="text-sm text-gray-500 py-8 text-center">No image assets found. Click "Add Asset" to create one.</p>}
+          {items.length === 0 && <p className="text-sm text-gray-500 py-8 text-center">{t("pages.adminImageLibrary.noImageAssetsFoundClick")}</p>}
         </div>
       )}
     </div>
@@ -525,32 +527,32 @@ function ArtifactImagesTab({ statusFilter }: { statusFilter: string }) {
       {showForm && (
         <div className="bg-white border rounded-lg p-4 mb-4 space-y-3" data-testid="form-artifact">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            <input placeholder="Artifact Name" value={form.artifactName} onChange={e => setForm({ ...form, artifactName: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-artifact-name" />
+            <input placeholder={t("pages.adminImageLibrary.artifactName")} value={form.artifactName} onChange={e => setForm({ ...form, artifactName: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-artifact-name" />
             <select value={form.artifactType} onChange={e => setForm({ ...form, artifactType: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-artifact-type">
               {ARTIFACT_TYPES.map(t => <option key={t} value={t}>{t.replace(/_/g, " ")}</option>)}
             </select>
             <select value={form.severity} onChange={e => setForm({ ...form, severity: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-artifact-severity">
-              <option value="minor">Minor</option>
-              <option value="moderate">Moderate</option>
-              <option value="severe">Severe</option>
+              <option value="minor">{t("pages.adminImageLibrary.minor")}</option>
+              <option value="moderate">{t("pages.adminImageLibrary.moderate")}</option>
+              <option value="severe">{t("pages.adminImageLibrary.severe")}</option>
             </select>
-            <input placeholder="Teaching Version URL" value={form.teachingVersionUrl} onChange={e => setForm({ ...form, teachingVersionUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-artifact-teaching-url" />
-            <input placeholder="Exam Version URL" value={form.examVersionUrl} onChange={e => setForm({ ...form, examVersionUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-artifact-exam-url" />
-            <input placeholder="Corrected Comparison URL" value={form.correctedComparisonUrl} onChange={e => setForm({ ...form, correctedComparisonUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-artifact-corrected-url" />
+            <input placeholder={t("pages.adminImageLibrary.teachingVersionUrl2")} value={form.teachingVersionUrl} onChange={e => setForm({ ...form, teachingVersionUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-artifact-teaching-url" />
+            <input placeholder={t("pages.adminImageLibrary.examVersionUrl2")} value={form.examVersionUrl} onChange={e => setForm({ ...form, examVersionUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-artifact-exam-url" />
+            <input placeholder={t("pages.adminImageLibrary.correctedComparisonUrl")} value={form.correctedComparisonUrl} onChange={e => setForm({ ...form, correctedComparisonUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-artifact-corrected-url" />
             <select value={form.bodyRegion} onChange={e => setForm({ ...form, bodyRegion: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-artifact-body-region">
-              <option value="">Select Body Region</option>
+              <option value="">{t("pages.adminImageLibrary.selectBodyRegion3")}</option>
               {BODY_REGIONS.map(r => <option key={r} value={r}>{r.replace(/_/g, " ")}</option>)}
             </select>
-            <input placeholder="Modality" value={form.modality} onChange={e => setForm({ ...form, modality: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-artifact-modality" />
+            <input placeholder={t("pages.adminImageLibrary.modality2")} value={form.modality} onChange={e => setForm({ ...form, modality: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-artifact-modality" />
             <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-artifact-status">
-              <option value="draft">Draft</option>
-              <option value="published">Published</option>
+              <option value="draft">{t("pages.adminImageLibrary.draft4")}</option>
+              <option value="published">{t("pages.adminImageLibrary.published4")}</option>
             </select>
           </div>
-          <textarea placeholder="Description" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-artifact-description" />
+          <textarea placeholder={t("pages.adminImageLibrary.description2")} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-artifact-description" />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <textarea placeholder="Cause" value={form.cause} onChange={e => setForm({ ...form, cause: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-artifact-cause" />
-            <textarea placeholder="Correction" value={form.correction} onChange={e => setForm({ ...form, correction: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-artifact-correction" />
+            <textarea placeholder={t("pages.adminImageLibrary.cause")} value={form.cause} onChange={e => setForm({ ...form, cause: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-artifact-cause" />
+            <textarea placeholder={t("pages.adminImageLibrary.correction")} value={form.correction} onChange={e => setForm({ ...form, correction: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-artifact-correction" />
           </div>
           <div className="flex gap-2">
             <button onClick={() => editId ? updateMutation.mutate({ id: editId, data: form }) : createMutation.mutate(form)}
@@ -565,7 +567,7 @@ function ArtifactImagesTab({ statusFilter }: { statusFilter: string }) {
         </div>
       )}
 
-      {isLoading ? <p className="text-gray-500">Loading...</p> : (
+      {isLoading ? <p className="text-gray-500">{t("pages.adminImageLibrary.loading3")}</p> : (
         <div className="space-y-2">
           {items.map((item: any) => (
             <div key={item.id} className="bg-white border rounded-lg p-4 flex items-start justify-between gap-3" data-testid={`artifact-item-${item.id}`}>
@@ -584,7 +586,7 @@ function ArtifactImagesTab({ statusFilter }: { statusFilter: string }) {
               </div>
             </div>
           ))}
-          {items.length === 0 && <p className="text-sm text-gray-500 py-8 text-center">No artifact images found. Click "Add Artifact" to create one.</p>}
+          {items.length === 0 && <p className="text-sm text-gray-500 py-8 text-center">{t("pages.adminImageLibrary.noArtifactImagesFoundClick")}</p>}
         </div>
       )}
     </div>
@@ -654,25 +656,25 @@ function ComparisonSetsTab({ statusFilter }: { statusFilter: string }) {
       {showForm && (
         <div className="bg-white border rounded-lg p-4 mb-4 space-y-3" data-testid="form-comparison">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            <input placeholder="Title" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-comparison-title" />
+            <input placeholder={t("pages.adminImageLibrary.title2")} value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-comparison-title" />
             <select value={form.comparisonType} onChange={e => setForm({ ...form, comparisonType: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-comparison-type">
               {COMPARISON_TYPES.map(t => <option key={t} value={t}>{t.replace(/_/g, " ")}</option>)}
             </select>
             <select value={form.bodyRegion} onChange={e => setForm({ ...form, bodyRegion: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-comparison-body-region">
-              <option value="">Select Body Region</option>
+              <option value="">{t("pages.adminImageLibrary.selectBodyRegion4")}</option>
               {BODY_REGIONS.map(r => <option key={r} value={r}>{r.replace(/_/g, " ")}</option>)}
             </select>
-            <input placeholder="Acceptable Image URL" value={form.acceptableImageUrl} onChange={e => setForm({ ...form, acceptableImageUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-comparison-acceptable-url" />
-            <input placeholder="Unacceptable Image URL" value={form.unacceptableImageUrl} onChange={e => setForm({ ...form, unacceptableImageUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-comparison-unacceptable-url" />
-            <input placeholder="Modality" value={form.modality} onChange={e => setForm({ ...form, modality: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-comparison-modality" />
-            <input placeholder="Acceptable Label" value={form.acceptableLabel} onChange={e => setForm({ ...form, acceptableLabel: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-comparison-acceptable-label" />
-            <input placeholder="Unacceptable Label" value={form.unacceptableLabel} onChange={e => setForm({ ...form, unacceptableLabel: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-comparison-unacceptable-label" />
+            <input placeholder={t("pages.adminImageLibrary.acceptableImageUrl")} value={form.acceptableImageUrl} onChange={e => setForm({ ...form, acceptableImageUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-comparison-acceptable-url" />
+            <input placeholder={t("pages.adminImageLibrary.unacceptableImageUrl")} value={form.unacceptableImageUrl} onChange={e => setForm({ ...form, unacceptableImageUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-comparison-unacceptable-url" />
+            <input placeholder={t("pages.adminImageLibrary.modality3")} value={form.modality} onChange={e => setForm({ ...form, modality: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-comparison-modality" />
+            <input placeholder={t("pages.adminImageLibrary.acceptableLabel")} value={form.acceptableLabel} onChange={e => setForm({ ...form, acceptableLabel: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-comparison-acceptable-label" />
+            <input placeholder={t("pages.adminImageLibrary.unacceptableLabel")} value={form.unacceptableLabel} onChange={e => setForm({ ...form, unacceptableLabel: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-comparison-unacceptable-label" />
             <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-comparison-status">
-              <option value="draft">Draft</option>
-              <option value="published">Published</option>
+              <option value="draft">{t("pages.adminImageLibrary.draft5")}</option>
+              <option value="published">{t("pages.adminImageLibrary.published5")}</option>
             </select>
           </div>
-          <textarea placeholder="Description" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-comparison-description" />
+          <textarea placeholder={t("pages.adminImageLibrary.description3")} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-comparison-description" />
           <div className="flex gap-2">
             <button onClick={() => editId ? updateMutation.mutate({ id: editId, data: form }) : createMutation.mutate(form)}
               className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700" data-testid="button-save-comparison">
@@ -686,7 +688,7 @@ function ComparisonSetsTab({ statusFilter }: { statusFilter: string }) {
         </div>
       )}
 
-      {isLoading ? <p className="text-gray-500">Loading...</p> : (
+      {isLoading ? <p className="text-gray-500">{t("pages.adminImageLibrary.loading4")}</p> : (
         <div className="space-y-2">
           {items.map((item: any) => (
             <div key={item.id} className="bg-white border rounded-lg p-4 flex items-start justify-between gap-3" data-testid={`comparison-item-${item.id}`}>
@@ -707,7 +709,7 @@ function ComparisonSetsTab({ statusFilter }: { statusFilter: string }) {
               </div>
             </div>
           ))}
-          {items.length === 0 && <p className="text-sm text-gray-500 py-8 text-center">No comparison sets found. Click "Add Comparison" to create one.</p>}
+          {items.length === 0 && <p className="text-sm text-gray-500 py-8 text-center">{t("pages.adminImageLibrary.noComparisonSetsFoundClick")}</p>}
         </div>
       )}
     </div>
@@ -772,18 +774,18 @@ function AnatomyImagesTab({ statusFilter }: { statusFilter: string }) {
       {showForm && (
         <div className="bg-white border rounded-lg p-4 mb-4 space-y-3" data-testid="form-anatomy">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            <input placeholder="Title" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-anatomy-title" />
+            <input placeholder={t("pages.adminImageLibrary.title3")} value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-anatomy-title" />
             <select value={form.bodyRegion} onChange={e => setForm({ ...form, bodyRegion: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-anatomy-body-region">
               {BODY_REGIONS.map(r => <option key={r} value={r}>{r.replace(/_/g, " ")}</option>)}
             </select>
-            <input placeholder="Body Part" value={form.bodyPart} onChange={e => setForm({ ...form, bodyPart: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-anatomy-body-part" />
-            <input placeholder="Modality" value={form.modality} onChange={e => setForm({ ...form, modality: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-anatomy-modality" />
-            <input placeholder="Projection" value={form.projection} onChange={e => setForm({ ...form, projection: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-anatomy-projection" />
-            <input placeholder="Labeled Teaching URL" value={form.labeledTeachingUrl} onChange={e => setForm({ ...form, labeledTeachingUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-anatomy-teaching-url" />
-            <input placeholder="Clean Exam URL" value={form.cleanExamUrl} onChange={e => setForm({ ...form, cleanExamUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-anatomy-exam-url" />
+            <input placeholder={t("pages.adminImageLibrary.bodyPart2")} value={form.bodyPart} onChange={e => setForm({ ...form, bodyPart: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-anatomy-body-part" />
+            <input placeholder={t("pages.adminImageLibrary.modality4")} value={form.modality} onChange={e => setForm({ ...form, modality: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-anatomy-modality" />
+            <input placeholder={t("pages.adminImageLibrary.projection2")} value={form.projection} onChange={e => setForm({ ...form, projection: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-anatomy-projection" />
+            <input placeholder={t("pages.adminImageLibrary.labeledTeachingUrl")} value={form.labeledTeachingUrl} onChange={e => setForm({ ...form, labeledTeachingUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-anatomy-teaching-url" />
+            <input placeholder={t("pages.adminImageLibrary.cleanExamUrl")} value={form.cleanExamUrl} onChange={e => setForm({ ...form, cleanExamUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-anatomy-exam-url" />
             <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-anatomy-status">
-              <option value="draft">Draft</option>
-              <option value="published">Published</option>
+              <option value="draft">{t("pages.adminImageLibrary.draft6")}</option>
+              <option value="published">{t("pages.adminImageLibrary.published6")}</option>
             </select>
           </div>
           <div className="flex gap-2">
@@ -799,7 +801,7 @@ function AnatomyImagesTab({ statusFilter }: { statusFilter: string }) {
         </div>
       )}
 
-      {isLoading ? <p className="text-gray-500">Loading...</p> : (
+      {isLoading ? <p className="text-gray-500">{t("pages.adminImageLibrary.loading5")}</p> : (
         <div className="space-y-2">
           {items.map((item: any) => (
             <div key={item.id} className="bg-white border rounded-lg p-4 flex items-start justify-between gap-3" data-testid={`anatomy-item-${item.id}`}>
@@ -821,7 +823,7 @@ function AnatomyImagesTab({ statusFilter }: { statusFilter: string }) {
               </div>
             </div>
           ))}
-          {items.length === 0 && <p className="text-sm text-gray-500 py-8 text-center">No anatomy images found. Click "Add Anatomy Image" to create one.</p>}
+          {items.length === 0 && <p className="text-sm text-gray-500 py-8 text-center">{t("pages.adminImageLibrary.noAnatomyImagesFoundClick")}</p>}
         </div>
       )}
     </div>
@@ -885,17 +887,17 @@ function PhysicsVisualsTab({ statusFilter }: { statusFilter: string }) {
       {showForm && (
         <div className="bg-white border rounded-lg p-4 mb-4 space-y-3" data-testid="form-physics-visual">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            <input placeholder="Title" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-physics-visual-title" />
-            <input placeholder="Concept" value={form.concept} onChange={e => setForm({ ...form, concept: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-physics-visual-concept" />
-            <input placeholder="Category" value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-physics-visual-category" />
-            <input placeholder="Image URL" value={form.imageUrl} onChange={e => setForm({ ...form, imageUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-physics-visual-image-url" />
-            <input placeholder="Animation URL" value={form.animationUrl} onChange={e => setForm({ ...form, animationUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-physics-visual-animation-url" />
+            <input placeholder={t("pages.adminImageLibrary.title4")} value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-physics-visual-title" />
+            <input placeholder={t("pages.adminImageLibrary.concept")} value={form.concept} onChange={e => setForm({ ...form, concept: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-physics-visual-concept" />
+            <input placeholder={t("pages.adminImageLibrary.category")} value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-physics-visual-category" />
+            <input placeholder={t("pages.adminImageLibrary.imageUrl2")} value={form.imageUrl} onChange={e => setForm({ ...form, imageUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-physics-visual-image-url" />
+            <input placeholder={t("pages.adminImageLibrary.animationUrl")} value={form.animationUrl} onChange={e => setForm({ ...form, animationUrl: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-physics-visual-animation-url" />
             <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-physics-visual-status">
-              <option value="draft">Draft</option>
-              <option value="published">Published</option>
+              <option value="draft">{t("pages.adminImageLibrary.draft7")}</option>
+              <option value="published">{t("pages.adminImageLibrary.published7")}</option>
             </select>
           </div>
-          <textarea placeholder="Description" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-physics-visual-description" />
+          <textarea placeholder={t("pages.adminImageLibrary.description4")} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-physics-visual-description" />
           <div className="flex gap-2">
             <button onClick={() => editId ? updateMutation.mutate({ id: editId, data: form }) : createMutation.mutate(form)}
               className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700" data-testid="button-save-physics-visual">
@@ -909,7 +911,7 @@ function PhysicsVisualsTab({ statusFilter }: { statusFilter: string }) {
         </div>
       )}
 
-      {isLoading ? <p className="text-gray-500">Loading...</p> : (
+      {isLoading ? <p className="text-gray-500">{t("pages.adminImageLibrary.loading6")}</p> : (
         <div className="space-y-2">
           {items.map((item: any) => (
             <div key={item.id} className="bg-white border rounded-lg p-4 flex items-start justify-between gap-3" data-testid={`physics-visual-item-${item.id}`}>
@@ -927,7 +929,7 @@ function PhysicsVisualsTab({ statusFilter }: { statusFilter: string }) {
               </div>
             </div>
           ))}
-          {items.length === 0 && <p className="text-sm text-gray-500 py-8 text-center">No physics visuals found. Click "Add Physics Visual" to create one.</p>}
+          {items.length === 0 && <p className="text-sm text-gray-500 py-8 text-center">{t("pages.adminImageLibrary.noPhysicsVisualsFoundClick")}</p>}
         </div>
       )}
     </div>
@@ -1002,34 +1004,34 @@ function ImageBriefsTab({ statusFilter }: { statusFilter: string }) {
       {showForm && (
         <div className="bg-white border rounded-lg p-4 mb-4 space-y-3" data-testid="form-brief">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            <input placeholder="Title" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-brief-title" />
+            <input placeholder={t("pages.adminImageLibrary.title5")} value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-brief-title" />
             <select value={form.briefType} onChange={e => setForm({ ...form, briefType: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-brief-type">
-              <option value="new_asset">New Asset</option>
-              <option value="replacement">Replacement</option>
-              <option value="update">Update</option>
-              <option value="variation">Variation</option>
+              <option value="new_asset">{t("pages.adminImageLibrary.newAsset")}</option>
+              <option value="replacement">{t("pages.adminImageLibrary.replacement")}</option>
+              <option value="update">{t("pages.adminImageLibrary.update")}</option>
+              <option value="variation">{t("pages.adminImageLibrary.variation")}</option>
             </select>
             <select value={form.targetCategory} onChange={e => setForm({ ...form, targetCategory: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-brief-target-category">
               {BRIEF_CATEGORIES.map(c => <option key={c} value={c}>{c.replace(/_/g, " ")}</option>)}
             </select>
             <select value={form.bodyRegion} onChange={e => setForm({ ...form, bodyRegion: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-brief-body-region">
-              <option value="">Select Body Region</option>
+              <option value="">{t("pages.adminImageLibrary.selectBodyRegion5")}</option>
               {BODY_REGIONS.map(r => <option key={r} value={r}>{r.replace(/_/g, " ")}</option>)}
             </select>
-            <input placeholder="Modality" value={form.modality} onChange={e => setForm({ ...form, modality: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-brief-modality" />
+            <input placeholder={t("pages.adminImageLibrary.modality5")} value={form.modality} onChange={e => setForm({ ...form, modality: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-brief-modality" />
             <select value={form.priority} onChange={e => setForm({ ...form, priority: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-brief-priority">
               {PRIORITIES.map(p => <option key={p} value={p}>{p}</option>)}
             </select>
-            <input placeholder="Assigned To" value={form.assignedTo} onChange={e => setForm({ ...form, assignedTo: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-brief-assigned-to" />
+            <input placeholder={t("pages.adminImageLibrary.assignedTo")} value={form.assignedTo} onChange={e => setForm({ ...form, assignedTo: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="input-brief-assigned-to" />
             <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })} className="px-3 py-2 border rounded-lg text-sm" data-testid="select-brief-status">
-              <option value="pending">Pending</option>
-              <option value="in_progress">In Progress</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
+              <option value="pending">{t("pages.adminImageLibrary.pending3")}</option>
+              <option value="in_progress">{t("pages.adminImageLibrary.inProgress")}</option>
+              <option value="completed">{t("pages.adminImageLibrary.completed")}</option>
+              <option value="cancelled">{t("pages.adminImageLibrary.cancelled")}</option>
             </select>
           </div>
-          <textarea placeholder="Description (what the image should show, specs, etc.)" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={3} data-testid="input-brief-description" />
-          <textarea placeholder="Notes" value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-brief-notes" />
+          <textarea placeholder={t("pages.adminImageLibrary.descriptionWhatTheImageShould")} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={3} data-testid="input-brief-description" />
+          <textarea placeholder={t("pages.adminImageLibrary.notes")} value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} className="w-full px-3 py-2 border rounded-lg text-sm" rows={2} data-testid="input-brief-notes" />
           <div className="flex gap-2">
             <button onClick={() => editId ? updateMutation.mutate({ id: editId, data: form }) : createMutation.mutate(form)}
               className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700" data-testid="button-save-brief">
@@ -1043,7 +1045,7 @@ function ImageBriefsTab({ statusFilter }: { statusFilter: string }) {
         </div>
       )}
 
-      {isLoading ? <p className="text-gray-500">Loading...</p> : (
+      {isLoading ? <p className="text-gray-500">{t("pages.adminImageLibrary.loading7")}</p> : (
         <div className="space-y-2">
           {items.map((item: any) => (
             <div key={item.id} className="bg-white border rounded-lg p-4 flex items-start justify-between gap-3" data-testid={`brief-item-${item.id}`}>
@@ -1067,7 +1069,7 @@ function ImageBriefsTab({ statusFilter }: { statusFilter: string }) {
               </div>
             </div>
           ))}
-          {items.length === 0 && <p className="text-sm text-gray-500 py-8 text-center">No image briefs found. Click "Add Brief" to create one.</p>}
+          {items.length === 0 && <p className="text-sm text-gray-500 py-8 text-center">{t("pages.adminImageLibrary.noImageBriefsFoundClick")}</p>}
         </div>
       )}
     </div>

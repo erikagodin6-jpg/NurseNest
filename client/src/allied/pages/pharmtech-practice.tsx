@@ -4,6 +4,7 @@ import { BookOpen, ChevronRight, Filter, CheckCircle2, XCircle, ChevronLeft, Loc
 import { useAuth } from "@/lib/auth";
 import { AlliedSEO } from "@/allied/allied-seo";
 
+import { useI18n } from "@/lib/i18n";
 const CATEGORIES = [
   "Pharmacology", "Dosage Calculations", "Compounding", "Drug Interactions",
   "Regulations/Law", "Sterile Products", "Inventory Management", "Patient Safety",
@@ -11,6 +12,7 @@ const CATEGORIES = [
 ];
 
 export default function PharmtechPracticePage() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [questions, setQuestions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -63,21 +65,21 @@ export default function PharmtechPracticePage() {
   return (
     <>
       <AlliedSEO
-        title="Pharmacy Technician Practice Questions - PTCB Prep"
-        description="Practice pharmacy technician certification questions with detailed rationales. Filter by category and difficulty. Free to start with 10 questions."
+        title={t("allied.pharmtechPractice.pharmacyTechnicianPracticeQuestionsPtcb")}
+        description={t("allied.pharmtechPractice.practicePharmacyTechnicianCertificationQuestio")}
         keywords="pharmacy technician practice questions, PTCB practice questions, pharmacy tech exam questions, ExCPT practice test"
         canonicalPath="/allied-health/pharmacy-technician/practice-questions"
       />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-practice-page">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">{t("allied.pharmtechPractice.pharmacyTechnician")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-green-700 font-medium">Practice Questions</span>
+          <span className="text-green-700 font-medium">{t("allied.pharmtechPractice.practiceQuestions")}</span>
         </div>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-practice-title">Practice Questions</h1>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-practice-title">{t("allied.pharmtechPractice.practiceQuestions2")}</h1>
             <p className="text-gray-500 text-sm mt-1">{questions.length} questions {!isPro && `(${FREE_LIMIT} free preview)`}</p>
           </div>
           <button onClick={() => setShowFilters(!showFilters)} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200" data-testid="button-toggle-filters">
@@ -88,16 +90,16 @@ export default function PharmtechPracticePage() {
         {showFilters && (
           <div className="bg-gray-50 rounded-xl border border-gray-100 p-4 mb-6 flex flex-wrap gap-4" data-testid="practice-filters">
             <div>
-              <label className="text-xs font-medium text-gray-500 mb-1 block">Category</label>
+              <label className="text-xs font-medium text-gray-500 mb-1 block">{t("allied.pharmtechPractice.category")}</label>
               <select value={category} onChange={e => setCategory(e.target.value)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm" data-testid="select-practice-category">
-                <option value="">All Categories</option>
+                <option value="">{t("allied.pharmtechPractice.allCategories")}</option>
                 {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 mb-1 block">Difficulty</label>
+              <label className="text-xs font-medium text-gray-500 mb-1 block">{t("allied.pharmtechPractice.difficulty")}</label>
               <select value={difficulty || ""} onChange={e => setDifficulty(e.target.value ? Number(e.target.value) : null)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm" data-testid="select-practice-difficulty">
-                <option value="">All</option>
+                <option value="">{t("allied.pharmtechPractice.all")}</option>
                 {[1, 2, 3, 4, 5].map(d => <option key={d} value={d}>Level {d}</option>)}
               </select>
             </div>
@@ -150,7 +152,7 @@ export default function PharmtechPracticePage() {
 
             {answered && current.rationale && (
               <div className="mt-6 bg-blue-50 rounded-xl p-5 border border-blue-100" data-testid="practice-rationale">
-                <h4 className="font-semibold text-blue-800 mb-2">Rationale</h4>
+                <h4 className="font-semibold text-blue-800 mb-2">{t("allied.pharmtechPractice.rationale")}</h4>
                 <p className="text-sm text-blue-900 leading-relaxed">{current.rationale}</p>
               </div>
             )}
@@ -167,16 +169,16 @@ export default function PharmtechPracticePage() {
         ) : (
           <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center">
             <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No Questions Found</h3>
-            <p className="text-gray-500 text-sm">Try adjusting your filters.</p>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("allied.pharmtechPractice.noQuestionsFound")}</h3>
+            <p className="text-gray-500 text-sm">{t("allied.pharmtechPractice.tryAdjustingYourFilters")}</p>
           </div>
         )}
 
         {!isPro && questions.length >= FREE_LIMIT && (
           <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200 p-8 text-center mt-8" data-testid="upgrade-block">
             <Lock className="w-10 h-10 text-green-400 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Unlock All Practice Questions</h3>
-            <p className="text-gray-600 text-sm mb-6 max-w-md mx-auto">Upgrade to Allied Pro for unlimited access to all 200+ questions with detailed rationales.</p>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.pharmtechPractice.unlockAllPracticeQuestions")}</h3>
+            <p className="text-gray-600 text-sm mb-6 max-w-md mx-auto">{t("allied.pharmtechPractice.upgradeToAlliedProFor")}</p>
             <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-lg shadow-green-200" data-testid="button-upgrade-practice">
               <Lock className="w-4 h-4" /> Upgrade to Pro
             </Link>

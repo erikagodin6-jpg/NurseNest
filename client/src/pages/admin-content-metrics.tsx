@@ -6,12 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import {
   BarChart3, FileText, Layers, TrendingUp, DollarSign,
   RefreshCw, Plus, Trash2, Edit2, Save, X, Activity
 } from "lucide-react";
 
 function getAdminHeaders(): Record<string, string> {
+
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   try {
     const token = localStorage.getItem("nn_admin_access_token");
@@ -72,24 +74,24 @@ function CostEntryForm({ onSave, onCancel, initial }: {
   return (
     <div className="flex flex-wrap gap-2 items-end p-3 bg-gray-50 rounded-lg" data-testid="form-cost-entry">
       <div className="flex-1 min-w-[120px]">
-        <label className="text-xs text-gray-500 block mb-1">Category</label>
+        <label className="text-xs text-gray-500 block mb-1">{t("pages.adminContentMetrics.category")}</label>
         <Input value={category} onChange={e => setCategory(e.target.value)} placeholder="e.g. Hosting" className="h-8 text-sm" data-testid="input-cost-category" />
       </div>
       <div className="flex-1 min-w-[120px]">
-        <label className="text-xs text-gray-500 block mb-1">Label</label>
+        <label className="text-xs text-gray-500 block mb-1">{t("pages.adminContentMetrics.label")}</label>
         <Input value={label} onChange={e => setLabel(e.target.value)} placeholder="e.g. Replit Pro" className="h-8 text-sm" data-testid="input-cost-label" />
       </div>
       <div className="w-24">
-        <label className="text-xs text-gray-500 block mb-1">Amount</label>
+        <label className="text-xs text-gray-500 block mb-1">{t("pages.adminContentMetrics.amount")}</label>
         <Input type="number" value={amount} onChange={e => setAmount(e.target.value)} placeholder="0.00" className="h-8 text-sm" data-testid="input-cost-amount" />
       </div>
       <div className="w-20">
-        <label className="text-xs text-gray-500 block mb-1">Currency</label>
+        <label className="text-xs text-gray-500 block mb-1">{t("pages.adminContentMetrics.currency")}</label>
         <Input value={currency} onChange={e => setCurrency(e.target.value)} className="h-8 text-sm" data-testid="input-cost-currency" />
       </div>
       <div className="flex-1 min-w-[120px]">
-        <label className="text-xs text-gray-500 block mb-1">Notes</label>
-        <Input value={notes} onChange={e => setNotes(e.target.value)} placeholder="Optional notes" className="h-8 text-sm" data-testid="input-cost-notes" />
+        <label className="text-xs text-gray-500 block mb-1">{t("pages.adminContentMetrics.notes")}</label>
+        <Input value={notes} onChange={e => setNotes(e.target.value)} placeholder={t("pages.adminContentMetrics.optionalNotes")} className="h-8 text-sm" data-testid="input-cost-notes" />
       </div>
       <div className="flex gap-1">
         <Button size="sm" className="h-8 bg-[#BFA6F6] hover:bg-[#a88de8]" onClick={() => onSave({ category, label, amount: parseFloat(amount), currency, notes })} data-testid="button-save-cost">
@@ -172,8 +174,8 @@ export default function AdminContentMetrics() {
       <div className="min-h-screen bg-[#F9FAFB]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
         <Navigation />
         <div className="max-w-4xl mx-auto p-8 text-center" data-testid="text-access-denied">
-          <h1 className="text-2xl font-bold text-gray-900">Access Denied</h1>
-          <p className="text-gray-500 mt-2">You must be an admin to view this page.</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t("pages.adminContentMetrics.accessDenied")}</h1>
+          <p className="text-gray-500 mt-2">{t("pages.adminContentMetrics.youMustBeAnAdmin")}</p>
         </div>
       </div>
     );
@@ -188,13 +190,13 @@ export default function AdminContentMetrics() {
   return (
     <div className="min-h-screen bg-[#F9FAFB]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
       <Navigation />
-      <SEO title="Content Metrics - Admin" description="Real-time content health dashboard" />
+      <SEO title={t("pages.adminContentMetrics.contentMetricsAdmin")} description={t("pages.adminContentMetrics.realtimeContentHealthDashboard")} />
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-[#2E3A59]" data-testid="text-page-title">Content Metrics</h1>
-            <p className="text-sm text-gray-500 mt-1">Real-time content health and financial overview</p>
+            <h1 className="text-2xl font-bold text-[#2E3A59]" data-testid="text-page-title">{t("pages.adminContentMetrics.contentMetrics")}</h1>
+            <p className="text-sm text-gray-500 mt-1">{t("pages.adminContentMetrics.realtimeContentHealthAndFinancial")}</p>
           </div>
           <div className="flex items-center gap-2 text-xs text-gray-400">
             <RefreshCw className="w-3.5 h-3.5" />
@@ -220,14 +222,14 @@ export default function AdminContentMetrics() {
                     key={t.tier}
                     title={t.tier.toUpperCase()}
                     value={t.count}
-                    subtitle="Published questions"
+                    subtitle={t("pages.admin_content_metrics.publishedQuestions")}
                     icon={FileText}
                   />
                 ))}
                 <MetricCard
-                  title="Total Published"
+                  title={t("pages.adminContentMetrics.totalPublished")}
                   value={data.totalPublished}
-                  subtitle="All tiers combined"
+                  subtitle={t("pages.admin_content_metrics.allTiersCombined")}
                   icon={BarChart3}
                   color="bg-[#BFA6F6]/5"
                 />
@@ -239,9 +241,9 @@ export default function AdminContentMetrics() {
                 <Layers className="w-5 h-5 text-[#AEE3E1]" /> Flashcards
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <MetricCard title="Published Flashcards" value={flashcards.published} icon={Layers} />
-                <MetricCard title="Pending Review" value={flashcards.pendingReview} icon={Layers} />
-                <MetricCard title="Total Decks" value={flashcards.totalDecks} icon={Layers} />
+                <MetricCard title={t("pages.adminContentMetrics.publishedFlashcards")} value={flashcards.published} icon={Layers} />
+                <MetricCard title={t("pages.adminContentMetrics.pendingReview")} value={flashcards.pendingReview} icon={Layers} />
+                <MetricCard title={t("pages.adminContentMetrics.totalDecks")} value={flashcards.totalDecks} icon={Layers} />
               </div>
             </section>
 
@@ -262,11 +264,11 @@ export default function AdminContentMetrics() {
                       <table className="w-full text-sm">
                         <thead>
                           <tr className="bg-gray-50 border-b">
-                            <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Job</th>
-                            <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Content Type</th>
-                            <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Tier</th>
-                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">Progress</th>
-                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">Status</th>
+                            <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminContentMetrics.job")}</th>
+                            <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminContentMetrics.contentType")}</th>
+                            <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminContentMetrics.tier")}</th>
+                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminContentMetrics.progress")}</th>
+                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminContentMetrics.status")}</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -314,15 +316,15 @@ export default function AdminContentMetrics() {
                 <CardContent className="p-6">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                     <div>
-                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Current Published</p>
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">{t("pages.adminContentMetrics.currentPublished")}</p>
                       <p className="text-3xl font-bold text-[#2E3A59] mt-1" data-testid="text-current-total">{projected.currentTotal.toLocaleString()}</p>
                     </div>
                     <div>
-                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">In Progress</p>
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">{t("pages.adminContentMetrics.inProgress")}</p>
                       <p className="text-3xl font-bold text-[#FFD6A5] mt-1" data-testid="text-in-progress">+{projected.inProgress.toLocaleString()}</p>
                     </div>
                     <div>
-                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Projected Total</p>
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">{t("pages.adminContentMetrics.projectedTotal")}</p>
                       <p className="text-3xl font-bold text-[#7c5cc4] mt-1" data-testid="text-projected-total">{projected.projectedTotal.toLocaleString()}</p>
                     </div>
                   </div>
@@ -336,12 +338,12 @@ export default function AdminContentMetrics() {
               </h2>
 
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
-                <MetricCard title="Subscribers" value={financial.totalSubscribers} icon={BarChart3} />
-                <MetricCard title="Purchases" value={financial.totalPurchases} icon={DollarSign} />
-                <MetricCard title="Revenue" value={`$${financial.totalRevenue.toFixed(2)}`} icon={TrendingUp} />
-                <MetricCard title="Platform Costs" value={`$${financial.totalCosts.toFixed(2)}`} icon={DollarSign} />
+                <MetricCard title={t("pages.adminContentMetrics.subscribers")} value={financial.totalSubscribers} icon={BarChart3} />
+                <MetricCard title={t("pages.adminContentMetrics.purchases")} value={financial.totalPurchases} icon={DollarSign} />
+                <MetricCard title={t("pages.adminContentMetrics.revenue")} value={`$${financial.totalRevenue.toFixed(2)}`} icon={TrendingUp} />
+                <MetricCard title={t("pages.adminContentMetrics.platformCosts")} value={`$${financial.totalCosts.toFixed(2)}`} icon={DollarSign} />
                 <MetricCard
-                  title="Net Profit/Loss"
+                  title={t("pages.adminContentMetrics.netProfitloss")}
                   value={`${financial.netProfitLoss >= 0 ? "+" : ""}$${financial.netProfitLoss.toFixed(2)}`}
                   subtitle={financial.breakEvenPoint ? `Break-even: ${financial.breakEvenPoint} purchases` : undefined}
                   icon={TrendingUp}
@@ -352,7 +354,7 @@ export default function AdminContentMetrics() {
               <Card className="border-0 shadow-sm">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-sm font-semibold text-[#2E3A59]">Platform Cost Entries</CardTitle>
+                    <CardTitle className="text-sm font-semibold text-[#2E3A59]">{t("pages.adminContentMetrics.platformCostEntries")}</CardTitle>
                     <Button
                       size="sm"
                       variant="outline"
@@ -375,7 +377,7 @@ export default function AdminContentMetrics() {
                   )}
 
                   {financial.costEntries.length === 0 && !showCostForm ? (
-                    <p className="text-sm text-gray-500 text-center py-4">No cost entries yet. Add external costs like domain, AI credits, hosting, or marketing.</p>
+                    <p className="text-sm text-gray-500 text-center py-4">{t("pages.adminContentMetrics.noCostEntriesYetAdd")}</p>
                   ) : (
                     <div className="space-y-2">
                       {financial.costEntries.map((entry: any) => (

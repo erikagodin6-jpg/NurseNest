@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { Zap, Flame, Wind, AlertTriangle, Beaker } from "lucide-react";
 
 export function ATPPathwayModule() {
+  const { t } = useI18n();
   const atpCurrencyContent = useEditableText("atp-currency-content", "Adenosine triphosphate (ATP) is the universal energy currency of all living cells. Every cellular process — muscle contraction, nerve impulse transmission, active transport across membranes, biosynthesis of molecules — requires ATP. When ATP is hydrolyzed (broken down) to ADP + inorganic phosphate (Pi), it releases energy that powers these processes. The cell maintains a constant cycle of ATP production and consumption, producing and using approximately its own body weight in ATP every single day.");
   const anaerobicWarningContent = useEditableText("atp-anaerobic-warning", "When oxygen is unavailable, cells can only produce 2 ATP per glucose molecule through glycolysis alone — compared to approximately 36-38 ATP with full aerobic metabolism. This is a 95% reduction in energy output. Cells cannot sustain normal function on anaerobic metabolism alone for extended periods. Tissues with high metabolic demands (brain, heart, kidneys) are the first to suffer damage during oxygen deprivation because they cannot meet their energy needs through glycolysis alone.");
   const dkaContent = useEditableText("atp-dka-content", "In diabetic ketoacidosis (DKA), cells cannot use glucose for energy due to insulin deficiency (Type 1 diabetes) or severe insulin resistance. Without insulin, glucose cannot enter most cells despite being abundant in the blood (hyperglycemia). Starving cells switch to fat metabolism as an alternative fuel source. Fat breakdown produces acetyl-CoA faster than the Krebs cycle can process it. Excess acetyl-CoA is converted to ketone bodies (acetoacetate, beta-hydroxybutyrate, acetone). Ketone bodies are acids — their accumulation causes metabolic acidosis (low pH, low HCO3). The body attempts respiratory compensation by increasing the rate and depth of breathing (Kussmaul respirations) to blow off CO2 and raise pH.");
@@ -35,7 +37,7 @@ export function ATPPathwayModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="ATP as Universal Energy Currency"
+          title={t("data.pre_nursing_atp_pathway.atpAsUniversalEnergyCurrency")}
           content={atpCurrencyContent}
         />
       </MicroLesson>
@@ -43,7 +45,7 @@ export function ATPPathwayModule() {
       <MicroLesson title="Glycolysis: The First Step" subtitle="Glucose splitting in the cytoplasm" icon={<Beaker className="w-5 h-5" />}>
         <EditableModuleText sectionKey="atp-glycolysis-content" defaultText="Glycolysis is the first stage of cellular respiration and occurs in the cytoplasm of every cell — it does not require mitochondria or oxygen. One 6-carbon glucose molecule is split into two 3-carbon pyruvate molecules. The process uses 2 ATP to get started (energy investment phase) but produces 4 ATP total, yielding a net gain of 2 ATP per glucose molecule. Glycolysis also produces 2 NADH electron carriers that will be used later in the electron transport chain if oxygen is available." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="Glycolysis Step by Step"
+          title={t("data.pre_nursing_atp_pathway.glycolysisStepByStep")}
           cards={[
             {
               id: "gly1",
@@ -91,7 +93,7 @@ export function ATPPathwayModule() {
         </div>
         <CognitiveCard
           type="warning"
-          title="Why Anaerobic Metabolism Is Dangerous"
+          title={t("data.pre_nursing_atp_pathway.whyAnaerobicMetabolismIsDangerous")}
           content={anaerobicWarningContent}
         />
       </MicroLesson>
@@ -132,13 +134,13 @@ export function ATPPathwayModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="DKA: Fat Metabolism When Glucose Is Unavailable"
+          title={t("data.pre_nursing_atp_pathway.dkaFatMetabolismWhenGlucose")}
           content={dkaContent}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Energy Pathway Concepts"
+        title={t("data.pre_nursing_atp_pathway.matchTheEnergyPathwayConcepts")}
         pairs={[
           { id: "glycolysis", term: "Glycolysis", definition: "Splits glucose into 2 pyruvate in the cytoplasm (net 2 ATP)" },
           { id: "krebs", term: "Krebs cycle", definition: "Oxidizes acetyl-CoA in the mitochondrial matrix, producing CO₂ and electron carriers" },
@@ -150,7 +152,7 @@ export function ATPPathwayModule() {
       />
 
       <SelfCheckQuiz
-        title="ATP & Cellular Energy Pathways Quiz"
+        title={t("data.pre_nursing_atp_pathway.atpCellularEnergyPathwaysQuiz")}
         questions={[
           {
             id: "atp1",

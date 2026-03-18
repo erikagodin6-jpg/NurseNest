@@ -5,12 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import {
   DollarSign, TrendingUp, Users, Target, ShoppingBag,
   RefreshCw, BarChart3, Globe, Layers, Zap
 } from "lucide-react";
 
 export default function AdminRevenueDashboard() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -37,7 +39,7 @@ export default function AdminRevenueDashboard() {
       <div className="min-h-screen bg-gray-50">
         <Navigation />
         <div className="max-w-4xl mx-auto p-8 text-center">
-          <h1 className="text-2xl font-bold">Access Denied</h1>
+          <h1 className="text-2xl font-bold">{t("pages.adminRevenueDashboard.accessDenied")}</h1>
         </div>
       </div>
     );
@@ -60,12 +62,12 @@ export default function AdminRevenueDashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      <SEO title="Revenue Intelligence - Admin" description="Revenue analytics and conversion optimization" />
+      <SEO title={t("pages.adminRevenueDashboard.revenueIntelligenceAdmin")} description={t("pages.adminRevenueDashboard.revenueAnalyticsAndConversionOptimization")} />
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">Revenue Intelligence</h1>
-            <p className="text-gray-600 mt-1">Conversion funnels, user segments, study packs, and pricing offers</p>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">{t("pages.adminRevenueDashboard.revenueIntelligence")}</h1>
+            <p className="text-gray-600 mt-1">{t("pages.adminRevenueDashboard.conversionFunnelsUserSegmentsStudy")}</p>
           </div>
           <Button data-testid="btn-refresh" onClick={loadData} variant="outline" size="sm">
             <RefreshCw className="w-4 h-4 mr-1" /> Refresh
@@ -91,7 +93,7 @@ export default function AdminRevenueDashboard() {
         {!loading && activeTab === "funnel" && (
           <div className="space-y-6">
             {Object.keys(langGroups).length === 0 ? (
-              <Card><CardContent className="py-8 text-center text-gray-500">No funnel events recorded yet. Events will appear as users interact with the platform.</CardContent></Card>
+              <Card><CardContent className="py-8 text-center text-gray-500">{t("pages.adminRevenueDashboard.noFunnelEventsRecordedYet")}</CardContent></Card>
             ) : (
               Object.entries(langGroups).map(([lang, events]: [string, any]) => (
                 <Card key={lang}>
@@ -117,11 +119,11 @@ export default function AdminRevenueDashboard() {
         {!loading && activeTab === "segments" && (
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Users className="w-5 h-5" /> User Segments</CardTitle>
+              <CardTitle className="flex items-center gap-2"><Users className="w-5 h-5" /> {t("pages.adminRevenueDashboard.userSegments")}</CardTitle>
             </CardHeader>
             <CardContent>
               {(!data?.segments || data.segments.length === 0) ? (
-                <div className="text-center py-8 text-gray-500">No user segments computed yet. Segments update daily based on user behavior.</div>
+                <div className="text-center py-8 text-gray-500">{t("pages.adminRevenueDashboard.noUserSegmentsComputedYet")}</div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {data.segments.map((s: any) => (
@@ -143,20 +145,20 @@ export default function AdminRevenueDashboard() {
         {!loading && activeTab === "packs" && (
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><ShoppingBag className="w-5 h-5" /> Study Pack Revenue</CardTitle>
+              <CardTitle className="flex items-center gap-2"><ShoppingBag className="w-5 h-5" /> {t("pages.adminRevenueDashboard.studyPackRevenue")}</CardTitle>
             </CardHeader>
             <CardContent>
               {(!data?.packRevenue || data.packRevenue.length === 0) ? (
-                <div className="text-center py-8 text-gray-500">No study packs created yet. Create packs in the admin panel to start tracking revenue.</div>
+                <div className="text-center py-8 text-gray-500">{t("pages.adminRevenueDashboard.noStudyPacksCreatedYet")}</div>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b">
-                        <th className="text-left py-2 px-3">Pack Name</th>
-                        <th className="text-center py-2 px-3">Type</th>
-                        <th className="text-center py-2 px-3">Purchases</th>
-                        <th className="text-center py-2 px-3">Revenue</th>
+                        <th className="text-left py-2 px-3">{t("pages.adminRevenueDashboard.packName")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminRevenueDashboard.type")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminRevenueDashboard.purchases")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminRevenueDashboard.revenue")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -179,11 +181,11 @@ export default function AdminRevenueDashboard() {
         {!loading && activeTab === "offers" && (
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><DollarSign className="w-5 h-5" /> Active Pricing Offers</CardTitle>
+              <CardTitle className="flex items-center gap-2"><DollarSign className="w-5 h-5" /> {t("pages.adminRevenueDashboard.activePricingOffers")}</CardTitle>
             </CardHeader>
             <CardContent>
               {(!data?.offers || data.offers.length === 0) ? (
-                <div className="text-center py-8 text-gray-500">No pricing offers configured yet. Create offers to start A/B testing conversions.</div>
+                <div className="text-center py-8 text-gray-500">{t("pages.adminRevenueDashboard.noPricingOffersConfiguredYet")}</div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {data.offers.map((o: any) => (

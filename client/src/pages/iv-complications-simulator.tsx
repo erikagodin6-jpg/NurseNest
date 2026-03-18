@@ -22,6 +22,7 @@ import {
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
+import { useI18n } from "@/lib/i18n";
 const imgInfiltration = getAssetUrl("iv-complication-infiltration.png");
 const imgExtravasation = getAssetUrl("iv-complication-extravasation.png");
 const imgPhlebitis = getAssetUrl("iv-complication-phlebitis.png");
@@ -313,6 +314,7 @@ type Phase = "identify" | "action";
 type QuizState = "answering" | "feedback" | "complete";
 
 export default function IVComplicationsSimulatorPage() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [phase, setPhase] = useState<Phase>("identify");
@@ -381,8 +383,8 @@ export default function IVComplicationsSimulatorPage() {
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
         <SEO
-          title="IV Complications & Line Management Simulator | NurseNest"
-          description="Free interactive nursing simulator for identifying and managing IV complications including infiltration, extravasation, phlebitis, air embolism, and more."
+          title={t("pages.ivComplicationsSimulator.ivComplicationsLineManagementSimulator")}
+          description={t("pages.ivComplicationsSimulator.freeInteractiveNursingSimulatorFor")}
           keywords="IV complications nursing, infiltration vs extravasation, phlebitis management, CLABSI prevention, air embolism nursing, IV therapy complications, nursing simulation free"
           canonicalPath="/iv-complications-simulator"
           ogType="website"
@@ -395,20 +397,20 @@ export default function IVComplicationsSimulatorPage() {
               <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-6">
                 <CheckCircle className="w-8 h-8 text-emerald-600" />
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2" data-testid="text-results-title">Simulation Complete!</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2" data-testid="text-results-title">{t("pages.ivComplicationsSimulator.simulationComplete")}</h2>
               <p className="text-gray-500 mb-8">You've completed all {totalScenarios} IV complication scenarios.</p>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
                 <div className="bg-blue-50 rounded-xl p-4">
-                  <p className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">Identification</p>
+                  <p className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">{t("pages.ivComplicationsSimulator.identification")}</p>
                   <p className="text-2xl font-bold text-blue-700" data-testid="text-score-identify">{score.identify}/{totalScenarios}</p>
                 </div>
                 <div className="bg-purple-50 rounded-xl p-4">
-                  <p className="text-xs font-bold text-purple-600 uppercase tracking-wider mb-1">First Action</p>
+                  <p className="text-xs font-bold text-purple-600 uppercase tracking-wider mb-1">{t("pages.ivComplicationsSimulator.firstAction")}</p>
                   <p className="text-2xl font-bold text-purple-700" data-testid="text-score-action">{score.action}/{totalScenarios}</p>
                 </div>
                 <div className="bg-emerald-50 rounded-xl p-4">
-                  <p className="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-1">Overall</p>
+                  <p className="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-1">{t("pages.ivComplicationsSimulator.overall")}</p>
                   <p className="text-2xl font-bold text-emerald-700" data-testid="text-score-total">{totalCorrect}/{totalPossible}</p>
                 </div>
               </div>
@@ -416,15 +418,15 @@ export default function IVComplicationsSimulatorPage() {
               <div className="text-left bg-amber-50 border border-amber-200 rounded-xl p-5 mb-8">
                 <div className="flex items-start gap-2 mb-3">
                   <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
-                  <h3 className="text-sm font-bold text-amber-800">Key Takeaways</h3>
+                  <h3 className="text-sm font-bold text-amber-800">{t("pages.ivComplicationsSimulator.keyTakeaways")}</h3>
                 </div>
                 <ul className="space-y-2 text-sm text-amber-900">
-                  <li className="flex items-start gap-2"><span className="text-amber-500 mt-1">•</span>Infiltration = cool, pale, swollen. Extravasation = vesicant + tissue damage risk.</li>
-                  <li className="flex items-start gap-2"><span className="text-amber-500 mt-1">•</span>Phlebitis tracks ALONG the vein; infiltration is AT the site.</li>
-                  <li className="flex items-start gap-2"><span className="text-amber-500 mt-1">•</span>Air embolism → left lateral Trendelenburg (Durant maneuver).</li>
-                  <li className="flex items-start gap-2"><span className="text-amber-500 mt-1">•</span>Blood cultures BEFORE antibiotics for suspected CLABSI.</li>
-                  <li className="flex items-start gap-2"><span className="text-amber-500 mt-1">•</span>Never use syringes smaller than 10 mL to flush PICC/central lines.</li>
-                  <li className="flex items-start gap-2"><span className="text-amber-500 mt-1">•</span>Speed shock is caused by too-rapid IV push, not drug allergy.</li>
+                  <li className="flex items-start gap-2"><span className="text-amber-500 mt-1">•</span>{t("pages.ivComplicationsSimulator.infiltrationCoolPaleSwollenExtravasation")}</li>
+                  <li className="flex items-start gap-2"><span className="text-amber-500 mt-1">•</span>{t("pages.ivComplicationsSimulator.phlebitisTracksAlongTheVein")}</li>
+                  <li className="flex items-start gap-2"><span className="text-amber-500 mt-1">•</span>{t("pages.ivComplicationsSimulator.airEmbolismLeftLateralTrendelenburg")}</li>
+                  <li className="flex items-start gap-2"><span className="text-amber-500 mt-1">•</span>{t("pages.ivComplicationsSimulator.bloodCulturesBeforeAntibioticsFor")}</li>
+                  <li className="flex items-start gap-2"><span className="text-amber-500 mt-1">•</span>{t("pages.ivComplicationsSimulator.neverUseSyringesSmallerThan")}</li>
+                  <li className="flex items-start gap-2"><span className="text-amber-500 mt-1">•</span>{t("pages.ivComplicationsSimulator.speedShockIsCausedBy")}</li>
                 </ul>
               </div>
 
@@ -443,8 +445,8 @@ export default function IVComplicationsSimulatorPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
       <SEO
-        title="IV Complications & Line Management Simulator | NurseNest"
-        description="Free interactive nursing simulator for identifying and managing IV complications including infiltration, extravasation, phlebitis, air embolism, and more."
+        title={t("pages.ivComplicationsSimulator.ivComplicationsLineManagementSimulator2")}
+        description={t("pages.ivComplicationsSimulator.freeInteractiveNursingSimulatorFor2")}
         keywords="IV complications nursing, infiltration vs extravasation, phlebitis management, CLABSI prevention, air embolism nursing, IV therapy complications, nursing simulation free"
         canonicalPath="/iv-complications-simulator"
         ogType="website"
@@ -513,7 +515,7 @@ export default function IVComplicationsSimulatorPage() {
             )}
 
             <div className="bg-gray-50 rounded-xl p-4 mb-4">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5">Patient Description</p>
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5">{t("pages.ivComplicationsSimulator.patientDescription")}</p>
               <p className="text-sm text-gray-700 leading-relaxed" data-testid="text-patient-description">{scenario.patientDescription}</p>
             </div>
 
@@ -613,7 +615,7 @@ export default function IVComplicationsSimulatorPage() {
                   <div className="flex items-start gap-2">
                     <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-1">Exam Trap Tip</p>
+                      <p className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-1">{t("pages.ivComplicationsSimulator.examTrapTip")}</p>
                       <p className="text-sm text-amber-800 leading-relaxed" data-testid="text-exam-trap">{scenario.examTrapTip}</p>
                     </div>
                   </div>

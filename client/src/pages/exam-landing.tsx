@@ -5,6 +5,7 @@ import { LocaleLink } from "@/lib/LocaleLink";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import { SEO_EXAM_PAGES, type SeoExamPageConfig, type SeoSampleQuestion } from "@/data/seo-exam-data";
 import { getMockExamCountByExamCode } from "@/lib/flagship-mock-exam-configs";
+import { useI18n } from "@/lib/i18n";
 import {
   ChevronDown,
   ChevronRight,
@@ -24,6 +25,7 @@ import {
 } from "lucide-react";
 
 function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   return (
     <div className="border border-gray-200 rounded-lg overflow-hidden" data-testid={`faq-item-${index}`}>
@@ -89,7 +91,7 @@ function SampleQuestion({ q, index }: { q: SeoSampleQuestion; index: number }) {
       </div>
       {showRationale && (
         <div className="bg-[#BFA6F6]/10 border border-[#BFA6F6]/20 rounded-lg p-4 mt-3" data-testid={`question-${index}-rationale`}>
-          <p className="text-sm font-semibold text-[#2E3A59] mb-1">Rationale</p>
+          <p className="text-sm font-semibold text-[#2E3A59] mb-1">{t("pages.examLanding.rationale")}</p>
           <p className="text-sm text-gray-700 leading-relaxed">{q.rationale}</p>
         </div>
       )}
@@ -101,8 +103,8 @@ function ExamNotFound() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="text-center max-w-md px-4">
-        <h1 className="text-2xl font-bold text-[#2E3A59] mb-4" data-testid="text-exam-not-found">Exam Not Found</h1>
-        <p className="text-gray-600 mb-6">The exam page you are looking for is not available. Browse our available exam prep pages below.</p>
+        <h1 className="text-2xl font-bold text-[#2E3A59] mb-4" data-testid="text-exam-not-found">{t("pages.examLanding.examNotFound")}</h1>
+        <p className="text-gray-600 mb-6">{t("pages.examLanding.theExamPageYouAre")}</p>
         <div className="flex flex-wrap gap-2 justify-center">
           {SEO_EXAM_PAGES.map(page => (
             <LocaleLink
@@ -196,9 +198,9 @@ export default function ExamLandingPage() {
         <section className="bg-gradient-to-b from-[#2E3A59] to-[#3d4d73] text-white py-16 md:py-20" data-testid="exam-hero">
           <div className="max-w-4xl mx-auto px-4">
             <nav className="flex items-center gap-2 text-sm text-white/60 mb-6" data-testid="exam-breadcrumb">
-              <LocaleLink href="/" className="hover:text-white/80">Home</LocaleLink>
+              <LocaleLink href="/" className="hover:text-white/80">{t("pages.examLanding.home")}</LocaleLink>
               <ChevronRight className="w-3 h-3" />
-              <LocaleLink href="/mock-exams" className="hover:text-white/80">Practice Exams</LocaleLink>
+              <LocaleLink href="/mock-exams" className="hover:text-white/80">{t("pages.examLanding.practiceExams")}</LocaleLink>
               <ChevronRight className="w-3 h-3" />
               <span className="text-white/90">{examData.examName}</span>
             </nav>
@@ -225,28 +227,28 @@ export default function ExamLandingPage() {
               <div className="w-10 h-10 rounded-xl bg-[#BFA6F6]/10 flex items-center justify-center">
                 <FileText className="w-5 h-5 text-[#BFA6F6]" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Exam Format</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.examLanding.examFormat")}</h2>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
                 <div data-testid="text-question-count">
-                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Questions</p>
+                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.examLanding.questions")}</p>
                   <p className="text-lg font-bold text-[#2E3A59]">{examData.formatDetails.questionCount}</p>
                 </div>
                 <div data-testid="text-time-limit">
-                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Time Limit</p>
+                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.examLanding.timeLimit")}</p>
                   <p className="text-lg font-bold text-[#2E3A59]">{examData.formatDetails.timeLimit}</p>
                 </div>
                 <div data-testid="text-testing-format">
-                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Testing Format</p>
+                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.examLanding.testingFormat")}</p>
                   <p className="text-lg font-bold text-[#2E3A59]">{adaptiveLabel}</p>
                 </div>
                 <div data-testid="text-pass-rate">
-                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Pass Rate</p>
+                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.examLanding.passRate")}</p>
                   <p className="text-lg font-bold text-[#2E3A59]">{examData.formatDetails.passRate}</p>
                 </div>
                 <div data-testid="text-mock-exam-count">
-                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Mock Exams</p>
+                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.examLanding.mockExams")}</p>
                   <p className="text-lg font-bold text-[#2E3A59] flex items-center gap-1.5">
                     <GraduationCap className="w-5 h-5 text-[#BFA6F6]" />
                     {(() => {
@@ -267,7 +269,7 @@ export default function ExamLandingPage() {
                 </div>
               </div>
               <div className="mt-6 pt-6 border-t border-gray-100">
-                <p className="text-xs font-semibold text-gray-500 uppercase mb-3">Question Types</p>
+                <p className="text-xs font-semibold text-gray-500 uppercase mb-3">{t("pages.examLanding.questionTypes")}</p>
                 <div className="flex flex-wrap gap-2">
                   {examData.formatDetails.questionTypes.map((qt, i) => (
                     <span
@@ -288,7 +290,7 @@ export default function ExamLandingPage() {
               <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
                 <Shield className="w-5 h-5 text-emerald-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Platform Features</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.examLanding.platformFeatures")}</h2>
             </div>
             <div className="grid sm:grid-cols-2 gap-4">
               {examData.features.map((feature, i) => {
@@ -317,7 +319,7 @@ export default function ExamLandingPage() {
               <div className="w-10 h-10 rounded-xl bg-[#BFA6F6]/10 flex items-center justify-center">
                 <HelpCircle className="w-5 h-5 text-[#BFA6F6]" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Try Sample Questions</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.examLanding.trySampleQuestions")}</h2>
             </div>
             <p className="text-gray-600 mb-6 ml-[52px]">
               Test your knowledge with these {examData.examName}-style practice questions. Select an answer to reveal the rationale.
@@ -358,7 +360,7 @@ export default function ExamLandingPage() {
               <div className="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center">
                 <HelpCircle className="w-5 h-5 text-sky-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Frequently Asked Questions</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.examLanding.frequentlyAskedQuestions")}</h2>
             </div>
             <div className="space-y-3">
               {examData.faqItems.map((f, i) => (
@@ -368,7 +370,7 @@ export default function ExamLandingPage() {
           </section>
 
           <section data-testid="section-internal-links">
-            <h2 className="text-2xl font-bold text-[#2E3A59] mb-4">Explore More Exam Prep</h2>
+            <h2 className="text-2xl font-bold text-[#2E3A59] mb-4">{t("pages.examLanding.exploreMoreExamPrep")}</h2>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
               {SEO_EXAM_PAGES.filter(p => p.slug !== examData.slug).map(page => (
                 <LocaleLink
@@ -396,8 +398,8 @@ export default function ExamLandingPage() {
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-semibold text-[#2E3A59] group-hover:text-[#BFA6F6] transition-colors">Study Guides</p>
-                    <p className="text-xs text-gray-500">Browse all lessons</p>
+                    <p className="font-semibold text-[#2E3A59] group-hover:text-[#BFA6F6] transition-colors">{t("pages.examLanding.studyGuides")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.examLanding.browseAllLessons")}</p>
                   </div>
                   <BookOpen className="w-4 h-4 text-gray-300 group-hover:text-[#BFA6F6] transition-colors" />
                 </div>
@@ -410,8 +412,8 @@ export default function ExamLandingPage() {
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-semibold text-[#2E3A59] group-hover:text-[#BFA6F6] transition-colors">Flashcards</p>
-                    <p className="text-xs text-gray-500">Review key concepts</p>
+                    <p className="font-semibold text-[#2E3A59] group-hover:text-[#BFA6F6] transition-colors">{t("pages.examLanding.flashcards")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.examLanding.reviewKeyConcepts")}</p>
                   </div>
                   <Layers className="w-4 h-4 text-gray-300 group-hover:text-[#BFA6F6] transition-colors" />
                 </div>
@@ -424,8 +426,8 @@ export default function ExamLandingPage() {
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-semibold text-[#2E3A59] group-hover:text-[#BFA6F6] transition-colors">Pharmacology</p>
-                    <p className="text-xs text-gray-500">Medication mastery</p>
+                    <p className="font-semibold text-[#2E3A59] group-hover:text-[#BFA6F6] transition-colors">{t("pages.examLanding.pharmacology")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.examLanding.medicationMastery")}</p>
                   </div>
                   <Target className="w-4 h-4 text-gray-300 group-hover:text-[#BFA6F6] transition-colors" />
                 </div>

@@ -4,6 +4,7 @@ import { adminFetch } from "@/lib/admin-fetch";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useI18n } from "@/lib/i18n";
 import {
   RefreshCw, Shield, AlertTriangle, CheckCircle, XCircle,
   Link2, FileX, Image, BookOpen, HelpCircle, Search,
@@ -42,6 +43,7 @@ const CATEGORY_ICONS: Record<string, any> = {
 };
 
 function StatusBadge({ status }: { status: string }) {
+  const { t } = useI18n();
   const config = status === "healthy"
     ? { bg: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400", icon: CheckCircle, label: "Healthy" }
     : status === "warning"
@@ -84,8 +86,8 @@ function IssuesList({ issues, searchTerm, onRepair }: { issues: any[]; searchTer
     return (
       <div className="text-center py-8 text-muted-foreground" data-testid="text-no-issues">
         <CheckCircle className="w-12 h-12 mx-auto mb-2 text-green-500" />
-        <p className="font-medium">No issues found</p>
-        <p className="text-sm">Everything looks good!</p>
+        <p className="font-medium">{t("pages.adminSiteHealth.noIssuesFound")}</p>
+        <p className="text-sm">{t("pages.adminSiteHealth.everythingLooksGood")}</p>
       </div>
     );
   }
@@ -123,18 +125,18 @@ function IssuesList({ issues, searchTerm, onRepair }: { issues: any[]; searchTer
               <div className="mt-3 ml-8 space-y-2 text-sm">
                 {issue.url && (
                   <div className="flex items-center gap-2">
-                    <span className="text-muted-foreground">URL:</span>
+                    <span className="text-muted-foreground">{t("pages.adminSiteHealth.url")}</span>
                     <code className="text-xs bg-muted px-1.5 py-0.5 rounded">{issue.url}</code>
                   </div>
                 )}
                 {issue.sourceUrl && (
                   <div className="flex items-center gap-2">
-                    <span className="text-muted-foreground">Source:</span>
+                    <span className="text-muted-foreground">{t("pages.adminSiteHealth.source")}</span>
                     <code className="text-xs bg-muted px-1.5 py-0.5 rounded">{issue.sourceUrl}</code>
                   </div>
                 )}
                 <div className="flex items-center gap-2">
-                  <span className="text-muted-foreground">Detected:</span>
+                  <span className="text-muted-foreground">{t("pages.adminSiteHealth.detected")}</span>
                   <span>{new Date(issue.detectedAt).toLocaleString()}</span>
                 </div>
                 {issue.autoFixable && issue.fixAction && (
@@ -167,7 +169,7 @@ function OverviewTab({ data, isLoading, onRepairAll, isRepairing }: { data: any;
     return (
       <div className="flex items-center justify-center py-12" data-testid="loading-overview">
         <RefreshCw className="w-6 h-6 animate-spin mr-2" />
-        <span>Scanning site health...</span>
+        <span>{t("pages.adminSiteHealth.scanningSiteHealth")}</span>
       </div>
     );
   }
@@ -206,7 +208,7 @@ function OverviewTab({ data, isLoading, onRepairAll, isRepairing }: { data: any;
               <Activity className="w-8 h-8 text-blue-500" />
               <div>
                 <p className="text-2xl font-bold" data-testid="text-total-issues">{summary.totalIssues}</p>
-                <p className="text-xs text-muted-foreground">Total Issues</p>
+                <p className="text-xs text-muted-foreground">{t("pages.adminSiteHealth.totalIssues")}</p>
               </div>
             </div>
           </CardContent>
@@ -217,7 +219,7 @@ function OverviewTab({ data, isLoading, onRepairAll, isRepairing }: { data: any;
               <XCircle className="w-8 h-8 text-red-500" />
               <div>
                 <p className="text-2xl font-bold text-red-600" data-testid="text-critical-count">{summary.critical}</p>
-                <p className="text-xs text-muted-foreground">Critical</p>
+                <p className="text-xs text-muted-foreground">{t("pages.adminSiteHealth.critical")}</p>
               </div>
             </div>
           </CardContent>
@@ -228,7 +230,7 @@ function OverviewTab({ data, isLoading, onRepairAll, isRepairing }: { data: any;
               <AlertTriangle className="w-8 h-8 text-yellow-500" />
               <div>
                 <p className="text-2xl font-bold text-yellow-600" data-testid="text-warning-count">{summary.warnings}</p>
-                <p className="text-xs text-muted-foreground">Warnings</p>
+                <p className="text-xs text-muted-foreground">{t("pages.adminSiteHealth.warnings")}</p>
               </div>
             </div>
           </CardContent>
@@ -239,7 +241,7 @@ function OverviewTab({ data, isLoading, onRepairAll, isRepairing }: { data: any;
               <HelpCircle className="w-8 h-8 text-blue-500" />
               <div>
                 <p className="text-2xl font-bold text-blue-600" data-testid="text-info-count">{summary.info}</p>
-                <p className="text-xs text-muted-foreground">Info</p>
+                <p className="text-xs text-muted-foreground">{t("pages.adminSiteHealth.info")}</p>
               </div>
             </div>
           </CardContent>
@@ -250,31 +252,31 @@ function OverviewTab({ data, isLoading, onRepairAll, isRepairing }: { data: any;
         <Card>
           <CardContent className="pt-4 pb-4 text-center">
             <p className="text-xl font-bold" data-testid="text-published-lessons">{contentStats.publishedLessons}</p>
-            <p className="text-xs text-muted-foreground">Published Lessons</p>
+            <p className="text-xs text-muted-foreground">{t("pages.adminSiteHealth.publishedLessons")}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 pb-4 text-center">
             <p className="text-xl font-bold" data-testid="text-published-questions">{contentStats.publishedQuestions}</p>
-            <p className="text-xs text-muted-foreground">Published Questions</p>
+            <p className="text-xs text-muted-foreground">{t("pages.adminSiteHealth.publishedQuestions")}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 pb-4 text-center">
             <p className="text-xl font-bold" data-testid="text-flashcard-decks">{contentStats.publishedFlashcardDecks}</p>
-            <p className="text-xs text-muted-foreground">Flashcard Decks</p>
+            <p className="text-xs text-muted-foreground">{t("pages.adminSiteHealth.flashcardDecks")}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 pb-4 text-center">
             <p className="text-xl font-bold" data-testid="text-blog-posts">{contentStats.publishedBlogPosts}</p>
-            <p className="text-xs text-muted-foreground">Blog Posts</p>
+            <p className="text-xs text-muted-foreground">{t("pages.adminSiteHealth.blogPosts")}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 pb-4 text-center">
             <p className="text-xl font-bold" data-testid="text-sitemap-urls">{contentStats.totalSitemapUrls.toLocaleString()}</p>
-            <p className="text-xs text-muted-foreground">Sitemap URLs</p>
+            <p className="text-xs text-muted-foreground">{t("pages.adminSiteHealth.sitemapUrls")}</p>
           </CardContent>
         </Card>
       </div>
@@ -282,7 +284,7 @@ function OverviewTab({ data, isLoading, onRepairAll, isRepairing }: { data: any;
       {Object.keys(categoryCounts).length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Issues by Category</CardTitle>
+            <CardTitle className="text-lg">{t("pages.adminSiteHealth.issuesByCategory")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -320,7 +322,7 @@ function SeoAuditTab() {
     return (
       <div className="flex items-center justify-center py-12">
         <RefreshCw className="w-6 h-6 animate-spin mr-2" />
-        <span>Running SEO audit...</span>
+        <span>{t("pages.adminSiteHealth.runningSeoAudit")}</span>
       </div>
     );
   }
@@ -335,25 +337,25 @@ function SeoAuditTab() {
         <Card>
           <CardContent className="pt-4 pb-4 text-center">
             <p className={`text-3xl font-bold ${scoreColor}`} data-testid="text-seo-score">{data.score}%</p>
-            <p className="text-xs text-muted-foreground">SEO Health Score</p>
+            <p className="text-xs text-muted-foreground">{t("pages.adminSiteHealth.seoHealthScore")}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 pb-4 text-center">
             <p className="text-xl font-bold" data-testid="text-seo-total">{data.totalPages}</p>
-            <p className="text-xs text-muted-foreground">Pages Audited</p>
+            <p className="text-xs text-muted-foreground">{t("pages.adminSiteHealth.pagesAudited")}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 pb-4 text-center">
             <p className="text-xl font-bold text-green-600" data-testid="text-seo-ok">{data.pagesOk}</p>
-            <p className="text-xs text-muted-foreground">Pages OK</p>
+            <p className="text-xs text-muted-foreground">{t("pages.adminSiteHealth.pagesOk")}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 pb-4 text-center">
             <p className="text-xl font-bold text-red-600" data-testid="text-seo-issues">{data.pagesWithIssues}</p>
-            <p className="text-xs text-muted-foreground">Pages with Issues</p>
+            <p className="text-xs text-muted-foreground">{t("pages.adminSiteHealth.pagesWithIssues")}</p>
           </CardContent>
         </Card>
       </div>
@@ -361,19 +363,19 @@ function SeoAuditTab() {
       {data.audit && data.audit.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Page Audit Details</CardTitle>
+            <CardTitle className="text-lg">{t("pages.adminSiteHealth.pageAuditDetails")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
               <table className="w-full text-sm" data-testid="table-seo-audit">
                 <thead>
                   <tr className="border-b text-left">
-                    <th className="py-2 px-2">Page</th>
-                    <th className="py-2 px-2 text-center">Title</th>
-                    <th className="py-2 px-2 text-center">Description</th>
-                    <th className="py-2 px-2 text-center">Canonical</th>
+                    <th className="py-2 px-2">{t("pages.adminSiteHealth.page")}</th>
+                    <th className="py-2 px-2 text-center">{t("pages.adminSiteHealth.title")}</th>
+                    <th className="py-2 px-2 text-center">{t("pages.adminSiteHealth.description")}</th>
+                    <th className="py-2 px-2 text-center">{t("pages.adminSiteHealth.canonical")}</th>
                     <th className="py-2 px-2 text-center">OG</th>
-                    <th className="py-2 px-2">Issues</th>
+                    <th className="py-2 px-2">{t("pages.adminSiteHealth.issues")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -427,7 +429,7 @@ function InternalLinksTab() {
     return (
       <div className="flex items-center justify-center py-12">
         <RefreshCw className="w-6 h-6 animate-spin mr-2" />
-        <span>Analyzing internal links...</span>
+        <span>{t("pages.adminSiteHealth.analyzingInternalLinks")}</span>
       </div>
     );
   }
@@ -436,8 +438,8 @@ function InternalLinksTab() {
     return (
       <div className="text-center py-8 text-muted-foreground">
         <LinkIcon className="w-12 h-12 mx-auto mb-2" />
-        <p className="font-medium">No suggestions</p>
-        <p className="text-sm">Internal linking structure looks complete</p>
+        <p className="font-medium">{t("pages.adminSiteHealth.noSuggestions")}</p>
+        <p className="text-sm">{t("pages.adminSiteHealth.internalLinkingStructureLooksComplete")}</p>
       </div>
     );
   }
@@ -544,7 +546,7 @@ export default function AdminSiteHealth() {
             <Shield className="w-7 h-7 text-blue-600" />
             Site Health & Integrity
           </h1>
-          <p className="text-sm text-muted-foreground">Monitor broken links, content gaps, SEO metadata, and sitemap integrity</p>
+          <p className="text-sm text-muted-foreground">{t("pages.adminSiteHealth.monitorBrokenLinksContentGaps")}</p>
         </div>
         <Button
           variant="outline"
@@ -598,7 +600,7 @@ export default function AdminSiteHealth() {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
-              placeholder="Search issues..."
+              placeholder={t("pages.adminSiteHealth.searchIssues")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-9"

@@ -29,7 +29,9 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import { useI18n } from "@/lib/i18n";
 function PracticeQuestion({ question, index }: { question: ComparisonPracticeQuestion; index: number }) {
+  const { t } = useI18n();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showRationale, setShowRationale] = useState(false);
 
@@ -126,10 +128,10 @@ export default function ClinicalComparisonPage() {
         <div className="flex items-center justify-center py-20">
           <div className="text-center" data-testid="comparison-not-found">
             <Scale className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Comparison Not Found</h1>
-            <p className="text-gray-500 mb-6">The requested clinical comparison page could not be found.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.clinicalComparisonPage.comparisonNotFound")}</h1>
+            <p className="text-gray-500 mb-6">{t("pages.clinicalComparisonPage.theRequestedClinicalComparisonPage")}</p>
             <LocaleLink href="/compare">
-              <Button variant="outline" data-testid="link-back-comparisons">Browse Comparisons</Button>
+              <Button variant="outline" data-testid="link-back-comparisons">{t("pages.clinicalComparisonPage.browseComparisons")}</Button>
             </LocaleLink>
           </div>
         </div>
@@ -179,7 +181,7 @@ export default function ClinicalComparisonPage() {
         breadcrumbs={breadcrumbItems}
       />
 
-      <nav className="bg-white border-b border-gray-100 px-4 py-3" aria-label="Breadcrumb" data-testid="breadcrumb-nav">
+      <nav className="bg-white border-b border-gray-100 px-4 py-3" aria-label={t("pages.clinicalComparisonPage.breadcrumb")} data-testid="breadcrumb-nav">
         <div className="max-w-5xl mx-auto">
           <BreadcrumbNav items={breadcrumbItems} />
         </div>
@@ -191,7 +193,7 @@ export default function ClinicalComparisonPage() {
             <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
               <Scale className="w-6 h-6 text-[#BFA6F6]" />
             </div>
-            <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">Clinical Comparison</span>
+            <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">{t("pages.clinicalComparisonPage.clinicalComparison")}</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-comparison-title">
             {data.title}
@@ -224,13 +226,13 @@ export default function ClinicalComparisonPage() {
         <section className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden" data-testid="section-comparison-table">
           <div className="flex items-center gap-3 p-6 pb-0 mb-4">
             <Scale className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-900">Side-by-Side Comparison</h2>
+            <h2 className="text-xl font-bold text-gray-900">{t("pages.clinicalComparisonPage.sidebysideComparison")}</h2>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-gray-50 border-y border-gray-200">
-                  <th className="text-left p-4 font-semibold text-gray-700 w-1/4">Category</th>
+                  <th className="text-left p-4 font-semibold text-gray-700 w-1/4">{t("pages.clinicalComparisonPage.category")}</th>
                   <th className="text-left p-4 font-semibold text-blue-700 w-[37.5%]">{data.conditionA}</th>
                   <th className="text-left p-4 font-semibold text-purple-700 w-[37.5%]">{data.conditionB}</th>
                 </tr>
@@ -283,7 +285,7 @@ export default function ClinicalComparisonPage() {
         <section className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-2xl border border-primary/20 p-6 md:p-8" data-testid="section-exam-tips">
           <div className="flex items-center gap-3 mb-4">
             <Lightbulb className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-900">Exam Tips</h2>
+            <h2 className="text-xl font-bold text-gray-900">{t("pages.clinicalComparisonPage.examTips")}</h2>
           </div>
           <ul className="space-y-3">
             {data.examTips.map((tip, idx) => (
@@ -300,7 +302,7 @@ export default function ClinicalComparisonPage() {
         <section data-testid="section-practice-questions">
           <div className="flex items-center gap-3 mb-6">
             <FileText className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+            <h2 className="text-xl font-bold text-gray-900">{t("pages.clinicalComparisonPage.practiceQuestions")}</h2>
           </div>
           <div className="space-y-6">
             {data.practiceQuestions.map((q, idx) => (
@@ -312,7 +314,7 @@ export default function ClinicalComparisonPage() {
         <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-faq">
           <div className="flex items-center gap-3 mb-4">
             <HelpCircle className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+            <h2 className="text-xl font-bold text-gray-900">{t("pages.clinicalComparisonPage.frequentlyAskedQuestions")}</h2>
           </div>
           <div className="divide-y divide-gray-100">
             {data.faq.map((item, idx) => (
@@ -324,7 +326,7 @@ export default function ClinicalComparisonPage() {
         <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-related-comparisons">
           <div className="flex items-center gap-3 mb-4">
             <Scale className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-900">More Clinical Comparisons</h2>
+            <h2 className="text-xl font-bold text-gray-900">{t("pages.clinicalComparisonPage.moreClinicalComparisons")}</h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {allSlugs
@@ -356,7 +358,7 @@ export default function ClinicalComparisonPage() {
         />
 
         <section className="bg-gradient-to-br from-[#2E3A59] to-[#3d4f7a] rounded-2xl p-8 text-center text-white" data-testid="section-cta">
-          <h2 className="text-2xl font-bold mb-3">Master Clinical Comparisons for Your Nursing Exam</h2>
+          <h2 className="text-2xl font-bold mb-3">{t("pages.clinicalComparisonPage.masterClinicalComparisonsForYour")}</h2>
           <p className="text-gray-300 mb-6 max-w-xl mx-auto">
             Access hundreds of practice questions, clinical simulations, and comprehensive study guides with NurseNest.
           </p>

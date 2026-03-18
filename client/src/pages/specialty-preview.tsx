@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
+import { useI18n } from "@/lib/i18n";
 interface SampleQuestion {
   id: string;
   question: string;
@@ -576,6 +577,7 @@ const SPECIALTY_PREVIEWS: Record<string, SpecialtyPreviewConfig> = {
 };
 
 function QuestionCard({ question, index, isPreview }: { question: SampleQuestion; index: number; isPreview: boolean }) {
+  const { t } = useI18n();
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const answered = selectedOption !== null;
   const isCorrect = selectedOption === question.correctIndex;
@@ -657,7 +659,7 @@ function QuestionCard({ question, index, isPreview }: { question: SampleQuestion
               </p>
               <div className="mt-2 flex items-center gap-1 text-xs text-gray-400">
                 <Lock className="w-3 h-3" />
-                <span>Full rationale available with premium access</span>
+                <span>{t("pages.specialtyPreview.fullRationaleAvailableWithPremium")}</span>
               </div>
             </div>
           </div>
@@ -752,7 +754,7 @@ function ApiQuestionCard({ question, index }: { question: ApiPreviewQuestion; in
               {question.hasMoreRationale && (
                 <div className="mt-2 flex items-center gap-1 text-xs text-gray-400">
                   <Lock className="w-3 h-3" />
-                  <span>Full rationale available with premium access</span>
+                  <span>{t("pages.specialtyPreview.fullRationaleAvailableWithPremium2")}</span>
                 </div>
               )}
             </div>
@@ -799,10 +801,10 @@ function ApiDrivenPreview({ slug }: { slug: string }) {
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-specialty-not-found">Topic Not Found</h1>
-          <p className="text-gray-600 mb-6">The preview you're looking for doesn't exist or has no questions available.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-specialty-not-found">{t("pages.specialtyPreview.topicNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.specialtyPreview.thePreviewYoureLookingFor")}</p>
           <Link href="/practice-questions">
-            <Button data-testid="button-browse-questions">Browse Practice Questions</Button>
+            <Button data-testid="button-browse-questions">{t("pages.specialtyPreview.browsePracticeQuestions")}</Button>
           </Link>
         </div>
         <Footer />
@@ -856,9 +858,9 @@ function ApiDrivenPreview({ slug }: { slug: string }) {
 
       <nav className="bg-white border-b border-gray-100 py-3 px-4" data-testid="breadcrumbs">
         <div className="max-w-4xl mx-auto flex items-center gap-2 text-sm text-gray-500 flex-wrap">
-          <Link href="/" className="hover:text-primary transition-colors" data-testid="breadcrumb-home">Home</Link>
+          <Link href="/" className="hover:text-primary transition-colors" data-testid="breadcrumb-home">{t("pages.specialtyPreview.home")}</Link>
           <ChevronRight className="w-3 h-3" />
-          <Link href="/practice-questions" className="hover:text-primary transition-colors" data-testid="breadcrumb-practice">Practice Questions</Link>
+          <Link href="/practice-questions" className="hover:text-primary transition-colors" data-testid="breadcrumb-practice">{t("pages.specialtyPreview.practiceQuestions")}</Link>
           <ChevronRight className="w-3 h-3" />
           <span className="text-gray-900 font-medium" data-testid="breadcrumb-current">{topicTitle}</span>
         </div>
@@ -978,7 +980,7 @@ function ApiDrivenPreview({ slug }: { slug: string }) {
 
         {(data.relatedLessons.length > 0 || data.relatedFlashcards.length > 0) && (
           <section className="mb-10" data-testid="section-related-resources">
-            <h2 className="text-xl font-bold text-gray-900 mb-5">Related Study Resources</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-5">{t("pages.specialtyPreview.relatedStudyResources")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {data.relatedLessons.map(lesson => (
                 <Link
@@ -992,7 +994,7 @@ function ApiDrivenPreview({ slug }: { slug: string }) {
                   </div>
                   <div className="min-w-0">
                     <h3 className="text-sm font-semibold text-gray-900 group-hover:text-teal-700 transition-colors truncate">{lesson.title}</h3>
-                    <p className="text-xs text-gray-500">Lesson</p>
+                    <p className="text-xs text-gray-500">{t("pages.specialtyPreview.lesson")}</p>
                   </div>
                 </Link>
               ))}
@@ -1008,7 +1010,7 @@ function ApiDrivenPreview({ slug }: { slug: string }) {
                   </div>
                   <div className="min-w-0">
                     <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700 transition-colors truncate">{deck.title}</h3>
-                    <p className="text-xs text-gray-500">Flashcard Deck</p>
+                    <p className="text-xs text-gray-500">{t("pages.specialtyPreview.flashcardDeck")}</p>
                   </div>
                 </Link>
               ))}
@@ -1071,7 +1073,7 @@ function ApiDrivenPreview({ slug }: { slug: string }) {
             <section className="mt-10 mb-10 bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl border border-amber-100 p-6" data-testid="section-cert-cross-promo">
               <div className="flex items-center gap-2 mb-4">
                 <GraduationCap className="w-5 h-5 text-amber-600" />
-                <h2 className="text-lg font-bold text-gray-900">Related Certification Prep</h2>
+                <h2 className="text-lg font-bold text-gray-900">{t("pages.specialtyPreview.relatedCertificationPrep")}</h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {relevantCerts.map(cert => (
@@ -1161,9 +1163,9 @@ export default function SpecialtyPreviewPage() {
 
       <nav className="bg-white border-b border-gray-100 py-3 px-4" data-testid="breadcrumbs">
         <div className="max-w-4xl mx-auto flex items-center gap-2 text-sm text-gray-500 flex-wrap">
-          <Link href="/" className="hover:text-primary transition-colors" data-testid="breadcrumb-home">Home</Link>
+          <Link href="/" className="hover:text-primary transition-colors" data-testid="breadcrumb-home">{t("pages.specialtyPreview.home2")}</Link>
           <ChevronRight className="w-3 h-3" />
-          <Link href="/practice-questions" className="hover:text-primary transition-colors" data-testid="breadcrumb-practice">Practice Questions</Link>
+          <Link href="/practice-questions" className="hover:text-primary transition-colors" data-testid="breadcrumb-practice">{t("pages.specialtyPreview.practiceQuestions2")}</Link>
           <ChevronRight className="w-3 h-3" />
           <span className="text-gray-900 font-medium" data-testid="breadcrumb-current">{config.name}</span>
         </div>
@@ -1299,7 +1301,7 @@ export default function SpecialtyPreviewPage() {
                   <BookOpen className="w-6 h-6" style={{ color: config.color }} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-bold text-gray-900 mb-1">Want to learn more?</h3>
+                  <h3 className="text-sm font-bold text-gray-900 mb-1">{t("pages.specialtyPreview.wantToLearnMore")}</h3>
                   <p className="text-sm text-gray-600">Read our comprehensive {config.name} study guide with clinical skills, conditions, and career information.</p>
                 </div>
                 <Link href={`/guides/${config.guideSlug}`}>

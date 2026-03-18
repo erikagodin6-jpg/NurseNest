@@ -2,6 +2,7 @@ import { useState, useRef, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Target, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import type {
   ImageHotspotPayload,
   ImageHotspotResponse,
@@ -20,6 +21,7 @@ export function ImageHotspotRenderer({
   onResponseChange,
   disabled = false,
 }: ImageHotspotRendererProps) {
+  const { t } = useI18n();
   const [scale, setScale] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -139,7 +141,7 @@ export function ImageHotspotRenderer({
                 data-testid={`badge-selected-region-${id}`}
               >
                 {region?.label || id}
-                {!disabled && <span className="ml-1">&times;</span>}
+                {!disabled && <span className="ml-1">{t("components.ngnRenderersImageHotspotRenderer.times")}</span>}
               </Badge>
             );
           })}

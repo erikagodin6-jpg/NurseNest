@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { Microscope, Activity, Scan, FlaskConical, Radio } from "lucide-react";
 
 export function DiagnosticsModule() {
+  const { t } = useI18n();
   const contrastMediaContent = useEditableText("diag-contrast-media-content", "Contrast media enhances imaging by increasing the difference in density between structures. Iodinated contrast is used for CT scans and angiography; gadolinium-based contrast is used for MRI. Patients must be screened for allergies (especially iodine/shellfish for CT contrast), renal function (contrast can cause nephropathy — check creatinine/GFR before administration), and metformin use (must be held 48 hours post-contrast to prevent lactic acidosis). Signs of contrast reaction range from mild (hives, itching) to severe (anaphylaxis with bronchospasm and hypotension). Emergency equipment must be immediately available.");
   const sensitivitySpecificityContent = useEditableText("diag-sensitivity-specificity-content", "Sensitivity and specificity are fundamental properties of diagnostic tests. Sensitivity (true positive rate) answers: 'If the patient HAS the disease, will the test detect it?' A highly sensitive test rarely misses disease — useful for screening (rule OUT). Specificity (true positive rate for negatives) answers: 'If the patient does NOT have the disease, will the test correctly show negative?' A highly specific test rarely gives false positives — useful for confirmation (rule IN). Memory aid: SN-N-OUT (Sensitive test, Negative result, rules OUT disease) and SP-P-IN (Specific test, Positive result, rules IN disease).");
   const pocTestingContent = useEditableText("diag-poc-testing-content", "Point-of-care testing (POCT) provides rapid results at the bedside, enabling immediate clinical decisions. Common POCT includes: blood glucose monitoring (most common POCT in nursing), urine dipstick analysis, rapid strep tests, pregnancy tests (hCG), troponin for acute MI, INR for anticoagulation monitoring, and arterial blood gases. Advantages include faster turnaround and immediate treatment decisions. Limitations include potentially lower accuracy than central lab testing, need for quality control, and operator-dependent reliability. Nurses must follow facility protocols for POCT quality assurance.");
@@ -43,7 +45,7 @@ export function DiagnosticsModule() {
         </div>
         <CognitiveCard
           type="warning"
-          title="Contrast Media Safety"
+          title={t("data.pre_nursing_diagnostics.contrastMediaSafety")}
           content={contrastMediaContent}
         />
       </MicroLesson>
@@ -97,7 +99,7 @@ export function DiagnosticsModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Clinical Application of Sensitivity and Specificity"
+          title={t("data.pre_nursing_diagnostics.clinicalApplicationOfSensitivityAnd")}
           content={sensitivitySpecificityContent}
         />
       </MicroLesson>
@@ -124,13 +126,13 @@ export function DiagnosticsModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Point-of-Care Testing (POCT)"
+          title={t("data.pre_nursing_diagnostics.pointofcareTestingPoct")}
           content={pocTestingContent}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Diagnostic Test"
+        title={t("data.pre_nursing_diagnostics.matchTheDiagnosticTest")}
         pairs={[
           { term: "X-ray", definition: "2D imaging using ionizing radiation, best for bones and chest", id: "xray" },
           { term: "CT scan", definition: "Cross-sectional imaging, gold standard for acute stroke", id: "ct" },
@@ -142,7 +144,7 @@ export function DiagnosticsModule() {
       />
 
       <SelfCheckQuiz
-        title="Diagnostics & Imaging Quiz"
+        title={t("data.pre_nursing_diagnostics.diagnosticsImagingQuiz")}
         questions={[
           {
             id: "diag1",

@@ -9,6 +9,7 @@ import { MockExamTeaser } from "./MockExamTeaser";
 import { PremiumFeatureSummary } from "./PremiumFeatureSummary";
 import { SocialProofBar } from "./SocialProofBar";
 
+import { useI18n } from "@/lib/i18n";
 interface ConversionFunnelProps {
   topic?: string;
   bodySystem?: string;
@@ -26,6 +27,7 @@ interface ConversionFunnelProps {
 }
 
 function FunnelCTA({ position, profession }: { position: "top" | "mid" | "bottom"; profession?: string }) {
+  const { t } = useI18n();
   const { user, effectiveTier } = useAuth();
   if (user && effectiveTier && effectiveTier !== "free") return null;
 
@@ -98,7 +100,7 @@ function ProgressPrompt() {
 
   return (
     <div className="bg-blue-50 rounded-xl border border-blue-100 p-5 text-center space-y-3" data-testid="funnel-progress-prompt">
-      <h4 className="font-bold text-gray-900">Track Your Study Progress</h4>
+      <h4 className="font-bold text-gray-900">{t("components.conversionFunnelConversionFunnel.trackYourStudyProgress")}</h4>
       <p className="text-sm text-gray-600 max-w-md mx-auto">
         Create a free account to save your quiz scores, track which topics you've mastered, and get personalized study recommendations.
       </p>

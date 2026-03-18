@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { FileText, BarChart3, Search, BookOpen } from "lucide-react";
 
 export function ResearchReadingModule() {
+  const { t } = useI18n();
   const picoContent = useEditableText("rr-pico-content", "PICO is a framework for formulating clinical questions that can be answered through research. P = Patient/Population (Who is the patient or group?), I = Intervention (What treatment or action is being considered?), C = Comparison (What is the alternative — another treatment, placebo, or no treatment?), O = Outcome (What is the desired measurable result?). Example: In hospitalized elderly patients (P), does hourly rounding (I) compared to standard care (C) reduce fall rates (O)? A well-built PICO question guides your literature search and helps you find the most relevant evidence.");
   const biasContent = useEditableText("rr-bias-content", "Bias is any systematic error that distorts study results. Selection bias occurs when participants are not representative of the target population or are not randomly assigned. Measurement bias happens when outcomes are assessed inconsistently or when assessors know which group participants belong to (lack of blinding). Publication bias arises because studies with positive or significant results are more likely to be published, creating a skewed evidence base. Attrition bias occurs when participants drop out unevenly between groups. Understanding bias helps you evaluate whether a study's conclusions are trustworthy.");
   const significanceContent = useEditableText("rr-significance-content", "Statistical significance (p < 0.05) means the result is unlikely due to chance alone — but it does NOT mean the result is clinically important. A study might find a statistically significant blood pressure reduction of 1 mmHg with a new drug — statistically real but clinically meaningless. Clinical significance asks: Is the effect large enough to matter to patients? Always look at effect size, confidence intervals, and clinical context, not just p-values.");
@@ -24,7 +26,7 @@ export function ResearchReadingModule() {
       <MicroLesson title="Anatomy of a Research Article" subtitle="Understanding each section's purpose" icon={<FileText className="w-5 h-5" />}>
         <EditableModuleText sectionKey="rr-article-anatomy-content" defaultText="Research articles follow a standardized structure called IMRAD: Introduction, Methods, Results, and Discussion. Understanding what each section contains helps you efficiently extract the information you need without reading every word." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="Sections of a Research Article"
+          title={t("data.pre_nursing_research_reading.sectionsOfAResearchArticle")}
           cards={[
             {
               id: "rr-abstract",
@@ -82,7 +84,7 @@ export function ResearchReadingModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Understanding Bias in Research"
+          title={t("data.pre_nursing_research_reading.understandingBiasInResearch")}
           content={biasContent}
         />
       </MicroLesson>
@@ -105,7 +107,7 @@ export function ResearchReadingModule() {
         </div>
         <CognitiveCard
           type="warning"
-          title="Statistical vs Clinical Significance"
+          title={t("data.pre_nursing_research_reading.statisticalVsClinicalSignificance")}
           content={significanceContent}
         />
       </MicroLesson>
@@ -147,13 +149,13 @@ export function ResearchReadingModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="The PICO Framework"
+          title={t("data.pre_nursing_research_reading.thePicoFramework")}
           content={picoContent}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Research Concept"
+        title={t("data.pre_nursing_research_reading.matchTheResearchConcept")}
         pairs={[
           { id: "rr-m1", term: "P-value", definition: "Probability the result occurred by chance" },
           { id: "rr-m2", term: "Confidence interval", definition: "Range where the true value likely falls" },
@@ -165,7 +167,7 @@ export function ResearchReadingModule() {
       />
 
       <SelfCheckQuiz
-        title="Research Reading Quiz"
+        title={t("data.pre_nursing_research_reading.researchReadingQuiz")}
         questions={[
           {
             id: "rr1",

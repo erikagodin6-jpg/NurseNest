@@ -26,6 +26,7 @@ import {
 import { clinicalConfusions, confusionCategories, confusionBodySystems } from "@/data/clinical-confusions";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
+import { useI18n } from "@/lib/i18n";
 const systemIcons: Record<string, any> = {
   Cardiovascular: Heart,
   Respiratory: Wind,
@@ -44,6 +45,7 @@ const difficultyColors: Record<string, { bg: string; text: string; label: string
 };
 
 export default function ClinicalClarityIndex() {
+  const { t } = useI18n();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedSystem, setSelectedSystem] = useState<string | null>(null);
@@ -64,8 +66,8 @@ export default function ClinicalClarityIndex() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
       <SEO
-        title="Clinical Clarity - Why Does This Happen? | Nursing Pathophysiology Explained"
-        description="Expert mechanistic explanations for the most confusing nursing pathophysiology questions. Understand WHY clinical phenomena occur through cellular mechanisms, correct misconceptions, and build clinical reasoning."
+        title={t("pages.clinicalClarity.clinicalClarityWhyDoesThis")}
+        description={t("pages.clinicalClarity.expertMechanisticExplanationsForThe")}
         keywords="nursing pathophysiology explained, why does potassium affect heart, clinical reasoning nursing, mechanism nursing education, nursing student confusion, clinical clarity"
         canonicalPath="/clinical-clarity"
         ogType="website"
@@ -124,7 +126,7 @@ export default function ClinicalClarityIndex() {
           <div className="relative max-w-lg">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <Input
-              placeholder="Search questions, mechanisms, or keywords..."
+              placeholder={t("pages.clinicalClarity.searchQuestionsMechanismsOrKeywords")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 h-12 rounded-xl border-gray-200 focus:border-primary focus:ring-primary/20 bg-white"
@@ -234,8 +236,8 @@ export default function ClinicalClarityIndex() {
         {filteredConfusions.length === 0 && (
           <div className="text-center py-20">
             <Search className="w-12 h-12 text-gray-200 mx-auto mb-4" />
-            <p className="text-gray-400 text-lg">No topics match your search.</p>
-            <p className="text-gray-300 text-sm mt-1">Try adjusting your filters or search terms.</p>
+            <p className="text-gray-400 text-lg">{t("pages.clinicalClarity.noTopicsMatchYourSearch")}</p>
+            <p className="text-gray-300 text-sm mt-1">{t("pages.clinicalClarity.tryAdjustingYourFiltersOr")}</p>
           </div>
         )}
 

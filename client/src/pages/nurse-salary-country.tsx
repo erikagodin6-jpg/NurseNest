@@ -19,8 +19,8 @@ function SalaryNotFound() {
       <Navigation />
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center max-w-md px-4">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">Country Not Found</h1>
-          <p className="text-gray-600 mb-6">The salary guide for this country is not available.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">{t("pages.nurseSalaryCountry.countryNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.nurseSalaryCountry.theSalaryGuideForThis")}</p>
           <LocaleLink href="/nurse-salary-guide" className="text-emerald-600 hover:underline font-medium" data-testid="link-back-hub">
             Browse All Salary Guides
           </LocaleLink>
@@ -78,9 +78,9 @@ export default function NurseSalaryCountryPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 to-emerald-800" />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
           <nav className="flex items-center gap-2 text-sm text-white/60 mb-6" data-testid="breadcrumb-nav">
-            <LocaleLink href="/" className="hover:text-white/80">Home</LocaleLink>
+            <LocaleLink href="/" className="hover:text-white/80">{t("pages.nurseSalaryCountry.home")}</LocaleLink>
             <ChevronRight className="w-3 h-3" />
-            <LocaleLink href="/nurse-salary-guide" className="hover:text-white/80">Salary Guide</LocaleLink>
+            <LocaleLink href="/nurse-salary-guide" className="hover:text-white/80">{t("pages.nurseSalaryCountry.salaryGuide")}</LocaleLink>
             <ChevronRight className="w-3 h-3" />
             <span className="text-white/90">{country.country}</span>
           </nav>
@@ -101,7 +101,7 @@ export default function NurseSalaryCountryPage() {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
         <section data-testid="section-overview">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Overview</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.nurseSalaryCountry.overview")}</h2>
           <div className="bg-white border border-gray-200 rounded-xl p-6">
             <p className="text-gray-700 leading-relaxed">{country.overview}</p>
           </div>
@@ -115,10 +115,10 @@ export default function NurseSalaryCountryPage() {
             <table className="w-full border-collapse bg-white rounded-xl border border-gray-200 overflow-hidden" data-testid="table-specialty">
               <thead>
                 <tr className="bg-gray-50">
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Specialty</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Average</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b hidden sm:table-cell">Range</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b hidden md:table-cell">Notes</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">{t("pages.nurseSalaryCountry.specialty")}</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">{t("pages.nurseSalaryCountry.average")}</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b hidden sm:table-cell">{t("pages.nurseSalaryCountry.range")}</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b hidden md:table-cell">{t("pages.nurseSalaryCountry.notes")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -163,9 +163,9 @@ export default function NurseSalaryCountryPage() {
             <table className="w-full border-collapse bg-white rounded-xl border border-gray-200 overflow-hidden" data-testid="table-workplace">
               <thead>
                 <tr className="bg-gray-50">
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Setting</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Average Salary</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b hidden sm:table-cell">Notes</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">{t("pages.nurseSalaryCountry.setting")}</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">{t("pages.nurseSalaryCountry.averageSalary")}</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b hidden sm:table-cell">{t("pages.nurseSalaryCountry.notes2")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -191,7 +191,7 @@ export default function NurseSalaryCountryPage() {
         </section>
 
         <section data-testid="section-key-factors">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Key Salary Factors</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.nurseSalaryCountry.keySalaryFactors")}</h2>
           <div className="bg-white border border-gray-200 rounded-xl p-6">
             <ul className="space-y-3">
               {country.keyFactors.map((factor, i) => (
@@ -205,7 +205,7 @@ export default function NurseSalaryCountryPage() {
         </section>
 
         <section className="bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-200 rounded-2xl p-8" data-testid="section-cta">
-          <h2 className="text-2xl font-bold text-gray-900 mb-3">Advance Your Nursing Career</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("pages.nurseSalaryCountry.advanceYourNursingCareer")}</h2>
           <p className="text-gray-600 mb-6 max-w-lg">
             Use NurseNest's career tools to maximize your earning potential. Build your resume, prepare for interviews, and find job opportunities.
           </p>
@@ -239,7 +239,7 @@ export default function NurseSalaryCountryPage() {
             <div className="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center">
               <HelpCircle className="w-5 h-5 text-sky-500" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{t("pages.nurseSalaryCountry.frequentlyAskedQuestions")}</h2>
           </div>
           <div className="space-y-3">
             {country.faqs.map((faq, i) => (
@@ -263,7 +263,7 @@ export default function NurseSalaryCountryPage() {
         </section>
 
         <section data-testid="section-related-countries">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Compare Other Countries</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.nurseSalaryCountry.compareOtherCountries")}</h2>
           <div className="grid sm:grid-cols-3 gap-3">
             {relatedCountries.map((related) => (
               <LocaleLink

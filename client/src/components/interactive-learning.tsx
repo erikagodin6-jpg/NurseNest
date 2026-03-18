@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useMemo } from "react";
 import { fisherYatesShuffle } from "@shared/shuffle";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useI18n } from "@/lib/i18n";
 import {
   CheckCircle2,
   XCircle,
@@ -19,6 +20,7 @@ import {
 } from "lucide-react";
 
 function cn(...classes: any[]) {
+  const { t } = useI18n();
   return classes.filter(Boolean).join(" ");
 }
 
@@ -195,7 +197,7 @@ export function AnatomyLabeling({
         {allRevealed && (
           <div className="mt-4 p-3 bg-primary/5 rounded-xl text-center">
             <Sparkles className="w-4 h-4 text-primary mx-auto mb-1" />
-            <p className="text-sm text-gray-700 font-medium">All structures identified!</p>
+            <p className="text-sm text-gray-700 font-medium">{t("components.interactiveLearning.allStructuresIdentified")}</p>
           </div>
         )}
       </CardContent>
@@ -270,7 +272,7 @@ export function MatchingExercise({
       <CardContent className="p-6">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Terms</p>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">{t("components.interactiveLearning.terms")}</p>
             {pairs.map((pair) => (
               <button
                 key={pair.id}
@@ -291,7 +293,7 @@ export function MatchingExercise({
             ))}
           </div>
           <div className="space-y-2">
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Definitions</p>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">{t("components.interactiveLearning.definitions")}</p>
             {shuffledDefs.map((pair) => (
               <button
                 key={pair.id}
@@ -315,7 +317,7 @@ export function MatchingExercise({
         {allMatched && (
           <div className="mt-4 p-4 bg-primary/5 rounded-xl text-center">
             <CheckCircle2 className="w-5 h-5 text-primary mx-auto mb-1" />
-            <p className="text-sm text-gray-700 font-medium">All pairs matched correctly!</p>
+            <p className="text-sm text-gray-700 font-medium">{t("components.interactiveLearning.allPairsMatchedCorrectly")}</p>
           </div>
         )}
         <div className="flex justify-center mt-4">
@@ -493,7 +495,7 @@ export function SelfCheckQuiz({
             <div className="flex items-start gap-2">
               <Lightbulb className="w-4 h-4 text-primary shrink-0 mt-0.5" />
               <div>
-                <p className="text-xs font-semibold text-primary mb-1">Clinical Rationale</p>
+                <p className="text-xs font-semibold text-primary mb-1">{t("components.interactiveLearning.clinicalRationale")}</p>
                 <p className="text-sm text-gray-700 leading-relaxed">{current.rationale}</p>
               </div>
             </div>
@@ -566,7 +568,7 @@ export function StepSequencing({
         {description && <p className="text-sm text-gray-500 mt-1">{description}</p>}
       </div>
       <CardContent className="p-6">
-        <p className="text-sm text-gray-500 mb-4">Arrange the steps in the correct physiological order:</p>
+        <p className="text-sm text-gray-500 mb-4">{t("components.interactiveLearning.arrangeTheStepsInThe")}</p>
         <div className="space-y-2">
           {userOrder.map((step, i) => (
             <div
@@ -631,12 +633,12 @@ export function StepSequencing({
         {checked && isCorrect && (
           <div className="mt-4 p-3 bg-primary/5 rounded-xl text-center">
             <Sparkles className="w-4 h-4 text-primary mx-auto mb-1" />
-            <p className="text-sm text-gray-700 font-medium">Correct sequence!</p>
+            <p className="text-sm text-gray-700 font-medium">{t("components.interactiveLearning.correctSequence")}</p>
           </div>
         )}
         {checked && !isCorrect && (
           <div className="mt-4 p-3 bg-amber-50/60 rounded-xl text-center border border-amber-100">
-            <p className="text-sm text-amber-700">Not quite right. Review the order and try again.</p>
+            <p className="text-sm text-amber-700">{t("components.interactiveLearning.notQuiteRightReviewThe")}</p>
           </div>
         )}
       </CardContent>
@@ -759,7 +761,7 @@ export function SpotAbnormality({
     <Card className="border border-primary/10 shadow-md overflow-hidden bg-white" data-testid="spot-abnormality">
       <div className="bg-gradient-to-r from-primary/5 to-primary/10 px-6 py-4 border-b border-primary/10">
         <h3 className="font-semibold text-gray-900 text-lg">{title}</h3>
-        <p className="text-sm text-gray-500 mt-1">Select all findings that are ABNORMAL</p>
+        <p className="text-sm text-gray-500 mt-1">{t("components.interactiveLearning.selectAllFindingsThatAre")}</p>
       </div>
       <CardContent className="p-6">
         <div className="p-4 bg-gray-50 rounded-xl mb-4 border border-gray-100">

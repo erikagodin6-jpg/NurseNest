@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { adminFetch } from "@/lib/admin-fetch";
+import { useI18n } from "@/lib/i18n";
 import {
   BarChart3, Loader2, RefreshCw, Zap, BookOpen, Layers,
   AlertTriangle, CheckCircle2, XCircle, Target, TrendingUp,
@@ -58,6 +59,7 @@ interface Targets {
 }
 
 function StatusBadge({ status }: { status: "green" | "yellow" | "red" }) {
+  const { t } = useI18n();
   const colors = {
     green: "bg-emerald-100 text-emerald-800 border-emerald-200",
     yellow: "bg-amber-100 text-amber-800 border-amber-200",
@@ -318,7 +320,7 @@ export default function AdminContentCoverage() {
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">Content Coverage Analyzer</h1>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">{t("pages.adminContentCoverage.contentCoverageAnalyzer")}</h1>
             <p className="text-sm text-gray-500 mt-1">
               Monitor content gaps and auto-generate to meet targets
               {report && <span className="ml-2 text-xs text-gray-400">Updated {new Date(report.timestamp).toLocaleTimeString()}</span>}
@@ -358,12 +360,12 @@ export default function AdminContentCoverage() {
         {showTargets && targets && (
           <Card className="mb-6 border-0 shadow-sm" data-testid="card-target-settings">
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-semibold">Coverage Targets</CardTitle>
+              <CardTitle className="text-sm font-semibold">{t("pages.adminContentCoverage.coverageTargets")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
                 <div>
-                  <label className="text-xs text-gray-500 block mb-1">Questions/Tier</label>
+                  <label className="text-xs text-gray-500 block mb-1">{t("pages.adminContentCoverage.questionstier")}</label>
                   <Input
                     type="number"
                     value={targets.questionsPerTier}
@@ -373,7 +375,7 @@ export default function AdminContentCoverage() {
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-gray-500 block mb-1">Questions/System</label>
+                  <label className="text-xs text-gray-500 block mb-1">{t("pages.adminContentCoverage.questionssystem")}</label>
                   <Input
                     type="number"
                     value={targets.questionsPerBodySystem}
@@ -383,7 +385,7 @@ export default function AdminContentCoverage() {
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-gray-500 block mb-1">Questions/Specialty</label>
+                  <label className="text-xs text-gray-500 block mb-1">{t("pages.adminContentCoverage.questionsspecialty")}</label>
                   <Input
                     type="number"
                     value={targets.questionsPerSpecialty}
@@ -393,7 +395,7 @@ export default function AdminContentCoverage() {
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-gray-500 block mb-1">Questions/Profession</label>
+                  <label className="text-xs text-gray-500 block mb-1">{t("pages.adminContentCoverage.questionsprofession")}</label>
                   <Input
                     type="number"
                     value={targets.questionsPerProfession}
@@ -403,7 +405,7 @@ export default function AdminContentCoverage() {
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-gray-500 block mb-1">Flashcards/Topic</label>
+                  <label className="text-xs text-gray-500 block mb-1">{t("pages.adminContentCoverage.flashcardstopic")}</label>
                   <Input
                     type="number"
                     value={targets.flashcardsPerTopic}
@@ -431,37 +433,37 @@ export default function AdminContentCoverage() {
         {loading && !report ? (
           <div className="flex items-center justify-center py-20" data-testid="loading-spinner">
             <Loader2 className="w-8 h-8 animate-spin text-[#BFA6F6]" />
-            <span className="ml-3 text-gray-500">Analyzing content coverage...</span>
+            <span className="ml-3 text-gray-500">{t("pages.adminContentCoverage.analyzingContentCoverage")}</span>
           </div>
         ) : report ? (
           <>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
               <SummaryCard
                 icon={FileText}
-                title="Total Questions"
+                title={t("pages.adminContentCoverage.totalQuestions")}
                 value={totalQuestions}
                 subtitle={`${report.nursing.byTier.filter(t => t.status === "green").length}/${report.nursing.byTier.length} tiers on target`}
                 color="bg-blue-500"
               />
               <SummaryCard
                 icon={Layers}
-                title="Flashcards"
+                title={t("pages.adminContentCoverage.flashcards")}
                 value={totalFlashcards}
                 subtitle={`${report.flashcards.byTopic.length} topics tracked`}
                 color="bg-purple-500"
               />
               <SummaryCard
                 icon={BookOpen}
-                title="Lessons"
+                title={t("pages.adminContentCoverage.lessons")}
                 value={`${report.lessons.complete}/${report.lessons.total}`}
                 subtitle={`${report.lessons.weak + report.lessons.placeholder} need work`}
                 color="bg-emerald-500"
               />
               <SummaryCard
                 icon={AlertTriangle}
-                title="Critical Gaps"
+                title={t("pages.adminContentCoverage.criticalGaps")}
                 value={totalGaps}
-                subtitle="Categories below 40% target"
+                subtitle={t("pages.admin_content_coverage.categoriesBelow40Target")}
                 color={totalGaps > 0 ? "bg-red-500" : "bg-emerald-500"}
               />
             </div>
@@ -571,7 +573,7 @@ export default function AdminContentCoverage() {
                       contentType="flashcard-topic"
                     />
                   ) : (
-                    <p className="text-sm text-gray-500 py-4 text-center">No flashcard topics tracked yet</p>
+                    <p className="text-sm text-gray-500 py-4 text-center">{t("pages.adminContentCoverage.noFlashcardTopicsTrackedYet")}</p>
                   )}
                 </CardContent>
               </Card>
@@ -589,23 +591,23 @@ export default function AdminContentCoverage() {
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
                       <div className="p-3 bg-emerald-50 rounded-lg text-center" data-testid="stat-lessons-complete">
                         <p className="text-2xl font-bold text-emerald-700">{report.lessons.complete}</p>
-                        <p className="text-xs text-emerald-600">Complete</p>
+                        <p className="text-xs text-emerald-600">{t("pages.adminContentCoverage.complete")}</p>
                       </div>
                       <div className="p-3 bg-amber-50 rounded-lg text-center" data-testid="stat-lessons-weak">
                         <p className="text-2xl font-bold text-amber-700">{report.lessons.weak}</p>
-                        <p className="text-xs text-amber-600">Weak</p>
+                        <p className="text-xs text-amber-600">{t("pages.adminContentCoverage.weak")}</p>
                       </div>
                       <div className="p-3 bg-orange-50 rounded-lg text-center" data-testid="stat-lessons-placeholder">
                         <p className="text-2xl font-bold text-orange-700">{report.lessons.placeholder}</p>
-                        <p className="text-xs text-orange-600">Placeholder</p>
+                        <p className="text-xs text-orange-600">{t("pages.adminContentCoverage.placeholder")}</p>
                       </div>
                       <div className="p-3 bg-red-50 rounded-lg text-center" data-testid="stat-lessons-broken">
                         <p className="text-2xl font-bold text-red-700">{report.lessons.broken}</p>
-                        <p className="text-xs text-red-600">Broken</p>
+                        <p className="text-xs text-red-600">{t("pages.adminContentCoverage.broken")}</p>
                       </div>
                       <div className="p-3 bg-gray-50 rounded-lg text-center" data-testid="stat-lessons-total">
                         <p className="text-2xl font-bold text-gray-700">{report.lessons.total}</p>
-                        <p className="text-xs text-gray-600">Total</p>
+                        <p className="text-xs text-gray-600">{t("pages.adminContentCoverage.total")}</p>
                       </div>
                     </div>
 
@@ -756,13 +758,13 @@ export default function AdminContentCoverage() {
                     <table className="w-full text-xs">
                       <thead>
                         <tr className="border-b">
-                          <th className="text-left py-2 px-2 text-gray-500 font-medium">Template</th>
-                          <th className="text-left py-2 px-2 text-gray-500 font-medium">Variant</th>
-                          <th className="text-left py-2 px-2 text-gray-500 font-medium">Status</th>
-                          <th className="text-right py-2 px-2 text-gray-500 font-medium">Generated</th>
-                          <th className="text-right py-2 px-2 text-gray-500 font-medium">Accepted</th>
-                          <th className="text-left py-2 px-2 text-gray-500 font-medium">Triggered</th>
-                          <th className="text-left py-2 px-2 text-gray-500 font-medium">Date</th>
+                          <th className="text-left py-2 px-2 text-gray-500 font-medium">{t("pages.adminContentCoverage.template")}</th>
+                          <th className="text-left py-2 px-2 text-gray-500 font-medium">{t("pages.adminContentCoverage.variant")}</th>
+                          <th className="text-left py-2 px-2 text-gray-500 font-medium">{t("pages.adminContentCoverage.status")}</th>
+                          <th className="text-right py-2 px-2 text-gray-500 font-medium">{t("pages.adminContentCoverage.generated")}</th>
+                          <th className="text-right py-2 px-2 text-gray-500 font-medium">{t("pages.adminContentCoverage.accepted")}</th>
+                          <th className="text-left py-2 px-2 text-gray-500 font-medium">{t("pages.adminContentCoverage.triggered")}</th>
+                          <th className="text-left py-2 px-2 text-gray-500 font-medium">{t("pages.adminContentCoverage.date")}</th>
                         </tr>
                       </thead>
                       <tbody>

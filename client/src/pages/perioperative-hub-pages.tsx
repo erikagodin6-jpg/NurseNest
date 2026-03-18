@@ -13,7 +13,9 @@ import {
 } from "lucide-react";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
 
+import { useI18n } from "@/lib/i18n";
 function FAQItem({ q, a }: { q: string; a: string }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   return (
     <div className="border-b border-gray-200 last:border-0" data-testid={`faq-item-${q.slice(0, 20).replace(/\s/g, "-").toLowerCase()}`}>
@@ -92,8 +94,8 @@ export default function PerioperativeNursingHub() {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       <SEO
-        title="Perioperative Nursing Hub: Surgical Nursing & CNOR Exam Prep | NurseNest"
-        description="Master perioperative nursing with comprehensive resources on surgical safety, sterile technique, patient preparation, and CNOR exam prep. Lessons, practice questions, flashcards, and mock exams for OR nurses."
+        title={t("pages.perioperativeHubPages.perioperativeNursingHubSurgicalNursing")}
+        description={t("pages.perioperativeHubPages.masterPerioperativeNursingWithComprehensive")}
         canonicalPath="/perioperative-nursing"
         structuredData={courseJsonLd}
         additionalStructuredData={[faqJsonLd]}
@@ -103,21 +105,21 @@ export default function PerioperativeNursingHub() {
       <section className="bg-gradient-to-br from-teal-700 via-teal-800 to-teal-900 text-white py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex items-center gap-2 text-teal-200 text-sm mb-4">
-            <Link href="/" className="hover:text-white">Home</Link>
+            <Link href="/" className="hover:text-white">{t("pages.perioperativeHubPages.home")}</Link>
             <span>/</span>
-            <Link href="/perioperative" className="hover:text-white">Perioperative</Link>
+            <Link href="/perioperative" className="hover:text-white">{t("pages.perioperativeHubPages.perioperative")}</Link>
             <span>/</span>
-            <span className="text-white">Perioperative Nursing Hub</span>
+            <span className="text-white">{t("pages.perioperativeHubPages.perioperativeNursingHub")}</span>
           </div>
           <div className="max-w-3xl">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-3 bg-white/10 rounded-xl">
                 <Scissors className="w-8 h-8 text-teal-200" />
               </div>
-              <span className="px-3 py-1 bg-teal-600/50 rounded-full text-sm font-medium text-teal-100">CNOR · CRNFA · CSSM</span>
+              <span className="px-3 py-1 bg-teal-600/50 rounded-full text-sm font-medium text-teal-100">{t("pages.perioperativeHubPages.cnorCrnfaCssm")}</span>
             </div>
-            <h1 className="text-3xl md:text-5xl font-bold mb-4" data-testid="text-page-title">Perioperative Nursing Hub</h1>
-            <p className="text-lg md:text-xl text-teal-100 mb-8">Your comprehensive resource for mastering surgical nursing — from preoperative assessment to postoperative recovery. Aligned to the CNOR exam blueprint.</p>
+            <h1 className="text-3xl md:text-5xl font-bold mb-4" data-testid="text-page-title">{t("pages.perioperativeHubPages.perioperativeNursingHub2")}</h1>
+            <p className="text-lg md:text-xl text-teal-100 mb-8">{t("pages.perioperativeHubPages.yourComprehensiveResourceForMastering")}</p>
             <div className="flex flex-wrap gap-3">
               <Link href="/perioperative/question-bank">
                 <span className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-800 font-semibold rounded-lg hover:bg-teal-50 transition-colors" data-testid="link-question-bank">
@@ -140,8 +142,8 @@ export default function PerioperativeNursingHub() {
       </section>
 
       <section className="max-w-6xl mx-auto px-4 py-16">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3" data-testid="text-surgical-overview">Surgical Nursing Overview</h2>
-        <p className="text-gray-600 mb-8 max-w-3xl">Perioperative nursing spans the entire surgical continuum. OR nurses must master patient assessment, surgical safety protocols, sterile field management, and interprofessional communication to deliver safe surgical care.</p>
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3" data-testid="text-surgical-overview">{t("pages.perioperativeHubPages.surgicalNursingOverview")}</h2>
+        <p className="text-gray-600 mb-8 max-w-3xl">{t("pages.perioperativeHubPages.perioperativeNursingSpansTheEntire")}</p>
 
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {[
@@ -169,8 +171,8 @@ export default function PerioperativeNursingHub() {
 
       <section className="bg-white border-y border-gray-200">
         <div className="max-w-6xl mx-auto px-4 py-16">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3" data-testid="text-infection-control">Infection Control Protocols</h2>
-          <p className="text-gray-600 mb-8 max-w-3xl">Surgical site infections (SSIs) are among the most common healthcare-associated infections. Perioperative nurses play a critical role in infection prevention through rigorous adherence to sterile technique and evidence-based protocols.</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3" data-testid="text-infection-control">{t("pages.perioperativeHubPages.infectionControlProtocols")}</h2>
+          <p className="text-gray-600 mb-8 max-w-3xl">{t("pages.perioperativeHubPages.surgicalSiteInfectionsSsisAre")}</p>
 
           <div className="grid md:grid-cols-2 gap-8">
             <div>
@@ -218,8 +220,8 @@ export default function PerioperativeNursingHub() {
       </section>
 
       <section className="max-w-6xl mx-auto px-4 py-16">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3" data-testid="text-surgical-safety">Surgical Safety Checklists</h2>
-        <p className="text-gray-600 mb-8 max-w-3xl">The WHO Surgical Safety Checklist has reduced surgical mortality by 47% and complications by 36% in studies worldwide. Mastering each phase is essential for perioperative nursing practice and CNOR exam success.</p>
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3" data-testid="text-surgical-safety">{t("pages.perioperativeHubPages.surgicalSafetyChecklists")}</h2>
+        <p className="text-gray-600 mb-8 max-w-3xl">{t("pages.perioperativeHubPages.theWhoSurgicalSafetyChecklist")}</p>
 
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {[
@@ -247,23 +249,23 @@ export default function PerioperativeNursingHub() {
 
       <section className="bg-white border-y border-gray-200">
         <div className="max-w-6xl mx-auto px-4 py-16">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6" data-testid="text-study-resources">Study Resources</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6" data-testid="text-study-resources">{t("pages.perioperativeHubPages.studyResources")}</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <InternalLinkCard href="/perioperative/question-bank" title="CNOR Test Bank" desc="Practice questions aligned to the CNOR exam blueprint with detailed rationales." icon={FileText} />
-            <InternalLinkCard href="/perioperative/flashcards" title="Perioperative Flashcards" desc="Spaced repetition flashcards covering sterile technique, instruments, and surgical safety." icon={Brain} />
-            <InternalLinkCard href="/perioperative/mock-exams" title="Mock Exams" desc="Timed practice exams simulating CNOR test conditions with performance analytics." icon={Target} />
-            <InternalLinkCard href="/preoperative-care" title="Preoperative Care Hub" desc="Comprehensive guide to preoperative assessment, NPO guidelines, and patient preparation." icon={ClipboardCheck} />
-            <InternalLinkCard href="/preoperative-nursing-guide" title="Preoperative Nursing Guide" desc="Complete guide to preoperative nursing practice with evidence-based protocols." icon={BookOpen} />
-            <InternalLinkCard href="/perioperative-nurse-career" title="Perioperative Career Guide" desc="CNOR certification path, salary data, and career advancement opportunities." icon={Award} />
-            <InternalLinkCard href="/perioperative/study-plan" title="Study Plan" desc="Personalized study schedule targeting your weak areas based on CNOR domains." icon={Sparkles} />
-            <InternalLinkCard href="/perioperative/sterile-field-sim" title="Sterile Field Simulator" desc="Interactive practice maintaining sterile technique in surgical scenarios." icon={Shield} />
-            <InternalLinkCard href="/perioperative/surgical-count-drill" title="Surgical Count Drill" desc="Practice surgical instrument and sponge count protocols." icon={ListChecks} />
+            <InternalLinkCard href="/perioperative/question-bank" title={t("pages.perioperativeHubPages.cnorTestBank")} desc="Practice questions aligned to the CNOR exam blueprint with detailed rationales." icon={FileText} />
+            <InternalLinkCard href="/perioperative/flashcards" title={t("pages.perioperativeHubPages.perioperativeFlashcards")} desc="Spaced repetition flashcards covering sterile technique, instruments, and surgical safety." icon={Brain} />
+            <InternalLinkCard href="/perioperative/mock-exams" title={t("pages.perioperativeHubPages.mockExams")} desc="Timed practice exams simulating CNOR test conditions with performance analytics." icon={Target} />
+            <InternalLinkCard href="/preoperative-care" title={t("pages.perioperativeHubPages.preoperativeCareHub2")} desc="Comprehensive guide to preoperative assessment, NPO guidelines, and patient preparation." icon={ClipboardCheck} />
+            <InternalLinkCard href="/preoperative-nursing-guide" title={t("pages.perioperativeHubPages.preoperativeNursingGuide3")} desc="Complete guide to preoperative nursing practice with evidence-based protocols." icon={BookOpen} />
+            <InternalLinkCard href="/perioperative-nurse-career" title={t("pages.perioperativeHubPages.perioperativeCareerGuide")} desc="CNOR certification path, salary data, and career advancement opportunities." icon={Award} />
+            <InternalLinkCard href="/perioperative/study-plan" title={t("pages.perioperativeHubPages.studyPlan")} desc="Personalized study schedule targeting your weak areas based on CNOR domains." icon={Sparkles} />
+            <InternalLinkCard href="/perioperative/sterile-field-sim" title={t("pages.perioperativeHubPages.sterileFieldSimulator")} desc="Interactive practice maintaining sterile technique in surgical scenarios." icon={Shield} />
+            <InternalLinkCard href="/perioperative/surgical-count-drill" title={t("pages.perioperativeHubPages.surgicalCountDrill")} desc="Practice surgical instrument and sponge count protocols." icon={ListChecks} />
           </div>
         </div>
       </section>
 
       <section className="max-w-6xl mx-auto px-4 py-16">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-faqs">Frequently Asked Questions</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-faqs">{t("pages.perioperativeHubPages.frequentlyAskedQuestions")}</h2>
         <div className="bg-white rounded-xl border border-gray-200 p-6">
           {PERIOPERATIVE_NURSING_FAQS.map((faq) => (
             <FAQItem key={faq.q} q={faq.q} a={faq.a} />
@@ -273,8 +275,8 @@ export default function PerioperativeNursingHub() {
 
       <section className="bg-gradient-to-r from-teal-700 to-teal-800 text-white py-12">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to Master Perioperative Nursing?</h2>
-          <p className="text-teal-100 mb-6">Start with free practice questions and flashcards aligned to the CNOR exam blueprint.</p>
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">{t("pages.perioperativeHubPages.readyToMasterPerioperativeNursing")}</h2>
+          <p className="text-teal-100 mb-6">{t("pages.perioperativeHubPages.startWithFreePracticeQuestions")}</p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link href="/perioperative/question-bank">
               <span className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-800 font-semibold rounded-lg hover:bg-teal-50 transition-colors" data-testid="link-start-practicing">
@@ -308,8 +310,8 @@ export function PreoperativeCareHub() {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       <SEO
-        title="Preoperative Care Hub: Patient Preparation & Pre-Surgical Nursing | NurseNest"
-        description="Master preoperative nursing care with comprehensive resources on patient assessment, NPO guidelines, informed consent, medication management, and pre-surgical checklists for CNOR exam prep."
+        title={t("pages.perioperativeHubPages.preoperativeCareHubPatientPreparation")}
+        description={t("pages.perioperativeHubPages.masterPreoperativeNursingCareWith")}
         canonicalPath="/preoperative-care"
         structuredData={courseJsonLd}
         additionalStructuredData={[faqJsonLd]}
@@ -319,11 +321,11 @@ export function PreoperativeCareHub() {
       <section className="bg-gradient-to-br from-blue-700 via-blue-800 to-blue-900 text-white py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex items-center gap-2 text-blue-200 text-sm mb-4">
-            <Link href="/" className="hover:text-white">Home</Link>
+            <Link href="/" className="hover:text-white">{t("pages.perioperativeHubPages.home2")}</Link>
             <span>/</span>
-            <Link href="/perioperative-nursing" className="hover:text-white">Perioperative Nursing</Link>
+            <Link href="/perioperative-nursing" className="hover:text-white">{t("pages.perioperativeHubPages.perioperativeNursing")}</Link>
             <span>/</span>
-            <span className="text-white">Preoperative Care</span>
+            <span className="text-white">{t("pages.perioperativeHubPages.preoperativeCare")}</span>
           </div>
           <div className="max-w-3xl">
             <div className="flex items-center gap-3 mb-4">
@@ -331,8 +333,8 @@ export function PreoperativeCareHub() {
                 <ClipboardCheck className="w-8 h-8 text-blue-200" />
               </div>
             </div>
-            <h1 className="text-3xl md:text-5xl font-bold mb-4" data-testid="text-preop-title">Preoperative Care Hub</h1>
-            <p className="text-lg md:text-xl text-blue-100 mb-8">Everything you need to know about preparing patients for surgery — from initial assessment to operating room transfer. Evidence-based protocols for safe surgical outcomes.</p>
+            <h1 className="text-3xl md:text-5xl font-bold mb-4" data-testid="text-preop-title">{t("pages.perioperativeHubPages.preoperativeCareHub")}</h1>
+            <p className="text-lg md:text-xl text-blue-100 mb-8">{t("pages.perioperativeHubPages.everythingYouNeedToKnow")}</p>
             <div className="flex flex-wrap gap-3">
               <Link href="/perioperative/question-bank">
                 <span className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-800 font-semibold rounded-lg hover:bg-blue-50 transition-colors" data-testid="link-practice-questions">
@@ -350,8 +352,8 @@ export function PreoperativeCareHub() {
       </section>
 
       <section className="max-w-6xl mx-auto px-4 py-16">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3" data-testid="text-preop-assessment">Preoperative Assessment Workflow</h2>
-        <p className="text-gray-600 mb-8 max-w-3xl">A systematic preoperative assessment ensures patient safety and identifies risk factors that may affect surgical outcomes. Follow this evidence-based workflow to ensure thorough preparation.</p>
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3" data-testid="text-preop-assessment">{t("pages.perioperativeHubPages.preoperativeAssessmentWorkflow")}</h2>
+        <p className="text-gray-600 mb-8 max-w-3xl">{t("pages.perioperativeHubPages.aSystematicPreoperativeAssessmentEnsures")}</p>
 
         <div className="space-y-4 mb-12">
           {[
@@ -380,12 +382,12 @@ export function PreoperativeCareHub() {
 
       <section className="bg-white border-y border-gray-200">
         <div className="max-w-6xl mx-auto px-4 py-16">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3" data-testid="text-npo-guidelines">NPO Guidelines & Patient Education</h2>
-          <p className="text-gray-600 mb-8 max-w-3xl">NPO (nothing by mouth) guidelines reduce the risk of pulmonary aspiration during anesthesia. Follow the ASA fasting guidelines based on the type of intake.</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3" data-testid="text-npo-guidelines">{t("pages.perioperativeHubPages.npoGuidelinesPatientEducation")}</h2>
+          <p className="text-gray-600 mb-8 max-w-3xl">{t("pages.perioperativeHubPages.npoNothingByMouthGuidelines")}</p>
 
           <div className="grid md:grid-cols-2 gap-8 mb-8">
             <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
-              <h3 className="text-lg font-bold text-gray-900 mb-4">ASA Fasting Guidelines</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-4">{t("pages.perioperativeHubPages.asaFastingGuidelines")}</h3>
               <div className="space-y-3">
                 {[
                   { item: "Clear liquids (water, apple juice, black coffee, tea)", time: "2 hours", risk: "Low" },
@@ -403,13 +405,13 @@ export function PreoperativeCareHub() {
               <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
                 <p className="text-sm text-amber-800 flex items-start gap-2">
                   <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
-                  <span><strong>Exam Tip:</strong> NPO violation is a common reason for surgical cancellation. Always verify NPO compliance before administering preoperative medications.</span>
+                  <span><strong>{t("pages.perioperativeHubPages.examTip")}</strong> {t("pages.perioperativeHubPages.npoViolationIsACommon")}</span>
                 </p>
               </div>
             </div>
 
             <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
-              <h3 className="text-lg font-bold text-gray-900 mb-4">Pre-Surgical Checklist</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-4">{t("pages.perioperativeHubPages.presurgicalChecklist")}</h3>
               <ul className="space-y-2">
                 {[
                   "Patient identity verified with two identifiers (name + DOB)",
@@ -437,19 +439,19 @@ export function PreoperativeCareHub() {
       </section>
 
       <section className="max-w-6xl mx-auto px-4 py-16">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-related-resources">Related Resources</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-related-resources">{t("pages.perioperativeHubPages.relatedResources")}</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <InternalLinkCard href="/perioperative-nursing" title="Perioperative Nursing Hub" desc="Complete overview of all three surgical phases with safety protocols." icon={Scissors} />
-          <InternalLinkCard href="/preoperative-nursing-guide" title="Preoperative Nursing Guide" desc="In-depth guide to preoperative nursing practice with FAQ." icon={BookOpen} />
-          <InternalLinkCard href="/perioperative/question-bank" title="CNOR Practice Questions" desc="Targeted questions covering preoperative assessment and patient preparation." icon={FileText} />
-          <InternalLinkCard href="/perioperative/flashcards" title="Preoperative Flashcards" desc="Review key preoperative concepts with spaced repetition." icon={Brain} />
-          <InternalLinkCard href="/perioperative-nurse-career" title="Career Guide" desc="Explore perioperative nursing career paths and CNOR certification." icon={Award} />
-          <InternalLinkCard href="/perioperative/mock-exams" title="Mock Exams" desc="Test your preoperative knowledge under exam conditions." icon={Target} />
+          <InternalLinkCard href="/perioperative-nursing" title={t("pages.perioperativeHubPages.perioperativeNursingHub3")} desc="Complete overview of all three surgical phases with safety protocols." icon={Scissors} />
+          <InternalLinkCard href="/preoperative-nursing-guide" title={t("pages.perioperativeHubPages.preoperativeNursingGuide4")} desc="In-depth guide to preoperative nursing practice with FAQ." icon={BookOpen} />
+          <InternalLinkCard href="/perioperative/question-bank" title={t("pages.perioperativeHubPages.cnorPracticeQuestions")} desc="Targeted questions covering preoperative assessment and patient preparation." icon={FileText} />
+          <InternalLinkCard href="/perioperative/flashcards" title={t("pages.perioperativeHubPages.preoperativeFlashcards")} desc="Review key preoperative concepts with spaced repetition." icon={Brain} />
+          <InternalLinkCard href="/perioperative-nurse-career" title={t("pages.perioperativeHubPages.careerGuide2")} desc="Explore perioperative nursing career paths and CNOR certification." icon={Award} />
+          <InternalLinkCard href="/perioperative/mock-exams" title={t("pages.perioperativeHubPages.mockExams2")} desc="Test your preoperative knowledge under exam conditions." icon={Target} />
         </div>
       </section>
 
       <section className="max-w-6xl mx-auto px-4 pb-16">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-preop-faqs">Frequently Asked Questions</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-preop-faqs">{t("pages.perioperativeHubPages.frequentlyAskedQuestions2")}</h2>
         <div className="bg-white rounded-xl border border-gray-200 p-6">
           {PREOPERATIVE_CARE_FAQS.map((faq) => (
             <FAQItem key={faq.q} q={faq.q} a={faq.a} />
@@ -459,8 +461,8 @@ export function PreoperativeCareHub() {
 
       <section className="bg-gradient-to-r from-blue-700 to-blue-800 text-white py-12">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">Test Your Preoperative Nursing Knowledge</h2>
-          <p className="text-blue-100 mb-6">Practice with questions covering preoperative assessment, NPO guidelines, and surgical preparation.</p>
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">{t("pages.perioperativeHubPages.testYourPreoperativeNursingKnowledge")}</h2>
+          <p className="text-blue-100 mb-6">{t("pages.perioperativeHubPages.practiceWithQuestionsCoveringPreoperative")}</p>
           <Link href="/perioperative/question-bank">
             <span className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-800 font-semibold rounded-lg hover:bg-blue-50 transition-colors" data-testid="link-start-questions">
               Start Practice Questions <ArrowRight className="w-4 h-4" />
@@ -497,8 +499,8 @@ export function PreoperativeNursingGuide() {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       <SEO
-        title="Preoperative Nursing Guide: Complete Practice Reference for Surgical Preparation | NurseNest"
-        description="Evidence-based preoperative nursing guide covering patient assessment workflows, risk stratification tools, NPO guidelines, medication management, informed consent, and surgical safety protocols. Essential CNOR exam prep resource."
+        title={t("pages.perioperativeHubPages.preoperativeNursingGuideCompletePractice")}
+        description={t("pages.perioperativeHubPages.evidencebasedPreoperativeNursingGuideCovering")}
         canonicalPath="/preoperative-nursing-guide"
         structuredData={learningResourceJsonLd}
         additionalStructuredData={[faqJsonLd]}
@@ -508,14 +510,14 @@ export function PreoperativeNursingGuide() {
       <section className="bg-gradient-to-br from-indigo-700 via-indigo-800 to-indigo-900 text-white py-16 md:py-20">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex items-center gap-2 text-indigo-200 text-sm mb-4">
-            <Link href="/" className="hover:text-white">Home</Link>
+            <Link href="/" className="hover:text-white">{t("pages.perioperativeHubPages.home3")}</Link>
             <span>/</span>
-            <Link href="/perioperative-nursing" className="hover:text-white">Perioperative Nursing</Link>
+            <Link href="/perioperative-nursing" className="hover:text-white">{t("pages.perioperativeHubPages.perioperativeNursing2")}</Link>
             <span>/</span>
-            <span className="text-white">Preoperative Nursing Guide</span>
+            <span className="text-white">{t("pages.perioperativeHubPages.preoperativeNursingGuide")}</span>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-guide-title">Preoperative Nursing Guide</h1>
-          <p className="text-lg text-indigo-100 mb-6">A comprehensive, evidence-based reference for nurses preparing patients for surgical procedures. Covers assessment frameworks, risk tools, safety protocols, and exam-relevant clinical pearls.</p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-guide-title">{t("pages.perioperativeHubPages.preoperativeNursingGuide2")}</h1>
+          <p className="text-lg text-indigo-100 mb-6">{t("pages.perioperativeHubPages.aComprehensiveEvidencebasedReferenceFor")}</p>
           <div className="flex flex-wrap gap-3">
             <Link href="/perioperative/question-bank">
               <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-indigo-800 font-semibold rounded-lg hover:bg-indigo-50 transition-colors text-sm" data-testid="link-practice-questions-guide">
@@ -533,14 +535,14 @@ export function PreoperativeNursingGuide() {
 
       <article className="max-w-4xl mx-auto px-4 py-16">
         <div className="prose prose-lg max-w-none">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-guide-overview">What is Preoperative Nursing?</h2>
-          <p className="text-gray-700 mb-6">Preoperative nursing encompasses all nursing care provided from the time a surgical decision is made until the patient is transferred to the operating room. This phase is critical for identifying risk factors, optimizing the patient's condition, reducing anxiety, and preventing complications. The preoperative nurse serves as the patient's advocate, educator, and safety coordinator throughout the preparation process.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-guide-overview">{t("pages.perioperativeHubPages.whatIsPreoperativeNursing")}</h2>
+          <p className="text-gray-700 mb-6">{t("pages.perioperativeHubPages.preoperativeNursingEncompassesAllNursing")}</p>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 mt-12" data-testid="text-assessment-components">Components of the Preoperative Assessment</h2>
-          <p className="text-gray-700 mb-4">A comprehensive preoperative assessment follows a systematic approach that covers physical, psychological, and logistical elements of surgical preparation:</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 mt-12" data-testid="text-assessment-components">{t("pages.perioperativeHubPages.componentsOfThePreoperativeAssessment")}</h2>
+          <p className="text-gray-700 mb-4">{t("pages.perioperativeHubPages.aComprehensivePreoperativeAssessmentFollows")}</p>
 
           <div className="bg-white rounded-xl border border-gray-200 p-6 mb-8">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Health History Elements</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">{t("pages.perioperativeHubPages.healthHistoryElements")}</h3>
             <div className="grid md:grid-cols-2 gap-4">
               {[
                 { label: "Past Surgical History", detail: "Previous surgeries, anesthesia reactions, complications (DVT, wound infection, difficult intubation)" },
@@ -558,8 +560,8 @@ export function PreoperativeNursingGuide() {
             </div>
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 mt-12" data-testid="text-risk-tools">Risk Stratification Tools</h2>
-          <p className="text-gray-700 mb-4">Perioperative nurses use standardized tools to quantify surgical risk and guide clinical decision-making:</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 mt-12" data-testid="text-risk-tools">{t("pages.perioperativeHubPages.riskStratificationTools")}</h2>
+          <p className="text-gray-700 mb-4">{t("pages.perioperativeHubPages.perioperativeNursesUseStandardizedTools")}</p>
 
           <div className="space-y-4 mb-8">
             {[
@@ -578,8 +580,8 @@ export function PreoperativeNursingGuide() {
             ))}
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 mt-12" data-testid="text-medication-mgmt">Preoperative Medication Management</h2>
-          <p className="text-gray-700 mb-4">Medication management is a critical preoperative responsibility. The nurse must verify which medications to hold, continue, or bridge:</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 mt-12" data-testid="text-medication-mgmt">{t("pages.perioperativeHubPages.preoperativeMedicationManagement")}</h2>
+          <p className="text-gray-700 mb-4">{t("pages.perioperativeHubPages.medicationManagementIsACritical")}</p>
 
           <div className="bg-white rounded-xl border border-gray-200 p-6 mb-8">
             <div className="grid md:grid-cols-2 gap-6">
@@ -628,8 +630,8 @@ export function PreoperativeNursingGuide() {
             </div>
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 mt-12" data-testid="text-patient-education">Patient Education & Anxiety Reduction</h2>
-          <p className="text-gray-700 mb-4">Preoperative anxiety directly impacts surgical outcomes, immune function, and pain perception. Evidence-based teaching strategies include:</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 mt-12" data-testid="text-patient-education">{t("pages.perioperativeHubPages.patientEducationAnxietyReduction")}</h2>
+          <p className="text-gray-700 mb-4">{t("pages.perioperativeHubPages.preoperativeAnxietyDirectlyImpactsSurgical")}</p>
           <ul className="space-y-2 mb-8">
             {[
               "Provide procedure-specific education using teach-back method to verify understanding",
@@ -651,20 +653,20 @@ export function PreoperativeNursingGuide() {
           <h3 className="text-lg font-bold text-indigo-900 mb-2 flex items-center gap-2">
             <Sparkles className="w-5 h-5" /> CNOR Exam Pearl
           </h3>
-          <p className="text-indigo-800 text-sm">The preoperative phase is the most heavily tested domain on the CNOR exam. Focus on patient assessment workflows, surgical site marking protocols, informed consent requirements, and NPO guidelines. Remember: the circulating nurse is responsible for verifying all elements of the pre-procedure verification process.</p>
+          <p className="text-indigo-800 text-sm">{t("pages.perioperativeHubPages.thePreoperativePhaseIsThe")}</p>
         </div>
 
-        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-guide-resources">Related Study Resources</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-guide-resources">{t("pages.perioperativeHubPages.relatedStudyResources")}</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-          <InternalLinkCard href="/perioperative-nursing" title="Perioperative Nursing Hub" desc="Overview of all three surgical phases with safety protocols." icon={Scissors} />
-          <InternalLinkCard href="/preoperative-care" title="Preoperative Care Hub" desc="Practical preoperative assessment workflow and checklists." icon={ClipboardCheck} />
-          <InternalLinkCard href="/perioperative/question-bank" title="Test Bank" desc="CNOR-aligned questions on preoperative nursing." icon={FileText} />
-          <InternalLinkCard href="/perioperative/flashcards" title="Flashcards" desc="Review preoperative concepts with spaced repetition." icon={Brain} />
-          <InternalLinkCard href="/perioperative-nurse-career" title="Career Guide" desc="CNOR certification path and perioperative career options." icon={Award} />
-          <InternalLinkCard href="/perioperative/mock-exams" title="Mock Exams" desc="Timed exams covering preoperative nursing content." icon={Target} />
+          <InternalLinkCard href="/perioperative-nursing" title={t("pages.perioperativeHubPages.perioperativeNursingHub4")} desc="Overview of all three surgical phases with safety protocols." icon={Scissors} />
+          <InternalLinkCard href="/preoperative-care" title={t("pages.perioperativeHubPages.preoperativeCareHub3")} desc="Practical preoperative assessment workflow and checklists." icon={ClipboardCheck} />
+          <InternalLinkCard href="/perioperative/question-bank" title={t("pages.perioperativeHubPages.testBank")} desc="CNOR-aligned questions on preoperative nursing." icon={FileText} />
+          <InternalLinkCard href="/perioperative/flashcards" title={t("pages.perioperativeHubPages.flashcards")} desc="Review preoperative concepts with spaced repetition." icon={Brain} />
+          <InternalLinkCard href="/perioperative-nurse-career" title={t("pages.perioperativeHubPages.careerGuide3")} desc="CNOR certification path and perioperative career options." icon={Award} />
+          <InternalLinkCard href="/perioperative/mock-exams" title={t("pages.perioperativeHubPages.mockExams3")} desc="Timed exams covering preoperative nursing content." icon={Target} />
         </div>
 
-        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-guide-faqs">Frequently Asked Questions</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-guide-faqs">{t("pages.perioperativeHubPages.frequentlyAskedQuestions3")}</h2>
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-12">
           {PREOP_GUIDE_FAQS.map((faq) => (
             <FAQItem key={faq.q} q={faq.q} a={faq.a} />
@@ -674,8 +676,8 @@ export function PreoperativeNursingGuide() {
 
       <section className="bg-gradient-to-r from-indigo-700 to-indigo-800 text-white py-12">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to Test Your Knowledge?</h2>
-          <p className="text-indigo-100 mb-6">Practice with CNOR-aligned questions covering preoperative nursing concepts.</p>
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">{t("pages.perioperativeHubPages.readyToTestYourKnowledge")}</h2>
+          <p className="text-indigo-100 mb-6">{t("pages.perioperativeHubPages.practiceWithCnoralignedQuestionsCovering")}</p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link href="/perioperative/question-bank">
               <span className="inline-flex items-center gap-2 px-6 py-3 bg-white text-indigo-800 font-semibold rounded-lg hover:bg-indigo-50 transition-colors" data-testid="link-start-cnor-prep">
@@ -709,8 +711,8 @@ export function PerioperativeNurseCareer() {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       <SEO
-        title="Perioperative Nurse Career Guide: CNOR Certification, Salary & Job Outlook | NurseNest"
-        description="Complete perioperative nursing career guide. Learn about CNOR certification requirements, salary ranges ($75K-$95K+), job outlook, education pathways, and career advancement in surgical nursing."
+        title={t("pages.perioperativeHubPages.perioperativeNurseCareerGuideCnor")}
+        description={t("pages.perioperativeHubPages.completePerioperativeNursingCareerGuide")}
         canonicalPath="/perioperative-nurse-career"
         structuredData={courseJsonLd}
         additionalStructuredData={[faqJsonLd]}
@@ -720,14 +722,14 @@ export function PerioperativeNurseCareer() {
       <section className="bg-gradient-to-br from-emerald-700 via-emerald-800 to-emerald-900 text-white py-16 md:py-20">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex items-center gap-2 text-emerald-200 text-sm mb-4">
-            <Link href="/" className="hover:text-white">Home</Link>
+            <Link href="/" className="hover:text-white">{t("pages.perioperativeHubPages.home4")}</Link>
             <span>/</span>
-            <Link href="/perioperative-nursing" className="hover:text-white">Perioperative Nursing</Link>
+            <Link href="/perioperative-nursing" className="hover:text-white">{t("pages.perioperativeHubPages.perioperativeNursing3")}</Link>
             <span>/</span>
-            <span className="text-white">Career Guide</span>
+            <span className="text-white">{t("pages.perioperativeHubPages.careerGuide")}</span>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-career-title">Perioperative Nurse Career Guide</h1>
-          <p className="text-lg text-emerald-100 mb-6">Everything you need to know about building a career in perioperative nursing — from education requirements to CNOR certification, salary expectations, and advancement opportunities.</p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-career-title">{t("pages.perioperativeHubPages.perioperativeNurseCareerGuide")}</h1>
+          <p className="text-lg text-emerald-100 mb-6">{t("pages.perioperativeHubPages.everythingYouNeedToKnow2")}</p>
           <div className="flex flex-wrap gap-3">
             <Link href="/perioperative-nursing">
               <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-emerald-800 font-semibold rounded-lg hover:bg-emerald-50 transition-colors text-sm" data-testid="link-study-resources">
@@ -760,11 +762,11 @@ export function PerioperativeNurseCareer() {
           ))}
         </div>
 
-        <h2 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-cnor-cert">CNOR Certification Requirements</h2>
-        <p className="text-gray-700 mb-6">The Certified Perioperative Nurse (CNOR) credential is the gold standard for OR nursing excellence. Offered by the Competency & Credentialing Institute (CCI), the CNOR demonstrates advanced knowledge in perioperative patient care.</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-cnor-cert">{t("pages.perioperativeHubPages.cnorCertificationRequirements")}</h2>
+        <p className="text-gray-700 mb-6">{t("pages.perioperativeHubPages.theCertifiedPerioperativeNurseCnor")}</p>
 
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-12">
-          <h3 className="text-lg font-bold text-gray-900 mb-4">CNOR Exam Blueprint</h3>
+          <h3 className="text-lg font-bold text-gray-900 mb-4">{t("pages.perioperativeHubPages.cnorExamBlueprint")}</h3>
           <div className="space-y-3">
             {[
               { domain: "Preoperative Patient Assessment & Diagnosis", weight: "25%", topics: "Health history, risk assessment, diagnostic evaluation, informed consent" },
@@ -784,11 +786,11 @@ export function PerioperativeNurseCareer() {
             ))}
           </div>
           <div className="mt-4 p-3 bg-emerald-50 border border-emerald-200 rounded-lg">
-            <p className="text-sm text-emerald-800"><strong>Exam Details:</strong> 200 multiple-choice questions (175 scored + 25 pretest), 4-hour time limit, computer-based testing at Pearson VUE centers. Certification valid for 5 years.</p>
+            <p className="text-sm text-emerald-800"><strong>{t("pages.perioperativeHubPages.examDetails")}</strong> {t("pages.perioperativeHubPages.200MultiplechoiceQuestions175Scored")}</p>
           </div>
         </div>
 
-        <h2 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-career-path">Career Path Timeline</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-career-path">{t("pages.perioperativeHubPages.careerPathTimeline")}</h2>
         <div className="space-y-4 mb-12">
           {[
             { years: "Years 1–4", title: "BSN Nursing Degree", desc: "Complete a Bachelor of Science in Nursing (BSN) degree with clinical rotations. Some programs offer perioperative elective rotations.", icon: GraduationCap },
@@ -813,11 +815,11 @@ export function PerioperativeNurseCareer() {
           ))}
         </div>
 
-        <h2 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-salary-info">Salary & Compensation</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-salary-info">{t("pages.perioperativeHubPages.salaryCompensation")}</h2>
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-12">
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <h3 className="text-lg font-bold text-gray-900 mb-3">Base Salary Ranges (US, 2024)</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-3">{t("pages.perioperativeHubPages.baseSalaryRangesUs2024")}</h3>
               <div className="space-y-3">
                 {[
                   { role: "New OR Nurse (0-2 years)", range: "$60,000 – $75,000" },
@@ -835,7 +837,7 @@ export function PerioperativeNurseCareer() {
               </div>
             </div>
             <div>
-              <h3 className="text-lg font-bold text-gray-900 mb-3">Top-Paying States</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-3">{t("pages.perioperativeHubPages.toppayingStates")}</h3>
               <div className="space-y-3">
                 {[
                   { state: "California", avg: "$105,000" },
@@ -855,7 +857,7 @@ export function PerioperativeNurseCareer() {
           </div>
         </div>
 
-        <h2 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-advancement">Career Advancement Opportunities</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-advancement">{t("pages.perioperativeHubPages.careerAdvancementOpportunities")}</h2>
         <div className="grid md:grid-cols-2 gap-4 mb-12">
           {[
             { title: "Certified Registered Nurse First Assistant (CRNFA)", desc: "Assists the surgeon directly during procedures. Requires CNOR certification plus completion of a CRNFA educational program and clinical practicum." },
@@ -875,17 +877,17 @@ export function PerioperativeNurseCareer() {
           ))}
         </div>
 
-        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-career-resources">Study Resources for CNOR Exam Prep</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-career-resources">{t("pages.perioperativeHubPages.studyResourcesForCnorExam")}</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-          <InternalLinkCard href="/perioperative-nursing" title="Perioperative Nursing Hub" desc="Comprehensive surgical nursing resource center." icon={Scissors} />
-          <InternalLinkCard href="/preoperative-care" title="Preoperative Care Hub" desc="Master preoperative assessment and patient preparation." icon={ClipboardCheck} />
-          <InternalLinkCard href="/perioperative/question-bank" title="CNOR Test Bank" desc="Practice questions aligned to the CNOR exam blueprint." icon={FileText} />
-          <InternalLinkCard href="/perioperative/flashcards" title="Flashcards" desc="Spaced repetition review of perioperative nursing concepts." icon={Brain} />
-          <InternalLinkCard href="/perioperative/mock-exams" title="Mock Exams" desc="Full-length practice exams under CNOR test conditions." icon={Target} />
-          <InternalLinkCard href="/preoperative-nursing-guide" title="Preoperative Nursing Guide" desc="Evidence-based reference for surgical patient preparation." icon={BookOpen} />
+          <InternalLinkCard href="/perioperative-nursing" title={t("pages.perioperativeHubPages.perioperativeNursingHub5")} desc="Comprehensive surgical nursing resource center." icon={Scissors} />
+          <InternalLinkCard href="/preoperative-care" title={t("pages.perioperativeHubPages.preoperativeCareHub4")} desc="Master preoperative assessment and patient preparation." icon={ClipboardCheck} />
+          <InternalLinkCard href="/perioperative/question-bank" title={t("pages.perioperativeHubPages.cnorTestBank2")} desc="Practice questions aligned to the CNOR exam blueprint." icon={FileText} />
+          <InternalLinkCard href="/perioperative/flashcards" title={t("pages.perioperativeHubPages.flashcards2")} desc="Spaced repetition review of perioperative nursing concepts." icon={Brain} />
+          <InternalLinkCard href="/perioperative/mock-exams" title={t("pages.perioperativeHubPages.mockExams4")} desc="Full-length practice exams under CNOR test conditions." icon={Target} />
+          <InternalLinkCard href="/preoperative-nursing-guide" title={t("pages.perioperativeHubPages.preoperativeNursingGuide5")} desc="Evidence-based reference for surgical patient preparation." icon={BookOpen} />
         </div>
 
-        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-career-faqs">Frequently Asked Questions</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-career-faqs">{t("pages.perioperativeHubPages.frequentlyAskedQuestions4")}</h2>
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-12">
           {CAREER_GUIDE_FAQS.map((faq) => (
             <FAQItem key={faq.q} q={faq.q} a={faq.a} />
@@ -895,8 +897,8 @@ export function PerioperativeNurseCareer() {
 
       <section className="bg-gradient-to-r from-emerald-700 to-emerald-800 text-white py-12">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">Start Your CNOR Exam Prep Today</h2>
-          <p className="text-emerald-100 mb-6">Join thousands of perioperative nurses preparing for certification with NurseNest.</p>
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">{t("pages.perioperativeHubPages.startYourCnorExamPrep")}</h2>
+          <p className="text-emerald-100 mb-6">{t("pages.perioperativeHubPages.joinThousandsOfPerioperativeNurses")}</p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link href="/perioperative/question-bank">
               <span className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-800 font-semibold rounded-lg hover:bg-emerald-50 transition-colors" data-testid="link-start-cnor-prep-career">

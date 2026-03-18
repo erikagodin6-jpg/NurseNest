@@ -3,6 +3,7 @@ import { fisherYatesShuffle } from "@shared/shuffle";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { useI18n } from "@/lib/i18n";
 import {
   Play, Pause, Volume2, VolumeX, Repeat, SkipForward,
   Stethoscope, HeartPulse, Wind, Activity, Eye, EyeOff,
@@ -28,6 +29,7 @@ type AudioClipData = {
 };
 
 function getCategoryIcon(category: string) {
+
   switch (category) {
     case "HEART": return <HeartPulse className="w-5 h-5 text-red-500" />;
     case "LUNG": return <Wind className="w-5 h-5 text-blue-500" />;
@@ -222,7 +224,7 @@ function AudioPlayerCard({ clip, allClips }: { clip: AudioClipData; allClips: Au
       {clip.attributionText && (
         <p className="text-[10px] text-gray-400 mt-2 leading-tight">
           {clip.licenseType.replace(/_/g, " ")} — {clip.attributionText}
-          {clip.sourceUrl && <> · <a href={clip.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline">Source</a></>}
+          {clip.sourceUrl && <> · <a href={clip.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline">{t("components.auscultationPlayer.source")}</a></>}
         </p>
       )}
     </div>
@@ -259,7 +261,7 @@ export function AuscultationPracticeSection({ lessonId }: { lessonId: string }) 
         data-testid="button-toggle-auscultation"
       >
         <Stethoscope className="w-5 h-5 text-primary" />
-        <h3 className="text-lg font-bold text-gray-900 flex-1">Auscultation Audio Practice</h3>
+        <h3 className="text-lg font-bold text-gray-900 flex-1">{t("components.auscultationPlayer.auscultationAudioPractice")}</h3>
         <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">{clips.length} clips</span>
         {expanded ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
       </button>

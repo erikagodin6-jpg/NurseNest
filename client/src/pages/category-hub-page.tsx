@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n";
 import {
   getCategoryHubBySlug,
   CATEGORY_HUBS,
@@ -27,6 +28,7 @@ const ICON_MAP: Record<string, any> = {
 };
 
 function getIcon(name: string) {
+
   return ICON_MAP[name] || BookOpen;
 }
 
@@ -166,8 +168,8 @@ function CategoryHubPageContent({ hub }: { hub: CategoryHub }) {
               <Card className="h-full hover:shadow-md transition-all cursor-pointer group" data-testid="link-lessons">
                 <CardContent className="p-4 text-center">
                   <BookOpen className="w-6 h-6 mx-auto mb-2" style={{ color: hub.color }} />
-                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">Clinical Lessons</h3>
-                  <p className="text-xs text-gray-500 mt-1">In-depth pathophysiology lessons</p>
+                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">{t("pages.categoryHubPage.clinicalLessons")}</h3>
+                  <p className="text-xs text-gray-500 mt-1">{t("pages.categoryHubPage.indepthPathophysiologyLessons")}</p>
                 </CardContent>
               </Card>
             </LocaleLink>
@@ -175,8 +177,8 @@ function CategoryHubPageContent({ hub }: { hub: CategoryHub }) {
               <Card className="h-full hover:shadow-md transition-all cursor-pointer group" data-testid="link-flashcards">
                 <CardContent className="p-4 text-center">
                   <Brain className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">Flashcards</h3>
-                  <p className="text-xs text-gray-500 mt-1">Spaced-repetition review cards</p>
+                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">{t("pages.categoryHubPage.flashcards")}</h3>
+                  <p className="text-xs text-gray-500 mt-1">{t("pages.categoryHubPage.spacedrepetitionReviewCards")}</p>
                 </CardContent>
               </Card>
             </LocaleLink>
@@ -184,8 +186,8 @@ function CategoryHubPageContent({ hub }: { hub: CategoryHub }) {
               <Card className="h-full hover:shadow-md transition-all cursor-pointer group" data-testid="link-practice">
                 <CardContent className="p-4 text-center">
                   <FileText className="w-6 h-6 text-emerald-600 mx-auto mb-2" />
-                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">Practice Questions</h3>
-                  <p className="text-xs text-gray-500 mt-1">NCLEX-style exam questions</p>
+                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">{t("pages.categoryHubPage.practiceQuestions")}</h3>
+                  <p className="text-xs text-gray-500 mt-1">{t("pages.categoryHubPage.nclexstyleExamQuestions")}</p>
                 </CardContent>
               </Card>
             </LocaleLink>
@@ -280,10 +282,10 @@ export default function CategoryHubPage({ slug }: { slug: string }) {
       <div className="min-h-screen bg-gray-50">
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-hub-not-found">Hub Not Found</h1>
-          <p className="text-gray-600 mb-6">The category hub you are looking for does not exist.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-hub-not-found">{t("pages.categoryHubPage.hubNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.categoryHubPage.theCategoryHubYouAre")}</p>
           <LocaleLink href="/topics">
-            <Button data-testid="button-back-to-topics">Browse All Topics</Button>
+            <Button data-testid="button-back-to-topics">{t("pages.categoryHubPage.browseAllTopics")}</Button>
           </LocaleLink>
         </div>
         <Footer />

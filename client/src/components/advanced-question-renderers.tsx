@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, XCircle, GripVertical, ArrowRight } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 import type {
   MatrixQuestion,
   HighlightQuestion,
@@ -18,6 +19,7 @@ interface RendererProps<T> {
 }
 
 export function MatrixRenderer({ question, onAnswer, readOnly }: RendererProps<MatrixQuestion>) {
+  const { t } = useI18n();
   const [selections, setSelections] = useState<Record<string, string[]>>({});
   const [submitted, setSubmitted] = useState(false);
 
@@ -122,7 +124,7 @@ export function MatrixRenderer({ question, onAnswer, readOnly }: RendererProps<M
       )}
       {submitted && (
         <div className="p-3 rounded-lg text-xs leading-relaxed bg-blue-50 border border-blue-200 text-blue-800" data-testid={`text-rationale-matrix-${question.id}`}>
-          <p className="font-semibold mb-1">Rationale</p>
+          <p className="font-semibold mb-1">{t("components.advancedQuestionRenderers.rationale")}</p>
           <p>{question.rationale}</p>
         </div>
       )}
@@ -222,7 +224,7 @@ export function HighlightRenderer({ question, onAnswer, readOnly }: RendererProp
       )}
       {submitted && (
         <div className="p-3 rounded-lg text-xs leading-relaxed bg-blue-50 border border-blue-200 text-blue-800" data-testid={`text-rationale-highlight-${question.id}`}>
-          <p className="font-semibold mb-1">Rationale</p>
+          <p className="font-semibold mb-1">{t("components.advancedQuestionRenderers.rationale2")}</p>
           <p>{question.rationale}</p>
         </div>
       )}
@@ -315,7 +317,7 @@ export function TrendRenderer({ question, onAnswer, readOnly }: RendererProps<Tr
       )}
       {submitted && (
         <div className="p-3 rounded-lg text-xs leading-relaxed bg-blue-50 border border-blue-200 text-blue-800" data-testid={`text-rationale-trend-${question.id}`}>
-          <p className="font-semibold mb-1">Rationale</p>
+          <p className="font-semibold mb-1">{t("components.advancedQuestionRenderers.rationale3")}</p>
           <p>{question.rationale}</p>
         </div>
       )}
@@ -400,7 +402,7 @@ export function ImageBasedRenderer({ question, onAnswer, readOnly }: RendererPro
       )}
       {submitted && (
         <div className="p-3 rounded-lg text-xs leading-relaxed bg-blue-50 border border-blue-200 text-blue-800" data-testid={`text-rationale-image-${question.id}`}>
-          <p className="font-semibold mb-1">Rationale</p>
+          <p className="font-semibold mb-1">{t("components.advancedQuestionRenderers.rationale4")}</p>
           <p>{question.rationale}</p>
         </div>
       )}
@@ -449,7 +451,7 @@ export function DragDropRenderer({ question, onAnswer, readOnly }: RendererProps
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <p className="text-xs font-semibold text-gray-600 mb-2">Available Items</p>
+          <p className="text-xs font-semibold text-gray-600 mb-2">{t("components.advancedQuestionRenderers.availableItems")}</p>
           <div className="space-y-1 min-h-[100px] p-2 bg-gray-50 rounded-lg border border-dashed border-gray-300">
             {availableItems.map((id) => (
               <button
@@ -464,12 +466,12 @@ export function DragDropRenderer({ question, onAnswer, readOnly }: RendererProps
               </button>
             ))}
             {availableItems.length === 0 && (
-              <p className="text-xs text-gray-400 text-center py-4">All items placed</p>
+              <p className="text-xs text-gray-400 text-center py-4">{t("components.advancedQuestionRenderers.allItemsPlaced")}</p>
             )}
           </div>
         </div>
         <div>
-          <p className="text-xs font-semibold text-gray-600 mb-2">Your Order</p>
+          <p className="text-xs font-semibold text-gray-600 mb-2">{t("components.advancedQuestionRenderers.yourOrder")}</p>
           <div className="space-y-1 min-h-[100px] p-2 bg-blue-50 rounded-lg border border-dashed border-blue-300">
             {orderedItems.map((id, idx) => {
               const isCorrectPos = submitted && question.correctOrder[idx] === id;
@@ -502,7 +504,7 @@ export function DragDropRenderer({ question, onAnswer, readOnly }: RendererProps
               );
             })}
             {orderedItems.length === 0 && (
-              <p className="text-xs text-gray-400 text-center py-4">Click items to add them here</p>
+              <p className="text-xs text-gray-400 text-center py-4">{t("components.advancedQuestionRenderers.clickItemsToAddThem")}</p>
             )}
           </div>
         </div>
@@ -520,11 +522,11 @@ export function DragDropRenderer({ question, onAnswer, readOnly }: RendererProps
       {submitted && (
         <div className="space-y-2">
           <div className="p-3 rounded-lg text-xs leading-relaxed bg-blue-50 border border-blue-200 text-blue-800" data-testid={`text-rationale-dragdrop-${question.id}`}>
-            <p className="font-semibold mb-1">Rationale</p>
+            <p className="font-semibold mb-1">{t("components.advancedQuestionRenderers.rationale5")}</p>
             <p>{question.rationale}</p>
           </div>
           <div className="p-2 rounded-lg text-xs bg-gray-50 border border-gray-200">
-            <p className="font-semibold mb-1 text-gray-700">Correct Order:</p>
+            <p className="font-semibold mb-1 text-gray-700">{t("components.advancedQuestionRenderers.correctOrder")}</p>
             {question.correctOrder.map((id, i) => (
               <p key={i} className="text-gray-600">{i + 1}. {getLabel(id)}</p>
             ))}
@@ -567,21 +569,21 @@ export function CaseStudyRenderer({ question, onAnswer, readOnly }: RendererProp
     <div className="space-y-4" data-testid={`question-casestudy-${question.id}`}>
       <div className="p-4 bg-white border border-gray-200 rounded-lg">
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-xs font-bold bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded">Patient Profile</span>
+          <span className="text-xs font-bold bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded">{t("components.advancedQuestionRenderers.patientProfile")}</span>
           <span className="text-xs text-gray-500">{question.bodySystem}</span>
         </div>
         <div className="grid grid-cols-2 gap-2 text-xs mb-2">
-          <p><span className="font-semibold">Name:</span> {question.patientProfile.name}</p>
-          <p><span className="font-semibold">Age:</span> {question.patientProfile.age}</p>
-          <p><span className="font-semibold">Gender:</span> {question.patientProfile.gender}</p>
-          <p><span className="font-semibold">Chief Complaint:</span> {question.patientProfile.chiefComplaint}</p>
+          <p><span className="font-semibold">{t("components.advancedQuestionRenderers.name")}</span> {question.patientProfile.name}</p>
+          <p><span className="font-semibold">{t("components.advancedQuestionRenderers.age")}</span> {question.patientProfile.age}</p>
+          <p><span className="font-semibold">{t("components.advancedQuestionRenderers.gender")}</span> {question.patientProfile.gender}</p>
+          <p><span className="font-semibold">{t("components.advancedQuestionRenderers.chiefComplaint")}</span> {question.patientProfile.chiefComplaint}</p>
         </div>
         <p className="text-xs text-gray-700">{question.patientProfile.history}</p>
       </div>
 
       {question.vitals && Object.keys(question.vitals).length > 0 && (
         <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
-          <p className="text-xs font-semibold text-blue-700 mb-1">Vital Signs</p>
+          <p className="text-xs font-semibold text-blue-700 mb-1">{t("components.advancedQuestionRenderers.vitalSigns")}</p>
           <div className="flex flex-wrap gap-2">
             {Object.entries(question.vitals).map(([k, v]) => (
               <span key={k} className="text-xs bg-white px-2 py-0.5 rounded border border-blue-200">
@@ -594,7 +596,7 @@ export function CaseStudyRenderer({ question, onAnswer, readOnly }: RendererProp
 
       {question.labs && Object.keys(question.labs).length > 0 && (
         <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg">
-          <p className="text-xs font-semibold text-purple-700 mb-1">Lab Results</p>
+          <p className="text-xs font-semibold text-purple-700 mb-1">{t("components.advancedQuestionRenderers.labResults")}</p>
           <div className="flex flex-wrap gap-2">
             {Object.entries(question.labs).map(([k, v]) => (
               <span key={k} className="text-xs bg-white px-2 py-0.5 rounded border border-purple-200">
@@ -607,14 +609,14 @@ export function CaseStudyRenderer({ question, onAnswer, readOnly }: RendererProp
 
       {question.medications && question.medications.length > 0 && (
         <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-          <p className="text-xs font-semibold text-green-700 mb-1">Current Medications</p>
+          <p className="text-xs font-semibold text-green-700 mb-1">{t("components.advancedQuestionRenderers.currentMedications")}</p>
           <p className="text-xs text-gray-700">{question.medications.join(", ")}</p>
         </div>
       )}
 
       {question.nurseNotes && (
         <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
-          <p className="text-xs font-semibold text-amber-700 mb-1">Nurse Notes</p>
+          <p className="text-xs font-semibold text-amber-700 mb-1">{t("components.advancedQuestionRenderers.nurseNotes")}</p>
           <p className="text-xs text-gray-700 italic">{question.nurseNotes}</p>
         </div>
       )}
@@ -640,7 +642,7 @@ export function CaseStudyRenderer({ question, onAnswer, readOnly }: RendererProp
 
       {completed && (
         <div className="p-4 bg-indigo-50 border border-indigo-200 rounded-lg" data-testid={`text-overall-rationale-${question.id}`}>
-          <p className="text-sm font-semibold text-indigo-700 mb-2">Case Study Summary</p>
+          <p className="text-sm font-semibold text-indigo-700 mb-2">{t("components.advancedQuestionRenderers.caseStudySummary")}</p>
           <p className="text-xs text-gray-700 leading-relaxed">{question.overallRationale}</p>
         </div>
       )}
@@ -725,7 +727,7 @@ function CaseStudySubQuestionRenderer({
         )}
         {submitted && question.rationale && (
           <div className="p-3 rounded-lg text-xs bg-blue-50 border border-blue-200 text-blue-800">
-            <p className="font-semibold mb-1">Rationale</p>
+            <p className="font-semibold mb-1">{t("components.advancedQuestionRenderers.rationale6")}</p>
             <p>{question.rationale}</p>
           </div>
         )}
@@ -737,7 +739,7 @@ function CaseStudySubQuestionRenderer({
     return (
       <div className="space-y-3" data-testid={`subquestion-${question.id}`}>
         <p className="text-sm text-gray-800 font-medium">{question.questionText}</p>
-        <p className="text-xs text-gray-500">Select all that apply</p>
+        <p className="text-xs text-gray-500">{t("components.advancedQuestionRenderers.selectAllThatApply")}</p>
         <div className="space-y-2">
           {options.map((opt, idx) => {
             const isSelected = multiSelected.has(idx);
@@ -779,7 +781,7 @@ function CaseStudySubQuestionRenderer({
         onChange={(e) => setTextAnswer(e.target.value)}
         disabled={submitted || readOnly}
         className="w-full p-2 border border-gray-300 rounded text-sm"
-        placeholder="Type your answer..."
+        placeholder={t("components.advancedQuestionRenderers.typeYourAnswer")}
         data-testid={`input-sub-fill-${question.id}`}
       />
       {!submitted && !readOnly && (

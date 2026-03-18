@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { useI18n } from "@/lib/i18n";
 interface NotificationSettings {
   emailEnabled: boolean;
   smsEnabled: boolean;
@@ -26,6 +27,7 @@ interface LogEntry {
 }
 
 export default function AdminNotifications() {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [testingChannel, setTestingChannel] = useState<string | null>(null);
 
@@ -73,7 +75,7 @@ export default function AdminNotifications() {
   if (isLoading) {
     return (
       <div className="p-8 max-w-4xl mx-auto" data-testid="page-admin-notifications">
-        <p className="text-slate-500">Loading notification settings...</p>
+        <p className="text-slate-500">{t("pages.adminNotifications.loadingNotificationSettings")}</p>
       </div>
     );
   }
@@ -81,17 +83,17 @@ export default function AdminNotifications() {
   return (
     <div className="p-8 max-w-4xl mx-auto space-y-8" data-testid="page-admin-notifications">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900" data-testid="text-page-title">Purchase Notifications</h1>
-        <p className="text-slate-600 mt-1">Get notified when students subscribe, cancel, or have payment issues.</p>
+        <h1 className="text-2xl font-bold text-slate-900" data-testid="text-page-title">{t("pages.adminNotifications.purchaseNotifications")}</h1>
+        <p className="text-slate-600 mt-1">{t("pages.adminNotifications.getNotifiedWhenStudentsSubscribe")}</p>
       </div>
 
       <div className="bg-white rounded-lg border border-slate-200 p-6 space-y-6">
-        <h2 className="text-lg font-semibold text-slate-800">Channels</h2>
+        <h2 className="text-lg font-semibold text-slate-800">{t("pages.adminNotifications.channels")}</h2>
 
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium text-slate-700">Email Notifications</p>
+              <p className="font-medium text-slate-700">{t("pages.adminNotifications.emailNotifications")}</p>
               <p className="text-sm text-slate-500">{settings?.adminEmail}</p>
             </div>
             <button
@@ -109,7 +111,7 @@ export default function AdminNotifications() {
 
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium text-slate-700">SMS Notifications</p>
+              <p className="font-medium text-slate-700">{t("pages.adminNotifications.smsNotifications")}</p>
               <p className="text-sm text-slate-500">{settings?.adminPhone}</p>
             </div>
             <button
@@ -155,7 +157,7 @@ export default function AdminNotifications() {
       </div>
 
       <div className="bg-white rounded-lg border border-slate-200 p-6 space-y-4">
-        <h2 className="text-lg font-semibold text-slate-800">Event Types</h2>
+        <h2 className="text-lg font-semibold text-slate-800">{t("pages.adminNotifications.eventTypes")}</h2>
 
         {([
           { key: "notifyOnNewSubscription" as const, label: "New Subscription", desc: "When a student subscribes to any plan" },
@@ -186,7 +188,7 @@ export default function AdminNotifications() {
 
       <div className="bg-white rounded-lg border border-slate-200 p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-slate-800">Notification Log</h2>
+          <h2 className="text-lg font-semibold text-slate-800">{t("pages.adminNotifications.notificationLog")}</h2>
           {logData?.total !== undefined && (
             <span className="text-sm text-slate-500" data-testid="text-log-count">{logData.total} total</span>
           )}
@@ -197,11 +199,11 @@ export default function AdminNotifications() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-200">
-                  <th className="text-left py-2 px-2 text-slate-500 font-medium">Time</th>
-                  <th className="text-left py-2 px-2 text-slate-500 font-medium">Event</th>
-                  <th className="text-left py-2 px-2 text-slate-500 font-medium">Channel</th>
-                  <th className="text-left py-2 px-2 text-slate-500 font-medium">Status</th>
-                  <th className="text-left py-2 px-2 text-slate-500 font-medium">Recipient</th>
+                  <th className="text-left py-2 px-2 text-slate-500 font-medium">{t("pages.adminNotifications.time")}</th>
+                  <th className="text-left py-2 px-2 text-slate-500 font-medium">{t("pages.adminNotifications.event")}</th>
+                  <th className="text-left py-2 px-2 text-slate-500 font-medium">{t("pages.adminNotifications.channel")}</th>
+                  <th className="text-left py-2 px-2 text-slate-500 font-medium">{t("pages.adminNotifications.status")}</th>
+                  <th className="text-left py-2 px-2 text-slate-500 font-medium">{t("pages.adminNotifications.recipient")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -232,7 +234,7 @@ export default function AdminNotifications() {
             </table>
           </div>
         ) : (
-          <p className="text-slate-500 text-center py-8" data-testid="text-log-empty">No notifications sent yet.</p>
+          <p className="text-slate-500 text-center py-8" data-testid="text-log-empty">{t("pages.adminNotifications.noNotificationsSentYet")}</p>
         )}
       </div>
     </div>

@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   Globe, FileText, AlertTriangle, CheckCircle2, Clock, Search,
   RefreshCw, ChevronDown, ChevronRight, Languages, BarChart3,
@@ -59,6 +60,7 @@ type SeoPageRow = {
 };
 
 function statusColor(status: string) {
+  const { t } = useI18n();
   switch (status) {
     case "en_source": return "bg-blue-100 text-blue-800";
     case "auto": return "bg-amber-100 text-amber-800";
@@ -113,7 +115,7 @@ export default function AdminSeoDashboard() {
     <>
       <Navigation />
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-500">Admin access required.</p>
+        <p className="text-gray-500">{t("pages.adminSeoDashboard.adminAccessRequired")}</p>
       </div>
     </>
   );
@@ -215,7 +217,7 @@ export default function AdminSeoDashboard() {
   return (
     <>
       <Navigation />
-      <SEO title="SEO Dashboard | Admin" description="Multilingual SEO management dashboard" />
+      <SEO title={t("pages.adminSeoDashboard.seoDashboardAdmin")} description={t("pages.adminSeoDashboard.multilingualSeoManagementDashboard")} />
 
       <main className="min-h-screen bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 py-8">
@@ -225,7 +227,7 @@ export default function AdminSeoDashboard() {
                 <Globe className="w-7 h-7 text-primary" />
                 Multilingual SEO Dashboard
               </h1>
-              <p className="text-gray-500 mt-1">Manage 15-language SEO pages, translations, and keyword targeting</p>
+              <p className="text-gray-500 mt-1">{t("pages.adminSeoDashboard.manage15languageSeoPagesTranslations")}</p>
             </div>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" onClick={handleFlagStale} disabled={flagging} data-testid="button-flag-stale">
@@ -241,7 +243,7 @@ export default function AdminSeoDashboard() {
           {genResult && (
             <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4 text-sm text-green-800" data-testid="notice-result">
               {genResult}
-              <button onClick={() => setGenResult(null)} className="ml-2 text-green-600 hover:text-green-800">Dismiss</button>
+              <button onClick={() => setGenResult(null)} className="ml-2 text-green-600 hover:text-green-800">{t("pages.adminSeoDashboard.dismiss")}</button>
             </div>
           )}
 
@@ -273,25 +275,25 @@ export default function AdminSeoDashboard() {
                     <Card>
                       <CardContent className="p-4 text-center">
                         <div className="text-3xl font-bold text-primary">{Object.values(langCounts).reduce((s, c) => s + c.total, 0)}</div>
-                        <div className="text-sm text-gray-500 mt-1">Total SEO Pages</div>
+                        <div className="text-sm text-gray-500 mt-1">{t("pages.adminSeoDashboard.totalSeoPages")}</div>
                       </CardContent>
                     </Card>
                     <Card>
                       <CardContent className="p-4 text-center">
                         <div className="text-3xl font-bold text-green-600">{Object.keys(langCounts).length}</div>
-                        <div className="text-sm text-gray-500 mt-1">Languages Active</div>
+                        <div className="text-sm text-gray-500 mt-1">{t("pages.adminSeoDashboard.languagesActive")}</div>
                       </CardContent>
                     </Card>
                     <Card>
                       <CardContent className="p-4 text-center">
                         <div className="text-3xl font-bold text-amber-600">{dashboard.wordCountFlags.length}</div>
-                        <div className="text-sm text-gray-500 mt-1">Content Flags</div>
+                        <div className="text-sm text-gray-500 mt-1">{t("pages.adminSeoDashboard.contentFlags")}</div>
                       </CardContent>
                     </Card>
                     <Card>
                       <CardContent className="p-4 text-center">
                         <div className="text-3xl font-bold text-red-600">{dashboard.needsReview.length}</div>
-                        <div className="text-sm text-gray-500 mt-1">Needs Review</div>
+                        <div className="text-sm text-gray-500 mt-1">{t("pages.adminSeoDashboard.needsReview")}</div>
                       </CardContent>
                     </Card>
                   </div>
@@ -307,12 +309,12 @@ export default function AdminSeoDashboard() {
                         <table className="w-full text-sm" data-testid="table-lang-overview">
                           <thead>
                             <tr className="border-b">
-                              <th className="text-left py-2 px-3">Language</th>
-                              <th className="text-center py-2 px-3">Pillars</th>
-                              <th className="text-center py-2 px-3">Clusters</th>
-                              <th className="text-center py-2 px-3">Total</th>
+                              <th className="text-left py-2 px-3">{t("pages.adminSeoDashboard.language")}</th>
+                              <th className="text-center py-2 px-3">{t("pages.adminSeoDashboard.pillars")}</th>
+                              <th className="text-center py-2 px-3">{t("pages.adminSeoDashboard.clusters")}</th>
+                              <th className="text-center py-2 px-3">{t("pages.adminSeoDashboard.total")}</th>
                               <th className="text-center py-2 px-3">en_source</th>
-                              <th className="text-center py-2 px-3">auto</th>
+                              <th className="text-center py-2 px-3">{t("pages.adminSeoDashboard.auto")}</th>
                               <th className="text-center py-2 px-3">human_reviewed</th>
                               <th className="text-center py-2 px-3">needs_review</th>
                             </tr>
@@ -356,7 +358,7 @@ export default function AdminSeoDashboard() {
                     <div className="relative flex-1 max-w-sm">
                       <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
                       <Input
-                        placeholder="Search pages..."
+                        placeholder={t("pages.adminSeoDashboard.searchPages")}
                         value={searchQuery}
                         onChange={e => setSearchQuery(e.target.value)}
                         className="pl-9"
@@ -379,13 +381,13 @@ export default function AdminSeoDashboard() {
                         <table className="w-full text-sm" data-testid="table-seo-pages">
                           <thead>
                             <tr className="border-b bg-gray-50">
-                              <th className="text-left py-3 px-4">Title</th>
-                              <th className="text-center py-3 px-4">Type</th>
-                              <th className="text-center py-3 px-4">Exam</th>
-                              <th className="text-center py-3 px-4">Status</th>
-                              <th className="text-center py-3 px-4">Content</th>
-                              <th className="text-center py-3 px-4">Public</th>
-                              <th className="text-center py-3 px-4">Actions</th>
+                              <th className="text-left py-3 px-4">{t("pages.adminSeoDashboard.title")}</th>
+                              <th className="text-center py-3 px-4">{t("pages.adminSeoDashboard.type")}</th>
+                              <th className="text-center py-3 px-4">{t("pages.adminSeoDashboard.exam")}</th>
+                              <th className="text-center py-3 px-4">{t("pages.adminSeoDashboard.status")}</th>
+                              <th className="text-center py-3 px-4">{t("pages.adminSeoDashboard.content")}</th>
+                              <th className="text-center py-3 px-4">{t("pages.adminSeoDashboard.public")}</th>
+                              <th className="text-center py-3 px-4">{t("pages.adminSeoDashboard.actions")}</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -448,7 +450,7 @@ export default function AdminSeoDashboard() {
                         </table>
                       </div>
                       {filteredPages.length === 0 && (
-                        <div className="text-center py-8 text-gray-400">No pages found for this language.</div>
+                        <div className="text-center py-8 text-gray-400">{t("pages.adminSeoDashboard.noPagesFoundForThis")}</div>
                       )}
                     </CardContent>
                   </Card>
@@ -467,7 +469,7 @@ export default function AdminSeoDashboard() {
                       <table className="w-full text-xs" data-testid="table-coverage-matrix">
                         <thead>
                           <tr className="border-b">
-                            <th className="text-left py-2 px-2 sticky left-0 bg-white">Group</th>
+                            <th className="text-left py-2 px-2 sticky left-0 bg-white">{t("pages.adminSeoDashboard.group")}</th>
                             {LANGUAGES.map(l => (
                               <th key={l.code} className="text-center py-2 px-1 min-w-[40px]">{l.flag}</th>
                             ))}
@@ -504,11 +506,11 @@ export default function AdminSeoDashboard() {
                     </div>
                     <div className="flex gap-4 mt-4 text-xs text-gray-500">
                       <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm bg-blue-500 inline-block" /> en_source</span>
-                      <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm bg-amber-400 inline-block" /> auto</span>
-                      <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm bg-green-500 inline-block" /> localized</span>
+                      <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm bg-amber-400 inline-block" /> {t("pages.adminSeoDashboard.auto2")}</span>
+                      <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm bg-green-500 inline-block" /> {t("pages.adminSeoDashboard.localized")}</span>
                       <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm bg-emerald-600 inline-block" /> human_reviewed</span>
                       <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm bg-red-500 inline-block" /> needs_review</span>
-                      <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm bg-gray-300 inline-block" /> missing</span>
+                      <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm bg-gray-300 inline-block" /> {t("pages.adminSeoDashboard.missing")}</span>
                     </div>
                   </CardContent>
                 </Card>
@@ -605,7 +607,7 @@ export default function AdminSeoDashboard() {
                     <Card>
                       <CardContent className="p-8 text-center">
                         <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-3" />
-                        <p className="text-gray-600">No issues found. All SEO pages pass quality checks.</p>
+                        <p className="text-gray-600">{t("pages.adminSeoDashboard.noIssuesFoundAllSeo")}</p>
                       </CardContent>
                     </Card>
                   )}
@@ -622,8 +624,8 @@ export default function AdminSeoDashboard() {
                   <CardContent>
                     <div className="text-center py-8 text-gray-500">
                       <Zap className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-                      <p>Keyword targeting module will be populated with language-specific keywords.</p>
-                      <p className="text-sm mt-1">Use the API endpoint <code className="bg-gray-100 px-1 rounded">POST /api/admin/seo-keywords</code> to add keywords.</p>
+                      <p>{t("pages.adminSeoDashboard.keywordTargetingModuleWillBe")}</p>
+                      <p className="text-sm mt-1">Use the API endpoint <code className="bg-gray-100 px-1 rounded">{t("pages.adminSeoDashboard.postApiadminseokeywords")}</code> {t("pages.adminSeoDashboard.toAddKeywords")}</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -641,25 +643,25 @@ export default function AdminSeoDashboard() {
                         <Card>
                           <CardContent className="p-4 text-center">
                             <p className="text-2xl font-bold text-gray-900" data-testid="stat-total-pages">{auditData.summary.totalPages}</p>
-                            <p className="text-xs text-gray-500">Total Pages Audited</p>
+                            <p className="text-xs text-gray-500">{t("pages.adminSeoDashboard.totalPagesAudited")}</p>
                           </CardContent>
                         </Card>
                         <Card>
                           <CardContent className="p-4 text-center">
                             <p className="text-2xl font-bold text-green-600" data-testid="stat-clean-pages">{auditData.summary.totalPages - auditData.summary.pagesWithIssues}</p>
-                            <p className="text-xs text-gray-500">Clean Pages</p>
+                            <p className="text-xs text-gray-500">{t("pages.adminSeoDashboard.cleanPages")}</p>
                           </CardContent>
                         </Card>
                         <Card>
                           <CardContent className="p-4 text-center">
                             <p className="text-2xl font-bold text-amber-600" data-testid="stat-pages-with-issues">{auditData.summary.pagesWithIssues}</p>
-                            <p className="text-xs text-gray-500">Pages with Issues</p>
+                            <p className="text-xs text-gray-500">{t("pages.adminSeoDashboard.pagesWithIssues")}</p>
                           </CardContent>
                         </Card>
                         <Card>
                           <CardContent className="p-4 text-center">
                             <p className="text-2xl font-bold text-gray-400" data-testid="stat-noindex">{auditData.summary.noindexPages}</p>
-                            <p className="text-xs text-gray-500">Noindex Pages</p>
+                            <p className="text-xs text-gray-500">{t("pages.adminSeoDashboard.noindexPages")}</p>
                           </CardContent>
                         </Card>
                       </div>
@@ -695,13 +697,13 @@ export default function AdminSeoDashboard() {
                             <table className="w-full text-sm" data-testid="table-audit-results">
                               <thead>
                                 <tr className="bg-gray-50 text-left">
-                                  <th className="px-3 py-2 font-semibold text-gray-700">Path</th>
-                                  <th className="px-3 py-2 font-semibold text-gray-700">Title</th>
-                                  <th className="px-3 py-2 font-semibold text-gray-700 text-center">Meta</th>
-                                  <th className="px-3 py-2 font-semibold text-gray-700 text-center">Canonical</th>
-                                  <th className="px-3 py-2 font-semibold text-gray-700 text-center">JSON-LD</th>
-                                  <th className="px-3 py-2 font-semibold text-gray-700 text-center">Breadcrumbs</th>
-                                  <th className="px-3 py-2 font-semibold text-gray-700">Issues</th>
+                                  <th className="px-3 py-2 font-semibold text-gray-700">{t("pages.adminSeoDashboard.path")}</th>
+                                  <th className="px-3 py-2 font-semibold text-gray-700">{t("pages.adminSeoDashboard.title2")}</th>
+                                  <th className="px-3 py-2 font-semibold text-gray-700 text-center">{t("pages.adminSeoDashboard.meta")}</th>
+                                  <th className="px-3 py-2 font-semibold text-gray-700 text-center">{t("pages.adminSeoDashboard.canonical")}</th>
+                                  <th className="px-3 py-2 font-semibold text-gray-700 text-center">{t("pages.adminSeoDashboard.jsonld")}</th>
+                                  <th className="px-3 py-2 font-semibold text-gray-700 text-center">{t("pages.adminSeoDashboard.breadcrumbs")}</th>
+                                  <th className="px-3 py-2 font-semibold text-gray-700">{t("pages.adminSeoDashboard.issues")}</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -729,7 +731,7 @@ export default function AdminSeoDashboard() {
                                           ))}
                                         </div>
                                       ) : (
-                                        <span className="text-green-600 text-xs">All clear</span>
+                                        <span className="text-green-600 text-xs">{t("pages.adminSeoDashboard.allClear")}</span>
                                       )}
                                     </td>
                                   </tr>
@@ -744,7 +746,7 @@ export default function AdminSeoDashboard() {
                     <Card>
                       <CardContent className="p-8 text-center">
                         <AlertTriangle className="w-12 h-12 text-amber-400 mx-auto mb-3" />
-                        <p className="text-gray-600">Failed to load audit data. Try refreshing.</p>
+                        <p className="text-gray-600">{t("pages.adminSeoDashboard.failedToLoadAuditData")}</p>
                       </CardContent>
                     </Card>
                   )}

@@ -8,6 +8,7 @@ import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import {
   Heart,
   Wind,
@@ -120,6 +121,7 @@ type SystemData = {
 };
 
 function getProficiency(avg: number, hasData: boolean): string {
+
   if (!hasData) return "Not Started";
   if (avg >= 90) return "Mastered";
   if (avg >= 75) return "Proficient";
@@ -240,8 +242,8 @@ export default function Reports() {
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
         <SEO
-          title="Performance Analytics - NurseNest"
-          description="Monitor your nursing study performance with detailed analytics."
+          title={t("pages.reports.performanceAnalyticsNursenest")}
+          description={t("pages.reports.monitorYourNursingStudyPerformance")}
           keywords="nursing study analytics, NCLEX progress tracker"
           canonicalPath="/reports"
           ogType="website"
@@ -280,8 +282,8 @@ export default function Reports() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
       <SEO
-        title="Performance Analytics - Track Your Nursing Study Progress"
-        description="Monitor your nursing study performance with detailed analytics. Track mastery scores, study time, question completion rates, and identify areas for improvement across all body systems."
+        title={t("pages.reports.performanceAnalyticsTrackYourNursing")}
+        description={t("pages.reports.monitorYourNursingStudyPerformance2")}
         keywords="nursing study analytics, NCLEX progress tracker, nursing performance metrics, study progress dashboard, nursing exam preparation tracking"
         canonicalPath="/reports"
         ogType="website"
@@ -311,7 +313,7 @@ export default function Reports() {
               <div className="p-2.5 rounded-xl bg-primary/10 text-primary">
                 <BarChart3 className="w-5 h-5" />
               </div>
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Tests Taken</span>
+              <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">{t("pages.reports.testsTaken")}</span>
             </div>
             <p className="text-3xl font-black text-gray-900" data-testid="stat-tests-taken">{totalTestsTaken}</p>
           </Card>
@@ -320,7 +322,7 @@ export default function Reports() {
               <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-500">
                 <Target className="w-5 h-5" />
               </div>
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Avg Score</span>
+              <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">{t("pages.reports.avgScore")}</span>
             </div>
             <p className="text-3xl font-black text-gray-900" data-testid="stat-avg-score">{hasData ? `${overallAverage}%` : "-"}</p>
           </Card>
@@ -329,7 +331,7 @@ export default function Reports() {
               <div className="p-2.5 rounded-xl bg-blue-50 text-blue-500">
                 <TrendingUp className="w-5 h-5" />
               </div>
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Best System</span>
+              <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">{t("pages.reports.bestSystem")}</span>
             </div>
             <p className="text-xl font-black text-gray-900 truncate" data-testid="stat-best-system">
               {bestSystem ? bestSystem.name : "-"}
@@ -341,7 +343,7 @@ export default function Reports() {
               <div className="p-2.5 rounded-xl bg-amber-50 text-amber-500">
                 <TrendingDown className="w-5 h-5" />
               </div>
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Weakest System</span>
+              <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">{t("pages.reports.weakestSystem")}</span>
             </div>
             <p className="text-xl font-black text-gray-900 truncate" data-testid="stat-weakest-system">
               {weakestSystem ? weakestSystem.name : "-"}
@@ -362,7 +364,7 @@ export default function Reports() {
           </div>
         )}
 
-        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-systems-heading">Body Systems Proficiency</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-systems-heading">{t("pages.reports.bodySystemsProficiency")}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-14">
           {systemData.map((sys) => {
             const Icon = sys.icon;
@@ -406,14 +408,14 @@ export default function Reports() {
           })}
         </div>
 
-        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-recommendations-heading">Study Recommendations</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-recommendations-heading">{t("pages.reports.studyRecommendations")}</h2>
 
         {!hasData ? (
           <Card className="border-none shadow-md bg-white rounded-2xl p-8 text-center" data-testid="card-no-data">
             <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
               <BookOpen className="w-7 h-7 text-primary" />
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">No Test Data Yet</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">{t("pages.reports.noTestDataYet")}</h3>
             <p className="text-gray-500 mb-6 max-w-md mx-auto">
               Start taking pre-tests and post-tests in your lessons to see your performance analytics and get personalized study recommendations.
             </p>
@@ -431,7 +433,7 @@ export default function Reports() {
               <div className="p-5 border-b border-gray-50">
                 <div className="flex items-center gap-2">
                   <AlertTriangle className="w-5 h-5 text-amber-500" />
-                  <h3 className="font-bold text-gray-900">Areas to Improve</h3>
+                  <h3 className="font-bold text-gray-900">{t("pages.reports.areasToImprove")}</h3>
                 </div>
               </div>
               <div className="divide-y divide-gray-50">
@@ -465,7 +467,7 @@ export default function Reports() {
               <div className="p-5 border-b border-gray-50">
                 <div className="flex items-center gap-2">
                   <Award className="w-5 h-5 text-emerald-500" />
-                  <h3 className="font-bold text-gray-900">Your Strengths</h3>
+                  <h3 className="font-bold text-gray-900">{t("pages.reports.yourStrengths")}</h3>
                 </div>
               </div>
               <div className="divide-y divide-gray-50">

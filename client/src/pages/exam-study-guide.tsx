@@ -5,6 +5,7 @@ import { SEO } from "@/components/seo";
 import { ContextualRelatedResources } from "@/components/related-resources";
 import { AutoRelatedContent } from "@/components/auto-related-content";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { useI18n } from "@/lib/i18n";
 import {
   BookOpen, FileText, Brain, Target,
   CheckCircle2, ChevronDown, ChevronRight, ArrowRight,
@@ -580,6 +581,7 @@ const STUDY_GUIDES: Record<string, StudyGuideData> = {
 };
 
 function FAQAccordion({ faqs }: { faqs: { q: string; a: string }[] }) {
+  const { t } = useI18n();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   return (
     <div className="space-y-3" data-testid="faq-section">
@@ -618,8 +620,8 @@ export function ExamStudyGuidePage({ slug }: { slug: string }) {
       <>
         <Navigation />
         <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="heading-not-found">Study Guide Not Found</h1>
-          <p className="text-gray-600 mb-4">This study guide page doesn't exist yet.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="heading-not-found">{t("pages.examStudyGuide.studyGuideNotFound")}</h1>
+          <p className="text-gray-600 mb-4">{t("pages.examStudyGuide.thisStudyGuidePageDoesnt")}</p>
           <Link href="/" className="inline-block px-6 py-2.5 bg-primary text-white rounded-xl text-sm font-medium hover:opacity-90" data-testid="link-home">
             Go Home
           </Link>
@@ -683,7 +685,7 @@ export function ExamStudyGuidePage({ slug }: { slug: string }) {
           <div className="max-w-4xl mx-auto px-4 text-center">
             <div className="flex items-center justify-center gap-2 text-sm font-medium mb-4" style={{ color: guide.color }}>
               <span className="text-2xl">{guide.icon}</span>
-              <span>Comprehensive Study Guide</span>
+              <span>{t("pages.examStudyGuide.comprehensiveStudyGuide")}</span>
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight" data-testid="heading-h1">
               {guide.h1}
@@ -708,27 +710,27 @@ export function ExamStudyGuidePage({ slug }: { slug: string }) {
               <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: guide.colorAccent }}>
                 <Clipboard className="w-5 h-5" style={{ color: guide.color }} />
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900" data-testid="heading-exam-blueprint">Exam Blueprint Overview</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900" data-testid="heading-exam-blueprint">{t("pages.examStudyGuide.examBlueprintOverview")}</h2>
             </div>
             <div className="grid sm:grid-cols-2 gap-4 mb-8">
               <div className="bg-gray-50 rounded-xl p-4">
-                <p className="text-xs text-gray-500 uppercase font-medium mb-1">Exam</p>
+                <p className="text-xs text-gray-500 uppercase font-medium mb-1">{t("pages.examStudyGuide.exam")}</p>
                 <p className="font-semibold text-gray-900 text-sm" data-testid="text-exam-name">{guide.examOverview.examName}</p>
               </div>
               <div className="bg-gray-50 rounded-xl p-4">
-                <p className="text-xs text-gray-500 uppercase font-medium mb-1">Format</p>
+                <p className="text-xs text-gray-500 uppercase font-medium mb-1">{t("pages.examStudyGuide.format")}</p>
                 <p className="font-semibold text-gray-900 text-sm" data-testid="text-exam-format">{guide.examOverview.format}</p>
               </div>
               <div className="bg-gray-50 rounded-xl p-4">
-                <p className="text-xs text-gray-500 uppercase font-medium mb-1">Duration</p>
+                <p className="text-xs text-gray-500 uppercase font-medium mb-1">{t("pages.examStudyGuide.duration")}</p>
                 <p className="font-semibold text-gray-900 text-sm" data-testid="text-exam-duration">{guide.examOverview.duration}</p>
               </div>
               <div className="bg-gray-50 rounded-xl p-4">
-                <p className="text-xs text-gray-500 uppercase font-medium mb-1">Passing Score</p>
+                <p className="text-xs text-gray-500 uppercase font-medium mb-1">{t("pages.examStudyGuide.passingScore")}</p>
                 <p className="font-semibold text-gray-900 text-sm" data-testid="text-exam-passing">{guide.examOverview.passingScore}</p>
               </div>
             </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Domain Breakdown</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">{t("pages.examStudyGuide.domainBreakdown")}</h3>
             <div className="space-y-4" data-testid="section-domains">
               {guide.examOverview.domains.map((domain, i) => (
                 <div key={i} className="border border-gray-200 rounded-xl p-5" data-testid={`domain-${i}`}>
@@ -749,7 +751,7 @@ export function ExamStudyGuidePage({ slug }: { slug: string }) {
               <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: guide.colorAccent }}>
                 <ListChecks className="w-5 h-5" style={{ color: guide.color }} />
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900" data-testid="heading-topics">Important Topics Breakdown</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900" data-testid="heading-topics">{t("pages.examStudyGuide.importantTopicsBreakdown")}</h2>
             </div>
             <div className="space-y-6">
               {guide.topicsBreakdown.map((cat, i) => (
@@ -765,7 +767,7 @@ export function ExamStudyGuidePage({ slug }: { slug: string }) {
                   </div>
                   <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 flex items-start gap-2">
                     <Lightbulb className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
-                    <p className="text-sm text-amber-800"><strong>Study Tip:</strong> {cat.tip}</p>
+                    <p className="text-sm text-amber-800"><strong>{t("pages.examStudyGuide.studyTip")}</strong> {cat.tip}</p>
                   </div>
                 </div>
               ))}
@@ -779,7 +781,7 @@ export function ExamStudyGuidePage({ slug }: { slug: string }) {
               <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: guide.colorAccent }}>
                 <Target className="w-5 h-5" style={{ color: guide.color }} />
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900" data-testid="heading-strategy">Recommended Study Strategy</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900" data-testid="heading-strategy">{t("pages.examStudyGuide.recommendedStudyStrategy")}</h2>
             </div>
             <div className="space-y-6">
               {guide.studyStrategy.map((phase, i) => (
@@ -814,7 +816,7 @@ export function ExamStudyGuidePage({ slug }: { slug: string }) {
               <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: guide.colorAccent }}>
                 <Zap className="w-5 h-5" style={{ color: guide.color }} />
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900" data-testid="heading-tips">Study Tips from Top Scorers</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900" data-testid="heading-tips">{t("pages.examStudyGuide.studyTipsFromTopScorers")}</h2>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               {guide.studyTips.map((tip, i) => (
@@ -846,7 +848,7 @@ export function ExamStudyGuidePage({ slug }: { slug: string }) {
               <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: guide.colorAccent }}>
                 <BookOpen className="w-5 h-5" style={{ color: guide.color }} />
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900" data-testid="heading-resources">Study Resources</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900" data-testid="heading-resources">{t("pages.examStudyGuide.studyResources")}</h2>
             </div>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
               {guide.resourceLinks.map((link, i) => {
@@ -873,7 +875,7 @@ export function ExamStudyGuidePage({ slug }: { slug: string }) {
           <div className="max-w-3xl mx-auto px-4">
             <div className="flex items-center gap-3 mb-8 justify-center">
               <HelpCircle className="w-6 h-6" style={{ color: guide.color }} />
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900" data-testid="heading-faq">Frequently Asked Questions</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900" data-testid="heading-faq">{t("pages.examStudyGuide.frequentlyAskedQuestions")}</h2>
             </div>
             <FAQAccordion faqs={guide.faqs} />
           </div>
@@ -882,8 +884,8 @@ export function ExamStudyGuidePage({ slug }: { slug: string }) {
         <section className="py-12 md:py-16 bg-gray-50" data-testid="section-cta-bottom">
           <div className="max-w-4xl mx-auto px-4">
             <div className="rounded-2xl p-8 md:p-12 text-white text-center" style={{ background: `linear-gradient(135deg, ${guide.color} 0%, ${guide.color}dd 100%)` }}>
-              <h2 className="text-2xl md:text-3xl font-bold mb-3" data-testid="heading-cta">Ready to Start Studying?</h2>
-              <p className="opacity-90 mb-6 max-w-xl mx-auto">Take our free diagnostic assessment to identify your strengths and weak areas, then get a personalized study plan.</p>
+              <h2 className="text-2xl md:text-3xl font-bold mb-3" data-testid="heading-cta">{t("pages.examStudyGuide.readyToStartStudying")}</h2>
+              <p className="opacity-90 mb-6 max-w-xl mx-auto">{t("pages.examStudyGuide.takeOurFreeDiagnosticAssessment")}</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link
                   href={guide.resourceLinks[0]?.href || "/start-free"}

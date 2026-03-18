@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
 
+import { useI18n } from "@/lib/i18n";
 interface DailyQuestion {
   date: string;
   tier: string;
@@ -35,6 +36,7 @@ interface ArchiveEntry {
 }
 
 export default function DailyQuestionPage() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [question, setQuestion] = useState<DailyQuestion | null>(null);
   const [loading, setLoading] = useState(true);
@@ -138,14 +140,14 @@ export default function DailyQuestionPage() {
   return (
     <>
       <SEO
-        title="Daily Practice Question - Free Nursing Exam Prep | NurseNest"
-        description="Challenge yourself with a new NCLEX-style practice question every day. Get detailed rationales and track your streak to build exam confidence."
+        title={t("pages.dailyQuestion.dailyPracticeQuestionFreeNursing")}
+        description={t("pages.dailyQuestion.challengeYourselfWithANew")}
         canonicalPath="/daily-question"
       />
       <MedicalReviewJsonLd
-        title="Daily Practice Question"
+        title={t("pages.dailyQuestion.dailyPracticeQuestion")}
         slug="daily-question"
-        description="Daily NCLEX-style practice question with expert rationale for nursing exam preparation."
+        description={t("pages.dailyQuestion.dailyNclexstylePracticeQuestionWith")}
         pageUrl="https://www.nursenest.ca/daily-question"
       />
       <Navigation />
@@ -172,8 +174,8 @@ export default function DailyQuestionPage() {
             <Card className="border-0 shadow-lg" data-testid="card-no-question">
               <CardContent className="py-12 text-center">
                 <Brain className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                <h2 className="text-lg font-semibold text-gray-700 mb-2">Today's question is being prepared</h2>
-                <p className="text-gray-500">Check back shortly for today's practice question.</p>
+                <h2 className="text-lg font-semibold text-gray-700 mb-2">{t("pages.dailyQuestion.todaysQuestionIsBeingPrepared")}</h2>
+                <p className="text-gray-500">{t("pages.dailyQuestion.checkBackShortlyForTodays")}</p>
               </CardContent>
             </Card>
           ) : (
@@ -255,15 +257,15 @@ export default function DailyQuestionPage() {
                           <>
                             <CheckCircle2 className="h-6 w-6 text-emerald-600 shrink-0" />
                             <div>
-                              <p className="font-semibold text-emerald-800">Correct!</p>
-                              <p className="text-sm text-emerald-700">Great clinical reasoning.</p>
+                              <p className="font-semibold text-emerald-800">{t("pages.dailyQuestion.correct")}</p>
+                              <p className="text-sm text-emerald-700">{t("pages.dailyQuestion.greatClinicalReasoning")}</p>
                             </div>
                           </>
                         ) : (
                           <>
                             <XCircle className="h-6 w-6 text-amber-600 shrink-0" />
                             <div>
-                              <p className="font-semibold text-amber-800">Not quite</p>
+                              <p className="font-semibold text-amber-800">{t("pages.dailyQuestion.notQuite")}</p>
                               <p className="text-sm text-amber-700">
                                 The correct answer is {String.fromCharCode(65 + question.correctIndex)}.
                               </p>
@@ -330,7 +332,7 @@ export default function DailyQuestionPage() {
                           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                           <Input
                             type="email"
-                            placeholder="Enter your email address"
+                            placeholder={t("pages.dailyQuestion.enterYourEmailAddress")}
                             value={email}
                             onChange={(e) => {
                               setEmail(e.target.value);
@@ -411,22 +413,22 @@ export default function DailyQuestionPage() {
                 <div className="flex items-start gap-3 p-4 bg-white rounded-xl border border-gray-100 shadow-sm">
                   <ShieldCheck className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-semibold text-gray-900">Clinically Reviewed</p>
-                    <p className="text-xs text-gray-500">Every question reviewed by licensed nurses</p>
+                    <p className="text-sm font-semibold text-gray-900">{t("pages.dailyQuestion.clinicallyReviewed")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.dailyQuestion.everyQuestionReviewedByLicensed")}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-white rounded-xl border border-gray-100 shadow-sm">
                   <Brain className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-semibold text-gray-900">Evidence-Based</p>
-                    <p className="text-xs text-gray-500">Aligned with current clinical guidelines</p>
+                    <p className="text-sm font-semibold text-gray-900">{t("pages.dailyQuestion.evidencebased")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.dailyQuestion.alignedWithCurrentClinicalGuidelines")}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-white rounded-xl border border-gray-100 shadow-sm">
                   <Sparkles className="h-5 w-5 text-amber-500 shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-semibold text-gray-900">New Every Day</p>
-                    <p className="text-xs text-gray-500">Fresh questions rotated daily from our bank</p>
+                    <p className="text-sm font-semibold text-gray-900">{t("pages.dailyQuestion.newEveryDay")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.dailyQuestion.freshQuestionsRotatedDailyFrom")}</p>
                   </div>
                 </div>
               </div>

@@ -28,7 +28,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
 
+import { useI18n } from "@/lib/i18n";
 function FAQAccordion({ faqItems, prefix }: { faqItems: { question: string; answer: string }[]; prefix: string }) {
+  const { t } = useI18n();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   return (
     <div className="space-y-3">
@@ -58,8 +60,8 @@ function BlueprintHubNotFound() {
     <div className="min-h-screen bg-background">
       <Navigation />
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-[#2E3A59] mb-4" data-testid="text-blueprint-not-found">Blueprint Not Found</h1>
-        <p className="text-gray-600 mb-6">The exam blueprint page you are looking for is not available.</p>
+        <h1 className="text-2xl font-bold text-[#2E3A59] mb-4" data-testid="text-blueprint-not-found">{t("pages.examBlueprintHub.blueprintNotFound")}</h1>
+        <p className="text-gray-600 mb-6">{t("pages.examBlueprintHub.theExamBlueprintPageYou")}</p>
         <div className="flex flex-wrap gap-3 justify-center">
           {BLUEPRINT_HUBS.map(hub => (
             <LocaleLink key={hub.slug} href={`/${hub.slug}`} className="text-[#BFA6F6] hover:underline font-medium" data-testid={`link-blueprint-${hub.slug}`}>
@@ -169,30 +171,30 @@ export default function ExamBlueprintHub() {
             <div className="w-10 h-10 rounded-xl bg-[#BFA6F6]/10 flex items-center justify-center">
               <FileText className="w-5 h-5 text-[#BFA6F6]" />
             </div>
-            <h2 className="text-2xl font-bold text-[#2E3A59]">Exam Structure</h2>
+            <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.examBlueprintHub.examStructure")}</h2>
           </div>
           <Card>
             <CardContent className="p-6">
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div data-testid="text-bp-question-count">
-                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Questions</p>
+                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.examBlueprintHub.questions")}</p>
                   <p className="text-lg font-bold text-[#2E3A59]">{hubData.questionCount}</p>
                 </div>
                 <div data-testid="text-bp-time-limit">
-                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Time Limit</p>
+                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.examBlueprintHub.timeLimit")}</p>
                   <p className="text-lg font-bold text-[#2E3A59]">{hubData.timeLimit}</p>
                 </div>
                 <div data-testid="text-bp-format">
-                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Testing Format</p>
+                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.examBlueprintHub.testingFormat")}</p>
                   <p className="text-lg font-bold text-[#2E3A59]">{adaptiveLabel}</p>
                 </div>
                 <div data-testid="text-bp-pass-info">
-                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Pass Information</p>
+                  <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.examBlueprintHub.passInformation")}</p>
                   <p className="text-lg font-bold text-[#2E3A59]">{hubData.passInfo}</p>
                 </div>
               </div>
               <div className="mt-6 pt-6 border-t border-gray-100">
-                <p className="text-xs font-semibold text-gray-500 uppercase mb-3">Question Types</p>
+                <p className="text-xs font-semibold text-gray-500 uppercase mb-3">{t("pages.examBlueprintHub.questionTypes")}</p>
                 <div className="flex flex-wrap gap-2">
                   {hubData.questionTypes.map((qt, i) => (
                     <Badge key={i} variant="outline" className="text-xs border-gray-200 text-gray-600" data-testid={`badge-bp-qtype-${i}`}>
@@ -210,7 +212,7 @@ export default function ExamBlueprintHub() {
             <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
               <Target className="w-5 h-5 text-emerald-500" />
             </div>
-            <h2 className="text-2xl font-bold text-[#2E3A59]">Exam Categories</h2>
+            <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.examBlueprintHub.examCategories")}</h2>
           </div>
           <p className="text-gray-600 mb-6">
             The {hubData.examName} exam is divided into the following categories. Click on any category to explore topics, study resources, and practice questions.
@@ -236,7 +238,7 @@ export default function ExamBlueprintHub() {
                             </Badge>
                           </div>
                           <p className="text-sm text-gray-500 leading-relaxed">{cat.description}</p>
-                          <p className="text-xs text-[#BFA6F6] font-medium mt-2 group-hover:underline">Browse Questions & Study Resources →</p>
+                          <p className="text-xs text-[#BFA6F6] font-medium mt-2 group-hover:underline">{t("pages.examBlueprintHub.browseQuestionsStudyResources")}</p>
                         </div>
                         <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-[#BFA6F6] transition-colors shrink-0 mt-1" />
                       </div>
@@ -253,7 +255,7 @@ export default function ExamBlueprintHub() {
             <div className="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center">
               <Lightbulb className="w-5 h-5 text-sky-500" />
             </div>
-            <h2 className="text-2xl font-bold text-[#2E3A59]">Study Strategies</h2>
+            <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.examBlueprintHub.studyStrategies")}</h2>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             {hubData.studyStrategies.map((strategy, i) => (
@@ -296,7 +298,7 @@ export default function ExamBlueprintHub() {
             <div className="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center">
               <HelpCircle className="w-5 h-5 text-sky-500" />
             </div>
-            <h2 className="text-2xl font-bold text-[#2E3A59]">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.examBlueprintHub.frequentlyAskedQuestions")}</h2>
           </div>
           <FAQAccordion faqItems={hubData.faqItems} prefix="blueprint" />
         </section>

@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/lib/auth";
 import { adminFetch } from "@/lib/admin-fetch";
 import { useToast } from "@/hooks/use-toast";
+import { useI18n } from "@/lib/i18n";
 import {
   Select,
   SelectContent,
@@ -56,6 +57,7 @@ const SEVERITY_CONFIG: Record<string, { label: string; color: string }> = {
 };
 
 function formatDate(d: string | null) {
+
   if (!d) return "—";
   const date = new Date(d);
   const now = new Date();
@@ -191,14 +193,14 @@ export default function AdminProblemReportsPage() {
 
   return (
     <>
-      <SEO title="Problem Reports | Admin" />
+      <SEO title={t("pages.adminProblemReports.problemReportsAdmin")} />
       <Navigation />
       <div className="min-h-screen bg-gray-50 pt-4 pb-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <Bug className="w-6 h-6 text-primary" />
-              <h1 className="text-2xl font-bold" data-testid="text-page-title">Problem Reports</h1>
+              <h1 className="text-2xl font-bold" data-testid="text-page-title">{t("pages.adminProblemReports.problemReports")}</h1>
               <Badge variant="secondary" data-testid="text-report-count">{reports.length}</Badge>
             </div>
             <Button onClick={fetchReports} variant="outline" size="sm" data-testid="button-refresh-reports">
@@ -228,10 +230,10 @@ export default function AdminProblemReportsPage() {
             <Select value={filterType} onValueChange={setFilterType}>
               <SelectTrigger className="w-52" data-testid="select-filter-type">
                 <Filter className="w-3.5 h-3.5 mr-1" />
-                <SelectValue placeholder="Problem type" />
+                <SelectValue placeholder={t("pages.adminProblemReports.problemType2")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Types</SelectItem>
+                <SelectItem value="all">{t("pages.adminProblemReports.allTypes")}</SelectItem>
                 {Object.entries(PROBLEM_TYPE_LABELS).map(([val, label]) => (
                   <SelectItem key={val} value={val}>{label}</SelectItem>
                 ))}
@@ -240,10 +242,10 @@ export default function AdminProblemReportsPage() {
 
             <Select value={filterStatus} onValueChange={setFilterStatus}>
               <SelectTrigger className="w-40" data-testid="select-filter-status">
-                <SelectValue placeholder="Status" />
+                <SelectValue placeholder={t("pages.adminProblemReports.status2")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="all">{t("pages.adminProblemReports.allStatuses")}</SelectItem>
                 {Object.entries(STATUS_CONFIG).map(([val, cfg]) => (
                   <SelectItem key={val} value={val}>{cfg.label}</SelectItem>
                 ))}
@@ -252,30 +254,30 @@ export default function AdminProblemReportsPage() {
 
             <Select value={filterSection} onValueChange={setFilterSection}>
               <SelectTrigger className="w-44" data-testid="select-filter-section">
-                <SelectValue placeholder="Section" />
+                <SelectValue placeholder={t("pages.adminProblemReports.section2")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Sections</SelectItem>
-                <SelectItem value="exam_prep">Exam Prep</SelectItem>
-                <SelectItem value="new_grad">New Grad</SelectItem>
-                <SelectItem value="career_tools">Career Tools</SelectItem>
-                <SelectItem value="allied_health">Allied Health</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
+                <SelectItem value="all">{t("pages.adminProblemReports.allSections")}</SelectItem>
+                <SelectItem value="exam_prep">{t("pages.adminProblemReports.examPrep")}</SelectItem>
+                <SelectItem value="new_grad">{t("pages.adminProblemReports.newGrad")}</SelectItem>
+                <SelectItem value="career_tools">{t("pages.adminProblemReports.careerTools")}</SelectItem>
+                <SelectItem value="allied_health">{t("pages.adminProblemReports.alliedHealth")}</SelectItem>
+                <SelectItem value="other">{t("pages.adminProblemReports.other")}</SelectItem>
               </SelectContent>
             </Select>
 
             <Select value={filterTier} onValueChange={setFilterTier}>
               <SelectTrigger className="w-36" data-testid="select-filter-tier">
-                <SelectValue placeholder="Tier" />
+                <SelectValue placeholder={t("pages.adminProblemReports.tier")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Tiers</SelectItem>
-                <SelectItem value="free">Free</SelectItem>
+                <SelectItem value="all">{t("pages.adminProblemReports.allTiers")}</SelectItem>
+                <SelectItem value="free">{t("pages.adminProblemReports.free")}</SelectItem>
                 <SelectItem value="rpn">RPN</SelectItem>
                 <SelectItem value="rn">RN</SelectItem>
                 <SelectItem value="np">NP</SelectItem>
-                <SelectItem value="allied">Allied</SelectItem>
-                <SelectItem value="admin">Admin</SelectItem>
+                <SelectItem value="allied">{t("pages.adminProblemReports.allied")}</SelectItem>
+                <SelectItem value="admin">{t("pages.adminProblemReports.admin")}</SelectItem>
               </SelectContent>
             </Select>
 
@@ -284,7 +286,7 @@ export default function AdminProblemReportsPage() {
               value={filterStartDate}
               onChange={(e) => setFilterStartDate(e.target.value)}
               className="w-40"
-              placeholder="Start date"
+              placeholder={t("pages.adminProblemReports.startDate")}
               data-testid="input-filter-start-date"
             />
             <Input
@@ -292,7 +294,7 @@ export default function AdminProblemReportsPage() {
               value={filterEndDate}
               onChange={(e) => setFilterEndDate(e.target.value)}
               className="w-40"
-              placeholder="End date"
+              placeholder={t("pages.adminProblemReports.endDate")}
               data-testid="input-filter-end-date"
             />
           </div>
@@ -300,9 +302,9 @@ export default function AdminProblemReportsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div className={`${selectedReport ? "lg:col-span-2" : "lg:col-span-3"} space-y-2`}>
               {loading ? (
-                <Card><CardContent className="p-8 text-center text-muted-foreground">Loading reports...</CardContent></Card>
+                <Card><CardContent className="p-8 text-center text-muted-foreground">{t("pages.adminProblemReports.loadingReports")}</CardContent></Card>
               ) : reports.length === 0 ? (
-                <Card><CardContent className="p-8 text-center text-muted-foreground" data-testid="text-no-reports">No problem reports found</CardContent></Card>
+                <Card><CardContent className="p-8 text-center text-muted-foreground" data-testid="text-no-reports">{t("pages.adminProblemReports.noProblemReportsFound")}</CardContent></Card>
               ) : (
                 reports.map((report) => {
                   const statusCfg = STATUS_CONFIG[report.status] || STATUS_CONFIG.new;
@@ -352,7 +354,7 @@ export default function AdminProblemReportsPage() {
                 <Card className="sticky top-4" data-testid="panel-report-detail">
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-base">Report Details</CardTitle>
+                      <CardTitle className="text-base">{t("pages.adminProblemReports.reportDetails")}</CardTitle>
                       <Button variant="ghost" size="sm" onClick={() => setSelectedReport(null)} data-testid="button-close-detail">
                         <X className="w-4 h-4" />
                       </Button>
@@ -360,7 +362,7 @@ export default function AdminProblemReportsPage() {
                   </CardHeader>
                   <CardContent className="space-y-4 text-sm">
                     <div>
-                      <span className="font-medium text-muted-foreground">Status</span>
+                      <span className="font-medium text-muted-foreground">{t("pages.adminProblemReports.status")}</span>
                       <div className="flex gap-1 mt-1 flex-wrap">
                         {Object.entries(STATUS_CONFIG).map(([key, cfg]) => (
                           <Button
@@ -379,18 +381,18 @@ export default function AdminProblemReportsPage() {
                     </div>
 
                     <div>
-                      <span className="font-medium text-muted-foreground">Problem Type</span>
+                      <span className="font-medium text-muted-foreground">{t("pages.adminProblemReports.problemType")}</span>
                       <p>{PROBLEM_TYPE_LABELS[selectedReport.problemType] || selectedReport.problemType}</p>
                     </div>
 
                     <div>
-                      <span className="font-medium text-muted-foreground">Description</span>
+                      <span className="font-medium text-muted-foreground">{t("pages.adminProblemReports.description")}</span>
                       <p className="whitespace-pre-wrap">{selectedReport.description}</p>
                     </div>
 
                     {selectedReport.screenshotUrl && (
                       <div>
-                        <span className="font-medium text-muted-foreground">Screenshot</span>
+                        <span className="font-medium text-muted-foreground">{t("pages.adminProblemReports.screenshot")}</span>
                         <a
                           href={`/api/object-storage${selectedReport.screenshotUrl}`}
                           target="_blank"
@@ -400,7 +402,7 @@ export default function AdminProblemReportsPage() {
                         >
                           <img
                             src={`/api/object-storage${selectedReport.screenshotUrl}`}
-                            alt="Report screenshot"
+                            alt={t("pages.adminProblemReports.reportScreenshot")}
                             className="max-w-full max-h-48 rounded border cursor-pointer hover:opacity-80 transition-opacity"
                             data-testid="img-report-screenshot"
                           />
@@ -409,7 +411,7 @@ export default function AdminProblemReportsPage() {
                     )}
 
                     <div>
-                      <span className="font-medium text-muted-foreground">Page URL</span>
+                      <span className="font-medium text-muted-foreground">{t("pages.adminProblemReports.pageUrl")}</span>
                       <a
                         href={selectedReport.pageUrl}
                         target="_blank"
@@ -424,7 +426,7 @@ export default function AdminProblemReportsPage() {
 
                     {selectedReport.pageTitle && (
                       <div>
-                        <span className="font-medium text-muted-foreground">Page Title</span>
+                        <span className="font-medium text-muted-foreground">{t("pages.adminProblemReports.pageTitle")}</span>
                         <p>{selectedReport.pageTitle}</p>
                       </div>
                     )}
@@ -432,25 +434,25 @@ export default function AdminProblemReportsPage() {
                     <div className="grid grid-cols-2 gap-2">
                       {selectedReport.siteSection && (
                         <div>
-                          <span className="font-medium text-muted-foreground">Section</span>
+                          <span className="font-medium text-muted-foreground">{t("pages.adminProblemReports.section")}</span>
                           <p>{selectedReport.siteSection}</p>
                         </div>
                       )}
                       {selectedReport.contentId && (
                         <div>
-                          <span className="font-medium text-muted-foreground">Content ID</span>
+                          <span className="font-medium text-muted-foreground">{t("pages.adminProblemReports.contentId")}</span>
                           <p className="truncate">{selectedReport.contentId}</p>
                         </div>
                       )}
                       {selectedReport.severity && (
                         <div>
-                          <span className="font-medium text-muted-foreground">Severity</span>
+                          <span className="font-medium text-muted-foreground">{t("pages.adminProblemReports.severity")}</span>
                           <Badge className={SEVERITY_CONFIG[selectedReport.severity]?.color}>{SEVERITY_CONFIG[selectedReport.severity]?.label || selectedReport.severity}</Badge>
                         </div>
                       )}
                       {selectedReport.deviceType && (
                         <div>
-                          <span className="font-medium text-muted-foreground">Device</span>
+                          <span className="font-medium text-muted-foreground">{t("pages.adminProblemReports.device")}</span>
                           <p>{selectedReport.deviceType}</p>
                         </div>
                       )}
@@ -458,37 +460,37 @@ export default function AdminProblemReportsPage() {
 
                     {selectedReport.email && (
                       <div>
-                        <span className="font-medium text-muted-foreground">Email</span>
+                        <span className="font-medium text-muted-foreground">{t("pages.adminProblemReports.email")}</span>
                         <p>{selectedReport.email}</p>
-                        {selectedReport.contactPermission && <Badge variant="outline" className="mt-1 text-xs">Can contact</Badge>}
+                        {selectedReport.contactPermission && <Badge variant="outline" className="mt-1 text-xs">{t("pages.adminProblemReports.canContact")}</Badge>}
                       </div>
                     )}
 
                     {selectedReport.userId && (
                       <div>
-                        <span className="font-medium text-muted-foreground">User ID</span>
+                        <span className="font-medium text-muted-foreground">{t("pages.adminProblemReports.userId")}</span>
                         <p className="truncate">{selectedReport.userId}</p>
                       </div>
                     )}
 
                     {selectedReport.locale && (
                       <div>
-                        <span className="font-medium text-muted-foreground">Locale</span>
+                        <span className="font-medium text-muted-foreground">{t("pages.adminProblemReports.locale")}</span>
                         <p>{selectedReport.locale}</p>
                       </div>
                     )}
 
                     <div>
-                      <span className="font-medium text-muted-foreground">Submitted</span>
+                      <span className="font-medium text-muted-foreground">{t("pages.adminProblemReports.submitted")}</span>
                       <p>{new Date(selectedReport.createdAt).toLocaleString()}</p>
                     </div>
 
                     <div>
-                      <span className="font-medium text-muted-foreground">Admin Notes</span>
+                      <span className="font-medium text-muted-foreground">{t("pages.adminProblemReports.adminNotes")}</span>
                       <Textarea
                         value={editingNotes}
                         onChange={(e) => setEditingNotes(e.target.value)}
-                        placeholder="Add internal notes..."
+                        placeholder={t("pages.adminProblemReports.addInternalNotes")}
                         rows={3}
                         className="mt-1"
                         data-testid="input-admin-notes"
@@ -516,7 +518,7 @@ export default function AdminProblemReportsPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <MessageCircle className="w-5 h-5 text-amber-600" />
-                    <CardTitle className="text-lg" data-testid="text-flagged-comments-title">Flagged Comments</CardTitle>
+                    <CardTitle className="text-lg" data-testid="text-flagged-comments-title">{t("pages.adminProblemReports.flaggedComments")}</CardTitle>
                     {flaggedComments.length > 0 && (
                       <Badge variant="destructive" className="text-xs">{flaggedComments.length}</Badge>
                     )}
@@ -535,9 +537,9 @@ export default function AdminProblemReportsPage() {
               {showFlagged && (
                 <CardContent className="space-y-3">
                   {flaggedLoading ? (
-                    <p className="text-center text-muted-foreground py-4">Loading flagged comments...</p>
+                    <p className="text-center text-muted-foreground py-4">{t("pages.adminProblemReports.loadingFlaggedComments")}</p>
                   ) : flaggedComments.length === 0 ? (
-                    <p className="text-center text-muted-foreground py-4" data-testid="text-no-flagged">No flagged comments</p>
+                    <p className="text-center text-muted-foreground py-4" data-testid="text-no-flagged">{t("pages.adminProblemReports.noFlaggedComments")}</p>
                   ) : (
                     flaggedComments.map((comment) => (
                       <div key={comment.id} className="border rounded-lg p-4 bg-amber-50/50" data-testid={`flagged-comment-${comment.id}`}>

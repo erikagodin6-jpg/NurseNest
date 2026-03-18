@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import {
   Building2,
   Users,
@@ -30,6 +31,7 @@ import {
 } from "lucide-react";
 
 function adminFetch(url: string, options?: RequestInit) {
+  const { t } = useI18n();
   const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
   return fetch(url, {
     ...options,
@@ -248,7 +250,7 @@ export default function AdminInstitutions() {
   };
 
   if (user?.tier !== "admin") {
-    return <div className="min-h-screen flex items-center justify-center"><p>Access denied</p></div>;
+    return <div className="min-h-screen flex items-center justify-center"><p>{t("pages.adminInstitutions.accessDenied")}</p></div>;
   }
 
   return (
@@ -257,8 +259,8 @@ export default function AdminInstitutions() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-institutions-title">Educational Institutions</h1>
-            <p className="text-gray-600 mt-1">Manage institutional licenses, seats, and enrollment</p>
+            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-institutions-title">{t("pages.adminInstitutions.educationalInstitutions")}</h1>
+            <p className="text-gray-600 mt-1">{t("pages.adminInstitutions.manageInstitutionalLicensesSeatsAnd")}</p>
           </div>
           <Button onClick={() => setShowCreateModal(true)} className="gap-2" data-testid="button-create-institution">
             <Plus className="w-4 h-4" /> New Institution
@@ -279,7 +281,7 @@ export default function AdminInstitutions() {
         ) : (
           <Tabs value={tab} onValueChange={setTab}>
             <TabsList className="bg-gray-100 rounded-xl p-1 mb-6">
-              <TabsTrigger value="overview" className="rounded-lg" data-testid="tab-institutions-overview">Institutions</TabsTrigger>
+              <TabsTrigger value="overview" className="rounded-lg" data-testid="tab-institutions-overview">{t("pages.adminInstitutions.institutions")}</TabsTrigger>
               <TabsTrigger value="leads" className="rounded-lg" data-testid="tab-institution-leads">
                 Leads {leads.filter(l => l.status === "new").length > 0 && <Badge variant="destructive" className="ml-1 text-xs">{leads.filter(l => l.status === "new").length}</Badge>}
               </TabsTrigger>
@@ -292,7 +294,7 @@ export default function AdminInstitutions() {
                 <Card className="border-dashed border-2">
                   <CardContent className="flex flex-col items-center justify-center py-16">
                     <Building2 className="w-12 h-12 text-gray-300 mb-4" />
-                    <p className="text-gray-500 text-lg mb-4">No institutions yet</p>
+                    <p className="text-gray-500 text-lg mb-4">{t("pages.adminInstitutions.noInstitutionsYet")}</p>
                     <Button onClick={() => setShowCreateModal(true)} variant="outline" className="gap-2" data-testid="button-create-first-institution">
                       <Plus className="w-4 h-4" /> Create First Institution
                     </Button>
@@ -318,23 +320,23 @@ export default function AdminInstitutions() {
                       <CardContent>
                         <div className="space-y-2 text-sm text-gray-600">
                           <div className="flex justify-between">
-                            <span>Region</span>
+                            <span>{t("pages.adminInstitutions.region")}</span>
                             <span className="font-medium">{inst.region}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span>Seat Limit</span>
+                            <span>{t("pages.adminInstitutions.seatLimit")}</span>
                             <span className="font-medium">{inst.seat_limit}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span>Seats Used</span>
+                            <span>{t("pages.adminInstitutions.seatsUsed")}</span>
                             <span className="font-medium">{inst.seatCount || 0} / {inst.seat_limit}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span>License Model</span>
+                            <span>{t("pages.adminInstitutions.licenseModel")}</span>
                             <span className="font-medium">{inst.license_model}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span>Enrollment</span>
+                            <span>{t("pages.adminInstitutions.enrollment")}</span>
                             <span className="font-medium">{inst.enrollment_mode}</span>
                           </div>
                         </div>
@@ -353,7 +355,7 @@ export default function AdminInstitutions() {
                 <Card className="border-dashed border-2">
                   <CardContent className="flex flex-col items-center justify-center py-16">
                     <Mail className="w-12 h-12 text-gray-300 mb-4" />
-                    <p className="text-gray-500">No institutional leads yet</p>
+                    <p className="text-gray-500">{t("pages.adminInstitutions.noInstitutionalLeadsYet")}</p>
                   </CardContent>
                 </Card>
               ) : (
@@ -393,68 +395,68 @@ export default function AdminInstitutions() {
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => setShowCreateModal(false)}>
           <Card className="w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
             <CardHeader>
-              <CardTitle>Create New Institution</CardTitle>
+              <CardTitle>{t("pages.adminInstitutions.createNewInstitution")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-gray-700 block mb-1">Institution Name</label>
+                <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.adminInstitutions.institutionName")}</label>
                 <Input value={newInst.name} onChange={e => setNewInst(p => ({ ...p, name: e.target.value }))} placeholder="e.g. Humber College" data-testid="input-inst-name" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-700 block mb-1">Region</label>
+                  <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.adminInstitutions.region2")}</label>
                   <select value={newInst.region} onChange={e => setNewInst(p => ({ ...p, region: e.target.value }))} className="w-full h-10 rounded-md border px-3 text-sm" data-testid="select-inst-region">
-                    <option value="CA">Canada</option>
-                    <option value="US">United States</option>
-                    <option value="UK">United Kingdom</option>
-                    <option value="AU">Australia</option>
+                    <option value="CA">{t("pages.adminInstitutions.canada")}</option>
+                    <option value="US">{t("pages.adminInstitutions.unitedStates")}</option>
+                    <option value="UK">{t("pages.adminInstitutions.unitedKingdom")}</option>
+                    <option value="AU">{t("pages.adminInstitutions.australia")}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700 block mb-1">Seat Limit</label>
+                  <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.adminInstitutions.seatLimit2")}</label>
                   <Input type="number" value={newInst.seatLimit} onChange={e => setNewInst(p => ({ ...p, seatLimit: parseInt(e.target.value) || 50 }))} data-testid="input-inst-seats" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-700 block mb-1">License Model</label>
+                  <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.adminInstitutions.licenseModel2")}</label>
                   <select value={newInst.licenseModel} onChange={e => setNewInst(p => ({ ...p, licenseModel: e.target.value }))} className="w-full h-10 rounded-md border px-3 text-sm" data-testid="select-inst-license">
-                    <option value="COHORT">Cohort (semester-based)</option>
-                    <option value="ROLLING">Rolling (duration-based)</option>
-                    <option value="PERPETUAL">Perpetual</option>
+                    <option value="COHORT">{t("pages.adminInstitutions.cohortSemesterbased")}</option>
+                    <option value="ROLLING">{t("pages.adminInstitutions.rollingDurationbased")}</option>
+                    <option value="PERPETUAL">{t("pages.adminInstitutions.perpetual")}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700 block mb-1">Enrollment Mode</label>
+                  <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.adminInstitutions.enrollmentMode")}</label>
                   <select value={newInst.enrollmentMode} onChange={e => setNewInst(p => ({ ...p, enrollmentMode: e.target.value }))} className="w-full h-10 rounded-md border px-3 text-sm" data-testid="select-inst-enrollment">
-                    <option value="DOMAIN_LOCK">Domain Lock (email domain)</option>
-                    <option value="INVITE_CODE">Invite Code</option>
-                    <option value="ROSTER_UPLOAD">Roster Upload</option>
-                    <option value="OPEN">Open Enrollment</option>
+                    <option value="DOMAIN_LOCK">{t("pages.adminInstitutions.domainLockEmailDomain")}</option>
+                    <option value="INVITE_CODE">{t("pages.adminInstitutions.inviteCode")}</option>
+                    <option value="ROSTER_UPLOAD">{t("pages.adminInstitutions.rosterUpload")}</option>
+                    <option value="OPEN">{t("pages.adminInstitutions.openEnrollment")}</option>
                   </select>
                 </div>
               </div>
               {newInst.enrollmentMode === "DOMAIN_LOCK" && (
                 <div>
-                  <label className="text-sm font-medium text-gray-700 block mb-1">Allowed Email Domains (comma-separated)</label>
+                  <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.adminInstitutions.allowedEmailDomainsCommaseparated")}</label>
                   <Input value={newInst.allowedEmailDomains} onChange={e => setNewInst(p => ({ ...p, allowedEmailDomains: e.target.value }))} placeholder="e.g. humber.ca, student.humber.ca" data-testid="input-inst-domains" />
                 </div>
               )}
               {newInst.licenseModel === "COHORT" && (
                 <div>
-                  <label className="text-sm font-medium text-gray-700 block mb-1">Semester End Date</label>
+                  <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.adminInstitutions.semesterEndDate")}</label>
                   <Input type="date" value={newInst.semesterEndDate} onChange={e => setNewInst(p => ({ ...p, semesterEndDate: e.target.value }))} data-testid="input-inst-semester-end" />
                 </div>
               )}
               {newInst.licenseModel === "ROLLING" && (
                 <div>
-                  <label className="text-sm font-medium text-gray-700 block mb-1">Access Duration (days)</label>
+                  <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.adminInstitutions.accessDurationDays")}</label>
                   <Input type="number" value={newInst.defaultDurationDays} onChange={e => setNewInst(p => ({ ...p, defaultDurationDays: parseInt(e.target.value) || 120 }))} data-testid="input-inst-duration" />
                 </div>
               )}
               <div className="flex justify-end gap-3 pt-4">
-                <Button variant="outline" onClick={() => setShowCreateModal(false)} data-testid="button-cancel-create">Cancel</Button>
-                <Button onClick={createInstitution} disabled={!newInst.name.trim()} data-testid="button-confirm-create">Create Institution</Button>
+                <Button variant="outline" onClick={() => setShowCreateModal(false)} data-testid="button-cancel-create">{t("pages.adminInstitutions.cancel")}</Button>
+                <Button onClick={createInstitution} disabled={!newInst.name.trim()} data-testid="button-confirm-create">{t("pages.adminInstitutions.createInstitution")}</Button>
               </div>
             </CardContent>
           </Card>
@@ -510,28 +512,28 @@ function InstitutionDetail({
           <CardContent className="pt-4 pb-4 text-center">
             <Users className="w-6 h-6 mx-auto text-primary mb-1" />
             <p className="text-2xl font-bold">{activeSeats.length}</p>
-            <p className="text-xs text-gray-500">Active Seats</p>
+            <p className="text-xs text-gray-500">{t("pages.adminInstitutions.activeSeats")}</p>
           </CardContent>
         </Card>
         <Card className="border-none shadow-sm">
           <CardContent className="pt-4 pb-4 text-center">
             <Shield className="w-6 h-6 mx-auto text-blue-500 mb-1" />
             <p className="text-2xl font-bold">{institution.seat_limit}</p>
-            <p className="text-xs text-gray-500">Seat Limit</p>
+            <p className="text-xs text-gray-500">{t("pages.adminInstitutions.seatLimit3")}</p>
           </CardContent>
         </Card>
         <Card className="border-none shadow-sm">
           <CardContent className="pt-4 pb-4 text-center">
             <Key className="w-6 h-6 mx-auto text-green-500 mb-1" />
             <p className="text-2xl font-bold">{inviteCodes.length}</p>
-            <p className="text-xs text-gray-500">Invite Codes</p>
+            <p className="text-xs text-gray-500">{t("pages.adminInstitutions.inviteCodes")}</p>
           </CardContent>
         </Card>
         <Card className="border-none shadow-sm">
           <CardContent className="pt-4 pb-4 text-center">
             <AlertCircle className="w-6 h-6 mx-auto text-amber-500 mb-1" />
             <p className="text-2xl font-bold">{pendingRequests.length}</p>
-            <p className="text-xs text-gray-500">Pending Requests</p>
+            <p className="text-xs text-gray-500">{t("pages.adminInstitutions.pendingRequests")}</p>
           </CardContent>
         </Card>
       </div>
@@ -539,11 +541,11 @@ function InstitutionDetail({
       <Tabs value={detailTab} onValueChange={setDetailTab}>
         <TabsList className="bg-gray-100 rounded-xl p-1 mb-4">
           <TabsTrigger value="seats" className="rounded-lg" data-testid="tab-seats">Seats ({activeSeats.length})</TabsTrigger>
-          <TabsTrigger value="codes" className="rounded-lg" data-testid="tab-codes">Invite Codes</TabsTrigger>
+          <TabsTrigger value="codes" className="rounded-lg" data-testid="tab-codes">{t("pages.adminInstitutions.inviteCodes2")}</TabsTrigger>
           <TabsTrigger value="requests" className="rounded-lg" data-testid="tab-requests">
             Requests {pendingRequests.length > 0 && <Badge variant="destructive" className="ml-1 text-xs">{pendingRequests.length}</Badge>}
           </TabsTrigger>
-          <TabsTrigger value="log" className="rounded-lg" data-testid="tab-audit-log">Audit Log</TabsTrigger>
+          <TabsTrigger value="log" className="rounded-lg" data-testid="tab-audit-log">{t("pages.adminInstitutions.auditLog")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="seats">

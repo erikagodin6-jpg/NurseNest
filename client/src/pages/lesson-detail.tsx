@@ -394,8 +394,8 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
         <Navigation />
         <main className="max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-6">
           <CheckCircle2 className="w-16 h-16 text-emerald-500 mx-auto" />
-          <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-created">Lesson Created</h1>
-          <p className="text-gray-600">The lesson is being loaded...</p>
+          <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-created">{t("pages.lessonDetail.lessonCreated")}</h1>
+          <p className="text-gray-600">{t("pages.lessonDetail.theLessonIsBeingLoaded")}</p>
         </main>
         <Footer />
       </div>
@@ -442,8 +442,8 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
           <Crown className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
           <div>
-            <p className="font-semibold text-amber-800">Admin: Create New Lesson</p>
-            <p className="text-sm text-amber-700">This lesson doesn't exist yet. Fill in the template below or use AI to generate content. The lesson will be saved to the database and immediately available.</p>
+            <p className="font-semibold text-amber-800">{t("pages.lessonDetail.adminCreateNewLesson")}</p>
+            <p className="text-sm text-amber-700">{t("pages.lessonDetail.thisLessonDoesntExistYet")}</p>
           </div>
         </div>
 
@@ -454,7 +454,7 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
         <Card>
           <CardContent className="p-6 space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold">Lesson Details</h2>
+              <h2 className="text-xl font-bold">{t("pages.lessonDetail.lessonDetails")}</h2>
               <Button onClick={handleSave} disabled={saving} className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white" data-testid="button-save-lesson">
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 {saving ? "Saving..." : "Save & Publish"}
@@ -464,13 +464,13 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
             <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 space-y-3">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-purple-600" />
-                <label className="text-sm font-semibold text-purple-800">AI Content Generation</label>
+                <label className="text-sm font-semibold text-purple-800">{t("pages.lessonDetail.aiContentGeneration")}</label>
               </div>
               <Textarea
                 value={customPrompt}
                 onChange={(e) => setCustomPrompt(e.target.value)}
                 rows={4}
-                placeholder="Enter a custom prompt for AI generation (optional). Leave empty to use the default template. Example: 'Focus on NP-level pathophysiology with molecular mechanisms, include prescribing logic and differential diagnosis for board exams.'"
+                placeholder={t("pages.lessonDetail.enterACustomPromptFor")}
                 className="text-sm bg-white border-purple-200 placeholder:text-purple-300"
                 data-testid="input-custom-ai-prompt"
               />
@@ -480,33 +480,33 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
                   {aiGenerating ? "Generating..." : "Generate with AI"}
                 </Button>
                 {customPrompt.trim() && (
-                  <span className="text-xs text-purple-600">Using custom prompt</span>
+                  <span className="text-xs text-purple-600">{t("pages.lessonDetail.usingCustomPrompt")}</span>
                 )}
                 {!customPrompt.trim() && (
-                  <span className="text-xs text-gray-400">Using default template</span>
+                  <span className="text-xs text-gray-400">{t("pages.lessonDetail.usingDefaultTemplate")}</span>
                 )}
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Title</label>
-                <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Lesson title..." data-testid="input-lesson-title" />
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("pages.lessonDetail.title")}</label>
+                <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("pages.lessonDetail.lessonTitle")} data-testid="input-lesson-title" />
               </div>
               <div>
-                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Category</label>
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("pages.lessonDetail.category")}</label>
                 <Input value={category} onChange={(e) => setCategory(e.target.value)} placeholder="e.g. Respiratory, Cardiovascular..." data-testid="input-lesson-category" />
               </div>
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Summary</label>
-              <Textarea value={summary} onChange={(e) => setSummary(e.target.value)} rows={2} placeholder="Brief clinical summary of this lesson..." data-testid="input-lesson-summary" />
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("pages.lessonDetail.summary")}</label>
+              <Textarea value={summary} onChange={(e) => setSummary(e.target.value)} rows={2} placeholder={t("pages.lessonDetail.briefClinicalSummaryOfThis")} data-testid="input-lesson-summary" />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Tier</label>
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("pages.lessonDetail.tier")}</label>
                 <Select value={tier} onValueChange={setTier}>
                   <SelectTrigger data-testid="select-lesson-tier"><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -518,12 +518,12 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
                 </Select>
               </div>
               <div>
-                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Status</label>
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("pages.lessonDetail.status")}</label>
                 <Select value={status} onValueChange={setStatus}>
                   <SelectTrigger data-testid="select-lesson-status"><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="draft">Draft</SelectItem>
-                    <SelectItem value="published">Published</SelectItem>
+                    <SelectItem value="draft">{t("pages.lessonDetail.draft")}</SelectItem>
+                    <SelectItem value="published">{t("pages.lessonDetail.published")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -537,15 +537,15 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
           <section id="pathophysiology" className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
               <Microscope className="text-primary w-8 h-8" />
-              <h2>Pathophysiology</h2>
+              <h2>{t("pages.lessonDetail.pathophysiology")}</h2>
             </div>
-            <p className="text-sm text-gray-500 mt-1">Pathophysiology at the cellular level</p>
+            <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.pathophysiologyAtTheCellularLevel")}</p>
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
               <Textarea
                 value={pathophysiology}
                 onChange={(e) => setPathophysiology(e.target.value)}
                 rows={6}
-                placeholder="Describe the underlying pathophysiology, cellular changes, and disease mechanism..."
+                placeholder={t("pages.lessonDetail.describeTheUnderlyingPathophysiologyCellular")}
                 className="border-none shadow-none p-0 focus-visible:ring-0 text-gray-700 leading-relaxed resize-y"
                 data-testid="input-pathophysiology"
               />
@@ -556,12 +556,12 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
           <section id="risk-factors" className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
               <ShieldAlert className="text-rose-500 w-8 h-8" />
-              <h2>Risk Factors</h2>
+              <h2>{t("pages.lessonDetail.riskFactors")}</h2>
             </div>
-            <p className="text-sm text-gray-500 mt-1">Key predisposing and contributing factors</p>
+            <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.keyPredisposingAndContributingFactors")}</p>
             <Card className="border-none shadow-sm bg-rose-50/60">
               <CardContent className="p-8">
-                <ListEditor items={riskFactors} setItems={setRiskFactors} placeholder="Enter risk factor..." />
+                <ListEditor items={riskFactors} setItems={setRiskFactors} placeholder={t("pages.lessonDetail.enterRiskFactor")} />
               </CardContent>
             </Card>
             <LessonImageManager lessonId={lessonId} section="risk-factors" isAdmin={true} isEditing={true} />
@@ -570,12 +570,12 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
           <section id="diagnostics" className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
               <Search className="text-cyan-600 w-8 h-8" />
-              <h2>Diagnostics</h2>
+              <h2>{t("pages.lessonDetail.diagnostics")}</h2>
             </div>
-            <p className="text-sm text-gray-500 mt-1">Confirmatory findings and expected results</p>
+            <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.confirmatoryFindingsAndExpectedResults")}</p>
             <Card className="border-none shadow-sm bg-cyan-50/60">
               <CardContent className="p-8">
-                <ListEditor items={diagnostics} setItems={setDiagnostics} placeholder="Enter diagnostic finding..." />
+                <ListEditor items={diagnostics} setItems={setDiagnostics} placeholder={t("pages.lessonDetail.enterDiagnosticFinding")} />
               </CardContent>
             </Card>
             <LessonImageManager lessonId={lessonId} section="diagnostics" isAdmin={true} isEditing={true} />
@@ -584,12 +584,12 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
           <section id="management" className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
               <ClipboardList className="text-emerald-600 w-8 h-8" />
-              <h2>Management</h2>
+              <h2>{t("pages.lessonDetail.management")}</h2>
             </div>
-            <p className="text-sm text-gray-500 mt-1">Evidence-informed interventions and monitoring</p>
+            <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.evidenceinformedInterventionsAndMonitoring")}</p>
             <Card className="border-none shadow-sm bg-emerald-50/60">
               <CardContent className="p-8">
-                <ListEditor items={management} setItems={setManagement} placeholder="Enter management step..." />
+                <ListEditor items={management} setItems={setManagement} placeholder={t("pages.lessonDetail.enterManagementStep")} />
               </CardContent>
             </Card>
             <LessonImageManager lessonId={lessonId} section="management" isAdmin={true} isEditing={true} />
@@ -598,12 +598,12 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
           <section id="nursing-actions" className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
               <HeartPulse className="text-violet-600 w-8 h-8" />
-              <h2>Nursing Actions and Scope Considerations</h2>
+              <h2>{t("pages.lessonDetail.nursingActionsAndScopeConsiderations")}</h2>
             </div>
-            <p className="text-sm text-gray-500 mt-1">Priority assessments, interventions, and escalation triggers</p>
+            <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.priorityAssessmentsInterventionsAndEscalatio")}</p>
             <Card className="border-none shadow-sm bg-violet-50/60">
               <CardContent className="p-8">
-                <ListEditor items={nursingActions} setItems={setNursingActions} placeholder="Enter nursing action..." />
+                <ListEditor items={nursingActions} setItems={setNursingActions} placeholder={t("pages.lessonDetail.enterNursingAction")} />
               </CardContent>
             </Card>
             <LessonImageManager lessonId={lessonId} section="nursing-actions" isAdmin={true} isEditing={true} />
@@ -612,12 +612,12 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
           <section id="assessment-findings" className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
               <ClipboardList className="text-teal-600 w-8 h-8" />
-              <h2>Assessment Findings</h2>
+              <h2>{t("pages.lessonDetail.assessmentFindings")}</h2>
             </div>
-            <p className="text-sm text-gray-500 mt-1">Key nursing assessment data: vital signs, inspection, auscultation, palpation, labs, and subjective/objective findings</p>
+            <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.keyNursingAssessmentDataVital")}</p>
             <Card className="border-none shadow-sm bg-teal-50/60">
               <CardContent className="p-8">
-                <ListEditor items={assessmentFindings} setItems={setAssessmentFindings} placeholder="Enter assessment finding..." />
+                <ListEditor items={assessmentFindings} setItems={setAssessmentFindings} placeholder={t("pages.lessonDetail.enterAssessmentFinding")} />
               </CardContent>
             </Card>
             <LessonImageManager lessonId={lessonId} section="assessment-findings" isAdmin={true} isEditing={true} />
@@ -626,15 +626,15 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
           <section id="lifespan" className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
               <Users className="text-indigo-500 w-8 h-8" />
-              <h2>Across the Lifespan</h2>
+              <h2>{t("pages.lessonDetail.acrossTheLifespan")}</h2>
             </div>
-            <p className="text-sm text-gray-500 mt-1">Age-specific clinical variations and safety adjustments</p>
+            <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.agespecificClinicalVariationsAndSafety")}</p>
             <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100">
               <Textarea
                 value={lifespanContent}
                 onChange={(e) => setLifespanContent(e.target.value)}
                 rows={4}
-                placeholder="Considerations for pediatric, adult, and geriatric populations..."
+                placeholder={t("pages.lessonDetail.considerationsForPediatricAdultAnd")}
                 className="border-none shadow-none p-0 focus-visible:ring-0 text-indigo-900 leading-relaxed italic resize-y bg-transparent"
                 data-testid="input-lifespan"
               />
@@ -645,26 +645,26 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
           <section id="clinical-findings" className="space-y-6">
             <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
               <AlertCircle className="text-orange-500 w-8 h-8" />
-              <h2>Clinical Findings and Red Flags</h2>
+              <h2>{t("pages.lessonDetail.clinicalFindingsAndRedFlags")}</h2>
             </div>
-            <p className="text-sm text-gray-500 mt-1">Key clinical presentations and warning signs</p>
+            <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.keyClinicalPresentationsAndWarning")}</p>
             <div className="grid md:grid-cols-2 gap-8">
               <Card className="border-none shadow-md bg-white">
                 <CardContent className="p-8 space-y-4">
                   <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                     <AlertCircle className="text-blue-500 w-6 h-6" />
-                    <h3>Clinical Findings</h3>
+                    <h3>{t("pages.lessonDetail.clinicalFindings")}</h3>
                   </div>
-                  <ListEditor items={signsLeft} setItems={setSignsLeft} placeholder="Enter early sign..." />
+                  <ListEditor items={signsLeft} setItems={setSignsLeft} placeholder={t("pages.lessonDetail.enterEarlySign")} />
                 </CardContent>
               </Card>
               <Card className="border-none shadow-md bg-white border-l-4 border-l-orange-400">
                 <CardContent className="p-8 space-y-4">
                   <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                     <AlertCircle className="text-orange-500 w-6 h-6" />
-                    <h3>Red Flags: When to Escalate</h3>
+                    <h3>{t("pages.lessonDetail.redFlagsWhenToEscalate")}</h3>
                   </div>
-                  <ListEditor items={signsRight} setItems={setSignsRight} placeholder="Enter late/emergency sign..." />
+                  <ListEditor items={signsRight} setItems={setSignsRight} placeholder={t("pages.lessonDetail.enterLateemergencySign")} />
                 </CardContent>
               </Card>
             </div>
@@ -676,9 +676,9 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
               <div>
                 <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                   <Pill className="text-primary w-8 h-8" />
-                  <h2>Pharmacology and Safety</h2>
+                  <h2>{t("pages.lessonDetail.pharmacologyAndSafety")}</h2>
                 </div>
-                <p className="text-sm text-gray-500 mt-1">Medications, mechanisms, and safety considerations</p>
+                <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.medicationsMechanismsAndSafetyConsiderations")}</p>
               </div>
               <Button variant="outline" size="sm" onClick={addMedication} className="gap-1" data-testid="button-add-medication">
                 <Plus className="w-3 h-3" /> Add Medication
@@ -689,8 +689,8 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
                 <Card key={i} className="border-none shadow-sm bg-white overflow-hidden text-gray-900" data-testid={`medication-card-${i}`}>
                   <div className="bg-primary/5 px-6 py-3 border-b border-primary/10 flex items-center justify-between">
                     <div className="flex gap-2 flex-1">
-                      <Input value={med.name} onChange={(e) => updateMedication(i, "name", e.target.value)} placeholder="Drug name" className="font-bold w-40" data-testid={`input-med-name-${i}`} />
-                      <Input value={med.type} onChange={(e) => updateMedication(i, "type", e.target.value)} placeholder="Classification" className="w-32" data-testid={`input-med-type-${i}`} />
+                      <Input value={med.name} onChange={(e) => updateMedication(i, "name", e.target.value)} placeholder={t("pages.lessonDetail.drugName")} className="font-bold w-40" data-testid={`input-med-name-${i}`} />
+                      <Input value={med.type} onChange={(e) => updateMedication(i, "type", e.target.value)} placeholder={t("pages.lessonDetail.classification")} className="w-32" data-testid={`input-med-type-${i}`} />
                       <Button variant="ghost" size="sm" className="text-red-400 hover:text-red-600" onClick={() => removeMedication(i)} data-testid={`button-remove-med-${i}`}>
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -698,17 +698,17 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
                   </div>
                   <CardContent className="p-6 grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <p className="text-sm font-bold text-gray-400 uppercase">Action</p>
-                      <Input value={med.action} onChange={(e) => updateMedication(i, "action", e.target.value)} placeholder="Mechanism of action" data-testid={`input-med-action-${i}`} />
-                      <p className="text-sm font-bold text-gray-400 uppercase pt-2">Side Effects</p>
-                      <Input value={med.sideEffects} onChange={(e) => updateMedication(i, "sideEffects", e.target.value)} placeholder="Side effects" data-testid={`input-med-side-${i}`} />
+                      <p className="text-sm font-bold text-gray-400 uppercase">{t("pages.lessonDetail.action")}</p>
+                      <Input value={med.action} onChange={(e) => updateMedication(i, "action", e.target.value)} placeholder={t("pages.lessonDetail.mechanismOfAction")} data-testid={`input-med-action-${i}`} />
+                      <p className="text-sm font-bold text-gray-400 uppercase pt-2">{t("pages.lessonDetail.sideEffects")}</p>
+                      <Input value={med.sideEffects} onChange={(e) => updateMedication(i, "sideEffects", e.target.value)} placeholder={t("pages.lessonDetail.sideEffects4")} data-testid={`input-med-side-${i}`} />
                     </div>
                     <div className="space-y-2">
-                      <p className="text-sm font-bold text-gray-400 uppercase">Contraindications</p>
-                      <Input value={med.contra} onChange={(e) => updateMedication(i, "contra", e.target.value)} placeholder="Contraindications" data-testid={`input-med-contra-${i}`} />
+                      <p className="text-sm font-bold text-gray-400 uppercase">{t("pages.lessonDetail.contraindications")}</p>
+                      <Input value={med.contra} onChange={(e) => updateMedication(i, "contra", e.target.value)} placeholder={t("pages.lessonDetail.contraindications4")} data-testid={`input-med-contra-${i}`} />
                       <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-100 flex gap-2 items-center">
                         <Lightbulb className="w-5 h-5 text-yellow-600 shrink-0" />
-                        <Input value={med.pearl} onChange={(e) => updateMedication(i, "pearl", e.target.value)} placeholder="Nursing pearl" className="text-sm border-none shadow-none p-0 focus-visible:ring-0 bg-transparent" data-testid={`input-med-pearl-${i}`} />
+                        <Input value={med.pearl} onChange={(e) => updateMedication(i, "pearl", e.target.value)} placeholder={t("pages.lessonDetail.nursingPearl")} className="text-sm border-none shadow-none p-0 focus-visible:ring-0 bg-transparent" data-testid={`input-med-pearl-${i}`} />
                       </div>
                     </div>
                   </CardContent>
@@ -717,7 +717,7 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
               {medications.length === 0 && (
                 <Card className="border-none shadow-sm bg-white">
                   <CardContent className="p-8 text-center">
-                    <p className="text-sm text-gray-400">No medications added. Click "Add Medication" or use AI to generate.</p>
+                    <p className="text-sm text-gray-400">{t("pages.lessonDetail.noMedicationsAddedClickAdd")}</p>
                   </CardContent>
                 </Card>
               )}
@@ -728,10 +728,10 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
           <section id="exam-readiness" className="bg-gray-900 text-white p-10 rounded-3xl space-y-6 shadow-2xl">
             <div className="flex items-center gap-3 text-2xl font-bold">
               <FileText className="text-primary w-8 h-8" />
-              <h2>Exam Readiness</h2>
+              <h2>{t("pages.lessonDetail.examReadiness")}</h2>
             </div>
             <div className="space-y-4">
-              <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Clinical Pearls & Priority Logic</h4>
+              <h4 className="text-primary font-bold uppercase tracking-widest text-sm">{t("pages.lessonDetail.clinicalPearlsPriorityLogic")}</h4>
               <div className="space-y-2">
                 {pearls.map((pearl, i) => (
                   <div key={i} className="flex items-start gap-2">
@@ -740,7 +740,7 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
                       <Input
                         value={pearl}
                         onChange={(e) => { const updated = [...pearls]; updated[i] = e.target.value; setPearls(updated); }}
-                        placeholder="Enter clinical pearl..."
+                        placeholder={t("pages.lessonDetail.enterClinicalPearl")}
                         className="bg-gray-800 border-gray-700 text-gray-200 placeholder:text-gray-500"
                         data-testid={`input-pearl-${i}`}
                       />
@@ -765,7 +765,7 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-green-600" />
-                <h2 className="text-lg font-bold">SEO Metadata</h2>
+                <h2 className="text-lg font-bold">{t("pages.lessonDetail.seoMetadata")}</h2>
               </div>
               <Button onClick={generateSEO} disabled={seoGenerating} variant="outline" className="gap-2" data-testid="button-generate-seo">
                 {seoGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
@@ -773,22 +773,22 @@ Return as JSON: {"pathophysiology":"...","riskFactors":["..."],"diagnostics":[".
               </Button>
             </div>
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">SEO Title</label>
-              <Input value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} placeholder="SEO-optimized page title..." data-testid="input-seo-title" />
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("pages.lessonDetail.seoTitle")}</label>
+              <Input value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} placeholder={t("pages.lessonDetail.seooptimizedPageTitle")} data-testid="input-seo-title" />
             </div>
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">SEO Description</label>
-              <Textarea value={seoDescription} onChange={(e) => setSeoDescription(e.target.value)} rows={2} placeholder="Meta description for search engines..." data-testid="input-seo-description" />
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("pages.lessonDetail.seoDescription")}</label>
+              <Textarea value={seoDescription} onChange={(e) => setSeoDescription(e.target.value)} rows={2} placeholder={t("pages.lessonDetail.metaDescriptionForSearchEngines")} data-testid="input-seo-description" />
             </div>
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">SEO Keywords</label>
-              <Input value={seoKeywords} onChange={(e) => setSeoKeywords(e.target.value)} placeholder="Comma-separated keywords..." data-testid="input-seo-keywords" />
+              <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">{t("pages.lessonDetail.seoKeywords")}</label>
+              <Input value={seoKeywords} onChange={(e) => setSeoKeywords(e.target.value)} placeholder={t("pages.lessonDetail.commaseparatedKeywords")} data-testid="input-seo-keywords" />
             </div>
           </CardContent>
         </Card>
 
         <div className="flex justify-end gap-3 pb-10">
-          <Button variant="outline" onClick={() => setLocation("/lessons")} data-testid="button-cancel-create">Cancel</Button>
+          <Button variant="outline" onClick={() => setLocation("/lessons")} data-testid="button-cancel-create">{t("pages.lessonDetail.cancel")}</Button>
           <Button onClick={handleSave} disabled={saving} className="gap-2 px-8 bg-emerald-600 hover:bg-emerald-700 text-white" data-testid="button-save-lesson-bottom">
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             {saving ? "Saving..." : "Save & Publish"}
@@ -880,9 +880,9 @@ function VitalSignsReferenceCharts() {
     <section id="vital-signs-charts" className="space-y-6" data-testid="vital-signs-reference-charts">
       <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
         <HeartPulse className="text-red-500 w-8 h-8" />
-        <h2>Normal Vital Signs Reference Charts</h2>
+        <h2>{t("pages.lessonDetail.normalVitalSignsReferenceCharts")}</h2>
       </div>
-      <p className="text-sm text-gray-500 mt-1">Age-specific normal ranges for clinical assessment  -  from newborn through older adult</p>
+      <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.agespecificNormalRangesForClinical")}</p>
 
       <Card className="border-none shadow-md bg-white overflow-hidden">
         <CardContent className="p-0">
@@ -890,41 +890,41 @@ function VitalSignsReferenceCharts() {
             <table className="w-full text-sm" data-testid="table-vital-signs-ranges">
               <thead>
                 <tr className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
-                  <th className="text-left px-4 py-3 font-bold text-gray-800 whitespace-nowrap">Age Group</th>
+                  <th className="text-left px-4 py-3 font-bold text-gray-800 whitespace-nowrap">{t("pages.lessonDetail.ageGroup")}</th>
                   <th className="text-center px-3 py-3 font-bold text-gray-800">
                     <div className="flex flex-col items-center gap-0.5">
                       <Heart className="w-4 h-4 text-red-400" />
-                      <span>HR (bpm)</span>
+                      <span>{t("pages.lessonDetail.hrBpm")}</span>
                     </div>
                   </th>
                   <th className="text-center px-3 py-3 font-bold text-gray-800">
                     <div className="flex flex-col items-center gap-0.5">
                       <Wind className="w-4 h-4 text-blue-400" />
-                      <span>RR (/min)</span>
+                      <span>{t("pages.lessonDetail.rrMin")}</span>
                     </div>
                   </th>
                   <th className="text-center px-3 py-3 font-bold text-gray-800">
                     <div className="flex flex-col items-center gap-0.5">
                       <Activity className="w-4 h-4 text-purple-400" />
-                      <span>SBP (mmHg)</span>
+                      <span>{t("pages.lessonDetail.sbpMmhg")}</span>
                     </div>
                   </th>
                   <th className="text-center px-3 py-3 font-bold text-gray-800">
                     <div className="flex flex-col items-center gap-0.5">
                       <Activity className="w-4 h-4 text-indigo-400" />
-                      <span>DBP (mmHg)</span>
+                      <span>{t("pages.lessonDetail.dbpMmhg")}</span>
                     </div>
                   </th>
                   <th className="text-center px-3 py-3 font-bold text-gray-800">
                     <div className="flex flex-col items-center gap-0.5">
                       <Zap className="w-4 h-4 text-orange-400" />
-                      <span>Temp (°C)</span>
+                      <span>{t("pages.lessonDetail.tempC")}</span>
                     </div>
                   </th>
                   <th className="text-center px-3 py-3 font-bold text-gray-800">
                     <div className="flex flex-col items-center gap-0.5">
                       <Droplets className="w-4 h-4 text-cyan-400" />
-                      <span>SpO2</span>
+                      <span>{t("pages.lessonDetail.spo2")}</span>
                     </div>
                   </th>
                 </tr>
@@ -955,9 +955,9 @@ function VitalSignsReferenceCharts() {
 
       <div className="flex items-center gap-3 text-xl font-bold text-gray-900 mt-8">
         <ShieldAlert className="text-orange-500 w-7 h-7" />
-        <h3>Age-Specific Red Flags & Escalation Triggers</h3>
+        <h3>{t("pages.lessonDetail.agespecificRedFlagsEscalationTriggers")}</h3>
       </div>
-      <p className="text-sm text-gray-500 mt-1">When to escalate  -  critical thresholds by age group</p>
+      <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.whenToEscalateCriticalThresholds")}</p>
 
       <div className="grid md:grid-cols-2 gap-4">
         {redFlagsByAge.map((section) => (
@@ -1055,9 +1055,9 @@ function IsolationTypesGuide() {
     <section id="isolation-types" className="space-y-6" data-testid="isolation-types-guide">
       <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
         <ShieldAlert className="text-blue-600 w-8 h-8" />
-        <h2>Types of Isolation Precautions</h2>
+        <h2>{t("pages.lessonDetail.typesOfIsolationPrecautions")}</h2>
       </div>
-      <p className="text-sm text-gray-500 mt-1">When, why, and how to implement each type of isolation  -  from Standard to Protective</p>
+      <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.whenWhyAndHowTo")}</p>
 
       <div className="space-y-6">
         {isolationTypes.map((iso) => (
@@ -1142,62 +1142,62 @@ function IsolationTypesGuide() {
             <table className="w-full text-sm" data-testid="table-isolation-comparison">
               <thead>
                 <tr className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
-                  <th className="text-left px-4 py-3 font-bold text-gray-800">Feature</th>
-                  <th className="text-center px-3 py-3 font-bold text-yellow-700 bg-yellow-50/50">Contact</th>
-                  <th className="text-center px-3 py-3 font-bold text-blue-700 bg-blue-50/50">Droplet</th>
-                  <th className="text-center px-3 py-3 font-bold text-red-700 bg-red-50/50">Airborne</th>
-                  <th className="text-center px-3 py-3 font-bold text-purple-700 bg-purple-50/50">Protective</th>
+                  <th className="text-left px-4 py-3 font-bold text-gray-800">{t("pages.lessonDetail.feature")}</th>
+                  <th className="text-center px-3 py-3 font-bold text-yellow-700 bg-yellow-50/50">{t("pages.lessonDetail.contact")}</th>
+                  <th className="text-center px-3 py-3 font-bold text-blue-700 bg-blue-50/50">{t("pages.lessonDetail.droplet")}</th>
+                  <th className="text-center px-3 py-3 font-bold text-red-700 bg-red-50/50">{t("pages.lessonDetail.airborne")}</th>
+                  <th className="text-center px-3 py-3 font-bold text-purple-700 bg-purple-50/50">{t("pages.lessonDetail.protective")}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-b border-gray-100">
-                  <td className="px-4 py-3 font-semibold text-gray-800">Mask Type</td>
-                  <td className="text-center px-3 py-3 text-gray-700">Not required*</td>
-                  <td className="text-center px-3 py-3 text-gray-700">Surgical mask</td>
-                  <td className="text-center px-3 py-3 text-gray-700 font-medium">N95 respirator</td>
-                  <td className="text-center px-3 py-3 text-gray-700">Surgical mask</td>
+                  <td className="px-4 py-3 font-semibold text-gray-800">{t("pages.lessonDetail.maskType")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700">{t("pages.lessonDetail.notRequired")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700">{t("pages.lessonDetail.surgicalMask")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700 font-medium">{t("pages.lessonDetail.n95Respirator")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700">{t("pages.lessonDetail.surgicalMask2")}</td>
                 </tr>
                 <tr className="border-b border-gray-100 bg-gray-50/50">
-                  <td className="px-4 py-3 font-semibold text-gray-800">Gown</td>
-                  <td className="text-center px-3 py-3 text-green-600 font-medium">Yes</td>
-                  <td className="text-center px-3 py-3 text-gray-700">Per standard</td>
-                  <td className="text-center px-3 py-3 text-gray-700">Per standard</td>
-                  <td className="text-center px-3 py-3 text-green-600 font-medium">Yes</td>
+                  <td className="px-4 py-3 font-semibold text-gray-800">{t("pages.lessonDetail.gown")}</td>
+                  <td className="text-center px-3 py-3 text-green-600 font-medium">{t("pages.lessonDetail.yes")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700">{t("pages.lessonDetail.perStandard")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700">{t("pages.lessonDetail.perStandard2")}</td>
+                  <td className="text-center px-3 py-3 text-green-600 font-medium">{t("pages.lessonDetail.yes2")}</td>
                 </tr>
                 <tr className="border-b border-gray-100">
-                  <td className="px-4 py-3 font-semibold text-gray-800">Gloves</td>
-                  <td className="text-center px-3 py-3 text-green-600 font-medium">Yes</td>
-                  <td className="text-center px-3 py-3 text-gray-700">Per standard</td>
-                  <td className="text-center px-3 py-3 text-gray-700">Per standard</td>
-                  <td className="text-center px-3 py-3 text-green-600 font-medium">Yes</td>
+                  <td className="px-4 py-3 font-semibold text-gray-800">{t("pages.lessonDetail.gloves")}</td>
+                  <td className="text-center px-3 py-3 text-green-600 font-medium">{t("pages.lessonDetail.yes3")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700">{t("pages.lessonDetail.perStandard3")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700">{t("pages.lessonDetail.perStandard4")}</td>
+                  <td className="text-center px-3 py-3 text-green-600 font-medium">{t("pages.lessonDetail.yes4")}</td>
                 </tr>
                 <tr className="border-b border-gray-100 bg-gray-50/50">
-                  <td className="px-4 py-3 font-semibold text-gray-800">Room Pressure</td>
-                  <td className="text-center px-3 py-3 text-gray-700">Normal</td>
-                  <td className="text-center px-3 py-3 text-gray-700">Normal</td>
-                  <td className="text-center px-3 py-3 text-red-600 font-medium">Negative</td>
-                  <td className="text-center px-3 py-3 text-purple-600 font-medium">Positive</td>
+                  <td className="px-4 py-3 font-semibold text-gray-800">{t("pages.lessonDetail.roomPressure")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700">{t("pages.lessonDetail.normal")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700">{t("pages.lessonDetail.normal2")}</td>
+                  <td className="text-center px-3 py-3 text-red-600 font-medium">{t("pages.lessonDetail.negative")}</td>
+                  <td className="text-center px-3 py-3 text-purple-600 font-medium">{t("pages.lessonDetail.positive")}</td>
                 </tr>
                 <tr className="border-b border-gray-100">
-                  <td className="px-4 py-3 font-semibold text-gray-800">Door</td>
-                  <td className="text-center px-3 py-3 text-gray-700">May be open</td>
-                  <td className="text-center px-3 py-3 text-gray-700">May be open</td>
+                  <td className="px-4 py-3 font-semibold text-gray-800">{t("pages.lessonDetail.door")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700">{t("pages.lessonDetail.mayBeOpen")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700">{t("pages.lessonDetail.mayBeOpen2")}</td>
                   <td className="text-center px-3 py-3 text-red-600 font-medium">CLOSED</td>
                   <td className="text-center px-3 py-3 text-purple-600 font-medium">CLOSED</td>
                 </tr>
                 <tr className="border-b border-gray-100 bg-gray-50/50">
-                  <td className="px-4 py-3 font-semibold text-gray-800">Dedicated Equipment</td>
-                  <td className="text-center px-3 py-3 text-green-600 font-medium">Yes</td>
-                  <td className="text-center px-3 py-3 text-gray-700">Preferred</td>
-                  <td className="text-center px-3 py-3 text-gray-700">Preferred</td>
-                  <td className="text-center px-3 py-3 text-green-600 font-medium">Yes</td>
+                  <td className="px-4 py-3 font-semibold text-gray-800">{t("pages.lessonDetail.dedicatedEquipment")}</td>
+                  <td className="text-center px-3 py-3 text-green-600 font-medium">{t("pages.lessonDetail.yes5")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700">{t("pages.lessonDetail.preferred")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700">{t("pages.lessonDetail.preferred2")}</td>
+                  <td className="text-center px-3 py-3 text-green-600 font-medium">{t("pages.lessonDetail.yes6")}</td>
                 </tr>
                 <tr>
-                  <td className="px-4 py-3 font-semibold text-gray-800">Purpose</td>
-                  <td className="text-center px-3 py-3 text-gray-700 text-xs">Protect others from patient</td>
-                  <td className="text-center px-3 py-3 text-gray-700 text-xs">Protect others from patient</td>
-                  <td className="text-center px-3 py-3 text-gray-700 text-xs">Protect others from patient</td>
-                  <td className="text-center px-3 py-3 text-purple-700 text-xs font-medium">Protect patient from others</td>
+                  <td className="px-4 py-3 font-semibold text-gray-800">{t("pages.lessonDetail.purpose")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700 text-xs">{t("pages.lessonDetail.protectOthersFromPatient")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700 text-xs">{t("pages.lessonDetail.protectOthersFromPatient2")}</td>
+                  <td className="text-center px-3 py-3 text-gray-700 text-xs">{t("pages.lessonDetail.protectOthersFromPatient3")}</td>
+                  <td className="text-center px-3 py-3 text-purple-700 text-xs font-medium">{t("pages.lessonDetail.protectPatientFromOthers")}</td>
                 </tr>
               </tbody>
             </table>
@@ -1247,7 +1247,7 @@ function ScoreRing({ percentage, size = 120 }: { percentage: number; size?: numb
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-2xl font-bold" style={{ color }}>{percentage}%</span>
-        <span className="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Score</span>
+        <span className="text-[10px] text-gray-400 uppercase font-bold tracking-wider">{t("pages.lessonDetail.score")}</span>
       </div>
     </div>
   );
@@ -1307,14 +1307,14 @@ function QuizReport({
             </h3>
             <div className="flex items-center justify-center gap-6">
               <div className="text-center">
-                <p className="text-sm text-gray-500 mb-1">Pre-Test</p>
+                <p className="text-sm text-gray-500 mb-1">{t("pages.lessonDetail.pretest")}</p>
                 <p className="text-3xl font-bold text-blue-600">{preTestScore.percentage}%</p>
               </div>
               <div className="flex flex-col items-center">
                 <span className="text-gray-300 text-2xl">→</span>
               </div>
               <div className="text-center">
-                <p className="text-sm text-gray-500 mb-1">Post-Test</p>
+                <p className="text-sm text-gray-500 mb-1">{t("pages.lessonDetail.posttest")}</p>
                 <p className="text-3xl font-bold text-emerald-600">{percentage}%</p>
               </div>
             </div>
@@ -1323,9 +1323,9 @@ function QuizReport({
                 +{percentage - preTestScore.percentage}% improvement
               </p>
             ) : percentage === preTestScore.percentage ? (
-              <p className="text-center text-gray-600 font-medium">Same score - consider reviewing the lesson material again</p>
+              <p className="text-center text-gray-600 font-medium">{t("pages.lessonDetail.sameScoreConsiderReviewingThe")}</p>
             ) : (
-              <p className="text-center text-orange-600 font-medium">Keep studying - revisit the areas you missed below</p>
+              <p className="text-center text-orange-600 font-medium">{t("pages.lessonDetail.keepStudyingRevisitTheAreas")}</p>
             )}
           </CardContent>
         </Card>
@@ -1341,13 +1341,13 @@ function QuizReport({
         <Card className="border-none shadow-sm bg-red-50">
           <CardContent className="p-4 text-center">
             <p className="text-2xl font-bold text-red-500">{missed.length}</p>
-            <p className="text-xs text-red-500 font-medium mt-1">Missed</p>
+            <p className="text-xs text-red-500 font-medium mt-1">{t("pages.lessonDetail.missed")}</p>
           </CardContent>
         </Card>
         <Card className="border-none shadow-sm bg-blue-50">
           <CardContent className="p-4 text-center">
             <p className="text-2xl font-bold text-blue-600">{questions.length}</p>
-            <p className="text-xs text-blue-600 font-medium mt-1">Total</p>
+            <p className="text-xs text-blue-600 font-medium mt-1">{t("pages.lessonDetail.total")}</p>
           </CardContent>
         </Card>
       </div>
@@ -1416,13 +1416,13 @@ function QuizReport({
                       !user && idx >= 2 ? (
                         <div className="ml-10 mt-2 relative" data-testid={`review-rationale-gate-${idx}`}>
                           <div className="p-3 bg-gray-50 rounded-lg border border-gray-100 select-none" style={{ filter: "blur(4px)", pointerEvents: "none" }}>
-                            <p className="text-xs font-bold text-gray-400 mb-1">Why this matters:</p>
+                            <p className="text-xs font-bold text-gray-400 mb-1">{t("pages.lessonDetail.whyThisMatters")}</p>
                             <p className="text-xs text-gray-400 leading-relaxed">{q.rationale}</p>
                           </div>
                           <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-sm rounded-lg">
                             <div className="text-center px-4">
                               <Lock className="w-4 h-4 text-gray-400 mx-auto mb-1" />
-                              <p className="text-xs text-gray-600 font-medium mb-1.5">Create a free account to see all rationales</p>
+                              <p className="text-xs text-gray-600 font-medium mb-1.5">{t("pages.lessonDetail.createAFreeAccountTo")}</p>
                               <LocaleLink href="/start-free">
                                 <Button size="sm" variant="outline" className="gap-1 text-xs h-7 px-3" data-testid={`btn-review-rationale-signup-${idx}`}>
                                   Start Free <ArrowRight className="w-3 h-3" />
@@ -1433,7 +1433,7 @@ function QuizReport({
                         </div>
                       ) : (
                         <div className="ml-10 mt-2 p-3 bg-amber-50 rounded-lg border border-amber-100">
-                          <p className="text-xs font-bold text-amber-700 mb-1">Why this matters:</p>
+                          <p className="text-xs font-bold text-amber-700 mb-1">{t("pages.lessonDetail.whyThisMatters2")}</p>
                           <p className="text-xs text-amber-800 leading-relaxed">{q.rationale}</p>
                         </div>
                       )
@@ -1451,7 +1451,7 @@ function QuizReport({
           <Activity className="w-4 h-4" /> {testType === "pretest" ? t("lesson.retakePreTest") : t("lesson.retakePostTest")}
         </Button>
         {testType === "pretest" && (
-          <p className="text-sm text-gray-500 self-center">or continue to Clinical Content →</p>
+          <p className="text-sm text-gray-500 self-center">{t("pages.lessonDetail.orContinueToClinicalContent")}</p>
         )}
       </div>
     </div>
@@ -1632,7 +1632,7 @@ function QuizSection({
             <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-sm rounded-xl">
               <div className="text-center px-4">
                 <Lock className="w-5 h-5 text-gray-400 mx-auto mb-1.5" />
-                <p className="text-sm text-gray-600 font-medium mb-2" data-testid="text-rationale-gate">Create a free account to see all rationales</p>
+                <p className="text-sm text-gray-600 font-medium mb-2" data-testid="text-rationale-gate">{t("pages.lessonDetail.createAFreeAccountTo2")}</p>
                 <LocaleLink href="/start-free">
                   <Button size="sm" variant="outline" className="gap-1.5 text-xs" data-testid="btn-rationale-signup">
                     Start Free <ArrowRight className="w-3 h-3" />
@@ -1947,7 +1947,7 @@ export default function LessonDetail() {
           <main className="max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-6">
             <div className="flex items-center justify-center gap-3">
               <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-              <span className="text-gray-600">Loading lesson...</span>
+              <span className="text-gray-600">{t("pages.lessonDetail.loadingLesson")}</span>
             </div>
           </main>
           <Footer />
@@ -2057,11 +2057,11 @@ export default function LessonDetail() {
         <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
           <Navigation />
           <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full" data-testid="db-lesson-detail">
-            <nav aria-label="Breadcrumb" className="mb-4 text-sm text-gray-500">
+            <nav aria-label={t("pages.lessonDetail.breadcrumb")} className="mb-4 text-sm text-gray-500">
               <ol className="flex items-center gap-1 flex-wrap">
-                <li><LocaleLink href="/" className="hover:text-primary transition-colors">Home</LocaleLink></li>
+                <li><LocaleLink href="/" className="hover:text-primary transition-colors">{t("pages.lessonDetail.home")}</LocaleLink></li>
                 <li className="text-gray-300">/</li>
-                <li><LocaleLink href="/lessons" className="hover:text-primary transition-colors">Lessons</LocaleLink></li>
+                <li><LocaleLink href="/lessons" className="hover:text-primary transition-colors">{t("pages.lessonDetail.lessons")}</LocaleLink></li>
                 <li className="text-gray-300">/</li>
                 <li className="text-gray-900 font-medium">{dbContent.title}</li>
               </ol>
@@ -2292,9 +2292,9 @@ export default function LessonDetail() {
                   <section id="lifespan" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <Users className="text-indigo-500 w-8 h-8" />
-                      <h2>Across the Lifespan</h2>
+                      <h2>{t("pages.lessonDetail.acrossTheLifespan2")}</h2>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Age-specific clinical variations and safety adjustments</p>
+                    <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.agespecificClinicalVariationsAndSafety2")}</p>
                     <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100 leading-relaxed text-indigo-900">
                       <span className="italic" dangerouslySetInnerHTML={{ __html: lifespanText }} />
                     </div>
@@ -2308,16 +2308,16 @@ export default function LessonDetail() {
                   <section id="clinical-findings" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <AlertCircle className="text-orange-500 w-8 h-8" />
-                      <h2>Clinical Findings and Red Flags</h2>
+                      <h2>{t("pages.lessonDetail.clinicalFindingsAndRedFlags2")}</h2>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Key clinical presentations and warning signs</p>
+                    <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.keyClinicalPresentationsAndWarning2")}</p>
                     <div className="grid md:grid-cols-2 gap-8">
                       {signsLeft.length > 0 && (
                         <Card className="border-none shadow-md bg-white">
                           <CardContent className="p-8 space-y-4">
                             <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                               <AlertCircle className="text-blue-500 w-6 h-6" />
-                              <h3>Clinical Findings</h3>
+                              <h3>{t("pages.lessonDetail.clinicalFindings2")}</h3>
                             </div>
                             <ul className="space-y-2">
                               {signsLeft.map((s, i) => (
@@ -2335,7 +2335,7 @@ export default function LessonDetail() {
                           <CardContent className="p-8 space-y-4">
                             <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                               <AlertCircle className="text-orange-500 w-6 h-6" />
-                              <h3>Red Flags: When to Escalate</h3>
+                              <h3>{t("pages.lessonDetail.redFlagsWhenToEscalate2")}</h3>
                             </div>
                             <ul className="space-y-2">
                               {signsRight.map((s, i) => (
@@ -2359,9 +2359,9 @@ export default function LessonDetail() {
                   <section id="pharmacology" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <Pill className="text-primary w-8 h-8" />
-                      <h2>Pharmacology and Safety</h2>
+                      <h2>{t("pages.lessonDetail.pharmacologyAndSafety2")}</h2>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Medications, mechanisms, and safety considerations</p>
+                    <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.medicationsMechanismsAndSafetyConsiderations2")}</p>
                     <div className="space-y-4">
                       {medsParsed.map((med, i) => (
                         <Card key={i} className="border-none shadow-sm bg-white overflow-hidden text-gray-900">
@@ -2370,13 +2370,13 @@ export default function LessonDetail() {
                           </div>
                           <CardContent className="p-6 grid md:grid-cols-2 gap-6">
                             <div className="space-y-2">
-                              <p className="text-sm font-bold text-gray-400 uppercase">Action</p>
+                              <p className="text-sm font-bold text-gray-400 uppercase">{t("pages.lessonDetail.action2")}</p>
                               <p className="text-gray-700">{med.action}</p>
-                              <p className="text-sm font-bold text-gray-400 uppercase pt-2">Side Effects</p>
+                              <p className="text-sm font-bold text-gray-400 uppercase pt-2">{t("pages.lessonDetail.sideEffects2")}</p>
                               <p className="text-gray-700">{med.sideEffects}</p>
                             </div>
                             <div className="space-y-2">
-                              <p className="text-sm font-bold text-gray-400 uppercase">Contraindications</p>
+                              <p className="text-sm font-bold text-gray-400 uppercase">{t("pages.lessonDetail.contraindications2")}</p>
                               <p className="text-gray-700">{med.contra}</p>
                               {med.pearl && (
                                 <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-100 flex gap-2">
@@ -2399,11 +2399,11 @@ export default function LessonDetail() {
                   <section id="exam-readiness" className="bg-gray-900 text-white p-10 rounded-3xl space-y-6 shadow-2xl">
                     <div className="flex items-center gap-3 text-2xl font-bold">
                       <FileText className="text-primary w-8 h-8" />
-                      <h2>Exam Readiness</h2>
+                      <h2>{t("pages.lessonDetail.examReadiness2")}</h2>
                     </div>
                     <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-4">
-                        <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Priority Logic</h4>
+                        <h4 className="text-primary font-bold uppercase tracking-widest text-sm">{t("pages.lessonDetail.priorityLogic")}</h4>
                         <ul className="space-y-2 text-gray-300">
                           {clinicalPearls.map((p, i) => (
                             <li key={i} className="flex gap-2">
@@ -2458,8 +2458,8 @@ export default function LessonDetail() {
                 Back to Lessons
               </Button>
             </LocaleLink>
-            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-not-found-admin">Lesson Not Found</h1>
-            <p className="text-gray-600">This lesson does not exist yet. You can create it as a new lesson.</p>
+            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-not-found-admin">{t("pages.lessonDetail.lessonNotFound")}</h1>
+            <p className="text-gray-600">{t("pages.lessonDetail.thisLessonDoesNotExist")}</p>
             <Button
               className="mt-4"
               onClick={() => setShowAdminCreator(true)}
@@ -2490,7 +2490,7 @@ export default function LessonDetail() {
             <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
               <Lock className="w-8 h-8 text-primary" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-locked">Premium Lesson</h1>
+            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-locked">{t("pages.lessonDetail.premiumLesson")}</h1>
             <p className="text-gray-600 max-w-md mx-auto">
               This lesson is part of the {getTierLabel(tierLocked.requiredTier)} plan. Upgrade your account to access this lesson and hundreds more with adaptive quizzes, flashcards, and spaced repetition.
             </p>
@@ -2519,8 +2519,8 @@ export default function LessonDetail() {
           <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
             <BookOpen className="w-8 h-8 text-primary" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-coming-soon">Lesson Coming Soon</h1>
-          <p className="text-gray-600 max-w-md mx-auto">This lesson is currently being developed by our clinical education team. Check back soon for comprehensive, exam-ready content.</p>
+          <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-coming-soon">{t("pages.lessonDetail.lessonComingSoon")}</h1>
+          <p className="text-gray-600 max-w-md mx-auto">{t("pages.lessonDetail.thisLessonIsCurrentlyBeing")}</p>
           <LocaleLink href="/lessons">
             <Button className="mt-4 bg-primary hover:bg-primary/90 text-white px-6" data-testid="button-browse-lessons">
               Browse Available Lessons
@@ -2734,7 +2734,7 @@ export default function LessonDetail() {
     const tp = tierPricing[lessonTier];
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
-        <SEO title={`${lessonContent?.title || "Lesson"} - NurseNest`} description="Subscribe to access this lesson" />
+        <SEO title={`${lessonContent?.title || "Lesson"} - NurseNest`} description={t("pages.lessonDetail.subscribeToAccessThisLesson")} />
         <Navigation />
         <main className="max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-8">
           <LocaleLink href="/lessons">
@@ -2762,9 +2762,9 @@ export default function LessonDetail() {
               <p className="text-3xl font-bold text-primary">{region === "CA" ? tp.priceCAD : tp.priceUSD}</p>
               <ul className="text-sm text-gray-600 space-y-2 text-left">
                 <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" /> Full access to all {tp.name} lessons</li>
-                <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" /> Flashcards and question bank</li>
-                <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" /> Progress tracking and reports</li>
-                <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" /> Note-taking and study tools</li>
+                <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" /> {t("pages.lessonDetail.flashcardsAndQuestionBank")}</li>
+                <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" /> {t("pages.lessonDetail.progressTrackingAndReports")}</li>
+                <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" /> {t("pages.lessonDetail.notetakingAndStudyTools")}</li>
               </ul>
               <Button className="w-full rounded-full h-12 text-lg" onClick={handleSubscribe} data-testid="button-subscribe">
                 {user ? "Subscribe Now" : "Sign In to Subscribe"}
@@ -2786,7 +2786,7 @@ export default function LessonDetail() {
                     <div className="h-full flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all group cursor-pointer" data-testid="button-prev-lesson">
                       <ChevronLeft className="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors flex-shrink-0" />
                       <div className="min-w-0 flex-1">
-                        <span className="text-xs text-gray-500 block">Previous Lesson</span>
+                        <span className="text-xs text-gray-500 block">{t("pages.lessonDetail.previousLesson")}</span>
                         <span className="text-sm font-medium text-gray-900 block truncate">{nav.prev.name}</span>
                       </div>
                     </div>
@@ -2798,7 +2798,7 @@ export default function LessonDetail() {
                   <LocaleLink href={`/lessons/${nav.next.id}`} className="flex-1">
                     <div className="h-full flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all group cursor-pointer text-right" data-testid="button-next-lesson">
                       <div className="min-w-0 flex-1">
-                        <span className="text-xs text-gray-500 block">Next Lesson</span>
+                        <span className="text-xs text-gray-500 block">{t("pages.lessonDetail.nextLesson")}</span>
                         <span className="text-sm font-medium text-gray-900 block truncate">{nav.next.name}</span>
                       </div>
                       <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors flex-shrink-0" />
@@ -2842,11 +2842,11 @@ export default function LessonDetail() {
       <Navigation />
       
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        <nav aria-label="Breadcrumb" className="mb-2 text-sm text-gray-500" data-testid="nav-breadcrumb">
+        <nav aria-label={t("pages.lessonDetail.breadcrumb2")} className="mb-2 text-sm text-gray-500" data-testid="nav-breadcrumb">
           <ol className="flex items-center gap-1 flex-wrap">
-            <li><LocaleLink href="/" className="hover:text-primary transition-colors">Home</LocaleLink></li>
+            <li><LocaleLink href="/" className="hover:text-primary transition-colors">{t("pages.lessonDetail.home2")}</LocaleLink></li>
             <li className="text-gray-300">/</li>
-            <li><LocaleLink href="/lessons" className="hover:text-primary transition-colors">Lessons</LocaleLink></li>
+            <li><LocaleLink href="/lessons" className="hover:text-primary transition-colors">{t("pages.lessonDetail.lessons2")}</LocaleLink></li>
             <li className="text-gray-300">/</li>
             <li className="text-gray-400">{getLessonBodySystem(id || "")}</li>
             <li className="text-gray-300">/</li>
@@ -2873,10 +2873,10 @@ export default function LessonDetail() {
                     <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer max-w-full" data-testid="link-prev-lesson-top">
                       <ChevronLeft className="w-3.5 h-3.5 shrink-0" />
                       <span className="hidden sm:inline truncate" title={nav.prev.name}>{nav.prev.name}</span>
-                      <span className="sm:hidden">Prev</span>
+                      <span className="sm:hidden">{t("pages.lessonDetail.prev")}</span>
                     </span>
                   </LocaleLink>
-                ) : <span className="text-sm text-transparent select-none" aria-hidden="true">Prev</span>}
+                ) : <span className="text-sm text-transparent select-none" aria-hidden="true">{t("pages.lessonDetail.prev2")}</span>}
               </div>
               <div />
               <div className="min-w-0 overflow-hidden flex justify-end">
@@ -2884,11 +2884,11 @@ export default function LessonDetail() {
                   <LocaleLink href={`/lessons/${nav.next.id}`}>
                     <span className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors cursor-pointer max-w-full" data-testid="link-next-lesson-top">
                       <span className="hidden sm:inline truncate" title={nav.next.name}>{nav.next.name}</span>
-                      <span className="sm:hidden">Next</span>
+                      <span className="sm:hidden">{t("pages.lessonDetail.next")}</span>
                       <ChevronRight className="w-3.5 h-3.5 shrink-0" />
                     </span>
                   </LocaleLink>
-                ) : <span className="text-sm text-transparent select-none" aria-hidden="true">Next</span>}
+                ) : <span className="text-sm text-transparent select-none" aria-hidden="true">{t("pages.lessonDetail.next2")}</span>}
               </div>
             </div>
           );
@@ -2924,7 +2924,7 @@ export default function LessonDetail() {
                 data-testid="textarea-notes"
               />
               <div className="flex items-center justify-between mt-2">
-                <p className="text-[10px] text-gray-400">Auto-saves as you type</p>
+                <p className="text-[10px] text-gray-400">{t("pages.lessonDetail.autosavesAsYouType")}</p>
                 <p className="text-[10px] text-gray-400">{noteContent.length > 0 ? `${noteContent.length} chars` : ""}</p>
               </div>
             </div>
@@ -3024,8 +3024,8 @@ export default function LessonDetail() {
           <Card className="bg-primary/5 border-none">
             <CardContent className="p-4 sm:p-5 flex items-center justify-between gap-4">
               <div className="space-y-0.5 min-w-0">
-                <p className="text-xs font-bold text-primary uppercase tracking-wider">Learning Progress</p>
-                <p className="text-sm text-gray-600 hidden sm:block">Pre-Test, Study, Post-Test. Track your clinical reasoning improvement.</p>
+                <p className="text-xs font-bold text-primary uppercase tracking-wider">{t("pages.lessonDetail.learningProgress")}</p>
+                <p className="text-sm text-gray-600 hidden sm:block">{t("pages.lessonDetail.pretestStudyPosttestTrackYour")}</p>
               </div>
               <div className="text-right shrink-0">
                 <p className="text-2xl font-bold text-primary" data-testid="text-progress-pct">{postTestDone ? "100%" : preTestDone ? "50%" : "0%"}</p>
@@ -3107,7 +3107,7 @@ export default function LessonDetail() {
             <TabsContent value="content" className="mt-6">
               <ProtectedContent>
               <nav className="hidden lg:block fixed left-4 top-1/3 z-30 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-gray-100 p-3 space-y-1 max-w-[160px]" data-testid="nav-quick-sections">
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Sections</p>
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">{t("pages.lessonDetail.sections")}</p>
                 {[
                   { id: "pathophysiology", label: "Pathophysiology" },
                   { id: "risk-factors", label: "Risk Factors" },
@@ -3150,9 +3150,9 @@ export default function LessonDetail() {
                     ) : (
                       <h2>{lessonContent.cellular.title}</h2>
                     )}
-                    <SectionAIButton section="pathophysiology" label="Pathophysiology" />
+                    <SectionAIButton section="pathophysiology" label={t("pages.lessonDetail.pathophysiology2")} />
                   </div>
-                  <p className="text-sm text-gray-500 mt-1">Pathophysiology at the cellular level</p>
+                  <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.pathophysiologyAtTheCellularLevel2")}</p>
                   <Card className="border-none shadow-sm bg-violet-50/50">
                     <CardContent className="p-8 leading-relaxed text-gray-700">
                     {ed ? (
@@ -3179,7 +3179,7 @@ export default function LessonDetail() {
                         <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
                           <Lock className="w-7 h-7 text-primary/70" />
                         </div>
-                        <h3 className="text-lg font-bold text-gray-900">Unlock Full Lesson</h3>
+                        <h3 className="text-lg font-bold text-gray-900">{t("pages.lessonDetail.unlockFullLesson")}</h3>
                         <p className="text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
                           You're viewing a preview of this lesson. Upgrade to {getTierLabel(previewRequiredTier)} to access the complete content including diagnostics, management, nursing actions, medications, and exam readiness.
                         </p>
@@ -3199,14 +3199,14 @@ export default function LessonDetail() {
                   <section id="risk-factors" data-testid="section-risk-factors" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <ShieldAlert className="text-rose-500 w-8 h-8" />
-                      <h2>Risk Factors</h2>
-                      <SectionAIButton section="riskFactors" label="Risk Factors" />
+                      <h2>{t("pages.lessonDetail.riskFactors2")}</h2>
+                      <SectionAIButton section="riskFactors" label={t("pages.lessonDetail.riskFactors3")} />
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Key predisposing and contributing factors</p>
+                    <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.keyPredisposingAndContributingFactors2")}</p>
                     <Card className="border-none shadow-sm bg-rose-50/60">
                       <CardContent className="p-8">
                         {ed ? (
-                          <EditableList items={ed.riskFactors || []} onChange={(items) => setEditData({ ...ed, riskFactors: items })} placeholder="Risk factor..." />
+                          <EditableList items={ed.riskFactors || []} onChange={(items) => setEditData({ ...ed, riskFactors: items })} placeholder={t("pages.lessonDetail.riskFactor")} />
                         ) : (
                           <div className="grid sm:grid-cols-2 gap-3">
                             {lessonContent.riskFactors!.map((rf, i) => (
@@ -3234,14 +3234,14 @@ export default function LessonDetail() {
                   <section id="diagnostics" data-testid="section-diagnostics" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <Search className="text-cyan-600 w-8 h-8" />
-                      <h2>Diagnostic Studies &amp; Lab Findings</h2>
-                      <SectionAIButton section="diagnostics" label="Diagnostics" />
+                      <h2>{t("pages.lessonDetail.diagnosticStudiesAmpLabFindings")}</h2>
+                      <SectionAIButton section="diagnostics" label={t("pages.lessonDetail.diagnostics2")} />
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Confirmatory diagnostic tests, lab values, and expected results</p>
+                    <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.confirmatoryDiagnosticTestsLabValues")}</p>
                     <Card className="border-none shadow-sm bg-cyan-50/60">
                       <CardContent className="p-8">
                         {ed ? (
-                          <EditableList items={ed.diagnostics || []} onChange={(items) => setEditData({ ...ed, diagnostics: items })} placeholder="Diagnostic finding..." />
+                          <EditableList items={ed.diagnostics || []} onChange={(items) => setEditData({ ...ed, diagnostics: items })} placeholder={t("pages.lessonDetail.diagnosticFinding")} />
                         ) : (
                           <div className="grid sm:grid-cols-2 gap-3">
                             {lessonContent.diagnostics!.map((d, i) => (
@@ -3269,14 +3269,14 @@ export default function LessonDetail() {
                   <section id="management" data-testid="section-management" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <ClipboardList className="text-emerald-600 w-8 h-8" />
-                      <h2>Clinical Management &amp; Treatment</h2>
-                      <SectionAIButton section="management" label="Management" />
+                      <h2>{t("pages.lessonDetail.clinicalManagementAmpTreatment")}</h2>
+                      <SectionAIButton section="management" label={t("pages.lessonDetail.management2")} />
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Evidence-based interventions, treatment protocols, and clinical monitoring</p>
+                    <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.evidencebasedInterventionsTreatmentProtocols")}</p>
                     <Card className="border-none shadow-sm bg-emerald-50/60">
                       <CardContent className="p-8">
                         {ed ? (
-                          <EditableList items={ed.management || []} onChange={(items) => setEditData({ ...ed, management: items })} placeholder="Management step..." />
+                          <EditableList items={ed.management || []} onChange={(items) => setEditData({ ...ed, management: items })} placeholder={t("pages.lessonDetail.managementStep")} />
                         ) : (
                           <ul className="space-y-3">
                             {lessonContent.management!.map((m, i) => (
@@ -3306,14 +3306,14 @@ export default function LessonDetail() {
                   <section id="nursing-actions" data-testid="section-nursing-actions" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <HeartPulse className="text-violet-600 w-8 h-8" />
-                      <h2>Nursing Interventions &amp; Scope of Practice</h2>
-                      <SectionAIButton section="nursingActions" label="Nursing Actions" />
+                      <h2>{t("pages.lessonDetail.nursingInterventionsAmpScopeOf")}</h2>
+                      <SectionAIButton section="nursingActions" label={t("pages.lessonDetail.nursingActions")} />
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Priority nursing assessments, clinical interventions, delegation, and escalation triggers</p>
+                    <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.priorityNursingAssessmentsClinicalInterventio")}</p>
                     <Card className="border-none shadow-sm bg-violet-50/60">
                       <CardContent className="p-8">
                         {ed ? (
-                          <EditableList items={ed.nursingActions || []} onChange={(items) => setEditData({ ...ed, nursingActions: items })} placeholder="Nursing action..." />
+                          <EditableList items={ed.nursingActions || []} onChange={(items) => setEditData({ ...ed, nursingActions: items })} placeholder={t("pages.lessonDetail.nursingAction")} />
                         ) : (
                           <ul className="space-y-3">
                             {lessonContent.nursingActions!.map((na, i) => (
@@ -3341,14 +3341,14 @@ export default function LessonDetail() {
                   <section id="assessment-findings" data-testid="section-assessment-findings" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <ClipboardList className="text-teal-600 w-8 h-8" />
-                      <h2>Clinical Assessment Findings</h2>
-                      <SectionAIButton section="assessmentFindings" label="Assessment Findings" />
+                      <h2>{t("pages.lessonDetail.clinicalAssessmentFindings")}</h2>
+                      <SectionAIButton section="assessmentFindings" label={t("pages.lessonDetail.assessmentFindings2")} />
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Key nursing assessment data: vital signs, inspection, auscultation, palpation, laboratory values, and subjective/objective findings</p>
+                    <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.keyNursingAssessmentDataVital2")}</p>
                     <Card className="border-none shadow-sm bg-teal-50/60">
                       <CardContent className="p-8">
                         {ed ? (
-                          <EditableList items={ed.assessmentFindings || []} onChange={(items) => setEditData({ ...ed, assessmentFindings: items })} placeholder="Assessment finding..." />
+                          <EditableList items={ed.assessmentFindings || []} onChange={(items) => setEditData({ ...ed, assessmentFindings: items })} placeholder={t("pages.lessonDetail.assessmentFinding")} />
                         ) : (
                           <div className="grid sm:grid-cols-2 gap-3">
                             {lessonContent.assessmentFindings!.map((af, i) => (
@@ -3376,10 +3376,10 @@ export default function LessonDetail() {
                   <section id="lifespan" className="space-y-6">
                     <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                       <Users className="text-indigo-500 w-8 h-8" />
-                      <h2>Across the Lifespan</h2>
-                      <SectionAIButton section="lifespan" label="Lifespan" />
+                      <h2>{t("pages.lessonDetail.acrossTheLifespan3")}</h2>
+                      <SectionAIButton section="lifespan" label={t("pages.lessonDetail.lifespan")} />
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Age-specific clinical variations and safety adjustments</p>
+                    <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.agespecificClinicalVariationsAndSafety3")}</p>
                     <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100 leading-relaxed text-indigo-900">
                       {ed && ed.lifespan ? (
                         <EditableText value={ed.lifespan.content} onChange={(v) => setEditData({ ...ed, lifespan: { ...ed.lifespan!, content: v } })} multiline className="min-h-[120px]" />
@@ -3404,19 +3404,19 @@ export default function LessonDetail() {
                 <section id="clinical-findings" className="space-y-6">
                   <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                     <AlertCircle className="text-orange-500 w-8 h-8" />
-                    <h2>Signs, Symptoms &amp; Clinical Red Flags</h2>
-                    <SectionAIButton section="signs" label="Signs & Symptoms" />
+                    <h2>{t("pages.lessonDetail.signsSymptomsAmpClinicalRed")}</h2>
+                    <SectionAIButton section="signs" label={t("pages.lessonDetail.signsSymptoms")} />
                   </div>
-                  <p className="text-sm text-gray-500 mt-1">Key clinical presentations, warning signs, and escalation criteria</p>
+                  <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.keyClinicalPresentationsWarningSigns")}</p>
                   <div className="grid md:grid-cols-2 gap-8">
                     <Card className="border-none shadow-md bg-white">
                       <CardContent className="p-8 space-y-4">
                         <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                           <AlertCircle className="text-blue-500 w-6 h-6" />
-                          <h3>Clinical Findings</h3>
+                          <h3>{t("pages.lessonDetail.clinicalFindings3")}</h3>
                         </div>
                         {ed ? (
-                          <EditableList items={ed.signs.left} onChange={(items) => setEditData({ ...ed, signs: { ...ed.signs, left: items } })} placeholder="Clinical finding..." />
+                          <EditableList items={ed.signs.left} onChange={(items) => setEditData({ ...ed, signs: { ...ed.signs, left: items } })} placeholder={t("pages.lessonDetail.clinicalFinding")} />
                         ) : (
                           <ul className="space-y-2">
                             {lessonContent.signs.left.map((s, i) => (
@@ -3433,10 +3433,10 @@ export default function LessonDetail() {
                       <CardContent className="p-8 space-y-4">
                         <div className="flex items-center gap-2 text-xl font-bold text-gray-900">
                           <AlertCircle className="text-orange-500 w-6 h-6" />
-                          <h3>Red Flags: When to Escalate</h3>
+                          <h3>{t("pages.lessonDetail.redFlagsWhenToEscalate3")}</h3>
                         </div>
                         {ed ? (
-                          <EditableList items={ed.signs.right} onChange={(items) => setEditData({ ...ed, signs: { ...ed.signs, right: items } })} placeholder="Red flag..." />
+                          <EditableList items={ed.signs.right} onChange={(items) => setEditData({ ...ed, signs: { ...ed.signs, right: items } })} placeholder={t("pages.lessonDetail.redFlag")} />
                         ) : (
                           <ul className="space-y-2">
                             {lessonContent.signs.right.map((s, i) => (
@@ -3470,18 +3470,18 @@ export default function LessonDetail() {
                 <section id="pharmacology" className="space-y-6">
                   <div className="flex items-center gap-3 text-2xl font-bold text-gray-900">
                     <Pill className="text-primary w-8 h-8" />
-                    <h2>Pharmacology, Medications &amp; Safety</h2>
+                    <h2>{t("pages.lessonDetail.pharmacologyMedicationsAmpSafety")}</h2>
                   </div>
-                  <p className="text-sm text-gray-500 mt-1">Key medications, drug classes, mechanisms of action, adverse effects, and nursing safety considerations</p>
-                  <SectionAIButton section="medications" label="Medications" />
+                  <p className="text-sm text-gray-500 mt-1">{t("pages.lessonDetail.keyMedicationsDrugClassesMechanisms")}</p>
+                  <SectionAIButton section="medications" label={t("pages.lessonDetail.medications")} />
                   <div className="space-y-4">
                     {(ed || lessonContent).medications.map((med, i) => (
                       <Card key={i} className="border-none shadow-sm bg-white overflow-hidden text-gray-900">
                         <div className="bg-primary/5 px-6 py-3 border-b border-primary/10 flex items-center justify-between">
                           {ed ? (
                             <div className="flex gap-2 flex-1">
-                              <Input value={med.name} onChange={(e) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], name: e.target.value }; setEditData({ ...ed, medications: meds }); }} placeholder="Drug name" className="font-bold w-40" />
-                              <Input value={med.type} onChange={(e) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], type: e.target.value }; setEditData({ ...ed, medications: meds }); }} placeholder="Type" className="w-32" />
+                              <Input value={med.name} onChange={(e) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], name: e.target.value }; setEditData({ ...ed, medications: meds }); }} placeholder={t("pages.lessonDetail.drugName2")} className="font-bold w-40" />
+                              <Input value={med.type} onChange={(e) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], type: e.target.value }; setEditData({ ...ed, medications: meds }); }} placeholder={t("pages.lessonDetail.type")} className="w-32" />
                               <Button variant="ghost" size="sm" className="text-red-400 hover:text-red-600" onClick={() => { const meds = ed.medications.filter((_, idx) => idx !== i); setEditData({ ...ed, medications: meds }); }}>
                                 <Trash2 className="w-4 h-4" />
                               </Button>
@@ -3494,13 +3494,13 @@ export default function LessonDetail() {
                         </div>
                         <CardContent className="p-6 grid md:grid-cols-2 gap-6">
                           <div className="space-y-2">
-                            <p className="text-sm font-bold text-gray-400 uppercase">Action</p>
+                            <p className="text-sm font-bold text-gray-400 uppercase">{t("pages.lessonDetail.action3")}</p>
                             {ed ? (
                               <RichTextEditor value={med.action} onChange={(v) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], action: v }; setEditData({ ...ed, medications: meds }); }} minHeight="60px" />
                             ) : (
                               <p className="text-gray-700"><RichTextDisplay html={med.action} /></p>
                             )}
-                            <p className="text-sm font-bold text-gray-400 uppercase pt-2">Side Effects</p>
+                            <p className="text-sm font-bold text-gray-400 uppercase pt-2">{t("pages.lessonDetail.sideEffects3")}</p>
                             {ed ? (
                               <RichTextEditor value={med.sideEffects} onChange={(v) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], sideEffects: v }; setEditData({ ...ed, medications: meds }); }} minHeight="60px" />
                             ) : (
@@ -3508,7 +3508,7 @@ export default function LessonDetail() {
                             )}
                           </div>
                           <div className="space-y-2">
-                            <p className="text-sm font-bold text-gray-400 uppercase">Contraindications</p>
+                            <p className="text-sm font-bold text-gray-400 uppercase">{t("pages.lessonDetail.contraindications3")}</p>
                             {ed ? (
                               <RichTextEditor value={med.contra} onChange={(v) => { const meds = [...ed.medications]; meds[i] = { ...meds[i], contra: v }; setEditData({ ...ed, medications: meds }); }} minHeight="60px" />
                             ) : (
@@ -3545,14 +3545,14 @@ export default function LessonDetail() {
                 <section id="exam-readiness" className="bg-gray-900 text-white p-10 rounded-3xl space-y-6 shadow-2xl">
                   <div className="flex items-center gap-3 text-2xl font-bold">
                     <FileText className="text-primary w-8 h-8" />
-                    <h2>Exam Readiness &amp; Clinical Pearls</h2>
+                    <h2>{t("pages.lessonDetail.examReadinessAmpClinicalPearls")}</h2>
                   </div>
-                  <SectionAIButton section="pearls" label="Exam Pearls" />
+                  <SectionAIButton section="pearls" label={t("pages.lessonDetail.examPearls")} />
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-4">
-                      <h4 className="text-primary font-bold uppercase tracking-widest text-sm">Priority Logic</h4>
+                      <h4 className="text-primary font-bold uppercase tracking-widest text-sm">{t("pages.lessonDetail.priorityLogic2")}</h4>
                       {ed ? (
-                        <EditableList items={ed.pearls} onChange={(items) => setEditData({ ...ed, pearls: items })} placeholder="Exam pearl..." />
+                        <EditableList items={ed.pearls} onChange={(items) => setEditData({ ...ed, pearls: items })} placeholder={t("pages.lessonDetail.examPearl")} />
                       ) : (
                         <ul className="space-y-2 text-gray-300">
                           {lessonContent.pearls.map((p, i) => (
@@ -3565,7 +3565,7 @@ export default function LessonDetail() {
                       )}
                     </div>
                     <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-                      <h4 className="text-primary font-bold uppercase tracking-widest text-sm mb-4">Common Exam Traps</h4>
+                      <h4 className="text-primary font-bold uppercase tracking-widest text-sm mb-4">{t("pages.lessonDetail.commonExamTraps")}</h4>
                       <p className="text-sm text-gray-400 leading-relaxed italic">
                         These are the high-yield reasoning patterns most commonly tested. Focus on what changed, what is the priority, and what should the nurse do first.
                       </p>
@@ -3612,7 +3612,7 @@ export default function LessonDetail() {
               <Card className="border border-primary/20 bg-primary/5">
                 <div className="p-4 flex items-center gap-2 border-b border-primary/10">
                   <PlayCircle className="h-5 w-5 text-primary" />
-                  <span className="font-semibold text-gray-900">Related Micro-Lectures</span>
+                  <span className="font-semibold text-gray-900">{t("pages.lessonDetail.relatedMicrolectures")}</span>
                 </div>
                 <CardContent className="p-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -3649,8 +3649,8 @@ export default function LessonDetail() {
           if (conditions.length === 0) return null;
           return (
             <div className="mt-10 p-6 rounded-2xl bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100 shadow-sm" data-testid="section-condition-links">
-              <h3 className="text-lg font-semibold text-gray-900 mb-1">Related Condition Guides</h3>
-              <p className="text-sm text-gray-500 mb-4">Deep-dive condition pages with cross-profession perspectives</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">{t("pages.lessonDetail.relatedConditionGuides")}</h3>
+              <p className="text-sm text-gray-500 mb-4">{t("pages.lessonDetail.deepdiveConditionPagesWithCrossprofession")}</p>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {conditions.map((cond, i) => cond && (
                   <LocaleLink
@@ -3682,7 +3682,7 @@ export default function LessonDetail() {
             <div className="mt-10 p-6 rounded-2xl bg-white border border-gray-200 shadow-sm" data-testid="section-internal-links">
               {contextualLinks.length > 0 && (
                 <>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Related Topics</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">{t("pages.lessonDetail.relatedTopics")}</h3>
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {contextualLinks.slice(0, 6).map((link, i) => (
                       <LocaleLink
@@ -3700,7 +3700,7 @@ export default function LessonDetail() {
               )}
               {crossLinks.length > 0 && (
                 <div className={contextualLinks.length > 0 ? "mt-6 pt-6 border-t border-gray-100" : ""}>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Related Resources</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">{t("pages.lessonDetail.relatedResources")}</h3>
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {crossLinks.map((link, i) => (
                       <LocaleLink
@@ -3773,16 +3773,16 @@ export default function LessonDetail() {
         </div>
 
         <div className="mt-8 p-8 rounded-2xl bg-gradient-to-br from-primary/5 to-blue-50 border border-primary/10" data-testid="section-next-action">
-          <h3 className="text-xl font-bold text-gray-900 mb-2">What's Next?</h3>
-          <p className="text-sm text-gray-600 mb-6">Reinforce what you just learned with active practice.</p>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">{t("pages.lessonDetail.whatsNext")}</h3>
+          <p className="text-sm text-gray-600 mb-6">{t("pages.lessonDetail.reinforceWhatYouJustLearned")}</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <LocaleLink href="/free-practice" className="block" data-testid="cta-practice-questions">
               <div className="h-full p-4 rounded-xl bg-white border border-gray-200 hover:border-primary/30 hover:shadow-md transition-all group cursor-pointer">
                 <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
                   <ClipboardList className="w-5 h-5 text-primary" />
                 </div>
-                <h4 className="font-semibold text-gray-900 text-sm mb-1">Practice Questions</h4>
-                <p className="text-xs text-gray-500">Test your knowledge with exam-style questions</p>
+                <h4 className="font-semibold text-gray-900 text-sm mb-1">{t("pages.lessonDetail.practiceQuestions")}</h4>
+                <p className="text-xs text-gray-500">{t("pages.lessonDetail.testYourKnowledgeWithExamstyle")}</p>
               </div>
             </LocaleLink>
             <LocaleLink href="/flashcards" className="block" data-testid="cta-flashcards">
@@ -3790,8 +3790,8 @@ export default function LessonDetail() {
                 <div className="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center mb-3 group-hover:bg-emerald-100 transition-colors">
                   <StickyNote className="w-5 h-5 text-emerald-600" />
                 </div>
-                <h4 className="font-semibold text-gray-900 text-sm mb-1">Review Flashcards</h4>
-                <p className="text-xs text-gray-500">Build a deck for this topic</p>
+                <h4 className="font-semibold text-gray-900 text-sm mb-1">{t("pages.lessonDetail.reviewFlashcards")}</h4>
+                <p className="text-xs text-gray-500">{t("pages.lessonDetail.buildADeckForThis")}</p>
               </div>
             </LocaleLink>
             <LocaleLink href="/mock-exams" className="block" data-testid="cta-mock-exam">
@@ -3799,8 +3799,8 @@ export default function LessonDetail() {
                 <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center mb-3 group-hover:bg-amber-100 transition-colors">
                   <Trophy className="w-5 h-5 text-amber-600" />
                 </div>
-                <h4 className="font-semibold text-gray-900 text-sm mb-1">Take a Mock Exam</h4>
-                <p className="text-xs text-gray-500">Simulate exam conditions</p>
+                <h4 className="font-semibold text-gray-900 text-sm mb-1">{t("pages.lessonDetail.takeAMockExam")}</h4>
+                <p className="text-xs text-gray-500">{t("pages.lessonDetail.simulateExamConditions")}</p>
               </div>
             </LocaleLink>
             {!user ? (
@@ -3809,8 +3809,8 @@ export default function LessonDetail() {
                   <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
                     <Crown className="w-5 h-5 text-primary" />
                   </div>
-                  <h4 className="font-semibold text-primary text-sm mb-1">Start Free</h4>
-                  <p className="text-xs text-gray-500">Save progress & track mastery</p>
+                  <h4 className="font-semibold text-primary text-sm mb-1">{t("pages.lessonDetail.startFree")}</h4>
+                  <p className="text-xs text-gray-500">{t("pages.lessonDetail.saveProgressTrackMastery")}</p>
                 </div>
               </LocaleLink>
             ) : (
@@ -3819,8 +3819,8 @@ export default function LessonDetail() {
                   <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mb-3 group-hover:bg-blue-100 transition-colors">
                     <BarChart3 className="w-5 h-5 text-blue-600" />
                   </div>
-                  <h4 className="font-semibold text-gray-900 text-sm mb-1">View Dashboard</h4>
-                  <p className="text-xs text-gray-500">Track your study progress</p>
+                  <h4 className="font-semibold text-gray-900 text-sm mb-1">{t("pages.lessonDetail.viewDashboard")}</h4>
+                  <p className="text-xs text-gray-500">{t("pages.lessonDetail.trackYourStudyProgress")}</p>
                 </div>
               </LocaleLink>
             )}

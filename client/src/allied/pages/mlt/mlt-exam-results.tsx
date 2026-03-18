@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useParams } from "wouter";
 import { Trophy, TrendingUp, AlertTriangle, CheckCircle, XCircle, BarChart3, Target, ArrowRight, Microscope, BookOpen } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface ExamReport {
   sessionId: string;
   mode: string;
@@ -21,6 +22,7 @@ interface ExamReport {
 }
 
 export default function MltExamResults() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
   const { sessionId } = useParams();
   const [report, setReport] = useState<ExamReport | null>(null);
@@ -57,7 +59,7 @@ export default function MltExamResults() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center space-y-3">
           <div className="w-8 h-8 border-3 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-500">Loading results...</p>
+          <p className="text-gray-500">{t("allied.mltMltExamResults.loadingResults")}</p>
         </div>
       </div>
     );
@@ -67,7 +69,7 @@ export default function MltExamResults() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <AlertTriangle className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
-        <h2 className="text-xl font-bold text-gray-900 mb-2">Results Unavailable</h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-2">{t("allied.mltMltExamResults.resultsUnavailable")}</h2>
         <p className="text-gray-600 mb-4">{error || "No results found for this session."}</p>
         <button onClick={() => setLocation("/allied-health/mlt/exams")} className="px-6 py-2.5 bg-purple-600 text-white rounded-xl text-sm font-medium hover:bg-purple-700" data-testid="button-back-to-hub-results">
           Back to Exam Hub
@@ -112,19 +114,19 @@ export default function MltExamResults() {
         <div className="flex items-center justify-center gap-8">
           <div>
             <p className="text-5xl font-black text-gray-900" data-testid="text-result-score">{report.score}%</p>
-            <p className="text-sm text-gray-500">Overall Score</p>
+            <p className="text-sm text-gray-500">{t("allied.mltMltExamResults.overallScore")}</p>
           </div>
           <div className="h-16 w-px bg-gray-200" />
           <div>
             <p className="text-3xl font-bold text-gray-900">{report.correctCount}/{report.totalQuestions}</p>
-            <p className="text-sm text-gray-500">Correct</p>
+            <p className="text-sm text-gray-500">{t("allied.mltMltExamResults.correct")}</p>
           </div>
           {report.abilityBand && (
             <>
               <div className="h-16 w-px bg-gray-200" />
               <div>
                 <p className="text-lg font-bold text-gray-900" data-testid="text-ability-band">{report.abilityBand}</p>
-                <p className="text-sm text-gray-500">Ability Band</p>
+                <p className="text-sm text-gray-500">{t("allied.mltMltExamResults.abilityBand")}</p>
               </div>
             </>
           )}
@@ -227,8 +229,8 @@ export default function MltExamResults() {
             <span>Q{report.difficultyProgression.length}</span>
           </div>
           <div className="flex items-center gap-4 mt-3 text-xs text-gray-500">
-            <span className="flex items-center gap-1"><span className="w-3 h-3 bg-green-400 rounded" /> Correct</span>
-            <span className="flex items-center gap-1"><span className="w-3 h-3 bg-red-400 rounded" /> Incorrect</span>
+            <span className="flex items-center gap-1"><span className="w-3 h-3 bg-green-400 rounded" /> {t("allied.mltMltExamResults.correct2")}</span>
+            <span className="flex items-center gap-1"><span className="w-3 h-3 bg-red-400 rounded" /> {t("allied.mltMltExamResults.incorrect")}</span>
           </div>
         </div>
       )}

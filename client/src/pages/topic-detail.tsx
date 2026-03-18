@@ -8,6 +8,7 @@ import { slugToDisplayName } from "@/lib/canonical-display";
 import type { Topic, TopicResource } from "@/data/topics";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowLeft, BookOpen, HelpCircle, Layers, Briefcase, GraduationCap,
   Heart, Wind, Brain, Droplets, Zap, Activity, Baby, Eye, Pill, ClipboardList,
@@ -19,6 +20,7 @@ const iconMap: Record<string, any> = {
 };
 
 function getBodySystemIcon(system: string) {
+
   const iconName = BODY_SYSTEM_ICONS[system];
   return iconMap[iconName] || Activity;
 }
@@ -165,10 +167,10 @@ function TopicDetailContent() {
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
         <Navigation />
         <main className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold mb-4" data-testid="text-topic-not-found">Topic Not Found</h1>
-          <p className="text-gray-600 mb-6">The topic you're looking for doesn't exist.</p>
+          <h1 className="text-2xl font-bold mb-4" data-testid="text-topic-not-found">{t("pages.topicDetail.topicNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.topicDetail.theTopicYoureLookingFor")}</p>
           <LocaleLink href="/topics">
-            <Button data-testid="link-back-topics">Browse All Topics</Button>
+            <Button data-testid="link-back-topics">{t("pages.topicDetail.browseAllTopics")}</Button>
           </LocaleLink>
         </main>
         <Footer />
@@ -226,22 +228,22 @@ function TopicDetailContent() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <ResourceSection
-            title="Related Lessons"
+            title={t("pages.topicDetail.relatedLessons")}
             resources={topic.relatedLessons}
             icon={BookOpen}
           />
           <ResourceSection
-            title="Practice Questions"
+            title={t("pages.topicDetail.practiceQuestions")}
             resources={topic.practiceQuestions}
             icon={HelpCircle}
           />
           <ResourceSection
-            title="Flashcard Topics"
+            title={t("pages.topicDetail.flashcardTopics")}
             resources={topic.flashcardTopics}
             icon={Layers}
           />
           <ResourceSection
-            title="New Grad Clinical Tips"
+            title={t("pages.topicDetail.newGradClinicalTips")}
             resources={topic.newGradTips}
             icon={GraduationCap}
             emptyMessage="No specific new grad tips for this topic yet."
@@ -283,14 +285,14 @@ function TopicDetailContent() {
         )}
 
         <ResourceSection
-          title="Related Career Paths"
+          title={t("pages.topicDetail.relatedCareerPaths")}
           resources={topic.careerPaths}
           icon={Briefcase}
         />
 
         {topic.relatedTopicSlugs.length > 0 && (
           <div className="mt-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4" data-testid="heading-related-topics">Related Topics</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4" data-testid="heading-related-topics">{t("pages.topicDetail.relatedTopics")}</h2>
             <div className="flex flex-wrap gap-2">
               {topic.relatedTopicSlugs.map((relatedSlug) => {
                 const displayName = relatedSlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());

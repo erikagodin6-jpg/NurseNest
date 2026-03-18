@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useAuth } from "@/lib/auth";
 import { getMockExamCountByExamCode } from "@/lib/flagship-mock-exam-configs";
+import { useI18n } from "@/lib/i18n";
 import {
   GraduationCap,
   Clock,
@@ -29,6 +30,7 @@ const PROFESSION_TO_EXAM_CODE: Record<string, string[]> = {
 };
 
 function useMockExamCounts(): Record<string, number> {
+  const { t } = useI18n();
   const [counts, setCounts] = useState<Record<string, number>>(getMockExamCountByExamCode());
 
   useEffect(() => {
@@ -68,7 +70,7 @@ export function MockExamTeaser({ profession, examCode }: MockExamTeaserProps) {
     <div className="space-y-4" data-testid="mock-exam-teaser">
       <div className="flex items-center gap-2">
         <GraduationCap className="w-5 h-5 text-amber-600" />
-        <h3 className="text-lg font-bold text-gray-900">Test Your Readiness</h3>
+        <h3 className="text-lg font-bold text-gray-900">{t("components.conversionFunnelMockExamTeaser.testYourReadiness")}</h3>
       </div>
 
       <Card className="border-amber-200/60 bg-gradient-to-br from-amber-50/80 to-orange-50/30 overflow-hidden" data-testid="card-mock-exam-teaser">
@@ -93,23 +95,23 @@ export function MockExamTeaser({ profession, examCode }: MockExamTeaserProps) {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
               <div className="bg-white/80 rounded-xl p-3 text-center border border-amber-100">
                 <Clock className="w-5 h-5 text-amber-600 mx-auto mb-1" />
-                <p className="text-xs font-semibold text-gray-700">Timed</p>
-                <p className="text-[10px] text-gray-500">Real exam pacing</p>
+                <p className="text-xs font-semibold text-gray-700">{t("components.conversionFunnelMockExamTeaser.timed")}</p>
+                <p className="text-[10px] text-gray-500">{t("components.conversionFunnelMockExamTeaser.realExamPacing")}</p>
               </div>
               <div className="bg-white/80 rounded-xl p-3 text-center border border-amber-100">
                 <Brain className="w-5 h-5 text-amber-600 mx-auto mb-1" />
-                <p className="text-xs font-semibold text-gray-700">Adaptive</p>
-                <p className="text-[10px] text-gray-500">Adjusts difficulty</p>
+                <p className="text-xs font-semibold text-gray-700">{t("components.conversionFunnelMockExamTeaser.adaptive")}</p>
+                <p className="text-[10px] text-gray-500">{t("components.conversionFunnelMockExamTeaser.adjustsDifficulty")}</p>
               </div>
               <div className="bg-white/80 rounded-xl p-3 text-center border border-amber-100">
                 <BarChart3 className="w-5 h-5 text-amber-600 mx-auto mb-1" />
-                <p className="text-xs font-semibold text-gray-700">Analytics</p>
-                <p className="text-[10px] text-gray-500">Score breakdown</p>
+                <p className="text-xs font-semibold text-gray-700">{t("components.conversionFunnelMockExamTeaser.analytics")}</p>
+                <p className="text-[10px] text-gray-500">{t("components.conversionFunnelMockExamTeaser.scoreBreakdown")}</p>
               </div>
               <div className="bg-white/80 rounded-xl p-3 text-center border border-amber-100">
                 <Target className="w-5 h-5 text-amber-600 mx-auto mb-1" />
-                <p className="text-xs font-semibold text-gray-700">Domains</p>
-                <p className="text-[10px] text-gray-500">By body system</p>
+                <p className="text-xs font-semibold text-gray-700">{t("components.conversionFunnelMockExamTeaser.domains")}</p>
+                <p className="text-[10px] text-gray-500">{t("components.conversionFunnelMockExamTeaser.byBodySystem")}</p>
               </div>
             </div>
 

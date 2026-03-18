@@ -77,8 +77,8 @@ function GlossaryIndex() {
   return (
     <>
       <SEO
-        title="Nursing Glossary – 100+ Essential Nursing Terms & Definitions"
-        description="Comprehensive nursing glossary with 100+ essential terms, definitions, and clinical explanations. From anatomy and pharmacology to ECG interpretation and lab values."
+        title={t("pages.glossary.nursingGlossary100EssentialNursing")}
+        description={t("pages.glossary.comprehensiveNursingGlossaryWith100")}
         keywords="nursing glossary, nursing terms, nursing definitions, medical terminology, NCLEX vocabulary, nursing dictionary"
         canonicalPath="/glossary"
         structuredData={faqStructuredData}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
+import { useI18n } from "@/lib/i18n";
 type AuscultationSite = {
   id: string;
   label: string;
@@ -86,16 +87,17 @@ function TorsoSVG({ sites, view, selectedSite, onSelectSite }: {
 }
 
 function SiteInfoPanel({ site }: { site: AuscultationSite }) {
+  const { t } = useI18n();
   return (
     <div className="p-4 bg-blue-50 rounded-xl border border-blue-200 space-y-3" data-testid={`panel-site-${site.id}`}>
       <h4 className="font-bold text-blue-900 text-base">{site.label}</h4>
       <p className="text-sm text-gray-700">{site.description}</p>
       <div className="space-y-1">
-        <p className="text-xs font-semibold text-blue-700 uppercase tracking-wider">Normal Sound</p>
+        <p className="text-xs font-semibold text-blue-700 uppercase tracking-wider">{t("components.auscultationSitesDiagram.normalSound")}</p>
         <p className="text-sm text-gray-800">{site.normalSound}</p>
       </div>
       <div className="space-y-1">
-        <p className="text-xs font-semibold text-red-600 uppercase tracking-wider">Abnormal Findings</p>
+        <p className="text-xs font-semibold text-red-600 uppercase tracking-wider">{t("components.auscultationSitesDiagram.abnormalFindings")}</p>
         <ul className="space-y-1">
           {site.abnormalFindings.map((f, i) => (
             <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
@@ -120,7 +122,7 @@ export function AuscultationSitesDiagram() {
     <Card className="border-blue-200 bg-gradient-to-b from-blue-50/50 to-white" data-testid="card-auscultation-diagram">
       <CardContent className="p-5 space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-bold text-gray-900">Auscultation Sites</h3>
+          <h3 className="text-lg font-bold text-gray-900">{t("components.auscultationSitesDiagram.auscultationSites")}</h3>
           <div className="flex gap-1">
             <Button
               variant={view === "anterior" ? "default" : "outline"}
@@ -140,7 +142,7 @@ export function AuscultationSitesDiagram() {
             </Button>
           </div>
         </div>
-        <p className="text-sm text-gray-500">Tap a numbered site to learn what you should hear at that location and what abnormal findings to watch for.</p>
+        <p className="text-sm text-gray-500">{t("components.auscultationSitesDiagram.tapANumberedSiteTo")}</p>
         <div className="grid md:grid-cols-2 gap-4 items-start">
           <TorsoSVG
             sites={sites}
@@ -153,21 +155,21 @@ export function AuscultationSitesDiagram() {
               <SiteInfoPanel site={activeSite} />
             ) : (
               <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 text-center">
-                <p className="text-sm text-gray-500">Select a site on the diagram to view details</p>
+                <p className="text-sm text-gray-500">{t("components.auscultationSitesDiagram.selectASiteOnThe")}</p>
                 <div className="mt-3 text-xs text-gray-400 space-y-1">
                   <p>Anterior: {ANTERIOR_SITES.length} sites (including tracheal)</p>
                   <p>Posterior: {POSTERIOR_SITES.length} sites</p>
-                  <p className="mt-2 font-medium">Always auscultate side-to-side for comparison</p>
+                  <p className="mt-2 font-medium">{t("components.auscultationSitesDiagram.alwaysAuscultateSidetosideForComparison")}</p>
                 </div>
               </div>
             )}
             <div className="p-3 bg-amber-50 rounded-lg border border-amber-200">
-              <p className="text-xs font-semibold text-amber-800 mb-1">Technique Reminders</p>
+              <p className="text-xs font-semibold text-amber-800 mb-1">{t("components.auscultationSitesDiagram.techniqueReminders")}</p>
               <ul className="text-xs text-amber-700 space-y-1">
-                <li>- Use the diaphragm of the stethoscope</li>
-                <li>- Patient upright, breathing deeply through open mouth</li>
-                <li>- Listen for at least one full respiratory cycle at each site</li>
-                <li>- Compare bilateral lung fields side-to-side</li>
+                <li>{t("components.auscultationSitesDiagram.useTheDiaphragmOfThe")}</li>
+                <li>{t("components.auscultationSitesDiagram.patientUprightBreathingDeeplyThrough")}</li>
+                <li>{t("components.auscultationSitesDiagram.listenForAtLeastOne")}</li>
+                <li>{t("components.auscultationSitesDiagram.compareBilateralLungFieldsSidetoside")}</li>
               </ul>
             </div>
           </div>

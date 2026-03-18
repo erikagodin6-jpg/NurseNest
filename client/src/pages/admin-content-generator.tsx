@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useI18n } from "@/lib/i18n";
 import {
   HelpCircle,
   Layers,
@@ -77,6 +78,7 @@ const CONTENT_TYPE_ICONS: Record<string, React.ReactNode> = {
 };
 
 export default function AdminContentGenerator() {
+  const { t } = useI18n();
   const [selectedTierGroup, setSelectedTierGroup] = useState<string>("nursing");
   const [selectedTier, setSelectedTier] = useState<string>("");
   const [selectedContentType, setSelectedContentType] = useState<string>("questions");
@@ -192,38 +194,38 @@ export default function AdminContentGenerator() {
 
       <Tabs defaultValue="generate" className="space-y-4">
         <TabsList data-testid="tabs-list">
-          <TabsTrigger value="generate" data-testid="tab-generate">Generate</TabsTrigger>
-          <TabsTrigger value="logs" data-testid="tab-logs">Run Logs</TabsTrigger>
-          <TabsTrigger value="caps" data-testid="tab-caps">Daily Caps</TabsTrigger>
+          <TabsTrigger value="generate" data-testid="tab-generate">{t("pages.adminContentGenerator.generate")}</TabsTrigger>
+          <TabsTrigger value="logs" data-testid="tab-logs">{t("pages.adminContentGenerator.runLogs")}</TabsTrigger>
+          <TabsTrigger value="caps" data-testid="tab-caps">{t("pages.adminContentGenerator.dailyCaps")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="generate" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Configuration</CardTitle>
+                <CardTitle className="text-lg">{t("pages.adminContentGenerator.configuration")}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label>Tier Group</Label>
+                  <Label>{t("pages.adminContentGenerator.tierGroup")}</Label>
                   <Select value={selectedTierGroup} onValueChange={setSelectedTierGroup} data-testid="select-tier-group">
                     <SelectTrigger data-testid="select-tier-group-trigger">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="nursing">Nursing</SelectItem>
-                      <SelectItem value="np_specialty">NP Specialties</SelectItem>
-                      <SelectItem value="allied_health">Allied Health</SelectItem>
-                      <SelectItem value="certification_prep">Certification Prep</SelectItem>
+                      <SelectItem value="nursing">{t("pages.adminContentGenerator.nursing")}</SelectItem>
+                      <SelectItem value="np_specialty">{t("pages.adminContentGenerator.npSpecialties")}</SelectItem>
+                      <SelectItem value="allied_health">{t("pages.adminContentGenerator.alliedHealth")}</SelectItem>
+                      <SelectItem value="certification_prep">{t("pages.adminContentGenerator.certificationPrep")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Tier / Profession</Label>
+                  <Label>{t("pages.adminContentGenerator.tierProfession")}</Label>
                   <Select value={selectedTier} onValueChange={setSelectedTier} data-testid="select-tier">
                     <SelectTrigger data-testid="select-tier-trigger">
-                      <SelectValue placeholder="Select tier..." />
+                      <SelectValue placeholder={t("pages.adminContentGenerator.selectTier")} />
                     </SelectTrigger>
                     <SelectContent>
                       {tierOptions.map((t: any) => (
@@ -236,7 +238,7 @@ export default function AdminContentGenerator() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Content Type</Label>
+                  <Label>{t("pages.adminContentGenerator.contentType")}</Label>
                   <Select value={selectedContentType} onValueChange={setSelectedContentType} data-testid="select-content-type">
                     <SelectTrigger data-testid="select-content-type-trigger">
                       <SelectValue />
@@ -255,7 +257,7 @@ export default function AdminContentGenerator() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Topic</Label>
+                  <Label>{t("pages.adminContentGenerator.topic")}</Label>
                   <Input
                     value={topic}
                     onChange={(e) => setTopic(e.target.value)}
@@ -281,10 +283,10 @@ export default function AdminContentGenerator() {
                 {selectedContentType === "blog_articles" && (
                   <>
                     <div className="space-y-2">
-                      <Label>Article Template</Label>
+                      <Label>{t("pages.adminContentGenerator.articleTemplate")}</Label>
                       <Select value={template} onValueChange={setTemplate} data-testid="select-template">
                         <SelectTrigger data-testid="select-template-trigger">
-                          <SelectValue placeholder="Select template..." />
+                          <SelectValue placeholder={t("pages.adminContentGenerator.selectTemplate")} />
                         </SelectTrigger>
                         <SelectContent>
                           {blogTemplates.map((t: any) => (
@@ -296,7 +298,7 @@ export default function AdminContentGenerator() {
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label>Target SEO Keyword (optional)</Label>
+                      <Label>{t("pages.adminContentGenerator.targetSeoKeywordOptional")}</Label>
                       <Input
                         value={targetKeyword}
                         onChange={(e) => setTargetKeyword(e.target.value)}
@@ -309,7 +311,7 @@ export default function AdminContentGenerator() {
 
                 {selectedContentType === "lessons" && (
                   <div className="space-y-2">
-                    <Label>Body System</Label>
+                    <Label>{t("pages.adminContentGenerator.bodySystem")}</Label>
                     <Select value={bodySystem} onValueChange={setBodySystem} data-testid="select-body-system">
                       <SelectTrigger data-testid="select-body-system-trigger">
                         <SelectValue />
@@ -325,14 +327,14 @@ export default function AdminContentGenerator() {
 
                 {selectedContentType === "questions" && (
                   <div className="space-y-2">
-                    <Label>Region</Label>
+                    <Label>{t("pages.adminContentGenerator.region")}</Label>
                     <Select value={region} onValueChange={setRegion} data-testid="select-region">
                       <SelectTrigger data-testid="select-region-trigger">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="CA">Canada (SI Units)</SelectItem>
-                        <SelectItem value="US">United States (Conventional)</SelectItem>
+                        <SelectItem value="CA">{t("pages.adminContentGenerator.canadaSiUnits")}</SelectItem>
+                        <SelectItem value="US">{t("pages.adminContentGenerator.unitedStatesConventional")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -361,14 +363,14 @@ export default function AdminContentGenerator() {
 
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Result Preview</CardTitle>
+                <CardTitle className="text-lg">{t("pages.adminContentGenerator.resultPreview")}</CardTitle>
               </CardHeader>
               <CardContent>
                 {generateMutation.isPending && (
                   <div className="flex flex-col items-center justify-center py-12 text-gray-400">
                     <RefreshCw className="h-12 w-12 animate-spin mb-4 text-[#BFA6F6]" />
-                    <p>Generating content...</p>
-                    <p className="text-xs mt-1">This may take 15-30 seconds</p>
+                    <p>{t("pages.adminContentGenerator.generatingContent")}</p>
+                    <p className="text-xs mt-1">{t("pages.adminContentGenerator.thisMayTake1530Seconds")}</p>
                   </div>
                 )}
 
@@ -376,7 +378,7 @@ export default function AdminContentGenerator() {
                   <div className="p-4 bg-red-50 rounded-lg" data-testid="text-generation-error">
                     <div className="flex items-center gap-2 text-red-700 mb-2">
                       <XCircle className="h-4 w-4" />
-                      <span className="font-medium">Generation Failed</span>
+                      <span className="font-medium">{t("pages.adminContentGenerator.generationFailed")}</span>
                     </div>
                     <p className="text-sm text-red-600">{(generateMutation.error as Error).message}</p>
                   </div>
@@ -397,22 +399,22 @@ export default function AdminContentGenerator() {
 
                     <div className="grid grid-cols-2 gap-2 text-sm">
                       <div className="bg-gray-50 rounded p-2">
-                        <span className="text-gray-500">Type:</span>{" "}
+                        <span className="text-gray-500">{t("pages.adminContentGenerator.type")}</span>{" "}
                         <span className="font-medium">{generationResult.contentType}</span>
                       </div>
                       <div className="bg-gray-50 rounded p-2">
-                        <span className="text-gray-500">Tier:</span>{" "}
+                        <span className="text-gray-500">{t("pages.adminContentGenerator.tier")}</span>{" "}
                         <span className="font-medium">{generationResult.tier}</span>
                       </div>
                       {generationResult.itemCount !== undefined && (
                         <div className="bg-gray-50 rounded p-2">
-                          <span className="text-gray-500">Items:</span>{" "}
+                          <span className="text-gray-500">{t("pages.adminContentGenerator.items")}</span>{" "}
                           <span className="font-medium">{generationResult.itemCount}</span>
                         </div>
                       )}
                       {generationResult.batchSize && (
                         <div className="bg-gray-50 rounded p-2">
-                          <span className="text-gray-500">Batch:</span>{" "}
+                          <span className="text-gray-500">{t("pages.adminContentGenerator.batch")}</span>{" "}
                           <span className="font-medium">{generationResult.batchSize}</span>
                         </div>
                       )}
@@ -434,7 +436,7 @@ export default function AdminContentGenerator() {
 
                     {generationResult.items && generationResult.items.length > 0 && (
                       <div className="border rounded p-3 max-h-[300px] overflow-y-auto">
-                        <p className="text-xs text-gray-500 mb-2">Preview (first item):</p>
+                        <p className="text-xs text-gray-500 mb-2">{t("pages.adminContentGenerator.previewFirstItem")}</p>
                         <pre className="text-xs bg-gray-50 p-2 rounded whitespace-pre-wrap">
                           {JSON.stringify(generationResult.items[0], null, 2).substring(0, 500)}
                         </pre>
@@ -466,7 +468,7 @@ export default function AdminContentGenerator() {
                 {!generationResult && !generateMutation.isPending && !generateMutation.isError && (
                   <div className="flex flex-col items-center justify-center py-12 text-gray-300">
                     <Activity className="h-12 w-12 mb-4" />
-                    <p className="text-gray-400">Configure and generate to see results</p>
+                    <p className="text-gray-400">{t("pages.adminContentGenerator.configureAndGenerateToSee")}</p>
                   </div>
                 )}
               </CardContent>
@@ -477,7 +479,7 @@ export default function AdminContentGenerator() {
         <TabsContent value="logs" className="space-y-4">
           <Card>
             <CardHeader className="pb-3 flex flex-row items-center justify-between">
-              <CardTitle className="text-lg">Generation Run Logs</CardTitle>
+              <CardTitle className="text-lg">{t("pages.adminContentGenerator.generationRunLogs")}</CardTitle>
               <Button
                 variant="outline"
                 size="sm"
@@ -490,7 +492,7 @@ export default function AdminContentGenerator() {
             </CardHeader>
             <CardContent>
               {logs.length === 0 ? (
-                <p className="text-gray-400 text-center py-8" data-testid="text-no-logs">No generation runs yet</p>
+                <p className="text-gray-400 text-center py-8" data-testid="text-no-logs">{t("pages.adminContentGenerator.noGenerationRunsYet")}</p>
               ) : (
                 <div className="space-y-2" data-testid="list-run-logs">
                   {logs.map((log) => (
@@ -541,7 +543,7 @@ export default function AdminContentGenerator() {
         <TabsContent value="caps" className="space-y-4">
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-lg">Daily Generation Caps</CardTitle>
+              <CardTitle className="text-lg">{t("pages.adminContentGenerator.dailyGenerationCaps")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4" data-testid="grid-daily-caps">

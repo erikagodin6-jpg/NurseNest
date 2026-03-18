@@ -4,6 +4,7 @@ import { Link, useParams } from "wouter";
 import { Brain, ChevronRight, ArrowRight, RotateCcw, ChevronLeft, Shuffle, Globe } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 
+import { useI18n } from "@/lib/i18n";
 const CERT_OPTIONS = [
   { value: "", label: "All Content" },
   { value: "PTCB", label: "US (PTCB/ExCPT)" },
@@ -11,6 +12,7 @@ const CERT_OPTIONS = [
 ];
 
 function CertBadge({ certContext }: { certContext?: string }) {
+  const { t } = useI18n();
   if (!certContext || certContext === "BOTH") return null;
   if (certContext === "PTCB") return <span className="inline-block px-1.5 py-0.5 bg-blue-50 text-blue-700 rounded text-[10px] font-medium">US</span>;
   if (certContext === "PEBC") return <span className="inline-block px-1.5 py-0.5 bg-red-50 text-red-700 rounded text-[10px] font-medium">CA</span>;
@@ -31,18 +33,18 @@ function DeckLibrary() {
   return (
     <>
       <AlliedSEO
-        title="Pharmacy Technician Flashcards - Study Decks by Topic"
-        description="Master pharmacy technician concepts with interactive flashcard decks organized by exam topic. Covers pharmacology, dosage calculations, pharmacy law, compounding, and more."
+        title={t("allied.pharmtechFlashcards.pharmacyTechnicianFlashcardsStudyDecks")}
+        description={t("allied.pharmtechFlashcards.masterPharmacyTechnicianConceptsWith")}
         canonicalPath="/allied-health/pharmacy-technician/flashcards"
       />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-flashcards-page">
         <div className="flex items-center gap-2 text-sm text-foreground/60 mb-6">
-          <Link href="/allied-health/pharmacy-technician" className="hover:text-primary">Pharmacy Technician</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-primary">{t("allied.pharmtechFlashcards.pharmacyTechnician")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-primary font-medium">Flashcards</span>
+          <span className="text-primary font-medium">{t("allied.pharmtechFlashcards.flashcards")}</span>
         </div>
 
-        <h1 className="text-2xl font-bold text-foreground mb-2" data-testid="text-flashcards-title">Flashcard Decks</h1>
+        <h1 className="text-2xl font-bold text-foreground mb-2" data-testid="text-flashcards-title">{t("allied.pharmtechFlashcards.flashcardDecks")}</h1>
         <p className="text-muted-foreground text-sm mb-4">{decks.length} decks available — tap to study</p>
 
         <div className="flex items-center gap-1.5 mb-8" data-testid="cert-filter-decks">
@@ -125,7 +127,7 @@ function DeckDetail() {
   }, [currentIndex]);
 
   if (loading) return <div className="flex justify-center py-20"><div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin" /></div>;
-  if (!deck) return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Deck Not Found</h1></div>;
+  if (!deck) return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">{t("allied.pharmtechFlashcards.deckNotFound")}</h1></div>;
 
   const card = cards[currentIndex];
 
@@ -138,9 +140,9 @@ function DeckDetail() {
       />
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-deck-detail">
         <div className="flex items-center gap-2 text-sm text-foreground/60 mb-6">
-          <Link href="/allied-health/pharmacy-technician" className="hover:text-primary">Pharmacy Technician</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-primary">{t("allied.pharmtechFlashcards.pharmacyTechnician2")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <Link href="/allied-health/pharmacy-technician/flashcards" className="hover:text-primary">Flashcards</Link>
+          <Link href="/allied-health/pharmacy-technician/flashcards" className="hover:text-primary">{t("allied.pharmtechFlashcards.flashcards2")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-primary font-medium truncate">{deck.title}</span>
         </div>
@@ -196,7 +198,7 @@ function DeckDetail() {
         ) : (
           <div className="text-center py-20">
             <Brain className="w-12 h-12 text-muted-foreground/60 mx-auto mb-4" />
-            <p className="text-muted-foreground">No cards in this deck yet.</p>
+            <p className="text-muted-foreground">{t("allied.pharmtechFlashcards.noCardsInThisDeck")}</p>
           </div>
         )}
       </div>

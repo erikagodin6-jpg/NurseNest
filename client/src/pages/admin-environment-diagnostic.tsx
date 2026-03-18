@@ -8,6 +8,7 @@ import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { Stethoscope, RefreshCw, CheckCircle, XCircle, AlertTriangle, Play } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface DiagnosticCheck {
   name: string;
   status: "pass" | "fail" | "warn";
@@ -29,6 +30,7 @@ interface DiagnosticResult {
 }
 
 export default function AdminEnvironmentDiagnostic() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const [diagnostics, setDiagnostics] = useState<DiagnosticResult | null>(null);
@@ -98,25 +100,25 @@ export default function AdminEnvironmentDiagnostic() {
           <div className="flex items-center gap-4">
             <Stethoscope className="w-8 h-8 text-indigo-600" />
             <div>
-              <h1 className="text-2xl font-bold" data-testid="text-diagnostic-title">Environment & Publish Check</h1>
-              <p className="text-sm text-gray-500">Test database targets, write readiness, and audit pipeline</p>
+              <h1 className="text-2xl font-bold" data-testid="text-diagnostic-title">{t("pages.adminEnvironmentDiagnostic.environmentPublishCheck")}</h1>
+              <p className="text-sm text-gray-500">{t("pages.adminEnvironmentDiagnostic.testDatabaseTargetsWriteReadiness")}</p>
             </div>
           </div>
           <EnvironmentBadge />
         </div>
 
         {loading ? (
-          <div className="text-center py-12 text-gray-500" data-testid="text-loading">Running diagnostics...</div>
+          <div className="text-center py-12 text-gray-500" data-testid="text-loading">{t("pages.adminEnvironmentDiagnostic.runningDiagnostics")}</div>
         ) : diagnostics ? (
           <>
             <Card>
               <CardHeader>
-                <CardTitle>Environment Overview</CardTitle>
+                <CardTitle>{t("pages.adminEnvironmentDiagnostic.environmentOverview")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
                   <div>
-                    <span className="text-gray-500">App Mode:</span>
+                    <span className="text-gray-500">{t("pages.adminEnvironmentDiagnostic.appMode")}</span>
                     <Badge
                       className={`ml-2 ${
                         diagnostics.environment.appMode === "production"
@@ -129,29 +131,29 @@ export default function AdminEnvironmentDiagnostic() {
                     </Badge>
                   </div>
                   <div>
-                    <span className="text-gray-500">Database:</span>
+                    <span className="text-gray-500">{t("pages.adminEnvironmentDiagnostic.database")}</span>
                     <span className="ml-2 font-medium" data-testid="text-db-target">
                       {diagnostics.environment.hasSeparateProd ? "Separate Prod DB" : "Shared DB"}
                     </span>
                   </div>
                   <div>
-                    <span className="text-gray-500">Dev Fingerprint:</span>
+                    <span className="text-gray-500">{t("pages.adminEnvironmentDiagnostic.devFingerprint")}</span>
                     <span className="ml-2 font-mono text-xs" data-testid="text-dev-fingerprint">
                       {diagnostics.environment.devDbFingerprint?.substring(0, 8)}
                     </span>
                   </div>
                   <div>
-                    <span className="text-gray-500">Prod Fingerprint:</span>
+                    <span className="text-gray-500">{t("pages.adminEnvironmentDiagnostic.prodFingerprint")}</span>
                     <span className="ml-2 font-mono text-xs" data-testid="text-prod-fingerprint">
                       {diagnostics.environment.prodDbFingerprint?.substring(0, 8)}
                     </span>
                   </div>
                   <div>
-                    <span className="text-gray-500">Dev URL:</span>
+                    <span className="text-gray-500">{t("pages.adminEnvironmentDiagnostic.devUrl")}</span>
                     <span className="ml-2 font-mono text-xs">{diagnostics.environment.devUrl}</span>
                   </div>
                   <div>
-                    <span className="text-gray-500">Prod URL:</span>
+                    <span className="text-gray-500">{t("pages.adminEnvironmentDiagnostic.prodUrl")}</span>
                     <span className="ml-2 font-mono text-xs">{diagnostics.environment.prodUrl}</span>
                   </div>
                 </div>
@@ -161,7 +163,7 @@ export default function AdminEnvironmentDiagnostic() {
             <Card>
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle>Diagnostic Checks</CardTitle>
+                  <CardTitle>{t("pages.adminEnvironmentDiagnostic.diagnosticChecks")}</CardTitle>
                   <Button variant="outline" size="sm" onClick={fetchDiagnostics} data-testid="button-refresh">
                     <RefreshCw className="w-4 h-4 mr-1" />
                     Re-run
@@ -195,7 +197,7 @@ export default function AdminEnvironmentDiagnostic() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Test Write Pipeline</CardTitle>
+                <CardTitle>{t("pages.adminEnvironmentDiagnostic.testWritePipeline")}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center gap-4">
@@ -264,7 +266,7 @@ export default function AdminEnvironmentDiagnostic() {
             </Card>
           </>
         ) : (
-          <div className="text-center py-12 text-red-500" data-testid="text-error">Failed to load diagnostics</div>
+          <div className="text-center py-12 text-red-500" data-testid="text-error">{t("pages.adminEnvironmentDiagnostic.failedToLoadDiagnostics")}</div>
         )}
       </div>
 

@@ -11,6 +11,7 @@ import { Navigation } from "@/components/navigation";
 import { adminFetch } from "@/lib/admin-fetch";
 import { useAuth } from "@/lib/auth";
 import { useLocation, Link } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   Search, Plus, Save, Trash2, Eye, Upload, ArrowLeft,
   CheckCircle, XCircle, AlertTriangle, Loader2, X,
@@ -85,12 +86,13 @@ const BODY_SYSTEMS = [
 ];
 
 function ValidationBadges({ item }: { item: FlashcardItem }) {
+  const { t } = useI18n();
   return (
     <div className="flex gap-1 flex-wrap">
-      {!item.hasRationale && <Badge variant="destructive" className="text-[10px] px-1 py-0">No rationale</Badge>}
-      {!item.hasLessons && <Badge className="text-[10px] px-1 py-0 bg-yellow-100 text-yellow-700">No lessons</Badge>}
-      {item.highYield && <Badge className="text-[10px] px-1 py-0 bg-orange-100 text-orange-700"><Zap className="w-2.5 h-2.5 mr-0.5" />High-Yield</Badge>}
-      {item.isFoundational && <Badge className="text-[10px] px-1 py-0 bg-blue-100 text-blue-700"><Globe className="w-2.5 h-2.5 mr-0.5" />Shared</Badge>}
+      {!item.hasRationale && <Badge variant="destructive" className="text-[10px] px-1 py-0">{t("pages.adminFlashcardStudio.noRationale")}</Badge>}
+      {!item.hasLessons && <Badge className="text-[10px] px-1 py-0 bg-yellow-100 text-yellow-700">{t("pages.adminFlashcardStudio.noLessons")}</Badge>}
+      {item.highYield && <Badge className="text-[10px] px-1 py-0 bg-orange-100 text-orange-700"><Zap className="w-2.5 h-2.5 mr-0.5" />{t("pages.adminFlashcardStudio.highyield")}</Badge>}
+      {item.isFoundational && <Badge className="text-[10px] px-1 py-0 bg-blue-100 text-blue-700"><Globe className="w-2.5 h-2.5 mr-0.5" />{t("pages.adminFlashcardStudio.shared")}</Badge>}
     </div>
   );
 }
@@ -548,9 +550,9 @@ export default function AdminFlashcardStudio() {
         <div className="container mx-auto px-4 py-8 max-w-7xl">
           <div className="flex items-center gap-3 mb-6">
             <Link href="/admin">
-              <Button variant="ghost" size="sm" data-testid="button-back-admin"><ArrowLeft className="w-4 h-4 mr-1" /> Admin</Button>
+              <Button variant="ghost" size="sm" data-testid="button-back-admin"><ArrowLeft className="w-4 h-4 mr-1" /> {t("pages.adminFlashcardStudio.admin")}</Button>
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-studio-title">Flashcard Content Studio</h1>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-studio-title">{t("pages.adminFlashcardStudio.flashcardContentStudio")}</h1>
           </div>
 
           <div className="flex gap-2 mb-6 flex-wrap">
@@ -585,7 +587,7 @@ export default function AdminFlashcardStudio() {
                     <div className="relative flex-1 min-w-[200px]">
                       <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
                       <Input
-                        placeholder="Search flashcards..."
+                        placeholder={t("pages.adminFlashcardStudio.searchFlashcards")}
                         value={searchTerm}
                         onChange={(e) => { setSearchTerm(e.target.value); setPage(1); }}
                         className="pl-9"
@@ -595,37 +597,37 @@ export default function AdminFlashcardStudio() {
                     <Select value={filterTier} onValueChange={(v) => { setFilterTier(v); setPage(1); }}>
                       <SelectTrigger className="w-[100px]" data-testid="select-filter-tier"><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All Tiers</SelectItem>
+                        <SelectItem value="all">{t("pages.adminFlashcardStudio.allTiers")}</SelectItem>
                         {TIERS.map(t => <SelectItem key={t} value={t}>{t.toUpperCase()}</SelectItem>)}
                       </SelectContent>
                     </Select>
                     <Select value={filterStatus} onValueChange={(v) => { setFilterStatus(v); setPage(1); }}>
                       <SelectTrigger className="w-[130px]" data-testid="select-filter-status"><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All Statuses</SelectItem>
+                        <SelectItem value="all">{t("pages.adminFlashcardStudio.allStatuses")}</SelectItem>
                         {STATUSES.map(s => <SelectItem key={s} value={s}>{s.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase())}</SelectItem>)}
                       </SelectContent>
                     </Select>
                     <Select value={filterSource} onValueChange={(v) => { setFilterSource(v); setPage(1); }}>
                       <SelectTrigger className="w-[120px]" data-testid="select-filter-source"><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All Sources</SelectItem>
-                        <SelectItem value="manual">Manual</SelectItem>
-                        <SelectItem value="cat_exam">Q-Bank</SelectItem>
-                        <SelectItem value="import">Import</SelectItem>
-                        <SelectItem value="ai">AI Generated</SelectItem>
+                        <SelectItem value="all">{t("pages.adminFlashcardStudio.allSources")}</SelectItem>
+                        <SelectItem value="manual">{t("pages.adminFlashcardStudio.manual")}</SelectItem>
+                        <SelectItem value="cat_exam">{t("pages.adminFlashcardStudio.qbank")}</SelectItem>
+                        <SelectItem value="import">{t("pages.adminFlashcardStudio.import")}</SelectItem>
+                        <SelectItem value="ai">{t("pages.adminFlashcardStudio.aiGenerated")}</SelectItem>
                       </SelectContent>
                     </Select>
                     <Select value={filterDifficulty} onValueChange={(v) => { setFilterDifficulty(v); setPage(1); }}>
                       <SelectTrigger className="w-[120px]" data-testid="select-filter-difficulty"><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All Levels</SelectItem>
+                        <SelectItem value="all">{t("pages.adminFlashcardStudio.allLevels")}</SelectItem>
                         {[1,2,3,4,5].map(d => <SelectItem key={d} value={String(d)}>{DIFFICULTY_LABELS[d]}</SelectItem>)}
                       </SelectContent>
                     </Select>
                     <div className="flex items-center gap-2">
                       <Switch checked={filterHighYield} onCheckedChange={(v) => { setFilterHighYield(v); setPage(1); }} id="hy-filter" data-testid="switch-filter-highyield" />
-                      <Label htmlFor="hy-filter" className="text-xs"><Zap className="w-3 h-3 inline" /> High-Yield</Label>
+                      <Label htmlFor="hy-filter" className="text-xs"><Zap className="w-3 h-3 inline" /> {t("pages.adminFlashcardStudio.highyield2")}</Label>
                     </div>
                   </div>
 
@@ -648,8 +650,8 @@ export default function AdminFlashcardStudio() {
                     <Button size="sm" variant="outline" onClick={() => bulkAction("bulk-publish")} data-testid="button-bulk-publish">
                       <CheckCircle className="w-3 h-3 mr-1" /> Publish
                     </Button>
-                    <Button size="sm" variant="outline" onClick={() => bulkAction("bulk-unpublish")} data-testid="button-bulk-unpublish">Unpublish</Button>
-                    <Button size="sm" variant="outline" onClick={() => bulkAction("bulk-archive")} data-testid="button-bulk-archive">Archive</Button>
+                    <Button size="sm" variant="outline" onClick={() => bulkAction("bulk-unpublish")} data-testid="button-bulk-unpublish">{t("pages.adminFlashcardStudio.unpublish")}</Button>
+                    <Button size="sm" variant="outline" onClick={() => bulkAction("bulk-archive")} data-testid="button-bulk-archive">{t("pages.adminFlashcardStudio.archive")}</Button>
                     <Button size="sm" variant="outline" onClick={() => bulkSetFlags("highYield", true)} data-testid="button-bulk-highyield">
                       <Zap className="w-3 h-3 mr-1" /> Mark High-Yield
                     </Button>
@@ -659,7 +661,7 @@ export default function AdminFlashcardStudio() {
                     <Button size="sm" variant="destructive" onClick={() => bulkAction("bulk-delete")} data-testid="button-bulk-delete">
                       <Trash2 className="w-3 h-3 mr-1" /> Delete
                     </Button>
-                    <Button size="sm" variant="ghost" onClick={() => setSelectedIds(new Set())} data-testid="button-clear-selection">Clear</Button>
+                    <Button size="sm" variant="ghost" onClick={() => setSelectedIds(new Set())} data-testid="button-clear-selection">{t("pages.adminFlashcardStudio.clear")}</Button>
                   </CardContent>
                 </Card>
               )}
@@ -667,9 +669,9 @@ export default function AdminFlashcardStudio() {
               <Card>
                 <CardContent className="p-0">
                   {loading ? (
-                    <div className="p-8 text-center text-gray-400"><Loader2 className="w-5 h-5 animate-spin inline mr-2" />Loading...</div>
+                    <div className="p-8 text-center text-gray-400"><Loader2 className="w-5 h-5 animate-spin inline mr-2" />{t("pages.adminFlashcardStudio.loading")}</div>
                   ) : items.length === 0 ? (
-                    <div className="p-8 text-center text-gray-400">No flashcards found</div>
+                    <div className="p-8 text-center text-gray-400">{t("pages.adminFlashcardStudio.noFlashcardsFound")}</div>
                   ) : (
                     <div className="divide-y">
                       {items.map((item) => (
@@ -744,7 +746,7 @@ export default function AdminFlashcardStudio() {
                   <CardContent className="space-y-4">
                     <div className="grid grid-cols-3 gap-3">
                       <div>
-                        <Label className="text-xs font-medium text-gray-500">Exam Tier *</Label>
+                        <Label className="text-xs font-medium text-gray-500">{t("pages.adminFlashcardStudio.examTier")}</Label>
                         <Select value={editCard?.tier || "rn"} onValueChange={(v) => setEditCard(prev => prev ? { ...prev, tier: v } : null)}>
                           <SelectTrigger data-testid="select-edit-tier"><SelectValue /></SelectTrigger>
                           <SelectContent>
@@ -753,7 +755,7 @@ export default function AdminFlashcardStudio() {
                         </Select>
                       </div>
                       <div>
-                        <Label className="text-xs font-medium text-gray-500">Status</Label>
+                        <Label className="text-xs font-medium text-gray-500">{t("pages.adminFlashcardStudio.status")}</Label>
                         <Select value={editCard?.status || "draft"} onValueChange={(v) => setEditCard(prev => prev ? { ...prev, status: v } : null)}>
                           <SelectTrigger data-testid="select-edit-status"><SelectValue /></SelectTrigger>
                           <SelectContent>
@@ -762,33 +764,33 @@ export default function AdminFlashcardStudio() {
                         </Select>
                       </div>
                       <div>
-                        <Label className="text-xs font-medium text-gray-500">Question Type</Label>
+                        <Label className="text-xs font-medium text-gray-500">{t("pages.adminFlashcardStudio.questionType")}</Label>
                         <Select value={editCard?.questionType || "mcq"} onValueChange={(v) => setEditCard(prev => prev ? { ...prev, questionType: v } : null)}>
                           <SelectTrigger data-testid="select-edit-qtype"><SelectValue /></SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="mcq">Multiple Choice</SelectItem>
-                            <SelectItem value="priority">Priority</SelectItem>
+                            <SelectItem value="mcq">{t("pages.adminFlashcardStudio.multipleChoice")}</SelectItem>
+                            <SelectItem value="priority">{t("pages.adminFlashcardStudio.priority")}</SelectItem>
                             <SelectItem value="sata">SATA</SelectItem>
-                            <SelectItem value="delegation">Delegation</SelectItem>
-                            <SelectItem value="hotspot">Hotspot</SelectItem>
+                            <SelectItem value="delegation">{t("pages.adminFlashcardStudio.delegation")}</SelectItem>
+                            <SelectItem value="hotspot">{t("pages.adminFlashcardStudio.hotspot")}</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                     </div>
 
                     <div>
-                      <Label className="text-xs font-medium text-gray-500">Question Stem (Front) *</Label>
+                      <Label className="text-xs font-medium text-gray-500">{t("pages.adminFlashcardStudio.questionStemFront")}</Label>
                       <Textarea
                         value={editCard?.front || ""}
                         onChange={(e) => setEditCard(prev => prev ? { ...prev, front: e.target.value } : null)}
                         rows={3}
-                        placeholder="Enter the question stem..."
+                        placeholder={t("pages.adminFlashcardStudio.enterTheQuestionStem")}
                         data-testid="input-edit-front"
                       />
                     </div>
 
                     <div>
-                      <Label className="text-xs font-medium text-gray-500 mb-2 block">Options</Label>
+                      <Label className="text-xs font-medium text-gray-500 mb-2 block">{t("pages.adminFlashcardStudio.options")}</Label>
                       {(editCard?.options || []).map((opt: any, i: number) => (
                         <div key={i} className="flex items-center gap-2 mb-2">
                           <Badge
@@ -825,18 +827,18 @@ export default function AdminFlashcardStudio() {
                     </div>
 
                     <div>
-                      <Label className="text-xs font-medium text-gray-500">Correct Answer Rationale *</Label>
+                      <Label className="text-xs font-medium text-gray-500">{t("pages.adminFlashcardStudio.correctAnswerRationale")}</Label>
                       <Textarea
                         value={editCard?.rationaleCorrect || ""}
                         onChange={(e) => setEditCard(prev => prev ? { ...prev, rationaleCorrect: e.target.value } : null)}
                         rows={3}
-                        placeholder="Explain why the correct answer is right..."
+                        placeholder={t("pages.adminFlashcardStudio.explainWhyTheCorrectAnswer")}
                         data-testid="input-edit-rationale"
                       />
                     </div>
 
                     <div>
-                      <Label className="text-xs font-medium text-gray-500 mb-2 block">Distractor Rationales</Label>
+                      <Label className="text-xs font-medium text-gray-500 mb-2 block">{t("pages.adminFlashcardStudio.distractorRationales")}</Label>
                       {(editCard?.options || []).map((opt: any, i: number) => {
                         if (Array.isArray(editCard?.correctAnswer) && editCard.correctAnswer.includes(i)) return null;
                         const optText = typeof opt === "object" ? opt.text || "" : opt || "";
@@ -850,7 +852,7 @@ export default function AdminFlashcardStudio() {
                                 const newDrs = { ...drs, [optText]: e.target.value };
                                 setEditCard(prev => prev ? { ...prev, distractorRationales: newDrs } : null);
                               }}
-                              placeholder="Why this is incorrect..."
+                              placeholder={t("pages.adminFlashcardStudio.whyThisIsIncorrect")}
                               className="text-sm"
                               data-testid={`input-distractor-${i}`}
                             />
@@ -860,22 +862,22 @@ export default function AdminFlashcardStudio() {
                     </div>
 
                     <div>
-                      <Label className="text-xs font-medium text-gray-500">Clinical Pearl</Label>
+                      <Label className="text-xs font-medium text-gray-500">{t("pages.adminFlashcardStudio.clinicalPearl")}</Label>
                       <Textarea
                         value={editCard?.clinicalTakeaway || ""}
                         onChange={(e) => setEditCard(prev => prev ? { ...prev, clinicalTakeaway: e.target.value } : null)}
                         rows={2}
-                        placeholder="Key clinical takeaway for this topic..."
+                        placeholder={t("pages.adminFlashcardStudio.keyClinicalTakeawayForThis")}
                         data-testid="input-edit-pearl"
                       />
                     </div>
 
                     <div>
-                      <Label className="text-xs font-medium text-gray-500">Exam Pearl</Label>
+                      <Label className="text-xs font-medium text-gray-500">{t("pages.adminFlashcardStudio.examPearl")}</Label>
                       <Input
                         value={editCard?.examPearl || ""}
                         onChange={(e) => setEditCard(prev => prev ? { ...prev, examPearl: e.target.value } : null)}
-                        placeholder="Exam strategy tip..."
+                        placeholder={t("pages.adminFlashcardStudio.examStrategyTip")}
                         data-testid="input-edit-exampearl"
                       />
                     </div>
@@ -885,31 +887,31 @@ export default function AdminFlashcardStudio() {
 
               <div className="space-y-4">
                 <Card>
-                  <CardHeader className="pb-3"><CardTitle className="text-base">Metadata</CardTitle></CardHeader>
+                  <CardHeader className="pb-3"><CardTitle className="text-base">{t("pages.adminFlashcardStudio.metadata")}</CardTitle></CardHeader>
                   <CardContent className="space-y-3">
                     <div>
-                      <Label className="text-xs font-medium text-gray-500">Body System</Label>
+                      <Label className="text-xs font-medium text-gray-500">{t("pages.adminFlashcardStudio.bodySystem")}</Label>
                       <Select value={editCard?.bodySystem || ""} onValueChange={(v) => setEditCard(prev => prev ? { ...prev, bodySystem: v, category: v } : null)}>
-                        <SelectTrigger data-testid="select-edit-bodysystem"><SelectValue placeholder="Select..." /></SelectTrigger>
+                        <SelectTrigger data-testid="select-edit-bodysystem"><SelectValue placeholder={t("pages.adminFlashcardStudio.select")} /></SelectTrigger>
                         <SelectContent>
                           {BODY_SYSTEMS.map(bs => <SelectItem key={bs} value={bs}>{bs}</SelectItem>)}
                         </SelectContent>
                       </Select>
                     </div>
                     <div>
-                      <Label className="text-xs font-medium text-gray-500">Topic</Label>
+                      <Label className="text-xs font-medium text-gray-500">{t("pages.adminFlashcardStudio.topic")}</Label>
                       <Input value={editCard?.topic || ""} onChange={(e) => setEditCard(prev => prev ? { ...prev, topic: e.target.value } : null)} placeholder="e.g. Heart Failure" data-testid="input-edit-topic" />
                     </div>
                     <div>
-                      <Label className="text-xs font-medium text-gray-500">Subtopic</Label>
+                      <Label className="text-xs font-medium text-gray-500">{t("pages.adminFlashcardStudio.subtopic")}</Label>
                       <Input value={editCard?.subtopic || ""} onChange={(e) => setEditCard(prev => prev ? { ...prev, subtopic: e.target.value } : null)} placeholder="e.g. Diuretic therapy" data-testid="input-edit-subtopic" />
                     </div>
                     <div>
-                      <Label className="text-xs font-medium text-gray-500">Blueprint Category</Label>
+                      <Label className="text-xs font-medium text-gray-500">{t("pages.adminFlashcardStudio.blueprintCategory")}</Label>
                       <Input value={editCard?.blueprintCategory || ""} onChange={(e) => setEditCard(prev => prev ? { ...prev, blueprintCategory: e.target.value } : null)} placeholder="e.g. Physiological Integrity" data-testid="input-edit-blueprint" />
                     </div>
                     <div>
-                      <Label className="text-xs font-medium text-gray-500">Difficulty</Label>
+                      <Label className="text-xs font-medium text-gray-500">{t("pages.adminFlashcardStudio.difficulty")}</Label>
                       <Select value={String(editCard?.difficulty || 3)} onValueChange={(v) => setEditCard(prev => prev ? { ...prev, difficulty: parseInt(v) } : null)}>
                         <SelectTrigger data-testid="select-edit-difficulty"><SelectValue /></SelectTrigger>
                         <SelectContent>
@@ -918,18 +920,18 @@ export default function AdminFlashcardStudio() {
                       </Select>
                     </div>
                     <div>
-                      <Label className="text-xs font-medium text-gray-500">Region</Label>
+                      <Label className="text-xs font-medium text-gray-500">{t("pages.adminFlashcardStudio.region")}</Label>
                       <Select value={editCard?.regionScope || "BOTH"} onValueChange={(v) => setEditCard(prev => prev ? { ...prev, regionScope: v } : null)}>
                         <SelectTrigger data-testid="select-edit-region"><SelectValue /></SelectTrigger>
                         <SelectContent>
                           <SelectItem value="US">US</SelectItem>
-                          <SelectItem value="CAN">Canada</SelectItem>
-                          <SelectItem value="BOTH">Both</SelectItem>
+                          <SelectItem value="CAN">{t("pages.adminFlashcardStudio.canada")}</SelectItem>
+                          <SelectItem value="BOTH">{t("pages.adminFlashcardStudio.both")}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                     <div>
-                      <Label className="text-xs font-medium text-gray-500">Lesson Link URL</Label>
+                      <Label className="text-xs font-medium text-gray-500">{t("pages.adminFlashcardStudio.lessonLinkUrl")}</Label>
                       <Input
                         value={(editCard?.lessonLinks || [])[0]?.lessonUrl || ""}
                         onChange={(e) => {
@@ -941,7 +943,7 @@ export default function AdminFlashcardStudio() {
                       />
                     </div>
                     <div>
-                      <Label className="text-xs font-medium text-gray-500">Rationale Image URL</Label>
+                      <Label className="text-xs font-medium text-gray-500">{t("pages.adminFlashcardStudio.rationaleImageUrl")}</Label>
                       <Input
                         value={(editCard?.rationaleMedia || [])[0]?.imageUrl || ""}
                         onChange={(e) => {
@@ -953,31 +955,31 @@ export default function AdminFlashcardStudio() {
                       />
                     </div>
                     <div>
-                      <Label className="text-xs font-medium text-gray-500">Tags (comma-separated)</Label>
+                      <Label className="text-xs font-medium text-gray-500">{t("pages.adminFlashcardStudio.tagsCommaseparated")}</Label>
                       <Input
                         value={(editCard?.tagsJson || []).join(", ")}
                         onChange={(e) => {
                           const tags = e.target.value.split(",").map(t => t.trim()).filter(Boolean);
                           setEditCard(prev => prev ? { ...prev, tagsJson: tags } : null);
                         }}
-                        placeholder="nclex, priority, respiratory"
+                        placeholder={t("pages.adminFlashcardStudio.nclexPriorityRespiratory")}
                         data-testid="input-edit-tags"
                       />
                     </div>
 
                     <div className="flex items-center gap-3 pt-2 border-t">
                       <Switch checked={editCard?.highYield || false} onCheckedChange={(v) => setEditCard(prev => prev ? { ...prev, highYield: v } : null)} id="hy-edit" data-testid="switch-edit-highyield" />
-                      <Label htmlFor="hy-edit" className="text-xs flex items-center gap-1"><Zap className="w-3 h-3 text-orange-500" /> High-Yield / Exam-Critical</Label>
+                      <Label htmlFor="hy-edit" className="text-xs flex items-center gap-1"><Zap className="w-3 h-3 text-orange-500" /> {t("pages.adminFlashcardStudio.highyieldExamcritical")}</Label>
                     </div>
                     <div className="flex items-center gap-3">
                       <Switch checked={editCard?.isFoundational || false} onCheckedChange={(v) => setEditCard(prev => prev ? { ...prev, isFoundational: v } : null)} id="found-edit" data-testid="switch-edit-foundational" />
-                      <Label htmlFor="found-edit" className="text-xs flex items-center gap-1"><Globe className="w-3 h-3 text-blue-500" /> Foundational / Shared Across Tiers</Label>
+                      <Label htmlFor="found-edit" className="text-xs flex items-center gap-1"><Globe className="w-3 h-3 text-blue-500" /> {t("pages.adminFlashcardStudio.foundationalSharedAcrossTiers")}</Label>
                     </div>
                   </CardContent>
                 </Card>
 
                 <Button onClick={saveCard} disabled={saving} className="w-full bg-[#BFA6F6] hover:bg-[#a88de6] text-white" data-testid="button-save-card">
-                  {saving ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Saving...</> : <><Save className="w-4 h-4 mr-2" /> {editMode === "edit" ? "Update Card" : "Create Card"}</>}
+                  {saving ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> {t("pages.adminFlashcardStudio.saving")}</> : <><Save className="w-4 h-4 mr-2" /> {editMode === "edit" ? "Update Card" : "Create Card"}</>}
                 </Button>
 
                 {saveMsg && (
@@ -995,7 +997,7 @@ export default function AdminFlashcardStudio() {
               <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-base">Convert Question Bank → Flashcards</CardTitle>
+                    <CardTitle className="text-base">{t("pages.adminFlashcardStudio.convertQuestionBankFlashcards")}</CardTitle>
                     <div className="flex items-center gap-2">
                       <Select value={convertTier} onValueChange={setConvertTier}>
                         <SelectTrigger className="w-[100px]" data-testid="select-convert-tier"><SelectValue /></SelectTrigger>
@@ -1011,16 +1013,16 @@ export default function AdminFlashcardStudio() {
                 </CardHeader>
                 <CardContent>
                   {convertLoading ? (
-                    <div className="p-8 text-center text-gray-400"><Loader2 className="w-5 h-5 animate-spin inline mr-2" />Loading...</div>
+                    <div className="p-8 text-center text-gray-400"><Loader2 className="w-5 h-5 animate-spin inline mr-2" />{t("pages.adminFlashcardStudio.loading2")}</div>
                   ) : convertQuestions.length === 0 ? (
-                    <div className="p-8 text-center text-gray-400">No exam questions found for this tier</div>
+                    <div className="p-8 text-center text-gray-400">{t("pages.adminFlashcardStudio.noExamQuestionsFoundFor")}</div>
                   ) : (
                     <>
                       <div className="flex gap-2 mb-3">
                         <Button size="sm" variant="outline" onClick={() => {
                           const unconverted = convertQuestions.filter(q => !q.alreadyConverted).map(q => q.id);
                           setConvertSelectedIds(new Set(unconverted));
-                        }} data-testid="button-select-all-unconverted">Select All Unconverted</Button>
+                        }} data-testid="button-select-all-unconverted">{t("pages.adminFlashcardStudio.selectAllUnconverted")}</Button>
                         <Button size="sm" variant="outline" onClick={() => doConvert(true)} disabled={convertSelectedIds.size === 0} data-testid="button-preview-convert">
                           <Eye className="w-3 h-3 mr-1" /> Preview ({convertSelectedIds.size})
                         </Button>
@@ -1033,11 +1035,11 @@ export default function AdminFlashcardStudio() {
                           <thead className="bg-gray-50 border-b sticky top-0">
                             <tr>
                               <th className="p-2 w-8"></th>
-                              <th className="p-2 text-left">Question Stem</th>
-                              <th className="p-2 text-left w-20">Tier</th>
-                              <th className="p-2 text-left w-24">Body System</th>
-                              <th className="p-2 text-left w-16">Diff</th>
-                              <th className="p-2 text-left w-20">Status</th>
+                              <th className="p-2 text-left">{t("pages.adminFlashcardStudio.questionStem")}</th>
+                              <th className="p-2 text-left w-20">{t("pages.adminFlashcardStudio.tier")}</th>
+                              <th className="p-2 text-left w-24">{t("pages.adminFlashcardStudio.bodySystem2")}</th>
+                              <th className="p-2 text-left w-16">{t("pages.adminFlashcardStudio.diff")}</th>
+                              <th className="p-2 text-left w-20">{t("pages.adminFlashcardStudio.status2")}</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -1061,7 +1063,7 @@ export default function AdminFlashcardStudio() {
                                 <td className="p-2"><Badge variant="outline" className="text-xs">{(q.tier || "").toUpperCase()}</Badge></td>
                                 <td className="p-2 text-gray-600">{q.bodySystem}</td>
                                 <td className="p-2">{q.difficulty ? DIFFICULTY_LABELS[q.difficulty] : "-"}</td>
-                                <td className="p-2">{q.alreadyConverted ? <Badge className="text-[10px] bg-green-100 text-green-700">Converted</Badge> : <Badge className="text-[10px] bg-gray-100 text-gray-600">Available</Badge>}</td>
+                                <td className="p-2">{q.alreadyConverted ? <Badge className="text-[10px] bg-green-100 text-green-700">{t("pages.adminFlashcardStudio.converted")}</Badge> : <Badge className="text-[10px] bg-gray-100 text-gray-600">{t("pages.adminFlashcardStudio.available")}</Badge>}</td>
                               </tr>
                             ))}
                           </tbody>
@@ -1110,7 +1112,7 @@ export default function AdminFlashcardStudio() {
               <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-base">Bulk Import Flashcards</CardTitle>
+                    <CardTitle className="text-base">{t("pages.adminFlashcardStudio.bulkImportFlashcards")}</CardTitle>
                     <Button variant="outline" size="sm" onClick={downloadTemplate} data-testid="button-download-template">
                       <Download className="w-4 h-4 mr-1" /> Download Template
                     </Button>
@@ -1122,7 +1124,7 @@ export default function AdminFlashcardStudio() {
                     <Button variant="outline" onClick={() => fileRef.current?.click()} data-testid="button-upload-file">
                       <Upload className="w-4 h-4 mr-1" /> Upload JSON/CSV File
                     </Button>
-                    <span className="text-sm text-gray-500 self-center">or paste JSON below</span>
+                    <span className="text-sm text-gray-500 self-center">{t("pages.adminFlashcardStudio.orPasteJsonBelow")}</span>
                   </div>
 
                   <Textarea
@@ -1147,13 +1149,13 @@ export default function AdminFlashcardStudio() {
                         </div>
                         <div className="grid grid-cols-3 gap-4 text-sm mt-2">
                           <div>
-                            <p className="font-medium text-gray-700">By Tier</p>
+                            <p className="font-medium text-gray-700">{t("pages.adminFlashcardStudio.byTier")}</p>
                             {Object.entries(importParsed.reduce((acc: any, c: any) => { acc[c.tier || "?"] = (acc[c.tier || "?"] || 0) + 1; return acc; }, {} as Record<string, number>)).map(([t, c]) => (
                               <div key={t} className="flex justify-between"><span className="text-gray-600">{(t as string).toUpperCase()}</span><Badge variant="secondary">{c as number}</Badge></div>
                             ))}
                           </div>
                           <div>
-                            <p className="font-medium text-gray-700">By Topic</p>
+                            <p className="font-medium text-gray-700">{t("pages.adminFlashcardStudio.byTopic")}</p>
                             <div className="max-h-24 overflow-y-auto space-y-0.5">
                               {Object.entries(importParsed.reduce((acc: any, c: any) => { acc[c.topic || c.bodySystem || "?"] = (acc[c.topic || c.bodySystem || "?"] || 0) + 1; return acc; }, {} as Record<string, number>)).slice(0, 8).map(([t, c]) => (
                                 <div key={t} className="flex justify-between text-xs"><span className="text-gray-600">{t as string}</span><Badge variant="secondary" className="text-xs">{c as number}</Badge></div>
@@ -1161,7 +1163,7 @@ export default function AdminFlashcardStudio() {
                             </div>
                           </div>
                           <div>
-                            <p className="font-medium text-gray-700">By Difficulty</p>
+                            <p className="font-medium text-gray-700">{t("pages.adminFlashcardStudio.byDifficulty")}</p>
                             {Object.entries(importParsed.reduce((acc: any, c: any) => { const d = c.difficulty || "?"; acc[d] = (acc[d] || 0) + 1; return acc; }, {} as Record<string, number>)).map(([d, c]) => (
                               <div key={d} className="flex justify-between"><span className="text-gray-600">{DIFFICULTY_LABELS[parseInt(d)] || d}</span><Badge variant="secondary">{c as number}</Badge></div>
                             ))}
@@ -1172,10 +1174,10 @@ export default function AdminFlashcardStudio() {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           <Switch checked={importAutoPublish} onCheckedChange={setImportAutoPublish} id="import-autopub" data-testid="switch-import-autopublish" />
-                          <Label htmlFor="import-autopub" className="text-sm">Auto-publish (make cards live immediately)</Label>
+                          <Label htmlFor="import-autopub" className="text-sm">{t("pages.adminFlashcardStudio.autopublishMakeCardsLiveImmediately")}</Label>
                         </div>
                         <Button onClick={doImport} disabled={importing} className="bg-[#BFA6F6] hover:bg-[#a88de6] text-white" data-testid="button-do-import">
-                          {importing ? <><Loader2 className="w-4 h-4 mr-1 animate-spin" /> Importing...</> : <><Upload className="w-4 h-4 mr-1" /> Import {importParsed.length} Cards</>}
+                          {importing ? <><Loader2 className="w-4 h-4 mr-1 animate-spin" /> {t("pages.adminFlashcardStudio.importing")}</> : <><Upload className="w-4 h-4 mr-1" /> Import {importParsed.length} Cards</>}
                         </Button>
                       </div>
                     </>
@@ -1183,16 +1185,16 @@ export default function AdminFlashcardStudio() {
 
                   {importResult && (
                     <div className={`rounded-lg p-4 border ${importResult.inserted > 0 ? "bg-green-50 border-green-200" : "bg-yellow-50 border-yellow-200"}`} data-testid="div-import-result">
-                      <h3 className="font-medium text-gray-900 mb-2">Import Results</h3>
+                      <h3 className="font-medium text-gray-900 mb-2">{t("pages.adminFlashcardStudio.importResults")}</h3>
                       <div className="grid grid-cols-4 gap-4 text-sm mb-3">
-                        <div><span className="text-gray-600">Total</span><p className="text-xl font-bold">{importResult.total}</p></div>
-                        <div><span className="text-green-600">Inserted</span><p className="text-xl font-bold text-green-700" data-testid="text-import-inserted">{importResult.inserted}</p></div>
-                        <div><span className="text-yellow-600">Skipped</span><p className="text-xl font-bold text-yellow-700">{importResult.skipped}</p></div>
-                        <div><span className="text-red-600">Errors</span><p className="text-xl font-bold text-red-700">{(importResult.validationErrors?.length || 0) + (importResult.insertErrors?.length || 0)}</p></div>
+                        <div><span className="text-gray-600">{t("pages.adminFlashcardStudio.total")}</span><p className="text-xl font-bold">{importResult.total}</p></div>
+                        <div><span className="text-green-600">{t("pages.adminFlashcardStudio.inserted")}</span><p className="text-xl font-bold text-green-700" data-testid="text-import-inserted">{importResult.inserted}</p></div>
+                        <div><span className="text-yellow-600">{t("pages.adminFlashcardStudio.skipped")}</span><p className="text-xl font-bold text-yellow-700">{importResult.skipped}</p></div>
+                        <div><span className="text-red-600">{t("pages.adminFlashcardStudio.errors")}</span><p className="text-xl font-bold text-red-700">{(importResult.validationErrors?.length || 0) + (importResult.insertErrors?.length || 0)}</p></div>
                       </div>
                       {importResult.validationErrors?.length > 0 && (
                         <div className="space-y-1 max-h-32 overflow-y-auto">
-                          <p className="text-xs font-medium text-red-700">Validation Errors:</p>
+                          <p className="text-xs font-medium text-red-700">{t("pages.adminFlashcardStudio.validationErrors")}</p>
                           {importResult.validationErrors.map((e: any, i: number) => (
                             <div key={i} className="flex gap-2 text-xs text-red-600"><AlertTriangle className="h-3 w-3 mt-0.5 flex-shrink-0" /><span>Row {e.index + 1}: {e.reason}</span></div>
                           ))}
@@ -1204,28 +1206,28 @@ export default function AdminFlashcardStudio() {
               </Card>
 
               <Card>
-                <CardHeader><CardTitle className="text-base text-gray-700">Import Format Reference</CardTitle></CardHeader>
+                <CardHeader><CardTitle className="text-base text-gray-700">{t("pages.adminFlashcardStudio.importFormatReference")}</CardTitle></CardHeader>
                 <CardContent>
                   <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-600">
                     <div>
-                      <p className="font-medium text-gray-900 mb-1">Required Fields</p>
+                      <p className="font-medium text-gray-900 mb-1">{t("pages.adminFlashcardStudio.requiredFields")}</p>
                       <ul className="space-y-1 list-disc pl-4">
-                        <li><code>tier</code> - rpn, rn, or np</li>
-                        <li><code>front</code> - Question stem (min 5 chars)</li>
-                        <li><code>rationaleCorrect</code> or <code>back</code> - Rationale text</li>
+                        <li><code>{t("pages.adminFlashcardStudio.tier2")}</code> {t("pages.adminFlashcardStudio.rpnRnOrNp")}</li>
+                        <li><code>{t("pages.adminFlashcardStudio.front")}</code> {t("pages.adminFlashcardStudio.questionStemMin5Chars")}</li>
+                        <li><code>rationaleCorrect</code> or <code>{t("pages.adminFlashcardStudio.back")}</code> {t("pages.adminFlashcardStudio.rationaleText")}</li>
                       </ul>
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900 mb-1">Optional Fields</p>
+                      <p className="font-medium text-gray-900 mb-1">{t("pages.adminFlashcardStudio.optionalFields")}</p>
                       <ul className="space-y-1 list-disc pl-4">
-                        <li><code>options</code> - Array of answer choices</li>
-                        <li><code>correctAnswer</code> - Index array [0-3]</li>
-                        <li><code>difficulty</code> - 1-5</li>
-                        <li><code>bodySystem</code>, <code>topic</code>, <code>subtopic</code></li>
+                        <li><code>{t("pages.adminFlashcardStudio.options2")}</code> {t("pages.adminFlashcardStudio.arrayOfAnswerChoices")}</li>
+                        <li><code>correctAnswer</code> {t("pages.adminFlashcardStudio.indexArray03")}</li>
+                        <li><code>{t("pages.adminFlashcardStudio.difficulty2")}</code> - 1-5</li>
+                        <li><code>bodySystem</code>, <code>{t("pages.adminFlashcardStudio.topic2")}</code>, <code>{t("pages.adminFlashcardStudio.subtopic2")}</code></li>
                         <li><code>clinicalTakeaway</code>, <code>examPearl</code></li>
                         <li><code>highYield</code>, <code>isFoundational</code></li>
                         <li><code>blueprintCategory</code></li>
-                        <li><code>distractorRationales</code> - Object</li>
+                        <li><code>distractorRationales</code> {t("pages.adminFlashcardStudio.object")}</li>
                       </ul>
                     </div>
                   </div>
@@ -1239,7 +1241,7 @@ export default function AdminFlashcardStudio() {
               <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-base">Tier Preview - What Learners See</CardTitle>
+                    <CardTitle className="text-base">{t("pages.adminFlashcardStudio.tierPreviewWhatLearnersSee")}</CardTitle>
                     <div className="flex items-center gap-2">
                       <Select value={previewTier} onValueChange={setPreviewTier}>
                         <SelectTrigger className="w-[100px]" data-testid="select-preview-tier"><SelectValue /></SelectTrigger>
@@ -1255,7 +1257,7 @@ export default function AdminFlashcardStudio() {
                 </CardHeader>
                 <CardContent>
                   {previewLoading ? (
-                    <div className="p-8 text-center text-gray-400"><Loader2 className="w-5 h-5 animate-spin inline mr-2" />Loading...</div>
+                    <div className="p-8 text-center text-gray-400"><Loader2 className="w-5 h-5 animate-spin inline mr-2" />{t("pages.adminFlashcardStudio.loading3")}</div>
                   ) : previewCards.length === 0 ? (
                     <div className="p-8 text-center text-gray-400">No published cards for {previewTier.toUpperCase()}</div>
                   ) : (
@@ -1282,7 +1284,7 @@ export default function AdminFlashcardStudio() {
                               <Badge variant="outline">{previewTier.toUpperCase()}</Badge>
                               {card.bodySystem && <Badge variant="secondary">{card.bodySystem}</Badge>}
                               {card.difficulty && <Badge variant="outline">{DIFFICULTY_LABELS[card.difficulty]}</Badge>}
-                              {card.highYield && <Badge className="bg-orange-100 text-orange-700"><Zap className="w-3 h-3 mr-0.5" />High-Yield</Badge>}
+                              {card.highYield && <Badge className="bg-orange-100 text-orange-700"><Zap className="w-3 h-3 mr-0.5" />{t("pages.adminFlashcardStudio.highyield3")}</Badge>}
                             </div>
 
                             <p className="text-lg font-medium text-gray-900 mb-4" data-testid="text-preview-front">{card.front}</p>
@@ -1309,19 +1311,19 @@ export default function AdminFlashcardStudio() {
                             )}
 
                             {!showAnswer && (
-                              <Button variant="outline" className="w-full" onClick={() => setShowAnswer(true)} data-testid="button-show-answer">Show Answer</Button>
+                              <Button variant="outline" className="w-full" onClick={() => setShowAnswer(true)} data-testid="button-show-answer">{t("pages.adminFlashcardStudio.showAnswer")}</Button>
                             )}
 
                             {showAnswer && (
                               <div className="mt-4 space-y-3 border-t pt-4">
                                 {card.rationaleCorrect && (
-                                  <div><p className="text-xs font-medium text-green-700 mb-1">Rationale</p><p className="text-sm text-gray-700">{card.rationaleCorrect}</p></div>
+                                  <div><p className="text-xs font-medium text-green-700 mb-1">{t("pages.adminFlashcardStudio.rationale")}</p><p className="text-sm text-gray-700">{card.rationaleCorrect}</p></div>
                                 )}
                                 {card.clinicalTakeaway && (
-                                  <div className="bg-blue-50 p-3 rounded-lg"><p className="text-xs font-medium text-blue-700 mb-1">Clinical Pearl</p><p className="text-sm text-blue-900">{card.clinicalTakeaway}</p></div>
+                                  <div className="bg-blue-50 p-3 rounded-lg"><p className="text-xs font-medium text-blue-700 mb-1">{t("pages.adminFlashcardStudio.clinicalPearl2")}</p><p className="text-sm text-blue-900">{card.clinicalTakeaway}</p></div>
                                 )}
                                 {card.examPearl && (
-                                  <div className="bg-purple-50 p-3 rounded-lg"><p className="text-xs font-medium text-purple-700 mb-1">Exam Strategy</p><p className="text-sm text-purple-900">{card.examPearl}</p></div>
+                                  <div className="bg-purple-50 p-3 rounded-lg"><p className="text-xs font-medium text-purple-700 mb-1">{t("pages.adminFlashcardStudio.examStrategy")}</p><p className="text-sm text-purple-900">{card.examPearl}</p></div>
                                 )}
                               </div>
                             )}
@@ -1384,7 +1386,7 @@ function ContentReuseStats() {
   };
 
   if (loading) return <div className="flex items-center justify-center py-20"><Loader2 className="h-6 w-6 animate-spin text-gray-400" /></div>;
-  if (!stats) return <div className="text-center py-12 text-gray-500">Failed to load stats</div>;
+  if (!stats) return <div className="text-center py-12 text-gray-500">{t("pages.adminFlashcardStudio.failedToLoadStats")}</div>;
 
   const { bank, testBank } = stats;
 
@@ -1392,8 +1394,8 @@ function ContentReuseStats() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-bold text-gray-900" data-testid="text-content-reuse-title">Content Reuse Dashboard</h2>
-          <p className="text-sm text-gray-500 mt-1">CAT exam questions mapped to Test Bank and Flashcard modes</p>
+          <h2 className="text-lg font-bold text-gray-900" data-testid="text-content-reuse-title">{t("pages.adminFlashcardStudio.contentReuseDashboard")}</h2>
+          <p className="text-sm text-gray-500 mt-1">{t("pages.adminFlashcardStudio.catExamQuestionsMappedTo")}</p>
         </div>
         <Button
           onClick={handleSync}
@@ -1413,7 +1415,7 @@ function ContentReuseStats() {
               <p className="text-sm text-red-700"><XCircle className="w-4 h-4 inline mr-1" />{syncResult.error}</p>
             ) : (
               <div className="text-sm text-green-700">
-                <p className="font-medium mb-1"><CheckCircle className="w-4 h-4 inline mr-1" />Sync Complete</p>
+                <p className="font-medium mb-1"><CheckCircle className="w-4 h-4 inline mr-1" />{t("pages.adminFlashcardStudio.syncComplete")}</p>
                 <p>Total processed: {syncResult.total} | Created: {syncResult.created} | Updated: {syncResult.updated} | Skipped: {syncResult.skipped}</p>
                 {syncResult.perTier && (
                   <p className="mt-1">Per tier: {Object.entries(syncResult.perTier).map(([t, c]) => `${t.toUpperCase()}: ${c}`).join(" | ")}</p>
@@ -1427,7 +1429,7 @@ function ContentReuseStats() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardContent className="p-5">
-            <p className="text-sm text-gray-500 font-medium mb-1">CAT Exam Questions</p>
+            <p className="text-sm text-gray-500 font-medium mb-1">{t("pages.adminFlashcardStudio.catExamQuestions")}</p>
             <p className="text-3xl font-bold text-gray-900" data-testid="text-cat-total">
               {testBank.catQuestions?.reduce((s: number, r: any) => s + r.count, 0) || 0}
             </p>
@@ -1441,7 +1443,7 @@ function ContentReuseStats() {
 
         <Card>
           <CardContent className="p-5">
-            <p className="text-sm text-gray-500 font-medium mb-1">Test Bank / Flashcard Entries</p>
+            <p className="text-sm text-gray-500 font-medium mb-1">{t("pages.adminFlashcardStudio.testBankFlashcardEntries")}</p>
             <p className="text-3xl font-bold text-gray-900" data-testid="text-testbank-total">
               {bank.totalExamFlashcards || 0}
             </p>
@@ -1455,7 +1457,7 @@ function ContentReuseStats() {
 
         <Card>
           <CardContent className="p-5">
-            <p className="text-sm text-gray-500 font-medium mb-1">Coverage Rate</p>
+            <p className="text-sm text-gray-500 font-medium mb-1">{t("pages.adminFlashcardStudio.coverageRate")}</p>
             <p className="text-3xl font-bold text-gray-900" data-testid="text-coverage-rate">
               {(() => {
                 const catTotal = testBank.catQuestions?.reduce((s: number, r: any) => s + r.count, 0) || 0;
@@ -1464,7 +1466,7 @@ function ContentReuseStats() {
                   : "N/A";
               })()}
             </p>
-            <p className="text-xs text-gray-400 mt-2">Unique questions mapped to study modes</p>
+            <p className="text-xs text-gray-400 mt-2">{t("pages.adminFlashcardStudio.uniqueQuestionsMappedToStudy")}</p>
           </CardContent>
         </Card>
       </div>
@@ -1472,7 +1474,7 @@ function ContentReuseStats() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold">Image Attachment Coverage</CardTitle>
+            <CardTitle className="text-sm font-semibold">{t("pages.adminFlashcardStudio.imageAttachmentCoverage")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {testBank.coverage?.map((r: any) => {
@@ -1490,13 +1492,13 @@ function ContentReuseStats() {
                 </div>
               );
             })}
-            <p className="text-xs text-gray-400 mt-1">Questions with at least one matched clinical reference image</p>
+            <p className="text-xs text-gray-400 mt-1">{t("pages.adminFlashcardStudio.questionsWithAtLeastOne")}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold">Lesson Link Coverage</CardTitle>
+            <CardTitle className="text-sm font-semibold">{t("pages.adminFlashcardStudio.lessonLinkCoverage")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {testBank.coverage?.map((r: any) => {
@@ -1514,7 +1516,7 @@ function ContentReuseStats() {
                 </div>
               );
             })}
-            <p className="text-xs text-gray-400 mt-1">Questions linked to at least one study lesson</p>
+            <p className="text-xs text-gray-400 mt-1">{t("pages.adminFlashcardStudio.questionsLinkedToAtLeast")}</p>
           </CardContent>
         </Card>
       </div>
@@ -1522,7 +1524,7 @@ function ContentReuseStats() {
       {testBank.categories && testBank.categories.length > 0 && (
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold">Questions by Category & Tier</CardTitle>
+            <CardTitle className="text-sm font-semibold">{t("pages.adminFlashcardStudio.questionsByCategoryTier")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1550,12 +1552,12 @@ function ContentReuseStats() {
 
       <Card className="border-amber-200 bg-amber-50">
         <CardContent className="p-4">
-          <p className="text-sm font-medium text-amber-800 mb-2">Summary</p>
+          <p className="text-sm font-medium text-amber-800 mb-2">{t("pages.adminFlashcardStudio.summary")}</p>
           <div className="text-xs text-amber-700 space-y-1">
-            <p>All CAT exam questions are available in three study modes: Adaptive CAT exams, Test Bank study, and Flashcard review.</p>
-            <p>Questions with matched images show clinical reference visuals in the rationale panel.</p>
-            <p>Questions with matched lessons show direct links to related study content.</p>
-            <p>Use the "Re-sync All" button to re-process all questions after adding new exam content or images.</p>
+            <p>{t("pages.adminFlashcardStudio.allCatExamQuestionsAre")}</p>
+            <p>{t("pages.adminFlashcardStudio.questionsWithMatchedImagesShow")}</p>
+            <p>{t("pages.adminFlashcardStudio.questionsWithMatchedLessonsShow")}</p>
+            <p>{t("pages.adminFlashcardStudio.useTheResyncAllButton")}</p>
           </div>
         </CardContent>
       </Card>
@@ -1606,18 +1608,18 @@ function AIGeneratePanel() {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <Label className="text-xs">Source Type</Label>
+              <Label className="text-xs">{t("pages.adminFlashcardStudio.sourceType")}</Label>
               <Select value={sourceType} onValueChange={setSourceType}>
                 <SelectTrigger data-testid="select-source-type"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="question_explanations">Question Explanations</SelectItem>
-                  <SelectItem value="study_guides">Study Guides</SelectItem>
-                  <SelectItem value="topic_summaries">Topic Summaries</SelectItem>
+                  <SelectItem value="question_explanations">{t("pages.adminFlashcardStudio.questionExplanations")}</SelectItem>
+                  <SelectItem value="study_guides">{t("pages.adminFlashcardStudio.studyGuides")}</SelectItem>
+                  <SelectItem value="topic_summaries">{t("pages.adminFlashcardStudio.topicSummaries")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label className="text-xs">Tier</Label>
+              <Label className="text-xs">{t("pages.adminFlashcardStudio.tier3")}</Label>
               <Select value={tier} onValueChange={setTier}>
                 <SelectTrigger data-testid="select-gen-tier"><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -1626,12 +1628,12 @@ function AIGeneratePanel() {
               </Select>
             </div>
             <div>
-              <Label className="text-xs">Batch Size</Label>
+              <Label className="text-xs">{t("pages.adminFlashcardStudio.batchSize")}</Label>
               <Input type="number" value={limit} onChange={e => setLimit(parseInt(e.target.value) || 20)} min={1} max={100} data-testid="input-batch-size" />
             </div>
           </div>
           <Button onClick={handleGenerate} disabled={generating} className="w-full" data-testid="button-bulk-generate">
-            {generating ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Generating...</> : <><Zap className="w-4 h-4 mr-2" /> Generate Flashcards</>}
+            {generating ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> {t("pages.adminFlashcardStudio.generating")}</> : <><Zap className="w-4 h-4 mr-2" /> {t("pages.adminFlashcardStudio.generateFlashcards")}</>}
           </Button>
           {result && (
             <div className="p-3 rounded-lg bg-green-50 border border-green-200 text-sm" data-testid="text-generate-result">
@@ -1645,30 +1647,30 @@ function AIGeneratePanel() {
       {adminAnalytics && (
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold">Generation Statistics</CardTitle>
+            <CardTitle className="text-sm font-semibold">{t("pages.adminFlashcardStudio.generationStatistics")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div className="text-center p-2 rounded-lg bg-violet-50">
                 <div className="text-xl font-bold text-violet-600">{adminAnalytics.totalCards}</div>
-                <div className="text-[10px] text-gray-500">Total Cards</div>
+                <div className="text-[10px] text-gray-500">{t("pages.adminFlashcardStudio.totalCards")}</div>
               </div>
               <div className="text-center p-2 rounded-lg bg-blue-50">
                 <div className="text-xl font-bold text-blue-600">{adminAnalytics.totalReviews}</div>
-                <div className="text-[10px] text-gray-500">Total Reviews</div>
+                <div className="text-[10px] text-gray-500">{t("pages.adminFlashcardStudio.totalReviews")}</div>
               </div>
               <div className="text-center p-2 rounded-lg bg-green-50">
                 <div className="text-xl font-bold text-green-600">{adminAnalytics.activeUsers}</div>
-                <div className="text-[10px] text-gray-500">Active Users</div>
+                <div className="text-[10px] text-gray-500">{t("pages.adminFlashcardStudio.activeUsers")}</div>
               </div>
               <div className="text-center p-2 rounded-lg bg-orange-50">
                 <div className="text-xl font-bold text-orange-600">{adminAnalytics.duplicateCount}</div>
-                <div className="text-[10px] text-gray-500">Duplicates</div>
+                <div className="text-[10px] text-gray-500">{t("pages.adminFlashcardStudio.duplicates")}</div>
               </div>
             </div>
             {adminAnalytics.generationStats?.length > 0 && (
               <div className="mt-3 space-y-1">
-                <p className="text-xs font-semibold text-gray-500 uppercase">By Source</p>
+                <p className="text-xs font-semibold text-gray-500 uppercase">{t("pages.adminFlashcardStudio.bySource")}</p>
                 {adminAnalytics.generationStats.map((gs: any, i: number) => (
                   <div key={i} className="flex justify-between text-xs">
                     <span className="text-gray-600">{gs.source || "manual"}</span>
@@ -1722,7 +1724,7 @@ function QualityToolsPanel() {
         </CardHeader>
         <CardContent className="space-y-3">
           <Button onClick={handleFlagLowQuality} disabled={flagging} variant="outline" className="w-full" data-testid="button-flag-low-quality">
-            {flagging ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Scanning...</> : <><AlertTriangle className="w-4 h-4 mr-2" /> Flag Low-Quality Cards</>}
+            {flagging ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> {t("pages.adminFlashcardStudio.scanning")}</> : <><AlertTriangle className="w-4 h-4 mr-2" /> {t("pages.adminFlashcardStudio.flagLowqualityCards")}</>}
           </Button>
           {flagResult !== null && (
             <div className="p-2 rounded-lg bg-amber-50 border border-amber-200 text-xs" data-testid="text-flag-result">
@@ -1740,7 +1742,7 @@ function QualityToolsPanel() {
           {loading ? (
             <div className="flex justify-center py-4"><Loader2 className="w-5 h-5 animate-spin text-gray-400" /></div>
           ) : duplicates.length === 0 ? (
-            <p className="text-sm text-gray-500 text-center py-4">No duplicate flashcards detected.</p>
+            <p className="text-sm text-gray-500 text-center py-4">{t("pages.adminFlashcardStudio.noDuplicateFlashcardsDetected")}</p>
           ) : (
             <div className="space-y-2 max-h-96 overflow-y-auto" data-testid="list-duplicates">
               {duplicates.map((dup, i) => (
@@ -1773,13 +1775,13 @@ function BuildConfigPanel() {
   }, []);
 
   if (loading) return <div className="flex justify-center py-8"><Loader2 className="w-5 h-5 animate-spin text-gray-400" /></div>;
-  if (!config) return <p className="text-sm text-gray-500 text-center py-8">Failed to load config.</p>;
+  if (!config) return <p className="text-sm text-gray-500 text-center py-8">{t("pages.adminFlashcardStudio.failedToLoadConfig")}</p>;
 
   return (
     <div className="space-y-4">
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-semibold">Active Build Priority</CardTitle>
+          <CardTitle className="text-sm font-semibold">{t("pages.adminFlashcardStudio.activeBuildPriority")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="p-3 rounded-lg bg-violet-50 border border-violet-200" data-testid="text-build-priority">
@@ -1790,7 +1792,7 @@ function BuildConfigPanel() {
 
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-semibold">Content Expansion Roadmap</CardTitle>
+          <CardTitle className="text-sm font-semibold">{t("pages.adminFlashcardStudio.contentExpansionRoadmap")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-2" data-testid="list-roadmap">

@@ -510,14 +510,14 @@ function AnatomySystemEditor({
             value={editName}
             onChange={(e) => setEditName(e.target.value)}
             className="text-lg font-bold border-none shadow-none p-0 focus-visible:ring-0 h-auto"
-            placeholder="System name..."
+            placeholder={t("pages.anatomy.systemName")}
             data-testid={`input-anatomy-name-${system.id}`}
           />
           <Input
             value={editDesc}
             onChange={(e) => setEditDesc(e.target.value)}
             className="text-sm text-gray-500 border-none shadow-none p-0 focus-visible:ring-0 h-auto mt-1"
-            placeholder="Short description..."
+            placeholder={t("pages.anatomy.shortDescription")}
             data-testid={`input-anatomy-desc-${system.id}`}
           />
         </div>
@@ -525,7 +525,7 @@ function AnatomySystemEditor({
 
       <div className={`border-t ${system.borderColor} pt-4 space-y-4`}>
         <div className="flex items-center justify-between">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Content Paragraphs</p>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{t("pages.anatomy.contentParagraphs")}</p>
           <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={() => setEditContent([...editContent, ""])} data-testid={`button-add-paragraph-${system.id}`}>
             <Plus className="w-3 h-3" /> Add Paragraph
           </Button>
@@ -541,7 +541,7 @@ function AnatomySystemEditor({
                   setEditContent(updated);
                 }}
                 minHeight="120px"
-                placeholder="Enter educational content..."
+                placeholder={t("pages.anatomy.enterEducationalContent")}
               />
             </div>
             <Button
@@ -790,8 +790,8 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
             {system.id === "cardiovascular" && (
               <div className="mt-6">
                 <AnatomyLabeling
-                  title="Heart Anatomy: Click to Identify"
-                  description="Identify the major structures of the heart"
+                  title={t("pages.anatomy.heartAnatomyClickToIdentify")}
+                  description={t("pages.anatomy.identifyTheMajorStructuresOf")}
                   backgroundImage={heartAnatomyImage}
                   labels={heartLabels}
                   width={600}
@@ -803,8 +803,8 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
               <>
                 <div className="mt-6">
                   <AnatomyLabeling
-                    title="Cell Structure: Click to Identify"
-                    description="Identify the major organelles and structures of the cell"
+                    title={t("pages.anatomy.cellStructureClickToIdentify")}
+                    description={t("pages.anatomy.identifyTheMajorOrganellesAnd")}
                     backgroundImage={hotspotCellStructure}
                     labels={cellLabels}
                     width={600}
@@ -836,8 +836,8 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
             {system.id === "feedback-loops" && (
               <div className="mt-6">
                 <AnatomyLabeling
-                  title="Feedback Loops: Click to Identify"
-                  description="Identify the components of homeostatic feedback mechanisms"
+                  title={t("pages.anatomy.feedbackLoopsClickToIdentify")}
+                  description={t("pages.anatomy.identifyTheComponentsOfHomeostatic")}
                   backgroundImage={hotspotFeedbackLoops}
                   labels={feedbackLoopLabels}
                   width={600}
@@ -848,8 +848,8 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
             {system.id === "respiratory" && (
               <div className="mt-6">
                 <AnatomyLabeling
-                  title="Respiratory System: Click to Identify"
-                  description="Identify the major structures of the respiratory system"
+                  title={t("pages.anatomy.respiratorySystemClickToIdentify")}
+                  description={t("pages.anatomy.identifyTheMajorStructuresOf2")}
                   backgroundImage={hotspotRespiratory}
                   labels={lungLabels}
                   width={600}
@@ -860,8 +860,8 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
             {system.id === "nervous" && (
               <div className="mt-6">
                 <AnatomyLabeling
-                  title="Nervous System: Click to Identify"
-                  description="Identify the major structures of the brain and nervous system"
+                  title={t("pages.anatomy.nervousSystemClickToIdentify")}
+                  description={t("pages.anatomy.identifyTheMajorStructuresOf3")}
                   backgroundImage={hotspotNervous}
                   labels={brainLabels}
                   width={600}
@@ -872,8 +872,8 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
             {system.id === "musculoskeletal" && (
               <div className="mt-6">
                 <AnatomyLabeling
-                  title="Musculoskeletal System: Click to Identify"
-                  description="Identify the major bones and muscle groups"
+                  title={t("pages.anatomy.musculoskeletalSystemClickToIdentify")}
+                  description={t("pages.anatomy.identifyTheMajorBonesAnd")}
                   backgroundImage={hotspotMusculoskeletal}
                   labels={musculoskeletalLabels}
                   width={600}
@@ -884,8 +884,8 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
             {system.id === "gastrointestinal" && (
               <div className="mt-6">
                 <AnatomyLabeling
-                  title="Digestive System: Click to Identify"
-                  description="Identify the major organs of the gastrointestinal tract"
+                  title={t("pages.anatomy.digestiveSystemClickToIdentify")}
+                  description={t("pages.anatomy.identifyTheMajorOrgansOf")}
                   backgroundImage={hotspotGastrointestinal}
                   labels={digestiveLabels}
                   width={600}
@@ -896,8 +896,8 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
             {system.id === "renal" && (
               <div className="mt-6">
                 <AnatomyLabeling
-                  title="Renal System: Click to Identify"
-                  description="Identify the major structures of the kidney and urinary system"
+                  title={t("pages.anatomy.renalSystemClickToIdentify")}
+                  description={t("pages.anatomy.identifyTheMajorStructuresOf4")}
                   backgroundImage={hotspotRenal}
                   labels={kidneyLabels}
                   width={600}
@@ -908,8 +908,8 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
             {system.id === "endocrine" && (
               <div className="mt-6">
                 <AnatomyLabeling
-                  title="Endocrine System: Click to Identify"
-                  description="Identify the major endocrine glands and their locations"
+                  title={t("pages.anatomy.endocrineSystemClickToIdentify")}
+                  description={t("pages.anatomy.identifyTheMajorEndocrineGlands")}
                   backgroundImage={hotspotEndocrine}
                   labels={endocrineLabels}
                   width={600}
@@ -920,8 +920,8 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
             {system.id === "integumentary" && (
               <div className="mt-6">
                 <AnatomyLabeling
-                  title="Integumentary System: Click to Identify"
-                  description="Identify the layers and structures of the skin"
+                  title={t("pages.anatomy.integumentarySystemClickToIdentify")}
+                  description={t("pages.anatomy.identifyTheLayersAndStructures")}
                   backgroundImage={hotspotIntegumentary}
                   labels={integumentaryLabels}
                   width={600}
@@ -932,8 +932,8 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
             {system.id === "lymphatic-immune" && (
               <div className="mt-6">
                 <AnatomyLabeling
-                  title="Lymphatic & Immune System: Click to Identify"
-                  description="Identify the major lymphatic organs and immune structures"
+                  title={t("pages.anatomy.lymphaticImmuneSystemClickTo")}
+                  description={t("pages.anatomy.identifyTheMajorLymphaticOrgans")}
                   backgroundImage={hotspotLymphaticImmune}
                   labels={lymphaticLabels}
                   width={600}
@@ -944,8 +944,8 @@ function AnatomySystemDetailPage({ systemId }: { systemId: string }) {
             {system.id === "reproductive" && (
               <div className="mt-6">
                 <AnatomyLabeling
-                  title="Reproductive System: Click to Identify"
-                  description="Identify the major structures of the reproductive system"
+                  title={t("pages.anatomy.reproductiveSystemClickToIdentify")}
+                  description={t("pages.anatomy.identifyTheMajorStructuresOf5")}
                   backgroundImage={hotspotReproductive}
                   labels={reproductiveLabels}
                   width={600}
@@ -1057,8 +1057,8 @@ function AnatomyListingPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col" data-testid="page-anatomy">
       <SEO
-        title="Anatomy & Physiology Review — Free A&P for Nursing Students | NurseNest"
-        description="Free interactive anatomy and physiology review for nursing students. 12 body system modules with diagrams, click-to-label exercises, and exam-relevant clinical connections. No account required."
+        title={t("pages.anatomy.anatomyPhysiologyReviewFreeAp")}
+        description={t("pages.anatomy.freeInteractiveAnatomyAndPhysiology")}
         keywords="anatomy and physiology for nursing, free A&P review, nursing anatomy, body systems nursing, NCLEX anatomy, nursing exam preparation"
         canonicalPath="/anatomy"
         additionalStructuredData={[faqSchema]}

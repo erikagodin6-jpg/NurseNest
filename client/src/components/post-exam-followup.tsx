@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useI18n } from "@/lib/i18n";
 import {
   Dialog,
   DialogContent,
@@ -23,6 +24,7 @@ interface PostExamFollowupModalProps {
 }
 
 export function PostExamFollowupModal({ isOpen, onClose, onSubmit }: PostExamFollowupModalProps) {
+  const { t } = useI18n();
   const options = [
     {
       id: "passed",
@@ -165,7 +167,7 @@ export function NewGradTransitionCard({ user, careerType }: NewGradTransitionCar
       <div className="rounded-xl border-2 border-dashed border-emerald-300 bg-gradient-to-br from-emerald-50 to-teal-50 p-4 mb-4" data-testid="new-grad-offer-card">
         <div className="flex items-center gap-2 mb-2">
           <Star className="h-4 w-4 text-amber-500" />
-          <p className="text-sm font-bold text-emerald-800">New Grad Special Offer</p>
+          <p className="text-sm font-bold text-emerald-800">{t("components.postExamFollowup.newGradSpecialOffer")}</p>
         </div>
         <p className="text-xs text-emerald-700 mb-3">
           Get early access to our New Grad resources at a special rate.
@@ -249,7 +251,7 @@ export function RecoveryPlanCard({ user, readinessData, weakAreas: initialWeakAr
         <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3">
           <CheckCircle2 className="h-7 w-7 text-blue-600" />
         </div>
-        <h3 className="font-bold text-foreground mb-1">Your recovery plan is ready!</h3>
+        <h3 className="font-bold text-foreground mb-1">{t("components.postExamFollowup.yourRecoveryPlanIsReady")}</h3>
         <p className="text-sm text-muted-foreground mb-4">
           We've created a personalized study plan focused on your areas for improvement.
         </p>
@@ -265,7 +267,7 @@ export function RecoveryPlanCard({ user, readinessData, weakAreas: initialWeakAr
       <div className="mb-4">
         <div className="flex items-center gap-2 mb-2">
           <Shield className="h-5 w-5 text-blue-500" />
-          <h3 className="font-bold text-foreground" data-testid="text-recovery-heading">Your Next Steps</h3>
+          <h3 className="font-bold text-foreground" data-testid="text-recovery-heading">{t("components.postExamFollowup.yourNextSteps")}</h3>
         </div>
         <p className="text-sm text-muted-foreground">
           Not passing doesn't define you — it's a stepping stone. Many successful professionals
@@ -277,11 +279,11 @@ export function RecoveryPlanCard({ user, readinessData, weakAreas: initialWeakAr
         <div className="grid grid-cols-2 gap-2 mb-4">
           <div className="p-2.5 rounded-lg bg-blue-50 text-center">
             <p className="text-lg font-bold text-blue-700">{readinessData.readinessScore}%</p>
-            <p className="text-[10px] text-muted-foreground">Readiness Score</p>
+            <p className="text-[10px] text-muted-foreground">{t("components.postExamFollowup.readinessScore")}</p>
           </div>
           <div className="p-2.5 rounded-lg bg-amber-50 text-center">
             <p className="text-lg font-bold text-amber-700">{selectedAreas.length}</p>
-            <p className="text-[10px] text-muted-foreground">Focus Areas</p>
+            <p className="text-[10px] text-muted-foreground">{t("components.postExamFollowup.focusAreas")}</p>
           </div>
         </div>
       )}
@@ -317,9 +319,9 @@ export function RecoveryPlanCard({ user, readinessData, weakAreas: initialWeakAr
         data-testid="button-generate-recovery-plan"
       >
         {generating ? (
-          <><Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> Generating Plan...</>
+          <><Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> {t("components.postExamFollowup.generatingPlan")}</>
         ) : (
-          <><RefreshCw className="h-4 w-4 mr-1.5" /> Generate Recovery Study Plan</>
+          <><RefreshCw className="h-4 w-4 mr-1.5" /> {t("components.postExamFollowup.generateRecoveryStudyPlan")}</>
         )}
       </Button>
     </div>
@@ -340,7 +342,7 @@ export function ResultsPendingCard({ user, onUpdateResult }: ResultsPendingCardP
         <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3">
           <Clock className="h-7 w-7 text-blue-500" />
         </div>
-        <h3 className="font-bold text-foreground mb-1" data-testid="text-waiting-heading">Results Pending</h3>
+        <h3 className="font-bold text-foreground mb-1" data-testid="text-waiting-heading">{t("components.postExamFollowup.resultsPending")}</h3>
         <p className="text-sm text-muted-foreground">
           Waiting is the hardest part. While you wait, here are some things you can do.
         </p>
@@ -354,8 +356,8 @@ export function ResultsPendingCard({ user, onUpdateResult }: ResultsPendingCardP
         >
           <BookOpen className="h-5 w-5 text-blue-500" />
           <div className="flex-1">
-            <p className="text-sm font-medium">Light Review</p>
-            <p className="text-xs text-muted-foreground">Browse lessons at your own pace</p>
+            <p className="text-sm font-medium">{t("components.postExamFollowup.lightReview")}</p>
+            <p className="text-xs text-muted-foreground">{t("components.postExamFollowup.browseLessonsAtYourOwn")}</p>
           </div>
         </button>
         <button
@@ -365,8 +367,8 @@ export function ResultsPendingCard({ user, onUpdateResult }: ResultsPendingCardP
         >
           <Brain className="h-5 w-5 text-purple-500" />
           <div className="flex-1">
-            <p className="text-sm font-medium">Revisit Key Topics</p>
-            <p className="text-xs text-muted-foreground">Refresh your knowledge with flashcards</p>
+            <p className="text-sm font-medium">{t("components.postExamFollowup.revisitKeyTopics")}</p>
+            <p className="text-xs text-muted-foreground">{t("components.postExamFollowup.refreshYourKnowledgeWithFlashcards")}</p>
           </div>
         </button>
         <button
@@ -376,8 +378,8 @@ export function ResultsPendingCard({ user, onUpdateResult }: ResultsPendingCardP
         >
           <GraduationCap className="h-5 w-5 text-emerald-500" />
           <div className="flex-1">
-            <p className="text-sm font-medium">Preview Next Steps</p>
-            <p className="text-xs text-muted-foreground">Explore what comes after passing</p>
+            <p className="text-sm font-medium">{t("components.postExamFollowup.previewNextSteps")}</p>
+            <p className="text-xs text-muted-foreground">{t("components.postExamFollowup.exploreWhatComesAfterPassing")}</p>
           </div>
         </button>
       </div>
@@ -435,7 +437,7 @@ export function PostponedCountdownCard({ user, newExamDate, onDateChange }: Post
     return (
       <div data-testid="widget-content-postponed-no-date" className="text-center py-4">
         <CalendarClock className="h-10 w-10 mx-auto text-purple-500 mb-3" />
-        <h3 className="font-bold text-foreground mb-1">Set Your New Exam Date</h3>
+        <h3 className="font-bold text-foreground mb-1">{t("components.postExamFollowup.setYourNewExamDate")}</h3>
         <p className="text-sm text-muted-foreground mb-4">
           Choose a new date and we'll reactivate your study plan.
         </p>
@@ -500,7 +502,7 @@ export function PostponedCountdownCard({ user, newExamDate, onDateChange }: Post
       </div>
 
       <div className="mt-3">
-        <p className="text-xs text-muted-foreground mb-1.5">Need to change your date?</p>
+        <p className="text-xs text-muted-foreground mb-1.5">{t("components.postExamFollowup.needToChangeYourDate")}</p>
         <div className="flex gap-2">
           <input
             type="date"

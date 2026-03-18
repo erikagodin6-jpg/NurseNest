@@ -104,8 +104,8 @@ export default function FAQPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col">
       <SEO
-        title="Frequently Asked Questions - NurseNest Healthcare Education"
-        description="Find answers about NurseNest healthcare education platform: subscriptions, content depth, NCLEX preparation, allied health exam prep, new graduate support, and clinical learning resources for nursing students, allied health professionals, and new graduates."
+        title={t("pages.faq.frequentlyAskedQuestionsNursenestHealthcare")}
+        description={t("pages.faq.findAnswersAboutNursenestHealthcare")}
         keywords="NurseNest FAQ, nursing education questions, NCLEX prep FAQ, allied health exam prep, new graduate support, healthcare student help, subscription questions"
         canonicalPath="/faq"
         structuredData={buildFaqStructuredData(allFaqs)}

@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 
+import { useI18n } from "@/lib/i18n";
 const CATEGORIES = [
   { value: "nursing_ngn", label: "Nursing NGN" },
   { value: "allied", label: "Allied Health" },
@@ -73,6 +74,7 @@ const TARGET_DISTRIBUTION: Record<string, Record<string, number>> = {
 };
 
 function StatusBadge({ status }: { status: string }) {
+  const { t } = useI18n();
   const colors: Record<string, string> = {
     queued: "bg-yellow-100 text-yellow-800",
     running: "bg-blue-100 text-blue-800",
@@ -180,10 +182,10 @@ function GenerateTab() {
         <CardContent className="space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
-              <Label className="text-sm mb-1 block">Exam Category</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminNgnGenerator.examCategory")}</Label>
               <Select value={category} onValueChange={(v) => { setCategory(v); setVariantKey(""); }} data-testid="select-category">
                 <SelectTrigger data-testid="select-category-trigger">
-                  <SelectValue placeholder="Select category" />
+                  <SelectValue placeholder={t("pages.adminNgnGenerator.selectCategory")} />
                 </SelectTrigger>
                 <SelectContent>
                   {CATEGORIES.map(c => (
@@ -194,7 +196,7 @@ function GenerateTab() {
             </div>
 
             <div>
-              <Label className="text-sm mb-1 block">Variant / Sub-Exam</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminNgnGenerator.variantSubexam")}</Label>
               <Select value={variantKey} onValueChange={setVariantKey} disabled={!category} data-testid="select-variant">
                 <SelectTrigger data-testid="select-variant-trigger">
                   <SelectValue placeholder={category ? "Select variant" : "Select category first"} />
@@ -210,7 +212,7 @@ function GenerateTab() {
             </div>
 
             <div>
-              <Label className="text-sm mb-1 block">Batch Size</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminNgnGenerator.batchSize")}</Label>
               <Select value={String(batchSize)} onValueChange={(v) => setBatchSize(Number(v))} data-testid="select-batch-size">
                 <SelectTrigger data-testid="select-batch-size-trigger">
                   <SelectValue />
@@ -224,7 +226,7 @@ function GenerateTab() {
             </div>
 
             <div>
-              <Label className="text-sm mb-1 block">Type Mix Preset</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminNgnGenerator.typeMixPreset")}</Label>
               <Select value={typePreset} onValueChange={setTypePreset} data-testid="select-type-preset">
                 <SelectTrigger data-testid="select-type-preset-trigger">
                   <SelectValue />
@@ -262,7 +264,7 @@ function GenerateTab() {
                 onCheckedChange={setIsDryRun}
                 data-testid="switch-dry-run"
               />
-              <Label className="text-sm">Dry Run</Label>
+              <Label className="text-sm">{t("pages.adminNgnGenerator.dryRun")}</Label>
             </div>
             <div className="flex items-center gap-2">
               <Switch
@@ -282,9 +284,9 @@ function GenerateTab() {
               data-testid="button-generate-batch"
             >
               {generateMutation.isPending ? (
-                <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Generating...</>
+                <><Loader2 className="animate-spin mr-2 h-4 w-4" /> {t("pages.adminNgnGenerator.generating")}</>
               ) : (
-                <><Play className="mr-2 h-4 w-4" /> Generate Batch</>
+                <><Play className="mr-2 h-4 w-4" /> {t("pages.adminNgnGenerator.generateBatch")}</>
               )}
             </Button>
           </div>
@@ -310,44 +312,44 @@ function GenerateTab() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center p-3 bg-gray-50 rounded-lg" data-testid="stat-generated">
                 <div className="text-2xl font-bold">{result.totalGenerated || 0}</div>
-                <div className="text-xs text-gray-500">Generated</div>
+                <div className="text-xs text-gray-500">{t("pages.adminNgnGenerator.generated")}</div>
               </div>
               <div className="text-center p-3 bg-green-50 rounded-lg" data-testid="stat-accepted">
                 <div className="text-2xl font-bold text-green-700">{result.totalAccepted || 0}</div>
-                <div className="text-xs text-green-600">Accepted</div>
+                <div className="text-xs text-green-600">{t("pages.adminNgnGenerator.accepted")}</div>
               </div>
               <div className="text-center p-3 bg-red-50 rounded-lg" data-testid="stat-rejected">
                 <div className="text-2xl font-bold text-red-700">{result.totalRejected || 0}</div>
-                <div className="text-xs text-red-600">Rejected</div>
+                <div className="text-xs text-red-600">{t("pages.adminNgnGenerator.rejected")}</div>
               </div>
               <div className="text-center p-3 bg-blue-50 rounded-lg" data-testid="stat-run-id">
                 <div className="text-xs font-mono text-blue-700 truncate">{result.runId || "N/A"}</div>
-                <div className="text-xs text-blue-600">Run ID</div>
+                <div className="text-xs text-blue-600">{t("pages.adminNgnGenerator.runId")}</div>
               </div>
             </div>
 
             {validationReport && (
               <div className="space-y-3 p-4 bg-gray-50 rounded-lg" data-testid="validation-dashboard">
-                <h4 className="font-medium text-sm">Validation Report</h4>
+                <h4 className="font-medium text-sm">{t("pages.adminNgnGenerator.validationReport")}</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   <ValidationIndicator
                     passed={!validationReport.errors?.some((e: string) => e.includes("domain"))}
-                    label="Domain Distribution"
+                    label={t("pages.adminNgnGenerator.domainDistribution2")}
                     detail={validationReport.domainReport ? "Within tolerance" : undefined}
                   />
                   <ValidationIndicator
                     passed={!validationReport.errors?.some((e: string) => e.includes("format"))}
-                    label="Format Mix"
+                    label={t("pages.adminNgnGenerator.formatMix")}
                     detail={validationReport.formatReport ? "Matches requirements" : undefined}
                   />
                   <ValidationIndicator
                     passed={!validationReport.errors?.some((e: string) => e.includes("rationale"))}
-                    label="Rationale Length"
+                    label={t("pages.adminNgnGenerator.rationaleLength")}
                     detail={validationReport.rationaleStats ? `Avg: ${validationReport.rationaleStats.avg || validationReport.rationaleStats.avgWords || 0} words` : undefined}
                   />
                   <ValidationIndicator
                     passed={!validationReport.errors?.some((e: string) => e.includes("scope"))}
-                    label="Scope Compliance"
+                    label={t("pages.adminNgnGenerator.scopeCompliance")}
                   />
                 </div>
                 {validationReport.errors?.length > 0 && (
@@ -371,7 +373,7 @@ function GenerateTab() {
 
                 {validationReport.domainReport && (
                   <div className="mt-3">
-                    <h5 className="text-xs font-medium text-gray-600 mb-1">Domain Distribution</h5>
+                    <h5 className="text-xs font-medium text-gray-600 mb-1">{t("pages.adminNgnGenerator.domainDistribution")}</h5>
                     <div className="space-y-1">
                       {Object.entries(validationReport.domainReport as Record<string, any>).map(([domain, data]: [string, any]) => (
                         <div key={domain} className="flex items-center gap-2 text-xs">
@@ -393,7 +395,7 @@ function GenerateTab() {
 
                 {validationReport.formatReport && (
                   <div className="mt-3">
-                    <h5 className="text-xs font-medium text-gray-600 mb-1">Format Distribution</h5>
+                    <h5 className="text-xs font-medium text-gray-600 mb-1">{t("pages.adminNgnGenerator.formatDistribution")}</h5>
                     <div className="flex flex-wrap gap-2">
                       {Object.entries(validationReport.formatReport as Record<string, any>).map(([fmt, val]) => (
                         <Badge key={fmt} variant="outline" className="text-xs">
@@ -414,11 +416,11 @@ function GenerateTab() {
                     <thead>
                       <tr className="border-b text-left text-xs text-gray-500">
                         <th className="py-2 px-2">#</th>
-                        <th className="py-2 px-2">Type</th>
-                        <th className="py-2 px-2">Domain</th>
-                        <th className="py-2 px-2">Difficulty</th>
-                        <th className="py-2 px-2">Tags</th>
-                        <th className="py-2 px-2">Rationale Words</th>
+                        <th className="py-2 px-2">{t("pages.adminNgnGenerator.type")}</th>
+                        <th className="py-2 px-2">{t("pages.adminNgnGenerator.domain")}</th>
+                        <th className="py-2 px-2">{t("pages.adminNgnGenerator.difficulty")}</th>
+                        <th className="py-2 px-2">{t("pages.adminNgnGenerator.tags")}</th>
+                        <th className="py-2 px-2">{t("pages.adminNgnGenerator.rationaleWords")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -459,9 +461,9 @@ function GenerateTab() {
                   data-testid="button-ingest-to-bank"
                 >
                   {ingestMutation.isPending ? (
-                    <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Ingesting...</>
+                    <><Loader2 className="animate-spin mr-2 h-4 w-4" /> {t("pages.adminNgnGenerator.ingesting")}</>
                   ) : (
-                    <><Database className="mr-2 h-4 w-4" /> Ingest to Bank</>
+                    <><Database className="mr-2 h-4 w-4" /> {t("pages.adminNgnGenerator.ingestToBank")}</>
                   )}
                 </Button>
               )}
@@ -510,36 +512,36 @@ function RunHistoryTab() {
       <div className="flex gap-3 items-center flex-wrap">
         <Select value={templateFilter} onValueChange={setTemplateFilter}>
           <SelectTrigger className="w-44" data-testid="select-history-template">
-            <SelectValue placeholder="All Templates" />
+            <SelectValue placeholder={t("pages.adminNgnGenerator.allTemplates2")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Templates</SelectItem>
-            <SelectItem value="ngn_batch_v1">NGN Nursing</SelectItem>
-            <SelectItem value="allied_batch_v1">Allied Health</SelectItem>
-            <SelectItem value="cnpe_v1">Canadian NP</SelectItem>
-            <SelectItem value="np_us_v1">US NP</SelectItem>
+            <SelectItem value="all">{t("pages.adminNgnGenerator.allTemplates")}</SelectItem>
+            <SelectItem value="ngn_batch_v1">{t("pages.adminNgnGenerator.ngnNursing")}</SelectItem>
+            <SelectItem value="allied_batch_v1">{t("pages.adminNgnGenerator.alliedHealth")}</SelectItem>
+            <SelectItem value="cnpe_v1">{t("pages.adminNgnGenerator.canadianNp")}</SelectItem>
+            <SelectItem value="np_us_v1">{t("pages.adminNgnGenerator.usNp")}</SelectItem>
           </SelectContent>
         </Select>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-40" data-testid="select-history-status">
-            <SelectValue placeholder="All Status" />
+            <SelectValue placeholder={t("pages.adminNgnGenerator.allStatus2")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="queued">Queued</SelectItem>
-            <SelectItem value="running">Running</SelectItem>
-            <SelectItem value="completed">Completed</SelectItem>
-            <SelectItem value="failed">Failed</SelectItem>
-            <SelectItem value="cancelled">Cancelled</SelectItem>
+            <SelectItem value="all">{t("pages.adminNgnGenerator.allStatus")}</SelectItem>
+            <SelectItem value="queued">{t("pages.adminNgnGenerator.queued")}</SelectItem>
+            <SelectItem value="running">{t("pages.adminNgnGenerator.running")}</SelectItem>
+            <SelectItem value="completed">{t("pages.adminNgnGenerator.completed")}</SelectItem>
+            <SelectItem value="failed">{t("pages.adminNgnGenerator.failed")}</SelectItem>
+            <SelectItem value="cancelled">{t("pages.adminNgnGenerator.cancelled")}</SelectItem>
           </SelectContent>
         </Select>
         <span className="text-sm text-muted-foreground ml-auto">{items.length} runs</span>
       </div>
 
       {isLoading ? (
-        <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading run history...</div>
+        <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> {t("pages.adminNgnGenerator.loadingRunHistory")}</div>
       ) : items.length === 0 ? (
-        <p className="text-muted-foreground py-8 text-center">No generation runs found</p>
+        <p className="text-muted-foreground py-8 text-center">{t("pages.adminNgnGenerator.noGenerationRunsFound")}</p>
       ) : (
         <div className="space-y-2">
           {items.map((run: any) => (
@@ -565,8 +567,8 @@ function RunHistoryTab() {
                       {run.acceptedCount || 0}/{run.targetCount || 0}
                     </span>
                     <StatusBadge status={run.status} />
-                    {run.ingested && <Badge className="bg-green-100 text-green-800 text-xs">Ingested</Badge>}
-                    {run.isDryRun && <Badge variant="outline" className="text-xs">Dry Run</Badge>}
+                    {run.ingested && <Badge className="bg-green-100 text-green-800 text-xs">{t("pages.adminNgnGenerator.ingested")}</Badge>}
+                    {run.isDryRun && <Badge variant="outline" className="text-xs">{t("pages.adminNgnGenerator.dryRun2")}</Badge>}
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     <span className="text-xs text-gray-400">{run.tokenCost || 0} tokens</span>
@@ -593,7 +595,7 @@ function RunHistoryTab() {
                     )}
                     {run.validationReport && (
                       <div className="space-y-2">
-                        <h5 className="text-xs font-medium text-gray-600">Validation Report</h5>
+                        <h5 className="text-xs font-medium text-gray-600">{t("pages.adminNgnGenerator.validationReport2")}</h5>
                         {run.validationReport.errors?.length > 0 && (
                           <div className="space-y-1">
                             {run.validationReport.errors.map((e: string, i: number) => (
@@ -603,7 +605,7 @@ function RunHistoryTab() {
                         )}
                         {run.validationReport.domainReport && (
                           <div className="text-xs">
-                            <span className="font-medium">Domain: </span>
+                            <span className="font-medium">{t("pages.adminNgnGenerator.domain2")} </span>
                             {Object.entries(run.validationReport.domainReport).map(([k, v]: [string, any]) => (
                               <span key={k} className="mr-2">{k}: {(typeof v === "number" ? v : v?.actual || 0).toFixed(1)}%</span>
                             ))}
@@ -611,7 +613,7 @@ function RunHistoryTab() {
                         )}
                         {run.validationReport.rationaleStats && (
                           <div className="text-xs">
-                            <span className="font-medium">Rationale: </span>
+                            <span className="font-medium">{t("pages.adminNgnGenerator.rationale")} </span>
                             Avg {run.validationReport.rationaleStats.avg || run.validationReport.rationaleStats.avgWords || 0} words,
                             Min {run.validationReport.rationaleStats.min || run.validationReport.rationaleStats.minWords || 0} words,
                             Max {run.validationReport.rationaleStats.max || run.validationReport.rationaleStats.maxWords || 0} words
@@ -774,7 +776,7 @@ function SchedulesTab() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Generation Schedules</h3>
+        <h3 className="text-lg font-semibold">{t("pages.adminNgnGenerator.generationSchedules")}</h3>
         <Button onClick={() => setShowAddForm(!showAddForm)} data-testid="button-add-schedule">
           <Plus className="h-4 w-4 mr-1" /> Add Schedule
         </Button>
@@ -788,59 +790,59 @@ function SchedulesTab() {
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div>
-                <Label className="text-sm mb-1 block">Name</Label>
-                <Input value={formName} onChange={(e) => setFormName(e.target.value)} placeholder="Daily REx-PN Questions" data-testid="input-schedule-name" />
+                <Label className="text-sm mb-1 block">{t("pages.adminNgnGenerator.name")}</Label>
+                <Input value={formName} onChange={(e) => setFormName(e.target.value)} placeholder={t("pages.adminNgnGenerator.dailyRexpnQuestions")} data-testid="input-schedule-name" />
               </div>
               <div>
-                <Label className="text-sm mb-1 block">Template Key</Label>
+                <Label className="text-sm mb-1 block">{t("pages.adminNgnGenerator.templateKey")}</Label>
                 <Select value={formTemplateKey} onValueChange={setFormTemplateKey}>
                   <SelectTrigger data-testid="select-schedule-template">
-                    <SelectValue placeholder="Select template" />
+                    <SelectValue placeholder={t("pages.adminNgnGenerator.selectTemplate")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ngn_batch_v1">NGN Nursing</SelectItem>
-                    <SelectItem value="allied_batch_v1">Allied Health</SelectItem>
-                    <SelectItem value="cnpe_v1">Canadian NP</SelectItem>
-                    <SelectItem value="np_us_v1">US NP</SelectItem>
+                    <SelectItem value="ngn_batch_v1">{t("pages.adminNgnGenerator.ngnNursing2")}</SelectItem>
+                    <SelectItem value="allied_batch_v1">{t("pages.adminNgnGenerator.alliedHealth2")}</SelectItem>
+                    <SelectItem value="cnpe_v1">{t("pages.adminNgnGenerator.canadianNp2")}</SelectItem>
+                    <SelectItem value="np_us_v1">{t("pages.adminNgnGenerator.usNp2")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div>
-                <Label className="text-sm mb-1 block">Variant Key</Label>
+                <Label className="text-sm mb-1 block">{t("pages.adminNgnGenerator.variantKey")}</Label>
                 <Input value={formVariantKey} onChange={(e) => setFormVariantKey(e.target.value)} placeholder="rexpn_can" data-testid="input-schedule-variant" />
               </div>
               <div>
-                <Label className="text-sm mb-1 block">Exam Key</Label>
-                <Input value={formExamKey} onChange={(e) => setFormExamKey(e.target.value)} placeholder="REx-PN" data-testid="input-schedule-exam" />
+                <Label className="text-sm mb-1 block">{t("pages.adminNgnGenerator.examKey")}</Label>
+                <Input value={formExamKey} onChange={(e) => setFormExamKey(e.target.value)} placeholder={t("pages.adminNgnGenerator.rexpn")} data-testid="input-schedule-exam" />
               </div>
               <div>
-                <Label className="text-sm mb-1 block">Region</Label>
+                <Label className="text-sm mb-1 block">{t("pages.adminNgnGenerator.region")}</Label>
                 <Select value={formRegion} onValueChange={setFormRegion}>
                   <SelectTrigger data-testid="select-schedule-region">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Canada">Canada</SelectItem>
+                    <SelectItem value="Canada">{t("pages.adminNgnGenerator.canada")}</SelectItem>
                     <SelectItem value="US">US</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div>
-                <Label className="text-sm mb-1 block">Frequency</Label>
+                <Label className="text-sm mb-1 block">{t("pages.adminNgnGenerator.frequency")}</Label>
                 <Select value={formFrequency} onValueChange={setFormFrequency}>
                   <SelectTrigger data-testid="select-schedule-frequency">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="daily">Daily</SelectItem>
-                    <SelectItem value="weekly">Weekly</SelectItem>
-                    <SelectItem value="custom">Custom</SelectItem>
+                    <SelectItem value="daily">{t("pages.adminNgnGenerator.daily")}</SelectItem>
+                    <SelectItem value="weekly">{t("pages.adminNgnGenerator.weekly")}</SelectItem>
+                    <SelectItem value="custom">{t("pages.adminNgnGenerator.custom")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               {formFrequency === "custom" && (
                 <div className="col-span-full">
-                  <Label className="text-sm mb-1 block">Custom Days</Label>
+                  <Label className="text-sm mb-1 block">{t("pages.adminNgnGenerator.customDays")}</Label>
                   <div className="flex gap-2">
                     {DAY_NAMES.map((day, i) => (
                       <button
@@ -864,7 +866,7 @@ function SchedulesTab() {
                 </div>
               )}
               <div>
-                <Label className="text-sm mb-1 block">Run Time (UTC Hour)</Label>
+                <Label className="text-sm mb-1 block">{t("pages.adminNgnGenerator.runTimeUtcHour")}</Label>
                 <Input
                   type="number"
                   value={formRunTimeHour}
@@ -875,7 +877,7 @@ function SchedulesTab() {
                 />
               </div>
               <div>
-                <Label className="text-sm mb-1 block">Questions per Run</Label>
+                <Label className="text-sm mb-1 block">{t("pages.adminNgnGenerator.questionsPerRun")}</Label>
                 <Input
                   type="number"
                   value={formQuestionsPerRun}
@@ -886,7 +888,7 @@ function SchedulesTab() {
                 />
               </div>
               <div>
-                <Label className="text-sm mb-1 block">Rationale Min Words</Label>
+                <Label className="text-sm mb-1 block">{t("pages.adminNgnGenerator.rationaleMinWords")}</Label>
                 <Input
                   type="number"
                   value={formRationaleMinWords}
@@ -897,7 +899,7 @@ function SchedulesTab() {
                 />
               </div>
               <div>
-                <Label className="text-sm mb-1 block">Max Daily Runs</Label>
+                <Label className="text-sm mb-1 block">{t("pages.adminNgnGenerator.maxDailyRuns")}</Label>
                 <Input
                   type="number"
                   value={formMaxDailyRuns}
@@ -909,7 +911,7 @@ function SchedulesTab() {
               </div>
               <div className="flex items-center gap-2">
                 <Switch checked={formAutoIngest} onCheckedChange={setFormAutoIngest} data-testid="switch-schedule-auto-ingest" />
-                <Label className="text-sm">Auto-Ingest</Label>
+                <Label className="text-sm">{t("pages.adminNgnGenerator.autoingest")}</Label>
               </div>
             </div>
             <div className="flex gap-3">
@@ -933,9 +935,9 @@ function SchedulesTab() {
       )}
 
       {isLoading ? (
-        <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading schedules...</div>
+        <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> {t("pages.adminNgnGenerator.loadingSchedules")}</div>
       ) : scheduleItems.length === 0 ? (
-        <p className="text-muted-foreground py-8 text-center">No schedules configured</p>
+        <p className="text-muted-foreground py-8 text-center">{t("pages.adminNgnGenerator.noSchedulesConfigured")}</p>
       ) : (
         <div className="space-y-2">
           {scheduleItems.map((s: any) => (
@@ -953,9 +955,9 @@ function SchedulesTab() {
                       <Badge variant="outline" className="text-xs">{s.examKey}</Badge>
                       <Badge variant="outline" className="text-xs">{s.frequency}</Badge>
                       {s.enabled ? (
-                        <Badge className="bg-green-100 text-green-800 text-xs">Active</Badge>
+                        <Badge className="bg-green-100 text-green-800 text-xs">{t("pages.adminNgnGenerator.active")}</Badge>
                       ) : (
-                        <Badge className="bg-gray-100 text-gray-800 text-xs">Disabled</Badge>
+                        <Badge className="bg-gray-100 text-gray-800 text-xs">{t("pages.adminNgnGenerator.disabled")}</Badge>
                       )}
                     </div>
                     <div className="flex items-center gap-4 text-xs text-gray-500 mt-1">
@@ -1034,14 +1036,14 @@ function TemplatesTab() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Prompt Templates (Read-Only)</h3>
-        <span className="text-xs text-gray-500">Templates are code-managed</span>
+        <h3 className="text-lg font-semibold">{t("pages.adminNgnGenerator.promptTemplatesReadonly")}</h3>
+        <span className="text-xs text-gray-500">{t("pages.adminNgnGenerator.templatesAreCodemanaged")}</span>
       </div>
 
       {isLoading ? (
-        <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading templates...</div>
+        <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> {t("pages.adminNgnGenerator.loadingTemplates")}</div>
       ) : items.length === 0 ? (
-        <p className="text-muted-foreground py-8 text-center">No templates found</p>
+        <p className="text-muted-foreground py-8 text-center">{t("pages.adminNgnGenerator.noTemplatesFound")}</p>
       ) : (
         <div className="space-y-2">
           {items.map((t: any) => (
@@ -1066,13 +1068,13 @@ function TemplatesTab() {
                       {(t.variants || []).length} variant{(t.variants || []).length !== 1 ? "s" : ""}
                     </span>
                   </div>
-                  {t.isActive !== false && <Badge className="bg-green-100 text-green-800 text-xs">Active</Badge>}
+                  {t.isActive !== false && <Badge className="bg-green-100 text-green-800 text-xs">{t("pages.adminNgnGenerator.active2")}</Badge>}
                 </div>
 
                 {expandedTemplate === t.key && (
                   <div className="mt-3 pt-3 border-t border-gray-100 space-y-3">
                     <div>
-                      <h5 className="text-xs font-medium text-gray-600 mb-1">Variants</h5>
+                      <h5 className="text-xs font-medium text-gray-600 mb-1">{t("pages.adminNgnGenerator.variants")}</h5>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                         {(t.variants || []).map((v: any) => (
                           <div key={v.variantKey} className="p-2 bg-gray-50 rounded text-xs space-y-1" data-testid={`variant-${v.variantKey}`}>
@@ -1097,7 +1099,7 @@ function TemplatesTab() {
                     </div>
                     {t.validationRules && (
                       <div>
-                        <h5 className="text-xs font-medium text-gray-600 mb-1">Validation Rules</h5>
+                        <h5 className="text-xs font-medium text-gray-600 mb-1">{t("pages.adminNgnGenerator.validationRules")}</h5>
                         <div className="text-xs text-gray-500 space-y-0.5">
                           <div>Rationale min words: {t.validationRules.rationaleMinWords}</div>
                           <div>Domain tolerance: +-{((t.validationRules.domainTolerance || 0.03) * 100).toFixed(0)}%</div>
@@ -1107,7 +1109,7 @@ function TemplatesTab() {
                     )}
                     {t.metadata && (
                       <div>
-                        <h5 className="text-xs font-medium text-gray-600 mb-1">Metadata</h5>
+                        <h5 className="text-xs font-medium text-gray-600 mb-1">{t("pages.adminNgnGenerator.metadata")}</h5>
                         <pre className="text-xs text-gray-500 bg-gray-50 p-2 rounded overflow-x-auto">
                           {JSON.stringify(t.metadata, null, 2)}
                         </pre>
@@ -1138,16 +1140,16 @@ export default function AdminNgnGenerator() {
             <h1 className="text-2xl font-bold flex items-center gap-2" data-testid="text-ngn-generator-title">
               <Settings className="h-6 w-6" /> NGN Question Generator
             </h1>
-            <p className="text-sm text-muted-foreground">Batch generation with blueprint validation, dry-run previews, and scheduling</p>
+            <p className="text-sm text-muted-foreground">{t("pages.adminNgnGenerator.batchGenerationWithBlueprintValidation")}</p>
           </div>
         </div>
 
         <Tabs defaultValue="generate">
           <TabsList className="mb-4" data-testid="tabs-ngn-generator">
-            <TabsTrigger value="generate" data-testid="tab-generate">Generate</TabsTrigger>
-            <TabsTrigger value="history" data-testid="tab-run-history">Run History</TabsTrigger>
-            <TabsTrigger value="schedules" data-testid="tab-schedules">Schedules</TabsTrigger>
-            <TabsTrigger value="templates" data-testid="tab-templates">Templates</TabsTrigger>
+            <TabsTrigger value="generate" data-testid="tab-generate">{t("pages.adminNgnGenerator.generate")}</TabsTrigger>
+            <TabsTrigger value="history" data-testid="tab-run-history">{t("pages.adminNgnGenerator.runHistory")}</TabsTrigger>
+            <TabsTrigger value="schedules" data-testid="tab-schedules">{t("pages.adminNgnGenerator.schedules")}</TabsTrigger>
+            <TabsTrigger value="templates" data-testid="tab-templates">{t("pages.adminNgnGenerator.templates")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="generate"><GenerateTab /></TabsContent>

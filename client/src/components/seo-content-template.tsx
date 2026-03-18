@@ -3,6 +3,7 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, ChevronRight, CheckCircle2, Sparkles,
   GraduationCap, BookOpen, HelpCircle
@@ -55,6 +56,7 @@ const SITE_DOMAIN = "https://www.nursenest.ca";
 function AboveFoldCTA({ title, description, buttonText, buttonHref }: {
   title?: string; description?: string; buttonText?: string; buttonHref?: string;
 }) {
+  const { t } = useI18n();
   return (
     <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-6 sm:p-8 text-white mb-10" data-testid="cta-above-fold">
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -96,8 +98,8 @@ function EndPageCTA() {
     <section className="py-16 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600" data-testid="cta-end-page">
       <div className="max-w-3xl mx-auto px-4 text-center">
         <GraduationCap className="w-10 h-10 text-blue-200 mx-auto mb-4" />
-        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">Start Your Career Journey Today</h2>
-        <p className="text-blue-100 mb-6 max-w-xl mx-auto">Join thousands of new graduate nurses who landed their dream jobs using our comprehensive career preparation tools.</p>
+        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">{t("components.seoContentTemplate.startYourCareerJourneyToday")}</h2>
+        <p className="text-blue-100 mb-6 max-w-xl mx-auto">{t("components.seoContentTemplate.joinThousandsOfNewGraduate")}</p>
         <div className="flex flex-wrap gap-3 justify-center">
           <Link href="/newgrad" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors" data-testid="button-cta-end-career-hub">
             Explore Career Hub <ArrowRight className="w-4 h-4" />
@@ -203,7 +205,7 @@ export function SeoContentPage({
       <section className={`relative py-16 sm:py-20 overflow-hidden`} data-testid="section-hero">
         <div className={`absolute inset-0 bg-gradient-to-br ${colors.bg}`} />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label="Breadcrumb" data-testid="breadcrumb-nav">
+          <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label={t("components.seoContentTemplate.breadcrumb")} data-testid="breadcrumb-nav">
             {breadcrumbs.map((crumb, i) => (
               <span key={i} className="flex items-center gap-2">
                 {i > 0 && <ChevronRight className="w-3.5 h-3.5" />}
@@ -241,7 +243,7 @@ export function SeoContentPage({
                 )}
                 {section.tip && (
                   <div className="bg-amber-50 rounded-xl p-4 border border-amber-100">
-                    <p className="text-sm text-amber-800"><strong>Pro Tip:</strong> {section.tip}</p>
+                    <p className="text-sm text-amber-800"><strong>{t("components.seoContentTemplate.proTip")}</strong> {section.tip}</p>
                   </div>
                 )}
               </div>
@@ -341,7 +343,7 @@ export function SeoHubPage({
       <section className="relative py-16 sm:py-24 overflow-hidden" data-testid="section-hero">
         <div className={`absolute inset-0 bg-gradient-to-br ${colors.bg}`} />
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label="Breadcrumb" data-testid="breadcrumb-nav">
+          <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label={t("components.seoContentTemplate.breadcrumb2")} data-testid="breadcrumb-nav">
             {breadcrumbs.map((crumb, i) => (
               <span key={i} className="flex items-center gap-2">
                 {i > 0 && <ChevronRight className="w-3.5 h-3.5" />}
@@ -391,8 +393,8 @@ export function SeoHubPage({
         <section className="py-12 bg-gradient-to-br from-indigo-50 to-blue-50" data-testid="section-tools">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Premium Career Tools</h2>
-              <p className="text-gray-600 text-sm">Hands-on tools to accelerate your job search and career preparation</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("components.seoContentTemplate.premiumCareerTools")}</h2>
+              <p className="text-gray-600 text-sm">{t("components.seoContentTemplate.handsonToolsToAccelerateYour")}</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {toolLinks.map((tool, i) => (

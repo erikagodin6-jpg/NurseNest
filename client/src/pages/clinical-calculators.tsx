@@ -155,8 +155,8 @@ function ClinicalCalculatorsHub() {
   return (
     <>
       <SEO
-        title="Clinical Calculators for Nursing Students — Free Tools"
-        description="Free interactive clinical calculators for nursing students. Anion gap, IV drip rate, BSA, pediatric dose, ABG interpretation, GFR, and BMI calculators with clinical interpretation and exam tips."
+        title={t("pages.clinicalCalculators.clinicalCalculatorsForNursingStudents")}
+        description={t("pages.clinicalCalculators.freeInteractiveClinicalCalculatorsFor")}
         keywords="clinical calculators, nursing calculators, med math, IV drip rate, anion gap, ABG interpretation, GFR calculator, BMI calculator"
         canonicalPath="/clinical-calculators"
         structuredData={structuredData}
@@ -184,7 +184,7 @@ function ClinicalCalculatorsHub() {
           </div>
 
           <div className="mt-16">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t("pages.clinicalCalculators.frequentlyAskedQuestions")}</h2>
             <div className="space-y-4">
               {hubFaqs.map((faq, i) => (
                 <FaqAccordion key={i} question={faq.question} answer={faq.answer} index={i} />
@@ -193,7 +193,7 @@ function ClinicalCalculatorsHub() {
           </div>
 
           <div className="mt-12 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 sm:p-8">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Build Your Clinical Skills</h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{t("pages.clinicalCalculators.buildYourClinicalSkills")}</h2>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
               Pair these calculators with our pathophysiology lessons, question banks, and clinical simulations to strengthen your exam readiness.
             </p>
@@ -323,7 +323,7 @@ function CalculatorPageWrapper({ calc, children }: { calc: CalculatorDef; childr
           {children}
           {faqData.length > 0 && (
             <div className="mt-12">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Frequently Asked Questions</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">{t("pages.clinicalCalculators.frequentlyAskedQuestions2")}</h2>
               <div className="space-y-3">
                 {faqData.map((faq, i) => (
                   <FaqAccordion key={i} question={faq.question} answer={faq.answer} index={i} />
@@ -397,26 +397,26 @@ function AnionGapCalculator() {
   return (
     <CalculatorPageWrapper calc={calc}>
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Enter Lab Values</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{t("pages.clinicalCalculators.enterLabValues")}</h2>
         <div className="grid gap-4 sm:grid-cols-2">
-          <InputField label="Sodium (Na⁺)" value={na} onChange={setNa} unit="mEq/L" placeholder="135-145" id="sodium" />
-          <InputField label="Chloride (Cl⁻)" value={cl} onChange={setCl} unit="mEq/L" placeholder="96-106" id="chloride" />
-          <InputField label="Bicarbonate (HCO₃⁻)" value={hco3} onChange={setHco3} unit="mEq/L" placeholder="22-26" id="bicarbonate" />
-          <InputField label="Albumin (optional)" value={albumin} onChange={setAlbumin} unit="g/dL" placeholder="3.5-5.0" id="albumin" />
+          <InputField label={t("pages.clinicalCalculators.sodiumNa")} value={na} onChange={setNa} unit="mEq/L" placeholder={t("pages.clinical_calculators.135145")} id="sodium" />
+          <InputField label={t("pages.clinicalCalculators.chlorideCl")} value={cl} onChange={setCl} unit="mEq/L" placeholder={t("pages.clinical_calculators.96106")} id="chloride" />
+          <InputField label={t("pages.clinicalCalculators.bicarbonateHco")} value={hco3} onChange={setHco3} unit="mEq/L" placeholder={t("pages.clinical_calculators.2226")} id="bicarbonate" />
+          <InputField label={t("pages.clinicalCalculators.albuminOptional")} value={albumin} onChange={setAlbumin} unit="g/dL" placeholder={t("pages.clinical_calculators.3550")} id="albumin" />
         </div>
         {hasResult && ag !== null && (
           <div className="mt-6 space-y-3">
-            <ResultBox label="Anion Gap" value={`${ag.toFixed(1)} mEq/L`} interpretation={interpretation} color={color} />
+            <ResultBox label={t("pages.clinicalCalculators.anionGap")} value={`${ag.toFixed(1)} mEq/L`} interpretation={interpretation} color={color} />
             {correctedAg !== null && (
-              <ResultBox label="Albumin-Corrected AG" value={`${correctedAg.toFixed(1)} mEq/L`} interpretation={`Corrected for albumin ${albVal} g/dL (normal 4.0 g/dL). Each 1 g/dL decrease in albumin lowers the AG by ~2.5 mEq/L.`} color="blue" />
+              <ResultBox label={t("pages.clinicalCalculators.albumincorrectedAg")} value={`${correctedAg.toFixed(1)} mEq/L`} interpretation={`Corrected for albumin ${albVal} g/dL (normal 4.0 g/dL). Each 1 g/dL decrease in albumin lowers the AG by ~2.5 mEq/L.`} color="blue" />
             )}
           </div>
         )}
         <ClinicalNote>
-          <strong>Formula:</strong> AG = Na⁺ − (Cl⁻ + HCO₃⁻). Normal range: 8–12 mEq/L. Albumin correction: Corrected AG = AG + 2.5 × (4.0 − measured albumin).
+          <strong>{t("pages.clinicalCalculators.formula")}</strong> AG = Na⁺ − (Cl⁻ + HCO₃⁻). Normal range: 8–12 mEq/L. Albumin correction: Corrected AG = AG + 2.5 × (4.0 − measured albumin).
         </ClinicalNote>
         <ExamTip>
-          <strong>NCLEX Tip:</strong> The anion gap is a must-know for distinguishing DKA (elevated AG) from hyperchloremic acidosis (normal AG). Remember MUDPILES for elevated AG causes and HARDUPS for normal AG causes.
+          <strong>{t("pages.clinicalCalculators.nclexTip")}</strong> The anion gap is a must-know for distinguishing DKA (elevated AG) from hyperchloremic acidosis (normal AG). Remember MUDPILES for elevated AG causes and HARDUPS for normal AG causes.
         </ExamTip>
       </div>
     </CalculatorPageWrapper>
@@ -438,32 +438,32 @@ function IVDripRateCalculator() {
   return (
     <CalculatorPageWrapper calc={calc}>
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Enter Infusion Parameters</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{t("pages.clinicalCalculators.enterInfusionParameters")}</h2>
         <div className="grid gap-4 sm:grid-cols-2">
-          <InputField label="Total Volume" value={volume} onChange={setVolume} unit="mL" placeholder="1000" id="volume" />
+          <InputField label={t("pages.clinicalCalculators.totalVolume")} value={volume} onChange={setVolume} unit="mL" placeholder="1000" id="volume" />
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Drop Factor</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t("pages.clinicalCalculators.dropFactor")}</label>
             <select value={dropFactor} onChange={e => setDropFactor(e.target.value)} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white" data-testid="select-drop-factor">
-              <option value="10">10 gtt/mL (Standard)</option>
-              <option value="15">15 gtt/mL (Standard)</option>
-              <option value="20">20 gtt/mL (Standard)</option>
-              <option value="60">60 gtt/mL (Micro drip)</option>
+              <option value="10">{t("pages.clinicalCalculators.10GttmlStandard")}</option>
+              <option value="15">{t("pages.clinicalCalculators.15GttmlStandard")}</option>
+              <option value="20">{t("pages.clinicalCalculators.20GttmlStandard")}</option>
+              <option value="60">{t("pages.clinicalCalculators.60GttmlMicroDrip")}</option>
             </select>
           </div>
-          <InputField label="Hours" value={hours} onChange={setHours} unit="hr" placeholder="8" id="hours" />
-          <InputField label="Minutes" value={minutes} onChange={setMinutes} unit="min" placeholder="0" id="minutes" />
+          <InputField label={t("pages.clinicalCalculators.hours")} value={hours} onChange={setHours} unit="hr" placeholder="8" id="hours" />
+          <InputField label={t("pages.clinicalCalculators.minutes")} value={minutes} onChange={setMinutes} unit="min" placeholder="0" id="minutes" />
         </div>
         {hasResult && mlPerHr !== null && gttsPerMin !== null && (
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <ResultBox label="Flow Rate" value={`${mlPerHr.toFixed(1)} mL/hr`} color="blue" />
-            <ResultBox label="Drop Rate" value={`${gttsPerMin.toFixed(1)} gtt/min`} interpretation={`≈ ${Math.round(gttsPerMin)} drops per minute`} color="green" />
+            <ResultBox label={t("pages.clinicalCalculators.flowRate")} value={`${mlPerHr.toFixed(1)} mL/hr`} color="blue" />
+            <ResultBox label={t("pages.clinicalCalculators.dropRate")} value={`${gttsPerMin.toFixed(1)} gtt/min`} interpretation={`≈ ${Math.round(gttsPerMin)} drops per minute`} color="green" />
           </div>
         )}
         <ClinicalNote>
-          <strong>Formula:</strong> gtt/min = (Volume × Drop Factor) ÷ Time in minutes. mL/hr = Volume ÷ Time in hours. Micro drip (60 gtt/mL): gtt/min = mL/hr when using 60 gtt/mL tubing.
+          <strong>{t("pages.clinicalCalculators.formula2")}</strong> gtt/min = (Volume × Drop Factor) ÷ Time in minutes. mL/hr = Volume ÷ Time in hours. Micro drip (60 gtt/mL): gtt/min = mL/hr when using 60 gtt/mL tubing.
         </ClinicalNote>
         <ExamTip>
-          <strong>NCLEX Tip:</strong> Remember that with micro drip tubing (60 gtt/mL), the gtt/min equals the mL/hr rate — this shortcut is frequently tested. Always double-check drop factor on the tubing package before calculating.
+          <strong>{t("pages.clinicalCalculators.nclexTip2")}</strong> Remember that with micro drip tubing (60 gtt/mL), the gtt/min equals the mL/hr rate — this shortcut is frequently tested. Always double-check drop factor on the tubing package before calculating.
         </ExamTip>
       </div>
     </CalculatorPageWrapper>
@@ -486,28 +486,28 @@ function BSACalculator() {
   return (
     <CalculatorPageWrapper calc={calc}>
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Enter Patient Data</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{t("pages.clinicalCalculators.enterPatientData")}</h2>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Formula</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t("pages.clinicalCalculators.formula3")}</label>
           <select value={formula} onChange={e => setFormula(e.target.value as "mosteller" | "dubois")} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white" data-testid="select-formula">
-            <option value="mosteller">Mosteller (recommended)</option>
-            <option value="dubois">DuBois & DuBois</option>
+            <option value="mosteller">{t("pages.clinicalCalculators.mostellerRecommended")}</option>
+            <option value="dubois">{t("pages.clinicalCalculators.duboisDubois")}</option>
           </select>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
-          <InputField label="Height" value={height} onChange={setHeight} unit="cm" placeholder="170" id="height" />
-          <InputField label="Weight" value={weight} onChange={setWeight} unit="kg" placeholder="70" id="weight" />
+          <InputField label={t("pages.clinicalCalculators.height")} value={height} onChange={setHeight} unit="cm" placeholder="170" id="height" />
+          <InputField label={t("pages.clinicalCalculators.weight")} value={weight} onChange={setWeight} unit="kg" placeholder="70" id="weight" />
         </div>
         {hasResult && bsa !== null && (
           <div className="mt-6">
-            <ResultBox label="Body Surface Area" value={`${bsa.toFixed(2)} m²`} interpretation={`Average adult BSA is approximately 1.7 m². ${bsa < 1.5 ? "Below average — verify pediatric dosing adjustments." : bsa > 2.2 ? "Above average — monitor for dose-related toxicity with BSA-based dosing." : "Within typical adult range."}`} color="blue" />
+            <ResultBox label={t("pages.clinicalCalculators.bodySurfaceArea")} value={`${bsa.toFixed(2)} m²`} interpretation={`Average adult BSA is approximately 1.7 m². ${bsa < 1.5 ? "Below average — verify pediatric dosing adjustments." : bsa > 2.2 ? "Above average — monitor for dose-related toxicity with BSA-based dosing." : "Within typical adult range."}`} color="blue" />
           </div>
         )}
         <ClinicalNote>
-          <strong>Mosteller:</strong> BSA (m²) = √((Height cm × Weight kg) / 3600). <strong>DuBois:</strong> BSA = 0.007184 × Height⁰·⁷²⁵ × Weight⁰·⁴²⁵.
+          <strong>{t("pages.clinicalCalculators.mosteller")}</strong>{t("pages.clinical_calculators.bsaMHeightCmWeight")}<strong>{t("pages.clinicalCalculators.dubois")}</strong> BSA = 0.007184 × Height⁰·⁷²⁵ × Weight⁰·⁴²⁵.
         </ClinicalNote>
         <ExamTip>
-          <strong>Exam Tip:</strong> BSA is used for chemotherapy dosing (mg/m²), burn assessment (Rule of Nines uses BSA percentages), and cardiac index calculation (CI = CO/BSA). Know the Mosteller formula — it's the most commonly tested.
+          <strong>{t("pages.clinicalCalculators.examTip")}</strong> BSA is used for chemotherapy dosing (mg/m²), burn assessment (Rule of Nines uses BSA percentages), and cardiac index calculation (CI = CO/BSA). Know the Mosteller formula — it's the most commonly tested.
         </ExamTip>
       </div>
     </CalculatorPageWrapper>
@@ -529,26 +529,26 @@ function PediatricDoseCalculator() {
   return (
     <CalculatorPageWrapper calc={calc}>
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Enter Medication Parameters</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{t("pages.clinicalCalculators.enterMedicationParameters")}</h2>
         <div className="grid gap-4 sm:grid-cols-2">
-          <InputField label="Patient Weight" value={weight} onChange={setWeight} unit="kg" placeholder="20" id="patient-weight" />
-          <InputField label="Dose per kg" value={dosePerKg} onChange={setDosePerKg} unit="mg/kg" placeholder="10" id="dose-per-kg" />
-          <InputField label="Times per Day" value={frequency} onChange={setFrequency} unit="×/day" placeholder="3" id="frequency" />
-          <InputField label="Concentration (optional)" value={concentration} onChange={setConcentration} unit="mg/mL" placeholder="25" id="concentration" />
+          <InputField label={t("pages.clinicalCalculators.patientWeight")} value={weight} onChange={setWeight} unit="kg" placeholder="20" id="patient-weight" />
+          <InputField label={t("pages.clinicalCalculators.dosePerKg")} value={dosePerKg} onChange={setDosePerKg} unit="mg/kg" placeholder="10" id="dose-per-kg" />
+          <InputField label={t("pages.clinicalCalculators.timesPerDay")} value={frequency} onChange={setFrequency} unit="×/day" placeholder="3" id="frequency" />
+          <InputField label={t("pages.clinicalCalculators.concentrationOptional")} value={concentration} onChange={setConcentration} unit="mg/mL" placeholder="25" id="concentration" />
         </div>
         {hasResult && singleDose !== null && (
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <ResultBox label="Single Dose" value={`${singleDose.toFixed(1)} mg`} color="blue" />
-            {dailyDose !== null && <ResultBox label="Total Daily Dose" value={`${dailyDose.toFixed(1)} mg/day`} color="green" />}
-            {volumePerDose !== null && <ResultBox label="Volume per Dose" value={`${volumePerDose.toFixed(2)} mL`} interpretation={`Based on ${conc} mg/mL concentration`} color="blue" />}
+            <ResultBox label={t("pages.clinicalCalculators.singleDose")} value={`${singleDose.toFixed(1)} mg`} color="blue" />
+            {dailyDose !== null && <ResultBox label={t("pages.clinicalCalculators.totalDailyDose")} value={`${dailyDose.toFixed(1)} mg/day`} color="green" />}
+            {volumePerDose !== null && <ResultBox label={t("pages.clinicalCalculators.volumePerDose")} value={`${volumePerDose.toFixed(2)} mL`} interpretation={`Based on ${conc} mg/mL concentration`} color="blue" />}
           </div>
         )}
         <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex gap-2">
           <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-          <p className="text-sm text-red-700 dark:text-red-300"><strong>Safety Check:</strong> Always verify the calculated dose against the medication's published safe dose range. Pediatric doses must never exceed the maximum adult dose unless specifically indicated.</p>
+          <p className="text-sm text-red-700 dark:text-red-300"><strong>{t("pages.clinicalCalculators.safetyCheck")}</strong> {t("pages.clinicalCalculators.alwaysVerifyTheCalculatedDose")}</p>
         </div>
         <ExamTip>
-          <strong>NCLEX Tip:</strong> Pediatric dosing questions are high-yield on nursing exams. Always calculate mg/kg first, then verify the total dose falls within the safe range. If the ordered dose exceeds the recommended range, contact the prescriber before administering.
+          <strong>{t("pages.clinicalCalculators.nclexTip3")}</strong> Pediatric dosing questions are high-yield on nursing exams. Always calculate mg/kg first, then verify the total dose falls within the safe range. If the ordered dose exceeds the recommended range, contact the prescriber before administering.
         </ExamTip>
       </div>
     </CalculatorPageWrapper>
@@ -605,19 +605,19 @@ function ABGCalculator() {
   return (
     <CalculatorPageWrapper calc={calc}>
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Enter ABG Values</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{t("pages.clinicalCalculators.enterAbgValues")}</h2>
         <div className="grid gap-4 sm:grid-cols-2">
-          <InputField label="pH" value={ph} onChange={setPh} placeholder="7.35-7.45" id="ph" />
-          <InputField label="PaCO₂" value={paco2} onChange={setPaco2} unit="mmHg" placeholder="35-45" id="paco2" />
-          <InputField label="HCO₃⁻" value={hco3} onChange={setHco3} unit="mEq/L" placeholder="22-26" id="hco3" />
-          <InputField label="PaO₂ (optional)" value={pao2} onChange={setPao2} unit="mmHg" placeholder="80-100" id="pao2" />
+          <InputField label="pH" value={ph} onChange={setPh} placeholder={t("pages.clinical_calculators.735745")} id="ph" />
+          <InputField label={t("pages.clinicalCalculators.paco")} value={paco2} onChange={setPaco2} unit="mmHg" placeholder={t("pages.clinical_calculators.3545")} id="paco2" />
+          <InputField label={t("pages.clinicalCalculators.hco")} value={hco3} onChange={setHco3} unit="mEq/L" placeholder={t("pages.clinical_calculators.2226")} id="hco3" />
+          <InputField label={t("pages.clinicalCalculators.paoOptional")} value={pao2} onChange={setPao2} unit="mmHg" placeholder={t("pages.clinical_calculators.80100")} id="pao2" />
         </div>
         {hasResult && (
           <div className="mt-6 space-y-3">
-            <ResultBox label="Interpretation" value={analysis.type} interpretation={analysis.compensation} color={resultColor} />
-            {analysis.oxygenation && <ResultBox label="Oxygenation Status" value={analysis.oxygenation} color={o2Val < 60 ? "red" : o2Val < 80 ? "yellow" : "green"} />}
+            <ResultBox label={t("pages.clinicalCalculators.interpretation")} value={analysis.type} interpretation={analysis.compensation} color={resultColor} />
+            {analysis.oxygenation && <ResultBox label={t("pages.clinicalCalculators.oxygenationStatus")} value={analysis.oxygenation} color={o2Val < 60 ? "red" : o2Val < 80 ? "yellow" : "green"} />}
             <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
-              <h3 className="font-medium text-gray-900 dark:text-white mb-2">Step-by-Step Analysis</h3>
+              <h3 className="font-medium text-gray-900 dark:text-white mb-2">{t("pages.clinicalCalculators.stepbystepAnalysis")}</h3>
               <ol className="space-y-1">
                 {analysis.steps.map((step, i) => (
                   <li key={i} className="text-sm text-gray-700 dark:text-gray-300 flex gap-2">
@@ -629,7 +629,7 @@ function ABGCalculator() {
           </div>
         )}
         <ExamTip>
-          <strong>NCLEX Tip:</strong> Use the "Tic-Tac-Toe" method: draw a grid with pH in the center, PaCO₂ on one side, and HCO₃ on the other. Match the abnormal value that corresponds to the pH direction to identify the primary disorder. This is one of the most commonly tested topics on nursing exams.
+          <strong>{t("pages.clinicalCalculators.nclexTip4")}</strong> Use the "Tic-Tac-Toe" method: draw a grid with pH in the center, PaCO₂ on one side, and HCO₃ on the other. Match the abnormal value that corresponds to the pH direction to identify the primary disorder. This is one of the most commonly tested topics on nursing exams.
         </ExamTip>
       </div>
     </CalculatorPageWrapper>
@@ -665,15 +665,15 @@ function GFRCalculator() {
   return (
     <CalculatorPageWrapper calc={calc}>
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Enter Patient Data</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{t("pages.clinicalCalculators.enterPatientData2")}</h2>
         <div className="grid gap-4 sm:grid-cols-2">
-          <InputField label="Age" value={age} onChange={setAge} unit="years" placeholder="45" id="age" />
-          <InputField label="Serum Creatinine" value={creatinine} onChange={setCreatinine} unit="mg/dL" placeholder="1.0" id="creatinine" />
+          <InputField label={t("pages.clinicalCalculators.age")} value={age} onChange={setAge} unit="years" placeholder="45" id="age" />
+          <InputField label={t("pages.clinicalCalculators.serumCreatinine")} value={creatinine} onChange={setCreatinine} unit="mg/dL" placeholder="1.0" id="creatinine" />
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sex</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t("pages.clinicalCalculators.sex")}</label>
             <select value={sex} onChange={e => setSex(e.target.value as "male" | "female")} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white" data-testid="select-sex">
-              <option value="female">Female</option>
-              <option value="male">Male</option>
+              <option value="female">{t("pages.clinicalCalculators.female")}</option>
+              <option value="male">{t("pages.clinicalCalculators.male")}</option>
             </select>
           </div>
         </div>
@@ -683,10 +683,10 @@ function GFRCalculator() {
           </div>
         )}
         <ClinicalNote>
-          <strong>CKD-EPI 2021:</strong> This calculator uses the race-free CKD-EPI 2021 equation recommended by KDIGO. GFR naturally declines with age — interpret results in clinical context.
+          <strong>{t("pages.clinicalCalculators.ckdepi2021")}</strong> This calculator uses the race-free CKD-EPI 2021 equation recommended by KDIGO. GFR naturally declines with age — interpret results in clinical context.
         </ClinicalNote>
         <ExamTip>
-          <strong>Exam Tip:</strong> Know the CKD stages and their nursing implications: Stage 3+ requires medication dose adjustments (metformin, digoxin, aminoglycosides). Stage 4+ requires preparation for dialysis. GFR &lt; 15 = kidney failure.
+          <strong>{t("pages.clinicalCalculators.examTip2")}</strong> Know the CKD stages and their nursing implications: Stage 3+ requires medication dose adjustments (metformin, digoxin, aminoglycosides). Stage 4+ requires preparation for dialysis. GFR &lt; 15 = kidney failure.
         </ExamTip>
       </div>
     </CalculatorPageWrapper>
@@ -719,17 +719,17 @@ function BMICalculator() {
   return (
     <CalculatorPageWrapper calc={calc}>
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Enter Measurements</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{t("pages.clinicalCalculators.enterMeasurements")}</h2>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Unit System</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t("pages.clinicalCalculators.unitSystem")}</label>
           <select value={unit} onChange={e => setUnit(e.target.value as "metric" | "imperial")} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white" data-testid="select-unit">
-            <option value="metric">Metric (kg, cm)</option>
-            <option value="imperial">Imperial (lbs, inches)</option>
+            <option value="metric">{t("pages.clinicalCalculators.metricKgCm")}</option>
+            <option value="imperial">{t("pages.clinicalCalculators.imperialLbsInches")}</option>
           </select>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
-          <InputField label="Height" value={height} onChange={setHeight} unit={unit === "metric" ? "cm" : "in"} placeholder={unit === "metric" ? "170" : "67"} id="bmi-height" />
-          <InputField label="Weight" value={weight} onChange={setWeight} unit={unit === "metric" ? "kg" : "lbs"} placeholder={unit === "metric" ? "70" : "154"} id="bmi-weight" />
+          <InputField label={t("pages.clinicalCalculators.height2")} value={height} onChange={setHeight} unit={unit === "metric" ? "cm" : "in"} placeholder={unit === "metric" ? "170" : "67"} id="bmi-height" />
+          <InputField label={t("pages.clinicalCalculators.weight2")} value={weight} onChange={setWeight} unit={unit === "metric" ? "kg" : "lbs"} placeholder={unit === "metric" ? "70" : "154"} id="bmi-weight" />
         </div>
         {hasResult && bmi !== null && (
           <div className="mt-6">
@@ -737,10 +737,10 @@ function BMICalculator() {
           </div>
         )}
         <ClinicalNote>
-          <strong>Formula:</strong> Metric: BMI = weight (kg) ÷ height² (m²). Imperial: BMI = (weight (lbs) × 703) ÷ height² (in²). BMI does not distinguish between muscle and fat mass — interpret alongside waist circumference and clinical assessment.
+          <strong>{t("pages.clinicalCalculators.formula4")}</strong> Metric: BMI = weight (kg) ÷ height² (m²). Imperial: BMI = (weight (lbs) × 703) ÷ height² (in²). BMI does not distinguish between muscle and fat mass — interpret alongside waist circumference and clinical assessment.
         </ClinicalNote>
         <ExamTip>
-          <strong>Exam Tip:</strong> BMI is commonly tested in community health and wellness questions. Know the WHO categories and associated health risks. Remember: BMI alone is insufficient for nutritional assessment — always combine with clinical findings, lab values, and dietary history.
+          <strong>{t("pages.clinicalCalculators.examTip3")}</strong> BMI is commonly tested in community health and wellness questions. Know the WHO categories and associated health risks. Remember: BMI alone is insufficient for nutritional assessment — always combine with clinical findings, lab values, and dietary history.
         </ExamTip>
       </div>
     </CalculatorPageWrapper>

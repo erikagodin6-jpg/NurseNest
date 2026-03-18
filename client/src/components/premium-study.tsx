@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 import {
   CheckCircle2, XCircle, Lightbulb, Crosshair, Bookmark,
   ChevronLeft, ChevronRight, Target, Trophy, RotateCcw,
@@ -11,6 +12,7 @@ import {
 } from "lucide-react";
 
 export function StudyPageShell({ children, className }: { children: ReactNode; className?: string }) {
+  const { t } = useI18n();
   return (
     <div className={cn("min-h-screen bg-warmwhite", className)}>
       {children}
@@ -597,8 +599,8 @@ export function FlashcardRatingButtons({
         >
           <XCircle className="w-5 h-5" />
           <div className="text-left">
-            <div className="font-semibold text-sm">I got it wrong</div>
-            <div className="text-[10px] text-red-400 mt-0.5">Review tomorrow</div>
+            <div className="font-semibold text-sm">{t("components.premiumStudy.iGotItWrong")}</div>
+            <div className="text-[10px] text-red-400 mt-0.5">{t("components.premiumStudy.reviewTomorrow")}</div>
           </div>
         </Button>
         {onUnsure && (
@@ -610,8 +612,8 @@ export function FlashcardRatingButtons({
           >
             <RotateCcw className="w-5 h-5" />
             <div className="text-left">
-              <div className="font-semibold text-sm">I was unsure</div>
-              <div className="text-[10px] text-amber-400 mt-0.5">Review in 3 days</div>
+              <div className="font-semibold text-sm">{t("components.premiumStudy.iWasUnsure")}</div>
+              <div className="text-[10px] text-amber-400 mt-0.5">{t("components.premiumStudy.reviewIn3Days")}</div>
             </div>
           </Button>
         )}
@@ -622,8 +624,8 @@ export function FlashcardRatingButtons({
         >
           <CheckCircle2 className="w-5 h-5" />
           <div className="text-left">
-            <div className="font-semibold text-sm">I knew this</div>
-            <div className="text-[10px] opacity-70 mt-0.5">Review in 7+ days</div>
+            <div className="font-semibold text-sm">{t("components.premiumStudy.iKnewThis")}</div>
+            <div className="text-[10px] opacity-70 mt-0.5">{t("components.premiumStudy.reviewIn7Days")}</div>
           </div>
         </Button>
       </div>
@@ -729,7 +731,7 @@ export function KeyTakeawayBox({
     <div className={cn("key-takeaway-box rounded-xl p-3 border", className)} data-testid={testId}>
       <div className="flex items-center gap-1.5 mb-1.5">
         <Star className="w-3.5 h-3.5 theme-icon" />
-        <span className="text-[10px] font-bold uppercase tracking-widest theme-text">Key Takeaway</span>
+        <span className="text-[10px] font-bold uppercase tracking-widest theme-text">{t("components.premiumStudy.keyTakeaway")}</span>
       </div>
       <div className="text-sm leading-relaxed text-foreground">{children}</div>
     </div>

@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
+import { useI18n } from "@/lib/i18n";
 interface FAQ {
   question: string;
   answer: string;
@@ -75,243 +76,243 @@ const AUTHORITY_GUIDES: Record<string, AuthorityGuidePage> = {
         id: "overview",
         title: "Why Electrolytes Matter on Nursing Exams",
         icon: Brain,
-        htmlContent: `<p>Electrolyte questions appear on every nursing licensing exam — NCLEX-RN, NCLEX-PN, and REx-PN. They test your ability to recognize imbalances from clinical data, prioritize nursing interventions, and understand the pathophysiology behind treatment decisions. The NCSBN test plan places electrolytes primarily under Physiological Adaptation and Reduction of Risk Potential, which together account for 20-32% of the NCLEX-RN exam.</p>
-<p>To succeed with electrolyte questions, you need to understand three things for each electrolyte: (1) the normal range and what drives it up or down, (2) the clinical signs and symptoms of both excess and deficit, and (3) the priority nursing interventions including monitoring, medication administration, and patient safety measures.</p>
-<p><strong>Key principle:</strong> Electrolyte imbalances rarely occur in isolation. Hypomagnesemia often accompanies hypokalemia. Hypocalcemia frequently coexists with hypomagnesemia. When you see one imbalance on an exam question, look for others that commonly co-occur — this pattern recognition is exactly what the NCLEX tests.</p>`,
+        htmlContent: `<p>{t("pages.authorityGuidePages.electrolyteQuestionsAppearOnEvery")}</p>
+<p>{t("pages.authorityGuidePages.toSucceedWithElectrolyteQuestions")}</p>
+<p><strong>{t("pages.authorityGuidePages.keyPrinciple")}</strong> {t("pages.authorityGuidePages.electrolyteImbalancesRarelyOccurIn")}</p>`,
       },
       {
         id: "sodium",
         title: "Sodium Disorders (Na⁺)",
         icon: Activity,
-        htmlContent: `<p><strong>Normal range: 135-145 mEq/L</strong></p>
-<p>Sodium is the most abundant extracellular cation and the primary determinant of serum osmolality. Sodium imbalances are fundamentally water balance disorders — hyponatremia usually reflects water excess, while hypernatremia reflects water deficit.</p>
+        htmlContent: `<p><strong>{t("pages.authorityGuidePages.normalRange135145Meql")}</strong></p>
+<p>{t("pages.authorityGuidePages.sodiumIsTheMostAbundant")}</p>
 
 <h3>Hyponatremia (Na⁺ < 135 mEq/L)</h3>
-<p><strong>Causes:</strong> SIADH (most common exam cause), excessive hypotonic IV fluids, heart failure, cirrhosis, psychogenic polydipsia, thiazide diuretics, vomiting/diarrhea with water replacement</p>
-<p><strong>Clinical signs:</strong> Confusion, lethargy, headache, nausea/vomiting, seizures (severe), cerebral edema. Symptoms correlate with rate of decline — acute onset is more dangerous than chronic.</p>
-<p><strong>Priority nursing interventions:</strong></p>
+<p><strong>{t("pages.authorityGuidePages.causes")}</strong> {t("pages.authorityGuidePages.siadhMostCommonExamCause")}</p>
+<p><strong>{t("pages.authorityGuidePages.clinicalSigns")}</strong> {t("pages.authorityGuidePages.confusionLethargyHeadacheNauseavomitingSe")}</p>
+<p><strong>{t("pages.authorityGuidePages.priorityNursingInterventions")}</strong></p>
 <ul>
-<li>Fluid restriction (dilutional hyponatremia / SIADH) — typically 800-1000 mL/day</li>
-<li>Hypertonic saline (3% NaCl) for severe symptomatic hyponatremia with seizures — administer via infusion pump with frequent Na⁺ monitoring</li>
-<li>Monitor neuro status every 1-2 hours — confusion, lethargy, and seizures indicate worsening</li>
-<li>Correct slowly: no more than 8-12 mEq/L per 24 hours to prevent osmotic demyelination syndrome (ODS)</li>
-<li>Strict I&O, daily weights, seizure precautions</li>
+<li>{t("pages.authorityGuidePages.fluidRestrictionDilutionalHyponatremiaSiadh")}</li>
+<li>{t("pages.authorityGuidePages.hypertonicSaline3NaclFor")}</li>
+<li>{t("pages.authorityGuidePages.monitorNeuroStatusEvery12")}</li>
+<li>{t("pages.authorityGuidePages.correctSlowlyNoMoreThan")}</li>
+<li>{t("pages.authorityGuidePages.strictIoDailyWeightsSeizure")}</li>
 </ul>
 
-<h3>Hypernatremia (Na⁺ > 145 mEq/L)</h3>
-<p><strong>Causes:</strong> Diabetes insipidus, dehydration, excessive sodium intake, hypertonic tube feedings, heatstroke, watery diarrhea without fluid replacement</p>
-<p><strong>Clinical signs:</strong> Intense thirst, dry mucous membranes, flushed skin, low-grade fever, restlessness, irritability, muscle twitching, seizures (severe)</p>
-<p><strong>Priority nursing interventions:</strong></p>
+<h3>Hypernatremia (Na⁺ > {t("pages.authorityGuidePages.145Meql")}</h3>
+<p><strong>{t("pages.authorityGuidePages.causes2")}</strong> {t("pages.authorityGuidePages.diabetesInsipidusDehydrationExcessiveSodium")}</p>
+<p><strong>{t("pages.authorityGuidePages.clinicalSigns2")}</strong> {t("pages.authorityGuidePages.intenseThirstDryMucousMembranes")}</p>
+<p><strong>{t("pages.authorityGuidePages.priorityNursingInterventions2")}</strong></p>
 <ul>
-<li>Administer hypotonic fluids (0.45% NS or D5W) as ordered — correct gradually to prevent cerebral edema</li>
-<li>For diabetes insipidus: administer desmopressin (DDAVP) as ordered</li>
-<li>Monitor urine specific gravity (normal: 1.005-1.030) — low in DI, high in dehydration</li>
-<li>Strict I&O, daily weights, safety measures for confusion</li>
+<li>{t("pages.authorityGuidePages.administerHypotonicFluids045Ns")}</li>
+<li>{t("pages.authorityGuidePages.forDiabetesInsipidusAdministerDesmopressin")}</li>
+<li>{t("pages.authorityGuidePages.monitorUrineSpecificGravityNormal")}</li>
+<li>{t("pages.authorityGuidePages.strictIoDailyWeightsSafety")}</li>
 </ul>
 
 <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
-<p class="text-sm text-amber-800"><strong>Exam Trap:</strong> Do not confuse dilutional hyponatremia (fluid overload, treat with fluid restriction) with depletional hyponatremia (sodium loss, treat with saline replacement). The treatment is opposite — getting this wrong on the exam means choosing a harmful intervention.</p>
+<p class="text-sm text-amber-800"><strong>{t("pages.authorityGuidePages.examTrap")}</strong> {t("pages.authorityGuidePages.doNotConfuseDilutionalHyponatremia")}</p>
 </div>`,
       },
       {
         id: "potassium",
         title: "Potassium Disorders (K⁺)",
         icon: Heart,
-        htmlContent: `<p><strong>Normal range: 3.5-5.0 mEq/L</strong></p>
-<p>Potassium is the most abundant intracellular cation and is critical for cardiac conduction, neuromuscular function, and acid-base balance. Both hypokalemia and hyperkalemia can cause life-threatening cardiac dysrhythmias, making potassium the most frequently tested electrolyte on nursing exams. ECG changes are a priority assessment finding.</p>
+        htmlContent: `<p><strong>{t("pages.authorityGuidePages.normalRange3550Meql")}</strong></p>
+<p>{t("pages.authorityGuidePages.potassiumIsTheMostAbundant")}</p>
 
 <h3>Hypokalemia (K⁺ < 3.5 mEq/L)</h3>
-<p><strong>Causes:</strong> Loop and thiazide diuretics (most common), vomiting, NG suction, diarrhea, alkalosis, insulin administration, excessive laxative use</p>
-<p><strong>Clinical signs:</strong> Muscle weakness, leg cramps, decreased DTRs, constipation/ileus, fatigue, cardiac dysrhythmias</p>
-<p><strong>ECG changes:</strong> Flattened T waves, ST depression, prominent U waves, prolonged QT interval</p>
-<p><strong>Priority nursing interventions:</strong></p>
+<p><strong>{t("pages.authorityGuidePages.causes3")}</strong> {t("pages.authorityGuidePages.loopAndThiazideDiureticsMost")}</p>
+<p><strong>{t("pages.authorityGuidePages.clinicalSigns3")}</strong> {t("pages.authorityGuidePages.muscleWeaknessLegCrampsDecreased")}</p>
+<p><strong>{t("pages.authorityGuidePages.ecgChanges")}</strong> {t("pages.authorityGuidePages.flattenedTWavesStDepression")}</p>
+<p><strong>{t("pages.authorityGuidePages.priorityNursingInterventions3")}</strong></p>
 <ul>
-<li>Oral potassium replacement preferred (KCl tablets with full glass of water and food to reduce GI irritation)</li>
-<li>IV potassium: NEVER give by IV push — maximum rate 10-20 mEq/hour via infusion pump with cardiac monitoring</li>
-<li>Dilute IV potassium: maximum concentration 40 mEq/L for peripheral IV, 80 mEq/L for central line</li>
-<li>Monitor ECG continuously during IV replacement</li>
-<li>Assess for digoxin toxicity — hypokalemia increases sensitivity to digoxin</li>
-<li>Check magnesium level — hypokalemia will not correct until hypomagnesemia is treated</li>
+<li>{t("pages.authorityGuidePages.oralPotassiumReplacementPreferredKcl")}</li>
+<li>{t("pages.authorityGuidePages.ivPotassiumNeverGiveBy")}</li>
+<li>{t("pages.authorityGuidePages.diluteIvPotassiumMaximumConcentration")}</li>
+<li>{t("pages.authorityGuidePages.monitorEcgContinuouslyDuringIv")}</li>
+<li>{t("pages.authorityGuidePages.assessForDigoxinToxicityHypokalemia")}</li>
+<li>{t("pages.authorityGuidePages.checkMagnesiumLevelHypokalemiaWill")}</li>
 </ul>
 
 <h3>Hyperkalemia (K⁺ > 5.0 mEq/L)</h3>
-<p><strong>Causes:</strong> Renal failure (most common), potassium-sparing diuretics, ACE inhibitors, tissue trauma/burns, acidosis, hemolyzed blood sample (false elevation)</p>
-<p><strong>Clinical signs:</strong> Muscle weakness progressing to flaccid paralysis, paresthesias, abdominal cramping, diarrhea, cardiac arrest</p>
-<p><strong>ECG changes:</strong> Tall peaked T waves → widened QRS → absent P waves → sine wave pattern → ventricular fibrillation/asystole</p>
-<p><strong>Priority nursing interventions (emergency):</strong></p>
+<p><strong>{t("pages.authorityGuidePages.causes4")}</strong> {t("pages.authorityGuidePages.renalFailureMostCommonPotassiumsparing")}</p>
+<p><strong>{t("pages.authorityGuidePages.clinicalSigns4")}</strong> {t("pages.authorityGuidePages.muscleWeaknessProgressingToFlaccid")}</p>
+<p><strong>{t("pages.authorityGuidePages.ecgChanges2")}</strong> {t("pages.authorityGuidePages.tallPeakedTWavesWidened")}</p>
+<p><strong>{t("pages.authorityGuidePages.priorityNursingInterventionsEmergency")}</strong></p>
 <ul>
-<li>Calcium gluconate IV — stabilizes cardiac membrane (does NOT lower K⁺, protects the heart)</li>
-<li>Regular insulin + D50 IV — drives K⁺ into cells (temporary, monitor glucose closely)</li>
-<li>Sodium bicarbonate IV — shifts K⁺ intracellularly in metabolic acidosis</li>
-<li>Kayexalate (sodium polystyrene sulfonate) — exchanges sodium for potassium in the gut (delayed onset)</li>
-<li>Albuterol nebulizer — shifts K⁺ into cells via beta-2 receptor stimulation</li>
-<li>Dialysis — definitive treatment for severe or refractory hyperkalemia</li>
-<li>Discontinue all potassium supplements and potassium-sparing medications</li>
+<li>{t("pages.authorityGuidePages.calciumGluconateIvStabilizesCardiac")}</li>
+<li>{t("pages.authorityGuidePages.regularInsulinD50IvDrives")}</li>
+<li>{t("pages.authorityGuidePages.sodiumBicarbonateIvShiftsK")}</li>
+<li>{t("pages.authorityGuidePages.kayexalateSodiumPolystyreneSulfonateExchan")}</li>
+<li>{t("pages.authorityGuidePages.albuterolNebulizerShiftsKInto")}</li>
+<li>{t("pages.authorityGuidePages.dialysisDefinitiveTreatmentForSevere")}</li>
+<li>{t("pages.authorityGuidePages.discontinueAllPotassiumSupplementsAnd")}</li>
 </ul>
 
 <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
-<p class="text-sm text-amber-800"><strong>Exam Trap:</strong> IV potassium push causes fatal cardiac arrest. This is one of the most commonly tested safety questions on the NCLEX. Always administer IV potassium diluted and infused slowly with cardiac monitoring. Never add KCl to a hanging IV bag — always use premixed solutions or infusion pump.</p>
+<p class="text-sm text-amber-800"><strong>{t("pages.authorityGuidePages.examTrap2")}</strong> {t("pages.authorityGuidePages.ivPotassiumPushCausesFatal")}</p>
 </div>`,
       },
       {
         id: "calcium-magnesium",
         title: "Calcium & Magnesium Disorders",
         icon: Stethoscope,
-        htmlContent: `<h3>Calcium (Ca²⁺) — Normal range: 8.5-10.5 mg/dL (total) / 4.5-5.5 mg/dL (ionized)</h3>
-<p>Calcium is essential for bone integrity, muscle contraction, blood clotting, and nerve transmission. Ionized (free) calcium is the physiologically active form. Always check albumin levels — for every 1 g/dL decrease in albumin, total calcium decreases by approximately 0.8 mg/dL (corrected calcium calculation).</p>
+        htmlContent: `<h3>{t("pages.authorityGuidePages.calciumCaNormalRange85105")}</h3>
+<p>{t("pages.authorityGuidePages.calciumIsEssentialForBone")}</p>
 
 <h4>Hypocalcemia (Ca²⁺ < 8.5 mg/dL)</h4>
-<p><strong>Causes:</strong> Hypoparathyroidism, chronic kidney disease, pancreatitis, inadequate vitamin D, hypomagnesemia, massive blood transfusions (citrate binds calcium), thyroidectomy</p>
-<p><strong>Clinical signs:</strong> Trousseau's sign (carpal spasm with BP cuff inflation), Chvostek's sign (facial twitching on tapping facial nerve), tetany, laryngospasm, seizures, prolonged QT interval</p>
-<p><strong>Priority nursing interventions:</strong></p>
+<p><strong>{t("pages.authorityGuidePages.causes5")}</strong> {t("pages.authorityGuidePages.hypoparathyroidismChronicKidneyDiseasePancre")}</p>
+<p><strong>{t("pages.authorityGuidePages.clinicalSigns5")}</strong> {t("pages.authorityGuidePages.trousseausSignCarpalSpasmWith")}</p>
+<p><strong>{t("pages.authorityGuidePages.priorityNursingInterventions4")}</strong></p>
 <ul>
-<li>Administer IV calcium gluconate slowly (10-20 minutes) — monitor for bradycardia and hypotension</li>
-<li>Keep emergency airway equipment at bedside (risk of laryngospasm)</li>
-<li>Seizure precautions, continuous cardiac monitoring</li>
-<li>Oral calcium supplements with vitamin D for chronic management</li>
-<li>Post-thyroidectomy: assess for Chvostek's and Trousseau's signs every 4 hours for 48 hours</li>
+<li>{t("pages.authorityGuidePages.administerIvCalciumGluconateSlowly")}</li>
+<li>{t("pages.authorityGuidePages.keepEmergencyAirwayEquipmentAt")}</li>
+<li>{t("pages.authorityGuidePages.seizurePrecautionsContinuousCardiacMonitoring")}</li>
+<li>{t("pages.authorityGuidePages.oralCalciumSupplementsWithVitamin")}</li>
+<li>{t("pages.authorityGuidePages.postthyroidectomyAssessForChvosteksAnd")}</li>
 </ul>
 
 <h4>Hypercalcemia (Ca²⁺ > 10.5 mg/dL)</h4>
-<p><strong>Causes:</strong> Hyperparathyroidism, malignancy (bone metastases), prolonged immobilization, excessive vitamin D, thiazide diuretics</p>
-<p><strong>Clinical signs:</strong> Remember "stones, bones, groans, moans" — kidney stones, bone pain, abdominal pain/constipation, confusion/lethargy. Shortened QT, cardiac arrest at severe levels.</p>
-<p><strong>Priority nursing interventions:</strong></p>
+<p><strong>{t("pages.authorityGuidePages.causes6")}</strong> {t("pages.authorityGuidePages.hyperparathyroidismMalignancyBoneMetastases")}</p>
+<p><strong>{t("pages.authorityGuidePages.clinicalSigns6")}</strong> {t("pages.authorityGuidePages.rememberStonesBonesGroansMoans")}</p>
+<p><strong>{t("pages.authorityGuidePages.priorityNursingInterventions5")}</strong></p>
 <ul>
-<li>IV normal saline hydration (aggressive) — dilutes calcium and promotes renal excretion</li>
-<li>Loop diuretics (furosemide) after adequate hydration — promotes calciuresis</li>
-<li>Calcitonin, bisphosphonates (zoledronic acid) for malignancy-related hypercalcemia</li>
-<li>Encourage mobility, monitor for renal calculi, strain urine</li>
+<li>{t("pages.authorityGuidePages.ivNormalSalineHydrationAggressive")}</li>
+<li>{t("pages.authorityGuidePages.loopDiureticsFurosemideAfterAdequate")}</li>
+<li>{t("pages.authorityGuidePages.calcitoninBisphosphonatesZoledronicAcidFor")}</li>
+<li>{t("pages.authorityGuidePages.encourageMobilityMonitorForRenal")}</li>
 </ul>
 
-<h3>Magnesium (Mg²⁺) — Normal range: 1.5-2.5 mEq/L</h3>
-<p>Magnesium is critical for neuromuscular function and is closely linked to potassium and calcium balance. Hypomagnesemia must be corrected before hypokalemia will respond to treatment — this is a high-yield exam concept.</p>
+<h3>{t("pages.authorityGuidePages.magnesiumMgNormalRange1525")}</h3>
+<p>{t("pages.authorityGuidePages.magnesiumIsCriticalForNeuromuscular")}</p>
 
 <h4>Hypomagnesemia (Mg²⁺ < 1.5 mEq/L)</h4>
-<p><strong>Causes:</strong> Chronic alcoholism (most common), malnutrition, loop/thiazide diuretics, GI losses, proton pump inhibitors</p>
-<p><strong>Clinical signs:</strong> Similar to hypocalcemia — tremors, hyperactive DTRs, positive Trousseau's/Chvostek's, tetany, seizures, cardiac dysrhythmias (torsades de pointes)</p>
-<p><strong>Priority nursing interventions:</strong></p>
+<p><strong>{t("pages.authorityGuidePages.causes7")}</strong> {t("pages.authorityGuidePages.chronicAlcoholismMostCommonMalnutrition")}</p>
+<p><strong>{t("pages.authorityGuidePages.clinicalSigns7")}</strong> {t("pages.authorityGuidePages.similarToHypocalcemiaTremorsHyperactive")}</p>
+<p><strong>{t("pages.authorityGuidePages.priorityNursingInterventions6")}</strong></p>
 <ul>
-<li>IV magnesium sulfate for severe depletion — administer slowly, monitor DTRs, respiratory rate, and urine output</li>
-<li>Check and correct potassium simultaneously</li>
-<li>Seizure precautions, fall precautions (neuromuscular irritability)</li>
-<li>Dietary sources: green leafy vegetables, nuts, legumes, whole grains</li>
+<li>{t("pages.authorityGuidePages.ivMagnesiumSulfateForSevere")}</li>
+<li>{t("pages.authorityGuidePages.checkAndCorrectPotassiumSimultaneously")}</li>
+<li>{t("pages.authorityGuidePages.seizurePrecautionsFallPrecautionsNeuromuscul")}</li>
+<li>{t("pages.authorityGuidePages.dietarySourcesGreenLeafyVegetables")}</li>
 </ul>
 
 <h4>Hypermagnesemia (Mg²⁺ > 2.5 mEq/L)</h4>
-<p><strong>Causes:</strong> Renal failure (cannot excrete), excessive magnesium-containing antacids/laxatives, preeclampsia treatment (magnesium sulfate toxicity)</p>
-<p><strong>Clinical signs:</strong> Decreased DTRs (earliest sign), lethargy, bradycardia, respiratory depression, cardiac arrest</p>
-<p><strong>Priority nursing interventions:</strong></p>
+<p><strong>{t("pages.authorityGuidePages.causes8")}</strong> {t("pages.authorityGuidePages.renalFailureCannotExcreteExcessive")}</p>
+<p><strong>{t("pages.authorityGuidePages.clinicalSigns8")}</strong> {t("pages.authorityGuidePages.decreasedDtrsEarliestSignLethargy")}</p>
+<p><strong>{t("pages.authorityGuidePages.priorityNursingInterventions7")}</strong></p>
 <ul>
-<li>Antidote: Calcium gluconate IV — keep at bedside during magnesium sulfate infusions</li>
-<li>Monitor DTRs before each magnesium sulfate dose (hold if absent)</li>
+<li>{t("pages.authorityGuidePages.antidoteCalciumGluconateIvKeep")}</li>
+<li>{t("pages.authorityGuidePages.monitorDtrsBeforeEachMagnesium")}</li>
 <li>Monitor respiratory rate (hold if < 12/min) and urine output (hold if < 30 mL/hr)</li>
-<li>Discontinue magnesium-containing medications</li>
+<li>{t("pages.authorityGuidePages.discontinueMagnesiumcontainingMedications")}</li>
 </ul>
 
 <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
-<p class="text-sm text-amber-800"><strong>Exam Trap:</strong> On preeclampsia questions, always assess DTRs, respiratory rate (>12), and urine output (>30 mL/hr) before administering magnesium sulfate. Loss of DTRs is the earliest sign of magnesium toxicity. The antidote is calcium gluconate — it must be at the bedside.</p>
+<p class="text-sm text-amber-800"><strong>{t("pages.authorityGuidePages.examTrap3")}</strong> On preeclampsia questions, always assess DTRs, respiratory rate (>12), and urine output (>{t("pages.authorityGuidePages.30MlhrBeforeAdministeringMagnesium")}</p>
 </div>`,
       },
       {
         id: "phosphorus",
         title: "Phosphorus Disorders (PO₄³⁻)",
         icon: Microscope,
-        htmlContent: `<p><strong>Normal range: 2.5-4.5 mg/dL</strong></p>
-<p>Phosphorus has an inverse relationship with calcium — when one goes up, the other goes down. This reciprocal relationship is a frequently tested concept. Phosphorus is essential for ATP production, bone mineralization, and acid-base buffering.</p>
+        htmlContent: `<p><strong>{t("pages.authorityGuidePages.normalRange2545Mgdl")}</strong></p>
+<p>{t("pages.authorityGuidePages.phosphorusHasAnInverseRelationship")}</p>
 
 <h3>Hypophosphatemia (PO₄ < 2.5 mg/dL)</h3>
-<p><strong>Causes:</strong> Refeeding syndrome (most commonly tested), chronic alcoholism, diabetic ketoacidosis recovery (insulin drives PO₄ into cells), phosphate-binding antacids, respiratory alkalosis</p>
-<p><strong>Clinical signs:</strong> Muscle weakness, respiratory failure (diaphragm weakness), confusion, seizures, rhabdomyolysis, impaired WBC function</p>
-<p><strong>Priority nursing interventions:</strong></p>
+<p><strong>{t("pages.authorityGuidePages.causes9")}</strong> {t("pages.authorityGuidePages.refeedingSyndromeMostCommonlyTested")}</p>
+<p><strong>{t("pages.authorityGuidePages.clinicalSigns9")}</strong> {t("pages.authorityGuidePages.muscleWeaknessRespiratoryFailureDiaphragm")}</p>
+<p><strong>{t("pages.authorityGuidePages.priorityNursingInterventions8")}</strong></p>
 <ul>
-<li>Oral phosphorus supplements (Neutra-Phos) with meals</li>
-<li>IV sodium or potassium phosphate for severe deficiency — infuse slowly</li>
-<li>Refeeding syndrome prevention: advance nutrition gradually in malnourished patients</li>
-<li>Monitor for associated hypocalcemia and hypomagnesemia</li>
+<li>{t("pages.authorityGuidePages.oralPhosphorusSupplementsNeutraphosWith")}</li>
+<li>{t("pages.authorityGuidePages.ivSodiumOrPotassiumPhosphate")}</li>
+<li>{t("pages.authorityGuidePages.refeedingSyndromePreventionAdvanceNutrition")}</li>
+<li>{t("pages.authorityGuidePages.monitorForAssociatedHypocalcemiaAnd")}</li>
 </ul>
 
 <h3>Hyperphosphatemia (PO₄ > 4.5 mg/dL)</h3>
-<p><strong>Causes:</strong> Renal failure (cannot excrete), excessive phosphorus intake, hypoparathyroidism, tumor lysis syndrome, rhabdomyolysis</p>
-<p><strong>Clinical signs:</strong> Signs of associated hypocalcemia (tetany, Chvostek's/Trousseau's), soft tissue calcification, pruritus</p>
-<p><strong>Priority nursing interventions:</strong></p>
+<p><strong>{t("pages.authorityGuidePages.causes10")}</strong> {t("pages.authorityGuidePages.renalFailureCannotExcreteExcessive2")}</p>
+<p><strong>{t("pages.authorityGuidePages.clinicalSigns10")}</strong> {t("pages.authorityGuidePages.signsOfAssociatedHypocalcemiaTetany")}</p>
+<p><strong>{t("pages.authorityGuidePages.priorityNursingInterventions9")}</strong></p>
 <ul>
-<li>Phosphate-binding medications (calcium carbonate, sevelamer) — administer WITH meals to bind dietary phosphorus</li>
-<li>Low-phosphorus diet: limit dairy, cola, processed meats, nuts</li>
-<li>Dialysis for severe or refractory elevation</li>
-<li>Monitor calcium levels (inverse relationship)</li>
+<li>{t("pages.authorityGuidePages.phosphatebindingMedicationsCalciumCarbonate")}</li>
+<li>{t("pages.authorityGuidePages.lowphosphorusDietLimitDairyCola")}</li>
+<li>{t("pages.authorityGuidePages.dialysisForSevereOrRefractory")}</li>
+<li>{t("pages.authorityGuidePages.monitorCalciumLevelsInverseRelationship")}</li>
 </ul>
 
 <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
-<p class="text-sm text-amber-800"><strong>Exam Trap:</strong> Refeeding syndrome is a life-threatening complication of rapidly restarting nutrition in malnourished patients. As cells take up glucose, phosphorus, potassium, and magnesium shift intracellularly causing dangerous drops. This is heavily tested in context of eating disorder patients and prolonged NPO status.</p>
+<p class="text-sm text-amber-800"><strong>{t("pages.authorityGuidePages.examTrap4")}</strong> {t("pages.authorityGuidePages.refeedingSyndromeIsALifethreatening")}</p>
 </div>`,
       },
       {
         id: "iv-fluids",
         title: "IV Fluid Therapy & Electrolytes",
         icon: Pill,
-        htmlContent: `<p>Understanding IV fluid tonicity is essential for managing electrolyte imbalances safely. Selecting the wrong IV fluid can worsen the imbalance and cause harm — this is why IV fluid questions are common on nursing exams.</p>
+        htmlContent: `<p>{t("pages.authorityGuidePages.understandingIvFluidTonicityIs")}</p>
 
-<h3>Isotonic Solutions (Same osmolality as blood: ~275-295 mOsm/L)</h3>
+<h3>{t("pages.authorityGuidePages.isotonicSolutionsSameOsmolalityAs")}</h3>
 <ul>
-<li><strong>0.9% Normal Saline (NS)</strong> — first-line for dehydration, blood transfusions, and shock resuscitation. Does not shift fluid between compartments.</li>
-<li><strong>Lactated Ringer's (LR)</strong> — preferred for surgical patients and burns (Parkland formula). Contains electrolytes (Na, K, Ca, lactate). Contraindicated in liver failure (cannot metabolize lactate) and hyperkalemia.</li>
-<li><strong>D5W</strong> — isotonic in the bag, becomes hypotonic once dextrose is metabolized. Used for medication dilution and maintenance hydration.</li>
+<li><strong>{t("pages.authorityGuidePages.09NormalSalineNs")}</strong> {t("pages.authorityGuidePages.firstlineForDehydrationBloodTransfusions")}</li>
+<li><strong>{t("pages.authorityGuidePages.lactatedRingersLr")}</strong> {t("pages.authorityGuidePages.preferredForSurgicalPatientsAnd")}</li>
+<li><strong>D5W</strong> {t("pages.authorityGuidePages.isotonicInTheBagBecomes")}</li>
 </ul>
 
 <h3>Hypotonic Solutions (< 275 mOsm/L)</h3>
 <ul>
-<li><strong>0.45% NS (Half-Normal Saline)</strong> — used for hypernatremia, cellular dehydration. Fluid shifts FROM vascular space INTO cells.</li>
-<li><strong>Contraindications:</strong> Increased intracranial pressure (worsens cerebral edema), burns (third-spacing), hypovolemia</li>
+<li><strong>{t("pages.authorityGuidePages.045NsHalfnormalSaline")}</strong> {t("pages.authorityGuidePages.usedForHypernatremiaCellularDehydration")}</li>
+<li><strong>{t("pages.authorityGuidePages.contraindications")}</strong> {t("pages.authorityGuidePages.increasedIntracranialPressureWorsensCerebral")}</li>
 </ul>
 
-<h3>Hypertonic Solutions (> 295 mOsm/L)</h3>
+<h3>Hypertonic Solutions (> {t("pages.authorityGuidePages.295Mosml")}</h3>
 <ul>
-<li><strong>3% Saline</strong> — used for severe symptomatic hyponatremia with seizures. Fluid shifts FROM cells INTO vascular space.</li>
-<li><strong>D10W, D50W</strong> — used for hypoglycemia treatment</li>
-<li><strong>Contraindications:</strong> Dehydration (cellular shrinkage), hypernatremia</li>
-<li><strong>Administration:</strong> Via infusion pump only, central line preferred, frequent sodium monitoring (every 2-4 hours)</li>
+<li><strong>{t("pages.authorityGuidePages.3Saline")}</strong> {t("pages.authorityGuidePages.usedForSevereSymptomaticHyponatremia")}</li>
+<li><strong>D10W, D50W</strong> {t("pages.authorityGuidePages.usedForHypoglycemiaTreatment")}</li>
+<li><strong>{t("pages.authorityGuidePages.contraindications2")}</strong> {t("pages.authorityGuidePages.dehydrationCellularShrinkageHypernatremia")}</li>
+<li><strong>{t("pages.authorityGuidePages.administration")}</strong> {t("pages.authorityGuidePages.viaInfusionPumpOnlyCentral")}</li>
 </ul>
 
 <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
-<p class="text-sm text-amber-800"><strong>Exam Trap:</strong> D5W is isotonic in the bag but becomes hypotonic once infused (the dextrose is rapidly metabolized, leaving free water). Therefore, D5W should NOT be used for patients with increased ICP or those at risk for cerebral edema. This distinction is commonly tested.</p>
+<p class="text-sm text-amber-800"><strong>{t("pages.authorityGuidePages.examTrap5")}</strong> {t("pages.authorityGuidePages.d5wIsIsotonicInThe")}</p>
 </div>`,
       },
       {
         id: "exam-strategies",
         title: "Exam Strategies for Electrolyte Questions",
         icon: Target,
-        htmlContent: `<p>Electrolyte questions on the NCLEX and REx-PN follow predictable patterns. Knowing these patterns helps you answer efficiently and accurately, even when the clinical scenario is unfamiliar.</p>
+        htmlContent: `<p>{t("pages.authorityGuidePages.electrolyteQuestionsOnTheNclex")}</p>
 
-<h3>Strategy 1: Identify the Electrolyte First</h3>
-<p>Read the lab values carefully. Identify which electrolyte is abnormal and whether it is high or low. Many students make errors because they focus on the clinical scenario before checking the labs.</p>
+<h3>{t("pages.authorityGuidePages.strategy1IdentifyTheElectrolyte")}</h3>
+<p>{t("pages.authorityGuidePages.readTheLabValuesCarefully")}</p>
 
-<h3>Strategy 2: Match Signs to the Imbalance</h3>
-<p>Key pattern recognition shortcuts:</p>
+<h3>{t("pages.authorityGuidePages.strategy2MatchSignsTo")}</h3>
+<p>{t("pages.authorityGuidePages.keyPatternRecognitionShortcuts")}</p>
 <ul>
-<li><strong>Cardiac symptoms</strong> (ECG changes, dysrhythmias) → think potassium or calcium</li>
-<li><strong>Neuromuscular symptoms</strong> (tetany, Trousseau's, Chvostek's) → think calcium or magnesium deficit</li>
-<li><strong>Neurological symptoms</strong> (confusion, seizures) → think sodium or severe calcium imbalance</li>
-<li><strong>GI symptoms</strong> (constipation or diarrhea) → think potassium or calcium</li>
+<li><strong>{t("pages.authorityGuidePages.cardiacSymptoms")}</strong> {t("pages.authorityGuidePages.ecgChangesDysrhythmiasThinkPotassium")}</li>
+<li><strong>{t("pages.authorityGuidePages.neuromuscularSymptoms")}</strong> {t("pages.authorityGuidePages.tetanyTrousseausChvosteksThinkCalcium")}</li>
+<li><strong>{t("pages.authorityGuidePages.neurologicalSymptoms")}</strong> {t("pages.authorityGuidePages.confusionSeizuresThinkSodiumOr")}</li>
+<li><strong>{t("pages.authorityGuidePages.giSymptoms")}</strong> {t("pages.authorityGuidePages.constipationOrDiarrheaThinkPotassium")}</li>
 </ul>
 
-<h3>Strategy 3: Know the Priority Intervention</h3>
-<p>For each electrolyte, know the single most important nursing action:</p>
+<h3>{t("pages.authorityGuidePages.strategy3KnowThePriority")}</h3>
+<p>{t("pages.authorityGuidePages.forEachElectrolyteKnowThe")}</p>
 <ul>
-<li><strong>Hyperkalemia:</strong> Cardiac monitoring + calcium gluconate (stabilize the heart first)</li>
-<li><strong>Hypokalemia:</strong> Replace potassium (NEVER IV push) + monitor ECG</li>
-<li><strong>Hyponatremia (SIADH):</strong> Fluid restriction</li>
-<li><strong>Hypernatremia:</strong> Hypotonic fluids + monitor neuro status</li>
-<li><strong>Hypocalcemia:</strong> IV calcium gluconate + airway equipment at bedside</li>
-<li><strong>Hypermagnesemia:</strong> Calcium gluconate (antidote) + assess DTRs</li>
+<li><strong>{t("pages.authorityGuidePages.hyperkalemia")}</strong> {t("pages.authorityGuidePages.cardiacMonitoringCalciumGluconateStabilize")}</li>
+<li><strong>{t("pages.authorityGuidePages.hypokalemia")}</strong> {t("pages.authorityGuidePages.replacePotassiumNeverIvPush")}</li>
+<li><strong>{t("pages.authorityGuidePages.hyponatremiaSiadh")}</strong> {t("pages.authorityGuidePages.fluidRestriction")}</li>
+<li><strong>{t("pages.authorityGuidePages.hypernatremia")}</strong> {t("pages.authorityGuidePages.hypotonicFluidsMonitorNeuroStatus")}</li>
+<li><strong>{t("pages.authorityGuidePages.hypocalcemia")}</strong> {t("pages.authorityGuidePages.ivCalciumGluconateAirwayEquipment")}</li>
+<li><strong>{t("pages.authorityGuidePages.hypermagnesemia")}</strong> {t("pages.authorityGuidePages.calciumGluconateAntidoteAssessDtrs")}</li>
 </ul>
 
-<h3>Strategy 4: Watch for Safety Questions</h3>
-<p>The NCLEX loves patient safety questions involving electrolytes:</p>
+<h3>{t("pages.authorityGuidePages.strategy4WatchForSafety")}</h3>
+<p>{t("pages.authorityGuidePages.theNclexLovesPatientSafety")}</p>
 <ul>
-<li>IV potassium: always diluted, always via pump, never by push</li>
-<li>Magnesium sulfate: check DTRs, RR > 12, UO > 30 mL/hr; calcium gluconate at bedside</li>
-<li>3% saline: infusion pump, frequent Na⁺ monitoring, correct slowly</li>
-<li>Calcium gluconate: slow IV push (10-20 min), monitor for bradycardia</li>
+<li>{t("pages.authorityGuidePages.ivPotassiumAlwaysDilutedAlways")}</li>
+<li>Magnesium sulfate: check DTRs, RR > 12, UO > {t("pages.authorityGuidePages.30MlhrCalciumGluconateAt")}</li>
+<li>{t("pages.authorityGuidePages.3SalineInfusionPumpFrequent")}</li>
+<li>{t("pages.authorityGuidePages.calciumGluconateSlowIvPush")}</li>
 </ul>`,
       },
     ],
@@ -361,83 +362,83 @@ const AUTHORITY_GUIDES: Record<string, AuthorityGuidePage> = {
         id: "abg-fundamentals",
         title: "ABG Fundamentals & Normal Values",
         icon: BookOpen,
-        htmlContent: `<p>Arterial blood gas (ABG) analysis provides a snapshot of a patient's acid-base status, oxygenation, and ventilation. Understanding ABGs is essential for nursing assessment, recognizing respiratory failure, and guiding treatment decisions. Every nursing exam tests ABG interpretation — typically 3-8 questions on the NCLEX.</p>
+        htmlContent: `<p>{t("pages.authorityGuidePages.arterialBloodGasAbgAnalysis")}</p>
 
-<h3>Normal ABG Values</h3>
+<h3>{t("pages.authorityGuidePages.normalAbgValues")}</h3>
 <ul>
-<li><strong>pH:</strong> 7.35 - 7.45 (below 7.35 = acidosis; above 7.45 = alkalosis)</li>
-<li><strong>PaCO₂:</strong> 35 - 45 mmHg (respiratory component — controlled by the lungs)</li>
-<li><strong>HCO₃⁻:</strong> 22 - 26 mEq/L (metabolic component — controlled by the kidneys)</li>
-<li><strong>PaO₂:</strong> 80 - 100 mmHg (oxygenation — not directly related to acid-base but critical for assessment)</li>
-<li><strong>SaO₂:</strong> 95 - 100% (oxygen saturation)</li>
+<li><strong>{t("pages.authorityGuidePages.ph")}</strong> {t("pages.authorityGuidePages.735745Below735Acidosis")}</li>
+<li><strong>{t("pages.authorityGuidePages.paco")}</strong> {t("pages.authorityGuidePages.3545MmhgRespiratoryComponent")}</li>
+<li><strong>{t("pages.authorityGuidePages.hco")}</strong> {t("pages.authorityGuidePages.2226MeqlMetabolicComponent")}</li>
+<li><strong>{t("pages.authorityGuidePages.pao")}</strong> {t("pages.authorityGuidePages.80100MmhgOxygenationNot")}</li>
+<li><strong>{t("pages.authorityGuidePages.sao")}</strong> {t("pages.authorityGuidePages.95100OxygenSaturation")}</li>
 </ul>
 
-<h3>The Two Regulators</h3>
-<p><strong>Lungs (respiratory):</strong> Regulate CO₂ levels within minutes. Hyperventilation blows off CO₂ (raises pH). Hypoventilation retains CO₂ (lowers pH). CO₂ is an acid when dissolved in blood (forms carbonic acid, H₂CO₃).</p>
-<p><strong>Kidneys (metabolic):</strong> Regulate HCO₃⁻ (bicarbonate) levels over hours to days. The kidneys can either retain or excrete bicarbonate and hydrogen ions. This is a slower but more sustained compensatory mechanism.</p>
+<h3>{t("pages.authorityGuidePages.theTwoRegulators")}</h3>
+<p><strong>{t("pages.authorityGuidePages.lungsRespiratory")}</strong> {t("pages.authorityGuidePages.regulateCoLevelsWithinMinutes")}</p>
+<p><strong>{t("pages.authorityGuidePages.kidneysMetabolic")}</strong> {t("pages.authorityGuidePages.regulateHcoBicarbonateLevelsOver")}</p>
 
-<p><strong>Key concept:</strong> pH is determined by the ratio of HCO₃⁻ to CO₂. Normal ratio is 20:1 (bicarbonate to carbonic acid). Any process that changes this ratio will alter the pH.</p>`,
+<p><strong>{t("pages.authorityGuidePages.keyConcept")}</strong> {t("pages.authorityGuidePages.phIsDeterminedByThe")}</p>`,
       },
       {
         id: "rome-method",
         title: "The ROME Method for ABG Interpretation",
         icon: Brain,
-        htmlContent: `<p>The ROME method is the most reliable systematic approach to ABG interpretation on nursing exams. It eliminates guesswork and works for every ABG scenario.</p>
+        htmlContent: `<p>{t("pages.authorityGuidePages.theRomeMethodIsThe")}</p>
 
-<h3>ROME = Respiratory Opposite, Metabolic Equal</h3>
+<h3>{t("pages.authorityGuidePages.romeRespiratoryOppositeMetabolicEqual")}</h3>
 <ul>
-<li><strong>Respiratory = Opposite:</strong> In respiratory disorders, pH and PaCO₂ move in opposite directions. If CO₂ is high (>45), pH is low (<7.35) → respiratory acidosis. If CO₂ is low (<35), pH is high (>7.45) → respiratory alkalosis.</li>
-<li><strong>Metabolic = Equal:</strong> In metabolic disorders, pH and HCO₃⁻ move in the same direction. If HCO₃⁻ is low (<22), pH is low (<7.35) → metabolic acidosis. If HCO₃⁻ is high (>26), pH is high (>7.45) → metabolic alkalosis.</li>
+<li><strong>{t("pages.authorityGuidePages.respiratoryOpposite")}</strong> In respiratory disorders, pH and PaCO₂ move in opposite directions. If CO₂ is high (>45), pH is low (<7.35) → respiratory acidosis. If CO₂ is low (<35), pH is high (>{t("pages.authorityGuidePages.745RespiratoryAlkalosis")}</li>
+<li><strong>{t("pages.authorityGuidePages.metabolicEqual")}</strong> In metabolic disorders, pH and HCO₃⁻ move in the same direction. If HCO₃⁻ is low (<22), pH is low (<7.35) → metabolic acidosis. If HCO₃⁻ is high (>26), pH is high (>{t("pages.authorityGuidePages.745MetabolicAlkalosis")}</li>
 </ul>
 
-<h3>Step-by-Step ABG Interpretation</h3>
+<h3>{t("pages.authorityGuidePages.stepbystepAbgInterpretation")}</h3>
 <ol>
-<li><strong>Step 1: Look at pH.</strong> Is it acidotic (<7.35) or alkalotic (>7.45)? If 7.35-7.45, check which end it is closer to — this tells you the primary disorder.</li>
-<li><strong>Step 2: Check PaCO₂.</strong> Is it normal (35-45), high (>45 = respiratory acidosis), or low (<35 = respiratory alkalosis)?</li>
-<li><strong>Step 3: Check HCO₃⁻.</strong> Is it normal (22-26), low (<22 = metabolic acidosis), or high (>26 = metabolic alkalosis)?</li>
-<li><strong>Step 4: Match the pH.</strong> Which value (CO₂ or HCO₃⁻) explains the pH direction? That is the primary disorder.</li>
-<li><strong>Step 5: Check for compensation.</strong> Is the other value also abnormal? If yes, the body is compensating. If the other value is normal, the disorder is uncompensated.</li>
+<li><strong>{t("pages.authorityGuidePages.step1LookAtPh")}</strong> Is it acidotic (<7.35) or alkalotic (>7.45)? If 7.35-7.45, check which end it is closer to — this tells you the primary disorder.</li>
+<li><strong>{t("pages.authorityGuidePages.step2CheckPaco")}</strong> Is it normal (35-45), high (>45 = respiratory acidosis), or low (<35 = respiratory alkalosis)?</li>
+<li><strong>{t("pages.authorityGuidePages.step3CheckHco")}</strong> Is it normal (22-26), low (<22 = metabolic acidosis), or high (>{t("pages.authorityGuidePages.26MetabolicAlkalosis")}</li>
+<li><strong>{t("pages.authorityGuidePages.step4MatchThePh")}</strong> {t("pages.authorityGuidePages.whichValueCoOrHco")}</li>
+<li><strong>{t("pages.authorityGuidePages.step5CheckForCompensation")}</strong> {t("pages.authorityGuidePages.isTheOtherValueAlso")}</li>
 </ol>
 
-<h3>Compensation Types</h3>
+<h3>{t("pages.authorityGuidePages.compensationTypes")}</h3>
 <ul>
-<li><strong>Uncompensated:</strong> pH is abnormal, only one value (CO₂ or HCO₃⁻) is abnormal. The body has not yet begun to compensate.</li>
-<li><strong>Partially compensated:</strong> pH is still abnormal, but both CO₂ and HCO₃⁻ are abnormal. The body is trying to compensate but has not fully corrected the pH.</li>
-<li><strong>Fully compensated:</strong> pH is within normal range (7.35-7.45), but both CO₂ and HCO₃⁻ are abnormal. Look at which end of normal the pH falls to determine the primary disorder.</li>
+<li><strong>{t("pages.authorityGuidePages.uncompensated")}</strong> {t("pages.authorityGuidePages.phIsAbnormalOnlyOne")}</li>
+<li><strong>{t("pages.authorityGuidePages.partiallyCompensated")}</strong> {t("pages.authorityGuidePages.phIsStillAbnormalBut")}</li>
+<li><strong>{t("pages.authorityGuidePages.fullyCompensated")}</strong> {t("pages.authorityGuidePages.phIsWithinNormalRange")}</li>
 </ul>
 
 <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
-<p class="text-sm text-amber-800"><strong>Exam Tip:</strong> In fully compensated ABGs, the pH is normal but both CO₂ and HCO₃⁻ are abnormal. To determine the primary disorder, look at which side of 7.40 the pH falls. If pH is 7.35-7.39, the primary disorder is acidosis. If pH is 7.41-7.45, the primary disorder is alkalosis.</p>
+<p class="text-sm text-amber-800"><strong>{t("pages.authorityGuidePages.examTip")}</strong> {t("pages.authorityGuidePages.inFullyCompensatedAbgsThe")}</p>
 </div>`,
       },
       {
         id: "respiratory-acidosis",
         title: "Respiratory Acidosis",
         icon: Activity,
-        htmlContent: `<p><strong>ABG pattern: pH ↓ (<7.35), PaCO₂ ↑ (>45 mmHg)</strong></p>
-<p><strong>Mechanism:</strong> CO₂ retention due to hypoventilation or impaired gas exchange. CO₂ combines with water to form carbonic acid, lowering pH.</p>
+        htmlContent: `<p><strong>ABG pattern: pH ↓ (<7.35), PaCO₂ ↑ (>{t("pages.authorityGuidePages.45Mmhg")}</strong></p>
+<p><strong>{t("pages.authorityGuidePages.mechanism")}</strong> {t("pages.authorityGuidePages.coRetentionDueToHypoventilation")}</p>
 
-<h3>Causes</h3>
+<h3>{t("pages.authorityGuidePages.causes11")}</h3>
 <ul>
-<li><strong>Acute:</strong> Opioid/sedative overdose, pneumothorax, airway obstruction, neuromuscular disease (Guillain-Barré, myasthenia gravis), severe asthma, pneumonia, ARDS, anesthesia</li>
-<li><strong>Chronic:</strong> COPD (most common), obesity hypoventilation syndrome, kyphoscoliosis, chronic neuromuscular disorders</li>
+<li><strong>{t("pages.authorityGuidePages.acute")}</strong> {t("pages.authorityGuidePages.opioidsedativeOverdosePneumothoraxAirwayObs")}</li>
+<li><strong>{t("pages.authorityGuidePages.chronic")}</strong> {t("pages.authorityGuidePages.copdMostCommonObesityHypoventilation")}</li>
 </ul>
 
-<h3>Clinical Signs</h3>
-<p>Headache, confusion, drowsiness progressing to coma, warm flushed skin (CO₂ vasodilation), tachycardia, dysrhythmias. In chronic COPD: elevated HCO₃⁻ indicates renal compensation.</p>
+<h3>{t("pages.authorityGuidePages.clinicalSigns11")}</h3>
+<p>{t("pages.authorityGuidePages.headacheConfusionDrowsinessProgressingTo")}</p>
 
-<h3>Priority Nursing Interventions</h3>
+<h3>{t("pages.authorityGuidePages.priorityNursingInterventions10")}</h3>
 <ul>
-<li>Improve ventilation: position upright (high Fowler's), incentive spirometry, assist with breathing exercises</li>
-<li>Opioid overdose: administer naloxone (Narcan) — monitor for re-sedation</li>
-<li>COPD: low-flow O₂ (1-2 L/min, target SpO₂ 88-92%). Do NOT give high-flow O₂ — removes hypoxic respiratory drive</li>
-<li>Prepare for possible intubation/mechanical ventilation if PaCO₂ continues to rise</li>
-<li>Monitor respiratory rate, depth, and pattern every 1-2 hours</li>
-<li>Bronchodilators (albuterol) for bronchospasm, suction as needed for secretion clearance</li>
+<li>{t("pages.authorityGuidePages.improveVentilationPositionUprightHigh")}</li>
+<li>{t("pages.authorityGuidePages.opioidOverdoseAdministerNaloxoneNarcan")}</li>
+<li>{t("pages.authorityGuidePages.copdLowflowO12Lmin")}</li>
+<li>{t("pages.authorityGuidePages.prepareForPossibleIntubationmechanicalVentila")}</li>
+<li>{t("pages.authorityGuidePages.monitorRespiratoryRateDepthAnd")}</li>
+<li>{t("pages.authorityGuidePages.bronchodilatorsAlbuterolForBronchospasmSuct")}</li>
 </ul>
 
 <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
-<p class="text-sm text-amber-800"><strong>Exam Trap:</strong> COPD patients are chronic CO₂ retainers. Their respiratory drive depends on hypoxia, not CO₂ levels. Giving high-flow O₂ eliminates the hypoxic drive and can cause respiratory arrest. Always use low-flow O₂ targeting SpO₂ 88-92%.</p>
+<p class="text-sm text-amber-800"><strong>{t("pages.authorityGuidePages.examTrap6")}</strong> {t("pages.authorityGuidePages.copdPatientsAreChronicCo")}</p>
 </div>`,
       },
       {
@@ -445,27 +446,27 @@ const AUTHORITY_GUIDES: Record<string, AuthorityGuidePage> = {
         title: "Respiratory Alkalosis",
         icon: Activity,
         htmlContent: `<p><strong>ABG pattern: pH ↑ (>7.45), PaCO₂ ↓ (<35 mmHg)</strong></p>
-<p><strong>Mechanism:</strong> Excessive CO₂ elimination due to hyperventilation. Loss of CO₂ (acid) raises pH.</p>
+<p><strong>{t("pages.authorityGuidePages.mechanism2")}</strong> {t("pages.authorityGuidePages.excessiveCoEliminationDueTo")}</p>
 
-<h3>Causes</h3>
+<h3>{t("pages.authorityGuidePages.causes12")}</h3>
 <ul>
-<li>Anxiety/panic attacks (most common), pain, fever, early sepsis</li>
-<li>Hypoxemia (PE, pneumonia, altitude) — compensatory hyperventilation</li>
-<li>Mechanical ventilation (rate or tidal volume set too high)</li>
-<li>CNS disorders (head injury, brain tumor), salicylate (aspirin) toxicity (early)</li>
-<li>Pregnancy (progesterone stimulates respiration)</li>
+<li>{t("pages.authorityGuidePages.anxietypanicAttacksMostCommonPain")}</li>
+<li>{t("pages.authorityGuidePages.hypoxemiaPePneumoniaAltitudeCompensatory")}</li>
+<li>{t("pages.authorityGuidePages.mechanicalVentilationRateOrTidal")}</li>
+<li>{t("pages.authorityGuidePages.cnsDisordersHeadInjuryBrain")}</li>
+<li>{t("pages.authorityGuidePages.pregnancyProgesteroneStimulatesRespiration")}</li>
 </ul>
 
-<h3>Clinical Signs</h3>
-<p>Lightheadedness, dizziness, tingling/numbness (circumoral and extremities), muscle cramps, tetany (alkalosis decreases ionized calcium), palpitations, syncope.</p>
+<h3>{t("pages.authorityGuidePages.clinicalSigns12")}</h3>
+<p>{t("pages.authorityGuidePages.lightheadednessDizzinessTinglingnumbnessCir")}</p>
 
-<h3>Priority Nursing Interventions</h3>
+<h3>{t("pages.authorityGuidePages.priorityNursingInterventions11")}</h3>
 <ul>
-<li>Anxiety-related: calm reassurance, coached slow breathing, paper bag rebreathing (increases CO₂ inhalation) — use cautiously</li>
-<li>Treat underlying cause: analgesics for pain, antipyretics for fever, anxiolytics for anxiety</li>
-<li>Mechanical ventilation: reduce rate or tidal volume as ordered</li>
-<li>If hypoxia-driven: treat the hypoxemia (oxygen therapy, PE management)</li>
-<li>Monitor for tetany and cardiac dysrhythmias (alkalosis-related hypocalcemia)</li>
+<li>{t("pages.authorityGuidePages.anxietyrelatedCalmReassuranceCoachedSlow")}</li>
+<li>{t("pages.authorityGuidePages.treatUnderlyingCauseAnalgesicsFor")}</li>
+<li>{t("pages.authorityGuidePages.mechanicalVentilationReduceRateOr")}</li>
+<li>{t("pages.authorityGuidePages.ifHypoxiadrivenTreatTheHypoxemia")}</li>
+<li>{t("pages.authorityGuidePages.monitorForTetanyAndCardiac")}</li>
 </ul>`,
       },
       {
@@ -473,100 +474,100 @@ const AUTHORITY_GUIDES: Record<string, AuthorityGuidePage> = {
         title: "Metabolic Acidosis",
         icon: AlertTriangle,
         htmlContent: `<p><strong>ABG pattern: pH ↓ (<7.35), HCO₃⁻ ↓ (<22 mEq/L)</strong></p>
-<p><strong>Mechanism:</strong> Either too much acid production/ingestion or too much bicarbonate loss. Use the anion gap to differentiate.</p>
+<p><strong>{t("pages.authorityGuidePages.mechanism3")}</strong> {t("pages.authorityGuidePages.eitherTooMuchAcidProductioningestion")}</p>
 
-<h3>Anion Gap = Na⁺ - (Cl⁻ + HCO₃⁻) — Normal: 8-12 mEq/L</h3>
+<h3>{t("pages.authorityGuidePages.anionGapNaClHco")}</h3>
 
-<h4>High Anion Gap Metabolic Acidosis (MUDPILES)</h4>
-<p>Something is adding acid to the body:</p>
+<h4>{t("pages.authorityGuidePages.highAnionGapMetabolicAcidosis")}</h4>
+<p>{t("pages.authorityGuidePages.somethingIsAddingAcidTo")}</p>
 <ul>
-<li><strong>M</strong>ethanol poisoning</li>
-<li><strong>U</strong>remia (renal failure — cannot excrete acids)</li>
-<li><strong>D</strong>iabetic ketoacidosis (DKA) — most commonly tested</li>
-<li><strong>P</strong>ropylene glycol toxicity</li>
-<li><strong>I</strong>soniazid / Iron toxicity</li>
-<li><strong>L</strong>actic acidosis (sepsis, shock, hypoxia)</li>
-<li><strong>E</strong>thylene glycol poisoning</li>
-<li><strong>S</strong>alicylate (aspirin) toxicity (late)</li>
+<li><strong>M</strong>{t("pages.authorityGuidePages.ethanolPoisoning")}</li>
+<li><strong>U</strong>{t("pages.authorityGuidePages.remiaRenalFailureCannotExcrete")}</li>
+<li><strong>D</strong>{t("pages.authorityGuidePages.iabeticKetoacidosisDkaMostCommonly")}</li>
+<li><strong>P</strong>{t("pages.authorityGuidePages.ropyleneGlycolToxicity")}</li>
+<li><strong>I</strong>{t("pages.authorityGuidePages.soniazidIronToxicity")}</li>
+<li><strong>L</strong>{t("pages.authorityGuidePages.acticAcidosisSepsisShockHypoxia")}</li>
+<li><strong>E</strong>{t("pages.authorityGuidePages.thyleneGlycolPoisoning")}</li>
+<li><strong>S</strong>{t("pages.authorityGuidePages.alicylateAspirinToxicityLate")}</li>
 </ul>
 
-<h4>Normal Anion Gap (Hyperchloremic) Metabolic Acidosis</h4>
-<p>Bicarbonate is being lost from the body:</p>
+<h4>{t("pages.authorityGuidePages.normalAnionGapHyperchloremicMetabolic")}</h4>
+<p>{t("pages.authorityGuidePages.bicarbonateIsBeingLostFrom")}</p>
 <ul>
-<li>Diarrhea (most common — GI tract loses HCO₃⁻)</li>
-<li>Renal tubular acidosis</li>
-<li>Pancreatic fistula/drainage</li>
-<li>Ureterosigmoidostomy</li>
+<li>{t("pages.authorityGuidePages.diarrheaMostCommonGiTract")}</li>
+<li>{t("pages.authorityGuidePages.renalTubularAcidosis")}</li>
+<li>{t("pages.authorityGuidePages.pancreaticFistuladrainage")}</li>
+<li>{t("pages.authorityGuidePages.ureterosigmoidostomy")}</li>
 </ul>
 
-<h3>Clinical Signs</h3>
-<p>Kussmaul respirations (deep rapid breathing — respiratory compensation), fruity breath (DKA), confusion, lethargy, warm flushed skin, nausea/vomiting, hyperkalemia (H⁺/K⁺ exchange)</p>
+<h3>{t("pages.authorityGuidePages.clinicalSigns13")}</h3>
+<p>{t("pages.authorityGuidePages.kussmaulRespirationsDeepRapidBreathing")}</p>
 
-<h3>Priority Nursing Interventions</h3>
+<h3>{t("pages.authorityGuidePages.priorityNursingInterventions12")}</h3>
 <ul>
-<li>Treat the underlying cause (insulin for DKA, antibiotics for sepsis, dialysis for renal failure)</li>
+<li>{t("pages.authorityGuidePages.treatTheUnderlyingCauseInsulin")}</li>
 <li>IV sodium bicarbonate for pH < 7.1 (severe, life-threatening acidosis only)</li>
-<li>IV fluid resuscitation (isotonic crystalloid for DKA and sepsis)</li>
-<li>Monitor potassium closely — as acidosis corrects, K⁺ shifts back into cells causing hypokalemia</li>
-<li>Do NOT suppress Kussmaul respirations — they are the body's compensation mechanism</li>
+<li>{t("pages.authorityGuidePages.ivFluidResuscitationIsotonicCrystalloid")}</li>
+<li>{t("pages.authorityGuidePages.monitorPotassiumCloselyAsAcidosis")}</li>
+<li>{t("pages.authorityGuidePages.doNotSuppressKussmaulRespirations")}</li>
 </ul>
 
 <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
-<p class="text-sm text-amber-800"><strong>Exam Trap:</strong> In DKA, potassium may initially appear normal or high (acidosis pushes K⁺ out of cells). But as you correct the acidosis with insulin and fluids, K⁺ shifts back into cells causing dangerous hypokalemia. Always replace potassium when K⁺ < 5.0 before or during insulin administration.</p>
+<p class="text-sm text-amber-800"><strong>{t("pages.authorityGuidePages.examTrap7")}</strong> In DKA, potassium may initially appear normal or high (acidosis pushes K⁺ out of cells). But as you correct the acidosis with insulin and fluids, K⁺ shifts back into cells causing dangerous hypokalemia. Always replace potassium when K⁺ < 5.0 before or during insulin administration.</p>
 </div>`,
       },
       {
         id: "metabolic-alkalosis",
         title: "Metabolic Alkalosis",
         icon: AlertTriangle,
-        htmlContent: `<p><strong>ABG pattern: pH ↑ (>7.45), HCO₃⁻ ↑ (>26 mEq/L)</strong></p>
-<p><strong>Mechanism:</strong> Either excessive loss of acid (H⁺) or excessive retention/administration of base (HCO₃⁻).</p>
+        htmlContent: `<p><strong>ABG pattern: pH ↑ (>7.45), HCO₃⁻ ↑ (>{t("pages.authorityGuidePages.26Meql")}</strong></p>
+<p><strong>{t("pages.authorityGuidePages.mechanism4")}</strong> {t("pages.authorityGuidePages.eitherExcessiveLossOfAcid")}</p>
 
-<h3>Causes</h3>
+<h3>{t("pages.authorityGuidePages.causes13")}</h3>
 <ul>
-<li>Vomiting/NG suctioning (loss of HCl from stomach — most commonly tested)</li>
-<li>Excessive sodium bicarbonate administration</li>
-<li>Diuretic use (loop/thiazide — causes contraction alkalosis via volume depletion)</li>
-<li>Cushing syndrome / corticosteroid excess</li>
-<li>Hyperaldosteronism (sodium retention, H⁺ and K⁺ excretion)</li>
-<li>Excessive antacid use</li>
+<li>{t("pages.authorityGuidePages.vomitingngSuctioningLossOfHcl")}</li>
+<li>{t("pages.authorityGuidePages.excessiveSodiumBicarbonateAdministration")}</li>
+<li>{t("pages.authorityGuidePages.diureticUseLoopthiazideCausesContraction")}</li>
+<li>{t("pages.authorityGuidePages.cushingSyndromeCorticosteroidExcess")}</li>
+<li>{t("pages.authorityGuidePages.hyperaldosteronismSodiumRetentionHAnd")}</li>
+<li>{t("pages.authorityGuidePages.excessiveAntacidUse")}</li>
 </ul>
 
-<h3>Clinical Signs</h3>
-<p>Shallow slow respirations (compensatory hypoventilation), confusion, irritability, muscle cramps, tetany (alkalosis decreases ionized calcium), hypokalemia (H⁺/K⁺ exchange), cardiac dysrhythmias</p>
+<h3>{t("pages.authorityGuidePages.clinicalSigns14")}</h3>
+<p>{t("pages.authorityGuidePages.shallowSlowRespirationsCompensatoryHypoventil")}</p>
 
-<h3>Priority Nursing Interventions</h3>
+<h3>{t("pages.authorityGuidePages.priorityNursingInterventions13")}</h3>
 <ul>
-<li>Treat the underlying cause: antiemetics for vomiting, replace NG losses with appropriate fluids</li>
-<li>IV normal saline for chloride-responsive alkalosis (restores volume and chloride)</li>
-<li>Replace potassium (hypokalemia is both a cause and consequence of metabolic alkalosis)</li>
-<li>Acetazolamide (Diamox) — a carbonic anhydrase inhibitor that causes renal HCO₃⁻ wasting (rarely used)</li>
-<li>Monitor for hypoventilation and hypoxemia (respiratory compensation)</li>
-<li>Monitor ECG for dysrhythmias related to hypokalemia</li>
+<li>{t("pages.authorityGuidePages.treatTheUnderlyingCauseAntiemetics")}</li>
+<li>{t("pages.authorityGuidePages.ivNormalSalineForChlorideresponsive")}</li>
+<li>{t("pages.authorityGuidePages.replacePotassiumHypokalemiaIsBoth")}</li>
+<li>{t("pages.authorityGuidePages.acetazolamideDiamoxACarbonicAnhydrase")}</li>
+<li>{t("pages.authorityGuidePages.monitorForHypoventilationAndHypoxemia")}</li>
+<li>{t("pages.authorityGuidePages.monitorEcgForDysrhythmiasRelated")}</li>
 </ul>`,
       },
       {
         id: "mixed-disorders",
         title: "Mixed Acid-Base Disorders & Clinical Application",
         icon: Stethoscope,
-        htmlContent: `<p>In clinical practice and on advanced exam questions, patients may have two or more acid-base disorders simultaneously. Recognizing mixed disorders requires understanding expected compensation ranges.</p>
+        htmlContent: `<p>{t("pages.authorityGuidePages.inClinicalPracticeAndOn")}</p>
 
-<h3>Expected Compensation</h3>
+<h3>{t("pages.authorityGuidePages.expectedCompensation")}</h3>
 <ul>
-<li><strong>Respiratory acidosis (acute):</strong> HCO₃⁻ increases 1 mEq/L for every 10 mmHg rise in CO₂</li>
-<li><strong>Respiratory acidosis (chronic):</strong> HCO₃⁻ increases 3.5 mEq/L for every 10 mmHg rise in CO₂</li>
-<li><strong>Respiratory alkalosis (acute):</strong> HCO₃⁻ decreases 2 mEq/L for every 10 mmHg fall in CO₂</li>
-<li><strong>Metabolic acidosis:</strong> CO₂ decreases 1.2 mmHg for every 1 mEq/L decrease in HCO₃⁻ (Winter's formula)</li>
-<li><strong>Metabolic alkalosis:</strong> CO₂ increases 0.7 mmHg for every 1 mEq/L increase in HCO₃⁻</li>
+<li><strong>{t("pages.authorityGuidePages.respiratoryAcidosisAcute")}</strong> {t("pages.authorityGuidePages.hcoIncreases1MeqlFor")}</li>
+<li><strong>{t("pages.authorityGuidePages.respiratoryAcidosisChronic")}</strong> {t("pages.authorityGuidePages.hcoIncreases35MeqlFor")}</li>
+<li><strong>{t("pages.authorityGuidePages.respiratoryAlkalosisAcute")}</strong> {t("pages.authorityGuidePages.hcoDecreases2MeqlFor")}</li>
+<li><strong>{t("pages.authorityGuidePages.metabolicAcidosis")}</strong> {t("pages.authorityGuidePages.coDecreases12MmhgFor")}</li>
+<li><strong>{t("pages.authorityGuidePages.metabolicAlkalosis")}</strong> {t("pages.authorityGuidePages.coIncreases07MmhgFor")}</li>
 </ul>
 
-<p>If the actual compensation is more or less than expected, a mixed disorder is present. For example, a patient with DKA (metabolic acidosis) and pneumonia (respiratory acidosis) would have both low HCO₃⁻ AND high CO₂ — the pH would be very low because both systems are contributing to acidosis.</p>
+<p>{t("pages.authorityGuidePages.ifTheActualCompensationIs")}</p>
 
-<h3>Clinical Application: Practice ABG Interpretation</h3>
-<p><strong>Example 1:</strong> pH 7.28, PaCO₂ 55, HCO₃⁻ 24 → Uncompensated respiratory acidosis (pH low, CO₂ high, HCO₃⁻ normal). Think: COPD exacerbation, opioid overdose, or pneumonia.</p>
-<p><strong>Example 2:</strong> pH 7.32, PaCO₂ 30, HCO₃⁻ 15 → Partially compensated metabolic acidosis (pH low, HCO₃⁻ low, CO₂ low from respiratory compensation). Think: DKA, lactic acidosis, or renal failure.</p>
-<p><strong>Example 3:</strong> pH 7.48, PaCO₂ 28, HCO₃⁻ 24 → Uncompensated respiratory alkalosis (pH high, CO₂ low, HCO₃⁻ normal). Think: anxiety, pain, PE, or early sepsis.</p>
-<p><strong>Example 4:</strong> pH 7.50, PaCO₂ 46, HCO₃⁻ 34 → Partially compensated metabolic alkalosis (pH high, HCO₃⁻ high, CO₂ slightly elevated from respiratory compensation). Think: vomiting, NG suctioning, or diuretic use.</p>`,
+<h3>{t("pages.authorityGuidePages.clinicalApplicationPracticeAbgInterpretation")}</h3>
+<p><strong>{t("pages.authorityGuidePages.example1")}</strong> {t("pages.authorityGuidePages.ph728Paco55Hco")}</p>
+<p><strong>{t("pages.authorityGuidePages.example2")}</strong> {t("pages.authorityGuidePages.ph732Paco30Hco")}</p>
+<p><strong>{t("pages.authorityGuidePages.example3")}</strong> {t("pages.authorityGuidePages.ph748Paco28Hco")}</p>
+<p><strong>{t("pages.authorityGuidePages.example4")}</strong> {t("pages.authorityGuidePages.ph750Paco46Hco")}</p>`,
       },
     ],
     faqs: [
@@ -615,206 +616,206 @@ const AUTHORITY_GUIDES: Record<string, AuthorityGuidePage> = {
         id: "assessment-overview",
         title: "Clinical Assessment on Nursing Exams",
         icon: BookOpen,
-        htmlContent: `<p>Clinical assessment questions comprise approximately 15-25% of nursing licensing exams (NCLEX and REx-PN). These questions test your ability to gather and interpret patient data, recognize abnormal findings, and prioritize nursing actions based on assessment results. The NCSBN Clinical Judgment Measurement Model begins with "Recognize Cues" — which is fundamentally assessment.</p>
+        htmlContent: `<p>{t("pages.authorityGuidePages.clinicalAssessmentQuestionsCompriseApproximate")}</p>
 
-<p>Assessment questions on nursing exams typically follow one of four patterns:</p>
+<p>{t("pages.authorityGuidePages.assessmentQuestionsOnNursingExams")}</p>
 <ul>
-<li><strong>Pattern 1: Recognition</strong> — "Which assessment finding indicates..." or "The nurse should assess for which complication?"</li>
-<li><strong>Pattern 2: Priority</strong> — "Which assessment finding requires immediate intervention?" or "Which patient should the nurse see first?"</li>
-<li><strong>Pattern 3: Interpretation</strong> — "Based on these assessment findings, the nurse suspects..." or "Which assessment finding is expected for this condition?"</li>
-<li><strong>Pattern 4: Follow-up</strong> — "After this intervention, the nurse should assess for..." or "Which finding indicates the treatment is effective?"</li>
+<li><strong>{t("pages.authorityGuidePages.pattern1Recognition")}</strong> {t("pages.authorityGuidePages.whichAssessmentFindingIndicatesOr")}</li>
+<li><strong>{t("pages.authorityGuidePages.pattern2Priority")}</strong> {t("pages.authorityGuidePages.whichAssessmentFindingRequiresImmediate")}</li>
+<li><strong>{t("pages.authorityGuidePages.pattern3Interpretation")}</strong> {t("pages.authorityGuidePages.basedOnTheseAssessmentFindings")}</li>
+<li><strong>{t("pages.authorityGuidePages.pattern4Followup")}</strong> {t("pages.authorityGuidePages.afterThisInterventionTheNurse")}</li>
 </ul>
 
-<p><strong>Key principle:</strong> Always assess before intervening. On exam questions, "assess" or "evaluate" is almost always the correct first action unless the patient is in immediate danger (e.g., airway obstruction, cardiac arrest, hemorrhage). Even then, your assessment is rapid — it just happens in seconds rather than minutes.</p>`,
+<p><strong>{t("pages.authorityGuidePages.keyPrinciple2")}</strong> {t("pages.authorityGuidePages.alwaysAssessBeforeInterveningOn")}</p>`,
       },
       {
         id: "head-to-toe",
         title: "Systematic Head-to-Toe Assessment",
         icon: ClipboardList,
-        htmlContent: `<p>A systematic head-to-toe assessment ensures no body system is missed. While the order may vary between institutions, the principle of systematic evaluation is consistent. On exam questions, you need to know which assessments are relevant for each body system and what abnormal findings indicate.</p>
+        htmlContent: `<p>{t("pages.authorityGuidePages.aSystematicHeadtotoeAssessmentEnsures")}</p>
 
-<h3>Neurological Assessment</h3>
+<h3>{t("pages.authorityGuidePages.neurologicalAssessment")}</h3>
 <ul>
-<li><strong>Level of consciousness:</strong> Alert, Verbal, Pain, Unresponsive (AVPU) or Glasgow Coma Scale (GCS: 3-15)</li>
-<li><strong>Orientation:</strong> Person, place, time, situation (documented as "A&Ox4" or partial)</li>
-<li><strong>Pupils:</strong> PERRLA (Pupils Equal, Round, Reactive to Light and Accommodation) — unequal or fixed/dilated = emergency</li>
-<li><strong>Motor/sensory:</strong> Equal strength bilaterally, sensation intact, gait/balance</li>
-<li><strong>Cranial nerves:</strong> Facial symmetry (CN VII), swallowing (CN IX/X), speech clarity</li>
-<li><strong>Red flags:</strong> Sudden unilateral weakness, slurred speech, severe headache, pupil changes, decreasing GCS</li>
+<li><strong>{t("pages.authorityGuidePages.levelOfConsciousness")}</strong> {t("pages.authorityGuidePages.alertVerbalPainUnresponsiveAvpu")}</li>
+<li><strong>{t("pages.authorityGuidePages.orientation")}</strong> {t("pages.authorityGuidePages.personPlaceTimeSituationDocumented")}</li>
+<li><strong>{t("pages.authorityGuidePages.pupils")}</strong> {t("pages.authorityGuidePages.perrlaPupilsEqualRoundReactive")}</li>
+<li><strong>{t("pages.authorityGuidePages.motorsensory")}</strong> {t("pages.authorityGuidePages.equalStrengthBilaterallySensationIntact")}</li>
+<li><strong>{t("pages.authorityGuidePages.cranialNerves")}</strong> {t("pages.authorityGuidePages.facialSymmetryCnViiSwallowing")}</li>
+<li><strong>{t("pages.authorityGuidePages.redFlags")}</strong> {t("pages.authorityGuidePages.suddenUnilateralWeaknessSlurredSpeech")}</li>
 </ul>
 
-<h3>Cardiovascular Assessment</h3>
+<h3>{t("pages.authorityGuidePages.cardiovascularAssessment")}</h3>
 <ul>
-<li><strong>Heart sounds:</strong> S1 (mitral/tricuspid closure), S2 (aortic/pulmonic closure), S3 (HF indicator in adults), S4 (decreased compliance), murmurs</li>
-<li><strong>Peripheral circulation:</strong> Pulses (radial, pedal, posterior tibial — rate, rhythm, quality), capillary refill (<3 seconds), skin color/temperature</li>
-<li><strong>Edema assessment:</strong> Scale 1+ to 4+ pitting, location, onset pattern (bilateral vs unilateral)</li>
-<li><strong>JVD:</strong> Assess at 45° — distension above 3 cm suggests right-sided heart failure or fluid overload</li>
-<li><strong>Red flags:</strong> Chest pain, irregular rhythm, absent pulses, cool/mottled extremities, JVD</li>
+<li><strong>{t("pages.authorityGuidePages.heartSounds")}</strong> {t("pages.authorityGuidePages.s1MitraltricuspidClosureS2Aorticpulmonic")}</li>
+<li><strong>{t("pages.authorityGuidePages.peripheralCirculation")}</strong> Pulses (radial, pedal, posterior tibial — rate, rhythm, quality), capillary refill (<3 seconds), skin color/temperature</li>
+<li><strong>{t("pages.authorityGuidePages.edemaAssessment")}</strong> {t("pages.authorityGuidePages.scale1To4Pitting")}</li>
+<li><strong>{t("pages.authorityGuidePages.jvd")}</strong> {t("pages.authorityGuidePages.assessAt45DistensionAbove")}</li>
+<li><strong>{t("pages.authorityGuidePages.redFlags2")}</strong> {t("pages.authorityGuidePages.chestPainIrregularRhythmAbsent")}</li>
 </ul>
 
-<h3>Respiratory Assessment</h3>
+<h3>{t("pages.authorityGuidePages.respiratoryAssessment")}</h3>
 <ul>
-<li><strong>Inspection:</strong> Rate (12-20/min), depth, pattern (regular, Cheyne-Stokes, Kussmaul, Biot's), use of accessory muscles, chest symmetry</li>
-<li><strong>Auscultation:</strong> All lung fields anteriorly and posteriorly — normal: vesicular, bronchial, bronchovesicular</li>
-<li><strong>Adventitious sounds:</strong> Crackles (fluid/atelectasis), wheezes (bronchospasm), stridor (upper airway), pleural friction rub</li>
-<li><strong>Oxygen saturation:</strong> SpO₂ 95-100% (88-92% for COPD patients)</li>
-<li><strong>Red flags:</strong> SpO₂ < 90%, respiratory rate > 30 or < 8, stridor, tracheal deviation, absent breath sounds</li>
+<li><strong>{t("pages.authorityGuidePages.inspection")}</strong> {t("pages.authorityGuidePages.rate1220minDepthPatternRegular")}</li>
+<li><strong>{t("pages.authorityGuidePages.auscultation")}</strong> {t("pages.authorityGuidePages.allLungFieldsAnteriorlyAnd")}</li>
+<li><strong>{t("pages.authorityGuidePages.adventitiousSounds")}</strong> {t("pages.authorityGuidePages.cracklesFluidatelectasisWheezesBronchospas")}</li>
+<li><strong>{t("pages.authorityGuidePages.oxygenSaturation")}</strong> {t("pages.authorityGuidePages.spo951008892ForCopd")}</li>
+<li><strong>{t("pages.authorityGuidePages.redFlags3")}</strong> SpO₂ < 90%, respiratory rate > 30 or < 8, stridor, tracheal deviation, absent breath sounds</li>
 </ul>
 
-<h3>Gastrointestinal Assessment</h3>
+<h3>{t("pages.authorityGuidePages.gastrointestinalAssessment")}</h3>
 <ul>
-<li><strong>Assessment order:</strong> Inspect, Auscultate, Percuss, Palpate (auscultate BEFORE palpation to avoid stimulating bowel sounds)</li>
-<li><strong>Bowel sounds:</strong> Normal: 5-30/min in all four quadrants. Hyperactive: diarrhea, early obstruction. Hypoactive/absent: ileus, post-operative</li>
-<li><strong>Abdomen:</strong> Soft, non-tender, non-distended. Rebound tenderness = peritoneal irritation (emergency)</li>
-<li><strong>Red flags:</strong> Rigid/board-like abdomen, rebound tenderness, absent bowel sounds, hematemesis, melena</li>
+<li><strong>{t("pages.authorityGuidePages.assessmentOrder")}</strong> {t("pages.authorityGuidePages.inspectAuscultatePercussPalpateAuscultate")}</li>
+<li><strong>{t("pages.authorityGuidePages.bowelSounds")}</strong> {t("pages.authorityGuidePages.normal530minInAllFour")}</li>
+<li><strong>{t("pages.authorityGuidePages.abdomen")}</strong> {t("pages.authorityGuidePages.softNontenderNondistendedReboundTendernes")}</li>
+<li><strong>{t("pages.authorityGuidePages.redFlags4")}</strong> {t("pages.authorityGuidePages.rigidboardlikeAbdomenReboundTendernessAbse")}</li>
 </ul>
 
-<h3>Genitourinary Assessment</h3>
+<h3>{t("pages.authorityGuidePages.genitourinaryAssessment")}</h3>
 <ul>
-<li><strong>Urine output:</strong> Normal: ≥0.5 mL/kg/hr (≥30 mL/hr for most adults). Oliguria: < 400 mL/day. Anuria: < 100 mL/day</li>
-<li><strong>Urine characteristics:</strong> Clear, pale yellow to amber. Dark/concentrated = dehydration. Cloudy/foul-smelling = infection. Pink/red = hematuria</li>
-<li><strong>Red flags:</strong> Anuria, gross hematuria, suprapubic distension, flank pain with fever</li>
+<li><strong>{t("pages.authorityGuidePages.urineOutput")}</strong> Normal: ≥0.5 mL/kg/hr (≥30 mL/hr for most adults). Oliguria: < 400 mL/day. Anuria: < 100 mL/day</li>
+<li><strong>{t("pages.authorityGuidePages.urineCharacteristics")}</strong> {t("pages.authorityGuidePages.clearPaleYellowToAmber")}</li>
+<li><strong>{t("pages.authorityGuidePages.redFlags5")}</strong> {t("pages.authorityGuidePages.anuriaGrossHematuriaSuprapubicDistension")}</li>
 </ul>
 
-<h3>Integumentary Assessment</h3>
+<h3>{t("pages.authorityGuidePages.integumentaryAssessment")}</h3>
 <ul>
-<li><strong>Skin:</strong> Color, temperature, moisture, turgor (test over sternum or forehead in elderly), integrity</li>
-<li><strong>Wounds:</strong> Size, depth, drainage (serous, sanguineous, purulent), wound bed color, periwound skin</li>
-<li><strong>Pressure injury staging:</strong> Stage 1 (non-blanchable erythema) through Stage 4 (full-thickness with exposed bone/tendon), Unstageable, DTPI</li>
-<li><strong>Red flags:</strong> New pressure injury, signs of wound infection, crepitus (subcutaneous emphysema), cyanosis</li>
+<li><strong>{t("pages.authorityGuidePages.skin")}</strong> {t("pages.authorityGuidePages.colorTemperatureMoistureTurgorTest")}</li>
+<li><strong>{t("pages.authorityGuidePages.wounds")}</strong> {t("pages.authorityGuidePages.sizeDepthDrainageSerousSanguineous")}</li>
+<li><strong>{t("pages.authorityGuidePages.pressureInjuryStaging")}</strong> {t("pages.authorityGuidePages.stage1NonblanchableErythemaThrough")}</li>
+<li><strong>{t("pages.authorityGuidePages.redFlags6")}</strong> {t("pages.authorityGuidePages.newPressureInjurySignsOf")}</li>
 </ul>
 
-<h3>Musculoskeletal Assessment</h3>
+<h3>{t("pages.authorityGuidePages.musculoskeletalAssessment")}</h3>
 <ul>
-<li><strong>ROM:</strong> Active and passive range of motion, crepitus, swelling</li>
-<li><strong>Strength:</strong> 0/5 (no contraction) to 5/5 (full strength against resistance) bilaterally</li>
-<li><strong>Neurovascular checks:</strong> 5 P's — Pain, Pallor, Pulselessness, Paresthesia, Paralysis (compartment syndrome)</li>
-<li><strong>Red flags:</strong> Asymmetric weakness, compartment syndrome signs, new onset of unilateral swelling (DVT)</li>
+<li><strong>{t("pages.authorityGuidePages.rom")}</strong> {t("pages.authorityGuidePages.activeAndPassiveRangeOf")}</li>
+<li><strong>{t("pages.authorityGuidePages.strength")}</strong> {t("pages.authorityGuidePages.05NoContractionTo55")}</li>
+<li><strong>{t("pages.authorityGuidePages.neurovascularChecks")}</strong> {t("pages.authorityGuidePages.5PsPainPallorPulselessness")}</li>
+<li><strong>{t("pages.authorityGuidePages.redFlags7")}</strong> {t("pages.authorityGuidePages.asymmetricWeaknessCompartmentSyndromeSigns")}</li>
 </ul>`,
       },
       {
         id: "vital-signs",
         title: "Vital Signs Interpretation",
         icon: Thermometer,
-        htmlContent: `<p>Vital signs are the most basic and most critical assessment data. Knowing normal ranges, understanding what deviations mean, and recognizing life-threatening vital sign patterns is essential for both exam success and clinical practice.</p>
+        htmlContent: `<p>{t("pages.authorityGuidePages.vitalSignsAreTheMost")}</p>
 
-<h3>Normal Adult Vital Signs</h3>
+<h3>{t("pages.authorityGuidePages.normalAdultVitalSigns")}</h3>
 <ul>
-<li><strong>Temperature:</strong> 36.5-37.5°C (97.7-99.5°F) oral. Tympanic and temporal are slightly higher than oral. Rectal is 0.5-1°F higher. Axillary is 0.5-1°F lower.</li>
-<li><strong>Heart Rate:</strong> 60-100 bpm. Bradycardia < 60. Tachycardia > 100.</li>
-<li><strong>Respiratory Rate:</strong> 12-20 breaths/min. Tachypnea > 20. Bradypnea < 12.</li>
-<li><strong>Blood Pressure:</strong> <120/80 mmHg (normal). 120-129/<80 (elevated). 130-139/80-89 (Stage 1 HTN). ≥140/≥90 (Stage 2 HTN). ≥180/≥120 (hypertensive crisis).</li>
-<li><strong>Oxygen Saturation:</strong> 95-100%. COPD target: 88-92%.</li>
-<li><strong>Pain:</strong> Often considered the "5th vital sign." Use appropriate scale for patient population.</li>
+<li><strong>{t("pages.authorityGuidePages.temperature")}</strong> {t("pages.authorityGuidePages.365375c977995fOralTympanicAnd")}</li>
+<li><strong>{t("pages.authorityGuidePages.heartRate")}</strong> 60-100 bpm. Bradycardia < 60. Tachycardia > 100.</li>
+<li><strong>{t("pages.authorityGuidePages.respiratoryRate")}</strong> 12-20 breaths/min. Tachypnea > 20. Bradypnea < 12.</li>
+<li><strong>{t("pages.authorityGuidePages.bloodPressure")}</strong> <120/80 mmHg (normal). 120-129/<80 (elevated). 130-139/80-89 (Stage 1 HTN). ≥140/≥90 (Stage 2 HTN). ≥180/≥120 (hypertensive crisis).</li>
+<li><strong>{t("pages.authorityGuidePages.oxygenSaturation2")}</strong> {t("pages.authorityGuidePages.95100CopdTarget8892")}</li>
+<li><strong>{t("pages.authorityGuidePages.pain")}</strong> {t("pages.authorityGuidePages.oftenConsideredThe5thVital")}</li>
 </ul>
 
-<h3>Vital Sign Patterns to Recognize</h3>
+<h3>{t("pages.authorityGuidePages.vitalSignPatternsToRecognize")}</h3>
 <ul>
-<li><strong>Cushing's triad</strong> (increased ICP): Hypertension (widening pulse pressure) + Bradycardia + Irregular respirations → neurosurgical emergency</li>
-<li><strong>Beck's triad</strong> (cardiac tamponade): Hypotension + JVD + Muffled heart sounds → pericardiocentesis needed</li>
-<li><strong>Shock pattern:</strong> Hypotension + Tachycardia + Tachypnea + Altered mental status → immediate intervention</li>
-<li><strong>Sepsis pattern:</strong> Temperature > 38.3°C or < 36°C + Heart rate > 90 + Respiratory rate > 20 + Altered mental status</li>
-<li><strong>Neurogenic shock:</strong> Hypotension + Bradycardia (differs from other shock types which show tachycardia)</li>
+<li><strong>{t("pages.authorityGuidePages.cushingsTriad")}</strong> {t("pages.authorityGuidePages.increasedIcpHypertensionWideningPulse")}</li>
+<li><strong>{t("pages.authorityGuidePages.becksTriad")}</strong> {t("pages.authorityGuidePages.cardiacTamponadeHypotensionJvdMuffled")}</li>
+<li><strong>{t("pages.authorityGuidePages.shockPattern")}</strong> {t("pages.authorityGuidePages.hypotensionTachycardiaTachypneaAlteredMe")}</li>
+<li><strong>{t("pages.authorityGuidePages.sepsisPattern")}</strong> Temperature > 38.3°C or < 36°C + Heart rate > 90 + Respiratory rate > {t("pages.authorityGuidePages.20AlteredMentalStatus")}</li>
+<li><strong>{t("pages.authorityGuidePages.neurogenicShock")}</strong> {t("pages.authorityGuidePages.hypotensionBradycardiaDiffersFromOther")}</li>
 </ul>
 
-<h3>Orthostatic (Postural) Vital Signs</h3>
-<p>Measure BP and HR supine, then standing (or sitting if unable to stand). Positive orthostatic hypotension: SBP drop ≥ 20 mmHg OR DBP drop ≥ 10 mmHg OR HR increase ≥ 20 bpm within 3 minutes. Indicates volume depletion or autonomic dysfunction. Nursing action: ensure safety (fall precautions), report to provider, hold antihypertensives as appropriate.</p>
+<h3>{t("pages.authorityGuidePages.orthostaticPosturalVitalSigns")}</h3>
+<p>{t("pages.authorityGuidePages.measureBpAndHrSupine")}</p>
 
 <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
-<p class="text-sm text-amber-800"><strong>Exam Tip:</strong> When an exam question presents multiple patients with abnormal vital signs, use the ABCs (Airway, Breathing, Circulation) to prioritize. A patient with respiratory distress (SpO₂ 82%, RR 32) takes priority over a patient with fever (38.8°C) or mild tachycardia (HR 105).</p>
+<p class="text-sm text-amber-800"><strong>{t("pages.authorityGuidePages.examTip2")}</strong> {t("pages.authorityGuidePages.whenAnExamQuestionPresents")}</p>
 </div>`,
       },
       {
         id: "focused-assessments",
         title: "Focused Assessments for Common Conditions",
         icon: Target,
-        htmlContent: `<p>Focused assessments are targeted evaluations performed when you know (or suspect) a specific condition. Exam questions often present a clinical scenario and ask "Which assessment is the priority?" Knowing the focused assessment for each condition is essential.</p>
+        htmlContent: `<p>{t("pages.authorityGuidePages.focusedAssessmentsAreTargetedEvaluations")}</p>
 
-<h3>Cardiac Assessment Focus</h3>
+<h3>{t("pages.authorityGuidePages.cardiacAssessmentFocus")}</h3>
 <ul>
-<li><strong>Heart failure:</strong> Daily weight (same time, same scale, same clothing), I&O, lung sounds (crackles), JVD, pedal edema, activity tolerance</li>
-<li><strong>MI:</strong> Pain assessment (PQRST), vital signs, ECG monitoring, troponin levels, O₂ saturation</li>
-<li><strong>Anticoagulation:</strong> Signs of bleeding (bruising, gum bleeding, dark stools, hematuria), PTT/INR levels</li>
+<li><strong>{t("pages.authorityGuidePages.heartFailure")}</strong> {t("pages.authorityGuidePages.dailyWeightSameTimeSame")}</li>
+<li><strong>{t("pages.authorityGuidePages.mi")}</strong> {t("pages.authorityGuidePages.painAssessmentPqrstVitalSigns")}</li>
+<li><strong>{t("pages.authorityGuidePages.anticoagulation")}</strong> {t("pages.authorityGuidePages.signsOfBleedingBruisingGum")}</li>
 </ul>
 
-<h3>Respiratory Assessment Focus</h3>
+<h3>{t("pages.authorityGuidePages.respiratoryAssessmentFocus")}</h3>
 <ul>
-<li><strong>Asthma:</strong> Peak flow measurement, work of breathing, breath sounds (wheezing, silent chest = severe), SpO₂, ability to speak in full sentences</li>
-<li><strong>Pneumonia:</strong> Breath sounds (crackles, bronchial), sputum (amount, color, consistency), temperature, SpO₂, WBC count</li>
-<li><strong>Post-chest tube:</strong> Drainage amount/color, tidaling in water seal, subcutaneous emphysema, breath sounds bilateral, tube site integrity</li>
+<li><strong>{t("pages.authorityGuidePages.asthma")}</strong> {t("pages.authorityGuidePages.peakFlowMeasurementWorkOf")}</li>
+<li><strong>{t("pages.authorityGuidePages.pneumonia")}</strong> {t("pages.authorityGuidePages.breathSoundsCracklesBronchialSputum")}</li>
+<li><strong>{t("pages.authorityGuidePages.postchestTube")}</strong> {t("pages.authorityGuidePages.drainageAmountcolorTidalingInWater")}</li>
 </ul>
 
-<h3>Neurological Assessment Focus</h3>
+<h3>{t("pages.authorityGuidePages.neurologicalAssessmentFocus")}</h3>
 <ul>
-<li><strong>Stroke:</strong> FAST (Face drooping, Arm weakness, Speech difficulty, Time) + NIH Stroke Scale, time of symptom onset</li>
-<li><strong>Increased ICP:</strong> GCS trending, pupil reactivity and equality, Cushing's triad, positioning (HOB 30°)</li>
-<li><strong>Post-craniotomy:</strong> Neuro checks every 1-2 hours, drainage (CSF vs blood), wound site, seizure precautions</li>
+<li><strong>{t("pages.authorityGuidePages.stroke")}</strong> {t("pages.authorityGuidePages.fastFaceDroopingArmWeakness")}</li>
+<li><strong>{t("pages.authorityGuidePages.increasedIcp")}</strong> {t("pages.authorityGuidePages.gcsTrendingPupilReactivityAnd")}</li>
+<li><strong>{t("pages.authorityGuidePages.postcraniotomy")}</strong> {t("pages.authorityGuidePages.neuroChecksEvery12Hours")}</li>
 </ul>
 
-<h3>Endocrine Assessment Focus</h3>
+<h3>{t("pages.authorityGuidePages.endocrineAssessmentFocus")}</h3>
 <ul>
-<li><strong>DKA:</strong> Blood glucose (>300), ketones, ABG (metabolic acidosis), Kussmaul breathing, fruity breath, dehydration status</li>
-<li><strong>Hypoglycemia:</strong> Blood glucose (<70), diaphoresis, tremors, confusion, tachycardia, level of consciousness</li>
-<li><strong>Thyroid storm:</strong> Temperature (hyperthermia), HR (severe tachycardia), agitation, delirium, diaphoresis</li>
+<li><strong>{t("pages.authorityGuidePages.dka")}</strong> Blood glucose (>{t("pages.authorityGuidePages.300KetonesAbgMetabolicAcidosis")}</li>
+<li><strong>{t("pages.authorityGuidePages.hypoglycemia")}</strong> Blood glucose (<70), diaphoresis, tremors, confusion, tachycardia, level of consciousness</li>
+<li><strong>{t("pages.authorityGuidePages.thyroidStorm")}</strong> {t("pages.authorityGuidePages.temperatureHyperthermiaHrSevereTachycardia")}</li>
 </ul>
 
-<h3>Post-Operative Assessment Focus</h3>
+<h3>{t("pages.authorityGuidePages.postoperativeAssessmentFocus")}</h3>
 <ul>
-<li><strong>General post-op:</strong> ABCs first, then vital signs, pain, surgical site (drainage, bleeding), I&O, bowel sounds, mobility</li>
-<li><strong>Post-thyroidectomy:</strong> Respiratory status (airway swelling), voice quality, Chvostek's/Trousseau's signs (hypocalcemia), neck drainage</li>
-<li><strong>Post-hip replacement:</strong> Neurovascular checks, abduction pillow/positioning, DVT prevention, pain management, mobility progression</li>
+<li><strong>{t("pages.authorityGuidePages.generalPostop")}</strong> {t("pages.authorityGuidePages.abcsFirstThenVitalSigns")}</li>
+<li><strong>{t("pages.authorityGuidePages.postthyroidectomy")}</strong> {t("pages.authorityGuidePages.respiratoryStatusAirwaySwellingVoice")}</li>
+<li><strong>{t("pages.authorityGuidePages.posthipReplacement")}</strong> {t("pages.authorityGuidePages.neurovascularChecksAbductionPillowpositioning")}</li>
 </ul>`,
       },
       {
         id: "documentation",
         title: "Assessment Documentation Standards",
         icon: FileText,
-        htmlContent: `<p>Documentation is a legal record of nursing care and a competency tested on both the NCLEX and REx-PN. Proper documentation of assessment findings protects patients, supports continuity of care, and provides legal defense. Exam questions may ask you to identify correct documentation practices or recognize documentation errors.</p>
+        htmlContent: `<p>{t("pages.authorityGuidePages.documentationIsALegalRecord")}</p>
 
-<h3>Documentation Principles</h3>
+<h3>{t("pages.authorityGuidePages.documentationPrinciples")}</h3>
 <ul>
-<li><strong>Objective:</strong> Document what you see, hear, measure, and observe — not your interpretation or judgment. Write "patient states 'I feel dizzy'" rather than "patient is dizzy"</li>
-<li><strong>Timely:</strong> Document as close to the time of assessment as possible. Late entries should be clearly identified</li>
-<li><strong>Specific:</strong> Use measurable terms. "Wound 3 cm x 2 cm with serous drainage" is better than "wound looks good"</li>
-<li><strong>Complete:</strong> Include relevant negatives. "No JVD, no peripheral edema" is clinically important information</li>
-<li><strong>Legible and accurate:</strong> Use approved abbreviations only. If you make an error, draw a single line through it, write "error," initial, and date — never use white-out or scribble over</li>
+<li><strong>{t("pages.authorityGuidePages.objective")}</strong> {t("pages.authorityGuidePages.documentWhatYouSeeHear")}</li>
+<li><strong>{t("pages.authorityGuidePages.timely")}</strong> {t("pages.authorityGuidePages.documentAsCloseToThe")}</li>
+<li><strong>{t("pages.authorityGuidePages.specific")}</strong> {t("pages.authorityGuidePages.useMeasurableTermsWound3")}</li>
+<li><strong>{t("pages.authorityGuidePages.complete")}</strong> {t("pages.authorityGuidePages.includeRelevantNegativesNoJvd")}</li>
+<li><strong>{t("pages.authorityGuidePages.legibleAndAccurate")}</strong> {t("pages.authorityGuidePages.useApprovedAbbreviationsOnlyIf")}</li>
 </ul>
 
-<h3>Common Documentation Frameworks</h3>
+<h3>{t("pages.authorityGuidePages.commonDocumentationFrameworks")}</h3>
 <ul>
-<li><strong>SBAR:</strong> Situation, Background, Assessment, Recommendation — used for provider communication</li>
-<li><strong>DAR:</strong> Data, Action, Response — focused charting format</li>
-<li><strong>SOAP:</strong> Subjective, Objective, Assessment, Plan — problem-oriented charting</li>
-<li><strong>Head-to-Toe:</strong> Systematic documentation by body system</li>
+<li><strong>{t("pages.authorityGuidePages.sbar")}</strong> {t("pages.authorityGuidePages.situationBackgroundAssessmentRecommendation")}</li>
+<li><strong>{t("pages.authorityGuidePages.dar")}</strong> {t("pages.authorityGuidePages.dataActionResponseFocusedCharting")}</li>
+<li><strong>{t("pages.authorityGuidePages.soap")}</strong> {t("pages.authorityGuidePages.subjectiveObjectiveAssessmentPlanProblem")}</li>
+<li><strong>{t("pages.authorityGuidePages.headtotoe")}</strong> {t("pages.authorityGuidePages.systematicDocumentationByBodySystem")}</li>
 </ul>
 
 <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
-<p class="text-sm text-amber-800"><strong>Exam Tip:</strong> On documentation questions, choose the most objective, specific, and measurable option. Avoid answers that include nursing opinions, subjective interpretations, or vague terms like "good," "normal," or "improved" without measurable criteria.</p>
+<p class="text-sm text-amber-800"><strong>{t("pages.authorityGuidePages.examTip3")}</strong> {t("pages.authorityGuidePages.onDocumentationQuestionsChooseThe")}</p>
 </div>`,
       },
       {
         id: "clinical-decision-making",
         title: "Clinical Decision-Making Frameworks",
         icon: Brain,
-        htmlContent: `<p>Assessment is only valuable if it leads to appropriate clinical decisions. Nursing exams test your ability to connect assessment findings to nursing actions using established prioritization frameworks.</p>
+        htmlContent: `<p>{t("pages.authorityGuidePages.assessmentIsOnlyValuableIf")}</p>
 
-<h3>ABCs (Airway, Breathing, Circulation)</h3>
-<p>The most fundamental prioritization framework. Always address airway problems first, then breathing, then circulation. On the NCLEX, if one patient has an airway issue and another has a circulation issue, the airway patient is always the priority.</p>
+<h3>{t("pages.authorityGuidePages.abcsAirwayBreathingCirculation")}</h3>
+<p>{t("pages.authorityGuidePages.theMostFundamentalPrioritizationFramework")}</p>
 
-<h3>Maslow's Hierarchy of Needs</h3>
-<p>After addressing ABCs, prioritize physiological needs (oxygenation, nutrition, elimination, pain) before safety, then psychosocial, then self-esteem, then self-actualization. Exam trap: a patient's physical need almost always takes priority over a psychosocial need.</p>
+<h3>{t("pages.authorityGuidePages.maslowsHierarchyOfNeeds")}</h3>
+<p>{t("pages.authorityGuidePages.afterAddressingAbcsPrioritizePhysiological")}</p>
 
-<h3>Nursing Process</h3>
-<p>Assessment → Diagnosis → Planning → Implementation → Evaluation. On exam questions, if you have not assessed the situation yet, assessment is almost always the correct answer. "Assess first, then intervene" — unless there is an immediate life threat.</p>
+<h3>{t("pages.authorityGuidePages.nursingProcess")}</h3>
+<p>{t("pages.authorityGuidePages.assessmentDiagnosisPlanningImplementation")}</p>
 
-<h3>Acute vs Chronic</h3>
-<p>New-onset (acute) findings generally take priority over chronic/stable findings. A patient with new-onset confusion is a higher priority than a patient with known chronic pain, even if the chronic pain patient is uncomfortable.</p>
+<h3>{t("pages.authorityGuidePages.acuteVsChronic")}</h3>
+<p>{t("pages.authorityGuidePages.newonsetAcuteFindingsGenerallyTake")}</p>
 
-<h3>Expected vs Unexpected</h3>
-<p>Unexpected findings require action; expected findings require monitoring. If a post-surgical patient reports mild incisional pain (expected), that is lower priority than a patient reporting sudden chest tightness (unexpected). Know what is expected for each condition so you can recognize the unexpected.</p>
+<h3>{t("pages.authorityGuidePages.expectedVsUnexpected")}</h3>
+<p>{t("pages.authorityGuidePages.unexpectedFindingsRequireActionExpected")}</p>
 
-<h3>Stable vs Unstable</h3>
-<p>Unstable patients always take priority. Stable patients can wait, can often be delegated, and are appropriate for nursing assistants to monitor. Unstable patients require RN assessment and intervention.</p>`,
+<h3>{t("pages.authorityGuidePages.stableVsUnstable")}</h3>
+<p>{t("pages.authorityGuidePages.unstablePatientsAlwaysTakePriority")}</p>`,
       },
     ],
     faqs: [
@@ -848,6 +849,7 @@ const AUTHORITY_GUIDES: Record<string, AuthorityGuidePage> = {
 };
 
 function SectionHeading({ id, title, icon: Icon, color }: { id: string; title: string; icon: typeof BookOpen; color: string }) {
+  const { t } = useI18n();
   return (
     <h2 id={id} className="text-xl sm:text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3 scroll-mt-24" data-testid={`heading-${id}`}>
       <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${color}15` }}>
@@ -895,10 +897,10 @@ export default function AuthorityGuidePage({ slug }: { slug: string }) {
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-guide-not-found">Guide Not Found</h1>
-          <p className="text-gray-600 mb-6">The study guide you are looking for does not exist.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-guide-not-found">{t("pages.authorityGuidePages.guideNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.authorityGuidePages.theStudyGuideYouAre")}</p>
           <LocaleLink href="/exam-prep">
-            <Button data-testid="button-back-to-guides">Browse Study Guides</Button>
+            <Button data-testid="button-back-to-guides">{t("pages.authorityGuidePages.browseStudyGuides")}</Button>
           </LocaleLink>
         </div>
         <Footer />
@@ -1011,8 +1013,8 @@ export default function AuthorityGuidePage({ slug }: { slug: string }) {
 
                 {idx === 2 && (
                   <div className="my-8 rounded-xl p-6 text-center" style={{ backgroundColor: `${page.color}10`, borderLeft: `4px solid ${page.color}` }} data-testid="cta-mid-practice">
-                    <h3 className="text-lg font-bold text-gray-900 mb-1">Test Your Knowledge</h3>
-                    <p className="text-sm text-gray-600 mb-4">Practice with exam-style questions and detailed clinical rationales.</p>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">{t("pages.authorityGuidePages.testYourKnowledge")}</h3>
+                    <p className="text-sm text-gray-600 mb-4">{t("pages.authorityGuidePages.practiceWithExamstyleQuestionsAnd")}</p>
                     <LocaleLink href="/practice-questions">
                       <Button className="text-white" style={{ backgroundColor: page.color }} data-testid="button-cta-mid-practice">
                         Start Practice Questions <ArrowRight className="w-4 h-4 ml-2" />
@@ -1023,8 +1025,8 @@ export default function AuthorityGuidePage({ slug }: { slug: string }) {
 
                 {idx === 4 && (
                   <div className="my-8 rounded-xl p-6 text-center" style={{ backgroundColor: `${page.color}10`, borderLeft: `4px solid ${page.color}` }} data-testid="cta-mid-flashcards">
-                    <h3 className="text-lg font-bold text-gray-900 mb-1">Review with Flashcards</h3>
-                    <p className="text-sm text-gray-600 mb-4">Reinforce key concepts with spaced-repetition flashcards.</p>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">{t("pages.authorityGuidePages.reviewWithFlashcards")}</h3>
+                    <p className="text-sm text-gray-600 mb-4">{t("pages.authorityGuidePages.reinforceKeyConceptsWithSpacedrepetition")}</p>
                     <LocaleLink href="/flashcards">
                       <Button className="text-white" style={{ backgroundColor: page.color }} data-testid="button-cta-mid-flashcards">
                         Explore Flashcards <ArrowRight className="w-4 h-4 ml-2" />
@@ -1036,7 +1038,7 @@ export default function AuthorityGuidePage({ slug }: { slug: string }) {
             ))}
 
             <section id="internal-links" className="mb-12 scroll-mt-24" data-testid="section-guide-links">
-              <SectionHeading id="heading-guide-links" title="Related Resources" icon={Layers} color={page.color} />
+              <SectionHeading id="heading-guide-links" title={t("pages.authorityGuidePages.relatedResources")} icon={Layers} color={page.color} />
               <div className="grid sm:grid-cols-2 gap-3">
                 {page.internalLinks.map((link, i) => (
                   <LocaleLink key={i} href={link.url}>
@@ -1058,7 +1060,7 @@ export default function AuthorityGuidePage({ slug }: { slug: string }) {
             </section>
 
             <section id="faq" className="mb-12 scroll-mt-24" data-testid="section-faq">
-              <SectionHeading id="heading-faq" title="Frequently Asked Questions" icon={HelpCircle} color={page.color} />
+              <SectionHeading id="heading-faq" title={t("pages.authorityGuidePages.frequentlyAskedQuestions")} icon={HelpCircle} color={page.color} />
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => (
                   <div key={i} className="bg-white rounded-xl border border-gray-200 overflow-hidden" data-testid={`faq-item-${i}`}>

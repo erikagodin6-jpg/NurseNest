@@ -55,7 +55,7 @@ export default function NursingLicensingExamsHub() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#2E3A59] to-[#3d4d73]" />
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
           <nav className="flex items-center gap-2 text-sm text-white/60 mb-6" data-testid="breadcrumb-nav">
-            <LocaleLink href="/" className="hover:text-white/80">Home</LocaleLink>
+            <LocaleLink href="/" className="hover:text-white/80">{t("pages.nursingLicensingExamsHub.home")}</LocaleLink>
             <ChevronRight className="w-3 h-3" />
             <span className="text-white/90">{t("licensingExams.hub.title")}</span>
           </nav>

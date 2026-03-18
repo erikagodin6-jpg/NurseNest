@@ -188,7 +188,7 @@ function SpecialtyMockExams() {
                 </div>
 
                 <div className="pt-2 border-t border-gray-100">
-                  <p className="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Sections</p>
+                  <p className="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">{t("pages.mockExams.sections")}</p>
                   <div className="flex flex-wrap gap-1 mt-1">
                     {(exams[0]?.sections || []).map((s: any) => (
                       <Badge key={s.name} variant="secondary" className="text-[10px] bg-gray-100 text-gray-600">
@@ -456,7 +456,7 @@ export default function MockExamsPage() {
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
-      <SEO title={`${tierSpecificTitle} - NurseNest`} description="Practice with realistic nursing exam simulations. Timed mock exams with detailed post-exam reporting." canonicalPath="/mock-exams" />
+      <SEO title={`${tierSpecificTitle} - NurseNest`} description={t("pages.mockExams.practiceWithRealisticNursingExam")} canonicalPath="/mock-exams" />
       <Navigation />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex-1">
@@ -557,7 +557,7 @@ export default function MockExamsPage() {
                         <div className="flex items-center gap-2">
                           <p className="font-bold text-gray-900">{label}</p>
                           {isCat && <Badge variant="secondary" className="text-[10px] bg-violet-100 text-violet-700">CAT</Badge>}
-                          {!isCat && <Badge variant="secondary" className="text-[10px] bg-blue-100 text-blue-700">Practice</Badge>}
+                          {!isCat && <Badge variant="secondary" className="text-[10px] bg-blue-100 text-blue-700">{t("pages.mockExams.practice")}</Badge>}
                         </div>
                         <p className="text-xs text-gray-400">
                           Started {new Date(exam.started_at).toLocaleDateString()} &middot; {exam.time_spent ? `${Math.round(exam.time_spent / 60)} min elapsed` : "Just started"}
@@ -596,13 +596,13 @@ export default function MockExamsPage() {
                   <Brain className="w-6 h-6 text-violet-600" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900" data-testid="text-cat-exam-title">CAT Exam</h2>
-                  <p className="text-sm text-gray-500">Adaptive exam simulation with 85–150 questions and real-exam style stopping rules</p>
+                  <h2 className="text-xl font-bold text-gray-900" data-testid="text-cat-exam-title">{t("pages.mockExams.catExam")}</h2>
+                  <p className="text-sm text-gray-500">{t("pages.mockExams.adaptiveExamSimulationWith85150")}</p>
                 </div>
               </div>
 
               <div className="space-y-3">
-                <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Select Exam</p>
+                <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">{t("pages.mockExams.selectExam")}</p>
                 <div className="grid gap-2">
                   {availableBlueprints.filter(bp => bp.examType === "cat").map((bp) => (
                     <button
@@ -640,7 +640,7 @@ export default function MockExamsPage() {
                           <span className="font-bold text-gray-900 text-sm">{bp.examName}</span>
                           <span className="text-xs text-gray-500 block mt-0.5">{bp.totalQuestions} items &middot; {bp.timeLimit} min</span>
                         </div>
-                        <Badge variant="secondary" className="text-[10px] bg-blue-100 text-blue-700">Scaled</Badge>
+                        <Badge variant="secondary" className="text-[10px] bg-blue-100 text-blue-700">{t("pages.mockExams.scaled")}</Badge>
                       </div>
                     </button>
                   ))}
@@ -651,7 +651,7 @@ export default function MockExamsPage() {
                 const bp = EXAM_BLUEPRINTS[selectedBlueprint];
                 return (
                   <div className="bg-gray-50 rounded-lg p-3 space-y-2">
-                    <p className="text-xs font-semibold text-gray-700">Domain Distribution</p>
+                    <p className="text-xs font-semibold text-gray-700">{t("pages.mockExams.domainDistribution")}</p>
                     {bp.domains.map((d) => (
                       <div key={d.name} className="flex items-center justify-between text-xs">
                         <span className="text-gray-600">{d.name}</span>
@@ -664,11 +664,11 @@ export default function MockExamsPage() {
 
               <div className="bg-violet-50 rounded-lg p-3">
                 <ul className="text-xs text-gray-600 space-y-1 list-disc list-inside">
-                  <li>Adaptive difficulty adjusts to your ability</li>
-                  <li>No rationale shown during exam</li>
-                  <li>Answers lock once selected</li>
-                  <li>Review available only after submission</li>
-                  <li>Tab switching is tracked</li>
+                  <li>{t("pages.mockExams.adaptiveDifficultyAdjustsToYour")}</li>
+                  <li>{t("pages.mockExams.noRationaleShownDuringExam")}</li>
+                  <li>{t("pages.mockExams.answersLockOnceSelected")}</li>
+                  <li>{t("pages.mockExams.reviewAvailableOnlyAfterSubmission")}</li>
+                  <li>{t("pages.mockExams.tabSwitchingIsTracked")}</li>
                 </ul>
               </div>
 
@@ -735,12 +735,12 @@ export default function MockExamsPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Gift className="w-4 h-4 text-emerald-600" />
-                      <span className="font-bold text-gray-900 text-sm">Free Readiness Check</span>
-                      <Badge className="bg-emerald-100 text-emerald-700 text-[10px]">Free</Badge>
+                      <span className="font-bold text-gray-900 text-sm">{t("pages.mockExams.freeReadinessCheck")}</span>
+                      <Badge className="bg-emerald-100 text-emerald-700 text-[10px]">{t("pages.mockExams.free")}</Badge>
                     </div>
                     <ArrowRight className="w-4 h-4 text-emerald-600" />
                   </div>
-                  <span className="text-xs text-gray-500 block mt-1 ml-6">25 questions — quick assessment</span>
+                  <span className="text-xs text-gray-500 block mt-1 ml-6">{t("pages.mockExams.25QuestionsQuickAssessment")}</span>
                 </button>
               )}
             </CardContent>
@@ -754,13 +754,13 @@ export default function MockExamsPage() {
                   <Target className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900" data-testid="text-practice-exam-title">Practice Exams</h2>
-                  <p className="text-sm text-gray-500">Build your own exam with your preferred number of questions and review after submission</p>
+                  <h2 className="text-xl font-bold text-gray-900" data-testid="text-practice-exam-title">{t("pages.mockExams.practiceExams")}</h2>
+                  <p className="text-sm text-gray-500">{t("pages.mockExams.buildYourOwnExamWith")}</p>
                 </div>
               </div>
 
               <div className="space-y-3">
-                <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Question Count</p>
+                <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">{t("pages.mockExams.questionCount")}</p>
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                   {[10, 25, 50, 75, 100, 150].map((count) => (
                     <button
@@ -784,7 +784,7 @@ export default function MockExamsPage() {
                       type="number"
                       min="5"
                       max={filteredStats.total}
-                      placeholder="Custom"
+                      placeholder={t("pages.mockExams.custom")}
                       value={customLength}
                       onChange={(e) => {
                         setCustomLength(e.target.value);
@@ -805,12 +805,12 @@ export default function MockExamsPage() {
 
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Topics / Systems</p>
+                  <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">{t("pages.mockExams.topicsSystems")}</p>
                   {selectedSystems.length > 0 && (
                     <button onClick={() => setSelectedSystems([])} className="text-xs text-primary hover:underline" data-testid="button-clear-systems">{t("mockExams.clearAll")}</button>
                   )}
                 </div>
-                <p className="text-xs text-gray-400">Leave blank for all topics</p>
+                <p className="text-xs text-gray-400">{t("pages.mockExams.leaveBlankForAllTopics")}</p>
                 <div className="flex flex-wrap gap-1.5 max-h-[120px] overflow-y-auto">
                   {availableSystems.map((sys) => {
                     const isSelected = selectedSystems.includes(sys);
@@ -838,7 +838,7 @@ export default function MockExamsPage() {
                   <div className="flex items-center gap-3">
                     <Shield className="w-4 h-4 text-gray-400" />
                     <div>
-                      <Label htmlFor="strict-mode" className="font-bold text-gray-900 cursor-pointer text-sm">Timed / Strict Mode</Label>
+                      <Label htmlFor="strict-mode" className="font-bold text-gray-900 cursor-pointer text-sm">{t("pages.mockExams.timedStrictMode")}</Label>
                     </div>
                   </div>
                   <Switch
@@ -895,9 +895,9 @@ export default function MockExamsPage() {
                           <div className="flex items-center gap-2">
                             <p className="font-bold text-gray-900 text-sm">{examLabel}</p>
                             {isCatExam && <Badge variant="secondary" className="text-[10px] bg-violet-100 text-violet-700">CAT</Badge>}
-                            {isScaledExam && <Badge variant="secondary" className="text-[10px] bg-blue-100 text-blue-700">Scaled</Badge>}
-                            {isReadiness && <Badge variant="secondary" className="text-[10px] bg-emerald-100 text-emerald-700">Readiness</Badge>}
-                            {!isCatExam && !isScaledExam && !isReadiness && <Badge variant="secondary" className="text-[10px] bg-gray-100 text-gray-600">Practice</Badge>}
+                            {isScaledExam && <Badge variant="secondary" className="text-[10px] bg-blue-100 text-blue-700">{t("pages.mockExams.scaled2")}</Badge>}
+                            {isReadiness && <Badge variant="secondary" className="text-[10px] bg-emerald-100 text-emerald-700">{t("pages.mockExams.readiness")}</Badge>}
+                            {!isCatExam && !isScaledExam && !isReadiness && <Badge variant="secondary" className="text-[10px] bg-gray-100 text-gray-600">{t("pages.mockExams.practice2")}</Badge>}
                           </div>
                           {isCatExam ? (
                             <span className={`text-sm font-bold ${exam.report?.overallPass ? "text-emerald-600" : "text-red-500"}`}>
@@ -956,8 +956,8 @@ export default function MockExamsPage() {
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
                   <Palette className="w-6 h-6 text-primary" />
                 </div>
-                <h2 className="text-xl font-bold text-[#2E3A59]" data-testid="text-theme-customizer-title">Customize Your Exam Interface</h2>
-                <p className="text-sm text-gray-500">Choose a colour theme that helps you stay focused. Your selection will only apply to this exam session.</p>
+                <h2 className="text-xl font-bold text-[#2E3A59]" data-testid="text-theme-customizer-title">{t("pages.mockExams.customizeYourExamInterface")}</h2>
+                <p className="text-sm text-gray-500">{t("pages.mockExams.chooseAColourThemeThat")}</p>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -989,10 +989,10 @@ export default function MockExamsPage() {
               </div>
 
               <div className="rounded-lg border border-gray-100 bg-gray-50 p-3">
-                <p className="text-xs font-medium text-gray-500 mb-2">Preview</p>
+                <p className="text-xs font-medium text-gray-500 mb-2">{t("pages.mockExams.preview")}</p>
                 <div className="rounded-lg overflow-hidden shadow-sm border border-gray-200">
                   <div className="h-8 flex items-center px-3 gap-2" style={{ backgroundColor: EXAM_THEMES.find(t => t.id === examTheme)?.color || "#8A6BFF" }}>
-                    <span className="text-[10px] font-semibold text-[#2E3A59]">Q 4 of 60</span>
+                    <span className="text-[10px] font-semibold text-[#2E3A59]">{t("pages.mockExams.q4Of60")}</span>
                     <div className="flex-1 h-1.5 bg-white/30 rounded-full overflow-hidden">
                       <div className="h-full w-1/3 rounded-full" style={{ backgroundColor: "#2E3A59" }} />
                     </div>
@@ -1007,8 +1007,8 @@ export default function MockExamsPage() {
                     </div>
                   </div>
                   <div className="h-7 flex items-center justify-between px-3" style={{ backgroundColor: EXAM_THEMES.find(t => t.id === examTheme)?.color || "#8A6BFF" }}>
-                    <span className="text-[9px] font-medium text-[#2E3A59]/60">Previous</span>
-                    <span className="text-[9px] font-semibold text-white bg-[#2E3A59]/80 rounded px-2 py-0.5">Next</span>
+                    <span className="text-[9px] font-medium text-[#2E3A59]/60">{t("pages.mockExams.previous")}</span>
+                    <span className="text-[9px] font-semibold text-white bg-[#2E3A59]/80 rounded px-2 py-0.5">{t("pages.mockExams.next")}</span>
                   </div>
                 </div>
               </div>

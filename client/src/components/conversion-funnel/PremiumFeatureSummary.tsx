@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import {
   Crown,
   CheckCircle2,
@@ -33,6 +34,7 @@ export function PremiumFeatureSummary({
   profession,
   variant = "default",
 }: PremiumFeatureSummaryProps) {
+  const { t } = useI18n();
   const { user, effectiveTier } = useAuth();
 
   if (user && effectiveTier && effectiveTier !== "free") return null;
@@ -46,7 +48,7 @@ export function PremiumFeatureSummary({
       <div className="bg-gradient-to-r from-primary/5 to-blue-50 rounded-xl p-5 border border-primary/10" data-testid="premium-feature-summary-compact">
         <div className="flex items-center gap-2 mb-3">
           <Crown className="w-5 h-5 text-primary" />
-          <h4 className="font-bold text-gray-900">Unlock Full Access</h4>
+          <h4 className="font-bold text-gray-900">{t("components.conversionFunnelPremiumFeatureSummary.unlockFullAccess")}</h4>
         </div>
         <div className="grid grid-cols-2 gap-2 mb-4">
           {DEFAULT_FEATURES.slice(0, 4).map((f, i) => (

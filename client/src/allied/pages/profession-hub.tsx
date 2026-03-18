@@ -13,6 +13,7 @@ import { type ProfessionHubData } from "@/allied/data/profession-hub-data";
 import { buildJobTrainingStructuredData } from "@/lib/structured-data";
 import { getQuestionCountDisplay } from "@/data/career-questions/question-counts";
 
+import { useI18n } from "@/lib/i18n";
 const FEATURE_ICONS = [BookOpen, Brain, Zap, FileText, GraduationCap, Target];
 const AUDIENCE_ICONS = [GraduationCap, UserCheck, Star, Briefcase];
 
@@ -21,6 +22,7 @@ interface ProfessionHubPageProps {
 }
 
 export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
+  const { t } = useI18n();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const faqStructuredData = {
@@ -111,9 +113,9 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-50/30" style={{ background: `linear-gradient(135deg, ${data.colorAccent}40, white, ${data.colorAccent}20)` }} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="hub-breadcrumbs">
-            <Link href="/allied-health" className="hover:text-gray-700">Allied Health</Link>
+            <Link href="/allied-health" className="hover:text-gray-700">{t("allied.professionHub.alliedHealth")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/allied-health/careers" className="hover:text-gray-700">Careers</Link>
+            <Link href="/allied-health/careers" className="hover:text-gray-700">{t("allied.professionHub.careers")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="font-medium" style={{ color: data.color }}>{data.shortName}</span>
           </div>
@@ -130,19 +132,19 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: data.color }} />
-                <span className="text-sm text-gray-700"><strong>600+ word rationales</strong> explaining the why behind every answer</span>
+                <span className="text-sm text-gray-700"><strong>{t("allied.professionHub.600WordRationales")}</strong> {t("allied.professionHub.explainingTheWhyBehindEvery")}</span>
               </div>
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: data.color }} />
-                <span className="text-sm text-gray-700"><strong>Blueprint-aligned</strong> questions mapped to official exam outlines</span>
+                <span className="text-sm text-gray-700"><strong>{t("allied.professionHub.blueprintaligned")}</strong> {t("allied.professionHub.questionsMappedToOfficialExam")}</span>
               </div>
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: data.color }} />
-                <span className="text-sm text-gray-700"><strong>Weak-area targeting</strong> so you study what matters most</span>
+                <span className="text-sm text-gray-700"><strong>{t("allied.professionHub.weakareaTargeting")}</strong> {t("allied.professionHub.soYouStudyWhatMatters")}</span>
               </div>
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: data.color }} />
-                <span className="text-sm text-gray-700"><strong>Adaptive mock exams</strong> simulating real certification conditions</span>
+                <span className="text-sm text-gray-700"><strong>{t("allied.professionHub.adaptiveMockExams")}</strong> {t("allied.professionHub.simulatingRealCertificationConditions")}</span>
               </div>
             </div>
 
@@ -166,19 +168,19 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div data-testid="stat-lessons">
               <div className="text-2xl font-bold text-gray-900">{data.studyResourceLinks?.length || data.studyFeatures.length}</div>
-              <div className="text-sm text-gray-500">Lessons</div>
+              <div className="text-sm text-gray-500">{t("allied.professionHub.lessons")}</div>
             </div>
             <div data-testid="stat-questions">
               <div className="text-2xl font-bold text-gray-900">{(() => { const display = getQuestionCountDisplay(data.careerSlug); return display === "Coming Soon" ? data.questionCountDisplay : display; })()}</div>
-              <div className="text-sm text-gray-500">Practice Questions</div>
+              <div className="text-sm text-gray-500">{t("allied.professionHub.practiceQuestions")}</div>
             </div>
             <div data-testid="stat-topics">
               <div className="text-2xl font-bold text-gray-900">{data.domains.length}</div>
-              <div className="text-sm text-gray-500">Clinical Topics</div>
+              <div className="text-sm text-gray-500">{t("allied.professionHub.clinicalTopics")}</div>
             </div>
             <div data-testid="stat-features">
               <div className="text-2xl font-bold text-gray-900">{data.studyFeatures.length}</div>
-              <div className="text-sm text-gray-500">Study Tools</div>
+              <div className="text-sm text-gray-500">{t("allied.professionHub.studyTools")}</div>
             </div>
           </div>
         </div>
@@ -238,14 +240,14 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
               <div className="flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-3">
                 <DollarSign className="w-5 h-5 flex-shrink-0" style={{ color: data.color }} />
                 <div>
-                  <div className="text-xs text-gray-500 font-medium">Salary Range</div>
+                  <div className="text-xs text-gray-500 font-medium">{t("allied.professionHub.salaryRange")}</div>
                   <div className="text-sm font-semibold text-gray-900">{data.salaryRange}</div>
                 </div>
               </div>
               <div className="flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-3">
                 <TrendingUp className="w-5 h-5 flex-shrink-0" style={{ color: data.color }} />
                 <div>
-                  <div className="text-xs text-gray-500 font-medium">Job Outlook</div>
+                  <div className="text-xs text-gray-500 font-medium">{t("allied.professionHub.jobOutlook")}</div>
                   <div className="text-sm font-semibold text-gray-900">{data.jobOutlook}</div>
                 </div>
               </div>
@@ -256,7 +258,7 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
 
       <section className="py-16 bg-white" data-testid="section-domains">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Exam Blueprint Domains</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("allied.professionHub.examBlueprintDomains")}</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {data.domains.map((domain, i) => (
               <div key={domain} className="bg-white rounded-lg border border-gray-100 px-4 py-3 flex items-center gap-3" data-testid={`domain-${i}`}>
@@ -270,7 +272,7 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
 
       <section className="py-16 bg-gray-50" data-testid="section-study-features">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-3 text-center">What's Included</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-3 text-center">{t("allied.professionHub.whatsIncluded")}</h2>
           <p className="text-gray-600 text-center mb-8 max-w-2xl mx-auto">Everything you need to prepare for your {data.shortName} certification exam, from practice questions to mock exams.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {data.studyFeatures.map((feature, i) => {
@@ -291,7 +293,7 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
         <section className="py-16 bg-white" data-testid="section-who-this-is-for">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">Who This Is For</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("allied.professionHub.whoThisIsFor")}</h2>
               <p className="text-gray-600 max-w-2xl mx-auto">Our {data.shortName} exam prep is designed for learners at every stage of their certification journey.</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -318,7 +320,7 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
         <section className="py-16 bg-gray-50" data-testid="section-how-bank-works">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">How the Question Bank Works</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("allied.professionHub.howTheQuestionBankWorks")}</h2>
               <p className="text-gray-600 max-w-2xl mx-auto">A structured, blueprint-driven approach to {data.shortName} exam preparation.</p>
             </div>
             <div className="space-y-4">
@@ -348,7 +350,7 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
               <h2 className="text-2xl font-bold text-gray-900 mb-3">{data.shortName} Practice Strategy</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">Follow this proven study timeline to maximize your chances of passing on the first attempt.</p>
+              <p className="text-gray-600 max-w-2xl mx-auto">{t("allied.professionHub.followThisProvenStudyTimeline")}</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {data.practiceStrategy.map((phase, i) => (
@@ -372,8 +374,8 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
             </div>
             <div className="mt-8 bg-gray-50 rounded-xl p-6 border border-gray-100 text-center" data-testid="premium-strategy-cta">
               <Lock className="w-6 h-6 mx-auto mb-2" style={{ color: data.color }} />
-              <h3 className="font-semibold text-gray-900 mb-1">Unlock Your Full Study Plan</h3>
-              <p className="text-sm text-gray-600 mb-4">Premium members get personalized study schedules, progress tracking, and adaptive practice sessions tailored to their weak areas.</p>
+              <h3 className="font-semibold text-gray-900 mb-1">{t("allied.professionHub.unlockYourFullStudyPlan")}</h3>
+              <p className="text-sm text-gray-600 mb-4">{t("allied.professionHub.premiumMembersGetPersonalizedStudy")}</p>
               <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 transition-colors" style={{ backgroundColor: data.color }} data-testid="button-upgrade-strategy">
                 <Star className="w-4 h-4" /> View Premium Plans
               </Link>
@@ -386,7 +388,7 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="text-2xl font-bold text-gray-900 mb-3">Explore {data.shortName} Study Resources</h2>
-            <p className="text-gray-600">Organized study materials to help you prepare systematically for your certification exam.</p>
+            <p className="text-gray-600">{t("allied.professionHub.organizedStudyMaterialsToHelp")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {data.studyResourceLinks ? (
@@ -432,7 +434,7 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
             )}
           </div>
           <div className="mt-8" data-testid="section-topic-lessons">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Study by Topic Area</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">{t("allied.professionHub.studyByTopicArea")}</h3>
             <div className="flex flex-wrap gap-2">
               {data.domains.map((domain) => {
                 const slug = domain.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -456,7 +458,7 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
 
       <section className="py-16 bg-gray-50" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("allied.professionHub.frequentlyAskedQuestions")}</h2>
           <div className="space-y-3">
             {data.faqs.map((faq, i) => (
               <div key={i} className="bg-white border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-item-${i}`}>
@@ -482,8 +484,8 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
 
       <section className="py-16 bg-white" data-testid="section-cross-links">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-3 text-center">Related Professions</h2>
-          <p className="text-gray-600 text-center mb-8 max-w-xl mx-auto">Explore exam prep resources for related healthcare professions with overlapping clinical content.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-3 text-center">{t("allied.professionHub.relatedProfessions")}</h2>
+          <p className="text-gray-600 text-center mb-8 max-w-xl mx-auto">{t("allied.professionHub.exploreExamPrepResourcesFor")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {data.crossLinks.map(link => (
               <Link key={link.href} href={link.href} className="group" data-testid={`link-cross-${link.label.toLowerCase().replace(/\s+/g, "-")}`}>
@@ -502,8 +504,8 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
         <div className="max-w-5xl mx-auto px-4">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-1">Career & Study Articles</h2>
-              <p className="text-gray-600 text-sm">Expert guides covering certification, salary, exam prep, and more.</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-1">{t("allied.professionHub.careerStudyArticles")}</h2>
+              <p className="text-gray-600 text-sm">{t("allied.professionHub.expertGuidesCoveringCertificationSalary")}</p>
             </div>
             <Link
               href={`/allied-health/${data.professionSlug}/articles`}
@@ -540,7 +542,7 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
       <section className="py-16" style={{ background: `linear-gradient(to bottom, ${data.colorAccent}40, white)` }} data-testid="section-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Ready to Start Your {data.shortName} Exam Prep?</h2>
-          <p className="text-gray-600 mb-8">Take a free diagnostic to see exactly where you stand, then follow your personalized study plan to exam-day confidence.</p>
+          <p className="text-gray-600 mb-8">{t("allied.professionHub.takeAFreeDiagnosticTo")}</p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link href={`${data.contentClusterBase}/lessons`} className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 transition-colors shadow-lg" style={{ backgroundColor: data.color }} data-testid="button-cta-start-learning">
               <BookOpen className="w-4 h-4" /> Start Learning
@@ -557,7 +559,7 @@ export default function ProfessionHubPage({ data }: ProfessionHubPageProps) {
 
       <section className="py-12 bg-white border-t border-gray-100" data-testid="section-related-resources">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Related Resources</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">{t("allied.professionHub.relatedResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {data.studyResourceLinks ? (
               data.studyResourceLinks.slice(0, 3).map(item => (

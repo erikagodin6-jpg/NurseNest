@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { useI18n } from "@/lib/i18n";
 import {
   ChevronDown, ChevronRight, ArrowRight, CheckCircle2, X,
   HelpCircle, Globe, Shield, Users, Lock, BarChart3
@@ -120,11 +121,12 @@ const COMPARISON_TABLE = [
 ];
 
 export default function AlliedInstitutionsFAQPage() {
+  const { t } = useI18n();
   return (
     <div data-testid="institutions-faq-page">
       <AlliedSEO
-        title="Institutional FAQ - Licensing, Analytics, and Privacy"
-        description="Answers to common questions about NurseNest institutional access: licensing models, faculty analytics, enrollment security, privacy compliance, and accreditation support."
+        title={t("allied.alliedInstitutionsFaq.institutionalFaqLicensingAnalyticsAnd")}
+        description={t("allied.alliedInstitutionsFaq.answersToCommonQuestionsAbout")}
         keywords="institutional exam prep FAQ, cohort licensing questions, faculty analytics, enrollment security, HIPAA compliance exam prep, institutional pricing"
         canonicalPath="/institutions/faq"
         structuredData={{
@@ -141,36 +143,36 @@ export default function AlliedInstitutionsFAQPage() {
       <section className="py-12 sm:py-16 bg-gradient-to-b from-teal-50 to-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/institutions" className="hover:text-teal-600">Institutions</Link>
+            <Link href="/institutions" className="hover:text-teal-600">{t("allied.alliedInstitutionsFaq.institutions")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-teal-700 font-medium">FAQ</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-faq-title">Institutional Access FAQ</h1>
-          <p className="text-lg text-gray-600 max-w-2xl">Everything you need to know about NurseNest institutional licensing, faculty analytics, enrollment security, and accreditation support.</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-faq-title">{t("allied.alliedInstitutionsFaq.institutionalAccessFaq")}</h1>
+          <p className="text-lg text-gray-600 max-w-2xl">{t("allied.alliedInstitutionsFaq.everythingYouNeedToKnow")}</p>
         </div>
       </section>
 
       {/* Decision Guide */}
       <section className="py-12 bg-white border-b border-gray-100" data-testid="section-decision-guide">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Quick Decision Guide: Which Model Is Right for You?</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-6">{t("allied.alliedInstitutionsFaq.quickDecisionGuideWhichModel")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div className="bg-teal-50 rounded-xl border border-teal-100 p-6">
-              <h3 className="font-bold text-teal-800 mb-3">Choose Cohort If...</h3>
+              <h3 className="font-bold text-teal-800 mb-3">{t("allied.alliedInstitutionsFaq.chooseCohortIf")}</h3>
               <ul className="space-y-2 text-sm text-gray-700">
-                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />Your students start and finish the program together</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />You run fixed semesters (Fall/Winter/Spring)</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />You want simplified billing (one invoice per semester)</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />You need cohort-level analytics for accreditation</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />{t("allied.alliedInstitutionsFaq.yourStudentsStartAndFinish")}</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />{t("allied.alliedInstitutionsFaq.youRunFixedSemestersFallwinterspring")}</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />{t("allied.alliedInstitutionsFaq.youWantSimplifiedBillingOne")}</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />{t("allied.alliedInstitutionsFaq.youNeedCohortlevelAnalyticsFor")}</li>
               </ul>
             </div>
             <div className="bg-blue-50 rounded-xl border border-blue-100 p-6">
-              <h3 className="font-bold text-blue-800 mb-3">Choose Individual If...</h3>
+              <h3 className="font-bold text-blue-800 mb-3">{t("allied.alliedInstitutionsFaq.chooseIndividualIf")}</h3>
               <ul className="space-y-2 text-sm text-gray-700">
-                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />Students join at different times throughout the year</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />Students have different exam dates</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />You run a continuing education or self-paced program</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />You want per-student billing flexibility</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />{t("allied.alliedInstitutionsFaq.studentsJoinAtDifferentTimes")}</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />{t("allied.alliedInstitutionsFaq.studentsHaveDifferentExamDates")}</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />{t("allied.alliedInstitutionsFaq.youRunAContinuingEducation")}</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />{t("allied.alliedInstitutionsFaq.youWantPerstudentBillingFlexibility")}</li>
               </ul>
             </div>
           </div>
@@ -180,12 +182,12 @@ export default function AlliedInstitutionsFAQPage() {
       {/* Comparison Table */}
       <section className="py-12 bg-gray-50" data-testid="section-comparison-table">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Cohort vs Individual: Side-by-Side</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-6">{t("allied.alliedInstitutionsFaq.cohortVsIndividualSidebyside")}</h2>
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
             <div className="grid grid-cols-3 bg-gray-50 border-b border-gray-200">
               <div className="px-5 py-3 text-sm font-semibold text-gray-500" />
-              <div className="px-5 py-3 text-sm font-bold text-teal-700 text-center">Cohort</div>
-              <div className="px-5 py-3 text-sm font-bold text-blue-700 text-center">Individual</div>
+              <div className="px-5 py-3 text-sm font-bold text-teal-700 text-center">{t("allied.alliedInstitutionsFaq.cohort")}</div>
+              <div className="px-5 py-3 text-sm font-bold text-blue-700 text-center">{t("allied.alliedInstitutionsFaq.individual")}</div>
             </div>
             {COMPARISON_TABLE.map((row, i) => (
               <div key={i} className={`grid grid-cols-3 ${i < COMPARISON_TABLE.length - 1 ? "border-b border-gray-100" : ""}`}>
@@ -215,8 +217,8 @@ export default function AlliedInstitutionsFAQPage() {
       {/* Contact CTA */}
       <section className="py-16 bg-gradient-to-br from-teal-600 to-teal-700" data-testid="section-cta">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Still Have Questions?</h2>
-          <p className="text-teal-100 mb-8 text-lg">Our licensing team is here to help. We can walk you through the options, answer specific questions about your program, or set up a demo.</p>
+          <h2 className="text-2xl font-bold text-white mb-4">{t("allied.alliedInstitutionsFaq.stillHaveQuestions")}</h2>
+          <p className="text-teal-100 mb-8 text-lg">{t("allied.alliedInstitutionsFaq.ourLicensingTeamIsHere")}</p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link href="/institutions#contact-form" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-teal-700 rounded-xl font-bold hover:bg-teal-50 transition-colors shadow-lg" data-testid="button-contact-pricing">
               Request Pricing <ArrowRight className="w-4 h-4" />

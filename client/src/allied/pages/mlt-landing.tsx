@@ -8,6 +8,7 @@ import { useState } from "react";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { MLT_DISCIPLINES, MLT_CANADA_BLUEPRINT_CATEGORIES, MLT_USA_CONTENT_AREAS } from "@shared/mlt-taxonomy";
 
+import { useI18n } from "@/lib/i18n";
 const COUNTRY_CARDS = [
   {
     country: "canada",
@@ -84,6 +85,7 @@ const MLT_FAQ = [
 ];
 
 export default function MltLandingPage() {
+  const { t } = useI18n();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const faqStructuredData = {
@@ -120,8 +122,8 @@ export default function MltLandingPage() {
   return (
     <div data-testid="mlt-landing-page">
       <AlliedSEO
-        title="MLT Exam Prep — CSMLS & ASCP Certification | NurseNest Allied"
-        description="Prepare for your Medical Laboratory Technologist certification with practice questions, mock exams, and study tools covering all 16 lab disciplines. CSMLS (Canada) and ASCP (USA) exam tracks."
+        title={t("allied.mltLanding.mltExamPrepCsmlsAscp")}
+        description={t("allied.mltLanding.prepareForYourMedicalLaboratory")}
         keywords="MLT exam prep, CSMLS MLT practice questions, ASCP MLS exam prep, medical laboratory technologist, MLT certification, lab tech exam, hematology questions, clinical chemistry practice"
         canonicalPath="/allied-health/mlt"
         structuredData={courseStructuredData}
@@ -132,9 +134,9 @@ export default function MltLandingPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-violet-50/30 to-white" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="mlt-breadcrumbs">
-            <Link href="/" className="hover:text-purple-600">Home</Link>
+            <Link href="/" className="hover:text-purple-600">{t("allied.mltLanding.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/careers" className="hover:text-purple-600">Careers</Link>
+            <Link href="/careers" className="hover:text-purple-600">{t("allied.mltLanding.careers")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-purple-700 font-medium">MLT</span>
           </div>
@@ -164,33 +166,33 @@ export default function MltLandingPage() {
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500 mb-6" data-testid="mlt-trust-badges">
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-purple-500" />
-                <span>No credit card required</span>
+                <span>{t("allied.mltLanding.noCreditCardRequired")}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-purple-500" />
-                <span>Blueprint-aligned content</span>
+                <span>{t("allied.mltLanding.blueprintalignedContent")}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-purple-500" />
-                <span>Cancel anytime</span>
+                <span>{t("allied.mltLanding.cancelAnytime")}</span>
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-5 h-5 text-purple-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-gray-700"><strong>16 laboratory disciplines</strong> with detailed subdiscipline coverage</span>
+                <span className="text-sm text-gray-700"><strong>{t("allied.mltLanding.16LaboratoryDisciplines")}</strong> {t("allied.mltLanding.withDetailedSubdisciplineCoverage")}</span>
               </div>
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-5 h-5 text-purple-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-gray-700"><strong>CSMLS & ASCP</strong> exam tracks with country-specific content</span>
+                <span className="text-sm text-gray-700"><strong>{t("allied.mltLanding.csmlsAscp")}</strong> {t("allied.mltLanding.examTracksWithCountryspecificContent")}</span>
               </div>
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-5 h-5 text-purple-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-gray-700"><strong>Image-based questions</strong> for morphology & staining identification</span>
+                <span className="text-sm text-gray-700"><strong>{t("allied.mltLanding.imagebasedQuestions")}</strong> {t("allied.mltLanding.forMorphologyStainingIdentification")}</span>
               </div>
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-5 h-5 text-purple-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-gray-700"><strong>Adaptive practice</strong> targeting your weakest disciplines</span>
+                <span className="text-sm text-gray-700"><strong>{t("allied.mltLanding.adaptivePractice")}</strong> {t("allied.mltLanding.targetingYourWeakestDisciplines")}</span>
               </div>
             </div>
           </div>
@@ -200,8 +202,8 @@ export default function MltLandingPage() {
       <section className="py-16 bg-white" data-testid="section-country-select">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">Choose Your Country Track</h2>
-            <p className="text-gray-600">Select your certification exam and all content adapts — blueprint weights, lab units, and regulatory modules.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("allied.mltLanding.chooseYourCountryTrack")}</h2>
+            <p className="text-gray-600">{t("allied.mltLanding.selectYourCertificationExamAnd")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {COUNTRY_CARDS.map(card => (
@@ -226,15 +228,15 @@ export default function MltLandingPage() {
                   <div className="grid grid-cols-3 gap-3 mb-5">
                     <div className="text-center bg-purple-50 rounded-lg px-2 py-2">
                       <div className="text-lg font-bold text-purple-700">{card.totalQuestions}</div>
-                      <div className="text-xs text-gray-500">Questions</div>
+                      <div className="text-xs text-gray-500">{t("allied.mltLanding.questions")}</div>
                     </div>
                     <div className="text-center bg-purple-50 rounded-lg px-2 py-2">
                       <div className="text-lg font-bold text-purple-700">{card.timeLimit} min</div>
-                      <div className="text-xs text-gray-500">Time Limit</div>
+                      <div className="text-xs text-gray-500">{t("allied.mltLanding.timeLimit")}</div>
                     </div>
                     <div className="text-center bg-purple-50 rounded-lg px-2 py-2">
                       <div className="text-lg font-bold text-purple-700">{card.passScore}</div>
-                      <div className="text-xs text-gray-500">Pass Score</div>
+                      <div className="text-xs text-gray-500">{t("allied.mltLanding.passScore")}</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 text-purple-600 font-semibold text-sm group-hover:gap-3 transition-all">
@@ -249,7 +251,7 @@ export default function MltLandingPage() {
 
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Study Features</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("allied.mltLanding.studyFeatures")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {MLT_FEATURES.map(f => (
               <div key={f.slug} className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-purple-200 transition-all" data-testid={`card-feature-${f.slug}`}>
@@ -264,7 +266,7 @@ export default function MltLandingPage() {
 
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">All 16 Laboratory Disciplines</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("allied.mltLanding.all16LaboratoryDisciplines")}</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {MLT_DISCIPLINES.map((d, i) => (
               <div key={d} className="bg-white rounded-lg border border-gray-100 px-4 py-3 flex items-center gap-3" data-testid={`discipline-${i}`}>
@@ -278,12 +280,12 @@ export default function MltLandingPage() {
 
       <section className="py-16 bg-gray-50">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Exam Format Comparison</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("allied.mltLanding.examFormatComparison")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white rounded-xl border border-gray-200 p-6" data-testid="format-canada">
               <div className="flex items-center gap-2 mb-4">
                 <span className="text-2xl">🇨🇦</span>
-                <h3 className="text-lg font-bold text-gray-900">CSMLS (Canada)</h3>
+                <h3 className="text-lg font-bold text-gray-900">{t("allied.mltLanding.csmlsCanada")}</h3>
               </div>
               <div className="space-y-3 text-sm">
                 {MLT_CANADA_BLUEPRINT_CATEGORIES.map(cat => (
@@ -302,7 +304,7 @@ export default function MltLandingPage() {
             <div className="bg-white rounded-xl border border-gray-200 p-6" data-testid="format-usa">
               <div className="flex items-center gap-2 mb-4">
                 <span className="text-2xl">🇺🇸</span>
-                <h3 className="text-lg font-bold text-gray-900">ASCP BOC (USA)</h3>
+                <h3 className="text-lg font-bold text-gray-900">{t("allied.mltLanding.ascpBocUsa")}</h3>
               </div>
               <div className="space-y-3 text-sm">
                 {MLT_USA_CONTENT_AREAS.map(cat => (
@@ -324,7 +326,7 @@ export default function MltLandingPage() {
 
       <section className="py-16 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("allied.mltLanding.frequentlyAskedQuestions")}</h2>
           <div className="space-y-3">
             {MLT_FAQ.map((faq, i) => (
               <div key={i} className="bg-white border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-item-${i}`}>
@@ -350,8 +352,8 @@ export default function MltLandingPage() {
 
       <section className="py-16 bg-gradient-to-b from-purple-50 to-white">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Ready to Start Your MLT Exam Prep?</h2>
-          <p className="text-gray-600 mb-8">Choose your country track and begin practicing with free sample questions today.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("allied.mltLanding.readyToStartYourMlt")}</h2>
+          <p className="text-gray-600 mb-8">{t("allied.mltLanding.chooseYourCountryTrackAnd")}</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href="/allied-health/mlt/canada/exam-prep" className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors shadow-lg shadow-purple-200" data-testid="button-cta-canada">
               🇨🇦 Start CSMLS Prep <ArrowRight className="w-4 h-4" />
@@ -365,11 +367,11 @@ export default function MltLandingPage() {
 
       <section className="py-12 bg-white border-t border-gray-100">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Related Resources</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">{t("allied.mltLanding.relatedResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Link href="/allied-health/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-career">MLT Career Overview →</Link>
-            <Link href="/allied-health/mlt/canada/free-questions" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-free-ca">Free CSMLS Practice Questions →</Link>
-            <Link href="/allied-health/mlt/usa/free-questions" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-free-us">Free ASCP Practice Questions →</Link>
+            <Link href="/allied-health/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-career">{t("allied.mltLanding.mltCareerOverview")}</Link>
+            <Link href="/allied-health/mlt/canada/free-questions" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-free-ca">{t("allied.mltLanding.freeCsmlsPracticeQuestions")}</Link>
+            <Link href="/allied-health/mlt/usa/free-questions" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-free-us">{t("allied.mltLanding.freeAscpPracticeQuestions")}</Link>
           </div>
         </div>
       </section>

@@ -5,6 +5,7 @@ import { useAuth } from "@/lib/auth";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { ComingSoonFallback } from "@/allied/components/coming-soon-fallback";
 
+import { useI18n } from "@/lib/i18n";
 const TOOL_ICONS: Record<string, any> = {
   "abg-engine": Activity, "ventilator-sim": Zap, "trauma-algorithm": Activity, "ecg-drill": Activity,
   "dosage-calc": Calculator, "compounding-sim": Calculator, "lab-critical": Microscope, "morphology-drill": Microscope,
@@ -20,13 +21,14 @@ const EXTRA_TOOLS: Record<string, { name: string; description: string; id: strin
 };
 
 export default function AlliedToolsPage() {
+  const { t } = useI18n();
   const params = useParams<{ careerSlug: string }>();
   const career = getCareerByRouteSlug(params.careerSlug || "");
   const { user } = useAuth();
   const isPro = user?.tier === "admin" || user?.subscriptionStatus === "active";
 
   if (!career) {
-    return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Career Not Found</h1></div>;
+    return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">{t("allied.alliedTools.careerNotFound")}</h1></div>;
   }
 
   const extras = EXTRA_TOOLS[career.slug] || [];
@@ -43,7 +45,7 @@ export default function AlliedToolsPage() {
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
           <Link href={getCanonicalRoute(career.slug)} className="hover:text-teal-600">{career.shortName}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-teal-700 font-medium">AI Tools</span>
+          <span className="text-teal-700 font-medium">{t("allied.alliedTools.aiTools")}</span>
         </div>
         <ComingSoonFallback
           title={`${career.shortName} AI Tools — In Development`}
@@ -65,11 +67,11 @@ export default function AlliedToolsPage() {
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link href={getCanonicalRoute(career.slug)} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-teal-700 font-medium">AI Tools</span>
+        <span className="text-teal-700 font-medium">{t("allied.alliedTools.aiTools2")}</span>
       </div>
 
       <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-tools-title">{career.shortName} AI-Powered Tools</h1>
-      <p className="text-gray-600 mb-8">Interactive career-specific simulators and calculators powered by AI.</p>
+      <p className="text-gray-600 mb-8">{t("allied.alliedTools.interactiveCareerspecificSimulatorsAndCalcula")}</p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {career.aiTools.map(tool => {
@@ -107,7 +109,7 @@ export default function AlliedToolsPage() {
               <div className="flex-1">
                 <h3 className="font-semibold text-gray-900 mb-1">{tool.name}</h3>
                 <p className="text-sm text-gray-500 mb-4">{tool.description}</p>
-                <span className="text-xs text-gray-400 font-medium">In Development</span>
+                <span className="text-xs text-gray-400 font-medium">{t("allied.alliedTools.inDevelopment")}</span>
               </div>
             </div>
           </div>

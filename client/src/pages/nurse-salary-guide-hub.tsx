@@ -55,7 +55,7 @@ export default function NurseSalaryGuideHub() {
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 to-emerald-800" />
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
           <nav className="flex items-center gap-2 text-sm text-white/60 mb-6" data-testid="breadcrumb-nav">
-            <LocaleLink href="/" className="hover:text-white/80">Home</LocaleLink>
+            <LocaleLink href="/" className="hover:text-white/80">{t("pages.nurseSalaryGuideHub.home")}</LocaleLink>
             <ChevronRight className="w-3 h-3" />
             <span className="text-white/90">{t("salaryGuide.hub.title")}</span>
           </nav>
@@ -80,10 +80,10 @@ export default function NurseSalaryGuideHub() {
             <table className="w-full border-collapse bg-white rounded-xl border border-gray-200 overflow-hidden" data-testid="table-comparison">
               <thead>
                 <tr className="bg-gray-50">
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Country</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Average RN Salary</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Salary Range</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b hidden sm:table-cell">Currency</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">{t("pages.nurseSalaryGuideHub.country")}</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">{t("pages.nurseSalaryGuideHub.averageRnSalary")}</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">{t("pages.nurseSalaryGuideHub.salaryRange")}</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b hidden sm:table-cell">{t("pages.nurseSalaryGuideHub.currency")}</th>
                   <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700 border-b"></th>
                 </tr>
               </thead>

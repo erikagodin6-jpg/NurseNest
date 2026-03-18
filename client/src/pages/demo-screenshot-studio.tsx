@@ -13,6 +13,7 @@ import {
 import { DemoPageWrapper, SectionCard } from "@/components/demo-shared";
 import { demoProfiles } from "@/data/demo-adaptive-profiles";
 
+import { useI18n } from "@/lib/i18n";
 const screens = [
   { id: "adaptive-dashboard", title: "Adaptive Performance Dashboard", description: "Full analytics with readiness gauge, growth trend, category breakdown, and recommendations", icon: <BarChart3 className="w-5 h-5" />, path: "/admin/demo-adaptive-report", color: "bg-violet-50 text-violet-500" },
   { id: "exam-review", title: "Exam Review / Session Analysis", description: "Post-exam analytics with score summary, category performance, confidence analysis", icon: <Target className="w-5 h-5" />, path: "/admin/demo-exam-review", color: "bg-sky-50 text-sky-500" },
@@ -30,6 +31,7 @@ const screens = [
 ];
 
 export default function DemoScreenshotStudio() {
+  const { t } = useI18n();
   const { user, isAdmin } = useAuth();
   const [, setLocation] = useLocation();
 
@@ -37,7 +39,7 @@ export default function DemoScreenshotStudio() {
     return (
       <DemoPageWrapper>
         <div className="flex items-center justify-center min-h-screen">
-          <p className="text-slate-500">Admin access required.</p>
+          <p className="text-slate-500">{t("pages.demoScreenshotStudio.adminAccessRequired")}</p>
         </div>
       </DemoPageWrapper>
     );
@@ -50,7 +52,7 @@ export default function DemoScreenshotStudio() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold mb-4">
             <Eye className="w-3.5 h-3.5" /> Demo Screenshot Mode
           </div>
-          <h1 className="text-3xl font-bold text-slate-800 tracking-tight mb-2">Screenshot Studio</h1>
+          <h1 className="text-3xl font-bold text-slate-800 tracking-tight mb-2">{t("pages.demoScreenshotStudio.screenshotStudio")}</h1>
           <p className="text-sm text-slate-500 max-w-lg mx-auto">
             Premium demo screens for marketing screenshots, hero banners, and landing page visuals. All data is hardcoded and does not affect production.
           </p>
@@ -58,8 +60,8 @@ export default function DemoScreenshotStudio() {
 
         <SectionCard className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold text-slate-700">Demo Profiles</h3>
-            <span className="text-[10px] text-slate-400">Default profile is used on all screens</span>
+            <h3 className="text-sm font-semibold text-slate-700">{t("pages.demoScreenshotStudio.demoProfiles")}</h3>
+            <span className="text-[10px] text-slate-400">{t("pages.demoScreenshotStudio.defaultProfileIsUsedOn")}</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {demoProfiles.map((dp, i) => (
@@ -75,7 +77,7 @@ export default function DemoScreenshotStudio() {
                   <p className="text-sm font-semibold text-slate-700">{dp.name}</p>
                   <p className="text-xs text-slate-500">{dp.track}</p>
                 </div>
-                {i === 0 && <span className="ml-auto text-[9px] font-semibold text-violet-600 bg-violet-100 px-1.5 py-0.5 rounded">Default</span>}
+                {i === 0 && <span className="ml-auto text-[9px] font-semibold text-violet-600 bg-violet-100 px-1.5 py-0.5 rounded">{t("pages.demoScreenshotStudio.default")}</span>}
               </div>
             ))}
           </div>
@@ -99,7 +101,7 @@ export default function DemoScreenshotStudio() {
                 </div>
               </div>
               <div className="flex items-center justify-end text-xs text-slate-400 group-hover:text-violet-500 transition-colors">
-                <span>Open screen</span>
+                <span>{t("pages.demoScreenshotStudio.openScreen")}</span>
                 <ArrowRight className="w-3 h-3 ml-1" />
               </div>
             </button>

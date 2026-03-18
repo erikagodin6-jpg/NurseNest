@@ -8,6 +8,7 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { useAuth } from "@/lib/auth";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import {
   Stethoscope,
   Activity,
@@ -737,7 +738,7 @@ function StationExercise({ station, onClose }: { station: Station; onClose: () =
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Clock className="w-4 h-4 text-primary" />
-          <h4 className="text-sm font-bold text-gray-900">Clinical Scenario</h4>
+          <h4 className="text-sm font-bold text-gray-900">{t("pages.simulators.clinicalScenario")}</h4>
         </div>
         <Button variant="ghost" size="sm" className="text-xs text-gray-400 hover:text-gray-600" onClick={onClose} data-testid={`button-close-exercise-${station.id}`}>
           <ArrowLeft className="w-3 h-3 mr-1" />
@@ -801,6 +802,7 @@ function StationExercise({ station, onClose }: { station: Station; onClose: () =
 }
 
 function StationCard({ station, hasPaidAccess, isLoggedIn }: { station: Station; hasPaidAccess: boolean; isLoggedIn: boolean }) {
+  const { t } = useI18n();
   const [expanded, setExpanded] = useState(false);
   const diff = difficultyConfig[station.difficulty];
   const Icon = station.icon;
@@ -855,7 +857,7 @@ function StationCard({ station, hasPaidAccess, isLoggedIn }: { station: Station;
 
         {station.available && hasPaidAccess && isLoggedIn && !expanded && (
           <div className="flex items-center text-xs text-primary font-medium" onClick={handleClick} data-testid={`button-start-${station.id}`}>
-            <span>Start Exercise</span>
+            <span>{t("pages.simulators.startExercise")}</span>
             <ChevronRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
           </div>
         )}
@@ -883,7 +885,7 @@ function PreviewCTA() {
         <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
           <Stethoscope className="w-7 h-7 text-primary" />
         </div>
-        <h3 className="text-xl font-bold text-gray-900 mb-2">Practice Clinical Skills Interactively</h3>
+        <h3 className="text-xl font-bold text-gray-900 mb-2">{t("pages.simulators.practiceClinicalSkillsInteractively")}</h3>
         <p className="text-sm text-gray-600 max-w-md mx-auto mb-6 leading-relaxed">
           Sign up for free to preview our simulator stations, or subscribe to unlock full interactive exercises with detailed clinical explanations.
         </p>
@@ -918,7 +920,7 @@ function UpgradePaywall() {
         <div className="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center mx-auto mb-4">
           <Lock className="w-7 h-7 text-amber-600" />
         </div>
-        <h3 className="text-xl font-bold text-gray-900 mb-2">Upgrade to Access Simulators</h3>
+        <h3 className="text-xl font-bold text-gray-900 mb-2">{t("pages.simulators.upgradeToAccessSimulators")}</h3>
         <p className="text-sm text-gray-600 max-w-md mx-auto mb-6 leading-relaxed">
           Interactive simulator exercises are available on paid plans. Upgrade your account to practice with clinical scenarios, get instant feedback, and build confidence for your exams.
         </p>

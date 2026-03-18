@@ -4,6 +4,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, Shield, Globe, BookOpen, ChevronRight, HelpCircle,
   Scale, ClipboardList, Award, Briefcase, GraduationCap,
@@ -12,11 +13,12 @@ import {
 } from "lucide-react";
 
 function PolicyBreadcrumbs({ title }: { title: string }) {
+  const { t } = useI18n();
   return (
     <div className="flex items-center gap-2 text-sm text-gray-500 mb-6 flex-wrap">
-      <LocaleLink href="/" className="hover:text-primary" data-testid="link-policy-bc-home">Home</LocaleLink>
+      <LocaleLink href="/" className="hover:text-primary" data-testid="link-policy-bc-home">{t("pages.healthcarePolicyPages.home")}</LocaleLink>
       <ChevronRight className="w-4 h-4" />
-      <LocaleLink href="/healthcare-policy-and-updates" className="hover:text-primary" data-testid="link-policy-bc-hub">Healthcare Policy & Updates</LocaleLink>
+      <LocaleLink href="/healthcare-policy-and-updates" className="hover:text-primary" data-testid="link-policy-bc-hub">{t("pages.healthcarePolicyPages.healthcarePolicyUpdates")}</LocaleLink>
       <ChevronRight className="w-4 h-4" />
       <span className="text-gray-900 font-medium">{title}</span>
     </div>
@@ -66,13 +68,13 @@ function PolicyCTA() {
   return (
     <section className="py-16 bg-gradient-to-br from-blue-600 to-indigo-700">
       <div className="max-w-4xl mx-auto px-4 text-center">
-        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Prepare With Confidence</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">{t("pages.healthcarePolicyPages.prepareWithConfidence")}</h2>
         <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
           Stay ahead of policy changes with exam prep resources that reflect the latest requirements. Practice questions, clinical simulations, and study tools built for today's nursing exams.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <LocaleLink href="/free-practice" className="bg-white text-blue-700 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors" data-testid="button-policy-cta-free">Start Free Practice</LocaleLink>
-          <LocaleLink href="/pricing" className="bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-400 transition-colors border border-blue-400" data-testid="button-policy-cta-pricing">View Plans</LocaleLink>
+          <LocaleLink href="/free-practice" className="bg-white text-blue-700 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors" data-testid="button-policy-cta-free">{t("pages.healthcarePolicyPages.startFreePractice")}</LocaleLink>
+          <LocaleLink href="/pricing" className="bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-400 transition-colors border border-blue-400" data-testid="button-policy-cta-pricing">{t("pages.healthcarePolicyPages.viewPlans")}</LocaleLink>
         </div>
       </div>
     </section>
@@ -94,8 +96,8 @@ export function LicensingPolicyChanges() {
     <div data-testid="page-licensing-policy">
       <Navigation />
       <SEO
-        title="Nursing Licensing Policy Changes: Compact Licenses, Scope of Practice & Licensure Updates | NurseNest"
-        description="Comprehensive guide to nursing licensure policy changes including Nurse Licensure Compact updates, scope of practice changes, endorsement requirements, and license renewal policies across jurisdictions."
+        title={t("pages.healthcarePolicyPages.nursingLicensingPolicyChangesCompact")}
+        description={t("pages.healthcarePolicyPages.comprehensiveGuideToNursingLicensure")}
         keywords="nursing license policy, nurse licensure compact, scope of practice nursing, nursing license transfer, NLC compact states, nurse license endorsement, nursing continuing education requirements"
         canonicalPath="/healthcare-policy-and-updates/licensing-policy-changes"
         structuredData={{
@@ -118,19 +120,19 @@ export function LicensingPolicyChanges() {
 
       <section className="bg-gradient-to-br from-blue-50 via-slate-50 to-indigo-50 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <PolicyBreadcrumbs title="Licensing Policy Changes" />
+          <PolicyBreadcrumbs title={t("pages.healthcarePolicyPages.licensingPolicyChanges")} />
           <div className="flex items-center gap-2 mb-4">
-            <span className="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Licensing</span>
+            <span className="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">{t("pages.healthcarePolicyPages.licensing")}</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="heading-licensing-policy">Nursing Licensing Policy Changes</h1>
-          <p className="text-lg text-gray-600 leading-relaxed">Understanding how licensure policies evolve is essential for maintaining your credentials and planning career moves across jurisdictions. This guide covers the major policy frameworks affecting nursing licenses.</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="heading-licensing-policy">{t("pages.healthcarePolicyPages.nursingLicensingPolicyChanges")}</h1>
+          <p className="text-lg text-gray-600 leading-relaxed">{t("pages.healthcarePolicyPages.understandingHowLicensurePoliciesEvolve")}</p>
         </div>
       </section>
 
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-gray max-w-none">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Nurse Licensure Compact (NLC)</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">The Nurse Licensure Compact is one of the most significant policy developments in US nursing. It allows nurses holding a multistate license to practice in any compact member state without obtaining additional licenses. This has dramatically improved workforce mobility and disaster response capabilities.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcarePolicyPages.nurseLicensureCompactNlc")}</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.theNurseLicensureCompactIs")}</p>
           <div className="grid sm:grid-cols-2 gap-4 my-8 not-prose">
             {[
               { icon: MapPin, title: "40+ Member States", desc: "The majority of US states now participate in the compact, with more states introducing legislation regularly." },
@@ -151,10 +153,10 @@ export function LicensingPolicyChanges() {
             })}
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">Scope of Practice Developments</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">Scope of practice laws determine what nursing professionals can legally do in their practice. These laws are evolving across jurisdictions, particularly for nurse practitioners and advanced practice nurses.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">{t("pages.healthcarePolicyPages.scopeOfPracticeDevelopments")}</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.scopeOfPracticeLawsDetermine")}</p>
           <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 my-6 not-prose">
-            <h3 className="font-semibold text-gray-900 mb-4">Key Scope of Practice Trends</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">{t("pages.healthcarePolicyPages.keyScopeOfPracticeTrends")}</h3>
             <ul className="space-y-3">
               {[
                 "Full practice authority for NPs expanding to more states and provinces",
@@ -172,22 +174,22 @@ export function LicensingPolicyChanges() {
             </ul>
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">License Renewal & Continuing Education</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">Continuing education requirements are integral to license renewal. Regulatory bodies periodically update these requirements to address emerging healthcare challenges, new evidence-based practices, and evolving patient safety standards.</p>
-          <p className="text-gray-700 leading-relaxed mb-4">Recent trends include mandatory education on opioid prescribing and pain management, implicit bias and health equity training, infection prevention in the context of emerging diseases, and suicide prevention assessment competencies.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">{t("pages.healthcarePolicyPages.licenseRenewalContinuingEducation")}</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.continuingEducationRequirementsAreIntegral")}</p>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.recentTrendsIncludeMandatoryEducation")}</p>
         </div>
       </section>
 
       <section className="py-16 bg-gray-50">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("pages.healthcarePolicyPages.frequentlyAskedQuestions")}</h2>
           <FAQSection faqs={LICENSING_FAQ} prefix="licensing" />
         </div>
       </section>
 
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Related Resources</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("pages.healthcarePolicyPages.relatedResources")}</h2>
           <CrossLinkSection links={[
             { title: "Nursing Regulatory Bodies", href: "/nursing-regulatory-bodies", desc: "Directory of nursing regulators", icon: Shield },
             { title: "Exam Prep Hub", href: "/exam-prep", desc: "Exam preparation resources", icon: BookOpen },
@@ -220,8 +222,8 @@ export function InternationalNursingRecruitment() {
     <div data-testid="page-intl-recruitment-policy">
       <Navigation />
       <SEO
-        title="International Nursing Recruitment Policies: Credential Evaluation, Visa Pathways & Bridging Programs | NurseNest"
-        description="Guide to international nursing recruitment policies including credential evaluation processes, visa and immigration pathways, bridging program requirements, and recruitment agency regulations for internationally educated nurses."
+        title={t("pages.healthcarePolicyPages.internationalNursingRecruitmentPoliciesCreden")}
+        description={t("pages.healthcarePolicyPages.guideToInternationalNursingRecruitment")}
         keywords="international nursing recruitment, nursing credential evaluation, CGFNS, NNAS, nursing visa pathway, international nurse bridging program, nursing immigration, IEN policy, internationally educated nurse"
         canonicalPath="/healthcare-policy-and-updates/international-nursing-recruitment"
         structuredData={{
@@ -244,19 +246,19 @@ export function InternationalNursingRecruitment() {
 
       <section className="bg-gradient-to-br from-emerald-50 via-slate-50 to-teal-50 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <PolicyBreadcrumbs title="International Nursing Recruitment" />
+          <PolicyBreadcrumbs title={t("pages.healthcarePolicyPages.internationalNursingRecruitment")} />
           <div className="flex items-center gap-2 mb-4">
-            <span className="bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full">International</span>
+            <span className="bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full">{t("pages.healthcarePolicyPages.international")}</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="heading-intl-recruitment">International Nursing Recruitment Policies</h1>
-          <p className="text-lg text-gray-600 leading-relaxed">Navigate the policies and pathways that govern international nursing recruitment. From credential evaluation to visa processing, understand the framework for cross-border nursing careers.</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="heading-intl-recruitment">{t("pages.healthcarePolicyPages.internationalNursingRecruitmentPolicies")}</h1>
+          <p className="text-lg text-gray-600 leading-relaxed">{t("pages.healthcarePolicyPages.navigateThePoliciesAndPathways")}</p>
         </div>
       </section>
 
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-gray max-w-none">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Credential Evaluation Frameworks</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">Each destination country has established organizations responsible for evaluating the credentials of internationally educated nurses. These evaluations assess whether your nursing education and clinical experience meet local standards.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcarePolicyPages.credentialEvaluationFrameworks")}</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.eachDestinationCountryHasEstablished")}</p>
           <div className="grid sm:grid-cols-2 gap-4 my-8 not-prose">
             {[
               { country: "United States", org: "CGFNS", desc: "Commission on Graduates of Foreign Nursing Schools evaluates international nursing credentials for US licensure.", icon: "🇺🇸" },
@@ -277,28 +279,28 @@ export function InternationalNursingRecruitment() {
             ))}
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">Visa & Immigration Pathways</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">International nursing recruitment involves navigating immigration systems that are designed to address healthcare workforce shortages. Many countries have created specialized visa categories for healthcare professionals, recognizing the critical role nurses play in their healthcare systems.</p>
-          <p className="text-gray-700 leading-relaxed mb-4">Common pathways include employer-sponsored work visas, skilled worker programs (such as Canada's Express Entry or Australia's Skilled Migration), and temporary-to-permanent residence transitions. Processing times and requirements vary significantly between countries and even between immigration categories within the same country.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">{t("pages.healthcarePolicyPages.visaImmigrationPathways")}</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.internationalNursingRecruitmentInvolvesNavigat")}</p>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.commonPathwaysIncludeEmployersponsoredWork")}</p>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">Bridging Programs & Competency Assessment</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">Many jurisdictions require internationally educated nurses to complete bridging programs that address gaps between their training and local practice standards. These programs typically include supervised clinical placements, classroom instruction on local healthcare systems, and competency assessments.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">{t("pages.healthcarePolicyPages.bridgingProgramsCompetencyAssessment")}</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.manyJurisdictionsRequireInternationallyEducate")}</p>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">Ethical Recruitment Standards</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">The WHO Global Code of Practice on the International Recruitment of Health Personnel provides a framework for ethical recruitment. Key principles include transparency in recruitment practices, fair treatment of internationally recruited staff, sustainability of health systems in source countries, and prohibition of charging recruitment fees to candidates.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">{t("pages.healthcarePolicyPages.ethicalRecruitmentStandards")}</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.theWhoGlobalCodeOf")}</p>
         </div>
       </section>
 
       <section className="py-16 bg-gray-50">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("pages.healthcarePolicyPages.frequentlyAskedQuestions2")}</h2>
           <FAQSection faqs={INTL_RECRUITMENT_FAQ} prefix="intl" />
         </div>
       </section>
 
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Related Resources</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("pages.healthcarePolicyPages.relatedResources2")}</h2>
           <CrossLinkSection links={[
             { title: "International Nurses Hub", href: "/international-nurses", desc: "Complete international nursing guide", icon: Globe },
             { title: "NCLEX for International Nurses", href: "/nclex-for-international-nurses", desc: "NCLEX exam preparation", icon: ClipboardList },
@@ -331,8 +333,8 @@ export function ExamFormatUpdates() {
     <div data-testid="page-exam-format-updates">
       <Navigation />
       <SEO
-        title="Nursing Exam Format Updates: NGN, CAT Changes, Score Reporting & Testing Policies | NurseNest"
-        description="Stay current with nursing exam format changes. Comprehensive guide covering Next Generation NCLEX updates, computerized adaptive testing changes, score reporting modifications, and testing center policies."
+        title={t("pages.healthcarePolicyPages.nursingExamFormatUpdatesNgn")}
+        description={t("pages.healthcarePolicyPages.stayCurrentWithNursingExam")}
         keywords="NCLEX format changes, next generation NCLEX, NGN exam, CAT nursing exam, REX-PN format, nursing exam scoring, NCSBN exam updates, clinical judgment measurement model, nursing exam preparation"
         canonicalPath="/healthcare-policy-and-updates/exam-format-updates"
         structuredData={{
@@ -355,19 +357,19 @@ export function ExamFormatUpdates() {
 
       <section className="bg-gradient-to-br from-violet-50 via-slate-50 to-purple-50 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <PolicyBreadcrumbs title="Exam Format Updates" />
+          <PolicyBreadcrumbs title={t("pages.healthcarePolicyPages.examFormatUpdates")} />
           <div className="flex items-center gap-2 mb-4">
-            <span className="bg-violet-100 text-violet-700 text-xs font-semibold px-3 py-1 rounded-full">Exam Updates</span>
+            <span className="bg-violet-100 text-violet-700 text-xs font-semibold px-3 py-1 rounded-full">{t("pages.healthcarePolicyPages.examUpdates")}</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="heading-exam-format-updates">Nursing Exam Format Updates</h1>
-          <p className="text-lg text-gray-600 leading-relaxed">Nursing examinations evolve to better measure clinical competency. Understanding format changes, new item types, and scoring methodologies helps you prepare effectively.</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="heading-exam-format-updates">{t("pages.healthcarePolicyPages.nursingExamFormatUpdates")}</h1>
+          <p className="text-lg text-gray-600 leading-relaxed">{t("pages.healthcarePolicyPages.nursingExaminationsEvolveToBetter")}</p>
         </div>
       </section>
 
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-gray max-w-none">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Next Generation NCLEX (NGN)</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">The Next Generation NCLEX represents the most significant change to nursing licensure examinations in decades. NGN introduces clinical judgment-focused item types that go beyond traditional multiple-choice questions to assess how nurses think through complex patient scenarios.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcarePolicyPages.nextGenerationNclexNgn")}</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.theNextGenerationNclexRepresents")}</p>
           <div className="grid sm:grid-cols-2 gap-4 my-8 not-prose">
             {[
               { title: "Case Studies", desc: "Multi-part scenarios following a patient through assessment, intervention, and evaluation phases.", icon: FileText },
@@ -388,28 +390,28 @@ export function ExamFormatUpdates() {
             })}
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">Computerized Adaptive Testing (CAT)</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">CAT technology ensures each candidate receives a uniquely tailored exam. The algorithm selects questions based on your demonstrated ability level, making the exam both efficient and precise. Understanding how CAT works helps reduce test anxiety and inform your test-taking strategy.</p>
-          <p className="text-gray-700 leading-relaxed mb-4">The minimum number of questions varies by exam: NCLEX-RN requires a minimum of 85 items (maximum 150), while the NCLEX-PN requires a minimum of 85 items (maximum 150). The exam ends when the algorithm reaches sufficient confidence in the pass/fail decision or when the maximum number of items is reached.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">{t("pages.healthcarePolicyPages.computerizedAdaptiveTestingCat")}</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.catTechnologyEnsuresEachCandidate")}</p>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.theMinimumNumberOfQuestions")}</p>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">Score Reporting & Results</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">Score reporting processes have been streamlined in recent years. NCLEX results are typically available within 48 hours through Quick Results, with official results sent to the candidate's board of nursing. Some jurisdictions participate in rapid reporting programs that can provide results even sooner.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">{t("pages.healthcarePolicyPages.scoreReportingResults")}</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.scoreReportingProcessesHaveBeen")}</p>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">Canadian Exam Considerations</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">Canadian nursing exams, including the REX-PN and NCLEX-RN (used by most Canadian provinces for RN licensure), follow similar CAT methodologies but may have jurisdiction-specific content emphases. The transition from the CPNRE to the REX-PN for practical nursing marked a significant format shift toward the CAT model.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">{t("pages.healthcarePolicyPages.canadianExamConsiderations")}</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.canadianNursingExamsIncludingThe")}</p>
         </div>
       </section>
 
       <section className="py-16 bg-gray-50">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("pages.healthcarePolicyPages.frequentlyAskedQuestions3")}</h2>
           <FAQSection faqs={EXAM_FORMAT_FAQ} prefix="exam" />
         </div>
       </section>
 
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Related Resources</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("pages.healthcarePolicyPages.relatedResources3")}</h2>
           <CrossLinkSection links={[
             { title: "Free Practice Questions", href: "/free-practice", desc: "Practice with current formats", icon: BookOpen },
             { title: "Mock Exams", href: "/mock-exams", desc: "Simulated CAT experience", icon: ClipboardList },
@@ -442,8 +444,8 @@ export function RegulatoryChanges() {
     <div data-testid="page-regulatory-changes">
       <Navigation />
       <SEO
-        title="Regulatory Changes Affecting Nurses: Staffing Laws, Safety Standards & Practice Requirements | NurseNest"
-        description="Comprehensive guide to healthcare regulatory changes affecting nursing practice. Covers staffing ratio laws, patient safety regulations, telehealth standards, continuing education mandates, and workplace safety requirements."
+        title={t("pages.healthcarePolicyPages.regulatoryChangesAffectingNursesStaffing")}
+        description={t("pages.healthcarePolicyPages.comprehensiveGuideToHealthcareRegulatory")}
         keywords="nursing regulations, nurse staffing ratios, healthcare regulatory changes, patient safety regulations, telehealth nursing regulations, nursing workplace safety, mandatory overtime nursing, nurse practice requirements"
         canonicalPath="/healthcare-policy-and-updates/regulatory-changes-affecting-nurses"
         structuredData={{
@@ -466,21 +468,21 @@ export function RegulatoryChanges() {
 
       <section className="bg-gradient-to-br from-amber-50 via-slate-50 to-orange-50 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <PolicyBreadcrumbs title="Regulatory Changes" />
+          <PolicyBreadcrumbs title={t("pages.healthcarePolicyPages.regulatoryChanges")} />
           <div className="flex items-center gap-2 mb-4">
-            <span className="bg-amber-100 text-amber-700 text-xs font-semibold px-3 py-1 rounded-full">Regulatory</span>
+            <span className="bg-amber-100 text-amber-700 text-xs font-semibold px-3 py-1 rounded-full">{t("pages.healthcarePolicyPages.regulatory")}</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="heading-regulatory-changes">Regulatory Changes Affecting Nurses</h1>
-          <p className="text-lg text-gray-600 leading-relaxed">Healthcare regulations shape every aspect of nursing practice. Understanding regulatory developments helps you maintain compliance, advocate for your profession, and deliver safe patient care.</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="heading-regulatory-changes">{t("pages.healthcarePolicyPages.regulatoryChangesAffectingNurses")}</h1>
+          <p className="text-lg text-gray-600 leading-relaxed">{t("pages.healthcarePolicyPages.healthcareRegulationsShapeEveryAspect")}</p>
         </div>
       </section>
 
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-gray max-w-none">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Staffing Regulations</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">Nurse staffing regulations are among the most impactful policy developments in healthcare. Research consistently demonstrates the relationship between nurse staffing levels and patient outcomes, including mortality rates, hospital-acquired infections, patient falls, and medication errors.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcarePolicyPages.staffingRegulations")}</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.nurseStaffingRegulationsAreAmong")}</p>
           <div className="bg-amber-50 rounded-xl p-6 border border-amber-200 my-6 not-prose">
-            <h3 className="font-semibold text-gray-900 mb-4">Common Staffing Ratio Standards</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">{t("pages.healthcarePolicyPages.commonStaffingRatioStandards")}</h3>
             <div className="grid sm:grid-cols-2 gap-3">
               {[
                 { unit: "ICU / Critical Care", ratio: "1:1 to 1:2" },
@@ -498,27 +500,27 @@ export function RegulatoryChanges() {
             </div>
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">Telehealth Practice Standards</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">Telehealth regulations have evolved rapidly, creating new opportunities and challenges for nursing practice. Key regulatory considerations include cross-state practice authority, informed consent for virtual care, documentation requirements, and scope of practice in telehealth settings.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">{t("pages.healthcarePolicyPages.telehealthPracticeStandards")}</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.telehealthRegulationsHaveEvolvedRapidly")}</p>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">Patient Safety & Quality Standards</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">Regulatory bodies continuously update safety standards based on evidence-based practice. Key areas include medication safety (barcode scanning, smart pump technology), infection prevention protocols, fall prevention programs, pressure injury prevention, and safe patient handling requirements.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">{t("pages.healthcarePolicyPages.patientSafetyQualityStandards")}</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.regulatoryBodiesContinuouslyUpdateSafety")}</p>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">Workplace Safety Regulations</h2>
-          <p className="text-gray-700 leading-relaxed mb-4">Healthcare workplace safety regulations address unique risks faced by nurses including exposure to infectious diseases, workplace violence, musculoskeletal injuries from patient handling, and psychological stressors. Recent legislative trends include stronger protections against workplace violence and mandatory break periods.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 mt-12">{t("pages.healthcarePolicyPages.workplaceSafetyRegulations")}</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">{t("pages.healthcarePolicyPages.healthcareWorkplaceSafetyRegulationsAddress")}</p>
         </div>
       </section>
 
       <section className="py-16 bg-gray-50">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("pages.healthcarePolicyPages.frequentlyAskedQuestions4")}</h2>
           <FAQSection faqs={REGULATORY_FAQ} prefix="regulatory" />
         </div>
       </section>
 
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Related Resources</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("pages.healthcarePolicyPages.relatedResources4")}</h2>
           <CrossLinkSection links={[
             { title: "Healthcare Certifications", href: "/healthcare-certifications", desc: "Safety certifications", icon: Award },
             { title: "Clinical Skills Guides", href: "/clinical-skills", desc: "Practice skills guides", icon: Stethoscope },

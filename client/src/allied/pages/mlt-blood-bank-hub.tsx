@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import { Link } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { seoBloodBankTopics } from "@/data/seo-blood-bank";
@@ -58,8 +59,8 @@ export default function MltBloodBankHub() {
   return (
     <>
       <AlliedSEO
-        title="Blood Bank & Transfusion Medicine | MLT Exam Review & Practice Questions"
-        description="Complete blood banking review for MLT certification. Master ABO/Rh typing, crossmatching, transfusion reactions, HDFN, antibody panels, and component therapy with free practice questions."
+        title={t("allied.mlt_blood_bank_hub.bloodBankTransfusionMedicineMlt")}
+        description={t("allied.mlt_blood_bank_hub.completeBloodBankingReviewFor")}
         keywords="blood banking MLT exam review, immunohematology MLT, ABO Rh typing exam, crossmatch compatibility testing, transfusion reactions management, HDFN hemolytic disease newborn"
         canonicalPath="/allied-health/mlt/blood-bank"
         structuredData={structuredData}

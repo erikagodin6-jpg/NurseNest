@@ -8,6 +8,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import type { ProfessionHubData } from "@/allied/data/profession-hub-data";
 import type { StudyTopicCard } from "@/allied/data/imaging-career-data";
 
+import { useI18n } from "@/lib/i18n";
 interface CareerStudyIndexPageProps {
   hubData: ProfessionHubData;
   studyTopics: StudyTopicCard[];
@@ -23,6 +24,7 @@ const DIFFICULTY_COLORS: Record<string, { bg: string; text: string }> = {
 };
 
 export default function CareerStudyIndexPage({ hubData, studyTopics, featuredTopics, mostTestedConcepts, studyTips }: CareerStudyIndexPageProps) {
+  const { t } = useI18n();
   const basePath = `/allied-health/${hubData.professionSlug}`;
   const featured = studyTopics.filter(t => featuredTopics.includes(t.slug));
   const allTopics = studyTopics;
@@ -153,7 +155,7 @@ export default function CareerStudyIndexPage({ hubData, studyTopics, featuredTop
 
       <section className="py-12 bg-white" data-testid="section-study-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Ready to Start Studying?</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("allied.careerStudyIndexPage.readyToStartStudying")}</h2>
           <p className="text-gray-600 mb-6">Pair these study topics with flashcards and practice exams for comprehensive {hubData.shortName} exam preparation.</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href={`${basePath}/flashcards`} className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 shadow-lg" style={{ backgroundColor: hubData.color }} data-testid="button-cta-flashcards">

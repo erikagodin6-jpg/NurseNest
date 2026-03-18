@@ -2,6 +2,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { useI18n } from "@/lib/i18n";
 import {
   WhyNurseNestGrid,
   RetentionSection,
@@ -11,11 +12,12 @@ import {
 } from "@/components/competitive-differentiation";
 
 export default function WhyNurseNestPage() {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 animate-page-enter">
       <SEO
-        title="Why NurseNest | Modern Clinical Learning System for Nursing Exam Prep"
-        description="Discover why NurseNest is the preferred healthcare exam study platform. Adaptive practice exams, spaced-repetition flashcards, clinical lessons, and readiness analytics for NCLEX, REx-PN, NP certification, and allied health exams."
+        title={t("pages.whyNursenest.whyNursenestModernClinicalLearning")}
+        description={t("pages.whyNursenest.discoverWhyNursenestIsThe")}
         keywords="nursing exam prep, NCLEX preparation, REx-PN exam prep, nursing practice questions, clinical judgment exam prep, nurse practitioner exam prep, healthcare exam study platform, nursing study tools, best NCLEX prep"
         canonicalPath="/why-nursenest"
         structuredData={{
@@ -75,7 +77,7 @@ export default function WhyNurseNestPage() {
         <TrustBadges />
         <DifferentiatorCTA
           headline="Start Preparing with Confidence"
-          subtitle="Join thousands of nursing and healthcare students using NurseNest to study smarter. Access practice questions, flashcards, mock exams, and clinical lessons — all in one platform."
+          subtitle={t("pages.why_nursenest.joinThousandsOfNursingAnd")}
         />
       </main>
 

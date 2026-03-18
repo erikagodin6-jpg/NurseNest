@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useParams, Link, useLocation } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { useI18n } from "@/lib/i18n";
 import {
   GraduationCap, Calendar, Clock, Target, ChevronRight, CheckCircle2,
   BookOpen, Brain, FileText, Zap, ArrowRight, RefreshCw, ChevronDown,
@@ -75,6 +76,7 @@ interface StudyPlan {
 }
 
 export default function PharmtechStudyPlanPage() {
+  const { t } = useI18n();
   const params = useParams<{ planId?: string }>();
   const [, setLocation] = useLocation();
   const [plan, setPlan] = useState<StudyPlan | null>(null);
@@ -252,7 +254,7 @@ export default function PharmtechStudyPlanPage() {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
         <div className="w-8 h-8 border-3 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-        <p className="text-sm text-gray-500">Loading your study plan...</p>
+        <p className="text-sm text-gray-500">{t("allied.pharmtechStudyPlan.loadingYourStudyPlan")}</p>
       </div>
     );
   }
@@ -261,18 +263,18 @@ export default function PharmtechStudyPlanPage() {
     return (
       <>
         <AlliedSEO
-          title="My Study Plan - Pharmacy Technician Exam Prep"
-          description="Track your personalized pharmacy technician study plan with daily tasks, progress tracking, and exam countdown."
+          title={t("allied.pharmtechStudyPlan.myStudyPlanPharmacyTechnician")}
+          description={t("allied.pharmtechStudyPlan.trackYourPersonalizedPharmacyTechnician")}
           keywords="pharmacy technician study plan, PTCB study schedule, pharmacy tech exam prep plan"
           canonicalPath={`/allied-health/pharmacy-technician/study-plan/${plan.id}`}
         />
         <div className="max-w-4xl mx-auto px-4 py-8" data-testid="pharmtech-study-plan-detail">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/allied-health/pharmacy-technician" className="hover:text-green-600">Pharmacy Tech</Link>
+            <Link href="/allied-health/pharmacy-technician" className="hover:text-green-600">{t("allied.pharmtechStudyPlan.pharmacyTech")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/allied-health/pharmacy-technician/study-plan" className="hover:text-green-600">Study Plan</Link>
+            <Link href="/allied-health/pharmacy-technician/study-plan" className="hover:text-green-600">{t("allied.pharmtechStudyPlan.studyPlan")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-green-700 font-medium">My Plan</span>
+            <span className="text-green-700 font-medium">{t("allied.pharmtechStudyPlan.myPlan")}</span>
           </div>
 
           <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-100 p-6 mb-8" data-testid="plan-overview-card">
@@ -301,23 +303,23 @@ export default function PharmtechStudyPlanPage() {
                 <div className="bg-white/80 rounded-xl p-3 text-center" data-testid="stat-exam-countdown">
                   <Calendar className="w-5 h-5 text-green-600 mx-auto mb-1" />
                   <div className="text-lg font-bold text-gray-900">{daysUntilExam}</div>
-                  <div className="text-xs text-gray-500">Days to Exam</div>
+                  <div className="text-xs text-gray-500">{t("allied.pharmtechStudyPlan.daysToExam")}</div>
                 </div>
               )}
               <div className="bg-white/80 rounded-xl p-3 text-center" data-testid="stat-progress">
                 <BarChart3 className="w-5 h-5 text-green-600 mx-auto mb-1" />
                 <div className="text-lg font-bold text-gray-900">{plan.progressPercent}%</div>
-                <div className="text-xs text-gray-500">Complete</div>
+                <div className="text-xs text-gray-500">{t("allied.pharmtechStudyPlan.complete")}</div>
               </div>
               <div className="bg-white/80 rounded-xl p-3 text-center" data-testid="stat-tasks-done">
                 <CheckCircle2 className="w-5 h-5 text-green-600 mx-auto mb-1" />
                 <div className="text-lg font-bold text-gray-900">{plan.completedTasks}/{plan.totalTasks}</div>
-                <div className="text-xs text-gray-500">Tasks Done</div>
+                <div className="text-xs text-gray-500">{t("allied.pharmtechStudyPlan.tasksDone")}</div>
               </div>
               <div className="bg-white/80 rounded-xl p-3 text-center" data-testid="stat-weeks">
                 <Clock className="w-5 h-5 text-green-600 mx-auto mb-1" />
                 <div className="text-lg font-bold text-gray-900">{weeklyData.length}</div>
-                <div className="text-xs text-gray-500">Weeks</div>
+                <div className="text-xs text-gray-500">{t("allied.pharmtechStudyPlan.weeks")}</div>
               </div>
             </div>
 
@@ -355,7 +357,7 @@ export default function PharmtechStudyPlanPage() {
             <div className="bg-amber-50 rounded-xl border border-amber-100 p-4 mb-6 flex items-center gap-3" data-testid="weakest-category">
               <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0" />
               <div>
-                <span className="text-sm font-medium text-amber-800">Weakest area: </span>
+                <span className="text-sm font-medium text-amber-800">{t("allied.pharmtechStudyPlan.weakestArea")} </span>
                 <span className="text-sm text-amber-700">{weakestCategory}</span>
               </div>
             </div>
@@ -442,16 +444,16 @@ export default function PharmtechStudyPlanPage() {
   return (
     <>
       <AlliedSEO
-        title="Study Plan Generator - Pharmacy Technician Exam Prep"
-        description="Create a personalized pharmacy technician study plan for the PTCB or ExCPT exam. Choose from quick-start presets or customize your schedule based on exam date, pace, and weak areas."
+        title={t("allied.pharmtechStudyPlan.studyPlanGeneratorPharmacyTechnician")}
+        description={t("allied.pharmtechStudyPlan.createAPersonalizedPharmacyTechnician")}
         keywords="pharmacy technician study plan, PTCB study schedule, pharmacy tech exam prep plan, ExCPT study guide, pharmacy tech study planner"
         canonicalPath="/allied-health/pharmacy-technician/study-plan"
       />
       <div className="max-w-4xl mx-auto px-4 py-8" data-testid="pharmtech-study-plan-page">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/allied-health/pharmacy-technician" className="hover:text-green-600">Pharmacy Tech</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-green-600">{t("allied.pharmtechStudyPlan.pharmacyTech2")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-green-700 font-medium">Study Plan</span>
+          <span className="text-green-700 font-medium">{t("allied.pharmtechStudyPlan.studyPlan2")}</span>
         </div>
 
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2" data-testid="text-study-plan-title">
@@ -500,10 +502,10 @@ export default function PharmtechStudyPlanPage() {
 
         {showForm && (
           <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8" data-testid="custom-plan-form">
-            <h2 className="text-lg font-semibold text-gray-900 mb-6">Custom Study Plan</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-6">{t("allied.pharmtechStudyPlan.customStudyPlan")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-1.5 block">Exam Date (optional)</label>
+                <label className="text-sm font-medium text-gray-700 mb-1.5 block">{t("allied.pharmtechStudyPlan.examDateOptional")}</label>
                 <input
                   type="date"
                   value={examDate}
@@ -513,7 +515,7 @@ export default function PharmtechStudyPlanPage() {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-1.5 block">Days per Week</label>
+                <label className="text-sm font-medium text-gray-700 mb-1.5 block">{t("allied.pharmtechStudyPlan.daysPerWeek")}</label>
                 <select
                   value={daysPerWeek}
                   onChange={e => setDaysPerWeek(e.target.value)}
@@ -524,7 +526,7 @@ export default function PharmtechStudyPlanPage() {
                 </select>
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-1.5 block">Minutes per Session</label>
+                <label className="text-sm font-medium text-gray-700 mb-1.5 block">{t("allied.pharmtechStudyPlan.minutesPerSession")}</label>
                 <select
                   value={minutesPerSession}
                   onChange={e => setMinutesPerSession(e.target.value)}
@@ -535,36 +537,36 @@ export default function PharmtechStudyPlanPage() {
                 </select>
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-1.5 block">Study Pace</label>
+                <label className="text-sm font-medium text-gray-700 mb-1.5 block">{t("allied.pharmtechStudyPlan.studyPace")}</label>
                 <select
                   value={pace}
                   onChange={e => setPace(e.target.value)}
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-300"
                   data-testid="select-pace"
                 >
-                  <option value="light">Light (8 weeks)</option>
-                  <option value="balanced">Balanced (4 weeks)</option>
-                  <option value="intensive">Intensive (2 weeks)</option>
+                  <option value="light">{t("allied.pharmtechStudyPlan.light8Weeks")}</option>
+                  <option value="balanced">{t("allied.pharmtechStudyPlan.balanced4Weeks")}</option>
+                  <option value="intensive">{t("allied.pharmtechStudyPlan.intensive2Weeks")}</option>
                 </select>
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-1.5 block">Learning Style</label>
+                <label className="text-sm font-medium text-gray-700 mb-1.5 block">{t("allied.pharmtechStudyPlan.learningStyle")}</label>
                 <select
                   value={learningStyle}
                   onChange={e => setLearningStyle(e.target.value)}
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-300"
                   data-testid="select-learning-style"
                 >
-                  <option value="mixed">Mixed (all types)</option>
-                  <option value="flashcards">Flashcard-heavy</option>
-                  <option value="questions">Question-heavy</option>
-                  <option value="lessons">Lesson-heavy</option>
+                  <option value="mixed">{t("allied.pharmtechStudyPlan.mixedAllTypes")}</option>
+                  <option value="flashcards">{t("allied.pharmtechStudyPlan.flashcardheavy")}</option>
+                  <option value="questions">{t("allied.pharmtechStudyPlan.questionheavy")}</option>
+                  <option value="lessons">{t("allied.pharmtechStudyPlan.lessonheavy")}</option>
                 </select>
               </div>
             </div>
 
             <div className="mb-6">
-              <label className="text-sm font-medium text-gray-700 mb-2 block">Weak Areas (optional)</label>
+              <label className="text-sm font-medium text-gray-700 mb-2 block">{t("allied.pharmtechStudyPlan.weakAreasOptional")}</label>
               <div className="flex flex-wrap gap-2">
                 {PHARMTECH_CATEGORIES.map(cat => (
                   <button

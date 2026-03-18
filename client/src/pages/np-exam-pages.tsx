@@ -31,7 +31,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
+import { useI18n } from "@/lib/i18n";
 function FAQAccordion({ faqs }: { faqs: { q: string; a: string }[] }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState<number | null>(null);
   return (
     <div className="space-y-3">
@@ -81,8 +83,8 @@ export function NpExamHubPage() {
   return (
     <>
       <SEO
-        title="NP Exam Preparation Hub: AANP, ANCC & Canadian NP Exams | NurseNest"
-        description="Choose your NP certification exam pathway. Access AANP, ANCC, Canadian CNPLE, and upcoming Canadian NP exam preparation resources including practice questions, mock exams, and study guides."
+        title={t("pages.npExamPages.npExamPreparationHubAanp")}
+        description={t("pages.npExamPages.chooseYourNpCertificationExam")}
         keywords="NP exam prep, AANP exam, ANCC exam, CNPLE exam, nurse practitioner certification, NP practice questions, NP mock exam"
         canonicalPath="/np/exams"
         ogType="website"
@@ -109,7 +111,7 @@ export function NpExamHubPage() {
               <div className="w-12 h-12 rounded-xl bg-[#BFA6F6]/20 flex items-center justify-center">
                 <GraduationCap className="w-6 h-6 text-[#BFA6F6]" />
               </div>
-              <Badge className="bg-[#BFA6F6]/20 text-[#BFA6F6] border-0 text-xs">NP Tier</Badge>
+              <Badge className="bg-[#BFA6F6]/20 text-[#BFA6F6] border-0 text-xs">{t("pages.npExamPages.npTier")}</Badge>
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight" data-testid="text-np-exam-hub-title">
               NP Exam Preparation Hub
@@ -122,8 +124,8 @@ export function NpExamHubPage() {
 
         <div className="max-w-5xl mx-auto px-4 py-10">
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-[#2E3A59] mb-2" data-testid="text-us-pathways-heading">United States NP Certification</h2>
-            <p className="text-sm text-gray-500 mb-4">Choose your US NP certifying body</p>
+            <h2 className="text-xl font-bold text-[#2E3A59] mb-2" data-testid="text-us-pathways-heading">{t("pages.npExamPages.unitedStatesNpCertification")}</h2>
+            <p className="text-sm text-gray-500 mb-4">{t("pages.npExamPages.chooseYourUsNpCertifying")}</p>
             <div className="grid md:grid-cols-2 gap-4">
               {NP_EXAM_HUB_CARDS.filter(c => c.region === "US").map(card => {
                 const colors = COLOR_MAP[card.color] || COLOR_MAP.blue;
@@ -152,8 +154,8 @@ export function NpExamHubPage() {
           </div>
 
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-[#2E3A59] mb-2" data-testid="text-ca-pathways-heading">Canadian NP Licensing</h2>
-            <p className="text-sm text-gray-500 mb-4">Canadian NP exam pathways</p>
+            <h2 className="text-xl font-bold text-[#2E3A59] mb-2" data-testid="text-ca-pathways-heading">{t("pages.npExamPages.canadianNpLicensing")}</h2>
+            <p className="text-sm text-gray-500 mb-4">{t("pages.npExamPages.canadianNpExamPathways")}</p>
             <div className="grid md:grid-cols-2 gap-4">
               {NP_EXAM_HUB_CARDS.filter(c => c.region === "CA").map(card => {
                 const colors = COLOR_MAP[card.color] || COLOR_MAP.red;
@@ -187,32 +189,32 @@ export function NpExamHubPage() {
                 <Layers className="w-5 h-5 text-[#BFA6F6]" />
               </div>
               <div>
-                <h2 className="text-lg font-bold text-[#2E3A59]">Exam-Specific Question Banks</h2>
-                <p className="text-xs text-gray-500">Questions are tagged and separated by exam — US and Canadian questions are never mixed</p>
+                <h2 className="text-lg font-bold text-[#2E3A59]">{t("pages.npExamPages.examspecificQuestionBanks")}</h2>
+                <p className="text-xs text-gray-500">{t("pages.npExamPages.questionsAreTaggedAndSeparated")}</p>
               </div>
             </div>
             <div className="grid sm:grid-cols-2 gap-3">
               <div className="bg-blue-50 rounded-lg p-4">
-                <h3 className="font-semibold text-sm text-blue-800 mb-1">AANP Question Bank</h3>
-                <p className="text-xs text-blue-600">US-specific questions aligned to AANP exam domains and clinical focus</p>
+                <h3 className="font-semibold text-sm text-blue-800 mb-1">{t("pages.npExamPages.aanpQuestionBank")}</h3>
+                <p className="text-xs text-blue-600">{t("pages.npExamPages.usspecificQuestionsAlignedToAanp")}</p>
               </div>
               <div className="bg-indigo-50 rounded-lg p-4">
-                <h3 className="font-semibold text-sm text-indigo-800 mb-1">ANCC Question Bank</h3>
-                <p className="text-xs text-indigo-600">US-specific questions including professional role and research components</p>
+                <h3 className="font-semibold text-sm text-indigo-800 mb-1">{t("pages.npExamPages.anccQuestionBank")}</h3>
+                <p className="text-xs text-indigo-600">{t("pages.npExamPages.usspecificQuestionsIncludingProfessionalRole")}</p>
               </div>
               <div className="bg-red-50 rounded-lg p-4">
-                <h3 className="font-semibold text-sm text-red-800 mb-1">Canadian NP Bank</h3>
-                <p className="text-xs text-red-600">Canadian questions with SI units, Health Canada formulary, and NACI guidelines</p>
+                <h3 className="font-semibold text-sm text-red-800 mb-1">{t("pages.npExamPages.canadianNpBank")}</h3>
+                <p className="text-xs text-red-600">{t("pages.npExamPages.canadianQuestionsWithSiUnits")}</p>
               </div>
               <div className="bg-gray-50 rounded-lg p-4">
-                <h3 className="font-semibold text-sm text-gray-800 mb-1">NP Core Bank</h3>
-                <p className="text-xs text-gray-600">Shared foundational NP questions applicable across all certification exams</p>
+                <h3 className="font-semibold text-sm text-gray-800 mb-1">{t("pages.npExamPages.npCoreBank")}</h3>
+                <p className="text-xs text-gray-600">{t("pages.npExamPages.sharedFoundationalNpQuestionsApplicable")}</p>
               </div>
             </div>
           </div>
 
           <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8" data-testid="section-quick-links">
-            <h2 className="text-lg font-bold text-[#2E3A59] mb-4">Quick Access</h2>
+            <h2 className="text-lg font-bold text-[#2E3A59] mb-4">{t("pages.npExamPages.quickAccess")}</h2>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
               {[
                 { icon: Target, label: "NP Practice Questions", href: "/np-exam-practice-questions", desc: "Browse NP question bank" },
@@ -328,7 +330,7 @@ function NpExamDetailPage({ data }: { data: NpExamPageData }) {
               <div className="w-10 h-10 rounded-xl bg-[#BFA6F6]/10 flex items-center justify-center">
                 <FileText className="w-5 h-5 text-[#BFA6F6]" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Exam Overview</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.npExamPages.examOverview")}</h2>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-4">
               <p className="text-gray-700 leading-relaxed">{data.overview}</p>
@@ -340,7 +342,7 @@ function NpExamDetailPage({ data }: { data: NpExamPageData }) {
               <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
                 <Users className="w-5 h-5 text-emerald-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Who Is This Exam For?</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.npExamPages.whoIsThisExamFor")}</h2>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <p className="text-gray-700 leading-relaxed">{data.whoIsItFor}</p>
@@ -352,27 +354,27 @@ function NpExamDetailPage({ data }: { data: NpExamPageData }) {
               <div className="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center">
                 <Clock className="w-5 h-5 text-sky-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Exam Format</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.npExamPages.examFormat")}</h2>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-4">
               <p className="text-gray-700 leading-relaxed">{data.formatExplanation}</p>
               {blueprint && (
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-gray-100">
                   <div data-testid="stat-total-questions">
-                    <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Questions</p>
+                    <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.npExamPages.questions")}</p>
                     <p className="text-lg font-bold text-[#2E3A59]">{blueprint.totalQuestions}</p>
                   </div>
                   <div data-testid="stat-time-limit">
-                    <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Time Limit</p>
+                    <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.npExamPages.timeLimit")}</p>
                     <p className="text-lg font-bold text-[#2E3A59]">{Math.floor(blueprint.timeLimit / 60)}h {blueprint.timeLimit % 60 > 0 ? `${blueprint.timeLimit % 60}m` : ""}</p>
                   </div>
                   <div data-testid="stat-exam-type">
-                    <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Format</p>
-                    <p className="text-lg font-bold text-[#2E3A59]">Linear Scaled</p>
+                    <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.npExamPages.format")}</p>
+                    <p className="text-lg font-bold text-[#2E3A59]">{t("pages.npExamPages.linearScaled")}</p>
                   </div>
                   {blueprint.scaledScoreRange && (
                     <div data-testid="stat-passing-score">
-                      <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Pass Score</p>
+                      <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.npExamPages.passScore")}</p>
                       <p className="text-lg font-bold text-[#2E3A59]">{blueprint.scaledScoreRange.passScore}/{blueprint.scaledScoreRange.max}</p>
                     </div>
                   )}
@@ -386,7 +388,7 @@ function NpExamDetailPage({ data }: { data: NpExamPageData }) {
               <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
                 <BarChart className="w-5 h-5 text-amber-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Scoring</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.npExamPages.scoring")}</h2>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <p className="text-gray-700 leading-relaxed">{data.scoringInfo}</p>
@@ -399,7 +401,7 @@ function NpExamDetailPage({ data }: { data: NpExamPageData }) {
                 <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
                   <Target className="w-5 h-5 text-purple-500" />
                 </div>
-                <h2 className="text-2xl font-bold text-[#2E3A59]">Exam Domains</h2>
+                <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.npExamPages.examDomains")}</h2>
               </div>
               <div className="bg-white border border-gray-200 rounded-xl p-6">
                 <div className="space-y-3">
@@ -429,7 +431,7 @@ function NpExamDetailPage({ data }: { data: NpExamPageData }) {
               <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
                 <BookOpen className="w-5 h-5 text-blue-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Recommended NurseNest Lessons by Domain</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.npExamPages.recommendedNursenestLessonsByDomain")}</h2>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <div className="space-y-4">
@@ -468,7 +470,7 @@ function NpExamDetailPage({ data }: { data: NpExamPageData }) {
               <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
                 <Calendar className="w-5 h-5 text-green-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Study Roadmap</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.npExamPages.studyRoadmap")}</h2>
             </div>
             <div className="space-y-3">
               {data.studyRoadmap.map((phase, i) => (
@@ -493,7 +495,7 @@ function NpExamDetailPage({ data }: { data: NpExamPageData }) {
               <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
                 <Lightbulb className="w-5 h-5 text-orange-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Exam Strategy Tips</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.npExamPages.examStrategyTips")}</h2>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <div className="space-y-3">
@@ -563,7 +565,7 @@ function NpExamDetailPage({ data }: { data: NpExamPageData }) {
           </section>
 
           <section data-testid="section-resource-links">
-            <h2 className="text-lg font-bold text-[#2E3A59] mb-4">Related Resources</h2>
+            <h2 className="text-lg font-bold text-[#2E3A59] mb-4">{t("pages.npExamPages.relatedResources")}</h2>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
               {[
                 { label: "NP Exam Prep Hub", href: "/np-exam-prep", desc: "All exam pathways" },
@@ -593,7 +595,7 @@ function NpExamDetailPage({ data }: { data: NpExamPageData }) {
               <div className="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center">
                 <HelpCircle className="w-5 h-5 text-sky-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Frequently Asked Questions</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.npExamPages.frequentlyAskedQuestions")}</h2>
             </div>
             <FAQAccordion faqs={data.faqs} />
           </section>

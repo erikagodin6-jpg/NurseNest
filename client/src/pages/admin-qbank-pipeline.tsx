@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { adminFetch } from "@/lib/admin-fetch";
+import { useI18n } from "@/lib/i18n";
 import {
   Zap, BarChart3, Target, RefreshCw, Pause, Play, AlertTriangle,
   CheckCircle2, TrendingUp, Database, Layers,
@@ -97,6 +98,7 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 export default function AdminQBankPipeline() {
+  const { t } = useI18n();
   const [progress, setProgress] = useState<PipelineProgress | null>(null);
   const [runs, setRuns] = useState<{ activeRuns: PipelineRun[]; dbRuns: any[] }>({ activeRuns: [], dbRuns: [] });
   const [loading, setLoading] = useState(false);
@@ -176,8 +178,8 @@ export default function AdminQBankPipeline() {
     <div className="space-y-6" data-testid="admin-qbank-pipeline">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold" data-testid="text-pipeline-title">Question Generation Pipeline</h2>
-          <p className="text-sm text-muted-foreground mt-1">Scale-up to 12K RPN / 18K RN / 15K NP questions</p>
+          <h2 className="text-2xl font-bold" data-testid="text-pipeline-title">{t("pages.adminQbankPipeline.questionGenerationPipeline")}</h2>
+          <p className="text-sm text-muted-foreground mt-1">{t("pages.adminQbankPipeline.scaleupTo12kRpn18k")}</p>
         </div>
         <Button variant="outline" onClick={() => { fetchProgress(); fetchRuns(); }} disabled={loading} data-testid="button-refresh-pipeline">
           <RefreshCw className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`} />
@@ -207,7 +209,7 @@ export default function AdminQBankPipeline() {
                   <div className="space-y-3">
                     <div>
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-muted-foreground">Progress</span>
+                        <span className="text-muted-foreground">{t("pages.adminQbankPipeline.progress")}</span>
                         <span className="font-medium" data-testid={`text-count-${tier}`}>
                           {data.total.toLocaleString()} / {(progress.targets[tier] || 0).toLocaleString()}
                         </span>
@@ -276,20 +278,20 @@ export default function AdminQBankPipeline() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="text-sm font-medium">Tier</label>
+              <label className="text-sm font-medium">{t("pages.adminQbankPipeline.tier")}</label>
               <select
                 className="w-full mt-1 border rounded-md p-2 text-sm"
                 value={formTier}
                 onChange={e => setFormTier(e.target.value)}
                 data-testid="select-tier"
               >
-                <option value="rpn">RPN / PN / LVN</option>
+                <option value="rpn">{t("pages.adminQbankPipeline.rpnPnLvn")}</option>
                 <option value="rn">RN</option>
-                <option value="np">NP Advanced</option>
+                <option value="np">{t("pages.adminQbankPipeline.npAdvanced")}</option>
               </select>
             </div>
             <div>
-              <label className="text-sm font-medium">Exam Type</label>
+              <label className="text-sm font-medium">{t("pages.adminQbankPipeline.examType")}</label>
               <select
                 className="w-full mt-1 border rounded-md p-2 text-sm"
                 value={formExam}
@@ -302,20 +304,20 @@ export default function AdminQBankPipeline() {
               </select>
             </div>
             <div>
-              <label className="text-sm font-medium">Country</label>
+              <label className="text-sm font-medium">{t("pages.adminQbankPipeline.country")}</label>
               <select
                 className="w-full mt-1 border rounded-md p-2 text-sm"
                 value={formCountry}
                 onChange={e => setFormCountry(e.target.value)}
                 data-testid="select-country"
               >
-                <option value="CA">Canada</option>
-                <option value="US">United States</option>
-                <option value="BOTH">Both</option>
+                <option value="CA">{t("pages.adminQbankPipeline.canada")}</option>
+                <option value="US">{t("pages.adminQbankPipeline.unitedStates")}</option>
+                <option value="BOTH">{t("pages.adminQbankPipeline.both")}</option>
               </select>
             </div>
             <div>
-              <label className="text-sm font-medium">Question Type</label>
+              <label className="text-sm font-medium">{t("pages.adminQbankPipeline.questionType")}</label>
               <select
                 className="w-full mt-1 border rounded-md p-2 text-sm"
                 value={formQuestionType}
@@ -328,21 +330,21 @@ export default function AdminQBankPipeline() {
               </select>
             </div>
             <div>
-              <label className="text-sm font-medium">Body System</label>
+              <label className="text-sm font-medium">{t("pages.adminQbankPipeline.bodySystem")}</label>
               <select
                 className="w-full mt-1 border rounded-md p-2 text-sm"
                 value={formBodySystem}
                 onChange={e => setFormBodySystem(e.target.value)}
                 data-testid="select-body-system"
               >
-                <option value="">All Systems</option>
+                <option value="">{t("pages.adminQbankPipeline.allSystems")}</option>
                 {BODY_SYSTEMS.map(sys => (
                   <option key={sys} value={sys}>{sys}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="text-sm font-medium">Topic (optional)</label>
+              <label className="text-sm font-medium">{t("pages.adminQbankPipeline.topicOptional")}</label>
               <Input
                 placeholder="e.g. Cardiac, Pharmacology"
                 value={formTopic}
@@ -351,7 +353,7 @@ export default function AdminQBankPipeline() {
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Subtopic (optional)</label>
+              <label className="text-sm font-medium">{t("pages.adminQbankPipeline.subtopicOptional")}</label>
               <Input
                 placeholder="e.g. Heart Failure, Beta Blockers"
                 value={formSubtopic}
@@ -360,7 +362,7 @@ export default function AdminQBankPipeline() {
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Target Count</label>
+              <label className="text-sm font-medium">{t("pages.adminQbankPipeline.targetCount")}</label>
               <Input
                 type="number"
                 min={10}
@@ -374,9 +376,9 @@ export default function AdminQBankPipeline() {
           <div className="mt-4 flex items-center gap-3">
             <Button onClick={handleGenerate} disabled={generating || !formExam} data-testid="button-start-generation">
               {generating ? (
-                <><RefreshCw className="w-4 h-4 mr-2 animate-spin" />Starting...</>
+                <><RefreshCw className="w-4 h-4 mr-2 animate-spin" />{t("pages.adminQbankPipeline.starting")}</>
               ) : (
-                <><Play className="w-4 h-4 mr-2" />Start Generation</>
+                <><Play className="w-4 h-4 mr-2" />{t("pages.adminQbankPipeline.startGeneration")}</>
               )}
             </Button>
             <span className="text-xs text-muted-foreground">
@@ -398,7 +400,7 @@ export default function AdminQBankPipeline() {
         </CardHeader>
         <CardContent>
           {runs.activeRuns.length === 0 && runs.dbRuns.length === 0 ? (
-            <p className="text-sm text-muted-foreground" data-testid="text-no-runs">No generation runs yet. Start one above.</p>
+            <p className="text-sm text-muted-foreground" data-testid="text-no-runs">{t("pages.adminQbankPipeline.noGenerationRunsYetStart")}</p>
           ) : (
             <div className="space-y-2">
               {runs.activeRuns.map(run => (
@@ -477,7 +479,7 @@ export default function AdminQBankPipeline() {
                         ))}
                       </div>
                     ) : (
-                      <p className="text-xs text-muted-foreground">No questions yet</p>
+                      <p className="text-xs text-muted-foreground">{t("pages.adminQbankPipeline.noQuestionsYet")}</p>
                     )}
                   </div>
                 );

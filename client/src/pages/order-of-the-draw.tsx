@@ -22,6 +22,7 @@ import {
 import { Link } from "wouter";
 import { Footer } from "@/components/footer";
 
+import { useI18n } from "@/lib/i18n";
 const TUBES = [
   {
     order: 1,
@@ -242,7 +243,7 @@ function TubeCard({ tube, isExpanded, onToggle }: { tube: typeof TUBES[0]; isExp
                 </Badge>
               </CardTitle>
               <p className="text-sm text-gray-500 mt-0.5">
-                <span className="font-medium">Additive:</span> {tube.additive}
+                <span className="font-medium">{t("pages.orderOfTheDraw.additive")}</span> {tube.additive}
               </p>
             </div>
             <div className="flex-shrink-0 text-gray-400">
@@ -274,8 +275,8 @@ function TubeCard({ tube, isExpanded, onToggle }: { tube: typeof TUBES[0]; isExp
                 <Beaker className="w-4 h-4 text-[#BFA6F6]" /> Tube Specs
               </h4>
               <div className="space-y-2 text-sm text-gray-700">
-                <div><span className="font-medium">Inversions:</span> {tube.inversions}</div>
-                <div><span className="font-medium">Fill Volume:</span> {tube.volume}</div>
+                <div><span className="font-medium">{t("pages.orderOfTheDraw.inversions")}</span> {tube.inversions}</div>
+                <div><span className="font-medium">{t("pages.orderOfTheDraw.fillVolume")}</span> {tube.volume}</div>
               </div>
             </div>
           </div>
@@ -300,6 +301,7 @@ function TubeCard({ tube, isExpanded, onToggle }: { tube: typeof TUBES[0]; isExp
 }
 
 function QuizSection() {
+  const { t } = useI18n();
   const [currentQ, setCurrentQ] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [showRationale, setShowRationale] = useState(false);
@@ -335,7 +337,7 @@ function QuizSection() {
       <Card className="border-none shadow-sm" data-testid="quiz-results">
         <CardContent className="py-8 text-center space-y-4">
           <GraduationCap className="w-12 h-12 mx-auto text-[#BFA6F6]" />
-          <h3 className="text-xl font-bold text-[#2E3A59]">Quiz Complete</h3>
+          <h3 className="text-xl font-bold text-[#2E3A59]">{t("pages.orderOfTheDraw.quizComplete")}</h3>
           <p className="text-lg text-gray-700">
             You scored <span className="font-bold text-[#BFA6F6]">{score}/{QUIZ_QUESTIONS.length}</span> ({pct}%)
           </p>
@@ -397,7 +399,7 @@ function QuizSection() {
 
           {showRationale && (
             <div className="mt-4 p-4 rounded-lg bg-[#FFF3B0]/20 border border-[#FFF3B0]/40" data-testid="quiz-rationale">
-              <h4 className="font-semibold text-sm text-[#2E3A59] mb-1">Rationale</h4>
+              <h4 className="font-semibold text-sm text-[#2E3A59] mb-1">{t("pages.orderOfTheDraw.rationale")}</h4>
               <p className="text-sm text-gray-700">{q.rationale}</p>
             </div>
           )}
@@ -444,8 +446,8 @@ export default function OrderOfTheDrawPage() {
             </Button>
           </Link>
           <div className="h-5 w-px bg-gray-200" />
-          <Badge className="bg-[#BFA6F6]/10 text-[#BFA6F6] border-[#BFA6F6]/20">Phlebotomy</Badge>
-          <Badge className="bg-[#AEE3E1]/10 text-[#2E3A59] border-[#AEE3E1]/20">Clinical Skills</Badge>
+          <Badge className="bg-[#BFA6F6]/10 text-[#BFA6F6] border-[#BFA6F6]/20">{t("pages.orderOfTheDraw.phlebotomy")}</Badge>
+          <Badge className="bg-[#AEE3E1]/10 text-[#2E3A59] border-[#AEE3E1]/20">{t("pages.orderOfTheDraw.clinicalSkills")}</Badge>
         </div>
       </header>
 
@@ -469,7 +471,7 @@ export default function OrderOfTheDrawPage() {
             <div className="flex items-start gap-3">
               <Lightbulb className="w-6 h-6 text-amber-500 flex-shrink-0 mt-0.5" />
               <div>
-                <h3 className="font-bold text-[#2E3A59] mb-1">Memory Aid</h3>
+                <h3 className="font-bold text-[#2E3A59] mb-1">{t("pages.orderOfTheDraw.memoryAid")}</h3>
                 <p className="text-lg font-semibold text-[#2E3A59]">
                   "<span className="text-[#D4A017]">B</span>oys{" "}
                   <span className="text-[#87CEEB]">L</span>ove{" "}
@@ -502,7 +504,7 @@ export default function OrderOfTheDrawPage() {
 
           <TabsContent value="learn" className="space-y-4">
             <div className="flex items-center justify-between mb-2">
-              <h2 className="text-xl font-bold text-[#2E3A59]">Tube-by-Tube Breakdown</h2>
+              <h2 className="text-xl font-bold text-[#2E3A59]">{t("pages.orderOfTheDraw.tubebytubeBreakdown")}</h2>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" onClick={expandAll} data-testid="button-expand-all">
                   Expand All
@@ -521,7 +523,7 @@ export default function OrderOfTheDrawPage() {
                 <p className="text-sm text-gray-700 leading-relaxed">
                   Each blood collection tube contains a specific additive (anticoagulant, clot activator, preservative, or nothing).
                   When a tube is punctured by the needle, trace amounts of its additive can remain on the needle tip and transfer
-                  into the next tube drawn. This is called <strong>additive carryover</strong> or <strong>cross-contamination</strong>.
+                  into the next tube drawn. This is called <strong>{t("pages.orderOfTheDraw.additiveCarryover")}</strong> or <strong>cross-contamination</strong>.
                   Drawing tubes in the wrong order can lead to falsely elevated or decreased lab values, potentially causing
                   misdiagnosis and inappropriate treatment. The standard order of draw is established by the <strong>CLSI
                   (Clinical and Laboratory Standards Institute)</strong> to minimize this risk.
@@ -545,23 +547,23 @@ export default function OrderOfTheDrawPage() {
                 </h3>
                 <div className="space-y-3 text-sm text-gray-700">
                   <div>
-                    <strong>Winged (Butterfly) Collections:</strong> When using a winged blood collection set, the tubing creates
+                    <strong>{t("pages.orderOfTheDraw.wingedButterflyCollections")}</strong> When using a winged blood collection set, the tubing creates
                     dead space filled with air. If a light blue tube is the first tube drawn, air in the tubing will cause
                     underfilling. Draw a discard tube first (red or another blue) to prime the tubing before collecting the
                     coagulation specimen.
                   </div>
                   <div>
-                    <strong>Syringe Draws:</strong> When using a syringe (e.g., from a difficult draw), transfer blood into tubes
+                    <strong>{t("pages.orderOfTheDraw.syringeDraws")}</strong> When using a syringe (e.g., from a difficult draw), transfer blood into tubes
                     following the same order of draw. Blood cultures first, then light blue, then the remaining tubes.
                     Use a transfer device -- never puncture tube stoppers with the syringe needle directly.
                   </div>
                   <div>
-                    <strong>Line Draws:</strong> When drawing from a central or peripheral IV line, discard the first 5-10 mL
+                    <strong>{t("pages.orderOfTheDraw.lineDraws")}</strong> When drawing from a central or peripheral IV line, discard the first 5-10 mL
                     (dead volume) to clear IV fluid dilution. Then follow the standard order of draw. Document that the
                     specimen was drawn from a line.
                   </div>
                   <div>
-                    <strong>Capillary (Fingerstick) Order:</strong> For capillary collections, the order changes slightly:
+                    <strong>{t("pages.orderOfTheDraw.capillaryFingerstickOrder")}</strong> For capillary collections, the order changes slightly:
                     EDTA (lavender) is drawn FIRST (platelets aggregate quickly in capillary specimens), then other
                     anticoagulant tubes, then serum tubes last.
                   </div>
@@ -573,16 +575,16 @@ export default function OrderOfTheDrawPage() {
           <TabsContent value="reference">
             <Card className="border-none shadow-sm" data-testid="card-quick-reference">
               <CardContent className="py-5">
-                <h2 className="text-xl font-bold text-[#2E3A59] mb-4">Quick Reference Table</h2>
+                <h2 className="text-xl font-bold text-[#2E3A59] mb-4">{t("pages.orderOfTheDraw.quickReferenceTable")}</h2>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm" data-testid="table-reference">
                     <thead>
                       <tr>
-                        <th className="text-left py-3 px-3 bg-[#BFA6F6]/15 rounded-tl-lg font-semibold text-[#2E3A59]">Order</th>
-                        <th className="text-left py-3 px-3 bg-[#AEE3E1]/15 font-semibold text-[#2E3A59]">Cap Color</th>
-                        <th className="text-left py-3 px-3 bg-[#FFD6A5]/15 font-semibold text-[#2E3A59]">Tube Name</th>
-                        <th className="text-left py-3 px-3 bg-[#FFF3B0]/15 font-semibold text-[#2E3A59]">Additive</th>
-                        <th className="text-left py-3 px-3 bg-[#BFA6F6]/10 rounded-tr-lg font-semibold text-[#2E3A59]">Key Tests</th>
+                        <th className="text-left py-3 px-3 bg-[#BFA6F6]/15 rounded-tl-lg font-semibold text-[#2E3A59]">{t("pages.orderOfTheDraw.order")}</th>
+                        <th className="text-left py-3 px-3 bg-[#AEE3E1]/15 font-semibold text-[#2E3A59]">{t("pages.orderOfTheDraw.capColor")}</th>
+                        <th className="text-left py-3 px-3 bg-[#FFD6A5]/15 font-semibold text-[#2E3A59]">{t("pages.orderOfTheDraw.tubeName")}</th>
+                        <th className="text-left py-3 px-3 bg-[#FFF3B0]/15 font-semibold text-[#2E3A59]">{t("pages.orderOfTheDraw.additive2")}</th>
+                        <th className="text-left py-3 px-3 bg-[#BFA6F6]/10 rounded-tr-lg font-semibold text-[#2E3A59]">{t("pages.orderOfTheDraw.keyTests")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -608,7 +610,7 @@ export default function OrderOfTheDrawPage() {
 
             <Card className="border-none shadow-sm mt-4" data-testid="card-contamination-risks">
               <CardContent className="py-5">
-                <h3 className="text-lg font-bold text-[#2E3A59] mb-3">Contamination Risk Matrix</h3>
+                <h3 className="text-lg font-bold text-[#2E3A59] mb-3">{t("pages.orderOfTheDraw.contaminationRiskMatrix")}</h3>
                 <p className="text-sm text-gray-600 mb-4">
                   What happens when the wrong tube is drawn out of order:
                 </p>
@@ -624,9 +626,9 @@ export default function OrderOfTheDrawPage() {
                       <AlertTriangle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />
                       <div>
                         <span className="font-medium text-[#2E3A59]">{risk.from}</span>
-                        <span className="text-gray-400 mx-2">contaminates</span>
+                        <span className="text-gray-400 mx-2">{t("pages.orderOfTheDraw.contaminates")}</span>
                         <span className="font-medium text-[#2E3A59]">{risk.to}</span>
-                        <span className="text-gray-400 mx-2">causes</span>
+                        <span className="text-gray-400 mx-2">{t("pages.orderOfTheDraw.causes")}</span>
                         <span className="text-red-700 font-medium">{risk.effect}</span>
                       </div>
                     </div>

@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { suppressPopup } from "@/lib/popup-suppression";
 
+import { useI18n } from "@/lib/i18n";
 interface UpgradeModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -63,6 +64,7 @@ const PREMIUM_FEATURES = [
 ];
 
 function logUpgradeEvent(eventType: string, trigger: string) {
+  const { t } = useI18n();
   try {
     fetch("/api/upgrade/events", {
       method: "POST",
@@ -160,7 +162,7 @@ export function UpgradeModal({ isOpen, onClose, trigger, tier }: UpgradeModalPro
                 className="flex-1 text-center p-3 rounded-lg border border-gray-200 bg-white"
                 data-testid="pricing-monthly"
               >
-                <p className="text-xs text-gray-500 mb-1">Monthly</p>
+                <p className="text-xs text-gray-500 mb-1">{t("components.upgradeModal.monthly")}</p>
                 <p className="text-lg font-semibold text-gray-900">$19.99</p>
                 <p className="text-xs text-gray-400">/month</p>
               </div>
@@ -171,7 +173,7 @@ export function UpgradeModal({ isOpen, onClose, trigger, tier }: UpgradeModalPro
                 <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-medium px-2 py-0.5 rounded-full">
                   Best Value
                 </span>
-                <p className="text-xs text-gray-500 mb-1">3-Month Bundle</p>
+                <p className="text-xs text-gray-500 mb-1">{t("components.upgradeModal.3monthBundle")}</p>
                 <p className="text-lg font-semibold text-gray-900">$14.99</p>
                 <p className="text-xs text-gray-400">/month</p>
               </div>

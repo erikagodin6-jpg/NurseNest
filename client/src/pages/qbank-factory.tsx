@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { useAuth } from "@/lib/auth";
 import { adminFetch, getAdminParams } from "@/lib/admin-fetch";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   Plus,
   Trash2,
@@ -143,6 +144,7 @@ type AuditData = {
 };
 
 export default function QBankFactoryPage() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [, setLocation] = useLocation();
 
@@ -526,7 +528,7 @@ export default function QBankFactoryPage() {
           <h1 className="text-2xl font-bold text-slate-800 mb-4" data-testid="text-access-denied">
             Admin Access Required
           </h1>
-          <p className="text-slate-600">You do not have permission to access this page.</p>
+          <p className="text-slate-600">{t("pages.qbankFactory.youDoNotHavePermission")}</p>
           <Button
             className="mt-6"
             onClick={() => setLocation("/")}
@@ -541,14 +543,14 @@ export default function QBankFactoryPage() {
 
   return (
     <div className="min-h-screen bg-slate-50" data-testid="page-qbank-factory">
-      <SEO title="QBank Factory | Admin" description="Admin QBank Factory for generating and managing question banks" />
+      <SEO title={t("pages.qbankFactory.qbankFactoryAdmin")} description={t("pages.qbankFactory.adminQbankFactoryForGenerating")} />
       <Navigation />
       <div className="max-w-[1600px] mx-auto py-6 px-4 flex gap-6">
         <div className="w-72 shrink-0">
           <Card>
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-semibold">Drafts</CardTitle>
+                <CardTitle className="text-sm font-semibold">{t("pages.qbankFactory.drafts")}</CardTitle>
                 <Button
                   size="sm"
                   variant="outline"
@@ -566,7 +568,7 @@ export default function QBankFactoryPage() {
               </div>
             </CardHeader>
             <CardContent className="space-y-2 max-h-[600px] overflow-y-auto">
-              {draftsLoading && <p className="text-xs text-slate-500">Loading...</p>}
+              {draftsLoading && <p className="text-xs text-slate-500">{t("pages.qbankFactory.loading")}</p>}
               {drafts.map((draft) => (
                 <button
                   key={draft.id}
@@ -600,7 +602,7 @@ export default function QBankFactoryPage() {
                 </button>
               ))}
               {!draftsLoading && drafts.length === 0 && (
-                <p className="text-xs text-slate-400 text-center py-4">No drafts yet</p>
+                <p className="text-xs text-slate-400 text-center py-4">{t("pages.qbankFactory.noDraftsYet")}</p>
               )}
             </CardContent>
           </Card>
@@ -625,12 +627,12 @@ export default function QBankFactoryPage() {
                 <div className="xl:col-span-2 space-y-6">
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-base">Basic Configuration</CardTitle>
+                      <CardTitle className="text-base">{t("pages.qbankFactory.basicConfiguration")}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <Label htmlFor="title">Title</Label>
+                          <Label htmlFor="title">{t("pages.qbankFactory.title")}</Label>
                           <Input
                             id="title"
                             value={title}
@@ -639,7 +641,7 @@ export default function QBankFactoryPage() {
                           />
                         </div>
                         <div>
-                          <Label htmlFor="exam">Exam</Label>
+                          <Label htmlFor="exam">{t("pages.qbankFactory.exam")}</Label>
                           <select
                             id="exam"
                             value={exam}
@@ -647,14 +649,14 @@ export default function QBankFactoryPage() {
                             className="w-full h-9 rounded-md border border-slate-200 bg-white px-3 text-sm"
                             data-testid="select-exam"
                           >
-                            <option value="rex-pn">REx-PN</option>
-                            <option value="nclex-rn">NCLEX-RN</option>
+                            <option value="rex-pn">{t("pages.qbankFactory.rexpn")}</option>
+                            <option value="nclex-rn">{t("pages.qbankFactory.nclexrn")}</option>
                           </select>
                         </div>
                       </div>
                       <div className="grid grid-cols-3 gap-4">
                         <div>
-                          <Label htmlFor="topic">Topic</Label>
+                          <Label htmlFor="topic">{t("pages.qbankFactory.topic")}</Label>
                           <Input
                             id="topic"
                             value={topic}
@@ -663,7 +665,7 @@ export default function QBankFactoryPage() {
                           />
                         </div>
                         <div>
-                          <Label htmlFor="requestedCount">Requested Count</Label>
+                          <Label htmlFor="requestedCount">{t("pages.qbankFactory.requestedCount")}</Label>
                           <Input
                             id="requestedCount"
                             type="number"
@@ -673,7 +675,7 @@ export default function QBankFactoryPage() {
                           />
                         </div>
                         <div>
-                          <Label htmlFor="difficulty">Difficulty</Label>
+                          <Label htmlFor="difficulty">{t("pages.qbankFactory.difficulty")}</Label>
                           <select
                             id="difficulty"
                             value={difficulty}
@@ -681,9 +683,9 @@ export default function QBankFactoryPage() {
                             className="w-full h-9 rounded-md border border-slate-200 bg-white px-3 text-sm"
                             data-testid="select-difficulty"
                           >
-                            <option value="easy">Easy</option>
-                            <option value="medium">Medium</option>
-                            <option value="hard">Hard</option>
+                            <option value="easy">{t("pages.qbankFactory.easy")}</option>
+                            <option value="medium">{t("pages.qbankFactory.medium")}</option>
+                            <option value="hard">{t("pages.qbankFactory.hard")}</option>
                           </select>
                         </div>
                       </div>
@@ -694,7 +696,7 @@ export default function QBankFactoryPage() {
                             onCheckedChange={setMixedBlueprint}
                             data-testid="switch-mixed-blueprint"
                           />
-                          <Label>Mixed Blueprint</Label>
+                          <Label>{t("pages.qbankFactory.mixedBlueprint")}</Label>
                         </div>
                         <div className="flex items-center gap-2">
                           <Switch
@@ -702,7 +704,7 @@ export default function QBankFactoryPage() {
                             onCheckedChange={setCanadianContext}
                             data-testid="switch-canadian-context"
                           />
-                          <Label>Canadian Context</Label>
+                          <Label>{t("pages.qbankFactory.canadianContext")}</Label>
                         </div>
                       </div>
                     </CardContent>
@@ -711,7 +713,7 @@ export default function QBankFactoryPage() {
                   <Card>
                     <CardHeader>
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-base">Topic Mix Selector</CardTitle>
+                        <CardTitle className="text-base">{t("pages.qbankFactory.topicMixSelector")}</CardTitle>
                         <div className="flex items-center gap-2">
                           <span
                             className={`text-sm font-semibold ${topicMixValid ? "text-green-600" : "text-red-600"}`}
@@ -796,7 +798,7 @@ export default function QBankFactoryPage() {
 
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-base">Question Type Distribution</CardTitle>
+                      <CardTitle className="text-base">{t("pages.qbankFactory.questionTypeDistribution")}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="flex flex-wrap gap-2 mb-4">
@@ -838,7 +840,7 @@ export default function QBankFactoryPage() {
 
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-base">Editions</CardTitle>
+                      <CardTitle className="text-base">{t("pages.qbankFactory.editions")}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="flex items-center gap-6">
@@ -850,7 +852,7 @@ export default function QBankFactoryPage() {
                             className="rounded border-slate-300"
                             data-testid="checkbox-questions-only"
                           />
-                          <span className="text-sm">Questions Only + Answer Key</span>
+                          <span className="text-sm">{t("pages.qbankFactory.questionsOnlyAnswerKey")}</span>
                         </label>
                         <label className="flex items-center gap-2 cursor-pointer">
                           <input
@@ -860,7 +862,7 @@ export default function QBankFactoryPage() {
                             className="rounded border-slate-300"
                             data-testid="checkbox-study-edition"
                           />
-                          <span className="text-sm">Study Edition (Rationales + Clinical Pearls)</span>
+                          <span className="text-sm">{t("pages.qbankFactory.studyEditionRationalesClinicalPearls")}</span>
                         </label>
                       </div>
                     </CardContent>
@@ -937,7 +939,7 @@ export default function QBankFactoryPage() {
                     <Card>
                       <CardHeader>
                         <div className="flex items-center justify-between">
-                          <CardTitle className="text-base">Question Preview (first 20)</CardTitle>
+                          <CardTitle className="text-base">{t("pages.qbankFactory.questionPreviewFirst20")}</CardTitle>
                           <Button
                             size="sm"
                             variant="ghost"
@@ -990,18 +992,18 @@ export default function QBankFactoryPage() {
                               <div className="text-2xl font-bold text-slate-800" data-testid="text-requested-count">
                                 {auditData.requestedCount}
                               </div>
-                              <div className="text-[10px] text-slate-500 uppercase">Requested</div>
+                              <div className="text-[10px] text-slate-500 uppercase">{t("pages.qbankFactory.requested")}</div>
                             </div>
                             <div className="text-center p-3 bg-slate-50 rounded-lg">
                               <div className="text-2xl font-bold text-slate-800" data-testid="text-generated-count">
                                 {auditData.generatedCount}
                               </div>
-                              <div className="text-[10px] text-slate-500 uppercase">Generated</div>
+                              <div className="text-[10px] text-slate-500 uppercase">{t("pages.qbankFactory.generated")}</div>
                             </div>
                           </div>
 
                           <div className="flex items-center gap-2">
-                            <span className="text-sm">Count Match:</span>
+                            <span className="text-sm">{t("pages.qbankFactory.countMatch")}</span>
                             {auditData.countMatch ? (
                               <Badge className="bg-green-100 text-green-800 text-xs" data-testid="badge-count-match">
                                 <CheckCircle2 className="w-3 h-3 mr-1" /> Pass
@@ -1015,7 +1017,7 @@ export default function QBankFactoryPage() {
 
                           {auditData.byType && Object.keys(auditData.byType).length > 0 && (
                             <div>
-                              <h4 className="text-xs font-semibold text-slate-600 uppercase mb-2">By Type</h4>
+                              <h4 className="text-xs font-semibold text-slate-600 uppercase mb-2">{t("pages.qbankFactory.byType")}</h4>
                               <div className="space-y-1">
                                 {Object.entries(auditData.byType).map(([type, count]) => (
                                   <div key={type} className="flex justify-between text-sm">
@@ -1031,7 +1033,7 @@ export default function QBankFactoryPage() {
 
                           {auditData.byCategory && Object.keys(auditData.byCategory).length > 0 && (
                             <div>
-                              <h4 className="text-xs font-semibold text-slate-600 uppercase mb-2">By Category</h4>
+                              <h4 className="text-xs font-semibold text-slate-600 uppercase mb-2">{t("pages.qbankFactory.byCategory")}</h4>
                               <div className="space-y-1 max-h-48 overflow-y-auto">
                                 {Object.entries(auditData.byCategory).map(([cat, count]) => (
                                   <div key={cat} className="flex justify-between text-sm">
@@ -1047,7 +1049,7 @@ export default function QBankFactoryPage() {
 
                           {auditData.topicDistribution && (
                             <div>
-                              <h4 className="text-xs font-semibold text-slate-600 uppercase mb-2">Topic Distribution</h4>
+                              <h4 className="text-xs font-semibold text-slate-600 uppercase mb-2">{t("pages.qbankFactory.topicDistribution")}</h4>
                               <div className="space-y-2">
                                 {Object.entries(auditData.topicDistribution.requested || {}).map(([topicName, reqPct]) => {
                                   const actualPct = auditData.topicDistribution?.actual?.[topicName] ?? 0;
@@ -1075,7 +1077,7 @@ export default function QBankFactoryPage() {
                           )}
 
                           <div className="flex items-center gap-2 text-sm">
-                            <span>Attempts:</span>
+                            <span>{t("pages.qbankFactory.attempts")}</span>
                             <span className="font-medium" data-testid="text-audit-attempts">{auditData.attempts}</span>
                           </div>
 
@@ -1110,7 +1112,7 @@ export default function QBankFactoryPage() {
                 <div className="space-y-6">
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-base">Auto-Generate Store Listing</CardTitle>
+                      <CardTitle className="text-base">{t("pages.qbankFactory.autogenerateStoreListing")}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-sm text-slate-500 mb-4">
@@ -1139,7 +1141,7 @@ export default function QBankFactoryPage() {
                     <CardContent className="space-y-4">
                       <div className="grid grid-cols-3 gap-4">
                         <div>
-                          <Label className="text-xs">Basic (Questions Only)</Label>
+                          <Label className="text-xs">{t("pages.qbankFactory.basicQuestionsOnly")}</Label>
                           <div className="flex items-center gap-1">
                             <span className="text-sm text-slate-500">$</span>
                             <Input
@@ -1152,7 +1154,7 @@ export default function QBankFactoryPage() {
                           </div>
                         </div>
                         <div>
-                          <Label className="text-xs">Premium (Study Edition)</Label>
+                          <Label className="text-xs">{t("pages.qbankFactory.premiumStudyEdition")}</Label>
                           <div className="flex items-center gap-1">
                             <span className="text-sm text-slate-500">$</span>
                             <Input
@@ -1165,7 +1167,7 @@ export default function QBankFactoryPage() {
                           </div>
                         </div>
                         <div>
-                          <Label className="text-xs">Bundle (Both)</Label>
+                          <Label className="text-xs">{t("pages.qbankFactory.bundleBoth")}</Label>
                           <div className="flex items-center gap-1">
                             <span className="text-sm text-slate-500">$</span>
                             <Input
@@ -1179,16 +1181,16 @@ export default function QBankFactoryPage() {
                         </div>
                       </div>
                       <div>
-                        <Label className="text-xs">Edition Variant for Listing</Label>
+                        <Label className="text-xs">{t("pages.qbankFactory.editionVariantForListing")}</Label>
                         <select
                           value={editionVariant}
                           onChange={(e) => setEditionVariant(e.target.value as any)}
                           className="w-full h-9 rounded-md border border-slate-200 bg-white px-3 text-sm mt-1"
                           data-testid="select-edition-variant"
                         >
-                          <option value="questions-only">Questions Only + Answer Key</option>
-                          <option value="study">Study Edition</option>
-                          <option value="bundle">Bundle (Both Editions)</option>
+                          <option value="questions-only">{t("pages.qbankFactory.questionsOnlyAnswerKey2")}</option>
+                          <option value="study">{t("pages.qbankFactory.studyEdition")}</option>
+                          <option value="bundle">{t("pages.qbankFactory.bundleBothEditions")}</option>
                         </select>
                       </div>
                     </CardContent>
@@ -1198,7 +1200,7 @@ export default function QBankFactoryPage() {
                 <div>
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-base">Listing Preview</CardTitle>
+                      <CardTitle className="text-base">{t("pages.qbankFactory.listingPreview")}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       {!listingData ? (
@@ -1216,7 +1218,7 @@ export default function QBankFactoryPage() {
                           )}
                           {listingData.description && (
                             <div>
-                              <h4 className="text-xs font-semibold text-slate-500 uppercase mb-1">Description</h4>
+                              <h4 className="text-xs font-semibold text-slate-500 uppercase mb-1">{t("pages.qbankFactory.description")}</h4>
                               <p className="text-sm text-slate-700" data-testid="text-listing-description">
                                 {listingData.description}
                               </p>
@@ -1224,7 +1226,7 @@ export default function QBankFactoryPage() {
                           )}
                           {listingData.whatYouGet && (
                             <div>
-                              <h4 className="text-xs font-semibold text-slate-500 uppercase mb-1">What You Get</h4>
+                              <h4 className="text-xs font-semibold text-slate-500 uppercase mb-1">{t("pages.qbankFactory.whatYouGet")}</h4>
                               <p className="text-sm text-slate-700" data-testid="text-listing-what-you-get">
                                 {listingData.whatYouGet}
                               </p>
@@ -1232,7 +1234,7 @@ export default function QBankFactoryPage() {
                           )}
                           {listingData.whoItsFor && (
                             <div>
-                              <h4 className="text-xs font-semibold text-slate-500 uppercase mb-1">Who It Is For</h4>
+                              <h4 className="text-xs font-semibold text-slate-500 uppercase mb-1">{t("pages.qbankFactory.whoItIsFor")}</h4>
                               <p className="text-sm text-slate-700" data-testid="text-listing-who">
                                 {listingData.whoItsFor}
                               </p>
@@ -1240,7 +1242,7 @@ export default function QBankFactoryPage() {
                           )}
                           {listingData.studyPlan && (
                             <div>
-                              <h4 className="text-xs font-semibold text-slate-500 uppercase mb-1">How to Use / Study Plan</h4>
+                              <h4 className="text-xs font-semibold text-slate-500 uppercase mb-1">{t("pages.qbankFactory.howToUseStudyPlan")}</h4>
                               <p className="text-sm text-slate-700" data-testid="text-listing-study-plan">
                                 {listingData.studyPlan}
                               </p>
@@ -1248,7 +1250,7 @@ export default function QBankFactoryPage() {
                           )}
                           {listingData.editionComparison && (
                             <div>
-                              <h4 className="text-xs font-semibold text-slate-500 uppercase mb-1">Edition Comparison</h4>
+                              <h4 className="text-xs font-semibold text-slate-500 uppercase mb-1">{t("pages.qbankFactory.editionComparison")}</h4>
                               <p className="text-sm text-slate-700" data-testid="text-listing-edition-comparison">
                                 {listingData.editionComparison}
                               </p>
@@ -1273,7 +1275,7 @@ export default function QBankFactoryPage() {
                           )}
                           {listingData.sellingBullets && Array.isArray(listingData.sellingBullets) && (
                             <div>
-                              <h4 className="text-xs font-semibold text-slate-500 uppercase mb-1">Selling Bullets</h4>
+                              <h4 className="text-xs font-semibold text-slate-500 uppercase mb-1">{t("pages.qbankFactory.sellingBullets")}</h4>
                               <ul className="list-disc list-inside space-y-1">
                                 {listingData.sellingBullets.map((b: string, i: number) => (
                                   <li key={i} className="text-sm text-slate-700" data-testid={`text-bullet-${i}`}>
@@ -1311,33 +1313,33 @@ export default function QBankFactoryPage() {
                 <div className="space-y-6">
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-base">Exam Configuration</CardTitle>
+                      <CardTitle className="text-base">{t("pages.qbankFactory.examConfiguration")}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <Label>Exam Length</Label>
+                          <Label>{t("pages.qbankFactory.examLength")}</Label>
                           <select
                             value={examLength}
                             onChange={(e) => setExamLength(Number(e.target.value))}
                             className="w-full h-9 rounded-md border border-slate-200 bg-white px-3 text-sm"
                             data-testid="select-exam-length"
                           >
-                            <option value={85}>85 Questions</option>
-                            <option value={90}>90 Questions</option>
+                            <option value={85}>{t("pages.qbankFactory.85Questions")}</option>
+                            <option value={90}>{t("pages.qbankFactory.90Questions")}</option>
                           </select>
                         </div>
                         <div>
-                          <Label>Form Count</Label>
+                          <Label>{t("pages.qbankFactory.formCount")}</Label>
                           <select
                             value={formCount}
                             onChange={(e) => setFormCount(Number(e.target.value))}
                             className="w-full h-9 rounded-md border border-slate-200 bg-white px-3 text-sm"
                             data-testid="select-form-count"
                           >
-                            <option value={1}>1 Form</option>
-                            <option value={2}>2 Forms</option>
-                            <option value={3}>3 Forms</option>
+                            <option value={1}>{t("pages.qbankFactory.1Form")}</option>
+                            <option value={2}>{t("pages.qbankFactory.2Forms")}</option>
+                            <option value={3}>{t("pages.qbankFactory.3Forms")}</option>
                           </select>
                         </div>
                       </div>
@@ -1348,11 +1350,11 @@ export default function QBankFactoryPage() {
                           onCheckedChange={setIncludeRationales}
                           data-testid="switch-include-rationales"
                         />
-                        <Label>Include Rationales</Label>
+                        <Label>{t("pages.qbankFactory.includeRationales")}</Label>
                       </div>
 
                       <div>
-                        <Label className="text-xs mb-2 block">Forms</Label>
+                        <Label className="text-xs mb-2 block">{t("pages.qbankFactory.forms")}</Label>
                         <div className="flex items-center gap-4">
                           {(["A", "B", "C"] as const).map((form) => (
                             <label key={form} className="flex items-center gap-2 cursor-pointer">
@@ -1372,16 +1374,16 @@ export default function QBankFactoryPage() {
                       </div>
 
                       <div>
-                        <Label>Difficulty Target</Label>
+                        <Label>{t("pages.qbankFactory.difficultyTarget")}</Label>
                         <select
                           value={examDifficultyTarget}
                           onChange={(e) => setExamDifficultyTarget(e.target.value)}
                           className="w-full h-9 rounded-md border border-slate-200 bg-white px-3 text-sm"
                           data-testid="select-exam-difficulty"
                         >
-                          <option value="easy">Easy</option>
-                          <option value="medium">Medium</option>
-                          <option value="hard">Hard</option>
+                          <option value="easy">{t("pages.qbankFactory.easy2")}</option>
+                          <option value="medium">{t("pages.qbankFactory.medium2")}</option>
+                          <option value="hard">{t("pages.qbankFactory.hard2")}</option>
                         </select>
                       </div>
                     </CardContent>
@@ -1390,7 +1392,7 @@ export default function QBankFactoryPage() {
                   <Card>
                     <CardHeader>
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-base">Exam Topic Mix</CardTitle>
+                        <CardTitle className="text-base">{t("pages.qbankFactory.examTopicMix")}</CardTitle>
                         <span
                           className={`text-sm font-semibold ${
                             examTopicMix.reduce((s, r) => s + r.weight, 0) === 100
@@ -1474,7 +1476,7 @@ export default function QBankFactoryPage() {
                 <div>
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-base">Blueprint Distribution</CardTitle>
+                      <CardTitle className="text-base">{t("pages.qbankFactory.blueprintDistribution")}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-3">
@@ -1498,7 +1500,7 @@ export default function QBankFactoryPage() {
                         </div>
                         {selectedDraft && (
                           <div className="border-t pt-3">
-                            <h4 className="text-xs font-semibold text-slate-500 uppercase mb-2">Current Draft</h4>
+                            <h4 className="text-xs font-semibold text-slate-500 uppercase mb-2">{t("pages.qbankFactory.currentDraft")}</h4>
                             <div className="text-sm text-slate-700">
                               <p data-testid="text-exam-draft-title">{selectedDraft.title}</p>
                               <p className="text-slate-500">

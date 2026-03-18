@@ -136,8 +136,8 @@ export default function StartFreePage() {
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
       <AdminEditButton />
       <SEO
-        title="Start Learning Free - NurseNest | Clinical Nursing Education"
-        description="Explore NurseNest's clinical nursing education platform. Free anatomy and physiology content, pathophysiology previews, and exam preparation tools for RPN, RN, and NP students."
+        title={t("pages.startFree.startLearningFreeNursenestClinical")}
+        description={t("pages.startFree.exploreNursenestsClinicalNursingEducation")}
         keywords="free nursing education, NCLEX prep free, nursing pathophysiology, clinical reasoning, nursing student resources, free RPN study, free RN exam prep"
         canonicalPath="/start-free"
       />
@@ -154,7 +154,7 @@ export default function StartFreePage() {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-primary/20 shadow-sm">
               <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-gray-600">Free Access Available</span>
+              <span className="text-sm font-medium text-gray-600">{t("pages.startFree.freeAccessAvailable")}</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1]" data-testid="hero-headline">
@@ -377,7 +377,7 @@ export default function StartFreePage() {
               <div className="p-8 lg:p-10">
                 <div className="flex items-center gap-2 mb-4">
                   <GraduationCap className="w-6 h-6 text-primary" />
-                  <span className="text-sm font-semibold text-primary uppercase tracking-wide">Free Access</span>
+                  <span className="text-sm font-semibold text-primary uppercase tracking-wide">{t("pages.startFree.freeAccess")}</span>
                 </div>
                 <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
                   Start with Anatomy & Physiology
@@ -458,10 +458,10 @@ export default function StartFreePage() {
         {/* Why Mechanisms Matter */}
         <section className="py-16 bg-white/50 border-y border-primary/10" data-testid="section-why-mechanisms">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Why Mechanisms Matter</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.startFree.whyMechanismsMatter")}</h3>
             <p className="text-gray-600 leading-relaxed">
               In clinical environments and licensing examinations, correct decisions rarely depend on 
-              recalling isolated facts. They depend on understanding <em>why</em> physiological systems respond 
+              recalling isolated facts. They depend on understanding <em>{t("pages.startFree.why")}</em> physiological systems respond 
               the way they do under stress, injury, and compensation. Many learners spend months memorizing 
               details without ever developing the reasoning structures exams actually reward.
             </p>
@@ -554,7 +554,7 @@ export default function StartFreePage() {
             </div>
 
             <div className="mt-10 bg-white rounded-xl border border-primary/10 p-6 max-w-2xl mx-auto">
-              <h4 className="font-semibold text-gray-900 mb-2 text-sm">Educational Integrity & Professional Boundaries</h4>
+              <h4 className="font-semibold text-gray-900 mb-2 text-sm">{t("pages.startFree.educationalIntegrityProfessionalBoundaries")}</h4>
               <p className="text-xs text-gray-500 leading-relaxed">
                 NurseNest provides independently developed educational content grounded in established physiological 
                 principles and widely accepted clinical reasoning frameworks. NurseNest is not affiliated with or endorsed 

@@ -7,6 +7,7 @@ import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-re
 import { MedicalReferences } from "@/components/medical-references";
 import { AutoRelatedContent } from "@/components/auto-related-content";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { useI18n } from "@/lib/i18n";
 import {
   ChevronDown,
   AlertTriangle,
@@ -23,6 +24,7 @@ import {
 } from "lucide-react";
 
 function PracticeQuestion({ q, index }: { q: any; index: number }) {
+  const { t } = useI18n();
   const [selected, setSelected] = useState<number | null>(null);
   const [showRationale, setShowRationale] = useState(false);
   const handleSelect = (optIdx: number) => { if (selected !== null) return; setSelected(optIdx); setShowRationale(true); };
@@ -40,7 +42,7 @@ function PracticeQuestion({ q, index }: { q: any; index: number }) {
           return (<button key={optIdx} onClick={() => handleSelect(optIdx)} className={`w-full text-left flex items-start gap-3 ${cls}`} disabled={selected !== null} data-testid={`question-${index}-option-${optIdx}`}><span className="font-medium text-gray-500 shrink-0">{String.fromCharCode(65 + optIdx)}.</span><span>{opt}</span>{selected !== null && optIdx === q.correct && <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 ml-auto mt-0.5" />}{selected !== null && optIdx === selected && optIdx !== q.correct && <XCircle className="w-4 h-4 text-red-400 shrink-0 ml-auto mt-0.5" />}</button>);
         })}
       </div>
-      {showRationale && <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-900" data-testid={`rationale-${index}`}><p className="font-semibold mb-1">Rationale:</p><p>{q.rationale}</p></div>}
+      {showRationale && <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-900" data-testid={`rationale-${index}`}><p className="font-semibold mb-1">{t("pages.clinicalSeo.symptomPage.rationale")}</p><p>{q.rationale}</p></div>}
     </div>
   );
 }
@@ -60,7 +62,7 @@ export default function ClinicalSymptomPage() {
   }, [params.slug]);
 
   if (loading) return (<><Navigation /><div className="min-h-screen flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div><Footer /></>);
-  if (error || !page) return (<><Navigation /><div className="min-h-screen flex items-center justify-center" data-testid="symptom-not-found"><div className="text-center"><h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1><p className="text-gray-600">The symptom assessment page you are looking for does not exist.</p></div></div><Footer /></>);
+  if (error || !page) return (<><Navigation /><div className="min-h-screen flex items-center justify-center" data-testid="symptom-not-found"><div className="text-center"><h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.clinicalSeo.symptomPage.pageNotFound")}</h1><p className="text-gray-600">{t("pages.clinicalSeo.symptomPage.theSymptomAssessmentPageYou")}</p></div></div><Footer /></>);
 
   const data = page.data;
   const questions = page.practiceQuestions || [];
@@ -96,16 +98,16 @@ export default function ClinicalSymptomPage() {
       <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-            <LocaleLink href="/" className="hover:text-primary">Home</LocaleLink>
+            <LocaleLink href="/" className="hover:text-primary">{t("pages.clinicalSeo.symptomPage.home")}</LocaleLink>
             <span>/</span>
-            <span className="text-gray-500">Symptoms</span>
+            <span className="text-gray-500">{t("pages.clinicalSeo.symptomPage.symptoms")}</span>
             <span>/</span>
             <span className="text-gray-900">{page.title}</span>
           </nav>
 
           <header className="mb-8">
             <div className="flex items-center gap-2 mb-3">
-              <span className="px-3 py-1 bg-red-50 text-red-700 text-xs font-semibold rounded-full">Clinical Assessment</span>
+              <span className="px-3 py-1 bg-red-50 text-red-700 text-xs font-semibold rounded-full">{t("pages.clinicalSeo.symptomPage.clinicalAssessment")}</span>
               {page.bodySystem && <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full" data-testid="badge-body-system">{page.bodySystem}</span>}
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="page-title">{page.title}: Nursing Assessment Guide</h1>
@@ -117,7 +119,7 @@ export default function ClinicalSymptomPage() {
             <section className="mb-8" data-testid="section-differential-diagnoses">
               <div className="flex items-center gap-2 mb-4">
                 <Search className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Differential Diagnoses</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.symptomPage.differentialDiagnoses")}</h2>
               </div>
               <div className="space-y-3">
                 {data.differentialDiagnoses.map((dx: any, i: number) => {
@@ -132,7 +134,7 @@ export default function ClinicalSymptomPage() {
                       </div>
                       <p className="text-sm text-gray-600 mb-2">{dx.characteristics}</p>
                       <div className="bg-blue-50 rounded-lg px-3 py-2 text-xs text-blue-800">
-                        <span className="font-semibold">Key Differentiator:</span> {dx.keyDifferentiator}
+                        <span className="font-semibold">{t("pages.clinicalSeo.symptomPage.keyDifferentiator")}</span> {dx.keyDifferentiator}
                       </div>
                     </div>
                   );
@@ -145,7 +147,7 @@ export default function ClinicalSymptomPage() {
             <section className="mb-8" data-testid="section-red-flags">
               <div className="flex items-center gap-2 mb-4">
                 <AlertTriangle className="w-5 h-5 text-red-500" />
-                <h2 className="text-2xl font-bold text-gray-900">Red Flags</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.symptomPage.redFlags")}</h2>
               </div>
               <div className="bg-red-50 border border-red-200 rounded-xl p-6">
                 <ul className="space-y-2">
@@ -164,7 +166,7 @@ export default function ClinicalSymptomPage() {
             <section className="mb-8" data-testid="section-assessment-steps">
               <div className="flex items-center gap-2 mb-4">
                 <Stethoscope className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Systematic Assessment</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.symptomPage.systematicAssessment")}</h2>
               </div>
               <div className="space-y-3">
                 {data.assessmentSteps.map((step: any, i: number) => (
@@ -186,24 +188,24 @@ export default function ClinicalSymptomPage() {
             <section className="mb-8" data-testid="section-clinical-decision">
               <div className="flex items-center gap-2 mb-4">
                 <Activity className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Clinical Decision Framework</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.symptomPage.clinicalDecisionFramework")}</h2>
               </div>
               <div className="space-y-3">
                 {data.clinicalDecisionFramework.emergent && (
                   <div className="bg-red-50 border border-red-200 rounded-xl p-5">
-                    <h3 className="font-semibold text-red-900 mb-2 flex items-center gap-2"><Zap className="w-4 h-4" /> Emergent</h3>
+                    <h3 className="font-semibold text-red-900 mb-2 flex items-center gap-2"><Zap className="w-4 h-4" /> {t("pages.clinicalSeo.symptomPage.emergent")}</h3>
                     <p className="text-sm text-red-800">{data.clinicalDecisionFramework.emergent}</p>
                   </div>
                 )}
                 {data.clinicalDecisionFramework.urgent && (
                   <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">
-                    <h3 className="font-semibold text-amber-900 mb-2 flex items-center gap-2"><Clock className="w-4 h-4" /> Urgent</h3>
+                    <h3 className="font-semibold text-amber-900 mb-2 flex items-center gap-2"><Clock className="w-4 h-4" /> {t("pages.clinicalSeo.symptomPage.urgent")}</h3>
                     <p className="text-sm text-amber-800">{data.clinicalDecisionFramework.urgent}</p>
                   </div>
                 )}
                 {data.clinicalDecisionFramework.nonEmergent && (
                   <div className="bg-green-50 border border-green-200 rounded-xl p-5">
-                    <h3 className="font-semibold text-green-900 mb-2 flex items-center gap-2"><Shield className="w-4 h-4" /> Non-Emergent</h3>
+                    <h3 className="font-semibold text-green-900 mb-2 flex items-center gap-2"><Shield className="w-4 h-4" /> {t("pages.clinicalSeo.symptomPage.nonemergent")}</h3>
                     <p className="text-sm text-green-800">{data.clinicalDecisionFramework.nonEmergent}</p>
                   </div>
                 )}
@@ -215,7 +217,7 @@ export default function ClinicalSymptomPage() {
             <section className="mb-8" data-testid="section-practice-questions">
               <div className="flex items-center gap-2 mb-4">
                 <BookOpen className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.symptomPage.practiceQuestions")}</h2>
               </div>
               <div className="space-y-4">
                 {questions.map((q: any, i: number) => <PracticeQuestion key={i} q={q} index={i} />)}

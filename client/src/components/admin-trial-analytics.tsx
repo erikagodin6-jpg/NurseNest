@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { adminFetch } from "@/lib/admin-fetch";
+import { useI18n } from "@/lib/i18n";
 import {
   Activity,
   Clock,
@@ -55,6 +56,7 @@ interface TrialEntitlement {
 }
 
 function formatDate(d: string | null) {
+
   if (!d) return "N/A";
   const date = new Date(d);
   const now = new Date();
@@ -157,7 +159,7 @@ export function AdminTrialAnalytics() {
     return (
       <div className="flex items-center justify-center py-12">
         <RefreshCw className="w-6 h-6 animate-spin text-gray-400" />
-        <span className="ml-2 text-gray-500">Loading trial analytics...</span>
+        <span className="ml-2 text-gray-500">{t("components.adminTrialAnalytics.loadingTrialAnalytics")}</span>
       </div>
     );
   }
@@ -220,7 +222,7 @@ export function AdminTrialAnalytics() {
           {analytics?.tierBreakdown && analytics.tierBreakdown.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle className="text-sm">Trials by Tier</CardTitle>
+                <CardTitle className="text-sm">{t("components.adminTrialAnalytics.trialsByTier")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-3">
@@ -249,10 +251,10 @@ export function AdminTrialAnalytics() {
                     <thead>
                       <tr className="border-b text-left">
                         <th className="p-2">ID</th>
-                        <th className="p-2">User</th>
+                        <th className="p-2">{t("components.adminTrialAnalytics.user")}</th>
                         <th className="p-2">IP</th>
-                        <th className="p-2">Flags</th>
-                        <th className="p-2">Date</th>
+                        <th className="p-2">{t("components.adminTrialAnalytics.flags")}</th>
+                        <th className="p-2">{t("components.adminTrialAnalytics.date")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -291,7 +293,7 @@ export function AdminTrialAnalytics() {
               <div className="relative flex-1 min-w-[200px]">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <Input
-                  placeholder="Search by user, email, IP..."
+                  placeholder={t("components.adminTrialAnalytics.searchByUserEmailIp")}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-9 h-9"
@@ -304,13 +306,13 @@ export function AdminTrialAnalytics() {
                 className="h-9 px-3 rounded-md border text-sm bg-white"
                 data-testid="select-trial-status-filter"
               >
-                <option value="">All Statuses</option>
-                <option value="active">Active</option>
-                <option value="expired">Expired</option>
-                <option value="canceled">Canceled</option>
-                <option value="blocked">Blocked</option>
-                <option value="pending_payment">Pending Payment</option>
-                <option value="converted">Converted</option>
+                <option value="">{t("components.adminTrialAnalytics.allStatuses")}</option>
+                <option value="active">{t("components.adminTrialAnalytics.active")}</option>
+                <option value="expired">{t("components.adminTrialAnalytics.expired")}</option>
+                <option value="canceled">{t("components.adminTrialAnalytics.canceled")}</option>
+                <option value="blocked">{t("components.adminTrialAnalytics.blocked")}</option>
+                <option value="pending_payment">{t("components.adminTrialAnalytics.pendingPayment")}</option>
+                <option value="converted">{t("components.adminTrialAnalytics.converted")}</option>
               </select>
               <select
                 value={tierFilter}
@@ -318,7 +320,7 @@ export function AdminTrialAnalytics() {
                 className="h-9 px-3 rounded-md border text-sm bg-white"
                 data-testid="select-trial-tier-filter"
               >
-                <option value="">All Tiers</option>
+                <option value="">{t("components.adminTrialAnalytics.allTiers")}</option>
                 <option value="rpn">RPN</option>
                 <option value="rn">RN</option>
                 <option value="np">NP</option>
@@ -326,14 +328,14 @@ export function AdminTrialAnalytics() {
             </div>
             <div className="flex flex-wrap gap-2 mt-2">
               <Input
-                placeholder="Filter by IP address"
+                placeholder={t("components.adminTrialAnalytics.filterByIpAddress")}
                 value={ipFilter}
                 onChange={(e) => setIpFilter(e.target.value)}
                 className="h-9 w-[180px]"
                 data-testid="input-trial-ip-filter"
               />
               <div className="flex items-center gap-1.5">
-                <span className="text-xs text-gray-500">From:</span>
+                <span className="text-xs text-gray-500">{t("components.adminTrialAnalytics.from")}</span>
                 <Input
                   type="date"
                   value={dateFrom}
@@ -343,7 +345,7 @@ export function AdminTrialAnalytics() {
                 />
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="text-xs text-gray-500">To:</span>
+                <span className="text-xs text-gray-500">{t("components.adminTrialAnalytics.to")}</span>
                 <Input
                   type="date"
                   value={dateTo}
@@ -364,14 +366,14 @@ export function AdminTrialAnalytics() {
                 <table className="w-full text-sm" data-testid="table-trial-audit">
                   <thead>
                     <tr className="border-b text-left">
-                      <th className="p-2">User</th>
-                      <th className="p-2">Email</th>
-                      <th className="p-2">Tier</th>
-                      <th className="p-2">Status</th>
+                      <th className="p-2">{t("components.adminTrialAnalytics.user2")}</th>
+                      <th className="p-2">{t("components.adminTrialAnalytics.email")}</th>
+                      <th className="p-2">{t("components.adminTrialAnalytics.tier")}</th>
+                      <th className="p-2">{t("components.adminTrialAnalytics.status")}</th>
                       <th className="p-2">IP</th>
-                      <th className="p-2">Started</th>
-                      <th className="p-2">Ends</th>
-                      <th className="p-2">Flags</th>
+                      <th className="p-2">{t("components.adminTrialAnalytics.started")}</th>
+                      <th className="p-2">{t("components.adminTrialAnalytics.ends")}</th>
+                      <th className="p-2">{t("components.adminTrialAnalytics.flags2")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -398,7 +400,7 @@ export function AdminTrialAnalytics() {
                               ))}
                             </div>
                           ) : (
-                            <span className="text-xs text-gray-400">None</span>
+                            <span className="text-xs text-gray-400">{t("components.adminTrialAnalytics.none")}</span>
                           )}
                         </td>
                       </tr>

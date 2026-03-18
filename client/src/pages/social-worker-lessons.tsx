@@ -3,15 +3,17 @@ import { Link, useParams } from "wouter";
 import { BookOpen, ChevronRight, Search, ArrowRight, ArrowLeft, Target, Lightbulb, GraduationCap } from "lucide-react";
 import { socialWorkLessons, SOCIAL_WORK_DOMAINS, type SocialWorkLesson } from "@/data/social-work-lessons";
 
+import { useI18n } from "@/lib/i18n";
 function LessonDetail({ slug }: { slug: string }) {
+  const { t } = useI18n();
   const lesson = socialWorkLessons.find(l => l.slug === slug);
 
   if (!lesson) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-lesson-not-found">Lesson Not Found</h1>
-        <Link href="/social-worker/lessons" className="text-cyan-600 hover:underline" data-testid="link-back-lessons">Back to Lessons</Link>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-lesson-not-found">{t("pages.socialWorkerLessons.lessonNotFound")}</h1>
+        <Link href="/social-worker/lessons" className="text-cyan-600 hover:underline" data-testid="link-back-lessons">{t("pages.socialWorkerLessons.backToLessons")}</Link>
       </div>
     );
   }
@@ -19,9 +21,9 @@ function LessonDetail({ slug }: { slug: string }) {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href="/social-worker" className="hover:text-cyan-600" data-testid="link-breadcrumb-home">Social Work</Link>
+        <Link href="/social-worker" className="hover:text-cyan-600" data-testid="link-breadcrumb-home">{t("pages.socialWorkerLessons.socialWork")}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <Link href="/social-worker/lessons" className="hover:text-cyan-600" data-testid="link-breadcrumb-lessons">Lessons</Link>
+        <Link href="/social-worker/lessons" className="hover:text-cyan-600" data-testid="link-breadcrumb-lessons">{t("pages.socialWorkerLessons.lessons")}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <span className="text-cyan-700 font-medium">{lesson.title}</span>
       </div>
@@ -35,7 +37,7 @@ function LessonDetail({ slug }: { slug: string }) {
       <div className="bg-cyan-50 rounded-2xl p-6 mb-8">
         <div className="flex items-center gap-2 mb-3">
           <Target className="w-5 h-5 text-cyan-600" />
-          <h2 className="text-lg font-semibold text-gray-900">Learning Objectives</h2>
+          <h2 className="text-lg font-semibold text-gray-900">{t("pages.socialWorkerLessons.learningObjectives")}</h2>
         </div>
         <ul className="space-y-2">
           {lesson.objectives.map((obj, i) => (
@@ -85,7 +87,7 @@ function LessonDetail({ slug }: { slug: string }) {
       <div className="bg-gray-50 rounded-2xl p-6 mb-8">
         <div className="flex items-center gap-2 mb-3">
           <GraduationCap className="w-5 h-5 text-gray-600" />
-          <h2 className="text-lg font-semibold text-gray-900">Key Terms</h2>
+          <h2 className="text-lg font-semibold text-gray-900">{t("pages.socialWorkerLessons.keyTerms")}</h2>
         </div>
         <div className="flex flex-wrap gap-2">
           {lesson.keyTerms.map((term, i) => (
@@ -97,12 +99,12 @@ function LessonDetail({ slug }: { slug: string }) {
       <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 mb-8">
         <div className="flex items-center gap-2 mb-3">
           <Lightbulb className="w-5 h-5 text-amber-600" />
-          <h2 className="text-lg font-semibold text-gray-900">Exam Tips</h2>
+          <h2 className="text-lg font-semibold text-gray-900">{t("pages.socialWorkerLessons.examTips")}</h2>
         </div>
         <ul className="space-y-3">
           {lesson.examTips.map((tip, i) => (
             <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-              <span className="text-amber-500 mt-0.5 font-bold">&bull;</span>
+              <span className="text-amber-500 mt-0.5 font-bold">{t("pages.socialWorkerLessons.bull")}</span>
               <span data-testid={`text-exam-tip-${i}`}>{tip}</span>
             </li>
           ))}
@@ -139,14 +141,14 @@ function LessonLibrary() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="social-work-lessons-page">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href="/social-worker" className="hover:text-cyan-600" data-testid="link-breadcrumb-sw">Social Work</Link>
+        <Link href="/social-worker" className="hover:text-cyan-600" data-testid="link-breadcrumb-sw">{t("pages.socialWorkerLessons.socialWork2")}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-cyan-700 font-medium">Lessons</span>
+        <span className="text-cyan-700 font-medium">{t("pages.socialWorkerLessons.lessons2")}</span>
       </div>
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-lessons-title">Social Work Lessons</h1>
+          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-lessons-title">{t("pages.socialWorkerLessons.socialWorkLessons")}</h1>
           <p className="text-gray-500 text-sm mt-1">{socialWorkLessons.length} lessons across {SOCIAL_WORK_DOMAINS.length} ASWB domains</p>
         </div>
         <div className="flex gap-2 w-full sm:w-auto">
@@ -154,7 +156,7 @@ function LessonLibrary() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
-              placeholder="Search lessons..."
+              placeholder={t("pages.socialWorkerLessons.searchLessons")}
               value={search}
               onChange={e => setSearch(e.target.value)}
               className="w-full sm:w-64 pl-9 pr-4 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
@@ -167,7 +169,7 @@ function LessonLibrary() {
             className="px-3 py-2 rounded-xl border border-gray-200 text-sm"
             data-testid="select-domain"
           >
-            <option value="">All Domains</option>
+            <option value="">{t("pages.socialWorkerLessons.allDomains")}</option>
             {domainCounts.map(d => <option key={d.name} value={d.name}>{d.name} ({d.count})</option>)}
           </select>
         </div>
@@ -176,8 +178,8 @@ function LessonLibrary() {
       {filtered.length === 0 ? (
         <div className="text-center py-20">
           <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">No lessons found</h3>
-          <p className="text-gray-500 text-sm">Try adjusting your search or domain filter.</p>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("pages.socialWorkerLessons.noLessonsFound")}</h3>
+          <p className="text-gray-500 text-sm">{t("pages.socialWorkerLessons.tryAdjustingYourSearchOr")}</p>
         </div>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
 
+import { useI18n } from "@/lib/i18n";
 const COUNTRY_CARDS = [
   {
     country: "Canada",
@@ -43,11 +44,12 @@ const STUDY_PATH_STEPS = [
 ];
 
 export default function MedicalImagingHub() {
+  const { t } = useI18n();
   return (
     <div data-testid="medical-imaging-hub-page">
       <SEO
-        title="Medical Imaging & Radiography Exam Prep - CAMRT & ARRT Certification"
-        description="Prepare for your radiography certification exam with NurseNest. Comprehensive CAMRT (Canada) and ARRT (USA) exam prep with practice questions, positioning guides, physics review, flashcards, and case studies."
+        title={t("pages.medicalImagingHub.medicalImagingRadiographyExamPrep")}
+        description={t("pages.medicalImagingHub.prepareForYourRadiographyCertification")}
         keywords="medical imaging exam prep, radiography certification, CAMRT exam, ARRT exam, radiologic technologist, X-ray technician exam, radiography practice questions, positioning guide"
         canonicalPath="/medical-imaging"
         structuredData={{
@@ -91,7 +93,7 @@ export default function MedicalImagingHub() {
               Medical Imaging Exam Academy
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight" data-testid="text-imaging-hero-title">
-              Ace Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Radiography Exam</span>
+              Ace Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">{t("pages.medicalImagingHub.radiographyExam")}</span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto" data-testid="text-imaging-hero-subtitle">
               Comprehensive exam preparation for CAMRT (Canada) and ARRT (USA) radiography certification. Positioning guides, physics review, practice exams, and AI-powered study tools.
@@ -130,8 +132,8 @@ export default function MedicalImagingHub() {
       <section className="py-16 sm:py-20" data-testid="imaging-country-cards">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3" data-testid="text-choose-country">Choose Your Country</h2>
-            <p className="text-gray-600 max-w-xl mx-auto">Select your certification pathway for country-specific exam content, regulations, and practice standards.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3" data-testid="text-choose-country">{t("pages.medicalImagingHub.chooseYourCountry")}</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">{t("pages.medicalImagingHub.selectYourCertificationPathwayFor")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {COUNTRY_CARDS.map(card => (
@@ -175,8 +177,8 @@ export default function MedicalImagingHub() {
       <section className="py-16 bg-gradient-to-b from-indigo-50/50 to-white" data-testid="imaging-study-path">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Your Study Path</h2>
-            <p className="text-gray-600 max-w-xl mx-auto">Follow our proven 6-step study path designed to maximize your exam readiness in 8-12 weeks.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("pages.medicalImagingHub.yourStudyPath")}</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">{t("pages.medicalImagingHub.followOurProven6stepStudy")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {STUDY_PATH_STEPS.map(step => (
@@ -210,31 +212,31 @@ export default function MedicalImagingHub() {
       <section className="py-12 bg-white" data-testid="imaging-growth-tools">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Free Study Tools</h2>
-            <p className="text-gray-600 max-w-xl mx-auto">Get started with our free tools designed to assess your readiness and create a personalized study plan.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("pages.medicalImagingHub.freeStudyTools")}</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">{t("pages.medicalImagingHub.getStartedWithOurFree")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Link href="/radiography-readiness-quiz" className="block group" data-testid="link-readiness-quiz">
               <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl border border-indigo-100 p-6 hover:shadow-lg transition-all h-full">
                 <Target className="w-8 h-8 text-indigo-600 mb-3" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Readiness Quiz</h3>
-                <p className="text-sm text-gray-600 mb-3">Take a free 15-question quiz to assess your radiography knowledge across key exam domains.</p>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("pages.medicalImagingHub.readinessQuiz")}</h3>
+                <p className="text-sm text-gray-600 mb-3">{t("pages.medicalImagingHub.takeAFree15questionQuiz")}</p>
                 <span className="text-sm text-indigo-600 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">Start Quiz <ArrowRight className="w-4 h-4" /></span>
               </div>
             </Link>
             <Link href="/medical-imaging/study-plan-generator" className="block group" data-testid="link-study-plan-gen">
               <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border border-green-100 p-6 hover:shadow-lg transition-all h-full">
                 <BookOpen className="w-8 h-8 text-green-600 mb-3" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Study Plan Generator</h3>
-                <p className="text-sm text-gray-600 mb-3">Get a personalized week-by-week study schedule based on your exam date and confidence level.</p>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("pages.medicalImagingHub.studyPlanGenerator")}</h3>
+                <p className="text-sm text-gray-600 mb-3">{t("pages.medicalImagingHub.getAPersonalizedWeekbyweekStudy")}</p>
                 <span className="text-sm text-green-600 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">Create Plan <ArrowRight className="w-4 h-4" /></span>
               </div>
             </Link>
             <Link href="/medical-imaging/canada/flashcards" className="block group" data-testid="link-flashcard-decks">
               <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl border border-amber-100 p-6 hover:shadow-lg transition-all h-full">
                 <Zap className="w-8 h-8 text-amber-600 mb-3" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Quick Review Flashcards</h3>
-                <p className="text-sm text-gray-600 mb-3">Study positioning landmarks, physics formulas, and radiography terminology with interactive flashcards.</p>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("pages.medicalImagingHub.quickReviewFlashcards")}</h3>
+                <p className="text-sm text-gray-600 mb-3">{t("pages.medicalImagingHub.studyPositioningLandmarksPhysicsFormulas")}</p>
                 <span className="text-sm text-amber-600 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">Browse Flashcards <ArrowRight className="w-4 h-4" /></span>
               </div>
             </Link>
@@ -245,8 +247,8 @@ export default function MedicalImagingHub() {
       <section className="py-12 bg-gradient-to-b from-gray-50 to-white" data-testid="imaging-content-carousels">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Explore Learning Resources</h2>
-            <p className="text-gray-600 max-w-xl mx-auto">Browse our curated collections of study materials across all imaging exam topics.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("pages.medicalImagingHub.exploreLearningResources")}</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">{t("pages.medicalImagingHub.browseOurCuratedCollectionsOf")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
@@ -277,8 +279,8 @@ export default function MedicalImagingHub() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 text-white">
             <Share2 className="w-8 h-8 mx-auto mb-3 opacity-80" />
-            <h2 className="text-2xl font-bold mb-2">Share With Classmates</h2>
-            <p className="text-white/80 mb-4 max-w-md mx-auto text-sm">Invite 3 classmates to unlock free flashcard decks. Invite 5 to unlock a practice exam. Invite 10 for temporary premium access.</p>
+            <h2 className="text-2xl font-bold mb-2">{t("pages.medicalImagingHub.shareWithClassmates")}</h2>
+            <p className="text-white/80 mb-4 max-w-md mx-auto text-sm">{t("pages.medicalImagingHub.invite3ClassmatesToUnlock")}</p>
             <div className="flex justify-center gap-3">
               <button
                 onClick={() => {

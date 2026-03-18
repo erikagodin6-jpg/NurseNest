@@ -33,7 +33,9 @@ import {
 import { clinicalConfusions, type ClinicalConfusion, type ClinicalImage } from "@/data/clinical-confusions";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
+import { useI18n } from "@/lib/i18n";
 function ClinicalImageBlock({ images, placement }: { images?: ClinicalImage[]; placement: ClinicalImage["placement"] }) {
+  const { t } = useI18n();
   if (!images) return null;
   const filtered = images.filter((img) => img.placement === placement);
   if (filtered.length === 0) return null;
@@ -101,8 +103,8 @@ export default function ClinicalClarityDetail() {
         <Navigation />
         <main className="max-w-4xl mx-auto px-4 py-20 text-center">
           <Brain className="w-16 h-16 text-gray-200 mx-auto mb-6" />
-          <h1 className="text-3xl font-bold text-gray-900 mb-3">Topic Not Found</h1>
-          <p className="text-gray-500 mb-8">The clinical clarity topic you're looking for doesn't exist.</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-3">{t("pages.clinicalClarityDetail.topicNotFound")}</h1>
+          <p className="text-gray-500 mb-8">{t("pages.clinicalClarityDetail.theClinicalClarityTopicYoure")}</p>
           <LocaleLink href="/clinical-clarity">
             <Button className="rounded-full px-8 bg-primary text-white" data-testid="button-back-to-clarity">
               Back to Clinical Clarity
@@ -247,7 +249,7 @@ export default function ClinicalClarityDetail() {
               <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
                 <AlertTriangle className="w-5 h-5 text-amber-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">Common Misconceptions</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalClarityDetail.commonMisconceptions")}</h2>
             </div>
 
             <div className="space-y-4">
@@ -258,7 +260,7 @@ export default function ClinicalClarityDetail() {
                       <div className="flex items-start gap-2.5">
                         <XCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
                         <div>
-                          <span className="text-[10px] font-bold text-red-400 uppercase tracking-wider block mb-1">Misconception</span>
+                          <span className="text-[10px] font-bold text-red-400 uppercase tracking-wider block mb-1">{t("pages.clinicalClarityDetail.misconception")}</span>
                           <p className="text-gray-800 font-medium text-sm sm:text-base leading-relaxed">{m.myth}</p>
                         </div>
                       </div>
@@ -267,7 +269,7 @@ export default function ClinicalClarityDetail() {
                       <div className="flex items-start gap-2.5">
                         <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
                         <div>
-                          <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mb-1">Evidence-Based Reality</span>
+                          <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mb-1">{t("pages.clinicalClarityDetail.evidencebasedReality")}</span>
                           <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{m.reality}</p>
                         </div>
                       </div>
@@ -309,7 +311,7 @@ export default function ClinicalClarityDetail() {
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
                     <Lightbulb className="w-5 h-5 text-primary" />
                   </div>
-                  <h2 className="text-xl font-bold text-gray-900">Pause & Think</h2>
+                  <h2 className="text-xl font-bold text-gray-900">{t("pages.clinicalClarityDetail.pauseThink")}</h2>
                 </div>
                 <p className="text-gray-700 text-base sm:text-lg leading-relaxed italic">
                   {confusion.pauseAndThink}
@@ -328,7 +330,7 @@ export default function ClinicalClarityDetail() {
                 <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
                   <BookOpen className="w-5 h-5 text-purple-600" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900">Dive Deeper</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalClarityDetail.diveDeeper")}</h2>
               </div>
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -357,7 +359,7 @@ export default function ClinicalClarityDetail() {
                 <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center">
                   <Link2 className="w-5 h-5 text-gray-500" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900">Related Questions</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalClarityDetail.relatedQuestions")}</h2>
               </div>
 
               <div className="space-y-3">

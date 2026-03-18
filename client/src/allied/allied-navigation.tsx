@@ -177,8 +177,8 @@ export function AlliedNavigation() {
               </div>
               <div className="hidden sm:block">
                 <span className="text-lg font-bold text-gray-900">NurseNest</span>
-                <span className="text-lg font-bold text-teal-600 ml-1">Allied</span>
-                <span className="block text-[10px] text-gray-400 -mt-1 tracking-wide">Healthcare Exam Academy</span>
+                <span className="text-lg font-bold text-teal-600 ml-1">{t("allied.alliedNavigation.allied")}</span>
+                <span className="block text-[10px] text-gray-400 -mt-1 tracking-wide">{t("allied.alliedNavigation.healthcareExamAcademy")}</span>
               </div>
             </a>
 
@@ -206,8 +206,8 @@ export function AlliedNavigation() {
                     <Link href="/allied-health" className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-teal-50 transition-colors border-b border-gray-100 mb-1 ${location === "/allied-health" ? "bg-teal-50 text-teal-700 font-medium" : "text-gray-700"}`} data-testid="link-allied-health-hub">
                       <span className="flex-shrink-0"><GraduationCap className="w-4 h-4" /></span>
                       <div className="min-w-0">
-                        <div className="font-medium truncate">Allied Health Hub</div>
-                        <div className="text-xs text-gray-400 truncate">All career guides</div>
+                        <div className="font-medium truncate">{t("allied.alliedNavigation.alliedHealthHub")}</div>
+                        <div className="text-xs text-gray-400 truncate">{t("allied.alliedNavigation.allCareerGuides")}</div>
                       </div>
                     </Link>
                     {alliedCareers.filter(c => c.enabled).map(career => (
@@ -221,7 +221,7 @@ export function AlliedNavigation() {
                     ))}
                     <div className="border-t border-gray-100 my-1" />
                     <div className="px-4 py-1">
-                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Imaging Careers</span>
+                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t("allied.alliedNavigation.imagingCareers")}</span>
                     </div>
                     {IMAGING_SUB_CAREERS.map(ic => (
                       <Link key={ic.slug} href={`/allied-health/${ic.slug}`} className={`flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-teal-50 transition-colors ${location.startsWith(`/allied-health/${ic.slug}`) ? "bg-teal-50 text-teal-700 font-medium" : "text-gray-700"}`} data-testid={`link-career-${ic.slug}`}>
@@ -234,15 +234,15 @@ export function AlliedNavigation() {
                     ))}
                     <div className="border-t border-gray-100 my-1" />
                     <div className="px-4 py-1">
-                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Quick Links</span>
+                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t("allied.alliedNavigation.quickLinks")}</span>
                     </div>
                     <Link href="/allied-health/qbank?career=rrt" className="flex items-center gap-3 px-4 py-2 text-sm text-gray-600 hover:bg-teal-50 transition-colors" data-testid="link-quick-qbank">
                       <BookOpen className="w-3.5 h-3.5 text-teal-500" />
-                      <span className="truncate">Question Banks</span>
+                      <span className="truncate">{t("allied.alliedNavigation.questionBanks")}</span>
                     </Link>
                     <Link href="/allied-health" className="flex items-center gap-3 px-4 py-2 text-sm text-gray-600 hover:bg-teal-50 transition-colors" data-testid="link-quick-career-guides">
                       <GraduationCap className="w-3.5 h-3.5 text-teal-500" />
-                      <span className="truncate">Career Guides</span>
+                      <span className="truncate">{t("allied.alliedNavigation.careerGuides")}</span>
                     </Link>
                   </div>
                 )}
@@ -314,7 +314,7 @@ export function AlliedNavigation() {
               Back to NurseNest
             </a>
             <div className="border-t border-gray-100 my-2" />
-            <p className="text-[10px] font-bold text-teal-600 uppercase tracking-widest mb-1 px-4">NurseNest Ecosystem</p>
+            <p className="text-[10px] font-bold text-teal-600 uppercase tracking-widest mb-1 px-4">{t("allied.alliedNavigation.nursenestEcosystem")}</p>
             <a href={mainSiteHome} className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-ecosystem-exam-prep">
               <BookOpen className="w-4 h-4 text-teal-600" />
               {t("nav.examPrep")}
@@ -328,9 +328,9 @@ export function AlliedNavigation() {
               {t("nav.ecosystemHealthcareCareers")}
             </a>
             <div className="border-t border-gray-100 my-2" />
-            <Link href="/" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-allied-home">Allied Home</Link>
-            <Link href="/allied-health" className="block px-4 py-3 text-sm font-medium text-teal-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-allied-health-hub">Allied Health Hub</Link>
-            <Link href="/careers" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-careers">All Careers</Link>
+            <Link href="/" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-allied-home">{t("allied.alliedNavigation.alliedHome")}</Link>
+            <Link href="/allied-health" className="block px-4 py-3 text-sm font-medium text-teal-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-allied-health-hub">{t("allied.alliedNavigation.alliedHealthHub2")}</Link>
+            <Link href="/careers" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-careers">{t("allied.alliedNavigation.allCareers")}</Link>
             {alliedCareers.filter(c => c.enabled).map(career => (
               <div key={career.slug}>
                 <Link href={getCanonicalRoute(career.slug)} className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid={`mobile-link-${career.slug}`}>
@@ -339,7 +339,7 @@ export function AlliedNavigation() {
                 </Link>
               </div>
             ))}
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-2 mb-1 px-4">Imaging Careers</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-2 mb-1 px-4">{t("allied.alliedNavigation.imagingCareers2")}</p>
             {IMAGING_SUB_CAREERS.map(ic => (
               <Link key={ic.slug} href={`/allied-health/${ic.slug}`} className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid={`mobile-link-${ic.slug}`}>
                 {getCareerIcon(ic.slug)}
@@ -347,7 +347,7 @@ export function AlliedNavigation() {
               </Link>
             ))}
             <div className="border-t border-gray-100 my-2" />
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-2 mb-1 px-4">Study Tools</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-2 mb-1 px-4">{t("allied.alliedNavigation.studyTools")}</p>
             <Link href="/allied-health/qbank?career=rrt" className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-qbank">
               <BookOpen className="w-4 h-4 text-teal-600" />
               Question Banks
@@ -365,9 +365,9 @@ export function AlliedNavigation() {
               <Globe className="w-4 h-4 text-teal-500" />
               Region: {region === "US" ? "United States" : "Canada"} (tap to switch)
             </button>
-            <Link href="/pricing?section=allied" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-pricing">Pricing</Link>
+            <Link href="/pricing?section=allied" className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-teal-50 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-pricing">{t("allied.alliedNavigation.pricing")}</Link>
             {isAdmin && (
-              <Link href="/admin/allied" className="block px-4 py-3 text-sm font-medium text-teal-700 bg-teal-50 hover:bg-teal-100 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-admin">Admin Panel</Link>
+              <Link href="/admin/allied" className="block px-4 py-3 text-sm font-medium text-teal-700 bg-teal-50 hover:bg-teal-100 rounded-lg" onClick={() => setMobileOpen(false)} data-testid="mobile-link-admin">{t("allied.alliedNavigation.adminPanel")}</Link>
             )}
           </div>
         </div>

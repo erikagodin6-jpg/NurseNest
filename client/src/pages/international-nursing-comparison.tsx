@@ -295,10 +295,10 @@ export function ComparisonPageBySlug({ slug }: { slug: string }) {
 
       <section className="py-14" data-testid="section-table">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Side-by-Side Comparison</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t("pages.internationalNursingComparison.sidebysideComparison")}</h2>
           <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm overflow-x-auto">
             <div className="grid grid-cols-3 bg-gray-50 border-b border-gray-200 min-w-[600px]">
-              <div className="px-5 py-3 text-sm font-semibold text-gray-500">Category</div>
+              <div className="px-5 py-3 text-sm font-semibold text-gray-500">{t("pages.internationalNursingComparison.category")}</div>
               <div className="px-5 py-3 text-sm font-semibold text-teal-700 text-center">{config.countryA.flag} {config.countryA.name}</div>
               <div className="px-5 py-3 text-sm font-semibold text-blue-700 text-center">{config.countryB.flag} {config.countryB.name}</div>
             </div>
@@ -315,7 +315,7 @@ export function ComparisonPageBySlug({ slug }: { slug: string }) {
 
       <section className="py-14 bg-gray-50" data-testid="section-verdict">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Assessment</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.internationalNursingComparison.ourAssessment")}</h2>
           <p className="text-gray-700 leading-relaxed">{config.verdict}</p>
         </div>
       </section>

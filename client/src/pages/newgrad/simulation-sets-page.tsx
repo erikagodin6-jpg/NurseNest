@@ -4,6 +4,7 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { PremiumUpgradeCTA, useNewGradEntitlements } from "./premium-cta";
+import { useI18n } from "@/lib/i18n";
 import {
   WORKPLACE_SCENARIOS,
   WORKPLACE_SCENARIO_CATEGORIES,
@@ -39,6 +40,7 @@ const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string
 };
 
 function buildSimulationSets(): SimulationSet[] {
+
   return WORKPLACE_SCENARIO_CATEGORIES.map((cat) => {
     const scenarios = WORKPLACE_SCENARIOS.filter((s) => s.category === cat.id);
     const hasPremium = scenarios.some((s) => s.isPremium);
@@ -114,7 +116,7 @@ export default function SimulationSetsPage() {
     <div data-testid="newgrad-simulation-sets-page">
       <Navigation />
       <SEO
-        title="Workplace Simulation Sets — Structured Interview Practice | NurseNest"
+        title={t("pages.newgrad.simulationSetsPage.workplaceSimulationSetsStructuredInterview")}
         description={`Practice with ${totalScenarios} structured workplace simulation scenarios. Sequential walkthroughs with feedback for prioritization, communication, teamwork, and confidence building.`}
         keywords="nursing workplace simulation, structured interview practice, nurse simulation sets, new grad nurse practice, workplace scenario walkthroughs"
         canonicalPath="/newgrad/simulation-sets"
@@ -129,11 +131,11 @@ export default function SimulationSetsPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-teal-50 via-cyan-50/30 to-white" />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.newgrad.simulationSetsPage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/newgrad" className="hover:text-blue-600">New Grad Career Hub</Link>
+            <Link href="/newgrad" className="hover:text-blue-600">{t("pages.newgrad.simulationSetsPage.newGradCareerHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-teal-700 font-medium">Simulation Sets</span>
+            <span className="text-teal-700 font-medium">{t("pages.newgrad.simulationSetsPage.simulationSets")}</span>
           </div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-teal-100 text-teal-700">
             <Target className="w-4 h-4" /> Structured Simulations
@@ -147,15 +149,15 @@ export default function SimulationSetsPage() {
           <div className="grid grid-cols-3 gap-3">
             <div className="bg-white rounded-xl border border-teal-100 p-3 text-center" data-testid="stat-sets">
               <div className="text-xl font-bold text-teal-700">{simulationSets.length}</div>
-              <div className="text-xs text-gray-500">Simulation Sets</div>
+              <div className="text-xs text-gray-500">{t("pages.newgrad.simulationSetsPage.simulationSets2")}</div>
             </div>
             <div className="bg-white rounded-xl border border-teal-100 p-3 text-center" data-testid="stat-total">
               <div className="text-xl font-bold text-teal-700">{totalScenarios}</div>
-              <div className="text-xs text-gray-500">Total Scenarios</div>
+              <div className="text-xs text-gray-500">{t("pages.newgrad.simulationSetsPage.totalScenarios")}</div>
             </div>
             <div className="bg-white rounded-xl border border-teal-100 p-3 text-center" data-testid="stat-free">
               <div className="text-xl font-bold text-teal-700">{totalFree}</div>
-              <div className="text-xs text-gray-500">Free Scenarios</div>
+              <div className="text-xs text-gray-500">{t("pages.newgrad.simulationSetsPage.freeScenarios")}</div>
             </div>
           </div>
         </div>
@@ -165,7 +167,7 @@ export default function SimulationSetsPage() {
         <section className="py-16" data-testid="section-sets-list">
 
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Choose a Simulation Set</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.newgrad.simulationSetsPage.chooseASimulationSet")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {simulationSets.map((set) => {
                 const CatIcon = CATEGORY_ICONS[set.category] || Target;
@@ -194,7 +196,7 @@ export default function SimulationSetsPage() {
                     {completedInSet > 0 && (
                       <div className="mb-3">
                         <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
-                          <span>Progress</span>
+                          <span>{t("pages.newgrad.simulationSetsPage.progress")}</span>
                           <span>{completedInSet}/{set.scenarios.length}</span>
                         </div>
                         <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
@@ -241,7 +243,7 @@ export default function SimulationSetsPage() {
         <section className="py-16" data-testid="section-set-complete">
           <div className="max-w-2xl mx-auto px-4 text-center">
             <CheckCircle2 className="w-16 h-16 text-teal-500 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Simulation Set Complete!</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.newgrad.simulationSetsPage.simulationSetComplete")}</h2>
             <p className="text-gray-600 mb-2">You've completed all available scenarios in <strong>{currentSet?.title}</strong>.</p>
             <p className="text-sm text-gray-500 mb-6">
               {completedScenarios.size} total scenarios reviewed across all sets
@@ -393,7 +395,7 @@ export default function SimulationSetsPage() {
 
       <section className="py-12 bg-gradient-to-r from-teal-50 to-cyan-50" data-testid="section-bottom-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-3">More Practice Tools</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-3">{t("pages.newgrad.simulationSetsPage.morePracticeTools")}</h2>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link href="/newgrad/interview" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-teal-700 rounded-xl font-semibold hover:bg-teal-50 border border-teal-200" data-testid="link-interview">
               Interview Question Bank

@@ -5,6 +5,7 @@ import { getCareerQuestionPool } from "@/data/career-questions/career-question-p
 import type { CareerQuestion } from "@/data/career-questions/rrt-questions";
 import { useAuth } from "@/lib/auth";
 import type { LucideIcon } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 import {
   BookOpen, CheckCircle2, XCircle, ArrowRight, Lock,
   Target, Clock, Brain, Activity, Heart, Baby, Users,
@@ -49,6 +50,7 @@ const CATEGORY_META: Record<string, CategoryMeta> = {
 const ALL_SLUGS = Object.keys(CATEGORY_META);
 
 export default function PtaTopicBankPage() {
+  const { t } = useI18n();
   const params = useParams<{ slug: string }>();
   const slug = params.slug || "";
   const meta = CATEGORY_META[slug];
@@ -86,8 +88,8 @@ export default function PtaTopicBankPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Topic Not Found</h1>
-          <p className="text-gray-600 mb-4">The requested PTA topic could not be found.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.ptaTopicBankPage.topicNotFound")}</h1>
+          <p className="text-gray-600 mb-4">{t("allied.ptaTopicBankPage.theRequestedPtaTopicCould")}</p>
           <Link href="/allied-health/physiotherapy-assistant" className="text-teal-600 hover:text-teal-700 font-medium">
             Back to PTA Hub
           </Link>
@@ -127,7 +129,7 @@ export default function PtaTopicBankPage() {
       <div className={`bg-gradient-to-br ${meta.gradient} border-b border-gray-100`}>
         <div className="max-w-5xl mx-auto px-4 py-12">
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-            <Link href="/allied-health" className="hover:text-teal-600">Allied Health</Link>
+            <Link href="/allied-health" className="hover:text-teal-600">{t("allied.ptaTopicBankPage.alliedHealth")}</Link>
             <ChevronRight className="w-3 h-3" />
             <Link href="/allied-health/physiotherapy-assistant" className="hover:text-teal-600">PTA</Link>
             <ChevronRight className="w-3 h-3" />
@@ -150,7 +152,7 @@ export default function PtaTopicBankPage() {
             <div className="bg-white rounded-xl px-4 py-2 border border-gray-100 flex items-center gap-2" data-testid="text-question-count">
               <BookOpen className="w-4 h-4 text-teal-600" />
               <span className="font-semibold text-gray-900">{categoryQuestions.length}</span>
-              <span className="text-gray-500 text-sm">questions</span>
+              <span className="text-gray-500 text-sm">{t("allied.ptaTopicBankPage.questions")}</span>
             </div>
             <div className="bg-white rounded-xl px-4 py-2 border border-gray-100 flex items-center gap-2" data-testid="text-exam-weight">
               <Target className="w-4 h-4 text-teal-600" />
@@ -158,7 +160,7 @@ export default function PtaTopicBankPage() {
             </div>
             <div className="bg-white rounded-xl px-4 py-2 border border-gray-100 flex items-center gap-2" data-testid="text-difficulty-range">
               <Sparkles className="w-4 h-4 text-teal-600" />
-              <span className="text-sm text-gray-600">Difficulty 1-3</span>
+              <span className="text-sm text-gray-600">{t("allied.ptaTopicBankPage.difficulty13")}</span>
             </div>
           </div>
         </div>
@@ -166,7 +168,7 @@ export default function PtaTopicBankPage() {
 
       <div className="max-w-5xl mx-auto px-4 py-10">
         <section className="mb-12">
-          <h2 className="text-xl font-bold text-gray-900 mb-4" data-testid="heading-key-topics">Key Topics Covered</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4" data-testid="heading-key-topics">{t("allied.ptaTopicBankPage.keyTopicsCovered")}</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {meta.keyTopics.map((topic, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 p-4 flex items-center gap-3 hover:shadow-sm transition-shadow" data-testid={`card-key-topic-${i}`}>
@@ -237,7 +239,7 @@ export default function PtaTopicBankPage() {
 
               {showRationale && (
                 <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-4" data-testid="text-rationale">
-                  <h4 className="text-sm font-semibold text-blue-900 mb-1">Rationale</h4>
+                  <h4 className="text-sm font-semibold text-blue-900 mb-1">{t("allied.ptaTopicBankPage.rationale")}</h4>
                   <p className="text-sm text-blue-800 leading-relaxed">{currentQ.rationale}</p>
                 </div>
               )}
@@ -305,30 +307,30 @@ export default function PtaTopicBankPage() {
             <Link href="/allied-health/physiotherapy-assistant/mock-exam" className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-teal-200 transition-all" data-testid="card-link-mock-exams">
               <div className="flex items-center gap-3 mb-2">
                 <Clock className="w-5 h-5 text-teal-500" />
-                <span className="font-semibold text-gray-900">PTA Mock Exams</span>
+                <span className="font-semibold text-gray-900">{t("allied.ptaTopicBankPage.ptaMockExams")}</span>
               </div>
-              <p className="text-sm text-gray-500">5 timed mock exams with scoring and topic breakdowns</p>
+              <p className="text-sm text-gray-500">{t("allied.ptaTopicBankPage.5TimedMockExamsWith")}</p>
             </Link>
             <Link href="/allied-health/physiotherapy-assistant/flashcards" className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-teal-200 transition-all" data-testid="card-link-flashcards">
               <div className="flex items-center gap-3 mb-2">
                 <Brain className="w-5 h-5 text-teal-500" />
-                <span className="font-semibold text-gray-900">PTA Flashcards</span>
+                <span className="font-semibold text-gray-900">{t("allied.ptaTopicBankPage.ptaFlashcards")}</span>
               </div>
-              <p className="text-sm text-gray-500">Spaced-repetition flashcards for key PTA concepts</p>
+              <p className="text-sm text-gray-500">{t("allied.ptaTopicBankPage.spacedrepetitionFlashcardsForKeyPta")}</p>
             </Link>
             <Link href="/allied-health/physiotherapy-assistant/practice-questions" className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-teal-200 transition-all" data-testid="card-link-practice">
               <div className="flex items-center gap-3 mb-2">
                 <BookOpen className="w-5 h-5 text-teal-500" />
-                <span className="font-semibold text-gray-900">All Practice Questions</span>
+                <span className="font-semibold text-gray-900">{t("allied.ptaTopicBankPage.allPracticeQuestions")}</span>
               </div>
               <p className="text-sm text-gray-500">Browse all {pool.length.toLocaleString()}+ PTA questions by category</p>
             </Link>
             <Link href="/allied-health/physiotherapy-assistant/study-guide" className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-teal-200 transition-all" data-testid="card-link-study-guide">
               <div className="flex items-center gap-3 mb-2">
                 <Target className="w-5 h-5 text-teal-500" />
-                <span className="font-semibold text-gray-900">PTA Study Guide</span>
+                <span className="font-semibold text-gray-900">{t("allied.ptaTopicBankPage.ptaStudyGuide")}</span>
               </div>
-              <p className="text-sm text-gray-500">Structured study plan for NPTE-PTA success</p>
+              <p className="text-sm text-gray-500">{t("allied.ptaTopicBankPage.structuredStudyPlanForNptepta")}</p>
             </Link>
           </div>
         </section>

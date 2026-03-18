@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+import { useI18n } from "@/lib/i18n";
 const WEAK_AREA_OPTIONS = [
   "Pharmacology",
   "Prioritization & Delegation",
@@ -36,6 +37,7 @@ interface ExamFollowupModalProps {
 }
 
 export function ExamFollowupModal({ user, onComplete }: ExamFollowupModalProps) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<FollowupStep>("ask");
   const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
@@ -173,8 +175,8 @@ export function ExamFollowupModal({ user, onComplete }: ExamFollowupModalProps) 
               >
                 <PartyPopper className="w-5 h-5 flex-shrink-0" />
                 <div className="text-left">
-                  <p className="font-medium">I passed!</p>
-                  <p className="text-xs text-emerald-600">Time to celebrate and launch your career</p>
+                  <p className="font-medium">{t("components.examFollowupModal.iPassed")}</p>
+                  <p className="text-xs text-emerald-600">{t("components.examFollowupModal.timeToCelebrateAndLaunch")}</p>
                 </div>
               </Button>
 
@@ -187,8 +189,8 @@ export function ExamFollowupModal({ user, onComplete }: ExamFollowupModalProps) 
               >
                 <Clock className="w-5 h-5 flex-shrink-0" />
                 <div className="text-left">
-                  <p className="font-medium">Waiting for results</p>
-                  <p className="text-xs text-blue-600">I'll update when I hear back</p>
+                  <p className="font-medium">{t("components.examFollowupModal.waitingForResults")}</p>
+                  <p className="text-xs text-blue-600">{t("components.examFollowupModal.illUpdateWhenIHear")}</p>
                 </div>
               </Button>
 
@@ -201,8 +203,8 @@ export function ExamFollowupModal({ user, onComplete }: ExamFollowupModalProps) 
               >
                 <BookOpen className="w-5 h-5 flex-shrink-0" />
                 <div className="text-left">
-                  <p className="font-medium">Didn't pass this time</p>
-                  <p className="text-xs text-amber-600">Let's build a stronger plan together</p>
+                  <p className="font-medium">{t("components.examFollowupModal.didntPassThisTime")}</p>
+                  <p className="text-xs text-amber-600">{t("components.examFollowupModal.letsBuildAStrongerPlan")}</p>
                 </div>
               </Button>
 
@@ -215,8 +217,8 @@ export function ExamFollowupModal({ user, onComplete }: ExamFollowupModalProps) 
               >
                 <CalendarClock className="w-5 h-5 flex-shrink-0" />
                 <div className="text-left">
-                  <p className="font-medium">I postponed my exam</p>
-                  <p className="text-xs text-purple-600">Update my exam date</p>
+                  <p className="font-medium">{t("components.examFollowupModal.iPostponedMyExam")}</p>
+                  <p className="text-xs text-purple-600">{t("components.examFollowupModal.updateMyExamDate")}</p>
                 </div>
               </Button>
 
@@ -256,7 +258,7 @@ export function ExamFollowupModal({ user, onComplete }: ExamFollowupModalProps) 
               {couponCode && (
                 <Card className="border-emerald-200 bg-emerald-50/50">
                   <CardContent className="p-4 text-center">
-                    <p className="text-xs text-muted-foreground mb-1">Your exclusive New Grad discount</p>
+                    <p className="text-xs text-muted-foreground mb-1">{t("components.examFollowupModal.yourExclusiveNewGradDiscount")}</p>
                     <div className="flex items-center justify-center gap-2 mb-1">
                       <Badge className="text-lg px-4 py-1 bg-emerald-600" data-testid="text-coupon-code">
                         {couponCode}
@@ -392,7 +394,7 @@ export function ExamFollowupModal({ user, onComplete }: ExamFollowupModalProps) 
                 </div>
                 {selectedAreas.length > 0 && (
                   <div className="mb-3">
-                    <p className="text-xs text-muted-foreground mb-2">We'll focus on:</p>
+                    <p className="text-xs text-muted-foreground mb-2">{t("components.examFollowupModal.wellFocusOn")}</p>
                     <div className="flex flex-wrap gap-1 justify-center">
                       {selectedAreas.map((area) => (
                         <Badge key={area} variant="secondary" className="text-xs" data-testid={`badge-weak-area-${area.toLowerCase().replace(/[^a-z0-9]/g, "-")}`}>
@@ -476,7 +478,7 @@ function PostponedConfirmation({ newExamDate, onClose, navigate }: { newExamDate
   return (
     <>
       <DialogHeader>
-        <DialogTitle className="text-xl text-center">You're All Set! 📅</DialogTitle>
+        <DialogTitle className="text-xl text-center">{t("components.examFollowupModal.youreAllSet")}</DialogTitle>
         <DialogDescription className="text-center">
           Your exam date has been updated. Your study plan will adjust automatically.
         </DialogDescription>
@@ -567,14 +569,14 @@ export function ExamFollowupDashboardCard({ user }: { user: any }) {
               <GraduationCap className="w-5 h-5 text-emerald-600" />
             </div>
             <div>
-              <h3 className="font-semibold text-emerald-800" data-testid="text-career-launch-title">Launch Your Healthcare Career</h3>
-              <p className="text-xs text-emerald-600">Congratulations on passing! Explore resources for your next chapter.</p>
+              <h3 className="font-semibold text-emerald-800" data-testid="text-career-launch-title">{t("components.examFollowupModal.launchYourHealthcareCareer")}</h3>
+              <p className="text-xs text-emerald-600">{t("components.examFollowupModal.congratulationsOnPassingExploreResources")}</p>
             </div>
           </div>
           {couponCode && !isExpired && (
             <div className="bg-emerald-100/50 rounded-lg p-3 mb-3 flex items-center justify-between">
               <div>
-                <p className="text-xs text-muted-foreground">Your discount code</p>
+                <p className="text-xs text-muted-foreground">{t("components.examFollowupModal.yourDiscountCode")}</p>
                 <p className="font-mono font-bold text-emerald-700" data-testid="text-dashboard-coupon">{couponCode}</p>
               </div>
               <Button size="sm" variant="ghost" onClick={() => {
@@ -603,13 +605,13 @@ export function ExamFollowupDashboardCard({ user }: { user: any }) {
               <Target className="w-5 h-5 text-amber-600" />
             </div>
             <div>
-              <h3 className="font-semibold text-amber-800" data-testid="text-study-plan-title">Your Next Study Plan</h3>
-              <p className="text-xs text-amber-600">Focused preparation for your comeback. You've got this!</p>
+              <h3 className="font-semibold text-amber-800" data-testid="text-study-plan-title">{t("components.examFollowupModal.yourNextStudyPlan")}</h3>
+              <p className="text-xs text-amber-600">{t("components.examFollowupModal.focusedPreparationForYourComeback")}</p>
             </div>
           </div>
           {weakAreas.length > 0 && (
             <div className="mb-3">
-              <p className="text-xs text-muted-foreground mb-1.5">Focus areas:</p>
+              <p className="text-xs text-muted-foreground mb-1.5">{t("components.examFollowupModal.focusAreas")}</p>
               <div className="flex flex-wrap gap-1">
                 {weakAreas.map((area: string) => (
                   <Badge key={area} variant="secondary" className="text-xs bg-amber-100 text-amber-700">
@@ -636,8 +638,8 @@ export function ExamFollowupDashboardCard({ user }: { user: any }) {
               <Clock className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <h3 className="font-semibold text-blue-800" data-testid="text-waiting-title">Waiting for Results</h3>
-              <p className="text-xs text-blue-600">Keep your skills sharp while you wait!</p>
+              <h3 className="font-semibold text-blue-800" data-testid="text-waiting-title">{t("components.examFollowupModal.waitingForResults2")}</h3>
+              <p className="text-xs text-blue-600">{t("components.examFollowupModal.keepYourSkillsSharpWhile")}</p>
             </div>
           </div>
           <Button size="sm" variant="outline" className="w-full gap-2" onClick={() => navigate("/flashcard-study")} data-testid="button-dashboard-review">

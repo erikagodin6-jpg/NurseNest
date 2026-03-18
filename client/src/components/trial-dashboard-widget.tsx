@@ -7,7 +7,9 @@ import { Progress } from "@/components/ui/progress";
 import { Clock, Eye, Lock, ArrowUpRight, AlertCircle, BookOpen, Layers, FileText, Beaker } from "lucide-react";
 import { useLocation } from "wouter";
 
+import { useI18n } from "@/lib/i18n";
 function formatCountdown(ms: number): string {
+
   if (ms <= 0) return "Expired";
   const totalSeconds = Math.floor(ms / 1000);
   const hours = Math.floor(totalSeconds / 3600);
@@ -17,6 +19,7 @@ function formatCountdown(ms: number): string {
 }
 
 export function TrialDashboardWidget() {
+  const { t } = useI18n();
   const trialStatus = useTrialStatus();
   const [, navigate] = useLocation();
   const [countdown, setCountdown] = useState("");
@@ -72,7 +75,7 @@ export function TrialDashboardWidget() {
       </CardHeader>
       <CardContent className="space-y-5">
         <div className="text-center" data-testid="section-trial-countdown">
-          <p className="text-xs text-gray-500 mb-1">Time Remaining</p>
+          <p className="text-xs text-gray-500 mb-1">{t("components.trialDashboardWidget.timeRemaining")}</p>
           <p className="text-4xl font-bold font-mono text-amber-700 tracking-wider" data-testid="text-trial-countdown">
             {countdown}
           </p>
@@ -81,7 +84,7 @@ export function TrialDashboardWidget() {
         </div>
 
         <div className="space-y-2" data-testid="section-trial-consumption">
-          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Content Usage</p>
+          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{t("components.trialDashboardWidget.contentUsage")}</p>
           {consumptionItems.map(({ label, icon: Icon, used, max }) => (
             <div key={label} className="flex items-center gap-3">
               <Icon className="w-4 h-4 text-gray-400 flex-shrink-0" />
@@ -101,7 +104,7 @@ export function TrialDashboardWidget() {
         <div className="flex items-start gap-2 p-3 bg-blue-50 rounded-lg border border-blue-100" data-testid="notice-trial-view-only">
           <Eye className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
           <div>
-            <p className="text-xs font-semibold text-blue-700">View-Only During Trial</p>
+            <p className="text-xs font-semibold text-blue-700">{t("components.trialDashboardWidget.viewonlyDuringTrial")}</p>
             <p className="text-xs text-blue-600/80 mt-0.5">
               Content is available for viewing only. Exports, downloads, and printing are unavailable during the trial period.
             </p>

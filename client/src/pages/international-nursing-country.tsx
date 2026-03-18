@@ -429,8 +429,8 @@ export default function InternationalNursingCountryPage() {
       <div data-testid="page-country-not-found">
         <Navigation />
         <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Country Guide Not Found</h1>
-          <p className="text-gray-600 mb-4">The country guide you're looking for doesn't exist.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.internationalNursingCountry.countryGuideNotFound")}</h1>
+          <p className="text-gray-600 mb-4">{t("pages.internationalNursingCountry.theCountryGuideYoureLooking")}</p>
           <Link href="/international-nurses" className="inline-block px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-hub">
             {t("intlNursing.country.backToHub")}
           </Link>
@@ -686,7 +686,7 @@ export default function InternationalNursingCountryPage() {
 
       <section className="py-10 bg-gray-50" data-testid="section-other-countries">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Explore Other Countries</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.internationalNursingCountry.exploreOtherCountries")}</h2>
           <div className="flex flex-wrap gap-2">
             {Object.values(COUNTRY_CONFIGS).filter(c => c.slug !== config.slug).map(c => (
               <Link key={c.slug} href={`/international-nurses/${c.slug}`}>

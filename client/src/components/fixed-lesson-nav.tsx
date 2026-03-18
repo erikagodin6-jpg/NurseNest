@@ -2,11 +2,13 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { getLessonNavigation } from "@/lib/lesson-navigation";
 
+import { useI18n } from "@/lib/i18n";
 interface FixedLessonNavProps {
   lessonId: string;
 }
 
 export function FixedLessonNav({ lessonId }: FixedLessonNavProps) {
+  const { t } = useI18n();
   const nav = getLessonNavigation(lessonId);
 
   return (
@@ -18,11 +20,11 @@ export function FixedLessonNav({ lessonId }: FixedLessonNavProps) {
               <span className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary transition-colors cursor-pointer max-w-full group" data-testid="button-prev-lesson-fixed">
                 <ChevronLeft className="w-4 h-4 shrink-0 group-hover:-translate-x-0.5 transition-transform" />
                 <span className="hidden sm:inline truncate" title={nav.prev.name}>{nav.prev.name}</span>
-                <span className="sm:hidden">Previous</span>
+                <span className="sm:hidden">{t("components.fixedLessonNav.previous")}</span>
               </span>
             </LocaleLink>
           ) : (
-            <span className="text-sm text-transparent select-none" aria-hidden="true">Prev</span>
+            <span className="text-sm text-transparent select-none" aria-hidden="true">{t("components.fixedLessonNav.prev")}</span>
           )}
         </div>
         <div className="min-w-0 flex-1 flex justify-end">
@@ -30,12 +32,12 @@ export function FixedLessonNav({ lessonId }: FixedLessonNavProps) {
             <LocaleLink href={`/lessons/${nav.next.id}`}>
               <span className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary transition-colors cursor-pointer max-w-full group" data-testid="button-next-lesson-fixed">
                 <span className="hidden sm:inline truncate" title={nav.next.name}>{nav.next.name}</span>
-                <span className="sm:hidden">Next</span>
+                <span className="sm:hidden">{t("components.fixedLessonNav.next")}</span>
                 <ChevronRight className="w-4 h-4 shrink-0 group-hover:translate-x-0.5 transition-transform" />
               </span>
             </LocaleLink>
           ) : (
-            <span className="text-sm text-transparent select-none" aria-hidden="true">Next</span>
+            <span className="text-sm text-transparent select-none" aria-hidden="true">{t("components.fixedLessonNav.next2")}</span>
           )}
         </div>
       </div>

@@ -20,6 +20,7 @@ import { rrtDomainQuestionsBatch7 } from "@/data/career-questions/rrt-domain-que
 import { rrtDomainQuestionsBatch8 } from "@/data/career-questions/rrt-domain-questions-batch8";
 import type { CareerQuestion } from "@/data/career-questions/rrt-questions";
 
+import { useI18n } from "@/lib/i18n";
 const ICON_MAP: Record<string, LucideIcon> = {
   Wind, Shield, Droplets, Syringe, Zap, Heart, Moon,
   Gauge, Baby, Monitor, Settings, ShieldAlert, Beaker
@@ -39,6 +40,7 @@ const ALL_DOMAIN_QUESTIONS: CareerQuestion[] = [
 ];
 
 function getQuestionsForDomain(domainName: string): CareerQuestion[] {
+
   return ALL_DOMAIN_QUESTIONS.filter(q => q.category === domainName);
 }
 
@@ -51,7 +53,7 @@ export function RrtDomainTopicPage() {
     return (
       <div className="min-h-screen flex items-center justify-center" data-testid="domain-not-found">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Domain Not Found</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">{t("allied.rrtDomainTopicPage.domainNotFound")}</h1>
           <Link href="/allied-health/rrt" className="inline-block px-6 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700" data-testid="link-back-rrt">
             Back to RRT Hub
           </Link>
@@ -106,10 +108,10 @@ export function RrtDomainTopicPage() {
 
       <section className={`relative overflow-hidden bg-gradient-to-br ${config.color.bg} via-white to-white py-16 sm:py-20`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label="Breadcrumb" data-testid="breadcrumb-nav">
-            <Link href="/allied-health" className="hover:text-teal-600" data-testid="breadcrumb-home">Allied Health</Link>
+          <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label={t("allied.rrtDomainTopicPage.breadcrumb")} data-testid="breadcrumb-nav">
+            <Link href="/allied-health" className="hover:text-teal-600" data-testid="breadcrumb-home">{t("allied.rrtDomainTopicPage.alliedHealth")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/allied-health/rrt" className="hover:text-teal-600" data-testid="breadcrumb-rrt">RRT Exam Prep</Link>
+            <Link href="/allied-health/rrt" className="hover:text-teal-600" data-testid="breadcrumb-rrt">{t("allied.rrtDomainTopicPage.rrtExamPrep")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className={`${config.color.text} font-medium`}>{config.domain}</span>
           </nav>
@@ -120,7 +122,7 @@ export function RrtDomainTopicPage() {
             </div>
             <h1 className="text-3xl sm:text-5xl font-bold text-gray-900 leading-tight mb-4" data-testid="text-domain-title">
               {config.domain}<br />
-              <span className={config.color.text}>Practice Questions & Study Guide</span>
+              <span className={config.color.text}>{t("allied.rrtDomainTopicPage.practiceQuestionsStudyGuide")}</span>
             </h1>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed" data-testid="text-domain-subtitle">
               {config.heroSubtitle}
@@ -132,7 +134,7 @@ export function RrtDomainTopicPage() {
               </div>
               <div className="flex items-center gap-1.5 text-sm text-gray-500">
                 <CheckCircle2 className="w-4 h-4 text-blue-500" />
-                <span>NBRC TMC & CSE Aligned</span>
+                <span>{t("allied.rrtDomainTopicPage.nbrcTmcCseAligned")}</span>
               </div>
               <div className="flex items-center gap-1.5 text-sm text-gray-500">
                 <CheckCircle2 className="w-4 h-4 text-blue-500" />
@@ -291,7 +293,7 @@ function QuestionCard({ question, index, isFree }: { question: CareerQuestion; i
           <p className="text-sm text-gray-700 leading-relaxed">{question.rationale}</p>
           {question.examTip && (
             <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-100">
-              <p className="text-xs font-semibold text-blue-700 mb-1">💡 Exam Tip:</p>
+              <p className="text-xs font-semibold text-blue-700 mb-1">{t("allied.rrtDomainTopicPage.examTip")}</p>
               <p className="text-xs text-blue-600">{question.examTip}</p>
             </div>
           )}
@@ -424,7 +426,7 @@ function RelatedDomainsSection({ slug, config }: { slug: string; config: ReturnT
 
   return (
     <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="text-related-heading">Related RRT Exam Domains</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="text-related-heading">{t("allied.rrtDomainTopicPage.relatedRrtExamDomains")}</h2>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {related.map((r: any) => {
           const RIcon = ICON_MAP[r.icon] || BookOpen;

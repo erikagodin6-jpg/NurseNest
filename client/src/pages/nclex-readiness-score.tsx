@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n";
 import {
   Target,
   BookOpen,
@@ -62,6 +63,7 @@ function calculatePassProbability(
   hoursStudied: number,
   weakTopicCount: number
 ): number {
+  const { t } = useI18n();
   const qWeight = 0.30;
   const sWeight = 0.40;
   const hWeight = 0.15;
@@ -116,7 +118,7 @@ function CircularProgressMeter({ value, size = 200 }: { value: number; size?: nu
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className={`text-4xl font-bold ${colors.text}`} data-testid="text-probability-value">{value}%</span>
-        <span className="text-xs text-gray-500 font-medium">Pass Probability</span>
+        <span className="text-xs text-gray-500 font-medium">{t("pages.nclexReadinessScore.passProbability")}</span>
       </div>
     </div>
   );
@@ -354,7 +356,7 @@ export default function NclexReadinessScore() {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 mb-4">
             <Target className="w-3.5 h-3.5 text-blue-600" />
-            <span className="text-xs font-bold text-blue-700 uppercase tracking-wider">Free Tool</span>
+            <span className="text-xs font-bold text-blue-700 uppercase tracking-wider">{t("pages.nclexReadinessScore.freeTool")}</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-page-title">
             NCLEX Readiness Score Calculator
@@ -377,7 +379,7 @@ export default function NclexReadinessScore() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid sm:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Questions Completed</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">{t("pages.nclexReadinessScore.questionsCompleted")}</label>
                     <Input
                       type="number"
                       min="0"
@@ -390,7 +392,7 @@ export default function NclexReadinessScore() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Average Score (%)</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">{t("pages.nclexReadinessScore.averageScore")}</label>
                     <Input
                       type="number"
                       min="0"
@@ -403,7 +405,7 @@ export default function NclexReadinessScore() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Hours Studied</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">{t("pages.nclexReadinessScore.hoursStudied")}</label>
                     <Input
                       type="number"
                       min="0"
@@ -418,7 +420,7 @@ export default function NclexReadinessScore() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Weak Topics (select all that apply)</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">{t("pages.nclexReadinessScore.weakTopicsSelectAllThat")}</label>
                   <div className="flex flex-wrap gap-2">
                     {NCLEX_CATEGORIES.map(topic => (
                       <button
@@ -495,7 +497,7 @@ export default function NclexReadinessScore() {
                         <div className="flex items-center gap-2 mb-2">
                           <AlertTriangle className="w-4 h-4 text-red-600" />
                           <span className="font-semibold text-sm text-gray-900">{plan.topic}</span>
-                          <Badge variant="destructive" className="text-[10px] ml-auto">Priority</Badge>
+                          <Badge variant="destructive" className="text-[10px] ml-auto">{t("pages.nclexReadinessScore.priority")}</Badge>
                         </div>
                         <ul className="space-y-1.5">
                           {plan.actions.map((action, j) => (
@@ -511,7 +513,7 @@ export default function NclexReadinessScore() {
 
                   {studyPlan.plans.filter(p => p.priority !== "high").length > 0 && (
                     <div className="pt-2">
-                      <p className="text-sm font-medium text-gray-500 mb-2">Other Areas to Review</p>
+                      <p className="text-sm font-medium text-gray-500 mb-2">{t("pages.nclexReadinessScore.otherAreasToReview")}</p>
                       <div className="grid sm:grid-cols-2 gap-2">
                         {studyPlan.plans.filter(p => p.priority !== "high").map((plan, i) => (
                           <div key={i} className="flex items-center gap-2 p-3 bg-white rounded-lg border border-gray-200">
@@ -557,7 +559,7 @@ export default function NclexReadinessScore() {
               <BookOpen className="w-5 h-5 text-purple-600" />
             </div>
             <div>
-              <p className="text-sm font-bold text-gray-900" data-testid="text-question-counter">Over 3,200 exam-style questions available.</p>
+              <p className="text-sm font-bold text-gray-900" data-testid="text-question-counter">{t("pages.nclexReadinessScore.over3200ExamstyleQuestionsAvailable")}</p>
             </div>
           </div>
           <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
@@ -575,7 +577,7 @@ export default function NclexReadinessScore() {
               <TrendingUp className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <p className="text-sm font-bold text-gray-900" data-testid="text-pass-probability-message">Students who complete 2,000 questions increase their NCLEX pass rate by 3x.</p>
+              <p className="text-sm font-bold text-gray-900" data-testid="text-pass-probability-message">{t("pages.nclexReadinessScore.studentsWhoComplete2000Questions")}</p>
             </div>
           </div>
         </div>
@@ -584,8 +586,8 @@ export default function NclexReadinessScore() {
           <div className="blur-sm pointer-events-none select-none opacity-60">
             <div className="bg-white p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-bold text-gray-900">Your Study Dashboard</h3>
-                <Badge>Premium</Badge>
+                <h3 className="text-lg font-bold text-gray-900">{t("pages.nclexReadinessScore.yourStudyDashboard")}</h3>
+                <Badge>{t("pages.nclexReadinessScore.premium")}</Badge>
               </div>
               <div className="grid grid-cols-4 gap-4 mb-6">
                 {[
@@ -633,7 +635,7 @@ export default function NclexReadinessScore() {
               <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3">
                 <Lock className="w-7 h-7 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Unlock your study dashboard</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{t("pages.nclexReadinessScore.unlockYourStudyDashboard")}</h3>
               <p className="text-sm text-gray-600 mb-4 max-w-sm mx-auto">
                 Track your progress, identify weak areas, and get personalized study plans with a NurseNest subscription.
               </p>

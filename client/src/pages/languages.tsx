@@ -3,6 +3,7 @@ import { LANGUAGES } from "@/lib/i18n";
 import { SUPPORTED_LOCALES } from "@/lib/locale-utils";
 import { Globe } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const LOCALE_TO_LANG_CODE: Record<string, string> = {
   en: "en", fr: "fr", es: "es", fil: "tl", hi: "hi",
   zh: "zh", "zh-tw": "zh-tw", ar: "ar", ko: "ko", pt: "pt", pa: "pa",
@@ -11,6 +12,7 @@ const LOCALE_TO_LANG_CODE: Record<string, string> = {
 };
 
 function getLanguageInfo(locale: string) {
+
   const langCode = LOCALE_TO_LANG_CODE[locale] || locale;
   return LANGUAGES.find(l => l.code === langCode);
 }
@@ -19,8 +21,8 @@ export default function LanguagesPage() {
   return (
     <>
       <SEO
-        title="Study Nursing in Your Language | NurseNest"
-        description="NurseNest supports 20 languages for nursing exam preparation. Study NCLEX, REx-PN, and NP exams in English, French, Spanish, Chinese, Arabic, Korean, and more."
+        title={t("pages.languages.studyNursingInYourLanguage")}
+        description={t("pages.languages.nursenestSupports20LanguagesFor")}
         keywords="multilingual nursing exam prep, NCLEX in other languages, nursing study languages, NurseNest languages"
         canonicalPath="/languages"
       />

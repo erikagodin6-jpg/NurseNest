@@ -3,6 +3,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { Microscope, ArrowLeft, ArrowRight, Check, X, RotateCcw, Trophy, Clock, Target } from "lucide-react";
 import { LabImageViewer } from "../../components/lab-image-viewer";
 
+import { useI18n } from "@/lib/i18n";
 const DRILL_TYPE_LABELS: Record<string, { label: string; description: string; discipline: string }> = {
   identify_cell: { label: "Identify the Cell", description: "Identify blood cells from peripheral smear images", discipline: "hematology" },
   identify_organism: { label: "Identify the Organism", description: "Identify microorganisms from Gram stain images", discipline: "microbiology" },
@@ -17,6 +18,7 @@ const DRILL_TYPE_LABELS: Record<string, { label: string; description: string; di
 };
 
 function getCredentials() {
+
   try {
     const raw = localStorage.getItem("nursenest-credentials");
     return raw ? JSON.parse(raw) : null;
@@ -125,7 +127,7 @@ function MltImageDrill() {
               <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2" data-testid="text-drill-title">
                 <Microscope className="w-6 h-6 text-teal-600" /> Image Recognition Drills
               </h1>
-              <p className="text-sm text-gray-500">Practice identifying cells, organisms, crystals, and more from microscopy images</p>
+              <p className="text-sm text-gray-500">{t("allied.mltMltImageDrill.practiceIdentifyingCellsOrganismsCrystals")}</p>
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -165,15 +167,15 @@ function MltImageDrill() {
           <div className="mt-6 grid grid-cols-3 gap-4">
             <div className="bg-gray-50 rounded-xl p-3">
               <p className="text-2xl font-bold text-teal-600" data-testid="text-score">{percentage}%</p>
-              <p className="text-xs text-gray-500">Score</p>
+              <p className="text-xs text-gray-500">{t("allied.mltMltImageDrill.score")}</p>
             </div>
             <div className="bg-gray-50 rounded-xl p-3">
               <p className="text-2xl font-bold text-gray-800" data-testid="text-correct">{correctCount}/{total}</p>
-              <p className="text-xs text-gray-500">Correct</p>
+              <p className="text-xs text-gray-500">{t("allied.mltMltImageDrill.correct")}</p>
             </div>
             <div className="bg-gray-50 rounded-xl p-3">
               <p className="text-2xl font-bold text-gray-800" data-testid="text-time">{timeSpent}s</p>
-              <p className="text-xs text-gray-500">Time</p>
+              <p className="text-xs text-gray-500">{t("allied.mltMltImageDrill.time")}</p>
             </div>
           </div>
           <div className="mt-6 flex flex-col gap-3">
@@ -194,7 +196,7 @@ function MltImageDrill() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center space-y-3">
           <div className="w-8 h-8 border-3 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-sm text-gray-500">Loading drill images...</p>
+          <p className="text-sm text-gray-500">{t("allied.mltMltImageDrill.loadingDrillImages")}</p>
         </div>
       </div>
     );
@@ -205,8 +207,8 @@ function MltImageDrill() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl border shadow-sm max-w-md w-full p-8 text-center" data-testid="drill-no-images">
           <Microscope className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-          <h2 className="text-lg font-semibold text-gray-900">No Images Available</h2>
-          <p className="text-sm text-gray-500 mt-2">This drill type doesn't have approved images yet. An admin needs to upload and approve microscopy images for this category.</p>
+          <h2 className="text-lg font-semibold text-gray-900">{t("allied.mltMltImageDrill.noImagesAvailable")}</h2>
+          <p className="text-sm text-gray-500 mt-2">{t("allied.mltMltImageDrill.thisDrillTypeDoesntHave")}</p>
           <button onClick={() => setSelectedDrill(null)} className="mt-4 text-teal-600 hover:text-teal-700 text-sm font-medium" data-testid="button-back-to-drills">
             Back to Drills
           </button>
@@ -236,7 +238,7 @@ function MltImageDrill() {
         <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
           <div className="p-4 bg-gradient-to-r from-teal-600 to-teal-700 text-white">
             <h2 className="font-semibold" data-testid="text-drill-question">{drillInfo?.label}</h2>
-            <p className="text-sm text-teal-100 mt-1">Examine the image carefully and provide your identification</p>
+            <p className="text-sm text-teal-100 mt-1">{t("allied.mltMltImageDrill.examineTheImageCarefullyAnd")}</p>
           </div>
 
           <div className="p-6">
@@ -244,7 +246,7 @@ function MltImageDrill() {
               <div className="mb-6">
                 <LabImageViewer
                   src={currentImage.imageUrl}
-                  alt="Microscopy image for identification"
+                  alt={t("allied.mltMltImageDrill.microscopyImageForIdentification")}
                   allowZoom={true}
                   className="max-h-[400px]"
                 />
@@ -257,7 +259,7 @@ function MltImageDrill() {
             {!showAnswer ? (
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Your Identification:</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageDrill.yourIdentification")}</label>
                   <input
                     type="text"
                     value={userAnswer}
@@ -283,14 +285,14 @@ function MltImageDrill() {
                 <div className={`p-4 rounded-xl ${answers[answers.length - 1]?.correct ? "bg-green-50 border border-green-200" : "bg-red-50 border border-red-200"}`} data-testid="drill-feedback">
                   <div className="flex items-center gap-2 mb-2">
                     {answers[answers.length - 1]?.correct ? (
-                      <><Check className="w-5 h-5 text-green-600" /><span className="font-semibold text-green-800">Correct!</span></>
+                      <><Check className="w-5 h-5 text-green-600" /><span className="font-semibold text-green-800">{t("allied.mltMltImageDrill.correct2")}</span></>
                     ) : (
-                      <><X className="w-5 h-5 text-red-600" /><span className="font-semibold text-red-800">Incorrect</span></>
+                      <><X className="w-5 h-5 text-red-600" /><span className="font-semibold text-red-800">{t("allied.mltMltImageDrill.incorrect")}</span></>
                     )}
                   </div>
-                  <p className="text-sm text-gray-700"><span className="font-medium">Correct answer:</span> {correctAnswer}</p>
+                  <p className="text-sm text-gray-700"><span className="font-medium">{t("allied.mltMltImageDrill.correctAnswer")}</span> {correctAnswer}</p>
                   {currentImage?.clinicalSignificance && (
-                    <p className="text-sm text-gray-600 mt-2"><span className="font-medium">Clinical Significance:</span> {currentImage.clinicalSignificance}</p>
+                    <p className="text-sm text-gray-600 mt-2"><span className="font-medium">{t("allied.mltMltImageDrill.clinicalSignificance")}</span> {currentImage.clinicalSignificance}</p>
                   )}
                 </div>
                 <button onClick={handleNext} className="w-full bg-teal-600 text-white py-2.5 rounded-lg font-medium hover:bg-teal-700 flex items-center justify-center gap-2" data-testid="button-next-question">

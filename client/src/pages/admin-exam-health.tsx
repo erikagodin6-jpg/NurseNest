@@ -8,6 +8,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   ShieldCheck, ShieldAlert, AlertTriangle, Activity,
   RefreshCw, Trash2, CheckCircle, XCircle, Clock,
@@ -15,6 +16,7 @@ import {
 } from "lucide-react";
 
 function getAuthHeaders(): Record<string, string> {
+
   try {
     const creds = localStorage.getItem("nursenest-credentials");
     if (creds) {
@@ -35,6 +37,7 @@ async function apiFetch(url: string, options?: RequestInit) {
 }
 
 export default function AdminExamHealth() {
+  const { t } = useI18n();
   const { isAdmin } = useAuth();
   const [, navigate] = useLocation();
   const queryClient = useQueryClient();
@@ -110,7 +113,7 @@ export default function AdminExamHealth() {
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3" data-testid="alert-critical">
             <AlertTriangle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
             <div>
-              <p className="font-semibold text-red-800">Critical Exam Issues Detected</p>
+              <p className="font-semibold text-red-800">{t("pages.adminExamHealth.criticalExamIssuesDetected")}</p>
               <p className="text-sm text-red-700 mt-1">
                 {overview.criticalCount} critical incident(s) in the last 24 hours.
                 Review the incidents tab for details.
@@ -127,28 +130,28 @@ export default function AdminExamHealth() {
           <>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <StatCard
-                label="Overall Status"
+                label={t("pages.adminExamHealth.overallStatus")}
                 value={hasCritical ? "Degraded" : "Healthy"}
                 icon={hasCritical ? <ShieldAlert className="w-5 h-5" /> : <ShieldCheck className="w-5 h-5" />}
                 color={hasCritical ? "text-red-500" : "text-green-500"}
                 testId="stat-overall-status"
               />
               <StatCard
-                label="Incidents (24h)"
+                label={t("pages.adminExamHealth.incidents24h")}
                 value={String(overview?.totalIncidents24h || 0)}
                 icon={<Activity className="w-5 h-5" />}
                 color={(overview?.totalIncidents24h || 0) > 0 ? "text-amber-500" : "text-green-500"}
                 testId="stat-incidents-24h"
               />
               <StatCard
-                label="Quarantined"
+                label={t("pages.adminExamHealth.quarantined2")}
                 value={String(overview?.quarantined?.length || 0)}
                 icon={<AlertTriangle className="w-5 h-5" />}
                 color={(overview?.quarantined?.length || 0) > 0 ? "text-amber-500" : "text-green-500"}
                 testId="stat-quarantined"
               />
               <StatCard
-                label="Low Inventory"
+                label={t("pages.adminExamHealth.lowInventory")}
                 value={String(overview?.lowInventory?.length || 0)}
                 icon={<Database className="w-5 h-5" />}
                 color={hasLowInventory ? "text-red-500" : "text-green-500"}
@@ -158,14 +161,14 @@ export default function AdminExamHealth() {
 
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList data-testid="tabs-exam-health">
-                <TabsTrigger value="overview" data-testid="tab-overview">Tier Health</TabsTrigger>
+                <TabsTrigger value="overview" data-testid="tab-overview">{t("pages.adminExamHealth.tierHealth")}</TabsTrigger>
                 <TabsTrigger value="incidents" data-testid="tab-incidents">
                   Incidents
                   {(overview?.totalIncidents24h || 0) > 0 && (
                     <Badge variant="destructive" className="ml-1.5 text-[10px] px-1.5 py-0">{overview.totalIncidents24h}</Badge>
                   )}
                 </TabsTrigger>
-                <TabsTrigger value="quarantined" data-testid="tab-quarantined">Quarantined</TabsTrigger>
+                <TabsTrigger value="quarantined" data-testid="tab-quarantined">{t("pages.adminExamHealth.quarantined")}</TabsTrigger>
               </TabsList>
 
               <TabsContent value="overview" className="space-y-4 mt-4">
@@ -181,11 +184,11 @@ export default function AdminExamHealth() {
                     </CardHeader>
                     <CardContent className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Available questions</span>
+                        <span className="text-muted-foreground">{t("pages.adminExamHealth.availableQuestions")}</span>
                         <span className="font-medium">{health.totalAvailable.toLocaleString()}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Minimum required</span>
+                        <span className="text-muted-foreground">{t("pages.adminExamHealth.minimumRequired")}</span>
                         <span className="font-medium">{health.minimumRequired}</span>
                       </div>
                       {health.issues.length > 0 && (
@@ -229,7 +232,7 @@ export default function AdminExamHealth() {
               <TabsContent value="incidents" className="mt-4">
                 <Card>
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-base">Recent Incidents</CardTitle>
+                    <CardTitle className="text-base">{t("pages.adminExamHealth.recentIncidents")}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     {(!incidents?.incidents || incidents.incidents.length === 0) ? (
@@ -280,13 +283,13 @@ export default function AdminExamHealth() {
               <TabsContent value="quarantined" className="mt-4">
                 <Card>
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-base">Quarantined Questions</CardTitle>
+                    <CardTitle className="text-base">{t("pages.adminExamHealth.quarantinedQuestions")}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     {(!quarantined?.quarantined || quarantined.quarantined.length === 0) ? (
                       <div className="text-center py-8 space-y-2" data-testid="text-no-quarantined">
                         <CheckCircle className="w-8 h-8 text-green-500 mx-auto" />
-                        <p className="text-sm text-muted-foreground">No quarantined questions.</p>
+                        <p className="text-sm text-muted-foreground">{t("pages.adminExamHealth.noQuarantinedQuestions")}</p>
                       </div>
                     ) : (
                       <div className="space-y-3 max-h-[600px] overflow-y-auto">

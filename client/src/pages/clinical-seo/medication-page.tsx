@@ -7,6 +7,7 @@ import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-re
 import { MedicalReferences } from "@/components/medical-references";
 import { AutoRelatedContent, YouMayAlsoLike } from "@/components/auto-related-content";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { useI18n } from "@/lib/i18n";
 import {
   Pill,
   AlertTriangle,
@@ -23,6 +24,7 @@ import {
 } from "lucide-react";
 
 function PracticeQuestion({ q, index }: { q: any; index: number }) {
+  const { t } = useI18n();
   const [selected, setSelected] = useState<number | null>(null);
   const [showRationale, setShowRationale] = useState(false);
   const handleSelect = (optIdx: number) => { if (selected !== null) return; setSelected(optIdx); setShowRationale(true); };
@@ -40,7 +42,7 @@ function PracticeQuestion({ q, index }: { q: any; index: number }) {
           return (<button key={optIdx} onClick={() => handleSelect(optIdx)} className={`w-full text-left flex items-start gap-3 ${cls}`} disabled={selected !== null} data-testid={`question-${index}-option-${optIdx}`}><span className="font-medium text-gray-500 shrink-0">{String.fromCharCode(65 + optIdx)}.</span><span>{opt}</span>{selected !== null && optIdx === q.correct && <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 ml-auto mt-0.5" />}{selected !== null && optIdx === selected && optIdx !== q.correct && <XCircle className="w-4 h-4 text-red-400 shrink-0 ml-auto mt-0.5" />}</button>);
         })}
       </div>
-      {showRationale && <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-900" data-testid={`rationale-${index}`}><p className="font-semibold mb-1">Rationale:</p><p>{q.rationale}</p></div>}
+      {showRationale && <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-900" data-testid={`rationale-${index}`}><p className="font-semibold mb-1">{t("pages.clinicalSeo.medicationPage.rationale")}</p><p>{q.rationale}</p></div>}
     </div>
   );
 }
@@ -60,7 +62,7 @@ export default function ClinicalMedicationPage() {
   }, [params.slug]);
 
   if (loading) return (<><Navigation /><div className="min-h-screen flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div><Footer /></>);
-  if (error || !page) return (<><Navigation /><div className="min-h-screen flex items-center justify-center" data-testid="medication-not-found"><div className="text-center"><h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1><p className="text-gray-600">The medication guide you are looking for does not exist.</p></div></div><Footer /></>);
+  if (error || !page) return (<><Navigation /><div className="min-h-screen flex items-center justify-center" data-testid="medication-not-found"><div className="text-center"><h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.clinicalSeo.medicationPage.pageNotFound")}</h1><p className="text-gray-600">{t("pages.clinicalSeo.medicationPage.theMedicationGuideYouAre")}</p></div></div><Footer /></>);
 
   const data = page.data;
   const questions = page.practiceQuestions || [];
@@ -100,16 +102,16 @@ export default function ClinicalMedicationPage() {
       <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-            <LocaleLink href="/" className="hover:text-primary">Home</LocaleLink>
+            <LocaleLink href="/" className="hover:text-primary">{t("pages.clinicalSeo.medicationPage.home")}</LocaleLink>
             <span>/</span>
-            <span className="text-gray-500">Medications</span>
+            <span className="text-gray-500">{t("pages.clinicalSeo.medicationPage.medications")}</span>
             <span>/</span>
             <span className="text-gray-900">{page.title}</span>
           </nav>
 
           <header className="mb-8">
             <div className="flex items-center gap-2 mb-3">
-              <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-semibold rounded-full">Medication Guide</span>
+              <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-semibold rounded-full">{t("pages.clinicalSeo.medicationPage.medicationGuide")}</span>
               {data.drugClass && <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">{data.drugClass}</span>}
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="page-title">{page.title}</h1>
@@ -122,7 +124,7 @@ export default function ClinicalMedicationPage() {
             <section className="mb-8" data-testid="section-mechanism">
               <div className="flex items-center gap-2 mb-4">
                 <Heart className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Mechanism of Action</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.medicationPage.mechanismOfAction")}</h2>
               </div>
               <div className="bg-white border border-gray-200 rounded-xl p-6">
                 <p className="text-gray-700 leading-relaxed">{data.mechanismOfAction}</p>
@@ -134,7 +136,7 @@ export default function ClinicalMedicationPage() {
             <section className="mb-8" data-testid="section-indications">
               <div className="flex items-center gap-2 mb-4">
                 <Stethoscope className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Indications</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.medicationPage.indications")}</h2>
               </div>
               <div className="bg-white border border-gray-200 rounded-xl p-6">
                 <div className="flex flex-wrap gap-2">
@@ -150,7 +152,7 @@ export default function ClinicalMedicationPage() {
             <section className="mb-8" data-testid="section-side-effects">
               <div className="flex items-center gap-2 mb-4">
                 <AlertTriangle className="w-5 h-5 text-amber-500" />
-                <h2 className="text-2xl font-bold text-gray-900">Side Effects</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.medicationPage.sideEffects")}</h2>
               </div>
               <div className="space-y-3">
                 {data.sideEffects.map((se: any, i: number) => (
@@ -170,7 +172,7 @@ export default function ClinicalMedicationPage() {
             <section className="mb-8" data-testid="section-contraindications">
               <div className="flex items-center gap-2 mb-4">
                 <Shield className="w-5 h-5 text-red-500" />
-                <h2 className="text-2xl font-bold text-gray-900">Contraindications</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.medicationPage.contraindications")}</h2>
               </div>
               <div className="bg-red-50 border border-red-200 rounded-xl p-6">
                 <ul className="space-y-2">
@@ -186,7 +188,7 @@ export default function ClinicalMedicationPage() {
             <section className="mb-8" data-testid="section-nursing-considerations">
               <div className="flex items-center gap-2 mb-4">
                 <Pill className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Nursing Considerations</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.medicationPage.nursingConsiderations")}</h2>
               </div>
               <div className="bg-white border border-gray-200 rounded-xl p-6">
                 <ol className="space-y-3">
@@ -205,7 +207,7 @@ export default function ClinicalMedicationPage() {
             <section className="mb-8" data-testid="section-patient-teaching">
               <div className="flex items-center gap-2 mb-4">
                 <Users className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Patient Teaching</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.medicationPage.patientTeaching")}</h2>
               </div>
               <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-6">
                 <ul className="space-y-2">
@@ -221,7 +223,7 @@ export default function ClinicalMedicationPage() {
             <section className="mb-8" data-testid="section-herbal-interactions">
               <div className="flex items-center gap-2 mb-4">
                 <Leaf className="w-5 h-5 text-green-600" />
-                <h2 className="text-2xl font-bold text-gray-900">Herbal & Food Interactions</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.medicationPage.herbalFoodInteractions")}</h2>
               </div>
               <div className="bg-white border border-gray-200 rounded-xl p-6">
                 <div className="space-y-3">
@@ -240,7 +242,7 @@ export default function ClinicalMedicationPage() {
             <section className="mb-8" data-testid="section-exam-tips">
               <div className="flex items-center gap-2 mb-4">
                 <Lightbulb className="w-5 h-5 text-amber-500" />
-                <h2 className="text-2xl font-bold text-gray-900">NCLEX Exam Tips</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.medicationPage.nclexExamTips")}</h2>
               </div>
               <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
                 <ul className="space-y-3">
@@ -256,7 +258,7 @@ export default function ClinicalMedicationPage() {
             <section className="mb-8" data-testid="section-practice-questions">
               <div className="flex items-center gap-2 mb-4">
                 <BookOpen className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.medicationPage.practiceQuestions")}</h2>
               </div>
               <div className="space-y-4">
                 {questions.map((q: any, i: number) => <PracticeQuestion key={i} q={q} index={i} />)}

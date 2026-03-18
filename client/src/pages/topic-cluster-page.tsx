@@ -27,7 +27,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
+import { useI18n } from "@/lib/i18n";
 function TopicTableOfContents({ topic }: { topic: TopicCluster }) {
+  const { t } = useI18n();
   const sections = [
     { id: "introduction", title: "Introduction" },
     { id: "clinical-explanation", title: "Clinical Explanation" },
@@ -177,10 +179,10 @@ export default function TopicClusterPage() {
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-topic-not-found">Topic Not Found</h1>
-          <p className="text-gray-600 mb-6">The clinical topic you are looking for does not exist.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-topic-not-found">{t("pages.topicClusterPage.topicNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.topicClusterPage.theClinicalTopicYouAre")}</p>
           <LocaleLink href="/topics">
-            <Button data-testid="button-back-to-topics">Browse All Topics</Button>
+            <Button data-testid="button-back-to-topics">{t("pages.topicClusterPage.browseAllTopics")}</Button>
           </LocaleLink>
         </div>
         <Footer />
@@ -268,7 +270,7 @@ export default function TopicClusterPage() {
             </section>
 
             <section id="clinical-explanation" className="mb-12 scroll-mt-24" data-testid="section-clinical-explanation">
-              <SectionHeading id="clinical-explanation-heading" title="Clinical Explanation" icon={Brain} color={topic.color} />
+              <SectionHeading id="clinical-explanation-heading" title={t("pages.topicClusterPage.clinicalExplanation")} icon={Brain} color={topic.color} />
               <div className="bg-white rounded-xl border border-gray-200 p-6">
                 <p className="text-sm text-gray-700 leading-relaxed">{topic.clinicalExplanation}</p>
               </div>
@@ -277,7 +279,7 @@ export default function TopicClusterPage() {
             <TopicCtaBanner variant="questions" color={topic.color} previewSlugs={topic.previewQuestionsSlugs} />
 
             <section id="nursing-interventions" className="mb-12 scroll-mt-24" data-testid="section-nursing-interventions">
-              <SectionHeading id="interventions-heading" title="Key Nursing Interventions" icon={Activity} color={topic.color} />
+              <SectionHeading id="interventions-heading" title={t("pages.topicClusterPage.keyNursingInterventions")} icon={Activity} color={topic.color} />
               <div className="space-y-4">
                 {topic.nursingInterventions.map((intervention, i) => {
                   const priorityStyle = PRIORITY_STYLES[intervention.priority];
@@ -309,7 +311,7 @@ export default function TopicClusterPage() {
             </section>
 
             <section id="medications" className="mb-12 scroll-mt-24" data-testid="section-medications">
-              <SectionHeading id="medications-heading" title="Related Medications" icon={Pill} color={topic.color} />
+              <SectionHeading id="medications-heading" title={t("pages.topicClusterPage.relatedMedications")} icon={Pill} color={topic.color} />
               <div className="space-y-4">
                 {topic.medications.map((med, i) => (
                   <Card key={i} data-testid={`card-medication-${i}`}>
@@ -318,9 +320,9 @@ export default function TopicClusterPage() {
                         <h3 className="font-bold text-gray-900">{med.drugClass}</h3>
                         <Badge variant="outline" className="text-xs shrink-0">{med.examples.split(",").length} drugs</Badge>
                       </div>
-                      <p className="text-sm text-gray-500 mb-2"><span className="font-medium text-gray-700">Examples:</span> {med.examples}</p>
+                      <p className="text-sm text-gray-500 mb-2"><span className="font-medium text-gray-700">{t("pages.topicClusterPage.examples")}</span> {med.examples}</p>
                       <div className="bg-amber-50 border border-amber-100 rounded-lg p-3">
-                        <p className="text-sm text-amber-800"><span className="font-semibold">Nursing Considerations:</span> {med.nursingConsiderations}</p>
+                        <p className="text-sm text-amber-800"><span className="font-semibold">{t("pages.topicClusterPage.nursingConsiderations")}</span> {med.nursingConsiderations}</p>
                       </div>
                     </CardContent>
                   </Card>
@@ -331,7 +333,7 @@ export default function TopicClusterPage() {
             <TopicCtaBanner variant="flashcards" color={topic.color} />
 
             <section id="practice-questions" className="mb-12 scroll-mt-24" data-testid="section-practice-questions">
-              <SectionHeading id="practice-heading" title="Practice Questions" icon={FileText} color={topic.color} />
+              <SectionHeading id="practice-heading" title={t("pages.topicClusterPage.practiceQuestions")} icon={FileText} color={topic.color} />
               <p className="text-sm text-gray-600 mb-4">
                 Test your knowledge of {topic.title.toLowerCase()} with targeted practice questions featuring detailed clinical rationales.
               </p>
@@ -357,7 +359,7 @@ export default function TopicClusterPage() {
             </section>
 
             <section id="related-resources" className="mb-12 scroll-mt-24" data-testid="section-related-resources">
-              <SectionHeading id="resources-heading" title="Lessons & Flashcards" icon={GraduationCap} color={topic.color} />
+              <SectionHeading id="resources-heading" title={t("pages.topicClusterPage.lessonsFlashcards")} icon={GraduationCap} color={topic.color} />
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
                   <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
@@ -405,7 +407,7 @@ export default function TopicClusterPage() {
             <TopicCtaBanner variant="lessons" color={topic.color} />
 
             <section id="related-topics" className="mb-12 scroll-mt-24" data-testid="section-related-topics">
-              <SectionHeading id="related-heading" title="Related Clinical Topics" icon={Target} color={topic.color} />
+              <SectionHeading id="related-heading" title={t("pages.topicClusterPage.relatedClinicalTopics")} icon={Target} color={topic.color} />
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {relatedTopics.map((related) => (
                   <LocaleLink key={related.slug} href={`/${related.slug}`}>
@@ -427,7 +429,7 @@ export default function TopicClusterPage() {
             </section>
 
             <section id="faq" className="mb-12 scroll-mt-24" data-testid="section-faq">
-              <SectionHeading id="faq-heading" title="Frequently Asked Questions" icon={HelpCircle} color={topic.color} />
+              <SectionHeading id="faq-heading" title={t("pages.topicClusterPage.frequentlyAskedQuestions")} icon={HelpCircle} color={topic.color} />
               <div className="space-y-3">
                 {topic.faqs.map((faq, i) => (
                   <div
@@ -551,7 +553,7 @@ export function TopicClusterBySlug({ slug }: { slug: string }) {
             </section>
 
             <section id="clinical-explanation" className="mb-12 scroll-mt-24" data-testid="section-clinical-explanation">
-              <SectionHeading id="clinical-explanation-heading" title="Clinical Explanation" icon={Brain} color={topic.color} />
+              <SectionHeading id="clinical-explanation-heading" title={t("pages.topicClusterPage.clinicalExplanation2")} icon={Brain} color={topic.color} />
               <div className="bg-white rounded-xl border border-gray-200 p-6">
                 <p className="text-sm text-gray-700 leading-relaxed">{topic.clinicalExplanation}</p>
               </div>
@@ -560,7 +562,7 @@ export function TopicClusterBySlug({ slug }: { slug: string }) {
             <TopicCtaBanner variant="questions" color={topic.color} previewSlugs={topic.previewQuestionsSlugs} />
 
             <section id="nursing-interventions" className="mb-12 scroll-mt-24" data-testid="section-nursing-interventions">
-              <SectionHeading id="interventions-heading" title="Key Nursing Interventions" icon={Activity} color={topic.color} />
+              <SectionHeading id="interventions-heading" title={t("pages.topicClusterPage.keyNursingInterventions2")} icon={Activity} color={topic.color} />
               <div className="space-y-4">
                 {topic.nursingInterventions.map((intervention, i) => {
                   const priorityStyle = PRIORITY_STYLES[intervention.priority];
@@ -592,7 +594,7 @@ export function TopicClusterBySlug({ slug }: { slug: string }) {
             </section>
 
             <section id="medications" className="mb-12 scroll-mt-24" data-testid="section-medications">
-              <SectionHeading id="medications-heading" title="Related Medications" icon={Pill} color={topic.color} />
+              <SectionHeading id="medications-heading" title={t("pages.topicClusterPage.relatedMedications2")} icon={Pill} color={topic.color} />
               <div className="space-y-4">
                 {topic.medications.map((med, i) => (
                   <Card key={i} data-testid={`card-medication-${i}`}>
@@ -601,9 +603,9 @@ export function TopicClusterBySlug({ slug }: { slug: string }) {
                         <h3 className="font-bold text-gray-900">{med.drugClass}</h3>
                         <Badge variant="outline" className="text-xs shrink-0">{med.examples.split(",").length} drugs</Badge>
                       </div>
-                      <p className="text-sm text-gray-500 mb-2"><span className="font-medium text-gray-700">Examples:</span> {med.examples}</p>
+                      <p className="text-sm text-gray-500 mb-2"><span className="font-medium text-gray-700">{t("pages.topicClusterPage.examples2")}</span> {med.examples}</p>
                       <div className="bg-amber-50 border border-amber-100 rounded-lg p-3">
-                        <p className="text-sm text-amber-800"><span className="font-semibold">Nursing Considerations:</span> {med.nursingConsiderations}</p>
+                        <p className="text-sm text-amber-800"><span className="font-semibold">{t("pages.topicClusterPage.nursingConsiderations2")}</span> {med.nursingConsiderations}</p>
                       </div>
                     </CardContent>
                   </Card>
@@ -614,7 +616,7 @@ export function TopicClusterBySlug({ slug }: { slug: string }) {
             <TopicCtaBanner variant="flashcards" color={topic.color} />
 
             <section id="practice-questions" className="mb-12 scroll-mt-24" data-testid="section-practice-questions">
-              <SectionHeading id="practice-heading" title="Practice Questions" icon={FileText} color={topic.color} />
+              <SectionHeading id="practice-heading" title={t("pages.topicClusterPage.practiceQuestions2")} icon={FileText} color={topic.color} />
               <p className="text-sm text-gray-600 mb-4">
                 Test your knowledge of {topic.title.toLowerCase()} with targeted practice questions featuring detailed clinical rationales.
               </p>
@@ -640,7 +642,7 @@ export function TopicClusterBySlug({ slug }: { slug: string }) {
             </section>
 
             <section id="related-resources" className="mb-12 scroll-mt-24" data-testid="section-related-resources">
-              <SectionHeading id="resources-heading" title="Lessons & Flashcards" icon={GraduationCap} color={topic.color} />
+              <SectionHeading id="resources-heading" title={t("pages.topicClusterPage.lessonsFlashcards2")} icon={GraduationCap} color={topic.color} />
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
                   <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
@@ -688,7 +690,7 @@ export function TopicClusterBySlug({ slug }: { slug: string }) {
             <TopicCtaBanner variant="lessons" color={topic.color} />
 
             <section id="related-topics" className="mb-12 scroll-mt-24" data-testid="section-related-topics">
-              <SectionHeading id="related-heading" title="Related Clinical Topics" icon={Target} color={topic.color} />
+              <SectionHeading id="related-heading" title={t("pages.topicClusterPage.relatedClinicalTopics2")} icon={Target} color={topic.color} />
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {relatedTopics.map((related) => (
                   <LocaleLink key={related.slug} href={`/${related.slug}`}>
@@ -710,7 +712,7 @@ export function TopicClusterBySlug({ slug }: { slug: string }) {
             </section>
 
             <section id="faq" className="mb-12 scroll-mt-24" data-testid="section-faq">
-              <SectionHeading id="faq-heading" title="Frequently Asked Questions" icon={HelpCircle} color={topic.color} />
+              <SectionHeading id="faq-heading" title={t("pages.topicClusterPage.frequentlyAskedQuestions2")} icon={HelpCircle} color={topic.color} />
               <div className="space-y-3">
                 {topic.faqs.map((faq, i) => (
                   <div

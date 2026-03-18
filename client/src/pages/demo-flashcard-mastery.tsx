@@ -11,9 +11,11 @@ import {
 import { DemoPageWrapper, DemoHeader, SectionCard, SectionTitle, ProgressRing, MasteryBar, StatCard } from "@/components/demo-shared";
 import { flashcardMasteryData as d } from "@/data/demo-screenshot-data";
 
+import { useI18n } from "@/lib/i18n";
 export default function DemoFlashcardMastery() {
+  const { t } = useI18n();
   const { user, isAdmin } = useAuth();
-  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">Admin access required.</p></div></DemoPageWrapper>;
+  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">{t("pages.demoFlashcardMastery.adminAccessRequired")}</p></div></DemoPageWrapper>;
 
   const retentionChart = d.retentionTrend.map((v, i) => ({ week: `W${i + 1}`, retention: v }));
 
@@ -21,7 +23,7 @@ export default function DemoFlashcardMastery() {
     <DemoPageWrapper>
       <main className="max-w-7xl mx-auto px-6 pt-10 pb-16">
         <DemoHeader
-          title="Flashcard Mastery"
+          title={t("pages.demoFlashcardMastery.flashcardMastery")}
           subtitle={`${d.deckTitle} - ${d.totalCards} cards - Spaced repetition active`}
           rightContent={
             <div className="flex items-center gap-2">
@@ -38,25 +40,25 @@ export default function DemoFlashcardMastery() {
         <div className="grid grid-cols-12 gap-5 mb-6">
           <div className="col-span-12 lg:col-span-4">
             <SectionCard className="h-full flex flex-col items-center justify-center text-center py-8">
-              <ProgressRing value={d.retentionEstimate} size={120} strokeWidth={8} color="#8b5cf6" label="Retention" />
-              <h3 className="text-sm font-semibold text-slate-700 mt-5 mb-1">Overall Retention</h3>
+              <ProgressRing value={d.retentionEstimate} size={120} strokeWidth={8} color="#8b5cf6" label={t("pages.demoFlashcardMastery.retention")} />
+              <h3 className="text-sm font-semibold text-slate-700 mt-5 mb-1">{t("pages.demoFlashcardMastery.overallRetention")}</h3>
               <p className="text-xs text-slate-500 max-w-[220px]">
                 Estimated long-term retention based on spaced repetition performance and review consistency.
               </p>
               <div className="flex items-center gap-4 mt-5">
                 <div className="text-center">
                   <p className="text-lg font-bold text-emerald-600">{d.mastered}</p>
-                  <p className="text-[10px] text-slate-400">Mastered</p>
+                  <p className="text-[10px] text-slate-400">{t("pages.demoFlashcardMastery.mastered")}</p>
                 </div>
                 <div className="w-px h-8 bg-slate-200" />
                 <div className="text-center">
                   <p className="text-lg font-bold text-amber-600">{d.inProgress}</p>
-                  <p className="text-[10px] text-slate-400">In Progress</p>
+                  <p className="text-[10px] text-slate-400">{t("pages.demoFlashcardMastery.inProgress")}</p>
                 </div>
                 <div className="w-px h-8 bg-slate-200" />
                 <div className="text-center">
                   <p className="text-lg font-bold text-rose-500">{d.needsReview}</p>
-                  <p className="text-[10px] text-slate-400">Needs Review</p>
+                  <p className="text-[10px] text-slate-400">{t("pages.demoFlashcardMastery.needsReview")}</p>
                 </div>
               </div>
             </SectionCard>
@@ -64,16 +66,16 @@ export default function DemoFlashcardMastery() {
 
           <div className="col-span-12 lg:col-span-8">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-5">
-              <StatCard icon={<Layers className="w-4 h-4" />} label="Total Cards" value={d.totalCards.toString()} sub={d.deckTitle} />
-              <StatCard icon={<CheckCircle2 className="w-4 h-4" />} label="Mastered" value={`${Math.round((d.mastered / d.totalCards) * 100)}%`} sub={`${d.mastered} cards`} accent="bg-emerald-50 text-emerald-500" />
-              <StatCard icon={<Brain className="w-4 h-4" />} label="Sessions" value={d.studySessions.toString()} sub={`${d.avgSessionCards} cards avg`} />
-              <StatCard icon={<Flame className="w-4 h-4" />} label="Streak" value={`${d.reviewStreak} days`} accent="bg-amber-50 text-amber-500" />
-              <StatCard icon={<Clock className="w-4 h-4" />} label="Due Today" value={d.dueToday.toString()} accent="bg-rose-50 text-rose-500" />
-              <StatCard icon={<Target className="w-4 h-4" />} label="Retention" value={`${d.retentionEstimate}%`} accent="bg-violet-50 text-violet-500" />
+              <StatCard icon={<Layers className="w-4 h-4" />} label={t("pages.demoFlashcardMastery.totalCards")} value={d.totalCards.toString()} sub={d.deckTitle} />
+              <StatCard icon={<CheckCircle2 className="w-4 h-4" />} label={t("pages.demoFlashcardMastery.mastered2")} value={`${Math.round((d.mastered / d.totalCards) * 100)}%`} sub={`${d.mastered} cards`} accent="bg-emerald-50 text-emerald-500" />
+              <StatCard icon={<Brain className="w-4 h-4" />} label={t("pages.demoFlashcardMastery.sessions")} value={d.studySessions.toString()} sub={`${d.avgSessionCards} cards avg`} />
+              <StatCard icon={<Flame className="w-4 h-4" />} label={t("pages.demoFlashcardMastery.streak")} value={`${d.reviewStreak} days`} accent="bg-amber-50 text-amber-500" />
+              <StatCard icon={<Clock className="w-4 h-4" />} label={t("pages.demoFlashcardMastery.dueToday")} value={d.dueToday.toString()} accent="bg-rose-50 text-rose-500" />
+              <StatCard icon={<Target className="w-4 h-4" />} label={t("pages.demoFlashcardMastery.retention2")} value={`${d.retentionEstimate}%`} accent="bg-violet-50 text-violet-500" />
             </div>
 
             <SectionCard>
-              <SectionTitle title="Retention Trend" subtitle="Weekly retention rate over time"
+              <SectionTitle title={t("pages.demoFlashcardMastery.retentionTrend")} subtitle={t("pages.demo_flashcard_mastery.weeklyRetentionRateOverTime")}
                 right={<span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full"><TrendingUp className="w-3 h-3" /> +14%</span>}
               />
               <ResponsiveContainer width="100%" height={140}>
@@ -96,7 +98,7 @@ export default function DemoFlashcardMastery() {
         </div>
 
         <SectionCard className="mb-6">
-          <SectionTitle title="Mastery by Topic" subtitle="Card mastery distribution across subtopics" />
+          <SectionTitle title={t("pages.demoFlashcardMastery.masteryByTopic")} subtitle={t("pages.demo_flashcard_mastery.cardMasteryDistributionAcrossSubtopics")} />
           <div className="space-y-3">
             {d.topicMastery.map((t) => (
               <div key={t.topic} className="flex items-center gap-3">
@@ -114,7 +116,7 @@ export default function DemoFlashcardMastery() {
             <SectionCard>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-7 h-7 rounded-lg bg-rose-50 flex items-center justify-center"><AlertTriangle className="w-3.5 h-3.5 text-rose-500" /></div>
-                <h3 className="text-sm font-semibold text-slate-700">Weak Concepts</h3>
+                <h3 className="text-sm font-semibold text-slate-700">{t("pages.demoFlashcardMastery.weakConcepts")}</h3>
               </div>
               <div className="space-y-2.5">
                 {d.weakConcepts.map((c, i) => (
@@ -131,14 +133,14 @@ export default function DemoFlashcardMastery() {
             <SectionCard className="h-full flex flex-col">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-7 h-7 rounded-lg bg-violet-50 flex items-center justify-center"><BookOpen className="w-3.5 h-3.5 text-violet-500" /></div>
-                <h3 className="text-sm font-semibold text-slate-700">Recommended Next</h3>
+                <h3 className="text-sm font-semibold text-slate-700">{t("pages.demoFlashcardMastery.recommendedNext")}</h3>
               </div>
               <div className="flex-1 flex flex-col items-center justify-center text-center py-4">
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-100 to-indigo-100 flex items-center justify-center mb-3">
                   <Layers className="w-6 h-6 text-violet-600" />
                 </div>
                 <p className="text-sm font-semibold text-slate-700 mb-1">{d.recommendedNext}</p>
-                <p className="text-xs text-slate-500 mb-4 max-w-[200px]">Continue building mastery with related pharmacology content</p>
+                <p className="text-xs text-slate-500 mb-4 max-w-[200px]">{t("pages.demoFlashcardMastery.continueBuildingMasteryWithRelated")}</p>
                 <Button className="rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-xs font-semibold px-5 h-9 gap-1.5 shadow-md shadow-violet-200/40">
                   <ArrowRight className="w-3.5 h-3.5" /> Start Deck
                 </Button>

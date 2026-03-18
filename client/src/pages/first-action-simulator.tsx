@@ -42,6 +42,7 @@ import {
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
+import { useI18n } from "@/lib/i18n";
 type Tier = "rpn" | "rn" | "np";
 type Difficulty = "beginner" | "intermediate" | "advanced";
 
@@ -474,6 +475,7 @@ function VitalsDisplay({
   vitals: Scenario["vitals"];
   unitMode: UnitMode;
 }) {
+  const { t } = useI18n();
   const items = [
     { label: "HR", value: formatHR(vitals.hr), icon: Heart, danger: vitals.hr > 110 || vitals.hr < 50 },
     { label: "BP", value: formatBP(vitals.bpSystolic, vitals.bpDiastolic), icon: Activity, danger: vitals.bpSystolic < 90 || vitals.bpSystolic > 160 },
@@ -583,21 +585,21 @@ function ScenarioRunner({
 
           <div className="grid grid-cols-2 gap-2 text-xs text-gray-600 mb-4">
             <div>
-              <span className="font-semibold text-gray-400 uppercase tracking-wider text-[10px]">Age/Sex: </span>
+              <span className="font-semibold text-gray-400 uppercase tracking-wider text-[10px]">{t("pages.firstActionSimulator.agesex")} </span>
               {scenario.age} y/o {scenario.sex}
             </div>
             <div>
-              <span className="font-semibold text-gray-400 uppercase tracking-wider text-[10px]">Allergies: </span>
+              <span className="font-semibold text-gray-400 uppercase tracking-wider text-[10px]">{t("pages.firstActionSimulator.allergies")} </span>
               {scenario.allergies.join(", ")}
             </div>
             <div className="col-span-2">
-              <span className="font-semibold text-gray-400 uppercase tracking-wider text-[10px]">Comorbidities: </span>
+              <span className="font-semibold text-gray-400 uppercase tracking-wider text-[10px]">{t("pages.firstActionSimulator.comorbidities")} </span>
               {scenario.comorbidities.join(", ")}
             </div>
           </div>
 
           <div className="mb-4">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Presenting Symptoms</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">{t("pages.firstActionSimulator.presentingSymptoms")}</p>
             <div className="space-y-1">
               {scenario.symptoms.map((s, i) => (
                 <div key={i} className="flex items-start gap-2 text-sm text-gray-700">
@@ -609,7 +611,7 @@ function ScenarioRunner({
           </div>
 
           <div className="mb-4">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Vital Signs</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">{t("pages.firstActionSimulator.vitalSigns")}</p>
             <VitalsDisplay vitals={scenario.vitals} unitMode={unitMode} />
           </div>
         </CardContent>
@@ -676,7 +678,7 @@ function ScenarioRunner({
               <div className="flex items-start gap-2">
                 <ShieldAlert className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-1">Exam Trap</p>
+                  <p className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-1">{t("pages.firstActionSimulator.examTrap")}</p>
                   <p className="text-sm text-amber-800 leading-relaxed">{scenario.examTrap}</p>
                 </div>
               </div>
@@ -730,8 +732,8 @@ function SummaryScreen({
         <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
           <Trophy className="w-10 h-10 text-primary" />
         </div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Simulation Complete</h2>
-        <p className="text-gray-500">Here's how you performed</p>
+        <h2 className="text-3xl font-bold text-gray-900 mb-2">{t("pages.firstActionSimulator.simulationComplete")}</h2>
+        <p className="text-gray-500">{t("pages.firstActionSimulator.heresHowYouPerformed")}</p>
       </div>
 
       <Card className="border-2 border-primary/20">
@@ -852,8 +854,8 @@ export default function FirstActionSimulatorPage() {
   return (
     <div className={`min-h-screen bg-warmwhite flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
       <SEO
-        title="First Action Prioritization Simulator - Clinical Decision Training | NurseNest"
-        description="Master nursing prioritization with interactive clinical scenarios. Choose the correct FIRST nursing action for each patient presentation. Tier-scoped content for RPN, RN, and NP learners."
+        title={t("pages.firstActionSimulator.firstActionPrioritizationSimulatorClinical")}
+        description={t("pages.firstActionSimulator.masterNursingPrioritizationWithInteractive")}
         keywords="nursing prioritization simulator, first action nursing, clinical decision making, NCLEX prioritization, nursing exam prep, clinical reasoning"
         canonicalPath="/first-action-simulator"
         ogType="website"
@@ -868,8 +870,8 @@ export default function FirstActionSimulatorPage() {
               <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
                 <Lock className="w-10 h-10 text-primary/60" />
               </div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-3" data-testid="text-page-title">First Action Prioritization Simulator</h1>
-              <p className="text-lg text-gray-600 mb-2">Premium Interactive Tool</p>
+              <h1 className="text-3xl font-bold text-gray-900 mb-3" data-testid="text-page-title">{t("pages.firstActionSimulator.firstActionPrioritizationSimulator")}</h1>
+              <p className="text-lg text-gray-600 mb-2">{t("pages.firstActionSimulator.premiumInteractiveTool")}</p>
               <p className="text-sm text-gray-500 mb-8 leading-relaxed max-w-md mx-auto">
                 Master the "What do you do FIRST?" questions that define nursing exams. Practice clinical prioritization with tier-scoped scenarios designed for RPN, RN, and NP learners.
               </p>
@@ -881,7 +883,7 @@ export default function FirstActionSimulatorPage() {
               </LocaleLink>
               {!user && (
                 <p className="text-xs text-gray-400 mt-4">
-                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">Sign in</LocaleLink> to access.
+                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">{t("pages.firstActionSimulator.signIn")}</LocaleLink> to access.
                 </p>
               )}
             </div>
@@ -975,7 +977,7 @@ export default function FirstActionSimulatorPage() {
                       <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
                         <span>{count} scenarios</span>
                         <span>·</span>
-                        <span>Progressive difficulty</span>
+                        <span>{t("pages.firstActionSimulator.progressiveDifficulty")}</span>
                       </div>
                       <Button className="mt-4 rounded-full gap-2 bg-primary text-white hover:brightness-110 w-full" data-testid={`button-start-${tier}`}>
                         Start Simulation

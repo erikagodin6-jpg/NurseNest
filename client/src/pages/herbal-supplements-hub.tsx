@@ -5,6 +5,7 @@ import { SEO } from "@/components/seo";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { useI18n } from "@/lib/i18n";
 import {
   Leaf,
   AlertTriangle,
@@ -76,13 +77,14 @@ const seoPages = [
 ];
 
 export default function HerbalSupplementsHub() {
+  const { t } = useI18n();
   const [, navigate] = useLocation();
 
   return (
     <>
       <SEO
-        title="Herbal Supplements & Medication Interactions | NurseNest"
-        description="Comprehensive nursing guide to herbal supplements and medication interactions. Learn about the 4 Gs, CYP450 interactions, perioperative safety, and patient teaching for NCLEX success."
+        title={t("pages.herbalSupplementsHub.herbalSupplementsMedicationInteractionsNur")}
+        description={t("pages.herbalSupplementsHub.comprehensiveNursingGuideToHerbal")}
         keywords="herbal supplements nursing, herb drug interactions, 4 Gs bleeding herbs, herbal medication safety, NCLEX pharmacology"
         canonicalPath="/lessons/herbal-supplements-hub"
       />
@@ -92,11 +94,11 @@ export default function HerbalSupplementsHub() {
         <section className="bg-gradient-to-br from-emerald-800 to-emerald-950 text-white py-16 lg:py-20" data-testid="herbal-hub-hero">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <nav className="flex items-center gap-2 text-sm text-white/60 mb-6">
-              <button onClick={() => navigate("/")} className="hover:text-white/80 transition-colors">Home</button>
+              <button onClick={() => navigate("/")} className="hover:text-white/80 transition-colors">{t("pages.herbalSupplementsHub.home")}</button>
               <span>/</span>
-              <button onClick={() => navigate("/pharmacology")} className="hover:text-white/80 transition-colors">Pharmacology</button>
+              <button onClick={() => navigate("/pharmacology")} className="hover:text-white/80 transition-colors">{t("pages.herbalSupplementsHub.pharmacology")}</button>
               <span>/</span>
-              <span className="text-white/90">Herbal Supplements</span>
+              <span className="text-white/90">{t("pages.herbalSupplementsHub.herbalSupplements")}</span>
             </nav>
 
             <div className="flex items-start gap-4 mb-6">
@@ -116,19 +118,19 @@ export default function HerbalSupplementsHub() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8">
               <div className="bg-white/10 rounded-xl p-3 text-center" data-testid="stat-lessons">
                 <div className="text-2xl font-bold">15</div>
-                <div className="text-xs text-white/70">Herb Lessons</div>
+                <div className="text-xs text-white/70">{t("pages.herbalSupplementsHub.herbLessons")}</div>
               </div>
               <div className="bg-white/10 rounded-xl p-3 text-center" data-testid="stat-questions">
                 <div className="text-2xl font-bold">75+</div>
-                <div className="text-xs text-white/70">Practice Questions</div>
+                <div className="text-xs text-white/70">{t("pages.herbalSupplementsHub.practiceQuestions")}</div>
               </div>
               <div className="bg-white/10 rounded-xl p-3 text-center" data-testid="stat-interactions">
                 <div className="text-2xl font-bold">50+</div>
-                <div className="text-xs text-white/70">Drug Interactions</div>
+                <div className="text-xs text-white/70">{t("pages.herbalSupplementsHub.drugInteractions")}</div>
               </div>
               <div className="bg-white/10 rounded-xl p-3 text-center" data-testid="stat-guides">
                 <div className="text-2xl font-bold">5</div>
-                <div className="text-xs text-white/70">SEO Guides</div>
+                <div className="text-xs text-white/70">{t("pages.herbalSupplementsHub.seoGuides")}</div>
               </div>
             </div>
           </div>
@@ -141,9 +143,9 @@ export default function HerbalSupplementsHub() {
                 <div className="flex items-start gap-3">
                   <AlertTriangle className="w-6 h-6 text-amber-600 shrink-0 mt-0.5" />
                   <div>
-                    <h3 className="font-bold text-amber-900 mb-2">Key Exam Concept: The '4 Gs'</h3>
+                    <h3 className="font-bold text-amber-900 mb-2">{t("pages.herbalSupplementsHub.keyExamConceptThe4")}</h3>
                     <p className="text-amber-800 leading-relaxed">
-                      <strong>Ginkgo, Garlic, Ginger, Ginseng</strong> — all increase bleeding risk through platelet aggregation inhibition.
+                      <strong>{t("pages.herbalSupplementsHub.ginkgoGarlicGingerGinseng")}</strong> — all increase bleeding risk through platelet aggregation inhibition.
                       Report use to the surgical team preoperatively and to the prescriber in anticoagulated patients.
                       All should be discontinued before elective surgery per ASA guidelines.
                     </p>
@@ -158,7 +160,7 @@ export default function HerbalSupplementsHub() {
               <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
                 <AlertTriangle className="w-5 h-5 text-red-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">Most Dangerous: St. John's Wort</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.herbalSupplementsHub.mostDangerousStJohnsWort")}</h2>
             </div>
             <LocaleLink href="/lessons/st-johns-wort">
               <Card className="hover:shadow-md transition-shadow cursor-pointer border-red-200">
@@ -168,16 +170,16 @@ export default function HerbalSupplementsHub() {
                       <Leaf className="w-6 h-6 text-red-600" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-bold text-gray-900" data-testid="text-sjw-title">St. John's Wort (Hypericum perforatum)</h3>
+                      <h3 className="text-lg font-bold text-gray-900" data-testid="text-sjw-title">{t("pages.herbalSupplementsHub.stJohnsWortHypericumPerforatum")}</h3>
                       <p className="text-gray-600 mt-1 leading-relaxed">
                         The single most dangerous herbal supplement for drug interactions. Induces CYP3A4, CYP2C9, CYP1A2, and P-glycoprotein — affects ~50% of all prescribed medications.
                         Causes serotonin syndrome with SSRIs and transplant rejection by reducing cyclosporine levels.
                       </p>
                       <div className="flex flex-wrap gap-2 mt-3">
-                        <span className="px-2 py-1 rounded-full bg-red-100 text-red-700 text-xs font-medium">CYP3A4 Inducer</span>
-                        <span className="px-2 py-1 rounded-full bg-red-100 text-red-700 text-xs font-medium">Serotonin Syndrome</span>
-                        <span className="px-2 py-1 rounded-full bg-red-100 text-red-700 text-xs font-medium">Transplant Rejection</span>
-                        <span className="px-2 py-1 rounded-full bg-red-100 text-red-700 text-xs font-medium">Contraceptive Failure</span>
+                        <span className="px-2 py-1 rounded-full bg-red-100 text-red-700 text-xs font-medium">{t("pages.herbalSupplementsHub.cyp3a4Inducer")}</span>
+                        <span className="px-2 py-1 rounded-full bg-red-100 text-red-700 text-xs font-medium">{t("pages.herbalSupplementsHub.serotoninSyndrome")}</span>
+                        <span className="px-2 py-1 rounded-full bg-red-100 text-red-700 text-xs font-medium">{t("pages.herbalSupplementsHub.transplantRejection")}</span>
+                        <span className="px-2 py-1 rounded-full bg-red-100 text-red-700 text-xs font-medium">{t("pages.herbalSupplementsHub.contraceptiveFailure")}</span>
                       </div>
                     </div>
                     <ArrowRight className="w-5 h-5 text-gray-400 shrink-0 mt-2" />
@@ -192,7 +194,7 @@ export default function HerbalSupplementsHub() {
               <div className="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center">
                 <Droplets className="w-5 h-5 text-rose-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">Bleeding Risk Herbs</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.herbalSupplementsHub.bleedingRiskHerbs")}</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {bleedingRiskHerbs.map((herb) => (
@@ -222,7 +224,7 @@ export default function HerbalSupplementsHub() {
               <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
                 <Brain className="w-5 h-5 text-purple-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">Sedative / CNS Depressant Herbs</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.herbalSupplementsHub.sedativeCnsDepressantHerbs")}</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {cnsDepressantHerbs.map((herb) => (
@@ -252,7 +254,7 @@ export default function HerbalSupplementsHub() {
               <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
                 <Beaker className="w-5 h-5 text-blue-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">CYP450 Enzyme Interactions</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.herbalSupplementsHub.cyp450EnzymeInteractions")}</h2>
             </div>
             <div className="grid grid-cols-1 gap-3">
               {cyp450Herbs.map((herb) => (
@@ -280,7 +282,7 @@ export default function HerbalSupplementsHub() {
               <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
                 <Activity className="w-5 h-5 text-orange-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">Blood Pressure & Blood Sugar Effects</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.herbalSupplementsHub.bloodPressureBloodSugarEffects")}</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {bpBloodSugarHerbs.map((herb) => (
@@ -310,7 +312,7 @@ export default function HerbalSupplementsHub() {
               <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
                 <Shield className="w-5 h-5 text-amber-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">Special Population Concerns</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.herbalSupplementsHub.specialPopulationConcerns")}</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {specialPopulationHerbs.map((herb) => (
@@ -337,7 +339,7 @@ export default function HerbalSupplementsHub() {
               <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
                 <Scissors className="w-5 h-5 text-indigo-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">Surgery & Anesthesia Safety</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.herbalSupplementsHub.surgeryAnesthesiaSafety")}</h2>
             </div>
             <LocaleLink href="/lessons/surgery-anesthesia-herbal-safety">
               <Card className="hover:shadow-md transition-shadow cursor-pointer border-indigo-200">
@@ -347,15 +349,15 @@ export default function HerbalSupplementsHub() {
                       <Scissors className="w-6 h-6 text-indigo-600" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-bold text-gray-900" data-testid="text-surgery-title">Surgery & Anesthesia: Herbal Supplement Safety</h3>
+                      <h3 className="text-lg font-bold text-gray-900" data-testid="text-surgery-title">{t("pages.herbalSupplementsHub.surgeryAnesthesiaHerbalSupplementSafety")}</h3>
                       <p className="text-gray-600 mt-1 leading-relaxed">
                         ASA guidelines for perioperative herbal discontinuation. Covers bleeding risk assessment, anesthesia interactions,
                         preoperative screening protocols, and specific timelines for each supplement category.
                       </p>
                       <div className="flex flex-wrap gap-2 mt-3">
-                        <span className="px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-medium">ASA Guidelines</span>
-                        <span className="px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-medium">Pre-op Timelines</span>
-                        <span className="px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-medium">Anesthesia Safety</span>
+                        <span className="px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-medium">{t("pages.herbalSupplementsHub.asaGuidelines")}</span>
+                        <span className="px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-medium">{t("pages.herbalSupplementsHub.preopTimelines")}</span>
+                        <span className="px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-medium">{t("pages.herbalSupplementsHub.anesthesiaSafety")}</span>
                       </div>
                     </div>
                     <ArrowRight className="w-5 h-5 text-gray-400 shrink-0 mt-2" />
@@ -370,7 +372,7 @@ export default function HerbalSupplementsHub() {
               <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center">
                 <FileText className="w-5 h-5 text-teal-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">Documentation & Patient Teaching</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.herbalSupplementsHub.documentationPatientTeaching")}</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <Card className="border-teal-200" data-testid="card-doc-reconciliation">
@@ -378,12 +380,12 @@ export default function HerbalSupplementsHub() {
                   <div className="flex items-start gap-3">
                     <Stethoscope className="w-5 h-5 text-teal-600 shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="font-bold text-gray-900 mb-2">Medication Reconciliation</h3>
+                      <h3 className="font-bold text-gray-900 mb-2">{t("pages.herbalSupplementsHub.medicationReconciliation")}</h3>
                       <ul className="space-y-1.5 text-sm text-gray-600">
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>Ask open-ended: "What supplements, vitamins, or herbal products do you take?"</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>Include teas, topical products, and homeopathic remedies</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>Use culturally sensitive, non-judgmental language</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>Screen for the 4 Gs in all pre-op patients</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>{t("pages.herbalSupplementsHub.askOpenendedWhatSupplementsVitamins")}</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>{t("pages.herbalSupplementsHub.includeTeasTopicalProductsAnd")}</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>{t("pages.herbalSupplementsHub.useCulturallySensitiveNonjudgmentalLanguage")}</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>{t("pages.herbalSupplementsHub.screenForThe4Gs")}</span></li>
                       </ul>
                     </div>
                   </div>
@@ -394,12 +396,12 @@ export default function HerbalSupplementsHub() {
                   <div className="flex items-start gap-3">
                     <FileText className="w-5 h-5 text-teal-600 shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="font-bold text-gray-900 mb-2">What to Document</h3>
+                      <h3 className="font-bold text-gray-900 mb-2">{t("pages.herbalSupplementsHub.whatToDocument")}</h3>
                       <ul className="space-y-1.5 text-sm text-gray-600">
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>Specific product names, doses, frequency, and formulation</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>Reason for use and duration</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>Flag identified interactions for prescriber review</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>Update medication list at every encounter</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>{t("pages.herbalSupplementsHub.specificProductNamesDosesFrequency")}</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>{t("pages.herbalSupplementsHub.reasonForUseAndDuration")}</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>{t("pages.herbalSupplementsHub.flagIdentifiedInteractionsForPrescriber")}</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-teal-500 mt-0.5 shrink-0" /><span>{t("pages.herbalSupplementsHub.updateMedicationListAtEvery")}</span></li>
                       </ul>
                     </div>
                   </div>
@@ -413,7 +415,7 @@ export default function HerbalSupplementsHub() {
               <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
                 <Target className="w-5 h-5 text-amber-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">High-Yield Exam Points</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.herbalSupplementsHub.highyieldExamPoints")}</h2>
             </div>
             <div className="space-y-3">
               <Card className="border-red-200 bg-red-50/30" data-testid="card-highyield-sjw">
@@ -421,8 +423,8 @@ export default function HerbalSupplementsHub() {
                   <div className="flex items-start gap-3">
                     <AlertTriangle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="font-bold text-red-900 text-sm">Exam Trap: St. John's Wort + SSRIs</h3>
-                      <p className="text-xs text-red-800 mt-1">St. John's Wort is the #1 most tested herbal interaction. Combined with SSRIs, SNRIs, triptans, or meperidine, it causes serotonin syndrome (agitation, hyperthermia, clonus). Also reduces effectiveness of ~50% of all drugs through CYP3A4 induction.</p>
+                      <h3 className="font-bold text-red-900 text-sm">{t("pages.herbalSupplementsHub.examTrapStJohnsWort")}</h3>
+                      <p className="text-xs text-red-800 mt-1">{t("pages.herbalSupplementsHub.stJohnsWortIsThe")}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -432,8 +434,8 @@ export default function HerbalSupplementsHub() {
                   <div className="flex items-start gap-3">
                     <Lightbulb className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="font-bold text-amber-900 text-sm">Exam Tip: The 4 Gs Mnemonic</h3>
-                      <p className="text-xs text-amber-800 mt-1">Ginkgo, Garlic, Ginger, Ginseng — all increase bleeding risk. Exam writers love to test a patient on warfarin who is also taking one of these. Correct answer: notify the prescriber about additive bleeding risk.</p>
+                      <h3 className="font-bold text-amber-900 text-sm">{t("pages.herbalSupplementsHub.examTipThe4Gs")}</h3>
+                      <p className="text-xs text-amber-800 mt-1">{t("pages.herbalSupplementsHub.ginkgoGarlicGingerGinsengAll")}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -443,8 +445,8 @@ export default function HerbalSupplementsHub() {
                   <div className="flex items-start gap-3">
                     <Lightbulb className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="font-bold text-blue-900 text-sm">Common Mistake: Pre-Op Supplement Timing</h3>
-                      <p className="text-xs text-blue-800 mt-1">ASA recommends stopping all herbals 2-3 weeks before surgery. Valerian must be tapered (not stopped abruptly — withdrawal risk). If the question says surgery is tomorrow and the patient just disclosed valerian use, correct answer: notify the surgeon.</p>
+                      <h3 className="font-bold text-blue-900 text-sm">{t("pages.herbalSupplementsHub.commonMistakePreopSupplementTiming")}</h3>
+                      <p className="text-xs text-blue-800 mt-1">{t("pages.herbalSupplementsHub.asaRecommendsStoppingAllHerbals")}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -454,8 +456,8 @@ export default function HerbalSupplementsHub() {
                   <div className="flex items-start gap-3">
                     <Lightbulb className="w-5 h-5 text-purple-600 shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="font-bold text-purple-900 text-sm">Exam Trap: Patient Non-Disclosure</h3>
-                      <p className="text-xs text-purple-800 mt-1">Over 50% of adults use supplements but fewer than 40% tell their providers. When asked the most effective assessment question, choose the open-ended, non-judgmental one: "What vitamins, supplements, or herbal products do you take?"</p>
+                      <h3 className="font-bold text-purple-900 text-sm">{t("pages.herbalSupplementsHub.examTrapPatientNondisclosure")}</h3>
+                      <p className="text-xs text-purple-800 mt-1">{t("pages.herbalSupplementsHub.over50OfAdultsUse")}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -468,7 +470,7 @@ export default function HerbalSupplementsHub() {
               <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
                 <Pill className="w-5 h-5 text-emerald-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">Related Pharmacology Resources</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.herbalSupplementsHub.relatedPharmacologyResources")}</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               <LocaleLink href="/pharmacology">
@@ -477,8 +479,8 @@ export default function HerbalSupplementsHub() {
                     <div className="flex items-start gap-3">
                       <Pill className="w-4 h-4 text-emerald-600 shrink-0 mt-1" />
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-gray-900 text-sm">Pharmacology Crash Course</h3>
-                        <p className="text-xs text-gray-500 mt-0.5">5-day intensive covering all drug classes</p>
+                        <h3 className="font-semibold text-gray-900 text-sm">{t("pages.herbalSupplementsHub.pharmacologyCrashCourse")}</h3>
+                        <p className="text-xs text-gray-500 mt-0.5">{t("pages.herbalSupplementsHub.5dayIntensiveCoveringAllDrug")}</p>
                       </div>
                       <ArrowRight className="w-4 h-4 text-gray-400 shrink-0" />
                     </div>
@@ -491,8 +493,8 @@ export default function HerbalSupplementsHub() {
                     <div className="flex items-start gap-3">
                       <Beaker className="w-4 h-4 text-emerald-600 shrink-0 mt-1" />
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-gray-900 text-sm">Medication Mastery</h3>
-                        <p className="text-xs text-gray-500 mt-0.5">Mechanism-first drug explorer</p>
+                        <h3 className="font-semibold text-gray-900 text-sm">{t("pages.herbalSupplementsHub.medicationMastery")}</h3>
+                        <p className="text-xs text-gray-500 mt-0.5">{t("pages.herbalSupplementsHub.mechanismfirstDrugExplorer")}</p>
                       </div>
                       <ArrowRight className="w-4 h-4 text-gray-400 shrink-0" />
                     </div>
@@ -505,8 +507,8 @@ export default function HerbalSupplementsHub() {
                     <div className="flex items-start gap-3">
                       <BookOpen className="w-4 h-4 text-emerald-600 shrink-0 mt-1" />
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-gray-900 text-sm">NCLEX Pharmacology</h3>
-                        <p className="text-xs text-gray-500 mt-0.5">Exam-focused drug review</p>
+                        <h3 className="font-semibold text-gray-900 text-sm">{t("pages.herbalSupplementsHub.nclexPharmacology")}</h3>
+                        <p className="text-xs text-gray-500 mt-0.5">{t("pages.herbalSupplementsHub.examfocusedDrugReview")}</p>
                       </div>
                       <ArrowRight className="w-4 h-4 text-gray-400 shrink-0" />
                     </div>
@@ -521,7 +523,7 @@ export default function HerbalSupplementsHub() {
               <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
                 <BookOpen className="w-5 h-5 text-emerald-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">Educational Guides</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.herbalSupplementsHub.educationalGuides")}</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {seoPages.map((page) => (
@@ -532,7 +534,7 @@ export default function HerbalSupplementsHub() {
                         <BookOpen className="w-4 h-4 text-emerald-600 shrink-0 mt-1" />
                         <div className="flex-1 min-w-0">
                           <h3 className="font-semibold text-gray-900 text-sm leading-snug">{page.title}</h3>
-                          <p className="text-xs text-emerald-600 mt-1">Read Guide →</p>
+                          <p className="text-xs text-emerald-600 mt-1">{t("pages.herbalSupplementsHub.readGuide")}</p>
                         </div>
                       </div>
                     </CardContent>
@@ -543,7 +545,7 @@ export default function HerbalSupplementsHub() {
           </section>
 
           <section className="bg-gradient-to-r from-emerald-800 to-emerald-950 rounded-2xl p-8 text-white text-center" data-testid="section-cta">
-            <h2 className="text-2xl font-bold mb-3">Ready to Master Herbal Supplement Safety?</h2>
+            <h2 className="text-2xl font-bold mb-3">{t("pages.herbalSupplementsHub.readyToMasterHerbalSupplement")}</h2>
             <p className="text-white/80 mb-6 max-w-2xl mx-auto">
               Access all 15 herb lessons, 75+ practice questions, and clinical simulations. Prepare with confidence for your nursing exam.
             </p>

@@ -18,7 +18,9 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 
+import { useI18n } from "@/lib/i18n";
 function StatusBadge({ status }: { status: string }) {
+  const { t } = useI18n();
   const colors: Record<string, string> = {
     queued: "bg-yellow-100 text-yellow-800",
     running: "bg-blue-100 text-blue-800",
@@ -57,7 +59,7 @@ function OverviewTab() {
     queryFn: () => adminFetch("/api/admin/autopilot/jobs?limit=5").then(r => r.json()),
   });
 
-  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading overview...</div>;
+  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> {t("pages.adminAutopilot.loadingOverview")}</div>;
 
   const engineList = Array.isArray(engines) ? engines : engines?.engines || [];
   const jobList = Array.isArray(recentJobs) ? recentJobs : recentJobs?.jobs || [];
@@ -68,25 +70,25 @@ function OverviewTab() {
         <Card data-testid="stat-total-engines">
           <CardContent className="py-4 text-center">
             <div className="text-2xl font-bold">{stats?.totalEngines || engineList.length || 0}</div>
-            <div className="text-xs text-gray-500">Total Engines</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAutopilot.totalEngines")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-active-engines">
           <CardContent className="py-4 text-center">
             <div className="text-2xl font-bold text-green-600">{stats?.activeEngines || engineList.filter((e: any) => e.enabled).length || 0}</div>
-            <div className="text-xs text-gray-500">Active Engines</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAutopilot.activeEngines")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-total-jobs">
           <CardContent className="py-4 text-center">
             <div className="text-2xl font-bold">{stats?.totalJobs || 0}</div>
-            <div className="text-xs text-gray-500">Total Jobs</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAutopilot.totalJobs")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-queue-size">
           <CardContent className="py-4 text-center">
             <div className="text-2xl font-bold text-blue-600">{stats?.queueSize || 0}</div>
-            <div className="text-xs text-gray-500">In Queue</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAutopilot.inQueue")}</div>
           </CardContent>
         </Card>
       </div>
@@ -116,7 +118,7 @@ function OverviewTab() {
       {jobList.length > 0 && (
         <Card data-testid="card-recent-jobs">
           <CardHeader>
-            <CardTitle className="text-lg">Recent Jobs</CardTitle>
+            <CardTitle className="text-lg">{t("pages.adminAutopilot.recentJobs")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -193,10 +195,10 @@ function SchedulesTab() {
         <CardContent>
           <div className="flex flex-wrap gap-3 items-end">
             <div>
-              <Label className="text-sm mb-1 block">Engine</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.engine")}</Label>
               <Select value={newEngineKey} onValueChange={setNewEngineKey} data-testid="select-schedule-engine">
                 <SelectTrigger className="w-48" data-testid="select-schedule-engine-trigger">
-                  <SelectValue placeholder="Select engine" />
+                  <SelectValue placeholder={t("pages.adminAutopilot.selectEngine")} />
                 </SelectTrigger>
                 <SelectContent>
                   {engineList.map((e: any) => (
@@ -206,25 +208,25 @@ function SchedulesTab() {
               </Select>
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Frequency</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.frequency")}</Label>
               <Select value={newFrequency} onValueChange={setNewFrequency} data-testid="select-schedule-frequency">
                 <SelectTrigger className="w-36" data-testid="select-schedule-frequency-trigger">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="daily">Daily</SelectItem>
-                  <SelectItem value="weekly">Weekly</SelectItem>
-                  <SelectItem value="custom">Custom</SelectItem>
+                  <SelectItem value="daily">{t("pages.adminAutopilot.daily")}</SelectItem>
+                  <SelectItem value="weekly">{t("pages.adminAutopilot.weekly")}</SelectItem>
+                  <SelectItem value="custom">{t("pages.adminAutopilot.custom")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Cron Expression</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.cronExpression")}</Label>
               <Input
                 value={newCron}
                 onChange={(e) => setNewCron(e.target.value)}
                 className="w-40"
-                placeholder="0 6 * * *"
+                placeholder={t("pages.admin_autopilot.06")}
                 data-testid="input-schedule-cron"
               />
             </div>
@@ -241,9 +243,9 @@ function SchedulesTab() {
       </Card>
 
       {isLoading ? (
-        <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading schedules...</div>
+        <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> {t("pages.adminAutopilot.loadingSchedules")}</div>
       ) : scheduleList.length === 0 ? (
-        <p className="text-muted-foreground py-8 text-center">No schedules configured</p>
+        <p className="text-muted-foreground py-8 text-center">{t("pages.adminAutopilot.noSchedulesConfigured")}</p>
       ) : (
         <div className="space-y-2">
           {scheduleList.map((sched: any) => (
@@ -313,21 +315,21 @@ function PublishingQueueTab() {
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All</SelectItem>
-            <SelectItem value="draft">Draft</SelectItem>
-            <SelectItem value="pending_review">Pending Review</SelectItem>
-            <SelectItem value="approved">Approved</SelectItem>
-            <SelectItem value="published">Published</SelectItem>
-            <SelectItem value="rejected">Rejected</SelectItem>
+            <SelectItem value="all">{t("pages.adminAutopilot.all")}</SelectItem>
+            <SelectItem value="draft">{t("pages.adminAutopilot.draft")}</SelectItem>
+            <SelectItem value="pending_review">{t("pages.adminAutopilot.pendingReview")}</SelectItem>
+            <SelectItem value="approved">{t("pages.adminAutopilot.approved")}</SelectItem>
+            <SelectItem value="published">{t("pages.adminAutopilot.published")}</SelectItem>
+            <SelectItem value="rejected">{t("pages.adminAutopilot.rejected")}</SelectItem>
           </SelectContent>
         </Select>
         <span className="text-sm text-muted-foreground ml-auto">{items.length} items</span>
       </div>
 
       {isLoading ? (
-        <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading queue...</div>
+        <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> {t("pages.adminAutopilot.loadingQueue")}</div>
       ) : items.length === 0 ? (
-        <p className="text-muted-foreground py-8 text-center">No items in queue</p>
+        <p className="text-muted-foreground py-8 text-center">{t("pages.adminAutopilot.noItemsInQueue")}</p>
       ) : (
         <div className="space-y-2">
           {items.map((item: any) => (
@@ -432,7 +434,7 @@ function KeywordDiscoveryTab() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <Label className="text-sm mb-1 block">Enter keywords (one per line)</Label>
+            <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.enterKeywordsOnePerLine")}</Label>
             <Textarea
               value={keywords}
               onChange={(e) => setKeywords(e.target.value)}
@@ -446,7 +448,7 @@ function KeywordDiscoveryTab() {
             disabled={isSearching || !keywords.trim()}
             data-testid="button-search-keywords"
           >
-            {isSearching ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Analyzing...</> : <><Search className="mr-2 h-4 w-4" /> Analyze Keywords</>}
+            {isSearching ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> {t("pages.adminAutopilot.analyzing")}</> : <><Search className="mr-2 h-4 w-4" /> {t("pages.adminAutopilot.analyzeKeywords")}</>}
           </Button>
         </CardContent>
       </Card>
@@ -454,7 +456,7 @@ function KeywordDiscoveryTab() {
       {results.length > 0 && (
         <Card data-testid="card-keyword-results">
           <CardHeader>
-            <CardTitle className="text-lg">Keyword Clusters</CardTitle>
+            <CardTitle className="text-lg">{t("pages.adminAutopilot.keywordClusters")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -558,7 +560,7 @@ function BlogEngineTab() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <Label className="text-sm mb-1 block">Content Type</Label>
+            <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.contentType")}</Label>
             <div className="flex gap-2">
               <Button
                 variant={isNursing ? "default" : "outline"}
@@ -588,7 +590,7 @@ function BlogEngineTab() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label className="text-sm mb-1 block">Page Topic</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.pageTopic")}</Label>
               <Input
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
@@ -597,7 +599,7 @@ function BlogEngineTab() {
               />
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Target SEO Keyword</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.targetSeoKeyword")}</Label>
               <Input
                 value={targetKeyword}
                 onChange={(e) => setTargetKeyword(e.target.value)}
@@ -607,15 +609,15 @@ function BlogEngineTab() {
             </div>
             {isNursing && (
               <div>
-                <Label className="text-sm mb-1 block">Primary Exam</Label>
+                <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.primaryExam")}</Label>
                 <Select value={examType} onValueChange={setExamType} data-testid="select-blog-exam">
                   <SelectTrigger data-testid="select-blog-exam-trigger">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="nclex-rn">NCLEX-RN</SelectItem>
-                    <SelectItem value="nclex-pn">NCLEX-PN</SelectItem>
-                    <SelectItem value="rex-pn">REx-PN</SelectItem>
+                    <SelectItem value="nclex-rn">{t("pages.adminAutopilot.nclexrn")}</SelectItem>
+                    <SelectItem value="nclex-pn">{t("pages.adminAutopilot.nclexpn")}</SelectItem>
+                    <SelectItem value="rex-pn">{t("pages.adminAutopilot.rexpn")}</SelectItem>
                     <SelectItem value="cnpe">CNPE</SelectItem>
                   </SelectContent>
                 </Select>
@@ -623,23 +625,23 @@ function BlogEngineTab() {
             )}
             {isAllied && (
               <div>
-                <Label className="text-sm mb-1 block">Career / Certification</Label>
+                <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.careerCertification")}</Label>
                 <Select value={career} onValueChange={setCareer} data-testid="select-blog-career">
                   <SelectTrigger data-testid="select-blog-career-trigger">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="pharmacy_tech">Pharmacy Technician (PTCB/ExCPT)</SelectItem>
-                    <SelectItem value="respiratory_therapy">Respiratory Therapy (RRT/TMC)</SelectItem>
-                    <SelectItem value="paramedic_ems">Paramedic / EMS (NREMT)</SelectItem>
-                    <SelectItem value="mlt">Medical Lab Technologist (MLT/ASCP)</SelectItem>
-                    <SelectItem value="radiology">Medical Imaging / Radiology (ARRT)</SelectItem>
+                    <SelectItem value="pharmacy_tech">{t("pages.adminAutopilot.pharmacyTechnicianPtcbexcpt")}</SelectItem>
+                    <SelectItem value="respiratory_therapy">{t("pages.adminAutopilot.respiratoryTherapyRrttmc")}</SelectItem>
+                    <SelectItem value="paramedic_ems">{t("pages.adminAutopilot.paramedicEmsNremt")}</SelectItem>
+                    <SelectItem value="mlt">{t("pages.adminAutopilot.medicalLabTechnologistMltascp")}</SelectItem>
+                    <SelectItem value="radiology">{t("pages.adminAutopilot.medicalImagingRadiologyArrt")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             )}
             <div>
-              <Label className="text-sm mb-1 block">Target Word Count</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.targetWordCount")}</Label>
               <Input
                 type="number"
                 value={wordCount}
@@ -656,7 +658,7 @@ function BlogEngineTab() {
               disabled={generateMutation.isPending || !topic.trim()}
               data-testid="button-generate-blog"
             >
-              {generateMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Generating (30-60s)...</> : <><Play className="mr-2 h-4 w-4" /> Generate Study Page</>}
+              {generateMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> {t("pages.adminAutopilot.generating3060s")}</> : <><Play className="mr-2 h-4 w-4" /> {t("pages.adminAutopilot.generateStudyPage")}</>}
             </Button>
             {generateMutation.isSuccess && (
               <p className="text-sm text-green-600" data-testid="text-blog-success">
@@ -677,7 +679,7 @@ function BlogEngineTab() {
       {recentRuns.length > 0 && (
         <Card data-testid="card-blog-history">
           <CardHeader>
-            <CardTitle className="text-sm">Recent Page Generations</CardTitle>
+            <CardTitle className="text-sm">{t("pages.adminAutopilot.recentPageGenerations")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -738,7 +740,7 @@ function PracticeSEOTab() {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label className="text-sm mb-1 block">Page Title</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.pageTitle")}</Label>
               <Input
                 value={practiceTitle}
                 onChange={(e) => setPracticeTitle(e.target.value)}
@@ -747,10 +749,10 @@ function PracticeSEOTab() {
               />
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Body System</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.bodySystem")}</Label>
               <Select value={bodySystem} onValueChange={setBodySystem} data-testid="select-practice-system">
                 <SelectTrigger data-testid="select-practice-system-trigger">
-                  <SelectValue placeholder="Select system" />
+                  <SelectValue placeholder={t("pages.adminAutopilot.selectSystem")} />
                 </SelectTrigger>
                 <SelectContent>
                   {["Cardiovascular", "Respiratory", "Neurological", "Gastrointestinal", "Renal", "Endocrine", "Musculoskeletal", "Hematology", "Maternity", "Pediatrics"].map(s => (
@@ -760,7 +762,7 @@ function PracticeSEOTab() {
               </Select>
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Question Count</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.questionCount")}</Label>
               <Input
                 type="number"
                 value={questionCount}
@@ -771,7 +773,7 @@ function PracticeSEOTab() {
               />
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Tier</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.tier")}</Label>
               <Select value={tier} onValueChange={setTier} data-testid="select-practice-tier">
                 <SelectTrigger data-testid="select-practice-tier-trigger">
                   <SelectValue />
@@ -789,10 +791,10 @@ function PracticeSEOTab() {
             disabled={generateMutation.isPending || !practiceTitle.trim()}
             data-testid="button-generate-practice"
           >
-            {generateMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Generating...</> : <><Play className="mr-2 h-4 w-4" /> Generate Practice Page</>}
+            {generateMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> {t("pages.adminAutopilot.generating")}</> : <><Play className="mr-2 h-4 w-4" /> {t("pages.adminAutopilot.generatePracticePage")}</>}
           </Button>
           {generateMutation.isSuccess && (
-            <p className="text-sm text-green-600" data-testid="text-practice-success">Practice page queued for review</p>
+            <p className="text-sm text-green-600" data-testid="text-practice-success">{t("pages.adminAutopilot.practicePageQueuedForReview")}</p>
           )}
         </CardContent>
       </Card>
@@ -847,7 +849,7 @@ function QuestionFactoryTab() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <Label className="text-sm mb-1 block">Question Topic</Label>
+            <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.questionTopic")}</Label>
             <Input
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
@@ -857,49 +859,49 @@ function QuestionFactoryTab() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <Label className="text-sm mb-1 block">Batch Size</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.batchSize")}</Label>
               <Select value={batchSize} onValueChange={setBatchSize} data-testid="select-factory-batch">
                 <SelectTrigger data-testid="select-factory-batch-trigger">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="25">25 Questions</SelectItem>
-                  <SelectItem value="50">50 Questions</SelectItem>
-                  <SelectItem value="100">100 Questions</SelectItem>
+                  <SelectItem value="25">{t("pages.adminAutopilot.25Questions")}</SelectItem>
+                  <SelectItem value="50">{t("pages.adminAutopilot.50Questions")}</SelectItem>
+                  <SelectItem value="100">{t("pages.adminAutopilot.100Questions")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Category</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.category")}</Label>
               <Select value={category} onValueChange={setCategory} data-testid="select-factory-category">
                 <SelectTrigger data-testid="select-factory-category-trigger">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="nursing_ngn">Nursing NGN</SelectItem>
-                  <SelectItem value="allied">Allied Health</SelectItem>
-                  <SelectItem value="np_canada">Canadian NP</SelectItem>
-                  <SelectItem value="np_us">US NP</SelectItem>
+                  <SelectItem value="nursing_ngn">{t("pages.adminAutopilot.nursingNgn")}</SelectItem>
+                  <SelectItem value="allied">{t("pages.adminAutopilot.alliedHealth")}</SelectItem>
+                  <SelectItem value="np_canada">{t("pages.adminAutopilot.canadianNp")}</SelectItem>
+                  <SelectItem value="np_us">{t("pages.adminAutopilot.usNp")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Difficulty Range</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.difficultyRange")}</Label>
               <Select value={difficultyRange} onValueChange={setDifficultyRange} data-testid="select-factory-difficulty">
                 <SelectTrigger data-testid="select-factory-difficulty-trigger">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="1-2">Easy (1-2)</SelectItem>
-                  <SelectItem value="2-4">Medium (2-4)</SelectItem>
-                  <SelectItem value="3-5">Hard (3-5)</SelectItem>
-                  <SelectItem value="1-5">Full Range (1-5)</SelectItem>
+                  <SelectItem value="1-2">{t("pages.adminAutopilot.easy12")}</SelectItem>
+                  <SelectItem value="2-4">{t("pages.adminAutopilot.medium24")}</SelectItem>
+                  <SelectItem value="3-5">{t("pages.adminAutopilot.hard35")}</SelectItem>
+                  <SelectItem value="1-5">{t("pages.adminAutopilot.fullRange15")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="flex items-end gap-2">
               <div>
-                <Label className="text-sm mb-1 block">Auto-Validate</Label>
+                <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.autovalidate")}</Label>
                 <Switch
                   checked={autoValidate}
                   onCheckedChange={setAutoValidate}
@@ -914,7 +916,7 @@ function QuestionFactoryTab() {
               disabled={generateMutation.isPending || !topic.trim()}
               data-testid="button-generate-questions"
             >
-              {generateMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Generating (30-60s)...</> : <><Zap className="mr-2 h-4 w-4" /> Generate Question Page</>}
+              {generateMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> {t("pages.adminAutopilot.generating3060s2")}</> : <><Zap className="mr-2 h-4 w-4" /> {t("pages.adminAutopilot.generateQuestionPage")}</>}
             </Button>
             {generateMutation.isSuccess && (
               <p className="text-sm text-green-600" data-testid="text-factory-success">
@@ -929,7 +931,7 @@ function QuestionFactoryTab() {
       {recentRuns.length > 0 && (
         <Card data-testid="card-factory-history">
           <CardHeader>
-            <CardTitle className="text-sm">Recent Factory Runs</CardTitle>
+            <CardTitle className="text-sm">{t("pages.adminAutopilot.recentFactoryRuns")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -986,21 +988,21 @@ function VisualFactoryTab() {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <Label className="text-sm mb-1 block">Diagram Type</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.diagramType")}</Label>
               <Select value={diagramType} onValueChange={setDiagramType} data-testid="select-diagram-type">
                 <SelectTrigger data-testid="select-diagram-type-trigger">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="anatomy">Anatomy</SelectItem>
-                  <SelectItem value="pathophysiology">Pathophysiology</SelectItem>
-                  <SelectItem value="drug_mechanism">Drug Mechanism</SelectItem>
-                  <SelectItem value="lab_values">Lab Values</SelectItem>
+                  <SelectItem value="anatomy">{t("pages.adminAutopilot.anatomy")}</SelectItem>
+                  <SelectItem value="pathophysiology">{t("pages.adminAutopilot.pathophysiology")}</SelectItem>
+                  <SelectItem value="drug_mechanism">{t("pages.adminAutopilot.drugMechanism")}</SelectItem>
+                  <SelectItem value="lab_values">{t("pages.adminAutopilot.labValues")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Topic</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.topic")}</Label>
               <Input
                 value={diagramTopic}
                 onChange={(e) => setDiagramTopic(e.target.value)}
@@ -1009,15 +1011,15 @@ function VisualFactoryTab() {
               />
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Style</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.style")}</Label>
               <Select value={diagramStyle} onValueChange={setDiagramStyle} data-testid="select-diagram-style">
                 <SelectTrigger data-testid="select-diagram-style-trigger">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="clinical">Clinical</SelectItem>
-                  <SelectItem value="educational">Educational</SelectItem>
-                  <SelectItem value="infographic">Infographic</SelectItem>
+                  <SelectItem value="clinical">{t("pages.adminAutopilot.clinical")}</SelectItem>
+                  <SelectItem value="educational">{t("pages.adminAutopilot.educational")}</SelectItem>
+                  <SelectItem value="infographic">{t("pages.adminAutopilot.infographic")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -1027,10 +1029,10 @@ function VisualFactoryTab() {
             disabled={generateMutation.isPending || !diagramTopic.trim()}
             data-testid="button-generate-diagram"
           >
-            {generateMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Generating...</> : <><Image className="mr-2 h-4 w-4" /> Generate Diagram</>}
+            {generateMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> {t("pages.adminAutopilot.generating2")}</> : <><Image className="mr-2 h-4 w-4" /> {t("pages.adminAutopilot.generateDiagram")}</>}
           </Button>
           {generateMutation.isSuccess && (
-            <p className="text-sm text-green-600" data-testid="text-diagram-success">Diagram generation job created</p>
+            <p className="text-sm text-green-600" data-testid="text-diagram-success">{t("pages.adminAutopilot.diagramGenerationJobCreated")}</p>
           )}
         </CardContent>
       </Card>
@@ -1080,7 +1082,7 @@ function PinterestSchedulerTab() {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <Label className="text-sm mb-1 block">Pin Title</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.pinTitle")}</Label>
               <Input
                 value={pinTitle}
                 onChange={(e) => setPinTitle(e.target.value)}
@@ -1089,21 +1091,21 @@ function PinterestSchedulerTab() {
               />
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Board</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.board")}</Label>
               <Select value={pinBoard} onValueChange={setPinBoard} data-testid="select-pin-board">
                 <SelectTrigger data-testid="select-pin-board-trigger">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="nursing-tips">Nursing Tips</SelectItem>
-                  <SelectItem value="exam-prep">Exam Prep</SelectItem>
-                  <SelectItem value="study-guides">Study Guides</SelectItem>
-                  <SelectItem value="clinical-skills">Clinical Skills</SelectItem>
+                  <SelectItem value="nursing-tips">{t("pages.adminAutopilot.nursingTips")}</SelectItem>
+                  <SelectItem value="exam-prep">{t("pages.adminAutopilot.examPrep")}</SelectItem>
+                  <SelectItem value="study-guides">{t("pages.adminAutopilot.studyGuides")}</SelectItem>
+                  <SelectItem value="clinical-skills">{t("pages.adminAutopilot.clinicalSkills")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Schedule Date</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.scheduleDate")}</Label>
               <Input
                 type="datetime-local"
                 value={scheduleDate}
@@ -1117,7 +1119,7 @@ function PinterestSchedulerTab() {
             disabled={scheduleMutation.isPending || !pinTitle.trim()}
             data-testid="button-schedule-pin"
           >
-            {scheduleMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Scheduling...</> : <><Calendar className="mr-2 h-4 w-4" /> Schedule Pin</>}
+            {scheduleMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> {t("pages.adminAutopilot.scheduling")}</> : <><Calendar className="mr-2 h-4 w-4" /> {t("pages.adminAutopilot.schedulePin")}</>}
           </Button>
         </CardContent>
       </Card>
@@ -1125,7 +1127,7 @@ function PinterestSchedulerTab() {
       {pinList.length > 0 && (
         <Card data-testid="card-pin-queue">
           <CardHeader>
-            <CardTitle className="text-sm">Scheduled Pins</CardTitle>
+            <CardTitle className="text-sm">{t("pages.adminAutopilot.scheduledPins")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -1188,20 +1190,20 @@ function AutoExpansionTab() {
             disabled={triggerMutation.isPending}
             data-testid="button-trigger-expansion"
           >
-            {triggerMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Scanning...</> : <><TrendingUp className="mr-2 h-4 w-4" /> Scan Top Pages</>}
+            {triggerMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> {t("pages.adminAutopilot.scanning")}</> : <><TrendingUp className="mr-2 h-4 w-4" /> {t("pages.adminAutopilot.scanTopPages")}</>}
           </Button>
           {triggerMutation.isSuccess && (
-            <p className="text-sm text-green-600" data-testid="text-expansion-success">Expansion scan triggered</p>
+            <p className="text-sm text-green-600" data-testid="text-expansion-success">{t("pages.adminAutopilot.expansionScanTriggered")}</p>
           )}
         </CardContent>
       </Card>
 
       {isLoading ? (
-        <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading...</div>
+        <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> {t("pages.adminAutopilot.loading")}</div>
       ) : jobs.length > 0 && (
         <Card data-testid="card-expansion-history">
           <CardHeader>
-            <CardTitle className="text-sm">Expansion History</CardTitle>
+            <CardTitle className="text-sm">{t("pages.adminAutopilot.expansionHistory")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -1259,7 +1261,7 @@ function CourseBuilderTab() {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <Label className="text-sm mb-1 block">Course Topic</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.courseTopic")}</Label>
               <Input
                 value={courseTopic}
                 onChange={(e) => setCourseTopic(e.target.value)}
@@ -1268,29 +1270,29 @@ function CourseBuilderTab() {
               />
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Target Exam</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.targetExam")}</Label>
               <Select value={courseExam} onValueChange={setCourseExam} data-testid="select-course-exam">
                 <SelectTrigger data-testid="select-course-exam-trigger">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="nclex-rn">NCLEX-RN</SelectItem>
-                  <SelectItem value="nclex-pn">NCLEX-PN</SelectItem>
-                  <SelectItem value="rex-pn">REX-PN</SelectItem>
+                  <SelectItem value="nclex-rn">{t("pages.adminAutopilot.nclexrn2")}</SelectItem>
+                  <SelectItem value="nclex-pn">{t("pages.adminAutopilot.nclexpn2")}</SelectItem>
+                  <SelectItem value="rex-pn">{t("pages.adminAutopilot.rexpn2")}</SelectItem>
                   <SelectItem value="cnpe">CNPE</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Difficulty</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.difficulty")}</Label>
               <Select value={courseDifficulty} onValueChange={setCourseDifficulty} data-testid="select-course-difficulty">
                 <SelectTrigger data-testid="select-course-difficulty-trigger">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="beginner">Beginner</SelectItem>
-                  <SelectItem value="intermediate">Intermediate</SelectItem>
-                  <SelectItem value="advanced">Advanced</SelectItem>
+                  <SelectItem value="beginner">{t("pages.adminAutopilot.beginner")}</SelectItem>
+                  <SelectItem value="intermediate">{t("pages.adminAutopilot.intermediate")}</SelectItem>
+                  <SelectItem value="advanced">{t("pages.adminAutopilot.advanced")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -1300,10 +1302,10 @@ function CourseBuilderTab() {
             disabled={buildMutation.isPending || !courseTopic.trim()}
             data-testid="button-build-course"
           >
-            {buildMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Building...</> : <><BookOpen className="mr-2 h-4 w-4" /> Build Course</>}
+            {buildMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> {t("pages.adminAutopilot.building")}</> : <><BookOpen className="mr-2 h-4 w-4" /> {t("pages.adminAutopilot.buildCourse")}</>}
           </Button>
           {buildMutation.isSuccess && (
-            <p className="text-sm text-green-600" data-testid="text-course-success">Course build job created and queued for review</p>
+            <p className="text-sm text-green-600" data-testid="text-course-success">{t("pages.adminAutopilot.courseBuildJobCreatedAnd")}</p>
           )}
         </CardContent>
       </Card>
@@ -1352,22 +1354,22 @@ function LifecycleEmailTab() {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <Label className="text-sm mb-1 block">Sequence</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.sequence")}</Label>
               <Select value={emailSequence} onValueChange={setEmailSequence} data-testid="select-email-sequence">
                 <SelectTrigger data-testid="select-email-sequence-trigger">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="onboarding">Onboarding</SelectItem>
-                  <SelectItem value="trial_conversion">Trial Conversion</SelectItem>
-                  <SelectItem value="exam_reminder">Exam Reminder</SelectItem>
-                  <SelectItem value="re_engagement">Re-engagement</SelectItem>
-                  <SelectItem value="upgrade_nudge">Upgrade Nudge</SelectItem>
+                  <SelectItem value="onboarding">{t("pages.adminAutopilot.onboarding")}</SelectItem>
+                  <SelectItem value="trial_conversion">{t("pages.adminAutopilot.trialConversion")}</SelectItem>
+                  <SelectItem value="exam_reminder">{t("pages.adminAutopilot.examReminder")}</SelectItem>
+                  <SelectItem value="re_engagement">{t("pages.adminAutopilot.reengagement")}</SelectItem>
+                  <SelectItem value="upgrade_nudge">{t("pages.adminAutopilot.upgradeNudge")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Subject Line</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.subjectLine")}</Label>
               <Input
                 value={emailSubject}
                 onChange={(e) => setEmailSubject(e.target.value)}
@@ -1376,17 +1378,17 @@ function LifecycleEmailTab() {
               />
             </div>
             <div>
-              <Label className="text-sm mb-1 block">Trigger Event</Label>
+              <Label className="text-sm mb-1 block">{t("pages.adminAutopilot.triggerEvent")}</Label>
               <Select value={emailTrigger} onValueChange={setEmailTrigger} data-testid="select-email-trigger">
                 <SelectTrigger data-testid="select-email-trigger-trigger">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="signup">Signup</SelectItem>
-                  <SelectItem value="trial_complete">Trial Complete</SelectItem>
-                  <SelectItem value="inactive_3d">Inactive 3 Days</SelectItem>
-                  <SelectItem value="inactive_7d">Inactive 7 Days</SelectItem>
-                  <SelectItem value="exam_date_near">Exam Date Near</SelectItem>
+                  <SelectItem value="signup">{t("pages.adminAutopilot.signup")}</SelectItem>
+                  <SelectItem value="trial_complete">{t("pages.adminAutopilot.trialComplete")}</SelectItem>
+                  <SelectItem value="inactive_3d">{t("pages.adminAutopilot.inactive3Days")}</SelectItem>
+                  <SelectItem value="inactive_7d">{t("pages.adminAutopilot.inactive7Days")}</SelectItem>
+                  <SelectItem value="exam_date_near">{t("pages.adminAutopilot.examDateNear")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -1396,10 +1398,10 @@ function LifecycleEmailTab() {
             disabled={createMutation.isPending || !emailSubject.trim()}
             data-testid="button-create-email"
           >
-            {createMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> Creating...</> : <><Mail className="mr-2 h-4 w-4" /> Create Email Template</>}
+            {createMutation.isPending ? <><Loader2 className="animate-spin mr-2 h-4 w-4" /> {t("pages.adminAutopilot.creating")}</> : <><Mail className="mr-2 h-4 w-4" /> {t("pages.adminAutopilot.createEmailTemplate")}</>}
           </Button>
           {createMutation.isSuccess && (
-            <p className="text-sm text-green-600" data-testid="text-email-success">Email template job created</p>
+            <p className="text-sm text-green-600" data-testid="text-email-success">{t("pages.adminAutopilot.emailTemplateJobCreated")}</p>
           )}
         </CardContent>
       </Card>
@@ -1407,7 +1409,7 @@ function LifecycleEmailTab() {
       {emailList.length > 0 && (
         <Card data-testid="card-email-history">
           <CardHeader>
-            <CardTitle className="text-sm">Email Template History</CardTitle>
+            <CardTitle className="text-sm">{t("pages.adminAutopilot.emailTemplateHistory")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -1441,7 +1443,7 @@ function PerformanceDashboardTab() {
     queryFn: () => adminFetch("/api/admin/autopilot/engines").then(r => r.json()),
   });
 
-  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading metrics...</div>;
+  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> {t("pages.adminAutopilot.loadingMetrics")}</div>;
 
   const engineList = Array.isArray(engines) ? engines : [];
 
@@ -1451,19 +1453,19 @@ function PerformanceDashboardTab() {
         <Card data-testid="stat-completed-jobs">
           <CardContent className="py-4 text-center">
             <div className="text-2xl font-bold text-green-600">{stats?.completedJobs || 0}</div>
-            <div className="text-xs text-gray-500">Completed Jobs</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAutopilot.completedJobs")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-failed-jobs">
           <CardContent className="py-4 text-center">
             <div className="text-2xl font-bold text-red-600">{stats?.failedJobs || 0}</div>
-            <div className="text-xs text-gray-500">Failed Jobs</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAutopilot.failedJobs")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-published-count">
           <CardContent className="py-4 text-center">
             <div className="text-2xl font-bold text-blue-600">{stats?.publishedCount || 0}</div>
-            <div className="text-xs text-gray-500">Published Content</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAutopilot.publishedContent")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-success-rate">
@@ -1471,7 +1473,7 @@ function PerformanceDashboardTab() {
             <div className="text-2xl font-bold">
               {stats?.totalJobs ? ((stats.completedJobs || 0) / stats.totalJobs * 100).toFixed(0) : 0}%
             </div>
-            <div className="text-xs text-gray-500">Success Rate</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAutopilot.successRate")}</div>
           </CardContent>
         </Card>
       </div>
@@ -1484,7 +1486,7 @@ function PerformanceDashboardTab() {
         </CardHeader>
         <CardContent>
           {engineList.length === 0 ? (
-            <p className="text-muted-foreground text-center py-4">No engine data available</p>
+            <p className="text-muted-foreground text-center py-4">{t("pages.adminAutopilot.noEngineDataAvailable")}</p>
           ) : (
             <div className="space-y-3">
               {engineList.map((engine: any) => (
@@ -1566,7 +1568,7 @@ function JobMonitorTab() {
     return Math.min(100, Math.round((completed / total) * 100));
   }
 
-  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading job monitor...</div>;
+  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> {t("pages.adminAutopilot.loadingJobMonitor")}</div>;
 
   return (
     <div className="space-y-6">
@@ -1574,31 +1576,31 @@ function JobMonitorTab() {
         <Card data-testid="stat-bg-queued">
           <CardContent className="py-4 text-center">
             <div className="text-2xl font-bold text-yellow-600">{stats.queued || 0}</div>
-            <div className="text-xs text-gray-500">Queued</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAutopilot.queued")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-bg-running">
           <CardContent className="py-4 text-center">
             <div className="text-2xl font-bold text-blue-600">{stats.running || 0}</div>
-            <div className="text-xs text-gray-500">Running</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAutopilot.running")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-bg-completed">
           <CardContent className="py-4 text-center">
             <div className="text-2xl font-bold text-green-600">{stats.completed || 0}</div>
-            <div className="text-xs text-gray-500">Completed</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAutopilot.completed")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-bg-failed">
           <CardContent className="py-4 text-center">
             <div className="text-2xl font-bold text-red-600">{stats.failed || 0}</div>
-            <div className="text-xs text-gray-500">Failed</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAutopilot.failed")}</div>
           </CardContent>
         </Card>
       </div>
 
       {jobs.length === 0 ? (
-        <p className="text-muted-foreground py-8 text-center">No background jobs found</p>
+        <p className="text-muted-foreground py-8 text-center">{t("pages.adminAutopilot.noBackgroundJobsFound")}</p>
       ) : (
         <div className="space-y-2">
           {jobs.map((job: any) => {
@@ -1647,7 +1649,7 @@ function JobMonitorTab() {
                           onClick={() => actionMutation.mutate({ jobId: job.id, action: "pause" })}
                           disabled={actionMutation.isPending}
                           data-testid={`button-pause-job-${job.id}`}
-                          title="Pause"
+                          title={t("pages.adminAutopilot.pause")}
                         >
                           <PauseCircle className="h-4 w-4" />
                         </Button>
@@ -1660,7 +1662,7 @@ function JobMonitorTab() {
                           onClick={() => actionMutation.mutate({ jobId: job.id, action: "resume" })}
                           disabled={actionMutation.isPending}
                           data-testid={`button-resume-job-${job.id}`}
-                          title="Resume"
+                          title={t("pages.adminAutopilot.resume")}
                         >
                           <Play className="h-4 w-4" />
                         </Button>
@@ -1673,7 +1675,7 @@ function JobMonitorTab() {
                           onClick={() => actionMutation.mutate({ jobId: job.id, action: "cancel" })}
                           disabled={actionMutation.isPending}
                           data-testid={`button-cancel-job-${job.id}`}
-                          title="Cancel"
+                          title={t("pages.adminAutopilot.cancel")}
                         >
                           <XCircle className="h-4 w-4" />
                         </Button>
@@ -1683,9 +1685,9 @@ function JobMonitorTab() {
 
                   {isExpanded && (
                     <div className="mt-3 pt-3 border-t space-y-2">
-                      <h4 className="text-sm font-medium text-gray-600">Child Batches</h4>
+                      <h4 className="text-sm font-medium text-gray-600">{t("pages.adminAutopilot.childBatches")}</h4>
                       {batches.length === 0 ? (
-                        <p className="text-xs text-gray-400">Loading batches...</p>
+                        <p className="text-xs text-gray-400">{t("pages.adminAutopilot.loadingBatches")}</p>
                       ) : (
                         batches.map((batch: any) => (
                           <div
@@ -1792,7 +1794,7 @@ function JobQueueSettingsTab() {
     { key: "stalledJobTimeoutMs", label: "Stalled Job Timeout (ms)", desc: "Time without heartbeat before a job is considered stalled", default: 120000, min: 30000, max: 600000 },
   ];
 
-  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading settings...</div>;
+  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> {t("pages.adminAutopilot.loadingSettings")}</div>;
 
   const hasChanges = Object.keys(formValues).length > 0;
 
@@ -1865,7 +1867,7 @@ function SettingsTab() {
 
   const engineList = Array.isArray(engines) ? engines : [];
 
-  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading settings...</div>;
+  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> {t("pages.adminAutopilot.loadingSettings2")}</div>;
 
   return (
     <div className="space-y-6">
@@ -1918,29 +1920,29 @@ export default function AdminAutopilot() {
             <h1 className="text-2xl font-bold flex items-center gap-2" data-testid="text-autopilot-title">
               <Zap className="h-6 w-6" /> Autopilot Control Center
             </h1>
-            <p className="text-sm text-muted-foreground">Manage all automation engines, schedules, and content pipelines</p>
+            <p className="text-sm text-muted-foreground">{t("pages.adminAutopilot.manageAllAutomationEnginesSchedules")}</p>
           </div>
         </div>
 
         <Tabs defaultValue="overview">
           <div className="overflow-x-auto mb-4">
             <TabsList className="inline-flex" data-testid="tabs-autopilot">
-              <TabsTrigger value="overview" data-testid="tab-overview">Overview</TabsTrigger>
-              <TabsTrigger value="schedules" data-testid="tab-schedules">Schedules</TabsTrigger>
-              <TabsTrigger value="queue" data-testid="tab-queue">Publishing Queue</TabsTrigger>
-              <TabsTrigger value="keywords" data-testid="tab-keywords">Keywords</TabsTrigger>
-              <TabsTrigger value="blog" data-testid="tab-blog">Blog Engine</TabsTrigger>
-              <TabsTrigger value="practice" data-testid="tab-practice">Practice SEO</TabsTrigger>
-              <TabsTrigger value="questions" data-testid="tab-questions">Question Factory</TabsTrigger>
-              <TabsTrigger value="visuals" data-testid="tab-visuals">Visual Factory</TabsTrigger>
-              <TabsTrigger value="pinterest" data-testid="tab-pinterest">Pinterest</TabsTrigger>
-              <TabsTrigger value="expansion" data-testid="tab-expansion">Auto Expansion</TabsTrigger>
-              <TabsTrigger value="courses" data-testid="tab-courses">Course Builder</TabsTrigger>
-              <TabsTrigger value="email" data-testid="tab-email">Lifecycle Email</TabsTrigger>
-              <TabsTrigger value="performance" data-testid="tab-performance">Performance</TabsTrigger>
-              <TabsTrigger value="job-monitor" data-testid="tab-job-monitor">Job Monitor</TabsTrigger>
-              <TabsTrigger value="queue-settings" data-testid="tab-queue-settings">Queue Settings</TabsTrigger>
-              <TabsTrigger value="settings" data-testid="tab-settings">Settings</TabsTrigger>
+              <TabsTrigger value="overview" data-testid="tab-overview">{t("pages.adminAutopilot.overview")}</TabsTrigger>
+              <TabsTrigger value="schedules" data-testid="tab-schedules">{t("pages.adminAutopilot.schedules")}</TabsTrigger>
+              <TabsTrigger value="queue" data-testid="tab-queue">{t("pages.adminAutopilot.publishingQueue")}</TabsTrigger>
+              <TabsTrigger value="keywords" data-testid="tab-keywords">{t("pages.adminAutopilot.keywords")}</TabsTrigger>
+              <TabsTrigger value="blog" data-testid="tab-blog">{t("pages.adminAutopilot.blogEngine")}</TabsTrigger>
+              <TabsTrigger value="practice" data-testid="tab-practice">{t("pages.adminAutopilot.practiceSeo")}</TabsTrigger>
+              <TabsTrigger value="questions" data-testid="tab-questions">{t("pages.adminAutopilot.questionFactory")}</TabsTrigger>
+              <TabsTrigger value="visuals" data-testid="tab-visuals">{t("pages.adminAutopilot.visualFactory")}</TabsTrigger>
+              <TabsTrigger value="pinterest" data-testid="tab-pinterest">{t("pages.adminAutopilot.pinterest")}</TabsTrigger>
+              <TabsTrigger value="expansion" data-testid="tab-expansion">{t("pages.adminAutopilot.autoExpansion")}</TabsTrigger>
+              <TabsTrigger value="courses" data-testid="tab-courses">{t("pages.adminAutopilot.courseBuilder")}</TabsTrigger>
+              <TabsTrigger value="email" data-testid="tab-email">{t("pages.adminAutopilot.lifecycleEmail")}</TabsTrigger>
+              <TabsTrigger value="performance" data-testid="tab-performance">{t("pages.adminAutopilot.performance")}</TabsTrigger>
+              <TabsTrigger value="job-monitor" data-testid="tab-job-monitor">{t("pages.adminAutopilot.jobMonitor")}</TabsTrigger>
+              <TabsTrigger value="queue-settings" data-testid="tab-queue-settings">{t("pages.adminAutopilot.queueSettings")}</TabsTrigger>
+              <TabsTrigger value="settings" data-testid="tab-settings">{t("pages.adminAutopilot.settings")}</TabsTrigger>
             </TabsList>
           </div>
 

@@ -628,11 +628,11 @@ export default function ExamHub() {
 
         <ComparisonTable
           headline={`How NurseNest Compares for ${hub.title}`}
-          subtitle="See how a modern clinical learning system stacks up against typical study platforms for nursing exam preparation."
+          subtitle={t("pages.exam_hub.seeHowAModernClinical")}
         />
         <DifferentiatorCTA
           headline={`Start Your ${hub.title} Prep Today`}
-          subtitle="Join thousands of students using NurseNest's adaptive practice exams, clinical lessons, and readiness analytics."
+          subtitle={t("pages.exam_hub.joinThousandsOfStudentsUsing")}
           primaryHref="/register"
           primaryLabel="Start Free"
           secondaryHref="/pricing"

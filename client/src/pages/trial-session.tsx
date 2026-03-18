@@ -8,6 +8,7 @@ import { getExamQuestions, type PooledQuestion } from "@/lib/question-pool";
 import ExamConsoleLayout, { type AnswerStatus } from "@/components/exam-console";
 import { AlertTriangle } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const TOTAL_QUESTIONS = 50;
 const TIME_PER_QUESTION = 75;
 const TOTAL_TIME = TOTAL_QUESTIONS * TIME_PER_QUESTION;
@@ -34,6 +35,7 @@ interface TrialSession {
 }
 
 export default function TrialSessionPage() {
+  const { t } = useI18n();
   const { id: sessionId } = useParams<{ id: string }>();
   const [, navigate] = useLocation();
   const { user } = useAuth();
@@ -280,7 +282,7 @@ export default function TrialSessionPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center font-sans">
         <div className="text-center space-y-4">
           <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-500">Loading trial session...</p>
+          <p className="text-gray-500">{t("pages.trialSession.loadingTrialSession")}</p>
         </div>
       </div>
     );
@@ -292,8 +294,8 @@ export default function TrialSessionPage() {
         <Card className="max-w-md w-full mx-4">
           <CardContent className="p-8 text-center space-y-4">
             <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto" />
-            <h2 className="text-2xl font-bold" data-testid="text-expired-title">Trial Expired</h2>
-            <p className="text-gray-500">This trial session has expired. Please start a new trial.</p>
+            <h2 className="text-2xl font-bold" data-testid="text-expired-title">{t("pages.trialSession.trialExpired")}</h2>
+            <p className="text-gray-500">{t("pages.trialSession.thisTrialSessionHasExpired")}</p>
             <Button onClick={() => navigate("/trial")} className="rounded-full px-8" data-testid="button-new-trial">
               Start New Trial
             </Button>
@@ -309,7 +311,7 @@ export default function TrialSessionPage() {
         <Card className="max-w-md w-full mx-4">
           <CardContent className="p-8 text-center space-y-4">
             <AlertTriangle className="w-12 h-12 text-red-500 mx-auto" />
-            <h2 className="text-2xl font-bold">Error</h2>
+            <h2 className="text-2xl font-bold">{t("pages.trialSession.error")}</h2>
             <p className="text-gray-500">{error}</p>
             <Button onClick={() => navigate("/trial")} className="rounded-full px-8" data-testid="button-back-trial">
               Back to Trial
@@ -326,8 +328,8 @@ export default function TrialSessionPage() {
         <Card className="max-w-md w-full mx-4">
           <CardContent className="p-8 text-center space-y-4">
             <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto" />
-            <h2 className="text-2xl font-bold">No Questions Available</h2>
-            <p className="text-gray-500">Could not load questions for this trial. Please try again.</p>
+            <h2 className="text-2xl font-bold">{t("pages.trialSession.noQuestionsAvailable")}</h2>
+            <p className="text-gray-500">{t("pages.trialSession.couldNotLoadQuestionsFor")}</p>
             <Button onClick={() => navigate("/trial")} className="rounded-full px-8" data-testid="button-retry-trial">
               Back to Trial
             </Button>
@@ -363,7 +365,7 @@ export default function TrialSessionPage() {
           <Card className="border-none shadow-2xl max-w-sm w-full mx-4" onClick={(e) => e.stopPropagation()}>
             <CardContent className="p-8 space-y-4">
               <AlertTriangle className="w-10 h-10 text-amber-500 mx-auto" />
-              <h3 className="text-xl font-bold text-center">Submit Trial?</h3>
+              <h3 className="text-xl font-bold text-center">{t("pages.trialSession.submitTrial")}</h3>
               <p className="text-sm text-gray-500 text-center">
                 You have answered {Object.keys(answers).length + (selectedAnswer !== null && answers[currentQ] === undefined ? 1 : 0)} of {TOTAL_QUESTIONS} questions.
                 {Object.keys(answers).length < TOTAL_QUESTIONS && (
@@ -372,7 +374,7 @@ export default function TrialSessionPage() {
                   </span>
                 )}
               </p>
-              <p className="text-sm text-gray-400 text-center">Once submitted, you cannot change your answers.</p>
+              <p className="text-sm text-gray-400 text-center">{t("pages.trialSession.onceSubmittedYouCannotChange")}</p>
               <div className="flex gap-3">
                 <Button
                   variant="outline"

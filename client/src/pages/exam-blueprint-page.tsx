@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useAuth } from "@/lib/auth";
 import { buildCourseStructuredData, buildFaqStructuredData } from "@/lib/structured-data";
+import { useI18n } from "@/lib/i18n";
 import {
   getExamBlueprintTopic,
   EXAM_BLUEPRINT_PAGES,
@@ -26,6 +27,7 @@ import {
 const FREE_SAMPLE_LIMIT = 3;
 
 function DifficultyBadge({ level }: { level: string }) {
+  const { t } = useI18n();
   const config: Record<string, { color: string; label: string }> = {
     easy: { color: "bg-emerald-100 text-emerald-700 border-emerald-200", label: "Easy" },
     moderate: { color: "bg-amber-100 text-amber-700 border-amber-200", label: "Moderate" },
@@ -68,7 +70,7 @@ function SampleQuestion({
       <div className="relative p-5 rounded-2xl border border-gray-200 bg-gray-50/50" data-testid={`card-locked-question-${index}`}>
         <div className="absolute inset-0 backdrop-blur-sm bg-white/60 rounded-2xl z-10 flex flex-col items-center justify-center gap-3">
           <Lock className="h-6 w-6 text-gray-400" />
-          <p className="text-sm text-gray-500 font-medium">Premium Question</p>
+          <p className="text-sm text-gray-500 font-medium">{t("pages.examBlueprintPage.premiumQuestion")}</p>
           <LocaleLink href="/pricing">
             <Button size="sm" className="rounded-xl gap-2 bg-primary hover:bg-primary/90 text-white" data-testid={`button-unlock-question-${index}`}>
               <Crown className="h-3.5 w-3.5" /> Unlock Full Test Bank
@@ -126,7 +128,7 @@ function SampleQuestion({
         <div className="mt-3 p-4 rounded-xl bg-blue-50 border border-blue-100" data-testid={`text-rationale-${index}`}>
           <p className="text-sm text-blue-900 leading-relaxed">
             <Lightbulb className="inline h-4 w-4 mr-1 text-blue-600" />
-            <strong>Rationale:</strong> {q.rationale}
+            <strong>{t("pages.examBlueprintPage.rationale")}</strong> {q.rationale}
           </p>
         </div>
       )}
@@ -210,7 +212,7 @@ function ExamStrategySection({ tips }: { tips: string[] }) {
             className="mt-3 text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"
             data-testid="button-toggle-tips"
           >
-            {expanded ? <><ChevronUp className="h-4 w-4" /> Show less</> : <><ChevronDown className="h-4 w-4" /> Show all tips</>}
+            {expanded ? <><ChevronUp className="h-4 w-4" /> {t("pages.examBlueprintPage.showLess")}</> : <><ChevronDown className="h-4 w-4" /> {t("pages.examBlueprintPage.showAllTips")}</>}
           </button>
         )}
       </CardContent>
@@ -226,7 +228,7 @@ function PerformanceTracker({ answered, correct }: { answered: number; correct: 
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5 text-emerald-600" />
-            <span className="text-sm font-medium text-gray-700">Your Progress</span>
+            <span className="text-sm font-medium text-gray-700">{t("pages.examBlueprintPage.yourProgress")}</span>
           </div>
           <div className="flex gap-4 text-sm">
             <span className="text-gray-600">{answered} answered</span>
@@ -258,9 +260,9 @@ function UnlockCTA({ examName }: { examName: string }) {
         </LocaleLink>
       </div>
       <div className="flex items-center justify-center gap-4 text-xs text-gray-500 pt-2">
-        <span className="flex items-center gap-1"><ShieldCheck className="h-3.5 w-3.5" /> Clinically reviewed</span>
-        <span className="flex items-center gap-1"><GraduationCap className="h-3.5 w-3.5" /> NCLEX-aligned</span>
-        <span className="flex items-center gap-1"><BarChart3 className="h-3.5 w-3.5" /> Performance tracking</span>
+        <span className="flex items-center gap-1"><ShieldCheck className="h-3.5 w-3.5" /> {t("pages.examBlueprintPage.clinicallyReviewed")}</span>
+        <span className="flex items-center gap-1"><GraduationCap className="h-3.5 w-3.5" /> {t("pages.examBlueprintPage.nclexaligned")}</span>
+        <span className="flex items-center gap-1"><BarChart3 className="h-3.5 w-3.5" /> {t("pages.examBlueprintPage.performanceTracking")}</span>
       </div>
     </div>
   );
@@ -293,10 +295,10 @@ export default function ExamBlueprintPage() {
         <Navigation />
         <main className="min-h-screen bg-warmwhite flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-not-found">Page Not Found</h1>
-            <p className="text-gray-500 mb-4">This exam blueprint page could not be found.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-not-found">{t("pages.examBlueprintPage.pageNotFound")}</h1>
+            <p className="text-gray-500 mb-4">{t("pages.examBlueprintPage.thisExamBlueprintPageCould")}</p>
             <LocaleLink href="/">
-              <Button className="rounded-xl" data-testid="button-go-home">Return Home</Button>
+              <Button className="rounded-xl" data-testid="button-go-home">{t("pages.examBlueprintPage.returnHome")}</Button>
             </LocaleLink>
           </div>
         </main>
@@ -394,7 +396,7 @@ export default function ExamBlueprintPage() {
                   <BookOpen className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">Questions</p>
+                  <p className="text-xs text-gray-500">{t("pages.examBlueprintPage.questions")}</p>
                   <p className="text-lg font-bold text-gray-900">{questionCount > 0 ? questionCount : "Available"}</p>
                 </div>
               </CardContent>
@@ -405,7 +407,7 @@ export default function ExamBlueprintPage() {
                   <Target className="h-5 w-5 text-emerald-600" />
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">Passing</p>
+                  <p className="text-xs text-gray-500">{t("pages.examBlueprintPage.passing")}</p>
                   <p className="text-sm font-semibold text-gray-900">{page.passingInfo}</p>
                 </div>
               </CardContent>
@@ -416,7 +418,7 @@ export default function ExamBlueprintPage() {
                   <Clock className="h-5 w-5 text-amber-600" />
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">Time Limit</p>
+                  <p className="text-xs text-gray-500">{t("pages.examBlueprintPage.timeLimit")}</p>
                   <p className="text-sm font-semibold text-gray-900">{page.timeLimit}</p>
                 </div>
               </CardContent>
@@ -478,7 +480,7 @@ export default function ExamBlueprintPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4" data-testid="text-faq-heading">Frequently Asked Questions</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4" data-testid="text-faq-heading">{t("pages.examBlueprintPage.frequentlyAskedQuestions")}</h2>
             <div className="space-y-4">
               {page.faq.map((faq, i) => (
                 <details key={i} className="group rounded-xl border border-gray-200 bg-white" data-testid={`faq-item-${i}`}>

@@ -19,6 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 import { adminFetch } from "@/lib/admin-fetch";
 import JSZip from "jszip";
 
+import { useI18n } from "@/lib/i18n";
 interface DesignProject {
   id: string;
   title: string;
@@ -48,7 +49,6 @@ interface DesignAsset {
   width?: number;
   height?: number;
 }
-
 
 interface ThemeConfig {
   id: string;
@@ -1016,6 +1016,7 @@ const THEMES: ThemeConfig[] = [
 ];
 
 function getTheme(id: string): ThemeConfig {
+
   return THEMES.find(t => t.id === id) || THEMES[0];
 }
 
@@ -1841,8 +1842,8 @@ function ProjectListView({ onOpenProject, onCreateNew }: { onOpenProject: (id: s
     <div className="max-w-6xl mx-auto p-6">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-builder-title">Digital Product Builder</h1>
-          <p className="text-sm text-gray-500 mt-1">Create professional study materials for your marketplace</p>
+          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-builder-title">{t("pages.productBuilder.digitalProductBuilder")}</h1>
+          <p className="text-sm text-gray-500 mt-1">{t("pages.productBuilder.createProfessionalStudyMaterialsFor")}</p>
         </div>
         <Button onClick={onCreateNew} className="gap-2" data-testid="button-new-project">
           <Plus className="w-4 h-4" />
@@ -1851,11 +1852,11 @@ function ProjectListView({ onOpenProject, onCreateNew }: { onOpenProject: (id: s
       </div>
 
       {loading ? (
-        <div className="text-center py-16 text-gray-400">Loading projects...</div>
+        <div className="text-center py-16 text-gray-400">{t("pages.productBuilder.loadingProjects")}</div>
       ) : projects.length === 0 ? (
         <div className="text-center py-16" data-testid="text-no-projects">
           <FileText className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-500">No design projects yet. Click "New Product" to get started.</p>
+          <p className="text-gray-500">{t("pages.productBuilder.noDesignProjectsYetClick")}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -3023,10 +3024,10 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
             <ArrowLeft className="w-4 h-4" />
           </button>
           <div className="flex items-center gap-1.5 text-sm">
-            <button onClick={onBack} className="text-gray-400 hover:text-primary transition text-xs font-medium" data-testid="link-guided-drafts">Drafts</button>
+            <button onClick={onBack} className="text-gray-400 hover:text-primary transition text-xs font-medium" data-testid="link-guided-drafts">{t("pages.productBuilder.drafts")}</button>
             <span className="text-gray-300">/</span>
             <span className="font-semibold text-gray-800" data-testid="text-guided-title">{topic || project?.title || "New Product"}</span>
-            <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full ml-1 font-medium">Guided Mode</span>
+            <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full ml-1 font-medium">{t("pages.productBuilder.guidedMode")}</span>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -3064,7 +3065,7 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-gray-700 block">Re-skin Theme</label>
+                <label className="text-xs font-semibold text-gray-700 block">{t("pages.productBuilder.reskinTheme")}</label>
                 <div className="grid grid-cols-2 gap-1.5">
                   {THEMES.map(t => (
                     <button
@@ -3090,7 +3091,7 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
               </div>
 
               <div className="space-y-2 border-t pt-3">
-                <label className="text-xs font-semibold text-gray-700 block">Actions</label>
+                <label className="text-xs font-semibold text-gray-700 block">{t("pages.productBuilder.actions")}</label>
                 <div className="space-y-1.5">
                   <Button size="sm" onClick={() => { setGuidedPublishForm(f => ({ ...f, title: f.title || topic, description: f.description || `${bp.label}: ${topic}` })); setShowGuidedPublish(true); }} className="w-full h-8 text-xs gap-1.5 bg-green-600 hover:bg-green-700" data-testid="button-guided-publish">
                     <ShoppingCart className="w-3.5 h-3.5" /> Publish to Store
@@ -3108,7 +3109,7 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
               </div>
 
               <div className="border-t pt-3 space-y-2">
-                <label className="text-xs font-semibold text-gray-700 block">Pages</label>
+                <label className="text-xs font-semibold text-gray-700 block">{t("pages.productBuilder.pages")}</label>
                 <div className="space-y-1 max-h-[300px] overflow-y-auto" ref={previewScrollRef}>
                   {previewPages.map((pg, i) => (
                     <button
@@ -3199,8 +3200,8 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
         <div className="max-w-4xl mx-auto px-6 py-8 space-y-8">
 
           <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold text-gray-900" data-testid="text-guided-heading">Create Your Product</h2>
-            <p className="text-sm text-gray-500">Choose a template, configure options, and compile a complete draft automatically.</p>
+            <h2 className="text-2xl font-bold text-gray-900" data-testid="text-guided-heading">{t("pages.productBuilder.createYourProduct")}</h2>
+            <p className="text-sm text-gray-500">{t("pages.productBuilder.chooseATemplateConfigureOptions")}</p>
           </div>
 
           {generating && (
@@ -3247,11 +3248,11 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
                     {lastError.startsWith("EMPTY_SECTION") ? lastError.split("\n\n")[0].replace("EMPTY_SECTION: ", "") : lastError.substring(0, 300)}
                   </span>
                 </div>
-                <Button size="sm" variant="outline" onClick={compileDocument} className="shrink-0 text-xs" data-testid="button-retry">Retry</Button>
+                <Button size="sm" variant="outline" onClick={compileDocument} className="shrink-0 text-xs" data-testid="button-retry">{t("pages.productBuilder.retry")}</Button>
               </div>
               {lastError.includes("Section report:") && (
                 <div className="bg-white/60 rounded-lg p-3 border border-red-100">
-                  <span className="text-[10px] font-semibold text-red-700 block mb-1.5">Section Validation Report</span>
+                  <span className="text-[10px] font-semibold text-red-700 block mb-1.5">{t("pages.productBuilder.sectionValidationReport")}</span>
                   <pre className="text-[10px] text-red-600 whitespace-pre-wrap font-mono leading-relaxed" data-testid="text-section-report">
                     {lastError.split("Section report:")[1]?.split("\n\nRaw model")[0] || ""}
                   </pre>
@@ -3259,7 +3260,7 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
               )}
               {lastError.includes("Raw model output") && (
                 <details className="bg-white/60 rounded-lg p-3 border border-red-100">
-                  <summary className="text-[10px] font-semibold text-red-700 cursor-pointer">Raw Model Output (debug)</summary>
+                  <summary className="text-[10px] font-semibold text-red-700 cursor-pointer">{t("pages.productBuilder.rawModelOutputDebug")}</summary>
                   <pre className="text-[9px] text-gray-600 whitespace-pre-wrap font-mono mt-2 max-h-[200px] overflow-auto leading-relaxed" data-testid="text-raw-preview">
                     {lastError.split("Raw model output (first 1500 chars):")[1]?.substring(0, 1500) || ""}
                   </pre>
@@ -3269,7 +3270,7 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
           )}
 
           <div className="space-y-2" data-testid="section-template-select">
-            <label className="text-sm font-semibold text-gray-700 block">Template</label>
+            <label className="text-sm font-semibold text-gray-700 block">{t("pages.productBuilder.template")}</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
               {TEMPLATE_BLUEPRINTS.map(t => (
                 <button
@@ -3291,7 +3292,7 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-5">
               <div className="space-y-2" data-testid="section-topic">
-                <label className="text-sm font-semibold text-gray-700 block">Document Title</label>
+                <label className="text-sm font-semibold text-gray-700 block">{t("pages.productBuilder.documentTitle")}</label>
                 <Input
                   value={topic}
                   onChange={e => handleTopicChange(e.target.value)}
@@ -3314,22 +3315,22 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
                   disabled={generating}
                   data-testid="input-guided-prompt"
                 />
-                <p className="text-[11px] text-gray-400">The AI will use your prompt along with the selected template, exam tier, and region settings to generate structured content. Leave blank to generate based on the document title alone.</p>
+                <p className="text-[11px] text-gray-400">{t("pages.productBuilder.theAiWillUseYour")}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2" data-testid="section-tier">
-                  <label className="text-sm font-semibold text-gray-700 block">Exam Tier</label>
+                  <label className="text-sm font-semibold text-gray-700 block">{t("pages.productBuilder.examTier")}</label>
                   <select value={examTier} onChange={e => setExamTier(e.target.value)} disabled={generating} className="w-full h-10 rounded-lg border px-3 text-sm" data-testid="select-guided-tier">
                     {GUIDED_EXAM_OPTIONS.map(o => <option key={o.id} value={o.id}>{o.label}</option>)}
                   </select>
                 </div>
                 <div className="space-y-2" data-testid="section-region">
-                  <label className="text-sm font-semibold text-gray-700 block">Region</label>
+                  <label className="text-sm font-semibold text-gray-700 block">{t("pages.productBuilder.region")}</label>
                   <select value={region} onChange={e => setRegion(e.target.value)} disabled={generating} className="w-full h-10 rounded-lg border px-3 text-sm" data-testid="select-guided-region">
-                    <option value="BOTH">CA + US (Both)</option>
-                    <option value="CA">Canada Only</option>
-                    <option value="US">US Only</option>
+                    <option value="BOTH">{t("pages.productBuilder.caUsBoth")}</option>
+                    <option value="CA">{t("pages.productBuilder.canadaOnly")}</option>
+                    <option value="US">{t("pages.productBuilder.usOnly")}</option>
                   </select>
                 </div>
               </div>
@@ -3337,7 +3338,7 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
               {bp.questionPrimary ? (
                 <div className="space-y-2 p-4 rounded-xl bg-gray-50 border" data-testid="section-questions">
                   <label className="text-sm font-semibold text-gray-700 flex items-center justify-between">
-                    <span>Number of Questions</span>
+                    <span>{t("pages.productBuilder.numberOfQuestions")}</span>
                     <span className="text-primary font-bold">{questionCount}</span>
                   </label>
                   <div className="flex items-center gap-3 mt-1">
@@ -3359,13 +3360,13 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
                       <span className="text-[10px] text-amber-600 font-medium">Min {bp.minQuestionCount} for {bp.label}</span>
                     )}
                   </div>
-                  <p className="text-[10px] text-gray-400 mt-1">Pages are calculated automatically from question count</p>
+                  <p className="text-[10px] text-gray-400 mt-1">{t("pages.productBuilder.pagesAreCalculatedAutomaticallyFrom")}</p>
                 </div>
               ) : (
                 <>
                   <div className="space-y-2" data-testid="section-pages">
                     <label className="text-sm font-semibold text-gray-700 flex items-center justify-between">
-                      <span>Target Pages</span>
+                      <span>{t("pages.productBuilder.targetPages")}</span>
                       <span className="text-primary font-bold">{targetPages}</span>
                     </label>
                     <input
@@ -3389,11 +3390,11 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
                     <div className="space-y-2 p-4 rounded-xl bg-gray-50 border" data-testid="section-questions">
                       <label className="flex items-center gap-2">
                         <input type="checkbox" checked={includeQuestions} onChange={e => setIncludeQuestions(e.target.checked)} disabled={generating} className="rounded" data-testid="checkbox-include-questions" />
-                        <span className="text-sm font-medium text-gray-700">Include Practice Questions</span>
+                        <span className="text-sm font-medium text-gray-700">{t("pages.productBuilder.includePracticeQuestions")}</span>
                       </label>
                       {includeQuestions && (
                         <div className="flex items-center gap-3 mt-2">
-                          <span className="text-xs text-gray-500">Count:</span>
+                          <span className="text-xs text-gray-500">{t("pages.productBuilder.count")}</span>
                           <Input
                             type="number"
                             min={bp.minQuestionCount || 5}
@@ -3421,15 +3422,15 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
               <div className="space-y-2 p-4 rounded-xl bg-gray-50 border" data-testid="section-images">
                 <label className="flex items-center gap-2">
                   <input type="checkbox" checked={includeImages} onChange={e => setIncludeImages(e.target.checked)} disabled={generating} className="rounded" data-testid="checkbox-include-images" />
-                  <span className="text-sm font-medium text-gray-700">Include Images</span>
+                  <span className="text-sm font-medium text-gray-700">{t("pages.productBuilder.includeImages")}</span>
                   <span className="text-[10px] text-gray-400">({bp.imageSlots.length} slots)</span>
                 </label>
                 {includeImages && (
                   <div className="flex items-center gap-3 mt-2">
-                    <span className="text-xs text-gray-500">Intensity:</span>
+                    <span className="text-xs text-gray-500">{t("pages.productBuilder.intensity")}</span>
                     <select value={imageIntensity} onChange={e => setImageIntensity(e.target.value as any)} disabled={generating} className="h-8 rounded-lg border px-2 text-xs" data-testid="select-image-intensity">
-                      <option value="low">Low (up to 6)</option>
-                      <option value="medium">Medium (up to 12)</option>
+                      <option value="low">{t("pages.productBuilder.lowUpTo6")}</option>
+                      <option value="medium">{t("pages.productBuilder.mediumUpTo12")}</option>
                     </select>
                   </div>
                 )}
@@ -3438,7 +3439,7 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
 
             <div className="space-y-5">
               <div className="space-y-2" data-testid="section-theme">
-                <label className="text-sm font-semibold text-gray-700 block">Color Theme</label>
+                <label className="text-sm font-semibold text-gray-700 block">{t("pages.productBuilder.colorTheme")}</label>
                 <div className="grid grid-cols-2 gap-2 max-h-[320px] overflow-y-auto pr-1">
                   {THEMES.map(t => (
                     <button
@@ -3460,7 +3461,7 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
               </div>
 
               <div className="space-y-2" data-testid="section-cover-preset">
-                <label className="text-sm font-semibold text-gray-700 block">Cover Style</label>
+                <label className="text-sm font-semibold text-gray-700 block">{t("pages.productBuilder.coverStyle")}</label>
                 <div className="grid grid-cols-2 gap-2">
                   {COVER_PRESETS.map(p => (
                     <button
@@ -3480,13 +3481,13 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
               <div className="space-y-2 p-4 rounded-xl bg-gray-50 border" data-testid="section-store-ready">
                 <label className="flex items-center gap-2">
                   <input type="checkbox" checked={autoStoreReady} onChange={e => setAutoStoreReady(e.target.checked)} disabled={generating} className="rounded" data-testid="checkbox-auto-store-ready" />
-                  <span className="text-sm font-medium text-gray-700">Auto Store-Ready After Compile</span>
+                  <span className="text-sm font-medium text-gray-700">{t("pages.productBuilder.autoStorereadyAfterCompile")}</span>
                 </label>
-                <p className="text-[10px] text-gray-400 mt-1">Normalize spacing, safe margins, and prepare for marketplace.</p>
+                <p className="text-[10px] text-gray-400 mt-1">{t("pages.productBuilder.normalizeSpacingSafeMarginsAnd")}</p>
               </div>
 
               <div className="p-4 rounded-xl bg-primary/5 border border-primary/10 space-y-2" data-testid="section-plan-preview">
-                <span className="text-xs font-semibold text-gray-700 block">Blueprint Preview</span>
+                <span className="text-xs font-semibold text-gray-700 block">{t("pages.productBuilder.blueprintPreview")}</span>
                 <div className="space-y-1">
                   <div className="text-[10px] text-gray-400 mb-1">Page flow: {bp.pageFlow.length} steps</div>
                   {bp.sections.filter(s => s.id !== "practice-questions" && s.id !== "rationales").map(s => {
@@ -3501,12 +3502,12 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
                   })}
                   {includeQuestions && (
                     <div className="flex items-center justify-between text-[11px] text-blue-600">
-                      <span>Practice Questions + Rationales</span>
+                      <span>{t("pages.productBuilder.practiceQuestionsRationales")}</span>
                       <span>{questionCount} Qs</span>
                     </div>
                   )}
                   <div className="flex items-center justify-between text-[11px] font-semibold text-primary border-t pt-1 mt-1">
-                    <span>Total target</span>
+                    <span>{t("pages.productBuilder.totalTarget")}</span>
                     <span>~{targetPages} pages</span>
                   </div>
                 </div>
@@ -3536,12 +3537,12 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowGuidedPublish(false)}>
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4" onClick={e => e.stopPropagation()} data-testid="dialog-guided-publish">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-bold text-gray-900">Publish to Store</h3>
-              <button onClick={() => setShowGuidedPublish(false)} className="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+              <h3 className="text-lg font-bold text-gray-900">{t("pages.productBuilder.publishToStore")}</h3>
+              <button onClick={() => setShowGuidedPublish(false)} className="text-gray-400 hover:text-gray-600 text-xl">{t("pages.productBuilder.times")}</button>
             </div>
             <div className="space-y-3">
               <div>
-                <label className="text-xs font-semibold text-gray-600 block mb-1">Product Title</label>
+                <label className="text-xs font-semibold text-gray-600 block mb-1">{t("pages.productBuilder.productTitle")}</label>
                 <Input
                   value={guidedPublishForm.title}
                   onChange={e => setGuidedPublishForm(f => ({ ...f, title: e.target.value }))}
@@ -3550,18 +3551,18 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
                 />
               </div>
               <div>
-                <label className="text-xs font-semibold text-gray-600 block mb-1">Description</label>
+                <label className="text-xs font-semibold text-gray-600 block mb-1">{t("pages.productBuilder.description")}</label>
                 <Textarea
                   value={guidedPublishForm.description}
                   onChange={e => setGuidedPublishForm(f => ({ ...f, description: e.target.value }))}
-                  placeholder="Short description of the product..."
+                  placeholder={t("pages.productBuilder.shortDescriptionOfTheProduct")}
                   rows={3}
                   data-testid="input-guided-publish-desc"
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-semibold text-gray-600 block mb-1">Price (USD)</label>
+                  <label className="text-xs font-semibold text-gray-600 block mb-1">{t("pages.productBuilder.priceUsd")}</label>
                   <Input
                     type="number"
                     min="0"
@@ -3573,24 +3574,24 @@ RETURN THIS EXACT STRUCTURE (fill each section's blocks array):
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-gray-600 block mb-1">Category</label>
+                  <label className="text-xs font-semibold text-gray-600 block mb-1">{t("pages.productBuilder.category")}</label>
                   <select
                     value={guidedPublishForm.category}
                     onChange={e => setGuidedPublishForm(f => ({ ...f, category: e.target.value }))}
                     className="w-full h-9 rounded-lg border px-2 text-sm"
                     data-testid="select-guided-publish-category"
                   >
-                    <option>Cram Guide</option>
-                    <option>Study Bundle</option>
-                    <option>Flashcard Deck</option>
-                    <option>Question Bank</option>
-                    <option>Review Sheet</option>
+                    <option>{t("pages.productBuilder.cramGuide")}</option>
+                    <option>{t("pages.productBuilder.studyBundle")}</option>
+                    <option>{t("pages.productBuilder.flashcardDeck")}</option>
+                    <option>{t("pages.productBuilder.questionBank")}</option>
+                    <option>{t("pages.productBuilder.reviewSheet")}</option>
                   </select>
                 </div>
               </div>
             </div>
             <div className="flex gap-2 pt-2">
-              <Button variant="outline" onClick={() => setShowGuidedPublish(false)} className="flex-1">Cancel</Button>
+              <Button variant="outline" onClick={() => setShowGuidedPublish(false)} className="flex-1">{t("pages.productBuilder.cancel")}</Button>
               <Button
                 onClick={publishGuidedToStore}
                 disabled={guidedPublishing || !guidedPublishForm.title.trim() || !guidedPublishForm.price}
@@ -5741,10 +5742,10 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
       return (
         <div className="w-60 bg-white border-r overflow-y-auto shrink-0" data-testid="panel-components">
           <div className="p-3 border-b">
-            <span className="text-xs font-semibold text-gray-600">Elements</span>
+            <span className="text-xs font-semibold text-gray-600">{t("pages.productBuilder.elements")}</span>
           </div>
           <div className="p-3">
-            <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Shapes</span>
+            <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">{t("pages.productBuilder.shapes")}</span>
             <div className="grid grid-cols-3 gap-1.5 mt-1.5 mb-3">
               <button onClick={() => addObject("rect")} className="aspect-square rounded-xl border-2 border-dashed border-gray-200 hover:border-primary/40 flex items-center justify-center hover:bg-primary/5 transition" data-testid="button-shape-rect"><Square className="w-5 h-5 text-gray-400" /></button>
               <button onClick={() => addObject("circle")} className="aspect-square rounded-xl border-2 border-dashed border-gray-200 hover:border-primary/40 flex items-center justify-center hover:bg-primary/5 transition" data-testid="button-shape-circle"><Circle className="w-5 h-5 text-gray-400" /></button>
@@ -5752,7 +5753,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
             </div>
           </div>
           <div className="p-3 pt-0">
-            <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Design Components</span>
+            <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">{t("pages.productBuilder.designComponents")}</span>
             <div className="space-y-1 mt-1.5 mb-3">
               {DESIGN_COMPONENTS.map(comp => (
                 <button key={comp.tag} onClick={() => insertDesignComponent(comp)} className="w-full text-left px-3 py-2 rounded-lg hover:bg-primary/5 text-xs flex items-center gap-2 text-gray-700 hover:text-primary transition-colors" data-testid={`button-comp-${comp.tag}`}>
@@ -5763,7 +5764,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
             </div>
           </div>
           <div className="p-3 pt-0">
-            <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Illustrations</span>
+            <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">{t("pages.productBuilder.illustrations")}</span>
             {illustCategories.map(cat => (
               <div key={cat} className="mt-2">
                 <span className="text-[9px] font-medium text-gray-400 capitalize">{cat}</span>
@@ -5791,7 +5792,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
       return (
         <div className="w-52 bg-white border-r overflow-y-auto shrink-0" data-testid="panel-templates">
           <div className="p-3 border-b">
-            <span className="text-xs font-semibold text-gray-600">Page Templates</span>
+            <span className="text-xs font-semibold text-gray-600">{t("pages.productBuilder.pageTemplates")}</span>
           </div>
           <div className="p-2 space-y-1">
             {PAGE_TEMPLATES.map(tmpl => (
@@ -5815,7 +5816,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
           </div>
           <div className="p-3 space-y-3">
             <div>
-              <label className="text-[10px] font-medium text-gray-500 block mb-1">Topic / Title</label>
+              <label className="text-[10px] font-medium text-gray-500 block mb-1">{t("pages.productBuilder.topicTitle")}</label>
               <Input value={aiTopic} onChange={e => setAiTopic(e.target.value)} placeholder="e.g., Heart Failure" className="text-xs h-8" data-testid="input-ai-topic" />
             </div>
             <div>
@@ -5825,19 +5826,19 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
               <Textarea
                 value={aiPromptCanvas}
                 onChange={e => setAiPromptCanvas(e.target.value)}
-                placeholder="Describe what you want generated, e.g.: 'Create a detailed review of shock types including pathophysiology, labs, nursing interventions, and NCLEX traps'"
+                placeholder={t("pages.productBuilder.describeWhatYouWantGenerated")}
                 className="text-xs min-h-[72px] resize-y"
                 data-testid="input-ai-prompt-canvas"
               />
-              <p className="text-[8px] text-gray-400 mt-0.5">Optional — adds custom instructions to the AI</p>
+              <p className="text-[8px] text-gray-400 mt-0.5">{t("pages.productBuilder.optionalAddsCustomInstructionsTo")}</p>
             </div>
             <div>
-              <label className="text-[10px] font-medium text-gray-500 block mb-1">Exam Target</label>
+              <label className="text-[10px] font-medium text-gray-500 block mb-1">{t("pages.productBuilder.examTarget")}</label>
               <select value={aiExamTarget} onChange={e => setAiExamTarget(e.target.value)} className="w-full text-xs border rounded-md px-2 py-1.5" data-testid="select-ai-exam-target">
-                <option value="rex-pn">REX-PN (Canada - RPN)</option>
-                <option value="nclex-pn">NCLEX-PN (US - LPN/LVN)</option>
-                <option value="nclex-rn">NCLEX-RN (US/CA - RN)</option>
-                <option value="np">NP (AANP/ANCC)</option>
+                <option value="rex-pn">{t("pages.productBuilder.rexpnCanadaRpn")}</option>
+                <option value="nclex-pn">{t("pages.productBuilder.nclexpnUsLpnlvn")}</option>
+                <option value="nclex-rn">{t("pages.productBuilder.nclexrnUscaRn")}</option>
+                <option value="np">{t("pages.productBuilder.npAanpancc")}</option>
               </select>
             </div>
             <div className="border-t pt-2 space-y-0.5">
@@ -5880,7 +5881,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 <div className="bg-green-50 rounded-lg p-2.5 border border-green-200">
                   <div className="flex items-center gap-1.5 mb-1">
                     <CheckCircle className="w-3.5 h-3.5 text-green-600" />
-                    <p className="text-[10px] font-semibold text-green-700">Bundle on canvas</p>
+                    <p className="text-[10px] font-semibold text-green-700">{t("pages.productBuilder.bundleOnCanvas")}</p>
                   </div>
                   <div className="text-[10px] text-gray-600 space-y-1">
                     <p>Pages: {(aiResult.pages || []).length} content + cover</p>
@@ -5888,7 +5889,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                     <p>QBank: {(aiResult.qbank || []).length}</p>
                     {aiResult.listing?.title && <p>Listing: {aiResult.listing.title}</p>}
                   </div>
-                  <p className="text-[9px] text-gray-400 mt-1.5">Browse pages on the right panel. Use AI prompts above to refine any page.</p>
+                  <p className="text-[9px] text-gray-400 mt-1.5">{t("pages.productBuilder.browsePagesOnTheRight")}</p>
                   <div className="grid grid-cols-3 gap-2 mt-2">
                     <Button size="sm" variant="outline" className="h-7 text-[10px]" data-testid="button-copy-listing" onClick={() => {
                       const listing = aiResult.listing;
@@ -5896,7 +5897,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                       const text = `${listing.title}\n\n${listing.description}\n\n${(listing.bullets || []).join("\n")}`;
                       navigator.clipboard.writeText(text);
                       toast({ title: "Listing copied to clipboard" });
-                    }}>Copy Listing</Button>
+                    }}>{t("pages.productBuilder.copyListing")}</Button>
                     <Button size="sm" variant="outline" className="h-7 text-[10px]" data-testid="button-export-flashcards" onClick={() => {
                       const cards = aiResult.flashcards || [];
                       const csv = "Front,Back\n" + cards.map((c: any) => `"${(c.front || "").replace(/"/g, '""')}","${(c.back || "").replace(/"/g, '""')}"`).join("\n");
@@ -5905,7 +5906,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                       const a = document.createElement("a"); a.href = url; a.download = "flashcards.csv"; a.click();
                       URL.revokeObjectURL(url);
                       toast({ title: `Exported ${cards.length} flashcards` });
-                    }}>Export Flash</Button>
+                    }}>{t("pages.productBuilder.exportFlash")}</Button>
                     <Button size="sm" variant="outline" className="h-7 text-[10px]" data-testid="button-export-qbank" onClick={() => {
                       const qbank = aiResult.qbank || [];
                       const blob = new Blob([JSON.stringify(qbank, null, 2)], { type: "application/json" });
@@ -5913,7 +5914,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                       const a = document.createElement("a"); a.href = url; a.download = "qbank.json"; a.click();
                       URL.revokeObjectURL(url);
                       toast({ title: `Exported ${qbank.length} questions` });
-                    }}>Export QBank</Button>
+                    }}>{t("pages.productBuilder.exportQbank")}</Button>
                   </div>
                 </div>
               </div>
@@ -5922,12 +5923,12 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
             <div className="border-t pt-3">
               <div className="flex items-center gap-1.5 mb-2">
                 <ClipboardCheck className="w-3.5 h-3.5 text-primary" />
-                <span className="text-[11px] font-semibold text-gray-700">Test Bank Generator</span>
+                <span className="text-[11px] font-semibold text-gray-700">{t("pages.productBuilder.testBankGenerator")}</span>
               </div>
-              <p className="text-[9px] text-gray-400 mb-2">Generate exam-style question banks to sell in your marketplace. Uses the topic and exam target above.</p>
+              <p className="text-[9px] text-gray-400 mb-2">{t("pages.productBuilder.generateExamstyleQuestionBanksTo")}</p>
               <div className="space-y-2">
                 <div>
-                  <label className="text-[9px] font-medium text-gray-500 block mb-0.5">Questions</label>
+                  <label className="text-[9px] font-medium text-gray-500 block mb-0.5">{t("pages.productBuilder.questions")}</label>
                   <div className="flex gap-1">
                     {[10, 25, 50, 75].map(n => (
                       <button key={n} onClick={() => setTbQuestionCount(n)} className={`flex-1 h-6 rounded text-[9px] font-medium border transition ${tbQuestionCount === n ? "bg-primary text-white border-primary" : "border-gray-200 text-gray-500 hover:border-primary/30"}`} data-testid={`button-tb-count-${n}`}>{n}</button>
@@ -5935,7 +5936,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                   </div>
                 </div>
                 <div>
-                  <label className="text-[9px] font-medium text-gray-500 block mb-0.5">Difficulty</label>
+                  <label className="text-[9px] font-medium text-gray-500 block mb-0.5">{t("pages.productBuilder.difficulty")}</label>
                   <div className="flex gap-1">
                     {[{v:"easy",l:"Easy"},{v:"mixed",l:"Mixed"},{v:"hard",l:"Hard"}].map(d => (
                       <button key={d.v} onClick={() => setTbDifficulty(d.v)} className={`flex-1 h-6 rounded text-[9px] font-medium border transition ${tbDifficulty === d.v ? "bg-primary text-white border-primary" : "border-gray-200 text-gray-500 hover:border-primary/30"}`} data-testid={`button-tb-diff-${d.v}`}>{d.l}</button>
@@ -5943,7 +5944,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                   </div>
                 </div>
                 <div>
-                  <label className="text-[9px] font-medium text-gray-500 block mb-0.5">Question Types</label>
+                  <label className="text-[9px] font-medium text-gray-500 block mb-0.5">{t("pages.productBuilder.questionTypes")}</label>
                   <div className="flex flex-col gap-1">
                     {[{v:"multiple-choice",l:"Multiple Choice"},{v:"select-all",l:"Select All (SATA)"},{v:"ordered-response",l:"Ordered Response"}].map(qt => (
                       <label key={qt.v} className="flex items-center gap-1.5 text-[9px] text-gray-600 cursor-pointer">
@@ -5970,16 +5971,16 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                     </span>
                   </div>
                   <div className="grid grid-cols-2 gap-x-3 gap-y-0.5 text-[9px] mb-1.5">
-                    <span className="text-gray-500">Requested:</span>
+                    <span className="text-gray-500">{t("pages.productBuilder.requested")}</span>
                     <span className="font-medium text-gray-700" data-testid="text-tb-requested">{tbAudit.requestedCount}</span>
-                    <span className="text-gray-500">Generated:</span>
+                    <span className="text-gray-500">{t("pages.productBuilder.generated")}</span>
                     <span className="font-medium text-gray-700" data-testid="text-tb-generated">{tbAudit.generatedCount}</span>
-                    <span className="text-gray-500">Count Match:</span>
+                    <span className="text-gray-500">{t("pages.productBuilder.countMatch")}</span>
                     <span className={`font-medium ${tbAudit.countMatch ? "text-green-700" : "text-red-700"}`} data-testid="text-tb-match">{tbAudit.countMatch ? "true" : "false"}</span>
                   </div>
                   {Object.keys(tbAudit.byType).length > 0 && (
                     <div className="mb-1">
-                      <span className="text-[8px] font-semibold text-gray-500 block mb-0.5">By Type:</span>
+                      <span className="text-[8px] font-semibold text-gray-500 block mb-0.5">{t("pages.productBuilder.byType")}</span>
                       <div className="flex gap-1 flex-wrap">
                         {Object.entries(tbAudit.byType).map(([t, c]) => (
                           <span key={t} className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded-full text-[8px]" data-testid={`badge-type-${t}`}>{t}: {c}</span>
@@ -5989,7 +5990,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                   )}
                   {Object.keys(tbAudit.byCategory).length > 0 && (
                     <div className="mb-1">
-                      <span className="text-[8px] font-semibold text-gray-500 block mb-0.5">By Category:</span>
+                      <span className="text-[8px] font-semibold text-gray-500 block mb-0.5">{t("pages.productBuilder.byCategory")}</span>
                       <div className="flex gap-1 flex-wrap">
                         {Object.entries(tbAudit.byCategory).map(([cat, c]) => (
                           <span key={cat} className="bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded-full text-[8px]" data-testid={`badge-cat-${cat}`}>{cat}: {c}</span>
@@ -6064,12 +6065,12 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                   <div className="bg-primary/5 border border-primary/20 rounded-lg p-2.5">
                     <div className="flex items-center gap-1.5 mb-1.5">
                       <ShoppingCart className="w-3.5 h-3.5 text-primary" />
-                      <span className="text-[11px] font-semibold text-gray-700">Sell This Test Bank</span>
+                      <span className="text-[11px] font-semibold text-gray-700">{t("pages.productBuilder.sellThisTestBank")}</span>
                     </div>
-                    <p className="text-[9px] text-gray-500 mb-2">Publish directly to your marketplace as a digital product.</p>
+                    <p className="text-[9px] text-gray-500 mb-2">{t("pages.productBuilder.publishDirectlyToYourMarketplace")}</p>
                     <div className="space-y-1.5">
                       <div>
-                        <label className="text-[9px] font-medium text-gray-500 block mb-0.5">Price (CAD)</label>
+                        <label className="text-[9px] font-medium text-gray-500 block mb-0.5">{t("pages.productBuilder.priceCad")}</label>
                         <Input type="number" step="0.01" min="0" value={tbPrice} onChange={e => setTbPrice(e.target.value)} className="text-xs h-7" placeholder="14.99" data-testid="input-tb-price" />
                       </div>
                       <Button size="sm" onClick={publishTestBankToMarketplace} disabled={tbPublishing || !tbPrice || !tbExportAllowed()} className="w-full h-8 text-[11px] gap-1.5" data-testid="button-tb-publish">
@@ -6147,21 +6148,21 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
           </div>
           <div className="p-3 space-y-3">
             <div>
-              <label className="text-[10px] font-medium text-gray-500 block mb-1">Prompt</label>
+              <label className="text-[10px] font-medium text-gray-500 block mb-1">{t("pages.productBuilder.prompt")}</label>
               <textarea
                 value={imgPrompt}
                 onChange={e => setImgPrompt(e.target.value)}
-                placeholder="A warm, pastel illustration of a nurse checking vital signs on a patient in a modern hospital room, soft lighting, educational style..."
+                placeholder={t("pages.productBuilder.aWarmPastelIllustrationOf")}
                 className="w-full text-xs border rounded-md px-2 py-1.5 h-24 resize-none"
                 data-testid="textarea-img-prompt"
               />
             </div>
             <div>
-              <label className="text-[10px] font-medium text-gray-500 block mb-1">Negative Prompt</label>
+              <label className="text-[10px] font-medium text-gray-500 block mb-1">{t("pages.productBuilder.negativePrompt")}</label>
               <textarea
                 value={imgNegative}
                 onChange={e => setImgNegative(e.target.value)}
-                placeholder="blurry, low quality, distorted..."
+                placeholder={t("pages.productBuilder.blurryLowQualityDistorted")}
                 className="w-full text-xs border rounded-md px-2 py-1.5 h-12 resize-none"
                 data-testid="textarea-img-negative"
               />
@@ -6169,7 +6170,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
             <label className="flex items-center gap-2 text-[10px] font-medium text-gray-600 cursor-pointer">
               <input type="checkbox" checked={imgTextFree} onChange={e => setImgTextFree(e.target.checked)} className="rounded" data-testid="checkbox-img-textfree" />
               Text-Free Mode
-              <span className="text-gray-400">(no words/labels)</span>
+              <span className="text-gray-400">{t("pages.productBuilder.noWordslabels")}</span>
             </label>
             {imgTextFree && (
               <span className="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-full" data-testid="badge-text-free">
@@ -6178,20 +6179,20 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
             )}
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="text-[10px] font-medium text-gray-500 block mb-1">Size</label>
+                <label className="text-[10px] font-medium text-gray-500 block mb-1">{t("pages.productBuilder.size")}</label>
                 <select value={imgSize} onChange={e => setImgSize(e.target.value)} className="w-full text-[10px] border rounded-md px-2 py-1" data-testid="select-img-size">
-                  <option value="1024x1024">Square 1024x1024</option>
-                  <option value="1024x1792">Portrait 1024x1792</option>
-                  <option value="1792x1024">Landscape 1792x1024</option>
+                  <option value="1024x1024">{t("pages.productBuilder.square1024x1024")}</option>
+                  <option value="1024x1792">{t("pages.productBuilder.portrait1024x1792")}</option>
+                  <option value="1792x1024">{t("pages.productBuilder.landscape1792x1024")}</option>
                 </select>
               </div>
               <div>
-                <label className="text-[10px] font-medium text-gray-500 block mb-1">Count</label>
+                <label className="text-[10px] font-medium text-gray-500 block mb-1">{t("pages.productBuilder.count2")}</label>
                 <select value={imgCount} onChange={e => setImgCount(Number(e.target.value))} className="w-full text-[10px] border rounded-md px-2 py-1" data-testid="select-img-count">
-                  <option value={1}>1 image</option>
-                  <option value={2}>2 images</option>
-                  <option value={3}>3 images</option>
-                  <option value={4}>4 images</option>
+                  <option value={1}>{t("pages.productBuilder.1Image")}</option>
+                  <option value={2}>{t("pages.productBuilder.2Images")}</option>
+                  <option value={3}>{t("pages.productBuilder.3Images")}</option>
+                  <option value={4}>{t("pages.productBuilder.4Images")}</option>
                 </select>
               </div>
             </div>
@@ -6211,13 +6212,13 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 <div className="grid grid-cols-2 gap-2">
                   {imgResults.map((img) => (
                     <div key={img.id} className="relative group">
-                      <img src={img.url} alt="Generated" className="w-full aspect-square object-cover rounded-lg border" />
+                      <img src={img.url} alt={t("pages.productBuilder.generated2")} className="w-full aspect-square object-cover rounded-lg border" />
                       <button
                         onClick={() => insertImageToCanvas(img.url)}
                         className="absolute inset-0 bg-black/40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
                         data-testid={`button-insert-img-${img.id}`}
                       >
-                        <span className="text-white text-[10px] font-medium bg-primary px-2 py-1 rounded">Insert</span>
+                        <span className="text-white text-[10px] font-medium bg-primary px-2 py-1 rounded">{t("pages.productBuilder.insert")}</span>
                       </button>
                     </div>
                   ))}
@@ -6236,13 +6237,13 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
           <div className="p-4 border-b">
             <div className="flex items-center gap-2">
               <Grid3X3 className="w-4 h-4 text-primary" />
-              <span className="text-sm font-semibold text-gray-800">Content Blocks</span>
+              <span className="text-sm font-semibold text-gray-800">{t("pages.productBuilder.contentBlocks")}</span>
             </div>
-            <p className="text-[11px] text-gray-500 mt-1">Click blocks to add structured sections to your page.</p>
+            <p className="text-[11px] text-gray-500 mt-1">{t("pages.productBuilder.clickBlocksToAddStructured")}</p>
           </div>
           <div className="p-4 space-y-4">
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
-              <span className="text-xs font-semibold text-gray-700 block mb-2">Product Presets</span>
+              <span className="text-xs font-semibold text-gray-700 block mb-2">{t("pages.productBuilder.productPresets")}</span>
               <div className="grid grid-cols-2 gap-2">
                 {PRODUCT_PRESETS.map(p => (
                   <button
@@ -6310,14 +6311,14 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
           <div className="p-4 border-b">
             <div className="flex items-center gap-2">
               <SwatchBook className="w-4 h-4 text-primary" />
-              <span className="text-sm font-semibold text-gray-800">Brand Kit</span>
+              <span className="text-sm font-semibold text-gray-800">{t("pages.productBuilder.brandKit")}</span>
             </div>
-            <p className="text-[11px] text-gray-500 mt-1">Keep every page on-brand and store-ready.</p>
+            <p className="text-[11px] text-gray-500 mt-1">{t("pages.productBuilder.keepEveryPageOnbrandAnd")}</p>
           </div>
           <div className="p-4 space-y-4">
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-semibold text-gray-700">Theme</span>
+                <span className="text-xs font-semibold text-gray-700">{t("pages.productBuilder.theme")}</span>
                 <span className="text-[10px] text-gray-400">{theme.name}</span>
               </div>
               <div className="grid grid-cols-2 gap-1.5 max-h-[280px] overflow-y-auto pr-1" data-testid="select-brand-theme">
@@ -6337,7 +6338,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 ))}
               </div>
               <div className="mt-3">
-                <span className="text-[10px] text-gray-400 block mb-1.5">Palette</span>
+                <span className="text-[10px] text-gray-400 block mb-1.5">{t("pages.productBuilder.palette")}</span>
                 <div className="grid grid-cols-5 gap-1.5">
                   {paletteSwatches.map((s, i) => (
                     <div key={i} className="flex flex-col items-center gap-0.5 group" title={`${s.label}: ${s.color}`}>
@@ -6357,7 +6358,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
             </div>
 
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
-              <span className="text-xs font-semibold text-gray-700 block mb-2">Cover Preset</span>
+              <span className="text-xs font-semibold text-gray-700 block mb-2">{t("pages.productBuilder.coverPreset")}</span>
               <div className="grid grid-cols-2 gap-2">
                 {COVER_PRESETS.map(p => (
                   <button
@@ -6374,7 +6375,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
             </div>
 
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm space-y-3">
-              <span className="text-xs font-semibold text-gray-700 block">Your Logo</span>
+              <span className="text-xs font-semibold text-gray-700 block">{t("pages.productBuilder.yourLogo")}</span>
               <div className="space-y-2">
                 <label className="flex items-center justify-center w-full h-20 rounded-xl border-2 border-dashed border-gray-200 hover:border-primary/40 cursor-pointer transition-colors bg-gray-50/50" data-testid="label-upload-logo">
                   <input
@@ -6387,13 +6388,13 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                   {logoUploading ? (
                     <div className="flex items-center gap-2 text-gray-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span className="text-[10px]">Uploading...</span>
+                      <span className="text-[10px]">{t("pages.productBuilder.uploading")}</span>
                     </div>
                   ) : (
                     <div className="flex flex-col items-center gap-1 text-gray-400">
                       <ImagePlus className="w-5 h-5" />
-                      <span className="text-[10px] font-medium">Upload Logo</span>
-                      <span className="text-[8px]">PNG, SVG, JPG, WebP</span>
+                      <span className="text-[10px] font-medium">{t("pages.productBuilder.uploadLogo")}</span>
+                      <span className="text-[8px]">{t("pages.productBuilder.pngSvgJpgWebp")}</span>
                     </div>
                   )}
                 </label>
@@ -6407,7 +6408,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="text-[10px] font-medium text-gray-600 truncate">{logo.fileName}</p>
-                            <p className="text-[8px] text-gray-400">Auto-tints with theme changes</p>
+                            <p className="text-[8px] text-gray-400">{t("pages.productBuilder.autotintsWithThemeChanges")}</p>
                           </div>
                           <button onClick={() => setBrandLogos(prev => prev.filter((_, i) => i !== li))} className="p-1 hover:bg-red-50 rounded text-gray-300 hover:text-red-400" data-testid={`button-remove-logo-${li}`}>
                             <Trash2 className="w-3 h-3" />
@@ -6417,7 +6418,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                           <button
                             onClick={() => insertBrandLogo(logo.url, "original")}
                             className="h-7 px-2 rounded-lg border text-[9px] font-medium hover:bg-gray-50 flex items-center gap-1 text-gray-600"
-                            title="Original colours"
+                            title={t("pages.productBuilder.originalColours")}
                             data-testid={`button-logo-original-${li}`}
                           >
                             <div className="w-3.5 h-3.5 rounded-full border border-gray-300 bg-gradient-to-br from-red-300 via-blue-300 to-green-300" />
@@ -6426,7 +6427,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                           <button
                             onClick={() => insertBrandLogo(logo.url, "black")}
                             className="h-7 px-2 rounded-lg border text-[9px] font-medium hover:bg-gray-50 flex items-center gap-1 text-gray-600"
-                            title="Black"
+                            title={t("pages.productBuilder.black")}
                             data-testid={`button-logo-black-${li}`}
                           >
                             <div className="w-3.5 h-3.5 rounded-full bg-black border border-gray-300" />
@@ -6435,7 +6436,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                           <button
                             onClick={() => insertBrandLogo(logo.url, "white")}
                             className="h-7 px-2 rounded-lg border text-[9px] font-medium hover:bg-gray-50 flex items-center gap-1 text-gray-600"
-                            title="White (for dark backgrounds)"
+                            title={t("pages.productBuilder.whiteForDarkBackgrounds")}
                             data-testid={`button-logo-white-${li}`}
                           >
                             <div className="w-3.5 h-3.5 rounded-full bg-white border border-gray-300" />
@@ -6462,17 +6463,17 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
 
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-gray-700">Brand Lock</span>
+                <span className="text-xs font-semibold text-gray-700">{t("pages.productBuilder.brandLock")}</span>
                 <label className="flex items-center gap-2 text-xs text-gray-600 cursor-pointer">
                   <input type="checkbox" checked={brandLock} onChange={e => setBrandLock(e.target.checked)} className="rounded" data-testid="checkbox-brand-lock-panel" />
                   {brandLock ? "Active" : "Off"}
                 </label>
               </div>
-              <p className="text-[10px] text-gray-500 leading-relaxed">When active, prevents off-palette colors, protects the logo footer, and enforces theme fonts on all text elements. Turn off to freely customize individual elements.</p>
+              <p className="text-[10px] text-gray-500 leading-relaxed">{t("pages.productBuilder.whenActivePreventsOffpaletteColors")}</p>
             </div>
 
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
-              <span className="text-xs font-semibold text-gray-700 block mb-2">Text Styles</span>
+              <span className="text-xs font-semibold text-gray-700 block mb-2">{t("pages.productBuilder.textStyles")}</span>
               <div className="space-y-1.5">
                 {textPresets.map(tp => (
                   <div key={tp.testId} className="flex items-center gap-2">
@@ -6485,38 +6486,38 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                       onClick={() => selectedId && (pushUndo(), updateObject(selectedId, { fontSize: tp.fontSize, fontWeight: tp.fontWeight, fontFamily: tp.fontFamily }))}
                       disabled={!selectedId}
                       data-testid={tp.testId}
-                    >Apply</button>
+                    >{t("pages.productBuilder.apply")}</button>
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
-              <span className="text-xs font-semibold text-gray-700 block mb-2">Quick Actions</span>
+              <span className="text-xs font-semibold text-gray-700 block mb-2">{t("pages.productBuilder.quickActions")}</span>
               <div className="space-y-2">
-                <button className="w-full h-10 rounded-xl bg-primary text-white hover:bg-primary/90 text-xs font-semibold" onClick={makeStoreReady} data-testid="button-store-ready">Make Store-Ready</button>
-                <button className="w-full h-10 rounded-xl border border-primary/30 bg-primary/5 hover:bg-primary/10 text-xs font-medium text-primary" onClick={() => generateCoverForCurrentProject()} data-testid="button-generate-cover">Generate Cover Page</button>
-                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={beautifyPage} data-testid="button-brand-beautify">Beautify Layout</button>
+                <button className="w-full h-10 rounded-xl bg-primary text-white hover:bg-primary/90 text-xs font-semibold" onClick={makeStoreReady} data-testid="button-store-ready">{t("pages.productBuilder.makeStoreready")}</button>
+                <button className="w-full h-10 rounded-xl border border-primary/30 bg-primary/5 hover:bg-primary/10 text-xs font-medium text-primary" onClick={() => generateCoverForCurrentProject()} data-testid="button-generate-cover">{t("pages.productBuilder.generateCoverPage")}</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={beautifyPage} data-testid="button-brand-beautify">{t("pages.productBuilder.beautifyLayout")}</button>
                 <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={runDesignAudit} data-testid="button-brand-audit">{brandVerified ? "Re-Audit (Verified)" : "Run Design Audit"}</button>
-                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={applyBrandTypography} data-testid="button-brand-fonts">Apply Theme Fonts</button>
-                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={applyThemeToAllPages} data-testid="button-brand-apply-all">Apply to All Pages</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={applyBrandTypography} data-testid="button-brand-fonts">{t("pages.productBuilder.applyThemeFonts")}</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={applyThemeToAllPages} data-testid="button-brand-apply-all">{t("pages.productBuilder.applyToAllPages")}</button>
               </div>
             </div>
 
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-gray-700">Auto Store-Ready</span>
+                <span className="text-xs font-semibold text-gray-700">{t("pages.productBuilder.autoStoreready")}</span>
                 <label className="flex items-center gap-2 text-xs text-gray-600 cursor-pointer">
                   <input type="checkbox" checked={autoStoreReady} onChange={e => setAutoStoreReady(e.target.checked)} className="rounded" data-testid="checkbox-auto-store-ready" />
                   {autoStoreReady ? "On" : "Off"}
                 </label>
               </div>
-              <p className="text-[11px] text-gray-500">Auto-run Store-Ready after AI generation completes.</p>
+              <p className="text-[11px] text-gray-500">{t("pages.productBuilder.autorunStorereadyAfterAiGeneration")}</p>
             </div>
 
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
-              <span className="text-xs font-semibold text-gray-700 block mb-2">Block Library</span>
-              <p className="text-[10px] text-gray-400 mb-2">Click to add content blocks to your page.</p>
+              <span className="text-xs font-semibold text-gray-700 block mb-2">{t("pages.productBuilder.blockLibrary")}</span>
+              <p className="text-[10px] text-gray-400 mb-2">{t("pages.productBuilder.clickToAddContentBlocks")}</p>
               <div className="space-y-1 max-h-48 overflow-y-auto">
                 {CONTENT_BLOCK_LIBRARY.map(block => (
                   <button
@@ -6534,8 +6535,8 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
             </div>
 
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
-              <span className="text-xs font-semibold text-gray-700 block mb-2">Product Presets</span>
-              <p className="text-[10px] text-gray-400 mb-2">One-click preset loads all blocks for a product type.</p>
+              <span className="text-xs font-semibold text-gray-700 block mb-2">{t("pages.productBuilder.productPresets2")}</span>
+              <p className="text-[10px] text-gray-400 mb-2">{t("pages.productBuilder.oneclickPresetLoadsAllBlocks")}</p>
               <div className="space-y-1.5">
                 {PRODUCT_PRESETS.map(p => (
                   <button
@@ -6552,25 +6553,25 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
             </div>
 
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
-              <span className="text-xs font-semibold text-gray-700 block mb-2">Layout Presets</span>
+              <span className="text-xs font-semibold text-gray-700 block mb-2">{t("pages.productBuilder.layoutPresets")}</span>
               <div className="space-y-2">
-                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => applyLayoutPreset("stack")} data-testid="button-layout-stack">Stack Layout</button>
-                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => applyLayoutPreset("two-col")} data-testid="button-layout-two-col">Two Column Layout</button>
-                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => applyLayoutPreset("hero-cards")} data-testid="button-layout-hero">Hero + Cards Layout</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => applyLayoutPreset("stack")} data-testid="button-layout-stack">{t("pages.productBuilder.stackLayout")}</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => applyLayoutPreset("two-col")} data-testid="button-layout-two-col">{t("pages.productBuilder.twoColumnLayout")}</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => applyLayoutPreset("hero-cards")} data-testid="button-layout-hero">{t("pages.productBuilder.heroCardsLayout")}</button>
               </div>
             </div>
 
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm">
-              <span className="text-xs font-semibold text-gray-700 block mb-2">Text Autofit</span>
+              <span className="text-xs font-semibold text-gray-700 block mb-2">{t("pages.productBuilder.textAutofit")}</span>
               <div className="space-y-2">
-                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => autofitText("expand")} data-testid="button-autofit-expand">Expand Boxes to Fit</button>
-                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => autofitText("shrink")} data-testid="button-autofit-shrink">Shrink Font to Fit</button>
-                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={highlightOverflows} data-testid="button-find-overflows">Find Overflows</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => autofitText("expand")} data-testid="button-autofit-expand">{t("pages.productBuilder.expandBoxesToFit")}</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={() => autofitText("shrink")} data-testid="button-autofit-shrink">{t("pages.productBuilder.shrinkFontToFit")}</button>
+                <button className="w-full h-10 rounded-xl border hover:bg-gray-50 text-xs" onClick={highlightOverflows} data-testid="button-find-overflows">{t("pages.productBuilder.findOverflows")}</button>
               </div>
             </div>
 
             <div className="rounded-2xl border border-primary/10 bg-gradient-to-br from-white to-primary/5 p-4 shadow-sm space-y-2">
-              <span className="text-xs font-semibold text-gray-700 block">Display</span>
+              <span className="text-xs font-semibold text-gray-700 block">{t("pages.productBuilder.display")}</span>
               <label className="flex items-center gap-2 text-[11px] text-gray-600 cursor-pointer">
                 <input type="checkbox" checked={showLogo} onChange={e => { setShowLogo(e.target.checked); if (e.target.checked) insertLogoFooter(); }} className="rounded" />
                 Include logo on pages
@@ -6586,7 +6587,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
             </div>
 
             <div className="rounded-2xl border border-green-200 bg-gradient-to-br from-white to-green-50 p-4 shadow-sm space-y-1.5">
-              <span className="text-xs font-semibold text-gray-700 block">AI Status</span>
+              <span className="text-xs font-semibold text-gray-700 block">{t("pages.productBuilder.aiStatus")}</span>
               {aiStatus ? (
                 <>
                   <div className="flex items-center gap-2">
@@ -6602,7 +6603,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                     const r = await adminFetch("/api/admin/ai-config");
                     if (r.ok) setAiStatus(await r.json());
                   } catch {}
-                }} className="text-[10px] text-primary hover:underline" data-testid="button-load-ai-status">Load AI status</button>
+                }} className="text-[10px] text-primary hover:underline" data-testid="button-load-ai-status">{t("pages.productBuilder.loadAiStatus")}</button>
               )}
             </div>
           </div>
@@ -6621,7 +6622,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
             <ArrowLeft className="w-4 h-4 text-gray-600" />
           </button>
           <div className="flex items-center gap-2 text-sm">
-            <button onClick={() => { saveCanvas(); onBack(); }} className="text-gray-400 hover:text-primary transition-colors text-xs font-medium" data-testid="link-drafts">Drafts</button>
+            <button onClick={() => { saveCanvas(); onBack(); }} className="text-gray-400 hover:text-primary transition-colors text-xs font-medium" data-testid="link-drafts">{t("pages.productBuilder.drafts2")}</button>
             <span className="text-gray-200">/</span>
             <span className="font-semibold text-gray-800 text-sm">{project?.title || "Loading..."}</span>
           </div>
@@ -6631,17 +6632,17 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
         <div className="flex items-center gap-1.5">
           <div className="flex items-center gap-1.5 mr-2 pr-2 border-r border-gray-100">
             {saving ? (
-              <span className="flex items-center gap-1.5 text-[10px] text-gray-400"><Loader2 className="w-3 h-3 animate-spin" />Saving...</span>
+              <span className="flex items-center gap-1.5 text-[10px] text-gray-400"><Loader2 className="w-3 h-3 animate-spin" />{t("pages.productBuilder.saving")}</span>
             ) : lastSavedAt ? (
               <span className="flex items-center gap-1.5 text-[10px] text-green-600 font-medium" title={`Last saved at ${lastSavedAt.toLocaleTimeString()}`}>
                 <CheckCircle className="w-3 h-3" />
                 Saved {lastSavedAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
               </span>
             ) : (
-              <span className="text-[10px] text-gray-400">Auto-save on</span>
+              <span className="text-[10px] text-gray-400">{t("pages.productBuilder.autosaveOn")}</span>
             )}
           </div>
-          <Button size="sm" variant="outline" onClick={saveCanvas} className="h-8 text-xs gap-1.5 rounded-lg font-medium border-gray-200 hover:bg-gray-50" data-testid="button-save-canvas"><Save className="w-3.5 h-3.5" /> Save</Button>
+          <Button size="sm" variant="outline" onClick={saveCanvas} className="h-8 text-xs gap-1.5 rounded-lg font-medium border-gray-200 hover:bg-gray-50" data-testid="button-save-canvas"><Save className="w-3.5 h-3.5" /> {t("pages.productBuilder.save")}</Button>
           <div className="flex items-center gap-1 bg-gray-50 rounded-lg p-0.5">
             <Button size="sm" variant="ghost" onClick={exportAsPDF} disabled={exporting} className="h-7 text-[11px] gap-1 rounded-md px-2.5 hover:bg-white hover:shadow-sm font-medium" data-testid="button-export-pdf">
               {exporting ? <Loader2 className="w-3 h-3 animate-spin" /> : <Download className="w-3 h-3" />} PDF
@@ -6665,30 +6666,30 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
       <div className="flex flex-1 overflow-hidden">
         <div className="w-[72px] border-r flex flex-col items-center py-3 shrink-0" style={{ backgroundColor: "#fafafa" }}>
           <div className="flex flex-col items-center gap-0.5 w-full px-[5px]">
-            <span className="text-[8px] font-semibold text-gray-400 uppercase tracking-wider mb-1 self-start pl-2">Create</span>
+            <span className="text-[8px] font-semibold text-gray-400 uppercase tracking-wider mb-1 self-start pl-2">{t("pages.productBuilder.create")}</span>
             <button onClick={() => setLeftPanel(leftPanel === "templates" ? null : "templates" as any)} className={`w-full h-[52px] rounded-xl flex flex-col items-center justify-center gap-1 transition-all duration-150 ${leftPanel === "templates" ? "bg-primary/10 text-primary ring-1 ring-primary/20" : "text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow-sm"}`} data-testid="button-panel-templates">
               <LayoutTemplate className="w-[18px] h-[18px]" />
-              <span className="text-[9px] font-semibold leading-none">Templates</span>
+              <span className="text-[9px] font-semibold leading-none">{t("pages.productBuilder.templates")}</span>
             </button>
             <button onClick={() => setLeftPanel(leftPanel === "components" ? null : "components" as any)} className={`w-full h-[52px] rounded-xl flex flex-col items-center justify-center gap-1 transition-all duration-150 ${leftPanel === "components" ? "bg-primary/10 text-primary ring-1 ring-primary/20" : "text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow-sm"}`} data-testid="button-panel-components">
               <Sparkles className="w-[18px] h-[18px]" />
-              <span className="text-[9px] font-semibold leading-none">Elements</span>
+              <span className="text-[9px] font-semibold leading-none">{t("pages.productBuilder.elements2")}</span>
             </button>
             <button onClick={() => addObject("text")} className="w-full h-[52px] rounded-xl flex flex-col items-center justify-center gap-1 text-gray-500 hover:bg-white hover:text-primary hover:shadow-sm transition-all duration-150" data-testid="button-add-text">
               <Type className="w-[18px] h-[18px]" />
-              <span className="text-[9px] font-semibold leading-none">Text</span>
+              <span className="text-[9px] font-semibold leading-none">{t("pages.productBuilder.text")}</span>
             </button>
             <button onClick={() => setLeftPanel(leftPanel === "imagelab" ? null : "imagelab" as any)} className={`w-full h-[52px] rounded-xl flex flex-col items-center justify-center gap-1 transition-all duration-150 ${leftPanel === "imagelab" ? "bg-primary/10 text-primary ring-1 ring-primary/20" : "text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow-sm"}`} data-testid="button-panel-imagelab">
               <ImagePlus className="w-[18px] h-[18px]" />
-              <span className="text-[9px] font-semibold leading-none">Images</span>
+              <span className="text-[9px] font-semibold leading-none">{t("pages.productBuilder.images")}</span>
             </button>
           </div>
           <div className="w-10 my-2" style={{ borderTop: "1px solid #e5e7eb" }} />
           <div className="flex flex-col items-center gap-0.5 w-full px-[5px]">
-            <span className="text-[8px] font-semibold text-gray-400 uppercase tracking-wider mb-1 self-start pl-2">Tools</span>
+            <span className="text-[8px] font-semibold text-gray-400 uppercase tracking-wider mb-1 self-start pl-2">{t("pages.productBuilder.tools")}</span>
             <button onClick={() => setLeftPanel(leftPanel === "brand" ? null : "brand" as any)} className={`w-full h-[52px] rounded-xl flex flex-col items-center justify-center gap-1 transition-all duration-150 ${leftPanel === "brand" ? "bg-primary/10 text-primary ring-1 ring-primary/20" : "text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow-sm"}`} data-testid="button-panel-brand">
               <SwatchBook className="w-[18px] h-[18px]" />
-              <span className="text-[9px] font-semibold leading-none">Brand</span>
+              <span className="text-[9px] font-semibold leading-none">{t("pages.productBuilder.brand")}</span>
             </button>
             <button onClick={() => setLeftPanel(leftPanel === "ai" ? null : "ai" as any)} className={`w-full h-[52px] rounded-xl flex flex-col items-center justify-center gap-1 transition-all duration-150 ${leftPanel === "ai" ? "bg-primary/10 text-primary ring-1 ring-primary/20" : "text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow-sm"}`} data-testid="button-panel-ai">
               <Brain className="w-[18px] h-[18px]" />
@@ -6696,12 +6697,12 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
             </button>
             <button onClick={() => setLeftPanel(leftPanel === "blocks" ? null : "blocks" as any)} className={`w-full h-[52px] rounded-xl flex flex-col items-center justify-center gap-1 transition-all duration-150 ${leftPanel === "blocks" ? "bg-primary/10 text-primary ring-1 ring-primary/20" : "text-gray-500 hover:bg-white hover:text-gray-700 hover:shadow-sm"}`} data-testid="button-panel-blocks">
               <Grid3X3 className="w-[18px] h-[18px]" />
-              <span className="text-[9px] font-semibold leading-none">Blocks</span>
+              <span className="text-[9px] font-semibold leading-none">{t("pages.productBuilder.blocks")}</span>
             </button>
           </div>
           <div className="mt-auto pt-3 w-full flex flex-col items-center gap-1 px-[5px]">
-            <button onClick={undo} className="w-full h-7 rounded-lg text-[9px] font-medium hover:bg-white hover:shadow-sm text-gray-400 hover:text-gray-600 transition-all" title="Undo (Ctrl+Z)" data-testid="button-undo">Undo</button>
-            <button onClick={redo} className="w-full h-7 rounded-lg text-[9px] font-medium hover:bg-white hover:shadow-sm text-gray-400 hover:text-gray-600 transition-all" title="Redo (Ctrl+Y)" data-testid="button-redo">Redo</button>
+            <button onClick={undo} className="w-full h-7 rounded-lg text-[9px] font-medium hover:bg-white hover:shadow-sm text-gray-400 hover:text-gray-600 transition-all" title={t("pages.productBuilder.undoCtrlz")} data-testid="button-undo">{t("pages.productBuilder.undo")}</button>
+            <button onClick={redo} className="w-full h-7 rounded-lg text-[9px] font-medium hover:bg-white hover:shadow-sm text-gray-400 hover:text-gray-600 transition-all" title={t("pages.productBuilder.redoCtrly")} data-testid="button-redo">{t("pages.productBuilder.redo")}</button>
           </div>
         </div>
 
@@ -6790,9 +6791,9 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                   <span className="text-[11px] font-semibold text-gray-500 w-10 text-center tabular-nums" data-testid="text-zoom-level">{zoom}%</span>
                 </div>
                 <div className="flex items-center gap-1 bg-gray-50 rounded-lg p-0.5">
-                  <button onClick={zoomFit} className={`h-7 px-3 rounded-md text-[10px] font-semibold transition-all ${zoom === 85 ? "bg-white shadow-sm text-gray-700" : "text-gray-500 hover:text-gray-700"}`} data-testid="button-zoom-fit">Fit</button>
+                  <button onClick={zoomFit} className={`h-7 px-3 rounded-md text-[10px] font-semibold transition-all ${zoom === 85 ? "bg-white shadow-sm text-gray-700" : "text-gray-500 hover:text-gray-700"}`} data-testid="button-zoom-fit">{t("pages.productBuilder.fit")}</button>
                   <button onClick={zoomActual} className={`h-7 px-3 rounded-md text-[10px] font-semibold transition-all ${zoom === 100 ? "bg-white shadow-sm text-gray-700" : "text-gray-500 hover:text-gray-700"}`} data-testid="button-zoom-100">100%</button>
-                  <button onClick={() => setZoom(Math.min(200, Math.round((window.innerHeight - 200) / CANVAS_HEIGHT * 100)))} className="h-7 px-3 rounded-md text-[10px] font-semibold text-gray-500 hover:text-gray-700 transition-all" data-testid="button-zoom-fill">Fill</button>
+                  <button onClick={() => setZoom(Math.min(200, Math.round((window.innerHeight - 200) / CANVAS_HEIGHT * 100)))} className="h-7 px-3 rounded-md text-[10px] font-semibold text-gray-500 hover:text-gray-700 transition-all" data-testid="button-zoom-fill">{t("pages.productBuilder.fill")}</button>
                 </div>
               </div>
             </div>
@@ -6806,7 +6807,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 <Layers className="w-3.5 h-3.5 text-gray-400" />
                 <span className="text-xs font-semibold text-gray-600">Pages ({pages.length})</span>
               </div>
-              <button onClick={addPage} className="text-[10px] px-2 py-1 rounded-lg border hover:bg-gray-50 text-gray-500 hover:text-primary transition" data-testid="button-add-page">+ Add</button>
+              <button onClick={addPage} className="text-[10px] px-2 py-1 rounded-lg border hover:bg-gray-50 text-gray-500 hover:text-primary transition" data-testid="button-add-page">{t("pages.productBuilder.add")}</button>
             </div>
             <div className="space-y-2">
               {pages.map((page, i) => {
@@ -6850,24 +6851,24 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
 
           <div className="p-3 border-b">
             <div className="flex items-center gap-1.5 mb-2">
-              <span className="text-[10px] text-gray-400">Align:</span>
+              <span className="text-[10px] text-gray-400">{t("pages.productBuilder.align")}</span>
               <div className="flex gap-1">
-                <button onClick={() => alignSelected("left")} className="p-1 rounded hover:bg-gray-100" title="Align left" data-testid="button-align-left"><AlignLeft className="w-3.5 h-3.5 text-gray-500" /></button>
-                <button onClick={() => alignSelected("center")} className="p-1 rounded hover:bg-gray-100" title="Align center" data-testid="button-align-center"><AlignCenter className="w-3.5 h-3.5 text-gray-500" /></button>
-                <button onClick={() => alignSelected("right")} className="p-1 rounded hover:bg-gray-100" title="Align right" data-testid="button-align-right"><AlignRight className="w-3.5 h-3.5 text-gray-500" /></button>
-                <button onClick={() => alignSelected("distribute")} className="p-1 rounded hover:bg-gray-100" title="Distribute" data-testid="button-distribute"><AlignVerticalJustifyCenter className="w-3.5 h-3.5 text-gray-500" /></button>
+                <button onClick={() => alignSelected("left")} className="p-1 rounded hover:bg-gray-100" title={t("pages.productBuilder.alignLeft")} data-testid="button-align-left"><AlignLeft className="w-3.5 h-3.5 text-gray-500" /></button>
+                <button onClick={() => alignSelected("center")} className="p-1 rounded hover:bg-gray-100" title={t("pages.productBuilder.alignCenter")} data-testid="button-align-center"><AlignCenter className="w-3.5 h-3.5 text-gray-500" /></button>
+                <button onClick={() => alignSelected("right")} className="p-1 rounded hover:bg-gray-100" title={t("pages.productBuilder.alignRight")} data-testid="button-align-right"><AlignRight className="w-3.5 h-3.5 text-gray-500" /></button>
+                <button onClick={() => alignSelected("distribute")} className="p-1 rounded hover:bg-gray-100" title={t("pages.productBuilder.distribute")} data-testid="button-distribute"><AlignVerticalJustifyCenter className="w-3.5 h-3.5 text-gray-500" /></button>
               </div>
             </div>
             {selectedIds.length > 1 && (
               <div className="space-y-1.5 mt-2">
                 <span className="text-[10px] font-semibold text-gray-600">{selectedIds.length} selected</span>
                 <div className="flex gap-1 flex-wrap">
-                  <button onClick={bringForward} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-bring-forward"><ArrowUp className="w-3 h-3" />Fwd</button>
-                  <button onClick={sendBackward} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-send-backward"><ArrowDown className="w-3 h-3" />Back</button>
-                  <button onClick={toggleLockSelected} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-lock-toggle"><Lock className="w-3 h-3" />Lock</button>
-                  <button onClick={groupSelected} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-group"><Group className="w-3 h-3" />Group</button>
-                  <button onClick={ungroupSelected} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-ungroup"><Ungroup className="w-3 h-3" />Ungroup</button>
-                  <Button size="sm" variant="destructive" onClick={deleteSelected} className="h-7 text-[10px] gap-1" data-testid="button-delete-multi"><Trash2 className="w-3 h-3" />Del</Button>
+                  <button onClick={bringForward} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-bring-forward"><ArrowUp className="w-3 h-3" />{t("pages.productBuilder.fwd")}</button>
+                  <button onClick={sendBackward} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-send-backward"><ArrowDown className="w-3 h-3" />{t("pages.productBuilder.back")}</button>
+                  <button onClick={toggleLockSelected} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-lock-toggle"><Lock className="w-3 h-3" />{t("pages.productBuilder.lock")}</button>
+                  <button onClick={groupSelected} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-group"><Group className="w-3 h-3" />{t("pages.productBuilder.group")}</button>
+                  <button onClick={ungroupSelected} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-ungroup"><Ungroup className="w-3 h-3" />{t("pages.productBuilder.ungroup")}</button>
+                  <Button size="sm" variant="destructive" onClick={deleteSelected} className="h-7 text-[10px] gap-1" data-testid="button-delete-multi"><Trash2 className="w-3 h-3" />{t("pages.productBuilder.del")}</Button>
                 </div>
               </div>
             )}
@@ -6875,13 +6876,13 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
 
           {selectedObj && (
             <div className="p-3 border-b" data-testid="panel-properties">
-              <span className="text-xs font-semibold text-gray-600 mb-2 block">Properties</span>
+              <span className="text-xs font-semibold text-gray-600 mb-2 block">{t("pages.productBuilder.properties")}</span>
               <div className="space-y-2">
                 {selectedObj.type === "text" && (
                   <>
                     <Textarea value={selectedObj.content || ""} onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { content: e.target.value }); }} className="text-xs" rows={2} data-testid="input-text-content" />
                     <div>
-                      <label className="text-[9px] text-gray-400 block mb-0.5">Font</label>
+                      <label className="text-[9px] text-gray-400 block mb-0.5">{t("pages.productBuilder.font")}</label>
                       <select
                         value={selectedObj.fontFamily || "Inter"}
                         onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { fontFamily: e.target.value }); }}
@@ -6889,17 +6890,17 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                         style={{ fontFamily: selectedObj.fontFamily || "Inter" }}
                         data-testid="select-font-family"
                       >
-                        <optgroup label="Sans-Serif">
+                        <optgroup label={t("pages.productBuilder.sansserif")}>
                           {FONT_FAMILIES.filter(f => f.category === "sans").map(f => (
                             <option key={f.value} value={f.value} style={{ fontFamily: f.value }}>{f.label}</option>
                           ))}
                         </optgroup>
-                        <optgroup label="Serif">
+                        <optgroup label={t("pages.productBuilder.serif")}>
                           {FONT_FAMILIES.filter(f => f.category === "serif").map(f => (
                             <option key={f.value} value={f.value} style={{ fontFamily: f.value }}>{f.label}</option>
                           ))}
                         </optgroup>
-                        <optgroup label="Handwriting">
+                        <optgroup label={t("pages.productBuilder.handwriting")}>
                           {FONT_FAMILIES.filter(f => f.category === "hand").map(f => (
                             <option key={f.value} value={f.value} style={{ fontFamily: f.value }}>{f.label}</option>
                           ))}
@@ -6909,11 +6910,11 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                     <div className="flex gap-1.5">
                       <Input type="number" value={selectedObj.fontSize || 16} onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { fontSize: Number(e.target.value) }); }} className="text-xs w-16" data-testid="input-font-size" />
                       <select value={selectedObj.fontWeight || "normal"} onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { fontWeight: e.target.value }); }} className="text-xs border rounded px-2 flex-1" data-testid="select-font-weight">
-                        <option value="300">Light</option>
-                        <option value="normal">Regular</option>
-                        <option value="500">Medium</option>
-                        <option value="600">Semi-Bold</option>
-                        <option value="bold">Bold</option>
+                        <option value="300">{t("pages.productBuilder.light")}</option>
+                        <option value="normal">{t("pages.productBuilder.regular")}</option>
+                        <option value="500">{t("pages.productBuilder.medium")}</option>
+                        <option value="600">{t("pages.productBuilder.semibold")}</option>
+                        <option value="bold">{t("pages.productBuilder.bold")}</option>
                       </select>
                     </div>
                     <div className="flex gap-1">
@@ -6927,11 +6928,11 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 )}
                 {selectedObj.type === "image" && (
                   <>
-                    <Input placeholder="Image URL" value={selectedObj.src || ""} onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { src: e.target.value }); }} className="text-xs" data-testid="input-image-url" />
+                    <Input placeholder={t("pages.productBuilder.imageUrl")} value={selectedObj.src || ""} onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { src: e.target.value }); }} className="text-xs" data-testid="input-image-url" />
                     <div>
-                      <label className="text-[9px] text-gray-400 block mb-1">Color Tint</label>
+                      <label className="text-[9px] text-gray-400 block mb-1">{t("pages.productBuilder.colorTint")}</label>
                       <div className="flex items-center gap-1 flex-wrap">
-                        <button onClick={() => { pushUndo(); updateObject(selectedObj.id, { filter: undefined }); }} className={`h-6 px-2 rounded text-[9px] border ${!selectedObj.filter ? "bg-primary/10 border-primary text-primary" : "text-gray-500"}`} data-testid="button-tint-original">Original</button>
+                        <button onClick={() => { pushUndo(); updateObject(selectedObj.id, { filter: undefined }); }} className={`h-6 px-2 rounded text-[9px] border ${!selectedObj.filter ? "bg-primary/10 border-primary text-primary" : "text-gray-500"}`} data-testid="button-tint-original">{t("pages.productBuilder.original")}</button>
                         <button onClick={() => { pushUndo(); updateObject(selectedObj.id, { filter: "brightness(0)" }); }} className={`h-6 px-2 rounded text-[9px] border ${selectedObj.filter === "brightness(0)" ? "bg-primary/10 border-primary text-primary" : "text-gray-500"}`} data-testid="button-tint-black">
                           <div className="w-3 h-3 rounded-full bg-black border border-gray-300 inline-block align-middle mr-1" />Blk
                         </button>
@@ -6952,19 +6953,19 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                 )}
                 <div className="flex gap-1.5">
                   <div>
-                    <label className="text-[9px] text-gray-400">Fill</label>
+                    <label className="text-[9px] text-gray-400">{t("pages.productBuilder.fill2")}</label>
                     <input type="color" value={selectedObj.fill || "#333333"} onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { fill: e.target.value }); }} className="w-full h-7 rounded border cursor-pointer" data-testid="input-fill-color" />
                   </div>
                   {(selectedObj.type === "rect" || selectedObj.type === "circle") && (
                     <div>
-                      <label className="text-[9px] text-gray-400">Stroke</label>
+                      <label className="text-[9px] text-gray-400">{t("pages.productBuilder.stroke")}</label>
                       <input type="color" value={selectedObj.stroke || "#94a3b8"} onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { stroke: e.target.value }); }} className="w-full h-7 rounded border cursor-pointer" data-testid="input-stroke-color" />
                     </div>
                   )}
                 </div>
                 {(selectedObj.type === "rect") && (
                   <div>
-                    <label className="text-[9px] text-gray-400">Radius</label>
+                    <label className="text-[9px] text-gray-400">{t("pages.productBuilder.radius")}</label>
                     <Input type="number" value={selectedObj.borderRadius || 0} onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { borderRadius: Number(e.target.value) }); }} className="text-xs" data-testid="input-border-radius" />
                   </div>
                 )}
@@ -6979,7 +6980,7 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                   </div>
                 </div>
                 <div>
-                  <label className="text-[9px] text-gray-400">Opacity</label>
+                  <label className="text-[9px] text-gray-400">{t("pages.productBuilder.opacity")}</label>
                   <input type="range" min={0} max={1} step={0.05} value={selectedObj.opacity ?? 1} onChange={(e) => { pushUndo(); updateObject(selectedObj.id, { opacity: Number(e.target.value) }); }} className="w-full h-1.5" data-testid="input-opacity" />
                 </div>
                 <div className="flex gap-1 flex-wrap pt-1">
@@ -6990,8 +6991,8 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
                   <button onClick={toggleLockSelected} className="h-7 px-2 rounded-lg border text-[10px] hover:bg-gray-50 flex items-center gap-1" data-testid="button-lock-single">{selectedObj.locked ? <Unlock className="w-3 h-3" /> : <Lock className="w-3 h-3" />}</button>
                 </div>
                 <div className="flex gap-1.5 pt-1">
-                  <Button size="sm" variant="outline" onClick={duplicateSelected} className="h-7 text-[10px] flex-1 gap-1" data-testid="button-duplicate"><Copy className="w-3 h-3" /> Dup</Button>
-                  <Button size="sm" variant="destructive" onClick={deleteSelected} className="h-7 text-[10px] flex-1 gap-1" data-testid="button-delete-object"><Trash2 className="w-3 h-3" /> Del</Button>
+                  <Button size="sm" variant="outline" onClick={duplicateSelected} className="h-7 text-[10px] flex-1 gap-1" data-testid="button-duplicate"><Copy className="w-3 h-3" /> {t("pages.productBuilder.dup")}</Button>
+                  <Button size="sm" variant="destructive" onClick={deleteSelected} className="h-7 text-[10px] flex-1 gap-1" data-testid="button-delete-object"><Trash2 className="w-3 h-3" /> {t("pages.productBuilder.del2")}</Button>
                 </div>
               </div>
             </div>
@@ -7018,37 +7019,37 @@ Rules: No markdown. No extra keys. Keep paragraphs short (1-4 sentences). Lists 
       {showPublishDialog && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 space-y-4">
-            <h3 className="font-semibold text-lg text-gray-900">Publish to Marketplace</h3>
-            <p className="text-sm text-gray-500">Create a product listing from this design.</p>
+            <h3 className="font-semibold text-lg text-gray-900">{t("pages.productBuilder.publishToMarketplace")}</h3>
+            <p className="text-sm text-gray-500">{t("pages.productBuilder.createAProductListingFrom")}</p>
             <div className="space-y-3">
               <div>
-                <label className="text-xs font-medium text-gray-600 block mb-1">Product Title</label>
+                <label className="text-xs font-medium text-gray-600 block mb-1">{t("pages.productBuilder.productTitle2")}</label>
                 <Input value={publishForm.title} onChange={(e) => setPublishForm(f => ({ ...f, title: e.target.value }))} placeholder="e.g., Cardiac Assessment Cram Guide" data-testid="input-publish-title" />
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-600 block mb-1">Description</label>
-                <Textarea value={publishForm.description} onChange={(e) => setPublishForm(f => ({ ...f, description: e.target.value }))} placeholder="Describe what students will learn..." rows={3} data-testid="input-publish-description" />
+                <label className="text-xs font-medium text-gray-600 block mb-1">{t("pages.productBuilder.description2")}</label>
+                <Textarea value={publishForm.description} onChange={(e) => setPublishForm(f => ({ ...f, description: e.target.value }))} placeholder={t("pages.productBuilder.describeWhatStudentsWillLearn")} rows={3} data-testid="input-publish-description" />
               </div>
               <div className="flex gap-3">
                 <div className="flex-1">
-                  <label className="text-xs font-medium text-gray-600 block mb-1">Price (CAD)</label>
+                  <label className="text-xs font-medium text-gray-600 block mb-1">{t("pages.productBuilder.priceCad2")}</label>
                   <Input type="number" step="0.01" min="0" value={publishForm.price} onChange={(e) => setPublishForm(f => ({ ...f, price: e.target.value }))} placeholder="19.99" data-testid="input-publish-price" />
                 </div>
                 <div className="flex-1">
-                  <label className="text-xs font-medium text-gray-600 block mb-1">Category</label>
+                  <label className="text-xs font-medium text-gray-600 block mb-1">{t("pages.productBuilder.category2")}</label>
                   <select value={publishForm.category} onChange={(e) => setPublishForm(f => ({ ...f, category: e.target.value }))} className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm" data-testid="select-publish-category">
-                    <option value="Cram Guide">Cram Guide</option>
-                    <option value="Quick Reference">Quick Reference</option>
-                    <option value="Flashcard Pack">Flashcard Pack</option>
-                    <option value="Printable">Printable</option>
-                    <option value="Bundle">Bundle</option>
+                    <option value="Cram Guide">{t("pages.productBuilder.cramGuide2")}</option>
+                    <option value="Quick Reference">{t("pages.productBuilder.quickReference")}</option>
+                    <option value="Flashcard Pack">{t("pages.productBuilder.flashcardPack")}</option>
+                    <option value="Printable">{t("pages.productBuilder.printable")}</option>
+                    <option value="Bundle">{t("pages.productBuilder.bundle")}</option>
                   </select>
                 </div>
               </div>
-              <p className="text-[10px] text-gray-400">A thumbnail will be generated from page 1. Product will be saved as a draft.</p>
+              <p className="text-[10px] text-gray-400">{t("pages.productBuilder.aThumbnailWillBeGenerated")}</p>
             </div>
             <div className="flex gap-2 pt-2">
-              <Button variant="outline" onClick={() => setShowPublishDialog(false)} className="flex-1" data-testid="button-cancel-publish">Cancel</Button>
+              <Button variant="outline" onClick={() => setShowPublishDialog(false)} className="flex-1" data-testid="button-cancel-publish">{t("pages.productBuilder.cancel2")}</Button>
               <Button onClick={publishToMarketplace} disabled={publishing || !publishForm.title.trim() || !publishForm.price} className="flex-1 gap-1.5" data-testid="button-confirm-publish">
                 {publishing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ShoppingCart className="w-3.5 h-3.5" />}
                 {publishing ? "Publishing..." : "Publish Draft"}
@@ -7092,7 +7093,7 @@ export default function ProductBuilderPage() {
   if (!isAdmin) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <p className="text-gray-500">Admin access required</p>
+        <p className="text-gray-500">{t("pages.productBuilder.adminAccessRequired")}</p>
       </div>
     );
   }

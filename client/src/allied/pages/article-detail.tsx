@@ -7,6 +7,7 @@ import { buildFaqStructuredData } from "@/lib/structured-data";
 import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
 import { MedicalReferences } from "@/components/medical-references";
 
+import { useI18n } from "@/lib/i18n";
 const ALLIED_DOMAIN = "https://www.nursenest.ca/allied-health";
 
 const PROFESSION_DISPLAY: Record<string, { name: string; shortName: string; color: string; colorAccent: string; hubPath: string }> = {
@@ -53,6 +54,7 @@ interface ArticleDetail {
 }
 
 export default function ArticleDetailPage() {
+  const { t } = useI18n();
   const params = useParams<{ professionSlug: string; articleSlug: string }>();
   const profSlug = params.professionSlug || "";
   const articleSlug = params.articleSlug || "";
@@ -97,8 +99,8 @@ export default function ArticleDetailPage() {
   if (error || !article || !profession) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Article Not Found</h1>
-        <p className="text-gray-600 mb-4">The article you're looking for doesn't exist or hasn't been published yet.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.articleDetail.articleNotFound")}</h1>
+        <p className="text-gray-600 mb-4">{t("allied.articleDetail.theArticleYoureLookingFor")}</p>
         <Link href={profSlug ? `/allied-health/${profSlug}/articles` : "/careers"} className="inline-block px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back">
           Back to Articles
         </Link>
@@ -216,7 +218,7 @@ export default function ArticleDetailPage() {
 
               {faqItems.length > 0 && (
                 <div data-testid="section-faq">
-                  <h2 className="text-xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+                  <h2 className="text-xl font-bold text-gray-900 mb-4">{t("allied.articleDetail.frequentlyAskedQuestions")}</h2>
                   <div className="space-y-2">
                     {faqItems.map((faq: any, i: number) => (
                       <div key={i} className="border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-item-${i}`}>
@@ -254,8 +256,8 @@ export default function ArticleDetailPage() {
               />
 
               <div className="bg-gradient-to-br from-teal-50 to-cyan-50/50 rounded-2xl border border-teal-100 p-6 sm:p-8" data-testid="section-cta">
-                <h2 className="text-xl font-bold text-gray-900 mb-3">Ready to Start Studying?</h2>
-                <p className="text-gray-600 mb-5">Put your knowledge to the test with exam-authentic practice questions, adaptive mock exams, and a personalized study plan.</p>
+                <h2 className="text-xl font-bold text-gray-900 mb-3">{t("allied.articleDetail.readyToStartStudying")}</h2>
+                <p className="text-gray-600 mb-5">{t("allied.articleDetail.putYourKnowledgeToThe")}</p>
                 <div className="flex flex-wrap gap-3">
                   <Link href={`/diagnostic?career=${profSlug}`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200" data-testid="button-article-cta-diagnostic">
                     Start Free Diagnostic <ArrowRight className="w-4 h-4" />
@@ -292,7 +294,7 @@ export default function ArticleDetailPage() {
 
               {internalLinks.length > 0 && (
                 <div className="bg-white rounded-xl border border-gray-200 p-5" data-testid="sidebar-internal-links">
-                  <h3 className="font-semibold text-gray-900 mb-3 text-sm">Related Resources</h3>
+                  <h3 className="font-semibold text-gray-900 mb-3 text-sm">{t("allied.articleDetail.relatedResources")}</h3>
                   <div className="space-y-2">
                     {internalLinks.map((link: any, i: number) => (
                       <a

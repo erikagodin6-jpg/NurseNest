@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
+import { useI18n } from "@/lib/i18n";
 const CLINICAL_SKILLS_TOPICS = [
   {
     slug: "sterile-technique-nursing",
@@ -74,6 +75,7 @@ const breadcrumbItems = [
 ];
 
 export default function ClinicalNursingSkillsHubPage() {
+  const { t } = useI18n();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const faqStructuredData = buildFaqStructuredData(HUB_FAQS);
@@ -103,8 +105,8 @@ export default function ClinicalNursingSkillsHubPage() {
     <div className="min-h-screen bg-gray-50" data-testid="page-clinical-nursing-skills-hub">
       <Navigation />
       <SEO
-        title="Clinical Nursing Skills | Practical Skills Guide for Nurses | NurseNest"
-        description="Comprehensive clinical nursing skills hub covering sterile technique, wound irrigation, fluid assessment, pain scales, and newborn assessment with step-by-step procedures and NCLEX exam prep."
+        title={t("pages.clinicalNursingSkillsHubPage.clinicalNursingSkillsPracticalSkills")}
+        description={t("pages.clinicalNursingSkillsHubPage.comprehensiveClinicalNursingSkillsHub")}
         keywords="clinical nursing skills, nursing procedures, sterile technique, wound care nursing, pain assessment nursing, newborn assessment, NCLEX clinical skills"
         canonicalPath="/clinical-nursing-skills"
         structuredData={structuredData}
@@ -167,8 +169,8 @@ export default function ClinicalNursingSkillsHubPage() {
         </section>
 
         <div className="my-8 rounded-xl p-6 text-center bg-emerald-50 border-l-4 border-emerald-600" data-testid="cta-practice">
-          <h3 className="text-lg font-bold text-gray-900 mb-1">Practice Clinical Skills Questions</h3>
-          <p className="text-sm text-gray-600 mb-4">Test your clinical skills knowledge with NCLEX-style questions and detailed rationales.</p>
+          <h3 className="text-lg font-bold text-gray-900 mb-1">{t("pages.clinicalNursingSkillsHubPage.practiceClinicalSkillsQuestions")}</h3>
+          <p className="text-sm text-gray-600 mb-4">{t("pages.clinicalNursingSkillsHubPage.testYourClinicalSkillsKnowledge")}</p>
           <LocaleLink href="/practice-questions">
             <Button className="text-white bg-emerald-600 hover:bg-emerald-700" data-testid="button-cta-practice">
               Start Practice Questions <ArrowRight className="w-4 h-4 ml-2" />
@@ -185,7 +187,7 @@ export default function ClinicalNursingSkillsHubPage() {
           </h2>
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <p className="text-sm text-gray-700 leading-relaxed mb-4">
-              Clinical nursing skills are the bridge between theoretical knowledge and patient care. While understanding pathophysiology tells you <em>what</em> is happening, clinical skills determine <em>how</em> you respond. Proper sterile technique prevents infections. Accurate pain assessment drives appropriate intervention. Skilled fluid status monitoring catches deterioration before it becomes critical.
+              Clinical nursing skills are the bridge between theoretical knowledge and patient care. While understanding pathophysiology tells you <em>{t("pages.clinicalNursingSkillsHubPage.what")}</em> is happening, clinical skills determine <em>{t("pages.clinicalNursingSkillsHubPage.how")}</em> you respond. Proper sterile technique prevents infections. Accurate pain assessment drives appropriate intervention. Skilled fluid status monitoring catches deterioration before it becomes critical.
             </p>
             <p className="text-sm text-gray-700 leading-relaxed">
               Each skill in this hub is presented with the evidence-based rationale behind every step, common mistakes to avoid, and exam-focused tips. Whether you are preparing for clinical rotations, skills validation, or the NCLEX, these guides provide the systematic approach you need for safe, confident patient care.
@@ -205,8 +207,8 @@ export default function ClinicalNursingSkillsHubPage() {
               <Card className="h-full hover:shadow-md transition-all cursor-pointer group" data-testid="link-physiology-hub">
                 <CardContent className="p-4 text-center">
                   <Brain className="w-6 h-6 text-violet-600 mx-auto mb-2" />
-                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">Nursing Physiology</h3>
-                  <p className="text-xs text-gray-500 mt-1">Underlying pathophysiology concepts</p>
+                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">{t("pages.clinicalNursingSkillsHubPage.nursingPhysiology")}</h3>
+                  <p className="text-xs text-gray-500 mt-1">{t("pages.clinicalNursingSkillsHubPage.underlyingPathophysiologyConcepts")}</p>
                 </CardContent>
               </Card>
             </LocaleLink>
@@ -214,8 +216,8 @@ export default function ClinicalNursingSkillsHubPage() {
               <Card className="h-full hover:shadow-md transition-all cursor-pointer group" data-testid="link-lessons">
                 <CardContent className="p-4 text-center">
                   <BookOpen className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">Clinical Lessons</h3>
-                  <p className="text-xs text-gray-500 mt-1">Comprehensive clinical education</p>
+                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">{t("pages.clinicalNursingSkillsHubPage.clinicalLessons")}</h3>
+                  <p className="text-xs text-gray-500 mt-1">{t("pages.clinicalNursingSkillsHubPage.comprehensiveClinicalEducation")}</p>
                 </CardContent>
               </Card>
             </LocaleLink>
@@ -223,8 +225,8 @@ export default function ClinicalNursingSkillsHubPage() {
               <Card className="h-full hover:shadow-md transition-all cursor-pointer group" data-testid="link-flashcards">
                 <CardContent className="p-4 text-center">
                   <ClipboardList className="w-6 h-6 text-emerald-600 mx-auto mb-2" />
-                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">Flashcards</h3>
-                  <p className="text-xs text-gray-500 mt-1">Quick review and reinforcement</p>
+                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700">{t("pages.clinicalNursingSkillsHubPage.flashcards")}</h3>
+                  <p className="text-xs text-gray-500 mt-1">{t("pages.clinicalNursingSkillsHubPage.quickReviewAndReinforcement")}</p>
                 </CardContent>
               </Card>
             </LocaleLink>

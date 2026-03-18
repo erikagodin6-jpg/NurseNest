@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { pricingConfig, durationLabels, durationMonths, type DurationKey } from "@shared/pricing-config";
 
+import { useI18n } from "@/lib/i18n";
 const ALLIED_FEATURES = [
   "Question Bank with detailed rationales",
   "Flashcards with spaced repetition",
@@ -18,6 +19,7 @@ const ALLIED_FEATURES = [
 const DURATION_ORDER: DurationKey[] = ["monthly", "3-month", "6-month", "yearly"];
 
 function formatPrice(cents: number): string {
+
   return `$${(cents / 100).toFixed(2)}`;
 }
 
@@ -67,8 +69,8 @@ export default function AlliedPricingPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-12" data-testid="allied-pricing-page">
       <AlliedSEO
-        title="Allied Health Plans - Exam Prep Pricing"
-        description="Choose your Allied Health exam prep plan. Access exam-style questions, flashcards, lessons, and performance tools. Plans start at $14.99 CAD/month."
+        title={t("allied.alliedPricing.alliedHealthPlansExamPrep")}
+        description={t("allied.alliedPricing.chooseYourAlliedHealthExam")}
         keywords="allied health exam prep pricing, healthcare certification cost, RRT exam prep price, paramedic exam prep price, pharmacy tech exam prep price"
         canonicalPath="/allied-health/pricing"
       />
@@ -161,12 +163,12 @@ export default function AlliedPricingPage() {
       </div>
 
       <div className="mb-16">
-        <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">NurseNest Allied vs Generic Test Banks</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("allied.alliedPricing.nursenestAlliedVsGenericTest")}</h2>
         <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
           <div className="grid grid-cols-3 bg-gray-50 border-b border-gray-100 px-6 py-3">
-            <div className="text-sm font-semibold text-gray-700">Feature</div>
-            <div className="text-sm font-semibold text-teal-700 text-center">NurseNest Allied</div>
-            <div className="text-sm font-semibold text-gray-500 text-center">Generic Banks</div>
+            <div className="text-sm font-semibold text-gray-700">{t("allied.alliedPricing.feature")}</div>
+            <div className="text-sm font-semibold text-teal-700 text-center">{t("allied.alliedPricing.nursenestAllied")}</div>
+            <div className="text-sm font-semibold text-gray-500 text-center">{t("allied.alliedPricing.genericBanks")}</div>
           </div>
           {COMPARISON.map((row, i) => (
             <div key={row.feature} className={`grid grid-cols-3 px-6 py-3 ${i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}`} data-testid={`comparison-row-${i}`}>
@@ -183,7 +185,7 @@ export default function AlliedPricingPage() {
       </div>
 
       <div className="mb-16">
-        <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Why Professionals Choose NurseNest Allied</h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">{t("allied.alliedPricing.whyProfessionalsChooseNursenestAllied")}</h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
           {[
             { icon: BookOpen, label: "600+ Word Rationales", desc: "Every question includes step-by-step clinical reasoning" },
@@ -201,7 +203,7 @@ export default function AlliedPricingPage() {
       </div>
 
       <div className="bg-gray-50 rounded-2xl p-8 max-w-3xl mx-auto">
-        <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Frequently Asked Questions</h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">{t("allied.alliedPricing.frequentlyAskedQuestions")}</h2>
         <div className="space-y-4">
           {[
             { q: "Can I switch between careers?", a: "Yes, one subscription gives you full access to all allied health careers. Study for multiple certifications simultaneously." },

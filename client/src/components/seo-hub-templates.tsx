@@ -7,6 +7,7 @@ import { SeoHubFAQ, buildFAQJsonLd, buildArticleJsonLd, buildMedicalWebPageJsonL
 import { SeoHubRelatedArticles, SeoHubInternalLinks } from "@/components/seo-hub-related";
 import type { SeoHubPage } from "@shared/schema";
 
+import { useI18n } from "@/lib/i18n";
 const SITE_DOMAIN = "https://www.nursenest.ca";
 
 const TIER_CONFIG: Record<string, { label: string; hub: string; hubTitle: string; audience: string }> = {
@@ -22,6 +23,7 @@ interface ContentSection {
 }
 
 function parseSections(raw: any): ContentSection[] {
+
   if (!raw) return [];
   if (typeof raw === "string") {
     try { return JSON.parse(raw); } catch { return []; }
@@ -197,7 +199,7 @@ export function SeoHubPageTemplate({ page, previewQuestions, relatedPages, sibli
 
                 {sections.length > 1 && (
                   <div className="bg-white rounded-xl border border-gray-200 p-4" data-testid="table-of-contents">
-                    <h3 className="text-sm font-semibold text-gray-700 mb-3">On This Page</h3>
+                    <h3 className="text-sm font-semibold text-gray-700 mb-3">{t("components.seoHubTemplates.onThisPage")}</h3>
                     <ul className="space-y-1.5">
                       {sections.map((s, i) => (
                         <li key={i}>

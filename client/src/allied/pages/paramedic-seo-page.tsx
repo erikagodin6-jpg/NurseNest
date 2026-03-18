@@ -9,11 +9,13 @@ import {
 } from "../components/paramedic-seo-components";
 import { Loader2 } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const ALLIED_DOMAIN = "https://www.nursenest.ca/allied-health";
 
 type PageType = "topic" | "category" | "glossary" | "comparison" | "study-guide";
 
 function useParamedicSeoContent(type: PageType, slug: string | undefined) {
+  const { t } = useI18n();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -119,9 +121,9 @@ function PageLoading() {
 function PageNotFound() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1>
-      <p className="text-gray-600">The paramedic content you're looking for doesn't exist or hasn't been published yet.</p>
-      <a href="/" className="inline-block mt-4 px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-home">Back to Home</a>
+      <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.paramedicSeoPage.pageNotFound")}</h1>
+      <p className="text-gray-600">{t("allied.paramedicSeoPage.theParamedicContentYoureLooking")}</p>
+      <a href="/" className="inline-block mt-4 px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-home">{t("allied.paramedicSeoPage.backToHome")}</a>
     </div>
   );
 }
@@ -253,7 +255,7 @@ export function ParamedicGlossaryPage() {
       <SEOHero title={data.term} subtitle={data.abbreviation ? `(${data.abbreviation})` : undefined} difficulty={data.difficulty} />
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="bg-white border border-gray-200 rounded-xl p-6 mb-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-2">Definition</h2>
+          <h2 className="text-lg font-bold text-gray-900 mb-2">{t("allied.paramedicSeoPage.definition")}</h2>
           <p className="text-gray-700 leading-relaxed">{data.definition}</p>
         </div>
         {data.extendedDescription && (
@@ -261,7 +263,7 @@ export function ParamedicGlossaryPage() {
         )}
         {(data.usageExamples || []).length > 0 && (
           <div className="mb-6">
-            <h2 className="text-lg font-bold text-gray-900 mb-3">Usage Examples</h2>
+            <h2 className="text-lg font-bold text-gray-900 mb-3">{t("allied.paramedicSeoPage.usageExamples")}</h2>
             <ul className="list-disc pl-5 space-y-2 text-gray-700 text-sm">
               {(data.usageExamples || []).map((ex: any, i: number) => (
                 <li key={i}>{typeof ex === "string" ? ex : ex.text || ex.example}</li>
@@ -347,7 +349,7 @@ export function ParamedicStudyGuidePage() {
         )}
         {(data.objectives || []).length > 0 && (
           <div className="bg-teal-50 border border-teal-200 rounded-xl p-4 mb-6">
-            <h2 className="font-semibold text-teal-800 mb-2">Learning Objectives</h2>
+            <h2 className="font-semibold text-teal-800 mb-2">{t("allied.paramedicSeoPage.learningObjectives")}</h2>
             <ul className="list-disc pl-5 space-y-1 text-teal-900 text-sm">
               {(data.objectives || []).map((obj: string, i: number) => <li key={i}>{obj}</li>)}
             </ul>

@@ -3,6 +3,7 @@ import { useParams } from "wouter";
 import { SEO } from "@/components/seo";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import {
   getNclexRnCategoryBySlug,
   getNclexRnConditionBySlug,
@@ -47,6 +48,7 @@ import {
 } from "lucide-react";
 
 function PracticeQuestionBlock({ question, index }: { question: NclexRnPracticeQuestion; index: number }) {
+  const { t } = useI18n();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showRationale, setShowRationale] = useState(false);
 
@@ -56,12 +58,12 @@ function PracticeQuestionBlock({ question, index }: { question: NclexRnPracticeQ
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/60 to-white z-10" />
         <div className="flex items-center gap-2 mb-3 relative z-20">
           <Lock className="w-4 h-4 text-gray-400" />
-          <span className="text-sm font-medium text-gray-400">Premium Question</span>
+          <span className="text-sm font-medium text-gray-400">{t("pages.nclexRnContentHub.premiumQuestion")}</span>
         </div>
         <p className="text-gray-300 text-sm blur-[2px] select-none">{question.question}</p>
         <div className="relative z-20 mt-4 text-center">
           <LocaleLink href="/pricing">
-            <Button size="sm" className="bg-primary hover:bg-primary/90" data-testid={`button-unlock-question-${index}`}>Unlock All Questions</Button>
+            <Button size="sm" className="bg-primary hover:bg-primary/90" data-testid={`button-unlock-question-${index}`}>{t("pages.nclexRnContentHub.unlockAllQuestions")}</Button>
           </LocaleLink>
         </div>
       </div>
@@ -93,7 +95,7 @@ function PracticeQuestionBlock({ question, index }: { question: NclexRnPracticeQ
       </div>
       {showRationale && (
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-900 leading-relaxed" data-testid={`rationale-${index}`}>
-          <strong className="text-blue-800">Rationale:</strong> {question.rationale}
+          <strong className="text-blue-800">{t("pages.nclexRnContentHub.rationale")}</strong> {question.rationale}
         </div>
       )}
     </div>
@@ -119,10 +121,10 @@ function CTABanner({ variant }: { variant: "default" | "mid" | "end" }) {
       <div className="bg-gradient-to-r from-primary/10 to-[#BFA6F6]/10 rounded-2xl p-6 border border-primary/20" data-testid="cta-banner-default">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="flex-1">
-            <h3 className="text-lg font-bold text-gray-900 mb-1">Ready to Practice?</h3>
-            <p className="text-sm text-gray-600">Take a full-length NCLEX-RN mock exam with NGN question types and detailed performance analytics.</p>
+            <h3 className="text-lg font-bold text-gray-900 mb-1">{t("pages.nclexRnContentHub.readyToPractice")}</h3>
+            <p className="text-sm text-gray-600">{t("pages.nclexRnContentHub.takeAFulllengthNclexrnMock")}</p>
           </div>
-          <LocaleLink href="/mock-exams"><Button className="bg-primary hover:bg-primary/90 whitespace-nowrap" data-testid="button-cta-mock-exam">Start Mock Exam</Button></LocaleLink>
+          <LocaleLink href="/mock-exams"><Button className="bg-primary hover:bg-primary/90 whitespace-nowrap" data-testid="button-cta-mock-exam">{t("pages.nclexRnContentHub.startMockExam")}</Button></LocaleLink>
         </div>
       </div>
     );
@@ -130,18 +132,18 @@ function CTABanner({ variant }: { variant: "default" | "mid" | "end" }) {
   if (variant === "mid") {
     return (
       <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200 text-center" data-testid="cta-banner-mid">
-        <p className="text-sm text-gray-600 mb-3">Join thousands of nursing students preparing with NurseNest</p>
-        <LocaleLink href="/pricing"><Button variant="outline" size="sm" data-testid="button-cta-pricing">View Plans & Pricing</Button></LocaleLink>
+        <p className="text-sm text-gray-600 mb-3">{t("pages.nclexRnContentHub.joinThousandsOfNursingStudents")}</p>
+        <LocaleLink href="/pricing"><Button variant="outline" size="sm" data-testid="button-cta-pricing">{t("pages.nclexRnContentHub.viewPlansPricing")}</Button></LocaleLink>
       </div>
     );
   }
   return (
     <div className="bg-gradient-to-br from-[#2E3A59] to-[#3d4f7a] rounded-2xl p-8 text-center text-white" data-testid="cta-banner-end">
-      <h3 className="text-xl font-bold mb-2">Pass the NCLEX-RN with Confidence</h3>
-      <p className="text-gray-300 text-sm mb-4 max-w-lg mx-auto">Access 3,000+ practice questions, NGN-format items, adaptive mock exams, and performance analytics designed for NCLEX-RN success.</p>
+      <h3 className="text-xl font-bold mb-2">{t("pages.nclexRnContentHub.passTheNclexrnWithConfidence")}</h3>
+      <p className="text-gray-300 text-sm mb-4 max-w-lg mx-auto">{t("pages.nclexRnContentHub.access3000PracticeQuestionsNgnformat")}</p>
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
-        <LocaleLink href="/mock-exams"><Button className="bg-white text-[#2E3A59] hover:bg-gray-100" data-testid="button-cta-end-mock">Try a Free Mock Exam</Button></LocaleLink>
-        <LocaleLink href="/pricing"><Button variant="outline" className="border-white/30 text-white hover:bg-white/10" data-testid="button-cta-end-pricing">View Pricing</Button></LocaleLink>
+        <LocaleLink href="/mock-exams"><Button className="bg-white text-[#2E3A59] hover:bg-gray-100" data-testid="button-cta-end-mock">{t("pages.nclexRnContentHub.tryAFreeMockExam")}</Button></LocaleLink>
+        <LocaleLink href="/pricing"><Button variant="outline" className="border-white/30 text-white hover:bg-white/10" data-testid="button-cta-end-pricing">{t("pages.nclexRnContentHub.viewPricing")}</Button></LocaleLink>
       </div>
     </div>
   );
@@ -153,7 +155,7 @@ function InternalLinksSection({ links }: { links: NclexRnInternalLink[] }) {
     <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-internal-links">
       <div className="flex items-center gap-3 mb-4">
         <BookOpen className="w-5 h-5 text-primary" />
-        <h2 className="text-lg font-bold text-gray-900">Related Resources</h2>
+        <h2 className="text-lg font-bold text-gray-900">{t("pages.nclexRnContentHub.relatedResources")}</h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {links.map((link, i) => (
@@ -182,7 +184,7 @@ function ReferencesSection({ references }: { references?: string[] }) {
     <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-references">
       <div className="flex items-center gap-3 mb-4">
         <FileText className="w-5 h-5 text-gray-500" />
-        <h2 className="text-lg font-bold text-gray-900">References</h2>
+        <h2 className="text-lg font-bold text-gray-900">{t("pages.nclexRnContentHub.references")}</h2>
       </div>
       <ol className="list-decimal list-inside space-y-2">
         {references.map((ref, i) => (
@@ -195,7 +197,7 @@ function ReferencesSection({ references }: { references?: string[] }) {
 
 function Breadcrumbs({ items }: { items: { label: string; href?: string }[] }) {
   return (
-    <nav className="bg-white border-b border-gray-100 px-4 py-3" aria-label="Breadcrumb" data-testid="breadcrumb-nav">
+    <nav className="bg-white border-b border-gray-100 px-4 py-3" aria-label={t("pages.nclexRnContentHub.breadcrumb")} data-testid="breadcrumb-nav">
       <div className="max-w-4xl mx-auto flex items-center gap-2 text-sm text-gray-500 flex-wrap">
         {items.map((item, i) => (
           <span key={i} className="flex items-center gap-2">
@@ -229,7 +231,7 @@ function NotFound({ type, backHref, backLabel }: { type: string; backHref: strin
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="text-center" data-testid={`${type}-not-found`}>
         <h1 className="text-2xl font-bold text-gray-900 mb-2">{type} Not Found</h1>
-        <p className="text-gray-500 mb-6">The page you are looking for does not exist.</p>
+        <p className="text-gray-500 mb-6">{t("pages.nclexRnContentHub.thePageYouAreLooking")}</p>
         <LocaleLink href={backHref}><Button variant="outline" data-testid="button-back">{backLabel}</Button></LocaleLink>
       </div>
     </div>
@@ -279,7 +281,7 @@ export function NclexRnCategoryTemplate({ params: propParams }: { params?: { slu
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <GraduationCap className="w-6 h-6 text-[#90cdf4]" />
               </div>
-              <span className="text-[#90cdf4] text-sm font-semibold uppercase tracking-wider">NCLEX-RN Exam Prep</span>
+              <span className="text-[#90cdf4] text-sm font-semibold uppercase tracking-wider">{t("pages.nclexRnContentHub.nclexrnExamPrep")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-category-title">{page.h1}</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.introText}</p>
@@ -300,7 +302,7 @@ export function NclexRnCategoryTemplate({ params: propParams }: { params?: { slu
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.practiceQuestions")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <PracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -314,7 +316,7 @@ export function NclexRnCategoryTemplate({ params: propParams }: { params?: { slu
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.frequentlyAskedQuestions")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <FAQBlock key={i} faq={faq} index={i} />)}
@@ -375,7 +377,7 @@ export function NclexRnConditionTemplate() {
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <Stethoscope className="w-6 h-6 text-[#90cdf4]" />
               </div>
-              <span className="text-[#90cdf4] text-sm font-semibold uppercase tracking-wider">NCLEX-RN Condition Guide</span>
+              <span className="text-[#90cdf4] text-sm font-semibold uppercase tracking-wider">{t("pages.nclexRnContentHub.nclexrnConditionGuide")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-condition-title">{page.name} — NCLEX-RN Nursing Study Guide</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.definition}</p>
@@ -388,13 +390,13 @@ export function NclexRnConditionTemplate() {
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-pathophysiology">
             <div className="flex items-center gap-3 mb-4">
               <Activity className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Pathophysiology</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.pathophysiology")}</h2>
             </div>
             <p className="text-gray-600 leading-relaxed">{page.pathophysiology}</p>
           </section>
 
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-causes">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Causes & Risk Factors</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.nclexRnContentHub.causesRiskFactors")}</h2>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {page.causesRiskFactors.map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
@@ -406,16 +408,16 @@ export function NclexRnConditionTemplate() {
           </section>
 
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-signs-symptoms">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Signs & Symptoms</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.nclexRnContentHub.signsSymptoms")}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><TrendingUp className="w-4 h-4 text-blue-500" /> Early Signs</h3>
+                <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><TrendingUp className="w-4 h-4 text-blue-500" /> {t("pages.nclexRnContentHub.earlySigns")}</h3>
                 <ul className="space-y-2">
                   {page.signsSymptoms.early.map((s, i) => <li key={i} className="text-sm text-gray-600 flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0 mt-1.5" />{s}</li>)}
                 </ul>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><TrendingDown className="w-4 h-4 text-red-500" /> Late / Severe Signs</h3>
+                <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><TrendingDown className="w-4 h-4 text-red-500" /> {t("pages.nclexRnContentHub.lateSevereSigns")}</h3>
                 <ul className="space-y-2">
                   {page.signsSymptoms.late.map((s, i) => <li key={i} className="text-sm text-gray-600 flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0 mt-1.5" />{s}</li>)}
                 </ul>
@@ -427,7 +429,7 @@ export function NclexRnConditionTemplate() {
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-labs">
               <div className="flex items-center gap-3 mb-4">
                 <FlaskConical className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Key Lab Values</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.keyLabValues")}</h2>
               </div>
               <div className="space-y-4">
                 {page.labs.map((lab, i) => (
@@ -447,7 +449,7 @@ export function NclexRnConditionTemplate() {
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-medications">
               <div className="flex items-center gap-3 mb-4">
                 <Pill className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Medications</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.medications")}</h2>
               </div>
               <div className="space-y-4">
                 {page.medications.map((med, i) => (
@@ -456,9 +458,9 @@ export function NclexRnConditionTemplate() {
                       <h3 className="font-semibold text-gray-900">{med.name}</h3>
                       <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">{med.drugClass}</span>
                     </div>
-                    <p className="text-sm text-gray-600 mb-2"><strong>Action:</strong> {med.action}</p>
-                    <p className="text-sm text-gray-600 mb-2"><strong>Side Effects:</strong> {med.sideEffects}</p>
-                    <p className="text-sm text-gray-600"><strong>Nursing:</strong> {med.nursingConsiderations}</p>
+                    <p className="text-sm text-gray-600 mb-2"><strong>{t("pages.nclexRnContentHub.action")}</strong> {med.action}</p>
+                    <p className="text-sm text-gray-600 mb-2"><strong>{t("pages.nclexRnContentHub.sideEffects")}</strong> {med.sideEffects}</p>
+                    <p className="text-sm text-gray-600"><strong>{t("pages.nclexRnContentHub.nursing")}</strong> {med.nursingConsiderations}</p>
                   </div>
                 ))}
               </div>
@@ -468,7 +470,7 @@ export function NclexRnConditionTemplate() {
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-nursing-interventions">
             <div className="flex items-center gap-3 mb-4">
               <ClipboardList className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Nursing Interventions</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.nursingInterventions")}</h2>
             </div>
             <ul className="space-y-2">
               {page.nursingInterventions.map((item, i) => (
@@ -482,7 +484,7 @@ export function NclexRnConditionTemplate() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6" data-testid="section-complications">
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Complications</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-3">{t("pages.nclexRnContentHub.complications")}</h2>
               <ul className="space-y-2">
                 {page.complications.map((item, i) => (
                   <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
@@ -493,7 +495,7 @@ export function NclexRnConditionTemplate() {
               </ul>
             </section>
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6" data-testid="section-patient-teaching">
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Patient Teaching</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-3">{t("pages.nclexRnContentHub.patientTeaching")}</h2>
               <ul className="space-y-2">
                 {page.patientTeaching.map((item, i) => (
                   <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
@@ -508,14 +510,14 @@ export function NclexRnConditionTemplate() {
           <section className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-2xl p-6 md:p-8" data-testid="section-exam-pearls">
             <div className="flex items-center gap-3 mb-4">
               <Lightbulb className="w-5 h-5 text-amber-600" />
-              <h2 className="text-xl font-bold text-gray-900">NCLEX-RN Exam Pearls</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.nclexrnExamPearls")}</h2>
             </div>
             <ul className="space-y-2">
               {page.examPearls.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><span className="text-amber-500 font-bold shrink-0">&#9733;</span>{item}</li>)}
             </ul>
             {page.commonTrapAnswers.length > 0 && (
               <div className="mt-6 pt-4 border-t border-amber-200">
-                <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><XCircle className="w-4 h-4 text-red-400" /> Common Trap Answers</h3>
+                <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><XCircle className="w-4 h-4 text-red-400" /> {t("pages.nclexRnContentHub.commonTrapAnswers")}</h3>
                 <ul className="space-y-2">
                   {page.commonTrapAnswers.map((item, i) => <li key={i} className="text-sm text-gray-600 flex items-start gap-2"><span className="text-red-400 shrink-0">&#10007;</span>{item}</li>)}
                 </ul>
@@ -529,7 +531,7 @@ export function NclexRnConditionTemplate() {
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.practiceQuestions2")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <PracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -541,7 +543,7 @@ export function NclexRnConditionTemplate() {
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.frequentlyAskedQuestions2")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <FAQBlock key={i} faq={faq} index={i} />)}
@@ -614,12 +616,12 @@ export function NclexRnMedicationTemplate() {
           <CTABanner variant="default" />
 
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-mechanism">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Mechanism of Action</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.nclexRnContentHub.mechanismOfAction")}</h2>
             <p className="text-gray-600 leading-relaxed">{page.mechanism}</p>
           </section>
 
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-indications">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Indications</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.nclexRnContentHub.indications")}</h2>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {page.indications.map((item, i) => (
                 <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />{item}</li>
@@ -628,7 +630,7 @@ export function NclexRnMedicationTemplate() {
           </section>
 
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-side-effects">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Side Effects & Adverse Reactions</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.nclexRnContentHub.sideEffectsAdverseReactions")}</h2>
             <div className="space-y-3">
               {page.sideEffects.map((se, i) => (
                 <div key={i} className="border border-gray-100 rounded-lg p-4" data-testid={`side-effect-${i}`}>
@@ -646,13 +648,13 @@ export function NclexRnMedicationTemplate() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6" data-testid="section-contraindications">
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Contraindications</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-3">{t("pages.nclexRnContentHub.contraindications")}</h2>
               <ul className="space-y-2">
                 {page.contraindications.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><XCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />{item}</li>)}
               </ul>
             </section>
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6" data-testid="section-nursing-considerations">
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Nursing Considerations</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-3">{t("pages.nclexRnContentHub.nursingConsiderations")}</h2>
               <ul className="space-y-2">
                 {page.nursingConsiderations.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />{item}</li>)}
               </ul>
@@ -660,14 +662,14 @@ export function NclexRnMedicationTemplate() {
           </div>
 
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-monitoring">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Monitoring Parameters</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.nclexRnContentHub.monitoringParameters")}</h2>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {page.monitoring.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><Activity className="w-4 h-4 text-primary shrink-0 mt-0.5" />{item}</li>)}
             </ul>
           </section>
 
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-patient-teaching">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Patient Teaching</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.nclexRnContentHub.patientTeaching2")}</h2>
             <ul className="space-y-2">
               {page.patientTeaching.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><FileText className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />{item}</li>)}
             </ul>
@@ -676,7 +678,7 @@ export function NclexRnMedicationTemplate() {
           <section className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-2xl p-6 md:p-8" data-testid="section-exam-tips">
             <div className="flex items-center gap-3 mb-4">
               <Lightbulb className="w-5 h-5 text-amber-600" />
-              <h2 className="text-xl font-bold text-gray-900">NCLEX-RN Exam Tips</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.nclexrnExamTips")}</h2>
             </div>
             <ul className="space-y-2">
               {page.examTips.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><span className="text-amber-500 font-bold shrink-0">&#9733;</span>{item}</li>)}
@@ -689,7 +691,7 @@ export function NclexRnMedicationTemplate() {
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.practiceQuestions3")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <PracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -701,7 +703,7 @@ export function NclexRnMedicationTemplate() {
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.frequentlyAskedQuestions3")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <FAQBlock key={i} faq={faq} index={i} />)}
@@ -761,7 +763,7 @@ export function NclexRnLabValueTemplate() {
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <FlaskConical className="w-6 h-6 text-[#90cdf4]" />
               </div>
-              <span className="text-[#90cdf4] text-sm font-semibold uppercase tracking-wider">Lab Value Reference</span>
+              <span className="text-[#90cdf4] text-sm font-semibold uppercase tracking-wider">{t("pages.nclexRnContentHub.labValueReference")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-lab-value-title">{page.fullName} — NCLEX-RN Study Guide</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.overview}</p>
@@ -774,15 +776,15 @@ export function NclexRnLabValueTemplate() {
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-normal-range">
             <div className="flex items-center gap-3 mb-6">
               <Activity className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Normal Range</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.normalRange")}</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl p-6 text-center">
-                <p className="text-xs text-gray-500 mb-1 uppercase tracking-wider">US Units</p>
+                <p className="text-xs text-gray-500 mb-1 uppercase tracking-wider">{t("pages.nclexRnContentHub.usUnits")}</p>
                 <p className="text-3xl font-bold text-primary" data-testid="text-normal-range-us">{page.normalRangeUS.value} {page.normalRangeUS.unit}</p>
               </div>
               <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-6 text-center">
-                <p className="text-xs text-gray-500 mb-1 uppercase tracking-wider">Canadian (SI) Units</p>
+                <p className="text-xs text-gray-500 mb-1 uppercase tracking-wider">{t("pages.nclexRnContentHub.canadianSiUnits")}</p>
                 <p className="text-3xl font-bold text-blue-700" data-testid="text-normal-range-ca">{page.normalRangeCA.value} {page.normalRangeCA.unit}</p>
               </div>
             </div>
@@ -825,7 +827,7 @@ export function NclexRnLabValueTemplate() {
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-nursing-implications">
             <div className="flex items-center gap-3 mb-4">
               <ClipboardList className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Nursing Implications</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.nursingImplications")}</h2>
             </div>
             <ul className="space-y-2">
               {page.nursingImplications.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />{item}</li>)}
@@ -835,7 +837,7 @@ export function NclexRnLabValueTemplate() {
           <section className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-2xl p-6 md:p-8" data-testid="section-exam-alerts">
             <div className="flex items-center gap-3 mb-4">
               <Lightbulb className="w-5 h-5 text-amber-600" />
-              <h2 className="text-xl font-bold text-gray-900">NCLEX-RN Exam Alerts</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.nclexrnExamAlerts")}</h2>
             </div>
             <ul className="space-y-2">
               {page.examAlerts.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><span className="text-amber-500 font-bold shrink-0">&#9733;</span>{item}</li>)}
@@ -848,7 +850,7 @@ export function NclexRnLabValueTemplate() {
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.practiceQuestions4")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <PracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -860,7 +862,7 @@ export function NclexRnLabValueTemplate() {
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.frequentlyAskedQuestions4")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <FAQBlock key={i} faq={faq} index={i} />)}
@@ -919,7 +921,7 @@ export function NclexRnComparisonTemplate() {
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <Scale className="w-6 h-6 text-[#90cdf4]" />
               </div>
-              <span className="text-[#90cdf4] text-sm font-semibold uppercase tracking-wider">Clinical Comparison</span>
+              <span className="text-[#90cdf4] text-sm font-semibold uppercase tracking-wider">{t("pages.nclexRnContentHub.clinicalComparison")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-comparison-title">{page.h1}</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.introText}</p>
@@ -934,7 +936,7 @@ export function NclexRnComparisonTemplate() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-200">
-                    <th className="text-left px-4 py-3 font-semibold text-gray-600 w-1/4">Feature</th>
+                    <th className="text-left px-4 py-3 font-semibold text-gray-600 w-1/4">{t("pages.nclexRnContentHub.feature")}</th>
                     <th className="text-left px-4 py-3 font-semibold text-blue-700 w-[37.5%]">{page.conditionA.name}</th>
                     <th className="text-left px-4 py-3 font-semibold text-purple-700 w-[37.5%]">{page.conditionB.name}</th>
                   </tr>
@@ -953,7 +955,7 @@ export function NclexRnComparisonTemplate() {
           </section>
 
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-key-differences">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Key Differences</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.nclexRnContentHub.keyDifferences")}</h2>
             <ul className="space-y-2">
               {page.keyDifferences.map((item, i) => (
                 <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
@@ -967,7 +969,7 @@ export function NclexRnComparisonTemplate() {
           <section className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-2xl p-6 md:p-8" data-testid="section-clinical-pearls">
             <div className="flex items-center gap-3 mb-4">
               <Lightbulb className="w-5 h-5 text-amber-600" />
-              <h2 className="text-xl font-bold text-gray-900">Clinical Pearls</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.clinicalPearls")}</h2>
             </div>
             <ul className="space-y-2">
               {page.clinicalPearls.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><span className="text-amber-500 font-bold shrink-0">&#9733;</span>{item}</li>)}
@@ -980,7 +982,7 @@ export function NclexRnComparisonTemplate() {
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.practiceQuestions5")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <PracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -992,7 +994,7 @@ export function NclexRnComparisonTemplate() {
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.frequentlyAskedQuestions5")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <FAQBlock key={i} faq={faq} index={i} />)}
@@ -1051,7 +1053,7 @@ export function NclexRnStrategyTemplate() {
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <GraduationCap className="w-6 h-6 text-[#90cdf4]" />
               </div>
-              <span className="text-[#90cdf4] text-sm font-semibold uppercase tracking-wider">Exam Strategy</span>
+              <span className="text-[#90cdf4] text-sm font-semibold uppercase tracking-wider">{t("pages.nclexRnContentHub.examStrategy")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-strategy-title">{page.h1}</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.introText}</p>
@@ -1067,7 +1069,7 @@ export function NclexRnStrategyTemplate() {
               <p className="text-gray-600 leading-relaxed mb-4">{section.content}</p>
               {section.tips && section.tips.length > 0 && (
                 <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
-                  <h3 className="font-semibold text-gray-800 text-sm mb-2">Key Tips:</h3>
+                  <h3 className="font-semibold text-gray-800 text-sm mb-2">{t("pages.nclexRnContentHub.keyTips")}</h3>
                   <ul className="space-y-1">
                     {section.tips.map((tip, j) => (
                       <li key={j} className="text-sm text-gray-600 flex items-start gap-2">
@@ -1087,7 +1089,7 @@ export function NclexRnStrategyTemplate() {
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.practiceQuestions6")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <PracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -1099,7 +1101,7 @@ export function NclexRnStrategyTemplate() {
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.nclexRnContentHub.frequentlyAskedQuestions6")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <FAQBlock key={i} faq={faq} index={i} />)}

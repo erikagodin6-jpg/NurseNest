@@ -39,6 +39,7 @@ import {
 } from "lucide-react";
 import { medications, moaCategories, medBodySystems, type Medication } from "@/data/medications";
 
+import { useI18n } from "@/lib/i18n";
 const systemIcons: Record<string, any> = {
   Cardiovascular: Heart,
   Respiratory: Wind,
@@ -117,18 +118,18 @@ function MedCard({ med, isExpanded, onToggle }: { med: Medication; isExpanded: b
               <p className="text-sm text-gray-700 leading-relaxed mb-3">{med.mechanismOfAction.summary}</p>
               <div className="bg-gray-50 rounded-lg p-4 space-y-3">
                 <div>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Receptor/Pathway</p>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">{t("pages.medicationMastery.receptorpathway")}</p>
                   <p className="text-sm text-gray-700 leading-relaxed">{med.mechanismOfAction.receptorPathway}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Cellular Detail</p>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">{t("pages.medicationMastery.cellularDetail")}</p>
                   <p className="text-sm text-gray-600 leading-relaxed">{med.mechanismOfAction.cellularDetail}</p>
                 </div>
               </div>
             </section>
 
             <section>
-              <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Indications</h4>
+              <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">{t("pages.medicationMastery.indications")}</h4>
               <div className="flex flex-wrap gap-1.5">
                 {med.indications.map((ind, i) => (
                   <span key={i} className="text-xs px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-medium">
@@ -186,8 +187,8 @@ function MedCard({ med, isExpanded, onToggle }: { med: Medication; isExpanded: b
                         <span className="text-sm font-semibold text-amber-800">{int.drug}</span>
                         <span className="text-[9px] px-1.5 py-0.5 bg-amber-100 text-amber-700 rounded font-bold">INTERACTION</span>
                       </div>
-                      <p className="text-xs text-gray-700 mb-1"><span className="font-semibold">Consequence:</span> {int.consequence}</p>
-                      <p className="text-xs text-gray-600"><span className="font-semibold">Mechanism:</span> {int.mechanism}</p>
+                      <p className="text-xs text-gray-700 mb-1"><span className="font-semibold">{t("pages.medicationMastery.consequence")}</span> {int.consequence}</p>
+                      <p className="text-xs text-gray-600"><span className="font-semibold">{t("pages.medicationMastery.mechanism")}</span> {int.mechanism}</p>
                     </div>
                   ))}
                 </div>
@@ -237,6 +238,7 @@ function MedCard({ med, isExpanded, onToggle }: { med: Medication; isExpanded: b
 const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
 export default function MedicationMasteryPage() {
+  const { t } = useI18n();
   const { user, effectiveTier } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMOA, setSelectedMOA] = useState<string | null>(null);
@@ -264,8 +266,8 @@ export default function MedicationMasteryPage() {
     return (
       <div className={`min-h-screen bg-warmwhite flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""}`}>
         <SEO
-          title="Medication Mastery - Mechanism-First Drug Explorer | NurseNest"
-          description="Understand medications through their mechanisms of action. Each drug entry explains WHY side effects occur at the receptor level."
+          title={t("pages.medicationMastery.medicationMasteryMechanismfirstDrugExplorer")}
+          description={t("pages.medicationMastery.understandMedicationsThroughTheirMechanisms")}
           keywords="medication mechanism of action, pharmacology nursing, drug side effects explained"
           canonicalPath="/medication-mastery"
           ogType="website"
@@ -278,8 +280,8 @@ export default function MedicationMasteryPage() {
               <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
                 <Lock className="w-10 h-10 text-primary/60" />
               </div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-3">Medication Mastery</h1>
-              <p className="text-lg text-gray-600 mb-2">Premium Interactive Tool</p>
+              <h1 className="text-3xl font-bold text-gray-900 mb-3">{t("pages.medicationMastery.medicationMastery")}</h1>
+              <p className="text-lg text-gray-600 mb-2">{t("pages.medicationMastery.premiumInteractiveTool")}</p>
               <p className="text-sm text-gray-500 mb-8 leading-relaxed max-w-md mx-auto">
                 The mechanism-first drug explorer is available exclusively for RPN, RN, and NP subscribers. Understand medications through their receptor pathways and predict clinical effects from first principles.
               </p>
@@ -291,7 +293,7 @@ export default function MedicationMasteryPage() {
               </LocaleLink>
               {!user && (
                 <p className="text-xs text-gray-400 mt-4">
-                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">Sign in</LocaleLink> to access.
+                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">{t("pages.medicationMastery.signIn")}</LocaleLink> to access.
                 </p>
               )}
             </div>
@@ -306,8 +308,8 @@ export default function MedicationMasteryPage() {
   return (
     <div className={`min-h-screen bg-warmwhite flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
       <SEO
-        title="Medication Mastery - Mechanism-First Drug Explorer | NurseNest"
-        description="Understand medications through their mechanisms of action. Each drug entry explains WHY side effects occur at the receptor level, helping you predict drug effects instead of memorizing lists."
+        title={t("pages.medicationMastery.medicationMasteryMechanismfirstDrugExplorer2")}
+        description={t("pages.medicationMastery.understandMedicationsThroughTheirMechanisms2")}
         keywords="medication mechanism of action, pharmacology nursing, drug side effects explained, nursing pharmacology, drug interactions nursing"
         canonicalPath="/medication-mastery"
         ogType="website"
@@ -341,7 +343,7 @@ export default function MedicationMasteryPage() {
           <div className="relative max-w-lg">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <Input
-              placeholder="Search by name, class, or indication..."
+              placeholder={t("pages.medicationMastery.searchByNameClassOr")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 h-12 rounded-xl border-gray-200 focus:border-primary focus:ring-primary/20 bg-white"
@@ -411,8 +413,8 @@ export default function MedicationMasteryPage() {
         {filteredMeds.length === 0 && (
           <div className="text-center py-20">
             <Pill className="w-12 h-12 text-gray-200 mx-auto mb-4" />
-            <p className="text-gray-400 text-lg">No medications match your search.</p>
-            <p className="text-gray-300 text-sm mt-1">Try a different drug name, class, or indication.</p>
+            <p className="text-gray-400 text-lg">{t("pages.medicationMastery.noMedicationsMatchYourSearch")}</p>
+            <p className="text-gray-300 text-sm mt-1">{t("pages.medicationMastery.tryADifferentDrugName")}</p>
           </div>
         )}
 
@@ -425,21 +427,21 @@ export default function MedicationMasteryPage() {
             <LocaleLink href="/pharmacology">
               <div className="flex items-center gap-2 p-3 bg-white rounded-lg border border-emerald-100 hover:border-emerald-300 hover:shadow-sm transition-all cursor-pointer" data-testid="link-to-pharma-hub">
                 <Pill className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span className="text-sm font-medium text-gray-900">Pharmacology Crash Course</span>
+                <span className="text-sm font-medium text-gray-900">{t("pages.medicationMastery.pharmacologyCrashCourse")}</span>
                 <ArrowRight className="w-3.5 h-3.5 text-gray-400 ml-auto shrink-0" />
               </div>
             </LocaleLink>
             <LocaleLink href="/herbal-supplements">
               <div className="flex items-center gap-2 p-3 bg-white rounded-lg border border-emerald-100 hover:border-emerald-300 hover:shadow-sm transition-all cursor-pointer" data-testid="link-to-herbal-hub">
                 <Sparkles className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span className="text-sm font-medium text-gray-900">Herbal Supplements & Safety</span>
+                <span className="text-sm font-medium text-gray-900">{t("pages.medicationMastery.herbalSupplementsSafety")}</span>
                 <ArrowRight className="w-3.5 h-3.5 text-gray-400 ml-auto shrink-0" />
               </div>
             </LocaleLink>
             <LocaleLink href="/nclex-pharmacology">
               <div className="flex items-center gap-2 p-3 bg-white rounded-lg border border-emerald-100 hover:border-emerald-300 hover:shadow-sm transition-all cursor-pointer" data-testid="link-to-nclex-pharma">
                 <Target className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span className="text-sm font-medium text-gray-900">NCLEX Pharmacology</span>
+                <span className="text-sm font-medium text-gray-900">{t("pages.medicationMastery.nclexPharmacology")}</span>
                 <ArrowRight className="w-3.5 h-3.5 text-gray-400 ml-auto shrink-0" />
               </div>
             </LocaleLink>

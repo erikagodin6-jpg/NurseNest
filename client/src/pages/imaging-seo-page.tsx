@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+import { useI18n } from "@/lib/i18n";
 interface SeoPageData {
   id: string;
   slug: string;
@@ -55,12 +56,13 @@ const COUNTRY_META: Record<string, { flag: string; exam: string; name: string; c
 };
 
 function FAQSection({ items }: { items: { question: string; answer: string }[] }) {
+  const { t } = useI18n();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   if (!items || items.length === 0) return null;
 
   return (
     <section className="mt-12" data-testid="section-faq">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.imagingSeoPage.frequentlyAskedQuestions")}</h2>
       <div className="space-y-3">
         {items.map((item, i) => (
           <div key={i} className="border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-item-${i}`}>
@@ -90,7 +92,7 @@ function SampleQuestionPreview({ questions }: { questions: SeoPageData["sampleQu
 
   return (
     <section className="mt-12" data-testid="section-sample-questions">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Sample Practice Questions</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.imagingSeoPage.samplePracticeQuestions")}</h2>
       <div className="space-y-6">
         {questions.slice(0, 3).map((q, qi) => (
           <div key={qi} className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm" data-testid={`card-sample-question-${qi}`}>
@@ -104,7 +106,7 @@ function SampleQuestionPreview({ questions }: { questions: SeoPageData["sampleQu
             </div>
             {showAnswer === qi ? (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-800" data-testid={`text-rationale-${qi}`}>
-                <strong>Rationale:</strong> {q.rationale}
+                <strong>{t("pages.imagingSeoPage.rationale")}</strong> {q.rationale}
               </div>
             ) : (
               <button onClick={() => setShowAnswer(qi)} className="text-sm text-indigo-600 font-medium hover:text-indigo-700" data-testid={`button-show-answer-${qi}`}>
@@ -129,7 +131,7 @@ function InternalLinksSection({ links, country }: { links: InternalLinks; countr
       <div className="grid md:grid-cols-2 gap-6">
         {links.seoPages.length > 0 && (
           <div>
-            <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><BookOpen className="w-4 h-4" /> Study Pages</h3>
+            <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><BookOpen className="w-4 h-4" /> {t("pages.imagingSeoPage.studyPages")}</h3>
             <ul className="space-y-2">
               {links.seoPages.map((p, i) => (
                 <li key={i}><Link href={`/medical-imaging/${p.country}/seo/${p.slug}`} className="text-sm text-indigo-600 hover:text-indigo-800 flex items-center gap-1.5" data-testid={`link-related-seo-${i}`}><ArrowRight className="w-3 h-3" />{p.title}</Link></li>
@@ -139,7 +141,7 @@ function InternalLinksSection({ links, country }: { links: InternalLinks; countr
         )}
         {links.blogArticles.length > 0 && (
           <div>
-            <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><FileText className="w-4 h-4" /> Articles & Guides</h3>
+            <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><FileText className="w-4 h-4" /> {t("pages.imagingSeoPage.articlesGuides")}</h3>
             <ul className="space-y-2">
               {links.blogArticles.map((a, i) => (
                 <li key={i}><Link href={`/medical-imaging/blog/${a.slug}`} className="text-sm text-indigo-600 hover:text-indigo-800 flex items-center gap-1.5" data-testid={`link-related-article-${i}`}><ArrowRight className="w-3 h-3" />{a.title}</Link></li>
@@ -149,7 +151,7 @@ function InternalLinksSection({ links, country }: { links: InternalLinks; countr
         )}
         {links.positioningEntries.length > 0 && (
           <div>
-            <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><Radio className="w-4 h-4" /> Positioning Guides</h3>
+            <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><Radio className="w-4 h-4" /> {t("pages.imagingSeoPage.positioningGuides")}</h3>
             <ul className="space-y-2">
               {links.positioningEntries.map((p, i) => (
                 <li key={i}><Link href={`/medical-imaging/${p.country}/positioning/${p.slug}`} className="text-sm text-indigo-600 hover:text-indigo-800 flex items-center gap-1.5" data-testid={`link-related-positioning-${i}`}><ArrowRight className="w-3 h-3" />{p.projectionName}</Link></li>
@@ -159,7 +161,7 @@ function InternalLinksSection({ links, country }: { links: InternalLinks; countr
         )}
         {links.physicsTopics.length > 0 && (
           <div>
-            <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><Brain className="w-4 h-4" /> Physics Topics</h3>
+            <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><Brain className="w-4 h-4" /> {t("pages.imagingSeoPage.physicsTopics")}</h3>
             <ul className="space-y-2">
               {links.physicsTopics.map((t, i) => (
                 <li key={i}><span className="text-sm text-gray-700 flex items-center gap-1.5" data-testid={`text-related-physics-${i}`}><ArrowRight className="w-3 h-3" />{t.title}</span></li>
@@ -228,8 +230,8 @@ export default function ImagingSeoPage() {
   if (!page) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-not-found">Page Not Found</h1>
-        <p className="text-gray-600 mb-4">The page you're looking for doesn't exist yet.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-not-found">{t("pages.imagingSeoPage.pageNotFound")}</h1>
+        <p className="text-gray-600 mb-4">{t("pages.imagingSeoPage.thePageYoureLookingFor")}</p>
         <Link href={`/medical-imaging/${country}`} className="inline-flex items-center gap-2 px-6 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-medium hover:bg-indigo-700" data-testid="link-back-country">
           Back to {countryMeta?.name || "Medical Imaging"}
         </Link>

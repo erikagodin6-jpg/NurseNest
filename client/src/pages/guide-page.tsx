@@ -18,7 +18,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
+import { useI18n } from "@/lib/i18n";
 function TableOfContents({ guide }: { guide: AuthorityGuide }) {
+  const { t } = useI18n();
   const sections = [
     { id: guide.examPrepSection.id, title: guide.examPrepSection.title },
     { id: guide.clinicalTransitionSection.id, title: guide.clinicalTransitionSection.title },
@@ -106,7 +108,7 @@ function ResourcesSection({ resources, color }: { resources: GuideResource[]; co
           <div>
             <div className="flex items-center gap-2 mb-3">
               <Stethoscope className="w-4 h-4 text-purple-600" />
-              <h3 className="text-sm font-semibold text-purple-700">Exam Prep (NurseNest)</h3>
+              <h3 className="text-sm font-semibold text-purple-700">{t("pages.guidePage.examPrepNursenest")}</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {grouped.nursenest.map((r, i) => (
@@ -130,7 +132,7 @@ function ResourcesSection({ resources, color }: { resources: GuideResource[]; co
           <div>
             <div className="flex items-center gap-2 mb-3">
               <GraduationCap className="w-4 h-4 text-blue-600" />
-              <h3 className="text-sm font-semibold text-blue-700">Clinical Transition (New Grad Hub)</h3>
+              <h3 className="text-sm font-semibold text-blue-700">{t("pages.guidePage.clinicalTransitionNewGradHub")}</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {grouped.newgrad.map((r, i) => (
@@ -154,7 +156,7 @@ function ResourcesSection({ resources, color }: { resources: GuideResource[]; co
           <div>
             <div className="flex items-center gap-2 mb-3">
               <Briefcase className="w-4 h-4 text-indigo-600" />
-              <h3 className="text-sm font-semibold text-indigo-700">Career Tools (ApplyNest)</h3>
+              <h3 className="text-sm font-semibold text-indigo-700">{t("pages.guidePage.careerToolsApplynest")}</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {grouped.applynest.map((r, i) => (
@@ -223,7 +225,7 @@ function RelatedGuides({ slugs, currentSlug }: { slugs: string[]; currentSlug: s
 
   return (
     <section id="related-guides" className="mb-12 scroll-mt-24" data-testid="section-related-guides">
-      <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Related Guides</h2>
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">{t("pages.guidePage.relatedGuides")}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {related.map((guide) => (
           <LocaleLink key={guide.slug} href={`/guides/${guide.slug}`}>
@@ -257,10 +259,10 @@ export default function GuidePage() {
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-guide-not-found">Guide Not Found</h1>
-          <p className="text-gray-600 mb-6">The guide you are looking for does not exist.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-guide-not-found">{t("pages.guidePage.guideNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.guidePage.theGuideYouAreLooking")}</p>
           <LocaleLink href="/">
-            <Button data-testid="button-guide-go-home">Return to Home</Button>
+            <Button data-testid="button-guide-go-home">{t("pages.guidePage.returnToHome")}</Button>
           </LocaleLink>
         </div>
         <Footer />
@@ -445,8 +447,8 @@ export function GuidesIndex() {
     <div className="min-h-screen bg-gray-50" data-testid="guides-index-page">
       <Navigation />
       <SEO
-        title="Career Guides | Complete Paths from Exam Prep to Job Placement | NurseNest"
-        description="Comprehensive career guides covering complete healthcare career paths. Each guide spans exam preparation, first-year clinical transition, and job placement strategies for nursing and allied health professions."
+        title={t("pages.guidePage.careerGuidesCompletePathsFrom")}
+        description={t("pages.guidePage.comprehensiveCareerGuidesCoveringComplete")}
         keywords="healthcare career guides, nursing career path, respiratory therapy guide, paramedic career guide, MLT career guide, healthcare exam prep, clinical transition, healthcare job placement"
         canonicalPath="/guides"
         breadcrumbs={[
@@ -492,9 +494,9 @@ export function GuidesIndex() {
                   </h2>
                   <p className="text-sm text-gray-500 mb-4 line-clamp-3">{guide.heroSubtitle}</p>
                   <div className="flex flex-wrap gap-1.5 mb-4">
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 font-medium">Exam Prep</span>
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium">Clinical</span>
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 font-medium">Career</span>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 font-medium">{t("pages.guidePage.examPrep")}</span>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium">{t("pages.guidePage.clinical")}</span>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 font-medium">{t("pages.guidePage.career")}</span>
                   </div>
                   <span className="inline-flex items-center gap-1 text-sm text-blue-600 font-medium">
                     Read Full Guide <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />

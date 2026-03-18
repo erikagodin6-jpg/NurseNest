@@ -10,9 +10,11 @@ import {
 import { DemoPageWrapper, DemoHeader, SectionCard, SectionTitle, StatCard, MasteryBar } from "@/components/demo-shared";
 import { streakData as d } from "@/data/demo-screenshot-data";
 
+import { useI18n } from "@/lib/i18n";
 export default function DemoStreakAnalytics() {
+  const { t } = useI18n();
   const { user, isAdmin } = useAuth();
-  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">Admin access required.</p></div></DemoPageWrapper>;
+  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">{t("pages.demoStreakAnalytics.adminAccessRequired")}</p></div></DemoPageWrapper>;
 
   const hoursChart = d.weeklyHours.map((h, i) => ({ week: `W${i + 1}`, hours: h }));
 
@@ -20,8 +22,8 @@ export default function DemoStreakAnalytics() {
     <DemoPageWrapper>
       <main className="max-w-6xl mx-auto px-6 pt-10 pb-16">
         <DemoHeader
-          title="Study Streak & Consistency"
-          subtitle="Tracking your daily commitment to exam readiness"
+          title={t("pages.demoStreakAnalytics.studyStreakConsistency")}
+          subtitle={t("pages.demo_streak_analytics.trackingYourDailyCommitmentTo")}
           rightContent={
             <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-orange-50 to-amber-50 text-amber-700 text-sm font-bold border border-amber-100 shadow-sm">
               <Flame className="w-4 h-4 text-orange-500" /> {d.currentStreak} Day Streak
@@ -30,16 +32,16 @@ export default function DemoStreakAnalytics() {
         />
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-          <StatCard icon={<Flame className="w-4 h-4" />} label="Current Streak" value={`${d.currentStreak} days`} accent="bg-orange-50 text-orange-500" />
-          <StatCard icon={<Award className="w-4 h-4" />} label="Longest Streak" value={`${d.longestStreak} days`} accent="bg-amber-50 text-amber-500" />
-          <StatCard icon={<Target className="w-4 h-4" />} label="Consistency" value={`${d.consistencyScore}%`} accent="bg-emerald-50 text-emerald-500" />
-          <StatCard icon={<Clock className="w-4 h-4" />} label="Daily Average" value={`${d.avgDailyMinutes} min`} accent="bg-violet-50 text-violet-500" />
+          <StatCard icon={<Flame className="w-4 h-4" />} label={t("pages.demoStreakAnalytics.currentStreak")} value={`${d.currentStreak} days`} accent="bg-orange-50 text-orange-500" />
+          <StatCard icon={<Award className="w-4 h-4" />} label={t("pages.demoStreakAnalytics.longestStreak")} value={`${d.longestStreak} days`} accent="bg-amber-50 text-amber-500" />
+          <StatCard icon={<Target className="w-4 h-4" />} label={t("pages.demoStreakAnalytics.consistency")} value={`${d.consistencyScore}%`} accent="bg-emerald-50 text-emerald-500" />
+          <StatCard icon={<Clock className="w-4 h-4" />} label={t("pages.demoStreakAnalytics.dailyAverage")} value={`${d.avgDailyMinutes} min`} accent="bg-violet-50 text-violet-500" />
         </div>
 
         <div className="grid grid-cols-12 gap-5 mb-6">
           <div className="col-span-12 lg:col-span-7">
             <SectionCard>
-              <SectionTitle title="Monthly Activity" subtitle="Study days in the last 30 days" />
+              <SectionTitle title={t("pages.demoStreakAnalytics.monthlyActivity")} subtitle={t("pages.demo_streak_analytics.studyDaysInTheLast")} />
               <div className="grid grid-cols-7 gap-2 mb-4">
                 {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
                   <div key={day} className="text-center text-[10px] text-slate-400 font-medium">{day}</div>
@@ -65,7 +67,7 @@ export default function DemoStreakAnalytics() {
 
           <div className="col-span-12 lg:col-span-5">
             <SectionCard className="h-full">
-              <SectionTitle title="Weekly Study Hours" subtitle="Hours logged per week" />
+              <SectionTitle title={t("pages.demoStreakAnalytics.weeklyStudyHours")} subtitle={t("pages.demo_streak_analytics.hoursLoggedPerWeek")} />
               <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={hoursChart} margin={{ top: 5, right: 10, bottom: 0, left: -20 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
@@ -80,7 +82,7 @@ export default function DemoStreakAnalytics() {
         </div>
 
         <SectionCard>
-          <SectionTitle title="Streak Milestones" subtitle="Unlock achievements as you build consistency" />
+          <SectionTitle title={t("pages.demoStreakAnalytics.streakMilestones")} subtitle={t("pages.demo_streak_analytics.unlockAchievementsAsYouBuild")} />
           <div className="flex items-center gap-3 overflow-x-auto pb-2">
             {d.milestones.map((m, i) => (
               <div key={m.days} className={cn("flex-shrink-0 flex flex-col items-center text-center px-5 py-4 rounded-2xl border-2 min-w-[120px] transition-colors",
@@ -93,7 +95,7 @@ export default function DemoStreakAnalytics() {
                 </div>
                 <p className={cn("text-sm font-bold", m.reached ? "text-violet-700" : "text-slate-400")}>{m.label}</p>
                 <p className="text-[10px] text-slate-400 mt-0.5">{m.days} days</p>
-                {m.reached && <span className="text-[9px] font-semibold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded mt-1">Earned</span>}
+                {m.reached && <span className="text-[9px] font-semibold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded mt-1">{t("pages.demoStreakAnalytics.earned")}</span>}
               </div>
             ))}
           </div>

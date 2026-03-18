@@ -1,4 +1,5 @@
 import { NURSENEST_PALETTE } from "@/lib/brand-palette";
+import { useI18n } from "@/lib/i18n";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from "recharts";
@@ -55,6 +56,7 @@ const focusAreas = [
 ];
 
 function SectionCard({ children, style: extraStyle, ...rest }: React.HTMLAttributes<HTMLDivElement> & { children: React.ReactNode }) {
+  const { t } = useI18n();
   return (
     <div
       style={{
@@ -120,11 +122,11 @@ export default function DemoLearningProgress() {
               Learning Progress Transformation
             </h1>
             <div style={{ display: "flex", gap: "12px", fontSize: "11px", color: "#6b7280", marginTop: "1px" }}>
-              <span data-testid="text-student-name">Emily Chen (Demo Student)</span>
+              <span data-testid="text-student-name">{t("pages.demoLearningProgress.emilyChenDemoStudent")}</span>
               <span>•</span>
-              <span data-testid="text-exam-track">RN / NCLEX Preparation</span>
+              <span data-testid="text-exam-track">{t("pages.demoLearningProgress.rnNclexPreparation")}</span>
               <span>•</span>
-              <span data-testid="text-study-period">3 Weeks of Adaptive Study</span>
+              <span data-testid="text-study-period">{t("pages.demoLearningProgress.3WeeksOfAdaptiveStudy")}</span>
             </div>
           </div>
         </div>
@@ -134,7 +136,7 @@ export default function DemoLearningProgress() {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
             <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "9px", color: "#6b7280", marginBottom: "1px" }}>Overall Accuracy Before</div>
+              <div style={{ fontSize: "9px", color: "#6b7280", marginBottom: "1px" }}>{t("pages.demoLearningProgress.overallAccuracyBefore")}</div>
               <div style={{ fontSize: "26px", fontWeight: 700, color: "#ef4444", lineHeight: 1 }} data-testid="text-accuracy-before">61%</div>
             </div>
             <div style={{
@@ -150,15 +152,15 @@ export default function DemoLearningProgress() {
               <ArrowRight size={18} color={P.primary} />
             </div>
             <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "9px", color: "#6b7280", marginBottom: "1px" }}>Overall Accuracy After</div>
+              <div style={{ fontSize: "9px", color: "#6b7280", marginBottom: "1px" }}>{t("pages.demoLearningProgress.overallAccuracyAfter")}</div>
               <div style={{ fontSize: "26px", fontWeight: 700, color: "#22c55e", lineHeight: 1 }} data-testid="text-accuracy-after">82%</div>
             </div>
           </div>
           <div style={{ display: "flex", gap: "20px" }}>
-            <StatBadge value="+21%" label="Mastery Improvement" color={P.primary} />
-            <StatBadge value="284" label="Flashcards Studied" color={P.secondary} />
-            <StatBadge value="512" label="Questions Completed" color={P.accent} />
-            <StatBadge value="14 hours" label="Study Time" color={P.highlight} />
+            <StatBadge value="+21%" label={t("pages.demoLearningProgress.masteryImprovement")} color={P.primary} />
+            <StatBadge value="284" label={t("pages.demoLearningProgress.flashcardsStudied")} color={P.secondary} />
+            <StatBadge value="512" label={t("pages.demoLearningProgress.questionsCompleted")} color={P.accent} />
+            <StatBadge value="14 hours" label={t("pages.demoLearningProgress.studyTime")} color={P.highlight} />
           </div>
         </div>
       </SectionCard>
@@ -319,9 +321,9 @@ export default function DemoLearningProgress() {
             marginBottom: "6px",
           }}>
             <div style={{ fontSize: "20px", fontWeight: 700, color: P.primary, lineHeight: 1 }} data-testid="text-next-target-value">88%</div>
-            <div style={{ fontSize: "9px", color: "#6b7280" }}>Exam Readiness Goal</div>
+            <div style={{ fontSize: "9px", color: "#6b7280" }}>{t("pages.demoLearningProgress.examReadinessGoal")}</div>
           </div>
-          <div style={{ fontSize: "9.5px", fontWeight: 500, marginBottom: "3px" }}>Focus Areas:</div>
+          <div style={{ fontSize: "9.5px", fontWeight: 500, marginBottom: "3px" }}>{t("pages.demoLearningProgress.focusAreas")}</div>
           <div style={{ display: "grid", gap: "2px", marginBottom: "8px" }}>
             {focusAreas.map((area, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "9px", color: "#374151" }}>

@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 
+import { useI18n } from "@/lib/i18n";
 interface WaveformSegment {
   type: string;
   path: string;
@@ -27,6 +28,7 @@ interface ECGStripProps {
 }
 
 function generateRepeatedPath(segments: WaveformSegment[], repeatInterval: number, totalWidth: number, irregularSpacing?: boolean): string {
+  const { t } = useI18n();
   const paths: string[] = [];
   let offset = 0;
   let iteration = 0;
@@ -158,10 +160,10 @@ export function MonitorPanel({ svgPathData, heartRate = 75, spo2 = 98, bp = "120
           <div className="bg-gray-900 rounded-lg p-3 text-center" data-testid="vital-hr">
             <div className="text-[10px] text-green-500 font-mono uppercase tracking-wider">HR</div>
             <div className="text-2xl font-mono font-bold text-green-400">{heartRate}</div>
-            <div className="text-[10px] text-green-600 font-mono">bpm</div>
+            <div className="text-[10px] text-green-600 font-mono">{t("allied.paramedicEcgComponents.bpm")}</div>
           </div>
           <div className="bg-gray-900 rounded-lg p-3 text-center" data-testid="vital-spo2">
-            <div className="text-[10px] text-cyan-500 font-mono uppercase tracking-wider">SpO2</div>
+            <div className="text-[10px] text-cyan-500 font-mono uppercase tracking-wider">{t("allied.paramedicEcgComponents.spo2")}</div>
             <div className="text-2xl font-mono font-bold text-cyan-400">{spo2}%</div>
           </div>
           <div className="bg-gray-900 rounded-lg p-3 text-center" data-testid="vital-bp">
@@ -169,7 +171,7 @@ export function MonitorPanel({ svgPathData, heartRate = 75, spo2 = 98, bp = "120
             <div className="text-xl font-mono font-bold text-red-400">{bp}</div>
           </div>
           <div className="bg-gray-900 rounded-lg p-3 text-center" data-testid="vital-etco2">
-            <div className="text-[10px] text-yellow-500 font-mono uppercase tracking-wider">ETCO2</div>
+            <div className="text-[10px] text-yellow-500 font-mono uppercase tracking-wider">{t("allied.paramedicEcgComponents.etco2")}</div>
             <div className="text-2xl font-mono font-bold text-yellow-400">{etco2}</div>
             <div className="text-[10px] text-yellow-600 font-mono">mmHg</div>
           </div>
@@ -218,7 +220,7 @@ export function WaveformDetailCard({ waveform, onClose }: WaveformDetailCardProp
       {onClose && (
         <div className="flex items-center justify-between px-6 pt-5 pb-2">
           <h2 className="text-xl font-bold text-gray-900">{waveform.name}</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-lg font-bold" data-testid="button-close-detail">&times;</button>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-lg font-bold" data-testid="button-close-detail">{t("allied.paramedicEcgComponents.times")}</button>
         </div>
       )}
       {!onClose && (
@@ -247,19 +249,19 @@ export function WaveformDetailCard({ waveform, onClose }: WaveformDetailCardProp
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {waveform.rate && (
             <div className="bg-teal-50 rounded-xl p-3" data-testid="info-rate">
-              <div className="text-xs font-semibold text-teal-700 uppercase tracking-wider mb-1">Rate</div>
+              <div className="text-xs font-semibold text-teal-700 uppercase tracking-wider mb-1">{t("allied.paramedicEcgComponents.rate")}</div>
               <div className="text-sm text-gray-900 font-medium">{waveform.rate}</div>
             </div>
           )}
           {waveform.regularity && (
             <div className="bg-purple-50 rounded-xl p-3" data-testid="info-regularity">
-              <div className="text-xs font-semibold text-purple-700 uppercase tracking-wider mb-1">Regularity</div>
+              <div className="text-xs font-semibold text-purple-700 uppercase tracking-wider mb-1">{t("allied.paramedicEcgComponents.regularity")}</div>
               <div className="text-sm text-gray-900 font-medium">{waveform.regularity}</div>
             </div>
           )}
           {isCapnography && waveform.svgPathData.etco2 && (
             <div className="bg-yellow-50 rounded-xl p-3" data-testid="info-etco2">
-              <div className="text-xs font-semibold text-yellow-700 uppercase tracking-wider mb-1">ETCO2</div>
+              <div className="text-xs font-semibold text-yellow-700 uppercase tracking-wider mb-1">{t("allied.paramedicEcgComponents.etco22")}</div>
               <div className="text-sm text-gray-900 font-medium">{waveform.svgPathData.etco2}</div>
             </div>
           )}
@@ -267,14 +269,14 @@ export function WaveformDetailCard({ waveform, onClose }: WaveformDetailCardProp
 
         {waveform.clinicalSignificance && (
           <div data-testid="section-significance">
-            <h3 className="text-sm font-semibold text-gray-900 mb-1.5">Clinical Significance</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-1.5">{t("allied.paramedicEcgComponents.clinicalSignificance")}</h3>
             <p className="text-sm text-gray-600 leading-relaxed">{waveform.clinicalSignificance}</p>
           </div>
         )}
 
         {waveform.identifyingFeatures?.length > 0 && (
           <div data-testid="section-features">
-            <h3 className="text-sm font-semibold text-gray-900 mb-1.5">Key Identifying Features</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-1.5">{t("allied.paramedicEcgComponents.keyIdentifyingFeatures")}</h3>
             <ul className="space-y-1">
               {waveform.identifyingFeatures.map((f: string, i: number) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
@@ -288,7 +290,7 @@ export function WaveformDetailCard({ waveform, onClose }: WaveformDetailCardProp
 
         {waveform.clinicalAnnotations && Object.keys(waveform.clinicalAnnotations).length > 0 && (
           <div data-testid="section-annotations">
-            <h3 className="text-sm font-semibold text-gray-900 mb-1.5">ECG Intervals & Annotations</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-1.5">{t("allied.paramedicEcgComponents.ecgIntervalsAnnotations")}</h3>
             <div className="grid grid-cols-2 gap-2">
               {Object.entries(waveform.clinicalAnnotations).map(([key, value]) => (
                 <div key={key} className="bg-gray-50 rounded-lg px-3 py-2">
@@ -302,7 +304,7 @@ export function WaveformDetailCard({ waveform, onClose }: WaveformDetailCardProp
 
         {waveform.associatedConditions?.length > 0 && (
           <div data-testid="section-conditions">
-            <h3 className="text-sm font-semibold text-gray-900 mb-1.5">Associated Conditions</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-1.5">{t("allied.paramedicEcgComponents.associatedConditions")}</h3>
             <div className="flex flex-wrap gap-1.5">
               {waveform.associatedConditions.map((c: string, i: number) => (
                 <span key={i} className="px-2.5 py-1 bg-red-50 text-red-700 rounded-lg text-xs">{c}</span>
@@ -313,24 +315,24 @@ export function WaveformDetailCard({ waveform, onClose }: WaveformDetailCardProp
 
         {waveform.treatmentNotes && (
           <div className="bg-teal-50 border border-teal-100 rounded-xl p-4" data-testid="section-treatment">
-            <h3 className="text-sm font-semibold text-teal-800 mb-1.5">Treatment Notes</h3>
+            <h3 className="text-sm font-semibold text-teal-800 mb-1.5">{t("allied.paramedicEcgComponents.treatmentNotes")}</h3>
             <p className="text-sm text-teal-700 leading-relaxed">{waveform.treatmentNotes}</p>
           </div>
         )}
 
         {waveform.svgPathData.leads && (
           <div data-testid="section-leads">
-            <h3 className="text-sm font-semibold text-gray-900 mb-1.5">12-Lead Information</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-1.5">{t("allied.paramedicEcgComponents.12leadInformation")}</h3>
             <div className="flex flex-wrap gap-2">
               <div>
-                <span className="text-xs text-gray-500 mr-1">ST Elevation in:</span>
+                <span className="text-xs text-gray-500 mr-1">{t("allied.paramedicEcgComponents.stElevationIn")}</span>
                 {waveform.svgPathData.leads.map((l: string) => (
                   <span key={l} className="px-2 py-0.5 bg-red-100 text-red-700 rounded text-xs font-mono mx-0.5">{l}</span>
                 ))}
               </div>
               {waveform.svgPathData.reciprocalChanges && (
                 <div>
-                  <span className="text-xs text-gray-500 mr-1">Reciprocal changes:</span>
+                  <span className="text-xs text-gray-500 mr-1">{t("allied.paramedicEcgComponents.reciprocalChanges")}</span>
                   {waveform.svgPathData.reciprocalChanges.map((l: string) => (
                     <span key={l} className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs font-mono mx-0.5">{l}</span>
                   ))}

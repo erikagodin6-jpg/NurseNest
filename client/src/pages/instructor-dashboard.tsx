@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import {
   Building2, Users, BookOpen, BarChart3, Plus, Search, Loader2, ChevronRight,
   GraduationCap, ClipboardList, Award, TrendingUp, TrendingDown, Target,
@@ -17,6 +18,7 @@ import {
 } from "lucide-react";
 
 function authFetch(url: string, options?: RequestInit) {
+  const { t } = useI18n();
   const token = localStorage.getItem("nursenest-token") || "";
   return fetch(url, {
     ...options,
@@ -70,8 +72,8 @@ export default function InstructorDashboard() {
         <Navigation />
         <main className="max-w-4xl mx-auto px-4 py-20 text-center">
           <GraduationCap className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-login-required">Login Required</h1>
-          <p className="text-gray-600">Please log in to access the instructor dashboard.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-login-required">{t("pages.instructorDashboard.loginRequired")}</h1>
+          <p className="text-gray-600">{t("pages.instructorDashboard.pleaseLogInToAccess")}</p>
         </main>
         <Footer />
       </div>
@@ -94,14 +96,14 @@ export default function InstructorDashboard() {
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
         <Navigation />
         <main className="max-w-4xl mx-auto px-4 py-12">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2" data-testid="text-instructor-title">Instructor Dashboard</h1>
-          <p className="text-gray-600 mb-8">Select an institution to manage</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2" data-testid="text-instructor-title">{t("pages.instructorDashboard.instructorDashboard")}</h1>
+          <p className="text-gray-600 mb-8">{t("pages.instructorDashboard.selectAnInstitutionToManage")}</p>
           {institutions.length === 0 ? (
             <Card className="border-dashed border-2">
               <CardContent className="py-16 text-center">
                 <Building2 className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-500 text-lg" data-testid="text-no-institutions">You are not assigned as an instructor to any institution yet.</p>
-                <p className="text-gray-400 text-sm mt-2">Contact your administrator to be assigned as an instructor.</p>
+                <p className="text-gray-500 text-lg" data-testid="text-no-institutions">{t("pages.instructorDashboard.youAreNotAssignedAs")}</p>
+                <p className="text-gray-400 text-sm mt-2">{t("pages.instructorDashboard.contactYourAdministratorToBe")}</p>
               </CardContent>
             </Card>
           ) : (
@@ -141,7 +143,7 @@ export default function InstructorDashboard() {
         )}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-dashboard-title">Instructor Dashboard</h1>
+            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-dashboard-title">{t("pages.instructorDashboard.instructorDashboard2")}</h1>
             <p className="text-gray-600 mt-1">{selectedInst.name}</p>
           </div>
           <Badge variant="default" className="text-sm px-3 py-1">{selectedInst.status}</Badge>
@@ -149,13 +151,13 @@ export default function InstructorDashboard() {
 
         <Tabs value={tab} onValueChange={setTab}>
           <TabsList className="bg-gray-100 rounded-xl p-1 mb-6 flex-wrap">
-            <TabsTrigger value="classrooms" className="rounded-lg gap-1" data-testid="tab-classrooms"><Users className="w-4 h-4" /> Classrooms</TabsTrigger>
-            <TabsTrigger value="assignments" className="rounded-lg gap-1" data-testid="tab-assignments"><ClipboardList className="w-4 h-4" /> Assignments</TabsTrigger>
-            <TabsTrigger value="students" className="rounded-lg gap-1" data-testid="tab-student-progress"><Target className="w-4 h-4" /> Student Progress</TabsTrigger>
-            <TabsTrigger value="analytics" className="rounded-lg gap-1" data-testid="tab-analytics"><BarChart3 className="w-4 h-4" /> Analytics</TabsTrigger>
-            <TabsTrigger value="enrollment" className="rounded-lg gap-1" data-testid="tab-enrollment"><UserPlus className="w-4 h-4" /> Enrollment</TabsTrigger>
-            <TabsTrigger value="certificates" className="rounded-lg gap-1" data-testid="tab-certificates"><Award className="w-4 h-4" /> Certificates</TabsTrigger>
-            <TabsTrigger value="benchmarking" className="rounded-lg gap-1" data-testid="tab-benchmarking"><TrendingUp className="w-4 h-4" /> Benchmarking</TabsTrigger>
+            <TabsTrigger value="classrooms" className="rounded-lg gap-1" data-testid="tab-classrooms"><Users className="w-4 h-4" /> {t("pages.instructorDashboard.classrooms")}</TabsTrigger>
+            <TabsTrigger value="assignments" className="rounded-lg gap-1" data-testid="tab-assignments"><ClipboardList className="w-4 h-4" /> {t("pages.instructorDashboard.assignments")}</TabsTrigger>
+            <TabsTrigger value="students" className="rounded-lg gap-1" data-testid="tab-student-progress"><Target className="w-4 h-4" /> {t("pages.instructorDashboard.studentProgress")}</TabsTrigger>
+            <TabsTrigger value="analytics" className="rounded-lg gap-1" data-testid="tab-analytics"><BarChart3 className="w-4 h-4" /> {t("pages.instructorDashboard.analytics")}</TabsTrigger>
+            <TabsTrigger value="enrollment" className="rounded-lg gap-1" data-testid="tab-enrollment"><UserPlus className="w-4 h-4" /> {t("pages.instructorDashboard.enrollment")}</TabsTrigger>
+            <TabsTrigger value="certificates" className="rounded-lg gap-1" data-testid="tab-certificates"><Award className="w-4 h-4" /> {t("pages.instructorDashboard.certificates")}</TabsTrigger>
+            <TabsTrigger value="benchmarking" className="rounded-lg gap-1" data-testid="tab-benchmarking"><TrendingUp className="w-4 h-4" /> {t("pages.instructorDashboard.benchmarking")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="classrooms">
@@ -273,7 +275,7 @@ function ClassroomsTab({ institutionId }: { institutionId: string }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">Classroom Groups</h2>
+        <h2 className="text-xl font-semibold text-gray-900">{t("pages.instructorDashboard.classroomGroups")}</h2>
         <Button onClick={() => setShowCreate(true)} className="gap-2" data-testid="button-create-classroom">
           <Plus className="w-4 h-4" /> New Classroom
         </Button>
@@ -285,8 +287,8 @@ function ClassroomsTab({ institutionId }: { institutionId: string }) {
         <Card className="border-dashed border-2">
           <CardContent className="py-16 text-center">
             <Users className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500 text-lg mb-2" data-testid="text-no-classrooms">No classrooms yet</p>
-            <p className="text-gray-400 text-sm mb-4">Create your first classroom group to organize students.</p>
+            <p className="text-gray-500 text-lg mb-2" data-testid="text-no-classrooms">{t("pages.instructorDashboard.noClassroomsYet")}</p>
+            <p className="text-gray-400 text-sm mb-4">{t("pages.instructorDashboard.createYourFirstClassroomGroup")}</p>
             <Button variant="outline" onClick={() => setShowCreate(true)} className="gap-2" data-testid="button-create-first-classroom">
               <Plus className="w-4 h-4" /> Create Classroom
             </Button>
@@ -303,11 +305,11 @@ function ClassroomsTab({ institutionId }: { institutionId: string }) {
                 <div className="space-y-2 text-sm text-gray-600">
                   {c.description && <p className="text-gray-500">{c.description}</p>}
                   <div className="flex justify-between">
-                    <span>Students</span>
+                    <span>{t("pages.instructorDashboard.students")}</span>
                     <span className="font-medium">{c.studentCount || 0}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Created</span>
+                    <span>{t("pages.instructorDashboard.created")}</span>
                     <span className="font-medium">{new Date(c.createdAt).toLocaleDateString()}</span>
                   </div>
                 </div>
@@ -323,19 +325,19 @@ function ClassroomsTab({ institutionId }: { institutionId: string }) {
       {showCreate && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => setShowCreate(false)}>
           <Card className="w-full max-w-md" onClick={e => e.stopPropagation()}>
-            <CardHeader><CardTitle>Create Classroom</CardTitle></CardHeader>
+            <CardHeader><CardTitle>{t("pages.instructorDashboard.createClassroom")}</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-gray-700 block mb-1">Classroom Name</label>
+                <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.instructorDashboard.classroomName")}</label>
                 <Input value={newName} onChange={e => setNewName(e.target.value)} placeholder='e.g. "Radiography Cohort 2026"' data-testid="input-classroom-name" />
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-700 block mb-1">Description (optional)</label>
-                <Textarea value={newDesc} onChange={e => setNewDesc(e.target.value)} placeholder="Brief description..." data-testid="input-classroom-desc" />
+                <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.instructorDashboard.descriptionOptional")}</label>
+                <Textarea value={newDesc} onChange={e => setNewDesc(e.target.value)} placeholder={t("pages.instructorDashboard.briefDescription")} data-testid="input-classroom-desc" />
               </div>
               <div className="flex justify-end gap-3">
-                <Button variant="outline" onClick={() => setShowCreate(false)} data-testid="button-cancel-classroom">Cancel</Button>
-                <Button onClick={createClassroom} disabled={!newName.trim()} data-testid="button-confirm-classroom">Create</Button>
+                <Button variant="outline" onClick={() => setShowCreate(false)} data-testid="button-cancel-classroom">{t("pages.instructorDashboard.cancel")}</Button>
+                <Button onClick={createClassroom} disabled={!newName.trim()} data-testid="button-confirm-classroom">{t("pages.instructorDashboard.create")}</Button>
               </div>
             </CardContent>
           </Card>
@@ -415,13 +417,13 @@ function AssignmentsTab({ institutionId }: { institutionId: string }) {
           <Card className="border-none shadow-sm">
             <CardContent className="pt-4 pb-4 text-center">
               <p className="text-2xl font-bold">{submissions.length}</p>
-              <p className="text-xs text-gray-500">Total Students</p>
+              <p className="text-xs text-gray-500">{t("pages.instructorDashboard.totalStudents")}</p>
             </CardContent>
           </Card>
           <Card className="border-none shadow-sm">
             <CardContent className="pt-4 pb-4 text-center">
               <p className="text-2xl font-bold text-green-600">{submissions.filter(s => s.status === "completed").length}</p>
-              <p className="text-xs text-gray-500">Completed</p>
+              <p className="text-xs text-gray-500">{t("pages.instructorDashboard.completed")}</p>
             </CardContent>
           </Card>
           <Card className="border-none shadow-sm">
@@ -431,7 +433,7 @@ function AssignmentsTab({ institutionId }: { institutionId: string }) {
                   ? Math.round(submissions.filter(s => s.score != null).reduce((sum, s) => sum + s.score, 0) / submissions.filter(s => s.score != null).length) + "%"
                   : "—"}
               </p>
-              <p className="text-xs text-gray-500">Avg Score</p>
+              <p className="text-xs text-gray-500">{t("pages.instructorDashboard.avgScore")}</p>
             </CardContent>
           </Card>
         </div>
@@ -460,7 +462,7 @@ function AssignmentsTab({ institutionId }: { institutionId: string }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">Assignments</h2>
+        <h2 className="text-xl font-semibold text-gray-900">{t("pages.instructorDashboard.assignments2")}</h2>
         <Button onClick={() => setShowCreate(true)} className="gap-2" disabled={classrooms.length === 0} data-testid="button-create-assignment">
           <Plus className="w-4 h-4" /> New Assignment
         </Button>
@@ -472,7 +474,7 @@ function AssignmentsTab({ institutionId }: { institutionId: string }) {
         <Card className="border-dashed border-2">
           <CardContent className="py-16 text-center">
             <ClipboardList className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500 text-lg mb-2" data-testid="text-no-assignments">No assignments yet</p>
+            <p className="text-gray-500 text-lg mb-2" data-testid="text-no-assignments">{t("pages.instructorDashboard.noAssignmentsYet")}</p>
             <p className="text-gray-400 text-sm">{classrooms.length === 0 ? "Create a classroom first, then add assignments." : "Create assignments for your students."}</p>
           </CardContent>
         </Card>
@@ -492,7 +494,7 @@ function AssignmentsTab({ institutionId }: { institutionId: string }) {
                 <div className="flex items-center gap-3">
                   <div className="text-right text-sm">
                     <p className="font-medium">{a.completedCount || 0}/{a.submissionCount || 0}</p>
-                    <p className="text-xs text-gray-400">completed</p>
+                    <p className="text-xs text-gray-400">{t("pages.instructorDashboard.completed2")}</p>
                   </div>
                   <ChevronRight className="w-5 h-5 text-gray-400" />
                 </div>
@@ -505,46 +507,46 @@ function AssignmentsTab({ institutionId }: { institutionId: string }) {
       {showCreate && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => setShowCreate(false)}>
           <Card className="w-full max-w-lg" onClick={e => e.stopPropagation()}>
-            <CardHeader><CardTitle>Create Assignment</CardTitle></CardHeader>
+            <CardHeader><CardTitle>{t("pages.instructorDashboard.createAssignment")}</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-gray-700 block mb-1">Classroom</label>
+                <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.instructorDashboard.classroom")}</label>
                 <select
                   value={form.classroomId}
                   onChange={e => setForm(p => ({ ...p, classroomId: e.target.value }))}
                   className="w-full h-10 rounded-md border px-3 text-sm"
                   data-testid="select-assignment-classroom"
                 >
-                  <option value="">Select classroom...</option>
+                  <option value="">{t("pages.instructorDashboard.selectClassroom")}</option>
                   {classrooms.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-700 block mb-1">Title</label>
+                <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.instructorDashboard.title")}</label>
                 <Input value={form.title} onChange={e => setForm(p => ({ ...p, title: e.target.value }))} placeholder="e.g. Week 3 Practice Exam" data-testid="input-assignment-title" />
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-700 block mb-1">Description (optional)</label>
+                <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.instructorDashboard.descriptionOptional2")}</label>
                 <Textarea value={form.description} onChange={e => setForm(p => ({ ...p, description: e.target.value }))} data-testid="input-assignment-desc" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-700 block mb-1">Type</label>
+                  <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.instructorDashboard.type")}</label>
                   <select value={form.type} onChange={e => setForm(p => ({ ...p, type: e.target.value }))} className="w-full h-10 rounded-md border px-3 text-sm" data-testid="select-assignment-type">
-                    <option value="lesson">Lesson</option>
-                    <option value="practice_exam">Practice Exam</option>
-                    <option value="flashcard_set">Flashcard Set</option>
-                    <option value="topic_drill">Topic Drill</option>
+                    <option value="lesson">{t("pages.instructorDashboard.lesson")}</option>
+                    <option value="practice_exam">{t("pages.instructorDashboard.practiceExam")}</option>
+                    <option value="flashcard_set">{t("pages.instructorDashboard.flashcardSet")}</option>
+                    <option value="topic_drill">{t("pages.instructorDashboard.topicDrill")}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700 block mb-1">Due Date</label>
+                  <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.instructorDashboard.dueDate")}</label>
                   <Input type="date" value={form.dueDate} onChange={e => setForm(p => ({ ...p, dueDate: e.target.value }))} data-testid="input-assignment-due" />
                 </div>
               </div>
               <div className="flex justify-end gap-3 pt-2">
-                <Button variant="outline" onClick={() => setShowCreate(false)} data-testid="button-cancel-assignment">Cancel</Button>
-                <Button onClick={createAssignment} disabled={!form.classroomId || !form.title} data-testid="button-confirm-assignment">Create</Button>
+                <Button variant="outline" onClick={() => setShowCreate(false)} data-testid="button-cancel-assignment">{t("pages.instructorDashboard.cancel2")}</Button>
+                <Button onClick={createAssignment} disabled={!form.classroomId || !form.title} data-testid="button-confirm-assignment">{t("pages.instructorDashboard.create2")}</Button>
               </div>
             </CardContent>
           </Card>
@@ -593,35 +595,35 @@ function StudentProgressTab({ institutionId }: { institutionId: string }) {
             <CardContent className="pt-4 pb-4 text-center">
               <Target className="w-5 h-5 mx-auto text-primary mb-1" />
               <p className="text-2xl font-bold">{Math.round(Number(selectedStudent.avgAccuracy || 0))}%</p>
-              <p className="text-xs text-gray-500">Avg Accuracy</p>
+              <p className="text-xs text-gray-500">{t("pages.instructorDashboard.avgAccuracy")}</p>
             </CardContent>
           </Card>
           <Card className="border-none shadow-sm">
             <CardContent className="pt-4 pb-4 text-center">
               <BookOpen className="w-5 h-5 mx-auto text-green-500 mb-1" />
               <p className="text-2xl font-bold">{selectedStudent.lessonsCompleted || 0}</p>
-              <p className="text-xs text-gray-500">Lessons Done</p>
+              <p className="text-xs text-gray-500">{t("pages.instructorDashboard.lessonsDone")}</p>
             </CardContent>
           </Card>
           <Card className="border-none shadow-sm">
             <CardContent className="pt-4 pb-4 text-center">
               <ClipboardList className="w-5 h-5 mx-auto text-blue-500 mb-1" />
               <p className="text-2xl font-bold">{selectedStudent.assignmentsCompleted || 0}/{selectedStudent.assignmentsTotal || 0}</p>
-              <p className="text-xs text-gray-500">Assignments</p>
+              <p className="text-xs text-gray-500">{t("pages.instructorDashboard.assignments3")}</p>
             </CardContent>
           </Card>
           <Card className="border-none shadow-sm">
             <CardContent className="pt-4 pb-4 text-center">
               <Clock className="w-5 h-5 mx-auto text-amber-500 mb-1" />
               <p className="text-2xl font-bold">{Math.round(Number(selectedStudent.totalStudyTime || 0) / 3600)}h</p>
-              <p className="text-xs text-gray-500">Study Time</p>
+              <p className="text-xs text-gray-500">{t("pages.instructorDashboard.studyTime")}</p>
             </CardContent>
           </Card>
         </div>
 
         {studentDetail.weakAreas && studentDetail.weakAreas.length > 0 && (
           <Card className="border-none shadow-md mb-6">
-            <CardHeader><CardTitle className="text-base flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-amber-500" /> Weak Areas</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-base flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-amber-500" /> {t("pages.instructorDashboard.weakAreas")}</CardTitle></CardHeader>
             <CardContent>
               <div className="space-y-2">
                 {studentDetail.weakAreas.map((w: any, i: number) => (
@@ -642,7 +644,7 @@ function StudentProgressTab({ institutionId }: { institutionId: string }) {
 
         {studentDetail.recentExams && studentDetail.recentExams.length > 0 && (
           <Card className="border-none shadow-md">
-            <CardHeader><CardTitle className="text-base">Recent Practice Exams</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-base">{t("pages.instructorDashboard.recentPracticeExams")}</CardTitle></CardHeader>
             <CardContent>
               <div className="space-y-2">
                 {studentDetail.recentExams.slice(0, 10).map((ex: any) => (
@@ -665,10 +667,10 @@ function StudentProgressTab({ institutionId }: { institutionId: string }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">Student Progress</h2>
+        <h2 className="text-xl font-semibold text-gray-900">{t("pages.instructorDashboard.studentProgress2")}</h2>
         <div className="relative w-64">
           <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
-          <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search students..." className="pl-10" data-testid="input-search-students" />
+          <Input value={search} onChange={e => setSearch(e.target.value)} placeholder={t("pages.instructorDashboard.searchStudents")} className="pl-10" data-testid="input-search-students" />
         </div>
       </div>
 
@@ -692,15 +694,15 @@ function StudentProgressTab({ institutionId }: { institutionId: string }) {
                 <div className="flex items-center gap-4">
                   <div className="text-center">
                     <p className="text-sm font-medium">{Math.round(Number(s.avgAccuracy || 0))}%</p>
-                    <p className="text-xs text-gray-400">Accuracy</p>
+                    <p className="text-xs text-gray-400">{t("pages.instructorDashboard.accuracy")}</p>
                   </div>
                   <div className="text-center">
                     <p className="text-sm font-medium">{s.lessonsCompleted || 0}</p>
-                    <p className="text-xs text-gray-400">Lessons</p>
+                    <p className="text-xs text-gray-400">{t("pages.instructorDashboard.lessons")}</p>
                   </div>
                   <div className="text-center">
                     <p className="text-sm font-medium">{s.assignmentsCompleted || 0}/{s.assignmentsTotal || 0}</p>
-                    <p className="text-xs text-gray-400">Assign.</p>
+                    <p className="text-xs text-gray-400">{t("pages.instructorDashboard.assign")}</p>
                   </div>
                   <ChevronRight className="w-5 h-5 text-gray-400" />
                 </div>
@@ -724,49 +726,49 @@ function AnalyticsTab({ institutionId }: { institutionId: string }) {
   }, [institutionId]);
 
   if (loading) return <div className="flex justify-center py-16"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>;
-  if (!analytics) return <div className="text-center text-gray-500 py-16">Failed to load analytics</div>;
+  if (!analytics) return <div className="text-center text-gray-500 py-16">{t("pages.instructorDashboard.failedToLoadAnalytics")}</div>;
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">Institution Analytics</h2>
+      <h2 className="text-xl font-semibold text-gray-900 mb-6">{t("pages.instructorDashboard.institutionAnalytics")}</h2>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <Card className="border-none shadow-sm">
           <CardContent className="pt-4 pb-4 text-center">
             <Users className="w-6 h-6 mx-auto text-primary mb-1" />
             <p className="text-2xl font-bold" data-testid="text-total-students">{analytics.seats?.students || 0}</p>
-            <p className="text-xs text-gray-500">Students</p>
+            <p className="text-xs text-gray-500">{t("pages.instructorDashboard.students2")}</p>
           </CardContent>
         </Card>
         <Card className="border-none shadow-sm">
           <CardContent className="pt-4 pb-4 text-center">
             <GraduationCap className="w-6 h-6 mx-auto text-green-500 mb-1" />
             <p className="text-2xl font-bold" data-testid="text-instructors">{analytics.seats?.instructors || 0}</p>
-            <p className="text-xs text-gray-500">Instructors</p>
+            <p className="text-xs text-gray-500">{t("pages.instructorDashboard.instructors")}</p>
           </CardContent>
         </Card>
         <Card className="border-none shadow-sm">
           <CardContent className="pt-4 pb-4 text-center">
             <Target className="w-6 h-6 mx-auto text-blue-500 mb-1" />
             <p className="text-2xl font-bold" data-testid="text-avg-score">{Math.round(Number(analytics.performance?.avgScore || 0))}%</p>
-            <p className="text-xs text-gray-500">Avg Score</p>
+            <p className="text-xs text-gray-500">{t("pages.instructorDashboard.avgScore2")}</p>
           </CardContent>
         </Card>
         <Card className="border-none shadow-sm">
           <CardContent className="pt-4 pb-4 text-center">
             <FileText className="w-6 h-6 mx-auto text-amber-500 mb-1" />
             <p className="text-2xl font-bold" data-testid="text-total-tests">{analytics.performance?.totalTests || 0}</p>
-            <p className="text-xs text-gray-500">Tests Taken</p>
+            <p className="text-xs text-gray-500">{t("pages.instructorDashboard.testsTaken")}</p>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6 mb-6">
         <Card className="border-none shadow-md">
-          <CardHeader><CardTitle className="text-base">Most Difficult Topics</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("pages.instructorDashboard.mostDifficultTopics")}</CardTitle></CardHeader>
           <CardContent>
             {(analytics.topicDifficulty || []).length === 0 ? (
-              <p className="text-sm text-gray-400">No topic data available yet</p>
+              <p className="text-sm text-gray-400">{t("pages.instructorDashboard.noTopicDataAvailableYet")}</p>
             ) : (
               <div className="space-y-3">
                 {analytics.topicDifficulty.slice(0, 10).map((t: any, i: number) => (
@@ -786,10 +788,10 @@ function AnalyticsTab({ institutionId }: { institutionId: string }) {
         </Card>
 
         <Card className="border-none shadow-md">
-          <CardHeader><CardTitle className="text-base">Classroom Overview</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("pages.instructorDashboard.classroomOverview")}</CardTitle></CardHeader>
           <CardContent>
             {(analytics.classroomStats || []).length === 0 ? (
-              <p className="text-sm text-gray-400">No classrooms created yet</p>
+              <p className="text-sm text-gray-400">{t("pages.instructorDashboard.noClassroomsCreatedYet")}</p>
             ) : (
               <div className="space-y-3">
                 {analytics.classroomStats.map((c: any) => (
@@ -809,7 +811,7 @@ function AnalyticsTab({ institutionId }: { institutionId: string }) {
 
       {(analytics.assignmentCompletion || []).length > 0 && (
         <Card className="border-none shadow-md">
-          <CardHeader><CardTitle className="text-base">Assignment Completion Rates</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("pages.instructorDashboard.assignmentCompletionRates")}</CardTitle></CardHeader>
           <CardContent>
             <div className="space-y-3">
               {analytics.assignmentCompletion.map((a: any) => (
@@ -828,7 +830,7 @@ function AnalyticsTab({ institutionId }: { institutionId: string }) {
 
       {(analytics.examReadiness || []).length > 0 && (
         <Card className="border-none shadow-md mt-6">
-          <CardHeader><CardTitle className="text-base">Exam Readiness</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("pages.instructorDashboard.examReadiness")}</CardTitle></CardHeader>
           <CardContent>
             <div className="space-y-2">
               {analytics.examReadiness.slice(0, 15).map((e: any, i: number) => (
@@ -890,15 +892,15 @@ function EnrollmentTab({ institutionId }: { institutionId: string }) {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">Student Enrollment</h2>
+      <h2 className="text-xl font-semibold text-gray-900 mb-6">{t("pages.instructorDashboard.studentEnrollment")}</h2>
 
       <div className="grid md:grid-cols-2 gap-6">
         <Card className="border-none shadow-md">
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2"><Mail className="w-4 h-4" /> Email Invitations</CardTitle>
+            <CardTitle className="text-base flex items-center gap-2"><Mail className="w-4 h-4" /> {t("pages.instructorDashboard.emailInvitations")}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-gray-500 mb-3">Enter student email addresses (comma or newline separated)</p>
+            <p className="text-sm text-gray-500 mb-3">{t("pages.instructorDashboard.enterStudentEmailAddressesComma")}</p>
             <Textarea
               value={emailList}
               onChange={e => { setEmailList(e.target.value); setEnrollMode("email"); }}
@@ -915,10 +917,10 @@ function EnrollmentTab({ institutionId }: { institutionId: string }) {
 
         <Card className="border-none shadow-md">
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2"><Upload className="w-4 h-4" /> CSV Bulk Upload</CardTitle>
+            <CardTitle className="text-base flex items-center gap-2"><Upload className="w-4 h-4" /> {t("pages.instructorDashboard.csvBulkUpload")}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-gray-500 mb-3">Paste CSV data with email column (header row optional)</p>
+            <p className="text-sm text-gray-500 mb-3">{t("pages.instructorDashboard.pasteCsvDataWithEmail")}</p>
             <Textarea
               value={csvData}
               onChange={e => { setCsvData(e.target.value); setEnrollMode("csv"); }}
@@ -938,12 +940,12 @@ function EnrollmentTab({ institutionId }: { institutionId: string }) {
         <Card className="border-none shadow-md mt-6 bg-green-50">
           <CardContent className="py-6 text-center">
             <CheckCircle2 className="w-8 h-8 text-green-500 mx-auto mb-2" />
-            <p className="font-semibold text-green-700 mb-1">Enrollment Code Generated</p>
+            <p className="font-semibold text-green-700 mb-1">{t("pages.instructorDashboard.enrollmentCodeGenerated")}</p>
             <p className="text-3xl font-mono font-bold text-green-800 mb-2" data-testid="text-enrollment-code">{result.code}</p>
             <p className="text-sm text-green-600">
               {result.emailCount ? `${result.emailCount} email(s) added to roster` : `${result.totalEmails} email(s) processed, ${result.newlyAdded} newly added`}
             </p>
-            <p className="text-xs text-gray-500 mt-2">Students can use this code to enroll via the platform.</p>
+            <p className="text-xs text-gray-500 mt-2">{t("pages.instructorDashboard.studentsCanUseThisCode")}</p>
           </CardContent>
         </Card>
       )}
@@ -995,7 +997,7 @@ function CertificatesTab({ institutionId }: { institutionId: string }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">Certificates</h2>
+        <h2 className="text-xl font-semibold text-gray-900">{t("pages.instructorDashboard.certificates2")}</h2>
         <Button onClick={() => setShowCreate(true)} className="gap-2" data-testid="button-issue-certificate">
           <Award className="w-4 h-4" /> Issue Certificate
         </Button>
@@ -1007,7 +1009,7 @@ function CertificatesTab({ institutionId }: { institutionId: string }) {
         <Card className="border-dashed border-2">
           <CardContent className="py-16 text-center">
             <Award className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500 text-lg" data-testid="text-no-certificates">No certificates issued yet</p>
+            <p className="text-gray-500 text-lg" data-testid="text-no-certificates">{t("pages.instructorDashboard.noCertificatesIssuedYet")}</p>
           </CardContent>
         </Card>
       ) : (
@@ -1024,7 +1026,7 @@ function CertificatesTab({ institutionId }: { institutionId: string }) {
                     <p className="text-xs font-mono text-gray-500">{cert.certificateCode}</p>
                     <p className="text-xs text-gray-400">{new Date(cert.completionDate).toLocaleDateString()}</p>
                   </div>
-                  <Badge variant="default"><Award className="w-3 h-3 mr-1" /> Issued</Badge>
+                  <Badge variant="default"><Award className="w-3 h-3 mr-1" /> {t("pages.instructorDashboard.issued")}</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -1035,10 +1037,10 @@ function CertificatesTab({ institutionId }: { institutionId: string }) {
       {showCreate && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => setShowCreate(false)}>
           <Card className="w-full max-w-md" onClick={e => e.stopPropagation()}>
-            <CardHeader><CardTitle>Issue Certificate</CardTitle></CardHeader>
+            <CardHeader><CardTitle>{t("pages.instructorDashboard.issueCertificate")}</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-gray-700 block mb-1">Student</label>
+                <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.instructorDashboard.student")}</label>
                 <select
                   value={form.studentId}
                   onChange={e => {
@@ -1048,33 +1050,33 @@ function CertificatesTab({ institutionId }: { institutionId: string }) {
                   className="w-full h-10 rounded-md border px-3 text-sm"
                   data-testid="select-cert-student"
                 >
-                  <option value="">Select student...</option>
+                  <option value="">{t("pages.instructorDashboard.selectStudent")}</option>
                   {students.map(s => <option key={s.userId} value={s.userId}>{s.username || s.email}</option>)}
                 </select>
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-700 block mb-1">Student Name (on certificate)</label>
+                <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.instructorDashboard.studentNameOnCertificate")}</label>
                 <Input value={form.studentName} onChange={e => setForm(p => ({ ...p, studentName: e.target.value }))} data-testid="input-cert-name" />
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-700 block mb-1">Course/Program Name</label>
+                <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.instructorDashboard.courseprogramName")}</label>
                 <Input value={form.courseName} onChange={e => setForm(p => ({ ...p, courseName: e.target.value }))} placeholder="e.g. Radiography Fundamentals" data-testid="input-cert-course" />
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-700 block mb-1">Classroom (optional)</label>
+                <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.instructorDashboard.classroomOptional")}</label>
                 <select
                   value={form.classroomId}
                   onChange={e => setForm(p => ({ ...p, classroomId: e.target.value }))}
                   className="w-full h-10 rounded-md border px-3 text-sm"
                   data-testid="select-cert-classroom"
                 >
-                  <option value="">None</option>
+                  <option value="">{t("pages.instructorDashboard.none")}</option>
                   {classrooms.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
               </div>
               <div className="flex justify-end gap-3 pt-2">
-                <Button variant="outline" onClick={() => setShowCreate(false)} data-testid="button-cancel-cert">Cancel</Button>
-                <Button onClick={issueCertificate} disabled={!form.studentId || !form.studentName || !form.courseName} data-testid="button-confirm-cert">Issue Certificate</Button>
+                <Button variant="outline" onClick={() => setShowCreate(false)} data-testid="button-cancel-cert">{t("pages.instructorDashboard.cancel3")}</Button>
+                <Button onClick={issueCertificate} disabled={!form.studentId || !form.studentName || !form.courseName} data-testid="button-confirm-cert">{t("pages.instructorDashboard.issueCertificate2")}</Button>
               </div>
             </CardContent>
           </Card>
@@ -1095,7 +1097,7 @@ function BenchmarkingTab({ institutionId }: { institutionId: string }) {
   }, [institutionId]);
 
   if (loading) return <div className="flex justify-center py-16"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>;
-  if (!data) return <div className="text-center text-gray-500 py-16">Failed to load benchmarking data</div>;
+  if (!data) return <div className="text-center text-gray-500 py-16">{t("pages.instructorDashboard.failedToLoadBenchmarkingData")}</div>;
 
   const ScoreComparison = ({ label, instValue, platformValue }: { label: string; instValue: number; platformValue: number }) => {
     const diff = instValue - platformValue;
@@ -1105,11 +1107,11 @@ function BenchmarkingTab({ institutionId }: { institutionId: string }) {
         <div className="flex items-center gap-4">
           <div className="text-right">
             <p className="text-sm font-bold">{instValue}%</p>
-            <p className="text-xs text-gray-400">Your Program</p>
+            <p className="text-xs text-gray-400">{t("pages.instructorDashboard.yourProgram")}</p>
           </div>
           <div className="text-right">
             <p className="text-sm">{platformValue}%</p>
-            <p className="text-xs text-gray-400">Platform Avg</p>
+            <p className="text-xs text-gray-400">{t("pages.instructorDashboard.platformAvg")}</p>
           </div>
           <Badge variant={diff > 0 ? "default" : diff < 0 ? "destructive" : "secondary"} className="w-16 justify-center">
             {diff > 0 ? <TrendingUp className="w-3 h-3 mr-1" /> : diff < 0 ? <TrendingDown className="w-3 h-3 mr-1" /> : null}
@@ -1122,53 +1124,53 @@ function BenchmarkingTab({ institutionId }: { institutionId: string }) {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">Program Benchmarking</h2>
-      <p className="text-gray-500 text-sm mb-6">Compare your institution's performance against platform-wide averages.</p>
+      <h2 className="text-xl font-semibold text-gray-900 mb-6">{t("pages.instructorDashboard.programBenchmarking")}</h2>
+      <p className="text-gray-500 text-sm mb-6">{t("pages.instructorDashboard.compareYourInstitutionsPerformanceAgainst")}</p>
 
       <div className="grid md:grid-cols-2 gap-6 mb-8">
         <Card className="border-none shadow-md">
-          <CardHeader><CardTitle className="text-base">Your Program</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("pages.instructorDashboard.yourProgram2")}</CardTitle></CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center">
                 <p className="text-3xl font-bold text-primary" data-testid="text-inst-avg">{data.institution?.avgScore || 0}%</p>
-                <p className="text-xs text-gray-500">Avg Test Score</p>
+                <p className="text-xs text-gray-500">{t("pages.instructorDashboard.avgTestScore")}</p>
               </div>
               <div className="text-center">
                 <p className="text-3xl font-bold text-blue-500">{data.institution?.avgExamScore || 0}%</p>
-                <p className="text-xs text-gray-500">Avg Exam Score</p>
+                <p className="text-xs text-gray-500">{t("pages.instructorDashboard.avgExamScore")}</p>
               </div>
               <div className="text-center">
                 <p className="text-2xl font-bold">{data.institution?.studentsCount || 0}</p>
-                <p className="text-xs text-gray-500">Active Students</p>
+                <p className="text-xs text-gray-500">{t("pages.instructorDashboard.activeStudents")}</p>
               </div>
               <div className="text-center">
                 <p className="text-2xl font-bold">{data.institution?.testCount || 0}</p>
-                <p className="text-xs text-gray-500">Tests Taken</p>
+                <p className="text-xs text-gray-500">{t("pages.instructorDashboard.testsTaken2")}</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card className="border-none shadow-md">
-          <CardHeader><CardTitle className="text-base">Platform Average</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("pages.instructorDashboard.platformAverage")}</CardTitle></CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center">
                 <p className="text-3xl font-bold text-gray-600" data-testid="text-platform-avg">{data.platform?.avgScore || 0}%</p>
-                <p className="text-xs text-gray-500">Avg Test Score</p>
+                <p className="text-xs text-gray-500">{t("pages.instructorDashboard.avgTestScore2")}</p>
               </div>
               <div className="text-center">
                 <p className="text-3xl font-bold text-gray-600">{data.platform?.avgExamScore || 0}%</p>
-                <p className="text-xs text-gray-500">Avg Exam Score</p>
+                <p className="text-xs text-gray-500">{t("pages.instructorDashboard.avgExamScore2")}</p>
               </div>
               <div className="text-center">
                 <p className="text-2xl font-bold text-gray-600">{data.platform?.studentsCount || 0}</p>
-                <p className="text-xs text-gray-500">Total Students</p>
+                <p className="text-xs text-gray-500">{t("pages.instructorDashboard.totalStudents2")}</p>
               </div>
               <div className="text-center">
                 <p className="text-2xl font-bold text-gray-600">{data.platform?.testCount || 0}</p>
-                <p className="text-xs text-gray-500">Total Tests</p>
+                <p className="text-xs text-gray-500">{t("pages.instructorDashboard.totalTests")}</p>
               </div>
             </div>
           </CardContent>
@@ -1176,16 +1178,16 @@ function BenchmarkingTab({ institutionId }: { institutionId: string }) {
       </div>
 
       <Card className="border-none shadow-md mb-6">
-        <CardHeader><CardTitle className="text-base">Score Comparison</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-base">{t("pages.instructorDashboard.scoreComparison")}</CardTitle></CardHeader>
         <CardContent>
-          <ScoreComparison label="Average Test Score" instValue={data.institution?.avgScore || 0} platformValue={data.platform?.avgScore || 0} />
-          <ScoreComparison label="Average Exam Score" instValue={data.institution?.avgExamScore || 0} platformValue={data.platform?.avgExamScore || 0} />
+          <ScoreComparison label={t("pages.instructorDashboard.averageTestScore")} instValue={data.institution?.avgScore || 0} platformValue={data.platform?.avgScore || 0} />
+          <ScoreComparison label={t("pages.instructorDashboard.averageExamScore")} instValue={data.institution?.avgExamScore || 0} platformValue={data.platform?.avgExamScore || 0} />
         </CardContent>
       </Card>
 
       {(data.topicComparison || []).length > 0 && (
         <Card className="border-none shadow-md">
-          <CardHeader><CardTitle className="text-base">Topic-Level Comparison</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("pages.instructorDashboard.topiclevelComparison")}</CardTitle></CardHeader>
           <CardContent>
             <div className="space-y-1">
               {data.topicComparison.map((t: any, i: number) => (

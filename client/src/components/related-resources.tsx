@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { BookOpen, Brain, FlaskConical, Stethoscope, FileText, ArrowRight, Globe, Sparkles } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
 
+import { useI18n } from "@/lib/i18n";
 interface RelatedResource {
   title: string;
   href: string;
@@ -25,6 +26,7 @@ interface RelatedResourcesProps {
 }
 
 export function RelatedResources({ resources, title = "Related Resources", className = "" }: RelatedResourcesProps) {
+  const { t } = useI18n();
   if (!resources || resources.length === 0) return null;
 
   return (
@@ -349,7 +351,7 @@ export function ContextualRelatedResources({
   return (
     <RelatedResources
       resources={finalResources}
-      title="Continue Your Learning"
+      title={t("components.relatedResources.continueYourLearning")}
       className={className}
     />
   );
@@ -373,7 +375,7 @@ export function FlashcardStudyCTA({ topic, className = "" }: FlashcardStudyCTAPr
           <Sparkles className="w-5 h-5 text-violet-600" />
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-semibold text-gray-900" data-testid="text-flashcard-cta-title">Review this concept with flashcards</h3>
+          <h3 className="text-sm font-semibold text-gray-900" data-testid="text-flashcard-cta-title">{t("components.relatedResources.reviewThisConceptWithFlashcards")}</h3>
           <p className="text-xs text-gray-600 mt-0.5" data-testid="text-flashcard-cta-desc">{description}</p>
           <LocaleLink
             href={href}

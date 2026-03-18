@@ -20,7 +20,7 @@ export function Footer() {
               <li><LocaleLink href="/anatomy" className="hover:text-primary transition-colors" data-testid="link-footer-anatomy">{t("footer.anatomyExplorer")}</LocaleLink></li>
               <li><LocaleLink href="/pre-nursing" className="hover:text-primary transition-colors" data-testid="link-footer-pre-nursing">{t("footer.preNursing")}</LocaleLink></li>
               <li><LocaleLink href="/med-math" className="hover:text-primary transition-colors" data-testid="link-footer-med-math">{t("footer.medMath")}</LocaleLink></li>
-              <li><LocaleLink href="/si-to-conventional-units-converter" className="hover:text-primary transition-colors" data-testid="link-footer-unit-converter">SI ↔ Conventional Converter</LocaleLink></li>
+              <li><LocaleLink href="/si-to-conventional-units-converter" className="hover:text-primary transition-colors" data-testid="link-footer-unit-converter">{t("components.footer.siConventionalConverter")}</LocaleLink></li>
               <li><LocaleLink href="/medication-mastery" className="hover:text-primary transition-colors" data-testid="link-footer-medication-mastery">{t("footer.medicationMastery")}</LocaleLink></li>
               <li><LocaleLink href="/clinical-clarity" className="hover:text-primary transition-colors" data-testid="link-footer-clinical-clarity">{t("footer.clinicalClarity")}</LocaleLink></li>
             </ul>
@@ -34,15 +34,15 @@ export function Footer() {
               <li><LocaleLink href="/lab-values" className="hover:text-primary transition-colors" data-testid="link-footer-lab-values">{t("footer.labValues")}</LocaleLink></li>
               <li><LocaleLink href="/case-simulations" className="hover:text-primary transition-colors" data-testid="link-footer-case-sims">{t("footer.caseSimulations")}</LocaleLink></li>
               <li><LocaleLink href="/lectures" className="hover:text-primary transition-colors" data-testid="link-footer-lectures">{t("footer.videoLectures")}</LocaleLink></li>
-              <li><LocaleLink href="/osce-skills" className="hover:text-primary transition-colors" data-testid="link-footer-osce-skills">OSCE Skills Practice</LocaleLink></li>
-              <li><LocaleLink href="/clinical-skills" className="hover:text-primary transition-colors" data-testid="link-footer-clinical-skills">Clinical Skills Guides</LocaleLink></li>
+              <li><LocaleLink href="/osce-skills" className="hover:text-primary transition-colors" data-testid="link-footer-osce-skills">{t("components.footer.osceSkillsPractice")}</LocaleLink></li>
+              <li><LocaleLink href="/clinical-skills" className="hover:text-primary transition-colors" data-testid="link-footer-clinical-skills">{t("components.footer.clinicalSkillsGuides")}</LocaleLink></li>
             </ul>
-            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">NP Certification Prep</h3>
+            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("components.footer.npCertificationPrep")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
-              <li><LocaleLink href="/np-exam-practice-questions" className="hover:text-primary transition-colors" data-testid="link-footer-np-exam-prep">NP Exam Prep Hub</LocaleLink></li>
-              <li><LocaleLink href="/exam-prep" className="hover:text-primary transition-colors" data-testid="link-footer-exam-prep">Nursing Exam Prep Hub</LocaleLink></li>
-              <li><LocaleLink href="/nclex-rn" className="hover:text-primary transition-colors" data-testid="link-footer-nclex-rn">NCLEX-RN Prep</LocaleLink></li>
-              <li><LocaleLink href="/rex-pn" className="hover:text-primary transition-colors" data-testid="link-footer-rex-pn">REx-PN / NCLEX-PN Prep</LocaleLink></li>
+              <li><LocaleLink href="/np-exam-practice-questions" className="hover:text-primary transition-colors" data-testid="link-footer-np-exam-prep">{t("components.footer.npExamPrepHub")}</LocaleLink></li>
+              <li><LocaleLink href="/exam-prep" className="hover:text-primary transition-colors" data-testid="link-footer-exam-prep">{t("components.footer.nursingExamPrepHub")}</LocaleLink></li>
+              <li><LocaleLink href="/nclex-rn" className="hover:text-primary transition-colors" data-testid="link-footer-nclex-rn">{t("components.footer.nclexrnPrep")}</LocaleLink></li>
+              <li><LocaleLink href="/rex-pn" className="hover:text-primary transition-colors" data-testid="link-footer-rex-pn">{t("components.footer.rexpnNclexpnPrep")}</LocaleLink></li>
             </ul>
           </div>
           <div>
@@ -55,8 +55,8 @@ export function Footer() {
               <li><LocaleLink href="/contact" className="hover:text-primary transition-colors" data-testid="link-footer-contact">{t("footer.contact")}</LocaleLink></li>
               <li><LocaleLink href="/feedback" className="hover:text-primary transition-colors" data-testid="link-footer-feedback">{t("footer.feedback")}</LocaleLink></li>
               <li><LocaleLink href="/about" className="hover:text-primary transition-colors" data-testid="link-footer-about">{t("footer.about")}</LocaleLink></li>
-              <li><LocaleLink href="/why-nursenest" className="hover:text-primary transition-colors" data-testid="link-footer-why-nursenest">Why NurseNest</LocaleLink></li>
-              <li><LocaleLink href="/medical-review-team" className="hover:text-primary transition-colors" data-testid="link-footer-medical-review-team">Medical Review Team</LocaleLink></li>
+              <li><LocaleLink href="/why-nursenest" className="hover:text-primary transition-colors" data-testid="link-footer-why-nursenest">{t("components.footer.whyNursenest")}</LocaleLink></li>
+              <li><LocaleLink href="/medical-review-team" className="hover:text-primary transition-colors" data-testid="link-footer-medical-review-team">{t("components.footer.medicalReviewTeam")}</LocaleLink></li>
               <li><LocaleLink href="/for-institutions" className="hover:text-primary transition-colors" data-testid="link-footer-for-schools">{t("footer.forSchools")}</LocaleLink></li>
             </ul>
             <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.newGradSupportSection")}</h3>
@@ -66,9 +66,9 @@ export function Footer() {
               <li><LocaleLink href="/new-grad/paramedic" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-paramedic">{t("footer.paramedic")}</LocaleLink></li>
               <li><LocaleLink href="/new-grad/respiratory-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-rrt">{t("footer.respiratoryTherapy")}</LocaleLink></li>
               <li><LocaleLink href="/new-grad/mlt" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-mlt">{t("footer.medLabTech")}</LocaleLink></li>
-              <li><LocaleLink href="/newgrad/burnout" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-burnout">Burnout Prevention</LocaleLink></li>
-              <li><LocaleLink href="/newgrad/guides" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-guides">Survival Guides</LocaleLink></li>
-              <li><LocaleLink href="/newgrad/clinical-references" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-clinical-refs">Clinical References</LocaleLink></li>
+              <li><LocaleLink href="/newgrad/burnout" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-burnout">{t("components.footer.burnoutPrevention")}</LocaleLink></li>
+              <li><LocaleLink href="/newgrad/guides" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-guides">{t("components.footer.survivalGuides")}</LocaleLink></li>
+              <li><LocaleLink href="/newgrad/clinical-references" className="hover:text-primary transition-colors" data-testid="link-footer-new-grad-clinical-refs">{t("components.footer.clinicalReferences")}</LocaleLink></li>
             </ul>
             <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.nursingSpecialties")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
@@ -91,22 +91,22 @@ export function Footer() {
               <li><LocaleLink href="/guides/occupational-therapy-guide" className="hover:text-primary transition-colors" data-testid="link-footer-ot-guide">{t("footer.otGuide")}</LocaleLink></li>
               <li><LocaleLink href="/guides/physical-therapy-guide" className="hover:text-primary transition-colors" data-testid="link-footer-pt-guide">{t("footer.ptGuide")}</LocaleLink></li>
             </ul>
-            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">Clinical Simulators</h3>
+            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("components.footer.clinicalSimulators")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
-              <li><LocaleLink href="/first-action-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-first-action-sim">First Action Simulator</LocaleLink></li>
-              <li><LocaleLink href="/iv-complications-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-iv-sim">IV Complications Simulator</LocaleLink></li>
-              <li><LocaleLink href="/deteriorating-patient-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-deteriorating-sim">Deteriorating Patient Sim</LocaleLink></li>
-              <li><LocaleLink href="/blood-transfusion-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-transfusion-sim">Blood Transfusion Simulator</LocaleLink></li>
-              <li><LocaleLink href="/electrolyte-abg-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-electrolyte-sim">Electrolyte &amp; ABG Simulator</LocaleLink></li>
-              <li><LocaleLink href="/safety-hazard-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-safety-sim">Safety Hazard Simulator</LocaleLink></li>
+              <li><LocaleLink href="/first-action-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-first-action-sim">{t("components.footer.firstActionSimulator")}</LocaleLink></li>
+              <li><LocaleLink href="/iv-complications-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-iv-sim">{t("components.footer.ivComplicationsSimulator")}</LocaleLink></li>
+              <li><LocaleLink href="/deteriorating-patient-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-deteriorating-sim">{t("components.footer.deterioratingPatientSim")}</LocaleLink></li>
+              <li><LocaleLink href="/blood-transfusion-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-transfusion-sim">{t("components.footer.bloodTransfusionSimulator")}</LocaleLink></li>
+              <li><LocaleLink href="/electrolyte-abg-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-electrolyte-sim">{t("components.footer.electrolyteAmpAbgSimulator")}</LocaleLink></li>
+              <li><LocaleLink href="/safety-hazard-simulator" className="hover:text-primary transition-colors" data-testid="link-footer-safety-sim">{t("components.footer.safetyHazardSimulator")}</LocaleLink></li>
             </ul>
-            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">Healthcare Policy</h3>
+            <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("components.footer.healthcarePolicy")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
-              <li><LocaleLink href="/healthcare-policy-and-updates" className="hover:text-primary transition-colors" data-testid="link-footer-policy-hub">Policy & Updates Hub</LocaleLink></li>
-              <li><LocaleLink href="/healthcare-policy-and-updates/licensing-policy-changes" className="hover:text-primary transition-colors" data-testid="link-footer-licensing-policy">Licensing Policy Changes</LocaleLink></li>
-              <li><LocaleLink href="/healthcare-policy-and-updates/international-nursing-recruitment" className="hover:text-primary transition-colors" data-testid="link-footer-intl-recruitment">International Recruitment</LocaleLink></li>
-              <li><LocaleLink href="/healthcare-policy-and-updates/exam-format-updates" className="hover:text-primary transition-colors" data-testid="link-footer-exam-updates">Exam Format Updates</LocaleLink></li>
-              <li><LocaleLink href="/healthcare-policy-and-updates/regulatory-changes-affecting-nurses" className="hover:text-primary transition-colors" data-testid="link-footer-regulatory-changes">Regulatory Changes</LocaleLink></li>
+              <li><LocaleLink href="/healthcare-policy-and-updates" className="hover:text-primary transition-colors" data-testid="link-footer-policy-hub">{t("components.footer.policyUpdatesHub")}</LocaleLink></li>
+              <li><LocaleLink href="/healthcare-policy-and-updates/licensing-policy-changes" className="hover:text-primary transition-colors" data-testid="link-footer-licensing-policy">{t("components.footer.licensingPolicyChanges")}</LocaleLink></li>
+              <li><LocaleLink href="/healthcare-policy-and-updates/international-nursing-recruitment" className="hover:text-primary transition-colors" data-testid="link-footer-intl-recruitment">{t("components.footer.internationalRecruitment")}</LocaleLink></li>
+              <li><LocaleLink href="/healthcare-policy-and-updates/exam-format-updates" className="hover:text-primary transition-colors" data-testid="link-footer-exam-updates">{t("components.footer.examFormatUpdates")}</LocaleLink></li>
+              <li><LocaleLink href="/healthcare-policy-and-updates/regulatory-changes-affecting-nurses" className="hover:text-primary transition-colors" data-testid="link-footer-regulatory-changes">{t("components.footer.regulatoryChanges")}</LocaleLink></li>
             </ul>
             <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.healthcareJobs")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
@@ -124,22 +124,22 @@ export function Footer() {
             <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.alliedHealth")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
               <li><LocaleLink href="/allied-health" className="hover:text-primary transition-colors" data-testid="link-footer-allied">{t("footer.alliedHealthExamPrep")}</LocaleLink></li>
-              <li><LocaleLink href="/allied-health/rrt" className="hover:text-primary transition-colors" data-testid="link-footer-allied-rrt">Respiratory Therapist</LocaleLink></li>
-              <li><LocaleLink href="/allied-health/paramedic" className="hover:text-primary transition-colors" data-testid="link-footer-allied-paramedic">Paramedic</LocaleLink></li>
-              <li><LocaleLink href="/allied-health/pharmacy-technician" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pharmacy-tech">Pharmacy Technician</LocaleLink></li>
-              <li><LocaleLink href="/allied-health/mlt" className="hover:text-primary transition-colors" data-testid="link-footer-allied-mlt">Medical Lab Tech</LocaleLink></li>
-              <li><LocaleLink href="/allied-health/imaging" className="hover:text-primary transition-colors" data-testid="link-footer-allied-imaging">Diagnostic Imaging</LocaleLink></li>
-              <li><LocaleLink href="/allied-health/occupational-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-ot">Occupational Therapy</LocaleLink></li>
-              <li><LocaleLink href="/allied-health/physical-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pt">Physical Therapy</LocaleLink></li>
-              <li><LocaleLink href="/allied-health/careers" className="hover:text-primary transition-colors" data-testid="link-footer-allied-careers">Allied Careers</LocaleLink></li>
-              <li><LocaleLink href="/pricing?section=allied" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pricing">Allied Pricing</LocaleLink></li>
-              <li><LocaleLink href="/allied-health/social-work" className="hover:text-primary transition-colors" data-testid="link-footer-allied-social-work">Social Work</LocaleLink></li>
-              <li><LocaleLink href="/allied-health/psychotherapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-psychotherapy">Psychotherapy</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/rrt" className="hover:text-primary transition-colors" data-testid="link-footer-allied-rrt">{t("components.footer.respiratoryTherapist")}</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/paramedic" className="hover:text-primary transition-colors" data-testid="link-footer-allied-paramedic">{t("components.footer.paramedic")}</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/pharmacy-technician" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pharmacy-tech">{t("components.footer.pharmacyTechnician")}</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/mlt" className="hover:text-primary transition-colors" data-testid="link-footer-allied-mlt">{t("components.footer.medicalLabTech")}</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/imaging" className="hover:text-primary transition-colors" data-testid="link-footer-allied-imaging">{t("components.footer.diagnosticImaging")}</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/occupational-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-ot">{t("components.footer.occupationalTherapy")}</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/physical-therapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pt">{t("components.footer.physicalTherapy")}</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/careers" className="hover:text-primary transition-colors" data-testid="link-footer-allied-careers">{t("components.footer.alliedCareers")}</LocaleLink></li>
+              <li><LocaleLink href="/pricing?section=allied" className="hover:text-primary transition-colors" data-testid="link-footer-allied-pricing">{t("components.footer.alliedPricing")}</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/social-work" className="hover:text-primary transition-colors" data-testid="link-footer-allied-social-work">{t("components.footer.socialWork")}</LocaleLink></li>
+              <li><LocaleLink href="/allied-health/psychotherapy" className="hover:text-primary transition-colors" data-testid="link-footer-allied-psychotherapy">{t("components.footer.psychotherapy")}</LocaleLink></li>
             </ul>
             <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3 mt-6">{t("footer.educationEcosystem")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
-              <li><LocaleLink href="/" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-nursenest">NurseNest — Nursing and Healthcare Exam Prep</LocaleLink></li>
-              <li><a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-applynest">ApplyNest — Healthcare Program Applications and Career Tools</a></li>
+              <li><LocaleLink href="/" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-nursenest">{t("components.footer.nursenestNursingAndHealthcareExam")}</LocaleLink></li>
+              <li><a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors" data-testid="link-footer-ecosystem-applynest">{t("components.footer.applynestHealthcareProgramApplicationsAnd")}</a></li>
             </ul>
           </div>
         </div>
@@ -184,15 +184,15 @@ export function Footer() {
           </LocaleLink>
         </div>
         <div className="border-t border-[var(--theme-separator)] pt-6 pb-6 mb-6">
-          <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3">Our Education Ecosystem</h3>
+          <h3 className="text-sm font-semibold text-[var(--theme-heading-text)] mb-3">{t("components.footer.ourEducationEcosystem")}</h3>
           <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
             <li>
               <LocaleLink href="/" className="hover:text-primary transition-colors font-medium" data-testid="link-footer-ecosystem-nursenest">NurseNest</LocaleLink>
-              <span className="ml-1">— Nursing exam prep, clinical tools, and career development</span>
+              <span className="ml-1">{t("components.footer.nursingExamPrepClinicalTools")}</span>
             </li>
             <li>
-              <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors font-medium" data-testid="link-footer-ecosystem-applynest">ApplyNest</a>
-              <span className="ml-1">— Healthcare program applications, admissions, and scholarship tools</span>
+              <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors font-medium" data-testid="link-footer-ecosystem-applynest">{t("components.footer.applynest")}</a>
+              <span className="ml-1">{t("components.footer.healthcareProgramApplicationsAdmissionsAnd")}</span>
             </li>
           </ul>
         </div>

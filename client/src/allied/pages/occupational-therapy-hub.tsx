@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { BookOpen, Brain, FileText, GraduationCap, ChevronRight, Hand, CheckCircle2, ArrowRight, HelpCircle, Sparkles, Target, Clock, Calendar, BarChart3, Play, Zap } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 
+import { useI18n } from "@/lib/i18n";
 const TOPIC_CARDS = [
   { title: "ADL & IADL Training", slug: "adl-training", desc: "Activities of daily living, self-care routines, adaptive strategies, and functional independence measures", icon: Target },
   { title: "Assistive Technology & Devices", slug: "assistive-devices", desc: "Adaptive equipment, wheelchair positioning, environmental modifications, and assistive technology assessment", icon: Sparkles },
@@ -21,6 +22,7 @@ const FAQ_DATA = [
 ];
 
 export default function OccupationalTherapyHubPage() {
+  const { t } = useI18n();
   const [stats, setStats] = useState<any>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -31,8 +33,8 @@ export default function OccupationalTherapyHubPage() {
   return (
     <>
       <AlliedSEO
-        title="Occupational Therapy Exam Prep - NBCOT OTR & NOTCE Study Resources"
-        description="Prepare for the NBCOT OTR and NOTCE occupational therapy licensing exams with practice questions, case analysis simulations, flashcard decks, full-length practice exams, and a comprehensive study guide. Free to start."
+        title={t("allied.occupationalTherapyHub.occupationalTherapyExamPrepNbcot")}
+        description={t("allied.occupationalTherapyHub.prepareForTheNbcotOtr")}
         keywords="occupational therapy exam prep, NBCOT OTR exam, NOTCE exam, OT practice questions, occupational therapy certification, OT study guide, OT flashcards, occupational therapist licensing"
         canonicalPath="/allied-health/occupational-therapy"
         structuredData={{
@@ -67,9 +69,9 @@ export default function OccupationalTherapyHubPage() {
         <section className="relative overflow-hidden bg-gradient-to-br from-purple-50 via-violet-50 to-fuchsia-50 py-16 sm:py-24">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-              <Link href="/allied-health" className="hover:text-purple-600" data-testid="link-breadcrumb-home">Allied Health</Link>
+              <Link href="/allied-health" className="hover:text-purple-600" data-testid="link-breadcrumb-home">{t("allied.occupationalTherapyHub.alliedHealth")}</Link>
               <ChevronRight className="w-3.5 h-3.5" />
-              <span className="text-purple-700 font-medium">Occupational Therapy</span>
+              <span className="text-purple-700 font-medium">{t("allied.occupationalTherapyHub.occupationalTherapy")}</span>
             </div>
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-purple-100 text-purple-800 rounded-full text-sm font-medium mb-4">
@@ -78,7 +80,7 @@ export default function OccupationalTherapyHubPage() {
               </div>
               <h1 className="text-3xl sm:text-5xl font-bold text-gray-900 leading-tight mb-4" data-testid="text-hero-title">
                 Occupational Therapy<br />
-                <span className="text-purple-600">Exam Prep Hub</span>
+                <span className="text-purple-600">{t("allied.occupationalTherapyHub.examPrepHub")}</span>
               </h1>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed" data-testid="text-hero-subtitle">
                 Master every domain of the NBCOT OTR and NOTCE exams with expert-written lessons, practice questions with detailed rationales, spaced-repetition flashcards, and timed practice exams.
@@ -111,8 +113,8 @@ export default function OccupationalTherapyHubPage() {
         </section>
 
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Study Topics</h2>
-          <p className="text-gray-500 mb-8">Explore all the domains covered on the NBCOT OTR and NOTCE certification exams.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.occupationalTherapyHub.studyTopics")}</h2>
+          <p className="text-gray-500 mb-8">{t("allied.occupationalTherapyHub.exploreAllTheDomainsCovered")}</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {TOPIC_CARDS.map(topic => (
               <Link key={topic.slug} href="/allied-health/occupational-therapy/study-guide" className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-purple-200 transition-all" data-testid={`card-topic-${topic.slug}`}>
@@ -131,32 +133,32 @@ export default function OccupationalTherapyHubPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Link href="/allied-health/occupational-therapy/flashcards" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-purple-200 transition-all" data-testid="card-flashcards">
                 <Brain className="w-8 h-8 text-purple-600 mb-4" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Flashcard Decks</h3>
-                <p className="text-sm text-gray-500 mb-4">Master key OT concepts with spaced-repetition flashcards organized by domain.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.occupationalTherapyHub.flashcardDecks")}</h3>
+                <p className="text-sm text-gray-500 mb-4">{t("allied.occupationalTherapyHub.masterKeyOtConceptsWith")}</p>
                 <span className="text-purple-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   Browse Decks <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
               <Link href="/allied-health/occupational-therapy/mock-exam" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-purple-200 transition-all" data-testid="card-exams">
                 <FileText className="w-8 h-8 text-purple-600 mb-4" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Practice Exams</h3>
-                <p className="text-sm text-gray-500 mb-4">Take timed practice exams that simulate real NBCOT testing conditions with score reports.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.occupationalTherapyHub.practiceExams")}</h3>
+                <p className="text-sm text-gray-500 mb-4">{t("allied.occupationalTherapyHub.takeTimedPracticeExamsThat")}</p>
                 <span className="text-purple-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   View Exams <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
               <Link href="/allied-health/occupational-therapy/study-guide" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-purple-200 transition-all" data-testid="card-study-guide">
                 <GraduationCap className="w-8 h-8 text-purple-600 mb-4" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Study Guide</h3>
-                <p className="text-sm text-gray-500 mb-4">Comprehensive study guide covering every occupational therapy exam topic in detail.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.occupationalTherapyHub.studyGuide")}</h3>
+                <p className="text-sm text-gray-500 mb-4">{t("allied.occupationalTherapyHub.comprehensiveStudyGuideCoveringEvery")}</p>
                 <span className="text-purple-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   Read Guide <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
               <Link href="/allied-health/occupational-therapy/lessons" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-purple-200 transition-all" data-testid="card-lessons">
                 <BookOpen className="w-8 h-8 text-purple-600 mb-4" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Lessons</h3>
-                <p className="text-sm text-gray-500 mb-4">Expert-written lessons covering evaluation, intervention, pediatrics, and professional practice.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.occupationalTherapyHub.lessons")}</h3>
+                <p className="text-sm text-gray-500 mb-4">{t("allied.occupationalTherapyHub.expertwrittenLessonsCoveringEvaluationInterv")}</p>
                 <span className="text-purple-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   Start Lessons <ArrowRight className="w-4 h-4" />
                 </span>
@@ -166,8 +168,8 @@ export default function OccupationalTherapyHubPage() {
         </section>
 
         <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">Frequently Asked Questions</h2>
-          <p className="text-gray-500 mb-8 text-center">Common questions about our Occupational Therapy exam prep resources.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">{t("allied.occupationalTherapyHub.frequentlyAskedQuestions")}</h2>
+          <p className="text-gray-500 mb-8 text-center">{t("allied.occupationalTherapyHub.commonQuestionsAboutOurOccupational")}</p>
           <div className="space-y-3" data-testid="faq-section">
             {FAQ_DATA.map((faq, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 overflow-hidden">
@@ -191,8 +193,8 @@ export default function OccupationalTherapyHubPage() {
 
         <section className="bg-gradient-to-r from-purple-600 to-violet-600 py-16">
           <div className="max-w-3xl mx-auto px-4 text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Start Studying?</h2>
-            <p className="text-purple-100 mb-8">Join occupational therapy students using NurseNest Allied to pass their NBCOT OTR and NOTCE certification exams.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">{t("allied.occupationalTherapyHub.readyToStartStudying")}</h2>
+            <p className="text-purple-100 mb-8">{t("allied.occupationalTherapyHub.joinOccupationalTherapyStudentsUsing")}</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/allied-health/occupational-therapy/lessons" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-700 rounded-xl text-sm font-semibold hover:bg-purple-50 transition-all" data-testid="button-cta-start">
                 <GraduationCap className="w-4 h-4" /> Start Free

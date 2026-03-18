@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ImagePlus, Trash2, Pencil, Check, X, Sparkles, Loader2 } from "lucide-react";
 import type { UppyFile } from "@uppy/core";
 
+import { useI18n } from "@/lib/i18n";
 interface LessonImage {
   id: number;
   lesson_id: string;
@@ -17,7 +18,8 @@ interface LessonImage {
   position: number;
 }
 
-function getAdminCredentials(): { username: string; password: string } | null {
+function getAdminCredentials(): {
+username: string; password: string } | null {
   try {
     const stored = localStorage.getItem("nursenest-credentials");
     if (stored) {
@@ -277,7 +279,7 @@ export function LessonImageManager({ lessonId, section = "general", isAdmin, isE
                   <Input
                     value={captionText}
                     onChange={(e) => setCaptionText(e.target.value)}
-                    placeholder="Add a caption..."
+                    placeholder={t("components.lessonImageManager.addACaption")}
                     className="text-sm h-8"
                     data-testid={`input-caption-${img.id}`}
                   />
@@ -329,14 +331,14 @@ export function LessonImageManager({ lessonId, section = "general", isAdmin, isE
               <Textarea
                 value={aiPrompt}
                 onChange={(e) => setAiPrompt(e.target.value)}
-                placeholder="Describe the clinical image you want (e.g., 'Cross-section of the heart showing the four chambers, valves, and major vessels with realistic anatomical coloring')"
+                placeholder={t("components.lessonImageManager.describeTheClinicalImageYou")}
                 className="min-h-[80px] text-sm bg-white"
                 data-testid={`input-ai-prompt-${section}`}
               />
               <Input
                 value={aiCaption}
                 onChange={(e) => setAiCaption(e.target.value)}
-                placeholder="Caption to display under the image (optional)"
+                placeholder={t("components.lessonImageManager.captionToDisplayUnderThe")}
                 className="text-sm bg-white"
                 data-testid={`input-ai-caption-${section}`}
               />

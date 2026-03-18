@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { Shield, AlertTriangle, Hand, Layers } from "lucide-react";
 
 export function InfectionControlModule() {
+  const { t } = useI18n();
   const hygieneContent = useEditableText("infctrl-hygiene-cognitive", "1. BEFORE touching a patient. 2. BEFORE a clean/aseptic procedure. 3. AFTER body fluid exposure risk. 4. AFTER touching a patient. 5. AFTER touching patient surroundings. These moments create a systematic approach to hand hygiene that covers all critical transmission opportunities.");
   const ppeDoffingContent = useEditableText("infctrl-ppe-doffing-cognitive", "DONNING (putting on): Gown → Mask/Respirator → Goggles/Face shield → Gloves. DOFFING (removing): Gloves → Goggles/Face shield → Gown → Mask/Respirator. The doffing sequence is critical — the most contaminated items (gloves) come off first, and the mask (which protects airways) comes off last, AFTER leaving the patient area. Hand hygiene after each step of doffing.");
 
@@ -23,7 +25,7 @@ export function InfectionControlModule() {
       <MicroLesson title="The Chain of Infection" subtitle="Six links that must all be present for infection to occur" icon={<Layers className="w-5 h-5" />}>
         <EditableModuleText sectionKey="infctrl-chain-content" defaultText={`Infection requires an unbroken chain of infection (A conceptual model with six links: (1) infectious agent, (2) reservoir, (3) portal of exit, (4) mode of transmission, (5) portal of entry, (6) susceptible host. Breaking ANY link prevents infection.). Infection prevention strategies work by targeting the weakest links in this chain.`} as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="The Six Links"
+          title={t("data.pre_nursing_infection_control.theSixLinks")}
           cards={[
             {
               id: "ic1",
@@ -79,7 +81,7 @@ export function InfectionControlModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="The 5 Moments for Hand Hygiene (WHO)"
+          title={t("data.pre_nursing_infection_control.the5MomentsForHand")}
           content={hygieneContent}
         />
       </MicroLesson>
@@ -102,7 +104,7 @@ export function InfectionControlModule() {
         </div>
         <CognitiveCard
           type="warning"
-          title="PPE Donning & Doffing Order"
+          title={t("data.pre_nursing_infection_control.ppeDonningDoffingOrder")}
           content={ppeDoffingContent}
         />
       </MicroLesson>
@@ -130,7 +132,7 @@ export function InfectionControlModule() {
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Precaution Type"
+        title={t("data.pre_nursing_infection_control.matchThePrecautionType")}
         pairs={[
           { term: "Standard precautions", definition: "Applied to ALL patients" },
           { term: "Contact precautions", definition: "Gown and gloves, dedicated equipment" },
@@ -142,7 +144,7 @@ export function InfectionControlModule() {
       />
 
       <SelfCheckQuiz
-        title="Infection Control Quiz"
+        title={t("data.pre_nursing_infection_control.infectionControlQuiz")}
         questions={[
           {
             id: "ic1",

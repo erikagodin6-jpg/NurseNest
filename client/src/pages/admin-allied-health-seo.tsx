@@ -8,6 +8,7 @@ import {
 import { ALLIED_HEALTH_PROFESSIONS, type AlliedHealthProfession } from "@/allied/data/allied-health-professions";
 import { apiRequest } from "@/lib/queryClient";
 
+import { useI18n } from "@/lib/i18n";
 type ArticleStatus = "draft" | "queued" | "generating" | "needs_review" | "published" | "failed";
 
 const STATUS_CONFIG: Record<ArticleStatus, { label: string; color: string; bg: string }> = {
@@ -20,6 +21,7 @@ const STATUS_CONFIG: Record<ArticleStatus, { label: string; color: string; bg: s
 };
 
 function StatusBadge({ status }: { status: ArticleStatus }) {
+  const { t } = useI18n();
   const config = STATUS_CONFIG[status] || STATUS_CONFIG.draft;
   return (
     <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${config.bg} ${config.color}`} data-testid={`badge-status-${status}`}>
@@ -46,7 +48,7 @@ function ArticleEditor({ article, onClose, onSave }: { article: any; onClose: ()
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" data-testid="article-editor-modal">
       <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between rounded-t-2xl">
-          <h2 className="text-lg font-semibold text-gray-900">Edit Article</h2>
+          <h2 className="text-lg font-semibold text-gray-900">{t("pages.adminAlliedHealthSeo.editArticle")}</h2>
           <div className="flex items-center gap-2">
             <button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}
               className="inline-flex items-center gap-1.5 px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 disabled:opacity-50" data-testid="button-save-article">
@@ -60,34 +62,34 @@ function ArticleEditor({ article, onClose, onSave }: { article: any; onClose: ()
         </div>
         <div className="p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAlliedHealthSeo.title")}</label>
             <input value={title} onChange={e => setTitle(e.target.value)}
               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-article-title" />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Meta Title</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAlliedHealthSeo.metaTitle")}</label>
               <input value={metaTitle} onChange={e => setMetaTitle(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-meta-title" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAlliedHealthSeo.status")}</label>
               <select value={status} onChange={e => setStatus(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-status">
-                <option value="draft">Draft</option>
-                <option value="needs_review">Needs Review</option>
-                <option value="published">Published</option>
-                <option value="failed">Failed</option>
+                <option value="draft">{t("pages.adminAlliedHealthSeo.draft")}</option>
+                <option value="needs_review">{t("pages.adminAlliedHealthSeo.needsReview")}</option>
+                <option value="published">{t("pages.adminAlliedHealthSeo.published")}</option>
+                <option value="failed">{t("pages.adminAlliedHealthSeo.failed")}</option>
               </select>
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Meta Description</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAlliedHealthSeo.metaDescription")}</label>
             <textarea value={metaDescription} onChange={e => setMetaDescription(e.target.value)} rows={2}
               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-meta-description" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Content (Markdown)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminAlliedHealthSeo.contentMarkdown")}</label>
             <textarea value={contentMd} onChange={e => setContentMd(e.target.value)} rows={20}
               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-mono" data-testid="input-content-md" />
           </div>
@@ -209,8 +211,8 @@ export default function AdminAlliedHealthSEO() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-admin-title">Allied Health SEO Content</h1>
-            <p className="text-sm text-gray-500 mt-1">Manage and generate SEO articles for allied health professions</p>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-admin-title">{t("pages.adminAlliedHealthSeo.alliedHealthSeoContent")}</h1>
+            <p className="text-sm text-gray-500 mt-1">{t("pages.adminAlliedHealthSeo.manageAndGenerateSeoArticles")}</p>
           </div>
           <button onClick={() => refetchTopics()} className="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50" data-testid="button-refresh">
             <RefreshCw className="w-4 h-4" /> Refresh
@@ -218,7 +220,7 @@ export default function AdminAlliedHealthSEO() {
         </div>
 
         <div className="bg-white rounded-xl border border-gray-100 p-4 mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Select Profession</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">{t("pages.adminAlliedHealthSeo.selectProfession")}</label>
           <div className="relative">
             <select
               value={selectedProfession}
@@ -237,30 +239,30 @@ export default function AdminAlliedHealthSEO() {
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
           <div className="bg-white rounded-xl border border-gray-100 p-4 text-center" data-testid="stat-total">
             <div className="text-2xl font-bold text-gray-900">{stats.total}</div>
-            <div className="text-xs text-gray-500">Total Articles</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAlliedHealthSeo.totalArticles")}</div>
           </div>
           <div className="bg-white rounded-xl border border-gray-100 p-4 text-center" data-testid="stat-published">
             <div className="text-2xl font-bold text-green-600">{stats.published}</div>
-            <div className="text-xs text-gray-500">Published</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAlliedHealthSeo.published2")}</div>
           </div>
           <div className="bg-white rounded-xl border border-gray-100 p-4 text-center" data-testid="stat-review">
             <div className="text-2xl font-bold text-orange-600">{stats.needsReview}</div>
-            <div className="text-xs text-gray-500">Needs Review</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAlliedHealthSeo.needsReview2")}</div>
           </div>
           <div className="bg-white rounded-xl border border-gray-100 p-4 text-center" data-testid="stat-generating">
             <div className="text-2xl font-bold text-amber-600">{stats.generating}</div>
-            <div className="text-xs text-gray-500">Generating</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAlliedHealthSeo.generating")}</div>
           </div>
           <div className="bg-white rounded-xl border border-gray-100 p-4 text-center" data-testid="stat-failed">
             <div className="text-2xl font-bold text-red-600">{stats.failed}</div>
-            <div className="text-xs text-gray-500">Failed</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAlliedHealthSeo.failed2")}</div>
           </div>
         </div>
 
         {existingArticles.length > 0 && (
           <div className="bg-white rounded-xl border border-gray-100 mb-6" data-testid="existing-articles-section">
             <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
-              <h2 className="text-base font-semibold text-gray-900">Existing Articles</h2>
+              <h2 className="text-base font-semibold text-gray-900">{t("pages.adminAlliedHealthSeo.existingArticles")}</h2>
               <div className="flex items-center gap-2">
                 {existingArticles.some((a: any) => a.status === "needs_review") && (
                   <button
@@ -287,16 +289,16 @@ export default function AdminAlliedHealthSEO() {
                   <div className="flex items-center gap-1">
                     {article.status === "published" && (
                       <a href={`/allied-health/${selectedProfession}/${article.slug}`} target="_blank" rel="noopener"
-                        className="p-1.5 text-gray-400 hover:text-teal-600" title="View" data-testid={`button-view-${article.id}`}>
+                        className="p-1.5 text-gray-400 hover:text-teal-600" title={t("pages.adminAlliedHealthSeo.view")} data-testid={`button-view-${article.id}`}>
                         <Eye className="w-4 h-4" />
                       </a>
                     )}
                     <button onClick={() => handleEditArticle(article.id)}
-                      className="p-1.5 text-gray-400 hover:text-blue-600" title="Edit" data-testid={`button-edit-${article.id}`}>
+                      className="p-1.5 text-gray-400 hover:text-blue-600" title={t("pages.adminAlliedHealthSeo.edit")} data-testid={`button-edit-${article.id}`}>
                       <Edit3 className="w-4 h-4" />
                     </button>
                     <button onClick={() => { if (confirm("Delete this article?")) deleteMutation.mutate(article.id); }}
-                      className="p-1.5 text-gray-400 hover:text-red-600" title="Delete" data-testid={`button-delete-${article.id}`}>
+                      className="p-1.5 text-gray-400 hover:text-red-600" title={t("pages.adminAlliedHealthSeo.delete")} data-testid={`button-delete-${article.id}`}>
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
@@ -331,7 +333,7 @@ export default function AdminAlliedHealthSEO() {
           {topicsLoading ? (
             <div className="px-5 py-12 text-center">
               <Loader2 className="w-6 h-6 text-teal-500 animate-spin mx-auto mb-2" />
-              <p className="text-sm text-gray-500">Loading topics...</p>
+              <p className="text-sm text-gray-500">{t("pages.adminAlliedHealthSeo.loadingTopics")}</p>
             </div>
           ) : (
             <div className="divide-y divide-gray-50">

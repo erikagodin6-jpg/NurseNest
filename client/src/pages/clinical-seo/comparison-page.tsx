@@ -7,6 +7,7 @@ import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-re
 import { MedicalReferences } from "@/components/medical-references";
 import { AutoRelatedContent, YouMayAlsoLike } from "@/components/auto-related-content";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowLeftRight,
   CheckCircle,
@@ -20,6 +21,7 @@ import {
 } from "lucide-react";
 
 function PracticeQuestion({ q, index }: { q: any; index: number }) {
+  const { t } = useI18n();
   const [selected, setSelected] = useState<number | null>(null);
   const [showRationale, setShowRationale] = useState(false);
   const handleSelect = (optIdx: number) => { if (selected !== null) return; setSelected(optIdx); setShowRationale(true); };
@@ -37,7 +39,7 @@ function PracticeQuestion({ q, index }: { q: any; index: number }) {
           return (<button key={optIdx} onClick={() => handleSelect(optIdx)} className={`w-full text-left flex items-start gap-3 ${cls}`} disabled={selected !== null} data-testid={`question-${index}-option-${optIdx}`}><span className="font-medium text-gray-500 shrink-0">{String.fromCharCode(65 + optIdx)}.</span><span>{opt}</span>{selected !== null && optIdx === q.correct && <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 ml-auto mt-0.5" />}{selected !== null && optIdx === selected && optIdx !== q.correct && <XCircle className="w-4 h-4 text-red-400 shrink-0 ml-auto mt-0.5" />}</button>);
         })}
       </div>
-      {showRationale && <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-900" data-testid={`rationale-${index}`}><p className="font-semibold mb-1">Rationale:</p><p>{q.rationale}</p></div>}
+      {showRationale && <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-900" data-testid={`rationale-${index}`}><p className="font-semibold mb-1">{t("pages.clinicalSeo.comparisonPage.rationale")}</p><p>{q.rationale}</p></div>}
     </div>
   );
 }
@@ -57,7 +59,7 @@ export default function ClinicalComparisonPage() {
   }, [params.slug]);
 
   if (loading) return (<><Navigation /><div className="min-h-screen flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div><Footer /></>);
-  if (error || !page) return (<><Navigation /><div className="min-h-screen flex items-center justify-center" data-testid="comparison-not-found"><div className="text-center"><h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1><p className="text-gray-600">The clinical comparison page you are looking for does not exist.</p></div></div><Footer /></>);
+  if (error || !page) return (<><Navigation /><div className="min-h-screen flex items-center justify-center" data-testid="comparison-not-found"><div className="text-center"><h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.clinicalSeo.comparisonPage.pageNotFound")}</h1><p className="text-gray-600">{t("pages.clinicalSeo.comparisonPage.theClinicalComparisonPageYou")}</p></div></div><Footer /></>);
 
   const data = page.data;
   const questions = page.practiceQuestions || [];
@@ -90,16 +92,16 @@ export default function ClinicalComparisonPage() {
       <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-            <LocaleLink href="/" className="hover:text-primary">Home</LocaleLink>
+            <LocaleLink href="/" className="hover:text-primary">{t("pages.clinicalSeo.comparisonPage.home")}</LocaleLink>
             <span>/</span>
-            <span className="text-gray-500">Clinical Comparisons</span>
+            <span className="text-gray-500">{t("pages.clinicalSeo.comparisonPage.clinicalComparisons")}</span>
             <span>/</span>
             <span className="text-gray-900">{page.title}</span>
           </nav>
 
           <header className="mb-8">
             <div className="flex items-center gap-2 mb-3">
-              <span className="px-3 py-1 bg-violet-50 text-violet-700 text-xs font-semibold rounded-full">Clinical Comparison</span>
+              <span className="px-3 py-1 bg-violet-50 text-violet-700 text-xs font-semibold rounded-full">{t("pages.clinicalSeo.comparisonPage.clinicalComparison")}</span>
               {page.bodySystem && <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">{page.bodySystem}</span>}
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="page-title">{page.title}: Side-by-Side Nursing Comparison</h1>
@@ -126,13 +128,13 @@ export default function ClinicalComparisonPage() {
             <section className="mb-8" data-testid="section-comparison-table">
               <div className="flex items-center gap-2 mb-4">
                 <ArrowLeftRight className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Feature-by-Feature Comparison</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.comparisonPage.featurebyfeatureComparison")}</h2>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full bg-white border border-gray-200 rounded-xl overflow-hidden">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900 w-1/4">Feature</th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900 w-1/4">{t("pages.clinicalSeo.comparisonPage.feature")}</th>
                       <th className="px-4 py-3 text-left text-sm font-semibold text-blue-700 w-[37.5%]">{data.entityA?.name || "A"}</th>
                       <th className="px-4 py-3 text-left text-sm font-semibold text-violet-700 w-[37.5%]">{data.entityB?.name || "B"}</th>
                     </tr>
@@ -155,7 +157,7 @@ export default function ClinicalComparisonPage() {
             <section className="mb-8" data-testid="section-key-differentiators">
               <div className="flex items-center gap-2 mb-4">
                 <Key className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Key Differentiators</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.comparisonPage.keyDifferentiators")}</h2>
               </div>
               <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
                 <ul className="space-y-3">
@@ -174,7 +176,7 @@ export default function ClinicalComparisonPage() {
             <section className="mb-8" data-testid="section-nursing-interventions">
               <div className="flex items-center gap-2 mb-4">
                 <ClipboardList className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Nursing Interventions</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.comparisonPage.nursingInterventions")}</h2>
               </div>
               <div className="grid md:grid-cols-2 gap-4">
                 {data.nursingInterventionsA && (
@@ -211,7 +213,7 @@ export default function ClinicalComparisonPage() {
             <section className="mb-8" data-testid="section-exam-tips">
               <div className="flex items-center gap-2 mb-4">
                 <Lightbulb className="w-5 h-5 text-amber-500" />
-                <h2 className="text-2xl font-bold text-gray-900">NCLEX Exam Tips</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.comparisonPage.nclexExamTips")}</h2>
               </div>
               <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
                 <ul className="space-y-3">
@@ -227,7 +229,7 @@ export default function ClinicalComparisonPage() {
             <section className="mb-8" data-testid="section-practice-questions">
               <div className="flex items-center gap-2 mb-4">
                 <BookOpen className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.comparisonPage.practiceQuestions")}</h2>
               </div>
               <div className="space-y-4">
                 {questions.map((q: any, i: number) => <PracticeQuestion key={i} q={q} index={i} />)}

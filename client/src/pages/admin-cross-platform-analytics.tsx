@@ -10,6 +10,7 @@ import {
 import { Link } from "wouter";
 import { SECTION_LABELS, type PlatformSection } from "@shared/platform-sections";
 
+import { useI18n } from "@/lib/i18n";
 const SECTION_COLORS: Record<string, string> = {
   exam_prep: "bg-blue-100 text-blue-800 border-blue-200",
   new_grad: "bg-green-100 text-green-800 border-green-200",
@@ -27,6 +28,7 @@ const SECTION_BAR_COLORS: Record<string, string> = {
 };
 
 function getSectionLabel(key: string): string {
+
   return SECTION_LABELS[key as PlatformSection] || key;
 }
 
@@ -56,9 +58,9 @@ export default function AdminCrossPlatformAnalytics() {
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-3">
             <Link href="/admin" data-testid="link-back-admin">
-              <Button variant="ghost" size="sm"><ArrowLeft className="w-4 h-4 mr-1" /> Admin</Button>
+              <Button variant="ghost" size="sm"><ArrowLeft className="w-4 h-4 mr-1" /> {t("pages.adminCrossPlatformAnalytics.admin")}</Button>
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="heading-cross-platform">Cross-Platform Analytics</h1>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="heading-cross-platform">{t("pages.adminCrossPlatformAnalytics.crossplatformAnalytics")}</h1>
           </div>
           <div className="flex gap-2">
             {[7, 14, 30, 90].map((d) => (
@@ -76,33 +78,33 @@ export default function AdminCrossPlatformAnalytics() {
         </div>
 
         {isLoading ? (
-          <div className="text-center py-12 text-gray-500" data-testid="loading-indicator">Loading analytics...</div>
+          <div className="text-center py-12 text-gray-500" data-testid="loading-indicator">{t("pages.adminCrossPlatformAnalytics.loadingAnalytics")}</div>
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <Card data-testid="card-kpi-total-views">
                 <CardContent className="pt-6">
-                  <div className="flex items-center gap-2 text-gray-500 text-sm mb-1"><Eye className="w-4 h-4" /> Total Page Views</div>
+                  <div className="flex items-center gap-2 text-gray-500 text-sm mb-1"><Eye className="w-4 h-4" /> {t("pages.adminCrossPlatformAnalytics.totalPageViews")}</div>
                   <div className="text-3xl font-bold">{totalPageViews.toLocaleString()}</div>
                 </CardContent>
               </Card>
               <Card data-testid="card-kpi-unique-sessions">
                 <CardContent className="pt-6">
-                  <div className="flex items-center gap-2 text-gray-500 text-sm mb-1"><Users className="w-4 h-4" /> Unique Sessions</div>
+                  <div className="flex items-center gap-2 text-gray-500 text-sm mb-1"><Users className="w-4 h-4" /> {t("pages.adminCrossPlatformAnalytics.uniqueSessions")}</div>
                   <div className="text-3xl font-bold">{totalUniqueSessions.toLocaleString()}</div>
                 </CardContent>
               </Card>
               <Card data-testid="card-kpi-multi-section">
                 <CardContent className="pt-6">
-                  <div className="flex items-center gap-2 text-gray-500 text-sm mb-1"><Shuffle className="w-4 h-4" /> Multi-Section Visitors</div>
+                  <div className="flex items-center gap-2 text-gray-500 text-sm mb-1"><Shuffle className="w-4 h-4" /> {t("pages.adminCrossPlatformAnalytics.multisectionVisitors")}</div>
                   <div className="text-3xl font-bold">{multiSection.total.toLocaleString()}</div>
                 </CardContent>
               </Card>
               <Card data-testid="card-kpi-edu-career">
                 <CardContent className="pt-6">
-                  <div className="flex items-center gap-2 text-gray-500 text-sm mb-1"><TrendingUp className="w-4 h-4" /> Education → Career</div>
+                  <div className="flex items-center gap-2 text-gray-500 text-sm mb-1"><TrendingUp className="w-4 h-4" /> {t("pages.adminCrossPlatformAnalytics.educationCareer")}</div>
                   <div className="text-3xl font-bold">{eduToCareer.toLocaleString()}</div>
-                  <div className="text-xs text-gray-400 mt-1">Conversions from exam prep to career tools</div>
+                  <div className="text-xs text-gray-400 mt-1">{t("pages.adminCrossPlatformAnalytics.conversionsFromExamPrepTo")}</div>
                 </CardContent>
               </Card>
             </div>
@@ -110,11 +112,11 @@ export default function AdminCrossPlatformAnalytics() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card data-testid="card-section-traffic">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-lg"><BarChart3 className="w-5 h-5" /> Traffic by Section</CardTitle>
+                  <CardTitle className="flex items-center gap-2 text-lg"><BarChart3 className="w-5 h-5" /> {t("pages.adminCrossPlatformAnalytics.trafficBySection")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {sectionTraffic.length === 0 ? (
-                    <p className="text-gray-400 text-sm" data-testid="text-no-traffic">No traffic data yet</p>
+                    <p className="text-gray-400 text-sm" data-testid="text-no-traffic">{t("pages.adminCrossPlatformAnalytics.noTrafficDataYet")}</p>
                   ) : (
                     <div className="space-y-4">
                       {sectionTraffic.map((row: any) => {
@@ -146,11 +148,11 @@ export default function AdminCrossPlatformAnalytics() {
 
               <Card data-testid="card-flow-visualization">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-lg"><Activity className="w-5 h-5" /> Cross-Platform Flow</CardTitle>
+                  <CardTitle className="flex items-center gap-2 text-lg"><Activity className="w-5 h-5" /> {t("pages.adminCrossPlatformAnalytics.crossplatformFlow")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {topTransitions.length === 0 ? (
-                    <p className="text-gray-400 text-sm" data-testid="text-no-transitions">No cross-section transitions recorded yet</p>
+                    <p className="text-gray-400 text-sm" data-testid="text-no-transitions">{t("pages.adminCrossPlatformAnalytics.noCrosssectionTransitionsRecordedYet")}</p>
                   ) : (
                     <div className="space-y-3">
                       {topTransitions.map((row: any, idx: number) => (
@@ -175,11 +177,11 @@ export default function AdminCrossPlatformAnalytics() {
 
             <Card data-testid="card-multi-section-breakdown">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-lg"><Users className="w-5 h-5" /> Multi-Section Visitor Breakdown</CardTitle>
+                <CardTitle className="flex items-center gap-2 text-lg"><Users className="w-5 h-5" /> {t("pages.adminCrossPlatformAnalytics.multisectionVisitorBreakdown")}</CardTitle>
               </CardHeader>
               <CardContent>
                 {multiSection.breakdown.length === 0 ? (
-                  <p className="text-gray-400 text-sm" data-testid="text-no-multi-section">No multi-section visitors yet</p>
+                  <p className="text-gray-400 text-sm" data-testid="text-no-multi-section">{t("pages.adminCrossPlatformAnalytics.noMultisectionVisitorsYet")}</p>
                 ) : (
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {multiSection.breakdown.map((row: any) => (
@@ -195,20 +197,20 @@ export default function AdminCrossPlatformAnalytics() {
 
             <Card data-testid="card-transition-matrix">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-lg"><Shuffle className="w-5 h-5" /> Section-to-Section Transition Details</CardTitle>
+                <CardTitle className="flex items-center gap-2 text-lg"><Shuffle className="w-5 h-5" /> {t("pages.adminCrossPlatformAnalytics.sectiontosectionTransitionDetails")}</CardTitle>
               </CardHeader>
               <CardContent>
                 {transitions.length === 0 ? (
-                  <p className="text-gray-400 text-sm" data-testid="text-no-matrix">No transition data yet</p>
+                  <p className="text-gray-400 text-sm" data-testid="text-no-matrix">{t("pages.adminCrossPlatformAnalytics.noTransitionDataYet")}</p>
                 ) : (
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm" data-testid="table-transitions">
                       <thead>
                         <tr className="border-b">
-                          <th className="text-left py-2 px-3 text-gray-500 font-medium">From</th>
+                          <th className="text-left py-2 px-3 text-gray-500 font-medium">{t("pages.adminCrossPlatformAnalytics.from")}</th>
                           <th className="text-left py-2 px-3 text-gray-500 font-medium">To</th>
-                          <th className="text-right py-2 px-3 text-gray-500 font-medium">Transitions</th>
-                          <th className="text-right py-2 px-3 text-gray-500 font-medium">Unique Users</th>
+                          <th className="text-right py-2 px-3 text-gray-500 font-medium">{t("pages.adminCrossPlatformAnalytics.transitions")}</th>
+                          <th className="text-right py-2 px-3 text-gray-500 font-medium">{t("pages.adminCrossPlatformAnalytics.uniqueUsers")}</th>
                         </tr>
                       </thead>
                       <tbody>

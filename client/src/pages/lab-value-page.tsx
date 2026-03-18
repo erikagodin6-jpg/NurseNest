@@ -22,7 +22,9 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import { useI18n } from "@/lib/i18n";
 function PracticeQuestion({ question, index }: { question: LabValuePracticeQuestion; index: number }) {
+  const { t } = useI18n();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showRationale, setShowRationale] = useState(false);
 
@@ -121,10 +123,10 @@ export default function LabValuePage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center" data-testid="lab-value-not-found">
           <FlaskConical className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Lab Value Not Found</h1>
-          <p className="text-gray-500 mb-6">The requested lab value page could not be found.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.labValuePage.labValueNotFound")}</h1>
+          <p className="text-gray-500 mb-6">{t("pages.labValuePage.theRequestedLabValuePage")}</p>
           <LocaleLink href="/lab-values">
-            <Button variant="outline" data-testid="link-back-lab-values">Browse Lab Values</Button>
+            <Button variant="outline" data-testid="link-back-lab-values">{t("pages.labValuePage.browseLabValues")}</Button>
           </LocaleLink>
         </div>
       </div>
@@ -184,11 +186,11 @@ export default function LabValuePage() {
       />
 
       <div className="min-h-screen bg-gray-50">
-        <nav className="bg-white border-b border-gray-100 px-4 py-3" aria-label="Breadcrumb" data-testid="breadcrumb-nav">
+        <nav className="bg-white border-b border-gray-100 px-4 py-3" aria-label={t("pages.labValuePage.breadcrumb")} data-testid="breadcrumb-nav">
           <div className="max-w-4xl mx-auto flex items-center gap-2 text-sm text-gray-500">
-            <LocaleLink href="/" className="hover:text-primary transition-colors">Home</LocaleLink>
+            <LocaleLink href="/" className="hover:text-primary transition-colors">{t("pages.labValuePage.home")}</LocaleLink>
             <span>/</span>
-            <LocaleLink href="/lab-values" className="hover:text-primary transition-colors">Lab Values</LocaleLink>
+            <LocaleLink href="/lab-values" className="hover:text-primary transition-colors">{t("pages.labValuePage.labValues")}</LocaleLink>
             <span>/</span>
             <span className="text-gray-900 font-medium">{labData.name}</span>
           </div>
@@ -200,7 +202,7 @@ export default function LabValuePage() {
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <FlaskConical className="w-6 h-6 text-[#BFA6F6]" />
               </div>
-              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">Lab Value Reference</span>
+              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">{t("pages.labValuePage.labValueReference")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-lab-value-title">
               {labData.h1Title}
@@ -215,7 +217,7 @@ export default function LabValuePage() {
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-normal-range">
             <div className="flex items-center gap-3 mb-6">
               <Activity className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Normal Range</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.labValuePage.normalRange")}</h2>
             </div>
             <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl p-6 text-center">
               <p className="text-4xl font-bold text-primary mb-1" data-testid="text-normal-range-value">
@@ -231,7 +233,7 @@ export default function LabValuePage() {
                   <div className="bg-red-50 border border-red-100 rounded-lg p-4">
                     <div className="flex items-center gap-2 mb-2">
                       <AlertTriangle className="w-4 h-4 text-red-500" />
-                      <span className="font-semibold text-red-700 text-sm">Critical High</span>
+                      <span className="font-semibold text-red-700 text-sm">{t("pages.labValuePage.criticalHigh")}</span>
                     </div>
                     <p className="text-red-900 font-bold text-lg" data-testid="text-critical-high">{labData.criticalValues.high}</p>
                   </div>
@@ -240,7 +242,7 @@ export default function LabValuePage() {
                   <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
                     <div className="flex items-center gap-2 mb-2">
                       <AlertTriangle className="w-4 h-4 text-blue-500" />
-                      <span className="font-semibold text-blue-700 text-sm">Critical Low</span>
+                      <span className="font-semibold text-blue-700 text-sm">{t("pages.labValuePage.criticalLow")}</span>
                     </div>
                     <p className="text-blue-900 font-bold text-lg" data-testid="text-critical-low">{labData.criticalValues.low}</p>
                   </div>
@@ -250,7 +252,7 @@ export default function LabValuePage() {
             {labData.criticalValues && (
               <div className="mt-4 bg-amber-50 border border-amber-100 rounded-lg p-4">
                 <p className="text-sm text-amber-800 leading-relaxed">
-                  <span className="font-semibold">Critical Action: </span>
+                  <span className="font-semibold">{t("pages.labValuePage.criticalAction")} </span>
                   {labData.criticalValues.action}
                 </p>
               </div>
@@ -260,7 +262,7 @@ export default function LabValuePage() {
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-clinical-significance">
             <div className="flex items-center gap-3 mb-4">
               <Stethoscope className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Clinical Significance</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.labValuePage.clinicalSignificance")}</h2>
             </div>
             <p className="text-gray-700 leading-relaxed">{labData.clinicalSignificance}</p>
           </section>
@@ -301,7 +303,7 @@ export default function LabValuePage() {
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6" data-testid="section-interventions-high">
               <div className="flex items-center gap-3 mb-4">
                 <Stethoscope className="w-5 h-5 text-red-500" />
-                <h2 className="text-lg font-bold text-gray-900">Nursing Interventions (High)</h2>
+                <h2 className="text-lg font-bold text-gray-900">{t("pages.labValuePage.nursingInterventionsHigh")}</h2>
               </div>
               <ul className="space-y-2">
                 {labData.nursingInterventions.forHigh.map((item, idx) => (
@@ -316,7 +318,7 @@ export default function LabValuePage() {
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6" data-testid="section-interventions-low">
               <div className="flex items-center gap-3 mb-4">
                 <Stethoscope className="w-5 h-5 text-blue-500" />
-                <h2 className="text-lg font-bold text-gray-900">Nursing Interventions (Low)</h2>
+                <h2 className="text-lg font-bold text-gray-900">{t("pages.labValuePage.nursingInterventionsLow")}</h2>
               </div>
               <ul className="space-y-2">
                 {labData.nursingInterventions.forLow.map((item, idx) => (
@@ -332,7 +334,7 @@ export default function LabValuePage() {
           <section className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-2xl border border-primary/20 p-6 md:p-8" data-testid="section-exam-tips">
             <div className="flex items-center gap-3 mb-4">
               <Lightbulb className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Exam Tips</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.labValuePage.examTips")}</h2>
             </div>
             <ul className="space-y-3">
               {labData.examTips.map((tip, idx) => (
@@ -349,7 +351,7 @@ export default function LabValuePage() {
           <section data-testid="section-practice-questions">
             <div className="flex items-center gap-3 mb-6">
               <BookOpen className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.labValuePage.practiceQuestions")}</h2>
             </div>
             <div className="space-y-6">
               {labData.practiceQuestions.map((q, idx) => (
@@ -361,7 +363,7 @@ export default function LabValuePage() {
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-faq">
             <div className="flex items-center gap-3 mb-4">
               <HelpCircle className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.labValuePage.frequentlyAskedQuestions")}</h2>
             </div>
             <div className="divide-y divide-gray-100">
               {labData.faqItems.map((item, idx) => (
@@ -373,7 +375,7 @@ export default function LabValuePage() {
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-related-labs">
             <div className="flex items-center gap-3 mb-4">
               <FlaskConical className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Related Lab Values</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.labValuePage.relatedLabValues")}</h2>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {allSlugs
@@ -395,7 +397,7 @@ export default function LabValuePage() {
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-exam-resources">
             <div className="flex items-center gap-3 mb-4">
               <BookOpen className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Exam Prep Resources</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.labValuePage.examPrepResources")}</h2>
             </div>
             <p className="text-sm text-gray-600 mb-5">
               Strengthen your {labData.name} knowledge with targeted practice questions and lessons across all nursing tiers.
@@ -407,7 +409,7 @@ export default function LabValuePage() {
                 data-testid="link-rpn-questions"
               >
                 <ArrowRight className="w-3.5 h-3.5" />
-                <span>RPN Practice Questions</span>
+                <span>{t("pages.labValuePage.rpnPracticeQuestions")}</span>
               </LocaleLink>
               <LocaleLink
                 href="/rn/questions"
@@ -415,7 +417,7 @@ export default function LabValuePage() {
                 data-testid="link-rn-questions"
               >
                 <ArrowRight className="w-3.5 h-3.5" />
-                <span>RN Practice Questions</span>
+                <span>{t("pages.labValuePage.rnPracticeQuestions")}</span>
               </LocaleLink>
               <LocaleLink
                 href="/np/test-bank"
@@ -423,7 +425,7 @@ export default function LabValuePage() {
                 data-testid="link-np-test-bank"
               >
                 <ArrowRight className="w-3.5 h-3.5" />
-                <span>NP Question Bank</span>
+                <span>{t("pages.labValuePage.npQuestionBank")}</span>
               </LocaleLink>
               <LocaleLink
                 href="/lessons"
@@ -431,7 +433,7 @@ export default function LabValuePage() {
                 data-testid="link-lessons"
               >
                 <ArrowRight className="w-3.5 h-3.5" />
-                <span>All Lessons</span>
+                <span>{t("pages.labValuePage.allLessons")}</span>
               </LocaleLink>
               <LocaleLink
                 href="/question-bank"
@@ -439,7 +441,7 @@ export default function LabValuePage() {
                 data-testid="link-question-bank"
               >
                 <ArrowRight className="w-3.5 h-3.5" />
-                <span>Full Question Bank</span>
+                <span>{t("pages.labValuePage.fullQuestionBank")}</span>
               </LocaleLink>
               <LocaleLink
                 href="/lab-values"
@@ -447,7 +449,7 @@ export default function LabValuePage() {
                 data-testid="link-lab-interpretation"
               >
                 <ArrowRight className="w-3.5 h-3.5" />
-                <span>Lab Interpretation Engine</span>
+                <span>{t("pages.labValuePage.labInterpretationEngine")}</span>
               </LocaleLink>
             </div>
           </section>
@@ -456,7 +458,7 @@ export default function LabValuePage() {
           <YouMayAlsoLike slug={labData.slug} contentType="lab-value" title={labData.name} category={labData.fullName} />
 
           <section className="bg-gradient-to-br from-[#2E3A59] to-[#3d4f7a] rounded-2xl p-8 text-center text-white" data-testid="section-cta">
-            <h2 className="text-2xl font-bold mb-3">Master Lab Values for Your Nursing Exam</h2>
+            <h2 className="text-2xl font-bold mb-3">{t("pages.labValuePage.masterLabValuesForYour")}</h2>
             <p className="text-gray-300 mb-6 max-w-xl mx-auto">
               Access hundreds of practice questions, interactive lab simulations, and comprehensive study guides with NurseNest.
             </p>

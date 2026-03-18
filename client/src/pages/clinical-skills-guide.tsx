@@ -7,6 +7,7 @@ import { buildFaqStructuredData } from "@/lib/structured-data";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import {
   getClinicalSkillGuideBySlug,
   getRelatedClinicalSkillGuides,
@@ -29,13 +30,14 @@ import {
 } from "lucide-react";
 
 function TableOfContents({ guide }: { guide: ClinicalSkillGuide }) {
+  const { t } = useI18n();
   return (
     <div className="sticky top-4">
       <Card>
         <CardContent className="p-4">
-          <h3 className="font-semibold text-sm text-gray-900 mb-3">In This Guide</h3>
+          <h3 className="font-semibold text-sm text-gray-900 mb-3">{t("pages.clinicalSkillsGuide.inThisGuide")}</h3>
           <nav className="space-y-1">
-            <a href="#overview" className="block text-xs text-gray-600 hover:text-blue-600 py-1 transition-colors" data-testid="toc-overview">Overview</a>
+            <a href="#overview" className="block text-xs text-gray-600 hover:text-blue-600 py-1 transition-colors" data-testid="toc-overview">{t("pages.clinicalSkillsGuide.overview")}</a>
             {guide.sections.map((section, i) => (
               <a
                 key={i}
@@ -46,16 +48,16 @@ function TableOfContents({ guide }: { guide: ClinicalSkillGuide }) {
                 {section.title}
               </a>
             ))}
-            <a href="#common-mistakes" className="block text-xs text-gray-600 hover:text-blue-600 py-1 transition-colors" data-testid="toc-mistakes">Common Mistakes</a>
-            <a href="#best-practices" className="block text-xs text-gray-600 hover:text-blue-600 py-1 transition-colors" data-testid="toc-best-practices">Best Practices</a>
+            <a href="#common-mistakes" className="block text-xs text-gray-600 hover:text-blue-600 py-1 transition-colors" data-testid="toc-mistakes">{t("pages.clinicalSkillsGuide.commonMistakes")}</a>
+            <a href="#best-practices" className="block text-xs text-gray-600 hover:text-blue-600 py-1 transition-colors" data-testid="toc-best-practices">{t("pages.clinicalSkillsGuide.bestPractices")}</a>
             {guide.practiceScenarios.length > 0 && (
-              <a href="#practice" className="block text-xs text-gray-600 hover:text-blue-600 py-1 transition-colors" data-testid="toc-practice">Practice Scenarios</a>
+              <a href="#practice" className="block text-xs text-gray-600 hover:text-blue-600 py-1 transition-colors" data-testid="toc-practice">{t("pages.clinicalSkillsGuide.practiceScenarios")}</a>
             )}
             <a href="#faq" className="block text-xs text-gray-600 hover:text-blue-600 py-1 transition-colors" data-testid="toc-faq">FAQ</a>
           </nav>
 
           <div className="mt-4 pt-4 border-t border-gray-100">
-            <h4 className="text-xs font-medium text-gray-500 mb-2">Details</h4>
+            <h4 className="text-xs font-medium text-gray-500 mb-2">{t("pages.clinicalSkillsGuide.details")}</h4>
             <div className="space-y-1.5 text-xs text-gray-600">
               <div className="flex items-center gap-1.5">
                 <Clock className="w-3 h-3 text-gray-400" />
@@ -73,7 +75,7 @@ function TableOfContents({ guide }: { guide: ClinicalSkillGuide }) {
           </div>
 
           <div className="mt-4 pt-4 border-t border-gray-100">
-            <h4 className="text-xs font-medium text-gray-500 mb-2">Applicable To</h4>
+            <h4 className="text-xs font-medium text-gray-500 mb-2">{t("pages.clinicalSkillsGuide.applicableTo")}</h4>
             <div className="flex flex-wrap gap-1">
               {guide.applicableProfessions.map(p => (
                 <Badge key={p} variant="outline" className="text-[10px] px-1.5 py-0 capitalize">
@@ -178,9 +180,9 @@ export default function ClinicalSkillsGuidePage() {
         <Navigation />
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">Clinical Skills Guide Not Found</h1>
-            <p className="text-gray-600 mb-4">The guide you're looking for doesn't exist or has been moved.</p>
-            <Link href="/clinical-skills" className="text-blue-600 hover:underline" data-testid="link-back">Browse All Clinical Skills Guides</Link>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">{t("pages.clinicalSkillsGuide.clinicalSkillsGuideNotFound")}</h1>
+            <p className="text-gray-600 mb-4">{t("pages.clinicalSkillsGuide.theGuideYoureLookingFor")}</p>
+            <Link href="/clinical-skills" className="text-blue-600 hover:underline" data-testid="link-back">{t("pages.clinicalSkillsGuide.browseAllClinicalSkillsGuides")}</Link>
           </div>
         </div>
         <Footer />
@@ -237,9 +239,9 @@ export default function ClinicalSkillsGuidePage() {
       <section className="relative py-12 sm:py-16 overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50/50 to-white border-b" data-testid="section-hero">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.clinicalSkillsGuide.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/clinical-skills" className="hover:text-blue-600">Clinical Skills</Link>
+            <Link href="/clinical-skills" className="hover:text-blue-600">{t("pages.clinicalSkillsGuide.clinicalSkills")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-blue-700 font-medium truncate">{guide.title}</span>
           </div>
@@ -271,7 +273,7 @@ export default function ClinicalSkillsGuidePage() {
                 <div className="flex items-start gap-3">
                   <Lightbulb className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
                   <div>
-                    <h2 className="font-bold text-gray-900 mb-2">Why This Matters</h2>
+                    <h2 className="font-bold text-gray-900 mb-2">{t("pages.clinicalSkillsGuide.whyThisMatters")}</h2>
                     <p className="text-sm text-gray-700 leading-relaxed">{guide.whyItMatters}</p>
                   </div>
                 </div>
@@ -333,7 +335,7 @@ export default function ClinicalSkillsGuidePage() {
 
               {guide.practiceScenarios.length > 0 && (
                 <div id="practice" data-testid="section-practice-scenarios">
-                  <h2 className="text-xl font-bold text-gray-900 mb-4">Practice Scenarios</h2>
+                  <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.clinicalSkillsGuide.practiceScenarios2")}</h2>
                   <p className="text-sm text-gray-600 mb-4">
                     Test your understanding with these clinical scenarios. Select the best answer and check your reasoning.
                   </p>
@@ -346,7 +348,7 @@ export default function ClinicalSkillsGuidePage() {
               )}
 
               <div id="faq" className="space-y-4" data-testid="section-faq">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.clinicalSkillsGuide.frequentlyAskedQuestions")}</h2>
                 {guide.faqs.map((faq, i) => (
                   <details key={i} className="bg-white rounded-xl p-4 border border-gray-200 group" data-testid={`faq-${i}`}>
                     <summary className="font-semibold text-sm text-gray-900 cursor-pointer list-none flex items-center justify-between">
@@ -360,7 +362,7 @@ export default function ClinicalSkillsGuidePage() {
 
               {guide.externalReferences.length > 0 && (
                 <div className="text-xs text-gray-500" data-testid="section-references">
-                  <h3 className="font-semibold text-gray-700 mb-2">References</h3>
+                  <h3 className="font-semibold text-gray-700 mb-2">{t("pages.clinicalSkillsGuide.references")}</h3>
                   <ul className="space-y-1">
                     {guide.externalReferences.map((ref, i) => (
                       <li key={i}>
@@ -384,7 +386,7 @@ export default function ClinicalSkillsGuidePage() {
       {relatedGuides.length > 0 && (
         <section className="py-12 bg-gray-50" data-testid="section-related-guides">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Related Clinical Skills Guides</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-6">{t("pages.clinicalSkillsGuide.relatedClinicalSkillsGuides")}</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {relatedGuides.map(related => (
                 <Card
@@ -397,7 +399,7 @@ export default function ClinicalSkillsGuidePage() {
                     <h3 className="font-semibold text-sm text-gray-900 mb-1 line-clamp-2">{related.title}</h3>
                     <p className="text-xs text-gray-500 line-clamp-2 mb-2">{related.overview}</p>
                     <div className="flex items-center gap-1 text-xs text-blue-600">
-                      <span>Read guide</span>
+                      <span>{t("pages.clinicalSkillsGuide.readGuide")}</span>
                       <ArrowRight className="w-3 h-3" />
                     </div>
                   </CardContent>
@@ -417,8 +419,8 @@ export default function ClinicalSkillsGuidePage() {
 
       <section className="py-12 bg-white border-t" data-testid="section-cta">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Ready to Test Your Knowledge?</h2>
-          <p className="text-sm text-gray-600 mb-6">Practice with exam-style questions, flashcards, and interactive lessons to reinforce what you've learned.</p>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">{t("pages.clinicalSkillsGuide.readyToTestYourKnowledge")}</h2>
+          <p className="text-sm text-gray-600 mb-6">{t("pages.clinicalSkillsGuide.practiceWithExamstyleQuestionsFlashcards")}</p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link href="/practice-questions" data-testid="link-cta-practice">
               <Button className="bg-blue-600 hover:bg-blue-700 text-white">

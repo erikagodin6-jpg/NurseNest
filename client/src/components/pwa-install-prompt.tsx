@@ -3,12 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Download, X, Smartphone } from "lucide-react";
 import { shouldShowPopup, suppressPopup } from "@/lib/popup-suppression";
 
+import { useI18n } from "@/lib/i18n";
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
 export function PWAInstallPrompt() {
+  const { t } = useI18n();
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showBanner, setShowBanner] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
@@ -76,7 +78,7 @@ export function PWAInstallPrompt() {
           <Smartphone className="w-5 h-5 text-primary" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-semibold text-gray-900 text-sm">Add NurseNest to Home Screen</p>
+          <p className="font-semibold text-gray-900 text-sm">{t("components.pwaInstallPrompt.addNursenestToHomeScreen")}</p>
           {isIOS ? (
             <p className="text-xs text-gray-500 mt-0.5">
               Tap the share button <span className="inline-block text-blue-500">⎋</span> then "Add to Home Screen" for an app-like experience.
@@ -112,7 +114,7 @@ export function PWAInstallPrompt() {
         <button
           onClick={handleDismiss}
           className="shrink-0 text-gray-400 hover:text-gray-600 p-1"
-          aria-label="Dismiss"
+          aria-label={t("components.pwaInstallPrompt.dismiss")}
         >
           <X className="w-4 h-4" />
         </button>

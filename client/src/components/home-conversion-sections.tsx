@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import type { PlatformProof } from "@shared/lesson-stats";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight,
   Star,
@@ -36,6 +37,7 @@ import {
 } from "lucide-react";
 
 function formatCount(n: number | undefined): string {
+
   if (n === undefined || n === 0) return "---";
   if (n < 10) return `${n}`;
   if (n >= 1000) {
@@ -254,7 +256,7 @@ function DynamicTrustCounters({
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/8 border border-primary/15 shadow-[var(--shadow-card)] mb-5">
             <BarChart3 className="w-3.5 h-3.5 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-wider">Platform Scale</span>
+            <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("components.homeConversionSections.platformScale")}</span>
           </div>
           <h2
             className="font-bold text-gray-900 mb-3"
@@ -324,7 +326,7 @@ function ConversionProofBlock({
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50/80 border border-violet-200/40 shadow-[var(--shadow-card)] mb-5">
             <Sparkles className="w-3.5 h-3.5 text-violet-600" />
-            <span className="text-xs font-bold text-violet-700 uppercase tracking-wider">Everything You Need</span>
+            <span className="text-xs font-bold text-violet-700 uppercase tracking-wider">{t("components.homeConversionSections.everythingYouNeed")}</span>
           </div>
           <h2
             className="font-bold text-gray-900 mb-3"
@@ -403,7 +405,7 @@ function ConversionProofBlock({
             Start Free — Explore the Full Library
             <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
-          <p className="text-xs text-gray-400 mt-4">No credit card required. Free tier available.</p>
+          <p className="text-xs text-gray-400 mt-4">{t("components.homeConversionSections.noCreditCardRequiredFree")}</p>
         </div>
       </div>
     </section>
@@ -468,7 +470,7 @@ function CompetitivePositioningSection({
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50/80 border border-emerald-200/40 shadow-[var(--shadow-card)] mb-5">
             <Shield className="w-3.5 h-3.5 text-emerald-600" />
-            <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Why NurseNest</span>
+            <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">{t("components.homeConversionSections.whyNursenest")}</span>
           </div>
           <h2
             className="font-bold text-gray-900 mb-3"
@@ -557,12 +559,12 @@ function HowItWorksSection() {
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/8 border border-primary/15 shadow-[var(--shadow-card)] mb-5">
             <Zap className="w-3.5 h-3.5 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-wider">How It Works</span>
+            <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("components.homeConversionSections.howItWorks")}</span>
           </div>
           <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-how-it-works-heading">
             Three Steps to Exam Readiness
           </h2>
-          <p className="text-base lg:text-lg text-gray-500">A proven system to prepare you for nursing, NP, and allied health certification exams.</p>
+          <p className="text-base lg:text-lg text-gray-500">{t("components.homeConversionSections.aProvenSystemToPrepare")}</p>
         </div>
         <div className="grid md:grid-cols-3 gap-10">
           {steps.map((item, i) => (
@@ -761,7 +763,7 @@ function ScreenshotCarouselSection() {
               <button
                 onClick={goPrev}
                 className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 backdrop-blur-sm shadow-[var(--shadow-card)] border border-gray-100 flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
-                aria-label="Previous screenshot"
+                aria-label={t("components.homeConversionSections.previousScreenshot")}
                 data-testid="button-carousel-prev"
               >
                 <ChevronLeft className="w-5 h-5 text-gray-600" />
@@ -769,7 +771,7 @@ function ScreenshotCarouselSection() {
               <button
                 onClick={goNext}
                 className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 backdrop-blur-sm shadow-[var(--shadow-card)] border border-gray-100 flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
-                aria-label="Next screenshot"
+                aria-label={t("components.homeConversionSections.nextScreenshot")}
                 data-testid="button-carousel-next"
               >
                 <ChevronRight className="w-5 h-5 text-gray-600" />
@@ -842,7 +844,7 @@ function ProfessionSelectorSection() {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/8 border border-primary/15 shadow-[var(--shadow-card)] mb-5">
             <Brain className="w-3.5 h-3.5 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-wider">Choose Your Path</span>
+            <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("components.homeConversionSections.chooseYourPath")}</span>
           </div>
           <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-profession-heading">
             Exam Prep for Every Healthcare Career
@@ -874,7 +876,7 @@ function ProfessionSelectorSection() {
               >
                 {isAllied && (
                   <div className="absolute top-3 right-3">
-                    <span className="text-[8px] font-bold uppercase tracking-wider bg-teal-500 text-white px-2 py-0.5 rounded-full">Allied</span>
+                    <span className="text-[8px] font-bold uppercase tracking-wider bg-teal-500 text-white px-2 py-0.5 rounded-full">{t("components.homeConversionSections.allied")}</span>
                   </div>
                 )}
                 <div
@@ -886,7 +888,7 @@ function ProfessionSelectorSection() {
                 <h3 className="font-bold text-gray-900 text-base mb-0.5">{prof.label}</h3>
                 <p className="text-xs text-gray-400">{prof.sublabel}</p>
                 <div className="flex items-center text-xs font-medium mt-3 group-hover:gap-1.5 transition-all" style={{ color: prof.color }}>
-                  <span>Explore</span>
+                  <span>{t("components.homeConversionSections.explore")}</span>
                   <ArrowRight className="w-3.5 h-3.5 ml-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
               </div>
@@ -924,7 +926,7 @@ function SampleQuestionSection() {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50/80 border border-emerald-200/40 shadow-[var(--shadow-card)] mb-5">
             <FileText className="w-3.5 h-3.5 text-emerald-600" />
-            <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Try It Free</span>
+            <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">{t("components.homeConversionSections.tryItFree")}</span>
           </div>
           <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-sample-question-heading">
             Sample Exam Question
@@ -1064,7 +1066,7 @@ function TestimonialsSection() {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50/80 border border-amber-200/40 shadow-[var(--shadow-card)] mb-5">
             <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-            <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">Student Reviews</span>
+            <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">{t("components.homeConversionSections.studentReviews")}</span>
           </div>
           <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-testimonials-heading">
             Trusted by Nursing Students Across North America
@@ -1107,12 +1109,12 @@ function TestimonialsSection() {
                 </div>
               ))}
             </div>
-            <span>Join 5,000+ students</span>
+            <span>{t("components.homeConversionSections.join5000Students")}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
             <span className="font-semibold text-gray-700">4.9/5</span>
-            <span>average rating</span>
+            <span>{t("components.homeConversionSections.averageRating")}</span>
           </div>
         </div>
       </div>
@@ -1154,9 +1156,9 @@ function FinalCTASection() {
         </div>
         <div className="flex items-center justify-center gap-2 mt-8 mb-2">
           <ShieldCheck className="w-5 h-5 text-emerald-600" />
-          <span className="text-sm font-semibold text-emerald-700">7-Day Money-Back Guarantee</span>
+          <span className="text-sm font-semibold text-emerald-700">{t("components.homeConversionSections.7dayMoneybackGuarantee")}</span>
         </div>
-        <p className="text-sm text-gray-400">Free account includes practice questions, lessons, and flashcard access.</p>
+        <p className="text-sm text-gray-400">{t("components.homeConversionSections.freeAccountIncludesPracticeQuestions")}</p>
       </div>
 
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/4 to-accent-foreground/4 rounded-full blur-[100px] -z-10 opacity-40" />

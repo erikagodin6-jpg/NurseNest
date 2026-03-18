@@ -80,8 +80,8 @@ export default function MedicalAbbreviationsHub() {
   return (
     <>
       <SEO
-        title="Medical Abbreviations for Nurses – Complete Clinical Terminology Guide"
-        description="Comprehensive guide to medical abbreviations and clinical terminology for nurses. Learn SBAR, ADPIE, PRN, BID, TID, STAT, and common charting abbreviations with definitions, clinical examples, and NCLEX exam tips."
+        title={t("pages.medicalAbbreviationsHub.medicalAbbreviationsForNursesComplete")}
+        description={t("pages.medicalAbbreviationsHub.comprehensiveGuideToMedicalAbbreviations")}
         keywords="medical abbreviations for nurses, nursing abbreviations, SBAR, ADPIE, PRN, STAT, NPO, clinical terminology, charting abbreviations, NCLEX abbreviations"
         canonicalPath="/medical-abbreviations-for-nurses"
         structuredData={structuredData}

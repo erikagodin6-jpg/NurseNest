@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { mltLabValues } from "@/data/mlt-lab-values";
+import { useI18n } from "@/lib/i18n";
 import {
   Microscope,
   ArrowRight,
@@ -20,6 +21,7 @@ import {
 } from "lucide-react";
 
 function FAQAccordion({ items }: { items: { q: string; a: string }[] }) {
+  const { t } = useI18n();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   return (
     <div className="space-y-3" data-testid="faq-accordion">
@@ -125,8 +127,8 @@ export function MltLabValuesCompleteChart() {
   return (
     <>
       <AlliedSEO
-        title="Complete Lab Values Chart for MLT Exam | SI & Conventional Units"
-        description="Comprehensive lab values chart for MLT exam preparation. 50+ analytes with normal ranges in both SI (CSMLS/Canada) and conventional (ASCP/US) units, specimen requirements, and clinical disciplines."
+        title={t("allied.mltLabValuesViral.completeLabValuesChartFor")}
+        description={t("allied.mltLabValuesViral.comprehensiveLabValuesChartFor")}
         keywords="lab values chart MLT exam, complete lab values reference, MLT normal ranges chart, CSMLS lab values chart, ASCP lab values chart, printable lab values MLT"
         canonicalPath="/allied-health/mlt/lab-values/complete-chart"
         structuredData={articleSchema}
@@ -134,22 +136,22 @@ export function MltLabValuesCompleteChart() {
       />
 
       <div className="max-w-6xl mx-auto px-4 py-8" data-testid="mlt-lab-values-chart">
-        <nav aria-label="Breadcrumb" className="text-sm text-gray-500 mb-6" data-testid="breadcrumbs">
+        <nav aria-label={t("allied.mltLabValuesViral.breadcrumb")} className="text-sm text-gray-500 mb-6" data-testid="breadcrumbs">
           <ol className="flex flex-wrap items-center gap-1">
-            <li><Link href="/allied-health" className="hover:text-purple-600">Allied Health</Link></li>
+            <li><Link href="/allied-health" className="hover:text-purple-600">{t("allied.mltLabValuesViral.alliedHealth")}</Link></li>
             <li><ChevronRight className="w-3 h-3 inline" /></li>
             <li><Link href="/allied-health/mlt" className="hover:text-purple-600">MLT</Link></li>
             <li><ChevronRight className="w-3 h-3 inline" /></li>
-            <li><Link href="/allied-health/mlt/lab-values" className="hover:text-purple-600">Lab Values</Link></li>
+            <li><Link href="/allied-health/mlt/lab-values" className="hover:text-purple-600">{t("allied.mltLabValuesViral.labValues")}</Link></li>
             <li><ChevronRight className="w-3 h-3 inline" /></li>
-            <li className="text-gray-800 font-medium">Complete Chart</li>
+            <li className="text-gray-800 font-medium">{t("allied.mltLabValuesViral.completeChart")}</li>
           </ol>
         </nav>
 
         <section className="text-center py-8" data-testid="chart-hero">
           <div className="flex items-center justify-center gap-2 text-sm text-purple-600 font-medium mb-4">
             <ClipboardList className="w-4 h-4" />
-            <span>MLT Exam Reference</span>
+            <span>{t("allied.mltLabValuesViral.mltExamReference")}</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 leading-tight" data-testid="chart-h1">
             Complete Lab Values Chart for MLT Exam
@@ -182,12 +184,12 @@ export function MltLabValuesCompleteChart() {
             <table className="w-full text-sm border-collapse" data-testid="chart-table">
               <thead>
                 <tr className="bg-purple-50">
-                  <th className="text-left px-4 py-3 font-semibold text-purple-900 border-b border-purple-100">Analyte</th>
+                  <th className="text-left px-4 py-3 font-semibold text-purple-900 border-b border-purple-100">{t("allied.mltLabValuesViral.analyte")}</th>
                   <th className="text-left px-4 py-3 font-semibold text-purple-900 border-b border-purple-100">
                     {unit === "si" ? "Normal Range (SI)" : "Normal Range (US)"}
                   </th>
-                  <th className="text-left px-4 py-3 font-semibold text-purple-900 border-b border-purple-100">Specimen</th>
-                  <th className="text-left px-4 py-3 font-semibold text-purple-900 border-b border-purple-100">Discipline</th>
+                  <th className="text-left px-4 py-3 font-semibold text-purple-900 border-b border-purple-100">{t("allied.mltLabValuesViral.specimen")}</th>
+                  <th className="text-left px-4 py-3 font-semibold text-purple-900 border-b border-purple-100">{t("allied.mltLabValuesViral.discipline")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -214,7 +216,7 @@ export function MltLabValuesCompleteChart() {
 
         <section className="mb-8 bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200 rounded-xl p-6 text-center" data-testid="chart-cta">
           <Lock className="w-10 h-10 text-purple-500 mx-auto mb-3" />
-          <h2 className="text-lg font-bold text-gray-900 mb-2">Test Your Lab Values Knowledge</h2>
+          <h2 className="text-lg font-bold text-gray-900 mb-2">{t("allied.mltLabValuesViral.testYourLabValuesKnowledge")}</h2>
           <p className="text-sm text-gray-600 mb-4 max-w-md mx-auto">
             Knowing reference ranges is just the beginning. Practice applying lab values in clinical scenarios with our MLT question bank.
           </p>
@@ -361,8 +363,8 @@ export function MltLabValuesTop50() {
   return (
     <>
       <AlliedSEO
-        title="Top 50 Lab Values You Must Know for the MLT Exam | Study Guide"
-        description="The 50 most important lab values for MLT exam success. Normal ranges in SI and conventional units, clinical significance, exam tips, and high-yield pearls for CSMLS and ASCP certification."
+        title={t("allied.mltLabValuesViral.top50LabValuesYou")}
+        description={t("allied.mltLabValuesViral.the50MostImportantLab")}
         keywords="top lab values MLT exam, must know lab values MLT, high yield lab values MLT certification, CSMLS lab values study, ASCP lab values review"
         canonicalPath="/allied-health/mlt/lab-values/top-50"
         structuredData={articleSchema}
@@ -370,22 +372,22 @@ export function MltLabValuesTop50() {
       />
 
       <div className="max-w-5xl mx-auto px-4 py-8" data-testid="mlt-lab-values-top50">
-        <nav aria-label="Breadcrumb" className="text-sm text-gray-500 mb-6" data-testid="breadcrumbs">
+        <nav aria-label={t("allied.mltLabValuesViral.breadcrumb2")} className="text-sm text-gray-500 mb-6" data-testid="breadcrumbs">
           <ol className="flex flex-wrap items-center gap-1">
-            <li><Link href="/allied-health" className="hover:text-purple-600">Allied Health</Link></li>
+            <li><Link href="/allied-health" className="hover:text-purple-600">{t("allied.mltLabValuesViral.alliedHealth2")}</Link></li>
             <li><ChevronRight className="w-3 h-3 inline" /></li>
             <li><Link href="/allied-health/mlt" className="hover:text-purple-600">MLT</Link></li>
             <li><ChevronRight className="w-3 h-3 inline" /></li>
-            <li><Link href="/allied-health/mlt/lab-values" className="hover:text-purple-600">Lab Values</Link></li>
+            <li><Link href="/allied-health/mlt/lab-values" className="hover:text-purple-600">{t("allied.mltLabValuesViral.labValues2")}</Link></li>
             <li><ChevronRight className="w-3 h-3 inline" /></li>
-            <li className="text-gray-800 font-medium">Top 50</li>
+            <li className="text-gray-800 font-medium">{t("allied.mltLabValuesViral.top50")}</li>
           </ol>
         </nav>
 
         <section className="text-center py-8" data-testid="top50-hero">
           <div className="flex items-center justify-center gap-2 text-sm text-purple-600 font-medium mb-4">
             <Star className="w-4 h-4" />
-            <span>High-Yield MLT Study Guide</span>
+            <span>{t("allied.mltLabValuesViral.highyieldMltStudyGuide")}</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 leading-tight" data-testid="top50-h1">
             Top 50 Lab Values You Must Know for the MLT Exam
@@ -430,7 +432,7 @@ export function MltLabValuesTop50() {
 
         <section className="mb-8 bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200 rounded-xl p-6 text-center" data-testid="top50-cta">
           <Lock className="w-10 h-10 text-purple-500 mx-auto mb-3" />
-          <h2 className="text-lg font-bold text-gray-900 mb-2">Ready to Test Your Knowledge?</h2>
+          <h2 className="text-lg font-bold text-gray-900 mb-2">{t("allied.mltLabValuesViral.readyToTestYourKnowledge")}</h2>
           <p className="text-sm text-gray-600 mb-4 max-w-md mx-auto">
             Practice applying these lab values in exam-authentic clinical scenarios with our MLT question bank.
           </p>
@@ -445,27 +447,27 @@ export function MltLabValuesTop50() {
         </section>
 
         <section className="py-8" data-testid="top50-links">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Continue Studying</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">{t("allied.mltLabValuesViral.continueStudying")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             <Link href="/allied-health/mlt/lab-values" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:border-purple-200 hover:shadow-md transition-all" data-testid="link-hub">
               <FlaskConical className="w-5 h-5 text-purple-500 flex-shrink-0" />
               <div>
-                <div className="font-medium text-gray-900 text-sm">All Lab Values</div>
-                <div className="text-xs text-gray-500">Detailed pages for each analyte</div>
+                <div className="font-medium text-gray-900 text-sm">{t("allied.mltLabValuesViral.allLabValues")}</div>
+                <div className="text-xs text-gray-500">{t("allied.mltLabValuesViral.detailedPagesForEachAnalyte")}</div>
               </div>
             </Link>
             <Link href="/allied-health/mlt/questions" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:border-purple-200 hover:shadow-md transition-all" data-testid="link-questions">
               <Brain className="w-5 h-5 text-purple-500 flex-shrink-0" />
               <div>
-                <div className="font-medium text-gray-900 text-sm">MLT Question Bank</div>
-                <div className="text-xs text-gray-500">1,000+ practice questions</div>
+                <div className="font-medium text-gray-900 text-sm">{t("allied.mltLabValuesViral.mltQuestionBank")}</div>
+                <div className="text-xs text-gray-500">{t("allied.mltLabValuesViral.1000PracticeQuestions")}</div>
               </div>
             </Link>
             <Link href="/allied-health/mlt/exams" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:border-purple-200 hover:shadow-md transition-all" data-testid="link-exams">
               <FileText className="w-5 h-5 text-purple-500 flex-shrink-0" />
               <div>
-                <div className="font-medium text-gray-900 text-sm">Practice Exams</div>
-                <div className="text-xs text-gray-500">CSMLS & ASCP mock exams</div>
+                <div className="font-medium text-gray-900 text-sm">{t("allied.mltLabValuesViral.practiceExams")}</div>
+                <div className="text-xs text-gray-500">{t("allied.mltLabValuesViral.csmlsAscpMockExams")}</div>
               </div>
             </Link>
           </div>

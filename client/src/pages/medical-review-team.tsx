@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { LocaleLink } from "@/lib/LocaleLink";
 
+import { useI18n } from "@/lib/i18n";
 const reviewProcessSteps = [
   {
     title: "Clinical Authorship",
@@ -44,6 +45,7 @@ const reviewProcessSteps = [
 ];
 
 export default function MedicalReviewTeamPage() {
+  const { t } = useI18n();
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "MedicalWebPage",
@@ -70,8 +72,8 @@ export default function MedicalReviewTeamPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900" data-testid="medical-review-team-page">
       <SEO
-        title="Medical Review Team — NurseNest Clinical Standards & Editorial Process"
-        description="Meet the clinical review team behind NurseNest. All content is authored and reviewed by Registered Nurses following evidence-based nursing practice standards."
+        title={t("pages.medicalReviewTeam.medicalReviewTeamNursenestClinical")}
+        description={t("pages.medicalReviewTeam.meetTheClinicalReviewTeam")}
         keywords="medical review team, nursing content review, evidence-based nursing, clinical accuracy, NurseNest editorial standards, Erika Godin RN"
         canonicalPath="/medical-review-team"
         structuredData={structuredData}

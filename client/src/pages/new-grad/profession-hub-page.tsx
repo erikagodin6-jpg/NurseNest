@@ -9,6 +9,7 @@ import { LeadCaptureInline } from "@/components/new-grad/lead-capture";
 import { InternalLinks } from "@/components/new-grad/internal-links";
 import { SocialShareCards } from "@/components/new-grad/social-share-cards";
 import { NEW_GRAD_PROFESSIONS, UNIT_GUIDES, CLINICAL_SKILLS_CATEGORIES, CAREER_DEVELOPMENT_PATHS, getProfessionBySlug } from "@shared/new-grad-professions";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, BookOpen, ChevronRight, GraduationCap, Target, Shield,
   AlertTriangle, Clock, Heart, Users, Brain, CheckCircle2, Star,
@@ -23,6 +24,7 @@ const ICON_MAP: Record<string, any> = {
 };
 
 export default function NewGradProfessionHub() {
+  const { t } = useI18n();
   const params = useParams<{ profession: string }>();
   const profession = getProfessionBySlug(params.profession || "");
 
@@ -41,9 +43,9 @@ export default function NewGradProfessionHub() {
         <Navigation />
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-profession-not-found">Profession Not Found</h1>
-            <p className="text-gray-600 mb-6">This profession hub isn't available yet.</p>
-            <Link href="/new-grad" className="text-blue-600 hover:underline" data-testid="link-back-new-grad">Back to New Grad Hub</Link>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-profession-not-found">{t("pages.newGrad.professionHubPage.professionNotFound")}</h1>
+            <p className="text-gray-600 mb-6">{t("pages.newGrad.professionHubPage.thisProfessionHubIsntAvailable")}</p>
+            <Link href="/new-grad" className="text-blue-600 hover:underline" data-testid="link-back-new-grad">{t("pages.newGrad.professionHubPage.backToNewGradHub")}</Link>
           </div>
         </div>
         <Footer />
@@ -97,9 +99,9 @@ export default function NewGradProfessionHub() {
         <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${profession.colorAccent} 0%, white 100%)` }} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.newGrad.professionHubPage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/new-grad" className="hover:text-blue-600">New Grad Hub</Link>
+            <Link href="/new-grad" className="hover:text-blue-600">{t("pages.newGrad.professionHubPage.newGradHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span style={{ color: profession.color }} className="font-medium">{profession.name}</span>
           </div>
@@ -129,17 +131,17 @@ export default function NewGradProfessionHub() {
       <section className="py-12 bg-white border-y border-gray-100" data-testid="section-profession-stats">
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div><div className="text-2xl font-bold" style={{ color: profession.color }}>{profession.examNames.length}</div><div className="text-sm text-gray-500">Certification Exams</div></div>
-            <div><div className="text-2xl font-bold" style={{ color: profession.color }}>{profession.clinicalTips.length}</div><div className="text-sm text-gray-500">Clinical Tips</div></div>
-            <div><div className="text-2xl font-bold" style={{ color: profession.color }}>{careerPaths.length}</div><div className="text-sm text-gray-500">Career Paths</div></div>
-            <div><div className="text-2xl font-bold" style={{ color: profession.color }}>{guides.length || "5+"}</div><div className="text-sm text-gray-500">Resources</div></div>
+            <div><div className="text-2xl font-bold" style={{ color: profession.color }}>{profession.examNames.length}</div><div className="text-sm text-gray-500">{t("pages.newGrad.professionHubPage.certificationExams")}</div></div>
+            <div><div className="text-2xl font-bold" style={{ color: profession.color }}>{profession.clinicalTips.length}</div><div className="text-sm text-gray-500">{t("pages.newGrad.professionHubPage.clinicalTips")}</div></div>
+            <div><div className="text-2xl font-bold" style={{ color: profession.color }}>{careerPaths.length}</div><div className="text-sm text-gray-500">{t("pages.newGrad.professionHubPage.careerPaths")}</div></div>
+            <div><div className="text-2xl font-bold" style={{ color: profession.color }}>{guides.length || "5+"}</div><div className="text-sm text-gray-500">{t("pages.newGrad.professionHubPage.resources")}</div></div>
           </div>
         </div>
       </section>
 
       <section className="py-16" data-testid="section-career-overview">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Career Overview</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">{t("pages.newGrad.professionHubPage.careerOverview")}</h2>
           <p className="text-gray-600 text-lg leading-relaxed mb-8">{profession.careerOverview}</p>
           <div className="flex flex-wrap gap-2">
             {profession.examNames.map((exam) => (
@@ -153,7 +155,7 @@ export default function NewGradProfessionHub() {
 
       <section className="py-16 bg-gray-50" data-testid="section-first-year-expectations">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">First Year Expectations</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">{t("pages.newGrad.professionHubPage.firstYearExpectations")}</h2>
           <div className="space-y-3">
             {profession.firstYearExpectations.map((item, i) => (
               <div key={i} className="flex items-start gap-3 bg-white rounded-xl p-4 border border-gray-100" data-testid={`expectation-${i}`}>
@@ -167,8 +169,8 @@ export default function NewGradProfessionHub() {
 
       <section className="py-16" data-testid="section-common-challenges">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Common Challenges</h2>
-          <p className="text-gray-600 mb-6">Every new grad faces these hurdles. Knowing what's coming helps you prepare.</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">{t("pages.newGrad.professionHubPage.commonChallenges")}</h2>
+          <p className="text-gray-600 mb-6">{t("pages.newGrad.professionHubPage.everyNewGradFacesThese")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {profession.commonChallenges.map((challenge, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md transition-all" data-testid={`challenge-${i}`}>
@@ -184,7 +186,7 @@ export default function NewGradProfessionHub() {
 
       <section className="py-16 bg-gray-50" data-testid="section-clinical-tips">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Clinical Tips for New Grads</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">{t("pages.newGrad.professionHubPage.clinicalTipsForNewGrads")}</h2>
           <div className="space-y-3">
             {profession.clinicalTips.map((tip, i) => (
               <div key={i} className="flex items-start gap-3 bg-white rounded-xl p-4 border border-gray-100" data-testid={`tip-${i}`}>
@@ -199,7 +201,7 @@ export default function NewGradProfessionHub() {
       {skillCategories.length > 0 && (
         <section className="py-16" data-testid="section-clinical-skills">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Clinical Skills Guides</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">{t("pages.newGrad.professionHubPage.clinicalSkillsGuides")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {skillCategories.map(([key, skill]) => {
                 const SkillIcon = ICON_MAP[skill.icon] || BookOpen;
@@ -221,7 +223,7 @@ export default function NewGradProfessionHub() {
       {unitGuides.length > 0 && (
         <section className="py-16 bg-gray-50" data-testid="section-unit-guides">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Unit-Specific Guides</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">{t("pages.newGrad.professionHubPage.unitspecificGuides")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {unitGuides.map(([key, unit]) => {
                 const UnitIcon = ICON_MAP[unit.icon] || BookOpen;
@@ -243,7 +245,7 @@ export default function NewGradProfessionHub() {
       {careerPaths.length > 0 && (
         <section className="py-16" data-testid="section-career-paths">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Career Development</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">{t("pages.newGrad.professionHubPage.careerDevelopment")}</h2>
             <div className="space-y-4">
               {careerPaths.map(([key, path]) => {
                 const PathIcon = ICON_MAP[path.icon] || TrendingUp;
@@ -283,7 +285,7 @@ export default function NewGradProfessionHub() {
       {relatedProfessions.length > 0 && (
         <section className="py-16" data-testid="section-related-professions">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Explore Related Professions</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.newGrad.professionHubPage.exploreRelatedProfessions")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {relatedProfessions.map((rp) => {
                 const RPIcon = ICON_MAP[rp.icon] || GraduationCap;
@@ -304,7 +306,7 @@ export default function NewGradProfessionHub() {
 
       <section className="py-16 bg-white" data-testid="section-profession-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 text-center">{t("pages.newGrad.professionHubPage.frequentlyAskedQuestions")}</h2>
           <div className="space-y-4">
             {faqData.map((faq, i) => (
               <details key={i} className="bg-gray-50 rounded-xl p-4 group" data-testid={`faq-${i}`}>

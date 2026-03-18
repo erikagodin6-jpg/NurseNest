@@ -8,6 +8,7 @@ import { getQuizEmbedForLesson } from "@/data/lesson-quiz-embeds";
 import type { EmbedQuestion } from "@/data/lesson-quiz-embeds";
 import { CheckCircle2, XCircle, Lock, ArrowRight, Sparkles } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface LessonQuizEmbedProps {
   lessonSlug: string;
 }
@@ -48,7 +49,7 @@ function QuestionCard({
         <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-sm rounded-xl">
           <div className="text-center p-4">
             <Lock className="w-6 h-6 text-gray-400 mx-auto mb-2" />
-            <p className="text-sm text-gray-500 font-medium">Sign in to unlock</p>
+            <p className="text-sm text-gray-500 font-medium">{t("components.lessonQuizEmbed.signInToUnlock")}</p>
           </div>
         </div>
       </div>
@@ -100,7 +101,7 @@ function QuestionCard({
             <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-sm rounded-lg">
               <div className="text-center px-4">
                 <Lock className="w-5 h-5 text-gray-400 mx-auto mb-1.5" />
-                <p className="text-sm text-gray-600 font-medium mb-2" data-testid={`text-rationale-gate-${index}`}>Create a free account to see all rationales</p>
+                <p className="text-sm text-gray-600 font-medium mb-2" data-testid={`text-rationale-gate-${index}`}>{t("components.lessonQuizEmbed.createAFreeAccountTo")}</p>
                 <LocaleLink href="/start-free">
                   <Button size="sm" variant="outline" className="gap-1.5 text-xs" data-testid={`btn-rationale-signup-${index}`}>
                     Start Free <ArrowRight className="w-3 h-3" />
@@ -121,6 +122,7 @@ function QuestionCard({
 }
 
 export function LessonQuizEmbed({ lessonSlug }: LessonQuizEmbedProps) {
+  const { t } = useI18n();
   const questions = getQuizEmbedForLesson(lessonSlug);
   const { user } = useAuth();
   const isLoggedIn = !!user;
@@ -151,8 +153,8 @@ export function LessonQuizEmbed({ lessonSlug }: LessonQuizEmbedProps) {
               <Sparkles className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <h3 className="font-bold text-gray-900" data-testid="quiz-embed-title">Test Yourself — 5 NCLEX-Level Questions</h3>
-              <p className="text-xs text-gray-500 mt-0.5">Apply what you just learned with exam-style practice</p>
+              <h3 className="font-bold text-gray-900" data-testid="quiz-embed-title">{t("components.lessonQuizEmbed.testYourself5NclexlevelQuestions")}</h3>
+              <p className="text-xs text-gray-500 mt-0.5">{t("components.lessonQuizEmbed.applyWhatYouJustLearned")}</p>
             </div>
             {answeredCount > 0 && (
               <Badge variant="secondary" className="ml-auto" data-testid="quiz-embed-score">

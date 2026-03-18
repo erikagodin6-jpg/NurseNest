@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { X, TrendingUp, BookOpen, Brain, Target } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
+import { useI18n } from "@/lib/i18n";
 interface FreePassUpgradePromptProps {
   questionsCompleted?: number;
   flashcardsStudied?: number;
@@ -20,6 +21,7 @@ export function FreePassUpgradePrompt({
   variant = "inline",
   onDismiss,
 }: FreePassUpgradePromptProps) {
+  const { t } = useI18n();
   const [, navigate] = useLocation();
   const { user } = useAuth();
   const [dismissed, setDismissed] = useState(false);
@@ -46,7 +48,7 @@ export function FreePassUpgradePrompt({
           <button
             onClick={handleDismiss}
             className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
-            aria-label="Dismiss"
+            aria-label={t("components.freePassUpgradePrompt.dismiss")}
             data-testid="button-dismiss-upgrade"
           >
             <X className="w-4 h-4" />
@@ -72,21 +74,21 @@ export function FreePassUpgradePrompt({
               <div className="text-center p-3 bg-white rounded-lg border border-gray-100">
                 <Target className="w-4 h-4 text-primary mx-auto mb-1" />
                 <div className="text-lg font-bold text-gray-900" data-testid="text-questions-completed">{questionsCompleted}</div>
-                <div className="text-xs text-gray-500">Questions</div>
+                <div className="text-xs text-gray-500">{t("components.freePassUpgradePrompt.questions")}</div>
               </div>
             )}
             {flashcardsStudied > 0 && (
               <div className="text-center p-3 bg-white rounded-lg border border-gray-100">
                 <Brain className="w-4 h-4 text-primary mx-auto mb-1" />
                 <div className="text-lg font-bold text-gray-900" data-testid="text-flashcards-studied">{flashcardsStudied}</div>
-                <div className="text-xs text-gray-500">Flashcards</div>
+                <div className="text-xs text-gray-500">{t("components.freePassUpgradePrompt.flashcards")}</div>
               </div>
             )}
             {lessonsViewed > 0 && (
               <div className="text-center p-3 bg-white rounded-lg border border-gray-100">
                 <BookOpen className="w-4 h-4 text-primary mx-auto mb-1" />
                 <div className="text-lg font-bold text-gray-900" data-testid="text-lessons-viewed">{lessonsViewed}</div>
-                <div className="text-xs text-gray-500">Lessons</div>
+                <div className="text-xs text-gray-500">{t("components.freePassUpgradePrompt.lessons")}</div>
               </div>
             )}
           </div>

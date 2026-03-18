@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 
+import { useI18n } from "@/lib/i18n";
 const SAMPLE_QUESTIONS = [
   {
     id: 1,
@@ -126,6 +127,7 @@ const FAQ_DATA = [
 ];
 
 function QuestionPreview({ question, index }: { question: typeof SAMPLE_QUESTIONS[0]; index: number }) {
+  const { t } = useI18n();
   const [showAnswer, setShowAnswer] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
 
@@ -209,8 +211,8 @@ export default function PharmtechPracticeExamSeo() {
   return (
     <>
       <AlliedSEO
-        title="Pharmacy Technician Practice Exam Questions | Free PTCB & ExCPT Sample Questions"
-        description="Practice pharmacy technician certification exam questions with detailed answer explanations. Free sample PTCB and ExCPT questions covering pharmacology, dosage calculations, pharmacy law, and patient safety."
+        title={t("allied.pharmtechPracticeExamSeo.pharmacyTechnicianPracticeExamQuestions")}
+        description={t("allied.pharmtechPracticeExamSeo.practicePharmacyTechnicianCertificationExam")}
         keywords="pharmacy technician practice questions, pharmacy tech exam questions, pharmacy technician certification practice exam, PTCB practice test, ExCPT practice questions, pharmacy tech sample questions, pharmacy technician exam prep"
         canonicalPath="/allied-health/pharmacy-technician/practice-exam-questions"
         structuredData={{
@@ -250,12 +252,12 @@ export default function PharmtechPracticeExamSeo() {
         <section className="relative overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 py-16 sm:py-24">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMwNTk2NjkiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItSDJ2LTJoMzR6bTAtMzBWMkgyVjRoMzR6TTIgMzBoMzR2Mkgydi0yeiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label="Breadcrumb" data-testid="breadcrumb-nav">
-              <Link href="/" className="hover:text-teal-600">Allied</Link>
+            <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label={t("allied.pharmtechPracticeExamSeo.breadcrumb")} data-testid="breadcrumb-nav">
+              <Link href="/" className="hover:text-teal-600">{t("allied.pharmtechPracticeExamSeo.allied")}</Link>
               <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
-              <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
+              <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">{t("allied.pharmtechPracticeExamSeo.pharmacyTechnician")}</Link>
               <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
-              <span className="text-green-700 font-medium">Practice Exam Questions</span>
+              <span className="text-green-700 font-medium">{t("allied.pharmtechPracticeExamSeo.practiceExamQuestions")}</span>
             </nav>
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-100 text-green-800 rounded-full text-sm font-medium mb-4">
@@ -264,7 +266,7 @@ export default function PharmtechPracticeExamSeo() {
               </div>
               <h1 className="text-3xl sm:text-5xl font-bold text-gray-900 leading-tight mb-4" data-testid="text-hero-title">
                 Pharmacy Technician<br />
-                <span className="text-green-600">Practice Exam Questions</span>
+                <span className="text-green-600">{t("allied.pharmtechPracticeExamSeo.practiceExamQuestions2")}</span>
               </h1>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed" data-testid="text-hero-subtitle">
                 Sharpen your PTCB and ExCPT exam readiness with free sample questions covering pharmacology, dosage calculations, pharmacy law, compounding, and patient safety — each with detailed answer explanations so you learn the reasoning behind every correct answer.
@@ -286,20 +288,20 @@ export default function PharmtechPracticeExamSeo() {
 
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16" data-testid="section-intro">
           <div className="max-w-3xl">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Why Practice Exam Questions Matter</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">{t("allied.pharmtechPracticeExamSeo.whyPracticeExamQuestionsMatter")}</h2>
             <p className="text-gray-600 leading-relaxed mb-4">
               Passing the PTCB or ExCPT certification exam opens the door to a rewarding career as a pharmacy technician. But memorizing drug names and pharmacy law alone isn't enough — you need to practice applying your knowledge under exam conditions. Research consistently shows that active recall through practice questions is one of the most effective study strategies for long-term retention and exam success.
             </p>
             <p className="text-gray-600 leading-relaxed">
-              Our practice exam questions are mapped to the official PTCB and ExCPT exam blueprints, covering every tested domain at the appropriate difficulty level. Each question includes a detailed explanation that teaches you the clinical reasoning and exam-taking logic — not just which answer is correct, but <em>why</em> it's correct and why the other options are wrong.
+              Our practice exam questions are mapped to the official PTCB and ExCPT exam blueprints, covering every tested domain at the appropriate difficulty level. Each question includes a detailed explanation that teaches you the clinical reasoning and exam-taking logic — not just which answer is correct, but <em>{t("allied.pharmtechPracticeExamSeo.why")}</em> it's correct and why the other options are wrong.
             </p>
           </div>
         </section>
 
         <section className="bg-gray-50 py-16" data-testid="section-exam-topics">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">What Pharmacy Technician Exams Test</h2>
-            <p className="text-gray-500 mb-8">The PTCB exam covers four knowledge areas, each weighted differently. Focus your study time accordingly.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{t("allied.pharmtechPracticeExamSeo.whatPharmacyTechnicianExamsTest")}</h2>
+            <p className="text-gray-500 mb-8">{t("allied.pharmtechPracticeExamSeo.thePtcbExamCoversFour")}</p>
             <div className="grid sm:grid-cols-2 gap-6">
               {EXAM_TOPICS.map((topic, i) => (
                 <div key={i} className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-md transition-shadow" data-testid={`exam-topic-${i}`}>
@@ -320,15 +322,15 @@ export default function PharmtechPracticeExamSeo() {
 
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16" data-testid="section-study-strategy">
           <div className="max-w-3xl">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Study Strategy: How to Use Practice Questions Effectively</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">{t("allied.pharmtechPracticeExamSeo.studyStrategyHowToUse")}</h2>
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <div className="w-7 h-7 rounded-full bg-green-100 flex items-center justify-center shrink-0 mt-0.5">
                   <span className="text-green-700 text-sm font-bold">1</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Start with a diagnostic assessment</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">Take a baseline quiz across all domains to identify your strengths and weaknesses before diving into focused study.</p>
+                  <h3 className="font-semibold text-gray-900 mb-1">{t("allied.pharmtechPracticeExamSeo.startWithADiagnosticAssessment")}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">{t("allied.pharmtechPracticeExamSeo.takeABaselineQuizAcross")}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -336,8 +338,8 @@ export default function PharmtechPracticeExamSeo() {
                   <span className="text-green-700 text-sm font-bold">2</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Focus on weak areas first</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">Spend more time on domains where you score lowest. If pharmacology is weak, drill drug names and classifications before moving to law or calculations.</p>
+                  <h3 className="font-semibold text-gray-900 mb-1">{t("allied.pharmtechPracticeExamSeo.focusOnWeakAreasFirst")}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">{t("allied.pharmtechPracticeExamSeo.spendMoreTimeOnDomains")}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -345,8 +347,8 @@ export default function PharmtechPracticeExamSeo() {
                   <span className="text-green-700 text-sm font-bold">3</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Read every rationale — even correct answers</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">Understanding why the wrong answers are wrong is just as valuable as knowing the correct answer. Detailed rationales reinforce concepts and prevent similar mistakes.</p>
+                  <h3 className="font-semibold text-gray-900 mb-1">{t("allied.pharmtechPracticeExamSeo.readEveryRationaleEvenCorrect")}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">{t("allied.pharmtechPracticeExamSeo.understandingWhyTheWrongAnswers")}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -354,8 +356,8 @@ export default function PharmtechPracticeExamSeo() {
                   <span className="text-green-700 text-sm font-bold">4</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Simulate exam conditions</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">Take timed practice exams to build speed and comfort with the 2-hour time limit. Practice managing time across 90 questions so you don't rush at the end.</p>
+                  <h3 className="font-semibold text-gray-900 mb-1">{t("allied.pharmtechPracticeExamSeo.simulateExamConditions")}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">{t("allied.pharmtechPracticeExamSeo.takeTimedPracticeExamsTo")}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -363,8 +365,8 @@ export default function PharmtechPracticeExamSeo() {
                   <span className="text-green-700 text-sm font-bold">5</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Reinforce with flashcards and spaced repetition</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">Combine practice questions with flashcard review. Spaced repetition ensures you retain drug names, dosing formulas, and key regulations over the long term.</p>
+                  <h3 className="font-semibold text-gray-900 mb-1">{t("allied.pharmtechPracticeExamSeo.reinforceWithFlashcardsAndSpaced")}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">{t("allied.pharmtechPracticeExamSeo.combinePracticeQuestionsWithFlashcard")}</p>
                 </div>
               </div>
             </div>
@@ -374,8 +376,8 @@ export default function PharmtechPracticeExamSeo() {
         <section className="bg-gradient-to-br from-gray-50 to-green-50/30 py-16" data-testid="section-sample-questions">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Sample Practice Questions</h2>
-              <p className="text-gray-500">Try these real exam-style questions. Select an answer, then reveal the explanation.</p>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{t("allied.pharmtechPracticeExamSeo.samplePracticeQuestions")}</h2>
+              <p className="text-gray-500">{t("allied.pharmtechPracticeExamSeo.tryTheseRealExamstyleQuestions")}</p>
             </div>
             <div className="space-y-6">
               {SAMPLE_QUESTIONS.map((q, i) => (
@@ -383,7 +385,7 @@ export default function PharmtechPracticeExamSeo() {
               ))}
             </div>
             <div className="text-center mt-10">
-              <p className="text-gray-600 mb-4">Ready for more? Access our full question bank with 1,500+ exam-authentic questions.</p>
+              <p className="text-gray-600 mb-4">{t("allied.pharmtechPracticeExamSeo.readyForMoreAccessOur")}</p>
               <div className="flex flex-wrap gap-3 justify-center">
                 <Link href="/allied-health/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 shadow-lg shadow-green-200 transition-all" data-testid="button-more-questions">
                   <BookOpen className="w-4 h-4" /> Start 10-Question Quiz
@@ -397,7 +399,7 @@ export default function PharmtechPracticeExamSeo() {
         </section>
 
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16" data-testid="section-features">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8 text-center">Why Students Choose NurseNest Allied</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8 text-center">{t("allied.pharmtechPracticeExamSeo.whyStudentsChooseNursenestAllied")}</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { icon: BookOpen, title: "1,500+ Questions", desc: "Exam-authentic questions mapped to the PTCB and ExCPT blueprints" },
@@ -420,7 +422,7 @@ export default function PharmtechPracticeExamSeo() {
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-3 mb-8 justify-center">
               <HelpCircle className="w-6 h-6 text-green-600" />
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Frequently Asked Questions</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">{t("allied.pharmtechPracticeExamSeo.frequentlyAskedQuestions")}</h2>
             </div>
             <div className="space-y-3" data-testid="faq-section">
               {FAQ_DATA.map((faq, i) => (
@@ -448,48 +450,48 @@ export default function PharmtechPracticeExamSeo() {
 
         <section className="py-16" data-testid="section-internal-links">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Explore More Pharmacy Tech Resources</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">{t("allied.pharmtechPracticeExamSeo.exploreMorePharmacyTechResources")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               <Link href="/allied-health/pharmacy-technician/exams" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-exams">
                 <FileText className="w-5 h-5 text-green-600 shrink-0" />
                 <div>
-                  <p className="font-medium text-gray-900 text-sm">Practice Exams</p>
-                  <p className="text-xs text-gray-500">Full-length timed PTCB simulations</p>
+                  <p className="font-medium text-gray-900 text-sm">{t("allied.pharmtechPracticeExamSeo.practiceExams")}</p>
+                  <p className="text-xs text-gray-500">{t("allied.pharmtechPracticeExamSeo.fulllengthTimedPtcbSimulations")}</p>
                 </div>
               </Link>
               <Link href="/allied-health/pharmacy-technician/flashcards" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-flashcards">
                 <Brain className="w-5 h-5 text-green-600 shrink-0" />
                 <div>
-                  <p className="font-medium text-gray-900 text-sm">Flashcards</p>
-                  <p className="text-xs text-gray-500">Spaced repetition for drug names & concepts</p>
+                  <p className="font-medium text-gray-900 text-sm">{t("allied.pharmtechPracticeExamSeo.flashcards")}</p>
+                  <p className="text-xs text-gray-500">{t("allied.pharmtechPracticeExamSeo.spacedRepetitionForDrugNames")}</p>
                 </div>
               </Link>
               <Link href="/allied-health/pharmacy-technician/study-guide" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-study-guide">
                 <GraduationCap className="w-5 h-5 text-green-600 shrink-0" />
                 <div>
-                  <p className="font-medium text-gray-900 text-sm">Study Guide</p>
-                  <p className="text-xs text-gray-500">Comprehensive PTCB domain coverage</p>
+                  <p className="font-medium text-gray-900 text-sm">{t("allied.pharmtechPracticeExamSeo.studyGuide")}</p>
+                  <p className="text-xs text-gray-500">{t("allied.pharmtechPracticeExamSeo.comprehensivePtcbDomainCoverage")}</p>
                 </div>
               </Link>
               <Link href="/allied-health/pharmacy-technician/practice-questions" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-practice-questions">
                 <BookOpen className="w-5 h-5 text-green-600 shrink-0" />
                 <div>
-                  <p className="font-medium text-gray-900 text-sm">Test Bank</p>
-                  <p className="text-xs text-gray-500">1,500+ questions with rationales</p>
+                  <p className="font-medium text-gray-900 text-sm">{t("allied.pharmtechPracticeExamSeo.testBank")}</p>
+                  <p className="text-xs text-gray-500">{t("allied.pharmtechPracticeExamSeo.1500QuestionsWithRationales")}</p>
                 </div>
               </Link>
               <Link href="/allied-health/pharmacy-technician/lessons" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-lessons">
                 <Award className="w-5 h-5 text-green-600 shrink-0" />
                 <div>
-                  <p className="font-medium text-gray-900 text-sm">Lessons</p>
-                  <p className="text-xs text-gray-500">Expert-written pharmacy tech content</p>
+                  <p className="font-medium text-gray-900 text-sm">{t("allied.pharmtechPracticeExamSeo.lessons")}</p>
+                  <p className="text-xs text-gray-500">{t("allied.pharmtechPracticeExamSeo.expertwrittenPharmacyTechContent")}</p>
                 </div>
               </Link>
               <Link href="/diagnostic?career=pharmacy-tech" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-sm transition-all" data-testid="link-diagnostic">
                 <Target className="w-5 h-5 text-green-600 shrink-0" />
                 <div>
-                  <p className="font-medium text-gray-900 text-sm">Free Diagnostic</p>
-                  <p className="text-xs text-gray-500">15-question readiness assessment</p>
+                  <p className="font-medium text-gray-900 text-sm">{t("allied.pharmtechPracticeExamSeo.freeDiagnostic")}</p>
+                  <p className="text-xs text-gray-500">{t("allied.pharmtechPracticeExamSeo.15questionReadinessAssessment")}</p>
                 </div>
               </Link>
             </div>
@@ -498,8 +500,8 @@ export default function PharmtechPracticeExamSeo() {
 
         <section className="bg-gradient-to-r from-green-600 to-emerald-600 py-16" data-testid="section-cta-bottom">
           <div className="max-w-3xl mx-auto px-4 text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Pass Your Pharmacy Tech Exam?</h2>
-            <p className="text-green-100 mb-8">Join thousands of pharmacy technician students using NurseNest Allied to achieve their certification goals.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">{t("allied.pharmtechPracticeExamSeo.readyToPassYourPharmacy")}</h2>
+            <p className="text-green-100 mb-8">{t("allied.pharmtechPracticeExamSeo.joinThousandsOfPharmacyTechnician")}</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/allied-health/pharmacy-technician/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold hover:bg-green-50 transition-all" data-testid="button-cta-start">
                 <BookOpen className="w-4 h-4" /> Start Practicing Free

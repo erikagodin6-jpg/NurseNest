@@ -3,6 +3,7 @@ import { SEO } from "@/components/seo";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import {
   Brain, TrendingUp, TrendingDown, AlertTriangle, Target,
   BookOpen, Sparkles, ArrowRight, Shield, BarChart3,
@@ -67,6 +68,7 @@ const AI_RECOMMENDATIONS = [
 ];
 
 function getHeatmapColor(score: number): string {
+
   if (score >= 82) return "bg-emerald-100 text-emerald-700 border-emerald-200";
   if (score >= 70) return "bg-amber-50 text-amber-700 border-amber-200";
   return "bg-rose-50 text-rose-700 border-rose-200";
@@ -102,7 +104,7 @@ export default function DemoWeakAreas() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f5f0ff] via-[#f0fdf4] to-[#fdf2f8]">
       <Navigation />
-      <SEO title="Weak Areas AI Report — Demo" description="AI-powered weak areas analysis demo for NurseNest marketing" />
+      <SEO title={t("pages.demoWeakAreas.weakAreasAiReportDemo")} description={t("pages.demoWeakAreas.aipoweredWeakAreasAnalysisDemo")} />
 
       <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
         <header className="text-center space-y-2">
@@ -129,24 +131,24 @@ export default function DemoWeakAreas() {
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               <div className="text-center p-4 rounded-xl bg-gradient-to-b from-purple-50 to-white border border-purple-100" data-testid="metric-readiness">
                 <div className="text-3xl font-bold text-purple-600">{DEMO_STUDENT.readiness}%</div>
-                <div className="text-xs text-gray-500 mt-1 font-medium">Overall Readiness</div>
+                <div className="text-xs text-gray-500 mt-1 font-medium">{t("pages.demoWeakAreas.overallReadiness")}</div>
               </div>
               <div className="text-center p-4 rounded-xl bg-gradient-to-b from-rose-50 to-white border border-rose-100" data-testid="metric-high-risk">
                 <div className="text-3xl font-bold text-rose-500">{DEMO_STUDENT.highRiskTopics}</div>
-                <div className="text-xs text-gray-500 mt-1 font-medium">High-Risk Topics</div>
+                <div className="text-xs text-gray-500 mt-1 font-medium">{t("pages.demoWeakAreas.highriskTopics")}</div>
               </div>
               <div className="text-center p-4 rounded-xl bg-gradient-to-b from-amber-50 to-white border border-amber-100" data-testid="metric-missed-system">
                 <div className="text-lg font-bold text-amber-600 leading-tight">{DEMO_STUDENT.mostMissedSystem}</div>
-                <div className="text-xs text-gray-500 mt-1 font-medium">Most Missed System</div>
+                <div className="text-xs text-gray-500 mt-1 font-medium">{t("pages.demoWeakAreas.mostMissedSystem")}</div>
               </div>
               <div className="col-span-2 p-4 rounded-xl bg-gradient-to-b from-blue-50 to-white border border-blue-100" data-testid="metric-recommendation">
                 <div className="text-sm text-gray-700 leading-relaxed">{DEMO_STUDENT.priorityRecommendation}</div>
-                <div className="text-xs text-gray-500 mt-2 font-medium">Priority Review Recommendation</div>
+                <div className="text-xs text-gray-500 mt-2 font-medium">{t("pages.demoWeakAreas.priorityReviewRecommendation")}</div>
               </div>
             </div>
             <div className="mt-4 flex items-center gap-2 text-sm text-gray-600 bg-gray-50 rounded-lg px-4 py-2" data-testid="metric-confidence">
               <Activity className="w-4 h-4 text-purple-400" />
-              <span className="font-medium">Confidence Level:</span> {DEMO_STUDENT.confidenceLevel}
+              <span className="font-medium">{t("pages.demoWeakAreas.confidenceLevel")}</span> {DEMO_STUDENT.confidenceLevel}
             </div>
           </CardContent>
         </Card>
@@ -182,7 +184,7 @@ export default function DemoWeakAreas() {
                     <TrendIcon trend={area.trend} />
                     <div className="text-right">
                       <div className="text-lg font-bold text-gray-800">{area.accuracy}%</div>
-                      <div className="text-[10px] text-gray-400 uppercase font-medium">Accuracy</div>
+                      <div className="text-[10px] text-gray-400 uppercase font-medium">{t("pages.demoWeakAreas.accuracy")}</div>
                     </div>
                   </div>
                 </div>

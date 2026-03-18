@@ -5,11 +5,13 @@ import { Badge } from "@/components/ui/badge";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { ArrowRight, Eye, Sparkles } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 type TrustItem =
   | { id: string; type: "image"; title: string; caption?: string; src: string; href?: string; tag?: string; alt: string }
   | { id: string; type: "snippet"; title: string; excerpt: string; href: string; tag?: string };
 
 function SkeletonCard() {
+  const { t } = useI18n();
   return (
     <Card className="rounded-2xl border border-gray-100 bg-white shadow-sm overflow-hidden">
       <CardContent className="p-0">
@@ -116,7 +118,7 @@ export function TrustShowcase() {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
             <Sparkles className="w-3.5 h-3.5 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-wider">Inside NurseNest</span>
+            <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("components.trustShowcase.insideNursenest")}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-trust-heading">
             See What You'll Get

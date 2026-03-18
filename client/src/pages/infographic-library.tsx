@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useI18n } from "@/lib/i18n";
 import {
   Search,
   ArrowLeft,
@@ -18,6 +19,7 @@ import {
 } from "@/lib/infographic-catalog";
 
 function useDocumentMeta(title: string, description: string) {
+  const { t } = useI18n();
   useEffect(() => {
     const prevTitle = document.title;
     document.title = title;
@@ -151,7 +153,7 @@ function InfographicDetail({ info, onBack }: { info: InfographicMeta; onBack: ()
             <p className="text-gray-600 leading-relaxed">{info.blogText}</p>
 
             <div className="border-t pt-4 space-y-3">
-              <h3 className="font-semibold text-sm text-[#2E3A59]">Related Study Resources</h3>
+              <h3 className="font-semibold text-sm text-[#2E3A59]">{t("pages.infographicLibrary.relatedStudyResources")}</h3>
               <div className="flex flex-wrap gap-2">
                 {info.internalLinks.map(link => (
                   <a
@@ -172,23 +174,23 @@ function InfographicDetail({ info, onBack }: { info: InfographicMeta; onBack: ()
         <div className="space-y-4">
           <Card>
             <CardContent className="p-4 space-y-3">
-              <h3 className="font-semibold text-sm text-[#2E3A59]">Infographic Details</h3>
+              <h3 className="font-semibold text-sm text-[#2E3A59]">{t("pages.infographicLibrary.infographicDetails")}</h3>
               <div className="space-y-2 text-xs text-gray-600">
                 <div className="flex justify-between">
-                  <span>Resolution</span>
+                  <span>{t("pages.infographicLibrary.resolution")}</span>
                   <span className="font-medium">{info.width} x {info.height} px</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Format</span>
+                  <span>{t("pages.infographicLibrary.format")}</span>
                   <span className="font-medium">PNG</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Category</span>
+                  <span>{t("pages.infographicLibrary.category")}</span>
                   <span className="font-medium">{INFOGRAPHIC_CATEGORIES.find(c => c.key === info.category)?.label}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>License</span>
-                  <span className="font-medium">Educational Use</span>
+                  <span>{t("pages.infographicLibrary.license")}</span>
+                  <span className="font-medium">{t("pages.infographicLibrary.educationalUse")}</span>
                 </div>
               </div>
               <div className="flex flex-wrap gap-1 pt-2">
@@ -201,12 +203,12 @@ function InfographicDetail({ info, onBack }: { info: InfographicMeta; onBack: ()
 
           <Card>
             <CardContent className="p-4 space-y-3">
-              <h3 className="font-semibold text-sm text-[#2E3A59]">Copyright and Attribution</h3>
+              <h3 className="font-semibold text-sm text-[#2E3A59]">{t("pages.infographicLibrary.copyrightAndAttribution")}</h3>
               <div className="space-y-2 text-xs text-gray-600">
-                <p><strong>Copyright Holder:</strong> NurseNest Education Inc.</p>
-                <p><strong>Year:</strong> {new Date().getFullYear()}</p>
-                <p><strong>Brand:</strong> NurseNest.ca</p>
-                <p><strong>Usage:</strong> Educational purposes. Not for commercial redistribution without written consent.</p>
+                <p><strong>{t("pages.infographicLibrary.copyrightHolder")}</strong> {t("pages.infographicLibrary.nursenestEducationInc")}</p>
+                <p><strong>{t("pages.infographicLibrary.year")}</strong> {new Date().getFullYear()}</p>
+                <p><strong>{t("pages.infographicLibrary.brand")}</strong> NurseNest.ca</p>
+                <p><strong>{t("pages.infographicLibrary.usage")}</strong> {t("pages.infographicLibrary.educationalPurposesNotForCommercial")}</p>
                 <p className="text-[10px] text-gray-400 mt-2">
                   All NurseNest infographics are protected by copyright. Content is provided for personal educational use only.
                   Unauthorized reproduction, distribution, or commercial use is strictly prohibited.
@@ -218,7 +220,7 @@ function InfographicDetail({ info, onBack }: { info: InfographicMeta; onBack: ()
 
           <Card>
             <CardContent className="p-4 space-y-3">
-              <h3 className="font-semibold text-sm text-[#2E3A59]">Keywords</h3>
+              <h3 className="font-semibold text-sm text-[#2E3A59]">{t("pages.infographicLibrary.keywords")}</h3>
               <div className="flex flex-wrap gap-1">
                 {info.keywords.map(kw => (
                   <Badge key={kw} variant="outline" className="text-[10px]">{kw}</Badge>
@@ -229,10 +231,10 @@ function InfographicDetail({ info, onBack }: { info: InfographicMeta; onBack: ()
 
           <Card>
             <CardContent className="p-4 space-y-3">
-              <h3 className="font-semibold text-sm text-[#2E3A59]">Pinterest SEO</h3>
+              <h3 className="font-semibold text-sm text-[#2E3A59]">{t("pages.infographicLibrary.pinterestSeo")}</h3>
               <div className="space-y-2 text-xs text-gray-600">
-                <p><strong>Pin Title:</strong> {info.pinTitle}</p>
-                <p><strong>Description:</strong> {info.pinDescription}</p>
+                <p><strong>{t("pages.infographicLibrary.pinTitle")}</strong> {info.pinTitle}</p>
+                <p><strong>{t("pages.infographicLibrary.description")}</strong> {info.pinDescription}</p>
                 <div className="flex flex-wrap gap-1 mt-2">
                   {info.hashtags.map(tag => (
                     <span key={tag} className="text-[#BFA6F6] text-[10px]">{tag}</span>
@@ -353,7 +355,7 @@ export default function InfographicLibrary() {
             <div className="relative w-full max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <Input
-                placeholder="Search infographics (e.g., ECG, insulin, electrolytes...)"
+                placeholder={t("pages.infographicLibrary.searchInfographicsEgEcgInsulin")}
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 className="pl-10 bg-white"
@@ -392,7 +394,7 @@ export default function InfographicLibrary() {
 
         {filteredInfos.length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-gray-500">No infographics found matching your search.</p>
+            <p className="text-gray-500">{t("pages.infographicLibrary.noInfographicsFoundMatchingYour")}</p>
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -407,7 +409,7 @@ export default function InfographicLibrary() {
         )}
 
         <div className="mt-12 p-6 bg-white rounded-lg border text-center space-y-2">
-          <h2 className="font-semibold text-[#2E3A59]">About NurseNest Infographics</h2>
+          <h2 className="font-semibold text-[#2E3A59]">{t("pages.infographicLibrary.aboutNursenestInfographics")}</h2>
           <p className="text-sm text-gray-600 max-w-2xl mx-auto">
             Every infographic in this library is designed by NurseNest for nursing students preparing for
             REx-PN, NCLEX-PN, and NCLEX-RN licensing exams. Our clinical reference charts follow

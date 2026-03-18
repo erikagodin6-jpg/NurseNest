@@ -1,12 +1,14 @@
 import { SeoHubPage } from "@/components/seo-content-template";
 
+import { useI18n } from "@/lib/i18n";
 const SITE_DOMAIN = "https://www.nursenest.ca";
 
 export default function SeoHubNewGrad() {
+  const { t } = useI18n();
   return (
     <SeoHubPage
-      title="New Graduate Healthcare Career Hub"
-      subtitle="Everything new graduate nurses and healthcare professionals need to launch their careers — from resume building and interview prep to clinical confidence and first-year survival strategies."
+      title={t("pages.seoHubNewGrad.newGraduateHealthcareCareerHub")}
+      subtitle={t("pages.seo_hub_new_grad.everythingNewGraduateNursesAnd")}
       seoTitle="New Grad Career Hub — Resume, Interview & Career Resources | NurseNest"
       seoDescription="Complete career hub for new graduate nurses: resume templates, interview prep with 100+ questions, clinical confidence guides, salary negotiation tools, and first-year survival resources. Start free."
       seoKeywords="new grad nurse career, new graduate nurse resources, new nurse career hub, nursing career development, new grad healthcare career, nursing job preparation"

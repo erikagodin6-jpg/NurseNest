@@ -12,7 +12,9 @@ import { User, BookOpen, FileText, Crown, LogOut, Printer, Trash2, Plus, Pencil,
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useTrialStatus } from "@/hooks/use-trial-status";
 
+import { useI18n } from "@/lib/i18n";
 function formatNoteTitle(lessonId: string): string {
+
   if (lessonId.startsWith("anatomy-")) {
     return "Anatomy: " + lessonId.replace("anatomy-", "").split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
   }
@@ -243,7 +245,7 @@ export default function ProfilePage() {
       <Navigation />
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full space-y-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl sm:text-4xl font-bold">My Profile</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold">{t("pages.profile.myProfile")}</h1>
           <Button variant="outline" onClick={() => { logout(); navigate("/"); }} data-testid="button-logout">
             <LogOut className="w-4 h-4 mr-2" /> Sign Out
           </Button>
@@ -257,8 +259,8 @@ export default function ProfilePage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-              <p><span className="text-gray-500">Username:</span> <strong>{user.username}</strong></p>
-              <p><span className="text-gray-500">Email:</span> <strong>{user.email || "Not set"}</strong></p>
+              <p><span className="text-gray-500">{t("pages.profile.username")}</span> <strong>{user.username}</strong></p>
+              <p><span className="text-gray-500">{t("pages.profile.email")}</span> <strong>{user.email || "Not set"}</strong></p>
             </CardContent>
           </Card>
 
@@ -269,8 +271,8 @@ export default function ProfilePage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <p><span className="text-gray-500">Tier:</span> <strong className="text-primary">{tierLabels[user.tier] || user.tier}</strong></p>
-              <p><span className="text-gray-500">Status:</span>{" "}
+              <p><span className="text-gray-500">{t("pages.profile.tier")}</span> <strong className="text-primary">{tierLabels[user.tier] || user.tier}</strong></p>
+              <p><span className="text-gray-500">{t("pages.profile.status")}</span>{" "}
                 <span className={user.subscriptionStatus === "active" ? "text-emerald-600 font-bold" : "text-gray-400"}>
                   {user.subscriptionStatus === "active" ? "Active" : "Inactive"}
                 </span>
@@ -292,7 +294,7 @@ export default function ProfilePage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <p className="text-xs text-gray-500">Preview the app as a different user tier to see exactly what free and paid users experience. This affects paywalls, limits, and feature access across all pages.</p>
+              <p className="text-xs text-gray-500">{t("pages.profile.previewTheAppAsA")}</p>
               <div className="flex flex-wrap gap-2">
                 {[
                   { id: null, label: "Admin (Default)", desc: "Full access", color: "bg-purple-600" },
@@ -342,11 +344,11 @@ export default function ProfilePage() {
           </CardHeader>
           <CardContent>
             {purchasesLoading ? (
-              <p className="text-gray-500 text-sm" data-testid="text-purchases-loading">Loading purchases...</p>
+              <p className="text-gray-500 text-sm" data-testid="text-purchases-loading">{t("pages.profile.loadingPurchases")}</p>
             ) : purchases.length === 0 ? (
               <div className="text-center py-6 space-y-3">
                 <ShoppingBag className="w-10 h-10 text-gray-300 mx-auto" />
-                <p className="text-gray-500" data-testid="text-purchases-empty">No purchases yet. Browse the store to find study materials.</p>
+                <p className="text-gray-500" data-testid="text-purchases-empty">{t("pages.profile.noPurchasesYetBrowseThe")}</p>
                 <LocaleLink href="/shop">
                   <Button variant="outline" size="sm" data-testid="button-browse-store">
                     Browse Store
@@ -420,18 +422,18 @@ export default function ProfilePage() {
           </CardHeader>
           <CardContent>
             {emailSubLoading ? (
-              <p className="text-gray-500 text-sm">Loading...</p>
+              <p className="text-gray-500 text-sm">{t("pages.profile.loading")}</p>
             ) : !user?.email ? (
-              <p className="text-gray-500 text-sm">Add an email to your account to subscribe to practice question emails.</p>
+              <p className="text-gray-500 text-sm">{t("pages.profile.addAnEmailToYour")}</p>
             ) : !emailSub ? (
-              <p className="text-gray-500 text-sm">You are not subscribed to practice question emails. Subscribe from the homepage to get started.</p>
+              <p className="text-gray-500 text-sm">{t("pages.profile.youAreNotSubscribedTo")}</p>
             ) : (
               <div className="space-y-4">
                 <p className="text-sm text-gray-600">
                   Subscribed as <strong>{emailSub.email}</strong>
                 </p>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                  <label className="text-sm text-gray-500">Delivery frequency:</label>
+                  <label className="text-sm text-gray-500">{t("pages.profile.deliveryFrequency")}</label>
                   <select
                     value={emailSubFreq}
                     onChange={(e) => setEmailSubFreq(e.target.value)}
@@ -492,7 +494,7 @@ export default function ProfilePage() {
                   <div className="text-center">
                     <p className="text-xs text-gray-400 mb-2">{flipped ? "ANSWER" : "QUESTION"}</p>
                     <p className="text-lg font-medium">{flipped ? flashcards[currentIndex]?.answer : flashcards[currentIndex]?.question}</p>
-                    {!flipped && <p className="text-xs text-gray-400 mt-4">Tap to reveal answer</p>}
+                    {!flipped && <p className="text-xs text-gray-400 mt-4">{t("pages.profile.tapToRevealAnswer")}</p>}
                   </div>
                 </div>
                 <div className="flex justify-center gap-4">
@@ -522,9 +524,9 @@ export default function ProfilePage() {
 
                 {showCreateCard && (
                   <div className="border rounded-xl p-4 space-y-3 bg-gray-50">
-                    <Input placeholder="Question" value={newQuestion} onChange={e => setNewQuestion(e.target.value)} data-testid="input-flashcard-question" />
-                    <Textarea placeholder="Answer" value={newAnswer} onChange={e => setNewAnswer(e.target.value)} rows={3} data-testid="input-flashcard-answer" />
-                    <Input placeholder="Category (optional)" value={newCategory} onChange={e => setNewCategory(e.target.value)} data-testid="input-flashcard-category" />
+                    <Input placeholder={t("pages.profile.question")} value={newQuestion} onChange={e => setNewQuestion(e.target.value)} data-testid="input-flashcard-question" />
+                    <Textarea placeholder={t("pages.profile.answer")} value={newAnswer} onChange={e => setNewAnswer(e.target.value)} rows={3} data-testid="input-flashcard-answer" />
+                    <Input placeholder={t("pages.profile.categoryOptional")} value={newCategory} onChange={e => setNewCategory(e.target.value)} data-testid="input-flashcard-category" />
                     <div className="flex gap-2">
                       <Button size="sm" onClick={editingCard ? handleUpdateFlashcard : handleCreateFlashcard} disabled={!newQuestion.trim() || !newAnswer.trim()} data-testid="button-save-flashcard">
                         {editingCard ? "Update" : "Save"}
@@ -537,9 +539,9 @@ export default function ProfilePage() {
                 )}
 
                 {flashcardsLoading ? (
-                  <p className="text-gray-500">Loading flashcards...</p>
+                  <p className="text-gray-500">{t("pages.profile.loadingFlashcards")}</p>
                 ) : flashcards.length === 0 && !showCreateCard ? (
-                  <p className="text-gray-500">No flashcards yet. Create your own study cards to review anytime.</p>
+                  <p className="text-gray-500">{t("pages.profile.noFlashcardsYetCreateYour")}</p>
                 ) : (
                   <div className="space-y-3">
                     {flashcards.map(card => (
@@ -576,9 +578,9 @@ export default function ProfilePage() {
           </CardHeader>
           <CardContent>
             {loading ? (
-              <p className="text-gray-500">Loading notes...</p>
+              <p className="text-gray-500">{t("pages.profile.loadingNotes")}</p>
             ) : notes.length === 0 ? (
-              <p className="text-gray-500">No notes yet. Take notes while studying lessons and they'll appear here.</p>
+              <p className="text-gray-500">{t("pages.profile.noNotesYetTakeNotes")}</p>
             ) : (
               <div className="space-y-4">
                 {notes.map((note) => {

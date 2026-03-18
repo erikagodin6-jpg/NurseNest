@@ -8,6 +8,7 @@ import { useState } from "react";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { CAREER_CONFIGS } from "@shared/careers";
 import { REGION_EXAM_CONFIGS } from "@shared/region-config";
+import { useI18n } from "@/lib/i18n";
 import {
   MLT_DISCIPLINES, MLT_SUBDISCIPLINES,
   MLT_CANADA_BLUEPRINT_CATEGORIES, MLT_USA_CONTENT_AREAS,
@@ -121,6 +122,7 @@ const PAGE_CONFIGS: Record<MltPageType, {
 };
 
 function getCountryFAQ(cc: CountryConfig) {
+
   if (cc.country === "canada") {
     return [
       { q: "What is the CSMLS National Certification Examination?", a: "The CSMLS exam is administered by the Canadian Society for Medical Laboratory Science. It is required for MLT certification in most Canadian provinces. The exam has 120 multiple-choice questions to be completed in 180 minutes." },
@@ -150,10 +152,10 @@ function ExamPrepContent({ cc }: { cc: CountryConfig }) {
       <section className="py-12 bg-white border-y border-gray-100">
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div data-testid="stat-questions"><div className="text-2xl font-bold text-gray-900">{regionConfig?.totalQuestions || 100}+</div><div className="text-sm text-gray-500">Exam Questions</div></div>
-            <div data-testid="stat-time"><div className="text-2xl font-bold text-gray-900">{regionConfig?.timeLimit || 150} min</div><div className="text-sm text-gray-500">Time Limit</div></div>
-            <div data-testid="stat-pass"><div className="text-2xl font-bold text-gray-900">{cc.country === "canada" ? "65%" : "400/999"}</div><div className="text-sm text-gray-500">Pass Score</div></div>
-            <div data-testid="stat-disciplines"><div className="text-2xl font-bold text-gray-900">16</div><div className="text-sm text-gray-500">Disciplines</div></div>
+            <div data-testid="stat-questions"><div className="text-2xl font-bold text-gray-900">{regionConfig?.totalQuestions || 100}+</div><div className="text-sm text-gray-500">{t("allied.mltCountryPage.examQuestions")}</div></div>
+            <div data-testid="stat-time"><div className="text-2xl font-bold text-gray-900">{regionConfig?.timeLimit || 150} min</div><div className="text-sm text-gray-500">{t("allied.mltCountryPage.timeLimit")}</div></div>
+            <div data-testid="stat-pass"><div className="text-2xl font-bold text-gray-900">{cc.country === "canada" ? "65%" : "400/999"}</div><div className="text-sm text-gray-500">{t("allied.mltCountryPage.passScore")}</div></div>
+            <div data-testid="stat-disciplines"><div className="text-2xl font-bold text-gray-900">16</div><div className="text-sm text-gray-500">{t("allied.mltCountryPage.disciplines")}</div></div>
           </div>
         </div>
       </section>
@@ -201,7 +203,7 @@ function ExamPrepContent({ cc }: { cc: CountryConfig }) {
 
       <section className="py-16 bg-white">
         <div className="max-w-5xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Start Preparing Now</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("allied.mltCountryPage.startPreparingNow")}</h2>
           <p className="text-gray-600 mb-8">Access study tools designed specifically for the {cc.examName}.</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href={`/allied-health/mlt/${cc.country}/free-questions`} className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors shadow-lg shadow-purple-200" data-testid="button-free-questions">
@@ -281,7 +283,7 @@ function FlashcardsContent({ cc }: { cc: CountryConfig }) {
           ))}
         </div>
         <div className="bg-purple-50 rounded-xl p-8 text-center">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Build Your Flashcard Collection</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">{t("allied.mltCountryPage.buildYourFlashcardCollection")}</h3>
           <p className="text-sm text-gray-600 mb-6 max-w-lg mx-auto">
             Master all 16 laboratory disciplines with spaced repetition. Each deck aligns with {cc.examBoard} blueprint categories and uses {cc.regionKey === "CA" ? "SI" : "conventional"} units for lab values.
           </p>
@@ -310,22 +312,22 @@ function PracticeExamsContent({ cc }: { cc: CountryConfig }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           <div className="bg-white rounded-xl border border-gray-200 p-6 text-center">
             <Clock className="w-8 h-8 text-purple-500 mx-auto mb-3" />
-            <h3 className="font-semibold text-gray-900 mb-1">Timed Exams</h3>
+            <h3 className="font-semibold text-gray-900 mb-1">{t("allied.mltCountryPage.timedExams")}</h3>
             <p className="text-sm text-gray-500">{regionConfig?.totalQuestions || 100} questions in {regionConfig?.timeLimit || 150} minutes — matching real exam conditions</p>
           </div>
           <div className="bg-white rounded-xl border border-gray-200 p-6 text-center">
             <BarChart3 className="w-8 h-8 text-purple-500 mx-auto mb-3" />
-            <h3 className="font-semibold text-gray-900 mb-1">Domain Scoring</h3>
+            <h3 className="font-semibold text-gray-900 mb-1">{t("allied.mltCountryPage.domainScoring")}</h3>
             <p className="text-sm text-gray-500">See your performance breakdown across every {cc.examBoard} blueprint category</p>
           </div>
           <div className="bg-white rounded-xl border border-gray-200 p-6 text-center">
             <Target className="w-8 h-8 text-purple-500 mx-auto mb-3" />
-            <h3 className="font-semibold text-gray-900 mb-1">Adaptive Difficulty</h3>
-            <p className="text-sm text-gray-500">Questions adjust to your performance level for realistic exam simulation</p>
+            <h3 className="font-semibold text-gray-900 mb-1">{t("allied.mltCountryPage.adaptiveDifficulty")}</h3>
+            <p className="text-sm text-gray-500">{t("allied.mltCountryPage.questionsAdjustToYourPerformance")}</p>
           </div>
         </div>
         <div className="bg-purple-50 rounded-xl p-8 text-center">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Ready to Test Your Knowledge?</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">{t("allied.mltCountryPage.readyToTestYourKnowledge")}</h3>
           <p className="text-sm text-gray-600 mb-6 max-w-lg mx-auto">
             Full-length exams simulate real {cc.examBoard} exam conditions with blueprint-weighted question selection,
             timed sessions, and detailed performance analytics across all laboratory disciplines.
@@ -354,13 +356,13 @@ function StudyPlanContent({ cc }: { cc: CountryConfig }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <GraduationCap className="w-8 h-8 text-purple-500 mb-3" />
-            <h3 className="font-semibold text-gray-900 mb-2">Personalized Schedule</h3>
-            <p className="text-sm text-gray-600">Based on your diagnostic results, exam date, and available study hours. The planner prioritizes your weakest disciplines and adjusts weekly.</p>
+            <h3 className="font-semibold text-gray-900 mb-2">{t("allied.mltCountryPage.personalizedSchedule")}</h3>
+            <p className="text-sm text-gray-600">{t("allied.mltCountryPage.basedOnYourDiagnosticResults")}</p>
           </div>
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <Award className="w-8 h-8 text-purple-500 mb-3" />
-            <h3 className="font-semibold text-gray-900 mb-2">Weekly Checkpoints</h3>
-            <p className="text-sm text-gray-600">Milestone checks ensure you're on track. Each checkpoint includes a mini-assessment covering the week's disciplines with performance feedback.</p>
+            <h3 className="font-semibold text-gray-900 mb-2">{t("allied.mltCountryPage.weeklyCheckpoints")}</h3>
+            <p className="text-sm text-gray-600">{t("allied.mltCountryPage.milestoneChecksEnsureYoureOn")}</p>
           </div>
         </div>
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-10">
@@ -383,7 +385,7 @@ function StudyPlanContent({ cc }: { cc: CountryConfig }) {
           </div>
         </div>
         <div className="bg-purple-50 rounded-xl p-8 text-center">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Get Your Personalized Plan</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">{t("allied.mltCountryPage.getYourPersonalizedPlan")}</h3>
           <p className="text-sm text-gray-600 mb-6 max-w-lg mx-auto">
             Create an account to generate a {cc.examBoard} study plan tailored to your diagnostic results, exam date, and available study time.
           </p>
@@ -413,12 +415,12 @@ function FreeQuestionsContent({ cc }: { cc: CountryConfig }) {
             <div key={discipline} className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-purple-200 transition-all" data-testid={`free-q-discipline-${i}`}>
               <FlaskConical className="w-5 h-5 text-purple-500 mb-2" />
               <h3 className="font-medium text-gray-900 text-sm mb-1">{discipline}</h3>
-              <p className="text-xs text-gray-500">Sample questions with detailed rationales</p>
+              <p className="text-xs text-gray-500">{t("allied.mltCountryPage.sampleQuestionsWithDetailedRationales")}</p>
             </div>
           ))}
         </div>
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-8">
-          <h3 className="font-semibold text-gray-900 mb-4">What's Included in Free Questions</h3>
+          <h3 className="font-semibold text-gray-900 mb-4">{t("allied.mltCountryPage.whatsIncludedInFreeQuestions")}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[
               { label: "Multiple-choice questions from all 16 disciplines", icon: "✓" },
@@ -436,7 +438,7 @@ function FreeQuestionsContent({ cc }: { cc: CountryConfig }) {
           </div>
         </div>
         <div className="bg-purple-50 rounded-xl p-8 text-center">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Unlock Full Test Bank</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">{t("allied.mltCountryPage.unlockFullTestBank")}</h3>
           <p className="text-sm text-gray-600 mb-6 max-w-lg mx-auto">
             Get access to thousands of {cc.examBoard}-aligned questions with adaptive difficulty, detailed analytics, and exam simulation mode.
           </p>
@@ -503,8 +505,8 @@ export default function MltCountryPage({ country, pageType }: { country: MltCoun
   if (!cc) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">Page Not Found</h1>
-        <Link href="/allied-health/mlt" className="text-purple-600 font-medium hover:underline">Back to MLT Hub</Link>
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">{t("allied.mltCountryPage.pageNotFound")}</h1>
+        <Link href="/allied-health/mlt" className="text-purple-600 font-medium hover:underline">{t("allied.mltCountryPage.backToMltHub")}</Link>
       </div>
     );
   }
@@ -563,7 +565,7 @@ export default function MltCountryPage({ country, pageType }: { country: MltCoun
         <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-violet-50/30 to-white" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumbs">
-            <Link href="/" className="hover:text-purple-600">Home</Link>
+            <Link href="/" className="hover:text-purple-600">{t("allied.mltCountryPage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <Link href="/allied-health/mlt" className="hover:text-purple-600">MLT</Link>
             <ChevronRight className="w-3.5 h-3.5" />
@@ -607,11 +609,11 @@ export default function MltCountryPage({ country, pageType }: { country: MltCoun
 
       <section className="py-12 bg-white border-t border-gray-100">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Related MLT Resources</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">{t("allied.mltCountryPage.relatedMltResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Link href="/allied-health/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-hub">← MLT Exam Prep Hub</Link>
+            <Link href="/allied-health/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-hub">{t("allied.mltCountryPage.mltExamPrepHub")}</Link>
             <Link href={`/allied-health/mlt/${cc.otherCountry}/exam-prep`} className="text-sm text-purple-600 hover:underline" data-testid="link-other-country">{cc.otherLabel} ({cc.country === "canada" ? "ASCP" : "CSMLS"}) Exam Prep →</Link>
-            <Link href="/allied-health/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-career-overview">MLT Career Overview →</Link>
+            <Link href="/allied-health/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-career-overview">{t("allied.mltCountryPage.mltCareerOverview")}</Link>
           </div>
         </div>
       </section>

@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 
+import { useI18n } from "@/lib/i18n";
 const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
   rrt: CAREER_CONFIGS.rrt,
   paramedic: CAREER_CONFIGS.paramedic,
@@ -32,6 +33,7 @@ function shuffleArray<T>(arr: T[]): T[] {
 }
 
 function selectDiagnosticQuestions(pool: CareerQuestion[]): CareerQuestion[] {
+  const { t } = useI18n();
   if (pool.length <= DIAGNOSTIC_COUNT) return shuffleArray(pool);
   const categories = new Map<string, CareerQuestion[]>();
   pool.forEach(q => {
@@ -192,12 +194,12 @@ export default function AlliedDiagnostic() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <AlliedSEO
-          title="Allied Health Diagnostic Assessment"
-          description="Take a free diagnostic assessment for allied health certification exams. Identify your strengths and weak areas for RRT, Paramedic, Pharmacy Tech, MLT, and Medical Imaging."
+          title={t("allied.alliedDiagnostic.alliedHealthDiagnosticAssessment")}
+          description={t("allied.alliedDiagnostic.takeAFreeDiagnosticAssessment")}
           canonicalPath="/diagnostic"
         />
-        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-not-found">Career Not Found</h1>
-        <p className="text-gray-600 mb-6">We don't have a diagnostic for this career path yet.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-not-found">{t("allied.alliedDiagnostic.careerNotFound")}</h1>
+        <p className="text-gray-600 mb-6">{t("allied.alliedDiagnostic.weDontHaveADiagnostic")}</p>
         <Link href="/careers" className="inline-flex items-center gap-2 px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-browse-careers">
           Browse Careers <ArrowRight className="w-4 h-4" />
         </Link>
@@ -238,13 +240,13 @@ export default function AlliedDiagnostic() {
               <div className="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center mx-auto">
                 <Clock className="w-5 h-5 text-teal-600" />
               </div>
-              <p className="text-xs text-gray-500 font-medium">~10 Minutes</p>
+              <p className="text-xs text-gray-500 font-medium">{t("allied.alliedDiagnostic.10Minutes")}</p>
             </div>
             <div className="text-center space-y-1">
               <div className="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center mx-auto">
                 <BarChart3 className="w-5 h-5 text-teal-600" />
               </div>
-              <p className="text-xs text-gray-500 font-medium">Instant Results</p>
+              <p className="text-xs text-gray-500 font-medium">{t("allied.alliedDiagnostic.instantResults")}</p>
             </div>
           </div>
 
@@ -256,7 +258,7 @@ export default function AlliedDiagnostic() {
             Start Free Diagnostic <ArrowRight className="w-5 h-5" />
           </button>
 
-          <p className="text-xs text-gray-400">No account required. See your domain breakdown instantly.</p>
+          <p className="text-xs text-gray-400">{t("allied.alliedDiagnostic.noAccountRequiredSeeYour")}</p>
         </div>
       </div>
     );
@@ -373,13 +375,13 @@ export default function AlliedDiagnostic() {
           <h2 className="text-2xl font-bold text-gray-900" data-testid="text-preview-title">
             Your {career.shortName} Readiness Preview
           </h2>
-          <p className="text-gray-600">Here's a quick snapshot. Enter your email to unlock your full detailed results.</p>
+          <p className="text-gray-600">{t("allied.alliedDiagnostic.heresAQuickSnapshotEnter")}</p>
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500 font-medium">Overall Score</p>
+              <p className="text-sm text-gray-500 font-medium">{t("allied.alliedDiagnostic.overallScore")}</p>
               <p className="text-3xl font-bold text-gray-900" data-testid="text-score">{score}/{questions.length}</p>
             </div>
             <div className={`px-4 py-2 rounded-xl ${readinessLevel.bg} ${readinessLevel.border} border`}>
@@ -429,15 +431,15 @@ export default function AlliedDiagnostic() {
           <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 flex items-center gap-3">
             <Lock className="w-5 h-5 text-gray-400 shrink-0" />
             <div>
-              <p className="text-sm font-medium text-gray-700">Full results locked</p>
-              <p className="text-xs text-gray-500">Enter your email to unlock detailed analysis, study plan recommendations, and personalized tips.</p>
+              <p className="text-sm font-medium text-gray-700">{t("allied.alliedDiagnostic.fullResultsLocked")}</p>
+              <p className="text-xs text-gray-500">{t("allied.alliedDiagnostic.enterYourEmailToUnlock")}</p>
             </div>
           </div>
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6" data-testid="email-gate">
-          <h3 className="text-lg font-bold text-gray-900 mb-1">Unlock Your Full Results</h3>
-          <p className="text-sm text-gray-500 mb-4">Get your detailed breakdown, study plan recommendations, and weak-area drills.</p>
+          <h3 className="text-lg font-bold text-gray-900 mb-1">{t("allied.alliedDiagnostic.unlockYourFullResults")}</h3>
+          <p className="text-sm text-gray-500 mb-4">{t("allied.alliedDiagnostic.getYourDetailedBreakdownStudy")}</p>
 
           <form onSubmit={handleEmailSubmit} className="space-y-3">
             <div className="flex gap-2">
@@ -447,7 +449,7 @@ export default function AlliedDiagnostic() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  placeholder={t("allied.alliedDiagnostic.enterYourEmail")}
                   className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-200 focus:border-teal-400"
                   data-testid="input-email"
                 />
@@ -462,7 +464,7 @@ export default function AlliedDiagnostic() {
               </button>
             </div>
             {emailError && <p className="text-xs text-red-500" data-testid="text-email-error">{emailError}</p>}
-            <p className="text-xs text-gray-400">We'll send your results and study tips. No spam, unsubscribe anytime.</p>
+            <p className="text-xs text-gray-400">{t("allied.alliedDiagnostic.wellSendYourResultsAnd")}</p>
           </form>
         </div>
       </div>
@@ -486,7 +488,7 @@ export default function AlliedDiagnostic() {
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500 font-medium">Overall Score</p>
+              <p className="text-sm text-gray-500 font-medium">{t("allied.alliedDiagnostic.overallScore2")}</p>
               <p className="text-3xl font-bold text-gray-900" data-testid="text-final-score">{score}/{questions.length}</p>
             </div>
             <div className={`px-4 py-2 rounded-xl ${readinessLevel.bg} ${readinessLevel.border} border`}>
@@ -576,15 +578,15 @@ export default function AlliedDiagnostic() {
           <div className="flex items-center gap-3">
             <Crown className="w-8 h-8 text-yellow-300" />
             <div>
-              <h3 className="text-lg font-bold">Upgrade to Allied Pro</h3>
+              <h3 className="text-lg font-bold">{t("allied.alliedDiagnostic.upgradeToAlliedPro")}</h3>
               <p className="text-teal-100 text-sm">Get unlimited access to the full {career.shortName} question bank</p>
             </div>
           </div>
           <ul className="space-y-2 text-sm">
-            <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-200" /> 600+ word rationales on every question</li>
-            <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-200" /> Adaptive CAT-style mock exams</li>
-            <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-200" /> Smart weak-area targeting</li>
-            <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-200" /> Personalized study plan</li>
+            <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-200" /> {t("allied.alliedDiagnostic.600WordRationalesOnEvery")}</li>
+            <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-200" /> {t("allied.alliedDiagnostic.adaptiveCatstyleMockExams")}</li>
+            <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-200" /> {t("allied.alliedDiagnostic.smartWeakareaTargeting")}</li>
+            <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-teal-200" /> {t("allied.alliedDiagnostic.personalizedStudyPlan")}</li>
           </ul>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link

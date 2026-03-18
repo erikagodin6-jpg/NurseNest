@@ -3,6 +3,7 @@ import { useParams } from "wouter";
 import { SEO } from "@/components/seo";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import {
   getRexPnCategoryBySlug,
   getRexPnConditionBySlug,
@@ -47,6 +48,7 @@ import {
 } from "lucide-react";
 
 function PracticeQuestionBlock({ question, index }: { question: RexPnPracticeQuestion; index: number }) {
+  const { t } = useI18n();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showRationale, setShowRationale] = useState(false);
 
@@ -60,8 +62,8 @@ function PracticeQuestionBlock({ question, index }: { question: RexPnPracticeQue
         </p>
         <div className="relative z-20 flex flex-col items-center justify-center py-4">
           <Lock className="w-8 h-8 text-gray-400 mb-3" />
-          <p className="text-gray-600 font-semibold text-sm mb-2">Premium Practice Question</p>
-          <p className="text-gray-500 text-xs mb-3 text-center max-w-sm">Upgrade to access all practice questions with detailed rationales.</p>
+          <p className="text-gray-600 font-semibold text-sm mb-2">{t("pages.rexPnContentHub.premiumPracticeQuestion")}</p>
+          <p className="text-gray-500 text-xs mb-3 text-center max-w-sm">{t("pages.rexPnContentHub.upgradeToAccessAllPractice")}</p>
           <LocaleLink href="/pricing">
             <Button size="sm" className="bg-primary hover:bg-primary/90" data-testid={`button-unlock-question-${index}`}>
               Unlock All Questions <ArrowRight className="w-4 h-4 ml-1" />
@@ -151,7 +153,7 @@ function InternalLinksSection({ links }: { links: RexPnInternalLink[] }) {
     <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-internal-links">
       <div className="flex items-center gap-3 mb-4">
         <BookOpen className="w-5 h-5 text-primary" />
-        <h2 className="text-xl font-bold text-gray-900">Related Study Resources</h2>
+        <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.relatedStudyResources")}</h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {links.map((link, i) => (
@@ -179,7 +181,7 @@ function CTABanner({ variant = "default" }: { variant?: "default" | "mid" | "end
   return (
     <div className="bg-gradient-to-r from-[#2E3A59] to-[#3d4f7a] rounded-2xl p-6 md:p-8 text-white" data-testid={`cta-banner-${variant}`}>
       <p className="text-lg font-semibold mb-2">{text}</p>
-      <p className="text-gray-300 text-sm mb-4">Join thousands of Canadian nursing students preparing with NurseNest.</p>
+      <p className="text-gray-300 text-sm mb-4">{t("pages.rexPnContentHub.joinThousandsOfCanadianNursing")}</p>
       <div className="flex flex-wrap gap-3">
         <LocaleLink href="/mock-exams">
           <Button className="bg-white text-[#2E3A59] hover:bg-gray-100 font-semibold" data-testid="button-cta-mock-exam">
@@ -211,7 +213,7 @@ function ReferencesSection({ references }: { references?: string[] }) {
     <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-references">
       <div className="flex items-center gap-3 mb-4">
         <FileText className="w-5 h-5 text-gray-500" />
-        <h2 className="text-lg font-bold text-gray-900">References</h2>
+        <h2 className="text-lg font-bold text-gray-900">{t("pages.rexPnContentHub.references")}</h2>
       </div>
       <ol className="list-decimal list-inside space-y-2">
         {references.map((ref, i) => (
@@ -224,7 +226,7 @@ function ReferencesSection({ references }: { references?: string[] }) {
 
 function Breadcrumbs({ items }: { items: { label: string; href?: string }[] }) {
   return (
-    <nav className="bg-white border-b border-gray-100 px-4 py-3" aria-label="Breadcrumb" data-testid="breadcrumb-nav">
+    <nav className="bg-white border-b border-gray-100 px-4 py-3" aria-label={t("pages.rexPnContentHub.breadcrumb")} data-testid="breadcrumb-nav">
       <div className="max-w-4xl mx-auto flex items-center gap-2 text-sm text-gray-500 flex-wrap">
         {items.map((item, i) => (
           <span key={i} className="flex items-center gap-2">
@@ -258,7 +260,7 @@ function NotFound({ type, backHref, backLabel }: { type: string; backHref: strin
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="text-center" data-testid={`${type}-not-found`}>
         <h1 className="text-2xl font-bold text-gray-900 mb-2">{type} Not Found</h1>
-        <p className="text-gray-500 mb-6">The page you are looking for does not exist.</p>
+        <p className="text-gray-500 mb-6">{t("pages.rexPnContentHub.thePageYouAreLooking")}</p>
         <LocaleLink href={backHref}><Button variant="outline" data-testid="button-back">{backLabel}</Button></LocaleLink>
       </div>
     </div>
@@ -308,7 +310,7 @@ export function RexPnCategoryTemplate({ params: propParams }: { params?: { slug:
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <GraduationCap className="w-6 h-6 text-[#BFA6F6]" />
               </div>
-              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">REx-PN Exam Prep</span>
+              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">{t("pages.rexPnContentHub.rexpnExamPrep")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-category-title">{page.h1}</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.introText}</p>
@@ -329,7 +331,7 @@ export function RexPnCategoryTemplate({ params: propParams }: { params?: { slug:
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.practiceQuestions")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <PracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -343,7 +345,7 @@ export function RexPnCategoryTemplate({ params: propParams }: { params?: { slug:
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.frequentlyAskedQuestions")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <FAQBlock key={i} faq={faq} index={i} />)}
@@ -404,7 +406,7 @@ export function RexPnConditionTemplate() {
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <Stethoscope className="w-6 h-6 text-[#BFA6F6]" />
               </div>
-              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">REx-PN Condition Guide</span>
+              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">{t("pages.rexPnContentHub.rexpnConditionGuide")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-condition-title">{page.name} — Nursing Study Guide for the REx-PN</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.definition}</p>
@@ -417,13 +419,13 @@ export function RexPnConditionTemplate() {
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-pathophysiology">
             <div className="flex items-center gap-3 mb-4">
               <Activity className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Pathophysiology</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.pathophysiology")}</h2>
             </div>
             <p className="text-gray-600 leading-relaxed">{page.pathophysiology}</p>
           </section>
 
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-causes">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Causes & Risk Factors</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.rexPnContentHub.causesRiskFactors")}</h2>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {page.causesRiskFactors.map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
@@ -435,16 +437,16 @@ export function RexPnConditionTemplate() {
           </section>
 
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-signs-symptoms">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Signs & Symptoms</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.rexPnContentHub.signsSymptoms")}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><TrendingUp className="w-4 h-4 text-blue-500" /> Early Signs</h3>
+                <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><TrendingUp className="w-4 h-4 text-blue-500" /> {t("pages.rexPnContentHub.earlySigns")}</h3>
                 <ul className="space-y-2">
                   {page.signsSymptoms.early.map((s, i) => <li key={i} className="text-sm text-gray-600 flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0 mt-1.5" />{s}</li>)}
                 </ul>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><TrendingDown className="w-4 h-4 text-red-500" /> Late / Severe Signs</h3>
+                <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><TrendingDown className="w-4 h-4 text-red-500" /> {t("pages.rexPnContentHub.lateSevereSigns")}</h3>
                 <ul className="space-y-2">
                   {page.signsSymptoms.late.map((s, i) => <li key={i} className="text-sm text-gray-600 flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0 mt-1.5" />{s}</li>)}
                 </ul>
@@ -456,7 +458,7 @@ export function RexPnConditionTemplate() {
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-labs">
               <div className="flex items-center gap-3 mb-4">
                 <FlaskConical className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Key Lab Values</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.keyLabValues")}</h2>
               </div>
               <div className="space-y-4">
                 {page.labs.map((lab, i) => (
@@ -476,7 +478,7 @@ export function RexPnConditionTemplate() {
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-medications">
               <div className="flex items-center gap-3 mb-4">
                 <Pill className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Medications</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.medications")}</h2>
               </div>
               <div className="space-y-4">
                 {page.medications.map((med, i) => (
@@ -485,9 +487,9 @@ export function RexPnConditionTemplate() {
                       <h3 className="font-semibold text-gray-900">{med.name}</h3>
                       <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">{med.drugClass}</span>
                     </div>
-                    <p className="text-sm text-gray-600 mb-2"><strong>Action:</strong> {med.action}</p>
-                    <p className="text-sm text-gray-600 mb-2"><strong>Side Effects:</strong> {med.sideEffects}</p>
-                    <p className="text-sm text-gray-600"><strong>Nursing:</strong> {med.nursingConsiderations}</p>
+                    <p className="text-sm text-gray-600 mb-2"><strong>{t("pages.rexPnContentHub.action")}</strong> {med.action}</p>
+                    <p className="text-sm text-gray-600 mb-2"><strong>{t("pages.rexPnContentHub.sideEffects")}</strong> {med.sideEffects}</p>
+                    <p className="text-sm text-gray-600"><strong>{t("pages.rexPnContentHub.nursing")}</strong> {med.nursingConsiderations}</p>
                   </div>
                 ))}
               </div>
@@ -497,7 +499,7 @@ export function RexPnConditionTemplate() {
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-nursing-interventions">
             <div className="flex items-center gap-3 mb-4">
               <ClipboardList className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Nursing Interventions</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.nursingInterventions")}</h2>
             </div>
             <ul className="space-y-2">
               {page.nursingInterventions.map((item, i) => (
@@ -511,7 +513,7 @@ export function RexPnConditionTemplate() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6" data-testid="section-complications">
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Complications</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-3">{t("pages.rexPnContentHub.complications")}</h2>
               <ul className="space-y-2">
                 {page.complications.map((item, i) => (
                   <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
@@ -522,7 +524,7 @@ export function RexPnConditionTemplate() {
               </ul>
             </section>
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6" data-testid="section-patient-teaching">
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Patient Teaching</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-3">{t("pages.rexPnContentHub.patientTeaching")}</h2>
               <ul className="space-y-2">
                 {page.patientTeaching.map((item, i) => (
                   <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
@@ -537,14 +539,14 @@ export function RexPnConditionTemplate() {
           <section className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-2xl p-6 md:p-8" data-testid="section-exam-pearls">
             <div className="flex items-center gap-3 mb-4">
               <Lightbulb className="w-5 h-5 text-amber-600" />
-              <h2 className="text-xl font-bold text-gray-900">REx-PN Exam Pearls</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.rexpnExamPearls")}</h2>
             </div>
             <ul className="space-y-2">
               {page.examPearls.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><span className="text-amber-500 font-bold shrink-0">★</span>{item}</li>)}
             </ul>
             {page.commonTrapAnswers.length > 0 && (
               <div className="mt-6 pt-4 border-t border-amber-200">
-                <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><XCircle className="w-4 h-4 text-red-400" /> Common Trap Answers</h3>
+                <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><XCircle className="w-4 h-4 text-red-400" /> {t("pages.rexPnContentHub.commonTrapAnswers")}</h3>
                 <ul className="space-y-2">
                   {page.commonTrapAnswers.map((item, i) => <li key={i} className="text-sm text-gray-600 flex items-start gap-2"><span className="text-red-400 shrink-0">✗</span>{item}</li>)}
                 </ul>
@@ -558,7 +560,7 @@ export function RexPnConditionTemplate() {
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.practiceQuestions2")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <PracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -570,7 +572,7 @@ export function RexPnConditionTemplate() {
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.frequentlyAskedQuestions2")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <FAQBlock key={i} faq={faq} index={i} />)}
@@ -643,12 +645,12 @@ export function RexPnMedicationTemplate() {
           <CTABanner variant="default" />
 
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-mechanism">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Mechanism of Action</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.rexPnContentHub.mechanismOfAction")}</h2>
             <p className="text-gray-600 leading-relaxed">{page.mechanism}</p>
           </section>
 
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-indications">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Indications</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.rexPnContentHub.indications")}</h2>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {page.indications.map((item, i) => (
                 <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />{item}</li>
@@ -657,7 +659,7 @@ export function RexPnMedicationTemplate() {
           </section>
 
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-side-effects">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Side Effects & Adverse Reactions</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.rexPnContentHub.sideEffectsAdverseReactions")}</h2>
             <div className="space-y-3">
               {page.sideEffects.map((se, i) => (
                 <div key={i} className="border border-gray-100 rounded-lg p-4" data-testid={`side-effect-${i}`}>
@@ -675,13 +677,13 @@ export function RexPnMedicationTemplate() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6" data-testid="section-contraindications">
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Contraindications</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-3">{t("pages.rexPnContentHub.contraindications")}</h2>
               <ul className="space-y-2">
                 {page.contraindications.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><XCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />{item}</li>)}
               </ul>
             </section>
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6" data-testid="section-monitoring">
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Monitoring Parameters</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-3">{t("pages.rexPnContentHub.monitoringParameters")}</h2>
               <ul className="space-y-2">
                 {page.monitoring.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><Activity className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />{item}</li>)}
               </ul>
@@ -691,7 +693,7 @@ export function RexPnMedicationTemplate() {
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-nursing-considerations">
             <div className="flex items-center gap-3 mb-4">
               <ClipboardList className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Nursing Considerations</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.nursingConsiderations")}</h2>
             </div>
             <ul className="space-y-2">
               {page.nursingConsiderations.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />{item}</li>)}
@@ -699,7 +701,7 @@ export function RexPnMedicationTemplate() {
           </section>
 
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-patient-teaching">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Patient Teaching</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.rexPnContentHub.patientTeaching2")}</h2>
             <ul className="space-y-2">
               {page.patientTeaching.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><FileText className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />{item}</li>)}
             </ul>
@@ -708,7 +710,7 @@ export function RexPnMedicationTemplate() {
           <section className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-2xl p-6 md:p-8" data-testid="section-exam-tips">
             <div className="flex items-center gap-3 mb-4">
               <Lightbulb className="w-5 h-5 text-amber-600" />
-              <h2 className="text-xl font-bold text-gray-900">REx-PN Exam Tips</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.rexpnExamTips")}</h2>
             </div>
             <ul className="space-y-2">
               {page.examTips.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><span className="text-amber-500 font-bold shrink-0">★</span>{item}</li>)}
@@ -721,7 +723,7 @@ export function RexPnMedicationTemplate() {
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.practiceQuestions3")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <PracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -733,7 +735,7 @@ export function RexPnMedicationTemplate() {
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.frequentlyAskedQuestions3")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <FAQBlock key={i} faq={faq} index={i} />)}
@@ -793,7 +795,7 @@ export function RexPnLabValueTemplate() {
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <FlaskConical className="w-6 h-6 text-[#BFA6F6]" />
               </div>
-              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">Lab Value Reference</span>
+              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">{t("pages.rexPnContentHub.labValueReference")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-lab-value-title">{page.fullName} — REx-PN Study Guide</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.overview}</p>
@@ -806,15 +808,15 @@ export function RexPnLabValueTemplate() {
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-normal-range">
             <div className="flex items-center gap-3 mb-6">
               <Activity className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Normal Range</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.normalRange")}</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl p-6 text-center">
-                <p className="text-xs text-gray-500 mb-1 uppercase tracking-wider">US Units</p>
+                <p className="text-xs text-gray-500 mb-1 uppercase tracking-wider">{t("pages.rexPnContentHub.usUnits")}</p>
                 <p className="text-3xl font-bold text-primary" data-testid="text-normal-range-us">{page.normalRangeUS.value} {page.normalRangeUS.unit}</p>
               </div>
               <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-6 text-center">
-                <p className="text-xs text-gray-500 mb-1 uppercase tracking-wider">Canadian (SI) Units</p>
+                <p className="text-xs text-gray-500 mb-1 uppercase tracking-wider">{t("pages.rexPnContentHub.canadianSiUnits")}</p>
                 <p className="text-3xl font-bold text-blue-700" data-testid="text-normal-range-ca">{page.normalRangeCA.value} {page.normalRangeCA.unit}</p>
               </div>
             </div>
@@ -857,7 +859,7 @@ export function RexPnLabValueTemplate() {
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-nursing-implications">
             <div className="flex items-center gap-3 mb-4">
               <ClipboardList className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Nursing Implications</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.nursingImplications")}</h2>
             </div>
             <ul className="space-y-2">
               {page.nursingImplications.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />{item}</li>)}
@@ -867,7 +869,7 @@ export function RexPnLabValueTemplate() {
           <section className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-2xl p-6 md:p-8" data-testid="section-exam-alerts">
             <div className="flex items-center gap-3 mb-4">
               <Lightbulb className="w-5 h-5 text-amber-600" />
-              <h2 className="text-xl font-bold text-gray-900">REx-PN Exam Alerts</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.rexpnExamAlerts")}</h2>
             </div>
             <ul className="space-y-2">
               {page.examAlerts.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><span className="text-amber-500 font-bold shrink-0">★</span>{item}</li>)}
@@ -880,7 +882,7 @@ export function RexPnLabValueTemplate() {
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.practiceQuestions4")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <PracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -892,7 +894,7 @@ export function RexPnLabValueTemplate() {
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.frequentlyAskedQuestions4")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <FAQBlock key={i} faq={faq} index={i} />)}
@@ -951,7 +953,7 @@ export function RexPnComparisonTemplate() {
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <Scale className="w-6 h-6 text-[#BFA6F6]" />
               </div>
-              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">Clinical Comparison</span>
+              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">{t("pages.rexPnContentHub.clinicalComparison")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-comparison-title">{page.h1}</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.introText}</p>
@@ -966,7 +968,7 @@ export function RexPnComparisonTemplate() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-200">
-                    <th className="text-left px-4 py-3 font-semibold text-gray-600 w-1/4">Feature</th>
+                    <th className="text-left px-4 py-3 font-semibold text-gray-600 w-1/4">{t("pages.rexPnContentHub.feature")}</th>
                     <th className="text-left px-4 py-3 font-semibold text-blue-700 w-[37.5%]">{page.conditionA.name}</th>
                     <th className="text-left px-4 py-3 font-semibold text-purple-700 w-[37.5%]">{page.conditionB.name}</th>
                   </tr>
@@ -985,7 +987,7 @@ export function RexPnComparisonTemplate() {
           </section>
 
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-key-differences">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Key Differences</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.rexPnContentHub.keyDifferences")}</h2>
             <ul className="space-y-2">
               {page.keyDifferences.map((item, i) => (
                 <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
@@ -999,7 +1001,7 @@ export function RexPnComparisonTemplate() {
           <section className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-2xl p-6 md:p-8" data-testid="section-clinical-pearls">
             <div className="flex items-center gap-3 mb-4">
               <Lightbulb className="w-5 h-5 text-amber-600" />
-              <h2 className="text-xl font-bold text-gray-900">Clinical Pearls</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.clinicalPearls")}</h2>
             </div>
             <ul className="space-y-2">
               {page.clinicalPearls.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><span className="text-amber-500 font-bold shrink-0">★</span>{item}</li>)}
@@ -1012,7 +1014,7 @@ export function RexPnComparisonTemplate() {
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.practiceQuestions5")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <PracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -1024,7 +1026,7 @@ export function RexPnComparisonTemplate() {
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.frequentlyAskedQuestions5")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <FAQBlock key={i} faq={faq} index={i} />)}
@@ -1083,7 +1085,7 @@ export function RexPnStrategyTemplate() {
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <GraduationCap className="w-6 h-6 text-[#BFA6F6]" />
               </div>
-              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">Exam Strategy</span>
+              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">{t("pages.rexPnContentHub.examStrategy")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-strategy-title">{page.h1}</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.introText}</p>
@@ -1099,7 +1101,7 @@ export function RexPnStrategyTemplate() {
               <p className="text-gray-600 leading-relaxed mb-4">{section.content}</p>
               {section.tips && section.tips.length > 0 && (
                 <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
-                  <h3 className="font-semibold text-gray-800 text-sm mb-2">Key Tips:</h3>
+                  <h3 className="font-semibold text-gray-800 text-sm mb-2">{t("pages.rexPnContentHub.keyTips")}</h3>
                   <ul className="space-y-1">
                     {section.tips.map((tip, j) => (
                       <li key={j} className="text-sm text-gray-600 flex items-start gap-2">
@@ -1119,7 +1121,7 @@ export function RexPnStrategyTemplate() {
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.practiceQuestions6")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <PracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -1131,7 +1133,7 @@ export function RexPnStrategyTemplate() {
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentHub.frequentlyAskedQuestions6")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <FAQBlock key={i} faq={faq} index={i} />)}

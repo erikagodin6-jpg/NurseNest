@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import { useI18n } from "@/lib/i18n";
 type OptionItem = string | { text: string; label?: string };
 
 interface QuestionPreviewData {
@@ -28,6 +29,7 @@ interface QuestionPreviewData {
 }
 
 function getOptionText(opt: OptionItem): string {
+
   if (typeof opt === "string") return opt;
   if (opt && typeof opt === "object" && "text" in opt) return opt.text;
   return String(opt);
@@ -91,8 +93,8 @@ export default function QuestionPreviewPage() {
       <>
         <Navigation />
         <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-not-found">Question Not Found</h1>
-          <p className="text-gray-600 mb-4">The NCLEX question topic you're looking for doesn't exist.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-not-found">{t("pages.questionPreview.questionNotFound")}</h1>
+          <p className="text-gray-600 mb-4">{t("pages.questionPreview.theNclexQuestionTopicYoure")}</p>
           <Link href="/" className="inline-block px-6 py-2.5 bg-primary text-white rounded-xl text-sm font-medium hover:opacity-90" data-testid="link-go-home">
             Go Home
           </Link>
@@ -148,9 +150,9 @@ export default function QuestionPreviewPage() {
       <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white" data-testid="question-preview-page">
         <nav className="bg-white border-b border-gray-100 py-3 px-4" data-testid="breadcrumbs">
           <div className="max-w-3xl mx-auto flex items-center gap-2 text-sm text-gray-500 flex-wrap">
-            <Link href="/" className="hover:text-primary transition-colors" data-testid="breadcrumb-home">Home</Link>
+            <Link href="/" className="hover:text-primary transition-colors" data-testid="breadcrumb-home">{t("pages.questionPreview.home")}</Link>
             <ChevronRight className="w-3 h-3" />
-            <Link href="/practice-questions" className="hover:text-primary transition-colors" data-testid="breadcrumb-questions">Practice Questions</Link>
+            <Link href="/practice-questions" className="hover:text-primary transition-colors" data-testid="breadcrumb-questions">{t("pages.questionPreview.practiceQuestions")}</Link>
             <ChevronRight className="w-3 h-3" />
             <span className="text-gray-900 font-medium" data-testid="breadcrumb-current">{topicTitle}</span>
           </div>
@@ -178,7 +180,7 @@ export default function QuestionPreviewPage() {
           <div className="max-w-3xl mx-auto">
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 sm:p-8" data-testid="card-question">
               <div className="flex items-center justify-between mb-5">
-                <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Practice Question</span>
+                <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{t("pages.questionPreview.practiceQuestion")}</span>
                 <span className="text-xs text-gray-400">{data.questionType === "multiple_choice" ? "Multiple Choice" : data.questionType}</span>
               </div>
 
@@ -257,7 +259,7 @@ export default function QuestionPreviewPage() {
                       <div className="absolute inset-0 flex items-center justify-center bg-white/60 rounded-xl backdrop-blur-[1px]">
                         <div className="text-center px-4">
                           <Lock className="w-8 h-8 text-gray-400 mx-auto mb-3" />
-                          <p className="text-sm font-semibold text-gray-700 mb-4">Full explanation available with NurseNest</p>
+                          <p className="text-sm font-semibold text-gray-700 mb-4">{t("pages.questionPreview.fullExplanationAvailableWithNursenest")}</p>
                           <div className="flex flex-col sm:flex-row gap-3 justify-center">
                             <Link href="/start-free">
                               <Button className="bg-teal-600 hover:bg-teal-700 text-white shadow-lg shadow-teal-200" data-testid="button-unlock-explanation">
@@ -319,7 +321,7 @@ export default function QuestionPreviewPage() {
                     </div>
                     <div className="min-w-0">
                       <h3 className="text-sm font-semibold text-gray-900 group-hover:text-teal-700 transition-colors truncate">{lesson.title}</h3>
-                      <p className="text-xs text-gray-500">Lesson</p>
+                      <p className="text-xs text-gray-500">{t("pages.questionPreview.lesson")}</p>
                     </div>
                   </Link>
                 ))}
@@ -335,7 +337,7 @@ export default function QuestionPreviewPage() {
                     </div>
                     <div className="min-w-0">
                       <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700 transition-colors truncate">{deck.title}</h3>
-                      <p className="text-xs text-gray-500">Flashcard Deck</p>
+                      <p className="text-xs text-gray-500">{t("pages.questionPreview.flashcardDeck")}</p>
                     </div>
                   </Link>
                 ))}

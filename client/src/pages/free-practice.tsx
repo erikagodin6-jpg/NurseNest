@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
+import { useI18n } from "@/lib/i18n";
 type Question = {
   id: number;
   system: string;
@@ -148,6 +149,7 @@ const FREE_QUESTIONS: Question[] = [
 ];
 
 export default function FreePractice() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -190,8 +192,8 @@ export default function FreePractice() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
       <SEO
-        title="Free Nursing Practice Questions | NCLEX, NCLEX-PN & REx-PN Sample Questions | NurseNest"
-        description="Practice 10 free NCLEX, NCLEX-PN, and REx-PN style nursing questions with detailed rationales. Test your knowledge across body systems - no signup required."
+        title={t("pages.freePractice.freeNursingPracticeQuestionsNclex")}
+        description={t("pages.freePractice.practice10FreeNclexNclexpn")}
         keywords="free NCLEX practice questions, free NCLEX-PN questions, free REx-PN questions, nursing practice test free, sample nursing exam questions"
         canonicalPath="/free-practice"
       />
@@ -331,11 +333,11 @@ export default function FreePractice() {
                   <div className="grid sm:grid-cols-2 gap-4 mb-8">
                     <div className="bg-emerald-50 rounded-xl p-4 text-center">
                       <p className="text-3xl font-bold text-emerald-600">{Math.round((score / FREE_QUESTIONS.length) * 100)}%</p>
-                      <p className="text-sm text-emerald-700">Accuracy</p>
+                      <p className="text-sm text-emerald-700">{t("pages.freePractice.accuracy")}</p>
                     </div>
                     <div className="bg-blue-50 rounded-xl p-4 text-center">
                       <p className="text-3xl font-bold text-blue-600">{FREE_QUESTIONS.length}</p>
-                      <p className="text-sm text-blue-700">Questions Completed</p>
+                      <p className="text-sm text-blue-700">{t("pages.freePractice.questionsCompleted")}</p>
                     </div>
                   </div>
 
@@ -372,22 +374,22 @@ export default function FreePractice() {
               <Card className="border border-gray-100 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setLocation("/mock-exams")} data-testid="card-cta-mock-exams">
                 <CardContent className="p-5 text-center">
                   <Target className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <h3 className="font-semibold text-sm mb-1">Timed Mock Exams</h3>
-                  <p className="text-xs text-gray-500">Simulate real exam pressure</p>
+                  <h3 className="font-semibold text-sm mb-1">{t("pages.freePractice.timedMockExams")}</h3>
+                  <p className="text-xs text-gray-500">{t("pages.freePractice.simulateRealExamPressure")}</p>
                 </CardContent>
               </Card>
               <Card className="border border-gray-100 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setLocation("/flashcards")} data-testid="card-cta-flashcards">
                 <CardContent className="p-5 text-center">
                   <BookOpen className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <h3 className="font-semibold text-sm mb-1">Flashcard Decks</h3>
-                  <p className="text-xs text-gray-500">High-yield recall practice</p>
+                  <h3 className="font-semibold text-sm mb-1">{t("pages.freePractice.flashcardDecks")}</h3>
+                  <p className="text-xs text-gray-500">{t("pages.freePractice.highyieldRecallPractice")}</p>
                 </CardContent>
               </Card>
               <Card className="border border-gray-100 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setLocation("/shop")} data-testid="card-cta-store">
                 <CardContent className="p-5 text-center">
                   <Shield className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <h3 className="font-semibold text-sm mb-1">Printable Exam Packs</h3>
-                  <p className="text-xs text-gray-500">250-question PDF bundles</p>
+                  <h3 className="font-semibold text-sm mb-1">{t("pages.freePractice.printableExamPacks")}</h3>
+                  <p className="text-xs text-gray-500">{t("pages.freePractice.250questionPdfBundles")}</p>
                 </CardContent>
               </Card>
             </div>

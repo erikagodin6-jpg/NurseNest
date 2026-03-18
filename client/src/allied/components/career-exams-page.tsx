@@ -8,6 +8,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import type { ProfessionHubData } from "@/allied/data/profession-hub-data";
 import type { ExamEntry } from "@/allied/data/imaging-career-data";
 
+import { useI18n } from "@/lib/i18n";
 interface CareerExamsPageProps {
   hubData: ProfessionHubData;
   examEntries: ExamEntry[];
@@ -20,6 +21,7 @@ const TYPE_CONFIG: Record<string, { label: string; icon: typeof Target; color: s
 };
 
 export default function CareerExamsPage({ hubData, examEntries }: CareerExamsPageProps) {
+  const { t } = useI18n();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const basePath = `/allied-health/${hubData.professionSlug}`;
 
@@ -96,7 +98,7 @@ export default function CareerExamsPage({ hubData, examEntries }: CareerExamsPag
             <h2 className="text-xl font-bold text-gray-900 mb-2 flex items-center gap-2">
               <BarChart3 className="w-5 h-5" style={{ color: hubData.color }} /> Start Here — Diagnostic Assessment
             </h2>
-            <p className="text-sm text-gray-500 mb-5">Take a quick diagnostic to identify your strengths and gaps before deep study.</p>
+            <p className="text-sm text-gray-500 mb-5">{t("allied.careerExamsPage.takeAQuickDiagnosticTo")}</p>
             <div className="grid grid-cols-1 gap-4">
               {diagnostics.map(entry => (
                 <ExamCard key={entry.slug} entry={entry} color={hubData.color} colorAccent={hubData.colorAccent} />
@@ -112,7 +114,7 @@ export default function CareerExamsPage({ hubData, examEntries }: CareerExamsPag
             <h2 className="text-xl font-bold text-gray-900 mb-2 flex items-center gap-2">
               <BookOpen className="w-5 h-5" style={{ color: hubData.color }} /> Topic Quizzes
             </h2>
-            <p className="text-sm text-gray-500 mb-5">Focused quizzes to test your knowledge in specific exam domains.</p>
+            <p className="text-sm text-gray-500 mb-5">{t("allied.careerExamsPage.focusedQuizzesToTestYour")}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {quizzes.map(entry => (
                 <ExamCard key={entry.slug} entry={entry} color={hubData.color} colorAccent={hubData.colorAccent} />
@@ -128,7 +130,7 @@ export default function CareerExamsPage({ hubData, examEntries }: CareerExamsPag
             <h2 className="text-xl font-bold text-gray-900 mb-2 flex items-center gap-2">
               <FileText className="w-5 h-5" style={{ color: hubData.color }} /> Full-Length Practice Exams
             </h2>
-            <p className="text-sm text-gray-500 mb-5">Simulate exam day with blueprint-weighted, timed practice exams.</p>
+            <p className="text-sm text-gray-500 mb-5">{t("allied.careerExamsPage.simulateExamDayWithBlueprintweighted")}</p>
             <div className="grid grid-cols-1 gap-4">
               {practiceSets.map(entry => (
                 <ExamCard key={entry.slug} entry={entry} color={hubData.color} colorAccent={hubData.colorAccent} />
@@ -140,7 +142,7 @@ export default function CareerExamsPage({ hubData, examEntries }: CareerExamsPag
 
       <section className="py-12 bg-gray-50" data-testid="section-how-practice-works">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">How Practice Works</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">{t("allied.careerExamsPage.howPracticeWorks")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
               { step: "1", title: "Take a Diagnostic", desc: "25-question assessment to baseline your knowledge across all exam domains." },
@@ -161,7 +163,7 @@ export default function CareerExamsPage({ hubData, examEntries }: CareerExamsPag
 
       <section className="py-12 bg-white" data-testid="section-exam-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Practice Exam FAQ</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">{t("allied.careerExamsPage.practiceExamFaq")}</h2>
           <div className="space-y-3">
             {examFaqs.map((faq, i) => (
               <div key={i} className="bg-gray-50 border border-gray-200 rounded-xl overflow-hidden" data-testid={`exam-faq-${i}`}>

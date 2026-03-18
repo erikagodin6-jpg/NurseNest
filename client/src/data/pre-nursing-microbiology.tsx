@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { Bug, Shield, Microscope, AlertTriangle } from "lucide-react";
 
 export function MicrobiologyModule() {
+  const { t } = useI18n();
   const colonizationWarning = useEditableText("micro-colonization-warning", "Colonization means microorganisms are present and multiplying but not causing tissue damage or immune response. Infection means microorganisms are invading tissue, multiplying, and causing damage with an immune response (signs: redness, swelling, heat, pain, loss of function). A patient can be colonized with MRSA on their skin without being infected — but if that MRSA enters a wound, infection develops.");
   const antisepticConcept = useEditableText("micro-antiseptic-concept", "Antiseptics are for living tissue. Disinfectants are for inanimate objects. Using a disinfectant on skin causes chemical burns. Using an antiseptic on a surgical instrument does not achieve sterilization. Matching the right agent to the right surface is a safety fundamental.");
 
@@ -23,7 +25,7 @@ export function MicrobiologyModule() {
       <MicroLesson title="Types of Microorganisms" subtitle="Bacteria, viruses, fungi, parasites, and prions" icon={<Bug className="w-5 h-5" />}>
         <EditableModuleText sectionKey="micro-types-content" defaultText="Microorganisms are classified by their cellular structure and reproduction. Bacteria are prokaryotic (no nucleus). Viruses are acellular (not truly alive — require a host cell to replicate). Fungi are eukaryotic (have a nucleus). These structural differences determine how each type is targeted by antimicrobial agents. Understanding these distinctions is essential because treatment strategies differ fundamentally between organism types." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="The Five Categories of Microorganisms"
+          title={t("data.pre_nursing_microbiology.theFiveCategoriesOfMicroorganisms")}
           cards={[
             {
               id: "mb1",
@@ -73,7 +75,7 @@ export function MicrobiologyModule() {
         </div>
         <CognitiveCard
           type="warning"
-          title="Colonization vs Infection"
+          title={t("data.pre_nursing_microbiology.colonizationVsInfection")}
           content={colonizationWarning}
         />
       </MicroLesson>
@@ -118,13 +120,13 @@ export function MicrobiologyModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Critical Distinction"
+          title={t("data.pre_nursing_microbiology.criticalDistinction")}
           content={antisepticConcept}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Microbiology Concept"
+        title={t("data.pre_nursing_microbiology.matchTheMicrobiologyConcept")}
         pairs={[
           { term: "Gram-positive bacteria", definition: "Thick peptidoglycan wall, stains purple" },
           { term: "Virus", definition: "Acellular, requires host to replicate" },
@@ -136,7 +138,7 @@ export function MicrobiologyModule() {
       />
 
       <SelfCheckQuiz
-        title="Microbiology Foundations Quiz"
+        title={t("data.pre_nursing_microbiology.microbiologyFoundationsQuiz")}
         questions={[
           {
             id: "mb1",

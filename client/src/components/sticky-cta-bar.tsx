@@ -5,11 +5,13 @@ import { useAuth } from "@/lib/auth";
 import { X, ArrowRight, Sparkles, BookOpen, FileText, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import { useI18n } from "@/lib/i18n";
 const SESSION_DISMISS_KEY = "nursenest-cta-bar-session-dismissed";
 
 type CtaContext = "questions" | "content" | "blueprint" | "tools" | "default";
 
 function getCtaContext(pathname: string): CtaContext {
+
   const questionPatterns = [
     "/question", "/qbank", "/test-bank", "/mock-exam",
     "/practice-questions", "/free-practice", "/free-demo-exam",
@@ -97,7 +99,7 @@ export function StickyCtaBar() {
         <button
           onClick={handleDismiss}
           className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-white/20 transition-colors"
-          aria-label="Dismiss"
+          aria-label={t("components.stickyCtaBar.dismiss")}
           data-testid="button-cta-bar-dismiss"
         >
           <X className="w-4 h-4" />

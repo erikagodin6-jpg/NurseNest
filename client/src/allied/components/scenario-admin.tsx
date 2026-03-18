@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useI18n } from "@/lib/i18n";
 import {
   Plus, Edit3, Trash2, Eye, EyeOff, Save, X, ChevronDown, ChevronUp,
   Radio, Loader2, CheckCircle2, AlertTriangle, Search
@@ -68,6 +69,7 @@ const TRACKS = ["General", "PCP", "ACP", "NREMT", "EMT"];
 const VITALS_KEYS = ["hr", "bp", "rr", "spo2", "temp", "gcs", "glucose", "etco2"];
 
 async function apiFetch(url: string, opts?: RequestInit) {
+  const { t } = useI18n();
   const adminId = "d9b0e5b3-83c7-4e08-b6b7-6cf9cc33b225";
   const sep = url.includes("?") ? "&" : "?";
   const res = await fetch(`${url}${sep}adminId=${adminId}`, {
@@ -157,7 +159,7 @@ function DecisionPointEditor({ dp, onChange, onRemove }: {
       {expanded && (
         <div className="space-y-3">
           <div>
-            <label className="block text-xs text-gray-500 mb-1">Prompt / Question</label>
+            <label className="block text-xs text-gray-500 mb-1">{t("allied.scenarioAdmin.promptQuestion")}</label>
             <textarea
               value={dp.prompt}
               onChange={(e) => onChange({ ...dp, prompt: e.target.value })}
@@ -167,7 +169,7 @@ function DecisionPointEditor({ dp, onChange, onRemove }: {
           </div>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-gray-600">Choices</span>
+              <span className="text-xs font-medium text-gray-600">{t("allied.scenarioAdmin.choices")}</span>
               <button onClick={addChoice} className="text-xs text-teal-600 hover:text-teal-700 flex items-center gap-1">
                 <Plus className="w-3 h-3" /> Add Choice
               </button>
@@ -180,7 +182,7 @@ function DecisionPointEditor({ dp, onChange, onRemove }: {
                     type="text"
                     value={choice.label}
                     onChange={(e) => updateChoice(idx, "label", e.target.value)}
-                    placeholder="Choice text"
+                    placeholder={t("allied.scenarioAdmin.choiceText")}
                     className="flex-1 px-2 py-1 border border-gray-200 rounded text-sm"
                   />
                   <label className="flex items-center gap-1 text-xs cursor-pointer">
@@ -190,7 +192,7 @@ function DecisionPointEditor({ dp, onChange, onRemove }: {
                       onChange={(e) => updateChoice(idx, "isCorrect", e.target.checked)}
                       className="accent-teal-600"
                     />
-                    <span className={choice.isCorrect ? "text-green-700 font-medium" : "text-gray-500"}>Correct</span>
+                    <span className={choice.isCorrect ? "text-green-700 font-medium" : "text-gray-500"}>{t("allied.scenarioAdmin.correct")}</span>
                   </label>
                   <button onClick={() => removeChoice(idx)} className="text-red-400 hover:text-red-600">
                     <X className="w-3.5 h-3.5" />
@@ -200,7 +202,7 @@ function DecisionPointEditor({ dp, onChange, onRemove }: {
                   type="text"
                   value={choice.feedback}
                   onChange={(e) => updateChoice(idx, "feedback", e.target.value)}
-                  placeholder="Feedback explanation"
+                  placeholder={t("allied.scenarioAdmin.feedbackExplanation")}
                   className="w-full px-2 py-1 border border-gray-200 rounded text-sm ml-6"
                   style={{ width: "calc(100% - 1.5rem)" }}
                 />
@@ -400,7 +402,7 @@ export function ScenarioAdminPanel() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search scenarios..."
+              placeholder={t("allied.scenarioAdmin.searchScenarios")}
               className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg text-sm"
               data-testid="input-search-scenarios"
             />
@@ -411,10 +413,10 @@ export function ScenarioAdminPanel() {
             className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white"
             data-testid="select-status-filter"
           >
-            <option value="">All Status</option>
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
-            <option value="archived">Archived</option>
+            <option value="">{t("allied.scenarioAdmin.allStatus")}</option>
+            <option value="draft">{t("allied.scenarioAdmin.draft")}</option>
+            <option value="published">{t("allied.scenarioAdmin.published")}</option>
+            <option value="archived">{t("allied.scenarioAdmin.archived")}</option>
           </select>
         </div>
       )}
@@ -428,57 +430,57 @@ export function ScenarioAdminPanel() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="md:col-span-2">
-              <label className="block text-xs font-medium text-gray-600 mb-1">Title *</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.scenarioAdmin.title")}</label>
               <input type="text" value={form.title} onChange={(e) => setForm(p => ({ ...p, title: e.target.value }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="e.g., Chest Pain with STEMI Recognition" data-testid="input-scenario-title" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Category</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.scenarioAdmin.category")}</label>
               <select value={form.category} onChange={(e) => setForm(p => ({ ...p, category: e.target.value }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-scenario-category">
                 {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Profession Track</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.scenarioAdmin.professionTrack")}</label>
               <select value={form.professionTrack} onChange={(e) => setForm(p => ({ ...p, professionTrack: e.target.value }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-scenario-track">
                 {TRACKS.map(t => <option key={t} value={t}>{t}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Difficulty (1-5)</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.scenarioAdmin.difficulty15")}</label>
               <select value={form.difficulty} onChange={(e) => setForm(p => ({ ...p, difficulty: parseInt(e.target.value) }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-scenario-difficulty">
                 {[1, 2, 3, 4, 5].map(d => <option key={d} value={d}>{d} - {["Easy", "Moderate", "Intermediate", "Advanced", "Expert"][d - 1]}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Exam Relevance</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.scenarioAdmin.examRelevance")}</label>
               <select value={form.examRelevance} onChange={(e) => setForm(p => ({ ...p, examRelevance: e.target.value }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-exam-relevance">
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
+                <option value="low">{t("allied.scenarioAdmin.low")}</option>
+                <option value="medium">{t("allied.scenarioAdmin.medium")}</option>
+                <option value="high">{t("allied.scenarioAdmin.high")}</option>
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Visibility Tier</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.scenarioAdmin.visibilityTier")}</label>
               <select value={form.visibilityTier} onChange={(e) => setForm(p => ({ ...p, visibilityTier: e.target.value }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-visibility-tier">
-                <option value="free">Free</option>
-                <option value="pcp">PCP Tier</option>
-                <option value="acp">ACP Tier</option>
+                <option value="free">{t("allied.scenarioAdmin.free")}</option>
+                <option value="pcp">{t("allied.scenarioAdmin.pcpTier")}</option>
+                <option value="acp">{t("allied.scenarioAdmin.acpTier")}</option>
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Region</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.scenarioAdmin.region")}</label>
               <select value={form.region} onChange={(e) => setForm(p => ({ ...p, region: e.target.value }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-region">
-                <option value="BOTH">Both (US + CA)</option>
-                <option value="US">US Only</option>
-                <option value="CA">Canada Only</option>
+                <option value="BOTH">{t("allied.scenarioAdmin.bothUsCa")}</option>
+                <option value="US">{t("allied.scenarioAdmin.usOnly")}</option>
+                <option value="CA">{t("allied.scenarioAdmin.canadaOnly")}</option>
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Status</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.scenarioAdmin.status")}</label>
               <select value={form.status} onChange={(e) => setForm(p => ({ ...p, status: e.target.value }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-scenario-status">
-                <option value="draft">Draft</option>
-                <option value="published">Published</option>
-                <option value="archived">Archived</option>
+                <option value="draft">{t("allied.scenarioAdmin.draft2")}</option>
+                <option value="published">{t("allied.scenarioAdmin.published2")}</option>
+                <option value="archived">{t("allied.scenarioAdmin.archived2")}</option>
               </select>
             </div>
           </div>
@@ -486,33 +488,33 @@ export function ScenarioAdminPanel() {
           <hr className="border-gray-100" />
 
           <div className="space-y-4">
-            <h4 className="font-medium text-gray-800 text-sm">Scenario Content</h4>
+            <h4 className="font-medium text-gray-800 text-sm">{t("allied.scenarioAdmin.scenarioContent")}</h4>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Dispatch Information *</label>
-              <textarea value={form.dispatchInfo} onChange={(e) => setForm(p => ({ ...p, dispatchInfo: e.target.value }))} rows={3} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="Dispatch call details..." data-testid="textarea-dispatch" />
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.scenarioAdmin.dispatchInformation")}</label>
+              <textarea value={form.dispatchInfo} onChange={(e) => setForm(p => ({ ...p, dispatchInfo: e.target.value }))} rows={3} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder={t("allied.scenarioAdmin.dispatchCallDetails")} data-testid="textarea-dispatch" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Scene Description *</label>
-              <textarea value={form.sceneDescription} onChange={(e) => setForm(p => ({ ...p, sceneDescription: e.target.value }))} rows={3} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="What the crew sees on arrival..." data-testid="textarea-scene" />
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.scenarioAdmin.sceneDescription")}</label>
+              <textarea value={form.sceneDescription} onChange={(e) => setForm(p => ({ ...p, sceneDescription: e.target.value }))} rows={3} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder={t("allied.scenarioAdmin.whatTheCrewSeesOn")} data-testid="textarea-scene" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Scene Safety *</label>
-              <textarea value={form.sceneSafety} onChange={(e) => setForm(p => ({ ...p, sceneSafety: e.target.value }))} rows={2} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="Safety considerations..." data-testid="textarea-safety" />
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.scenarioAdmin.sceneSafety")}</label>
+              <textarea value={form.sceneSafety} onChange={(e) => setForm(p => ({ ...p, sceneSafety: e.target.value }))} rows={2} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder={t("allied.scenarioAdmin.safetyConsiderations")} data-testid="textarea-safety" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Primary Assessment *</label>
-              <textarea value={form.primaryAssessment} onChange={(e) => setForm(p => ({ ...p, primaryAssessment: e.target.value }))} rows={3} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="ABCDE findings..." data-testid="textarea-primary" />
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.scenarioAdmin.primaryAssessment")}</label>
+              <textarea value={form.primaryAssessment} onChange={(e) => setForm(p => ({ ...p, primaryAssessment: e.target.value }))} rows={3} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder={t("allied.scenarioAdmin.abcdeFindings")} data-testid="textarea-primary" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Secondary Assessment *</label>
-              <textarea value={form.secondaryAssessment} onChange={(e) => setForm(p => ({ ...p, secondaryAssessment: e.target.value }))} rows={3} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="Head-to-toe / focused findings..." data-testid="textarea-secondary" />
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.scenarioAdmin.secondaryAssessment")}</label>
+              <textarea value={form.secondaryAssessment} onChange={(e) => setForm(p => ({ ...p, secondaryAssessment: e.target.value }))} rows={3} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder={t("allied.scenarioAdmin.headtotoeFocusedFindings")} data-testid="textarea-secondary" />
             </div>
           </div>
 
           <hr className="border-gray-100" />
 
           <div>
-            <h4 className="font-medium text-gray-800 text-sm mb-3">Vital Signs</h4>
+            <h4 className="font-medium text-gray-800 text-sm mb-3">{t("allied.scenarioAdmin.vitalSigns")}</h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {VITALS_KEYS.map(key => (
                 <div key={key}>
@@ -533,21 +535,21 @@ export function ScenarioAdminPanel() {
           <hr className="border-gray-100" />
 
           <div>
-            <h4 className="font-medium text-gray-800 text-sm mb-3">Patient History</h4>
+            <h4 className="font-medium text-gray-800 text-sm mb-3">{t("allied.scenarioAdmin.patientHistory")}</h4>
             <div className="space-y-3">
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Chief Complaint</label>
+                <label className="block text-xs text-gray-500 mb-1">{t("allied.scenarioAdmin.chiefComplaint")}</label>
                 <input type="text" value={form.history.chiefComplaint || ""} onChange={(e) => updateHistory("chiefComplaint", e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-chief-complaint" />
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">History of Present Illness</label>
+                <label className="block text-xs text-gray-500 mb-1">{t("allied.scenarioAdmin.historyOfPresentIllness")}</label>
                 <textarea value={form.history.hpi || ""} onChange={(e) => updateHistory("hpi", e.target.value)} rows={2} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="textarea-hpi" />
               </div>
-              <ArrayEditor label="Past Medical History" items={form.history.pmh || []} onChange={(items) => updateHistory("pmh", items)} />
-              <ArrayEditor label="Medications" items={form.history.medications || []} onChange={(items) => updateHistory("medications", items)} />
-              <ArrayEditor label="Allergies" items={form.history.allergies || []} onChange={(items) => updateHistory("allergies", items)} />
+              <ArrayEditor label={t("allied.scenarioAdmin.pastMedicalHistory")} items={form.history.pmh || []} onChange={(items) => updateHistory("pmh", items)} />
+              <ArrayEditor label={t("allied.scenarioAdmin.medications")} items={form.history.medications || []} onChange={(items) => updateHistory("medications", items)} />
+              <ArrayEditor label={t("allied.scenarioAdmin.allergies")} items={form.history.allergies || []} onChange={(items) => updateHistory("allergies", items)} />
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Social History</label>
+                <label className="block text-xs text-gray-500 mb-1">{t("allied.scenarioAdmin.socialHistory")}</label>
                 <input type="text" value={form.history.socialHistory || ""} onChange={(e) => updateHistory("socialHistory", e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-social-history" />
               </div>
             </div>
@@ -557,7 +559,7 @@ export function ScenarioAdminPanel() {
 
           <div>
             <div className="flex items-center justify-between mb-3">
-              <h4 className="font-medium text-gray-800 text-sm">Decision Points</h4>
+              <h4 className="font-medium text-gray-800 text-sm">{t("allied.scenarioAdmin.decisionPoints")}</h4>
               <button onClick={addDecisionPoint} className="text-xs text-teal-600 hover:text-teal-700 flex items-center gap-1" data-testid="button-add-decision-point">
                 <Plus className="w-3 h-3" /> Add Decision Point
               </button>
@@ -576,7 +578,7 @@ export function ScenarioAdminPanel() {
                 />
               ))}
               {form.decisionPoints.length === 0 && (
-                <p className="text-xs text-gray-400 italic">No decision points yet. Add at least one.</p>
+                <p className="text-xs text-gray-400 italic">{t("allied.scenarioAdmin.noDecisionPointsYetAdd")}</p>
               )}
             </div>
           </div>
@@ -584,15 +586,15 @@ export function ScenarioAdminPanel() {
           <hr className="border-gray-100" />
 
           <div className="space-y-4">
-            <ArrayEditor label="Correct Interventions" items={form.correctInterventions} onChange={(items) => setForm(p => ({ ...p, correctInterventions: items }))} />
-            <ArrayEditor label="Common Errors" items={form.commonErrors} onChange={(items) => setForm(p => ({ ...p, commonErrors: items }))} />
-            <ArrayEditor label="Learning Objectives" items={form.learningObjectives} onChange={(items) => setForm(p => ({ ...p, learningObjectives: items }))} />
-            <ArrayEditor label="Related Lesson Slugs" items={form.relatedLessonSlugs} onChange={(items) => setForm(p => ({ ...p, relatedLessonSlugs: items }))} />
+            <ArrayEditor label={t("allied.scenarioAdmin.correctInterventions")} items={form.correctInterventions} onChange={(items) => setForm(p => ({ ...p, correctInterventions: items }))} />
+            <ArrayEditor label={t("allied.scenarioAdmin.commonErrors")} items={form.commonErrors} onChange={(items) => setForm(p => ({ ...p, commonErrors: items }))} />
+            <ArrayEditor label={t("allied.scenarioAdmin.learningObjectives")} items={form.learningObjectives} onChange={(items) => setForm(p => ({ ...p, learningObjectives: items }))} />
+            <ArrayEditor label={t("allied.scenarioAdmin.relatedLessonSlugs")} items={form.relatedLessonSlugs} onChange={(items) => setForm(p => ({ ...p, relatedLessonSlugs: items }))} />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Debrief Summary</label>
-            <textarea value={form.debrief} onChange={(e) => setForm(p => ({ ...p, debrief: e.target.value }))} rows={4} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder="Overall debrief and clinical takeaways..." data-testid="textarea-debrief" />
+            <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.scenarioAdmin.debriefSummary")}</label>
+            <textarea value={form.debrief} onChange={(e) => setForm(p => ({ ...p, debrief: e.target.value }))} rows={4} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" placeholder={t("allied.scenarioAdmin.overallDebriefAndClinicalTakeaways")} data-testid="textarea-debrief" />
           </div>
 
           <div className="flex gap-3 pt-2">
@@ -600,7 +602,7 @@ export function ScenarioAdminPanel() {
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               {editing ? "Update Scenario" : "Create Scenario"}
             </button>
-            <button onClick={cancelEdit} className="px-4 py-2.5 text-sm text-gray-600 hover:text-gray-800" data-testid="button-cancel-edit">Cancel</button>
+            <button onClick={cancelEdit} className="px-4 py-2.5 text-sm text-gray-600 hover:text-gray-800" data-testid="button-cancel-edit">{t("allied.scenarioAdmin.cancel")}</button>
           </div>
         </div>
       )}
@@ -612,7 +614,7 @@ export function ScenarioAdminPanel() {
           ) : scenarios.length === 0 ? (
             <div className="text-center py-12 text-gray-500">
               <Radio className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-              <p className="text-sm">No scenarios found. Create one to get started.</p>
+              <p className="text-sm">{t("allied.scenarioAdmin.noScenariosFoundCreateOne")}</p>
             </div>
           ) : (
             scenarios.map((sc) => (
@@ -637,10 +639,10 @@ export function ScenarioAdminPanel() {
                   <button onClick={() => handleToggleStatus(sc.id, sc.status)} className="p-2 text-gray-400 hover:text-teal-600 rounded-lg hover:bg-teal-50" title={sc.status === "published" ? "Unpublish" : "Publish"} data-testid={`button-toggle-${sc.id}`}>
                     {sc.status === "published" ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
-                  <button onClick={() => startEdit(sc)} className="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-blue-50" title="Edit" data-testid={`button-edit-${sc.id}`}>
+                  <button onClick={() => startEdit(sc)} className="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-blue-50" title={t("allied.scenarioAdmin.edit")} data-testid={`button-edit-${sc.id}`}>
                     <Edit3 className="w-4 h-4" />
                   </button>
-                  <button onClick={() => handleDelete(sc.id)} className="p-2 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50" title="Delete" data-testid={`button-delete-${sc.id}`}>
+                  <button onClick={() => handleDelete(sc.id)} className="p-2 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50" title={t("allied.scenarioAdmin.delete")} data-testid={`button-delete-${sc.id}`}>
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>

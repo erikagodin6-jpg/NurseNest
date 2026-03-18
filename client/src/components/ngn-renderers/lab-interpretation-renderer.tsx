@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { FlaskConical, AlertTriangle, ArrowUp, ArrowDown } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 import type {
   LabInterpretationPayload,
   LabInterpretationResponse,
@@ -13,6 +14,7 @@ interface LabInterpretationRendererProps {
 }
 
 function FlagBadge({ flag }: { flag?: string }) {
+  const { t } = useI18n();
   if (!flag) return null;
   const isHigh = flag === "HIGH" || flag === "CRITICAL_HIGH";
   const isCritical = flag === "CRITICAL_HIGH" || flag === "CRITICAL_LOW";
@@ -72,11 +74,11 @@ export function LabInterpretationRenderer({
           <table className="w-full text-sm" data-testid="table-lab-values">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200">
-                <th className="text-left px-4 py-2.5 font-semibold text-slate-600 text-xs uppercase tracking-wide">Test</th>
-                <th className="text-right px-4 py-2.5 font-semibold text-slate-600 text-xs uppercase tracking-wide">Result</th>
-                <th className="text-center px-4 py-2.5 font-semibold text-slate-600 text-xs uppercase tracking-wide">Unit</th>
-                <th className="text-center px-4 py-2.5 font-semibold text-slate-600 text-xs uppercase tracking-wide">Reference</th>
-                <th className="text-center px-4 py-2.5 font-semibold text-slate-600 text-xs uppercase tracking-wide">Status</th>
+                <th className="text-left px-4 py-2.5 font-semibold text-slate-600 text-xs uppercase tracking-wide">{t("components.ngnRenderersLabInterpretationRenderer.test")}</th>
+                <th className="text-right px-4 py-2.5 font-semibold text-slate-600 text-xs uppercase tracking-wide">{t("components.ngnRenderersLabInterpretationRenderer.result")}</th>
+                <th className="text-center px-4 py-2.5 font-semibold text-slate-600 text-xs uppercase tracking-wide">{t("components.ngnRenderersLabInterpretationRenderer.unit")}</th>
+                <th className="text-center px-4 py-2.5 font-semibold text-slate-600 text-xs uppercase tracking-wide">{t("components.ngnRenderersLabInterpretationRenderer.reference")}</th>
+                <th className="text-center px-4 py-2.5 font-semibold text-slate-600 text-xs uppercase tracking-wide">{t("components.ngnRenderersLabInterpretationRenderer.status")}</th>
               </tr>
             </thead>
             <tbody>
@@ -103,7 +105,7 @@ export function LabInterpretationRenderer({
                         <FlagBadge flag={lab.flag} />
                       </div>
                     ) : (
-                      <span className="text-xs text-emerald-600 font-medium">Normal</span>
+                      <span className="text-xs text-emerald-600 font-medium">{t("components.ngnRenderersLabInterpretationRenderer.normal")}</span>
                     )}
                   </td>
                 </tr>

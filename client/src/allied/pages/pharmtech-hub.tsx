@@ -4,6 +4,7 @@ import { BookOpen, Brain, FileText, GraduationCap, ChevronRight, Pill, CheckCirc
 import { AlliedSEO } from "@/allied/allied-seo";
 import { buildJobTrainingStructuredData } from "@/lib/structured-data";
 
+import { useI18n } from "@/lib/i18n";
 const RELATED_CAREERS = [
   { name: "Medical Laboratory Technologist", shortName: "MLT", href: "/allied-health/mlt", desc: "Lab diagnostics, hematology, clinical chemistry & microbiology certification", icon: "Microscope" },
   { name: "Respiratory Therapist", shortName: "RRT", href: "/allied-health/rrt", desc: "Ventilator management, ABG analysis & airway management certification", icon: "Wind" },
@@ -35,6 +36,7 @@ const CERT_OPTIONS = [
 ];
 
 export default function PharmtechHubPage() {
+  const { t } = useI18n();
   const [stats, setStats] = useState<any>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [cert, setCert] = useState("");
@@ -46,8 +48,8 @@ export default function PharmtechHubPage() {
   return (
     <>
       <AlliedSEO
-        title="Pharmacy Technician Exam Prep - PTCB & ExCPT Study Resources"
-        description="Prepare for the PTCB and ExCPT pharmacy technician certification exams with 200+ practice questions, flashcard decks, full-length practice exams, and a comprehensive study guide. Free to start."
+        title={t("allied.pharmtechHub.pharmacyTechnicianExamPrepPtcb")}
+        description={t("allied.pharmtechHub.prepareForThePtcbAnd")}
         keywords="pharmacy technician exam prep, PTCB exam, ExCPT exam, pharmacy tech practice questions, pharmacy technician certification, pharmacy tech study guide, pharmacy tech flashcards"
         canonicalPath="/allied-health/pharmacy-technician"
         structuredData={{
@@ -90,9 +92,9 @@ export default function PharmtechHubPage() {
         <section className="relative overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 py-16 sm:py-24">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-              <Link href="/" className="hover:text-teal-600">Allied</Link>
+              <Link href="/" className="hover:text-teal-600">{t("allied.pharmtechHub.allied")}</Link>
               <ChevronRight className="w-3.5 h-3.5" />
-              <span className="text-green-700 font-medium">Pharmacy Technician</span>
+              <span className="text-green-700 font-medium">{t("allied.pharmtechHub.pharmacyTechnician")}</span>
             </div>
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-100 text-green-800 rounded-full text-sm font-medium mb-4">
@@ -101,7 +103,7 @@ export default function PharmtechHubPage() {
               </div>
               <h1 className="text-3xl sm:text-5xl font-bold text-gray-900 leading-tight mb-4" data-testid="text-hero-title">
                 Pharmacy Technician<br />
-                <span className="text-green-600">Exam Prep Hub</span>
+                <span className="text-green-600">{t("allied.pharmtechHub.examPrepHub")}</span>
               </h1>
               <p className="text-lg text-gray-600 mb-6 leading-relaxed" data-testid="text-hero-subtitle">
                 Master every domain of the PTCB and ExCPT exams with expert-written lessons, practice questions with detailed rationales, spaced-repetition flashcards, and timed practice exams.
@@ -151,8 +153,8 @@ export default function PharmtechHubPage() {
         </section>
 
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Study Topics</h2>
-          <p className="text-gray-500 mb-8">Explore all the domains covered on the PTCB and ExCPT certification exams.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.pharmtechHub.studyTopics")}</h2>
+          <p className="text-gray-500 mb-8">{t("allied.pharmtechHub.exploreAllTheDomainsCovered")}</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {TOPIC_CARDS.map(topic => (
               <Link key={topic.slug} href={topic.href} className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-green-200 transition-all" data-testid={`card-topic-${topic.slug}`}>
@@ -173,7 +175,7 @@ export default function PharmtechHubPage() {
                 <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                   <Calendar className="w-5 h-5 text-green-600" /> Study Plan
                 </h2>
-                <p className="text-sm text-gray-500 mt-1">Create a personalized study schedule for your PTCB or ExCPT exam</p>
+                <p className="text-sm text-gray-500 mt-1">{t("allied.pharmtechHub.createAPersonalizedStudySchedule")}</p>
               </div>
               <Link
                 href="/allied-health/pharmacy-technician/study-plan"
@@ -189,8 +191,8 @@ export default function PharmtechHubPage() {
                   <Zap className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-gray-800">2-Week Crash Plan</div>
-                  <div className="text-xs text-gray-500">Intensive review</div>
+                  <div className="text-sm font-medium text-gray-800">{t("allied.pharmtechHub.2weekCrashPlan")}</div>
+                  <div className="text-xs text-gray-500">{t("allied.pharmtechHub.intensiveReview")}</div>
                 </div>
               </Link>
               <Link href="/allied-health/pharmacy-technician/study-plan" className="flex items-center gap-3 px-4 py-3 bg-white/80 rounded-xl hover:bg-white transition-colors" data-testid="link-preset-balanced">
@@ -198,8 +200,8 @@ export default function PharmtechHubPage() {
                   <Target className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-gray-800">4-Week Balanced</div>
-                  <div className="text-xs text-gray-500">Steady coverage</div>
+                  <div className="text-sm font-medium text-gray-800">{t("allied.pharmtechHub.4weekBalanced")}</div>
+                  <div className="text-xs text-gray-500">{t("allied.pharmtechHub.steadyCoverage")}</div>
                 </div>
               </Link>
               <Link href="/allied-health/pharmacy-technician/study-plan" className="flex items-center gap-3 px-4 py-3 bg-white/80 rounded-xl hover:bg-white transition-colors" data-testid="link-preset-comprehensive">
@@ -207,8 +209,8 @@ export default function PharmtechHubPage() {
                   <GraduationCap className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-gray-800">8-Week Comprehensive</div>
-                  <div className="text-xs text-gray-500">Deep coverage</div>
+                  <div className="text-sm font-medium text-gray-800">{t("allied.pharmtechHub.8weekComprehensive")}</div>
+                  <div className="text-xs text-gray-500">{t("allied.pharmtechHub.deepCoverage")}</div>
                 </div>
               </Link>
             </div>
@@ -220,32 +222,32 @@ export default function PharmtechHubPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Link href="/allied-health/pharmacy-technician/flashcards" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-green-200 transition-all" data-testid="card-flashcards">
                 <Brain className="w-8 h-8 text-green-600 mb-4" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Flashcard Decks</h3>
-                <p className="text-sm text-gray-500 mb-4">Master key pharmacy concepts with spaced-repetition flashcards organized by topic.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.pharmtechHub.flashcardDecks")}</h3>
+                <p className="text-sm text-gray-500 mb-4">{t("allied.pharmtechHub.masterKeyPharmacyConceptsWith")}</p>
                 <span className="text-green-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   Browse Decks <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
               <Link href="/allied-health/pharmacy-technician/exams" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-green-200 transition-all" data-testid="card-exams">
                 <FileText className="w-8 h-8 text-green-600 mb-4" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Practice Exams</h3>
-                <p className="text-sm text-gray-500 mb-4">Take timed practice exams that simulate real PTCB testing conditions with score reports.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.pharmtechHub.practiceExams")}</h3>
+                <p className="text-sm text-gray-500 mb-4">{t("allied.pharmtechHub.takeTimedPracticeExamsThat")}</p>
                 <span className="text-green-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   View Exams <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
               <Link href="/allied-health/pharmacy-technician/study-guide" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-green-200 transition-all" data-testid="card-study-guide">
                 <GraduationCap className="w-8 h-8 text-green-600 mb-4" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Study Guide</h3>
-                <p className="text-sm text-gray-500 mb-4">Comprehensive study guide covering every pharmacy technician exam topic in detail.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.pharmtechHub.studyGuide")}</h3>
+                <p className="text-sm text-gray-500 mb-4">{t("allied.pharmtechHub.comprehensiveStudyGuideCoveringEvery")}</p>
                 <span className="text-green-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   Read Guide <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
               <Link href="/allied-health/pharmacy-technician/adaptive-practice" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-green-200 transition-all" data-testid="card-adaptive-practice">
                 <Zap className="w-8 h-8 text-green-600 mb-4" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Adaptive Practice</h3>
-                <p className="text-sm text-gray-500 mb-4">AI-powered practice that adapts to your level with mastery tracking and weak area recommendations.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.pharmtechHub.adaptivePractice")}</h3>
+                <p className="text-sm text-gray-500 mb-4">{t("allied.pharmtechHub.aipoweredPracticeThatAdaptsTo")}</p>
                 <span className="text-green-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   Start Practicing <ArrowRight className="w-4 h-4" />
                 </span>
@@ -255,8 +257,8 @@ export default function PharmtechHubPage() {
         </section>
 
         <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">Frequently Asked Questions</h2>
-          <p className="text-gray-500 mb-8 text-center">Common questions about our Pharmacy Technician exam prep resources.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">{t("allied.pharmtechHub.frequentlyAskedQuestions")}</h2>
+          <p className="text-gray-500 mb-8 text-center">{t("allied.pharmtechHub.commonQuestionsAboutOurPharmacy")}</p>
           <div className="space-y-3" data-testid="faq-section">
             {FAQ_DATA.map((faq, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 overflow-hidden">
@@ -279,8 +281,8 @@ export default function PharmtechHubPage() {
         </section>
 
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16" data-testid="related-careers-section">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">Related Allied Health Careers</h2>
-          <p className="text-gray-500 mb-8 text-center">Explore other healthcare career paths with dedicated exam prep resources.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">{t("allied.pharmtechHub.relatedAlliedHealthCareers")}</h2>
+          <p className="text-gray-500 mb-8 text-center">{t("allied.pharmtechHub.exploreOtherHealthcareCareerPaths")}</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {RELATED_CAREERS.map(career => (
               <Link key={career.shortName} href={career.href} className="group bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-green-200 transition-all" data-testid={`link-related-${career.shortName.toLowerCase()}`}>
@@ -297,8 +299,8 @@ export default function PharmtechHubPage() {
 
         <section className="bg-gradient-to-r from-green-600 to-emerald-600 py-16">
           <div className="max-w-3xl mx-auto px-4 text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Start Studying?</h2>
-            <p className="text-green-100 mb-8">Join thousands of pharmacy technician students using NurseNest Allied to pass their certification exams.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">{t("allied.pharmtechHub.readyToStartStudying")}</h2>
+            <p className="text-green-100 mb-8">{t("allied.pharmtechHub.joinThousandsOfPharmacyTechnician")}</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/allied-health/pharmacy-technician/lessons" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold hover:bg-green-50 transition-all" data-testid="button-cta-start">
                 <GraduationCap className="w-4 h-4" /> Start Free

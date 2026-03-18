@@ -6,6 +6,7 @@ import { SeoHubPageTemplate } from "@/components/seo-hub-templates";
 import { getLocaleFromPath } from "@/lib/locale-utils";
 import type { SeoHubPage as SeoHubPageType } from "@shared/schema";
 
+import { useI18n } from "@/lib/i18n";
 type SeoHubPageData = Omit<SeoHubPageType, "publishedAt" | "createdAt" | "updatedAt" | "medicallyReviewedAt"> & {
   publishedAt: string | null;
   createdAt: string;
@@ -17,6 +18,7 @@ type SeoHubPageData = Omit<SeoHubPageType, "publishedAt" | "createdAt" | "update
 };
 
 export default function SeoHubPage() {
+  const { t } = useI18n();
   const params = useParams<Record<string, string>>();
   const [location] = useLocation();
   const [page, setPage] = useState<SeoHubPageData | null>(null);
@@ -59,7 +61,7 @@ export default function SeoHubPage() {
       <>
         <Navigation />
         <div className="min-h-screen bg-gray-50 flex items-center justify-center" data-testid="loading-seo-hub">
-          <div className="animate-pulse text-gray-400">Loading...</div>
+          <div className="animate-pulse text-gray-400">{t("pages.seoHubPage.loading")}</div>
         </div>
       </>
     );
@@ -69,14 +71,14 @@ export default function SeoHubPage() {
     return (
       <>
         <Navigation />
-        <SEO title="Page Not Found" description="The requested page could not be found." noindex={true} />
+        <SEO title={t("pages.seoHubPage.pageNotFound2")} description={t("pages.seoHubPage.theRequestedPageCouldNot")} noindex={true} />
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="max-w-md mx-auto bg-white rounded-xl p-8 text-center shadow-sm border">
-            <h1 className="text-xl font-bold mb-2" data-testid="heading-error">Page Not Found</h1>
+            <h1 className="text-xl font-bold mb-2" data-testid="heading-error">{t("pages.seoHubPage.pageNotFound")}</h1>
             <p className="text-gray-600 mb-4" data-testid="text-error">
               {error || "This page could not be found."}
             </p>
-            <a href="/" className="text-primary hover:underline" data-testid="link-go-home">Go Home</a>
+            <a href="/" className="text-primary hover:underline" data-testid="link-go-home">{t("pages.seoHubPage.goHome")}</a>
           </div>
         </div>
       </>

@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link, useRoute } from "wouter";
 import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowLeft, ArrowRight, MapPin, Target, Eye, EyeOff,
   BookOpen, CheckCircle2, XCircle, ChevronLeft, ChevronRight,
@@ -29,6 +30,7 @@ const STEP_LABELS = [
 type ViewMode = "overview" | "learn" | "errors" | "quiz" | "compare";
 
 export default function ImagingPositioningDetailPage() {
+  const { t } = useI18n();
   const [, params] = useRoute("/medical-imaging/:country/positioning/:projectionSlug");
   const country = params?.country || "canada";
   const slug = params?.projectionSlug || "";
@@ -115,7 +117,7 @@ export default function ImagingPositioningDetailPage() {
     return (
       <div className="max-w-5xl mx-auto px-4 py-20 text-center">
         <MapPin className="w-10 h-10 mx-auto mb-3 text-gray-300 animate-pulse" />
-        <p className="text-gray-400">Loading projection...</p>
+        <p className="text-gray-400">{t("pages.imagingPositioningDetail.loadingProjection")}</p>
       </div>
     );
   }
@@ -124,8 +126,8 @@ export default function ImagingPositioningDetailPage() {
     return (
       <div className="max-w-5xl mx-auto px-4 py-20 text-center" data-testid="positioning-not-found">
         <MapPin className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-        <h1 className="text-xl font-bold text-gray-700 mb-2">Projection Not Found</h1>
-        <p className="text-gray-500 mb-6">The positioning projection you're looking for doesn't exist.</p>
+        <h1 className="text-xl font-bold text-gray-700 mb-2">{t("pages.imagingPositioningDetail.projectionNotFound")}</h1>
+        <p className="text-gray-500 mb-6">{t("pages.imagingPositioningDetail.thePositioningProjectionYoureLooking")}</p>
         <Link href={`/medical-imaging/${country}/positioning`} className="text-indigo-600 hover:text-indigo-700 font-medium" data-testid="link-back-to-list">
           ← Back to Positioning Guide
         </Link>
@@ -277,7 +279,7 @@ export default function ImagingPositioningDetailPage() {
           <div className="mt-8 bg-amber-50 border border-amber-200 rounded-xl p-5" data-testid="section-exam-tips">
             <div className="flex items-center gap-2 mb-2">
               <Lightbulb className="w-5 h-5 text-amber-600" />
-              <h3 className="font-semibold text-amber-800">Exam Tips</h3>
+              <h3 className="font-semibold text-amber-800">{t("pages.imagingPositioningDetail.examTips")}</h3>
             </div>
             <p className="text-sm text-amber-800">{entry.examTips}</p>
           </div>
@@ -287,7 +289,7 @@ export default function ImagingPositioningDetailPage() {
           <div className="mt-4 bg-blue-50 border border-blue-200 rounded-xl p-5" data-testid="section-clinical-notes">
             <div className="flex items-center gap-2 mb-2">
               <Shield className="w-5 h-5 text-blue-600" />
-              <h3 className="font-semibold text-blue-800">Clinical Notes</h3>
+              <h3 className="font-semibold text-blue-800">{t("pages.imagingPositioningDetail.clinicalNotes")}</h3>
             </div>
             <p className="text-sm text-blue-800">{entry.clinicalNotes}</p>
           </div>
@@ -303,7 +305,7 @@ function OverviewSection({ entry, showLabels, setShowLabels, isExamMode, labelOv
       {(entry.teachingImageUrl || entry.examImageUrl || entry.positioningDiagramUrl) && (
         <div className="bg-white border border-gray-100 rounded-xl overflow-hidden" data-testid="section-images">
           <div className="p-4 border-b border-gray-100 flex items-center justify-between">
-            <h2 className="font-semibold text-gray-900">Teaching Images</h2>
+            <h2 className="font-semibold text-gray-900">{t("pages.imagingPositioningDetail.teachingImages")}</h2>
             {labelOverlays.length > 0 && (
               <button
                 onClick={() => setShowLabels(!showLabels)}
@@ -318,7 +320,7 @@ function OverviewSection({ entry, showLabels, setShowLabels, isExamMode, labelOv
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
             {entry.teachingImageUrl && (
               <div className="relative">
-                <p className="text-xs font-medium text-gray-500 mb-2 uppercase tracking-wide">Teaching Image</p>
+                <p className="text-xs font-medium text-gray-500 mb-2 uppercase tracking-wide">{t("pages.imagingPositioningDetail.teachingImage")}</p>
                 <div className="relative rounded-lg overflow-hidden bg-gray-50">
                   <img src={entry.teachingImageUrl} alt={`${entry.projectionName} radiographic teaching image - NurseNest medical imaging`} title={`${entry.projectionName} teaching`} className="w-full h-auto" loading="lazy" data-testid="img-teaching" />
                   {showLabels && !isExamMode && labelOverlays.length > 0 && (
@@ -348,7 +350,7 @@ function OverviewSection({ entry, showLabels, setShowLabels, isExamMode, labelOv
             )}
             {entry.examImageUrl && (
               <div>
-                <p className="text-xs font-medium text-gray-500 mb-2 uppercase tracking-wide">Exam Image</p>
+                <p className="text-xs font-medium text-gray-500 mb-2 uppercase tracking-wide">{t("pages.imagingPositioningDetail.examImage")}</p>
                 <div className="rounded-lg overflow-hidden bg-gray-50">
                   <img src={entry.examImageUrl} alt={`${entry.projectionName} radiographic exam image - NurseNest medical imaging`} title={`${entry.projectionName} exam`} className="w-full h-auto" loading="lazy" data-testid="img-exam" />
                 </div>
@@ -356,7 +358,7 @@ function OverviewSection({ entry, showLabels, setShowLabels, isExamMode, labelOv
             )}
             {entry.positioningDiagramUrl && (
               <div>
-                <p className="text-xs font-medium text-gray-500 mb-2 uppercase tracking-wide">Positioning Diagram</p>
+                <p className="text-xs font-medium text-gray-500 mb-2 uppercase tracking-wide">{t("pages.imagingPositioningDetail.positioningDiagram")}</p>
                 <div className="rounded-lg overflow-hidden bg-gray-50">
                   <img src={entry.positioningDiagramUrl} alt={`${entry.projectionName} positioning diagram - NurseNest medical imaging`} title={`${entry.projectionName} diagram`} className="w-full h-auto" loading="lazy" data-testid="img-diagram" />
                 </div>
@@ -386,16 +388,16 @@ function OverviewSection({ entry, showLabels, setShowLabels, isExamMode, labelOv
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <InfoCard title="Patient Position" content={entry.patientPosition} testId="info-patient-position" />
-        <InfoCard title="Central Ray" content={entry.centralRay} testId="info-central-ray" />
-        {entry.bodyPartPosition && <InfoCard title="Body Part Position" content={entry.bodyPartPosition} testId="info-body-part-position" />}
-        {entry.centralRayDirection && <InfoCard title="Central Ray Direction" content={entry.centralRayDirection} testId="info-cr-direction" />}
+        <InfoCard title={t("pages.imagingPositioningDetail.patientPosition")} content={entry.patientPosition} testId="info-patient-position" />
+        <InfoCard title={t("pages.imagingPositioningDetail.centralRay")} content={entry.centralRay} testId="info-central-ray" />
+        {entry.bodyPartPosition && <InfoCard title={t("pages.imagingPositioningDetail.bodyPartPosition")} content={entry.bodyPartPosition} testId="info-body-part-position" />}
+        {entry.centralRayDirection && <InfoCard title={t("pages.imagingPositioningDetail.centralRayDirection")} content={entry.centralRayDirection} testId="info-cr-direction" />}
         {entry.sid && <InfoCard title="SID" content={entry.sid} testId="info-sid" />}
-        {entry.filmSize && <InfoCard title="Film/IR Size" content={entry.filmSize} testId="info-film-size" />}
-        {entry.detectorPlacement && <InfoCard title="Detector Placement" content={entry.detectorPlacement} testId="info-detector" />}
-        {entry.collimationGuidance && <InfoCard title="Collimation" content={entry.collimationGuidance} testId="info-collimation" />}
-        {entry.breathingInstructions && <InfoCard title="Breathing Instructions" content={entry.breathingInstructions} testId="info-breathing" />}
-        {entry.technicalFactors && <InfoCard title="Technical Factors" content={entry.technicalFactors} testId="info-technical" />}
+        {entry.filmSize && <InfoCard title={t("pages.imagingPositioningDetail.filmirSize")} content={entry.filmSize} testId="info-film-size" />}
+        {entry.detectorPlacement && <InfoCard title={t("pages.imagingPositioningDetail.detectorPlacement")} content={entry.detectorPlacement} testId="info-detector" />}
+        {entry.collimationGuidance && <InfoCard title={t("pages.imagingPositioningDetail.collimation")} content={entry.collimationGuidance} testId="info-collimation" />}
+        {entry.breathingInstructions && <InfoCard title={t("pages.imagingPositioningDetail.breathingInstructions")} content={entry.breathingInstructions} testId="info-breathing" />}
+        {entry.technicalFactors && <InfoCard title={t("pages.imagingPositioningDetail.technicalFactors")} content={entry.technicalFactors} testId="info-technical" />}
       </div>
 
       {entry.anatomyDemonstrated && (
@@ -569,7 +571,7 @@ function ErrorTrainer({ errors, currentIndex, setCurrentIndex, selectedAnswer, s
         <div className="p-6">
           {error.imageUrl && (
             <div className="mb-4 rounded-lg overflow-hidden bg-gray-50">
-              <img src={error.imageUrl} alt="Radiographic positioning error example - NurseNest medical imaging" className="w-full h-auto max-h-64 object-contain" loading="lazy" data-testid="img-error-trainer" />
+              <img src={error.imageUrl} alt={t("pages.imagingPositioningDetail.radiographicPositioningErrorExampleNursenest")} className="w-full h-auto max-h-64 object-contain" loading="lazy" data-testid="img-error-trainer" />
             </div>
           )}
 
@@ -609,7 +611,7 @@ function ErrorTrainer({ errors, currentIndex, setCurrentIndex, selectedAnswer, s
 
           {selectedAnswer && !isExamMode && error.rationale && (
             <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4" data-testid="text-error-rationale">
-              <p className="text-xs font-semibold text-blue-700 uppercase mb-1">Rationale</p>
+              <p className="text-xs font-semibold text-blue-700 uppercase mb-1">{t("pages.imagingPositioningDetail.rationale")}</p>
               <p className="text-sm text-blue-800">{error.rationale}</p>
             </div>
           )}
@@ -644,7 +646,7 @@ function QuizMode({ questions, currentIndex, setCurrentIndex, selectedAnswer, se
     return (
       <div className="bg-white border border-gray-100 rounded-xl p-8 text-center" data-testid="quiz-results">
         <GraduationCap className="w-12 h-12 mx-auto mb-4 text-indigo-500" />
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Quiz Complete!</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.imagingPositioningDetail.quizComplete")}</h2>
         <p className="text-4xl font-bold text-indigo-600 mb-2">{pct}%</p>
         <p className="text-gray-500 mb-6">{score.correct} correct out of {score.total} questions</p>
         <button
@@ -694,7 +696,7 @@ function QuizMode({ questions, currentIndex, setCurrentIndex, selectedAnswer, se
 
           {q.imageUrl && (
             <div className="mb-4 rounded-lg overflow-hidden bg-gray-50">
-              <img src={q.imageUrl} alt="Radiographic positioning quiz image - NurseNest medical imaging" className="w-full h-auto max-h-64 object-contain" loading="lazy" data-testid="img-quiz" />
+              <img src={q.imageUrl} alt={t("pages.imagingPositioningDetail.radiographicPositioningQuizImageNursenest")} className="w-full h-auto max-h-64 object-contain" loading="lazy" data-testid="img-quiz" />
             </div>
           )}
 
@@ -733,7 +735,7 @@ function QuizMode({ questions, currentIndex, setCurrentIndex, selectedAnswer, se
 
           {selectedAnswer !== null && !isExamMode && q.rationale && (
             <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4" data-testid="text-quiz-rationale">
-              <p className="text-xs font-semibold text-blue-700 uppercase mb-1">Rationale</p>
+              <p className="text-xs font-semibold text-blue-700 uppercase mb-1">{t("pages.imagingPositioningDetail.rationale2")}</p>
               <p className="text-sm text-blue-800">{q.rationale}</p>
             </div>
           )}
@@ -785,7 +787,7 @@ function ImageComparison({ correctUrl, incorrectUrl, projectionName }: { correct
         <div className="p-4 border-r border-gray-100">
           <div className="flex items-center gap-2 mb-3">
             <CheckCircle2 className="w-4 h-4 text-green-500" />
-            <p className="text-sm font-semibold text-green-700">Correct Positioning</p>
+            <p className="text-sm font-semibold text-green-700">{t("pages.imagingPositioningDetail.correctPositioning")}</p>
           </div>
           <div className="rounded-lg overflow-hidden bg-gray-50 border-2 border-green-200">
             <img src={correctUrl} alt={`${projectionName} correct positioning - NurseNest medical imaging`} className="w-full h-auto" loading="lazy" data-testid="img-correct" />
@@ -794,7 +796,7 @@ function ImageComparison({ correctUrl, incorrectUrl, projectionName }: { correct
         <div className="p-4">
           <div className="flex items-center gap-2 mb-3">
             <XCircle className="w-4 h-4 text-red-500" />
-            <p className="text-sm font-semibold text-red-700">Incorrect Positioning</p>
+            <p className="text-sm font-semibold text-red-700">{t("pages.imagingPositioningDetail.incorrectPositioning")}</p>
           </div>
           <div className="rounded-lg overflow-hidden bg-gray-50 border-2 border-red-200">
             <img src={incorrectUrl} alt={`${projectionName} incorrect positioning - NurseNest medical imaging`} className="w-full h-auto" loading="lazy" data-testid="img-incorrect" />

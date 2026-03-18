@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, CheckCircle2, ChevronRight, Shield, BarChart3, Users,
   Target, TrendingUp, Clock, Award, FileText, BookOpen, Lock,
@@ -164,6 +165,7 @@ const FAQS = [
 ];
 
 export default function AlliedInstitutionsPage() {
+  const { t } = useI18n();
   const [formData, setFormData] = useState({
     institutionName: "", programType: "", estimatedStudentCount: "",
     country: "", contactName: "", email: "", phone: "", message: "",
@@ -202,8 +204,8 @@ export default function AlliedInstitutionsPage() {
   return (
     <div data-testid="institutions-page">
       <AlliedSEO
-        title="Institutional Exam Prep for Allied Health Programs"
-        description="Improve certification pass rates with blueprint-weighted mock exams, faculty analytics, at-risk student detection, and US/Canada exam alignment. Cohort and individual licensing available."
+        title={t("allied.alliedInstitutions.institutionalExamPrepForAllied")}
+        description={t("allied.alliedInstitutions.improveCertificationPassRatesWith")}
         keywords="institutional exam prep, allied health program, certification pass rates, faculty analytics, cohort licensing, PTCB prep for schools, NBRC prep for programs, nursing exam prep institutional"
         canonicalPath="/institutions"
         structuredData={{
@@ -259,8 +261,8 @@ export default function AlliedInstitutionsPage() {
       <section className="py-16 bg-white border-b border-gray-100" data-testid="section-pain-points">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">The Problems Your Program Is Already Facing</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">These are not hypotheticals. Programs across North America are dealing with these challenges right now.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{t("allied.alliedInstitutions.theProblemsYourProgramIs")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("allied.alliedInstitutions.theseAreNotHypotheticalsPrograms")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {PAIN_POINTS.map((p, i) => (
@@ -277,8 +279,8 @@ export default function AlliedInstitutionsPage() {
       <section className="py-20 bg-gray-50" data-testid="section-why-partner">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">How NurseNest Solves These Problems</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">We built NurseNest specifically for allied health programs, not as an afterthought. Every feature exists because program directors and clinical coordinators asked for it.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{t("allied.alliedInstitutions.howNursenestSolvesTheseProblems")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("allied.alliedInstitutions.weBuiltNursenestSpecificallyFor")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {WHY_PARTNER.map((item, i) => (
@@ -296,29 +298,29 @@ export default function AlliedInstitutionsPage() {
       <section className="py-20 bg-white" data-testid="section-differentiators">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">What Makes NurseNest Different From Every Other Platform</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{t("allied.alliedInstitutions.whatMakesNursenestDifferentFrom")}</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-6">
               <div className="flex gap-4">
                 <CheckCircle2 className="w-6 h-6 text-teal-500 mt-1 flex-shrink-0" />
                 <div>
-                  <h4 className="font-bold text-gray-900 mb-1">Blueprint-Weighted, Not Random</h4>
-                  <p className="text-sm text-gray-600">Every mock exam is weighted to the official certification blueprint. If the PTCB allocates 40% to Medications, our mock allocates 40% to Medications. Students practice the exact distribution they will face on test day.</p>
+                  <h4 className="font-bold text-gray-900 mb-1">{t("allied.alliedInstitutions.blueprintweightedNotRandom")}</h4>
+                  <p className="text-sm text-gray-600">{t("allied.alliedInstitutions.everyMockExamIsWeighted")}</p>
                 </div>
               </div>
               <div className="flex gap-4">
                 <CheckCircle2 className="w-6 h-6 text-teal-500 mt-1 flex-shrink-0" />
                 <div>
-                  <h4 className="font-bold text-gray-900 mb-1">Real Exam Mode Simulation</h4>
-                  <p className="text-sm text-gray-600">Our mock exams use adaptive CAT-style logic that mirrors the real test experience. Timed, no pausing, no going back. Students build stamina and test-taking discipline, not just content knowledge.</p>
+                  <h4 className="font-bold text-gray-900 mb-1">{t("allied.alliedInstitutions.realExamModeSimulation")}</h4>
+                  <p className="text-sm text-gray-600">{t("allied.alliedInstitutions.ourMockExamsUseAdaptive")}</p>
                 </div>
               </div>
               <div className="flex gap-4">
                 <CheckCircle2 className="w-6 h-6 text-teal-500 mt-1 flex-shrink-0" />
                 <div>
-                  <h4 className="font-bold text-gray-900 mb-1">600+ Word Rationales</h4>
-                  <p className="text-sm text-gray-600">Most platforms give a one-sentence explanation. NurseNest provides 600+ word clinical rationales that teach the reasoning behind every answer. Students learn the "why," not just the "what."</p>
+                  <h4 className="font-bold text-gray-900 mb-1">{t("allied.alliedInstitutions.600WordRationales")}</h4>
+                  <p className="text-sm text-gray-600">{t("allied.alliedInstitutions.mostPlatformsGiveAOnesentence")}</p>
                 </div>
               </div>
             </div>
@@ -326,22 +328,22 @@ export default function AlliedInstitutionsPage() {
               <div className="flex gap-4">
                 <CheckCircle2 className="w-6 h-6 text-teal-500 mt-1 flex-shrink-0" />
                 <div>
-                  <h4 className="font-bold text-gray-900 mb-1">US + Canada in One Platform</h4>
-                  <p className="text-sm text-gray-600">Toggle between US and Canadian exam tracks instantly. Lab units, legal modules, blueprint weights, and question pools all adjust automatically. No need to buy separate platforms for different regions.</p>
+                  <h4 className="font-bold text-gray-900 mb-1">{t("allied.alliedInstitutions.usCanadaInOnePlatform")}</h4>
+                  <p className="text-sm text-gray-600">{t("allied.alliedInstitutions.toggleBetweenUsAndCanadian")}</p>
                 </div>
               </div>
               <div className="flex gap-4">
                 <CheckCircle2 className="w-6 h-6 text-teal-500 mt-1 flex-shrink-0" />
                 <div>
-                  <h4 className="font-bold text-gray-900 mb-1">Faculty See What Students Cannot</h4>
-                  <p className="text-sm text-gray-600">Domain heatmaps reveal exactly which exam areas your cohort struggles with. At-risk flags identify students heading toward failure. Remediation recommendations tell you what to assign -- not just that there is a problem.</p>
+                  <h4 className="font-bold text-gray-900 mb-1">{t("allied.alliedInstitutions.facultySeeWhatStudentsCannot")}</h4>
+                  <p className="text-sm text-gray-600">{t("allied.alliedInstitutions.domainHeatmapsRevealExactlyWhich")}</p>
                 </div>
               </div>
               <div className="flex gap-4">
                 <CheckCircle2 className="w-6 h-6 text-teal-500 mt-1 flex-shrink-0" />
                 <div>
-                  <h4 className="font-bold text-gray-900 mb-1">Security That Protects Your Investment</h4>
-                  <p className="text-sm text-gray-600">Domain Lock ensures only students with verified institutional email addresses can access your license. No shared codes, no unauthorized access, no wasted seats. Audit logs track every enrollment event.</p>
+                  <h4 className="font-bold text-gray-900 mb-1">{t("allied.alliedInstitutions.securityThatProtectsYourInvestment")}</h4>
+                  <p className="text-sm text-gray-600">{t("allied.alliedInstitutions.domainLockEnsuresOnlyStudents")}</p>
                 </div>
               </div>
             </div>
@@ -353,8 +355,8 @@ export default function AlliedInstitutionsPage() {
       <section className="py-16 bg-gradient-to-b from-gray-50 to-white" data-testid="section-programs">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">Supported Allied Health Programs</h2>
-            <p className="text-gray-600">One platform. Five career tracks. Both regions.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("allied.alliedInstitutions.supportedAlliedHealthPrograms")}</h2>
+            <p className="text-gray-600">{t("allied.alliedInstitutions.onePlatformFiveCareerTracks")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {CAREER_PROGRAMS.map(career => (
@@ -376,14 +378,14 @@ export default function AlliedInstitutionsPage() {
       <section className="py-20 bg-white" data-testid="section-faculty-preview">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Faculty Analytics That Actually Change Outcomes</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Most platforms give you a score. NurseNest gives you the intelligence to act before a student fails.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{t("allied.alliedInstitutions.facultyAnalyticsThatActuallyChange")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("allied.alliedInstitutions.mostPlatformsGiveYouA")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl border border-teal-100 p-6">
               <BarChart3 className="w-7 h-7 text-teal-600 mb-3" />
-              <h3 className="font-bold text-gray-900 mb-2">Domain Weakness Heatmap</h3>
-              <p className="text-sm text-gray-600 mb-4">See which exam domains your cohort struggles with most. Color-coded severity (red/amber/green) across every blueprint area. Identify systemic curriculum gaps instantly.</p>
+              <h3 className="font-bold text-gray-900 mb-2">{t("allied.alliedInstitutions.domainWeaknessHeatmap")}</h3>
+              <p className="text-sm text-gray-600 mb-4">{t("allied.alliedInstitutions.seeWhichExamDomainsYour")}</p>
               <div className="space-y-2">
                 {["Medications", "Patient Safety", "Federal Requirements", "Order Processing"].map((d, i) => {
                   const vals = [82, 45, 61, 73];
@@ -404,8 +406,8 @@ export default function AlliedInstitutionsPage() {
             </div>
             <div className="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl border border-red-100 p-6">
               <AlertTriangle className="w-7 h-7 text-red-500 mb-3" />
-              <h3 className="font-bold text-gray-900 mb-2">At-Risk Student Detection</h3>
-              <p className="text-sm text-gray-600 mb-4">Students scoring below 60% in any domain are automatically flagged. Faculty receive actionable recommendations -- not just a warning, but what to assign and which topics to focus remediation on.</p>
+              <h3 className="font-bold text-gray-900 mb-2">{t("allied.alliedInstitutions.atriskStudentDetection")}</h3>
+              <p className="text-sm text-gray-600 mb-4">{t("allied.alliedInstitutions.studentsScoringBelow60In")}</p>
               <div className="space-y-2 text-sm">
                 {[
                   { name: "Student A", domain: "Federal Requirements", score: 42 },
@@ -425,32 +427,32 @@ export default function AlliedInstitutionsPage() {
             </div>
             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-100 p-6">
               <TrendingUp className="w-7 h-7 text-blue-600 mb-3" />
-              <h3 className="font-bold text-gray-900 mb-2">Mock Exam Performance Distribution</h3>
-              <p className="text-sm text-gray-600 mb-4">Visualize how your cohort performs on blueprint-weighted mock exams. See pass probability, score distributions, and improvement trends over the semester.</p>
+              <h3 className="font-bold text-gray-900 mb-2">{t("allied.alliedInstitutions.mockExamPerformanceDistribution")}</h3>
+              <p className="text-sm text-gray-600 mb-4">{t("allied.alliedInstitutions.visualizeHowYourCohortPerforms")}</p>
               <div className="grid grid-cols-3 gap-3 text-center">
                 <div className="bg-white/60 rounded-lg py-3">
                   <div className="text-xl font-bold text-blue-700">72%</div>
-                  <div className="text-xs text-gray-500">Avg Score</div>
+                  <div className="text-xs text-gray-500">{t("allied.alliedInstitutions.avgScore")}</div>
                 </div>
                 <div className="bg-white/60 rounded-lg py-3">
                   <div className="text-xl font-bold text-green-600">84%</div>
-                  <div className="text-xs text-gray-500">Pass Rate</div>
+                  <div className="text-xs text-gray-500">{t("allied.alliedInstitutions.passRate")}</div>
                 </div>
                 <div className="bg-white/60 rounded-lg py-3">
                   <div className="text-xl font-bold text-teal-600">+11%</div>
-                  <div className="text-xs text-gray-500">Improvement</div>
+                  <div className="text-xs text-gray-500">{t("allied.alliedInstitutions.improvement")}</div>
                 </div>
               </div>
             </div>
             <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl border border-purple-100 p-6">
               <FileText className="w-7 h-7 text-purple-600 mb-3" />
-              <h3 className="font-bold text-gray-900 mb-2">Accreditation-Ready Exports</h3>
-              <p className="text-sm text-gray-600 mb-4">Download cohort performance reports in CSV or PDF format. Competency mapping, domain mastery summaries, and student outcome data formatted for accreditation reviewers.</p>
+              <h3 className="font-bold text-gray-900 mb-2">{t("allied.alliedInstitutions.accreditationreadyExports")}</h3>
+              <p className="text-sm text-gray-600 mb-4">{t("allied.alliedInstitutions.downloadCohortPerformanceReportsIn")}</p>
               <div className="space-y-2 text-sm">
-                <div className="flex items-center gap-2 text-gray-700"><CheckCircle2 className="w-4 h-4 text-purple-500" /> Competency mapping by exam blueprint</div>
-                <div className="flex items-center gap-2 text-gray-700"><CheckCircle2 className="w-4 h-4 text-purple-500" /> Domain mastery percentages per student</div>
-                <div className="flex items-center gap-2 text-gray-700"><CheckCircle2 className="w-4 h-4 text-purple-500" /> Pass probability and readiness trends</div>
-                <div className="flex items-center gap-2 text-gray-700"><CheckCircle2 className="w-4 h-4 text-purple-500" /> Exportable to CSV, PDF, and LMS formats</div>
+                <div className="flex items-center gap-2 text-gray-700"><CheckCircle2 className="w-4 h-4 text-purple-500" /> {t("allied.alliedInstitutions.competencyMappingByExamBlueprint")}</div>
+                <div className="flex items-center gap-2 text-gray-700"><CheckCircle2 className="w-4 h-4 text-purple-500" /> {t("allied.alliedInstitutions.domainMasteryPercentagesPerStudent")}</div>
+                <div className="flex items-center gap-2 text-gray-700"><CheckCircle2 className="w-4 h-4 text-purple-500" /> {t("allied.alliedInstitutions.passProbabilityAndReadinessTrends")}</div>
+                <div className="flex items-center gap-2 text-gray-700"><CheckCircle2 className="w-4 h-4 text-purple-500" /> {t("allied.alliedInstitutions.exportableToCsvPdfAnd")}</div>
               </div>
             </div>
           </div>
@@ -461,14 +463,14 @@ export default function AlliedInstitutionsPage() {
       <section className="py-20 bg-gray-50" data-testid="section-model-comparison">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Two Licensing Models. Choose What Fits Your Program.</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Whether you run fixed semesters or rolling admissions, we have a model that matches your workflow.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{t("allied.alliedInstitutions.twoLicensingModelsChooseWhat")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("allied.alliedInstitutions.whetherYouRunFixedSemesters")}</p>
           </div>
           <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
             <div className="grid grid-cols-3 bg-gray-50 border-b border-gray-200">
               <div className="px-5 py-3 text-sm font-semibold text-gray-500" />
-              <div className="px-5 py-3 text-sm font-bold text-teal-700 text-center">Cohort Model</div>
-              <div className="px-5 py-3 text-sm font-bold text-blue-700 text-center">Individual Model</div>
+              <div className="px-5 py-3 text-sm font-bold text-teal-700 text-center">{t("allied.alliedInstitutions.cohortModel")}</div>
+              <div className="px-5 py-3 text-sm font-bold text-blue-700 text-center">{t("allied.alliedInstitutions.individualModel")}</div>
             </div>
             {MODEL_COMPARISON.map((row, i) => (
               <div key={i} className={`grid grid-cols-3 ${i < MODEL_COMPARISON.length - 1 ? "border-b border-gray-100" : ""}`}>
@@ -485,8 +487,8 @@ export default function AlliedInstitutionsPage() {
       <section className="py-20 bg-white" data-testid="section-pricing-tiers">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Institutional Pricing</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Every tier includes US and Canada exam track support. No hidden costs. Free readiness exams for all students regardless of tier.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{t("allied.alliedInstitutions.institutionalPricing")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("allied.alliedInstitutions.everyTierIncludesUsAnd")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {TIERS.map((tier, i) => (
@@ -520,8 +522,8 @@ export default function AlliedInstitutionsPage() {
       <section className="py-16 bg-gray-50" data-testid="section-addons">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">Optional Add-Ons</h2>
-            <p className="text-gray-600">Customize your institutional package with add-on modules.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("allied.alliedInstitutions.optionalAddons")}</h2>
+            <p className="text-gray-600">{t("allied.alliedInstitutions.customizeYourInstitutionalPackageWith")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {ADDONS.map((addon, i) => (
@@ -539,27 +541,27 @@ export default function AlliedInstitutionsPage() {
       <section className="py-20 bg-white" data-testid="section-security">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Enrollment Security That Protects Your Investment</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Shared codes are the number one reason institutional licenses get abused. NurseNest eliminates the problem.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{t("allied.alliedInstitutions.enrollmentSecurityThatProtectsYour")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("allied.alliedInstitutions.sharedCodesAreTheNumber")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white rounded-2xl border border-gray-200 p-6">
               <Lock className="w-7 h-7 text-teal-500 mb-3" />
-              <h3 className="font-bold text-gray-900 mb-2">Domain Lock (Default)</h3>
-              <p className="text-sm text-gray-600 mb-3">Only students with a verified email from your institution's domain can redeem the invite code. For example, only @myschool.edu addresses are accepted.</p>
-              <div className="px-3 py-2 bg-teal-50 rounded-lg text-xs text-teal-700 font-medium">Recommended for most programs</div>
+              <h3 className="font-bold text-gray-900 mb-2">{t("allied.alliedInstitutions.domainLockDefault")}</h3>
+              <p className="text-sm text-gray-600 mb-3">{t("allied.alliedInstitutions.onlyStudentsWithAVerified")}</p>
+              <div className="px-3 py-2 bg-teal-50 rounded-lg text-xs text-teal-700 font-medium">{t("allied.alliedInstitutions.recommendedForMostPrograms")}</div>
             </div>
             <div className="bg-white rounded-2xl border border-gray-200 p-6">
               <Users className="w-7 h-7 text-blue-500 mb-3" />
-              <h3 className="font-bold text-gray-900 mb-2">Roster Allowlist</h3>
-              <p className="text-sm text-gray-600 mb-3">Upload a list of approved student emails. Only those exact addresses can enroll. Best for programs with non-standard email domains or external students.</p>
-              <div className="px-3 py-2 bg-blue-50 rounded-lg text-xs text-blue-700 font-medium">For controlled enrollment</div>
+              <h3 className="font-bold text-gray-900 mb-2">{t("allied.alliedInstitutions.rosterAllowlist")}</h3>
+              <p className="text-sm text-gray-600 mb-3">{t("allied.alliedInstitutions.uploadAListOfApproved")}</p>
+              <div className="px-3 py-2 bg-blue-50 rounded-lg text-xs text-blue-700 font-medium">{t("allied.alliedInstitutions.forControlledEnrollment")}</div>
             </div>
             <div className="bg-white rounded-2xl border border-gray-200 p-6">
               <Shield className="w-7 h-7 text-purple-500 mb-3" />
-              <h3 className="font-bold text-gray-900 mb-2">Approval Required</h3>
-              <p className="text-sm text-gray-600 mb-3">Students request access, and faculty manually approve each enrollment. Full audit trail for every accept/deny decision.</p>
-              <div className="px-3 py-2 bg-purple-50 rounded-lg text-xs text-purple-700 font-medium">Maximum control</div>
+              <h3 className="font-bold text-gray-900 mb-2">{t("allied.alliedInstitutions.approvalRequired")}</h3>
+              <p className="text-sm text-gray-600 mb-3">{t("allied.alliedInstitutions.studentsRequestAccessAndFaculty")}</p>
+              <div className="px-3 py-2 bg-purple-50 rounded-lg text-xs text-purple-700 font-medium">{t("allied.alliedInstitutions.maximumControl")}</div>
             </div>
           </div>
         </div>
@@ -569,7 +571,7 @@ export default function AlliedInstitutionsPage() {
       <section className="py-16 bg-gradient-to-br from-teal-600 to-teal-700" data-testid="section-pilot">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Award className="w-10 h-10 text-teal-200 mx-auto mb-4" />
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Start With a 30-Day Pilot</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">{t("allied.alliedInstitutions.startWithA30dayPilot")}</h2>
           <p className="text-teal-100 mb-3 text-lg max-w-2xl mx-auto">
             Not ready to commit? Run a risk-free pilot with one cohort. You get Faculty Lite analytics, full student access, and a post-pilot performance report.
           </p>
@@ -586,8 +588,8 @@ export default function AlliedInstitutionsPage() {
       <section className="py-20 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">Frequently Asked Questions</h2>
-            <p className="text-gray-600">Have more questions? <Link href="/institutions/faq" className="text-teal-600 font-medium hover:underline" data-testid="link-full-faq">View full institutional FAQ</Link></p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("allied.alliedInstitutions.frequentlyAskedQuestions")}</h2>
+            <p className="text-gray-600">Have more questions? <Link href="/institutions/faq" className="text-teal-600 font-medium hover:underline" data-testid="link-full-faq">{t("allied.alliedInstitutions.viewFullInstitutionalFaq")}</Link></p>
           </div>
           <div className="space-y-3">
             {FAQS.map((faq, i) => (
@@ -601,75 +603,75 @@ export default function AlliedInstitutionsPage() {
       <section className="py-20 bg-gray-50" id="contact-form" data-testid="section-contact">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Get Institutional Pricing</h2>
-            <p className="text-gray-600">Tell us about your program and we will send you a customized pricing proposal within 24 hours.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{t("allied.alliedInstitutions.getInstitutionalPricing")}</h2>
+            <p className="text-gray-600">{t("allied.alliedInstitutions.tellUsAboutYourProgram")}</p>
           </div>
           {formSubmitted ? (
             <div className="bg-white rounded-2xl border border-teal-200 p-8 text-center" data-testid="form-success">
               <CheckCircle2 className="w-12 h-12 text-teal-500 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Thank You</h3>
-              <p className="text-gray-600 mb-4">We received your request and will send you a customized pricing proposal within 24 hours. Check your email for a confirmation.</p>
-              <p className="text-sm text-gray-500">Need immediate assistance? Email us at institutions@nursenest.ca</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{t("allied.alliedInstitutions.thankYou")}</h3>
+              <p className="text-gray-600 mb-4">{t("allied.alliedInstitutions.weReceivedYourRequestAnd")}</p>
+              <p className="text-sm text-gray-500">{t("allied.alliedInstitutions.needImmediateAssistanceEmailUs")}</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 shadow-sm space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Institution Name *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.alliedInstitutions.institutionName")}</label>
                   <input type="text" required value={formData.institutionName} onChange={e => setFormData(p => ({ ...p, institutionName: e.target.value }))} className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm" placeholder="e.g., Mohawk College" data-testid="input-institution-name" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Program Type *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.alliedInstitutions.programType")}</label>
                   <select required value={formData.programType} onChange={e => setFormData(p => ({ ...p, programType: e.target.value }))} className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm" data-testid="input-program-type">
-                    <option value="">Select program</option>
-                    <option value="Pharmacy Technician">Pharmacy Technician</option>
-                    <option value="Respiratory Therapy">Respiratory Therapy</option>
-                    <option value="Paramedic">Paramedic / EMS</option>
-                    <option value="Medical Laboratory">Medical Laboratory</option>
-                    <option value="Diagnostic Imaging">Diagnostic Imaging</option>
-                    <option value="Nursing">Nursing (RPN / RN / NP)</option>
-                    <option value="Multiple Programs">Multiple Programs</option>
+                    <option value="">{t("allied.alliedInstitutions.selectProgram")}</option>
+                    <option value="Pharmacy Technician">{t("allied.alliedInstitutions.pharmacyTechnician")}</option>
+                    <option value="Respiratory Therapy">{t("allied.alliedInstitutions.respiratoryTherapy")}</option>
+                    <option value="Paramedic">{t("allied.alliedInstitutions.paramedicEms")}</option>
+                    <option value="Medical Laboratory">{t("allied.alliedInstitutions.medicalLaboratory")}</option>
+                    <option value="Diagnostic Imaging">{t("allied.alliedInstitutions.diagnosticImaging")}</option>
+                    <option value="Nursing">{t("allied.alliedInstitutions.nursingRpnRnNp")}</option>
+                    <option value="Multiple Programs">{t("allied.alliedInstitutions.multiplePrograms")}</option>
                   </select>
                 </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Estimated Student Count *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.alliedInstitutions.estimatedStudentCount")}</label>
                   <input type="number" required value={formData.estimatedStudentCount} onChange={e => setFormData(p => ({ ...p, estimatedStudentCount: e.target.value }))} className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm" placeholder="e.g., 120" min="1" data-testid="input-student-count" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Country *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.alliedInstitutions.country")}</label>
                   <select required value={formData.country} onChange={e => setFormData(p => ({ ...p, country: e.target.value }))} className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm" data-testid="input-country">
-                    <option value="">Select country</option>
-                    <option value="United States">United States</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Other">Other</option>
+                    <option value="">{t("allied.alliedInstitutions.selectCountry")}</option>
+                    <option value="United States">{t("allied.alliedInstitutions.unitedStates")}</option>
+                    <option value="Canada">{t("allied.alliedInstitutions.canada")}</option>
+                    <option value="Other">{t("allied.alliedInstitutions.other")}</option>
                   </select>
                 </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Contact Name *</label>
-                  <input type="text" required value={formData.contactName} onChange={e => setFormData(p => ({ ...p, contactName: e.target.value }))} className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm" placeholder="Your name" data-testid="input-contact-name" />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.alliedInstitutions.contactName")}</label>
+                  <input type="text" required value={formData.contactName} onChange={e => setFormData(p => ({ ...p, contactName: e.target.value }))} className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm" placeholder={t("allied.alliedInstitutions.yourName")} data-testid="input-contact-name" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                  <input type="email" required value={formData.email} onChange={e => setFormData(p => ({ ...p, email: e.target.value }))} className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm" placeholder="name@school.edu" data-testid="input-email" />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.alliedInstitutions.email")}</label>
+                  <input type="email" required value={formData.email} onChange={e => setFormData(p => ({ ...p, email: e.target.value }))} className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm" placeholder={t("allied.alliedInstitutions.nameschooledu")} data-testid="input-email" />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone (optional)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.alliedInstitutions.phoneOptional")}</label>
                 <input type="tel" value={formData.phone} onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))} className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm" placeholder="(555) 123-4567" data-testid="input-phone" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Tell us about your program (optional)</label>
-                <textarea value={formData.message} onChange={e => setFormData(p => ({ ...p, message: e.target.value }))} rows={4} className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm resize-none" placeholder="Number of cohorts per year, current exam prep tools, specific challenges..." data-testid="input-message" />
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.alliedInstitutions.tellUsAboutYourProgram2")}</label>
+                <textarea value={formData.message} onChange={e => setFormData(p => ({ ...p, message: e.target.value }))} rows={4} className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm resize-none" placeholder={t("allied.alliedInstitutions.numberOfCohortsPerYear")} data-testid="input-message" />
               </div>
               {formError && <p className="text-sm text-red-600" data-testid="text-form-error">{formError}</p>}
               <button type="submit" className="w-full px-6 py-3 bg-teal-600 text-white rounded-xl font-bold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200" data-testid="button-submit-form">
                 Request Pricing Proposal
               </button>
-              <p className="text-xs text-gray-400 text-center">We respond within 24 hours. Your information is kept confidential.</p>
+              <p className="text-xs text-gray-400 text-center">{t("allied.alliedInstitutions.weRespondWithin24Hours")}</p>
             </form>
           )}
         </div>
@@ -678,8 +680,8 @@ export default function AlliedInstitutionsPage() {
       {/* Contact Licensing Team */}
       <section className="py-12 bg-white border-t border-gray-100" data-testid="section-contact-licensing">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <p className="text-gray-600 mb-2">Have a specific question about licensing, privacy compliance, or custom contracts?</p>
-          <p className="text-gray-900 font-medium">Contact our Licensing Team: <a href="mailto:institutions@nursenest.ca" className="text-teal-600 hover:underline">institutions@nursenest.ca</a></p>
+          <p className="text-gray-600 mb-2">{t("allied.alliedInstitutions.haveASpecificQuestionAbout")}</p>
+          <p className="text-gray-900 font-medium">Contact our Licensing Team: <a href="mailto:institutions@nursenest.ca" className="text-teal-600 hover:underline">{t("allied.alliedInstitutions.institutionsnursenestca")}</a></p>
         </div>
       </section>
     </div>

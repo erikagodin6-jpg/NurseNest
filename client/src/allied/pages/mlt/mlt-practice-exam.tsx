@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useLocation, useSearch } from "wouter";
 import { BookOpen, Clock, Eye, RotateCcw, Filter, Play, AlertCircle, CheckCircle, XCircle, Pause } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const MLT_CATEGORIES = [
   "Hematology", "Clinical Chemistry", "Microbiology",
   "Immunohematology/Blood Banking", "Urinalysis & Body Fluids",
@@ -21,6 +22,7 @@ interface Question {
 }
 
 export default function MltPracticeExam() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
   const search = useSearch();
   const params = new URLSearchParams(search);
@@ -197,7 +199,7 @@ export default function MltPracticeExam() {
         <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-practice-config-title">
           Practice Exam – {country === "CA" ? "🇨🇦 Canada" : "🇺🇸 USA"}
         </h1>
-        <p className="text-gray-600 mb-8">Configure your practice session.</p>
+        <p className="text-gray-600 mb-8">{t("allied.mltMltPracticeExam.configureYourPracticeSession")}</p>
 
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 text-sm text-red-700">
@@ -207,7 +209,7 @@ export default function MltPracticeExam() {
 
         <div className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">Mode</label>
+            <label className="block text-sm font-medium text-gray-700 mb-3">{t("allied.mltMltPracticeExam.mode")}</label>
             <div className="flex gap-3">
               {[
                 { id: "timed" as const, label: "Timed", icon: Clock, desc: "Simulate real exam pressure" },
@@ -234,7 +236,7 @@ export default function MltPracticeExam() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">Topics (optional)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-3">{t("allied.mltMltPracticeExam.topicsOptional")}</label>
             <div className="flex flex-wrap gap-2">
               {MLT_CATEGORIES.map((cat) => (
                 <button
@@ -253,7 +255,7 @@ export default function MltPracticeExam() {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Questions</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltPracticeExam.questions")}</label>
               <select
                 value={questionCount}
                 onChange={(e) => setQuestionCount(Number(e.target.value))}
@@ -267,7 +269,7 @@ export default function MltPracticeExam() {
             </div>
             {practiceMode === "timed" && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Time Limit</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltPracticeExam.timeLimit")}</label>
                 <select
                   value={timeLimitMin}
                   onChange={(e) => setTimeLimitMin(Number(e.target.value))}
@@ -290,7 +292,7 @@ export default function MltPracticeExam() {
               className="rounded border-gray-300"
               data-testid="checkbox-redo-incorrect"
             />
-            <span className="text-sm text-gray-700">Redo incorrect questions at the end</span>
+            <span className="text-sm text-gray-700">{t("allied.mltMltPracticeExam.redoIncorrectQuestionsAtThe")}</span>
           </label>
 
           <button
@@ -299,7 +301,7 @@ export default function MltPracticeExam() {
             className="w-full py-3 bg-teal-600 text-white font-bold rounded-xl hover:bg-teal-700 disabled:opacity-50 flex items-center justify-center gap-2"
             data-testid="button-start-practice"
           >
-            {loading ? "Preparing..." : <><Play className="w-4 h-4" /> Start Practice</>}
+            {loading ? "Preparing..." : <><Play className="w-4 h-4" /> {t("allied.mltMltPracticeExam.startPractice")}</>}
           </button>
         </div>
       </div>
@@ -396,7 +398,7 @@ export default function MltPracticeExam() {
 
           {showRationale && lastResult?.rationale && (
             <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
-              <p className="text-sm font-medium text-blue-900 mb-1">Rationale</p>
+              <p className="text-sm font-medium text-blue-900 mb-1">{t("allied.mltMltPracticeExam.rationale")}</p>
               <p className="text-sm text-blue-800">{lastResult.rationale}</p>
             </div>
           )}

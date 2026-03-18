@@ -40,6 +40,7 @@ import {
 } from "lucide-react";
 import { seoLabValues } from "@/data/seo-lab-values";
 
+import { useI18n } from "@/lib/i18n";
 const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
 type LabStatus = "critical-high" | "critical-low" | "high" | "low" | "normal";
@@ -395,6 +396,7 @@ const categoryConfig: Record<string, { label: string; icon: typeof Heart; color:
 };
 
 function getStatusColor(status: LabStatus): string {
+
   switch (status) {
     case "critical-high":
     case "critical-low":
@@ -462,8 +464,8 @@ export default function LabValuesPage() {
     return (
       <div className={`min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 ${user?.tier !== "admin" ? "select-none" : ""}`}>
         <SEO
-          title="Abnormal Lab Value Interpretation - Clinical Pattern Recognition"
-          description="Master abnormal lab value interpretation through clinical pattern recognition."
+          title={t("pages.labValues.abnormalLabValueInterpretationClinical")}
+          description={t("pages.labValues.masterAbnormalLabValueInterpretation")}
           canonicalPath="/lab-values"
         />
         <Navigation />
@@ -474,8 +476,8 @@ export default function LabValuesPage() {
               <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
                 <Lock className="w-10 h-10 text-primary/60" />
               </div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-3">Lab Value Interpretation Engine</h1>
-              <p className="text-lg text-gray-600 mb-2">Premium Interactive Tool</p>
+              <h1 className="text-3xl font-bold text-gray-900 mb-3">{t("pages.labValues.labValueInterpretationEngine")}</h1>
+              <p className="text-lg text-gray-600 mb-2">{t("pages.labValues.premiumInteractiveTool")}</p>
               <p className="text-sm text-gray-500 mb-8 leading-relaxed max-w-md mx-auto">
                 The abnormal lab interpretation engine with clinical pattern recognition is available exclusively for RPN, RN, and NP subscribers. Master lab clusters across cardiac, renal, hepatic, and metabolic scenarios.
               </p>
@@ -487,7 +489,7 @@ export default function LabValuesPage() {
               </LocaleLink>
               {!user && (
                 <p className="text-xs text-gray-400 mt-4">
-                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">Sign in</LocaleLink> to access.
+                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">{t("pages.labValues.signIn")}</LocaleLink> to access.
                 </p>
               )}
             </div>
@@ -499,8 +501,8 @@ export default function LabValuesPage() {
                 <FlaskConical className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-gray-900">Individual Lab Value Guides</h2>
-                <p className="text-sm text-gray-500">In-depth nursing reference for each lab value</p>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.labValues.individualLabValueGuides")}</h2>
+                <p className="text-sm text-gray-500">{t("pages.labValues.indepthNursingReferenceForEach")}</p>
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -583,8 +585,8 @@ export default function LabValuesPage() {
   return (
     <div className={`min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
       <SEO
-        title="Abnormal Lab Value Interpretation - Clinical Pattern Recognition"
-        description="Master abnormal lab value interpretation through clinical pattern recognition. Learn why lab values shift together in clusters: cardiac, renal, hepatic, hematologic, endocrine, and metabolic scenarios for nursing students preparing for NCLEX and clinical practice."
+        title={t("pages.labValues.abnormalLabValueInterpretationClinical2")}
+        description={t("pages.labValues.masterAbnormalLabValueInterpretation2")}
         keywords="abnormal lab values, lab interpretation nursing, clinical lab patterns, NCLEX lab values, troponin BNP, BUN creatinine, AST ALT, CBC interpretation, ABG interpretation, DKA labs, DIC labs, nursing education, lab cluster interpretation"
         canonicalPath="/lab-values"
       />
@@ -601,14 +603,14 @@ export default function LabValuesPage() {
               <h1 className="text-4xl sm:text-5xl font-bold text-gray-900" data-testid="text-page-title">
                 Lab Value Interpretation Engine
               </h1>
-              <p className="text-gray-500 mt-1">Pattern recognition through clinical clusters</p>
+              <p className="text-gray-500 mt-1">{t("pages.labValues.patternRecognitionThroughClinicalClusters")}</p>
             </div>
           </div>
           {region === "CA" && (
             <div className="rounded-xl bg-gradient-to-r from-red-50 to-white border border-red-200/60 px-5 py-4 flex items-start gap-3" data-testid="banner-canadian-labs">
-              <span className="text-2xl shrink-0 mt-0.5" role="img" aria-label="maple leaf">🍁</span>
+              <span className="text-2xl shrink-0 mt-0.5" role="img" aria-label={t("pages.labValues.mapleLeaf")}>🍁</span>
               <div>
-                <p className="font-bold text-gray-900 text-sm">Canadian Lab Reference Ranges</p>
+                <p className="font-bold text-gray-900 text-sm">{t("pages.labValues.canadianLabReferenceRanges")}</p>
                 <p className="text-xs text-gray-600 mt-0.5 leading-relaxed">
                   All lab values, reference ranges, and clinical scenarios on this page use Canadian laboratory standards. NurseNest is the first nursing exam prep platform to provide Canadian-specific lab reference ranges for clinical education. Built to prepare you for Canadian clinical placements and the REX-PN.
                 </p>
@@ -871,8 +873,8 @@ export default function LabValuesPage() {
               <FlaskConical className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900">Individual Lab Value Guides</h2>
-              <p className="text-sm text-gray-500">In-depth nursing reference for each lab value</p>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.labValues.individualLabValueGuides2")}</h2>
+              <p className="text-sm text-gray-500">{t("pages.labValues.indepthNursingReferenceForEach2")}</p>
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -897,8 +899,8 @@ export default function LabValuesPage() {
           <div className="flex items-center gap-3 bg-blue-50/50 border border-blue-100 rounded-xl px-4 py-3 hover:bg-blue-50 transition-colors cursor-pointer group mt-10" data-testid="link-unit-converter-cta">
             <ArrowRightLeft className="w-5 h-5 text-primary flex-shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-gray-900">SI ↔ Conventional Units Converter</p>
-              <p className="text-xs text-gray-500">Convert between Canadian SI and U.S. conventional lab units — free tool for nursing students</p>
+              <p className="text-sm font-semibold text-gray-900">{t("pages.labValues.siConventionalUnitsConverter")}</p>
+              <p className="text-xs text-gray-500">{t("pages.labValues.convertBetweenCanadianSiAnd")}</p>
             </div>
             <ChevronRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform flex-shrink-0" />
           </div>

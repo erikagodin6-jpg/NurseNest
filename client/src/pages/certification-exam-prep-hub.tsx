@@ -15,6 +15,7 @@ import {
 import { BLS_BANK, ACLS_BANK, PALS_BANK, NRP_BANK, TNCC_BANK, ENPC_BANK } from "@/data/exam-questions/certification-banks";
 import { CCRN_BANK, EMERGENCY_NURSING_BANK, ONCOLOGY_NURSING_BANK, PEDIATRIC_NURSING_BANK, PERIOPERATIVE_NURSING_BANK } from "@/data/exam-questions/cert-banks-expanded";
 
+import { useI18n } from "@/lib/i18n";
 const CERT_CONFIGS = [
   { id: "bls", name: "BLS", fullName: "Basic Life Support", org: "AHA", icon: Activity, color: "blue", bank: BLS_BANK, mockExams: 3, prepSlug: "bls-prep" },
   { id: "acls", name: "ACLS", fullName: "Advanced Cardiovascular Life Support", org: "AHA", icon: Heart, color: "red", bank: ACLS_BANK, mockExams: 3, prepSlug: "acls-prep" },
@@ -60,6 +61,7 @@ const FAQ_DATA = [
 ];
 
 export default function CertificationExamPrepHub() {
+  const { t } = useI18n();
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [selectedMode, setSelectedMode] = useState<string | null>(null);
 
@@ -71,8 +73,8 @@ export default function CertificationExamPrepHub() {
     <div data-testid="page-certification-exam-prep-hub">
       <Navigation />
       <SEO
-        title="Certification Exam Prep Hub | Practice Questions & Mock Exams | NurseNest"
-        description="Comprehensive nursing certification exam preparation. Practice questions, mock exams, and study tools for BLS, ACLS, PALS, NRP, TNCC, ENPC, CCRN, CEN, OCN, CPN, and CNOR certifications."
+        title={t("pages.certificationExamPrepHub.certificationExamPrepHubPractice")}
+        description={t("pages.certificationExamPrepHub.comprehensiveNursingCertificationExamPreparati")}
         keywords="certification exam prep, nursing certification practice questions, ACLS mock exam, BLS practice test, CCRN study guide, CEN exam prep, nursing mock exams, certification question bank"
         canonicalPath="/certification-exam-prep"
         breadcrumbs={[
@@ -87,9 +89,9 @@ export default function CertificationExamPrepHub() {
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-100/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.certificationExamPrepHub.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-indigo-700 font-medium">Certification Exam Prep</span>
+            <span className="text-indigo-700 font-medium">{t("pages.certificationExamPrepHub.certificationExamPrep")}</span>
           </div>
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-700 mb-4" data-testid="badge-hub">
@@ -117,21 +119,21 @@ export default function CertificationExamPrepHub() {
                 <ClipboardList className="w-6 h-6 text-blue-600" />
               </div>
               <p className="text-3xl font-bold text-gray-900">{totalQuestions.toLocaleString()}+</p>
-              <p className="text-sm text-gray-500">Certification Questions</p>
+              <p className="text-sm text-gray-500">{t("pages.certificationExamPrepHub.certificationQuestions")}</p>
             </div>
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/50 shadow-sm p-6 text-center" data-testid="stat-mock-exams">
               <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-3">
                 <FileText className="w-6 h-6 text-emerald-600" />
               </div>
               <p className="text-3xl font-bold text-gray-900">{totalMockExams}</p>
-              <p className="text-sm text-gray-500">Practice Exams</p>
+              <p className="text-sm text-gray-500">{t("pages.certificationExamPrepHub.practiceExams")}</p>
             </div>
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/50 shadow-sm p-6 text-center" data-testid="stat-certifications">
               <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-3">
                 <Award className="w-6 h-6 text-purple-600" />
               </div>
               <p className="text-3xl font-bold text-gray-900">{totalCertifications}</p>
-              <p className="text-sm text-gray-500">Certifications Covered</p>
+              <p className="text-sm text-gray-500">{t("pages.certificationExamPrepHub.certificationsCovered")}</p>
             </div>
           </div>
         </div>
@@ -218,7 +220,7 @@ export default function CertificationExamPrepHub() {
                   </div>
                   {isSelected && (
                     <div className="mt-4 pt-4 border-t border-gray-100">
-                      <p className="text-xs text-gray-400 mb-2 font-medium uppercase">Filter by certification:</p>
+                      <p className="text-xs text-gray-400 mb-2 font-medium uppercase">{t("pages.certificationExamPrepHub.filterByCertification")}</p>
                       <div className="flex flex-wrap gap-2">
                         {CERT_CONFIGS.map((cert) => (
                           <Link
@@ -271,23 +273,23 @@ export default function CertificationExamPrepHub() {
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-4 gap-4">
             <div className="bg-gray-50 rounded-xl p-4 text-center" data-testid="feature-timed">
               <Timer className="w-5 h-5 text-indigo-600 mx-auto mb-2" />
-              <h4 className="font-semibold text-gray-900 text-sm">Timed Mode</h4>
-              <p className="text-xs text-gray-500">Real exam time pressure</p>
+              <h4 className="font-semibold text-gray-900 text-sm">{t("pages.certificationExamPrepHub.timedMode")}</h4>
+              <p className="text-xs text-gray-500">{t("pages.certificationExamPrepHub.realExamTimePressure")}</p>
             </div>
             <div className="bg-gray-50 rounded-xl p-4 text-center" data-testid="feature-randomized">
               <Shuffle className="w-5 h-5 text-indigo-600 mx-auto mb-2" />
-              <h4 className="font-semibold text-gray-900 text-sm">Randomized</h4>
-              <p className="text-xs text-gray-500">Different questions each time</p>
+              <h4 className="font-semibold text-gray-900 text-sm">{t("pages.certificationExamPrepHub.randomized")}</h4>
+              <p className="text-xs text-gray-500">{t("pages.certificationExamPrepHub.differentQuestionsEachTime")}</p>
             </div>
             <div className="bg-gray-50 rounded-xl p-4 text-center" data-testid="feature-breakdown">
               <BarChart3 className="w-5 h-5 text-indigo-600 mx-auto mb-2" />
-              <h4 className="font-semibold text-gray-900 text-sm">Performance Breakdown</h4>
-              <p className="text-xs text-gray-500">Topic-by-topic analysis</p>
+              <h4 className="font-semibold text-gray-900 text-sm">{t("pages.certificationExamPrepHub.performanceBreakdown")}</h4>
+              <p className="text-xs text-gray-500">{t("pages.certificationExamPrepHub.topicbytopicAnalysis")}</p>
             </div>
             <div className="bg-gray-50 rounded-xl p-4 text-center" data-testid="feature-algorithm">
               <Brain className="w-5 h-5 text-indigo-600 mx-auto mb-2" />
-              <h4 className="font-semibold text-gray-900 text-sm">Algorithm Review</h4>
-              <p className="text-xs text-gray-500">Step-by-step rationales</p>
+              <h4 className="font-semibold text-gray-900 text-sm">{t("pages.certificationExamPrepHub.algorithmReview")}</h4>
+              <p className="text-xs text-gray-500">{t("pages.certificationExamPrepHub.stepbystepRationales")}</p>
             </div>
           </div>
         </div>
@@ -315,7 +317,7 @@ export default function CertificationExamPrepHub() {
       <section className="py-16 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-faq-heading">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-faq-heading">{t("pages.certificationExamPrepHub.frequentlyAskedQuestions")}</h2>
           </div>
           <div className="space-y-3">
             {FAQ_DATA.map((faq, i) => (
@@ -341,12 +343,12 @@ export default function CertificationExamPrepHub() {
 
       <WhyNurseNestGrid
         headline="Why NurseNest for Certification Exam Prep"
-        subtitle="NurseNest provides exam-aligned question banks, adaptive practice, and clinical lessons designed specifically for healthcare certification exams."
+        subtitle={t("pages.certification_exam_prep_hub.nursenestProvidesExamalignedQuestionBank")}
         context="certification"
       />
       <DifferentiatorCTA
         headline="Start Your Certification Prep Today"
-        subtitle="Access adaptive practice exams, clinical lessons, and performance analytics to prepare for your certification exam with confidence."
+        subtitle={t("pages.certification_exam_prep_hub.accessAdaptivePracticeExamsClinical")}
         primaryHref="/register"
         primaryLabel="Start Free"
         secondaryHref="/pricing"

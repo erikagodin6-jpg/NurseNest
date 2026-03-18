@@ -2,6 +2,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { HubHero, ContentCard, FinalCTASection } from "./components";
 import { Brain } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const FLASHCARD_DECKS = [
   { title: "Trauma Assessment & Management", description: "XABCDE primary survey, hemorrhage control, trauma triage criteria, and prehospital trauma management protocols.", cardCount: 45, tags: ["Trauma", "Assessment"] },
   { title: "ACLS Pharmacology", description: "Cardiac arrest drugs, antiarrhythmics, vasopressors, and peri-arrest medication dosages and indications.", cardCount: 50, tags: ["Pharmacology", "Cardiac"] },
@@ -16,11 +17,12 @@ const FLASHCARD_DECKS = [
 ];
 
 export default function ParamedicFlashcardsHub() {
+  const { t } = useI18n();
   return (
     <div data-testid="paramedic-flashcards-hub">
       <AlliedSEO
-        title="Paramedic Flashcards — Spaced Repetition Study Decks | NurseNest"
-        description="Master paramedic protocols, drug dosages, and clinical mnemonics with spaced repetition flashcard decks. Covers trauma, ACLS, pharmacology, pediatrics, and more."
+        title={t("allied.paramedicParamedicFlashcardsHub.paramedicFlashcardsSpacedRepetitionStudy")}
+        description={t("allied.paramedicParamedicFlashcardsHub.masterParamedicProtocolsDrugDosages")}
         keywords="paramedic flashcards, EMS flashcards, ACLS flashcards, paramedic drug dosages, paramedic study cards, spaced repetition paramedic"
         canonicalPath="/allied-health/paramedic/flashcards"
         structuredData={{
@@ -33,8 +35,8 @@ export default function ParamedicFlashcardsHub() {
       />
 
       <HubHero
-        title="Paramedic Flashcards"
-        subtitle="Spaced repetition flashcard decks organized by clinical domain. Cards adapt to your recall accuracy — spending more time on concepts you find difficult and less on what you already know."
+        title={t("allied.paramedicParamedicFlashcardsHub.paramedicFlashcards")}
+        subtitle={t("allied.paramedic_flashcards_hub.spacedRepetitionFlashcardDecksOrganized")}
         breadcrumbs={[
           { label: "Paramedic", href: "/allied-health/paramedic" },
           { label: "Flashcards" },
@@ -63,8 +65,8 @@ export default function ParamedicFlashcardsHub() {
       </section>
 
       <FinalCTASection
-        title="Master Paramedic Concepts with Spaced Repetition"
-        subtitle="Flashcards are most effective when combined with practice questions and clinical scenarios. Start with a free diagnostic to build your personalized study plan."
+        title={t("allied.paramedicParamedicFlashcardsHub.masterParamedicConceptsWithSpaced")}
+        subtitle={t("allied.paramedic_flashcards_hub.flashcardsAreMostEffectiveWhen")}
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
         secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}
       />

@@ -24,6 +24,7 @@ import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
 import { useRegion } from "@/hooks/use-region";
 
+import { useI18n } from "@/lib/i18n";
 const testimonials = [
   {
     name: "Sarah M.",
@@ -195,6 +196,7 @@ const faqStructuredData = {
 };
 
 export default function NclexLandingPage() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
   const region = useRegion();
   const isCAD = region === "CA";
@@ -202,8 +204,8 @@ export default function NclexLandingPage() {
   return (
     <div className="min-h-screen bg-warmwhite font-sans" style={{ color: "#2E3A59" }}>
       <SEO
-        title="Pass the NCLEX on Your First Attempt — NCLEX Practice Questions & Study Platform"
-        description="Thousands of exam-style questions, adaptive testing, and detailed rationales designed for nursing students. The #1 NCLEX study platform trusted by thousands."
+        title={t("pages.marketing.NclexLandingPage.passTheNclexOnYour")}
+        description={t("pages.marketing.NclexLandingPage.thousandsOfExamstyleQuestionsAdaptive")}
         keywords="NCLEX practice questions, NCLEX study platform, NCLEX prep, nursing exam questions, NCLEX-RN prep, NCLEX review"
         canonicalPath="/pass-nclex-first-time"
         structuredData={structuredData}
@@ -499,7 +501,7 @@ function ScreenshotsCarousel() {
           <button
             onClick={prev}
             className="absolute left-2 md:-left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-md border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors"
-            aria-label="Previous screenshot"
+            aria-label={t("pages.marketing.NclexLandingPage.previousScreenshot")}
             data-testid="button-screenshot-prev"
           >
             <ChevronLeft className="w-5 h-5 text-[#2E3A59]/60" />
@@ -507,7 +509,7 @@ function ScreenshotsCarousel() {
           <button
             onClick={next}
             className="absolute right-2 md:-right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-md border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors"
-            aria-label="Next screenshot"
+            aria-label={t("pages.marketing.NclexLandingPage.nextScreenshot")}
             data-testid="button-screenshot-next"
           >
             <ChevronRight className="w-5 h-5 text-[#2E3A59]/60" />
@@ -600,7 +602,7 @@ function PricingSection({ isCAD, onNavigate }: { isCAD: boolean; onNavigate: (pa
           <table className="w-full text-sm border-collapse" data-testid="pricing-comparison-table">
             <thead>
               <tr className="border-b border-gray-200">
-                <th className="text-left py-3 px-4 font-semibold text-[#2E3A59]">Feature</th>
+                <th className="text-left py-3 px-4 font-semibold text-[#2E3A59]">{t("pages.marketing.NclexLandingPage.feature")}</th>
                 {pricingTiers.map((tier) => (
                   <th key={tier.id} className="text-center py-3 px-4 font-semibold text-[#2E3A59]">
                     {tier.name}

@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Link2, X } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 import type {
   MatchingGridPayload,
   MatchingGridResponse,
@@ -18,6 +19,7 @@ export function MatchingGridRenderer({
   onResponseChange,
   disabled = false,
 }: MatchingGridRendererProps) {
+  const { t } = useI18n();
   const handleMatch = (aId: string, bId: string) => {
     if (disabled) return;
 
@@ -173,7 +175,7 @@ export function MatchingGridRenderer({
           {Object.keys(response.matches).length} / {payload.columnA.length} matched
         </span>
         {!payload.allowReuse && (
-          <span className="italic">Each right-side item can only be used once</span>
+          <span className="italic">{t("components.ngnRenderersMatchingGridRenderer.eachRightsideItemCanOnly")}</span>
         )}
       </div>
     </div>

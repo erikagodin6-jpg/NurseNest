@@ -137,9 +137,9 @@ function CompetitorComparisonTable() {
                 <Crown className="h-4 w-4 text-purple-600" /> NurseNest Pro
               </span>
             </th>
-            <th className="text-center py-3 px-3 font-semibold text-gray-600">UWorld</th>
-            <th className="text-center py-3 px-3 font-semibold text-gray-600">Archer</th>
-            <th className="text-center py-3 px-3 font-semibold text-gray-600">Quizlet+</th>
+            <th className="text-center py-3 px-3 font-semibold text-gray-600">{t("pages.upgrade.uworld")}</th>
+            <th className="text-center py-3 px-3 font-semibold text-gray-600">{t("pages.upgrade.archer")}</th>
+            <th className="text-center py-3 px-3 font-semibold text-gray-600">{t("pages.upgrade.quizlet")}</th>
           </tr>
         </thead>
         <tbody>

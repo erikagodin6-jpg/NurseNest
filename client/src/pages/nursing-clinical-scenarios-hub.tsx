@@ -145,8 +145,8 @@ function NursingClinicalScenariosHub() {
   return (
     <>
       <SEO
-        title="Nursing Clinical Scenarios — Interactive Case Studies"
-        description="Practice clinical reasoning with interactive nursing scenarios. Chest pain, sepsis, respiratory distress, stroke, and pediatric deterioration cases with assessment findings, nursing priorities, and quiz questions."
+        title={t("pages.nursingClinicalScenariosHub.nursingClinicalScenariosInteractiveCase")}
+        description={t("pages.nursingClinicalScenariosHub.practiceClinicalReasoningWithInteractive")}
         keywords="nursing clinical scenarios, case studies nursing, clinical reasoning, NCLEX scenarios, nursing critical thinking, patient assessment"
         canonicalPath="/nursing-clinical-scenarios"
         structuredData={structuredData}
@@ -174,7 +174,7 @@ function NursingClinicalScenariosHub() {
           </div>
 
           <div className="mt-16">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t("pages.nursingClinicalScenariosHub.frequentlyAskedQuestions")}</h2>
             <div className="space-y-4">
               {hubFaqs.map((faq, i) => (
                 <FaqAccordion key={i} question={faq.question} answer={faq.answer} index={i} />
@@ -183,7 +183,7 @@ function NursingClinicalScenariosHub() {
           </div>
 
           <div className="mt-12 bg-red-50 dark:bg-red-900/20 rounded-xl p-6 sm:p-8">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Strengthen Your Clinical Reasoning</h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{t("pages.nursingClinicalScenariosHub.strengthenYourClinicalReasoning")}</h2>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
               Pair these scenarios with our study guides, clinical calculators, and question banks for comprehensive exam preparation.
             </p>
@@ -291,7 +291,7 @@ function ScenarioPageWrapper({ scenario, children }: { scenario: ScenarioDef; ch
           <p className="text-gray-600 dark:text-gray-400 mb-8">{scenario.description}</p>
           {children}
           <div className="mt-8 bg-gray-100 dark:bg-gray-800 rounded-xl p-6">
-            <h3 className="font-bold text-gray-900 dark:text-white mb-3">Continue Learning</h3>
+            <h3 className="font-bold text-gray-900 dark:text-white mb-3">{t("pages.nursingClinicalScenariosHub.continueLearning")}</h3>
             <div className="flex flex-wrap gap-3">
               <LocaleLink href="/question-bank" className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700" data-testid="link-more-questions">
                 <Target className="w-4 h-4" /> Practice More Questions
@@ -311,40 +311,40 @@ function ChestPainScenario() {
   const scenario = SCENARIOS.find(s => s.slug === "chest-pain-emergency")!;
   return (
     <ScenarioPageWrapper scenario={scenario}>
-      <ScenarioSection title="Patient Presentation" color="blue">
-        <p><strong>Patient:</strong> Mr. James Rodriguez, 62-year-old male</p>
-        <p><strong>Chief complaint:</strong> "I have a crushing pain in my chest that won't go away."</p>
-        <p><strong>History of present illness:</strong> Pain started 45 minutes ago while watching television. Substernal, radiating to the left arm and jaw. Rates pain 8/10. Describes it as "heavy" and "squeezing." Associated with diaphoresis and nausea. Took one aspirin at home before calling 911.</p>
-        <p><strong>Past medical history:</strong> Hypertension (10 years), hyperlipidemia, type 2 diabetes, former smoker (quit 5 years ago), family history of MI (father at age 58).</p>
-        <p><strong>Current medications:</strong> Lisinopril 20 mg daily, atorvastatin 40 mg daily, metformin 1000 mg BID.</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.patientPresentation")} color="blue">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.patient")}</strong> {t("pages.nursingClinicalScenariosHub.mrJamesRodriguez62yearoldMale")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.chiefComplaint")}</strong> {t("pages.nursingClinicalScenariosHub.iHaveACrushingPain")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.historyOfPresentIllness")}</strong> {t("pages.nursingClinicalScenariosHub.painStarted45MinutesAgo")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.pastMedicalHistory")}</strong> {t("pages.nursingClinicalScenariosHub.hypertension10YearsHyperlipidemiaType")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.currentMedications")}</strong> {t("pages.nursingClinicalScenariosHub.lisinopril20MgDailyAtorvastatin")}</p>
       </ScenarioSection>
 
-      <ScenarioSection title="Assessment Findings" color="red">
-        <p><strong>Vital signs:</strong> BP 158/94 mmHg, HR 102 bpm (regular), RR 22/min, SpO₂ 96% on room air, Temp 37.1°C</p>
-        <p><strong>General:</strong> Anxious, diaphoretic, clutching chest. Skin pale and clammy.</p>
-        <p><strong>Cardiac:</strong> S1/S2 heard, no murmurs. Regular tachycardia. No JVD.</p>
-        <p><strong>Respiratory:</strong> Bilateral breath sounds clear, no crackles. Mild tachypnea.</p>
-        <p><strong>12-Lead ECG:</strong> ST elevation in leads II, III, aVF (2–3 mm). Reciprocal ST depression in leads I and aVL.</p>
-        <p><strong>Initial labs:</strong> Troponin I: 0.8 ng/mL (elevated), BNP: 180 pg/mL, glucose: 185 mg/dL.</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.assessmentFindings")} color="red">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.vitalSigns")}</strong> {t("pages.nursingClinicalScenariosHub.bp15894MmhgHr102")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.general")}</strong> {t("pages.nursingClinicalScenariosHub.anxiousDiaphoreticClutchingChestSkin")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.cardiac")}</strong> {t("pages.nursingClinicalScenariosHub.s1s2HeardNoMurmursRegular")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.respiratory")}</strong> {t("pages.nursingClinicalScenariosHub.bilateralBreathSoundsClearNo")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.12leadEcg")}</strong> {t("pages.nursingClinicalScenariosHub.stElevationInLeadsIi")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.initialLabs")}</strong> {t("pages.nursingClinicalScenariosHub.troponinI08NgmlElevated")}</p>
       </ScenarioSection>
 
-      <ScenarioSection title="Clinical Reasoning" color="amber">
-        <p><strong>Priority nursing diagnosis:</strong> Decreased cardiac output related to myocardial ischemia/infarction as evidenced by ST elevation, elevated troponin, chest pain, tachycardia, and diaphoresis.</p>
-        <p><strong>Analysis:</strong> The ST elevation in inferior leads (II, III, aVF) with reciprocal changes in lateral leads indicates an inferior STEMI. The elevated troponin confirms myocardial injury. Risk factors (age, male, HTN, DM, hyperlipidemia, smoking history, family history) create a high pretest probability for ACS. The 45-minute symptom duration places this patient within the PCI window.</p>
-        <p><strong>Differential considerations:</strong> Acute pericarditis (diffuse ST elevation, no reciprocal changes), aortic dissection (tearing pain, unequal pulses), pulmonary embolism (pleuritic pain, tachycardia, hypoxia).</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.clinicalReasoning")} color="amber">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.priorityNursingDiagnosis")}</strong> {t("pages.nursingClinicalScenariosHub.decreasedCardiacOutputRelatedTo")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.analysis")}</strong> {t("pages.nursingClinicalScenariosHub.theStElevationInInferior")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.differentialConsiderations")}</strong> {t("pages.nursingClinicalScenariosHub.acutePericarditisDiffuseStElevation")}</p>
       </ScenarioSection>
 
-      <ScenarioSection title="Nursing Priorities" color="green">
-        <p><strong>1. Activate cardiac catheterization team</strong> — door-to-balloon time goal &lt; 90 minutes for primary PCI.</p>
-        <p><strong>2. MONA protocol:</strong> Morphine 2–4 mg IV PRN (if pain not relieved by NTG), Oxygen only if SpO₂ &lt; 94%, Nitroglycerin 0.4 mg SL q5min × 3 (hold if SBP &lt; 90), Aspirin 325 mg chewed (already taken by patient).</p>
-        <p><strong>3. IV access:</strong> Two large-bore IVs (18G or larger). Draw labs: troponin, CK-MB, CBC, BMP, coagulation studies, type & screen.</p>
-        <p><strong>4. Administer medications:</strong> Heparin bolus + drip per protocol, clopidogrel/ticagrelor loading dose, beta-blocker (metoprolol) if HR &gt; 100 and no contraindications.</p>
-        <p><strong>5. Continuous monitoring:</strong> Cardiac telemetry, serial ECGs, repeat troponin at 3 and 6 hours, strict I&O.</p>
-        <p><strong>6. Patient education:</strong> Explain procedures, provide emotional support, keep family informed.</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.nursingPriorities")} color="green">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.1ActivateCardiacCatheterizationTeam")}</strong> {t("pages.nursingClinicalScenariosHub.doortoballoonTimeGoalLt90")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.2MonaProtocol")}</strong> {t("pages.nursingClinicalScenariosHub.morphine24MgIvPrn")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.3IvAccess")}</strong> {t("pages.nursingClinicalScenariosHub.twoLargeboreIvs18gOr")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.4AdministerMedications")}</strong> {t("pages.nursingClinicalScenariosHub.heparinBolusDripPerProtocol")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.5ContinuousMonitoring")}</strong> {t("pages.nursingClinicalScenariosHub.cardiacTelemetrySerialEcgsRepeat")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.6PatientEducation")}</strong> {t("pages.nursingClinicalScenariosHub.explainProceduresProvideEmotionalSupport")}</p>
       </ScenarioSection>
 
       <div className="mt-8">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Follow-Up Quiz Questions</h2>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">{t("pages.nursingClinicalScenariosHub.followupQuizQuestions")}</h2>
         <QuizQuestion index={0} question="Which ECG finding in this scenario indicates an inferior STEMI?" options={["ST depression in V1–V4", "ST elevation in leads II, III, aVF", "Peaked T waves in V1–V3", "Prolonged QT interval"]} correctIndex={1} rationale="ST elevation in leads II, III, and aVF indicates inferior wall myocardial infarction. These leads view the inferior surface of the heart supplied by the right coronary artery (RCA)." />
         <QuizQuestion index={1} question="What is the priority nursing intervention for this patient?" options={["Administer morphine for pain control", "Activate the cardiac catheterization team", "Start a nitroglycerin drip", "Obtain a chest X-ray"]} correctIndex={1} rationale="Activating the cath lab for primary PCI is the highest priority for a confirmed STEMI. Door-to-balloon time should be less than 90 minutes. Pain management and other interventions are important but secondary to reperfusion." />
         <QuizQuestion index={2} question="Which finding would contraindicate nitroglycerin administration in this patient?" options={["Heart rate of 102 bpm", "Systolic blood pressure below 90 mmHg", "Blood glucose of 185 mg/dL", "Oxygen saturation of 96%"]} correctIndex={1} rationale="Nitroglycerin causes vasodilation and can cause severe hypotension. It is contraindicated when SBP is below 90 mmHg. It is also contraindicated with right ventricular infarction and recent phosphodiesterase inhibitor use (sildenafil/tadalafil)." />
@@ -357,41 +357,41 @@ function SepsisScenario() {
   const scenario = SCENARIOS.find(s => s.slug === "sepsis-recognition")!;
   return (
     <ScenarioPageWrapper scenario={scenario}>
-      <ScenarioSection title="Patient Presentation" color="blue">
-        <p><strong>Patient:</strong> Mrs. Eleanor Chen, 71-year-old female</p>
-        <p><strong>Chief complaint:</strong> Post-operative day 3 following right total hip arthroplasty. Nurse noted increasing confusion and elevated temperature during routine assessment.</p>
-        <p><strong>History of present illness:</strong> Patient was progressing normally on POD 1 and 2. On POD 3 morning, she became increasingly confused and oriented only to person. Temperature spiked to 39.2°C. She reports feeling "cold" despite the fever. Surgical wound has increased redness and warmth around incision edges.</p>
-        <p><strong>Past medical history:</strong> Osteoarthritis, hypertension, type 2 diabetes (A1C 7.8%), urinary tract infections (recurrent).</p>
-        <p><strong>Current medications:</strong> Cefazolin 2g IV q8h (surgical prophylaxis), enoxaparin 40 mg SC daily, oxycodone 5 mg PO q4h PRN, metformin (held post-op), lisinopril 10 mg daily.</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.patientPresentation2")} color="blue">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.patient2")}</strong> {t("pages.nursingClinicalScenariosHub.mrsEleanorChen71yearoldFemale")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.chiefComplaint2")}</strong> {t("pages.nursingClinicalScenariosHub.postoperativeDay3FollowingRight")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.historyOfPresentIllness2")}</strong> {t("pages.nursingClinicalScenariosHub.patientWasProgressingNormallyOn")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.pastMedicalHistory2")}</strong> {t("pages.nursingClinicalScenariosHub.osteoarthritisHypertensionType2Diabetes")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.currentMedications2")}</strong> {t("pages.nursingClinicalScenariosHub.cefazolin2gIvQ8hSurgical")}</p>
       </ScenarioSection>
 
-      <ScenarioSection title="Assessment Findings" color="red">
-        <p><strong>Vital signs:</strong> BP 88/52 mmHg (baseline 130/78), HR 118 bpm, RR 24/min, SpO₂ 93% on room air, Temp 39.2°C (102.6°F)</p>
-        <p><strong>qSOFA Score: 2/3</strong> (altered mental status + SBP ≤ 100 mmHg)</p>
-        <p><strong>General:</strong> Confused, restless, appears ill. Skin warm and flushed with poor turgor.</p>
-        <p><strong>Wound:</strong> Right hip incision with erythema extending 3 cm beyond staple line, warmth, and small amount of purulent drainage.</p>
-        <p><strong>Respiratory:</strong> Tachypneic, bilateral breath sounds clear.</p>
-        <p><strong>Urine:</strong> Foley catheter in place — urine cloudy and concentrated, output 15 mL in last 2 hours.</p>
-        <p><strong>Labs:</strong> WBC 18,200/μL, lactate 3.8 mmol/L, creatinine 1.6 mg/dL (baseline 0.9), glucose 245 mg/dL, procalcitonin 4.2 ng/mL.</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.assessmentFindings2")} color="red">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.vitalSigns2")}</strong> {t("pages.nursingClinicalScenariosHub.bp8852MmhgBaseline13078")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.qsofaScore23")}</strong> {t("pages.nursingClinicalScenariosHub.alteredMentalStatusSbp100")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.general2")}</strong> {t("pages.nursingClinicalScenariosHub.confusedRestlessAppearsIllSkin")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.wound")}</strong> {t("pages.nursingClinicalScenariosHub.rightHipIncisionWithErythema")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.respiratory2")}</strong> {t("pages.nursingClinicalScenariosHub.tachypneicBilateralBreathSoundsClear")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.urine")}</strong> {t("pages.nursingClinicalScenariosHub.foleyCatheterInPlaceUrine")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.labs")}</strong> {t("pages.nursingClinicalScenariosHub.wbc18200lLactate38Mmoll")}</p>
       </ScenarioSection>
 
-      <ScenarioSection title="Clinical Reasoning" color="amber">
-        <p><strong>Sepsis identification:</strong> This patient meets SIRS criteria (temp &gt; 38.3°C, HR &gt; 90, RR &gt; 20, WBC &gt; 12,000) with a suspected infection source (surgical site and/or UTI). The qSOFA score of 2 (altered mentation + hypotension) indicates high risk for poor outcome. Elevated lactate (3.8 mmol/L) indicates tissue hypoperfusion — this patient has sepsis with organ dysfunction progressing toward septic shock.</p>
-        <p><strong>Likely infection sources:</strong> Surgical site infection (SSI) with purulent drainage and expanding erythema. Concurrent UTI possible given cloudy urine, indwelling catheter, and history of recurrent UTIs. Both sources require cultures before broadening antibiotic coverage.</p>
-        <p><strong>Organ dysfunction markers:</strong> Acute kidney injury (creatinine 1.6 from baseline 0.9), altered mental status, hypotension, elevated lactate — multiple organ systems are showing dysfunction consistent with sepsis.</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.clinicalReasoning2")} color="amber">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.sepsisIdentification")}</strong> {t("pages.nursingClinicalScenariosHub.thisPatientMeetsSirsCriteria")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.likelyInfectionSources")}</strong> {t("pages.nursingClinicalScenariosHub.surgicalSiteInfectionSsiWith")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.organDysfunctionMarkers")}</strong> {t("pages.nursingClinicalScenariosHub.acuteKidneyInjuryCreatinine16")}</p>
       </ScenarioSection>
 
-      <ScenarioSection title="Nursing Priorities — Hour-1 Sepsis Bundle" color="green">
-        <p><strong>1. Obtain cultures BEFORE antibiotics:</strong> Blood cultures × 2 (from different sites), urine culture, wound culture from surgical site. Do not delay antibiotics more than 45 minutes for cultures.</p>
-        <p><strong>2. Administer broad-spectrum IV antibiotics</strong> within 1 hour of sepsis recognition. Notify surgeon and infectious disease. Broaden from cefazolin to cover both SSI and UTI sources (e.g., piperacillin-tazobactam + vancomycin).</p>
-        <p><strong>3. Aggressive IV fluid resuscitation:</strong> 30 mL/kg crystalloid (typically NS or LR) within 3 hours. For this 65 kg patient: ~2000 mL bolus. Reassess fluid responsiveness after each bolus.</p>
-        <p><strong>4. Measure lactate level</strong> (already obtained: 3.8 mmol/L). Repeat lactate in 2–4 hours. Target: lactate clearance or decrease by ≥ 10%.</p>
-        <p><strong>5. If MAP remains &lt; 65 mmHg after fluids:</strong> Initiate vasopressor therapy (norepinephrine first-line). May require ICU transfer.</p>
-        <p><strong>6. Continuous monitoring:</strong> Strict I&O (urine output goal ≥ 0.5 mL/kg/hr), continuous cardiac monitoring, frequent vital signs (q15 min during resuscitation), neuro checks q1h.</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.nursingPrioritiesHour1SepsisBundle")} color="green">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.1ObtainCulturesBeforeAntibiotics")}</strong> {t("pages.nursingClinicalScenariosHub.bloodCultures2FromDifferent")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.2AdministerBroadspectrumIvAntibiotics")}</strong> {t("pages.nursingClinicalScenariosHub.within1HourOfSepsis")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.3AggressiveIvFluidResuscitation")}</strong> {t("pages.nursingClinicalScenariosHub.30MlkgCrystalloidTypicallyNs")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.4MeasureLactateLevel")}</strong> {t("pages.nursingClinicalScenariosHub.alreadyObtained38MmollRepeat")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.5IfMapRemainsLt")}</strong> {t("pages.nursingClinicalScenariosHub.initiateVasopressorTherapyNorepinephrineFirst")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.6ContinuousMonitoring")}</strong> {t("pages.nursingClinicalScenariosHub.strictIoUrineOutputGoal")}</p>
       </ScenarioSection>
 
       <div className="mt-8">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Follow-Up Quiz Questions</h2>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">{t("pages.nursingClinicalScenariosHub.followupQuizQuestions2")}</h2>
         <QuizQuestion index={0} question="This patient's qSOFA score is 2. What does this indicate?" options={["The patient has a urinary tract infection", "The patient is at high risk for poor outcome from sepsis", "The patient needs surgical wound revision", "The patient's pain is inadequately managed"]} correctIndex={1} rationale="qSOFA (quick Sequential Organ Failure Assessment) uses three criteria: altered mental status, SBP ≤ 100, and RR ≥ 22. A score of ≥ 2 indicates high risk for poor outcomes and should prompt full sepsis workup and aggressive management." />
         <QuizQuestion index={1} question="What is the FIRST nursing action when sepsis is suspected?" options={["Administer IV antibiotics immediately", "Obtain blood cultures from two separate sites", "Start a norepinephrine drip", "Transfer the patient to the ICU"]} correctIndex={1} rationale="Obtaining cultures BEFORE starting antibiotics is critical for identifying the causative organism and guiding targeted therapy. However, do not delay antibiotics more than 45 minutes for cultures. Cultures first, then antibiotics within 1 hour." />
         <QuizQuestion index={2} question="The patient's lactate level is 3.8 mmol/L. What does this indicate?" options={["Normal metabolic function", "Tissue hypoperfusion and anaerobic metabolism", "Adequate fluid resuscitation", "Hyperglycemia from diabetes"]} correctIndex={1} rationale="Lactate > 2.0 mmol/L indicates tissue hypoperfusion — cells are not receiving adequate oxygen and are producing lactate through anaerobic metabolism. Lactate > 4.0 mmol/L is associated with significantly increased mortality. Serial lactate monitoring guides resuscitation adequacy." />
@@ -404,41 +404,41 @@ function RespiratoryDistressScenario() {
   const scenario = SCENARIOS.find(s => s.slug === "respiratory-distress")!;
   return (
     <ScenarioPageWrapper scenario={scenario}>
-      <ScenarioSection title="Patient Presentation" color="blue">
-        <p><strong>Patient:</strong> Mr. Robert Williams, 55-year-old male</p>
-        <p><strong>Chief complaint:</strong> "I can't catch my breath. It's getting worse."</p>
-        <p><strong>History of present illness:</strong> Patient with known COPD (GOLD Stage III) presents to the ED with worsening dyspnea over the past 3 days. Reports increased sputum production (yellow-green) and a productive cough. Used his rescue inhaler 8 times today with minimal relief. Cannot speak in full sentences. Was sitting in tripod position upon arrival.</p>
-        <p><strong>Past medical history:</strong> COPD (diagnosed 8 years ago), 40 pack-year smoking history (current smoker), hypertension, anxiety. Two prior COPD exacerbations requiring hospitalization in the past year.</p>
-        <p><strong>Current medications:</strong> Tiotropium (Spiriva) 18 mcg daily, fluticasone/salmeterol (Advair) 250/50 BID, albuterol (Ventolin) PRN, lisinopril 10 mg daily.</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.patientPresentation3")} color="blue">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.patient3")}</strong> {t("pages.nursingClinicalScenariosHub.mrRobertWilliams55yearoldMale")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.chiefComplaint3")}</strong> {t("pages.nursingClinicalScenariosHub.iCantCatchMyBreath")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.historyOfPresentIllness3")}</strong> {t("pages.nursingClinicalScenariosHub.patientWithKnownCopdGold")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.pastMedicalHistory3")}</strong> {t("pages.nursingClinicalScenariosHub.copdDiagnosed8YearsAgo")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.currentMedications3")}</strong> {t("pages.nursingClinicalScenariosHub.tiotropiumSpiriva18McgDaily")}</p>
       </ScenarioSection>
 
-      <ScenarioSection title="Assessment Findings" color="red">
-        <p><strong>Vital signs:</strong> BP 148/88 mmHg, HR 110 bpm, RR 32/min, SpO₂ 86% on room air, Temp 37.8°C</p>
-        <p><strong>General:</strong> Sitting upright, tripod position, using accessory muscles (sternocleidomastoid, intercostals), pursed-lip breathing, speaks 2–3 word sentences only. Appears fatigued.</p>
-        <p><strong>Respiratory:</strong> Diminished breath sounds bilaterally with scattered expiratory wheezes and rhonchi. Prolonged expiratory phase. Barrel chest configuration. No stridor.</p>
-        <p><strong>Cardiovascular:</strong> Tachycardic, regular. No JVD.</p>
-        <p><strong>ABG (on room air):</strong> pH 7.31, PaCO₂ 58 mmHg, HCO₃ 32 mEq/L, PaO₂ 54 mmHg</p>
-        <p><strong>Labs:</strong> WBC 13,500/μL, CRP elevated, BNP 45 pg/mL (normal).</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.assessmentFindings3")} color="red">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.vitalSigns3")}</strong> {t("pages.nursingClinicalScenariosHub.bp14888MmhgHr110")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.general3")}</strong> {t("pages.nursingClinicalScenariosHub.sittingUprightTripodPositionUsing")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.respiratory3")}</strong> {t("pages.nursingClinicalScenariosHub.diminishedBreathSoundsBilaterallyWith")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.cardiovascular")}</strong> {t("pages.nursingClinicalScenariosHub.tachycardicRegularNoJvd")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.abgOnRoomAir")}</strong> {t("pages.nursingClinicalScenariosHub.ph731Paco58Mmhg")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.labs2")}</strong> {t("pages.nursingClinicalScenariosHub.wbc13500lCrpElevatedBnp")}</p>
       </ScenarioSection>
 
-      <ScenarioSection title="Clinical Reasoning" color="amber">
-        <p><strong>ABG interpretation:</strong> pH 7.31 = acidosis. PaCO₂ 58 = elevated (respiratory acidosis). HCO₃ 32 = elevated (chronic compensation). PaO₂ 54 = severe hypoxemia. This is a partially compensated respiratory acidosis with acute-on-chronic respiratory failure. The elevated HCO₃ indicates pre-existing chronic CO₂ retention (baseline COPD) with acute worsening.</p>
-        <p><strong>Diagnosis:</strong> Acute exacerbation of COPD (AECOPD) with acute-on-chronic type II respiratory failure. Yellow-green sputum and mild leukocytosis suggest an infectious trigger (likely bacterial bronchitis or pneumonia).</p>
-        <p><strong>Key distinction:</strong> Normal BNP rules out heart failure as a contributing factor. The clinical picture is consistent with infectious COPD exacerbation.</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.clinicalReasoning3")} color="amber">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.abgInterpretation")}</strong> {t("pages.nursingClinicalScenariosHub.ph731AcidosisPaco58")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.diagnosis")}</strong> {t("pages.nursingClinicalScenariosHub.acuteExacerbationOfCopdAecopd")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.keyDistinction")}</strong> {t("pages.nursingClinicalScenariosHub.normalBnpRulesOutHeart")}</p>
       </ScenarioSection>
 
-      <ScenarioSection title="Nursing Priorities" color="green">
-        <p><strong>1. Controlled oxygen therapy:</strong> Start O₂ via Venturi mask at 28% — titrate to target SpO₂ 88–92%. COPD patients rely on hypoxic drive; excessive O₂ can suppress respiratory drive and worsen CO₂ retention.</p>
-        <p><strong>2. Bronchodilator therapy:</strong> Continuous nebulized albuterol 2.5 mg + ipratropium 0.5 mg q20min × 3, then q4h. Consider adding IV magnesium sulfate if severe bronchospasm.</p>
-        <p><strong>3. Systemic corticosteroids:</strong> Methylprednisolone 125 mg IV or prednisone 40 mg PO. Reduces airway inflammation and shortens recovery time.</p>
-        <p><strong>4. Antibiotics:</strong> Initiate empiric antibiotics (e.g., azithromycin or levofloxacin) given purulent sputum and suspected bacterial trigger.</p>
-        <p><strong>5. Position and breathing:</strong> High Fowler's position, coach pursed-lip breathing, clear secretions with suction if needed.</p>
-        <p><strong>6. Monitor for deterioration:</strong> Repeat ABG in 1–2 hours. If PaCO₂ continues to rise, pH drops below 7.25, or mental status worsens → prepare for non-invasive ventilation (BiPAP) or intubation. BiPAP is first-line for COPD exacerbation with respiratory acidosis.</p>
-        <p><strong>7. Sputum culture:</strong> Obtain before starting antibiotics if possible.</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.nursingPriorities2")} color="green">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.1ControlledOxygenTherapy")}</strong> {t("pages.nursingClinicalScenariosHub.startOViaVenturiMask")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.2BronchodilatorTherapy")}</strong> {t("pages.nursingClinicalScenariosHub.continuousNebulizedAlbuterol25Mg")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.3SystemicCorticosteroids")}</strong> {t("pages.nursingClinicalScenariosHub.methylprednisolone125MgIvOr")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.4Antibiotics")}</strong> {t("pages.nursingClinicalScenariosHub.initiateEmpiricAntibioticsEgAzithromycin")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.5PositionAndBreathing")}</strong> {t("pages.nursingClinicalScenariosHub.highFowlersPositionCoachPursedlip")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.6MonitorForDeterioration")}</strong> {t("pages.nursingClinicalScenariosHub.repeatAbgIn12Hours")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.7SputumCulture")}</strong> {t("pages.nursingClinicalScenariosHub.obtainBeforeStartingAntibioticsIf")}</p>
       </ScenarioSection>
 
       <div className="mt-8">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Follow-Up Quiz Questions</h2>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">{t("pages.nursingClinicalScenariosHub.followupQuizQuestions3")}</h2>
         <QuizQuestion index={0} question="What is the target oxygen saturation for this COPD patient?" options={["95–100%", "92–96%", "88–92%", "85–88%"]} correctIndex={2} rationale="COPD patients with chronic CO₂ retention rely on hypoxic drive for respiratory stimulation. Target SpO₂ of 88–92% provides adequate oxygenation without suppressing the drive to breathe. Aiming for higher saturations can worsen hypercapnia and respiratory failure." />
         <QuizQuestion index={1} question="The ABG shows pH 7.31, PaCO₂ 58, HCO₃ 32, PaO₂ 54. What is the interpretation?" options={["Uncompensated metabolic acidosis", "Fully compensated respiratory acidosis", "Partially compensated respiratory acidosis with hypoxemia", "Respiratory alkalosis with metabolic compensation"]} correctIndex={2} rationale="pH < 7.35 = acidosis. PaCO₂ > 45 = respiratory cause. HCO₃ > 26 = metabolic compensation (kidneys retaining bicarbonate). Since pH is still abnormal, it's partially compensated. PaO₂ 54 < 60 = severe hypoxemia (respiratory failure)." />
         <QuizQuestion index={2} question="The patient's condition worsens despite nebulizers. RR increases to 38, PaCO₂ rises to 68, and the patient becomes drowsy. What is the priority intervention?" options={["Increase oxygen to 100% via non-rebreather mask", "Initiate non-invasive ventilation (BiPAP)", "Administer another albuterol nebulizer treatment", "Position the patient flat to improve ventilation"]} correctIndex={1} rationale="BiPAP (non-invasive positive pressure ventilation) is first-line for acute COPD exacerbation with worsening respiratory acidosis. It supports ventilation, reduces work of breathing, and can prevent intubation. Increasing O₂ to 100% could worsen CO₂ retention. Lying flat worsens dyspnea." />
@@ -451,41 +451,41 @@ function StrokeScenario() {
   const scenario = SCENARIOS.find(s => s.slug === "stroke-assessment")!;
   return (
     <ScenarioPageWrapper scenario={scenario}>
-      <ScenarioSection title="Patient Presentation" color="blue">
-        <p><strong>Patient:</strong> Mr. David Park, 68-year-old male</p>
-        <p><strong>Chief complaint:</strong> Wife called 911 reporting that her husband suddenly developed right-sided weakness and "his speech doesn't make sense" while eating lunch.</p>
-        <p><strong>History of present illness:</strong> Patient was at baseline 30 minutes ago. Wife reports he suddenly dropped his fork, his right arm went limp, and he began speaking incoherently. He is able to follow simple commands inconsistently. Last known well time: 12:15 PM. Current time: 12:45 PM.</p>
-        <p><strong>Past medical history:</strong> Atrial fibrillation (on warfarin, inconsistent compliance), hypertension, hyperlipidemia, type 2 diabetes.</p>
-        <p><strong>Current medications:</strong> Warfarin 5 mg daily, metoprolol 50 mg BID, atorvastatin 80 mg daily, metformin 500 mg BID.</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.patientPresentation4")} color="blue">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.patient4")}</strong> {t("pages.nursingClinicalScenariosHub.mrDavidPark68yearoldMale")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.chiefComplaint4")}</strong> {t("pages.nursingClinicalScenariosHub.wifeCalled911ReportingThat")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.historyOfPresentIllness4")}</strong> {t("pages.nursingClinicalScenariosHub.patientWasAtBaseline30")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.pastMedicalHistory4")}</strong> {t("pages.nursingClinicalScenariosHub.atrialFibrillationOnWarfarinInconsistent")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.currentMedications4")}</strong> {t("pages.nursingClinicalScenariosHub.warfarin5MgDailyMetoprolol")}</p>
       </ScenarioSection>
 
-      <ScenarioSection title="Assessment Findings" color="red">
-        <p><strong>Vital signs:</strong> BP 186/102 mmHg, HR 88 bpm (irregularly irregular), RR 18/min, SpO₂ 97%, Temp 36.8°C, Blood glucose 142 mg/dL</p>
-        <p><strong>FAST Assessment:</strong> Face — left-sided facial droop when smiling. Arms — right arm drifts downward and cannot maintain against gravity. Speech — dysarthric, word-finding difficulty, unable to repeat sentences accurately. Time — symptom onset 30 minutes ago.</p>
-        <p><strong>NIHSS Score: 14</strong> (moderate-severe stroke)</p>
-        <p><strong>Neurological:</strong> Alert but confused, follows simple commands inconsistently. Right hemiparesis (arm greater than leg). Right-sided facial droop (lower face). Receptive language partially intact but expressive aphasia present. Right visual field neglect suspected.</p>
-        <p><strong>Labs:</strong> INR 1.6 (subtherapeutic — target 2.0–3.0 on warfarin), glucose 142 mg/dL, CBC within normal limits.</p>
-        <p><strong>CT head (non-contrast, obtained within 10 minutes):</strong> No hemorrhage identified. No early ischemic changes.</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.assessmentFindings4")} color="red">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.vitalSigns4")}</strong> {t("pages.nursingClinicalScenariosHub.bp186102MmhgHr88")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.fastAssessment")}</strong> {t("pages.nursingClinicalScenariosHub.faceLeftsidedFacialDroopWhen")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.nihssScore14")}</strong> {t("pages.nursingClinicalScenariosHub.moderatesevereStroke")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.neurological")}</strong> {t("pages.nursingClinicalScenariosHub.alertButConfusedFollowsSimple")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.labs3")}</strong> {t("pages.nursingClinicalScenariosHub.inr16SubtherapeuticTarget2030")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.ctHeadNoncontrastObtainedWithin")}</strong> {t("pages.nursingClinicalScenariosHub.noHemorrhageIdentifiedNoEarly")}</p>
       </ScenarioSection>
 
-      <ScenarioSection title="Clinical Reasoning" color="amber">
-        <p><strong>Diagnosis:</strong> Acute ischemic stroke — likely cardioembolic origin (atrial fibrillation with subtherapeutic anticoagulation). Left middle cerebral artery (MCA) territory based on right hemiparesis, facial droop, and aphasia pattern.</p>
-        <p><strong>tPA eligibility assessment:</strong> Last known well time 30 minutes ago — well within the 4.5-hour window for IV alteplase. CT shows no hemorrhage. INR 1.6 (alteplase can be given if INR &lt; 1.7). No recent surgery, bleeding, or other absolute contraindications identified.</p>
-        <p><strong>Critical time factor:</strong> "Time is brain" — approximately 1.9 million neurons are lost per minute during an acute ischemic stroke. Every minute of delay in reperfusion worsens outcomes. Door-to-needle time goal: &lt; 60 minutes.</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.clinicalReasoning4")} color="amber">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.diagnosis2")}</strong> {t("pages.nursingClinicalScenariosHub.acuteIschemicStrokeLikelyCardioembolic")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.tpaEligibilityAssessment")}</strong> {t("pages.nursingClinicalScenariosHub.lastKnownWellTime30")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.criticalTimeFactor")}</strong> {t("pages.nursingClinicalScenariosHub.timeIsBrainApproximately19")}</p>
       </ScenarioSection>
 
-      <ScenarioSection title="Nursing Priorities" color="green">
-        <p><strong>1. Rapid assessment and CT scan:</strong> CT completed within 10 minutes of arrival (achieved). Rule out hemorrhagic stroke before considering thrombolytics.</p>
-        <p><strong>2. Activate stroke team:</strong> Notify neurologist/stroke team immediately. Prepare for IV alteplase (tPA) administration.</p>
-        <p><strong>3. Blood pressure management:</strong> For tPA candidates, BP must be &lt; 185/110 before and &lt; 180/105 during/after tPA. Current BP 186/102 — administer IV labetalol 10–20 mg to lower BP below threshold.</p>
-        <p><strong>4. IV alteplase administration:</strong> Dose: 0.9 mg/kg (max 90 mg). Give 10% as IV bolus over 1 minute, then infuse remaining 90% over 60 minutes. Start within 60 minutes of arrival.</p>
-        <p><strong>5. Post-tPA monitoring (critical 24 hours):</strong> Neuro checks q15min × 2h, then q30min × 6h, then q1h × 16h. Strict BP monitoring — keep &lt; 180/105. Monitor for signs of hemorrhagic conversion (new headache, vomiting, acute neuro decline).</p>
-        <p><strong>6. NPO status and swallow assessment:</strong> Keep NPO until bedside swallow evaluation completed. Dysphagia screening is mandatory before any oral intake (aspiration risk).</p>
-        <p><strong>7. Position HOB at 30 degrees</strong> to optimize cerebral perfusion and reduce ICP risk.</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.nursingPriorities3")} color="green">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.1RapidAssessmentAndCt")}</strong> {t("pages.nursingClinicalScenariosHub.ctCompletedWithin10Minutes")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.2ActivateStrokeTeam")}</strong> {t("pages.nursingClinicalScenariosHub.notifyNeurologiststrokeTeamImmediatelyPrepar")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.3BloodPressureManagement")}</strong> {t("pages.nursingClinicalScenariosHub.forTpaCandidatesBpMust")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.4IvAlteplaseAdministration")}</strong> {t("pages.nursingClinicalScenariosHub.dose09MgkgMax90")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.5PosttpaMonitoringCritical24")}</strong> {t("pages.nursingClinicalScenariosHub.neuroChecksQ15min2hThen")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.6NpoStatusAndSwallow")}</strong> {t("pages.nursingClinicalScenariosHub.keepNpoUntilBedsideSwallow")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.7PositionHobAt30")}</strong> {t("pages.nursingClinicalScenariosHub.toOptimizeCerebralPerfusionAnd")}</p>
       </ScenarioSection>
 
       <div className="mt-8">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Follow-Up Quiz Questions</h2>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">{t("pages.nursingClinicalScenariosHub.followupQuizQuestions4")}</h2>
         <QuizQuestion index={0} question="The patient's BP is 186/102 mmHg. Before tPA can be administered, the systolic BP must be below:" options={["160 mmHg", "180 mmHg", "185 mmHg", "200 mmHg"]} correctIndex={2} rationale="For IV alteplase (tPA) candidates, blood pressure must be < 185/110 mmHg before administration and maintained < 180/105 mmHg during and for 24 hours after infusion. This reduces the risk of hemorrhagic transformation." />
         <QuizQuestion index={1} question="The patient has atrial fibrillation and an INR of 1.6. Why is this clinically significant?" options={["The INR is too high — hemorrhagic stroke is likely", "The INR is subtherapeutic — inadequate stroke prophylaxis from A-fib", "The INR level is normal for this patient", "Atrial fibrillation does not increase stroke risk"]} correctIndex={1} rationale="A-fib is the most common cause of cardioembolic stroke. Therapeutic INR on warfarin (2.0–3.0) provides prophylaxis. This patient's INR of 1.6 is subtherapeutic, meaning he was not adequately anticoagulated — likely contributing to the stroke event. Inconsistent warfarin compliance is a known risk factor." />
         <QuizQuestion index={2} question="What is the FIRST assessment the nurse should perform before allowing the patient to eat or drink?" options={["Check blood glucose level", "Bedside swallow evaluation/dysphagia screening", "Auscultate bowel sounds", "Review dietary preferences"]} correctIndex={1} rationale="Stroke patients are at high risk for dysphagia and aspiration. A bedside swallow evaluation must be completed BEFORE any oral intake (food, fluids, or oral medications). Aspiration pneumonia is a leading cause of morbidity and mortality following stroke." />
@@ -498,40 +498,40 @@ function PediatricDeteriorationScenario() {
   const scenario = SCENARIOS.find(s => s.slug === "pediatric-deterioration")!;
   return (
     <ScenarioPageWrapper scenario={scenario}>
-      <ScenarioSection title="Patient Presentation" color="blue">
-        <p><strong>Patient:</strong> Mia Thompson, 3-year-old female</p>
-        <p><strong>Chief complaint:</strong> Admitted 18 hours ago with community-acquired pneumonia. Night nurse reports the child's condition is "not looking right" compared to the previous shift.</p>
-        <p><strong>History of present illness:</strong> Mia was admitted with 3-day history of cough, fever, and decreased oral intake. Initial chest X-ray showed right lower lobe consolidation. Started on IV ampicillin. Was playful and interactive on admission but has become progressively less active over the past 6 hours. Parents report she has not eaten and has had minimal fluid intake.</p>
-        <p><strong>Past medical history:</strong> Born at 35 weeks gestation, no significant neonatal complications. Up to date on immunizations. No chronic conditions. No allergies.</p>
-        <p><strong>Weight:</strong> 14 kg</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.patientPresentation5")} color="blue">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.patient5")}</strong> {t("pages.nursingClinicalScenariosHub.miaThompson3yearoldFemale")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.chiefComplaint5")}</strong> {t("pages.nursingClinicalScenariosHub.admitted18HoursAgoWith")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.historyOfPresentIllness5")}</strong> {t("pages.nursingClinicalScenariosHub.miaWasAdmittedWith3day")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.pastMedicalHistory5")}</strong> {t("pages.nursingClinicalScenariosHub.bornAt35WeeksGestation")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.weight")}</strong> {t("pages.nursingClinicalScenariosHub.14Kg")}</p>
       </ScenarioSection>
 
-      <ScenarioSection title="Assessment Findings" color="red">
-        <p><strong>Vital signs:</strong> HR 168 bpm (normal for age: 80–120), RR 42/min (normal: 20–30), SpO₂ 90% on 2L nasal cannula (was 96% on admission), Temp 39.8°C (103.6°F), BP 78/45 mmHg (normal minimum SBP: 70 + [2 × age] = 76 mmHg — borderline low)</p>
-        <p><strong>General:</strong> Listless, not making eye contact, not interested in toys. Responds to voice but irritable when touched. Not crying with tears — mucous membranes tacky. Skin mottled on extremities, capillary refill 4 seconds.</p>
-        <p><strong>Respiratory:</strong> Subcostal and intercostal retractions, nasal flaring, grunting on expiration. Diminished breath sounds right lower lobe with crackles. Increased work of breathing compared to admission.</p>
-        <p><strong>Cardiovascular:</strong> Tachycardic, weak peripheral pulses. Cool extremities despite fever.</p>
-        <p><strong>Urine output:</strong> 0.5 mL/kg/hr over last 4 hours (borderline — normal minimum for children: 1 mL/kg/hr).</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.assessmentFindings5")} color="red">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.vitalSigns5")}</strong> {t("pages.nursingClinicalScenariosHub.hr168BpmNormalFor")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.general4")}</strong> {t("pages.nursingClinicalScenariosHub.listlessNotMakingEyeContact")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.respiratory4")}</strong> {t("pages.nursingClinicalScenariosHub.subcostalAndIntercostalRetractionsNasal")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.cardiovascular2")}</strong> {t("pages.nursingClinicalScenariosHub.tachycardicWeakPeripheralPulsesCool")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.urineOutput")}</strong> {t("pages.nursingClinicalScenariosHub.05MlkghrOverLast4")}</p>
       </ScenarioSection>
 
-      <ScenarioSection title="Clinical Reasoning" color="amber">
-        <p><strong>Pediatric Early Warning Signs (PEWS):</strong> This child is showing multiple red flags for clinical deterioration: rising heart rate, worsening respiratory distress (retractions, grunting, nasal flaring), declining oxygen saturation despite supplemental O₂, altered behavior (listless, not interactive), poor perfusion (mottled skin, prolonged cap refill, cool extremities, weak pulses), decreased urine output, and persistent high fever.</p>
-        <p><strong>Analysis:</strong> The clinical picture suggests progression from localized pneumonia to possible sepsis with impending septic shock. The hemodynamic changes (tachycardia, borderline BP, poor perfusion) suggest compensated shock — the body is maintaining blood pressure through tachycardia, but decompensation is imminent if not treated aggressively.</p>
-        <p><strong>Critical pediatric concept:</strong> Children compensate for shock much longer than adults, maintaining blood pressure until very late. By the time hypotension occurs in a child, they are in decompensated shock — a pre-arrest state. The key is recognizing early signs: tachycardia, altered mental status, poor perfusion, and decreased urine output.</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.clinicalReasoning5")} color="amber">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.pediatricEarlyWarningSignsPews")}</strong> {t("pages.nursingClinicalScenariosHub.thisChildIsShowingMultiple")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.analysis2")}</strong> {t("pages.nursingClinicalScenariosHub.theClinicalPictureSuggestsProgression")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.criticalPediatricConcept")}</strong> {t("pages.nursingClinicalScenariosHub.childrenCompensateForShockMuch")}</p>
       </ScenarioSection>
 
-      <ScenarioSection title="Nursing Priorities" color="green">
-        <p><strong>1. Escalate immediately:</strong> Activate rapid response or pediatric emergency team. This child shows signs of compensated septic shock — do not wait for further deterioration.</p>
-        <p><strong>2. Optimize oxygenation:</strong> Increase to high-flow nasal cannula or non-rebreather mask to target SpO₂ &gt; 94%. Position upright. Be prepared for respiratory support (CPAP, intubation) if grunting worsens or mental status declines further.</p>
-        <p><strong>3. IV fluid resuscitation:</strong> 20 mL/kg NS bolus (14 kg × 20 = 280 mL) over 5–10 minutes. Reassess after each bolus — may repeat up to 60 mL/kg in the first hour. Assess for fluid responsiveness: improved heart rate, perfusion, mental status, urine output.</p>
-        <p><strong>4. Obtain cultures and labs:</strong> Blood cultures × 2, CBC with differential, CRP, lactate, BMP (electrolytes, glucose, renal function), blood gas. Obtain before changing antibiotics if possible.</p>
-        <p><strong>5. Broaden antibiotic coverage:</strong> The current regimen (ampicillin alone) may be insufficient. Notify the provider to consider broadening to ceftriaxone or adding vancomycin if MRSA is suspected.</p>
-        <p><strong>6. Continuous monitoring:</strong> Cardiac monitoring, continuous pulse oximetry, strict I&O (weigh diapers), frequent vital signs q15min during acute resuscitation, blood glucose monitoring (children are prone to hypoglycemia during sepsis).</p>
-        <p><strong>7. Family-centered care:</strong> Keep parents informed and at bedside when possible. Explain interventions and what to expect. Parents know their child best — their concern that the child "doesn't look right" should always be taken seriously.</p>
+      <ScenarioSection title={t("pages.nursingClinicalScenariosHub.nursingPriorities4")} color="green">
+        <p><strong>{t("pages.nursingClinicalScenariosHub.1EscalateImmediately")}</strong> {t("pages.nursingClinicalScenariosHub.activateRapidResponseOrPediatric")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.2OptimizeOxygenation")}</strong> {t("pages.nursingClinicalScenariosHub.increaseToHighflowNasalCannula")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.3IvFluidResuscitation")}</strong> {t("pages.nursingClinicalScenariosHub.20MlkgNsBolus14")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.4ObtainCulturesAndLabs")}</strong> {t("pages.nursingClinicalScenariosHub.bloodCultures2CbcWith")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.5BroadenAntibioticCoverage")}</strong> {t("pages.nursingClinicalScenariosHub.theCurrentRegimenAmpicillinAlone")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.6ContinuousMonitoring2")}</strong> {t("pages.nursingClinicalScenariosHub.cardiacMonitoringContinuousPulseOximetry")}</p>
+        <p><strong>{t("pages.nursingClinicalScenariosHub.7FamilycenteredCare")}</strong> {t("pages.nursingClinicalScenariosHub.keepParentsInformedAndAt")}</p>
       </ScenarioSection>
 
       <div className="mt-8">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Follow-Up Quiz Questions</h2>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">{t("pages.nursingClinicalScenariosHub.followupQuizQuestions5")}</h2>
         <QuizQuestion index={0} question="Which assessment finding is the MOST concerning indicator of clinical deterioration in this child?" options={["Temperature of 39.8°C", "Heart rate of 168 bpm", "Mottled skin with prolonged capillary refill (4 seconds)", "Respiratory rate of 42"]} correctIndex={2} rationale="Mottled skin with prolonged capillary refill (> 3 seconds in children) indicates poor peripheral perfusion — a hallmark of shock. While tachycardia and tachypnea are concerning, poor perfusion (mottled skin, cool extremities, weak pulses) indicates the cardiovascular system is failing to deliver adequate oxygen to tissues." />
         <QuizQuestion index={1} question="How much IV fluid should be administered as a bolus for this 14 kg child showing signs of septic shock?" options={["140 mL (10 mL/kg)", "280 mL (20 mL/kg)", "420 mL (30 mL/kg)", "700 mL (50 mL/kg)"]} correctIndex={1} rationale="Initial fluid resuscitation for pediatric septic shock is 20 mL/kg of isotonic crystalloid (NS or LR) given rapidly over 5–10 minutes. For a 14 kg child: 14 × 20 = 280 mL. This can be repeated up to 60 mL/kg in the first hour while reassessing after each bolus." />
         <QuizQuestion index={2} question="A parent tells the nurse, 'Something is wrong — she's not acting like herself.' What is the appropriate nursing response?" options={["Reassure the parent that fever causes children to be less active", "Document the parent's concern and continue current care plan", "Take the concern seriously — perform a comprehensive reassessment immediately", "Ask the parent to leave the room so the child can rest"]} correctIndex={2} rationale="Parents know their child's baseline behavior better than anyone. Parental concern that a child 'doesn't look right' or 'isn't acting like themselves' is a validated early warning sign of clinical deterioration. The nurse should perform an immediate, thorough reassessment and escalate findings to the medical team." />

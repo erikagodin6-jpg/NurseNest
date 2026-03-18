@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowLeft, Trophy, Target, AlertTriangle, BarChart3, Clock,
   CheckCircle2, XCircle, BookOpen, TrendingUp, Zap, ShieldCheck
@@ -48,6 +49,7 @@ interface TrialSession {
 }
 
 function formatTime(seconds: number): string {
+
   if (seconds < 60) return `${Math.round(seconds)}s`;
   const m = Math.floor(seconds / 60);
   const s = Math.round(seconds % 60);
@@ -103,7 +105,7 @@ function ScoreRing({ percentage, size = 140 }: { percentage: number; size?: numb
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-3xl font-bold" style={{ color }}>{percentage}%</span>
-        <span className="text-xs text-gray-500">Score</span>
+        <span className="text-xs text-gray-500">{t("pages.trialResults.score")}</span>
       </div>
     </div>
   );
@@ -155,7 +157,7 @@ export default function TrialResults() {
             <AlertTriangle className="w-12 h-12 text-gray-400 mx-auto" />
             <p className="text-gray-500" data-testid="text-error">{error || "Results not found."}</p>
             <LocaleLink href="/trial">
-              <Button variant="outline" data-testid="button-back-trial">Back to Trial</Button>
+              <Button variant="outline" data-testid="button-back-trial">{t("pages.trialResults.backToTrial")}</Button>
             </LocaleLink>
           </div>
         </main>
@@ -169,7 +171,7 @@ export default function TrialResults() {
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
-      <SEO title="Trial Results - NurseNest" description="Your free trial readiness assessment results and performance breakdown" />
+      <SEO title={t("pages.trialResults.trialResultsNursenest")} description={t("pages.trialResults.yourFreeTrialReadinessAssessment")} />
       <Navigation />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex-1">
@@ -194,7 +196,7 @@ export default function TrialResults() {
         <div className="text-center mb-10 space-y-6">
           <div className="flex items-center justify-center gap-4">
             <Trophy className={`w-10 h-10 ${bandColors.icon}`} />
-            <h1 className="text-4xl font-bold" data-testid="text-results-title">Trial Results</h1>
+            <h1 className="text-4xl font-bold" data-testid="text-results-title">{t("pages.trialResults.trialResults")}</h1>
           </div>
 
           <div className="flex items-center justify-center gap-8 flex-wrap">
@@ -220,7 +222,7 @@ export default function TrialResults() {
             <CardContent className="p-5">
               <div className="flex items-center gap-3 mb-3">
                 <Target className="w-5 h-5 text-primary" />
-                <h3 className="font-bold text-gray-900">Difficulty Estimate</h3>
+                <h3 className="font-bold text-gray-900">{t("pages.trialResults.difficultyEstimate")}</h3>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-3xl font-bold text-primary" data-testid="text-difficulty-level">
@@ -238,19 +240,19 @@ export default function TrialResults() {
             <CardContent className="p-5">
               <div className="flex items-center gap-3 mb-3">
                 <Clock className="w-5 h-5 text-primary" />
-                <h3 className="font-bold text-gray-900">Time Management</h3>
+                <h3 className="font-bold text-gray-900">{t("pages.trialResults.timeManagement")}</h3>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Avg per question</span>
+                  <span className="text-gray-500">{t("pages.trialResults.avgPerQuestion")}</span>
                   <span className="font-medium" data-testid="text-avg-time">{formatTime(report.avgTimePerQuestion)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Fastest</span>
+                  <span className="text-gray-500">{t("pages.trialResults.fastest")}</span>
                   <span className="font-medium" data-testid="text-fastest-time">{formatTime(report.fastestQuestion)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Slowest</span>
+                  <span className="text-gray-500">{t("pages.trialResults.slowest")}</span>
                   <span className="font-medium" data-testid="text-slowest-time">{formatTime(report.slowestQuestion)}</span>
                 </div>
               </div>
@@ -261,7 +263,7 @@ export default function TrialResults() {
             <CardContent className="p-5">
               <div className="flex items-center gap-3 mb-3">
                 <BarChart3 className="w-5 h-5 text-primary" />
-                <h3 className="font-bold text-gray-900">Accuracy</h3>
+                <h3 className="font-bold text-gray-900">{t("pages.trialResults.accuracy")}</h3>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
@@ -401,7 +403,7 @@ export default function TrialResults() {
         </Card>
 
         <div className="rounded-xl bg-gradient-to-r from-primary/5 to-primary/10 border border-primary/20 p-8 text-center space-y-6" data-testid="section-cta">
-          <h2 className="text-2xl font-bold text-gray-900">Ready to Level Up Your Preparation?</h2>
+          <h2 className="text-2xl font-bold text-gray-900">{t("pages.trialResults.readyToLevelUpYour")}</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Unlock the full question bank with detailed rationales, adaptive testing,
             and comprehensive study resources to maximize your exam readiness.

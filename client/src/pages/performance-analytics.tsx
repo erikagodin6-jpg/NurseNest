@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import {
   BarChart3, TrendingUp, Target, Clock, ArrowLeft, Award,
   BookOpen, CheckCircle2, Calendar
@@ -29,6 +30,7 @@ type AnalyticsData = {
 };
 
 function getBarColor(accuracy: number): string {
+
   if (accuracy >= 70) return "#10b981";
   if (accuracy >= 50) return "#f59e0b";
   return "#ef4444";
@@ -73,8 +75,8 @@ export default function PerformanceAnalyticsPage() {
   return (
     <div className="min-h-screen bg-background" data-testid="performance-analytics-page">
       <SEO
-        title="Performance Analytics - NurseNest"
-        description="View your study performance analytics, accuracy trends, and topic mastery."
+        title={t("pages.performanceAnalytics.performanceAnalyticsNursenest")}
+        description={t("pages.performanceAnalytics.viewYourStudyPerformanceAnalytics")}
         canonicalPath="/performance-analytics"
       />
       <Navigation />
@@ -133,7 +135,7 @@ export default function PerformanceAnalyticsPage() {
                     </div>
                   </div>
                   <p className="text-2xl font-bold" data-testid="stat-total-questions">{data.totalQuestions.toLocaleString()}</p>
-                  <p className="text-xs text-muted-foreground">Questions Completed</p>
+                  <p className="text-xs text-muted-foreground">{t("pages.performanceAnalytics.questionsCompleted")}</p>
                 </CardContent>
               </Card>
               <Card>
@@ -144,7 +146,7 @@ export default function PerformanceAnalyticsPage() {
                     </div>
                   </div>
                   <p className="text-2xl font-bold" data-testid="stat-accuracy">{data.overallAccuracy}%</p>
-                  <p className="text-xs text-muted-foreground">Overall Accuracy</p>
+                  <p className="text-xs text-muted-foreground">{t("pages.performanceAnalytics.overallAccuracy")}</p>
                 </CardContent>
               </Card>
               <Card>
@@ -155,7 +157,7 @@ export default function PerformanceAnalyticsPage() {
                     </div>
                   </div>
                   <p className="text-2xl font-bold" data-testid="stat-study-time">{data.studyTimeHours}h</p>
-                  <p className="text-xs text-muted-foreground">Study Time</p>
+                  <p className="text-xs text-muted-foreground">{t("pages.performanceAnalytics.studyTime")}</p>
                 </CardContent>
               </Card>
               <Card>
@@ -166,17 +168,17 @@ export default function PerformanceAnalyticsPage() {
                     </div>
                   </div>
                   <p className="text-2xl font-bold" data-testid="stat-exams">{data.mockExamsCompleted}</p>
-                  <p className="text-xs text-muted-foreground">Mock Exams</p>
+                  <p className="text-xs text-muted-foreground">{t("pages.performanceAnalytics.mockExams")}</p>
                 </CardContent>
               </Card>
             </div>
 
             <Tabs defaultValue="accuracy" className="space-y-4">
               <TabsList className="w-full justify-start" data-testid="analytics-tabs">
-                <TabsTrigger value="accuracy" data-testid="tab-accuracy">Accuracy Trend</TabsTrigger>
-                <TabsTrigger value="topics" data-testid="tab-topics">Topic Mastery</TabsTrigger>
-                <TabsTrigger value="exams" data-testid="tab-exams">Mock Exam History</TabsTrigger>
-                <TabsTrigger value="activity" data-testid="tab-activity">Activity</TabsTrigger>
+                <TabsTrigger value="accuracy" data-testid="tab-accuracy">{t("pages.performanceAnalytics.accuracyTrend")}</TabsTrigger>
+                <TabsTrigger value="topics" data-testid="tab-topics">{t("pages.performanceAnalytics.topicMastery")}</TabsTrigger>
+                <TabsTrigger value="exams" data-testid="tab-exams">{t("pages.performanceAnalytics.mockExamHistory")}</TabsTrigger>
+                <TabsTrigger value="activity" data-testid="tab-activity">{t("pages.performanceAnalytics.activity")}</TabsTrigger>
               </TabsList>
 
               <TabsContent value="accuracy">

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useI18n } from "@/lib/i18n";
 import {
   Loader2, Plus, Search, Edit2, Trash2, Upload, Eye, Save,
   ChevronDown, ChevronRight, BookOpen, X, Check,
@@ -85,6 +86,7 @@ const EMPTY_ENTRY: Partial<EncyclopediaEntry> = {
 };
 
 export default function EncyclopediaAdmin() {
+  const { t } = useI18n();
   const [items, setItems] = useState<EncyclopediaEntry[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -190,8 +192,8 @@ export default function EncyclopediaAdmin() {
     <div className="max-w-6xl mx-auto px-4 py-6" data-testid="encyclopedia-admin-page">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 font-['DM_Sans']">Encyclopedia Admin</h1>
-          <p className="text-sm text-gray-500">Manage encyclopedia entries across all professions</p>
+          <h1 className="text-2xl font-bold text-gray-900 font-['DM_Sans']">{t("allied.encyclopediaAdmin.encyclopediaAdmin")}</h1>
+          <p className="text-sm text-gray-500">{t("allied.encyclopediaAdmin.manageEncyclopediaEntriesAcrossAll")}</p>
         </div>
         <div className="flex gap-2">
           <button
@@ -235,7 +237,7 @@ export default function EncyclopediaAdmin() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search entries..."
+                placeholder={t("allied.encyclopediaAdmin.searchEntries")}
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -248,7 +250,7 @@ export default function EncyclopediaAdmin() {
               className="px-3 py-2 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
               data-testid="select-admin-profession"
             >
-              <option value="">All Professions</option>
+              <option value="">{t("allied.encyclopediaAdmin.allProfessions")}</option>
               {PROFESSIONS.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
             </select>
             <select
@@ -257,7 +259,7 @@ export default function EncyclopediaAdmin() {
               className="px-3 py-2 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
               data-testid="select-admin-status"
             >
-              <option value="">All Statuses</option>
+              <option value="">{t("allied.encyclopediaAdmin.allStatuses")}</option>
               {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
@@ -271,11 +273,11 @@ export default function EncyclopediaAdmin() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-200">
-                    <th className="text-left px-4 py-3 font-medium text-gray-700">Title</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-700">Profession</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-700">Category</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-700">Status</th>
-                    <th className="text-right px-4 py-3 font-medium text-gray-700">Actions</th>
+                    <th className="text-left px-4 py-3 font-medium text-gray-700">{t("allied.encyclopediaAdmin.title")}</th>
+                    <th className="text-left px-4 py-3 font-medium text-gray-700">{t("allied.encyclopediaAdmin.profession")}</th>
+                    <th className="text-left px-4 py-3 font-medium text-gray-700">{t("allied.encyclopediaAdmin.category")}</th>
+                    <th className="text-left px-4 py-3 font-medium text-gray-700">{t("allied.encyclopediaAdmin.status")}</th>
+                    <th className="text-right px-4 py-3 font-medium text-gray-700">{t("allied.encyclopediaAdmin.actions")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -304,7 +306,7 @@ export default function EncyclopediaAdmin() {
                             href={`${PROFESSION_HUB_PATH[item.profession] || "/"}/${item.slug}`}
                             target="_blank"
                             className="p-1.5 text-gray-400 hover:text-teal-600 transition-colors"
-                            title="Preview"
+                            title={t("allied.encyclopediaAdmin.preview")}
                             data-testid={`button-preview-${item.id}`}
                           >
                             <Eye className="w-4 h-4" />
@@ -312,7 +314,7 @@ export default function EncyclopediaAdmin() {
                           <button
                             onClick={() => { setEditing({ ...item }); setActiveTab("edit"); }}
                             className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors"
-                            title="Edit"
+                            title={t("allied.encyclopediaAdmin.edit")}
                             data-testid={`button-edit-${item.id}`}
                           >
                             <Edit2 className="w-4 h-4" />
@@ -320,7 +322,7 @@ export default function EncyclopediaAdmin() {
                           <button
                             onClick={() => handleDelete(item.id)}
                             className="p-1.5 text-gray-400 hover:text-red-600 transition-colors"
-                            title="Delete"
+                            title={t("allied.encyclopediaAdmin.delete")}
                             data-testid={`button-delete-${item.id}`}
                           >
                             <Trash2 className="w-4 h-4" />
@@ -332,7 +334,7 @@ export default function EncyclopediaAdmin() {
                 </tbody>
               </table>
               {items.length === 0 && (
-                <div className="text-center py-10 text-gray-400">No entries found</div>
+                <div className="text-center py-10 text-gray-400">{t("allied.encyclopediaAdmin.noEntriesFound")}</div>
               )}
               <div className="px-4 py-3 bg-gray-50 text-xs text-gray-500 border-t border-gray-200">
                 Showing {items.length} of {total} entries
@@ -354,7 +356,7 @@ export default function EncyclopediaAdmin() {
 
       {activeTab === "bulk" && (
         <div className="bg-white border border-gray-200 rounded-xl p-6" data-testid="bulk-import-panel">
-          <h2 className="text-lg font-bold text-gray-900 mb-3">Bulk Import Encyclopedia Entries</h2>
+          <h2 className="text-lg font-bold text-gray-900 mb-3">{t("allied.encyclopediaAdmin.bulkImportEncyclopediaEntries")}</h2>
           <p className="text-sm text-gray-500 mb-4">
             Paste a JSON array of encyclopedia entries. Each entry must have profession, slug, and title.
             Existing entries with the same profession+slug will be updated.
@@ -470,38 +472,38 @@ function EntryEditor({ entry, onChange, onSave, onCancel, saving }: {
       </div>
 
       <div className="divide-y divide-gray-100">
-        <CollapsibleSection title="Basic Information" id="basic" open={openSections.has("basic")} onToggle={toggle}>
+        <CollapsibleSection title={t("allied.encyclopediaAdmin.basicInformation")} id="basic" open={openSections.has("basic")} onToggle={toggle}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FieldInput label="Title *" value={entry.title || ""} onChange={v => update("title", v)} testId="input-title" />
-            <FieldInput label="Slug *" value={entry.slug || ""} onChange={v => update("slug", v)} testId="input-slug"
+            <FieldInput label={t("allied.encyclopediaAdmin.title2")} value={entry.title || ""} onChange={v => update("title", v)} testId="input-title" />
+            <FieldInput label={t("allied.encyclopediaAdmin.slug")} value={entry.slug || ""} onChange={v => update("slug", v)} testId="input-slug"
               hint="URL-safe identifier (e.g., airway-management)" />
-            <FieldSelect label="Profession *" value={entry.profession || ""} onChange={v => update("profession", v)}
+            <FieldSelect label={t("allied.encyclopediaAdmin.profession2")} value={entry.profession || ""} onChange={v => update("profession", v)}
               options={PROFESSIONS.map(p => ({ value: p.value, label: p.label }))} testId="select-profession" />
-            <FieldInput label="Category" value={entry.category || ""} onChange={v => update("category", v)} testId="input-category"
+            <FieldInput label={t("allied.encyclopediaAdmin.category2")} value={entry.category || ""} onChange={v => update("category", v)} testId="input-category"
               hint="Group topics by category" />
-            <FieldSelect label="Status" value={entry.status || "draft"} onChange={v => update("status", v)}
+            <FieldSelect label={t("allied.encyclopediaAdmin.status2")} value={entry.status || "draft"} onChange={v => update("status", v)}
               options={STATUSES.map(s => ({ value: s, label: s }))} testId="select-status" />
-            <FieldInput label="Sort Order" value={String(entry.sortOrder || 0)} onChange={v => update("sortOrder", parseInt(v) || 0)}
+            <FieldInput label={t("allied.encyclopediaAdmin.sortOrder")} value={String(entry.sortOrder || 0)} onChange={v => update("sortOrder", parseInt(v) || 0)}
               testId="input-sort-order" type="number" />
           </div>
         </CollapsibleSection>
 
-        <CollapsibleSection title="Content Sections" id="content" open={openSections.has("content")} onToggle={toggle}>
+        <CollapsibleSection title={t("allied.encyclopediaAdmin.contentSections")} id="content" open={openSections.has("content")} onToggle={toggle}>
           <div className="space-y-4">
-            <FieldTextarea label="Overview" value={entry.overview || ""} onChange={v => update("overview", v)} testId="textarea-overview" rows={4} />
-            <FieldTextarea label="Mechanism / Physiology" value={entry.mechanism || ""} onChange={v => update("mechanism", v)} testId="textarea-mechanism" rows={4} />
-            <FieldTextarea label="Clinical Relevance" value={entry.clinicalRelevance || ""} onChange={v => update("clinicalRelevance", v)} testId="textarea-clinical-relevance" rows={4} />
-            <FieldTextarea label="Signs & Symptoms" value={entry.signsSymptoms || ""} onChange={v => update("signsSymptoms", v)} testId="textarea-signs-symptoms" rows={4} />
-            <FieldTextarea label="Assessment / Diagnostic Methods" value={entry.assessmentMethods || ""} onChange={v => update("assessmentMethods", v)} testId="textarea-assessment" rows={4} />
-            <FieldTextarea label="Management / Professional Practice" value={entry.management || ""} onChange={v => update("management", v)} testId="textarea-management" rows={4} />
-            <FieldTextarea label="Complications" value={entry.complications || ""} onChange={v => update("complications", v)} testId="textarea-complications" rows={3} />
+            <FieldTextarea label={t("allied.encyclopediaAdmin.overview")} value={entry.overview || ""} onChange={v => update("overview", v)} testId="textarea-overview" rows={4} />
+            <FieldTextarea label={t("allied.encyclopediaAdmin.mechanismPhysiology")} value={entry.mechanism || ""} onChange={v => update("mechanism", v)} testId="textarea-mechanism" rows={4} />
+            <FieldTextarea label={t("allied.encyclopediaAdmin.clinicalRelevance")} value={entry.clinicalRelevance || ""} onChange={v => update("clinicalRelevance", v)} testId="textarea-clinical-relevance" rows={4} />
+            <FieldTextarea label={t("allied.encyclopediaAdmin.signsSymptoms")} value={entry.signsSymptoms || ""} onChange={v => update("signsSymptoms", v)} testId="textarea-signs-symptoms" rows={4} />
+            <FieldTextarea label={t("allied.encyclopediaAdmin.assessmentDiagnosticMethods")} value={entry.assessmentMethods || ""} onChange={v => update("assessmentMethods", v)} testId="textarea-assessment" rows={4} />
+            <FieldTextarea label={t("allied.encyclopediaAdmin.managementProfessionalPractice")} value={entry.management || ""} onChange={v => update("management", v)} testId="textarea-management" rows={4} />
+            <FieldTextarea label={t("allied.encyclopediaAdmin.complications")} value={entry.complications || ""} onChange={v => update("complications", v)} testId="textarea-complications" rows={3} />
           </div>
         </CollapsibleSection>
 
-        <CollapsibleSection title="Clinical Pearls & Exam Pitfalls" id="pearls" open={openSections.has("pearls")} onToggle={toggle}>
+        <CollapsibleSection title={t("allied.encyclopediaAdmin.clinicalPearlsExamPitfalls")} id="pearls" open={openSections.has("pearls")} onToggle={toggle}>
           <div className="space-y-4">
             <FieldTextarea
-              label="Clinical Pearls (JSON array)"
+              label={t("allied.encyclopediaAdmin.clinicalPearlsJsonArray")}
               value={JSON.stringify(entry.clinicalPearls || [], null, 2)}
               onChange={v => updateJsonArray("clinicalPearls", v)}
               testId="textarea-clinical-pearls"
@@ -509,7 +511,7 @@ function EntryEditor({ entry, onChange, onSave, onCancel, saving }: {
               hint='[{"title":"Pearl 1","content":"Description"}]'
             />
             <FieldTextarea
-              label="Exam Pitfalls (JSON array)"
+              label={t("allied.encyclopediaAdmin.examPitfallsJsonArray")}
               value={JSON.stringify(entry.examPitfalls || [], null, 2)}
               onChange={v => updateJsonArray("examPitfalls", v)}
               testId="textarea-exam-pitfalls"
@@ -517,7 +519,7 @@ function EntryEditor({ entry, onChange, onSave, onCancel, saving }: {
               hint='[{"title":"Pitfall 1","content":"Description"}]'
             />
             <FieldTextarea
-              label="FAQ (JSON array)"
+              label={t("allied.encyclopediaAdmin.faqJsonArray")}
               value={JSON.stringify(entry.faq || [], null, 2)}
               onChange={v => updateJsonArray("faq", v)}
               testId="textarea-faq"
@@ -527,37 +529,37 @@ function EntryEditor({ entry, onChange, onSave, onCancel, saving }: {
           </div>
         </CollapsibleSection>
 
-        <CollapsibleSection title="SEO & Metadata" id="seo" open={openSections.has("seo")} onToggle={toggle}>
+        <CollapsibleSection title={t("allied.encyclopediaAdmin.seoMetadata")} id="seo" open={openSections.has("seo")} onToggle={toggle}>
           <div className="space-y-4">
-            <FieldInput label="SEO Title" value={entry.seoTitle || ""} onChange={v => update("seoTitle", v)} testId="input-seo-title"
+            <FieldInput label={t("allied.encyclopediaAdmin.seoTitle")} value={entry.seoTitle || ""} onChange={v => update("seoTitle", v)} testId="input-seo-title"
               hint="Custom title for search engines (50-60 chars)" />
-            <FieldTextarea label="Meta Description" value={entry.metaDescription || ""} onChange={v => update("metaDescription", v)}
+            <FieldTextarea label={t("allied.encyclopediaAdmin.metaDescription")} value={entry.metaDescription || ""} onChange={v => update("metaDescription", v)}
               testId="textarea-meta-description" rows={2} hint="155-160 characters for search results" />
-            <FieldInput label="Keywords (comma-separated)" value={(entry.keywords || []).join(", ")}
+            <FieldInput label={t("allied.encyclopediaAdmin.keywordsCommaseparated")} value={(entry.keywords || []).join(", ")}
               onChange={v => update("keywords", v.split(",").map((k: string) => k.trim()).filter(Boolean))}
               testId="input-keywords" />
           </div>
         </CollapsibleSection>
 
-        <CollapsibleSection title="Related Content Links" id="links" open={openSections.has("links")} onToggle={toggle}>
+        <CollapsibleSection title={t("allied.encyclopediaAdmin.relatedContentLinks")} id="links" open={openSections.has("links")} onToggle={toggle}>
           <div className="space-y-4">
-            <FieldInput label="Related Topic Slugs (comma-separated)"
+            <FieldInput label={t("allied.encyclopediaAdmin.relatedTopicSlugsCommaseparated")}
               value={(entry.relatedTopicSlugs || []).join(", ")}
               onChange={v => update("relatedTopicSlugs", v.split(",").map((s: string) => s.trim()).filter(Boolean))}
               testId="input-related-topics" hint="Slugs of related topics in the same profession" />
             <FieldTextarea
-              label="Cross-Profession Links (JSON array)"
+              label={t("allied.encyclopediaAdmin.crossprofessionLinksJsonArray")}
               value={JSON.stringify(entry.crossProfessionLinks || [], null, 2)}
               onChange={v => updateJsonArray("crossProfessionLinks", v)}
               testId="textarea-cross-profession"
               rows={3}
               hint='[{"profession":"mlt","slug":"blood-gas-analysis"}]'
             />
-            <FieldInput label="Related Lesson Slugs (comma-separated)"
+            <FieldInput label={t("allied.encyclopediaAdmin.relatedLessonSlugsCommaseparated")}
               value={(entry.relatedLessonSlugs || []).join(", ")}
               onChange={v => update("relatedLessonSlugs", v.split(",").map((s: string) => s.trim()).filter(Boolean))}
               testId="input-related-lessons" />
-            <FieldInput label="Related Question Topics (comma-separated)"
+            <FieldInput label={t("allied.encyclopediaAdmin.relatedQuestionTopicsCommaseparated")}
               value={(entry.relatedQuestionTopics || []).join(", ")}
               onChange={v => update("relatedQuestionTopics", v.split(",").map((s: string) => s.trim()).filter(Boolean))}
               testId="input-related-questions" />

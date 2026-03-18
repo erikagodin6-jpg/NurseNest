@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import {
   BookOpen, Check, ChevronDown, ChevronRight, Clock, Target,
   RefreshCw, GraduationCap, Loader2, Calendar, BarChart3,
@@ -25,6 +26,7 @@ interface PlannerData {
 }
 
 export default function StudyPlanPage() {
+  const { t } = useI18n();
   const [, navigate] = useLocation();
   const { user } = useAuth();
   const [data, setData] = useState<PlannerData | null>(null);
@@ -157,8 +159,8 @@ export default function StudyPlanPage() {
           <Card className="w-full max-w-md border-none shadow-xl">
             <CardContent className="p-8 text-center space-y-4">
               <GraduationCap className="w-12 h-12 text-primary mx-auto" />
-              <h2 className="text-2xl font-bold">Sign In Required</h2>
-              <p className="text-gray-500">Please log in to view your study plan.</p>
+              <h2 className="text-2xl font-bold">{t("pages.studyPlan.signInRequired")}</h2>
+              <p className="text-gray-500">{t("pages.studyPlan.pleaseLogInToView")}</p>
               <Button onClick={() => navigate("/login")} className="rounded-full px-8" data-testid="button-login-redirect">
                 Log In
               </Button>
@@ -246,7 +248,7 @@ export default function StudyPlanPage() {
             <Card className="border-none shadow-md mb-6" data-testid="card-plan-settings">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-semibold text-base">Plan Settings</h3>
+                  <h3 className="font-semibold text-base">{t("pages.studyPlan.planSettings")}</h3>
                   <Button variant="ghost" size="sm" onClick={() => setShowSettings(false)}>
                     <X className="w-4 h-4" />
                   </Button>
@@ -282,7 +284,7 @@ export default function StudyPlanPage() {
                   <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                     <Sparkles className="w-8 h-8 text-primary" />
                   </div>
-                  <h2 className="text-xl font-bold mb-2">Create Your Study Plan</h2>
+                  <h2 className="text-xl font-bold mb-2">{t("pages.studyPlan.createYourStudyPlan")}</h2>
                   <p className="text-gray-500 text-sm max-w-md mx-auto">
                     Get a personalized study plan with weekly goals, pacing targets, and smart recommendations based on your progress.
                   </p>
@@ -335,7 +337,7 @@ export default function StudyPlanPage() {
                         {!settings?.exam_countdown_hidden && daysRemaining > 0 && (
                           <div className="text-center sm:text-right flex-shrink-0">
                             <p className="text-3xl font-bold text-primary" data-testid="text-countdown-days">{daysRemaining}</p>
-                            <p className="text-xs text-gray-500 uppercase tracking-wider">days until exam</p>
+                            <p className="text-xs text-gray-500 uppercase tracking-wider">{t("pages.studyPlan.daysUntilExam")}</p>
                           </div>
                         )}
                       </div>
@@ -370,12 +372,12 @@ export default function StudyPlanPage() {
                     <Target className="w-4 h-4 text-primary" /> Your Pacing Targets
                   </h3>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    <PacingBox label="Questions/Day" value={plan.pacingTargets?.questionsPerDay} icon={Target} color="text-purple-600" testId="pacing-questions" />
-                    <PacingBox label="Flashcards/Week" value={plan.pacingTargets?.flashcardsPerWeek} icon={Brain} color="text-amber-600" testId="pacing-flashcards" />
-                    <PacingBox label="Mock Exams" value={plan.pacingTargets?.mocksToTake} icon={BarChart3} color="text-blue-600" testId="pacing-mocks" />
-                    <PacingBox label="Lessons/Week" value={plan.pacingTargets?.lessonsPerWeek} icon={BookOpen} color="text-emerald-600" testId="pacing-lessons" />
-                    <PacingBox label="Weak Areas" value={plan.pacingTargets?.weakAreasToReview} icon={AlertTriangle} color="text-red-600" testId="pacing-weak" />
-                    <PacingBox label="Min/Day" value={plan.pacingTargets?.studyMinutesPerDay} icon={Clock} color="text-gray-600" testId="pacing-minutes" />
+                    <PacingBox label={t("pages.studyPlan.questionsday")} value={plan.pacingTargets?.questionsPerDay} icon={Target} color="text-purple-600" testId="pacing-questions" />
+                    <PacingBox label={t("pages.studyPlan.flashcardsweek")} value={plan.pacingTargets?.flashcardsPerWeek} icon={Brain} color="text-amber-600" testId="pacing-flashcards" />
+                    <PacingBox label={t("pages.studyPlan.mockExams")} value={plan.pacingTargets?.mocksToTake} icon={BarChart3} color="text-blue-600" testId="pacing-mocks" />
+                    <PacingBox label={t("pages.studyPlan.lessonsweek")} value={plan.pacingTargets?.lessonsPerWeek} icon={BookOpen} color="text-emerald-600" testId="pacing-lessons" />
+                    <PacingBox label={t("pages.studyPlan.weakAreas")} value={plan.pacingTargets?.weakAreasToReview} icon={AlertTriangle} color="text-red-600" testId="pacing-weak" />
+                    <PacingBox label={t("pages.studyPlan.minday")} value={plan.pacingTargets?.studyMinutesPerDay} icon={Clock} color="text-gray-600" testId="pacing-minutes" />
                   </div>
                 </CardContent>
               </Card>
@@ -529,15 +531,15 @@ export default function StudyPlanPage() {
                           {isExpanded && (
                             <div className="border-t px-4 py-3 space-y-3 bg-gray-50/50">
                               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                                <WeekTarget label="Questions" value={week.questionsTarget} />
-                                <WeekTarget label="Flashcards" value={week.flashcardsTarget} />
-                                <WeekTarget label="Lessons" value={week.lessonsTarget} />
-                                <WeekTarget label="Mock Exams" value={week.mockExamsTarget} />
+                                <WeekTarget label={t("pages.studyPlan.questions")} value={week.questionsTarget} />
+                                <WeekTarget label={t("pages.studyPlan.flashcards")} value={week.flashcardsTarget} />
+                                <WeekTarget label={t("pages.studyPlan.lessons")} value={week.lessonsTarget} />
+                                <WeekTarget label={t("pages.studyPlan.mockExams2")} value={week.mockExamsTarget} />
                               </div>
 
                               {week.focusAreas?.length > 0 && (
                                 <div>
-                                  <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Focus Areas</p>
+                                  <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">{t("pages.studyPlan.focusAreas")}</p>
                                   <div className="flex flex-wrap gap-1.5">
                                     {week.focusAreas.map((area: string, i: number) => (
                                       <Badge key={i} variant="outline" className="text-[10px]" data-testid={`focus-area-${week.weekNumber}-${i}`}>
@@ -550,14 +552,14 @@ export default function StudyPlanPage() {
 
                               {week.studyRhythm && (
                                 <div>
-                                  <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Study Rhythm</p>
+                                  <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">{t("pages.studyPlan.studyRhythm")}</p>
                                   <p className="text-xs text-gray-600">{week.studyRhythm}</p>
                                 </div>
                               )}
 
                               {week.recommendations?.length > 0 && (
                                 <div>
-                                  <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Tips</p>
+                                  <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">{t("pages.studyPlan.tips")}</p>
                                   <div className="space-y-1">
                                     {week.recommendations.map((tip: string, i: number) => (
                                       <div key={i} className="flex items-start gap-2 text-xs text-gray-600">
@@ -649,7 +651,7 @@ function PlanSettingsForm({
   return (
     <div className="space-y-5">
       <div>
-        <label className="text-sm font-medium mb-2 block">Exam Date</label>
+        <label className="text-sm font-medium mb-2 block">{t("pages.studyPlan.examDate")}</label>
         <div className="flex items-center gap-2 mb-3">
           <label className="flex items-center gap-1.5 text-xs cursor-pointer">
             <input
@@ -706,7 +708,7 @@ function PlanSettingsForm({
           </div>
         ) : (
           <div>
-            <p className="text-xs text-gray-500 mb-2">Choose a timeframe for your study plan:</p>
+            <p className="text-xs text-gray-500 mb-2">{t("pages.studyPlan.chooseATimeframeForYour")}</p>
             <div className="grid grid-cols-4 gap-2">
               {[4, 8, 12].map((weeks) => (
                 <button
@@ -727,7 +729,7 @@ function PlanSettingsForm({
                   max={52}
                   value={![4, 8, 12].includes(planWithoutDateWeeks) ? planWithoutDateWeeks : ""}
                   onChange={(e) => setPlanWithoutDateWeeks(parseInt(e.target.value) || 8)}
-                  placeholder="Custom"
+                  placeholder={t("pages.studyPlan.custom")}
                   className="w-full py-2 px-2 rounded-lg text-xs font-medium border text-center focus:outline-none focus:ring-2 focus:ring-primary/50"
                   data-testid="input-custom-weeks"
                 />
@@ -738,7 +740,7 @@ function PlanSettingsForm({
       </div>
 
       <div>
-        <label className="text-sm font-medium mb-2 block">Study Intensity</label>
+        <label className="text-sm font-medium mb-2 block">{t("pages.studyPlan.studyIntensity")}</label>
         <div className="grid grid-cols-3 gap-2">
           {(["light", "balanced", "intensive"] as Intensity[]).map((level) => (
             <button
@@ -766,7 +768,7 @@ function PlanSettingsForm({
       {showReset && (
         <div className="space-y-3 pt-2 border-t">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-gray-600">Show exam countdown</span>
+            <span className="text-xs text-gray-600">{t("pages.studyPlan.showExamCountdown")}</span>
             <button
               onClick={onToggleCountdown}
               className="text-xs text-primary font-medium"
@@ -776,7 +778,7 @@ function PlanSettingsForm({
             </button>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-xs text-gray-600">Show study planner on dashboard</span>
+            <span className="text-xs text-gray-600">{t("pages.studyPlan.showStudyPlannerOnDashboard")}</span>
             <button
               onClick={onTogglePlanner}
               className="text-xs text-primary font-medium"
@@ -796,7 +798,7 @@ function PlanSettingsForm({
           data-testid="button-generate-plan"
         >
           {generating ? (
-            <><Loader2 className="w-4 h-4 mr-1.5 animate-spin" /> Generating...</>
+            <><Loader2 className="w-4 h-4 mr-1.5 animate-spin" /> {t("pages.studyPlan.generating")}</>
           ) : (
             <><Sparkles className="w-4 h-4 mr-1.5" /> {showReset ? "Update Plan" : "Generate My Plan"}</>
           )}

@@ -1,12 +1,14 @@
 import { SeoHubPage } from "@/components/seo-content-template";
 
+import { useI18n } from "@/lib/i18n";
 const SITE_DOMAIN = "https://www.nursenest.ca";
 
 export default function SeoHubInterview() {
+  const { t } = useI18n();
   return (
     <SeoHubPage
-      title="Interview Prep for New Graduate Nurses"
-      subtitle="Master nursing interview questions with expert-reviewed sample answers, the STAR method framework, and hands-on practice tools to land your first healthcare position."
+      title={t("pages.seoHubInterview.interviewPrepForNewGraduate")}
+      subtitle={t("pages.seo_hub_interview.masterNursingInterviewQuestionsWith")}
       seoTitle="Interview Prep — Nursing Interview Questions & Practice | NurseNest"
       seoDescription="Prepare for nursing interviews with 100+ practice questions, STAR-method examples, behavioral interview strategies, and timed mock interview simulators. Expert-reviewed content for new graduate nurses."
       seoKeywords="nursing interview prep, nursing interview questions, new grad nurse interview, STAR method nursing, behavioral interview nursing, mock nursing interview, healthcare interview preparation"

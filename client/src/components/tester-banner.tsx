@@ -4,7 +4,9 @@ import { X, TestTube, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TesterFeedbackDialog } from "@/components/tester-feedback-dialog";
 
+import { useI18n } from "@/lib/i18n";
 export function TesterBanner() {
+  const { t } = useI18n();
   const { user, isTester } = useAuth();
   const [dismissed, setDismissed] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
@@ -50,7 +52,7 @@ export function TesterBanner() {
             <button
               onClick={() => setDismissed(true)}
               className="text-gray-400 hover:text-gray-600 transition-colors"
-              aria-label="Dismiss banner"
+              aria-label={t("components.testerBanner.dismissBanner")}
               data-testid="button-dismiss-tester-banner"
             >
               <X className="w-4 h-4" />

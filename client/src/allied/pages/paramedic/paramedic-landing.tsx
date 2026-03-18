@@ -13,6 +13,7 @@ import {
 import { paramedicQuestions } from "@/data/career-questions/paramedic-questions";
 import { useParamedicRegion } from "@/allied/contexts/paramedic-region-context";
 
+import { useI18n } from "@/lib/i18n";
 const CATEGORY_COUNTS: Record<string, number> = {};
 paramedicQuestions.forEach(q => {
   CATEGORY_COUNTS[q.category] = (CATEGORY_COUNTS[q.category] || 0) + 1;
@@ -33,6 +34,7 @@ const STUDY_STEPS = [
 ];
 
 function slugify(text: string): string {
+  const { t } = useI18n();
   return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
 
@@ -55,8 +57,8 @@ export default function ParamedicLandingPage() {
   return (
     <div data-testid="paramedic-landing-page">
       <AlliedSEO
-        title="Paramedic Exam Prep — PCP, ACP & NREMT Practice Questions | NurseNest"
-        description="Prepare for your paramedic certification exam with 500+ adaptive practice questions, clinical scenarios, ACLS/PALS drills, and blueprint-weighted mock exams. Covers NREMT, COPR, PCP, and ACP exam tracks."
+        title={t("allied.paramedicParamedicLanding.paramedicExamPrepPcpAcp")}
+        description={t("allied.paramedicParamedicLanding.prepareForYourParamedicCertification")}
         keywords="paramedic exam prep, NREMT practice questions, PCP exam canada, ACP exam, paramedic practice test, paramedic flashcards, paramedic study guide, EMS certification"
         canonicalPath="/allied-health/paramedic"
         structuredData={{
@@ -70,7 +72,7 @@ export default function ParamedicLandingPage() {
 
       <HeroCTA
         badge="Paramedic Exam Academy"
-        title="Pass Your Paramedic Certification Exam"
+        title={t("allied.paramedicParamedicLanding.passYourParamedicCertificationExam")}
         titleHighlight="With Confidence"
         subtitle={isCanada
           ? "500+ adaptive practice questions, clinical scenarios, ACLS/PALS drills, and blueprint-weighted mock exams — built for PCP and ACP learners preparing for COPR and provincial certification exams. Don't risk failing your paramedic exam — start building confidence today."
@@ -82,7 +84,7 @@ export default function ParamedicLandingPage() {
 
       <section className="py-6 bg-white border-b border-gray-100" data-testid="section-region-selector">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center gap-4">
-          <span className="text-sm text-gray-500 font-medium">Select your region:</span>
+          <span className="text-sm text-gray-500 font-medium">{t("allied.paramedicParamedicLanding.selectYourRegion")}</span>
           <RegionSelector />
         </div>
       </section>
@@ -111,16 +113,16 @@ export default function ParamedicLandingPage() {
       <section className="py-16 sm:py-20 bg-gradient-to-b from-purple-50/30 to-white" data-testid="section-pain-points">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">We Know What's Holding You Back</h2>
-            <p className="text-gray-600 max-w-xl mx-auto">Paramedic exam prep is fragmented, outdated, and rarely clinical enough. NurseNest changes that.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.paramedicParamedicLanding.weKnowWhatsHoldingYou")}</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">{t("allied.paramedicParamedicLanding.paramedicExamPrepIsFragmented")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <PainPointCard icon={AlertTriangle} title="Shallow Rationales" description="Most question banks give you 'A is correct' with one sentence. You need to understand the clinical reasoning to apply knowledge under pressure." />
-            <PainPointCard icon={Search} title="No Weak-Area Targeting" description="Studying random questions wastes time. You need a system that identifies your gaps and drills them until they're strengths." />
-            <PainPointCard icon={Shuffle} title="Content That Doesn't Match Your Exam" description={isCanada ? "Generic EMS prep doesn't distinguish PCP from ACP scope. Your study material should match your specific certification track and Canadian protocols." : "Generic EMS prep doesn't match your specific NREMT certification level. Your study material should align with US protocols and exam blueprints."} />
-            <PainPointCard icon={Clock} title="No Structured Study Plan" description="You know you need to study, but you don't know where to start or how to allocate your limited time before exam day." />
-            <PainPointCard icon={Layers} title="Scattered Resources" description="Textbooks, YouTube, random apps — juggling multiple resources means gaps in your coverage and no unified progress tracking." />
-            <PainPointCard icon={FileText} title="No Realistic Exam Simulation" description="You've never experienced a timed, blueprint-weighted mock exam that mirrors the actual test format and difficulty." />
+            <PainPointCard icon={AlertTriangle} title={t("allied.paramedicParamedicLanding.shallowRationales")} description={t("allied.paramedicParamedicLanding.mostQuestionBanksGiveYou")} />
+            <PainPointCard icon={Search} title={t("allied.paramedicParamedicLanding.noWeakareaTargeting")} description={t("allied.paramedicParamedicLanding.studyingRandomQuestionsWastesTime")} />
+            <PainPointCard icon={Shuffle} title={t("allied.paramedicParamedicLanding.contentThatDoesntMatchYour")} description={isCanada ? "Generic EMS prep doesn't distinguish PCP from ACP scope. Your study material should match your specific certification track and Canadian protocols." : "Generic EMS prep doesn't match your specific NREMT certification level. Your study material should align with US protocols and exam blueprints."} />
+            <PainPointCard icon={Clock} title={t("allied.paramedicParamedicLanding.noStructuredStudyPlan")} description={t("allied.paramedicParamedicLanding.youKnowYouNeedTo")} />
+            <PainPointCard icon={Layers} title={t("allied.paramedicParamedicLanding.scatteredResources")} description={t("allied.paramedicParamedicLanding.textbooksYoutubeRandomAppsJuggling")} />
+            <PainPointCard icon={FileText} title={t("allied.paramedicParamedicLanding.noRealisticExamSimulation")} description={t("allied.paramedicParamedicLanding.youveNeverExperiencedATimed")} />
           </div>
         </div>
       </section>
@@ -128,16 +130,16 @@ export default function ParamedicLandingPage() {
       <section className="py-16 sm:py-20 bg-white" data-testid="section-how-nursenest-helps">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">How NurseNest Helps You Pass</h2>
-            <p className="text-gray-600 max-w-xl mx-auto">Six integrated study tools, one platform, zero guesswork.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.paramedicParamedicLanding.howNursenestHelpsYouPass")}</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">{t("allied.paramedicParamedicLanding.sixIntegratedStudyToolsOne")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <FeatureCard icon={BookOpen} title="Adaptive Test Bank" description="500+ paramedic-specific questions with 600+ word clinical rationales. Covers trauma, medical, cardiac, pediatric, OB, and pharmacology." />
-            <FeatureCard icon={FileText} title="Blueprint-Weighted Mocks" description={isCanada ? "Timed mock exams weighted to COPR or provincial blueprints. Get a readiness score and domain-level breakdown." : "Timed mock exams weighted to the NREMT blueprint. Get a readiness score and domain-level breakdown."} />
-            <FeatureCard icon={Brain} title="Spaced Repetition Flashcards" description="Master drug dosages, protocols, and assessment mnemonics with flashcards that adapt to your recall accuracy." />
-            <FeatureCard icon={Zap} title="Clinical Scenarios" description="Unfolding dispatch-to-disposition scenarios with branching decisions and detailed clinical debriefs." />
-            <FeatureCard icon={Target} title="Weak-Area Targeting" description="Our analytics engine identifies your lowest-performing domains and auto-generates targeted drills until you improve." />
-            <FeatureCard icon={GraduationCap} title="Personalized Study Plan" description="Enter your exam date, available study hours, and diagnostic results. Get a day-by-day plan that adapts weekly." />
+            <FeatureCard icon={BookOpen} title={t("allied.paramedicParamedicLanding.adaptiveTestBank")} description={t("allied.paramedicParamedicLanding.500ParamedicspecificQuestionsWith600")} />
+            <FeatureCard icon={FileText} title={t("allied.paramedicParamedicLanding.blueprintweightedMocks")} description={isCanada ? "Timed mock exams weighted to COPR or provincial blueprints. Get a readiness score and domain-level breakdown." : "Timed mock exams weighted to the NREMT blueprint. Get a readiness score and domain-level breakdown."} />
+            <FeatureCard icon={Brain} title={t("allied.paramedicParamedicLanding.spacedRepetitionFlashcards")} description={t("allied.paramedicParamedicLanding.masterDrugDosagesProtocolsAnd")} />
+            <FeatureCard icon={Zap} title={t("allied.paramedicParamedicLanding.clinicalScenarios")} description={t("allied.paramedicParamedicLanding.unfoldingDispatchtodispositionScenariosWithB")} />
+            <FeatureCard icon={Target} title={t("allied.paramedicParamedicLanding.weakareaTargeting")} description={t("allied.paramedicParamedicLanding.ourAnalyticsEngineIdentifiesYour")} />
+            <FeatureCard icon={GraduationCap} title={t("allied.paramedicParamedicLanding.personalizedStudyPlan")} description={t("allied.paramedicParamedicLanding.enterYourExamDateAvailable")} />
           </div>
         </div>
       </section>
@@ -145,8 +147,8 @@ export default function ParamedicLandingPage() {
       <section className="py-16 sm:py-20 bg-gradient-to-b from-teal-50/30 to-white" data-testid="section-topic-categories">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Topic Categories</h2>
-            <p className="text-gray-600 max-w-xl mx-auto">Questions and lessons organized by the clinical domains tested on your paramedic certification exam.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.paramedicParamedicLanding.topicCategories")}</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">{t("allied.paramedicParamedicLanding.questionsAndLessonsOrganizedBy")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {TOPIC_CATEGORIES.map(tc => (
@@ -169,8 +171,8 @@ export default function ParamedicLandingPage() {
       <StudyPathSteps steps={STUDY_STEPS} />
 
       <FreePreviewBlock
-        title="Try It Free — No Account Required"
-        subtitle="Experience the depth of NurseNest paramedic prep before you commit. Start with a free diagnostic and 5 practice questions."
+        title={t("allied.paramedicParamedicLanding.tryItFreeNoAccount")}
+        subtitle={t("allied.paramedic_landing.experienceTheDepthOfNursenest")}
         previewItems={[
           { label: "15-Question Diagnostic", description: "See your readiness score across all paramedic domains" },
           { label: "5 Practice Questions", description: "Experience our 600+ word clinical rationales" },
@@ -183,22 +185,22 @@ export default function ParamedicLandingPage() {
       <section className="py-16 sm:py-20 bg-white" data-testid="section-exam-pathways">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Choose Your Exam Pathway</h2>
-            <p className="text-gray-600 max-w-xl mx-auto">Each pathway is tailored with exam-specific content, blueprint weighting, and targeted study materials.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.paramedicParamedicLanding.chooseYourExamPathway")}</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">{t("allied.paramedicParamedicLanding.eachPathwayIsTailoredWith")}</p>
           </div>
           <div className={`grid grid-cols-1 ${isCanada ? "md:grid-cols-2 max-w-4xl mx-auto" : "md:grid-cols-3"} gap-6`}>
             {isCanada ? (
               <>
                 <ExamPathCard
-                  title="PCP Exam Prep (Canada)"
-                  description="Primary Care Paramedic certification prep aligned with COPR and provincial licensing standards."
+                  title={t("allied.paramedicParamedicLanding.pcpExamPrepCanada")}
+                  description={t("allied.paramedicParamedicLanding.primaryCareParamedicCertificationPrep")}
                   features={["COPR blueprint alignment", "Canadian pharmacology & protocols", "Provincial scope-of-practice focus", "BLS and primary care scenarios"]}
                   href="/allied-health/paramedic/pcp"
                   badge="Canada"
                 />
                 <ExamPathCard
-                  title="ACP Exam Prep (Canada)"
-                  description="Advanced Care Paramedic study materials covering ACLS, PALS, advanced pharmacology, and 12-lead ECG."
+                  title={t("allied.paramedicParamedicLanding.acpExamPrepCanada")}
+                  description={t("allied.paramedicParamedicLanding.advancedCareParamedicStudyMaterials")}
                   features={["Advanced cardiac & pharmacology", "12-lead ECG interpretation drills", "ACLS/PALS algorithm mastery", "Critical care transport scenarios"]}
                   href="/allied-health/paramedic/acp"
                   badge="Advanced"
@@ -207,22 +209,22 @@ export default function ParamedicLandingPage() {
             ) : (
               <>
                 <ExamPathCard
-                  title="EMT-Basic Exam"
-                  description="Entry-level EMT certification prep with US protocols and foundational patient assessment."
+                  title={t("allied.paramedicParamedicLanding.emtbasicExam")}
+                  description={t("allied.paramedicParamedicLanding.entrylevelEmtCertificationPrepWith")}
                   features={["NREMT EMT blueprint alignment", "BLS protocols & patient assessment", "Foundational pharmacology", "Trauma & medical scenarios"]}
                   href="/allied-health/paramedic/nremt"
                   badge="Entry Level"
                 />
                 <ExamPathCard
-                  title="EMT-Advanced / AEMT"
-                  description="Advanced EMT certification prep bridging to paramedic-level interventions."
+                  title={t("allied.paramedicParamedicLanding.emtadvancedAemt")}
+                  description={t("allied.paramedicParamedicLanding.advancedEmtCertificationPrepBridging")}
                   features={["Expanded scope of practice", "IV access & fluid therapy", "Advanced airway management", "Medication administration"]}
                   href="/allied-health/paramedic/nremt"
                   badge="Intermediate"
                 />
                 <ExamPathCard
-                  title="NREMT Paramedic"
-                  description="National Registry paramedic cognitive exam preparation with US-focused protocols."
+                  title={t("allied.paramedicParamedicLanding.nremtParamedic")}
+                  description={t("allied.paramedicParamedicLanding.nationalRegistryParamedicCognitiveExam")}
                   features={["NREMT cognitive exam blueprint", "CAT-style adaptive simulation", "US pharmacology & protocols", "Psychomotor skills reference"]}
                   href="/allied-health/paramedic/nremt"
                   badge="Advanced"
@@ -236,8 +238,8 @@ export default function ParamedicLandingPage() {
       <TrustBlock />
 
       <FinalCTASection
-        title="Your Paramedic Exam Is Coming. Are You Ready?"
-        subtitle="Start with a free diagnostic to see exactly where you stand. Then follow your personalized study plan to exam-day confidence."
+        title={t("allied.paramedicParamedicLanding.yourParamedicExamIsComing")}
+        subtitle={t("allied.paramedic_landing.startWithAFreeDiagnostic")}
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
         secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}
       />

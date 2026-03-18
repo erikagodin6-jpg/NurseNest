@@ -20,12 +20,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 
+import { useI18n } from "@/lib/i18n";
 const ICON_MAP: Record<string, any> = {
   BookOpen, FileText, MessageSquare, Users, Heart,
   DollarSign, Award, TrendingUp, Target, Briefcase,
 };
 
 function GuideSection({ section, color }: { section: NewGradGuideSection; color: string }) {
+  const { t } = useI18n();
   const [showScenarios, setShowScenarios] = useState(false);
 
   return (
@@ -58,11 +60,11 @@ function GuideSection({ section, color }: { section: NewGradGuideSection; color:
                   <CardContent className="p-5">
                     <h4 className="font-semibold text-gray-900 text-sm mb-2">{s.title}</h4>
                     <div className="mb-3">
-                      <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Scenario</span>
+                      <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">{t("pages.newgrad.newgradGuidePage.scenario")}</span>
                       <p className="text-sm text-gray-600 mt-1">{s.scenario}</p>
                     </div>
                     <div className="bg-green-50 rounded-lg p-3">
-                      <span className="text-xs font-medium text-green-700 uppercase tracking-wide">Strategy</span>
+                      <span className="text-xs font-medium text-green-700 uppercase tracking-wide">{t("pages.newgrad.newgradGuidePage.strategy")}</span>
                       <p className="text-sm text-green-800 mt-1">{s.strategy}</p>
                     </div>
                   </CardContent>
@@ -121,11 +123,11 @@ function GuideSection({ section, color }: { section: NewGradGuideSection; color:
             {section.commonMistakes.map((m, i) => (
               <div key={i} className="border border-gray-100 rounded-lg p-4" data-testid={`card-mistake-${section.id}-${i}`}>
                 <div className="flex items-start gap-2 mb-2">
-                  <span className="text-red-500 text-xs font-bold uppercase">Mistake:</span>
+                  <span className="text-red-500 text-xs font-bold uppercase">{t("pages.newgrad.newgradGuidePage.mistake")}</span>
                   <span className="text-sm text-gray-700">{m.mistake}</span>
                 </div>
                 <div className="flex items-start gap-2 bg-green-50 rounded p-2">
-                  <span className="text-green-700 text-xs font-bold uppercase">Better:</span>
+                  <span className="text-green-700 text-xs font-bold uppercase">{t("pages.newgrad.newgradGuidePage.better")}</span>
                   <span className="text-sm text-green-800">{m.correction}</span>
                 </div>
               </div>
@@ -186,11 +188,11 @@ function PremiumToolkitSection({ slug, hasAccess }: { slug: string; hasAccess: b
                   <Badge variant="outline" className="text-[10px] mb-2">{t.targetRole}</Badge>
                   <p className="text-xs text-gray-500 mb-3">{t.description}</p>
                   <div className="bg-gray-50 rounded p-3">
-                    <span className="text-[10px] font-bold text-gray-400 uppercase">Preview</span>
+                    <span className="text-[10px] font-bold text-gray-400 uppercase">{t("pages.newgrad.newgradGuidePage.preview")}</span>
                     <p className="text-xs text-gray-600 mt-1 line-clamp-3">{t.preview}</p>
                   </div>
                   <div className="mt-3">
-                    <span className="text-[10px] text-gray-400">Sections: </span>
+                    <span className="text-[10px] text-gray-400">{t("pages.newgrad.newgradGuidePage.sections")} </span>
                     <span className="text-[10px] text-gray-500">{t.sections.join(" • ")}</span>
                   </div>
                 </CardContent>
@@ -222,11 +224,11 @@ function PremiumToolkitSection({ slug, hasAccess }: { slug: string; hasAccess: b
                   </div>
                   <h3 className="font-semibold text-gray-900 text-sm mb-3">{q.question}</h3>
                   <div className="bg-blue-50 rounded-lg p-3 mb-3">
-                    <span className="text-[10px] font-bold text-blue-600 uppercase">Sample STAR Answer</span>
+                    <span className="text-[10px] font-bold text-blue-600 uppercase">{t("pages.newgrad.newgradGuidePage.sampleStarAnswer")}</span>
                     <p className="text-xs text-blue-800 mt-1">{q.sampleAnswer}</p>
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-gray-500 uppercase">Tips</span>
+                    <span className="text-[10px] font-bold text-gray-500 uppercase">{t("pages.newgrad.newgradGuidePage.tips")}</span>
                     <ul className="mt-1 space-y-1">
                       {q.tips.map((tip, i) => (
                         <li key={i} className="flex items-start gap-1.5 text-xs text-gray-500">
@@ -257,11 +259,11 @@ function PremiumToolkitSection({ slug, hasAccess }: { slug: string; hasAccess: b
             <table className="w-full text-sm border-collapse" data-testid="table-salary-data">
               <thead>
                 <tr className="bg-gray-50">
-                  <th className="text-left p-3 font-semibold text-gray-700 border-b">Region</th>
-                  <th className="text-left p-3 font-semibold text-gray-700 border-b">Specialty</th>
-                  <th className="text-left p-3 font-semibold text-gray-700 border-b">Entry Level</th>
-                  <th className="text-left p-3 font-semibold text-gray-700 border-b">Mid Career</th>
-                  <th className="text-left p-3 font-semibold text-gray-700 border-b">Experienced</th>
+                  <th className="text-left p-3 font-semibold text-gray-700 border-b">{t("pages.newgrad.newgradGuidePage.region")}</th>
+                  <th className="text-left p-3 font-semibold text-gray-700 border-b">{t("pages.newgrad.newgradGuidePage.specialty")}</th>
+                  <th className="text-left p-3 font-semibold text-gray-700 border-b">{t("pages.newgrad.newgradGuidePage.entryLevel")}</th>
+                  <th className="text-left p-3 font-semibold text-gray-700 border-b">{t("pages.newgrad.newgradGuidePage.midCareer")}</th>
+                  <th className="text-left p-3 font-semibold text-gray-700 border-b">{t("pages.newgrad.newgradGuidePage.experienced")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -319,7 +321,7 @@ function PremiumToolkitSection({ slug, hasAccess }: { slug: string; hasAccess: b
                 <h3 className="font-semibold text-gray-900 mb-1 flex items-center gap-2">
                   <Briefcase className="w-4 h-4 text-blue-600" /> Professional Portfolio Template
                 </h3>
-                <p className="text-sm text-gray-500 mb-4">Build a comprehensive professional portfolio with these essential sections.</p>
+                <p className="text-sm text-gray-500 mb-4">{t("pages.newgrad.newgradGuidePage.buildAComprehensiveProfessionalPortfolio")}</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {PORTFOLIO_SECTIONS.map((ps, i) => (
                     <div key={i} className="flex items-start gap-2 p-2 bg-gray-50 rounded">
@@ -384,10 +386,10 @@ export default function NewGradGuidePage() {
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-guide-not-found">Guide Not Found</h1>
-          <p className="text-gray-600 mb-6">The guide you are looking for does not exist.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-guide-not-found">{t("pages.newgrad.newgradGuidePage.guideNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.newgrad.newgradGuidePage.theGuideYouAreLooking")}</p>
           <Link href="/newgrad">
-            <Button data-testid="button-back-to-hub">Return to Career Hub</Button>
+            <Button data-testid="button-back-to-hub">{t("pages.newgrad.newgradGuidePage.returnToCareerHub")}</Button>
           </Link>
         </div>
         <Footer />

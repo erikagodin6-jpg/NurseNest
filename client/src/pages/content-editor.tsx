@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   Plus,
   ArrowLeft,
@@ -200,6 +201,7 @@ const tierLabels: Record<string, string> = {
 };
 
 function slugify(text: string): string {
+  const { t } = useI18n();
   return text
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
@@ -753,8 +755,8 @@ export default function ContentEditorPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
       <SEO
-        title="Content Editor - NurseNest"
-        description="Admin content management editor"
+        title={t("pages.contentEditor.contentEditorNursenest")}
+        description={t("pages.contentEditor.adminContentManagementEditor")}
         canonicalPath="/content-editor"
       />
       <Navigation />
@@ -799,10 +801,10 @@ export default function ContentEditorPage() {
                     <Plus className="w-4 h-4" />
                     Blank
                   </Button>
-                  <Button variant="outline" size="sm" onClick={() => openNewWithTemplate("lesson")} data-testid="button-template-lesson">Lesson</Button>
-                  <Button variant="outline" size="sm" onClick={() => openNewWithTemplate("flashcard-set")} data-testid="button-template-flashcard">Flashcards</Button>
-                  <Button variant="outline" size="sm" onClick={() => openNewWithTemplate("exam")} data-testid="button-template-exam">Exam</Button>
-                  <Button variant="outline" size="sm" onClick={() => openNewWithTemplate("clinical-case")} data-testid="button-template-case">Case Study</Button>
+                  <Button variant="outline" size="sm" onClick={() => openNewWithTemplate("lesson")} data-testid="button-template-lesson">{t("pages.contentEditor.lesson")}</Button>
+                  <Button variant="outline" size="sm" onClick={() => openNewWithTemplate("flashcard-set")} data-testid="button-template-flashcard">{t("pages.contentEditor.flashcards")}</Button>
+                  <Button variant="outline" size="sm" onClick={() => openNewWithTemplate("exam")} data-testid="button-template-exam">{t("pages.contentEditor.exam")}</Button>
+                  <Button variant="outline" size="sm" onClick={() => openNewWithTemplate("clinical-case")} data-testid="button-template-case">{t("pages.contentEditor.caseStudy")}</Button>
                 </div>
               </div>
 
@@ -812,7 +814,7 @@ export default function ContentEditorPage() {
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <Input
                       type="text"
-                      placeholder="Search by title..."
+                      placeholder={t("pages.contentEditor.searchByTitle")}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="pl-9"
@@ -979,7 +981,7 @@ export default function ContentEditorPage() {
                         <Input
                           value={title}
                           onChange={(e) => handleTitleChange(e.target.value)}
-                          placeholder="Enter content title..."
+                          placeholder={t("pages.contentEditor.enterContentTitle")}
                           data-testid="input-title"
                         />
                       </div>
@@ -1025,10 +1027,10 @@ export default function ContentEditorPage() {
                             }
                           >
                             <SelectTrigger data-testid="select-body-system">
-                              <SelectValue placeholder="Select..." />
+                              <SelectValue placeholder={t("pages.contentEditor.select")} />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="none">None</SelectItem>
+                              <SelectItem value="none">{t("pages.contentEditor.none")}</SelectItem>
                               {BODY_SYSTEMS.map((bs) => (
                                 <SelectItem key={bs} value={bs}>
                                   {bs.charAt(0).toUpperCase() + bs.slice(1)}
@@ -1047,10 +1049,10 @@ export default function ContentEditorPage() {
                           onValueChange={(v) => setCategory(v === "none" ? "" : v)}
                         >
                           <SelectTrigger data-testid="select-category">
-                            <SelectValue placeholder="Select..." />
+                            <SelectValue placeholder={t("pages.contentEditor.select2")} />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="none">None</SelectItem>
+                            <SelectItem value="none">{t("pages.contentEditor.none2")}</SelectItem>
                             {CATEGORIES.map((c) => (
                               <SelectItem key={c} value={c}>
                                 {c.replace(/-/g, " ").replace(/\b\w/g, (ch) => ch.toUpperCase())}
@@ -1066,7 +1068,7 @@ export default function ContentEditorPage() {
                         <Textarea
                           value={summary}
                           onChange={(e) => setSummary(e.target.value)}
-                          placeholder="Brief summary of the content..."
+                          placeholder={t("pages.contentEditor.briefSummaryOfTheContent")}
                           rows={3}
                           data-testid="textarea-summary"
                         />
@@ -1091,7 +1093,7 @@ export default function ContentEditorPage() {
                               addTag();
                             }
                           }}
-                          placeholder="Add tags (comma separated)..."
+                          placeholder={t("pages.contentEditor.addTagsCommaSeparated")}
                           data-testid="input-tags"
                         />
                         <Button
@@ -1139,7 +1141,7 @@ export default function ContentEditorPage() {
                           data-testid="select-add-block"
                         >
                           <Plus className="w-4 h-4" />
-                          <span>Add Block</span>
+                          <span>{t("pages.contentEditor.addBlock")}</span>
                         </SelectTrigger>
                         <SelectContent>
                           {BLOCK_TYPES.map((bt) => (
@@ -1219,7 +1221,7 @@ export default function ContentEditorPage() {
                             <button
                               type="button"
                               className="p-1.5 rounded hover:bg-white hover:shadow-sm text-gray-500 hover:text-gray-900 transition-colors"
-                              title="Bold"
+                              title={t("pages.contentEditor.bold")}
                               onClick={() => applyFormatting(index, "bold")}
                             >
                               <Bold className="w-3.5 h-3.5" />
@@ -1227,7 +1229,7 @@ export default function ContentEditorPage() {
                             <button
                               type="button"
                               className="p-1.5 rounded hover:bg-white hover:shadow-sm text-gray-500 hover:text-gray-900 transition-colors"
-                              title="Italic"
+                              title={t("pages.contentEditor.italic")}
                               onClick={() => applyFormatting(index, "italic")}
                             >
                               <Italic className="w-3.5 h-3.5" />
@@ -1235,7 +1237,7 @@ export default function ContentEditorPage() {
                             <button
                               type="button"
                               className="p-1.5 rounded hover:bg-white hover:shadow-sm text-gray-500 hover:text-gray-900 transition-colors"
-                              title="Underline"
+                              title={t("pages.contentEditor.underline")}
                               onClick={() => applyFormatting(index, "underline")}
                             >
                               <UnderlineIcon className="w-3.5 h-3.5" />
@@ -1244,7 +1246,7 @@ export default function ContentEditorPage() {
                             <button
                               type="button"
                               className="p-1.5 rounded hover:bg-white hover:shadow-sm text-gray-500 hover:text-gray-900 transition-colors"
-                              title="Heading"
+                              title={t("pages.contentEditor.heading")}
                               onClick={() => applyFormatting(index, "heading")}
                             >
                               <Heading className="w-3.5 h-3.5" />
@@ -1252,7 +1254,7 @@ export default function ContentEditorPage() {
                             <button
                               type="button"
                               className="p-1.5 rounded hover:bg-white hover:shadow-sm text-gray-500 hover:text-gray-900 transition-colors"
-                              title="Bullet List"
+                              title={t("pages.contentEditor.bulletList")}
                               onClick={() => applyFormatting(index, "bullet")}
                             >
                               <List className="w-3.5 h-3.5" />
@@ -1260,7 +1262,7 @@ export default function ContentEditorPage() {
                             <button
                               type="button"
                               className="p-1.5 rounded hover:bg-white hover:shadow-sm text-gray-500 hover:text-gray-900 transition-colors"
-                              title="Numbered List"
+                              title={t("pages.contentEditor.numberedList")}
                               onClick={() => applyFormatting(index, "numbered")}
                             >
                               <ListOrdered className="w-3.5 h-3.5" />
@@ -1284,13 +1286,13 @@ export default function ContentEditorPage() {
                             <div className="space-y-3" data-testid={`image-block-${index}`}>
                               {block.content && (
                                 <div className="border rounded-lg overflow-hidden bg-gray-50">
-                                  <img src={block.content} alt="Generated" className="max-h-48 mx-auto object-contain" />
+                                  <img src={block.content} alt={t("pages.contentEditor.generated")} className="max-h-48 mx-auto object-contain" />
                                 </div>
                               )}
                               <Input
                                 value={block.content}
                                 onChange={(e) => updateBlock(index, e.target.value)}
-                                placeholder="Image URL (paste or generate with AI below)"
+                                placeholder={t("pages.contentEditor.imageUrlPasteOrGenerate")}
                                 className="text-sm font-mono"
                                 data-testid={`input-image-url-${index}`}
                               />
@@ -1299,7 +1301,7 @@ export default function ContentEditorPage() {
                                   <Textarea
                                     value={imageGenPrompt[index] || ""}
                                     onChange={(e) => setImageGenPrompt(prev => ({ ...prev, [index]: e.target.value }))}
-                                    placeholder="Describe the medical image to generate (e.g., 'Cross-section of a human heart showing four chambers')"
+                                    placeholder={t("pages.contentEditor.describeTheMedicalImageTo")}
                                     rows={2}
                                     className="text-sm"
                                     data-testid={`textarea-image-prompt-${index}`}
@@ -1316,7 +1318,7 @@ export default function ContentEditorPage() {
                                   {imageGenLoading[index] ? "Generating..." : "AI Generate"}
                                 </Button>
                               </div>
-                              <p className="text-[10px] text-gray-400">AI-generated images are saved to your asset library automatically.</p>
+                              <p className="text-[10px] text-gray-400">{t("pages.contentEditor.aigeneratedImagesAreSavedTo")}</p>
                             </div>
                           ) : (
                             <Textarea
@@ -1377,7 +1379,7 @@ export default function ContentEditorPage() {
                           <Input
                             value={seoTitle}
                             onChange={(e) => setSeoTitle(e.target.value)}
-                            placeholder="SEO title..."
+                            placeholder={t("pages.contentEditor.seoTitle")}
                             data-testid="input-seo-title"
                           />
                         </div>
@@ -1388,7 +1390,7 @@ export default function ContentEditorPage() {
                           <Textarea
                             value={seoDescription}
                             onChange={(e) => setSeoDescription(e.target.value)}
-                            placeholder="SEO description..."
+                            placeholder={t("pages.contentEditor.seoDescription")}
                             rows={3}
                             data-testid="textarea-seo-description"
                           />
@@ -1400,7 +1402,7 @@ export default function ContentEditorPage() {
                           <Input
                             value={seoKeywords}
                             onChange={(e) => setSeoKeywords(e.target.value)}
-                            placeholder="keyword1, keyword2, keyword3..."
+                            placeholder={t("pages.contentEditor.keyword1Keyword2Keyword3")}
                             data-testid="input-seo-keywords"
                           />
                         </div>
@@ -1531,12 +1533,12 @@ export default function ContentEditorPage() {
                               case "image":
                                 return block.content ? (
                                   <div key={i} className="mb-4">
-                                    <img src={block.content} alt="Content image" className="max-w-full rounded-lg shadow-sm" />
+                                    <img src={block.content} alt={t("pages.contentEditor.contentImage")} className="max-w-full rounded-lg shadow-sm" />
                                   </div>
                                 ) : (
                                   <div key={i} className="mb-4 p-8 bg-gray-50 border-2 border-dashed border-gray-200 rounded-lg text-center text-gray-400">
                                     <ImageIcon className="w-8 h-8 mx-auto mb-2" />
-                                    <p>No image set</p>
+                                    <p>{t("pages.contentEditor.noImageSet")}</p>
                                   </div>
                                 );
                               default:
@@ -1626,9 +1628,9 @@ export default function ContentEditorPage() {
                                     </SelectItem>
                                   ) : (
                                     <>
-                                      <SelectItem value="BOTH">Both (US &amp; CA)</SelectItem>
-                                      <SelectItem value="US_ONLY">US Only</SelectItem>
-                                      <SelectItem value="CA_ONLY">CA Only</SelectItem>
+                                      <SelectItem value="BOTH">{t("pages.contentEditor.bothUsAmpCa")}</SelectItem>
+                                      <SelectItem value="US_ONLY">{t("pages.contentEditor.usOnly")}</SelectItem>
+                                      <SelectItem value="CA_ONLY">{t("pages.contentEditor.caOnly")}</SelectItem>
                                     </>
                                   )}
                                 </SelectContent>
@@ -1637,7 +1639,7 @@ export default function ContentEditorPage() {
                                 {currentRegion === "CA" ? "🇨🇦" : "🇺🇸"} {currentRegion} domain
                               </span>
                               {isPublished && (
-                                <span className="text-[10px] text-amber-600">Locked after publish</span>
+                                <span className="text-[10px] text-amber-600">{t("pages.contentEditor.lockedAfterPublish")}</span>
                               )}
                             </div>
                           );
@@ -1732,7 +1734,7 @@ export default function ContentEditorPage() {
                         <Input
                           value={secondaryKeywords}
                           onChange={(e) => setSecondaryKeywords(e.target.value)}
-                          placeholder="keyword1, keyword2..."
+                          placeholder={t("pages.contentEditor.keyword1Keyword2")}
                           data-testid="input-secondary-keywords"
                         />
                       </div>
@@ -1792,7 +1794,7 @@ export default function ContentEditorPage() {
                             <div className="flex items-start gap-2">
                               <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
                               <div>
-                                <p className="text-xs font-semibold text-amber-800">Incomplete Lesson</p>
+                                <p className="text-xs font-semibold text-amber-800">{t("pages.contentEditor.incompleteLesson")}</p>
                                 <ul className="text-xs text-amber-700 mt-1 space-y-0.5">
                                   {issues.map((issue, i) => <li key={i}>{issue}</li>)}
                                 </ul>
@@ -1921,7 +1923,7 @@ export default function ContentEditorPage() {
                               )}
 
                               {linkSuggestions.suggestions?.length === 0 && (
-                                <p className="text-xs text-muted-foreground italic py-1">No internal link opportunities found.</p>
+                                <p className="text-xs text-muted-foreground italic py-1">{t("pages.contentEditor.noInternalLinkOpportunitiesFound")}</p>
                               )}
 
                               {linkSuggestions.suggestions?.map((s: any, i: number) => (

@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import { useI18n } from "@/lib/i18n";
 import {
   Target, TrendingUp, BookOpen, Brain, Calendar, Award, AlertTriangle,
   Flame, Clock, CheckCircle, BarChart3, Zap, ChevronRight, X, Trophy,
@@ -25,6 +26,7 @@ interface DashboardData {
 }
 
 function getMasteryColor(label: string) {
+
   switch (label) {
     case "weak": return "bg-red-500";
     case "developing": return "bg-yellow-500";
@@ -158,8 +160,8 @@ export default function StudyCoachingDashboard() {
     <div className="container mx-auto p-4 md:p-6 space-y-6" data-testid="study-coaching-dashboard">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold" data-testid="text-page-title">Study Coach</h1>
-          <p className="text-muted-foreground">Your personalized study dashboard</p>
+          <h1 className="text-2xl md:text-3xl font-bold" data-testid="text-page-title">{t("pages.studyCoachingDashboard.studyCoach")}</h1>
+          <p className="text-muted-foreground">{t("pages.studyCoachingDashboard.yourPersonalizedStudyDashboard")}</p>
         </div>
         {examPrepMode && (
           <Badge variant="destructive" className="text-sm px-3 py-1" data-testid="badge-exam-prep-mode">
@@ -207,7 +209,7 @@ export default function StudyCoachingDashboard() {
           <CardContent className="p-4 text-center">
             <Flame className="w-8 h-8 mx-auto text-orange-500 mb-2" />
             <div className="text-2xl font-bold" data-testid="text-current-streak">{profile?.current_streak || 0}</div>
-            <div className="text-xs text-muted-foreground">Day Streak</div>
+            <div className="text-xs text-muted-foreground">{t("pages.studyCoachingDashboard.dayStreak")}</div>
             <div className="text-xs text-muted-foreground mt-1">Best: {profile?.longest_streak || 0}</div>
           </CardContent>
         </Card>
@@ -215,7 +217,7 @@ export default function StudyCoachingDashboard() {
           <CardContent className="p-4 text-center">
             <CheckCircle className="w-8 h-8 mx-auto text-green-500 mb-2" />
             <div className="text-2xl font-bold" data-testid="text-total-questions">{profile?.total_questions_answered || 0}</div>
-            <div className="text-xs text-muted-foreground">Questions Answered</div>
+            <div className="text-xs text-muted-foreground">{t("pages.studyCoachingDashboard.questionsAnswered")}</div>
             <div className="text-xs text-muted-foreground mt-1">
               {profile?.total_questions_answered > 0
                 ? `${Math.round(((profile?.total_correct || 0) / profile.total_questions_answered) * 100)}% accuracy`
@@ -229,7 +231,7 @@ export default function StudyCoachingDashboard() {
             <div className="text-2xl font-bold" data-testid="text-study-hours">
               {Math.round((profile?.total_study_minutes || 0) / 60)}h
             </div>
-            <div className="text-xs text-muted-foreground">Total Study Time</div>
+            <div className="text-xs text-muted-foreground">{t("pages.studyCoachingDashboard.totalStudyTime")}</div>
             <div className="text-xs text-muted-foreground mt-1">
               {(profile?.weekly_hours_logged || 0).toFixed(1)}h this week
             </div>
@@ -253,7 +255,7 @@ export default function StudyCoachingDashboard() {
         <Card data-testid="card-weekly-goal">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium">Weekly Goal Progress</span>
+              <span className="text-sm font-medium">{t("pages.studyCoachingDashboard.weeklyGoalProgress")}</span>
               <span className="text-sm text-muted-foreground">
                 {(profile?.weekly_hours_logged || 0).toFixed(1)} / {profile?.weekly_goal_hours || 10}h
               </span>
@@ -268,11 +270,11 @@ export default function StudyCoachingDashboard() {
 
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="w-full justify-start overflow-x-auto" data-testid="tabs-dashboard">
-          <TabsTrigger value="overview" data-testid="tab-overview">Overview</TabsTrigger>
-          <TabsTrigger value="mastery" data-testid="tab-mastery">Topic Mastery</TabsTrigger>
-          <TabsTrigger value="plan" data-testid="tab-plan">Study Plan</TabsTrigger>
-          <TabsTrigger value="practice" data-testid="tab-practice">Practice</TabsTrigger>
-          <TabsTrigger value="achievements" data-testid="tab-achievements">Achievements</TabsTrigger>
+          <TabsTrigger value="overview" data-testid="tab-overview">{t("pages.studyCoachingDashboard.overview")}</TabsTrigger>
+          <TabsTrigger value="mastery" data-testid="tab-mastery">{t("pages.studyCoachingDashboard.topicMastery")}</TabsTrigger>
+          <TabsTrigger value="plan" data-testid="tab-plan">{t("pages.studyCoachingDashboard.studyPlan")}</TabsTrigger>
+          <TabsTrigger value="practice" data-testid="tab-practice">{t("pages.studyCoachingDashboard.practice")}</TabsTrigger>
+          <TabsTrigger value="achievements" data-testid="tab-achievements">{t("pages.studyCoachingDashboard.achievements")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4 mt-4">
@@ -322,7 +324,7 @@ export default function StudyCoachingDashboard() {
                     </div>
                   </div>
                 ) : (
-                  <p className="text-muted-foreground text-sm">No data yet. Start answering questions!</p>
+                  <p className="text-muted-foreground text-sm">{t("pages.studyCoachingDashboard.noDataYetStartAnswering")}</p>
                 )}
               </CardContent>
             </Card>
@@ -363,7 +365,7 @@ export default function StudyCoachingDashboard() {
                   ))}
                 </div>
               ) : (
-                <p className="text-muted-foreground text-sm">Start studying to get personalized recommendations!</p>
+                <p className="text-muted-foreground text-sm">{t("pages.studyCoachingDashboard.startStudyingToGetPersonalized")}</p>
               )}
             </CardContent>
           </Card>
@@ -372,16 +374,16 @@ export default function StudyCoachingDashboard() {
         <TabsContent value="mastery" className="mt-4">
           <Card data-testid="card-topic-mastery">
             <CardHeader>
-              <CardTitle className="text-lg">Topic Mastery Scores</CardTitle>
+              <CardTitle className="text-lg">{t("pages.studyCoachingDashboard.topicMasteryScores")}</CardTitle>
             </CardHeader>
             <CardContent>
               {mastery.length > 0 ? (
                 <div className="space-y-3">
                   <div className="flex gap-4 text-xs mb-4">
-                    <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-red-500" /> Weak (0-40%)</div>
-                    <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-yellow-500" /> Developing (41-65%)</div>
-                    <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-blue-500" /> Proficient (66-85%)</div>
-                    <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-green-500" /> Mastery (86-100%)</div>
+                    <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-red-500" /> {t("pages.studyCoachingDashboard.weak040")}</div>
+                    <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-yellow-500" /> {t("pages.studyCoachingDashboard.developing4165")}</div>
+                    <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-blue-500" /> {t("pages.studyCoachingDashboard.proficient6685")}</div>
+                    <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-green-500" /> {t("pages.studyCoachingDashboard.mastery86100")}</div>
                   </div>
                   {mastery.map((topic: any, i: number) => (
                     <div key={i} className="space-y-1" data-testid={`mastery-topic-${i}`}>
@@ -403,7 +405,7 @@ export default function StudyCoachingDashboard() {
               ) : (
                 <div className="text-center py-8 text-muted-foreground">
                   <Target className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                  <p>No mastery data yet. Answer questions to see your topic breakdown!</p>
+                  <p>{t("pages.studyCoachingDashboard.noMasteryDataYetAnswer")}</p>
                 </div>
               )}
             </CardContent>
@@ -420,7 +422,7 @@ export default function StudyCoachingDashboard() {
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="text-sm font-medium mb-1 block">Exam Date (Optional)</label>
+                  <label className="text-sm font-medium mb-1 block">{t("pages.studyCoachingDashboard.examDateOptional")}</label>
                   <Input
                     type="date"
                     value={examDate}
@@ -429,7 +431,7 @@ export default function StudyCoachingDashboard() {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium mb-1 block">Hours per Week</label>
+                  <label className="text-sm font-medium mb-1 block">{t("pages.studyCoachingDashboard.hoursPerWeek")}</label>
                   <Input
                     type="number"
                     min={1}
@@ -469,7 +471,7 @@ export default function StudyCoachingDashboard() {
           {Array.isArray(studyPlan) && studyPlan.length > 0 && (
             <Card data-testid="card-study-plan">
               <CardHeader>
-                <CardTitle className="text-lg">Your Study Schedule</CardTitle>
+                <CardTitle className="text-lg">{t("pages.studyCoachingDashboard.yourStudySchedule")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -513,7 +515,7 @@ export default function StudyCoachingDashboard() {
               </p>
               <div className="flex items-center gap-4">
                 <div>
-                  <label className="text-sm font-medium mb-1 block">Number of Questions</label>
+                  <label className="text-sm font-medium mb-1 block">{t("pages.studyCoachingDashboard.numberOfQuestions")}</label>
                   <Input
                     type="number"
                     min={5}
@@ -537,7 +539,7 @@ export default function StudyCoachingDashboard() {
 
               {mastery.length > 0 && (
                 <div className="mt-4 p-3 bg-muted/50 rounded-lg">
-                  <p className="text-xs font-medium mb-2">Topic Distribution Preview:</p>
+                  <p className="text-xs font-medium mb-2">{t("pages.studyCoachingDashboard.topicDistributionPreview")}</p>
                   <div className="flex gap-4 text-xs">
                     <span className="text-red-500">
                       Weak: {mastery.filter((t: any) => t.masteryLabel === "weak").length} topics
@@ -564,15 +566,15 @@ export default function StudyCoachingDashboard() {
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div>
                   <div className="text-xl font-bold" data-testid="text-flashcards-studied">{profile?.flashcards_studied || 0}</div>
-                  <div className="text-xs text-muted-foreground">Cards Studied</div>
+                  <div className="text-xs text-muted-foreground">{t("pages.studyCoachingDashboard.cardsStudied")}</div>
                 </div>
                 <div>
                   <div className="text-xl font-bold" data-testid="text-lessons-viewed">{profile?.lessons_viewed || 0}</div>
-                  <div className="text-xs text-muted-foreground">Lessons Viewed</div>
+                  <div className="text-xs text-muted-foreground">{t("pages.studyCoachingDashboard.lessonsViewed")}</div>
                 </div>
                 <div>
                   <div className="text-xl font-bold" data-testid="text-exams-completed">{profile?.practice_exams_completed || 0}</div>
-                  <div className="text-xs text-muted-foreground">Exams Completed</div>
+                  <div className="text-xs text-muted-foreground">{t("pages.studyCoachingDashboard.examsCompleted")}</div>
                 </div>
               </div>
             </CardContent>
@@ -605,8 +607,8 @@ export default function StudyCoachingDashboard() {
               ) : (
                 <div className="text-center py-8 text-muted-foreground">
                   <Trophy className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                  <p>Keep studying to earn milestones!</p>
-                  <p className="text-xs mt-2">Milestones: 7-day streak, 100 questions, and more...</p>
+                  <p>{t("pages.studyCoachingDashboard.keepStudyingToEarnMilestones")}</p>
+                  <p className="text-xs mt-2">{t("pages.studyCoachingDashboard.milestones7dayStreak100Questions")}</p>
                 </div>
               )}
             </CardContent>

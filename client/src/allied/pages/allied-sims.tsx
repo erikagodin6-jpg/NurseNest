@@ -5,6 +5,7 @@ import { Zap, ChevronRight, ArrowRight, CheckCircle2, AlertTriangle, Clock, User
 import { useAuth } from "@/lib/auth";
 import { AlliedSEO } from "@/allied/allied-seo";
 
+import { useI18n } from "@/lib/i18n";
 interface SimStage {
   title: string;
   narrative: string;
@@ -14,7 +15,8 @@ interface SimStage {
   feedback: string;
 }
 
-function getSampleSim(career: CareerConfig): { title: string; intro: string; patient: string; stages: SimStage[] } {
+function getSampleSim(career: CareerConfig): {
+title: string; intro: string; patient: string; stages: SimStage[] } {
   const simsByCareer: Record<string, any> = {
     rrt: {
       title: "COPD Exacerbation with Respiratory Failure",
@@ -84,7 +86,7 @@ export default function AlliedSimsPage() {
   const [completed, setCompleted] = useState(false);
 
   if (!career) {
-    return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Career Not Found</h1></div>;
+    return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">{t("allied.alliedSims.careerNotFound")}</h1></div>;
   }
 
   const seoElement = (
@@ -121,12 +123,12 @@ export default function AlliedSimsPage() {
       <div className="max-w-3xl mx-auto px-4 py-12 text-center" data-testid="sim-debrief">
         {seoElement}
         <CheckCircle2 className="w-16 h-16 text-teal-500 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Case Complete</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.alliedSims.caseComplete")}</h1>
         <p className="text-gray-600 mb-4">{sim.title}</p>
         <div className="text-4xl font-bold text-teal-600 mb-2">{score}/{sim.stages.length}</div>
-        <p className="text-gray-500 mb-8">Stages answered correctly</p>
+        <p className="text-gray-500 mb-8">{t("allied.alliedSims.stagesAnsweredCorrectly")}</p>
         <div className="flex gap-3 justify-center">
-          <button onClick={() => { setStarted(false); setStageIdx(0); setScore(0); setCompleted(false); setSelectedAnswer(null); setAnswered(false); }} className="px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="button-restart-sim">Try Again</button>
+          <button onClick={() => { setStarted(false); setStageIdx(0); setScore(0); setCompleted(false); setSelectedAnswer(null); setAnswered(false); }} className="px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="button-restart-sim">{t("allied.alliedSims.tryAgain")}</button>
           <Link href={getCanonicalRoute(career.slug)} className="px-6 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-50" data-testid="button-back-career">Back to {career.shortName}</Link>
         </div>
       </div>
@@ -140,10 +142,10 @@ export default function AlliedSimsPage() {
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
           <Link href={getCanonicalRoute(career.slug)} className="hover:text-teal-600">{career.shortName}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-teal-700 font-medium">Case Simulators</span>
+          <span className="text-teal-700 font-medium">{t("allied.alliedSims.caseSimulators")}</span>
         </div>
         <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-sims-title">{career.shortName} Case Simulators</h1>
-        <p className="text-gray-600 mb-8">Unfolding clinical scenarios with decision nodes and detailed debriefs.</p>
+        <p className="text-gray-600 mb-8">{t("allied.alliedSims.unfoldingClinicalScenariosWithDecision")}</p>
 
         <div className="bg-white rounded-2xl border border-gray-100 p-6 hover:border-teal-200 hover:shadow-md transition-all" data-testid="sim-card">
           <div className="flex items-start gap-4">
@@ -154,7 +156,7 @@ export default function AlliedSimsPage() {
               <h3 className="font-semibold text-gray-900 mb-1">{sim.title}</h3>
               <p className="text-sm text-gray-500 mb-2">{sim.intro}</p>
               <div className="flex items-center gap-4 text-xs text-gray-400 mb-4">
-                <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> ~10 min</span>
+                <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {t("allied.alliedSims.10Min")}</span>
                 <span className="flex items-center gap-1"><User className="w-3.5 h-3.5" /> {sim.patient.split(",")[0]}</span>
                 <span>{sim.stages.length} stages</span>
               </div>

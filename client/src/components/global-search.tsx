@@ -233,7 +233,7 @@ export function GlobalSearch({ compact = false }: { compact?: boolean } = {}) {
           onClick={() => setOpen(true)}
           className="flex items-center justify-center w-8 h-8 rounded-full text-gray-500 hover:text-primary hover:bg-primary/5 transition-colors"
           data-testid="button-global-search-compact"
-          aria-label="Search"
+          aria-label={t("components.globalSearch.search")}
         >
           <Search className="w-4 h-4" />
         </button>
@@ -338,9 +338,9 @@ export function GlobalSearch({ compact = false }: { compact?: boolean } = {}) {
 
           <div className="px-4 py-2 border-t border-gray-100 flex items-center justify-between text-[10px] text-gray-400">
             <div className="flex items-center gap-3">
-              <span className="flex items-center gap-1"><kbd className="px-1 py-0.5 bg-gray-100 rounded text-[9px]">↑↓</kbd> navigate</span>
-              <span className="flex items-center gap-1"><kbd className="px-1 py-0.5 bg-gray-100 rounded text-[9px]">Enter</kbd> select</span>
-              <span className="flex items-center gap-1"><kbd className="px-1 py-0.5 bg-gray-100 rounded text-[9px]">Esc</kbd> close</span>
+              <span className="flex items-center gap-1"><kbd className="px-1 py-0.5 bg-gray-100 rounded text-[9px]">↑↓</kbd> {t("components.globalSearch.navigate")}</span>
+              <span className="flex items-center gap-1"><kbd className="px-1 py-0.5 bg-gray-100 rounded text-[9px]">{t("components.globalSearch.enter")}</kbd> {t("components.globalSearch.select")}</span>
+              <span className="flex items-center gap-1"><kbd className="px-1 py-0.5 bg-gray-100 rounded text-[9px]">{t("components.globalSearch.esc")}</kbd> {t("components.globalSearch.close")}</span>
             </div>
             <span>{searchIndex.length} items indexed</span>
           </div>

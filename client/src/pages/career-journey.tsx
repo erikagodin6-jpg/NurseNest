@@ -16,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+import { useI18n } from "@/lib/i18n";
 const ICON_MAP: Record<string, any> = {
   BookOpen, Target, GraduationCap, Briefcase,
 };
@@ -34,6 +35,7 @@ const STEP_COLORS: Record<string, { bg: string; border: string; iconBg: string; 
 };
 
 function StepCard({ step, isLast }: { step: JourneyStep; isLast: boolean }) {
+  const { t } = useI18n();
   const Icon = ICON_MAP[step.icon] || BookOpen;
   const colors = STEP_COLORS[step.color] || STEP_COLORS.blue;
   const platform = PLATFORM_LABELS[step.platform];
@@ -100,8 +102,8 @@ function ProfessionPicker({ currentSlug }: { currentSlug: string }) {
   return (
     <section className="py-12 bg-gray-50/50" data-testid="section-profession-picker">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 text-center">Explore Other Career Paths</h2>
-        <p className="text-sm text-gray-500 text-center mb-6">Choose a profession to see the full student-to-professional journey.</p>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 text-center">{t("pages.careerJourney.exploreOtherCareerPaths")}</h2>
+        <p className="text-sm text-gray-500 text-center mb-6">{t("pages.careerJourney.chooseAProfessionToSee")}</p>
         <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
           {others.map(slug => {
             const journey = JOURNEY_CONFIGS[slug];
@@ -196,15 +198,15 @@ function JourneyPageContent({ journey, isGeneric }: { journey: JourneyConfig; is
             <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-gray-200 text-sm text-gray-600 shadow-sm">
                 <CheckCircle2 className="w-4 h-4 text-blue-500" />
-                <span>4-Step Journey</span>
+                <span>{t("pages.careerJourney.4stepJourney")}</span>
               </div>
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-gray-200 text-sm text-gray-600 shadow-sm">
                 <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                <span>Linked Resources</span>
+                <span>{t("pages.careerJourney.linkedResources")}</span>
               </div>
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-gray-200 text-sm text-gray-600 shadow-sm">
                 <CheckCircle2 className="w-4 h-4 text-purple-500" />
-                <span>3 Platforms Connected</span>
+                <span>{t("pages.careerJourney.3PlatformsConnected")}</span>
               </div>
             </div>
           </div>
@@ -215,7 +217,7 @@ function JourneyPageContent({ journey, isGeneric }: { journey: JourneyConfig; is
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-center gap-2 mb-10">
             <Zap className="w-5 h-5 text-amber-500" />
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Your Step-by-Step Path</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{t("pages.careerJourney.yourStepbystepPath")}</h2>
           </div>
           {journey.steps.map((step, idx) => (
             <StepCard key={step.id} step={step} isLast={idx === journey.steps.length - 1} />
@@ -226,7 +228,7 @@ function JourneyPageContent({ journey, isGeneric }: { journey: JourneyConfig; is
       <section className="py-10 sm:py-12 bg-white" data-testid="section-applynest-link">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <p className="text-sm text-gray-600 leading-relaxed">
-            Ready to apply? From program applications to scholarship searches, <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-blue-600 font-medium hover:underline" data-testid="link-applynest-career-journey">ApplyNest has the tools to support your healthcare career application process</a>.
+            Ready to apply? From program applications to scholarship searches, <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-blue-600 font-medium hover:underline" data-testid="link-applynest-career-journey">{t("pages.careerJourney.applynestHasTheToolsTo")}</a>.
           </p>
         </div>
       </section>
@@ -260,7 +262,7 @@ function JourneyPageContent({ journey, isGeneric }: { journey: JourneyConfig; is
       {isGeneric && (
         <section className="py-12 sm:py-16 bg-gray-50/50" data-testid="section-profession-journeys">
           <div className="max-w-5xl mx-auto px-4 sm:px-6">
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 text-center">Profession-Specific Career Paths</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 text-center">{t("pages.careerJourney.professionspecificCareerPaths")}</h2>
             <p className="text-sm text-gray-500 text-center mb-8 max-w-2xl mx-auto">
               Each profession has unique exam requirements, transition challenges, and career opportunities. Explore the journey tailored to your track.
             </p>
@@ -309,13 +311,13 @@ export function ProfessionCareerJourney() {
       <div className="min-h-screen bg-white" data-testid="career-journey-not-found">
         <Navigation />
         <SEO
-          title="Career Path Not Found | NurseNest"
-          description="The career path you're looking for doesn't exist. Browse all available healthcare career journeys."
+          title={t("pages.careerJourney.careerPathNotFoundNursenest")}
+          description={t("pages.careerJourney.theCareerPathYoureLooking")}
           canonicalPath="/career-journey"
           noindex={true}
         />
         <div className="max-w-3xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-journey-not-found">Career Path Not Found</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-journey-not-found">{t("pages.careerJourney.careerPathNotFound")}</h1>
           <p className="text-gray-600 mb-6">We don't have a career journey for "{slug}" yet. Explore our available career paths below.</p>
           <LocaleLink href="/career-journey">
             <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl" data-testid="button-journey-browse-all">

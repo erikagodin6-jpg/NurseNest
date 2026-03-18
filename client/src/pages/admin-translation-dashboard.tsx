@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { adminFetch } from "@/lib/admin-fetch";
+import { useI18n } from "@/lib/i18n";
 import {
   Globe, AlertTriangle, CheckCircle2, Languages, Search,
   RefreshCw, Download, Eye, ChevronDown, ChevronUp,
@@ -107,6 +108,7 @@ type AuditDetail = AuditItem & {
 };
 
 export default function AdminTranslationDashboard() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const [activeTab, setActiveTab] = useState<"overview" | "audits" | "detail" | "exam_questions">("overview");
@@ -260,8 +262,8 @@ export default function AdminTranslationDashboard() {
       <div className="min-h-screen bg-gray-50">
         <Navigation />
         <div className="max-w-4xl mx-auto p-8 text-center">
-          <h1 className="text-2xl font-bold">Access Denied</h1>
-          <p className="text-gray-600 mt-2">Admin access required.</p>
+          <h1 className="text-2xl font-bold">{t("pages.adminTranslationDashboard.accessDenied")}</h1>
+          <p className="text-gray-600 mt-2">{t("pages.adminTranslationDashboard.adminAccessRequired")}</p>
         </div>
       </div>
     );
@@ -272,11 +274,11 @@ export default function AdminTranslationDashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      <SEO title="Translation Coverage - Admin" description="Audit translation completeness across all locales" />
+      <SEO title={t("pages.adminTranslationDashboard.translationCoverageAdmin")} description={t("pages.adminTranslationDashboard.auditTranslationCompletenessAcrossAll")} />
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">Translation Coverage Dashboard</h1>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">{t("pages.adminTranslationDashboard.translationCoverageDashboard")}</h1>
             <p className="text-gray-600 mt-1">Audit translation completeness across {LOCALES.length} locales</p>
           </div>
           <div className="flex gap-2">
@@ -287,9 +289,9 @@ export default function AdminTranslationDashboard() {
               className="bg-blue-600 hover:bg-blue-700"
             >
               {scanning ? (
-                <><RefreshCw className="w-4 h-4 mr-2 animate-spin" /> Scanning...</>
+                <><RefreshCw className="w-4 h-4 mr-2 animate-spin" /> {t("pages.adminTranslationDashboard.scanning")}</>
               ) : (
-                <><Play className="w-4 h-4 mr-2" /> Run Full Translation Audit</>
+                <><Play className="w-4 h-4 mr-2" /> {t("pages.adminTranslationDashboard.runFullTranslationAudit")}</>
               )}
             </Button>
             <Button variant="outline" onClick={() => handleExport("csv")} data-testid="button-export-csv">
@@ -352,8 +354,8 @@ export default function AdminTranslationDashboard() {
             {activeTab === "overview" && !summary && !loading && (
               <div className="text-center py-16">
                 <Globe className="w-16 h-16 mx-auto text-gray-300 mb-4" />
-                <h2 className="text-xl font-semibold text-gray-700 mb-2">No audit data yet</h2>
-                <p className="text-gray-500 mb-6">Run a full translation audit to scan all content and UI strings.</p>
+                <h2 className="text-xl font-semibold text-gray-700 mb-2">{t("pages.adminTranslationDashboard.noAuditDataYet")}</h2>
+                <p className="text-gray-500 mb-6">{t("pages.adminTranslationDashboard.runAFullTranslationAudit")}</p>
                 <Button onClick={runAudit} disabled={scanning} data-testid="button-run-first-audit">
                   <Play className="w-4 h-4 mr-2" /> Run First Audit
                 </Button>
@@ -412,36 +414,36 @@ function OverviewTab({ summary, onViewAudits }: { summary: DashboardSummary; onV
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        <StatCard label="Total Locales" value={summary.totalLocales} icon={<Globe className="w-5 h-5 text-blue-500" />} testId="stat-locales" />
-        <StatCard label="Items Audited" value={summary.totalAudits} icon={<FileText className="w-5 h-5 text-indigo-500" />} testId="stat-audited" />
-        <StatCard label="Avg Coverage" value={`${summary.avgPct || 0}%`} icon={<BarChart3 className="w-5 h-5 text-green-500" />} testId="stat-avg-pct" />
-        <StatCard label="Total Issues" value={summary.totalIssues} icon={<AlertTriangle className="w-5 h-5 text-amber-500" />} testId="stat-issues" />
-        <StatCard label="Sitemap Ready" value={summary.sitemapEligible} icon={<MapPin className="w-5 h-5 text-green-500" />} testId="stat-sitemap" />
-        <StatCard label="Noindex" value={summary.noindexCount} icon={<XCircle className="w-5 h-5 text-red-500" />} testId="stat-noindex" />
+        <StatCard label={t("pages.adminTranslationDashboard.totalLocales")} value={summary.totalLocales} icon={<Globe className="w-5 h-5 text-blue-500" />} testId="stat-locales" />
+        <StatCard label={t("pages.adminTranslationDashboard.itemsAudited")} value={summary.totalAudits} icon={<FileText className="w-5 h-5 text-indigo-500" />} testId="stat-audited" />
+        <StatCard label={t("pages.adminTranslationDashboard.avgCoverage")} value={`${summary.avgPct || 0}%`} icon={<BarChart3 className="w-5 h-5 text-green-500" />} testId="stat-avg-pct" />
+        <StatCard label={t("pages.adminTranslationDashboard.totalIssues")} value={summary.totalIssues} icon={<AlertTriangle className="w-5 h-5 text-amber-500" />} testId="stat-issues" />
+        <StatCard label={t("pages.adminTranslationDashboard.sitemapReady")} value={summary.sitemapEligible} icon={<MapPin className="w-5 h-5 text-green-500" />} testId="stat-sitemap" />
+        <StatCard label={t("pages.adminTranslationDashboard.noindex6")} value={summary.noindexCount} icon={<XCircle className="w-5 h-5 text-red-500" />} testId="stat-noindex" />
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <StatusCard label="Fully Translated" count={summary.fullyTranslated} color="bg-green-500" testId="status-full" />
-        <StatusCard label="Ready for Indexing" count={summary.readyForIndexing} color="bg-blue-500" testId="status-ready" />
-        <StatusCard label="Partial" count={summary.partial} color="bg-yellow-500" testId="status-partial" />
-        <StatusCard label="Draft" count={summary.draftCount} color="bg-red-500" testId="status-draft" />
+        <StatusCard label={t("pages.adminTranslationDashboard.fullyTranslated2")} count={summary.fullyTranslated} color="bg-green-500" testId="status-full" />
+        <StatusCard label={t("pages.adminTranslationDashboard.readyForIndexing2")} count={summary.readyForIndexing} color="bg-blue-500" testId="status-ready" />
+        <StatusCard label={t("pages.adminTranslationDashboard.partial2")} count={summary.partial} color="bg-yellow-500" testId="status-partial" />
+        <StatusCard label={t("pages.adminTranslationDashboard.draft2")} count={summary.draftCount} color="bg-red-500" testId="status-draft" />
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2"><Languages className="w-5 h-5" /> Per-Locale Summary</CardTitle>
+          <CardTitle className="flex items-center gap-2"><Languages className="w-5 h-5" /> {t("pages.adminTranslationDashboard.perlocaleSummary")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b text-left">
-                  <th className="py-2 px-3">Locale</th>
-                  <th className="py-2 px-3 text-center">Items</th>
-                  <th className="py-2 px-3 text-center">Avg %</th>
-                  <th className="py-2 px-3 text-center">Issues</th>
-                  <th className="py-2 px-3">Status Breakdown</th>
-                  <th className="py-2 px-3 text-center">Coverage</th>
+                  <th className="py-2 px-3">{t("pages.adminTranslationDashboard.locale")}</th>
+                  <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.items")}</th>
+                  <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.avg")}</th>
+                  <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.issues")}</th>
+                  <th className="py-2 px-3">{t("pages.adminTranslationDashboard.statusBreakdown")}</th>
+                  <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.coverage")}</th>
                   <th className="py-2 px-3"></th>
                 </tr>
               </thead>
@@ -499,7 +501,7 @@ function OverviewTab({ summary, onViewAudits }: { summary: DashboardSummary; onV
 
       <Card>
         <CardHeader>
-          <CardTitle>Per-Content Type Breakdown</CardTitle>
+          <CardTitle>{t("pages.adminTranslationDashboard.percontentTypeBreakdown")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -574,7 +576,7 @@ function AuditsTab({
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <Input
               data-testid="input-search"
-              placeholder="Search by URL, content ID, or type..."
+              placeholder={t("pages.adminTranslationDashboard.searchByUrlContentId")}
               className="pl-9 w-80"
               value={filterSearch}
               onChange={e => setFilterSearch(e.target.value)}
@@ -597,47 +599,47 @@ function AuditsTab({
         <Card className="p-4">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Locale</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminTranslationDashboard.locale2")}</label>
               <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={filterLocale} onChange={e => setFilterLocale(e.target.value)} data-testid="filter-locale">
-                <option value="">All Locales</option>
+                <option value="">{t("pages.adminTranslationDashboard.allLocales")}</option>
                 {LOCALES.map(l => <option key={l.code} value={l.code}>{l.flag} {l.name}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Content Type</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminTranslationDashboard.contentType")}</label>
               <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={filterContentType} onChange={e => setFilterContentType(e.target.value)} data-testid="filter-content-type">
-                <option value="">All Types</option>
+                <option value="">{t("pages.adminTranslationDashboard.allTypes")}</option>
                 {contentTypes.map(ct => <option key={ct} value={ct}>{ct.replace(/_/g, " ")}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Status</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminTranslationDashboard.status")}</label>
               <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={filterStatus} onChange={e => setFilterStatus(e.target.value)} data-testid="filter-status">
-                <option value="">All Statuses</option>
-                <option value="fully_translated">Fully Translated</option>
-                <option value="ready_for_indexing">Ready for Indexing</option>
-                <option value="partial">Partial</option>
-                <option value="draft">Draft</option>
+                <option value="">{t("pages.adminTranslationDashboard.allStatuses")}</option>
+                <option value="fully_translated">{t("pages.adminTranslationDashboard.fullyTranslated")}</option>
+                <option value="ready_for_indexing">{t("pages.adminTranslationDashboard.readyForIndexing")}</option>
+                <option value="partial">{t("pages.adminTranslationDashboard.partial")}</option>
+                <option value="draft">{t("pages.adminTranslationDashboard.draft")}</option>
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Sitemap</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminTranslationDashboard.sitemap")}</label>
               <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={filterSitemap} onChange={e => setFilterSitemap(e.target.value)} data-testid="filter-sitemap">
-                <option value="">Any</option>
-                <option value="true">Eligible</option>
-                <option value="false">Not Eligible</option>
+                <option value="">{t("pages.adminTranslationDashboard.any")}</option>
+                <option value="true">{t("pages.adminTranslationDashboard.eligible")}</option>
+                <option value="false">{t("pages.adminTranslationDashboard.notEligible")}</option>
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Noindex</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminTranslationDashboard.noindex")}</label>
               <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={filterNoindex} onChange={e => setFilterNoindex(e.target.value)} data-testid="filter-noindex">
-                <option value="">Any</option>
-                <option value="true">Noindex</option>
-                <option value="false">Indexed</option>
+                <option value="">{t("pages.adminTranslationDashboard.any2")}</option>
+                <option value="true">{t("pages.adminTranslationDashboard.noindex2")}</option>
+                <option value="false">{t("pages.adminTranslationDashboard.indexed")}</option>
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Indexing Threshold</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminTranslationDashboard.indexingThreshold")}</label>
               <Input
                 type="number"
                 min={0}
@@ -663,10 +665,10 @@ function AuditsTab({
       {selectedIds.size > 0 && (
         <div className="flex items-center gap-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
           <span className="text-sm font-medium text-blue-800">{selectedIds.size} selected</span>
-          <Button size="sm" variant="outline" onClick={() => onBulkAction("mark_draft")} data-testid="bulk-mark-draft">Mark Draft</Button>
-          <Button size="sm" variant="outline" onClick={() => onBulkAction("mark_ready")} data-testid="bulk-mark-ready">Mark Ready</Button>
-          <Button size="sm" variant="outline" onClick={() => onBulkAction("remove_sitemap")} data-testid="bulk-remove-sitemap">Remove Sitemap</Button>
-          <Button size="sm" variant="outline" onClick={() => onBulkAction("apply_noindex")} data-testid="bulk-apply-noindex">Apply Noindex</Button>
+          <Button size="sm" variant="outline" onClick={() => onBulkAction("mark_draft")} data-testid="bulk-mark-draft">{t("pages.adminTranslationDashboard.markDraft")}</Button>
+          <Button size="sm" variant="outline" onClick={() => onBulkAction("mark_ready")} data-testid="bulk-mark-ready">{t("pages.adminTranslationDashboard.markReady")}</Button>
+          <Button size="sm" variant="outline" onClick={() => onBulkAction("remove_sitemap")} data-testid="bulk-remove-sitemap">{t("pages.adminTranslationDashboard.removeSitemap")}</Button>
+          <Button size="sm" variant="outline" onClick={() => onBulkAction("apply_noindex")} data-testid="bulk-apply-noindex">{t("pages.adminTranslationDashboard.applyNoindex")}</Button>
           <Button size="sm" variant="ghost" onClick={() => setSelectedIds(new Set())} data-testid="bulk-clear">
             <X className="w-3 h-3" />
           </Button>
@@ -682,14 +684,14 @@ function AuditsTab({
                   <th className="py-2 px-3 text-left">
                     <input type="checkbox" checked={selectedIds.size === audits.length && audits.length > 0} onChange={toggleSelectAll} data-testid="checkbox-select-all" />
                   </th>
-                  <th className="py-2 px-3 text-left">Content</th>
-                  <th className="py-2 px-3 text-left">Type</th>
-                  <th className="py-2 px-3 text-center">Locale</th>
-                  <th className="py-2 px-3 text-center">Coverage</th>
-                  <th className="py-2 px-3 text-center">Status</th>
-                  <th className="py-2 px-3 text-center">Issues</th>
-                  <th className="py-2 px-3 text-center">Sitemap</th>
-                  <th className="py-2 px-3 text-center">Noindex</th>
+                  <th className="py-2 px-3 text-left">{t("pages.adminTranslationDashboard.content")}</th>
+                  <th className="py-2 px-3 text-left">{t("pages.adminTranslationDashboard.type")}</th>
+                  <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.locale3")}</th>
+                  <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.coverage2")}</th>
+                  <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.status2")}</th>
+                  <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.issues2")}</th>
+                  <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.sitemap2")}</th>
+                  <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.noindex3")}</th>
                   <th className="py-2 px-3"></th>
                 </tr>
               </thead>
@@ -744,7 +746,7 @@ function AuditsTab({
                       </td>
                       <td className="py-2 px-3 text-center">
                         {audit.noindex ? (
-                          <Badge variant="destructive" className="text-xs">noindex</Badge>
+                          <Badge variant="destructive" className="text-xs">{t("pages.adminTranslationDashboard.noindex4")}</Badge>
                         ) : (
                           <span className="text-gray-300 text-xs">-</span>
                         )}
@@ -769,9 +771,9 @@ function AuditsTab({
           </div>
           {total > 50 && (
             <div className="flex justify-between items-center p-3 border-t">
-              <Button size="sm" variant="outline" disabled={page === 0} onClick={() => setPage(page - 1)} data-testid="button-prev-page">Previous</Button>
+              <Button size="sm" variant="outline" disabled={page === 0} onClick={() => setPage(page - 1)} data-testid="button-prev-page">{t("pages.adminTranslationDashboard.previous")}</Button>
               <span className="text-sm text-gray-500">Page {page + 1} of {Math.ceil(total / 50)}</span>
-              <Button size="sm" variant="outline" disabled={(page + 1) * 50 >= total} onClick={() => setPage(page + 1)} data-testid="button-next-page">Next</Button>
+              <Button size="sm" variant="outline" disabled={(page + 1) * 50 >= total} onClick={() => setPage(page + 1)} data-testid="button-next-page">{t("pages.adminTranslationDashboard.next")}</Button>
             </div>
           )}
         </CardContent>
@@ -817,11 +819,11 @@ function DetailInspector({ detail, onBack, onToggleOverride }: {
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div>
-              <p className="text-xs text-gray-500">Content Type</p>
+              <p className="text-xs text-gray-500">{t("pages.adminTranslationDashboard.contentType2")}</p>
               <p className="text-sm font-medium capitalize" data-testid="text-detail-type">{detail.contentType.replace(/_/g, " ")}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-500">Locale</p>
+              <p className="text-xs text-gray-500">{t("pages.adminTranslationDashboard.locale4")}</p>
               <p className="text-sm font-medium" data-testid="text-detail-locale">{locale?.name || detail.locale}</p>
             </div>
             <div>
@@ -829,7 +831,7 @@ function DetailInspector({ detail, onBack, onToggleOverride }: {
               <p className="text-sm font-medium truncate" data-testid="text-detail-url">{detail.url || "N/A"}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-500">Last Scanned</p>
+              <p className="text-xs text-gray-500">{t("pages.adminTranslationDashboard.lastScanned")}</p>
               <p className="text-sm font-medium" data-testid="text-detail-scanned">
                 {detail.lastScannedAt ? new Date(detail.lastScannedAt).toLocaleDateString() : "Never"}
               </p>
@@ -838,7 +840,7 @@ function DetailInspector({ detail, onBack, onToggleOverride }: {
 
           <div className="flex items-center gap-6 p-4 bg-gray-50 rounded-lg mb-6">
             <div className="flex items-center gap-3">
-              <label className="text-sm font-medium" data-testid="label-sitemap">Sitemap Eligible</label>
+              <label className="text-sm font-medium" data-testid="label-sitemap">{t("pages.adminTranslationDashboard.sitemapEligible")}</label>
               <button
                 onClick={() => onToggleOverride(detail.id, "sitemapEligible", !detail.sitemapEligible)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
@@ -852,7 +854,7 @@ function DetailInspector({ detail, onBack, onToggleOverride }: {
               </button>
             </div>
             <div className="flex items-center gap-3">
-              <label className="text-sm font-medium" data-testid="label-noindex">Noindex</label>
+              <label className="text-sm font-medium" data-testid="label-noindex">{t("pages.adminTranslationDashboard.noindex5")}</label>
               <button
                 onClick={() => onToggleOverride(detail.id, "noindex", !detail.noindex)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
@@ -895,7 +897,7 @@ function DetailInspector({ detail, onBack, onToggleOverride }: {
           {Object.keys(issuesByCategory).length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               <CheckCircle2 className="w-12 h-12 mx-auto mb-2 text-green-500" />
-              <p>No issues found for this item.</p>
+              <p>{t("pages.adminTranslationDashboard.noIssuesFoundForThis")}</p>
             </div>
           ) : (
             <div className="space-y-6">
@@ -906,10 +908,10 @@ function DetailInspector({ detail, onBack, onToggleOverride }: {
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="border-b bg-gray-50">
-                          <th className="py-1.5 px-3 text-left">Field</th>
-                          <th className="py-1.5 px-3 text-left">English Source</th>
-                          <th className="py-1.5 px-3 text-left">Localized Value</th>
-                          <th className="py-1.5 px-3 text-center">Issue Type</th>
+                          <th className="py-1.5 px-3 text-left">{t("pages.adminTranslationDashboard.field")}</th>
+                          <th className="py-1.5 px-3 text-left">{t("pages.adminTranslationDashboard.englishSource")}</th>
+                          <th className="py-1.5 px-3 text-left">{t("pages.adminTranslationDashboard.localizedValue")}</th>
+                          <th className="py-1.5 px-3 text-center">{t("pages.adminTranslationDashboard.issueType")}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -917,10 +919,10 @@ function DetailInspector({ detail, onBack, onToggleOverride }: {
                           <tr key={issue.id} className="border-b hover:bg-gray-50" data-testid={`row-issue-${issue.id}`}>
                             <td className="py-1.5 px-3 font-medium text-xs">{issue.fieldName}</td>
                             <td className="py-1.5 px-3 text-xs text-gray-600 max-w-[250px] truncate" title={issue.sourceValue || ""}>
-                              {issue.sourceValue || <span className="text-gray-400 italic">empty</span>}
+                              {issue.sourceValue || <span className="text-gray-400 italic">{t("pages.adminTranslationDashboard.empty")}</span>}
                             </td>
                             <td className="py-1.5 px-3 text-xs max-w-[250px] truncate" title={issue.localizedValue || ""}>
-                              {issue.localizedValue || <span className="text-red-400 italic">missing</span>}
+                              {issue.localizedValue || <span className="text-red-400 italic">{t("pages.adminTranslationDashboard.missing")}</span>}
                             </td>
                             <td className="py-1.5 px-3 text-center">
                               <Badge className={`text-xs ${
@@ -1118,31 +1120,31 @@ function ExamQuestionCoverageTab() {
       {coverage && (
         <>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <StatCard label="Total Questions" value={coverage.totalQuestions} icon={<BookOpen className="w-5 h-5 text-blue-500" />} testId="stat-exam-total" />
-            <StatCard label="Languages" value={coverage.totalLanguages} icon={<Languages className="w-5 h-5 text-indigo-500" />} testId="stat-exam-langs" />
-            <StatCard label="Overall Coverage" value={`${coverage.overallPercentage}%`} icon={<BarChart3 className="w-5 h-5 text-green-500" />} testId="stat-exam-coverage" />
-            <StatCard label="Priority Languages" value={`${priorityLangs.length}`} icon={<Globe className="w-5 h-5 text-amber-500" />} testId="stat-exam-priority" />
+            <StatCard label={t("pages.adminTranslationDashboard.totalQuestions")} value={coverage.totalQuestions} icon={<BookOpen className="w-5 h-5 text-blue-500" />} testId="stat-exam-total" />
+            <StatCard label={t("pages.adminTranslationDashboard.languages2")} value={coverage.totalLanguages} icon={<Languages className="w-5 h-5 text-indigo-500" />} testId="stat-exam-langs" />
+            <StatCard label={t("pages.adminTranslationDashboard.overallCoverage")} value={`${coverage.overallPercentage}%`} icon={<BarChart3 className="w-5 h-5 text-green-500" />} testId="stat-exam-coverage" />
+            <StatCard label={t("pages.adminTranslationDashboard.priorityLanguages")} value={`${priorityLangs.length}`} icon={<Globe className="w-5 h-5 text-amber-500" />} testId="stat-exam-priority" />
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Filter by Tier</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminTranslationDashboard.filterByTier")}</label>
               <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={filterTier} onChange={e => setFilterTier(e.target.value)} data-testid="filter-exam-tier">
-                <option value="">All Tiers</option>
+                <option value="">{t("pages.adminTranslationDashboard.allTiers")}</option>
                 {(filters?.tiers || []).map(t => <option key={t} value={t}>{t}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Filter by Exam</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminTranslationDashboard.filterByExam")}</label>
               <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={filterExam} onChange={e => setFilterExam(e.target.value)} data-testid="filter-exam-exam">
-                <option value="">All Exams</option>
+                <option value="">{t("pages.adminTranslationDashboard.allExams")}</option>
                 {(filters?.exams || []).map(e => <option key={e} value={e}>{e}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Filter by Body System</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminTranslationDashboard.filterByBodySystem")}</label>
               <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={filterBodySystem} onChange={e => setFilterBodySystem(e.target.value)} data-testid="filter-exam-body-system">
-                <option value="">All Systems</option>
+                <option value="">{t("pages.adminTranslationDashboard.allSystems")}</option>
                 {(filters?.bodySystems || []).map(b => <option key={b} value={b}>{b}</option>)}
               </select>
             </div>
@@ -1150,19 +1152,19 @@ function ExamQuestionCoverageTab() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Languages className="w-5 h-5" /> Per-Language Coverage</CardTitle>
+              <CardTitle className="flex items-center gap-2"><Languages className="w-5 h-5" /> {t("pages.adminTranslationDashboard.perlanguageCoverage")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b text-left">
-                      <th className="py-2 px-3">Language</th>
-                      <th className="py-2 px-3 text-center">Total</th>
-                      <th className="py-2 px-3 text-center">Translated</th>
-                      <th className="py-2 px-3 text-center">Coverage</th>
-                      <th className="py-2 px-3">Progress</th>
-                      <th className="py-2 px-3 text-center">Priority</th>
+                      <th className="py-2 px-3">{t("pages.adminTranslationDashboard.language")}</th>
+                      <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.total")}</th>
+                      <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.translated")}</th>
+                      <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.coverage3")}</th>
+                      <th className="py-2 px-3">{t("pages.adminTranslationDashboard.progress")}</th>
+                      <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.priority")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1192,7 +1194,7 @@ function ExamQuestionCoverageTab() {
                           </td>
                           <td className="py-2 px-3 text-center">
                             {isPriority ? (
-                              <Badge className="text-xs bg-blue-100 text-blue-700 border-blue-200">Priority</Badge>
+                              <Badge className="text-xs bg-blue-100 text-blue-700 border-blue-200">{t("pages.adminTranslationDashboard.priority2")}</Badge>
                             ) : (
                               <span className="text-gray-400 text-xs">-</span>
                             )}
@@ -1209,7 +1211,7 @@ function ExamQuestionCoverageTab() {
           {coverage.tierBreakdown.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Per-Tier Breakdown</CardTitle>
+                <CardTitle>{t("pages.adminTranslationDashboard.pertierBreakdown")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -1239,7 +1241,7 @@ function ExamQuestionCoverageTab() {
           {coverage.examBreakdown.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Per-Exam Breakdown</CardTitle>
+                <CardTitle>{t("pages.adminTranslationDashboard.perexamBreakdown")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -1269,12 +1271,12 @@ function ExamQuestionCoverageTab() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2"><Play className="w-5 h-5" /> Start Batch Translation</CardTitle>
+          <CardTitle className="flex items-center gap-2"><Play className="w-5 h-5" /> {t("pages.adminTranslationDashboard.startBatchTranslation")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Target Languages</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminTranslationDashboard.targetLanguages")}</label>
               <select
                 className="w-full border rounded-md px-2 py-1.5 text-sm"
                 multiple
@@ -1294,28 +1296,28 @@ function ExamQuestionCoverageTab() {
               </p>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Tier Filter</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminTranslationDashboard.tierFilter")}</label>
               <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={translateTier} onChange={e => setTranslateTier(e.target.value)} data-testid="select-translate-tier">
-                <option value="">All Tiers</option>
+                <option value="">{t("pages.adminTranslationDashboard.allTiers2")}</option>
                 {(filters?.tiers || []).map(t => <option key={t} value={t}>{t}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Exam Filter</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminTranslationDashboard.examFilter")}</label>
               <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={translateExam} onChange={e => setTranslateExam(e.target.value)} data-testid="select-translate-exam">
-                <option value="">All Exams</option>
+                <option value="">{t("pages.adminTranslationDashboard.allExams2")}</option>
                 {(filters?.exams || []).map(ex => <option key={ex} value={ex}>{ex}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Body System Filter</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminTranslationDashboard.bodySystemFilter")}</label>
               <select className="w-full border rounded-md px-2 py-1.5 text-sm" value={translateBodySystem} onChange={e => setTranslateBodySystem(e.target.value)} data-testid="select-translate-body-system">
-                <option value="">All Systems</option>
+                <option value="">{t("pages.adminTranslationDashboard.allSystems2")}</option>
                 {(filters?.bodySystems || []).map(b => <option key={b} value={b}>{b}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Batch Size</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminTranslationDashboard.batchSize")}</label>
               <Input
                 type="number"
                 min={1}
@@ -1334,9 +1336,9 @@ function ExamQuestionCoverageTab() {
             data-testid="button-start-batch"
           >
             {translating ? (
-              <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Translating...</>
+              <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> {t("pages.adminTranslationDashboard.translating")}</>
             ) : (
-              <><Play className="w-4 h-4 mr-2" /> Start Batch Translation</>
+              <><Play className="w-4 h-4 mr-2" /> {t("pages.adminTranslationDashboard.startBatchTranslation2")}</>
             )}
           </Button>
 
@@ -1344,19 +1346,19 @@ function ExamQuestionCoverageTab() {
             <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg" data-testid="text-translate-result">
               <div className="flex items-center gap-2 mb-2">
                 <CheckCircle2 className="w-5 h-5 text-green-600" />
-                <span className="font-medium text-green-800">Batch Complete</span>
+                <span className="font-medium text-green-800">{t("pages.adminTranslationDashboard.batchComplete")}</span>
               </div>
               <div className="grid grid-cols-3 gap-4 text-sm">
                 <div>
-                  <span className="text-gray-600">Translated:</span>{" "}
+                  <span className="text-gray-600">{t("pages.adminTranslationDashboard.translated2")}</span>{" "}
                   <span className="font-bold text-green-700">{translateResult.batchTranslated || translateResult.totalTranslated || 0}</span>
                 </div>
                 <div>
-                  <span className="text-gray-600">Skipped:</span>{" "}
+                  <span className="text-gray-600">{t("pages.adminTranslationDashboard.skipped")}</span>{" "}
                   <span className="font-bold text-gray-500">{translateResult.batchSkipped || translateResult.totalSkipped || 0}</span>
                 </div>
                 <div>
-                  <span className="text-gray-600">Failed:</span>{" "}
+                  <span className="text-gray-600">{t("pages.adminTranslationDashboard.failed")}</span>{" "}
                   <span className="font-bold text-red-600">{translateResult.batchFailed || 0}</span>
                 </div>
               </div>
@@ -1369,7 +1371,7 @@ function ExamQuestionCoverageTab() {
               )}
               {translateResult.qualityIssues?.length > 0 && (
                 <div className="mt-3">
-                  <p className="text-xs font-medium text-amber-700 mb-1">Quality Issues:</p>
+                  <p className="text-xs font-medium text-amber-700 mb-1">{t("pages.adminTranslationDashboard.qualityIssues")}</p>
                   <ul className="text-xs text-amber-600 space-y-0.5">
                     {translateResult.qualityIssues.slice(0, 5).map((issue: string, i: number) => (
                       <li key={i}>• {issue}</li>
@@ -1385,20 +1387,20 @@ function ExamQuestionCoverageTab() {
       {batchRuns.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Recent Batch Runs</CardTitle>
+            <CardTitle>{t("pages.adminTranslationDashboard.recentBatchRuns")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b text-left">
-                    <th className="py-2 px-3">Started</th>
-                    <th className="py-2 px-3">Status</th>
-                    <th className="py-2 px-3 text-center">Languages</th>
-                    <th className="py-2 px-3">Filters</th>
-                    <th className="py-2 px-3 text-center">Progress</th>
-                    <th className="py-2 px-3 text-center">Translated</th>
-                    <th className="py-2 px-3 text-center">Failed</th>
+                    <th className="py-2 px-3">{t("pages.adminTranslationDashboard.started")}</th>
+                    <th className="py-2 px-3">{t("pages.adminTranslationDashboard.status3")}</th>
+                    <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.languages")}</th>
+                    <th className="py-2 px-3">{t("pages.adminTranslationDashboard.filters")}</th>
+                    <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.progress2")}</th>
+                    <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.translated3")}</th>
+                    <th className="py-2 px-3 text-center">{t("pages.adminTranslationDashboard.failed2")}</th>
                     <th className="py-2 px-3"></th>
                   </tr>
                 </thead>

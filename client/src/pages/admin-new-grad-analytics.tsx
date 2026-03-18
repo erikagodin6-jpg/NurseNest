@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 
+import { useI18n } from "@/lib/i18n";
 interface BuildStatus {
   targetQuestions: number;
   currentQuestions: number;
@@ -59,6 +60,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 export default function AdminNewGradAnalytics() {
+  const { t } = useI18n();
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [coverage, setCoverage] = useState<CoverageData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -112,7 +114,7 @@ export default function AdminNewGradAnalytics() {
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6" data-testid="admin-new-grad-analytics">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold" data-testid="text-page-title">New Grad Content Analytics</h1>
+        <h1 className="text-2xl font-bold" data-testid="text-page-title">{t("pages.adminNewGradAnalytics.newGradContentAnalytics")}</h1>
         <Badge variant="outline" className="text-sm" data-testid="badge-total-questions">
           {analytics.totalQuestions.toLocaleString()} Total Questions
         </Badge>
@@ -121,7 +123,7 @@ export default function AdminNewGradAnalytics() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card data-testid="card-build-progress">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Question Build Progress</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-500">{t("pages.adminNewGradAnalytics.questionBuildProgress")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold" data-testid="text-question-count">{bs.currentQuestions.toLocaleString()}</div>
@@ -133,7 +135,7 @@ export default function AdminNewGradAnalytics() {
 
         <Card data-testid="card-simulation-count">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Simulation Sets</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-500">{t("pages.adminNewGradAnalytics.simulationSets")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{analytics.simulationSets.total}</div>
@@ -144,7 +146,7 @@ export default function AdminNewGradAnalytics() {
 
         <Card data-testid="card-mock-test-count">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Mock Interview Tests</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-500">{t("pages.adminNewGradAnalytics.mockInterviewTests")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{analytics.mockTests.total}</div>
@@ -155,11 +157,11 @@ export default function AdminNewGradAnalytics() {
 
         <Card data-testid="card-uncategorized">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Content Quality</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-500">{t("pages.adminNewGradAnalytics.contentQuality")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{analytics.uncategorizedCount}</div>
-            <p className="text-xs text-gray-500">uncategorized questions</p>
+            <p className="text-xs text-gray-500">{t("pages.adminNewGradAnalytics.uncategorizedQuestions")}</p>
             <div className="mt-2">
               <Badge variant={analytics.uncategorizedCount === 0 ? "default" : "destructive"} data-testid="badge-quality-status">
                 {analytics.uncategorizedCount === 0 ? "All Categorized" : "Needs Attention"}
@@ -172,7 +174,7 @@ export default function AdminNewGradAnalytics() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card data-testid="card-category-breakdown">
           <CardHeader>
-            <CardTitle className="text-lg">Category Distribution</CardTitle>
+            <CardTitle className="text-lg">{t("pages.adminNewGradAnalytics.categoryDistribution")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -195,7 +197,7 @@ export default function AdminNewGradAnalytics() {
 
         <Card data-testid="card-difficulty-breakdown">
           <CardHeader>
-            <CardTitle className="text-lg">Difficulty Distribution</CardTitle>
+            <CardTitle className="text-lg">{t("pages.adminNewGradAnalytics.difficultyDistribution")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -228,7 +230,7 @@ export default function AdminNewGradAnalytics() {
       {analytics.activeBuildPriority && analytics.activeBuildPriority.length > 0 && (
         <Card data-testid="card-build-priority">
           <CardHeader>
-            <CardTitle className="text-lg">Active Build Priority</CardTitle>
+            <CardTitle className="text-lg">{t("pages.adminNewGradAnalytics.activeBuildPriority")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
@@ -243,7 +245,7 @@ export default function AdminNewGradAnalytics() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card data-testid="card-simulation-details">
           <CardHeader>
-            <CardTitle className="text-lg">Interview Simulation Sets</CardTitle>
+            <CardTitle className="text-lg">{t("pages.adminNewGradAnalytics.interviewSimulationSets")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -262,7 +264,7 @@ export default function AdminNewGradAnalytics() {
 
         <Card data-testid="card-mock-test-details">
           <CardHeader>
-            <CardTitle className="text-lg">Mock Interview Tests</CardTitle>
+            <CardTitle className="text-lg">{t("pages.adminNewGradAnalytics.mockInterviewTests2")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -292,7 +294,7 @@ export default function AdminNewGradAnalytics() {
           </CardHeader>
           <CardContent>
             {coverage.totalGaps === 0 ? (
-              <p className="text-green-600 font-medium" data-testid="text-full-coverage">Full coverage across all categories and difficulties</p>
+              <p className="text-green-600 font-medium" data-testid="text-full-coverage">{t("pages.adminNewGradAnalytics.fullCoverageAcrossAllCategories")}</p>
             ) : (
               <div className="space-y-2">
                 {coverage.gaps.slice(0, 20).map((gap, i) => (

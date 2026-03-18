@@ -129,7 +129,7 @@ export function EmailSignupPrompt({
           <form onSubmit={handleSubmit} className="flex gap-2 w-full sm:w-auto">
             <Input
               type="email"
-              placeholder="your@email.com"
+              placeholder={t("components.emailSignupPrompt.youremailcom")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="h-9 text-sm min-w-[200px]"
@@ -153,7 +153,7 @@ export function EmailSignupPrompt({
         <form onSubmit={handleSubmit} className="flex gap-2" data-testid="email-signup-inline">
           <Input
             type="email"
-            placeholder="your@email.com"
+            placeholder={t("components.emailSignupPrompt.youremailcom2")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="h-10 text-sm"
@@ -183,7 +183,7 @@ export function EmailSignupPrompt({
       <form onSubmit={handleSubmit} className="flex gap-2">
         <Input
           type="email"
-          placeholder="your@email.com"
+          placeholder={t("components.emailSignupPrompt.youremailcom3")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="h-10 text-sm"

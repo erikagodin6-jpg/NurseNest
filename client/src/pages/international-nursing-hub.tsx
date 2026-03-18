@@ -170,27 +170,27 @@ export default function InternationalNursingHub() {
 
       <section className="py-12 bg-white border-y border-gray-100" data-testid="section-who-is-this-for">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">Who Is This Section For?</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">{t("pages.internationalNursingHub.whoIsThisSectionFor")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">
               <CheckCircle2 className="w-5 h-5 text-teal-500 mt-0.5 flex-shrink-0" />
               <div>
-                <p className="font-medium text-gray-900">Internationally Educated Nurses</p>
-                <p className="text-sm text-gray-500">Seeking licensure in a new country</p>
+                <p className="font-medium text-gray-900">{t("pages.internationalNursingHub.internationallyEducatedNurses")}</p>
+                <p className="text-sm text-gray-500">{t("pages.internationalNursingHub.seekingLicensureInANew")}</p>
               </div>
             </div>
             <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">
               <CheckCircle2 className="w-5 h-5 text-teal-500 mt-0.5 flex-shrink-0" />
               <div>
-                <p className="font-medium text-gray-900">Nurses Exploring Opportunities</p>
-                <p className="text-sm text-gray-500">Comparing countries and pathways</p>
+                <p className="font-medium text-gray-900">{t("pages.internationalNursingHub.nursesExploringOpportunities")}</p>
+                <p className="text-sm text-gray-500">{t("pages.internationalNursingHub.comparingCountriesAndPathways")}</p>
               </div>
             </div>
             <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">
               <CheckCircle2 className="w-5 h-5 text-teal-500 mt-0.5 flex-shrink-0" />
               <div>
-                <p className="font-medium text-gray-900">Nursing Students Abroad</p>
-                <p className="text-sm text-gray-500">Planning their career internationally</p>
+                <p className="font-medium text-gray-900">{t("pages.internationalNursingHub.nursingStudentsAbroad")}</p>
+                <p className="text-sm text-gray-500">{t("pages.internationalNursingHub.planningTheirCareerInternationally")}</p>
               </div>
             </div>
           </div>
@@ -200,8 +200,8 @@ export default function InternationalNursingHub() {
       <section className="py-16" data-testid="section-features">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-features-h2">How NurseNest Helps International Nurses</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Everything you need to navigate the international nursing journey — from credential evaluation to your first shift abroad.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-features-h2">{t("pages.internationalNursingHub.howNursenestHelpsInternationalNurses")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.internationalNursingHub.everythingYouNeedToNavigate")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {FEATURES.map(f => (
@@ -310,8 +310,8 @@ export default function InternationalNursingHub() {
       <section className="py-16" data-testid="section-supporting-guides">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-guides-h2">Supporting Guides & Resources</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">In-depth articles on every aspect of the international nursing journey — from bridging programs to salary comparisons.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-guides-h2">{t("pages.internationalNursingHub.supportingGuidesResources")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.internationalNursingHub.indepthArticlesOnEveryAspect")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {CONTENT_PAGES.map(cp => (
@@ -332,23 +332,23 @@ export default function InternationalNursingHub() {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700 mb-4">
             <Wrench className="w-4 h-4" /> Interactive Tools
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-tools-h2">Compare, Check & Plan</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto mb-8">Use our interactive tools to compare nursing requirements across countries, check your licensing readiness, and plan your international nursing career.</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-tools-h2">{t("pages.internationalNursingHub.compareCheckPlan")}</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto mb-8">{t("pages.internationalNursingHub.useOurInteractiveToolsTo")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
             <div className="bg-white rounded-xl p-5 border border-blue-200">
               <BarChart3 className="w-7 h-7 text-blue-500 mx-auto mb-3" />
-              <h3 className="font-semibold text-gray-900 mb-1 text-sm">Country Comparison</h3>
-              <p className="text-xs text-gray-500">Compare requirements side by side</p>
+              <h3 className="font-semibold text-gray-900 mb-1 text-sm">{t("pages.internationalNursingHub.countryComparison")}</h3>
+              <p className="text-xs text-gray-500">{t("pages.internationalNursingHub.compareRequirementsSideBySide")}</p>
             </div>
             <div className="bg-white rounded-xl p-5 border border-blue-200">
               <ClipboardCheck className="w-7 h-7 text-green-500 mx-auto mb-3" />
-              <h3 className="font-semibold text-gray-900 mb-1 text-sm">Licensing Checklist</h3>
-              <p className="text-xs text-gray-500">Track your licensing progress</p>
+              <h3 className="font-semibold text-gray-900 mb-1 text-sm">{t("pages.internationalNursingHub.licensingChecklist")}</h3>
+              <p className="text-xs text-gray-500">{t("pages.internationalNursingHub.trackYourLicensingProgress")}</p>
             </div>
             <div className="bg-white rounded-xl p-5 border border-blue-200">
               <CheckCircle2 className="w-7 h-7 text-purple-500 mx-auto mb-3" />
-              <h3 className="font-semibold text-gray-900 mb-1 text-sm">Readiness Assessment</h3>
-              <p className="text-xs text-gray-500">Check if you're ready to start</p>
+              <h3 className="font-semibold text-gray-900 mb-1 text-sm">{t("pages.internationalNursingHub.readinessAssessment")}</h3>
+              <p className="text-xs text-gray-500">{t("pages.internationalNursingHub.checkIfYoureReadyTo")}</p>
             </div>
           </div>
           <Link href="/international-nurses/tools" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-explore-tools">
@@ -360,8 +360,8 @@ export default function InternationalNursingHub() {
       <section className="py-16 bg-gradient-to-b from-teal-50/50 to-white" data-testid="section-common-mistakes">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Common Mistakes to Avoid</h2>
-            <p className="text-gray-600">International nurses frequently encounter these pitfalls — here's how to avoid them.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{t("pages.internationalNursingHub.commonMistakesToAvoid")}</h2>
+            <p className="text-gray-600">{t("pages.internationalNursingHub.internationalNursesFrequentlyEncounterThese")}</p>
           </div>
           <div className="space-y-4">
             {[

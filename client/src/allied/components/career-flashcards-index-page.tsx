@@ -7,6 +7,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import type { ProfessionHubData } from "@/allied/data/profession-hub-data";
 import type { FlashcardDeck } from "@/allied/data/imaging-career-data";
 
+import { useI18n } from "@/lib/i18n";
 interface CareerFlashcardsIndexPageProps {
   hubData: ProfessionHubData;
   flashcardDecks: FlashcardDeck[];
@@ -19,6 +20,7 @@ const DIFFICULTY_COLORS: Record<string, { bg: string; text: string }> = {
 };
 
 export default function CareerFlashcardsIndexPage({ hubData, flashcardDecks }: CareerFlashcardsIndexPageProps) {
+  const { t } = useI18n();
   const basePath = `/allied-health/${hubData.professionSlug}`;
   const totalCards = flashcardDecks.reduce((sum, d) => sum + d.cardCount, 0);
   const beginnerDecks = flashcardDecks.filter(d => d.difficulty === "Beginner");
@@ -127,7 +129,7 @@ export default function CareerFlashcardsIndexPage({ hubData, flashcardDecks }: C
 
       <section className="py-12 bg-gray-50" data-testid="section-flashcards-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Pair Flashcards with Practice Exams</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("allied.careerFlashcardsIndexPage.pairFlashcardsWithPracticeExams")}</h2>
           <p className="text-gray-600 mb-6">Combine flashcard review with practice questions and mock exams for the most effective {hubData.shortName} exam preparation.</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href={`${basePath}/study`} className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 shadow-lg" style={{ backgroundColor: hubData.color }} data-testid="button-cta-study">

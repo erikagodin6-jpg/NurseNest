@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { ArrowRight, Shield, Zap, BookOpen, Lock, CheckCircle, Star } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface CTAProps {
   tier: string;
   variant?: "above-fold" | "mid-page" | "end-of-page";
@@ -29,6 +30,7 @@ export function SeoHubCTA({
   secondaryHref,
   secondaryLabel,
 }: CTAProps) {
+  const { t } = useI18n();
   const config = TIER_CONFIG[tier] || TIER_CONFIG["nclex-rn"];
   const defaultHeadline = `Start Your ${config.label} Prep Today`;
   const defaultSubtitle = "Built for modern nursing exams. Clinically focused study support with adaptive practice questions.";
@@ -166,7 +168,7 @@ export function MedicallyReviewedBlock({
       <div className="flex items-start gap-3">
         <Shield className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
         <div>
-          <p className="font-semibold text-emerald-900 text-sm">Medically Reviewed</p>
+          <p className="font-semibold text-emerald-900 text-sm">{t("components.seoHubCta.medicallyReviewed")}</p>
           {reviewerName && (
             <p className="text-sm text-emerald-700 mt-0.5">Reviewed by {reviewerName}</p>
           )}
@@ -185,7 +187,7 @@ export function ReferencesSection({ references }: { references: any[] }) {
 
   return (
     <section className="border-t border-gray-200 pt-6 mt-8" data-testid="references-section">
-      <h3 className="text-lg font-bold text-gray-900 mb-3">References</h3>
+      <h3 className="text-lg font-bold text-gray-900 mb-3">{t("components.seoHubCta.references")}</h3>
       <ol className="list-decimal list-inside space-y-2 text-sm text-gray-600">
         {references.map((ref: any, i: number) => (
           <li key={i} data-testid={`reference-${i}`}>

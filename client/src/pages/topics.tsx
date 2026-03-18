@@ -7,6 +7,7 @@ import { getTopicsByBodySystem, BODY_SYSTEM_ORDER, BODY_SYSTEM_ICONS } from "@/d
 import type { Topic } from "@/data/topics";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { useI18n } from "@/lib/i18n";
 import {
   Search, BookOpen, ChevronRight,
   Heart, Wind, Brain, Droplets, Zap, Activity, Baby, Eye, Pill, ClipboardList,
@@ -17,6 +18,7 @@ const iconMap: Record<string, any> = {
 };
 
 function getIcon(system: string) {
+
   const iconName = BODY_SYSTEM_ICONS[system];
   return iconMap[iconName] || Activity;
 }
@@ -97,7 +99,7 @@ function TopicsIndex() {
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
       <Navigation />
       <SEO
-        title="Clinical Topics - Knowledge Graph | NurseNest"
+        title={t("pages.topics.clinicalTopicsKnowledgeGraphNursenest")}
         description={`Browse ${totalTopics} clinical nursing topics organized by body system. Each topic connects lessons, practice questions, flashcards, and career paths across the NurseNest platform.`}
         keywords="nursing topics, clinical nursing, body systems, NCLEX topics, nursing knowledge graph, pathophysiology topics"
         canonicalPath="/topics"
@@ -106,7 +108,7 @@ function TopicsIndex() {
 
       <main className="max-w-5xl mx-auto px-4 py-8 w-full" data-testid="topics-index-page">
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2" data-testid="text-topics-heading">Clinical Topics</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2" data-testid="text-topics-heading">{t("pages.topics.clinicalTopics")}</h1>
           <p className="text-gray-600 text-base md:text-lg max-w-2xl">
             Explore {totalTopics} clinical topics across {totalSystems} body systems. Each topic connects you to lessons, practice questions, flashcards, and career resources.
           </p>
@@ -117,7 +119,7 @@ function TopicsIndex() {
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search topics..."
+            placeholder={t("pages.topics.searchTopics")}
             className="pl-10"
             data-testid="input-search-topics"
           />

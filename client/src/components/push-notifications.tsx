@@ -5,6 +5,7 @@ import { Switch } from "@/components/ui/switch";
 import { Bell, BellOff, Clock, BookOpen, Brain, Target } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
+import { useI18n } from "@/lib/i18n";
 interface NotificationSettings {
   subscribed: boolean;
   reminderTime: string;
@@ -14,6 +15,7 @@ interface NotificationSettings {
 }
 
 export function PushNotificationSettings() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [settings, setSettings] = useState<NotificationSettings>({
     subscribed: false,
@@ -176,8 +178,8 @@ export function PushNotificationSettings() {
       <CardContent className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <p className="font-medium text-sm">Enable Notifications</p>
-            <p className="text-xs text-gray-500">Get reminders to stay on track</p>
+            <p className="font-medium text-sm">{t("components.pushNotifications.enableNotifications")}</p>
+            <p className="text-xs text-gray-500">{t("components.pushNotifications.getRemindersToStayOn")}</p>
           </div>
           <Button
             size="sm"
@@ -212,7 +214,7 @@ export function PushNotificationSettings() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm">Reminder Time</span>
+                  <span className="text-sm">{t("components.pushNotifications.reminderTime")}</span>
                 </div>
                 <select
                   value={settings.reminderTime}
@@ -231,7 +233,7 @@ export function PushNotificationSettings() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <BookOpen className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm">Daily Study Reminder</span>
+                  <span className="text-sm">{t("components.pushNotifications.dailyStudyReminder")}</span>
                 </div>
                 <Switch
                   checked={settings.enableDailyReminder}
@@ -243,7 +245,7 @@ export function PushNotificationSettings() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Target className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm">Practice Exam Reminders</span>
+                  <span className="text-sm">{t("components.pushNotifications.practiceExamReminders")}</span>
                 </div>
                 <Switch
                   checked={settings.enableExamReminder}
@@ -255,7 +257,7 @@ export function PushNotificationSettings() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Brain className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm">Flashcard Review Prompts</span>
+                  <span className="text-sm">{t("components.pushNotifications.flashcardReviewPrompts")}</span>
                 </div>
                 <Switch
                   checked={settings.enableFlashcardReminder}

@@ -3,6 +3,7 @@ import { useLocation, Link } from "wouter";
 import { useAuth } from "@/lib/auth";
 import { apiRequest } from "@/lib/queryClient";
 import { EXAM_CONFIGS } from "./paramedic-exam-simulator";
+import { useI18n } from "@/lib/i18n";
 import {
   FileText, Brain, Zap, ArrowRight, CheckCircle2,
   AlertTriangle, Shield
@@ -55,6 +56,7 @@ const EXAM_TYPES = [
 ];
 
 export default function ParamedicExamLauncher() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const [selectedMode, setSelectedMode] = useState<string | null>(null);
@@ -128,8 +130,8 @@ export default function ParamedicExamLauncher() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50" data-testid="launcher-login-required">
         <div className="text-center max-w-md px-6">
           <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Sign In Required</h2>
-          <p className="text-gray-600 mb-6">Create a free account to start taking practice exams.</p>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">{t("allied.paramedicParamedicExamLauncher.signInRequired")}</h2>
+          <p className="text-gray-600 mb-6">{t("allied.paramedicParamedicExamLauncher.createAFreeAccountTo")}</p>
           <a href="/login" className="px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors" data-testid="link-login">
             Sign In
           </a>
@@ -143,22 +145,22 @@ export default function ParamedicExamLauncher() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-            <Link href="/allied-health/paramedic" className="hover:text-teal-600" data-testid="breadcrumb-paramedic">Paramedic</Link>
+            <Link href="/allied-health/paramedic" className="hover:text-teal-600" data-testid="breadcrumb-paramedic">{t("allied.paramedicParamedicExamLauncher.paramedic")}</Link>
             <ArrowRight className="w-3 h-3" />
-            <Link href="/allied-health/paramedic/practice-exams" className="hover:text-teal-600" data-testid="breadcrumb-practice-exams">Practice Exams</Link>
+            <Link href="/allied-health/paramedic/practice-exams" className="hover:text-teal-600" data-testid="breadcrumb-practice-exams">{t("allied.paramedicParamedicExamLauncher.practiceExams")}</Link>
             <ArrowRight className="w-3 h-3" />
-            <span className="text-teal-700 font-medium">Start Exam</span>
+            <span className="text-teal-700 font-medium">{t("allied.paramedicParamedicExamLauncher.startExam")}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900" data-testid="text-launcher-title">
             Start a Practice Exam
           </h1>
-          <p className="text-gray-600 mt-2">Choose your mode, exam type, and configure your session.</p>
+          <p className="text-gray-600 mt-2">{t("allied.paramedicParamedicExamLauncher.chooseYourModeExamType")}</p>
         </div>
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         <div>
-          <h2 className="text-lg font-bold text-gray-900 mb-4">1. Select Mode</h2>
+          <h2 className="text-lg font-bold text-gray-900 mb-4">{t("allied.paramedicParamedicExamLauncher.1SelectMode")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {MODE_CARDS.map((card) => {
               const Icon = card.icon;
@@ -200,11 +202,11 @@ export default function ParamedicExamLauncher() {
 
         {selectedMode && (
           <div className="bg-white rounded-2xl border border-gray-200 p-6 space-y-6">
-            <h2 className="text-lg font-bold text-gray-900">2. Configure Session</h2>
+            <h2 className="text-lg font-bold text-gray-900">{t("allied.paramedicParamedicExamLauncher.2ConfigureSession")}</h2>
 
             {selectedMode !== "drill" && (
               <div>
-                <label className="text-sm font-semibold text-gray-700 block mb-2">Exam Type</label>
+                <label className="text-sm font-semibold text-gray-700 block mb-2">{t("allied.paramedicParamedicExamLauncher.examType")}</label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {EXAM_TYPES.map(et => (
                     <button
@@ -228,7 +230,7 @@ export default function ParamedicExamLauncher() {
             {selectedMode === "drill" && (
               <>
                 <div>
-                  <label className="text-sm font-semibold text-gray-700 block mb-2">Topic / Category</label>
+                  <label className="text-sm font-semibold text-gray-700 block mb-2">{t("allied.paramedicParamedicExamLauncher.topicCategory")}</label>
                   <select
                     value={drillTopic}
                     onChange={(e) => setDrillTopic(e.target.value)}
@@ -241,7 +243,7 @@ export default function ParamedicExamLauncher() {
                   </select>
                 </div>
                 <div>
-                  <label className="text-sm font-semibold text-gray-700 block mb-2">Number of Questions</label>
+                  <label className="text-sm font-semibold text-gray-700 block mb-2">{t("allied.paramedicParamedicExamLauncher.numberOfQuestions")}</label>
                   <input
                     type="range"
                     min={5}
@@ -258,7 +260,7 @@ export default function ParamedicExamLauncher() {
 
             {selectedMode === "practice" && (
               <div>
-                <label className="text-sm font-semibold text-gray-700 block mb-2">Number of Questions</label>
+                <label className="text-sm font-semibold text-gray-700 block mb-2">{t("allied.paramedicParamedicExamLauncher.numberOfQuestions2")}</label>
                 <input
                   type="range"
                   min={10}
@@ -275,7 +277,7 @@ export default function ParamedicExamLauncher() {
 
             {selectedMode === "adaptive" && (
               <div>
-                <label className="text-sm font-semibold text-gray-700 block mb-2">Maximum Questions</label>
+                <label className="text-sm font-semibold text-gray-700 block mb-2">{t("allied.paramedicParamedicExamLauncher.maximumQuestions")}</label>
                 <input
                   type="range"
                   min={20}
@@ -319,27 +321,27 @@ export default function ParamedicExamLauncher() {
         )}
 
         <div className="bg-white rounded-2xl border border-gray-100 p-6">
-          <h3 className="text-sm font-semibold text-gray-700 mb-3">Question Pool Stats</h3>
+          <h3 className="text-sm font-semibold text-gray-700 mb-3">{t("allied.paramedicParamedicExamLauncher.questionPoolStats")}</h3>
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 text-center">
             <div>
               <div className="text-2xl font-bold text-teal-700">{totalQuestionCount || "—"}</div>
-              <div className="text-xs text-gray-500">Total Questions</div>
+              <div className="text-xs text-gray-500">{t("allied.paramedicParamedicExamLauncher.totalQuestions")}</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-purple-700">{categories.length || "—"}</div>
-              <div className="text-xs text-gray-500">Categories</div>
+              <div className="text-xs text-gray-500">{t("allied.paramedicParamedicExamLauncher.categories")}</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-gray-700">5</div>
-              <div className="text-xs text-gray-500">Difficulty Levels</div>
+              <div className="text-xs text-gray-500">{t("allied.paramedicParamedicExamLauncher.difficultyLevels")}</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-gray-700">3</div>
-              <div className="text-xs text-gray-500">Exam Types</div>
+              <div className="text-xs text-gray-500">{t("allied.paramedicParamedicExamLauncher.examTypes")}</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-gray-700">4</div>
-              <div className="text-xs text-gray-500">Study Modes</div>
+              <div className="text-xs text-gray-500">{t("allied.paramedicParamedicExamLauncher.studyModes")}</div>
             </div>
           </div>
         </div>

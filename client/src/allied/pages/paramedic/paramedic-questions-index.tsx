@@ -4,6 +4,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { HubHero, FilterChip, FinalCTASection } from "./components";
 import { BookOpen, Target, ArrowRight, Search, Loader2, FileText } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface TopicItem {
   topicSlug: string;
   topic: string;
@@ -27,6 +28,7 @@ interface TopicsData {
 }
 
 export default function ParamedicQuestionsIndex() {
+  const { t } = useI18n();
   const [data, setData] = useState<TopicsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -72,7 +74,7 @@ export default function ParamedicQuestionsIndex() {
   return (
     <div data-testid="paramedic-questions-index">
       <AlliedSEO
-        title="Paramedic Practice Questions by Topic — NREMT, PCP & ACP | NurseNest"
+        title={t("allied.paramedicParamedicQuestionsIndex.paramedicPracticeQuestionsByTopic")}
         description={`Browse ${data?.totalQuestions || 500}+ paramedic practice questions organized by ${data?.totalTopics || 100} clinical topics. Covers trauma management, cardiac arrest algorithms, pharmacology, airway management, and more.`}
         keywords="paramedic practice questions, NREMT questions by topic, paramedic exam questions, PCP practice questions, ACP practice questions, EMS practice test"
         canonicalPath="/allied-health/paramedic/questions"
@@ -80,7 +82,7 @@ export default function ParamedicQuestionsIndex() {
       />
 
       <HubHero
-        title="Paramedic Practice Questions"
+        title={t("allied.paramedicParamedicQuestionsIndex.paramedicPracticeQuestions")}
         subtitle={`Browse ${data?.totalQuestions || 500}+ practice questions organized by clinical topic. Each topic page includes sample questions with detailed rationales, difficulty levels, and links to related study materials.`}
         breadcrumbs={[
           { label: "Paramedic", href: "/allied-health/paramedic" },
@@ -97,7 +99,7 @@ export default function ParamedicQuestionsIndex() {
                 type="text"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                placeholder="Search topics..."
+                placeholder={t("allied.paramedicParamedicQuestionsIndex.searchTopics")}
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
                 data-testid="input-search-topics"
               />
@@ -120,7 +122,7 @@ export default function ParamedicQuestionsIndex() {
           {data && activeCategory === "All" && !search && (
             <section className="py-12 bg-gradient-to-b from-purple-50/30 to-white" data-testid="section-categories-overview">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-categories-title">Question Categories</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-categories-title">{t("allied.paramedicParamedicQuestionsIndex.questionCategories")}</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                   {data.categories.map(cat => (
                     <button
@@ -201,7 +203,7 @@ export default function ParamedicQuestionsIndex() {
               ) : (
                 <div className="text-center py-12">
                   <Target className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-                  <p className="text-gray-500" data-testid="text-no-results">No topics match your search. Try a different filter or keyword.</p>
+                  <p className="text-gray-500" data-testid="text-no-results">{t("allied.paramedicParamedicQuestionsIndex.noTopicsMatchYourSearch")}</p>
                 </div>
               )}
             </div>
@@ -210,7 +212,7 @@ export default function ParamedicQuestionsIndex() {
       )}
 
       <FinalCTASection
-        title="Ready to Practice Paramedic Questions?"
+        title={t("allied.paramedicParamedicQuestionsIndex.readyToPracticeParamedicQuestions")}
         subtitle="Start with a free diagnostic to identify your strengths and gaps, then use targeted practice sets to build exam readiness."
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
         secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}

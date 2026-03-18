@@ -8,6 +8,7 @@ import { AdminEditButton } from "@/components/admin-edit-button";
 import { MessageSquare, ThumbsUp, Lightbulb, Bug, HelpCircle, Send, CheckCircle } from "lucide-react";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
+import { useI18n } from "@/lib/i18n";
 type FeedbackItem = {
   id: string;
   username: string | null;
@@ -41,6 +42,7 @@ const categoryOptions = [
 ];
 
 export default function FeedbackPage() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [feedbackList, setFeedbackList] = useState<FeedbackItem[]>([]);
   const [type, setType] = useState("feedback");
@@ -113,8 +115,8 @@ export default function FeedbackPage() {
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
       <AdminEditButton />
       <SEO
-        title="Feedback & Feature Requests - NurseNest"
-        description="Share your feedback and feature requests to help improve NurseNest."
+        title={t("pages.feedback.feedbackFeatureRequestsNursenest")}
+        description={t("pages.feedback.shareYourFeedbackAndFeature")}
         canonicalPath="/feedback"
       />
       <Navigation />
@@ -135,19 +137,19 @@ export default function FeedbackPage() {
             <div className="md:col-span-2">
               <Card className="border border-primary/10 sticky top-4" data-testid="card-feedback-form">
                 <CardHeader>
-                  <CardTitle className="text-lg font-semibold text-gray-900">Submit Feedback</CardTitle>
+                  <CardTitle className="text-lg font-semibold text-gray-900">{t("pages.feedback.submitFeedback")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {submitted ? (
                     <div className="text-center py-8" data-testid="text-feedback-success">
                       <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
-                      <p className="font-semibold text-gray-900">Thank you!</p>
-                      <p className="text-sm text-gray-500 mt-1">Your feedback has been submitted.</p>
+                      <p className="font-semibold text-gray-900">{t("pages.feedback.thankYou")}</p>
+                      <p className="text-sm text-gray-500 mt-1">{t("pages.feedback.yourFeedbackHasBeenSubmitted")}</p>
                     </div>
                   ) : (
                     <form onSubmit={handleSubmit} className="space-y-4">
                       <div>
-                        <label className="text-xs font-medium text-gray-600 block mb-1.5">Type</label>
+                        <label className="text-xs font-medium text-gray-600 block mb-1.5">{t("pages.feedback.type")}</label>
                         <div className="grid grid-cols-2 gap-2">
                           {typeOptions.map(opt => (
                             <button
@@ -169,7 +171,7 @@ export default function FeedbackPage() {
                       </div>
 
                       <div>
-                        <label className="text-xs font-medium text-gray-600 block mb-1.5">Category</label>
+                        <label className="text-xs font-medium text-gray-600 block mb-1.5">{t("pages.feedback.category")}</label>
                         <select
                           value={category}
                           onChange={e => setCategory(e.target.value)}
@@ -185,12 +187,12 @@ export default function FeedbackPage() {
                       </div>
 
                       <div>
-                        <label className="text-xs font-medium text-gray-600 block mb-1.5">Title</label>
+                        <label className="text-xs font-medium text-gray-600 block mb-1.5">{t("pages.feedback.title")}</label>
                         <input
                           type="text"
                           value={title}
                           onChange={e => setTitle(e.target.value)}
-                          placeholder="Brief summary"
+                          placeholder={t("pages.feedback.briefSummary")}
                           className="w-full border rounded-lg px-3 py-2 text-sm"
                           required
                           data-testid="input-feedback-title"
@@ -198,11 +200,11 @@ export default function FeedbackPage() {
                       </div>
 
                       <div>
-                        <label className="text-xs font-medium text-gray-600 block mb-1.5">Description</label>
+                        <label className="text-xs font-medium text-gray-600 block mb-1.5">{t("pages.feedback.description")}</label>
                         <textarea
                           value={description}
                           onChange={e => setDescription(e.target.value)}
-                          placeholder="Describe in detail..."
+                          placeholder={t("pages.feedback.describeInDetail")}
                           rows={4}
                           className="w-full border rounded-lg px-3 py-2 text-sm resize-none"
                           required
@@ -212,12 +214,12 @@ export default function FeedbackPage() {
 
                       {!user && (
                         <div>
-                          <label className="text-xs font-medium text-gray-600 block mb-1.5">Email (optional)</label>
+                          <label className="text-xs font-medium text-gray-600 block mb-1.5">{t("pages.feedback.emailOptional")}</label>
                           <input
                             type="email"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
-                            placeholder="your@email.com"
+                            placeholder={t("pages.feedback.youremailcom")}
                             className="w-full border rounded-lg px-3 py-2 text-sm"
                             data-testid="input-feedback-email"
                           />
@@ -235,12 +237,12 @@ export default function FeedbackPage() {
             </div>
 
             <div className="md:col-span-3 space-y-4">
-              <h2 className="text-lg font-semibold text-gray-900">Community Feedback</h2>
+              <h2 className="text-lg font-semibold text-gray-900">{t("pages.feedback.communityFeedback")}</h2>
               {feedbackList.length === 0 ? (
                 <Card className="border border-primary/10">
                   <CardContent className="p-8 text-center text-gray-400">
                     <MessageSquare className="w-10 h-10 mx-auto mb-3 opacity-40" />
-                    <p className="text-sm">No feedback submitted yet. Be the first!</p>
+                    <p className="text-sm">{t("pages.feedback.noFeedbackSubmittedYetBe")}</p>
                   </CardContent>
                 </Card>
               ) : (

@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ScenarioAdminPanel } from "@/allied/components/scenario-admin";
 import { ArticleAdminPanel } from "@/allied/components/article-admin";
 
+import { useI18n } from "@/lib/i18n";
 const ALLIED_CAREERS = ["rrt", "paramedic", "pharmacyTech", "mlt", "imaging", "psychotherapist", "socialWorker", "addictionsCounsellor", "occupationalTherapy", "physicalTherapy", "healthInfoMgmt", "occupationalTherapyAssistant", "physiotherapyAssistant"] as const;
 
 type Tab = "overview" | "generate" | "questions" | "revision" | "analytics" | "blueprints" | "automations" | "drafts" | "store" | "qbank" | "scenarios" | "articles";
@@ -59,6 +60,7 @@ interface RevisionItem {
 }
 
 async function apiFetch(url: string, opts?: RequestInit) {
+  const { t } = useI18n();
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   const stored = localStorage.getItem("nursenest-credentials");
   if (stored) {
@@ -384,8 +386,8 @@ export default function AlliedAdminPage() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Admin Access Required</h1>
-        <p className="text-gray-600">You need admin privileges to access this page.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.alliedAdmin.adminAccessRequired")}</h1>
+        <p className="text-gray-600">{t("allied.alliedAdmin.youNeedAdminPrivilegesTo")}</p>
       </div>
     );
   }
@@ -429,8 +431,8 @@ export default function AlliedAdminPage() {
         <div className="flex items-center gap-3">
           <Settings className="w-7 h-7 text-teal-600" />
           <div>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-admin-title">Allied Content Pipeline</h1>
-            <p className="text-sm text-gray-500">5-Layer Production System</p>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-admin-title">{t("allied.alliedAdmin.alliedContentPipeline")}</h1>
+            <p className="text-sm text-gray-500">{t("allied.alliedAdmin.5layerProductionSystem")}</p>
           </div>
         </div>
         <button onClick={() => { loadStats(); loadBatches(); }} className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-teal-700 bg-teal-50 rounded-lg hover:bg-teal-100" data-testid="button-refresh">
@@ -442,22 +444,22 @@ export default function AlliedAdminPage() {
         <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="stat-total-questions">
           <BookOpen className="w-6 h-6 text-teal-500 mb-2" />
           <div className="text-2xl font-bold text-gray-900">{totalQuestionsAll.toLocaleString()}</div>
-          <div className="text-sm text-gray-500">Total Questions</div>
+          <div className="text-sm text-gray-500">{t("allied.alliedAdmin.totalQuestions")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="stat-total-flashcards">
           <Brain className="w-6 h-6 text-purple-500 mb-2" />
           <div className="text-2xl font-bold text-gray-900">{totalFlashcardsAll.toLocaleString()}</div>
-          <div className="text-sm text-gray-500">Auto-Flashcards</div>
+          <div className="text-sm text-gray-500">{t("allied.alliedAdmin.autoflashcards")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="stat-flagged">
           <AlertTriangle className="w-6 h-6 text-amber-500 mb-2" />
           <div className="text-2xl font-bold text-gray-900">{totalFlaggedAll}</div>
-          <div className="text-sm text-gray-500">Flagged Items</div>
+          <div className="text-sm text-gray-500">{t("allied.alliedAdmin.flaggedItems")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="stat-revisions">
           <AlertCircle className="w-6 h-6 text-red-500 mb-2" />
           <div className="text-2xl font-bold text-gray-900">{totalRevisionsAll}</div>
-          <div className="text-sm text-gray-500">Pending Revisions</div>
+          <div className="text-sm text-gray-500">{t("allied.alliedAdmin.pendingRevisions")}</div>
         </div>
       </div>
 
@@ -513,15 +515,15 @@ export default function AlliedAdminPage() {
                   <div className="grid grid-cols-3 gap-3 text-center text-xs">
                     <div>
                       <div className="text-lg font-bold text-gray-900">{cs?.flashcards || 0}</div>
-                      <div className="text-gray-500">Flashcards</div>
+                      <div className="text-gray-500">{t("allied.alliedAdmin.flashcards")}</div>
                     </div>
                     <div>
                       <div className="text-lg font-bold text-gray-900">{cs?.avgRationaleWords || 0}</div>
-                      <div className="text-gray-500">Avg Words</div>
+                      <div className="text-gray-500">{t("allied.alliedAdmin.avgWords")}</div>
                     </div>
                     <div>
                       <div className="text-lg font-bold text-gray-900">{cs?.rejectionRate || 0}%</div>
-                      <div className="text-gray-500">Reject Rate</div>
+                      <div className="text-gray-500">{t("allied.alliedAdmin.rejectRate")}</div>
                     </div>
                   </div>
                   {cs && cs.totalQuestions > 0 && (
@@ -554,15 +556,15 @@ export default function AlliedAdminPage() {
                     <div className="grid grid-cols-3 gap-2 text-center text-xs">
                       <div>
                         <div className="text-lg font-bold text-gray-900">{cs?.totalQuestions || 0}</div>
-                        <div className="text-gray-500">Questions</div>
+                        <div className="text-gray-500">{t("allied.alliedAdmin.questions")}</div>
                       </div>
                       <div>
                         <div className="text-lg font-bold text-gray-900">{cs?.flashcards || 0}</div>
-                        <div className="text-gray-500">Flashcards</div>
+                        <div className="text-gray-500">{t("allied.alliedAdmin.flashcards2")}</div>
                       </div>
                       <div>
                         <div className="text-lg font-bold text-gray-900">{c.domains?.length || 0}</div>
-                        <div className="text-gray-500">Domains</div>
+                        <div className="text-gray-500">{t("allied.alliedAdmin.domains")}</div>
                       </div>
                     </div>
                   </div>
@@ -578,13 +580,13 @@ export default function AlliedAdminPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-gray-100">
-                    <th className="text-left py-2 px-3 font-medium text-gray-600">Career</th>
-                    <th className="text-center py-2 px-3 font-medium text-gray-600">Status</th>
-                    <th className="text-center py-2 px-3 font-medium text-gray-600">Search Vol</th>
+                    <th className="text-left py-2 px-3 font-medium text-gray-600">{t("allied.alliedAdmin.career")}</th>
+                    <th className="text-center py-2 px-3 font-medium text-gray-600">{t("allied.alliedAdmin.status")}</th>
+                    <th className="text-center py-2 px-3 font-medium text-gray-600">{t("allied.alliedAdmin.searchVol")}</th>
                     <th className="text-center py-2 px-3 font-medium text-gray-600">SEO</th>
-                    <th className="text-center py-2 px-3 font-medium text-gray-600">Conversion</th>
-                    <th className="text-center py-2 px-3 font-medium text-gray-600">Depth</th>
-                    <th className="text-left py-2 px-3 font-medium text-gray-600">Notes</th>
+                    <th className="text-center py-2 px-3 font-medium text-gray-600">{t("allied.alliedAdmin.conversion")}</th>
+                    <th className="text-center py-2 px-3 font-medium text-gray-600">{t("allied.alliedAdmin.depth")}</th>
+                    <th className="text-left py-2 px-3 font-medium text-gray-600">{t("allied.alliedAdmin.notes")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -628,19 +630,19 @@ export default function AlliedAdminPage() {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Domain (required)</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.alliedAdmin.domainRequired")}</label>
                 <select
                   value={genDomain}
                   onChange={(e) => setGenDomain(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
                   data-testid="select-domain"
                 >
-                  <option value="">-- Select domain --</option>
+                  <option value="">{t("allied.alliedAdmin.selectDomain")}</option>
                   {career.domains.map(d => <option key={d} value={d}>{d}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Subtopic (optional)</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.alliedAdmin.subtopicOptional")}</label>
                 <input
                   type="text"
                   value={genSubtopic}
@@ -651,7 +653,7 @@ export default function AlliedAdminPage() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Batch Size (25-100)</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.alliedAdmin.batchSize25100")}</label>
                 <input
                   type="number"
                   value={genCount}
@@ -675,9 +677,9 @@ export default function AlliedAdminPage() {
               </div>
             </div>
             <div className="bg-gray-50 rounded-lg p-3 text-xs text-gray-500 space-y-1">
-              <p><Shield className="w-3 h-3 inline mr-1" />Validation gates: rationale min 600 words, similarity threshold 0.80, cognitive mix enforced</p>
-              <p><Target className="w-3 h-3 inline mr-1" />Blueprint-governed: difficulty/cognitive/domain distribution from active blueprint</p>
-              <p><Brain className="w-3 h-3 inline mr-1" />Auto-flashcards: 1-3 cards generated per question on commit</p>
+              <p><Shield className="w-3 h-3 inline mr-1" />{t("allied.alliedAdmin.validationGatesRationaleMin600")}</p>
+              <p><Target className="w-3 h-3 inline mr-1" />{t("allied.alliedAdmin.blueprintgovernedDifficultycognitivedomainDi")}</p>
+              <p><Brain className="w-3 h-3 inline mr-1" />{t("allied.alliedAdmin.autoflashcards13CardsGeneratedPer")}</p>
             </div>
           </div>
 
@@ -692,15 +694,15 @@ export default function AlliedAdminPage() {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
                 <div className="bg-indigo-50 rounded-lg p-3 text-center">
                   <div className="text-lg font-bold text-indigo-700">1,000</div>
-                  <div className="text-xs text-indigo-500">Target Questions</div>
+                  <div className="text-xs text-indigo-500">{t("allied.alliedAdmin.targetQuestions")}</div>
                 </div>
                 <div className="bg-indigo-50 rounded-lg p-3 text-center">
                   <div className="text-lg font-bold text-indigo-700">20</div>
-                  <div className="text-xs text-indigo-500">Batches of 50</div>
+                  <div className="text-xs text-indigo-500">{t("allied.alliedAdmin.batchesOf50")}</div>
                 </div>
                 <div className="bg-indigo-50 rounded-lg p-3 text-center">
                   <div className="text-lg font-bold text-indigo-700">6</div>
-                  <div className="text-xs text-indigo-500">Domains</div>
+                  <div className="text-xs text-indigo-500">{t("allied.alliedAdmin.domains2")}</div>
                 </div>
               </div>
 
@@ -741,23 +743,23 @@ export default function AlliedAdminPage() {
                   <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-center text-xs">
                     <div className="bg-gray-50 rounded-lg p-2">
                       <div className="text-lg font-bold text-gray-900">{psychBulkStatus.questions?.total || psychBulkStatus.generatedCount || 0}</div>
-                      <div className="text-gray-500">Generated</div>
+                      <div className="text-gray-500">{t("allied.alliedAdmin.generated")}</div>
                     </div>
                     <div className="bg-green-50 rounded-lg p-2">
                       <div className="text-lg font-bold text-green-700">{psychBulkStatus.questions?.pending || psychBulkStatus.acceptedCount || 0}</div>
-                      <div className="text-gray-500">Accepted</div>
+                      <div className="text-gray-500">{t("allied.alliedAdmin.accepted")}</div>
                     </div>
                     <div className="bg-red-50 rounded-lg p-2">
                       <div className="text-lg font-bold text-red-700">{psychBulkStatus.questions?.rejected || psychBulkStatus.rejectedCount || 0}</div>
-                      <div className="text-gray-500">Rejected</div>
+                      <div className="text-gray-500">{t("allied.alliedAdmin.rejected")}</div>
                     </div>
                     <div className="bg-purple-50 rounded-lg p-2">
                       <div className="text-lg font-bold text-purple-700">{psychBulkStatus.flashcards || 0}</div>
-                      <div className="text-gray-500">Flashcards</div>
+                      <div className="text-gray-500">{t("allied.alliedAdmin.flashcards3")}</div>
                     </div>
                     <div className="bg-amber-50 rounded-lg p-2">
                       <div className="text-lg font-bold text-amber-700">{psychBulkStatus.imageLinkedCount || 0}</div>
-                      <div className="text-gray-500">Image-Linked</div>
+                      <div className="text-gray-500">{t("allied.alliedAdmin.imagelinked")}</div>
                     </div>
                   </div>
 
@@ -767,7 +769,7 @@ export default function AlliedAdminPage() {
 
                   {psychBulkStatus.domainBreakdown && Object.keys(psychBulkStatus.domainBreakdown).length > 0 && (
                     <div>
-                      <div className="text-xs font-medium text-gray-600 mb-1">Questions by Domain:</div>
+                      <div className="text-xs font-medium text-gray-600 mb-1">{t("allied.alliedAdmin.questionsByDomain")}</div>
                       <div className="space-y-1">
                         {Object.entries(psychBulkStatus.domainBreakdown).map(([domain, count]) => (
                           <PercentBar key={domain} label={domain} value={count as number} total={psychBulkStatus.questions?.total || psychBulkStatus.acceptedCount || 1} color="bg-indigo-400" />
@@ -792,10 +794,10 @@ export default function AlliedAdminPage() {
               )}
 
               <div className="bg-indigo-50 rounded-lg p-3 text-xs text-indigo-600 space-y-1 mt-3">
-                <p><Shield className="w-3 h-3 inline mr-1" />Production DB verified before writes. Duplicate detection active.</p>
-                <p><Target className="w-3 h-3 inline mr-1" />Clinical vignettes with patient demographics, symptoms, and therapy modalities.</p>
-                <p><Brain className="w-3 h-3 inline mr-1" />Auto-flashcards with lesson links in /psychotherapy/lessons/&#123;slug&#125; format.</p>
-                <p><FileText className="w-3 h-3 inline mr-1" />Covers CBT, DBT, EMDR, psychodynamic, humanistic, solution-focused, narrative, MI, trauma-informed, group therapy.</p>
+                <p><Shield className="w-3 h-3 inline mr-1" />{t("allied.alliedAdmin.productionDbVerifiedBeforeWrites")}</p>
+                <p><Target className="w-3 h-3 inline mr-1" />{t("allied.alliedAdmin.clinicalVignettesWithPatientDemographics")}</p>
+                <p><Brain className="w-3 h-3 inline mr-1" />{t("allied.alliedAdmin.autoflashcardsWithLessonLinksIn")}</p>
+                <p><FileText className="w-3 h-3 inline mr-1" />{t("allied.alliedAdmin.coversCbtDbtEmdrPsychodynamic")}</p>
               </div>
             </div>
           )}
@@ -834,17 +836,17 @@ export default function AlliedAdminPage() {
                       {isExpanded && (
                         <div className="px-4 pb-4 border-t border-gray-50 pt-3 space-y-3">
                           <div className="grid grid-cols-4 gap-3 text-center text-xs">
-                            <div><div className="text-lg font-bold">{b.requested_count}</div><div className="text-gray-500">Requested</div></div>
-                            <div><div className="text-lg font-bold">{b.generated_count}</div><div className="text-gray-500">Generated</div></div>
-                            <div><div className="text-lg font-bold text-green-600">{b.accepted_count}</div><div className="text-gray-500">Accepted</div></div>
-                            <div><div className="text-lg font-bold text-red-500">{b.rejected_count}</div><div className="text-gray-500">Rejected</div></div>
+                            <div><div className="text-lg font-bold">{b.requested_count}</div><div className="text-gray-500">{t("allied.alliedAdmin.requested")}</div></div>
+                            <div><div className="text-lg font-bold">{b.generated_count}</div><div className="text-gray-500">{t("allied.alliedAdmin.generated2")}</div></div>
+                            <div><div className="text-lg font-bold text-green-600">{b.accepted_count}</div><div className="text-gray-500">{t("allied.alliedAdmin.accepted2")}</div></div>
+                            <div><div className="text-lg font-bold text-red-500">{b.rejected_count}</div><div className="text-gray-500">{t("allied.alliedAdmin.rejected2")}</div></div>
                           </div>
                           {b.avg_rationale_words > 0 && (
                             <div className="text-xs text-gray-500">Avg rationale: {Math.round(b.avg_rationale_words)} words</div>
                           )}
                           {b.rejection_reasons && Object.keys(b.rejection_reasons).length > 0 && (
                             <div>
-                              <div className="text-xs font-medium text-gray-600 mb-1">Rejection reasons:</div>
+                              <div className="text-xs font-medium text-gray-600 mb-1">{t("allied.alliedAdmin.rejectionReasons")}</div>
                               <div className="flex flex-wrap gap-1">
                                 {Object.entries(b.rejection_reasons).map(([reason, count]) => (
                                   <span key={reason} className="text-xs px-2 py-0.5 bg-red-50 text-red-600 rounded-full">{reason}: {count as number}</span>
@@ -854,7 +856,7 @@ export default function AlliedAdminPage() {
                           )}
                           {b.difficulty_breakdown && Object.keys(b.difficulty_breakdown).length > 0 && (
                             <div>
-                              <div className="text-xs font-medium text-gray-600 mb-1">Difficulty:</div>
+                              <div className="text-xs font-medium text-gray-600 mb-1">{t("allied.alliedAdmin.difficulty")}</div>
                               <div className="flex gap-2">
                                 {Object.entries(b.difficulty_breakdown).map(([d, c]) => (
                                   <span key={d} className="text-xs px-2 py-0.5 bg-gray-100 rounded-full">L{d}: {c as number}</span>
@@ -908,7 +910,7 @@ export default function AlliedAdminPage() {
             <AlertCircle className="w-5 h-5 text-red-500" /> Revision Queue -- {career.shortName}
           </h3>
           {revisionQueue.length === 0 ? (
-            <p className="text-sm text-gray-400 text-center py-8">No items in revision queue</p>
+            <p className="text-sm text-gray-400 text-center py-8">{t("allied.alliedAdmin.noItemsInRevisionQueue")}</p>
           ) : (
             <div className="space-y-3">
               {revisionQueue.map(item => (
@@ -960,7 +962,7 @@ export default function AlliedAdminPage() {
             </h3>
             {isAdmin && (
               <div className="flex gap-2">
-                <button onClick={handleSeedAutomations} className="px-3 py-1.5 bg-teal-600 text-white rounded-lg text-xs font-medium hover:bg-teal-700" data-testid="button-seed-automations">Seed All Automations</button>
+                <button onClick={handleSeedAutomations} className="px-3 py-1.5 bg-teal-600 text-white rounded-lg text-xs font-medium hover:bg-teal-700" data-testid="button-seed-automations">{t("allied.alliedAdmin.seedAllAutomations")}</button>
                 <button onClick={() => handleKillSwitch(!automationStatus?.killSwitch)} className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 ${automationStatus?.killSwitch ? "bg-red-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`} data-testid="button-kill-switch">
                   <Power className="w-3.5 h-3.5" /> {automationStatus?.killSwitch ? "Kill Switch ON" : "Kill Switch OFF"}
                 </button>
@@ -972,23 +974,23 @@ export default function AlliedAdminPage() {
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
               <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
                 <div className="text-2xl font-bold text-gray-900">{automationStatus.totalAutomations}</div>
-                <div className="text-xs text-gray-500">Total</div>
+                <div className="text-xs text-gray-500">{t("allied.alliedAdmin.total")}</div>
               </div>
               <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
                 <div className="text-2xl font-bold text-teal-600">{automationStatus.enabledAutomations}</div>
-                <div className="text-xs text-gray-500">Enabled</div>
+                <div className="text-xs text-gray-500">{t("allied.alliedAdmin.enabled")}</div>
               </div>
               <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
                 <div className="text-2xl font-bold text-blue-600">{automationStatus.todayRuns}</div>
-                <div className="text-xs text-gray-500">Runs Today</div>
+                <div className="text-xs text-gray-500">{t("allied.alliedAdmin.runsToday")}</div>
               </div>
               <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
                 <div className="text-2xl font-bold text-amber-600">{automationStatus.pendingDrafts}</div>
-                <div className="text-xs text-gray-500">Pending Drafts</div>
+                <div className="text-xs text-gray-500">{t("allied.alliedAdmin.pendingDrafts")}</div>
               </div>
               <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
                 <div className={`text-2xl font-bold ${automationStatus.failedToday > 0 ? "text-red-600" : "text-gray-400"}`}>{automationStatus.failedToday}</div>
-                <div className="text-xs text-gray-500">Failed Today</div>
+                <div className="text-xs text-gray-500">{t("allied.alliedAdmin.failedToday")}</div>
               </div>
             </div>
           )}
@@ -1046,18 +1048,18 @@ export default function AlliedAdminPage() {
           {automations.length === 0 && (
             <div className="bg-white rounded-xl border border-gray-100 p-12 text-center">
               <Zap className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-              <p className="text-sm text-gray-500 mb-3">No automations configured yet.</p>
+              <p className="text-sm text-gray-500 mb-3">{t("allied.alliedAdmin.noAutomationsConfiguredYet")}</p>
               {isAdmin ? (
-                <button onClick={handleSeedAutomations} className="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700" data-testid="button-seed-empty">Seed 39 Automations</button>
+                <button onClick={handleSeedAutomations} className="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700" data-testid="button-seed-empty">{t("allied.alliedAdmin.seed39Automations")}</button>
               ) : (
-                <p className="text-xs text-gray-400" data-testid="text-admin-required">Admin access required to seed automations</p>
+                <p className="text-xs text-gray-400" data-testid="text-admin-required">{t("allied.alliedAdmin.adminAccessRequiredToSeed")}</p>
               )}
             </div>
           )}
 
           {automationRuns.length > 0 && (
             <div className="bg-white rounded-xl border border-gray-100 p-5">
-              <h4 className="font-medium text-gray-900 mb-3 flex items-center gap-2"><Clock className="w-4 h-4 text-gray-400" /> Recent Runs</h4>
+              <h4 className="font-medium text-gray-900 mb-3 flex items-center gap-2"><Clock className="w-4 h-4 text-gray-400" /> {t("allied.alliedAdmin.recentRuns")}</h4>
               <div className="space-y-2 max-h-80 overflow-y-auto">
                 {automationRuns.map((run: any) => (
                   <div key={run.id} className="flex items-center gap-3 py-2 px-3 rounded-lg border border-gray-50 text-xs" data-testid={`run-${run.id}`}>
@@ -1085,26 +1087,26 @@ export default function AlliedAdminPage() {
               <span className="text-xs font-normal text-gray-400">{draftsTotal} total</span>
             </h3>
             <select value={draftFilter} onChange={(e) => setDraftFilter(e.target.value)} className="px-3 py-1.5 border border-gray-200 rounded-lg text-xs bg-white" data-testid="select-draft-filter">
-              <option value="">All types</option>
-              <option value="question">Questions</option>
-              <option value="flashcard">Flashcards</option>
-              <option value="mock_exam">Mock Exams</option>
-              <option value="seo_blog">SEO Blog</option>
-              <option value="comparison_page">Comparison Pages</option>
-              <option value="email_sequence">Email Sequences</option>
-              <option value="study_plan">Study Plans</option>
-              <option value="bundle">Bundles</option>
-              <option value="ngn_case">NGN Cases</option>
-              <option value="rationale_expansion">Rationale Expansions</option>
-              <option value="storefront_copy">Storefront Copy</option>
-              <option value="faq_schema">FAQ Schema</option>
+              <option value="">{t("allied.alliedAdmin.allTypes")}</option>
+              <option value="question">{t("allied.alliedAdmin.questions2")}</option>
+              <option value="flashcard">{t("allied.alliedAdmin.flashcards4")}</option>
+              <option value="mock_exam">{t("allied.alliedAdmin.mockExams")}</option>
+              <option value="seo_blog">{t("allied.alliedAdmin.seoBlog")}</option>
+              <option value="comparison_page">{t("allied.alliedAdmin.comparisonPages")}</option>
+              <option value="email_sequence">{t("allied.alliedAdmin.emailSequences")}</option>
+              <option value="study_plan">{t("allied.alliedAdmin.studyPlans")}</option>
+              <option value="bundle">{t("allied.alliedAdmin.bundles")}</option>
+              <option value="ngn_case">{t("allied.alliedAdmin.ngnCases")}</option>
+              <option value="rationale_expansion">{t("allied.alliedAdmin.rationaleExpansions")}</option>
+              <option value="storefront_copy">{t("allied.alliedAdmin.storefrontCopy")}</option>
+              <option value="faq_schema">{t("allied.alliedAdmin.faqSchema")}</option>
             </select>
           </div>
 
           {drafts.length === 0 ? (
             <div className="bg-white rounded-xl border border-gray-100 p-12 text-center">
               <FileCheck className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-              <p className="text-sm text-gray-500">No drafts to review. Run automations to generate content.</p>
+              <p className="text-sm text-gray-500">{t("allied.alliedAdmin.noDraftsToReviewRun")}</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -1128,13 +1130,13 @@ export default function AlliedAdminPage() {
                     <div className="flex gap-1.5 flex-shrink-0">
                       {draft.status === "draft" && (
                         <>
-                          <button onClick={() => handleDraftAction(draft.id, "approved")} className="px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md text-xs font-medium hover:bg-blue-100" data-testid={`approve-${draft.id}`}>Approve</button>
-                          <button onClick={() => handleDraftAction(draft.id, "published")} className="px-2.5 py-1 bg-green-50 text-green-700 rounded-md text-xs font-medium hover:bg-green-100" data-testid={`publish-${draft.id}`}>Publish</button>
-                          <button onClick={() => handleDraftAction(draft.id, "rejected")} className="px-2.5 py-1 bg-red-50 text-red-700 rounded-md text-xs font-medium hover:bg-red-100" data-testid={`reject-${draft.id}`}>Reject</button>
+                          <button onClick={() => handleDraftAction(draft.id, "approved")} className="px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md text-xs font-medium hover:bg-blue-100" data-testid={`approve-${draft.id}`}>{t("allied.alliedAdmin.approve")}</button>
+                          <button onClick={() => handleDraftAction(draft.id, "published")} className="px-2.5 py-1 bg-green-50 text-green-700 rounded-md text-xs font-medium hover:bg-green-100" data-testid={`publish-${draft.id}`}>{t("allied.alliedAdmin.publish")}</button>
+                          <button onClick={() => handleDraftAction(draft.id, "rejected")} className="px-2.5 py-1 bg-red-50 text-red-700 rounded-md text-xs font-medium hover:bg-red-100" data-testid={`reject-${draft.id}`}>{t("allied.alliedAdmin.reject")}</button>
                         </>
                       )}
                       {draft.status === "approved" && (
-                        <button onClick={() => handleDraftAction(draft.id, "published")} className="px-2.5 py-1 bg-green-50 text-green-700 rounded-md text-xs font-medium hover:bg-green-100" data-testid={`publish-${draft.id}`}>Publish</button>
+                        <button onClick={() => handleDraftAction(draft.id, "published")} className="px-2.5 py-1 bg-green-50 text-green-700 rounded-md text-xs font-medium hover:bg-green-100" data-testid={`publish-${draft.id}`}>{t("allied.alliedAdmin.publish2")}</button>
                       )}
                     </div>
                   </div>
@@ -1153,11 +1155,11 @@ export default function AlliedAdminPage() {
               <TrendingUp className="w-5 h-5 text-teal-500" /> Pipeline Analytics -- {career.shortName}
             </h3>
             {!careerStats || careerStats.totalQuestions === 0 ? (
-              <p className="text-sm text-gray-400 text-center py-8">No data yet. Generate questions first.</p>
+              <p className="text-sm text-gray-400 text-center py-8">{t("allied.alliedAdmin.noDataYetGenerateQuestions")}</p>
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="text-xs font-medium text-gray-600 mb-3 uppercase tracking-wide">Domain Distribution</h4>
+                  <h4 className="text-xs font-medium text-gray-600 mb-3 uppercase tracking-wide">{t("allied.alliedAdmin.domainDistribution")}</h4>
                   <div className="space-y-2">
                     {Object.entries(careerStats.domainBreakdown).sort(([,a],[,b]) => b - a).map(([domain, count]) => (
                       <PercentBar key={domain} label={domain} value={count} total={careerStats.totalQuestions} color="bg-teal-400" />
@@ -1166,7 +1168,7 @@ export default function AlliedAdminPage() {
                 </div>
                 <div className="space-y-6">
                   <div>
-                    <h4 className="text-xs font-medium text-gray-600 mb-3 uppercase tracking-wide">Difficulty Distribution</h4>
+                    <h4 className="text-xs font-medium text-gray-600 mb-3 uppercase tracking-wide">{t("allied.alliedAdmin.difficultyDistribution")}</h4>
                     <div className="space-y-2">
                       {[1,2,3,4,5].map(d => (
                         <PercentBar
@@ -1180,7 +1182,7 @@ export default function AlliedAdminPage() {
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-xs font-medium text-gray-600 mb-3 uppercase tracking-wide">Cognitive Level Distribution</h4>
+                    <h4 className="text-xs font-medium text-gray-600 mb-3 uppercase tracking-wide">{t("allied.alliedAdmin.cognitiveLevelDistribution")}</h4>
                     <div className="space-y-2">
                       {["recall", "application", "analysis"].map(level => (
                         <PercentBar
@@ -1196,14 +1198,14 @@ export default function AlliedAdminPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-gray-50 rounded-lg p-4 text-center">
                       <div className="text-2xl font-bold text-gray-900">{careerStats.avgRationaleWords}</div>
-                      <div className="text-xs text-gray-500">Avg Rationale Words</div>
+                      <div className="text-xs text-gray-500">{t("allied.alliedAdmin.avgRationaleWords")}</div>
                       <div className={`text-xs mt-1 ${careerStats.avgRationaleWords >= 600 ? "text-green-600" : "text-red-500"}`}>
                         {careerStats.avgRationaleWords >= 600 ? "Meets minimum" : "Below 600 threshold"}
                       </div>
                     </div>
                     <div className="bg-gray-50 rounded-lg p-4 text-center">
                       <div className="text-2xl font-bold text-gray-900">{careerStats.rejectionRate}%</div>
-                      <div className="text-xs text-gray-500">Rejection Rate</div>
+                      <div className="text-xs text-gray-500">{t("allied.alliedAdmin.rejectionRate")}</div>
                       <div className={`text-xs mt-1 ${careerStats.rejectionRate <= 20 ? "text-green-600" : "text-amber-600"}`}>
                         {careerStats.rejectionRate <= 20 ? "Healthy" : "Review prompt quality"}
                       </div>
@@ -1235,7 +1237,7 @@ export default function AlliedAdminPage() {
               <div className="text-center py-8">
                 <Target className="w-10 h-10 text-gray-300 mx-auto mb-3" />
                 <p className="text-sm text-gray-400 mb-3">No blueprint yet for {career.shortName}</p>
-                <p className="text-xs text-gray-400">Create one to enable batch generation with governance.</p>
+                <p className="text-xs text-gray-400">{t("allied.alliedAdmin.createOneToEnableBatch")}</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -1249,7 +1251,7 @@ export default function AlliedAdminPage() {
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-medium text-gray-900">v{bp.version}</span>
-                          {bp.is_active && <span className="text-xs px-2 py-0.5 bg-teal-100 text-teal-700 rounded-full">Active</span>}
+                          {bp.is_active && <span className="text-xs px-2 py-0.5 bg-teal-100 text-teal-700 rounded-full">{t("allied.alliedAdmin.active")}</span>}
                         </div>
                         <span className="text-xs text-gray-400">{new Date(bp.created_at).toLocaleDateString()}</span>
                       </div>
@@ -1266,14 +1268,14 @@ export default function AlliedAdminPage() {
                           </div>
                         </div>
                         <div>
-                          <div className="font-medium text-gray-600 mb-1">Difficulty Distribution</div>
+                          <div className="font-medium text-gray-600 mb-1">{t("allied.alliedAdmin.difficultyDistribution2")}</div>
                           {Object.entries(diffDist).map(([d, w]) => (
                             <div key={d} className="flex justify-between text-gray-500">
                               <span>Level {d}</span>
                               <span>{(Number(w) * 100).toFixed(0)}%</span>
                             </div>
                           ))}
-                          <div className="font-medium text-gray-600 mt-2 mb-1">Cognitive Targets</div>
+                          <div className="font-medium text-gray-600 mt-2 mb-1">{t("allied.alliedAdmin.cognitiveTargets")}</div>
                           {Object.entries(cogDist).map(([level, range]: [string, any]) => (
                             <div key={level} className="flex justify-between text-gray-500">
                               <span className="capitalize">{level}</span>
@@ -1282,7 +1284,7 @@ export default function AlliedAdminPage() {
                           ))}
                         </div>
                         <div>
-                          <div className="font-medium text-gray-600 mb-1">Allowed Question Types</div>
+                          <div className="font-medium text-gray-600 mb-1">{t("allied.alliedAdmin.allowedQuestionTypes")}</div>
                           <div className="flex flex-wrap gap-1">
                             {allowedTypes.map((t: string) => (
                               <span key={t} className="px-1.5 py-0.5 bg-gray-100 rounded text-gray-600">{t}</span>
@@ -1298,27 +1300,27 @@ export default function AlliedAdminPage() {
           </div>
 
           <div className="bg-gray-50 rounded-xl border border-gray-100 p-5">
-            <h4 className="text-sm font-medium text-gray-700 mb-3">Threshold Configuration</h4>
+            <h4 className="text-sm font-medium text-gray-700 mb-3">{t("allied.alliedAdmin.thresholdConfiguration")}</h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
               <div className="bg-white rounded-lg p-3">
-                <div className="text-gray-500 mb-1">Similarity Threshold</div>
+                <div className="text-gray-500 mb-1">{t("allied.alliedAdmin.similarityThreshold")}</div>
                 <div className="text-lg font-bold text-gray-900">0.80</div>
-                <div className="text-gray-400">Reject duplicates above</div>
+                <div className="text-gray-400">{t("allied.alliedAdmin.rejectDuplicatesAbove")}</div>
               </div>
               <div className="bg-white rounded-lg p-3">
-                <div className="text-gray-500 mb-1">Min Rationale Words</div>
+                <div className="text-gray-500 mb-1">{t("allied.alliedAdmin.minRationaleWords")}</div>
                 <div className="text-lg font-bold text-gray-900">600</div>
-                <div className="text-gray-400">Hard fail below</div>
+                <div className="text-gray-400">{t("allied.alliedAdmin.hardFailBelow")}</div>
               </div>
               <div className="bg-white rounded-lg p-3">
-                <div className="text-gray-500 mb-1">Max Recall %</div>
+                <div className="text-gray-500 mb-1">{t("allied.alliedAdmin.maxRecall")}</div>
                 <div className="text-lg font-bold text-gray-900">30%</div>
-                <div className="text-gray-400">Per batch cap</div>
+                <div className="text-gray-400">{t("allied.alliedAdmin.perBatchCap")}</div>
               </div>
               <div className="bg-white rounded-lg p-3">
-                <div className="text-gray-500 mb-1">Min Analysis %</div>
+                <div className="text-gray-500 mb-1">{t("allied.alliedAdmin.minAnalysis")}</div>
                 <div className="text-lg font-bold text-gray-900">20%</div>
-                <div className="text-gray-400">Per batch floor</div>
+                <div className="text-gray-400">{t("allied.alliedAdmin.perBatchFloor")}</div>
               </div>
             </div>
             <p className="text-xs text-gray-400 mt-3">
@@ -1337,27 +1339,27 @@ export default function AlliedAdminPage() {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               <div className="bg-gray-50 rounded-xl p-4" data-testid="store-stat-products">
-                <div className="text-sm text-gray-500 mb-1">Published Products</div>
+                <div className="text-sm text-gray-500 mb-1">{t("allied.alliedAdmin.publishedProducts")}</div>
                 <div className="text-2xl font-bold text-gray-900">0</div>
-                <div className="text-xs text-gray-400">Question sets available for purchase</div>
+                <div className="text-xs text-gray-400">{t("allied.alliedAdmin.questionSetsAvailableForPurchase")}</div>
               </div>
               <div className="bg-gray-50 rounded-xl p-4" data-testid="store-stat-revenue">
-                <div className="text-sm text-gray-500 mb-1">Revenue (30d)</div>
+                <div className="text-sm text-gray-500 mb-1">{t("allied.alliedAdmin.revenue30d")}</div>
                 <div className="text-2xl font-bold text-gray-900">$0.00</div>
                 <div className="text-xs text-gray-400">From {career.shortName} products</div>
               </div>
               <div className="bg-gray-50 rounded-xl p-4" data-testid="store-stat-purchases">
-                <div className="text-sm text-gray-500 mb-1">Purchases (30d)</div>
+                <div className="text-sm text-gray-500 mb-1">{t("allied.alliedAdmin.purchases30d")}</div>
                 <div className="text-2xl font-bold text-gray-900">0</div>
-                <div className="text-xs text-gray-400">Total transactions</div>
+                <div className="text-xs text-gray-400">{t("allied.alliedAdmin.totalTransactions")}</div>
               </div>
             </div>
             <div className="border-t border-gray-100 pt-4">
-              <h4 className="text-sm font-medium text-gray-700 mb-3">Product Catalog</h4>
+              <h4 className="text-sm font-medium text-gray-700 mb-3">{t("allied.alliedAdmin.productCatalog")}</h4>
               <div className="text-center py-8">
                 <Archive className="w-10 h-10 text-gray-300 mx-auto mb-3" />
                 <p className="text-sm text-gray-400 mb-2">No products published yet for {career.shortName}</p>
-                <p className="text-xs text-gray-400 mb-4">Create a question set and mark it as Store-Ready to publish here.</p>
+                <p className="text-xs text-gray-400 mb-4">{t("allied.alliedAdmin.createAQuestionSetAnd")}</p>
                 <button className="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700" data-testid="button-create-product">
                   + Create Product
                 </button>
@@ -1365,7 +1367,7 @@ export default function AlliedAdminPage() {
             </div>
           </div>
           <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="store-validation-panel">
-            <h4 className="text-sm font-medium text-gray-700 mb-3">Publishing Validation Checklist</h4>
+            <h4 className="text-sm font-medium text-gray-700 mb-3">{t("allied.alliedAdmin.publishingValidationChecklist")}</h4>
             <div className="space-y-2">
               {[
                 { label: "Minimum 50 questions in set", status: "pending" },
@@ -1395,48 +1397,48 @@ export default function AlliedAdminPage() {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
               <div className="bg-gray-50 rounded-xl p-4" data-testid="qbank-stat-total">
-                <div className="text-sm text-gray-500 mb-1">Total Items</div>
+                <div className="text-sm text-gray-500 mb-1">{t("allied.alliedAdmin.totalItems")}</div>
                 <div className="text-2xl font-bold text-gray-900">{careerStats?.totalQuestions || 0}</div>
               </div>
               <div className="bg-gray-50 rounded-xl p-4" data-testid="qbank-stat-active">
-                <div className="text-sm text-gray-500 mb-1">Active</div>
+                <div className="text-sm text-gray-500 mb-1">{t("allied.alliedAdmin.active2")}</div>
                 <div className="text-2xl font-bold text-teal-600">{careerStats?.totalQuestions ? careerStats.totalQuestions - (careerStats.flaggedCount || 0) : 0}</div>
               </div>
               <div className="bg-gray-50 rounded-xl p-4" data-testid="qbank-stat-flagged">
-                <div className="text-sm text-gray-500 mb-1">Flagged</div>
+                <div className="text-sm text-gray-500 mb-1">{t("allied.alliedAdmin.flagged")}</div>
                 <div className="text-2xl font-bold text-amber-600">{careerStats?.flaggedCount || 0}</div>
               </div>
               <div className="bg-gray-50 rounded-xl p-4" data-testid="qbank-stat-revision">
-                <div className="text-sm text-gray-500 mb-1">Pending Revision</div>
+                <div className="text-sm text-gray-500 mb-1">{t("allied.alliedAdmin.pendingRevision")}</div>
                 <div className="text-2xl font-bold text-red-600">{careerStats?.pendingRevisions || 0}</div>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h4 className="text-sm font-medium text-gray-700 mb-3">Domain Distribution</h4>
+                <h4 className="text-sm font-medium text-gray-700 mb-3">{t("allied.alliedAdmin.domainDistribution2")}</h4>
                 <div className="space-y-2">
                   {careerStats?.domainBreakdown ? Object.entries(careerStats.domainBreakdown).map(([domain, count]) => (
                     <PercentBar key={domain} label={domain} value={count as number} total={careerStats.totalQuestions} color="bg-teal-500" />
                   )) : (
-                    <p className="text-sm text-gray-400 py-4 text-center">No domain data available yet</p>
+                    <p className="text-sm text-gray-400 py-4 text-center">{t("allied.alliedAdmin.noDomainDataAvailableYet")}</p>
                   )}
                 </div>
               </div>
               <div>
-                <h4 className="text-sm font-medium text-gray-700 mb-3">Difficulty Distribution</h4>
+                <h4 className="text-sm font-medium text-gray-700 mb-3">{t("allied.alliedAdmin.difficultyDistribution3")}</h4>
                 <div className="space-y-2">
                   {careerStats?.difficultyBreakdown ? Object.entries(careerStats.difficultyBreakdown).map(([level, count]) => (
                     <PercentBar key={level} label={`Level ${level}`} value={count as number} total={careerStats.totalQuestions} color="bg-cyan-500" />
                   )) : (
-                    <p className="text-sm text-gray-400 py-4 text-center">No difficulty data available yet</p>
+                    <p className="text-sm text-gray-400 py-4 text-center">{t("allied.alliedAdmin.noDifficultyDataAvailableYet")}</p>
                   )}
                 </div>
               </div>
             </div>
 
             <div className="border-t border-gray-100 mt-6 pt-4">
-              <h4 className="text-sm font-medium text-gray-700 mb-3">Cognitive Level Distribution</h4>
+              <h4 className="text-sm font-medium text-gray-700 mb-3">{t("allied.alliedAdmin.cognitiveLevelDistribution2")}</h4>
               <div className="grid grid-cols-3 gap-4">
                 {careerStats?.cognitiveBreakdown ? Object.entries(careerStats.cognitiveBreakdown).map(([level, count]) => {
                   const pct = careerStats.totalQuestions > 0 ? ((count as number) / careerStats.totalQuestions * 100).toFixed(0) : "0";
@@ -1448,13 +1450,13 @@ export default function AlliedAdminPage() {
                     </div>
                   );
                 }) : (
-                  <p className="text-sm text-gray-400 py-4 text-center col-span-3">No cognitive data available yet</p>
+                  <p className="text-sm text-gray-400 py-4 text-center col-span-3">{t("allied.alliedAdmin.noCognitiveDataAvailableYet")}</p>
                 )}
               </div>
             </div>
 
             <div className="border-t border-gray-100 mt-6 pt-4">
-              <h4 className="text-sm font-medium text-gray-700 mb-3">Quick Actions</h4>
+              <h4 className="text-sm font-medium text-gray-700 mb-3">{t("allied.alliedAdmin.quickActions")}</h4>
               <div className="flex flex-wrap gap-3">
                 <button className="px-4 py-2 bg-teal-50 text-teal-700 rounded-lg text-sm font-medium hover:bg-teal-100" data-testid="button-export-qbank">
                   Export Questions (CSV)

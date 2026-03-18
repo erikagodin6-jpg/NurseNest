@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useParams, Link } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { useI18n } from "@/lib/i18n";
 import {
   Loader2, CheckCircle2, XCircle, ArrowRight, BookOpen,
   Target, Lock, FileText
@@ -148,6 +149,7 @@ interface TopicData {
 }
 
 function DifficultyBadge({ level }: { level: number }) {
+  const { t } = useI18n();
   const config = level <= 2
     ? { label: "Foundational", color: "bg-green-100 text-green-700" }
     : level <= 3
@@ -170,14 +172,14 @@ function QuestionCard({ question, index, isLocked, profession }: { question: Sam
         <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-10">
           <div className="text-center">
             <Lock className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-600">Sign up for free to access more questions</p>
+            <p className="text-sm font-medium text-gray-600">{t("allied.alliedQuestionSeo.signUpForFreeTo")}</p>
             <Link href={profession.diagnosticHref} className="inline-flex items-center gap-1 text-teal-600 text-sm font-semibold mt-2 hover:text-teal-700" data-testid="link-unlock-questions">
               Start Free <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
         </div>
         <div className="blur-sm">
-          <p className="text-sm text-gray-700 mb-4">Question preview is locked...</p>
+          <p className="text-sm text-gray-700 mb-4">{t("allied.alliedQuestionSeo.questionPreviewIsLocked")}</p>
           <div className="space-y-2">
             {[1, 2, 3, 4].map(i => (
               <div key={i} className="h-10 bg-gray-100 rounded-lg" />
@@ -240,13 +242,13 @@ function QuestionCard({ question, index, isLocked, profession }: { question: Sam
 
       {showAnswer && (
         <div className="bg-teal-50 border border-teal-200 rounded-lg p-4 mt-4" data-testid={`rationale-${index}`}>
-          <h4 className="text-sm font-semibold text-teal-800 mb-2">Rationale</h4>
+          <h4 className="text-sm font-semibold text-teal-800 mb-2">{t("allied.alliedQuestionSeo.rationale")}</h4>
           <p className="text-sm text-teal-900 leading-relaxed">{question.rationale}</p>
         </div>
       )}
 
       {!showAnswer && selectedOption === null && (
-        <p className="text-xs text-gray-400 mt-2">Click an answer to reveal the rationale</p>
+        <p className="text-xs text-gray-400 mt-2">{t("allied.alliedQuestionSeo.clickAnAnswerToReveal")}</p>
       )}
     </div>
   );
@@ -276,8 +278,8 @@ export default function AlliedQuestionSeoPage({ professionKey }: { professionKey
   if (!profession) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Profession Not Found</h1>
-        <p className="text-gray-600">The requested profession does not exist.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.alliedQuestionSeo.professionNotFound")}</h1>
+        <p className="text-gray-600">{t("allied.alliedQuestionSeo.theRequestedProfessionDoesNot")}</p>
       </div>
     );
   }
@@ -293,7 +295,7 @@ export default function AlliedQuestionSeoPage({ professionKey }: { professionKey
   if (error || !data) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Topic Not Found</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.alliedQuestionSeo.topicNotFound")}</h1>
         <p className="text-gray-600 mb-4">The {profession.label} question topic you're looking for doesn't exist.</p>
         <Link href={profession.questionsIndexHref} className="inline-block px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-to-topics">
           Browse All Topics
@@ -364,7 +366,7 @@ export default function AlliedQuestionSeoPage({ professionKey }: { professionKey
         additionalStructuredData={structuredData.slice(1)}
       />
 
-      <nav className="max-w-4xl mx-auto px-4 py-3" aria-label="Breadcrumb" data-testid="breadcrumbs">
+      <nav className="max-w-4xl mx-auto px-4 py-3" aria-label={t("allied.alliedQuestionSeo.breadcrumb")} data-testid="breadcrumbs">
         <ol className="flex flex-wrap items-center gap-1 text-xs text-gray-500">
           {breadcrumbs.map((b, i) => (
             <li key={i} className="flex items-center gap-1">
@@ -483,8 +485,8 @@ export default function AlliedQuestionSeoPage({ professionKey }: { professionKey
               <Link href={profession.lessonsHref} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-lessons">
                 <BookOpen className="w-5 h-5 text-teal-500" />
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-900">Lessons</h3>
-                  <p className="text-xs text-gray-500">In-depth study guides</p>
+                  <h3 className="text-sm font-semibold text-gray-900">{t("allied.alliedQuestionSeo.lessons")}</h3>
+                  <p className="text-xs text-gray-500">{t("allied.alliedQuestionSeo.indepthStudyGuides")}</p>
                 </div>
               </Link>
             )}
@@ -492,8 +494,8 @@ export default function AlliedQuestionSeoPage({ professionKey }: { professionKey
               <Link href={profession.examsHref} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-exams">
                 <FileText className="w-5 h-5 text-teal-500" />
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-900">Practice Exams</h3>
-                  <p className="text-xs text-gray-500">Timed mock exams</p>
+                  <h3 className="text-sm font-semibold text-gray-900">{t("allied.alliedQuestionSeo.practiceExams")}</h3>
+                  <p className="text-xs text-gray-500">{t("allied.alliedQuestionSeo.timedMockExams")}</p>
                 </div>
               </Link>
             )}
@@ -501,16 +503,16 @@ export default function AlliedQuestionSeoPage({ professionKey }: { professionKey
               <Link href={profession.flashcardsHref} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-flashcards">
                 <BookOpen className="w-5 h-5 text-teal-500" />
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-900">Flashcards</h3>
-                  <p className="text-xs text-gray-500">Quick review cards</p>
+                  <h3 className="text-sm font-semibold text-gray-900">{t("allied.alliedQuestionSeo.flashcards")}</h3>
+                  <p className="text-xs text-gray-500">{t("allied.alliedQuestionSeo.quickReviewCards")}</p>
                 </div>
               </Link>
             )}
             <Link href={profession.questionsIndexHref} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-all-topics">
               <Target className="w-5 h-5 text-teal-500" />
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">All Topics</h3>
-                <p className="text-xs text-gray-500">Browse by topic</p>
+                <h3 className="text-sm font-semibold text-gray-900">{t("allied.alliedQuestionSeo.allTopics")}</h3>
+                <p className="text-xs text-gray-500">{t("allied.alliedQuestionSeo.browseByTopic")}</p>
               </div>
             </Link>
           </div>

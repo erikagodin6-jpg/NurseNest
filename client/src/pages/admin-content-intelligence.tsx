@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   BarChart3, Target, Globe, Search, TrendingUp, FileText,
   AlertTriangle, CheckCircle2, RefreshCw, Plus, ArrowRight,
@@ -42,6 +43,7 @@ type RoiItem = {
 };
 
 export default function AdminContentIntelligence() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const [activeTab, setActiveTab] = useState<"blueprint" | "difficulty" | "langMatrix" | "seoGaps" | "roi" | "reports">("blueprint");
@@ -115,7 +117,7 @@ export default function AdminContentIntelligence() {
       <div className="min-h-screen bg-gray-50">
         <Navigation />
         <div className="max-w-4xl mx-auto p-8 text-center">
-          <h1 className="text-2xl font-bold">Access Denied</h1>
+          <h1 className="text-2xl font-bold">{t("pages.adminContentIntelligence.accessDenied")}</h1>
         </div>
       </div>
     );
@@ -142,12 +144,12 @@ export default function AdminContentIntelligence() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      <SEO title="Content Intelligence - Admin" description="Content gap analysis and intelligence" />
+      <SEO title={t("pages.adminContentIntelligence.contentIntelligenceAdmin")} description={t("pages.adminContentIntelligence.contentGapAnalysisAndIntelligence")} />
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">Content Intelligence Dashboard</h1>
-            <p className="text-gray-600 mt-1">Blueprint coverage, difficulty calibration, SEO gaps, and content ROI analysis</p>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">{t("pages.adminContentIntelligence.contentIntelligenceDashboard")}</h1>
+            <p className="text-gray-600 mt-1">{t("pages.adminContentIntelligence.blueprintCoverageDifficultyCalibrationSeo")}</p>
           </div>
           <Button data-testid="btn-generate-report" onClick={generateReport} variant="outline" size="sm">
             <RefreshCw className="w-4 h-4 mr-1" /> Generate Weekly Report
@@ -173,7 +175,7 @@ export default function AdminContentIntelligence() {
         {!loading && activeTab === "blueprint" && (
           <div className="space-y-6">
             {blueprintData.length === 0 ? (
-              <Card><CardContent className="py-8 text-center text-gray-500">No blueprint data available. Seed exam blueprints first.</CardContent></Card>
+              <Card><CardContent className="py-8 text-center text-gray-500">{t("pages.adminContentIntelligence.noBlueprintDataAvailableSeed")}</CardContent></Card>
             ) : (
               blueprintData.map(bp => (
                 <Card key={bp.examCode}>
@@ -200,7 +202,7 @@ export default function AdminContentIntelligence() {
         {!loading && activeTab === "difficulty" && difficultyData && (
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><BarChart3 className="w-5 h-5" /> Difficulty Level Calibration</CardTitle>
+              <CardTitle className="flex items-center gap-2"><BarChart3 className="w-5 h-5" /> {t("pages.adminContentIntelligence.difficultyLevelCalibration")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -220,7 +222,7 @@ export default function AdminContentIntelligence() {
                       <div className="text-xs text-gray-500 mt-1">Expected: {c.expectedLow}–{c.expectedHigh}% | Target: {difficultyData.targetDistribution[c.level]}% of bank</div>
                     </div>
                     {c.deviation && <Badge variant="destructive" className="text-xs">{c.suggestedAdjustment.replace(/_/g, " ")}</Badge>}
-                    {!c.deviation && <Badge className="text-xs bg-green-100 text-green-700">Calibrated</Badge>}
+                    {!c.deviation && <Badge className="text-xs bg-green-100 text-green-700">{t("pages.adminContentIntelligence.calibrated")}</Badge>}
                   </div>
                 ))}
               </div>
@@ -231,16 +233,16 @@ export default function AdminContentIntelligence() {
         {!loading && activeTab === "langMatrix" && langMatrix && (
           <div className="space-y-6">
             <Card>
-              <CardHeader><CardTitle className="flex items-center gap-2"><Globe className="w-5 h-5" /> SEO Pages by Language</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="flex items-center gap-2"><Globe className="w-5 h-5" /> {t("pages.adminContentIntelligence.seoPagesByLanguage")}</CardTitle></CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b">
-                        <th className="text-left py-2 px-3">Language</th>
-                        <th className="text-center py-2 px-3">Page Type</th>
-                        <th className="text-center py-2 px-3">Count</th>
-                        <th className="text-center py-2 px-3">Avg Length</th>
+                        <th className="text-left py-2 px-3">{t("pages.adminContentIntelligence.language")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminContentIntelligence.pageType")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminContentIntelligence.count")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminContentIntelligence.avgLength")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -258,15 +260,15 @@ export default function AdminContentIntelligence() {
               </CardContent>
             </Card>
             <Card>
-              <CardHeader><CardTitle>Translation Coverage</CardTitle></CardHeader>
+              <CardHeader><CardTitle>{t("pages.adminContentIntelligence.translationCoverage")}</CardTitle></CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b">
-                        <th className="text-left py-2 px-3">Language</th>
-                        <th className="text-center py-2 px-3">Content Type</th>
-                        <th className="text-center py-2 px-3">Translated Items</th>
+                        <th className="text-left py-2 px-3">{t("pages.adminContentIntelligence.language2")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminContentIntelligence.contentType")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminContentIntelligence.translatedItems")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -287,21 +289,21 @@ export default function AdminContentIntelligence() {
 
         {!loading && activeTab === "seoGaps" && (
           <Card>
-            <CardHeader><CardTitle className="flex items-center gap-2"><Search className="w-5 h-5" /> SEO Keyword Gaps</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="flex items-center gap-2"><Search className="w-5 h-5" /> {t("pages.adminContentIntelligence.seoKeywordGaps")}</CardTitle></CardHeader>
             <CardContent>
               {keywordGaps.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">No keyword gaps found. Add keywords to the SEO keyword targets table.</div>
+                <div className="text-center py-8 text-gray-500">{t("pages.adminContentIntelligence.noKeywordGapsFoundAdd")}</div>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b">
-                        <th className="text-left py-2 px-3">Keyword</th>
-                        <th className="text-center py-2 px-3">Language</th>
-                        <th className="text-center py-2 px-3">Intent</th>
-                        <th className="text-center py-2 px-3">Volume</th>
-                        <th className="text-center py-2 px-3">Target Slug</th>
-                        <th className="text-center py-2 px-3">Has Page</th>
+                        <th className="text-left py-2 px-3">{t("pages.adminContentIntelligence.keyword")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminContentIntelligence.language3")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminContentIntelligence.intent")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminContentIntelligence.volume")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminContentIntelligence.targetSlug")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminContentIntelligence.hasPage")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -311,7 +313,7 @@ export default function AdminContentIntelligence() {
                           <td className="text-center py-2 px-3">{g.language_code}</td>
                           <td className="text-center py-2 px-3"><Badge variant="outline" className="text-xs">{g.intent}</Badge></td>
                           <td className="text-center py-2 px-3">{g.search_volume || "—"}</td>
-                          <td className="text-center py-2 px-3 text-xs">{g.page_target_slug || <span className="text-red-500">unmapped</span>}</td>
+                          <td className="text-center py-2 px-3 text-xs">{g.page_target_slug || <span className="text-red-500">{t("pages.adminContentIntelligence.unmapped")}</span>}</td>
                           <td className="text-center py-2 px-3">{g.has_page ? <CheckCircle2 className="w-4 h-4 text-green-500 mx-auto" /> : <AlertTriangle className="w-4 h-4 text-red-500 mx-auto" />}</td>
                         </tr>
                       ))}
@@ -326,39 +328,39 @@ export default function AdminContentIntelligence() {
         {!loading && activeTab === "roi" && (
           <div className="space-y-6">
             <Card>
-              <CardHeader><CardTitle className="flex items-center gap-2"><Plus className="w-5 h-5" /> Evaluate New Content Idea</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="flex items-center gap-2"><Plus className="w-5 h-5" /> {t("pages.adminContentIntelligence.evaluateNewContentIdea")}</CardTitle></CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
-                  <Input data-testid="input-roi-title" placeholder="Proposed title" value={roiForm.proposedTitle} onChange={e => setRoiForm(p => ({ ...p, proposedTitle: e.target.value }))} />
+                  <Input data-testid="input-roi-title" placeholder={t("pages.adminContentIntelligence.proposedTitle")} value={roiForm.proposedTitle} onChange={e => setRoiForm(p => ({ ...p, proposedTitle: e.target.value }))} />
                   <select data-testid="select-roi-type" className="border rounded-md px-3 py-2 text-sm" value={roiForm.contentType} onChange={e => setRoiForm(p => ({ ...p, contentType: e.target.value }))}>
-                    <option value="pillar">Pillar Page</option>
-                    <option value="cluster">Cluster Page</option>
-                    <option value="blog">Blog Post</option>
-                    <option value="comparison">Comparison Page</option>
-                    <option value="remediation_pack">Remediation Pack</option>
+                    <option value="pillar">{t("pages.adminContentIntelligence.pillarPage")}</option>
+                    <option value="cluster">{t("pages.adminContentIntelligence.clusterPage")}</option>
+                    <option value="blog">{t("pages.adminContentIntelligence.blogPost")}</option>
+                    <option value="comparison">{t("pages.adminContentIntelligence.comparisonPage")}</option>
+                    <option value="remediation_pack">{t("pages.adminContentIntelligence.remediationPack")}</option>
                   </select>
-                  <Input data-testid="input-roi-keyword" placeholder="Primary keyword" value={roiForm.primaryKeyword} onChange={e => setRoiForm(p => ({ ...p, primaryKeyword: e.target.value }))} />
+                  <Input data-testid="input-roi-keyword" placeholder={t("pages.adminContentIntelligence.primaryKeyword")} value={roiForm.primaryKeyword} onChange={e => setRoiForm(p => ({ ...p, primaryKeyword: e.target.value }))} />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
                   <select className="border rounded-md px-3 py-2 text-sm" value={roiForm.languageCode} onChange={e => setRoiForm(p => ({ ...p, languageCode: e.target.value }))}>
-                    <option value="en">English</option>
-                    <option value="fr">French</option>
-                    <option value="es">Spanish</option>
-                    <option value="fil">Filipino</option>
-                    <option value="hi">Hindi</option>
-                    <option value="zh">Chinese</option>
-                    <option value="ar">Arabic</option>
+                    <option value="en">{t("pages.adminContentIntelligence.english")}</option>
+                    <option value="fr">{t("pages.adminContentIntelligence.french")}</option>
+                    <option value="es">{t("pages.adminContentIntelligence.spanish")}</option>
+                    <option value="fil">{t("pages.adminContentIntelligence.filipino")}</option>
+                    <option value="hi">{t("pages.adminContentIntelligence.hindi")}</option>
+                    <option value="zh">{t("pages.adminContentIntelligence.chinese")}</option>
+                    <option value="ar">{t("pages.adminContentIntelligence.arabic")}</option>
                   </select>
-                  <Input placeholder="Exam code (optional)" value={roiForm.examCode} onChange={e => setRoiForm(p => ({ ...p, examCode: e.target.value }))} />
-                  <Input placeholder="Blueprint category (optional)" value={roiForm.blueprintCategory} onChange={e => setRoiForm(p => ({ ...p, blueprintCategory: e.target.value }))} />
+                  <Input placeholder={t("pages.adminContentIntelligence.examCodeOptional")} value={roiForm.examCode} onChange={e => setRoiForm(p => ({ ...p, examCode: e.target.value }))} />
+                  <Input placeholder={t("pages.adminContentIntelligence.blueprintCategoryOptional")} value={roiForm.blueprintCategory} onChange={e => setRoiForm(p => ({ ...p, blueprintCategory: e.target.value }))} />
                 </div>
-                <Button data-testid="btn-evaluate-roi" onClick={evaluateRoi}><Zap className="w-4 h-4 mr-1" /> Evaluate ROI</Button>
+                <Button data-testid="btn-evaluate-roi" onClick={evaluateRoi}><Zap className="w-4 h-4 mr-1" /> {t("pages.adminContentIntelligence.evaluateRoi")}</Button>
                 {roiResult && (
                   <div className="mt-4 p-4 border rounded-lg bg-blue-50">
                     <div className="flex items-center gap-3 mb-2">
                       <span className="text-2xl font-bold">{Math.round(roiResult.roi_score)}</span>
                       <Badge className={priorityColor(roiResult.priority_tier)}>{roiResult.priority_tier?.replace(/_/g, " ")}</Badge>
-                      {roiResult.similarity_flag && <Badge variant="destructive">Overlap detected</Badge>}
+                      {roiResult.similarity_flag && <Badge variant="destructive">{t("pages.adminContentIntelligence.overlapDetected")}</Badge>}
                     </div>
                     <div className="grid grid-cols-5 gap-2 text-xs">
                       <div>SEO: {roiResult.seo_demand_score}</div>
@@ -373,7 +375,7 @@ export default function AdminContentIntelligence() {
             </Card>
 
             <Card>
-              <CardHeader><CardTitle className="flex items-center gap-2"><Layers className="w-5 h-5" /> Content Pipeline</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="flex items-center gap-2"><Layers className="w-5 h-5" /> {t("pages.adminContentIntelligence.contentPipeline")}</CardTitle></CardHeader>
               <CardContent>
                 <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
                   {pipelineStatuses.map(s => (
@@ -415,10 +417,10 @@ export default function AdminContentIntelligence() {
 
         {!loading && activeTab === "reports" && (
           <Card>
-            <CardHeader><CardTitle className="flex items-center gap-2"><FileText className="w-5 h-5" /> Weekly Intelligence Reports</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="flex items-center gap-2"><FileText className="w-5 h-5" /> {t("pages.adminContentIntelligence.weeklyIntelligenceReports")}</CardTitle></CardHeader>
             <CardContent>
               {reports.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">No reports yet. Click "Generate Weekly Report" to create one.</div>
+                <div className="text-center py-8 text-gray-500">{t("pages.adminContentIntelligence.noReportsYetClickGenerate")}</div>
               ) : (
                 <div className="space-y-4">
                   {reports.map((r: any) => (
@@ -429,7 +431,7 @@ export default function AdminContentIntelligence() {
                       </div>
                       <p className="text-sm text-gray-600">{r.summary}</p>
                       <details className="mt-2">
-                        <summary className="text-xs text-blue-600 cursor-pointer">View raw data</summary>
+                        <summary className="text-xs text-blue-600 cursor-pointer">{t("pages.adminContentIntelligence.viewRawData")}</summary>
                         <pre className="text-xs mt-2 bg-gray-50 p-2 rounded overflow-auto max-h-48">{JSON.stringify(r.report_data, null, 2)}</pre>
                       </details>
                     </div>

@@ -4,6 +4,7 @@ import { getCareerByRouteSlug, getCanonicalRoute } from "@shared/careers";
 import { useRegion } from "@/allied/use-region";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import {
   BarChart3, Target, TrendingUp, Clock, Flame, Calendar, ChevronRight,
   BookOpen, Award, Globe, Shield, FileText, Brain, ArrowRight,
@@ -11,6 +12,7 @@ import {
 } from "lucide-react";
 
 function getDomainColor(accuracy: number): string {
+
   if (accuracy >= 70) return "#059669";
   if (accuracy >= 50) return "#d97706";
   return "#dc2626";
@@ -31,7 +33,7 @@ export default function AlliedDashboardPage() {
   const { user } = useAuth();
 
   if (!career) {
-    return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Career Not Found</h1></div>;
+    return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">{t("allied.alliedDashboard.careerNotFound")}</h1></div>;
   }
 
   const regionConfig = getRegionConfig(career.slug);
@@ -85,7 +87,7 @@ export default function AlliedDashboardPage() {
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link href={getCanonicalRoute(career.slug)} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-teal-700 font-medium">Dashboard</span>
+        <span className="text-teal-700 font-medium">{t("allied.alliedDashboard.dashboard")}</span>
       </div>
 
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
@@ -109,17 +111,17 @@ export default function AlliedDashboardPage() {
         <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl border border-teal-100 p-4 mb-6 flex flex-wrap items-center gap-4 text-sm" data-testid="region-config-banner">
           <div className="flex items-center gap-2">
             <Shield className="w-4 h-4 text-teal-600" />
-            <span className="font-medium text-gray-700">Exam Board:</span>
+            <span className="font-medium text-gray-700">{t("allied.alliedDashboard.examBoard")}</span>
             <span className="text-teal-700">{regionConfig.examBoard}</span>
           </div>
           <div className="w-px h-4 bg-teal-200 hidden sm:block" />
           <div className="flex items-center gap-2">
-            <span className="font-medium text-gray-700">Lab Units:</span>
+            <span className="font-medium text-gray-700">{t("allied.alliedDashboard.labUnits")}</span>
             <span className="text-teal-700">{region === "US" ? "mg/dL (US conventional)" : "mmol/L (SI units)"}</span>
           </div>
           <div className="w-px h-4 bg-teal-200 hidden sm:block" />
           <div className="flex items-center gap-2">
-            <span className="font-medium text-gray-700">Legal Framework:</span>
+            <span className="font-medium text-gray-700">{t("allied.alliedDashboard.legalFramework")}</span>
             <span className="text-teal-700">{regionConfig.legalModules[0]?.name}</span>
           </div>
         </div>
@@ -129,7 +131,7 @@ export default function AlliedDashboardPage() {
         <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="stat-subscription">
           <Award className="w-6 h-6 text-teal-500 mb-2" />
           <div className="text-lg font-bold text-gray-900">{mockSubscriptionTier}</div>
-          <div className="text-sm text-gray-500">Subscription</div>
+          <div className="text-sm text-gray-500">{t("allied.alliedDashboard.subscription")}</div>
           {mockDaysRemaining !== null && (
             <div className="text-xs text-gray-400 mt-1">{mockDaysRemaining} days left</div>
           )}
@@ -137,7 +139,7 @@ export default function AlliedDashboardPage() {
         <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="stat-readiness">
           <Target className="w-6 h-6 text-teal-500 mb-2" />
           <div className="text-2xl font-bold text-gray-900">{mockReadiness}%</div>
-          <div className="text-sm text-gray-500">Readiness Score</div>
+          <div className="text-sm text-gray-500">{t("allied.alliedDashboard.readinessScore")}</div>
           <div className="w-full bg-gray-100 rounded-full h-2 mt-2">
             <div className="h-2 rounded-full bg-teal-500 transition-all" style={{ width: `${mockReadiness}%` }} />
           </div>
@@ -145,23 +147,23 @@ export default function AlliedDashboardPage() {
         <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="stat-streak">
           <Flame className="w-6 h-6 text-orange-500 mb-2" />
           <div className="text-2xl font-bold text-gray-900">{mockStreak}</div>
-          <div className="text-sm text-gray-500">Day Streak</div>
+          <div className="text-sm text-gray-500">{t("allied.alliedDashboard.dayStreak")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="stat-accuracy">
           <TrendingUp className="w-6 h-6 text-green-500 mb-2" />
           <div className="text-2xl font-bold text-gray-900">{mockAccuracy}%</div>
-          <div className="text-sm text-gray-500">Avg Accuracy</div>
+          <div className="text-sm text-gray-500">{t("allied.alliedDashboard.avgAccuracy")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="stat-mock-credits">
           <FileText className="w-6 h-6 text-blue-500 mb-2" />
           <div className="text-2xl font-bold text-gray-900">{mockCreditsRemaining}</div>
-          <div className="text-sm text-gray-500">Mock Credits</div>
+          <div className="text-sm text-gray-500">{t("allied.alliedDashboard.mockCredits")}</div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <div className="lg:col-span-2 bg-white rounded-xl border border-gray-100 p-6" data-testid="domain-mastery">
-          <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2"><BarChart3 className="w-5 h-5 text-teal-500" /> Domain Mastery</h3>
+          <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2"><BarChart3 className="w-5 h-5 text-teal-500" /> {t("allied.alliedDashboard.domainMastery")}</h3>
           <div className="space-y-3">
             {mockDomainMastery.map(d => {
               const badge = getDomainBadge(d.mastery);
@@ -186,7 +188,7 @@ export default function AlliedDashboardPage() {
 
         <div className="space-y-6">
           <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="exam-countdown">
-            <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2"><Calendar className="w-5 h-5 text-teal-500" /> Exam Countdown</h3>
+            <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2"><Calendar className="w-5 h-5 text-teal-500" /> {t("allied.alliedDashboard.examCountdown")}</h3>
             {regionConfig && (
               <div className="text-xs text-gray-500 mb-2">Preparing for: {regionConfig.examName}</div>
             )}
@@ -194,13 +196,13 @@ export default function AlliedDashboardPage() {
             {daysUntilExam !== null && (
               <div className="text-center">
                 <div className="text-3xl font-bold text-teal-600">{daysUntilExam}</div>
-                <div className="text-sm text-gray-500">days remaining</div>
+                <div className="text-sm text-gray-500">{t("allied.alliedDashboard.daysRemaining")}</div>
               </div>
             )}
           </div>
 
           <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="weak-areas">
-            <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2"><AlertTriangle className="w-5 h-5 text-red-500" /> Weak Areas</h3>
+            <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2"><AlertTriangle className="w-5 h-5 text-red-500" /> {t("allied.alliedDashboard.weakAreas")}</h3>
             {weakDomains.length > 0 ? (
               <div className="space-y-2">
                 {weakDomains.slice(0, 4).map(t => (
@@ -211,7 +213,7 @@ export default function AlliedDashboardPage() {
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-gray-500">No critical weak areas detected. Keep it up!</p>
+              <p className="text-sm text-gray-500">{t("allied.alliedDashboard.noCriticalWeakAreasDetected")}</p>
             )}
             <Link href={`/qbank?career=${career.slug}`} className="mt-4 w-full px-4 py-2 bg-red-50 text-red-700 rounded-lg text-sm font-medium hover:bg-red-100 text-center block" data-testid="button-drill-weak">
               Drill Weak Areas
@@ -222,7 +224,7 @@ export default function AlliedDashboardPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="readiness-exams">
-          <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2"><Target className="w-5 h-5 text-teal-500" /> Readiness Exams</h3>
+          <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2"><Target className="w-5 h-5 text-teal-500" /> {t("allied.alliedDashboard.readinessExams")}</h3>
           {mockReadinessExams.length > 0 ? (
             <div className="space-y-3 mb-4">
               {mockReadinessExams.map(exam => (
@@ -238,7 +240,7 @@ export default function AlliedDashboardPage() {
               ))}
             </div>
           ) : (
-            <p className="text-sm text-gray-500 mb-4">No readiness exams completed yet.</p>
+            <p className="text-sm text-gray-500 mb-4">{t("allied.alliedDashboard.noReadinessExamsCompletedYet")}</p>
           )}
           <Link
             href={`/diagnostic?career=${career.slug}`}
@@ -250,12 +252,12 @@ export default function AlliedDashboardPage() {
         </div>
 
         <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="study-plan-progress">
-          <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2"><BookOpen className="w-5 h-5 text-teal-500" /> Study Plan</h3>
+          <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2"><BookOpen className="w-5 h-5 text-teal-500" /> {t("allied.alliedDashboard.studyPlan")}</h3>
           {mockStudyPlan.active ? (
             <>
               <div className="mb-3">
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-600">Weekly Progress</span>
+                  <span className="text-gray-600">{t("allied.alliedDashboard.weeklyProgress")}</span>
                   <span className="font-medium text-gray-700">{mockStudyPlan.tasksCompleted}/{mockStudyPlan.tasksThisWeek}</span>
                 </div>
                 <div className="w-full bg-gray-100 rounded-full h-2">
@@ -267,7 +269,7 @@ export default function AlliedDashboardPage() {
               </div>
             </>
           ) : (
-            <p className="text-sm text-gray-500 mb-4">No active study plan. Create one to stay on track.</p>
+            <p className="text-sm text-gray-500 mb-4">{t("allied.alliedDashboard.noActiveStudyPlanCreate")}</p>
           )}
           <Link
             href={`${getCanonicalRoute(career.slug)}/study-plan`}
@@ -279,20 +281,20 @@ export default function AlliedDashboardPage() {
         </div>
 
         <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="flashcard-progress">
-          <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2"><Brain className="w-5 h-5 text-teal-500" /> Flashcards</h3>
+          <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2"><Brain className="w-5 h-5 text-teal-500" /> {t("allied.alliedDashboard.flashcards")}</h3>
           <div className="grid grid-cols-2 gap-3 mb-4">
             <div className="text-center px-2 py-2 bg-gray-50 rounded-lg">
               <div className="text-lg font-bold text-gray-900">{mockFlashcards.cardsMastered}</div>
-              <div className="text-xs text-gray-500">Mastered</div>
+              <div className="text-xs text-gray-500">{t("allied.alliedDashboard.mastered")}</div>
             </div>
             <div className="text-center px-2 py-2 bg-gray-50 rounded-lg">
               <div className="text-lg font-bold text-gray-900">{mockFlashcards.cardsRemaining}</div>
-              <div className="text-xs text-gray-500">Remaining</div>
+              <div className="text-xs text-gray-500">{t("allied.alliedDashboard.remaining")}</div>
             </div>
           </div>
           <div className="mb-4">
             <div className="flex justify-between text-sm mb-1">
-              <span className="text-gray-600">Cards Mastered</span>
+              <span className="text-gray-600">{t("allied.alliedDashboard.cardsMastered")}</span>
               <span className="font-medium text-gray-700">{Math.round((mockFlashcards.cardsMastered / mockFlashcards.cardsStudied) * 100)}%</span>
             </div>
             <div className="w-full bg-gray-100 rounded-full h-2">
@@ -335,19 +337,19 @@ export default function AlliedDashboardPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
             <div className="text-center px-3 py-2 bg-teal-50 rounded-lg">
               <div className="text-lg font-bold text-teal-700">{regionConfig.totalQuestions}</div>
-              <div className="text-xs text-gray-500">Questions</div>
+              <div className="text-xs text-gray-500">{t("allied.alliedDashboard.questions")}</div>
             </div>
             <div className="text-center px-3 py-2 bg-teal-50 rounded-lg">
               <div className="text-lg font-bold text-teal-700">{regionConfig.timeLimit} min</div>
-              <div className="text-xs text-gray-500">Time Limit</div>
+              <div className="text-xs text-gray-500">{t("allied.alliedDashboard.timeLimit")}</div>
             </div>
             <div className="text-center px-3 py-2 bg-teal-50 rounded-lg">
               <div className="text-lg font-bold text-teal-700">{regionConfig.passThreshold}%</div>
-              <div className="text-xs text-gray-500">Pass Threshold</div>
+              <div className="text-xs text-gray-500">{t("allied.alliedDashboard.passThreshold")}</div>
             </div>
             <div className="text-center px-3 py-2 bg-teal-50 rounded-lg">
               <div className="text-lg font-bold text-teal-700">{regionConfig.domainMinimum}%</div>
-              <div className="text-xs text-gray-500">Domain Minimum</div>
+              <div className="text-xs text-gray-500">{t("allied.alliedDashboard.domainMinimum")}</div>
             </div>
           </div>
           <div className="space-y-2">
@@ -396,7 +398,7 @@ export default function AlliedDashboardPage() {
       {mockSubscriptionTier === "Free" && (
         <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl border border-teal-100 p-6 text-center" data-testid="upgrade-cta">
           <Award className="w-10 h-10 text-teal-500 mx-auto mb-3" />
-          <h3 className="text-lg font-bold text-gray-900 mb-1">Unlock Full Access</h3>
+          <h3 className="text-lg font-bold text-gray-900 mb-1">{t("allied.alliedDashboard.unlockFullAccess")}</h3>
           <p className="text-sm text-gray-600 mb-4">Upgrade to get unlimited questions, mock exams, personalized study plans, and detailed analytics for your {career.shortName} certification prep.</p>
           <Link
             href="/allied-health/pricing"
@@ -409,7 +411,7 @@ export default function AlliedDashboardPage() {
       )}
 
       <div className="mt-6 text-center">
-        <p className="text-xs text-gray-400">Performance data is based on your practice history. This is an estimated readiness indicator and does not guarantee exam results.</p>
+        <p className="text-xs text-gray-400">{t("allied.alliedDashboard.performanceDataIsBasedOn")}</p>
       </div>
     </div>
     </>

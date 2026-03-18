@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { CheckCircle, XCircle, ChevronRight, ArrowLeft, Mail, Target, BookOpen, Award, Share2 } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface QuizQuestion {
   question: string;
   options: string[];
@@ -23,6 +24,7 @@ interface QuizResult {
 }
 
 export default function RadiographyReadinessQuiz() {
+  const { t } = useI18n();
   const [, navigate] = useLocation();
   const [stage, setStage] = useState<"intro" | "quiz" | "email" | "results">("intro");
   const [currentQ, setCurrentQ] = useState(0);
@@ -113,13 +115,13 @@ export default function RadiographyReadinessQuiz() {
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-indigo-100 mb-4">
               <Target className="w-10 h-10 text-indigo-600" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-3" data-testid="text-quiz-title">Radiography Readiness Quiz</h1>
-            <p className="text-gray-600 max-w-md mx-auto">Find out how prepared you are for your radiography certification exam. Get personalized recommendations based on your results.</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-3" data-testid="text-quiz-title">{t("pages.radiographyReadinessQuiz.radiographyReadinessQuiz")}</h1>
+            <p className="text-gray-600 max-w-md mx-auto">{t("pages.radiographyReadinessQuiz.findOutHowPreparedYou")}</p>
           </div>
 
           <Card className="mb-6">
             <CardContent className="p-6">
-              <h3 className="font-semibold mb-3">What This Quiz Covers:</h3>
+              <h3 className="font-semibold mb-3">{t("pages.radiographyReadinessQuiz.whatThisQuizCovers")}</h3>
               <div className="space-y-3">
                 {[
                   { icon: BookOpen, label: "Basic Radiography Knowledge", desc: "Fundamental concepts, radiation safety, and image production" },
@@ -139,7 +141,7 @@ export default function RadiographyReadinessQuiz() {
               </div>
               <div className="mt-4 pt-4 border-t flex items-center justify-between text-sm text-gray-500">
                 <span>{questions.length || 15} questions</span>
-                <span>~5 minutes</span>
+                <span>{t("pages.radiographyReadinessQuiz.5Minutes")}</span>
               </div>
             </CardContent>
           </Card>
@@ -214,11 +216,11 @@ export default function RadiographyReadinessQuiz() {
           <Card>
             <CardContent className="p-8 text-center">
               <Mail className="w-12 h-12 text-indigo-600 mx-auto mb-4" />
-              <h2 className="text-xl font-bold mb-2" data-testid="text-email-capture-title">Get Your Detailed Results</h2>
-              <p className="text-gray-600 text-sm mb-6">Enter your email to receive your full score breakdown, personalized study recommendations, and free resources.</p>
+              <h2 className="text-xl font-bold mb-2" data-testid="text-email-capture-title">{t("pages.radiographyReadinessQuiz.getYourDetailedResults")}</h2>
+              <p className="text-gray-600 text-sm mb-6">{t("pages.radiographyReadinessQuiz.enterYourEmailToReceive")}</p>
               <div className="space-y-3">
-                <Input placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} data-testid="input-quiz-name" />
-                <Input type="email" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)} data-testid="input-quiz-email" />
+                <Input placeholder={t("pages.radiographyReadinessQuiz.yourName")} value={name} onChange={(e) => setName(e.target.value)} data-testid="input-quiz-name" />
+                <Input type="email" placeholder={t("pages.radiographyReadinessQuiz.youremailcom")} value={email} onChange={(e) => setEmail(e.target.value)} data-testid="input-quiz-email" />
                 <Button className="w-full" onClick={handleEmailSubmit} disabled={emailCaptureMutation.isPending} data-testid="button-submit-email">
                   {emailCaptureMutation.isPending ? "Processing..." : "Get My Results"}
                 </Button>
@@ -241,7 +243,7 @@ export default function RadiographyReadinessQuiz() {
       <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white">
         <div className="max-w-3xl mx-auto px-4 py-8">
           <div className={`text-center ${scoreBg} rounded-2xl p-8 mb-8`}>
-            <h2 className="text-lg font-medium text-gray-600 mb-2">Your Readiness Score</h2>
+            <h2 className="text-lg font-medium text-gray-600 mb-2">{t("pages.radiographyReadinessQuiz.yourReadinessScore")}</h2>
             <div className={`text-6xl font-bold ${scoreColor} mb-2`} data-testid="text-quiz-score">{result.score}%</div>
             <p className="text-gray-600">{result.correct} of {result.total} correct</p>
             <div className="flex justify-center gap-3 mt-4">
@@ -251,7 +253,7 @@ export default function RadiographyReadinessQuiz() {
             </div>
           </div>
 
-          <h3 className="text-xl font-bold mb-4">Score Breakdown</h3>
+          <h3 className="text-xl font-bold mb-4">{t("pages.radiographyReadinessQuiz.scoreBreakdown")}</h3>
           <div className="space-y-3 mb-8">
             {result.recommendations.map((rec, i) => (
               <Card key={i} className={`border ${levelColors[rec.level] || ""}`}>
@@ -277,37 +279,37 @@ export default function RadiographyReadinessQuiz() {
 
           <Card className="mb-8 border-indigo-200 bg-indigo-50">
             <CardContent className="p-6">
-              <h3 className="font-bold text-lg mb-3">Recommended Next Steps</h3>
+              <h3 className="font-bold text-lg mb-3">{t("pages.radiographyReadinessQuiz.recommendedNextSteps")}</h3>
               <div className="grid sm:grid-cols-2 gap-3">
                 <button onClick={() => navigate("/medical-imaging/study-plan-generator")} className="flex items-center gap-2 p-3 rounded-lg bg-white border hover:shadow-sm transition-shadow text-left" data-testid="link-study-plan">
                   <BookOpen className="w-5 h-5 text-indigo-600 shrink-0" />
                   <div>
-                    <div className="text-sm font-medium">Generate Study Plan</div>
-                    <div className="text-xs text-gray-500">Get a personalized schedule</div>
+                    <div className="text-sm font-medium">{t("pages.radiographyReadinessQuiz.generateStudyPlan")}</div>
+                    <div className="text-xs text-gray-500">{t("pages.radiographyReadinessQuiz.getAPersonalizedSchedule")}</div>
                   </div>
                   <ChevronRight className="w-4 h-4 ml-auto text-gray-400" />
                 </button>
                 <button onClick={() => navigate("/medical-imaging/canada/flashcards")} className="flex items-center gap-2 p-3 rounded-lg bg-white border hover:shadow-sm transition-shadow text-left" data-testid="link-flashcards">
                   <Award className="w-5 h-5 text-indigo-600 shrink-0" />
                   <div>
-                    <div className="text-sm font-medium">Review Flashcards</div>
-                    <div className="text-xs text-gray-500">Quick review of key concepts</div>
+                    <div className="text-sm font-medium">{t("pages.radiographyReadinessQuiz.reviewFlashcards")}</div>
+                    <div className="text-xs text-gray-500">{t("pages.radiographyReadinessQuiz.quickReviewOfKeyConcepts")}</div>
                   </div>
                   <ChevronRight className="w-4 h-4 ml-auto text-gray-400" />
                 </button>
                 <button onClick={() => navigate("/medical-imaging/canada/practice-exams")} className="flex items-center gap-2 p-3 rounded-lg bg-white border hover:shadow-sm transition-shadow text-left" data-testid="link-practice-exams">
                   <Target className="w-5 h-5 text-indigo-600 shrink-0" />
                   <div>
-                    <div className="text-sm font-medium">Practice Exams</div>
-                    <div className="text-xs text-gray-500">Simulate the real exam</div>
+                    <div className="text-sm font-medium">{t("pages.radiographyReadinessQuiz.practiceExams")}</div>
+                    <div className="text-xs text-gray-500">{t("pages.radiographyReadinessQuiz.simulateTheRealExam")}</div>
                   </div>
                   <ChevronRight className="w-4 h-4 ml-auto text-gray-400" />
                 </button>
                 <button onClick={() => navigate("/medical-imaging/canada/positioning")} className="flex items-center gap-2 p-3 rounded-lg bg-white border hover:shadow-sm transition-shadow text-left" data-testid="link-positioning">
                   <BookOpen className="w-5 h-5 text-indigo-600 shrink-0" />
                   <div>
-                    <div className="text-sm font-medium">Positioning Guide</div>
-                    <div className="text-xs text-gray-500">Master patient positioning</div>
+                    <div className="text-sm font-medium">{t("pages.radiographyReadinessQuiz.positioningGuide")}</div>
+                    <div className="text-xs text-gray-500">{t("pages.radiographyReadinessQuiz.masterPatientPositioning")}</div>
                   </div>
                   <ChevronRight className="w-4 h-4 ml-auto text-gray-400" />
                 </button>
@@ -332,7 +334,7 @@ export default function RadiographyReadinessQuiz() {
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
         <div className="w-8 h-8 border-3 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-        <p className="text-sm text-gray-500">Loading quiz...</p>
+        <p className="text-sm text-gray-500">{t("pages.radiographyReadinessQuiz.loadingQuiz")}</p>
       </div>
     </div>
   );

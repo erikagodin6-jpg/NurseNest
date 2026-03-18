@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
+import { useI18n } from "@/lib/i18n";
 const wellnessSections = [
   {
     title: "Sleep",
@@ -102,18 +103,19 @@ const colorClasses: Record<string, { bg: string; border: string; text: string; i
 };
 
 export default function RexPnWellness() {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
       <AdminEditButton />
       <SEO
-        title="Wellness During REx-PN Preparation -- Self-Care for Exam Success (2025)"
-        description="Evidence-based wellness tips for REx-PN exam preparation: sleep, nutrition, hydration, exercise, study breaks, and mental health support for Canadian PN candidates."
+        title={t("pages.rexPnWellness.wellnessDuringRexpnPreparationSelfcare")}
+        description={t("pages.rexPnWellness.evidencebasedWellnessTipsForRexpn")}
         canonicalPath="/rex-pn/wellness"
       />
 
       <main className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
-        <BreadcrumbNav title="Wellness During REx-PN Preparation" />
+        <BreadcrumbNav title={t("pages.rexPnWellness.wellnessDuringRexpnPreparation")} />
         <div className="mb-6">
           <LocaleLink
             href="/rex-pn"
@@ -125,7 +127,7 @@ export default function RexPnWellness() {
         </div>
 
         <div className="mb-10">
-          <Badge variant="secondary" className="mb-3">Canadian REx-PN Exam</Badge>
+          <Badge variant="secondary" className="mb-3">{t("pages.rexPnWellness.canadianRexpnExam")}</Badge>
           <h1
             className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4"
             data-testid="text-rex-pn-wellness-title"
@@ -195,7 +197,7 @@ export default function RexPnWellness() {
             <div className="flex items-start gap-3">
               <AlertCircle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
               <div>
-                <h3 className="font-semibold text-amber-900 mb-2" data-testid="text-disclaimer-heading">Disclaimer</h3>
+                <h3 className="font-semibold text-amber-900 mb-2" data-testid="text-disclaimer-heading">{t("pages.rexPnWellness.disclaimer")}</h3>
                 <p className="text-amber-800 text-sm leading-relaxed" data-testid="text-disclaimer-content">
                   This page provides general wellness information for educational purposes. It is not a substitute for professional medical or mental health advice. If you are experiencing significant distress, please reach out to a qualified healthcare professional or crisis service.
                 </p>

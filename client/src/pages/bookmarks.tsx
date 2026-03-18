@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
+import { useI18n } from "@/lib/i18n";
 import {
   Bookmark, BookmarkX, Search, Filter, PlayCircle, ArrowLeft,
   ChevronDown, CheckCircle2, XCircle, Tag
@@ -88,6 +89,7 @@ export function BookmarkToggle({
 }
 
 export default function BookmarksPage() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const { toast } = useToast();
@@ -159,8 +161,8 @@ export default function BookmarksPage() {
   return (
     <div className="min-h-screen bg-background" data-testid="bookmarks-page">
       <SEO
-        title="Bookmarked Questions - NurseNest"
-        description="Review your bookmarked questions for focused study sessions."
+        title={t("pages.bookmarks.bookmarkedQuestionsNursenest")}
+        description={t("pages.bookmarks.reviewYourBookmarkedQuestionsFor")}
         canonicalPath="/bookmarks"
       />
       <Navigation />
@@ -194,7 +196,7 @@ export default function BookmarksPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
               type="text"
-              placeholder="Search bookmarked questions..."
+              placeholder={t("pages.bookmarks.searchBookmarkedQuestions")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
@@ -217,28 +219,28 @@ export default function BookmarksPage() {
         {showFilters && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6 p-4 bg-muted/30 rounded-lg border" data-testid="filters-panel">
             <div>
-              <label className="text-xs font-medium text-muted-foreground mb-1 block">Body System</label>
+              <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("pages.bookmarks.bodySystem")}</label>
               <select
                 value={filterSystem}
                 onChange={(e) => setFilterSystem(e.target.value)}
                 className="w-full px-3 py-2 border rounded-lg text-sm"
                 data-testid="select-filter-system"
               >
-                <option value="all">All Systems</option>
+                <option value="all">{t("pages.bookmarks.allSystems")}</option>
                 {systems.map((s) => (
                   <option key={s} value={s}>{s}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-muted-foreground mb-1 block">Difficulty</label>
+              <label className="text-xs font-medium text-muted-foreground mb-1 block">{t("pages.bookmarks.difficulty")}</label>
               <select
                 value={filterDifficulty}
                 onChange={(e) => setFilterDifficulty(e.target.value)}
                 className="w-full px-3 py-2 border rounded-lg text-sm"
                 data-testid="select-filter-difficulty"
               >
-                <option value="all">All Difficulties</option>
+                <option value="all">{t("pages.bookmarks.allDifficulties")}</option>
                 {difficulties.map((d) => (
                   <option key={d} value={d}>{d}</option>
                 ))}
@@ -314,7 +316,7 @@ export default function BookmarksPage() {
                       onClick={() => handleRemoveBookmark(bq.id)}
                       className="h-8 w-8 flex items-center justify-center rounded-lg text-red-400 hover:bg-red-50 hover:text-red-600 transition-colors flex-shrink-0"
                       data-testid={`button-remove-bookmark-${bq.id}`}
-                      aria-label="Remove bookmark"
+                      aria-label={t("pages.bookmarks.removeBookmark")}
                     >
                       <BookmarkX className="h-4 w-4" />
                     </button>

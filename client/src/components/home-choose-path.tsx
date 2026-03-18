@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight,
   BookOpen,
@@ -11,6 +12,7 @@ import {
 } from "lucide-react";
 
 export default function HomeChoosePath() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
 
   const paths = [
@@ -98,8 +100,8 @@ export default function HomeChoosePath() {
     <section className="border-t border-gray-100" style={{ paddingTop: 'var(--space-block)', paddingBottom: 'var(--space-block)' }} data-testid="section-choose-your-path">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Choose Your Path</h2>
-          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">Whether you're a nursing student, NP candidate, allied health professional, or new graduate — find the resources built for your journey.</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{t("components.homeChoosePath.chooseYourPath")}</h2>
+          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">{t("components.homeChoosePath.whetherYoureANursingStudent")}</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -132,19 +134,19 @@ export default function HomeChoosePath() {
         <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6" data-testid="metrics-credibility-bar">
           <div className="text-center p-4" data-testid="metric-practice-questions">
             <p className="text-2xl sm:text-3xl font-bold text-gray-900">40,000+</p>
-            <p className="text-sm text-gray-500 mt-1">Practice Questions</p>
+            <p className="text-sm text-gray-500 mt-1">{t("components.homeChoosePath.practiceQuestions")}</p>
           </div>
           <div className="text-center p-4" data-testid="metric-flashcards">
             <p className="text-2xl sm:text-3xl font-bold text-gray-900">13,000+</p>
-            <p className="text-sm text-gray-500 mt-1">Flashcards</p>
+            <p className="text-sm text-gray-500 mt-1">{t("components.homeChoosePath.flashcards")}</p>
           </div>
           <div className="text-center p-4" data-testid="metric-clinical-lessons">
             <p className="text-2xl sm:text-3xl font-bold text-gray-900">8,000+</p>
-            <p className="text-sm text-gray-500 mt-1">Clinical Lessons</p>
+            <p className="text-sm text-gray-500 mt-1">{t("components.homeChoosePath.clinicalLessons")}</p>
           </div>
           <div className="text-center p-4" data-testid="metric-languages">
             <p className="text-2xl sm:text-3xl font-bold text-gray-900">15</p>
-            <p className="text-sm text-gray-500 mt-1">Languages Supported</p>
+            <p className="text-sm text-gray-500 mt-1">{t("components.homeChoosePath.languagesSupported")}</p>
           </div>
         </div>
       </div>

@@ -9,6 +9,7 @@ import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { Globe, Search, RefreshCw, CheckCircle2, AlertTriangle, XCircle, Eye } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const LANGUAGE_NAMES: Record<string, string> = {
   en: "English", fr: "French", es: "Spanish", fil: "Filipino", hi: "Hindi",
   zh: "Chinese", ar: "Arabic", ko: "Korean", pt: "Portuguese", pa: "Punjabi",
@@ -36,6 +37,7 @@ type CoverageResult = {
 };
 
 export default function AdminTranslationCoverage() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const [summary, setSummary] = useState<CoverageSummary[]>([]);
@@ -94,13 +96,13 @@ export default function AdminTranslationCoverage() {
   function getReadinessBadge(readiness: string) {
     switch (readiness) {
       case "Ready for Indexing":
-        return <Badge className="bg-green-100 text-green-800" data-testid="badge-ready"><CheckCircle2 className="w-3 h-3 mr-1" />Ready</Badge>;
+        return <Badge className="bg-green-100 text-green-800" data-testid="badge-ready"><CheckCircle2 className="w-3 h-3 mr-1" />{t("pages.adminTranslationCoverage.ready")}</Badge>;
       case "Partial Translation":
-        return <Badge className="bg-yellow-100 text-yellow-800" data-testid="badge-partial"><AlertTriangle className="w-3 h-3 mr-1" />Partial</Badge>;
+        return <Badge className="bg-yellow-100 text-yellow-800" data-testid="badge-partial"><AlertTriangle className="w-3 h-3 mr-1" />{t("pages.adminTranslationCoverage.partial")}</Badge>;
       case "Draft Translation":
-        return <Badge className="bg-orange-100 text-orange-800" data-testid="badge-draft"><AlertTriangle className="w-3 h-3 mr-1" />Draft</Badge>;
+        return <Badge className="bg-orange-100 text-orange-800" data-testid="badge-draft"><AlertTriangle className="w-3 h-3 mr-1" />{t("pages.adminTranslationCoverage.draft")}</Badge>;
       default:
-        return <Badge className="bg-red-100 text-red-800" data-testid="badge-hidden"><XCircle className="w-3 h-3 mr-1" />Hidden</Badge>;
+        return <Badge className="bg-red-100 text-red-800" data-testid="badge-hidden"><XCircle className="w-3 h-3 mr-1" />{t("pages.adminTranslationCoverage.hidden")}</Badge>;
     }
   }
 
@@ -116,7 +118,7 @@ export default function AdminTranslationCoverage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <SEO title="Translation Coverage Dashboard" description="Admin translation coverage analysis" noindex />
+      <SEO title={t("pages.adminTranslationCoverage.translationCoverageDashboard")} description={t("pages.adminTranslationCoverage.adminTranslationCoverageAnalysis")} noindex />
       <Navigation />
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-6">
@@ -139,7 +141,7 @@ export default function AdminTranslationCoverage() {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
             <Input
-              placeholder="Search locales or routes..."
+              placeholder={t("pages.adminTranslationCoverage.searchLocalesOrRoutes")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
@@ -152,21 +154,21 @@ export default function AdminTranslationCoverage() {
           <div className="grid gap-4">
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Locale Overview</CardTitle>
+                <CardTitle className="text-lg">{t("pages.adminTranslationCoverage.localeOverview")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b">
-                        <th className="text-left py-2 px-3">Locale</th>
-                        <th className="text-left py-2 px-3">Language</th>
-                        <th className="text-right py-2 px-3">Keys</th>
-                        <th className="text-right py-2 px-3">Translated</th>
-                        <th className="text-right py-2 px-3">Coverage</th>
-                        <th className="text-center py-2 px-3">Status</th>
-                        <th className="text-center py-2 px-3">Indexable</th>
-                        <th className="text-center py-2 px-3">Actions</th>
+                        <th className="text-left py-2 px-3">{t("pages.adminTranslationCoverage.locale")}</th>
+                        <th className="text-left py-2 px-3">{t("pages.adminTranslationCoverage.language")}</th>
+                        <th className="text-right py-2 px-3">{t("pages.adminTranslationCoverage.keys")}</th>
+                        <th className="text-right py-2 px-3">{t("pages.adminTranslationCoverage.translated")}</th>
+                        <th className="text-right py-2 px-3">{t("pages.adminTranslationCoverage.coverage")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminTranslationCoverage.status")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminTranslationCoverage.indexable")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminTranslationCoverage.actions")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -229,10 +231,10 @@ export default function AdminTranslationCoverage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b">
-                        <th className="text-left py-2 px-3">Route</th>
-                        <th className="text-right py-2 px-3">Coverage</th>
-                        <th className="text-center py-2 px-3">Status</th>
-                        <th className="text-center py-2 px-3">Indexable</th>
+                        <th className="text-left py-2 px-3">{t("pages.adminTranslationCoverage.route")}</th>
+                        <th className="text-right py-2 px-3">{t("pages.adminTranslationCoverage.coverage2")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminTranslationCoverage.status2")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminTranslationCoverage.indexable2")}</th>
                       </tr>
                     </thead>
                     <tbody>

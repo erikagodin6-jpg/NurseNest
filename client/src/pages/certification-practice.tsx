@@ -10,6 +10,7 @@ import {
   type CertExamQuestion,
 } from "@/data/certification-exam-data";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, ArrowLeft, Award, BookOpen, ChevronRight, ChevronLeft,
   Target, Clock, Lock, Crown, Check, Play, RotateCcw, Trophy,
@@ -32,6 +33,7 @@ const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string;
 type PracticeMode = "topic-practice" | "algorithm-scenarios" | "mixed-practice" | "full-mock-exam";
 
 function isCorrectAnswer(question: CertExamQuestion, selected: number | number[]): boolean {
+
   const correct = question.correct;
   if (Array.isArray(correct)) {
     const sel = Array.isArray(selected) ? selected : [selected];
@@ -152,7 +154,7 @@ export default function CertificationPractice() {
         <Navigation />
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center max-w-md px-4">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Certification Not Found</h1>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.certificationPractice.certificationNotFound")}</h1>
             <Link href="/certification-exam-prep" className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors">
               Back to Exam Prep Hub <ArrowRight className="w-4 h-4" />
             </Link>
@@ -218,7 +220,7 @@ export default function CertificationPractice() {
             </div>
 
             <div className="bg-white rounded-xl border border-gray-100 p-6 mb-8" data-testid="card-question-review">
-              <h2 className="font-semibold text-gray-900 mb-4">Question Review</h2>
+              <h2 className="font-semibold text-gray-900 mb-4">{t("pages.certificationPractice.questionReview")}</h2>
               <div className="space-y-4">
                 {examReport.map((r, i) => (
                   <div key={i} className={`p-4 rounded-xl border ${r.isCorrect ? "border-emerald-200 bg-emerald-50/30" : "border-red-200 bg-red-50/30"}`} data-testid={`review-item-${i}`}>
@@ -347,19 +349,19 @@ export default function CertificationPractice() {
 
       <div className="max-w-5xl mx-auto px-4 py-6">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-          <Link href="/" className="hover:text-emerald-600">Home</Link>
+          <Link href="/" className="hover:text-emerald-600">{t("pages.certificationPractice.home")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <Link href="/certification-exam-prep" className="hover:text-emerald-600">Exam Prep</Link>
+          <Link href="/certification-exam-prep" className="hover:text-emerald-600">{t("pages.certificationPractice.examPrep")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <Link href={`/certification-exam-prep/${certSlug}`} className="hover:text-emerald-600">{config.name}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-emerald-700 font-medium">Practice</span>
+          <span className="text-emerald-700 font-medium">{t("pages.certificationPractice.practice")}</span>
         </div>
 
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold text-gray-900" data-testid="text-practice-title">{config.name} Practice</h1>
           <div className="flex items-center gap-3 text-sm">
-            <span className="text-gray-500">Accuracy:</span>
+            <span className="text-gray-500">{t("pages.certificationPractice.accuracy")}</span>
             <span className={`font-bold ${accuracy >= 70 ? "text-emerald-600" : accuracy >= 50 ? "text-amber-600" : "text-red-500"}`} data-testid="text-accuracy">{accuracy}%</span>
             <span className="text-gray-400">({stats.correct}/{stats.total})</span>
             <button onClick={() => { setStats({ correct: 0, total: 0 }); setCurrentIndex(0); setSelectedAnswer(null); setRevealed(false); }} className="text-gray-400 hover:text-gray-600" data-testid="button-reset-stats">
@@ -391,14 +393,14 @@ export default function CertificationPractice() {
             </div>
 
             <div className="bg-white rounded-xl border border-gray-100 p-4" data-testid="panel-topic-filter">
-              <h3 className="font-semibold text-gray-900 mb-3 text-sm">Topic</h3>
+              <h3 className="font-semibold text-gray-900 mb-3 text-sm">{t("pages.certificationPractice.topic")}</h3>
               <select
                 value={topicFilter}
                 onChange={(e) => { setTopicFilter(e.target.value); setCurrentIndex(0); setSelectedAnswer(null); setRevealed(false); }}
                 className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
                 data-testid="select-topic"
               >
-                <option value="all">All Topics</option>
+                <option value="all">{t("pages.certificationPractice.allTopics")}</option>
                 {config.topicBanks.map((bank) => (
                   <option key={bank.slug} value={bank.slug}>{bank.name}</option>
                 ))}
@@ -406,23 +408,23 @@ export default function CertificationPractice() {
             </div>
 
             <div className="bg-white rounded-xl border border-gray-100 p-4" data-testid="panel-difficulty-filter">
-              <h3 className="font-semibold text-gray-900 mb-3 text-sm">Difficulty</h3>
+              <h3 className="font-semibold text-gray-900 mb-3 text-sm">{t("pages.certificationPractice.difficulty")}</h3>
               <select
                 value={difficultyFilter}
                 onChange={(e) => { setDifficultyFilter(e.target.value); setCurrentIndex(0); setSelectedAnswer(null); setRevealed(false); }}
                 className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
                 data-testid="select-difficulty"
               >
-                <option value="all">All Levels</option>
-                <option value="1">Easy</option>
-                <option value="3">Moderate</option>
-                <option value="5">Expert</option>
+                <option value="all">{t("pages.certificationPractice.allLevels")}</option>
+                <option value="1">{t("pages.certificationPractice.easy")}</option>
+                <option value="3">{t("pages.certificationPractice.moderate")}</option>
+                <option value="5">{t("pages.certificationPractice.expert")}</option>
               </select>
             </div>
 
             {isPremium && practiceMode === "full-mock-exam" && (
               <div className="bg-white rounded-xl border border-gray-100 p-4" data-testid="panel-mock-exams">
-                <h3 className="font-semibold text-gray-900 mb-3 text-sm">Mock Exams</h3>
+                <h3 className="font-semibold text-gray-900 mb-3 text-sm">{t("pages.certificationPractice.mockExams")}</h3>
                 <div className="space-y-2">
                   {config.mockExams.map((exam) => (
                     <button
@@ -454,7 +456,7 @@ export default function CertificationPractice() {
             {questions.length === 0 ? (
               <div className="bg-white rounded-xl border border-gray-100 p-12 text-center" data-testid="empty-state">
                 <ClipboardList className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                <h3 className="font-semibold text-gray-900 mb-2">No Questions Available</h3>
+                <h3 className="font-semibold text-gray-900 mb-2">{t("pages.certificationPractice.noQuestionsAvailable")}</h3>
                 <p className="text-sm text-gray-500 mb-4">
                   {!isPremium ? "Upgrade to access the full question bank for this certification." : "Try adjusting your filters to see more questions."}
                 </p>

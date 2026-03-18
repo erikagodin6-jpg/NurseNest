@@ -30,7 +30,9 @@ import { ProtectedImage } from "@/components/protected-image";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { slugToDisplayName } from "@/lib/canonical-display";
 
+import { useI18n } from "@/lib/i18n";
 export default function LectureViewer() {
+  const { t } = useI18n();
   const [, params] = useRoute("/lectures/:slug");
   const [, navigate] = useLocation();
   const slug = params?.slug || "heart-failure";
@@ -60,9 +62,9 @@ export default function LectureViewer() {
         <Navigation />
         <div className="flex-1 flex items-center justify-center">
           <Card className="p-8 text-center">
-            <h2 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Lecture Not Found</h2>
-            <p style={{ color: "var(--text-secondary)" }}>The requested lecture could not be found.</p>
-            <Button className="mt-4" onClick={() => navigate("/lectures")} data-testid="button-back-lessons">Back to Lectures</Button>
+            <h2 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>{t("pages.lectureViewer.lectureNotFound")}</h2>
+            <p style={{ color: "var(--text-secondary)" }}>{t("pages.lectureViewer.theRequestedLectureCouldNot")}</p>
+            <Button className="mt-4" onClick={() => navigate("/lectures")} data-testid="button-back-lessons">{t("pages.lectureViewer.backToLectures")}</Button>
           </Card>
         </div>
         <Footer />
@@ -88,7 +90,7 @@ export default function LectureViewer() {
                   {lectureMeta.title}
                 </h1>
                 <div className="flex items-center gap-3 text-sm" style={{ color: "var(--text-secondary)" }}>
-                  <span className="flex items-center gap-1"><Video className="h-3.5 w-3.5" />Video Lecture</span>
+                  <span className="flex items-center gap-1"><Video className="h-3.5 w-3.5" />{t("pages.lectureViewer.videoLecture")}</span>
                   <span className="flex items-center gap-1"><GraduationCap className="h-3.5 w-3.5" />{lectureMeta.level}</span>
                   {lectureMeta.free && (
                     <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700">FREE</span>
@@ -120,7 +122,7 @@ export default function LectureViewer() {
             <div className="mt-6">
               <Card style={{ border: "1px solid var(--border-color)" }}>
                 <CardContent className="p-5">
-                  <h2 className="font-semibold text-lg mb-2" style={{ color: "var(--text-primary)" }}>About This Lecture</h2>
+                  <h2 className="font-semibold text-lg mb-2" style={{ color: "var(--text-primary)" }}>{t("pages.lectureViewer.aboutThisLecture")}</h2>
                   <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                     This video lecture covers cell anatomy and cellular biology foundations essential for all nursing students. 
                     Topics include organelle structure and function, membrane transport, cell division, and how cellular 
@@ -288,7 +290,7 @@ export default function LectureViewer() {
                   <Button variant="ghost" size="sm" onClick={() => setIsAutoPlay(!isAutoPlay)} data-testid="button-autoplay" title={isAutoPlay ? "Stop auto-advance" : "Auto-advance slides"}>
                     {isAutoPlay ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={toggleFullscreen} data-testid="button-fullscreen" title="Toggle fullscreen">
+                  <Button variant="ghost" size="sm" onClick={toggleFullscreen} data-testid="button-fullscreen" title={t("pages.lectureViewer.toggleFullscreen")}>
                     {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
                   </Button>
                 </div>
@@ -353,7 +355,7 @@ export default function LectureViewer() {
                 <div className="p-3 flex items-center justify-between" style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "1px solid var(--border-color)" }}>
                   <div className="flex items-center gap-2">
                     <Volume2 className="h-4 w-4" style={{ color: "var(--accent-primary)" }} />
-                    <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>Instructor Voiceover Script</span>
+                    <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>{t("pages.lectureViewer.instructorVoiceoverScript")}</span>
                   </div>
                   <Button variant="ghost" size="sm" onClick={() => setShowVoiceover(false)} data-testid="button-hide-voiceover">
                     <X className="h-4 w-4" />
@@ -378,7 +380,7 @@ export default function LectureViewer() {
             <div className="lg:w-72 shrink-0">
               <Card style={{ border: "1px solid var(--border-color)" }}>
                 <div className="p-3 flex items-center justify-between" style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "1px solid var(--border-color)" }}>
-                  <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>Slide Navigator</span>
+                  <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>{t("pages.lectureViewer.slideNavigator")}</span>
                   <Button variant="ghost" size="sm" onClick={() => setShowNav(false)}><X className="h-4 w-4" /></Button>
                 </div>
                 <CardContent className="p-2 max-h-[60vh] overflow-y-auto">
@@ -452,13 +454,13 @@ export default function LectureViewer() {
               <div className="p-4 flex items-center justify-between" style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "1px solid var(--border-color)" }}>
                 <div className="flex items-center gap-2">
                   <Lightbulb className="h-5 w-5" style={{ color: "var(--accent-primary)" }} />
-                  <span className="font-semibold" style={{ color: "var(--text-primary)" }}>Clinical Safety Pearls & Memory Anchors</span>
+                  <span className="font-semibold" style={{ color: "var(--text-primary)" }}>{t("pages.lectureViewer.clinicalSafetyPearlsMemoryAnchors")}</span>
                 </div>
                 <Button variant="ghost" size="sm" onClick={() => setShowPearls(false)}><X className="h-4 w-4" /></Button>
               </div>
               <CardContent className="p-4 space-y-6">
                 <div>
-                  <h3 className="text-sm font-bold uppercase tracking-wider mb-3" style={{ color: "var(--accent-primary)" }}>Safety Pearls</h3>
+                  <h3 className="text-sm font-bold uppercase tracking-wider mb-3" style={{ color: "var(--accent-primary)" }}>{t("pages.lectureViewer.safetyPearls")}</h3>
                   <ul className="space-y-2">
                     {lecture!.clinicalSafetyPearls.map((pearl, i) => (
                       <li key={i} className="flex items-start gap-3 text-sm" data-testid={`pearl-${i}`}>
@@ -469,7 +471,7 @@ export default function LectureViewer() {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold uppercase tracking-wider mb-3" style={{ color: "var(--accent-primary)" }}>Memory Anchors</h3>
+                  <h3 className="text-sm font-bold uppercase tracking-wider mb-3" style={{ color: "var(--accent-primary)" }}>{t("pages.lectureViewer.memoryAnchors")}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {lecture!.memoryAnchors.map((anchor, i) => (
                       <div key={i} className="rounded-lg p-3 text-sm" style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--border-color)" }} data-testid={`anchor-${i}`}>
@@ -490,7 +492,7 @@ export default function LectureViewer() {
             <div className="p-4" style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "1px solid var(--border-color)" }}>
               <div className="flex items-center gap-2">
                 <BookOpen className="h-5 w-5" style={{ color: "var(--accent-primary)" }} />
-                <span className="font-semibold" style={{ color: "var(--text-primary)" }}>Related Lessons</span>
+                <span className="font-semibold" style={{ color: "var(--text-primary)" }}>{t("pages.lectureViewer.relatedLessons")}</span>
               </div>
             </div>
             <CardContent className="p-4">

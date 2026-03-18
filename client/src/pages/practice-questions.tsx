@@ -21,7 +21,9 @@ import { useAuth } from "@/lib/auth";
 import { getPracticalNurseExamName, type Region } from "@shared/constants";
 import { useRegion } from "@/hooks/use-region";
 
+import { useI18n } from "@/lib/i18n";
 function getTierLabels(region: Region): Record<string, string> {
+
   const pnExam = getPracticalNurseExamName(region);
   return {
     rpn: `RPN / ${pnExam} / LPN`,
@@ -187,7 +189,7 @@ function PracticeQuestionsIndex() {
             ))}
 
             <div className="mt-12 bg-primary/5 rounded-2xl p-8 text-center">
-              <h2 className="text-xl font-bold mb-2" data-testid="text-cta-heading">Want Thousands More Questions?</h2>
+              <h2 className="text-xl font-bold mb-2" data-testid="text-cta-heading">{t("pages.practiceQuestions.wantThousandsMoreQuestions")}</h2>
               <p className="text-gray-600 mb-4 text-sm max-w-lg mx-auto">
                 Access our full question bank with advanced analytics, timed mock exams, and personalized study plans.
               </p>
@@ -287,8 +289,8 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
           <Card className="max-w-md w-full">
             <CardContent className="p-8 text-center">
               <Target className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h1 className="text-xl font-bold mb-2">No Questions Available</h1>
-              <p className="text-gray-600 mb-4 text-sm">We don't have enough questions for this combination yet.</p>
+              <h1 className="text-xl font-bold mb-2">{t("pages.practiceQuestions.noQuestionsAvailable")}</h1>
+              <p className="text-gray-600 mb-4 text-sm">{t("pages.practiceQuestions.weDontHaveEnoughQuestions")}</p>
               <Button onClick={() => setLocation("/practice-questions")} className="bg-primary text-white rounded-xl" data-testid="button-back-to-index">
                 Browse All Categories
               </Button>
@@ -418,7 +420,7 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
                         <div className="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center">
                           <BookOpen className="w-4 h-4 text-violet-600" />
                         </div>
-                        <h3 className="font-bold text-slate-800 text-lg">Explanation</h3>
+                        <h3 className="font-bold text-slate-800 text-lg">{t("pages.practiceQuestions.explanation")}</h3>
                       </div>
                       <p className="text-[15px] text-slate-700 leading-relaxed" style={{ lineHeight: '1.7' }}>
                         {current.rationale}
@@ -430,7 +432,7 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
                         <div className="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center">
                           <XCircle className="w-3.5 h-3.5 text-gray-500" />
                         </div>
-                        <h4 className="font-semibold text-slate-700 text-sm">Why Other Options Are Wrong</h4>
+                        <h4 className="font-semibold text-slate-700 text-sm">{t("pages.practiceQuestions.whyOtherOptionsAreWrong")}</h4>
                       </div>
                       <div className="space-y-2">
                         {current.options.map((opt, idx) => {
@@ -450,7 +452,7 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
 
                     {current.clinicalPearl && (
                       <div className="mx-6 sm:mx-8 mb-4 p-4 bg-amber-50/80 rounded-xl border border-amber-200/60">
-                        <p className="text-sm font-semibold text-amber-800 mb-1">Clinical Pearl</p>
+                        <p className="text-sm font-semibold text-amber-800 mb-1">{t("pages.practiceQuestions.clinicalPearl")}</p>
                         <p className="text-sm text-amber-700 leading-relaxed">{current.clinicalPearl}</p>
                       </div>
                     )}
@@ -470,7 +472,7 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
                           },
                           title: `${systemName} Question`,
                         }}
-                        label="Need help? Ask the AI Tutor"
+                        label={t("pages.practiceQuestions.needHelpAskTheAi")}
                       />
                     </div>
 
@@ -519,11 +521,11 @@ function QuizSession({ tier, systemSlug }: { tier: string; systemSlug: string })
                   <div className="grid sm:grid-cols-2 gap-4 mb-8">
                     <div className="bg-emerald-50 rounded-xl p-5 text-center">
                       <p className="text-3xl font-bold text-emerald-600" data-testid="text-accuracy">{Math.round((score / questions.length) * 100)}%</p>
-                      <p className="text-sm text-emerald-700 mt-1">Accuracy</p>
+                      <p className="text-sm text-emerald-700 mt-1">{t("pages.practiceQuestions.accuracy")}</p>
                     </div>
                     <div className="bg-slate-50 rounded-xl p-5 text-center">
                       <p className="text-3xl font-bold text-primary">{questions.length}</p>
-                      <p className="text-sm text-slate-600 mt-1">Questions Completed</p>
+                      <p className="text-sm text-slate-600 mt-1">{t("pages.practiceQuestions.questionsCompleted")}</p>
                     </div>
                   </div>
 

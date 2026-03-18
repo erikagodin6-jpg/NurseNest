@@ -22,6 +22,7 @@ import {
   Lock,
 } from "lucide-react";
 import { useParams, useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   getRexPnPageBySlug,
   getFullPath,
@@ -30,6 +31,7 @@ import {
 } from "@/data/rex-pn-hub-content";
 
 function getTypeIcon(type: RexPnPageType) {
+
   switch (type) {
     case "condition": return Stethoscope;
     case "lab-value": return TestTube;
@@ -82,7 +84,7 @@ function ComparisonTable({ page }: { page: RexPnPage }) {
       <table className="w-full border-collapse">
         <thead>
           <tr>
-            <th className="text-left p-3 bg-gray-100 border border-gray-200 font-semibold text-gray-700 text-sm">Feature</th>
+            <th className="text-left p-3 bg-gray-100 border border-gray-200 font-semibold text-gray-700 text-sm">{t("pages.rexPnContentPage.feature")}</th>
             <th className="text-left p-3 bg-blue-50 border border-gray-200 font-semibold text-blue-700 text-sm">{page.comparisonLeftLabel}</th>
             <th className="text-left p-3 bg-emerald-50 border border-gray-200 font-semibold text-emerald-700 text-sm">{page.comparisonRightLabel}</th>
           </tr>
@@ -105,7 +107,7 @@ function QuestionPreview({ page }: { page: RexPnPage }) {
   if (!page.questions || page.questions.length === 0) return null;
   return (
     <section className="py-10" data-testid="section-question-preview">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-preview-questions-heading">Free Preview Questions</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-preview-questions-heading">{t("pages.rexPnContentPage.freePreviewQuestions")}</h2>
       <div className="space-y-6">
         {page.questions.map((q, i) => (
           <Card key={i} className="border border-gray-200" data-testid={`card-question-${i}`}>
@@ -127,7 +129,7 @@ function QuestionPreview({ page }: { page: RexPnPage }) {
                 ))}
               </div>
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <p className="text-sm font-semibold text-blue-800 mb-1">Rationale</p>
+                <p className="text-sm font-semibold text-blue-800 mb-1">{t("pages.rexPnContentPage.rationale")}</p>
                 <p className="text-sm text-blue-700" data-testid={`text-rationale-${i}`}>{q.rationale}</p>
               </div>
             </CardContent>
@@ -137,8 +139,8 @@ function QuestionPreview({ page }: { page: RexPnPage }) {
       <Card className="mt-6 border-2 border-dashed border-primary/30 bg-primary/5" data-testid="card-premium-cta">
         <CardContent className="p-6 text-center">
           <Lock className="w-8 h-8 text-primary mx-auto mb-3" />
-          <h3 className="text-lg font-bold text-gray-900 mb-2">Unlock the Full Question Bank</h3>
-          <p className="text-sm text-gray-600 mb-4">Access hundreds more REx-PN practice questions with detailed rationales, performance tracking, and adaptive difficulty.</p>
+          <h3 className="text-lg font-bold text-gray-900 mb-2">{t("pages.rexPnContentPage.unlockTheFullQuestionBank")}</h3>
+          <p className="text-sm text-gray-600 mb-4">{t("pages.rexPnContentPage.accessHundredsMoreRexpnPractice")}</p>
           <LocaleLink href="/free-practice">
             <Button className="gap-2" data-testid="button-unlock-questions">
               Start Free Practice <ArrowRight className="w-4 h-4" />
@@ -229,7 +231,7 @@ function RexPnContentPageView({ page }: { page: RexPnPage }) {
             <section className="mt-10 bg-amber-50 border border-amber-200 rounded-2xl p-6" data-testid="section-exam-pearls">
               <div className="flex items-center gap-2 mb-4">
                 <Lightbulb className="w-5 h-5 text-amber-600" />
-                <h2 className="text-xl font-bold text-gray-900">Exam Pearls</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.rexPnContentPage.examPearls")}</h2>
               </div>
               <ul className="space-y-3">
                 {page.examPearls.map((pearl, i) => (
@@ -244,7 +246,7 @@ function RexPnContentPageView({ page }: { page: RexPnPage }) {
 
           {page.relatedPages.length > 0 && (
             <section className="mt-10" data-testid="section-related-pages">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Related Pages</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.rexPnContentPage.relatedPages")}</h2>
               <div className="grid sm:grid-cols-2 gap-3">
                 {page.relatedPages.map((link, i) => (
                   <LocaleLink key={i} href={link.href}>
@@ -263,8 +265,8 @@ function RexPnContentPageView({ page }: { page: RexPnPage }) {
 
           <section className="mt-10 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100" data-testid="section-hub-cta">
             <div className="text-center">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Continue Your REx-PN Preparation</h2>
-              <p className="text-sm text-gray-600 mb-4">Access practice questions, mock exams, flashcards, and study tools designed for the Canadian RPN licensing exam.</p>
+              <h2 className="text-xl font-bold text-gray-900 mb-2">{t("pages.rexPnContentPage.continueYourRexpnPreparation")}</h2>
+              <p className="text-sm text-gray-600 mb-4">{t("pages.rexPnContentPage.accessPracticeQuestionsMockExams")}</p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <Button onClick={() => setLocation("/free-practice")} className="gap-2" data-testid="button-start-practice">
                   Start Free Practice <ArrowRight className="w-4 h-4" />
@@ -282,7 +284,7 @@ function RexPnContentPageView({ page }: { page: RexPnPage }) {
             <div className="flex items-start gap-3 bg-gray-50 rounded-xl p-4 border border-gray-200">
               <Shield className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm font-semibold text-gray-800">Medically Reviewed Content</p>
+                <p className="text-sm font-semibold text-gray-800">{t("pages.rexPnContentPage.medicallyReviewedContent")}</p>
                 <p className="text-xs text-gray-500 mt-1">
                   This content has been developed and reviewed by healthcare professionals for accuracy. It is intended for educational purposes only and does not replace professional medical advice. Always consult your regulatory body for official exam information.
                 </p>
@@ -317,10 +319,10 @@ export default function RexPnContentPage() {
         <Navigation />
         <main className="flex-grow flex items-center justify-center">
           <div className="text-center" data-testid="section-not-found">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1>
-            <p className="text-gray-600 mb-4">The requested REx-PN content page could not be found.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.rexPnContentPage.pageNotFound")}</h1>
+            <p className="text-gray-600 mb-4">{t("pages.rexPnContentPage.theRequestedRexpnContentPage")}</p>
             <LocaleLink href="/rex-pn">
-              <Button data-testid="button-back-to-hub">Back to REx-PN Hub</Button>
+              <Button data-testid="button-back-to-hub">{t("pages.rexPnContentPage.backToRexpnHub")}</Button>
             </LocaleLink>
           </div>
         </main>

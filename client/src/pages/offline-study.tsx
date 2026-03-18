@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+import { useI18n } from "@/lib/i18n";
 type Mode = "menu" | "questions" | "flashcards";
 
 interface OfflinePack {
@@ -28,6 +29,7 @@ interface OfflinePack {
 }
 
 export default function OfflineStudyPage() {
+  const { t } = useI18n();
   const isMobile = useIsMobile();
   const [mode, setMode] = useState<Mode>("menu");
   const [packs, setPacks] = useState<OfflinePack[]>([]);
@@ -125,8 +127,8 @@ export default function OfflineStudyPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
       <SEO
-        title="Offline Study Mode"
-        description="Study practice questions and flashcards offline. Download content for study sessions without internet."
+        title={t("pages.offlineStudy.offlineStudyMode")}
+        description={t("pages.offlineStudy.studyPracticeQuestionsAndFlashcards")}
         canonicalPath="/offline-study"
         noindex
       />
@@ -139,7 +141,7 @@ export default function OfflineStudyPage() {
             Offline Study
           </h1>
           <Badge variant="outline" className={isOnline ? "text-green-600 border-green-200" : "text-amber-600 border-amber-200"}>
-            {isOnline ? <><Wifi className="w-3 h-3 mr-1" /> Online</> : <><WifiOff className="w-3 h-3 mr-1" /> Offline</>}
+            {isOnline ? <><Wifi className="w-3 h-3 mr-1" /> {t("pages.offlineStudy.online")}</> : <><WifiOff className="w-3 h-3 mr-1" /> {t("pages.offlineStudy.offline")}</>}
           </Badge>
         </div>
 
@@ -163,8 +165,8 @@ export default function OfflineStudyPage() {
               <Card>
                 <CardContent className="p-8 text-center">
                   <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-700 mb-2">No Content Downloaded</h3>
-                  <p className="text-gray-500 mb-4">Download question packs or flashcard decks to study offline.</p>
+                  <h3 className="text-lg font-semibold text-gray-700 mb-2">{t("pages.offlineStudy.noContentDownloaded")}</h3>
+                  <p className="text-gray-500 mb-4">{t("pages.offlineStudy.downloadQuestionPacksOrFlashcard")}</p>
                   <Button onClick={() => setTab("download")} data-testid="button-go-downloads">
                     Browse Downloads
                   </Button>
@@ -265,7 +267,7 @@ export default function OfflineStudyPage() {
                 )}
                 {showResult && (
                   <div className="mt-4 flex justify-between">
-                    <Button variant="outline" size="sm" onClick={() => setMode("menu")} data-testid="button-offline-exit">Exit</Button>
+                    <Button variant="outline" size="sm" onClick={() => setMode("menu")} data-testid="button-offline-exit">{t("pages.offlineStudy.exit")}</Button>
                     <Button size="sm" onClick={nextQuestion} data-testid="button-offline-next">
                       {currentQ < questions.length - 1 ? "Next" : "Finish"} <ArrowRight className="w-3 h-3 ml-1" />
                     </Button>
@@ -280,7 +282,7 @@ export default function OfflineStudyPage() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-500">Card {currentCard + 1} / {flashcards.length}</span>
-              <Button variant="outline" size="sm" onClick={() => setMode("menu")} data-testid="button-fc-exit">Exit</Button>
+              <Button variant="outline" size="sm" onClick={() => setMode("menu")} data-testid="button-fc-exit">{t("pages.offlineStudy.exit2")}</Button>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div className="bg-primary h-2 rounded-full" style={{ width: `${((currentCard + 1) / flashcards.length) * 100}%` }} />

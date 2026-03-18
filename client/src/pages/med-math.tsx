@@ -31,7 +31,9 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { MedicalReviewBadge } from "@/components/medical-review-badge";
 import { MedicalReferences } from "@/components/medical-references";
 
+import { useI18n } from "@/lib/i18n";
 function seededRandom(seed: number) {
+  const { t } = useI18n();
   let s = seed % 2147483647;
   if (s <= 0) s += 2147483646;
   return () => {
@@ -1213,7 +1215,7 @@ function ProblemCard({ category, onQuestionAnswered }: { category: Category; onQ
           </div>
           <div>
             <h2 className="text-xl font-bold text-gray-900" data-testid={`text-category-${category}`}>{config.label} Calculations</h2>
-            <p className="text-sm text-gray-500">Practice with randomized clinical scenarios</p>
+            <p className="text-sm text-gray-500">{t("pages.medMath.practiceWithRandomizedClinicalScenarios")}</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
@@ -1296,7 +1298,7 @@ function ProblemCard({ category, onQuestionAnswered }: { category: Category; onQ
 
               <Card className="bg-gray-50 border-gray-200">
                 <CardContent className="p-5 space-y-3">
-                  <h4 className="font-bold text-gray-900 text-sm uppercase tracking-wider">Step-by-Step Solution</h4>
+                  <h4 className="font-bold text-gray-900 text-sm uppercase tracking-wider">{t("pages.medMath.stepbystepSolution")}</h4>
                   <div className="flex items-center gap-2 text-sm text-primary font-medium">
                     <Calculator className="w-4 h-4" />
                     Formula: {problem.formula}
@@ -1318,7 +1320,7 @@ function ProblemCard({ category, onQuestionAnswered }: { category: Category; onQ
                 <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 flex items-start gap-3" data-testid={`text-safety-${category}`}>
                   <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-bold text-amber-800 text-sm">Safety Alert</p>
+                    <p className="font-bold text-amber-800 text-sm">{t("pages.medMath.safetyAlert")}</p>
                     <p className="text-sm text-amber-700">{problem.safetyNote}</p>
                   </div>
                 </div>
@@ -1343,8 +1345,8 @@ export default function MedMathPage() {
   return (
     <div className={`min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900 ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
       <SEO
-        title="Med Math & Clinical Calculations Lab"
-        description="Master medication math with interactive practice problems. Dosage calculations, IV flow rates, weight-based dosing, infusion rates, and pediatric dosing scenarios with step-by-step solutions."
+        title={t("pages.medMath.medMathClinicalCalculationsLab2")}
+        description={t("pages.medMath.masterMedicationMathWithInteractive")}
         keywords="med math, nursing calculations, dosage calculations, IV flow rate, weight-based dosing, infusion rate, pediatric dosing, nursing math practice, NCLEX math, clinical calculations"
         canonicalPath="/med-math"
       />
@@ -1358,16 +1360,16 @@ export default function MedMathPage() {
               <Calculator className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900" data-testid="text-page-title">Med Math & Clinical Calculations Lab</h1>
-              <p className="text-gray-500 mt-1">Interactive practice with unlimited randomized problems and step-by-step solutions</p>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900" data-testid="text-page-title">{t("pages.medMath.medMathClinicalCalculationsLab")}</h1>
+              <p className="text-gray-500 mt-1">{t("pages.medMath.interactivePracticeWithUnlimitedRandomized")}</p>
             </div>
           </div>
           <LocaleLink href="/lessons/med-math-dosage-calculations">
             <div className="flex items-center gap-3 bg-primary/5 border border-primary/15 rounded-xl px-4 py-3 hover:bg-primary/10 transition-colors cursor-pointer group mt-4" data-testid="link-med-math-lessons">
               <BookOpen className="w-5 h-5 text-primary flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-gray-900">Med Math Calculation Lessons</p>
-                <p className="text-xs text-gray-500">Study the theory behind dosage calculations, IV flow rates, weight-based dosing, and more</p>
+                <p className="text-sm font-semibold text-gray-900">{t("pages.medMath.medMathCalculationLessons")}</p>
+                <p className="text-xs text-gray-500">{t("pages.medMath.studyTheTheoryBehindDosage")}</p>
               </div>
               <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform flex-shrink-0" />
             </div>
@@ -1385,28 +1387,28 @@ export default function MedMathPage() {
           <TabsList className="grid w-full grid-cols-5 h-12 mb-8">
             <TabsTrigger value="dosage" className="gap-1 text-xs sm:text-sm" data-testid="tab-dosage">
               <Calculator className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="hidden sm:inline">Dosage</span>
-              <span className="sm:hidden">Dose</span>
+              <span className="hidden sm:inline">{t("pages.medMath.dosage")}</span>
+              <span className="sm:hidden">{t("pages.medMath.dose")}</span>
             </TabsTrigger>
             <TabsTrigger value="iv-flow" className="gap-1 text-xs sm:text-sm" data-testid="tab-iv-flow">
               <Droplets className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="hidden sm:inline">IV Flow Rate</span>
+              <span className="hidden sm:inline">{t("pages.medMath.ivFlowRate")}</span>
               <span className="sm:hidden">IV</span>
             </TabsTrigger>
             <TabsTrigger value="weight-based" className="gap-1 text-xs sm:text-sm" data-testid="tab-weight-based">
               <Weight className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="hidden sm:inline">Weight-Based</span>
+              <span className="hidden sm:inline">{t("pages.medMath.weightbased")}</span>
               <span className="sm:hidden">Wt</span>
             </TabsTrigger>
             <TabsTrigger value="infusion" className="gap-1 text-xs sm:text-sm" data-testid="tab-infusion">
               <Activity className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="hidden sm:inline">Infusion</span>
-              <span className="sm:hidden">Drip</span>
+              <span className="hidden sm:inline">{t("pages.medMath.infusion")}</span>
+              <span className="sm:hidden">{t("pages.medMath.drip")}</span>
             </TabsTrigger>
             <TabsTrigger value="pediatric" className="gap-1 text-xs sm:text-sm" data-testid="tab-pediatric">
               <Baby className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="hidden sm:inline">Pediatric</span>
-              <span className="sm:hidden">Peds</span>
+              <span className="hidden sm:inline">{t("pages.medMath.pediatric")}</span>
+              <span className="sm:hidden">{t("pages.medMath.peds")}</span>
             </TabsTrigger>
           </TabsList>
 
@@ -1432,8 +1434,8 @@ export default function MedMathPage() {
           <div className="flex items-center gap-3 bg-blue-50/50 border border-blue-100 rounded-xl px-4 py-3 hover:bg-blue-50 transition-colors cursor-pointer group mt-10" data-testid="link-unit-converter-cta">
             <ArrowRight className="w-5 h-5 text-primary flex-shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-gray-900">SI ↔ Conventional Units Converter</p>
-              <p className="text-xs text-gray-500">Convert between Canadian SI and U.S. conventional lab units — free tool for nursing students</p>
+              <p className="text-sm font-semibold text-gray-900">{t("pages.medMath.siConventionalUnitsConverter")}</p>
+              <p className="text-xs text-gray-500">{t("pages.medMath.convertBetweenCanadianSiAnd")}</p>
             </div>
             <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform flex-shrink-0" />
           </div>

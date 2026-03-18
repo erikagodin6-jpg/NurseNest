@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import {
   BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell, Tooltip,
 } from "recharts";
@@ -78,6 +79,7 @@ const recommendations = [
 function CircularProgress({ value, total, color, bgColor, size = 80, strokeWidth = 8 }: {
   value: number; total: number; color: string; bgColor: string; size?: number; strokeWidth?: number;
 }) {
+  const { t } = useI18n();
   const percentage = Math.round((value / total) * 100);
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -113,7 +115,7 @@ export default function AdminDemoProgress() {
       <div className="min-h-screen bg-[#faf8ff]">
         <Navigation />
         <div className="max-w-4xl mx-auto p-8 text-center">
-          <h1 className="text-2xl font-bold" data-testid="text-access-denied">Access Denied</h1>
+          <h1 className="text-2xl font-bold" data-testid="text-access-denied">{t("pages.adminDemoProgress.accessDenied")}</h1>
         </div>
       </div>
     );
@@ -122,7 +124,7 @@ export default function AdminDemoProgress() {
   return (
     <div className="min-h-screen bg-[#faf8ff]" data-testid="demo-progress-page">
       <Navigation />
-      <SEO title="Demo Student Progress - Admin" description="Demo student analytics dashboard for marketing screenshots" />
+      <SEO title={t("pages.adminDemoProgress.demoStudentProgressAdmin")} description={t("pages.adminDemoProgress.demoStudentAnalyticsDashboardFor")} />
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="flex items-center gap-3 mb-2">
@@ -132,15 +134,15 @@ export default function AdminDemoProgress() {
           <div>
             <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title" style={{ fontFamily: "'DM Sans', sans-serif" }}>
               Emily Chen
-              <span className="text-base font-normal text-gray-500 ml-2">(Demo Student)</span>
+              <span className="text-base font-normal text-gray-500 ml-2">{t("pages.adminDemoProgress.demoStudent")}</span>
             </h1>
-            <p className="text-sm text-gray-500">RN / NCLEX Preparation Track</p>
+            <p className="text-sm text-gray-500">{t("pages.adminDemoProgress.rnNclexPreparationTrack")}</p>
           </div>
         </div>
         <div className="flex items-center gap-2 mb-8 ml-[52px]">
-          <Badge className="bg-[#f3efff] text-[#9d82dd] hover:bg-[#f3efff] border-0 text-xs" data-testid="badge-track">RN Track</Badge>
-          <Badge className="bg-[#e0f8f0] text-[#3ba882] hover:bg-[#e0f8f0] border-0 text-xs" data-testid="badge-status">Active</Badge>
-          <span className="text-xs text-gray-400">Enrolled since Jan 15, 2026</span>
+          <Badge className="bg-[#f3efff] text-[#9d82dd] hover:bg-[#f3efff] border-0 text-xs" data-testid="badge-track">{t("pages.adminDemoProgress.rnTrack")}</Badge>
+          <Badge className="bg-[#e0f8f0] text-[#3ba882] hover:bg-[#e0f8f0] border-0 text-xs" data-testid="badge-status">{t("pages.adminDemoProgress.active")}</Badge>
+          <span className="text-xs text-gray-400">{t("pages.adminDemoProgress.enrolledSinceJan152026")}</span>
         </div>
 
         {/* Overall Progress */}
@@ -205,7 +207,7 @@ export default function AdminDemoProgress() {
               <CardTitle className="text-base font-semibold flex items-center gap-2 text-gray-800">
                 <AlertTriangle className="h-5 w-5 text-[#f4a87c]" /> Weak Areas
               </CardTitle>
-              <p className="text-xs text-gray-400 mt-1">Topics needing focused review</p>
+              <p className="text-xs text-gray-400 mt-1">{t("pages.adminDemoProgress.topicsNeedingFocusedReview")}</p>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -241,10 +243,10 @@ export default function AdminDemoProgress() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-gray-100">
-                      <th className="text-left py-2.5 px-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Date</th>
-                      <th className="text-left py-2.5 px-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Topic</th>
-                      <th className="text-center py-2.5 px-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Score</th>
-                      <th className="text-center py-2.5 px-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Result</th>
+                      <th className="text-left py-2.5 px-3 text-xs font-medium text-gray-400 uppercase tracking-wider">{t("pages.adminDemoProgress.date")}</th>
+                      <th className="text-left py-2.5 px-3 text-xs font-medium text-gray-400 uppercase tracking-wider">{t("pages.adminDemoProgress.topic")}</th>
+                      <th className="text-center py-2.5 px-3 text-xs font-medium text-gray-400 uppercase tracking-wider">{t("pages.adminDemoProgress.score")}</th>
+                      <th className="text-center py-2.5 px-3 text-xs font-medium text-gray-400 uppercase tracking-wider">{t("pages.adminDemoProgress.result")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -308,7 +310,7 @@ export default function AdminDemoProgress() {
             <CardTitle className="text-base font-semibold flex items-center gap-2 text-gray-800">
               <Sparkles className="h-5 w-5 text-[#f2c94c]" /> AI Study Recommendations
             </CardTitle>
-            <p className="text-xs text-gray-400 mt-1">Personalized suggestions based on performance analysis</p>
+            <p className="text-xs text-gray-400 mt-1">{t("pages.adminDemoProgress.personalizedSuggestionsBasedOnPerformance")}</p>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">

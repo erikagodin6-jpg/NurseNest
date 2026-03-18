@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import { NURSING_SPECIALTIES } from "@/data/nursing-specialties-detail-data";
 import { HEALTHCARE_GUIDES } from "@shared/healthcare-guide-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, Heart, Brain, Baby, Stethoscope, Ribbon, SmilePlus,
   Clock, Users, Scissors, Check, HelpCircle, ChevronRight,
@@ -78,14 +79,15 @@ const SAMPLE_LESSON = {
 };
 
 export default function NursingSpecialtiesHub() {
+  const { t } = useI18n();
   const faqStructuredData = buildFaqStructuredData(FAQ_DATA);
 
   return (
     <div data-testid="page-nursing-specialties-hub">
       <Navigation />
       <SEO
-        title="Nursing Specialties - Critical Care, ER, Peds & More | NurseNest"
-        description="Deep-dive specialty nursing content for critical care, emergency, pediatric, maternal-newborn, oncology, mental health, and more. Exam-aligned specialty tracks."
+        title={t("pages.nursingSpecialtiesHub.nursingSpecialtiesCriticalCareEr")}
+        description={t("pages.nursingSpecialtiesHub.deepdiveSpecialtyNursingContentFor")}
         keywords="nursing specialties, critical care nursing, emergency nursing, pediatric nursing, oncology nursing, mental health nursing, CCRN prep, CEN prep, specialty certification, nursing specialty tracks"
         canonicalPath="/nursing-specialties"
         structuredData={{
@@ -112,9 +114,9 @@ export default function NursingSpecialtiesHub() {
         <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-white" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.nursingSpecialtiesHub.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-blue-700 font-medium">Nursing Specialties</span>
+            <span className="text-blue-700 font-medium">{t("pages.nursingSpecialtiesHub.nursingSpecialties")}</span>
           </div>
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700 mb-4" data-testid="badge-specialty-tracks">
@@ -141,8 +143,8 @@ export default function NursingSpecialtiesHub() {
       <section className="py-16" data-testid="section-specialty-grid">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-specialty-grid-heading">12 Nursing Specialties, One Platform</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Explore in-depth guides for each nursing specialty — including role overviews, required skills, certifications, practice questions, and related resources.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-specialty-grid-heading">{t("pages.nursingSpecialtiesHub.12NursingSpecialtiesOnePlatform")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.nursingSpecialtiesHub.exploreIndepthGuidesForEach")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {NURSING_SPECIALTIES.map((spec) => {
@@ -181,8 +183,8 @@ export default function NursingSpecialtiesHub() {
       <section className="py-16 bg-gray-50" data-testid="section-track-features">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-track-features-heading">What Each Track Includes</h2>
-            <p className="text-gray-600">Every specialty track is a complete study system — not a surface-level overview.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-track-features-heading">{t("pages.nursingSpecialtiesHub.whatEachTrackIncludes")}</h2>
+            <p className="text-gray-600">{t("pages.nursingSpecialtiesHub.everySpecialtyTrackIsA")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {TRACK_FEATURES.map((feature, i) => (
@@ -203,8 +205,8 @@ export default function NursingSpecialtiesHub() {
       <section className="py-16" data-testid="section-sample-content">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-sample-heading">Sample Specialty Lesson Preview</h2>
-            <p className="text-gray-600">Here's what a lesson looks like inside a specialty track.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-sample-heading">{t("pages.nursingSpecialtiesHub.sampleSpecialtyLessonPreview")}</h2>
+            <p className="text-gray-600">{t("pages.nursingSpecialtiesHub.heresWhatALessonLooks")}</p>
           </div>
           <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
             <div className="bg-gradient-to-r from-red-50 to-red-100/50 px-6 py-4 border-b border-red-100">
@@ -214,7 +216,7 @@ export default function NursingSpecialtiesHub() {
               <h3 className="text-lg font-bold text-gray-900" data-testid="text-sample-lesson-title">{SAMPLE_LESSON.title}</h3>
             </div>
             <div className="p-6">
-              <p className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">What You'll Master</p>
+              <p className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">{t("pages.nursingSpecialtiesHub.whatYoullMaster")}</p>
               <ul className="space-y-2.5">
                 {SAMPLE_LESSON.topics.map((topic, i) => (
                   <li key={i} className="flex items-start gap-2.5" data-testid={`text-sample-topic-${i}`}>
@@ -236,8 +238,8 @@ export default function NursingSpecialtiesHub() {
       <section className="py-16 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-faq-heading">Frequently Asked Questions</h2>
-            <p className="text-gray-600">Everything you need to know about NurseNest specialty tracks</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-faq-heading">{t("pages.nursingSpecialtiesHub.frequentlyAskedQuestions")}</h2>
+            <p className="text-gray-600">{t("pages.nursingSpecialtiesHub.everythingYouNeedToKnow")}</p>
           </div>
           <div className="space-y-3">
             {FAQ_DATA.map((faq, i) => (
@@ -250,8 +252,8 @@ export default function NursingSpecialtiesHub() {
       <section className="py-16 bg-gray-50" data-testid="section-in-depth-guides">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-guides-heading">In-Depth Specialty Guides</h2>
-            <p className="text-gray-600">Comprehensive clinical guides covering pathophysiology, skills, exam prep, and career pathways for each nursing specialty.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-guides-heading">{t("pages.nursingSpecialtiesHub.indepthSpecialtyGuides")}</h2>
+            <p className="text-gray-600">{t("pages.nursingSpecialtiesHub.comprehensiveClinicalGuidesCoveringPathophysio")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {HEALTHCARE_GUIDES.filter(g => g.category === "nursing-specialty").map((guide) => (
@@ -274,15 +276,15 @@ export default function NursingSpecialtiesHub() {
 
       <section className="py-16" data-testid="section-cross-links">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Related Resources</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t("pages.nursingSpecialtiesHub.relatedResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Link href="/nursing-certifications" className="bg-emerald-50 rounded-xl p-6 hover:bg-emerald-100 transition-colors group" data-testid="link-certifications">
-              <h3 className="font-semibold text-emerald-900 mb-1 group-hover:text-emerald-700">Nursing Certifications</h3>
-              <p className="text-sm text-emerald-700/70">Complete guides to CCRN, CEN, CNOR, OCN, and more nursing certifications.</p>
+              <h3 className="font-semibold text-emerald-900 mb-1 group-hover:text-emerald-700">{t("pages.nursingSpecialtiesHub.nursingCertifications")}</h3>
+              <p className="text-sm text-emerald-700/70">{t("pages.nursingSpecialtiesHub.completeGuidesToCcrnCen")}</p>
             </Link>
             <Link href="/study-pathways" className="bg-violet-50 rounded-xl p-6 hover:bg-violet-100 transition-colors group" data-testid="link-pathways">
-              <h3 className="font-semibold text-violet-900 mb-1 group-hover:text-violet-700">Study Pathways</h3>
-              <p className="text-sm text-violet-700/70">Structured study plans to master your specialty and prepare for certification exams.</p>
+              <h3 className="font-semibold text-violet-900 mb-1 group-hover:text-violet-700">{t("pages.nursingSpecialtiesHub.studyPathways")}</h3>
+              <p className="text-sm text-violet-700/70">{t("pages.nursingSpecialtiesHub.structuredStudyPlansToMaster")}</p>
             </Link>
           </div>
         </div>

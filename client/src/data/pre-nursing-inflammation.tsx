@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { Flame, Shield, Activity, Heart } from "lucide-react";
 
 export function InflammationModule() {
+  const { t } = useI18n();
   const cardinalSignsContent = useEditableText("infl-cardinal-signs-content", "The five cardinal signs of inflammation were first described by Celsus (rubor, calor, dolor, tumor) with functio laesa added by Virchow. Rubor (redness) results from vasodilation increasing blood flow to the area. Calor (heat) occurs from increased blood flow and metabolic activity. Dolor (pain) is caused by inflammatory mediators stimulating nerve endings and tissue swelling compressing nerves. Tumor (swelling) results from increased vascular permeability allowing fluid and proteins to leak into interstitial spaces. Functio laesa (loss of function) occurs as a protective mechanism — pain and swelling limit movement of the affected area, promoting healing.");
   const mediatorContent = useEditableText("infl-mediator-content", "Inflammatory mediators are chemical signals that coordinate the inflammatory response. Histamine (from mast cells) causes immediate vasodilation and increased vascular permeability — this is why antihistamines reduce swelling and itching. Prostaglandins (produced via the COX pathway) cause pain, fever, and prolonged vasodilation — NSAIDs work by inhibiting COX enzymes. Cytokines (IL-1, IL-6, TNF-alpha) are signaling proteins that recruit immune cells, induce fever via the hypothalamus, and can trigger systemic inflammatory response syndrome (SIRS) when overproduced. Complement proteins create membrane attack complexes that lyse pathogens. Leukotrienes cause bronchospasm and are involved in asthma pathophysiology.");
   const woundHealingContent = useEditableText("infl-wound-healing-content", "Wound healing proceeds through four overlapping phases. Hemostasis (seconds to hours): vasoconstriction, platelet plug formation, fibrin clot stabilization — stops bleeding. Inflammatory phase (1-6 days): neutrophils arrive first (within hours) to phagocytize bacteria, followed by macrophages (24-48 hours) that clear debris and release growth factors. Proliferative phase (4-21 days): fibroblasts produce collagen, angiogenesis creates new blood vessels, granulation tissue fills the wound, and epithelial cells migrate across the wound surface. Remodeling phase (21 days to 2 years): collagen reorganizes along stress lines, scar tissue matures and strengthens (reaching maximum 80% of original skin strength), and excess vasculature regresses.");
@@ -35,7 +37,7 @@ export function InflammationModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="The Five Cardinal Signs of Inflammation"
+          title={t("data.pre_nursing_inflammation.theFiveCardinalSignsOf")}
           content={cardinalSignsContent}
         />
       </MicroLesson>
@@ -43,7 +45,7 @@ export function InflammationModule() {
       <MicroLesson title="Inflammatory Mediators & Pharmacologic Targets" subtitle="Chemical signals that drive the inflammatory cascade" icon={<Shield className="w-5 h-5" />}>
         <EditableModuleText sectionKey="infl-mediators-intro" defaultText="Understanding inflammatory mediators is essential because most anti-inflammatory medications work by targeting specific mediators or their pathways. Every NSAID, corticosteroid, antihistamine, and biologic drug connects back to these chemical signals." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="Key Inflammatory Mediators"
+          title={t("data.pre_nursing_inflammation.keyInflammatoryMediators")}
           cards={[
             {
               id: "infl-med-1",
@@ -73,7 +75,7 @@ export function InflammationModule() {
         />
         <CognitiveCard
           type="concept"
-          title="Inflammatory Mediators and Drug Targets"
+          title={t("data.pre_nursing_inflammation.inflammatoryMediatorsAndDrugTargets")}
           content={mediatorContent}
         />
       </MicroLesson>
@@ -95,7 +97,7 @@ export function InflammationModule() {
       <MicroLesson title="Wound Healing Phases" subtitle="From hemostasis through remodeling" icon={<Heart className="w-5 h-5" />}>
         <EditableModuleText sectionKey="infl-wound-intro" defaultText="Wound healing is a complex, overlapping process that depends on adequate nutrition (especially protein and vitamin C), oxygenation, moisture balance, and absence of infection. Nurses play a critical role in optimizing healing conditions and recognizing signs of impaired healing." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="Four Phases of Wound Healing"
+          title={t("data.pre_nursing_inflammation.fourPhasesOfWoundHealing")}
           cards={[
             {
               id: "infl-wh-1",
@@ -125,13 +127,13 @@ export function InflammationModule() {
         />
         <CognitiveCard
           type="concept"
-          title="Wound Healing Fundamentals"
+          title={t("data.pre_nursing_inflammation.woundHealingFundamentals")}
           content={woundHealingContent}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Inflammation Concept"
+        title={t("data.pre_nursing_inflammation.matchTheInflammationConcept")}
         pairs={[
           { id: "infl-m1", term: "Rubor", definition: "Redness — caused by vasodilation increasing blood flow" },
           { id: "infl-m2", term: "Histamine", definition: "Mast cell mediator causing immediate vasodilation and permeability" },
@@ -143,7 +145,7 @@ export function InflammationModule() {
       />
 
       <SelfCheckQuiz
-        title="Inflammation & Wound Healing Quiz"
+        title={t("data.pre_nursing_inflammation.inflammationWoundHealingQuiz")}
         questions={[
           {
             id: "infl1",

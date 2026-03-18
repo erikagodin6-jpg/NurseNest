@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { adminFetch } from "@/lib/admin-fetch";
+import { useI18n } from "@/lib/i18n";
 import {
   Shield,
   AlertTriangle,
@@ -63,6 +64,7 @@ interface DashboardData {
 }
 
 function formatDate(d: string | null) {
+
   if (!d) return "N/A";
   const date = new Date(d);
   const now = new Date();
@@ -131,7 +133,7 @@ export default function AdminContentSecurity() {
     return (
       <div className="flex items-center justify-center py-12">
         <RefreshCw className="w-6 h-6 animate-spin text-gray-400" />
-        <span className="ml-2 text-gray-500">Loading security data...</span>
+        <span className="ml-2 text-gray-500">{t("pages.adminContentSecurity.loadingSecurityData")}</span>
       </div>
     );
   }
@@ -182,7 +184,7 @@ export default function AdminContentSecurity() {
                 <Eye className="w-8 h-8 text-blue-500" />
                 <div>
                   <p className="text-2xl font-bold" data-testid="text-watermark-total">{data.watermarkSessions.total_sessions}</p>
-                  <p className="text-xs text-gray-500">Watermark Sessions</p>
+                  <p className="text-xs text-gray-500">{t("pages.adminContentSecurity.watermarkSessions")}</p>
                   <p className="text-xs text-gray-400">{data.watermarkSessions.last_24h} in last 24h</p>
                 </div>
               </div>
@@ -194,7 +196,7 @@ export default function AdminContentSecurity() {
                 <AlertTriangle className="w-8 h-8 text-orange-500" />
                 <div>
                   <p className="text-2xl font-bold" data-testid="text-scraping-total">{data.scrapingAttempts.total}</p>
-                  <p className="text-xs text-gray-500">Scraping Attempts</p>
+                  <p className="text-xs text-gray-500">{t("pages.adminContentSecurity.scrapingAttempts")}</p>
                   <p className="text-xs text-gray-400">{data.scrapingAttempts.last_24h} in last 24h</p>
                 </div>
               </div>
@@ -206,7 +208,7 @@ export default function AdminContentSecurity() {
                 <Ban className="w-8 h-8 text-red-500" />
                 <div>
                   <p className="text-2xl font-bold" data-testid="text-blocked-ips-count">{data.blockedIps.length}</p>
-                  <p className="text-xs text-gray-500">Blocked IPs</p>
+                  <p className="text-xs text-gray-500">{t("pages.adminContentSecurity.blockedIps")}</p>
                 </div>
               </div>
             </CardContent>
@@ -217,7 +219,7 @@ export default function AdminContentSecurity() {
                 <Users className="w-8 h-8 text-purple-500" />
                 <div>
                   <p className="text-2xl font-bold" data-testid="text-unique-users">{data.watermarkSessions.unique_users}</p>
-                  <p className="text-xs text-gray-500">Unique Users Tracked</p>
+                  <p className="text-xs text-gray-500">{t("pages.adminContentSecurity.uniqueUsersTracked")}</p>
                 </div>
               </div>
             </CardContent>
@@ -237,12 +239,12 @@ export default function AdminContentSecurity() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b text-left">
-                    <th className="p-2">User</th>
-                    <th className="p-2">Masked Email</th>
-                    <th className="p-2">ID Suffix</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.user")}</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.maskedEmail")}</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.idSuffix")}</th>
                     <th className="p-2">IP</th>
-                    <th className="p-2">Tier</th>
-                    <th className="p-2">Time</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.tier")}</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.time")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -259,7 +261,7 @@ export default function AdminContentSecurity() {
                     </tr>
                   ))}
                   {data.watermarkSessions.recent.length === 0 && (
-                    <tr><td colSpan={6} className="p-4 text-center text-gray-400">No watermark sessions yet</td></tr>
+                    <tr><td colSpan={6} className="p-4 text-center text-gray-400">{t("pages.adminContentSecurity.noWatermarkSessionsYet")}</td></tr>
                   )}
                 </tbody>
               </table>
@@ -279,15 +281,15 @@ export default function AdminContentSecurity() {
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center p-4 bg-gray-50 rounded-lg">
                 <p className="text-3xl font-bold text-orange-600">{data.scrapingAttempts.total}</p>
-                <p className="text-sm text-gray-500">Total Incidents</p>
+                <p className="text-sm text-gray-500">{t("pages.adminContentSecurity.totalIncidents")}</p>
               </div>
               <div className="text-center p-4 bg-gray-50 rounded-lg">
                 <p className="text-3xl font-bold text-orange-600">{data.scrapingAttempts.last_24h}</p>
-                <p className="text-sm text-gray-500">Last 24 Hours</p>
+                <p className="text-sm text-gray-500">{t("pages.adminContentSecurity.last24Hours")}</p>
               </div>
               <div className="text-center p-4 bg-gray-50 rounded-lg">
                 <p className="text-3xl font-bold text-orange-600">{data.scrapingAttempts.last_7d}</p>
-                <p className="text-sm text-gray-500">Last 7 Days</p>
+                <p className="text-sm text-gray-500">{t("pages.adminContentSecurity.last7Days")}</p>
               </div>
             </div>
           </CardContent>
@@ -306,9 +308,9 @@ export default function AdminContentSecurity() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b text-left">
-                    <th className="p-2">IP Address</th>
-                    <th className="p-2">Incident Count</th>
-                    <th className="p-2">Last Seen</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.ipAddress")}</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.incidentCount")}</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.lastSeen")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -324,7 +326,7 @@ export default function AdminContentSecurity() {
                     </tr>
                   ))}
                   {data.blockedIps.length === 0 && (
-                    <tr><td colSpan={3} className="p-4 text-center text-gray-400">No blocked IPs</td></tr>
+                    <tr><td colSpan={3} className="p-4 text-center text-gray-400">{t("pages.adminContentSecurity.noBlockedIps")}</td></tr>
                   )}
                 </tbody>
               </table>
@@ -345,13 +347,13 @@ export default function AdminContentSecurity() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b text-left">
-                    <th className="p-2">User ID</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.userId")}</th>
                     <th className="p-2">IP</th>
-                    <th className="p-2">Endpoint</th>
-                    <th className="p-2">Type</th>
-                    <th className="p-2">Count</th>
-                    <th className="p-2">Time</th>
-                    <th className="p-2">Actions</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.endpoint")}</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.type")}</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.count")}</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.time2")}</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.actions")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -399,7 +401,7 @@ export default function AdminContentSecurity() {
                     );
                   })}
                   {data.suspiciousSessions.length === 0 && (
-                    <tr><td colSpan={7} className="p-4 text-center text-gray-400">No suspicious sessions detected</td></tr>
+                    <tr><td colSpan={7} className="p-4 text-center text-gray-400">{t("pages.adminContentSecurity.noSuspiciousSessionsDetected")}</td></tr>
                   )}
                 </tbody>
               </table>
@@ -420,13 +422,13 @@ export default function AdminContentSecurity() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b text-left">
-                    <th className="p-2">Username</th>
-                    <th className="p-2">Email</th>
-                    <th className="p-2">Tier</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.username")}</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.email")}</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.tier2")}</th>
                     <th className="p-2">IP</th>
-                    <th className="p-2">Details</th>
-                    <th className="p-2">Time</th>
-                    <th className="p-2">Actions</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.details")}</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.time3")}</th>
+                    <th className="p-2">{t("pages.adminContentSecurity.actions2")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -462,7 +464,7 @@ export default function AdminContentSecurity() {
                     </tr>
                   ))}
                   {data.trialAbuse.length === 0 && (
-                    <tr><td colSpan={7} className="p-4 text-center text-gray-400">No trial abuse detected</td></tr>
+                    <tr><td colSpan={7} className="p-4 text-center text-gray-400">{t("pages.adminContentSecurity.noTrialAbuseDetected")}</td></tr>
                   )}
                 </tbody>
               </table>

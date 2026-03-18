@@ -3,6 +3,7 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { CERT_RENEWAL_CONTENT } from "@/data/certification-prep-content";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, ChevronRight, GraduationCap, RefreshCw,
   AlertTriangle, BookOpen, CheckCircle2, Play, Layers,
@@ -19,6 +20,7 @@ const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string;
 };
 
 function extractCertSlug(pathname: string): string {
+
   const match = pathname.match(/\/certifications\/([a-z]+)-renewal-prep/);
   return match ? match[1] : "";
 }
@@ -34,8 +36,8 @@ export default function CertificationRenewalPage() {
         <Navigation />
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center max-w-md px-4">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">Renewal Prep Not Found</h1>
-            <p className="text-gray-600 mb-6">The renewal prep page you are looking for is not available.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">{t("pages.certificationRenewalPage.renewalPrepNotFound")}</h1>
+            <p className="text-gray-600 mb-6">{t("pages.certificationRenewalPage.theRenewalPrepPageYou")}</p>
             <Link href="/nursing-certifications" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors" data-testid="link-back-to-certs">
               Back to Certifications <ArrowRight className="w-4 h-4" />
             </Link>
@@ -68,13 +70,13 @@ export default function CertificationRenewalPage() {
         <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradientFrom} via-white/50 ${colors.gradientTo}`} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.certificationRenewalPage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/nursing-certifications" className="hover:text-blue-600">Certifications</Link>
+            <Link href="/nursing-certifications" className="hover:text-blue-600">{t("pages.certificationRenewalPage.certifications")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <Link href={`/certifications/${certSlug}-prep`} className="hover:text-blue-600">{content.certName} Prep</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className={`${colors.badgeText} font-medium`}>Renewal</span>
+            <span className={`${colors.badgeText} font-medium`}>{t("pages.certificationRenewalPage.renewal")}</span>
           </div>
           <div className="max-w-3xl">
             <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${colors.badgeBg} ${colors.badgeText} mb-4`} data-testid="badge-renewal">
@@ -105,14 +107,14 @@ export default function CertificationRenewalPage() {
               <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center`}>
                 <GraduationCap className={`w-5 h-5 ${colors.iconColor}`} />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900" data-testid="text-renewal-overview-heading">Renewal Exam Expectations</h2>
+              <h2 className="text-2xl font-bold text-gray-900" data-testid="text-renewal-overview-heading">{t("pages.certificationRenewalPage.renewalExamExpectations")}</h2>
             </div>
             <p className="text-gray-600 mb-4" data-testid="text-validity">
-              <strong>Certification validity:</strong> {content.renewalOverview.validityPeriod}
+              <strong>{t("pages.certificationRenewalPage.certificationValidity")}</strong> {content.renewalOverview.validityPeriod}
             </p>
             <p className="text-gray-600 mb-4" data-testid="text-what-to-expect">{content.renewalOverview.whatToExpect}</p>
             <div className="mt-4">
-              <h3 className="font-semibold text-gray-900 mb-2">Renewal Requirements:</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">{t("pages.certificationRenewalPage.renewalRequirements")}</h3>
               <ul className="space-y-2">
                 {content.renewalOverview.renewalRequirements.map((req, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-gray-600" data-testid={`text-req-${i}`}>
@@ -129,7 +131,7 @@ export default function CertificationRenewalPage() {
       <section className="py-16 bg-gray-50" data-testid="section-skills-refreshers">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-refreshers-heading">Skills Refreshers</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-refreshers-heading">{t("pages.certificationRenewalPage.skillsRefreshers")}</h2>
             <p className="text-gray-600">Review the essential skills tested on the {content.certName} renewal.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -153,7 +155,7 @@ export default function CertificationRenewalPage() {
       <section className="py-16 bg-white" data-testid="section-algorithm-reviews">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-algorithms-heading">Algorithm & Protocol Reviews</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-algorithms-heading">{t("pages.certificationRenewalPage.algorithmProtocolReviews")}</h2>
             <p className="text-gray-600">Refresh your knowledge of key {content.certName} algorithms.</p>
           </div>
           <div className="space-y-4">
@@ -177,7 +179,7 @@ export default function CertificationRenewalPage() {
       <section className="py-16 bg-gray-50" data-testid="section-common-mistakes">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-mistakes-heading">Common Exam Mistakes</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-mistakes-heading">{t("pages.certificationRenewalPage.commonExamMistakes")}</h2>
             <p className="text-gray-600">Avoid these frequent errors on the {content.certName} renewal exam.</p>
           </div>
           <div className="space-y-3">
@@ -200,8 +202,8 @@ export default function CertificationRenewalPage() {
       <section className="py-16 bg-white" data-testid="section-mock-exam">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-mock-heading">Short Renewal Mock Exam</h2>
-            <p className="text-gray-600">Test your readiness with a condensed practice exam.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-mock-heading">{t("pages.certificationRenewalPage.shortRenewalMockExam")}</h2>
+            <p className="text-gray-600">{t("pages.certificationRenewalPage.testYourReadinessWithA")}</p>
           </div>
           <div className={`bg-white rounded-xl border ${colors.border} p-6 max-w-lg mx-auto text-center`} data-testid="card-mock-exam">
             <div className={`w-14 h-14 rounded-xl ${colors.bg} flex items-center justify-center mx-auto mb-4`}>
@@ -223,8 +225,8 @@ export default function CertificationRenewalPage() {
       <section className="py-16 bg-gray-50" data-testid="section-condensed-resources">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-resources-heading">Condensed Study Resources</h2>
-            <p className="text-gray-600">Quick-review materials for efficient renewal preparation.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-resources-heading">{t("pages.certificationRenewalPage.condensedStudyResources")}</h2>
+            <p className="text-gray-600">{t("pages.certificationRenewalPage.quickreviewMaterialsForEfficientRenewal")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {content.condensedResources.map((resource, i) => (
@@ -270,7 +272,7 @@ export default function CertificationRenewalPage() {
       <section className="py-12 bg-white" data-testid="section-cross-links">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-2" data-testid="text-cross-heading">Other Renewal Prep Guides</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-2" data-testid="text-cross-heading">{t("pages.certificationRenewalPage.otherRenewalPrepGuides")}</h2>
             <Link href="/nursing-certifications" className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors" data-testid="link-back-to-hub">
               ← Back to Certification Hub
             </Link>
@@ -283,7 +285,7 @@ export default function CertificationRenewalPage() {
                 <Link key={slug} href={`/certifications/${slug}-renewal-prep`} className="group" data-testid={`link-related-${slug}`}>
                   <div className="bg-gray-50 rounded-xl p-4 hover:bg-blue-50 transition-colors text-center h-full">
                     <h3 className="font-semibold text-gray-900 group-hover:text-blue-700 transition-colors text-sm">{rel.certName}</h3>
-                    <p className="text-xs text-gray-500 mt-1">Renewal Prep</p>
+                    <p className="text-xs text-gray-500 mt-1">{t("pages.certificationRenewalPage.renewalPrep")}</p>
                   </div>
                 </Link>
               );

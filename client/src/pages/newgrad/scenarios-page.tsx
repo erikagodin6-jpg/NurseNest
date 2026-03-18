@@ -4,6 +4,7 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { PremiumUpgradeCTA, useNewGradAccess } from "./premium-cta";
+import { useI18n } from "@/lib/i18n";
 import {
   WORKPLACE_SCENARIOS,
   WORKPLACE_SCENARIO_CATEGORIES,
@@ -38,6 +39,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 export default function ScenariosPage() {
+  const { t } = useI18n();
   const { hasAccess } = useNewGradAccess();
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [expandedScenario, setExpandedScenario] = useState<string | null>(null);
@@ -75,7 +77,7 @@ export default function ScenariosPage() {
     <div data-testid="newgrad-scenarios-page">
       <Navigation />
       <SEO
-        title="Workplace Readiness Scenarios for New Grad Nurses - Prioritization, Delegation & Communication | NurseNest"
+        title={t("pages.newgrad.scenariosPage.workplaceReadinessScenariosForNew")}
         description={`Practice with ${totalScenarios} workplace readiness scenarios covering prioritization, delegation, shift communication, interdisciplinary teamwork, and new grad confidence drills. Build job-readiness skills for your first nursing position.`}
         keywords="new grad nurse workplace scenarios, nursing prioritization practice, nurse delegation scenarios, shift report practice, nursing confidence drills, new nurse workplace readiness, interdisciplinary team nursing"
         canonicalPath="/newgrad/scenarios"
@@ -90,11 +92,11 @@ export default function ScenariosPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-teal-50 via-emerald-50/30 to-white" />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.newgrad.scenariosPage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/newgrad" className="hover:text-blue-600">New Grad Career Hub</Link>
+            <Link href="/newgrad" className="hover:text-blue-600">{t("pages.newgrad.scenariosPage.newGradCareerHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-teal-700 font-medium">Workplace Scenarios</span>
+            <span className="text-teal-700 font-medium">{t("pages.newgrad.scenariosPage.workplaceScenarios")}</span>
           </div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-teal-100 text-teal-700">
             <Target className="w-4 h-4" /> Workplace Readiness
@@ -182,7 +184,7 @@ export default function ScenariosPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 mb-6">
             <CheckCircle2 className="w-5 h-5 text-green-500" />
-            <h2 className="text-2xl font-bold text-gray-900">Free Scenarios</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{t("pages.newgrad.scenariosPage.freeScenarios")}</h2>
           </div>
           <div className="space-y-4">
             {freeScenarios.map((scenario) => {
@@ -260,7 +262,7 @@ export default function ScenariosPage() {
       {premiumScenarios.length > 0 && hasAccess && (
         <section className="py-16 bg-gray-50" data-testid="section-premium-scenarios">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Premium Scenarios</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.newgrad.scenariosPage.premiumScenarios")}</h2>
             <div className="space-y-4">
               {premiumScenarios.map((scenario) => {
                 const CatIcon = CATEGORY_ICONS[scenario.category] || Target;
@@ -290,15 +292,15 @@ export default function ScenariosPage() {
                     {isExpanded && (
                       <div className="px-6 pb-5 border-t border-gray-100 pt-4 space-y-4">
                         <div>
-                          <h4 className="text-sm font-semibold text-gray-900 mb-2">Scenario</h4>
+                          <h4 className="text-sm font-semibold text-gray-900 mb-2">{t("pages.newgrad.scenariosPage.scenario")}</h4>
                           <p className="text-sm text-gray-600 leading-relaxed">{scenario.scenario}</p>
                         </div>
                         <div>
-                          <h4 className="text-sm font-semibold text-gray-900 mb-2">Best Response</h4>
+                          <h4 className="text-sm font-semibold text-gray-900 mb-2">{t("pages.newgrad.scenariosPage.bestResponse")}</h4>
                           <p className="text-sm text-gray-600 leading-relaxed">{scenario.bestResponse}</p>
                         </div>
                         <div className="bg-blue-50 rounded-lg p-3">
-                          <h4 className="text-sm font-semibold text-blue-800 mb-2">Key Principles</h4>
+                          <h4 className="text-sm font-semibold text-blue-800 mb-2">{t("pages.newgrad.scenariosPage.keyPrinciples")}</h4>
                           <ul className="space-y-1">
                             {scenario.keyPrinciples.map((p, j) => (
                               <li key={j} className="text-sm text-blue-700 flex items-start gap-1.5">
@@ -323,7 +325,7 @@ export default function ScenariosPage() {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-2 mb-6">
               <Lock className="w-5 h-5 text-indigo-500" />
-              <h2 className="text-2xl font-bold text-gray-900">Premium Scenarios Preview</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.newgrad.scenariosPage.premiumScenariosPreview")}</h2>
             </div>
             <div className="space-y-3 mb-6">
               {premiumScenarios.slice(0, 5).map((s) => (
@@ -343,7 +345,7 @@ export default function ScenariosPage() {
 
       <section className="py-12 bg-gradient-to-r from-teal-50 to-emerald-50" data-testid="section-bottom-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-3">More Career Readiness Resources</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-3">{t("pages.newgrad.scenariosPage.moreCareerReadinessResources")}</h2>
           <p className="text-sm text-gray-500 mb-4">
             Complete your job-readiness toolkit with interview prep, resume templates, and professional development resources.
           </p>

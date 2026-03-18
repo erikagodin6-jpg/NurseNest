@@ -17,8 +17,8 @@ export default function NurseResidencyCountry() {
       <div data-testid="page-nurse-residency-not-found">
         <Navigation />
         <div className="max-w-3xl mx-auto px-4 py-24 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Country Not Found</h1>
-          <p className="text-gray-600 mb-6">The residency programs page you're looking for doesn't exist.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.nurseResidencyCountry.countryNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.nurseResidencyCountry.theResidencyProgramsPageYoure")}</p>
           <Link href="/nurse-residency-programs" className="text-indigo-600 font-medium hover:text-indigo-700">
             Back to Nurse Residency Directory
           </Link>
@@ -59,9 +59,9 @@ export default function NurseResidencyCountry() {
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-blue-50/50 to-purple-50/30" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-indigo-600">Home</Link>
+            <Link href="/" className="hover:text-indigo-600">{t("pages.nurseResidencyCountry.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/nurse-residency-programs" className="hover:text-indigo-600">Residency Programs</Link>
+            <Link href="/nurse-residency-programs" className="hover:text-indigo-600">{t("pages.nurseResidencyCountry.residencyPrograms")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-indigo-700 font-medium">{country.name}</span>
           </div>
@@ -79,7 +79,7 @@ export default function NurseResidencyCountry() {
 
       <section className="py-12 bg-white border-b border-gray-100" data-testid="section-why-residency">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-xl font-bold text-gray-900 mb-3">Why Choose a Residency Program?</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-3">{t("pages.nurseResidencyCountry.whyChooseAResidencyProgram")}</h2>
           <p className="text-gray-600 leading-relaxed">{country.whyResidency}</p>
         </div>
       </section>
@@ -105,23 +105,23 @@ export default function NurseResidencyCountry() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                       <div className="flex items-start gap-2">
                         <MapPin className="w-4 h-4 text-indigo-500 mt-0.5 shrink-0" />
-                        <div><span className="text-xs text-gray-400 block">Location</span><span className="text-sm text-gray-700">{program.location}</span></div>
+                        <div><span className="text-xs text-gray-400 block">{t("pages.nurseResidencyCountry.location")}</span><span className="text-sm text-gray-700">{program.location}</span></div>
                       </div>
                       <div className="flex items-start gap-2">
                         <Clock className="w-4 h-4 text-indigo-500 mt-0.5 shrink-0" />
-                        <div><span className="text-xs text-gray-400 block">Program Length</span><span className="text-sm text-gray-700">{program.programLength}</span></div>
+                        <div><span className="text-xs text-gray-400 block">{t("pages.nurseResidencyCountry.programLength")}</span><span className="text-sm text-gray-700">{program.programLength}</span></div>
                       </div>
                       <div className="flex items-start gap-2">
                         <Target className="w-4 h-4 text-indigo-500 mt-0.5 shrink-0" />
-                        <div><span className="text-xs text-gray-400 block">Application Timeline</span><span className="text-sm text-gray-700">{program.applicationTimeline}</span></div>
+                        <div><span className="text-xs text-gray-400 block">{t("pages.nurseResidencyCountry.applicationTimeline")}</span><span className="text-sm text-gray-700">{program.applicationTimeline}</span></div>
                       </div>
                       <div className="flex items-start gap-2">
                         <Users className="w-4 h-4 text-indigo-500 mt-0.5 shrink-0" />
-                        <div><span className="text-xs text-gray-400 block">Specialties</span><span className="text-sm text-gray-700">{program.specialtyFocus.join(", ")}</span></div>
+                        <div><span className="text-xs text-gray-400 block">{t("pages.nurseResidencyCountry.specialties")}</span><span className="text-sm text-gray-700">{program.specialtyFocus.join(", ")}</span></div>
                       </div>
                     </div>
                     <div className="mb-4">
-                      <h4 className="text-xs font-semibold text-gray-500 uppercase mb-1.5">Requirements</h4>
+                      <h4 className="text-xs font-semibold text-gray-500 uppercase mb-1.5">{t("pages.nurseResidencyCountry.requirements")}</h4>
                       <ul className="space-y-1">
                         {program.requirements.map((req, j) => (
                           <li key={j} className="flex items-start gap-2 text-sm text-gray-600">
@@ -145,27 +145,27 @@ export default function NurseResidencyCountry() {
 
       <section className="py-16 bg-gradient-to-br from-teal-50 via-emerald-50/50 to-cyan-50/30" data-testid="section-cross-links">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Resources for New Grad Nurses</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t("pages.nurseResidencyCountry.resourcesForNewGradNurses")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Link href="/newgrad" className="group" data-testid="link-newgrad">
               <div className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-blue-200 transition-all h-full">
                 <GraduationCap className="w-6 h-6 text-blue-500 mb-2" />
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 text-sm">New Grad Hub</h3>
-                <p className="text-xs text-gray-500">Career guides, survival tips, and mentorship resources for new nurses.</p>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 text-sm">{t("pages.nurseResidencyCountry.newGradHub")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nurseResidencyCountry.careerGuidesSurvivalTipsAnd")}</p>
               </div>
             </Link>
             <Link href="/applynest" className="group" data-testid="link-applynest">
               <div className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-teal-200 transition-all h-full">
                 <Briefcase className="w-6 h-6 text-teal-500 mb-2" />
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-teal-700 text-sm">ApplyNest Jobs</h3>
-                <p className="text-xs text-gray-500">Resume templates, interview prep, and job search tools.</p>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-teal-700 text-sm">{t("pages.nurseResidencyCountry.applynestJobs")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nurseResidencyCountry.resumeTemplatesInterviewPrepAnd")}</p>
               </div>
             </Link>
             <Link href="/nursing-schools" className="group" data-testid="link-schools">
               <div className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-emerald-200 transition-all h-full">
                 <Building2 className="w-6 h-6 text-emerald-500 mb-2" />
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 text-sm">Nursing Schools</h3>
-                <p className="text-xs text-gray-500">Directory of accredited nursing programs worldwide.</p>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 text-sm">{t("pages.nurseResidencyCountry.nursingSchools")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nurseResidencyCountry.directoryOfAccreditedNursingPrograms")}</p>
               </div>
             </Link>
           </div>
@@ -174,7 +174,7 @@ export default function NurseResidencyCountry() {
 
       <section className="py-16" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8 text-center">{t("pages.nurseResidencyCountry.frequentlyAskedQuestions")}</h2>
           <div className="space-y-4">
             {country.faq.map((faq, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 p-6" data-testid={`card-faq-${i}`}>
@@ -188,7 +188,7 @@ export default function NurseResidencyCountry() {
 
       <section className="py-12 bg-white" data-testid="section-other-countries">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">Explore Programs in Other Countries</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4 text-center">{t("pages.nurseResidencyCountry.exploreProgramsInOtherCountries")}</h2>
           <div className="flex flex-wrap justify-center gap-3">
             {RESIDENCY_COUNTRIES.filter(c => c.slug !== country.slug).map(c => (
               <Link key={c.slug} href={`/nurse-residency-programs/${c.slug}`} className="inline-flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-indigo-50 rounded-lg border border-gray-200 hover:border-indigo-200 transition-all text-sm font-medium text-gray-700 hover:text-indigo-700" data-testid={`link-country-${c.slug}`}>

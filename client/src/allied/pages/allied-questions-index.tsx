@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { BookOpen, Target, ArrowRight, Search, Loader2, FileText } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface ProfessionConfig {
   key: string;
   label: string;
@@ -120,6 +121,7 @@ interface TopicsData {
 }
 
 export default function AlliedQuestionsIndexPage({ professionKey }: { professionKey: string }) {
+  const { t } = useI18n();
   const profession = PROFESSION_CONFIGS[professionKey];
   const [data, setData] = useState<TopicsData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -155,7 +157,7 @@ export default function AlliedQuestionsIndexPage({ professionKey }: { profession
   }, [data, search, activeCategory]);
 
   if (!profession) {
-    return <div className="min-h-[60vh] flex items-center justify-center text-gray-500">Profession not found</div>;
+    return <div className="min-h-[60vh] flex items-center justify-center text-gray-500">{t("allied.alliedQuestionsIndex.professionNotFound")}</div>;
   }
 
   const structuredData = {
@@ -182,7 +184,7 @@ export default function AlliedQuestionsIndexPage({ professionKey }: { profession
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumbs">
             <Link href={`/${professionKey}`} className="hover:text-gray-700">{profession.shortLabel}</Link>
             <span>/</span>
-            <span className="text-gray-900 font-medium">Practice Questions</span>
+            <span className="text-gray-900 font-medium">{t("allied.alliedQuestionsIndex.practiceQuestions")}</span>
           </nav>
           <div className="flex items-center gap-3 mb-4">
             <div className="w-12 h-12 rounded-xl bg-teal-100 flex items-center justify-center">
@@ -207,7 +209,7 @@ export default function AlliedQuestionsIndexPage({ professionKey }: { profession
                 type="text"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                placeholder="Search topics..."
+                placeholder={t("allied.alliedQuestionsIndex.searchTopics")}
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
                 data-testid="input-search-topics"
               />
@@ -241,7 +243,7 @@ export default function AlliedQuestionsIndexPage({ professionKey }: { profession
           {data && activeCategory === "All" && !search && (
             <section className="py-12 bg-gradient-to-b from-gray-50/50 to-white" data-testid="section-categories-overview">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-categories-title">Question Categories</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-categories-title">{t("allied.alliedQuestionsIndex.questionCategories")}</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                   {data.categories.map(cat => (
                     <button
@@ -320,7 +322,7 @@ export default function AlliedQuestionsIndexPage({ professionKey }: { profession
               ) : (
                 <div className="text-center py-12">
                   <Target className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-                  <p className="text-gray-500" data-testid="text-no-results">No topics match your search. Try a different filter or keyword.</p>
+                  <p className="text-gray-500" data-testid="text-no-results">{t("allied.alliedQuestionsIndex.noTopicsMatchYourSearch")}</p>
                 </div>
               )}
             </div>

@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+import { useI18n } from "@/lib/i18n";
 interface SEOConfig {
   title: string;
   metaTitle: string;
@@ -101,6 +102,7 @@ const IMAGING_SEO_CONFIGS: Record<string, (country: string) => SEOConfig> = {
 };
 
 export default function ImagingSeoLanding() {
+  const { t } = useI18n();
   const params = useParams<{ country: string; pageType: string }>();
   const country = params.country === "usa" ? "usa" : "canada";
   const pageType = params.pageType || "physics";
@@ -170,7 +172,7 @@ export default function ImagingSeoLanding() {
 
         <section className="py-12 px-4 bg-white">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-xl font-bold text-gray-900 text-center mb-8">Frequently Asked Questions</h2>
+            <h2 className="text-xl font-bold text-gray-900 text-center mb-8">{t("allied.imagingSeoLanding.frequentlyAskedQuestions")}</h2>
             <div className="space-y-3">
               {config.faqs.map((faq, i) => (
                 <div key={i} className="border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-item-${i}`}>
@@ -193,8 +195,8 @@ export default function ImagingSeoLanding() {
 
         <section className="py-12 px-4 bg-gradient-to-r from-teal-600 to-cyan-600 text-white">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl font-bold mb-3">Ready to Master Radiography?</h2>
-            <p className="text-teal-100 mb-6">Join thousands of students preparing for their certification exams with NurseNest.</p>
+            <h2 className="text-2xl font-bold mb-3">{t("allied.imagingSeoLanding.readyToMasterRadiography")}</h2>
+            <p className="text-teal-100 mb-6">{t("allied.imagingSeoLanding.joinThousandsOfStudentsPreparing")}</p>
             <Link href={config.ctaLink} className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-teal-700 rounded-xl font-semibold hover:bg-teal-50 transition-colors" data-testid="link-cta-bottom">
               Get Started Free <ArrowRight className="w-5 h-5" />
             </Link>

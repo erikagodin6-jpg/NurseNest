@@ -3,6 +3,7 @@ import { Link, useParams } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { Search, ChevronRight, Atom, BookOpen, Zap, CheckCircle2, Clock, BarChart3, Filter } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const PHYSICS_CATEGORIES = [
   "All", "X-ray Production", "Beam Characteristics", "Beam Interactions",
   "Image Quality", "Radiation Protection", "Equipment", "Digital Imaging"
@@ -33,6 +34,7 @@ const SEED_TOPICS = [
 ];
 
 export default function ImagingPhysicsListing() {
+  const { t } = useI18n();
   const params = useParams<{ country: string }>();
   const country = params.country === "usa" ? "usa" : "canada";
   const countryLabel = country === "usa" ? "USA (ARRT)" : "Canada (CAMRT)";
@@ -111,17 +113,17 @@ export default function ImagingPhysicsListing() {
       />
       <div className="max-w-5xl mx-auto px-4 py-8" data-testid="physics-listing-page">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/" className="hover:text-teal-600">Home</Link>
+          <Link href="/" className="hover:text-teal-600">{t("allied.imagingPhysicsListing.home")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <Link href={`/medical-imaging/${country}`} className="hover:text-teal-600">Medical Imaging</Link>
+          <Link href={`/medical-imaging/${country}`} className="hover:text-teal-600">{t("allied.imagingPhysicsListing.medicalImaging")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-teal-700 font-medium">Physics</span>
+          <span className="text-teal-700 font-medium">{t("allied.imagingPhysicsListing.physics")}</span>
         </div>
 
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <Atom className="w-8 h-8 text-blue-600" />
-            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-physics-title">Radiation Physics</h1>
+            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-physics-title">{t("allied.imagingPhysicsListing.radiationPhysics")}</h1>
           </div>
           <p className="text-gray-600">{countryLabel} - Interactive visual learning modules with micro-quizzes</p>
         </div>
@@ -130,7 +132,7 @@ export default function ImagingPhysicsListing() {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <BarChart3 className="w-5 h-5 text-blue-600" />
-              <span className="font-semibold text-gray-900">Your Progress</span>
+              <span className="font-semibold text-gray-900">{t("allied.imagingPhysicsListing.yourProgress")}</span>
             </div>
             <span className="text-sm text-blue-600 font-medium" data-testid="text-progress-count">{completedCount} / {totalCount} topics</span>
           </div>
@@ -144,7 +146,7 @@ export default function ImagingPhysicsListing() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
-              placeholder="Search physics topics..."
+              placeholder={t("allied.imagingPhysicsListing.searchPhysicsTopics")}
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-blue-400"
@@ -171,7 +173,7 @@ export default function ImagingPhysicsListing() {
             <div className="w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : filteredTopics.length === 0 ? (
-          <div className="text-center py-20 text-gray-500">No topics found matching your search.</div>
+          <div className="text-center py-20 text-gray-500">{t("allied.imagingPhysicsListing.noTopicsFoundMatchingYour")}</div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredTopics.map(topic => (

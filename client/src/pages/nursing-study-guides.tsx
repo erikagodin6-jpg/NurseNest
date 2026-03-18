@@ -145,8 +145,8 @@ function NursingStudyGuidesHub() {
   return (
     <>
       <SEO
-        title="Nursing Study Guides — Free Exam Prep Resources"
-        description="Comprehensive nursing study guides covering electrolytes, acid-base disorders, ECG interpretation, fluid balance, and critical lab values. Aligned with NCLEX and REX-PN exam blueprints."
+        title={t("pages.nursingStudyGuides.nursingStudyGuidesFreeExam")}
+        description={t("pages.nursingStudyGuides.comprehensiveNursingStudyGuidesCovering")}
         keywords="nursing study guides, NCLEX prep, electrolytes nursing, acid-base, ECG interpretation, lab values, nursing exam study material"
         canonicalPath="/nursing-study-guides"
         structuredData={structuredData}
@@ -174,7 +174,7 @@ function NursingStudyGuidesHub() {
           </div>
 
           <div className="mt-16">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t("pages.nursingStudyGuides.frequentlyAskedQuestions")}</h2>
             <div className="space-y-4">
               {hubFaqs.map((faq, i) => (
                 <FaqAccordion key={i} question={faq.question} answer={faq.answer} index={i} />
@@ -183,7 +183,7 @@ function NursingStudyGuidesHub() {
           </div>
 
           <div className="mt-12 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl p-6 sm:p-8">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Deepen Your Understanding</h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{t("pages.nursingStudyGuides.deepenYourUnderstanding")}</h2>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
               Pair these study guides with our pathophysiology lessons, clinical simulations, and adaptive question banks for comprehensive exam preparation.
             </p>
@@ -285,7 +285,7 @@ function StudyGuidePageWrapper({ guide, faqs, children }: { guide: StudyGuideDef
           {children}
 
           <div className="mt-12">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4" data-testid="text-faq-heading">Frequently Asked Questions</h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4" data-testid="text-faq-heading">{t("pages.nursingStudyGuides.frequentlyAskedQuestions2")}</h2>
             <div className="space-y-3">
               {faqs.map((faq, i) => (
                 <FaqAccordion key={i} question={faq.question} answer={faq.answer} index={i} />
@@ -294,7 +294,7 @@ function StudyGuidePageWrapper({ guide, faqs, children }: { guide: StudyGuideDef
           </div>
 
           <div className="mt-12 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl p-6">
-            <h3 className="font-bold text-gray-900 dark:text-white mb-3">Continue Your Study</h3>
+            <h3 className="font-bold text-gray-900 dark:text-white mb-3">{t("pages.nursingStudyGuides.continueYourStudy")}</h3>
             <div className="flex flex-wrap gap-3">
               <LocaleLink href="/question-bank" className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700" data-testid="link-practice-questions">
                 <Target className="w-4 h-4" /> Practice Questions
@@ -325,38 +325,38 @@ function ElectrolytesGuide() {
   ];
   return (
     <StudyGuidePageWrapper guide={guide} faqs={faqs}>
-      <Section title="Overview of Electrolytes in Nursing">
-        <p>Electrolyte imbalances are among the most commonly tested topics on nursing licensing exams. Understanding normal ranges, clinical manifestations, and appropriate nursing interventions is essential for both exam success and safe clinical practice. Electrolytes are minerals that carry an electrical charge and are essential for nerve conduction, muscle contraction, fluid balance, and acid-base regulation.</p>
-        <KeyPoint><strong>Key principle:</strong> Electrolyte imbalances rarely occur in isolation. Hypokalemia often accompanies hypomagnesemia, and correcting the underlying cause is as important as treating the lab value.</KeyPoint>
+      <Section title={t("pages.nursingStudyGuides.overviewOfElectrolytesInNursing")}>
+        <p>{t("pages.nursingStudyGuides.electrolyteImbalancesAreAmongThe")}</p>
+        <KeyPoint><strong>{t("pages.nursingStudyGuides.keyPrinciple")}</strong> {t("pages.nursingStudyGuides.electrolyteImbalancesRarelyOccurIn")}</KeyPoint>
       </Section>
-      <Section title="Sodium (Na⁺)">
+      <Section title={t("pages.nursingStudyGuides.sodiumNa")}>
         <ValueTable headers={["Parameter", "Value"]} rows={[["Normal Range", "135–145 mEq/L"], ["Critical Low", "< 120 mEq/L"], ["Critical High", "> 160 mEq/L"]]} />
-        <p><strong>Hyponatremia (Na⁺ &lt; 135):</strong> Causes include SIADH, heart failure, excessive hypotonic IV fluids, and diuretic use. Signs: confusion, headache, nausea, seizures (severe). Nursing: fluid restriction, monitor I&O, assess neuro status, administer hypertonic saline cautiously if severe (risk of osmotic demyelination if corrected too rapidly).</p>
-        <p><strong>Hypernatremia (Na⁺ &gt; 145):</strong> Causes include dehydration, diabetes insipidus, excessive sodium intake. Signs: thirst, dry mucous membranes, restlessness, seizures. Nursing: gradual rehydration with hypotonic fluids, monitor for cerebral edema, strict I&O monitoring.</p>
-        <ExamTip><strong>NCLEX Tip:</strong> "Water follows sodium" — remember that sodium problems are often water problems. SIADH = dilutional hyponatremia (too much water). Diabetes insipidus = hypernatremia (too little water).</ExamTip>
+        <p><strong>{t("pages.nursingStudyGuides.hyponatremiaNaLt135")}</strong> {t("pages.nursingStudyGuides.causesIncludeSiadhHeartFailure")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.hypernatremiaNaGt145")}</strong> {t("pages.nursingStudyGuides.causesIncludeDehydrationDiabetesInsipidus")}</p>
+        <ExamTip><strong>{t("pages.nursingStudyGuides.nclexTip")}</strong> {t("pages.nursingStudyGuides.waterFollowsSodiumRememberThat")}</ExamTip>
       </Section>
-      <Section title="Potassium (K⁺)">
+      <Section title={t("pages.nursingStudyGuides.potassiumK")}>
         <ValueTable headers={["Parameter", "Value"]} rows={[["Normal Range", "3.5–5.0 mEq/L"], ["Critical Low", "< 2.5 mEq/L"], ["Critical High", "> 6.5 mEq/L"]]} />
-        <p><strong>Hypokalemia (K⁺ &lt; 3.5):</strong> Causes include diuretics (furosemide), vomiting, diarrhea, alkalosis. Signs: muscle weakness, leg cramps, diminished reflexes, cardiac arrhythmias (flattened T waves, U waves, ST depression). Nursing: oral or IV potassium replacement (never push IV potassium), monitor ECG, assess digoxin toxicity risk.</p>
-        <p><strong>Hyperkalemia (K⁺ &gt; 5.0):</strong> Causes include renal failure, ACE inhibitors, potassium-sparing diuretics, burns, crush injuries. Signs: muscle weakness, paresthesias, cardiac arrhythmias (peaked T waves, widened QRS, sine wave pattern). Nursing: cardiac monitoring, administer calcium gluconate (cardioprotective), insulin + dextrose, kayexalate, prepare for dialysis if severe.</p>
-        <ExamTip><strong>NCLEX Tip:</strong> Potassium is the most commonly tested electrolyte. Remember: IV potassium must be diluted and infused slowly (max 10 mEq/hr peripherally, max 20 mEq/hr centrally). Never push IV potassium — it causes cardiac arrest.</ExamTip>
+        <p><strong>{t("pages.nursingStudyGuides.hypokalemiaKLt35")}</strong> {t("pages.nursingStudyGuides.causesIncludeDiureticsFurosemideVomiting")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.hyperkalemiaKGt50")}</strong> {t("pages.nursingStudyGuides.causesIncludeRenalFailureAce")}</p>
+        <ExamTip><strong>{t("pages.nursingStudyGuides.nclexTip2")}</strong> {t("pages.nursingStudyGuides.potassiumIsTheMostCommonly")}</ExamTip>
       </Section>
-      <Section title="Calcium (Ca²⁺)">
+      <Section title={t("pages.nursingStudyGuides.calciumCa")}>
         <ValueTable headers={["Parameter", "Value"]} rows={[["Normal Range", "8.5–10.5 mg/dL (total)"], ["Ionized Calcium", "4.5–5.5 mg/dL"], ["Critical Low", "< 7.0 mg/dL"], ["Critical High", "> 12.0 mg/dL"]]} />
-        <p><strong>Hypocalcemia (Ca²⁺ &lt; 8.5):</strong> Causes include hypoparathyroidism, vitamin D deficiency, pancreatitis, renal failure. Signs: Trousseau's sign (carpal spasm with BP cuff), Chvostek's sign (facial twitch), tetany, seizures, prolonged QT. Nursing: IV calcium gluconate, seizure precautions, monitor ECG.</p>
-        <p><strong>Hypercalcemia (Ca²⁺ &gt; 10.5):</strong> Causes include hyperparathyroidism, malignancy, immobility, excessive vitamin D. Signs: "bones, stones, moans, groans" (bone pain, kidney stones, confusion, GI symptoms). Nursing: hydration with NS, loop diuretics, calcitonin, bisphosphonates.</p>
-        <KeyPoint><strong>Remember:</strong> Calcium and phosphorus have an inverse relationship — when one goes up, the other goes down. Always check both values together.</KeyPoint>
+        <p><strong>{t("pages.nursingStudyGuides.hypocalcemiaCaLt85")}</strong> {t("pages.nursingStudyGuides.causesIncludeHypoparathyroidismVitaminD")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.hypercalcemiaCaGt105")}</strong> {t("pages.nursingStudyGuides.causesIncludeHyperparathyroidismMalignancyIm")}</p>
+        <KeyPoint><strong>{t("pages.nursingStudyGuides.remember")}</strong> {t("pages.nursingStudyGuides.calciumAndPhosphorusHaveAn")}</KeyPoint>
       </Section>
-      <Section title="Magnesium (Mg²⁺)">
+      <Section title={t("pages.nursingStudyGuides.magnesiumMg")}>
         <ValueTable headers={["Parameter", "Value"]} rows={[["Normal Range", "1.5–2.5 mEq/L"], ["Critical Low", "< 1.0 mEq/L"], ["Critical High", "> 4.0 mEq/L"]]} />
-        <p><strong>Hypomagnesemia (Mg²⁺ &lt; 1.5):</strong> Causes include alcoholism, malnutrition, diuretics, diarrhea. Signs: tremors, hyperreflexia, tetany, seizures, cardiac arrhythmias (torsades de pointes). Nursing: IV magnesium sulfate (with calcium gluconate at bedside as antidote), monitor deep tendon reflexes, respiratory rate, and urine output.</p>
-        <p><strong>Hypermagnesemia (Mg²⁺ &gt; 2.5):</strong> Causes include renal failure, excessive magnesium intake (antacids, laxatives). Signs: decreased DTRs, hypotension, respiratory depression, cardiac arrest. Nursing: stop magnesium, administer calcium gluconate, prepare for dialysis.</p>
-        <ExamTip><strong>Exam Tip:</strong> When monitoring IV magnesium sulfate (e.g., for preeclampsia), assess three things: deep tendon reflexes (should be present), respiratory rate (should be ≥12), and urine output (should be ≥30 mL/hr). Absent DTRs = magnesium toxicity.</ExamTip>
+        <p><strong>{t("pages.nursingStudyGuides.hypomagnesemiaMgLt15")}</strong> {t("pages.nursingStudyGuides.causesIncludeAlcoholismMalnutritionDiuretics")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.hypermagnesemiaMgGt25")}</strong> {t("pages.nursingStudyGuides.causesIncludeRenalFailureExcessive")}</p>
+        <ExamTip><strong>{t("pages.nursingStudyGuides.examTip")}</strong> {t("pages.nursingStudyGuides.whenMonitoringIvMagnesiumSulfate")}</ExamTip>
       </Section>
-      <Section title="Phosphorus (PO₄³⁻)">
+      <Section title={t("pages.nursingStudyGuides.phosphorusPo")}>
         <ValueTable headers={["Parameter", "Value"]} rows={[["Normal Range", "2.5–4.5 mg/dL"], ["Critical Low", "< 1.0 mg/dL"], ["Critical High", "> 8.0 mg/dL"]]} />
-        <p><strong>Hypophosphatemia (PO₄ &lt; 2.5):</strong> Causes include refeeding syndrome, antacid use, alcoholism, DKA treatment. Signs: muscle weakness, respiratory failure, confusion, rhabdomyolysis. Nursing: oral or IV phosphorus replacement, monitor respiratory status.</p>
-        <p><strong>Hyperphosphatemia (PO₄ &gt; 4.5):</strong> Causes include renal failure, tumor lysis syndrome, hypoparathyroidism. Signs: often asymptomatic; may cause symptoms of hypocalcemia (calcium-phosphorus inverse relationship). Nursing: phosphate binders with meals, dietary phosphorus restriction.</p>
+        <p><strong>{t("pages.nursingStudyGuides.hypophosphatemiaPoLt25")}</strong> {t("pages.nursingStudyGuides.causesIncludeRefeedingSyndromeAntacid")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.hyperphosphatemiaPoGt45")}</strong> {t("pages.nursingStudyGuides.causesIncludeRenalFailureTumor")}</p>
       </Section>
     </StudyGuidePageWrapper>
   );
@@ -371,48 +371,48 @@ function AcidBaseGuide() {
   ];
   return (
     <StudyGuidePageWrapper guide={guide} faqs={faqs}>
-      <Section title="Understanding Acid-Base Balance">
-        <p>The body maintains blood pH between 7.35 and 7.45 through three buffering systems: the bicarbonate buffer system, the respiratory system (lungs), and the renal system (kidneys). Disruptions to this balance result in four primary acid-base disorders that nurses must recognize and manage.</p>
+      <Section title={t("pages.nursingStudyGuides.understandingAcidbaseBalance")}>
+        <p>{t("pages.nursingStudyGuides.theBodyMaintainsBloodPh")}</p>
         <ValueTable headers={["ABG Component", "Normal Range", "Interpretation"]} rows={[
           ["pH", "7.35–7.45", "< 7.35 = Acidosis, > 7.45 = Alkalosis"],
           ["PaCO₂", "35–45 mmHg", "Respiratory component (inverse relationship with pH)"],
           ["HCO₃⁻", "22–26 mEq/L", "Metabolic component (direct relationship with pH)"],
           ["PaO₂", "80–100 mmHg", "Oxygenation status (not acid-base)"],
         ]} />
-        <KeyPoint><strong>Key principle:</strong> The lungs compensate quickly (minutes to hours) by adjusting CO₂ elimination. The kidneys compensate slowly (hours to days) by retaining or excreting bicarbonate.</KeyPoint>
+        <KeyPoint><strong>{t("pages.nursingStudyGuides.keyPrinciple2")}</strong> {t("pages.nursingStudyGuides.theLungsCompensateQuicklyMinutes")}</KeyPoint>
       </Section>
-      <Section title="Step-by-Step ABG Interpretation">
-        <p><strong>Step 1: Evaluate pH.</strong> Below 7.35 = acidosis. Above 7.45 = alkalosis. Normal pH with abnormal CO₂ and HCO₃ = fully compensated.</p>
-        <p><strong>Step 2: Evaluate PaCO₂.</strong> If PaCO₂ is abnormal and explains the pH change, the primary disorder is respiratory. CO₂ is an acid — elevated CO₂ causes acidosis.</p>
-        <p><strong>Step 3: Evaluate HCO₃⁻.</strong> If HCO₃ is abnormal and explains the pH change, the primary disorder is metabolic. HCO₃ is a base — decreased HCO₃ causes acidosis.</p>
-        <p><strong>Step 4: Assess compensation.</strong> If the other system (respiratory or metabolic) is also abnormal and moving in the direction to normalize pH, compensation is occurring.</p>
-        <ExamTip><strong>NCLEX Tip:</strong> The "ROME" mnemonic: Respiratory = Opposite (pH and CO₂ move in opposite directions). Metabolic = Equal (pH and HCO₃ move in the same direction).</ExamTip>
+      <Section title={t("pages.nursingStudyGuides.stepbystepAbgInterpretation")}>
+        <p><strong>{t("pages.nursingStudyGuides.step1EvaluatePh")}</strong> {t("pages.nursingStudyGuides.below735AcidosisAbove745")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.step2EvaluatePaco")}</strong> {t("pages.nursingStudyGuides.ifPacoIsAbnormalAnd")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.step3EvaluateHco")}</strong> {t("pages.nursingStudyGuides.ifHcoIsAbnormalAnd")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.step4AssessCompensation")}</strong> {t("pages.nursingStudyGuides.ifTheOtherSystemRespiratory")}</p>
+        <ExamTip><strong>{t("pages.nursingStudyGuides.nclexTip3")}</strong> {t("pages.nursingStudyGuides.theRomeMnemonicRespiratoryOpposite")}</ExamTip>
       </Section>
-      <Section title="Respiratory Acidosis">
-        <p><strong>Definition:</strong> pH &lt; 7.35 with PaCO₂ &gt; 45 mmHg. The lungs are not eliminating enough CO₂.</p>
-        <p><strong>Common causes:</strong> COPD, respiratory depression (opioids, sedation), pneumonia, airway obstruction, neuromuscular diseases (Guillain-Barré, myasthenia gravis).</p>
-        <p><strong>Signs:</strong> Dyspnea, confusion, headache, drowsiness progressing to lethargy, tachycardia.</p>
-        <p><strong>Nursing interventions:</strong> Improve ventilation (positioning, bronchodilators, incentive spirometry), administer supplemental oxygen cautiously in COPD patients, prepare for mechanical ventilation if severe, monitor respiratory rate and depth.</p>
+      <Section title={t("pages.nursingStudyGuides.respiratoryAcidosis")}>
+        <p><strong>{t("pages.nursingStudyGuides.definition")}</strong> {t("pages.nursingStudyGuides.phLt735WithPaco")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.commonCauses")}</strong> {t("pages.nursingStudyGuides.copdRespiratoryDepressionOpioidsSedation")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.signs")}</strong> {t("pages.nursingStudyGuides.dyspneaConfusionHeadacheDrowsinessProgressi")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.nursingInterventions")}</strong> {t("pages.nursingStudyGuides.improveVentilationPositioningBronchodilators")}</p>
       </Section>
-      <Section title="Respiratory Alkalosis">
-        <p><strong>Definition:</strong> pH &gt; 7.45 with PaCO₂ &lt; 35 mmHg. The lungs are eliminating too much CO₂ (hyperventilation).</p>
-        <p><strong>Common causes:</strong> Anxiety/panic attacks, pain, fever, early salicylate poisoning, mechanical overventilation, hypoxia-driven tachypnea.</p>
-        <p><strong>Signs:</strong> Lightheadedness, numbness/tingling (circumoral and extremities), muscle spasms, palpitations.</p>
-        <p><strong>Nursing interventions:</strong> Address underlying cause, coach slow breathing, provide reassurance for anxiety-related hyperventilation, adjust ventilator settings if mechanically ventilated.</p>
+      <Section title={t("pages.nursingStudyGuides.respiratoryAlkalosis")}>
+        <p><strong>{t("pages.nursingStudyGuides.definition2")}</strong> {t("pages.nursingStudyGuides.phGt745WithPaco")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.commonCauses2")}</strong> {t("pages.nursingStudyGuides.anxietypanicAttacksPainFeverEarly")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.signs2")}</strong> {t("pages.nursingStudyGuides.lightheadednessNumbnesstinglingCircumoralAnd")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.nursingInterventions2")}</strong> {t("pages.nursingStudyGuides.addressUnderlyingCauseCoachSlow")}</p>
       </Section>
-      <Section title="Metabolic Acidosis">
-        <p><strong>Definition:</strong> pH &lt; 7.35 with HCO₃⁻ &lt; 22 mEq/L. The body has excess acid or lost bicarbonate.</p>
-        <p><strong>Common causes:</strong> DKA, lactic acidosis, renal failure, diarrhea (loss of bicarbonate), toxic ingestions (methanol, ethylene glycol).</p>
-        <p><strong>Signs:</strong> Kussmaul respirations (deep, rapid breathing — compensatory), confusion, fatigue, nausea, abdominal pain.</p>
-        <p><strong>Nursing interventions:</strong> Treat underlying cause (insulin for DKA, fluids for lactic acidosis), administer sodium bicarbonate if pH &lt; 7.1, monitor potassium (shifts with acidosis correction), assess respiratory effort.</p>
-        <KeyPoint><strong>Calculate the anion gap</strong> to differentiate between anion gap acidosis (DKA, lactic acidosis — MUDPILES) and non-anion gap acidosis (diarrhea, RTA — HARDUPS). Use our <LocaleLink href="/clinical-calculators/anion-gap" className="text-emerald-600 underline">Anion Gap Calculator</LocaleLink>.</KeyPoint>
+      <Section title={t("pages.nursingStudyGuides.metabolicAcidosis")}>
+        <p><strong>{t("pages.nursingStudyGuides.definition3")}</strong> {t("pages.nursingStudyGuides.phLt735WithHco")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.commonCauses3")}</strong> {t("pages.nursingStudyGuides.dkaLacticAcidosisRenalFailure")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.signs3")}</strong> {t("pages.nursingStudyGuides.kussmaulRespirationsDeepRapidBreathing")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.nursingInterventions3")}</strong> {t("pages.nursingStudyGuides.treatUnderlyingCauseInsulinFor")}</p>
+        <KeyPoint><strong>{t("pages.nursingStudyGuides.calculateTheAnionGap")}</strong> to differentiate between anion gap acidosis (DKA, lactic acidosis — MUDPILES) and non-anion gap acidosis (diarrhea, RTA — HARDUPS). Use our <LocaleLink href="/clinical-calculators/anion-gap" className="text-emerald-600 underline">{t("pages.nursingStudyGuides.anionGapCalculator")}</LocaleLink>.</KeyPoint>
       </Section>
-      <Section title="Metabolic Alkalosis">
-        <p><strong>Definition:</strong> pH &gt; 7.45 with HCO₃⁻ &gt; 26 mEq/L. The body has excess bicarbonate or lost acid.</p>
-        <p><strong>Common causes:</strong> Prolonged vomiting/NG suction (loss of HCl), excessive antacid use, hypokalemia, diuretic use.</p>
-        <p><strong>Signs:</strong> Confusion, muscle twitching, hand tremors, hypoventilation (compensatory — shallow breathing).</p>
-        <p><strong>Nursing interventions:</strong> Replace chloride and potassium, administer anti-emetics, discontinue offending medications, monitor respiratory status for compensatory hypoventilation.</p>
-        <ExamTip><strong>Exam Tip:</strong> Vomiting causes metabolic alkalosis (loss of stomach acid). Diarrhea causes metabolic acidosis (loss of bicarbonate from intestines). This distinction is commonly tested.</ExamTip>
+      <Section title={t("pages.nursingStudyGuides.metabolicAlkalosis")}>
+        <p><strong>{t("pages.nursingStudyGuides.definition4")}</strong> {t("pages.nursingStudyGuides.phGt745WithHco")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.commonCauses4")}</strong> {t("pages.nursingStudyGuides.prolongedVomitingngSuctionLossOf")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.signs4")}</strong> {t("pages.nursingStudyGuides.confusionMuscleTwitchingHandTremors")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.nursingInterventions4")}</strong> {t("pages.nursingStudyGuides.replaceChlorideAndPotassiumAdminister")}</p>
+        <ExamTip><strong>{t("pages.nursingStudyGuides.examTip2")}</strong> {t("pages.nursingStudyGuides.vomitingCausesMetabolicAlkalosisLoss")}</ExamTip>
       </Section>
     </StudyGuidePageWrapper>
   );
@@ -427,8 +427,8 @@ function ECGGuide() {
   ];
   return (
     <StudyGuidePageWrapper guide={guide} faqs={faqs}>
-      <Section title="Systematic ECG Interpretation Approach">
-        <p>Consistent ECG analysis requires a systematic approach. Use the same sequence every time to avoid missing critical findings. The recommended approach: Rate → Rhythm → P waves → PR interval → QRS complex → ST segment → T waves.</p>
+      <Section title={t("pages.nursingStudyGuides.systematicEcgInterpretationApproach")}>
+        <p>{t("pages.nursingStudyGuides.consistentEcgAnalysisRequiresA")}</p>
         <ValueTable headers={["Component", "Normal Value", "What It Represents"]} rows={[
           ["Heart Rate", "60–100 bpm", "Ventricular rate (count R-R intervals)"],
           ["P Wave", "Upright, uniform", "Atrial depolarization"],
@@ -438,34 +438,34 @@ function ECGGuide() {
           ["ST Segment", "Isoelectric (flat)", "Early ventricular repolarization"],
           ["T Wave", "Upright, rounded", "Ventricular repolarization"],
         ]} />
-        <ExamTip><strong>NCLEX Tip:</strong> You don't need to be a cardiologist, but you must recognize lethal rhythms: V-fib (immediate defibrillation), V-tach (pulseless = defibrillation; with pulse = amiodarone + cardioversion), asystole (CPR + epinephrine), and PEA (CPR + treat cause).</ExamTip>
+        <ExamTip><strong>{t("pages.nursingStudyGuides.nclexTip4")}</strong> {t("pages.nursingStudyGuides.youDontNeedToBe")}</ExamTip>
       </Section>
-      <Section title="Normal Sinus Rhythm (NSR)">
-        <p>Normal sinus rhythm is the baseline against which all other rhythms are compared. Criteria: rate 60–100 bpm, regular rhythm, one P wave before each QRS, PR interval 0.12–0.20 sec, narrow QRS (&lt; 0.12 sec). NSR originates from the SA node and represents normal cardiac conduction.</p>
+      <Section title={t("pages.nursingStudyGuides.normalSinusRhythmNsr")}>
+        <p>{t("pages.nursingStudyGuides.normalSinusRhythmIsThe")}</p>
       </Section>
-      <Section title="Common Arrhythmias">
-        <p><strong>Sinus Bradycardia:</strong> Rate &lt; 60 bpm with normal P-QRS-T morphology. Common in athletes, during sleep, and with beta-blocker use. Treat with atropine if symptomatic (hypotension, altered mental status). Pacing may be needed for unresponsive symptomatic bradycardia.</p>
-        <p><strong>Sinus Tachycardia:</strong> Rate &gt; 100 bpm with normal morphology. Causes: fever, pain, anxiety, dehydration, hemorrhage, heart failure. Treatment: address the underlying cause — sinus tachycardia is a symptom, not a primary rhythm disorder.</p>
-        <p><strong>Atrial Fibrillation (A-Fib):</strong> Irregularly irregular rhythm with no discernible P waves (fibrillatory baseline). Risk of atrial thrombus formation → stroke. Management: rate control (diltiazem, metoprolol), rhythm control (amiodarone, cardioversion), anticoagulation (warfarin, DOACs).</p>
-        <p><strong>Atrial Flutter:</strong> "Sawtooth" pattern of flutter waves, typically at 300 bpm with 2:1, 3:1, or 4:1 conduction. Ventricular rate is regular. Treatment similar to A-fib; cardioversion is often effective.</p>
-        <KeyPoint><strong>Key nursing action for A-fib:</strong> Assess for signs of stroke (FAST: Face drooping, Arm weakness, Speech difficulty, Time to call 911). A-fib is the most common cause of cardioembolic stroke.</KeyPoint>
+      <Section title={t("pages.nursingStudyGuides.commonArrhythmias")}>
+        <p><strong>{t("pages.nursingStudyGuides.sinusBradycardia")}</strong> {t("pages.nursingStudyGuides.rateLt60BpmWith")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.sinusTachycardia")}</strong> {t("pages.nursingStudyGuides.rateGt100BpmWith")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.atrialFibrillationAfib")}</strong> {t("pages.nursingStudyGuides.irregularlyIrregularRhythmWithNo")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.atrialFlutter")}</strong> {t("pages.nursingStudyGuides.sawtoothPatternOfFlutterWaves")}</p>
+        <KeyPoint><strong>{t("pages.nursingStudyGuides.keyNursingActionForAfib")}</strong> {t("pages.nursingStudyGuides.assessForSignsOfStroke")}</KeyPoint>
       </Section>
-      <Section title="Heart Blocks">
-        <p><strong>First-Degree AV Block:</strong> PR interval &gt; 0.20 sec, every P wave conducts. Usually benign — monitor only.</p>
-        <p><strong>Second-Degree Type I (Wenckebach):</strong> Progressive PR prolongation until a QRS is dropped. Often transient and asymptomatic. Monitor; usually no treatment needed.</p>
-        <p><strong>Second-Degree Type II (Mobitz II):</strong> Consistent PR intervals with sudden dropped QRS complexes. More serious — can progress to complete heart block. May require pacing.</p>
-        <p><strong>Third-Degree (Complete) Heart Block:</strong> Complete AV dissociation — P waves and QRS complexes are independent. Wide QRS with slow ventricular rate. Emergency: transcutaneous pacing, atropine, prepare for permanent pacemaker.</p>
-        <ExamTip><strong>Exam Tip:</strong> "Wenck-E-bach" — think "longer, longer, longer, DROP, now you have a Wenckebach." For Type II: "some P's don't get through" — fixed PR intervals with randomly dropped QRS complexes.</ExamTip>
+      <Section title={t("pages.nursingStudyGuides.heartBlocks")}>
+        <p><strong>{t("pages.nursingStudyGuides.firstdegreeAvBlock")}</strong> {t("pages.nursingStudyGuides.prIntervalGt020Sec")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.seconddegreeTypeIWenckebach")}</strong> {t("pages.nursingStudyGuides.progressivePrProlongationUntilA")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.seconddegreeTypeIiMobitzIi")}</strong> {t("pages.nursingStudyGuides.consistentPrIntervalsWithSudden")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.thirddegreeCompleteHeartBlock")}</strong> {t("pages.nursingStudyGuides.completeAvDissociationPWaves")}</p>
+        <ExamTip><strong>{t("pages.nursingStudyGuides.examTip3")}</strong> {t("pages.nursingStudyGuides.wenckebachThinkLongerLongerLonger")}</ExamTip>
       </Section>
-      <Section title="Ventricular Rhythms">
-        <p><strong>Premature Ventricular Contractions (PVCs):</strong> Wide, bizarre QRS complexes followed by compensatory pause. Occasional PVCs are common and benign. Frequent PVCs (&gt; 6/min), multifocal, R-on-T phenomenon, or runs of PVCs require intervention (amiodarone, lidocaine, address electrolytes).</p>
-        <p><strong>Ventricular Tachycardia (V-Tach):</strong> Three or more consecutive PVCs at rate &gt; 100 bpm. Wide QRS complexes. Pulseless V-tach: defibrillate immediately. V-tach with pulse: amiodarone, synchronized cardioversion if unstable.</p>
-        <p><strong>Ventricular Fibrillation (V-Fib):</strong> Chaotic, disorganized electrical activity — no effective cardiac output. Immediately defibrillate. CPR until defibrillator ready. Epinephrine + amiodarone per ACLS protocol.</p>
-        <KeyPoint><strong>Life-threatening rhythms:</strong> V-fib and pulseless V-tach are shockable rhythms. Asystole and PEA are non-shockable. Know the ACLS algorithms for each.</KeyPoint>
+      <Section title={t("pages.nursingStudyGuides.ventricularRhythms")}>
+        <p><strong>{t("pages.nursingStudyGuides.prematureVentricularContractionsPvcs")}</strong> {t("pages.nursingStudyGuides.wideBizarreQrsComplexesFollowed")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.ventricularTachycardiaVtach")}</strong> {t("pages.nursingStudyGuides.threeOrMoreConsecutivePvcs")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.ventricularFibrillationVfib")}</strong> {t("pages.nursingStudyGuides.chaoticDisorganizedElectricalActivityNo")}</p>
+        <KeyPoint><strong>{t("pages.nursingStudyGuides.lifethreateningRhythms")}</strong> {t("pages.nursingStudyGuides.vfibAndPulselessVtachAre")}</KeyPoint>
       </Section>
-      <Section title="STEMI Recognition">
-        <p>ST-elevation myocardial infarction (STEMI) requires immediate recognition and intervention. Look for ST-segment elevation ≥ 1mm in two or more contiguous leads. Territory localization: Inferior (II, III, aVF), Anterior (V1–V4), Lateral (I, aVL, V5–V6). Reciprocal ST depression in opposite leads supports the diagnosis.</p>
-        <p><strong>Nursing priorities for STEMI:</strong> MONA (Morphine if needed, Oxygen if SpO₂ &lt; 94%, Nitroglycerin, Aspirin 325 mg chewed). Activate cath lab for PCI within 90 minutes of arrival. Obtain serial 12-lead ECGs. Monitor for dysrhythmias.</p>
+      <Section title={t("pages.nursingStudyGuides.stemiRecognition")}>
+        <p>{t("pages.nursingStudyGuides.stelevationMyocardialInfarctionStemiRequire")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.nursingPrioritiesForStemi")}</strong> {t("pages.nursingStudyGuides.monaMorphineIfNeededOxygen")}</p>
       </Section>
     </StudyGuidePageWrapper>
   );
@@ -480,35 +480,35 @@ function FluidBalanceGuide() {
   ];
   return (
     <StudyGuidePageWrapper guide={guide} faqs={faqs}>
-      <Section title="Fluid Compartments and Distribution">
-        <p>Total body water comprises approximately 60% of body weight in adults (less in elderly and obese patients). This water is distributed between two main compartments: intracellular fluid (ICF, about 2/3) and extracellular fluid (ECF, about 1/3). The ECF is further divided into intravascular (plasma) and interstitial (between cells) compartments.</p>
+      <Section title={t("pages.nursingStudyGuides.fluidCompartmentsAndDistribution")}>
+        <p>{t("pages.nursingStudyGuides.totalBodyWaterComprisesApproximately")}</p>
         <ValueTable headers={["Compartment", "Percentage of Body Water", "Clinical Significance"]} rows={[
           ["Intracellular (ICF)", "~67%", "Potassium is the primary cation; where cellular metabolism occurs"],
           ["Interstitial", "~25%", "Space between cells; edema occurs here"],
           ["Intravascular (Plasma)", "~8%", "Blood volume; affects blood pressure and perfusion"],
         ]} />
-        <KeyPoint><strong>Key principle:</strong> Water moves between compartments by osmosis — from areas of lower solute concentration to higher solute concentration. Understanding this principle is essential for predicting fluid shifts with IV fluid administration.</KeyPoint>
+        <KeyPoint><strong>{t("pages.nursingStudyGuides.keyPrinciple3")}</strong> {t("pages.nursingStudyGuides.waterMovesBetweenCompartmentsBy")}</KeyPoint>
       </Section>
-      <Section title="Types of IV Fluids">
-        <p><strong>Isotonic Fluids (osmolality ≈ 275–295 mOsm/L):</strong> Expand the ECF without causing fluid shifts between compartments. Examples: 0.9% Normal Saline (NS), Lactated Ringer's (LR), D5W (initially isotonic but becomes hypotonic). Use for: volume resuscitation, dehydration, hemorrhage.</p>
-        <p><strong>Hypotonic Fluids (osmolality &lt; 275 mOsm/L):</strong> Cause water to shift from ECF into cells (ICF). Examples: 0.45% Half-Normal Saline (½NS), 0.225% Quarter-Normal Saline. Use for: cellular dehydration, hypernatremia. Caution: never give to patients with increased ICP (can worsen cerebral edema).</p>
-        <p><strong>Hypertonic Fluids (osmolality &gt; 295 mOsm/L):</strong> Pull water from cells into the ECF. Examples: 3% Saline, D10W, D5NS, D5LR. Use for: severe hyponatremia, cerebral edema (3% saline). Caution: give slowly; risk of fluid volume overload and phlebitis.</p>
-        <ExamTip><strong>NCLEX Tip:</strong> Remember "hypo = swells cells, hyper = shrinks cells." Never give hypotonic fluids to head injury patients (brain cells swell → increased ICP). Use hypertonic saline cautiously — too-rapid correction of hyponatremia causes osmotic demyelination syndrome.</ExamTip>
+      <Section title={t("pages.nursingStudyGuides.typesOfIvFluids")}>
+        <p><strong>{t("pages.nursingStudyGuides.isotonicFluidsOsmolality275295Mosml")}</strong> {t("pages.nursingStudyGuides.expandTheEcfWithoutCausing")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.hypotonicFluidsOsmolalityLt275")}</strong> {t("pages.nursingStudyGuides.causeWaterToShiftFrom")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.hypertonicFluidsOsmolalityGt295")}</strong> {t("pages.nursingStudyGuides.pullWaterFromCellsInto")}</p>
+        <ExamTip><strong>{t("pages.nursingStudyGuides.nclexTip5")}</strong> {t("pages.nursingStudyGuides.rememberHypoSwellsCellsHyper")}</ExamTip>
       </Section>
-      <Section title="Fluid Volume Deficit (Dehydration/Hypovolemia)">
-        <p><strong>Causes:</strong> Hemorrhage, vomiting, diarrhea, excessive diuresis, burns, third-spacing, inadequate fluid intake.</p>
-        <p><strong>Assessment findings:</strong> Tachycardia, hypotension, orthostatic hypotension, decreased urine output (&lt; 30 mL/hr), concentrated urine (specific gravity &gt; 1.030), poor skin turgor, dry mucous membranes, elevated BUN-to-creatinine ratio (&gt; 20:1), weight loss (1 L = 1 kg = 2.2 lbs).</p>
-        <p><strong>Nursing interventions:</strong> IV fluid replacement (isotonic fluids for volume expansion), strict I&O monitoring, daily weights (same time, same scale, same clothing), oral rehydration when tolerated, monitor vital signs for signs of improvement.</p>
+      <Section title={t("pages.nursingStudyGuides.fluidVolumeDeficitDehydrationhypovolemia")}>
+        <p><strong>{t("pages.nursingStudyGuides.causes")}</strong> {t("pages.nursingStudyGuides.hemorrhageVomitingDiarrheaExcessiveDiuresis")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.assessmentFindings")}</strong> {t("pages.nursingStudyGuides.tachycardiaHypotensionOrthostaticHypotension")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.nursingInterventions5")}</strong> {t("pages.nursingStudyGuides.ivFluidReplacementIsotonicFluids")}</p>
       </Section>
-      <Section title="Fluid Volume Excess (Hypervolemia/Overload)">
-        <p><strong>Causes:</strong> Heart failure, renal failure, liver cirrhosis, excessive IV fluid administration, SIADH, excessive sodium intake.</p>
-        <p><strong>Assessment findings:</strong> Weight gain, edema (peripheral, periorbital, sacral in bedridden patients), distended neck veins (JVD), crackles/rales on auscultation, dyspnea, S3 heart sound, elevated CVP, dilutional hyponatremia, decreased hematocrit.</p>
-        <p><strong>Nursing interventions:</strong> Fluid and sodium restriction, administer diuretics (furosemide — monitor potassium), elevate HOB, daily weights, I&O monitoring, oxygen therapy if dyspneic, assess lung sounds frequently.</p>
-        <KeyPoint><strong>Daily weights</strong> are the most accurate indicator of fluid status changes. A gain of 1 kg (2.2 lbs) = approximately 1 liter of fluid retention.</KeyPoint>
+      <Section title={t("pages.nursingStudyGuides.fluidVolumeExcessHypervolemiaoverload")}>
+        <p><strong>{t("pages.nursingStudyGuides.causes2")}</strong> {t("pages.nursingStudyGuides.heartFailureRenalFailureLiver")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.assessmentFindings2")}</strong> {t("pages.nursingStudyGuides.weightGainEdemaPeripheralPeriorbital")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.nursingInterventions6")}</strong> {t("pages.nursingStudyGuides.fluidAndSodiumRestrictionAdminister")}</p>
+        <KeyPoint><strong>{t("pages.nursingStudyGuides.dailyWeights")}</strong> {t("pages.nursingStudyGuides.areTheMostAccurateIndicator")}</KeyPoint>
       </Section>
-      <Section title="Osmolality and Tonicity">
-        <p><strong>Serum osmolality</strong> (normal: 275–295 mOsm/kg) reflects the concentration of solutes in the blood. It is primarily determined by sodium, glucose, and BUN. An elevated osmolality indicates concentrated blood (dehydration), while low osmolality indicates dilute blood (fluid overload or SIADH).</p>
-        <p><strong>Urine osmolality and specific gravity</strong> help assess the kidneys' ability to concentrate urine. In dehydration: urine is concentrated (high specific gravity &gt; 1.030, high osmolality). In fluid overload or diabetes insipidus: urine is dilute (low specific gravity &lt; 1.005).</p>
+      <Section title={t("pages.nursingStudyGuides.osmolalityAndTonicity")}>
+        <p><strong>{t("pages.nursingStudyGuides.serumOsmolality")}</strong> {t("pages.nursingStudyGuides.normal275295MosmkgReflectsThe")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.urineOsmolalityAndSpecificGravity")}</strong> {t("pages.nursingStudyGuides.helpAssessTheKidneysAbility")}</p>
       </Section>
     </StudyGuidePageWrapper>
   );
@@ -523,11 +523,11 @@ function CriticalLabValuesGuide() {
   ];
   return (
     <StudyGuidePageWrapper guide={guide} faqs={faqs}>
-      <Section title="Understanding Critical Lab Values">
-        <p>Critical (or "panic") lab values are results that fall outside the normal range to a degree that poses an immediate threat to patient safety. When a critical value is identified, the laboratory must notify the nurse or provider immediately, and the nurse must take appropriate action. Failure to act on critical lab values is a common cause of adverse patient outcomes.</p>
-        <KeyPoint><strong>Nursing responsibility:</strong> When you receive a critical lab value, you must: (1) verify the result, (2) assess the patient, (3) notify the provider, (4) implement interventions, and (5) document the communication and actions taken.</KeyPoint>
+      <Section title={t("pages.nursingStudyGuides.understandingCriticalLabValues")}>
+        <p>{t("pages.nursingStudyGuides.criticalOrPanicLabValues")}</p>
+        <KeyPoint><strong>{t("pages.nursingStudyGuides.nursingResponsibility")}</strong> {t("pages.nursingStudyGuides.whenYouReceiveACritical")}</KeyPoint>
       </Section>
-      <Section title="Critical Electrolyte Values">
+      <Section title={t("pages.nursingStudyGuides.criticalElectrolyteValues")}>
         <ValueTable headers={["Lab Test", "Normal Range", "Critical Low", "Critical High", "Nursing Action"]} rows={[
           ["Potassium", "3.5–5.0 mEq/L", "< 2.5 mEq/L", "> 6.5 mEq/L", "Cardiac monitor, notify MD, treat per protocol"],
           ["Sodium", "135–145 mEq/L", "< 120 mEq/L", "> 160 mEq/L", "Neuro checks, fluid management, notify MD"],
@@ -537,7 +537,7 @@ function CriticalLabValuesGuide() {
           ["Glucose", "70–100 mg/dL", "< 50 mg/dL", "> 400 mg/dL", "Treat hypoglycemia immediately; DKA protocol for severe hyperglycemia"],
         ]} />
       </Section>
-      <Section title="Critical Hematology Values">
+      <Section title={t("pages.nursingStudyGuides.criticalHematologyValues")}>
         <ValueTable headers={["Lab Test", "Normal Range", "Critical Low", "Critical High", "Nursing Action"]} rows={[
           ["Hemoglobin", "M: 13.5–17.5 g/dL, F: 12.0–16.0 g/dL", "< 7.0 g/dL", "> 20 g/dL", "Type & screen, prepare for transfusion"],
           ["Hematocrit", "M: 40–54%, F: 36–48%", "< 20%", "> 60%", "Assess for bleeding, dehydration"],
@@ -545,9 +545,9 @@ function CriticalLabValuesGuide() {
           ["WBC", "4,500–11,000/μL", "< 2,000/μL", "> 30,000/μL", "Neutropenic precautions if low; assess for sepsis if elevated"],
           ["INR", "0.8–1.2 (therapeutic 2.0–3.0 on warfarin)", "—", "> 4.5", "Hold warfarin, assess for bleeding, vitamin K availability"],
         ]} />
-        <ExamTip><strong>NCLEX Tip:</strong> Know the "7/7 rule" for transfusion triggers — hemoglobin &lt; 7 g/dL generally triggers RBC transfusion consideration. For platelets, &lt; 10,000 = risk of spontaneous bleeding; &lt; 50,000 = bleeding precautions needed.</ExamTip>
+        <ExamTip><strong>{t("pages.nursingStudyGuides.nclexTip6")}</strong> {t("pages.nursingStudyGuides.knowThe77RuleFor")}</ExamTip>
       </Section>
-      <Section title="Critical Cardiac and Renal Values">
+      <Section title={t("pages.nursingStudyGuides.criticalCardiacAndRenalValues")}>
         <ValueTable headers={["Lab Test", "Normal Range", "Critical Value", "Nursing Action"]} rows={[
           ["Troponin I", "< 0.04 ng/mL", "> 0.4 ng/mL", "12-lead ECG, activate chest pain protocol"],
           ["BNP", "< 100 pg/mL", "> 500 pg/mL", "Assess for heart failure, fluid status"],
@@ -556,22 +556,22 @@ function CriticalLabValuesGuide() {
           ["BUN", "7–20 mg/dL", "> 100 mg/dL", "Assess for uremic symptoms, prepare for dialysis"],
         ]} />
       </Section>
-      <Section title="Critical ABG Values">
+      <Section title={t("pages.nursingStudyGuides.criticalAbgValues")}>
         <ValueTable headers={["Parameter", "Normal", "Critical", "Clinical Significance"]} rows={[
           ["pH", "7.35–7.45", "< 7.20 or > 7.60", "Severe acidosis or alkalosis — life-threatening"],
           ["PaCO₂", "35–45 mmHg", "< 20 or > 70 mmHg", "Severe respiratory failure"],
           ["PaO₂", "80–100 mmHg", "< 60 mmHg", "Respiratory failure (type 1)"],
           ["HCO₃⁻", "22–26 mEq/L", "< 10 or > 40 mEq/L", "Severe metabolic derangement"],
         ]} />
-        <p>Use our <LocaleLink href="/clinical-calculators/abg-interpretation" className="text-emerald-600 underline">ABG Interpretation Helper</LocaleLink> to practice step-by-step acid-base analysis with clinical interpretation.</p>
+        <p>Use our <LocaleLink href="/clinical-calculators/abg-interpretation" className="text-emerald-600 underline">{t("pages.nursingStudyGuides.abgInterpretationHelper")}</LocaleLink> {t("pages.nursingStudyGuides.toPracticeStepbystepAcidbaseAnalysis")}</p>
       </Section>
-      <Section title="Nursing Response to Critical Values">
-        <p><strong>SBAR Communication Framework:</strong> When notifying the provider about a critical lab value:</p>
-        <p><strong>S (Situation):</strong> "I'm calling about a critical lab result for [patient name] in room [X]."</p>
-        <p><strong>B (Background):</strong> "The patient was admitted for [diagnosis]. Relevant history includes [medications, conditions]."</p>
-        <p><strong>A (Assessment):</strong> "The potassium came back at 6.8 mEq/L. The patient's current heart rate is [X], and they are [symptomatic/asymptomatic]. The ECG shows [findings]."</p>
-        <p><strong>R (Recommendation):</strong> "I would like to request [specific orders: calcium gluconate, insulin/D50, kayexalate, repeat lab in X hours]."</p>
-        <KeyPoint><strong>Documentation:</strong> Always document the time the critical value was received, the time the provider was notified, the provider's response/orders, interventions implemented, and the patient's response to treatment.</KeyPoint>
+      <Section title={t("pages.nursingStudyGuides.nursingResponseToCriticalValues")}>
+        <p><strong>{t("pages.nursingStudyGuides.sbarCommunicationFramework")}</strong> {t("pages.nursingStudyGuides.whenNotifyingTheProviderAbout")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.sSituation")}</strong> {t("pages.nursingStudyGuides.imCallingAboutACritical")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.bBackground")}</strong> {t("pages.nursingStudyGuides.thePatientWasAdmittedFor")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.aAssessment")}</strong> {t("pages.nursingStudyGuides.thePotassiumCameBackAt")}</p>
+        <p><strong>{t("pages.nursingStudyGuides.rRecommendation")}</strong> {t("pages.nursingStudyGuides.iWouldLikeToRequest")}</p>
+        <KeyPoint><strong>{t("pages.nursingStudyGuides.documentation")}</strong> {t("pages.nursingStudyGuides.alwaysDocumentTheTimeThe")}</KeyPoint>
       </Section>
     </StudyGuidePageWrapper>
   );

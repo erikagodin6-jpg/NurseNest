@@ -5,6 +5,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, CheckCircle2, ChevronDown, Clock, BookOpen,
   GraduationCap, Globe, Shield, DollarSign, FileText,
@@ -356,6 +357,7 @@ const CLUSTER_CONFIGS: Record<string, ClusterConfig> = {
 };
 
 function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   return (
     <div className="border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-item-${index}`}>
@@ -448,7 +450,7 @@ export function ClusterPageBySlug({ slug }: { slug: string }) {
 
         {config.tips && config.tips.length > 0 && (
           <section className="py-10 border-b border-gray-100" data-testid="section-tips">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Pro Tips</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.internationalNursingCluster.proTips")}</h2>
             <div className="space-y-2">
               {config.tips.map((tip, i) => (
                 <div key={i} className="flex items-start gap-3 bg-teal-50 rounded-lg p-3 border border-teal-100">
@@ -463,8 +465,8 @@ export function ClusterPageBySlug({ slug }: { slug: string }) {
 
       <section className="py-14 bg-teal-600 mt-10" data-testid="section-cta">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-white mb-3">Ready to Start Your International Nursing Journey?</h2>
-          <p className="text-teal-100 mb-6 max-w-2xl mx-auto">NurseNest provides comprehensive exam prep, study resources, and career tools designed specifically for internationally educated nurses.</p>
+          <h2 className="text-2xl font-bold text-white mb-3">{t("pages.internationalNursingCluster.readyToStartYourInternational")}</h2>
+          <p className="text-teal-100 mb-6 max-w-2xl mx-auto">{t("pages.internationalNursingCluster.nursenestProvidesComprehensiveExamPrep")}</p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link href="/mock-exams" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-semibold hover:bg-teal-50" data-testid="button-cta-bottom-exam">
               Explore Exam Prep <ArrowRight className="w-4 h-4" />
@@ -484,7 +486,7 @@ export function ClusterPageBySlug({ slug }: { slug: string }) {
       {config.faqs.length > 0 && (
         <section className="py-14" data-testid="section-faq">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.internationalNursingCluster.frequentlyAskedQuestions")}</h2>
             <div className="space-y-3">
               {config.faqs.map((faq, i) => (
                 <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />

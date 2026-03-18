@@ -448,8 +448,8 @@ export default function Lessons() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
       <SEO
-        title="Clinical Lesson Library - Nursing Pathophysiology & Exam Prep by Body System"
-        description="Explore 150+ structured nursing lessons organized by body system. Medical-surgical, pharmacology, maternal-newborn, mental health, critical care, and clinical prioritization content for RPN, RN, and NP students preparing for NCLEX and REX-PN."
+        title={t("pages.lessons.clinicalLessonLibraryNursingPathophysiology")}
+        description={t("pages.lessons.explore150StructuredNursingLessons")}
         keywords="nursing pathophysiology lessons, body system nursing, cardiovascular nursing, respiratory nursing, neurological nursing, NCLEX study guide, nursing exam prep, clinical nursing education"
         canonicalPath="/lessons"
         ogType="website"
@@ -485,9 +485,9 @@ export default function Lessons() {
                 </>
               ) : isFreeUser ? (
                 <>
-                  <TabsTrigger value="rpn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm" data-testid="tab-rpn-preview">RPN Preview</TabsTrigger>
-                  <TabsTrigger value="rn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm" data-testid="tab-rn-preview">RN Preview</TabsTrigger>
-                  <TabsTrigger value="np" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm" data-testid="tab-np-preview">NP Preview</TabsTrigger>
+                  <TabsTrigger value="rpn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm" data-testid="tab-rpn-preview">{t("pages.lessons.rpnPreview")}</TabsTrigger>
+                  <TabsTrigger value="rn" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm" data-testid="tab-rn-preview">{t("pages.lessons.rnPreview")}</TabsTrigger>
+                  <TabsTrigger value="np" className="rounded-full data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm" data-testid="tab-np-preview">{t("pages.lessons.npPreview")}</TabsTrigger>
                 </>
               ) : (
                 <>
@@ -506,7 +506,7 @@ export default function Lessons() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <Input
               type="text"
-              placeholder="Search lessons by title..."
+              placeholder={t("pages.lessons.searchLessonsByTitle")}
               value={lessonSearchQuery}
               onChange={(e) => setLessonSearchQuery(e.target.value)}
               className="pl-10 rounded-full border-gray-200 bg-white shadow-sm"
@@ -535,7 +535,7 @@ export default function Lessons() {
             style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E\")", backgroundRepeat: "no-repeat", backgroundPosition: "right 12px center" }}
             data-testid="select-system-filter"
           >
-            <option value="all">All Systems</option>
+            <option value="all">{t("pages.lessons.allSystems")}</option>
             {(() => {
               const currentSystems = activeTab === "rpn" ? enhanceSystems([...fundamentalsSystems, ...delegationSystems, ...clinicalScenariosSystems, ...medMathSystems, ...allFreeSystems, ...rpnNonPharm])
                 : activeTab === "rn" ? enhanceSystems([...clinicalScenariosSystems, ...medMathSystems, ...allFreeSystems, ...rnNonPharm])
@@ -550,7 +550,7 @@ export default function Lessons() {
 
         {isFreeUser && (
           <div className="mb-8 p-6 rounded-2xl bg-gradient-to-r from-primary/5 via-white to-primary/5 border border-primary/20 text-center" data-testid="banner-lesson-upgrade">
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Unlock the Full Lesson Library</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">{t("pages.lessons.unlockTheFullLessonLibrary")}</h3>
             <p className="text-sm text-gray-600 mb-4 max-w-2xl mx-auto">
               You are viewing a preview of available lessons. Subscribe to access the complete {activeTab === "rpn" ? "RPN" : activeTab === "rn" ? "RN" : "NP"} lesson library with detailed content, quizzes, and progress tracking.
             </p>
@@ -909,7 +909,7 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
                       <button
                         onClick={(e) => { e.stopPropagation(); setEditingLessonId(disease.id); setEditName(displayName); }}
                         className="w-6 h-6 rounded-full bg-white shadow border border-gray-200 flex items-center justify-center hover:bg-blue-50"
-                        title="Edit lesson name"
+                        title={t("pages.lessons.editLessonName")}
                         data-testid={`button-edit-lesson-name-${disease.id}`}
                       >
                         <Pencil className="w-3 h-3 text-blue-600" />
@@ -930,7 +930,7 @@ function LessonSystemCard({ system, onSelect, tier, lessonOverrides, onOverrides
                         <button
                           onClick={(e) => { e.stopPropagation(); if (confirm("Remove lesson image?")) removeLessonImage(disease.id); }}
                           className="w-6 h-6 rounded-full bg-white shadow border border-gray-200 flex items-center justify-center hover:bg-red-50"
-                          title="Remove lesson image"
+                          title={t("pages.lessons.removeLessonImage")}
                           data-testid={`button-remove-lesson-image-${disease.id}`}
                         >
                           <Trash2 className="w-3 h-3 text-red-500" />
@@ -1095,7 +1095,7 @@ function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete, l
                       <button
                         onClick={(e) => { e.stopPropagation(); setEditingLessonId(disease.id); setEditName(displayName); }}
                         className="w-6 h-6 rounded-full bg-white shadow border border-gray-200 flex items-center justify-center hover:bg-blue-50"
-                        title="Edit lesson name"
+                        title={t("pages.lessons.editLessonName2")}
                         data-testid={`button-edit-lesson-name-${disease.id}`}
                       >
                         <Pencil className="w-3 h-3 text-blue-600" />
@@ -1116,7 +1116,7 @@ function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete, l
                         <button
                           onClick={(e) => { e.stopPropagation(); if (confirm("Remove lesson image?")) removeLessonImage(disease.id); }}
                           className="w-6 h-6 rounded-full bg-white shadow border border-gray-200 flex items-center justify-center hover:bg-red-50"
-                          title="Remove lesson image"
+                          title={t("pages.lessons.removeLessonImage2")}
                           data-testid={`button-remove-lesson-image-${disease.id}`}
                         >
                           <Trash2 className="w-3 h-3 text-red-500" />
@@ -1165,8 +1165,8 @@ function AddSystemCard({ onClick }: { onClick: () => void }) {
           <Plus className="w-7 h-7 text-primary" />
         </div>
         <div>
-          <p className="font-semibold text-gray-900">Add System</p>
-          <p className="text-xs text-gray-500 mt-1">Create a new lesson system</p>
+          <p className="font-semibold text-gray-900">{t("pages.lessons.addSystem")}</p>
+          <p className="text-xs text-gray-500 mt-1">{t("pages.lessons.createANewLessonSystem")}</p>
         </div>
       </div>
     </Card>
@@ -1286,12 +1286,12 @@ function LessonSystemModal({ system, defaultTier, onClose, onSaved }: {
 
         <div className="space-y-4">
           <div>
-            <label className="text-sm font-medium text-gray-700 mb-1 block">System Title *</label>
+            <label className="text-sm font-medium text-gray-700 mb-1 block">{t("pages.lessons.systemTitle")}</label>
             <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Endocrine System" data-testid="input-system-title" />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700 mb-2 block">Tier</label>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">{t("pages.lessons.tier")}</label>
             <div className="flex gap-2">
               {["rpn", "rn", "np"].map((t) => (
                 <button
@@ -1306,7 +1306,7 @@ function LessonSystemModal({ system, defaultTier, onClose, onSaved }: {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700 mb-2 block">Icon</label>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">{t("pages.lessons.icon")}</label>
             <div className="flex flex-wrap gap-2">
               {SYSTEM_ICON_OPTIONS.map((opt) => (
                 <button
@@ -1322,7 +1322,7 @@ function LessonSystemModal({ system, defaultTier, onClose, onSaved }: {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700 mb-2 block">Color</label>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">{t("pages.lessons.color")}</label>
             <div className="flex flex-wrap gap-2">
               {SYSTEM_COLOR_OPTIONS.map((opt, idx) => (
                 <button
@@ -1337,7 +1337,7 @@ function LessonSystemModal({ system, defaultTier, onClose, onSaved }: {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700 mb-2 block">System Image</label>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">{t("pages.lessons.systemImage")}</label>
             {imageUrl && (
               <div className="mb-2 rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
                 <img src={imageUrl} alt={`${system.title} nursing lessons - NurseNest clinical education`} title={`${system.title} nursing lessons`} loading="lazy" className="w-full h-32 object-cover" />
@@ -1346,14 +1346,14 @@ function LessonSystemModal({ system, defaultTier, onClose, onSaved }: {
             <div className="flex gap-2">
               <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f); }} />
               <Button variant="outline" size="sm" onClick={() => fileRef.current?.click()} disabled={uploading} className="gap-2">
-                {uploading ? <><Loader2 className="w-3 h-3 animate-spin" /> Uploading...</> : <><Upload className="w-3 h-3" /> Upload</>}
+                {uploading ? <><Loader2 className="w-3 h-3 animate-spin" /> {t("pages.lessons.uploading")}</> : <><Upload className="w-3 h-3" /> {t("pages.lessons.upload")}</>}
               </Button>
-              <Input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="Or paste image URL" className="flex-1 text-sm h-9" />
+              <Input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder={t("pages.lessons.orPasteImageUrl")} className="flex-1 text-sm h-9" />
             </div>
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700 mb-2 block">Lessons</label>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">{t("pages.lessons.lessons")}</label>
             <div className="space-y-2">
               {lessons.map((l, idx) => (
                 <div key={idx} className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2">
@@ -1366,7 +1366,7 @@ function LessonSystemModal({ system, defaultTier, onClose, onSaved }: {
                 </div>
               ))}
               <div className="flex gap-2">
-                <Input value={newLessonName} onChange={(e) => setNewLessonName(e.target.value)} placeholder="Lesson name" className="flex-1 text-sm h-9" data-testid="input-system-lesson-name" />
+                <Input value={newLessonName} onChange={(e) => setNewLessonName(e.target.value)} placeholder={t("pages.lessons.lessonName")} className="flex-1 text-sm h-9" data-testid="input-system-lesson-name" />
                 <Input value={newLessonId} onChange={(e) => setNewLessonId(e.target.value)} placeholder="lesson-slug" className="w-32 text-sm h-9" data-testid="input-system-lesson-id" />
                 <Button
                   variant="outline"
@@ -1395,7 +1395,7 @@ function LessonSystemModal({ system, defaultTier, onClose, onSaved }: {
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             {system ? "Save Changes" : "Create System"}
           </Button>
-          <Button variant="outline" onClick={onClose}>Cancel</Button>
+          <Button variant="outline" onClick={onClose}>{t("pages.lessons.cancel")}</Button>
         </div>
       </div>
     </div>

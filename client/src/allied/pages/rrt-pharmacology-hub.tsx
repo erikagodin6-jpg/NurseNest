@@ -9,6 +9,7 @@ import {
 import { AlliedSEO } from "@/allied/allied-seo";
 import { RRT_PHARMACOLOGY_PREVIEWS } from "@/data/lessons/rrt-pharmacology-previews";
 
+import { useI18n } from "@/lib/i18n";
 const ICON_MAP: Record<string, LucideIcon> = {
   Wind, Shield, Droplets, Syringe, Zap, Heart, AlertTriangle, Moon,
   Gauge, Pill, Baby, Monitor, Settings, ShieldAlert, Beaker
@@ -35,14 +36,15 @@ const FAQ_ITEMS = [
 ];
 
 export default function RrtPharmacologyHub() {
+  const { t } = useI18n();
   const freeTopics = RRT_PHARMACOLOGY_PREVIEWS.filter(t => t.isFree);
   const premiumTopics = RRT_PHARMACOLOGY_PREVIEWS.filter(t => !t.isFree);
 
   return (
     <div data-testid="rrt-pharmacology-hub">
       <AlliedSEO
-        title="RRT Pharmacology Exam Prep — Respiratory Medications for NBRC TMC & CSE | NurseNest"
-        description="Master respiratory pharmacology for the NBRC TMC and CSE exams. Study bronchodilators, corticosteroids, mucolytics, emergency medications, sedation agents, aerosol delivery devices, and more with high-yield clinical content and practice questions."
+        title={t("allied.rrtPharmacologyHub.rrtPharmacologyExamPrepRespiratory")}
+        description={t("allied.rrtPharmacologyHub.masterRespiratoryPharmacologyForThe")}
         keywords="RRT pharmacology exam prep, respiratory medications NBRC, bronchodilators TMC exam, corticosteroids respiratory therapy, mucolytics RRT, aerosol delivery devices, emergency medications respiratory, respiratory pharmacology study guide"
         canonicalPath="/allied-health/rrt/pharmacology"
         structuredData={{
@@ -82,12 +84,12 @@ export default function RrtPharmacologyHub() {
 
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-white py-16 sm:py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label="Breadcrumb" data-testid="breadcrumb-nav">
-            <Link href="/allied-health" className="hover:text-teal-600" data-testid="breadcrumb-home">Allied Health</Link>
+          <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label={t("allied.rrtPharmacologyHub.breadcrumb")} data-testid="breadcrumb-nav">
+            <Link href="/allied-health" className="hover:text-teal-600" data-testid="breadcrumb-home">{t("allied.rrtPharmacologyHub.alliedHealth")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/allied-health/rrt" className="hover:text-teal-600" data-testid="breadcrumb-rrt">RRT Exam Prep</Link>
+            <Link href="/allied-health/rrt" className="hover:text-teal-600" data-testid="breadcrumb-rrt">{t("allied.rrtPharmacologyHub.rrtExamPrep")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-blue-700 font-medium">Pharmacology</span>
+            <span className="text-blue-700 font-medium">{t("allied.rrtPharmacologyHub.pharmacology")}</span>
           </nav>
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-100 text-blue-800 rounded-full text-sm font-medium mb-4" data-testid="badge-pharmacology">
@@ -96,7 +98,7 @@ export default function RrtPharmacologyHub() {
             </div>
             <h1 className="text-3xl sm:text-5xl font-bold text-gray-900 leading-tight mb-4" data-testid="text-hub-title">
               Respiratory Pharmacology<br />
-              <span className="text-blue-600">Exam Prep Guide</span>
+              <span className="text-blue-600">{t("allied.rrtPharmacologyHub.examPrepGuide")}</span>
             </h1>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed" data-testid="text-hub-subtitle">
               Master every respiratory medication class tested on the NBRC TMC and CSE examinations. Each topic includes drug mechanisms, indications, side effects, clinical reassessment points, exam-writer focus areas, common student mistakes, and practice questions with detailed rationales.
@@ -108,15 +110,15 @@ export default function RrtPharmacologyHub() {
               </div>
               <div className="flex items-center gap-1.5 text-sm text-gray-500">
                 <CheckCircle2 className="w-4 h-4 text-blue-500" />
-                <span>High-Yield Exam Facts</span>
+                <span>{t("allied.rrtPharmacologyHub.highyieldExamFacts")}</span>
               </div>
               <div className="flex items-center gap-1.5 text-sm text-gray-500">
                 <CheckCircle2 className="w-4 h-4 text-blue-500" />
-                <span>Practice Questions</span>
+                <span>{t("allied.rrtPharmacologyHub.practiceQuestions")}</span>
               </div>
               <div className="flex items-center gap-1.5 text-sm text-gray-500">
                 <CheckCircle2 className="w-4 h-4 text-blue-500" />
-                <span>Clinical Pearls</span>
+                <span>{t("allied.rrtPharmacologyHub.clinicalPearls")}</span>
               </div>
             </div>
             <div className="flex flex-wrap gap-3">
@@ -134,9 +136,9 @@ export default function RrtPharmacologyHub() {
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="flex items-center gap-3 mb-2">
           <Sparkles className="w-5 h-5 text-green-500" />
-          <h2 className="text-2xl font-bold text-gray-900" data-testid="text-free-topics-heading">Free Topic Previews</h2>
+          <h2 className="text-2xl font-bold text-gray-900" data-testid="text-free-topics-heading">{t("allied.rrtPharmacologyHub.freeTopicPreviews")}</h2>
         </div>
-        <p className="text-gray-500 mb-8">Start with these foundational pharmacology topics — completely free.</p>
+        <p className="text-gray-500 mb-8">{t("allied.rrtPharmacologyHub.startWithTheseFoundationalPharmacology")}</p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {freeTopics.map(topic => {
             const Icon = ICON_MAP[topic.icon] || Pill;
@@ -167,9 +169,9 @@ export default function RrtPharmacologyHub() {
 
         <div className="flex items-center gap-3 mb-2">
           <Star className="w-5 h-5 text-amber-500" />
-          <h2 className="text-2xl font-bold text-gray-900" data-testid="text-premium-topics-heading">Premium Topic Guides</h2>
+          <h2 className="text-2xl font-bold text-gray-900" data-testid="text-premium-topics-heading">{t("allied.rrtPharmacologyHub.premiumTopicGuides")}</h2>
         </div>
-        <p className="text-gray-500 mb-8">Unlock all pharmacology topic guides with comprehensive content, practice questions, and clinical pearls.</p>
+        <p className="text-gray-500 mb-8">{t("allied.rrtPharmacologyHub.unlockAllPharmacologyTopicGuides")}</p>
 
         {CATEGORIES.map(category => {
           const categoryTopics = premiumTopics.filter(t => t.category === category);
@@ -212,9 +214,9 @@ export default function RrtPharmacologyHub() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3 mb-2">
             <Brain className="w-5 h-5 text-indigo-500" />
-            <h2 className="text-2xl font-bold text-gray-900" data-testid="text-study-tools-heading">Pharmacology Study Tools</h2>
+            <h2 className="text-2xl font-bold text-gray-900" data-testid="text-study-tools-heading">{t("allied.rrtPharmacologyHub.pharmacologyStudyTools")}</h2>
           </div>
-          <p className="text-gray-500 mb-8">Interactive study aids designed for rapid review and exam-day readiness.</p>
+          <p className="text-gray-500 mb-8">{t("allied.rrtPharmacologyHub.interactiveStudyAidsDesignedFor")}</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               { title: "Quick Sheets", desc: "High-yield side effects, bronchodilator vs controller comparison, and delivery device charts", href: "/allied-health/rrt/pharmacology/quick-sheets", icon: "Zap", color: "blue" },
@@ -244,7 +246,7 @@ export default function RrtPharmacologyHub() {
                   <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">{tool.title}</h3>
                   <p className="text-sm text-gray-500 leading-relaxed mb-3">{tool.desc}</p>
                   <div className="flex items-center gap-1 text-xs font-medium">
-                    <span className={`px-2 py-0.5 rounded ${c.badge}`}>Free Preview</span>
+                    <span className={`px-2 py-0.5 rounded ${c.badge}`}>{t("allied.rrtPharmacologyHub.freePreview")}</span>
                     <ArrowRight className={`w-3.5 h-3.5 ${c.text} ml-auto group-hover:translate-x-1 transition-transform`} />
                   </div>
                 </Link>
@@ -256,8 +258,8 @@ export default function RrtPharmacologyHub() {
 
       <section className="bg-gray-50 py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center" data-testid="text-study-approach">How to Study Respiratory Pharmacology</h2>
-          <p className="text-gray-500 mb-10 text-center max-w-2xl mx-auto">Follow this approach to master respiratory medications for the NBRC TMC and CSE exams.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center" data-testid="text-study-approach">{t("allied.rrtPharmacologyHub.howToStudyRespiratoryPharmacology")}</h2>
+          <p className="text-gray-500 mb-10 text-center max-w-2xl mx-auto">{t("allied.rrtPharmacologyHub.followThisApproachToMaster")}</p>
           <div className="grid md:grid-cols-4 gap-6">
             {[
               { step: "1", title: "Learn the Classes", desc: "Start with the two most tested drug classes: bronchodilators (SABAs, LABAs, SAMAs, LAMAs) and corticosteroids (ICS and systemic). Know mechanisms, onset, and duration." },
@@ -279,7 +281,7 @@ export default function RrtPharmacologyHub() {
 
       <section className="py-12 sm:py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Related RRT Study Resources</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t("allied.rrtPharmacologyHub.relatedRrtStudyResources")}</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               { label: "Pharm Flashcards", href: "/allied-health/rrt/flashcards", icon: Brain },
@@ -299,7 +301,7 @@ export default function RrtPharmacologyHub() {
 
       <section className="py-12 bg-white" data-testid="pharmacology-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("allied.rrtPharmacologyHub.frequentlyAskedQuestions")}</h2>
           <div className="space-y-4">
             {FAQ_ITEMS.map((faq, i) => (
               <details key={i} className="bg-gray-50 rounded-xl border border-gray-100 overflow-hidden group" data-testid={`faq-item-${i}`}>
@@ -317,8 +319,8 @@ export default function RrtPharmacologyHub() {
       <section className="py-12">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-8 sm:p-12 text-white">
-            <h2 className="text-2xl font-bold mb-3" data-testid="text-cta-heading">Ready to Master Respiratory Pharmacology?</h2>
-            <p className="text-blue-100 mb-6">Unlock all 12+ pharmacology topic guides, practice questions, and clinical pearls with NurseNest Allied Pro.</p>
+            <h2 className="text-2xl font-bold mb-3" data-testid="text-cta-heading">{t("allied.rrtPharmacologyHub.readyToMasterRespiratoryPharmacology")}</h2>
+            <p className="text-blue-100 mb-6">{t("allied.rrtPharmacologyHub.unlockAll12PharmacologyTopic")}</p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-blue-700 rounded-xl text-base font-semibold hover:bg-blue-50 transition-colors" data-testid="button-cta-pricing">
                 View Plans <ArrowRight className="w-4 h-4" />

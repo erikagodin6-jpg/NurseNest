@@ -3,6 +3,7 @@ import { ChevronRight, BookOpen, Calendar, Tag, ArrowRight, FlaskConical } from 
 import { AlliedSEO } from "@/allied/allied-seo";
 import { MLT_DISCIPLINES } from "@shared/mlt-taxonomy";
 
+import { useI18n } from "@/lib/i18n";
 const STUB_ARTICLES = [
   {
     slug: "csmls-vs-ascp-certification-comparison",
@@ -127,6 +128,7 @@ const STUB_ARTICLES = [
 ];
 
 function MltBlogIndex() {
+  const { t } = useI18n();
   const breadcrumbStructuredData = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -140,8 +142,8 @@ function MltBlogIndex() {
   return (
     <div data-testid="mlt-blog-index">
       <AlliedSEO
-        title="MLT Blog — Medical Laboratory Science Articles | NurseNest Allied"
-        description="Expert articles on medical laboratory science topics, exam preparation tips, discipline deep-dives, and study strategies for CSMLS and ASCP certification."
+        title={t("allied.mltBlog.mltBlogMedicalLaboratoryScience")}
+        description={t("allied.mltBlog.expertArticlesOnMedicalLaboratory")}
         keywords="MLT blog, medical laboratory science articles, CSMLS exam tips, ASCP study guide, hematology articles, clinical chemistry blog, lab tech blog"
         canonicalPath="/allied-health/mlt/blog"
         structuredData={{
@@ -158,11 +160,11 @@ function MltBlogIndex() {
         <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-violet-50/30 to-white" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumbs">
-            <Link href="/" className="hover:text-purple-600">Home</Link>
+            <Link href="/" className="hover:text-purple-600">{t("allied.mltBlog.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <Link href="/allied-health/mlt" className="hover:text-purple-600">MLT</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-purple-700 font-medium">Blog</span>
+            <span className="text-purple-700 font-medium">{t("allied.mltBlog.blog")}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4" data-testid="text-blog-title">
             MLT Blog
@@ -176,7 +178,7 @@ function MltBlogIndex() {
       <section className="py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-10">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Browse by Discipline</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">{t("allied.mltBlog.browseByDiscipline")}</h2>
             <div className="flex flex-wrap gap-2">
               {MLT_DISCIPLINES.slice(0, 10).map(d => (
                 <span key={d} className="px-3 py-1.5 bg-purple-50 text-purple-700 rounded-full text-xs font-medium" data-testid={`tag-${d}`}>
@@ -209,11 +211,11 @@ function MltBlogIndex() {
 
       <section className="py-12 bg-white border-t border-gray-100">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Related Resources</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">{t("allied.mltBlog.relatedResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Link href="/allied-health/mlt/canada/exam-prep" className="text-sm text-purple-600 hover:underline" data-testid="link-canada-prep">CSMLS Exam Prep →</Link>
-            <Link href="/allied-health/mlt/usa/exam-prep" className="text-sm text-purple-600 hover:underline" data-testid="link-usa-prep">ASCP Exam Prep →</Link>
-            <Link href="/allied-health/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-hub">MLT Hub →</Link>
+            <Link href="/allied-health/mlt/canada/exam-prep" className="text-sm text-purple-600 hover:underline" data-testid="link-canada-prep">{t("allied.mltBlog.csmlsExamPrep")}</Link>
+            <Link href="/allied-health/mlt/usa/exam-prep" className="text-sm text-purple-600 hover:underline" data-testid="link-usa-prep">{t("allied.mltBlog.ascpExamPrep")}</Link>
+            <Link href="/allied-health/mlt" className="text-sm text-purple-600 hover:underline" data-testid="link-mlt-hub">{t("allied.mltBlog.mltHub")}</Link>
           </div>
         </div>
       </section>
@@ -267,11 +269,11 @@ function MltBlogPost() {
         <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-violet-50/30 to-white" />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumbs">
-            <Link href="/" className="hover:text-purple-600">Home</Link>
+            <Link href="/" className="hover:text-purple-600">{t("allied.mltBlog.home2")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <Link href="/allied-health/mlt" className="hover:text-purple-600">MLT</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/allied-health/mlt/blog" className="hover:text-purple-600">Blog</Link>
+            <Link href="/allied-health/mlt/blog" className="hover:text-purple-600">{t("allied.mltBlog.blog2")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-purple-700 font-medium truncate max-w-[200px]">{titleText}</span>
           </div>
@@ -337,7 +339,7 @@ function MltBlogPost() {
       {relatedArticles.length > 0 && (
         <section className="py-12 bg-gray-50 border-t border-gray-100">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Related Articles</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-6">{t("allied.mltBlog.relatedArticles")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {relatedArticles.map((related, i) => (
                 <Link key={related.slug} href={`/allied-health/mlt/blog/${related.slug}`} className="block" data-testid={`link-related-${i}`}>
@@ -355,7 +357,7 @@ function MltBlogPost() {
 
       <section className="py-8 bg-white border-t border-gray-100">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <Link href="/allied-health/mlt/blog" className="text-purple-600 font-medium hover:underline" data-testid="link-back-blog">← Back to All Articles</Link>
+          <Link href="/allied-health/mlt/blog" className="text-purple-600 font-medium hover:underline" data-testid="link-back-blog">{t("allied.mltBlog.backToAllArticles")}</Link>
         </div>
       </section>
     </div>

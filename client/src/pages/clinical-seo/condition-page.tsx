@@ -7,6 +7,7 @@ import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-re
 import { MedicalReferences } from "@/components/medical-references";
 import { AutoRelatedContent, YouMayAlsoLike } from "@/components/auto-related-content";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { useI18n } from "@/lib/i18n";
 import {
   ChevronDown,
   Heart,
@@ -35,6 +36,7 @@ interface ConditionData {
 }
 
 function PracticeQuestion({ q, index }: { q: any; index: number }) {
+  const { t } = useI18n();
   const [selected, setSelected] = useState<number | null>(null);
   const [showRationale, setShowRationale] = useState(false);
 
@@ -70,7 +72,7 @@ function PracticeQuestion({ q, index }: { q: any; index: number }) {
       </div>
       {showRationale && (
         <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-900" data-testid={`rationale-${index}`}>
-          <p className="font-semibold mb-1">Rationale:</p>
+          <p className="font-semibold mb-1">{t("pages.clinicalSeo.conditionPage.rationale")}</p>
           <p>{q.rationale}</p>
         </div>
       )}
@@ -106,7 +108,7 @@ export default function ClinicalConditionPage() {
   }, [params.slug]);
 
   if (loading) return (<><Navigation /><div className="min-h-screen flex items-center justify-center"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" /></div><Footer /></>);
-  if (error || !page) return (<><Navigation /><div className="min-h-screen flex items-center justify-center" data-testid="condition-not-found"><div className="text-center"><h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1><p className="text-gray-600">The clinical condition page you are looking for does not exist.</p></div></div><Footer /></>);
+  if (error || !page) return (<><Navigation /><div className="min-h-screen flex items-center justify-center" data-testid="condition-not-found"><div className="text-center"><h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.clinicalSeo.conditionPage.pageNotFound")}</h1><p className="text-gray-600">{t("pages.clinicalSeo.conditionPage.theClinicalConditionPageYou")}</p></div></div><Footer /></>);
 
   const data: ConditionData = page.data;
   const questions = page.practiceQuestions || [];
@@ -148,9 +150,9 @@ export default function ClinicalConditionPage() {
       <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-            <LocaleLink href="/" className="hover:text-primary">Home</LocaleLink>
+            <LocaleLink href="/" className="hover:text-primary">{t("pages.clinicalSeo.conditionPage.home")}</LocaleLink>
             <span>/</span>
-            <LocaleLink href="/conditions" className="hover:text-primary">Conditions</LocaleLink>
+            <LocaleLink href="/conditions" className="hover:text-primary">{t("pages.clinicalSeo.conditionPage.conditions")}</LocaleLink>
             <span>/</span>
             <span className="text-gray-900">{page.title}</span>
           </nav>
@@ -158,7 +160,7 @@ export default function ClinicalConditionPage() {
           <header className="mb-8">
             <div className="flex items-center gap-2 mb-3">
               {page.bodySystem && <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full" data-testid="badge-body-system">{page.bodySystem}</span>}
-              <span className="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full">Clinical Guide</span>
+              <span className="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full">{t("pages.clinicalSeo.conditionPage.clinicalGuide")}</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="page-title">{page.title}: Nursing Assessment & NCLEX Guide</h1>
             <p className="text-lg text-gray-600 leading-relaxed" data-testid="page-summary">{page.summary}</p>
@@ -169,7 +171,7 @@ export default function ClinicalConditionPage() {
             <section className="mb-8" data-testid="section-pathophysiology">
               <div className="flex items-center gap-2 mb-4">
                 <Activity className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Pathophysiology</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.conditionPage.pathophysiology")}</h2>
               </div>
               <div className="bg-white border border-gray-200 rounded-xl p-6">
                 <p className="text-gray-700 leading-relaxed">{data.pathophysiology}</p>
@@ -181,7 +183,7 @@ export default function ClinicalConditionPage() {
             <section className="mb-8" data-testid="section-signs-symptoms">
               <div className="flex items-center gap-2 mb-4">
                 <Stethoscope className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Signs & Symptoms</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.conditionPage.signsSymptoms")}</h2>
               </div>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="bg-white border border-gray-200 rounded-xl p-6">
@@ -220,16 +222,16 @@ export default function ClinicalConditionPage() {
             <section className="mb-8" data-testid="section-lab-values">
               <div className="flex items-center gap-2 mb-4">
                 <FlaskConical className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Key Lab Values</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.conditionPage.keyLabValues")}</h2>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full bg-white border border-gray-200 rounded-xl overflow-hidden">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">Lab Test</th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">Normal (CA)</th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">Normal (US)</th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">Clinical Significance</th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">{t("pages.clinicalSeo.conditionPage.labTest")}</th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">{t("pages.clinicalSeo.conditionPage.normalCa")}</th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">{t("pages.clinicalSeo.conditionPage.normalUs")}</th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">{t("pages.clinicalSeo.conditionPage.clinicalSignificance")}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100">
@@ -251,7 +253,7 @@ export default function ClinicalConditionPage() {
             <section className="mb-8" data-testid="section-medications">
               <div className="flex items-center gap-2 mb-4">
                 <Pill className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Key Medications</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.conditionPage.keyMedications")}</h2>
               </div>
               <div className="space-y-4">
                 {data.medications.map((med, i) => (
@@ -265,7 +267,7 @@ export default function ClinicalConditionPage() {
             <section className="mb-8" data-testid="section-nursing-interventions">
               <div className="flex items-center gap-2 mb-4">
                 <ClipboardList className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Priority Nursing Interventions</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.conditionPage.priorityNursingInterventions")}</h2>
               </div>
               <div className="bg-white border border-gray-200 rounded-xl p-6">
                 <ol className="space-y-3">
@@ -284,7 +286,7 @@ export default function ClinicalConditionPage() {
             <section className="mb-8" data-testid="section-complications">
               <div className="flex items-center gap-2 mb-4">
                 <AlertTriangle className="w-5 h-5 text-amber-500" />
-                <h2 className="text-2xl font-bold text-gray-900">Complications</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.conditionPage.complications")}</h2>
               </div>
               <div className="space-y-3">
                 {data.complications.map((c, i) => (
@@ -301,7 +303,7 @@ export default function ClinicalConditionPage() {
             <section className="mb-8" data-testid="section-exam-insights">
               <div className="flex items-center gap-2 mb-4">
                 <Lightbulb className="w-5 h-5 text-amber-500" />
-                <h2 className="text-2xl font-bold text-gray-900">NCLEX Exam Insights</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.conditionPage.nclexExamInsights")}</h2>
               </div>
               <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
                 <ul className="space-y-3">
@@ -320,7 +322,7 @@ export default function ClinicalConditionPage() {
             <section className="mb-8" data-testid="section-practice-questions">
               <div className="flex items-center gap-2 mb-4">
                 <BookOpen className="w-5 h-5 text-primary" />
-                <h2 className="text-2xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalSeo.conditionPage.practiceQuestions")}</h2>
               </div>
               <div className="space-y-4">
                 {questions.map((q: any, i: number) => (
@@ -332,7 +334,7 @@ export default function ClinicalConditionPage() {
 
           {faqItems.length > 0 && (
             <section className="mb-8" data-testid="section-faq">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.clinicalSeo.conditionPage.frequentlyAskedQuestions")}</h2>
               <div className="space-y-2">
                 {faqItems.map((faq: any, i: number) => (
                   <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />
@@ -377,10 +379,10 @@ function MedAccordion({ med, index }: { med: any; index: number }) {
       </button>
       {open && (
         <div className="px-5 pb-5 border-t border-gray-100 pt-4 space-y-3">
-          <div><span className="text-xs font-semibold text-gray-500 uppercase">Mechanism:</span><p className="text-sm text-gray-700 mt-1">{med.mechanism}</p></div>
-          <div><span className="text-xs font-semibold text-gray-500 uppercase">Side Effects:</span><div className="flex flex-wrap gap-1 mt-1">{med.sideEffects.map((s: string, i: number) => <span key={i} className="px-2 py-0.5 bg-red-50 text-red-700 text-xs rounded">{s}</span>)}</div></div>
-          <div><span className="text-xs font-semibold text-gray-500 uppercase">Contraindications:</span><div className="flex flex-wrap gap-1 mt-1">{med.contraindications.map((c: string, i: number) => <span key={i} className="px-2 py-0.5 bg-amber-50 text-amber-700 text-xs rounded">{c}</span>)}</div></div>
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3"><span className="text-xs font-semibold text-blue-700 uppercase">Nursing Considerations:</span><p className="text-sm text-blue-800 mt-1">{med.nursingConsiderations}</p></div>
+          <div><span className="text-xs font-semibold text-gray-500 uppercase">{t("pages.clinicalSeo.conditionPage.mechanism")}</span><p className="text-sm text-gray-700 mt-1">{med.mechanism}</p></div>
+          <div><span className="text-xs font-semibold text-gray-500 uppercase">{t("pages.clinicalSeo.conditionPage.sideEffects")}</span><div className="flex flex-wrap gap-1 mt-1">{med.sideEffects.map((s: string, i: number) => <span key={i} className="px-2 py-0.5 bg-red-50 text-red-700 text-xs rounded">{s}</span>)}</div></div>
+          <div><span className="text-xs font-semibold text-gray-500 uppercase">{t("pages.clinicalSeo.conditionPage.contraindications")}</span><div className="flex flex-wrap gap-1 mt-1">{med.contraindications.map((c: string, i: number) => <span key={i} className="px-2 py-0.5 bg-amber-50 text-amber-700 text-xs rounded">{c}</span>)}</div></div>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3"><span className="text-xs font-semibold text-blue-700 uppercase">{t("pages.clinicalSeo.conditionPage.nursingConsiderations")}</span><p className="text-sm text-blue-800 mt-1">{med.nursingConsiderations}</p></div>
         </div>
       )}
     </div>

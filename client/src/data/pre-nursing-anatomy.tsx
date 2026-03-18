@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -332,6 +333,7 @@ const bodySystemsQuiz: import("@/components/interactive-learning").QuizQuestion[
 ];
 
 export function AnatomyPhysiologyModule() {
+  const { t } = useI18n();
   const levelsOrganizationClinical = useEditableText("preanat-levels-clinical", "Disease can originate at any level and cascade upward. A molecular mutation (chemical level) can impair cell function (cellular), damage tissue, compromise an organ, and ultimately affect the whole organism. Understanding this hierarchy helps you trace symptoms back to root causes.");
   const directionalClinical = useEditableText("preanat-directional-clinical", "Precise anatomical language prevents medical errors. 'The wound is on the medial aspect of the right lower leg, 3 cm distal to the knee' is far more useful than 'the wound is on the inside of the leg near the knee.' Always use directional terms in documentation.");
   const homeostasisFeedback = useEditableText("preanat-homeostasis-feedback", "Every feedback loop has three components: (1) Receptor — detects the change (sensor), (2) Control Center — processes information and determines response (often the brain), (3) Effector — carries out the corrective action (muscle, gland). Failure at any component disrupts homeostasis.");
@@ -370,8 +372,8 @@ export function AnatomyPhysiologyModule() {
         </div>
 
         <MicroLesson
-          title="Levels of Organization"
-          subtitle="From atoms to the complete organism"
+          title={t("data.pre_nursing_anatomy.levelsOfOrganization")}
+          subtitle={t("data.pre_nursing_anatomy.fromAtomsToTheComplete")}
           icon={<Layers className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-levels-content" defaultText="The human body is organized in a hierarchy of increasing complexity. Each level of organization builds upon the previous, with emergent properties at each stage that cannot be predicted from the level below alone." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
@@ -408,14 +410,14 @@ export function AnatomyPhysiologyModule() {
           </div>
           <CognitiveCard
             type="concept"
-            title="Clinical Connection"
+            title={t("data.pre_nursing_anatomy.clinicalConnection")}
             content={levelsOrganizationClinical}
           />
         </MicroLesson>
 
         <MicroLesson
-          title="Anatomical Position & Directional Terms"
-          subtitle="The universal language of anatomy"
+          title={t("data.pre_nursing_anatomy.anatomicalPositionDirectionalTerms")}
+          subtitle={t("data.pre_nursing_anatomy.theUniversalLanguageOfAnatomy")}
           icon={<Sparkles className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-directional-content" defaultText="All anatomical descriptions reference the anatomical position. Using standardized directional terms ensures clear communication among healthcare providers." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
@@ -431,14 +433,14 @@ export function AnatomyPhysiologyModule() {
           </div>
           <CognitiveCard
             type="remember"
-            title="Clinical Communication"
+            title={t("data.pre_nursing_anatomy.clinicalCommunication")}
             content={directionalClinical}
           />
         </MicroLesson>
 
         <MicroLesson
-          title="Homeostasis & Feedback Mechanisms"
-          subtitle="How the body maintains internal stability"
+          title={t("data.pre_nursing_anatomy.homeostasisFeedbackMechanisms")}
+          subtitle={t("data.pre_nursing_anatomy.howTheBodyMaintainsInternal")}
           icon={<Activity className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-homeostasis-content" defaultText="Homeostasis is the central organizing principle of physiology. Nearly every disease can be understood as a failure of homeostatic mechanisms." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
@@ -454,19 +456,19 @@ export function AnatomyPhysiologyModule() {
           </div>
           <CognitiveCard
             type="warning"
-            title="Feedback Components"
+            title={t("data.pre_nursing_anatomy.feedbackComponents")}
             content={homeostasisFeedback}
           />
         </MicroLesson>
 
         <MicroLesson
-          title="Structure-Function Relationships & Organ Systems"
-          subtitle="How anatomy dictates physiology"
+          title={t("data.pre_nursing_anatomy.structurefunctionRelationshipsOrganSyste")}
+          subtitle={t("data.pre_nursing_anatomy.howAnatomyDictatesPhysiology")}
           icon={<Network className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-structure-function-content" defaultText="The principle of complementarity of structure and function is fundamental — you can predict a structure's function by examining its anatomy, and vice versa." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <ProgressiveReveal
-            title="11 Organ Systems Overview"
+            title={t("data.pre_nursing_anatomy.11OrganSystemsOverview")}
             cards={[
               {
                 id: "os1",
@@ -502,14 +504,14 @@ export function AnatomyPhysiologyModule() {
           />
           <CognitiveCard
             type="concept"
-            title="Cellular Communication Basics"
+            title={t("data.pre_nursing_anatomy.cellularCommunicationBasics")}
             content={cellularComm}
           />
         </MicroLesson>
 
         <MatchingExercise
-          title="Directional Terms"
-          description="Match each directional term to its meaning"
+          title={t("data.pre_nursing_anatomy.directionalTerms")}
+          description={t("data.pre_nursing_anatomy.matchEachDirectionalTermTo")}
           pairs={[
             { id: "dt1", term: "Superior", definition: "Above or toward the head" },
             { id: "dt2", term: "Anterior", definition: "Toward the front of the body" },
@@ -520,7 +522,7 @@ export function AnatomyPhysiologyModule() {
           ]}
         />
 
-        <SelfCheckQuiz title="Structural Organization Check" questions={structuralQuiz} />
+        <SelfCheckQuiz title={t("data.pre_nursing_anatomy.structuralOrganizationCheck")} questions={structuralQuiz} />
       </section>
 
       <section className="space-y-6">
@@ -532,8 +534,8 @@ export function AnatomyPhysiologyModule() {
         </div>
 
         <MicroLesson
-          title="Cell Membrane Structure"
-          subtitle="The phospholipid bilayer and membrane proteins"
+          title={t("data.pre_nursing_anatomy.cellMembraneStructure")}
+          subtitle={t("data.pre_nursing_anatomy.thePhospholipidBilayerAndMembrane")}
           icon={<CircleDot className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-cell-membrane-content" defaultText="The cell membrane (plasma membrane) is the gatekeeper of every cell, controlling substance movement and enabling cellular communication." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
@@ -554,13 +556,13 @@ export function AnatomyPhysiologyModule() {
         </MicroLesson>
 
         <MicroLesson
-          title="Membrane Transport"
-          subtitle="Passive vs active transport across the cell membrane"
+          title={t("data.pre_nursing_anatomy.membraneTransport")}
+          subtitle={t("data.pre_nursing_anatomy.passiveVsActiveTransportAcross")}
           icon={<Droplets className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-membrane-transport-content" defaultText="Understanding membrane transport is critical for understanding IV fluid therapy, medication absorption, renal function, and electrolyte balance." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <ProgressiveReveal
-            title="Transport Mechanisms"
+            title={t("data.pre_nursing_anatomy.transportMechanisms")}
             cards={[
               {
                 id: "mt1",
@@ -596,14 +598,14 @@ export function AnatomyPhysiologyModule() {
           />
           <CognitiveCard
             type="remember"
-            title="Electrochemical Gradients"
+            title={t("data.pre_nursing_anatomy.electrochemicalGradients")}
             content={transportGradient}
           />
         </MicroLesson>
 
         <MicroLesson
-          title="Receptors & Cell Signaling"
-          subtitle="How cells receive and respond to chemical messages"
+          title={t("data.pre_nursing_anatomy.receptorsCellSignaling")}
+          subtitle={t("data.pre_nursing_anatomy.howCellsReceiveAndRespond")}
           icon={<Network className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-cell-signaling-content" defaultText="Cell signaling underlies pharmacology — drugs work by mimicking or blocking natural signaling molecules." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
@@ -619,18 +621,18 @@ export function AnatomyPhysiologyModule() {
           </div>
           <CognitiveCard
             type="concept"
-            title="Drug-Receptor Interactions"
+            title={t("data.pre_nursing_anatomy.drugreceptorInteractions")}
             content={receptorsDrugs}
           />
         </MicroLesson>
 
         <MicroLesson
-          title="Tissue Types"
-          subtitle="Epithelial, connective, muscle, and nervous tissue"
+          title={t("data.pre_nursing_anatomy.tissueTypes")}
+          subtitle={t("data.pre_nursing_anatomy.epithelialConnectiveMuscleAndNervous")}
           icon={<Layers className="w-5 h-5" />}
         >
           <ProgressiveReveal
-            title="The Four Primary Tissue Types"
+            title={t("data.pre_nursing_anatomy.theFourPrimaryTissueTypes")}
             cards={[
               {
                 id: "tt1",
@@ -660,13 +662,13 @@ export function AnatomyPhysiologyModule() {
           />
           <CognitiveCard
             type="warning"
-            title="Cellular Injury & Adaptation"
+            title={t("data.pre_nursing_anatomy.cellularInjuryAdaptation")}
             content={tissueAdaptation}
           />
         </MicroLesson>
 
         <MatchingExercise
-          title="Transport Mechanisms"
+          title={t("data.pre_nursing_anatomy.transportMechanisms")}
           description="Match each transport type to its key characteristic"
           pairs={[
             { id: "tm1", term: "Simple diffusion", definition: "No energy, no proteins needed" },
@@ -678,7 +680,7 @@ export function AnatomyPhysiologyModule() {
           ]}
         />
 
-        <SelfCheckQuiz title="Cell & Tissue Biology Check" questions={cellTissueQuiz} />
+        <SelfCheckQuiz title={t("data.pre_nursing_anatomy.cellTissueBiologyCheck")} questions={cellTissueQuiz} />
       </section>
 
       <section className="space-y-6">
@@ -690,8 +692,8 @@ export function AnatomyPhysiologyModule() {
         </div>
 
         <MicroLesson
-          title="Skin Structure & Protective Functions"
-          subtitle="The body's largest organ and first line of defense"
+          title={t("data.pre_nursing_anatomy.skinStructureProtectiveFunctions")}
+          subtitle={t("data.pre_nursing_anatomy.theBodysLargestOrganAnd")}
           icon={<Shield className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-skin-structure-content" defaultText="The skin is the body's largest organ, comprising about 16% of body weight. It has three primary layers: epidermis, dermis, and the hypodermis." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
@@ -712,13 +714,13 @@ export function AnatomyPhysiologyModule() {
         </MicroLesson>
 
         <MicroLesson
-          title="Skin Integrity, Wound Healing & Fluid Loss"
-          subtitle="Maintaining the body's protective barrier"
+          title={t("data.pre_nursing_anatomy.skinIntegrityWoundHealingFluid")}
+          subtitle={t("data.pre_nursing_anatomy.maintainingTheBodysProtectiveBarrier")}
           icon={<Droplets className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-skin-integrity-content" defaultText="Skin integrity is a critical nursing assessment. Factors that compromise the skin barrier include age (thinner epidermis, less collagen), nutrition (protein/vitamin C deficiency impairs healing), moisture (incontinence-associated dermatitis), pressure (decubitus ulcers), and disease (diabetes impairs microcirculation)." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <ProgressiveReveal
-            title="Wound Healing Phases"
+            title={t("data.pre_nursing_anatomy.woundHealingPhases")}
             cards={[
               {
                 id: "wh1",
@@ -748,12 +750,12 @@ export function AnatomyPhysiologyModule() {
           />
           <CognitiveCard
             type="remember"
-            title="Skin Turgor & Fluid Assessment"
+            title={t("data.pre_nursing_anatomy.skinTurgorFluidAssessment")}
             content={skinTurgor}
           />
         </MicroLesson>
 
-        <SelfCheckQuiz title="Integumentary System Check" questions={integumentaryQuiz} />
+        <SelfCheckQuiz title={t("data.pre_nursing_anatomy.integumentarySystemCheck")} questions={integumentaryQuiz} />
       </section>
 
       <section className="space-y-6">
@@ -765,8 +767,8 @@ export function AnatomyPhysiologyModule() {
         </div>
 
         <MicroLesson
-          title="Bone Structure & Function"
-          subtitle="Living tissue that supports, protects, and stores minerals"
+          title={t("data.pre_nursing_anatomy.boneStructureFunction")}
+          subtitle={t("data.pre_nursing_anatomy.livingTissueThatSupportsProtects")}
           icon={<Bone className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-bone-structure-content" defaultText="Bones are dynamic living tissue, not static structures. They are continuously remodeled throughout life, responding to mechanical stress, hormonal signals, and nutritional status." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
@@ -787,8 +789,8 @@ export function AnatomyPhysiologyModule() {
         </MicroLesson>
 
         <MicroLesson
-          title="Calcium Homeostasis & Bone Types"
-          subtitle="Hormonal regulation and skeletal classification"
+          title={t("data.pre_nursing_anatomy.calciumHomeostasisBoneTypes")}
+          subtitle={t("data.pre_nursing_anatomy.hormonalRegulationAndSkeletalClassificat")}
           icon={<Activity className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-calcium-content" defaultText="Calcium homeostasis involves a delicate balance between PTH and calcitonin, with bones serving as the body's calcium reservoir." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
@@ -804,14 +806,14 @@ export function AnatomyPhysiologyModule() {
           </div>
           <CognitiveCard
             type="concept"
-            title="Types of Bones"
+            title={t("data.pre_nursing_anatomy.typesOfBones")}
             content={boneTypes}
           />
         </MicroLesson>
 
         <MicroLesson
-          title="Joints & the Skeleton"
-          subtitle="Where bones meet and how the skeleton is organized"
+          title={t("data.pre_nursing_anatomy.jointsTheSkeleton")}
+          subtitle={t("data.pre_nursing_anatomy.whereBonesMeetAndHow")}
           icon={<Bone className="w-5 h-5" />}
         >
           <div className="grid sm:grid-cols-2 gap-3">
@@ -826,14 +828,14 @@ export function AnatomyPhysiologyModule() {
           </div>
           <CognitiveCard
             type="remember"
-            title="Axial vs Appendicular Skeleton"
+            title={t("data.pre_nursing_anatomy.axialVsAppendicularSkeleton")}
             content={skeletonAxial}
           />
         </MicroLesson>
 
         <MatchingExercise
-          title="Bone & Joint Concepts"
-          description="Match each term to its description"
+          title={t("data.pre_nursing_anatomy.boneJointConcepts")}
+          description={t("data.pre_nursing_anatomy.matchEachTermToIts")}
           pairs={[
             { id: "bj1", term: "Osteoblasts", definition: "Bone-building cells" },
             { id: "bj2", term: "Osteoclasts", definition: "Bone-resorbing cells" },
@@ -844,7 +846,7 @@ export function AnatomyPhysiologyModule() {
           ]}
         />
 
-        <SelfCheckQuiz title="Skeletal System Check" questions={skeletalQuiz} />
+        <SelfCheckQuiz title={t("data.pre_nursing_anatomy.skeletalSystemCheck")} questions={skeletalQuiz} />
       </section>
 
       <section className="space-y-6">
@@ -856,8 +858,8 @@ export function AnatomyPhysiologyModule() {
         </div>
 
         <MicroLesson
-          title="Muscle Tissue Characteristics"
-          subtitle="Three types of muscle and their unique properties"
+          title={t("data.pre_nursing_anatomy.muscleTissueCharacteristics")}
+          subtitle={t("data.pre_nursing_anatomy.threeTypesOfMuscleAnd")}
           icon={<Dumbbell className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-muscle-tissue-content" defaultText="All muscle tissue shares four key properties: excitability, contractility, extensibility, and elasticity. However, the three muscle types differ significantly in structure, control, and location." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
@@ -878,8 +880,8 @@ export function AnatomyPhysiologyModule() {
         </MicroLesson>
 
         <MicroLesson
-          title="Sliding Filament Theory & Neuromuscular Junction"
-          subtitle="How muscles contract at the molecular level"
+          title={t("data.pre_nursing_anatomy.slidingFilamentTheoryNeuromuscularJuncti")}
+          subtitle={t("data.pre_nursing_anatomy.howMusclesContractAtThe")}
           icon={<Zap className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-sliding-filament-content" defaultText="Muscle contraction follows the sliding filament theory, which begins with a signal at the neuromuscular junction." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
@@ -895,12 +897,12 @@ export function AnatomyPhysiologyModule() {
           </div>
           <CognitiveCard
             type="concept"
-            title="Types of Contractions & Muscle Fatigue"
+            title={t("data.pre_nursing_anatomy.typesOfContractionsMuscleFatigue")}
             content={muscleFatigue}
           />
         </MicroLesson>
 
-        <SelfCheckQuiz title="Muscular System Check" questions={muscularQuiz} />
+        <SelfCheckQuiz title={t("data.pre_nursing_anatomy.muscularSystemCheck")} questions={muscularQuiz} />
       </section>
 
       <section className="space-y-6">
@@ -912,8 +914,8 @@ export function AnatomyPhysiologyModule() {
         </div>
 
         <MicroLesson
-          title="Neuron Structure & Electrical Signaling"
-          subtitle="How nerve cells generate and transmit impulses"
+          title={t("data.pre_nursing_anatomy.neuronStructureElectricalSignaling")}
+          subtitle={t("data.pre_nursing_anatomy.howNerveCellsGenerateAnd")}
           icon={<Brain className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-neuron-content" defaultText="Neurons are the functional units of the nervous system, specialized for rapid electrochemical communication." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
@@ -930,12 +932,12 @@ export function AnatomyPhysiologyModule() {
         </MicroLesson>
 
         <MicroLesson
-          title="Action Potential & Synaptic Transmission"
-          subtitle="The nerve impulse from generation to communication"
+          title={t("data.pre_nursing_anatomy.actionPotentialSynapticTransmission")}
+          subtitle={t("data.pre_nursing_anatomy.theNerveImpulseFromGeneration")}
           icon={<Zap className="w-5 h-5" />}
         >
           <ProgressiveReveal
-            title="Action Potential Steps"
+            title={t("data.pre_nursing_anatomy.actionPotentialSteps")}
             cards={[
               {
                 id: "ap1",
@@ -965,14 +967,14 @@ export function AnatomyPhysiologyModule() {
           />
           <CognitiveCard
             type="remember"
-            title="Synaptic Transmission"
+            title={t("data.pre_nursing_anatomy.synapticTransmission")}
             content={synapticTransmission}
           />
         </MicroLesson>
 
         <MicroLesson
-          title="CNS, PNS & the Autonomic Nervous System"
-          subtitle="Structural and functional divisions of the nervous system"
+          title={t("data.pre_nursing_anatomy.cnsPnsTheAutonomicNervous")}
+          subtitle={t("data.pre_nursing_anatomy.structuralAndFunctionalDivisionsOf")}
           icon={<Network className="w-5 h-5" />}
         >
           <div className="grid sm:grid-cols-2 gap-3">
@@ -997,14 +999,14 @@ export function AnatomyPhysiologyModule() {
           </div>
           <CognitiveCard
             type="concept"
-            title="Key Neurotransmitters"
+            title={t("data.pre_nursing_anatomy.keyNeurotransmitters")}
             content={neurotransmittersText}
           />
         </MicroLesson>
 
         <MatchingExercise
-          title="Nervous System Concepts"
-          description="Match each concept to its description"
+          title={t("data.pre_nursing_anatomy.nervousSystemConcepts")}
+          description={t("data.pre_nursing_anatomy.matchEachConceptToIts")}
           pairs={[
             { id: "nc1", term: "Depolarization", definition: "Na+ rushes into the cell" },
             { id: "nc2", term: "Repolarization", definition: "K+ flows out of the cell" },
@@ -1015,7 +1017,7 @@ export function AnatomyPhysiologyModule() {
           ]}
         />
 
-        <SelfCheckQuiz title="Nervous System Check" questions={nervousQuiz} />
+        <SelfCheckQuiz title={t("data.pre_nursing_anatomy.nervousSystemCheck")} questions={nervousQuiz} />
       </section>
 
       <section className="space-y-6">
@@ -1027,8 +1029,8 @@ export function AnatomyPhysiologyModule() {
         </div>
 
         <MicroLesson
-          title="Hormone Signaling & Negative Feedback"
-          subtitle="Chemical messengers and how the body regulates them"
+          title={t("data.pre_nursing_anatomy.hormoneSignalingNegativeFeedback")}
+          subtitle={t("data.pre_nursing_anatomy.chemicalMessengersAndHowThe")}
           icon={<Heart className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-hormone-signaling-content" defaultText="The endocrine system uses hormones for slower but longer-lasting communication compared to the nervous system." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
@@ -1044,14 +1046,14 @@ export function AnatomyPhysiologyModule() {
           </div>
           <CognitiveCard
             type="warning"
-            title="Negative Feedback Controls Most Hormones"
+            title={t("data.pre_nursing_anatomy.negativeFeedbackControlsMostHormones")}
             content={negativeFeedback}
           />
         </MicroLesson>
 
         <MicroLesson
-          title="The Pituitary Gland"
-          subtitle="The master gland controlling other endocrine organs"
+          title={t("data.pre_nursing_anatomy.thePituitaryGland")}
+          subtitle={t("data.pre_nursing_anatomy.theMasterGlandControllingOther")}
           icon={<Sparkles className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-pituitary-content" defaultText="The pituitary gland is controlled by the hypothalamus and regulates thyroid, adrenals, gonads, growth, and more." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
@@ -1068,8 +1070,8 @@ export function AnatomyPhysiologyModule() {
         </MicroLesson>
 
         <MicroLesson
-          title="Insulin, Glucose Regulation & Stress Hormones"
-          subtitle="Critical metabolic and stress response pathways"
+          title={t("data.pre_nursing_anatomy.insulinGlucoseRegulationStressHormones")}
+          subtitle={t("data.pre_nursing_anatomy.criticalMetabolicAndStressResponse")}
           icon={<Activity className="w-5 h-5" />}
         >
           <div className="space-y-3">
@@ -1084,14 +1086,14 @@ export function AnatomyPhysiologyModule() {
           </div>
           <CognitiveCard
             type="remember"
-            title="Clinical Implications of Cortisol"
+            title={t("data.pre_nursing_anatomy.clinicalImplicationsOfCortisol")}
             content={cortisolClinical}
           />
         </MicroLesson>
 
         <MatchingExercise
-          title="Endocrine Concepts"
-          description="Match each hormone to its primary action"
+          title={t("data.pre_nursing_anatomy.endocrineConcepts")}
+          description={t("data.pre_nursing_anatomy.matchEachHormoneToIts")}
           pairs={[
             { id: "ec1", term: "Insulin", definition: "Lowers blood glucose" },
             { id: "ec2", term: "Glucagon", definition: "Raises blood glucose" },
@@ -1102,7 +1104,7 @@ export function AnatomyPhysiologyModule() {
           ]}
         />
 
-        <SelfCheckQuiz title="Endocrine System Check" questions={endocrineQuiz} />
+        <SelfCheckQuiz title={t("data.pre_nursing_anatomy.endocrineSystemCheck")} questions={endocrineQuiz} />
       </section>
 
       <section className="space-y-6">
@@ -1114,8 +1116,8 @@ export function AnatomyPhysiologyModule() {
         </div>
 
         <MicroLesson
-          title="Heart Anatomy & Blood Flow Pathway"
-          subtitle="Four chambers, four valves, two circuits"
+          title={t("data.pre_nursing_anatomy.heartAnatomyBloodFlowPathway")}
+          subtitle={t("data.pre_nursing_anatomy.fourChambersFourValvesTwo")}
           icon={<Heart className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-heart-content" defaultText="The heart is a muscular pump approximately the size of a fist, located in the mediastinum of the thoracic cavity. It has four chambers that work in coordinated pairs to maintain two distinct circulatory loops." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
@@ -1130,7 +1132,7 @@ export function AnatomyPhysiologyModule() {
             </div>
           </div>
           <ProgressiveReveal
-            title="Blood Flow Sequence"
+            title={t("data.pre_nursing_anatomy.bloodFlowSequence")}
             cards={[
               { id: "bf1", title: "Step 1: Venous Return", summary: "Venae cavae → Right atrium → Tricuspid valve → Right ventricle", detail: "Deoxygenated blood from the systemic circuit returns to the right atrium via the superior vena cava (upper body) and inferior vena cava (lower body), then passes through the tricuspid (right atrioventricular) valve into the right ventricle." },
               { id: "bf2", title: "Step 2: Pulmonary Circuit", summary: "Right ventricle → Pulmonary valve → Pulmonary arteries → Lungs", detail: "The right ventricle contracts, closing the tricuspid valve and opening the pulmonary semilunar valve. Blood is pumped into the pulmonary trunk, which splits into left and right pulmonary arteries carrying deoxygenated blood to the lungs for gas exchange." },
@@ -1140,14 +1142,14 @@ export function AnatomyPhysiologyModule() {
           />
           <CognitiveCard
             type="remember"
-            title="Key Anatomical Facts"
+            title={t("data.pre_nursing_anatomy.keyAnatomicalFacts")}
             content={heartAnatomyText}
           />
         </MicroLesson>
 
         <MicroLesson
-          title="Cardiac Cycle & Blood Vessel Types"
-          subtitle="Systole, diastole, and the vascular tree"
+          title={t("data.pre_nursing_anatomy.cardiacCycleBloodVesselTypes")}
+          subtitle={t("data.pre_nursing_anatomy.systoleDiastoleAndTheVascular")}
           icon={<Activity className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-cardiac-cycle-content" defaultText="The cardiac cycle includes all events from one heartbeat to the next. The heart's intrinsic conduction system coordinates the rhythmic contractions without requiring external neural input." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
@@ -1181,7 +1183,7 @@ export function AnatomyPhysiologyModule() {
           </div>
           <CognitiveCard
             type="concept"
-            title="Cardiac Output"
+            title={t("data.pre_nursing_anatomy.cardiacOutput")}
             content={cardiacOutputText}
           />
         </MicroLesson>
@@ -1196,13 +1198,13 @@ export function AnatomyPhysiologyModule() {
         </div>
 
         <MicroLesson
-          title="Airways Anatomy & Gas Exchange"
-          subtitle="From nasal cavity to alveolar diffusion"
+          title={t("data.pre_nursing_anatomy.airwaysAnatomyGasExchange")}
+          subtitle={t("data.pre_nursing_anatomy.fromNasalCavityToAlveolar")}
           icon={<Wind className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-airways-content" defaultText="The respiratory system is divided into the upper respiratory tract and the lower respiratory tract." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <ProgressiveReveal
-            title="Airway Branching (Conducting Zone → Respiratory Zone)"
+            title={t("data.pre_nursing_anatomy.airwayBranchingConductingZoneRespiratory")}
             cards={[
               { id: "ab1", title: "Trachea", summary: "C-shaped cartilage rings maintain patency", detail: "The trachea is lined with pseudostratified ciliated columnar epithelium (mucociliary escalator) that traps and propels inhaled particles upward. C-shaped hyaline cartilage rings keep the airway open while the posterior trachealis muscle allows esophageal expansion during swallowing." },
               { id: "ab2", title: "Bronchi", summary: "Progressive branching with decreasing cartilage", detail: "Primary (main) bronchi enter each lung at the hilum. They subdivide into secondary (lobar) bronchi (3 right, 2 left — matching lung lobes), then tertiary (segmental) bronchi. As airways branch, cartilage decreases and smooth muscle increases, allowing autonomic control of airway diameter." },
@@ -1222,12 +1224,12 @@ export function AnatomyPhysiologyModule() {
           </div>
           <CognitiveCard
             type="concept"
-            title="Ventilation Mechanics"
+            title={t("data.pre_nursing_anatomy.ventilationMechanics")}
             content={ventilationMechanics}
           />
           <CognitiveCard
             type="remember"
-            title="Oxygen Transport"
+            title={t("data.pre_nursing_anatomy.oxygenTransport")}
             content={oxygenTransport}
           />
         </MicroLesson>
@@ -1242,13 +1244,13 @@ export function AnatomyPhysiologyModule() {
         </div>
 
         <MicroLesson
-          title="GI Tract Anatomy & Digestion"
-          subtitle="From mouth to anus — mechanical and chemical breakdown"
+          title={t("data.pre_nursing_anatomy.giTractAnatomyDigestion")}
+          subtitle={t("data.pre_nursing_anatomy.fromMouthToAnusMechanical")}
           icon={<Utensils className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-gi-tract-content" defaultText="The gastrointestinal (GI) tract is a continuous muscular tube approximately 9 meters long, extending from the mouth to the anus. The wall of the GI tract has four basic layers: mucosa, submucosa, muscularis externa (smooth muscle for peristalsis), and serosa (outermost protective layer)." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <ProgressiveReveal
-            title="GI Tract Organs in Sequence"
+            title={t("data.pre_nursing_anatomy.giTractOrgansInSequence")}
             cards={[
               { id: "gi1", title: "Mouth (Oral Cavity)", summary: "Mechanical and initial chemical digestion begins", detail: "Mastication (chewing) physically breaks food into smaller pieces. Salivary glands secrete saliva containing salivary amylase (begins starch digestion) and lingual lipase (begins fat digestion). The tongue mixes food with saliva to form a bolus for swallowing." },
               { id: "gi2", title: "Pharynx & Esophagus", summary: "Swallowing propels bolus via peristalsis", detail: "The pharynx connects the oral cavity to the esophagus. Swallowing (deglutition) is coordinated by the swallowing center in the medulla. The epiglottis covers the larynx to prevent aspiration. The esophagus uses peristalsis to move the bolus to the stomach. The lower esophageal sphincter (cardiac sphincter) prevents reflux." },
@@ -1273,7 +1275,7 @@ export function AnatomyPhysiologyModule() {
           </div>
           <CognitiveCard
             type="concept"
-            title="Mechanical vs. Chemical Digestion"
+            title={t("data.pre_nursing_anatomy.mechanicalVsChemicalDigestion")}
             content={digestionMechanical}
           />
         </MicroLesson>
@@ -1288,13 +1290,13 @@ export function AnatomyPhysiologyModule() {
         </div>
 
         <MicroLesson
-          title="Kidney Structure & Urine Formation"
-          subtitle="Nephron physiology — filtration, reabsorption, secretion"
+          title={t("data.pre_nursing_anatomy.kidneyStructureUrineFormation")}
+          subtitle={t("data.pre_nursing_anatomy.nephronPhysiologyFiltrationReabsorptionS")}
           icon={<Droplet className="w-5 h-5" />}
         >
           <EditableModuleText sectionKey="preanat-kidney-content" defaultText="The urinary system consists of two kidneys, two ureters, the urinary bladder, and the urethra. The kidneys are retroperitoneal organs located against the posterior abdominal wall. Each kidney has an outer renal cortex and an inner renal medulla." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
           <ProgressiveReveal
-            title="Three Processes of Urine Formation"
+            title={t("data.pre_nursing_anatomy.threeProcessesOfUrineFormation")}
             cards={[
               { id: "uf1", title: "Glomerular Filtration", summary: "Blood pressure forces plasma components into Bowman's capsule", detail: "Hydrostatic pressure in the glomerular capillaries forces water, electrolytes, glucose, amino acids, and waste products through the filtration membrane (fenestrated endothelium, basement membrane, podocyte filtration slits) into Bowman's capsule. ~180 L of filtrate is produced daily; only ~1-2 L becomes urine. Normal GFR ≈ 125 mL/min. Blood cells and most proteins are too large to be filtered." },
               { id: "uf2", title: "Tubular Reabsorption", summary: "Essential substances reclaimed from filtrate back into blood", detail: "The proximal convoluted tubule (PCT) reclaims ~65% of filtered water, nearly all glucose and amino acids, and most Na+, Cl⁻, K+, and HCO₃⁻ via active transport, cotransport, and osmosis. The descending limb of the loop of Henle is permeable to water (water reabsorbed). The ascending limb actively pumps out Na+/Cl⁻ (creating the medullary concentration gradient). The DCT and collecting duct perform hormonally regulated fine-tuning (ADH, aldosterone)." },
@@ -1313,7 +1315,7 @@ export function AnatomyPhysiologyModule() {
           </div>
           <CognitiveCard
             type="remember"
-            title="Kidney Functions Beyond Urine Formation"
+            title={t("data.pre_nursing_anatomy.kidneyFunctionsBeyondUrineFormation")}
             content={kidneyFunctions}
           />
         </MicroLesson>
@@ -1327,11 +1329,11 @@ export function AnatomyPhysiologyModule() {
           <h3 className="text-xl font-semibold text-gray-900">Body Systems Review</h3>
         </div>
 
-        <SelfCheckQuiz title="Cardiovascular, Respiratory, Digestive & Urinary Systems Check" questions={bodySystemsQuiz} />
+        <SelfCheckQuiz title={t("data.pre_nursing_anatomy.cardiovascularRespiratoryDigestiveUrinar")} questions={bodySystemsQuiz} />
 
         <MatchingExercise
-          title="Organ Systems & Key Functions"
-          description="Match each organ system to its primary function"
+          title={t("data.pre_nursing_anatomy.organSystemsKeyFunctions")}
+          description={t("data.pre_nursing_anatomy.matchEachOrganSystemTo")}
           pairs={[
             { id: "osm1", term: "Cardiovascular System", definition: "Pumps and transports blood, O\u2082, nutrients, and wastes throughout the body" },
             { id: "osm2", term: "Respiratory System", definition: "Gas exchange — delivers O\u2082 to blood and removes CO\u2082 from the body" },

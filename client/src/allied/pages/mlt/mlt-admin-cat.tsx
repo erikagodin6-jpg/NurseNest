@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Settings, Play, BarChart3, Save, AlertCircle, CheckCircle, Users } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface CATSettings {
   minQuestions: number;
   maxQuestions: number;
@@ -34,6 +35,7 @@ const DEFAULT_CONTENT_TARGETS: Record<string, number> = {
 };
 
 export default function MltAdminCat() {
+  const { t } = useI18n();
   const [settings, setSettings] = useState<CATSettings>({
     minQuestions: 60,
     maxQuestions: 130,
@@ -150,8 +152,8 @@ export default function MltAdminCat() {
       <div className="flex items-center gap-3 mb-6">
         <Settings className="w-7 h-7 text-purple-600" />
         <div>
-          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-admin-cat-title">MLT CAT Settings</h1>
-          <p className="text-sm text-gray-500">Configure adaptive testing parameters and simulate student performance</p>
+          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-admin-cat-title">{t("allied.mltMltAdminCat.mltCatSettings")}</h1>
+          <p className="text-sm text-gray-500">{t("allied.mltMltAdminCat.configureAdaptiveTestingParametersAnd")}</p>
         </div>
       </div>
 
@@ -181,10 +183,10 @@ export default function MltAdminCat() {
       {activeTab === "settings" && (
         <div className="space-y-6">
           <div className="bg-white rounded-2xl border p-6 shadow-sm">
-            <h3 className="font-bold text-gray-900 mb-4">Question Parameters</h3>
+            <h3 className="font-bold text-gray-900 mb-4">{t("allied.mltMltAdminCat.questionParameters")}</h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Min Questions</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltAdminCat.minQuestions")}</label>
                 <input
                   type="number"
                   value={settings.minQuestions}
@@ -194,7 +196,7 @@ export default function MltAdminCat() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Max Questions</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltAdminCat.maxQuestions")}</label>
                 <input
                   type="number"
                   value={settings.maxQuestions}
@@ -204,7 +206,7 @@ export default function MltAdminCat() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Time Limit (min)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltAdminCat.timeLimitMin")}</label>
                 <input
                   type="number"
                   value={settings.timeLimit}
@@ -214,7 +216,7 @@ export default function MltAdminCat() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Stability Threshold</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltAdminCat.stabilityThreshold")}</label>
                 <input
                   type="number"
                   step="0.05"
@@ -225,7 +227,7 @@ export default function MltAdminCat() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Exposure Max</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltAdminCat.exposureMax")}</label>
                 <input
                   type="number"
                   step="0.05"
@@ -236,7 +238,7 @@ export default function MltAdminCat() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Ability Cap / Question</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltAdminCat.abilityCapQuestion")}</label>
                 <input
                   type="number"
                   step="0.1"
@@ -247,7 +249,7 @@ export default function MltAdminCat() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Rapid Guess Threshold (ms)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltAdminCat.rapidGuessThresholdMs")}</label>
                 <input
                   type="number"
                   value={settings.rapidGuessThresholdMs}
@@ -265,14 +267,14 @@ export default function MltAdminCat() {
                     className="rounded border-gray-300"
                     data-testid="checkbox-no-backtracking"
                   />
-                  <span className="text-sm text-gray-700">No Backtracking</span>
+                  <span className="text-sm text-gray-700">{t("allied.mltMltAdminCat.noBacktracking")}</span>
                 </label>
               </div>
             </div>
           </div>
 
           <div className="bg-white rounded-2xl border p-6 shadow-sm">
-            <h3 className="font-bold text-gray-900 mb-4">Content Targets (%)</h3>
+            <h3 className="font-bold text-gray-900 mb-4">{t("allied.mltMltAdminCat.contentTargets")}</h3>
             <div className="space-y-3">
               {Object.entries(settings.contentTargets).map(([cat, pct]) => (
                 <div key={cat} className="flex items-center gap-3">
@@ -299,7 +301,7 @@ export default function MltAdminCat() {
             className="w-full py-3 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-700 disabled:opacity-50 flex items-center justify-center gap-2"
             data-testid="button-save-settings"
           >
-            {saving ? "Saving..." : saved ? <><CheckCircle className="w-4 h-4" /> Saved!</> : <><Save className="w-4 h-4" /> Save Settings</>}
+            {saving ? "Saving..." : saved ? <><CheckCircle className="w-4 h-4" /> {t("allied.mltMltAdminCat.saved")}</> : <><Save className="w-4 h-4" /> {t("allied.mltMltAdminCat.saveSettings")}</>}
           </button>
         </div>
       )}
@@ -338,7 +340,7 @@ export default function MltAdminCat() {
               className="w-full py-2.5 bg-purple-100 text-purple-700 font-medium rounded-xl hover:bg-purple-200 disabled:opacity-50 flex items-center justify-center gap-2"
               data-testid="button-sim-all"
             >
-              {simulating ? "Simulating..." : <><Play className="w-4 h-4" /> Run All Profiles</>}
+              {simulating ? "Simulating..." : <><Play className="w-4 h-4" /> {t("allied.mltMltAdminCat.runAllProfiles")}</>}
             </button>
           </div>
 
@@ -355,19 +357,19 @@ export default function MltAdminCat() {
                   <div className="grid grid-cols-4 gap-4 text-center mb-4">
                     <div>
                       <p className="text-2xl font-bold text-gray-900">{result.questionsUsed}</p>
-                      <p className="text-xs text-gray-500">Questions</p>
+                      <p className="text-xs text-gray-500">{t("allied.mltMltAdminCat.questions")}</p>
                     </div>
                     <div>
                       <p className="text-2xl font-bold text-green-600">{result.totalCorrect}</p>
-                      <p className="text-xs text-gray-500">Correct</p>
+                      <p className="text-xs text-gray-500">{t("allied.mltMltAdminCat.correct")}</p>
                     </div>
                     <div>
                       <p className="text-2xl font-bold text-red-600">{result.totalIncorrect}</p>
-                      <p className="text-xs text-gray-500">Incorrect</p>
+                      <p className="text-xs text-gray-500">{t("allied.mltMltAdminCat.incorrect")}</p>
                     </div>
                     <div>
                       <p className="text-2xl font-bold text-purple-600">{result.finalAbility}</p>
-                      <p className="text-xs text-gray-500">Ability θ</p>
+                      <p className="text-xs text-gray-500">{t("allied.mltMltAdminCat.ability")}</p>
                     </div>
                   </div>
                   <p className="text-xs text-gray-400">Stopped: {result.stoppedReason.replace(/_/g, " ")}</p>

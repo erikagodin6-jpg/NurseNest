@@ -3,6 +3,7 @@ import { Link, useParams } from "wouter";
 import { BookOpen, ChevronRight, Search, Filter, ArrowRight, Brain, Clock, Globe } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 
+import { useI18n } from "@/lib/i18n";
 const CATEGORIES = [
   "Pharmacology", "Dosage Calculations", "Compounding", "Drug Interactions",
   "Regulations/Law", "Sterile Products", "Inventory Management", "Patient Safety",
@@ -16,6 +17,7 @@ const CERT_OPTIONS = [
 ];
 
 function CertBadge({ certContext }: { certContext?: string }) {
+  const { t } = useI18n();
   if (!certContext || certContext === "BOTH") return null;
   if (certContext === "PTCB") return <span className="inline-block px-1.5 py-0.5 bg-blue-50 text-blue-700 rounded text-[10px] font-medium ml-1">US</span>;
   if (certContext === "PEBC") return <span className="inline-block px-1.5 py-0.5 bg-red-50 text-red-700 rounded text-[10px] font-medium ml-1">CA</span>;
@@ -46,8 +48,8 @@ function LessonLibrary() {
   return (
     <>
       <AlliedSEO
-        title="Pharmacy Technician Lessons - Complete Lesson Library"
-        description="Browse all pharmacy technician certification lessons covering pharmacology, dosage calculations, compounding, pharmacy law, and more. Free to preview."
+        title={t("allied.pharmtechLessons.pharmacyTechnicianLessonsCompleteLesson")}
+        description={t("allied.pharmtechLessons.browseAllPharmacyTechnicianCertification")}
         canonicalPath="/allied-health/pharmacy-technician/lessons"
         structuredData={{
           "@context": "https://schema.org",
@@ -61,14 +63,14 @@ function LessonLibrary() {
       />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-lessons-page">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">{t("allied.pharmtechLessons.pharmacyTechnician")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-green-700 font-medium">Lessons</span>
+          <span className="text-green-700 font-medium">{t("allied.pharmtechLessons.lessons")}</span>
         </div>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-lessons-title">Pharmacy Technician Lessons</h1>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-lessons-title">{t("allied.pharmtechLessons.pharmacyTechnicianLessons")}</h1>
             <p className="text-gray-500 text-sm mt-1">{lessons.length} lessons available</p>
           </div>
           <div className="flex gap-2 w-full sm:w-auto">
@@ -76,7 +78,7 @@ function LessonLibrary() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search lessons..."
+                placeholder={t("allied.pharmtechLessons.searchLessons")}
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 className="w-full sm:w-64 pl-9 pr-4 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
@@ -89,7 +91,7 @@ function LessonLibrary() {
               className="px-3 py-2 rounded-xl border border-gray-200 text-sm"
               data-testid="select-category"
             >
-              <option value="">All Categories</option>
+              <option value="">{t("allied.pharmtechLessons.allCategories")}</option>
               {categoryCounts.map(c => <option key={c.name} value={c.name}>{c.name} ({c.count})</option>)}
             </select>
           </div>
@@ -116,8 +118,8 @@ function LessonLibrary() {
         ) : filtered.length === 0 ? (
           <div className="text-center py-20">
             <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No lessons found</h3>
-            <p className="text-gray-500 text-sm">Try adjusting your filters.</p>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("allied.pharmtechLessons.noLessonsFound")}</h3>
+            <p className="text-gray-500 text-sm">{t("allied.pharmtechLessons.tryAdjustingYourFilters")}</p>
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -152,7 +154,7 @@ function LessonDetail() {
   }, [slug]);
 
   if (loading) return <div className="flex justify-center py-20"><div className="w-8 h-8 border-3 border-green-500 border-t-transparent rounded-full animate-spin" /></div>;
-  if (!lesson) return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Lesson Not Found</h1><Link href="/allied-health/pharmacy-technician/lessons" className="text-green-600 mt-4 inline-block">Back to Lessons</Link></div>;
+  if (!lesson) return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">{t("allied.pharmtechLessons.lessonNotFound")}</h1><Link href="/allied-health/pharmacy-technician/lessons" className="text-green-600 mt-4 inline-block">{t("allied.pharmtechLessons.backToLessons")}</Link></div>;
 
   return (
     <>
@@ -173,9 +175,9 @@ function LessonDetail() {
       />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-lesson-detail">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">{t("allied.pharmtechLessons.pharmacyTechnician2")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <Link href="/allied-health/pharmacy-technician/lessons" className="hover:text-teal-600">Lessons</Link>
+          <Link href="/allied-health/pharmacy-technician/lessons" className="hover:text-teal-600">{t("allied.pharmtechLessons.lessons2")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-green-700 font-medium truncate">{lesson.title}</span>
         </div>
@@ -188,7 +190,7 @@ function LessonDetail() {
 
         {lesson.objectives && lesson.objectives.length > 0 && (
           <div className="bg-green-50 rounded-2xl p-6 mb-8 border border-green-100">
-            <h2 className="font-semibold text-green-800 mb-3 flex items-center gap-2"><BookOpen className="w-4 h-4" /> Learning Objectives</h2>
+            <h2 className="font-semibold text-green-800 mb-3 flex items-center gap-2"><BookOpen className="w-4 h-4" /> {t("allied.pharmtechLessons.learningObjectives")}</h2>
             <ul className="space-y-2">
               {lesson.objectives.map((obj: string, i: number) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-green-900">
@@ -211,7 +213,7 @@ function LessonDetail() {
 
         {lesson.keyPoints && lesson.keyPoints.length > 0 && (
           <div className="bg-amber-50 rounded-2xl p-6 mb-8 border border-amber-100">
-            <h2 className="font-semibold text-amber-800 mb-3">Key Points to Remember</h2>
+            <h2 className="font-semibold text-amber-800 mb-3">{t("allied.pharmtechLessons.keyPointsToRemember")}</h2>
             <ul className="space-y-2">
               {lesson.keyPoints.map((point: string, i: number) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-amber-900">
@@ -224,7 +226,7 @@ function LessonDetail() {
 
         {lesson.commonMistakes && lesson.commonMistakes.length > 0 && (
           <div className="bg-red-50 rounded-2xl p-6 mb-8 border border-red-100">
-            <h2 className="font-semibold text-red-800 mb-3">Common Mistakes to Avoid</h2>
+            <h2 className="font-semibold text-red-800 mb-3">{t("allied.pharmtechLessons.commonMistakesToAvoid")}</h2>
             <ul className="space-y-2">
               {lesson.commonMistakes.map((mistake: string, i: number) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-red-900">
@@ -237,7 +239,7 @@ function LessonDetail() {
 
         {lesson.relatedDeckSlugs && lesson.relatedDeckSlugs.length > 0 && (
           <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
-            <h2 className="font-semibold text-gray-900 mb-3 flex items-center gap-2"><Brain className="w-4 h-4 text-green-600" /> Related Flashcard Decks</h2>
+            <h2 className="font-semibold text-gray-900 mb-3 flex items-center gap-2"><Brain className="w-4 h-4 text-green-600" /> {t("allied.pharmtechLessons.relatedFlashcardDecks")}</h2>
             <div className="flex flex-wrap gap-2">
               {lesson.relatedDeckSlugs.map((deckSlug: string) => (
                 <Link key={deckSlug} href={`/allied-health/pharmacy-technician/flashcards/${deckSlug}`} className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm text-green-700 hover:bg-green-50 hover:border-green-200 transition-colors" data-testid={`link-deck-${deckSlug}`}>
@@ -249,8 +251,8 @@ function LessonDetail() {
         )}
 
         <div className="flex justify-between mt-8 pt-6 border-t border-gray-100">
-          <Link href="/allied-health/pharmacy-technician/lessons" className="text-green-600 text-sm font-medium hover:underline" data-testid="link-back-lessons">← Back to Lessons</Link>
-          <Link href="/allied-health/pharmacy-technician/practice-questions" className="text-green-600 text-sm font-medium hover:underline" data-testid="link-practice">Practice Questions →</Link>
+          <Link href="/allied-health/pharmacy-technician/lessons" className="text-green-600 text-sm font-medium hover:underline" data-testid="link-back-lessons">{t("allied.pharmtechLessons.backToLessons2")}</Link>
+          <Link href="/allied-health/pharmacy-technician/practice-questions" className="text-green-600 text-sm font-medium hover:underline" data-testid="link-practice">{t("allied.pharmtechLessons.practiceQuestions")}</Link>
         </div>
       </div>
     </>

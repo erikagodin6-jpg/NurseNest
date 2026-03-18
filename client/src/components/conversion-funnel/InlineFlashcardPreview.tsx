@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import {
   Layers,
   RotateCcw,
@@ -36,6 +37,7 @@ export function InlineFlashcardPreview({
   profession,
   maxCards = FREE_LIMIT,
 }: InlineFlashcardPreviewProps) {
+  const { t } = useI18n();
   const { user, effectiveTier } = useAuth();
   const [cards, setCards] = useState<FlashcardItem[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -158,7 +160,7 @@ export function InlineFlashcardPreview({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Layers className="w-5 h-5 text-emerald-600" />
-          <h3 className="text-lg font-bold text-gray-900">Quick Flashcard Review</h3>
+          <h3 className="text-lg font-bold text-gray-900">{t("components.conversionFunnelInlineFlashcardPreview.quickFlashcardReview")}</h3>
         </div>
         <Badge variant="outline" className="text-xs" data-testid="badge-flashcard-progress">
           {currentIdx + 1} / {cards.length}
@@ -184,7 +186,7 @@ export function InlineFlashcardPreview({
                 <p className="text-lg font-semibold text-gray-900 mb-3" data-testid="text-flashcard-front">
                   {card.front}
                 </p>
-                <p className="text-xs text-gray-400">Tap to reveal answer</p>
+                <p className="text-xs text-gray-400">{t("components.conversionFunnelInlineFlashcardPreview.tapToRevealAnswer")}</p>
               </div>
             ) : (
               <div>

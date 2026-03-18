@@ -6,7 +6,9 @@ import { ChevronRight, Clock, ArrowRight, BookOpen, Calendar } from "lucide-reac
 import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
 import { MedicalReferences } from "@/components/medical-references";
 
+import { useI18n } from "@/lib/i18n";
 function setArticleMetaTags(article: any, professionName: string) {
+  const { t } = useI18n();
   document.title = (article.metaTitle || article.title) + " | NurseNest";
   const setMeta = (attr: string, name: string, content: string) => {
     let el = document.querySelector(`meta[${attr}="${name}"]`) as HTMLMetaElement;
@@ -174,8 +176,8 @@ export default function AlliedHealthArticlePage() {
     return (
       <div className="min-h-screen flex items-center justify-center" data-testid="article-not-found">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Article Not Found</h1>
-          <p className="text-gray-500 mb-4">The article you're looking for doesn't exist or hasn't been published yet.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.alliedHealthArticle.articleNotFound")}</h1>
+          <p className="text-gray-500 mb-4">{t("pages.alliedHealthArticle.theArticleYoureLookingFor")}</p>
           <div className="flex gap-3 justify-center">
             {profession && (
               <Link href={`/allied-health/${params.profession}`} className="text-teal-600 font-medium hover:text-teal-700" data-testid="link-back-profession">
@@ -195,9 +197,9 @@ export default function AlliedHealthArticlePage() {
     <div className="min-h-screen bg-white" data-testid="allied-health-article-page">
       <nav className="bg-gray-50 border-b border-gray-100 py-3 px-4" data-testid="breadcrumb-nav">
         <div className="max-w-4xl mx-auto flex items-center gap-2 text-sm text-gray-500 flex-wrap">
-          <Link href="/" className="hover:text-teal-600 transition-colors" data-testid="breadcrumb-home">Home</Link>
+          <Link href="/" className="hover:text-teal-600 transition-colors" data-testid="breadcrumb-home">{t("pages.alliedHealthArticle.home")}</Link>
           <ChevronRight className="w-3.5 h-3.5 flex-shrink-0" />
-          <Link href="/allied-health" className="hover:text-teal-600 transition-colors" data-testid="breadcrumb-allied">Allied Health</Link>
+          <Link href="/allied-health" className="hover:text-teal-600 transition-colors" data-testid="breadcrumb-allied">{t("pages.alliedHealthArticle.alliedHealth")}</Link>
           <ChevronRight className="w-3.5 h-3.5 flex-shrink-0" />
           <Link href={`/allied-health/${params.profession}`} className="hover:text-teal-600 transition-colors" data-testid="breadcrumb-profession">
             {professionName}
@@ -247,7 +249,7 @@ export default function AlliedHealthArticlePage() {
 
         {article.careerTrack && (
           <div className="mt-12 bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 sm:p-8 border border-teal-100" data-testid="article-cta">
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Ready to Start Studying?</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">{t("pages.alliedHealthArticle.readyToStartStudying")}</h3>
             <p className="text-gray-600 mb-4">Explore study resources and practice tools for {professionName} certification.</p>
             <Link
               href={`/allied-health/${params.profession}`}
@@ -278,7 +280,7 @@ export default function AlliedHealthArticlePage() {
       {relatedArticles.length > 0 && (
         <section className="bg-gray-50 py-12" data-testid="related-articles-section">
           <div className="max-w-4xl mx-auto px-4 sm:px-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="heading-related-articles">Related Articles</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="heading-related-articles">{t("pages.alliedHealthArticle.relatedArticles")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {relatedArticles.map((ra: any) => (
                 <Link

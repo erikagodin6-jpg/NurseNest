@@ -15,9 +15,11 @@ import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { QuestionComments } from "@/components/question-comments";
 
+import { useI18n } from "@/lib/i18n";
 const siteUrl = "https://www.nursenest.ca";
 
 function StreakBanner({ streak }: { streak: { currentStreak: number; longestStreak: number; totalAnswered: number; totalCorrect: number } }) {
+  const { t } = useI18n();
   const accuracy = streak.totalAnswered > 0 ? Math.round((streak.totalCorrect / streak.totalAnswered) * 100) : 0;
 
   return (
@@ -25,22 +27,22 @@ function StreakBanner({ streak }: { streak: { currentStreak: number; longestStre
       <Card className="text-center p-3 border-orange-200 bg-orange-50 dark:bg-orange-950/20">
         <Flame className="h-5 w-5 mx-auto mb-1 text-orange-500" />
         <div className="text-xl font-bold text-orange-600" data-testid="text-current-streak">{streak.currentStreak}</div>
-        <div className="text-xs text-muted-foreground">Day Streak</div>
+        <div className="text-xs text-muted-foreground">{t("pages.questionOfTheDay.dayStreak")}</div>
       </Card>
       <Card className="text-center p-3">
         <Trophy className="h-5 w-5 mx-auto mb-1 text-yellow-500" />
         <div className="text-xl font-bold" data-testid="text-longest-streak">{streak.longestStreak}</div>
-        <div className="text-xs text-muted-foreground">Best Streak</div>
+        <div className="text-xs text-muted-foreground">{t("pages.questionOfTheDay.bestStreak")}</div>
       </Card>
       <Card className="text-center p-3">
         <Target className="h-5 w-5 mx-auto mb-1 text-blue-500" />
         <div className="text-xl font-bold" data-testid="text-total-answered">{streak.totalAnswered}</div>
-        <div className="text-xs text-muted-foreground">Answered</div>
+        <div className="text-xs text-muted-foreground">{t("pages.questionOfTheDay.answered")}</div>
       </Card>
       <Card className="text-center p-3">
         <BarChart3 className="h-5 w-5 mx-auto mb-1 text-green-500" />
         <div className="text-xl font-bold" data-testid="text-accuracy">{accuracy}%</div>
-        <div className="text-xs text-muted-foreground">Accuracy</div>
+        <div className="text-xs text-muted-foreground">{t("pages.questionOfTheDay.accuracy")}</div>
       </Card>
     </div>
   );
@@ -181,8 +183,8 @@ export default function QuestionOfTheDay() {
   return (
     <>
       <SEO
-        title="Nursing Question of the Day - Free Practice"
-        description="Free daily nursing practice question with detailed rationale. Prepare for NCLEX, REX-PN, and Canadian nursing exams with expert-level clinical questions updated daily."
+        title={t("pages.questionOfTheDay.nursingQuestionOfTheDay")}
+        description={t("pages.questionOfTheDay.freeDailyNursingPracticeQuestion")}
         canonicalPath="/question-of-the-day"
         keywords="nursing question of the day, NCLEX practice, nursing exam prep, daily nursing quiz, RPN practice, RN practice"
         structuredData={structuredData}
@@ -303,12 +305,12 @@ export default function QuestionOfTheDay() {
                           {isCorrect ? (
                             <>
                               <Trophy className="h-5 w-5 text-green-600" />
-                              <span className="font-bold text-green-700 dark:text-green-400" data-testid="text-result">Correct!</span>
+                              <span className="font-bold text-green-700 dark:text-green-400" data-testid="text-result">{t("pages.questionOfTheDay.correct")}</span>
                             </>
                           ) : (
                             <>
                               <Brain className="h-5 w-5 text-amber-600" />
-                              <span className="font-bold text-amber-700 dark:text-amber-400" data-testid="text-result">Not quite - here is why:</span>
+                              <span className="font-bold text-amber-700 dark:text-amber-400" data-testid="text-result">{t("pages.questionOfTheDay.notQuiteHereIsWhy")}</span>
                             </>
                           )}
                         </div>
@@ -349,7 +351,7 @@ export default function QuestionOfTheDay() {
                 <CardContent className="p-6">
                   <div className="flex items-center gap-2 mb-3">
                     <Mail className="h-5 w-5 text-primary" />
-                    <h2 className="font-bold text-lg">Get Daily Questions in Your Inbox</h2>
+                    <h2 className="font-bold text-lg">{t("pages.questionOfTheDay.getDailyQuestionsInYour")}</h2>
                   </div>
                   <p className="text-sm text-muted-foreground mb-4">
                     Never miss a question. Subscribe for free daily nursing practice questions with detailed rationales delivered to your email.
@@ -381,7 +383,7 @@ export default function QuestionOfTheDay() {
                         className="rounded border-gray-300"
                         data-testid="checkbox-daily-optin"
                       />
-                      <span className="text-muted-foreground">Send me a daily question email</span>
+                      <span className="text-muted-foreground">{t("pages.questionOfTheDay.sendMeADailyQuestion")}</span>
                     </label>
                   </form>
                 </CardContent>
@@ -390,8 +392,8 @@ export default function QuestionOfTheDay() {
               <div className="grid md:grid-cols-3 gap-4 mb-8">
                 <Card className="text-center p-6" data-testid="card-cta-mock-exams">
                   <Sparkles className="h-8 w-8 mx-auto mb-3 text-primary" />
-                  <h3 className="font-bold mb-2">Mock Exams</h3>
-                  <p className="text-sm text-muted-foreground mb-4">Full-length timed practice exams with detailed performance reports.</p>
+                  <h3 className="font-bold mb-2">{t("pages.questionOfTheDay.mockExams")}</h3>
+                  <p className="text-sm text-muted-foreground mb-4">{t("pages.questionOfTheDay.fulllengthTimedPracticeExamsWith")}</p>
                   <LocaleLink href="/mock-exams">
                     <Button variant="outline" size="sm" data-testid="link-mock-exams">
                       Try a Mock Exam <ArrowRight className="h-3 w-3 ml-1" />
@@ -401,8 +403,8 @@ export default function QuestionOfTheDay() {
 
                 <Card className="text-center p-6" data-testid="card-cta-test-bank">
                   <BookOpen className="h-8 w-8 mx-auto mb-3 text-primary" />
-                  <h3 className="font-bold mb-2">Test Bank</h3>
-                  <p className="text-sm text-muted-foreground mb-4">Practice from thousands of questions with instant rationale feedback.</p>
+                  <h3 className="font-bold mb-2">{t("pages.questionOfTheDay.testBank")}</h3>
+                  <p className="text-sm text-muted-foreground mb-4">{t("pages.questionOfTheDay.practiceFromThousandsOfQuestions")}</p>
                   <LocaleLink href="/free-practice">
                     <Button variant="outline" size="sm" data-testid="link-test-bank">
                       Start Practicing <ArrowRight className="h-3 w-3 ml-1" />
@@ -412,8 +414,8 @@ export default function QuestionOfTheDay() {
 
                 <Card className="text-center p-6" data-testid="card-cta-lessons">
                   <Stethoscope className="h-8 w-8 mx-auto mb-3 text-primary" />
-                  <h3 className="font-bold mb-2">Clinical Lessons</h3>
-                  <p className="text-sm text-muted-foreground mb-4">In-depth pathophysiology lessons with clinical nursing actions.</p>
+                  <h3 className="font-bold mb-2">{t("pages.questionOfTheDay.clinicalLessons")}</h3>
+                  <p className="text-sm text-muted-foreground mb-4">{t("pages.questionOfTheDay.indepthPathophysiologyLessonsWithClinical")}</p>
                   <LocaleLink href="/lessons">
                     <Button variant="outline" size="sm" data-testid="link-lessons">
                       Browse Lessons <ArrowRight className="h-3 w-3 ml-1" />
@@ -423,16 +425,16 @@ export default function QuestionOfTheDay() {
               </div>
 
               <div className="text-center text-xs text-muted-foreground space-y-1">
-                <p>NurseNest is an independent educational platform.</p>
-                <p>NurseNest is NOT affiliated with, endorsed by, or connected to NCLEX, NCSBN, CNO, or any regulatory body.</p>
+                <p>{t("pages.questionOfTheDay.nursenestIsAnIndependentEducational")}</p>
+                <p>{t("pages.questionOfTheDay.nursenestIsNotAffiliatedWith")}</p>
               </div>
             </>
           ) : (
             <Card>
               <CardContent className="p-8 text-center">
                 <Clock className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                <p className="text-lg font-medium">Today's question is loading...</p>
-                <p className="text-sm text-muted-foreground mt-2">Check back shortly for your daily nursing challenge.</p>
+                <p className="text-lg font-medium">{t("pages.questionOfTheDay.todaysQuestionIsLoading")}</p>
+                <p className="text-sm text-muted-foreground mt-2">{t("pages.questionOfTheDay.checkBackShortlyForYour")}</p>
               </CardContent>
             </Card>
           )}

@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import { Switch, Route, Router, Redirect, useLocation } from "wouter";
 import { useBrowserLocation, navigate as wouterNavigate } from "wouter/use-browser-location";
 import { useEffect, useState, lazy, Suspense, Component, type ReactNode, type ErrorInfo } from "react";
@@ -91,57 +92,68 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
   render() {
     if (this.state.hasError) {
-      const isDev = import.meta.env.DEV;
-      const route = this.props.route || (typeof window !== "undefined" ? window.location.pathname : "unknown");
       return (
-        <div style={{ padding: "40px", fontFamily: "sans-serif" }} data-testid="error-boundary-fallback">
-          <h1 style={{ color: "#dc2626" }}>Something went wrong</h1>
-          {isDev ? (
-            <>
-              <p style={{ color: "#6b7280", marginBottom: "8px" }}>
-                Route: <code>{route}</code>
-              </p>
-              <pre style={{ background: "#f3f4f6", padding: "16px", borderRadius: "8px", overflow: "auto", fontSize: "13px", maxHeight: "300px" }}>
-                {this.state.error?.message}
-                {"\n\n"}
-                {this.state.error?.stack}
-              </pre>
-              {this.state.errorInfo?.componentStack && (
-                <details style={{ marginTop: "12px" }}>
-                  <summary style={{ cursor: "pointer", color: "#4b5563", fontSize: "14px" }}>Component Stack</summary>
-                  <pre style={{ background: "#f3f4f6", padding: "16px", borderRadius: "8px", overflow: "auto", fontSize: "12px", maxHeight: "200px", marginTop: "8px" }}>
-                    {this.state.errorInfo.componentStack}
-                  </pre>
-                </details>
-              )}
-              <details style={{ marginTop: "12px" }}>
-                <summary style={{ cursor: "pointer", fontWeight: "bold", color: "#6b7280" }}>
-                  Diagnostic Context
-                </summary>
-                <pre style={{ background: "#fef3c7", padding: "12px", borderRadius: "8px", fontSize: "12px", marginTop: "8px", overflow: "auto" }}>
-                  Route: {route}{"\n"}
-                  Component: {this.props.component || "root"}{"\n"}
-                  {this.state.errorInfo?.componentStack}
-                </pre>
-              </details>
-            </>
-          ) : (
-            <p style={{ color: "#6b7280" }}>
-              An unexpected error occurred. Please try reloading the page.
-            </p>
-          )}
-          <button
-            onClick={() => window.location.reload()}
-            style={{ marginTop: "16px", padding: "8px 16px", background: "#3b82f6", color: "white", border: "none", borderRadius: "6px", cursor: "pointer" }}
-            data-testid="button-reload"
-          >
-            Reload Page
-          </button>
-        </div>
+        <ErrorBoundaryFallback
+          error={this.state.error}
+          errorInfo={this.state.errorInfo}
+          route={this.props.route || (typeof window !== "undefined" ? window.location.pathname : "unknown")}
+          component={this.props.component}
+        />
       );
     }
     return this.props.children;
   }
+}
+
+function ErrorBoundaryFallback({ error, errorInfo, route, component }: { error: Error | null; errorInfo: ErrorInfo | null; route: string; component?: string }) {
+  const { t } = useI18n();
+  const isDev = import.meta.env.DEV;
+  return (
+    <div style={{ padding: "40px", fontFamily: "sans-serif" }} data-testid="error-boundary-fallback">
+      <h1 style={{ color: "#dc2626" }}>{t("app.App.somethingWentWrong")}</h1>
+      {isDev ? (
+        <>
+          <p style={{ color: "#6b7280", marginBottom: "8px" }}>
+            Route: <code>{route}</code>
+          </p>
+          <pre style={{ background: "#f3f4f6", padding: "16px", borderRadius: "8px", overflow: "auto", fontSize: "13px", maxHeight: "300px" }}>
+            {error?.message}
+            {"\n\n"}
+            {error?.stack}
+          </pre>
+          {errorInfo?.componentStack && (
+            <details style={{ marginTop: "12px" }}>
+              <summary style={{ cursor: "pointer", color: "#4b5563", fontSize: "14px" }}>{t("app.App.componentStack")}</summary>
+              <pre style={{ background: "#f3f4f6", padding: "16px", borderRadius: "8px", overflow: "auto", fontSize: "12px", maxHeight: "200px", marginTop: "8px" }}>
+                {errorInfo.componentStack}
+              </pre>
+            </details>
+          )}
+          <details style={{ marginTop: "12px" }}>
+            <summary style={{ cursor: "pointer", fontWeight: "bold", color: "#6b7280" }}>
+              {t("app.App.diagnosticContext")}
+            </summary>
+            <pre style={{ background: "#fef3c7", padding: "12px", borderRadius: "8px", fontSize: "12px", marginTop: "8px", overflow: "auto" }}>
+              Route: {route}{"\n"}
+              Component: {component || "root"}{"\n"}
+              {errorInfo?.componentStack}
+            </pre>
+          </details>
+        </>
+      ) : (
+        <p style={{ color: "#6b7280" }}>
+          {t("app.App.unexpectedError")}
+        </p>
+      )}
+      <button
+        onClick={() => window.location.reload()}
+        style={{ marginTop: "16px", padding: "8px 16px", background: "#3b82f6", color: "white", border: "none", borderRadius: "6px", cursor: "pointer" }}
+        data-testid="button-reload"
+      >
+        {t("app.App.reloadPage")}
+      </button>
+    </div>
+  );
 }
 const Home = lazy(() => import("@/pages/home"));
 const LanguagesPage = lazy(() => import("@/pages/languages"));

@@ -47,7 +47,7 @@ function parseSafe<T>(val: T | string | null, fallback: T): T {
 export default function SeoPage({ slug: propSlug }: { slug?: string } = {}) {
   const params = useParams<{ slug: string }>();
   const [location, navigate] = useLocation();
-  const { language } = useI18n();
+  const { language, t } = useI18n();
   const { user } = useAuth();
   const [page, setPage] = useState<SeoPageData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -75,7 +75,7 @@ export default function SeoPage({ slug: propSlug }: { slug?: string } = {}) {
     <>
       <Navigation />
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-pulse text-gray-400">Loading...</div>
+        <div className="animate-pulse text-gray-400">{t("pages.seoPage.loading")}</div>
       </div>
     </>
   );
@@ -86,9 +86,9 @@ export default function SeoPage({ slug: propSlug }: { slug?: string } = {}) {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="max-w-md mx-auto">
           <CardContent className="p-8 text-center">
-            <h1 className="text-xl font-bold mb-2">Page Not Found</h1>
+            <h1 className="text-xl font-bold mb-2">{t("pages.seoPage.pageNotFound")}</h1>
             <p className="text-gray-600 mb-4">{error || "This study guide page could not be found."}</p>
-            <Button onClick={() => navigate("/")}>Go Home</Button>
+            <Button onClick={() => navigate("/")}>{t("pages.seoPage.goHome")}</Button>
           </CardContent>
         </Card>
       </div>
@@ -157,7 +157,7 @@ export default function SeoPage({ slug: propSlug }: { slug?: string } = {}) {
           )}
 
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="nav-breadcrumb">
-            <button onClick={() => navigate("/")} className="hover:text-primary">Home</button>
+            <button onClick={() => navigate("/")} className="hover:text-primary">{t("pages.seoPage.home")}</button>
             <ChevronRight className="w-3 h-3" />
             <span className="text-gray-800 font-medium">{page.title}</span>
           </nav>
@@ -213,8 +213,8 @@ export default function SeoPage({ slug: propSlug }: { slug?: string } = {}) {
               ) : (
                 <div className="bg-gray-100 rounded-xl p-8 text-center text-gray-500 mb-12" data-testid="content-placeholder">
                   <FileText className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-                  <p>Content is being developed for this guide.</p>
-                  <p className="text-sm mt-1">Check back soon for comprehensive study material.</p>
+                  <p>{t("pages.seoPage.contentIsBeingDevelopedFor")}</p>
+                  <p className="text-sm mt-1">{t("pages.seoPage.checkBackSoonForComprehensive")}</p>
                 </div>
               )}
 
@@ -293,8 +293,8 @@ export default function SeoPage({ slug: propSlug }: { slug?: string } = {}) {
               )}
 
               <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl p-8 text-center" data-testid="section-cta">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Ready to Start Studying?</h3>
-                <p className="text-gray-600 mb-4">Take our free diagnostic exam to assess your current readiness level.</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{t("pages.seoPage.readyToStartStudying")}</h3>
+                <p className="text-gray-600 mb-4">{t("pages.seoPage.takeOurFreeDiagnosticExam")}</p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Button onClick={() => navigate("/free-nclex-diagnostic")} data-testid="button-cta-diagnostic">
                     Start Free Diagnostic

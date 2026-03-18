@@ -754,6 +754,7 @@ const hubFaqs = [
 const clusterSlugs = Object.keys(clusterData);
 
 function FaqSchema({ faqs }: { faqs: { q: string; a: string }[] }) {
+  const { t } = useI18n();
   const schema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -838,7 +839,7 @@ function ClusterPage({ slug }: { slug: string }) {
         </div>
 
         <div className="mb-8">
-          <Badge variant="secondary" className="mb-3">Canadian NP Exam</Badge>
+          <Badge variant="secondary" className="mb-3">{t("pages.npExamHub.canadianNpExam")}</Badge>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-cluster-title">{cluster.title}</h1>
           <p className="text-lg text-gray-600">{cluster.description}</p>
         </div>
@@ -857,7 +858,7 @@ function ClusterPage({ slug }: { slug: string }) {
         </article>
 
         <div className="bg-gray-50 rounded-xl p-8 my-10">
-          <h2 className="text-2xl font-bold mb-6">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold mb-6">{t("pages.npExamHub.frequentlyAskedQuestions")}</h2>
           <div className="space-y-6">
             {cluster.faqs.map((faq, i) => (
               <div key={i} className="border-b border-gray-200 pb-4 last:border-0">
@@ -870,7 +871,7 @@ function ClusterPage({ slug }: { slug: string }) {
 
         <div className="bg-gradient-to-r from-primary/10 to-blue-50 rounded-xl p-8 text-center my-10">
           <GraduationCap className="w-12 h-12 text-primary mx-auto mb-4" />
-          <h2 className="text-2xl font-bold mb-3">Ready to Start Practicing?</h2>
+          <h2 className="text-2xl font-bold mb-3">{t("pages.npExamHub.readyToStartPracticing")}</h2>
           <p className="text-gray-600 mb-6 max-w-lg mx-auto">
             Access NP-tier practice questions, flashcards, and study tools specifically designed for the Canadian NP licensing exam.
           </p>
@@ -915,15 +916,15 @@ function HubPage() {
       <AdminEditButton />
       <FaqSchema faqs={hubFaqs} />
       <SEO
-        title="Canadian NP Licensing Exam: Complete Guide, Format & Prep Strategy (2025)"
-        description="Everything you need to know about the Canadian Nurse Practitioner licensing exam. Exam format, blueprint, eligibility, study strategies, practice questions, and registration guide."
+        title={t("pages.npExamHub.canadianNpLicensingExamComplete")}
+        description={t("pages.npExamHub.everythingYouNeedToKnow")}
         canonicalPath="/np-exam-guide"
       />
 
       <main className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
         <BreadcrumbNav />
         <div className="mb-8">
-          <Badge variant="secondary" className="mb-3">Complete Guide · 2025</Badge>
+          <Badge variant="secondary" className="mb-3">{t("pages.npExamHub.completeGuide2025")}</Badge>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-np-hub-title">
             Canadian NP Licensing Exam: Complete Guide
           </h1>
@@ -936,27 +937,27 @@ function HubPage() {
           <div className="bg-blue-50 rounded-xl p-4 text-center">
             <FileText className="w-6 h-6 text-blue-600 mx-auto mb-2" />
             <div className="text-2xl font-bold text-blue-700">145-170</div>
-            <div className="text-xs text-blue-600">Questions</div>
+            <div className="text-xs text-blue-600">{t("pages.npExamHub.questions")}</div>
           </div>
           <div className="bg-green-50 rounded-xl p-4 text-center">
             <Clock className="w-6 h-6 text-green-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-green-700">4 Hours</div>
-            <div className="text-xs text-green-600">Testing Time</div>
+            <div className="text-2xl font-bold text-green-700">{t("pages.npExamHub.4Hours")}</div>
+            <div className="text-xs text-green-600">{t("pages.npExamHub.testingTime")}</div>
           </div>
           <div className="bg-purple-50 rounded-xl p-4 text-center">
             <Target className="w-6 h-6 text-purple-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-purple-700">4 Domains</div>
-            <div className="text-xs text-purple-600">Competencies</div>
+            <div className="text-2xl font-bold text-purple-700">{t("pages.npExamHub.4Domains")}</div>
+            <div className="text-xs text-purple-600">{t("pages.npExamHub.competencies")}</div>
           </div>
           <div className="bg-amber-50 rounded-xl p-4 text-center">
             <MapPin className="w-6 h-6 text-amber-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-amber-700">National</div>
-            <div className="text-xs text-amber-600">All Provinces</div>
+            <div className="text-2xl font-bold text-amber-700">{t("pages.npExamHub.national")}</div>
+            <div className="text-xs text-amber-600">{t("pages.npExamHub.allProvinces")}</div>
           </div>
         </div>
 
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-4">What Is the Canadian NP Licensing Exam?</h2>
+          <h2 className="text-2xl font-bold mb-4">{t("pages.npExamHub.whatIsTheCanadianNp")}</h2>
           <div className="prose prose-lg max-w-none text-gray-700">
             <p>
               The Canadian Nurse Practitioner Examination (CNPE) is the national licensing exam for all nurse practitioner candidates in Canada. Administered by the Canadian Council of Registered Nurse Regulators (CCRNR) through Yardstick Assessment Strategies at Prometric testing centres, it serves as the unified standard for NP licensure across all provinces and territories.
@@ -971,7 +972,7 @@ function HubPage() {
         </section>
 
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Competency Domains</h2>
+          <h2 className="text-2xl font-bold mb-6">{t("pages.npExamHub.competencyDomains")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {competencyDomains.map((domain, i) => (
               <Card key={i} className="border-l-4 border-l-primary">
@@ -991,12 +992,12 @@ function HubPage() {
         </section>
 
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Explore the Complete Guide</h2>
+          <h2 className="text-2xl font-bold mb-6">{t("pages.npExamHub.exploreTheCompleteGuide")}</h2>
           <ClusterNav />
         </section>
 
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-4">Exam Format & Structure</h2>
+          <h2 className="text-2xl font-bold mb-4">{t("pages.npExamHub.examFormatStructure")}</h2>
           <div className="prose prose-lg max-w-none text-gray-700">
             <p>
               The CNPE uses a computer-based testing format at Prometric centres across Canada. Questions include standalone multiple-choice items and case-based question clusters that simulate progressive clinical encounters.
@@ -1011,7 +1012,7 @@ function HubPage() {
         </section>
 
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-4">Study Strategy Overview</h2>
+          <h2 className="text-2xl font-bold mb-4">{t("pages.npExamHub.studyStrategyOverview")}</h2>
           <div className="prose prose-lg max-w-none text-gray-700">
             <p>
               A structured 12-week study plan is recommended, divided into three phases: Foundation Building (Weeks 1-4), Clinical Application (Weeks 5-8), and Exam Readiness (Weeks 9-12). Consistent daily study of 2-3 hours with a balanced approach of content review, practice questions, and active recall produces the best outcomes.
@@ -1035,7 +1036,7 @@ function HubPage() {
         </section>
 
         <div className="bg-gray-50 rounded-xl p-8 mb-12">
-          <h2 className="text-2xl font-bold mb-6">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold mb-6">{t("pages.npExamHub.frequentlyAskedQuestions2")}</h2>
           <div className="space-y-6">
             {hubFaqs.slice(0, 8).map((faq, i) => (
               <div key={i} className="border-b border-gray-200 pb-4 last:border-0">
@@ -1053,7 +1054,7 @@ function HubPage() {
 
         <div className="bg-gradient-to-r from-primary/10 to-blue-50 rounded-xl p-8 text-center mb-12">
           <GraduationCap className="w-12 h-12 text-primary mx-auto mb-4" />
-          <h2 className="text-2xl font-bold mb-3">Start Your Canadian NP Exam Prep</h2>
+          <h2 className="text-2xl font-bold mb-3">{t("pages.npExamHub.startYourCanadianNpExam")}</h2>
           <p className="text-gray-600 mb-6 max-w-lg mx-auto">
             Access NP-tier practice questions, flashcards, and clinical study tools designed specifically for the Canadian NP licensing exam.
           </p>
@@ -1089,7 +1090,7 @@ function HubPage() {
         </div>
         <section className="py-12 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-purple-50/30" data-testid="section-new-grad-cta">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-xl font-bold text-gray-900 mb-3" data-testid="text-np-new-grad-cta">New to NP Practice? Career Readiness Resources</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-3" data-testid="text-np-new-grad-cta">{t("pages.npExamHub.newToNpPracticeCareer")}</h2>
             <p className="text-gray-600 mb-5 max-w-2xl mx-auto text-sm">
               Transitioning from student to practitioner? Our New Grad Career Hub has interview prep, contract negotiation guides, and first-year confidence builders for new NPs.
             </p>
@@ -1102,11 +1103,11 @@ function HubPage() {
         </section>
         <ComparisonTable
           headline="How NurseNest Compares for NP Exam Prep"
-          subtitle="See how a modern clinical learning system stacks up against typical study platforms for nurse practitioner exam preparation."
+          subtitle={t("pages.np_exam_hub.seeHowAModernClinical")}
         />
         <DifferentiatorCTA
           headline="Start Your NP Exam Prep Today"
-          subtitle="Join thousands of nurse practitioner students using NurseNest's adaptive practice exams, clinical lessons, and readiness analytics."
+          subtitle={t("pages.np_exam_hub.joinThousandsOfNursePractitioner")}
           primaryHref="/register"
           primaryLabel="Start Free"
           secondaryHref="/pricing"

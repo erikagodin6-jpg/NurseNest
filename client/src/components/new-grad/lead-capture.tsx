@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Mail, Download, CheckCircle2, ArrowRight } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface LeadCaptureInlineProps {
   profession: string;
   professionName: string;
@@ -16,6 +17,7 @@ export function LeadCaptureInline({
   resourceName = "Shift Survival Checklist",
   resourceType = "shift-survival-checklist",
 }: LeadCaptureInlineProps) {
+  const { t } = useI18n();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -71,7 +73,7 @@ export function LeadCaptureInline({
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder={t("components.newGradLeadCapture.enterYourEmail")}
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); if (status === "error") setStatus("idle"); }}
                   className="w-full h-11 pl-10 pr-4 rounded-xl border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none text-sm"
@@ -162,7 +164,7 @@ export function LeadCaptureModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" data-testid="modal-lead-capture">
       <div className="bg-white rounded-2xl p-8 max-w-md w-full relative">
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600" data-testid="button-close-modal">&times;</button>
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600" data-testid="button-close-modal">{t("components.newGradLeadCapture.times")}</button>
         <Download className="w-10 h-10 mb-4" style={{ color }} />
         <h3 className="text-xl font-bold text-gray-900 mb-2">Download Free {resourceName}</h3>
         <p className="text-sm text-gray-600 mb-4">Get instant access to our {resourceName.toLowerCase()} for {professionName} graduates.</p>
@@ -176,7 +178,7 @@ export function LeadCaptureModal({
           <form onSubmit={handleSubmit} className="space-y-3">
             <input
               type="email"
-              placeholder="Your email address"
+              placeholder={t("components.newGradLeadCapture.yourEmailAddress")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full h-11 px-4 rounded-xl border border-gray-200 focus:border-blue-400 outline-none text-sm"

@@ -6,6 +6,7 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import {
   GraduationCap,
   Heart,
@@ -62,11 +63,12 @@ const editorialPrinciples = [
 ];
 
 export default function AboutPage() {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900" data-testid="about-page">
       <SEO
-        title="About NurseNest - Our Mission, Story, and Editorial Standards"
-        description="NurseNest is a nursing education platform founded by Erika Godin, RN. Learn about our mission to provide clinically accurate, evidence-based exam preparation for RPN, RN, and NP students in Canada and the U.S."
+        title={t("pages.about.aboutNursenestOurMissionStory")}
+        description={t("pages.about.nursenestIsANursingEducation")}
         keywords="about NurseNest, nursing education, Erika Godin RN, NCLEX prep, REx-PN study, nursing exam preparation, evidence-based nursing education"
         canonicalPath="/about"
       />
@@ -83,7 +85,7 @@ export default function AboutPage() {
               </div>
               <h1 className="text-4xl sm:text-5xl font-bold text-[#2E3A59] mb-6 leading-tight" data-testid="text-about-title">
                 Built by a Nurse,{" "}
-                <span className="text-[#BFA6F6]">for Nursing Students</span>
+                <span className="text-[#BFA6F6]">{t("pages.about.forNursingStudents")}</span>
               </h1>
               <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto" data-testid="text-about-subtitle">
                 NurseNest was created because studying for nursing licensing exams should not require decoding content designed for a different country's clinical standards.
@@ -99,18 +101,18 @@ export default function AboutPage() {
                 <div className="w-36 h-36 rounded-full bg-gradient-to-br from-[#BFA6F6]/20 to-[#AEE3E1]/20 flex items-center justify-center mb-6 border-2 border-[#BFA6F6]/20">
                   <Stethoscope className="w-16 h-16 text-[#BFA6F6]" />
                 </div>
-                <h2 className="text-xl font-bold text-[#2E3A59] mb-1" data-testid="text-founder-name">Erika Godin, RN</h2>
-                <p className="text-sm text-[#BFA6F6] font-medium mb-1">Founder of NurseNest</p>
-                <p className="text-sm text-gray-500">Former RPN | Master of Nursing Student</p>
+                <h2 className="text-xl font-bold text-[#2E3A59] mb-1" data-testid="text-founder-name">{t("pages.about.erikaGodinRn")}</h2>
+                <p className="text-sm text-[#BFA6F6] font-medium mb-1">{t("pages.about.founderOfNursenest")}</p>
+                <p className="text-sm text-gray-500">{t("pages.about.formerRpnMasterOfNursing")}</p>
                 <div className="mt-4 flex flex-wrap gap-2 justify-center">
-                  <span className="px-3 py-1 rounded-full bg-[#BFA6F6]/10 text-[#BFA6F6] text-xs font-medium">Registered Nurse</span>
-                  <span className="px-3 py-1 rounded-full bg-[#AEE3E1]/20 text-[#2E3A59] text-xs font-medium">Former RPN</span>
-                  <span className="px-3 py-1 rounded-full bg-[#BFA6F6]/10 text-[#BFA6F6] text-xs font-medium">MN Student</span>
+                  <span className="px-3 py-1 rounded-full bg-[#BFA6F6]/10 text-[#BFA6F6] text-xs font-medium">{t("pages.about.registeredNurse")}</span>
+                  <span className="px-3 py-1 rounded-full bg-[#AEE3E1]/20 text-[#2E3A59] text-xs font-medium">{t("pages.about.formerRpn")}</span>
+                  <span className="px-3 py-1 rounded-full bg-[#BFA6F6]/10 text-[#BFA6F6] text-xs font-medium">{t("pages.about.mnStudent")}</span>
                 </div>
               </div>
 
               <div className="md:col-span-3 space-y-5" data-testid="section-founder-story">
-                <h2 className="text-2xl sm:text-3xl font-bold text-[#2E3A59]">Why NurseNest Exists</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-[#2E3A59]">{t("pages.about.whyNursenestExists")}</h2>
                 <p className="text-gray-700 leading-relaxed">
                   NurseNest was founded by Erika Godin, a practicing Registered Nurse who began her career as a Registered Practical Nurse (RPN). Having personally navigated multiple licensing exam pathways — from the REx-PN to the NCLEX-RN — Erika experienced firsthand the challenges that Canadian nursing students face when preparing with platforms designed primarily for American clinical standards.
                 </p>
@@ -131,8 +133,8 @@ export default function AboutPage() {
         <section className="py-16 sm:py-20 bg-gradient-to-b from-warmwhite to-white">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-[#2E3A59] mb-4" data-testid="text-values-heading">What Guides Our Content</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">The principles behind every lesson, question, and learning tool on NurseNest.</p>
+              <h2 className="text-3xl font-bold text-[#2E3A59] mb-4" data-testid="text-values-heading">{t("pages.about.whatGuidesOurContent")}</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.about.thePrinciplesBehindEveryLesson")}</p>
             </div>
             <div className="grid sm:grid-cols-2 gap-6">
               {values.map((v) => {
@@ -163,7 +165,7 @@ export default function AboutPage() {
                   <Shield className="w-4 h-4 text-[#AEE3E1]" />
                   Editorial Standards
                 </div>
-                <h2 className="text-3xl font-bold text-[#2E3A59] mb-4" data-testid="text-editorial-heading">Our Commitment to Accuracy</h2>
+                <h2 className="text-3xl font-bold text-[#2E3A59] mb-4" data-testid="text-editorial-heading">{t("pages.about.ourCommitmentToAccuracy")}</h2>
                 <p className="text-gray-600 mb-6 leading-relaxed">
                   As a healthcare education platform, we hold ourselves to strict editorial standards. Transparency about who creates our content and how it is reviewed is fundamental to the trust nursing students place in NurseNest.
                 </p>
@@ -183,7 +185,7 @@ export default function AboutPage() {
         <section className="py-16 sm:py-20 bg-gradient-to-b from-warmwhite to-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-[#2E3A59] mb-4" data-testid="text-platform-heading">The Platform at a Glance</h2>
+              <h2 className="text-3xl font-bold text-[#2E3A59] mb-4" data-testid="text-platform-heading">{t("pages.about.thePlatformAtAGlance")}</h2>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
@@ -210,7 +212,7 @@ export default function AboutPage() {
         <section className="py-16 sm:py-20 bg-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-[#2E3A59] mb-4" data-testid="text-timeline-heading">Our Journey</h2>
+              <h2 className="text-3xl font-bold text-[#2E3A59] mb-4" data-testid="text-timeline-heading">{t("pages.about.ourJourney")}</h2>
             </div>
             <div className="relative">
               <div className="absolute left-8 top-0 bottom-0 w-px bg-[#BFA6F6]/20 hidden sm:block" />
@@ -232,7 +234,7 @@ export default function AboutPage() {
 
         <section className="py-16 sm:py-20 bg-gradient-to-br from-[#BFA6F6]/5 to-[#AEE3E1]/5">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold text-[#2E3A59] mb-4" data-testid="text-cta-heading">Start Studying with Confidence</h2>
+            <h2 className="text-3xl font-bold text-[#2E3A59] mb-4" data-testid="text-cta-heading">{t("pages.about.startStudyingWithConfidence")}</h2>
             <p className="text-gray-600 mb-8 max-w-xl mx-auto leading-relaxed">
               Whether you are preparing for the REx-PN, NCLEX-RN, or NP certification, NurseNest gives you the tools to study smarter.
             </p>

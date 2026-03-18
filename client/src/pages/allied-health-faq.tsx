@@ -75,8 +75,8 @@ export default function AlliedHealthFAQPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col">
       <SEO
-        title="Allied Health FAQ - NurseNest Healthcare Education"
-        description="Find answers about NurseNest allied health exam preparation: respiratory therapy (RRT), paramedic, pharmacy technician, medical lab tech, diagnostic imaging, and more. Certification exam prep, study tools, and career resources."
+        title={t("pages.alliedHealthFaq.alliedHealthFaqNursenestHealthcare")}
+        description={t("pages.alliedHealthFaq.findAnswersAboutNursenestAllied")}
         keywords="allied health FAQ, RRT exam prep questions, paramedic certification FAQ, pharmacy technician exam, MLT certification, ARRT exam prep, healthcare exam preparation"
         canonicalPath="/allied-health/faq"
         structuredData={buildFaqStructuredData(allFaqs)}

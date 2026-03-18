@@ -4,6 +4,7 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, Route, ChevronRight, HelpCircle, BookOpen,
   Target, Clock, CheckCircle2, Activity, Stethoscope, Heart,
@@ -52,14 +53,15 @@ const HOW_IT_WORKS = [
 ];
 
 export default function StudyPathwaysHub() {
+  const { t } = useI18n();
   const faqStructuredData = buildFaqStructuredData(FAQ_DATA);
 
   return (
     <div data-testid="page-study-pathways-hub">
       <Navigation />
       <SEO
-        title="Nursing Study Pathways: Structured Learning Plans | NurseNest"
-        description="Structured study pathways for nursing specialties. Step-by-step learning plans for ICU, ER, med-surg, cardiac, oncology, pediatric, psych, OR, NICU, and Canadian NP exam preparation."
+        title={t("pages.studyPathwaysHub.nursingStudyPathwaysStructuredLearning")}
+        description={t("pages.studyPathwaysHub.structuredStudyPathwaysForNursing")}
         keywords="nursing study pathway, ICU study plan, ER nurse study guide, CCRN study plan, CEN study plan, nursing certification prep, structured nursing study, nursing learning plan"
         canonicalPath="/study-pathways"
         structuredData={{
@@ -80,9 +82,9 @@ export default function StudyPathwaysHub() {
         <div className="absolute inset-0 bg-gradient-to-br from-violet-50 via-purple-50/50 to-white" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-            <Link href="/" className="hover:text-violet-600">Home</Link>
+            <Link href="/" className="hover:text-violet-600">{t("pages.studyPathwaysHub.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-violet-700 font-medium">Study Pathways</span>
+            <span className="text-violet-700 font-medium">{t("pages.studyPathwaysHub.studyPathways")}</span>
           </div>
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-violet-100 text-violet-700 mb-4" data-testid="badge-pathways">
@@ -108,7 +110,7 @@ export default function StudyPathwaysHub() {
 
       <section className="py-16" data-testid="section-how-it-works">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="text-how-heading">How Study Pathways Work</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="text-how-heading">{t("pages.studyPathwaysHub.howStudyPathwaysWork")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {HOW_IT_WORKS.map((item, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 p-6 text-center relative" data-testid={`card-how-${i}`}>
@@ -127,8 +129,8 @@ export default function StudyPathwaysHub() {
       <section className="py-16 bg-gray-50" data-testid="section-pathway-grid">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-grid-heading">10 Study Pathways</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Each pathway guides you through 3 phases of structured learning, from foundations to certification-exam readiness.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-grid-heading">{t("pages.studyPathwaysHub.10StudyPathways")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.studyPathwaysHub.eachPathwayGuidesYouThrough")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {PATHWAY_CARDS.map((path) => {
@@ -161,15 +163,15 @@ export default function StudyPathwaysHub() {
 
       <section className="py-16" data-testid="section-cross-links">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="text-cross-heading">Related Resources</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="text-cross-heading">{t("pages.studyPathwaysHub.relatedResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Link href="/nursing-certifications" className="bg-emerald-50 rounded-xl p-6 hover:bg-emerald-100 transition-colors group" data-testid="link-certifications">
-              <h3 className="font-semibold text-emerald-900 mb-1 group-hover:text-emerald-700">Nursing Certifications</h3>
-              <p className="text-sm text-emerald-700/70">Complete guides to CCRN, CEN, CNOR, OCN, and more nursing certifications.</p>
+              <h3 className="font-semibold text-emerald-900 mb-1 group-hover:text-emerald-700">{t("pages.studyPathwaysHub.nursingCertifications")}</h3>
+              <p className="text-sm text-emerald-700/70">{t("pages.studyPathwaysHub.completeGuidesToCcrnCen")}</p>
             </Link>
             <Link href="/nursing-specialties" className="bg-blue-50 rounded-xl p-6 hover:bg-blue-100 transition-colors group" data-testid="link-specialties">
-              <h3 className="font-semibold text-blue-900 mb-1 group-hover:text-blue-700">Nursing Specialties</h3>
-              <p className="text-sm text-blue-700/70">Career guides for critical care, emergency, pediatric, oncology, and more.</p>
+              <h3 className="font-semibold text-blue-900 mb-1 group-hover:text-blue-700">{t("pages.studyPathwaysHub.nursingSpecialties")}</h3>
+              <p className="text-sm text-blue-700/70">{t("pages.studyPathwaysHub.careerGuidesForCriticalCare")}</p>
             </Link>
           </div>
         </div>
@@ -177,7 +179,7 @@ export default function StudyPathwaysHub() {
 
       <section className="py-16 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="text-faq-heading">Pathway FAQs</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="text-faq-heading">{t("pages.studyPathwaysHub.pathwayFaqs")}</h2>
           <div className="space-y-3">
             {FAQ_DATA.map((faq, i) => (
               <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />

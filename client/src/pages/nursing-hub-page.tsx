@@ -5,6 +5,7 @@ import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { buildFaqStructuredData, buildBreadcrumbStructuredData } from "@/lib/structured-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, ChevronRight, HelpCircle, ExternalLink,
   BookOpen, Award, Route as RouteIcon, Clock, FileText,
@@ -39,6 +40,7 @@ const TYPE_TO_URL_PREFIX: Record<string, string> = {
 };
 
 export default function NursingHubPage({ pageType }: { pageType: string }) {
+  const { t } = useI18n();
   const urlPrefix = TYPE_TO_URL_PREFIX[pageType] || pageType;
   const [, params] = useRoute(`/${urlPrefix}/:slug`);
   const slug = params?.slug || "";
@@ -62,7 +64,7 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center space-y-3">
             <div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
-            <p className="text-sm text-gray-500">Loading...</p>
+            <p className="text-sm text-gray-500">{t("pages.nursingHubPage.loading")}</p>
           </div>
         </div>
         <Footer />
@@ -76,7 +78,7 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
         <Navigation />
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center space-y-4 max-w-md mx-auto px-4">
-            <h1 className="text-2xl font-bold text-gray-900">Page Not Found</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{t("pages.nursingHubPage.pageNotFound")}</h1>
             <p className="text-gray-600">The {config.label.toLowerCase()} page you're looking for doesn't exist or has been moved.</p>
             <Link href={config.parentPath} className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700">
               <ArrowLeft className="w-4 h-4" /> Back to {config.parentLabel}
@@ -121,7 +123,7 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
       <div className="bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2">
           <div className="flex items-center gap-2 text-sm text-gray-500 flex-wrap" data-testid="breadcrumb-nav">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.nursingHubPage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <Link href={config.parentPath} className="hover:text-blue-600">{config.parentLabel}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
@@ -147,7 +149,7 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
 
             {page.faqJson?.length > 0 && (
               <section className="mt-12 pt-8 border-t border-gray-200" data-testid="section-faq">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-6">{t("pages.nursingHubPage.frequentlyAskedQuestions")}</h2>
                 <div className="space-y-3">
                   {page.faqJson.map((faq: { question: string; answer: string }, i: number) => (
                     <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />
@@ -158,7 +160,7 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
 
             {relatedContentLinks.length > 0 && (
               <section className="mt-12 pt-8 border-t border-gray-200" data-testid="section-related-links">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Related Resources</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.nursingHubPage.relatedResources")}</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {relatedContentLinks.map((link, i) => (
                     <Link key={i} href={link.url} className="flex items-center gap-3 p-4 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50/50 transition-all group" data-testid={`link-related-${i}`}>
@@ -177,7 +179,7 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
 
             {page.relatedPages && page.relatedPages.length > 0 && (
               <section className="mt-12 pt-8 border-t border-gray-200" data-testid="section-more-pages">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Explore More</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.nursingHubPage.exploreMore")}</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {page.relatedPages.map((rp, i) => {
                     const rpPrefix = TYPE_TO_URL_PREFIX[rp.pageType] || rp.pageType;
@@ -199,7 +201,7 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
             <div className="sticky top-24 space-y-6">
               {page.tocJson?.length > 0 && (
                 <div className="bg-white rounded-xl border border-gray-200 p-5" data-testid="sidebar-toc">
-                  <h3 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wider">On This Page</h3>
+                  <h3 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wider">{t("pages.nursingHubPage.onThisPage")}</h3>
                   <nav className="space-y-1.5">
                     {page.tocJson.map((item: { id: string; label: string }) => (
                       <a key={item.id} href={`#${item.id}`} className="block text-sm text-gray-600 hover:text-blue-700 transition-colors py-0.5" data-testid={`toc-link-${item.id}`}>
@@ -212,7 +214,7 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
 
               {productLinks.length > 0 && (
                 <div className={`rounded-xl border ${config.accentBorder} p-5 ${config.accentBg}`} data-testid="sidebar-cta">
-                  <h3 className={`font-semibold ${config.accent} mb-3 text-sm`}>Study Resources</h3>
+                  <h3 className={`font-semibold ${config.accent} mb-3 text-sm`}>{t("pages.nursingHubPage.studyResources")}</h3>
                   <div className="space-y-2">
                     {productLinks.map((link, i) => (
                       <Link key={i} href={link.url} className={`flex items-center gap-2 text-sm font-medium ${config.accent} hover:underline`} data-testid={`cta-link-${i}`}>
@@ -224,8 +226,8 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
               )}
 
               <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl p-5 text-white" data-testid="sidebar-cta-pricing">
-                <h3 className="font-semibold mb-2 text-sm">Ready to Study?</h3>
-                <p className="text-xs text-gray-300 mb-3">Access practice questions, flashcards, and study tools.</p>
+                <h3 className="font-semibold mb-2 text-sm">{t("pages.nursingHubPage.readyToStudy")}</h3>
+                <p className="text-xs text-gray-300 mb-3">{t("pages.nursingHubPage.accessPracticeQuestionsFlashcardsAnd")}</p>
                 <Link href="/pricing" className="inline-flex items-center gap-2 px-4 py-2 bg-white text-gray-900 rounded-lg text-sm font-semibold hover:bg-gray-100 transition-colors w-full justify-center" data-testid="button-sidebar-pricing">
                   View Plans <ArrowRight className="w-3.5 h-3.5" />
                 </Link>

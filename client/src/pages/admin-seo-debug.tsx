@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { SEO } from "@/components/seo";
 
+import { useI18n } from "@/lib/i18n";
 interface HreflangEntry {
   lang: string;
   href: string;
@@ -24,6 +25,7 @@ interface SeoDebugData {
 }
 
 export default function AdminSeoDebug() {
+  const { t } = useI18n();
   const [data, setData] = useState<SeoDebugData | null>(null);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("");
@@ -51,7 +53,7 @@ export default function AdminSeoDebug() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 p-8" data-testid="seo-debug-loading">
-        <div className="text-center text-gray-500">Loading SEO debug data...</div>
+        <div className="text-center text-gray-500">{t("pages.adminSeoDebug.loadingSeoDebugData")}</div>
       </div>
     );
   }
@@ -59,17 +61,17 @@ export default function AdminSeoDebug() {
   if (!data) {
     return (
       <div className="min-h-screen bg-gray-50 p-8" data-testid="seo-debug-error">
-        <div className="text-center text-red-500">Failed to load SEO debug data</div>
+        <div className="text-center text-red-500">{t("pages.adminSeoDebug.failedToLoadSeoDebug")}</div>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8" data-testid="seo-debug-page">
-      <SEO title="SEO Debug Panel" description="Admin SEO debug panel" canonicalPath="/admin/seo-debug" noindex />
+      <SEO title={t("pages.adminSeoDebug.seoDebugPanel2")} description={t("pages.adminSeoDebug.adminSeoDebugPanel")} canonicalPath="/admin/seo-debug" noindex />
 
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-2xl font-bold mb-2" data-testid="text-page-title">SEO Debug Panel</h1>
+        <h1 className="text-2xl font-bold mb-2" data-testid="text-page-title">{t("pages.adminSeoDebug.seoDebugPanel")}</h1>
         <p className="text-gray-600 mb-6" data-testid="text-route-count">
           {filtered.length} of {data.totalRoutes} routes shown
         </p>
@@ -77,7 +79,7 @@ export default function AdminSeoDebug() {
         <div className="flex flex-wrap gap-3 mb-6">
           <input
             type="text"
-            placeholder="Filter by URL pattern..."
+            placeholder={t("pages.adminSeoDebug.filterByUrlPattern")}
             value={filter}
             onChange={e => setFilter(e.target.value)}
             className="px-3 py-2 border rounded-lg w-64 text-sm"
@@ -89,7 +91,7 @@ export default function AdminSeoDebug() {
             className="px-3 py-2 border rounded-lg text-sm"
             data-testid="select-locale-filter"
           >
-            <option value="all">All locales</option>
+            <option value="all">{t("pages.adminSeoDebug.allLocales")}</option>
             {data.locales.map(l => (
               <option key={l} value={l}>{l}</option>
             ))}
@@ -100,9 +102,9 @@ export default function AdminSeoDebug() {
             className="px-3 py-2 border rounded-lg text-sm"
             data-testid="select-robots-filter"
           >
-            <option value="all">All robots</option>
-            <option value="index">Indexable only</option>
-            <option value="noindex">Noindex only</option>
+            <option value="all">{t("pages.adminSeoDebug.allRobots")}</option>
+            <option value="index">{t("pages.adminSeoDebug.indexableOnly")}</option>
+            <option value="noindex">{t("pages.adminSeoDebug.noindexOnly")}</option>
           </select>
         </div>
 
@@ -111,11 +113,11 @@ export default function AdminSeoDebug() {
             <thead>
               <tr className="border-b bg-gray-100">
                 <th className="text-left p-3 font-semibold">URL</th>
-                <th className="text-left p-3 font-semibold">Locale</th>
-                <th className="text-left p-3 font-semibold">Canonical</th>
-                <th className="text-left p-3 font-semibold">Robots</th>
-                <th className="text-left p-3 font-semibold">Hreflangs</th>
-                <th className="text-left p-3 font-semibold">Sitemap</th>
+                <th className="text-left p-3 font-semibold">{t("pages.adminSeoDebug.locale")}</th>
+                <th className="text-left p-3 font-semibold">{t("pages.adminSeoDebug.canonical")}</th>
+                <th className="text-left p-3 font-semibold">{t("pages.adminSeoDebug.robots")}</th>
+                <th className="text-left p-3 font-semibold">{t("pages.adminSeoDebug.hreflangs")}</th>
+                <th className="text-left p-3 font-semibold">{t("pages.adminSeoDebug.sitemap")}</th>
               </tr>
             </thead>
             <tbody>

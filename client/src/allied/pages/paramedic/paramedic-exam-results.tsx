@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link, useLocation } from "wouter";
 import { useAuth } from "@/lib/auth";
 import { apiRequest } from "@/lib/queryClient";
+import { useI18n } from "@/lib/i18n";
 import {
   BarChart3, CheckCircle2, XCircle, Clock, TrendingUp, Target,
   ArrowRight, ChevronDown, ChevronUp, Award, AlertTriangle, Zap, Brain, RotateCcw
@@ -50,6 +51,7 @@ interface HistoryItem {
 }
 
 export default function ParamedicExamResults() {
+  const { t } = useI18n();
   const params = useParams<{ sessionId: string }>();
   const { user } = useAuth();
   const [, navigate] = useLocation();
@@ -86,8 +88,8 @@ export default function ParamedicExamResults() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50" data-testid="results-login-required">
         <div className="text-center">
           <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Sign In Required</h2>
-          <a href="/login" className="px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold">Sign In</a>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">{t("allied.paramedicParamedicExamResults.signInRequired")}</h2>
+          <a href="/login" className="px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold">{t("allied.paramedicParamedicExamResults.signIn")}</a>
         </div>
       </div>
     );
@@ -98,7 +100,7 @@ export default function ParamedicExamResults() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50" data-testid="results-loading">
         <div className="text-center space-y-3">
           <div className="w-8 h-8 border-3 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-sm text-gray-500">Loading results...</p>
+          <p className="text-sm text-gray-500">{t("allied.paramedicParamedicExamResults.loadingResults")}</p>
         </div>
       </div>
     );
@@ -109,8 +111,8 @@ export default function ParamedicExamResults() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50" data-testid="results-not-found">
         <div className="text-center">
           <XCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Results Not Available</h2>
-          <p className="text-gray-600 mb-6">This exam may not have been completed yet.</p>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">{t("allied.paramedicParamedicExamResults.resultsNotAvailable")}</h2>
+          <p className="text-gray-600 mb-6">{t("allied.paramedicParamedicExamResults.thisExamMayNotHave")}</p>
           <Link href="/allied-health/paramedic/practice-exams" className="px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold" data-testid="link-back-exams">
             Back to Practice Exams
           </Link>
@@ -144,11 +146,11 @@ export default function ParamedicExamResults() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-            <Link href="/allied-health/paramedic" className="hover:text-teal-600" data-testid="breadcrumb-paramedic">Paramedic</Link>
+            <Link href="/allied-health/paramedic" className="hover:text-teal-600" data-testid="breadcrumb-paramedic">{t("allied.paramedicParamedicExamResults.paramedic")}</Link>
             <ArrowRight className="w-3 h-3" />
-            <Link href="/allied-health/paramedic/practice-exams" className="hover:text-teal-600" data-testid="breadcrumb-practice-exams">Practice Exams</Link>
+            <Link href="/allied-health/paramedic/practice-exams" className="hover:text-teal-600" data-testid="breadcrumb-practice-exams">{t("allied.paramedicParamedicExamResults.practiceExams")}</Link>
             <ArrowRight className="w-3 h-3" />
-            <span className="text-teal-700 font-medium">Results</span>
+            <span className="text-teal-700 font-medium">{t("allied.paramedicParamedicExamResults.results")}</span>
           </div>
           <div className="flex items-center gap-4">
             <div className={`w-20 h-20 rounded-2xl flex items-center justify-center ${report.passed ? "bg-green-100" : "bg-amber-100"}`}>
@@ -173,7 +175,7 @@ export default function ParamedicExamResults() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className={`rounded-2xl border p-6 ${report.passed ? "bg-green-50 border-green-200" : "bg-amber-50 border-amber-200"}`} data-testid="card-score">
-            <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Overall Score</div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">{t("allied.paramedicParamedicExamResults.overallScore")}</div>
             <div className={`text-4xl font-bold ${report.passed ? "text-green-700" : "text-amber-700"}`}>{report.scorePercent}%</div>
             <div className={`text-sm font-medium mt-1 ${report.passed ? "text-green-600" : "text-amber-600"}`}>
               {report.passed ? "PASS" : "NEEDS IMPROVEMENT"} (≥{report.passingScore}% to pass)
@@ -181,13 +183,13 @@ export default function ParamedicExamResults() {
           </div>
 
           <div className="bg-white rounded-2xl border border-gray-100 p-6" data-testid="card-correct">
-            <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Questions Correct</div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">{t("allied.paramedicParamedicExamResults.questionsCorrect")}</div>
             <div className="text-4xl font-bold text-gray-900">{report.correctCount}/{report.totalQuestions}</div>
             <div className="text-sm text-gray-500 mt-1">{report.missedQuestions.length} missed</div>
           </div>
 
           <div className="bg-white rounded-2xl border border-gray-100 p-6" data-testid="card-time">
-            <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Time Stats</div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">{t("allied.paramedicParamedicExamResults.timeStats")}</div>
             <div className="text-4xl font-bold text-gray-900">{formatTime(report.totalTimeSeconds)}</div>
             <div className="text-sm text-gray-500 mt-1">Avg: {report.avgTimePerQuestion}s/question</div>
           </div>
@@ -195,31 +197,31 @@ export default function ParamedicExamResults() {
           <div className="bg-white rounded-2xl border border-gray-100 p-6" data-testid="card-mode-specific">
             {session.mode === "adaptive" && report.abilityEstimate !== undefined && (
               <>
-                <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Ability Estimate</div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">{t("allied.paramedicParamedicExamResults.abilityEstimate")}</div>
                 <div className="text-4xl font-bold text-blue-700 flex items-center gap-2">
                   <Brain className="w-8 h-8" />
                   {report.abilityEstimate > 0 ? "+" : ""}{report.abilityEstimate.toFixed(1)}
                 </div>
-                <div className="text-sm text-gray-500 mt-1">Adaptive scoring</div>
+                <div className="text-sm text-gray-500 mt-1">{t("allied.paramedicParamedicExamResults.adaptiveScoring")}</div>
               </>
             )}
             {session.mode === "drill" && report.drillStreak !== undefined && (
               <>
-                <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Best Streak</div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">{t("allied.paramedicParamedicExamResults.bestStreak")}</div>
                 <div className="text-4xl font-bold text-purple-700 flex items-center gap-2">
                   <Zap className="w-8 h-8" />
                   {report.drillStreak}
                 </div>
-                <div className="text-sm text-gray-500 mt-1">Consecutive correct</div>
+                <div className="text-sm text-gray-500 mt-1">{t("allied.paramedicParamedicExamResults.consecutiveCorrect")}</div>
               </>
             )}
             {(session.mode === "practice" || session.mode === "exam") && (
               <>
-                <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Prediction</div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">{t("allied.paramedicParamedicExamResults.prediction")}</div>
                 <div className={`text-2xl font-bold ${report.passed ? "text-green-700" : "text-amber-700"}`}>
                   {report.passed ? "Likely to Pass" : "More Study Needed"}
                 </div>
-                <div className="text-sm text-gray-500 mt-1">Based on domain analysis</div>
+                <div className="text-sm text-gray-500 mt-1">{t("allied.paramedicParamedicExamResults.basedOnDomainAnalysis")}</div>
               </>
             )}
           </div>

@@ -9,12 +9,14 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import type { ProfessionHubData } from "@/allied/data/profession-hub-data";
 import type { CareerGuideData } from "@/allied/data/imaging-career-data";
 
+import { useI18n } from "@/lib/i18n";
 interface CareerGuidePageProps {
   hubData: ProfessionHubData;
   careerGuide: CareerGuideData;
 }
 
 export default function CareerCareerGuidePage({ hubData, careerGuide }: CareerGuidePageProps) {
+  const { t } = useI18n();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const basePath = `/allied-health/${hubData.professionSlug}`;
 
@@ -80,14 +82,14 @@ export default function CareerCareerGuidePage({ hubData, careerGuide }: CareerGu
             <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-5 py-4">
               <DollarSign className="w-6 h-6 flex-shrink-0" style={{ color: hubData.color }} />
               <div>
-                <div className="text-xs text-gray-500 font-medium">Salary Range</div>
+                <div className="text-xs text-gray-500 font-medium">{t("allied.careerCareerGuidePage.salaryRange")}</div>
                 <div className="text-sm font-bold text-gray-900">{hubData.salaryRange}</div>
               </div>
             </div>
             <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-5 py-4">
               <TrendingUp className="w-6 h-6 flex-shrink-0" style={{ color: hubData.color }} />
               <div>
-                <div className="text-xs text-gray-500 font-medium">Job Outlook</div>
+                <div className="text-xs text-gray-500 font-medium">{t("allied.careerCareerGuidePage.jobOutlook")}</div>
                 <div className="text-sm font-bold text-gray-900">{hubData.jobOutlook}</div>
               </div>
             </div>
@@ -193,7 +195,7 @@ export default function CareerCareerGuidePage({ hubData, careerGuide }: CareerGu
 
       <section className="py-12 bg-gray-50" data-testid="section-guide-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t("allied.careerCareerGuidePage.frequentlyAskedQuestions")}</h2>
           <div className="space-y-3">
             {hubData.faqs.map((faq, i) => (
               <div key={i} className="bg-white border border-gray-200 rounded-xl overflow-hidden" data-testid={`guide-faq-${i}`}>
@@ -221,22 +223,22 @@ export default function CareerCareerGuidePage({ hubData, careerGuide }: CareerGu
             <Link href={`${basePath}/study`} className="flex items-center gap-3 bg-gray-50 rounded-xl px-5 py-4 hover:shadow-md transition-all border border-gray-100" data-testid="link-guide-study">
               <BookOpen className="w-5 h-5" style={{ color: hubData.color }} />
               <div>
-                <div className="font-semibold text-gray-900 text-sm">Study Topics</div>
-                <div className="text-xs text-gray-500">Browse all exam domains</div>
+                <div className="font-semibold text-gray-900 text-sm">{t("allied.careerCareerGuidePage.studyTopics")}</div>
+                <div className="text-xs text-gray-500">{t("allied.careerCareerGuidePage.browseAllExamDomains")}</div>
               </div>
             </Link>
             <Link href={`${basePath}/flashcards`} className="flex items-center gap-3 bg-gray-50 rounded-xl px-5 py-4 hover:shadow-md transition-all border border-gray-100" data-testid="link-guide-flashcards">
               <Brain className="w-5 h-5" style={{ color: hubData.color }} />
               <div>
-                <div className="font-semibold text-gray-900 text-sm">Flashcards</div>
-                <div className="text-xs text-gray-500">Spaced repetition decks</div>
+                <div className="font-semibold text-gray-900 text-sm">{t("allied.careerCareerGuidePage.flashcards")}</div>
+                <div className="text-xs text-gray-500">{t("allied.careerCareerGuidePage.spacedRepetitionDecks")}</div>
               </div>
             </Link>
             <Link href={`${basePath}/exams`} className="flex items-center gap-3 bg-gray-50 rounded-xl px-5 py-4 hover:shadow-md transition-all border border-gray-100" data-testid="link-guide-exams">
               <Target className="w-5 h-5" style={{ color: hubData.color }} />
               <div>
-                <div className="font-semibold text-gray-900 text-sm">Practice Exams</div>
-                <div className="text-xs text-gray-500">Diagnostic & mock exams</div>
+                <div className="font-semibold text-gray-900 text-sm">{t("allied.careerCareerGuidePage.practiceExams")}</div>
+                <div className="text-xs text-gray-500">{t("allied.careerCareerGuidePage.diagnosticMockExams")}</div>
               </div>
             </Link>
           </div>
@@ -246,7 +248,7 @@ export default function CareerCareerGuidePage({ hubData, careerGuide }: CareerGu
       <section className="py-12" style={{ background: `linear-gradient(to bottom, ${hubData.colorAccent}40, white)` }} data-testid="section-guide-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Ready to Begin Your {hubData.shortName} Journey?</h2>
-          <p className="text-gray-600 mb-6">Start with a free diagnostic assessment to see where you stand, then follow your personalized study plan.</p>
+          <p className="text-gray-600 mb-6">{t("allied.careerCareerGuidePage.startWithAFreeDiagnostic")}</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href={basePath} className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 shadow-lg" style={{ backgroundColor: hubData.color }} data-testid="button-guide-cta">
               Explore {hubData.shortName} Exam Prep <ArrowRight className="w-4 h-4" />

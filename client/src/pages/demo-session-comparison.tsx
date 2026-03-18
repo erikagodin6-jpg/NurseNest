@@ -9,16 +9,18 @@ import {
 import { DemoPageWrapper, DemoHeader, SectionCard, SectionTitle, StatCard, MasteryBar } from "@/components/demo-shared";
 import { sessionComparisonData as d } from "@/data/demo-screenshot-data";
 
+import { useI18n } from "@/lib/i18n";
 export default function DemoSessionComparison() {
+  const { t } = useI18n();
   const { user, isAdmin } = useAuth();
-  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">Admin access required.</p></div></DemoPageWrapper>;
+  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">{t("pages.demoSessionComparison.adminAccessRequired")}</p></div></DemoPageWrapper>;
 
   return (
     <DemoPageWrapper>
       <main className="max-w-6xl mx-auto px-6 pt-10 pb-16">
         <DemoHeader
-          title="Adaptive Session Comparison"
-          subtitle="Track your growth across your last 3 adaptive sessions"
+          title={t("pages.demoSessionComparison.adaptiveSessionComparison")}
+          subtitle={t("pages.demo_session_comparison.trackYourGrowthAcrossYour")}
           rightContent={
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-100">
               <TrendingUp className="w-3.5 h-3.5" /> +8% improvement
@@ -34,7 +36,7 @@ export default function DemoSessionComparison() {
                   <p className="text-xs text-slate-400 font-medium">Session {s.id}</p>
                   <p className="text-sm font-semibold text-slate-700">{s.date}, 2026</p>
                 </div>
-                {i === 2 && <span className="text-[9px] font-semibold text-violet-600 bg-violet-100 px-1.5 py-0.5 rounded">Latest</span>}
+                {i === 2 && <span className="text-[9px] font-semibold text-violet-600 bg-violet-100 px-1.5 py-0.5 rounded">{t("pages.demoSessionComparison.latest")}</span>}
               </div>
               <div className="flex items-baseline gap-1 mb-3">
                 <span className="text-3xl font-bold text-slate-800">{s.score}%</span>
@@ -45,18 +47,18 @@ export default function DemoSessionComparison() {
                 )}
               </div>
               <div className="space-y-2 text-xs">
-                <div className="flex justify-between"><span className="text-slate-500">Questions</span><span className="font-semibold text-slate-700">{s.questions}</span></div>
-                <div className="flex justify-between"><span className="text-slate-500">Time</span><span className="font-semibold text-slate-700">{s.time}</span></div>
-                <div className="flex justify-between"><span className="text-slate-500">Difficulty</span><span className="font-semibold text-slate-700">{s.difficulty}/10</span></div>
-                <div className="flex justify-between"><span className="text-slate-500">Top Area</span><span className="font-semibold text-emerald-600">{s.topCategory}</span></div>
-                <div className="flex justify-between"><span className="text-slate-500">Weak Area</span><span className="font-semibold text-rose-500">{s.weakCategory}</span></div>
+                <div className="flex justify-between"><span className="text-slate-500">{t("pages.demoSessionComparison.questions")}</span><span className="font-semibold text-slate-700">{s.questions}</span></div>
+                <div className="flex justify-between"><span className="text-slate-500">{t("pages.demoSessionComparison.time")}</span><span className="font-semibold text-slate-700">{s.time}</span></div>
+                <div className="flex justify-between"><span className="text-slate-500">{t("pages.demoSessionComparison.difficulty")}</span><span className="font-semibold text-slate-700">{s.difficulty}/10</span></div>
+                <div className="flex justify-between"><span className="text-slate-500">{t("pages.demoSessionComparison.topArea")}</span><span className="font-semibold text-emerald-600">{s.topCategory}</span></div>
+                <div className="flex justify-between"><span className="text-slate-500">{t("pages.demoSessionComparison.weakArea")}</span><span className="font-semibold text-rose-500">{s.weakCategory}</span></div>
               </div>
             </SectionCard>
           ))}
         </div>
 
         <SectionCard className="mb-6">
-          <SectionTitle title="Category Trend Comparison" subtitle="Score progression across sessions by content domain" />
+          <SectionTitle title={t("pages.demoSessionComparison.categoryTrendComparison")} subtitle={t("pages.demo_session_comparison.scoreProgressionAcrossSessionsBy")} />
           <ResponsiveContainer width="100%" height={280}>
             <BarChart data={d.categoryTrends} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
@@ -77,8 +79,8 @@ export default function DemoSessionComparison() {
               <Brain className="w-5 h-5 text-white" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-slate-700">Consistent Growth Detected</p>
-              <p className="text-xs text-slate-500">Your scores are improving steadily. Pharmacology and Leadership remain your best growth opportunities.</p>
+              <p className="text-sm font-semibold text-slate-700">{t("pages.demoSessionComparison.consistentGrowthDetected")}</p>
+              <p className="text-xs text-slate-500">{t("pages.demoSessionComparison.yourScoresAreImprovingSteadily")}</p>
             </div>
           </div>
         </SectionCard>

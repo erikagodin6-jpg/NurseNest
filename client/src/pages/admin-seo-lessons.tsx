@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { adminFetch } from "@/lib/admin-fetch";
+import { useI18n } from "@/lib/i18n";
 import {
   Plus, Pencil, Trash2, Save, Loader2, Search, Upload, FileText, BookOpen,
   Eye, EyeOff, X, ChevronRight, ArrowLeft, Database, BarChart3,
@@ -109,7 +110,7 @@ function LessonEditor({ lesson, onSave, onCancel }: {
             {items.length > 1 && <Button variant="ghost" size="sm" onClick={() => setItems(items.filter((_, j) => j !== i))}><Trash2 className="w-4 h-4 text-red-400" /></Button>}
           </div>
         ))}
-        <Button variant="outline" size="sm" onClick={() => setItems([...items, ""])} className="gap-1"><Plus className="w-3 h-3" /> Add</Button>
+        <Button variant="outline" size="sm" onClick={() => setItems([...items, ""])} className="gap-1"><Plus className="w-3 h-3" /> {t("pages.adminSeoLessons.add")}</Button>
       </div>
     );
   }
@@ -119,7 +120,7 @@ function LessonEditor({ lesson, onSave, onCancel }: {
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold">{lesson?.id ? "Edit Lesson" : "Create Lesson"}</h2>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={onCancel} data-testid="button-cancel">Cancel</Button>
+          <Button variant="outline" onClick={onCancel} data-testid="button-cancel">{t("pages.adminSeoLessons.cancel")}</Button>
           <Button onClick={handleSave} disabled={saving} className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white" data-testid="button-save-seo-lesson">
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             {saving ? "Saving..." : "Save"}
@@ -129,41 +130,41 @@ function LessonEditor({ lesson, onSave, onCancel }: {
 
       <Tabs defaultValue="content">
         <TabsList>
-          <TabsTrigger value="content">Content</TabsTrigger>
-          <TabsTrigger value="clinical">Clinical Sections</TabsTrigger>
-          <TabsTrigger value="seo">SEO & Media</TabsTrigger>
+          <TabsTrigger value="content">{t("pages.adminSeoLessons.content")}</TabsTrigger>
+          <TabsTrigger value="clinical">{t("pages.adminSeoLessons.clinicalSections")}</TabsTrigger>
+          <TabsTrigger value="seo">{t("pages.adminSeoLessons.seoMedia")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="content" className="space-y-4 mt-4">
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">Title *</label>
-              <Input value={title} onChange={e => setTitle(e.target.value)} placeholder="Lesson title" data-testid="input-lesson-title" />
+              <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">{t("pages.adminSeoLessons.title")}</label>
+              <Input value={title} onChange={e => setTitle(e.target.value)} placeholder={t("pages.adminSeoLessons.lessonTitle")} data-testid="input-lesson-title" />
             </div>
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">Slug</label>
+              <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">{t("pages.adminSeoLessons.slug")}</label>
               <div className="flex gap-2">
                 <Input value={slug} onChange={e => setSlug(e.target.value)} placeholder="auto-generated" className="flex-1" data-testid="input-lesson-slug" />
-                <Button variant="outline" size="sm" onClick={generateSlug}>Generate</Button>
+                <Button variant="outline" size="sm" onClick={generateSlug}>{t("pages.adminSeoLessons.generate")}</Button>
               </div>
             </div>
           </div>
 
           <div className="grid md:grid-cols-4 gap-4">
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">Category</label>
+              <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">{t("pages.adminSeoLessons.category")}</label>
               <Input value={category} onChange={e => setCategory(e.target.value)} placeholder="e.g. Cardiovascular" data-testid="input-lesson-category" />
             </div>
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">Sub-category</label>
+              <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">{t("pages.adminSeoLessons.subcategory")}</label>
               <Input value={subCategory} onChange={e => setSubCategory(e.target.value)} placeholder="e.g. Heart Failure" data-testid="input-lesson-subcategory" />
             </div>
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">Tier</label>
+              <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">{t("pages.adminSeoLessons.tier")}</label>
               <Select value={tier} onValueChange={setTier}>
                 <SelectTrigger data-testid="select-lesson-tier"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="free">Free</SelectItem>
+                  <SelectItem value="free">{t("pages.adminSeoLessons.free")}</SelectItem>
                   <SelectItem value="rpn">RPN</SelectItem>
                   <SelectItem value="rn">RN</SelectItem>
                   <SelectItem value="np">NP</SelectItem>
@@ -171,69 +172,69 @@ function LessonEditor({ lesson, onSave, onCancel }: {
               </Select>
             </div>
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">Status</label>
+              <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">{t("pages.adminSeoLessons.status")}</label>
               <Select value={status} onValueChange={setStatus}>
                 <SelectTrigger data-testid="select-lesson-status"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="draft">Draft</SelectItem>
-                  <SelectItem value="published">Published</SelectItem>
-                  <SelectItem value="archived">Archived</SelectItem>
+                  <SelectItem value="draft">{t("pages.adminSeoLessons.draft")}</SelectItem>
+                  <SelectItem value="published">{t("pages.adminSeoLessons.published")}</SelectItem>
+                  <SelectItem value="archived">{t("pages.adminSeoLessons.archived")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">Summary</label>
-            <Textarea value={summary} onChange={e => setSummary(e.target.value)} rows={2} placeholder="Brief summary..." data-testid="input-lesson-summary" />
+            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">{t("pages.adminSeoLessons.summary")}</label>
+            <Textarea value={summary} onChange={e => setSummary(e.target.value)} rows={2} placeholder={t("pages.adminSeoLessons.briefSummary")} data-testid="input-lesson-summary" />
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">Definition</label>
-            <Textarea value={definition} onChange={e => setDefinition(e.target.value)} rows={3} placeholder="Clinical definition..." data-testid="input-lesson-definition" />
+            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">{t("pages.adminSeoLessons.definition")}</label>
+            <Textarea value={definition} onChange={e => setDefinition(e.target.value)} rows={3} placeholder={t("pages.adminSeoLessons.clinicalDefinition")} data-testid="input-lesson-definition" />
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">Pathophysiology</label>
-            <Textarea value={pathophysiology} onChange={e => setPathophysiology(e.target.value)} rows={4} placeholder="Pathophysiology explanation..." data-testid="input-lesson-pathophysiology" />
+            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">{t("pages.adminSeoLessons.pathophysiology")}</label>
+            <Textarea value={pathophysiology} onChange={e => setPathophysiology(e.target.value)} rows={4} placeholder={t("pages.adminSeoLessons.pathophysiologyExplanation")} data-testid="input-lesson-pathophysiology" />
           </div>
 
           <div className="flex items-center gap-3">
             <input type="checkbox" checked={isPublicPreview} onChange={e => setIsPublicPreview(e.target.checked)} id="public-preview" data-testid="checkbox-public-preview" />
-            <label htmlFor="public-preview" className="text-sm text-gray-700">Public Preview (bypass paywall)</label>
+            <label htmlFor="public-preview" className="text-sm text-gray-700">{t("pages.adminSeoLessons.publicPreviewBypassPaywall")}</label>
           </div>
         </TabsContent>
 
         <TabsContent value="clinical" className="space-y-6 mt-4">
-          <div><label className="text-xs font-semibold text-gray-500 uppercase mb-2 block">Signs & Symptoms</label><ListEditor items={signsSymptoms} setItems={setSignsSymptoms} placeholder="Enter sign/symptom..." /></div>
-          <div><label className="text-xs font-semibold text-gray-500 uppercase mb-2 block">Diagnostics</label><ListEditor items={diagnostics} setItems={setDiagnostics} placeholder="Enter diagnostic finding..." /></div>
-          <div><label className="text-xs font-semibold text-gray-500 uppercase mb-2 block">Treatment</label><ListEditor items={treatment} setItems={setTreatment} placeholder="Enter treatment..." /></div>
-          <div><label className="text-xs font-semibold text-gray-500 uppercase mb-2 block">Nursing Interventions</label><ListEditor items={nursingInterventions} setItems={setNursingInterventions} placeholder="Enter nursing intervention..." /></div>
-          <div><label className="text-xs font-semibold text-gray-500 uppercase mb-2 block">Complications</label><ListEditor items={complications} setItems={setComplications} placeholder="Enter complication..." /></div>
-          <div><label className="text-xs font-semibold text-gray-500 uppercase mb-2 block">Clinical Pearls</label><ListEditor items={clinicalPearls} setItems={setClinicalPearls} placeholder="Enter clinical pearl..." /></div>
-          <div><label className="text-xs font-semibold text-gray-500 uppercase mb-2 block">References</label><ListEditor items={references} setItems={setReferences} placeholder="Enter reference..." /></div>
+          <div><label className="text-xs font-semibold text-gray-500 uppercase mb-2 block">{t("pages.adminSeoLessons.signsSymptoms")}</label><ListEditor items={signsSymptoms} setItems={setSignsSymptoms} placeholder={t("pages.adminSeoLessons.enterSignsymptom")} /></div>
+          <div><label className="text-xs font-semibold text-gray-500 uppercase mb-2 block">{t("pages.adminSeoLessons.diagnostics")}</label><ListEditor items={diagnostics} setItems={setDiagnostics} placeholder={t("pages.adminSeoLessons.enterDiagnosticFinding")} /></div>
+          <div><label className="text-xs font-semibold text-gray-500 uppercase mb-2 block">{t("pages.adminSeoLessons.treatment")}</label><ListEditor items={treatment} setItems={setTreatment} placeholder={t("pages.adminSeoLessons.enterTreatment")} /></div>
+          <div><label className="text-xs font-semibold text-gray-500 uppercase mb-2 block">{t("pages.adminSeoLessons.nursingInterventions")}</label><ListEditor items={nursingInterventions} setItems={setNursingInterventions} placeholder={t("pages.adminSeoLessons.enterNursingIntervention")} /></div>
+          <div><label className="text-xs font-semibold text-gray-500 uppercase mb-2 block">{t("pages.adminSeoLessons.complications")}</label><ListEditor items={complications} setItems={setComplications} placeholder={t("pages.adminSeoLessons.enterComplication")} /></div>
+          <div><label className="text-xs font-semibold text-gray-500 uppercase mb-2 block">{t("pages.adminSeoLessons.clinicalPearls")}</label><ListEditor items={clinicalPearls} setItems={setClinicalPearls} placeholder={t("pages.adminSeoLessons.enterClinicalPearl")} /></div>
+          <div><label className="text-xs font-semibold text-gray-500 uppercase mb-2 block">{t("pages.adminSeoLessons.references")}</label><ListEditor items={references} setItems={setReferences} placeholder={t("pages.adminSeoLessons.enterReference")} /></div>
         </TabsContent>
 
         <TabsContent value="seo" className="space-y-4 mt-4">
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">SEO Title</label>
-            <Input value={seoTitle} onChange={e => setSeoTitle(e.target.value)} placeholder="SEO-optimized title..." data-testid="input-seo-title" />
+            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">{t("pages.adminSeoLessons.seoTitle")}</label>
+            <Input value={seoTitle} onChange={e => setSeoTitle(e.target.value)} placeholder={t("pages.adminSeoLessons.seooptimizedTitle")} data-testid="input-seo-title" />
           </div>
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">SEO Description</label>
-            <Textarea value={seoDescription} onChange={e => setSeoDescription(e.target.value)} rows={2} placeholder="Meta description..." data-testid="input-seo-description" />
+            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">{t("pages.adminSeoLessons.seoDescription")}</label>
+            <Textarea value={seoDescription} onChange={e => setSeoDescription(e.target.value)} rows={2} placeholder={t("pages.adminSeoLessons.metaDescription")} data-testid="input-seo-description" />
           </div>
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">SEO Keywords</label>
-            <Input value={seoKeywords} onChange={e => setSeoKeywords(e.target.value)} placeholder="Comma-separated keywords..." data-testid="input-seo-keywords" />
+            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">{t("pages.adminSeoLessons.seoKeywords")}</label>
+            <Input value={seoKeywords} onChange={e => setSeoKeywords(e.target.value)} placeholder={t("pages.adminSeoLessons.commaseparatedKeywords")} data-testid="input-seo-keywords" />
           </div>
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">Image URL</label>
+            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">{t("pages.adminSeoLessons.imageUrl")}</label>
             <Input value={imageUrl} onChange={e => setImageUrl(e.target.value)} placeholder="/public/images/medical/..." data-testid="input-image-url" />
           </div>
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">Image Alt Text</label>
-            <Input value={imageAlt} onChange={e => setImageAlt(e.target.value)} placeholder="Clinical illustration of..." data-testid="input-image-alt" />
+            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">{t("pages.adminSeoLessons.imageAltText")}</label>
+            <Input value={imageAlt} onChange={e => setImageAlt(e.target.value)} placeholder={t("pages.adminSeoLessons.clinicalIllustrationOf")} data-testid="input-image-alt" />
           </div>
         </TabsContent>
       </Tabs>
@@ -271,7 +272,7 @@ function BulkImportPanel({ onComplete }: { onComplete: () => void }) {
     <div className="space-y-4">
       <div className="flex items-center gap-2">
         <Upload className="w-5 h-5 text-blue-600" />
-        <h3 className="font-semibold">Bulk Import</h3>
+        <h3 className="font-semibold">{t("pages.adminSeoLessons.bulkImport")}</h3>
       </div>
       <p className="text-sm text-gray-500">
         Paste a JSON array of lessons. Each lesson needs at minimum a "title" field. Slugs are auto-generated if not provided.
@@ -293,6 +294,7 @@ function BulkImportPanel({ onComplete }: { onComplete: () => void }) {
 }
 
 export default function AdminSeoLessons() {
+  const { t } = useI18n();
   const [lessons, setLessons] = useState<LessonItem[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -395,7 +397,7 @@ export default function AdminSeoLessons() {
       <main className="max-w-6xl mx-auto px-4 py-8 w-full space-y-6" data-testid="admin-seo-lessons">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">SEO Lessons Manager</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{t("pages.adminSeoLessons.seoLessonsManager")}</h1>
             <p className="text-sm text-gray-500 mt-1">{total} total lessons in database</p>
           </div>
           <div className="flex gap-2">
@@ -414,25 +416,25 @@ export default function AdminSeoLessons() {
             <Input
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Search lessons..."
+              placeholder={t("pages.adminSeoLessons.searchLessons")}
               className="pl-10"
               data-testid="input-search-lessons"
             />
           </div>
           <Select value={filterStatus} onValueChange={setFilterStatus}>
-            <SelectTrigger className="w-[150px]" data-testid="select-filter-status"><SelectValue placeholder="Status" /></SelectTrigger>
+            <SelectTrigger className="w-[150px]" data-testid="select-filter-status"><SelectValue placeholder={t("pages.adminSeoLessons.status2")} /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Status</SelectItem>
-              <SelectItem value="published">Published</SelectItem>
-              <SelectItem value="draft">Draft</SelectItem>
-              <SelectItem value="archived">Archived</SelectItem>
+              <SelectItem value="all">{t("pages.adminSeoLessons.allStatus")}</SelectItem>
+              <SelectItem value="published">{t("pages.adminSeoLessons.published2")}</SelectItem>
+              <SelectItem value="draft">{t("pages.adminSeoLessons.draft2")}</SelectItem>
+              <SelectItem value="archived">{t("pages.adminSeoLessons.archived2")}</SelectItem>
             </SelectContent>
           </Select>
           <Select value={filterTier} onValueChange={setFilterTier}>
-            <SelectTrigger className="w-[150px]" data-testid="select-filter-tier"><SelectValue placeholder="Tier" /></SelectTrigger>
+            <SelectTrigger className="w-[150px]" data-testid="select-filter-tier"><SelectValue placeholder={t("pages.adminSeoLessons.tier2")} /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Tiers</SelectItem>
-              <SelectItem value="free">Free</SelectItem>
+              <SelectItem value="all">{t("pages.adminSeoLessons.allTiers")}</SelectItem>
+              <SelectItem value="free">{t("pages.adminSeoLessons.free2")}</SelectItem>
               <SelectItem value="rpn">RPN</SelectItem>
               <SelectItem value="rn">RN</SelectItem>
               <SelectItem value="np">NP</SelectItem>
@@ -446,7 +448,7 @@ export default function AdminSeoLessons() {
           <Card className="border-dashed">
             <CardContent className="p-12 text-center space-y-4">
               <Database className="w-12 h-12 text-gray-300 mx-auto" />
-              <p className="text-gray-500">No lessons found. Create your first lesson or use bulk import.</p>
+              <p className="text-gray-500">{t("pages.adminSeoLessons.noLessonsFoundCreateYour")}</p>
             </CardContent>
           </Card>
         ) : (
@@ -461,7 +463,7 @@ export default function AdminSeoLessons() {
                         {lesson.status}
                       </Badge>
                       <Badge variant="outline" className="text-xs shrink-0">{lesson.tier}</Badge>
-                      {lesson.isPublicPreview && <Badge className="bg-blue-100 text-blue-800 text-xs shrink-0">Preview</Badge>}
+                      {lesson.isPublicPreview && <Badge className="bg-blue-100 text-blue-800 text-xs shrink-0">{t("pages.adminSeoLessons.preview")}</Badge>}
                     </div>
                     <p className="text-xs text-gray-400">/{lesson.slug} {lesson.category ? `• ${lesson.category}` : ""}</p>
                     {lesson.summary && <p className="text-sm text-gray-500 truncate mt-1">{lesson.summary}</p>}

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   BarChart3, FileText, Globe, Brain, BookOpen, Mail,
   Users, CheckCircle2, AlertTriangle, ArrowLeft, Layers,
@@ -66,6 +67,7 @@ interface ProgressReport {
 function StatCard({ label, value, sub, icon: Icon, color = "teal" }: {
   label: string; value: number | string; sub?: string; icon: any; color?: string;
 }) {
+  const { t } = useI18n();
   const colorClasses: Record<string, string> = {
     teal: "bg-teal-50 text-teal-600",
     blue: "bg-blue-50 text-blue-600",
@@ -125,11 +127,11 @@ function CoverageRow({ profession }: { profession: ProgressReport["professionCov
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
         <div className="text-sm">
-          <span className="text-gray-500">Questions: </span>
+          <span className="text-gray-500">{t("pages.adminSeoProgress.questions")} </span>
           <span className="font-semibold text-gray-900">{profession.questionCount.toLocaleString()}</span>
         </div>
         <div className="text-sm">
-          <span className="text-gray-500">Allied Q: </span>
+          <span className="text-gray-500">{t("pages.adminSeoProgress.alliedQ")} </span>
           <span className="font-semibold text-gray-900">{profession.alliedQuestions.toLocaleString()}</span>
           {profession.alliedApproved > 0 && (
             <span className="text-xs text-green-600 ml-1">({profession.alliedApproved} approved)</span>
@@ -166,13 +168,13 @@ export default function AdminSeoProgressPage() {
   });
 
   if (!isAdmin) {
-    return <div className="p-8 text-center text-gray-500">Admin access required</div>;
+    return <div className="p-8 text-center text-gray-500">{t("pages.adminSeoProgress.adminAccessRequired")}</div>;
   }
 
   if (isLoading) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="text-center py-16 text-gray-500">Loading SEO progress report...</div>
+        <div className="text-center py-16 text-gray-500">{t("pages.adminSeoProgress.loadingSeoProgressReport")}</div>
       </div>
     );
   }
@@ -180,7 +182,7 @@ export default function AdminSeoProgressPage() {
   if (!report) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="text-center py-16 text-gray-500">Failed to load report data</div>
+        <div className="text-center py-16 text-gray-500">{t("pages.adminSeoProgress.failedToLoadReportData")}</div>
       </div>
     );
   }
@@ -209,7 +211,7 @@ export default function AdminSeoProgressPage() {
             <ArrowLeft className="w-5 h-5 text-gray-500" />
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-page-title">SEO Implementation Progress</h1>
+            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-page-title">{t("pages.adminSeoProgress.seoImplementationProgress")}</h1>
             <p className="text-gray-500 mt-1">
               Comprehensive report of content creation and SEO infrastructure status
             </p>
@@ -231,29 +233,29 @@ export default function AdminSeoProgressPage() {
         </div>
       </div>
 
-      <SectionHeader title="Platform Overview" icon={BarChart3} />
+      <SectionHeader title={t("pages.adminSeoProgress.platformOverview")} icon={BarChart3} />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="Total Professions" value={report.summary.totalProfessions} icon={Layers} color="purple" />
-        <StatCard label="Active / Launched" value={report.summary.activeProfessions} sub={`${report.summary.launchedProfessions} launched`} icon={CheckCircle2} color="green" />
-        <StatCard label="Draft Professions" value={report.summary.draftProfessions} icon={AlertTriangle} color="orange" />
-        <StatCard label="Total Content Pages" value={totalContent} icon={Globe} color="blue" />
+        <StatCard label={t("pages.adminSeoProgress.totalProfessions")} value={report.summary.totalProfessions} icon={Layers} color="purple" />
+        <StatCard label={t("pages.adminSeoProgress.activeLaunched")} value={report.summary.activeProfessions} sub={`${report.summary.launchedProfessions} launched`} icon={CheckCircle2} color="green" />
+        <StatCard label={t("pages.adminSeoProgress.draftProfessions")} value={report.summary.draftProfessions} icon={AlertTriangle} color="orange" />
+        <StatCard label={t("pages.adminSeoProgress.totalContentPages")} value={totalContent} icon={Globe} color="blue" />
       </div>
 
-      <SectionHeader title="Content & SEO Pages" icon={FileText} />
+      <SectionHeader title={t("pages.adminSeoProgress.contentSeoPages")} icon={FileText} />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="Blog Posts" value={report.content.blogPosts.total} sub={`${report.content.blogPosts.published} published`} icon={FileText} color="blue" />
-        <StatCard label="SEO Articles" value={report.content.seoArticles.total} sub={`${report.content.seoArticles.published} published`} icon={Search} color="teal" />
-        <StatCard label="SEO Landing Pages" value={report.content.seoPages.total} icon={Globe} color="purple" />
-        <StatCard label="Imaging SEO Pages" value={report.content.imagingSeoPages.total} icon={Target} color="indigo" />
-        <StatCard label="Practice Pages" value={report.content.practicePages.total} icon={BookOpen} color="green" />
-        <StatCard label="Programmatic SEO" value={report.content.programmaticSeoPages.total} icon={TrendingUp} color="orange" />
-        <StatCard label="Encyclopedia Entries" value={report.content.encyclopediaEntries.total} icon={BookOpen} color="pink" />
-        <StatCard label="Topic Clusters" value={report.seoClusters.topicClusters.total} sub={`${report.seoClusters.blogClusters.total} blog clusters`} icon={Layers} color="indigo" />
+        <StatCard label={t("pages.adminSeoProgress.blogPosts")} value={report.content.blogPosts.total} sub={`${report.content.blogPosts.published} published`} icon={FileText} color="blue" />
+        <StatCard label={t("pages.adminSeoProgress.seoArticles")} value={report.content.seoArticles.total} sub={`${report.content.seoArticles.published} published`} icon={Search} color="teal" />
+        <StatCard label={t("pages.adminSeoProgress.seoLandingPages")} value={report.content.seoPages.total} icon={Globe} color="purple" />
+        <StatCard label={t("pages.adminSeoProgress.imagingSeoPages")} value={report.content.imagingSeoPages.total} icon={Target} color="indigo" />
+        <StatCard label={t("pages.adminSeoProgress.practicePages")} value={report.content.practicePages.total} icon={BookOpen} color="green" />
+        <StatCard label={t("pages.adminSeoProgress.programmaticSeo")} value={report.content.programmaticSeoPages.total} icon={TrendingUp} color="orange" />
+        <StatCard label={t("pages.adminSeoProgress.encyclopediaEntries")} value={report.content.encyclopediaEntries.total} icon={BookOpen} color="pink" />
+        <StatCard label={t("pages.adminSeoProgress.topicClusters")} value={report.seoClusters.topicClusters.total} sub={`${report.seoClusters.blogClusters.total} blog clusters`} icon={Layers} color="indigo" />
       </div>
 
       {Object.keys(report.content.contentByType).length > 0 && (
         <div className="mt-4 bg-white border rounded-xl p-5" data-testid="content-by-type-breakdown">
-          <h3 className="text-sm font-semibold text-gray-700 mb-3">Content Items by Type</h3>
+          <h3 className="text-sm font-semibold text-gray-700 mb-3">{t("pages.adminSeoProgress.contentItemsByType")}</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {Object.entries(report.content.contentByType).map(([type, counts]) => (
               <div key={type} className="flex items-center justify-between px-3 py-2 bg-gray-50 rounded-lg">
@@ -268,17 +270,17 @@ export default function AdminSeoProgressPage() {
         </div>
       )}
 
-      <SectionHeader title="Questions & Practice" icon={Brain} />
+      <SectionHeader title={t("pages.adminSeoProgress.questionsPractice")} icon={Brain} />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="Total Questions" value={report.questions.totalAllQuestions} icon={Brain} color="purple" />
-        <StatCard label="Exam Questions" value={report.questions.examQuestions.total} sub={`${report.questions.examQuestions.published} published`} icon={Target} color="blue" />
-        <StatCard label="Imaging Questions" value={report.questions.imagingQuestions.total} icon={Search} color="indigo" />
-        <StatCard label="Flashcards" value={totalFlashcards} sub={`${report.flashcards.flashcardBank.total} bank + ${report.flashcards.imagingFlashcards.total} imaging`} icon={Brain} color="green" />
+        <StatCard label={t("pages.adminSeoProgress.totalQuestions")} value={report.questions.totalAllQuestions} icon={Brain} color="purple" />
+        <StatCard label={t("pages.adminSeoProgress.examQuestions")} value={report.questions.examQuestions.total} sub={`${report.questions.examQuestions.published} published`} icon={Target} color="blue" />
+        <StatCard label={t("pages.adminSeoProgress.imagingQuestions")} value={report.questions.imagingQuestions.total} icon={Search} color="indigo" />
+        <StatCard label={t("pages.adminSeoProgress.flashcards")} value={totalFlashcards} sub={`${report.flashcards.flashcardBank.total} bank + ${report.flashcards.imagingFlashcards.total} imaging`} icon={Brain} color="green" />
       </div>
 
       {Object.keys(report.questions.alliedQuestions).length > 0 && (
         <div className="mt-4 bg-white border rounded-xl p-5" data-testid="allied-questions-breakdown">
-          <h3 className="text-sm font-semibold text-gray-700 mb-3">Allied Questions by Career Type</h3>
+          <h3 className="text-sm font-semibold text-gray-700 mb-3">{t("pages.adminSeoProgress.alliedQuestionsByCareerType")}</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {Object.entries(report.questions.alliedQuestions).map(([careerType, counts]) => (
               <div key={careerType} className="flex items-center justify-between px-3 py-2 bg-gray-50 rounded-lg">
@@ -293,13 +295,13 @@ export default function AdminSeoProgressPage() {
         </div>
       )}
 
-      <SectionHeader title="Study Guides" icon={BookOpen} />
+      <SectionHeader title={t("pages.adminSeoProgress.studyGuides")} icon={BookOpen} />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="Study Guides" value={report.studyGuides.total} icon={BookOpen} color="teal" />
+        <StatCard label={t("pages.adminSeoProgress.studyGuides2")} value={report.studyGuides.total} icon={BookOpen} color="teal" />
       </div>
       {Object.keys(report.studyGuides.byCategory).length > 0 && (
         <div className="mt-4 bg-white border rounded-xl p-5" data-testid="study-guides-breakdown">
-          <h3 className="text-sm font-semibold text-gray-700 mb-3">Study Guides by Category</h3>
+          <h3 className="text-sm font-semibold text-gray-700 mb-3">{t("pages.adminSeoProgress.studyGuidesByCategory")}</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {Object.entries(report.studyGuides.byCategory).map(([category, count]) => (
               <div key={category} className="flex items-center justify-between px-3 py-2 bg-gray-50 rounded-lg">
@@ -311,18 +313,18 @@ export default function AdminSeoProgressPage() {
         </div>
       )}
 
-      <SectionHeader title="Email Capture & Funnels" icon={Mail} />
+      <SectionHeader title={t("pages.adminSeoProgress.emailCaptureFunnels")} icon={Mail} />
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        <StatCard label="Email Subscribers" value={report.emailCapture.subscribers.total} icon={Mail} color="blue" />
-        <StatCard label="Imaging Leads" value={report.emailCapture.imagingLeads.total} icon={Users} color="purple" />
-        <StatCard label="Nurture Sequences" value={report.emailCapture.nurtureSequences.total} icon={MessageSquare} color="green" />
+        <StatCard label={t("pages.adminSeoProgress.emailSubscribers")} value={report.emailCapture.subscribers.total} icon={Mail} color="blue" />
+        <StatCard label={t("pages.adminSeoProgress.imagingLeads")} value={report.emailCapture.imagingLeads.total} icon={Users} color="purple" />
+        <StatCard label={t("pages.adminSeoProgress.nurtureSequences")} value={report.emailCapture.nurtureSequences.total} icon={MessageSquare} color="green" />
       </div>
 
-      <SectionHeader title="Per-Profession Coverage" icon={Layers} />
+      <SectionHeader title={t("pages.adminSeoProgress.perprofessionCoverage")} icon={Layers} />
       {report.professionCoverage.length === 0 ? (
         <div className="text-center py-8 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
           <Layers className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-500">No professions configured yet</p>
+          <p className="text-gray-500">{t("pages.adminSeoProgress.noProfessionsConfiguredYet")}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -333,7 +335,7 @@ export default function AdminSeoProgressPage() {
       )}
 
       <div className="mt-8 bg-white border rounded-xl p-5" data-testid="quick-links">
-        <h3 className="text-sm font-semibold text-gray-700 mb-3">Quick Links</h3>
+        <h3 className="text-sm font-semibold text-gray-700 mb-3">{t("pages.adminSeoProgress.quickLinks")}</h3>
         <div className="flex flex-wrap gap-2">
           {[
             { label: "Admin Dashboard", path: "/admin" },

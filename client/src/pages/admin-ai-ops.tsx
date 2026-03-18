@@ -15,7 +15,9 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 
+import { useI18n } from "@/lib/i18n";
 function StatusDot({ healthy, enabled }: { healthy: boolean; enabled: boolean }) {
+  const { t } = useI18n();
   if (!enabled) return <span className="w-2.5 h-2.5 rounded-full bg-gray-300 inline-block" data-testid="dot-disabled" />;
   return <span className={`w-2.5 h-2.5 rounded-full inline-block ${healthy ? "bg-green-500" : "bg-red-500"}`} data-testid={`dot-${healthy ? "healthy" : "unhealthy"}`} />;
 }
@@ -46,7 +48,7 @@ function KillSwitchCard() {
           <div className="flex items-center gap-3">
             <Power className={`w-5 h-5 ${isKilled ? "text-red-600" : "text-green-600"}`} />
             <div>
-              <div className="font-medium text-sm">Global Kill Switch</div>
+              <div className="font-medium text-sm">{t("pages.adminAiOps.globalKillSwitch")}</div>
               <div className="text-xs text-gray-500">{isKilled ? "All AI generation is HALTED" : "AI generation is active"}</div>
             </div>
           </div>
@@ -72,7 +74,7 @@ function CostDashboard() {
     refetchInterval: 30000,
   });
 
-  if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> Loading cost data...</div>;
+  if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> {t("pages.adminAiOps.loadingCostData")}</div>;
   if (!cost) return null;
 
   return (
@@ -82,28 +84,28 @@ function CostDashboard() {
           <CardContent className="py-3 text-center">
             <DollarSign className="w-4 h-4 mx-auto text-green-600 mb-1" />
             <div className="text-lg font-bold">${cost.daily?.cost?.toFixed(4) || "0.00"}</div>
-            <div className="text-xs text-gray-500">Today's Cost</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAiOps.todaysCost")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-daily-tokens">
           <CardContent className="py-3 text-center">
             <Zap className="w-4 h-4 mx-auto text-blue-600 mb-1" />
             <div className="text-lg font-bold">{(cost.daily?.tokens || 0).toLocaleString()}</div>
-            <div className="text-xs text-gray-500">Today's Tokens</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAiOps.todaysTokens")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-monthly-cost">
           <CardContent className="py-3 text-center">
             <TrendingUp className="w-4 h-4 mx-auto text-purple-600 mb-1" />
             <div className="text-lg font-bold">${cost.monthly?.cost?.toFixed(4) || "0.00"}</div>
-            <div className="text-xs text-gray-500">Monthly Cost</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAiOps.monthlyCost")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-monthly-requests">
           <CardContent className="py-3 text-center">
             <BarChart3 className="w-4 h-4 mx-auto text-orange-600 mb-1" />
             <div className="text-lg font-bold">{(cost.monthly?.requests || 0).toLocaleString()}</div>
-            <div className="text-xs text-gray-500">Monthly Requests</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAiOps.monthlyRequests")}</div>
           </CardContent>
         </Card>
       </div>
@@ -113,21 +115,21 @@ function CostDashboard() {
           <CardContent className="py-3 text-center">
             <XCircle className="w-4 h-4 mx-auto text-red-500 mb-1" />
             <div className="text-lg font-bold">{cost.daily?.errors || 0}</div>
-            <div className="text-xs text-gray-500">Today's Errors</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAiOps.todaysErrors")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-daily-latency">
           <CardContent className="py-3 text-center">
             <Clock className="w-4 h-4 mx-auto text-gray-600 mb-1" />
             <div className="text-lg font-bold">{cost.daily?.avgLatency || 0}ms</div>
-            <div className="text-xs text-gray-500">Avg Latency</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAiOps.avgLatency")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-monthly-errors">
           <CardContent className="py-3 text-center">
             <AlertTriangle className="w-4 h-4 mx-auto text-amber-500 mb-1" />
             <div className="text-lg font-bold">{cost.monthly?.errors || 0}</div>
-            <div className="text-xs text-gray-500">Monthly Errors</div>
+            <div className="text-xs text-gray-500">{t("pages.adminAiOps.monthlyErrors")}</div>
           </CardContent>
         </Card>
       </div>
@@ -135,7 +137,7 @@ function CostDashboard() {
       {cost.providerBreakdown && cost.providerBreakdown.length > 0 && (
         <Card data-testid="card-provider-breakdown">
           <CardHeader className="py-3 px-4">
-            <CardTitle className="text-sm">Provider Breakdown (This Month)</CardTitle>
+            <CardTitle className="text-sm">{t("pages.adminAiOps.providerBreakdownThisMonth")}</CardTitle>
           </CardHeader>
           <CardContent className="px-4 pb-3">
             <div className="space-y-2">
@@ -208,7 +210,7 @@ function ProvidersPanel() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["/api/admin/ai-ops/providers"] }),
   });
 
-  if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> Loading providers...</div>;
+  if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> {t("pages.adminAiOps.loadingProviders")}</div>;
 
   const providerList = Array.isArray(providers) ? providers : [];
 
@@ -231,39 +233,39 @@ function ProvidersPanel() {
           <CardContent className="py-4 space-y-3">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs">Name</Label>
+                <Label className="text-xs">{t("pages.adminAiOps.name")}</Label>
                 <Input value={newProvider.name} onChange={e => setNewProvider({ ...newProvider, name: e.target.value })} placeholder="e.g. Ollama Local" data-testid="input-provider-name" />
               </div>
               <div>
-                <Label className="text-xs">Type</Label>
+                <Label className="text-xs">{t("pages.adminAiOps.type")}</Label>
                 <Select value={newProvider.providerType} onValueChange={v => setNewProvider({ ...newProvider, providerType: v })}>
                   <SelectTrigger data-testid="select-provider-type"><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="openai">OpenAI</SelectItem>
-                    <SelectItem value="ollama">Ollama</SelectItem>
+                    <SelectItem value="openai">{t("pages.adminAiOps.openai")}</SelectItem>
+                    <SelectItem value="ollama">{t("pages.adminAiOps.ollama")}</SelectItem>
                     <SelectItem value="vllm">vLLM</SelectItem>
-                    <SelectItem value="lmstudio">LM Studio</SelectItem>
-                    <SelectItem value="anthropic">Anthropic</SelectItem>
+                    <SelectItem value="lmstudio">{t("pages.adminAiOps.lmStudio")}</SelectItem>
+                    <SelectItem value="anthropic">{t("pages.adminAiOps.anthropic")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
             <div>
-              <Label className="text-xs">Endpoint URL</Label>
+              <Label className="text-xs">{t("pages.adminAiOps.endpointUrl")}</Label>
               <Input value={newProvider.endpointUrl} onChange={e => setNewProvider({ ...newProvider, endpointUrl: e.target.value })} placeholder="http://localhost:11434/v1" data-testid="input-provider-endpoint" />
             </div>
             <div>
-              <Label className="text-xs">API Key (optional for local)</Label>
-              <Input value={newProvider.apiKey} onChange={e => setNewProvider({ ...newProvider, apiKey: e.target.value })} placeholder="sk-..." type="password" data-testid="input-provider-apikey" />
+              <Label className="text-xs">{t("pages.adminAiOps.apiKeyOptionalForLocal")}</Label>
+              <Input value={newProvider.apiKey} onChange={e => setNewProvider({ ...newProvider, apiKey: e.target.value })} placeholder={t("pages.adminAiOps.sk")} type="password" data-testid="input-provider-apikey" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs">Models (comma-separated)</Label>
-                <Input value={newProvider.models} onChange={e => setNewProvider({ ...newProvider, models: e.target.value })} placeholder="gpt-4o-mini, gpt-4o" data-testid="input-provider-models" />
+                <Label className="text-xs">{t("pages.adminAiOps.modelsCommaseparated")}</Label>
+                <Input value={newProvider.models} onChange={e => setNewProvider({ ...newProvider, models: e.target.value })} placeholder={t("pages.adminAiOps.gpt4ominiGpt4o")} data-testid="input-provider-models" />
               </div>
               <div>
-                <Label className="text-xs">Task Types (comma-separated)</Label>
-                <Input value={newProvider.taskTypes} onChange={e => setNewProvider({ ...newProvider, taskTypes: e.target.value })} placeholder="qbank, content, blog" data-testid="input-provider-tasks" />
+                <Label className="text-xs">{t("pages.adminAiOps.taskTypesCommaseparated")}</Label>
+                <Input value={newProvider.taskTypes} onChange={e => setNewProvider({ ...newProvider, taskTypes: e.target.value })} placeholder={t("pages.adminAiOps.qbankContentBlog")} data-testid="input-provider-tasks" />
               </div>
             </div>
             <div className="grid grid-cols-4 gap-3">
@@ -276,11 +278,11 @@ function ProvidersPanel() {
                 <Input value={newProvider.costPerOutputToken} onChange={e => setNewProvider({ ...newProvider, costPerOutputToken: e.target.value })} data-testid="input-cost-output" />
               </div>
               <div>
-                <Label className="text-xs">Max Concurrency</Label>
+                <Label className="text-xs">{t("pages.adminAiOps.maxConcurrency")}</Label>
                 <Input value={newProvider.maxConcurrency} onChange={e => setNewProvider({ ...newProvider, maxConcurrency: e.target.value })} data-testid="input-concurrency" />
               </div>
               <div>
-                <Label className="text-xs">Priority (lower=first)</Label>
+                <Label className="text-xs">{t("pages.adminAiOps.priorityLowerfirst")}</Label>
                 <Input value={newProvider.priority} onChange={e => setNewProvider({ ...newProvider, priority: e.target.value })} data-testid="input-priority" />
               </div>
             </div>
@@ -303,7 +305,7 @@ function ProvidersPanel() {
                 {addProviderMut.isPending ? <Loader2 className="w-3.5 h-3.5 animate-spin mr-1" /> : null}
                 Save Provider
               </Button>
-              <Button variant="outline" size="sm" onClick={() => setShowAdd(false)} data-testid="button-cancel-add">Cancel</Button>
+              <Button variant="outline" size="sm" onClick={() => setShowAdd(false)} data-testid="button-cancel-add">{t("pages.adminAiOps.cancel")}</Button>
             </div>
           </CardContent>
         </Card>
@@ -359,7 +361,7 @@ function ProvidersPanel() {
           </Card>
         ))}
         {providerList.length === 0 && (
-          <div className="text-center text-gray-400 py-8 text-sm">No providers configured. Add one to get started.</div>
+          <div className="text-center text-gray-400 py-8 text-sm">{t("pages.adminAiOps.noProvidersConfiguredAddOne")}</div>
         )}
       </div>
     </div>
@@ -374,7 +376,7 @@ function RequestLogsPanel() {
     refetchInterval: 30000,
   });
 
-  if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> Loading logs...</div>;
+  if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> {t("pages.adminAiOps.loadingLogs")}</div>;
 
   const logList = Array.isArray(logs) ? logs : [];
 
@@ -397,15 +399,15 @@ function RequestLogsPanel() {
         <table className="w-full text-xs">
           <thead>
             <tr className="border-b text-left text-gray-500">
-              <th className="py-2 px-2">Time</th>
-              <th className="py-2 px-2">Provider</th>
-              <th className="py-2 px-2">Model</th>
-              <th className="py-2 px-2">Task</th>
-              <th className="py-2 px-2">Feature</th>
-              <th className="py-2 px-2 text-right">Tokens</th>
-              <th className="py-2 px-2 text-right">Cost</th>
-              <th className="py-2 px-2 text-right">Latency</th>
-              <th className="py-2 px-2">Status</th>
+              <th className="py-2 px-2">{t("pages.adminAiOps.time")}</th>
+              <th className="py-2 px-2">{t("pages.adminAiOps.provider")}</th>
+              <th className="py-2 px-2">{t("pages.adminAiOps.model")}</th>
+              <th className="py-2 px-2">{t("pages.adminAiOps.task")}</th>
+              <th className="py-2 px-2">{t("pages.adminAiOps.feature")}</th>
+              <th className="py-2 px-2 text-right">{t("pages.adminAiOps.tokens")}</th>
+              <th className="py-2 px-2 text-right">{t("pages.adminAiOps.cost")}</th>
+              <th className="py-2 px-2 text-right">{t("pages.adminAiOps.latency")}</th>
+              <th className="py-2 px-2">{t("pages.adminAiOps.status")}</th>
             </tr>
           </thead>
           <tbody>
@@ -431,7 +433,7 @@ function RequestLogsPanel() {
           </tbody>
         </table>
         {logList.length === 0 && (
-          <div className="text-center text-gray-400 py-8 text-sm">No request logs yet. AI requests will appear here once providers are configured and active.</div>
+          <div className="text-center text-gray-400 py-8 text-sm">{t("pages.adminAiOps.noRequestLogsYetAi")}</div>
         )}
       </div>
     </div>
@@ -453,7 +455,7 @@ export default function AdminAiOpsPage() {
           <h1 className="text-xl font-bold flex items-center gap-2" data-testid="text-page-title">
             <Shield className="w-5 h-5 text-blue-600" /> AI Ops Dashboard
           </h1>
-          <p className="text-xs text-gray-500">Provider routing, cost control, and monitoring</p>
+          <p className="text-xs text-gray-500">{t("pages.adminAiOps.providerRoutingCostControlAnd")}</p>
         </div>
       </div>
 

@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { Wind, Heart, Activity, Gauge, Brain } from "lucide-react";
 
 export function OxygenationModule() {
+  const { t } = useI18n();
   const dissociationContent = useEditableText("oxy-dissociation-content", "The oxyhemoglobin dissociation curve describes hemoglobin's affinity for oxygen at different partial pressures. A RIGHT shift (decreased affinity — hemoglobin releases oxygen more readily to tissues) is caused by increased temperature, increased CO2 (Bohr effect), increased 2,3-DPG, and decreased pH (acidosis). A LEFT shift (increased affinity — hemoglobin holds onto oxygen more tightly) is caused by decreased temperature, decreased CO2, decreased 2,3-DPG, increased pH (alkalosis), carbon monoxide, and fetal hemoglobin. Mnemonic for right shift: 'Right = Release' — conditions that increase tissue metabolic demand shift the curve right to deliver more oxygen.");
   const cardiacOutputContent = useEditableText("oxy-cardiac-output-content", "Cardiac output (CO) = Heart Rate (HR) × Stroke Volume (SV). Normal CO is approximately 4-8 L/min. Stroke volume is determined by three factors: Preload (volume of blood filling the ventricle — Frank-Starling mechanism), Afterload (resistance the ventricle must pump against — primarily systemic vascular resistance), and Contractility (strength of ventricular contraction — inotropic state). Increasing preload or contractility increases CO; increasing afterload decreases CO. Medications target these factors: fluids increase preload, vasodilators decrease afterload, and inotropes increase contractility.");
   const abgContent = useEditableText("oxy-abg-content", "Arterial blood gas (ABG) interpretation is a critical nursing skill. Normal values: pH 7.35-7.45, PaCO2 35-45 mmHg, HCO3 22-26 mEq/L, PaO2 80-100 mmHg. Step 1: Look at pH — acidosis (<7.35) or alkalosis (>7.45). Step 2: Check PaCO2 — if it explains the pH change, the primary disorder is respiratory. Step 3: Check HCO3 — if it explains the pH change, the primary disorder is metabolic. Step 4: Check for compensation — the body tries to normalize pH using the opposite system (respiratory compensates for metabolic and vice versa). Step 5: Check PaO2 — is the patient hypoxemic?");
@@ -53,7 +55,7 @@ export function OxygenationModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="The Oxyhemoglobin Dissociation Curve"
+          title={t("data.pre_nursing_oxygenation.theOxyhemoglobinDissociationCurve")}
           content={dissociationContent}
         />
       </MicroLesson>
@@ -72,7 +74,7 @@ export function OxygenationModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Cardiac Output = HR × SV"
+          title={t("data.pre_nursing_oxygenation.cardiacOutputHrSv")}
           content={cardiacOutputContent}
         />
       </MicroLesson>
@@ -90,7 +92,7 @@ export function OxygenationModule() {
           </div>
         </div>
         <ProgressiveReveal
-          title="Organ-Specific Hypoxia Effects"
+          title={t("data.pre_nursing_oxygenation.organspecificHypoxiaEffects")}
           cards={[
             {
               id: "oxy-brain",
@@ -132,19 +134,19 @@ export function OxygenationModule() {
             <div className="space-y-1">
               <div className="flex justify-between text-xs text-blue-600">
                 <span><strong>pH:</strong> 7.35 – 7.45</span>
-                <span>Acidosis ← → Alkalosis</span>
+                <span>{t("data.pre_nursing_oxygenation.acidosisAlkalosis")}</span>
               </div>
               <div className="flex justify-between text-xs text-blue-600">
-                <span><strong>PaCO2:</strong> 35 – 45 mmHg</span>
-                <span>Respiratory component</span>
+                <span><strong>{t("data.pre_nursing_oxygenation.paco2")}</strong> 35 – 45 mmHg</span>
+                <span>{t("data.pre_nursing_oxygenation.respiratoryComponent")}</span>
               </div>
               <div className="flex justify-between text-xs text-blue-600">
                 <span><strong>HCO3:</strong> 22 – 26 mEq/L</span>
-                <span>Metabolic component</span>
+                <span>{t("data.pre_nursing_oxygenation.metabolicComponent")}</span>
               </div>
               <div className="flex justify-between text-xs text-blue-600">
-                <span><strong>PaO2:</strong> 80 – 100 mmHg</span>
-                <span>Oxygen in plasma</span>
+                <span><strong>{t("data.pre_nursing_oxygenation.pao2")}</strong> 80 – 100 mmHg</span>
+                <span>{t("data.pre_nursing_oxygenation.oxygenInPlasma")}</span>
               </div>
             </div>
           </div>
@@ -155,13 +157,13 @@ export function OxygenationModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="ABG Interpretation Framework"
+          title={t("data.pre_nursing_oxygenation.abgInterpretationFramework")}
           content={abgContent}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Oxygenation Concept"
+        title={t("data.pre_nursing_oxygenation.matchTheOxygenationConcept")}
         pairs={[
           { id: "right-shift", term: "Right shift", definition: "Hemoglobin releases oxygen more readily (fever, acidosis)" },
           { id: "left-shift", term: "Left shift", definition: "Hemoglobin holds oxygen more tightly (alkalosis, hypothermia)" },
@@ -173,7 +175,7 @@ export function OxygenationModule() {
       />
 
       <SelfCheckQuiz
-        title="Oxygenation & O2 Delivery Quiz"
+        title={t("data.pre_nursing_oxygenation.oxygenationO2DeliveryQuiz")}
         questions={[
           {
             id: "oxy1",

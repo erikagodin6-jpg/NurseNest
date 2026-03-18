@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, XCircle, ChevronRight, ArrowRight } from "lucide-react";
 import type { BowtieQuestion } from "@/data/exam-questions/types";
 
+import { useI18n } from "@/lib/i18n";
 interface BowtieQuestionCardProps {
   question: BowtieQuestion;
   onNext: () => void;
@@ -15,6 +16,7 @@ interface BowtieQuestionCardProps {
 }
 
 export function BowtieQuestionCard({ question, onNext, onPrev, questionNumber, totalQuestions, onScore }: BowtieQuestionCardProps) {
+  const { t } = useI18n();
   const [centerAnswer, setCenterAnswer] = useState<number | null>(null);
   const [leftSelected, setLeftSelected] = useState<Set<number>>(new Set());
   const [rightSelected, setRightSelected] = useState<Set<number>>(new Set());
@@ -240,11 +242,11 @@ export function BowtieQuestionCard({ question, onNext, onPrev, questionNumber, t
                 <p className="text-xs leading-relaxed text-gray-700" data-testid="text-bowtie-condition-rationale">{question.rationale.condition}</p>
               </div>
               <div className="p-3 rounded-lg bg-blue-50 border border-blue-200">
-                <p className="font-bold text-sm mb-1 text-blue-800" data-testid="text-bowtie-findings-label">Supporting Findings Rationale</p>
+                <p className="font-bold text-sm mb-1 text-blue-800" data-testid="text-bowtie-findings-label">{t("components.bowtieQuestion.supportingFindingsRationale")}</p>
                 <p className="text-xs leading-relaxed text-gray-700" data-testid="text-bowtie-findings-rationale">{question.rationale.findings}</p>
               </div>
               <div className="p-3 rounded-lg bg-emerald-50 border border-emerald-200">
-                <p className="font-bold text-sm mb-1 text-emerald-800" data-testid="text-bowtie-actions-label">Nursing Actions Rationale</p>
+                <p className="font-bold text-sm mb-1 text-emerald-800" data-testid="text-bowtie-actions-label">{t("components.bowtieQuestion.nursingActionsRationale")}</p>
                 <p className="text-xs leading-relaxed text-gray-700" data-testid="text-bowtie-actions-rationale">{question.rationale.actions}</p>
               </div>
             </div>

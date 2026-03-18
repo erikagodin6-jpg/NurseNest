@@ -205,8 +205,8 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
       <SEO
-        title="Nursing Education Blog | Clinical Reasoning & Exam Prep | NurseNest"
-        description="Evidence-based nursing articles on clinical reasoning, pharmacology, lab values, and NCLEX/REX-PN exam preparation. Written for RPN and RN students."
+        title={t("pages.blog.nursingEducationBlogClinicalReasoning")}
+        description={t("pages.blog.evidencebasedNursingArticlesOnClinical")}
         canonicalPath="/blog"
         keywords="nursing blog, clinical reasoning, pharmacology, NCLEX prep, REX-PN, lab interpretation, nursing education, RPN, RN, NP"
         structuredData={structuredData}

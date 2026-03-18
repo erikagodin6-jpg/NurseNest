@@ -6,6 +6,7 @@ import { SEO } from "@/components/seo";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowLeft, RefreshCw, TrendingUp, TrendingDown, Minus,
   Globe, FileText, BarChart3, Search, Map, Calendar,
@@ -63,6 +64,7 @@ type ContentCoverageData = {
 };
 
 function TrendIndicator({ current, previous }: { current: number; previous: number }) {
+  const { t } = useI18n();
   if (current > previous) {
     const pct = previous > 0 ? Math.round(((current - previous) / previous) * 100) : 100;
     return (
@@ -87,7 +89,7 @@ function TrendIndicator({ current, previous }: { current: number; previous: numb
 }
 
 function MiniBarChart({ data, color = "bg-blue-500", maxHeight = 48 }: { data: { week: string; count: number }[]; color?: string; maxHeight?: number }) {
-  if (!data || data.length === 0) return <div className="text-xs text-slate-400">No data</div>;
+  if (!data || data.length === 0) return <div className="text-xs text-slate-400">{t("pages.adminSeoPerformance.noData")}</div>;
   const sorted = [...data].sort((a, b) => a.week.localeCompare(b.week));
   const maxVal = Math.max(...sorted.map(d => d.count), 1);
   return (
@@ -108,9 +110,9 @@ function MiniBarChart({ data, color = "bg-blue-500", maxHeight = 48 }: { data: {
 }
 
 function StatusBadge({ status }: { status: string }) {
-  if (status === "healthy") return <Badge className="bg-emerald-100 text-emerald-700 text-xs" data-testid="badge-healthy"><CheckCircle2 className="w-3 h-3 mr-1" />Healthy</Badge>;
-  if (status === "low") return <Badge className="bg-amber-100 text-amber-700 text-xs" data-testid="badge-low"><AlertTriangle className="w-3 h-3 mr-1" />Low</Badge>;
-  return <Badge className="bg-red-100 text-red-700 text-xs" data-testid="badge-empty"><XCircle className="w-3 h-3 mr-1" />Empty</Badge>;
+  if (status === "healthy") return <Badge className="bg-emerald-100 text-emerald-700 text-xs" data-testid="badge-healthy"><CheckCircle2 className="w-3 h-3 mr-1" />{t("pages.adminSeoPerformance.healthy")}</Badge>;
+  if (status === "low") return <Badge className="bg-amber-100 text-amber-700 text-xs" data-testid="badge-low"><AlertTriangle className="w-3 h-3 mr-1" />{t("pages.adminSeoPerformance.low")}</Badge>;
+  return <Badge className="bg-red-100 text-red-700 text-xs" data-testid="badge-empty"><XCircle className="w-3 h-3 mr-1" />{t("pages.adminSeoPerformance.empty")}</Badge>;
 }
 
 function HeatmapCell({ value, maxValue }: { value: number; maxValue: number }) {
@@ -179,7 +181,7 @@ export default function AdminSeoPerformance() {
       <>
         <Navigation />
         <div className="min-h-screen flex items-center justify-center">
-          <p className="text-gray-500" data-testid="text-access-denied">Admin access required.</p>
+          <p className="text-gray-500" data-testid="text-access-denied">{t("pages.adminSeoPerformance.adminAccessRequired")}</p>
         </div>
       </>
     );
@@ -196,14 +198,14 @@ export default function AdminSeoPerformance() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Navigation />
-      <SEO title="SEO Performance - Admin" description="SEO performance metrics and content growth analytics" />
+      <SEO title={t("pages.adminSeoPerformance.seoPerformanceAdmin")} description={t("pages.adminSeoPerformance.seoPerformanceMetricsAndContent")} />
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="sm" onClick={() => navigate("/admin")} data-testid="button-back">
               <ArrowLeft className="w-4 h-4 mr-1" /> Admin
             </Button>
-            <h1 className="text-xl sm:text-2xl font-bold text-slate-900" data-testid="text-page-title">SEO Performance & Growth</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900" data-testid="text-page-title">{t("pages.adminSeoPerformance.seoPerformanceGrowth")}</h1>
           </div>
           <Button
             variant="outline"
@@ -250,7 +252,7 @@ export default function AdminSeoPerformance() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-3xl font-bold text-slate-800">{growthData.currentWeekSummary.blogPosts}</div>
-                  <div className="text-xs text-slate-500 mb-2">this week</div>
+                  <div className="text-xs text-slate-500 mb-2">{t("pages.adminSeoPerformance.thisWeek")}</div>
                   <TrendIndicator current={growthData.currentWeekSummary.blogPosts} previous={growthData.previousWeekSummary.blogPosts} />
                   <div className="mt-3">
                     <MiniBarChart data={growthData.blogPosts} color="bg-purple-500" />
@@ -266,7 +268,7 @@ export default function AdminSeoPerformance() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-3xl font-bold text-slate-800">{growthData.currentWeekSummary.lessons}</div>
-                  <div className="text-xs text-slate-500 mb-2">this week</div>
+                  <div className="text-xs text-slate-500 mb-2">{t("pages.adminSeoPerformance.thisWeek2")}</div>
                   <TrendIndicator current={growthData.currentWeekSummary.lessons} previous={growthData.previousWeekSummary.lessons} />
                   <div className="mt-3">
                     <MiniBarChart data={growthData.lessons} color="bg-blue-500" />
@@ -282,7 +284,7 @@ export default function AdminSeoPerformance() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-3xl font-bold text-slate-800">{growthData.currentWeekSummary.flashcards}</div>
-                  <div className="text-xs text-slate-500 mb-2">this week</div>
+                  <div className="text-xs text-slate-500 mb-2">{t("pages.adminSeoPerformance.thisWeek3")}</div>
                   <TrendIndicator current={growthData.currentWeekSummary.flashcards} previous={growthData.previousWeekSummary.flashcards} />
                   <div className="mt-3">
                     <MiniBarChart data={growthData.flashcards} color="bg-emerald-500" />
@@ -298,7 +300,7 @@ export default function AdminSeoPerformance() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-3xl font-bold text-slate-800">{growthData.currentWeekSummary.examQuestions}</div>
-                  <div className="text-xs text-slate-500 mb-2">this week</div>
+                  <div className="text-xs text-slate-500 mb-2">{t("pages.adminSeoPerformance.thisWeek4")}</div>
                   <TrendIndicator current={growthData.currentWeekSummary.examQuestions} previous={growthData.previousWeekSummary.examQuestions} />
                   <div className="mt-3">
                     <MiniBarChart data={growthData.examQuestions} color="bg-amber-500" />
@@ -318,12 +320,12 @@ export default function AdminSeoPerformance() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b text-slate-500">
-                        <th className="text-left py-2 px-3">Week</th>
-                        <th className="text-center py-2 px-3">Blog Posts</th>
-                        <th className="text-center py-2 px-3">Lessons</th>
-                        <th className="text-center py-2 px-3">Flashcards</th>
-                        <th className="text-center py-2 px-3">Exam Questions</th>
-                        <th className="text-center py-2 px-3">Total</th>
+                        <th className="text-left py-2 px-3">{t("pages.adminSeoPerformance.week")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminSeoPerformance.blogPosts")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminSeoPerformance.lessons")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminSeoPerformance.flashcards")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminSeoPerformance.examQuestions")}</th>
+                        <th className="text-center py-2 px-3">{t("pages.adminSeoPerformance.total")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -366,14 +368,14 @@ export default function AdminSeoPerformance() {
                 <CardContent className="pt-6 text-center">
                   <Globe className="w-8 h-8 text-blue-500 mx-auto mb-2" />
                   <div className="text-3xl font-bold text-slate-800">{sitemapData.totalUrls.toLocaleString()}</div>
-                  <div className="text-sm text-slate-500">Total Indexed URLs</div>
+                  <div className="text-sm text-slate-500">{t("pages.adminSeoPerformance.totalIndexedUrls")}</div>
                 </CardContent>
               </Card>
               <Card data-testid="card-sitemap-sections">
                 <CardContent className="pt-6 text-center">
                   <Layers className="w-8 h-8 text-emerald-500 mx-auto mb-2" />
                   <div className="text-3xl font-bold text-slate-800">{sitemapData.sections.length}</div>
-                  <div className="text-sm text-slate-500">Sitemap Sections</div>
+                  <div className="text-sm text-slate-500">{t("pages.adminSeoPerformance.sitemapSections")}</div>
                 </CardContent>
               </Card>
               <Card data-testid="card-sitemap-health">
@@ -382,7 +384,7 @@ export default function AdminSeoPerformance() {
                   <div className="text-3xl font-bold text-slate-800">
                     {sitemapData.sections.filter(s => s.status === "healthy").length}/{sitemapData.sections.length}
                   </div>
-                  <div className="text-sm text-slate-500">Healthy Sections</div>
+                  <div className="text-sm text-slate-500">{t("pages.adminSeoPerformance.healthySections")}</div>
                 </CardContent>
               </Card>
             </div>
@@ -428,10 +430,10 @@ export default function AdminSeoPerformance() {
                   <div className="flex items-start gap-3">
                     <Search className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="font-semibold text-amber-800 mb-1">Google Search Console Not Connected</h3>
+                      <h3 className="font-semibold text-amber-800 mb-1">{t("pages.adminSeoPerformance.googleSearchConsoleNotConnected")}</h3>
                       <p className="text-sm text-amber-700 mb-3">{searchData.setupMessage}</p>
                       <div className="text-xs text-amber-600 bg-amber-100 rounded p-3">
-                        <strong>To enable:</strong> Set <code className="bg-amber-200 px-1 rounded">GOOGLE_SEARCH_CONSOLE_KEY</code> or <code className="bg-amber-200 px-1 rounded">GSC_CREDENTIALS</code> environment variables with your Google Search Console API credentials.
+                        <strong>{t("pages.adminSeoPerformance.toEnable")}</strong> Set <code className="bg-amber-200 px-1 rounded">GOOGLE_SEARCH_CONSOLE_KEY</code> or <code className="bg-amber-200 px-1 rounded">GSC_CREDENTIALS</code> environment variables with your Google Search Console API credentials.
                       </div>
                     </div>
                   </div>
@@ -441,28 +443,28 @@ export default function AdminSeoPerformance() {
 
             {searchData.metrics && (
               <>
-                <h2 className="text-lg font-semibold text-slate-800">Internal Traffic Metrics (Last 30 Days)</h2>
+                <h2 className="text-lg font-semibold text-slate-800">{t("pages.adminSeoPerformance.internalTrafficMetricsLast30")}</h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <Card data-testid="card-total-views">
                     <CardContent className="pt-6 text-center">
                       <Eye className="w-8 h-8 text-blue-500 mx-auto mb-2" />
                       <div className="text-3xl font-bold text-slate-800">{searchData.metrics.totalPageViews.toLocaleString()}</div>
-                      <div className="text-sm text-slate-500">Total Page Views</div>
+                      <div className="text-sm text-slate-500">{t("pages.adminSeoPerformance.totalPageViews")}</div>
                     </CardContent>
                   </Card>
                   <Card data-testid="card-sections-tracked">
                     <CardContent className="pt-6 text-center">
                       <BarChart3 className="w-8 h-8 text-emerald-500 mx-auto mb-2" />
                       <div className="text-3xl font-bold text-slate-800">{searchData.metrics.pageViewsBySection.length}</div>
-                      <div className="text-sm text-slate-500">Active Sections</div>
+                      <div className="text-sm text-slate-500">{t("pages.adminSeoPerformance.activeSections")}</div>
                     </CardContent>
                   </Card>
                   <Card data-testid="card-top-pages-count">
                     <CardContent className="pt-6 text-center">
                       <MousePointer className="w-8 h-8 text-purple-500 mx-auto mb-2" />
                       <div className="text-3xl font-bold text-slate-800">{searchData.metrics.topPages.length}</div>
-                      <div className="text-sm text-slate-500">Tracked Pages</div>
+                      <div className="text-sm text-slate-500">{t("pages.adminSeoPerformance.trackedPages")}</div>
                     </CardContent>
                   </Card>
                 </div>
@@ -476,7 +478,7 @@ export default function AdminSeoPerformance() {
                     </CardHeader>
                     <CardContent>
                       {searchData.metrics.pageViewsBySection.length === 0 ? (
-                        <p className="text-sm text-slate-400">No section data available yet.</p>
+                        <p className="text-sm text-slate-400">{t("pages.adminSeoPerformance.noSectionDataAvailableYet")}</p>
                       ) : (
                         <div className="space-y-2">
                           {searchData.metrics.pageViewsBySection.slice(0, 10).map((s, i) => {
@@ -504,7 +506,7 @@ export default function AdminSeoPerformance() {
                     </CardHeader>
                     <CardContent>
                       {searchData.metrics.topPages.length === 0 ? (
-                        <p className="text-sm text-slate-400">No page view data available yet.</p>
+                        <p className="text-sm text-slate-400">{t("pages.adminSeoPerformance.noPageViewDataAvailable")}</p>
                       ) : (
                         <div className="space-y-1.5">
                           {searchData.metrics.topPages.slice(0, 10).map((p, i) => (
@@ -579,19 +581,19 @@ export default function AdminSeoPerformance() {
               </CardHeader>
               <CardContent>
                 {coverageData.byBodySystem.length === 0 ? (
-                  <p className="text-sm text-slate-400">No body system data available.</p>
+                  <p className="text-sm text-slate-400">{t("pages.adminSeoPerformance.noBodySystemDataAvailable")}</p>
                 ) : (
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="border-b text-slate-500">
-                          <th className="text-left py-2 px-3">Body System</th>
-                          <th className="text-center py-2 px-3">Questions</th>
-                          <th className="text-center py-2 px-3">Flashcards</th>
-                          <th className="text-center py-2 px-3">Lessons</th>
-                          <th className="text-center py-2 px-3">Blogs</th>
-                          <th className="text-center py-2 px-3">Total</th>
-                          <th className="text-center py-2 px-3 w-24">Coverage</th>
+                          <th className="text-left py-2 px-3">{t("pages.adminSeoPerformance.bodySystem")}</th>
+                          <th className="text-center py-2 px-3">{t("pages.adminSeoPerformance.questions")}</th>
+                          <th className="text-center py-2 px-3">{t("pages.adminSeoPerformance.flashcards2")}</th>
+                          <th className="text-center py-2 px-3">{t("pages.adminSeoPerformance.lessons2")}</th>
+                          <th className="text-center py-2 px-3">{t("pages.adminSeoPerformance.blogs")}</th>
+                          <th className="text-center py-2 px-3">{t("pages.adminSeoPerformance.total2")}</th>
+                          <th className="text-center py-2 px-3 w-24">{t("pages.adminSeoPerformance.coverage")}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -637,7 +639,7 @@ export default function AdminSeoPerformance() {
                 </CardHeader>
                 <CardContent>
                   {coverageData.byProfession.length === 0 ? (
-                    <p className="text-sm text-slate-400">No profession data available.</p>
+                    <p className="text-sm text-slate-400">{t("pages.adminSeoPerformance.noProfessionDataAvailable")}</p>
                   ) : (
                     <div className="space-y-2">
                       {coverageData.byProfession.map((entry, i) => {
@@ -665,7 +667,7 @@ export default function AdminSeoPerformance() {
                 </CardHeader>
                 <CardContent>
                   {coverageData.byTopic.length === 0 ? (
-                    <p className="text-sm text-slate-400">No topic data available.</p>
+                    <p className="text-sm text-slate-400">{t("pages.adminSeoPerformance.noTopicDataAvailable")}</p>
                   ) : (
                     <div className="space-y-1.5">
                       {coverageData.byTopic.slice(0, 15).map((entry, i) => (
@@ -695,7 +697,7 @@ export default function AdminSeoPerformance() {
                   <div className="text-center p-4 bg-purple-50 rounded-lg" data-testid="weekly-blogs">
                     <FileText className="w-6 h-6 text-purple-600 mx-auto mb-1" />
                     <div className="text-2xl font-bold text-purple-800">{growthData.currentWeekSummary.blogPosts}</div>
-                    <div className="text-xs text-purple-600">Blog Posts</div>
+                    <div className="text-xs text-purple-600">{t("pages.adminSeoPerformance.blogPosts2")}</div>
                     <div className="mt-1">
                       <TrendIndicator current={growthData.currentWeekSummary.blogPosts} previous={growthData.previousWeekSummary.blogPosts} />
                     </div>
@@ -703,7 +705,7 @@ export default function AdminSeoPerformance() {
                   <div className="text-center p-4 bg-blue-50 rounded-lg" data-testid="weekly-lessons">
                     <BookOpen className="w-6 h-6 text-blue-600 mx-auto mb-1" />
                     <div className="text-2xl font-bold text-blue-800">{growthData.currentWeekSummary.lessons}</div>
-                    <div className="text-xs text-blue-600">Lessons</div>
+                    <div className="text-xs text-blue-600">{t("pages.adminSeoPerformance.lessons3")}</div>
                     <div className="mt-1">
                       <TrendIndicator current={growthData.currentWeekSummary.lessons} previous={growthData.previousWeekSummary.lessons} />
                     </div>
@@ -711,7 +713,7 @@ export default function AdminSeoPerformance() {
                   <div className="text-center p-4 bg-emerald-50 rounded-lg" data-testid="weekly-flashcards">
                     <Layers className="w-6 h-6 text-emerald-600 mx-auto mb-1" />
                     <div className="text-2xl font-bold text-emerald-800">{growthData.currentWeekSummary.flashcards}</div>
-                    <div className="text-xs text-emerald-600">Flashcards</div>
+                    <div className="text-xs text-emerald-600">{t("pages.adminSeoPerformance.flashcards3")}</div>
                     <div className="mt-1">
                       <TrendIndicator current={growthData.currentWeekSummary.flashcards} previous={growthData.previousWeekSummary.flashcards} />
                     </div>
@@ -719,7 +721,7 @@ export default function AdminSeoPerformance() {
                   <div className="text-center p-4 bg-amber-50 rounded-lg" data-testid="weekly-questions">
                     <Database className="w-6 h-6 text-amber-600 mx-auto mb-1" />
                     <div className="text-2xl font-bold text-amber-800">{growthData.currentWeekSummary.examQuestions}</div>
-                    <div className="text-xs text-amber-600">Exam Questions</div>
+                    <div className="text-xs text-amber-600">{t("pages.adminSeoPerformance.examQuestions2")}</div>
                     <div className="mt-1">
                       <TrendIndicator current={growthData.currentWeekSummary.examQuestions} previous={growthData.previousWeekSummary.examQuestions} />
                     </div>
@@ -727,7 +729,7 @@ export default function AdminSeoPerformance() {
                 </div>
 
                 <div className="border-t pt-4">
-                  <h3 className="text-sm font-semibold text-slate-700 mb-3">Total Content Created This Week</h3>
+                  <h3 className="text-sm font-semibold text-slate-700 mb-3">{t("pages.adminSeoPerformance.totalContentCreatedThisWeek")}</h3>
                   <div className="text-4xl font-bold text-slate-800" data-testid="weekly-total">
                     {growthData.currentWeekSummary.blogPosts + growthData.currentWeekSummary.lessons + growthData.currentWeekSummary.flashcards + growthData.currentWeekSummary.examQuestions}
                   </div>
@@ -767,7 +769,7 @@ export default function AdminSeoPerformance() {
                     ))}
                   </div>
                   <div className="mt-4 pt-4 border-t text-center">
-                    <span className="text-sm text-slate-500">Total URLs: </span>
+                    <span className="text-sm text-slate-500">{t("pages.adminSeoPerformance.totalUrls")} </span>
                     <span className="text-lg font-bold text-slate-800">{sitemapData.totalUrls.toLocaleString()}</span>
                   </div>
                 </CardContent>

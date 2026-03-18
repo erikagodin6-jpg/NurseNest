@@ -281,14 +281,15 @@ const clusterList = [
 ];
 
 function ClusterDetailView({ slug }: { slug: string }) {
+  const { t } = useI18n();
   const cluster = clusterData[slug];
   if (!cluster) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">Topic Not Found</h1>
-        <p className="text-gray-600 mb-6">The NCLEX-RN guide topic you're looking for doesn't exist.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.nclexRnGuide.topicNotFound")}</h1>
+        <p className="text-gray-600 mb-6">{t("pages.nclexRnGuide.theNclexrnGuideTopicYoure")}</p>
         <LocaleLink href="/nclex-rn-guide">
-          <Button variant="outline" data-testid="button-back-nclex-rn">Back to NCLEX-RN Guide</Button>
+          <Button variant="outline" data-testid="button-back-nclex-rn">{t("pages.nclexRnGuide.backToNclexrnGuide")}</Button>
         </LocaleLink>
       </div>
     );
@@ -333,7 +334,7 @@ function ClusterDetailView({ slug }: { slug: string }) {
 
       {cluster.faqs.length > 0 && (
         <div className="mt-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-cluster-faq-heading">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-cluster-faq-heading">{t("pages.nclexRnGuide.frequentlyAskedQuestions")}</h2>
           <Accordion type="single" collapsible className="space-y-3">
             {cluster.faqs.map((faq, i) => (
               <AccordionItem key={i} value={`faq-${i}`} className="bg-white rounded-xl border border-gray-100 shadow-sm px-6" data-testid={`faq-cluster-${i}`}>
@@ -350,8 +351,8 @@ function ClusterDetailView({ slug }: { slug: string }) {
       )}
 
       <div className="mt-12 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-100 p-8 text-center" data-testid="section-cluster-cta">
-        <h3 className="text-xl font-bold text-gray-900 mb-3">Ready to Start Practicing?</h3>
-        <p className="text-gray-600 mb-6 max-w-lg mx-auto">Apply what you've learned with NCLEX-RN practice questions and clinical simulations on NurseNest.</p>
+        <h3 className="text-xl font-bold text-gray-900 mb-3">{t("pages.nclexRnGuide.readyToStartPracticing")}</h3>
+        <p className="text-gray-600 mb-6 max-w-lg mx-auto">{t("pages.nclexRnGuide.applyWhatYouveLearnedWith")}</p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <LocaleLink href="/lessons">
             <Button className="rounded-full px-6" data-testid="button-cluster-lessons">
@@ -394,8 +395,8 @@ export default function NclexRnGuide() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col">
       <SEO
-        title="NCLEX-RN Exam Prep Guide: Format, Blueprint, NGN & Study Plan (2025)"
-        description="Complete NCLEX-RN preparation guide covering exam format, Next Generation NCLEX question types, Client Needs blueprint, passing standard, and proven study strategies."
+        title={t("pages.nclexRnGuide.nclexrnExamPrepGuideFormat")}
+        description={t("pages.nclexRnGuide.completeNclexrnPreparationGuideCovering")}
         keywords="NCLEX-RN, NCLEX prep, nursing exam, RN licensure, Next Generation NCLEX, NGN, clinical judgment, NCSBN, nursing board exam, NCLEX study plan"
         canonicalPath="/nclex-rn-guide"
         structuredData={{
@@ -421,8 +422,8 @@ export default function NclexRnGuide() {
           </div>
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 mb-6">
-              <span className="text-xl" role="img" aria-label="United States">🇺🇸</span>
-              <span className="text-xs font-bold text-blue-700 uppercase tracking-wider">NCLEX-RN Exam Preparation</span>
+              <span className="text-xl" role="img" aria-label={t("pages.nclexRnGuide.unitedStates")}>🇺🇸</span>
+              <span className="text-xs font-bold text-blue-700 uppercase tracking-wider">{t("pages.nclexRnGuide.nclexrnExamPreparation")}</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1] mb-6" data-testid="text-nclex-rn-heading">
               Learn Deeper. Remember Longer. Pass the NCLEX-RN.
@@ -433,15 +434,15 @@ export default function NclexRnGuide() {
             <div className="flex flex-wrap justify-center gap-3 mb-8">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-blue-100 shadow-sm">
                 <CheckCircle className="w-4 h-4 text-blue-600" />
-                <span className="text-sm text-gray-700">NGN Question Types</span>
+                <span className="text-sm text-gray-700">{t("pages.nclexRnGuide.ngnQuestionTypes")}</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-blue-100 shadow-sm">
                 <CheckCircle className="w-4 h-4 text-blue-600" />
-                <span className="text-sm text-gray-700">Clinical Judgment Model</span>
+                <span className="text-sm text-gray-700">{t("pages.nclexRnGuide.clinicalJudgmentModel")}</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-blue-100 shadow-sm">
                 <CheckCircle className="w-4 h-4 text-blue-600" />
-                <span className="text-sm text-gray-700">NCSBN Standards</span>
+                <span className="text-sm text-gray-700">{t("pages.nclexRnGuide.ncsbnStandards")}</span>
               </div>
             </div>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -465,8 +466,8 @@ export default function NclexRnGuide() {
         <section className="py-16 bg-white border-y border-gray-100" data-testid="section-nclex-rn-clusters">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-gray-900 mb-3" data-testid="text-nclex-rn-explore">Explore the NCLEX-RN</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">Everything you need to know about the exam, organized into focused guides.</p>
+              <h2 className="text-3xl font-bold text-gray-900 mb-3" data-testid="text-nclex-rn-explore">{t("pages.nclexRnGuide.exploreTheNclexrn")}</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.nclexRnGuide.everythingYouNeedToKnow")}</p>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {clusterList.map((cluster) => {
@@ -492,7 +493,7 @@ export default function NclexRnGuide() {
         <section className="py-16 bg-gradient-to-b from-white to-blue-50/50" data-testid="section-nclex-rn-stats">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-gray-900 mb-3">NCLEX-RN at a Glance</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("pages.nclexRnGuide.nclexrnAtAGlance")}</h2>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
@@ -516,8 +517,8 @@ export default function NclexRnGuide() {
         <section className="py-16 bg-white" data-testid="section-nclex-rn-why">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-gray-900 mb-3">Why Prepare with NurseNest?</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">Our content is specifically designed to build the clinical judgment skills that the NCLEX-RN tests.</p>
+              <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("pages.nclexRnGuide.whyPrepareWithNursenest")}</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.nclexRnGuide.ourContentIsSpecificallyDesigned")}</p>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
               {[
@@ -541,8 +542,8 @@ export default function NclexRnGuide() {
 
         <section className="py-16 bg-gradient-to-br from-blue-600 to-indigo-700 text-white" data-testid="section-nclex-rn-cta">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold mb-4">Start Your NCLEX-RN Journey Today</h2>
-            <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">Join thousands of nursing students preparing for the NCLEX-RN with NurseNest's evidence-based content and clinical simulations.</p>
+            <h2 className="text-3xl font-bold mb-4">{t("pages.nclexRnGuide.startYourNclexrnJourneyToday")}</h2>
+            <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">{t("pages.nclexRnGuide.joinThousandsOfNursingStudents")}</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <LocaleLink href="/start-free">
                 <Button size="lg" className="h-12 px-8 text-base rounded-full bg-white text-blue-700 hover:bg-blue-50" data-testid="button-nclex-rn-final-cta">

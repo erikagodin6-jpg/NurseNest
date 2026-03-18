@@ -75,8 +75,8 @@ export default function NewGradFAQPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col">
       <SEO
-        title="New Graduate FAQ - NurseNest Healthcare Education"
-        description="Find answers about NurseNest new graduate support: career transition resources, interview prep, resume building, first-year guides, certifications, and professional development for nursing and allied health graduates."
+        title={t("pages.newGradFaq.newGraduateFaqNursenestHealthcare")}
+        description={t("pages.newGradFaq.findAnswersAboutNursenestNew")}
         keywords="new grad nurse FAQ, new graduate healthcare, career transition questions, interview prep, resume builder, first year nurse, nursing graduate support, allied health new grad"
         canonicalPath="/new-grad/faq"
         structuredData={buildFaqStructuredData(allFaqs)}

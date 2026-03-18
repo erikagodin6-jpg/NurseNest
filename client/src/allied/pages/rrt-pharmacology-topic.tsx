@@ -9,7 +9,9 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { RRT_PHARMACOLOGY_PREVIEWS } from "@/data/lessons/rrt-pharmacology-previews";
 import type { PharmacologyTopicApiResponse } from "@/data/lessons/rrt-pharmacology-topics";
 
+import { useI18n } from "@/lib/i18n";
 export function RrtPharmacologyTopicPage() {
+  const { t } = useI18n();
   const [, params] = useRoute("/allied-health/rrt/pharmacology/:slug");
   const slug = params?.slug;
 
@@ -18,8 +20,8 @@ export function RrtPharmacologyTopicPage() {
   if (!preview) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Topic Not Found</h1>
-        <p className="text-gray-600 mb-4">The pharmacology topic you're looking for doesn't exist.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.rrtPharmacologyTopic.topicNotFound")}</h1>
+        <p className="text-gray-600 mb-4">{t("allied.rrtPharmacologyTopic.thePharmacologyTopicYoureLooking")}</p>
         <Link href="/allied-health/rrt/pharmacology" className="inline-block px-6 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700" data-testid="link-back-pharmacology">
           Back to Pharmacology Hub
         </Link>
@@ -91,12 +93,12 @@ function TopicDetailPage({ slug, preview }: { slug: string; preview: typeof RRT_
       <div data-testid={`rrt-pharmacology-topic-${slug}`}>
         <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50/50 to-white py-14 sm:py-18">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6 flex-wrap" aria-label="Breadcrumb" data-testid="breadcrumb-nav">
-              <Link href="/allied-health" className="hover:text-teal-600" data-testid="breadcrumb-home">Allied Health</Link>
+            <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6 flex-wrap" aria-label={t("allied.rrtPharmacologyTopic.breadcrumb")} data-testid="breadcrumb-nav">
+              <Link href="/allied-health" className="hover:text-teal-600" data-testid="breadcrumb-home">{t("allied.rrtPharmacologyTopic.alliedHealth")}</Link>
               <ChevronRight className="w-3.5 h-3.5" />
               <Link href="/allied-health/rrt" className="hover:text-teal-600" data-testid="breadcrumb-rrt">RRT</Link>
               <ChevronRight className="w-3.5 h-3.5" />
-              <Link href="/allied-health/rrt/pharmacology" className="hover:text-teal-600" data-testid="breadcrumb-pharmacology">Pharmacology</Link>
+              <Link href="/allied-health/rrt/pharmacology" className="hover:text-teal-600" data-testid="breadcrumb-pharmacology">{t("allied.rrtPharmacologyTopic.pharmacology")}</Link>
               <ChevronRight className="w-3.5 h-3.5" />
               <span className="text-blue-700 font-medium">{preview.shortTitle}</span>
             </nav>
@@ -153,13 +155,13 @@ function TopicDetailPage({ slug, preview }: { slug: string; preview: typeof RRT_
               {loading ? (
                 <div className="flex items-center justify-center py-12" data-testid="loading-content">
                   <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
-                  <span className="ml-3 text-sm text-gray-500">Loading content...</span>
+                  <span className="ml-3 text-sm text-gray-500">{t("allied.rrtPharmacologyTopic.loadingContent")}</span>
                 </div>
               ) : fetchError ? (
                 <div className="bg-red-50 rounded-2xl border border-red-200 p-8 text-center" data-testid="fetch-error">
                   <AlertTriangle className="w-10 h-10 text-red-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">Unable to Load Content</h3>
-                  <p className="text-gray-600 mb-4">We couldn't load the full topic content. Please try again.</p>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.rrtPharmacologyTopic.unableToLoadContent")}</h3>
+                  <p className="text-gray-600 mb-4">{t("allied.rrtPharmacologyTopic.weCouldntLoadTheFull")}</p>
                   <button
                     onClick={() => window.location.reload()}
                     className="inline-flex items-center gap-2 px-6 py-2.5 bg-red-600 text-white rounded-xl text-sm font-semibold hover:bg-red-700 transition-colors"
@@ -171,7 +173,7 @@ function TopicDetailPage({ slug, preview }: { slug: string; preview: typeof RRT_
               ) : isPremiumLocked ? (
                 <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-200 p-8 text-center" data-testid="premium-gate">
                   <Lock className="w-10 h-10 text-blue-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Premium Content</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t("allied.rrtPharmacologyTopic.premiumContent")}</h3>
                   <p className="text-gray-600 mb-6 max-w-md mx-auto">
                     Unlock the full topic guide including indications, contraindications, side effects, key medications, clinical pearls, and practice questions.
                   </p>
@@ -248,10 +250,10 @@ function TopicDetailPage({ slug, preview }: { slug: string; preview: typeof RRT_
                           <table className="w-full" data-testid="table-medications">
                             <thead>
                               <tr className="bg-blue-50 border-b border-blue-100">
-                                <th className="text-left px-4 py-3 text-xs font-semibold text-blue-800">Medication</th>
-                                <th className="text-left px-4 py-3 text-xs font-semibold text-blue-800">Dose</th>
-                                <th className="text-left px-4 py-3 text-xs font-semibold text-blue-800 hidden md:table-cell">Route</th>
-                                <th className="text-left px-4 py-3 text-xs font-semibold text-blue-800 hidden lg:table-cell">Purpose</th>
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-blue-800">{t("allied.rrtPharmacologyTopic.medication")}</th>
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-blue-800">{t("allied.rrtPharmacologyTopic.dose")}</th>
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-blue-800 hidden md:table-cell">{t("allied.rrtPharmacologyTopic.route")}</th>
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-blue-800 hidden lg:table-cell">{t("allied.rrtPharmacologyTopic.purpose")}</th>
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-50">
@@ -379,7 +381,7 @@ function TopicDetailPage({ slug, preview }: { slug: string; preview: typeof RRT_
                             </div>
                             {revealedAnswers[qi] !== undefined && (
                               <div className="mt-3 p-4 bg-blue-50 rounded-xl border border-blue-100" data-testid={`rationale-${qi}`}>
-                                <p className="text-xs font-semibold text-blue-800 mb-1">Rationale</p>
+                                <p className="text-xs font-semibold text-blue-800 mb-1">{t("allied.rrtPharmacologyTopic.rationale")}</p>
                                 <p className="text-sm text-blue-900 leading-relaxed">{q.rationale}</p>
                               </div>
                             )}
@@ -395,34 +397,34 @@ function TopicDetailPage({ slug, preview }: { slug: string; preview: typeof RRT_
             <div className="lg:col-span-1">
               <div className="sticky top-20 space-y-6">
                 <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-200 p-6">
-                  <h3 className="font-bold text-gray-900 mb-4">Study This Topic</h3>
+                  <h3 className="font-bold text-gray-900 mb-4">{t("allied.rrtPharmacologyTopic.studyThisTopic")}</h3>
                   <div className="space-y-3">
                     <Link href="/allied-health/qbank?career=rrt" className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="sidebar-qbank">
                       <BookOpen className="w-5 h-5 text-blue-600" />
                       <div>
-                        <p className="text-sm font-semibold text-gray-900">RRT Question Bank</p>
-                        <p className="text-xs text-gray-500">Targeted practice questions</p>
+                        <p className="text-sm font-semibold text-gray-900">{t("allied.rrtPharmacologyTopic.rrtQuestionBank")}</p>
+                        <p className="text-xs text-gray-500">{t("allied.rrtPharmacologyTopic.targetedPracticeQuestions")}</p>
                       </div>
                     </Link>
                     <Link href="/allied-health/rrt/flashcards" className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="sidebar-flashcards">
                       <Brain className="w-5 h-5 text-blue-600" />
                       <div>
-                        <p className="text-sm font-semibold text-gray-900">RRT Flashcards</p>
-                        <p className="text-xs text-gray-500">Spaced repetition review</p>
+                        <p className="text-sm font-semibold text-gray-900">{t("allied.rrtPharmacologyTopic.rrtFlashcards")}</p>
+                        <p className="text-xs text-gray-500">{t("allied.rrtPharmacologyTopic.spacedRepetitionReview")}</p>
                       </div>
                     </Link>
                     <Link href="/allied-health/rrt/mock-exams" className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="sidebar-mock-exams">
                       <FileText className="w-5 h-5 text-blue-600" />
                       <div>
-                        <p className="text-sm font-semibold text-gray-900">RRT Mock Exams</p>
-                        <p className="text-xs text-gray-500">Full-length practice</p>
+                        <p className="text-sm font-semibold text-gray-900">{t("allied.rrtPharmacologyTopic.rrtMockExams")}</p>
+                        <p className="text-xs text-gray-500">{t("allied.rrtPharmacologyTopic.fulllengthPractice")}</p>
                       </div>
                     </Link>
                   </div>
                 </div>
 
                 <div className="bg-white rounded-2xl border border-gray-100 p-6">
-                  <h3 className="font-bold text-gray-900 mb-4">More Pharmacology Topics</h3>
+                  <h3 className="font-bold text-gray-900 mb-4">{t("allied.rrtPharmacologyTopic.morePharmacologyTopics")}</h3>
                   <div className="space-y-2">
                     {otherTopics.map(t => (
                       <Link
@@ -447,7 +449,7 @@ function TopicDetailPage({ slug, preview }: { slug: string; preview: typeof RRT_
                 </div>
 
                 <div className="bg-white rounded-2xl border border-gray-100 p-6">
-                  <h3 className="font-bold text-gray-900 mb-2">Quick Links</h3>
+                  <h3 className="font-bold text-gray-900 mb-2">{t("allied.rrtPharmacologyTopic.quickLinks")}</h3>
                   <div className="space-y-2">
                     <Link href="/allied-health/rrt" className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-medium" data-testid="sidebar-link-rrt-hub">
                       <GraduationCap className="w-4 h-4" /> RRT Exam Prep Hub
@@ -467,8 +469,8 @@ function TopicDetailPage({ slug, preview }: { slug: string; preview: typeof RRT_
 
         <section className="bg-gradient-to-r from-blue-600 to-indigo-600 py-14">
           <div className="max-w-3xl mx-auto px-4 text-center">
-            <h2 className="text-2xl font-bold text-white mb-4" data-testid="text-bottom-cta">Continue Your Pharmacology Review</h2>
-            <p className="text-blue-100 mb-8">Explore more respiratory medication topics and test your knowledge with practice questions.</p>
+            <h2 className="text-2xl font-bold text-white mb-4" data-testid="text-bottom-cta">{t("allied.rrtPharmacologyTopic.continueYourPharmacologyReview")}</h2>
+            <p className="text-blue-100 mb-8">{t("allied.rrtPharmacologyTopic.exploreMoreRespiratoryMedicationTopics")}</p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Link href="/allied-health/rrt/pharmacology" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl text-sm font-semibold hover:bg-blue-50 transition-all" data-testid="button-cta-all-topics">
                 <Pill className="w-4 h-4" /> All Pharmacology Topics

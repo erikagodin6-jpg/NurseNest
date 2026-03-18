@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import { useI18n } from "@/lib/i18n";
 const CERTIFICATION_GRID = [
   { name: "ACLS", desc: "Advanced Cardiovascular Life Support — cardiac arrest algorithms, post-ROSC care, and acute coronary syndromes.", href: "/newgrad/certifications/acls", icon: Heart, color: "bg-red-50 text-red-600 border-red-100" },
   { name: "BLS", desc: "Basic Life Support — high-quality CPR, AED operation, and team-based resuscitation.", href: "/newgrad/certifications/bls", icon: Activity, color: "bg-blue-50 text-blue-600 border-blue-100" },
@@ -122,12 +123,13 @@ const articleStructuredData = {
 };
 
 export default function NewGradHub() {
+  const { t } = useI18n();
   return (
     <div data-testid="new-grad-hub-page">
       <Navigation />
       <SEO
-        title="New Grad Nursing Hub — First-Year Survival Guides, Certifications & Career Tools | NurseNest"
-        description="Launch your nursing career with first-year survival guides, specialty certification prep (ACLS, PALS, CCRN), interview prep, resume templates, and career development tools for new graduate nurses."
+        title={t("pages.newGradHub.newGradNursingHubFirstyear")}
+        description={t("pages.newGradHub.launchYourNursingCareerWith")}
         keywords="new grad nurse survival guide, nursing certifications ACLS PALS CCRN, new graduate nurse first year, nursing specialty career path, new nurse clinical skills, first year nurse tips, nursing career development"
         canonicalPath="/new-grad"
         structuredData={courseStructuredData}
@@ -144,9 +146,9 @@ export default function NewGradHub() {
         <div className="absolute bottom-10 left-10 w-60 h-60 bg-indigo-100/20 rounded-full blur-3xl" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.newGradHub.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-blue-700 font-medium">New Grad Hub</span>
+            <span className="text-blue-700 font-medium">{t("pages.newGradHub.newGradHub")}</span>
           </div>
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-blue-100 text-blue-700" data-testid="badge-new-grad">
@@ -154,7 +156,7 @@ export default function NewGradHub() {
               New Graduate Nurse
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-5 leading-tight" data-testid="text-hero-title">
-              Build Lasting Clinical Confidence <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">From Day One</span>
+              Build Lasting Clinical Confidence <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">{t("pages.newGradHub.fromDayOne")}</span>
             </h1>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed" data-testid="text-hero-subtitle">
               Our structured learning system for new graduates uses active recall and clinical scenarios to reinforce the skills you need — from ACLS and PALS certification prep to first-year survival guides and career growth tools.
@@ -179,19 +181,19 @@ export default function NewGradHub() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div data-testid="stat-specialties">
               <div className="text-2xl font-bold text-gray-900">9+</div>
-              <div className="text-sm text-gray-500">Nursing Specialties</div>
+              <div className="text-sm text-gray-500">{t("pages.newGradHub.nursingSpecialties")}</div>
             </div>
             <div data-testid="stat-certifications">
               <div className="text-2xl font-bold text-gray-900">10+</div>
-              <div className="text-sm text-gray-500">Certifications Covered</div>
+              <div className="text-sm text-gray-500">{t("pages.newGradHub.certificationsCovered")}</div>
             </div>
             <div data-testid="stat-guides">
               <div className="text-2xl font-bold text-gray-900">50+</div>
-              <div className="text-sm text-gray-500">Career Guides</div>
+              <div className="text-sm text-gray-500">{t("pages.newGradHub.careerGuides")}</div>
             </div>
             <div data-testid="stat-interview-questions">
               <div className="text-2xl font-bold text-gray-900">40+</div>
-              <div className="text-sm text-gray-500">Interview Questions</div>
+              <div className="text-sm text-gray-500">{t("pages.newGradHub.interviewQuestions")}</div>
             </div>
           </div>
         </div>
@@ -203,8 +205,8 @@ export default function NewGradHub() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-emerald-100 text-emerald-700">
               <Award className="w-4 h-4" /> Nursing Certifications
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-certifications-title">Explore Nursing Specialties & Certifications</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Discover the right specialty for your career. Each path includes certification requirements, clinical skills, and career growth opportunities.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-certifications-title">{t("pages.newGradHub.exploreNursingSpecialtiesCertifications")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.newGradHub.discoverTheRightSpecialtyFor")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {CERTIFICATION_GRID.map((cert, i) => {
@@ -242,8 +244,8 @@ export default function NewGradHub() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-blue-100 text-blue-700">
               <Shield className="w-4 h-4" /> New Nurse Survival
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-survival-title">New Nurse Survival Guides</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Practical, evidence-based guides to help you navigate your first year with confidence. From surviving your first code to mastering your charting workflow.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-survival-title">{t("pages.newGradHub.newNurseSurvivalGuides")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.newGradHub.practicalEvidencebasedGuidesToHelp")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {SURVIVAL_GUIDES.map((guide, i) => {
@@ -277,8 +279,8 @@ export default function NewGradHub() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-indigo-100 text-indigo-700">
               <TrendingUp className="w-4 h-4" /> Career Growth
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-career-growth-title">Career Growth & Advancement</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Plan your long-term nursing career with certifications, specialization pathways, and advancement opportunities.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-career-growth-title">{t("pages.newGradHub.careerGrowthAdvancement")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.newGradHub.planYourLongtermNursingCareer")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {CAREER_GROWTH.map((item, i) => {
@@ -305,8 +307,8 @@ export default function NewGradHub() {
       <section className="py-16 bg-white" id="professions" data-testid="section-profession-hubs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-professions-title">Choose Your Profession</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Specialized career transition resources for six healthcare professions. Each hub includes first-year guides, exam prep, clinical tips, and career development tools.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-professions-title">{t("pages.newGradHub.chooseYourProfession")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.newGradHub.specializedCareerTransitionResourcesFor")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {PROFESSION_LIST.map((prof) => {
@@ -339,9 +341,9 @@ export default function NewGradHub() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
             <div className="flex-1 text-center sm:text-left">
-              <p className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-1">Complete Career Journey</p>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">See the Full Path: Exam Prep → Pass → Transition → Get Hired</h3>
-              <p className="text-sm text-gray-600">Follow the step-by-step journey from studying for your licensing exam through landing your first healthcare job.</p>
+              <p className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-1">{t("pages.newGradHub.completeCareerJourney")}</p>
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">{t("pages.newGradHub.seeTheFullPathExam")}</h3>
+              <p className="text-sm text-gray-600">{t("pages.newGradHub.followTheStepbystepJourneyFrom")}</p>
             </div>
             <Link href="/career-journey" className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors whitespace-nowrap shadow-sm" data-testid="button-newgrad-journey-cta">
               Explore Career Paths <ArrowRight className="w-4 h-4" />
@@ -352,8 +354,8 @@ export default function NewGradHub() {
 
       <section className="py-10 bg-white" data-testid="section-authority-guides">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Complete Career Guides</h2>
-          <p className="text-sm text-gray-600 mb-5">In-depth guides covering the full journey from exam prep through clinical practice to career placement.</p>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">{t("pages.newGradHub.completeCareerGuides")}</h2>
+          <p className="text-sm text-gray-600 mb-5">{t("pages.newGradHub.indepthGuidesCoveringTheFull")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
               { href: "/guides/complete-guide-to-becoming-a-registered-nurse", title: "RN Career Guide", desc: "NCLEX-RN, clinical transition & career" },
@@ -380,8 +382,8 @@ export default function NewGradHub() {
       <section className="py-16 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-faq-title">Frequently Asked Questions</h2>
-            <p className="text-gray-600">Everything you need to know about the New Grad Hub</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-faq-title">{t("pages.newGradHub.frequentlyAskedQuestions")}</h2>
+            <p className="text-gray-600">{t("pages.newGradHub.everythingYouNeedToKnow")}</p>
           </div>
           <div className="space-y-3">
             {FAQ_DATA.map((faq, i) => (
@@ -411,8 +413,8 @@ export default function NewGradHub() {
             </Link>
           </div>
           <div className="flex items-center justify-center gap-6 mt-8 text-blue-200 text-sm">
-            <span className="flex items-center gap-1.5"><Shield className="w-4 h-4" /> 14-day guarantee</span>
-            <span className="flex items-center gap-1.5"><Star className="w-4 h-4" /> Cancel anytime</span>
+            <span className="flex items-center gap-1.5"><Shield className="w-4 h-4" /> {t("pages.newGradHub.14dayGuarantee")}</span>
+            <span className="flex items-center gap-1.5"><Star className="w-4 h-4" /> {t("pages.newGradHub.cancelAnytime")}</span>
           </div>
         </div>
       </section>

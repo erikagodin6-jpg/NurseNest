@@ -70,7 +70,9 @@ import AdminTutorManagement from "./admin-tutor";
 import AdminQBankPipeline from "./admin-qbank-pipeline";
 import AdminExpansionRoadmap from "./admin-expansion-roadmap";
 
+import { useI18n } from "@/lib/i18n";
 function KillSwitchBanner() {
+  const { t } = useI18n();
   const { data } = useQueryRQ({
     queryKey: ["ai-kill-switch-banner"],
     queryFn: async () => {
@@ -86,7 +88,7 @@ function KillSwitchBanner() {
   return (
     <div className="bg-red-600 text-white p-3 rounded-lg flex items-center gap-3 mb-4 shadow-lg" data-testid="banner-kill-switch-admin">
       <AlertTriangle className="w-5 h-5 flex-shrink-0" />
-      <span className="font-bold">All AI Jobs Disabled — Emergency Kill Switch Active</span>
+      <span className="font-bold">{t("pages.admin.allAiJobsDisabledEmergency")}</span>
     </div>
   );
 }
@@ -1333,8 +1335,8 @@ export default function AdminPage() {
           <Card className="max-w-md w-full mx-4">
             <CardContent className="p-8 text-center">
               <Shield className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Admin Access Required</h2>
-              <p className="text-gray-500 mb-6">Please log in with an admin account to access this page.</p>
+              <h2 className="text-xl font-bold text-gray-900 mb-2">{t("pages.admin.adminAccessRequired")}</h2>
+              <p className="text-gray-500 mb-6">{t("pages.admin.pleaseLogInWithAn")}</p>
               <Button onClick={() => setLocation("/login")} data-testid="button-admin-login">
                 Log In
               </Button>
@@ -1365,8 +1367,8 @@ export default function AdminPage() {
             <CardContent className="p-8">
               <div className="text-center mb-6">
                 <Shield className="w-12 h-12 text-red-400 mx-auto mb-4" />
-                <h2 className="text-xl font-bold text-gray-900 mb-2">Access Denied</h2>
-                <p className="text-gray-500">This page is restricted to administrators.</p>
+                <h2 className="text-xl font-bold text-gray-900 mb-2">{t("pages.admin.accessDenied")}</h2>
+                <p className="text-gray-500">{t("pages.admin.thisPageIsRestrictedTo")}</p>
               </div>
               <form
                 className="space-y-4"
@@ -1381,14 +1383,14 @@ export default function AdminPage() {
                   } catch {}
                 }}
               >
-                <p className="text-sm font-medium text-gray-700 text-center">Sign in as admin</p>
+                <p className="text-sm font-medium text-gray-700 text-center">{t("pages.admin.signInAsAdmin")}</p>
                 <div className="relative">
                   <UserIcon className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-                  <Input name="username" placeholder="Username" className="pl-10" required data-testid="input-admin-username" />
+                  <Input name="username" placeholder={t("pages.admin.username2")} className="pl-10" required data-testid="input-admin-username" />
                 </div>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-                  <Input name="password" type="password" placeholder="Password" className="pl-10" required data-testid="input-admin-password" />
+                  <Input name="password" type="password" placeholder={t("pages.admin.password")} className="pl-10" required data-testid="input-admin-password" />
                 </div>
                 <Button type="submit" className="w-full" data-testid="button-admin-login">
                   Sign In
@@ -1471,7 +1473,7 @@ export default function AdminPage() {
   // ---------- UI ----------
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500 admin-selectable">
-      <SEO title="Admin Dashboard - NurseNest" description="Admin analytics dashboard" canonicalPath="/admin" />
+      <SEO title={t("pages.admin.adminDashboardNursenest")} description={t("pages.admin.adminAnalyticsDashboard")} canonicalPath="/admin" />
       <Navigation />
 
       <main className="flex-grow py-8">
@@ -1484,10 +1486,10 @@ export default function AdminPage() {
                 </h1>
                 <EnvironmentBadge />
               </div>
-              <p className="text-gray-500 mt-1">Platform analytics and user management</p>
+              <p className="text-gray-500 mt-1">{t("pages.admin.platformAnalyticsAndUserManagement")}</p>
               {(authIsAdmin || isAdmin) && (
                 <div className="flex items-center gap-2 mt-2 p-2 bg-gray-50 rounded-lg border" data-testid="section-preview-mode">
-                  <span className="text-xs font-medium text-gray-600">View site as:</span>
+                  <span className="text-xs font-medium text-gray-600">{t("pages.admin.viewSiteAs")}</span>
                   <select
                     value={previewTier || "admin"}
                     onChange={e => {
@@ -1497,11 +1499,11 @@ export default function AdminPage() {
                     className="text-xs border rounded px-2 py-1 bg-white cursor-pointer"
                     data-testid="select-preview-tier"
                   >
-                    <option value="admin">Admin (default)</option>
-                    <option value="free">Free User</option>
-                    <option value="rpn">RPN Paid</option>
-                    <option value="rn">RN Paid</option>
-                    <option value="np">NP Paid</option>
+                    <option value="admin">{t("pages.admin.adminDefault")}</option>
+                    <option value="free">{t("pages.admin.freeUser")}</option>
+                    <option value="rpn">{t("pages.admin.rpnPaid")}</option>
+                    <option value="rn">{t("pages.admin.rnPaid")}</option>
+                    <option value="np">{t("pages.admin.npPaid")}</option>
                   </select>
                   {previewTier && (
                     <button
@@ -1656,15 +1658,15 @@ export default function AdminPage() {
                         <div className="flex items-center gap-4 text-xs">
                           <div className="text-center">
                             <div className="font-bold text-teal-700">{getQuestionCount(BUILD_PRIORITY_META[NEXT_BUILD_PRIORITY].slug).toLocaleString()}</div>
-                            <div className="text-teal-500">Questions</div>
+                            <div className="text-teal-500">{t("pages.admin.questions")}</div>
                           </div>
                           <div className="text-center">
                             <div className="font-bold text-teal-700">{BUILD_PRIORITY_META[NEXT_BUILD_PRIORITY].targetCategories}</div>
-                            <div className="text-teal-500">Domains</div>
+                            <div className="text-teal-500">{t("pages.admin.domains")}</div>
                           </div>
                           <div className="text-center">
                             <div className="font-bold text-teal-700">{BUILD_PRIORITY_META[NEXT_BUILD_PRIORITY].targetMockExams}</div>
-                            <div className="text-teal-500">Mock Exams</div>
+                            <div className="text-teal-500">{t("pages.admin.mockExams")}</div>
                           </div>
                           <Badge className="bg-teal-200 text-teal-800 border-teal-300">{BUILD_PRIORITY_META[NEXT_BUILD_PRIORITY].status === "in-progress" ? "In Progress" : "Complete"}</Badge>
                         </div>
@@ -1892,7 +1894,7 @@ export default function AdminPage() {
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                       <input
                         type="text"
-                        placeholder="Search users by name, email, tier, or region..."
+                        placeholder={t("pages.admin.searchUsersByNameEmail")}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="w-full pl-9 pr-4 py-2 border border-primary/10 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
@@ -1919,8 +1921,8 @@ export default function AdminPage() {
                             >
                               Tier <SortIcon field="tier" />
                             </th>
-                            <th className="text-left px-4 py-3 font-medium text-gray-600">Status</th>
-                            <th className="text-left px-4 py-3 font-medium text-gray-600">Region</th>
+                            <th className="text-left px-4 py-3 font-medium text-gray-600">{t("pages.admin.status")}</th>
+                            <th className="text-left px-4 py-3 font-medium text-gray-600">{t("pages.admin.region")}</th>
                             <th
                               className="text-center px-4 py-3 font-medium text-gray-600 cursor-pointer hover:text-gray-900"
                               onClick={() => toggleSort("testsCompleted")}
@@ -1933,7 +1935,7 @@ export default function AdminPage() {
                             >
                               Lessons <SortIcon field="lessonsAccessed" />
                             </th>
-                            <th className="text-center px-4 py-3 font-medium text-gray-600">Notes</th>
+                            <th className="text-center px-4 py-3 font-medium text-gray-600">{t("pages.admin.notes")}</th>
                             <th
                               className="text-right px-4 py-3 font-medium text-gray-600 cursor-pointer hover:text-gray-900"
                               onClick={() => toggleSort("lastActivity")}
@@ -1991,11 +1993,11 @@ export default function AdminPage() {
                 <div className="space-y-4">
                   <Card className="border border-primary/10" data-testid="card-recent-activity">
                     <CardHeader>
-                      <CardTitle className="text-sm font-semibold text-gray-700">Recent Test Activity</CardTitle>
+                      <CardTitle className="text-sm font-semibold text-gray-700">{t("pages.admin.recentTestActivity")}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       {data.recentActivity.length === 0 ? (
-                        <p className="text-gray-400 text-center py-8">No test activity recorded yet</p>
+                        <p className="text-gray-400 text-center py-8">{t("pages.admin.noTestActivityRecordedYet")}</p>
                       ) : (
                         <div className="space-y-3">
                           {data.recentActivity.map((act, i) => (
@@ -2042,8 +2044,8 @@ export default function AdminPage() {
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
                           <Lightbulb className="w-4 h-4 text-primary" />
-                          <span className="text-sm font-semibold text-gray-700">Blog Post Generator</span>
-                          <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full">APA 7 Citations</span>
+                          <span className="text-sm font-semibold text-gray-700">{t("pages.admin.blogPostGenerator")}</span>
+                          <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full">{t("pages.admin.apa7Citations")}</span>
                         </div>
                         <button
                           onClick={() => setBatchMode(!batchMode)}
@@ -2058,7 +2060,7 @@ export default function AdminPage() {
                         <>
                           <div className="flex gap-2">
                             <Input
-                              placeholder="Enter a topic (e.g., 'Diabetic Ketoacidosis management for RPN students')"
+                              placeholder={t("pages.admin.enterATopicEgDiabetic")}
                               value={blogTopic}
                               onChange={(e) => setBlogTopic(e.target.value)}
                               className="flex-1 text-sm"
@@ -2074,7 +2076,7 @@ export default function AdminPage() {
                               {blogGenerating ? "Generating..." : "Generate & Post Now"}
                             </Button>
                           </div>
-                          <p className="text-[10px] text-gray-400 mt-2">Enter a nursing topic and click Generate. The article will be generated with APA 7 citations and published immediately.</p>
+                          <p className="text-[10px] text-gray-400 mt-2">{t("pages.admin.enterANursingTopicAnd")}</p>
                         </>
                       ) : (
                         <div className="space-y-3">
@@ -2088,7 +2090,7 @@ export default function AdminPage() {
                           />
                           <div className="space-y-3">
                             <div className="flex items-center gap-2">
-                              <label className="text-[10px] font-medium text-gray-500">Schedule Mode</label>
+                              <label className="text-[10px] font-medium text-gray-500">{t("pages.admin.scheduleMode")}</label>
                               <div className="flex rounded-md border overflow-hidden">
                                 {([
                                   { value: "smart" as const, label: "Fill Empty Days" },
@@ -2116,7 +2118,7 @@ export default function AdminPage() {
 
                             {!batchPublishAll && batchScheduleMode === "smart" && occupiedDays.length > 0 && (
                               <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
-                                <p className="text-[10px] font-medium text-amber-700 mb-1.5">Days with existing posts (will be skipped):</p>
+                                <p className="text-[10px] font-medium text-amber-700 mb-1.5">{t("pages.admin.daysWithExistingPostsWill")}</p>
                                 <div className="flex flex-wrap gap-1">
                                   {occupiedDays.slice(0, 14).map((d) => (
                                     <span key={d} className="inline-block px-1.5 py-0.5 bg-amber-100 text-amber-800 text-[10px] rounded font-mono">
@@ -2143,7 +2145,7 @@ export default function AdminPage() {
                                 />
                               </div>
                               <div>
-                                <label className="text-[10px] font-medium text-gray-500 mb-1 block">Posts Per Day</label>
+                                <label className="text-[10px] font-medium text-gray-500 mb-1 block">{t("pages.admin.postsPerDay")}</label>
                                 <div className="flex rounded-md border overflow-hidden">
                                   {[1, 2, 3, 5, 10].map((n) => (
                                     <button
@@ -2190,7 +2192,7 @@ export default function AdminPage() {
                                 <>{batchPublishAll ? "Generate & Publish" : "Generate & Schedule"} {batchTopics.split("\n").filter(t => t.trim()).length} Posts</>
                               )}
                             </Button>
-                            <span className="text-[10px] text-gray-400">Max 20 topics per batch. Each takes ~30 seconds.</span>
+                            <span className="text-[10px] text-gray-400">{t("pages.admin.max20TopicsPerBatch")}</span>
                           </div>
                           {batchProgress && batchProgress.results.length > 0 && (
                             <div className="mt-2 p-3 rounded-lg bg-gray-50 border text-xs space-y-1 max-h-40 overflow-y-auto">
@@ -2217,8 +2219,8 @@ export default function AdminPage() {
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
                           <Zap className="w-4 h-4 text-primary" />
-                          <span className="text-sm font-semibold text-gray-700">Medical Image Generator</span>
-                          <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">AI Powered</span>
+                          <span className="text-sm font-semibold text-gray-700">{t("pages.admin.medicalImageGenerator")}</span>
+                          <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">{t("pages.admin.aiPowered")}</span>
                         </div>
                         <button
                           onClick={() => {
@@ -2241,7 +2243,7 @@ export default function AdminPage() {
 
                       <div className="space-y-3">
                         <Textarea
-                          placeholder="Describe the medical image you want to generate (e.g., 'Cross-section of a human heart showing the four chambers, pulmonary arteries, and aorta')"
+                          placeholder={t("pages.admin.describeTheMedicalImageYou")}
                           value={imageGenPrompt}
                           onChange={(e) => setImageGenPrompt(e.target.value)}
                           rows={3}
@@ -2250,7 +2252,7 @@ export default function AdminPage() {
                         />
                         <div className="flex gap-2 items-end">
                           <div className="flex-1">
-                            <label className="text-[10px] font-medium text-gray-500 mb-1 block">Filename (optional)</label>
+                            <label className="text-[10px] font-medium text-gray-500 mb-1 block">{t("pages.admin.filenameOptional")}</label>
                             <Input
                               placeholder="e.g., barrel-chest-comparison"
                               value={imageGenFilename}
@@ -2260,7 +2262,7 @@ export default function AdminPage() {
                             />
                           </div>
                           <div>
-                            <label className="text-[10px] font-medium text-gray-500 mb-1 block">Size</label>
+                            <label className="text-[10px] font-medium text-gray-500 mb-1 block">{t("pages.admin.size")}</label>
                             <div className="flex rounded-md border overflow-hidden">
                               {(["1024x1024", "512x512"] as const).map((s) => (
                                 <button
@@ -2316,7 +2318,7 @@ export default function AdminPage() {
                             {imageGenLoading ? "Generating..." : "Generate"}
                           </Button>
                         </div>
-                        <p className="text-[10px] text-gray-400">Images are auto-prefixed with "Medical illustration, no text/labels/watermarks". Saved to attached_assets/generated_images/.</p>
+                        <p className="text-[10px] text-gray-400">{t("pages.admin.imagesAreAutoprefixedWithMedical")}</p>
                       </div>
 
                       {showImageLibrary && (
@@ -2339,7 +2341,7 @@ export default function AdminPage() {
                             </button>
                           </div>
                           {generatedImages.length === 0 ? (
-                            <p className="text-xs text-gray-400 text-center py-4">No generated images yet. Generate your first one above!</p>
+                            <p className="text-xs text-gray-400 text-center py-4">{t("pages.admin.noGeneratedImagesYetGenerate")}</p>
                           ) : (
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-80 overflow-y-auto">
                               {generatedImages.map((img) => (
@@ -2391,8 +2393,8 @@ export default function AdminPage() {
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
                           <Zap className="w-4 h-4 text-primary" />
-                          <span className="text-sm font-semibold text-gray-700">MicroLecture Generator</span>
-                          <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">AI Powered</span>
+                          <span className="text-sm font-semibold text-gray-700">{t("pages.admin.microlectureGenerator")}</span>
+                          <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">{t("pages.admin.aiPowered2")}</span>
                         </div>
                         <button
                           onClick={() => {
@@ -2415,7 +2417,7 @@ export default function AdminPage() {
 
                       <div className="space-y-3">
                         <Input
-                          placeholder="Topic (e.g., Heart Failure, Hyperkalemia, Sepsis)"
+                          placeholder={t("pages.admin.topicEgHeartFailureHyperkalemia")}
                           value={mlTopic}
                           onChange={(e) => setMlTopic(e.target.value)}
                           className="text-sm"
@@ -2423,7 +2425,7 @@ export default function AdminPage() {
                         />
                         <div className="flex gap-2 items-end">
                           <div className="flex-1">
-                            <label className="text-[10px] font-medium text-gray-500 mb-1 block">Focus (optional)</label>
+                            <label className="text-[10px] font-medium text-gray-500 mb-1 block">{t("pages.admin.focusOptional")}</label>
                             <Input
                               placeholder="e.g., ECG interpretation, medication safety"
                               value={mlFocus}
@@ -2433,7 +2435,7 @@ export default function AdminPage() {
                             />
                           </div>
                           <div>
-                            <label className="text-[10px] font-medium text-gray-500 mb-1 block">Tier</label>
+                            <label className="text-[10px] font-medium text-gray-500 mb-1 block">{t("pages.admin.tier")}</label>
                             <div className="flex rounded-md border overflow-hidden">
                               {(["RPN", "RN", "NP"] as const).map((t) => (
                                 <button
@@ -2483,7 +2485,7 @@ export default function AdminPage() {
                             {mlLoading ? "Generating..." : "Generate"}
                           </Button>
                         </div>
-                        <p className="text-[10px] text-gray-400">Generates 8-15 slide lecture with narration script, flashcards, and clinical pearls. Tier-scoped for RPN/RN/NP.</p>
+                        <p className="text-[10px] text-gray-400">{t("pages.admin.generates815SlideLectureWith")}</p>
                       </div>
 
                       {showMlLibrary && (
@@ -2506,7 +2508,7 @@ export default function AdminPage() {
                             </button>
                           </div>
                           {mlGenerated.length === 0 ? (
-                            <p className="text-xs text-gray-400 text-center py-4">No generated lectures yet. Create your first one above!</p>
+                            <p className="text-xs text-gray-400 text-center py-4">{t("pages.admin.noGeneratedLecturesYetCreate")}</p>
                           ) : (
                             <div className="space-y-2 max-h-80 overflow-y-auto">
                               {mlGenerated.map((ml: any) => (
@@ -2596,8 +2598,8 @@ export default function AdminPage() {
                       {publishQueue.length === 0 ? (
                         <div className="text-center py-6">
                           <Clock className="w-8 h-8 text-gray-300 mx-auto mb-2" />
-                          <p className="text-xs text-gray-400">No scheduled posts in the queue.</p>
-                          <p className="text-[10px] text-gray-300 mt-1">Generate a batch of posts with scheduling to see them here.</p>
+                          <p className="text-xs text-gray-400">{t("pages.admin.noScheduledPostsInThe")}</p>
+                          <p className="text-[10px] text-gray-300 mt-1">{t("pages.admin.generateABatchOfPosts")}</p>
                         </div>
                       ) : (
                         <div className="space-y-1.5 max-h-[500px] overflow-y-auto">
@@ -2609,7 +2611,7 @@ export default function AdminPage() {
                               className="w-3.5 h-3.5 rounded border-gray-300 accent-primary cursor-pointer"
                               data-testid="checkbox-select-all-queue"
                             />
-                            <span className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">Select All</span>
+                            <span className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">{t("pages.admin.selectAll")}</span>
                           </div>
                           {publishQueue.map((item: any, idx: number) => {
                             const scheduledDate = item.scheduledAt ? new Date(item.scheduledAt) : null;
@@ -2629,8 +2631,8 @@ export default function AdminPage() {
                                 <div className="flex-1 min-w-0">
                                   <p className="text-xs font-medium text-gray-800 truncate">{item.title}</p>
                                   <div className="flex items-center gap-2 mt-0.5">
-                                    {isPast && <span className="text-[9px] font-bold text-red-500 uppercase">Overdue</span>}
-                                    {isToday && !isPast && <span className="text-[9px] font-bold text-yellow-600 uppercase">Today</span>}
+                                    {isPast && <span className="text-[9px] font-bold text-red-500 uppercase">{t("pages.admin.overdue")}</span>}
+                                    {isToday && !isPast && <span className="text-[9px] font-bold text-yellow-600 uppercase">{t("pages.admin.today")}</span>}
                                     <span className="text-[10px] text-gray-400">
                                       {scheduledDate ? scheduledDate.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" }) + " at " + scheduledDate.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) : "No date set"}
                                     </span>
@@ -2681,8 +2683,8 @@ export default function AdminPage() {
                       <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
                         <FileText className="w-5 h-5 text-blue-600" />
                       </div>
-                      <span className="text-xs font-semibold text-gray-700">New Blog Post</span>
-                      <span className="text-[10px] text-gray-400">Write manually</span>
+                      <span className="text-xs font-semibold text-gray-700">{t("pages.admin.newBlogPost")}</span>
+                      <span className="text-[10px] text-gray-400">{t("pages.admin.writeManually")}</span>
                     </button>
                     <button
                       onClick={() => startNewContent("flashcard-set")}
@@ -2692,8 +2694,8 @@ export default function AdminPage() {
                       <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center group-hover:bg-purple-200 transition-colors">
                         <Layers className="w-5 h-5 text-purple-600" />
                       </div>
-                      <span className="text-xs font-semibold text-gray-700">New Flashcards</span>
-                      <span className="text-[10px] text-gray-400">Q&A card set</span>
+                      <span className="text-xs font-semibold text-gray-700">{t("pages.admin.newFlashcards")}</span>
+                      <span className="text-[10px] text-gray-400">{t("pages.admin.qaCardSet")}</span>
                     </button>
                     <button
                       onClick={() => startNewContent("lesson")}
@@ -2703,8 +2705,8 @@ export default function AdminPage() {
                       <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center group-hover:bg-green-200 transition-colors">
                         <BookOpen className="w-5 h-5 text-green-600" />
                       </div>
-                      <span className="text-xs font-semibold text-gray-700">New Lesson</span>
-                      <span className="text-[10px] text-gray-400">Educational content</span>
+                      <span className="text-xs font-semibold text-gray-700">{t("pages.admin.newLesson")}</span>
+                      <span className="text-[10px] text-gray-400">{t("pages.admin.educationalContent")}</span>
                     </button>
                   </div>
 
@@ -2713,7 +2715,7 @@ export default function AdminPage() {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
                           <div className="flex items-center gap-2">
-                            <span className="text-xs font-medium text-gray-600">Blog Automation:</span>
+                            <span className="text-xs font-medium text-gray-600">{t("pages.admin.blogAutomation")}</span>
                             <Button
                               size="sm"
                               variant={blogConfig?.isActive ? "default" : "outline"}
@@ -2780,7 +2782,7 @@ export default function AdminPage() {
 
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                             <div className="md:col-span-2">
-                              <label className="text-xs text-gray-500 block mb-1">Title</label>
+                              <label className="text-xs text-gray-500 block mb-1">{t("pages.admin.title")}</label>
                               <Input
                                 value={editingPost.title || ""}
                                 onChange={(e) => {
@@ -2791,30 +2793,30 @@ export default function AdminPage() {
                                     slug: creatingNew ? title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") : prev.slug,
                                   }));
                                 }}
-                                placeholder="Content title"
+                                placeholder={t("pages.admin.contentTitle")}
                                 data-testid="input-edit-title"
                               />
                             </div>
                             <div>
-                              <label className="text-xs text-gray-500 block mb-1">Type</label>
+                              <label className="text-xs text-gray-500 block mb-1">{t("pages.admin.type")}</label>
                               <select
                                 className="w-full border rounded-lg px-3 py-2 text-sm bg-white"
                                 value={editingPost.type || "blog"}
                                 onChange={(e) => setEditingPost((prev: any) => ({ ...prev, type: e.target.value }))}
                                 data-testid="select-edit-type"
                               >
-                                <option value="blog">Blog Post</option>
-                                <option value="article">Article</option>
-                                <option value="lesson">Lesson</option>
-                                <option value="flashcard-set">Flashcard Set</option>
-                                <option value="guide">Guide</option>
+                                <option value="blog">{t("pages.admin.blogPost")}</option>
+                                <option value="article">{t("pages.admin.article")}</option>
+                                <option value="lesson">{t("pages.admin.lesson")}</option>
+                                <option value="flashcard-set">{t("pages.admin.flashcardSet")}</option>
+                                <option value="guide">{t("pages.admin.guide")}</option>
                               </select>
                             </div>
                           </div>
 
                           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                             <div>
-                              <label className="text-xs text-gray-500 block mb-1">Slug</label>
+                              <label className="text-xs text-gray-500 block mb-1">{t("pages.admin.slug")}</label>
                               <Input
                                 value={editingPost.slug || ""}
                                 onChange={(e) => setEditingPost((prev: any) => ({ ...prev, slug: e.target.value }))}
@@ -2823,41 +2825,41 @@ export default function AdminPage() {
                               />
                             </div>
                             <div>
-                              <label className="text-xs text-gray-500 block mb-1">Status</label>
+                              <label className="text-xs text-gray-500 block mb-1">{t("pages.admin.status2")}</label>
                               <select
                                 className="w-full border rounded-lg px-3 py-2 text-sm bg-white"
                                 value={editingPost.status || "draft"}
                                 onChange={(e) => setEditingPost((prev: any) => ({ ...prev, status: e.target.value }))}
                                 data-testid="select-edit-status"
                               >
-                                <option value="draft">Draft</option>
-                                <option value="published">Published</option>
-                                <option value="scheduled">Scheduled</option>
-                                <option value="archived">Archived</option>
+                                <option value="draft">{t("pages.admin.draft")}</option>
+                                <option value="published">{t("pages.admin.published")}</option>
+                                <option value="scheduled">{t("pages.admin.scheduled")}</option>
+                                <option value="archived">{t("pages.admin.archived")}</option>
                               </select>
                             </div>
                             <div>
-                              <label className="text-xs text-gray-500 block mb-1">Category</label>
+                              <label className="text-xs text-gray-500 block mb-1">{t("pages.admin.category")}</label>
                               <select
                                 className="w-full border rounded-lg px-3 py-2 text-sm bg-white"
                                 value={editingPost.category || ""}
                                 onChange={(e) => setEditingPost((prev: any) => ({ ...prev, category: e.target.value }))}
                                 data-testid="select-edit-category"
                               >
-                                <option value="">None</option>
-                                <option value="clinical-reasoning">Clinical Reasoning</option>
-                                <option value="pharmacology">Pharmacology</option>
-                                <option value="lab-interpretation">Lab Interpretation</option>
-                                <option value="exam-prep">Exam Prep</option>
-                                <option value="patient-safety">Patient Safety</option>
-                                <option value="pathophysiology">Pathophysiology</option>
-                                <option value="assessment-skills">Assessment Skills</option>
-                                <option value="medication-safety">Medication Safety</option>
-                                <option value="nursing-fundamentals">Nursing Fundamentals</option>
+                                <option value="">{t("pages.admin.none")}</option>
+                                <option value="clinical-reasoning">{t("pages.admin.clinicalReasoning")}</option>
+                                <option value="pharmacology">{t("pages.admin.pharmacology")}</option>
+                                <option value="lab-interpretation">{t("pages.admin.labInterpretation")}</option>
+                                <option value="exam-prep">{t("pages.admin.examPrep")}</option>
+                                <option value="patient-safety">{t("pages.admin.patientSafety")}</option>
+                                <option value="pathophysiology">{t("pages.admin.pathophysiology")}</option>
+                                <option value="assessment-skills">{t("pages.admin.assessmentSkills")}</option>
+                                <option value="medication-safety">{t("pages.admin.medicationSafety")}</option>
+                                <option value="nursing-fundamentals">{t("pages.admin.nursingFundamentals")}</option>
                               </select>
                             </div>
                             <div>
-                              <label className="text-xs text-gray-500 block mb-1">Tier</label>
+                              <label className="text-xs text-gray-500 block mb-1">{t("pages.admin.tier2")}</label>
                               <div className="flex rounded-lg border overflow-hidden" data-testid="tier-toggle">
                                 {[
                                   { value: "free", label: "Free" },
@@ -2886,11 +2888,11 @@ export default function AdminPage() {
                           <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
                             <div className="flex items-center gap-2 mb-2">
                               <Calendar className="w-3.5 h-3.5 text-blue-600" />
-                              <span className="text-xs font-semibold text-blue-700">Publishing Options</span>
+                              <span className="text-xs font-semibold text-blue-700">{t("pages.admin.publishingOptions")}</span>
                             </div>
                             <div className="flex items-center gap-3 flex-wrap">
                               <div className="flex-1 min-w-[200px]">
-                                <label className="text-[10px] text-blue-600 block mb-1">Schedule Date & Time</label>
+                                <label className="text-[10px] text-blue-600 block mb-1">{t("pages.admin.scheduleDateTime")}</label>
                                 <Input
                                   type="datetime-local"
                                   value={editingPost.scheduledAt ? new Date(editingPost.scheduledAt).toISOString().slice(0, 16) : ""}
@@ -2936,11 +2938,11 @@ export default function AdminPage() {
                           </div>
 
                           <div>
-                            <label className="text-xs text-gray-500 block mb-1">Summary</label>
+                            <label className="text-xs text-gray-500 block mb-1">{t("pages.admin.summary")}</label>
                             <Textarea
                               value={editingPost.summary || ""}
                               onChange={(e) => setEditingPost((prev: any) => ({ ...prev, summary: e.target.value }))}
-                              placeholder="Brief summary..."
+                              placeholder={t("pages.admin.briefSummary")}
                               className="min-h-[50px]"
                               data-testid="textarea-edit-summary"
                             />
@@ -2948,7 +2950,7 @@ export default function AdminPage() {
 
                           <div>
                             <div className="flex items-center justify-between mb-1">
-                              <label className="text-xs text-gray-500">Content Blocks</label>
+                              <label className="text-xs text-gray-500">{t("pages.admin.contentBlocks")}</label>
                               <Button
                                 size="sm"
                                 variant="outline"
@@ -2974,16 +2976,16 @@ export default function AdminPage() {
                                     }}
                                     data-testid={`select-block-type-${idx}`}
                                   >
-                                    <option value="heading">Heading</option>
-                                    <option value="paragraph">Paragraph</option>
-                                    <option value="list">List</option>
-                                    <option value="callout">Callout</option>
-                                    <option value="quote">Quote</option>
-                                    <option value="code">Code</option>
-                                    <option value="flashcard">Flashcard</option>
-                                    <option value="references">References</option>
-                                    <option value="warning">Warning</option>
-                                    <option value="medication">Medication</option>
+                                    <option value="heading">{t("pages.admin.heading")}</option>
+                                    <option value="paragraph">{t("pages.admin.paragraph")}</option>
+                                    <option value="list">{t("pages.admin.list")}</option>
+                                    <option value="callout">{t("pages.admin.callout")}</option>
+                                    <option value="quote">{t("pages.admin.quote")}</option>
+                                    <option value="code">{t("pages.admin.code")}</option>
+                                    <option value="flashcard">{t("pages.admin.flashcard")}</option>
+                                    <option value="references">{t("pages.admin.references")}</option>
+                                    <option value="warning">{t("pages.admin.warning")}</option>
+                                    <option value="medication">{t("pages.admin.medication")}</option>
                                   </select>
                                   <Textarea
                                     value={block.content || block.text || ""}
@@ -3014,23 +3016,23 @@ export default function AdminPage() {
                           </div>
 
                           <details className="text-xs">
-                            <summary className="text-gray-500 cursor-pointer hover:text-gray-700">SEO Settings</summary>
+                            <summary className="text-gray-500 cursor-pointer hover:text-gray-700">{t("pages.admin.seoSettings")}</summary>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
                               <div>
-                                <label className="text-xs text-gray-500 block mb-1">SEO Title</label>
+                                <label className="text-xs text-gray-500 block mb-1">{t("pages.admin.seoTitle")}</label>
                                 <Input
                                   value={editingPost.seoTitle || ""}
                                   onChange={(e) => setEditingPost((prev: any) => ({ ...prev, seoTitle: e.target.value }))}
-                                  placeholder="SEO title (optional)"
+                                  placeholder={t("pages.admin.seoTitleOptional")}
                                   data-testid="input-edit-seo-title"
                                 />
                               </div>
                               <div>
-                                <label className="text-xs text-gray-500 block mb-1">SEO Description</label>
+                                <label className="text-xs text-gray-500 block mb-1">{t("pages.admin.seoDescription")}</label>
                                 <Input
                                   value={editingPost.seoDescription || ""}
                                   onChange={(e) => setEditingPost((prev: any) => ({ ...prev, seoDescription: e.target.value }))}
-                                  placeholder="SEO description (optional)"
+                                  placeholder={t("pages.admin.seoDescriptionOptional")}
                                   data-testid="input-edit-seo-desc"
                                 />
                               </div>
@@ -3044,15 +3046,15 @@ export default function AdminPage() {
                             <Input
                               value={blogPostSearch}
                               onChange={(e) => setBlogPostSearch(e.target.value)}
-                              placeholder="Search all content..."
+                              placeholder={t("pages.admin.searchAllContent")}
                               className="pl-9"
                               data-testid="input-search-blog-posts"
                             />
                           </div>
                           {blogPostsLoading ? (
-                            <p className="text-sm text-gray-500 text-center py-4">Loading content...</p>
+                            <p className="text-sm text-gray-500 text-center py-4">{t("pages.admin.loadingContent")}</p>
                           ) : blogPosts.length === 0 ? (
-                            <p className="text-sm text-gray-500 text-center py-4">No content found. Use the buttons above to create or generate content.</p>
+                            <p className="text-sm text-gray-500 text-center py-4">{t("pages.admin.noContentFoundUseThe")}</p>
                           ) : (
                             <div className="space-y-2 max-h-[600px] overflow-y-auto">
                               {blogPosts
@@ -3123,11 +3125,11 @@ export default function AdminPage() {
 
                   <Card className="border border-primary/10" data-testid="card-top-lessons">
                     <CardHeader className="pb-3">
-                      <CardTitle className="text-sm font-semibold text-gray-700">Most Accessed Lessons</CardTitle>
+                      <CardTitle className="text-sm font-semibold text-gray-700">{t("pages.admin.mostAccessedLessons")}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       {data.topLessons.length === 0 ? (
-                        <p className="text-gray-400 text-center py-4 text-sm">No lesson data yet</p>
+                        <p className="text-gray-400 text-center py-4 text-sm">{t("pages.admin.noLessonDataYet")}</p>
                       ) : (
                         <div className="space-y-2">
                           {data.topLessons.slice(0, 10).map((lesson, i) => {
@@ -3158,7 +3160,7 @@ export default function AdminPage() {
               {activeTab === "analytics" && (
                 <div className="space-y-6" data-testid="section-site-analytics">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-lg font-semibold text-gray-900">Site Analytics</h2>
+                    <h2 className="text-lg font-semibold text-gray-900">{t("pages.admin.siteAnalytics")}</h2>
                     <div className="flex items-center gap-2">
                       {[7, 14, 30, 90].map((d) => (
                         <Button
@@ -3218,7 +3220,7 @@ export default function AdminPage() {
                           </div>
 
                           <Card className="border border-primary/10">
-                            <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Conversion Funnel</CardTitle></CardHeader>
+                            <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">{t("pages.admin.conversionFunnel")}</CardTitle></CardHeader>
                             <CardContent className="space-y-2">
                               {(() => {
                                 const f = siteAnalytics.conversionFunnel || {};
@@ -3245,7 +3247,7 @@ export default function AdminPage() {
 
                           {siteAnalytics.dailyViews && siteAnalytics.dailyViews.length > 0 && (
                             <Card className="border border-primary/10">
-                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Daily Views Trend</CardTitle></CardHeader>
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">{t("pages.admin.dailyViewsTrend")}</CardTitle></CardHeader>
                               <CardContent>
                                 <div className="flex items-end gap-[2px] h-32">
                                   {(() => {
@@ -3270,10 +3272,10 @@ export default function AdminPage() {
 
                           <div className="grid md:grid-cols-2 gap-6">
                             <Card className="border border-primary/10">
-                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Top Pages</CardTitle></CardHeader>
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">{t("pages.admin.topPages")}</CardTitle></CardHeader>
                               <CardContent>
                                 {(siteAnalytics.topPages || []).length === 0 ? (
-                                  <p className="text-xs text-gray-400 py-4 text-center">No page data yet</p>
+                                  <p className="text-xs text-gray-400 py-4 text-center">{t("pages.admin.noPageDataYet")}</p>
                                 ) : (
                                   <div className="space-y-2">
                                     {(siteAnalytics.topPages || []).slice(0, 10).map((p: any, i: number) => {
@@ -3295,10 +3297,10 @@ export default function AdminPage() {
                             </Card>
 
                             <Card className="border border-primary/10">
-                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Top Referrers</CardTitle></CardHeader>
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">{t("pages.admin.topReferrers")}</CardTitle></CardHeader>
                               <CardContent>
                                 {(siteAnalytics.topReferrers || []).length === 0 ? (
-                                  <p className="text-xs text-gray-400 py-4 text-center">No referrer data yet</p>
+                                  <p className="text-xs text-gray-400 py-4 text-center">{t("pages.admin.noReferrerDataYet")}</p>
                                 ) : (
                                   <div className="space-y-2">
                                     {(siteAnalytics.topReferrers || []).slice(0, 10).map((r: any, i: number) => {
@@ -3330,7 +3332,7 @@ export default function AdminPage() {
                                 <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">{section.title}</CardTitle></CardHeader>
                                 <CardContent>
                                   {(section.data || []).length === 0 ? (
-                                    <p className="text-xs text-gray-400 py-4 text-center">No data</p>
+                                    <p className="text-xs text-gray-400 py-4 text-center">{t("pages.admin.noData")}</p>
                                   ) : (
                                     <div className="space-y-2">
                                       {(section.data || []).slice(0, 6).map((item: any, i: number) => {
@@ -3360,32 +3362,32 @@ export default function AdminPage() {
                             <Card className="border border-primary/10">
                               <CardContent className="p-4">
                                 <div className="text-2xl font-bold text-gray-900">{(siteAnalytics.totalUsers || 0).toLocaleString()}</div>
-                                <div className="text-xs text-gray-500">Total Users</div>
+                                <div className="text-xs text-gray-500">{t("pages.admin.totalUsers")}</div>
                               </CardContent>
                             </Card>
                             <Card className="border border-primary/10">
                               <CardContent className="p-4">
                                 <div className="text-2xl font-bold text-green-600">{(siteAnalytics.activeSubscribers || 0).toLocaleString()}</div>
-                                <div className="text-xs text-gray-500">Active Subscribers</div>
+                                <div className="text-xs text-gray-500">{t("pages.admin.activeSubscribers")}</div>
                               </CardContent>
                             </Card>
                             <Card className="border border-primary/10">
                               <CardContent className="p-4">
                                 <div className="text-2xl font-bold text-purple-600">{siteAnalytics.conversionRate || 0}%</div>
-                                <div className="text-xs text-gray-500">Conversion Rate</div>
+                                <div className="text-xs text-gray-500">{t("pages.admin.conversionRate")}</div>
                               </CardContent>
                             </Card>
                             <Card className="border border-primary/10">
                               <CardContent className="p-4">
                                 <div className="text-2xl font-bold text-amber-600">{(siteAnalytics.conversionFunnel?.checkoutIntents || 0).toLocaleString()}</div>
-                                <div className="text-xs text-gray-500">Checkout Intents</div>
+                                <div className="text-xs text-gray-500">{t("pages.admin.checkoutIntents")}</div>
                               </CardContent>
                             </Card>
                           </div>
 
                           <div className="grid md:grid-cols-2 gap-6">
                             <Card className="border border-primary/10">
-                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Tier Distribution</CardTitle></CardHeader>
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">{t("pages.admin.tierDistribution")}</CardTitle></CardHeader>
                               <CardContent>
                                 {(() => {
                                   const tiers = siteAnalytics.subscriptionBreakdown || {};
@@ -3412,7 +3414,7 @@ export default function AdminPage() {
                             </Card>
 
                             <Card className="border border-primary/10">
-                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Subscription Status</CardTitle></CardHeader>
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">{t("pages.admin.subscriptionStatus")}</CardTitle></CardHeader>
                               <CardContent>
                                 {(() => {
                                   const statuses = siteAnalytics.subscriptionStatus || {};
@@ -3441,7 +3443,7 @@ export default function AdminPage() {
 
                           {siteAnalytics.countries && Object.keys(siteAnalytics.countries).length > 0 && (
                             <Card className="border border-primary/10">
-                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Geographic Distribution</CardTitle></CardHeader>
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">{t("pages.admin.geographicDistribution")}</CardTitle></CardHeader>
                               <CardContent>
                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                                   {Object.entries(siteAnalytics.countries || {}).sort((a: any, b: any) => b[1] - a[1]).slice(0, 12).map(([country, count]: any) => (
@@ -3457,7 +3459,7 @@ export default function AdminPage() {
 
                           {siteAnalytics.userRegions && Object.keys(siteAnalytics.userRegions).length > 0 && (
                             <Card className="border border-primary/10">
-                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">User Regions (Registered)</CardTitle></CardHeader>
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">{t("pages.admin.userRegionsRegistered")}</CardTitle></CardHeader>
                               <CardContent>
                                 <div className="space-y-2">
                                   {Object.entries(siteAnalytics.userRegions || {}).sort((a: any, b: any) => b[1] - a[1]).map(([region, count]: any) => (
@@ -3477,7 +3479,7 @@ export default function AdminPage() {
                         <>
                           {siteAnalytics.blogContent && siteAnalytics.blogContent.length > 0 && (
                             <Card className="border border-primary/10">
-                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Top Blog Content</CardTitle></CardHeader>
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">{t("pages.admin.topBlogContent")}</CardTitle></CardHeader>
                               <CardContent>
                                 <div className="space-y-2">
                                   {siteAnalytics.blogContent.slice(0, 10).map((b: any, i: number) => {
@@ -3499,24 +3501,24 @@ export default function AdminPage() {
                           )}
 
                           <Card className="border border-primary/10">
-                            <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">SEO Overview</CardTitle></CardHeader>
+                            <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">{t("pages.admin.seoOverview")}</CardTitle></CardHeader>
                             <CardContent>
                               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 <div className="text-center p-3 bg-gray-50 rounded-lg">
                                   <div className="text-xl font-bold text-gray-900">{(siteAnalytics.traffic?.totalViews || 0).toLocaleString()}</div>
-                                  <div className="text-[10px] text-gray-500">Total Impressions</div>
+                                  <div className="text-[10px] text-gray-500">{t("pages.admin.totalImpressions")}</div>
                                 </div>
                                 <div className="text-center p-3 bg-gray-50 rounded-lg">
                                   <div className="text-xl font-bold text-gray-900">{(siteAnalytics.topPages || []).length}</div>
-                                  <div className="text-[10px] text-gray-500">Unique Pages Visited</div>
+                                  <div className="text-[10px] text-gray-500">{t("pages.admin.uniquePagesVisited")}</div>
                                 </div>
                                 <div className="text-center p-3 bg-gray-50 rounded-lg">
                                   <div className="text-xl font-bold text-gray-900">{(siteAnalytics.topReferrers || []).length}</div>
-                                  <div className="text-[10px] text-gray-500">Referral Sources</div>
+                                  <div className="text-[10px] text-gray-500">{t("pages.admin.referralSources")}</div>
                                 </div>
                                 <div className="text-center p-3 bg-gray-50 rounded-lg">
                                   <div className="text-xl font-bold text-gray-900">{(siteAnalytics.blogContent || []).length}</div>
-                                  <div className="text-[10px] text-gray-500">Blog Posts Tracked</div>
+                                  <div className="text-[10px] text-gray-500">{t("pages.admin.blogPostsTracked")}</div>
                                 </div>
                               </div>
                             </CardContent>
@@ -3528,16 +3530,16 @@ export default function AdminPage() {
                         <>
                           {(siteAnalytics.utmCampaigns || []).length > 0 && (
                             <Card className="border border-primary/10">
-                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">UTM Campaigns</CardTitle></CardHeader>
+                              <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">{t("pages.admin.utmCampaigns")}</CardTitle></CardHeader>
                               <CardContent>
                                 <div className="overflow-x-auto">
                                   <table className="w-full text-xs">
                                     <thead>
                                       <tr className="border-b text-left text-gray-500">
-                                        <th className="pb-2">Campaign</th>
-                                        <th className="pb-2">Source</th>
-                                        <th className="pb-2">Medium</th>
-                                        <th className="pb-2 text-right">Views</th>
+                                        <th className="pb-2">{t("pages.admin.campaign")}</th>
+                                        <th className="pb-2">{t("pages.admin.source")}</th>
+                                        <th className="pb-2">{t("pages.admin.medium")}</th>
+                                        <th className="pb-2 text-right">{t("pages.admin.views")}</th>
                                       </tr>
                                     </thead>
                                     <tbody>
@@ -3566,7 +3568,7 @@ export default function AdminPage() {
                               <div className="grid md:grid-cols-2 gap-6">
                                 {hasSources && (
                                   <Card className="border border-primary/10">
-                                    <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Traffic Sources (UTM)</CardTitle></CardHeader>
+                                    <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">{t("pages.admin.trafficSourcesUtm")}</CardTitle></CardHeader>
                                     <CardContent>
                                       <div className="space-y-2">
                                         {Object.entries(sources).sort((a: any, b: any) => b[1] - a[1]).slice(0, 8).map(([src, cnt]: any) => (
@@ -3581,7 +3583,7 @@ export default function AdminPage() {
                                 )}
                                 {hasMediums && (
                                   <Card className="border border-primary/10">
-                                    <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Traffic Mediums (UTM)</CardTitle></CardHeader>
+                                    <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">{t("pages.admin.trafficMediumsUtm")}</CardTitle></CardHeader>
                                     <CardContent>
                                       <div className="space-y-2">
                                         {Object.entries(mediums).sort((a: any, b: any) => b[1] - a[1]).slice(0, 8).map(([med, cnt]: any) => (
@@ -3602,7 +3604,7 @@ export default function AdminPage() {
                             <Card className="border border-primary/10">
                               <CardContent className="p-8 text-center text-gray-400">
                                 <Globe className="w-10 h-10 mx-auto mb-3 opacity-40" />
-                                <p className="text-sm">No UTM campaign data yet. Add UTM parameters to your marketing links to track campaigns.</p>
+                                <p className="text-sm">{t("pages.admin.noUtmCampaignDataYet")}</p>
                               </CardContent>
                             </Card>
                           )}
@@ -3610,7 +3612,7 @@ export default function AdminPage() {
                       )}
                     </div>
                   ) : (
-                    <p className="text-center text-gray-400 py-10">No analytics data available yet.</p>
+                    <p className="text-center text-gray-400 py-10">{t("pages.admin.noAnalyticsDataAvailableYet")}</p>
                   )}
                 </div>
               )}
@@ -3618,7 +3620,7 @@ export default function AdminPage() {
               {activeTab === "promotions" && (
                 <div className="space-y-6" data-testid="section-promotions">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-lg font-semibold text-gray-900">Promotion Codes</h2>
+                    <h2 className="text-lg font-semibold text-gray-900">{t("pages.admin.promotionCodes")}</h2>
                     <Button size="sm" variant="outline" onClick={fetchPromotions} disabled={promotionsLoading} className="gap-2" data-testid="button-refresh-promotions">
                       <RefreshCw className={`w-4 h-4 ${promotionsLoading ? "animate-spin" : ""}`} />
                       Refresh
@@ -3626,18 +3628,18 @@ export default function AdminPage() {
                   </div>
 
                   <Card className="border border-primary/10">
-                    <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">Create Promotion Code</CardTitle></CardHeader>
+                    <CardHeader className="pb-2"><CardTitle className="text-sm font-semibold">{t("pages.admin.createPromotionCode")}</CardTitle></CardHeader>
                     <CardContent className="space-y-4">
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                         <div>
-                          <label className="text-xs text-gray-500 mb-1 block">Code Name</label>
-                          <Input placeholder="SUMMER25" value={newPromo.code} onChange={(e) => setNewPromo({ ...newPromo, code: e.target.value })} data-testid="input-promo-code" />
+                          <label className="text-xs text-gray-500 mb-1 block">{t("pages.admin.codeName")}</label>
+                          <Input placeholder={t("pages.admin.summer25")} value={newPromo.code} onChange={(e) => setNewPromo({ ...newPromo, code: e.target.value })} data-testid="input-promo-code" />
                         </div>
                         <div>
-                          <label className="text-xs text-gray-500 mb-1 block">Discount Type</label>
+                          <label className="text-xs text-gray-500 mb-1 block">{t("pages.admin.discountType")}</label>
                           <select className="w-full border rounded-md px-3 py-2 text-sm" value={newPromo.discountType} onChange={(e) => setNewPromo({ ...newPromo, discountType: e.target.value })} data-testid="select-promo-type">
-                            <option value="percent_off">Percentage Off</option>
-                            <option value="amount_off">Fixed Amount Off (cents)</option>
+                            <option value="percent_off">{t("pages.admin.percentageOff")}</option>
+                            <option value="amount_off">{t("pages.admin.fixedAmountOffCents")}</option>
                           </select>
                         </div>
                         <div>
@@ -3645,19 +3647,19 @@ export default function AdminPage() {
                           <Input type="number" placeholder={newPromo.discountType === "percent_off" ? "25" : "500"} value={newPromo.amount} onChange={(e) => setNewPromo({ ...newPromo, amount: e.target.value })} data-testid="input-promo-amount" />
                         </div>
                         <div>
-                          <label className="text-xs text-gray-500 mb-1 block">Duration</label>
+                          <label className="text-xs text-gray-500 mb-1 block">{t("pages.admin.duration")}</label>
                           <select className="w-full border rounded-md px-3 py-2 text-sm" value={newPromo.duration} onChange={(e) => setNewPromo({ ...newPromo, duration: e.target.value })} data-testid="select-promo-duration">
-                            <option value="once">Once</option>
-                            <option value="repeating">Repeating</option>
-                            <option value="forever">Forever</option>
+                            <option value="once">{t("pages.admin.once")}</option>
+                            <option value="repeating">{t("pages.admin.repeating")}</option>
+                            <option value="forever">{t("pages.admin.forever")}</option>
                           </select>
                         </div>
                         <div>
-                          <label className="text-xs text-gray-500 mb-1 block">Max Uses (optional)</label>
+                          <label className="text-xs text-gray-500 mb-1 block">{t("pages.admin.maxUsesOptional")}</label>
                           <Input type="number" placeholder="100" value={newPromo.maxRedemptions} onChange={(e) => setNewPromo({ ...newPromo, maxRedemptions: e.target.value })} data-testid="input-promo-max" />
                         </div>
                         <div>
-                          <label className="text-xs text-gray-500 mb-1 block">Expires (optional)</label>
+                          <label className="text-xs text-gray-500 mb-1 block">{t("pages.admin.expiresOptional")}</label>
                           <Input type="date" value={newPromo.expiresAt} onChange={(e) => setNewPromo({ ...newPromo, expiresAt: e.target.value })} data-testid="input-promo-expires" />
                         </div>
                       </div>
@@ -3676,7 +3678,7 @@ export default function AdminPage() {
                     <Card className="border border-primary/10">
                       <CardContent className="p-8 text-center text-gray-400">
                         <Tag className="w-10 h-10 mx-auto mb-3 opacity-40" />
-                        <p className="text-sm">No promotion codes yet. Create one above to offer discounts.</p>
+                        <p className="text-sm">{t("pages.admin.noPromotionCodesYetCreate")}</p>
                       </CardContent>
                     </Card>
                   ) : (
@@ -3723,7 +3725,7 @@ export default function AdminPage() {
               {activeTab === "feedback" && (
                 <div className="space-y-6" data-testid="section-feedback">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-lg font-semibold text-gray-900">Feedback & Feature Requests</h2>
+                    <h2 className="text-lg font-semibold text-gray-900">{t("pages.admin.feedbackFeatureRequests")}</h2>
                     <Button size="sm" variant="outline" onClick={fetchFeedback} disabled={feedbackLoading} className="gap-2" data-testid="button-refresh-feedback">
                       <RefreshCw className={`w-4 h-4 ${feedbackLoading ? "animate-spin" : ""}`} />
                       Refresh
@@ -3761,7 +3763,7 @@ export default function AdminPage() {
                     <Card className="border border-primary/10">
                       <CardContent className="p-8 text-center text-gray-400">
                         <MessageSquare className="w-10 h-10 mx-auto mb-3 opacity-40" />
-                        <p className="text-sm">No feedback received yet.</p>
+                        <p className="text-sm">{t("pages.admin.noFeedbackReceivedYet")}</p>
                       </CardContent>
                     </Card>
                   ) : (
@@ -3813,11 +3815,11 @@ export default function AdminPage() {
                                     className="text-xs border rounded-md px-2 py-1 bg-white"
                                     data-testid={`select-feedback-status-${item.id}`}
                                   >
-                                    <option value="new">New</option>
-                                    <option value="in_progress">In Progress</option>
-                                    <option value="planned">Planned</option>
-                                    <option value="completed">Completed</option>
-                                    <option value="declined">Declined</option>
+                                    <option value="new">{t("pages.admin.new")}</option>
+                                    <option value="in_progress">{t("pages.admin.inProgress")}</option>
+                                    <option value="planned">{t("pages.admin.planned")}</option>
+                                    <option value="completed">{t("pages.admin.completed")}</option>
+                                    <option value="declined">{t("pages.admin.declined")}</option>
                                   </select>
 
                                   <select
@@ -3826,10 +3828,10 @@ export default function AdminPage() {
                                     className="text-xs border rounded-md px-2 py-1 bg-white"
                                     data-testid={`select-feedback-priority-${item.id}`}
                                   >
-                                    <option value="low">Low Priority</option>
-                                    <option value="medium">Medium Priority</option>
-                                    <option value="high">High Priority</option>
-                                    <option value="critical">Critical</option>
+                                    <option value="low">{t("pages.admin.lowPriority")}</option>
+                                    <option value="medium">{t("pages.admin.mediumPriority")}</option>
+                                    <option value="high">{t("pages.admin.highPriority")}</option>
+                                    <option value="critical">{t("pages.admin.critical")}</option>
                                   </select>
                                 </div>
                               </div>
@@ -3845,7 +3847,7 @@ export default function AdminPage() {
               {activeTab === "social" && (
                 <div className="space-y-6" data-testid="section-social">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-lg font-semibold text-gray-900">Social Media Scheduler</h2>
+                    <h2 className="text-lg font-semibold text-gray-900">{t("pages.admin.socialMediaScheduler")}</h2>
                     <div className="flex items-center gap-2">
                       <Button size="sm" variant="default" onClick={() => setLocation("/admin/social-content")} className="gap-2" data-testid="button-social-content-automation">
                         <Sparkles className="w-4 h-4" />
@@ -3869,11 +3871,11 @@ export default function AdminPage() {
                           <div className="flex items-center gap-3">
                             <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">f</div>
                             <div>
-                              <p className="text-sm font-medium text-gray-900">Connected to Meta</p>
+                              <p className="text-sm font-medium text-gray-900">{t("pages.admin.connectedToMeta")}</p>
                               <p className="text-xs text-gray-500">
                                 Page: {metaStatus.facebookPageName || "Unknown"}
                                 {metaStatus.instagramUsername && ` | IG: @${metaStatus.instagramUsername}`}
-                                {metaStatus.expired && <span className="text-red-600 ml-2">(Token expired - reconnect)</span>}
+                                {metaStatus.expired && <span className="text-red-600 ml-2">{t("pages.admin.tokenExpiredReconnect")}</span>}
                               </p>
                             </div>
                           </div>
@@ -3891,8 +3893,8 @@ export default function AdminPage() {
                       ) : (
                         <div className="flex items-center justify-between">
                           <div>
-                            <p className="text-sm font-medium text-gray-900">Connect Meta (Facebook & Instagram)</p>
-                            <p className="text-xs text-gray-500">Link your Facebook Page and Instagram Business account to publish posts directly.</p>
+                            <p className="text-sm font-medium text-gray-900">{t("pages.admin.connectMetaFacebookInstagram")}</p>
+                            <p className="text-xs text-gray-500">{t("pages.admin.linkYourFacebookPageAnd")}</p>
                           </div>
                           <Button size="sm" onClick={connectMeta} className="gap-2" data-testid="button-connect-meta">
                             Connect Meta
@@ -3904,41 +3906,41 @@ export default function AdminPage() {
 
                   <Card className="border border-primary/10">
                     <CardHeader>
-                      <CardTitle className="text-sm">Create New Post</CardTitle>
+                      <CardTitle className="text-sm">{t("pages.admin.createNewPost")}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                          <label className="text-xs font-medium text-gray-600 mb-1 block">Platform</label>
+                          <label className="text-xs font-medium text-gray-600 mb-1 block">{t("pages.admin.platform")}</label>
                           <select
                             value={newPost.platform}
                             onChange={(e) => setNewPost((p) => ({ ...p, platform: e.target.value }))}
                             className="w-full border rounded-md px-3 py-2 text-sm bg-white"
                             data-testid="select-social-platform"
                           >
-                            <option value="facebook">Facebook</option>
-                            <option value="instagram">Instagram</option>
-                            <option value="tiktok">TikTok</option>
-                            <option value="pinterest">Pinterest</option>
-                            <option value="linkedin">LinkedIn</option>
+                            <option value="facebook">{t("pages.admin.facebook")}</option>
+                            <option value="instagram">{t("pages.admin.instagram")}</option>
+                            <option value="tiktok">{t("pages.admin.tiktok")}</option>
+                            <option value="pinterest">{t("pages.admin.pinterest")}</option>
+                            <option value="linkedin">{t("pages.admin.linkedin")}</option>
                           </select>
                         </div>
                         <div>
-                          <label className="text-xs font-medium text-gray-600 mb-1 block">Tier Focus</label>
+                          <label className="text-xs font-medium text-gray-600 mb-1 block">{t("pages.admin.tierFocus")}</label>
                           <select
                             value={newPost.tier}
                             onChange={(e) => setNewPost((p) => ({ ...p, tier: e.target.value }))}
                             className="w-full border rounded-md px-3 py-2 text-sm bg-white"
                             data-testid="select-social-tier"
                           >
-                            <option value="rpn">RPN/LVN</option>
+                            <option value="rpn">{t("pages.admin.rpnlvn")}</option>
                             <option value="rn">RN</option>
                             <option value="np">NP</option>
-                            <option value="general">General</option>
+                            <option value="general">{t("pages.admin.general")}</option>
                           </select>
                         </div>
                         <div>
-                          <label className="text-xs font-medium text-gray-600 mb-1 block">Schedule For</label>
+                          <label className="text-xs font-medium text-gray-600 mb-1 block">{t("pages.admin.scheduleFor")}</label>
                           <input
                             type="datetime-local"
                             value={newPost.scheduledAt}
@@ -3949,11 +3951,11 @@ export default function AdminPage() {
                         </div>
                       </div>
                       <div>
-                        <label className="text-xs font-medium text-gray-600 mb-1 block">Post Content</label>
+                        <label className="text-xs font-medium text-gray-600 mb-1 block">{t("pages.admin.postContent")}</label>
                         <textarea
                           value={newPost.content}
                           onChange={(e) => setNewPost((p) => ({ ...p, content: e.target.value }))}
-                          placeholder="Write your social post... Use engagement hooks like 'Comment your answer below!'"
+                          placeholder={t("pages.admin.writeYourSocialPostUse")}
                           rows={4}
                           className="w-full border rounded-md px-3 py-2 text-sm bg-white resize-none"
                           data-testid="input-social-content"
@@ -3961,7 +3963,7 @@ export default function AdminPage() {
                       </div>
                       {newPost.platform === "instagram" && (
                         <div>
-                          <label className="text-xs font-medium text-gray-600 mb-1 block">Image URL (required for Instagram)</label>
+                          <label className="text-xs font-medium text-gray-600 mb-1 block">{t("pages.admin.imageUrlRequiredForInstagram")}</label>
                           <input
                             type="url"
                             value={newPost.imageUrl}
@@ -3980,7 +3982,7 @@ export default function AdminPage() {
 
                   <Card className="border border-primary/10">
                     <CardHeader>
-                      <CardTitle className="text-sm">Scheduled & Published Posts</CardTitle>
+                      <CardTitle className="text-sm">{t("pages.admin.scheduledPublishedPosts")}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       {socialLoading ? (
@@ -3988,7 +3990,7 @@ export default function AdminPage() {
                           <RefreshCw className="w-8 h-8 text-primary animate-spin" />
                         </div>
                       ) : socialPosts.length === 0 ? (
-                        <p className="text-sm text-gray-400 text-center py-8">No posts scheduled yet.</p>
+                        <p className="text-sm text-gray-400 text-center py-8">{t("pages.admin.noPostsScheduledYet")}</p>
                       ) : (
                         <div className="space-y-3">
                           {socialPosts.map((post: any) => (
@@ -4037,7 +4039,7 @@ export default function AdminPage() {
               {activeTab === "audit" && (
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-bold text-gray-800">Audit Log</h2>
+                    <h2 className="text-xl font-bold text-gray-800">{t("pages.admin.auditLog")}</h2>
                     <Button size="sm" variant="outline" onClick={fetchAuditLogs} data-testid="button-refresh-audit">
                       <RefreshCw className="w-4 h-4 mr-1" />
                       Refresh
@@ -4050,7 +4052,7 @@ export default function AdminPage() {
                           <RefreshCw className="w-8 h-8 text-primary animate-spin" />
                         </div>
                       ) : auditLogs.length === 0 ? (
-                        <p className="text-sm text-gray-400 text-center py-8">No audit log entries yet. Changes to content will appear here.</p>
+                        <p className="text-sm text-gray-400 text-center py-8">{t("pages.admin.noAuditLogEntriesYet")}</p>
                       ) : (
                         <div className="divide-y divide-gray-100">
                           {auditLogs.map((log: any, idx: number) => (
@@ -4078,13 +4080,13 @@ export default function AdminPage() {
                                     <div className="mt-2 flex gap-4 text-xs">
                                       {log.beforeJson && (
                                         <div className="bg-red-50 rounded p-2 flex-1">
-                                          <span className="font-semibold text-red-600">Before: </span>
+                                          <span className="font-semibold text-red-600">{t("pages.admin.before")} </span>
                                           <span className="text-gray-600">{typeof log.beforeJson === "string" ? log.beforeJson : JSON.stringify(log.beforeJson, null, 1)}</span>
                                         </div>
                                       )}
                                       {log.afterJson && (
                                         <div className="bg-green-50 rounded p-2 flex-1">
-                                          <span className="font-semibold text-green-600">After: </span>
+                                          <span className="font-semibold text-green-600">{t("pages.admin.after")} </span>
                                           <span className="text-gray-600">{typeof log.afterJson === "string" ? log.afterJson : JSON.stringify(log.afterJson, null, 1)}</span>
                                         </div>
                                       )}
@@ -4121,9 +4123,9 @@ export default function AdminPage() {
                             <div>
                               <p className="font-semibold text-lg" data-testid="text-ai-status">
                                 AI Generation: {aiConfig.enabled ? (
-                                  <span className="text-green-600">Enabled</span>
+                                  <span className="text-green-600">{t("pages.admin.enabled")}</span>
                                 ) : (
-                                  <span className="text-red-600">Disabled</span>
+                                  <span className="text-red-600">{t("pages.admin.disabled")}</span>
                                 )}
                               </p>
                               <p className="text-sm text-gray-500 mt-1">
@@ -4147,7 +4149,7 @@ export default function AdminPage() {
 
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="p-4 rounded-lg border">
-                              <label className="block text-sm font-medium text-gray-700 mb-2">Max Items Per Day</label>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">{t("pages.admin.maxItemsPerDay")}</label>
                               <div className="flex gap-2">
                                 <Input
                                   type="number"
@@ -4167,7 +4169,7 @@ export default function AdminPage() {
                               </div>
                             </div>
                             <div className="p-4 rounded-lg border">
-                              <label className="block text-sm font-medium text-gray-700 mb-2">Max Tokens Per Day</label>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">{t("pages.admin.maxTokensPerDay")}</label>
                               <div className="flex gap-2">
                                 <Input
                                   type="number"
@@ -4242,18 +4244,18 @@ export default function AdminPage() {
                           </Card>
 
                           <div className="p-4 rounded-lg border border-amber-200 bg-amber-50">
-                            <p className="text-sm text-amber-800 font-medium">Safety Policy</p>
+                            <p className="text-sm text-amber-800 font-medium">{t("pages.admin.safetyPolicy")}</p>
                             <ul className="text-sm text-amber-700 mt-2 space-y-1 list-disc list-inside">
-                              <li>AI generation is disabled by default (ENABLE_AI_AUTOGEN=false)</li>
-                              <li>All AI endpoints require admin authentication</li>
-                              <li>Daily caps reset at midnight UTC</li>
-                              <li>Content is never auto-published without explicit admin action</li>
-                              <li>All AI usage is logged in the Audit Log tab</li>
+                              <li>{t("pages.admin.aiGenerationIsDisabledBy")}</li>
+                              <li>{t("pages.admin.allAiEndpointsRequireAdmin")}</li>
+                              <li>{t("pages.admin.dailyCapsResetAtMidnight")}</li>
+                              <li>{t("pages.admin.contentIsNeverAutopublishedWithout")}</li>
+                              <li>{t("pages.admin.allAiUsageIsLogged")}</li>
                             </ul>
                           </div>
                         </div>
                       ) : (
-                        <p className="text-gray-500">Failed to load AI configuration.</p>
+                        <p className="text-gray-500">{t("pages.admin.failedToLoadAiConfiguration")}</p>
                       )}
                     </CardContent>
                   </Card>
@@ -4269,21 +4271,21 @@ export default function AdminPage() {
                       <div className="space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Tier</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.tier3")}</label>
                             <select
                               value={batchExamTier}
                               onChange={(e) => setBatchExamTier(e.target.value)}
                               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
                               data-testid="select-batch-exam-tier"
                             >
-                              <option value="free">Free</option>
+                              <option value="free">{t("pages.admin.free")}</option>
                               <option value="rpn">RPN</option>
                               <option value="rn">RN</option>
                               <option value="np">NP</option>
                             </select>
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Topic</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.topic")}</label>
                             <Input
                               value={batchExamTopic}
                               onChange={(e) => setBatchExamTopic(e.target.value)}
@@ -4292,7 +4294,7 @@ export default function AdminPage() {
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Quantity (1-50)</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.quantity150")}</label>
                             <Input
                               type="number"
                               value={batchExamQty}
@@ -4330,7 +4332,7 @@ export default function AdminPage() {
                           data-testid="button-generate-exam-batch"
                         >
                           {batchExamLoading ? (
-                            <><RefreshCw className="w-4 h-4 animate-spin mr-2" /> Generating...</>
+                            <><RefreshCw className="w-4 h-4 animate-spin mr-2" /> {t("pages.admin.generating")}</>
                           ) : (
                             <>Generate {batchExamQty} Exam Questions (Draft)</>
                           )}
@@ -4375,7 +4377,7 @@ export default function AdminPage() {
                       <div className="space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Topic</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.topic2")}</label>
                             <Input
                               value={batchFcTopic}
                               onChange={(e) => setBatchFcTopic(e.target.value)}
@@ -4384,30 +4386,30 @@ export default function AdminPage() {
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Deck Title</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.deckTitle")}</label>
                             <Input
                               value={batchFcDeck}
                               onChange={(e) => setBatchFcDeck(e.target.value)}
-                              placeholder="Optional deck name"
+                              placeholder={t("pages.admin.optionalDeckName")}
                               data-testid="input-batch-fc-deck"
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Tier</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.tier4")}</label>
                             <select
                               value={batchFcTier}
                               onChange={(e) => setBatchFcTier(e.target.value)}
                               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
                               data-testid="select-batch-fc-tier"
                             >
-                              <option value="free">Free</option>
+                              <option value="free">{t("pages.admin.free2")}</option>
                               <option value="rpn">RPN</option>
                               <option value="rn">RN</option>
                               <option value="np">NP</option>
                             </select>
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Quantity (1-100)</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.quantity1100")}</label>
                             <Input
                               type="number"
                               value={batchFcQty}
@@ -4445,7 +4447,7 @@ export default function AdminPage() {
                           data-testid="button-generate-fc-batch"
                         >
                           {batchFcLoading ? (
-                            <><RefreshCw className="w-4 h-4 animate-spin mr-2" /> Generating...</>
+                            <><RefreshCw className="w-4 h-4 animate-spin mr-2" /> {t("pages.admin.generating2")}</>
                           ) : (
                             <>Generate {batchFcQty} Flashcards (Draft)</>
                           )}
@@ -4484,7 +4486,7 @@ export default function AdminPage() {
               {activeTab === "beta-testers" && (
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-bold text-gray-800" data-testid="text-beta-heading">Beta Tester Access Codes</h2>
+                    <h2 className="text-xl font-bold text-gray-800" data-testid="text-beta-heading">{t("pages.admin.betaTesterAccessCodes")}</h2>
                     <Button size="sm" variant="outline" onClick={() => { fetchBetaCodes(); fetchBetaUsers(); fetchBetaFeedback(); }} data-testid="button-refresh-beta">
                       <RefreshCw className="w-4 h-4 mr-1" />
                       Refresh
@@ -4501,30 +4503,30 @@ export default function AdminPage() {
                     <CardContent>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Code (auto-generated if blank)</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.codeAutogeneratedIfBlank")}</label>
                           <Input
                             value={betaNewCode}
                             onChange={(e) => setBetaNewCode(e.target.value.toUpperCase())}
-                            placeholder="NN-BETA-XXXXXX"
+                            placeholder={t("pages.admin.nnbetaxxxxxx")}
                             data-testid="input-beta-code"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Tier</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.tier5")}</label>
                           <select
                             value={betaNewTier}
                             onChange={(e) => setBetaNewTier(e.target.value)}
                             className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
                             data-testid="select-beta-tier"
                           >
-                            <option value="free">Free</option>
+                            <option value="free">{t("pages.admin.free3")}</option>
                             <option value="rpn">RPN</option>
                             <option value="rn">RN</option>
                             <option value="np">NP</option>
                           </select>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Max Uses</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.maxUses")}</label>
                           <Input
                             type="number"
                             value={betaNewMaxUses}
@@ -4534,7 +4536,7 @@ export default function AdminPage() {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Duration (days)</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.durationDays")}</label>
                           <Input
                             type="number"
                             value={betaNewDurationDays}
@@ -4544,7 +4546,7 @@ export default function AdminPage() {
                           />
                         </div>
                         <div className="lg:col-span-2">
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Notes (optional)</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.notesOptional")}</label>
                           <Input
                             value={betaNewNotes}
                             onChange={(e) => setBetaNewNotes(e.target.value)}
@@ -4560,9 +4562,9 @@ export default function AdminPage() {
                         data-testid="button-create-beta-code"
                       >
                         {betaCreating ? (
-                          <><RefreshCw className="w-4 h-4 animate-spin mr-2" /> Creating...</>
+                          <><RefreshCw className="w-4 h-4 animate-spin mr-2" /> {t("pages.admin.creating")}</>
                         ) : (
-                          <><Ticket className="w-4 h-4 mr-2" /> Generate Access Code</>
+                          <><Ticket className="w-4 h-4 mr-2" /> {t("pages.admin.generateAccessCode")}</>
                         )}
                       </Button>
                     </CardContent>
@@ -4576,10 +4578,10 @@ export default function AdminPage() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-sm text-gray-600 mb-4">Generate multiple single-use beta codes at once. Each code can be distributed to individual testers.</p>
+                      <p className="text-sm text-gray-600 mb-4">{t("pages.admin.generateMultipleSingleuseBetaCodes")}</p>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Quantity (1-500)</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.quantity1500")}</label>
                           <Input
                             type="number"
                             value={betaBatchCount}
@@ -4590,21 +4592,21 @@ export default function AdminPage() {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Tier</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.tier6")}</label>
                           <select
                             value={betaBatchTier}
                             onChange={(e) => setBetaBatchTier(e.target.value)}
                             className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
                             data-testid="select-batch-tier"
                           >
-                            <option value="free">Free</option>
+                            <option value="free">{t("pages.admin.free4")}</option>
                             <option value="rpn">RPN</option>
                             <option value="rn">RN</option>
                             <option value="np">NP</option>
                           </select>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Max Uses Each</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.maxUsesEach")}</label>
                           <Input
                             type="number"
                             value={betaBatchMaxUses}
@@ -4614,7 +4616,7 @@ export default function AdminPage() {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Duration (days)</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.durationDays2")}</label>
                           <Input
                             type="number"
                             value={betaBatchDuration}
@@ -4624,7 +4626,7 @@ export default function AdminPage() {
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.notes2")}</label>
                           <Input
                             value={betaBatchNotes}
                             onChange={(e) => setBetaBatchNotes(e.target.value)}
@@ -4695,7 +4697,7 @@ export default function AdminPage() {
                           <RefreshCw className="w-8 h-8 text-primary animate-spin" />
                         </div>
                       ) : betaCodes.length === 0 ? (
-                        <p className="text-sm text-gray-400 text-center py-8" data-testid="text-no-beta-codes">No access codes created yet.</p>
+                        <p className="text-sm text-gray-400 text-center py-8" data-testid="text-no-beta-codes">{t("pages.admin.noAccessCodesCreatedYet")}</p>
                       ) : (
                         <div className="divide-y">
                           {betaCodes.map((code: any, idx: number) => (
@@ -4745,7 +4747,7 @@ export default function AdminPage() {
                               </div>
                               <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
                                 <span data-testid={`text-beta-uses-${idx}`}>Uses: {code.usedCount || 0} / {code.maxUses}</span>
-                                {code.usedBy && <span className="text-green-600 font-medium">Redeemed</span>}
+                                {code.usedBy && <span className="text-green-600 font-medium">{t("pages.admin.redeemed")}</span>}
                                 <span>Created: {code.createdAt ? new Date(code.createdAt).toLocaleDateString() : "N/A"}</span>
                                 {code.expiresAt && (
                                   <span className={new Date(code.expiresAt) < new Date() ? "text-red-500 font-medium" : ""}>
@@ -4782,19 +4784,19 @@ export default function AdminPage() {
                           <RefreshCw className="w-8 h-8 text-primary animate-spin" />
                         </div>
                       ) : betaUsers.length === 0 ? (
-                        <p className="text-sm text-gray-400 text-center py-8">No beta testers yet.</p>
+                        <p className="text-sm text-gray-400 text-center py-8">{t("pages.admin.noBetaTestersYet")}</p>
                       ) : (
                         <div className="overflow-x-auto">
                           <table className="w-full text-sm">
                             <thead>
                               <tr className="border-b bg-gray-50">
-                                <th className="text-left px-4 py-2 font-medium text-gray-600">Username</th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-600">Tier</th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-600">Invite Code</th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-600">Referral Code</th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-600">Referrals</th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-600">Expiry</th>
-                                <th className="text-left px-4 py-2 font-medium text-gray-600">Status</th>
+                                <th className="text-left px-4 py-2 font-medium text-gray-600">{t("pages.admin.username")}</th>
+                                <th className="text-left px-4 py-2 font-medium text-gray-600">{t("pages.admin.tier7")}</th>
+                                <th className="text-left px-4 py-2 font-medium text-gray-600">{t("pages.admin.inviteCode")}</th>
+                                <th className="text-left px-4 py-2 font-medium text-gray-600">{t("pages.admin.referralCode")}</th>
+                                <th className="text-left px-4 py-2 font-medium text-gray-600">{t("pages.admin.referrals")}</th>
+                                <th className="text-left px-4 py-2 font-medium text-gray-600">{t("pages.admin.expiry")}</th>
+                                <th className="text-left px-4 py-2 font-medium text-gray-600">{t("pages.admin.status3")}</th>
                               </tr>
                             </thead>
                             <tbody className="divide-y">
@@ -4874,7 +4876,7 @@ export default function AdminPage() {
               {activeTab === "deck-moderation" && (
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-bold text-gray-800">Deck Reports</h2>
+                    <h2 className="text-xl font-bold text-gray-800">{t("pages.admin.deckReports")}</h2>
                     <Button size="sm" variant="outline" onClick={fetchDeckReports} data-testid="button-refresh-deck-reports">
                       <RefreshCw className="w-4 h-4 mr-1" />
                       Refresh
@@ -4887,7 +4889,7 @@ export default function AdminPage() {
                           <RefreshCw className="w-8 h-8 text-primary animate-spin" />
                         </div>
                       ) : deckReports.length === 0 ? (
-                        <p className="text-sm text-gray-400 text-center py-8" data-testid="text-no-deck-reports">No deck reports submitted yet.</p>
+                        <p className="text-sm text-gray-400 text-center py-8" data-testid="text-no-deck-reports">{t("pages.admin.noDeckReportsSubmittedYet")}</p>
                       ) : (
                         <div className="divide-y divide-gray-100">
                           {deckReports.map((report: any, idx: number) => (
@@ -5057,28 +5059,28 @@ function FlashcardPreviewConfigPanel({ userId }: { userId: string }) {
   };
 
   if (loading) {
-    return <div className="text-center py-12 text-gray-500">Loading preview config...</div>;
+    return <div className="text-center py-12 text-gray-500">{t("pages.admin.loadingPreviewConfig")}</div>;
   }
 
   return (
     <div className="space-y-6" data-testid="panel-flashcard-preview-config">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-gray-800" data-testid="text-preview-config-heading">Flashcard Preview Configuration</h2>
+        <h2 className="text-xl font-bold text-gray-800" data-testid="text-preview-config-heading">{t("pages.admin.flashcardPreviewConfiguration")}</h2>
         <Button size="sm" variant="outline" onClick={loadConfig} data-testid="button-refresh-preview-config">
           <RefreshCw className="w-4 h-4 mr-1" />
           Refresh
         </Button>
       </div>
-      <p className="text-sm text-gray-500">Configure how many flashcards free users can preview per session and per day before being prompted to upgrade.</p>
+      <p className="text-sm text-gray-500">{t("pages.admin.configureHowManyFlashcardsFree")}</p>
 
       <Card className="border border-primary/10">
         <CardHeader>
-          <CardTitle className="text-lg">Preview Limits</CardTitle>
+          <CardTitle className="text-lg">{t("pages.admin.previewLimits")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Session Limit</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.sessionLimit")}</label>
               <Input
                 type="number"
                 value={sessionLimit}
@@ -5086,10 +5088,10 @@ function FlashcardPreviewConfigPanel({ userId }: { userId: string }) {
                 min={1}
                 data-testid="input-session-limit"
               />
-              <p className="text-xs text-gray-400 mt-1">Max cards per study session for free users</p>
+              <p className="text-xs text-gray-400 mt-1">{t("pages.admin.maxCardsPerStudySession")}</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Daily Limit</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.dailyLimit")}</label>
               <Input
                 type="number"
                 value={dailyLimit}
@@ -5097,54 +5099,54 @@ function FlashcardPreviewConfigPanel({ userId }: { userId: string }) {
                 min={1}
                 data-testid="input-daily-limit"
               />
-              <p className="text-xs text-gray-400 mt-1">Max cards per day for free users</p>
+              <p className="text-xs text-gray-400 mt-1">{t("pages.admin.maxCardsPerDayFor")}</p>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Allowed Preview Topics</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.allowedPreviewTopics")}</label>
             <Input
               value={allowedTopics}
               onChange={(e) => setAllowedTopics(e.target.value)}
               placeholder="e.g., Cardiovascular, Respiratory (comma-separated, blank = all)"
               data-testid="input-allowed-topics"
             />
-            <p className="text-xs text-gray-400 mt-1">Leave blank to allow all topics in preview</p>
+            <p className="text-xs text-gray-400 mt-1">{t("pages.admin.leaveBlankToAllowAll")}</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Allowed Preview Tiers</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.allowedPreviewTiers")}</label>
             <Input
               value={allowedTiers}
               onChange={(e) => setAllowedTiers(e.target.value)}
               placeholder="e.g., free, rpn (comma-separated, blank = all)"
               data-testid="input-allowed-tiers"
             />
-            <p className="text-xs text-gray-400 mt-1">Leave blank to allow all tiers</p>
+            <p className="text-xs text-gray-400 mt-1">{t("pages.admin.leaveBlankToAllowAll2")}</p>
           </div>
         </CardContent>
       </Card>
 
       <Card className="border border-primary/10">
         <CardHeader>
-          <CardTitle className="text-lg">Upgrade Message</CardTitle>
+          <CardTitle className="text-lg">{t("pages.admin.upgradeMessage")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Headline</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.headline")}</label>
             <Input
               value={upgradeHeadline}
               onChange={(e) => setUpgradeHeadline(e.target.value)}
-              placeholder="Unlock the Full Flashcard Library"
+              placeholder={t("pages.admin.unlockTheFullFlashcardLibrary")}
               data-testid="input-upgrade-headline"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Body Text</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.admin.bodyText")}</label>
             <textarea
               value={upgradeBody}
               onChange={(e) => setUpgradeBody(e.target.value)}
-              placeholder="Get unlimited flashcards, adaptive review..."
+              placeholder={t("pages.admin.getUnlimitedFlashcardsAdaptiveReview")}
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm min-h-[80px]"
               data-testid="input-upgrade-body"
             />
@@ -5250,7 +5252,7 @@ function AdminPricingPanel() {
   return (
     <div className="space-y-6" data-testid="section-pricing-admin">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold" data-testid="text-pricing-admin-title">Pricing Plan Management</h2>
+        <h2 className="text-xl font-bold" data-testid="text-pricing-admin-title">{t("pages.admin.pricingPlanManagement")}</h2>
         <div className="flex gap-2">
           <select
             className="border rounded-lg px-3 py-2 text-sm bg-white"
@@ -5258,11 +5260,11 @@ function AdminPricingPanel() {
             onChange={(e) => setFilterTier(e.target.value)}
             data-testid="select-filter-tier"
           >
-            <option value="all">All Tiers</option>
-            <option value="rpn">RPN/LVN</option>
-            <option value="rn">RN/NCLEX</option>
-            <option value="np">NP Advanced</option>
-            <option value="allied">Allied Health</option>
+            <option value="all">{t("pages.admin.allTiers")}</option>
+            <option value="rpn">{t("pages.admin.rpnlvn2")}</option>
+            <option value="rn">{t("pages.admin.rnnclex")}</option>
+            <option value="np">{t("pages.admin.npAdvanced")}</option>
+            <option value="allied">{t("pages.admin.alliedHealth")}</option>
           </select>
           <Button variant="outline" size="sm" onClick={loadPlans} data-testid="button-refresh-plans">
             <RefreshCw className="w-4 h-4" />
@@ -5283,9 +5285,9 @@ function AdminPricingPanel() {
                     {plan.isLifetime && <Crown className="w-4 h-4 inline mr-1 text-amber-500" />}
                     {durationLabels[plan.duration] || plan.duration}
                   </span>
-                  {plan.isPopular && <Badge className="bg-primary/10 text-primary text-xs">Popular</Badge>}
-                  {plan.isFoundingPrice && <Badge className="bg-amber-100 text-amber-700 text-xs">Founding</Badge>}
-                  {!plan.isEnabled && <Badge variant="destructive" className="text-xs">Disabled</Badge>}
+                  {plan.isPopular && <Badge className="bg-primary/10 text-primary text-xs">{t("pages.admin.popular")}</Badge>}
+                  {plan.isFoundingPrice && <Badge className="bg-amber-100 text-amber-700 text-xs">{t("pages.admin.founding")}</Badge>}
+                  {!plan.isEnabled && <Badge variant="destructive" className="text-xs">{t("pages.admin.disabled2")}</Badge>}
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-right">
@@ -5332,7 +5334,7 @@ function AdminPricingPanel() {
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">Price CAD (cents)</label>
+                  <label className="text-sm font-medium text-gray-700 mb-1 block">{t("pages.admin.priceCadCents")}</label>
                   <Input
                     type="number"
                     value={editingPlan.priceCad}
@@ -5342,7 +5344,7 @@ function AdminPricingPanel() {
                   <span className="text-xs text-gray-400">${(editingPlan.priceCad / 100).toFixed(2)} CAD</span>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">Price USD (cents)</label>
+                  <label className="text-sm font-medium text-gray-700 mb-1 block">{t("pages.admin.priceUsdCents")}</label>
                   <Input
                     type="number"
                     value={editingPlan.priceUsd}
@@ -5362,7 +5364,7 @@ function AdminPricingPanel() {
                     className="w-4 h-4 rounded"
                     data-testid="checkbox-enabled"
                   />
-                  <span className="text-sm font-medium">Enabled</span>
+                  <span className="text-sm font-medium">{t("pages.admin.enabled2")}</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
@@ -5372,7 +5374,7 @@ function AdminPricingPanel() {
                     className="w-4 h-4 rounded"
                     data-testid="checkbox-popular"
                   />
-                  <span className="text-sm font-medium">Popular Badge</span>
+                  <span className="text-sm font-medium">{t("pages.admin.popularBadge")}</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
@@ -5382,12 +5384,12 @@ function AdminPricingPanel() {
                     className="w-4 h-4 rounded"
                     data-testid="checkbox-founding"
                   />
-                  <span className="text-sm font-medium">Founding Price</span>
+                  <span className="text-sm font-medium">{t("pages.admin.foundingPrice")}</span>
                 </label>
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">Features (one per line)</label>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">{t("pages.admin.featuresOnePerLine")}</label>
                 <Textarea
                   value={(editingPlan.featureList || []).join("\n")}
                   onChange={(e) => setEditingPlan({ ...editingPlan, featureList: e.target.value.split("\n").filter((f: string) => f.trim()) })}
@@ -5401,7 +5403,7 @@ function AdminPricingPanel() {
                   <Save className="w-4 h-4 mr-2" />
                   {saving ? "Saving..." : "Save Changes"}
                 </Button>
-                <Button variant="outline" onClick={() => setEditingPlan(null)} data-testid="button-cancel-edit">Cancel</Button>
+                <Button variant="outline" onClick={() => setEditingPlan(null)} data-testid="button-cancel-edit">{t("pages.admin.cancel")}</Button>
               </div>
             </CardContent>
           </Card>
@@ -5441,7 +5443,7 @@ function SubscriptionAnalyticsPanel() {
   useEffect(() => { loadAnalytics(); }, [loadAnalytics]);
 
   if (loading) return <div className="flex items-center justify-center py-20"><RefreshCw className="w-8 h-8 text-primary animate-spin" /></div>;
-  if (!analytics) return <div className="text-center py-10 text-gray-500">No analytics data available</div>;
+  if (!analytics) return <div className="text-center py-10 text-gray-500">{t("pages.admin.noAnalyticsDataAvailable")}</div>;
 
   const tierLabels: Record<string, string> = { rpn: "RPN/LVN", rn: "RN/NCLEX", np: "NP Advanced", allied: "Allied Health", free: "Free" };
   const tierColors: Record<string, { text: string; bg: string }> = {
@@ -5455,7 +5457,7 @@ function SubscriptionAnalyticsPanel() {
   return (
     <div className="space-y-6" data-testid="section-sub-analytics">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold" data-testid="text-sub-analytics-title">Subscription Analytics</h2>
+        <h2 className="text-xl font-bold" data-testid="text-sub-analytics-title">{t("pages.admin.subscriptionAnalytics")}</h2>
         <Button variant="outline" size="sm" onClick={loadAnalytics} data-testid="button-refresh-analytics">
           <RefreshCw className="w-4 h-4" />
         </Button>
@@ -5469,7 +5471,7 @@ function SubscriptionAnalyticsPanel() {
                 <DollarSign className="w-5 h-5 text-green-600" />
               </div>
               <div>
-                <div className="text-xs text-gray-500">Active Subscribers</div>
+                <div className="text-xs text-gray-500">{t("pages.admin.activeSubscribers2")}</div>
                 <div className="text-xl font-bold" data-testid="text-total-active">{analytics.totalActive || 0}</div>
               </div>
             </div>
@@ -5482,7 +5484,7 @@ function SubscriptionAnalyticsPanel() {
                 <Crown className="w-5 h-5 text-amber-600" />
               </div>
               <div>
-                <div className="text-xs text-gray-500">Lifetime Members</div>
+                <div className="text-xs text-gray-500">{t("pages.admin.lifetimeMembers")}</div>
                 <div className="text-xl font-bold" data-testid="text-total-lifetime">{analytics.totalLifetime || 0}</div>
               </div>
             </div>
@@ -5495,7 +5497,7 @@ function SubscriptionAnalyticsPanel() {
                 <Users className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <div className="text-xs text-gray-500">Free Users</div>
+                <div className="text-xs text-gray-500">{t("pages.admin.freeUsers")}</div>
                 <div className="text-xl font-bold" data-testid="text-total-free">{analytics.totalFree || 0}</div>
               </div>
             </div>
@@ -5508,7 +5510,7 @@ function SubscriptionAnalyticsPanel() {
                 <TrendingUp className="w-5 h-5 text-purple-600" />
               </div>
               <div>
-                <div className="text-xs text-gray-500">Conversion Rate</div>
+                <div className="text-xs text-gray-500">{t("pages.admin.conversionRate2")}</div>
                 <div className="text-xl font-bold" data-testid="text-conversion-rate">
                   {analytics.totalActive && analytics.totalFree ? ((analytics.totalActive / (analytics.totalActive + analytics.totalFree)) * 100).toFixed(1) : "0"}%
                 </div>
@@ -5520,7 +5522,7 @@ function SubscriptionAnalyticsPanel() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Subscribers by Tier</CardTitle>
+          <CardTitle className="text-lg">{t("pages.admin.subscribersByTier")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3" data-testid="section-tier-breakdown">
@@ -5547,7 +5549,7 @@ function SubscriptionAnalyticsPanel() {
       {analytics.byStatus && analytics.byStatus.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Subscribers by Status</CardTitle>
+            <CardTitle className="text-lg">{t("pages.admin.subscribersByStatus")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3" data-testid="section-status-breakdown">
@@ -5565,7 +5567,7 @@ function SubscriptionAnalyticsPanel() {
       {analytics.recentSubscribers && analytics.recentSubscribers.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Recent Subscribers</CardTitle>
+            <CardTitle className="text-lg">{t("pages.admin.recentSubscribers")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2" data-testid="section-recent-subscribers">
@@ -5614,7 +5616,7 @@ function CertExamBankAnalytics() {
   return (
     <div className="space-y-6" data-testid="section-cert-analytics">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-gray-900">Certification Exam Bank Analytics</h2>
+        <h2 className="text-xl font-bold text-gray-900">{t("pages.admin.certificationExamBankAnalytics")}</h2>
         <Badge className="bg-emerald-100 text-emerald-700">
           {certCount} Certifications
         </Badge>
@@ -5624,37 +5626,37 @@ function CertExamBankAnalytics() {
         <Card>
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold text-gray-900" data-testid="stat-total-questions">{totalQuestions.toLocaleString()}</div>
-            <div className="text-sm text-gray-500">Total Questions</div>
+            <div className="text-sm text-gray-500">{t("pages.admin.totalQuestions")}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold text-blue-700" data-testid="stat-scenario-questions">{totalScenarios.toLocaleString()}</div>
-            <div className="text-sm text-gray-500">Scenario Questions</div>
+            <div className="text-sm text-gray-500">{t("pages.admin.scenarioQuestions")}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold text-gray-900" data-testid="stat-total-mocks">{totalMockExams}</div>
-            <div className="text-sm text-gray-500">Mock Exams</div>
+            <div className="text-sm text-gray-500">{t("pages.admin.mockExams2")}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold text-gray-900" data-testid="stat-cert-count">{certCount}</div>
-            <div className="text-sm text-gray-500">Certifications</div>
+            <div className="text-sm text-gray-500">{t("pages.admin.certifications")}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold text-gray-900" data-testid="stat-avg-questions">{Math.round(totalQuestions / certCount).toLocaleString()}</div>
-            <div className="text-sm text-gray-500">Avg Questions/Cert</div>
+            <div className="text-sm text-gray-500">{t("pages.admin.avgQuestionscert")}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold text-emerald-700" data-testid="stat-ai-pool-avg">{Math.round(analytics.reduce((s, c) => s + c.aiPoolCoverage, 0) / certCount)}%</div>
-            <div className="text-sm text-gray-500">Avg AI Pool Coverage</div>
+            <div className="text-sm text-gray-500">{t("pages.admin.avgAiPoolCoverage")}</div>
           </CardContent>
         </Card>
       </div>
@@ -5688,7 +5690,7 @@ function CertExamBankAnalytics() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Question Bank Coverage by Certification</CardTitle>
+          <CardTitle className="text-base">{t("pages.admin.questionBankCoverageByCertification")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -5759,19 +5761,19 @@ function CertExamBankAnalytics() {
                 <p className="text-sm text-gray-600 mb-3 ml-9">{item.description}</p>
                 <div className="ml-9 grid grid-cols-2 sm:grid-cols-4 gap-2">
                   <div className="bg-gray-50 rounded px-3 py-1.5 text-xs">
-                    <span className="text-gray-500">SEO Potential: </span>
+                    <span className="text-gray-500">{t("pages.admin.seoPotential")} </span>
                     <span className={`font-medium ${item.seoImpact === "High" ? "text-emerald-600" : item.seoImpact === "Medium" ? "text-amber-600" : "text-gray-500"}`}>{item.seoImpact}</span>
                   </div>
                   <div className="bg-gray-50 rounded px-3 py-1.5 text-xs">
-                    <span className="text-gray-500">Conversion: </span>
+                    <span className="text-gray-500">{t("pages.admin.conversion")} </span>
                     <span className={`font-medium ${item.conversionImpact === "High" ? "text-emerald-600" : item.conversionImpact === "Medium" ? "text-amber-600" : "text-gray-500"}`}>{item.conversionImpact}</span>
                   </div>
                   <div className="bg-gray-50 rounded px-3 py-1.5 text-xs">
-                    <span className="text-gray-500">Content Depth: </span>
+                    <span className="text-gray-500">{t("pages.admin.contentDepth")} </span>
                     <span className={`font-medium ${item.contentDepth === "High" ? "text-emerald-600" : item.contentDepth === "Medium" ? "text-amber-600" : "text-gray-500"}`}>{item.contentDepth}</span>
                   </div>
                   <div className="bg-gray-50 rounded px-3 py-1.5 text-xs">
-                    <span className="text-gray-500">Market Demand: </span>
+                    <span className="text-gray-500">{t("pages.admin.marketDemand")} </span>
                     <span className={`font-medium ${item.marketDemand === "High" ? "text-emerald-600" : item.marketDemand === "Medium" ? "text-amber-600" : "text-gray-500"}`}>{item.marketDemand}</span>
                   </div>
                 </div>
@@ -5792,19 +5794,19 @@ function CertExamBankAnalytics() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
             <div className="bg-emerald-50 rounded-lg p-3 text-center">
               <div className="text-xl font-bold text-emerald-700" data-testid="summary-banks-created">{CERTIFICATION_BUILD_SUMMARY.banksCreated}</div>
-              <div className="text-xs text-gray-600">Banks Created</div>
+              <div className="text-xs text-gray-600">{t("pages.admin.banksCreated")}</div>
             </div>
             <div className="bg-blue-50 rounded-lg p-3 text-center">
               <div className="text-xl font-bold text-blue-700" data-testid="summary-mocks-created">{CERTIFICATION_BUILD_SUMMARY.mockExamsCreated}</div>
-              <div className="text-xs text-gray-600">Mock Exams Created</div>
+              <div className="text-xs text-gray-600">{t("pages.admin.mockExamsCreated")}</div>
             </div>
             <div className="bg-purple-50 rounded-lg p-3 text-center">
               <div className="text-xl font-bold text-purple-700" data-testid="summary-questions-built">{CERTIFICATION_BUILD_SUMMARY.totalQuestionsBuilt.toLocaleString()}</div>
-              <div className="text-xs text-gray-600">Total Questions Built</div>
+              <div className="text-xs text-gray-600">{t("pages.admin.totalQuestionsBuilt")}</div>
             </div>
             <div className="bg-amber-50 rounded-lg p-3 text-center">
               <div className="text-xl font-bold text-amber-700" data-testid="summary-files-modified">{CERTIFICATION_BUILD_SUMMARY.filesModified.length}</div>
-              <div className="text-xs text-gray-600">Files Modified</div>
+              <div className="text-xs text-gray-600">{t("pages.admin.filesModified")}</div>
             </div>
           </div>
 
@@ -5812,14 +5814,14 @@ function CertExamBankAnalytics() {
             <div className="flex items-start gap-3 bg-gray-50 rounded-lg p-3">
               <Zap className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
               <div>
-                <div className="text-sm font-medium text-gray-900">Selected Priority</div>
+                <div className="text-sm font-medium text-gray-900">{t("pages.admin.selectedPriority")}</div>
                 <div className="text-sm text-gray-600">{CERTIFICATION_BUILD_SUMMARY.selectedPriority}</div>
               </div>
             </div>
             <div className="flex items-start gap-3 bg-gray-50 rounded-lg p-3">
               <Tag className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
               <div>
-                <div className="text-sm font-medium text-gray-900">Certifications</div>
+                <div className="text-sm font-medium text-gray-900">{t("pages.admin.certifications2")}</div>
                 <div className="flex flex-wrap gap-1 mt-1">
                   {CERTIFICATION_BUILD_SUMMARY.certifications.map((c) => (
                     <Badge key={c} variant="outline" className="text-xs">{c}</Badge>
@@ -5830,7 +5832,7 @@ function CertExamBankAnalytics() {
             <div className="flex items-start gap-3 bg-gray-50 rounded-lg p-3">
               <FileText className="w-4 h-4 text-gray-500 mt-0.5 shrink-0" />
               <div>
-                <div className="text-sm font-medium text-gray-900">Files Modified</div>
+                <div className="text-sm font-medium text-gray-900">{t("pages.admin.filesModified2")}</div>
                 <div className="text-xs text-gray-500 mt-1 space-y-0.5">
                   {CERTIFICATION_BUILD_SUMMARY.filesModified.map((f) => (
                     <div key={f} className="font-mono">{f}</div>
@@ -5841,7 +5843,7 @@ function CertExamBankAnalytics() {
             <div className="flex items-start gap-3 bg-blue-50 rounded-lg p-3 border border-blue-200">
               <Sparkles className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
               <div>
-                <div className="text-sm font-medium text-blue-900">Next Recommended Expansion</div>
+                <div className="text-sm font-medium text-blue-900">{t("pages.admin.nextRecommendedExpansion")}</div>
                 <div className="text-sm text-blue-700">{CERTIFICATION_BUILD_SUMMARY.nextRecommendedExpansion}</div>
               </div>
             </div>

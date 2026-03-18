@@ -5,6 +5,7 @@ import { Link, useRoute } from "wouter";
 import { useAuth } from "@/lib/auth";
 import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { useI18n } from "@/lib/i18n";
 import {
   FileText, ArrowLeft, Clock, Play, CheckCircle2, XCircle,
   ChevronLeft, ChevronRight, Flag, BarChart3, AlertTriangle
@@ -25,6 +26,7 @@ const CATEGORIES = [
 ];
 
 export default function ImagingPracticeExamPage() {
+  const { t } = useI18n();
   const [, params] = useRoute("/medical-imaging/:country/practice-exams");
   const country = params?.country || "canada";
   const examInfo = EXAM_MAP[country] || EXAM_MAP.canada;
@@ -138,7 +140,7 @@ export default function ImagingPracticeExamPage() {
             <div className={`w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center ${score >= 70 ? "bg-green-100" : "bg-red-100"}`}>
               <span className={`text-2xl font-bold ${score >= 70 ? "text-green-700" : "text-red-700"}`}>{score}%</span>
             </div>
-            <h2 className="text-xl font-bold text-gray-900" data-testid="text-score">Exam Complete</h2>
+            <h2 className="text-xl font-bold text-gray-900" data-testid="text-score">{t("pages.imagingPracticeExam.examComplete")}</h2>
             <p className="text-gray-500">{correct} of {examQuestions.length} correct</p>
           </div>
 
@@ -165,7 +167,7 @@ export default function ImagingPracticeExamPage() {
           </div>
 
           <div className="space-y-4">
-            <h3 className="font-semibold text-gray-900">Question Review</h3>
+            <h3 className="font-semibold text-gray-900">{t("pages.imagingPracticeExam.questionReview")}</h3>
             {results.map((r, i) => {
               const options = getOptions(r.question);
               const userLabel = r.userAnswer || "-";
@@ -336,12 +338,12 @@ export default function ImagingPracticeExamPage() {
             <h1 className="text-2xl font-bold text-gray-900" data-testid="text-practice-title">
               {examInfo.exam} Practice Exam
             </h1>
-            <p className="text-sm text-gray-500">Configure your practice exam</p>
+            <p className="text-sm text-gray-500">{t("pages.imagingPracticeExam.configureYourPracticeExam")}</p>
           </div>
         </div>
 
         <div className="bg-white border border-gray-100 rounded-xl p-6 mb-6">
-          <h3 className="font-semibold text-gray-900 mb-4">Categories</h3>
+          <h3 className="font-semibold text-gray-900 mb-4">{t("pages.imagingPracticeExam.categories")}</h3>
           <div className="flex flex-wrap gap-2">
             {CATEGORIES.map(t => (
               <button
@@ -359,7 +361,7 @@ export default function ImagingPracticeExamPage() {
         </div>
 
         <div className="bg-white border border-gray-100 rounded-xl p-6 mb-6">
-          <h3 className="font-semibold text-gray-900 mb-4">Difficulty</h3>
+          <h3 className="font-semibold text-gray-900 mb-4">{t("pages.imagingPracticeExam.difficulty")}</h3>
           <div className="flex flex-wrap gap-2">
             {([["all", "All Levels"], ["1", "Easy"], ["2", "Medium"], ["3", "Hard"]] as const).map(([val, label]) => (
               <button
@@ -378,31 +380,31 @@ export default function ImagingPracticeExamPage() {
 
         <div className="grid grid-cols-2 gap-6 mb-6">
           <div className="bg-white border border-gray-100 rounded-xl p-6">
-            <h3 className="font-semibold text-gray-900 mb-3">Questions</h3>
+            <h3 className="font-semibold text-gray-900 mb-3">{t("pages.imagingPracticeExam.questions")}</h3>
             <select
               value={questionCount}
               onChange={e => setQuestionCount(Number(e.target.value))}
               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
               data-testid="select-question-count"
             >
-              <option value={25}>25 Questions</option>
-              <option value={50}>50 Questions</option>
-              <option value={75}>75 Questions</option>
-              <option value={100}>100 Questions</option>
+              <option value={25}>{t("pages.imagingPracticeExam.25Questions")}</option>
+              <option value={50}>{t("pages.imagingPracticeExam.50Questions")}</option>
+              <option value={75}>{t("pages.imagingPracticeExam.75Questions")}</option>
+              <option value={100}>{t("pages.imagingPracticeExam.100Questions")}</option>
             </select>
           </div>
           <div className="bg-white border border-gray-100 rounded-xl p-6">
-            <h3 className="font-semibold text-gray-900 mb-3">Time Limit</h3>
+            <h3 className="font-semibold text-gray-900 mb-3">{t("pages.imagingPracticeExam.timeLimit")}</h3>
             <select
               value={timeLimit}
               onChange={e => setTimeLimit(Number(e.target.value))}
               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
               data-testid="select-time-limit"
             >
-              <option value={30}>30 Minutes</option>
-              <option value={60}>60 Minutes</option>
-              <option value={90}>90 Minutes</option>
-              <option value={120}>120 Minutes</option>
+              <option value={30}>{t("pages.imagingPracticeExam.30Minutes")}</option>
+              <option value={60}>{t("pages.imagingPracticeExam.60Minutes")}</option>
+              <option value={90}>{t("pages.imagingPracticeExam.90Minutes")}</option>
+              <option value={120}>{t("pages.imagingPracticeExam.120Minutes")}</option>
             </select>
           </div>
         </div>
@@ -412,7 +414,7 @@ export default function ImagingPracticeExamPage() {
             {matchingCount === 0 ? (
               <>
                 <AlertTriangle className="w-5 h-5 text-red-500" />
-                <p className="text-sm text-red-700" data-testid="text-no-questions">No questions match your current filters.</p>
+                <p className="text-sm text-red-700" data-testid="text-no-questions">{t("pages.imagingPracticeExam.noQuestionsMatchYourCurrent")}</p>
               </>
             ) : (
               <>
@@ -426,7 +428,7 @@ export default function ImagingPracticeExamPage() {
         {!user && (
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
             <p className="text-sm text-amber-700">
-              <Link href="/login" className="underline font-medium">Sign in</Link> to start a practice exam and track your progress.
+              <Link href="/login" className="underline font-medium">{t("pages.imagingPracticeExam.signIn")}</Link> to start a practice exam and track your progress.
             </p>
           </div>
         )}

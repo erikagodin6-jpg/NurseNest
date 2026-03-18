@@ -36,6 +36,7 @@ import {
 } from "lucide-react";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
+import { useI18n } from "@/lib/i18n";
 const EXAM_OPTIONS = [
   { value: "rex-pn", label: "REx-PN (Canada)" },
   { value: "nclex-pn", label: "NCLEX-PN (US)" },
@@ -45,6 +46,7 @@ const EXAM_OPTIONS = [
 ];
 
 function generateFingerprint(): string {
+  const { t } = useI18n();
   const nav = window.navigator;
   const screen = window.screen;
   const raw = [
@@ -103,8 +105,8 @@ export default function TrialLandingPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
       <SEO
-        title="Free 50-Question Trial - NurseNest"
-        description="Get a readiness snapshot in one sitting. 50 questions built to the exam blueprint. No credit card required."
+        title={t("pages.trialLanding.free50questionTrialNursenest")}
+        description={t("pages.trialLanding.getAReadinessSnapshotIn")}
         canonicalPath="/trial"
       />
       <Navigation />
@@ -143,7 +145,7 @@ export default function TrialLandingPage() {
                 className="w-full sm:w-64 rounded-full bg-white shadow-sm"
                 data-testid="select-exam-trigger"
               >
-                <SelectValue placeholder="Choose your exam" />
+                <SelectValue placeholder={t("pages.trialLanding.chooseYourExam")} />
               </SelectTrigger>
               <SelectContent>
                 {EXAM_OPTIONS.map((exam) => (

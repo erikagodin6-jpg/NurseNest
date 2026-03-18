@@ -9,6 +9,7 @@ import { useState } from "react";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { getQuestionCountDisplay } from "@/data/career-questions/question-counts";
 
+import { useI18n } from "@/lib/i18n";
 interface SEOPageConfig {
   slug: string;
   careerSlug: string;
@@ -1229,6 +1230,7 @@ const RELATED_LINKS: Record<string, { label: string; href: string }[]> = {
 };
 
 function getPageBySlug(slug: string): SEOPageConfig | undefined {
+
   return SEO_PAGES.find(p => p.slug === slug);
 }
 
@@ -1274,9 +1276,9 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
   if (!page) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-page-not-found">Page Not Found</h1>
-        <p className="text-gray-600 mb-6">The page you're looking for doesn't exist.</p>
-        <Link href="/careers" className="text-teal-600 font-medium hover:underline" data-testid="link-browse-careers">Browse All Careers</Link>
+        <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-page-not-found">{t("allied.alliedSeoLanding.pageNotFound")}</h1>
+        <p className="text-gray-600 mb-6">{t("allied.alliedSeoLanding.thePageYoureLookingFor")}</p>
+        <Link href="/careers" className="text-teal-600 font-medium hover:underline" data-testid="link-browse-careers">{t("allied.alliedSeoLanding.browseAllCareers")}</Link>
       </div>
     );
   }
@@ -1402,15 +1404,15 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
 
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 text-center">NurseNest Allied vs Generic Test Banks</h2>
-          <p className="text-gray-600 text-center mb-8 max-w-2xl mx-auto">See why students choose NurseNest Allied for serious exam preparation.</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 text-center">{t("allied.alliedSeoLanding.nursenestAlliedVsGenericTest")}</h2>
+          <p className="text-gray-600 text-center mb-8 max-w-2xl mx-auto">{t("allied.alliedSeoLanding.seeWhyStudentsChooseNursenest")}</p>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse" data-testid="comparison-table">
               <thead>
                 <tr className="border-b-2 border-gray-200">
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-500 uppercase">Feature</th>
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-teal-600 uppercase">NurseNest Allied</th>
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-400 uppercase">Generic Banks</th>
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-500 uppercase">{t("allied.alliedSeoLanding.feature")}</th>
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-teal-600 uppercase">{t("allied.alliedSeoLanding.nursenestAllied")}</th>
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-400 uppercase">{t("allied.alliedSeoLanding.genericBanks")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -1444,18 +1446,18 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
       <section className="py-12 md:py-16 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4">
           <div className="bg-gradient-to-br from-teal-600 to-teal-700 rounded-2xl p-8 md:p-12 text-white text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to Start Studying?</h2>
-            <p className="text-teal-100 mb-6 max-w-xl mx-auto">Choose the plan that fits your timeline. Start free, upgrade when you're ready.</p>
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">{t("allied.alliedSeoLanding.readyToStartStudying")}</h2>
+            <p className="text-teal-100 mb-6 max-w-xl mx-auto">{t("allied.alliedSeoLanding.chooseThePlanThatFits")}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto mb-8">
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                <p className="text-sm text-teal-200 mb-1">Monthly</p>
+                <p className="text-sm text-teal-200 mb-1">{t("allied.alliedSeoLanding.monthly")}</p>
                 <p className="text-3xl font-bold">$29<span className="text-sm font-normal text-teal-200">/mo</span></p>
               </div>
               <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border-2 border-white/40 relative">
-                <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-0.5 rounded-full">BEST VALUE</span>
-                <p className="text-sm text-teal-200 mb-1">Annual</p>
+                <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-0.5 rounded-full">{t("allied.alliedSeoLanding.bestValue")}</span>
+                <p className="text-sm text-teal-200 mb-1">{t("allied.alliedSeoLanding.annual")}</p>
                 <p className="text-3xl font-bold">$239<span className="text-sm font-normal text-teal-200">/yr</span></p>
-                <p className="text-xs text-teal-200">Save 31%</p>
+                <p className="text-xs text-teal-200">{t("allied.alliedSeoLanding.save31")}</p>
               </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -1483,7 +1485,7 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
         <div className="max-w-3xl mx-auto px-4">
           <div className="flex items-center gap-3 mb-8 justify-center">
             <HelpCircle className="w-6 h-6 text-teal-600" />
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Frequently Asked Questions</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">{t("allied.alliedSeoLanding.frequentlyAskedQuestions")}</h2>
           </div>
           <FAQAccordion faqs={page.faqs} />
         </div>
@@ -1492,7 +1494,7 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
       {RELATED_LINKS[page.careerSlug] && (
         <section className="py-8 bg-gray-50 border-t border-gray-100">
           <div className="max-w-4xl mx-auto px-4">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Related Exam Prep</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">{t("allied.alliedSeoLanding.relatedExamPrep")}</h3>
             <div className="flex flex-wrap gap-3">
               {RELATED_LINKS[page.careerSlug].map((link, i) => (
                 <Link key={i} href={link.href} className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:border-teal-300 hover:text-teal-700 transition-colors" data-testid={`link-related-${link.href.replace(/\//g, "").replace(/[^a-z0-9-]/g, "-")}`}>
@@ -1506,7 +1508,7 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
 
       <section className="py-12 md:py-16 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Explore More</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">{t("allied.alliedSeoLanding.exploreMore")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <Link
               href={`/qbank?career=${page.careerSlug}`}
@@ -1515,8 +1517,8 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
             >
               <BookOpen className="w-5 h-5 text-teal-600 shrink-0" />
               <div>
-                <p className="font-medium text-gray-900 text-sm">Test Bank</p>
-                <p className="text-xs text-gray-500">Practice with rationales</p>
+                <p className="font-medium text-gray-900 text-sm">{t("allied.alliedSeoLanding.testBank")}</p>
+                <p className="text-xs text-gray-500">{t("allied.alliedSeoLanding.practiceWithRationales")}</p>
               </div>
             </Link>
             <Link
@@ -1526,8 +1528,8 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
             >
               <FileText className="w-5 h-5 text-teal-600 shrink-0" />
               <div>
-                <p className="font-medium text-gray-900 text-sm">Mock Exams</p>
-                <p className="text-xs text-gray-500">Full-length practice tests</p>
+                <p className="font-medium text-gray-900 text-sm">{t("allied.alliedSeoLanding.mockExams")}</p>
+                <p className="text-xs text-gray-500">{t("allied.alliedSeoLanding.fulllengthPracticeTests")}</p>
               </div>
             </Link>
             <Link
@@ -1537,8 +1539,8 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
             >
               <Target className="w-5 h-5 text-teal-600 shrink-0" />
               <div>
-                <p className="font-medium text-gray-900 text-sm">Free Diagnostic</p>
-                <p className="text-xs text-gray-500">15-question assessment</p>
+                <p className="font-medium text-gray-900 text-sm">{t("allied.alliedSeoLanding.freeDiagnostic")}</p>
+                <p className="text-xs text-gray-500">{t("allied.alliedSeoLanding.15questionAssessment")}</p>
               </div>
             </Link>
             <Link
@@ -1548,8 +1550,8 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
             >
               <Brain className="w-5 h-5 text-teal-600 shrink-0" />
               <div>
-                <p className="font-medium text-gray-900 text-sm">Flashcards</p>
-                <p className="text-xs text-gray-500">Spaced repetition</p>
+                <p className="font-medium text-gray-900 text-sm">{t("allied.alliedSeoLanding.flashcards")}</p>
+                <p className="text-xs text-gray-500">{t("allied.alliedSeoLanding.spacedRepetition")}</p>
               </div>
             </Link>
             <Link
@@ -1559,8 +1561,8 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
             >
               <Award className="w-5 h-5 text-teal-600 shrink-0" />
               <div>
-                <p className="font-medium text-gray-900 text-sm">Study Planner</p>
-                <p className="text-xs text-gray-500">Personalized schedule</p>
+                <p className="font-medium text-gray-900 text-sm">{t("allied.alliedSeoLanding.studyPlanner")}</p>
+                <p className="text-xs text-gray-500">{t("allied.alliedSeoLanding.personalizedSchedule")}</p>
               </div>
             </Link>
             <Link
@@ -1570,8 +1572,8 @@ export default function AlliedSeoLandingPage({ pageSlug }: { pageSlug: string })
             >
               <Star className="w-5 h-5 text-teal-600 shrink-0" />
               <div>
-                <p className="font-medium text-gray-900 text-sm">Pricing</p>
-                <p className="text-xs text-gray-500">Plans & features</p>
+                <p className="font-medium text-gray-900 text-sm">{t("allied.alliedSeoLanding.pricing")}</p>
+                <p className="text-xs text-gray-500">{t("allied.alliedSeoLanding.plansFeatures")}</p>
               </div>
             </Link>
           </div>

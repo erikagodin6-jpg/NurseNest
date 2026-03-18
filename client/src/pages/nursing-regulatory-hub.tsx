@@ -56,7 +56,7 @@ export default function NursingRegulatoryHub() {
         <div className="absolute top-20 right-10 w-72 h-72 bg-purple-100/20 rounded-full blur-3xl" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-purple-600" data-testid="link-breadcrumb-home">Home</Link>
+            <Link href="/" className="hover:text-purple-600" data-testid="link-breadcrumb-home">{t("pages.nursingRegulatoryHub.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-purple-700 font-medium">{t("nursingRegulatory.hub.title")}</span>
           </div>
@@ -119,7 +119,7 @@ export default function NursingRegulatoryHub() {
             ))}
           </div>
           {filtered.length === 0 && (
-            <p className="text-center text-gray-500 py-8" data-testid="text-no-results">No regulatory bodies match your search.</p>
+            <p className="text-center text-gray-500 py-8" data-testid="text-no-results">{t("pages.nursingRegulatoryHub.noRegulatoryBodiesMatchYour")}</p>
           )}
         </div>
       </section>
@@ -153,20 +153,20 @@ export default function NursingRegulatoryHub() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Link href="/exam-prep" className="group" data-testid="link-exam-prep">
               <div className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-blue-200 transition-all">
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 text-sm">Exam Prep Resources</h3>
-                <p className="text-xs text-gray-500">Prepare for NCLEX, REX-PN, and licensing exams with NurseNest.</p>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 text-sm">{t("pages.nursingRegulatoryHub.examPrepResources")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingRegulatoryHub.prepareForNclexRexpnAnd")}</p>
               </div>
             </Link>
             <Link href="/nursing-schools" className="group" data-testid="link-schools">
               <div className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-emerald-200 transition-all">
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 text-sm">Nursing Schools Directory</h3>
-                <p className="text-xs text-gray-500">Find accredited nursing programs across 6 countries.</p>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 text-sm">{t("pages.nursingRegulatoryHub.nursingSchoolsDirectory")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingRegulatoryHub.findAccreditedNursingProgramsAcross")}</p>
               </div>
             </Link>
             <Link href="/nurse-residency-programs" className="group" data-testid="link-residency">
               <div className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-indigo-200 transition-all">
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-indigo-700 text-sm">Residency Programs</h3>
-                <p className="text-xs text-gray-500">New grad transition-to-practice programs by country.</p>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-indigo-700 text-sm">{t("pages.nursingRegulatoryHub.residencyPrograms")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingRegulatoryHub.newGradTransitiontopracticeProgramsBy")}</p>
               </div>
             </Link>
           </div>

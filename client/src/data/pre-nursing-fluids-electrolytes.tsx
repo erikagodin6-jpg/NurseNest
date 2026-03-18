@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { Droplets, Beaker, Activity, Waves } from "lucide-react";
 
 export function FluidsElectrolytesModule() {
+  const { t } = useI18n();
   const naKGradientContent = useEditableText("fluids-nak-gradient-content", "Na⁺ is concentrated OUTSIDE cells, K⁺ is concentrated INSIDE cells. This gradient is maintained by the Na⁺/K⁺ ATPase pump (3 Na⁺ out, 2 K⁺ in per cycle). This concentration difference is essential for nerve impulse transmission, muscle contraction, and maintaining cell volume. Disrupting this gradient has immediate physiological consequences.");
   const osmoticOncoticContent = useEditableText("fluids-osmotic-oncotic-content", "Osmotic pressure is created by ALL solutes (electrolytes, glucose, urea). Oncotic (colloid osmotic) pressure is the portion of osmotic pressure created specifically by plasma proteins (mainly albumin). Oncotic pressure keeps fluid inside blood vessels. When albumin is low (malnutrition, liver disease, nephrotic syndrome), oncotic pressure drops and fluid leaks into interstitial spaces → edema.");
   const bicarbonateContent = useEditableText("fluids-bicarbonate-content", "CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻. This single equation is the key to understanding acid-base balance. The left side (CO₂) is controlled by the lungs. The right side (HCO₃⁻) is controlled by the kidneys. Normal ratio of HCO₃⁻ to CO₂ is 20:1 — as long as this ratio is maintained, pH stays normal.");
@@ -39,7 +41,7 @@ export function FluidsElectrolytesModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="The Na⁺/K⁺ Gradient"
+          title={t("data.pre_nursing_fluids_electrolytes.theNakGradient")}
           content={naKGradientContent}
         />
       </MicroLesson>
@@ -47,7 +49,7 @@ export function FluidsElectrolytesModule() {
       <MicroLesson title="Osmosis & Tonicity" subtitle="How water moves between compartments" icon={<Waves className="w-5 h-5" />}>
         <EditableModuleText sectionKey="fluids-osmosis-content" defaultText="Water moves by osmosis — the net movement of water across a semipermeable membrane from an area of lower solute concentration to an area of higher solute concentration. Water follows solute. This is a passive process requiring no energy. It always moves toward higher solute concentration. This principle governs fluid distribution between compartments and is the basis for understanding IV fluid therapy." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="Tonicity of Solutions"
+          title={t("data.pre_nursing_fluids_electrolytes.tonicityOfSolutions")}
           cards={[
             {
               id: "fe1",
@@ -71,7 +73,7 @@ export function FluidsElectrolytesModule() {
         />
         <CognitiveCard
           type="warning"
-          title="Osmotic vs Oncotic Pressure"
+          title={t("data.pre_nursing_fluids_electrolytes.osmoticVsOncoticPressure")}
           content={osmoticOncoticContent}
         />
       </MicroLesson>
@@ -116,13 +118,13 @@ export function FluidsElectrolytesModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="The Bicarbonate Equation"
+          title={t("data.pre_nursing_fluids_electrolytes.theBicarbonateEquation")}
           content={bicarbonateContent}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Match Fluid & Electrolyte Concepts"
+        title={t("data.pre_nursing_fluids_electrolytes.matchFluidElectrolyteConcepts")}
         pairs={[
           { term: "Isotonic solution", definition: "Same osmolarity as plasma — no cell volume change" },
           { term: "Hypotonic solution", definition: "Lower osmolarity — water enters cells" },
@@ -134,7 +136,7 @@ export function FluidsElectrolytesModule() {
       />
 
       <SelfCheckQuiz
-        title="Fluids & Electrolytes Quiz"
+        title={t("data.pre_nursing_fluids_electrolytes.fluidsElectrolytesQuiz")}
         questions={[
           {
             id: "fe1",

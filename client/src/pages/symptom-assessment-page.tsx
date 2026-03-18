@@ -33,6 +33,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
+import { useI18n } from "@/lib/i18n";
 const URGENCY_STYLES = {
   emergent: { label: "Emergent", bg: "bg-red-100", text: "text-red-800", border: "border-red-200" },
   urgent: { label: "Urgent", bg: "bg-amber-100", text: "text-amber-800", border: "border-amber-200" },
@@ -40,6 +41,7 @@ const URGENCY_STYLES = {
 };
 
 function PracticeQuestion({ question, index }: { question: SymptomPracticeQuestion; index: number }) {
+  const { t } = useI18n();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showRationale, setShowRationale] = useState(false);
 
@@ -136,10 +138,10 @@ export default function SymptomAssessmentPage() {
         <div className="flex items-center justify-center py-20">
           <div className="text-center" data-testid="symptom-not-found">
             <Activity className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Symptom Assessment Not Found</h1>
-            <p className="text-gray-500 mb-6">The requested symptom assessment page could not be found.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.symptomAssessmentPage.symptomAssessmentNotFound")}</h1>
+            <p className="text-gray-500 mb-6">{t("pages.symptomAssessmentPage.theRequestedSymptomAssessmentPage")}</p>
             <LocaleLink href="/symptoms">
-              <Button variant="outline" data-testid="link-back-symptoms">Browse Symptom Assessments</Button>
+              <Button variant="outline" data-testid="link-back-symptoms">{t("pages.symptomAssessmentPage.browseSymptomAssessments")}</Button>
             </LocaleLink>
           </div>
         </div>
@@ -193,7 +195,7 @@ export default function SymptomAssessmentPage() {
         breadcrumbs={breadcrumbItems}
       />
 
-      <nav className="bg-white border-b border-gray-100 px-4 py-3" aria-label="Breadcrumb" data-testid="breadcrumb-nav">
+      <nav className="bg-white border-b border-gray-100 px-4 py-3" aria-label={t("pages.symptomAssessmentPage.breadcrumb")} data-testid="breadcrumb-nav">
         <div className="max-w-5xl mx-auto">
           <BreadcrumbNav items={breadcrumbItems} />
         </div>
@@ -205,7 +207,7 @@ export default function SymptomAssessmentPage() {
             <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
               <Activity className="w-6 h-6 text-[#BFA6F6]" />
             </div>
-            <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">Symptom Assessment</span>
+            <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">{t("pages.symptomAssessmentPage.symptomAssessment")}</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-symptom-title">
             {data.title}
@@ -220,7 +222,7 @@ export default function SymptomAssessmentPage() {
         <section className="bg-red-50 rounded-2xl border border-red-200 p-6 md:p-8" data-testid="section-red-flags">
           <div className="flex items-center gap-3 mb-4">
             <AlertTriangle className="w-5 h-5 text-red-600" />
-            <h2 className="text-xl font-bold text-red-900">Red Flags — Seek Immediate Intervention</h2>
+            <h2 className="text-xl font-bold text-red-900">{t("pages.symptomAssessmentPage.redFlagsSeekImmediateIntervention")}</h2>
           </div>
           <ul className="space-y-2">
             {data.redFlags.map((flag, idx) => (
@@ -235,7 +237,7 @@ export default function SymptomAssessmentPage() {
         <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-differential-diagnoses">
           <div className="flex items-center gap-3 mb-6">
             <Target className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-900">Differential Diagnoses</h2>
+            <h2 className="text-xl font-bold text-gray-900">{t("pages.symptomAssessmentPage.differentialDiagnoses")}</h2>
           </div>
           <div className="space-y-3">
             {data.differentialDiagnoses.map((dx, idx) => {
@@ -258,7 +260,7 @@ export default function SymptomAssessmentPage() {
         <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-assessment-steps">
           <div className="flex items-center gap-3 mb-6">
             <ClipboardList className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-900">Assessment Steps</h2>
+            <h2 className="text-xl font-bold text-gray-900">{t("pages.symptomAssessmentPage.assessmentSteps")}</h2>
           </div>
           <div className="space-y-4">
             {data.assessmentSteps.map((step, idx) => (
@@ -278,7 +280,7 @@ export default function SymptomAssessmentPage() {
         <section className="bg-blue-50 rounded-2xl border border-blue-200 p-6 md:p-8" data-testid="section-clinical-decision">
           <div className="flex items-center gap-3 mb-4">
             <Brain className="w-5 h-5 text-blue-700" />
-            <h2 className="text-xl font-bold text-blue-900">Clinical Decision-Making</h2>
+            <h2 className="text-xl font-bold text-blue-900">{t("pages.symptomAssessmentPage.clinicalDecisionmaking")}</h2>
           </div>
           <p className="text-sm text-blue-800 leading-relaxed">{data.clinicalDecisionMaking}</p>
         </section>
@@ -286,7 +288,7 @@ export default function SymptomAssessmentPage() {
         <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-nursing-interventions">
           <div className="flex items-center gap-3 mb-4">
             <Stethoscope className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-900">Nursing Interventions</h2>
+            <h2 className="text-xl font-bold text-gray-900">{t("pages.symptomAssessmentPage.nursingInterventions")}</h2>
           </div>
           <ul className="space-y-2">
             {data.nursingInterventions.map((item, idx) => (
@@ -301,7 +303,7 @@ export default function SymptomAssessmentPage() {
         <section className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-2xl border border-primary/20 p-6 md:p-8" data-testid="section-exam-tips">
           <div className="flex items-center gap-3 mb-4">
             <Lightbulb className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-900">Exam Tips</h2>
+            <h2 className="text-xl font-bold text-gray-900">{t("pages.symptomAssessmentPage.examTips")}</h2>
           </div>
           <ul className="space-y-3">
             {data.examTips.map((tip, idx) => (
@@ -318,7 +320,7 @@ export default function SymptomAssessmentPage() {
         <section data-testid="section-practice-questions">
           <div className="flex items-center gap-3 mb-6">
             <FileText className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+            <h2 className="text-xl font-bold text-gray-900">{t("pages.symptomAssessmentPage.practiceQuestions")}</h2>
           </div>
           <div className="space-y-6">
             {data.practiceQuestions.map((q, idx) => (
@@ -330,7 +332,7 @@ export default function SymptomAssessmentPage() {
         <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-faq">
           <div className="flex items-center gap-3 mb-4">
             <HelpCircle className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+            <h2 className="text-xl font-bold text-gray-900">{t("pages.symptomAssessmentPage.frequentlyAskedQuestions")}</h2>
           </div>
           <div className="divide-y divide-gray-100">
             {data.faq.map((item, idx) => (
@@ -342,7 +344,7 @@ export default function SymptomAssessmentPage() {
         <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-related-symptoms">
           <div className="flex items-center gap-3 mb-4">
             <Activity className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-900">Related Symptom Assessments</h2>
+            <h2 className="text-xl font-bold text-gray-900">{t("pages.symptomAssessmentPage.relatedSymptomAssessments")}</h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {allSlugs
@@ -374,7 +376,7 @@ export default function SymptomAssessmentPage() {
         />
 
         <section className="bg-gradient-to-br from-[#2E3A59] to-[#3d4f7a] rounded-2xl p-8 text-center text-white" data-testid="section-cta">
-          <h2 className="text-2xl font-bold mb-3">Master Clinical Assessment for Your Nursing Exam</h2>
+          <h2 className="text-2xl font-bold mb-3">{t("pages.symptomAssessmentPage.masterClinicalAssessmentForYour")}</h2>
           <p className="text-gray-300 mb-6 max-w-xl mx-auto">
             Access hundreds of practice questions, clinical simulations, and comprehensive study guides with NurseNest.
           </p>

@@ -7,6 +7,7 @@ import {
   ALLIED_HEALTH_PROFESSION_SLUGS,
 } from "@/allied/data/allied-health-professions";
 import { WhyNurseNestGrid, DifferentiatorCTA } from "@/components/competitive-differentiation";
+import { useI18n } from "@/lib/i18n";
 import {
   Wind, Ambulance, Pill, Microscope, ScanLine, Monitor, HeartPulse,
   Hand, Activity, Scissors, ArrowRight, BookOpen, GraduationCap,
@@ -19,6 +20,7 @@ const ICON_MAP: Record<string, any> = {
 };
 
 function setMetaTags() {
+  const { t } = useI18n();
   document.title = "Allied Health Careers & Study Resources | NurseNest";
   const setMeta = (attr: string, name: string, content: string) => {
     let el = document.querySelector(`meta[${attr}="${name}"]`) as HTMLMetaElement;
@@ -94,9 +96,9 @@ export default function AlliedHealthHub() {
     <div className="min-h-screen bg-white" data-testid="allied-health-hub-page">
       <nav className="bg-gray-50 border-b border-gray-100 py-3 px-4" data-testid="breadcrumb-nav">
         <div className="max-w-7xl mx-auto flex items-center gap-2 text-sm text-gray-500">
-          <Link href="/" className="hover:text-teal-600 transition-colors" data-testid="breadcrumb-home">Home</Link>
+          <Link href="/" className="hover:text-teal-600 transition-colors" data-testid="breadcrumb-home">{t("pages.alliedHealthHub.home")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-gray-900 font-medium" data-testid="breadcrumb-current">Allied Health</span>
+          <span className="text-gray-900 font-medium" data-testid="breadcrumb-current">{t("pages.alliedHealthHub.alliedHealth")}</span>
         </div>
       </nav>
 
@@ -109,7 +111,7 @@ export default function AlliedHealthHub() {
               Allied Health Career Hub
             </div>
             <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 leading-tight" data-testid="text-hub-title">
-              Learn It Once. <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">Remember It for Your Exam.</span>
+              Learn It Once. <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">{t("pages.alliedHealthHub.rememberItForYourExam")}</span>
             </h1>
             <p className="text-lg text-gray-600 mb-4 max-w-2xl mx-auto" data-testid="text-hub-subtitle">
               Our retention-focused healthcare exam preparation system uses active recall and spaced repetition across 6,500+ practice questions and blueprint-aligned mock exams for 10 allied health professions.
@@ -131,31 +133,31 @@ export default function AlliedHealthHub() {
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-gray-500 mb-6" data-testid="hub-trust-badges">
               <div className="flex items-center gap-1.5">
                 <BookOpen className="w-4 h-4 text-teal-500" />
-                <span>No credit card required</span>
+                <span>{t("pages.alliedHealthHub.noCreditCardRequired")}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <Award className="w-4 h-4 text-teal-500" />
-                <span>Blueprint-aligned content</span>
+                <span>{t("pages.alliedHealthHub.blueprintalignedContent")}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <TrendingUp className="w-4 h-4 text-teal-500" />
-                <span>Cancel anytime</span>
+                <span>{t("pages.alliedHealthHub.cancelAnytime")}</span>
               </div>
             </div>
             <div className="max-w-lg mx-auto p-4 rounded-xl bg-white/70 border border-teal-100 backdrop-blur-sm" data-testid="hub-clarity-block">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2.5">What you get</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2.5">{t("pages.alliedHealthHub.whatYouGet")}</p>
               <div className="space-y-2 text-left">
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <BookOpen className="w-3.5 h-3.5 text-teal-500 shrink-0" />
-                  <span>Career-specific question banks with detailed rationales</span>
+                  <span>{t("pages.alliedHealthHub.careerspecificQuestionBanksWithDetailed")}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <BookOpen className="w-3.5 h-3.5 text-teal-500 shrink-0" />
-                  <span>Blueprint-weighted mock exams that mirror real test conditions</span>
+                  <span>{t("pages.alliedHealthHub.blueprintweightedMockExamsThatMirror")}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <BookOpen className="w-3.5 h-3.5 text-teal-500 shrink-0" />
-                  <span>AI-powered study plans and readiness tracking</span>
+                  <span>{t("pages.alliedHealthHub.aipoweredStudyPlansAndReadiness")}</span>
                 </div>
               </div>
             </div>
@@ -248,7 +250,7 @@ export default function AlliedHealthHub() {
 
       <section className="py-8 bg-white" data-testid="hub-faq-link">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <p className="text-gray-600 mb-2">Have questions about allied health exam preparation?</p>
+          <p className="text-gray-600 mb-2">{t("pages.alliedHealthHub.haveQuestionsAboutAlliedHealth")}</p>
           <Link
             href="/allied-health/faq"
             className="inline-flex items-center gap-2 text-teal-600 font-semibold hover:text-teal-700 transition-colors"
@@ -264,7 +266,7 @@ export default function AlliedHealthHub() {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-indigo-100 text-indigo-700">
             <GraduationCap className="w-4 h-4" /> Graduating Soon?
           </div>
-          <h2 className="text-xl font-bold text-gray-900 mb-3" data-testid="text-allied-new-grad-cta">Career Readiness for New Healthcare Graduates</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-3" data-testid="text-allied-new-grad-cta">{t("pages.alliedHealthHub.careerReadinessForNewHealthcare")}</h2>
           <p className="text-gray-600 mb-5 max-w-2xl mx-auto text-sm">
             Finishing your program? Our New Grad Career Hub helps you prepare for interviews, build your resume, negotiate salary, and thrive in your first year of practice.
           </p>

@@ -100,6 +100,7 @@ const CareerFlashcardsIndexPage = lazy(() => import("./components/career-flashca
 const ImagingCareerExamsPage = lazy(() => import("./components/career-exams-page"));
 const CareerCareerGuidePage = lazy(() => import("./components/career-career-guide-page"));
 import { IMAGING_CAREER_DATA } from "@/allied/data/imaging-career-data";
+import { useI18n } from "@/lib/i18n";
 const MltSEOPage = lazy(() => import("./pages/mlt-seo-pages").then(m => ({ default: m.MltSEOPage })));
 const MltLabValuePage = lazy(() => import("./pages/mlt-lab-value-page").then(m => ({ default: m.MltLabValuePage })));
 const MltLabValuesHub = lazy(() => import("./pages/mlt-lab-values-hub").then(m => ({ default: m.MltLabValuesHub })));
@@ -115,6 +116,7 @@ const PtaBlogPage = lazy(() => import("./pages/pta-seo-content-page").then(m => 
 
 const PTA_BLOG_SLUGS = new Set(["how-to-pass-the-pta-exam", "top-50-pta-exam-questions", "common-rehab-mistakes-pta"]);
 function PtaGuideRouter() {
+  const { t } = useI18n();
   const [, routeParams] = useRoute("/allied-health/physiotherapy-assistant/guide/:slug");
   const slug = routeParams?.slug || "";
   if (PTA_BLOG_SLUGS.has(slug)) {
@@ -217,7 +219,7 @@ function LoadingFallback() {
     <div className="min-h-[60vh] flex items-center justify-center">
       <div className="text-center space-y-3">
         <div className="w-8 h-8 border-3 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto" />
-        <p className="text-sm text-gray-500">Loading...</p>
+        <p className="text-sm text-gray-500">{t("allied.alliedRoutes.loading")}</p>
       </div>
     </div>
   );
@@ -749,9 +751,9 @@ export function AlliedRoutes() {
         <Route>
           {() => (
             <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1>
-              <p className="text-gray-600">The page you're looking for doesn't exist.</p>
-              <a href="/" className="inline-block mt-4 px-6 py-2.5 bg-primary text-white rounded-xl text-sm font-medium hover:brightness-110" data-testid="link-back-home">Back to Home</a>
+              <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.alliedRoutes.pageNotFound")}</h1>
+              <p className="text-gray-600">{t("allied.alliedRoutes.thePageYoureLookingFor")}</p>
+              <a href="/" className="inline-block mt-4 px-6 py-2.5 bg-primary text-white rounded-xl text-sm font-medium hover:brightness-110" data-testid="link-back-home">{t("allied.alliedRoutes.backToHome")}</a>
             </div>
           )}
         </Route>

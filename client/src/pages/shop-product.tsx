@@ -151,14 +151,14 @@ export default function ShopProductPage() {
   if (!product) {
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
-        <SEO title="Product Not Found - NurseNest Store" description="The requested product could not be found." />
+        <SEO title={t("pages.shopProduct.productNotFoundNursenestStore")} description={t("pages.shopProduct.theRequestedProductCouldNot")} />
         <Navigation />
         <main className="flex-1 max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-6">
           <ShoppingBag className="w-16 h-16 text-gray-300 mx-auto" />
-          <h1 className="text-2xl font-bold" data-testid="text-product-not-found">Product Not Found</h1>
-          <p className="text-gray-500">This product doesn't exist or has been removed.</p>
+          <h1 className="text-2xl font-bold" data-testid="text-product-not-found">{t("pages.shopProduct.productNotFound")}</h1>
+          <p className="text-gray-500">{t("pages.shopProduct.thisProductDoesntExistOr")}</p>
           <LocaleLink href="/shop">
-            <Button data-testid="button-back-to-shop"><ArrowLeft className="w-4 h-4 mr-2" /> Back to Store</Button>
+            <Button data-testid="button-back-to-shop"><ArrowLeft className="w-4 h-4 mr-2" /> {t("pages.shopProduct.backToStore")}</Button>
           </LocaleLink>
         </main>
         <Footer />
@@ -275,9 +275,9 @@ export default function ShopProductPage() {
                     <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 space-y-2">
                       <div className="flex items-center gap-2">
                         <CheckCircle className="w-5 h-5 text-emerald-600" />
-                        <span className="font-semibold text-emerald-700" data-testid="text-purchased-badge">Purchased</span>
+                        <span className="font-semibold text-emerald-700" data-testid="text-purchased-badge">{t("pages.shopProduct.purchased")}</span>
                       </div>
-                      <p className="text-sm text-emerald-600">Thank you for your purchase! Your file is ready to download.</p>
+                      <p className="text-sm text-emerald-600">{t("pages.shopProduct.thankYouForYourPurchase")}</p>
                     </div>
                     <div className="border rounded-xl p-4 space-y-3" data-testid="div-theme-picker">
                       <button
@@ -357,7 +357,7 @@ export default function ShopProductPage() {
               <h2 className="text-xl font-bold mb-2 flex items-center gap-2">
                 <FileText className="w-5 h-5 text-primary" /> Preview
               </h2>
-              <p className="text-sm text-gray-500 mb-4">Browse a sample of this study guide before purchasing.</p>
+              <p className="text-sm text-gray-500 mb-4">{t("pages.shopProduct.browseASampleOfThis")}</p>
               <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm">
                 <iframe
                   src={`/api/products/${product.slug}/preview`}
@@ -375,7 +375,7 @@ export default function ShopProductPage() {
 
           {product.description && (
             <section className="mt-12" data-testid="section-product-description">
-              <h2 className="text-xl font-bold mb-4">What's Included</h2>
+              <h2 className="text-xl font-bold mb-4">{t("pages.shopProduct.whatsIncluded")}</h2>
               <Card>
                 <CardContent className="p-6">
                   <div className="prose prose-gray max-w-none text-gray-700 whitespace-pre-line" data-testid="text-product-full-desc">
@@ -387,29 +387,29 @@ export default function ShopProductPage() {
           )}
 
           <section className="mt-12 bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl p-8" data-testid="section-trust-block">
-            <h2 className="text-xl font-bold mb-4 text-center">Why Students Trust NurseNest</h2>
+            <h2 className="text-xl font-bold mb-4 text-center">{t("pages.shopProduct.whyStudentsTrustNursenest")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               <div className="text-center">
                 <CheckCircle className="w-8 h-8 text-primary mx-auto mb-2" />
-                <h3 className="font-semibold mb-1">Clinically Verified</h3>
-                <p className="text-sm text-gray-600">Content created and reviewed by nursing professionals</p>
+                <h3 className="font-semibold mb-1">{t("pages.shopProduct.clinicallyVerified")}</h3>
+                <p className="text-sm text-gray-600">{t("pages.shopProduct.contentCreatedAndReviewedBy")}</p>
               </div>
               <div className="text-center">
                 <Shield className="w-8 h-8 text-primary mx-auto mb-2" />
-                <h3 className="font-semibold mb-1">Exam-Aligned</h3>
-                <p className="text-sm text-gray-600">Mapped to NCLEX-PN, REx-PN, NCLEX-RN, and NP exam blueprints</p>
+                <h3 className="font-semibold mb-1">{t("pages.shopProduct.examaligned")}</h3>
+                <p className="text-sm text-gray-600">{t("pages.shopProduct.mappedToNclexpnRexpnNclexrn")}</p>
               </div>
               <div className="text-center">
                 <Crown className="w-8 h-8 text-primary mx-auto mb-2" />
-                <h3 className="font-semibold mb-1">Instant Access</h3>
-                <p className="text-sm text-gray-600">Download immediately after purchase and start studying</p>
+                <h3 className="font-semibold mb-1">{t("pages.shopProduct.instantAccess")}</h3>
+                <p className="text-sm text-gray-600">{t("pages.shopProduct.downloadImmediatelyAfterPurchaseAnd")}</p>
               </div>
             </div>
           </section>
 
           {relatedProducts.length > 0 && (
             <section className="mt-12" data-testid="section-related-products">
-              <h2 className="text-xl font-bold mb-6">You May Also Like</h2>
+              <h2 className="text-xl font-bold mb-6">{t("pages.shopProduct.youMayAlsoLike")}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 {relatedProducts.map(p => (
                   <LocaleLink key={p.id} href={`/shop/${p.slug}`}>
@@ -435,8 +435,8 @@ export default function ShopProductPage() {
         <section className="py-12 px-4 bg-gradient-to-r from-primary/5 to-primary/10 mt-12" data-testid="section-product-cta">
           <div className="max-w-2xl mx-auto text-center">
             <Package className="w-8 h-8 text-primary mx-auto mb-3" />
-            <h2 className="text-2xl font-bold mb-3" data-testid="text-product-cta-title">Want Full Access to All Study Tools?</h2>
-            <p className="text-gray-600 mb-6">Subscribe to NurseNest for unlimited lessons, flashcards, question banks, and more.</p>
+            <h2 className="text-2xl font-bold mb-3" data-testid="text-product-cta-title">{t("pages.shopProduct.wantFullAccessToAll")}</h2>
+            <p className="text-gray-600 mb-6">{t("pages.shopProduct.subscribeToNursenestForUnlimited")}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <LocaleLink href="/pricing">
                 <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-8" data-testid="button-product-pricing">

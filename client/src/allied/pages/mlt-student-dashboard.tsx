@@ -6,6 +6,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { useAuth } from "@/lib/auth";
 import { mltStudyPlans, type MltStudyPlan } from "@/data/mlt-study-plans";
 import { trackMltPageView, trackMltConversionEvent, trackMltUpgradePromptShown, trackMltUpgradeClick } from "@/allied/mlt-analytics";
+import { useI18n } from "@/lib/i18n";
 import {
   BarChart3, Target, TrendingUp, Clock, Flame, Calendar, ChevronRight,
   BookOpen, Award, Globe, Shield, FileText, Brain, ArrowRight,
@@ -46,6 +47,7 @@ const TAB_ROUTES: Record<string, DashboardTab> = {
 };
 
 function getTabFromPath(): DashboardTab {
+
   const path = window.location.pathname;
   for (const [route, tab] of Object.entries(TAB_ROUTES)) {
     if (path === route || path.endsWith(route)) return tab;
@@ -123,17 +125,17 @@ function getMockRecentActivity() {
 }
 
 function DomainBadge({ accuracy }: { accuracy: number }) {
-  if (accuracy >= 80) return <span className="text-xs px-1.5 py-0.5 rounded bg-green-50 text-green-700" data-testid="badge-strong">Strong</span>;
-  if (accuracy >= 70) return <span className="text-xs px-1.5 py-0.5 rounded bg-green-50 text-green-600" data-testid="badge-on-track">On Track</span>;
-  if (accuracy >= 50) return <span className="text-xs px-1.5 py-0.5 rounded bg-amber-50 text-amber-700" data-testid="badge-needs-work">Needs Work</span>;
-  return <span className="text-xs px-1.5 py-0.5 rounded bg-red-50 text-red-700" data-testid="badge-critical">Critical</span>;
+  if (accuracy >= 80) return <span className="text-xs px-1.5 py-0.5 rounded bg-green-50 text-green-700" data-testid="badge-strong">{t("allied.mltStudentDashboard.strong")}</span>;
+  if (accuracy >= 70) return <span className="text-xs px-1.5 py-0.5 rounded bg-green-50 text-green-600" data-testid="badge-on-track">{t("allied.mltStudentDashboard.onTrack")}</span>;
+  if (accuracy >= 50) return <span className="text-xs px-1.5 py-0.5 rounded bg-amber-50 text-amber-700" data-testid="badge-needs-work">{t("allied.mltStudentDashboard.needsWork")}</span>;
+  return <span className="text-xs px-1.5 py-0.5 rounded bg-red-50 text-red-700" data-testid="badge-critical">{t("allied.mltStudentDashboard.critical")}</span>;
 }
 
 function LockedOverlay({ feature, onUpgrade }: { feature: string; onUpgrade: () => void }) {
   return (
     <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center rounded-xl z-10" data-testid={`locked-${feature}`}>
       <Lock className="w-8 h-8 text-gray-400 mb-2" />
-      <p className="text-sm font-medium text-gray-700 mb-1">Premium Feature</p>
+      <p className="text-sm font-medium text-gray-700 mb-1">{t("allied.mltStudentDashboard.premiumFeature")}</p>
       <p className="text-xs text-gray-500 mb-3 text-center px-4">Upgrade to access {feature}</p>
       <button
         onClick={onUpgrade}
@@ -156,7 +158,7 @@ function RemediationRecommendationCard({ remediation, questionStem, onTrack }: {
     <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200 p-4 mt-3" data-testid="remediation-card">
       <h4 className="text-sm font-semibold text-amber-800 mb-3 flex items-center gap-2">
         <RefreshCw className="w-4 h-4" /> Review This Topic
-        {remediation.manuallyCurated && <span className="text-xs bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">Curated</span>}
+        {remediation.manuallyCurated && <span className="text-xs bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">{t("allied.mltStudentDashboard.curated")}</span>}
       </h4>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
         {remediation.bestLesson && (
@@ -168,7 +170,7 @@ function RemediationRecommendationCard({ remediation, questionStem, onTrack }: {
             <BookOpen className="w-4 h-4 text-purple-500 flex-shrink-0" />
             <div className="min-w-0">
               <div className="text-xs font-medium text-gray-800 truncate">{remediation.bestLesson.title}</div>
-              <div className="text-xs text-gray-500">Review Lesson</div>
+              <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.reviewLesson")}</div>
             </div>
           </button>
         )}
@@ -181,7 +183,7 @@ function RemediationRecommendationCard({ remediation, questionStem, onTrack }: {
             <Brain className="w-4 h-4 text-blue-500 flex-shrink-0" />
             <div className="min-w-0">
               <div className="text-xs font-medium text-gray-800 truncate">{remediation.bestDeck.title}</div>
-              <div className="text-xs text-gray-500">Study Flashcards</div>
+              <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.studyFlashcards")}</div>
             </div>
           </button>
         )}
@@ -193,7 +195,7 @@ function RemediationRecommendationCard({ remediation, questionStem, onTrack }: {
           >
             <RotateCcw className="w-4 h-4 text-green-500 flex-shrink-0" />
             <div className="min-w-0">
-              <div className="text-xs font-medium text-gray-800">Retry Similar</div>
+              <div className="text-xs font-medium text-gray-800">{t("allied.mltStudentDashboard.retrySimilar")}</div>
               <div className="text-xs text-gray-500">{remediation.relatedQuestions.length} related questions</div>
             </div>
           </button>
@@ -371,32 +373,32 @@ function OverviewTab({ domains, isFree, onUpgrade }: { domains: ReturnType<typeo
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <Target className="w-5 h-5 text-purple-500 mx-auto mb-1" />
           <div className="text-xl font-bold text-gray-900">{readiness}%</div>
-          <div className="text-xs text-gray-500">Readiness</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.readiness")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <Flame className="w-5 h-5 text-orange-500 mx-auto mb-1" />
           <div className="text-xl font-bold text-gray-900">{streak}</div>
-          <div className="text-xs text-gray-500">Day Streak</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.dayStreak")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <TrendingUp className="w-5 h-5 text-green-500 mx-auto mb-1" />
           <div className="text-xl font-bold text-gray-900">{overallAccuracy}%</div>
-          <div className="text-xs text-gray-500">Accuracy</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.accuracy")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <Clock className="w-5 h-5 text-blue-500 mx-auto mb-1" />
           <div className="text-xl font-bold text-gray-900">{timeStudied}h</div>
-          <div className="text-xs text-gray-500">Studied</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.studied")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <FileText className="w-5 h-5 text-indigo-500 mx-auto mb-1" />
           <div className="text-xl font-bold text-gray-900">{examAttempts}</div>
-          <div className="text-xs text-gray-500">Exams Taken</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.examsTaken")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <XCircle className="w-5 h-5 text-red-500 mx-auto mb-1" />
           <div className="text-xl font-bold text-gray-900">{getMockWrongAnswers().length}</div>
-          <div className="text-xs text-gray-500">To Review</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.toReview")}</div>
         </div>
       </div>
 
@@ -408,22 +410,22 @@ function OverviewTab({ domains, isFree, onUpgrade }: { domains: ReturnType<typeo
           <Link href="/allied-health/mlt/canada/lessons" className="flex items-center gap-3 px-4 py-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors" data-testid="link-continue-lessons">
             <BookOpen className="w-5 h-5 text-purple-600 flex-shrink-0" />
             <div>
-              <div className="text-sm font-medium text-gray-800">Gram Stain Interpretation</div>
-              <div className="text-xs text-gray-500">Microbiology • 60% complete</div>
+              <div className="text-sm font-medium text-gray-800">{t("allied.mltStudentDashboard.gramStainInterpretation")}</div>
+              <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.microbiology60Complete")}</div>
             </div>
           </Link>
           <Link href="/allied-health/mlt/canada/flashcards" className="flex items-center gap-3 px-4 py-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors" data-testid="link-continue-flashcards">
             <Brain className="w-5 h-5 text-blue-600 flex-shrink-0" />
             <div>
-              <div className="text-sm font-medium text-gray-800">Cell Morphology Cards</div>
-              <div className="text-xs text-gray-500">Hematology • 23/40 mastered</div>
+              <div className="text-sm font-medium text-gray-800">{t("allied.mltStudentDashboard.cellMorphologyCards")}</div>
+              <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.hematology2340Mastered")}</div>
             </div>
           </Link>
           <Link href="/qbank?career=mlt" className="flex items-center gap-3 px-4 py-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors" data-testid="link-continue-practice">
             <ClipboardList className="w-5 h-5 text-green-600 flex-shrink-0" />
             <div>
-              <div className="text-sm font-medium text-gray-800">Chemistry Practice Quiz</div>
-              <div className="text-xs text-gray-500">15 questions • Adaptive</div>
+              <div className="text-sm font-medium text-gray-800">{t("allied.mltStudentDashboard.chemistryPracticeQuiz")}</div>
+              <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.15QuestionsAdaptive")}</div>
             </div>
           </Link>
         </div>
@@ -472,7 +474,7 @@ function OverviewTab({ domains, isFree, onUpgrade }: { domains: ReturnType<typeo
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-gray-500">No critical weak areas.</p>
+              <p className="text-sm text-gray-500">{t("allied.mltStudentDashboard.noCriticalWeakAreas")}</p>
             )}
             <Link href="/dashboard/mlt/wrong-answers" className="mt-3 w-full px-4 py-2 bg-red-50 text-red-700 rounded-lg text-sm font-medium hover:bg-red-100 text-center block" data-testid="button-review-wrong">
               Review Wrong Answers
@@ -526,17 +528,17 @@ function CountryTab({ country, domains, isFree, onUpgrade }: { country: "canada"
         <div className="flex flex-wrap items-center gap-4 text-sm">
           <div className="flex items-center gap-2">
             <Shield className="w-4 h-4 text-purple-600" />
-            <span className="font-medium text-gray-700">Exam Board:</span>
+            <span className="font-medium text-gray-700">{t("allied.mltStudentDashboard.examBoard")}</span>
             <span className="text-purple-700 font-semibold">{examBoard}</span>
           </div>
           <div className="w-px h-4 bg-purple-200 hidden sm:block" />
           <div className="flex items-center gap-2">
-            <span className="font-medium text-gray-700">Exam:</span>
+            <span className="font-medium text-gray-700">{t("allied.mltStudentDashboard.exam")}</span>
             <span className="text-purple-700">{examName}</span>
           </div>
           <div className="w-px h-4 bg-purple-200 hidden sm:block" />
           <div className="flex items-center gap-2">
-            <span className="font-medium text-gray-700">Lab Units:</span>
+            <span className="font-medium text-gray-700">{t("allied.mltStudentDashboard.labUnits")}</span>
             <span className="text-purple-700">{labUnits}</span>
           </div>
         </div>
@@ -549,11 +551,11 @@ function CountryTab({ country, domains, isFree, onUpgrade }: { country: "canada"
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
           <div className="text-center px-3 py-2 bg-purple-50 rounded-lg">
             <div className="text-lg font-bold text-purple-700">{isCanada ? 200 : 100}</div>
-            <div className="text-xs text-gray-500">Questions</div>
+            <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.questions")}</div>
           </div>
           <div className="text-center px-3 py-2 bg-purple-50 rounded-lg">
             <div className="text-lg font-bold text-purple-700">{isCanada ? 250 : 150} min</div>
-            <div className="text-xs text-gray-500">Time Limit</div>
+            <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.timeLimit")}</div>
           </div>
           <div className="text-center px-3 py-2 bg-purple-50 rounded-lg">
             <div className="text-lg font-bold text-purple-700">{isCanada ? 65 : 400}{ isCanada ? "%" : ""}</div>
@@ -561,7 +563,7 @@ function CountryTab({ country, domains, isFree, onUpgrade }: { country: "canada"
           </div>
           <div className="text-center px-3 py-2 bg-purple-50 rounded-lg">
             <div className="text-lg font-bold text-purple-700">{Object.keys(blueprintWeights).length}</div>
-            <div className="text-xs text-gray-500">Domains</div>
+            <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.domains")}</div>
           </div>
         </div>
         <div className="space-y-2">
@@ -583,29 +585,29 @@ function CountryTab({ country, domains, isFree, onUpgrade }: { country: "canada"
         <Link href={`/allied-health/mlt/${country}/lessons`} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:border-purple-200 transition-colors" data-testid={`link-${country}-lessons`}>
           <BookOpen className="w-5 h-5 text-purple-500" />
           <div>
-            <div className="text-sm font-medium text-gray-800">Lessons</div>
+            <div className="text-sm font-medium text-gray-800">{t("allied.mltStudentDashboard.lessons")}</div>
             <div className="text-xs text-gray-500">{country === "canada" ? "CSMLS" : "ASCP"}-aligned</div>
           </div>
         </Link>
         <Link href={`/allied-health/mlt/${country}/flashcards`} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:border-purple-200 transition-colors" data-testid={`link-${country}-flashcards`}>
           <Brain className="w-5 h-5 text-blue-500" />
           <div>
-            <div className="text-sm font-medium text-gray-800">Flashcards</div>
-            <div className="text-xs text-gray-500">Spaced repetition</div>
+            <div className="text-sm font-medium text-gray-800">{t("allied.mltStudentDashboard.flashcards")}</div>
+            <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.spacedRepetition")}</div>
           </div>
         </Link>
         <Link href={`/allied-health/mlt/${country}/practice-exams`} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:border-purple-200 transition-colors" data-testid={`link-${country}-exams`}>
           <FileText className="w-5 h-5 text-green-500" />
           <div>
-            <div className="text-sm font-medium text-gray-800">Practice Exams</div>
-            <div className="text-xs text-gray-500">Blueprint-weighted</div>
+            <div className="text-sm font-medium text-gray-800">{t("allied.mltStudentDashboard.practiceExams")}</div>
+            <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.blueprintweighted")}</div>
           </div>
         </Link>
         <Link href={`/allied-health/mlt/${country}/study-plan`} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:border-purple-200 transition-colors" data-testid={`link-${country}-study-plan`}>
           <Calendar className="w-5 h-5 text-orange-500" />
           <div>
-            <div className="text-sm font-medium text-gray-800">Study Plan</div>
-            <div className="text-xs text-gray-500">Personalized schedule</div>
+            <div className="text-sm font-medium text-gray-800">{t("allied.mltStudentDashboard.studyPlan")}</div>
+            <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.personalizedSchedule")}</div>
           </div>
         </Link>
       </div>
@@ -651,19 +653,19 @@ function ExamTab({ domains, isFree, onUpgrade }: { domains: ReturnType<typeof ge
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="p-4 bg-purple-50 rounded-lg text-center">
-              <div className="text-sm font-medium text-gray-800 mb-1">Quick Quiz</div>
-              <div className="text-xs text-gray-500 mb-3">10-25 questions, untimed</div>
-              <button className="px-4 py-1.5 bg-purple-600 text-white rounded-lg text-xs font-medium" data-testid="button-quick-quiz">Start</button>
+              <div className="text-sm font-medium text-gray-800 mb-1">{t("allied.mltStudentDashboard.quickQuiz")}</div>
+              <div className="text-xs text-gray-500 mb-3">{t("allied.mltStudentDashboard.1025QuestionsUntimed")}</div>
+              <button className="px-4 py-1.5 bg-purple-600 text-white rounded-lg text-xs font-medium" data-testid="button-quick-quiz">{t("allied.mltStudentDashboard.start")}</button>
             </div>
             <div className="p-4 bg-indigo-50 rounded-lg text-center">
-              <div className="text-sm font-medium text-gray-800 mb-1">Mini Mock</div>
-              <div className="text-xs text-gray-500 mb-3">50 questions, timed</div>
-              <button className="px-4 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-medium" data-testid="button-mini-mock">Start</button>
+              <div className="text-sm font-medium text-gray-800 mb-1">{t("allied.mltStudentDashboard.miniMock")}</div>
+              <div className="text-xs text-gray-500 mb-3">{t("allied.mltStudentDashboard.50QuestionsTimed")}</div>
+              <button className="px-4 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-medium" data-testid="button-mini-mock">{t("allied.mltStudentDashboard.start2")}</button>
             </div>
             <div className="p-4 bg-blue-50 rounded-lg text-center">
-              <div className="text-sm font-medium text-gray-800 mb-1">Full Exam</div>
-              <div className="text-xs text-gray-500 mb-3">100-200 questions, timed</div>
-              <button className="px-4 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-medium" data-testid="button-full-exam">Start</button>
+              <div className="text-sm font-medium text-gray-800 mb-1">{t("allied.mltStudentDashboard.fullExam")}</div>
+              <div className="text-xs text-gray-500 mb-3">{t("allied.mltStudentDashboard.100200QuestionsTimed")}</div>
+              <button className="px-4 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-medium" data-testid="button-full-exam">{t("allied.mltStudentDashboard.start3")}</button>
             </div>
           </div>
         </div>
@@ -690,19 +692,19 @@ function FlashcardsTab({ domains, isFree, onUpgrade }: { domains: ReturnType<typ
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3" data-testid="flashcard-stats">
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-xl font-bold text-gray-900">{mockDecks.length}</div>
-          <div className="text-xs text-gray-500">Decks</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.decks")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-xl font-bold text-gray-900">{totalCards}</div>
-          <div className="text-xs text-gray-500">Total Cards</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.totalCards")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-xl font-bold text-green-600">{totalMastered}</div>
-          <div className="text-xs text-gray-500">Mastered</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.mastered")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-xl font-bold text-amber-600">{totalCards - totalMastered}</div>
-          <div className="text-xs text-gray-500">To Review</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.toReview2")}</div>
         </div>
       </div>
 
@@ -753,19 +755,19 @@ function LessonsTab({ domains, isFree, onUpgrade }: { domains: ReturnType<typeof
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3" data-testid="lesson-stats">
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-xl font-bold text-gray-900">{mockLessons.length}</div>
-          <div className="text-xs text-gray-500">Total Lessons</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.totalLessons")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-xl font-bold text-green-600">{completedCount}</div>
-          <div className="text-xs text-gray-500">Completed</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.completed")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-xl font-bold text-blue-600">{inProgressCount}</div>
-          <div className="text-xs text-gray-500">In Progress</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.inProgress")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-xl font-bold text-gray-400">{mockLessons.length - completedCount - inProgressCount}</div>
-          <div className="text-xs text-gray-500">Not Started</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.notStarted")}</div>
         </div>
       </div>
 
@@ -824,19 +826,19 @@ function PerformanceTab({ domains }: { domains: ReturnType<typeof getMockDomainD
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3" data-testid="performance-stats">
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-xl font-bold text-gray-900">{totalQuestions}</div>
-          <div className="text-xs text-gray-500">Questions Attempted</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.questionsAttempted")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-xl font-bold text-green-600">{overallAccuracy}%</div>
-          <div className="text-xs text-gray-500">Overall Accuracy</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.overallAccuracy")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-xl font-bold text-purple-600">{sorted[0]?.label || "-"}</div>
-          <div className="text-xs text-gray-500">Strongest Domain</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.strongestDomain")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-xl font-bold text-red-600">{sorted[sorted.length - 1]?.label || "-"}</div>
-          <div className="text-xs text-gray-500">Weakest Domain</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.weakestDomain")}</div>
         </div>
       </div>
 
@@ -973,19 +975,19 @@ function WrongAnswersTab({ isFree, onUpgrade }: { isFree: boolean; onUpgrade: ()
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3" data-testid="wrong-answer-stats">
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-xl font-bold text-gray-900">{wrongAnswers.length}</div>
-          <div className="text-xs text-gray-500">Total Missed</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.totalMissed")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-xl font-bold text-amber-600">{wrongAnswers.filter((w) => !w.reviewed).length}</div>
-          <div className="text-xs text-gray-500">Unreviewed</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.unreviewed")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-xl font-bold text-purple-600">{wrongAnswers.filter((w) => w.bookmarked).length}</div>
-          <div className="text-xs text-gray-500">Bookmarked</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.bookmarked")}</div>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
           <div className="text-xl font-bold text-green-600">{Object.keys(disciplineCounts).length}</div>
-          <div className="text-xs text-gray-500">Disciplines</div>
+          <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.disciplines")}</div>
         </div>
       </div>
 
@@ -1029,7 +1031,7 @@ function WrongAnswersTab({ isFree, onUpgrade }: { isFree: boolean; onUpgrade: ()
               <div className="flex items-start justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <span className="px-2 py-0.5 bg-purple-50 text-purple-700 text-xs font-medium rounded">{wa.discipline}</span>
-                  {!wa.reviewed && <span className="px-2 py-0.5 bg-amber-50 text-amber-700 text-xs font-medium rounded">Unreviewed</span>}
+                  {!wa.reviewed && <span className="px-2 py-0.5 bg-amber-50 text-amber-700 text-xs font-medium rounded">{t("allied.mltStudentDashboard.unreviewed2")}</span>}
                   {wa.bookmarked && <Bookmark className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />}
                 </div>
                 <span className="text-xs text-gray-400">{wa.createdAt}</span>
@@ -1104,7 +1106,7 @@ function StudyPlanTab({ isFree, onUpgrade }: { isFree: boolean; onUpgrade: () =>
           <div className="flex items-center gap-4">
             <div className="text-right">
               <div className="text-2xl font-bold text-purple-700">{progressPercent}%</div>
-              <div className="text-xs text-gray-500">Complete</div>
+              <div className="text-xs text-gray-500">{t("allied.mltStudentDashboard.complete")}</div>
             </div>
           </div>
         </div>
@@ -1142,10 +1144,10 @@ function StudyPlanTab({ isFree, onUpgrade }: { isFree: boolean; onUpgrade: () =>
                   </div>
                 )}
                 {weekStatus === "completed" && (
-                  <span className="text-xs text-green-600 font-medium">Done</span>
+                  <span className="text-xs text-green-600 font-medium">{t("allied.mltStudentDashboard.done")}</span>
                 )}
                 {weekStatus === "upcoming" && (
-                  <span className="text-xs text-gray-400">Upcoming</span>
+                  <span className="text-xs text-gray-400">{t("allied.mltStudentDashboard.upcoming")}</span>
                 )}
               </div>
             );
@@ -1192,7 +1194,7 @@ function UpgradeBanner({ onUpgrade, location }: { onUpgrade: () => void; locatio
   return (
     <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border border-purple-100 p-6 text-center" data-testid="upgrade-banner">
       <Award className="w-10 h-10 text-purple-500 mx-auto mb-3" />
-      <h3 className="text-lg font-bold text-gray-900 mb-1">Unlock Full MLT Exam Prep</h3>
+      <h3 className="text-lg font-bold text-gray-900 mb-1">{t("allied.mltStudentDashboard.unlockFullMltExamPrep")}</h3>
       <p className="text-sm text-gray-600 mb-4">
         Get unlimited questions, full flashcard library, realistic exam mode, personalized study plans, and detailed analytics.
       </p>
@@ -1241,8 +1243,8 @@ export default function MltStudentDashboard() {
   return (
     <>
       <AlliedSEO
-        title="MLT Student Dashboard - Medical Laboratory Technologist Exam Prep"
-        description="Track your MLT certification exam preparation progress. View domain mastery across hematology, clinical chemistry, microbiology, and all lab disciplines. CSMLS and ASCP exam readiness analytics."
+        title={t("allied.mltStudentDashboard.mltStudentDashboardMedicalLaboratory")}
+        description={t("allied.mltStudentDashboard.trackYourMltCertificationExam")}
         keywords="MLT dashboard, medical laboratory technologist exam prep, CSMLS exam tracker, ASCP MLS progress, lab tech study progress"
         canonicalPath="/dashboard/mlt"
       />
@@ -1250,7 +1252,7 @@ export default function MltStudentDashboard() {
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
           <Link href="/allied-health/mlt" className="hover:text-purple-600">MLT</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-purple-700 font-medium">Dashboard</span>
+          <span className="text-purple-700 font-medium">{t("allied.mltStudentDashboard.dashboard")}</span>
         </div>
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
@@ -1310,7 +1312,7 @@ export default function MltStudentDashboard() {
         {activeTab === "study-plan" && <StudyPlanTab isFree={isFree} onUpgrade={handleUpgrade} />}
 
         <div className="mt-8 text-center">
-          <p className="text-xs text-gray-400">Performance data is based on your practice history. Readiness scores are estimates and do not guarantee exam results.</p>
+          <p className="text-xs text-gray-400">{t("allied.mltStudentDashboard.performanceDataIsBasedOn")}</p>
         </div>
       </div>
     </>

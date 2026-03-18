@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { adminFetch } from "@/lib/admin-fetch";
+import { useI18n } from "@/lib/i18n";
 import {
   Database,
   Play,
@@ -60,6 +61,7 @@ interface DbVerification {
 }
 
 export default function AdminContentExpansion() {
+  const { t } = useI18n();
   const { isAdmin } = useAuth();
   const [, navigate] = useLocation();
   const [distribution, setDistribution] = useState<{ tiers: TierDist[]; totalQuestions: number } | null>(null);
@@ -173,8 +175,8 @@ export default function AdminContentExpansion() {
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">Content Expansion Job</h1>
-            <p className="text-gray-500 mt-1">Generate 1,500 exam questions + linked flashcards across RPN, RN, and NP tiers</p>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">{t("pages.adminContentExpansion.contentExpansionJob")}</h1>
+            <p className="text-gray-500 mt-1">{t("pages.adminContentExpansion.generate1500ExamQuestionsLinked")}</p>
           </div>
           <Badge variant="outline" className="text-sm px-3 py-1">
             <Database className="w-4 h-4 mr-1" />
@@ -208,7 +210,7 @@ export default function AdminContentExpansion() {
                       <p>Database: {dbVerification.info.database}</p>
                       <p>Target: {dbVerification.target}</p>
                       {!dbVerification.info.hasSeparateProd && (
-                        <p className="text-amber-600 font-medium">Note: No separate PROD_DATABASE_URL — using shared DATABASE_URL</p>
+                        <p className="text-amber-600 font-medium">{t("pages.adminContentExpansion.noteNoSeparateProddatabaseurlUsing")}</p>
                       )}
                     </div>
                   )}
@@ -324,25 +326,25 @@ export default function AdminContentExpansion() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
                   <div className="bg-white rounded p-2 text-center">
                     <div className="font-bold text-lg">{totalInserted}</div>
-                    <div className="text-xs text-gray-500">Questions</div>
+                    <div className="text-xs text-gray-500">{t("pages.adminContentExpansion.questions")}</div>
                   </div>
                   <div className="bg-white rounded p-2 text-center">
                     <div className="font-bold text-lg">{totalFlashcards}</div>
-                    <div className="text-xs text-gray-500">Flashcards</div>
+                    <div className="text-xs text-gray-500">{t("pages.adminContentExpansion.flashcards")}</div>
                   </div>
                   <div className="bg-white rounded p-2 text-center">
                     <div className="font-bold text-lg">{jobStatus?.imageLinked || 0}</div>
-                    <div className="text-xs text-gray-500">Image-Linked</div>
+                    <div className="text-xs text-gray-500">{t("pages.adminContentExpansion.imagelinked")}</div>
                   </div>
                   <div className="bg-white rounded p-2 text-center">
                     <div className="font-bold text-lg">{jobStatus?.duplicatesSkipped || 0}</div>
-                    <div className="text-xs text-gray-500">Skipped (Dup)</div>
+                    <div className="text-xs text-gray-500">{t("pages.adminContentExpansion.skippedDup")}</div>
                   </div>
                 </div>
 
                 {jobStatus?.recentBatches && jobStatus.recentBatches.length > 0 && (
                   <div className="border rounded p-3 bg-white">
-                    <h4 className="text-xs font-medium text-gray-500 mb-2">Recent Batches</h4>
+                    <h4 className="text-xs font-medium text-gray-500 mb-2">{t("pages.adminContentExpansion.recentBatches")}</h4>
                     <div className="space-y-1">
                       {jobStatus.recentBatches.map((b: any, i: number) => (
                         <div key={i} className="text-xs flex justify-between text-gray-600">
@@ -373,21 +375,21 @@ export default function AdminContentExpansion() {
                     <div className="text-2xl font-bold text-purple-700" data-testid="text-report-total-questions">
                       {jobStatus.finalReport.totalQuestionsInserted}
                     </div>
-                    <div className="text-xs text-gray-500">Total Questions</div>
+                    <div className="text-xs text-gray-500">{t("pages.adminContentExpansion.totalQuestions")}</div>
                   </div>
                   <div className="bg-white rounded-lg p-3 border text-center">
                     <div className="text-2xl font-bold text-green-700" data-testid="text-report-total-flashcards">
                       {jobStatus.finalReport.totalFlashcardsCreated}
                     </div>
-                    <div className="text-xs text-gray-500">Total Flashcards</div>
+                    <div className="text-xs text-gray-500">{t("pages.adminContentExpansion.totalFlashcards")}</div>
                   </div>
                   <div className="bg-white rounded-lg p-3 border text-center">
                     <div className="text-2xl font-bold text-blue-700">{jobStatus.finalReport.imageLinked}</div>
-                    <div className="text-xs text-gray-500">Image-Linked</div>
+                    <div className="text-xs text-gray-500">{t("pages.adminContentExpansion.imagelinked2")}</div>
                   </div>
                   <div className="bg-white rounded-lg p-3 border text-center">
                     <div className="text-2xl font-bold text-indigo-700">{jobStatus.finalReport.lessonLinked}</div>
-                    <div className="text-xs text-gray-500">Lesson-Linked</div>
+                    <div className="text-xs text-gray-500">{t("pages.adminContentExpansion.lessonlinked")}</div>
                   </div>
                 </div>
 
@@ -426,11 +428,11 @@ export default function AdminContentExpansion() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-white rounded-lg p-3 border text-center">
                     <div className="text-xl font-bold text-orange-600">{jobStatus.finalReport.duplicatesSkipped}</div>
-                    <div className="text-xs text-gray-500">Duplicates Skipped</div>
+                    <div className="text-xs text-gray-500">{t("pages.adminContentExpansion.duplicatesSkipped")}</div>
                   </div>
                   <div className="bg-white rounded-lg p-3 border text-center">
                     <div className="text-xl font-bold text-red-600">{jobStatus.finalReport.validationFailed}</div>
-                    <div className="text-xs text-gray-500">Validation Failed</div>
+                    <div className="text-xs text-gray-500">{t("pages.adminContentExpansion.validationFailed")}</div>
                   </div>
                 </div>
 
@@ -442,7 +444,7 @@ export default function AdminContentExpansion() {
                     </h4>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <h5 className="text-xs text-gray-500 mb-1">Exam Questions</h5>
+                        <h5 className="text-xs text-gray-500 mb-1">{t("pages.adminContentExpansion.examQuestions")}</h5>
                         {jobStatus.finalReport.livePublishedTotals.examQuestions?.map((r: any) => (
                           <div key={r.tier} className="flex justify-between text-sm">
                             <span className="uppercase">{r.tier}</span>
@@ -451,7 +453,7 @@ export default function AdminContentExpansion() {
                         ))}
                       </div>
                       <div>
-                        <h5 className="text-xs text-gray-500 mb-1">Flashcard Bank</h5>
+                        <h5 className="text-xs text-gray-500 mb-1">{t("pages.adminContentExpansion.flashcardBank")}</h5>
                         {jobStatus.finalReport.livePublishedTotals.flashcardBank?.map((r: any) => (
                           <div key={r.tier} className="flex justify-between text-sm">
                             <span className="uppercase">{r.tier}</span>
@@ -546,10 +548,10 @@ export default function AdminContentExpansion() {
                 <div className="flex items-start gap-3">
                   <AlertTriangle className="w-6 h-6 text-red-600 shrink-0 mt-0.5" />
                   <div className="flex-1">
-                    <h3 className="font-semibold text-red-800 mb-1">Confirm Production Write</h3>
+                    <h3 className="font-semibold text-red-800 mb-1">{t("pages.adminContentExpansion.confirmProductionWrite")}</h3>
                     <p className="text-sm text-red-700 mb-3">
                       This will generate 1,500 exam questions and linked flashcards and write them directly to the
-                      <strong> production database</strong>. This action cannot be easily undone.
+                      <strong> {t("pages.adminContentExpansion.productionDatabase")}</strong>. This action cannot be easily undone.
                     </p>
                     {dbVerification?.verified && (
                       <p className="text-xs text-green-700 mb-3 flex items-center gap-1">

@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { Brain, Target, Clock, Lightbulb } from "lucide-react";
 
 export function StudyStrategiesModule() {
+  const { t } = useI18n();
   const testingEffectContent = useEditableText("study-testing-effect-content", "Research in cognitive science demonstrates that the act of retrieving information from memory — testing yourself — is itself a powerful learning event. Each successful retrieval strengthens the memory trace, making future retrieval easier. Failed retrieval attempts followed by feedback are also highly effective. This means practice questions are not just assessment tools — they are learning tools.");
   const crammingWarningContent = useEditableText("study-cramming-warning-content", "Cramming can produce short-term recall for a single exam, but nursing requires cumulative knowledge — pharmacology builds on physiology, which builds on anatomy, which builds on chemistry. Crammed material is unavailable when you need it in later courses and on the NCLEX. Spaced repetition throughout the semester ensures the foundation is solid when you build on it.");
   const failurePatternsContent = useEditableText("study-failure-patterns-content", "1. Studying content but not practicing questions (content ≠ test readiness). 2. Changing answers — your first instinct based on knowledge is usually correct; only change if you find a clear reasoning error. 3. Reading into the question — answer based on what's presented, not what you imagine might also be happening. 4. Choosing the most complex or longest answer — simplicity is often correct. 5. Picking an answer because it's familiar rather than because it answers the specific question asked.");
@@ -35,7 +37,7 @@ export function StudyStrategiesModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="The Testing Effect"
+          title={t("data.pre_nursing_study_strategies.theTestingEffect")}
           content={testingEffectContent}
         />
       </MicroLesson>
@@ -70,7 +72,7 @@ export function StudyStrategiesModule() {
         </div>
         <CognitiveCard
           type="warning"
-          title="Why Cramming Fails for Nursing"
+          title={t("data.pre_nursing_study_strategies.whyCrammingFailsForNursing")}
           content={crammingWarningContent}
         />
       </MicroLesson>
@@ -92,7 +94,7 @@ export function StudyStrategiesModule() {
       <MicroLesson title="Exam Reasoning Strategies" subtitle="Approaching NCLEX-style questions" icon={<Lightbulb className="w-5 h-5" />}>
         <EditableModuleText sectionKey="study-exam-reasoning-content" defaultText="Nursing exam questions test application and analysis, not memorization. Developing a systematic approach to questions is as important as knowing the content." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="Question Attack Strategy"
+          title={t("data.pre_nursing_study_strategies.questionAttackStrategy")}
           cards={[
             {
               id: "ss1",
@@ -122,13 +124,13 @@ export function StudyStrategiesModule() {
         />
         <CognitiveCard
           type="concept"
-          title="Common Failure Patterns"
+          title={t("data.pre_nursing_study_strategies.commonFailurePatterns")}
           content={failurePatternsContent}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Study Strategy"
+        title={t("data.pre_nursing_study_strategies.matchTheStudyStrategy")}
         pairs={[
           { term: "Active recall", definition: "Testing yourself without looking at notes" },
           { term: "Spaced repetition", definition: "Reviewing at increasing intervals over time" },
@@ -140,7 +142,7 @@ export function StudyStrategiesModule() {
       />
 
       <SelfCheckQuiz
-        title="Study Strategies Quiz"
+        title={t("data.pre_nursing_study_strategies.studyStrategiesQuiz")}
         questions={[
           {
             id: "ss1",

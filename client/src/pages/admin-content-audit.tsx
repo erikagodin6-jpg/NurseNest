@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 
+import { useI18n } from "@/lib/i18n";
 interface AuditLesson {
   id: string;
   title: string;
@@ -124,6 +125,7 @@ const OVERALL_COLOR: Record<string, string> = {
 };
 
 function getHeaders() {
+
   const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
   return {
     "Content-Type": "application/json",
@@ -277,8 +279,8 @@ export default function AdminContentAudit() {
             Admin
           </Button>
           <div className="flex-1">
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-audit-title">Content Integrity Audit</h1>
-            <p className="text-sm text-gray-500">Rationale coverage, image audit, flashcard gaps, and lesson completeness</p>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-audit-title">{t("pages.adminContentAudit.contentIntegrityAudit")}</h1>
+            <p className="text-sm text-gray-500">{t("pages.adminContentAudit.rationaleCoverageImageAuditFlashcard")}</p>
           </div>
           <Button variant="outline" size="sm" onClick={() => { fetchAudit(); fetchIntegrity(); fetchRationaleAudit(); }} disabled={loading || integrityLoading} data-testid="button-refresh-audit">
             <RefreshCw className={`w-4 h-4 mr-2 ${loading || integrityLoading ? "animate-spin" : ""}`} />
@@ -321,7 +323,7 @@ export default function AdminContentAudit() {
                         </div>
                         <div>
                           <p className="text-2xl font-bold" data-testid="text-missing-rationale-count">{integrity.rationales.missingCount}</p>
-                          <p className="text-xs text-gray-500">Missing Rationales</p>
+                          <p className="text-xs text-gray-500">{t("pages.adminContentAudit.missingRationales")}</p>
                         </div>
                       </div>
                       {integrity.rationales.missingCount > 0 && (
@@ -344,7 +346,7 @@ export default function AdminContentAudit() {
                         </div>
                         <div>
                           <p className="text-2xl font-bold" data-testid="text-required-images-count">{integrity.images.requiredMissing}</p>
-                          <p className="text-xs text-gray-500">Missing Required Images</p>
+                          <p className="text-xs text-gray-500">{t("pages.adminContentAudit.missingRequiredImages")}</p>
                         </div>
                       </div>
                       {integrity.images.requiredMissing > 0 && (
@@ -367,10 +369,10 @@ export default function AdminContentAudit() {
                         </div>
                         <div>
                           <p className="text-2xl font-bold" data-testid="text-optional-images-count">{integrity.images.optionalMissing}</p>
-                          <p className="text-xs text-gray-500">Optional Images (Info)</p>
+                          <p className="text-xs text-gray-500">{t("pages.adminContentAudit.optionalImagesInfo")}</p>
                         </div>
                       </div>
-                      <p className="text-[10px] text-gray-400 mt-2">Text-only formats, images not required</p>
+                      <p className="text-[10px] text-gray-400 mt-2">{t("pages.adminContentAudit.textonlyFormatsImagesNotRequired")}</p>
                     </CardContent>
                   </Card>
 
@@ -382,7 +384,7 @@ export default function AdminContentAudit() {
                         </div>
                         <div>
                           <p className="text-2xl font-bold" data-testid="text-flashcard-gap-count">{integrity.flashcardGaps.totalGaps}</p>
-                          <p className="text-xs text-gray-500">Flashcard Coverage Gaps</p>
+                          <p className="text-xs text-gray-500">{t("pages.adminContentAudit.flashcardCoverageGaps")}</p>
                         </div>
                       </div>
                       {Object.keys(integrity.flashcardGaps.affectedTiers).length > 0 && (
@@ -413,7 +415,7 @@ export default function AdminContentAudit() {
                         </CardHeader>
                         <CardContent>
                           <div className="text-3xl font-bold text-gray-900 mb-1">{s.total}</div>
-                          <div className="text-sm text-gray-500 mb-3">Total Lessons</div>
+                          <div className="text-sm text-gray-500 mb-3">{t("pages.adminContentAudit.totalLessons")}</div>
                           <div className="h-2 bg-gray-100 rounded-full overflow-hidden mb-3">
                             <div className="h-full bg-emerald-500 rounded-full transition-all" style={{ width: `${pct}%` }} />
                           </div>
@@ -450,7 +452,7 @@ export default function AdminContentAudit() {
             <Card className="border-none shadow-sm" data-testid="rationale-remediation-card">
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-base">Missing Rationales</CardTitle>
+                  <CardTitle className="text-base">{t("pages.adminContentAudit.missingRationales2")}</CardTitle>
                   <div className="flex gap-2">
                     <Button variant="outline" size="sm" onClick={exportRationaleIssues} data-testid="button-export-rationales">
                       <Download className="w-4 h-4 mr-1" />
@@ -471,7 +473,7 @@ export default function AdminContentAudit() {
               <CardContent>
                 {genResult && (
                   <div className="mb-4 p-3 rounded-lg bg-blue-50 border border-blue-200 text-sm" data-testid="gen-result-banner">
-                    <span className="font-medium">Generation Result:</span>{" "}
+                    <span className="font-medium">{t("pages.adminContentAudit.generationResult")}</span>{" "}
                     <span className="text-emerald-600 font-medium">{genResult.fixed} fixed</span>,{" "}
                     <span className="text-red-600 font-medium">{genResult.failed} failed</span>,{" "}
                     <span className="text-gray-600">{genResult.skipped} skipped</span>{" "}
@@ -497,32 +499,32 @@ export default function AdminContentAudit() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All Issues</SelectItem>
-                      <SelectItem value="missing">Missing</SelectItem>
-                      <SelectItem value="placeholder">Placeholder</SelectItem>
-                      <SelectItem value="short">Short</SelectItem>
+                      <SelectItem value="all">{t("pages.adminContentAudit.allIssues")}</SelectItem>
+                      <SelectItem value="missing">{t("pages.adminContentAudit.missing")}</SelectItem>
+                      <SelectItem value="placeholder">{t("pages.adminContentAudit.placeholder")}</SelectItem>
+                      <SelectItem value="short">{t("pages.adminContentAudit.short")}</SelectItem>
                     </SelectContent>
                   </Select>
                   <span className="text-xs text-gray-400">{filteredRationales.length} questions</span>
                 </div>
 
                 {rationaleAudit === null ? (
-                  <div className="text-center py-8 text-gray-400 text-sm">Loading rationale audit data...</div>
+                  <div className="text-center py-8 text-gray-400 text-sm">{t("pages.adminContentAudit.loadingRationaleAuditData")}</div>
                 ) : filteredRationales.length === 0 ? (
                   <div className="text-center py-8" data-testid="text-no-rationale-issues">
                     <CheckCircle className="w-10 h-10 mx-auto mb-2 text-emerald-500" />
-                    <p className="font-medium text-gray-700">All rationales are valid</p>
-                    <p className="text-sm text-gray-500">No published questions have missing or invalid rationales</p>
+                    <p className="font-medium text-gray-700">{t("pages.adminContentAudit.allRationalesAreValid")}</p>
+                    <p className="text-sm text-gray-500">{t("pages.adminContentAudit.noPublishedQuestionsHaveMissing")}</p>
                   </div>
                 ) : (
                   <div className="space-y-1 max-h-[500px] overflow-y-auto">
                     <div className="grid grid-cols-12 gap-2 px-3 py-2 text-[10px] font-semibold text-gray-400 uppercase tracking-wider border-b sticky top-0 bg-white">
-                      <div className="col-span-4">Stem</div>
-                      <div className="col-span-1">Tier</div>
-                      <div className="col-span-1">Type</div>
-                      <div className="col-span-2">Issue</div>
-                      <div className="col-span-2">Topic</div>
-                      <div className="col-span-2">Actions</div>
+                      <div className="col-span-4">{t("pages.adminContentAudit.stem")}</div>
+                      <div className="col-span-1">{t("pages.adminContentAudit.tier")}</div>
+                      <div className="col-span-1">{t("pages.adminContentAudit.type")}</div>
+                      <div className="col-span-2">{t("pages.adminContentAudit.issue")}</div>
+                      <div className="col-span-2">{t("pages.adminContentAudit.topic")}</div>
+                      <div className="col-span-2">{t("pages.adminContentAudit.actions")}</div>
                     </div>
                     {filteredRationales.slice(0, 100).map(q => (
                       <div key={q.id} className="grid grid-cols-12 gap-2 px-3 py-2 items-center hover:bg-gray-50 rounded-lg" data-testid={`rationale-row-${q.id}`}>
@@ -566,7 +568,7 @@ export default function AdminContentAudit() {
           <div className="space-y-6">
             <Card className="border-none shadow-sm" data-testid="image-audit-card">
               <CardHeader>
-                <CardTitle className="text-base">Image Audit</CardTitle>
+                <CardTitle className="text-base">{t("pages.adminContentAudit.imageAudit")}</CardTitle>
               </CardHeader>
               <CardContent>
                 {integrity ? (
@@ -575,10 +577,10 @@ export default function AdminContentAudit() {
                       <div className="p-4 rounded-lg border border-red-200 bg-red-50">
                         <div className="flex items-center gap-2 mb-2">
                           <Image className="w-5 h-5 text-red-600" />
-                          <span className="font-semibold text-red-800">Required (High)</span>
+                          <span className="font-semibold text-red-800">{t("pages.adminContentAudit.requiredHigh")}</span>
                         </div>
                         <p className="text-2xl font-bold text-red-700 mb-2" data-testid="text-required-image-detail">{integrity.images.requiredMissing}</p>
-                        <p className="text-xs text-red-600 mb-3">Image-dependent formats (HOTSPOT, INSTRUMENT_ID, etc.)</p>
+                        <p className="text-xs text-red-600 mb-3">{t("pages.adminContentAudit.imagedependentFormatsHotspotInstrumentidE")}</p>
                         {Object.keys(integrity.images.requiredFormats).length > 0 && (
                           <div className="space-y-1">
                             {Object.entries(integrity.images.requiredFormats).map(([fmt, count]) => (
@@ -600,10 +602,10 @@ export default function AdminContentAudit() {
                       <div className="p-4 rounded-lg border border-amber-200 bg-amber-50">
                         <div className="flex items-center gap-2 mb-2">
                           <Image className="w-5 h-5 text-amber-600" />
-                          <span className="font-semibold text-amber-800">Recommended (Low)</span>
+                          <span className="font-semibold text-amber-800">{t("pages.adminContentAudit.recommendedLow")}</span>
                         </div>
                         <p className="text-2xl font-bold text-amber-700 mb-2" data-testid="text-recommended-image-detail">{integrity.images.recommendedMissing || 0}</p>
-                        <p className="text-xs text-amber-600 mb-3">Non-standard formats that could benefit from images</p>
+                        <p className="text-xs text-amber-600 mb-3">{t("pages.adminContentAudit.nonstandardFormatsThatCouldBenefit")}</p>
                         {integrity.images.recommendedFormats && Object.keys(integrity.images.recommendedFormats).length > 0 && (
                           <div className="space-y-1">
                             {Object.entries(integrity.images.recommendedFormats).slice(0, 10).map(([fmt, count]) => (
@@ -619,10 +621,10 @@ export default function AdminContentAudit() {
                       <div className="p-4 rounded-lg border border-blue-200 bg-blue-50">
                         <div className="flex items-center gap-2 mb-2">
                           <Image className="w-5 h-5 text-blue-600" />
-                          <span className="font-semibold text-blue-800">Optional (Info)</span>
+                          <span className="font-semibold text-blue-800">{t("pages.adminContentAudit.optionalInfo")}</span>
                         </div>
                         <p className="text-2xl font-bold text-blue-700 mb-2" data-testid="text-optional-image-detail">{integrity.images.optionalMissing}</p>
-                        <p className="text-xs text-blue-600 mb-3">Text-only formats (MCQ, SATA, etc.) — images optional</p>
+                        <p className="text-xs text-blue-600 mb-3">{t("pages.adminContentAudit.textonlyFormatsMcqSataEtc")}</p>
                         {Object.keys(integrity.images.optionalFormats).length > 0 && (
                           <div className="space-y-1">
                             {Object.entries(integrity.images.optionalFormats).slice(0, 10).map(([fmt, count]) => (
@@ -637,7 +639,7 @@ export default function AdminContentAudit() {
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center py-8 text-gray-400">Loading image audit...</div>
+                  <div className="text-center py-8 text-gray-400">{t("pages.adminContentAudit.loadingImageAudit")}</div>
                 )}
               </CardContent>
             </Card>
@@ -648,7 +650,7 @@ export default function AdminContentAudit() {
           <div className="space-y-6">
             <Card className="border-none shadow-sm" data-testid="flashcard-gap-card">
               <CardHeader>
-                <CardTitle className="text-base">Flashcard Coverage Gaps</CardTitle>
+                <CardTitle className="text-base">{t("pages.adminContentAudit.flashcardCoverageGaps2")}</CardTitle>
               </CardHeader>
               <CardContent>
                 {integrity ? (
@@ -671,13 +673,13 @@ export default function AdminContentAudit() {
 
                     {integrity.flashcardGaps.topPriority.length > 0 && (
                       <div>
-                        <h3 className="text-sm font-semibold mb-3 text-gray-700">Top Priority Gaps (by question count)</h3>
+                        <h3 className="text-sm font-semibold mb-3 text-gray-700">{t("pages.adminContentAudit.topPriorityGapsByQuestion")}</h3>
                         <div className="space-y-1">
                           <div className="grid grid-cols-12 gap-2 px-3 py-2 text-[10px] font-semibold text-gray-400 uppercase tracking-wider border-b">
-                            <div className="col-span-2">Tier</div>
-                            <div className="col-span-5">Topic</div>
-                            <div className="col-span-2">Questions</div>
-                            <div className="col-span-3">Flashcards</div>
+                            <div className="col-span-2">{t("pages.adminContentAudit.tier2")}</div>
+                            <div className="col-span-5">{t("pages.adminContentAudit.topic2")}</div>
+                            <div className="col-span-2">{t("pages.adminContentAudit.questions")}</div>
+                            <div className="col-span-3">{t("pages.adminContentAudit.flashcards")}</div>
                           </div>
                           {integrity.flashcardGaps.topPriority.map((gap, idx) => (
                             <div key={idx} className="grid grid-cols-12 gap-2 px-3 py-2 items-center hover:bg-gray-50 rounded-lg" data-testid={`flashcard-gap-row-${idx}`}>
@@ -687,7 +689,7 @@ export default function AdminContentAudit() {
                               <div className="col-span-5 text-xs text-gray-700 truncate">{gap.topic}</div>
                               <div className="col-span-2 text-xs text-gray-500">{gap.questionCount}</div>
                               <div className="col-span-3">
-                                <Badge variant="destructive" className="text-[10px]">0 cards</Badge>
+                                <Badge variant="destructive" className="text-[10px]">{t("pages.adminContentAudit.0Cards")}</Badge>
                               </div>
                             </div>
                           ))}
@@ -696,7 +698,7 @@ export default function AdminContentAudit() {
                     )}
                   </div>
                 ) : (
-                  <div className="text-center py-8 text-gray-400">Loading flashcard gap analysis...</div>
+                  <div className="text-center py-8 text-gray-400">{t("pages.adminContentAudit.loadingFlashcardGapAnalysis")}</div>
                 )}
               </CardContent>
             </Card>
@@ -707,11 +709,11 @@ export default function AdminContentAudit() {
           <div className="space-y-6">
             <Card className="border-none shadow-sm mb-8" data-testid="tier-messaging-audit">
               <CardHeader>
-                <CardTitle className="text-base">Tier Landing Page Messaging Audit</CardTitle>
+                <CardTitle className="text-base">{t("pages.adminContentAudit.tierLandingPageMessagingAudit")}</CardTitle>
               </CardHeader>
               <CardContent>
                 {messagingAudit.length === 0 ? (
-                  <div className="text-center py-6 text-gray-400 text-sm">Loading messaging audit...</div>
+                  <div className="text-center py-6 text-gray-400 text-sm">{t("pages.adminContentAudit.loadingMessagingAudit")}</div>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     {messagingAudit.map(audit => {
@@ -754,7 +756,7 @@ export default function AdminContentAudit() {
 
             <Card className="border-none shadow-sm mb-8" data-testid="np-remediation-card">
               <CardHeader>
-                <CardTitle className="text-base">NP Content Remediation</CardTitle>
+                <CardTitle className="text-base">{t("pages.adminContentAudit.npContentRemediation")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-gray-600 mb-4">
@@ -795,8 +797,8 @@ export default function AdminContentAudit() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All Tiers</SelectItem>
-                        <SelectItem value="free">Free</SelectItem>
+                        <SelectItem value="all">{t("pages.adminContentAudit.allTiers")}</SelectItem>
+                        <SelectItem value="free">{t("pages.adminContentAudit.free")}</SelectItem>
                         <SelectItem value="rpn">RPN</SelectItem>
                         <SelectItem value="rn">RN</SelectItem>
                         <SelectItem value="np">NP</SelectItem>
@@ -807,16 +809,16 @@ export default function AdminContentAudit() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All Status</SelectItem>
-                        <SelectItem value="complete">Complete</SelectItem>
-                        <SelectItem value="partial">Partial</SelectItem>
-                        <SelectItem value="empty">Empty</SelectItem>
-                        <SelectItem value="broken">Broken</SelectItem>
-                        <SelectItem value="placeholder">Placeholder</SelectItem>
+                        <SelectItem value="all">{t("pages.adminContentAudit.allStatus")}</SelectItem>
+                        <SelectItem value="complete">{t("pages.adminContentAudit.complete")}</SelectItem>
+                        <SelectItem value="partial">{t("pages.adminContentAudit.partial")}</SelectItem>
+                        <SelectItem value="empty">{t("pages.adminContentAudit.empty")}</SelectItem>
+                        <SelectItem value="broken">{t("pages.adminContentAudit.broken")}</SelectItem>
+                        <SelectItem value="placeholder">{t("pages.adminContentAudit.placeholder2")}</SelectItem>
                       </SelectContent>
                     </Select>
                     <Input
-                      placeholder="Search lessons..."
+                      placeholder={t("pages.adminContentAudit.searchLessons")}
                       value={searchQuery}
                       onChange={e => setSearchQuery(e.target.value)}
                       className="w-48 h-8 text-xs"
@@ -827,19 +829,19 @@ export default function AdminContentAudit() {
               </CardHeader>
               <CardContent>
                 {loading ? (
-                  <div className="text-center py-12 text-gray-400">Loading audit data...</div>
+                  <div className="text-center py-12 text-gray-400">{t("pages.adminContentAudit.loadingAuditData")}</div>
                 ) : filteredLessons.length === 0 ? (
-                  <div className="text-center py-12 text-gray-400">No lessons match current filters</div>
+                  <div className="text-center py-12 text-gray-400">{t("pages.adminContentAudit.noLessonsMatchCurrentFilters")}</div>
                 ) : (
                   <div className="space-y-1">
                     <div className="grid grid-cols-12 gap-2 px-3 py-2 text-[10px] font-semibold text-gray-400 uppercase tracking-wider border-b">
-                      <div className="col-span-4">Title</div>
-                      <div className="col-span-1">Tier</div>
-                      <div className="col-span-2">Status</div>
-                      <div className="col-span-1">Blocks</div>
-                      <div className="col-span-1">Length</div>
-                      <div className="col-span-2">Updated</div>
-                      <div className="col-span-1">Action</div>
+                      <div className="col-span-4">{t("pages.adminContentAudit.title")}</div>
+                      <div className="col-span-1">{t("pages.adminContentAudit.tier3")}</div>
+                      <div className="col-span-2">{t("pages.adminContentAudit.status")}</div>
+                      <div className="col-span-1">{t("pages.adminContentAudit.blocks")}</div>
+                      <div className="col-span-1">{t("pages.adminContentAudit.length")}</div>
+                      <div className="col-span-2">{t("pages.adminContentAudit.updated")}</div>
+                      <div className="col-span-1">{t("pages.adminContentAudit.action")}</div>
                     </div>
                     {filteredLessons.map(l => {
                       const cfg = STATUS_CONFIG[l.completeness] || STATUS_CONFIG.empty;

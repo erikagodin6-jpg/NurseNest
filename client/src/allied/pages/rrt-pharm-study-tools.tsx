@@ -6,6 +6,7 @@ import {
   CheckCircle2, XCircle, Star, ArrowRight
 } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { useI18n } from "@/lib/i18n";
 import {
   HIGH_YIELD_SIDE_EFFECTS,
   BRONCHODILATOR_VS_CONTROLLER,
@@ -21,11 +22,12 @@ const FREE_REVIEW_LIMIT = 4;
 const FREE_SIDE_EFFECT_LIMIT = 5;
 
 function PremiumBanner() {
+  const { t } = useI18n();
   return (
     <div className="mt-6 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl p-6 text-white text-center" data-testid="premium-banner">
       <Lock className="w-6 h-6 mx-auto mb-2 opacity-80" />
-      <h3 className="text-lg font-bold mb-1">Unlock All Study Tools</h3>
-      <p className="text-blue-100 text-sm mb-3">Get full access to all quick sheets, mnemonics, traps, and review cards with NurseNest Allied Pro.</p>
+      <h3 className="text-lg font-bold mb-1">{t("allied.rrtPharmStudyTools.unlockAllStudyTools")}</h3>
+      <p className="text-blue-100 text-sm mb-3">{t("allied.rrtPharmStudyTools.getFullAccessToAll")}</p>
       <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-blue-700 rounded-lg font-semibold text-sm hover:bg-blue-50 transition-colors" data-testid="link-upgrade-premium">
         Upgrade to Pro <ArrowRight className="w-4 h-4" />
       </Link>
@@ -35,12 +37,12 @@ function PremiumBanner() {
 
 function Breadcrumb({ current }: { current: string }) {
   return (
-    <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6 flex-wrap" aria-label="Breadcrumb" data-testid="breadcrumb-nav">
-      <Link href="/allied-health" className="hover:text-teal-600">Allied Health</Link>
+    <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6 flex-wrap" aria-label={t("allied.rrtPharmStudyTools.breadcrumb")} data-testid="breadcrumb-nav">
+      <Link href="/allied-health" className="hover:text-teal-600">{t("allied.rrtPharmStudyTools.alliedHealth")}</Link>
       <ChevronRight className="w-3.5 h-3.5" />
       <Link href="/allied-health/rrt" className="hover:text-teal-600">RRT</Link>
       <ChevronRight className="w-3.5 h-3.5" />
-      <Link href="/allied-health/rrt/pharmacology" className="hover:text-teal-600">Pharmacology</Link>
+      <Link href="/allied-health/rrt/pharmacology" className="hover:text-teal-600">{t("allied.rrtPharmStudyTools.pharmacology")}</Link>
       <ChevronRight className="w-3.5 h-3.5" />
       <span className="text-blue-700 font-medium">{current}</span>
     </nav>
@@ -51,8 +53,8 @@ export function RrtPharmQuickSheets() {
   return (
     <div data-testid="rrt-pharm-quick-sheets">
       <AlliedSEO
-        title="RRT Pharmacology Quick Sheets — High-Yield Side Effects, Comparison Charts | NurseNest"
-        description="High-yield respiratory pharmacology quick reference sheets: medication side effects chart, bronchodilator vs controller comparison, inhaled drug delivery device comparison for NBRC TMC exam prep."
+        title={t("allied.rrtPharmStudyTools.rrtPharmacologyQuickSheetsHighyield")}
+        description={t("allied.rrtPharmStudyTools.highyieldRespiratoryPharmacologyQuickReferenc")}
         keywords="RRT pharmacology quick sheet, respiratory drug side effects, bronchodilator vs controller, inhaler comparison chart, NBRC TMC pharmacology review"
         canonicalPath="/allied-health/rrt/pharmacology/quick-sheets"
       />
@@ -67,7 +69,7 @@ export function RrtPharmQuickSheets() {
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2" data-testid="text-page-title">
             Pharmacology Quick Reference
           </h1>
-          <p className="text-gray-600">Essential comparison charts and side-effect summaries for rapid TMC exam review.</p>
+          <p className="text-gray-600">{t("allied.rrtPharmStudyTools.essentialComparisonChartsAndSideeffect")}</p>
         </div>
 
         <section className="mb-12" data-testid="section-side-effects">
@@ -79,9 +81,9 @@ export function RrtPharmQuickSheets() {
             <table className="w-full text-sm border border-gray-200 rounded-xl overflow-hidden" data-testid="table-side-effects">
               <thead>
                 <tr className="bg-gray-50">
-                  <th className="text-left px-4 py-3 font-semibold text-gray-700 border-b">Medication</th>
-                  <th className="text-left px-4 py-3 font-semibold text-gray-700 border-b">Key Side Effects</th>
-                  <th className="text-left px-4 py-3 font-semibold text-gray-700 border-b hidden sm:table-cell">Clinical Tip</th>
+                  <th className="text-left px-4 py-3 font-semibold text-gray-700 border-b">{t("allied.rrtPharmStudyTools.medication")}</th>
+                  <th className="text-left px-4 py-3 font-semibold text-gray-700 border-b">{t("allied.rrtPharmStudyTools.keySideEffects")}</th>
+                  <th className="text-left px-4 py-3 font-semibold text-gray-700 border-b hidden sm:table-cell">{t("allied.rrtPharmStudyTools.clinicalTip")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -116,9 +118,9 @@ export function RrtPharmQuickSheets() {
             <table className="w-full text-sm border border-gray-200 rounded-xl overflow-hidden" data-testid="table-broncho-vs-controller">
               <thead>
                 <tr className="bg-blue-50">
-                  <th className="text-left px-4 py-3 font-semibold text-gray-700 border-b">Feature</th>
-                  <th className="text-left px-4 py-3 font-semibold text-blue-700 border-b">Bronchodilator (Reliever)</th>
-                  <th className="text-left px-4 py-3 font-semibold text-indigo-700 border-b">Controller (Maintenance)</th>
+                  <th className="text-left px-4 py-3 font-semibold text-gray-700 border-b">{t("allied.rrtPharmStudyTools.feature")}</th>
+                  <th className="text-left px-4 py-3 font-semibold text-blue-700 border-b">{t("allied.rrtPharmStudyTools.bronchodilatorReliever")}</th>
+                  <th className="text-left px-4 py-3 font-semibold text-indigo-700 border-b">{t("allied.rrtPharmStudyTools.controllerMaintenance")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -143,11 +145,11 @@ export function RrtPharmQuickSheets() {
             <table className="w-full text-sm border border-gray-200 rounded-xl overflow-hidden" data-testid="table-delivery-devices">
               <thead>
                 <tr className="bg-cyan-50">
-                  <th className="text-left px-3 py-3 font-semibold text-gray-700 border-b">Device</th>
-                  <th className="text-left px-3 py-3 font-semibold text-gray-700 border-b">Particle Size</th>
-                  <th className="text-left px-3 py-3 font-semibold text-gray-700 border-b">Lung Deposition</th>
-                  <th className="text-left px-3 py-3 font-semibold text-gray-700 border-b hidden md:table-cell">Advantages</th>
-                  <th className="text-left px-3 py-3 font-semibold text-gray-700 border-b hidden lg:table-cell">Best For</th>
+                  <th className="text-left px-3 py-3 font-semibold text-gray-700 border-b">{t("allied.rrtPharmStudyTools.device")}</th>
+                  <th className="text-left px-3 py-3 font-semibold text-gray-700 border-b">{t("allied.rrtPharmStudyTools.particleSize")}</th>
+                  <th className="text-left px-3 py-3 font-semibold text-gray-700 border-b">{t("allied.rrtPharmStudyTools.lungDeposition")}</th>
+                  <th className="text-left px-3 py-3 font-semibold text-gray-700 border-b hidden md:table-cell">{t("allied.rrtPharmStudyTools.advantages")}</th>
+                  <th className="text-left px-3 py-3 font-semibold text-gray-700 border-b hidden lg:table-cell">{t("allied.rrtPharmStudyTools.bestFor")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -181,8 +183,8 @@ export function RrtPharmTraps() {
   return (
     <div data-testid="rrt-pharm-traps">
       <AlliedSEO
-        title="Top TMC Pharmacology Traps — Common Exam Pitfalls for RRT | NurseNest"
-        description="Avoid the most common pharmacology mistakes on the NBRC TMC exam. 18 high-yield exam traps covering bronchodilators, drug interactions, sedation, delivery devices, and critical care medications."
+        title={t("allied.rrtPharmStudyTools.topTmcPharmacologyTrapsCommon")}
+        description={t("allied.rrtPharmStudyTools.avoidTheMostCommonPharmacology")}
         keywords="TMC pharmacology traps, RRT exam mistakes, NBRC common errors, respiratory therapy exam tips, TMC pharmacology pitfalls"
         canonicalPath="/allied-health/rrt/pharmacology/traps"
       />
@@ -243,19 +245,19 @@ export function RrtPharmTraps() {
                     <div className="flex items-start gap-2">
                       <XCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
                       <div>
-                        <span className="text-xs font-semibold text-red-600 uppercase">Wrong Answer</span>
+                        <span className="text-xs font-semibold text-red-600 uppercase">{t("allied.rrtPharmStudyTools.wrongAnswer")}</span>
                         <p className="text-gray-700 text-sm">{trap.wrongAnswer}</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
                       <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                       <div>
-                        <span className="text-xs font-semibold text-green-600 uppercase">Correct Answer</span>
+                        <span className="text-xs font-semibold text-green-600 uppercase">{t("allied.rrtPharmStudyTools.correctAnswer")}</span>
                         <p className="text-gray-700 text-sm">{trap.correctAnswer}</p>
                       </div>
                     </div>
                     <div className="bg-amber-50 rounded-lg p-3 text-sm text-amber-900">
-                      <strong>Why:</strong> {trap.explanation}
+                      <strong>{t("allied.rrtPharmStudyTools.why")}</strong> {trap.explanation}
                     </div>
                   </div>
                 )}
@@ -280,8 +282,8 @@ export function RrtPharmMnemonics() {
   return (
     <div data-testid="rrt-pharm-mnemonics">
       <AlliedSEO
-        title="RRT Pharmacology Mnemonics — Memory Aids for NBRC TMC Exam | NurseNest"
-        description="Master respiratory pharmacology with proven mnemonics and memory aids. SLUDGE, MUDPILES, B2 SHAKES, BRAND, and more for NBRC TMC and CSE exam preparation."
+        title={t("allied.rrtPharmStudyTools.rrtPharmacologyMnemonicsMemoryAids")}
+        description={t("allied.rrtPharmStudyTools.masterRespiratoryPharmacologyWithProven")}
         keywords="RRT mnemonics, respiratory therapy memory aids, TMC exam mnemonics, pharmacology mnemonics, NBRC study aids"
         canonicalPath="/allied-health/rrt/pharmacology/mnemonics"
       />
@@ -362,8 +364,8 @@ export function RrtPharmOneMinuteReview() {
   return (
     <div data-testid="rrt-pharm-one-minute">
       <AlliedSEO
-        title="One-Minute Review Cards — RRT Pharmacology Rapid Study | NurseNest"
-        description="Rapid-fire pharmacology review cards for respiratory therapy exam prep. Key facts, dosages, and exam tips for the most commonly tested medications on the NBRC TMC."
+        title={t("allied.rrtPharmStudyTools.oneminuteReviewCardsRrtPharmacology")}
+        description={t("allied.rrtPharmStudyTools.rapidfirePharmacologyReviewCardsFor")}
         keywords="RRT one minute review, respiratory therapy rapid study, TMC pharmacology cards, quick drug review, NBRC exam rapid review"
         canonicalPath="/allied-health/rrt/pharmacology/one-minute-review"
       />

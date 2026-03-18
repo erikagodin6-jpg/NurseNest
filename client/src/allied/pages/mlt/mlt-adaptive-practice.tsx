@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useLocation, useSearch } from "wouter";
 import { Zap, Target, Shuffle, Image, Clock, CheckCircle, XCircle, ArrowRight, AlertCircle } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const SUB_MODES = [
   { id: "quick_quiz", title: "Quick Adaptive Quiz", description: "20 questions adapting to your level", icon: Zap, color: "bg-purple-500" },
   { id: "weak_area_drill", title: "Weak Area Drill", description: "Focus on your weakest topics", icon: Target, color: "bg-red-500" },
@@ -21,6 +22,7 @@ interface Question {
 }
 
 export default function MltAdaptivePractice() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
   const search = useSearch();
   const params = new URLSearchParams(search);
@@ -130,7 +132,7 @@ export default function MltAdaptivePractice() {
           <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-adaptive-practice-title">
             Adaptive Practice – {country === "CA" ? "🇨🇦 Canada" : "🇺🇸 USA"}
           </h1>
-          <p className="text-gray-600">Choose a practice mode. Questions adapt to your performance in real-time.</p>
+          <p className="text-gray-600">{t("allied.mltMltAdaptivePractice.chooseAPracticeModeQuestions")}</p>
         </div>
 
         {error && (
@@ -163,7 +165,7 @@ export default function MltAdaptivePractice() {
         {loading && (
           <div className="text-center mt-6">
             <div className="w-6 h-6 border-2 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-            <p className="text-sm text-gray-500">Preparing questions...</p>
+            <p className="text-sm text-gray-500">{t("allied.mltMltAdaptivePractice.preparingQuestions")}</p>
           </div>
         )}
       </div>
@@ -247,7 +249,7 @@ export default function MltAdaptivePractice() {
 
           {lastResult && lastResult.rationale && (
             <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
-              <p className="text-sm font-medium text-blue-900 mb-1">Rationale</p>
+              <p className="text-sm font-medium text-blue-900 mb-1">{t("allied.mltMltAdaptivePractice.rationale")}</p>
               <p className="text-sm text-blue-800">{lastResult.rationale}</p>
             </div>
           )}

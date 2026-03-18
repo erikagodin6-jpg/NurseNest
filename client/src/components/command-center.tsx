@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import { useI18n } from "@/lib/i18n";
 type DailyGoals = {
   lessonsTarget: number;
   lessonsCompleted: number;
@@ -82,6 +83,7 @@ type CommandCenterData = {
 };
 
 function GoalMiniBar({ completed, target, label }: { completed: number; target: number; label: string }) {
+  const { t } = useI18n();
   const pct = target > 0 ? Math.min(100, Math.round((completed / target) * 100)) : 0;
   return (
     <div className="flex items-center gap-2">
@@ -351,10 +353,10 @@ function ExamUpcomingContent({
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
-        <StatPill value={`${days}`} label="Days Left" color="text-primary" />
+        <StatPill value={`${days}`} label={t("components.commandCenter.daysLeft")} color="text-primary" />
         <StatPill
           value={`${readiness}%`}
-          label="Readiness"
+          label={t("components.commandCenter.readiness")}
           color={
             readiness >= 70
               ? "text-emerald-600"
@@ -365,13 +367,13 @@ function ExamUpcomingContent({
         />
         <StatPill
           value={`${streak}`}
-          label="Day Streak"
+          label={t("components.commandCenter.dayStreak")}
           color={streak > 0 ? "text-orange-500" : "text-gray-400"}
         />
         {pacing && (
           <StatPill
             value={`${pacing.questionsPerDay}`}
-            label="Q/Day Target"
+            label={t("components.commandCenter.qdayTarget")}
             color="text-primary"
           />
         )}
@@ -385,12 +387,12 @@ function ExamUpcomingContent({
           <GoalMiniBar
             completed={data.goals.lessonsCompleted}
             target={data.goals.lessonsTarget}
-            label="Lessons"
+            label={t("components.commandCenter.lessons")}
           />
           <GoalMiniBar
             completed={data.goals.questionsCompleted}
             target={data.goals.questionsTarget}
-            label="Questions"
+            label={t("components.commandCenter.questions")}
           />
         </div>
       )}
@@ -449,10 +451,10 @@ function ExamApproachingSoonContent({
       </div>
 
       <div className="grid grid-cols-2 gap-2 mb-4">
-        <StatPill value={`${days}`} label="Days Left" color="text-amber-600" />
+        <StatPill value={`${days}`} label={t("components.commandCenter.daysLeft2")} color="text-amber-600" />
         <StatPill
           value={`${readiness}%`}
-          label="Readiness"
+          label={t("components.commandCenter.readiness2")}
           color={
             readiness >= 70
               ? "text-emerald-600"
@@ -759,7 +761,7 @@ function NewGradActiveContent({
           data-testid="button-cc-survival-guides"
         >
           <BookOpen className="w-4 h-4 text-indigo-600" />
-          <span className="text-xs font-medium text-gray-700">Survival Guides</span>
+          <span className="text-xs font-medium text-gray-700">{t("components.commandCenter.survivalGuides")}</span>
         </button>
         <button
           onClick={() => navigate("/newgrad/interview")}
@@ -767,7 +769,7 @@ function NewGradActiveContent({
           data-testid="button-cc-interview-prep"
         >
           <Briefcase className="w-4 h-4 text-indigo-600" />
-          <span className="text-xs font-medium text-gray-700">Interview Prep</span>
+          <span className="text-xs font-medium text-gray-700">{t("components.commandCenter.interviewPrep")}</span>
         </button>
         <button
           onClick={() => navigate("/newgrad/certifications")}
@@ -775,7 +777,7 @@ function NewGradActiveContent({
           data-testid="button-cc-certifications"
         >
           <Stethoscope className="w-4 h-4 text-indigo-600" />
-          <span className="text-xs font-medium text-gray-700">Certifications</span>
+          <span className="text-xs font-medium text-gray-700">{t("components.commandCenter.certifications")}</span>
         </button>
       </div>
       <Button

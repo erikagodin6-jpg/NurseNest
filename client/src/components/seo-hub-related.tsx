@@ -1,6 +1,7 @@
 import { ArrowRight, BookOpen, FlaskConical, Pill, Activity, BarChart3, Brain, FileText, type LucideIcon } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
 
+import { useI18n } from "@/lib/i18n";
 interface RelatedArticle {
   title: string;
   href: string;
@@ -35,6 +36,7 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 export function SeoHubRelatedArticles({ articles, title = "Related Resources", className = "" }: SeoHubRelatedProps) {
+  const { t } = useI18n();
   if (!articles || articles.length === 0) return null;
 
   return (
@@ -89,7 +91,7 @@ export function SeoHubInternalLinks({ parentHub, siblings, questionBankLink, pri
 
   return (
     <nav className="bg-gray-50 rounded-xl p-5 border border-gray-200" data-testid="seo-hub-internal-links">
-      <h3 className="text-sm font-semibold text-gray-700 mb-3">Explore More</h3>
+      <h3 className="text-sm font-semibold text-gray-700 mb-3">{t("components.seoHubRelated.exploreMore")}</h3>
       <ul className="space-y-2">
         <li>
           <LocaleLink href={parentHub.href} className="flex items-center gap-2 text-sm text-primary hover:underline" data-testid="link-parent-hub">

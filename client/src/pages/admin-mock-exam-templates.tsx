@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { FLAGSHIP_MOCK_EXAM_TEMPLATES, FLAGSHIP_EXAM_CODES, type MockExamTemplate } from "@/lib/flagship-mock-exam-configs";
 
+import { useI18n } from "@/lib/i18n";
 interface DbTemplate {
   id: string;
   templateId: string;
@@ -35,6 +36,7 @@ interface PreviewResult {
 }
 
 export default function AdminMockExamTemplates() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [templates, setTemplates] = useState<DbTemplate[]>([]);
   const [loading, setLoading] = useState(true);
@@ -141,7 +143,7 @@ export default function AdminMockExamTemplates() {
   if (!isAdmin) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold" data-testid="text-access-denied">Admin Access Required</h1>
+        <h1 className="text-2xl font-bold" data-testid="text-access-denied">{t("pages.adminMockExamTemplates.adminAccessRequired")}</h1>
       </div>
     );
   }
@@ -163,7 +165,7 @@ export default function AdminMockExamTemplates() {
             <FileText className="w-6 h-6 text-teal-600" />
             Mock Exam Templates
           </h1>
-          <p className="text-gray-600 mt-1">Manage flagship mock exam blueprints and configurations.</p>
+          <p className="text-gray-600 mt-1">{t("pages.adminMockExamTemplates.manageFlagshipMockExamBlueprints")}</p>
         </div>
         <div className="flex gap-2">
           <Button
@@ -232,7 +234,7 @@ export default function AdminMockExamTemplates() {
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-1">
               <FileText className="w-4 h-4 text-teal-500" />
-              <span className="text-xs text-gray-500">Total Templates</span>
+              <span className="text-xs text-gray-500">{t("pages.adminMockExamTemplates.totalTemplates")}</span>
             </div>
             <p className="text-2xl font-bold">{templates.length}</p>
           </CardContent>
@@ -241,7 +243,7 @@ export default function AdminMockExamTemplates() {
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-1">
               <CheckCircle2 className="w-4 h-4 text-green-500" />
-              <span className="text-xs text-gray-500">Active</span>
+              <span className="text-xs text-gray-500">{t("pages.adminMockExamTemplates.active")}</span>
             </div>
             <p className="text-2xl font-bold">{templates.filter(t => t.active).length}</p>
           </CardContent>
@@ -250,7 +252,7 @@ export default function AdminMockExamTemplates() {
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-1">
               <Target className="w-4 h-4 text-purple-500" />
-              <span className="text-xs text-gray-500">Exam Types</span>
+              <span className="text-xs text-gray-500">{t("pages.adminMockExamTemplates.examTypes")}</span>
             </div>
             <p className="text-2xl font-bold">{Object.keys(examCounts).length}</p>
           </CardContent>
@@ -259,7 +261,7 @@ export default function AdminMockExamTemplates() {
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-1">
               <BarChart3 className="w-4 h-4 text-amber-500" />
-              <span className="text-xs text-gray-500">Avg Questions</span>
+              <span className="text-xs text-gray-500">{t("pages.adminMockExamTemplates.avgQuestions")}</span>
             </div>
             <p className="text-2xl font-bold">
               {templates.length > 0 ? Math.round(templates.reduce((s, t) => s + t.questionCount, 0) / templates.length) : 0}
@@ -279,7 +281,7 @@ export default function AdminMockExamTemplates() {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-medium text-gray-600">Template ID</label>
+                <label className="text-xs font-medium text-gray-600">{t("pages.adminMockExamTemplates.templateId")}</label>
                 <input
                   className="w-full mt-1 px-3 py-2 border rounded-lg text-sm"
                   value={editingTemplate.templateId || ""}
@@ -289,7 +291,7 @@ export default function AdminMockExamTemplates() {
                 />
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-600">Exam Code</label>
+                <label className="text-xs font-medium text-gray-600">{t("pages.adminMockExamTemplates.examCode")}</label>
                 <select
                   className="w-full mt-1 px-3 py-2 border rounded-lg text-sm"
                   value={editingTemplate.examCode || ""}
@@ -302,7 +304,7 @@ export default function AdminMockExamTemplates() {
                 </select>
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-600">Exam Name</label>
+                <label className="text-xs font-medium text-gray-600">{t("pages.adminMockExamTemplates.examName")}</label>
                 <input
                   className="w-full mt-1 px-3 py-2 border rounded-lg text-sm"
                   value={editingTemplate.examName || ""}
@@ -311,7 +313,7 @@ export default function AdminMockExamTemplates() {
                 />
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-600">Template Name</label>
+                <label className="text-xs font-medium text-gray-600">{t("pages.adminMockExamTemplates.templateName")}</label>
                 <input
                   className="w-full mt-1 px-3 py-2 border rounded-lg text-sm"
                   value={editingTemplate.templateName || ""}
@@ -320,7 +322,7 @@ export default function AdminMockExamTemplates() {
                 />
               </div>
               <div className="md:col-span-2">
-                <label className="text-xs font-medium text-gray-600">Description</label>
+                <label className="text-xs font-medium text-gray-600">{t("pages.adminMockExamTemplates.description")}</label>
                 <textarea
                   className="w-full mt-1 px-3 py-2 border rounded-lg text-sm"
                   rows={2}
@@ -330,7 +332,7 @@ export default function AdminMockExamTemplates() {
                 />
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-600">Question Count</label>
+                <label className="text-xs font-medium text-gray-600">{t("pages.adminMockExamTemplates.questionCount")}</label>
                 <input
                   type="number"
                   className="w-full mt-1 px-3 py-2 border rounded-lg text-sm"
@@ -340,7 +342,7 @@ export default function AdminMockExamTemplates() {
                 />
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-600">Time Limit (minutes)</label>
+                <label className="text-xs font-medium text-gray-600">{t("pages.adminMockExamTemplates.timeLimitMinutes")}</label>
                 <input
                   type="number"
                   className="w-full mt-1 px-3 py-2 border rounded-lg text-sm"
@@ -350,7 +352,7 @@ export default function AdminMockExamTemplates() {
                 />
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-600">Passing Standard (%)</label>
+                <label className="text-xs font-medium text-gray-600">{t("pages.adminMockExamTemplates.passingStandard")}</label>
                 <input
                   type="number"
                   className="w-full mt-1 px-3 py-2 border rounded-lg text-sm"
@@ -360,7 +362,7 @@ export default function AdminMockExamTemplates() {
                 />
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-600">Tier</label>
+                <label className="text-xs font-medium text-gray-600">{t("pages.adminMockExamTemplates.tier")}</label>
                 <select
                   className="w-full mt-1 px-3 py-2 border rounded-lg text-sm"
                   value={editingTemplate.tier || "rn"}
@@ -368,7 +370,7 @@ export default function AdminMockExamTemplates() {
                   data-testid="select-tier"
                 >
                   <option value="rn">RN</option>
-                  <option value="rpn">RPN/PN</option>
+                  <option value="rpn">{t("pages.adminMockExamTemplates.rpnpn")}</option>
                   <option value="np">NP</option>
                 </select>
               </div>
@@ -403,7 +405,7 @@ export default function AdminMockExamTemplates() {
                       <div className="flex items-center gap-2">
                         <span className="px-2 py-0.5 bg-teal-50 text-teal-700 text-xs font-medium rounded">{template.examCode}</span>
                         <h3 className="font-semibold text-gray-900">{template.templateName}</h3>
-                        {!template.active && <span className="px-2 py-0.5 bg-gray-100 text-gray-500 text-xs rounded">Inactive</span>}
+                        {!template.active && <span className="px-2 py-0.5 bg-gray-100 text-gray-500 text-xs rounded">{t("pages.adminMockExamTemplates.inactive")}</span>}
                       </div>
                       <p className="text-sm text-gray-500 mt-0.5">{template.description}</p>
                     </div>
@@ -459,7 +461,7 @@ export default function AdminMockExamTemplates() {
                   <div className="mt-4 pt-4 border-t border-gray-100">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
-                        <h4 className="text-xs font-semibold text-gray-500 mb-2">Domain Weights</h4>
+                        <h4 className="text-xs font-semibold text-gray-500 mb-2">{t("pages.adminMockExamTemplates.domainWeights")}</h4>
                         <div className="space-y-1.5">
                           {(template.domainWeights || []).map((dw: any) => (
                             <div key={dw.domain} className="flex items-center gap-2">
@@ -472,33 +474,33 @@ export default function AdminMockExamTemplates() {
                         </div>
                       </div>
                       <div>
-                        <h4 className="text-xs font-semibold text-gray-500 mb-2">Difficulty Distribution</h4>
+                        <h4 className="text-xs font-semibold text-gray-500 mb-2">{t("pages.adminMockExamTemplates.difficultyDistribution")}</h4>
                         {template.difficultyDistribution && (
                           <div className="space-y-1.5">
                             <div className="flex justify-between text-xs">
-                              <span className="text-green-600">Foundational</span>
+                              <span className="text-green-600">{t("pages.adminMockExamTemplates.foundational")}</span>
                               <span>{Math.round((template.difficultyDistribution as any).foundational * 100)}%</span>
                             </div>
                             <div className="flex justify-between text-xs">
-                              <span className="text-amber-600">Moderate</span>
+                              <span className="text-amber-600">{t("pages.adminMockExamTemplates.moderate")}</span>
                               <span>{Math.round((template.difficultyDistribution as any).moderate * 100)}%</span>
                             </div>
                             <div className="flex justify-between text-xs">
-                              <span className="text-red-600">Difficult</span>
+                              <span className="text-red-600">{t("pages.adminMockExamTemplates.difficult")}</span>
                               <span>{Math.round((template.difficultyDistribution as any).difficult * 100)}%</span>
                             </div>
                           </div>
                         )}
                       </div>
                       <div>
-                        <h4 className="text-xs font-semibold text-gray-500 mb-2">Format Mix</h4>
+                        <h4 className="text-xs font-semibold text-gray-500 mb-2">{t("pages.adminMockExamTemplates.formatMix")}</h4>
                         {template.formatMix && (
                           <div className="space-y-1.5 text-xs">
-                            <div className="flex justify-between"><span>MCQ Single</span><span>{Math.round((template.formatMix as any).mcqSingle * 100)}%</span></div>
+                            <div className="flex justify-between"><span>{t("pages.adminMockExamTemplates.mcqSingle")}</span><span>{Math.round((template.formatMix as any).mcqSingle * 100)}%</span></div>
                             <div className="flex justify-between"><span>SATA</span><span>{Math.round((template.formatMix as any).selectAllThatApply * 100)}%</span></div>
-                            <div className="flex justify-between"><span>Scenario</span><span>{Math.round((template.formatMix as any).scenarioBased * 100)}%</span></div>
-                            <div className="flex justify-between"><span>Prioritization</span><span>{Math.round((template.formatMix as any).prioritization * 100)}%</span></div>
-                            <div className="flex justify-between"><span>Delegation</span><span>{Math.round((template.formatMix as any).delegation * 100)}%</span></div>
+                            <div className="flex justify-between"><span>{t("pages.adminMockExamTemplates.scenario")}</span><span>{Math.round((template.formatMix as any).scenarioBased * 100)}%</span></div>
+                            <div className="flex justify-between"><span>{t("pages.adminMockExamTemplates.prioritization")}</span><span>{Math.round((template.formatMix as any).prioritization * 100)}%</span></div>
+                            <div className="flex justify-between"><span>{t("pages.adminMockExamTemplates.delegation")}</span><span>{Math.round((template.formatMix as any).delegation * 100)}%</span></div>
                           </div>
                         )}
                       </div>
@@ -522,7 +524,7 @@ export default function AdminMockExamTemplates() {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <h4 className="text-xs font-semibold text-gray-500 mb-2">Domain Distribution</h4>
+                <h4 className="text-xs font-semibold text-gray-500 mb-2">{t("pages.adminMockExamTemplates.domainDistribution")}</h4>
                 <div className="space-y-1">
                   {Object.entries(preview.domainDistribution).map(([domain, count]) => (
                     <div key={domain} className="flex justify-between text-sm">
@@ -533,7 +535,7 @@ export default function AdminMockExamTemplates() {
                 </div>
               </div>
               <div>
-                <h4 className="text-xs font-semibold text-gray-500 mb-2">Difficulty Distribution</h4>
+                <h4 className="text-xs font-semibold text-gray-500 mb-2">{t("pages.adminMockExamTemplates.difficultyDistribution2")}</h4>
                 <div className="space-y-1">
                   {Object.entries(preview.difficultyDistribution).map(([level, count]) => (
                     <div key={level} className="flex justify-between text-sm">
@@ -546,7 +548,7 @@ export default function AdminMockExamTemplates() {
             </div>
             <p className="text-sm text-gray-500 mb-3">Total available: {preview.totalAvailable} questions</p>
             <div className="space-y-2">
-              <h4 className="text-xs font-semibold text-gray-500">Sample Questions</h4>
+              <h4 className="text-xs font-semibold text-gray-500">{t("pages.adminMockExamTemplates.sampleQuestions")}</h4>
               {preview.previewQuestions.map(q => (
                 <div key={q.id} className="bg-gray-50 rounded-lg p-3 text-sm">
                   <div className="flex items-center gap-2 mb-1">

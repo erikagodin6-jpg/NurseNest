@@ -3,7 +3,9 @@ import { Link, useParams } from "wouter";
 import { CheckCircle2, XCircle, ChevronRight, BookOpen, Clock, BarChart3, AlertTriangle, ArrowLeft } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 
+import { useI18n } from "@/lib/i18n";
 export default function PharmtechReviewPage() {
+  const { t } = useI18n();
   const { attemptId } = useParams<{ attemptId: string }>();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -32,9 +34,9 @@ export default function PharmtechReviewPage() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center" data-testid="review-error">
         <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Review Unavailable</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.pharmtechReview.reviewUnavailable")}</h1>
         <p className="text-gray-500 mb-6">{error || "This exam review could not be loaded."}</p>
-        <Link href="/allied-health/pharmacy-technician/exams" className="text-green-600 font-medium hover:underline">Back to Exams</Link>
+        <Link href="/allied-health/pharmacy-technician/exams" className="text-green-600 font-medium hover:underline">{t("allied.pharmtechReview.backToExams")}</Link>
       </div>
     );
   }
@@ -53,8 +55,10 @@ export default function PharmtechReviewPage() {
     if (answers[i] === q.correctIndex) categoryBreakdown[q.category].correct++;
   });
 
+  const WEAK_THRESHOLD = 70;
+  const getPercent = (d: { correct: number; total: number }) => Math.round((d.correct / d.total) * 100);
   const weakCategories = Object.entries(categoryBreakdown)
-    .filter(([, d]) => Math.round((d.correct / d.total) * 100) < 70)
+    .filter(([, d]) => getPercent(d) < WEAK_THRESHOLD)
     .map(([cat]) => cat);
 
   const recommendedLessons: { slug: string; title: string; category: string }[] = [];
@@ -74,16 +78,16 @@ export default function PharmtechReviewPage() {
     <>
       <AlliedSEO
         title={`${exam.title} - Exam Review`}
-        description="Review your pharmacy technician exam attempt with detailed rationales"
+        description={t("allied.pharmtechReview.reviewYourPharmacyTechnicianExam")}
         canonicalPath={`/allied-health/pharmacy-technician/review/${attemptId}`}
       />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-review-page">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">{t("allied.pharmtechReview.pharmacyTechnician")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <Link href="/allied-health/pharmacy-technician/exams" className="hover:text-teal-600">Practice Exams</Link>
+          <Link href="/allied-health/pharmacy-technician/exams" className="hover:text-teal-600">{t("allied.pharmtechReview.practiceExams")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-green-700 font-medium">Review</span>
+          <span className="text-green-700 font-medium">{t("allied.pharmtechReview.review")}</span>
         </div>
 
         <div className="flex items-center justify-between mb-6">
@@ -122,7 +126,7 @@ export default function PharmtechReviewPage() {
 
         <div className="grid sm:grid-cols-2 gap-4 mb-8">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">Category Breakdown</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("allied.pharmtechReview.categoryBreakdown")}</h2>
             <div className="space-y-2">
               {Object.entries(categoryBreakdown).map(([cat, d]) => {
                 const catPercent = Math.round((d.correct / d.total) * 100);
@@ -144,7 +148,7 @@ export default function PharmtechReviewPage() {
 
           {recommendedLessons.length > 0 && (
             <div>
-              <h2 className="text-lg font-semibold text-gray-900 mb-3">Recommended Study</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("allied.pharmtechReview.recommendedStudy")}</h2>
               <div className="space-y-2">
                 {recommendedLessons.map(lesson => (
                   <Link
@@ -166,7 +170,7 @@ export default function PharmtechReviewPage() {
           )}
         </div>
 
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Question-by-Question Review</h2>
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">{t("allied.pharmtechReview.questionbyquestionReview")}</h2>
         <div className="space-y-5">
           {questions.map((q: any, i: number) => {
             const userAnswer = answers[i];
@@ -199,7 +203,7 @@ export default function PharmtechReviewPage() {
                 </div>
 
                 <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                  <h4 className="font-semibold text-blue-800 text-sm mb-1">Rationale</h4>
+                  <h4 className="font-semibold text-blue-800 text-sm mb-1">{t("allied.pharmtechReview.rationale")}</h4>
                   <p className="text-sm text-blue-900 leading-relaxed">{q.rationale}</p>
                 </div>
 

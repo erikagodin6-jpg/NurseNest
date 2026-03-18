@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { paramedicQuestions } from "@/data/career-questions/paramedic-questions";
 
+import { useI18n } from "@/lib/i18n";
 const CATEGORY_COUNTS: Record<string, number> = {};
 paramedicQuestions.forEach(q => {
   CATEGORY_COUNTS[q.category] = (CATEGORY_COUNTS[q.category] || 0) + 1;
@@ -29,11 +30,12 @@ const ACP_FAQS = [
 ];
 
 export default function ParamedicACPPage() {
+  const { t } = useI18n();
   return (
     <div data-testid="paramedic-acp-page">
       <AlliedSEO
-        title="ACP Exam Prep — Advanced Care Paramedic Practice Questions | NurseNest"
-        description="Prepare for your Advanced Care Paramedic exam with ACLS/PALS mastery, 12-lead ECG drills, advanced pharmacology, and blueprint-weighted mock exams. 600+ word clinical rationales on every question."
+        title={t("allied.paramedicParamedicAcp.acpExamPrepAdvancedCare")}
+        description={t("allied.paramedicParamedicAcp.prepareForYourAdvancedCare")}
         keywords="advanced care paramedic exam, ACP exam prep, ACP practice questions, paramedic ACLS, ACP certification canada, advanced paramedic study guide, 12-lead ECG paramedic"
         canonicalPath="/allied-health/paramedic/acp"
         structuredData={{
@@ -47,9 +49,9 @@ export default function ParamedicACPPage() {
 
       <HeroCTA
         badge="Advanced Care Paramedic"
-        title="Master ACP-Level"
+        title={t("allied.paramedicParamedicAcp.masterAcplevel")}
         titleHighlight="Clinical Decision-Making"
-        subtitle="ACLS algorithms, 12-lead ECG interpretation, advanced pharmacology, and critical care scenarios — study tools built for the complexity of advanced paramedic practice."
+        subtitle={t("allied.paramedic_acp.aclsAlgorithms12leadEcgInterpretation")}
         primaryCTA={{ label: "Start Free ACP Diagnostic", href: "/diagnostic?career=paramedic" }}
         secondaryCTA={{ label: "Browse ACP Questions", href: "/qbank?career=paramedic" }}
       />
@@ -57,16 +59,16 @@ export default function ParamedicACPPage() {
       <section className="py-16 sm:py-20 bg-white" data-testid="section-acp-features">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Built for Advanced Practice</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">ACP certification demands deeper clinical reasoning. Our platform goes beyond recall-level questions to test the analytical thinking your exam requires.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.paramedicParamedicAcp.builtForAdvancedPractice")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("allied.paramedicParamedicAcp.acpCertificationDemandsDeeperClinical")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <FeatureCard icon={Heart} title="ACLS & PALS Algorithm Mastery" description="Work through every ACLS and PALS algorithm with decision-point questions and full clinical rationales explaining the reasoning behind each intervention." />
-            <FeatureCard icon={Activity} title="12-Lead ECG Drills" description="Progressive-difficulty ECG recognition practice: identify STEMI patterns, bundle branch blocks, axis deviation, and complex dysrhythmias." />
-            <FeatureCard icon={BookOpen} title="Advanced Pharmacology" description="ACP-scope medications including paralytic agents, antiarrhythmics, vasopressors, and sedatives with dose calculations and clinical scenarios." />
-            <FeatureCard icon={Zap} title="Critical Care Scenarios" description="Unfolding cases covering interfacility transport, mechanical ventilation management, vasopressor titration, and multi-system critical patients." />
-            <FeatureCard icon={FileText} title="ACP-Weighted Mock Exams" description="Timed exams weighted to ACP exam blueprints with difficulty levels matching advanced certification standards." />
-            <FeatureCard icon={Brain} title="Clinical Reasoning Rationales" description="Every rationale explains the pathophysiology, differentials, and management rationale at the depth expected of an ACP practitioner." />
+            <FeatureCard icon={Heart} title={t("allied.paramedicParamedicAcp.aclsPalsAlgorithmMastery")} description={t("allied.paramedicParamedicAcp.workThroughEveryAclsAnd")} />
+            <FeatureCard icon={Activity} title={t("allied.paramedicParamedicAcp.12leadEcgDrills")} description={t("allied.paramedicParamedicAcp.progressivedifficultyEcgRecognitionPracticeI")} />
+            <FeatureCard icon={BookOpen} title={t("allied.paramedicParamedicAcp.advancedPharmacology")} description={t("allied.paramedicParamedicAcp.acpscopeMedicationsIncludingParalyticAgents")} />
+            <FeatureCard icon={Zap} title={t("allied.paramedicParamedicAcp.criticalCareScenarios")} description={t("allied.paramedicParamedicAcp.unfoldingCasesCoveringInterfacilityTransport")} />
+            <FeatureCard icon={FileText} title={t("allied.paramedicParamedicAcp.acpweightedMockExams")} description={t("allied.paramedicParamedicAcp.timedExamsWeightedToAcp")} />
+            <FeatureCard icon={Brain} title={t("allied.paramedicParamedicAcp.clinicalReasoningRationales")} description={t("allied.paramedicParamedicAcp.everyRationaleExplainsThePathophysiology")} />
           </div>
         </div>
       </section>
@@ -74,8 +76,8 @@ export default function ParamedicACPPage() {
       <section className="py-16 sm:py-20 bg-gradient-to-b from-purple-50/30 to-white" data-testid="section-acp-topics">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">High-Yield ACP Topic Categories</h2>
-            <p className="text-gray-600 max-w-xl mx-auto">Focus on the advanced clinical domains that define ACP certification exams.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.paramedicParamedicAcp.highyieldAcpTopicCategories")}</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">{t("allied.paramedicParamedicAcp.focusOnTheAdvancedClinical")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {ACP_TOPICS.map(t => (
@@ -95,8 +97,8 @@ export default function ParamedicACPPage() {
       </section>
 
       <FreePreviewBlock
-        title="Try ACP Prep Free"
-        subtitle="See where your ACP knowledge stands with a free diagnostic, then experience our depth with 5 practice questions."
+        title={t("allied.paramedicParamedicAcp.tryAcpPrepFree")}
+        subtitle={t("allied.paramedic_acp.seeWhereYourAcpKnowledge")}
         previewItems={[
           { label: "15-Question Diagnostic", description: "Assess your ACP readiness across all domains" },
           { label: "5 Practice Questions", description: "Full 600+ word advanced rationales" },
@@ -106,13 +108,13 @@ export default function ParamedicACPPage() {
         ctaLabel="Start Free ACP Diagnostic"
       />
 
-      <FAQSection title="ACP Exam Prep FAQ" faqs={ACP_FAQS} />
+      <FAQSection title={t("allied.paramedicParamedicAcp.acpExamPrepFaq")} faqs={ACP_FAQS} />
 
       <TrustBlock />
 
       <FinalCTASection
-        title="Ready to Master ACP-Level Practice?"
-        subtitle="Advanced Care Paramedic exams demand advanced preparation. Start with a free diagnostic and build your study plan today."
+        title={t("allied.paramedicParamedicAcp.readyToMasterAcplevelPractice")}
+        subtitle={t("allied.paramedic_acp.advancedCareParamedicExamsDemand")}
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
         secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}
       />

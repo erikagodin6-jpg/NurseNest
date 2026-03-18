@@ -4,6 +4,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { AdaptiveStudyHub } from "@/components/adaptive-study";
 
+import { useI18n } from "@/lib/i18n";
 const VALID_MODES = ["recommended", "weak-areas", "due-review", "flagged", "rapid", "mixed", "pre-exam"] as const;
 type StudyModeSlug = typeof VALID_MODES[number];
 
@@ -18,6 +19,7 @@ const SLUG_TO_SESSION: Record<StudyModeSlug, string> = {
 };
 
 export default function AdaptiveStudyPage() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
   const params = useParams<{ mode?: string }>();
   const { user, effectiveTier } = useAuth();
@@ -31,7 +33,7 @@ export default function AdaptiveStudyPage() {
         <Navigation />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center p-8">
-            <p className="text-gray-600 mb-4" data-testid="text-login-required">Please log in to access the Adaptive Study Engine.</p>
+            <p className="text-gray-600 mb-4" data-testid="text-login-required">{t("pages.adaptiveStudyPage.pleaseLogInToAccess")}</p>
             <button onClick={() => setLocation("/login")} className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90" data-testid="button-login">
               Log In
             </button>

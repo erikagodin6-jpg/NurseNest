@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { X, Delete } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 export function ExamCalculator({ onClose }: { onClose: () => void }) {
   const [display, setDisplay] = useState("0");
   const [previousValue, setPreviousValue] = useState<number | null>(null);
@@ -30,6 +31,7 @@ export function ExamCalculator({ onClose }: { onClose: () => void }) {
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
+  const { t } = useI18n();
       if (!dragging.current) return;
       setPos({ x: e.clientX - offset.current.x, y: e.clientY - offset.current.y });
     };
@@ -171,7 +173,7 @@ export function ExamCalculator({ onClose }: { onClose: () => void }) {
         onMouseDown={handleMouseDown}
       >
         <div className="flex items-center justify-between px-4 py-2.5 bg-gradient-to-r from-[#BFA6F6]/10 to-[#AEE3E1]/10 border-b border-gray-100 cursor-move">
-          <span className="text-sm font-semibold text-[#2E3A59]">Calculator</span>
+          <span className="text-sm font-semibold text-[#2E3A59]">{t("components.examCalculator.calculator")}</span>
           <button
             onClick={onClose}
             className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-gray-200 transition-colors"

@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { ExamSessionGuard } from "@/components/exam-session-guard";
 import { Clock, Lock, AlertCircle, Brain, BarChart3 } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface Question {
   id: string;
   question: string;
@@ -15,6 +16,7 @@ interface Question {
 }
 
 export default function MltUsaCatExam() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
@@ -159,7 +161,7 @@ export default function MltUsaCatExam() {
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="text-center space-y-3">
           <div className="w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-500">Preparing ASCP CAT exam...</p>
+          <p className="text-gray-500">{t("allied.mltMltUsaCatExam.preparingAscpCatExam")}</p>
         </div>
       </div>
     );
@@ -169,7 +171,7 @@ export default function MltUsaCatExam() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-        <h2 className="text-xl font-bold text-gray-900 mb-2">Exam Error</h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-2">{t("allied.mltMltUsaCatExam.examError")}</h2>
         <p className="text-gray-600 mb-4">{error}</p>
         <div className="flex gap-3 justify-center">
           <button onClick={() => { setError(""); setLoading(true); startExam(); }} className="px-6 py-2.5 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700" data-testid="button-retry-exam">
@@ -224,7 +226,7 @@ export default function MltUsaCatExam() {
       {showConfirm && (
         <div className="fixed inset-0 z-30 bg-black/30 flex items-center justify-center">
           <div className="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full mx-4">
-            <h3 className="font-bold text-gray-900 mb-2">End Exam?</h3>
+            <h3 className="font-bold text-gray-900 mb-2">{t("allied.mltMltUsaCatExam.endExam")}</h3>
             <p className="text-sm text-gray-600 mb-4">
               Are you sure you want to end the exam? You have answered {questionNumber - 1} questions. This action cannot be undone.
             </p>
@@ -299,7 +301,7 @@ export default function MltUsaCatExam() {
         <div className="mt-6 bg-blue-50 rounded-xl p-4 flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm text-blue-700">
             <BarChart3 className="w-4 h-4" />
-            <span>Adaptive progress</span>
+            <span>{t("allied.mltMltUsaCatExam.adaptiveProgress")}</span>
           </div>
           <div className="text-xs text-blue-600">
             {questionNumber} of ~{totalQuestions} questions · Score: {score}%

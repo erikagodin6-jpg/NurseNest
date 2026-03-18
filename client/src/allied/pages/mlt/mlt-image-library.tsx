@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Upload, Search, Filter, Edit, Trash2, Eye, Check, X, ChevronDown, Image as ImageIcon, Microscope, ArrowLeft } from "lucide-react";
 import { LabImageViewer } from "../../components/lab-image-viewer";
 
+import { useI18n } from "@/lib/i18n";
 const DISCIPLINE_LABELS: Record<string, string> = {
   hematology: "Hematology",
   microbiology: "Microbiology",
@@ -40,6 +41,7 @@ const IMAGE_TYPE_LABELS: Record<string, string> = {
 const STATUS_OPTIONS = ["pending", "approved", "rejected", "archived"];
 
 function getAdminCredentials() {
+
   try {
     const raw = localStorage.getItem("nursenest-credentials");
     return raw ? JSON.parse(raw) : null;
@@ -184,27 +186,27 @@ function MltImageLibrary() {
 
         {showUploadForm && (
           <div className="bg-white rounded-xl border p-6 mb-6 shadow-sm" data-testid="upload-form">
-            <h3 className="text-lg font-semibold mb-4">Upload Lab Image</h3>
+            <h3 className="text-lg font-semibold mb-4">{t("allied.mltMltImageLibrary.uploadLabImage")}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Discipline</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.discipline")}</label>
                 <select value={uploadDiscipline} onChange={(e) => setUploadDiscipline(e.target.value)} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="select-upload-discipline">
                   {Object.entries(DISCIPLINE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Image Type</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.imageType")}</label>
                 <select value={uploadImageType} onChange={(e) => setUploadImageType(e.target.value)} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="select-upload-type">
                   {Object.entries(IMAGE_TYPE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Alt Text</label>
-                <input type="text" value={uploadAltText} onChange={(e) => setUploadAltText(e.target.value)} placeholder="Describe the image..." className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="input-upload-alt" />
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.altText")}</label>
+                <input type="text" value={uploadAltText} onChange={(e) => setUploadAltText(e.target.value)} placeholder={t("allied.mltMltImageLibrary.describeTheImage")} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="input-upload-alt" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Caption</label>
-                <input type="text" value={uploadCaption} onChange={(e) => setUploadCaption(e.target.value)} placeholder="Optional caption..." className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="input-upload-caption" />
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.caption")}</label>
+                <input type="text" value={uploadCaption} onChange={(e) => setUploadCaption(e.target.value)} placeholder={t("allied.mltMltImageLibrary.optionalCaption")} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="input-upload-caption" />
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -213,7 +215,7 @@ function MltImageLibrary() {
                 <ImageIcon className="w-4 h-4" />
                 {uploadMutation.isPending ? "Uploading..." : "Select File"}
               </button>
-              <span className="text-xs text-gray-400">Max 20MB. JPEG, PNG, WebP, or TIFF</span>
+              <span className="text-xs text-gray-400">{t("allied.mltMltImageLibrary.max20mbJpegPngWebp")}</span>
               {uploadMutation.isError && <span className="text-xs text-red-500">{(uploadMutation.error as Error).message}</span>}
             </div>
           </div>
@@ -223,18 +225,18 @@ function MltImageLibrary() {
           <div className="p-4 border-b flex flex-wrap gap-3 items-center">
             <div className="relative flex-1 min-w-[200px]">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search images..." className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm" data-testid="input-search-images" />
+              <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t("allied.mltMltImageLibrary.searchImages")} className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm" data-testid="input-search-images" />
             </div>
             <select value={filterDiscipline} onChange={(e) => setFilterDiscipline(e.target.value)} className="border rounded-lg px-3 py-2 text-sm" data-testid="select-filter-discipline">
-              <option value="">All Disciplines</option>
+              <option value="">{t("allied.mltMltImageLibrary.allDisciplines")}</option>
               {Object.entries(DISCIPLINE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
             </select>
             <select value={filterType} onChange={(e) => setFilterType(e.target.value)} className="border rounded-lg px-3 py-2 text-sm" data-testid="select-filter-type">
-              <option value="">All Types</option>
+              <option value="">{t("allied.mltMltImageLibrary.allTypes")}</option>
               {Object.entries(IMAGE_TYPE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
             </select>
             <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} className="border rounded-lg px-3 py-2 text-sm" data-testid="select-filter-status">
-              <option value="">All Statuses</option>
+              <option value="">{t("allied.mltMltImageLibrary.allStatuses")}</option>
               {STATUS_OPTIONS.map((s) => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
             </select>
           </div>
@@ -258,12 +260,12 @@ function MltImageLibrary() {
           )}
 
           {isLoading ? (
-            <div className="p-8 text-center text-gray-400 text-sm">Loading images...</div>
+            <div className="p-8 text-center text-gray-400 text-sm">{t("allied.mltMltImageLibrary.loadingImages")}</div>
           ) : filteredImages.length === 0 ? (
             <div className="p-8 text-center" data-testid="empty-state">
               <Microscope className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-              <p className="text-gray-500 font-medium">No images found</p>
-              <p className="text-gray-400 text-sm mt-1">Upload microscopy images to build your library</p>
+              <p className="text-gray-500 font-medium">{t("allied.mltMltImageLibrary.noImagesFound")}</p>
+              <p className="text-gray-400 text-sm mt-1">{t("allied.mltMltImageLibrary.uploadMicroscopyImagesToBuild")}</p>
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
@@ -290,13 +292,13 @@ function MltImageLibrary() {
                       <span className="text-[10px] text-gray-400">{DISCIPLINE_LABELS[img.discipline] || img.discipline}</span>
                     </div>
                     <div className="flex items-center gap-1 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => setPreviewImage(img)} className="p-1 hover:bg-gray-100 rounded" title="Preview" data-testid={`button-preview-${img.id}`}>
+                      <button onClick={() => setPreviewImage(img)} className="p-1 hover:bg-gray-100 rounded" title={t("allied.mltMltImageLibrary.preview")} data-testid={`button-preview-${img.id}`}>
                         <Eye className="w-3.5 h-3.5 text-gray-500" />
                       </button>
-                      <button onClick={() => setEditingImage(img)} className="p-1 hover:bg-gray-100 rounded" title="Edit" data-testid={`button-edit-${img.id}`}>
+                      <button onClick={() => setEditingImage(img)} className="p-1 hover:bg-gray-100 rounded" title={t("allied.mltMltImageLibrary.edit")} data-testid={`button-edit-${img.id}`}>
                         <Edit className="w-3.5 h-3.5 text-gray-500" />
                       </button>
-                      <button onClick={() => { if (confirm("Delete this image?")) deleteMutation.mutate(img.id); }} className="p-1 hover:bg-red-50 rounded" title="Delete" data-testid={`button-delete-${img.id}`}>
+                      <button onClick={() => { if (confirm("Delete this image?")) deleteMutation.mutate(img.id); }} className="p-1 hover:bg-red-50 rounded" title={t("allied.mltMltImageLibrary.delete")} data-testid={`button-delete-${img.id}`}>
                         <Trash2 className="w-3.5 h-3.5 text-red-500" />
                       </button>
                     </div>
@@ -318,22 +320,22 @@ function MltImageLibrary() {
             <div className="p-4">
               <LabImageViewer src={previewImage.imageUrl} alt={previewImage.altText} caption={previewImage.caption} />
               <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
-                <div><span className="text-gray-500">Discipline:</span> <span className="font-medium">{DISCIPLINE_LABELS[previewImage.discipline]}</span></div>
-                <div><span className="text-gray-500">Type:</span> <span className="font-medium">{IMAGE_TYPE_LABELS[previewImage.imageType]}</span></div>
-                <div><span className="text-gray-500">Status:</span> <span className="font-medium">{previewImage.status}</span></div>
-                <div><span className="text-gray-500">Quality:</span> <span className="font-medium">{previewImage.qualityScore}/100</span></div>
-                {previewImage.stainType && <div><span className="text-gray-500">Stain:</span> <span className="font-medium">{previewImage.stainType}</span></div>}
-                {previewImage.organism && <div><span className="text-gray-500">Organism:</span> <span className="font-medium">{previewImage.organism}</span></div>}
-                {previewImage.cellType && <div><span className="text-gray-500">Cell Type:</span> <span className="font-medium">{previewImage.cellType}</span></div>}
-                {previewImage.magnification && <div><span className="text-gray-500">Magnification:</span> <span className="font-medium">{previewImage.magnification}</span></div>}
-                {previewImage.specimen && <div><span className="text-gray-500">Specimen:</span> <span className="font-medium">{previewImage.specimen}</span></div>}
-                {previewImage.normalAbnormal && <div><span className="text-gray-500">Normal/Abnormal:</span> <span className="font-medium">{previewImage.normalAbnormal}</span></div>}
+                <div><span className="text-gray-500">{t("allied.mltMltImageLibrary.discipline2")}</span> <span className="font-medium">{DISCIPLINE_LABELS[previewImage.discipline]}</span></div>
+                <div><span className="text-gray-500">{t("allied.mltMltImageLibrary.type")}</span> <span className="font-medium">{IMAGE_TYPE_LABELS[previewImage.imageType]}</span></div>
+                <div><span className="text-gray-500">{t("allied.mltMltImageLibrary.status")}</span> <span className="font-medium">{previewImage.status}</span></div>
+                <div><span className="text-gray-500">{t("allied.mltMltImageLibrary.quality")}</span> <span className="font-medium">{previewImage.qualityScore}/100</span></div>
+                {previewImage.stainType && <div><span className="text-gray-500">{t("allied.mltMltImageLibrary.stain")}</span> <span className="font-medium">{previewImage.stainType}</span></div>}
+                {previewImage.organism && <div><span className="text-gray-500">{t("allied.mltMltImageLibrary.organism")}</span> <span className="font-medium">{previewImage.organism}</span></div>}
+                {previewImage.cellType && <div><span className="text-gray-500">{t("allied.mltMltImageLibrary.cellType")}</span> <span className="font-medium">{previewImage.cellType}</span></div>}
+                {previewImage.magnification && <div><span className="text-gray-500">{t("allied.mltMltImageLibrary.magnification")}</span> <span className="font-medium">{previewImage.magnification}</span></div>}
+                {previewImage.specimen && <div><span className="text-gray-500">{t("allied.mltMltImageLibrary.specimen")}</span> <span className="font-medium">{previewImage.specimen}</span></div>}
+                {previewImage.normalAbnormal && <div><span className="text-gray-500">{t("allied.mltMltImageLibrary.normalabnormal")}</span> <span className="font-medium">{previewImage.normalAbnormal}</span></div>}
               </div>
               <div className="mt-3 flex gap-2">
-                {previewImage.approvalExam && <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">Exam</span>}
-                {previewImage.approvalLesson && <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded">Lesson</span>}
-                {previewImage.approvalFlashcard && <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">Flashcard</span>}
-                {previewImage.approvalPublic && <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Public</span>}
+                {previewImage.approvalExam && <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">{t("allied.mltMltImageLibrary.exam")}</span>}
+                {previewImage.approvalLesson && <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded">{t("allied.mltMltImageLibrary.lesson")}</span>}
+                {previewImage.approvalFlashcard && <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">{t("allied.mltMltImageLibrary.flashcard")}</span>}
+                {previewImage.approvalPublic && <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">{t("allied.mltMltImageLibrary.public")}</span>}
               </div>
             </div>
           </div>
@@ -360,83 +362,83 @@ function ImageMetadataEditor({ image, onSave, onClose, saving }: { image: any; o
     <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" data-testid="metadata-editor-modal">
       <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-4 border-b flex items-center justify-between">
-          <h3 className="font-semibold">Edit Image Metadata</h3>
+          <h3 className="font-semibold">{t("allied.mltMltImageLibrary.editImageMetadata")}</h3>
           <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded" data-testid="button-close-editor"><X className="w-5 h-5" /></button>
         </div>
         <div className="p-4 space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Alt Text</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.altText2")}</label>
               <input type="text" value={form.altText || ""} onChange={(e) => update("altText", e.target.value)} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="input-edit-alt" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Caption</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.caption2")}</label>
               <input type="text" value={form.caption || ""} onChange={(e) => update("caption", e.target.value)} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="input-edit-caption" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Discipline</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.discipline3")}</label>
               <select value={form.discipline} onChange={(e) => update("discipline", e.target.value)} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="select-edit-discipline">
                 {Object.entries(DISCIPLINE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Image Type</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.imageType2")}</label>
               <select value={form.imageType} onChange={(e) => update("imageType", e.target.value)} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="select-edit-type">
                 {Object.entries(IMAGE_TYPE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.status2")}</label>
               <select value={form.status} onChange={(e) => update("status", e.target.value)} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="select-edit-status">
                 {STATUS_OPTIONS.map((s) => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Quality Score (0-100)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.qualityScore0100")}</label>
               <input type="number" min={0} max={100} value={form.qualityScore || 0} onChange={(e) => update("qualityScore", parseInt(e.target.value))} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="input-edit-quality" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Stain Type</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.stainType")}</label>
               <input type="text" value={form.stainType || ""} onChange={(e) => update("stainType", e.target.value)} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="input-edit-stain" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Organism</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.organism2")}</label>
               <input type="text" value={form.organism || ""} onChange={(e) => update("organism", e.target.value)} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="input-edit-organism" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Cell Type</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.cellType2")}</label>
               <input type="text" value={form.cellType || ""} onChange={(e) => update("cellType", e.target.value)} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="input-edit-cell" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Crystal Type</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.crystalType")}</label>
               <input type="text" value={form.crystalType || ""} onChange={(e) => update("crystalType", e.target.value)} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="input-edit-crystal" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Cast Type</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.castType")}</label>
               <input type="text" value={form.castType || ""} onChange={(e) => update("castType", e.target.value)} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="input-edit-cast" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Specimen</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.specimen2")}</label>
               <input type="text" value={form.specimen || ""} onChange={(e) => update("specimen", e.target.value)} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="input-edit-specimen" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Magnification</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.magnification2")}</label>
               <input type="text" value={form.magnification || ""} onChange={(e) => update("magnification", e.target.value)} placeholder="e.g., 100x, 1000x oil" className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="input-edit-magnification" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Normal / Abnormal</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.normalAbnormal")}</label>
               <select value={form.normalAbnormal || "abnormal"} onChange={(e) => update("normalAbnormal", e.target.value)} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="select-edit-normal">
-                <option value="normal">Normal</option>
-                <option value="abnormal">Abnormal</option>
+                <option value="normal">{t("allied.mltMltImageLibrary.normal")}</option>
+                <option value="abnormal">{t("allied.mltMltImageLibrary.abnormal")}</option>
               </select>
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Clinical Significance</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t("allied.mltMltImageLibrary.clinicalSignificance")}</label>
             <textarea value={form.clinicalSignificance || ""} onChange={(e) => update("clinicalSignificance", e.target.value)} rows={2} className="w-full border rounded-lg px-3 py-2 text-sm" data-testid="input-edit-significance" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Approval Flags</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">{t("allied.mltMltImageLibrary.approvalFlags")}</label>
             <div className="flex flex-wrap gap-3">
               {[
                 { key: "approvalExam", label: "Exam" },
@@ -452,7 +454,7 @@ function ImageMetadataEditor({ image, onSave, onClose, saving }: { image: any; o
             </div>
           </div>
           <div className="flex justify-end gap-3 pt-2">
-            <button onClick={onClose} className="px-4 py-2 text-sm border rounded-lg hover:bg-gray-50" data-testid="button-cancel-edit">Cancel</button>
+            <button onClick={onClose} className="px-4 py-2 text-sm border rounded-lg hover:bg-gray-50" data-testid="button-cancel-edit">{t("allied.mltMltImageLibrary.cancel")}</button>
             <button onClick={() => {
               const { id, createdAt, updatedAt, ...updates } = form;
               onSave(updates);

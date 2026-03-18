@@ -5,12 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { useI18n } from "@/lib/i18n";
 import {
   Plus, Trash2, Edit3, Save, ChevronDown, ChevronUp, GripVertical,
   Eye, EyeOff, ArrowLeft, X, FileText
 } from "lucide-react";
 
 async function adminFetch(url: string, options?: RequestInit) {
+  const { t } = useI18n();
   const token = getAdminAccessToken() || "";
   const storedUser = JSON.parse(localStorage.getItem("nursenest-user") || "{}");
   const adminId = storedUser?.id || "";
@@ -239,7 +241,7 @@ export default function AdminCaseStudiesPage() {
     });
   };
 
-  if (!isAdmin) return <div className="p-8 text-center text-gray-500">Admin access required</div>;
+  if (!isAdmin) return <div className="p-8 text-center text-gray-500">{t("pages.adminCaseStudies.adminAccessRequired")}</div>;
 
   if (activeStudy) {
     return (
@@ -249,24 +251,24 @@ export default function AdminCaseStudiesPage() {
             <Button variant="ghost" size="sm" onClick={() => { setActiveStudy(null); setSteps([]); }} data-testid="button-back">
               <ArrowLeft className="w-4 h-4 mr-1" /> Back
             </Button>
-            <h1 className="text-xl font-bold text-gray-900 flex-1" data-testid="text-builder-title">Case Study Builder</h1>
+            <h1 className="text-xl font-bold text-gray-900 flex-1" data-testid="text-builder-title">{t("pages.adminCaseStudies.caseStudyBuilder")}</h1>
             <Button size="sm" variant={activeStudy.status === "published" ? "outline" : "default"} onClick={togglePublish} data-testid="button-toggle-publish">
-              {activeStudy.status === "published" ? <><EyeOff className="w-3 h-3 mr-1" /> Unpublish</> : <><Eye className="w-3 h-3 mr-1" /> Publish</>}
+              {activeStudy.status === "published" ? <><EyeOff className="w-3 h-3 mr-1" /> {t("pages.adminCaseStudies.unpublish")}</> : <><Eye className="w-3 h-3 mr-1" /> {t("pages.adminCaseStudies.publish")}</>}
             </Button>
           </div>
 
           <Card data-testid="card-case-meta">
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-bold text-gray-700">Case Study Details</CardTitle>
+              <CardTitle className="text-sm font-bold text-gray-700">{t("pages.adminCaseStudies.caseStudyDetails")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-medium text-gray-500">Title</label>
+                  <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.title")}</label>
                   <Input value={editTitle} onChange={(e) => setEditTitle(e.target.value)} data-testid="input-title" />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500">Tier</label>
+                  <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.tier")}</label>
                   <select value={editTier} onChange={(e) => setEditTier(e.target.value)} className="w-full border rounded-md px-3 py-2 text-sm" data-testid="select-tier">
                     <option value="rpn">RPN</option>
                     <option value="rn">RN</option>
@@ -274,32 +276,32 @@ export default function AdminCaseStudiesPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500">Difficulty</label>
+                  <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.difficulty")}</label>
                   <select value={editDifficulty} onChange={(e) => setEditDifficulty(e.target.value)} className="w-full border rounded-md px-3 py-2 text-sm" data-testid="select-difficulty">
-                    <option value="easy">Easy</option>
-                    <option value="moderate">Moderate</option>
-                    <option value="hard">Hard</option>
+                    <option value="easy">{t("pages.adminCaseStudies.easy")}</option>
+                    <option value="moderate">{t("pages.adminCaseStudies.moderate")}</option>
+                    <option value="hard">{t("pages.adminCaseStudies.hard")}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500">Body System</label>
+                  <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.bodySystem")}</label>
                   <Input value={editBodySystem} onChange={(e) => setEditBodySystem(e.target.value)} placeholder="e.g. Cardiac" data-testid="input-body-system" />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500">Category</label>
+                  <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.category")}</label>
                   <Input value={editCategory} onChange={(e) => setEditCategory(e.target.value)} placeholder="e.g. Maternal" data-testid="input-category" />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500">Region Scope</label>
+                  <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.regionScope")}</label>
                   <select value={editRegionScope} onChange={(e) => setEditRegionScope(e.target.value)} className="w-full border rounded-md px-3 py-2 text-sm" data-testid="select-region">
-                    <option value="BOTH">Both (US + CA)</option>
-                    <option value="US">US Only</option>
-                    <option value="CA">Canada Only</option>
+                    <option value="BOTH">{t("pages.adminCaseStudies.bothUsCa")}</option>
+                    <option value="US">{t("pages.adminCaseStudies.usOnly")}</option>
+                    <option value="CA">{t("pages.adminCaseStudies.canadaOnly")}</option>
                   </select>
                 </div>
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-500">Scenario Introduction</label>
+                <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.scenarioIntroduction")}</label>
                 <textarea
                   value={editScenarioIntro}
                   onChange={(e) => setEditScenarioIntro(e.target.value)}
@@ -345,8 +347,8 @@ export default function AdminCaseStudiesPage() {
       <div className="max-w-5xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-admin-title">Case Study Builder</h1>
-            <p className="text-sm text-gray-500">Create and manage clinical case studies</p>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-admin-title">{t("pages.adminCaseStudies.caseStudyBuilder2")}</h1>
+            <p className="text-sm text-gray-500">{t("pages.adminCaseStudies.createAndManageClinicalCase")}</p>
           </div>
           <Button onClick={() => {
             setShowCreateForm(true);
@@ -362,7 +364,7 @@ export default function AdminCaseStudiesPage() {
           <Card className="border-blue-200" data-testid="card-create-form">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm">New Case Study</CardTitle>
+                <CardTitle className="text-sm">{t("pages.adminCaseStudies.newCaseStudy")}</CardTitle>
                 <Button variant="ghost" size="sm" onClick={() => setShowCreateForm(false)}>
                   <X className="w-4 h-4" />
                 </Button>
@@ -371,11 +373,11 @@ export default function AdminCaseStudiesPage() {
             <CardContent className="space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-medium text-gray-500">Title *</label>
-                  <Input value={editTitle} onChange={(e) => setEditTitle(e.target.value)} placeholder="Case study title" data-testid="input-create-title" />
+                  <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.title2")}</label>
+                  <Input value={editTitle} onChange={(e) => setEditTitle(e.target.value)} placeholder={t("pages.adminCaseStudies.caseStudyTitle")} data-testid="input-create-title" />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500">Tier</label>
+                  <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.tier2")}</label>
                   <select value={editTier} onChange={(e) => setEditTier(e.target.value)} className="w-full border rounded-md px-3 py-2 text-sm" data-testid="select-create-tier">
                     <option value="rpn">RPN</option>
                     <option value="rn">RN</option>
@@ -383,26 +385,26 @@ export default function AdminCaseStudiesPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500">Difficulty</label>
+                  <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.difficulty2")}</label>
                   <select value={editDifficulty} onChange={(e) => setEditDifficulty(e.target.value)} className="w-full border rounded-md px-3 py-2 text-sm" data-testid="select-create-difficulty">
-                    <option value="easy">Easy</option>
-                    <option value="moderate">Moderate</option>
-                    <option value="hard">Hard</option>
+                    <option value="easy">{t("pages.adminCaseStudies.easy2")}</option>
+                    <option value="moderate">{t("pages.adminCaseStudies.moderate2")}</option>
+                    <option value="hard">{t("pages.adminCaseStudies.hard2")}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500">Body System</label>
+                  <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.bodySystem2")}</label>
                   <Input value={editBodySystem} onChange={(e) => setEditBodySystem(e.target.value)} placeholder="e.g. Cardiac" data-testid="input-create-body-system" />
                 </div>
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-500">Scenario Introduction *</label>
+                <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.scenarioIntroduction2")}</label>
                 <textarea
                   value={editScenarioIntro}
                   onChange={(e) => setEditScenarioIntro(e.target.value)}
                   rows={3}
                   className="w-full border rounded-md px-3 py-2 text-sm"
-                  placeholder="Describe the patient scenario..."
+                  placeholder={t("pages.adminCaseStudies.describeThePatientScenario")}
                   data-testid="textarea-create-scenario"
                 />
               </div>
@@ -414,11 +416,11 @@ export default function AdminCaseStudiesPage() {
         )}
 
         {loading ? (
-          <div className="text-center py-8 text-gray-500">Loading...</div>
+          <div className="text-center py-8 text-gray-500">{t("pages.adminCaseStudies.loading")}</div>
         ) : studies.length === 0 ? (
           <div className="text-center py-12">
             <FileText className="w-12 h-12 mx-auto text-gray-300 mb-3" />
-            <p className="text-gray-500">No case studies yet. Create your first one.</p>
+            <p className="text-gray-500">{t("pages.adminCaseStudies.noCaseStudiesYetCreate")}</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -505,7 +507,7 @@ function StepEditor({
         {expanded && (
           <div className="border-t p-4 space-y-4">
             <div>
-              <label className="text-xs font-medium text-gray-500">Clinical Update Text</label>
+              <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.clinicalUpdateText")}</label>
               <textarea
                 value={clinText}
                 onChange={(e) => setClinText(e.target.value)}
@@ -622,43 +624,43 @@ function QuestionEditor({
   return (
     <div className="bg-white rounded-lg p-4 border-2 border-blue-200 space-y-3" data-testid={`card-question-edit-${question.id}`}>
       <div>
-        <label className="text-xs font-medium text-gray-500">Question Text</label>
+        <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.questionText")}</label>
         <textarea value={qText} onChange={(e) => setQText(e.target.value)} rows={2} className="w-full border rounded-md px-3 py-2 text-sm mt-1" data-testid={`textarea-question-${question.id}`} />
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="text-xs font-medium text-gray-500">Type</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.type")}</label>
           <select value={qType} onChange={(e) => setQType(e.target.value)} className="w-full border rounded-md px-3 py-2 text-sm" data-testid={`select-question-type-${question.id}`}>
-            <option value="multiple_choice">Multiple Choice</option>
-            <option value="multiple_response">Multiple Response (SATA)</option>
-            <option value="bowtie">Bowtie</option>
-            <option value="priority">Priority/Ordering</option>
-            <option value="drag_drop">Drag & Drop</option>
-            <option value="fill_blank">Fill in the Blank</option>
+            <option value="multiple_choice">{t("pages.adminCaseStudies.multipleChoice")}</option>
+            <option value="multiple_response">{t("pages.adminCaseStudies.multipleResponseSata")}</option>
+            <option value="bowtie">{t("pages.adminCaseStudies.bowtie")}</option>
+            <option value="priority">{t("pages.adminCaseStudies.priorityordering")}</option>
+            <option value="drag_drop">{t("pages.adminCaseStudies.dragDrop")}</option>
+            <option value="fill_blank">{t("pages.adminCaseStudies.fillInTheBlank")}</option>
           </select>
         </div>
         <div>
-          <label className="text-xs font-medium text-gray-500">Points</label>
+          <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.points")}</label>
           <Input type="number" value={points} onChange={(e) => setPoints(parseInt(e.target.value) || 1)} min={1} data-testid={`input-points-${question.id}`} />
         </div>
       </div>
       <div>
-        <label className="text-xs font-medium text-gray-500">Answer Options (JSON array)</label>
+        <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.answerOptionsJsonArray")}</label>
         <textarea value={optionsStr} onChange={(e) => setOptionsStr(e.target.value)} rows={4} className="w-full border rounded-md px-3 py-2 text-xs font-mono mt-1" data-testid={`textarea-options-${question.id}`} />
       </div>
       <div>
-        <label className="text-xs font-medium text-gray-500">Correct Answer (JSON)</label>
+        <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.correctAnswerJson")}</label>
         <textarea value={correctStr} onChange={(e) => setCorrectStr(e.target.value)} rows={2} className="w-full border rounded-md px-3 py-2 text-xs font-mono mt-1" data-testid={`textarea-correct-${question.id}`} />
       </div>
       <div>
-        <label className="text-xs font-medium text-gray-500">Rationale</label>
+        <label className="text-xs font-medium text-gray-500">{t("pages.adminCaseStudies.rationale")}</label>
         <textarea value={rationale} onChange={(e) => setRationale(e.target.value)} rows={2} className="w-full border rounded-md px-3 py-2 text-sm mt-1" data-testid={`textarea-rationale-${question.id}`} />
       </div>
       <div className="flex gap-2">
         <Button size="sm" onClick={save} disabled={saving} data-testid={`button-save-question-${question.id}`}>
           <Save className="w-3 h-3 mr-1" /> Save
         </Button>
-        <Button size="sm" variant="ghost" onClick={() => setEditing(false)}>Cancel</Button>
+        <Button size="sm" variant="ghost" onClick={() => setEditing(false)}>{t("pages.adminCaseStudies.cancel")}</Button>
       </div>
     </div>
   );

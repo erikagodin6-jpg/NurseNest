@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { useI18n } from "@/lib/i18n";
 import {
   CheckCircle2, XCircle, Lock, BookOpen, ArrowRight, RotateCcw,
   Target, Brain, Lightbulb, ChevronRight, Bookmark, Trophy, Star,
@@ -66,6 +67,7 @@ interface PageData {
 }
 
 function DifficultyBadge({ level }: { level: number }) {
+  const { t } = useI18n();
   const colors = level <= 2 ? "bg-green-100 text-green-700" : level <= 3 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700";
   const label = level <= 2 ? "Easy" : level <= 3 ? "Medium" : "Hard";
   return <Badge className={colors} data-testid={`badge-difficulty-${level}`}>{label}</Badge>;
@@ -141,7 +143,7 @@ export default function SeoPracticeQuiz() {
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-16 text-center">
           <div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-500 mt-4">Loading practice questions...</p>
+          <p className="text-gray-500 mt-4">{t("pages.seoPracticeQuiz.loadingPracticeQuestions")}</p>
         </div>
       </div>
     );
@@ -152,10 +154,10 @@ export default function SeoPracticeQuiz() {
       <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-          <h1 className="text-2xl font-bold text-gray-800">Practice Quiz Not Found</h1>
-          <p className="text-gray-600 mt-2">This practice quiz page doesn't exist yet.</p>
+          <h1 className="text-2xl font-bold text-gray-800">{t("pages.seoPracticeQuiz.practiceQuizNotFound")}</h1>
+          <p className="text-gray-600 mt-2">{t("pages.seoPracticeQuiz.thisPracticeQuizPageDoesnt")}</p>
           <LocaleLink href="/practice-questions">
-            <Button className="mt-4" data-testid="link-back-practice">Browse Practice Questions</Button>
+            <Button className="mt-4" data-testid="link-back-practice">{t("pages.seoPracticeQuiz.browsePracticeQuestions")}</Button>
           </LocaleLink>
         </div>
         <Footer />
@@ -234,7 +236,7 @@ export default function SeoPracticeQuiz() {
               <Card className="border-amber-200 bg-amber-50">
                 <CardContent className="p-6 sm:p-8 text-center">
                   <Lock className="w-12 h-12 text-amber-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">Unlock More Questions</h3>
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2">{t("pages.seoPracticeQuiz.unlockMoreQuestions")}</h3>
                   <p className="text-gray-600 mb-4">
                     You've reached the free question limit. Upgrade to access all {data.totalQuestions} practice questions with detailed explanations.
                   </p>
@@ -310,12 +312,12 @@ export default function SeoPracticeQuiz() {
                     <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg" data-testid="text-rationale">
                       <div className="flex items-start gap-2 mb-2">
                         <Lightbulb className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                        <h4 className="font-semibold text-blue-900">Explanation</h4>
+                        <h4 className="font-semibold text-blue-900">{t("pages.seoPracticeQuiz.explanation")}</h4>
                       </div>
                       <p className="text-sm text-blue-800 leading-relaxed">{currentQ.rationale}</p>
                       {currentQ.clinicalPearl && (
                         <div className="mt-3 p-3 bg-white/60 rounded border border-blue-100">
-                          <p className="text-xs font-semibold text-blue-700 mb-1">Clinical Pearl</p>
+                          <p className="text-xs font-semibold text-blue-700 mb-1">{t("pages.seoPracticeQuiz.clinicalPearl")}</p>
                           <p className="text-sm text-blue-800">{currentQ.clinicalPearl}</p>
                         </div>
                       )}
@@ -339,7 +341,7 @@ export default function SeoPracticeQuiz() {
             <Card className="shadow-lg border-primary/20" data-testid="card-quiz-results">
               <CardContent className="p-6 sm:p-8 text-center">
                 <Trophy className="w-16 h-16 text-primary mx-auto mb-4" />
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Quiz Complete!</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.seoPracticeQuiz.quizComplete")}</h2>
                 <p className="text-4xl font-bold text-primary mb-2" data-testid="text-final-score">
                   {score}/{answeredCount}
                 </p>
@@ -350,15 +352,15 @@ export default function SeoPracticeQuiz() {
                 <div className="grid grid-cols-3 gap-4 mb-6 max-w-sm mx-auto">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-green-600">{score}</div>
-                    <div className="text-xs text-gray-500">Correct</div>
+                    <div className="text-xs text-gray-500">{t("pages.seoPracticeQuiz.correct")}</div>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-red-500">{answeredCount - score}</div>
-                    <div className="text-xs text-gray-500">Incorrect</div>
+                    <div className="text-xs text-gray-500">{t("pages.seoPracticeQuiz.incorrect")}</div>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-primary">{scorePercent}%</div>
-                    <div className="text-xs text-gray-500">Score</div>
+                    <div className="text-xs text-gray-500">{t("pages.seoPracticeQuiz.score")}</div>
                   </div>
                 </div>
 
@@ -377,16 +379,16 @@ export default function SeoPracticeQuiz() {
 
                 {freeLimit !== null && (
                   <div className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border border-purple-200">
-                    <h3 className="font-semibold text-gray-800 mb-1">Want more practice?</h3>
+                    <h3 className="font-semibold text-gray-800 mb-1">{t("pages.seoPracticeQuiz.wantMorePractice")}</h3>
                     <p className="text-sm text-gray-600 mb-3">
                       Unlock thousands of questions with adaptive learning, detailed analytics, and personalized study plans.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-2 justify-center">
                       <LocaleLink href="/pricing">
-                        <Button size="sm" data-testid="button-unlock-upgrade">Unlock Full Test Bank</Button>
+                        <Button size="sm" data-testid="button-unlock-upgrade">{t("pages.seoPracticeQuiz.unlockFullTestBank")}</Button>
                       </LocaleLink>
                       <LocaleLink href="/mock-exams">
-                        <Button size="sm" variant="outline" data-testid="button-try-adaptive">Try Adaptive Exam</Button>
+                        <Button size="sm" variant="outline" data-testid="button-try-adaptive">{t("pages.seoPracticeQuiz.tryAdaptiveExam")}</Button>
                       </LocaleLink>
                     </div>
                   </div>
@@ -412,7 +414,7 @@ export default function SeoPracticeQuiz() {
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-2">
                       <Bookmark className="w-4 h-4 text-primary" />
-                      <span className="text-xs text-gray-500">Click to flip</span>
+                      <span className="text-xs text-gray-500">{t("pages.seoPracticeQuiz.clickToFlip")}</span>
                     </div>
                     {showFlashcard === idx ? (
                       <p className="text-sm text-gray-700 font-medium">{fc.back}</p>
@@ -455,7 +457,7 @@ export default function SeoPracticeQuiz() {
 
         <section className="mb-8 p-6 bg-gradient-to-r from-primary/5 to-blue-50 rounded-xl border border-primary/10">
           <div className="text-center">
-            <h2 className="text-xl font-bold text-gray-900 mb-2">Ready for More?</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-2">{t("pages.seoPracticeQuiz.readyForMore")}</h2>
             <p className="text-gray-600 mb-4 max-w-lg mx-auto">
               Access our complete library of practice questions, adaptive exams, flashcards, and personalized study plans.
             </p>

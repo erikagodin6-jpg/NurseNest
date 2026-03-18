@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 
+import { useI18n } from "@/lib/i18n";
 const PROFESSION_LABELS: Record<string, string> = {
   mlt: "Medical Lab Tech",
   imaging: "Diagnostic Imaging",
@@ -33,6 +34,7 @@ const PROFESSION_LABELS: Record<string, string> = {
 };
 
 function getProfessionLabel(slug: string): string {
+
   return PROFESSION_LABELS[slug] || slug;
 }
 
@@ -83,8 +85,8 @@ export default function AdminProfessionAnalytics() {
             </Button>
           </Link>
           <div>
-            <h1 className="text-2xl font-bold" data-testid="text-page-title">Profession Analytics Dashboard</h1>
-            <p className="text-muted-foreground text-sm">Unified analytics across all professions</p>
+            <h1 className="text-2xl font-bold" data-testid="text-page-title">{t("pages.adminProfessionAnalytics.professionAnalyticsDashboard")}</h1>
+            <p className="text-muted-foreground text-sm">{t("pages.adminProfessionAnalytics.unifiedAnalyticsAcrossAllProfessions")}</p>
           </div>
         </div>
         <div className="flex gap-2" data-testid="period-selector">
@@ -148,15 +150,15 @@ export default function AdminProfessionAnalytics() {
             <table className="w-full text-sm" data-testid="table-profession-breakdown">
               <thead>
                 <tr className="border-b text-left text-muted-foreground">
-                  <th className="pb-2 pr-4">Profession</th>
-                  <th className="pb-2 pr-4 text-right">Events</th>
-                  <th className="pb-2 pr-4 text-right">Sessions</th>
-                  <th className="pb-2 pr-4 text-right">Page Views</th>
-                  <th className="pb-2 pr-4 text-right">Quiz Starts</th>
-                  <th className="pb-2 pr-4 text-right">Exam Starts</th>
-                  <th className="pb-2 pr-4 text-right">Practice Qs</th>
-                  <th className="pb-2 pr-4 text-right">Conversions</th>
-                  <th className="pb-2 text-right">Emails</th>
+                  <th className="pb-2 pr-4">{t("pages.adminProfessionAnalytics.profession")}</th>
+                  <th className="pb-2 pr-4 text-right">{t("pages.adminProfessionAnalytics.events")}</th>
+                  <th className="pb-2 pr-4 text-right">{t("pages.adminProfessionAnalytics.sessions")}</th>
+                  <th className="pb-2 pr-4 text-right">{t("pages.adminProfessionAnalytics.pageViews")}</th>
+                  <th className="pb-2 pr-4 text-right">{t("pages.adminProfessionAnalytics.quizStarts")}</th>
+                  <th className="pb-2 pr-4 text-right">{t("pages.adminProfessionAnalytics.examStarts")}</th>
+                  <th className="pb-2 pr-4 text-right">{t("pages.adminProfessionAnalytics.practiceQs")}</th>
+                  <th className="pb-2 pr-4 text-right">{t("pages.adminProfessionAnalytics.conversions")}</th>
+                  <th className="pb-2 text-right">{t("pages.adminProfessionAnalytics.emails")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -174,7 +176,7 @@ export default function AdminProfessionAnalytics() {
                   </tr>
                 ))}
                 {professions.length === 0 && (
-                  <tr><td colSpan={9} className="text-center py-8 text-muted-foreground">No analytics data for this period</td></tr>
+                  <tr><td colSpan={9} className="text-center py-8 text-muted-foreground">{t("pages.adminProfessionAnalytics.noAnalyticsDataForThis")}</td></tr>
                 )}
               </tbody>
             </table>
@@ -203,7 +205,7 @@ export default function AdminProfessionAnalytics() {
                 ))}
               </div>
             ) : (
-              <p className="text-muted-foreground text-center py-4">No conversion data yet</p>
+              <p className="text-muted-foreground text-center py-4">{t("pages.adminProfessionAnalytics.noConversionDataYet")}</p>
             )}
           </CardContent>
         </Card>
@@ -234,7 +236,7 @@ export default function AdminProfessionAnalytics() {
                 })}
               </div>
             ) : (
-              <p className="text-muted-foreground text-center py-4">No exam activity yet</p>
+              <p className="text-muted-foreground text-center py-4">{t("pages.adminProfessionAnalytics.noExamActivityYet")}</p>
             )}
           </CardContent>
         </Card>
@@ -262,7 +264,7 @@ export default function AdminProfessionAnalytics() {
                 ))}
               </div>
             ) : (
-              <p className="text-muted-foreground text-center py-4">No quiz activity yet</p>
+              <p className="text-muted-foreground text-center py-4">{t("pages.adminProfessionAnalytics.noQuizActivityYet")}</p>
             )}
           </CardContent>
         </Card>
@@ -284,11 +286,11 @@ export default function AdminProfessionAnalytics() {
                 ))}
               </div>
             ) : (
-              <p className="text-muted-foreground text-center py-4">No email captures yet</p>
+              <p className="text-muted-foreground text-center py-4">{t("pages.adminProfessionAnalytics.noEmailCapturesYet")}</p>
             )}
             {(data?.emailSignups || 0) > 0 && (
               <div className="mt-3 pt-3 border-t flex justify-between text-sm">
-                <span className="text-muted-foreground">General email signups</span>
+                <span className="text-muted-foreground">{t("pages.adminProfessionAnalytics.generalEmailSignups")}</span>
                 <Badge>{data.emailSignups}</Badge>
               </div>
             )}
@@ -305,25 +307,25 @@ export default function AdminProfessionAnalytics() {
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
-              <p className="text-sm text-muted-foreground">Quiz Starts</p>
+              <p className="text-sm text-muted-foreground">{t("pages.adminProfessionAnalytics.quizStarts2")}</p>
               <p className="text-xl font-bold" data-testid="text-mlt-quiz-starts">{mlt.quizActivity?.quiz_starts || 0}</p>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">Quiz Completions</p>
+              <p className="text-sm text-muted-foreground">{t("pages.adminProfessionAnalytics.quizCompletions")}</p>
               <p className="text-xl font-bold" data-testid="text-mlt-quiz-completions">{mlt.quizActivity?.quiz_completions || 0}</p>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">Lesson Activity</p>
+              <p className="text-sm text-muted-foreground">{t("pages.adminProfessionAnalytics.lessonActivity")}</p>
               <p className="text-xl font-bold" data-testid="text-mlt-lesson-activity">{mlt.quizActivity?.lesson_activity || 0}</p>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">Flashcard Activity</p>
+              <p className="text-sm text-muted-foreground">{t("pages.adminProfessionAnalytics.flashcardActivity")}</p>
               <p className="text-xl font-bold" data-testid="text-mlt-flashcard-activity">{mlt.quizActivity?.flashcard_activity || 0}</p>
             </div>
           </div>
           {mlt.eventTypes?.length > 0 && (
             <div className="mt-4 pt-4 border-t">
-              <p className="text-sm text-muted-foreground mb-2">Event Types</p>
+              <p className="text-sm text-muted-foreground mb-2">{t("pages.adminProfessionAnalytics.eventTypes")}</p>
               <div className="flex flex-wrap gap-2">
                 {mlt.eventTypes.map((e: any) => (
                   <Badge key={e.event_type} variant="outline" data-testid={`badge-mlt-event-${e.event_type}`}>
@@ -348,11 +350,11 @@ export default function AdminProfessionAnalytics() {
               <table className="w-full text-sm" data-testid="table-daily-trend">
                 <thead>
                   <tr className="border-b text-left text-muted-foreground">
-                    <th className="pb-2 pr-4">Date</th>
-                    <th className="pb-2 pr-4 text-right">Events</th>
-                    <th className="pb-2 pr-4 text-right">Sessions</th>
-                    <th className="pb-2 pr-4 text-right">Page Views</th>
-                    <th className="pb-2 text-right">Conversions</th>
+                    <th className="pb-2 pr-4">{t("pages.adminProfessionAnalytics.date")}</th>
+                    <th className="pb-2 pr-4 text-right">{t("pages.adminProfessionAnalytics.events2")}</th>
+                    <th className="pb-2 pr-4 text-right">{t("pages.adminProfessionAnalytics.sessions2")}</th>
+                    <th className="pb-2 pr-4 text-right">{t("pages.adminProfessionAnalytics.pageViews2")}</th>
+                    <th className="pb-2 text-right">{t("pages.adminProfessionAnalytics.conversions2")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -369,14 +371,14 @@ export default function AdminProfessionAnalytics() {
               </table>
             </div>
           ) : (
-            <p className="text-muted-foreground text-center py-4">No daily trend data</p>
+            <p className="text-muted-foreground text-center py-4">{t("pages.adminProfessionAnalytics.noDailyTrendData")}</p>
           )}
         </CardContent>
       </Card>
 
       <Card data-testid="card-top-pages">
         <CardHeader>
-          <CardTitle>Top Pages</CardTitle>
+          <CardTitle>{t("pages.adminProfessionAnalytics.topPages")}</CardTitle>
         </CardHeader>
         <CardContent>
           {topPages.length > 0 ? (
@@ -392,14 +394,14 @@ export default function AdminProfessionAnalytics() {
               ))}
             </div>
           ) : (
-            <p className="text-muted-foreground text-center py-4">No page view data</p>
+            <p className="text-muted-foreground text-center py-4">{t("pages.adminProfessionAnalytics.noPageViewData")}</p>
           )}
         </CardContent>
       </Card>
 
       <Card data-testid="card-event-types">
         <CardHeader>
-          <CardTitle>All Event Types</CardTitle>
+          <CardTitle>{t("pages.adminProfessionAnalytics.allEventTypes")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
@@ -409,7 +411,7 @@ export default function AdminProfessionAnalytics() {
               </Badge>
             ))}
             {eventTypes.length === 0 && (
-              <p className="text-muted-foreground">No events recorded yet</p>
+              <p className="text-muted-foreground">{t("pages.adminProfessionAnalytics.noEventsRecordedYet")}</p>
             )}
           </div>
         </CardContent>

@@ -410,7 +410,7 @@ export default function InternationalNursingExamPage() {
 
       <section className="py-14" data-testid="section-who">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Who Is This For?</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.internationalNursingExam.whoIsThisFor")}</h2>
           <div className="space-y-2">
             {config.whoIsItFor.map((item, i) => (
               <div key={i} className="flex items-start gap-3 bg-gray-50 rounded-lg p-4">
@@ -424,14 +424,14 @@ export default function InternationalNursingExamPage() {
 
       <section className="py-14 bg-gray-50" data-testid="section-why">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Why Is This Required?</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.internationalNursingExam.whyIsThisRequired")}</h2>
           <p className="text-gray-700 leading-relaxed">{config.whyRequired}</p>
         </div>
       </section>
 
       <section className="py-14" data-testid="section-overview">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Overview</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.internationalNursingExam.overview")}</h2>
           <p className="text-gray-700 leading-relaxed mb-6">{config.examOverview}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {config.examFormat.map((item, i) => (
@@ -446,7 +446,7 @@ export default function InternationalNursingExamPage() {
 
       <section className="py-14 bg-gray-50" data-testid="section-prepare">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">How to Prepare</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.internationalNursingExam.howToPrepare")}</h2>
           <div className="space-y-4">
             {config.howToPrepare.map((step, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 p-5 flex gap-4" data-testid={`prep-step-${i}`}>
@@ -459,14 +459,14 @@ export default function InternationalNursingExamPage() {
             ))}
           </div>
           <div className="mt-6 p-4 bg-teal-50 rounded-xl border border-teal-200">
-            <p className="text-sm text-teal-800"><strong>Study Plan:</strong> {config.studyPlanSummary}</p>
+            <p className="text-sm text-teal-800"><strong>{t("pages.internationalNursingExam.studyPlan")}</strong> {config.studyPlanSummary}</p>
           </div>
         </div>
       </section>
 
       <section className="py-14" data-testid="section-mistakes">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><AlertTriangle className="w-6 h-6 text-amber-500" /> Common Mistakes</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><AlertTriangle className="w-6 h-6 text-amber-500" /> {t("pages.internationalNursingExam.commonMistakes")}</h2>
           <div className="space-y-3">
             {config.commonMistakes.map((mistake, i) => (
               <div key={i} className="flex items-start gap-3 bg-white rounded-lg p-4 border border-gray-100">

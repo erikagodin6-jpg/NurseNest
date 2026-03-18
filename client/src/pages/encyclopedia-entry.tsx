@@ -17,6 +17,7 @@ import {
 import { ENCYCLOPEDIA_PROFESSIONS } from "@shared/schema";
 import { slugToDisplayName } from "@/lib/canonical-display";
 
+import { useI18n } from "@/lib/i18n";
 interface EncyclopediaEntryData {
   id: string;
   topicId: string;
@@ -57,6 +58,7 @@ const SECTION_CONFIG = [
 ] as const;
 
 function ImagePlaceholder({ placeholder }: { placeholder: { section: string; alt: string; caption: string } }) {
+  const { t } = useI18n();
   return (
     <figure className="my-6 bg-gray-50 border border-gray-200 rounded-xl p-6 text-center" data-testid={`img-placeholder-${placeholder.section}`}>
       <div className="flex items-center justify-center w-full h-40 bg-gray-100 rounded-lg mb-3">
@@ -137,8 +139,8 @@ export default function EncyclopediaEntryPage() {
         <Navigation />
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center px-4" data-testid="text-entry-not-found">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Entry Not Found</h1>
-            <p className="text-gray-500 mb-4">This encyclopedia entry could not be found.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.encyclopediaEntry.entryNotFound")}</h1>
+            <p className="text-gray-500 mb-4">{t("pages.encyclopediaEntry.thisEncyclopediaEntryCouldNot")}</p>
             <Button onClick={() => navigate(`/${params.profession}-encyclopedia`)} data-testid="button-back-hub">
               Back to Encyclopedia
             </Button>
@@ -225,7 +227,7 @@ export default function EncyclopediaEntryPage() {
             {tocSections.length > 0 && (
               <aside className="lg:w-56 shrink-0">
                 <nav className="sticky top-24 bg-gray-50 rounded-xl border border-gray-100 p-4" data-testid="nav-toc">
-                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Contents</h3>
+                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">{t("pages.encyclopediaEntry.contents")}</h3>
                   <ul className="space-y-1">
                     {tocSections.map(sec => (
                       <li key={sec.id}>

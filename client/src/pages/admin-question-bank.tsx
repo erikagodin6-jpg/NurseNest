@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth, getAdminAccessToken } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   Upload,
   Search,
@@ -26,6 +27,7 @@ import {
 } from "lucide-react";
 
 function adminHeaders() {
+  const { t } = useI18n();
   const token = getAdminAccessToken();
   const h: Record<string, string> = { "Content-Type": "application/json" };
   if (token) h["Authorization"] = `Bearer ${token}`;
@@ -171,8 +173,8 @@ export default function AdminQuestionBankPage() {
       <div className="container mx-auto px-4 py-6 max-w-7xl">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white" data-testid="text-page-title">Question Bank Admin</h1>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">Manage NCLEX-PN and REx-PN question banks</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white" data-testid="text-page-title">{t("pages.adminQuestionBank.questionBankAdmin")}</h1>
+            <p className="text-gray-500 dark:text-gray-400 text-sm">{t("pages.adminQuestionBank.manageNclexpnAndRexpnQuestion")}</p>
           </div>
           <Button onClick={() => setShowImport(!showImport)} data-testid="button-toggle-import">
             <Upload className="h-4 w-4 mr-2" />
@@ -181,16 +183,16 @@ export default function AdminQuestionBankPage() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
-          <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-blue-600" data-testid="text-stat-total">{stats.total}</div><div className="text-xs text-gray-500">Total</div></CardContent></Card>
-          <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-green-600" data-testid="text-stat-active">{stats.active}</div><div className="text-xs text-gray-500">Active</div></CardContent></Card>
-          <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-red-600" data-testid="text-stat-disabled">{stats.disabled}</div><div className="text-xs text-gray-500">Disabled</div></CardContent></Card>
-          <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-purple-600" data-testid="text-stat-nclex">{stats.nclexPn}</div><div className="text-xs text-gray-500">NCLEX-PN</div></CardContent></Card>
-          <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-orange-600" data-testid="text-stat-rex">{stats.rexPn}</div><div className="text-xs text-gray-500">REx-PN</div></CardContent></Card>
+          <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-blue-600" data-testid="text-stat-total">{stats.total}</div><div className="text-xs text-gray-500">{t("pages.adminQuestionBank.total")}</div></CardContent></Card>
+          <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-green-600" data-testid="text-stat-active">{stats.active}</div><div className="text-xs text-gray-500">{t("pages.adminQuestionBank.active")}</div></CardContent></Card>
+          <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-red-600" data-testid="text-stat-disabled">{stats.disabled}</div><div className="text-xs text-gray-500">{t("pages.adminQuestionBank.disabled")}</div></CardContent></Card>
+          <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-purple-600" data-testid="text-stat-nclex">{stats.nclexPn}</div><div className="text-xs text-gray-500">{t("pages.adminQuestionBank.nclexpn")}</div></CardContent></Card>
+          <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-orange-600" data-testid="text-stat-rex">{stats.rexPn}</div><div className="text-xs text-gray-500">{t("pages.adminQuestionBank.rexpn")}</div></CardContent></Card>
         </div>
 
         {showImport && (
           <Card className="mb-6">
-            <CardHeader><CardTitle className="text-lg flex items-center gap-2"><FileText className="h-5 w-5" />JSON Import</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-lg flex items-center gap-2"><FileText className="h-5 w-5" />{t("pages.adminQuestionBank.jsonImport")}</CardTitle></CardHeader>
             <CardContent>
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
                 Paste a JSON array of questions. Required fields: question, option_a, option_b, option_c, option_d, correct_answer (A/B/C/D), rationale, category, difficulty, exam_type, country, client_needs, topic
@@ -243,36 +245,36 @@ export default function AdminQuestionBankPage() {
                 <Input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search questions..."
+                  placeholder={t("pages.adminQuestionBank.searchQuestions")}
                   className="pl-9"
                   data-testid="input-search"
                 />
               </div>
               <select value={filterCountry} onChange={(e) => setFilterCountry(e.target.value)} className="border rounded px-2 py-2 text-sm bg-white dark:bg-gray-800" data-testid="select-filter-country">
-                <option value="">All Countries</option>
+                <option value="">{t("pages.adminQuestionBank.allCountries")}</option>
                 <option value="US">US</option>
                 <option value="CA">CA</option>
               </select>
               <select value={filterExamType} onChange={(e) => setFilterExamType(e.target.value)} className="border rounded px-2 py-2 text-sm bg-white dark:bg-gray-800" data-testid="select-filter-exam-type">
-                <option value="">All Exam Types</option>
-                <option value="NCLEX-PN">NCLEX-PN</option>
-                <option value="REx-PN">REx-PN</option>
+                <option value="">{t("pages.adminQuestionBank.allExamTypes")}</option>
+                <option value="NCLEX-PN">{t("pages.adminQuestionBank.nclexpn2")}</option>
+                <option value="REx-PN">{t("pages.adminQuestionBank.rexpn2")}</option>
               </select>
               <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} className="border rounded px-2 py-2 text-sm bg-white dark:bg-gray-800" data-testid="select-filter-status">
-                <option value="">All Status</option>
-                <option value="active">Active</option>
-                <option value="disabled">Disabled</option>
+                <option value="">{t("pages.adminQuestionBank.allStatus")}</option>
+                <option value="active">{t("pages.adminQuestionBank.active2")}</option>
+                <option value="disabled">{t("pages.adminQuestionBank.disabled2")}</option>
               </select>
             </div>
           </CardContent>
         </Card>
 
         {loading ? (
-          <div className="text-center py-12 text-gray-400">Loading questions...</div>
+          <div className="text-center py-12 text-gray-400">{t("pages.adminQuestionBank.loadingQuestions")}</div>
         ) : filteredItems.length === 0 ? (
           <div className="text-center py-12" data-testid="text-empty-state">
             <Database className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-            <p className="text-gray-500">No questions found. Import questions using the JSON import above.</p>
+            <p className="text-gray-500">{t("pages.adminQuestionBank.noQuestionsFoundImportQuestions")}</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -281,26 +283,26 @@ export default function AdminQuestionBankPage() {
                 <CardContent className="p-4">
                   {editingId === item.id ? (
                     <div className="space-y-3">
-                      <Textarea value={editForm.question || ""} onChange={(e) => setEditForm({ ...editForm, question: e.target.value })} placeholder="Question" rows={2} data-testid="input-edit-question" />
+                      <Textarea value={editForm.question || ""} onChange={(e) => setEditForm({ ...editForm, question: e.target.value })} placeholder={t("pages.adminQuestionBank.question")} rows={2} data-testid="input-edit-question" />
                       <div className="grid grid-cols-2 gap-2">
-                        <Input value={editForm.optionA || ""} onChange={(e) => setEditForm({ ...editForm, optionA: e.target.value })} placeholder="Option A" data-testid="input-edit-option-a" />
-                        <Input value={editForm.optionB || ""} onChange={(e) => setEditForm({ ...editForm, optionB: e.target.value })} placeholder="Option B" data-testid="input-edit-option-b" />
-                        <Input value={editForm.optionC || ""} onChange={(e) => setEditForm({ ...editForm, optionC: e.target.value })} placeholder="Option C" data-testid="input-edit-option-c" />
-                        <Input value={editForm.optionD || ""} onChange={(e) => setEditForm({ ...editForm, optionD: e.target.value })} placeholder="Option D" data-testid="input-edit-option-d" />
+                        <Input value={editForm.optionA || ""} onChange={(e) => setEditForm({ ...editForm, optionA: e.target.value })} placeholder={t("pages.adminQuestionBank.optionA")} data-testid="input-edit-option-a" />
+                        <Input value={editForm.optionB || ""} onChange={(e) => setEditForm({ ...editForm, optionB: e.target.value })} placeholder={t("pages.adminQuestionBank.optionB")} data-testid="input-edit-option-b" />
+                        <Input value={editForm.optionC || ""} onChange={(e) => setEditForm({ ...editForm, optionC: e.target.value })} placeholder={t("pages.adminQuestionBank.optionC")} data-testid="input-edit-option-c" />
+                        <Input value={editForm.optionD || ""} onChange={(e) => setEditForm({ ...editForm, optionD: e.target.value })} placeholder={t("pages.adminQuestionBank.optionD")} data-testid="input-edit-option-d" />
                       </div>
                       <div className="grid grid-cols-3 gap-2">
                         <select value={editForm.correctAnswer || ""} onChange={(e) => setEditForm({ ...editForm, correctAnswer: e.target.value })} className="border rounded px-2 py-2 text-sm bg-white dark:bg-gray-800" data-testid="select-edit-correct-answer">
                           <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
                         </select>
-                        <Input value={editForm.category || ""} onChange={(e) => setEditForm({ ...editForm, category: e.target.value })} placeholder="Category" data-testid="input-edit-category" />
+                        <Input value={editForm.category || ""} onChange={(e) => setEditForm({ ...editForm, category: e.target.value })} placeholder={t("pages.adminQuestionBank.category")} data-testid="input-edit-category" />
                         <select value={editForm.difficulty || ""} onChange={(e) => setEditForm({ ...editForm, difficulty: e.target.value })} className="border rounded px-2 py-2 text-sm bg-white dark:bg-gray-800" data-testid="select-edit-difficulty">
-                          <option value="easy">Easy</option><option value="moderate">Moderate</option><option value="hard">Hard</option><option value="very_hard">Very Hard</option>
+                          <option value="easy">{t("pages.adminQuestionBank.easy")}</option><option value="moderate">{t("pages.adminQuestionBank.moderate")}</option><option value="hard">{t("pages.adminQuestionBank.hard")}</option><option value="very_hard">{t("pages.adminQuestionBank.veryHard")}</option>
                         </select>
                       </div>
-                      <Textarea value={editForm.rationale || ""} onChange={(e) => setEditForm({ ...editForm, rationale: e.target.value })} placeholder="Rationale" rows={2} data-testid="input-edit-rationale" />
+                      <Textarea value={editForm.rationale || ""} onChange={(e) => setEditForm({ ...editForm, rationale: e.target.value })} placeholder={t("pages.adminQuestionBank.rationale")} rows={2} data-testid="input-edit-rationale" />
                       <div className="flex gap-2">
-                        <Button size="sm" onClick={handleSaveEdit} data-testid="button-save-edit"><Save className="h-3 w-3 mr-1" />Save</Button>
-                        <Button size="sm" variant="outline" onClick={() => { setEditingId(null); setEditForm({}); }} data-testid="button-cancel-edit"><X className="h-3 w-3 mr-1" />Cancel</Button>
+                        <Button size="sm" onClick={handleSaveEdit} data-testid="button-save-edit"><Save className="h-3 w-3 mr-1" />{t("pages.adminQuestionBank.save")}</Button>
+                        <Button size="sm" variant="outline" onClick={() => { setEditingId(null); setEditForm({}); }} data-testid="button-cancel-edit"><X className="h-3 w-3 mr-1" />{t("pages.adminQuestionBank.cancel")}</Button>
                       </div>
                     </div>
                   ) : (

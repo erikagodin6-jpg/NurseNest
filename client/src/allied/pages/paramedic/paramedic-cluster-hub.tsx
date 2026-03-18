@@ -50,8 +50,8 @@ export function ParamedicClusterIndex() {
   return (
     <div data-testid="paramedic-cluster-index">
       <AlliedSEO
-        title="Paramedic Clinical Content Clusters — Emergency Conditions, Protocols, Medications, ECG | NurseNest"
-        description="Explore paramedic clinical content organized into 4 high-value clusters: Emergency Conditions, Assessment & Protocols, EMS Medications, and ECG & Cardiac interpretation."
+        title={t("allied.paramedicParamedicClusterHub.paramedicClinicalContentClustersEmergency")}
+        description={t("allied.paramedicParamedicClusterHub.exploreParamedicClinicalContentOrganized")}
         keywords="paramedic clinical content, EMS study topics, paramedic exam clusters, emergency conditions paramedic, paramedic ECG"
         canonicalPath="/allied-health/paramedic/clusters"
         structuredData={structuredData}
@@ -130,8 +130,8 @@ export default function ParamedicClusterHub() {
   if (!cluster) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Cluster Not Found</h1>
-        <p className="text-gray-600 mb-4">The content cluster you're looking for doesn't exist.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.paramedicParamedicClusterHub.clusterNotFound")}</h1>
+        <p className="text-gray-600 mb-4">{t("allied.paramedicParamedicClusterHub.theContentClusterYoureLooking")}</p>
         <Link href="/allied-health/paramedic/clusters" className="inline-block px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-to-clusters">
           Browse All Clusters
         </Link>

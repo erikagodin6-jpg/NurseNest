@@ -6,9 +6,11 @@ import { Brain, TrendingUp } from "lucide-react";
 import { DemoPageWrapper, DemoHeader, SectionCard, SectionTitle, HeatCell } from "@/components/demo-shared";
 import { heatmapData as d } from "@/data/demo-screenshot-data";
 
+import { useI18n } from "@/lib/i18n";
 export default function DemoHeatmapGrid() {
+  const { t } = useI18n();
   const { user, isAdmin } = useAuth();
-  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">Admin access required.</p></div></DemoPageWrapper>;
+  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">{t("pages.demoHeatmapGrid.adminAccessRequired")}</p></div></DemoPageWrapper>;
 
   const columns = ["Exposure", "Accuracy", "Confidence", "Mastery"];
   const urgencyStyle: Record<string, string> = {
@@ -21,8 +23,8 @@ export default function DemoHeatmapGrid() {
     <DemoPageWrapper>
       <main className="max-w-5xl mx-auto px-6 pt-10 pb-16">
         <DemoHeader
-          title="Topic Mastery Heatmap"
-          subtitle="Multi-dimensional analysis of learning performance across content domains"
+          title={t("pages.demoHeatmapGrid.topicMasteryHeatmap")}
+          subtitle={t("pages.demo_heatmap_grid.multidimensionalAnalysisOfLearningPerfor")}
           rightContent={
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-violet-50 text-violet-700 text-xs font-semibold border border-violet-100">
               <Brain className="w-3.5 h-3.5" /> Adaptive Intelligence
@@ -31,17 +33,17 @@ export default function DemoHeatmapGrid() {
         />
 
         <SectionCard className="mb-6">
-          <SectionTitle title="Performance Grid" subtitle="Color-coded mastery indicators across learning dimensions" />
+          <SectionTitle title={t("pages.demoHeatmapGrid.performanceGrid")} subtitle={t("pages.demo_heatmap_grid.colorcodedMasteryIndicatorsAcrossLearnin")} />
 
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr>
-                  <th className="text-left text-xs font-semibold text-slate-500 pb-3 pr-4 w-[160px]">System / Topic</th>
+                  <th className="text-left text-xs font-semibold text-slate-500 pb-3 pr-4 w-[160px]">{t("pages.demoHeatmapGrid.systemTopic")}</th>
                   {columns.map((col) => (
                     <th key={col} className="text-center text-xs font-semibold text-slate-500 pb-3 px-2 w-20">{col}</th>
                   ))}
-                  <th className="text-center text-xs font-semibold text-slate-500 pb-3 px-2 w-24">Urgency</th>
+                  <th className="text-center text-xs font-semibold text-slate-500 pb-3 px-2 w-24">{t("pages.demoHeatmapGrid.urgency")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -84,7 +86,7 @@ export default function DemoHeatmapGrid() {
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded bg-rose-300" />
-              <span className="text-[10px] text-slate-500 font-medium">&lt;50%</span>
+              <span className="text-[10px] text-slate-500 font-medium">{t("pages.demoHeatmapGrid.lt50")}</span>
             </div>
           </div>
         </SectionCard>
@@ -92,18 +94,18 @@ export default function DemoHeatmapGrid() {
         <div className="grid grid-cols-3 gap-5">
           <SectionCard className="text-center">
             <p className="text-2xl font-bold text-emerald-600 mb-1">4</p>
-            <p className="text-xs text-slate-500">Strong Topics</p>
-            <p className="text-[10px] text-slate-400 mt-1">Cardiovascular, Respiratory, Fundamentals, Mental Health</p>
+            <p className="text-xs text-slate-500">{t("pages.demoHeatmapGrid.strongTopics")}</p>
+            <p className="text-[10px] text-slate-400 mt-1">{t("pages.demoHeatmapGrid.cardiovascularRespiratoryFundamentalsMental")}</p>
           </SectionCard>
           <SectionCard className="text-center">
             <p className="text-2xl font-bold text-amber-600 mb-1">3</p>
-            <p className="text-xs text-slate-500">Needs Review</p>
-            <p className="text-[10px] text-slate-400 mt-1">Neurological, Renal, Maternity</p>
+            <p className="text-xs text-slate-500">{t("pages.demoHeatmapGrid.needsReview")}</p>
+            <p className="text-[10px] text-slate-400 mt-1">{t("pages.demoHeatmapGrid.neurologicalRenalMaternity")}</p>
           </SectionCard>
           <SectionCard className="text-center">
             <p className="text-2xl font-bold text-rose-500 mb-1">3</p>
-            <p className="text-xs text-slate-500">High Priority</p>
-            <p className="text-[10px] text-slate-400 mt-1">Endocrine, Pharmacology, Leadership</p>
+            <p className="text-xs text-slate-500">{t("pages.demoHeatmapGrid.highPriority")}</p>
+            <p className="text-[10px] text-slate-400 mt-1">{t("pages.demoHeatmapGrid.endocrinePharmacologyLeadership")}</p>
           </SectionCard>
         </div>
       </main>

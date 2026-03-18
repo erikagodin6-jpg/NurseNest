@@ -1,12 +1,14 @@
 import { SeoHubPage } from "@/components/seo-content-template";
 
+import { useI18n } from "@/lib/i18n";
 const SITE_DOMAIN = "https://www.nursenest.ca";
 
 export default function SeoHubResumes() {
+  const { t } = useI18n();
   return (
     <SeoHubPage
-      title="Resumes & Cover Letters for Healthcare Professionals"
-      subtitle="Expert-crafted resume guides, ATS-optimized templates, cover letter frameworks, and writing tips specifically designed for new graduate nurses and healthcare professionals."
+      title={t("pages.seoHubResumes.resumesCoverLettersForHealthcare")}
+      subtitle={t("pages.seo_hub_resumes.expertcraftedResumeGuidesAtsoptimizedTem")}
       seoTitle="Resumes & Cover Letters — Healthcare Resume Templates & Guides | NurseNest"
       seoDescription="Build a winning healthcare resume with ATS-optimized templates, real new grad nursing resume examples, cover letter frameworks, and expert writing guides. Free resources for nurses and healthcare professionals."
       seoKeywords="healthcare resume, nursing resume template, new grad nurse resume, cover letter healthcare, ATS resume tips, nursing cover letter examples, healthcare job application"

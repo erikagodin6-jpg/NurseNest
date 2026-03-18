@@ -481,8 +481,8 @@ export default function PathwaysPage() {
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
       <AdminEditButton />
       <SEO
-        title="Education Pathways - NurseNest | Choose Your Learning Path"
-        description="Structured nursing education pathways for Pre-Nursing, RPN/LPN, RN, and NP students. Step-by-step learning roadmaps aligned with NCLEX-RN, NCLEX-PN, REx-PN, CNPE, AANP, and ANCC exams."
+        title={t("pages.pathways.educationPathwaysNursenestChooseYour")}
+        description={t("pages.pathways.structuredNursingEducationPathwaysFor")}
         keywords="nursing pathway, nursing education roadmap, NCLEX study plan, RPN learning path, NP exam preparation, nursing curriculum, clinical nursing education"
         canonicalPath="/pathways"
       />

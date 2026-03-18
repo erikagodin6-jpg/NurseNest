@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Lock, ChevronDown, Sparkles, ArrowRight, Eye } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 export type ContentVisibility = "free" | "preview" | "premium";
 
 interface ContentGateProps {
@@ -23,6 +24,7 @@ export function ContentGate({
   children,
   featureName = "this content",
 }: ContentGateProps) {
+  const { t } = useI18n();
   const { user, effectiveTier } = useAuth();
 
   const tierHierarchy: Record<string, number> = {
@@ -95,7 +97,7 @@ export function ContentGate({
           <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 shadow-sm border border-primary/10 rotate-3">
             <Eye className="w-6 h-6 text-primary" />
           </div>
-          <h4 className="text-lg font-bold text-gray-900 mb-1">Premium Content</h4>
+          <h4 className="text-lg font-bold text-gray-900 mb-1">{t("components.contentGate.premiumContent")}</h4>
           <p className="text-sm text-gray-500 mb-6 text-center max-w-xs leading-relaxed">
             Unlock {featureName} with a {getTierLabel(requiredTier)} subscription.
           </p>

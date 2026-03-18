@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
+import { useI18n } from "@/lib/i18n";
 import {
   MessageCircle, ThumbsUp, ThumbsDown, Flag, ChevronDown, ChevronUp,
   Send, AlertTriangle, Loader2,
@@ -23,6 +24,7 @@ interface Comment {
 }
 
 function formatRelativeTime(dateStr: string): string {
+
   const date = new Date(dateStr);
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
@@ -159,7 +161,7 @@ export function QuestionComments({ questionId }: QuestionCommentsProps) {
         data-testid="button-toggle-comments"
       >
         <MessageCircle className="h-4 w-4" />
-        <span>Discussion</span>
+        <span>{t("components.questionComments.discussion")}</span>
         {commentCount > 0 && (
           <Badge variant="secondary" className="text-xs px-1.5 py-0 h-5" data-testid="badge-comment-count">
             {commentCount}
@@ -181,7 +183,7 @@ export function QuestionComments({ questionId }: QuestionCommentsProps) {
                 <Textarea
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
-                  placeholder="Share your insight or ask a question..."
+                  placeholder={t("components.questionComments.shareYourInsightOrAsk")}
                   rows={2}
                   maxLength={1000}
                   className="resize-none text-sm border-gray-200 rounded-xl"
@@ -212,7 +214,7 @@ export function QuestionComments({ questionId }: QuestionCommentsProps) {
 
           {comments.length > 0 && (
             <div className="flex items-center gap-2 border-b border-gray-100 pb-2">
-              <span className="text-xs text-gray-400">Sort by:</span>
+              <span className="text-xs text-gray-400">{t("components.questionComments.sortBy")}</span>
               <button
                 onClick={() => setSort("helpful")}
                 className={`text-xs px-2 py-0.5 rounded-lg transition-colors ${sort === "helpful" ? "bg-primary/10 text-primary font-medium" : "text-gray-500 hover:text-gray-700"}`}
@@ -288,7 +290,7 @@ export function QuestionComments({ questionId }: QuestionCommentsProps) {
                         <button
                           onClick={() => handleFlag(comment.id)}
                           className="flex items-center gap-1 text-xs text-gray-300 hover:text-amber-500 opacity-0 group-hover:opacity-100 transition-all"
-                          title="Report inappropriate comment"
+                          title={t("components.questionComments.reportInappropriateComment")}
                           data-testid={`button-flag-${comment.id}`}
                         >
                           <Flag className="h-3 w-3" />

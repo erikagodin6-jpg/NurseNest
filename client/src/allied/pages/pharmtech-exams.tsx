@@ -3,7 +3,9 @@ import { Link, useParams, useLocation } from "wouter";
 import { FileText, ChevronRight, ArrowRight, Clock, Flag, CheckCircle2, XCircle, ChevronLeft, AlertTriangle, BarChart3, BookOpen } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 
+import { useI18n } from "@/lib/i18n";
 function ExamList() {
+  const { t } = useI18n();
   const [exams, setExams] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -14,19 +16,19 @@ function ExamList() {
   return (
     <>
       <AlliedSEO
-        title="Pharmacy Technician Practice Exams - Timed PTCB Simulations"
-        description="Take timed pharmacy technician practice exams that simulate real PTCB testing conditions. Get instant score reports with detailed rationales for every question."
+        title={t("allied.pharmtechExams.pharmacyTechnicianPracticeExamsTimed")}
+        description={t("allied.pharmtechExams.takeTimedPharmacyTechnicianPractice")}
         canonicalPath="/allied-health/pharmacy-technician/exams"
       />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-exams-page">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">{t("allied.pharmtechExams.pharmacyTechnician")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-green-700 font-medium">Practice Exams</span>
+          <span className="text-green-700 font-medium">{t("allied.pharmtechExams.practiceExams")}</span>
         </div>
 
-        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-exams-title">Practice Exams</h1>
-        <p className="text-gray-500 text-sm mb-8">Full-length practice exams with timed and tutor modes</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-exams-title">{t("allied.pharmtechExams.practiceExams2")}</h1>
+        <p className="text-gray-500 text-sm mb-8">{t("allied.pharmtechExams.fulllengthPracticeExamsWithTimed")}</p>
 
         {loading ? (
           <div className="flex justify-center py-20"><div className="w-8 h-8 border-3 border-green-500 border-t-transparent rounded-full animate-spin" /></div>
@@ -119,7 +121,7 @@ function ExamTaker() {
   }, [answers, questions, attemptId, timeLeft, exam, flagged]);
 
   if (status === "loading") return <div className="flex justify-center py-20"><div className="w-8 h-8 border-3 border-green-500 border-t-transparent rounded-full animate-spin" /></div>;
-  if (!exam) return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Exam Not Found</h1></div>;
+  if (!exam) return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">{t("allied.pharmtechExams.examNotFound")}</h1></div>;
 
   const currentQ = questions[currentIndex];
   const totalAnswered = Object.keys(answers).length;
@@ -130,9 +132,9 @@ function ExamTaker() {
   if (status === "error") {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">Exam Not Found</h1>
-        <p className="text-gray-500 mb-6">This exam could not be loaded. It may have been removed or is unavailable.</p>
-        <Link href="/allied-health/pharmacy-technician/exams" className="text-green-600 font-medium hover:underline">Back to Exams</Link>
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">{t("allied.pharmtechExams.examNotFound2")}</h1>
+        <p className="text-gray-500 mb-6">{t("allied.pharmtechExams.thisExamCouldNotBe")}</p>
+        <Link href="/allied-health/pharmacy-technician/exams" className="text-green-600 font-medium hover:underline">{t("allied.pharmtechExams.backToExams")}</Link>
       </div>
     );
   }
@@ -147,15 +149,15 @@ function ExamTaker() {
 
     return (
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="exam-results">
-        <AlliedSEO title={`${exam.title} Results`} description="Your exam results" canonicalPath={`/allied-health/pharmacy-technician/exams/${slug}`} />
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Exam Results</h1>
+        <AlliedSEO title={`${exam.title} Results`} description={t("allied.pharmtechExams.yourExamResults")} canonicalPath={`/allied-health/pharmacy-technician/exams/${slug}`} />
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">{t("allied.pharmtechExams.examResults")}</h1>
         <div className={`rounded-2xl p-8 text-center mb-8 ${passed ? "bg-green-50 border-2 border-green-200" : "bg-red-50 border-2 border-red-200"}`}>
           <div className={`text-5xl font-bold mb-2 ${passed ? "text-green-700" : "text-red-700"}`} data-testid="text-score">{percent}%</div>
           <div className={`text-lg font-medium ${passed ? "text-green-600" : "text-red-600"}`}>{passed ? "PASSED" : "NEEDS IMPROVEMENT"}</div>
           <div className="text-sm text-gray-500 mt-2">{score} of {questions.length} correct · Pass mark: {exam.passingScore}%</div>
         </div>
 
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Category Breakdown</h2>
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">{t("allied.pharmtechExams.categoryBreakdown")}</h2>
         <div className="space-y-3 mb-8">
           {Object.entries(categoryBreakdown).map(([cat, data]) => {
             const catPercent = Math.round((data.correct / data.total) * 100);
@@ -194,10 +196,10 @@ function ExamTaker() {
   if (status === "review") {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="exam-review">
-        <AlliedSEO title={`${exam.title} Review`} description="Review your exam answers" canonicalPath={`/allied-health/pharmacy-technician/exams/${slug}`} />
+        <AlliedSEO title={`${exam.title} Review`} description={t("allied.pharmtechExams.reviewYourExamAnswers")} canonicalPath={`/allied-health/pharmacy-technician/exams/${slug}`} />
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Review Answers</h1>
-          <button onClick={() => setStatus("submitted")} className="text-sm text-green-600 font-medium hover:underline" data-testid="button-back-results">← Back to Results</button>
+          <h1 className="text-2xl font-bold text-gray-900">{t("allied.pharmtechExams.reviewAnswers")}</h1>
+          <button onClick={() => setStatus("submitted")} className="text-sm text-green-600 font-medium hover:underline" data-testid="button-back-results">{t("allied.pharmtechExams.backToResults")}</button>
         </div>
 
         <div className="space-y-6">
@@ -220,7 +222,7 @@ function ExamTaker() {
                   ))}
                 </div>
                 <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                  <h4 className="font-semibold text-blue-800 text-sm mb-1">Rationale</h4>
+                  <h4 className="font-semibold text-blue-800 text-sm mb-1">{t("allied.pharmtechExams.rationale")}</h4>
                   <p className="text-sm text-blue-900">{q.rationale}</p>
                 </div>
                 {!isCorrect && q.lessonSlug && (
@@ -238,7 +240,7 @@ function ExamTaker() {
 
   return (
     <>
-      <AlliedSEO title={`${exam.title} - Taking Exam`} description="Taking pharmacy technician practice exam" canonicalPath={`/allied-health/pharmacy-technician/exams/${slug}`} />
+      <AlliedSEO title={`${exam.title} - Taking Exam`} description={t("allied.pharmtechExams.takingPharmacyTechnicianPracticeExam")} canonicalPath={`/allied-health/pharmacy-technician/exams/${slug}`} />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4" data-testid="exam-taking">
         <div className="flex items-center justify-between mb-4 bg-white rounded-xl border border-gray-100 px-4 py-3 sticky top-16 z-40">
           <div className="flex items-center gap-4">
@@ -287,7 +289,7 @@ function ExamTaker() {
         {showSubmitModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" data-testid="submit-modal">
             <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Submit Exam?</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.pharmtechExams.submitExam")}</h3>
               <p className="text-sm text-gray-500 mb-4">
                 You've answered {totalAnswered} of {questions.length} questions.
                 {totalAnswered < questions.length && <span className="text-amber-600 font-medium"> {questions.length - totalAnswered} unanswered questions will be marked incorrect.</span>}
@@ -363,7 +365,7 @@ function ExamTaker() {
 
             {mode === "tutor" && revealed.has(currentIndex) && currentQ.rationale && (
               <div className="mt-6 bg-blue-50 rounded-xl p-5 border border-blue-100" data-testid="tutor-rationale">
-                <h4 className="font-semibold text-blue-800 mb-2">Rationale</h4>
+                <h4 className="font-semibold text-blue-800 mb-2">{t("allied.pharmtechExams.rationale2")}</h4>
                 <p className="text-sm text-blue-900 leading-relaxed">{currentQ.rationale}</p>
               </div>
             )}

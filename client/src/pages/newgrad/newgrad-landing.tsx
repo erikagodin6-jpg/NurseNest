@@ -19,6 +19,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 
+import { useI18n } from "@/lib/i18n";
 const GUIDE_CARDS = [
   { slug: "guides", title: "Survival Guides", desc: "Transition to practice, shift organization, documentation, and communication essentials.", icon: BookOpen, color: "#6C63FF" },
   { slug: "career", title: "Career Pathways", desc: "Specialization options, continuing education, and leadership development.", icon: TrendingUp, color: "#10B981" },
@@ -50,6 +51,7 @@ const FAQ_DATA = [
 ];
 
 export default function NewGradLanding() {
+  const { t } = useI18n();
   const { effectiveTier, user } = useAuth();
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
   const { hasAnyPremium: hasAccess } = useNewGradEntitlements();
@@ -60,8 +62,8 @@ export default function NewGradLanding() {
     <div className="min-h-screen bg-gray-50" data-testid="newgrad-landing-page">
       <Navigation />
       <SEO
-        title="New Grad Career Hub — Interview Prep, Resume Tools & Survival Guides | NurseNest"
-        description="Launch your nursing career with free survival guides, STAR-framework interview prep, ATS-optimized resume templates, salary negotiation tools, and burnout prevention strategies for new graduate nurses."
+        title={t("pages.newgrad.newgradLanding.newGradCareerHubInterview")}
+        description={t("pages.newgrad.newgradLanding.launchYourNursingCareerWith")}
         keywords="new grad nurse interview prep, new graduate nurse resume template, first year nurse survival guide, nursing salary negotiation, new grad nurse career tools, nursing career development, STAR interview answers"
         canonicalPath="/newgrad"
         structuredData={faqStructuredData}
@@ -215,7 +217,7 @@ export default function NewGradLanding() {
       </section>
 
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14" data-testid="section-faq">
-        <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("pages.newgrad.newgradLanding.frequentlyAskedQuestions")}</h2>
         <div className="space-y-3">
           {FAQ_DATA.map((faq, i) => (
             <div key={i} className="bg-white rounded-xl border border-gray-200 overflow-hidden" data-testid={`faq-item-${i}`}>

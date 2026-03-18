@@ -5,6 +5,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { PremiumUpgradeCTA, useNewGradEntitlements } from "./premium-cta";
 import { INTERVIEW_QUESTION_BANK, type InterviewQuestion } from "@/data/newgrad/premium-toolkit";
+import { useI18n } from "@/lib/i18n";
 import {
   ChevronRight, ArrowRight, Clock, CheckCircle2, XCircle,
   Play, Pause, RotateCcw, Lock, Star, Award, Target,
@@ -37,6 +38,7 @@ function shuffleArray<T>(arr: T[]): T[] {
 }
 
 function formatTime(seconds: number): string {
+
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
   return `${m}:${s.toString().padStart(2, "0")}`;
@@ -145,7 +147,7 @@ export default function MockInterviewPage() {
     <div data-testid="newgrad-mock-interview-page">
       <Navigation />
       <SEO
-        title="Mock Interview Practice — Timed Nursing Interview Simulation | NurseNest"
+        title={t("pages.newgrad.mockInterviewPage.mockInterviewPracticeTimedNursing")}
         description={`Practice with timed mock nursing interviews. ${INTERVIEW_QUESTION_BANK.length}+ randomized questions with self-scoring, answer review, and performance tracking.`}
         keywords="mock nursing interview, timed interview practice, nursing interview simulation, new grad nurse interview test, interview scoring"
         canonicalPath="/newgrad/mock-interview"
@@ -160,11 +162,11 @@ export default function MockInterviewPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-violet-50 via-purple-50/30 to-white" />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.newgrad.mockInterviewPage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/newgrad" className="hover:text-blue-600">New Grad Career Hub</Link>
+            <Link href="/newgrad" className="hover:text-blue-600">{t("pages.newgrad.mockInterviewPage.newGradCareerHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-violet-700 font-medium">Mock Interview</span>
+            <span className="text-violet-700 font-medium">{t("pages.newgrad.mockInterviewPage.mockInterview")}</span>
           </div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-violet-100 text-violet-700">
             <Timer className="w-4 h-4" /> Timed Mock Interview
@@ -178,15 +180,15 @@ export default function MockInterviewPage() {
           <div className="grid grid-cols-3 gap-3">
             <div className="bg-white rounded-xl border border-violet-100 p-3 text-center" data-testid="stat-questions">
               <div className="text-xl font-bold text-violet-700">{INTERVIEW_QUESTION_BANK.length}+</div>
-              <div className="text-xs text-gray-500">Question Pool</div>
+              <div className="text-xs text-gray-500">{t("pages.newgrad.mockInterviewPage.questionPool")}</div>
             </div>
             <div className="bg-white rounded-xl border border-violet-100 p-3 text-center" data-testid="stat-modes">
               <div className="text-xl font-bold text-violet-700">3</div>
-              <div className="text-xs text-gray-500">Exam Modes</div>
+              <div className="text-xs text-gray-500">{t("pages.newgrad.mockInterviewPage.examModes")}</div>
             </div>
             <div className="bg-white rounded-xl border border-violet-100 p-3 text-center" data-testid="stat-scoring">
-              <div className="text-xl font-bold text-violet-700">5-Point</div>
-              <div className="text-xs text-gray-500">Self-Scoring</div>
+              <div className="text-xl font-bold text-violet-700">{t("pages.newgrad.mockInterviewPage.5point")}</div>
+              <div className="text-xs text-gray-500">{t("pages.newgrad.mockInterviewPage.selfscoring")}</div>
             </div>
           </div>
         </div>
@@ -197,7 +199,7 @@ export default function MockInterviewPage() {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-8">
               <Lock className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Mock Interviews are a Premium Feature</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.newgrad.mockInterviewPage.mockInterviewsAreAPremium")}</h2>
               <p className="text-gray-600 max-w-lg mx-auto">
                 Timed mock interviews with scoring and review are available with the New Grad Toolkit. Free users can preview individual questions on the Interview Question Bank page.
               </p>
@@ -220,7 +222,7 @@ export default function MockInterviewPage() {
       ) : examState === "setup" ? (
         <section className="py-16" data-testid="section-setup">
           <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Choose Your Mock Interview</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t("pages.newgrad.mockInterviewPage.chooseYourMockInterview")}</h2>
             <div className="space-y-4 mb-8">
               {EXAM_SIZES.map((size, i) => (
                 <button
@@ -246,12 +248,12 @@ export default function MockInterviewPage() {
               ))}
             </div>
             <div className="bg-violet-50 rounded-xl p-5 mb-6">
-              <h3 className="font-semibold text-gray-900 mb-2">How it works</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">{t("pages.newgrad.mockInterviewPage.howItWorks")}</h3>
               <ul className="space-y-2 text-sm text-gray-600">
-                <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-violet-200 text-violet-700 text-xs font-bold flex items-center justify-center shrink-0">1</span> Questions are randomly selected from the full interview bank</li>
-                <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-violet-200 text-violet-700 text-xs font-bold flex items-center justify-center shrink-0">2</span> Type your answer as you would speak it in a real interview</li>
-                <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-violet-200 text-violet-700 text-xs font-bold flex items-center justify-center shrink-0">3</span> Reveal the expert sample answer, then self-score (1-5)</li>
-                <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-violet-200 text-violet-700 text-xs font-bold flex items-center justify-center shrink-0">4</span> Review all questions and scores at the end</li>
+                <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-violet-200 text-violet-700 text-xs font-bold flex items-center justify-center shrink-0">1</span> {t("pages.newgrad.mockInterviewPage.questionsAreRandomlySelectedFrom")}</li>
+                <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-violet-200 text-violet-700 text-xs font-bold flex items-center justify-center shrink-0">2</span> {t("pages.newgrad.mockInterviewPage.typeYourAnswerAsYou")}</li>
+                <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-violet-200 text-violet-700 text-xs font-bold flex items-center justify-center shrink-0">3</span> {t("pages.newgrad.mockInterviewPage.revealTheExpertSampleAnswer")}</li>
+                <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-violet-200 text-violet-700 text-xs font-bold flex items-center justify-center shrink-0">4</span> {t("pages.newgrad.mockInterviewPage.reviewAllQuestionsAndScores")}</li>
               </ul>
             </div>
             <button
@@ -298,8 +300,8 @@ export default function MockInterviewPage() {
             {isPaused ? (
               <div className="bg-yellow-50 rounded-xl border border-yellow-200 p-8 text-center">
                 <Pause className="w-12 h-12 text-yellow-500 mx-auto mb-3" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Interview Paused</h3>
-                <p className="text-sm text-gray-600 mb-4">Take a moment if you need it. The timer is stopped.</p>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("pages.newgrad.mockInterviewPage.interviewPaused")}</h3>
+                <p className="text-sm text-gray-600 mb-4">{t("pages.newgrad.mockInterviewPage.takeAMomentIfYou")}</p>
                 <button
                   onClick={() => setIsPaused(false)}
                   className="px-5 py-2.5 bg-violet-600 text-white rounded-xl font-semibold hover:bg-violet-700"
@@ -329,7 +331,7 @@ export default function MockInterviewPage() {
                 <textarea
                   value={userInput}
                   onChange={(e) => setUserInput(e.target.value)}
-                  placeholder="Type your answer here as you would speak it in a real interview..."
+                  placeholder={t("pages.newgrad.mockInterviewPage.typeYourAnswerHereAs")}
                   className="w-full h-40 px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-violet-400"
                   data-testid="input-answer"
                 />
@@ -362,7 +364,7 @@ export default function MockInterviewPage() {
                       </p>
                       {questions[currentIndex]?.tips && (
                         <div className="mt-3 pt-3 border-t border-green-200">
-                          <p className="text-xs font-semibold text-green-700 mb-1">Tips:</p>
+                          <p className="text-xs font-semibold text-green-700 mb-1">{t("pages.newgrad.mockInterviewPage.tips")}</p>
                           <ul className="space-y-0.5">
                             {questions[currentIndex].tips.map((tip, j) => (
                               <li key={j} className="text-xs text-green-600 flex items-start gap-1">
@@ -376,7 +378,7 @@ export default function MockInterviewPage() {
                     </div>
 
                     <div>
-                      <p className="text-sm font-semibold text-gray-900 mb-2">Rate your answer (1-5):</p>
+                      <p className="text-sm font-semibold text-gray-900 mb-2">{t("pages.newgrad.mockInterviewPage.rateYourAnswer15")}</p>
                       <div className="flex gap-2">
                         {[1, 2, 3, 4, 5].map((score) => (
                           <button
@@ -390,8 +392,8 @@ export default function MockInterviewPage() {
                         ))}
                       </div>
                       <div className="flex justify-between text-xs text-gray-400 mt-1 px-1">
-                        <span>Needs work</span>
-                        <span>Excellent</span>
+                        <span>{t("pages.newgrad.mockInterviewPage.needsWork")}</span>
+                        <span>{t("pages.newgrad.mockInterviewPage.excellent")}</span>
                       </div>
                     </div>
                   </div>
@@ -405,26 +407,26 @@ export default function MockInterviewPage() {
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-8">
               <Award className="w-12 h-12 text-violet-500 mx-auto mb-3" />
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Mock Interview Complete</h2>
-              <p className="text-gray-600">Review your performance and compare with expert answers</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.newgrad.mockInterviewPage.mockInterviewComplete")}</h2>
+              <p className="text-gray-600">{t("pages.newgrad.mockInterviewPage.reviewYourPerformanceAndCompare")}</p>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
               <div className="bg-white rounded-xl border border-gray-100 p-4 text-center" data-testid="review-avg-score">
                 <div className="text-2xl font-bold text-violet-700">{avgScore}/5</div>
-                <div className="text-xs text-gray-500">Avg Score</div>
+                <div className="text-xs text-gray-500">{t("pages.newgrad.mockInterviewPage.avgScore")}</div>
               </div>
               <div className="bg-white rounded-xl border border-gray-100 p-4 text-center" data-testid="review-answered">
                 <div className="text-2xl font-bold text-green-600">{answeredCount}</div>
-                <div className="text-xs text-gray-500">Answered</div>
+                <div className="text-xs text-gray-500">{t("pages.newgrad.mockInterviewPage.answered")}</div>
               </div>
               <div className="bg-white rounded-xl border border-gray-100 p-4 text-center" data-testid="review-skipped">
                 <div className="text-2xl font-bold text-orange-600">{skippedCount}</div>
-                <div className="text-xs text-gray-500">Skipped</div>
+                <div className="text-xs text-gray-500">{t("pages.newgrad.mockInterviewPage.skipped")}</div>
               </div>
               <div className="bg-white rounded-xl border border-gray-100 p-4 text-center" data-testid="review-time">
                 <div className="text-2xl font-bold text-blue-600">{formatTime(totalTime)}</div>
-                <div className="text-xs text-gray-500">Total Time</div>
+                <div className="text-xs text-gray-500">{t("pages.newgrad.mockInterviewPage.totalTime")}</div>
               </div>
             </div>
 
@@ -445,7 +447,7 @@ export default function MockInterviewPage() {
               </Link>
             </div>
 
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Answer Review</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">{t("pages.newgrad.mockInterviewPage.answerReview")}</h3>
             <div className="space-y-3">
               {answers.map((answer, i) => {
                 const q = questions[answer.questionIndex];
@@ -476,12 +478,12 @@ export default function MockInterviewPage() {
                       <div className="px-5 pb-4 border-t border-gray-100 pt-3 space-y-3">
                         {answer.userResponse && (
                           <div>
-                            <h4 className="text-xs font-semibold text-gray-500 mb-1">Your Answer</h4>
+                            <h4 className="text-xs font-semibold text-gray-500 mb-1">{t("pages.newgrad.mockInterviewPage.yourAnswer")}</h4>
                             <p className="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg">{answer.userResponse}</p>
                           </div>
                         )}
                         <div>
-                          <h4 className="text-xs font-semibold text-green-600 mb-1">Expert Sample Answer</h4>
+                          <h4 className="text-xs font-semibold text-green-600 mb-1">{t("pages.newgrad.mockInterviewPage.expertSampleAnswer")}</h4>
                           <p className="text-sm text-gray-700 bg-green-50 p-3 rounded-lg">{q.sampleAnswer}</p>
                         </div>
                         <div className="flex items-center gap-4 text-xs text-gray-500">
@@ -500,7 +502,7 @@ export default function MockInterviewPage() {
 
       <section className="py-12 bg-gradient-to-r from-violet-50 to-purple-50" data-testid="section-bottom-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-3">More Practice Tools</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-3">{t("pages.newgrad.mockInterviewPage.morePracticeTools")}</h2>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link href="/newgrad/interview" className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-violet-700 rounded-xl font-semibold hover:bg-violet-50 border border-violet-200" data-testid="link-interview-bank">
               Interview Question Bank

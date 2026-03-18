@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n";
 import {
   User, ShoppingBag, Shield, Clock, CheckCircle2, Package,
   Crown, ArrowRight, CreditCard, Radio, BookOpen, Zap, FileText
@@ -34,6 +35,7 @@ interface Purchase {
 }
 
 export default function ImagingAccountPage() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [entitlements, setEntitlements] = useState<Entitlement[]>([]);
   const [purchases, setPurchases] = useState<Purchase[]>([]);
@@ -57,10 +59,10 @@ export default function ImagingAccountPage() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center" data-testid="imaging-account-login-prompt">
         <User className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Sign In Required</h1>
-        <p className="text-gray-600 mb-6">Please log in to view your Medical Imaging account.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.imagingAccount.signInRequired")}</h1>
+        <p className="text-gray-600 mb-6">{t("pages.imagingAccount.pleaseLogInToView")}</p>
         <Link href="/login">
-          <Button data-testid="button-login">Sign In</Button>
+          <Button data-testid="button-login">{t("pages.imagingAccount.signIn")}</Button>
         </Link>
       </div>
     );
@@ -69,8 +71,8 @@ export default function ImagingAccountPage() {
   return (
     <div data-testid="imaging-account-page">
       <SEO
-        title="My Medical Imaging Account - Purchases & Access"
-        description="View your Medical Imaging purchases, active subscriptions, and content access."
+        title={t("pages.imagingAccount.myMedicalImagingAccountPurchases")}
+        description={t("pages.imagingAccount.viewYourMedicalImagingPurchases")}
         canonicalPath="/medical-imaging/account"
       />
 
@@ -88,7 +90,7 @@ export default function ImagingAccountPage() {
             <User className="w-7 h-7 text-indigo-600" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-account-title">My Medical Imaging Account</h1>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-account-title">{t("pages.imagingAccount.myMedicalImagingAccount")}</h1>
             <p className="text-gray-500">{user.username} {user.email ? `(${user.email})` : ""}</p>
           </div>
         </div>
@@ -97,8 +99,8 @@ export default function ImagingAccountPage() {
           <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl p-6 mb-8 text-white flex items-center gap-4" data-testid="banner-full-access">
             <Crown className="w-8 h-8 shrink-0" />
             <div>
-              <h2 className="text-lg font-bold">Full Access Active</h2>
-              <p className="text-indigo-100 text-sm">You have unlimited access to all Medical Imaging content and features.</p>
+              <h2 className="text-lg font-bold">{t("pages.imagingAccount.fullAccessActive")}</h2>
+              <p className="text-indigo-100 text-sm">{t("pages.imagingAccount.youHaveUnlimitedAccessTo")}</p>
             </div>
           </div>
         )}
@@ -111,7 +113,7 @@ export default function ImagingAccountPage() {
                   <Shield className="w-5 h-5 text-green-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Active Entitlements</p>
+                  <p className="text-sm text-gray-500">{t("pages.imagingAccount.activeEntitlements")}</p>
                   <p className="text-2xl font-bold text-gray-900">{entitlements.length}</p>
                 </div>
               </div>
@@ -124,7 +126,7 @@ export default function ImagingAccountPage() {
                   <ShoppingBag className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Total Purchases</p>
+                  <p className="text-sm text-gray-500">{t("pages.imagingAccount.totalPurchases")}</p>
                   <p className="text-2xl font-bold text-gray-900">{purchases.length}</p>
                 </div>
               </div>
@@ -137,7 +139,7 @@ export default function ImagingAccountPage() {
                   <Crown className="w-5 h-5 text-indigo-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Access Level</p>
+                  <p className="text-sm text-gray-500">{t("pages.imagingAccount.accessLevel")}</p>
                   <p className="text-2xl font-bold text-gray-900">
                     {hasFullAccess ? "Full" : entitlements.length > 0 ? "Partial" : "Free"}
                   </p>
@@ -158,7 +160,7 @@ export default function ImagingAccountPage() {
             <Card>
               <CardContent className="py-8 text-center">
                 <Package className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-500 mb-4">No active entitlements yet. Purchase a plan to unlock premium content.</p>
+                <p className="text-gray-500 mb-4">{t("pages.imagingAccount.noActiveEntitlementsYetPurchase")}</p>
                 <div className="flex gap-3 justify-center">
                   <Link href="/medical-imaging/store">
                     <Button variant="outline" data-testid="link-browse-store">
@@ -166,7 +168,7 @@ export default function ImagingAccountPage() {
                     </Button>
                   </Link>
                   <Link href="/medical-imaging/canada/pricing">
-                    <Button data-testid="link-view-plans">View Plans</Button>
+                    <Button data-testid="link-view-plans">{t("pages.imagingAccount.viewPlans")}</Button>
                   </Link>
                 </div>
               </CardContent>
@@ -211,7 +213,7 @@ export default function ImagingAccountPage() {
             <Card>
               <CardContent className="py-8 text-center">
                 <CreditCard className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-500">No purchases yet.</p>
+                <p className="text-gray-500">{t("pages.imagingAccount.noPurchasesYet")}</p>
               </CardContent>
             </Card>
           ) : (

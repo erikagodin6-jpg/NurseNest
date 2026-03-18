@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Lock, Crown, Sparkles, ArrowRight, Zap } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
+import { useI18n } from "@/lib/i18n";
 interface PaywallOverlayProps {
   contentType: string;
   country?: string;
@@ -20,6 +21,7 @@ interface UsageData {
 }
 
 export function useImagingAccess(contentType: string) {
+  const { t } = useI18n();
   const [usage, setUsage] = useState<UsageData>({ used: 0, limit: 5, remaining: 5, hasAccess: false });
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
@@ -73,7 +75,7 @@ export function PaywallOverlay({ contentType, country, message, children }: Payw
             <div className="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mx-auto mb-4">
               <Lock className="w-8 h-8 text-indigo-600" />
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Premium Content</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">{t("components.imagingPaywall.premiumContent")}</h3>
             <p className="text-gray-600 text-sm mb-6">
               {message || `You've reached the free preview limit. Upgrade to unlock all ${contentType} and accelerate your exam preparation.`}
             </p>
@@ -140,7 +142,7 @@ export function ImagingUpgradeCTA({ country, variant = "inline" }: { country?: s
     return (
       <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl p-6 text-white text-center" data-testid="cta-upgrade-banner">
         <Crown className="w-8 h-8 mx-auto mb-3 opacity-90" />
-        <h3 className="text-lg font-bold mb-2">Upgrade to Premium</h3>
+        <h3 className="text-lg font-bold mb-2">{t("components.imagingPaywall.upgradeToPremium")}</h3>
         <p className="text-indigo-100 text-sm mb-4 max-w-md mx-auto">
           Get unlimited access to all practice questions, flashcards, exams, and study materials.
         </p>
@@ -161,7 +163,7 @@ export function ImagingUpgradeCTA({ country, variant = "inline" }: { country?: s
             <Zap className="w-5 h-5 text-indigo-600" />
           </div>
           <div className="flex-1">
-            <h3 className="font-semibold text-gray-900 mb-1">Ready to level up?</h3>
+            <h3 className="font-semibold text-gray-900 mb-1">{t("components.imagingPaywall.readyToLevelUp")}</h3>
             <p className="text-sm text-gray-600 mb-3">
               Unlock premium study materials, unlimited practice exams, and detailed analytics.
             </p>
@@ -179,7 +181,7 @@ export function ImagingUpgradeCTA({ country, variant = "inline" }: { country?: s
   return (
     <div className="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-200 rounded-lg px-4 py-2" data-testid="cta-upgrade-inline">
       <Lock className="w-4 h-4 text-indigo-600" />
-      <span className="text-sm text-indigo-700">Premium feature</span>
+      <span className="text-sm text-indigo-700">{t("components.imagingPaywall.premiumFeature")}</span>
       <Link href={country ? `/medical-imaging/${country}/pricing` : "/medical-imaging/store"}>
         <Button size="sm" variant="link" className="text-indigo-600 p-0 h-auto" data-testid="button-cta-upgrade-inline">
           Upgrade <ArrowRight className="w-3 h-3 ml-1" />
@@ -214,8 +216,8 @@ export function ImagingPurchaseSuccess() {
           <div className="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mx-auto mb-4 animate-pulse">
             <CreditCardIcon className="w-8 h-8 text-indigo-600" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Verifying Purchase...</h1>
-          <p className="text-gray-600">Please wait while we confirm your payment.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("components.imagingPaywall.verifyingPurchase")}</h1>
+          <p className="text-gray-600">{t("components.imagingPaywall.pleaseWaitWhileWeConfirm")}</p>
         </>
       )}
       {status === "success" && (
@@ -223,14 +225,14 @@ export function ImagingPurchaseSuccess() {
           <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
             <CheckIcon className="w-8 h-8 text-green-600" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Purchase Successful!</h1>
-          <p className="text-gray-600 mb-6">Your content has been unlocked. Start studying now!</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("components.imagingPaywall.purchaseSuccessful")}</h1>
+          <p className="text-gray-600 mb-6">{t("components.imagingPaywall.yourContentHasBeenUnlocked")}</p>
           <div className="flex gap-3 justify-center">
             <Link href="/medical-imaging/account">
-              <Button variant="outline" data-testid="button-view-account">View Account</Button>
+              <Button variant="outline" data-testid="button-view-account">{t("components.imagingPaywall.viewAccount")}</Button>
             </Link>
             <Link href="/medical-imaging">
-              <Button data-testid="button-start-studying">Start Studying</Button>
+              <Button data-testid="button-start-studying">{t("components.imagingPaywall.startStudying")}</Button>
             </Link>
           </div>
         </>
@@ -240,10 +242,10 @@ export function ImagingPurchaseSuccess() {
           <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
             <XIcon className="w-8 h-8 text-red-600" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Verification Issue</h1>
-          <p className="text-gray-600 mb-6">We couldn't verify your purchase. If you were charged, please contact support.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("components.imagingPaywall.verificationIssue")}</h1>
+          <p className="text-gray-600 mb-6">{t("components.imagingPaywall.weCouldntVerifyYourPurchase")}</p>
           <Link href="/medical-imaging/store">
-            <Button data-testid="button-back-store">Back to Store</Button>
+            <Button data-testid="button-back-store">{t("components.imagingPaywall.backToStore")}</Button>
           </Link>
         </>
       )}

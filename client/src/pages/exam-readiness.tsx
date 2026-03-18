@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
 import { canAccessFeature } from "@/lib/entitlements";
+import { useI18n } from "@/lib/i18n";
 import {
   Activity, Target, TrendingUp, Brain, Sparkles,
   BookOpen, ArrowRight, CheckCircle2, AlertTriangle, BarChart3,
@@ -26,6 +27,7 @@ const TIER_CONFIG = [
 ];
 
 function getTierForScore(score: number) {
+
   return TIER_CONFIG.find(t => score >= t.min && score < t.max) || TIER_CONFIG[TIER_CONFIG.length - 1];
 }
 
@@ -51,7 +53,7 @@ function ReadinessGauge({ value }: { value: number }) {
       </svg>
       <div className="absolute flex flex-col items-center">
         <span className="text-3xl font-black" style={{ color: tier.color }} data-testid="text-readiness-score">{value}%</span>
-        <span className="text-xs font-medium text-gray-400">Readiness</span>
+        <span className="text-xs font-medium text-gray-400">{t("pages.examReadiness.readiness")}</span>
       </div>
     </div>
   );
@@ -90,9 +92,9 @@ function TopicMasteryHeatmap({ topics }: { topics: { name: string; mastery: numb
         })}
       </div>
       <div className="flex items-center justify-center gap-6 mt-4 text-xs text-gray-500">
-        <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> Strong (80%+)</span>
-        <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-amber-500" /> Developing (60-79%)</span>
-        <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-red-500" /> Weak (&lt;60%)</span>
+        <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> {t("pages.examReadiness.strong80")}</span>
+        <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-amber-500" /> {t("pages.examReadiness.developing6079")}</span>
+        <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-red-500" /> {t("pages.examReadiness.weakLt60")}</span>
       </div>
     </div>
   );
@@ -115,7 +117,7 @@ function ProgressHistoryChart({ history }: { history: { week: string; readiness:
         </ResponsiveContainer>
       </div>
       <div className="mt-4">
-        <h4 className="text-sm font-semibold text-gray-700 mb-2">Practice Volume</h4>
+        <h4 className="text-sm font-semibold text-gray-700 mb-2">{t("pages.examReadiness.practiceVolume")}</h4>
         <div className="h-32">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={history} margin={{ top: 5, right: 30, left: 0, bottom: 0 }}>
@@ -188,7 +190,7 @@ function BenchmarkingWidget({ percentile, avgScore, userScore, topicComparison }
       <div className="bg-gradient-to-br from-violet-50 to-indigo-50 rounded-2xl p-6 mb-4 text-center border border-violet-100">
         <div className="flex items-center justify-center gap-2 mb-2">
           <Award className="w-5 h-5 text-violet-600" />
-          <span className="text-sm font-bold text-violet-600 uppercase tracking-wider">Your Rank</span>
+          <span className="text-sm font-bold text-violet-600 uppercase tracking-wider">{t("pages.examReadiness.yourRank")}</span>
         </div>
         <p className="text-4xl font-black text-gray-900" data-testid="text-percentile">{percentile}th</p>
         <p className="text-sm text-gray-600 mt-1" data-testid="text-percentile-desc">
@@ -197,17 +199,17 @@ function BenchmarkingWidget({ percentile, avgScore, userScore, topicComparison }
       </div>
       <div className="grid grid-cols-2 gap-3 mb-4">
         <div className="rounded-xl p-4 bg-gray-50 text-center">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Your Score</p>
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">{t("pages.examReadiness.yourScore")}</p>
           <p className="text-2xl font-black text-gray-900" data-testid="text-user-score">{userScore}%</p>
         </div>
         <div className="rounded-xl p-4 bg-gray-50 text-center">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Avg Score</p>
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">{t("pages.examReadiness.avgScore")}</p>
           <p className="text-2xl font-black text-gray-900" data-testid="text-avg-score">{avgScore}%</p>
         </div>
       </div>
       {topicComparison.length > 0 && (
         <div className="space-y-2">
-          <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">Topic Comparison</p>
+          <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">{t("pages.examReadiness.topicComparison")}</p>
           {topicComparison.map((tc, i) => (
             <div key={i} className="flex items-center justify-between text-sm" data-testid={`benchmark-topic-${i}`}>
               <span className="text-gray-700 truncate flex-1">{tc.topic}</span>
@@ -232,8 +234,8 @@ function PremiumGate({ children, feature, userTier }: { children: React.ReactNod
       <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 rounded-xl flex items-center justify-center">
         <div className="text-center p-6">
           <Lock className="w-8 h-8 text-gray-400 mx-auto mb-3" />
-          <p className="text-sm font-semibold text-gray-700 mb-1">Premium Feature</p>
-          <p className="text-xs text-gray-500 mb-3">Upgrade to unlock detailed analysis and insights</p>
+          <p className="text-sm font-semibold text-gray-700 mb-1">{t("pages.examReadiness.premiumFeature")}</p>
+          <p className="text-xs text-gray-500 mb-3">{t("pages.examReadiness.upgradeToUnlockDetailedAnalysis")}</p>
           <Link href="/pricing">
             <Button size="sm" className="gap-1.5" data-testid={`button-upgrade-${feature}`}>
               <Crown className="w-3.5 h-3.5" /> Upgrade Now
@@ -384,13 +386,13 @@ export default function ExamReadinessPage() {
     return (
       <div data-testid="page-exam-readiness">
         <Navigation />
-        <SEO title="Exam Readiness Report | NurseNest" description="Check your exam readiness with detailed analytics, topic mastery heatmap, and personalized study recommendations." />
+        <SEO title={t("pages.examReadiness.examReadinessReportNursenest")} description={t("pages.examReadiness.checkYourExamReadinessWith")} />
         <div className="max-w-3xl mx-auto px-4 py-20 text-center">
           <Gauge className="w-12 h-12 text-violet-500 mx-auto mb-4" />
-          <h1 className="text-3xl font-bold text-gray-900 mb-3" data-testid="text-page-title">Exam Readiness Report</h1>
-          <p className="text-gray-600 mb-6">Sign in to see your personalized readiness analysis, topic mastery heatmap, and study recommendations.</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-3" data-testid="text-page-title">{t("pages.examReadiness.examReadinessReport")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.examReadiness.signInToSeeYour")}</p>
           <Link href="/login">
-            <Button size="lg" data-testid="button-sign-in">Sign In to Get Started</Button>
+            <Button size="lg" data-testid="button-sign-in">{t("pages.examReadiness.signInToGetStarted")}</Button>
           </Link>
         </div>
         <Footer />
@@ -416,7 +418,7 @@ export default function ExamReadinessPage() {
   return (
     <div data-testid="page-exam-readiness">
       <Navigation />
-      <SEO title="Exam Readiness Report | NurseNest" description="Your personalized exam readiness analysis with topic mastery heatmap, progress tracking, and study recommendations." />
+      <SEO title={t("pages.examReadiness.examReadinessReportNursenest2")} description={t("pages.examReadiness.yourPersonalizedExamReadinessAnalysis")} />
 
       <div className="max-w-6xl mx-auto px-4 py-8 sm:py-12">
         <div className="mb-8">
@@ -424,7 +426,7 @@ export default function ExamReadinessPage() {
             <div className="w-8 h-8 rounded-full flex items-center justify-center bg-violet-100">
               <Activity className="w-4 h-4 text-violet-600" />
             </div>
-            <span className="text-xs font-bold uppercase tracking-wider text-gray-400">Exam Readiness Report</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-gray-400">{t("pages.examReadiness.examReadinessReport2")}</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900" data-testid="text-page-title">
             {user.username || "Student"}'s Readiness Report
@@ -445,21 +447,21 @@ export default function ExamReadinessPage() {
                   <div className="rounded-xl p-4 bg-violet-50">
                     <div className="flex items-center gap-2 mb-1">
                       <Target className="w-4 h-4 text-violet-500" />
-                      <span className="text-xs font-bold text-gray-400 uppercase">Pass Probability</span>
+                      <span className="text-xs font-bold text-gray-400 uppercase">{t("pages.examReadiness.passProbability")}</span>
                     </div>
                     <p className="text-xl font-black text-gray-900" data-testid="text-pass-probability">{passProbability}%</p>
                   </div>
                   <div className="rounded-xl p-4 bg-emerald-50">
                     <div className="flex items-center gap-2 mb-1">
                       <TrendingUp className="w-4 h-4 text-emerald-500" />
-                      <span className="text-xs font-bold text-gray-400 uppercase">Improvement</span>
+                      <span className="text-xs font-bold text-gray-400 uppercase">{t("pages.examReadiness.improvement")}</span>
                     </div>
                     <p className="text-xl font-black text-emerald-600" data-testid="text-improvement">+{history.length > 1 ? history[history.length - 1].readiness - history[0].readiness : 0}%</p>
                   </div>
                   <div className="rounded-xl p-4 bg-blue-50">
                     <div className="flex items-center gap-2 mb-1">
                       <BarChart3 className="w-4 h-4 text-blue-500" />
-                      <span className="text-xs font-bold text-gray-400 uppercase">Questions</span>
+                      <span className="text-xs font-bold text-gray-400 uppercase">{t("pages.examReadiness.questions")}</span>
                     </div>
                     <p className="text-xl font-black text-gray-900" data-testid="text-total-questions">{topics.reduce((sum: number, t: any) => sum + t.questionCount, 0)}</p>
                   </div>
@@ -496,7 +498,7 @@ export default function ExamReadinessPage() {
         </Card>
 
         <PremiumGate feature="heatmap" userTier={userTier}>
-          <h2 className="text-xl font-bold text-gray-900 mb-4" data-testid="text-heatmap-heading">Topic Mastery Heatmap</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4" data-testid="text-heatmap-heading">{t("pages.examReadiness.topicMasteryHeatmap")}</h2>
           <Card className="border-none shadow-lg rounded-2xl overflow-hidden mb-8" data-testid="card-topic-heatmap">
             <CardContent className="p-6">
               <TopicMasteryHeatmap topics={topics} />
@@ -505,7 +507,7 @@ export default function ExamReadinessPage() {
         </PremiumGate>
 
         <PremiumGate feature="history" userTier={userTier}>
-          <h2 className="text-xl font-bold text-gray-900 mb-4" data-testid="text-history-heading">Progress History</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4" data-testid="text-history-heading">{t("pages.examReadiness.progressHistory")}</h2>
           <Card className="border-none shadow-lg rounded-2xl overflow-hidden mb-8" data-testid="card-progress-history">
             <CardContent className="p-6">
               <ProgressHistoryChart history={history} />
@@ -541,7 +543,7 @@ export default function ExamReadinessPage() {
           <Card className="border-none shadow-lg rounded-2xl overflow-hidden mb-8 bg-gradient-to-br from-violet-50 to-indigo-50 border border-violet-100" data-testid="card-upgrade-cta">
             <CardContent className="p-8 text-center">
               <Crown className="w-10 h-10 text-violet-500 mx-auto mb-3" />
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Unlock Your Full Readiness Report</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{t("pages.examReadiness.unlockYourFullReadinessReport")}</h3>
               <p className="text-gray-600 mb-4 max-w-lg mx-auto">
                 Get detailed topic mastery analysis, progress tracking, personalized recommendations, and peer benchmarking to maximize your exam preparation.
               </p>

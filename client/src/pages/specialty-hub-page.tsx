@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer";
 import { AutoRelatedContent, YouMayAlsoLike } from "@/components/auto-related-content";
 import { buildFaqStructuredData, PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
 import { getSpecialtyBySlug, SPECIALTY_CONFIGS, type SpecialtyConfig } from "@/data/specialty-hub-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, BookOpen, FileText, HelpCircle, ChevronRight,
   Check, Layers, ClipboardList, GraduationCap, Stethoscope,
@@ -14,6 +15,7 @@ import {
 } from "lucide-react";
 
 function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   return (
     <div className="border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-item-${index}`}>
@@ -40,8 +42,8 @@ function SpecialtyNotFound() {
       <Navigation />
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center max-w-md px-4">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-specialty-not-found">Specialty Not Found</h1>
-          <p className="text-gray-600 mb-6">The specialty you are looking for is not available. Browse our available specialties below.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-specialty-not-found">{t("pages.specialtyHubPage.specialtyNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.specialtyHubPage.theSpecialtyYouAreLooking")}</p>
           <Link href="/nursing-specialties" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors" data-testid="link-back-to-specialties">
             View All Specialties <ArrowRight className="w-4 h-4" />
           </Link>
@@ -106,9 +108,9 @@ function SpecialtyHubContent({ specialty }: { specialty: SpecialtyConfig }) {
         <div className={`absolute inset-0 bg-gradient-to-br ${specialty.gradientFrom} via-white/50 ${specialty.gradientTo}`} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="nav-breadcrumb">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.specialtyHubPage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/nursing-specialties" className="hover:text-blue-600">Nursing Specialties</Link>
+            <Link href="/nursing-specialties" className="hover:text-blue-600">{t("pages.specialtyHubPage.nursingSpecialties")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-blue-700 font-medium">{specialty.name}</span>
           </div>
@@ -147,7 +149,7 @@ function SpecialtyHubContent({ specialty }: { specialty: SpecialtyConfig }) {
             <div className={`w-10 h-10 rounded-xl ${specialty.bgColor} flex items-center justify-center`}>
               <Stethoscope className={`w-5 h-5 ${specialty.iconColor}`} />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900" data-testid="text-overview-heading">Clinical Context</h2>
+            <h2 className="text-2xl font-bold text-gray-900" data-testid="text-overview-heading">{t("pages.specialtyHubPage.clinicalContext")}</h2>
           </div>
           <p className="text-gray-700 leading-relaxed text-lg" data-testid="text-clinical-context">{specialty.clinicalContext}</p>
         </div>
@@ -156,7 +158,7 @@ function SpecialtyHubContent({ specialty }: { specialty: SpecialtyConfig }) {
       <section className="py-16 bg-gray-50" data-testid="section-topics">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-topics-heading">What You'll Learn</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-topics-heading">{t("pages.specialtyHubPage.whatYoullLearn")}</h2>
             <p className="text-gray-600">Core topics covered in the {specialty.name} specialty track.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -173,7 +175,7 @@ function SpecialtyHubContent({ specialty }: { specialty: SpecialtyConfig }) {
       <section className="py-16 bg-white" data-testid="section-resources">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-resources-heading">Study Resources</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-resources-heading">{t("pages.specialtyHubPage.studyResources")}</h2>
             <p className="text-gray-600">Everything included in your {specialty.name} specialty track.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -182,7 +184,7 @@ function SpecialtyHubContent({ specialty }: { specialty: SpecialtyConfig }) {
                 <div className={`w-12 h-12 rounded-xl ${specialty.bgColor} flex items-center justify-center mb-4`}>
                   <BookOpen className={`w-6 h-6 ${specialty.iconColor}`} />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Lesson Library</h3>
+                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">{t("pages.specialtyHubPage.lessonLibrary")}</h3>
                 <p className="text-sm text-gray-500 mb-3">In-depth pathophysiology and clinical lessons specific to {specialty.name.toLowerCase()}.</p>
                 <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 group-hover:gap-2 transition-all">
                   Browse Lessons <ArrowRight className="w-3.5 h-3.5" />
@@ -194,7 +196,7 @@ function SpecialtyHubContent({ specialty }: { specialty: SpecialtyConfig }) {
                 <div className={`w-12 h-12 rounded-xl ${specialty.bgColor} flex items-center justify-center mb-4`}>
                   <ClipboardList className={`w-6 h-6 ${specialty.iconColor}`} />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Test Bank</h3>
+                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">{t("pages.specialtyHubPage.testBank")}</h3>
                 <p className="text-sm text-gray-500 mb-3">Practice questions aligned to {specialty.certifications.join(", ")} certification exam blueprints.</p>
                 <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 group-hover:gap-2 transition-all">
                   Practice Now <ArrowRight className="w-3.5 h-3.5" />
@@ -206,7 +208,7 @@ function SpecialtyHubContent({ specialty }: { specialty: SpecialtyConfig }) {
                 <div className={`w-12 h-12 rounded-xl ${specialty.bgColor} flex items-center justify-center mb-4`}>
                   <Layers className={`w-6 h-6 ${specialty.iconColor}`} />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Flashcard Decks</h3>
+                <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">{t("pages.specialtyHubPage.flashcardDecks")}</h3>
                 <p className="text-sm text-gray-500 mb-3">Spaced-repetition flashcards for {specialty.name.toLowerCase()} terminology and clinical concepts.</p>
                 <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 group-hover:gap-2 transition-all">
                   Study Flashcards <ArrowRight className="w-3.5 h-3.5" />
@@ -224,7 +226,7 @@ function SpecialtyHubContent({ specialty }: { specialty: SpecialtyConfig }) {
               <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
                 <GraduationCap className="w-5 h-5 text-blue-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900" data-testid="text-new-grad-heading">For New Graduates</h2>
+              <h2 className="text-2xl font-bold text-gray-900" data-testid="text-new-grad-heading">{t("pages.specialtyHubPage.forNewGraduates")}</h2>
             </div>
             <h3 className="text-lg font-semibold text-gray-800 mb-2" data-testid="text-new-grad-title">{specialty.newGradGuideTitle}</h3>
             <p className="text-gray-600 mb-6" data-testid="text-new-grad-desc">{specialty.newGradGuideDescription}</p>
@@ -244,7 +246,7 @@ function SpecialtyHubContent({ specialty }: { specialty: SpecialtyConfig }) {
         <section className="py-16 bg-white" data-testid="section-related">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-related-heading">Related Specialties</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-related-heading">{t("pages.specialtyHubPage.relatedSpecialties")}</h2>
               <p className="text-gray-600">Explore specialties that complement {specialty.name.toLowerCase()}.</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -270,7 +272,7 @@ function SpecialtyHubContent({ specialty }: { specialty: SpecialtyConfig }) {
       <section className="py-16 bg-gray-50" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-faq-heading">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-faq-heading">{t("pages.specialtyHubPage.frequentlyAskedQuestions")}</h2>
             <p className="text-gray-600">Common questions about {specialty.name.toLowerCase()}</p>
           </div>
           <div className="space-y-3">
@@ -312,7 +314,7 @@ function SpecialtyHubContent({ specialty }: { specialty: SpecialtyConfig }) {
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center gap-2 mb-6">
                 <GraduationCap className="w-5 h-5 text-amber-600" />
-                <h2 className="text-xl font-bold text-gray-900">Related Certification Prep</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.specialtyHubPage.relatedCertificationPrep")}</h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {relevantCerts.map(cert => (

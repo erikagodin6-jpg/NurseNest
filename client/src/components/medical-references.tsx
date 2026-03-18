@@ -1,5 +1,6 @@
 import { BookOpen, ExternalLink } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface Reference {
   source: string;
   title: string;
@@ -130,6 +131,7 @@ const TOPIC_REFERENCES: Record<string, Reference[]> = {
 };
 
 function getTopicReferences(lessonId: string): Reference[] {
+
   const id = lessonId.toLowerCase();
   for (const [topic, refs] of Object.entries(TOPIC_REFERENCES)) {
     if (id.includes(topic)) return refs;
@@ -190,6 +192,7 @@ interface MedicalReferencesProps {
 }
 
 export function MedicalReferences({ lessonId, pageType, className = "" }: MedicalReferencesProps) {
+  const { t } = useI18n();
   const topicRefs = getTopicReferences(lessonId);
   const pageTypeRefs = getPageTypeReferences(pageType);
   const seen = new Set<string>();
@@ -206,7 +209,7 @@ export function MedicalReferences({ lessonId, pageType, className = "" }: Medica
     <section className={`rounded-xl border border-gray-200 bg-gray-50/50 p-6 ${className}`} data-testid="section-medical-references">
       <div className="flex items-center gap-2 mb-4">
         <BookOpen className="w-5 h-5 text-gray-600" />
-        <h3 className="text-lg font-semibold text-gray-900">References & Clinical Sources</h3>
+        <h3 className="text-lg font-semibold text-gray-900">{t("components.medicalReferences.referencesClinicalSources")}</h3>
       </div>
       <p className="text-xs text-gray-500 mb-4">
         This content is based on evidence from peer-reviewed clinical guidelines and recognized healthcare authorities.

@@ -5,6 +5,7 @@ import { AlertTriangle, RefreshCw, ArrowLeft, MessageSquare, Loader2, ShieldChec
 import { useLocation } from "wouter";
 import { useAuth } from "@/lib/auth";
 
+import { useI18n } from "@/lib/i18n";
 interface ExamErrorBoundaryProps {
   children: ReactNode;
   examContext?: {
@@ -179,7 +180,7 @@ function ExamRecoveryUI({
                 {reportFailed ? "Try reporting again" : "Report this problem"}
               </Button>
               {reportFailed && (
-                <p className="text-xs text-red-500">Could not send report. Please try again.</p>
+                <p className="text-xs text-red-500">{t("components.examErrorBoundary.couldNotSendReportPlease")}</p>
               )}
             </div>
           )}
@@ -196,6 +197,7 @@ function ExamRecoveryUI({
 }
 
 export function ExamLoadingFallback() {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4" data-testid="exam-loading-skeleton">
       <Card className="max-w-2xl w-full">
@@ -334,7 +336,7 @@ export function ExamReportButton({
         {failed ? "Try again" : "Report a problem"}
       </Button>
       {failed && (
-        <p className="text-xs text-red-500 mt-0.5">Could not send report</p>
+        <p className="text-xs text-red-500 mt-0.5">{t("components.examErrorBoundary.couldNotSendReport")}</p>
       )}
     </div>
   );

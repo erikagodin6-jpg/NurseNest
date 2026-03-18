@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 
+import { useI18n } from "@/lib/i18n";
 interface DecisionPoint {
   id: string;
   prompt: string;
@@ -72,6 +73,7 @@ const STEPS: { id: SimStep; label: string; icon: any }[] = [
 ];
 
 function DifficultyBadge({ level }: { level: number }) {
+  const { t } = useI18n();
   const labels = ["", "Easy", "Moderate", "Intermediate", "Advanced", "Expert"];
   const colors = ["", "bg-green-100 text-green-700", "bg-blue-100 text-blue-700", "bg-yellow-100 text-yellow-700", "bg-orange-100 text-orange-700", "bg-red-100 text-red-700"];
   return <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${colors[level] || colors[3]}`} data-testid="badge-difficulty">{labels[level] || "Intermediate"}</span>;
@@ -102,19 +104,19 @@ function HistoryPanel({ history }: { history: PatientHistory }) {
     <div className="space-y-4" data-testid="history-panel">
       {history.chiefComplaint && (
         <div>
-          <h4 className="text-sm font-semibold text-gray-700 mb-1">Chief Complaint</h4>
+          <h4 className="text-sm font-semibold text-gray-700 mb-1">{t("allied.paramedicScenarioPlayer.chiefComplaint")}</h4>
           <p className="text-sm text-gray-600 bg-white rounded-lg border border-gray-100 p-3">{history.chiefComplaint}</p>
         </div>
       )}
       {history.hpi && (
         <div>
-          <h4 className="text-sm font-semibold text-gray-700 mb-1">History of Present Illness</h4>
+          <h4 className="text-sm font-semibold text-gray-700 mb-1">{t("allied.paramedicScenarioPlayer.historyOfPresentIllness")}</h4>
           <p className="text-sm text-gray-600 bg-white rounded-lg border border-gray-100 p-3">{history.hpi}</p>
         </div>
       )}
       {history.pmh && history.pmh.length > 0 && (
         <div>
-          <h4 className="text-sm font-semibold text-gray-700 mb-1">Past Medical History</h4>
+          <h4 className="text-sm font-semibold text-gray-700 mb-1">{t("allied.paramedicScenarioPlayer.pastMedicalHistory")}</h4>
           <ul className="text-sm text-gray-600 bg-white rounded-lg border border-gray-100 p-3 space-y-1">
             {history.pmh.map((item: string, i: number) => <li key={i} className="flex items-start gap-2"><span className="text-teal-500 mt-1">•</span> {item}</li>)}
           </ul>
@@ -122,7 +124,7 @@ function HistoryPanel({ history }: { history: PatientHistory }) {
       )}
       {history.medications && history.medications.length > 0 && (
         <div>
-          <h4 className="text-sm font-semibold text-gray-700 mb-1">Medications</h4>
+          <h4 className="text-sm font-semibold text-gray-700 mb-1">{t("allied.paramedicScenarioPlayer.medications")}</h4>
           <ul className="text-sm text-gray-600 bg-white rounded-lg border border-gray-100 p-3 space-y-1">
             {history.medications.map((item: string, i: number) => <li key={i} className="flex items-start gap-2"><span className="text-blue-500 mt-1">•</span> {item}</li>)}
           </ul>
@@ -130,7 +132,7 @@ function HistoryPanel({ history }: { history: PatientHistory }) {
       )}
       {history.allergies && history.allergies.length > 0 && (
         <div>
-          <h4 className="text-sm font-semibold text-gray-700 mb-1">Allergies</h4>
+          <h4 className="text-sm font-semibold text-gray-700 mb-1">{t("allied.paramedicScenarioPlayer.allergies")}</h4>
           <div className="flex flex-wrap gap-2">
             {history.allergies.map((a: string, i: number) => (
               <span key={i} className="text-xs px-2 py-1 bg-red-50 text-red-700 rounded-full border border-red-100">{a}</span>
@@ -140,7 +142,7 @@ function HistoryPanel({ history }: { history: PatientHistory }) {
       )}
       {history.socialHistory && (
         <div>
-          <h4 className="text-sm font-semibold text-gray-700 mb-1">Social History</h4>
+          <h4 className="text-sm font-semibold text-gray-700 mb-1">{t("allied.paramedicScenarioPlayer.socialHistory")}</h4>
           <p className="text-sm text-gray-600 bg-white rounded-lg border border-gray-100 p-3">{history.socialHistory}</p>
         </div>
       )}
@@ -190,7 +192,7 @@ export default function ParamedicScenarioPlayer() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Scenario Not Found</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.paramedicScenarioPlayer.scenarioNotFound")}</h1>
         <p className="text-gray-600 mb-4">{error || "This scenario doesn't exist or hasn't been published yet."}</p>
         <Link href="/allied-health/paramedic/scenarios" className="inline-block px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-scenarios">
           Back to Scenarios
@@ -265,9 +267,9 @@ export default function ParamedicScenarioPlayer() {
       />
 
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-        <Link href="/allied-health/paramedic" className="hover:text-teal-600" data-testid="link-breadcrumb-career">Paramedic</Link>
+        <Link href="/allied-health/paramedic" className="hover:text-teal-600" data-testid="link-breadcrumb-career">{t("allied.paramedicScenarioPlayer.paramedic")}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <Link href="/allied-health/paramedic/scenarios" className="hover:text-teal-600" data-testid="link-breadcrumb-scenarios">Scenarios</Link>
+        <Link href="/allied-health/paramedic/scenarios" className="hover:text-teal-600" data-testid="link-breadcrumb-scenarios">{t("allied.paramedicScenarioPlayer.scenarios")}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <span className="text-teal-700 font-medium truncate">{scenario.title}</span>
       </div>
@@ -318,8 +320,8 @@ export default function ParamedicScenarioPlayer() {
                 <Radio className="w-5 h-5 text-red-600" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">Dispatch Information</h2>
-                <p className="text-xs text-gray-500">You receive the following call</p>
+                <h2 className="text-lg font-semibold text-gray-900">{t("allied.paramedicScenarioPlayer.dispatchInformation")}</h2>
+                <p className="text-xs text-gray-500">{t("allied.paramedicScenarioPlayer.youReceiveTheFollowingCall")}</p>
               </div>
             </div>
             <div className="bg-red-50 rounded-xl p-5 border border-red-100">
@@ -335,19 +337,19 @@ export default function ParamedicScenarioPlayer() {
                 <Eye className="w-5 h-5 text-amber-600" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">Scene Size-Up</h2>
-                <p className="text-xs text-gray-500">Assess the scene before approaching</p>
+                <h2 className="text-lg font-semibold text-gray-900">{t("allied.paramedicScenarioPlayer.sceneSizeup")}</h2>
+                <p className="text-xs text-gray-500">{t("allied.paramedicScenarioPlayer.assessTheSceneBeforeApproaching")}</p>
               </div>
             </div>
             <div className="space-y-4">
               <div className="bg-gray-50 rounded-xl p-5">
-                <h3 className="text-sm font-semibold text-gray-700 mb-2">Scene Description</h3>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">{t("allied.paramedicScenarioPlayer.sceneDescription")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap" data-testid="text-scene-description">{scenario.sceneDescription}</p>
               </div>
               <div className="bg-amber-50 rounded-xl p-5 border border-amber-100">
                 <div className="flex items-center gap-2 mb-2">
                   <Shield className="w-4 h-4 text-amber-600" />
-                  <h3 className="text-sm font-semibold text-amber-800">Scene Safety</h3>
+                  <h3 className="text-sm font-semibold text-amber-800">{t("allied.paramedicScenarioPlayer.sceneSafety")}</h3>
                 </div>
                 <p className="text-sm text-amber-900 leading-relaxed whitespace-pre-wrap" data-testid="text-scene-safety">{scenario.sceneSafety}</p>
               </div>
@@ -362,8 +364,8 @@ export default function ParamedicScenarioPlayer() {
                 <Stethoscope className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">Primary Assessment</h2>
-                <p className="text-xs text-gray-500">ABCDE / MARCH approach</p>
+                <h2 className="text-lg font-semibold text-gray-900">{t("allied.paramedicScenarioPlayer.primaryAssessment")}</h2>
+                <p className="text-xs text-gray-500">{t("allied.paramedicScenarioPlayer.abcdeMarchApproach")}</p>
               </div>
             </div>
             <div className="bg-blue-50 rounded-xl p-5 border border-blue-100">
@@ -379,8 +381,8 @@ export default function ParamedicScenarioPlayer() {
                 <Activity className="w-5 h-5 text-green-600" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">Vital Signs</h2>
-                <p className="text-xs text-gray-500">Initial set of vitals obtained</p>
+                <h2 className="text-lg font-semibold text-gray-900">{t("allied.paramedicScenarioPlayer.vitalSigns")}</h2>
+                <p className="text-xs text-gray-500">{t("allied.paramedicScenarioPlayer.initialSetOfVitalsObtained")}</p>
               </div>
             </div>
             <VitalSignsPanel vitals={scenario.vitalSigns} />
@@ -394,8 +396,8 @@ export default function ParamedicScenarioPlayer() {
                 <ClipboardList className="w-5 h-5 text-purple-600" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">Secondary Assessment</h2>
-                <p className="text-xs text-gray-500">Head-to-toe / focused examination</p>
+                <h2 className="text-lg font-semibold text-gray-900">{t("allied.paramedicScenarioPlayer.secondaryAssessment")}</h2>
+                <p className="text-xs text-gray-500">{t("allied.paramedicScenarioPlayer.headtotoeFocusedExamination")}</p>
               </div>
             </div>
             <div className="bg-purple-50 rounded-xl p-5 border border-purple-100">
@@ -411,8 +413,8 @@ export default function ParamedicScenarioPlayer() {
                 <BookOpen className="w-5 h-5 text-teal-600" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">Patient History</h2>
-                <p className="text-xs text-gray-500">SAMPLE / OPQRST findings</p>
+                <h2 className="text-lg font-semibold text-gray-900">{t("allied.paramedicScenarioPlayer.patientHistory")}</h2>
+                <p className="text-xs text-gray-500">{t("allied.paramedicScenarioPlayer.sampleOpqrstFindings")}</p>
               </div>
             </div>
             <HistoryPanel history={scenario.history} />
@@ -427,7 +429,7 @@ export default function ParamedicScenarioPlayer() {
               </div>
               <div>
                 <h2 className="text-lg font-semibold text-gray-900">Decision Point {decisionIdx + 1} of {totalDecisions}</h2>
-                <p className="text-xs text-gray-500">Choose the best course of action</p>
+                <p className="text-xs text-gray-500">{t("allied.paramedicScenarioPlayer.chooseTheBestCourseOf")}</p>
               </div>
             </div>
             {(() => {
@@ -474,14 +476,14 @@ export default function ParamedicScenarioPlayer() {
                 <CheckCircle2 className="w-5 h-5 text-teal-600" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">Scenario Debrief</h2>
-                <p className="text-xs text-gray-500">Review your performance</p>
+                <h2 className="text-lg font-semibold text-gray-900">{t("allied.paramedicScenarioPlayer.scenarioDebrief")}</h2>
+                <p className="text-xs text-gray-500">{t("allied.paramedicScenarioPlayer.reviewYourPerformance")}</p>
               </div>
             </div>
 
             <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl p-6 mb-6 text-center">
               <div className="text-4xl font-bold text-teal-700 mb-1" data-testid="text-score">{score}/{totalDecisions}</div>
-              <p className="text-sm text-teal-600">Decision points answered correctly</p>
+              <p className="text-sm text-teal-600">{t("allied.paramedicScenarioPlayer.decisionPointsAnsweredCorrectly")}</p>
               <div className="mt-3 w-full max-w-xs mx-auto bg-white/60 rounded-full h-3">
                 <div className="bg-teal-500 h-3 rounded-full transition-all" style={{ width: `${totalDecisions > 0 ? (score / totalDecisions) * 100 : 0}%` }} />
               </div>
@@ -489,7 +491,7 @@ export default function ParamedicScenarioPlayer() {
 
             {scenario.debrief && (
               <div className="bg-gray-50 rounded-xl p-5 mb-4">
-                <h3 className="text-sm font-semibold text-gray-700 mb-2">Clinical Summary</h3>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">{t("allied.paramedicScenarioPlayer.clinicalSummary")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap" data-testid="text-debrief">{scenario.debrief}</p>
               </div>
             )}
@@ -523,7 +525,7 @@ export default function ParamedicScenarioPlayer() {
               <div className="space-y-4 mb-4">
                 {scenario.correctInterventions && scenario.correctInterventions.length > 0 && (
                   <div className="bg-green-50 rounded-xl p-5 border border-green-100">
-                    <h3 className="text-sm font-semibold text-green-800 mb-2">Correct Interventions</h3>
+                    <h3 className="text-sm font-semibold text-green-800 mb-2">{t("allied.paramedicScenarioPlayer.correctInterventions")}</h3>
                     <ul className="space-y-1">
                       {scenario.correctInterventions.map((item, i) => (
                         <li key={i} className="text-sm text-green-700 flex items-start gap-2">
@@ -535,7 +537,7 @@ export default function ParamedicScenarioPlayer() {
                 )}
                 {scenario.commonErrors && scenario.commonErrors.length > 0 && (
                   <div className="bg-red-50 rounded-xl p-5 border border-red-100">
-                    <h3 className="text-sm font-semibold text-red-800 mb-2">Common Errors to Avoid</h3>
+                    <h3 className="text-sm font-semibold text-red-800 mb-2">{t("allied.paramedicScenarioPlayer.commonErrorsToAvoid")}</h3>
                     <ul className="space-y-1">
                       {scenario.commonErrors.map((item, i) => (
                         <li key={i} className="text-sm text-red-700 flex items-start gap-2">
@@ -547,7 +549,7 @@ export default function ParamedicScenarioPlayer() {
                 )}
                 {scenario.relatedLessonSlugs && scenario.relatedLessonSlugs.length > 0 && (
                   <div className="bg-purple-50 rounded-xl p-5 border border-purple-100">
-                    <h3 className="text-sm font-semibold text-purple-800 mb-2">Related Lessons</h3>
+                    <h3 className="text-sm font-semibold text-purple-800 mb-2">{t("allied.paramedicScenarioPlayer.relatedLessons")}</h3>
                     <div className="flex flex-wrap gap-2">
                       {scenario.relatedLessonSlugs.map((slug, i) => (
                         <span key={i} className="text-xs px-3 py-1 bg-purple-100 text-purple-700 rounded-full">{slug}</span>

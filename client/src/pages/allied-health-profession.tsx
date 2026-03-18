@@ -6,6 +6,7 @@ import {
   type AlliedHealthProfession,
 } from "@/allied/data/allied-health-professions";
 import { getArticleTopicsForProfession } from "@/allied/data/allied-health-article-topics";
+import { useI18n } from "@/lib/i18n";
 import {
   Wind, Ambulance, Pill, Microscope, ScanLine, Monitor, HeartPulse,
   Hand, Activity, Scissors, ArrowRight, BookOpen, GraduationCap,
@@ -19,6 +20,7 @@ const ICON_MAP: Record<string, any> = {
 };
 
 function setMetaTags(profession: AlliedHealthProfession) {
+  const { t } = useI18n();
   document.title = profession.seo.title + " | NurseNest";
   const setMeta = (attr: string, name: string, content: string) => {
     let el = document.querySelector(`meta[${attr}="${name}"]`) as HTMLMetaElement;
@@ -111,8 +113,8 @@ export default function AlliedHealthProfessionPage() {
     return (
       <div className="min-h-screen flex items-center justify-center" data-testid="profession-not-found">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Profession Not Found</h1>
-          <p className="text-gray-500 mb-4">The profession you're looking for doesn't exist.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.alliedHealthProfession.professionNotFound")}</h1>
+          <p className="text-gray-500 mb-4">{t("pages.alliedHealthProfession.theProfessionYoureLookingFor")}</p>
           <Link href="/allied-health" className="text-teal-600 font-medium hover:text-teal-700" data-testid="link-back-hub">
             Back to Allied Health Hub
           </Link>
@@ -128,9 +130,9 @@ export default function AlliedHealthProfessionPage() {
     <div className="min-h-screen bg-white" data-testid={`profession-page-${profession.slug}`}>
       <nav className="bg-gray-50 border-b border-gray-100 py-3 px-4" data-testid="breadcrumb-nav">
         <div className="max-w-7xl mx-auto flex items-center gap-2 text-sm text-gray-500 flex-wrap">
-          <Link href="/" className="hover:text-teal-600 transition-colors" data-testid="breadcrumb-home">Home</Link>
+          <Link href="/" className="hover:text-teal-600 transition-colors" data-testid="breadcrumb-home">{t("pages.alliedHealthProfession.home")}</Link>
           <ChevronRight className="w-3.5 h-3.5 flex-shrink-0" />
-          <Link href="/allied-health" className="hover:text-teal-600 transition-colors" data-testid="breadcrumb-allied">Allied Health</Link>
+          <Link href="/allied-health" className="hover:text-teal-600 transition-colors" data-testid="breadcrumb-allied">{t("pages.alliedHealthProfession.alliedHealth")}</Link>
           <ChevronRight className="w-3.5 h-3.5 flex-shrink-0" />
           <span className="text-gray-900 font-medium" data-testid="breadcrumb-current">{profession.name}</span>
         </div>
@@ -189,7 +191,7 @@ export default function AlliedHealthProfessionPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4" data-testid="heading-overview">Overview</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4" data-testid="heading-overview">{t("pages.alliedHealthProfession.overview")}</h2>
               <p className="text-gray-600 leading-relaxed mb-8" data-testid="text-overview">{profession.overview}</p>
 
               <h2 className="text-2xl font-bold text-gray-900 mb-4" data-testid="heading-where-they-work">
@@ -259,14 +261,14 @@ export default function AlliedHealthProfessionPage() {
               </div>
 
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100" data-testid="card-career-info">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Career Information</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">{t("pages.alliedHealthProfession.careerInformation")}</h3>
                 <div className="space-y-3">
                   <div>
-                    <span className="text-xs text-gray-500 uppercase tracking-wider">Salary Range</span>
+                    <span className="text-xs text-gray-500 uppercase tracking-wider">{t("pages.alliedHealthProfession.salaryRange")}</span>
                     <p className="text-sm font-medium text-gray-900" data-testid="text-salary">{profession.salaryRange}</p>
                   </div>
                   <div>
-                    <span className="text-xs text-gray-500 uppercase tracking-wider">Job Outlook</span>
+                    <span className="text-xs text-gray-500 uppercase tracking-wider">{t("pages.alliedHealthProfession.jobOutlook")}</span>
                     <p className="text-sm font-medium text-gray-900" data-testid="text-job-outlook">{profession.jobOutlook}</p>
                   </div>
                 </div>
@@ -278,7 +280,7 @@ export default function AlliedHealthProfessionPage() {
 
       <section className="py-12 bg-gradient-to-b from-teal-50/50 to-white" data-testid="profession-study-resources">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="heading-study-resources">Study Resources</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="heading-study-resources">{t("pages.alliedHealthProfession.studyResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               { ...profession.studyResources.questionBanks, icon: BookOpen, color: "blue" },

@@ -892,12 +892,12 @@ function PreNursingModuleEditor({
           <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
             <BookOpen className="w-5 h-5 text-primary" />
           </div>
-          <h2>Module Details</h2>
+          <h2>{t("pages.preNursing.moduleDetails")}</h2>
         </div>
         <Card className="border-none shadow-sm bg-blue-50/40">
           <CardContent className="p-6 space-y-4">
             <div>
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Title Override</p>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">{t("pages.preNursing.titleOverride")}</p>
               <Input
                 value={editTitle}
                 onChange={(e) => setEditTitle(e.target.value)}
@@ -907,11 +907,11 @@ function PreNursingModuleEditor({
               />
             </div>
             <div>
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Description Override</p>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">{t("pages.preNursing.descriptionOverride")}</p>
               <Input
                 value={editDesc}
                 onChange={(e) => setEditDesc(e.target.value)}
-                placeholder="Custom module description..."
+                placeholder={t("pages.preNursing.customModuleDescription")}
                 className="bg-white"
                 data-testid={`input-prenursing-desc-${moduleId}`}
               />
@@ -926,13 +926,13 @@ function PreNursingModuleEditor({
             <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
               <BookOpen className="w-5 h-5 text-emerald-600" />
             </div>
-            <h2>Supplemental Content</h2>
+            <h2>{t("pages.preNursing.supplementalContent")}</h2>
           </div>
           <Button size="sm" variant="outline" className="h-8 text-xs gap-1" onClick={() => setEditContent([...editContent, ""])} data-testid={`button-add-content-${moduleId}`}>
             <Plus className="w-3 h-3" /> Add Paragraph
           </Button>
         </div>
-        <p className="text-sm text-gray-500">Additional educational content paragraphs displayed below the module</p>
+        <p className="text-sm text-gray-500">{t("pages.preNursing.additionalEducationalContentParagraphsDisplaye")}</p>
         <div className="space-y-4">
           {editContent.map((p, idx) => (
             <div key={idx} className="relative group">
@@ -945,7 +945,7 @@ function PreNursingModuleEditor({
                     setEditContent(updated);
                   }}
                   minHeight="100px"
-                  placeholder="Educational content paragraph..."
+                  placeholder={t("pages.preNursing.educationalContentParagraph")}
                 />
               </div>
               <Button
@@ -961,7 +961,7 @@ function PreNursingModuleEditor({
           ))}
           {editContent.length === 0 && (
             <div className="bg-white rounded-xl border border-dashed border-gray-200 p-8 text-center">
-              <p className="text-sm text-gray-400">No supplemental content yet. Click "Add Paragraph" to create.</p>
+              <p className="text-sm text-gray-400">{t("pages.preNursing.noSupplementalContentYetClick")}</p>
             </div>
           )}
         </div>
@@ -1009,7 +1009,7 @@ function SupplementalContent({ moduleId }: { moduleId: string }) {
     <div className="rounded-xl border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-white to-accent-foreground/5 p-5 shadow-sm mb-6" data-testid={`supplemental-${moduleId}`}>
       <div className="flex items-center gap-2 mb-3">
         <BookOpen className="w-4 h-4 text-primary" />
-        <span className="text-sm font-semibold text-primary">Supplemental Content</span>
+        <span className="text-sm font-semibold text-primary">{t("pages.preNursing.supplementalContent2")}</span>
       </div>
       <div className="space-y-3">
         {content.map((p, idx) => {
@@ -1183,7 +1183,7 @@ export default function PreNursingPage() {
           )}
           {cLessons.length > 0 && (
             <div className="space-y-3">
-              <h2 className="text-lg font-semibold text-gray-900 mb-3">Lessons</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-3">{t("pages.preNursing.lessons")}</h2>
               {cLessons.map((lesson, idx) => (
                 <button
                   key={lesson.id || idx}
@@ -1213,7 +1213,7 @@ export default function PreNursingPage() {
     const mc = moduleComponents[activeModule];
     return (
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
-        <SEO title={`Pre-Nursing: ${activeModuleData ? t(activeModuleData.titleKey) : ''} | NurseNest`} description="Free pre-nursing foundations modules" canonicalPath="/pre-nursing" />
+        <SEO title={`Pre-Nursing: ${activeModuleData ? t(activeModuleData.titleKey) : ''} | NurseNest`} description={t("pages.preNursing.freePrenursingFoundationsModules")} canonicalPath="/pre-nursing" />
         <Navigation />
         <main className="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-8 w-full">
           <div className="flex items-center justify-between mb-6">
@@ -1237,7 +1237,7 @@ export default function PreNursingPage() {
                         className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors"
                         data-testid="button-prev-module-top"
                       >
-                        <ArrowLeft className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{t(prevMod.titleKey)}</span><span className="sm:hidden">Prev</span>
+                        <ArrowLeft className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{t(prevMod.titleKey)}</span><span className="sm:hidden">{t("pages.preNursing.prev")}</span>
                       </button>
                     )}
                     {nextMod && (
@@ -1246,7 +1246,7 @@ export default function PreNursingPage() {
                         className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors"
                         data-testid="button-next-module-top"
                       >
-                        <span className="hidden sm:inline">{t(nextMod.titleKey)}</span><span className="sm:hidden">Next</span> <ChevronRight className="w-3.5 h-3.5" />
+                        <span className="hidden sm:inline">{t(nextMod.titleKey)}</span><span className="sm:hidden">{t("pages.preNursing.next")}</span> <ChevronRight className="w-3.5 h-3.5" />
                       </button>
                     )}
                   </>
@@ -1301,7 +1301,7 @@ export default function PreNursingPage() {
           >
             {mc?.component}
           </ModuleEditContext.Provider>
-          <SelfCheckQuiz title="Pre-Nursing Comprehensive Review" questions={preNursingComprehensiveQuiz} />
+          <SelfCheckQuiz title={t("pages.preNursing.prenursingComprehensiveReview")} questions={preNursingComprehensiveQuiz} />
 
           {(() => {
             const currentIdx = modules.findIndex((m) => m.id === activeModule);
@@ -1340,8 +1340,8 @@ export default function PreNursingPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
       <SEO
-        title="Pre-Nursing Foundations: Free Interactive Learning | NurseNest"
-        description="Master essential nursing foundations before school: cell biology, physiology, medical terminology, pharmacology basics, and pathophysiology logic. Free interactive modules."
+        title={t("pages.preNursing.prenursingFoundationsFreeInteractiveLearning")}
+        description={t("pages.preNursing.masterEssentialNursingFoundationsBefore")}
         keywords="pre-nursing, nursing foundations, cell biology nursing, medical terminology, pharmacology basics, pathophysiology intro, free nursing study"
         canonicalPath="/pre-nursing"
       />
@@ -1475,8 +1475,8 @@ export default function PreNursingPage() {
                     <Plus className="w-7 h-7 text-primary" />
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-900">Add Module</p>
-                    <p className="text-xs text-gray-500 mt-1">Create a new learning module</p>
+                    <p className="font-semibold text-gray-900">{t("pages.preNursing.addModule")}</p>
+                    <p className="text-xs text-gray-500 mt-1">{t("pages.preNursing.createANewLearningModule")}</p>
                   </div>
                 </div>
               </Card>
@@ -1555,18 +1555,18 @@ export default function PreNursingPage() {
 
           <div className="mt-12 pt-6 border-t border-gray-100">
             <p className="text-sm text-gray-600 leading-relaxed">
-              Planning to apply to a nursing or healthcare program? <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:underline" data-testid="link-applynest-prenursing">ApplyNest offers admissions preparation tools and scholarship resources</a> to help you take the next step in your healthcare education journey.
+              Planning to apply to a nursing or healthcare program? <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:underline" data-testid="link-applynest-prenursing">{t("pages.preNursing.applynestOffersAdmissionsPreparationTools")}</a> to help you take the next step in your healthcare education journey.
             </p>
           </div>
 
           <div className="mt-12 pt-6 border-t border-gray-100" data-testid="section-continue-journey">
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">Continue Your Journey</p>
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">{t("pages.preNursing.continueYourJourney")}</p>
             <div className="flex flex-wrap gap-2">
-              <LocaleLink href="/anatomy" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-journey-anatomy">Anatomy Explorer</LocaleLink>
-              <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-journey-lessons">Clinical Lessons</LocaleLink>
-              <LocaleLink href="/flashcards" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-journey-flashcards">Study Flashcards</LocaleLink>
-              <LocaleLink href="/free-practice" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-journey-questions">Test Bank</LocaleLink>
-              <LocaleLink href="/med-math" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-journey-med-math">Med Math</LocaleLink>
+              <LocaleLink href="/anatomy" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-journey-anatomy">{t("pages.preNursing.anatomyExplorer")}</LocaleLink>
+              <LocaleLink href="/lessons" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-journey-lessons">{t("pages.preNursing.clinicalLessons")}</LocaleLink>
+              <LocaleLink href="/flashcards" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-journey-flashcards">{t("pages.preNursing.studyFlashcards")}</LocaleLink>
+              <LocaleLink href="/free-practice" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-journey-questions">{t("pages.preNursing.testBank")}</LocaleLink>
+              <LocaleLink href="/med-math" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all text-xs font-medium text-gray-600 hover:text-primary" data-testid="link-journey-med-math">{t("pages.preNursing.medMath")}</LocaleLink>
             </div>
           </div>
 
@@ -1604,7 +1604,7 @@ export default function PreNursingPage() {
 
       <section className="py-12 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-purple-50/30 border-t border-gray-100" data-testid="section-new-grad-cta">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-3" data-testid="text-prenursing-new-grad-cta">Planning Ahead? Explore Career Readiness</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-3" data-testid="text-prenursing-new-grad-cta">{t("pages.preNursing.planningAheadExploreCareerReadiness")}</h2>
           <p className="text-gray-600 mb-5 max-w-2xl mx-auto text-sm">
             Once you graduate, our New Grad Career Hub will help you land your first nursing job with interview prep, resume templates, salary negotiation tools, and first-year survival guides.
           </p>
@@ -1619,7 +1619,7 @@ export default function PreNursingPage() {
       <section className="py-12 bg-gradient-to-r from-teal-50 to-cyan-50" data-testid="section-applynest-prenursing">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-gray-600 mb-4">
-            Exploring healthcare programs or preparing applications? <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-teal-700 font-semibold hover:underline" data-testid="link-applynest-prenursing">ApplyNest</a> offers tools for program applications, personal statement writing, and scholarship searches to help you find the right path.
+            Exploring healthcare programs or preparing applications? <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-teal-700 font-semibold hover:underline" data-testid="link-applynest-prenursing">{t("pages.preNursing.applynest")}</a> offers tools for program applications, personal statement writing, and scholarship searches to help you find the right path.
           </p>
         </div>
       </section>
@@ -1750,16 +1750,16 @@ function CustomModuleModal({ module, page, onClose, onSaved }: {
 
         <div className="space-y-4">
           <div>
-            <label className="text-sm font-medium text-gray-700 mb-1 block">Title *</label>
-            <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Module title" data-testid="input-module-title" />
+            <label className="text-sm font-medium text-gray-700 mb-1 block">{t("pages.preNursing.title")}</label>
+            <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("pages.preNursing.moduleTitle")} data-testid="input-module-title" />
           </div>
           <div>
-            <label className="text-sm font-medium text-gray-700 mb-1 block">Description</label>
-            <Textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Brief description of the module" rows={2} data-testid="input-module-description" />
+            <label className="text-sm font-medium text-gray-700 mb-1 block">{t("pages.preNursing.description")}</label>
+            <Textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder={t("pages.preNursing.briefDescriptionOfTheModule")} rows={2} data-testid="input-module-description" />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700 mb-2 block">Icon</label>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">{t("pages.preNursing.icon")}</label>
             <div className="flex flex-wrap gap-2">
               {ICON_OPTIONS.map((opt) => (
                 <button
@@ -1775,7 +1775,7 @@ function CustomModuleModal({ module, page, onClose, onSaved }: {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700 mb-2 block">Color Theme</label>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">{t("pages.preNursing.colorTheme")}</label>
             <div className="flex flex-wrap gap-2">
               {COLOR_OPTIONS.map((opt, idx) => (
                 <button
@@ -1790,7 +1790,7 @@ function CustomModuleModal({ module, page, onClose, onSaved }: {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700 mb-2 block">Module Image</label>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">{t("pages.preNursing.moduleImage")}</label>
             {imageUrl && (
               <div className="mb-2 rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
                 <img src={imageUrl} alt={`${mod.title} pre-nursing module illustration - NurseNest education`} title={`${mod.title} pre-nursing module`} loading="lazy" className="w-full h-32 object-contain p-2" />
@@ -1799,14 +1799,14 @@ function CustomModuleModal({ module, page, onClose, onSaved }: {
             <div className="flex gap-2">
               <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f); }} />
               <Button variant="outline" size="sm" onClick={() => fileRef.current?.click()} disabled={uploading} className="gap-2" data-testid="button-upload-module-image">
-                {uploading ? <><Loader2 className="w-3 h-3 animate-spin" /> Uploading...</> : <><Upload className="w-3 h-3" /> Upload</>}
+                {uploading ? <><Loader2 className="w-3 h-3 animate-spin" /> {t("pages.preNursing.uploading")}</> : <><Upload className="w-3 h-3" /> {t("pages.preNursing.upload")}</>}
               </Button>
-              <Input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="Or paste image URL" className="flex-1 text-sm h-9" data-testid="input-module-image-url" />
+              <Input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder={t("pages.preNursing.orPasteImageUrl")} className="flex-1 text-sm h-9" data-testid="input-module-image-url" />
             </div>
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700 mb-2 block">Content Paragraphs</label>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">{t("pages.preNursing.contentParagraphs")}</label>
             <div className="space-y-2">
               {paragraphs.map((p, idx) => (
                 <div key={idx} className="flex gap-2">
@@ -1823,7 +1823,7 @@ function CustomModuleModal({ module, page, onClose, onSaved }: {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700 mb-2 block">Lessons</label>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">{t("pages.preNursing.lessons2")}</label>
             <div className="space-y-2">
               {lessons.map((l, idx) => (
                 <div key={idx} className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2">
@@ -1836,7 +1836,7 @@ function CustomModuleModal({ module, page, onClose, onSaved }: {
                 </div>
               ))}
               <div className="flex gap-2">
-                <Input value={newLessonName} onChange={(e) => setNewLessonName(e.target.value)} placeholder="Lesson name" className="flex-1 text-sm h-9" data-testid="input-lesson-name" />
+                <Input value={newLessonName} onChange={(e) => setNewLessonName(e.target.value)} placeholder={t("pages.preNursing.lessonName")} className="flex-1 text-sm h-9" data-testid="input-lesson-name" />
                 <Input value={newLessonId} onChange={(e) => setNewLessonId(e.target.value)} placeholder="lesson-slug" className="w-32 text-sm h-9" data-testid="input-lesson-id" />
                 <Button
                   variant="outline"
@@ -1865,7 +1865,7 @@ function CustomModuleModal({ module, page, onClose, onSaved }: {
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             {module ? "Save Changes" : "Create Module"}
           </Button>
-          <Button variant="outline" onClick={onClose}>Cancel</Button>
+          <Button variant="outline" onClick={onClose}>{t("pages.preNursing.cancel")}</Button>
         </div>
       </div>
     </div>
@@ -1903,8 +1903,8 @@ function CellBiologyModule() {
         {isEditing ? (
           <>
             <div className="flex gap-2 mb-2">
-              <input value={sections["cell-bio-human-cell-title"]?.content || "The Human Cell"} onChange={(e) => updateSection("cell-bio-human-cell-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Section title..." />
-              <input value={sections["cell-bio-human-cell-subtitle"]?.content || "Identify key organelles and their functions"} onChange={(e) => updateSection("cell-bio-human-cell-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Subtitle..." />
+              <input value={sections["cell-bio-human-cell-title"]?.content || "The Human Cell"} onChange={(e) => updateSection("cell-bio-human-cell-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder={t("pages.preNursing.sectionTitle")} />
+              <input value={sections["cell-bio-human-cell-subtitle"]?.content || "Identify key organelles and their functions"} onChange={(e) => updateSection("cell-bio-human-cell-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder={t("pages.preNursing.subtitle")} />
             </div>
           </>
         ) : null}
@@ -1915,7 +1915,7 @@ function CellBiologyModule() {
           content={rs("cell-bio-nursing-concept", "When you learn pathophysiology, you'll trace disease mechanisms back to cellular dysfunction. For example, MI (heart attack) starts with ischemia → cellular hypoxia → mitochondrial failure → cell death.")}
         />
         {isEditing && (
-          <RichTextEditor value={sections["cell-bio-nursing-concept"]?.content || "When you learn pathophysiology, you'll trace disease mechanisms back to cellular dysfunction. For example, MI (heart attack) starts with ischemia → cellular hypoxia → mitochondrial failure → cell death."} onChange={(v) => updateSection("cell-bio-nursing-concept", { content: v })} className="mt-2" minHeight="60px" placeholder="Cognitive card content..." />
+          <RichTextEditor value={sections["cell-bio-nursing-concept"]?.content || "When you learn pathophysiology, you'll trace disease mechanisms back to cellular dysfunction. For example, MI (heart attack) starts with ischemia → cellular hypoxia → mitochondrial failure → cell death."} onChange={(v) => updateSection("cell-bio-nursing-concept", { content: v })} className="mt-2" minHeight="60px" placeholder={t("pages.preNursing.cognitiveCardContent")} />
         )}
       </MicroLesson>
 
@@ -1957,7 +1957,7 @@ function CellBiologyModule() {
                 <h4 className={`font-semibold text-sm ${c.title} mb-1`}>{organelle.name}</h4>
                 <p className="text-xs text-slate-600 leading-relaxed mb-2">{organelle.desc}</p>
                 <div className={`text-xs ${c.badge} rounded-lg px-2.5 py-1.5 inline-block`}>
-                  <span className="font-semibold">Clinical:</span> {organelle.clinical}
+                  <span className="font-semibold">{t("pages.preNursing.clinical")}</span> {organelle.clinical}
                 </div>
               </div>
             );
@@ -1966,8 +1966,8 @@ function CellBiologyModule() {
       </div>
 
       <MatchingExercise
-        title="Organelle Function Matching"
-        description="Match each organelle to its primary function"
+        title={t("pages.preNursing.organelleFunctionMatching")}
+        description={t("pages.preNursing.matchEachOrganelleToIts")}
         pairs={[
           { id: "m1", term: "Mitochondria", definition: "Oxidative phosphorylation — ATP production via electron transport chain" },
           { id: "m2", term: "Nucleus", definition: "Houses chromatin (DNA); controls transcription & mRNA processing" },
@@ -1985,37 +1985,37 @@ function CellBiologyModule() {
       <MicroLesson title={rs("cell-bio-transport-title", "Membrane Transport")} subtitle={rs("cell-bio-transport-subtitle", "How substances move in and out of cells")} icon={<Layers className="w-5 h-5" />}>
         {isEditing ? (
           <div className="flex gap-2 mb-2">
-            <input value={sections["cell-bio-transport-title"]?.content || "Membrane Transport"} onChange={(e) => updateSection("cell-bio-transport-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Section title..." />
-            <input value={sections["cell-bio-transport-subtitle"]?.content || "How substances move in and out of cells"} onChange={(e) => updateSection("cell-bio-transport-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Subtitle..." />
+            <input value={sections["cell-bio-transport-title"]?.content || "Membrane Transport"} onChange={(e) => updateSection("cell-bio-transport-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder={t("pages.preNursing.sectionTitle2")} />
+            <input value={sections["cell-bio-transport-subtitle"]?.content || "How substances move in and out of cells"} onChange={(e) => updateSection("cell-bio-transport-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder={t("pages.preNursing.subtitle2")} />
           </div>
         ) : null}
         <CognitiveCard
           type="remember"
-          title="Key Principle"
+          title={t("pages.preNursing.keyPrinciple")}
           content={rs("cell-bio-transport-principle", "'Water chases salt': water moves toward areas of higher solute concentration through osmosis. This explains why IV normal saline stays in the vasculature while free water distributes across compartments.")}
         />
         {isEditing && (
-          <RichTextEditor value={sections["cell-bio-transport-principle"]?.content || "'Water chases salt': water moves toward areas of higher solute concentration through osmosis. This explains why IV normal saline stays in the vasculature while free water distributes across compartments."} onChange={(v) => updateSection("cell-bio-transport-principle", { content: v })} className="mt-2" minHeight="60px" placeholder="Key principle content..." />
+          <RichTextEditor value={sections["cell-bio-transport-principle"]?.content || "'Water chases salt': water moves toward areas of higher solute concentration through osmosis. This explains why IV normal saline stays in the vasculature while free water distributes across compartments."} onChange={(v) => updateSection("cell-bio-transport-principle", { content: v })} className="mt-2" minHeight="60px" placeholder={t("pages.preNursing.keyPrincipleContent")} />
         )}
         <div className="grid sm:grid-cols-2 gap-3 mt-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
             <div className="flex justify-center mb-3">
-              <img src={transportPassive} alt="Passive transport across cell membrane - diffusion, osmosis, facilitated diffusion - NurseNest pre-nursing" className="w-full max-w-xs h-auto rounded-lg" loading="lazy" data-testid="img-passive-transport" />
+              <img src={transportPassive} alt={t("pages.preNursing.passiveTransportAcrossCellMembrane")} className="w-full max-w-xs h-auto rounded-lg" loading="lazy" data-testid="img-passive-transport" />
             </div>
-            <p className="text-xs font-semibold text-blue-700 mb-1">Passive Transport</p>
+            <p className="text-xs font-semibold text-blue-700 mb-1">{t("pages.preNursing.passiveTransport")}</p>
             <EditableModuleText sectionKey="cell-bio-passive-transport" defaultText="No energy needed. Moves DOWN concentration gradient. Examples: diffusion, osmosis, facilitated diffusion." as="p" className="text-xs text-blue-600" multiline />
           </div>
           <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100">
             <div className="flex justify-center mb-3">
-              <img src={transportActive} alt="Active transport across cell membrane - sodium-potassium pump - NurseNest pre-nursing" className="w-full max-w-xs h-auto rounded-lg" loading="lazy" data-testid="img-active-transport" />
+              <img src={transportActive} alt={t("pages.preNursing.activeTransportAcrossCellMembrane")} className="w-full max-w-xs h-auto rounded-lg" loading="lazy" data-testid="img-active-transport" />
             </div>
-            <p className="text-xs font-semibold text-amber-700 mb-1">Active Transport</p>
+            <p className="text-xs font-semibold text-amber-700 mb-1">{t("pages.preNursing.activeTransport")}</p>
             <EditableModuleText sectionKey="cell-bio-active-transport" defaultText="Requires ATP energy. Moves AGAINST concentration gradient. Example: Na+/K+ pump (3 Na+ out, 2 K+ in)." as="p" className="text-xs text-amber-600" multiline />
           </div>
         </div>
       </MicroLesson>
 
-      <SelfCheckQuiz title="Cell Biology Check" questions={cellBiologyQuiz} />
+      <SelfCheckQuiz title={t("pages.preNursing.cellBiologyCheck")} questions={cellBiologyQuiz} />
     </div>
   );
 }
@@ -2038,51 +2038,51 @@ function PhysiologyModule() {
       <MicroLesson title={rs("phys-feedback-title", "Negative Feedback Loops")} subtitle={rs("phys-feedback-subtitle", "The body's primary regulatory mechanism")} icon={<Activity className="w-5 h-5" />}>
         {isEditing && (
           <div className="flex gap-2 mb-2">
-            <input value={sections["phys-feedback-title"]?.content || "Negative Feedback Loops"} onChange={(e) => updateSection("phys-feedback-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Section title..." />
-            <input value={sections["phys-feedback-subtitle"]?.content || "The body's primary regulatory mechanism"} onChange={(e) => updateSection("phys-feedback-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Subtitle..." />
+            <input value={sections["phys-feedback-title"]?.content || "Negative Feedback Loops"} onChange={(e) => updateSection("phys-feedback-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder={t("pages.preNursing.sectionTitle3")} />
+            <input value={sections["phys-feedback-subtitle"]?.content || "The body's primary regulatory mechanism"} onChange={(e) => updateSection("phys-feedback-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder={t("pages.preNursing.subtitle3")} />
           </div>
         )}
         <EditableModuleText sectionKey="phys-feedback-content" defaultText="Most physiological regulation uses negative feedback. The body detects a change, activates a response, and reverses the change to restore balance." as="p" className="text-sm text-slate-600 leading-relaxed" multiline />
         <div className="flex justify-center my-4">
-          <img src={feedbackLoopImage} alt="Negative feedback loop for thermoregulation - homeostasis diagram - NurseNest pre-nursing" className="w-full max-w-sm h-auto rounded-xl border border-slate-200 shadow-sm" loading="lazy" data-testid="img-feedback-loop" />
+          <img src={feedbackLoopImage} alt={t("pages.preNursing.negativeFeedbackLoopForThermoregulation")} className="w-full max-w-sm h-auto rounded-xl border border-slate-200 shadow-sm" loading="lazy" data-testid="img-feedback-loop" />
         </div>
         <CognitiveCard
           type="concept"
-          title="Clinical Connection"
+          title={t("pages.preNursing.clinicalConnection")}
           content={rs("phys-feedback-concept", "When you see a compensatory vital sign change in a patient (e.g., tachycardia in response to bleeding), you're witnessing negative feedback trying to maintain cardiac output.")}
         />
         {isEditing && (
-          <RichTextEditor value={sections["phys-feedback-concept"]?.content || "When you see a compensatory vital sign change in a patient (e.g., tachycardia in response to bleeding), you're witnessing negative feedback trying to maintain cardiac output."} onChange={(v) => updateSection("phys-feedback-concept", { content: v })} className="mt-2" minHeight="60px" placeholder="Cognitive card content..." />
+          <RichTextEditor value={sections["phys-feedback-concept"]?.content || "When you see a compensatory vital sign change in a patient (e.g., tachycardia in response to bleeding), you're witnessing negative feedback trying to maintain cardiac output."} onChange={(v) => updateSection("phys-feedback-concept", { content: v })} className="mt-2" minHeight="60px" placeholder={t("pages.preNursing.cognitiveCardContent2")} />
         )}
       </MicroLesson>
 
       <StepSequencing
-        title="Thermoregulation Sequence"
-        description="Arrange the steps of the negative feedback loop for body temperature regulation"
+        title={t("pages.preNursing.thermoregulationSequence")}
+        description={t("pages.preNursing.arrangeTheStepsOfThe")}
         steps={physiologySequence}
       />
 
       <MicroLesson title={rs("phys-fluid-title", "Fluid Compartments")} subtitle={rs("phys-fluid-subtitle", "Where body water is distributed")} icon={<Droplets className="w-5 h-5" />}>
         {isEditing && (
           <div className="flex gap-2 mb-2">
-            <input value={sections["phys-fluid-title"]?.content || "Fluid Compartments"} onChange={(e) => updateSection("phys-fluid-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Section title..." />
-            <input value={sections["phys-fluid-subtitle"]?.content || "Where body water is distributed"} onChange={(e) => updateSection("phys-fluid-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Subtitle..." />
+            <input value={sections["phys-fluid-title"]?.content || "Fluid Compartments"} onChange={(e) => updateSection("phys-fluid-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder={t("pages.preNursing.sectionTitle4")} />
+            <input value={sections["phys-fluid-subtitle"]?.content || "Where body water is distributed"} onChange={(e) => updateSection("phys-fluid-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder={t("pages.preNursing.subtitle4")} />
           </div>
         )}
         <div className="flex justify-center my-4">
-          <img src={fluidCompartmentsImage} alt="Body fluid compartments showing intracellular, interstitial, and intravascular fluids - NurseNest pre-nursing" className="w-full max-w-sm h-auto rounded-xl border border-slate-200 shadow-sm" loading="lazy" data-testid="img-fluid-compartments" />
+          <img src={fluidCompartmentsImage} alt={t("pages.preNursing.bodyFluidCompartmentsShowingIntracellular")} className="w-full max-w-sm h-auto rounded-xl border border-slate-200 shadow-sm" loading="lazy" data-testid="img-fluid-compartments" />
         </div>
         <div className="space-y-3">
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-sm font-semibold text-blue-700">Intracellular Fluid (ICF)</p>
+              <p className="text-sm font-semibold text-blue-700">{t("pages.preNursing.intracellularFluidIcf")}</p>
               <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold">~67%</span>
             </div>
             <EditableModuleText sectionKey="phys-icf" defaultText="Inside cells. Contains K+, Mg2+, PO4³⁻. The largest fluid compartment." as="p" className="text-xs text-blue-600" multiline />
           </div>
           <div className="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-sm font-semibold text-emerald-700">Extracellular Fluid (ECF)</p>
+              <p className="text-sm font-semibold text-emerald-700">{t("pages.preNursing.extracellularFluidEcf")}</p>
               <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">~33%</span>
             </div>
             <EditableModuleText sectionKey="phys-ecf" defaultText="Outside cells. Includes intravascular (plasma) and interstitial (between cells). Contains Na+, Cl⁻, HCO3⁻." as="p" className="text-xs text-emerald-600" multiline />
@@ -2090,16 +2090,16 @@ function PhysiologyModule() {
         </div>
         <CognitiveCard
           type="remember"
-          title="Memory Aid"
+          title={t("pages.preNursing.memoryAid")}
           content={rs("phys-fluid-memory", "'K+ stays IN the cell, Na+ stays OUT.' This is maintained by the Na+/K+ ATPase pump. When cells are damaged (trauma, burns), K+ leaks out → hyperkalemia risk.")}
         />
         {isEditing && (
-          <RichTextEditor value={sections["phys-fluid-memory"]?.content || "'K+ stays IN the cell, Na+ stays OUT.' This is maintained by the Na+/K+ ATPase pump. When cells are damaged (trauma, burns), K+ leaks out → hyperkalemia risk."} onChange={(v) => updateSection("phys-fluid-memory", { content: v })} className="mt-2" minHeight="60px" placeholder="Memory aid content..." />
+          <RichTextEditor value={sections["phys-fluid-memory"]?.content || "'K+ stays IN the cell, Na+ stays OUT.' This is maintained by the Na+/K+ ATPase pump. When cells are damaged (trauma, burns), K+ leaks out → hyperkalemia risk."} onChange={(v) => updateSection("phys-fluid-memory", { content: v })} className="mt-2" minHeight="60px" placeholder={t("pages.preNursing.memoryAidContent")} />
         )}
       </MicroLesson>
 
       <SelfCheckQuiz
-        title="Physiology Check"
+        title={t("pages.preNursing.physiologyCheck")}
         questions={[
           {
             id: "ph1",
@@ -2140,34 +2140,34 @@ function TerminologyModule() {
       <MicroLesson title={rs("term-how-title", "How Medical Terms Work")} subtitle={rs("term-how-subtitle", "Breaking down clinical vocabulary")} icon={<BookOpen className="w-5 h-5" />}>
         {isEditing && (
           <div className="flex gap-2 mb-2">
-            <input value={sections["term-how-title"]?.content || "How Medical Terms Work"} onChange={(e) => updateSection("term-how-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Section title..." />
-            <input value={sections["term-how-subtitle"]?.content || "Breaking down clinical vocabulary"} onChange={(e) => updateSection("term-how-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Subtitle..." />
+            <input value={sections["term-how-title"]?.content || "How Medical Terms Work"} onChange={(e) => updateSection("term-how-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder={t("pages.preNursing.sectionTitle5")} />
+            <input value={sections["term-how-subtitle"]?.content || "Breaking down clinical vocabulary"} onChange={(e) => updateSection("term-how-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder={t("pages.preNursing.subtitle5")} />
           </div>
         )}
         <EditableModuleText sectionKey="term-how-content" defaultText="Most medical terms are combinations of prefixes (word parts added to the beginning), root words (the core identifying the body part), and suffixes (word endings indicating a condition or procedure)." as="p" className="text-sm text-slate-600 leading-relaxed" multiline />
         <div className="p-4 bg-primary/5 rounded-xl border border-primary/10 mt-3">
-          <p className="text-sm font-semibold text-gray-800 mb-2">Example Breakdown</p>
+          <p className="text-sm font-semibold text-gray-800 mb-2">{t("pages.preNursing.exampleBreakdown")}</p>
           <div className="flex flex-wrap items-center gap-2 text-sm">
-            <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full font-medium">Tachy</span>
+            <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full font-medium">{t("pages.preNursing.tachy")}</span>
             <span className="text-gray-400">+</span>
-            <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium">card</span>
+            <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium">{t("pages.preNursing.card")}</span>
             <span className="text-gray-400">+</span>
-            <span className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full font-medium">-ia</span>
+            <span className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full font-medium">{t("pages.preNursing.ia")}</span>
             <span className="text-gray-400">=</span>
-            <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full font-semibold">Tachycardia</span>
+            <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full font-semibold">{t("pages.preNursing.tachycardia")}</span>
           </div>
-          <p className="text-xs text-gray-500 mt-2">Fast + heart + condition = rapid heart rate</p>
+          <p className="text-xs text-gray-500 mt-2">{t("pages.preNursing.fastHeartConditionRapidHeart")}</p>
         </div>
       </MicroLesson>
 
       <MatchingExercise
-        title="Prefix & Suffix Matching"
-        description="Match each medical prefix or suffix to its meaning"
+        title={t("pages.preNursing.prefixSuffixMatching")}
+        description={t("pages.preNursing.matchEachMedicalPrefixOr")}
         pairs={terminologyPairs}
       />
 
       <ProgressiveReveal
-        title="Common Root Words"
+        title={t("pages.preNursing.commonRootWords")}
         cards={[
           { id: "r1", title: "Cardi/o", summary: "Heart", detail: "Used in terms like cardiology, tachycardia, cardiomyopathy. The root 'cardi' always refers to the heart.", icon: <Heart className="w-4 h-4" /> },
           { id: "r2", title: "Hepat/o", summary: "Liver", detail: "Used in terms like hepatitis (liver inflammation), hepatomegaly (enlarged liver), hepatotoxic (toxic to the liver)." },
@@ -2178,7 +2178,7 @@ function TerminologyModule() {
       />
 
       <SelfCheckQuiz
-        title="Terminology Check"
+        title={t("pages.preNursing.terminologyCheck")}
         questions={[
           {
             id: "tm1",
@@ -2225,34 +2225,34 @@ function PharmacologyModule() {
       <MicroLesson title={rs("pharm-receptor-title", "Drug-Receptor Basics")} subtitle={rs("pharm-receptor-subtitle", "How medications produce their effects")} icon={<Pill className="w-5 h-5" />}>
         {isEditing && (
           <div className="flex gap-2 mb-2">
-            <input value={sections["pharm-receptor-title"]?.content || "Drug-Receptor Basics"} onChange={(e) => updateSection("pharm-receptor-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Section title..." />
-            <input value={sections["pharm-receptor-subtitle"]?.content || "How medications produce their effects"} onChange={(e) => updateSection("pharm-receptor-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Subtitle..." />
+            <input value={sections["pharm-receptor-title"]?.content || "Drug-Receptor Basics"} onChange={(e) => updateSection("pharm-receptor-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder={t("pages.preNursing.sectionTitle6")} />
+            <input value={sections["pharm-receptor-subtitle"]?.content || "How medications produce their effects"} onChange={(e) => updateSection("pharm-receptor-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder={t("pages.preNursing.subtitle6")} />
           </div>
         )}
         <EditableModuleText sectionKey="pharm-receptor-content" defaultText="Most drugs work by binding to receptors on cells. The drug-receptor interaction determines whether the drug activates or blocks a cellular response." as="p" className="text-sm text-slate-600 leading-relaxed" multiline />
         <div className="grid sm:grid-cols-2 gap-3 mt-3">
           <div className="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100">
-            <p className="text-sm font-semibold text-emerald-700 mb-1">Agonist</p>
+            <p className="text-sm font-semibold text-emerald-700 mb-1">{t("pages.preNursing.agonist")}</p>
             <EditableModuleText sectionKey="pharm-agonist" defaultText="Binds to receptor and ACTIVATES it. Mimics the natural ligand. Example: Morphine (opioid agonist)" as="p" className="text-xs text-emerald-600" multiline />
           </div>
           <div className="p-4 bg-red-50/60 rounded-xl border border-red-100">
-            <p className="text-sm font-semibold text-red-700 mb-1">Antagonist</p>
+            <p className="text-sm font-semibold text-red-700 mb-1">{t("pages.preNursing.antagonist")}</p>
             <EditableModuleText sectionKey="pharm-antagonist" defaultText="Binds to receptor and BLOCKS it. Prevents the natural ligand from activating. Example: Naloxone (opioid antagonist)" as="p" className="text-xs text-red-600" multiline />
           </div>
         </div>
         <CognitiveCard
           type="tip"
-          title="Clinical Connection"
+          title={t("pages.preNursing.clinicalConnection2")}
           content={rs("pharm-receptor-clinical", "Naloxone reverses opioid overdose by competing for the same receptors. It's an antagonist that displaces the agonist (morphine/fentanyl) from opioid receptors.")}
         />
         {isEditing && (
-          <RichTextEditor value={sections["pharm-receptor-clinical"]?.content || "Naloxone reverses opioid overdose by competing for the same receptors. It's an antagonist that displaces the agonist (morphine/fentanyl) from opioid receptors."} onChange={(v) => updateSection("pharm-receptor-clinical", { content: v })} className="mt-2" minHeight="60px" placeholder="Clinical connection..." />
+          <RichTextEditor value={sections["pharm-receptor-clinical"]?.content || "Naloxone reverses opioid overdose by competing for the same receptors. It's an antagonist that displaces the agonist (morphine/fentanyl) from opioid receptors."} onChange={(v) => updateSection("pharm-receptor-clinical", { content: v })} className="mt-2" minHeight="60px" placeholder={t("pages.preNursing.clinicalConnection3")} />
         )}
       </MicroLesson>
 
       <div className="my-6 rounded-xl overflow-hidden border border-gray-100 shadow-sm bg-gray-50">
-        <img src={imgPharmAbsorption} alt="Drug absorption routes: oral, intravenous, intramuscular, subcutaneous, and topical pathways showing drug molecules entering systemic circulation" className="w-full h-auto object-contain p-2 md:p-4 max-h-[400px]" loading="lazy" data-testid="img-pharm-absorption" />
-        <p className="text-xs text-gray-500 text-center pb-3 px-4 italic">Drug absorption routes showing how medications enter systemic circulation through different pathways</p>
+        <img src={imgPharmAbsorption} alt={t("pages.preNursing.drugAbsorptionRoutesOralIntravenous")} className="w-full h-auto object-contain p-2 md:p-4 max-h-[400px]" loading="lazy" data-testid="img-pharm-absorption" />
+        <p className="text-xs text-gray-500 text-center pb-3 px-4 italic">{t("pages.preNursing.drugAbsorptionRoutesShowingHow")}</p>
       </div>
 
       <MicroLesson title={rs("pharmacokineticsTitle", "Pharmacokinetics Overview")} subtitle={rs("pharmacokineticsSubtitle", "What the body does to the drug")} icon={<FlaskConical className="w-5 h-5" />}>
@@ -2268,11 +2268,11 @@ function PharmacologyModule() {
       </MicroLesson>
 
       <div className="my-6 rounded-xl overflow-hidden border border-gray-100 shadow-sm bg-gray-50">
-        <img src={imgPharmPK} alt="Pharmacokinetics pathway: drug journey through absorption from GI tract, distribution via bloodstream, metabolism in the liver, and excretion through kidneys" className="w-full h-auto object-contain p-2 md:p-4 max-h-[400px]" loading="lazy" data-testid="img-pharm-pk" />
-        <p className="text-xs text-gray-500 text-center pb-3 px-4 italic">Pharmacokinetics: the four-step journey of a drug through absorption, distribution, metabolism, and excretion</p>
+        <img src={imgPharmPK} alt={t("pages.preNursing.pharmacokineticsPathwayDrugJourneyThrough")} className="w-full h-auto object-contain p-2 md:p-4 max-h-[400px]" loading="lazy" data-testid="img-pharm-pk" />
+        <p className="text-xs text-gray-500 text-center pb-3 px-4 italic">{t("pages.preNursing.pharmacokineticsTheFourstepJourneyOf")}</p>
       </div>
 
-      <SelfCheckQuiz title="Pharmacology Check" questions={pharmQuiz} />
+      <SelfCheckQuiz title={t("pages.preNursing.pharmacologyCheck")} questions={pharmQuiz} />
     </div>
   );
 }
@@ -2295,49 +2295,49 @@ function PathophysiologyModule() {
       <MicroLesson title={rs("patho-disease-title", "Disease = Disrupted Homeostasis")} subtitle={rs("patho-disease-subtitle", "Understanding why symptoms happen")} icon={<Stethoscope className="w-5 h-5" />}>
         {isEditing && (
           <div className="flex gap-2 mb-2">
-            <input value={sections["patho-disease-title"]?.content || "Disease = Disrupted Homeostasis"} onChange={(e) => updateSection("patho-disease-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Section title..." />
-            <input value={sections["patho-disease-subtitle"]?.content || "Understanding why symptoms happen"} onChange={(e) => updateSection("patho-disease-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder="Subtitle..." />
+            <input value={sections["patho-disease-title"]?.content || "Disease = Disrupted Homeostasis"} onChange={(e) => updateSection("patho-disease-title", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder={t("pages.preNursing.sectionTitle7")} />
+            <input value={sections["patho-disease-subtitle"]?.content || "Understanding why symptoms happen"} onChange={(e) => updateSection("patho-disease-subtitle", { content: e.target.value })} className="flex-1 bg-white/80 border border-purple-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-purple-300 focus:outline-none" placeholder={t("pages.preNursing.subtitle7")} />
           </div>
         )}
         <EditableModuleText sectionKey="patho-disease-content" defaultText="Every disease is a story of homeostasis being disrupted. The body compensates to maintain function, but eventually those mechanisms fail. Understanding this progression is the key to clinical reasoning." as="p" className="text-sm text-slate-600 leading-relaxed" multiline />
         <div className="flex flex-col sm:flex-row gap-3 mt-3">
           <div className="flex-1 p-4 bg-emerald-50/60 rounded-xl border border-emerald-100 text-center">
-            <p className="text-xs font-bold text-emerald-700 mb-1">Early Signs</p>
-            <p className="text-xs text-emerald-600">Compensatory responses</p>
-            <p className="text-[10px] text-emerald-500 mt-1">Tachycardia, mild anxiety, slight BP changes</p>
+            <p className="text-xs font-bold text-emerald-700 mb-1">{t("pages.preNursing.earlySigns")}</p>
+            <p className="text-xs text-emerald-600">{t("pages.preNursing.compensatoryResponses")}</p>
+            <p className="text-[10px] text-emerald-500 mt-1">{t("pages.preNursing.tachycardiaMildAnxietySlightBp")}</p>
           </div>
           <div className="flex items-center justify-center text-gray-300">→</div>
           <div className="flex-1 p-4 bg-amber-50/60 rounded-xl border border-amber-100 text-center">
-            <p className="text-xs font-bold text-amber-700 mb-1">Progressive</p>
-            <p className="text-xs text-amber-600">Compensation straining</p>
-            <p className="text-[10px] text-amber-500 mt-1">Widening pulse pressure, confusion, oliguria</p>
+            <p className="text-xs font-bold text-amber-700 mb-1">{t("pages.preNursing.progressive")}</p>
+            <p className="text-xs text-amber-600">{t("pages.preNursing.compensationStraining")}</p>
+            <p className="text-[10px] text-amber-500 mt-1">{t("pages.preNursing.wideningPulsePressureConfusionOliguria")}</p>
           </div>
           <div className="flex items-center justify-center text-gray-300">→</div>
           <div className="flex-1 p-4 bg-red-50/60 rounded-xl border border-red-100 text-center">
-            <p className="text-xs font-bold text-red-700 mb-1">Late / Decompensation</p>
-            <p className="text-xs text-red-600">Mechanisms failing</p>
-            <p className="text-[10px] text-red-500 mt-1">Hypotension, unresponsive, organ failure</p>
+            <p className="text-xs font-bold text-red-700 mb-1">{t("pages.preNursing.lateDecompensation")}</p>
+            <p className="text-xs text-red-600">{t("pages.preNursing.mechanismsFailing")}</p>
+            <p className="text-[10px] text-red-500 mt-1">{t("pages.preNursing.hypotensionUnresponsiveOrganFailure")}</p>
           </div>
         </div>
         <CognitiveCard
           type="warning"
-          title="Exam Trap"
+          title={t("pages.preNursing.examTrap")}
           content={rs("patho-exam-trap", "Exams test whether you can recognize EARLY signs (when intervention matters most), not late signs (when it may be too late). Tachycardia is often the first sign of deterioration.")}
         />
         {isEditing && (
-          <RichTextEditor value={sections["patho-exam-trap"]?.content || "Exams test whether you can recognize EARLY signs (when intervention matters most), not late signs (when it may be too late). Tachycardia is often the first sign of deterioration."} onChange={(v) => updateSection("patho-exam-trap", { content: v })} className="mt-2" minHeight="60px" placeholder="Exam trap content..." />
+          <RichTextEditor value={sections["patho-exam-trap"]?.content || "Exams test whether you can recognize EARLY signs (when intervention matters most), not late signs (when it may be too late). Tachycardia is often the first sign of deterioration."} onChange={(v) => updateSection("patho-exam-trap", { content: v })} className="mt-2" minHeight="60px" placeholder={t("pages.preNursing.examTrapContent")} />
         )}
       </MicroLesson>
 
       <SpotAbnormality
-        title="Spot the Abnormal Findings"
+        title={t("pages.preNursing.spotTheAbnormalFindings")}
         scenario="A 68-year-old patient was admitted 2 hours ago with complaints of increasing shortness of breath and chest tightness. The nurse obtains the following assessment findings:"
         findings={pathoFindings}
       />
 
       <AnatomyLabeling
-        title="Respiratory Anatomy: Click to Identify"
-        description="Identify the major respiratory structures"
+        title={t("pages.preNursing.respiratoryAnatomyClickToIdentify")}
+        description={t("pages.preNursing.identifyTheMajorRespiratoryStructures")}
         backgroundImage={lungsAnatomyImage}
         labels={lungLabels}
         width={600}
@@ -2348,17 +2348,17 @@ function PathophysiologyModule() {
         <div className="grid sm:grid-cols-2 gap-4 mb-4">
           <div className="bg-purple-50/60 rounded-xl border border-purple-200 p-4">
             <div className="flex justify-center mb-3">
-              <img src={brainAnatomyImage} alt="Brain sagittal cross-section showing cerebrum, cerebellum, and brainstem - NurseNest pre-nursing anatomy" className="w-full max-w-[200px] h-auto rounded-lg" loading="lazy" data-testid="img-brain-anatomy" />
+              <img src={brainAnatomyImage} alt={t("pages.preNursing.brainSagittalCrosssectionShowingCerebrum")} className="w-full max-w-[200px] h-auto rounded-lg" loading="lazy" data-testid="img-brain-anatomy" />
             </div>
-            <h4 className="font-semibold text-sm text-purple-800 mb-1">Brain (Medulla Oblongata)</h4>
-            <p className="text-xs text-slate-600">The brainstem controls autonomic cardiovascular and respiratory responses. The medulla detects changes in blood pH and CO₂ levels, triggering compensatory breathing adjustments.</p>
+            <h4 className="font-semibold text-sm text-purple-800 mb-1">{t("pages.preNursing.brainMedullaOblongata")}</h4>
+            <p className="text-xs text-slate-600">{t("pages.preNursing.theBrainstemControlsAutonomicCardiovascular")}</p>
           </div>
           <div className="bg-amber-50/60 rounded-xl border border-amber-200 p-4">
             <div className="flex justify-center mb-3">
-              <img src={kidneyAnatomyImage} alt="Kidney cross-section showing cortex, medulla, and nephron structures - NurseNest pre-nursing anatomy" className="w-full max-w-[200px] h-auto rounded-lg" loading="lazy" data-testid="img-kidney-anatomy" />
+              <img src={kidneyAnatomyImage} alt={t("pages.preNursing.kidneyCrosssectionShowingCortexMedulla")} className="w-full max-w-[200px] h-auto rounded-lg" loading="lazy" data-testid="img-kidney-anatomy" />
             </div>
-            <h4 className="font-semibold text-sm text-amber-800 mb-1">Kidney</h4>
-            <p className="text-xs text-slate-600">The kidneys regulate fluid balance, electrolytes, and acid-base status by adjusting reabsorption and secretion in the nephrons. Renal compensation takes 24-48 hours to take full effect.</p>
+            <h4 className="font-semibold text-sm text-amber-800 mb-1">{t("pages.preNursing.kidney")}</h4>
+            <p className="text-xs text-slate-600">{t("pages.preNursing.theKidneysRegulateFluidBalance")}</p>
           </div>
         </div>
         <ProgressiveReveal
@@ -2372,7 +2372,7 @@ function PathophysiologyModule() {
       </MicroLesson>
 
       <SelfCheckQuiz
-        title="Pathophysiology Check"
+        title={t("pages.preNursing.pathophysiologyCheck")}
         questions={[
           {
             id: "pp1",

@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { ENCYCLOPEDIA_PROFESSIONS } from "@shared/schema";
 
+import { useI18n } from "@/lib/i18n";
 interface ProfessionStats {
   profession: string;
   entryCount: number;
@@ -56,6 +57,7 @@ const PROFESSION_BG: Record<string, string> = {
 };
 
 export default function EncyclopediaLandingPage() {
+  const { t } = useI18n();
   const { data: professionStats } = useQuery<ProfessionStats[]>({
     queryKey: ["/api/encyclopedia/professions"],
     queryFn: async () => {
@@ -89,8 +91,8 @@ export default function EncyclopediaLandingPage() {
     <>
       <Navigation />
       <SEO
-        title="Healthcare Encyclopedia — Clinical Reference for Every Profession | NurseNest"
-        description="Explore comprehensive clinical encyclopedias for nursing, paramedicine, pharmacy tech, respiratory therapy, medical lab, imaging, and more. Free evidence-based reference for exam prep and clinical practice."
+        title={t("pages.encyclopediaLanding.healthcareEncyclopediaClinicalReferenceFor")}
+        description={t("pages.encyclopediaLanding.exploreComprehensiveClinicalEncyclopediasFor")}
         keywords="healthcare encyclopedia, nursing encyclopedia, clinical reference, medical terminology, exam prep, paramedic encyclopedia, pharmacy tech reference"
         canonicalPath="/encyclopedia"
         structuredData={collectionSchema}
@@ -112,7 +114,7 @@ export default function EncyclopediaLandingPage() {
           <section className="text-center py-12 sm:py-16" data-testid="section-hero">
             <div className="inline-flex items-center gap-2 text-sm text-primary font-medium mb-4">
               <BookOpen className="w-4 h-4" />
-              <span>Clinical Knowledge Base</span>
+              <span>{t("pages.encyclopediaLanding.clinicalKnowledgeBase")}</span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight" style={{ fontFamily: "'DM Sans', sans-serif" }} data-testid="heading-landing-title">
               NurseNest Encyclopedia
@@ -154,7 +156,7 @@ export default function EncyclopediaLandingPage() {
                             {stats.publishedCount} topic{stats.publishedCount !== 1 ? "s" : ""} · {stats.categories?.length || 0} categor{(stats.categories?.length || 0) !== 1 ? "ies" : "y"}
                           </p>
                         ) : (
-                          <p className="text-sm text-gray-400">Coming soon</p>
+                          <p className="text-sm text-gray-400">{t("pages.encyclopediaLanding.comingSoon")}</p>
                         )}
                       </div>
                       <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary mt-1 shrink-0 transition-colors" />
@@ -199,10 +201,10 @@ export default function EncyclopediaLandingPage() {
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
                 <Link href="/start-free">
-                  <Button data-testid="button-cta-start-free">Get Started Free</Button>
+                  <Button data-testid="button-cta-start-free">{t("pages.encyclopediaLanding.getStartedFree")}</Button>
                 </Link>
                 <Link href="/pricing">
-                  <Button variant="outline" data-testid="button-cta-pricing">View Plans</Button>
+                  <Button variant="outline" data-testid="button-cta-pricing">{t("pages.encyclopediaLanding.viewPlans")}</Button>
                 </Link>
               </div>
             </div>

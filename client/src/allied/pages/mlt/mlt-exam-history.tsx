@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Clock, BarChart3, Trophy, Target, Microscope, ArrowRight } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface ExamHistoryItem {
   id: string;
   mode: string;
@@ -32,6 +33,7 @@ const modeColors: Record<string, string> = {
 };
 
 export default function MltExamHistory() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
   const [sessions, setSessions] = useState<ExamHistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -70,7 +72,7 @@ export default function MltExamHistory() {
       <div className="flex items-center gap-3 mb-8">
         <Microscope className="w-7 h-7 text-purple-600" />
         <div>
-          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-history-title">Exam History</h1>
+          <h1 className="text-2xl font-bold text-gray-900" data-testid="text-history-title">{t("allied.mltMltExamHistory.examHistory")}</h1>
           <p className="text-sm text-gray-500">{sessions.length} sessions</p>
         </div>
       </div>
@@ -78,7 +80,7 @@ export default function MltExamHistory() {
       {sessions.length === 0 ? (
         <div className="text-center py-16">
           <BarChart3 className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500 mb-4">No exam sessions yet. Start your first exam!</p>
+          <p className="text-gray-500 mb-4">{t("allied.mltMltExamHistory.noExamSessionsYetStart")}</p>
           <button
             onClick={() => setLocation("/allied-health/mlt/exams")}
             className="px-6 py-2.5 bg-purple-600 text-white rounded-xl text-sm font-medium hover:bg-purple-700"
@@ -115,7 +117,7 @@ export default function MltExamHistory() {
                       {s.score}%
                     </span>
                   ) : (
-                    <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full">In Progress</span>
+                    <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full">{t("allied.mltMltExamHistory.inProgress")}</span>
                   )}
                   <ArrowRight className="w-4 h-4 text-gray-400" />
                 </div>

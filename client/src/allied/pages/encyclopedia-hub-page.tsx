@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { AlliedSEO } from "../allied-seo";
 import { Breadcrumbs } from "../components/paramedic-seo-components";
+import { useI18n } from "@/lib/i18n";
 import {
   Loader2, Search, BookOpen, ArrowRight, Filter,
   ChevronRight, Hash, Grid3X3,
@@ -73,6 +74,7 @@ const PROFESSION_META: Record<string, {
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 export default function EncyclopediaHubPage({ profession: propProfession }: { profession?: string }) {
+  const { t } = useI18n();
   const profession = propProfession || "paramedic";
   const meta = PROFESSION_META[profession] || PROFESSION_META.paramedic;
 
@@ -202,7 +204,7 @@ export default function EncyclopediaHubPage({ profession: propProfession }: { pr
               className="px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
               data-testid="select-category"
             >
-              <option value="">All Categories</option>
+              <option value="">{t("allied.encyclopediaHubPage.allCategories")}</option>
               {categories.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
           )}
@@ -244,7 +246,7 @@ export default function EncyclopediaHubPage({ profession: propProfession }: { pr
         ) : items.length === 0 ? (
           <div className="text-center py-20">
             <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-            <h2 className="text-lg font-semibold text-gray-700 mb-1">No topics found</h2>
+            <h2 className="text-lg font-semibold text-gray-700 mb-1">{t("allied.encyclopediaHubPage.noTopicsFound")}</h2>
             <p className="text-sm text-gray-500">
               {search || selectedCategory || selectedLetter
                 ? "Try adjusting your filters or search terms."

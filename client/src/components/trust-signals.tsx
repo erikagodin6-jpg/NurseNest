@@ -1,6 +1,7 @@
 import { Shield, Award, Users, Star, CheckCircle } from "lucide-react";
 import { getTierTrust, type TierTestimonial } from "@shared/tier-messaging";
 
+import { useI18n } from "@/lib/i18n";
 const TIER_HEADINGS: Record<string, { heading: string; subtext: string }> = {
   rpn: {
     heading: "Trusted by Practical Nursing Students Across Canada",
@@ -29,6 +30,7 @@ interface TrustSignalsProps {
 }
 
 export function TrustSignals({ testimonials, showStats = true, className = "", activeTier }: TrustSignalsProps) {
+  const { t } = useI18n();
   const normalizedTier = activeTier === "pharmacology" ? "rpn" : activeTier;
   const trustConfig = normalizedTier ? getTierTrust(normalizedTier) : null;
   const tierTestimonials = trustConfig?.testimonials || [];
@@ -46,14 +48,14 @@ export function TrustSignals({ testimonials, showStats = true, className = "", a
                 {trustConfig.stats.map((s, i) => (
                   <StatCard key={i} icon={<Award className="w-6 h-6 text-primary" />} value={s.value} label={s.label} testId={`stat-tier-${i}`} />
                 ))}
-                <StatCard icon={<Shield className="w-6 h-6 text-primary" />} value="100%" label="Evidence-Based Content" testId="stat-evidence" />
+                <StatCard icon={<Shield className="w-6 h-6 text-primary" />} value="100%" label={t("components.trustSignals.evidencebasedContent")} testId="stat-evidence" />
               </>
             ) : (
               <>
-                <StatCard icon={<Users className="w-6 h-6 text-primary" />} value="12,000+" label="Active Students" testId="stat-students" />
-                <StatCard icon={<Award className="w-6 h-6 text-primary" />} value="8,000+" label="Practice Questions" testId="stat-questions" />
-                <StatCard icon={<Award className="w-6 h-6 text-primary" />} value="94%" label="First-Attempt Pass Rate" testId="stat-pass-rate" />
-                <StatCard icon={<Shield className="w-6 h-6 text-primary" />} value="100%" label="Evidence-Based Content" testId="stat-evidence" />
+                <StatCard icon={<Users className="w-6 h-6 text-primary" />} value="12,000+" label={t("components.trustSignals.activeStudents")} testId="stat-students" />
+                <StatCard icon={<Award className="w-6 h-6 text-primary" />} value="8,000+" label={t("components.trustSignals.practiceQuestions")} testId="stat-questions" />
+                <StatCard icon={<Award className="w-6 h-6 text-primary" />} value="94%" label={t("components.trustSignals.firstattemptPassRate")} testId="stat-pass-rate" />
+                <StatCard icon={<Shield className="w-6 h-6 text-primary" />} value="100%" label={t("components.trustSignals.evidencebasedContent2")} testId="stat-evidence" />
               </>
             )}
           </div>

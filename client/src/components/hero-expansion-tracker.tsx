@@ -8,6 +8,7 @@ import {
 } from "@shared/platform-manifest";
 import { TrendingUp } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 function ProgressRow({
   label,
   current,
@@ -19,6 +20,7 @@ function ProgressRow({
   goal: number;
   color: string;
 }) {
+  const { t } = useI18n();
   const pct = Math.min(100, Math.round((current / goal) * 100));
   return (
     <div className="space-y-1.5" data-testid={`tracker-row-${label.toLowerCase().replace(/[\s()\/]+/g, "-")}`}>
@@ -92,13 +94,13 @@ export default function HeroExpansionTracker() {
 
         <div className="bg-white rounded-2xl border border-gray-100 shadow-[var(--shadow-card)] divide-y divide-gray-100">
           <div className="p-6 space-y-5">
-            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Nursing Tiers</h3>
+            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">{t("components.heroExpansionTracker.nursingTiers")}</h3>
             {tierRows.map((row) => (
               <ProgressRow key={row.label} {...row} />
             ))}
           </div>
           <div className="p-6 space-y-5">
-            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Allied Health (Major Careers)</h3>
+            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">{t("components.heroExpansionTracker.alliedHealthMajorCareers")}</h3>
             {alliedRows.map((row) => (
               <ProgressRow key={row.label} {...row} />
             ))}

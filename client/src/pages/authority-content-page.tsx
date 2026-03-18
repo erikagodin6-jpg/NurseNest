@@ -5,6 +5,7 @@ import { SEO } from "@/components/seo";
 import { useState } from "react";
 import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
 import { MedicalReferences } from "@/components/medical-references";
+import { useI18n } from "@/lib/i18n";
 import {
   BookOpen, ChevronRight, ChevronDown, Target, Award, CheckCircle2,
   ArrowRight, HelpCircle, FileText, Brain, Lightbulb, ListChecks
@@ -16,6 +17,7 @@ import {
 } from "@shared/authority-content-data";
 
 function TableOfContents({ sections, color }: { sections: { id: string; title: string }[]; color: string }) {
+  const { t } = useI18n();
   const allItems = [
     ...sections.map(s => ({ id: s.id, title: s.title })),
     { id: "practice-questions", title: "Practice Questions" },
@@ -151,8 +153,8 @@ export default function AuthorityContentPage() {
         <Navigation />
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center p-8">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1>
-            <p className="text-gray-600 mb-4">This authority guide could not be found.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.authorityContentPage.pageNotFound")}</h1>
+            <p className="text-gray-600 mb-4">{t("pages.authorityContentPage.thisAuthorityGuideCouldNot")}</p>
             <button onClick={() => navigate("/")} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" data-testid="button-go-home">
               Go Home
             </button>
@@ -217,7 +219,7 @@ export default function AuthorityContentPage() {
         <div className={`absolute inset-0 bg-gradient-to-br ${pageData.colorGradientFrom} ${pageData.colorGradientTo} to-white`} />
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="nav-breadcrumb">
-            <Link href="/" className="hover:text-gray-700">Home</Link>
+            <Link href="/" className="hover:text-gray-700">{t("pages.authorityContentPage.home")}</Link>
             <ChevronRight className="w-3 h-3" />
             <Link href={`/${pageData.professionSlug}`} className="hover:text-gray-700">
               {pageData.professionSlug.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase())}
@@ -233,9 +235,9 @@ export default function AuthorityContentPage() {
               data-testid="badge-page-type"
             >
               {pageData.pageType === "top-questions" ? (
-                <><ListChecks className="w-4 h-4" /> Practice Questions</>
+                <><ListChecks className="w-4 h-4" /> {t("pages.authorityContentPage.practiceQuestions")}</>
               ) : (
-                <><BookOpen className="w-4 h-4" /> Comprehensive Guide</>
+                <><BookOpen className="w-4 h-4" /> {t("pages.authorityContentPage.comprehensiveGuide")}</>
               )}
             </span>
           </div>
@@ -379,8 +381,8 @@ export default function AuthorityContentPage() {
             />
 
             <div className="bg-gradient-to-r rounded-xl p-8 text-center" style={{ background: `linear-gradient(135deg, ${pageData.colorAccent}, ${pageData.color}15)` }} data-testid="section-cta-bottom">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Ready to Test Your Knowledge?</h3>
-              <p className="text-gray-600 mb-6">Take a full-length mock exam to assess your readiness and identify weak areas.</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{t("pages.authorityContentPage.readyToTestYourKnowledge")}</h3>
+              <p className="text-gray-600 mb-6">{t("pages.authorityContentPage.takeAFulllengthMockExam")}</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link
                   href={pageData.ctaPrimary.href}

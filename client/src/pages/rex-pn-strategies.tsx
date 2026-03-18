@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
+import { useI18n } from "@/lib/i18n";
 const strategies = [
   {
     title: "Reading the Stem",
@@ -92,18 +93,19 @@ const strategies = [
 ];
 
 export default function RexPnStrategies() {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
       <AdminEditButton />
       <SEO
-        title="Test-Taking Strategies for the REx-PN -- Canadian PN Exam Tips (2025)"
-        description="Proven test-taking strategies for the Canadian REx-PN exam: stem reading, process of elimination, safety-first thinking, pacing, SATA techniques, and anxiety management."
+        title={t("pages.rexPnStrategies.testtakingStrategiesForTheRexpn")}
+        description={t("pages.rexPnStrategies.provenTesttakingStrategiesForThe")}
         canonicalPath="/rex-pn/strategies"
       />
 
       <main className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
-        <BreadcrumbNav title="Test-Taking Strategies for the REx-PN" />
+        <BreadcrumbNav title={t("pages.rexPnStrategies.testtakingStrategiesForTheRexpn2")} />
         <div className="mb-6">
           <LocaleLink
             href="/rex-pn"
@@ -115,7 +117,7 @@ export default function RexPnStrategies() {
         </div>
 
         <div className="mb-10">
-          <Badge variant="secondary" className="mb-3">Canadian REx-PN Exam</Badge>
+          <Badge variant="secondary" className="mb-3">{t("pages.rexPnStrategies.canadianRexpnExam")}</Badge>
           <h1
             className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4"
             data-testid="text-rex-pn-strategies-title"
@@ -181,7 +183,7 @@ export default function RexPnStrategies() {
             <div className="flex items-start gap-3">
               <AlertCircle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
               <div>
-                <h3 className="font-semibold text-amber-900 mb-2" data-testid="text-disclaimer-heading">Disclaimer</h3>
+                <h3 className="font-semibold text-amber-900 mb-2" data-testid="text-disclaimer-heading">{t("pages.rexPnStrategies.disclaimer")}</h3>
                 <p className="text-amber-800 text-sm leading-relaxed" data-testid="text-disclaimer-content">
                   This is a training resource designed to help you prepare. It does not guarantee exam results. These strategies reflect general best practices for standardized nursing exams and should complement your personal study plan.
                 </p>

@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { ExplanationPromoBanner } from "@/components/explanation-panel";
 
+import { useI18n } from "@/lib/i18n";
 interface ScreenshotSources {
   srcSet: string;
   thumbSrcSet: string;
@@ -27,6 +28,7 @@ interface ScreenshotSources {
 }
 
 function getScreenshotSources(name: string, origWidth: number, origHeight: number): ScreenshotSources {
+
   const base = `/screenshots/${name}`;
   return {
     srcSet: `${base}-480w.webp 480w, ${base}-768w.webp 768w, ${base}-1200w.webp 1200w, ${base}-full.webp ${origWidth}w`,
@@ -317,14 +319,14 @@ export function HeroProofShowcase() {
 
                   <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm rounded-xl px-3 py-2 shadow-[var(--shadow-card)] border border-gray-100/80 hidden sm:flex items-center gap-2">
                     <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
-                    <span className="text-xs font-bold text-gray-700">+8% improvement</span>
+                    <span className="text-xs font-bold text-gray-700">{t("components.heroProofShowcase.8Improvement")}</span>
                   </div>
                 </div>
 
                 <button
                   onClick={goPrev}
                   className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm shadow-[var(--shadow-card)] border border-gray-100 flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
-                  aria-label="Previous screenshot"
+                  aria-label={t("components.heroProofShowcase.previousScreenshot")}
                   data-testid="button-proof-prev"
                 >
                   <ChevronLeft className="w-4 h-4 text-gray-600" />
@@ -332,7 +334,7 @@ export function HeroProofShowcase() {
                 <button
                   onClick={goNext}
                   className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm shadow-[var(--shadow-card)] border border-gray-100 flex items-center justify-center hover:bg-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
-                  aria-label="Next screenshot"
+                  aria-label={t("components.heroProofShowcase.nextScreenshot")}
                   data-testid="button-proof-next"
                 >
                   <ChevronRight className="w-4 h-4 text-gray-600" />
@@ -370,7 +372,7 @@ export function HeroProofShowcase() {
               ref={thumbnailStripRef}
               className="flex gap-2.5 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent -mx-1 px-1 snap-x snap-mandatory"
               role="tablist"
-              aria-label="Screenshot thumbnails"
+              aria-label={t("components.heroProofShowcase.screenshotThumbnails")}
               onKeyDown={handleTabKeyDown}
             >
               {showcaseItems.map((item, idx) => {

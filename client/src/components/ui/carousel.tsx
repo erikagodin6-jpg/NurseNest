@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
+import { useI18n } from "@/lib/i18n";
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
 type CarouselOptions = UseCarouselParameters[0]
@@ -31,6 +32,7 @@ type CarouselContextProps = {
 const CarouselContext = React.createContext<CarouselContextProps | null>(null)
 
 function useCarousel() {
+  const { t } = useI18n();
   const context = React.useContext(CarouselContext)
 
   if (!context) {
@@ -56,6 +58,7 @@ const Carousel = React.forwardRef<
     },
     ref
   ) => {
+    const { t } = useI18n();
     const [carouselRef, api] = useEmblaCarousel(
       {
         ...opts,
@@ -137,7 +140,7 @@ const Carousel = React.forwardRef<
           onKeyDownCapture={handleKeyDown}
           className={cn("relative", className)}
           role="region"
-          aria-roledescription="carousel"
+          aria-roledescription={t("components.carousel.carousel")}
           {...props}
         >
           {children}
@@ -175,12 +178,13 @@ const CarouselItem = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
   const { orientation } = useCarousel()
+  const { t } = useI18n();
 
   return (
     <div
       ref={ref}
       role="group"
-      aria-roledescription="slide"
+      aria-roledescription={t("components.carousel.slide")}
       className={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
         orientation === "horizontal" ? "pl-4" : "pt-4",
@@ -215,7 +219,7 @@ const CarouselPrevious = React.forwardRef<
       {...props}
     >
       <ArrowLeft className="h-4 w-4" />
-      <span className="sr-only">Previous slide</span>
+      <span className="sr-only">{t("components.uiCarousel.previousSlide")}</span>
     </Button>
   )
 })
@@ -244,7 +248,7 @@ const CarouselNext = React.forwardRef<
       {...props}
     >
       <ArrowRight className="h-4 w-4" />
-      <span className="sr-only">Next slide</span>
+      <span className="sr-only">{t("components.uiCarousel.nextSlide")}</span>
     </Button>
   )
 })

@@ -38,6 +38,7 @@ import { useState, useEffect } from "react";
 import { useRegion } from "@/hooks/use-region";
 import { ExplanationPromoBanner } from "@/components/explanation-panel";
 
+import { useI18n } from "@/lib/i18n";
 const iconMap: Record<string, LucideIcon> = {
   FlaskConical,
   ClipboardCheck,
@@ -87,6 +88,7 @@ interface TrackLandingPageProps {
 }
 
 export default function TrackLandingPage({ track }: TrackLandingPageProps) {
+  const { t } = useI18n();
   const region = useRegion();
   const r = (text: string) => resolveMarketingText(text, region);
   const [, setLocation] = useLocation();
@@ -173,22 +175,22 @@ export default function TrackLandingPage({ track }: TrackLandingPageProps) {
             <Link href={`/${track}/questions`} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-topic-questions">
               <Target className="w-5 h-5 text-teal-500" />
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">Questions by Topic</h3>
-                <p className="text-xs text-gray-500">Browse practice questions by clinical topic</p>
+                <h3 className="text-sm font-semibold text-gray-900">{t("pages.marketing.TrackLandingPage.questionsByTopic")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.marketing.TrackLandingPage.browsePracticeQuestionsByClinical")}</p>
               </div>
             </Link>
             <Link href={`/how-to-become-a-nurse/${track}`} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-career-guide">
               <GraduationCap className="w-5 h-5 text-teal-500" />
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">Career Guide</h3>
+                <h3 className="text-sm font-semibold text-gray-900">{t("pages.marketing.TrackLandingPage.careerGuide")}</h3>
                 <p className="text-xs text-gray-500">How to become a {label}</p>
               </div>
             </Link>
             <Link href="/practice-questions" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-practice-by-system">
               <BookOpen className="w-5 h-5 text-teal-500" />
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">By Body System</h3>
-                <p className="text-xs text-gray-500">Practice by body system</p>
+                <h3 className="text-sm font-semibold text-gray-900">{t("pages.marketing.TrackLandingPage.byBodySystem")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.marketing.TrackLandingPage.practiceByBodySystem")}</p>
               </div>
             </Link>
           </div>
@@ -222,7 +224,7 @@ function AnnouncementBar({ message, ctaText, onCta }: { message: string; ctaText
         onClick={() => setVisible(false)}
         className="absolute right-4 top-1/2 -translate-y-1/2 text-[#2E3A59]/40 hover:text-[#2E3A59]/60"
         data-testid="announcement-bar-close"
-        aria-label="Close announcement"
+        aria-label={t("pages.marketing.TrackLandingPage.closeAnnouncement")}
       >
         <X className="w-4 h-4" />
       </button>
@@ -350,7 +352,7 @@ function HeroSection({
 
         {hero.clarityBullets && hero.clarityBullets.length > 0 && (
           <div className="max-w-2xl mx-auto mb-10 p-5 rounded-2xl bg-white/60 border border-[#BFA6F6]/10 backdrop-blur-sm" data-testid="hero-clarity-block">
-            <p className="text-xs font-bold uppercase tracking-wider text-[#2E3A59]/40 mb-3">What you get</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-[#2E3A59]/40 mb-3">{t("pages.marketing.TrackLandingPage.whatYouGet")}</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {hero.clarityBullets.map((bullet, i) => (
                 <div key={i} className="flex items-start gap-2 text-sm text-[#2E3A59]/70 text-left">
@@ -609,7 +611,7 @@ function DashboardPreviewSection({
                 <div className="w-3 h-3 rounded-full bg-red-300" />
                 <div className="w-3 h-3 rounded-full bg-amber-300" />
                 <div className="w-3 h-3 rounded-full bg-green-300" />
-                <span className="ml-2 text-xs text-[#2E3A59]/40 font-mono">NurseNest Dashboard</span>
+                <span className="ml-2 text-xs text-[#2E3A59]/40 font-mono">{t("pages.marketing.TrackLandingPage.nursenestDashboard")}</span>
               </div>
               <div className="space-y-3">
                 <div className="h-8 bg-[#BFA6F6]/8 rounded-lg" />
@@ -742,8 +744,8 @@ function ComparisonSection({
 
         <div className="rounded-2xl border border-gray-200/80 bg-white overflow-hidden shadow-sm">
           <div className="grid grid-cols-3 bg-gray-50 border-b border-gray-200/60">
-            <div className="p-4 text-sm font-semibold text-[#2E3A59]/70">Feature</div>
-            <div className="p-4 text-sm font-semibold text-[#2E3A59]/50 text-center">Generic Platforms</div>
+            <div className="p-4 text-sm font-semibold text-[#2E3A59]/70">{t("pages.marketing.TrackLandingPage.feature")}</div>
+            <div className="p-4 text-sm font-semibold text-[#2E3A59]/50 text-center">{t("pages.marketing.TrackLandingPage.genericPlatforms")}</div>
             <div className="p-4 text-sm font-semibold text-[#BFA6F6] text-center">NurseNest</div>
           </div>
 

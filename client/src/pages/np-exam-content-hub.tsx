@@ -3,6 +3,7 @@ import { useParams } from "wouter";
 import { SEO } from "@/components/seo";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import {
   getNpExamCategoryBySlug,
   getNpExamConditionBySlug,
@@ -39,6 +40,7 @@ import {
 } from "lucide-react";
 
 function NpPracticeQuestionBlock({ question, index }: { question: NpPracticeQuestion; index: number }) {
+  const { t } = useI18n();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showRationale, setShowRationale] = useState(false);
 
@@ -52,8 +54,8 @@ function NpPracticeQuestionBlock({ question, index }: { question: NpPracticeQues
         </p>
         <div className="relative z-20 flex flex-col items-center justify-center py-4">
           <Lock className="w-8 h-8 text-gray-400 mb-3" />
-          <p className="text-gray-600 font-semibold text-sm mb-2">Premium Practice Question</p>
-          <p className="text-gray-500 text-xs mb-3 text-center max-w-sm">Upgrade to access all NP board practice questions with detailed rationales.</p>
+          <p className="text-gray-600 font-semibold text-sm mb-2">{t("pages.npExamContentHub.premiumPracticeQuestion")}</p>
+          <p className="text-gray-500 text-xs mb-3 text-center max-w-sm">{t("pages.npExamContentHub.upgradeToAccessAllNp")}</p>
           <LocaleLink href="/pricing">
             <Button size="sm" className="bg-primary hover:bg-primary/90" data-testid={`button-unlock-question-${index}`}>
               Unlock All Questions <ArrowRight className="w-4 h-4 ml-1" />
@@ -143,7 +145,7 @@ function NpInternalLinksSection({ links }: { links: NpInternalLink[] }) {
     <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-internal-links">
       <div className="flex items-center gap-3 mb-4">
         <BookOpen className="w-5 h-5 text-primary" />
-        <h2 className="text-xl font-bold text-gray-900">Related Study Resources</h2>
+        <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.relatedStudyResources")}</h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {links.map((link, i) => (
@@ -171,7 +173,7 @@ function NpCTABanner({ variant = "default" }: { variant?: "default" | "mid" | "e
   return (
     <div className="bg-gradient-to-r from-[#2E3A59] to-[#3d4f7a] rounded-2xl p-6 md:p-8 text-white" data-testid={`cta-banner-${variant}`}>
       <p className="text-lg font-semibold mb-2">{text}</p>
-      <p className="text-gray-300 text-sm mb-4">Join thousands of NP students preparing for AANP and ANCC certification with NurseNest.</p>
+      <p className="text-gray-300 text-sm mb-4">{t("pages.npExamContentHub.joinThousandsOfNpStudents")}</p>
       <div className="flex flex-wrap gap-3">
         <LocaleLink href="/mock-exams">
           <Button className="bg-white text-[#2E3A59] hover:bg-gray-100 font-semibold" data-testid="button-cta-mock-exam">
@@ -203,7 +205,7 @@ function NpReferencesSection({ references }: { references?: string[] }) {
     <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-references">
       <div className="flex items-center gap-3 mb-4">
         <FileText className="w-5 h-5 text-gray-500" />
-        <h2 className="text-lg font-bold text-gray-900">References</h2>
+        <h2 className="text-lg font-bold text-gray-900">{t("pages.npExamContentHub.references")}</h2>
       </div>
       <ol className="list-decimal list-inside space-y-2">
         {references.map((ref, i) => (
@@ -216,7 +218,7 @@ function NpReferencesSection({ references }: { references?: string[] }) {
 
 function NpBreadcrumbs({ items }: { items: { label: string; href?: string }[] }) {
   return (
-    <nav className="bg-white border-b border-gray-100 px-4 py-3" aria-label="Breadcrumb" data-testid="breadcrumb-nav">
+    <nav className="bg-white border-b border-gray-100 px-4 py-3" aria-label={t("pages.npExamContentHub.breadcrumb")} data-testid="breadcrumb-nav">
       <div className="max-w-4xl mx-auto flex items-center gap-2 text-sm text-gray-500 flex-wrap">
         {items.map((item, i) => (
           <span key={i} className="flex items-center gap-2">
@@ -250,7 +252,7 @@ function NpNotFound({ type, backHref, backLabel }: { type: string; backHref: str
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="text-center" data-testid={`${type}-not-found`}>
         <h1 className="text-2xl font-bold text-gray-900 mb-2">{type} Not Found</h1>
-        <p className="text-gray-500 mb-6">The page you are looking for does not exist.</p>
+        <p className="text-gray-500 mb-6">{t("pages.npExamContentHub.thePageYouAreLooking")}</p>
         <LocaleLink href={backHref}><Button variant="outline" data-testid="button-back">{backLabel}</Button></LocaleLink>
       </div>
     </div>
@@ -322,7 +324,7 @@ export function NpExamCategoryTemplate({ params: propParams }: { params?: { slug
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <GraduationCap className="w-6 h-6 text-[#BFA6F6]" />
               </div>
-              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">NP Board Exam Prep</span>
+              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">{t("pages.npExamContentHub.npBoardExamPrep")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-category-title">{page.h1}</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.introText}</p>
@@ -343,7 +345,7 @@ export function NpExamCategoryTemplate({ params: propParams }: { params?: { slug
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.practiceQuestions")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <NpPracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -357,7 +359,7 @@ export function NpExamCategoryTemplate({ params: propParams }: { params?: { slug
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.frequentlyAskedQuestions")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <NpFAQBlock key={i} faq={faq} index={i} />)}
@@ -418,7 +420,7 @@ export function NpExamConditionTemplate() {
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <Stethoscope className="w-6 h-6 text-[#BFA6F6]" />
               </div>
-              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">NP Condition Guide</span>
+              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">{t("pages.npExamContentHub.npConditionGuide")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-condition-title">{page.name} — NP Board Exam Study Guide</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.definition}</p>
@@ -428,14 +430,14 @@ export function NpExamConditionTemplate() {
         <div className="max-w-4xl mx-auto px-4 py-10 space-y-10">
           <NpCTABanner variant="default" />
 
-          <NpListSection title="Differential Diagnosis" icon={<Activity className="w-5 h-5 text-primary" />} items={page.differentialDiagnosis} itemIcon="arrow" />
+          <NpListSection title={t("pages.npExamContentHub.differentialDiagnosis")} icon={<Activity className="w-5 h-5 text-primary" />} items={page.differentialDiagnosis} itemIcon="arrow" />
 
-          <NpListSection title="Recommended Workup" icon={<FlaskConical className="w-5 h-5 text-primary" />} items={page.recommendedWorkup} />
+          <NpListSection title={t("pages.npExamContentHub.recommendedWorkup")} icon={<FlaskConical className="w-5 h-5 text-primary" />} items={page.recommendedWorkup} />
 
           <section className="bg-red-50 rounded-2xl border border-red-200 p-6 md:p-8" data-testid="section-red-flags">
             <div className="flex items-center gap-3 mb-4">
               <AlertTriangle className="w-5 h-5 text-red-600" />
-              <h2 className="text-xl font-bold text-gray-900">Red Flags</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.redFlags")}</h2>
             </div>
             <ul className="space-y-2">
               {page.redFlags.map((item, i) => (
@@ -449,29 +451,29 @@ export function NpExamConditionTemplate() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6" data-testid="section-first-line-management">
-              <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-emerald-500" /> First-Line Management</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-emerald-500" /> {t("pages.npExamContentHub.firstlineManagement")}</h2>
               <ul className="space-y-2">
                 {page.firstLineManagement.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 mt-1.5" />{item}</li>)}
               </ul>
             </section>
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6" data-testid="section-second-line-management">
-              <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2"><ArrowRight className="w-5 h-5 text-blue-500" /> Second-Line Management</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2"><ArrowRight className="w-5 h-5 text-blue-500" /> {t("pages.npExamContentHub.secondlineManagement")}</h2>
               <ul className="space-y-2">
                 {page.secondLineManagement.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0 mt-1.5" />{item}</li>)}
               </ul>
             </section>
           </div>
 
-          <NpListSection title="Prescribing Pearls" icon={<Pill className="w-5 h-5 text-primary" />} items={page.prescribingPearls} itemIcon="star" />
+          <NpListSection title={t("pages.npExamContentHub.prescribingPearls")} icon={<Pill className="w-5 h-5 text-primary" />} items={page.prescribingPearls} itemIcon="star" />
 
-          <NpListSection title="Patient Counseling" icon={<Heart className="w-5 h-5 text-primary" />} items={page.patientCounseling} itemIcon="file" />
+          <NpListSection title={t("pages.npExamContentHub.patientCounseling")} icon={<Heart className="w-5 h-5 text-primary" />} items={page.patientCounseling} itemIcon="file" />
 
-          <NpListSection title="Follow-Up Considerations" icon={<ClipboardList className="w-5 h-5 text-primary" />} items={page.followUpConsiderations} />
+          <NpListSection title={t("pages.npExamContentHub.followupConsiderations")} icon={<ClipboardList className="w-5 h-5 text-primary" />} items={page.followUpConsiderations} />
 
           <section className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-2xl p-6 md:p-8" data-testid="section-board-exam-pearls">
             <div className="flex items-center gap-3 mb-4">
               <Lightbulb className="w-5 h-5 text-amber-600" />
-              <h2 className="text-xl font-bold text-gray-900">NP Board Exam Pearls</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.npBoardExamPearls")}</h2>
             </div>
             <ul className="space-y-2">
               {page.boardExamPearls.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><span className="text-amber-500 font-bold shrink-0">★</span>{item}</li>)}
@@ -484,7 +486,7 @@ export function NpExamConditionTemplate() {
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.practiceQuestions2")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <NpPracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -496,7 +498,7 @@ export function NpExamConditionTemplate() {
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.frequentlyAskedQuestions2")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <NpFAQBlock key={i} faq={faq} index={i} />)}
@@ -557,7 +559,7 @@ export function NpExamMedicationTemplate() {
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <Pill className="w-6 h-6 text-[#BFA6F6]" />
               </div>
-              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">NP Pharmacology</span>
+              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">{t("pages.npExamContentHub.npPharmacology")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-2 leading-tight" data-testid="text-medication-title">{page.className}</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.metaDescription}</p>
@@ -568,7 +570,7 @@ export function NpExamMedicationTemplate() {
           <NpCTABanner variant="default" />
 
           <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-mechanism">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Mechanism of Action</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.npExamContentHub.mechanismOfAction")}</h2>
             <p className="text-gray-600 leading-relaxed">{page.mechanism}</p>
           </section>
 
@@ -576,15 +578,15 @@ export function NpExamMedicationTemplate() {
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-key-drugs">
               <div className="flex items-center gap-3 mb-4">
                 <Pill className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Key Drugs & Dosing</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.keyDrugsDosing")}</h2>
               </div>
               <div className="space-y-4">
                 {page.keyDrugs.map((drug, i) => (
                   <div key={i} className="border border-gray-100 rounded-lg p-4" data-testid={`key-drug-${i}`}>
                     <h3 className="font-semibold text-gray-900 mb-2">{drug.name}</h3>
                     <div className="grid grid-cols-2 gap-2 text-sm mb-2">
-                      <div><span className="text-gray-500">Start:</span> <span className="font-mono text-gray-700">{drug.startDose}</span></div>
-                      <div><span className="text-gray-500">Max:</span> <span className="font-mono text-gray-700">{drug.maxDose}</span></div>
+                      <div><span className="text-gray-500">{t("pages.npExamContentHub.start")}</span> <span className="font-mono text-gray-700">{drug.startDose}</span></div>
+                      <div><span className="text-gray-500">{t("pages.npExamContentHub.max")}</span> <span className="font-mono text-gray-700">{drug.maxDose}</span></div>
                     </div>
                     <p className="text-sm text-gray-600">{drug.notes}</p>
                   </div>
@@ -593,35 +595,35 @@ export function NpExamMedicationTemplate() {
             </section>
           )}
 
-          <NpListSection title="Indications" icon={<CheckCircle2 className="w-5 h-5 text-emerald-500" />} items={page.indications} />
+          <NpListSection title={t("pages.npExamContentHub.indications")} icon={<CheckCircle2 className="w-5 h-5 text-emerald-500" />} items={page.indications} />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6" data-testid="section-contraindications">
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Contraindications</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-3">{t("pages.npExamContentHub.contraindications")}</h2>
               <ul className="space-y-2">
                 {page.contraindications.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><XCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />{item}</li>)}
               </ul>
             </section>
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6" data-testid="section-drug-interactions">
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Drug Interactions</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-3">{t("pages.npExamContentHub.drugInteractions")}</h2>
               <ul className="space-y-2">
                 {page.drugInteractions.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><AlertTriangle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />{item}</li>)}
               </ul>
             </section>
           </div>
 
-          <NpListSection title="Monitoring Parameters" icon={<Activity className="w-5 h-5 text-blue-500" />} items={page.monitoringParameters} />
+          <NpListSection title={t("pages.npExamContentHub.monitoringParameters")} icon={<Activity className="w-5 h-5 text-blue-500" />} items={page.monitoringParameters} />
 
-          <NpListSection title="Dosing Considerations" icon={<ClipboardList className="w-5 h-5 text-primary" />} items={page.dosingConsiderations} />
+          <NpListSection title={t("pages.npExamContentHub.dosingConsiderations")} icon={<ClipboardList className="w-5 h-5 text-primary" />} items={page.dosingConsiderations} />
 
-          <NpListSection title="When to Switch Therapy" icon={<ArrowRight className="w-5 h-5 text-primary" />} items={page.whenToSwitchTherapy} itemIcon="arrow" />
+          <NpListSection title={t("pages.npExamContentHub.whenToSwitchTherapy")} icon={<ArrowRight className="w-5 h-5 text-primary" />} items={page.whenToSwitchTherapy} itemIcon="arrow" />
 
-          <NpListSection title="Patient Counseling" icon={<Heart className="w-5 h-5 text-primary" />} items={page.patientCounseling} itemIcon="file" />
+          <NpListSection title={t("pages.npExamContentHub.patientCounseling2")} icon={<Heart className="w-5 h-5 text-primary" />} items={page.patientCounseling} itemIcon="file" />
 
           <section className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-2xl p-6 md:p-8" data-testid="section-board-exam-tips">
             <div className="flex items-center gap-3 mb-4">
               <Lightbulb className="w-5 h-5 text-amber-600" />
-              <h2 className="text-xl font-bold text-gray-900">NP Board Exam Tips</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.npBoardExamTips")}</h2>
             </div>
             <ul className="space-y-2">
               {page.boardExamTips.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><span className="text-amber-500 font-bold shrink-0">★</span>{item}</li>)}
@@ -634,7 +636,7 @@ export function NpExamMedicationTemplate() {
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.practiceQuestions3")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <NpPracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -646,7 +648,7 @@ export function NpExamMedicationTemplate() {
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.frequentlyAskedQuestions3")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <NpFAQBlock key={i} faq={faq} index={i} />)}
@@ -706,7 +708,7 @@ export function NpExamLabValueTemplate() {
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <FlaskConical className="w-6 h-6 text-[#BFA6F6]" />
               </div>
-              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">NP Lab Reference</span>
+              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">{t("pages.npExamContentHub.npLabReference")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-lab-value-title">{page.fullName} — NP Board Exam Guide</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.orderingRationale}</p>
@@ -720,7 +722,7 @@ export function NpExamLabValueTemplate() {
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-components">
               <div className="flex items-center gap-3 mb-6">
                 <Activity className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Components & Normal Ranges</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.componentsNormalRanges")}</h2>
               </div>
               <div className="space-y-3">
                 {page.components.map((comp, i) => (
@@ -735,7 +737,7 @@ export function NpExamLabValueTemplate() {
 
           {page.interpretation.length > 0 && (
             <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8" data-testid="section-interpretation">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Clinical Interpretation</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.npExamContentHub.clinicalInterpretation")}</h2>
               <div className="space-y-4">
                 {page.interpretation.map((item, i) => (
                   <div key={i} className="border-l-4 border-primary/30 pl-4 py-2" data-testid={`interpretation-${i}`}>
@@ -748,16 +750,16 @@ export function NpExamLabValueTemplate() {
             </section>
           )}
 
-          <NpListSection title="When to Repeat" icon={<ClipboardList className="w-5 h-5 text-primary" />} items={page.whenToRepeat} />
+          <NpListSection title={t("pages.npExamContentHub.whenToRepeat")} icon={<ClipboardList className="w-5 h-5 text-primary" />} items={page.whenToRepeat} />
 
-          <NpListSection title="Associated Differentials" icon={<Stethoscope className="w-5 h-5 text-primary" />} items={page.associatedDifferentials} itemIcon="arrow" />
+          <NpListSection title={t("pages.npExamContentHub.associatedDifferentials")} icon={<Stethoscope className="w-5 h-5 text-primary" />} items={page.associatedDifferentials} itemIcon="arrow" />
 
-          <NpListSection title="Management Implications" icon={<Heart className="w-5 h-5 text-primary" />} items={page.managementImplications} />
+          <NpListSection title={t("pages.npExamContentHub.managementImplications")} icon={<Heart className="w-5 h-5 text-primary" />} items={page.managementImplications} />
 
           <section className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-2xl p-6 md:p-8" data-testid="section-board-exam-pearls">
             <div className="flex items-center gap-3 mb-4">
               <Lightbulb className="w-5 h-5 text-amber-600" />
-              <h2 className="text-xl font-bold text-gray-900">NP Board Exam Pearls</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.npBoardExamPearls2")}</h2>
             </div>
             <ul className="space-y-2">
               {page.boardExamPearls.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><span className="text-amber-500 font-bold shrink-0">★</span>{item}</li>)}
@@ -770,7 +772,7 @@ export function NpExamLabValueTemplate() {
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.practiceQuestions4")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <NpPracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -782,7 +784,7 @@ export function NpExamLabValueTemplate() {
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.frequentlyAskedQuestions4")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <NpFAQBlock key={i} faq={faq} index={i} />)}
@@ -841,7 +843,7 @@ export function NpExamComparisonTemplate() {
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <Scale className="w-6 h-6 text-[#BFA6F6]" />
               </div>
-              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">NP Clinical Comparison</span>
+              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">{t("pages.npExamContentHub.npClinicalComparison")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-comparison-title">{page.h1}</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.introText}</p>
@@ -856,7 +858,7 @@ export function NpExamComparisonTemplate() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-200">
-                    <th className="text-left px-4 py-3 font-semibold text-gray-600 w-1/4">Feature</th>
+                    <th className="text-left px-4 py-3 font-semibold text-gray-600 w-1/4">{t("pages.npExamContentHub.feature")}</th>
                     <th className="text-left px-4 py-3 font-semibold text-blue-700 w-[37.5%]">{page.entityA.name}</th>
                     <th className="text-left px-4 py-3 font-semibold text-purple-700 w-[37.5%]">{page.entityB.name}</th>
                   </tr>
@@ -874,14 +876,14 @@ export function NpExamComparisonTemplate() {
             </div>
           </section>
 
-          <NpListSection title="Diagnostic Differences" icon={<FlaskConical className="w-5 h-5 text-primary" />} items={page.diagnosticDifferences} itemIcon="arrow" />
+          <NpListSection title={t("pages.npExamContentHub.diagnosticDifferences")} icon={<FlaskConical className="w-5 h-5 text-primary" />} items={page.diagnosticDifferences} itemIcon="arrow" />
 
-          <NpListSection title="Management Differences" icon={<ClipboardList className="w-5 h-5 text-primary" />} items={page.managementDifferences} itemIcon="arrow" />
+          <NpListSection title={t("pages.npExamContentHub.managementDifferences")} icon={<ClipboardList className="w-5 h-5 text-primary" />} items={page.managementDifferences} itemIcon="arrow" />
 
           <section className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-2xl p-6 md:p-8" data-testid="section-clinical-pearls">
             <div className="flex items-center gap-3 mb-4">
               <Lightbulb className="w-5 h-5 text-amber-600" />
-              <h2 className="text-xl font-bold text-gray-900">Clinical Pearls</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.clinicalPearls")}</h2>
             </div>
             <ul className="space-y-2">
               {page.clinicalPearls.map((item, i) => <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><span className="text-amber-500 font-bold shrink-0">★</span>{item}</li>)}
@@ -894,7 +896,7 @@ export function NpExamComparisonTemplate() {
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.practiceQuestions5")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <NpPracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -906,7 +908,7 @@ export function NpExamComparisonTemplate() {
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.frequentlyAskedQuestions5")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <NpFAQBlock key={i} faq={faq} index={i} />)}
@@ -965,7 +967,7 @@ export function NpExamStrategyTemplate() {
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <GraduationCap className="w-6 h-6 text-[#BFA6F6]" />
               </div>
-              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">NP Exam Strategy</span>
+              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">{t("pages.npExamContentHub.npExamStrategy")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-strategy-title">{page.h1}</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.introText}</p>
@@ -981,7 +983,7 @@ export function NpExamStrategyTemplate() {
               <p className="text-gray-600 leading-relaxed mb-4">{section.content}</p>
               {section.tips && section.tips.length > 0 && (
                 <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
-                  <h3 className="font-semibold text-gray-800 text-sm mb-2">Key Tips:</h3>
+                  <h3 className="font-semibold text-gray-800 text-sm mb-2">{t("pages.npExamContentHub.keyTips")}</h3>
                   <ul className="space-y-1">
                     {section.tips.map((tip, j) => (
                       <li key={j} className="text-sm text-gray-600 flex items-start gap-2">
@@ -1001,7 +1003,7 @@ export function NpExamStrategyTemplate() {
             <section data-testid="section-practice-questions">
               <div className="flex items-center gap-3 mb-6">
                 <Target className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Practice Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.practiceQuestions6")}</h2>
               </div>
               <div className="space-y-4">
                 {page.practiceQuestions.map((q, i) => <NpPracticeQuestionBlock key={i} question={q} index={i} />)}
@@ -1013,7 +1015,7 @@ export function NpExamStrategyTemplate() {
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.frequentlyAskedQuestions6")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <NpFAQBlock key={i} faq={faq} index={i} />)}
@@ -1073,7 +1075,7 @@ export function NpExamCaseStudyTemplate() {
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <Stethoscope className="w-6 h-6 text-[#BFA6F6]" />
               </div>
-              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">NP Case Study</span>
+              <span className="text-[#BFA6F6] text-sm font-semibold uppercase tracking-wider">{t("pages.npExamContentHub.npCaseStudy")}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight" data-testid="text-case-study-title">{page.h1}</h1>
             <p className="text-gray-300 text-lg leading-relaxed max-w-3xl">{page.introText}</p>
@@ -1091,7 +1093,7 @@ export function NpExamCaseStudyTemplate() {
             <section className="bg-gray-50 rounded-2xl border border-gray-200 p-6 md:p-8" data-testid="section-premium-teasers">
               <div className="flex items-center gap-3 mb-4">
                 <Lock className="w-5 h-5 text-gray-400" />
-                <h2 className="text-xl font-bold text-gray-900">More Case Studies Available</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.moreCaseStudiesAvailable")}</h2>
               </div>
               <ul className="space-y-2 mb-4">
                 {page.premiumTeasers.map((teaser, i) => (
@@ -1115,7 +1117,7 @@ export function NpExamCaseStudyTemplate() {
             <section data-testid="section-faqs">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="w-5 h-5 text-primary" />
-                <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+                <h2 className="text-xl font-bold text-gray-900">{t("pages.npExamContentHub.frequentlyAskedQuestions7")}</h2>
               </div>
               <div className="space-y-3">
                 {page.faqs.map((faq, i) => <NpFAQBlock key={i} faq={faq} index={i} />)}
@@ -1144,7 +1146,7 @@ function CaseScenarioBlock({ scenario, index }: { scenario: { title: string; pre
         <p className="text-sm text-gray-400 blur-[2px]">{scenario.presentation.substring(0, 100)}...</p>
         <div className="relative z-20 flex flex-col items-center justify-center py-6">
           <Lock className="w-8 h-8 text-gray-400 mb-3" />
-          <p className="text-gray-600 font-semibold text-sm mb-2">Premium Case Study</p>
+          <p className="text-gray-600 font-semibold text-sm mb-2">{t("pages.npExamContentHub.premiumCaseStudy")}</p>
           <LocaleLink href="/pricing">
             <Button size="sm" className="bg-primary hover:bg-primary/90" data-testid={`button-unlock-case-${index}`}>
               Unlock <ArrowRight className="w-4 h-4 ml-1" />

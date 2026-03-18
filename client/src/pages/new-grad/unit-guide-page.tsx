@@ -9,7 +9,9 @@ import { LeadCaptureInline } from "@/components/new-grad/lead-capture";
 import { UNIT_GUIDES, NEW_GRAD_PROFESSIONS } from "@shared/new-grad-professions";
 import { ChevronRight, BookOpen, CheckCircle2, ArrowRight } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 export default function UnitGuidePage() {
+  const { t } = useI18n();
   const params = useParams<{ unit: string }>();
   const unit = UNIT_GUIDES[params.unit || ""];
 
@@ -28,8 +30,8 @@ export default function UnitGuidePage() {
         <Navigation />
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-unit-not-found">Unit Guide Not Found</h1>
-            <Link href="/new-grad" className="text-blue-600 hover:underline">Back to New Grad Hub</Link>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-unit-not-found">{t("pages.newGrad.unitGuidePage.unitGuideNotFound")}</h1>
+            <Link href="/new-grad" className="text-blue-600 hover:underline">{t("pages.newGrad.unitGuidePage.backToNewGradHub")}</Link>
           </div>
         </div>
         <Footer />
@@ -65,9 +67,9 @@ export default function UnitGuidePage() {
       <section className="relative py-16 sm:py-20 overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50/50 to-white" data-testid="section-unit-hero">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.newGrad.unitGuidePage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/new-grad" className="hover:text-blue-600">New Grad Hub</Link>
+            <Link href="/new-grad" className="hover:text-blue-600">{t("pages.newGrad.unitGuidePage.newGradHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-emerald-700 font-medium">{unit.name}</span>
           </div>
@@ -95,15 +97,15 @@ export default function UnitGuidePage() {
             </div>
           ) : (
             <div className="bg-white rounded-2xl border border-gray-200 p-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">What to Expect</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.newGrad.unitGuidePage.whatToExpect")}</h2>
               <p className="text-gray-600 mb-6">{unit.description}</p>
               <div className="bg-emerald-50 rounded-xl p-6">
-                <h3 className="font-semibold text-gray-900 mb-3">Preparation Checklist</h3>
+                <h3 className="font-semibold text-gray-900 mb-3">{t("pages.newGrad.unitGuidePage.preparationChecklist")}</h3>
                 <ul className="space-y-2">
-                  <li className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-emerald-500" />Research common diagnoses and procedures on this unit</li>
-                  <li className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-emerald-500" />Review relevant medications and their side effects</li>
-                  <li className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-emerald-500" />Learn unit-specific protocols and documentation requirements</li>
-                  <li className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-emerald-500" />Connect with experienced staff for mentorship</li>
+                  <li className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-emerald-500" />{t("pages.newGrad.unitGuidePage.researchCommonDiagnosesAndProcedures")}</li>
+                  <li className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-emerald-500" />{t("pages.newGrad.unitGuidePage.reviewRelevantMedicationsAndTheir")}</li>
+                  <li className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-emerald-500" />{t("pages.newGrad.unitGuidePage.learnUnitspecificProtocolsAndDocumentation")}</li>
+                  <li className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-emerald-500" />{t("pages.newGrad.unitGuidePage.connectWithExperiencedStaffFor")}</li>
                 </ul>
               </div>
             </div>
@@ -114,7 +116,7 @@ export default function UnitGuidePage() {
       {relatedProfessions.length > 0 && (
         <section className="py-16 bg-gray-50" data-testid="section-unit-professions">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Related Profession Hubs</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.newGrad.unitGuidePage.relatedProfessionHubs")}</h2>
             <div className="flex flex-wrap gap-3">
               {relatedProfessions.map(p => (
                 <Link key={p.slug} href={`/new-grad/${p.slug}`} className="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-200 hover:border-emerald-300 transition-colors" data-testid={`link-profession-${p.slug}`}>

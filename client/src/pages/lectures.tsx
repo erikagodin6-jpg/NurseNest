@@ -10,12 +10,14 @@ import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
+import { useI18n } from "@/lib/i18n";
 export default function LecturesPage() {
+  const { t } = useI18n();
   return (
     <>
       <SEO
-        title="Micro-Lectures | NurseNest"
-        description="Interactive slide-based micro-lectures covering key nursing topics. Visual learning with voiceover scripts, flashcards, and clinical pearls."
+        title={t("pages.lectures.microlecturesNursenest")}
+        description={t("pages.lectures.interactiveSlidebasedMicrolecturesCoveringKe")}
       />
       <Navigation />
       <main className="min-h-screen bg-gradient-to-b from-primary/5 to-background">
@@ -41,8 +43,8 @@ export default function LecturesPage() {
             <Card className="text-center py-12">
               <CardContent>
                 <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                <h2 className="text-lg font-semibold mb-2">Coming Soon</h2>
-                <p className="text-muted-foreground">Micro-lectures are being developed. Check back soon!</p>
+                <h2 className="text-lg font-semibold mb-2">{t("pages.lectures.comingSoon")}</h2>
+                <p className="text-muted-foreground">{t("pages.lectures.microlecturesAreBeingDevelopedCheck")}</p>
               </CardContent>
             </Card>
           ) : (

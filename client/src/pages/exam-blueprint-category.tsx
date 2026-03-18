@@ -33,6 +33,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
 
+import { useI18n } from "@/lib/i18n";
 const CATEGORY_TO_BODY_SYSTEM: Record<string, string[]> = {
   "rexpn-foundations-of-practice": ["Cardiovascular", "Respiratory", "Neurological", "Gastrointestinal", "Endocrine", "Renal", "Pharmacology"],
   "rexpn-collaborative-practice": ["Assessment", "Leadership"],
@@ -61,6 +62,7 @@ const CATEGORY_TO_BODY_SYSTEM: Record<string, string[]> = {
 };
 
 function getCategoryQuestionStats(categorySlug: string) {
+
   const systems = CATEGORY_TO_BODY_SYSTEM[categorySlug] || [];
   const baseCount = 25 + (categorySlug.length % 30) * 3;
   const questionCount = systems.length > 0 ? baseCount * systems.length : baseCount;
@@ -123,10 +125,10 @@ function CategoryNotFound() {
     <div className="min-h-screen bg-background">
       <Navigation />
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-[#2E3A59] mb-4" data-testid="text-category-not-found">Category Not Found</h1>
-        <p className="text-gray-600 mb-6">The exam category page you are looking for is not available.</p>
+        <h1 className="text-2xl font-bold text-[#2E3A59] mb-4" data-testid="text-category-not-found">{t("pages.examBlueprintCategory.categoryNotFound")}</h1>
+        <p className="text-gray-600 mb-6">{t("pages.examBlueprintCategory.theExamCategoryPageYou")}</p>
         <LocaleLink href="/">
-          <Button data-testid="button-category-go-home">Return Home</Button>
+          <Button data-testid="button-category-go-home">{t("pages.examBlueprintCategory.returnHome")}</Button>
         </LocaleLink>
       </div>
       <Footer />
@@ -297,33 +299,33 @@ export default function ExamBlueprintCategory() {
               <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
                 <BarChart3 className="w-5 h-5 text-indigo-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Question Bank Overview</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.examBlueprintCategory.questionBankOverview")}</h2>
             </div>
             <Card>
               <CardContent className="p-6">
                 <div className="grid sm:grid-cols-2 gap-6 mb-6">
                   <div className="text-center p-4 bg-indigo-50/50 rounded-xl" data-testid="text-category-question-count">
                     <p className="text-3xl font-bold text-indigo-600">{questionStats.totalQuestions}+</p>
-                    <p className="text-sm text-gray-600 mt-1">Practice Questions</p>
+                    <p className="text-sm text-gray-600 mt-1">{t("pages.examBlueprintCategory.practiceQuestions")}</p>
                   </div>
                   <div className="text-center p-4 bg-emerald-50/50 rounded-xl" data-testid="text-category-system-count">
                     <p className="text-3xl font-bold text-emerald-600">{questionStats.systems.length}</p>
-                    <p className="text-sm text-gray-600 mt-1">Body Systems Covered</p>
+                    <p className="text-sm text-gray-600 mt-1">{t("pages.examBlueprintCategory.bodySystemsCovered")}</p>
                   </div>
                 </div>
 
                 <div className="mb-6">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-3">Difficulty Distribution</h3>
+                  <h3 className="text-sm font-semibold text-gray-700 mb-3">{t("pages.examBlueprintCategory.difficultyDistribution")}</h3>
                   <div className="space-y-3" data-testid="section-difficulty-distribution">
-                    <DifficultyBar label="Easy" percentage={questionStats.difficulty.easy} color="bg-emerald-400" />
-                    <DifficultyBar label="Moderate" percentage={questionStats.difficulty.moderate} color="bg-amber-400" />
-                    <DifficultyBar label="Hard" percentage={questionStats.difficulty.hard} color="bg-red-400" />
+                    <DifficultyBar label={t("pages.examBlueprintCategory.easy")} percentage={questionStats.difficulty.easy} color="bg-emerald-400" />
+                    <DifficultyBar label={t("pages.examBlueprintCategory.moderate")} percentage={questionStats.difficulty.moderate} color="bg-amber-400" />
+                    <DifficultyBar label={t("pages.examBlueprintCategory.hard")} percentage={questionStats.difficulty.hard} color="bg-red-400" />
                   </div>
                 </div>
 
                 {questionStats.systems.length > 0 && (
                   <div className="mb-6">
-                    <h3 className="text-sm font-semibold text-gray-700 mb-3">Related Body Systems</h3>
+                    <h3 className="text-sm font-semibold text-gray-700 mb-3">{t("pages.examBlueprintCategory.relatedBodySystems")}</h3>
                     <div className="flex flex-wrap gap-2" data-testid="section-related-systems">
                       {questionStats.systems.map((system) => (
                         <Badge key={system} variant="outline" className="text-xs border-gray-200 text-gray-600">
@@ -350,7 +352,7 @@ export default function ExamBlueprintCategory() {
             <div className="w-10 h-10 rounded-xl bg-[#BFA6F6]/10 flex items-center justify-center">
               <Target className="w-5 h-5 text-[#BFA6F6]" />
             </div>
-            <h2 className="text-2xl font-bold text-[#2E3A59]">Topics Covered</h2>
+            <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.examBlueprintCategory.topicsCovered")}</h2>
           </div>
           <Card>
             <CardContent className="p-6">
@@ -371,18 +373,18 @@ export default function ExamBlueprintCategory() {
             <div className="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center">
               <BookOpen className="w-5 h-5 text-sky-500" />
             </div>
-            <h2 className="text-2xl font-bold text-[#2E3A59]">Study Resources</h2>
+            <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.examBlueprintCategory.studyResources")}</h2>
           </div>
 
           <LinkSection
-            title="Study Guides"
+            title={t("pages.examBlueprintCategory.studyGuides")}
             icon={GraduationCap}
             links={categoryData.guideLinks}
             testIdPrefix="link-guide"
           />
 
           <LinkSection
-            title="Practice Questions"
+            title={t("pages.examBlueprintCategory.practiceQuestions2")}
             icon={FileText}
             links={categoryData.previewQuestionLinks}
             testIdPrefix="link-preview-question"
@@ -390,7 +392,7 @@ export default function ExamBlueprintCategory() {
           />
 
           <LinkSection
-            title="Flashcard Decks"
+            title={t("pages.examBlueprintCategory.flashcardDecks")}
             icon={Layers}
             links={categoryData.flashcardLinks}
             testIdPrefix="link-flashcard"
@@ -398,7 +400,7 @@ export default function ExamBlueprintCategory() {
           />
 
           <LinkSection
-            title="Related Lessons"
+            title={t("pages.examBlueprintCategory.relatedLessons")}
             icon={BookOpen}
             links={categoryData.lessonLinks}
             testIdPrefix="link-lesson"
@@ -436,7 +438,7 @@ export default function ExamBlueprintCategory() {
               <div className="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center">
                 <HelpCircle className="w-5 h-5 text-sky-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Frequently Asked Questions</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.examBlueprintCategory.frequentlyAskedQuestions")}</h2>
             </div>
             <FAQAccordion faqItems={categoryData.faqItems} prefix="category" />
           </section>

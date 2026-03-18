@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { ZoomIn, ZoomOut, Maximize2, RotateCcw, X, Loader2 } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface LabImageViewerProps {
   src: string;
   alt?: string;
@@ -26,6 +27,7 @@ export function LabImageViewer({
   onLoad,
   onClick,
 }: LabImageViewerProps) {
+  const { t } = useI18n();
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -120,7 +122,7 @@ export function LabImageViewer({
         <div className="absolute inset-0 flex items-center justify-center z-10" data-testid="lab-image-loading">
           <div className="flex flex-col items-center gap-2 text-gray-400">
             <Loader2 className="w-8 h-8 animate-spin" />
-            <span className="text-xs">Loading image...</span>
+            <span className="text-xs">{t("allied.labImageViewer.loadingImage")}</span>
           </div>
         </div>
       )}
@@ -130,8 +132,8 @@ export function LabImageViewer({
             <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-gray-200 flex items-center justify-center">
               <X className="w-6 h-6" />
             </div>
-            <p className="text-sm">Image unavailable</p>
-            <p className="text-xs mt-1">This image has not been uploaded yet</p>
+            <p className="text-sm">{t("allied.labImageViewer.imageUnavailable")}</p>
+            <p className="text-xs mt-1">{t("allied.labImageViewer.thisImageHasNotBeen")}</p>
           </div>
         </div>
       ) : (
@@ -150,18 +152,18 @@ export function LabImageViewer({
       )}
       {showControls && allowZoom && !hasError && !isLoading && (
         <div className="absolute bottom-2 right-2 flex gap-1 bg-black/60 rounded-lg p-1 z-20" data-testid="lab-image-controls">
-          <button onClick={handleZoomOut} className="p-1 text-white hover:bg-white/20 rounded" title="Zoom out" data-testid="button-zoom-out">
+          <button onClick={handleZoomOut} className="p-1 text-white hover:bg-white/20 rounded" title={t("allied.labImageViewer.zoomOut")} data-testid="button-zoom-out">
             <ZoomOut className="w-4 h-4" />
           </button>
           <span className="text-white text-xs flex items-center px-1 min-w-[2rem] justify-center">{Math.round(zoom * 100)}%</span>
-          <button onClick={handleZoomIn} className="p-1 text-white hover:bg-white/20 rounded" title="Zoom in" data-testid="button-zoom-in">
+          <button onClick={handleZoomIn} className="p-1 text-white hover:bg-white/20 rounded" title={t("allied.labImageViewer.zoomIn")} data-testid="button-zoom-in">
             <ZoomIn className="w-4 h-4" />
           </button>
-          <button onClick={handleReset} className="p-1 text-white hover:bg-white/20 rounded" title="Reset" data-testid="button-zoom-reset">
+          <button onClick={handleReset} className="p-1 text-white hover:bg-white/20 rounded" title={t("allied.labImageViewer.reset")} data-testid="button-zoom-reset">
             <RotateCcw className="w-4 h-4" />
           </button>
           {!isFullscreen && (
-            <button onClick={() => setIsFullscreen(true)} className="p-1 text-white hover:bg-white/20 rounded" title="Fullscreen" data-testid="button-fullscreen">
+            <button onClick={() => setIsFullscreen(true)} className="p-1 text-white hover:bg-white/20 rounded" title={t("allied.labImageViewer.fullscreen")} data-testid="button-fullscreen">
               <Maximize2 className="w-4 h-4" />
             </button>
           )}

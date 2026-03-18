@@ -8,7 +8,9 @@ import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { Copy, Check, Gift, Users, Share2, ArrowRight } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 function getAuthHeaders(): Record<string, string> {
+
   try {
     const stored = localStorage.getItem("nursenest-user");
     if (stored) {
@@ -107,8 +109,8 @@ export default function ReferPage() {
           <Card className="w-full max-w-md border-none shadow-xl text-center">
             <CardContent className="pt-8 pb-8">
               <Gift className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h2 className="text-xl font-bold mb-2">Sign in to access your referral code</h2>
-              <p className="text-gray-500 text-sm mb-6">Beta testers and subscribers can share their referral code to give friends 15% off.</p>
+              <h2 className="text-xl font-bold mb-2">{t("pages.refer.signInToAccessYour")}</h2>
+              <p className="text-gray-500 text-sm mb-6">{t("pages.refer.betaTestersAndSubscribersCan")}</p>
               <Button onClick={() => navigate("/login")} className="w-full" data-testid="button-refer-login">
                 Sign In <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
@@ -129,14 +131,14 @@ export default function ReferPage() {
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <Gift className="w-8 h-8 text-primary" />
             </div>
-            <h1 className="text-3xl font-bold" data-testid="text-refer-heading">Refer a Friend</h1>
-            <p className="text-gray-500 mt-2">Share your referral code and give your friends 15% off their subscription.</p>
+            <h1 className="text-3xl font-bold" data-testid="text-refer-heading">{t("pages.refer.referAFriend")}</h1>
+            <p className="text-gray-500 mt-2">{t("pages.refer.shareYourReferralCodeAnd")}</p>
           </div>
 
           {loading ? (
             <Card className="border-none shadow-lg">
               <CardContent className="py-12 text-center">
-                <div className="animate-pulse text-gray-400">Loading your referral info...</div>
+                <div className="animate-pulse text-gray-400">{t("pages.refer.loadingYourReferralInfo")}</div>
               </CardContent>
             </Card>
           ) : referralCode ? (
@@ -159,7 +161,7 @@ export default function ReferPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <p className="text-sm text-gray-500 font-medium">Share Link</p>
+                    <p className="text-sm text-gray-500 font-medium">{t("pages.refer.shareLink")}</p>
                     <div className="flex items-center gap-3">
                       <div className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-600 truncate" data-testid="text-referral-link">
                         {getShareLink()}
@@ -183,15 +185,15 @@ export default function ReferPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="bg-primary/5 rounded-xl p-5 text-center">
                       <div className="text-3xl font-bold text-primary" data-testid="text-referral-count">{referralUses}</div>
-                      <div className="text-sm text-gray-500 mt-1">Friends Referred</div>
+                      <div className="text-sm text-gray-500 mt-1">{t("pages.refer.friendsReferred")}</div>
                     </div>
                     <div className="bg-green-50 rounded-xl p-5 text-center">
                       <div className="text-3xl font-bold text-green-600">15%</div>
-                      <div className="text-sm text-gray-500 mt-1">Discount for Each Friend</div>
+                      <div className="text-sm text-gray-500 mt-1">{t("pages.refer.discountForEachFriend")}</div>
                     </div>
                     <div className="bg-blue-50 rounded-xl p-5 text-center">
                       <div className="text-3xl font-bold text-blue-600" data-testid="text-referral-days">{referralUses * 7}</div>
-                      <div className="text-sm text-gray-500 mt-1">Premium Days Earned</div>
+                      <div className="text-sm text-gray-500 mt-1">{t("pages.refer.premiumDaysEarned")}</div>
                     </div>
                   </div>
                 </CardContent>
@@ -199,31 +201,31 @@ export default function ReferPage() {
 
               <Card className="border-none shadow-lg bg-gradient-to-r from-primary/5 to-primary/10">
                 <CardContent className="py-6">
-                  <h3 className="font-semibold text-lg mb-3">How It Works</h3>
+                  <h3 className="font-semibold text-lg mb-3">{t("pages.refer.howItWorks")}</h3>
                   <div className="space-y-3 text-sm text-gray-600">
                     <div className="flex items-start gap-3">
                       <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
                         <span className="text-xs font-bold text-primary">1</span>
                       </div>
-                      <p>Share your referral code or link with friends who are studying for their nursing exams.</p>
+                      <p>{t("pages.refer.shareYourReferralCodeOr")}</p>
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
                         <span className="text-xs font-bold text-primary">2</span>
                       </div>
-                      <p>When they sign up using your code, it gets linked to their account.</p>
+                      <p>{t("pages.refer.whenTheySignUpUsing")}</p>
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
                         <span className="text-xs font-bold text-primary">3</span>
                       </div>
-                      <p>They receive 15% off their first subscription payment automatically at checkout.</p>
+                      <p>{t("pages.refer.theyReceive15OffTheir")}</p>
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
                         <span className="text-xs font-bold text-primary">4</span>
                       </div>
-                      <p>You receive 7 free days of premium access for each friend who signs up.</p>
+                      <p>{t("pages.refer.youReceive7FreeDays")}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -234,8 +236,8 @@ export default function ReferPage() {
               <CardContent className="py-8 text-center space-y-4">
                 <Gift className="w-12 h-12 text-gray-300 mx-auto" />
                 <div>
-                  <h3 className="font-semibold text-lg mb-1">Get Your Referral Code</h3>
-                  <p className="text-gray-500 text-sm">Beta testers and paid subscribers can generate a referral code to share with friends.</p>
+                  <h3 className="font-semibold text-lg mb-1">{t("pages.refer.getYourReferralCode")}</h3>
+                  <p className="text-gray-500 text-sm">{t("pages.refer.betaTestersAndPaidSubscribers")}</p>
                 </div>
                 <Button onClick={handleGenerate} disabled={generating} className="mx-auto" data-testid="button-generate-referral">
                   {generating ? "Generating..." : "Generate My Referral Code"}

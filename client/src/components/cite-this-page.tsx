@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import { useI18n } from "@/lib/i18n";
 import {
   generateAPA,
   generateMLA,
@@ -34,6 +35,7 @@ export function CiteThisPage({
   publishedDate,
   updatedDate,
 }: CiteThisPageProps) {
+  const { t } = useI18n();
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState("apa");
   const { toast } = useToast();
@@ -91,7 +93,7 @@ export function CiteThisPage({
       </DialogTrigger>
       <DialogContent className="sm:max-w-md" data-testid="dialog-cite-this-page">
         <DialogHeader>
-          <DialogTitle>Cite This Page</DialogTitle>
+          <DialogTitle>{t("components.citeThisPage.citeThisPage")}</DialogTitle>
           <DialogDescription>
             Select a citation format and copy it for your references.
           </DialogDescription>

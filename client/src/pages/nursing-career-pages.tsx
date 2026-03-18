@@ -1,5 +1,6 @@
 import { useParams, Link } from "wouter";
 import { Helmet } from "react-helmet-async";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, BookOpen, GraduationCap, DollarSign,
   Clock, Stethoscope, Award, CheckCircle2, MapPin, TrendingUp
@@ -134,6 +135,7 @@ const CAREER_TRACKS: Record<string, CareerTrackInfo> = {
 };
 
 export default function NursingCareerPage() {
+  const { t } = useI18n();
   const params = useParams<{ track: string }>();
   const track = params.track || "rpn";
   const info = CAREER_TRACKS[track];
@@ -141,8 +143,8 @@ export default function NursingCareerPage() {
   if (!info) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Career Track Not Found</h1>
-        <p className="text-gray-600 mb-4">The nursing career track you're looking for doesn't exist.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.nursingCareerPages.careerTrackNotFound")}</h1>
+        <p className="text-gray-600 mb-4">{t("pages.nursingCareerPages.theNursingCareerTrackYoure")}</p>
         <Link href="/" className="inline-block px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-home">
           Go Home
         </Link>
@@ -246,7 +248,7 @@ export default function NursingCareerPage() {
       <section className="bg-gradient-to-br from-teal-50 via-white to-blue-50 border-b border-gray-100 py-12 px-4" data-testid="section-career-hero">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-xs font-medium text-teal-600 bg-teal-50 px-2.5 py-1 rounded-full border border-teal-200">Career Guide</span>
+            <span className="text-xs font-medium text-teal-600 bg-teal-50 px-2.5 py-1 rounded-full border border-teal-200">{t("pages.nursingCareerPages.careerGuide")}</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3" data-testid="text-career-title">
             How to Become a {info.fullTitle}
@@ -255,22 +257,22 @@ export default function NursingCareerPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div className="bg-white rounded-xl border border-gray-200 p-4 text-center" data-testid="stat-education">
               <Clock className="w-5 h-5 text-teal-500 mx-auto mb-1" />
-              <p className="text-xs text-gray-500">Education</p>
+              <p className="text-xs text-gray-500">{t("pages.nursingCareerPages.education")}</p>
               <p className="text-sm font-bold text-gray-900">{info.educationLength}</p>
             </div>
             <div className="bg-white rounded-xl border border-gray-200 p-4 text-center" data-testid="stat-salary">
               <DollarSign className="w-5 h-5 text-green-500 mx-auto mb-1" />
-              <p className="text-xs text-gray-500">Salary Range</p>
+              <p className="text-xs text-gray-500">{t("pages.nursingCareerPages.salaryRange")}</p>
               <p className="text-sm font-bold text-gray-900">{info.salaryRange}</p>
             </div>
             <div className="bg-white rounded-xl border border-gray-200 p-4 text-center" data-testid="stat-exam">
               <Award className="w-5 h-5 text-purple-500 mx-auto mb-1" />
-              <p className="text-xs text-gray-500">Exam</p>
+              <p className="text-xs text-gray-500">{t("pages.nursingCareerPages.exam")}</p>
               <p className="text-sm font-bold text-gray-900">{info.examName}</p>
             </div>
             <div className="bg-white rounded-xl border border-gray-200 p-4 text-center" data-testid="stat-growth">
               <TrendingUp className="w-5 h-5 text-blue-500 mx-auto mb-1" />
-              <p className="text-xs text-gray-500">Job Growth</p>
+              <p className="text-xs text-gray-500">{t("pages.nursingCareerPages.jobGrowth")}</p>
               <p className="text-sm font-bold text-gray-900">{info.growthRate} (10-year)</p>
             </div>
           </div>
@@ -308,15 +310,15 @@ export default function NursingCareerPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6">{info.examInfo.name} Exam Details</h2>
           <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
             <div>
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Format</h3>
+              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">{t("pages.nursingCareerPages.format")}</h3>
               <p className="text-gray-700">{info.examInfo.format}</p>
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Passing Score</h3>
+              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">{t("pages.nursingCareerPages.passingScore")}</h3>
               <p className="text-gray-700">{info.examInfo.passingScore}</p>
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Content Areas</h3>
+              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">{t("pages.nursingCareerPages.contentAreas")}</h3>
               <ul className="space-y-1">
                 {info.examInfo.sections.map((s, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
@@ -328,7 +330,7 @@ export default function NursingCareerPage() {
             </div>
           </div>
           <div className="mt-6 bg-teal-50 rounded-xl border border-teal-200 p-5">
-            <h3 className="text-lg font-bold text-teal-800 mb-2">Prepare with NurseNest</h3>
+            <h3 className="text-lg font-bold text-teal-800 mb-2">{t("pages.nursingCareerPages.prepareWithNursenest")}</h3>
             <p className="text-sm text-teal-900 mb-4">NurseNest offers 1,200+ practice questions, clinical lessons, and adaptive exam simulations designed specifically for {info.examName} preparation.</p>
             <Link href={info.ctaPath} className="inline-flex items-center gap-2 px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-all" data-testid="button-exam-cta">
               Start Free Prep <ArrowRight className="w-4 h-4" />
@@ -341,7 +343,7 @@ export default function NursingCareerPage() {
         <div className="max-w-4xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8">
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Key Skills</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.nursingCareerPages.keySkills")}</h2>
               <ul className="space-y-2">
                 {info.skills.map((skill, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
@@ -352,7 +354,7 @@ export default function NursingCareerPage() {
               </ul>
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Work Settings</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.nursingCareerPages.workSettings")}</h2>
               <ul className="space-y-2">
                 {info.workSettings.map((setting, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
@@ -368,7 +370,7 @@ export default function NursingCareerPage() {
 
       <section className="py-10 px-4" data-testid="section-related-tracks">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Related Nursing Careers</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-6">{t("pages.nursingCareerPages.relatedNursingCareers")}</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {info.relatedTracks.map(rt => (
               <Link
@@ -395,22 +397,22 @@ export default function NursingCareerPage() {
             <Link href={`/${info.slug}/questions`} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-practice-questions">
               <GraduationCap className="w-5 h-5 text-teal-500" />
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">Practice Questions</h3>
-                <p className="text-xs text-gray-500">Topic-based exam prep</p>
+                <h3 className="text-sm font-semibold text-gray-900">{t("pages.nursingCareerPages.practiceQuestions")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingCareerPages.topicbasedExamPrep")}</p>
               </div>
             </Link>
             <Link href="/lessons" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-lessons">
               <BookOpen className="w-5 h-5 text-teal-500" />
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">Clinical Lessons</h3>
-                <p className="text-xs text-gray-500">200+ pathophysiology guides</p>
+                <h3 className="text-sm font-semibold text-gray-900">{t("pages.nursingCareerPages.clinicalLessons")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingCareerPages.200PathophysiologyGuides")}</p>
               </div>
             </Link>
             <Link href="/mock-exams" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-mock-exams">
               <Award className="w-5 h-5 text-teal-500" />
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">Mock Exams</h3>
-                <p className="text-xs text-gray-500">Timed exam simulations</p>
+                <h3 className="text-sm font-semibold text-gray-900">{t("pages.nursingCareerPages.mockExams")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingCareerPages.timedExamSimulations")}</p>
               </div>
             </Link>
           </div>

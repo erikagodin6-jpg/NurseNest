@@ -36,6 +36,7 @@ import {
 import { clinicalCases, type ClinicalCase, type CaseStage, type CaseDecision } from "@/data/clinical-cases";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
+import { useI18n } from "@/lib/i18n";
 const systemIcons: Record<string, any> = {
   Cardiovascular: Heart,
   Respiratory: Wind,
@@ -113,6 +114,7 @@ function CaseSelector({ onSelect }: { onSelect: (c: ClinicalCase) => void }) {
 }
 
 function VitalDisplay({ vitals }: { vitals: CaseStage["vitals"] }) {
+  const { t } = useI18n();
   const vitalItems = [
     { label: "HR", value: `${vitals.hr}`, unit: "bpm", icon: Heart, danger: vitals.hr > 110 || vitals.hr < 50 },
     { label: "BP", value: vitals.bp, unit: "mmHg", icon: Activity, danger: parseInt(vitals.bp) < 90 || parseInt(vitals.bp) > 160 },
@@ -194,7 +196,7 @@ function CaseRunner({ caseData, onExit }: { caseData: ClinicalCase; onExit: () =
     return (
       <div className="space-y-8">
         <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-bold text-gray-900">Case Debriefing</h2>
+          <h2 className="text-3xl font-bold text-gray-900">{t("pages.caseSimulation.caseDebriefing")}</h2>
           <div className="flex items-center gap-3">
             <span className="text-sm font-medium text-gray-500">
               Optimal decisions: {optimalCount}/{caseData.stages.length}
@@ -278,7 +280,7 @@ function CaseRunner({ caseData, onExit }: { caseData: ClinicalCase; onExit: () =
       </div>
 
       <div className="bg-white rounded-xl border border-gray-100 p-5 sm:p-6">
-        <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Patient Profile</p>
+        <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{t("pages.caseSimulation.patientProfile")}</p>
         <p className="text-sm text-gray-700 leading-relaxed">{caseData.patientProfile}</p>
       </div>
 
@@ -296,13 +298,13 @@ function CaseRunner({ caseData, onExit }: { caseData: ClinicalCase; onExit: () =
         </div>
 
         <div className="mb-6">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Vital Signs</p>
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">{t("pages.caseSimulation.vitalSigns")}</p>
           <VitalDisplay vitals={stage.vitals} />
         </div>
 
         {stage.labs && stage.labs.length > 0 && (
           <div className="mb-6">
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Laboratory Results</p>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">{t("pages.caseSimulation.laboratoryResults")}</p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {stage.labs.map((lab, i) => (
                 <div
@@ -326,7 +328,7 @@ function CaseRunner({ caseData, onExit }: { caseData: ClinicalCase; onExit: () =
 
         {stage.assessmentFindings && (
           <div className="mb-6">
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Assessment Findings</p>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">{t("pages.caseSimulation.assessmentFindings")}</p>
             <div className="space-y-2">
               {stage.assessmentFindings.map((f, i) => (
                 <div key={i} className="flex items-start gap-2 text-sm text-gray-700">
@@ -343,7 +345,7 @@ function CaseRunner({ caseData, onExit }: { caseData: ClinicalCase; onExit: () =
             <div className="flex items-start gap-2">
               <ShieldAlert className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-1">Nursing Priority</p>
+                <p className="text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-1">{t("pages.caseSimulation.nursingPriority")}</p>
                 <p className="text-sm text-blue-800 leading-relaxed">{stage.nursingPriority}</p>
               </div>
             </div>
@@ -351,7 +353,7 @@ function CaseRunner({ caseData, onExit }: { caseData: ClinicalCase; onExit: () =
         )}
 
         <div className="border-t border-gray-100 pt-6">
-          <p className="text-sm font-bold text-gray-900 mb-4">What is your next action?</p>
+          <p className="text-sm font-bold text-gray-900 mb-4">{t("pages.caseSimulation.whatIsYourNextAction")}</p>
           <div className="space-y-3">
             {stage.decisions.map((dec) => {
               const isSelected = selectedDecision === dec.id;
@@ -386,11 +388,11 @@ function CaseRunner({ caseData, onExit }: { caseData: ClinicalCase; onExit: () =
                       {isRevealed && (
                         <div className="mt-4 pt-4 border-t border-gray-100 space-y-3">
                           <div>
-                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Consequence</p>
+                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">{t("pages.caseSimulation.consequence")}</p>
                             <p className="text-sm text-gray-600 leading-relaxed">{dec.consequence}</p>
                           </div>
                           <div>
-                            <p className="text-[10px] font-bold text-primary uppercase tracking-wider mb-1">Mechanism Explanation</p>
+                            <p className="text-[10px] font-bold text-primary uppercase tracking-wider mb-1">{t("pages.caseSimulation.mechanismExplanation")}</p>
                             <p className="text-sm text-gray-600 leading-relaxed">{dec.mechanismExplanation}</p>
                           </div>
                         </div>
@@ -408,7 +410,7 @@ function CaseRunner({ caseData, onExit }: { caseData: ClinicalCase; onExit: () =
             <CardContent className="p-5">
               <div className="flex items-center gap-2 mb-3">
                 <Brain className="w-5 h-5 text-primary" />
-                <h3 className="text-sm font-bold text-gray-900">Critical Thinking</h3>
+                <h3 className="text-sm font-bold text-gray-900">{t("pages.caseSimulation.criticalThinking")}</h3>
               </div>
               <p className="text-sm text-gray-700 leading-relaxed italic">{stage.criticalThinking}</p>
             </CardContent>
@@ -438,8 +440,8 @@ export default function CaseSimulationPage() {
   return (
     <div className={`min-h-screen bg-warmwhite flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
       <SEO
-        title="Clinical Case Simulations - Interactive Patient Scenarios | NurseNest"
-        description="Practice clinical decision-making with interactive patient scenarios. Make nursing decisions, observe physiological consequences, and build the reasoning patterns that define safe clinical practice."
+        title={t("pages.caseSimulation.clinicalCaseSimulationsInteractivePatient")}
+        description={t("pages.caseSimulation.practiceClinicalDecisionmakingWithInteractive")}
         keywords="clinical case simulation nursing, interactive patient scenarios, nursing clinical reasoning, case study nursing, clinical decision making, nursing simulation"
         canonicalPath="/case-simulations"
         ogType="website"
@@ -454,8 +456,8 @@ export default function CaseSimulationPage() {
               <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
                 <Lock className="w-10 h-10 text-primary/60" />
               </div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-3">Clinical Case Simulations</h1>
-              <p className="text-lg text-gray-600 mb-2">Premium Interactive Tool</p>
+              <h1 className="text-3xl font-bold text-gray-900 mb-3">{t("pages.caseSimulation.clinicalCaseSimulations")}</h1>
+              <p className="text-lg text-gray-600 mb-2">{t("pages.caseSimulation.premiumInteractiveTool")}</p>
               <p className="text-sm text-gray-500 mb-8 leading-relaxed max-w-md mx-auto">
                 Interactive patient scenarios with branching decisions are available exclusively for RPN, RN, and NP subscribers. Each simulation builds the clinical reasoning patterns that define safe practice.
               </p>
@@ -467,7 +469,7 @@ export default function CaseSimulationPage() {
               </LocaleLink>
               {!user && (
                 <p className="text-xs text-gray-400 mt-4">
-                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">Sign in</LocaleLink> to access.
+                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">{t("pages.caseSimulation.signIn")}</LocaleLink> to access.
                 </p>
               )}
             </div>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, CheckCircle2, ChevronDown, Award, BarChart3,
   BookOpen, Brain, Target, Users, ShieldCheck, Hand,
@@ -168,6 +169,7 @@ interface PageContent {
 }
 
 function getPageContent(profession: ProfessionSlug, pageType: PageType): PageContent {
+
   const cfg = PROFESSION_CONFIG[profession];
   const exams = cfg.examNames.join(", ");
 
@@ -521,8 +523,8 @@ export function UnderservedSEOPage({ profession, pageType }: UnderservedSEOPageP
   if (!content) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1>
-        <p className="text-gray-600">This page doesn't exist yet.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.underservedSeoPages.pageNotFound")}</h1>
+        <p className="text-gray-600">{t("allied.underservedSeoPages.thisPageDoesntExistYet")}</p>
         <Link href={`/${profession}`} className="inline-block mt-4 px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back">
           Back to {cfg.shortName}
         </Link>
@@ -614,7 +616,7 @@ export function UnderservedSEOPage({ profession, pageType }: UnderservedSEOPageP
         </section>
 
         <section className="py-12" data-testid="domains-covered">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Topics Covered</h2>
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">{t("allied.underservedSeoPages.topicsCovered")}</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {cfg.domains.map((domain, i) => (
               <div key={i} className="flex items-center gap-2 px-4 py-3 bg-gray-50 rounded-lg" data-testid={`domain-badge-${i}`}>
@@ -630,47 +632,47 @@ export function UnderservedSEOPage({ profession, pageType }: UnderservedSEOPageP
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <Link href={cfg.qbankPath} className="p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all text-center" data-testid="link-qbank">
               <Target className="w-6 h-6 mx-auto mb-2" style={{ color: cfg.color }} />
-              <div className="text-sm font-medium text-gray-800">Test Bank</div>
-              <div className="text-xs text-gray-500 mt-1">Practice questions</div>
+              <div className="text-sm font-medium text-gray-800">{t("allied.underservedSeoPages.testBank")}</div>
+              <div className="text-xs text-gray-500 mt-1">{t("allied.underservedSeoPages.practiceQuestions")}</div>
             </Link>
             <Link href={cfg.mockExamsPath} className="p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all text-center" data-testid="link-mock-exams">
               <FileText className="w-6 h-6 text-blue-500 mx-auto mb-2" />
-              <div className="text-sm font-medium text-gray-800">Mock Exams</div>
-              <div className="text-xs text-gray-500 mt-1">Full-length practice tests</div>
+              <div className="text-sm font-medium text-gray-800">{t("allied.underservedSeoPages.mockExams")}</div>
+              <div className="text-xs text-gray-500 mt-1">{t("allied.underservedSeoPages.fulllengthPracticeTests")}</div>
             </Link>
             <Link href={cfg.flashcardsPath} className="p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all text-center" data-testid="link-flashcards">
               <BookOpen className="w-6 h-6 text-green-500 mx-auto mb-2" />
-              <div className="text-sm font-medium text-gray-800">Flashcards</div>
-              <div className="text-xs text-gray-500 mt-1">Spaced repetition cards</div>
+              <div className="text-sm font-medium text-gray-800">{t("allied.underservedSeoPages.flashcards")}</div>
+              <div className="text-xs text-gray-500 mt-1">{t("allied.underservedSeoPages.spacedRepetitionCards")}</div>
             </Link>
             <Link href={`/${profession}`} className="p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all text-center" data-testid="link-career-hub">
               <GraduationCap className="w-6 h-6 text-orange-500 mx-auto mb-2" />
-              <div className="text-sm font-medium text-gray-800">Career Hub</div>
-              <div className="text-xs text-gray-500 mt-1">Career information</div>
+              <div className="text-sm font-medium text-gray-800">{t("allied.underservedSeoPages.careerHub")}</div>
+              <div className="text-xs text-gray-500 mt-1">{t("allied.underservedSeoPages.careerInformation")}</div>
             </Link>
           </div>
         </section>
 
         {pageType !== "practice-questions" && (
           <section className="py-12" data-testid="related-pages">
-            <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Related Study Resources</h2>
+            <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">{t("allied.underservedSeoPages.relatedStudyResources")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {pageType !== "exam-prep" && (
                 <Link href={`/${profession}-exam-prep`} className="p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="link-exam-prep">
-                  <div className="text-sm font-semibold text-gray-800 mb-1">Exam Prep Guide</div>
-                  <div className="text-xs text-gray-500">Complete exam preparation overview</div>
+                  <div className="text-sm font-semibold text-gray-800 mb-1">{t("allied.underservedSeoPages.examPrepGuide")}</div>
+                  <div className="text-xs text-gray-500">{t("allied.underservedSeoPages.completeExamPreparationOverview")}</div>
                 </Link>
               )}
               {pageType !== "career-guide" && (
                 <Link href={`/${profession}-career-guide`} className="p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="link-career-guide">
-                  <div className="text-sm font-semibold text-gray-800 mb-1">Career Guide</div>
-                  <div className="text-xs text-gray-500">Education, licensing & salary</div>
+                  <div className="text-sm font-semibold text-gray-800 mb-1">{t("allied.underservedSeoPages.careerGuide")}</div>
+                  <div className="text-xs text-gray-500">{t("allied.underservedSeoPages.educationLicensingSalary")}</div>
                 </Link>
               )}
               {pageType !== "study-guide" && (
                 <Link href={`/${profession}-study-guide`} className="p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="link-study-guide">
-                  <div className="text-sm font-semibold text-gray-800 mb-1">Study Guide</div>
-                  <div className="text-xs text-gray-500">Exam blueprint & study strategies</div>
+                  <div className="text-sm font-semibold text-gray-800 mb-1">{t("allied.underservedSeoPages.studyGuide")}</div>
+                  <div className="text-xs text-gray-500">{t("allied.underservedSeoPages.examBlueprintStudyStrategies")}</div>
                 </Link>
               )}
             </div>
@@ -679,26 +681,26 @@ export function UnderservedSEOPage({ profession, pageType }: UnderservedSEOPageP
 
         {pageType === "practice-questions" && (
           <section className="py-12" data-testid="related-pages">
-            <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Continue Your Preparation</h2>
+            <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">{t("allied.underservedSeoPages.continueYourPreparation")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <Link href={`/${profession}-exam-prep`} className="p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="link-exam-prep">
-                <div className="text-sm font-semibold text-gray-800 mb-1">Full Exam Prep</div>
-                <div className="text-xs text-gray-500">Complete certification study platform</div>
+                <div className="text-sm font-semibold text-gray-800 mb-1">{t("allied.underservedSeoPages.fullExamPrep")}</div>
+                <div className="text-xs text-gray-500">{t("allied.underservedSeoPages.completeCertificationStudyPlatform")}</div>
               </Link>
               <Link href={`/${profession}-study-guide`} className="p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="link-study-guide">
-                <div className="text-sm font-semibold text-gray-800 mb-1">Study Guide</div>
-                <div className="text-xs text-gray-500">Exam blueprint & study strategies</div>
+                <div className="text-sm font-semibold text-gray-800 mb-1">{t("allied.underservedSeoPages.studyGuide2")}</div>
+                <div className="text-xs text-gray-500">{t("allied.underservedSeoPages.examBlueprintStudyStrategies2")}</div>
               </Link>
               <Link href={`/${profession}-career-guide`} className="p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="link-career-guide">
-                <div className="text-sm font-semibold text-gray-800 mb-1">Career Guide</div>
-                <div className="text-xs text-gray-500">Education, licensing & salary info</div>
+                <div className="text-sm font-semibold text-gray-800 mb-1">{t("allied.underservedSeoPages.careerGuide2")}</div>
+                <div className="text-xs text-gray-500">{t("allied.underservedSeoPages.educationLicensingSalaryInfo")}</div>
               </Link>
             </div>
           </section>
         )}
 
         <section className="py-12">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">{t("allied.underservedSeoPages.frequentlyAskedQuestions")}</h2>
           <FAQSection faqs={content.faqs} />
         </section>
 

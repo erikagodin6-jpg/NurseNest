@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Search, BookOpen, ChevronRight, Filter, ArrowLeft } from "lucide-react";
 import { ENCYCLOPEDIA_PROFESSIONS } from "@shared/schema";
 
+import { useI18n } from "@/lib/i18n";
 interface EncyclopediaListEntry {
   id: string;
   slug: string;
@@ -38,6 +39,7 @@ const CATEGORY_COLORS = [
 ];
 
 function getCategoryColor(category: string, categories: string[]) {
+
   const idx = categories.indexOf(category) % CATEGORY_COLORS.length;
   return CATEGORY_COLORS[idx >= 0 ? idx : 0];
 }
@@ -50,6 +52,7 @@ function extractProfessionFromPath(pathname: string): string {
 }
 
 export default function EncyclopediaHubPage() {
+  const { t } = useI18n();
   const [location] = useLocation();
   const profession = useMemo(() => extractProfessionFromPath(location), [location]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -147,7 +150,7 @@ export default function EncyclopediaHubPage() {
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <Input
-                placeholder="Search topics..."
+                placeholder={t("pages.encyclopediaHub.searchTopics")}
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -209,7 +212,7 @@ export default function EncyclopediaHubPage() {
           ) : entries.length === 0 ? (
             <div className="text-center py-16 text-gray-500" data-testid="text-no-results">
               <BookOpen className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-              <p className="text-lg font-medium">No topics found</p>
+              <p className="text-lg font-medium">{t("pages.encyclopediaHub.noTopicsFound")}</p>
               <p className="text-sm">
                 {searchQuery || selectedCategory || selectedLetter
                   ? "Try adjusting your search or filters"
@@ -268,13 +271,13 @@ export default function EncyclopediaHubPage() {
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Link href={`/allied-health/${profession}/test-bank`}>
-                <Button data-testid="button-cta-questions">Practice Questions</Button>
+                <Button data-testid="button-cta-questions">{t("pages.encyclopediaHub.practiceQuestions")}</Button>
               </Link>
               <Link href={`/${profession}/flashcards`}>
-                <Button variant="outline" data-testid="button-cta-flashcards">Flashcards</Button>
+                <Button variant="outline" data-testid="button-cta-flashcards">{t("pages.encyclopediaHub.flashcards")}</Button>
               </Link>
               <Link href={`/${profession}/mock-exams`}>
-                <Button variant="outline" data-testid="button-cta-mock-exams">Mock Exams</Button>
+                <Button variant="outline" data-testid="button-cta-mock-exams">{t("pages.encyclopediaHub.mockExams")}</Button>
               </Link>
             </div>
           </div>

@@ -16,6 +16,7 @@ import {
 } from "@/lib/cat-engine";
 import type { PooledQuestion } from "@/lib/question-pool";
 
+import { useI18n } from "@/lib/i18n";
 const DEMO_QUESTION_COUNT = 25;
 const LAVENDER = "#9d82dd";
 const WARM_WHITE = "#fdfcfa";
@@ -33,6 +34,7 @@ interface DemoQuestion {
 }
 
 function toPooledQuestion(q: DemoQuestion): PooledQuestion {
+  const { t } = useI18n();
   return {
     id: q.id,
     lessonId: "demo",
@@ -236,7 +238,7 @@ export default function FreeDemoExam() {
               <Stethoscope className="w-4 h-4" style={{ color: LAVENDER }} />
               <span className="text-sm font-bold" style={{ color: LAVENDER }}>NurseNest</span>
             </div>
-            <span className="text-xs text-gray-400">Free Demo Exam</span>
+            <span className="text-xs text-gray-400">{t("pages.freeDemoExam.freeDemoExam")}</span>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm font-semibold text-gray-700" data-testid="text-demo-progress">
@@ -262,7 +264,7 @@ export default function FreeDemoExam() {
               </h2>
             </div>
 
-            <div className="space-y-2" role="radiogroup" aria-label="Answer options">
+            <div className="space-y-2" role="radiogroup" aria-label={t("pages.freeDemoExam.answerOptions")}>
               {question.options.map((rawOption, idx) => {
                 const option = typeof rawOption === "object" && rawOption !== null
                   ? (rawOption as any).text || (rawOption as any).label || JSON.stringify(rawOption)
@@ -389,7 +391,7 @@ function LandingPage({ onStart, loading }: { onStart: () => void; loading: boole
               </span>
             )}
           </Button>
-          <p className="text-xs text-gray-400 mt-4">25 questions &middot; ~15 minutes &middot; Completely free</p>
+          <p className="text-xs text-gray-400 mt-4">{t("pages.freeDemoExam.25QuestionsMiddot15Minutes")}</p>
         </div>
 
         <div className="mt-16 text-center">
@@ -455,7 +457,7 @@ function ReportPage({
         <div className="flex items-center justify-center gap-2 mb-8">
           <Stethoscope className="w-5 h-5" style={{ color: LAVENDER }} />
           <span className="text-base font-bold" style={{ color: LAVENDER }}>NurseNest</span>
-          <span className="text-xs text-gray-400 ml-2">Demo Exam Report</span>
+          <span className="text-xs text-gray-400 ml-2">{t("pages.freeDemoExam.demoExamReport")}</span>
         </div>
 
         <div className="text-center mb-10">
@@ -470,7 +472,7 @@ function ReportPage({
             <CardContent className="p-6 flex flex-col items-center gap-4">
               <ScoreRing percentage={readiness.score} />
               <div className="text-center">
-                <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">Readiness Score</p>
+                <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">{t("pages.freeDemoExam.readinessScore")}</p>
                 <p className={`text-lg font-bold ${
                   readiness.level === "Above Passing Standard" ? "text-emerald-600" :
                   readiness.level === "Near Passing Standard" ? "text-amber-600" : "text-red-600"
@@ -484,25 +486,25 @@ function ReportPage({
 
           <Card className="border-gray-100 shadow-md" style={{ borderRadius: "20px" }}>
             <CardContent className="p-6 space-y-4">
-              <h3 className="font-semibold text-gray-800">Exam Summary</h3>
+              <h3 className="font-semibold text-gray-800">{t("pages.freeDemoExam.examSummary")}</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center p-3 rounded-xl bg-gray-50">
                   <p className="text-2xl font-bold text-gray-900" data-testid="text-demo-score">{totalCorrect}/{questionsAnswered}</p>
-                  <p className="text-xs text-gray-500">Correct</p>
+                  <p className="text-xs text-gray-500">{t("pages.freeDemoExam.correct")}</p>
                 </div>
                 <div className="text-center p-3 rounded-xl bg-gray-50">
                   <p className="text-2xl font-bold text-gray-900">{overallPct}%</p>
-                  <p className="text-xs text-gray-500">Accuracy</p>
+                  <p className="text-xs text-gray-500">{t("pages.freeDemoExam.accuracy")}</p>
                 </div>
                 <div className="text-center p-3 rounded-xl bg-gray-50">
                   <p className="text-2xl font-bold text-gray-900">{Math.floor(timeSpent / 60)}m</p>
-                  <p className="text-xs text-gray-500">Time Spent</p>
+                  <p className="text-xs text-gray-500">{t("pages.freeDemoExam.timeSpent")}</p>
                 </div>
                 <div className="text-center p-3 rounded-xl bg-gray-50">
                   <p className="text-2xl font-bold text-gray-900" data-testid="text-difficulty-mix">
                     {diffDist ? `${diffDist.hard}/${diffDist.moderate}/${diffDist.easy}` : "-"}
                   </p>
-                  <p className="text-xs text-gray-500">Hard/Med/Easy</p>
+                  <p className="text-xs text-gray-500">{t("pages.freeDemoExam.hardmedeasy")}</p>
                 </div>
               </div>
             </CardContent>
@@ -582,7 +584,7 @@ function ReportPage({
         )}
 
         <div className="space-y-4 mb-10">
-          <h3 className="text-xl font-bold text-gray-800 text-center mb-6">Unlock Your Full Potential</h3>
+          <h3 className="text-xl font-bold text-gray-800 text-center mb-6">{t("pages.freeDemoExam.unlockYourFullPotential")}</h3>
 
           {[
             { title: "Full Readiness Analysis", desc: "Comprehensive probability-based pass prediction with confidence intervals and trend analysis across all NCLEX domains.", icon: BarChart3 },
@@ -676,7 +678,7 @@ function ReportPage({
               Unlock Full Platform — Start Studying Today
             </Button>
 
-            <p className="text-xs text-gray-400">Cancel anytime &middot; 7-day money-back guarantee</p>
+            <p className="text-xs text-gray-400">{t("pages.freeDemoExam.cancelAnytimeMiddot7dayMoneyback")}</p>
           </CardContent>
         </Card>
 

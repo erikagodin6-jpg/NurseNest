@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
+import { useI18n } from "@/lib/i18n";
 const questionFormats = [
   {
     title: "Multiple-Choice (MCQ) -- Single Best Answer",
@@ -39,18 +40,19 @@ const questionFormats = [
 ];
 
 export default function RexPnExamFormat() {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
       <AdminEditButton />
       <SEO
-        title="REx-PN Exam Format and Structure -- Question Types, CAT, and Scoring (2025)"
-        description="Complete guide to the REx-PN exam format: 90-150 questions, 4-hour CAT exam, question types including MCQ, SATA, numeric fill-in, and how scoring works."
+        title={t("pages.rexPnExamFormat.rexpnExamFormatAndStructure")}
+        description={t("pages.rexPnExamFormat.completeGuideToTheRexpn")}
         canonicalPath="/rex-pn/exam-format"
       />
 
       <main className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
-        <BreadcrumbNav title="REx-PN Exam Format and Structure" />
+        <BreadcrumbNav title={t("pages.rexPnExamFormat.rexpnExamFormatAndStructure2")} />
         <div className="mb-6">
           <LocaleLink
             href="/rex-pn"
@@ -62,7 +64,7 @@ export default function RexPnExamFormat() {
         </div>
 
         <div className="mb-10">
-          <Badge variant="secondary" className="mb-3">Canadian REx-PN Exam</Badge>
+          <Badge variant="secondary" className="mb-3">{t("pages.rexPnExamFormat.canadianRexpnExam")}</Badge>
           <h1
             className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4"
             data-testid="text-rex-pn-exam-format-title"
@@ -83,19 +85,19 @@ export default function RexPnExamFormat() {
             <Card className="bg-blue-50 border-blue-100">
               <CardContent className="p-5 text-center">
                 <p className="text-3xl font-bold text-blue-700" data-testid="text-exam-questions-range">90 - 150</p>
-                <p className="text-sm text-blue-600 mt-1">Questions</p>
+                <p className="text-sm text-blue-600 mt-1">{t("pages.rexPnExamFormat.questions")}</p>
               </CardContent>
             </Card>
             <Card className="bg-green-50 border-green-100">
               <CardContent className="p-5 text-center">
-                <p className="text-3xl font-bold text-green-700" data-testid="text-exam-time-limit">4 Hours</p>
-                <p className="text-sm text-green-600 mt-1">Maximum Time</p>
+                <p className="text-3xl font-bold text-green-700" data-testid="text-exam-time-limit">{t("pages.rexPnExamFormat.4Hours")}</p>
+                <p className="text-sm text-green-600 mt-1">{t("pages.rexPnExamFormat.maximumTime")}</p>
               </CardContent>
             </Card>
             <Card className="bg-purple-50 border-purple-100">
               <CardContent className="p-5 text-center">
                 <p className="text-3xl font-bold text-purple-700" data-testid="text-exam-format-type">CAT</p>
-                <p className="text-sm text-purple-600 mt-1">Computer Adaptive</p>
+                <p className="text-sm text-purple-600 mt-1">{t("pages.rexPnExamFormat.computerAdaptive")}</p>
               </CardContent>
             </Card>
           </div>
@@ -202,7 +204,7 @@ export default function RexPnExamFormat() {
             <div className="flex items-start gap-3">
               <AlertCircle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
               <div>
-                <h3 className="font-semibold text-amber-900 mb-2" data-testid="text-disclaimer-heading">Disclaimer</h3>
+                <h3 className="font-semibold text-amber-900 mb-2" data-testid="text-disclaimer-heading">{t("pages.rexPnExamFormat.disclaimer")}</h3>
                 <p className="text-amber-800 text-sm leading-relaxed" data-testid="text-disclaimer-content">
                   This page provides general information about the REx-PN exam format for educational purposes. It is not affiliated with or endorsed by NCSBN, Pearson VUE, or any Canadian nursing regulatory body. For official exam information, contact your provincial or territorial nursing regulatory body directly.
                 </p>

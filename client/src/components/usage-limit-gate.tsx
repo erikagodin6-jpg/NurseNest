@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Lock, Zap, ArrowRight } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface UsageLimitGateProps {
   feature: "lab-values" | "med-math";
   count: number;
@@ -22,6 +23,7 @@ const featurePrices: Record<string, { CAD: number; USD: number }> = {
 };
 
 export function UsageLimitBanner({ feature, remaining, limit, count }: UsageLimitGateProps) {
+  const { t } = useI18n();
   if (remaining <= 0) return null;
   if (remaining > 3) return null;
 
@@ -97,7 +99,7 @@ export function UsageLimitPaywall({ feature }: { feature: "lab-values" | "med-ma
 
         {!user && (
           <p className="text-xs text-gray-400">
-            <LocaleLink href="/login" className="underline hover:text-gray-600">Sign in</LocaleLink> to track your progress and daily usage across devices.
+            <LocaleLink href="/login" className="underline hover:text-gray-600">{t("components.usageLimitGate.signIn")}</LocaleLink> to track your progress and daily usage across devices.
           </p>
         )}
 

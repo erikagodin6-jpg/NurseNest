@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { BookOpen, Brain, FileText, GraduationCap, ChevronRight, Activity, CheckCircle2, ArrowRight, HelpCircle, Sparkles, Target, Clock, Calendar, BarChart3, Play, Zap, Heart, Shield, Users, Wrench, Thermometer, Scale, Baby, ShieldCheck, Crosshair, Pill, ListOrdered, Footprints } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 
+import { useI18n } from "@/lib/i18n";
 const PTA_TOPIC_CARDS = [
   { title: "Musculoskeletal Rehabilitation", slug: "musculoskeletal-rehab", desc: "ACL rehab, rotator cuff, joint replacements, fractures, manual therapy, and soft tissue injuries", icon: Activity, questionCount: "350+" },
   { title: "Neurological Rehabilitation", slug: "neuro-rehab", desc: "Stroke recovery, SCI, TBI, Parkinson's, MS, PNF patterns, NDT, and motor learning principles", icon: Brain, questionCount: "200+" },
@@ -45,6 +46,7 @@ const PTA_FAQ_DATA = [
 ];
 
 export default function PhysicalTherapyHubPage() {
+  const { t } = useI18n();
   const [stats, setStats] = useState<any>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [openPtaFaq, setOpenPtaFaq] = useState<number | null>(null);
@@ -59,8 +61,8 @@ export default function PhysicalTherapyHubPage() {
   return (
     <>
       <AlliedSEO
-        title="PTA Exam Prep — NPTE-PTA Practice Questions & Mock Exams | NurseNest Allied"
-        description="Prepare for the NPTE-PTA physical therapist assistant exam with 2,000+ practice questions across 20 clinical domains, 5 full-length mock exams, gait analysis training, and therapeutic modality drills. Free to start."
+        title={t("allied.physicalTherapyHub.ptaExamPrepNpteptaPractice")}
+        description={t("allied.physicalTherapyHub.prepareForTheNpteptaPhysical")}
         keywords="PTA exam prep, NPTE-PTA practice questions, physical therapist assistant exam, PTA mock exam, FSBPT PTA, physiotherapy assistant certification, PTA study guide, PTA flashcards, NPTE-PTA test bank, physical therapy assistant practice test"
         canonicalPath="/allied-health/physical-therapy"
         structuredData={{
@@ -97,9 +99,9 @@ export default function PhysicalTherapyHubPage() {
         <section className="relative overflow-hidden bg-gradient-to-br from-teal-50 via-emerald-50 to-cyan-50 py-16 sm:py-24">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-              <Link href="/allied-health" className="hover:text-teal-600" data-testid="link-breadcrumb-home">Allied Health</Link>
+              <Link href="/allied-health" className="hover:text-teal-600" data-testid="link-breadcrumb-home">{t("allied.physicalTherapyHub.alliedHealth")}</Link>
               <ChevronRight className="w-3.5 h-3.5" />
-              <span className="text-teal-700 font-medium">Physical Therapy</span>
+              <span className="text-teal-700 font-medium">{t("allied.physicalTherapyHub.physicalTherapy")}</span>
             </div>
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-teal-100 text-teal-800 rounded-full text-sm font-medium mb-4">
@@ -108,7 +110,7 @@ export default function PhysicalTherapyHubPage() {
               </div>
               <h1 className="text-3xl sm:text-5xl font-bold text-gray-900 leading-tight mb-4" data-testid="text-hero-title">
                 Physical Therapy &<br />
-                <span className="text-teal-600">PTA Exam Prep Hub</span>
+                <span className="text-teal-600">{t("allied.physicalTherapyHub.ptaExamPrepHub")}</span>
               </h1>
               <p className="text-lg text-gray-600 mb-4 leading-relaxed" data-testid="text-hero-subtitle">
                 Master every domain of the NPTE, NPTE-PTA, and PCE exams with 2,000+ expert-written practice questions across 20 clinical domains, 5 full-length mock exams with timers and scoring, and comprehensive study tools.
@@ -149,8 +151,8 @@ export default function PhysicalTherapyHubPage() {
         </section>
 
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">PTA Study Topics — 20 Clinical Domains</h2>
-          <p className="text-gray-500 mb-8">Explore all NPTE-PTA exam domains with targeted practice questions, rationales, and topic-level scoring.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.physicalTherapyHub.ptaStudyTopics20Clinical")}</h2>
+          <p className="text-gray-500 mb-8">{t("allied.physicalTherapyHub.exploreAllNpteptaExamDomains")}</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {visibleTopics.map(topic => (
               <Link key={topic.slug} href={`/allied-health/physiotherapy-assistant/topic/${topic.slug}`} className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg hover:border-teal-200 transition-all" data-testid={`card-topic-${topic.slug}`}>
@@ -176,37 +178,37 @@ export default function PhysicalTherapyHubPage() {
 
         <section className="bg-gray-50 py-16">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">PTA Study Tools</h2>
-            <p className="text-gray-500 mb-8 text-center">Everything you need to pass the NPTE-PTA on your first attempt.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">{t("allied.physicalTherapyHub.ptaStudyTools")}</h2>
+            <p className="text-gray-500 mb-8 text-center">{t("allied.physicalTherapyHub.everythingYouNeedToPass")}</p>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Link href="/allied-health/physiotherapy-assistant/flashcards" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-teal-200 transition-all" data-testid="card-flashcards">
                 <Brain className="w-8 h-8 text-teal-600 mb-4" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Flashcard Decks</h3>
-                <p className="text-sm text-gray-500 mb-4">10 decks covering special tests, ROM norms, modality parameters, prosthetics, and pharmacology.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.physicalTherapyHub.flashcardDecks")}</h3>
+                <p className="text-sm text-gray-500 mb-4">{t("allied.physicalTherapyHub.10DecksCoveringSpecialTests")}</p>
                 <span className="text-teal-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   Browse Decks <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
               <Link href="/allied-health/physiotherapy-assistant/mock-exam" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-teal-200 transition-all" data-testid="card-exams">
                 <FileText className="w-8 h-8 text-teal-600 mb-4" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">5 Mock Exams</h3>
-                <p className="text-sm text-gray-500 mb-4">Full-length NPTE-PTA simulations with timers, scoring, and domain-level performance breakdowns.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.physicalTherapyHub.5MockExams")}</h3>
+                <p className="text-sm text-gray-500 mb-4">{t("allied.physicalTherapyHub.fulllengthNpteptaSimulationsWithTimers")}</p>
                 <span className="text-teal-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   View Exams <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
               <Link href="/allied-health/physiotherapy-assistant/study-guide" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-teal-200 transition-all" data-testid="card-study-guide">
                 <GraduationCap className="w-8 h-8 text-teal-600 mb-4" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Study Guide</h3>
-                <p className="text-sm text-gray-500 mb-4">Comprehensive PTA study guide organized by 20 clinical domains with exam-weight alignment.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.physicalTherapyHub.studyGuide")}</h3>
+                <p className="text-sm text-gray-500 mb-4">{t("allied.physicalTherapyHub.comprehensivePtaStudyGuideOrganized")}</p>
                 <span className="text-teal-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   Read Guide <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
               <Link href="/allied-health/physiotherapy-assistant/lessons" className="group bg-white rounded-2xl border border-gray-100 p-8 hover:shadow-lg hover:border-teal-200 transition-all" data-testid="card-lessons">
                 <BookOpen className="w-8 h-8 text-teal-600 mb-4" />
-                <h3 className="text-lg font-bold text-gray-900 mb-2">PTA Lessons</h3>
-                <p className="text-sm text-gray-500 mb-4">Expert-written lessons covering musculoskeletal, neurological, cardiopulmonary, and 17 more domains.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.physicalTherapyHub.ptaLessons")}</h3>
+                <p className="text-sm text-gray-500 mb-4">{t("allied.physicalTherapyHub.expertwrittenLessonsCoveringMusculoskeletalN")}</p>
                 <span className="text-teal-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   Start Lessons <ArrowRight className="w-4 h-4" />
                 </span>
@@ -216,8 +218,8 @@ export default function PhysicalTherapyHubPage() {
         </section>
 
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">Internal Links & Related Resources</h2>
-          <p className="text-gray-500 mb-8 text-center">Explore related allied health exam prep resources.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">{t("allied.physicalTherapyHub.internalLinksRelatedResources")}</h2>
+          <p className="text-gray-500 mb-8 text-center">{t("allied.physicalTherapyHub.exploreRelatedAlliedHealthExam")}</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               { label: "OTA Exam Prep", href: "/allied-health/occupational-therapy-assistant", desc: "Occupational therapy assistant certification prep" },
@@ -240,8 +242,8 @@ export default function PhysicalTherapyHubPage() {
 
         <section className="bg-white py-16 border-t border-gray-100">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">PTA Exam FAQ</h2>
-            <p className="text-gray-500 mb-8 text-center">Common questions about NPTE-PTA exam prep resources.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">{t("allied.physicalTherapyHub.ptaExamFaq")}</h2>
+            <p className="text-gray-500 mb-8 text-center">{t("allied.physicalTherapyHub.commonQuestionsAboutNpteptaExam")}</p>
             <div className="space-y-3" data-testid="pta-faq-section">
               {PTA_FAQ_DATA.map((faq, i) => (
                 <div key={i} className="bg-gray-50 rounded-xl border border-gray-100 overflow-hidden">
@@ -265,8 +267,8 @@ export default function PhysicalTherapyHubPage() {
         </section>
 
         <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">Physical Therapy (PT) FAQ</h2>
-          <p className="text-gray-500 mb-8 text-center">Common questions about our Physical Therapy exam prep resources.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">{t("allied.physicalTherapyHub.physicalTherapyPtFaq")}</h2>
+          <p className="text-gray-500 mb-8 text-center">{t("allied.physicalTherapyHub.commonQuestionsAboutOurPhysical")}</p>
           <div className="space-y-3" data-testid="faq-section">
             {PT_FAQ_DATA.map((faq, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 overflow-hidden">
@@ -290,8 +292,8 @@ export default function PhysicalTherapyHubPage() {
 
         <section className="bg-gradient-to-r from-teal-600 to-emerald-600 py-16">
           <div className="max-w-3xl mx-auto px-4 text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Pass the NPTE-PTA?</h2>
-            <p className="text-teal-100 mb-8">Join PTA and physical therapy students using NurseNest Allied to pass their NPTE-PTA, NPTE, and PCE certification exams with 2,000+ practice questions and 5 mock exams.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">{t("allied.physicalTherapyHub.readyToPassTheNptepta")}</h2>
+            <p className="text-teal-100 mb-8">{t("allied.physicalTherapyHub.joinPtaAndPhysicalTherapy")}</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/allied-health/physiotherapy-assistant/practice-questions" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl text-sm font-semibold hover:bg-teal-50 transition-all" data-testid="button-cta-start">
                 <GraduationCap className="w-4 h-4" /> Start Free

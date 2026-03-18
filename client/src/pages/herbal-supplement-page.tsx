@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { seoHerbalPages } from "@/data/seo-herbal-supplements";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { useI18n } from "@/lib/i18n";
 import {
   Leaf,
   AlertTriangle,
@@ -22,6 +23,7 @@ import {
 } from "lucide-react";
 
 export default function HerbalSupplementPage() {
+  const { t } = useI18n();
   const params = useParams<{ slug: string }>();
   const [, navigate] = useLocation();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -34,8 +36,8 @@ export default function HerbalSupplementPage() {
         <Navigation />
         <div className="min-h-screen bg-gray-50 flex items-center justify-center" data-testid="herbal-page-not-found">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1>
-            <p className="text-gray-600 mb-4">The herbal supplement guide you are looking for does not exist.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.herbalSupplementPage.pageNotFound")}</h1>
+            <p className="text-gray-600 mb-4">{t("pages.herbalSupplementPage.theHerbalSupplementGuideYou")}</p>
             <Button onClick={() => navigate("/herbal-supplements")} data-testid="button-back-herbal-hub">
               Browse Herbal Supplement Guides
             </Button>
@@ -97,11 +99,11 @@ export default function HerbalSupplementPage() {
         <section className="bg-gradient-to-br from-emerald-800 to-emerald-950 text-white py-16 lg:py-20" data-testid="herbal-seo-hero">
           <div className="max-w-5xl mx-auto px-4 sm:px-6">
             <nav className="flex items-center gap-2 text-sm text-white/60 mb-6" data-testid="breadcrumb-herbal">
-              <button onClick={() => navigate("/")} className="hover:text-white/80 transition-colors">Home</button>
+              <button onClick={() => navigate("/")} className="hover:text-white/80 transition-colors">{t("pages.herbalSupplementPage.home")}</button>
               <span>/</span>
-              <button onClick={() => navigate("/pharmacology")} className="hover:text-white/80 transition-colors">Pharmacology</button>
+              <button onClick={() => navigate("/pharmacology")} className="hover:text-white/80 transition-colors">{t("pages.herbalSupplementPage.pharmacology")}</button>
               <span>/</span>
-              <button onClick={() => navigate("/herbal-supplements")} className="hover:text-white/80 transition-colors">Herbal Supplements</button>
+              <button onClick={() => navigate("/herbal-supplements")} className="hover:text-white/80 transition-colors">{t("pages.herbalSupplementPage.herbalSupplements")}</button>
               <span>/</span>
               <span className="text-white/90">{page.title}</span>
             </nav>
@@ -170,7 +172,7 @@ export default function HerbalSupplementPage() {
               <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
                 <HelpCircle className="w-5 h-5 text-blue-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">Frequently Asked Questions</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.herbalSupplementPage.frequentlyAskedQuestions")}</h2>
             </div>
             <div className="space-y-3">
               {page.faq.map((f, fIdx) => (
@@ -204,7 +206,7 @@ export default function HerbalSupplementPage() {
               <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
                 <BookOpen className="w-5 h-5 text-emerald-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">Related Lessons</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.herbalSupplementPage.relatedLessons")}</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {page.relatedLessons.map((lessonSlug) => (
@@ -213,7 +215,7 @@ export default function HerbalSupplementPage() {
                     <Leaf className="w-5 h-5 text-emerald-600 shrink-0" />
                     <div>
                       <p className="font-medium text-gray-900">{lessonSlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}</p>
-                      <p className="text-xs text-gray-500">Herbal Supplement Lesson</p>
+                      <p className="text-xs text-gray-500">{t("pages.herbalSupplementPage.herbalSupplementLesson")}</p>
                     </div>
                     <ArrowRight className="w-4 h-4 text-gray-400 ml-auto shrink-0" />
                   </div>
@@ -227,15 +229,15 @@ export default function HerbalSupplementPage() {
               <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
                 <Pill className="w-5 h-5 text-emerald-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">Pharmacology Resources</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.herbalSupplementPage.pharmacologyResources")}</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <LocaleLink href="/pharmacology">
                 <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-emerald-300 hover:shadow-sm transition-all text-left cursor-pointer" data-testid="link-pharma-hub">
                   <Pill className="w-5 h-5 text-emerald-600 shrink-0" />
                   <div>
-                    <p className="font-medium text-gray-900">Pharmacology Crash Course</p>
-                    <p className="text-xs text-gray-500">5-day intensive drug review</p>
+                    <p className="font-medium text-gray-900">{t("pages.herbalSupplementPage.pharmacologyCrashCourse")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.herbalSupplementPage.5dayIntensiveDrugReview")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-400 ml-auto shrink-0" />
                 </div>
@@ -244,8 +246,8 @@ export default function HerbalSupplementPage() {
                 <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-emerald-300 hover:shadow-sm transition-all text-left cursor-pointer" data-testid="link-med-mastery">
                   <Stethoscope className="w-5 h-5 text-emerald-600 shrink-0" />
                   <div>
-                    <p className="font-medium text-gray-900">Medication Mastery</p>
-                    <p className="text-xs text-gray-500">Mechanism-first drug explorer</p>
+                    <p className="font-medium text-gray-900">{t("pages.herbalSupplementPage.medicationMastery")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.herbalSupplementPage.mechanismfirstDrugExplorer")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-400 ml-auto shrink-0" />
                 </div>
@@ -254,7 +256,7 @@ export default function HerbalSupplementPage() {
           </section>
 
           <section className="bg-gradient-to-r from-emerald-800 to-emerald-950 rounded-2xl p-8 text-white text-center" data-testid="section-cta">
-            <h2 className="text-2xl font-bold mb-3">Master Herbal Supplement Safety</h2>
+            <h2 className="text-2xl font-bold mb-3">{t("pages.herbalSupplementPage.masterHerbalSupplementSafety")}</h2>
             <p className="text-white/80 mb-6 max-w-2xl mx-auto">
               Access comprehensive herbal supplement lessons, practice questions, and clinical simulations designed for nursing exam success.
             </p>

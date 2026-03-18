@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const FEATURE_ICONS: Record<string, LucideIcon> = {
   adaptiveTesting: Zap,
   explanationEngine: MessageSquareText,
@@ -42,6 +43,7 @@ const FEATURE_COLORS: Record<string, { color: string; bg: string; gradient: stri
 };
 
 export default function HeroFeaturesGrid() {
+  const { t } = useI18n();
   return (
     <section
       className="bg-white"
@@ -80,7 +82,7 @@ export default function HeroFeaturesGrid() {
                 <h3 className="text-base font-bold text-gray-900 mb-2">{feature.headline}</h3>
                 <p className="text-sm text-gray-500 leading-relaxed mb-3">{feature.description}</p>
                 <div className="flex items-center text-xs font-semibold text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                  <span>Learn more</span>
+                  <span>{t("components.heroFeaturesGrid.learnMore")}</span>
                   <ArrowRight className="w-3.5 h-3.5 ml-1" />
                 </div>
               </Link>

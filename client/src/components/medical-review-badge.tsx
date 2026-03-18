@@ -1,6 +1,7 @@
 import { ShieldCheck, CalendarDays, Linkedin } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
 
+import { useI18n } from "@/lib/i18n";
 interface Reviewer {
   name: string;
   credentials: string;
@@ -27,6 +28,7 @@ interface MedicalReviewBadgeProps {
 }
 
 export function MedicalReviewBadge({ lastUpdated, className = "" }: MedicalReviewBadgeProps) {
+  const { t } = useI18n();
   const reviewer = REVIEWERS[0];
   const parsedDate = lastUpdated ? new Date(lastUpdated) : null;
   const displayDate = parsedDate && !isNaN(parsedDate.getTime())
@@ -63,7 +65,7 @@ export function MedicalReviewBadge({ lastUpdated, className = "" }: MedicalRevie
                 data-testid="link-reviewer-linkedin"
               >
                 <Linkedin className="w-3 h-3" />
-                <span>LinkedIn</span>
+                <span>{t("components.medicalReviewBadge.linkedin")}</span>
               </a>
             )}
           </div>

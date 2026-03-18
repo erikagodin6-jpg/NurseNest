@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BookOpen, Calendar, Clock, Target, CheckCircle, ChevronRight, ArrowLeft, Mail, GraduationCap } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface StudyWeek {
   week: number;
   phase: string;
@@ -37,6 +38,7 @@ const phaseColors: Record<string, string> = {
 };
 
 export default function ImagingStudyPlanGenerator() {
+  const { t } = useI18n();
   const [, navigate] = useLocation();
   const [examType, setExamType] = useState("");
   const [examDate, setExamDate] = useState("");
@@ -95,10 +97,10 @@ export default function ImagingStudyPlanGenerator() {
                 <div className="flex items-start gap-4">
                   <Mail className="w-8 h-8 text-primary mt-1" />
                   <div className="flex-1">
-                    <h3 className="font-semibold text-lg mb-1">Save Your Study Plan</h3>
-                    <p className="text-sm text-gray-600 mb-3">Enter your email to save this plan and receive weekly study reminders.</p>
+                    <h3 className="font-semibold text-lg mb-1">{t("pages.imagingStudyPlanGenerator.saveYourStudyPlan")}</h3>
+                    <p className="text-sm text-gray-600 mb-3">{t("pages.imagingStudyPlanGenerator.enterYourEmailToSave")}</p>
                     <div className="flex gap-2">
-                      <Input placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)} className="max-w-xs" data-testid="input-email-save-plan" />
+                      <Input placeholder={t("pages.imagingStudyPlanGenerator.youremailcom")} value={email} onChange={(e) => setEmail(e.target.value)} className="max-w-xs" data-testid="input-email-save-plan" />
                       <Button onClick={() => emailCaptureMutation.mutate()} disabled={!email || emailCaptureMutation.isPending} data-testid="button-save-plan-email">
                         {emailCaptureMutation.isPending ? "Saving..." : "Save Plan"}
                       </Button>
@@ -114,21 +116,21 @@ export default function ImagingStudyPlanGenerator() {
               <CardContent className="p-4 text-center">
                 <Calendar className="w-6 h-6 mx-auto mb-2 text-blue-600" />
                 <div className="text-2xl font-bold text-gray-900">{plan.totalWeeks}</div>
-                <div className="text-sm text-gray-500">Weeks Total</div>
+                <div className="text-sm text-gray-500">{t("pages.imagingStudyPlanGenerator.weeksTotal")}</div>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="p-4 text-center">
                 <Clock className="w-6 h-6 mx-auto mb-2 text-purple-600" />
                 <div className="text-2xl font-bold text-gray-900">{plan.hoursPerWeek * plan.totalWeeks}</div>
-                <div className="text-sm text-gray-500">Total Study Hours</div>
+                <div className="text-sm text-gray-500">{t("pages.imagingStudyPlanGenerator.totalStudyHours")}</div>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="p-4 text-center">
                 <Target className="w-6 h-6 mx-auto mb-2 text-green-600" />
                 <div className="text-2xl font-bold text-gray-900 capitalize">{plan.intensity}</div>
-                <div className="text-sm text-gray-500">Study Intensity</div>
+                <div className="text-sm text-gray-500">{t("pages.imagingStudyPlanGenerator.studyIntensity")}</div>
               </CardContent>
             </Card>
           </div>
@@ -206,67 +208,67 @@ export default function ImagingStudyPlanGenerator() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
             <GraduationCap className="w-8 h-8 text-primary" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2" data-testid="text-page-title">Medical Imaging Study Plan Generator</h1>
-          <p className="text-gray-600 max-w-md mx-auto">Get a personalized week-by-week study schedule tailored to your exam, timeline, and confidence level.</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2" data-testid="text-page-title">{t("pages.imagingStudyPlanGenerator.medicalImagingStudyPlanGenerator")}</h1>
+          <p className="text-gray-600 max-w-md mx-auto">{t("pages.imagingStudyPlanGenerator.getAPersonalizedWeekbyweekStudy")}</p>
         </div>
 
         <Card>
           <CardContent className="p-6 space-y-6">
             <div>
-              <Label className="text-sm font-medium mb-2 block">Exam Type</Label>
+              <Label className="text-sm font-medium mb-2 block">{t("pages.imagingStudyPlanGenerator.examType")}</Label>
               <Select value={examType} onValueChange={setExamType}>
                 <SelectTrigger data-testid="select-exam-type">
-                  <SelectValue placeholder="Select your exam" />
+                  <SelectValue placeholder={t("pages.imagingStudyPlanGenerator.selectYourExam")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="arrt-radiography">ARRT Radiography</SelectItem>
-                  <SelectItem value="camrt-radiography">CAMRT Radiography</SelectItem>
-                  <SelectItem value="arrt-ct">ARRT CT</SelectItem>
-                  <SelectItem value="arrt-mri">ARRT MRI</SelectItem>
-                  <SelectItem value="general">General Radiography Review</SelectItem>
+                  <SelectItem value="arrt-radiography">{t("pages.imagingStudyPlanGenerator.arrtRadiography")}</SelectItem>
+                  <SelectItem value="camrt-radiography">{t("pages.imagingStudyPlanGenerator.camrtRadiography")}</SelectItem>
+                  <SelectItem value="arrt-ct">{t("pages.imagingStudyPlanGenerator.arrtCt")}</SelectItem>
+                  <SelectItem value="arrt-mri">{t("pages.imagingStudyPlanGenerator.arrtMri")}</SelectItem>
+                  <SelectItem value="general">{t("pages.imagingStudyPlanGenerator.generalRadiographyReview")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
-              <Label className="text-sm font-medium mb-2 block">Exam Date (optional)</Label>
+              <Label className="text-sm font-medium mb-2 block">{t("pages.imagingStudyPlanGenerator.examDateOptional")}</Label>
               <Input type="date" value={examDate} onChange={(e) => setExamDate(e.target.value)} data-testid="input-exam-date" />
-              <p className="text-xs text-gray-500 mt-1">Leave blank for a default 12-week plan</p>
+              <p className="text-xs text-gray-500 mt-1">{t("pages.imagingStudyPlanGenerator.leaveBlankForADefault")}</p>
             </div>
 
             <div>
-              <Label className="text-sm font-medium mb-2 block">Study Hours Per Week</Label>
+              <Label className="text-sm font-medium mb-2 block">{t("pages.imagingStudyPlanGenerator.studyHoursPerWeek")}</Label>
               <Select value={hoursPerWeek} onValueChange={setHoursPerWeek}>
                 <SelectTrigger data-testid="select-hours-per-week">
-                  <SelectValue placeholder="Hours available per week" />
+                  <SelectValue placeholder={t("pages.imagingStudyPlanGenerator.hoursAvailablePerWeek")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="5">5 hours/week</SelectItem>
-                  <SelectItem value="10">10 hours/week</SelectItem>
-                  <SelectItem value="15">15 hours/week</SelectItem>
-                  <SelectItem value="20">20 hours/week</SelectItem>
-                  <SelectItem value="25">25+ hours/week</SelectItem>
+                  <SelectItem value="5">{t("pages.imagingStudyPlanGenerator.5Hoursweek")}</SelectItem>
+                  <SelectItem value="10">{t("pages.imagingStudyPlanGenerator.10Hoursweek")}</SelectItem>
+                  <SelectItem value="15">{t("pages.imagingStudyPlanGenerator.15Hoursweek")}</SelectItem>
+                  <SelectItem value="20">{t("pages.imagingStudyPlanGenerator.20Hoursweek")}</SelectItem>
+                  <SelectItem value="25">{t("pages.imagingStudyPlanGenerator.25Hoursweek")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
-              <Label className="text-sm font-medium mb-2 block">Current Confidence Level</Label>
+              <Label className="text-sm font-medium mb-2 block">{t("pages.imagingStudyPlanGenerator.currentConfidenceLevel")}</Label>
               <Select value={confidenceLevel} onValueChange={setConfidenceLevel}>
                 <SelectTrigger data-testid="select-confidence-level">
-                  <SelectValue placeholder="How confident are you?" />
+                  <SelectValue placeholder={t("pages.imagingStudyPlanGenerator.howConfidentAreYou")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="low">Low — I need a lot of review</SelectItem>
-                  <SelectItem value="medium">Medium — I know some topics well</SelectItem>
-                  <SelectItem value="high">High — Just need a refresher</SelectItem>
+                  <SelectItem value="low">{t("pages.imagingStudyPlanGenerator.lowINeedALot")}</SelectItem>
+                  <SelectItem value="medium">{t("pages.imagingStudyPlanGenerator.mediumIKnowSomeTopics")}</SelectItem>
+                  <SelectItem value="high">{t("pages.imagingStudyPlanGenerator.highJustNeedARefresher")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
-              <Label className="text-sm font-medium mb-2 block">Email (optional — save your plan)</Label>
-              <Input type="email" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)} data-testid="input-email" />
+              <Label className="text-sm font-medium mb-2 block">{t("pages.imagingStudyPlanGenerator.emailOptionalSaveYourPlan")}</Label>
+              <Input type="email" placeholder={t("pages.imagingStudyPlanGenerator.youremailcom2")} value={email} onChange={(e) => setEmail(e.target.value)} data-testid="input-email" />
             </div>
 
             <Button
@@ -280,13 +282,13 @@ export default function ImagingStudyPlanGenerator() {
             </Button>
 
             {generateMutation.isError && (
-              <p className="text-red-500 text-sm text-center" data-testid="text-error">Something went wrong. Please try again.</p>
+              <p className="text-red-500 text-sm text-center" data-testid="text-error">{t("pages.imagingStudyPlanGenerator.somethingWentWrongPleaseTry")}</p>
             )}
           </CardContent>
         </Card>
 
         <div className="mt-8 text-center">
-          <p className="text-sm text-gray-500 mb-3">Not sure where you stand?</p>
+          <p className="text-sm text-gray-500 mb-3">{t("pages.imagingStudyPlanGenerator.notSureWhereYouStand")}</p>
           <Button variant="outline" onClick={() => navigate("/radiography-readiness-quiz")} data-testid="button-take-readiness-quiz">
             Take the Radiography Readiness Quiz
           </Button>

@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { useState, useMemo } from "react";
 
+import { useI18n } from "@/lib/i18n";
 interface BlogArticle {
   id: string;
   slug: string;
@@ -54,6 +55,7 @@ const COUNTRY_META: Record<string, { flag: string; exam: string; name: string }>
 };
 
 function ArticleCard({ article }: { article: BlogArticle }) {
+  const { t } = useI18n();
   const countryMeta = COUNTRY_META[article.country];
   const Icon = CATEGORY_ICONS[article.category || ""] || BookOpen;
 
@@ -141,8 +143,8 @@ function BlogIndex() {
   return (
     <div className="min-h-screen bg-gray-50">
       <SEO
-        title="Medical Imaging Blog - Study Guides & Articles"
-        description="Educational articles, how-to guides, and study strategies for radiography students preparing for CAMRT and ARRT certification exams."
+        title={t("pages.imagingBlog.medicalImagingBlogStudyGuides")}
+        description={t("pages.imagingBlog.educationalArticlesHowtoGuidesAnd")}
         keywords="radiography blog, medical imaging articles, CAMRT study guide, ARRT exam tips, radiography student resources"
         canonicalPath="/medical-imaging/blog"
         structuredData={blogSchema}
@@ -165,7 +167,7 @@ function BlogIndex() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
-              placeholder="Search articles..."
+              placeholder={t("pages.imagingBlog.searchArticles")}
               value={search}
               onChange={e => setSearch(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none"
@@ -173,19 +175,19 @@ function BlogIndex() {
             />
           </div>
           <select value={selectedCountry} onChange={e => setSelectedCountry(e.target.value)} className="px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:ring-2 focus:ring-indigo-200" data-testid="select-blog-country">
-            <option value="">All Countries</option>
+            <option value="">{t("pages.imagingBlog.allCountries")}</option>
             <option value="canada">{"\u{1F1E8}\u{1F1E6}"} Canada (CAMRT)</option>
             <option value="usa">{"\u{1F1FA}\u{1F1F8}"} USA (ARRT)</option>
           </select>
           <select value={selectedType} onChange={e => setSelectedType(e.target.value)} className="px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:ring-2 focus:ring-indigo-200" data-testid="select-blog-type">
-            <option value="">All Types</option>
+            <option value="">{t("pages.imagingBlog.allTypes")}</option>
             {Object.entries(ARTICLE_TYPE_LABELS).map(([k, v]) => (
               <option key={k} value={k}>{v}</option>
             ))}
           </select>
           {categories.length > 0 && (
             <select value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)} className="px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:ring-2 focus:ring-indigo-200" data-testid="select-blog-category">
-              <option value="">All Categories</option>
+              <option value="">{t("pages.imagingBlog.allCategories")}</option>
               {categories.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
           )}
@@ -196,8 +198,8 @@ function BlogIndex() {
         ) : filtered.length === 0 ? (
           <div className="text-center py-16" data-testid="text-no-articles">
             <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">No Articles Yet</h3>
-            <p className="text-gray-500">New educational content is being prepared. Check back soon!</p>
+            <h3 className="text-lg font-semibold text-gray-700 mb-2">{t("pages.imagingBlog.noArticlesYet")}</h3>
+            <p className="text-gray-500">{t("pages.imagingBlog.newEducationalContentIsBeing")}</p>
             <Link href="/medical-imaging" className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-medium hover:bg-indigo-700" data-testid="link-back-hub">
               Explore Medical Imaging <ArrowRight className="w-4 h-4" />
             </Link>
@@ -211,7 +213,7 @@ function BlogIndex() {
         )}
 
         <nav className="mt-16 pt-8 border-t border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Explore Medical Imaging</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t("pages.imagingBlog.exploreMedicalImaging")}</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <Link href="/medical-imaging/canada" className="flex items-center gap-2 p-3 bg-white border border-gray-200 rounded-xl hover:border-red-300 hover:shadow-sm transition-all text-sm font-medium text-gray-700" data-testid="link-nav-canada">
               {"\u{1F1E8}\u{1F1E6}"} Canada (CAMRT)
@@ -267,7 +269,7 @@ function BlogArticleDetail() {
   if (!article) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-not-found">Article Not Found</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-not-found">{t("pages.imagingBlog.articleNotFound")}</h1>
         <Link href="/medical-imaging/blog" className="inline-flex items-center gap-2 mt-4 px-6 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-medium hover:bg-indigo-700" data-testid="link-back-blog">
           Back to Blog
         </Link>
@@ -349,7 +351,7 @@ function BlogArticleDetail() {
 
         {related.length > 0 && (
           <section className="mt-12 pt-8 border-t border-gray-200" data-testid="section-related-articles">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Related Articles</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-6">{t("pages.imagingBlog.relatedArticles")}</h2>
             <div className="grid md:grid-cols-3 gap-4">
               {related.map(r => (
                 <Link key={r.id} href={`/medical-imaging/blog/${r.slug}`} className="block p-4 bg-gray-50 rounded-xl hover:bg-indigo-50 transition-colors" data-testid={`link-related-${r.slug}`}>
@@ -362,9 +364,9 @@ function BlogArticleDetail() {
         )}
 
         <nav className="mt-12 pt-8 border-t border-gray-200 flex justify-center gap-6">
-          <Link href="/medical-imaging/blog" className="text-sm text-indigo-600 hover:text-indigo-800 font-medium" data-testid="link-all-articles">All Articles</Link>
+          <Link href="/medical-imaging/blog" className="text-sm text-indigo-600 hover:text-indigo-800 font-medium" data-testid="link-all-articles">{t("pages.imagingBlog.allArticles")}</Link>
           <Link href={`/medical-imaging/${article.country}`} className="text-sm text-indigo-600 hover:text-indigo-800 font-medium" data-testid="link-country-hub">{countryMeta?.flag} {countryMeta?.exam} Hub</Link>
-          <Link href="/medical-imaging" className="text-sm text-indigo-600 hover:text-indigo-800 font-medium" data-testid="link-imaging-hub">Medical Imaging</Link>
+          <Link href="/medical-imaging" className="text-sm text-indigo-600 hover:text-indigo-800 font-medium" data-testid="link-imaging-hub">{t("pages.imagingBlog.medicalImaging")}</Link>
         </nav>
       </div>
     </div>

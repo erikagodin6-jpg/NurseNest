@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { adminFetch } from "@/lib/admin-fetch";
+import { useI18n } from "@/lib/i18n";
 import {
   GLOBAL_CONTENT_EXPANSION_ROADMAP,
   getPhaseCompletionPercent,
@@ -86,6 +87,7 @@ const statusConfig: Record<string, { label: string; color: string; bg: string; i
 };
 
 export default function AdminExpansionRoadmap() {
+  const { t } = useI18n();
   const [expandedPhases, setExpandedPhases] = useState<Set<number>>(new Set([1, 2, 3]));
   const [manifestSubTab, setManifestSubTab] = useState<"overview" | "tiers" | "exams" | "countries" | "topics" | "formats">("overview");
 
@@ -163,7 +165,7 @@ export default function AdminExpansionRoadmap() {
   return (
     <div className="space-y-6" data-testid="section-expansion-roadmap">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-gray-900" data-testid="text-roadmap-heading">Global Expansion Roadmap & Content Manifests</h2>
+        <h2 className="text-xl font-bold text-gray-900" data-testid="text-roadmap-heading">{t("pages.adminExpansionRoadmap.globalExpansionRoadmapContentManifests")}</h2>
         <Button size="sm" variant="outline" onClick={() => refetch()} data-testid="button-refresh-inventory">
           <RefreshCw className="w-4 h-4 mr-1" />
           Refresh
@@ -185,21 +187,21 @@ export default function AdminExpansionRoadmap() {
       )}
 
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3" data-testid="stats-overview">
-        <StatCard label="Public Questions" value={publicTotal.toLocaleString()} icon={<Database className="w-4 h-4 text-blue-600" />} testId="stat-public-total" />
-        <StatCard label="DB Exam Qs" value={(inventory?.examQuestions.total || 0).toLocaleString()} icon={<FileText className="w-4 h-4 text-purple-600" />} testId="stat-db-exam" />
-        <StatCard label="Allied Qs" value={alliedTotal.toLocaleString()} icon={<Globe className="w-4 h-4 text-teal-600" />} testId="stat-allied-total" />
-        <StatCard label="Cert Qs" value={certTotal.toLocaleString()} icon={<Target className="w-4 h-4 text-amber-600" />} testId="stat-cert-total" />
-        <StatCard label="Published" value={(inventory?.examQuestions.published || 0).toLocaleString()} icon={<CheckCircle2 className="w-4 h-4 text-emerald-600" />} testId="stat-published" />
-        <StatCard label="AI Pool" value={(inventory?.examQuestions.aiGenerated || 0).toLocaleString()} sub="(unvalidated)" icon={<Sparkles className="w-4 h-4 text-orange-500" />} testId="stat-ai-pool" />
-        <StatCard label="Mock Exams" value={(inventory?.inventory.mockExams || 0).toLocaleString()} icon={<BookOpen className="w-4 h-4 text-indigo-600" />} testId="stat-mock-exams" />
-        <StatCard label="Explanations" value={(inventory?.inventory.explanations || 0).toLocaleString()} icon={<Zap className="w-4 h-4 text-yellow-600" />} testId="stat-explanations" />
+        <StatCard label={t("pages.adminExpansionRoadmap.publicQuestions")} value={publicTotal.toLocaleString()} icon={<Database className="w-4 h-4 text-blue-600" />} testId="stat-public-total" />
+        <StatCard label={t("pages.adminExpansionRoadmap.dbExamQs")} value={(inventory?.examQuestions.total || 0).toLocaleString()} icon={<FileText className="w-4 h-4 text-purple-600" />} testId="stat-db-exam" />
+        <StatCard label={t("pages.adminExpansionRoadmap.alliedQs")} value={alliedTotal.toLocaleString()} icon={<Globe className="w-4 h-4 text-teal-600" />} testId="stat-allied-total" />
+        <StatCard label={t("pages.adminExpansionRoadmap.certQs")} value={certTotal.toLocaleString()} icon={<Target className="w-4 h-4 text-amber-600" />} testId="stat-cert-total" />
+        <StatCard label={t("pages.adminExpansionRoadmap.published")} value={(inventory?.examQuestions.published || 0).toLocaleString()} icon={<CheckCircle2 className="w-4 h-4 text-emerald-600" />} testId="stat-published" />
+        <StatCard label={t("pages.adminExpansionRoadmap.aiPool")} value={(inventory?.examQuestions.aiGenerated || 0).toLocaleString()} sub="(unvalidated)" icon={<Sparkles className="w-4 h-4 text-orange-500" />} testId="stat-ai-pool" />
+        <StatCard label={t("pages.adminExpansionRoadmap.mockExams")} value={(inventory?.inventory.mockExams || 0).toLocaleString()} icon={<BookOpen className="w-4 h-4 text-indigo-600" />} testId="stat-mock-exams" />
+        <StatCard label={t("pages.adminExpansionRoadmap.explanations")} value={(inventory?.inventory.explanations || 0).toLocaleString()} icon={<Zap className="w-4 h-4 text-yellow-600" />} testId="stat-explanations" />
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <StatCard label="Scenarios" value={(inventory?.inventory.scenarios || 0).toLocaleString()} icon={<BarChart3 className="w-4 h-4 text-pink-600" />} testId="stat-scenarios" />
-        <StatCard label="Lessons" value={(inventory?.inventory.lessons || 0).toLocaleString()} icon={<BookOpen className="w-4 h-4 text-green-600" />} testId="stat-lessons" />
-        <StatCard label="Flashcard Decks" value={(inventory?.inventory.flashcardDecks || 0).toLocaleString()} icon={<Layers className="w-4 h-4 text-cyan-600" />} testId="stat-fc-decks" />
-        <StatCard label="Flashcard Cards" value={(inventory?.inventory.flashcardCards || 0).toLocaleString()} icon={<FileText className="w-4 h-4 text-cyan-700" />} testId="stat-fc-cards" />
+        <StatCard label={t("pages.adminExpansionRoadmap.scenarios")} value={(inventory?.inventory.scenarios || 0).toLocaleString()} icon={<BarChart3 className="w-4 h-4 text-pink-600" />} testId="stat-scenarios" />
+        <StatCard label={t("pages.adminExpansionRoadmap.lessons")} value={(inventory?.inventory.lessons || 0).toLocaleString()} icon={<BookOpen className="w-4 h-4 text-green-600" />} testId="stat-lessons" />
+        <StatCard label={t("pages.adminExpansionRoadmap.flashcardDecks")} value={(inventory?.inventory.flashcardDecks || 0).toLocaleString()} icon={<Layers className="w-4 h-4 text-cyan-600" />} testId="stat-fc-decks" />
+        <StatCard label={t("pages.adminExpansionRoadmap.flashcardCards")} value={(inventory?.inventory.flashcardCards || 0).toLocaleString()} icon={<FileText className="w-4 h-4 text-cyan-700" />} testId="stat-fc-cards" />
       </div>
 
       <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50" data-testid="card-roadmap-progress">
@@ -224,19 +226,19 @@ export default function AdminExpansionRoadmap() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
             <div className="bg-white/60 rounded-lg px-3 py-2 text-center">
               <div className="font-bold text-emerald-700" data-testid="text-completed-count">{progress.completedComponents}</div>
-              <div className="text-gray-500 text-xs">Completed</div>
+              <div className="text-gray-500 text-xs">{t("pages.adminExpansionRoadmap.completed")}</div>
             </div>
             <div className="bg-white/60 rounded-lg px-3 py-2 text-center">
               <div className="font-bold text-blue-700" data-testid="text-in-progress-count">{progress.inProgressComponents}</div>
-              <div className="text-gray-500 text-xs">In Progress</div>
+              <div className="text-gray-500 text-xs">{t("pages.adminExpansionRoadmap.inProgress")}</div>
             </div>
             <div className="bg-white/60 rounded-lg px-3 py-2 text-center">
               <div className="font-bold text-gray-600" data-testid="text-queued-count">{progress.queuedComponents}</div>
-              <div className="text-gray-500 text-xs">Queued</div>
+              <div className="text-gray-500 text-xs">{t("pages.adminExpansionRoadmap.queued")}</div>
             </div>
             <div className="bg-white/60 rounded-lg px-3 py-2 text-center">
               <div className="font-bold text-gray-900" data-testid="text-total-components">{progress.totalComponents}</div>
-              <div className="text-gray-500 text-xs">Total Components</div>
+              <div className="text-gray-500 text-xs">{t("pages.adminExpansionRoadmap.totalComponents")}</div>
             </div>
           </div>
         </CardContent>
@@ -348,8 +350,8 @@ export default function AdminExpansionRoadmap() {
                   <div className="flex items-center gap-2">
                     <AlertTriangle className={`w-4 h-4 ${alert.severity === "critical" ? "text-red-500" : alert.severity === "approaching-weak" ? "text-blue-500" : "text-amber-500"}`} />
                     <span className="font-medium text-gray-900">{alert.name}</span>
-                    {alert.type === "topic" && <Badge className="bg-gray-100 text-gray-600 text-xs">Topic</Badge>}
-                    {alert.isFlagship && <Badge className="bg-purple-100 text-purple-700 text-xs">Flagship</Badge>}
+                    {alert.type === "topic" && <Badge className="bg-gray-100 text-gray-600 text-xs">{t("pages.adminExpansionRoadmap.topic")}</Badge>}
+                    {alert.isFlagship && <Badge className="bg-purple-100 text-purple-700 text-xs">{t("pages.adminExpansionRoadmap.flagship")}</Badge>}
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="text-sm text-gray-600">{alert.currentCount.toLocaleString()} questions</span>
@@ -391,15 +393,15 @@ export default function AdminExpansionRoadmap() {
             {manifestSubTab === "overview" && (
               <div className="space-y-4">
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  <ManifestStat label="Total Exam Qs" value={inventory.examQuestions.total} testId="manifest-exam-total" />
-                  <ManifestStat label="Published" value={inventory.examQuestions.published} testId="manifest-published" />
-                  <ManifestStat label="AI Pool (Pending)" value={inventory.examQuestions.aiGenerated} testId="manifest-ai-pool" highlight />
-                  <ManifestStat label="Allied Health Qs" value={inventory.alliedQuestions.total} testId="manifest-allied" />
-                  <ManifestStat label="Scenarios" value={inventory.inventory.scenarios} testId="manifest-scenarios" />
-                  <ManifestStat label="Lessons" value={inventory.inventory.lessons} testId="manifest-lessons" />
+                  <ManifestStat label={t("pages.adminExpansionRoadmap.totalExamQs")} value={inventory.examQuestions.total} testId="manifest-exam-total" />
+                  <ManifestStat label={t("pages.adminExpansionRoadmap.published2")} value={inventory.examQuestions.published} testId="manifest-published" />
+                  <ManifestStat label={t("pages.adminExpansionRoadmap.aiPoolPending")} value={inventory.examQuestions.aiGenerated} testId="manifest-ai-pool" highlight />
+                  <ManifestStat label={t("pages.adminExpansionRoadmap.alliedHealthQs")} value={inventory.alliedQuestions.total} testId="manifest-allied" />
+                  <ManifestStat label={t("pages.adminExpansionRoadmap.scenarios2")} value={inventory.inventory.scenarios} testId="manifest-scenarios" />
+                  <ManifestStat label={t("pages.adminExpansionRoadmap.lessons2")} value={inventory.inventory.lessons} testId="manifest-lessons" />
                 </div>
                 <div className="text-xs text-gray-500 bg-gray-50 rounded p-3">
-                  <strong>Note:</strong> Public counts show only validated, published, non-duplicate inventory.
+                  <strong>{t("pages.adminExpansionRoadmap.note")}</strong> Public counts show only validated, published, non-duplicate inventory.
                   AI-generated pools ({inventory.examQuestions.aiGenerated.toLocaleString()} questions) are tracked separately until validated.
                 </div>
               </div>
@@ -412,7 +414,7 @@ export default function AdminExpansionRoadmap() {
                 ))}
                 {Object.keys(inventory.alliedQuestions.byCareer).length > 0 && (
                   <>
-                    <div className="text-xs font-semibold text-gray-500 mt-4 mb-2">Allied Health Careers</div>
+                    <div className="text-xs font-semibold text-gray-500 mt-4 mb-2">{t("pages.adminExpansionRoadmap.alliedHealthCareers")}</div>
                     {Object.entries(inventory.alliedQuestions.byCareer).map(([career, count]) => (
                       <InventoryBar key={career} label={career} count={count} max={Math.max(...Object.values(inventory.alliedQuestions.byCareer))} testId={`career-${career}`} />
                     ))}
@@ -432,7 +434,7 @@ export default function AdminExpansionRoadmap() {
             {manifestSubTab === "countries" && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <div className="text-xs font-semibold text-gray-500 mb-2">By Country/Region</div>
+                  <div className="text-xs font-semibold text-gray-500 mb-2">{t("pages.adminExpansionRoadmap.byCountryregion")}</div>
                   <div className="space-y-2">
                     {Object.entries(inventory.examQuestions.byCountry).map(([country, count]) => (
                       <InventoryBar key={country} label={country} count={count} max={Math.max(...Object.values(inventory.examQuestions.byCountry))} testId={`country-${country}`} />
@@ -440,7 +442,7 @@ export default function AdminExpansionRoadmap() {
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs font-semibold text-gray-500 mb-2">By Language</div>
+                  <div className="text-xs font-semibold text-gray-500 mb-2">{t("pages.adminExpansionRoadmap.byLanguage")}</div>
                   <div className="space-y-2">
                     {Object.entries(inventory.examQuestions.byLanguage).map(([lang, count]) => (
                       <InventoryBar key={lang} label={lang.toUpperCase()} count={count} max={Math.max(...Object.values(inventory.examQuestions.byLanguage))} testId={`lang-${lang}`} />
@@ -453,7 +455,7 @@ export default function AdminExpansionRoadmap() {
             {manifestSubTab === "topics" && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <div className="text-xs font-semibold text-gray-500 mb-2">Exam Question Topics (Top 25)</div>
+                  <div className="text-xs font-semibold text-gray-500 mb-2">{t("pages.adminExpansionRoadmap.examQuestionTopicsTop25")}</div>
                   <div className="space-y-1">
                     {inventory.examQuestions.byTopic.slice(0, 25).map((t) => (
                       <div key={t.topic} className="flex items-center justify-between text-xs bg-gray-50 rounded px-2 py-1" data-testid={`topic-exam-${t.topic}`}>
@@ -464,7 +466,7 @@ export default function AdminExpansionRoadmap() {
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs font-semibold text-gray-500 mb-2">Allied Question Topics (Top 25)</div>
+                  <div className="text-xs font-semibold text-gray-500 mb-2">{t("pages.adminExpansionRoadmap.alliedQuestionTopicsTop25")}</div>
                   <div className="space-y-1">
                     {inventory.alliedQuestions.byTopic.slice(0, 25).map((t) => (
                       <div key={t.topic} className="flex items-center justify-between text-xs bg-gray-50 rounded px-2 py-1" data-testid={`topic-allied-${t.topic}`}>
@@ -483,7 +485,7 @@ export default function AdminExpansionRoadmap() {
                   <InventoryBar key={format} label={format} count={count} max={Math.max(...Object.values(inventory.examQuestions.byFormat))} testId={`format-${format}`} />
                 ))}
                 <div className="mt-4">
-                  <div className="text-xs font-semibold text-gray-500 mb-2">By Status</div>
+                  <div className="text-xs font-semibold text-gray-500 mb-2">{t("pages.adminExpansionRoadmap.byStatus")}</div>
                   {Object.entries(inventory.examQuestions.byStatus).map(([status, count]) => (
                     <InventoryBar key={status} label={status} count={count} max={Math.max(...Object.values(inventory.examQuestions.byStatus))} testId={`status-${status}`} />
                   ))}

@@ -52,6 +52,7 @@ import { osceSkillStations5 } from "@/data/osce-skills-data-5";
 import { osceSkillStations6 } from "@/data/osce-skills-data-6";
 import { osceSkillStations7 } from "@/data/osce-skills-data-7";
 
+import { useI18n } from "@/lib/i18n";
 const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
 const allStations: OSCESkillStation[] = [
@@ -402,7 +403,7 @@ function StepOrderingExercise({
 
           <div className="bg-[#BFA6F6]/5 border border-[#BFA6F6]/20 rounded-xl p-4">
             <p className="text-sm text-[#2E3A59]/70">
-              <strong className="text-[#2E3A59]">How it works:</strong> You will be presented with the procedure steps
+              <strong className="text-[#2E3A59]">{t("pages.osceSkills.howItWorks")}</strong> You will be presented with the procedure steps
               in a shuffled order. Select them in the correct sequence. Critical steps are marked — missing their correct
               position results in a fail. You need all critical steps correct and at least 70% overall to pass.
             </p>
@@ -537,7 +538,7 @@ function StepOrderingExercise({
               <div className="flex justify-center gap-6 text-sm">
                 <div data-testid="text-steps-score">
                   <span className="font-semibold text-[#2E3A59]">{results.score}/{results.total}</span>
-                  <span className="text-[#2E3A59]/50 ml-1">Steps Correct</span>
+                  <span className="text-[#2E3A59]/50 ml-1">{t("pages.osceSkills.stepsCorrect")}</span>
                 </div>
                 <div data-testid="text-critical-score">
                   <span
@@ -545,7 +546,7 @@ function StepOrderingExercise({
                   >
                     {results.totalCritical - results.criticalMissed}/{results.totalCritical}
                   </span>
-                  <span className="text-[#2E3A59]/50 ml-1">Critical Steps</span>
+                  <span className="text-[#2E3A59]/50 ml-1">{t("pages.osceSkills.criticalSteps")}</span>
                 </div>
               </div>
               {results.criticalMissed > 0 && (
@@ -559,7 +560,7 @@ function StepOrderingExercise({
 
           <Card className="border-[#2E3A59]/10">
             <CardContent className="p-6">
-              <h3 className="font-semibold text-[#2E3A59] mb-4">Step-by-Step Results</h3>
+              <h3 className="font-semibold text-[#2E3A59] mb-4">{t("pages.osceSkills.stepbystepResults")}</h3>
               <div className="space-y-2">
                 {results.stepResults.map((r, idx) => (
                   <div
@@ -737,7 +738,7 @@ function StepOrderingExercise({
                     </div>
                   ))}
                   <div className="flex items-center justify-between pt-3 font-semibold text-[#2E3A59]">
-                    <span>Total</span>
+                    <span>{t("pages.osceSkills.total")}</span>
                     <span>{station.examinerChecklist.reduce((sum, i) => sum + i.marks, 0)} marks</span>
                   </div>
                 </div>
@@ -785,7 +786,7 @@ function StepOrderingExercise({
 
           <div className="bg-[#BFA6F6]/5 border border-[#BFA6F6]/20 rounded-xl p-4">
             <p className="text-sm text-[#2E3A59]/70">
-              <strong className="text-[#2E3A59]">Passing Criteria:</strong> {station.passingCriteria}
+              <strong className="text-[#2E3A59]">{t("pages.osceSkills.passingCriteria")}</strong> {station.passingCriteria}
             </p>
           </div>
 
@@ -815,6 +816,7 @@ function StepOrderingExercise({
 }
 
 export default function OSCESkillsPage() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const hasPaidAccess = user && paidTiers.includes(user.tier);
   const [selectedStation, setSelectedStation] = useState<OSCESkillStation | null>(null);
@@ -823,8 +825,8 @@ export default function OSCESkillsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       <SEO
-        title="OSCE Skills Practice | NurseNest"
-        description="Master clinical nursing procedures with interactive OSCE skill stations. Step-by-step procedural checklists with pass/fail evaluation for nursing students."
+        title={t("pages.osceSkills.osceSkillsPracticeNursenest")}
+        description={t("pages.osceSkills.masterClinicalNursingProceduresWith")}
       />
       <Navigation />
       <main className="max-w-6xl mx-auto px-4 py-8">
@@ -839,7 +841,7 @@ export default function OSCESkillsPage() {
         {!hasPaidAccess ? (
           <div className="text-center py-16">
             <Lock className="w-16 h-16 mx-auto text-[#2E3A59]/30 mb-4" />
-            <h2 className="text-2xl font-bold text-[#2E3A59] mb-2">OSCE Skills Practice</h2>
+            <h2 className="text-2xl font-bold text-[#2E3A59] mb-2">{t("pages.osceSkills.osceSkillsPractice")}</h2>
             <p className="text-[#2E3A59]/60 mb-6 max-w-md mx-auto">
               Access interactive skill stations with step-by-step procedural checklists and pass/fail evaluation.
             </p>

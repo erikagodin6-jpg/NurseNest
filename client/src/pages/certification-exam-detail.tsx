@@ -10,6 +10,7 @@ import {
   getCertQuestions,
 } from "@/data/certification-exam-data";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, Award, ShieldCheck, BookOpen, ChevronRight,
   Target, TrendingUp, Clock, Lock, Crown, Check, Play,
@@ -29,6 +30,7 @@ const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string;
 };
 
 export default function CertificationExamDetail() {
+  const { t } = useI18n();
   const params = useParams<{ slug: string }>();
   const certSlug = params?.slug || "";
   const config = CERTIFICATION_EXAM_CONFIGS[certSlug];
@@ -42,8 +44,8 @@ export default function CertificationExamDetail() {
         <Navigation />
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center max-w-md px-4">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">Certification Not Found</h1>
-            <p className="text-gray-600 mb-6">The certification exam prep page you are looking for is not available.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">{t("pages.certificationExamDetail.certificationNotFound")}</h1>
+            <p className="text-gray-600 mb-6">{t("pages.certificationExamDetail.theCertificationExamPrepPage")}</p>
             <Link href="/certification-exam-prep" className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors" data-testid="link-back-to-hub">
               Back to Exam Prep Hub <ArrowRight className="w-4 h-4" />
             </Link>
@@ -78,9 +80,9 @@ export default function CertificationExamDetail() {
         <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradientFrom} via-white/50 ${colors.gradientTo}`} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-            <Link href="/" className="hover:text-emerald-600">Home</Link>
+            <Link href="/" className="hover:text-emerald-600">{t("pages.certificationExamDetail.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/certification-exam-prep" className="hover:text-emerald-600">Exam Prep</Link>
+            <Link href="/certification-exam-prep" className="hover:text-emerald-600">{t("pages.certificationExamDetail.examPrep")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className={`${colors.badgeText} font-medium`}>{config.name}</span>
           </div>
@@ -97,15 +99,15 @@ export default function CertificationExamDetail() {
             <div className="grid grid-cols-3 gap-4 mb-8">
               <div className={`bg-white/80 backdrop-blur rounded-xl border ${colors.border} p-4 text-center`} data-testid="hero-stat-questions">
                 <div className="text-2xl font-bold text-gray-900">{config.totalQuestions.toLocaleString()}+</div>
-                <div className="text-xs text-gray-500">Questions</div>
+                <div className="text-xs text-gray-500">{t("pages.certificationExamDetail.questions")}</div>
               </div>
               <div className={`bg-white/80 backdrop-blur rounded-xl border ${colors.border} p-4 text-center`} data-testid="hero-stat-mocks">
                 <div className="text-2xl font-bold text-gray-900">{config.mockExams.length}</div>
-                <div className="text-xs text-gray-500">Mock Exams</div>
+                <div className="text-xs text-gray-500">{t("pages.certificationExamDetail.mockExams")}</div>
               </div>
               <div className={`bg-white/80 backdrop-blur rounded-xl border ${colors.border} p-4 text-center`} data-testid="hero-stat-topics">
                 <div className="text-2xl font-bold text-gray-900">{config.topicBanks.length}</div>
-                <div className="text-xs text-gray-500">Topic Banks</div>
+                <div className="text-xs text-gray-500">{t("pages.certificationExamDetail.topicBanks")}</div>
               </div>
             </div>
             <div className="flex flex-wrap gap-4">
@@ -127,7 +129,7 @@ export default function CertificationExamDetail() {
               <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center`}>
                 <Users className={`w-5 h-5 ${colors.iconColor}`} />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900" data-testid="text-audience-heading">Who This Certification Is For</h2>
+              <h2 className="text-2xl font-bold text-gray-900" data-testid="text-audience-heading">{t("pages.certificationExamDetail.whoThisCertificationIsFor")}</h2>
             </div>
             <div className="flex flex-wrap gap-2">
               {config.audience.map((role, i) => (
@@ -146,7 +148,7 @@ export default function CertificationExamDetail() {
             <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center`}>
               <ClipboardList className={`w-5 h-5 ${colors.iconColor}`} />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900" data-testid="text-overview-heading">Exam Structure Overview</h2>
+            <h2 className="text-2xl font-bold text-gray-900" data-testid="text-overview-heading">{t("pages.certificationExamDetail.examStructureOverview")}</h2>
           </div>
           <p className="text-gray-600 leading-relaxed mb-6" data-testid="text-overview-content">{config.examOverview}</p>
         </div>
@@ -156,7 +158,7 @@ export default function CertificationExamDetail() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-topics-heading">{config.name} Topic Banks</h2>
-            <p className="text-gray-600">Practice questions organized by topic to target your weak areas.</p>
+            <p className="text-gray-600">{t("pages.certificationExamDetail.practiceQuestionsOrganizedByTopic")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {config.topicBanks.map((bank, i) => (
@@ -183,7 +185,7 @@ export default function CertificationExamDetail() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-mocks-heading">{config.name} Mock Exams</h2>
-            <p className="text-gray-600">Full-length timed exams simulating real certification conditions.</p>
+            <p className="text-gray-600">{t("pages.certificationExamDetail.fulllengthTimedExamsSimulatingReal")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {config.mockExams.map((exam, i) => (
@@ -237,7 +239,7 @@ export default function CertificationExamDetail() {
             <div className="mt-8 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl border border-emerald-100 p-6 text-center" data-testid="cta-unlock-full">
               <Lock className="w-8 h-8 text-emerald-600 mx-auto mb-3" />
               <h3 className="font-bold text-gray-900 mb-2">Unlock {config.totalQuestions.toLocaleString()}+ {config.name} Questions</h3>
-              <p className="text-sm text-gray-600 mb-4">Get full access to all question banks, mock exams, and performance analytics.</p>
+              <p className="text-sm text-gray-600 mb-4">{t("pages.certificationExamDetail.getFullAccessToAll")}</p>
               <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors" data-testid="button-unlock-cta">
                 <Crown className="w-4 h-4" /> Upgrade Now <ArrowRight className="w-4 h-4" />
               </Link>
@@ -252,7 +254,7 @@ export default function CertificationExamDetail() {
             <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center`}>
               <Target className={`w-5 h-5 ${colors.iconColor}`} />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900" data-testid="text-strategy-heading">How to Prepare Effectively</h2>
+            <h2 className="text-2xl font-bold text-gray-900" data-testid="text-strategy-heading">{t("pages.certificationExamDetail.howToPrepareEffectively")}</h2>
           </div>
           <div className="space-y-3">
             {config.prepStrategy.map((tip, i) => (
@@ -304,7 +306,7 @@ export default function CertificationExamDetail() {
       <section className="py-12 bg-white" data-testid="section-cross-links">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-2" data-testid="text-cross-heading">Other Certification Exam Banks</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-2" data-testid="text-cross-heading">{t("pages.certificationExamDetail.otherCertificationExamBanks")}</h2>
             <Link href="/certification-exam-prep" className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors" data-testid="link-back-to-hub">
               ← Back to Exam Prep Hub
             </Link>

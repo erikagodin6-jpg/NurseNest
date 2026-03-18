@@ -2,14 +2,16 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { ChevronDown, ChevronRight, BookOpen, Lightbulb, AlertTriangle, CheckCircle, ArrowRight } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface BreadcrumbItem {
   label: string;
   href: string;
 }
 
 export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
+  const { t } = useI18n();
   return (
-    <nav aria-label="Breadcrumb" className="text-sm text-gray-500" data-testid="breadcrumbs">
+    <nav aria-label={t("allied.paramedicSeoComponents.breadcrumb")} className="text-sm text-gray-500" data-testid="breadcrumbs">
       <ol className="flex flex-wrap items-center gap-1">
         {items.map((item, i) => (
           <li key={i} className="flex items-center gap-1">
@@ -92,7 +94,7 @@ export function FAQAccordion({ items }: { items: { question: string; answer: str
   if (!items || items.length === 0) return null;
   return (
     <div className="space-y-2 my-6" data-testid="faq-accordion">
-      <h2 className="text-xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-4">{t("allied.paramedicSeoComponents.frequentlyAskedQuestions")}</h2>
       {items.map((item, i) => (
         <div key={i} className="border border-gray-200 rounded-lg overflow-hidden">
           <button
@@ -134,7 +136,7 @@ export function StudyGuideChecklist({ items }: { items: { label: string; complet
   if (!items || items.length === 0) return null;
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-4 my-4" data-testid="study-checklist">
-      <h3 className="font-semibold text-gray-900 mb-3">Study Checklist</h3>
+      <h3 className="font-semibold text-gray-900 mb-3">{t("allied.paramedicSeoComponents.studyChecklist")}</h3>
       <ul className="space-y-2">
         {items.map((item, i) => (
           <li key={i} className="flex items-center gap-2 text-sm">
@@ -210,7 +212,7 @@ export function ComparisonHighlights({ itemA, itemB, points }: {
       <table className="w-full border-collapse text-sm">
         <thead>
           <tr className="bg-gray-50">
-            <th className="text-left px-4 py-3 font-semibold text-gray-700 border-b">Aspect</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-700 border-b">{t("allied.paramedicSeoComponents.aspect")}</th>
             <th className="text-left px-4 py-3 font-semibold text-teal-700 border-b">{itemA}</th>
             <th className="text-left px-4 py-3 font-semibold text-purple-700 border-b">{itemB}</th>
           </tr>
@@ -274,7 +276,7 @@ export function RelatedContentRail({ links }: { links: { type: string; title: st
   };
   return (
     <div className="bg-gray-50 rounded-xl p-5 my-6" data-testid="related-content">
-      <h3 className="font-semibold text-gray-900 mb-3">Related Content</h3>
+      <h3 className="font-semibold text-gray-900 mb-3">{t("allied.paramedicSeoComponents.relatedContent")}</h3>
       <div className="space-y-2">
         {links.map((link, i) => (
           <a
@@ -313,7 +315,7 @@ export function PracticeQuestionsLink() {
       <div className="flex items-start gap-3">
         <BookOpen className="w-6 h-6 text-purple-600 mt-0.5 flex-shrink-0" />
         <div>
-          <h3 className="font-semibold text-gray-900 mb-1">Practice Questions by Topic</h3>
+          <h3 className="font-semibold text-gray-900 mb-1">{t("allied.paramedicSeoComponents.practiceQuestionsByTopic")}</h3>
           <p className="text-sm text-gray-600 mb-3">
             Test your knowledge with 500+ paramedic practice questions organized by clinical topic. Each question includes detailed rationales.
           </p>

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "wouter";
 import { BookOpen, ChevronRight, Search, ArrowLeft, AlertTriangle, Lightbulb, CheckCircle, XCircle } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface PerioperativeLessonSummary {
   id: string;
   moduleId: string;
@@ -46,6 +47,7 @@ const MODULE_LABELS: Record<string, string> = {
 };
 
 function LessonDetail({ slug }: { slug: string }) {
+  const { t } = useI18n();
   const [lesson, setLesson] = useState<PerioperativeLessonDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
@@ -70,8 +72,8 @@ function LessonDetail({ slug }: { slug: string }) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-lesson-not-found">Lesson Not Found</h1>
-        <Link href="/perioperative/lessons" className="text-teal-600 hover:underline" data-testid="link-back-lessons">Back to Lessons</Link>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-lesson-not-found">{t("allied.perioperativeLessons.lessonNotFound")}</h1>
+        <Link href="/perioperative/lessons" className="text-teal-600 hover:underline" data-testid="link-back-lessons">{t("allied.perioperativeLessons.backToLessons")}</Link>
       </div>
     );
   }
@@ -81,9 +83,9 @@ function LessonDetail({ slug }: { slug: string }) {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href="/perioperative" className="hover:text-teal-600" data-testid="link-breadcrumb-home">Perioperative</Link>
+        <Link href="/perioperative" className="hover:text-teal-600" data-testid="link-breadcrumb-home">{t("allied.perioperativeLessons.perioperative")}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <Link href="/perioperative/lessons" className="hover:text-teal-600" data-testid="link-breadcrumb-lessons">Lessons</Link>
+        <Link href="/perioperative/lessons" className="hover:text-teal-600" data-testid="link-breadcrumb-lessons">{t("allied.perioperativeLessons.lessons")}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <span className="text-teal-700 font-medium truncate max-w-[200px]">{lesson.title}</span>
       </div>
@@ -112,7 +114,7 @@ function LessonDetail({ slug }: { slug: string }) {
         <div className="bg-teal-50 rounded-2xl p-6 mb-6">
           <div className="flex items-center gap-2 mb-3">
             <Lightbulb className="w-5 h-5 text-teal-600" />
-            <h2 className="text-lg font-semibold text-gray-900">Clinical Reasoning</h2>
+            <h2 className="text-lg font-semibold text-gray-900">{t("allied.perioperativeLessons.clinicalReasoning")}</h2>
           </div>
           <p className="text-sm text-gray-700" data-testid="text-clinical-reasoning">{lesson.clinicalReasoning}</p>
         </div>
@@ -122,7 +124,7 @@ function LessonDetail({ slug }: { slug: string }) {
         <div className="bg-amber-50 rounded-2xl p-6 mb-6">
           <div className="flex items-center gap-2 mb-3">
             <AlertTriangle className="w-5 h-5 text-amber-600" />
-            <h2 className="text-lg font-semibold text-gray-900">Common Mistakes</h2>
+            <h2 className="text-lg font-semibold text-gray-900">{t("allied.perioperativeLessons.commonMistakes")}</h2>
           </div>
           <ul className="space-y-2">
             {lesson.commonMistakes.map((m, i) => (
@@ -139,7 +141,7 @@ function LessonDetail({ slug }: { slug: string }) {
         <div className="bg-red-50 rounded-2xl p-6 mb-6">
           <div className="flex items-center gap-2 mb-3">
             <AlertTriangle className="w-5 h-5 text-red-600" />
-            <h2 className="text-lg font-semibold text-gray-900">Exam Trap Warning</h2>
+            <h2 className="text-lg font-semibold text-gray-900">{t("allied.perioperativeLessons.examTrapWarning")}</h2>
           </div>
           <p className="text-sm text-gray-700" data-testid="text-exam-trap">{lesson.examTrapWarning}</p>
         </div>
@@ -147,7 +149,7 @@ function LessonDetail({ slug }: { slug: string }) {
 
       {lesson.checkpointQuestions && lesson.checkpointQuestions.length > 0 && (
         <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Checkpoint Quiz</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">{t("allied.perioperativeLessons.checkpointQuiz")}</h2>
           {lesson.checkpointQuestions.map((q, qi) => (
             <div key={qi} className="mb-6 last:mb-0" data-testid={`quiz-question-${qi}`}>
               <p className="font-medium text-gray-900 mb-3">{qi + 1}. {q.question}</p>
@@ -188,7 +190,7 @@ function LessonDetail({ slug }: { slug: string }) {
               )}
               {quizRevealed[qi] && (
                 <div className="mt-3 p-3 bg-blue-50 rounded-lg text-sm text-gray-700" data-testid={`text-rationale-${qi}`}>
-                  <strong>Rationale:</strong> {q.rationale}
+                  <strong>{t("allied.perioperativeLessons.rationale")}</strong> {q.rationale}
                 </div>
               )}
             </div>
@@ -237,14 +239,14 @@ function LessonsList() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href="/perioperative" className="hover:text-teal-600" data-testid="link-breadcrumb-home">Perioperative</Link>
+        <Link href="/perioperative" className="hover:text-teal-600" data-testid="link-breadcrumb-home">{t("allied.perioperativeLessons.perioperative2")}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-teal-700 font-medium">Lessons</span>
+        <span className="text-teal-700 font-medium">{t("allied.perioperativeLessons.lessons2")}</span>
       </div>
 
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2" data-testid="text-page-title">Perioperative Nursing Lessons</h1>
-        <p className="text-gray-600">Comprehensive lessons covering all 10 CNOR domains for perioperative nursing certification.</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2" data-testid="text-page-title">{t("allied.perioperativeLessons.perioperativeNursingLessons")}</h1>
+        <p className="text-gray-600">{t("allied.perioperativeLessons.comprehensiveLessonsCoveringAll10")}</p>
         <p className="text-sm text-gray-500 mt-1">{lessons.length} lessons available</p>
       </div>
 
@@ -253,7 +255,7 @@ function LessonsList() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
             type="text"
-            placeholder="Search lessons..."
+            placeholder={t("allied.perioperativeLessons.searchLessons")}
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-transparent"
@@ -266,7 +268,7 @@ function LessonsList() {
           className="px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-teal-500"
           data-testid="select-domain"
         >
-          <option value="">All Domains</option>
+          <option value="">{t("allied.perioperativeLessons.allDomains")}</option>
           {modules.map(m => (
             <option key={m} value={m}>{MODULE_LABELS[m] || m}</option>
           ))}
@@ -276,7 +278,7 @@ function LessonsList() {
       {filtered.length === 0 ? (
         <div className="text-center py-12 text-gray-500">
           <BookOpen className="w-10 h-10 mx-auto mb-3 text-gray-300" />
-          <p>No lessons found matching your criteria.</p>
+          <p>{t("allied.perioperativeLessons.noLessonsFoundMatchingYour")}</p>
         </div>
       ) : (
         <div className="space-y-2">

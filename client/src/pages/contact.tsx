@@ -23,6 +23,7 @@ import {
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
+import { useI18n } from "@/lib/i18n";
 const supportCategories = [
   {
     icon: BookOpen,
@@ -47,6 +48,7 @@ const supportCategories = [
 ];
 
 export default function ContactPage() {
+  const { t } = useI18n();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
@@ -76,8 +78,8 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
       <SEO
-        title="Contact & Help - NurseNest Support"
-        description="Get help with NurseNest nursing education platform. Contact our support team for questions about lessons, subscriptions, technical issues, or general inquiries."
+        title={t("pages.contact.contactHelpNursenestSupport")}
+        description={t("pages.contact.getHelpWithNursenestNursing")}
         keywords="NurseNest support, contact nursing education, help desk, customer service"
         canonicalPath="/contact"
       />
@@ -101,7 +103,7 @@ export default function ContactPage() {
               <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
                 <Mail className="w-8 h-8 text-primary" />
               </div>
-              <h2 className="text-xl font-bold text-gray-900">Email Us</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.contact.emailUs")}</h2>
               <a
                 href="mailto:support@nursenest.ca"
                 className="text-primary font-semibold text-lg hover:underline"
@@ -120,8 +122,8 @@ export default function ContactPage() {
               <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center">
                 <Clock className="w-8 h-8 text-accent-foreground" />
               </div>
-              <h2 className="text-xl font-bold text-gray-900">Response Time</h2>
-              <p className="text-gray-700 font-semibold text-lg">24 - 48 Business Hours</p>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.contact.responseTime")}</h2>
+              <p className="text-gray-700 font-semibold text-lg">{t("pages.contact.2448BusinessHours")}</p>
               <p className="text-gray-500 text-sm">
                 Monday through Friday, excluding statutory holidays
               </p>
@@ -130,7 +132,7 @@ export default function ContactPage() {
         </div>
 
         <div className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">How Can We Help?</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t("pages.contact.howCanWeHelp")}</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {supportCategories.map((cat) => {
               const Icon = cat.icon;
@@ -151,13 +153,13 @@ export default function ContactPage() {
           <CardContent className="p-8">
             <div className="flex items-center gap-3 mb-6">
               <MessageCircle className="w-6 h-6 text-primary" />
-              <h2 className="text-2xl font-bold text-gray-900">Send Us a Message</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.contact.sendUsAMessage")}</h2>
             </div>
 
             {submitted ? (
               <div className="text-center py-12 space-y-4" data-testid="text-form-success">
                 <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto" />
-                <h3 className="text-xl font-bold text-gray-900">Message Received!</h3>
+                <h3 className="text-xl font-bold text-gray-900">{t("pages.contact.messageReceived")}</h3>
                 <p className="text-gray-600 max-w-md mx-auto">
                   Thank you for reaching out. Our support team will review your message and respond within 24-48 business hours at the email you provided.
                 </p>
@@ -176,21 +178,21 @@ export default function ContactPage() {
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Full Name *</Label>
+                    <Label htmlFor="name">{t("pages.contact.fullName")}</Label>
                     <Input
                       id="name"
-                      placeholder="Your name"
+                      placeholder={t("pages.contact.yourName")}
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       data-testid="input-contact-name"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email Address *</Label>
+                    <Label htmlFor="email">{t("pages.contact.emailAddress")}</Label>
                     <Input
                       id="email"
                       type="email"
-                      placeholder="your@email.com"
+                      placeholder={t("pages.contact.youremailcom")}
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       data-testid="input-contact-email"
@@ -198,20 +200,20 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="subject">Subject</Label>
+                  <Label htmlFor="subject">{t("pages.contact.subject")}</Label>
                   <Input
                     id="subject"
-                    placeholder="Brief description of your inquiry"
+                    placeholder={t("pages.contact.briefDescriptionOfYourInquiry")}
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     data-testid="input-contact-subject"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="message">Message *</Label>
+                  <Label htmlFor="message">{t("pages.contact.message")}</Label>
                   <Textarea
                     id="message"
-                    placeholder="Describe your question, issue, or feedback in detail..."
+                    placeholder={t("pages.contact.describeYourQuestionIssueOr")}
                     rows={6}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -224,7 +226,7 @@ export default function ContactPage() {
                 </Button>
                 <p className="text-xs text-gray-400 text-center">
                   By submitting, you agree to our{" "}
-                  <LocaleLink href="/privacy" className="text-primary hover:underline">Privacy Policy</LocaleLink>.
+                  <LocaleLink href="/privacy" className="text-primary hover:underline">{t("pages.contact.privacyPolicy")}</LocaleLink>.
                   We will never share your information with third parties.
                 </p>
               </form>

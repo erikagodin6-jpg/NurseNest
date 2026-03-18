@@ -3,6 +3,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { useI18n } from "@/lib/i18n";
 import {
   Play, Pause, Volume2, VolumeX, Repeat,
   Wind, ChevronDown, ChevronUp, Stethoscope
@@ -170,6 +171,7 @@ const BREATH_SOUNDS: BreathSound[] = [
 ];
 
 function generateSound(ctx: AudioContext, type: BreathSound["waveformType"], duration: number, gainNode: GainNode): void {
+  const { t } = useI18n();
   const now = ctx.currentTime;
   const end = now + duration;
 
@@ -530,22 +532,22 @@ function SoundCard({ sound }: { sound: BreathSound }) {
 
       <div className="grid grid-cols-2 gap-2 text-xs mb-3">
         <div>
-          <span className="font-semibold text-gray-700">Timing:</span>
+          <span className="font-semibold text-gray-700">{t("components.respiratorySoundsLibrary.timing")}</span>
           <p className="text-gray-600">{sound.timing}</p>
         </div>
         <div>
-          <span className="font-semibold text-gray-700">Pitch:</span>
+          <span className="font-semibold text-gray-700">{t("components.respiratorySoundsLibrary.pitch")}</span>
           <p className="text-gray-600">{sound.pitch}</p>
         </div>
       </div>
 
       <div className="mb-3">
-        <span className="text-xs font-semibold text-gray-700">Clinical Significance:</span>
+        <span className="text-xs font-semibold text-gray-700">{t("components.respiratorySoundsLibrary.clinicalSignificance")}</span>
         <p className="text-xs text-gray-600">{sound.clinicalSignificance}</p>
       </div>
 
       <div className="mb-3">
-        <span className="text-xs font-semibold text-gray-700">Common Causes:</span>
+        <span className="text-xs font-semibold text-gray-700">{t("components.respiratorySoundsLibrary.commonCauses")}</span>
         <ul className="mt-1 space-y-0.5">
           {sound.commonCauses.map((cause, i) => (
             <li key={i} className="text-xs text-gray-600">- {cause}</li>
@@ -602,14 +604,14 @@ export function RespiratorySoundsLibrary() {
           data-testid="button-toggle-sounds-library"
         >
           <Stethoscope className="w-5 h-5 text-indigo-600" />
-          <h3 className="text-lg font-bold text-gray-900 flex-1">Respiratory Sounds Library</h3>
+          <h3 className="text-lg font-bold text-gray-900 flex-1">{t("components.respiratorySoundsLibrary.respiratorySoundsLibrary")}</h3>
           <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">{BREATH_SOUNDS.length} sounds</span>
           {expanded ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
         </button>
 
         {expanded && (
           <>
-            <p className="text-sm text-gray-500">Listen to real recordings of common breath sounds. Each sound includes timing, pitch characteristics, and clinical significance.</p>
+            <p className="text-sm text-gray-500">{t("components.respiratorySoundsLibrary.listenToRealRecordingsOf")}</p>
 
             <div className="flex gap-2">
               <Button

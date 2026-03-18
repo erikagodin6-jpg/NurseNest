@@ -10,9 +10,11 @@ import {
 import { DemoPageWrapper, SectionCard } from "@/components/demo-shared";
 import { lessonRationaleData as d } from "@/data/demo-screenshot-data";
 
+import { useI18n } from "@/lib/i18n";
 export default function DemoLessonRationale() {
+  const { t } = useI18n();
   const { user, isAdmin } = useAuth();
-  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">Admin access required.</p></div></DemoPageWrapper>;
+  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">{t("pages.demoLessonRationale.adminAccessRequired")}</p></div></DemoPageWrapper>;
 
   return (
     <DemoPageWrapper>
@@ -49,7 +51,7 @@ export default function DemoLessonRationale() {
               <div className="rounded-xl bg-emerald-50/60 border border-emerald-100 p-5 mb-5">
                 <div className="flex items-center gap-2 mb-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <h3 className="text-sm font-semibold text-emerald-800">Rationale</h3>
+                  <h3 className="text-sm font-semibold text-emerald-800">{t("pages.demoLessonRationale.rationale")}</h3>
                 </div>
                 <p className="text-sm text-slate-700 leading-relaxed">{d.rationale}</p>
               </div>
@@ -73,7 +75,7 @@ export default function DemoLessonRationale() {
                   <Lightbulb className="w-4 h-4 text-amber-600" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-amber-800 mb-1">Clinical Pearl</h3>
+                  <h3 className="text-sm font-semibold text-amber-800 mb-1">{t("pages.demoLessonRationale.clinicalPearl")}</h3>
                   <p className="text-sm text-slate-700 leading-relaxed">{d.clinicalPearl}</p>
                 </div>
               </div>
@@ -84,19 +86,19 @@ export default function DemoLessonRationale() {
             <SectionCard>
               <div className="flex items-center gap-2 mb-3">
                 <GraduationCap className="w-4 h-4 text-violet-500" />
-                <h3 className="text-sm font-semibold text-slate-700">Exam Blueprint</h3>
+                <h3 className="text-sm font-semibold text-slate-700">{t("pages.demoLessonRationale.examBlueprint")}</h3>
               </div>
               <div className="space-y-2">
                 <div className="px-3 py-2 rounded-lg bg-violet-50/50 border border-violet-100/60">
-                  <p className="text-[10px] text-slate-400 font-medium">Category</p>
+                  <p className="text-[10px] text-slate-400 font-medium">{t("pages.demoLessonRationale.category")}</p>
                   <p className="text-xs text-slate-700 font-semibold">{d.category}</p>
                 </div>
                 <div className="px-3 py-2 rounded-lg bg-violet-50/50 border border-violet-100/60">
-                  <p className="text-[10px] text-slate-400 font-medium">Subcategory</p>
+                  <p className="text-[10px] text-slate-400 font-medium">{t("pages.demoLessonRationale.subcategory")}</p>
                   <p className="text-xs text-slate-700 font-semibold">{d.subcategory}</p>
                 </div>
                 <div className="px-3 py-2 rounded-lg bg-violet-50/50 border border-violet-100/60">
-                  <p className="text-[10px] text-slate-400 font-medium">Cognitive Skill</p>
+                  <p className="text-[10px] text-slate-400 font-medium">{t("pages.demoLessonRationale.cognitiveSkill")}</p>
                   <p className="text-xs text-slate-700 font-semibold">{d.cognitiveSkill}</p>
                 </div>
               </div>
@@ -105,7 +107,7 @@ export default function DemoLessonRationale() {
             <SectionCard>
               <div className="flex items-center gap-2 mb-3">
                 <BookOpen className="w-4 h-4 text-sky-500" />
-                <h3 className="text-sm font-semibold text-slate-700">Linked Lesson</h3>
+                <h3 className="text-sm font-semibold text-slate-700">{t("pages.demoLessonRationale.linkedLesson")}</h3>
               </div>
               <div className="px-3 py-3 rounded-xl bg-sky-50/50 border border-sky-100/60 group cursor-pointer hover:bg-sky-50 transition-colors">
                 <div className="flex items-center justify-between">
@@ -118,7 +120,7 @@ export default function DemoLessonRationale() {
             <SectionCard>
               <div className="flex items-center gap-2 mb-3">
                 <Layers className="w-4 h-4 text-violet-500" />
-                <h3 className="text-sm font-semibold text-slate-700">Related Flashcards</h3>
+                <h3 className="text-sm font-semibold text-slate-700">{t("pages.demoLessonRationale.relatedFlashcards")}</h3>
               </div>
               <div className="space-y-2">
                 {d.linkedFlashcards.map((fc) => (

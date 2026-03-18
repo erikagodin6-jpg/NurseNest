@@ -8,7 +8,9 @@ import { InternalLinks } from "@/components/new-grad/internal-links";
 import { NEW_GRAD_PROFESSIONS } from "@shared/new-grad-professions";
 import { ChevronRight, BookOpen, AlertTriangle, CheckCircle2, MessageSquare, Brain, Lightbulb } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 export default function ClinicalScenarioPage() {
+  const { t } = useI18n();
   const params = useParams<{ slug: string }>();
 
   const { data: guide, isLoading } = useQuery({
@@ -34,8 +36,8 @@ export default function ClinicalScenarioPage() {
         <Navigation />
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-scenario-not-found">Clinical Scenario Not Found</h1>
-            <Link href="/new-grad" className="text-blue-600 hover:underline">Back to New Grad Hub</Link>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-scenario-not-found">{t("pages.newGrad.clinicalScenarioPage.clinicalScenarioNotFound")}</h1>
+            <Link href="/new-grad" className="text-blue-600 hover:underline">{t("pages.newGrad.clinicalScenarioPage.backToNewGradHub")}</Link>
           </div>
         </div>
         <Footer />
@@ -71,11 +73,11 @@ export default function ClinicalScenarioPage() {
       <section className="relative py-16 sm:py-20 overflow-hidden bg-gradient-to-br from-amber-50 via-orange-50/50 to-white" data-testid="section-scenario-hero">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.newGrad.clinicalScenarioPage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/new-grad" className="hover:text-blue-600">New Grad Hub</Link>
+            <Link href="/new-grad" className="hover:text-blue-600">{t("pages.newGrad.clinicalScenarioPage.newGradHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-amber-700 font-medium">Clinical Scenario</span>
+            <span className="text-amber-700 font-medium">{t("pages.newGrad.clinicalScenarioPage.clinicalScenario")}</span>
           </div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-amber-100 text-amber-700">
             <Brain className="w-4 h-4" />
@@ -164,8 +166,8 @@ export default function ClinicalScenarioPage() {
           {sections.length === 0 && (
             <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center">
               <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Content Coming Soon</h2>
-              <p className="text-gray-600">This clinical scenario walkthrough is being developed. Check back soon for detailed step-by-step actions, clinical reasoning, and communication tips.</p>
+              <h2 className="text-xl font-bold text-gray-900 mb-2">{t("pages.newGrad.clinicalScenarioPage.contentComingSoon")}</h2>
+              <p className="text-gray-600">{t("pages.newGrad.clinicalScenarioPage.thisClinicalScenarioWalkthroughIs")}</p>
             </div>
           )}
         </div>

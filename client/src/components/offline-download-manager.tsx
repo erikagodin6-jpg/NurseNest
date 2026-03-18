@@ -16,6 +16,7 @@ import {
 import { syncOfflineProgress, startAutoSync } from "@/lib/offline-sync";
 import { useToast } from "@/hooks/use-toast";
 
+import { useI18n } from "@/lib/i18n";
 interface AvailablePack {
   id: string;
   title: string;
@@ -38,6 +39,7 @@ interface DownloadedPack {
 }
 
 export function OfflineDownloadManager() {
+  const { t } = useI18n();
   const { toast } = useToast();
   const [availablePacks, setAvailablePacks] = useState<{ questionPacks: AvailablePack[]; flashcardPacks: AvailablePack[] }>({ questionPacks: [], flashcardPacks: [] });
   const [downloadedPacks, setDownloadedPacks] = useState<DownloadedPack[]>([]);
@@ -175,7 +177,7 @@ export function OfflineDownloadManager() {
         <Card>
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-base">Downloaded Content</CardTitle>
+              <CardTitle className="text-base">{t("components.offlineDownloadManager.downloadedContent")}</CardTitle>
               <Button
                 size="sm"
                 variant="outline"

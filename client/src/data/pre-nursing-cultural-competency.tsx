@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { Users, Heart, Globe, Shield } from "lucide-react";
 
 export function CulturalCompetencyModule() {
+  const { t } = useI18n();
   const sdohContent = useEditableText("cc-sdoh-content", "Social Determinants of Health (SDOH) are the non-medical factors that influence health outcomes. They include the conditions in which people are born, grow, work, live, and age, and the wider set of forces shaping daily life. SDOH account for 30-55% of health outcomes — far more than clinical care alone. Nurses must assess and address these factors to provide equitable, effective care.");
   const biasContent = useEditableText("cc-bias-content", "Implicit biases are unconscious attitudes or stereotypes that affect understanding, actions, and decisions. In healthcare, implicit bias can lead to disparities in pain management, diagnostic workups, treatment recommendations, and communication quality. Research shows that healthcare providers hold implicit biases related to race, ethnicity, weight, age, gender identity, socioeconomic status, and disability. Recognizing that everyone holds implicit biases is the first step — the goal is not to eliminate them entirely but to develop strategies to prevent them from affecting patient care.");
   const traumaInformedContent = useEditableText("cc-trauma-informed-content", "Trauma-informed care (TIC) recognizes that many patients have experienced trauma — physical, emotional, sexual, or systemic — and that healthcare encounters can trigger re-traumatization. The five principles are: Safety (ensuring physical and emotional safety), Trustworthiness (maintaining clear boundaries and consistency), Choice (giving patients control over decisions), Collaboration (sharing power in the care relationship), and Empowerment (building on patient strengths). TIC shifts the question from 'What is wrong with you?' to 'What has happened to you?'");
@@ -35,7 +37,7 @@ export function CulturalCompetencyModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="SDOH Impact on Health"
+          title={t("data.pre_nursing_cultural_competency.sdohImpactOnHealth")}
           content={sdohContent}
         />
       </MicroLesson>
@@ -61,7 +63,7 @@ export function CulturalCompetencyModule() {
       <MicroLesson title="Implicit Bias & Health Disparities" subtitle="Recognizing unconscious influences on clinical decisions" icon={<Shield className="w-5 h-5" />}>
         <EditableModuleText sectionKey="cc-bias-intro" defaultText="Health disparities are preventable differences in health outcomes between population groups. They persist even when controlling for insurance status, income, and education — suggesting that bias within the healthcare system itself plays a role. Nurses spend more time with patients than any other provider and thus have enormous influence on equitable care delivery." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="Types of Bias in Healthcare"
+          title={t("data.pre_nursing_cultural_competency.typesOfBiasInHealthcare")}
           cards={[
             {
               id: "cc-bias-1",
@@ -91,7 +93,7 @@ export function CulturalCompetencyModule() {
         />
         <CognitiveCard
           type="warning"
-          title="Recognizing and Mitigating Implicit Bias"
+          title={t("data.pre_nursing_cultural_competency.recognizingAndMitigatingImplicitBias")}
           content={biasContent}
         />
       </MicroLesson>
@@ -110,13 +112,13 @@ export function CulturalCompetencyModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Trauma-Informed Nursing Practice"
+          title={t("data.pre_nursing_cultural_competency.traumainformedNursingPractice")}
           content={traumaInformedContent}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Cultural Competency Concept"
+        title={t("data.pre_nursing_cultural_competency.matchTheCulturalCompetencyConcept")}
         pairs={[
           { id: "cc-m1", term: "Social determinants of health", definition: "Non-medical factors like income, housing, and education that affect health outcomes" },
           { id: "cc-m2", term: "Cultural humility", definition: "Lifelong self-reflection and treating patients as experts on their own experience" },
@@ -128,7 +130,7 @@ export function CulturalCompetencyModule() {
       />
 
       <SelfCheckQuiz
-        title="Cultural Competency & SDOH Quiz"
+        title={t("data.pre_nursing_cultural_competency.culturalCompetencySdohQuiz")}
         questions={[
           {
             id: "cc1",

@@ -15,9 +15,11 @@ import {
 } from "lucide-react";
 import type { DigitalProduct, ProductPurchase } from "@shared/schema";
 
+import { useI18n } from "@/lib/i18n";
 type PurchaseWithProduct = ProductPurchase & { product: DigitalProduct };
 
 function formatPrice(cents: number) {
+
   return `$${(cents / 100).toFixed(2)}`;
 }
 
@@ -109,7 +111,7 @@ function EmptyState() {
   return (
     <div className="text-center py-16" data-testid="empty-state">
       <Package className="w-16 h-16 mx-auto text-gray-300 mb-4" />
-      <h3 className="text-xl font-semibold text-gray-700 mb-2">No purchases yet</h3>
+      <h3 className="text-xl font-semibold text-gray-700 mb-2">{t("pages.accountLibrary.noPurchasesYet")}</h3>
       <p className="text-gray-500 mb-6 max-w-md mx-auto">
         Your purchased study materials and exam prep resources will appear here.
         Browse the store to find study guides, question banks, and more.
@@ -252,7 +254,7 @@ export default function AccountLibraryPage() {
   if (!user) {
     return (
       <>
-        <SEO title="My Library - NurseNest" description="Access your purchased study materials and downloads." />
+        <SEO title={t("pages.accountLibrary.myLibraryNursenest")} description={t("pages.accountLibrary.accessYourPurchasedStudyMaterials")} />
         <Navigation />
         <main className="min-h-screen bg-gray-50 pt-24">
           <div className="max-w-4xl mx-auto px-4 py-16 text-center">
@@ -264,7 +266,7 @@ export default function AccountLibraryPage() {
               Log in to view your purchased study materials, download resources, and manage your account.
             </p>
             <LocaleLink href="/login">
-              <Button data-testid="button-sign-in">Sign In</Button>
+              <Button data-testid="button-sign-in">{t("pages.accountLibrary.signIn")}</Button>
             </LocaleLink>
           </div>
         </main>
@@ -275,13 +277,13 @@ export default function AccountLibraryPage() {
 
   return (
     <>
-      <SEO title="My Library - NurseNest" description="Access your purchased study materials and downloads." />
+      <SEO title={t("pages.accountLibrary.myLibraryNursenest2")} description={t("pages.accountLibrary.accessYourPurchasedStudyMaterials2")} />
       <Navigation />
       <main className="min-h-screen bg-gray-50 pt-24">
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="flex items-center gap-3 mb-6">
             <BookOpen className="w-6 h-6 text-primary" />
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">My Library</h1>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">{t("pages.accountLibrary.myLibrary")}</h1>
           </div>
 
           <div className="space-y-6">

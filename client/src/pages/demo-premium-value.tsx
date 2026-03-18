@@ -10,9 +10,11 @@ import {
 import { DemoPageWrapper, DemoHeader, SectionCard, SectionTitle } from "@/components/demo-shared";
 import { premiumPlanData as d } from "@/data/demo-screenshot-data";
 
+import { useI18n } from "@/lib/i18n";
 export default function DemoPremiumValue() {
+  const { t } = useI18n();
   const { user, isAdmin } = useAuth();
-  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">Admin access required.</p></div></DemoPageWrapper>;
+  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">{t("pages.demoPremiumValue.adminAccessRequired")}</p></div></DemoPageWrapper>;
 
   return (
     <DemoPageWrapper>
@@ -21,7 +23,7 @@ export default function DemoPremiumValue() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-violet-100 to-indigo-100 text-violet-700 text-xs font-semibold mb-4">
             <Crown className="w-3.5 h-3.5" /> Premium Plan
           </div>
-          <h1 className="text-3xl font-bold text-slate-800 tracking-tight mb-2">Everything you need to pass</h1>
+          <h1 className="text-3xl font-bold text-slate-800 tracking-tight mb-2">{t("pages.demoPremiumValue.everythingYouNeedToPass")}</h1>
           <p className="text-sm text-slate-500 max-w-lg mx-auto">
             Comprehensive adaptive exam preparation with personalized analytics, mastery tracking, and intelligent study plans.
           </p>
@@ -47,8 +49,8 @@ export default function DemoPremiumValue() {
             <table className="w-full">
               <thead>
                 <tr>
-                  <th className="text-left text-sm font-semibold text-slate-700 pb-4 pr-4">Feature</th>
-                  <th className="text-center text-sm font-semibold text-slate-500 pb-4 w-32">Free</th>
+                  <th className="text-left text-sm font-semibold text-slate-700 pb-4 pr-4">{t("pages.demoPremiumValue.feature")}</th>
+                  <th className="text-center text-sm font-semibold text-slate-500 pb-4 w-32">{t("pages.demoPremiumValue.free")}</th>
                   <th className="text-center pb-4 w-40">
                     <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-violet-500 to-indigo-500 text-white text-sm font-semibold">
                       <Crown className="w-3 h-3" /> Premium
@@ -78,7 +80,7 @@ export default function DemoPremiumValue() {
         <div className="text-center">
           <SectionCard className="inline-block bg-gradient-to-r from-violet-50 via-white to-indigo-50 max-w-xl">
             <div className="py-4">
-              <p className="text-sm text-slate-500 mb-1">Starting at</p>
+              <p className="text-sm text-slate-500 mb-1">{t("pages.demoPremiumValue.startingAt")}</p>
               <div className="flex items-baseline justify-center gap-1 mb-1">
                 <span className="text-4xl font-bold text-slate-800">${d.yearlyPrice}</span>
                 <span className="text-sm text-slate-500">/year</span>
@@ -92,7 +94,7 @@ export default function DemoPremiumValue() {
                   Start Free Trial
                 </Button>
               </div>
-              <p className="text-[10px] text-slate-400 mt-3">14-day free trial. Cancel anytime. No credit card required.</p>
+              <p className="text-[10px] text-slate-400 mt-3">{t("pages.demoPremiumValue.14dayFreeTrialCancelAnytime")}</p>
             </div>
           </SectionCard>
         </div>

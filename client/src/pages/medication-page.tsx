@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { seoMedications } from "@/data/seo-medications";
+import { useI18n } from "@/lib/i18n";
 import {
   Pill,
   Beaker,
@@ -29,6 +30,7 @@ const SEVERITY_COLORS: Record<string, string> = {
 };
 
 export default function MedicationPage() {
+  const { t } = useI18n();
   const params = useParams<{ slug: string }>();
   const [, navigate] = useLocation();
   const [activeQuestion, setActiveQuestion] = useState<number | null>(null);
@@ -43,8 +45,8 @@ export default function MedicationPage() {
         <Navigation />
         <div className="min-h-screen bg-gray-50 flex items-center justify-center" data-testid="medication-not-found">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Medication Not Found</h1>
-            <p className="text-gray-600 mb-4">The medication page you are looking for does not exist.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.medicationPage.medicationNotFound")}</h1>
+            <p className="text-gray-600 mb-4">{t("pages.medicationPage.theMedicationPageYouAre")}</p>
             <Button onClick={() => navigate("/medications")} data-testid="button-back-medications">
               Browse All Medications
             </Button>
@@ -124,9 +126,9 @@ export default function MedicationPage() {
         <section className="bg-gradient-to-br from-[#2E3A59] to-[#1a2340] text-white py-16 lg:py-20" data-testid="medication-hero">
           <div className="max-w-5xl mx-auto px-4 sm:px-6">
             <nav className="flex items-center gap-2 text-sm text-white/60 mb-6" data-testid="breadcrumb-medication">
-              <button onClick={() => navigate("/")} className="hover:text-white/80 transition-colors">Home</button>
+              <button onClick={() => navigate("/")} className="hover:text-white/80 transition-colors">{t("pages.medicationPage.home")}</button>
               <span>/</span>
-              <button onClick={() => navigate("/pharmacology")} className="hover:text-white/80 transition-colors">Pharmacology</button>
+              <button onClick={() => navigate("/pharmacology")} className="hover:text-white/80 transition-colors">{t("pages.medicationPage.pharmacology")}</button>
               <span>/</span>
               <span className="text-white/90">{med.genericName}</span>
             </nav>
@@ -157,7 +159,7 @@ export default function MedicationPage() {
               <div className="w-10 h-10 rounded-xl bg-[#BFA6F6]/10 flex items-center justify-center">
                 <Beaker className="w-5 h-5 text-[#BFA6F6]" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Mechanism of Action</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.medicationPage.mechanismOfAction")}</h2>
             </div>
             <Card>
               <CardContent className="p-6">
@@ -173,7 +175,7 @@ export default function MedicationPage() {
               <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
                 <CheckCircle2 className="w-5 h-5 text-green-600" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Indications</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.medicationPage.indications")}</h2>
             </div>
             <Card>
               <CardContent className="p-6">
@@ -194,7 +196,7 @@ export default function MedicationPage() {
               <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
                 <AlertTriangle className="w-5 h-5 text-orange-600" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Side Effects</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.medicationPage.sideEffects")}</h2>
             </div>
             <div className="space-y-3">
               {med.sideEffects.map((se, i) => (
@@ -218,7 +220,7 @@ export default function MedicationPage() {
               <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
                 <XCircle className="w-5 h-5 text-red-600" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Contraindications</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.medicationPage.contraindications")}</h2>
             </div>
             <Card>
               <CardContent className="p-6">
@@ -239,7 +241,7 @@ export default function MedicationPage() {
               <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
                 <Stethoscope className="w-5 h-5 text-blue-600" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Nursing Considerations</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.medicationPage.nursingConsiderations")}</h2>
             </div>
             <Card>
               <CardContent className="p-6">
@@ -260,7 +262,7 @@ export default function MedicationPage() {
               <div className="w-10 h-10 rounded-xl bg-[#BFA6F6]/10 flex items-center justify-center">
                 <Target className="w-5 h-5 text-[#BFA6F6]" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Exam Tips</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.medicationPage.examTips")}</h2>
             </div>
             <Card className="border-[#BFA6F6]/20 bg-[#BFA6F6]/5">
               <CardContent className="p-6">
@@ -281,7 +283,7 @@ export default function MedicationPage() {
               <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
                 <FileText className="w-5 h-5 text-emerald-600" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Practice Questions</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.medicationPage.practiceQuestions")}</h2>
             </div>
             <div className="space-y-4">
               {med.practiceQuestions.map((pq, qIndex) => (
@@ -325,7 +327,7 @@ export default function MedicationPage() {
                     </div>
                     {showRationale[qIndex] && (
                       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4" data-testid={`text-rationale-${qIndex}`}>
-                        <p className="font-semibold text-blue-900 text-sm mb-1">Rationale:</p>
+                        <p className="font-semibold text-blue-900 text-sm mb-1">{t("pages.medicationPage.rationale")}</p>
                         <p className="text-blue-800 text-sm leading-relaxed">{pq.rationale}</p>
                       </div>
                     )}
@@ -336,7 +338,7 @@ export default function MedicationPage() {
           </section>
 
           <section className="bg-gradient-to-r from-[#2E3A59] to-[#3d4f7a] rounded-2xl p-8 text-white text-center" data-testid="section-cta">
-            <h2 className="text-2xl font-bold mb-3">Master Pharmacology for Your Nursing Exam</h2>
+            <h2 className="text-2xl font-bold mb-3">{t("pages.medicationPage.masterPharmacologyForYourNursing")}</h2>
             <p className="text-white/80 mb-6 max-w-2xl mx-auto">
               Access hundreds of medication reviews, practice questions, and clinical simulations designed to help you pass your nursing exam with confidence.
             </p>
@@ -361,7 +363,7 @@ export default function MedicationPage() {
           </section>
 
           <section data-testid="section-related-links">
-            <h3 className="text-lg font-semibold text-[#2E3A59] mb-3">Related Resources</h3>
+            <h3 className="text-lg font-semibold text-[#2E3A59] mb-3">{t("pages.medicationPage.relatedResources")}</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {seoMedications
                 .filter((m) => m.slug !== med.slug)

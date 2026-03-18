@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useLocation } from "wouter";
 
+import { useI18n } from "@/lib/i18n";
 type Question = {
   id: string;
   number: number;
@@ -112,7 +113,7 @@ function DiagnosticExamView({ user, onComplete }: { user: any; onComplete: (a: A
     return (
       <div className="flex items-center justify-center h-96">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
-        <span className="ml-3 text-gray-500">Preparing your diagnostic assessment...</span>
+        <span className="ml-3 text-gray-500">{t("pages.diagnosticAssessment.preparingYourDiagnosticAssessment")}</span>
       </div>
     );
   }
@@ -221,6 +222,7 @@ function DiagnosticExamView({ user, onComplete }: { user: any; onComplete: (a: A
 }
 
 function AssessmentResultView({ assessment, user, isPremium, isOnTrial }: { assessment: Assessment; user: any; isPremium: boolean; isOnTrial?: boolean }) {
+  const { t } = useI18n();
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -335,7 +337,7 @@ function AssessmentResultView({ assessment, user, isPremium, isOnTrial }: { asse
             <div className={`text-5xl font-bold mb-1 ${assessment.score >= 70 ? "text-green-600" : assessment.score >= 50 ? "text-yellow-600" : "text-red-600"}`}>
               {assessment.score}%
             </div>
-            <p className="text-xs text-gray-500">Overall Score</p>
+            <p className="text-xs text-gray-500">{t("pages.diagnosticAssessment.overallScore")}</p>
             <div className={`mt-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold ${
               assessment.score >= 80 ? "bg-green-100 text-green-700" : assessment.score >= 60 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700"
             }`} data-testid="readiness-indicator">
@@ -348,7 +350,7 @@ function AssessmentResultView({ assessment, user, isPremium, isOnTrial }: { asse
           <CardContent className="pt-6">
             <div className="flex items-center gap-2 mb-2">
               <TrendingUp className="w-4 h-4 text-green-500" />
-              <span className="text-xs font-semibold text-gray-600">Strengths</span>
+              <span className="text-xs font-semibold text-gray-600">{t("pages.diagnosticAssessment.strengths")}</span>
             </div>
             <p className="text-xs text-gray-600 leading-relaxed">{assessment.strengthSummary}</p>
           </CardContent>
@@ -358,7 +360,7 @@ function AssessmentResultView({ assessment, user, isPremium, isOnTrial }: { asse
           <CardContent className="pt-6">
             <div className="flex items-center gap-2 mb-2">
               <TrendingDown className="w-4 h-4 text-red-500" />
-              <span className="text-xs font-semibold text-gray-600">Areas to Improve</span>
+              <span className="text-xs font-semibold text-gray-600">{t("pages.diagnosticAssessment.areasToImprove")}</span>
             </div>
             <p className="text-xs text-gray-600 leading-relaxed">{assessment.weaknessSummary}</p>
           </CardContent>
@@ -510,7 +512,7 @@ function AssessmentResultView({ assessment, user, isPremium, isOnTrial }: { asse
             <div className="flex items-start gap-3">
               <Crown className="w-8 h-8 text-primary shrink-0" />
               <div>
-                <h3 className="font-semibold text-sm mb-1">Unlock Targeted Test Banks</h3>
+                <h3 className="font-semibold text-sm mb-1">{t("pages.diagnosticAssessment.unlockTargetedTestBanks")}</h3>
                 <p className="text-xs text-gray-600 mb-3">
                   Get targeted practice for your weakest areas. Premium members can take multiple diagnostics,
                   get updated study plans every 2 weeks, and access advanced analytics.
@@ -553,7 +555,7 @@ function StatsView({ user, isPremium }: { user: any; isPremium: boolean }) {
   };
 
   if (loading) return <div className="flex justify-center py-12"><Loader2 className="w-6 h-6 animate-spin" /></div>;
-  if (!stats) return <p className="text-center text-gray-400 py-8">No stats yet. Take a diagnostic to get started.</p>;
+  if (!stats) return <p className="text-center text-gray-400 py-8">{t("pages.diagnosticAssessment.noStatsYetTakeA")}</p>;
 
   const accuracy = stats.totalQuestionsAnswered > 0 ? Math.round((stats.totalCorrect / stats.totalQuestionsAnswered) * 100) : 0;
   const domainEntries = Object.entries(stats.domainBreakdown || {});
@@ -564,25 +566,25 @@ function StatsView({ user, isPremium }: { user: any; isPremium: boolean }) {
         <Card>
           <CardContent className="pt-4 text-center">
             <div className="text-2xl font-bold text-primary">{stats.totalQuestionsAnswered}</div>
-            <p className="text-[10px] text-gray-500">Questions Answered</p>
+            <p className="text-[10px] text-gray-500">{t("pages.diagnosticAssessment.questionsAnswered")}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 text-center">
             <div className="text-2xl font-bold text-green-600">{accuracy}%</div>
-            <p className="text-[10px] text-gray-500">Accuracy</p>
+            <p className="text-[10px] text-gray-500">{t("pages.diagnosticAssessment.accuracy")}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 text-center">
             <div className="text-2xl font-bold text-orange-500">{stats.studyStreak}</div>
-            <p className="text-[10px] text-gray-500">Day Streak</p>
+            <p className="text-[10px] text-gray-500">{t("pages.diagnosticAssessment.dayStreak")}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-4 text-center">
             <div className="text-2xl font-bold text-blue-600">{stats.examScores?.length || 0}</div>
-            <p className="text-[10px] text-gray-500">Exams Taken</p>
+            <p className="text-[10px] text-gray-500">{t("pages.diagnosticAssessment.examsTaken")}</p>
           </CardContent>
         </Card>
       </div>
@@ -590,7 +592,7 @@ function StatsView({ user, isPremium }: { user: any; isPremium: boolean }) {
       {domainEntries.length > 0 && (
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm">Domain Performance</CardTitle>
+            <CardTitle className="text-sm">{t("pages.diagnosticAssessment.domainPerformance")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -616,7 +618,7 @@ function StatsView({ user, isPremium }: { user: any; isPremium: boolean }) {
       {stats.examScores && stats.examScores.length > 0 && (
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm">Score History</CardTitle>
+            <CardTitle className="text-sm">{t("pages.diagnosticAssessment.scoreHistory")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-1.5">
@@ -639,7 +641,7 @@ function StatsView({ user, isPremium }: { user: any; isPremium: boolean }) {
           <CardContent className="pt-4">
             <div className="flex items-center gap-2 mb-2">
               <Crown className="w-4 h-4 text-primary" />
-              <span className="text-xs font-semibold">Premium Analytics</span>
+              <span className="text-xs font-semibold">{t("pages.diagnosticAssessment.premiumAnalytics")}</span>
             </div>
             <p className="text-[10px] text-gray-500 mb-2">
               Unlock percentile comparison, readiness prediction, trend graphs, and AI-powered suggestions for your weakest domains.
@@ -658,8 +660,8 @@ function StatsView({ user, isPremium }: { user: any; isPremium: boolean }) {
           <div className="space-y-3">
             <label className="flex items-center justify-between">
               <div>
-                <span className="text-xs font-medium">Public Profile</span>
-                <p className="text-[10px] text-gray-400">Allow others to see your stats</p>
+                <span className="text-xs font-medium">{t("pages.diagnosticAssessment.publicProfile")}</span>
+                <p className="text-[10px] text-gray-400">{t("pages.diagnosticAssessment.allowOthersToSeeYour")}</p>
               </div>
               <button
                 onClick={() => updatePrivacy("publicProfile", !stats.publicProfile)}
@@ -671,8 +673,8 @@ function StatsView({ user, isPremium }: { user: any; isPremium: boolean }) {
             </label>
             <label className="flex items-center justify-between">
               <div>
-                <span className="text-xs font-medium">Leaderboard Visibility</span>
-                <p className="text-[10px] text-gray-400">Appear on group leaderboards</p>
+                <span className="text-xs font-medium">{t("pages.diagnosticAssessment.leaderboardVisibility")}</span>
+                <p className="text-[10px] text-gray-400">{t("pages.diagnosticAssessment.appearOnGroupLeaderboards")}</p>
               </div>
               <button
                 onClick={() => updatePrivacy("leaderboardVisible", !stats.leaderboardVisible)}
@@ -781,7 +783,7 @@ function StudyGroupsView({ user }: { user: any }) {
             </h4>
             <div className="flex gap-2">
               <Input
-                placeholder="Group name"
+                placeholder={t("pages.diagnosticAssessment.groupName")}
                 value={newGroupName}
                 onChange={e => setNewGroupName(e.target.value)}
                 className="text-xs"
@@ -801,7 +803,7 @@ function StudyGroupsView({ user }: { user: any }) {
             </h4>
             <div className="flex gap-2">
               <Input
-                placeholder="Invite code"
+                placeholder={t("pages.diagnosticAssessment.inviteCode")}
                 value={joinCode}
                 onChange={e => setJoinCode(e.target.value)}
                 className="text-xs uppercase"
@@ -816,7 +818,7 @@ function StudyGroupsView({ user }: { user: any }) {
       </div>
 
       {groups.length === 0 ? (
-        <p className="text-center text-gray-400 text-sm py-8">No study groups yet. Create one or join with an invite code.</p>
+        <p className="text-center text-gray-400 text-sm py-8">{t("pages.diagnosticAssessment.noStudyGroupsYetCreate")}</p>
       ) : (
         <div className="space-y-3">
           {groups.map(g => (
@@ -826,7 +828,7 @@ function StudyGroupsView({ user }: { user: any }) {
                   <div>
                     <h4 className="text-sm font-semibold">{g.name}</h4>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="text-[10px] text-gray-400">Code:</span>
+                      <span className="text-[10px] text-gray-400">{t("pages.diagnosticAssessment.code")}</span>
                       <button
                         onClick={(e) => { e.stopPropagation(); copyInvite(g.inviteCode); }}
                         className="text-[10px] font-mono bg-gray-100 px-1.5 py-0.5 rounded hover:bg-gray-200 flex items-center gap-1"
@@ -903,9 +905,9 @@ export default function DiagnosticAssessmentPage() {
     return (
       <div className="max-w-lg mx-auto p-8 text-center">
         <Brain className="w-12 h-12 text-primary mx-auto mb-4" />
-        <h2 className="text-xl font-bold mb-2">Diagnostic Assessment</h2>
-        <p className="text-sm text-gray-500 mb-4">Log in to take your diagnostic assessment and get a personalized study plan.</p>
-        <Button onClick={() => navigate("/login")} data-testid="button-login-diagnostic">Log In to Start</Button>
+        <h2 className="text-xl font-bold mb-2">{t("pages.diagnosticAssessment.diagnosticAssessment")}</h2>
+        <p className="text-sm text-gray-500 mb-4">{t("pages.diagnosticAssessment.logInToTakeYour")}</p>
+        <Button onClick={() => navigate("/login")} data-testid="button-login-diagnostic">{t("pages.diagnosticAssessment.logInToStart")}</Button>
       </div>
     );
   }
@@ -925,8 +927,8 @@ export default function DiagnosticAssessmentPage() {
           <ArrowLeft className="w-4 h-4" />
         </button>
         <div>
-          <h1 className="text-xl font-bold">Diagnostic Assessment</h1>
-          <p className="text-xs text-gray-500">Identify your strengths and weaknesses with a 30-question mixed blueprint exam</p>
+          <h1 className="text-xl font-bold">{t("pages.diagnosticAssessment.diagnosticAssessment2")}</h1>
+          <p className="text-xs text-gray-500">{t("pages.diagnosticAssessment.identifyYourStrengthsAndWeaknesses")}</p>
         </div>
       </div>
 
@@ -951,9 +953,9 @@ export default function DiagnosticAssessmentPage() {
           <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
             <Brain className="w-10 h-10 text-primary" />
           </div>
-          <h2 className="text-lg font-bold mb-2">Ready for Your Diagnostic?</h2>
-          <p className="text-sm text-gray-500 mb-2">30 mixed blueprint questions covering all exam domains.</p>
-          <p className="text-xs text-gray-400 mb-6">After completion, AI will analyze your performance and create a personalized study plan.</p>
+          <h2 className="text-lg font-bold mb-2">{t("pages.diagnosticAssessment.readyForYourDiagnostic")}</h2>
+          <p className="text-sm text-gray-500 mb-2">{t("pages.diagnosticAssessment.30MixedBlueprintQuestionsCovering")}</p>
+          <p className="text-xs text-gray-400 mb-6">{t("pages.diagnosticAssessment.afterCompletionAiWillAnalyze")}</p>
 
           {!isPremium && history.length >= 1 && (
             <div className="mb-4 p-3 rounded-lg bg-yellow-50 border border-yellow-200">
@@ -987,7 +989,7 @@ export default function DiagnosticAssessmentPage() {
       {activeTab === "history" && (
         <div className="space-y-3">
           {history.length === 0 ? (
-            <p className="text-center text-gray-400 py-8 text-sm">No diagnostics taken yet.</p>
+            <p className="text-center text-gray-400 py-8 text-sm">{t("pages.diagnosticAssessment.noDiagnosticsTakenYet")}</p>
           ) : (
             history.map(h => (
               <Card

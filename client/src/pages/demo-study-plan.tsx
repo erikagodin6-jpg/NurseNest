@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import {
   GraduationCap, Target, Clock, Flame, Brain, BookOpen,
   CheckCircle2, AlertCircle, PlayCircle, Calendar,
@@ -126,6 +127,7 @@ const TYPE_ICONS: Record<string, any> = {
 };
 
 export default function DemoStudyPlanPage() {
+  const { t } = useI18n();
   const allTasks = WEEKLY_SCHEDULE.filter(d => !d.isRestDay).flatMap(d => d.tasks);
   const completedTasks = allTasks.filter(t => t.status === "completed").length;
   const totalTasks = allTasks.length;
@@ -140,8 +142,8 @@ export default function DemoStudyPlanPage() {
                 <GraduationCap className="w-6 h-6" style={{ color: "#9d82dd" }} />
               </div>
               <div>
-                <h1 className="text-2xl font-bold tracking-tight" data-testid="text-page-title">Adaptive Study Plan</h1>
-                <p className="text-sm" style={{ color: "#8b8fa3" }}>Emily Chen &middot; RN / NCLEX Track &middot; Week of Mar 9–15</p>
+                <h1 className="text-2xl font-bold tracking-tight" data-testid="text-page-title">{t("pages.demoStudyPlan.adaptiveStudyPlan")}</h1>
+                <p className="text-sm" style={{ color: "#8b8fa3" }}>{t("pages.demoStudyPlan.emilyChenMiddotRnNclex")}</p>
               </div>
             </div>
           </div>
@@ -177,8 +179,8 @@ export default function DemoStudyPlanPage() {
                   <Calendar className="w-5 h-5" style={{ color: "#9d82dd" }} />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold" data-testid="text-plan-title">This Week's Focus Plan</h2>
-                  <p className="text-sm" style={{ color: "#8b8fa3" }}>Personalized for your learning gaps</p>
+                  <h2 className="text-lg font-bold" data-testid="text-plan-title">{t("pages.demoStudyPlan.thisWeeksFocusPlan")}</h2>
+                  <p className="text-sm" style={{ color: "#8b8fa3" }}>{t("pages.demoStudyPlan.personalizedForYourLearningGaps")}</p>
                 </div>
               </div>
               <Button className="rounded-full px-6 text-sm font-semibold shadow-sm" style={{ backgroundColor: "#9d82dd", color: "#fff", border: "none" }} data-testid="button-start-today">
@@ -187,23 +189,23 @@ export default function DemoStudyPlanPage() {
             </div>
             <div className="grid grid-cols-3 gap-6">
               <div className="p-4 rounded-xl" style={{ backgroundColor: "#faf8ff" }}>
-                <p className="text-xs font-medium mb-2" style={{ color: "#8b8fa3" }}>Primary Goals</p>
+                <p className="text-xs font-medium mb-2" style={{ color: "#8b8fa3" }}>{t("pages.demoStudyPlan.primaryGoals")}</p>
                 <ul className="space-y-1.5">
-                  <li className="flex items-center gap-2 text-sm"><Star className="w-3.5 h-3.5" style={{ color: "#9d82dd" }} /> Strengthen Pharmacology recall</li>
-                  <li className="flex items-center gap-2 text-sm"><Star className="w-3.5 h-3.5" style={{ color: "#9d82dd" }} /> Master Renal fluid balance</li>
-                  <li className="flex items-center gap-2 text-sm"><Star className="w-3.5 h-3.5" style={{ color: "#9d82dd" }} /> Close sepsis knowledge gaps</li>
-                  <li className="flex items-center gap-2 text-sm"><Star className="w-3.5 h-3.5" style={{ color: "#9d82dd" }} /> Maintain cardiovascular baseline</li>
+                  <li className="flex items-center gap-2 text-sm"><Star className="w-3.5 h-3.5" style={{ color: "#9d82dd" }} /> {t("pages.demoStudyPlan.strengthenPharmacologyRecall")}</li>
+                  <li className="flex items-center gap-2 text-sm"><Star className="w-3.5 h-3.5" style={{ color: "#9d82dd" }} /> {t("pages.demoStudyPlan.masterRenalFluidBalance")}</li>
+                  <li className="flex items-center gap-2 text-sm"><Star className="w-3.5 h-3.5" style={{ color: "#9d82dd" }} /> {t("pages.demoStudyPlan.closeSepsisKnowledgeGaps")}</li>
+                  <li className="flex items-center gap-2 text-sm"><Star className="w-3.5 h-3.5" style={{ color: "#9d82dd" }} /> {t("pages.demoStudyPlan.maintainCardiovascularBaseline")}</li>
                 </ul>
               </div>
               <div className="p-4 rounded-xl" style={{ backgroundColor: "#f0faf6" }}>
-                <p className="text-xs font-medium mb-2" style={{ color: "#8b8fa3" }}>Estimated Completion</p>
+                <p className="text-xs font-medium mb-2" style={{ color: "#8b8fa3" }}>{t("pages.demoStudyPlan.estimatedCompletion")}</p>
                 <p className="text-3xl font-bold" style={{ color: "#3bba8e" }}>6.5 hrs</p>
-                <p className="text-xs mt-1" style={{ color: "#8b8fa3" }}>Across 6 study days (Sun rest)</p>
+                <p className="text-xs mt-1" style={{ color: "#8b8fa3" }}>{t("pages.demoStudyPlan.across6StudyDaysSun")}</p>
               </div>
               <div className="p-4 rounded-xl" style={{ backgroundColor: "#fef7f0" }}>
-                <p className="text-xs font-medium mb-2" style={{ color: "#8b8fa3" }}>Weekly Success Target</p>
+                <p className="text-xs font-medium mb-2" style={{ color: "#8b8fa3" }}>{t("pages.demoStudyPlan.weeklySuccessTarget")}</p>
                 <p className="text-3xl font-bold" style={{ color: "#e8943a" }}>80%+</p>
-                <p className="text-xs mt-1" style={{ color: "#8b8fa3" }}>On weak-area flashcard reviews</p>
+                <p className="text-xs mt-1" style={{ color: "#8b8fa3" }}>{t("pages.demoStudyPlan.onWeakareaFlashcardReviews")}</p>
               </div>
             </div>
             <div className="mt-5 flex items-center gap-3">
@@ -231,7 +233,7 @@ export default function DemoStudyPlanPage() {
                     <span className="text-xs ml-2" style={{ color: "#8b8fa3" }}>{day.date}</span>
                   </div>
                   {day.isRestDay ? (
-                    <Badge className="text-xs border-0 font-medium" style={{ backgroundColor: "#e5e7eb", color: "#6b7280" }}>Rest Day</Badge>
+                    <Badge className="text-xs border-0 font-medium" style={{ backgroundColor: "#e5e7eb", color: "#6b7280" }}>{t("pages.demoStudyPlan.restDay")}</Badge>
                   ) : (
                     <span className="text-xs" style={{ color: "#8b8fa3" }}>
                       {day.tasks.reduce((s, t) => s + t.minutes, 0)} min &middot; {day.tasks.length} tasks
@@ -267,7 +269,7 @@ export default function DemoStudyPlanPage() {
                 )}
                 {day.isRestDay && (
                   <div className="px-5 py-6 text-center">
-                    <p className="text-sm" style={{ color: "#8b8fa3" }}>Rest & recharge. Light reading or self-care encouraged.</p>
+                    <p className="text-sm" style={{ color: "#8b8fa3" }}>{t("pages.demoStudyPlan.restRechargeLightReadingOr")}</p>
                   </div>
                 )}
               </Card>
@@ -283,8 +285,8 @@ export default function DemoStudyPlanPage() {
                   <Lightbulb className="w-5 h-5" style={{ color: "#e8943a" }} />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold">Why This Plan Was Built</h2>
-                  <p className="text-xs" style={{ color: "#8b8fa3" }}>Smart adaptation based on your performance data</p>
+                  <h2 className="text-lg font-bold">{t("pages.demoStudyPlan.whyThisPlanWasBuilt")}</h2>
+                  <p className="text-xs" style={{ color: "#8b8fa3" }}>{t("pages.demoStudyPlan.smartAdaptationBasedOnYour")}</p>
                 </div>
               </div>
               <div className="space-y-4">
@@ -313,8 +315,8 @@ export default function DemoStudyPlanPage() {
                   <BookOpen className="w-5 h-5" style={{ color: "#4da3d4" }} />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold">Recommended Resources</h2>
-                  <p className="text-xs" style={{ color: "#8b8fa3" }}>Curated study tools for this week's focus areas</p>
+                  <h2 className="text-lg font-bold">{t("pages.demoStudyPlan.recommendedResources")}</h2>
+                  <p className="text-xs" style={{ color: "#8b8fa3" }}>{t("pages.demoStudyPlan.curatedStudyToolsForThis")}</p>
                 </div>
               </div>
               <div className="space-y-3">

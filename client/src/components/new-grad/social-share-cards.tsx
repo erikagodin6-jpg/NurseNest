@@ -1,6 +1,7 @@
 import { Share2, Linkedin, Instagram } from "lucide-react";
 import { useState } from "react";
 
+import { useI18n } from "@/lib/i18n";
 interface SocialShareCardsProps {
   title: string;
   description: string;
@@ -9,6 +10,7 @@ interface SocialShareCardsProps {
 }
 
 export function SocialShareCards({ title, description, url, tags = [] }: SocialShareCardsProps) {
+  const { t } = useI18n();
   const [copied, setCopied] = useState<string | null>(null);
   const fullUrl = `https://www.nursenest.ca${url}`;
   const hashtags = tags.slice(0, 5).map(t => `#${t.replace(/\s+/g, "")}`).join(" ");
@@ -53,8 +55,8 @@ export function SocialShareCards({ title, description, url, tags = [] }: SocialS
   return (
     <section className="py-16 bg-gray-50" data-testid="section-social-share">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-xl font-bold text-gray-900 mb-2 text-center">Share This Guide</h2>
-        <p className="text-sm text-gray-500 mb-6 text-center">Copy these ready-made snippets for your social media posts</p>
+        <h2 className="text-xl font-bold text-gray-900 mb-2 text-center">{t("components.newGradSocialShareCards.shareThisGuide")}</h2>
+        <p className="text-sm text-gray-500 mb-6 text-center">{t("components.newGradSocialShareCards.copyTheseReadymadeSnippetsFor")}</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {snippets.map((snippet) => (
             <div key={snippet.platform} className="bg-white rounded-xl border border-gray-100 p-4" data-testid={`share-card-${snippet.platform.toLowerCase()}`}>

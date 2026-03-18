@@ -4,12 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { StickyNote, Save, X } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface StudyNotesProps {
   noteId: string;
   title: string;
 }
 
 export function StudyNotes({ noteId, title }: StudyNotesProps) {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [showNotes, setShowNotes] = useState(false);
   const [noteContent, setNoteContent] = useState("");
@@ -97,7 +99,7 @@ export function StudyNotes({ noteId, title }: StudyNotesProps) {
               data-testid={`textarea-notes-${noteId}`}
             />
             <div className="flex items-center justify-between mt-2">
-              <p className="text-[10px] text-gray-400">Auto-saves as you type</p>
+              <p className="text-[10px] text-gray-400">{t("components.studyNotes.autosavesAsYouType")}</p>
               <p className="text-[10px] text-gray-400">{noteContent.length > 0 ? `${noteContent.length} chars` : ""}</p>
             </div>
           </div>

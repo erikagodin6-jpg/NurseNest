@@ -6,11 +6,13 @@ import { Heart, Stethoscope, GraduationCap, Wind, Microscope, Radio, Pill, Ambul
 import { useToast } from "@/hooks/use-toast";
 import { SEO } from "@/components/seo";
 
+import { useI18n } from "@/lib/i18n";
 const iconMap: Record<string, any> = {
   Heart, Stethoscope, GraduationCap, Wind, Microscope, Radio, Pill, Ambulance,
 };
 
 export default function ApplyNestLanding() {
+  const { t } = useI18n();
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [selectedProfession, setSelectedProfession] = useState("");
@@ -55,8 +57,8 @@ export default function ApplyNestLanding() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-teal-50 via-white to-white dark:from-gray-900 dark:via-gray-950 dark:to-gray-950">
       <SEO
-        title="ApplyNest - Land Your First Healthcare Job | New Grad Nurse Resume & Interview Prep"
-        description="Free tools for new grad nurses and healthcare professionals to get hired faster. ATS-optimized resume builder, healthcare interview prep with common questions and answers, and entry-level healthcare job search resources."
+        title={t("pages.applynestLanding.applynestLandYourFirstHealthcare")}
+        description={t("pages.applynestLanding.freeToolsForNewGrad")}
         keywords="new grad nurse jobs, nursing resume help, healthcare interview prep, entry-level healthcare jobs, new graduate nurse resume, nursing job search, healthcare career resources, ATS resume builder, nurse interview questions"
         canonicalPath="/applynest"
       />
@@ -133,8 +135,8 @@ export default function ApplyNestLanding() {
                 <div className="w-14 h-14 rounded-xl bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center mb-5">
                   <FileText className="w-7 h-7 text-teal-600 dark:text-teal-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Resume Builder</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">ATS-optimized healthcare resume templates designed to pass applicant tracking systems and land interviews.</p>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{t("pages.applynestLanding.resumeBuilder")}</h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">{t("pages.applynestLanding.atsoptimizedHealthcareResumeTemplatesDesigned")}</p>
                 <span className="text-teal-600 dark:text-teal-400 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   Build Your Resume <ArrowRight className="w-4 h-4" />
                 </span>
@@ -146,8 +148,8 @@ export default function ApplyNestLanding() {
                 <div className="w-14 h-14 rounded-xl bg-rose-100 dark:bg-rose-900/40 flex items-center justify-center mb-5">
                   <MessageSquare className="w-7 h-7 text-rose-600 dark:text-rose-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Interview Prep</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">Common healthcare interview questions with expert sample answers, behavioral tips, and STAR method guides.</p>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{t("pages.applynestLanding.interviewPrep")}</h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">{t("pages.applynestLanding.commonHealthcareInterviewQuestionsWith")}</p>
                 <span className="text-rose-600 dark:text-rose-400 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   Start Preparing <ArrowRight className="w-4 h-4" />
                 </span>
@@ -159,8 +161,8 @@ export default function ApplyNestLanding() {
                 <div className="w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center mb-5">
                   <MapPin className="w-7 h-7 text-blue-600 dark:text-blue-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Job Board</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">Healthcare-specific job search resources with salary data, offer evaluation tips, and credentialing timelines.</p>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{t("pages.applynestLanding.jobBoard")}</h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">{t("pages.applynestLanding.healthcarespecificJobSearchResourcesWith")}</p>
                 <span className="text-blue-600 dark:text-blue-400 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   Browse Jobs <ArrowRight className="w-4 h-4" />
                 </span>
@@ -184,9 +186,9 @@ export default function ApplyNestLanding() {
             Join thousands of healthcare graduates who used ApplyNest to land their first clinical positions.
           </p>
           <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500 dark:text-gray-400">
-            <span className="flex items-center gap-1.5"><Users className="w-4 h-4 text-teal-500" /> New Grad Nurses</span>
-            <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-teal-500" /> Allied Health Professionals</span>
-            <span className="flex items-center gap-1.5"><GraduationCap className="w-4 h-4 text-teal-500" /> Healthcare Students</span>
+            <span className="flex items-center gap-1.5"><Users className="w-4 h-4 text-teal-500" /> {t("pages.applynestLanding.newGradNurses")}</span>
+            <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-teal-500" /> {t("pages.applynestLanding.alliedHealthProfessionals")}</span>
+            <span className="flex items-center gap-1.5"><GraduationCap className="w-4 h-4 text-teal-500" /> {t("pages.applynestLanding.healthcareStudents")}</span>
           </div>
         </div>
       </section>
@@ -194,7 +196,7 @@ export default function ApplyNestLanding() {
       <section className="px-4 py-16 bg-white dark:bg-gray-950" data-testid="section-lead-capture">
         <div className="max-w-2xl mx-auto text-center">
           <Mail className="w-10 h-10 text-teal-600 dark:text-teal-400 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Get Job Alerts & Career Resources</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">{t("pages.applynestLanding.getJobAlertsCareerResources")}</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-8">
             Sign up for weekly healthcare job alerts, interview tips, and career development resources tailored to your profession.
           </p>
@@ -203,7 +205,7 @@ export default function ApplyNestLanding() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email for job alerts"
+              placeholder={t("pages.applynestLanding.enterYourEmailForJob")}
               className="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-teal-500 focus:border-transparent"
               data-testid="input-email-signup"
               required
@@ -214,7 +216,7 @@ export default function ApplyNestLanding() {
               className="px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
               data-testid="select-profession"
             >
-              <option value="">All Professions</option>
+              <option value="">{t("pages.applynestLanding.allProfessions")}</option>
               {APPLYNEST_PROFESSIONS.map((p) => (
                 <option key={p.slug} value={p.slug}>{p.label}</option>
               ))}
@@ -229,16 +231,16 @@ export default function ApplyNestLanding() {
             </button>
           </form>
           <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500 dark:text-gray-400">
-            <span className="flex items-center gap-1"><CheckCircle className="w-4 h-4 text-teal-500" /> Free career resources</span>
-            <span className="flex items-center gap-1"><CheckCircle className="w-4 h-4 text-teal-500" /> 8 healthcare professions</span>
-            <span className="flex items-center gap-1"><CheckCircle className="w-4 h-4 text-teal-500" /> Resume templates included</span>
+            <span className="flex items-center gap-1"><CheckCircle className="w-4 h-4 text-teal-500" /> {t("pages.applynestLanding.freeCareerResources")}</span>
+            <span className="flex items-center gap-1"><CheckCircle className="w-4 h-4 text-teal-500" /> {t("pages.applynestLanding.8HealthcareProfessions")}</span>
+            <span className="flex items-center gap-1"><CheckCircle className="w-4 h-4 text-teal-500" /> {t("pages.applynestLanding.resumeTemplatesIncluded")}</span>
           </div>
         </div>
       </section>
 
       <section className="px-4 py-16 bg-gray-50 dark:bg-gray-900" data-testid="section-profession-cards">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-4">Choose Your Profession</h2>
+          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-4">{t("pages.applynestLanding.chooseYourProfession")}</h2>
           <p className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
             Explore career guides tailored to your healthcare profession with job market data, salary ranges, licensing requirements, and actionable job search resources.
           </p>
@@ -271,13 +273,13 @@ export default function ApplyNestLanding() {
 
       <section className="px-4 py-16 bg-white dark:bg-gray-950" data-testid="section-resources">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Career Resources</h2>
+          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">{t("pages.applynestLanding.careerResources")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Link href="/applynest/resume-templates">
               <div className="group p-8 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all cursor-pointer" data-testid="card-resume-templates">
                 <FileText className="w-10 h-10 text-teal-600 dark:text-teal-400 mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Resume Templates</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">Healthcare-specific resume templates for new grads, experienced professionals, and specialty transitions.</p>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{t("pages.applynestLanding.resumeTemplates")}</h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">{t("pages.applynestLanding.healthcarespecificResumeTemplatesForNew")}</p>
                 <span className="text-teal-600 dark:text-teal-400 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   Browse Templates <ArrowRight className="w-4 h-4" />
                 </span>
@@ -287,8 +289,8 @@ export default function ApplyNestLanding() {
             <Link href="/applynest/interview-prep">
               <div className="group p-8 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all cursor-pointer" data-testid="card-interview-prep">
                 <MessageSquare className="w-10 h-10 text-teal-600 dark:text-teal-400 mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Interview Prep</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">Common healthcare interview questions with sample answers, tips, and behavioral question guides.</p>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{t("pages.applynestLanding.interviewPrep2")}</h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">{t("pages.applynestLanding.commonHealthcareInterviewQuestionsWith2")}</p>
                 <span className="text-teal-600 dark:text-teal-400 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   Start Preparing <ArrowRight className="w-4 h-4" />
                 </span>
@@ -298,8 +300,8 @@ export default function ApplyNestLanding() {
             <Link href="/applynest/job-search-guide">
               <div className="group p-8 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all cursor-pointer" data-testid="card-job-search">
                 <MapPin className="w-10 h-10 text-teal-600 dark:text-teal-400 mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Job Search Guide</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">Where to find healthcare jobs, how to evaluate offers, negotiation tips, and credentialing timelines.</p>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{t("pages.applynestLanding.jobSearchGuide")}</h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">{t("pages.applynestLanding.whereToFindHealthcareJobs")}</p>
                 <span className="text-teal-600 dark:text-teal-400 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
                   Read Guide <ArrowRight className="w-4 h-4" />
                 </span>
@@ -311,7 +313,7 @@ export default function ApplyNestLanding() {
 
       <section className="px-4 py-16 bg-gray-50 dark:bg-gray-900" data-testid="section-cross-links">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-4">Prepare, Then Apply</h2>
+          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-4">{t("pages.applynestLanding.prepareThenApply")}</h2>
           <p className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
             ApplyNest works hand-in-hand with NurseNest's exam prep and new grad resources to help you succeed from classroom to career.
           </p>
@@ -320,8 +322,8 @@ export default function ApplyNestLanding() {
               <div className="group flex items-center gap-4 p-6 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-teal-400 hover:shadow-md transition-all cursor-pointer bg-white dark:bg-gray-800" data-testid="link-new-grad-hub">
                 <Star className="w-8 h-8 text-amber-500 flex-shrink-0" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">New Grad Survival Hub</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">First-year guides, clinical skills, unit orientation tips, and mentorship resources.</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{t("pages.applynestLanding.newGradSurvivalHub")}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{t("pages.applynestLanding.firstyearGuidesClinicalSkillsUnit")}</p>
                 </div>
                 <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-teal-500 transition-colors flex-shrink-0 ml-auto" />
               </div>
@@ -330,8 +332,8 @@ export default function ApplyNestLanding() {
               <div className="group flex items-center gap-4 p-6 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-teal-400 hover:shadow-md transition-all cursor-pointer bg-white dark:bg-gray-800" data-testid="link-exam-prep">
                 <GraduationCap className="w-8 h-8 text-blue-500 flex-shrink-0" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">Exam Prep & Mock Exams</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Practice exams, question banks, and study resources for NCLEX, NREMT, NBRC, ARRT, and more.</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{t("pages.applynestLanding.examPrepMockExams")}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{t("pages.applynestLanding.practiceExamsQuestionBanksAnd")}</p>
                 </div>
                 <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-teal-500 transition-colors flex-shrink-0 ml-auto" />
               </div>
@@ -340,8 +342,8 @@ export default function ApplyNestLanding() {
               <div className="group flex items-center gap-4 p-6 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-teal-400 hover:shadow-md transition-all cursor-pointer bg-white dark:bg-gray-800" data-testid="link-test-bank">
                 <FileText className="w-8 h-8 text-green-500 flex-shrink-0" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">Test Bank</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">1,200+ practice questions organized by body system, profession, and difficulty level.</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{t("pages.applynestLanding.testBank")}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{t("pages.applynestLanding.1200PracticeQuestionsOrganizedBy")}</p>
                 </div>
                 <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-teal-500 transition-colors flex-shrink-0 ml-auto" />
               </div>
@@ -350,8 +352,8 @@ export default function ApplyNestLanding() {
               <div className="group flex items-center gap-4 p-6 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-teal-400 hover:shadow-md transition-all cursor-pointer bg-white dark:bg-gray-800" data-testid="link-flashcards">
                 <Briefcase className="w-8 h-8 text-purple-500 flex-shrink-0" />
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">Study Flashcards</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Interactive flashcards covering pharmacology, pathophysiology, and clinical concepts.</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{t("pages.applynestLanding.studyFlashcards")}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{t("pages.applynestLanding.interactiveFlashcardsCoveringPharmacologyPath")}</p>
                 </div>
                 <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-teal-500 transition-colors flex-shrink-0 ml-auto" />
               </div>
@@ -363,14 +365,14 @@ export default function ApplyNestLanding() {
       <section className="px-4 py-16 bg-teal-600 dark:bg-teal-800" data-testid="section-cta">
         <div className="max-w-3xl mx-auto text-center">
           <Mail className="w-12 h-12 text-teal-200 mx-auto mb-4" />
-          <h2 className="text-3xl font-bold text-white mb-4">Get Career Updates Delivered</h2>
-          <p className="text-teal-100 mb-8">Join healthcare professionals who receive weekly job alerts, interview tips, and career development resources.</p>
+          <h2 className="text-3xl font-bold text-white mb-4">{t("pages.applynestLanding.getCareerUpdatesDelivered")}</h2>
+          <p className="text-teal-100 mb-8">{t("pages.applynestLanding.joinHealthcareProfessionalsWhoReceive")}</p>
           <form onSubmit={handleSubmit} className="max-w-md mx-auto flex gap-3" data-testid="form-bottom-cta">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Your email address"
+              placeholder={t("pages.applynestLanding.yourEmailAddress")}
               className="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-teal-400 text-white placeholder-teal-200 focus:ring-2 focus:ring-white focus:border-transparent"
               data-testid="input-email-bottom"
               required

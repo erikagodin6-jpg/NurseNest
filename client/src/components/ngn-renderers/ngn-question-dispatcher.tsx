@@ -23,6 +23,7 @@ import { ImageHotspotRenderer } from "./image-hotspot-renderer";
 import { CalculationNumericRenderer } from "./calculation-numeric-renderer";
 import { MatchingGridRenderer } from "./matching-grid-renderer";
 
+import { useI18n } from "@/lib/i18n";
 interface NGNQuestionDispatcherProps {
   questionType: NGNQuestionType;
   payload: NGNItemPayload;
@@ -38,10 +39,11 @@ export function NGNQuestionDispatcher({
   onResponseChange,
   disabled = false,
 }: NGNQuestionDispatcherProps) {
+  const { t } = useI18n();
   switch (questionType) {
     case "CASE_STUDY_SERIES":
       return (
-        <Suspense fallback={<div className="p-4 text-sm text-gray-500">Loading case study...</div>}>
+        <Suspense fallback={<div className="p-4 text-sm text-gray-500">{t("components.ngnRenderersNgnQuestionDispatcher.loadingCaseStudy")}</div>}>
           <CaseStudySeriesRenderer
             payload={payload as CaseStudySeriesPayload}
             response={response as CaseStudySeriesResponse}

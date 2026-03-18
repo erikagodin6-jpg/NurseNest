@@ -29,6 +29,7 @@ import { electrolyteCasesBatch2 } from "@/data/electrolyte-cases-batch-2";
 import { abgCasesBatch1 } from "@/data/abg-cases-batch-1";
 import { abgCasesBatch2 } from "@/data/abg-cases-batch-2";
 
+import { useI18n } from "@/lib/i18n";
 const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
 interface ElectrolyteCase {
@@ -478,6 +479,7 @@ const abgCases: ABGCase[] = [
 ];
 
 function ElectrolyteSection({ country }: { country: CountryMode }) {
+  const { t } = useI18n();
   const unitMode = getDefaultUnitMode(country);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAbnormality, setSelectedAbnormality] = useState<string | null>(null);
@@ -555,7 +557,7 @@ function ElectrolyteSection({ country }: { country: CountryMode }) {
           <h3 className="text-lg font-bold text-gray-900" data-testid={`text-electrolyte-title-${currentCase.id}`}>{currentCase.title}</h3>
 
           <div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Lab Values</p>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{t("pages.electrolyteAbgSimulator.labValues")}</p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {currentCase.labValues.map((lab, i) => (
                 <div key={i} className={`p-3 rounded-lg border ${lab.abnormal ? "bg-red-50 border-red-200" : "bg-gray-50 border-gray-100"}`} data-testid={`lab-value-${currentCase.id}-${i}`}>
@@ -569,14 +571,14 @@ function ElectrolyteSection({ country }: { country: CountryMode }) {
             </div>
             {currentCase.glucoseMmol && (
               <div className="mt-2 p-3 rounded-lg border bg-amber-50 border-amber-200">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-0.5">Blood Glucose</p>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-0.5">{t("pages.electrolyteAbgSimulator.bloodGlucose")}</p>
                 <p className="text-lg font-bold text-amber-700">{convertGlucose(currentCase.glucoseMmol, unitMode)}</p>
               </div>
             )}
           </div>
 
           <div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Presenting Symptoms</p>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{t("pages.electrolyteAbgSimulator.presentingSymptoms")}</p>
             <div className="space-y-1.5">
               {currentCase.symptoms.map((s, i) => (
                 <div key={i} className="flex items-start gap-2 text-sm text-gray-700">
@@ -591,14 +593,14 @@ function ElectrolyteSection({ country }: { country: CountryMode }) {
             <div className="flex items-start gap-2">
               <Heart className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-1">ECG Findings</p>
+                <p className="text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-1">{t("pages.electrolyteAbgSimulator.ecgFindings")}</p>
                 <p className="text-sm text-blue-800 leading-relaxed">{currentCase.ecgHint}</p>
               </div>
             </div>
           </div>
 
           <div className="border-t border-gray-100 pt-5">
-            <p className="text-sm font-bold text-gray-900 mb-3">1. Identify the electrolyte abnormality:</p>
+            <p className="text-sm font-bold text-gray-900 mb-3">{t("pages.electrolyteAbgSimulator.1IdentifyTheElectrolyteAbnormality")}</p>
             <div className="space-y-2">
               {currentCase.abnormalityOptions.map((opt) => {
                 const isSelected = selectedAbnormality === opt;
@@ -637,7 +639,7 @@ function ElectrolyteSection({ country }: { country: CountryMode }) {
 
           {showAbnormalityResult && (
             <div className="border-t border-gray-100 pt-5">
-              <p className="text-sm font-bold text-gray-900 mb-3">2. What is the first nursing priority?</p>
+              <p className="text-sm font-bold text-gray-900 mb-3">{t("pages.electrolyteAbgSimulator.2WhatIsTheFirst")}</p>
               <div className="space-y-2">
                 {currentCase.priorityOptions.map((opt) => {
                   const isSelected = selectedPriority === opt;
@@ -681,7 +683,7 @@ function ElectrolyteSection({ country }: { country: CountryMode }) {
                 <CardContent className="p-5">
                   <div className="flex items-center gap-2 mb-2">
                     <Brain className="w-5 h-5 text-primary" />
-                    <h4 className="text-sm font-bold text-gray-900">Clinical Rationale</h4>
+                    <h4 className="text-sm font-bold text-gray-900">{t("pages.electrolyteAbgSimulator.clinicalRationale")}</h4>
                   </div>
                   <p className="text-sm text-gray-700 leading-relaxed">{currentCase.rationale}</p>
                 </CardContent>
@@ -691,7 +693,7 @@ function ElectrolyteSection({ country }: { country: CountryMode }) {
                 <CardContent className="p-5">
                   <div className="flex items-center gap-2 mb-2">
                     <AlertTriangle className="w-5 h-5 text-amber-600" />
-                    <h4 className="text-sm font-bold text-amber-800">Exam Trap</h4>
+                    <h4 className="text-sm font-bold text-amber-800">{t("pages.electrolyteAbgSimulator.examTrap")}</h4>
                   </div>
                   <p className="text-sm text-amber-900 leading-relaxed">{currentCase.examTrap}</p>
                 </CardContent>
@@ -805,39 +807,39 @@ function ABGSection({ country }: { country: CountryMode }) {
 
           {currentCase.glucoseMmol && (
             <div className="p-3 rounded-lg border bg-amber-50 border-amber-200 inline-block">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-0.5">Blood Glucose</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-0.5">{t("pages.electrolyteAbgSimulator.bloodGlucose2")}</p>
               <p className="text-lg font-bold text-amber-700">{convertGlucose(currentCase.glucoseMmol, unitMode)}</p>
             </div>
           )}
 
           <div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">ABG Values</p>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">{t("pages.electrolyteAbgSimulator.abgValues")}</p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               <div className={`p-3 rounded-lg border ${currentCase.values.pH < 7.35 || currentCase.values.pH > 7.45 ? "bg-red-50 border-red-200" : "bg-emerald-50 border-emerald-200"}`} data-testid={`abg-ph-${currentCase.id}`}>
                 <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">pH</p>
                 <p className={`text-xl font-bold ${currentCase.values.pH < 7.35 || currentCase.values.pH > 7.45 ? "text-red-700" : "text-emerald-700"}`}>{currentCase.values.pH.toFixed(2)}</p>
-                <p className="text-[10px] text-gray-400">Normal: 7.35-7.45</p>
+                <p className="text-[10px] text-gray-400">{t("pages.electrolyteAbgSimulator.normal735745")}</p>
               </div>
               <div className={`p-3 rounded-lg border ${currentCase.values.PaCO2 > 45 || currentCase.values.PaCO2 < 35 ? "bg-red-50 border-red-200" : "bg-emerald-50 border-emerald-200"}`} data-testid={`abg-paco2-${currentCase.id}`}>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">PaCO₂</p>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">{t("pages.electrolyteAbgSimulator.paco")}</p>
                 <p className={`text-xl font-bold ${currentCase.values.PaCO2 > 45 || currentCase.values.PaCO2 < 35 ? "text-red-700" : "text-emerald-700"}`}>{currentCase.values.PaCO2} <span className="text-xs font-normal">mmHg</span></p>
-                <p className="text-[10px] text-gray-400">Normal: 35-45</p>
+                <p className="text-[10px] text-gray-400">{t("pages.electrolyteAbgSimulator.normal3545")}</p>
               </div>
               <div className={`p-3 rounded-lg border ${currentCase.values.HCO3 > 26 || currentCase.values.HCO3 < 22 ? "bg-red-50 border-red-200" : "bg-emerald-50 border-emerald-200"}`} data-testid={`abg-hco3-${currentCase.id}`}>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">HCO₃⁻</p>
-                <p className={`text-xl font-bold ${currentCase.values.HCO3 > 26 || currentCase.values.HCO3 < 22 ? "text-red-700" : "text-emerald-700"}`}>{currentCase.values.HCO3} <span className="text-xs font-normal">mEq/L</span></p>
-                <p className="text-[10px] text-gray-400">Normal: 22-26</p>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">{t("pages.electrolyteAbgSimulator.hco")}</p>
+                <p className={`text-xl font-bold ${currentCase.values.HCO3 > 26 || currentCase.values.HCO3 < 22 ? "text-red-700" : "text-emerald-700"}`}>{currentCase.values.HCO3} <span className="text-xs font-normal">{t("pages.electrolyteAbgSimulator.meql")}</span></p>
+                <p className="text-[10px] text-gray-400">{t("pages.electrolyteAbgSimulator.normal2226")}</p>
               </div>
               <div className={`p-3 rounded-lg border ${currentCase.values.PaO2 < 80 ? "bg-red-50 border-red-200" : "bg-emerald-50 border-emerald-200"}`} data-testid={`abg-pao2-${currentCase.id}`}>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">PaO₂</p>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">{t("pages.electrolyteAbgSimulator.pao")}</p>
                 <p className={`text-xl font-bold ${currentCase.values.PaO2 < 80 ? "text-red-700" : "text-emerald-700"}`}>{currentCase.values.PaO2} <span className="text-xs font-normal">mmHg</span></p>
-                <p className="text-[10px] text-gray-400">Normal: 80-100</p>
+                <p className="text-[10px] text-gray-400">{t("pages.electrolyteAbgSimulator.normal80100")}</p>
               </div>
             </div>
           </div>
 
           <div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Stepwise Interpretation</p>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">{t("pages.electrolyteAbgSimulator.stepwiseInterpretation")}</p>
             <div className="space-y-2">
               {currentCase.stepwise.map((s, i) => (
                 <div
@@ -866,7 +868,7 @@ function ABGSection({ country }: { country: CountryMode }) {
           {step >= currentCase.stepwise.length - 1 && (
             <div className="border-t border-gray-100 pt-5 space-y-5">
               <div>
-                <p className="text-sm font-bold text-gray-900 mb-3">1. Identify the primary disorder:</p>
+                <p className="text-sm font-bold text-gray-900 mb-3">{t("pages.electrolyteAbgSimulator.1IdentifyThePrimaryDisorder")}</p>
                 <div className="space-y-2">
                   {currentCase.disorderOptions.map((opt) => {
                     const isSelected = selectedDisorder === opt;
@@ -891,13 +893,13 @@ function ABGSection({ country }: { country: CountryMode }) {
                   })}
                 </div>
                 {selectedDisorder && !showDisorderResult && (
-                  <Button className="mt-3 rounded-full bg-primary text-white hover:brightness-110" onClick={handleCheckDisorder} data-testid="button-check-disorder">Check Answer</Button>
+                  <Button className="mt-3 rounded-full bg-primary text-white hover:brightness-110" onClick={handleCheckDisorder} data-testid="button-check-disorder">{t("pages.electrolyteAbgSimulator.checkAnswer")}</Button>
                 )}
               </div>
 
               {showDisorderResult && (
                 <div>
-                  <p className="text-sm font-bold text-gray-900 mb-3">2. What compensation is expected?</p>
+                  <p className="text-sm font-bold text-gray-900 mb-3">{t("pages.electrolyteAbgSimulator.2WhatCompensationIsExpected")}</p>
                   <div className="space-y-2">
                     {currentCase.compensationOptions.map((opt) => {
                       const isSelected = selectedCompensation === opt;
@@ -922,14 +924,14 @@ function ABGSection({ country }: { country: CountryMode }) {
                     })}
                   </div>
                   {selectedCompensation && !showCompensationResult && (
-                    <Button className="mt-3 rounded-full bg-primary text-white hover:brightness-110" onClick={handleCheckCompensation} data-testid="button-check-compensation">Check Answer</Button>
+                    <Button className="mt-3 rounded-full bg-primary text-white hover:brightness-110" onClick={handleCheckCompensation} data-testid="button-check-compensation">{t("pages.electrolyteAbgSimulator.checkAnswer2")}</Button>
                   )}
                 </div>
               )}
 
               {showCompensationResult && (
                 <div>
-                  <p className="text-sm font-bold text-gray-900 mb-3">3. What is the priority nursing action?</p>
+                  <p className="text-sm font-bold text-gray-900 mb-3">{t("pages.electrolyteAbgSimulator.3WhatIsThePriority")}</p>
                   <div className="space-y-2">
                     {currentCase.actionOptions.map((opt) => {
                       const isSelected = selectedAction === opt;
@@ -954,7 +956,7 @@ function ABGSection({ country }: { country: CountryMode }) {
                     })}
                   </div>
                   {selectedAction && !showActionResult && (
-                    <Button className="mt-3 rounded-full bg-primary text-white hover:brightness-110" onClick={handleCheckAction} data-testid="button-check-action">Check Answer</Button>
+                    <Button className="mt-3 rounded-full bg-primary text-white hover:brightness-110" onClick={handleCheckAction} data-testid="button-check-action">{t("pages.electrolyteAbgSimulator.checkAnswer3")}</Button>
                   )}
                 </div>
               )}
@@ -965,7 +967,7 @@ function ABGSection({ country }: { country: CountryMode }) {
                     <CardContent className="p-5">
                       <div className="flex items-center gap-2 mb-2">
                         <Brain className="w-5 h-5 text-primary" />
-                        <h4 className="text-sm font-bold text-gray-900">Clinical Rationale</h4>
+                        <h4 className="text-sm font-bold text-gray-900">{t("pages.electrolyteAbgSimulator.clinicalRationale2")}</h4>
                       </div>
                       <p className="text-sm text-gray-700 leading-relaxed">{currentCase.rationale}</p>
                     </CardContent>
@@ -974,7 +976,7 @@ function ABGSection({ country }: { country: CountryMode }) {
                     <CardContent className="p-5">
                       <div className="flex items-center gap-2 mb-2">
                         <AlertTriangle className="w-5 h-5 text-amber-600" />
-                        <h4 className="text-sm font-bold text-amber-800">Exam Trap</h4>
+                        <h4 className="text-sm font-bold text-amber-800">{t("pages.electrolyteAbgSimulator.examTrap2")}</h4>
                       </div>
                       <p className="text-sm text-amber-900 leading-relaxed">{currentCase.examTrap}</p>
                     </CardContent>
@@ -1008,8 +1010,8 @@ export default function ElectrolyteABGSimulatorPage() {
   return (
     <div className={`min-h-screen bg-warmwhite flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
       <SEO
-        title="Electrolyte Imbalance & ABG Interpretation Engine | NurseNest"
-        description="Master electrolyte imbalances and arterial blood gas interpretation with interactive clinical cases. Identify abnormalities, nursing priorities, and avoid common exam traps."
+        title={t("pages.electrolyteAbgSimulator.electrolyteImbalanceAbgInterpretationEngine")}
+        description={t("pages.electrolyteAbgSimulator.masterElectrolyteImbalancesAndArterial")}
         keywords="electrolyte imbalance nursing, ABG interpretation, arterial blood gas, hyperkalemia nursing, hyponatremia, metabolic acidosis, respiratory alkalosis, nursing exam prep"
         canonicalPath="/electrolyte-abg-simulator"
         ogType="website"
@@ -1024,8 +1026,8 @@ export default function ElectrolyteABGSimulatorPage() {
               <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
                 <Lock className="w-10 h-10 text-primary/60" />
               </div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-3" data-testid="text-page-title">Electrolyte & ABG Interpreter</h1>
-              <p className="text-lg text-gray-600 mb-2">Premium Interactive Tool</p>
+              <h1 className="text-3xl font-bold text-gray-900 mb-3" data-testid="text-page-title">{t("pages.electrolyteAbgSimulator.electrolyteAbgInterpreter")}</h1>
+              <p className="text-lg text-gray-600 mb-2">{t("pages.electrolyteAbgSimulator.premiumInteractiveTool")}</p>
               <p className="text-sm text-gray-500 mb-8 leading-relaxed max-w-md mx-auto">
                 Master electrolyte imbalances and arterial blood gas interpretation with stepwise clinical cases. Available exclusively for RPN, RN, and NP subscribers.
               </p>
@@ -1037,7 +1039,7 @@ export default function ElectrolyteABGSimulatorPage() {
               </LocaleLink>
               {!user && (
                 <p className="text-xs text-gray-400 mt-4">
-                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">Sign in</LocaleLink> to access.
+                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">{t("pages.electrolyteAbgSimulator.signIn")}</LocaleLink> to access.
                 </p>
               )}
             </div>
@@ -1084,7 +1086,7 @@ export default function ElectrolyteABGSimulatorPage() {
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-400">Units:</span>
+                <span className="text-xs text-gray-400">{t("pages.electrolyteAbgSimulator.units")}</span>
                 <div className="flex bg-gray-100 rounded-full p-0.5">
                   <button
                     className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${country === "US" ? "bg-white text-primary shadow-sm" : "text-gray-500"}`}

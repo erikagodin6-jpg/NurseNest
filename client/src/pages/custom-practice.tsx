@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
+import { useI18n } from "@/lib/i18n";
 import {
   Settings, PlayCircle, ArrowLeft, BookOpen, Bookmark,
   XCircle, SlidersHorizontal, Target, Zap
@@ -44,6 +45,7 @@ const PROFESSION_DOMAINS: Record<string, string[]> = {
 };
 
 function getDomains(userTier: string, profession?: string): string[] {
+
   if (profession && PROFESSION_DOMAINS[profession]) {
     return PROFESSION_DOMAINS[profession];
   }
@@ -130,8 +132,8 @@ export default function CustomPracticePage() {
   return (
     <div className="min-h-screen bg-background" data-testid="custom-practice-page">
       <SEO
-        title="Custom Practice - NurseNest"
-        description="Create a custom practice session tailored to your needs."
+        title={t("pages.customPractice.customPracticeNursenest")}
+        description={t("pages.customPractice.createACustomPracticeSession")}
         canonicalPath="/practice"
       />
       <Navigation />
@@ -273,8 +275,8 @@ export default function CustomPracticePage() {
                   />
                   <XCircle className="h-4 w-4 text-red-500 flex-shrink-0" />
                   <div>
-                    <p className="text-sm font-medium">Previously Incorrect Only</p>
-                    <p className="text-xs text-muted-foreground">Focus on questions you got wrong</p>
+                    <p className="text-sm font-medium">{t("pages.customPractice.previouslyIncorrectOnly")}</p>
+                    <p className="text-xs text-muted-foreground">{t("pages.customPractice.focusOnQuestionsYouGot")}</p>
                   </div>
                 </label>
                 <label className="flex items-center gap-3 p-3 rounded-lg border hover:bg-muted/30 cursor-pointer transition-colors" data-testid="toggle-bookmarked-only">
@@ -286,8 +288,8 @@ export default function CustomPracticePage() {
                   />
                   <Bookmark className="h-4 w-4 text-amber-500 flex-shrink-0" />
                   <div>
-                    <p className="text-sm font-medium">Bookmarked Only</p>
-                    <p className="text-xs text-muted-foreground">Practice only your bookmarked questions</p>
+                    <p className="text-sm font-medium">{t("pages.customPractice.bookmarkedOnly")}</p>
+                    <p className="text-xs text-muted-foreground">{t("pages.customPractice.practiceOnlyYourBookmarkedQuestions")}</p>
                   </div>
                 </label>
               </div>
@@ -336,26 +338,26 @@ export default function CustomPracticePage() {
           </Card>
 
           <div className="bg-muted/30 rounded-xl p-4 border">
-            <h3 className="text-sm font-semibold mb-2">Session Summary</h3>
+            <h3 className="text-sm font-semibold mb-2">{t("pages.customPractice.sessionSummary")}</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
               <div>
-                <p className="text-xs text-muted-foreground">Topics</p>
+                <p className="text-xs text-muted-foreground">{t("pages.customPractice.topics")}</p>
                 <p className="font-medium" data-testid="text-summary-topics">
                   {selectedTopics.length > 0 ? selectedTopics.length : "All"}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Difficulty</p>
+                <p className="text-xs text-muted-foreground">{t("pages.customPractice.difficulty")}</p>
                 <p className="font-medium" data-testid="text-summary-difficulty">
                   {difficultyLabels[difficultyRange[0]]} — {difficultyLabels[difficultyRange[1]]}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Questions</p>
+                <p className="text-xs text-muted-foreground">{t("pages.customPractice.questions")}</p>
                 <p className="font-medium" data-testid="text-summary-count">{questionCount}</p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Filters</p>
+                <p className="text-xs text-muted-foreground">{t("pages.customPractice.filters")}</p>
                 <p className="font-medium" data-testid="text-summary-filters">
                   {[incorrectOnly && "Incorrect", bookmarkedOnly && "Bookmarked"].filter(Boolean).join(", ") || "None"}
                 </p>

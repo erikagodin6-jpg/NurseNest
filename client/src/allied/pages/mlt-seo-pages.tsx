@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { useI18n } from "@/lib/i18n";
 import {
   Microscope, ArrowRight, CheckCircle2, ChevronDown, Star, BookOpen,
   Brain, FileText, Target, Award, BarChart3, Clock, Shield, Zap,
@@ -153,6 +154,7 @@ const PAGE_CONTENT: Record<string, { title: string; metaDesc: string; h1: string
 };
 
 function FAQSection({ faqs }: { faqs: { q: string; a: string }[] }) {
+  const { t } = useI18n();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   return (
     <div className="space-y-3" data-testid="faq-section">
@@ -183,8 +185,8 @@ export function MltSEOPage({ country, pageType }: MltSEOPageProps) {
   if (!content) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Page Not Found</h1>
-        <p className="text-gray-600">This MLT page doesn't exist yet.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.mltSeoPages.pageNotFound")}</h1>
+        <p className="text-gray-600">{t("allied.mltSeoPages.thisMltPageDoesntExist")}</p>
         <Link href="/allied-health/mlt" className="inline-block mt-4 px-6 py-2.5 bg-purple-600 text-white rounded-xl text-sm font-medium hover:bg-purple-700" data-testid="link-mlt-home">
           Back to MLT Hub
         </Link>
@@ -272,7 +274,7 @@ export function MltSEOPage({ country, pageType }: MltSEOPageProps) {
         </section>
 
         <section className="py-12" data-testid="domains-covered">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Disciplines Covered</h2>
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">{t("allied.mltSeoPages.disciplinesCovered")}</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {countryConfig.domains.map((domain, i) => (
               <div key={i} className="flex items-center gap-2 px-4 py-3 bg-gray-50 rounded-lg" data-testid={`domain-badge-${i}`}>
@@ -284,39 +286,39 @@ export function MltSEOPage({ country, pageType }: MltSEOPageProps) {
         </section>
 
         <section className="py-12" data-testid="internal-links">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Explore MLT Resources</h2>
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">{t("allied.mltSeoPages.exploreMltResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <Link href="/dashboard/mlt" className="p-5 bg-white rounded-xl border border-gray-100 hover:border-purple-200 transition-colors text-center" data-testid="link-dashboard">
               <BarChart3 className="w-6 h-6 text-purple-500 mx-auto mb-2" />
-              <div className="text-sm font-medium text-gray-800">Student Dashboard</div>
-              <div className="text-xs text-gray-500 mt-1">Track your progress</div>
+              <div className="text-sm font-medium text-gray-800">{t("allied.mltSeoPages.studentDashboard")}</div>
+              <div className="text-xs text-gray-500 mt-1">{t("allied.mltSeoPages.trackYourProgress")}</div>
             </Link>
             <Link href="/allied-health/mlt/blog" className="p-5 bg-white rounded-xl border border-gray-100 hover:border-purple-200 transition-colors text-center" data-testid="link-blog">
               <BookOpen className="w-6 h-6 text-blue-500 mx-auto mb-2" />
-              <div className="text-sm font-medium text-gray-800">MLT Blog</div>
-              <div className="text-xs text-gray-500 mt-1">Study articles & tips</div>
+              <div className="text-sm font-medium text-gray-800">{t("allied.mltSeoPages.mltBlog")}</div>
+              <div className="text-xs text-gray-500 mt-1">{t("allied.mltSeoPages.studyArticlesTips")}</div>
             </Link>
             <Link href="/qbank?career=mlt" className="p-5 bg-white rounded-xl border border-gray-100 hover:border-purple-200 transition-colors text-center" data-testid="link-qbank">
               <Target className="w-6 h-6 text-green-500 mx-auto mb-2" />
-              <div className="text-sm font-medium text-gray-800">Test Bank</div>
-              <div className="text-xs text-gray-500 mt-1">Practice questions</div>
+              <div className="text-sm font-medium text-gray-800">{t("allied.mltSeoPages.testBank")}</div>
+              <div className="text-xs text-gray-500 mt-1">{t("allied.mltSeoPages.practiceQuestions")}</div>
             </Link>
             <Link href="/allied-health/mlt/image-drill" className="p-5 bg-white rounded-xl border border-gray-100 hover:border-purple-200 transition-colors text-center" data-testid="link-image-drill">
               <Microscope className="w-6 h-6 text-orange-500 mx-auto mb-2" />
-              <div className="text-sm font-medium text-gray-800">Image Drills</div>
-              <div className="text-xs text-gray-500 mt-1">Visual identification</div>
+              <div className="text-sm font-medium text-gray-800">{t("allied.mltSeoPages.imageDrills")}</div>
+              <div className="text-xs text-gray-500 mt-1">{t("allied.mltSeoPages.visualIdentification")}</div>
             </Link>
           </div>
         </section>
 
         <section className="py-12">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">{t("allied.mltSeoPages.frequentlyAskedQuestions")}</h2>
           <FAQSection faqs={content.faqs} />
         </section>
 
         <section className="py-12" data-testid="related-allied-careers">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">Related Allied Health Careers</h2>
-          <p className="text-gray-500 text-center mb-8">Explore other healthcare career paths with dedicated exam prep resources.</p>
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">{t("allied.mltSeoPages.relatedAlliedHealthCareers")}</h2>
+          <p className="text-gray-500 text-center mb-8">{t("allied.mltSeoPages.exploreOtherHealthcareCareerPaths")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               { name: "Respiratory Therapist", shortName: "RRT", href: "/allied-health/rrt", desc: "Ventilator management, ABG analysis & NBRC/CBRC certification" },
@@ -339,7 +341,7 @@ export function MltSEOPage({ country, pageType }: MltSEOPageProps) {
         <section className="py-12 text-center" data-testid="seo-bottom-cta">
           <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-2xl border border-purple-100 p-10">
             <Award className="w-12 h-12 text-purple-500 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">Ready to Pass Your MLT Certification?</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("allied.mltSeoPages.readyToPassYourMlt")}</h2>
             <p className="text-gray-600 max-w-xl mx-auto mb-6">
               Join thousands of MLT students using NurseNest to prepare for their {countryConfig.examBoard} certification exam with confidence.
             </p>

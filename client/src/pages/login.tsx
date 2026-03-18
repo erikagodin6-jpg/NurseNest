@@ -123,20 +123,20 @@ export default function LoginPage() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="reg-invite" className="text-gray-500 text-xs">Invite Code (optional)</Label>
+                    <Label htmlFor="reg-invite" className="text-gray-500 text-xs">{t("pages.login.inviteCodeOptional")}</Label>
                     <div className="relative">
                       <Ticket className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-                      <Input id="reg-invite" name="inviteCode" placeholder="Enter beta invite code" className="pl-10" data-testid="input-register-invite-code" />
+                      <Input id="reg-invite" name="inviteCode" placeholder={t("pages.login.enterBetaInviteCode")} className="pl-10" data-testid="input-register-invite-code" />
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="reg-referral" className="text-gray-500 text-xs">Referral Code (optional)</Label>
+                    <Label htmlFor="reg-referral" className="text-gray-500 text-xs">{t("pages.login.referralCodeOptional")}</Label>
                     <div className="relative">
                       <Gift className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-                      <Input id="reg-referral" name="referralCode" placeholder="NN-REF-XXXXXX" defaultValue={refCodeFromUrl} className="pl-10" data-testid="input-register-referral-code" />
+                      <Input id="reg-referral" name="referralCode" placeholder={t("pages.login.nnrefxxxxxx")} defaultValue={refCodeFromUrl} className="pl-10" data-testid="input-register-referral-code" />
                     </div>
                     {refCodeFromUrl && (
-                      <p className="text-xs text-green-600 font-medium">Referral code applied - you'll get 15% off your first subscription!</p>
+                      <p className="text-xs text-green-600 font-medium">{t("pages.login.referralCodeAppliedYoullGet")}</p>
                     )}
                   </div>
                   <Button type="submit" className="w-full" disabled={isLoading} data-testid="button-register">

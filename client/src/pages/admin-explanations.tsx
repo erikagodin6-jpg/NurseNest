@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { adminFetch } from "@/lib/admin-fetch";
+import { useI18n } from "@/lib/i18n";
 import {
   BookOpen,
   CheckCircle2,
@@ -102,6 +103,7 @@ const PRIORITY_COLORS: Record<string, string> = {
 };
 
 export default function AdminExplanationsPage() {
+  const { t } = useI18n();
   const { user, isAdmin } = useAuth();
   const [, navigate] = useLocation();
   const [activeTab, setActiveTab] = useState<Tab>("dashboard");
@@ -203,7 +205,7 @@ function DashboardTab() {
     );
   }
 
-  if (!data) return <p className="text-gray-500" data-testid="text-no-data">Failed to load dashboard data</p>;
+  if (!data) return <p className="text-gray-500" data-testid="text-no-data">{t("pages.adminExplanations.failedToLoadDashboardData")}</p>;
 
   const totalMissing = Object.values(data.missing).reduce((s, v) => s + v, 0);
 
@@ -214,7 +216,7 @@ function DashboardTab() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500">Total Explanations</p>
+                <p className="text-sm text-gray-500">{t("pages.adminExplanations.totalExplanations")}</p>
                 <p className="text-2xl font-bold" data-testid="text-total-explanations">{data.totalExplanations}</p>
               </div>
               <BookOpen className="w-8 h-8 text-blue-500" />
@@ -225,7 +227,7 @@ function DashboardTab() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500">Coverage</p>
+                <p className="text-sm text-gray-500">{t("pages.adminExplanations.coverage")}</p>
                 <p className="text-2xl font-bold" data-testid="text-coverage-percent">{data.coveragePercent}%</p>
               </div>
               <Target className="w-8 h-8 text-green-500" />
@@ -236,7 +238,7 @@ function DashboardTab() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500">Missing</p>
+                <p className="text-sm text-gray-500">{t("pages.adminExplanations.missing")}</p>
                 <p className="text-2xl font-bold text-red-600" data-testid="text-total-missing">{totalMissing}</p>
               </div>
               <AlertTriangle className="w-8 h-8 text-red-500" />
@@ -247,7 +249,7 @@ function DashboardTab() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500">Total Questions</p>
+                <p className="text-sm text-gray-500">{t("pages.adminExplanations.totalQuestions")}</p>
                 <p className="text-2xl font-bold" data-testid="text-total-questions">{data.totalQuestions}</p>
               </div>
               <FileText className="w-8 h-8 text-purple-500" />
@@ -259,7 +261,7 @@ function DashboardTab() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Coverage by Source</CardTitle>
+            <CardTitle className="text-lg">{t("pages.adminExplanations.coverageBySource")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -301,7 +303,7 @@ function DashboardTab() {
                 );
               })}
               {data.bySource.length === 0 && (
-                <p className="text-sm text-gray-400">No explanations generated yet</p>
+                <p className="text-sm text-gray-400">{t("pages.adminExplanations.noExplanationsGeneratedYet")}</p>
               )}
             </div>
           </CardContent>
@@ -309,7 +311,7 @@ function DashboardTab() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Quality Distribution</CardTitle>
+            <CardTitle className="text-lg">{t("pages.adminExplanations.qualityDistribution")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -322,7 +324,7 @@ function DashboardTab() {
                 </div>
               ))}
               {data.qualityDistribution.length === 0 && (
-                <p className="text-sm text-gray-400">No quality data available</p>
+                <p className="text-sm text-gray-400">{t("pages.adminExplanations.noQualityDataAvailable")}</p>
               )}
             </div>
           </CardContent>
@@ -331,7 +333,7 @@ function DashboardTab() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Missing Explanations by Source</CardTitle>
+          <CardTitle className="text-lg">{t("pages.adminExplanations.missingExplanationsBySource")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -339,7 +341,7 @@ function DashboardTab() {
               <div key={source} className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg" data-testid={`missing-${source}`}>
                 <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{SOURCE_LABELS[source] || source}</p>
                 <p className="text-xl font-bold text-red-600">{count}</p>
-                <p className="text-xs text-gray-500">questions without explanations</p>
+                <p className="text-xs text-gray-500">{t("pages.adminExplanations.questionsWithoutExplanations")}</p>
               </div>
             ))}
           </div>
@@ -349,7 +351,7 @@ function DashboardTab() {
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle className="text-lg">Recently Generated</CardTitle>
+            <CardTitle className="text-lg">{t("pages.adminExplanations.recentlyGenerated")}</CardTitle>
             <Button size="sm" variant="ghost" onClick={fetchDashboard} data-testid="button-refresh-dashboard">
               <RefreshCw className="w-4 h-4" />
             </Button>
@@ -372,7 +374,7 @@ function DashboardTab() {
               </div>
             ))}
             {data.recentExplanations.length === 0 && (
-              <p className="text-sm text-gray-400">No recent explanations</p>
+              <p className="text-sm text-gray-400">{t("pages.adminExplanations.noRecentExplanations")}</p>
             )}
           </div>
         </CardContent>
@@ -507,10 +509,10 @@ function ReviewQueueTab() {
               className="px-3 py-1.5 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm"
               data-testid="select-filter-status"
             >
-              <option value="">All Statuses</option>
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="flagged">Flagged</option>
+              <option value="">{t("pages.adminExplanations.allStatuses")}</option>
+              <option value="pending">{t("pages.adminExplanations.pending")}</option>
+              <option value="approved">{t("pages.adminExplanations.approved")}</option>
+              <option value="flagged">{t("pages.adminExplanations.flagged")}</option>
             </select>
             <select
               value={filters.source}
@@ -518,10 +520,10 @@ function ReviewQueueTab() {
               className="px-3 py-1.5 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm"
               data-testid="select-filter-source"
             >
-              <option value="">All Sources</option>
-              <option value="exam_questions">Exam Questions</option>
-              <option value="allied_questions">Allied Health</option>
-              <option value="imaging_questions">Imaging</option>
+              <option value="">{t("pages.adminExplanations.allSources")}</option>
+              <option value="exam_questions">{t("pages.adminExplanations.examQuestions")}</option>
+              <option value="allied_questions">{t("pages.adminExplanations.alliedHealth")}</option>
+              <option value="imaging_questions">{t("pages.adminExplanations.imaging")}</option>
             </select>
             <select
               value={filters.generatedBy}
@@ -529,14 +531,14 @@ function ReviewQueueTab() {
               className="px-3 py-1.5 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm"
               data-testid="select-filter-generated-by"
             >
-              <option value="">All Generators</option>
-              <option value="ai">AI Generated</option>
-              <option value="manual">Manual</option>
-              <option value="migrated">Migrated</option>
+              <option value="">{t("pages.adminExplanations.allGenerators")}</option>
+              <option value="ai">{t("pages.adminExplanations.aiGenerated")}</option>
+              <option value="manual">{t("pages.adminExplanations.manual")}</option>
+              <option value="migrated">{t("pages.adminExplanations.migrated")}</option>
             </select>
             <Input
               type="number"
-              placeholder="Min quality"
+              placeholder={t("pages.adminExplanations.minQuality")}
               value={filters.minQuality}
               onChange={(e) => { setFilters(f => ({ ...f, minQuality: e.target.value })); setPage(0); }}
               className="w-28"
@@ -544,7 +546,7 @@ function ReviewQueueTab() {
             />
             <Input
               type="number"
-              placeholder="Max quality"
+              placeholder={t("pages.adminExplanations.maxQuality")}
               value={filters.maxQuality}
               onChange={(e) => { setFilters(f => ({ ...f, maxQuality: e.target.value })); setPage(0); }}
               className="w-28"
@@ -572,7 +574,7 @@ function ReviewQueueTab() {
                 {editingId === exp.id ? (
                   <div className="space-y-3">
                     <div>
-                      <label className="text-xs font-medium text-gray-500">Correct Answer Explanation</label>
+                      <label className="text-xs font-medium text-gray-500">{t("pages.adminExplanations.correctAnswerExplanation")}</label>
                       <Textarea
                         value={editForm.correctAnswerExplanation || ""}
                         onChange={(e) => setEditForm(f => ({ ...f, correctAnswerExplanation: e.target.value }))}
@@ -582,7 +584,7 @@ function ReviewQueueTab() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div>
-                        <label className="text-xs font-medium text-gray-500">Clinical Reasoning</label>
+                        <label className="text-xs font-medium text-gray-500">{t("pages.adminExplanations.clinicalReasoning")}</label>
                         <Textarea
                           value={(editForm.clinicalReasoning as string) || ""}
                           onChange={(e) => setEditForm(f => ({ ...f, clinicalReasoning: e.target.value }))}
@@ -591,7 +593,7 @@ function ReviewQueueTab() {
                         />
                       </div>
                       <div>
-                        <label className="text-xs font-medium text-gray-500">Key Takeaway</label>
+                        <label className="text-xs font-medium text-gray-500">{t("pages.adminExplanations.keyTakeaway")}</label>
                         <Textarea
                           value={(editForm.keyTakeaway as string) || ""}
                           onChange={(e) => setEditForm(f => ({ ...f, keyTakeaway: e.target.value }))}
@@ -602,7 +604,7 @@ function ReviewQueueTab() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       <div>
-                        <label className="text-xs font-medium text-gray-500">Mnemonic</label>
+                        <label className="text-xs font-medium text-gray-500">{t("pages.adminExplanations.mnemonic")}</label>
                         <Input
                           value={(editForm.mnemonic as string) || ""}
                           onChange={(e) => setEditForm(f => ({ ...f, mnemonic: e.target.value }))}
@@ -610,7 +612,7 @@ function ReviewQueueTab() {
                         />
                       </div>
                       <div>
-                        <label className="text-xs font-medium text-gray-500">Clinical Pearl</label>
+                        <label className="text-xs font-medium text-gray-500">{t("pages.adminExplanations.clinicalPearl")}</label>
                         <Input
                           value={(editForm.clinicalPearl as string) || ""}
                           onChange={(e) => setEditForm(f => ({ ...f, clinicalPearl: e.target.value }))}
@@ -618,7 +620,7 @@ function ReviewQueueTab() {
                         />
                       </div>
                       <div>
-                        <label className="text-xs font-medium text-gray-500">Reference Source</label>
+                        <label className="text-xs font-medium text-gray-500">{t("pages.adminExplanations.referenceSource")}</label>
                         <Input
                           value={(editForm.referenceSource as string) || ""}
                           onChange={(e) => setEditForm(f => ({ ...f, referenceSource: e.target.value }))}
@@ -673,13 +675,13 @@ function ReviewQueueTab() {
                       {exp.correctAnswerExplanation}
                     </p>
                     {exp.clinicalReasoning && (
-                      <p className="text-xs text-gray-500 mb-1"><strong>Reasoning:</strong> {exp.clinicalReasoning}</p>
+                      <p className="text-xs text-gray-500 mb-1"><strong>{t("pages.adminExplanations.reasoning")}</strong> {exp.clinicalReasoning}</p>
                     )}
                     {exp.keyTakeaway && (
-                      <p className="text-xs text-gray-500 mb-1"><strong>Takeaway:</strong> {exp.keyTakeaway}</p>
+                      <p className="text-xs text-gray-500 mb-1"><strong>{t("pages.adminExplanations.takeaway")}</strong> {exp.keyTakeaway}</p>
                     )}
                     {exp.clinicalPearl && (
-                      <p className="text-xs text-gray-500 mb-1"><strong>Pearl:</strong> {exp.clinicalPearl}</p>
+                      <p className="text-xs text-gray-500 mb-1"><strong>{t("pages.adminExplanations.pearl")}</strong> {exp.clinicalPearl}</p>
                     )}
                     <div className="flex items-center gap-2 mt-2">
                       <span className="text-xs text-gray-400">ID: {exp.questionId.substring(0, 8)}...</span>
@@ -694,7 +696,7 @@ function ReviewQueueTab() {
                     {showRelated === exp.id && relatedContent && (
                       <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg space-y-2">
                         <div className="flex items-center justify-between">
-                          <h4 className="text-sm font-medium">Related Content</h4>
+                          <h4 className="text-sm font-medium">{t("pages.adminExplanations.relatedContent")}</h4>
                           <Button size="sm" variant="outline" onClick={() => linkRelated(exp.id)} data-testid={`button-link-related-${exp.id}`}>
                             <Link className="w-3 h-3 mr-1" /> Save Links
                           </Button>
@@ -726,7 +728,7 @@ function ReviewQueueTab() {
                           </div>
                         )}
                         {(!relatedContent.relatedQuestions?.length && !relatedContent.relatedLessons?.length && !relatedContent.relatedFlashcards?.length) && (
-                          <p className="text-xs text-gray-400">No related content found for this topic</p>
+                          <p className="text-xs text-gray-400">{t("pages.adminExplanations.noRelatedContentFoundFor")}</p>
                         )}
                       </div>
                     )}
@@ -739,7 +741,7 @@ function ReviewQueueTab() {
           {data?.rows.length === 0 && (
             <Card>
               <CardContent className="py-8 text-center">
-                <p className="text-gray-400" data-testid="text-empty-queue">No explanations match the current filters</p>
+                <p className="text-gray-400" data-testid="text-empty-queue">{t("pages.adminExplanations.noExplanationsMatchTheCurrent")}</p>
               </CardContent>
             </Card>
           )}
@@ -809,8 +811,8 @@ function RoadmapTab() {
     <div className="space-y-4">
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Content Expansion Roadmap</CardTitle>
-          <p className="text-sm text-gray-500">Ranked priorities for the next content expansion features</p>
+          <CardTitle className="text-lg">{t("pages.adminExplanations.contentExpansionRoadmap")}</CardTitle>
+          <p className="text-sm text-gray-500">{t("pages.adminExplanations.rankedPrioritiesForTheNext")}</p>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">

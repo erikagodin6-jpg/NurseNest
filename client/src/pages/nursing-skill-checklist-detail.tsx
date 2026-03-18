@@ -351,7 +351,7 @@ export default function NursingSkillChecklistDetail() {
                       <a href="#section-faq" className="block text-xs text-gray-600 hover:text-blue-600 py-1">{t("skillChecklists.faqTitle")}</a>
                     </nav>
                     <div className="mt-4 pt-4 border-t border-gray-100">
-                      <h4 className="text-xs font-medium text-gray-500 mb-2">Details</h4>
+                      <h4 className="text-xs font-medium text-gray-500 mb-2">{t("pages.nursingSkillChecklistDetail.details")}</h4>
                       <div className="space-y-1.5 text-xs text-gray-600">
                         <div className="flex items-center gap-1.5">
                           <Clock className="w-3 h-3 text-gray-400" />
@@ -390,7 +390,7 @@ export default function NursingSkillChecklistDetail() {
                       <h3 className="font-semibold text-sm text-gray-900 mb-1 line-clamp-2">{related.shortTitle}</h3>
                       <p className="text-xs text-gray-500 line-clamp-2 mb-2">{related.overview.slice(0, 100)}</p>
                       <div className="flex items-center gap-1 text-xs text-blue-600">
-                        <span>View checklist</span>
+                        <span>{t("pages.nursingSkillChecklistDetail.viewChecklist")}</span>
                         <ArrowRight className="w-3 h-3" />
                       </div>
                     </CardContent>

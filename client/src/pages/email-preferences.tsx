@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 
+import { useI18n } from "@/lib/i18n";
 type SubscriptionCategory = "exam_prep" | "new_grad_tips" | "job_alerts" | "general";
 
 const CATEGORY_INFO: Record<SubscriptionCategory, { label: string; description: string; icon: string }> = {
@@ -47,6 +48,7 @@ interface SubscriberData {
 }
 
 export default function EmailPreferencesPage() {
+  const { t } = useI18n();
   const [email, setEmail] = useState("");
   const [lookupStatus, setLookupStatus] = useState<"idle" | "loading" | "found" | "not_found" | "error">("idle");
   const [subscriber, setSubscriber] = useState<SubscriberData | null>(null);
@@ -162,7 +164,7 @@ export default function EmailPreferencesPage() {
               <form onSubmit={handleLookup} className="flex gap-3">
                 <Input
                   type="email"
-                  placeholder="your@email.com"
+                  placeholder={t("pages.emailPreferences.youremailcom")}
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); setLookupStatus("idle"); }}
                   className="h-11"
@@ -191,7 +193,7 @@ export default function EmailPreferencesPage() {
           <Card data-testid="card-unsubscribed">
             <CardContent className="text-center py-12">
               <BellOff className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Unsubscribed</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">{t("pages.emailPreferences.unsubscribed")}</h2>
               <p className="text-gray-600 mb-6">
                 You have been unsubscribed from all newsletters. We're sorry to see you go.
               </p>
@@ -250,8 +252,8 @@ export default function EmailPreferencesPage() {
 
             <Card className="mb-6" data-testid="card-frequency-preferences">
               <CardHeader>
-                <CardTitle className="text-lg">Email Frequency</CardTitle>
-                <CardDescription>How often would you like to hear from us?</CardDescription>
+                <CardTitle className="text-lg">{t("pages.emailPreferences.emailFrequency")}</CardTitle>
+                <CardDescription>{t("pages.emailPreferences.howOftenWouldYouLike")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <Select value={frequency} onValueChange={setFrequency}>

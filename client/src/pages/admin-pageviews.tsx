@@ -8,7 +8,9 @@ import { Input } from "@/components/ui/input";
 import { BarChart3, Eye, FileText, TrendingUp, Calendar, ArrowLeft } from "lucide-react";
 import { useLocation } from "wouter";
 
+import { useI18n } from "@/lib/i18n";
 function formatDate(d: Date): string {
+
   return d.toISOString().slice(0, 10);
 }
 
@@ -55,13 +57,13 @@ export default function AdminPageviews() {
             <h1 className="text-2xl font-bold" data-testid="text-pageviews-title">
               Page View Analytics
             </h1>
-            <p className="text-sm text-gray-500">Aggregated daily page view counts</p>
+            <p className="text-sm text-gray-500">{t("pages.adminPageviews.aggregatedDailyPageViewCounts")}</p>
           </div>
         </div>
 
         <div className="flex flex-wrap items-end gap-3 mb-6">
           <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1" htmlFor="input-start-date">Start</label>
+            <label className="text-xs font-medium text-gray-600 block mb-1" htmlFor="input-start-date">{t("pages.adminPageviews.start")}</label>
             <Input
               id="input-start-date"
               type="date"
@@ -72,7 +74,7 @@ export default function AdminPageviews() {
             />
           </div>
           <div>
-            <label className="text-xs font-medium text-gray-600 block mb-1" htmlFor="input-end-date">End</label>
+            <label className="text-xs font-medium text-gray-600 block mb-1" htmlFor="input-end-date">{t("pages.adminPageviews.end")}</label>
             <Input
               id="input-end-date"
               type="date"
@@ -117,9 +119,9 @@ export default function AdminPageviews() {
         </div>
 
         {isLoading ? (
-          <div className="text-center py-12 text-gray-500" data-testid="text-loading">Loading analytics...</div>
+          <div className="text-center py-12 text-gray-500" data-testid="text-loading">{t("pages.adminPageviews.loadingAnalytics")}</div>
         ) : !data ? (
-          <div className="text-center py-12 text-gray-500" data-testid="text-error">Failed to load data</div>
+          <div className="text-center py-12 text-gray-500" data-testid="text-error">{t("pages.adminPageviews.failedToLoadData")}</div>
         ) : (
           <>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -129,7 +131,7 @@ export default function AdminPageviews() {
                     <Eye className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500">Total Views</p>
+                    <p className="text-xs text-gray-500">{t("pages.adminPageviews.totalViews")}</p>
                     <p className="text-xl font-bold" data-testid="text-total-views">{(data.totals.totalViews || 0).toLocaleString()}</p>
                   </div>
                 </CardContent>
@@ -140,7 +142,7 @@ export default function AdminPageviews() {
                     <FileText className="w-5 h-5 text-teal-600" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500">Unique Pages</p>
+                    <p className="text-xs text-gray-500">{t("pages.adminPageviews.uniquePages")}</p>
                     <p className="text-xl font-bold" data-testid="text-unique-pages">{data.totals.uniquePages}</p>
                   </div>
                 </CardContent>
@@ -151,7 +153,7 @@ export default function AdminPageviews() {
                     <Calendar className="w-5 h-5 text-amber-600" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500">Days Tracked</p>
+                    <p className="text-xs text-gray-500">{t("pages.adminPageviews.daysTracked")}</p>
                     <p className="text-xl font-bold" data-testid="text-days-tracked">{data.totals.daysTracked}</p>
                   </div>
                 </CardContent>
@@ -162,7 +164,7 @@ export default function AdminPageviews() {
                     <TrendingUp className="w-5 h-5 text-violet-600" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500">Avg / Day</p>
+                    <p className="text-xs text-gray-500">{t("pages.adminPageviews.avgDay")}</p>
                     <p className="text-xl font-bold" data-testid="text-avg-daily">{data.totals.avgDaily}</p>
                   </div>
                 </CardContent>
@@ -177,7 +179,7 @@ export default function AdminPageviews() {
               </CardHeader>
               <CardContent>
                 {data.dailyTrend.length === 0 ? (
-                  <p className="text-sm text-gray-500 text-center py-8" data-testid="text-no-daily">No data for this range</p>
+                  <p className="text-sm text-gray-500 text-center py-8" data-testid="text-no-daily">{t("pages.adminPageviews.noDataForThisRange")}</p>
                 ) : (
                   <div className="overflow-x-auto">
                     <div className="flex items-end gap-[2px] h-48 min-w-[400px]" data-testid="chart-daily-bars">
@@ -211,7 +213,7 @@ export default function AdminPageviews() {
               </CardHeader>
               <CardContent>
                 {data.topPages.length === 0 ? (
-                  <p className="text-sm text-gray-500 text-center py-8" data-testid="text-no-pages">No page data yet</p>
+                  <p className="text-sm text-gray-500 text-center py-8" data-testid="text-no-pages">{t("pages.adminPageviews.noPageDataYet")}</p>
                 ) : (
                   <div className="space-y-2">
                     {data.topPages.map((p: any, i: number) => (

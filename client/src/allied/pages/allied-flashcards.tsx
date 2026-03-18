@@ -9,7 +9,9 @@ import { mltFlashcardDecks } from "@/data/mlt-flashcards";
 import { alliedHealthFlashcardDecks } from "@/data/allied-health-flashcards";
 import { rrtFlashcardDecks } from "@/data/rrt-flashcards";
 
+import { useI18n } from "@/lib/i18n";
 export default function AlliedFlashcardsPage() {
+  const { t } = useI18n();
   const params = useParams<{ careerSlug: string }>();
   const career = getCareerByRouteSlug(params.careerSlug || "");
   const isPharmacyTech = career?.slug === "pharmacy-tech";
@@ -57,7 +59,7 @@ export default function AlliedFlashcardsPage() {
   }, [career?.id, selectedDeckId, isPharmacyTech, isMLT, isRRT, isAlliedHealth]);
 
   if (!career) {
-    return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Career Not Found</h1></div>;
+    return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">{t("allied.alliedFlashcards.careerNotFound")}</h1></div>;
   }
 
   const current = cards[currentIdx];
@@ -116,7 +118,7 @@ export default function AlliedFlashcardsPage() {
           <div className="flex items-center gap-2 text-sm text-foreground/60 mb-6">
             <Link href={getCanonicalRoute(career.slug)} className="hover:text-primary">{career.shortName}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-primary font-medium">Flashcards</span>
+            <span className="text-primary font-medium">{t("allied.alliedFlashcards.flashcards")}</span>
           </div>
           <ComingSoonFallback
             title={`${career.shortName} Flashcards — In Development`}
@@ -157,7 +159,7 @@ export default function AlliedFlashcardsPage() {
         <div className="flex items-center gap-2 text-sm text-foreground/60 mb-6">
           <Link href={getCanonicalRoute(career.slug)} className="hover:text-primary">{career.shortName}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-primary font-medium">Flashcards</span>
+          <span className="text-primary font-medium">{t("allied.alliedFlashcards.flashcards2")}</span>
         </div>
 
         <div className="mb-8">
@@ -169,7 +171,7 @@ export default function AlliedFlashcardsPage() {
           <div className="flex items-center gap-3">
             <Layers className="w-6 h-6" />
             <div>
-              <div className="font-semibold text-lg">Study All Decks</div>
+              <div className="font-semibold text-lg">{t("allied.alliedFlashcards.studyAllDecks")}</div>
               <div className="text-primary-foreground/70 text-sm">{totalCards} cards across all topics — shuffle mode</div>
             </div>
           </div>
@@ -206,12 +208,12 @@ export default function AlliedFlashcardsPage() {
         <ChevronRight className="w-3.5 h-3.5" />
         {hasDeckSelector && (
           <>
-            <button onClick={() => setShowDeckSelector(true)} className="hover:text-primary">Flashcards</button>
+            <button onClick={() => setShowDeckSelector(true)} className="hover:text-primary">{t("allied.alliedFlashcards.flashcards3")}</button>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-primary font-medium">{selectedDeckName}</span>
           </>
         )}
-        {!hasDeckSelector && <span className="text-primary font-medium">Flashcards</span>}
+        {!hasDeckSelector && <span className="text-primary font-medium">{t("allied.alliedFlashcards.flashcards4")}</span>}
       </div>
 
       <div className="flex items-center justify-between mb-6">

@@ -79,8 +79,8 @@ export default function NursingSkillChecklistsHub() {
   return (
     <>
       <SEO
-        title="Nursing Skill Checklists – Clinical Procedure Guides for Nurses"
-        description="Step-by-step nursing skill checklists for IV insertion, central line care, wound dressing changes, oxygen therapy setup, and blood transfusion. Includes nursing rationale, safety alerts, and NCLEX exam preparation notes."
+        title={t("pages.nursingSkillChecklistsHub.nursingSkillChecklistsClinicalProcedure")}
+        description={t("pages.nursingSkillChecklistsHub.stepbystepNursingSkillChecklistsFor")}
         keywords="nursing skill checklists, clinical procedures, IV insertion checklist, central line care, wound dressing procedure, oxygen therapy, blood transfusion procedure, nursing skills, NCLEX clinical skills"
         canonicalPath="/nursing-skill-checklists"
         structuredData={structuredData}
@@ -112,8 +112,8 @@ export default function NursingSkillChecklistsHub() {
               </p>
               <div className="flex flex-wrap gap-3 text-sm text-gray-500">
                 <span className="flex items-center gap-1"><ClipboardCheck className="w-4 h-4 text-blue-500" /> {nursingSkillChecklists.length} Procedures</span>
-                <span className="flex items-center gap-1"><ShieldAlert className="w-4 h-4 text-blue-500" /> Safety Alerts</span>
-                <span className="flex items-center gap-1"><Stethoscope className="w-4 h-4 text-blue-500" /> Evidence-Based</span>
+                <span className="flex items-center gap-1"><ShieldAlert className="w-4 h-4 text-blue-500" /> {t("pages.nursingSkillChecklistsHub.safetyAlerts")}</span>
+                <span className="flex items-center gap-1"><Stethoscope className="w-4 h-4 text-blue-500" /> {t("pages.nursingSkillChecklistsHub.evidencebased")}</span>
               </div>
             </div>
           </div>

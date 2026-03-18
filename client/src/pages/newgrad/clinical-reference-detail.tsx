@@ -18,11 +18,13 @@ import { Badge } from "@/components/ui/badge";
 
 import type { LucideIcon } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const ICON_MAP: Record<string, LucideIcon> = {
   Thermometer, Droplets, HeartPulse, Monitor, HeartCrack, Calculator, ArrowLeftRight,
 };
 
 function FlashcardDeck({ flashcards, color }: { flashcards: ClinicalFlashcard[]; color: string }) {
+  const { t } = useI18n();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [showAll, setShowAll] = useState(false);
@@ -86,13 +88,13 @@ function FlashcardDeck({ flashcards, color }: { flashcards: ClinicalFlashcard[];
           <Badge variant="outline" className="self-start text-[10px] mb-3">{card.category}</Badge>
           {!isFlipped ? (
             <div>
-              <p className="text-sm text-gray-500 uppercase tracking-wide font-semibold mb-2">Question</p>
+              <p className="text-sm text-gray-500 uppercase tracking-wide font-semibold mb-2">{t("pages.newgrad.clinicalReferenceDetail.question")}</p>
               <p className="text-base font-medium text-gray-900" data-testid="text-flashcard-question">{card.question}</p>
-              <p className="text-xs text-gray-400 mt-4">Click to reveal answer</p>
+              <p className="text-xs text-gray-400 mt-4">{t("pages.newgrad.clinicalReferenceDetail.clickToRevealAnswer")}</p>
             </div>
           ) : (
             <div>
-              <p className="text-sm uppercase tracking-wide font-semibold mb-2" style={{ color }}>Answer</p>
+              <p className="text-sm uppercase tracking-wide font-semibold mb-2" style={{ color }}>{t("pages.newgrad.clinicalReferenceDetail.answer")}</p>
               <p className="text-sm text-gray-700 leading-relaxed" data-testid="text-flashcard-answer">{card.answer}</p>
             </div>
           )}
@@ -123,10 +125,10 @@ export default function ClinicalReferenceDetail() {
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">Clinical Reference Not Found</h1>
-          <p className="text-gray-600 mb-6">The clinical reference you are looking for does not exist.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">{t("pages.newgrad.clinicalReferenceDetail.clinicalReferenceNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.newgrad.clinicalReferenceDetail.theClinicalReferenceYouAre")}</p>
           <Link href="/newgrad/clinical-references">
-            <Button data-testid="button-back-to-references">Back to Clinical References</Button>
+            <Button data-testid="button-back-to-references">{t("pages.newgrad.clinicalReferenceDetail.backToClinicalReferences")}</Button>
           </Link>
         </div>
         <Footer />
@@ -193,14 +195,14 @@ export default function ClinicalReferenceDetail() {
                 <BookOpen className="w-4 h-4" style={{ color: lesson.color }} /> Contents
               </h3>
               <ul className="space-y-1.5">
-                <li><a href="#overview" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">Overview</a></li>
-                <li><a href="#key-concepts" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">Key Concepts</a></li>
-                <li><a href="#clinical-pearls" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">Clinical Pearls</a></li>
-                <li><a href="#red-flags" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">Red Flags</a></li>
-                <li><a href="#exam-tips" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">Exam Tips</a></li>
-                <li><a href="#quick-reference" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">Quick Reference</a></li>
-                <li><a href="#flashcards" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">Flashcards</a></li>
-                <li><a href="#related-lessons" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">Related Lessons</a></li>
+                <li><a href="#overview" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">{t("pages.newgrad.clinicalReferenceDetail.overview")}</a></li>
+                <li><a href="#key-concepts" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">{t("pages.newgrad.clinicalReferenceDetail.keyConcepts")}</a></li>
+                <li><a href="#clinical-pearls" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">{t("pages.newgrad.clinicalReferenceDetail.clinicalPearls")}</a></li>
+                <li><a href="#red-flags" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">{t("pages.newgrad.clinicalReferenceDetail.redFlags")}</a></li>
+                <li><a href="#exam-tips" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">{t("pages.newgrad.clinicalReferenceDetail.examTips")}</a></li>
+                <li><a href="#quick-reference" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">{t("pages.newgrad.clinicalReferenceDetail.quickReference")}</a></li>
+                <li><a href="#flashcards" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">{t("pages.newgrad.clinicalReferenceDetail.flashcards")}</a></li>
+                <li><a href="#related-lessons" className="text-sm text-gray-600 hover:text-gray-900 block py-0.5 border-l-2 border-transparent hover:border-gray-400 pl-3">{t("pages.newgrad.clinicalReferenceDetail.relatedLessons")}</a></li>
               </ul>
               <div className="mt-4 pt-4 border-t space-y-2">
                 <Link href="/newgrad/clinical-references">

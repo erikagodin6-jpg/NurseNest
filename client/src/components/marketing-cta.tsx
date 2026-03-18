@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "wouter";
 
+import { useI18n } from "@/lib/i18n";
 interface ChecklistGateProps {
   title?: string;
   description?: string;
@@ -17,6 +18,7 @@ export function ChecklistGate({
   checklistName = "shift-survival-checklist",
   className = "",
 }: ChecklistGateProps) {
+  const { t } = useI18n();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
@@ -45,8 +47,8 @@ export function ChecklistGate({
     return (
       <div className={`bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center ${className}`} data-testid="checklist-gate-success">
         <CheckCircle className="w-10 h-10 text-emerald-600 mx-auto mb-3" />
-        <h3 className="font-bold text-emerald-900 mb-1">Check Your Inbox!</h3>
-        <p className="text-sm text-emerald-700">Your checklist is on the way. Check your email for the download link.</p>
+        <h3 className="font-bold text-emerald-900 mb-1">{t("components.marketingCta.checkYourInbox")}</h3>
+        <p className="text-sm text-emerald-700">{t("components.marketingCta.yourChecklistIsOnThe")}</p>
       </div>
     );
   }
@@ -63,7 +65,7 @@ export function ChecklistGate({
           <form onSubmit={handleSubmit} className="flex gap-2">
             <Input
               type="email"
-              placeholder="your@email.com"
+              placeholder={t("components.marketingCta.youremailcom")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="h-10 text-sm bg-white"
@@ -71,11 +73,11 @@ export function ChecklistGate({
               data-testid="input-checklist-email"
             />
             <Button type="submit" disabled={status === "loading"} className="shrink-0 gap-2" data-testid="button-checklist-download">
-              {status === "loading" ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Download className="w-4 h-4" /> Get It Free</>}
+              {status === "loading" ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Download className="w-4 h-4" /> {t("components.marketingCta.getItFree")}</>}
             </Button>
           </form>
-          {status === "error" && <p className="text-xs text-red-500 mt-2" data-testid="text-checklist-error">Something went wrong. Please try again.</p>}
-          <p className="text-xs text-gray-400 mt-2">No spam. Unsubscribe anytime.</p>
+          {status === "error" && <p className="text-xs text-red-500 mt-2" data-testid="text-checklist-error">{t("components.marketingCta.somethingWentWrongPleaseTry")}</p>}
+          <p className="text-xs text-gray-400 mt-2">{t("components.marketingCta.noSpamUnsubscribeAnytime")}</p>
         </div>
       </div>
     </div>
@@ -101,7 +103,7 @@ export function FlashcardCTA({
         <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center mb-3">
           <Brain className="w-5 h-5 text-indigo-600" />
         </div>
-        <h3 className="font-bold text-gray-900 mb-1 text-sm">Free Flashcards</h3>
+        <h3 className="font-bold text-gray-900 mb-1 text-sm">{t("components.marketingCta.freeFlashcards")}</h3>
         <p className="text-xs text-gray-500 mb-4">
           Start reviewing {profession} concepts with our spaced repetition flashcard system. Free access to starter decks.
         </p>
@@ -123,7 +125,7 @@ export function FlashcardCTA({
               <Brain className="w-6 h-6 text-indigo-600" />
             </div>
             <div>
-              <h3 className="font-bold text-gray-900">Study with Free Flashcards</h3>
+              <h3 className="font-bold text-gray-900">{t("components.marketingCta.studyWithFreeFlashcards")}</h3>
               <p className="text-sm text-gray-500">Spaced repetition for {profession} concepts</p>
             </div>
           </div>
@@ -144,7 +146,7 @@ export function FlashcardCTA({
       </div>
       <div className="flex-1 min-w-0">
         <h4 className="font-semibold text-gray-900 text-sm">Free {profession} Flashcards</h4>
-        <p className="text-xs text-gray-500">Review key concepts with spaced repetition</p>
+        <p className="text-xs text-gray-500">{t("components.marketingCta.reviewKeyConceptsWithSpaced")}</p>
       </div>
       <Link href={href}>
         <Button size="sm" variant="outline" className="shrink-0 gap-1" data-testid="button-flashcard-cta">
@@ -174,7 +176,7 @@ export function PracticeQuestionCTA({
         <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center mb-3">
           <FileText className="w-5 h-5 text-emerald-600" />
         </div>
-        <h3 className="font-bold text-gray-900 mb-1 text-sm">Free Practice Questions</h3>
+        <h3 className="font-bold text-gray-900 mb-1 text-sm">{t("components.marketingCta.freePracticeQuestions")}</h3>
         <p className="text-xs text-gray-500 mb-4">
           Test your {profession} knowledge with free practice questions. Detailed rationales included.
         </p>
@@ -196,7 +198,7 @@ export function PracticeQuestionCTA({
               <FileText className="w-6 h-6 text-emerald-600" />
             </div>
             <div>
-              <h3 className="font-bold text-gray-900">Free Practice Questions</h3>
+              <h3 className="font-bold text-gray-900">{t("components.marketingCta.freePracticeQuestions2")}</h3>
               <p className="text-sm text-gray-500">Test your {profession} knowledge with rationales</p>
             </div>
           </div>
@@ -217,7 +219,7 @@ export function PracticeQuestionCTA({
       </div>
       <div className="flex-1 min-w-0">
         <h4 className="font-semibold text-gray-900 text-sm">Free {profession} Practice Questions</h4>
-        <p className="text-xs text-gray-500">Exam-style questions with detailed rationales</p>
+        <p className="text-xs text-gray-500">{t("components.marketingCta.examstyleQuestionsWithDetailedRationales")}</p>
       </div>
       <Link href={href}>
         <Button size="sm" variant="outline" className="shrink-0 gap-1 border-emerald-200 text-emerald-700 hover:bg-emerald-50" data-testid="button-practice-q-cta">

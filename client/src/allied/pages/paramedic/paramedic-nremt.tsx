@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { paramedicQuestions } from "@/data/career-questions/paramedic-questions";
 
+import { useI18n } from "@/lib/i18n";
 const CATEGORY_COUNTS: Record<string, number> = {};
 paramedicQuestions.forEach(q => {
   CATEGORY_COUNTS[q.category] = (CATEGORY_COUNTS[q.category] || 0) + 1;
@@ -29,11 +30,12 @@ const NREMT_FAQS = [
 ];
 
 export default function ParamedicNREMTPage() {
+  const { t } = useI18n();
   return (
     <div data-testid="paramedic-nremt-page">
       <AlliedSEO
-        title="NREMT Paramedic Practice Questions — Cognitive Exam Prep | NurseNest"
-        description="Prepare for the NREMT paramedic cognitive exam with 500+ CAT-style practice questions, blueprint-weighted mock exams, and 600+ word clinical rationales. Covers all five NREMT content areas."
+        title={t("allied.paramedicParamedicNremt.nremtParamedicPracticeQuestionsCognitive")}
+        description={t("allied.paramedicParamedicNremt.prepareForTheNremtParamedic")}
         keywords="nremt paramedic practice questions, NREMT paramedic exam prep, national registry paramedic, NREMT practice test, paramedic cognitive exam, NREMT study guide, CAT paramedic exam"
         canonicalPath="/allied-health/paramedic/nremt"
         structuredData={{
@@ -47,9 +49,9 @@ export default function ParamedicNREMTPage() {
 
       <HeroCTA
         badge="NREMT Paramedic Exam Prep"
-        title="Crush the NREMT"
+        title={t("allied.paramedicParamedicNremt.crushTheNremt")}
         titleHighlight="Paramedic Cognitive Exam"
-        subtitle="CAT-adaptive practice questions, blueprint-weighted mock exams, and 600+ word clinical rationales covering all five NREMT content areas — built to get you registry-certified."
+        subtitle={t("allied.paramedic_nremt.catadaptivePracticeQuestionsBlueprintwei")}
         primaryCTA={{ label: "Start Free NREMT Diagnostic", href: "/diagnostic?career=paramedic" }}
         secondaryCTA={{ label: "Browse NREMT Questions", href: "/qbank?career=paramedic" }}
       />
@@ -57,16 +59,16 @@ export default function ParamedicNREMTPage() {
       <section className="py-16 sm:py-20 bg-white" data-testid="section-nremt-features">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Designed for the NREMT Format</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">The NREMT cognitive exam uses Computer Adaptive Testing. Our platform mirrors this format so you practice the way you will be tested.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.paramedicParamedicNremt.designedForTheNremtFormat")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("allied.paramedicParamedicNremt.theNremtCognitiveExamUses")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <FeatureCard icon={TrendingUp} title="CAT-Adaptive Simulation" description="Our engine adjusts question difficulty in real-time based on your answers — replicating the NREMT's Computer Adaptive Testing algorithm." />
-            <FeatureCard icon={Shield} title="NREMT Blueprint Alignment" description="Questions weighted to the official NREMT paramedic content area distribution: Airway, Cardiology, Trauma, Medical, and EMS Operations." />
-            <FeatureCard icon={BookOpen} title="600+ Word Clinical Rationales" description="Deep rationales covering the pathophysiology, assessment logic, and management reasoning behind every answer choice." />
-            <FeatureCard icon={FileText} title="Full-Length Mock Exams" description="Timed exams that end adaptively based on your performance, simulating the variable-length NREMT format." />
-            <FeatureCard icon={Target} title="Weak-Area Drills" description="Our analytics identify your lowest-performing NREMT content areas and auto-generate focused practice sets." />
-            <FeatureCard icon={Brain} title="US Protocol Focus" description="All content uses US drug names, dosing standards, and regulatory references consistent with NREMT expectations." />
+            <FeatureCard icon={TrendingUp} title={t("allied.paramedicParamedicNremt.catadaptiveSimulation")} description={t("allied.paramedicParamedicNremt.ourEngineAdjustsQuestionDifficulty")} />
+            <FeatureCard icon={Shield} title={t("allied.paramedicParamedicNremt.nremtBlueprintAlignment")} description={t("allied.paramedicParamedicNremt.questionsWeightedToTheOfficial")} />
+            <FeatureCard icon={BookOpen} title={t("allied.paramedicParamedicNremt.600WordClinicalRationales")} description={t("allied.paramedicParamedicNremt.deepRationalesCoveringThePathophysiology")} />
+            <FeatureCard icon={FileText} title={t("allied.paramedicParamedicNremt.fulllengthMockExams")} description={t("allied.paramedicParamedicNremt.timedExamsThatEndAdaptively")} />
+            <FeatureCard icon={Target} title={t("allied.paramedicParamedicNremt.weakareaDrills")} description={t("allied.paramedicParamedicNremt.ourAnalyticsIdentifyYourLowestperforming")} />
+            <FeatureCard icon={Brain} title={t("allied.paramedicParamedicNremt.usProtocolFocus")} description={t("allied.paramedicParamedicNremt.allContentUsesUsDrug")} />
           </div>
         </div>
       </section>
@@ -74,8 +76,8 @@ export default function ParamedicNREMTPage() {
       <section className="py-16 sm:py-20 bg-gradient-to-b from-purple-50/30 to-white" data-testid="section-nremt-topics">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">NREMT Content Area Coverage</h2>
-            <p className="text-gray-600 max-w-xl mx-auto">Every NREMT content area covered with exam-authentic questions and clinical depth.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.paramedicParamedicNremt.nremtContentAreaCoverage")}</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">{t("allied.paramedicParamedicNremt.everyNremtContentAreaCovered")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {NREMT_TOPICS.map(t => (
@@ -95,8 +97,8 @@ export default function ParamedicNREMTPage() {
       </section>
 
       <FreePreviewBlock
-        title="Try NREMT Prep Free"
-        subtitle="Take a free diagnostic to see where you stand on all five NREMT content areas, then experience our rationale depth."
+        title={t("allied.paramedicParamedicNremt.tryNremtPrepFree")}
+        subtitle={t("allied.paramedic_nremt.takeAFreeDiagnosticTo")}
         previewItems={[
           { label: "15-Question Diagnostic", description: "NREMT content area readiness assessment" },
           { label: "5 Practice Questions", description: "Full 600+ word clinical rationales" },
@@ -106,13 +108,13 @@ export default function ParamedicNREMTPage() {
         ctaLabel="Start Free NREMT Diagnostic"
       />
 
-      <FAQSection title="NREMT Paramedic Exam FAQ" faqs={NREMT_FAQS} />
+      <FAQSection title={t("allied.paramedicParamedicNremt.nremtParamedicExamFaq")} faqs={NREMT_FAQS} />
 
       <TrustBlock />
 
       <FinalCTASection
-        title="Your NREMT Exam Is Coming. Let's Get You Registry-Certified."
-        subtitle="Start with a free diagnostic, follow your personalized study plan, and walk into your cognitive exam knowing you are ready."
+        title={t("allied.paramedicParamedicNremt.yourNremtExamIsComing")}
+        subtitle={t("allied.paramedic_nremt.startWithAFreeDiagnostic")}
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
         secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}
       />

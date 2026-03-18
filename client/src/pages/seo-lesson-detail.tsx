@@ -20,7 +20,9 @@ import {
 import { FixedLessonNav } from "@/components/fixed-lesson-nav";
 import { AutoRelatedContent } from "@/components/auto-related-content";
 
+import { useI18n } from "@/lib/i18n";
 function stripTierFromTitle(title: string): string {
+  const { t } = useI18n();
   return title
     .replace(/^(RN|NP|RPN|LVN|NCLEX|NCLEX-RN|NCLEX-PN|REx-PN)\s+/i, "")
     .replace(/\s+\((RN|NP|RPN|LVN|NCLEX|RPN\/LVN|RPN\/RN)\)$/i, "")
@@ -282,7 +284,7 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
               <section className="space-y-4" data-testid="section-definition-preview">
                 <div className="flex items-center gap-3">
                   <BookOpen className="w-6 h-6 text-blue-600" />
-                  <h2 className="text-xl font-bold text-gray-900">Definition</h2>
+                  <h2 className="text-xl font-bold text-gray-900">{t("pages.seoLessonDetail.definition")}</h2>
                 </div>
                 <Card className="border-none shadow-sm bg-blue-50/60">
                   <CardContent className="p-6">
@@ -296,7 +298,7 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
                 <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
                   <Lock className="w-7 h-7 text-primary/70" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900">Unlock Full Lesson</h3>
+                <h3 className="text-lg font-bold text-gray-900">{t("pages.seoLessonDetail.unlockFullLesson")}</h3>
                 <p className="text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
                   Access the complete {displayTitle} lesson including pathophysiology, signs & symptoms, diagnostics, treatment, and nursing interventions with a {getTierLabel(lesson.tier)} subscription.
                 </p>
@@ -317,7 +319,7 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
               <section className="space-y-4" data-testid="section-definition">
                 <div className="flex items-center gap-3">
                   <BookOpen className="w-6 h-6 text-blue-600" />
-                  <h2 className="text-xl font-bold text-gray-900">Definition</h2>
+                  <h2 className="text-xl font-bold text-gray-900">{t("pages.seoLessonDetail.definition2")}</h2>
                 </div>
                 <Card className="border-none shadow-sm bg-blue-50/60">
                   <CardContent className="p-6">
@@ -331,7 +333,7 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
               <section className="space-y-4" data-testid="section-pathophysiology">
                 <div className="flex items-center gap-3">
                   <Microscope className="w-6 h-6 text-purple-600" />
-                  <h2 className="text-xl font-bold text-gray-900">Pathophysiology</h2>
+                  <h2 className="text-xl font-bold text-gray-900">{t("pages.seoLessonDetail.pathophysiology")}</h2>
                 </div>
                 <Card className="border-none shadow-sm bg-purple-50/60">
                   <CardContent className="p-6">
@@ -346,7 +348,7 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
               icon={AlertCircle}
               iconColor="text-orange-500"
               bgColor="bg-orange-50/60"
-              title="Signs & Symptoms"
+              title={t("pages.seoLessonDetail.signsSymptoms")}
               testId="section-signs-symptoms"
             />
 
@@ -355,7 +357,7 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
               icon={Search}
               iconColor="text-cyan-600"
               bgColor="bg-cyan-50/60"
-              title="Diagnostics"
+              title={t("pages.seoLessonDetail.diagnostics")}
               testId="section-diagnostics"
             />
 
@@ -364,7 +366,7 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
               icon={Pill}
               iconColor="text-emerald-600"
               bgColor="bg-emerald-50/60"
-              title="Treatment"
+              title={t("pages.seoLessonDetail.treatment")}
               testId="section-treatment"
             />
 
@@ -373,7 +375,7 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
               icon={Stethoscope}
               iconColor="text-violet-600"
               bgColor="bg-violet-50/60"
-              title="Nursing Interventions"
+              title={t("pages.seoLessonDetail.nursingInterventions")}
               testId="section-nursing-interventions"
             />
 
@@ -382,7 +384,7 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
               icon={ShieldAlert}
               iconColor="text-red-500"
               bgColor="bg-red-50/60"
-              title="Complications"
+              title={t("pages.seoLessonDetail.complications")}
               testId="section-complications"
             />
 
@@ -390,7 +392,7 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
               <section className="space-y-4" data-testid="section-clinical-pearls">
                 <div className="flex items-center gap-3">
                   <Lightbulb className="w-6 h-6 text-yellow-500" />
-                  <h2 className="text-xl font-bold text-gray-900">Clinical Pearls</h2>
+                  <h2 className="text-xl font-bold text-gray-900">{t("pages.seoLessonDetail.clinicalPearls")}</h2>
                 </div>
                 <div className="space-y-3">
                   {lesson.clinicalPearls.map((pearl, i) => (
@@ -409,7 +411,7 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
               <section className="space-y-4" data-testid="section-references">
                 <div className="flex items-center gap-3">
                   <FileText className="w-6 h-6 text-gray-500" />
-                  <h2 className="text-xl font-bold text-gray-900">References</h2>
+                  <h2 className="text-xl font-bold text-gray-900">{t("pages.seoLessonDetail.references")}</h2>
                 </div>
                 <Card className="border-none shadow-sm bg-gray-50">
                   <CardContent className="p-6">
@@ -429,7 +431,7 @@ export function SeoLessonDetail({ lesson, related }: { lesson: SeoLessonData; re
           <section className="space-y-4 pt-6 border-t border-gray-200" data-testid="section-related-lessons">
             <div className="flex items-center gap-3">
               <GraduationCap className="w-6 h-6 text-blue-600" />
-              <h2 className="text-xl font-bold text-gray-900">Related Lessons</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t("pages.seoLessonDetail.relatedLessons")}</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-4">
               {related.map((r: any) => (

@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   Upload, FileText, FileJson, Table2, CheckCircle2, AlertTriangle,
   XCircle, Clock, ChevronDown, ChevronRight, Download, Play, Ban,
@@ -74,6 +75,7 @@ const FORMAT_ICONS: Record<string, any> = {
 };
 
 export default function AdminUniversalImportPage() {
+  const { t } = useI18n();
   const { isAdmin } = useAuth();
   const [, navigate] = useLocation();
   const queryClient = useQueryClient();
@@ -117,7 +119,7 @@ export default function AdminUniversalImportPage() {
   });
 
   if (!isAdmin) {
-    return <div className="p-8 text-center text-gray-500">Admin access required</div>;
+    return <div className="p-8 text-center text-gray-500">{t("pages.adminUniversalImport.adminAccessRequired")}</div>;
   }
 
   const handleFileUpload = async (file: File) => {
@@ -173,8 +175,8 @@ export default function AdminUniversalImportPage() {
             </button>
           )}
           <div>
-            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-page-title">Universal Question Importer</h1>
-            <p className="text-gray-500 mt-1">Upload CSV, JSON, or XLSX files to bulk-import questions</p>
+            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-page-title">{t("pages.adminUniversalImport.universalQuestionImporter")}</h1>
+            <p className="text-gray-500 mt-1">{t("pages.adminUniversalImport.uploadCsvJsonOrXlsx")}</p>
           </div>
         </div>
         <div className="flex gap-3">
@@ -195,7 +197,7 @@ export default function AdminUniversalImportPage() {
                 <div className="p-2 bg-blue-100 rounded-lg"><Table2 className="w-5 h-5 text-blue-600" /></div>
                 <div>
                   <h3 className="font-semibold text-sm">CSV</h3>
-                  <p className="text-xs text-gray-500">Comma-separated values</p>
+                  <p className="text-xs text-gray-500">{t("pages.adminUniversalImport.commaseparatedValues")}</p>
                 </div>
               </div>
               <a href="/api/admin/imports/template/csv" className="text-xs text-teal-600 hover:underline flex items-center gap-1" data-testid="link-csv-template">
@@ -207,7 +209,7 @@ export default function AdminUniversalImportPage() {
                 <div className="p-2 bg-purple-100 rounded-lg"><FileJson className="w-5 h-5 text-purple-600" /></div>
                 <div>
                   <h3 className="font-semibold text-sm">JSON</h3>
-                  <p className="text-xs text-gray-500">Array of question objects</p>
+                  <p className="text-xs text-gray-500">{t("pages.adminUniversalImport.arrayOfQuestionObjects")}</p>
                 </div>
               </div>
               <a href="/api/admin/imports/template/json" className="text-xs text-teal-600 hover:underline flex items-center gap-1" data-testid="link-json-template">
@@ -219,18 +221,18 @@ export default function AdminUniversalImportPage() {
                 <div className="p-2 bg-green-100 rounded-lg"><FileText className="w-5 h-5 text-green-600" /></div>
                 <div>
                   <h3 className="font-semibold text-sm">XLSX</h3>
-                  <p className="text-xs text-gray-500">Excel spreadsheet</p>
+                  <p className="text-xs text-gray-500">{t("pages.adminUniversalImport.excelSpreadsheet")}</p>
                 </div>
               </div>
-              <p className="text-xs text-gray-400">First sheet will be read</p>
+              <p className="text-xs text-gray-400">{t("pages.adminUniversalImport.firstSheetWillBeRead")}</p>
             </div>
           </div>
 
           <div className="bg-white border rounded-xl p-6">
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Target Profession (optional)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t("pages.adminUniversalImport.targetProfessionOptional")}</label>
               <select value={selectedProfession} onChange={(e) => setSelectedProfession(e.target.value)} className="w-full max-w-sm px-3 py-2 border rounded-lg text-sm" data-testid="select-profession">
-                <option value="">Auto-detect from file</option>
+                <option value="">{t("pages.adminUniversalImport.autodetectFromFile")}</option>
                 {professions.map((p: any) => (
                   <option key={p.id || p.slug} value={p.slug}>{p.name}</option>
                 ))}
@@ -246,13 +248,13 @@ export default function AdminUniversalImportPage() {
               {uploading ? (
                 <div className="space-y-3">
                   <Loader2 className="w-12 h-12 text-teal-500 mx-auto animate-spin" />
-                  <p className="text-sm text-teal-600 font-medium">Uploading and validating...</p>
+                  <p className="text-sm text-teal-600 font-medium">{t("pages.adminUniversalImport.uploadingAndValidating")}</p>
                 </div>
               ) : (
                 <>
                   <Upload className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                  <p className="text-base font-medium text-gray-700 mb-1">Drag & drop your file here</p>
-                  <p className="text-sm text-gray-500 mb-4">or click to browse (CSV, JSON, XLSX up to 50MB)</p>
+                  <p className="text-base font-medium text-gray-700 mb-1">{t("pages.adminUniversalImport.dragDropYourFileHere")}</p>
+                  <p className="text-sm text-gray-500 mb-4">{t("pages.adminUniversalImport.orClickToBrowseCsv")}</p>
                   <button
                     onClick={() => fileInputRef.current?.click()}
                     className="px-6 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium"
@@ -277,7 +279,7 @@ export default function AdminUniversalImportPage() {
           </div>
 
           <div className="bg-white border rounded-xl p-6">
-            <h3 className="font-semibold text-gray-900 mb-3">Import Schema</h3>
+            <h3 className="font-semibold text-gray-900 mb-3">{t("pages.adminUniversalImport.importSchema")}</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
               {[
                 { field: "question_id", req: false, desc: "Unique ID" },
@@ -302,12 +304,12 @@ export default function AdminUniversalImportPage() {
                 </div>
               ))}
             </div>
-            <p className="text-xs text-gray-400 mt-2">* = required field</p>
+            <p className="text-xs text-gray-400 mt-2">{t("pages.adminUniversalImport.requiredField")}</p>
           </div>
 
           {imports.length > 0 && (
             <div className="bg-white border rounded-xl p-6">
-              <h3 className="font-semibold text-gray-900 mb-3">Recent Imports</h3>
+              <h3 className="font-semibold text-gray-900 mb-3">{t("pages.adminUniversalImport.recentImports")}</h3>
               <div className="space-y-2">
                 {imports.slice(0, 5).map((imp) => {
                   const status = STATUS_CONFIG[imp.status] || STATUS_CONFIG.pending;
@@ -376,9 +378,9 @@ export default function AdminUniversalImportPage() {
                   <div>
                     <label className="block text-xs font-medium text-teal-600 mb-1">Duplicate Strategy ({imp.duplicateRows} found)</label>
                     <select value={duplicateStrategy} onChange={(e) => setDuplicateStrategy(e.target.value)} className="px-3 py-1.5 border rounded-lg text-sm" data-testid="select-duplicate-strategy">
-                      <option value="skip">Skip duplicates</option>
-                      <option value="replace">Replace existing</option>
-                      <option value="variant">Create as variant</option>
+                      <option value="skip">{t("pages.adminUniversalImport.skipDuplicates")}</option>
+                      <option value="replace">{t("pages.adminUniversalImport.replaceExisting")}</option>
+                      <option value="variant">{t("pages.adminUniversalImport.createAsVariant")}</option>
                     </select>
                   </div>
                   <div className="flex gap-2 mt-4">
@@ -463,7 +465,7 @@ export default function AdminUniversalImportPage() {
                 <table className="w-full text-xs">
                   <thead>
                     <tr className="bg-gray-50">
-                      <th className="px-2 py-2 text-left font-medium text-gray-500">Row</th>
+                      <th className="px-2 py-2 text-left font-medium text-gray-500">{t("pages.adminUniversalImport.row")}</th>
                       {Object.keys(imp.previewData[0]?.fields || {}).slice(0, 8).map((h) => (
                         <th key={h} className="px-2 py-2 text-left font-medium text-gray-500">{h}</th>
                       ))}
@@ -502,12 +504,12 @@ export default function AdminUniversalImportPage() {
                 <table className="w-full text-xs" data-testid="table-import-rows">
                   <thead className="sticky top-0 bg-gray-50 z-10">
                     <tr>
-                      <th className="px-2 py-2 text-left">Row</th>
-                      <th className="px-2 py-2 text-left">Status</th>
-                      <th className="px-2 py-2 text-left">Type</th>
-                      <th className="px-2 py-2 text-left">Topic</th>
-                      <th className="px-2 py-2 text-left">Question</th>
-                      <th className="px-2 py-2 text-left">Answer</th>
+                      <th className="px-2 py-2 text-left">{t("pages.adminUniversalImport.row2")}</th>
+                      <th className="px-2 py-2 text-left">{t("pages.adminUniversalImport.status")}</th>
+                      <th className="px-2 py-2 text-left">{t("pages.adminUniversalImport.type")}</th>
+                      <th className="px-2 py-2 text-left">{t("pages.adminUniversalImport.topic")}</th>
+                      <th className="px-2 py-2 text-left">{t("pages.adminUniversalImport.question")}</th>
+                      <th className="px-2 py-2 text-left">{t("pages.adminUniversalImport.answer")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -540,25 +542,25 @@ export default function AdminUniversalImportPage() {
 
       {activeView === "history" && (
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-gray-900" data-testid="text-history-title">Import History</h2>
+          <h2 className="text-xl font-bold text-gray-900" data-testid="text-history-title">{t("pages.adminUniversalImport.importHistory")}</h2>
           {imports.length === 0 ? (
             <div className="text-center py-16 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
               <History className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">No imports yet</h3>
-              <p className="text-gray-500">Upload your first file to get started</p>
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">{t("pages.adminUniversalImport.noImportsYet")}</h3>
+              <p className="text-gray-500">{t("pages.adminUniversalImport.uploadYourFirstFileTo")}</p>
             </div>
           ) : (
             <div className="bg-white border rounded-xl overflow-hidden">
               <table className="w-full text-sm" data-testid="table-import-history">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-4 py-3 text-left font-medium text-gray-500">File</th>
-                    <th className="px-4 py-3 text-left font-medium text-gray-500">Profession</th>
-                    <th className="px-4 py-3 text-left font-medium text-gray-500">Status</th>
-                    <th className="px-4 py-3 text-left font-medium text-gray-500">Rows</th>
-                    <th className="px-4 py-3 text-left font-medium text-gray-500">Imported</th>
+                    <th className="px-4 py-3 text-left font-medium text-gray-500">{t("pages.adminUniversalImport.file")}</th>
+                    <th className="px-4 py-3 text-left font-medium text-gray-500">{t("pages.adminUniversalImport.profession")}</th>
+                    <th className="px-4 py-3 text-left font-medium text-gray-500">{t("pages.adminUniversalImport.status2")}</th>
+                    <th className="px-4 py-3 text-left font-medium text-gray-500">{t("pages.adminUniversalImport.rows")}</th>
+                    <th className="px-4 py-3 text-left font-medium text-gray-500">{t("pages.adminUniversalImport.imported")}</th>
                     <th className="px-4 py-3 text-left font-medium text-gray-500">By</th>
-                    <th className="px-4 py-3 text-left font-medium text-gray-500">Date</th>
+                    <th className="px-4 py-3 text-left font-medium text-gray-500">{t("pages.adminUniversalImport.date")}</th>
                     <th className="px-4 py-3 text-left font-medium text-gray-500"></th>
                   </tr>
                 </thead>

@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import { Link } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
 import {
@@ -100,8 +101,8 @@ export default function MltBloodBankCheatSheet() {
   return (
     <>
       <AlliedSEO
-        title="Blood Bank Cheat Sheet | MLT Exam Quick Reference"
-        description="Free blood bank cheat sheet for MLT exam prep. ABO/Rh compatibility charts, transfusion reaction comparison, storage temperatures, enzyme effects, and 20 high-yield facts."
+        title={t("allied.mlt_blood_bank_cheat_sheet.bloodBankCheatSheetMlt")}
+        description={t("allied.mlt_blood_bank_cheat_sheet.freeBloodBankCheatSheet")}
         keywords="blood bank cheat sheet MLT, blood banking quick reference, ABO compatibility chart, transfusion reaction comparison, blood component storage temperatures"
         canonicalPath="/allied-health/mlt/blood-bank/cheat-sheet"
         structuredData={structuredData}
@@ -124,7 +125,7 @@ export default function MltBloodBankCheatSheet() {
           <div className="max-w-5xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-1.5 text-sm text-red-200 mb-4">
               <FileText className="w-4 h-4" />
-              <span>Free Shareable Resource</span>
+              <span>{t("allied.mlt_blood_bank_cheat_sheet.freeShareableResource")}</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold mb-4" data-testid="text-cheat-sheet-title">
               Blood Bank Cheat Sheet

@@ -11,9 +11,11 @@ import {
 import { DemoPageWrapper, SectionCard, ProgressRing, MasteryBar } from "@/components/demo-shared";
 import { demoProfiles } from "@/data/demo-adaptive-profiles";
 
+import { useI18n } from "@/lib/i18n";
 export default function DemoHeroShowcase() {
+  const { t } = useI18n();
   const { user, isAdmin } = useAuth();
-  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">Admin access required.</p></div></DemoPageWrapper>;
+  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">{t("pages.demoHeroShowcase.adminAccessRequired")}</p></div></DemoPageWrapper>;
 
   const p = demoProfiles[0];
   const chartData = p.growthTrend.map((v, i) => ({ w: `W${i + 1}`, s: v }));
@@ -26,8 +28,8 @@ export default function DemoHeroShowcase() {
           <div className="col-span-4">
             <SectionCard className="h-full flex flex-col items-center justify-center py-6">
               <ProgressRing value={78} size={96} strokeWidth={7} />
-              <h3 className="text-sm font-semibold text-slate-700 mt-3 mb-0.5">Exam Readiness</h3>
-              <p className="text-[10px] text-slate-500">NCLEX-RN</p>
+              <h3 className="text-sm font-semibold text-slate-700 mt-3 mb-0.5">{t("pages.demoHeroShowcase.examReadiness")}</h3>
+              <p className="text-[10px] text-slate-500">{t("pages.demoHeroShowcase.nclexrn")}</p>
               <div className="flex items-center gap-1.5 mt-3">
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[9px] font-semibold border border-emerald-100">
                   <CheckCircle2 className="w-2.5 h-2.5" /> On Track
@@ -44,8 +46,8 @@ export default function DemoHeroShowcase() {
             <SectionCard className="h-full">
               <div className="flex items-center justify-between mb-2">
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-700">Adaptive Growth</h3>
-                  <p className="text-[10px] text-slate-400">8-week readiness progression</p>
+                  <h3 className="text-sm font-semibold text-slate-700">{t("pages.demoHeroShowcase.adaptiveGrowth")}</h3>
+                  <p className="text-[10px] text-slate-400">{t("pages.demoHeroShowcase.8weekReadinessProgression")}</p>
                 </div>
                 <span className="inline-flex items-center gap-1 text-[10px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
                   <TrendingUp className="w-2.5 h-2.5" /> +20pts
@@ -70,7 +72,7 @@ export default function DemoHeroShowcase() {
           {/* Category Performance */}
           <div className="col-span-6">
             <SectionCard>
-              <h3 className="text-sm font-semibold text-slate-700 mb-3">Category Mastery</h3>
+              <h3 className="text-sm font-semibold text-slate-700 mb-3">{t("pages.demoHeroShowcase.categoryMastery")}</h3>
               <div className="space-y-2.5">
                 {p.categoryBreakdown.slice(0, 5).map((cat) => (
                   <div key={cat.name} className="flex items-center gap-2.5">
@@ -100,7 +102,7 @@ export default function DemoHeroShowcase() {
             </div>
 
             <SectionCard>
-              <h3 className="text-sm font-semibold text-slate-700 mb-2">Next Best Actions</h3>
+              <h3 className="text-sm font-semibold text-slate-700 mb-2">{t("pages.demoHeroShowcase.nextBestActions")}</h3>
               <div className="space-y-1.5">
                 {p.recommendations.slice(0, 3).map((r, i) => {
                   const colors = ["bg-rose-50 border-rose-100", "bg-amber-50 border-amber-100", "bg-emerald-50 border-emerald-100"];
@@ -119,7 +121,7 @@ export default function DemoHeroShowcase() {
           {/* Strengths / Weaknesses */}
           <div className="col-span-6">
             <SectionCard>
-              <div className="flex items-center gap-1.5 mb-2"><Star className="w-3.5 h-3.5 text-emerald-500" /><h3 className="text-sm font-semibold text-slate-700">Strengths</h3></div>
+              <div className="flex items-center gap-1.5 mb-2"><Star className="w-3.5 h-3.5 text-emerald-500" /><h3 className="text-sm font-semibold text-slate-700">{t("pages.demoHeroShowcase.strengths")}</h3></div>
               <div className="space-y-1.5">
                 {p.strongestAreas.map((a) => (
                   <div key={a} className="px-3 py-1.5 rounded-lg bg-emerald-50/60 border border-emerald-100/60 text-xs text-slate-700 font-medium">{a}</div>
@@ -130,7 +132,7 @@ export default function DemoHeroShowcase() {
 
           <div className="col-span-6">
             <SectionCard>
-              <div className="flex items-center gap-1.5 mb-2"><Target className="w-3.5 h-3.5 text-rose-500" /><h3 className="text-sm font-semibold text-slate-700">Focus Areas</h3></div>
+              <div className="flex items-center gap-1.5 mb-2"><Target className="w-3.5 h-3.5 text-rose-500" /><h3 className="text-sm font-semibold text-slate-700">{t("pages.demoHeroShowcase.focusAreas")}</h3></div>
               <div className="space-y-1.5">
                 {p.weakestAreas.map((a) => (
                   <div key={a} className="px-3 py-1.5 rounded-lg bg-rose-50/60 border border-rose-100/60 text-xs text-slate-700 font-medium">{a}</div>

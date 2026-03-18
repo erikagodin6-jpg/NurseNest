@@ -211,7 +211,7 @@ export default function JobsHub() {
               <Filter className="w-4 h-4" />
               <span>{t("jobs.filters")}</span>
               {hasActiveFilters && (
-                <span className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">Active</span>
+                <span className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">{t("pages.jobsHub.active")}</span>
               )}
             </button>
           </div>

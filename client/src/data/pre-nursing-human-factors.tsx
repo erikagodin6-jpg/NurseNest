@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { ShieldAlert, Brain, MessageSquare, AlertTriangle } from "lucide-react";
 
 export function HumanFactorsModule() {
+  const { t } = useI18n();
   const swissCheeseContent = useEditableText("hf-swiss-cheese-content", "The Swiss Cheese Model (James Reason) explains that healthcare errors rarely result from a single mistake. Each layer of defense (policies, training, checklists, technology, supervision) has 'holes' — weaknesses that can be latent or active. An adverse event occurs only when the holes in multiple layers align, allowing a hazard to pass through every defense. This means preventing errors requires strengthening multiple layers simultaneously rather than blaming individuals.");
   const justCultureContent = useEditableText("hf-just-culture-content", "A just culture distinguishes between human error (inadvertent — support and coach), at-risk behavior (conscious choice due to drift from best practice — coach and remove incentives for risk), and reckless behavior (conscious disregard of substantial risk — disciplinary action). This replaces blame culture, where all errors are punished regardless of intent, which discourages reporting and prevents organizational learning. In a just culture, reporting is encouraged because the focus is on fixing systems, not punishing people.");
   const sbarContent = useEditableText("hf-sbar-content", "SBAR is a structured communication framework: Situation (What is happening right now?), Background (What is the clinical context?), Assessment (What do I think the problem is?), Recommendation (What do I think should be done?). I-PASS is used for handoffs: Illness severity, Patient summary, Action list, Situation awareness and contingency planning, Synthesis by receiver. Structured communication prevents information loss during transitions of care — a leading cause of preventable adverse events.");
@@ -39,7 +41,7 @@ export function HumanFactorsModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="The Swiss Cheese Model"
+          title={t("data.pre_nursing_human_factors.theSwissCheeseModel")}
           content={swissCheeseContent}
         />
       </MicroLesson>
@@ -47,7 +49,7 @@ export function HumanFactorsModule() {
       <MicroLesson title="Cognitive Biases in Healthcare" subtitle="How thinking shortcuts lead to errors" icon={<Brain className="w-5 h-5" />}>
         <EditableModuleText sectionKey="hf-bias-intro" defaultText="Cognitive biases are mental shortcuts (heuristics) that normally help us make quick decisions but can lead to systematic errors in clinical reasoning. Recognizing these biases in yourself and colleagues is a critical patient safety skill." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="Common Cognitive Biases in Clinical Practice"
+          title={t("data.pre_nursing_human_factors.commonCognitiveBiasesInClinical")}
           cards={[
             {
               id: "hf-confirm",
@@ -120,18 +122,18 @@ export function HumanFactorsModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Structured Communication"
+          title={t("data.pre_nursing_human_factors.structuredCommunication")}
           content={sbarContent}
         />
         <CognitiveCard
           type="warning"
-          title="Just Culture vs Blame Culture"
+          title={t("data.pre_nursing_human_factors.justCultureVsBlameCulture")}
           content={justCultureContent}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Human Factors Concept"
+        title={t("data.pre_nursing_human_factors.matchTheHumanFactorsConcept")}
         pairs={[
           { id: "hf-m1", term: "Swiss cheese model", definition: "Errors occur when holes in multiple defense layers align" },
           { id: "hf-m2", term: "Confirmation bias", definition: "Seeking evidence that supports your initial impression" },
@@ -143,7 +145,7 @@ export function HumanFactorsModule() {
       />
 
       <SelfCheckQuiz
-        title="Human Factors & Patient Safety Quiz"
+        title={t("data.pre_nursing_human_factors.humanFactorsPatientSafetyQuiz")}
         questions={[
           {
             id: "hf1",

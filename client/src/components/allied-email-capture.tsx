@@ -3,6 +3,7 @@ import { Mail, CheckCircle, Loader2, BookOpen, FileText, ClipboardCheck } from "
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+import { useI18n } from "@/lib/i18n";
 const PROFESSION_CONFIG: Record<string, { title: string; subtitle: string; buttonText: string; icon: string }> = {
   "pharmacy-tech": {
     title: "Get Free Pharmacy Tech Practice Questions",
@@ -67,6 +68,7 @@ export function AlliedEmailCapture({
   source = "allied_page",
   className = "",
 }: AlliedEmailCaptureProps) {
+  const { t } = useI18n();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
@@ -103,7 +105,7 @@ export function AlliedEmailCapture({
     return (
       <div className={`flex items-center gap-3 p-4 bg-emerald-50 border border-emerald-200 rounded-xl ${className}`} data-testid="allied-email-success">
         <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
-        <p className="text-sm text-emerald-800 font-medium">You are subscribed. Check your inbox for free practice questions.</p>
+        <p className="text-sm text-emerald-800 font-medium">{t("components.alliedEmailCapture.youAreSubscribedCheckYour")}</p>
       </div>
     );
   }
@@ -124,7 +126,7 @@ export function AlliedEmailCapture({
           <form onSubmit={handleSubmit} className="flex gap-2 w-full sm:w-auto">
             <Input
               type="email"
-              placeholder="your@email.com"
+              placeholder={t("components.alliedEmailCapture.youremailcom")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="h-9 text-sm min-w-[200px]"
@@ -136,7 +138,7 @@ export function AlliedEmailCapture({
             </Button>
           </form>
         </div>
-        {status === "error" && <p className="text-xs text-red-500 mt-2" data-testid="text-allied-signup-error">Something went wrong. Please try again.</p>}
+        {status === "error" && <p className="text-xs text-red-500 mt-2" data-testid="text-allied-signup-error">{t("components.alliedEmailCapture.somethingWentWrongPleaseTry")}</p>}
       </div>
     );
   }
@@ -152,7 +154,7 @@ export function AlliedEmailCapture({
         <form onSubmit={handleSubmit} className="space-y-2">
           <Input
             type="email"
-            placeholder="your@email.com"
+            placeholder={t("components.alliedEmailCapture.youremailcom2")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="h-9 text-sm"
@@ -163,8 +165,8 @@ export function AlliedEmailCapture({
             {status === "loading" ? <Loader2 className="w-4 h-4 animate-spin" /> : config.buttonText}
           </Button>
         </form>
-        {status === "error" && <p className="text-xs text-red-500 mt-1">Something went wrong.</p>}
-        <p className="text-xs text-gray-400 mt-2">No spam. Unsubscribe anytime.</p>
+        {status === "error" && <p className="text-xs text-red-500 mt-1">{t("components.alliedEmailCapture.somethingWentWrong")}</p>}
+        <p className="text-xs text-gray-400 mt-2">{t("components.alliedEmailCapture.noSpamUnsubscribeAnytime")}</p>
       </div>
     );
   }
@@ -174,7 +176,7 @@ export function AlliedEmailCapture({
       <form onSubmit={handleSubmit} className={`flex gap-2 ${className}`} data-testid="allied-email-inline">
         <Input
           type="email"
-          placeholder="your@email.com"
+          placeholder={t("components.alliedEmailCapture.youremailcom3")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="h-10 text-sm"
@@ -202,7 +204,7 @@ export function AlliedEmailCapture({
       <form onSubmit={handleSubmit} className="flex gap-2">
         <Input
           type="email"
-          placeholder="your@email.com"
+          placeholder={t("components.alliedEmailCapture.youremailcom4")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="h-10 text-sm"
@@ -213,8 +215,8 @@ export function AlliedEmailCapture({
           {status === "loading" ? <Loader2 className="w-4 h-4 animate-spin" /> : config.buttonText}
         </Button>
       </form>
-      {status === "error" && <p className="text-xs text-red-500 mt-2">Something went wrong. Please try again.</p>}
-      <p className="text-xs text-gray-400 mt-2">No spam. Unsubscribe anytime.</p>
+      {status === "error" && <p className="text-xs text-red-500 mt-2">{t("components.alliedEmailCapture.somethingWentWrongPleaseTry2")}</p>}
+      <p className="text-xs text-gray-400 mt-2">{t("components.alliedEmailCapture.noSpamUnsubscribeAnytime2")}</p>
     </div>
   );
 }

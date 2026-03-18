@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { getPracticalNurseExamName, type Region } from "@shared/constants";
+import { useI18n } from "@/lib/i18n";
 const lessonCount = 867;
 const questionCount = 4200;
 import {
@@ -133,6 +134,7 @@ const testimonials = [
 ];
 
 export default function SubscribePage() {
+  const { t } = useI18n();
   const [, params] = useRoute("/subscribe/:tier");
   const [, navigate] = useLocation();
   const { user } = useAuth();
@@ -242,14 +244,14 @@ export default function SubscribePage() {
               <Shield className="w-4 h-4" /> {tier.guarantee}
             </p>
             <div className="flex items-center justify-center gap-3 mt-3">
-              <span className="text-white/40 text-[10px]">Also accepted:</span>
-              <span className="text-[11px] font-semibold text-[#FFB3C7]">Klarna</span>
+              <span className="text-white/40 text-[10px]">{t("pages.subscribe.alsoAccepted")}</span>
+              <span className="text-[11px] font-semibold text-[#FFB3C7]">{t("pages.subscribe.klarna")}</span>
               <span className="text-white/20">|</span>
-              <span className="text-[11px] font-semibold text-[#B2FCE4]">Afterpay</span>
+              <span className="text-[11px] font-semibold text-[#B2FCE4]">{t("pages.subscribe.afterpay")}</span>
               <span className="text-white/20">|</span>
-              <span className="text-[11px] font-semibold text-[#9D9DFF]">Affirm</span>
+              <span className="text-[11px] font-semibold text-[#9D9DFF]">{t("pages.subscribe.affirm")}</span>
               <span className="text-white/20">|</span>
-              <span className="text-[11px] font-semibold text-[#0070ba]">PayPal</span>
+              <span className="text-[11px] font-semibold text-[#0070ba]">{t("pages.subscribe.paypal")}</span>
             </div>
           </div>
         </section>
@@ -321,7 +323,7 @@ export default function SubscribePage() {
               <h2 className="text-2xl sm:text-3xl font-bold mb-3" data-testid="text-domains-heading">
                 {tier.domains.length} Clinical Domains Covered
               </h2>
-              <p className="text-gray-500">Structured content aligned to your exam blueprint</p>
+              <p className="text-gray-500">{t("pages.subscribe.structuredContentAlignedToYour")}</p>
             </div>
             <div className="flex flex-wrap justify-center gap-2.5">
               {tier.domains.map((domain, idx) => (
@@ -345,7 +347,7 @@ export default function SubscribePage() {
               <h2 className="text-2xl sm:text-3xl font-bold mb-3" data-testid="text-how-it-works-heading">
                 How Your Study Plan Works
               </h2>
-              <p className="text-gray-500">From sign-up to exam day in four steps</p>
+              <p className="text-gray-500">{t("pages.subscribe.fromSignupToExamDay")}</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[

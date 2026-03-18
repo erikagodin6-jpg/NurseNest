@@ -383,7 +383,7 @@ export function ContentPageBySlug({ slug }: { slug: string }) {
 
         {config.tips && config.tips.length > 0 && (
           <section className="py-10 border-b border-gray-100" data-testid="section-tips">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Pro Tips</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.internationalNursingContent.proTips")}</h2>
             <div className="space-y-2">
               {config.tips.map((tip, i) => (
                 <div key={i} className="flex items-start gap-3 bg-teal-50 rounded-lg p-3 border border-teal-100">
@@ -398,7 +398,7 @@ export function ContentPageBySlug({ slug }: { slug: string }) {
 
       <section className="py-14 bg-teal-600 mt-10" data-testid="section-cta">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Explore More International Nursing Resources</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">{t("pages.internationalNursingContent.exploreMoreInternationalNursingResources")}</h2>
           <div className="flex flex-wrap gap-4 justify-center">
             {config.relatedLinks.map((link, i) => (
               <Link key={i} href={link.href} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-teal-700 rounded-xl font-medium hover:bg-teal-50 text-sm" data-testid={`link-related-${i}`}>

@@ -15,6 +15,7 @@ import {
 import manifestData from "@/data/career-questions/question-manifest.json";
 import type { QuestionManifest, TierQuestionCount } from "@shared/question-manifest";
 
+import { useI18n } from "@/lib/i18n";
 const manifest: QuestionManifest = manifestData as QuestionManifest;
 
 type TabId = "overview" | "watchlist" | "alerts" | "ai-pool" | "integrity";
@@ -94,6 +95,7 @@ interface WatchlistEntry extends TierHealthEntry {
 }
 
 function getAllTiers(): TierHealthEntry[] {
+
   const entries: TierHealthEntry[] = [];
 
   const addEntries = (source: Record<string, TierQuestionCount>) => {
@@ -293,11 +295,11 @@ function WatchlistRow({ entry, rank }: { entry: WatchlistEntry; rank: number }) 
           </div>
           <div className="grid grid-cols-2 gap-2 text-xs">
             <div>
-              <span className="text-slate-500">Formats:</span>{" "}
+              <span className="text-slate-500">{t("pages.adminTierHealth.formats")}</span>{" "}
               <span className="text-slate-700">{Object.keys(entry.byFormat).join(", ")}</span>
             </div>
             <div>
-              <span className="text-slate-500">Files:</span>{" "}
+              <span className="text-slate-500">{t("pages.adminTierHealth.files")}</span>{" "}
               <span className="text-slate-700">{entry.fileCount}</span>
             </div>
           </div>
@@ -353,19 +355,19 @@ function RecommendedPriorityCard({ watchlist }: { watchlist: WatchlistEntry[] })
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
           <div className="text-center p-2 bg-white/60 rounded-lg">
-            <p className="text-xs text-slate-500">Questions</p>
+            <p className="text-xs text-slate-500">{t("pages.adminTierHealth.questions")}</p>
             <p className="text-lg font-bold text-slate-800" data-testid="text-priority-questions">{top.total}</p>
           </div>
           <div className="text-center p-2 bg-white/60 rounded-lg">
-            <p className="text-xs text-slate-500">Competitive</p>
+            <p className="text-xs text-slate-500">{t("pages.adminTierHealth.competitive")}</p>
             <p className="text-lg font-bold text-slate-800" data-testid="text-priority-competitive">{top.competitiveAppearanceScore}%</p>
           </div>
           <div className="text-center p-2 bg-white/60 rounded-lg">
-            <p className="text-xs text-slate-500">Categories</p>
+            <p className="text-xs text-slate-500">{t("pages.adminTierHealth.categories")}</p>
             <p className="text-lg font-bold text-slate-800" data-testid="text-priority-categories">{top.categoryDepth}</p>
           </div>
           <div className="text-center p-2 bg-white/60 rounded-lg">
-            <p className="text-xs text-slate-500">Formats</p>
+            <p className="text-xs text-slate-500">{t("pages.adminTierHealth.formats2")}</p>
             <p className="text-lg font-bold text-slate-800" data-testid="text-priority-formats">{top.formatCount}</p>
           </div>
         </div>
@@ -521,28 +523,28 @@ export default function AdminTierHealth() {
                 <CardContent className="p-4 text-center">
                   <Database className="w-5 h-5 text-blue-600 mx-auto mb-1" />
                   <p className="text-2xl font-bold text-slate-900" data-testid="text-total-questions">{totalQuestions.toLocaleString()}</p>
-                  <p className="text-xs text-slate-500">Total Questions</p>
+                  <p className="text-xs text-slate-500">{t("pages.adminTierHealth.totalQuestions")}</p>
                 </CardContent>
               </Card>
               <Card data-testid="card-nursing-total">
                 <CardContent className="p-4 text-center">
                   <FileText className="w-5 h-5 text-blue-500 mx-auto mb-1" />
                   <p className="text-2xl font-bold text-blue-700" data-testid="text-nursing-total">{nursingTotal.toLocaleString()}</p>
-                  <p className="text-xs text-slate-500">Nursing Tiers</p>
+                  <p className="text-xs text-slate-500">{t("pages.adminTierHealth.nursingTiers")}</p>
                 </CardContent>
               </Card>
               <Card data-testid="card-allied-total">
                 <CardContent className="p-4 text-center">
                   <Layers className="w-5 h-5 text-teal-500 mx-auto mb-1" />
                   <p className="text-2xl font-bold text-teal-700" data-testid="text-allied-total">{alliedTotal.toLocaleString()}</p>
-                  <p className="text-xs text-slate-500">Allied Health</p>
+                  <p className="text-xs text-slate-500">{t("pages.adminTierHealth.alliedHealth")}</p>
                 </CardContent>
               </Card>
               <Card data-testid="card-cert-total">
                 <CardContent className="p-4 text-center">
                   <Shield className="w-5 h-5 text-purple-500 mx-auto mb-1" />
                   <p className="text-2xl font-bold text-purple-700" data-testid="text-cert-total">{certTotal.toLocaleString()}</p>
-                  <p className="text-xs text-slate-500">Certifications</p>
+                  <p className="text-xs text-slate-500">{t("pages.adminTierHealth.certifications")}</p>
                 </CardContent>
               </Card>
             </div>
@@ -552,7 +554,7 @@ export default function AdminTierHealth() {
                 <CardContent className="p-4 flex items-center gap-3">
                   <Clock className="w-5 h-5 text-red-500 flex-shrink-0" />
                   <div>
-                    <p className="text-sm font-medium text-red-800">Outdated Manifest Data</p>
+                    <p className="text-sm font-medium text-red-800">{t("pages.adminTierHealth.outdatedManifestData")}</p>
                     <p className="text-xs text-red-600">
                       The question count manifest was last generated {staleness.ageText}. Counts may not reflect recent additions.
                     </p>
@@ -564,7 +566,7 @@ export default function AdminTierHealth() {
             <RecommendedPriorityCard watchlist={watchlist} />
 
             <div className="flex items-center gap-3 flex-wrap">
-              <h2 className="text-lg font-semibold text-slate-800">Question Counts by Tier</h2>
+              <h2 className="text-lg font-semibold text-slate-800">{t("pages.adminTierHealth.questionCountsByTier")}</h2>
               <div className="flex gap-1 ml-auto">
                 {(["all", "nursing", "allied", "cert"] as const).map(g => (
                   <button
@@ -628,18 +630,18 @@ export default function AdminTierHealth() {
                   <CardTitle className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                     <Target className="w-4 h-4 text-amber-600" /> Ranked Expansion Watchlist
                   </CardTitle>
-                  <p className="text-xs text-slate-400">Sorted by priority score (highest risk first)</p>
+                  <p className="text-xs text-slate-400">{t("pages.adminTierHealth.sortedByPriorityScoreHighest")}</p>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-4 mb-4 py-2 px-3 bg-slate-50 rounded-lg text-xs text-slate-500 font-medium">
                   <span className="w-6 text-center">#</span>
                   <span className="w-4" />
-                  <span className="flex-1">Tier</span>
-                  <span className="w-16 text-right">Count</span>
-                  <span className="w-16 text-center">Risk</span>
-                  <span className="w-12 text-right">Comp.</span>
-                  <span className="w-8 text-center">Cat.</span>
+                  <span className="flex-1">{t("pages.adminTierHealth.tier")}</span>
+                  <span className="w-16 text-right">{t("pages.adminTierHealth.count")}</span>
+                  <span className="w-16 text-center">{t("pages.adminTierHealth.risk")}</span>
+                  <span className="w-12 text-right">{t("pages.adminTierHealth.comp")}</span>
+                  <span className="w-8 text-center">{t("pages.adminTierHealth.cat")}</span>
                   <span className="w-4" />
                 </div>
                 <div className="space-y-1" data-testid="list-watchlist">
@@ -655,9 +657,9 @@ export default function AdminTierHealth() {
         {activeTab === "alerts" && (
           <div className="space-y-6">
             <div className="flex items-center gap-3 flex-wrap">
-              <h2 className="text-lg font-semibold text-slate-800">Alerts & Warnings</h2>
+              <h2 className="text-lg font-semibold text-slate-800">{t("pages.adminTierHealth.alertsWarnings")}</h2>
               <div className="flex items-center gap-2 ml-auto">
-                <label className="text-xs text-slate-500">Low-volume threshold:</label>
+                <label className="text-xs text-slate-500">{t("pages.adminTierHealth.lowvolumeThreshold")}</label>
                 <Input
                   type="number"
                   value={threshold}
@@ -673,7 +675,7 @@ export default function AdminTierHealth() {
                 <CardContent className="p-4 flex items-center gap-3">
                   <Clock className="w-5 h-5 text-red-500 flex-shrink-0" />
                   <div>
-                    <p className="text-sm font-medium text-red-800">Stale Manifest Warning</p>
+                    <p className="text-sm font-medium text-red-800">{t("pages.adminTierHealth.staleManifestWarning")}</p>
                     <p className="text-xs text-red-600">
                       Manifest was generated {staleness.ageText}. Question counts may be outdated.
                       Generated at: {new Date(manifest.generatedAt).toLocaleString()}
@@ -718,7 +720,7 @@ export default function AdminTierHealth() {
               <Card data-testid="card-no-low-volume">
                 <CardContent className="p-6 text-center">
                   <CheckCircle className="w-8 h-8 text-emerald-500 mx-auto mb-2" />
-                  <p className="text-sm font-medium text-slate-700">All tiers above threshold</p>
+                  <p className="text-sm font-medium text-slate-700">{t("pages.adminTierHealth.allTiersAboveThreshold")}</p>
                   <p className="text-xs text-slate-500">No tiers below {threshold} questions</p>
                 </CardContent>
               </Card>
@@ -749,7 +751,7 @@ export default function AdminTierHealth() {
                 <CardContent className="p-4 flex items-center gap-3">
                   <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0" />
                   <div>
-                    <p className="text-sm font-medium text-slate-700">No Parsing Failures</p>
+                    <p className="text-sm font-medium text-slate-700">{t("pages.adminTierHealth.noParsingFailures")}</p>
                     <p className="text-xs text-slate-500">All {manifest.integrity.fileCount} files parsed successfully</p>
                   </div>
                 </CardContent>
@@ -800,19 +802,19 @@ export default function AdminTierHealth() {
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   <div className="p-3 bg-slate-50 rounded-lg text-center" data-testid="ai-pool-total">
-                    <p className="text-xs text-slate-500">Total Generated</p>
+                    <p className="text-xs text-slate-500">{t("pages.adminTierHealth.totalGenerated")}</p>
                     <p className="text-2xl font-bold text-purple-700">
                       {manifest.database.generatedQuestions.toLocaleString()}
                     </p>
                   </div>
                   <div className="p-3 bg-slate-50 rounded-lg text-center" data-testid="ai-pool-allied">
-                    <p className="text-xs text-slate-500">Allied Questions (DB)</p>
+                    <p className="text-xs text-slate-500">{t("pages.adminTierHealth.alliedQuestionsDb")}</p>
                     <p className="text-2xl font-bold text-teal-700">
                       {manifest.database.alliedQuestions.toLocaleString()}
                     </p>
                   </div>
                   <div className="p-3 bg-slate-50 rounded-lg text-center" data-testid="ai-pool-public-total">
-                    <p className="text-xs text-slate-500">Public Total (Validated)</p>
+                    <p className="text-xs text-slate-500">{t("pages.adminTierHealth.publicTotalValidated")}</p>
                     <p className="text-2xl font-bold text-emerald-700">
                       {manifest.totals.publicTotal.toLocaleString()}
                     </p>
@@ -857,25 +859,25 @@ export default function AdminTierHealth() {
                 <CardContent>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     <div className="p-3 bg-emerald-50 rounded-lg text-center">
-                      <p className="text-xs text-slate-500">Published</p>
+                      <p className="text-xs text-slate-500">{t("pages.adminTierHealth.published")}</p>
                       <p className="text-xl font-bold text-emerald-700" data-testid="text-ai-published">
                         {(aiPoolData?.qualityMetrics?.publishedVsTotal?.questions?.published || 0).toLocaleString()}
                       </p>
                     </div>
                     <div className="p-3 bg-amber-50 rounded-lg text-center">
-                      <p className="text-xs text-slate-500">Pending Review</p>
+                      <p className="text-xs text-slate-500">{t("pages.adminTierHealth.pendingReview")}</p>
                       <p className="text-xl font-bold text-amber-700" data-testid="text-ai-pending">
                         {(aiPoolData?.qualityMetrics?.publishedVsTotal?.flashcards?.needsReview || 0).toLocaleString()}
                       </p>
                     </div>
                     <div className="p-3 bg-blue-50 rounded-lg text-center">
-                      <p className="text-xs text-slate-500">Total in Pipeline</p>
+                      <p className="text-xs text-slate-500">{t("pages.adminTierHealth.totalInPipeline")}</p>
                       <p className="text-xl font-bold text-blue-700" data-testid="text-ai-pipeline">
                         {(aiPoolData?.pipelineOpportunity?.totalDrafts || 0).toLocaleString()}
                       </p>
                     </div>
                     <div className="p-3 bg-purple-50 rounded-lg text-center">
-                      <p className="text-xs text-slate-500">Est. Publishable</p>
+                      <p className="text-xs text-slate-500">{t("pages.adminTierHealth.estPublishable")}</p>
                       <p className="text-xl font-bold text-purple-700" data-testid="text-ai-publishable">
                         {(aiPoolData?.pipelineOpportunity?.estimatedPublishable || 0).toLocaleString()}
                       </p>
@@ -884,17 +886,17 @@ export default function AdminTierHealth() {
                   <div className="mt-3 flex items-center gap-2 text-xs text-slate-500">
                     <div className="flex items-center gap-1">
                       <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                      <span>Validated & Published</span>
+                      <span>{t("pages.adminTierHealth.validatedPublished")}</span>
                     </div>
                     <span className="text-slate-300">→</span>
                     <div className="flex items-center gap-1">
                       <span className="w-2 h-2 rounded-full bg-amber-500" />
-                      <span>Awaiting Review</span>
+                      <span>{t("pages.adminTierHealth.awaitingReview")}</span>
                     </div>
                     <span className="text-slate-300">→</span>
                     <div className="flex items-center gap-1">
                       <span className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>In Pipeline</span>
+                      <span>{t("pages.adminTierHealth.inPipeline")}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -914,7 +916,7 @@ export default function AdminTierHealth() {
               <CardContent>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   <div className="p-3 bg-slate-50 rounded-lg" data-testid="integrity-generated-at">
-                    <p className="text-xs text-slate-500">Generated At</p>
+                    <p className="text-xs text-slate-500">{t("pages.adminTierHealth.generatedAt")}</p>
                     <p className="text-sm font-medium text-slate-800">{new Date(manifest.generatedAt).toLocaleString()}</p>
                     {staleness.isStale && (
                       <Badge className="mt-1 text-[10px] bg-red-100 text-red-700">Stale ({staleness.ageText})</Badge>
@@ -924,17 +926,17 @@ export default function AdminTierHealth() {
                     )}
                   </div>
                   <div className="p-3 bg-slate-50 rounded-lg" data-testid="integrity-file-count">
-                    <p className="text-xs text-slate-500">Files Processed</p>
+                    <p className="text-xs text-slate-500">{t("pages.adminTierHealth.filesProcessed")}</p>
                     <p className="text-xl font-bold text-slate-800">{manifest.integrity.fileCount}</p>
                   </div>
                   <div className="p-3 bg-slate-50 rounded-lg" data-testid="integrity-parse-failures">
-                    <p className="text-xs text-slate-500">Parse Failures</p>
+                    <p className="text-xs text-slate-500">{t("pages.adminTierHealth.parseFailures")}</p>
                     <p className={`text-xl font-bold ${manifest.integrity.parseFailures.length > 0 ? "text-red-600" : "text-emerald-600"}`}>
                       {manifest.integrity.parseFailures.length}
                     </p>
                   </div>
                   <div className="p-3 bg-slate-50 rounded-lg" data-testid="integrity-content-hash">
-                    <p className="text-xs text-slate-500">Content Hash</p>
+                    <p className="text-xs text-slate-500">{t("pages.adminTierHealth.contentHash")}</p>
                     <code className="text-xs font-mono text-slate-600 break-all">{manifest.integrity.contentHash}</code>
                   </div>
                 </div>

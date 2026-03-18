@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { useI18n } from "@/lib/i18n";
 import {
   Pill,
   BookOpen,
@@ -211,13 +212,14 @@ const faqItems = [
 ];
 
 export default function PharmacologyHub() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans transition-colors duration-500">
       <SEO
-        title="Pharmacology Crash Course - NurseNest"
-        description="A focused, high-yield pharmacology reset for exam success and clinical confidence. 5-day intensive course covering drug classes, dosage calculations, and nursing considerations."
+        title={t("pages.pharmacologyHub.pharmacologyCrashCourseNursenest")}
+        description={t("pages.pharmacologyHub.aFocusedHighyieldPharmacologyReset")}
         canonicalPath="/pharmacology"
       />
       <Navigation />
@@ -232,7 +234,7 @@ export default function PharmacologyHub() {
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-emerald-200 shadow-sm mb-6">
               <Pill className="w-4 h-4 text-emerald-600" />
-              <span className="text-sm font-medium text-emerald-700">Expert-Authored Pharmacology</span>
+              <span className="text-sm font-medium text-emerald-700">{t("pages.pharmacologyHub.expertauthoredPharmacology")}</span>
             </div>
 
             <h1
@@ -287,15 +289,15 @@ export default function PharmacologyHub() {
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-sm text-gray-600">
               <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-emerald-100 backdrop-blur-sm shadow-sm">
                 <Clock className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>5-Day Intensive</span>
+                <span>{t("pages.pharmacologyHub.5dayIntensive")}</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-emerald-100 backdrop-blur-sm shadow-sm">
                 <Target className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>High-Yield Content</span>
+                <span>{t("pages.pharmacologyHub.highyieldContent")}</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2.5 bg-white/70 rounded-full border border-emerald-100 backdrop-blur-sm shadow-sm">
                 <FileText className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Case-Based Questions</span>
+                <span>{t("pages.pharmacologyHub.casebasedQuestions")}</span>
               </div>
             </div>
           </div>
@@ -347,7 +349,7 @@ export default function PharmacologyHub() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 mb-4">
                 <Calendar className="w-3.5 h-3.5 text-emerald-600" />
-                <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">5-Day Curriculum</span>
+                <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">{t("pages.pharmacologyHub.5dayCurriculum")}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-pharma-curriculum-heading">
                 Your Learning Path
@@ -493,7 +495,7 @@ export default function PharmacologyHub() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 mb-4">
                 <Link2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Cross-Profession Pharmacology</span>
+                <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">{t("pages.pharmacologyHub.crossprofessionPharmacology")}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-pharma-ecosystem-heading">
                 Pharmacology Across Disciplines
@@ -510,8 +512,8 @@ export default function PharmacologyHub() {
                     <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
                       <Stethoscope className="w-6 h-6 text-blue-600" />
                     </div>
-                    <h3 className="font-bold text-gray-900 text-lg mb-2">Nursing (NCLEX-RN)</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">Pharmacology for RN licensure exams including safe medication administration, drug classes, and nursing considerations.</p>
+                    <h3 className="font-bold text-gray-900 text-lg mb-2">{t("pages.pharmacologyHub.nursingNclexrn")}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">{t("pages.pharmacologyHub.pharmacologyForRnLicensureExams")}</p>
                     <span className="text-emerald-600 text-sm font-medium mt-3 inline-flex items-center gap-1">Explore <ArrowRight className="w-3.5 h-3.5" /></span>
                   </CardContent>
                 </Card>
@@ -523,8 +525,8 @@ export default function PharmacologyHub() {
                     <div className="w-12 h-12 rounded-xl bg-violet-50 flex items-center justify-center mb-4">
                       <ShieldCheck className="w-6 h-6 text-violet-600" />
                     </div>
-                    <h3 className="font-bold text-gray-900 text-lg mb-2">Practical Nursing (REx-PN)</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">Pharmacology within the RPN/LPN scope of practice, focused on safe medication administration and patient monitoring.</p>
+                    <h3 className="font-bold text-gray-900 text-lg mb-2">{t("pages.pharmacologyHub.practicalNursingRexpn")}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">{t("pages.pharmacologyHub.pharmacologyWithinTheRpnlpnScope")}</p>
                     <span className="text-emerald-600 text-sm font-medium mt-3 inline-flex items-center gap-1">Explore <ArrowRight className="w-3.5 h-3.5" /></span>
                   </CardContent>
                 </Card>
@@ -536,8 +538,8 @@ export default function PharmacologyHub() {
                     <div className="w-12 h-12 rounded-xl bg-rose-50 flex items-center justify-center mb-4">
                       <HeartPulse className="w-6 h-6 text-rose-600" />
                     </div>
-                    <h3 className="font-bold text-gray-900 text-lg mb-2">Nurse Practitioner (NP)</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">Advanced pharmacology for NP certification including prescribing, pharmacokinetics, and autonomous medication management.</p>
+                    <h3 className="font-bold text-gray-900 text-lg mb-2">{t("pages.pharmacologyHub.nursePractitionerNp")}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">{t("pages.pharmacologyHub.advancedPharmacologyForNpCertification")}</p>
                     <span className="text-emerald-600 text-sm font-medium mt-3 inline-flex items-center gap-1">Explore <ArrowRight className="w-3.5 h-3.5" /></span>
                   </CardContent>
                 </Card>
@@ -549,8 +551,8 @@ export default function PharmacologyHub() {
                     <div className="w-12 h-12 rounded-xl bg-cyan-50 flex items-center justify-center mb-4">
                       <Wind className="w-6 h-6 text-cyan-600" />
                     </div>
-                    <h3 className="font-bold text-gray-900 text-lg mb-2">Respiratory Therapy</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">Respiratory pharmacology including bronchodilators, corticosteroids, mucolytics, and oxygen therapy medications.</p>
+                    <h3 className="font-bold text-gray-900 text-lg mb-2">{t("pages.pharmacologyHub.respiratoryTherapy")}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">{t("pages.pharmacologyHub.respiratoryPharmacologyIncludingBronchodilators")}</p>
                     <span className="text-emerald-600 text-sm font-medium mt-3 inline-flex items-center gap-1">Explore <ArrowRight className="w-3.5 h-3.5" /></span>
                   </CardContent>
                 </Card>
@@ -562,8 +564,8 @@ export default function PharmacologyHub() {
                     <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mb-4">
                       <FlaskConical className="w-6 h-6 text-emerald-600" />
                     </div>
-                    <h3 className="font-bold text-gray-900 text-lg mb-2">Medication Mastery</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">Mechanism-first drug explorer. Understand why side effects happen at the receptor level and predict clinical effects from first principles.</p>
+                    <h3 className="font-bold text-gray-900 text-lg mb-2">{t("pages.pharmacologyHub.medicationMastery")}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">{t("pages.pharmacologyHub.mechanismfirstDrugExplorerUnderstandWhy")}</p>
                     <span className="text-emerald-600 text-sm font-medium mt-3 inline-flex items-center gap-1">Explore <ArrowRight className="w-3.5 h-3.5" /></span>
                   </CardContent>
                 </Card>
@@ -575,8 +577,8 @@ export default function PharmacologyHub() {
                     <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center mb-4">
                       <Leaf className="w-6 h-6 text-green-600" />
                     </div>
-                    <h3 className="font-bold text-gray-900 text-lg mb-2">Herbal Supplements & Safety</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">Herbal supplement interactions, perioperative safety, the 4 Gs bleeding mnemonic, CYP450 interactions, and patient teaching.</p>
+                    <h3 className="font-bold text-gray-900 text-lg mb-2">{t("pages.pharmacologyHub.herbalSupplementsSafety")}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">{t("pages.pharmacologyHub.herbalSupplementInteractionsPerioperativeSafe")}</p>
                     <span className="text-emerald-600 text-sm font-medium mt-3 inline-flex items-center gap-1">Explore <ArrowRight className="w-3.5 h-3.5" /></span>
                   </CardContent>
                 </Card>
@@ -588,8 +590,8 @@ export default function PharmacologyHub() {
                     <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center mb-4">
                       <Users className="w-6 h-6 text-amber-600" />
                     </div>
-                    <h3 className="font-bold text-gray-900 text-lg mb-2">Allied Health Professions</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">Pharmacology resources for pharmacy technicians, paramedics, MLTs, and other allied health professionals.</p>
+                    <h3 className="font-bold text-gray-900 text-lg mb-2">{t("pages.pharmacologyHub.alliedHealthProfessions")}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">{t("pages.pharmacologyHub.pharmacologyResourcesForPharmacyTechnicians")}</p>
                     <span className="text-emerald-600 text-sm font-medium mt-3 inline-flex items-center gap-1">Explore <ArrowRight className="w-3.5 h-3.5" /></span>
                   </CardContent>
                 </Card>
@@ -603,7 +605,7 @@ export default function PharmacologyHub() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 border border-amber-200 mb-4">
                 <GraduationCap className="w-3.5 h-3.5 text-amber-600" />
-                <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">Exam Success</span>
+                <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">{t("pages.pharmacologyHub.examSuccess")}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-pharma-exam-heading">
                 High-Yield Exam Content
@@ -619,12 +621,12 @@ export default function PharmacologyHub() {
                   <div className="flex items-start gap-3">
                     <AlertTriangle className="w-6 h-6 text-red-600 shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="font-bold text-red-900 mb-2 text-lg">Safety Alerts Exam Writers Love to Test</h3>
+                      <h3 className="font-bold text-red-900 mb-2 text-lg">{t("pages.pharmacologyHub.safetyAlertsExamWritersLove")}</h3>
                       <ul className="space-y-2 text-sm text-red-800">
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-red-500 mt-0.5 shrink-0" /><span><strong>Hold parameters:</strong> Hold beta-blockers if HR &lt; 60 or SBP &lt; 90. Hold digoxin if HR &lt; 60. Hold ACE inhibitors if potassium &gt; 5.0.</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-red-500 mt-0.5 shrink-0" /><span><strong>Antidotes:</strong> Naloxone for opioids, protamine for heparin, vitamin K for warfarin, flumazenil for benzodiazepines, calcium gluconate for hyperkalemia.</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-red-500 mt-0.5 shrink-0" /><span><strong>Never give IV push:</strong> Potassium (fatal arrhythmia), vancomycin (Red Man Syndrome). Heparin: never IM.</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-red-500 mt-0.5 shrink-0" /><span><strong>Herbal interactions:</strong> St. John's Wort + SSRIs = serotonin syndrome. The 4 Gs + warfarin = bleeding. Kava + alcohol = liver failure.</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-red-500 mt-0.5 shrink-0" /><span><strong>{t("pages.pharmacologyHub.holdParameters")}</strong> {t("pages.pharmacologyHub.holdBetablockersIfHrLt")}</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-red-500 mt-0.5 shrink-0" /><span><strong>{t("pages.pharmacologyHub.antidotes")}</strong> {t("pages.pharmacologyHub.naloxoneForOpioidsProtamineFor")}</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-red-500 mt-0.5 shrink-0" /><span><strong>{t("pages.pharmacologyHub.neverGiveIvPush")}</strong> {t("pages.pharmacologyHub.potassiumFatalArrhythmiaVancomycinRed")}</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-red-500 mt-0.5 shrink-0" /><span><strong>{t("pages.pharmacologyHub.herbalInteractions")}</strong> {t("pages.pharmacologyHub.stJohnsWortSsrisSerotonin")}</span></li>
                       </ul>
                     </div>
                   </div>
@@ -636,12 +638,12 @@ export default function PharmacologyHub() {
                   <div className="flex items-start gap-3">
                     <Lightbulb className="w-6 h-6 text-amber-600 shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="font-bold text-amber-900 mb-2 text-lg">Common Student Mistakes</h3>
+                      <h3 className="font-bold text-amber-900 mb-2 text-lg">{t("pages.pharmacologyHub.commonStudentMistakes")}</h3>
                       <ul className="space-y-2 text-sm text-amber-800">
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" /><span><strong>Confusing drug class suffixes:</strong> -olol = beta-blocker, -pril = ACE inhibitor, -sartan = ARB, -statin = HMG-CoA reductase inhibitor, -pam/-lam = benzodiazepine.</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" /><span><strong>Warfarin vs. heparin monitoring:</strong> Warfarin = PT/INR (extrinsic pathway). Heparin = aPTT (intrinsic pathway). Never mix these up.</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" /><span><strong>Assuming "natural" means safe:</strong> Herbal supplements are pharmacologically active and are NOT FDA-regulated. Always assess for interactions.</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" /><span><strong>Forgetting peak/onset times:</strong> IV furosemide works in 5 minutes; PO takes 30-60 minutes. Know when to reassess.</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" /><span><strong>{t("pages.pharmacologyHub.confusingDrugClassSuffixes")}</strong> {t("pages.pharmacologyHub.ololBetablockerPrilAceInhibitor")}</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" /><span><strong>{t("pages.pharmacologyHub.warfarinVsHeparinMonitoring")}</strong> {t("pages.pharmacologyHub.warfarinPtinrExtrinsicPathwayHeparin")}</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" /><span><strong>{t("pages.pharmacologyHub.assumingNaturalMeansSafe")}</strong> {t("pages.pharmacologyHub.herbalSupplementsArePharmacologicallyActive")}</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" /><span><strong>{t("pages.pharmacologyHub.forgettingPeakonsetTimes")}</strong> {t("pages.pharmacologyHub.ivFurosemideWorksIn5")}</span></li>
                       </ul>
                     </div>
                   </div>
@@ -653,12 +655,12 @@ export default function PharmacologyHub() {
                   <div className="flex items-start gap-3">
                     <Target className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="font-bold text-emerald-900 mb-2 text-lg">Exam Traps: What They Really Want You to Know</h3>
+                      <h3 className="font-bold text-emerald-900 mb-2 text-lg">{t("pages.pharmacologyHub.examTrapsWhatTheyReally")}</h3>
                       <ul className="space-y-2 text-sm text-emerald-800">
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /><span><strong>Priority question pattern:</strong> When asked "what is the FIRST action," think safety. Assess before intervening. Notify provider before acting independently.</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /><span><strong>Therapeutic vs. toxic:</strong> Questions often test whether you know when a drug level or lab value has crossed from therapeutic to dangerous.</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /><span><strong>Medication reconciliation:</strong> Expect questions about patients who fail to disclose herbal supplement use. The correct answer involves asking specific, open-ended questions.</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /><span><strong>Patient teaching:</strong> The best answer is always the one that ensures the patient understands why a medication or precaution is important, not just what to do.</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /><span><strong>{t("pages.pharmacologyHub.priorityQuestionPattern")}</strong> {t("pages.pharmacologyHub.whenAskedWhatIsThe")}</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /><span><strong>{t("pages.pharmacologyHub.therapeuticVsToxic")}</strong> {t("pages.pharmacologyHub.questionsOftenTestWhetherYou")}</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /><span><strong>{t("pages.pharmacologyHub.medicationReconciliation")}</strong> {t("pages.pharmacologyHub.expectQuestionsAboutPatientsWho")}</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" /><span><strong>{t("pages.pharmacologyHub.patientTeaching")}</strong> {t("pages.pharmacologyHub.theBestAnswerIsAlways")}</span></li>
                       </ul>
                     </div>
                   </div>
@@ -703,7 +705,7 @@ export default function PharmacologyHub() {
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-200 mb-6">
               <Shield className="w-4 h-4 text-emerald-600" />
-              <span className="text-sm font-medium text-emerald-700">Expert-Authored Content</span>
+              <span className="text-sm font-medium text-emerald-700">{t("pages.pharmacologyHub.expertauthoredContent")}</span>
             </div>
             <p className="text-sm text-gray-500 leading-relaxed max-w-2xl mx-auto" data-testid="text-pharma-disclaimer">
               This pharmacology crash course is an educational resource designed to supplement your

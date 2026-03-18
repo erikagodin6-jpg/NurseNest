@@ -7,6 +7,7 @@ import { DifferentiatorCTA, TrustBadges } from "@/components/competitive-differe
 import { CERT_PREP_CONTENT } from "@/data/certification-prep-content";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, BookOpen, ChevronRight, Check, GraduationCap,
   ClipboardList, Layers, Award, Target, Users, Calendar,
@@ -31,6 +32,7 @@ const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string;
 const FREE_SAMPLE_COUNT = 3;
 
 function extractCertSlug(pathname: string): string {
+
   const match = pathname.match(/\/certifications\/([a-z-]+)-prep/);
   return match ? match[1] : "";
 }
@@ -81,8 +83,8 @@ export default function CertificationPrepPage() {
         <Navigation />
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center max-w-md px-4">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">Certification Prep Not Found</h1>
-            <p className="text-gray-600 mb-6">The certification prep page you are looking for is not available.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">{t("pages.certificationPrepPage.certificationPrepNotFound")}</h1>
+            <p className="text-gray-600 mb-6">{t("pages.certificationPrepPage.theCertificationPrepPageYou")}</p>
             <Link href="/nursing-certifications" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors" data-testid="link-back-to-certs">
               Back to Certifications <ArrowRight className="w-4 h-4" />
             </Link>
@@ -126,9 +128,9 @@ export default function CertificationPrepPage() {
         <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradientFrom} via-white/50 ${colors.gradientTo}`} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.certificationPrepPage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/nursing-certifications" className="hover:text-blue-600">Certifications</Link>
+            <Link href="/nursing-certifications" className="hover:text-blue-600">{t("pages.certificationPrepPage.certifications")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className={`${colors.badgeText} font-medium`}>{content.certName} Prep</span>
           </div>
@@ -218,7 +220,7 @@ export default function CertificationPrepPage() {
       <section className="py-16 bg-gray-50" data-testid="section-study-roadmap">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-roadmap-heading">Study Roadmap</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-roadmap-heading">{t("pages.certificationPrepPage.studyRoadmap")}</h2>
             <p className="text-gray-600">A structured plan to prepare for your {content.certName} certification.</p>
           </div>
           <div className="space-y-4">
@@ -250,7 +252,7 @@ export default function CertificationPrepPage() {
       <section className="py-16 bg-white" data-testid="section-lessons">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-lessons-heading">Recommended NurseNest Lessons</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-lessons-heading">{t("pages.certificationPrepPage.recommendedNursenestLessons")}</h2>
             <p className="text-gray-600">Targeted lessons to build your {content.certName} knowledge.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -278,7 +280,7 @@ export default function CertificationPrepPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-flashcards-heading">{content.certName} Flashcard Decks</h2>
-            <p className="text-gray-600">Spaced-repetition flashcards to reinforce key concepts.</p>
+            <p className="text-gray-600">{t("pages.certificationPrepPage.spacedrepetitionFlashcardsToReinforceKey")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {content.flashcardDecks.map((deck, i) => (
@@ -300,7 +302,7 @@ export default function CertificationPrepPage() {
       <section className="py-16 bg-white" data-testid="section-practice-questions">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-practice-heading">Practice Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-practice-heading">{t("pages.certificationPrepPage.practiceQuestions")}</h2>
             <p className="text-gray-600">Test your knowledge with {content.certName}-aligned questions.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -310,8 +312,8 @@ export default function CertificationPrepPage() {
                   <ClipboardList className={`w-6 h-6 ${colors.iconColor}`} />
                 </div>
                 <div className="flex items-center gap-2 mb-2">
-                  <h3 className="font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">Free Sample Questions</h3>
-                  <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">Free</span>
+                  <h3 className="font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">{t("pages.certificationPrepPage.freeSampleQuestions")}</h3>
+                  <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">{t("pages.certificationPrepPage.free")}</span>
                 </div>
                 <p className="text-sm text-gray-500 mb-3">Try sample {content.certName} practice questions — no account required.</p>
                 <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600">
@@ -373,30 +375,30 @@ export default function CertificationPrepPage() {
       <section className="py-16 bg-gray-50" data-testid="section-analytics-preview">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-analytics-heading">Performance Analytics</h2>
-            <p className="text-gray-600">Track your progress and identify weak areas as you prepare.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-analytics-heading">{t("pages.certificationPrepPage.performanceAnalytics")}</h2>
+            <p className="text-gray-600">{t("pages.certificationPrepPage.trackYourProgressAndIdentify")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className={`bg-white rounded-xl border ${colors.border} p-5 text-center`} data-testid="card-analytics-accuracy">
               <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center mx-auto mb-3`}>
                 <Target className={`w-5 h-5 ${colors.iconColor}`} />
               </div>
-              <h3 className="font-semibold text-gray-900 text-sm mb-1">Accuracy Tracking</h3>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">{t("pages.certificationPrepPage.accuracyTracking")}</h3>
               <p className="text-xs text-gray-500">Monitor your score trends across {content.certName} domains.</p>
             </div>
             <div className={`bg-white rounded-xl border ${colors.border} p-5 text-center`} data-testid="card-analytics-weak">
               <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center mx-auto mb-3`}>
                 <Brain className={`w-5 h-5 ${colors.iconColor}`} />
               </div>
-              <h3 className="font-semibold text-gray-900 text-sm mb-1">Weak Area Detection</h3>
-              <p className="text-xs text-gray-500">Identify topics that need more review before your exam.</p>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">{t("pages.certificationPrepPage.weakAreaDetection")}</h3>
+              <p className="text-xs text-gray-500">{t("pages.certificationPrepPage.identifyTopicsThatNeedMore")}</p>
             </div>
             <div className={`bg-white rounded-xl border ${colors.border} p-5 text-center`} data-testid="card-analytics-readiness">
               <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center mx-auto mb-3`}>
                 <BarChart3 className={`w-5 h-5 ${colors.iconColor}`} />
               </div>
-              <h3 className="font-semibold text-gray-900 text-sm mb-1">Exam Readiness Score</h3>
-              <p className="text-xs text-gray-500">Get an estimated readiness score based on your performance.</p>
+              <h3 className="font-semibold text-gray-900 text-sm mb-1">{t("pages.certificationPrepPage.examReadinessScore")}</h3>
+              <p className="text-xs text-gray-500">{t("pages.certificationPrepPage.getAnEstimatedReadinessScore")}</p>
             </div>
           </div>
         </div>
@@ -408,7 +410,7 @@ export default function CertificationPrepPage() {
             <div className="text-center mb-10">
               <div className="flex items-center justify-center gap-2 mb-3">
                 <HelpCircle className={`w-6 h-6 ${colors.iconColor}`} />
-                <h2 className="text-2xl font-bold text-gray-900" data-testid="text-faq-heading">Frequently Asked Questions</h2>
+                <h2 className="text-2xl font-bold text-gray-900" data-testid="text-faq-heading">{t("pages.certificationPrepPage.frequentlyAskedQuestions")}</h2>
               </div>
               <p className="text-gray-600">Common questions about {content.certName} certification and exam prep.</p>
             </div>
@@ -457,7 +459,7 @@ export default function CertificationPrepPage() {
       <section className="py-12 bg-white" data-testid="section-cross-links">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-2" data-testid="text-cross-heading">Related Certification Prep</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-2" data-testid="text-cross-heading">{t("pages.certificationPrepPage.relatedCertificationPrep")}</h2>
             <Link href="/nursing-certifications" className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors" data-testid="link-back-to-hub">
               ← Back to Certification Hub
             </Link>
@@ -470,7 +472,7 @@ export default function CertificationPrepPage() {
                 <Link key={slug} href={`/certifications/${slug}-prep`} className="group" data-testid={`link-related-${slug}`}>
                   <div className="bg-gray-50 rounded-xl p-4 hover:bg-blue-50 transition-colors text-center h-full">
                     <h3 className="font-semibold text-gray-900 group-hover:text-blue-700 transition-colors text-sm">{rel.certName}</h3>
-                    <p className="text-xs text-gray-500 mt-1">Prep Guide</p>
+                    <p className="text-xs text-gray-500 mt-1">{t("pages.certificationPrepPage.prepGuide")}</p>
                   </div>
                 </Link>
               );

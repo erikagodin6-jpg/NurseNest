@@ -11,11 +11,13 @@ import {
 import { DemoPageWrapper, SectionCard } from "@/components/demo-shared";
 import { ngnCaseStudyData as d } from "@/data/demo-screenshot-data";
 
+import { useI18n } from "@/lib/i18n";
 export default function DemoNgnCaseStudy() {
+  const { t } = useI18n();
   const { user, isAdmin } = useAuth();
   const [activeTab, setActiveTab] = useState<string>("vitals");
 
-  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">Admin access required.</p></div></DemoPageWrapper>;
+  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">{t("pages.demoNgnCaseStudy.adminAccessRequired")}</p></div></DemoPageWrapper>;
 
   const tabs = [
     { id: "vitals", label: "Vital Signs", icon: <Heart className="w-3 h-3" /> },
@@ -30,7 +32,7 @@ export default function DemoNgnCaseStudy() {
         <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="text-sm font-bold text-violet-700">NurseNest</span>
-            <span className="px-2 py-0.5 rounded-md bg-amber-100 text-amber-700 text-[10px] font-bold">NGN Case Study</span>
+            <span className="px-2 py-0.5 rounded-md bg-amber-100 text-amber-700 text-[10px] font-bold">{t("pages.demoNgnCaseStudy.ngnCaseStudy")}</span>
           </div>
           <div className="flex items-center gap-3 text-xs text-slate-500">
             <Clock className="w-3.5 h-3.5 text-slate-400" />
@@ -54,11 +56,11 @@ export default function DemoNgnCaseStudy() {
               </div>
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div className="px-3 py-2 rounded-lg bg-rose-50/50 border border-rose-100/60">
-                  <p className="text-[10px] text-slate-400">Allergies</p>
+                  <p className="text-[10px] text-slate-400">{t("pages.demoNgnCaseStudy.allergies")}</p>
                   <p className="text-slate-700 font-medium">{d.allergies}</p>
                 </div>
                 <div className="px-3 py-2 rounded-lg bg-emerald-50/50 border border-emerald-100/60">
-                  <p className="text-[10px] text-slate-400">Code Status</p>
+                  <p className="text-[10px] text-slate-400">{t("pages.demoNgnCaseStudy.codeStatus")}</p>
                   <p className="text-slate-700 font-medium">{d.codeStatus}</p>
                 </div>
               </div>
@@ -75,7 +77,7 @@ export default function DemoNgnCaseStudy() {
 
             {activeTab === "vitals" && (
               <SectionCard>
-                <div className="flex items-center gap-2 mb-3"><Activity className="w-4 h-4 text-rose-500" /><h3 className="text-sm font-semibold text-slate-700">Vital Signs</h3></div>
+                <div className="flex items-center gap-2 mb-3"><Activity className="w-4 h-4 text-rose-500" /><h3 className="text-sm font-semibold text-slate-700">{t("pages.demoNgnCaseStudy.vitalSigns")}</h3></div>
                 <div className="grid grid-cols-3 gap-2">
                   {Object.entries(d.vitals).map(([key, val]) => {
                     const labels: Record<string, string> = { temp: "Temp", hr: "HR", rr: "RR", bp: "BP", spo2: "SpO2", pain: "Pain" };
@@ -95,7 +97,7 @@ export default function DemoNgnCaseStudy() {
 
             {activeTab === "labs" && (
               <SectionCard>
-                <div className="flex items-center gap-2 mb-3"><Beaker className="w-4 h-4 text-sky-500" /><h3 className="text-sm font-semibold text-slate-700">Lab Results</h3></div>
+                <div className="flex items-center gap-2 mb-3"><Beaker className="w-4 h-4 text-sky-500" /><h3 className="text-sm font-semibold text-slate-700">{t("pages.demoNgnCaseStudy.labResults")}</h3></div>
                 <div className="space-y-1.5">
                   {d.labs.map((lab) => (
                     <div key={lab.name} className="flex items-center justify-between px-3 py-2 rounded-lg bg-slate-50">
@@ -116,7 +118,7 @@ export default function DemoNgnCaseStudy() {
 
             {activeTab === "notes" && (
               <SectionCard>
-                <div className="flex items-center gap-2 mb-3"><FileText className="w-4 h-4 text-violet-500" /><h3 className="text-sm font-semibold text-slate-700">Nursing Notes</h3></div>
+                <div className="flex items-center gap-2 mb-3"><FileText className="w-4 h-4 text-violet-500" /><h3 className="text-sm font-semibold text-slate-700">{t("pages.demoNgnCaseStudy.nursingNotes")}</h3></div>
                 <div className="space-y-3">
                   {d.nursingNotes.map((note, i) => (
                     <div key={i} className="pl-4 border-l-2 border-violet-200">
@@ -130,7 +132,7 @@ export default function DemoNgnCaseStudy() {
 
             {activeTab === "orders" && (
               <SectionCard>
-                <div className="flex items-center gap-2 mb-3"><ClipboardList className="w-4 h-4 text-emerald-500" /><h3 className="text-sm font-semibold text-slate-700">Provider Orders</h3></div>
+                <div className="flex items-center gap-2 mb-3"><ClipboardList className="w-4 h-4 text-emerald-500" /><h3 className="text-sm font-semibold text-slate-700">{t("pages.demoNgnCaseStudy.providerOrders")}</h3></div>
                 <div className="space-y-1.5">
                   {d.providerOrders.map((order, i) => (
                     <div key={i} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50">
@@ -146,8 +148,8 @@ export default function DemoNgnCaseStudy() {
           <div className="col-span-12 lg:col-span-7 space-y-5">
             <SectionCard>
               <div className="flex items-center gap-2 mb-2">
-                <span className="px-2 py-0.5 rounded-md bg-amber-100 text-amber-700 text-[10px] font-bold">Bowtie Item</span>
-                <span className="px-2 py-0.5 rounded-md bg-violet-100 text-violet-700 text-[10px] font-bold">Clinical Judgment</span>
+                <span className="px-2 py-0.5 rounded-md bg-amber-100 text-amber-700 text-[10px] font-bold">{t("pages.demoNgnCaseStudy.bowtieItem")}</span>
+                <span className="px-2 py-0.5 rounded-md bg-violet-100 text-violet-700 text-[10px] font-bold">{t("pages.demoNgnCaseStudy.clinicalJudgment")}</span>
               </div>
               <h2 className="text-base font-semibold text-slate-800 leading-relaxed mb-5">
                 Based on the patient data provided, complete the clinical judgment model for {d.patientName}'s care.
@@ -155,7 +157,7 @@ export default function DemoNgnCaseStudy() {
 
               <div className="grid grid-cols-3 gap-4 mb-6">
                 <div className="space-y-2">
-                  <h4 className="text-xs font-semibold text-slate-600 text-center py-1.5 bg-rose-50 rounded-lg">Actions to Take</h4>
+                  <h4 className="text-xs font-semibold text-slate-600 text-center py-1.5 bg-rose-50 rounded-lg">{t("pages.demoNgnCaseStudy.actionsToTake")}</h4>
                   {["Increase O2 to 4L NC", "Position in high Fowler's", "Administer prescribed bronchodilator", "Monitor ABG results", "Notify provider of SpO2"].map((a, i) => (
                     <div key={i} className={cn("px-3 py-2 rounded-lg border text-xs text-slate-700 cursor-pointer transition-colors",
                       i < 3 ? "bg-violet-50 border-violet-200 font-medium" : "bg-white border-slate-100 hover:border-violet-200"
@@ -164,7 +166,7 @@ export default function DemoNgnCaseStudy() {
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="text-xs font-semibold text-slate-600 text-center py-1.5 bg-amber-50 rounded-lg">Potential Conditions</h4>
+                  <h4 className="text-xs font-semibold text-slate-600 text-center py-1.5 bg-amber-50 rounded-lg">{t("pages.demoNgnCaseStudy.potentialConditions")}</h4>
                   {["Acute respiratory failure", "COPD exacerbation", "Pneumonia", "Pulmonary embolism", "Heart failure"].map((c, i) => (
                     <div key={i} className={cn("px-3 py-2 rounded-lg border text-xs text-slate-700 cursor-pointer transition-colors",
                       i === 1 ? "bg-violet-50 border-violet-200 font-medium" : "bg-white border-slate-100 hover:border-violet-200"
@@ -173,7 +175,7 @@ export default function DemoNgnCaseStudy() {
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="text-xs font-semibold text-slate-600 text-center py-1.5 bg-emerald-50 rounded-lg">Parameters to Monitor</h4>
+                  <h4 className="text-xs font-semibold text-slate-600 text-center py-1.5 bg-emerald-50 rounded-lg">{t("pages.demoNgnCaseStudy.parametersToMonitor")}</h4>
                   {["SpO2 and respiratory rate", "ABG values", "Breath sounds", "Sputum characteristics", "Mental status"].map((p, i) => (
                     <div key={i} className={cn("px-3 py-2 rounded-lg border text-xs text-slate-700 cursor-pointer transition-colors",
                       i < 2 ? "bg-violet-50 border-violet-200 font-medium" : "bg-white border-slate-100 hover:border-violet-200"

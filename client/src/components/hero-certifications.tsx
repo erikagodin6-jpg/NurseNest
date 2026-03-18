@@ -2,7 +2,9 @@ import { Link } from "wouter";
 import { CERTIFICATION_GOALS } from "@shared/platform-manifest";
 import { Award, ArrowRight } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 export default function HeroCertifications() {
+  const { t } = useI18n();
   return (
     <section
       className="bg-gradient-to-b from-gray-50/80 to-white"
@@ -41,7 +43,7 @@ export default function HeroCertifications() {
                 <span className="font-semibold text-gray-700">{cert.goalQuestions.toLocaleString()}+</span> questions
               </p>
               <div className="flex items-center text-xs font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity mt-2">
-                <span>Start prep</span>
+                <span>{t("components.heroCertifications.startPrep")}</span>
                 <ArrowRight className="w-3 h-3 ml-1" />
               </div>
             </Link>

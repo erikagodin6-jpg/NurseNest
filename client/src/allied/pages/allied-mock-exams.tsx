@@ -8,6 +8,7 @@ import { getCareerQuestionPool } from "@/data/career-questions";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { ComingSoonFallback } from "@/allied/components/coming-soon-fallback";
 
+import { useI18n } from "@/lib/i18n";
 const EXAM_TYPES = [
   { id: "mini", name: "Mini Mock", questions: 25, time: 30, free: true, desc: "Quick 25-question practice exam", careers: null },
   { id: "standard", name: "Standard Exam", questions: 75, time: 90, free: false, desc: "Full-length timed exam weighted to blueprint", careers: null },
@@ -28,6 +29,7 @@ const EXAM_TYPES = [
 ];
 
 export default function AlliedMockExamsPage() {
+  const { t } = useI18n();
   const params = useParams<{ careerSlug: string }>();
   const career = getCareerByRouteSlug(params.careerSlug || "");
   const { user } = useAuth();
@@ -49,7 +51,7 @@ export default function AlliedMockExamsPage() {
   const FREE_MOCK_LIMIT = 1;
 
   if (!career) {
-    return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Career Not Found</h1></div>;
+    return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">{t("allied.alliedMockExams.careerNotFound")}</h1></div>;
   }
 
   const questionPool = getCareerQuestionPool(career.id) || [];
@@ -65,7 +67,7 @@ export default function AlliedMockExamsPage() {
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
           <Link href={getCanonicalRoute(career.slug)} className="hover:text-teal-600">{career.shortName}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-teal-700 font-medium">Mock Exams</span>
+          <span className="text-teal-700 font-medium">{t("allied.alliedMockExams.mockExams")}</span>
         </div>
         <ComingSoonFallback
           title={`${career.shortName} Mock Exams — In Development`}
@@ -178,7 +180,7 @@ export default function AlliedMockExamsPage() {
     return (
       <div className="max-w-3xl mx-auto px-4 py-12" data-testid="exam-results">
         {mockExamSeo}
-        <h1 className="text-2xl font-bold text-gray-900 mb-2 text-center">Exam Complete</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2 text-center">{t("allied.alliedMockExams.examComplete")}</h1>
         <p className="text-gray-600 text-center mb-8">{career.shortName} Mock Exam Results</p>
         <div className="bg-white rounded-2xl border border-gray-100 p-8 text-center mb-8">
           <div className="text-5xl font-bold mb-2" style={{ color: pct >= 70 ? "#059669" : pct >= 50 ? "#d97706" : "#dc2626" }} data-testid="text-score-pct">{pct}%</div>
@@ -189,7 +191,7 @@ export default function AlliedMockExamsPage() {
           </div>
         </div>
         <div className="bg-white rounded-2xl border border-gray-100 p-6">
-          <h3 className="font-semibold text-gray-900 mb-4">Performance by Domain</h3>
+          <h3 className="font-semibold text-gray-900 mb-4">{t("allied.alliedMockExams.performanceByDomain")}</h3>
           <div className="space-y-3">
             {Object.entries(domainScores).map(([domain, s]) => {
               const dpct = Math.round((s.correct / s.total) * 100);
@@ -208,8 +210,8 @@ export default function AlliedMockExamsPage() {
           </div>
         </div>
         <div className="flex gap-3 justify-center mt-8">
-          <button onClick={() => { setExamStarted(false); setFinished(false); }} className="px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="button-new-exam">Take Another Exam</button>
-          <Link href={`/qbank?career=${career.slug}`} className="px-6 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-50" data-testid="button-go-qbank">Practice More Questions</Link>
+          <button onClick={() => { setExamStarted(false); setFinished(false); }} className="px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="button-new-exam">{t("allied.alliedMockExams.takeAnotherExam")}</button>
+          <Link href={`/qbank?career=${career.slug}`} className="px-6 py-2.5 bg-white text-teal-700 rounded-xl text-sm font-medium border border-teal-200 hover:bg-teal-50" data-testid="button-go-qbank">{t("allied.alliedMockExams.practiceMoreQuestions")}</Link>
         </div>
       </div>
     );
@@ -231,7 +233,7 @@ export default function AlliedMockExamsPage() {
           </div>
           <div className="flex gap-2">
             <button onClick={() => setPaused(!paused)} className="px-3 py-1.5 text-sm bg-gray-100 rounded-lg hover:bg-gray-200" data-testid="button-pause">{paused ? "Resume" : "Pause"}</button>
-            <button onClick={finishExam} className="px-3 py-1.5 text-sm bg-red-50 text-red-700 rounded-lg hover:bg-red-100" data-testid="button-finish">Finish</button>
+            <button onClick={finishExam} className="px-3 py-1.5 text-sm bg-red-50 text-red-700 rounded-lg hover:bg-red-100" data-testid="button-finish">{t("allied.alliedMockExams.finish")}</button>
           </div>
         </div>
 
@@ -251,7 +253,7 @@ export default function AlliedMockExamsPage() {
               ))}
             </div>
             <div className="flex justify-between mt-6 pt-4 border-t border-gray-100">
-              <button onClick={() => setCurrentIdx(i => Math.max(0, i - 1))} disabled={currentIdx === 0} className="text-sm text-gray-600 hover:text-gray-800 disabled:opacity-30" data-testid="button-exam-prev">Previous</button>
+              <button onClick={() => setCurrentIdx(i => Math.max(0, i - 1))} disabled={currentIdx === 0} className="text-sm text-gray-600 hover:text-gray-800 disabled:opacity-30" data-testid="button-exam-prev">{t("allied.alliedMockExams.previous")}</button>
               <button onClick={() => { if (currentIdx < questions.length - 1) setCurrentIdx(i => i + 1); else finishExam(); }} className="px-6 py-2 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="button-exam-next">
                 {currentIdx === questions.length - 1 ? "Submit Exam" : "Next"}
               </button>
@@ -261,8 +263,8 @@ export default function AlliedMockExamsPage() {
         {paused && (
           <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center">
             <Clock className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900">Exam Paused</h3>
-            <p className="text-gray-500 text-sm mt-2">Click Resume to continue.</p>
+            <h3 className="text-lg font-semibold text-gray-900">{t("allied.alliedMockExams.examPaused")}</h3>
+            <p className="text-gray-500 text-sm mt-2">{t("allied.alliedMockExams.clickResumeToContinue")}</p>
           </div>
         )}
       </div>
@@ -275,10 +277,10 @@ export default function AlliedMockExamsPage() {
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link href={getCanonicalRoute(career.slug)} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-teal-700 font-medium">Mock Exams</span>
+        <span className="text-teal-700 font-medium">{t("allied.alliedMockExams.mockExams2")}</span>
       </div>
       <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-mock-title">{career.shortName} Mock Exams</h1>
-      <p className="text-gray-600 mb-8">Blueprint-weighted practice exams with adaptive difficulty and detailed analytics.</p>
+      <p className="text-gray-600 mb-8">{t("allied.alliedMockExams.blueprintweightedPracticeExamsWithAdaptive")}</p>
 
       {!isPro && (
         <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200 p-4 mb-6" data-testid="free-mock-usage-bar">
@@ -299,7 +301,7 @@ export default function AlliedMockExamsPage() {
           </div>
           {freeMocksUsed >= FREE_MOCK_LIMIT ? (
             <div className="flex flex-col sm:flex-row items-center gap-3">
-              <p className="text-sm text-amber-800 flex-1">You've used your free mock exam. Upgrade to Pro for unlimited mock exams with adaptive CAT simulation.</p>
+              <p className="text-sm text-amber-800 flex-1">{t("allied.alliedMockExams.youveUsedYourFreeMock")}</p>
               <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-xl text-sm font-semibold hover:from-teal-700 hover:to-cyan-700 shadow-lg shadow-teal-200 whitespace-nowrap" data-testid="button-upgrade-mock-cap">
                 <Lock className="w-4 h-4" /> Unlock All Mock Exams
               </Link>
@@ -313,7 +315,7 @@ export default function AlliedMockExamsPage() {
       {!isPro && freeMocksUsed >= FREE_MOCK_LIMIT && (
         <div className="bg-white rounded-2xl border-2 border-teal-200 p-8 sm:p-12 text-center mb-6" data-testid="free-mock-cap-block">
           <Lock className="w-12 h-12 text-teal-400 mx-auto mb-4" />
-          <h3 className="text-xl font-bold text-gray-900 mb-2">Free Mock Exam Used</h3>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">{t("allied.alliedMockExams.freeMockExamUsed")}</h3>
           <p className="text-gray-600 text-sm mb-6 max-w-md mx-auto">
             Upgrade to Pro for unlimited mock exams including Standard (75 Qs) and Comprehensive (150 Qs) with adaptive CAT-style difficulty.
           </p>

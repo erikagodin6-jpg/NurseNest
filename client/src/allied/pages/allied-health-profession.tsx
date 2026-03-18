@@ -9,17 +9,19 @@ import {
 import { AlliedSEO } from "@/allied/allied-seo";
 import { getAlliedHealthProfession, ALLIED_HEALTH_PROFESSIONS, type AlliedHealthProfession } from "@/allied/data/allied-health-professions";
 
+import { useI18n } from "@/lib/i18n";
 const ICON_MAP: Record<string, any> = {
   Wind, Ambulance, Pill, Microscope, ScanLine, Hand, Activity, Users, Brain, ShieldCheck, Database, Monitor, HeartPulse, Scissors,
 };
 
 function Breadcrumbs({ profession }: { profession: AlliedHealthProfession }) {
+  const { t } = useI18n();
   return (
-    <nav aria-label="Breadcrumb" className="mb-6" data-testid="breadcrumb-nav">
+    <nav aria-label={t("allied.alliedHealthProfession.breadcrumb")} className="mb-6" data-testid="breadcrumb-nav">
       <ol className="flex items-center gap-1.5 text-sm text-gray-500 flex-wrap">
-        <li><Link href="/" className="hover:text-teal-600 transition-colors">Home</Link></li>
+        <li><Link href="/" className="hover:text-teal-600 transition-colors">{t("allied.alliedHealthProfession.home")}</Link></li>
         <li><ChevronRight className="w-3.5 h-3.5" /></li>
-        <li><Link href="/allied-health" className="hover:text-teal-600 transition-colors">Allied Health</Link></li>
+        <li><Link href="/allied-health" className="hover:text-teal-600 transition-colors">{t("allied.alliedHealthProfession.alliedHealth")}</Link></li>
         <li><ChevronRight className="w-3.5 h-3.5" /></li>
         <li className="text-gray-900 font-medium">{profession.shortName}</li>
       </ol>
@@ -41,8 +43,8 @@ export default function AlliedHealthProfessionPage() {
   if (!profession) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Profession Not Found</h1>
-        <p className="text-gray-600 mb-4">The allied health profession you're looking for doesn't exist.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.alliedHealthProfession.professionNotFound")}</h1>
+        <p className="text-gray-600 mb-4">{t("allied.alliedHealthProfession.theAlliedHealthProfessionYoure")}</p>
         <Link href="/allied-health" className="inline-flex items-center gap-2 px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-hub">
           Back to Allied Health
         </Link>
@@ -124,23 +126,23 @@ export default function AlliedHealthProfessionPage() {
               )}
             </div>
             <div className="bg-white rounded-2xl border border-gray-100 p-6 w-full lg:w-72 flex-shrink-0" data-testid="profession-stats-card">
-              <h3 className="text-sm font-semibold text-gray-900 mb-3">At a Glance</h3>
+              <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("allied.alliedHealthProfession.atAGlance")}</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-500">Salary Range</span>
+                  <span className="text-gray-500">{t("allied.alliedHealthProfession.salaryRange")}</span>
                   <span className="font-semibold text-gray-900">{profession.salaryRange}</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-500">Job Outlook</span>
+                  <span className="text-gray-500">{t("allied.alliedHealthProfession.jobOutlook")}</span>
                   <span className="font-semibold text-green-600">{profession.jobOutlook}</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-500">Education</span>
+                  <span className="text-gray-500">{t("allied.alliedHealthProfession.education")}</span>
                   <span className="font-semibold text-gray-900 text-right text-xs">{profession.educationPathways[0]?.split("—")[0]?.trim() || "Degree required"}</span>
                 </div>
                 <hr className="border-gray-100" />
                 <div>
-                  <span className="text-xs text-gray-500 block mb-1.5">Certification Exams</span>
+                  <span className="text-xs text-gray-500 block mb-1.5">{t("allied.alliedHealthProfession.certificationExams")}</span>
                   <div className="flex flex-wrap gap-1">
                     {profession.examNames.map(e => (
                       <span key={e} className="px-2 py-0.5 bg-gray-100 text-gray-700 rounded-md text-xs font-medium">{e}</span>
@@ -159,7 +161,7 @@ export default function AlliedHealthProfessionPage() {
             <div className="bg-white rounded-2xl border border-gray-100 p-6" data-testid="section-where-they-work">
               <div className="flex items-center gap-2 mb-4">
                 <MapPin className="w-5 h-5 text-teal-500" />
-                <h2 className="text-lg font-semibold text-gray-900">Where They Work</h2>
+                <h2 className="text-lg font-semibold text-gray-900">{t("allied.alliedHealthProfession.whereTheyWork")}</h2>
               </div>
               <ul className="space-y-2">
                 {profession.whereTheyWork.map((place, i) => (
@@ -174,7 +176,7 @@ export default function AlliedHealthProfessionPage() {
             <div className="bg-white rounded-2xl border border-gray-100 p-6" data-testid="section-responsibilities">
               <div className="flex items-center gap-2 mb-4">
                 <ClipboardList className="w-5 h-5 text-teal-500" />
-                <h2 className="text-lg font-semibold text-gray-900">Key Responsibilities</h2>
+                <h2 className="text-lg font-semibold text-gray-900">{t("allied.alliedHealthProfession.keyResponsibilities")}</h2>
               </div>
               <ul className="space-y-2">
                 {profession.responsibilities.map((resp, i) => (
@@ -189,7 +191,7 @@ export default function AlliedHealthProfessionPage() {
             <div className="bg-white rounded-2xl border border-gray-100 p-6" data-testid="section-education">
               <div className="flex items-center gap-2 mb-4">
                 <GraduationCap className="w-5 h-5 text-teal-500" />
-                <h2 className="text-lg font-semibold text-gray-900">Education Pathways</h2>
+                <h2 className="text-lg font-semibold text-gray-900">{t("allied.alliedHealthProfession.educationPathways")}</h2>
               </div>
               <ul className="space-y-2">
                 {profession.educationPathways.map((path, i) => (
@@ -204,7 +206,7 @@ export default function AlliedHealthProfessionPage() {
             <div className="bg-white rounded-2xl border border-gray-100 p-6" data-testid="section-certification">
               <div className="flex items-center gap-2 mb-4">
                 <Award className="w-5 h-5 text-teal-500" />
-                <h2 className="text-lg font-semibold text-gray-900">Certification Overview</h2>
+                <h2 className="text-lg font-semibold text-gray-900">{t("allied.alliedHealthProfession.certificationOverview")}</h2>
               </div>
               <p className="text-sm text-gray-600 leading-relaxed">{profession.certificationOverview}</p>
             </div>
@@ -212,7 +214,7 @@ export default function AlliedHealthProfessionPage() {
             <div className="bg-white rounded-2xl border border-gray-100 p-6" data-testid="section-patient-populations">
               <div className="flex items-center gap-2 mb-4">
                 <Stethoscope className="w-5 h-5 text-teal-500" />
-                <h2 className="text-lg font-semibold text-gray-900">Patient Populations</h2>
+                <h2 className="text-lg font-semibold text-gray-900">{t("allied.alliedHealthProfession.patientPopulations")}</h2>
               </div>
               <ul className="space-y-2">
                 {profession.patientPopulations.map((pop, i) => (
@@ -253,7 +255,7 @@ export default function AlliedHealthProfessionPage() {
               <p className="text-sm text-gray-600 mb-4">We're building {profession.examNames.join(" and ")} practice questions, mock exams, and flashcards. In the meantime, explore our other allied health exam prep resources.</p>
               <div className="space-y-2">
                 <Link href="/allied-health" className="flex items-center justify-between px-4 py-3 bg-white rounded-xl text-sm font-medium text-gray-900 hover:shadow-md transition-all group" data-testid="cta-browse-allied">
-                  <div className="flex items-center gap-2"><BookOpen className="w-4 h-4 text-teal-500" /> Browse Allied Health Exam Prep</div>
+                  <div className="flex items-center gap-2"><BookOpen className="w-4 h-4 text-teal-500" /> {t("allied.alliedHealthProfession.browseAlliedHealthExamPrep")}</div>
                   <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-teal-500 group-hover:translate-x-0.5 transition-all" />
                 </Link>
               </div>
@@ -301,8 +303,8 @@ export default function AlliedHealthProfessionPage() {
           <section className="py-16 bg-white" data-testid="section-browse-careers">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-10">
-                <h2 className="text-2xl font-bold text-gray-900 mb-3">Browse Other Allied Health Careers</h2>
-                <p className="text-gray-600">Explore exam prep resources for other healthcare professions</p>
+                <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("allied.alliedHealthProfession.browseOtherAlliedHealthCareers")}</h2>
+                <p className="text-gray-600">{t("allied.alliedHealthProfession.exploreExamPrepResourcesFor")}</p>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 {otherProfessions.slice(0, 8).map(p => {

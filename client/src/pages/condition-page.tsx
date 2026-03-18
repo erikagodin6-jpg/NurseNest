@@ -6,6 +6,7 @@ import { getConditionBySlug, getAllConditionSlugs, type ConditionPageData } from
 import { getCrossProfessionByConditionSlug } from "@/data/cross-profession-conditions";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { slugToDisplayName } from "@/lib/canonical-display";
+import { useI18n } from "@/lib/i18n";
 import {
   ChevronDown,
   ChevronRight,
@@ -26,6 +27,7 @@ import {
 } from "lucide-react";
 
 function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   return (
     <div className="border border-gray-200 rounded-lg overflow-hidden" data-testid={`faq-item-${index}`}>
@@ -91,7 +93,7 @@ function PracticeQuestion({ q, index }: { q: { question: string; options: string
       </div>
       {showRationale && (
         <div className="bg-[#BFA6F6]/10 border border-[#BFA6F6]/20 rounded-lg p-4 mt-3" data-testid={`question-${index}-rationale`}>
-          <p className="text-sm font-semibold text-[#2E3A59] mb-1">Rationale</p>
+          <p className="text-sm font-semibold text-[#2E3A59] mb-1">{t("pages.conditionPage.rationale")}</p>
           <p className="text-sm text-gray-700 leading-relaxed">{q.rationale}</p>
         </div>
       )}
@@ -104,8 +106,8 @@ function ConditionNotFound() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="text-center max-w-md px-4">
-        <h1 className="text-2xl font-bold text-[#2E3A59] mb-4" data-testid="text-condition-not-found">Condition Not Found</h1>
-        <p className="text-gray-600 mb-6">The condition you are looking for is not available. Browse our available condition guides below.</p>
+        <h1 className="text-2xl font-bold text-[#2E3A59] mb-4" data-testid="text-condition-not-found">{t("pages.conditionPage.conditionNotFound")}</h1>
+        <p className="text-gray-600 mb-6">{t("pages.conditionPage.theConditionYouAreLooking")}</p>
         <div className="flex flex-wrap gap-2 justify-center">
           {allSlugs.map(slug => (
             <LocaleLink key={slug} href={`/conditions/${slug}`} className="text-[#BFA6F6] hover:underline capitalize" data-testid={`link-condition-${slug}`}>
@@ -201,9 +203,9 @@ export default function ConditionPage() {
         <section className="bg-gradient-to-b from-[#2E3A59] to-[#3d4d73] text-white py-16 md:py-20" data-testid="condition-hero">
           <div className="max-w-4xl mx-auto px-4">
             <nav className="flex items-center gap-2 text-sm text-white/60 mb-6" data-testid="condition-breadcrumb">
-              <LocaleLink href="/" className="hover:text-white/80">Home</LocaleLink>
+              <LocaleLink href="/" className="hover:text-white/80">{t("pages.conditionPage.home")}</LocaleLink>
               <ChevronRight className="w-3 h-3" />
-              <LocaleLink href="/lessons" className="hover:text-white/80">Lessons</LocaleLink>
+              <LocaleLink href="/lessons" className="hover:text-white/80">{t("pages.conditionPage.lessons")}</LocaleLink>
               <ChevronRight className="w-3 h-3" />
               <span className="text-white/90">{condition.name}</span>
             </nav>
@@ -230,7 +232,7 @@ export default function ConditionPage() {
               <div className="w-10 h-10 rounded-xl bg-[#BFA6F6]/10 flex items-center justify-center">
                 <BookOpen className="w-5 h-5 text-[#BFA6F6]" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Overview</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.conditionPage.overview")}</h2>
             </div>
             <p className="text-gray-700 leading-relaxed" data-testid="text-overview">{condition.overview}</p>
           </section>
@@ -240,7 +242,7 @@ export default function ConditionPage() {
               <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
                 <Heart className="w-5 h-5 text-red-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Pathophysiology</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.conditionPage.pathophysiology")}</h2>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <p className="text-gray-700 leading-relaxed" data-testid="text-pathophysiology">{condition.pathophysiology}</p>
@@ -252,7 +254,7 @@ export default function ConditionPage() {
               <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
                 <Stethoscope className="w-5 h-5 text-amber-600" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Clinical Presentation</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.conditionPage.clinicalPresentation")}</h2>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="bg-white border border-gray-200 rounded-xl p-6">
@@ -291,7 +293,7 @@ export default function ConditionPage() {
               <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
                 <AlertTriangle className="w-5 h-5 text-orange-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Risk Factors</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.conditionPage.riskFactors")}</h2>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <div className="grid sm:grid-cols-2 gap-2">
@@ -310,7 +312,7 @@ export default function ConditionPage() {
               <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
                 <Activity className="w-5 h-5 text-blue-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Diagnostics</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.conditionPage.diagnostics")}</h2>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <ul className="space-y-2">
@@ -329,7 +331,7 @@ export default function ConditionPage() {
               <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
                 <Pill className="w-5 h-5 text-purple-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Medications</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.conditionPage.medications")}</h2>
             </div>
             <div className="space-y-4">
               {condition.medications.map((med, i) => (
@@ -340,15 +342,15 @@ export default function ConditionPage() {
                   </div>
                   <div className="grid sm:grid-cols-3 gap-4 text-sm">
                     <div>
-                      <p className="font-semibold text-gray-500 text-xs uppercase mb-1">Mechanism</p>
+                      <p className="font-semibold text-gray-500 text-xs uppercase mb-1">{t("pages.conditionPage.mechanism")}</p>
                       <p className="text-gray-700">{med.mechanism}</p>
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-500 text-xs uppercase mb-1">Side Effects</p>
+                      <p className="font-semibold text-gray-500 text-xs uppercase mb-1">{t("pages.conditionPage.sideEffects")}</p>
                       <p className="text-gray-700">{med.sideEffects}</p>
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-500 text-xs uppercase mb-1">Nursing Considerations</p>
+                      <p className="font-semibold text-gray-500 text-xs uppercase mb-1">{t("pages.conditionPage.nursingConsiderations")}</p>
                       <p className="text-gray-700">{med.nursingConsiderations}</p>
                     </div>
                   </div>
@@ -362,7 +364,7 @@ export default function ConditionPage() {
               <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
                 <FileText className="w-5 h-5 text-emerald-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Nursing Interventions</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.conditionPage.nursingInterventions")}</h2>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <ol className="space-y-3">
@@ -394,7 +396,7 @@ export default function ConditionPage() {
                     <Users className="w-5 h-5 text-indigo-500" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-[#2E3A59]">Cross-Profession Perspectives</h2>
+                    <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.conditionPage.crossprofessionPerspectives")}</h2>
                     <p className="text-sm text-gray-500">How different healthcare professionals approach {condition.name}</p>
                   </div>
                 </div>
@@ -479,7 +481,7 @@ export default function ConditionPage() {
               <div className="w-10 h-10 rounded-xl bg-[#BFA6F6]/10 flex items-center justify-center">
                 <HelpCircle className="w-5 h-5 text-[#BFA6F6]" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Practice Questions</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.conditionPage.practiceQuestions")}</h2>
             </div>
             <div className="space-y-4">
               {condition.practiceQuestions.map((q, i) => (
@@ -517,7 +519,7 @@ export default function ConditionPage() {
               <div className="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center">
                 <HelpCircle className="w-5 h-5 text-sky-500" />
               </div>
-              <h2 className="text-2xl font-bold text-[#2E3A59]">Frequently Asked Questions</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.conditionPage.frequentlyAskedQuestions")}</h2>
             </div>
             <div className="space-y-3">
               {condition.faq.map((f, i) => (
@@ -528,7 +530,7 @@ export default function ConditionPage() {
 
           {condition.relatedConditions.length > 0 && (
             <section data-testid="section-related-conditions">
-              <h2 className="text-2xl font-bold text-[#2E3A59] mb-4">Related Condition Guides</h2>
+              <h2 className="text-2xl font-bold text-[#2E3A59] mb-4">{t("pages.conditionPage.relatedConditionGuides")}</h2>
               <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
                 {condition.relatedConditions.map(slug => {
                   const related = getConditionBySlug(slug);

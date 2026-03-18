@@ -14,9 +14,11 @@ import {
 import { DemoPageWrapper, DemoHeader, SectionCard, SectionTitle, MasteryBar, StatCard } from "@/components/demo-shared";
 import { examReviewData as d } from "@/data/demo-screenshot-data";
 
+import { useI18n } from "@/lib/i18n";
 export default function DemoExamReview() {
+  const { t } = useI18n();
   const { user, isAdmin } = useAuth();
-  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">Admin access required.</p></div></DemoPageWrapper>;
+  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">{t("pages.demoExamReview.adminAccessRequired")}</p></div></DemoPageWrapper>;
 
   const confColors = d.confidenceBreakdown.map(c => c.color);
   const timeData = d.timeDistribution.map(t => ({ ...t }));
@@ -25,8 +27,8 @@ export default function DemoExamReview() {
     <DemoPageWrapper>
       <main className="max-w-7xl mx-auto px-6 pt-10 pb-16">
         <DemoHeader
-          title="Adaptive Session Analysis"
-          subtitle="Readiness check completed March 11, 2026 - 75 questions - High adaptive difficulty"
+          title={t("pages.demoExamReview.adaptiveSessionAnalysis")}
+          subtitle={t("pages.demo_exam_review.readinessCheckCompletedMarch11")}
           rightContent={
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 text-amber-700 text-xs font-semibold border border-amber-100">
@@ -40,18 +42,18 @@ export default function DemoExamReview() {
         />
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
-          <StatCard icon={<BarChart3 className="w-4 h-4" />} label="Score" value={`${d.score}%`} sub={`${d.correctAnswers}/${d.totalQuestions} correct`} />
-          <StatCard icon={<Clock className="w-4 h-4" />} label="Time Used" value={d.timeUsed} sub={`${d.avgTimePerQuestion} avg`} />
-          <StatCard icon={<Brain className="w-4 h-4" />} label="Difficulty" value={d.difficultyMix} accent="bg-indigo-50 text-indigo-500" />
-          <StatCard icon={<Target className="w-4 h-4" />} label="Pass Readiness" value={d.passReadiness} accent="bg-amber-50 text-amber-500" />
-          <StatCard icon={<TrendingUp className="w-4 h-4" />} label="Percentile" value={`${d.percentileRank}nd`} accent="bg-emerald-50 text-emerald-500" />
-          <StatCard icon={<Layers className="w-4 h-4" />} label="Questions" value={`${d.totalQuestions}`} sub="Adaptive mix" />
+          <StatCard icon={<BarChart3 className="w-4 h-4" />} label={t("pages.demoExamReview.score")} value={`${d.score}%`} sub={`${d.correctAnswers}/${d.totalQuestions} correct`} />
+          <StatCard icon={<Clock className="w-4 h-4" />} label={t("pages.demoExamReview.timeUsed")} value={d.timeUsed} sub={`${d.avgTimePerQuestion} avg`} />
+          <StatCard icon={<Brain className="w-4 h-4" />} label={t("pages.demoExamReview.difficulty")} value={d.difficultyMix} accent="bg-indigo-50 text-indigo-500" />
+          <StatCard icon={<Target className="w-4 h-4" />} label={t("pages.demoExamReview.passReadiness")} value={d.passReadiness} accent="bg-amber-50 text-amber-500" />
+          <StatCard icon={<TrendingUp className="w-4 h-4" />} label={t("pages.demoExamReview.percentile")} value={`${d.percentileRank}nd`} accent="bg-emerald-50 text-emerald-500" />
+          <StatCard icon={<Layers className="w-4 h-4" />} label={t("pages.demoExamReview.questions")} value={`${d.totalQuestions}`} sub="Adaptive mix" />
         </div>
 
         <div className="grid grid-cols-12 gap-5 mb-6">
           <div className="col-span-12 lg:col-span-7">
             <SectionCard>
-              <SectionTitle title="Category Performance" subtitle="Accuracy by content domain" />
+              <SectionTitle title={t("pages.demoExamReview.categoryPerformance")} subtitle={t("pages.demo_exam_review.accuracyByContentDomain")} />
               <div className="space-y-3">
                 {d.categoryResults.map((cat) => (
                   <div key={cat.name} className="flex items-center gap-3">
@@ -67,7 +69,7 @@ export default function DemoExamReview() {
 
           <div className="col-span-12 lg:col-span-5">
             <SectionCard className="h-full">
-              <SectionTitle title="Confidence Analysis" subtitle="Self-assessment vs actual performance" />
+              <SectionTitle title={t("pages.demoExamReview.confidenceAnalysis")} subtitle={t("pages.demo_exam_review.selfassessmentVsActualPerformance")} />
               <div className="flex justify-center mb-4">
                 <ResponsiveContainer width={180} height={180}>
                   <PieChart>
@@ -95,7 +97,7 @@ export default function DemoExamReview() {
         <div className="grid grid-cols-12 gap-5 mb-6">
           <div className="col-span-12 lg:col-span-6">
             <SectionCard>
-              <SectionTitle title="Question Type Breakdown" subtitle="Performance by item format" />
+              <SectionTitle title={t("pages.demoExamReview.questionTypeBreakdown")} subtitle={t("pages.demo_exam_review.performanceByItemFormat")} />
               <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={d.questionTypeResults} margin={{ top: 5, right: 10, bottom: 0, left: -20 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
@@ -110,7 +112,7 @@ export default function DemoExamReview() {
 
           <div className="col-span-12 lg:col-span-6">
             <SectionCard>
-              <SectionTitle title="Time Distribution" subtitle="Response time per question" />
+              <SectionTitle title={t("pages.demoExamReview.timeDistribution")} subtitle={t("pages.demo_exam_review.responseTimePerQuestion")} />
               <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={timeData} margin={{ top: 5, right: 10, bottom: 0, left: -20 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
@@ -131,7 +133,7 @@ export default function DemoExamReview() {
                 <div className="w-7 h-7 rounded-lg bg-rose-50 flex items-center justify-center">
                   <XCircle className="w-3.5 h-3.5 text-rose-500" />
                 </div>
-                <h3 className="text-sm font-semibold text-slate-700">Most Missed Topics</h3>
+                <h3 className="text-sm font-semibold text-slate-700">{t("pages.demoExamReview.mostMissedTopics")}</h3>
               </div>
               <div className="space-y-2.5">
                 {d.commonMisses.map((miss, i) => (
@@ -150,7 +152,7 @@ export default function DemoExamReview() {
                 <div className="w-7 h-7 rounded-lg bg-violet-50 flex items-center justify-center">
                   <BookOpen className="w-3.5 h-3.5 text-violet-500" />
                 </div>
-                <h3 className="text-sm font-semibold text-slate-700">Recommended Review</h3>
+                <h3 className="text-sm font-semibold text-slate-700">{t("pages.demoExamReview.recommendedReview")}</h3>
               </div>
               <div className="space-y-2.5">
                 {d.reviewNext.map((item, i) => (
@@ -174,8 +176,8 @@ export default function DemoExamReview() {
                 <Zap className="w-5 h-5 text-white" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-slate-700">Keep the momentum going</p>
-                <p className="text-xs text-slate-500">Your next session should focus on pharmacology and prioritization</p>
+                <p className="text-sm font-semibold text-slate-700">{t("pages.demoExamReview.keepTheMomentumGoing")}</p>
+                <p className="text-xs text-slate-500">{t("pages.demoExamReview.yourNextSessionShouldFocus")}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">

@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useI18n } from "@/lib/i18n";
 import {
   CheckCircle2, XCircle, ChevronRight, ChevronLeft, ClipboardList,
   Activity, FlaskConical, FileText, Pill, Stethoscope, Trophy,
@@ -51,6 +52,7 @@ interface StepAnswer {
 }
 
 function ExhibitPanel({ exhibitData }: { exhibitData: any }) {
+  const { t } = useI18n();
   if (!exhibitData || Object.keys(exhibitData).length === 0) return null;
 
   const tabs: { key: string; label: string; icon: any }[] = [];
@@ -87,9 +89,9 @@ function ExhibitPanel({ exhibitData }: { exhibitData: any }) {
                 <table className="w-full text-xs">
                   <thead>
                     <tr className="border-b border-gray-200">
-                      <th className="text-left py-1 font-semibold text-gray-600">Parameter</th>
-                      <th className="text-left py-1 font-semibold text-gray-600">Value</th>
-                      {exhibitData.vitals[0]?.status && <th className="text-left py-1 font-semibold text-gray-600">Status</th>}
+                      <th className="text-left py-1 font-semibold text-gray-600">{t("pages.clinicalCaseStudy.parameter")}</th>
+                      <th className="text-left py-1 font-semibold text-gray-600">{t("pages.clinicalCaseStudy.value")}</th>
+                      {exhibitData.vitals[0]?.status && <th className="text-left py-1 font-semibold text-gray-600">{t("pages.clinicalCaseStudy.status")}</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -116,9 +118,9 @@ function ExhibitPanel({ exhibitData }: { exhibitData: any }) {
                 <table className="w-full text-xs">
                   <thead>
                     <tr className="border-b border-gray-200">
-                      <th className="text-left py-1 font-semibold text-gray-600">Test</th>
-                      <th className="text-left py-1 font-semibold text-gray-600">Result</th>
-                      <th className="text-left py-1 font-semibold text-gray-600">Reference</th>
+                      <th className="text-left py-1 font-semibold text-gray-600">{t("pages.clinicalCaseStudy.test")}</th>
+                      <th className="text-left py-1 font-semibold text-gray-600">{t("pages.clinicalCaseStudy.result")}</th>
+                      <th className="text-left py-1 font-semibold text-gray-600">{t("pages.clinicalCaseStudy.reference")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -158,9 +160,9 @@ function ExhibitPanel({ exhibitData }: { exhibitData: any }) {
                 <table className="w-full text-xs">
                   <thead>
                     <tr className="border-b border-gray-200">
-                      <th className="text-left py-1 font-semibold text-gray-600">Medication</th>
-                      <th className="text-left py-1 font-semibold text-gray-600">Dose</th>
-                      <th className="text-left py-1 font-semibold text-gray-600">Route/Freq</th>
+                      <th className="text-left py-1 font-semibold text-gray-600">{t("pages.clinicalCaseStudy.medication")}</th>
+                      <th className="text-left py-1 font-semibold text-gray-600">{t("pages.clinicalCaseStudy.dose")}</th>
+                      <th className="text-left py-1 font-semibold text-gray-600">{t("pages.clinicalCaseStudy.routefreq")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -312,7 +314,7 @@ function QuestionRenderer({
         )}
         {submitted && question.rationale && (
           <div className={`p-3 rounded-lg text-xs leading-relaxed ${existingAnswer?.correct || (Array.isArray(correct) ? correct.includes(selected) : correct === selected) ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-amber-50 border border-amber-200 text-amber-800'}`} data-testid={`text-rationale-${question.id}`}>
-            <p className="font-semibold mb-1">Rationale</p>
+            <p className="font-semibold mb-1">{t("pages.clinicalCaseStudy.rationale")}</p>
             <p>{question.rationale}</p>
           </div>
         )}
@@ -331,7 +333,7 @@ function QuestionRenderer({
     return (
       <div className="space-y-3" data-testid={`question-${question.id}`}>
         <p className="text-sm text-gray-800 font-medium leading-relaxed">{question.questionText}</p>
-        <p className="text-xs text-gray-500">Select all that apply</p>
+        <p className="text-xs text-gray-500">{t("pages.clinicalCaseStudy.selectAllThatApply")}</p>
         <div className="space-y-2">
           {options.map((opt: any, idx: number) => {
             const label = typeof opt === 'string' ? opt : opt.text || opt.label;
@@ -372,7 +374,7 @@ function QuestionRenderer({
         )}
         {submitted && question.rationale && (
           <div className="p-3 rounded-lg text-xs leading-relaxed bg-blue-50 border border-blue-200 text-blue-800" data-testid={`text-rationale-${question.id}`}>
-            <p className="font-semibold mb-1">Rationale</p>
+            <p className="font-semibold mb-1">{t("pages.clinicalCaseStudy.rationale2")}</p>
             <p>{question.rationale}</p>
           </div>
         )}
@@ -390,7 +392,7 @@ function QuestionRenderer({
           onChange={(e) => !submitted && setTextAnswer(e.target.value)}
           disabled={submitted}
           className="w-full border rounded-lg p-2.5 text-sm"
-          placeholder="Type your answer..."
+          placeholder={t("pages.clinicalCaseStudy.typeYourAnswer")}
           data-testid={`input-answer-${question.id}`}
         />
         {!submitted && (
@@ -425,7 +427,7 @@ function QuestionRenderer({
         <p className="text-xs text-gray-500">{qType === "priority" ? "Click items in priority order (highest first)" : "Click items in the correct order"}</p>
         {orderedItems.length > 0 && (
           <div className="space-y-1">
-            <p className="text-xs font-medium text-gray-600">Your order:</p>
+            <p className="text-xs font-medium text-gray-600">{t("pages.clinicalCaseStudy.yourOrder")}</p>
             {orderedItems.map((itemIdx, pos) => {
               const label = typeof options[itemIdx] === 'string' ? options[itemIdx] : options[itemIdx]?.text || options[itemIdx]?.label;
               let cls = "border-blue-300 bg-blue-50";
@@ -445,7 +447,7 @@ function QuestionRenderer({
           </div>
         )}
         <div className="space-y-1">
-          <p className="text-xs font-medium text-gray-600">Available items:</p>
+          <p className="text-xs font-medium text-gray-600">{t("pages.clinicalCaseStudy.availableItems")}</p>
           {options.map((opt: any, idx: number) => {
             const label = typeof opt === 'string' ? opt : opt.text || opt.label;
             const inOrder = orderedItems.includes(idx);
@@ -503,7 +505,7 @@ function QuestionRenderer({
       )}
       {submitted && question.rationale && (
         <div className="p-3 rounded-lg text-xs leading-relaxed bg-blue-50 border border-blue-200 text-blue-800" data-testid={`text-rationale-${question.id}`}>
-          <p className="font-semibold mb-1">Rationale</p>
+          <p className="font-semibold mb-1">{t("pages.clinicalCaseStudy.rationale3")}</p>
           <p>{question.rationale}</p>
         </div>
       )}
@@ -606,7 +608,7 @@ export default function ClinicalCaseStudyPage() {
           <Card className="border-0 shadow-lg" data-testid="card-score-summary">
             <CardContent className="p-8 text-center space-y-6">
               <Trophy className="w-16 h-16 mx-auto text-amber-500" />
-              <h2 className="text-2xl font-bold text-gray-900">Case Study Complete</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t("pages.clinicalCaseStudy.caseStudyComplete")}</h2>
               <p className="text-gray-600">{caseData.study.title}</p>
               <div className="bg-gray-100 rounded-2xl p-6 inline-block">
                 <div className="text-5xl font-bold text-gray-900" data-testid="text-final-score">{score.pct}%</div>
@@ -684,7 +686,7 @@ export default function ClinicalCaseStudyPage() {
             <CardContent className="space-y-4">
               {currentStepIdx === 0 && (
                 <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-amber-800 leading-relaxed" data-testid="text-scenario-intro">
-                  <p className="font-semibold mb-1">Patient Scenario</p>
+                  <p className="font-semibold mb-1">{t("pages.clinicalCaseStudy.patientScenario")}</p>
                   {caseData.study.scenarioIntro}
                 </div>
               )}
@@ -738,8 +740,8 @@ export default function ClinicalCaseStudyPage() {
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-5xl mx-auto space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900" data-testid="text-page-title">Clinical Case Studies</h1>
-          <p className="text-gray-600 mt-1">Practice clinical judgment with multi-step patient scenarios</p>
+          <h1 className="text-3xl font-bold text-gray-900" data-testid="text-page-title">{t("pages.clinicalCaseStudy.clinicalCaseStudies")}</h1>
+          <p className="text-gray-600 mt-1">{t("pages.clinicalCaseStudy.practiceClinicalJudgmentWithMultistep")}</p>
         </div>
 
         <div className="flex gap-3 flex-wrap">
@@ -749,7 +751,7 @@ export default function ClinicalCaseStudyPage() {
             className="border rounded-lg px-3 py-2 text-sm bg-white"
             data-testid="select-tier-filter"
           >
-            <option value="">All Tiers</option>
+            <option value="">{t("pages.clinicalCaseStudy.allTiers")}</option>
             <option value="rpn">RPN</option>
             <option value="rn">RN</option>
             <option value="np">NP</option>
@@ -760,19 +762,19 @@ export default function ClinicalCaseStudyPage() {
             className="border rounded-lg px-3 py-2 text-sm bg-white"
             data-testid="select-difficulty-filter"
           >
-            <option value="">All Difficulties</option>
-            <option value="easy">Easy</option>
-            <option value="moderate">Moderate</option>
-            <option value="hard">Hard</option>
+            <option value="">{t("pages.clinicalCaseStudy.allDifficulties")}</option>
+            <option value="easy">{t("pages.clinicalCaseStudy.easy")}</option>
+            <option value="moderate">{t("pages.clinicalCaseStudy.moderate")}</option>
+            <option value="hard">{t("pages.clinicalCaseStudy.hard")}</option>
           </select>
         </div>
 
         {loading ? (
-          <div className="text-center py-12 text-gray-500">Loading case studies...</div>
+          <div className="text-center py-12 text-gray-500">{t("pages.clinicalCaseStudy.loadingCaseStudies")}</div>
         ) : caseStudies.length === 0 ? (
           <div className="text-center py-12">
             <ClipboardList className="w-12 h-12 mx-auto text-gray-300 mb-3" />
-            <p className="text-gray-500">No case studies available yet.</p>
+            <p className="text-gray-500">{t("pages.clinicalCaseStudy.noCaseStudiesAvailableYet")}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

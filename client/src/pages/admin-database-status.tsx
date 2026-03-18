@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { Database, RefreshCw, ArrowRightLeft, Server, HardDrive } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface DbStatus {
   environment: string;
   devHost: string;
@@ -28,6 +29,7 @@ interface DbStatus {
 }
 
 export default function AdminDatabaseStatus() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const [status, setStatus] = useState<DbStatus | null>(null);
@@ -91,7 +93,7 @@ export default function AdminDatabaseStatus() {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <Database className="h-8 w-8 text-blue-600" />
-            <h1 className="text-2xl font-bold" data-testid="text-page-title">Database Status</h1>
+            <h1 className="text-2xl font-bold" data-testid="text-page-title">{t("pages.adminDatabaseStatus.databaseStatus")}</h1>
           </div>
           <Button onClick={fetchStatus} variant="outline" disabled={loading} data-testid="button-refresh">
             <RefreshCw className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`} />
@@ -106,7 +108,7 @@ export default function AdminDatabaseStatus() {
         )}
 
         {loading && !status ? (
-          <div className="text-center py-12 text-gray-500">Loading database status...</div>
+          <div className="text-center py-12 text-gray-500">{t("pages.adminDatabaseStatus.loadingDatabaseStatus")}</div>
         ) : status ? (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -145,7 +147,7 @@ export default function AdminDatabaseStatus() {
                       {status.prodConnected ? "Connected" : "Not connected"}
                     </Badge>
                   ) : (
-                    <Badge variant="secondary" className="mt-1" data-testid="badge-prod-status">Same as dev</Badge>
+                    <Badge variant="secondary" className="mt-1" data-testid="badge-prod-status">{t("pages.adminDatabaseStatus.sameAsDev")}</Badge>
                   )}
                 </CardContent>
               </Card>
@@ -154,7 +156,7 @@ export default function AdminDatabaseStatus() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">Dev Database Counts</CardTitle>
+                  <CardTitle className="text-lg">{t("pages.adminDatabaseStatus.devDatabaseCounts")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
@@ -169,11 +171,11 @@ export default function AdminDatabaseStatus() {
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-500">Allied Questions</span>
+                      <span className="text-sm text-gray-500">{t("pages.adminDatabaseStatus.alliedQuestions")}</span>
                       <span className="font-medium" data-testid="text-dev-allied">{status.dev.alliedQuestions}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-500">Imaging Questions</span>
+                      <span className="text-sm text-gray-500">{t("pages.adminDatabaseStatus.imagingQuestions")}</span>
                       <span className="font-medium" data-testid="text-dev-imaging">{status.dev.imagingQuestions}</span>
                     </div>
                   </div>
@@ -182,13 +184,13 @@ export default function AdminDatabaseStatus() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">Prod Database Counts</CardTitle>
+                  <CardTitle className="text-lg">{t("pages.adminDatabaseStatus.prodDatabaseCounts")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {!status.hasSeparateProd ? (
-                    <p className="text-sm text-gray-500">Same database as dev — counts are identical</p>
+                    <p className="text-sm text-gray-500">{t("pages.adminDatabaseStatus.sameDatabaseAsDevCounts")}</p>
                   ) : !status.prodConnected ? (
-                    <p className="text-sm text-red-500">Production database not connected</p>
+                    <p className="text-sm text-red-500">{t("pages.adminDatabaseStatus.productionDatabaseNotConnected")}</p>
                   ) : (
                     <div className="space-y-3">
                       <div>
@@ -202,11 +204,11 @@ export default function AdminDatabaseStatus() {
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-500">Allied Questions</span>
+                        <span className="text-sm text-gray-500">{t("pages.adminDatabaseStatus.alliedQuestions2")}</span>
                         <span className="font-medium" data-testid="text-prod-allied">{status.prod.alliedQuestions}</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-500">Imaging Questions</span>
+                        <span className="text-sm text-gray-500">{t("pages.adminDatabaseStatus.imagingQuestions2")}</span>
                         <span className="font-medium" data-testid="text-prod-imaging">{status.prod.imagingQuestions}</span>
                       </div>
                     </div>
@@ -258,7 +260,7 @@ export default function AdminDatabaseStatus() {
                       <p>Imaging questions synced: {syncResult.synced?.imagingQuestions || 0}</p>
                       {syncResult.prodTotals && (
                         <div className="mt-2 pt-2 border-t border-green-200">
-                          <p className="font-medium">Production totals after sync:</p>
+                          <p className="font-medium">{t("pages.adminDatabaseStatus.productionTotalsAfterSync")}</p>
                           <p>Exam: {syncResult.prodTotals.examQuestions}</p>
                           <p>Allied: {syncResult.prodTotals.alliedQuestions}</p>
                           <p>Imaging: {syncResult.prodTotals.imagingQuestions}</p>

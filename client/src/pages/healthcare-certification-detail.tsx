@@ -14,6 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
+import { useI18n } from "@/lib/i18n";
 const COLOR_MAP: Record<string, { bg: string; text: string; border: string; gradientFrom: string; btnBg: string; btnHover: string }> = {
   red: { bg: "bg-red-50", text: "text-red-600", border: "border-red-100", gradientFrom: "from-red-50", btnBg: "bg-red-600", btnHover: "hover:bg-red-700" },
   blue: { bg: "bg-blue-50", text: "text-blue-600", border: "border-blue-100", gradientFrom: "from-blue-50", btnBg: "bg-blue-600", btnHover: "hover:bg-blue-700" },
@@ -26,6 +27,7 @@ const COLOR_MAP: Record<string, { bg: string; text: string; border: string; grad
 };
 
 export default function HealthcareCertificationDetail() {
+  const { t } = useI18n();
   const { slug } = useParams<{ slug: string }>();
   const cert = slug ? HEALTHCARE_CERTIFICATION_DATA[slug] : null;
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -36,8 +38,8 @@ export default function HealthcareCertificationDetail() {
         <Navigation />
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center max-w-md px-4">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">Certification Not Found</h1>
-            <p className="text-gray-600 mb-6">The certification you're looking for isn't available.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">{t("pages.healthcareCertificationDetail.certificationNotFound")}</h1>
+            <p className="text-gray-600 mb-6">{t("pages.healthcareCertificationDetail.theCertificationYoureLookingFor")}</p>
             <LocaleLink href="/healthcare-certifications" className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors" data-testid="link-back-to-certs">
               Back to Certifications <ArrowRight className="w-4 h-4" />
             </LocaleLink>
@@ -86,9 +88,9 @@ export default function HealthcareCertificationDetail() {
           <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradientFrom} via-white to-white`} />
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-              <LocaleLink href="/" className="hover:text-emerald-600">Home</LocaleLink>
+              <LocaleLink href="/" className="hover:text-emerald-600">{t("pages.healthcareCertificationDetail.home")}</LocaleLink>
               <ChevronRight className="w-3.5 h-3.5" />
-              <LocaleLink href="/healthcare-certifications" className="hover:text-emerald-600">Healthcare Certifications</LocaleLink>
+              <LocaleLink href="/healthcare-certifications" className="hover:text-emerald-600">{t("pages.healthcareCertificationDetail.healthcareCertifications")}</LocaleLink>
               <ChevronRight className="w-3.5 h-3.5" />
               <span className={`${colors.text} font-medium`}>{cert.certName}</span>
             </div>
@@ -107,17 +109,17 @@ export default function HealthcareCertificationDetail() {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               <div className="bg-white rounded-xl border border-gray-200 p-4 text-center" data-testid="stat-validity">
                 <Clock className={`w-5 h-5 ${colors.text} mx-auto mb-1`} />
-                <p className="text-xs text-gray-500">Valid For</p>
+                <p className="text-xs text-gray-500">{t("pages.healthcareCertificationDetail.validFor")}</p>
                 <p className="text-sm font-bold text-gray-900">{cert.renewalCycle.validity}</p>
               </div>
               <div className="bg-white rounded-xl border border-gray-200 p-4 text-center" data-testid="stat-questions">
                 <FileText className={`w-5 h-5 ${colors.text} mx-auto mb-1`} />
-                <p className="text-xs text-gray-500">Questions</p>
+                <p className="text-xs text-gray-500">{t("pages.healthcareCertificationDetail.questions")}</p>
                 <p className="text-sm font-bold text-gray-900">{cert.examStructure.questionCount}</p>
               </div>
               <div className="bg-white rounded-xl border border-gray-200 p-4 text-center" data-testid="stat-duration">
                 <Target className={`w-5 h-5 ${colors.text} mx-auto mb-1`} />
-                <p className="text-xs text-gray-500">Exam Duration</p>
+                <p className="text-xs text-gray-500">{t("pages.healthcareCertificationDetail.examDuration")}</p>
                 <p className="text-sm font-bold text-gray-900">{cert.examStructure.duration.split(";")[0]}</p>
               </div>
             </div>
@@ -147,7 +149,7 @@ export default function HealthcareCertificationDetail() {
 
         <section className="py-12 px-4 bg-gray-50" data-testid="section-eligibility">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Eligibility Requirements</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCertificationDetail.eligibilityRequirements")}</h2>
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <ul className="space-y-3">
                 {cert.eligibilityRequirements.map((req, i) => (
@@ -163,28 +165,28 @@ export default function HealthcareCertificationDetail() {
 
         <section className="py-12 px-4" data-testid="section-exam-structure">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Exam Structure</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCertificationDetail.examStructure")}</h2>
             <div className="grid sm:grid-cols-2 gap-6">
               <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Format</h3>
+                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">{t("pages.healthcareCertificationDetail.format")}</h3>
                   <p className="text-sm text-gray-700">{cert.examStructure.format}</p>
                 </div>
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Duration</h3>
+                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">{t("pages.healthcareCertificationDetail.duration")}</h3>
                   <p className="text-sm text-gray-700">{cert.examStructure.duration}</p>
                 </div>
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Questions</h3>
+                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">{t("pages.healthcareCertificationDetail.questions2")}</h3>
                   <p className="text-sm text-gray-700">{cert.examStructure.questionCount}</p>
                 </div>
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Passing Score</h3>
+                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">{t("pages.healthcareCertificationDetail.passingScore")}</h3>
                   <p className="text-sm text-gray-700">{cert.examStructure.passingScore}</p>
                 </div>
               </div>
               <div className="bg-white rounded-xl border border-gray-200 p-6">
-                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Exam Content Areas</h3>
+                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">{t("pages.healthcareCertificationDetail.examContentAreas")}</h3>
                 <ul className="space-y-2">
                   {cert.examStructure.sections.map((section, i) => (
                     <li key={i} className="flex items-start gap-2.5 text-sm text-gray-700" data-testid={`text-section-${i}`}>
@@ -200,27 +202,27 @@ export default function HealthcareCertificationDetail() {
 
         <section className="py-12 px-4 bg-gray-50" data-testid="section-renewal">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Renewal Cycle</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCertificationDetail.renewalCycle")}</h2>
             <div className="grid sm:grid-cols-3 gap-4">
               <div className="bg-white rounded-xl border border-gray-200 p-5" data-testid="card-renewal-validity">
                 <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center mb-3`}>
                   <Clock className={`w-5 h-5 ${colors.text}`} />
                 </div>
-                <h3 className="font-semibold text-gray-900 text-sm mb-1">Validity Period</h3>
+                <h3 className="font-semibold text-gray-900 text-sm mb-1">{t("pages.healthcareCertificationDetail.validityPeriod")}</h3>
                 <p className="text-sm text-gray-600">{cert.renewalCycle.validity}</p>
               </div>
               <div className="bg-white rounded-xl border border-gray-200 p-5" data-testid="card-renewal-method">
                 <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center mb-3`}>
                   <RefreshCw className={`w-5 h-5 ${colors.text}`} />
                 </div>
-                <h3 className="font-semibold text-gray-900 text-sm mb-1">Renewal Method</h3>
+                <h3 className="font-semibold text-gray-900 text-sm mb-1">{t("pages.healthcareCertificationDetail.renewalMethod")}</h3>
                 <p className="text-sm text-gray-600">{cert.renewalCycle.renewalMethod}</p>
               </div>
               <div className="bg-white rounded-xl border border-gray-200 p-5" data-testid="card-renewal-ce">
                 <div className={`w-10 h-10 rounded-xl ${colors.bg} flex items-center justify-center mb-3`}>
                   <BookOpen className={`w-5 h-5 ${colors.text}`} />
                 </div>
-                <h3 className="font-semibold text-gray-900 text-sm mb-1">CE Requirements</h3>
+                <h3 className="font-semibold text-gray-900 text-sm mb-1">{t("pages.healthcareCertificationDetail.ceRequirements")}</h3>
                 <p className="text-sm text-gray-600">{cert.renewalCycle.ceRequirements}</p>
               </div>
             </div>
@@ -229,7 +231,7 @@ export default function HealthcareCertificationDetail() {
 
         <section className="py-12 px-4" data-testid="section-clinical-relevance">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Clinical Relevance</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCertificationDetail.clinicalRelevance")}</h2>
             <div className="grid sm:grid-cols-2 gap-3">
               {cert.clinicalRelevance.map((item, i) => (
                 <div key={i} className={`flex items-start gap-3 px-4 py-3 rounded-lg ${colors.bg} ${colors.border} border`} data-testid={`text-relevance-${i}`}>
@@ -243,7 +245,7 @@ export default function HealthcareCertificationDetail() {
 
         <section className="py-12 px-4 bg-gray-50" data-testid="section-study-prep">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Study Preparation Guide</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCertificationDetail.studyPreparationGuide")}</h2>
             <div className="space-y-4">
               {cert.studyPreparation.map((step, i) => (
                 <div key={i} className="flex gap-4 bg-white rounded-xl border border-gray-200 p-6" data-testid={`card-study-${i}`}>
@@ -262,7 +264,7 @@ export default function HealthcareCertificationDetail() {
 
         <section className="py-12 px-4" data-testid="section-nursenest-links">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">NurseNest Study Resources</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCertificationDetail.nursenestStudyResources")}</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {cert.relatedNurseNestLinks.map((link, i) => (
                 <LocaleLink key={i} href={link.href}>
@@ -286,7 +288,7 @@ export default function HealthcareCertificationDetail() {
         {cert.faqs.length > 0 && (
           <section className="py-12 px-4 bg-gray-50" data-testid="section-faqs">
             <div className="max-w-5xl mx-auto">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCertificationDetail.frequentlyAskedQuestions")}</h2>
               <div className="space-y-3">
                 {cert.faqs.map((faq, i) => (
                   <div key={i} className="border border-gray-200 rounded-xl overflow-hidden bg-white" data-testid={`faq-item-${i}`}>

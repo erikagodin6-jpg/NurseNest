@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { useParamedicRegion, type ParamedicRegion } from "@/allied/contexts/paramedic-region-context";
 
+import { useI18n } from "@/lib/i18n";
 interface HeroCTAProps {
   badge: string;
   title: string;
@@ -16,6 +17,7 @@ interface HeroCTAProps {
 }
 
 export function HeroCTA({ badge, title, titleHighlight, subtitle, primaryCTA, secondaryCTA }: HeroCTAProps) {
+  const { t } = useI18n();
   return (
     <section className="relative overflow-hidden py-16 sm:py-24" data-testid="paramedic-hero">
       <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-lavender-50 to-white" style={{ background: "linear-gradient(135deg, #f3f0ff 0%, #ede9fe 30%, #f0fdfa 70%, #ffffff 100%)" }} />
@@ -34,19 +36,19 @@ export function HeroCTA({ badge, title, titleHighlight, subtitle, primaryCTA, se
             {subtitle}
           </p>
           <div className="max-w-lg mx-auto p-4 rounded-xl bg-white/70 border border-purple-100 backdrop-blur-sm mb-6" data-testid="hero-clarity-block">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2.5">What you get</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2.5">{t("allied.paramedicComponents.whatYouGet")}</p>
             <div className="space-y-2 text-left">
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <CheckCircle2 className="w-3.5 h-3.5 text-teal-500 shrink-0" />
-                <span>Career-specific question banks with detailed rationales</span>
+                <span>{t("allied.paramedicComponents.careerspecificQuestionBanksWithDetailed")}</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <CheckCircle2 className="w-3.5 h-3.5 text-teal-500 shrink-0" />
-                <span>Blueprint-weighted mock exams that mirror real test conditions</span>
+                <span>{t("allied.paramedicComponents.blueprintweightedMockExamsThatMirror")}</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <CheckCircle2 className="w-3.5 h-3.5 text-teal-500 shrink-0" />
-                <span>AI-powered study plans and readiness tracking</span>
+                <span>{t("allied.paramedicComponents.aipoweredStudyPlansAndReadiness")}</span>
               </div>
             </div>
           </div>
@@ -63,15 +65,15 @@ export function HeroCTA({ badge, title, titleHighlight, subtitle, primaryCTA, se
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-gray-500" data-testid="hero-trust-badges">
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-teal-500" />
-              <span>No credit card required</span>
+              <span>{t("allied.paramedicComponents.noCreditCardRequired")}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-teal-500" />
-              <span>Blueprint-aligned content</span>
+              <span>{t("allied.paramedicComponents.blueprintalignedContent")}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-teal-500" />
-              <span>Cancel anytime</span>
+              <span>{t("allied.paramedicComponents.cancelAnytime")}</span>
             </div>
           </div>
         </div>
@@ -92,8 +94,8 @@ export function StudyPathSteps({ steps }: { steps: StudyStep[] }) {
     <section className="py-16 sm:py-20 bg-white" data-testid="section-study-path">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">Your Study System in 4 Steps</h2>
-          <p className="text-gray-600 max-w-xl mx-auto">A structured, evidence-based approach to exam readiness — no guesswork, no wasted time.</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.paramedicComponents.yourStudySystemIn4")}</h2>
+          <p className="text-gray-600 max-w-xl mx-auto">{t("allied.paramedicComponents.aStructuredEvidencebasedApproachTo")}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {steps.map((s) => (
@@ -277,8 +279,8 @@ export function TrustBlock() {
     <section className="py-16 sm:py-20 bg-gradient-to-b from-gray-50 to-white" data-testid="section-trust">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">Built by Healthcare Educators, for Paramedic Learners</h2>
-          <p className="text-gray-600 max-w-xl mx-auto">Every question, lesson, and tool is developed by experienced paramedic educators and clinicians who understand what it takes to pass your certification exam.</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.paramedicComponents.builtByHealthcareEducatorsFor")}</h2>
+          <p className="text-gray-600 max-w-xl mx-auto">{t("allied.paramedicComponents.everyQuestionLessonAndTool")}</p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
           {stats.map(s => (
@@ -291,18 +293,18 @@ export function TrustBlock() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white rounded-2xl border border-gray-100 p-6 text-center">
             <Shield className="w-8 h-8 text-teal-500 mx-auto mb-3" />
-            <h3 className="text-sm font-semibold text-gray-900 mb-1">Blueprint-Aligned</h3>
-            <p className="text-xs text-gray-500">All content maps to official NREMT, COPR, and provincial exam blueprints</p>
+            <h3 className="text-sm font-semibold text-gray-900 mb-1">{t("allied.paramedicComponents.blueprintaligned")}</h3>
+            <p className="text-xs text-gray-500">{t("allied.paramedicComponents.allContentMapsToOfficial")}</p>
           </div>
           <div className="bg-white rounded-2xl border border-gray-100 p-6 text-center">
             <Award className="w-8 h-8 text-purple-500 mx-auto mb-3" />
-            <h3 className="text-sm font-semibold text-gray-900 mb-1">Expert-Written</h3>
-            <p className="text-xs text-gray-500">Questions and rationales by practicing paramedics and EMS educators</p>
+            <h3 className="text-sm font-semibold text-gray-900 mb-1">{t("allied.paramedicComponents.expertwritten")}</h3>
+            <p className="text-xs text-gray-500">{t("allied.paramedicComponents.questionsAndRationalesByPracticing")}</p>
           </div>
           <div className="bg-white rounded-2xl border border-gray-100 p-6 text-center">
             <TrendingUp className="w-8 h-8 text-teal-500 mx-auto mb-3" />
-            <h3 className="text-sm font-semibold text-gray-900 mb-1">Continuously Updated</h3>
-            <p className="text-xs text-gray-500">New questions and content added weekly following latest clinical guidelines</p>
+            <h3 className="text-sm font-semibold text-gray-900 mb-1">{t("allied.paramedicComponents.continuouslyUpdated")}</h3>
+            <p className="text-xs text-gray-500">{t("allied.paramedicComponents.newQuestionsAndContentAdded")}</p>
           </div>
         </div>
       </div>

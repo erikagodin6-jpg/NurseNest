@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
+import { useI18n } from "@/lib/i18n";
 interface ImagingProduct {
   id: string;
   title: string;
@@ -33,6 +34,7 @@ interface ImagingProduct {
 }
 
 function formatPrice(cents: number) {
+
   return `$${(cents / 100).toFixed(2)}`;
 }
 
@@ -95,8 +97,8 @@ export default function ImagingStorePage() {
   return (
     <div data-testid="imaging-store-page">
       <SEO
-        title="Medical Imaging Study Store - Practice Questions, Flashcards & Exam Bundles"
-        description="Browse and purchase radiography exam prep materials. Study packs, question banks, flashcard decks, and full exam access bundles for CAMRT and ARRT certification."
+        title={t("pages.imagingStore.medicalImagingStudyStorePractice")}
+        description={t("pages.imagingStore.browseAndPurchaseRadiographyExam")}
         canonicalPath="/medical-imaging/store"
       />
 
@@ -116,7 +118,7 @@ export default function ImagingStorePage() {
             Study Materials Store
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-store-title">
-            Premium Study <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Materials</span>
+            Premium Study <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">{t("pages.imagingStore.materials")}</span>
           </h1>
           <p className="text-gray-600 max-w-xl mx-auto" data-testid="text-store-subtitle">
             Browse our collection of study packs, question banks, flashcard decks, and exam bundles designed for radiography certification success.
@@ -129,7 +131,7 @@ export default function ImagingStorePage() {
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <Input
-              placeholder="Search study materials..."
+              placeholder={t("pages.imagingStore.searchStudyMaterials")}
               value={search}
               onChange={e => setSearch(e.target.value)}
               className="pl-10"
@@ -171,7 +173,7 @@ export default function ImagingStorePage() {
         ) : filteredProducts.length === 0 ? (
           <div className="text-center py-16">
             <Package className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No products found</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("pages.imagingStore.noProductsFound")}</h3>
             <p className="text-gray-500">
               {search ? "Try adjusting your search terms" : "Check back soon for new study materials"}
             </p>
@@ -197,7 +199,7 @@ export default function ImagingStorePage() {
                 <Card key={product.id} className={`relative overflow-hidden ${product.popular ? "border-indigo-300 shadow-lg" : "border-gray-200"}`} data-testid={`card-product-${product.slug}`}>
                   {product.popular && (
                     <div className="absolute top-3 right-3">
-                      <Badge className="bg-indigo-600 text-white text-xs"><Star className="w-3 h-3 mr-1" />Popular</Badge>
+                      <Badge className="bg-indigo-600 text-white text-xs"><Star className="w-3 h-3 mr-1" />{t("pages.imagingStore.popular")}</Badge>
                     </div>
                   )}
                   <CardHeader className="pb-3">
@@ -237,7 +239,7 @@ export default function ImagingStorePage() {
                       data-testid={`button-buy-${product.slug}`}
                     >
                       {checkoutLoading === product.id ? "Processing..." : (
-                        <><CreditCard className="w-4 h-4 mr-2" />Purchase</>
+                        <><CreditCard className="w-4 h-4 mr-2" />{t("pages.imagingStore.purchase")}</>
                       )}
                     </Button>
                   </CardContent>
@@ -249,7 +251,7 @@ export default function ImagingStorePage() {
 
         <div className="mt-16 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 sm:p-12 text-center text-white" data-testid="cta-full-access">
           <Crown className="w-10 h-10 mx-auto mb-4 opacity-90" />
-          <h2 className="text-2xl sm:text-3xl font-bold mb-3">Want Full Access?</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-3">{t("pages.imagingStore.wantFullAccess")}</h2>
           <p className="text-indigo-100 max-w-lg mx-auto mb-6">
             Get unlimited access to all study materials, practice exams, and premium features with a subscription plan.
           </p>

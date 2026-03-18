@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { ChevronDown, ChevronRight, ArrowRight, BookOpen, CheckCircle, Globe, FileText, AlertTriangle, Star, MapPin, Clock, DollarSign, GraduationCap, Briefcase, Shield, Users } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface BreadcrumbItem {
   label: string;
   href: string;
 }
 
 export function IntlBreadcrumbs({ items }: { items: BreadcrumbItem[] }) {
+  const { t } = useI18n();
   return (
-    <nav aria-label="Breadcrumb" className="max-w-5xl mx-auto px-4 pt-4 text-sm text-gray-500" data-testid="breadcrumbs">
+    <nav aria-label={t("pages.internationalNurses.components.breadcrumb")} className="max-w-5xl mx-auto px-4 pt-4 text-sm text-gray-500" data-testid="breadcrumbs">
       <ol className="flex flex-wrap items-center gap-1">
         {items.map((item, i) => (
           <li key={i} className="flex items-center gap-1">
@@ -70,7 +72,7 @@ export function FAQSection({ items }: { items: { question: string; answer: strin
   if (!items || items.length === 0) return null;
   return (
     <div className="my-10" data-testid="faq-section">
-      <h2 className="text-2xl font-bold text-gray-900 mb-5">Frequently Asked Questions</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-5">{t("pages.internationalNurses.components.frequentlyAskedQuestions")}</h2>
       <div className="space-y-2">
         {items.map((item, i) => (
           <div key={i} className="border border-gray-200 rounded-lg overflow-hidden">
@@ -148,7 +150,7 @@ export function ComparisonGrid({ comparisons }: { comparisons: { slug: string; c
           data-testid={`comparison-card-${c.slug}`}
         >
           <div className="text-sm font-semibold text-purple-700 mb-1">{c.countryA} vs {c.countryB}</div>
-          <p className="text-xs text-gray-500">Side-by-side comparison of licensing, salary, immigration & more</p>
+          <p className="text-xs text-gray-500">{t("pages.internationalNurses.components.sidebysideComparisonOfLicensingSalary")}</p>
         </a>
       ))}
     </div>
@@ -162,7 +164,7 @@ export function ComparisonTable({ countryA, countryB, points }: { countryA: stri
       <table className="w-full border-collapse text-sm">
         <thead>
           <tr className="bg-gray-50">
-            <th className="text-left px-4 py-3 font-semibold text-gray-700 border-b">Aspect</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-700 border-b">{t("pages.internationalNurses.components.aspect")}</th>
             <th className="text-left px-4 py-3 font-semibold text-teal-700 border-b">{countryA}</th>
             <th className="text-left px-4 py-3 font-semibold text-purple-700 border-b">{countryB}</th>
           </tr>
@@ -184,7 +186,7 @@ export function ComparisonTable({ countryA, countryB, points }: { countryA: stri
 export function StepTimeline({ steps }: { steps: { stepNumber: number; title: string; description: string; timeline?: string }[] }) {
   return (
     <div className="my-8 space-y-4" data-testid="step-timeline">
-      <h2 className="text-xl font-bold text-gray-900 mb-4">Step-by-Step Process</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.internationalNurses.components.stepbystepProcess")}</h2>
       {steps.map((step) => (
         <div key={step.stepNumber} className="flex gap-4 items-start" data-testid={`step-${step.stepNumber}`}>
           <div className="flex-shrink-0 w-10 h-10 rounded-full bg-teal-600 text-white font-bold flex items-center justify-center text-sm">
@@ -208,7 +210,7 @@ export function DocumentChecklist({ documents }: { documents: string[] }) {
   if (!documents || documents.length === 0) return null;
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-6 my-8" data-testid="document-checklist">
-      <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2"><FileText className="w-5 h-5 text-teal-600" />Required Documents</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2"><FileText className="w-5 h-5 text-teal-600" />{t("pages.internationalNurses.components.requiredDocuments")}</h2>
       <div className="space-y-2">
         {documents.map((doc, i) => (
           <label key={i} className="flex items-center gap-3 cursor-pointer group" data-testid={`document-${i}`}>
@@ -236,7 +238,7 @@ export function CommonMistakes({ mistakes }: { mistakes: string[] }) {
   if (!mistakes || mistakes.length === 0) return null;
   return (
     <div className="bg-red-50 border border-red-200 rounded-xl p-6 my-8" data-testid="common-mistakes">
-      <h2 className="text-lg font-bold text-red-800 mb-3 flex items-center gap-2"><AlertTriangle className="w-5 h-5" />Common Mistakes to Avoid</h2>
+      <h2 className="text-lg font-bold text-red-800 mb-3 flex items-center gap-2"><AlertTriangle className="w-5 h-5" />{t("pages.internationalNurses.components.commonMistakesToAvoid")}</h2>
       <ul className="space-y-2">
         {mistakes.map((m, i) => (
           <li key={i} className="flex items-start gap-2 text-sm text-red-800">
@@ -253,7 +255,7 @@ export function PrepTips({ tips }: { tips: string[] }) {
   if (!tips || tips.length === 0) return null;
   return (
     <div className="bg-green-50 border border-green-200 rounded-xl p-6 my-8" data-testid="prep-tips">
-      <h2 className="text-lg font-bold text-green-800 mb-3 flex items-center gap-2"><GraduationCap className="w-5 h-5" />Preparation Tips</h2>
+      <h2 className="text-lg font-bold text-green-800 mb-3 flex items-center gap-2"><GraduationCap className="w-5 h-5" />{t("pages.internationalNurses.components.preparationTips")}</h2>
       <ul className="space-y-2">
         {tips.map((t, i) => (
           <li key={i} className="flex items-start gap-2 text-sm text-green-800">
@@ -313,7 +315,7 @@ export function RelatedLinks({ links }: { links: { title: string; href: string }
   if (!links || links.length === 0) return null;
   return (
     <div className="bg-gray-50 rounded-xl p-6 my-8" data-testid="related-links">
-      <h3 className="font-semibold text-gray-900 mb-3">Related Guides</h3>
+      <h3 className="font-semibold text-gray-900 mb-3">{t("pages.internationalNurses.components.relatedGuides")}</h3>
       <div className="space-y-2">
         {links.map((link, i) => (
           <a key={i} href={link.href} className="flex items-center gap-2 text-sm text-gray-700 hover:text-teal-600 transition-colors" data-testid={`related-link-${i}`}>
@@ -329,34 +331,34 @@ export function RelatedLinks({ links }: { links: { title: string; href: string }
 export function TrustBlock() {
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-6 my-8" data-testid="trust-block">
-      <h2 className="text-lg font-bold text-gray-900 mb-4">Who This Guide Is For</h2>
+      <h2 className="text-lg font-bold text-gray-900 mb-4">{t("pages.internationalNurses.components.whoThisGuideIsFor")}</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
         <div className="flex items-start gap-3">
           <Users className="w-5 h-5 text-teal-600 mt-0.5 shrink-0" />
           <div>
-            <h4 className="font-medium text-gray-900">Internationally Educated Nurses</h4>
-            <p className="text-gray-600">Nurses with qualifications from any country seeking to practice abroad</p>
+            <h4 className="font-medium text-gray-900">{t("pages.internationalNurses.components.internationallyEducatedNurses")}</h4>
+            <p className="text-gray-600">{t("pages.internationalNurses.components.nursesWithQualificationsFromAny")}</p>
           </div>
         </div>
         <div className="flex items-start gap-3">
           <GraduationCap className="w-5 h-5 text-teal-600 mt-0.5 shrink-0" />
           <div>
-            <h4 className="font-medium text-gray-900">Nursing Students Planning Ahead</h4>
-            <p className="text-gray-600">Students researching international nursing career opportunities</p>
+            <h4 className="font-medium text-gray-900">{t("pages.internationalNurses.components.nursingStudentsPlanningAhead")}</h4>
+            <p className="text-gray-600">{t("pages.internationalNurses.components.studentsResearchingInternationalNursingCareer")}</p>
           </div>
         </div>
         <div className="flex items-start gap-3">
           <Briefcase className="w-5 h-5 text-teal-600 mt-0.5 shrink-0" />
           <div>
-            <h4 className="font-medium text-gray-900">Nurses Seeking Better Opportunities</h4>
-            <p className="text-gray-600">Experienced nurses looking for higher salaries and better working conditions</p>
+            <h4 className="font-medium text-gray-900">{t("pages.internationalNurses.components.nursesSeekingBetterOpportunities")}</h4>
+            <p className="text-gray-600">{t("pages.internationalNurses.components.experiencedNursesLookingForHigher")}</p>
           </div>
         </div>
         <div className="flex items-start gap-3">
           <Shield className="w-5 h-5 text-teal-600 mt-0.5 shrink-0" />
           <div>
-            <h4 className="font-medium text-gray-900">Healthcare Employers</h4>
-            <p className="text-gray-600">Organizations looking to understand the international nurse recruitment process</p>
+            <h4 className="font-medium text-gray-900">{t("pages.internationalNurses.components.healthcareEmployers")}</h4>
+            <p className="text-gray-600">{t("pages.internationalNurses.components.organizationsLookingToUnderstandThe")}</p>
           </div>
         </div>
       </div>
@@ -373,10 +375,10 @@ export function CountryQuickFacts({ regulatoryBody, requiredExams, languageTests
 }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-8" data-testid="quick-facts">
-      <InfoCard icon={<Shield className="w-5 h-5 text-blue-600" />} title="Regulatory Body" items={[regulatoryBody]} />
-      <InfoCard icon={<GraduationCap className="w-5 h-5 text-purple-600" />} title="Required Exams" items={requiredExams} />
-      <InfoCard icon={<BookOpen className="w-5 h-5 text-green-600" />} title="Language Tests" items={languageTests} />
-      <InfoCard icon={<DollarSign className="w-5 h-5 text-amber-600" />} title="Salary & Timeline" items={[`Salary: ${averageSalary}`, `Timeline: ${registrationTimeline}`]} />
+      <InfoCard icon={<Shield className="w-5 h-5 text-blue-600" />} title={t("pages.internationalNurses.components.regulatoryBody")} items={[regulatoryBody]} />
+      <InfoCard icon={<GraduationCap className="w-5 h-5 text-purple-600" />} title={t("pages.internationalNurses.components.requiredExams")} items={requiredExams} />
+      <InfoCard icon={<BookOpen className="w-5 h-5 text-green-600" />} title={t("pages.internationalNurses.components.languageTests")} items={languageTests} />
+      <InfoCard icon={<DollarSign className="w-5 h-5 text-amber-600" />} title={t("pages.internationalNurses.components.salaryTimeline")} items={[`Salary: ${averageSalary}`, `Timeline: ${registrationTimeline}`]} />
     </div>
   );
 }

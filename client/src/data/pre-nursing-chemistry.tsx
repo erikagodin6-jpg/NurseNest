@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { Atom, Beaker, Droplets, FlaskConical } from "lucide-react";
 
 export function ChemistryModule() {
+  const { t } = useI18n();
   const bondTypeContent = useEditableText("chem-bond-type-content", "Ionic bonds create electrolytes that dissociate in body fluids — essential for electrical signaling. Covalent bonds create the stable molecules of life. Hydrogen bonds maintain the 3D shapes of proteins and DNA. When a fever denatures enzymes, it's disrupting hydrogen bonds that maintain protein folding.");
   const waterSolventContent = useEditableText("chem-water-solvent-content", "Water is a polar molecule — the oxygen end is slightly negative, the hydrogen end slightly positive. This polarity allows water to dissolve ionic and polar substances (hydrophilic), making it the universal solvent of the body. Non-polar substances (lipids) do not dissolve in water (hydrophobic) — this is why cell membranes, made of phospholipids, form barriers in an aqueous environment.");
   const bufferContent = useEditableText("chem-buffer-content", "A buffer resists changes in pH by absorbing excess H⁺ or releasing H⁺ as needed. The bicarbonate buffer system is the most important: CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻. The lungs regulate CO₂ (acid side) and the kidneys regulate HCO₃⁻ (base side). This dual regulation is why respiratory and renal function both affect pH.");
@@ -24,7 +26,7 @@ export function ChemistryModule() {
       <MicroLesson title="Atomic Structure & Chemical Bonds" subtitle="Building blocks of all matter" icon={<Atom className="w-5 h-5" />}>
         <EditableModuleText sectionKey="chem-atomic-content" defaultText="All matter consists of atoms, and the way atoms interact determines the properties of every substance in the body. Three types of chemical bonds are essential to understand:" as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="Types of Chemical Bonds"
+          title={t("data.pre_nursing_chemistry.typesOfChemicalBonds")}
           cards={[
             {
               id: "cb1",
@@ -48,7 +50,7 @@ export function ChemistryModule() {
         />
         <CognitiveCard
           type="concept"
-          title="Why Bond Type Matters in Healthcare"
+          title={t("data.pre_nursing_chemistry.whyBondTypeMattersIn")}
           content={bondTypeContent}
         />
       </MicroLesson>
@@ -67,7 +69,7 @@ export function ChemistryModule() {
         </div>
         <CognitiveCard
           type="warning"
-          title="Water as a Solvent"
+          title={t("data.pre_nursing_chemistry.waterAsASolvent")}
           content={waterSolventContent}
         />
       </MicroLesson>
@@ -83,9 +85,9 @@ export function ChemistryModule() {
           </div>
           <div className="h-3 rounded-full bg-gradient-to-r from-red-400 via-yellow-300 to-blue-400" />
           <div className="flex justify-between text-xs mt-1 text-gray-500">
-            <span>HCl, Gastric acid (~2)</span>
-            <span>Blood: 7.35–7.45</span>
-            <span>NaOH, Bleach (~13)</span>
+            <span>{t("data.pre_nursing_chemistry.hclGastricAcid2")}</span>
+            <span>{t("data.pre_nursing_chemistry.blood735745")}</span>
+            <span>{t("data.pre_nursing_chemistry.naohBleach13")}</span>
           </div>
         </div>
         <div className="grid sm:grid-cols-2 gap-3 mt-3">
@@ -100,7 +102,7 @@ export function ChemistryModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Buffer Systems"
+          title={t("data.pre_nursing_chemistry.bufferSystems")}
           content={bufferContent}
         />
       </MicroLesson>
@@ -120,7 +122,7 @@ export function ChemistryModule() {
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Chemistry Concept"
+        title={t("data.pre_nursing_chemistry.matchTheChemistryConcept")}
         pairs={[
           { term: "Ionic bond", definition: "Electron transfer creating charged ions" },
           { term: "Covalent bond", definition: "Electron sharing between atoms" },
@@ -132,7 +134,7 @@ export function ChemistryModule() {
       />
 
       <SelfCheckQuiz
-        title="Chemistry Foundations Quiz"
+        title={t("data.pre_nursing_chemistry.chemistryFoundationsQuiz")}
         questions={[
           {
             id: "c1",

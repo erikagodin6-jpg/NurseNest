@@ -22,6 +22,7 @@ import {
 import { useExitIntent } from "@/hooks/use-exit-intent";
 import { useLocation } from "wouter";
 
+import { useI18n } from "@/lib/i18n";
 type SubscriptionCategory = "exam_prep" | "new_grad_tips" | "job_alerts" | "general";
 
 interface SectionConfig {
@@ -80,6 +81,7 @@ const SECTION_CONFIGS: Record<string, SectionConfig> = {
 };
 
 function detectSection(pathname: string): string {
+  const { t } = useI18n();
   if (pathname.includes("/new-grad") || pathname.includes("survival-guide") || pathname.includes("first-year")) {
     return "new_grad";
   }
@@ -181,7 +183,7 @@ export function ExitIntentModal() {
           {status === "success" ? (
             <div className="text-center py-4 space-y-3" data-testid="exit-intent-success">
               <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto" />
-              <p className="text-lg font-semibold text-gray-900">You're in!</p>
+              <p className="text-lg font-semibold text-gray-900">{t("components.exitIntentModal.youreIn")}</p>
               <p className="text-sm text-gray-600">
                 Check your inbox for your personalized content.
               </p>
@@ -211,7 +213,7 @@ export function ExitIntentModal() {
               </ul>
 
               <div className="space-y-2 pt-1" data-testid="exit-intent-categories">
-                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Also subscribe to:</p>
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">{t("components.exitIntentModal.alsoSubscribeTo")}</p>
                 <div className="grid grid-cols-2 gap-2">
                   {(Object.keys(CATEGORY_LABELS) as SubscriptionCategory[]).map((cat) => (
                     <div key={cat} className="flex items-center gap-2">
@@ -232,7 +234,7 @@ export function ExitIntentModal() {
               <form onSubmit={handleSubmit} className="space-y-3 pt-2">
                 <Input
                   type="email"
-                  placeholder="Enter your email address"
+                  placeholder={t("components.exitIntentModal.enterYourEmailAddress")}
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); setStatus("idle"); }}
                   className="h-11"

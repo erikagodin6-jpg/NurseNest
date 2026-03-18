@@ -6,12 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowLeft, RefreshCw, Globe, Search, MousePointerClick, Eye,
   TrendingUp, BarChart3, AlertTriangle, CheckCircle2, Camera
 } from "lucide-react";
 
 function getAdminHeaders(): Record<string, string> {
+
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   try {
     const token = localStorage.getItem("nn_admin_access_token");
@@ -103,8 +105,8 @@ export default function AdminSearchPerformance() {
       <div className="min-h-screen bg-[#F9FAFB]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
         <Navigation />
         <div className="max-w-4xl mx-auto p-8 text-center" data-testid="text-access-denied">
-          <h1 className="text-2xl font-bold text-gray-900">Access Denied</h1>
-          <p className="text-gray-500 mt-2">Admin access required.</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t("pages.adminSearchPerformance.accessDenied")}</h1>
+          <p className="text-gray-500 mt-2">{t("pages.adminSearchPerformance.adminAccessRequired")}</p>
         </div>
       </div>
     );
@@ -118,7 +120,7 @@ export default function AdminSearchPerformance() {
   return (
     <div className="min-h-screen bg-[#F9FAFB]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
       <Navigation />
-      <SEO title="SEO Performance - Admin" description="Search performance monitoring dashboard" />
+      <SEO title={t("pages.adminSearchPerformance.seoPerformanceAdmin")} description={t("pages.adminSearchPerformance.searchPerformanceMonitoringDashboard")} />
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
@@ -127,8 +129,8 @@ export default function AdminSearchPerformance() {
               <ArrowLeft className="w-4 h-4 mr-1" /> Admin
             </Button>
             <div>
-              <h1 className="text-2xl font-bold text-[#2E3A59]" data-testid="text-page-title">SEO Performance</h1>
-              <p className="text-sm text-gray-500 mt-1">Search visibility, click-through rates, and keyword rankings</p>
+              <h1 className="text-2xl font-bold text-[#2E3A59]" data-testid="text-page-title">{t("pages.adminSearchPerformance.seoPerformance")}</h1>
+              <p className="text-sm text-gray-500 mt-1">{t("pages.adminSearchPerformance.searchVisibilityClickthroughRatesAnd")}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -139,9 +141,9 @@ export default function AdminSearchPerformance() {
                 data-testid="badge-data-source"
               >
                 {statusData.gscConfigured ? (
-                  <><CheckCircle2 className="w-3 h-3" /> Google Search Console</>
+                  <><CheckCircle2 className="w-3 h-3" /> {t("pages.adminSearchPerformance.googleSearchConsole")}</>
                 ) : (
-                  <><AlertTriangle className="w-3 h-3" /> Internal Analytics</>
+                  <><AlertTriangle className="w-3 h-3" /> {t("pages.adminSearchPerformance.internalAnalytics")}</>
                 )}
               </Badge>
             )}
@@ -175,7 +177,7 @@ export default function AdminSearchPerformance() {
                 <CardContent className="p-4 flex items-start gap-3">
                   <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-amber-800">Google Search Console Not Connected</p>
+                    <p className="text-sm font-medium text-amber-800">{t("pages.adminSearchPerformance.googleSearchConsoleNotConnected")}</p>
                     <p className="text-xs text-amber-700 mt-1">
                       Showing internal analytics estimates. To see real search data, configure the
                       GOOGLE_SEARCH_CONSOLE_KEY and GOOGLE_SEARCH_CONSOLE_SITE_URL environment variables.
@@ -191,37 +193,37 @@ export default function AdminSearchPerformance() {
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 <KpiCard
-                  title="Indexed Pages"
+                  title={t("pages.adminSearchPerformance.indexedPages")}
                   value={perfData.indexedPages}
-                  subtitle="Published & indexable"
+                  subtitle={t("pages.admin_search_performance.publishedIndexable")}
                   icon={Globe}
                   color="bg-blue-50 text-blue-600"
                 />
                 <KpiCard
-                  title="Impressions"
+                  title={t("pages.adminSearchPerformance.impressions4")}
                   value={perfData.totalImpressions}
-                  subtitle="Last 28 days"
+                  subtitle={t("pages.admin_search_performance.last28Days")}
                   icon={Eye}
                   color="bg-purple-50 text-purple-600"
                 />
                 <KpiCard
-                  title="Clicks"
+                  title={t("pages.adminSearchPerformance.clicks4")}
                   value={perfData.totalClicks}
-                  subtitle="Last 28 days"
+                  subtitle={t("pages.admin_search_performance.last28Days")}
                   icon={MousePointerClick}
                   color="bg-emerald-50 text-emerald-600"
                 />
                 <KpiCard
-                  title="Avg CTR"
+                  title={t("pages.adminSearchPerformance.avgCtr")}
                   value={`${perfData.averageCtr}%`}
-                  subtitle="Click-through rate"
+                  subtitle={t("pages.admin_search_performance.clickthroughRate")}
                   icon={TrendingUp}
                   color="bg-amber-50 text-amber-600"
                 />
                 <KpiCard
-                  title="Avg Position"
+                  title={t("pages.adminSearchPerformance.avgPosition")}
                   value={perfData.averagePosition > 0 ? perfData.averagePosition : "N/A"}
-                  subtitle="Search ranking"
+                  subtitle={t("pages.admin_search_performance.searchRanking")}
                   icon={Search}
                   color="bg-teal-50 text-teal-600"
                 />
@@ -234,8 +236,8 @@ export default function AdminSearchPerformance() {
                   <Globe className="w-5 h-5 text-[#AEE3E1]" /> Content Breakdown
                 </h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <KpiCard title="Published Blogs" value={perfData.seoContent.publishedBlogs} icon={BarChart3} color="bg-blue-50 text-blue-600" />
-                  <KpiCard title="Published Lessons" value={perfData.seoContent.publishedLessons} icon={BarChart3} color="bg-emerald-50 text-emerald-600" />
+                  <KpiCard title={t("pages.adminSearchPerformance.publishedBlogs")} value={perfData.seoContent.publishedBlogs} icon={BarChart3} color="bg-blue-50 text-blue-600" />
+                  <KpiCard title={t("pages.adminSearchPerformance.publishedLessons")} value={perfData.seoContent.publishedLessons} icon={BarChart3} color="bg-emerald-50 text-emerald-600" />
                 </div>
               </section>
             )}
@@ -249,7 +251,7 @@ export default function AdminSearchPerformance() {
                   <CardContent className="p-6">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                       <div>
-                        <p className="text-xs font-medium text-gray-500 uppercase mb-3">Impressions Over Time</p>
+                        <p className="text-xs font-medium text-gray-500 uppercase mb-3">{t("pages.adminSearchPerformance.impressionsOverTime")}</p>
                         <div className="flex items-end gap-[3px] h-36" data-testid="chart-impressions">
                           {[...snapshots].reverse().map((s: any) => {
                             const height = Math.max((s.totalImpressions / maxImpressions) * 100, 2);
@@ -268,7 +270,7 @@ export default function AdminSearchPerformance() {
                         </div>
                       </div>
                       <div>
-                        <p className="text-xs font-medium text-gray-500 uppercase mb-3">Click-Through Rate</p>
+                        <p className="text-xs font-medium text-gray-500 uppercase mb-3">{t("pages.adminSearchPerformance.clickthroughRate")}</p>
                         <div className="flex items-end gap-[3px] h-36" data-testid="chart-ctr">
                           {[...snapshots].reverse().map((s: any) => {
                             const maxCtr = Math.max(...snapshots.map((x: any) => x.averageCtr), 1);
@@ -304,11 +306,11 @@ export default function AdminSearchPerformance() {
                       <table className="w-full text-sm" data-testid="table-keywords">
                         <thead>
                           <tr className="bg-gray-50 border-b">
-                            <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Keyword</th>
-                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">Clicks</th>
-                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">Impressions</th>
+                            <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminSearchPerformance.keyword")}</th>
+                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminSearchPerformance.clicks")}</th>
+                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminSearchPerformance.impressions")}</th>
                             <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">CTR</th>
-                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">Position</th>
+                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminSearchPerformance.position")}</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -357,9 +359,9 @@ export default function AdminSearchPerformance() {
                       <table className="w-full text-sm" data-testid="table-top-pages">
                         <thead>
                           <tr className="bg-gray-50 border-b">
-                            <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Page</th>
-                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">Clicks</th>
-                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">Impressions</th>
+                            <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminSearchPerformance.page")}</th>
+                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminSearchPerformance.clicks2")}</th>
+                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminSearchPerformance.impressions2")}</th>
                             <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">CTR</th>
                           </tr>
                         </thead>
@@ -395,12 +397,12 @@ export default function AdminSearchPerformance() {
                       <table className="w-full text-sm" data-testid="table-snapshot-history">
                         <thead>
                           <tr className="bg-gray-50 border-b">
-                            <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Date</th>
-                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">Indexed</th>
-                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">Impressions</th>
-                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">Clicks</th>
+                            <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminSearchPerformance.date")}</th>
+                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminSearchPerformance.indexed")}</th>
+                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminSearchPerformance.impressions3")}</th>
+                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminSearchPerformance.clicks3")}</th>
                             <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">CTR</th>
-                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">Source</th>
+                            <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminSearchPerformance.source")}</th>
                           </tr>
                         </thead>
                         <tbody>

@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import {
   BarChart3, Activity, Target, StopCircle, AlertTriangle,
   RefreshCw, Settings, TrendingUp
@@ -20,6 +21,7 @@ type CatAnalytics = {
 };
 
 export default function AdminCatDashboard() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [data, setData] = useState<CatAnalytics | null>(null);
   const [loading, setLoading] = useState(true);
@@ -45,7 +47,7 @@ export default function AdminCatDashboard() {
       <div className="min-h-screen bg-gray-50">
         <Navigation />
         <div className="max-w-4xl mx-auto p-8 text-center">
-          <h1 className="text-2xl font-bold">Access Denied</h1>
+          <h1 className="text-2xl font-bold">{t("pages.adminCatDashboard.accessDenied")}</h1>
         </div>
       </div>
     );
@@ -57,13 +59,13 @@ export default function AdminCatDashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      <SEO title="Adaptive CAT Dashboard - Admin" description="CAT engine analytics and calibration" />
+      <SEO title={t("pages.adminCatDashboard.adaptiveCatDashboardAdmin")} description={t("pages.adminCatDashboard.catEngineAnalyticsAndCalibration")} />
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">Adaptive CAT Dashboard</h1>
-            <p className="text-gray-600 mt-1">Ability estimation, difficulty calibration, and stop-rule analytics</p>
-            <p className="text-xs text-gray-400 mt-1">This is a predictive coaching model and does not represent official exam scoring.</p>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-page-title">{t("pages.adminCatDashboard.adaptiveCatDashboard")}</h1>
+            <p className="text-gray-600 mt-1">{t("pages.adminCatDashboard.abilityEstimationDifficultyCalibrationAnd")}</p>
+            <p className="text-xs text-gray-400 mt-1">{t("pages.adminCatDashboard.thisIsAPredictiveCoaching")}</p>
           </div>
           <Button data-testid="btn-refresh" onClick={loadData} variant="outline" size="sm">
             <RefreshCw className="w-4 h-4 mr-1" /> Refresh
@@ -81,7 +83,7 @@ export default function AdminCatDashboard() {
                     <Activity className="w-8 h-8 text-blue-500" />
                     <div>
                       <div className="text-2xl font-bold" data-testid="text-total-sessions">{data.totalSessions}</div>
-                      <div className="text-sm text-gray-600">Total CAT Sessions</div>
+                      <div className="text-sm text-gray-600">{t("pages.adminCatDashboard.totalCatSessions")}</div>
                     </div>
                   </div>
                 </CardContent>
@@ -92,7 +94,7 @@ export default function AdminCatDashboard() {
                     <Target className="w-8 h-8 text-green-500" />
                     <div>
                       <div className="text-2xl font-bold" data-testid="text-avg-questions">{data.avgQuestionCount}</div>
-                      <div className="text-sm text-gray-600">Avg Questions/Session</div>
+                      <div className="text-sm text-gray-600">{t("pages.adminCatDashboard.avgQuestionssession")}</div>
                     </div>
                   </div>
                 </CardContent>
@@ -103,7 +105,7 @@ export default function AdminCatDashboard() {
                     <StopCircle className="w-8 h-8 text-orange-500" />
                     <div>
                       <div className="text-2xl font-bold" data-testid="text-early-stop">{data.earlyStopRate}%</div>
-                      <div className="text-sm text-gray-600">Early Stop Rate</div>
+                      <div className="text-sm text-gray-600">{t("pages.adminCatDashboard.earlyStopRate")}</div>
                     </div>
                   </div>
                 </CardContent>
@@ -114,7 +116,7 @@ export default function AdminCatDashboard() {
                     <Settings className="w-8 h-8 text-purple-500" />
                     <div>
                       <div className="text-2xl font-bold" data-testid="text-adjustments">{data.adjustmentLog.length}</div>
-                      <div className="text-sm text-gray-600">Calibration Adjustments</div>
+                      <div className="text-sm text-gray-600">{t("pages.adminCatDashboard.calibrationAdjustments")}</div>
                     </div>
                   </div>
                 </CardContent>
@@ -123,11 +125,11 @@ export default function AdminCatDashboard() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2"><BarChart3 className="w-5 h-5" /> Ability Distribution Histogram</CardTitle>
+                <CardTitle className="flex items-center gap-2"><BarChart3 className="w-5 h-5" /> {t("pages.adminCatDashboard.abilityDistributionHistogram")}</CardTitle>
               </CardHeader>
               <CardContent>
                 {data.totalSessions === 0 ? (
-                  <div className="text-center py-8 text-gray-500">No CAT sessions recorded yet. Data will appear after users complete strict CAT mode exams.</div>
+                  <div className="text-center py-8 text-gray-500">{t("pages.adminCatDashboard.noCatSessionsRecordedYet")}</div>
                 ) : (
                   <div className="flex items-end gap-2 h-48">
                     {data.abilityDistribution.map((count, i) => (
@@ -148,11 +150,11 @@ export default function AdminCatDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2"><TrendingUp className="w-5 h-5" /> Recent Sessions</CardTitle>
+                  <CardTitle className="flex items-center gap-2"><TrendingUp className="w-5 h-5" /> {t("pages.adminCatDashboard.recentSessions")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {data.recentSessions.length === 0 ? (
-                    <div className="text-center py-4 text-gray-500 text-sm">No sessions yet</div>
+                    <div className="text-center py-4 text-gray-500 text-sm">{t("pages.adminCatDashboard.noSessionsYet")}</div>
                   ) : (
                     <div className="space-y-2 max-h-[300px] overflow-y-auto">
                       {data.recentSessions.map((s: any, i: number) => (
@@ -163,7 +165,7 @@ export default function AdminCatDashboard() {
                           </div>
                           <div className="flex gap-2">
                             <Badge variant="outline" className="text-xs">{s.question_count}Q</Badge>
-                            {s.early_stop && <Badge className="text-xs bg-orange-100 text-orange-700">Early Stop</Badge>}
+                            {s.early_stop && <Badge className="text-xs bg-orange-100 text-orange-700">{t("pages.adminCatDashboard.earlyStop")}</Badge>}
                           </div>
                         </div>
                       ))}
@@ -174,11 +176,11 @@ export default function AdminCatDashboard() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2"><AlertTriangle className="w-5 h-5" /> Difficulty Adjustment Log</CardTitle>
+                  <CardTitle className="flex items-center gap-2"><AlertTriangle className="w-5 h-5" /> {t("pages.adminCatDashboard.difficultyAdjustmentLog")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {data.adjustmentLog.length === 0 ? (
-                    <div className="text-center py-4 text-gray-500 text-sm">No calibration adjustments recorded yet</div>
+                    <div className="text-center py-4 text-gray-500 text-sm">{t("pages.adminCatDashboard.noCalibrationAdjustmentsRecordedYet")}</div>
                   ) : (
                     <div className="space-y-2 max-h-[300px] overflow-y-auto">
                       {data.adjustmentLog.map((a: any, i: number) => (

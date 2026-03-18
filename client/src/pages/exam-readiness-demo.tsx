@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const PALETTE = NURSENEST_PALETTE;
 
 const READINESS = 81;
@@ -63,6 +64,7 @@ const ACTION_PLAN = [
 ];
 
 function CircularGauge({ value }: { value: number }) {
+  const { t } = useI18n();
   const radius = 80;
   const stroke = 12;
   const normalizedRadius = radius - stroke / 2;
@@ -97,7 +99,7 @@ function CircularGauge({ value }: { value: number }) {
         <span className="text-4xl font-black" style={{ color: PALETTE.text }} data-testid="text-readiness-score">
           {value}%
         </span>
-        <span className="text-xs font-medium text-gray-400">Readiness</span>
+        <span className="text-xs font-medium text-gray-400">{t("pages.examReadinessDemo.readiness")}</span>
       </div>
     </div>
   );
@@ -140,12 +142,12 @@ export default function ExamReadinessDemo() {
             <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: `${PALETTE.primary}20` }}>
               <Activity className="w-4 h-4" style={{ color: PALETTE.primary }} />
             </div>
-            <span className="text-xs font-bold uppercase tracking-wider text-gray-400">Exam Readiness Predictor</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-gray-400">{t("pages.examReadinessDemo.examReadinessPredictor")}</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black mb-1" style={{ color: PALETTE.text }} data-testid="text-page-title">
-            Emily Chen <span className="font-normal text-gray-400 text-xl">(Demo Student)</span>
+            Emily Chen <span className="font-normal text-gray-400 text-xl">{t("pages.examReadinessDemo.demoStudent")}</span>
           </h1>
-          <p className="text-gray-500 font-medium" data-testid="text-exam-track">RN / NCLEX Preparation</p>
+          <p className="text-gray-500 font-medium" data-testid="text-exam-track">{t("pages.examReadinessDemo.rnNclexPreparation")}</p>
         </div>
 
         <Card className="border-none shadow-lg rounded-3xl overflow-hidden mb-8" style={{ backgroundColor: PALETTE.white }} data-testid="card-hero-readiness">
@@ -163,21 +165,21 @@ export default function ExamReadinessDemo() {
                   <div className="rounded-2xl p-4" style={{ backgroundColor: `${PALETTE.secondary}20` }}>
                     <div className="flex items-center gap-2 mb-1">
                       <Calendar className="w-4 h-4" style={{ color: "#14b8a6" }} />
-                      <span className="text-xs font-bold text-gray-400 uppercase">Timeline</span>
+                      <span className="text-xs font-bold text-gray-400 uppercase">{t("pages.examReadinessDemo.timeline")}</span>
                     </div>
                     <p className="text-lg font-black" style={{ color: PALETTE.text }} data-testid="text-timeline">{SUGGESTED_TIMELINE}</p>
                   </div>
                   <div className="rounded-2xl p-4" style={{ backgroundColor: `${PALETTE.accent}20` }}>
                     <div className="flex items-center gap-2 mb-1">
                       <Target className="w-4 h-4" style={{ color: "#f59e0b" }} />
-                      <span className="text-xs font-bold text-gray-400 uppercase">Confidence</span>
+                      <span className="text-xs font-bold text-gray-400 uppercase">{t("pages.examReadinessDemo.confidence")}</span>
                     </div>
                     <p className="text-lg font-black" style={{ color: PALETTE.text }} data-testid="text-confidence">{CONFIDENCE}</p>
                   </div>
                   <div className="rounded-2xl p-4" style={{ backgroundColor: `${PALETTE.highlight}30` }}>
                     <div className="flex items-center gap-2 mb-1">
                       <Sparkles className="w-4 h-4" style={{ color: "#8b5cf6" }} />
-                      <span className="text-xs font-bold text-gray-400 uppercase">Pass Probability</span>
+                      <span className="text-xs font-bold text-gray-400 uppercase">{t("pages.examReadinessDemo.passProbability")}</span>
                     </div>
                     <p className="text-lg font-black" style={{ color: PALETTE.text }} data-testid="text-pass-probability">{PASSING_PROBABILITY}</p>
                   </div>
@@ -187,7 +189,7 @@ export default function ExamReadinessDemo() {
           </CardContent>
         </Card>
 
-        <h2 className="text-2xl font-bold mb-4" style={{ color: PALETTE.text }} data-testid="text-breakdown-heading">Category Breakdown</h2>
+        <h2 className="text-2xl font-bold mb-4" style={{ color: PALETTE.text }} data-testid="text-breakdown-heading">{t("pages.examReadinessDemo.categoryBreakdown")}</h2>
         <Card className="border-none shadow-lg rounded-3xl overflow-hidden mb-8" style={{ backgroundColor: PALETTE.white }} data-testid="card-category-breakdown">
           <CardContent className="p-6 sm:p-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-5">
@@ -205,7 +207,7 @@ export default function ExamReadinessDemo() {
                 <div className="w-8 h-8 rounded-full flex items-center justify-center bg-emerald-50">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                 </div>
-                <h3 className="text-lg font-bold" style={{ color: PALETTE.text }}>Factors Helping Readiness</h3>
+                <h3 className="text-lg font-bold" style={{ color: PALETTE.text }}>{t("pages.examReadinessDemo.factorsHelpingReadiness")}</h3>
               </div>
               <ul className="space-y-3">
                 {POSITIVE_FACTORS.map((f, i) => (
@@ -224,7 +226,7 @@ export default function ExamReadinessDemo() {
                 <div className="w-8 h-8 rounded-full flex items-center justify-center bg-amber-50">
                   <AlertTriangle className="w-4 h-4 text-amber-500" />
                 </div>
-                <h3 className="text-lg font-bold" style={{ color: PALETTE.text }}>Factors Limiting Readiness</h3>
+                <h3 className="text-lg font-bold" style={{ color: PALETTE.text }}>{t("pages.examReadinessDemo.factorsLimitingReadiness")}</h3>
               </div>
               <ul className="space-y-3">
                 {RISK_FACTORS.map((f, i) => (
@@ -238,7 +240,7 @@ export default function ExamReadinessDemo() {
           </Card>
         </div>
 
-        <h2 className="text-2xl font-bold mb-4" style={{ color: PALETTE.text }} data-testid="text-trend-heading">Predicted Readiness Over Time</h2>
+        <h2 className="text-2xl font-bold mb-4" style={{ color: PALETTE.text }} data-testid="text-trend-heading">{t("pages.examReadinessDemo.predictedReadinessOverTime")}</h2>
         <Card className="border-none shadow-lg rounded-3xl overflow-hidden mb-8" style={{ backgroundColor: PALETTE.white }} data-testid="card-trend-chart">
           <CardContent className="p-6 sm:p-8">
             <div className="h-72">
@@ -296,7 +298,7 @@ export default function ExamReadinessDemo() {
                   <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: `${PALETTE.primary}15` }}>
                     <Brain className="w-4 h-4" style={{ color: PALETTE.primary }} />
                   </div>
-                  <h3 className="text-lg font-bold" style={{ color: PALETTE.text }}>AI Action Plan</h3>
+                  <h3 className="text-lg font-bold" style={{ color: PALETTE.text }}>{t("pages.examReadinessDemo.aiActionPlan")}</h3>
                 </div>
                 <ol className="space-y-4">
                   {ACTION_PLAN.map((step, i) => (
@@ -347,25 +349,25 @@ export default function ExamReadinessDemo() {
                 <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: `${PALETTE.secondary}20` }}>
                   <Clock className="w-4 h-4" style={{ color: "#14b8a6" }} />
                 </div>
-                <h3 className="text-lg font-bold" style={{ color: PALETTE.text }}>Recommended Testing Window</h3>
+                <h3 className="text-lg font-bold" style={{ color: PALETTE.text }}>{t("pages.examReadinessDemo.recommendedTestingWindow")}</h3>
               </div>
 
               <div className="space-y-5">
                 <div className="rounded-2xl p-4" style={{ backgroundColor: `${PALETTE.secondary}10` }}>
-                  <span className="text-xs font-bold text-gray-400 uppercase block mb-1">Suggested Exam Window</span>
-                  <p className="text-xl font-black" style={{ color: PALETTE.text }} data-testid="text-exam-window">2–4 Weeks</p>
+                  <span className="text-xs font-bold text-gray-400 uppercase block mb-1">{t("pages.examReadinessDemo.suggestedExamWindow")}</span>
+                  <p className="text-xl font-black" style={{ color: PALETTE.text }} data-testid="text-exam-window">{t("pages.examReadinessDemo.24Weeks")}</p>
                 </div>
 
                 <div className="rounded-2xl p-4" style={{ backgroundColor: `${PALETTE.accent}15` }}>
-                  <span className="text-xs font-bold text-gray-400 uppercase block mb-1">Best Improvement Opportunity</span>
+                  <span className="text-xs font-bold text-gray-400 uppercase block mb-1">{t("pages.examReadinessDemo.bestImprovementOpportunity")}</span>
                   <div className="flex items-center gap-2">
                     <Pill className="w-4 h-4" style={{ color: "#f97316" }} />
-                    <p className="text-base font-bold" style={{ color: PALETTE.text }} data-testid="text-best-opportunity">Pharmacology</p>
+                    <p className="text-base font-bold" style={{ color: PALETTE.text }} data-testid="text-best-opportunity">{t("pages.examReadinessDemo.pharmacology")}</p>
                   </div>
                 </div>
 
                 <div className="rounded-2xl p-4" style={{ backgroundColor: `${PALETTE.highlight}20` }}>
-                  <span className="text-xs font-bold text-gray-400 uppercase block mb-1">Estimated Gain with 7 More Study Days</span>
+                  <span className="text-xs font-bold text-gray-400 uppercase block mb-1">{t("pages.examReadinessDemo.estimatedGainWith7More")}</span>
                   <div className="flex items-center gap-2">
                     <ArrowRight className="w-4 h-4" style={{ color: "#10b981" }} />
                     <p className="text-xl font-black text-emerald-600" data-testid="text-estimated-gain">+4%</p>

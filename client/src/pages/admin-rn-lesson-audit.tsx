@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   RefreshCw, Search, ArrowLeft, CheckCircle2, AlertTriangle, XCircle,
   FileText, Loader2, Wrench, ExternalLink, Filter, BarChart3
@@ -65,12 +66,14 @@ const statusConfig: Record<string, { color: string; icon: any; label: string }> 
 };
 
 function getCredentials() {
+
   try {
     return JSON.parse(localStorage.getItem("nursenest-credentials") || "null");
   } catch { return null; }
 }
 
 export default function AdminRnLessonAudit() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const [data, setData] = useState<AuditData | null>(null);
@@ -199,7 +202,7 @@ export default function AdminRnLessonAudit() {
             <Button variant="ghost" onClick={() => navigate("/admin")} data-testid="button-back-admin">
               <ArrowLeft className="w-4 h-4 mr-2" /> Admin
             </Button>
-            <h1 className="text-2xl font-bold" data-testid="text-page-title">RN Lesson Content Audit</h1>
+            <h1 className="text-2xl font-bold" data-testid="text-page-title">{t("pages.adminRnLessonAudit.rnLessonContentAudit")}</h1>
           </div>
           <Button onClick={fetchAudit} disabled={loading} variant="outline" className="gap-2" data-testid="button-refresh-audit">
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} /> Refresh
@@ -213,7 +216,7 @@ export default function AdminRnLessonAudit() {
         {loading && !data && (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
-            <span className="ml-3 text-gray-500">Running audit...</span>
+            <span className="ml-3 text-gray-500">{t("pages.adminRnLessonAudit.runningAudit")}</span>
           </div>
         )}
 
@@ -223,31 +226,31 @@ export default function AdminRnLessonAudit() {
               <Card data-testid="card-total">
                 <CardContent className="p-4 text-center">
                   <p className="text-3xl font-bold text-gray-900">{currentCounts?.total || 0}</p>
-                  <p className="text-xs text-gray-500 mt-1">Total RN Lessons</p>
+                  <p className="text-xs text-gray-500 mt-1">{t("pages.adminRnLessonAudit.totalRnLessons")}</p>
                 </CardContent>
               </Card>
               <Card data-testid="card-complete">
                 <CardContent className="p-4 text-center">
                   <p className="text-3xl font-bold text-green-600">{currentCounts?.complete || 0}</p>
-                  <p className="text-xs text-gray-500 mt-1">Complete</p>
+                  <p className="text-xs text-gray-500 mt-1">{t("pages.adminRnLessonAudit.complete")}</p>
                 </CardContent>
               </Card>
               <Card data-testid="card-weak">
                 <CardContent className="p-4 text-center">
                   <p className="text-3xl font-bold text-amber-600">{currentCounts?.weak || 0}</p>
-                  <p className="text-xs text-gray-500 mt-1">Weak</p>
+                  <p className="text-xs text-gray-500 mt-1">{t("pages.adminRnLessonAudit.weak")}</p>
                 </CardContent>
               </Card>
               <Card data-testid="card-placeholder">
                 <CardContent className="p-4 text-center">
                   <p className="text-3xl font-bold text-red-600">{currentCounts?.placeholder || 0}</p>
-                  <p className="text-xs text-gray-500 mt-1">Placeholder</p>
+                  <p className="text-xs text-gray-500 mt-1">{t("pages.adminRnLessonAudit.placeholder")}</p>
                 </CardContent>
               </Card>
               <Card data-testid="card-broken">
                 <CardContent className="p-4 text-center">
                   <p className="text-3xl font-bold text-red-800">{currentCounts?.broken || 0}</p>
-                  <p className="text-xs text-gray-500 mt-1">Broken</p>
+                  <p className="text-xs text-gray-500 mt-1">{t("pages.adminRnLessonAudit.broken")}</p>
                 </CardContent>
               </Card>
             </div>
@@ -257,7 +260,7 @@ export default function AdminRnLessonAudit() {
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <BarChart3 className="w-4 h-4 text-gray-500" />
-                    <span className="text-sm font-medium text-gray-700">Completeness</span>
+                    <span className="text-sm font-medium text-gray-700">{t("pages.adminRnLessonAudit.completeness")}</span>
                     <span className="text-sm text-gray-500 ml-auto">{Math.round((currentCounts.complete / currentCounts.total) * 100)}%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
@@ -319,8 +322,8 @@ export default function AdminRnLessonAudit() {
                   className="text-sm bg-transparent border-none outline-none"
                   data-testid="select-source-filter"
                 >
-                  <option value="static">Static Files</option>
-                  <option value="database">Database</option>
+                  <option value="static">{t("pages.adminRnLessonAudit.staticFiles")}</option>
+                  <option value="database">{t("pages.adminRnLessonAudit.database")}</option>
                 </select>
               </div>
 
@@ -332,11 +335,11 @@ export default function AdminRnLessonAudit() {
                   className="text-sm bg-transparent border-none outline-none"
                   data-testid="select-status-filter"
                 >
-                  <option value="all">All Status</option>
-                  <option value="complete">Complete</option>
-                  <option value="weak">Weak</option>
-                  <option value="placeholder">Placeholder</option>
-                  <option value="broken">Broken</option>
+                  <option value="all">{t("pages.adminRnLessonAudit.allStatus")}</option>
+                  <option value="complete">{t("pages.adminRnLessonAudit.complete2")}</option>
+                  <option value="weak">{t("pages.adminRnLessonAudit.weak2")}</option>
+                  <option value="placeholder">{t("pages.adminRnLessonAudit.placeholder2")}</option>
+                  <option value="broken">{t("pages.adminRnLessonAudit.broken2")}</option>
                 </select>
               </div>
 
@@ -345,7 +348,7 @@ export default function AdminRnLessonAudit() {
                 <Input
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  placeholder="Search lessons..."
+                  placeholder={t("pages.adminRnLessonAudit.searchLessons")}
                   className="pl-9"
                   data-testid="input-search-lessons"
                 />
@@ -372,12 +375,12 @@ export default function AdminRnLessonAudit() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="bg-gray-50 border-b">
-                        <th className="text-left px-4 py-3 font-medium text-gray-600">Lesson</th>
-                        <th className="text-left px-4 py-3 font-medium text-gray-600">Tier</th>
-                        <th className="text-left px-4 py-3 font-medium text-gray-600">Status</th>
-                        <th className="text-left px-4 py-3 font-medium text-gray-600">Content</th>
+                        <th className="text-left px-4 py-3 font-medium text-gray-600">{t("pages.adminRnLessonAudit.lesson")}</th>
+                        <th className="text-left px-4 py-3 font-medium text-gray-600">{t("pages.adminRnLessonAudit.tier")}</th>
+                        <th className="text-left px-4 py-3 font-medium text-gray-600">{t("pages.adminRnLessonAudit.status")}</th>
+                        <th className="text-left px-4 py-3 font-medium text-gray-600">{t("pages.adminRnLessonAudit.content")}</th>
                         <th className="text-left px-4 py-3 font-medium text-gray-600">SEO</th>
-                        <th className="text-right px-4 py-3 font-medium text-gray-600">Actions</th>
+                        <th className="text-right px-4 py-3 font-medium text-gray-600">{t("pages.adminRnLessonAudit.actions")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -416,7 +419,7 @@ export default function AdminRnLessonAudit() {
                               {lesson.hasSeo ? (
                                 <Badge className="bg-green-100 text-green-700 text-xs">SEO</Badge>
                               ) : (
-                                <Badge className="bg-gray-100 text-gray-500 text-xs">No SEO</Badge>
+                                <Badge className="bg-gray-100 text-gray-500 text-xs">{t("pages.adminRnLessonAudit.noSeo")}</Badge>
                               )}
                             </td>
                             <td className="px-4 py-3 text-right">

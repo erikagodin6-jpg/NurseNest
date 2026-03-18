@@ -7,11 +7,13 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { CAREER_SUBPAGE_DATA } from "@/allied/data/career-subpage-data";
 import { PROFESSION_HUB_DATA } from "@/allied/data/profession-hub-data";
 
+import { useI18n } from "@/lib/i18n";
 interface CareerGuideSubpageProps {
   careerSlug: string;
 }
 
 export default function CareerGuideSubpage({ careerSlug }: CareerGuideSubpageProps) {
+  const { t } = useI18n();
   const subpageData = CAREER_SUBPAGE_DATA[careerSlug];
   const hubData = PROFESSION_HUB_DATA[careerSlug];
   if (!subpageData || !hubData) return null;
@@ -52,11 +54,11 @@ export default function CareerGuideSubpage({ careerSlug }: CareerGuideSubpagePro
       <section className="bg-gradient-to-br from-gray-50 via-white to-gray-50/30 py-12 sm:py-16" style={{ background: `linear-gradient(135deg, ${hubData.colorAccent}40, white, ${hubData.colorAccent}20)` }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumbs">
-            <Link href="/allied-health" className="hover:text-gray-700">Allied Health</Link>
+            <Link href="/allied-health" className="hover:text-gray-700">{t("allied.careerGuideSubpage.alliedHealth")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <Link href={basePath} className="hover:text-gray-700">{hubData.shortName}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="font-medium" style={{ color: hubData.color }}>Career Guide</span>
+            <span className="font-medium" style={{ color: hubData.color }}>{t("allied.careerGuideSubpage.careerGuide")}</span>
           </div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: hubData.colorAccent, color: hubData.color }}>
             <GraduationCap className="w-4 h-4" />
@@ -75,28 +77,28 @@ export default function CareerGuideSubpage({ careerSlug }: CareerGuideSubpagePro
             <div className="flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-3">
               <DollarSign className="w-5 h-5 flex-shrink-0" style={{ color: hubData.color }} />
               <div>
-                <div className="text-xs text-gray-500 font-medium">Salary Range</div>
+                <div className="text-xs text-gray-500 font-medium">{t("allied.careerGuideSubpage.salaryRange")}</div>
                 <div className="text-sm font-semibold text-gray-900">{hubData.salaryRange}</div>
               </div>
             </div>
             <div className="flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-3">
               <TrendingUp className="w-5 h-5 flex-shrink-0" style={{ color: hubData.color }} />
               <div>
-                <div className="text-xs text-gray-500 font-medium">Job Outlook</div>
+                <div className="text-xs text-gray-500 font-medium">{t("allied.careerGuideSubpage.jobOutlook")}</div>
                 <div className="text-sm font-semibold text-gray-900">{hubData.jobOutlook}</div>
               </div>
             </div>
             <div className="flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-3">
               <Award className="w-5 h-5 flex-shrink-0" style={{ color: hubData.color }} />
               <div>
-                <div className="text-xs text-gray-500 font-medium">Certifications</div>
+                <div className="text-xs text-gray-500 font-medium">{t("allied.careerGuideSubpage.certifications")}</div>
                 <div className="text-sm font-semibold text-gray-900">{hubData.examInfo.examNames.join(", ")}</div>
               </div>
             </div>
             <div className="flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-3">
               <Briefcase className="w-5 h-5 flex-shrink-0" style={{ color: hubData.color }} />
               <div>
-                <div className="text-xs text-gray-500 font-medium">Exam Domains</div>
+                <div className="text-xs text-gray-500 font-medium">{t("allied.careerGuideSubpage.examDomains")}</div>
                 <div className="text-sm font-semibold text-gray-900">{hubData.domains.length} areas</div>
               </div>
             </div>
@@ -145,7 +147,7 @@ export default function CareerGuideSubpage({ careerSlug }: CareerGuideSubpagePro
       <section className="py-12" style={{ background: `linear-gradient(to bottom, ${hubData.colorAccent}40, white)` }}>
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Ready to Start Your {hubData.shortName} Journey?</h2>
-          <p className="text-gray-600 mb-6">Take a free diagnostic to assess your current knowledge, then follow a personalized study plan to certification success.</p>
+          <p className="text-gray-600 mb-6">{t("allied.careerGuideSubpage.takeAFreeDiagnosticTo")}</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href={`/diagnostic?career=${hubData.careerSlug}`} className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 transition-colors shadow-lg" style={{ backgroundColor: hubData.color }} data-testid="button-cta-diagnostic">
               Start Free Diagnostic <ArrowRight className="w-4 h-4" />

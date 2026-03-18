@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { Microscope, Clock, Brain, Target, BookOpen, Zap, BarChart3, Settings } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const EXAM_MODES = [
   {
     id: "canada_realistic",
@@ -50,6 +51,7 @@ const EXAM_MODES = [
 ];
 
 export default function MltExamHub() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
 
   return (
@@ -57,7 +59,7 @@ export default function MltExamHub() {
       <div className="text-center mb-10">
         <div className="flex items-center justify-center gap-2 mb-3">
           <Microscope className="w-8 h-8 text-purple-600" />
-          <h1 className="text-3xl font-bold text-gray-900" data-testid="text-mlt-exam-hub-title">MLT Exam Center</h1>
+          <h1 className="text-3xl font-bold text-gray-900" data-testid="text-mlt-exam-hub-title">{t("allied.mltMltExamHub.mltExamCenter")}</h1>
         </div>
         <p className="text-gray-600 max-w-2xl mx-auto" data-testid="text-mlt-exam-hub-subtitle">
           Comprehensive exam preparation for Medical Laboratory Technologists. Choose your exam mode to get started.

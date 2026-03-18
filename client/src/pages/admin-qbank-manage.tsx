@@ -10,7 +10,9 @@ import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { Search, Edit2, Archive, CheckCircle, X, ChevronLeft, ChevronRight, BarChart3, Save } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 function formatStatus(status: string): string {
+
   return status.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
 }
 
@@ -227,7 +229,7 @@ export default function AdminQBankManage() {
       <Navigation />
       <main className="min-h-screen bg-warmwhite">
         <div className="container mx-auto px-4 py-8 max-w-6xl">
-          <h1 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-admin-qbank-title">Question Bank Management</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-6" data-testid="text-admin-qbank-title">{t("pages.adminQbankManage.questionBankManagement")}</h1>
 
           <div className="flex gap-2 mb-6">
             <Button
@@ -257,7 +259,7 @@ export default function AdminQBankManage() {
                       <div className="relative flex-1 min-w-[200px]">
                         <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
                         <Input
-                          placeholder="Search questions..."
+                          placeholder={t("pages.adminQbankManage.searchQuestions")}
                           value={searchTerm}
                           onChange={(e) => { setSearchTerm(e.target.value); setPage(0); }}
                           className="pl-9"
@@ -279,19 +281,19 @@ export default function AdminQBankManage() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="all">All Statuses</SelectItem>
-                          <SelectItem value="published">Published</SelectItem>
-                          <SelectItem value="archived">Archived</SelectItem>
-                          <SelectItem value="draft">Draft</SelectItem>
+                          <SelectItem value="all">{t("pages.adminQbankManage.allStatuses")}</SelectItem>
+                          <SelectItem value="published">{t("pages.adminQbankManage.published")}</SelectItem>
+                          <SelectItem value="archived">{t("pages.adminQbankManage.archived")}</SelectItem>
+                          <SelectItem value="draft">{t("pages.adminQbankManage.draft")}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                   </CardHeader>
                   <CardContent className="p-0">
                     {loading ? (
-                      <div className="p-8 text-center text-gray-400">Loading...</div>
+                      <div className="p-8 text-center text-gray-400">{t("pages.adminQbankManage.loading")}</div>
                     ) : questions.length === 0 ? (
-                      <div className="p-8 text-center text-gray-400">No questions found</div>
+                      <div className="p-8 text-center text-gray-400">{t("pages.adminQbankManage.noQuestionsFound")}</div>
                     ) : (
                       <div className="divide-y">
                         {questions.map((q) => (
@@ -342,7 +344,7 @@ export default function AdminQBankManage() {
                   <Card>
                     <CardHeader className="pb-3">
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-base">Edit Question</CardTitle>
+                        <CardTitle className="text-base">{t("pages.adminQbankManage.editQuestion")}</CardTitle>
                         <Button variant="ghost" size="sm" onClick={() => setEditingQuestion(null)} data-testid="button-close-edit">
                           <X className="w-4 h-4" />
                         </Button>
@@ -359,16 +361,16 @@ export default function AdminQBankManage() {
                           data-testid="button-toggle-status"
                         >
                           {editingQuestion.status === "published" ? (
-                            <><Archive className="w-3 h-3 mr-1" /> Disable</>
+                            <><Archive className="w-3 h-3 mr-1" /> {t("pages.adminQbankManage.disable")}</>
                           ) : (
-                            <><CheckCircle className="w-3 h-3 mr-1" /> Enable</>
+                            <><CheckCircle className="w-3 h-3 mr-1" /> {t("pages.adminQbankManage.enable")}</>
                           )}
                         </Button>
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-3">
                       <div>
-                        <label className="text-xs font-medium text-gray-500 block mb-1">Question Stem</label>
+                        <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminQbankManage.questionStem")}</label>
                         <Textarea
                           value={editingQuestion.stem}
                           onChange={(e) => setEditingQuestion(prev => prev ? { ...prev, stem: e.target.value } : null)}
@@ -383,7 +385,7 @@ export default function AdminQBankManage() {
                           <label className="text-xs font-medium text-gray-500 block mb-1">
                             Option {String.fromCharCode(65 + i)}
                             {editingQuestion.correctAnswer.includes(i) && (
-                              <span className="ml-1 text-green-600">(correct)</span>
+                              <span className="ml-1 text-green-600">{t("pages.adminQbankManage.correct")}</span>
                             )}
                           </label>
                           <Input
@@ -400,7 +402,7 @@ export default function AdminQBankManage() {
                       ))}
 
                       <div>
-                        <label className="text-xs font-medium text-gray-500 block mb-1">Correct Answer</label>
+                        <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminQbankManage.correctAnswer")}</label>
                         <Select
                           value={String(editingQuestion.correctAnswer[0])}
                           onValueChange={(v) => setEditingQuestion(prev => prev ? { ...prev, correctAnswer: [parseInt(v)] } : null)}
@@ -417,7 +419,7 @@ export default function AdminQBankManage() {
                       </div>
 
                       <div>
-                        <label className="text-xs font-medium text-gray-500 block mb-1">Rationale</label>
+                        <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminQbankManage.rationale")}</label>
                         <Textarea
                           value={editingQuestion.rationale || ""}
                           onChange={(e) => setEditingQuestion(prev => prev ? { ...prev, rationale: e.target.value } : null)}
@@ -429,7 +431,7 @@ export default function AdminQBankManage() {
 
                       <div className="grid grid-cols-2 gap-2">
                         <div>
-                          <label className="text-xs font-medium text-gray-500 block mb-1">Difficulty</label>
+                          <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminQbankManage.difficulty")}</label>
                           <Select
                             value={String(editingQuestion.difficulty || 3)}
                             onValueChange={(v) => setEditingQuestion(prev => prev ? { ...prev, difficulty: parseInt(v) } : null)}
@@ -445,7 +447,7 @@ export default function AdminQBankManage() {
                           </Select>
                         </div>
                         <div>
-                          <label className="text-xs font-medium text-gray-500 block mb-1">Exam</label>
+                          <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminQbankManage.exam")}</label>
                           <Input
                             value={editingQuestion.exam || ""}
                             onChange={(e) => setEditingQuestion(prev => prev ? { ...prev, exam: e.target.value } : null)}
@@ -457,7 +459,7 @@ export default function AdminQBankManage() {
 
                       <div className="grid grid-cols-2 gap-2">
                         <div>
-                          <label className="text-xs font-medium text-gray-500 block mb-1">Body System</label>
+                          <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminQbankManage.bodySystem")}</label>
                           <Input
                             value={editingQuestion.bodySystem || ""}
                             onChange={(e) => setEditingQuestion(prev => prev ? { ...prev, bodySystem: e.target.value } : null)}
@@ -466,7 +468,7 @@ export default function AdminQBankManage() {
                           />
                         </div>
                         <div>
-                          <label className="text-xs font-medium text-gray-500 block mb-1">Topic</label>
+                          <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminQbankManage.topic")}</label>
                           <Input
                             value={editingQuestion.topic || ""}
                             onChange={(e) => setEditingQuestion(prev => prev ? { ...prev, topic: e.target.value } : null)}
@@ -477,7 +479,7 @@ export default function AdminQBankManage() {
                       </div>
 
                       <div>
-                        <label className="text-xs font-medium text-gray-500 block mb-1">Region</label>
+                        <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.adminQbankManage.region")}</label>
                         <Select
                           value={editingQuestion.regionScope || "BOTH"}
                           onValueChange={(v) => setEditingQuestion(prev => prev ? { ...prev, regionScope: v } : null)}
@@ -487,8 +489,8 @@ export default function AdminQBankManage() {
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="US">US</SelectItem>
-                            <SelectItem value="CAN">Canada</SelectItem>
-                            <SelectItem value="BOTH">Both</SelectItem>
+                            <SelectItem value="CAN">{t("pages.adminQbankManage.canada")}</SelectItem>
+                            <SelectItem value="BOTH">{t("pages.adminQbankManage.both")}</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -514,7 +516,7 @@ export default function AdminQBankManage() {
                   <Card>
                     <CardContent className="p-8 text-center text-gray-400">
                       <Edit2 className="w-8 h-8 mx-auto mb-3 opacity-50" />
-                      <p className="text-sm">Select a question to edit</p>
+                      <p className="text-sm">{t("pages.adminQbankManage.selectAQuestionToEdit")}</p>
                     </CardContent>
                   </Card>
                 )}
@@ -541,11 +543,11 @@ export default function AdminQBankManage() {
               </div>
 
               {analyticsLoading ? (
-                <div className="text-center py-12 text-gray-400">Loading analytics...</div>
+                <div className="text-center py-12 text-gray-400">{t("pages.adminQbankManage.loadingAnalytics")}</div>
               ) : analytics ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Card>
-                    <CardHeader><CardTitle className="text-base">By Status</CardTitle></CardHeader>
+                    <CardHeader><CardTitle className="text-base">{t("pages.adminQbankManage.byStatus")}</CardTitle></CardHeader>
                     <CardContent>
                       <div className="space-y-2">
                         {analytics.byStatus.map(s => (
@@ -562,7 +564,7 @@ export default function AdminQBankManage() {
                   </Card>
 
                   <Card>
-                    <CardHeader><CardTitle className="text-base">By Difficulty</CardTitle></CardHeader>
+                    <CardHeader><CardTitle className="text-base">{t("pages.adminQbankManage.byDifficulty")}</CardTitle></CardHeader>
                     <CardContent>
                       <div className="space-y-2">
                         {analytics.byDifficulty.map(d => {
@@ -584,7 +586,7 @@ export default function AdminQBankManage() {
                   </Card>
 
                   <Card>
-                    <CardHeader><CardTitle className="text-base">By Category</CardTitle></CardHeader>
+                    <CardHeader><CardTitle className="text-base">{t("pages.adminQbankManage.byCategory")}</CardTitle></CardHeader>
                     <CardContent>
                       <div className="space-y-2 max-h-64 overflow-y-auto">
                         {analytics.byCategory.map(c => (
@@ -602,11 +604,11 @@ export default function AdminQBankManage() {
                   </Card>
 
                   <Card>
-                    <CardHeader><CardTitle className="text-base">By Exam / Region</CardTitle></CardHeader>
+                    <CardHeader><CardTitle className="text-base">{t("pages.adminQbankManage.byExamRegion")}</CardTitle></CardHeader>
                     <CardContent>
                       <div className="space-y-3">
                         <div>
-                          <h4 className="text-xs font-medium text-gray-500 mb-1.5">Exam Types</h4>
+                          <h4 className="text-xs font-medium text-gray-500 mb-1.5">{t("pages.adminQbankManage.examTypes")}</h4>
                           {analytics.byExam.map(e => (
                             <div key={e.exam} className="flex items-center justify-between py-0.5" data-testid={`row-exam-${e.exam}`}>
                               <span className="text-sm">{e.exam}</span>
@@ -615,7 +617,7 @@ export default function AdminQBankManage() {
                           ))}
                         </div>
                         <div>
-                          <h4 className="text-xs font-medium text-gray-500 mb-1.5">Region Scope</h4>
+                          <h4 className="text-xs font-medium text-gray-500 mb-1.5">{t("pages.adminQbankManage.regionScope")}</h4>
                           {analytics.byRegion.map(r => (
                             <div key={r.region} className="flex items-center justify-between py-0.5" data-testid={`row-region-${r.region}`}>
                               <span className="text-sm">{r.region}</span>

@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Send, CheckCircle2 } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface TesterFeedbackDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -41,6 +42,7 @@ const severities = [
 ];
 
 export function TesterFeedbackDialog({ open, onOpenChange }: TesterFeedbackDialogProps) {
+  const { t } = useI18n();
   const { user } = useAuth();
   const { toast } = useToast();
   const [submitted, setSubmitted] = useState(false);
@@ -99,7 +101,7 @@ export function TesterFeedbackDialog({ open, onOpenChange }: TesterFeedbackDialo
     <Dialog open={open} onOpenChange={(v) => { onOpenChange(v); if (!v) handleReset(); }}>
       <DialogContent className="sm:max-w-lg" data-testid="dialog-tester-feedback">
         <DialogHeader>
-          <DialogTitle className="text-[#2E3A59]">Beta Tester Feedback</DialogTitle>
+          <DialogTitle className="text-[#2E3A59]">{t("components.testerFeedbackDialog.betaTesterFeedback")}</DialogTitle>
           <DialogDescription>
             Help us improve NurseNest by sharing your experience, reporting issues, or suggesting features.
           </DialogDescription>
@@ -108,7 +110,7 @@ export function TesterFeedbackDialog({ open, onOpenChange }: TesterFeedbackDialo
         {submitted ? (
           <div className="text-center py-8 space-y-4" data-testid="feedback-success">
             <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto" />
-            <h3 className="text-lg font-semibold text-[#2E3A59]">Feedback Received</h3>
+            <h3 className="text-lg font-semibold text-[#2E3A59]">{t("components.testerFeedbackDialog.feedbackReceived")}</h3>
             <p className="text-gray-600 text-sm">
               Your feedback has been recorded and our team will review it shortly.
             </p>
@@ -125,7 +127,7 @@ export function TesterFeedbackDialog({ open, onOpenChange }: TesterFeedbackDialo
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Category</Label>
+                <Label>{t("components.testerFeedbackDialog.category")}</Label>
                 <Select value={form.category} onValueChange={(v) => setForm({ ...form, category: v })}>
                   <SelectTrigger data-testid="select-feedback-category">
                     <SelectValue />
@@ -138,7 +140,7 @@ export function TesterFeedbackDialog({ open, onOpenChange }: TesterFeedbackDialo
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>Severity</Label>
+                <Label>{t("components.testerFeedbackDialog.severity")}</Label>
                 <Select value={form.severity} onValueChange={(v) => setForm({ ...form, severity: v })}>
                   <SelectTrigger data-testid="select-feedback-severity">
                     <SelectValue />
@@ -153,10 +155,10 @@ export function TesterFeedbackDialog({ open, onOpenChange }: TesterFeedbackDialo
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="feedback-title">Title *</Label>
+              <Label htmlFor="feedback-title">{t("components.testerFeedbackDialog.title")}</Label>
               <Input
                 id="feedback-title"
-                placeholder="Brief summary of your feedback"
+                placeholder={t("components.testerFeedbackDialog.briefSummaryOfYourFeedback")}
                 value={form.title}
                 onChange={(e) => setForm({ ...form, title: e.target.value })}
                 required
@@ -165,10 +167,10 @@ export function TesterFeedbackDialog({ open, onOpenChange }: TesterFeedbackDialo
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="feedback-description">Description *</Label>
+              <Label htmlFor="feedback-description">{t("components.testerFeedbackDialog.description")}</Label>
               <Textarea
                 id="feedback-description"
-                placeholder="Describe the issue, suggestion, or feedback in detail..."
+                placeholder={t("components.testerFeedbackDialog.describeTheIssueSuggestionOr")}
                 rows={4}
                 value={form.description}
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
@@ -178,7 +180,7 @@ export function TesterFeedbackDialog({ open, onOpenChange }: TesterFeedbackDialo
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="feedback-url" className="text-gray-500 text-xs">Page URL (auto-filled)</Label>
+              <Label htmlFor="feedback-url" className="text-gray-500 text-xs">{t("components.testerFeedbackDialog.pageUrlAutofilled")}</Label>
               <Input
                 id="feedback-url"
                 placeholder={window.location.href}

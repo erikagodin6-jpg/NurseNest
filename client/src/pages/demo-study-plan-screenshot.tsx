@@ -10,9 +10,11 @@ import {
 import { DemoPageWrapper, DemoHeader, SectionCard, SectionTitle, StatCard, MasteryBar, PriorityBadge } from "@/components/demo-shared";
 import { studyPlanData as d } from "@/data/demo-screenshot-data";
 
+import { useI18n } from "@/lib/i18n";
 export default function DemoStudyPlanScreenshot() {
+  const { t } = useI18n();
   const { user, isAdmin } = useAuth();
-  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">Admin access required.</p></div></DemoPageWrapper>;
+  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">{t("pages.demoStudyPlanScreenshot.adminAccessRequired")}</p></div></DemoPageWrapper>;
 
   const progressPct = Math.round((d.completedThisWeek / d.estimatedHoursThisWeek) * 100);
 
@@ -20,7 +22,7 @@ export default function DemoStudyPlanScreenshot() {
     <DemoPageWrapper>
       <main className="max-w-7xl mx-auto px-6 pt-10 pb-16">
         <DemoHeader
-          title="Personalized Study Plan"
+          title={t("pages.demoStudyPlanScreenshot.personalizedStudyPlan")}
           subtitle={`Week ${d.weekNumber} of ${d.totalWeeks} - ${d.weekFocus}`}
           rightContent={
             <div className="flex items-center gap-2">
@@ -41,13 +43,13 @@ export default function DemoStudyPlanScreenshot() {
                 <Star className="w-5 h-5 text-white" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-slate-700">Next Milestone</p>
+                <p className="text-sm font-semibold text-slate-700">{t("pages.demoStudyPlanScreenshot.nextMilestone")}</p>
                 <p className="text-xs text-slate-500">{d.nextMilestone}</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
               <div className="text-right">
-                <p className="text-xs text-slate-500">This week</p>
+                <p className="text-xs text-slate-500">{t("pages.demoStudyPlanScreenshot.thisWeek")}</p>
                 <p className="text-sm font-bold text-slate-700">{d.completedThisWeek}h / {d.estimatedHoursThisWeek}h</p>
               </div>
               <div className="w-24">
@@ -61,7 +63,7 @@ export default function DemoStudyPlanScreenshot() {
         <div className="grid grid-cols-12 gap-5 mb-6">
           <div className="col-span-12 lg:col-span-8">
             <SectionCard>
-              <SectionTitle title="Weekly Schedule" subtitle={`Week ${d.weekNumber} daily plan`} />
+              <SectionTitle title={t("pages.demoStudyPlanScreenshot.weeklySchedule")} subtitle={`Week ${d.weekNumber} daily plan`} />
               <div className="space-y-2.5">
                 {d.dailyPlan.map((day) => (
                   <div key={day.day} className={cn("flex items-start gap-3 px-4 py-3 rounded-xl border transition-colors",
@@ -76,7 +78,7 @@ export default function DemoStudyPlanScreenshot() {
                       <div className="flex items-center gap-2 mb-1">
                         <span className={cn("text-sm font-semibold", day.completed ? "text-emerald-700" : "text-slate-700")}>{day.day}</span>
                         <span className="text-[10px] text-slate-400">{day.hours}h estimated</span>
-                        {day.completed && <span className="text-[9px] font-semibold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded">Done</span>}
+                        {day.completed && <span className="text-[9px] font-semibold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded">{t("pages.demoStudyPlanScreenshot.done")}</span>}
                       </div>
                       <div className="flex flex-wrap gap-1.5">
                         {day.tasks.map((task, i) => (
@@ -94,29 +96,29 @@ export default function DemoStudyPlanScreenshot() {
 
           <div className="col-span-12 lg:col-span-4 space-y-5">
             <SectionCard>
-              <SectionTitle title="This Week's Focus" />
+              <SectionTitle title={t("pages.demoStudyPlanScreenshot.thisWeeksFocus")} />
               <div className="grid grid-cols-2 gap-3">
                 <div className="text-center p-3 rounded-xl bg-violet-50/50 border border-violet-100/60">
                   <p className="text-xl font-bold text-violet-700">{d.weeklyMix.questions}</p>
-                  <p className="text-[10px] text-slate-500 font-medium">Questions</p>
+                  <p className="text-[10px] text-slate-500 font-medium">{t("pages.demoStudyPlanScreenshot.questions")}</p>
                 </div>
                 <div className="text-center p-3 rounded-xl bg-sky-50/50 border border-sky-100/60">
                   <p className="text-xl font-bold text-sky-700">{d.weeklyMix.flashcards}</p>
-                  <p className="text-[10px] text-slate-500 font-medium">Flashcards</p>
+                  <p className="text-[10px] text-slate-500 font-medium">{t("pages.demoStudyPlanScreenshot.flashcards")}</p>
                 </div>
                 <div className="text-center p-3 rounded-xl bg-emerald-50/50 border border-emerald-100/60">
                   <p className="text-xl font-bold text-emerald-700">{d.weeklyMix.lessons}</p>
-                  <p className="text-[10px] text-slate-500 font-medium">Lessons</p>
+                  <p className="text-[10px] text-slate-500 font-medium">{t("pages.demoStudyPlanScreenshot.lessons")}</p>
                 </div>
                 <div className="text-center p-3 rounded-xl bg-amber-50/50 border border-amber-100/60">
                   <p className="text-xl font-bold text-amber-700">{d.weeklyMix.caseStudies}</p>
-                  <p className="text-[10px] text-slate-500 font-medium">Case Studies</p>
+                  <p className="text-[10px] text-slate-500 font-medium">{t("pages.demoStudyPlanScreenshot.caseStudies")}</p>
                 </div>
               </div>
             </SectionCard>
 
             <SectionCard>
-              <SectionTitle title="High-Yield Topics" subtitle="Priority review areas" />
+              <SectionTitle title={t("pages.demoStudyPlanScreenshot.highyieldTopics")} subtitle="Priority review areas" />
               <div className="space-y-2.5">
                 {d.highYieldTopics.map((t) => (
                   <div key={t.topic} className="flex items-center justify-between px-3 py-2.5 rounded-xl bg-slate-50/80 border border-slate-100">

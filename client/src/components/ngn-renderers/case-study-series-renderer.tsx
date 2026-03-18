@@ -11,6 +11,7 @@ import type {
   NGNUserResponse,
 } from "@/lib/ngn-question-types";
 import { createDefaultResponse } from "./ngn-default-response";
+import { useI18n } from "@/lib/i18n";
 const LazyNGNQuestionDispatcher = lazy(() =>
   import("./ngn-question-dispatcher").then(m => ({ default: m.NGNQuestionDispatcher }))
 );
@@ -23,6 +24,7 @@ interface CaseStudySeriesRendererProps {
 }
 
 function TabContentDisplay({ tab }: { tab: CaseStudyTab }) {
+  const { t } = useI18n();
   return (
     <div className="space-y-4" data-testid={`case-tab-content-${tab.id}`}>
       {tab.content && (
@@ -111,7 +113,7 @@ function SubQuestionRenderer({
         </Badge>
       </div>
       <p className="text-base font-medium text-gray-900 leading-relaxed">{subQuestion.stem}</p>
-      <Suspense fallback={<div className="p-2 text-sm text-gray-400">Loading...</div>}>
+      <Suspense fallback={<div className="p-2 text-sm text-gray-400">{t("components.ngnRenderersCaseStudySeriesRenderer.loading")}</div>}>
         <LazyNGNQuestionDispatcher
           questionType={subQuestion.questionType}
           payload={subQuestion.itemPayload}
@@ -146,7 +148,7 @@ export function CaseStudySeriesRenderer({
       <div className="bg-gradient-to-r from-slate-50 to-blue-50 rounded-xl border border-slate-200 p-4">
         <div className="flex items-center gap-2 mb-2">
           <FileText className="w-4 h-4 text-slate-600" />
-          <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wide">Patient Scenario</h3>
+          <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wide">{t("components.ngnRenderersCaseStudySeriesRenderer.patientScenario")}</h3>
         </div>
         <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{payload.patientSummary}</p>
       </div>

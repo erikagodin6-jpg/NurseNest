@@ -18,6 +18,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
+import { useI18n } from "@/lib/i18n";
 const PILLAR_FAQS = [
   {
     q: "What is the difference between AANP and ANCC certification?",
@@ -95,6 +96,7 @@ const EXAM_COMPARISON = [
 ];
 
 function PillarFAQAccordion({ faqs }: { faqs: { q: string; a: string }[] }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState<number | null>(null);
   return (
     <div className="space-y-3">
@@ -148,8 +150,8 @@ export default function NpExamPrepPillarPage() {
   return (
     <>
       <SEO
-        title="NP Exam Prep: AANP, ANCC & Canadian NP Certification Review | NurseNest"
-        description="Prepare for your nurse practitioner certification exam. Compare AANP vs ANCC vs CNPLE, access exam-specific practice questions, mock exams, and study guides. Start your NP exam prep today."
+        title={t("pages.npExamPrepPillar.npExamPrepAanpAncc")}
+        description={t("pages.npExamPrepPillar.prepareForYourNursePractitioner")}
         keywords="NP exam prep, nurse practitioner certification, AANP exam, ANCC exam, CNPLE exam, NP practice questions, NP mock exam, NP study guide, nurse practitioner exam review"
         canonicalPath="/np-exam-prep"
         ogType="website"
@@ -176,7 +178,7 @@ export default function NpExamPrepPillarPage() {
               <div className="w-14 h-14 rounded-2xl bg-[#BFA6F6]/20 flex items-center justify-center backdrop-blur-sm">
                 <GraduationCap className="w-7 h-7 text-[#BFA6F6]" />
               </div>
-              <Badge className="bg-[#BFA6F6]/20 text-[#BFA6F6] border-0 text-sm px-3 py-1">NP Certification</Badge>
+              <Badge className="bg-[#BFA6F6]/20 text-[#BFA6F6] border-0 text-sm px-3 py-1">{t("pages.npExamPrepPillar.npCertification")}</Badge>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight tracking-tight" data-testid="text-np-exam-prep-pillar-title">
               Nurse Practitioner Exam Prep
@@ -202,14 +204,14 @@ export default function NpExamPrepPillarPage() {
         <div className="max-w-5xl mx-auto px-4 py-16">
           <section id="choose-exam" className="mb-20 scroll-mt-24" data-testid="section-choose-exam">
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-[#2E3A59] mb-3" data-testid="text-choose-exam-heading">Choose Your NP Certification Exam</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">Select your exam pathway below to access exam-specific practice questions, mock exams with authentic scoring, and domain-matched study guides.</p>
+              <h2 className="text-3xl font-bold text-[#2E3A59] mb-3" data-testid="text-choose-exam-heading">{t("pages.npExamPrepPillar.chooseYourNpCertificationExam")}</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.npExamPrepPillar.selectYourExamPathwayBelow")}</p>
             </div>
 
             <div className="mb-8">
               <div className="flex items-center gap-2 mb-4">
                 <Flag className="w-5 h-5 text-blue-600" />
-                <h3 className="text-lg font-bold text-[#2E3A59]" data-testid="text-us-exams-heading">United States NP Certification</h3>
+                <h3 className="text-lg font-bold text-[#2E3A59]" data-testid="text-us-exams-heading">{t("pages.npExamPrepPillar.unitedStatesNpCertification")}</h3>
               </div>
               <div className="grid md:grid-cols-2 gap-5">
                 {NP_EXAM_HUB_CARDS.filter(c => c.region === "US").map(card => {
@@ -243,7 +245,7 @@ export default function NpExamPrepPillarPage() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Globe className="w-5 h-5 text-red-600" />
-                <h3 className="text-lg font-bold text-[#2E3A59]" data-testid="text-ca-exams-heading">Canadian NP Licensing</h3>
+                <h3 className="text-lg font-bold text-[#2E3A59]" data-testid="text-ca-exams-heading">{t("pages.npExamPrepPillar.canadianNpLicensing")}</h3>
               </div>
               <div className="grid md:grid-cols-2 gap-5">
                 {NP_EXAM_HUB_CARDS.filter(c => c.region === "CA").map(card => {
@@ -277,8 +279,8 @@ export default function NpExamPrepPillarPage() {
 
           <section className="mb-20" data-testid="section-why-nursenest">
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-[#2E3A59] mb-3">Why NurseNest for NP Exam Prep?</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">Purpose-built tools designed specifically for nurse practitioner certification — not repurposed RN content.</p>
+              <h2 className="text-3xl font-bold text-[#2E3A59] mb-3">{t("pages.npExamPrepPillar.whyNursenestForNpExam")}</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.npExamPrepPillar.purposebuiltToolsDesignedSpecificallyFor")}</p>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {VALUE_PROPS.map((prop, i) => (
@@ -295,15 +297,15 @@ export default function NpExamPrepPillarPage() {
 
           <section className="mb-20" data-testid="section-exam-comparison">
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-[#2E3A59] mb-3">NP Exam Comparison: AANP vs ANCC vs CNPLE</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">Not sure which exam to take? Compare the three major NP certification exams side-by-side to find the right fit for your career goals.</p>
+              <h2 className="text-3xl font-bold text-[#2E3A59] mb-3">{t("pages.npExamPrepPillar.npExamComparisonAanpVs")}</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.npExamPrepPillar.notSureWhichExamTo")}</p>
             </div>
 
             <div className="hidden md:block bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
               <table className="w-full">
                 <thead>
                   <tr className="bg-[#2E3A59]">
-                    <th className="text-left p-4 text-white font-semibold text-sm">Feature</th>
+                    <th className="text-left p-4 text-white font-semibold text-sm">{t("pages.npExamPrepPillar.feature")}</th>
                     <th className="text-left p-4 text-white font-semibold text-sm">
                       <LocaleLink href="/np/aanp-exam" className="hover:text-[#BFA6F6] transition-colors">AANP</LocaleLink>
                     </th>
@@ -364,19 +366,19 @@ export default function NpExamPrepPillarPage() {
                   <Lightbulb className="w-6 h-6 text-[#BFA6F6]" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-[#2E3A59] mb-2">Study Strategy Tip</h3>
+                  <h3 className="text-lg font-bold text-[#2E3A59] mb-2">{t("pages.npExamPrepPillar.studyStrategyTip")}</h3>
                   <p className="text-sm text-gray-700 leading-relaxed mb-3">
                     If you are a clinically strong test-taker who prefers scenario-based questions, the <strong>AANP</strong> may suit you best. If you excel at evidence-based practice, research, and healthcare systems questions, consider the <strong>ANCC</strong>. Canadian NP candidates must take the <strong>CNPLE</strong> — there is no US alternative for Canadian licensure.
                   </p>
                   <div className="flex flex-wrap gap-3">
                     <LocaleLink href="/np/aanp-exam" data-testid="link-strategy-aanp">
-                      <span className="text-sm font-medium text-blue-600 hover:text-blue-800 underline underline-offset-2">AANP Exam Details →</span>
+                      <span className="text-sm font-medium text-blue-600 hover:text-blue-800 underline underline-offset-2">{t("pages.npExamPrepPillar.aanpExamDetails")}</span>
                     </LocaleLink>
                     <LocaleLink href="/np/ancc-exam" data-testid="link-strategy-ancc">
-                      <span className="text-sm font-medium text-indigo-600 hover:text-indigo-800 underline underline-offset-2">ANCC Exam Details →</span>
+                      <span className="text-sm font-medium text-indigo-600 hover:text-indigo-800 underline underline-offset-2">{t("pages.npExamPrepPillar.anccExamDetails")}</span>
                     </LocaleLink>
                     <LocaleLink href="/canada-np" data-testid="link-strategy-cnple">
-                      <span className="text-sm font-medium text-red-600 hover:text-red-800 underline underline-offset-2">CNPLE Exam Details →</span>
+                      <span className="text-sm font-medium text-red-600 hover:text-red-800 underline underline-offset-2">{t("pages.npExamPrepPillar.cnpleExamDetails")}</span>
                     </LocaleLink>
                   </div>
                 </div>
@@ -386,8 +388,8 @@ export default function NpExamPrepPillarPage() {
 
           <section className="mb-20" data-testid="section-aanp-vs-ancc">
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-[#2E3A59] mb-3">AANP vs ANCC: Which NP Certification Should You Choose?</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">Both certifications are accepted nationwide, but they differ in exam format, content emphasis, and scoring. Here is what you need to know to make the right choice.</p>
+              <h2 className="text-3xl font-bold text-[#2E3A59] mb-3">{t("pages.npExamPrepPillar.aanpVsAnccWhichNp")}</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.npExamPrepPillar.bothCertificationsAreAcceptedNationwide")}</p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6 mb-8">
@@ -396,13 +398,13 @@ export default function NpExamPrepPillarPage() {
                   <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
                     <Award className="w-5 h-5 text-blue-600" />
                   </div>
-                  <h3 className="text-lg font-bold text-blue-700">AANP Certification</h3>
+                  <h3 className="text-lg font-bold text-blue-700">{t("pages.npExamPrepPillar.aanpCertification")}</h3>
                 </div>
                 <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
-                  <p><strong>Best for:</strong> Clinically strong test-takers who prefer scenario-based questions and clinical management decision-making.</p>
-                  <p><strong>Exam focus:</strong> The AANP places heavy emphasis on clinical assessment and management (approximately 80% of the exam). Questions are predominantly clinical scenarios requiring you to identify diagnoses, order tests, and select treatments.</p>
-                  <p><strong>Format:</strong> 150 questions (135 scored), 4 hours. Passing score: 500/800.</p>
-                  <p><strong>Ideal if:</strong> Your NP program emphasized hands-on clinical rotations, you prefer patient-centered questions, and your employer does not specify a certifying body.</p>
+                  <p><strong>{t("pages.npExamPrepPillar.bestFor")}</strong> {t("pages.npExamPrepPillar.clinicallyStrongTesttakersWhoPrefer")}</p>
+                  <p><strong>{t("pages.npExamPrepPillar.examFocus")}</strong> {t("pages.npExamPrepPillar.theAanpPlacesHeavyEmphasis")}</p>
+                  <p><strong>{t("pages.npExamPrepPillar.format")}</strong> {t("pages.npExamPrepPillar.150Questions135Scored4")}</p>
+                  <p><strong>{t("pages.npExamPrepPillar.idealIf")}</strong> {t("pages.npExamPrepPillar.yourNpProgramEmphasizedHandson")}</p>
                 </div>
                 <LocaleLink href="/np/aanp-exam" className="mt-4 block">
                   <Button variant="outline" className="w-full border-blue-200 text-blue-700 gap-2 hover:bg-blue-50">
@@ -416,13 +418,13 @@ export default function NpExamPrepPillarPage() {
                   <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center">
                     <Award className="w-5 h-5 text-indigo-600" />
                   </div>
-                  <h3 className="text-lg font-bold text-indigo-700">ANCC Certification</h3>
+                  <h3 className="text-lg font-bold text-indigo-700">{t("pages.npExamPrepPillar.anccCertification")}</h3>
                 </div>
                 <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
-                  <p><strong>Best for:</strong> NPs who are strong in research, evidence-based practice, and healthcare systems in addition to clinical knowledge.</p>
-                  <p><strong>Exam focus:</strong> The ANCC allocates 20-25% of questions to professional role, research methodology, and healthcare policy. The remaining 75-80% covers clinical content similar to the AANP.</p>
-                  <p><strong>Format:</strong> 175 questions (150 scored), 3.5 hours. Passing score: 350/500.</p>
-                  <p><strong>Ideal if:</strong> You plan to work at academic medical centers or VA hospitals (which often prefer ANCC), or your program heavily covered research and EBP.</p>
+                  <p><strong>{t("pages.npExamPrepPillar.bestFor2")}</strong> {t("pages.npExamPrepPillar.npsWhoAreStrongIn")}</p>
+                  <p><strong>{t("pages.npExamPrepPillar.examFocus2")}</strong> {t("pages.npExamPrepPillar.theAnccAllocates2025Of")}</p>
+                  <p><strong>{t("pages.npExamPrepPillar.format2")}</strong> {t("pages.npExamPrepPillar.175Questions150Scored35")}</p>
+                  <p><strong>{t("pages.npExamPrepPillar.idealIf2")}</strong> {t("pages.npExamPrepPillar.youPlanToWorkAt")}</p>
                 </div>
                 <LocaleLink href="/np/ancc-exam" className="mt-4 block">
                   <Button variant="outline" className="w-full border-indigo-200 text-indigo-700 gap-2 hover:bg-indigo-50">
@@ -438,7 +440,7 @@ export default function NpExamPrepPillarPage() {
                   <CheckCircle className="w-5 h-5 text-emerald-500" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-[#2E3A59] mb-2">The Bottom Line</h3>
+                  <h3 className="text-lg font-bold text-[#2E3A59] mb-2">{t("pages.npExamPrepPillar.theBottomLine")}</h3>
                   <p className="text-sm text-gray-700 leading-relaxed">
                     Both AANP and ANCC certifications carry equal weight for NP licensure and prescriptive authority across all 50 states. Neither is objectively harder — the best choice depends on your personal strengths, program emphasis, and employer preference. Many NPs hold both certifications. If you are unsure, check with your program advisor and potential employers before deciding.
                   </p>
@@ -449,8 +451,8 @@ export default function NpExamPrepPillarPage() {
 
           <section className="mb-20" data-testid="section-np-study-tools">
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-[#2E3A59] mb-3">NP Exam Prep Study Tools</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">Everything you need for a complete NP certification exam preparation. All tools are aligned to AANP, ANCC, and CNPLE exam blueprints.</p>
+              <h2 className="text-3xl font-bold text-[#2E3A59] mb-3">{t("pages.npExamPrepPillar.npExamPrepStudyTools")}</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.npExamPrepPillar.everythingYouNeedForA")}</p>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
@@ -476,8 +478,8 @@ export default function NpExamPrepPillarPage() {
 
           <section className="mb-20" data-testid="section-pillar-faq">
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-[#2E3A59] mb-3">NP Exam Prep: Frequently Asked Questions</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">Answers to the most common questions about nurse practitioner certification exams.</p>
+              <h2 className="text-3xl font-bold text-[#2E3A59] mb-3">{t("pages.npExamPrepPillar.npExamPrepFrequentlyAsked")}</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.npExamPrepPillar.answersToTheMostCommon")}</p>
             </div>
             <div className="max-w-3xl mx-auto">
               <PillarFAQAccordion faqs={PILLAR_FAQS} />
@@ -488,7 +490,7 @@ export default function NpExamPrepPillarPage() {
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDE4YzMuMzEgMCA2IDIuNjkgNiA2cy0yLjY5IDYtNiA2LTYtMi42OS02LTYgMi42OS02IDYtNiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
             <div className="relative">
               <Sparkles className="w-10 h-10 text-[#BFA6F6] mx-auto mb-4" />
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Start Your NP Exam Prep?</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">{t("pages.npExamPrepPillar.readyToStartYourNp")}</h2>
               <p className="text-white/80 mb-8 max-w-xl mx-auto text-lg">
                 Join thousands of NP candidates using NurseNest to prepare for AANP, ANCC, and CNPLE certification exams.
               </p>

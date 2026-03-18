@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   Search, RefreshCw, CheckCircle2, AlertTriangle, XCircle,
   Globe, Link2, FileSearch, Eye, Shield
@@ -51,6 +52,7 @@ type InspectionResult = {
 };
 
 export default function AdminSeoInspector() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const [selectedPath, setSelectedPath] = useState("/");
@@ -84,7 +86,7 @@ export default function AdminSeoInspector() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <SEO title="SEO Inspector" description="Inspect SEO meta for any page/locale combination" noindex />
+      <SEO title={t("pages.adminSeoInspector.seoInspector")} description={t("pages.adminSeoInspector.inspectSeoMetaForAny")} noindex />
       <Navigation />
       <div className="max-w-5xl mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold flex items-center gap-2 mb-6" data-testid="text-page-title">
@@ -96,7 +98,7 @@ export default function AdminSeoInspector() {
           <CardContent className="pt-6">
             <div className="flex flex-wrap gap-3 items-end">
               <div className="flex-1 min-w-[200px]">
-                <label className="block text-sm font-medium mb-1">Route</label>
+                <label className="block text-sm font-medium mb-1">{t("pages.adminSeoInspector.route")}</label>
                 <select
                   value={selectedPath}
                   onChange={(e) => setSelectedPath(e.target.value)}
@@ -109,7 +111,7 @@ export default function AdminSeoInspector() {
                 </select>
               </div>
               <div className="w-48">
-                <label className="block text-sm font-medium mb-1">Locale</label>
+                <label className="block text-sm font-medium mb-1">{t("pages.adminSeoInspector.locale")}</label>
                 <select
                   value={selectedLocale}
                   onChange={(e) => setSelectedLocale(e.target.value)}
@@ -157,29 +159,29 @@ export default function AdminSeoInspector() {
                 </CardHeader>
                 <CardContent className="space-y-3 text-sm">
                   <div>
-                    <span className="text-gray-500 block">URL:</span>
+                    <span className="text-gray-500 block">{t("pages.adminSeoInspector.url")}</span>
                     <code className="text-xs bg-gray-100 px-2 py-1 rounded" data-testid="text-url">{result.url}</code>
                   </div>
                   <div>
-                    <span className="text-gray-500 block">Title:</span>
+                    <span className="text-gray-500 block">{t("pages.adminSeoInspector.title")}</span>
                     <span data-testid="text-title">{result.title || "—"}</span>
                   </div>
                   <div>
-                    <span className="text-gray-500 block">Description:</span>
+                    <span className="text-gray-500 block">{t("pages.adminSeoInspector.description")}</span>
                     <span className="text-xs" data-testid="text-description">{result.description?.slice(0, 120) || "—"}</span>
                   </div>
                   <div>
-                    <span className="text-gray-500 block">Canonical:</span>
+                    <span className="text-gray-500 block">{t("pages.adminSeoInspector.canonical")}</span>
                     <code className="text-xs bg-gray-100 px-2 py-1 rounded break-all" data-testid="text-canonical">{result.canonical || "—"}</code>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-gray-500">Robots:</span>
+                    <span className="text-gray-500">{t("pages.adminSeoInspector.robots")}</span>
                     <Badge variant={result.robotsStatus.includes("noindex") ? "destructive" : "default"} data-testid="badge-robots">
                       {result.robotsStatus}
                     </Badge>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-gray-500">In Sitemap:</span>
+                    <span className="text-gray-500">{t("pages.adminSeoInspector.inSitemap")}</span>
                     {result.sitemapInclusion
                       ? <CheckCircle2 className="w-4 h-4 text-green-500" />
                       : <XCircle className="w-4 h-4 text-red-400" />}
@@ -196,7 +198,7 @@ export default function AdminSeoInspector() {
                 </CardHeader>
                 <CardContent className="space-y-3 text-sm">
                   <div className="flex items-center gap-2">
-                    <span className="text-gray-500">Coverage:</span>
+                    <span className="text-gray-500">{t("pages.adminSeoInspector.coverage")}</span>
                     <div className="flex-1 bg-gray-200 rounded-full h-2">
                       <div
                         className={`h-2 rounded-full ${result.translation.percentage >= 95 ? "bg-green-500" : result.translation.percentage >= 70 ? "bg-yellow-500" : "bg-red-500"}`}
@@ -206,16 +208,16 @@ export default function AdminSeoInspector() {
                     <span className="font-mono text-xs" data-testid="text-coverage">{result.translation.percentage}%</span>
                   </div>
                   <div>
-                    <span className="text-gray-500">Keys:</span>{" "}
+                    <span className="text-gray-500">{t("pages.adminSeoInspector.keys")}</span>{" "}
                     <span data-testid="text-keys">{result.translation.translatedKeys} / {result.translation.totalKeys}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-gray-500">Readiness:</span>
+                    <span className="text-gray-500">{t("pages.adminSeoInspector.readiness")}</span>
                     <Badge variant="outline" data-testid="badge-readiness">{result.translation.readiness}</Badge>
                   </div>
                   {result.translation.untranslatedKeys.length > 0 && (
                     <div>
-                      <span className="text-gray-500 block mb-1">Missing keys (first 20):</span>
+                      <span className="text-gray-500 block mb-1">{t("pages.adminSeoInspector.missingKeysFirst20")}</span>
                       <div className="max-h-32 overflow-y-auto bg-gray-50 rounded p-2" data-testid="text-missing-keys">
                         {result.translation.untranslatedKeys.map((k, i) => (
                           <div key={i} className="font-mono text-xs text-red-600">{k}</div>
@@ -238,9 +240,9 @@ export default function AdminSeoInspector() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b">
-                        <th className="text-left py-1 px-2">Locale</th>
+                        <th className="text-left py-1 px-2">{t("pages.adminSeoInspector.locale2")}</th>
                         <th className="text-left py-1 px-2">URL</th>
-                        <th className="text-center py-1 px-2">Indexable</th>
+                        <th className="text-center py-1 px-2">{t("pages.adminSeoInspector.indexable")}</th>
                       </tr>
                     </thead>
                     <tbody>

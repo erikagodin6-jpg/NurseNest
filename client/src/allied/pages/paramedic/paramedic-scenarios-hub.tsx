@@ -2,6 +2,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { HubHero, ContentCard, FinalCTASection } from "./components";
 import { Zap } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const SCENARIO_PREVIEWS = [
   { title: "Multi-Vehicle Highway MVC", description: "Respond to a high-speed multi-vehicle collision. Triage multiple patients, manage a tension pneumothorax, and coordinate air medical transport.", tags: ["Trauma", "MCI", "Advanced"], difficulty: "Advanced" },
   { title: "Chest Pain — STEMI in the Field", description: "Assess a 58-year-old male with crushing substernal chest pain. Interpret the 12-lead, activate the cath lab, and manage cardiogenic shock en route.", tags: ["Cardiac", "STEMI", "ACP"], difficulty: "Advanced" },
@@ -15,11 +16,12 @@ const SCENARIO_PREVIEWS = [
 ];
 
 export default function ParamedicScenariosHub() {
+  const { t } = useI18n();
   return (
     <div data-testid="paramedic-scenarios-hub">
       <AlliedSEO
-        title="Paramedic Clinical Scenarios — Dispatch-to-Disposition Simulations | NurseNest"
-        description="Practice with unfolding paramedic clinical scenarios covering trauma, cardiac, medical, pediatric, and OB emergencies. Branching decisions with detailed clinical debriefs."
+        title={t("allied.paramedicParamedicScenariosHub.paramedicClinicalScenariosDispatchtodisposi")}
+        description={t("allied.paramedicParamedicScenariosHub.practiceWithUnfoldingParamedicClinical")}
         keywords="paramedic scenarios, EMS clinical scenarios, paramedic simulation, paramedic case studies, prehospital scenarios, dispatch to disposition"
         canonicalPath="/allied-health/paramedic/scenarios"
         structuredData={{
@@ -32,8 +34,8 @@ export default function ParamedicScenariosHub() {
       />
 
       <HubHero
-        title="Clinical Scenarios"
-        subtitle="Unfolding dispatch-to-disposition scenarios that test your clinical decision-making under realistic conditions. Each scenario includes branching decision points and detailed clinical debriefs."
+        title={t("allied.paramedicParamedicScenariosHub.clinicalScenarios")}
+        subtitle={t("allied.paramedic_scenarios_hub.unfoldingDispatchtodispositionScenariosT")}
         breadcrumbs={[
           { label: "Paramedic", href: "/allied-health/paramedic" },
           { label: "Scenarios" },
@@ -63,8 +65,8 @@ export default function ParamedicScenariosHub() {
       </section>
 
       <FinalCTASection
-        title="Build Clinical Judgment Through Simulation"
-        subtitle="Scenarios build the decision-making skills that separate good paramedics from great ones. Start with a free diagnostic to see where you stand."
+        title={t("allied.paramedicParamedicScenariosHub.buildClinicalJudgmentThroughSimulation")}
+        subtitle={t("allied.paramedic_scenarios_hub.scenariosBuildTheDecisionmakingSkills")}
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
         secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}
       />

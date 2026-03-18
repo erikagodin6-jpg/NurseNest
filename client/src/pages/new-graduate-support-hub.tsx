@@ -13,6 +13,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
+import { useI18n } from "@/lib/i18n";
 interface ResourceItem {
   icon: LucideIcon;
   title: string;
@@ -99,12 +100,13 @@ const collectionStructuredData = {
 };
 
 export default function NewGraduateSupportHub() {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen bg-background" data-testid="new-graduate-support-hub-page">
       <Navigation />
       <SEO
-        title="New Graduate Support Hub: Career Launch & First-Year Resources for Healthcare Professionals | NurseNest"
-        description="Central hub for new graduate healthcare professionals. Interview prep with STAR framework answers, ATS-optimized resume builder, cover letter generator, first 90 days roadmap, clinical confidence tools, and certification prep for nursing, paramedic, and allied health graduates."
+        title={t("pages.newGraduateSupportHub.newGraduateSupportHubCareer")}
+        description={t("pages.newGraduateSupportHub.centralHubForNewGraduate")}
         keywords="new grad nurse, new graduate healthcare, nursing interview prep, healthcare resume builder, first year nurse guide, clinical confidence, career transition healthcare, STAR interview framework, new grad paramedic, new grad respiratory therapist, new grad certification prep"
         canonicalPath="/new-graduate-support"
         structuredData={collectionStructuredData}
@@ -117,9 +119,9 @@ export default function NewGraduateSupportHub() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-16">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <LocaleLink href="/" className="hover:text-blue-600">Home</LocaleLink>
+          <LocaleLink href="/" className="hover:text-blue-600">{t("pages.newGraduateSupportHub.home")}</LocaleLink>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-indigo-700 font-medium">New Graduate Support</span>
+          <span className="text-indigo-700 font-medium">{t("pages.newGraduateSupportHub.newGraduateSupport")}</span>
         </div>
 
         <section className="mb-12" data-testid="section-new-grad-hero">
@@ -143,19 +145,19 @@ export default function NewGraduateSupportHub() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-interview-questions">
                 <p className="text-lg sm:text-xl font-bold text-gray-900">100+</p>
-                <p className="text-xs text-slate-500 mt-1">Interview Questions</p>
+                <p className="text-xs text-slate-500 mt-1">{t("pages.newGraduateSupportHub.interviewQuestions")}</p>
               </div>
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-resume-templates">
                 <p className="text-lg sm:text-xl font-bold text-gray-900">15+</p>
-                <p className="text-xs text-slate-500 mt-1">Resume Templates</p>
+                <p className="text-xs text-slate-500 mt-1">{t("pages.newGraduateSupportHub.resumeTemplates")}</p>
               </div>
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-career-modules">
                 <p className="text-lg sm:text-xl font-bold text-gray-900">5</p>
-                <p className="text-xs text-slate-500 mt-1">Career Modules</p>
+                <p className="text-xs text-slate-500 mt-1">{t("pages.newGraduateSupportHub.careerModules")}</p>
               </div>
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-professions-supported">
                 <p className="text-lg sm:text-xl font-bold text-gray-900">8+</p>
-                <p className="text-xs text-slate-500 mt-1">Professions</p>
+                <p className="text-xs text-slate-500 mt-1">{t("pages.newGraduateSupportHub.professions")}</p>
               </div>
             </div>
           </div>
@@ -194,8 +196,8 @@ export default function NewGraduateSupportHub() {
         ))}
 
         <section className="mb-12" data-testid="section-exam-prep-links">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Continue Your Exam Preparation</h2>
-          <p className="text-sm text-slate-600 mb-5">Still studying for your licensing exam? Access these exam prep resources directly.</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">{t("pages.newGraduateSupportHub.continueYourExamPreparation")}</h2>
+          <p className="text-sm text-slate-600 mb-5">{t("pages.newGraduateSupportHub.stillStudyingForYourLicensing")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {EXAM_PREP_CROSS_LINKS.map((link, idx) => (
               <LocaleLink key={idx} href={link.href}>
@@ -214,12 +216,12 @@ export default function NewGraduateSupportHub() {
 
         <div className="mb-12">
           <p className="text-sm text-slate-600 leading-relaxed">
-            Looking to advance your career with graduate program applications or professional scholarships? <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-indigo-600 font-medium hover:underline" data-testid="link-applynest-newgrad-support">ApplyNest provides application preparation and scholarship discovery tools</a> designed for healthcare professionals.
+            Looking to advance your career with graduate program applications or professional scholarships? <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-indigo-600 font-medium hover:underline" data-testid="link-applynest-newgrad-support">{t("pages.newGraduateSupportHub.applynestProvidesApplicationPreparationAnd")}</a> designed for healthcare professionals.
           </p>
         </div>
 
         <section className="mb-12" data-testid="section-cross-links">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Explore More</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">{t("pages.newGraduateSupportHub.exploreMore")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <LocaleLink href="/exam-prep">
               <Card className="h-full hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group" data-testid="card-cross-exam-prep">
@@ -229,8 +231,8 @@ export default function NewGraduateSupportHub() {
                       <BookOpen className="w-5 h-5 text-blue-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-blue-600 transition-colors">Exam Prep Hub</h3>
-                      <p className="text-xs text-slate-500 mt-1">All exam preparation resources organized by profession and certification exam.</p>
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-blue-600 transition-colors">{t("pages.newGraduateSupportHub.examPrepHub")}</h3>
+                      <p className="text-xs text-slate-500 mt-1">{t("pages.newGraduateSupportHub.allExamPreparationResourcesOrganized")}</p>
                     </div>
                     <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-blue-600 shrink-0 mt-1" />
                   </div>
@@ -245,8 +247,8 @@ export default function NewGraduateSupportHub() {
                       <Award className="w-5 h-5 text-purple-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-purple-600 transition-colors">Healthcare Careers</h3>
-                      <p className="text-xs text-slate-500 mt-1">Explore career paths, salary information, and certification requirements.</p>
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-purple-600 transition-colors">{t("pages.newGraduateSupportHub.healthcareCareers")}</h3>
+                      <p className="text-xs text-slate-500 mt-1">{t("pages.newGraduateSupportHub.exploreCareerPathsSalaryInformation")}</p>
                     </div>
                     <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-purple-600 shrink-0 mt-1" />
                   </div>
@@ -258,7 +260,7 @@ export default function NewGraduateSupportHub() {
 
         <section className="mb-12" data-testid="section-new-grad-faq">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Frequently Asked Questions</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{t("pages.newGraduateSupportHub.frequentlyAskedQuestions")}</h2>
             <LocaleLink
               href="/new-grad/faq"
               className="text-sm text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-1"

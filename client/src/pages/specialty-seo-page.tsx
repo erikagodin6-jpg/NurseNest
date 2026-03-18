@@ -8,6 +8,7 @@ import { buildFaqStructuredData, PARENT_EDUCATIONAL_ORG } from "@/lib/structured
 import { getSpecialtyBySeoSlug, SPECIALTY_CONFIGS, type SpecialtyConfig } from "@/data/specialty-hub-data";
 import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
 import { MedicalReferences } from "@/components/medical-references";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, BookOpen, ChevronRight, Check, ChevronDown,
   ClipboardList, Layers, GraduationCap, FileText, HelpCircle,
@@ -15,6 +16,7 @@ import {
 } from "lucide-react";
 
 function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   return (
     <div className="border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-item-${index}`}>
@@ -41,8 +43,8 @@ function SeoNotFound() {
       <Navigation />
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center max-w-md px-4">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Guide Not Found</h1>
-          <p className="text-gray-600 mb-6">The nursing guide you are looking for is not available.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.specialtySeoPage.guideNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.specialtySeoPage.theNursingGuideYouAre")}</p>
           <Link href="/nursing-specialties" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors">
             View All Specialties <ArrowRight className="w-4 h-4" />
           </Link>
@@ -125,9 +127,9 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
         <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-white" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="nav-breadcrumb">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.specialtySeoPage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/nursing-specialties" className="hover:text-blue-600">Specialties</Link>
+            <Link href="/nursing-specialties" className="hover:text-blue-600">{t("pages.specialtySeoPage.specialties")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-blue-700 font-medium">{specialty.name} Guide</span>
           </div>
@@ -170,19 +172,19 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div data-testid="stat-topics">
               <div className="text-2xl font-bold text-gray-900">{specialty.topics.length}+</div>
-              <div className="text-sm text-gray-500">Core Topics</div>
+              <div className="text-sm text-gray-500">{t("pages.specialtySeoPage.coreTopics")}</div>
             </div>
             <div data-testid="stat-certifications">
               <div className="text-2xl font-bold text-gray-900">{specialty.certifications.length}</div>
-              <div className="text-sm text-gray-500">Certifications Covered</div>
+              <div className="text-sm text-gray-500">{t("pages.specialtySeoPage.certificationsCovered")}</div>
             </div>
             <div data-testid="stat-questions">
               <div className="text-2xl font-bold text-gray-900">100+</div>
-              <div className="text-sm text-gray-500">Practice Questions</div>
+              <div className="text-sm text-gray-500">{t("pages.specialtySeoPage.practiceQuestions")}</div>
             </div>
             <div data-testid="stat-pass-rate">
               <div className="text-2xl font-bold text-gray-900">94%</div>
-              <div className="text-sm text-gray-500">Pass Rate</div>
+              <div className="text-sm text-gray-500">{t("pages.specialtySeoPage.passRate")}</div>
             </div>
           </div>
         </div>
@@ -191,7 +193,7 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
       <section className="py-16 bg-gray-50" data-testid="section-what-you-learn">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-learn-heading">What You Will Learn in This Guide</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-learn-heading">{t("pages.specialtySeoPage.whatYouWillLearnIn")}</h2>
             <p className="text-gray-600">Comprehensive clinical content aligned to {specialty.certifications.join(" & ")} certification exam blueprints.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -208,7 +210,7 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
       <section className="py-16 bg-white" data-testid="section-included">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-included-heading">What's Included</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-included-heading">{t("pages.specialtySeoPage.whatsIncluded")}</h2>
             <p className="text-gray-600">Everything you need to master {specialty.name.toLowerCase()} — lessons, questions, and flashcards.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -216,22 +218,22 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
               <div className="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center mx-auto mb-4">
                 <BookOpen className="w-7 h-7 text-blue-600" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Specialty Lessons</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">{t("pages.specialtySeoPage.specialtyLessons")}</h3>
               <p className="text-sm text-gray-500">In-depth pathophysiology, pharmacology, and clinical management lessons for {specialty.name.toLowerCase()}.</p>
             </div>
             <div className="bg-white rounded-xl border border-gray-200 p-6 text-center" data-testid="card-included-qbank">
               <div className="w-14 h-14 rounded-xl bg-green-50 flex items-center justify-center mx-auto mb-4">
                 <ClipboardList className="w-7 h-7 text-green-600" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Test Bank</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">{t("pages.specialtySeoPage.testBank")}</h3>
               <p className="text-sm text-gray-500">Practice questions written at the {specialty.certifications[0]} certification exam level with full rationales.</p>
             </div>
             <div className="bg-white rounded-xl border border-gray-200 p-6 text-center" data-testid="card-included-flashcards">
               <div className="w-14 h-14 rounded-xl bg-purple-50 flex items-center justify-center mx-auto mb-4">
                 <Layers className="w-7 h-7 text-purple-600" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Flashcard Decks</h3>
-              <p className="text-sm text-gray-500">Spaced-repetition flashcards covering key terminology, medications, and clinical concepts.</p>
+              <h3 className="font-semibold text-gray-900 mb-2">{t("pages.specialtySeoPage.flashcardDecks")}</h3>
+              <p className="text-sm text-gray-500">{t("pages.specialtySeoPage.spacedrepetitionFlashcardsCoveringKeyTerminol")}</p>
             </div>
           </div>
         </div>
@@ -265,7 +267,7 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
         <section className="py-16 bg-gray-50" data-testid="section-related-specialties">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-related-heading">Related Nursing Specialties</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-related-heading">{t("pages.specialtySeoPage.relatedNursingSpecialties")}</h2>
               <p className="text-gray-600">Explore other nursing specialties that complement {specialty.name.toLowerCase()}</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -299,7 +301,7 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
       <section className="py-16 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-faq-heading">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-faq-heading">{t("pages.specialtySeoPage.frequentlyAskedQuestions")}</h2>
             <p className="text-gray-600">Common questions about {specialty.name.toLowerCase()}</p>
           </div>
           <div className="space-y-3">

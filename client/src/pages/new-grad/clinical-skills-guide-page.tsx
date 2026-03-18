@@ -9,7 +9,9 @@ import { LeadCaptureInline } from "@/components/new-grad/lead-capture";
 import { CLINICAL_SKILLS_CATEGORIES, NEW_GRAD_PROFESSIONS } from "@shared/new-grad-professions";
 import { ChevronRight, BookOpen, CheckCircle2, Star, ArrowRight } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 export default function ClinicalSkillsGuidePage() {
+  const { t } = useI18n();
   const params = useParams<{ skill: string }>();
   const skill = CLINICAL_SKILLS_CATEGORIES[params.skill || ""];
 
@@ -28,8 +30,8 @@ export default function ClinicalSkillsGuidePage() {
         <Navigation />
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-skill-not-found">Clinical Skill Guide Not Found</h1>
-            <Link href="/new-grad" className="text-blue-600 hover:underline">Back to New Grad Hub</Link>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-skill-not-found">{t("pages.newGrad.clinicalSkillsGuidePage.clinicalSkillGuideNotFound")}</h1>
+            <Link href="/new-grad" className="text-blue-600 hover:underline">{t("pages.newGrad.clinicalSkillsGuidePage.backToNewGradHub")}</Link>
           </div>
         </div>
         <Footer />
@@ -68,9 +70,9 @@ export default function ClinicalSkillsGuidePage() {
       <section className="relative py-16 sm:py-20 overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50/50 to-white" data-testid="section-skill-hero">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.newGrad.clinicalSkillsGuidePage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/new-grad" className="hover:text-blue-600">New Grad Hub</Link>
+            <Link href="/new-grad" className="hover:text-blue-600">{t("pages.newGrad.clinicalSkillsGuidePage.newGradHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-blue-700 font-medium">{skill.name}</span>
           </div>
@@ -100,10 +102,10 @@ export default function ClinicalSkillsGuidePage() {
             </div>
           ) : (
             <div className="bg-white rounded-2xl border border-gray-200 p-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Key Principles</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.newGrad.clinicalSkillsGuidePage.keyPrinciples")}</h2>
               <p className="text-gray-600 mb-6">{skill.description}</p>
               <div className="bg-blue-50 rounded-xl p-6">
-                <h3 className="font-semibold text-gray-900 mb-3">Quick Tips</h3>
+                <h3 className="font-semibold text-gray-900 mb-3">{t("pages.newGrad.clinicalSkillsGuidePage.quickTips")}</h3>
                 <ul className="space-y-2">
                   <li className="flex items-start gap-2 text-sm text-gray-700">
                     <CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-blue-500" />
@@ -131,7 +133,7 @@ export default function ClinicalSkillsGuidePage() {
       {relatedProfessions.length > 0 && (
         <section className="py-16 bg-gray-50" data-testid="section-related-professions">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Relevant For</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.newGrad.clinicalSkillsGuidePage.relevantFor")}</h2>
             <div className="flex flex-wrap gap-3">
               {relatedProfessions.map(p => (
                 <Link key={p.slug} href={`/new-grad/${p.slug}`} className="px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-200 hover:border-blue-300 transition-colors" data-testid={`link-profession-${p.slug}`}>

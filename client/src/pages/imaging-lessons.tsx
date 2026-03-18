@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link, useRoute } from "wouter";
 import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { useI18n } from "@/lib/i18n";
 import {
   BookOpen, ChevronDown, ChevronUp, ArrowLeft, Search,
   MapPin, Atom, Shield, Monitor, Heart, Wrench,
@@ -34,6 +35,7 @@ const LESSON_CATEGORIES = [
 ];
 
 function useLessonsByCategory(country: string) {
+  const { t } = useI18n();
   const results: Record<string, ReturnType<typeof useQuery>> = {};
   for (const cat of LESSON_CATEGORIES) {
     results[cat] = useQuery({
@@ -119,7 +121,7 @@ export default function ImagingLessonsPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
             type="text"
-            placeholder="Search modules..."
+            placeholder={t("pages.imagingLessons.searchModules")}
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400"
@@ -150,7 +152,7 @@ export default function ImagingLessonsPage() {
                 {isOpen && (
                   <div className="border-t border-gray-100 p-5">
                     {items.length === 0 ? (
-                      <p className="text-sm text-gray-400 text-center py-4">Content coming soon</p>
+                      <p className="text-sm text-gray-400 text-center py-4">{t("pages.imagingLessons.contentComingSoon")}</p>
                     ) : (
                       <div className="space-y-3">
                         {items.map((item: any) => (
@@ -181,31 +183,31 @@ function PositioningContent({ item }: { item: any }) {
       <h4 className="font-semibold text-gray-900 mb-2">{item.bodyPart} - {item.projectionName}</h4>
       {item.patientPosition && (
         <div className="mb-2">
-          <span className="text-xs font-medium text-gray-500">Patient Position:</span>
+          <span className="text-xs font-medium text-gray-500">{t("pages.imagingLessons.patientPosition")}</span>
           <p className="text-sm text-gray-700">{item.patientPosition}</p>
         </div>
       )}
       {item.centralRay && (
         <div className="mb-2">
-          <span className="text-xs font-medium text-gray-500">Central Ray:</span>
+          <span className="text-xs font-medium text-gray-500">{t("pages.imagingLessons.centralRay")}</span>
           <p className="text-sm text-gray-700">{item.centralRay}</p>
         </div>
       )}
       {item.anatomyDemonstrated && (
         <div className="mb-2">
-          <span className="text-xs font-medium text-gray-500">Anatomy Demonstrated:</span>
+          <span className="text-xs font-medium text-gray-500">{t("pages.imagingLessons.anatomyDemonstrated")}</span>
           <p className="text-sm text-gray-700">{item.anatomyDemonstrated}</p>
         </div>
       )}
       {item.tips && (
         <div className="mb-2">
-          <span className="text-xs font-medium text-gray-500">Tips:</span>
+          <span className="text-xs font-medium text-gray-500">{t("pages.imagingLessons.tips")}</span>
           <p className="text-sm text-gray-700">{item.tips}</p>
         </div>
       )}
       {item.sid && (
         <div>
-          <span className="text-xs font-medium text-gray-500">SID:</span>
+          <span className="text-xs font-medium text-gray-500">{t("pages.imagingLessons.sid")}</span>
           <span className="text-sm text-gray-700 ml-1">{item.sid}</span>
         </div>
       )}
@@ -249,13 +251,13 @@ function LessonContent({ item }: { item: any }) {
       )}
       {item.explanation && (
         <div className="mb-3 p-3 bg-blue-50 rounded-lg border border-blue-100">
-          <span className="text-xs font-medium text-blue-600">Key Insight:</span>
+          <span className="text-xs font-medium text-blue-600">{t("pages.imagingLessons.keyInsight")}</span>
           <p className="text-sm text-blue-800 mt-0.5">{item.explanation}</p>
         </div>
       )}
       {item.keyConcepts && Array.isArray(item.keyConcepts) && item.keyConcepts.length > 0 && (
         <div className="mb-3">
-          <span className="text-xs font-medium text-gray-500">Key Concepts:</span>
+          <span className="text-xs font-medium text-gray-500">{t("pages.imagingLessons.keyConcepts")}</span>
           <div className="flex flex-wrap gap-1 mt-1">
             {item.keyConcepts.map((c: string, i: number) => (
               <span key={i} className="px-2 py-0.5 bg-purple-50 text-purple-700 text-xs rounded">{c}</span>
@@ -265,7 +267,7 @@ function LessonContent({ item }: { item: any }) {
       )}
       {item.formulas && Array.isArray(item.formulas) && item.formulas.length > 0 && (
         <div className="mb-3">
-          <span className="text-xs font-medium text-gray-500">Formulas:</span>
+          <span className="text-xs font-medium text-gray-500">{t("pages.imagingLessons.formulas")}</span>
           <div className="mt-1 space-y-1">
             {item.formulas.map((f: any, i: number) => (
               <div key={i} className="bg-purple-50 rounded px-3 py-2 text-sm">
@@ -320,7 +322,7 @@ function LessonContent({ item }: { item: any }) {
                   </div>
                   {selectedAnswers[qi] !== undefined && q.rationale && (
                     <div className="mt-2 p-2 bg-blue-50 rounded text-xs text-blue-800">
-                      <span className="font-medium">Rationale:</span> {q.rationale}
+                      <span className="font-medium">{t("pages.imagingLessons.rationale")}</span> {q.rationale}
                     </div>
                   )}
                 </div>

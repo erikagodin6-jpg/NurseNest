@@ -332,6 +332,7 @@ const hubFaqs = [
 const clusterSlugs = Object.keys(clusterData);
 
 function FaqSchema({ faqs }: { faqs: { q: string; a: string }[] }) {
+  const { t } = useI18n();
   const schema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -416,7 +417,7 @@ function ClusterPage({ slug }: { slug: string }) {
         </div>
 
         <div className="mb-8">
-          <Badge variant="secondary" className="mb-3">Canadian REX-PN Exam</Badge>
+          <Badge variant="secondary" className="mb-3">{t("pages.rexPnGuide.canadianRexpnExam")}</Badge>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="text-rex-pn-cluster-title">{cluster.title}</h1>
           <p className="text-lg text-gray-600">{cluster.description}</p>
         </div>
@@ -435,7 +436,7 @@ function ClusterPage({ slug }: { slug: string }) {
         </article>
 
         <div className="bg-gray-50 rounded-xl p-8 my-10">
-          <h2 className="text-2xl font-bold mb-6">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold mb-6">{t("pages.rexPnGuide.frequentlyAskedQuestions")}</h2>
           <div className="space-y-6">
             {cluster.faqs.map((faq, i) => (
               <div key={i} className="border-b border-gray-200 pb-4 last:border-0">
@@ -448,7 +449,7 @@ function ClusterPage({ slug }: { slug: string }) {
 
         <div className="bg-gradient-to-r from-primary/10 to-blue-50 rounded-xl p-8 text-center my-10">
           <GraduationCap className="w-12 h-12 text-primary mx-auto mb-4" />
-          <h2 className="text-2xl font-bold mb-3">Ready to Start Practicing?</h2>
+          <h2 className="text-2xl font-bold mb-3">{t("pages.rexPnGuide.readyToStartPracticing")}</h2>
           <p className="text-gray-600 mb-6 max-w-lg mx-auto">
             Access RPN-tier practice questions, flashcards, and study tools specifically designed for the Canadian REX-PN exam.
           </p>
@@ -486,15 +487,15 @@ function HubPage() {
       <AdminEditButton />
       <FaqSchema faqs={hubFaqs} />
       <SEO
-        title="REX-PN Exam Guide: Complete Canadian RPN Licensing Exam Prep (2025)"
-        description="Everything you need to know about the REX-PN (Regulatory Exam – Practical Nurse). Exam format, CAT testing, content blueprint, scoring, study strategies, and practice questions for Canadian RPN candidates."
+        title={t("pages.rexPnGuide.rexpnExamGuideCompleteCanadian")}
+        description={t("pages.rexPnGuide.everythingYouNeedToKnow")}
         canonicalPath="/rex-pn-guide"
       />
 
       <main className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
         <BreadcrumbNav />
         <div className="mb-8">
-          <Badge variant="secondary" className="mb-3">Complete Guide · 2025</Badge>
+          <Badge variant="secondary" className="mb-3">{t("pages.rexPnGuide.completeGuide2025")}</Badge>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-rex-pn-hub-title">
             REX-PN Exam Guide: Canadian RPN Licensing
           </h1>
@@ -507,27 +508,27 @@ function HubPage() {
           <div className="bg-blue-50 rounded-xl p-4 text-center" data-testid="stat-rex-pn-questions">
             <FileText className="w-6 h-6 text-blue-600 mx-auto mb-2" />
             <div className="text-2xl font-bold text-blue-700">85-150</div>
-            <div className="text-xs text-blue-600">Questions (CAT)</div>
+            <div className="text-xs text-blue-600">{t("pages.rexPnGuide.questionsCat")}</div>
           </div>
           <div className="bg-green-50 rounded-xl p-4 text-center" data-testid="stat-rex-pn-time">
             <Clock className="w-6 h-6 text-green-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-green-700">5 Hours</div>
-            <div className="text-xs text-green-600">Maximum Time</div>
+            <div className="text-2xl font-bold text-green-700">{t("pages.rexPnGuide.5Hours")}</div>
+            <div className="text-xs text-green-600">{t("pages.rexPnGuide.maximumTime")}</div>
           </div>
           <div className="bg-purple-50 rounded-xl p-4 text-center" data-testid="stat-rex-pn-domains">
             <Target className="w-6 h-6 text-purple-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-purple-700">4 Domains</div>
-            <div className="text-xs text-purple-600">Client Needs</div>
+            <div className="text-2xl font-bold text-purple-700">{t("pages.rexPnGuide.4Domains")}</div>
+            <div className="text-xs text-purple-600">{t("pages.rexPnGuide.clientNeeds")}</div>
           </div>
           <div className="bg-amber-50 rounded-xl p-4 text-center" data-testid="stat-rex-pn-scope">
             <MapPin className="w-6 h-6 text-amber-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-amber-700">National</div>
-            <div className="text-xs text-amber-600">All Provinces</div>
+            <div className="text-2xl font-bold text-amber-700">{t("pages.rexPnGuide.national")}</div>
+            <div className="text-xs text-amber-600">{t("pages.rexPnGuide.allProvinces")}</div>
           </div>
         </div>
 
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-4">What Is the REX-PN?</h2>
+          <h2 className="text-2xl font-bold mb-4">{t("pages.rexPnGuide.whatIsTheRexpn")}</h2>
           <div className="prose prose-lg max-w-none text-gray-700">
             <p>
               The Regulatory Exam – Practical Nurse (REX-PN) is the Canadian licensing examination for practical nurse candidates seeking registration as a Registered Practical Nurse (RPN). Developed by the National Council of State Boards of Nursing (NCSBN) in partnership with Canadian nursing regulatory bodies, it uses Computer Adaptive Testing (CAT) technology to assess entry-level competency.
@@ -542,7 +543,7 @@ function HubPage() {
         </section>
 
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Content Domains</h2>
+          <h2 className="text-2xl font-bold mb-6">{t("pages.rexPnGuide.contentDomains")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {contentDomains.map((domain, i) => (
               <Card key={i} className="border-l-4 border-l-primary" data-testid={`card-rex-pn-domain-${i}`}>
@@ -562,12 +563,12 @@ function HubPage() {
         </section>
 
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Explore the Complete Guide</h2>
+          <h2 className="text-2xl font-bold mb-6">{t("pages.rexPnGuide.exploreTheCompleteGuide")}</h2>
           <ClusterNav />
         </section>
 
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-4">CAT Format & How It Works</h2>
+          <h2 className="text-2xl font-bold mb-4">{t("pages.rexPnGuide.catFormatHowItWorks")}</h2>
           <div className="prose prose-lg max-w-none text-gray-700">
             <p>
               The REX-PN uses Computer Adaptive Testing (CAT), which tailors question difficulty to each candidate's demonstrated ability level. After each answer, the computer recalculates the candidate's estimated ability and selects the next question accordingly — harder questions after correct answers, easier questions after incorrect answers.
@@ -582,7 +583,7 @@ function HubPage() {
         </section>
 
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-4">Study Strategy Overview</h2>
+          <h2 className="text-2xl font-bold mb-4">{t("pages.rexPnGuide.studyStrategyOverview")}</h2>
           <div className="prose prose-lg max-w-none text-gray-700">
             <p>
               A structured 10-week study plan is recommended, divided into three phases: Content Foundation (Weeks 1-4), Clinical Application (Weeks 5-7), and Exam Readiness (Weeks 8-10). Consistent daily study of 2-3 hours with a balanced approach of content review, practice questions, and active recall produces the best outcomes.
@@ -606,7 +607,7 @@ function HubPage() {
         </section>
 
         <div className="bg-gray-50 rounded-xl p-8 mb-12">
-          <h2 className="text-2xl font-bold mb-6">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold mb-6">{t("pages.rexPnGuide.frequentlyAskedQuestions2")}</h2>
           <div className="space-y-6">
             {hubFaqs.slice(0, 8).map((faq, i) => (
               <div key={i} className="border-b border-gray-200 pb-4 last:border-0" data-testid={`faq-rex-pn-${i}`}>
@@ -619,7 +620,7 @@ function HubPage() {
 
         <div className="bg-gradient-to-r from-primary/10 to-blue-50 rounded-xl p-8 text-center mb-12">
           <GraduationCap className="w-12 h-12 text-primary mx-auto mb-4" />
-          <h2 className="text-2xl font-bold mb-3">Start Your REX-PN Exam Prep</h2>
+          <h2 className="text-2xl font-bold mb-3">{t("pages.rexPnGuide.startYourRexpnExamPrep")}</h2>
           <p className="text-gray-600 mb-6 max-w-lg mx-auto">
             Access RPN-tier practice questions, flashcards, and clinical study tools designed specifically for the Canadian REX-PN licensing exam.
           </p>

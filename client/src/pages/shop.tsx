@@ -426,8 +426,8 @@ function AdminProductManager() {
 
       {showSync && (
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4 space-y-3" data-testid="panel-sync">
-          <h4 className="font-semibold text-sm text-blue-900">Product Sync</h4>
-          <p className="text-xs text-blue-700">Export products from here and push them to your production store, or import from a file.</p>
+          <h4 className="font-semibold text-sm text-blue-900">{t("pages.shop.productSync")}</h4>
+          <p className="text-xs text-blue-700">{t("pages.shop.exportProductsFromHereAnd")}</p>
           <div className="flex flex-wrap gap-2">
             <Button onClick={handleExport} size="sm" variant="outline" data-testid="button-export-products">
               <Download className="w-4 h-4 mr-1" /> Export JSON
@@ -440,7 +440,7 @@ function AdminProductManager() {
             </label>
           </div>
           <div className="border-t border-blue-200 pt-3 mt-2">
-            <p className="text-xs font-medium text-blue-900 mb-2">Push to Production</p>
+            <p className="text-xs font-medium text-blue-900 mb-2">{t("pages.shop.pushToProduction")}</p>
             <div className="flex gap-2">
               <Input
                 placeholder="https://www.nursenest.ca"
@@ -454,7 +454,7 @@ function AdminProductManager() {
                 {syncing ? "Pushing..." : "Push"}
               </Button>
             </div>
-            <p className="text-[10px] text-blue-600 mt-1">Exports all products from this environment and imports them into your production store. Matching slugs are updated, new ones are created.</p>
+            <p className="text-[10px] text-blue-600 mt-1">{t("pages.shop.exportsAllProductsFromThis")}</p>
           </div>
         </div>
       )}
@@ -462,27 +462,27 @@ function AdminProductManager() {
       {showForm && (
         <div className="bg-gray-50 rounded-lg p-4 mb-4 space-y-3" data-testid="form-product">
           <div className="grid grid-cols-2 gap-3">
-            <Input placeholder="Title" value={form.title} onChange={e => setForm({...form, title: e.target.value})} data-testid="input-product-title" />
-            <Input placeholder="Slug" value={form.slug} onChange={e => setForm({...form, slug: e.target.value})} data-testid="input-product-slug" />
+            <Input placeholder={t("pages.shop.title")} value={form.title} onChange={e => setForm({...form, title: e.target.value})} data-testid="input-product-title" />
+            <Input placeholder={t("pages.shop.slug")} value={form.slug} onChange={e => setForm({...form, slug: e.target.value})} data-testid="input-product-slug" />
           </div>
-          <Textarea placeholder="Full description" value={form.description} onChange={e => setForm({...form, description: e.target.value})} data-testid="input-product-description" />
-          <Input placeholder="Short description" value={form.shortDescription} onChange={e => setForm({...form, shortDescription: e.target.value})} data-testid="input-product-short-desc" />
+          <Textarea placeholder={t("pages.shop.fullDescription")} value={form.description} onChange={e => setForm({...form, description: e.target.value})} data-testid="input-product-description" />
+          <Input placeholder={t("pages.shop.shortDescription")} value={form.shortDescription} onChange={e => setForm({...form, shortDescription: e.target.value})} data-testid="input-product-short-desc" />
           <div className="grid grid-cols-3 gap-3">
-            <Input placeholder="Price ($)" value={form.priceDollars} onChange={e => setForm({...form, priceDollars: e.target.value})} data-testid="input-product-price" />
-            <Input placeholder="Compare-at price ($)" value={form.compareAtDollars} onChange={e => setForm({...form, compareAtDollars: e.target.value})} data-testid="input-product-compare-price" />
+            <Input placeholder={t("pages.shop.price")} value={form.priceDollars} onChange={e => setForm({...form, priceDollars: e.target.value})} data-testid="input-product-price" />
+            <Input placeholder={t("pages.shop.compareatPrice")} value={form.compareAtDollars} onChange={e => setForm({...form, compareAtDollars: e.target.value})} data-testid="input-product-compare-price" />
             <select className="border rounded px-3 py-2 text-sm" value={form.category} onChange={e => setForm({...form, category: e.target.value})} data-testid="select-product-category">
-              <option>Cram Guide</option>
-              <option>Flashcard Pack</option>
-              <option>Printable</option>
-              <option>Bundle</option>
-              <option>Quick Reference</option>
+              <option>{t("pages.shop.cramGuide")}</option>
+              <option>{t("pages.shop.flashcardPack")}</option>
+              <option>{t("pages.shop.printable")}</option>
+              <option>{t("pages.shop.bundle")}</option>
+              <option>{t("pages.shop.quickReference")}</option>
             </select>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-gray-500 flex items-center gap-1"><Image className="w-3 h-3" /> Cover Image</label>
+              <label className="text-xs font-medium text-gray-500 flex items-center gap-1"><Image className="w-3 h-3" /> {t("pages.shop.coverImage")}</label>
               <div className="flex gap-1.5">
-                <Input placeholder="Cover image URL" value={form.coverImageUrl} onChange={e => setForm({...form, coverImageUrl: e.target.value})} className="flex-1 text-xs" data-testid="input-product-cover" />
+                <Input placeholder={t("pages.shop.coverImageUrl")} value={form.coverImageUrl} onChange={e => setForm({...form, coverImageUrl: e.target.value})} className="flex-1 text-xs" data-testid="input-product-cover" />
                 <label className="cursor-pointer">
                   <input type="file" accept="image/*" className="hidden" onChange={e => handleFileUpload(e, "cover")} data-testid="input-upload-cover" />
                   <span className={`inline-flex items-center gap-1 px-3 py-2 text-xs font-medium rounded-md border transition-colors ${uploading === "cover" ? "bg-gray-100 text-gray-400" : "bg-white hover:bg-gray-50 text-gray-700 border-gray-300"}`}>
@@ -494,9 +494,9 @@ function AdminProductManager() {
               {form.coverImageUrl && <p className="text-[10px] text-green-600 truncate">Attached: {form.coverImageUrl.split("/").pop()}</p>}
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-gray-500 flex items-center gap-1"><FileText className="w-3 h-3" /> Document (PDF)</label>
+              <label className="text-xs font-medium text-gray-500 flex items-center gap-1"><FileText className="w-3 h-3" /> {t("pages.shop.documentPdf")}</label>
               <div className="flex gap-1.5">
-                <Input placeholder="File URL (PDF)" value={form.fileUrl} onChange={e => setForm({...form, fileUrl: e.target.value})} className="flex-1 text-xs" data-testid="input-product-file" />
+                <Input placeholder={t("pages.shop.fileUrlPdf")} value={form.fileUrl} onChange={e => setForm({...form, fileUrl: e.target.value})} className="flex-1 text-xs" data-testid="input-product-file" />
                 <label className="cursor-pointer">
                   <input type="file" accept=".pdf,.docx,.xlsx,.zip" className="hidden" onChange={e => handleFileUpload(e, "file")} data-testid="input-upload-file" />
                   <span className={`inline-flex items-center gap-1 px-3 py-2 text-xs font-medium rounded-md border transition-colors ${uploading === "file" ? "bg-gray-100 text-gray-400" : "bg-white hover:bg-gray-50 text-gray-700 border-gray-300"}`}>
@@ -510,12 +510,12 @@ function AdminProductManager() {
           </div>
           <div className="grid grid-cols-3 gap-3 items-center">
             <select className="border rounded px-3 py-2 text-sm" value={form.tierTarget} onChange={e => setForm({...form, tierTarget: e.target.value})} data-testid="select-product-tier">
-              <option value="all">All Tiers</option>
+              <option value="all">{t("pages.shop.allTiers")}</option>
               <option value="rpn">RPN</option>
               <option value="rn">RN</option>
               <option value="np">NP</option>
             </select>
-            <Input placeholder="Exam target (e.g. REx-PN)" value={form.examTarget} onChange={e => setForm({...form, examTarget: e.target.value})} data-testid="input-product-exam" />
+            <Input placeholder={t("pages.shop.examTargetEgRexpn")} value={form.examTarget} onChange={e => setForm({...form, examTarget: e.target.value})} data-testid="input-product-exam" />
             <label className="flex items-center gap-2 text-sm">
               <input type="checkbox" checked={form.featured} onChange={e => setForm({...form, featured: e.target.checked})} data-testid="checkbox-product-featured" />
               Featured
@@ -542,10 +542,10 @@ function AdminProductManager() {
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="font-medium text-sm">{p.title}</span>
                   <span className="text-xs text-gray-400">{formatPrice(p.price)}</span>
-                  {!p.isActive && <Badge variant="outline" className="text-xs text-red-500">Inactive</Badge>}
+                  {!p.isActive && <Badge variant="outline" className="text-xs text-red-500">{t("pages.shop.inactive")}</Badge>}
                   {saleActive && <Badge className="bg-green-100 text-green-700 text-[10px]" data-testid={`badge-sale-active-${p.slug}`}>SALE: {formatPrice(p.salePrice!)}</Badge>}
-                  {saleUpcoming && <Badge className="bg-blue-100 text-blue-700 text-[10px]" data-testid={`badge-sale-upcoming-${p.slug}`}>Sale scheduled</Badge>}
-                  {saleExpired && <Badge className="bg-gray-100 text-gray-500 text-[10px]">Sale expired</Badge>}
+                  {saleUpcoming && <Badge className="bg-blue-100 text-blue-700 text-[10px]" data-testid={`badge-sale-upcoming-${p.slug}`}>{t("pages.shop.saleScheduled")}</Badge>}
+                  {saleExpired && <Badge className="bg-gray-100 text-gray-500 text-[10px]">{t("pages.shop.saleExpired")}</Badge>}
                 </div>
                 <div className="flex gap-1">
                   <Button onClick={() => startEdit(p)} variant="ghost" size="sm" data-testid={`button-edit-${p.slug}`}><Edit className="w-4 h-4" /></Button>
@@ -560,7 +560,7 @@ function AdminProductManager() {
                       });
                     }}
                     variant="ghost" size="sm" data-testid={`button-sale-${p.slug}`}
-                    title="Manage sale"
+                    title={t("pages.shop.manageSale")}
                   >
                     <Tag className={`w-4 h-4 ${saleActive ? "text-green-500" : "text-gray-400"}`} />
                   </Button>
@@ -584,7 +584,7 @@ function AdminProductManager() {
                         }
                       }}
                       variant="ghost" size="sm" data-testid={`button-download-${p.slug}`}
-                      title="Download full PDF"
+                      title={t("pages.shop.downloadFullPdf")}
                     >
                       <Download className="w-4 h-4 text-blue-500" />
                     </Button>
@@ -608,7 +608,7 @@ function AdminProductManager() {
                       }
                     }}
                     variant="ghost" size="sm" data-testid={`button-gen-preview-${p.slug}`}
-                    title="Generate watermarked preview"
+                    title={t("pages.shop.generateWatermarkedPreview")}
                   >
                     <Shield className="w-4 h-4 text-amber-500" />
                   </Button>
@@ -625,11 +625,11 @@ function AdminProductManager() {
                       <Input type="number" step="0.01" placeholder="e.g. 9.99" value={saleForm.salePriceDollars} onChange={e => setSaleForm(f => ({...f, salePriceDollars: e.target.value}))} className="h-7 text-xs" data-testid={`input-sale-price-${p.slug}`} />
                     </div>
                     <div>
-                      <label className="text-[10px] font-medium text-gray-400 block mb-0.5">Starts</label>
+                      <label className="text-[10px] font-medium text-gray-400 block mb-0.5">{t("pages.shop.starts")}</label>
                       <Input type="datetime-local" value={saleForm.saleStartsAt} onChange={e => setSaleForm(f => ({...f, saleStartsAt: e.target.value}))} className="h-7 text-xs" data-testid={`input-sale-start-${p.slug}`} />
                     </div>
                     <div>
-                      <label className="text-[10px] font-medium text-gray-400 block mb-0.5">Ends</label>
+                      <label className="text-[10px] font-medium text-gray-400 block mb-0.5">{t("pages.shop.ends")}</label>
                       <Input type="datetime-local" value={saleForm.saleEndsAt} onChange={e => setSaleForm(f => ({...f, saleEndsAt: e.target.value}))} className="h-7 text-xs" data-testid={`input-sale-end-${p.slug}`} />
                     </div>
                   </div>
@@ -647,7 +647,7 @@ function AdminProductManager() {
                         Clear Sale
                       </Button>
                     )}
-                    <Button onClick={() => setSaleProductId(null)} size="sm" variant="ghost" className="h-7 text-xs">Cancel</Button>
+                    <Button onClick={() => setSaleProductId(null)} size="sm" variant="ghost" className="h-7 text-xs">{t("pages.shop.cancel")}</Button>
                   </div>
                 </div>
               )}
@@ -693,8 +693,8 @@ export default function ShopPage() {
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
       <AdminEditButton />
       <SEO
-        title="Nursing Study Guides & Cram Booklets | NurseNest Store"
-        description="Download professional nursing cram guides, quick reference sheets, and study bundles. NCLEX-PN, REx-PN, NCLEX-RN, and NP exam prep materials from $19."
+        title={t("pages.shop.nursingStudyGuidesCramBooklets")}
+        description={t("pages.shop.downloadProfessionalNursingCramGuides")}
         keywords="nursing study guides, NCLEX cram guide, NCLEX-PN study materials, REx-PN study materials, nursing exam prep PDF"
         canonicalPath="/shop"
       />

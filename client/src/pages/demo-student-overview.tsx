@@ -12,9 +12,11 @@ import { DemoPageWrapper, SectionCard, SectionTitle, StatCard, MasteryBar, Progr
 import { studentOverviewData as d } from "@/data/demo-screenshot-data";
 import { demoProfiles } from "@/data/demo-adaptive-profiles";
 
+import { useI18n } from "@/lib/i18n";
 export default function DemoStudentOverview() {
+  const { t } = useI18n();
   const { user, isAdmin } = useAuth();
-  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">Admin access required.</p></div></DemoPageWrapper>;
+  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">{t("pages.demoStudentOverview.adminAccessRequired")}</p></div></DemoPageWrapper>;
 
   const p = demoProfiles[0];
 
@@ -39,26 +41,26 @@ export default function DemoStudentOverview() {
               </div>
               <div className="mt-5">
                 <ProgressRing value={p.readinessScore} size={100} strokeWidth={7} />
-                <p className="text-xs text-slate-500 mt-2">Exam Readiness</p>
+                <p className="text-xs text-slate-500 mt-2">{t("pages.demoStudentOverview.examReadiness")}</p>
               </div>
             </SectionCard>
 
             <SectionCard>
-              <SectionTitle title="Monthly Progress" />
+              <SectionTitle title={t("pages.demoStudentOverview.monthlyProgress")} />
               <div className="grid grid-cols-2 gap-3">
                 <div className="text-center p-3 rounded-xl bg-violet-50/50 border border-violet-100/60">
                   <p className="text-xl font-bold text-violet-700">{d.monthlyProgress.questionsThisMonth}</p>
-                  <p className="text-[10px] text-slate-500">Questions this month</p>
+                  <p className="text-[10px] text-slate-500">{t("pages.demoStudentOverview.questionsThisMonth")}</p>
                 </div>
                 <div className="text-center p-3 rounded-xl bg-emerald-50/50 border border-emerald-100/60">
                   <p className="text-xl font-bold text-emerald-600">+{d.monthlyProgress.readinessChange}%</p>
-                  <p className="text-[10px] text-slate-500">Readiness change</p>
+                  <p className="text-[10px] text-slate-500">{t("pages.demoStudentOverview.readinessChange")}</p>
                 </div>
               </div>
             </SectionCard>
 
             <SectionCard>
-              <SectionTitle title="Saved Weak Areas" />
+              <SectionTitle title={t("pages.demoStudentOverview.savedWeakAreas")} />
               <div className="space-y-2">
                 {d.savedWeakAreas.map((area) => (
                   <div key={area} className="flex items-center justify-between px-3 py-2.5 rounded-xl bg-rose-50/50 border border-rose-100/60 group cursor-pointer hover:bg-rose-50 transition-colors">
@@ -77,24 +79,24 @@ export default function DemoStudentOverview() {
                   <Zap className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-sm font-semibold text-slate-700 mb-0.5">Resume Studying</h3>
-                  <p className="text-xs text-slate-500 mb-3">Pick up where you left off</p>
+                  <h3 className="text-sm font-semibold text-slate-700 mb-0.5">{t("pages.demoStudentOverview.resumeStudying")}</h3>
+                  <p className="text-xs text-slate-500 mb-3">{t("pages.demoStudentOverview.pickUpWhereYouLeft")}</p>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
                     <div className="px-3 py-2.5 rounded-xl bg-white/80 border border-slate-100 text-center">
-                      <p className="text-xs text-slate-500">Last Session</p>
+                      <p className="text-xs text-slate-500">{t("pages.demoStudentOverview.lastSession")}</p>
                       <p className="text-xs font-semibold text-slate-700 mt-0.5">{d.resumeCard.lastSessionDate}</p>
                     </div>
                     <div className="px-3 py-2.5 rounded-xl bg-white/80 border border-slate-100 text-center">
-                      <p className="text-xs text-slate-500">Due Flashcards</p>
+                      <p className="text-xs text-slate-500">{t("pages.demoStudentOverview.dueFlashcards")}</p>
                       <p className="text-lg font-bold text-rose-500">{d.resumeCard.dueFlashcards}</p>
                     </div>
                     <div className="px-3 py-2.5 rounded-xl bg-white/80 border border-slate-100 text-center">
-                      <p className="text-xs text-slate-500">Weekly Target</p>
+                      <p className="text-xs text-slate-500">{t("pages.demoStudentOverview.weeklyTarget")}</p>
                       <p className="text-xs font-semibold text-slate-700 mt-0.5">{d.resumeCard.weeklyCompleted}/{d.resumeCard.weeklyTarget}</p>
                     </div>
                     <div className="px-3 py-2.5 rounded-xl bg-white/80 border border-slate-100 text-center">
-                      <p className="text-xs text-slate-500">Recommended</p>
-                      <p className="text-xs font-semibold text-violet-600 mt-0.5">Quiz</p>
+                      <p className="text-xs text-slate-500">{t("pages.demoStudentOverview.recommended")}</p>
+                      <p className="text-xs font-semibold text-violet-600 mt-0.5">{t("pages.demoStudentOverview.quiz")}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -110,15 +112,15 @@ export default function DemoStudentOverview() {
             </SectionCard>
 
             <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
-              <StatCard icon={<BarChart3 className="w-4 h-4" />} label="Questions" value={d.completedContent.questions.toLocaleString()} />
-              <StatCard icon={<Layers className="w-4 h-4" />} label="Flashcards" value={d.completedContent.flashcards.toLocaleString()} accent="bg-sky-50 text-sky-500" />
-              <StatCard icon={<BookOpen className="w-4 h-4" />} label="Lessons" value={d.completedContent.lessons.toString()} accent="bg-emerald-50 text-emerald-500" />
-              <StatCard icon={<Brain className="w-4 h-4" />} label="Case Studies" value={d.completedContent.caseStudies.toString()} accent="bg-amber-50 text-amber-500" />
-              <StatCard icon={<Target className="w-4 h-4" />} label="CAT Sims" value={d.completedContent.catSimulations.toString()} accent="bg-rose-50 text-rose-500" />
+              <StatCard icon={<BarChart3 className="w-4 h-4" />} label={t("pages.demoStudentOverview.questions")} value={d.completedContent.questions.toLocaleString()} />
+              <StatCard icon={<Layers className="w-4 h-4" />} label={t("pages.demoStudentOverview.flashcards")} value={d.completedContent.flashcards.toLocaleString()} accent="bg-sky-50 text-sky-500" />
+              <StatCard icon={<BookOpen className="w-4 h-4" />} label={t("pages.demoStudentOverview.lessons")} value={d.completedContent.lessons.toString()} accent="bg-emerald-50 text-emerald-500" />
+              <StatCard icon={<Brain className="w-4 h-4" />} label={t("pages.demoStudentOverview.caseStudies")} value={d.completedContent.caseStudies.toString()} accent="bg-amber-50 text-amber-500" />
+              <StatCard icon={<Target className="w-4 h-4" />} label={t("pages.demoStudentOverview.catSims")} value={d.completedContent.catSimulations.toString()} accent="bg-rose-50 text-rose-500" />
             </div>
 
             <SectionCard>
-              <SectionTitle title="Upcoming Milestones" subtitle="Progress toward your next goals" />
+              <SectionTitle title={t("pages.demoStudentOverview.upcomingMilestones")} subtitle={t("pages.demo_student_overview.progressTowardYourNextGoals")} />
               <div className="space-y-3">
                 {d.upcomingMilestones.map((m) => (
                   <div key={m.label} className="flex items-center gap-3">
@@ -131,14 +133,14 @@ export default function DemoStudentOverview() {
             </SectionCard>
 
             <SectionCard>
-              <SectionTitle title="Daily Goal Completed" />
+              <SectionTitle title={t("pages.demoStudentOverview.dailyGoalCompleted")} />
               <div className="flex items-center gap-4 py-2">
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-200/50">
                   <Award className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-slate-700">43 questions completed today</p>
-                  <p className="text-xs text-slate-500">You've exceeded your daily target of 40 questions</p>
+                  <p className="text-sm font-semibold text-slate-700">{t("pages.demoStudentOverview.43QuestionsCompletedToday")}</p>
+                  <p className="text-xs text-slate-500">{t("pages.demoStudentOverview.youveExceededYourDailyTarget")}</p>
                 </div>
                 <span className="ml-auto inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-100">
                   <Star className="w-3 h-3" /> Goal Met

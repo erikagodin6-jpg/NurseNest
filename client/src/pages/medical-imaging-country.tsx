@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { ImagingUpgradeCTA } from "@/components/imaging-paywall";
+import { useI18n } from "@/lib/i18n";
 import {
   BookOpen, FileText, Zap, Brain, Star, ArrowRight,
   CheckCircle2, Radio, BarChart3, Lock, Target, TrendingUp,
@@ -79,6 +80,7 @@ const COUNTRY_CONFIGS: Record<string, CountryConfig> = {
 };
 
 function DiscoveryModules({ country, config }: { country: string; config: CountryConfig }) {
+  const { t } = useI18n();
   const { data: discovery } = useQuery({
     queryKey: ["/api/imaging-seo/discovery", country],
     queryFn: async () => {
@@ -142,7 +144,7 @@ function DiscoveryModules({ country, config }: { country: string; config: Countr
     <section className="py-14 bg-gray-50" data-testid={`${country}-discovery`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <h2 className="text-2xl font-bold text-gray-900 mb-3">Discover & Explore</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("pages.medicalImagingCountry.discoverExplore")}</h2>
           <p className="text-gray-600">Find the right study resources for your {config.exam} preparation</p>
         </div>
 
@@ -150,15 +152,15 @@ function DiscoveryModules({ country, config }: { country: string; config: Countr
           <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto mb-10">
             <div className="text-center bg-white rounded-xl border border-gray-100 p-4" data-testid="stat-positioning">
               <div className="text-2xl font-bold text-indigo-600">{stats.positioningGuides}</div>
-              <div className="text-xs text-gray-500">Positioning Guides</div>
+              <div className="text-xs text-gray-500">{t("pages.medicalImagingCountry.positioningGuides")}</div>
             </div>
             <div className="text-center bg-white rounded-xl border border-gray-100 p-4" data-testid="stat-questions">
               <div className="text-2xl font-bold text-indigo-600">{stats.practiceQuestions}</div>
-              <div className="text-xs text-gray-500">Practice Questions</div>
+              <div className="text-xs text-gray-500">{t("pages.medicalImagingCountry.practiceQuestions")}</div>
             </div>
             <div className="text-center bg-white rounded-xl border border-gray-100 p-4" data-testid="stat-flashcards">
               <div className="text-2xl font-bold text-indigo-600">{stats.flashcards}</div>
-              <div className="text-xs text-gray-500">Flashcards</div>
+              <div className="text-xs text-gray-500">{t("pages.medicalImagingCountry.flashcards")}</div>
             </div>
           </div>
         )}
@@ -185,27 +187,27 @@ function DiscoveryModules({ country, config }: { country: string; config: Countr
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <Link href={`/medical-imaging/${country}/practice-exams`} className="flex flex-col items-center gap-2 p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-indigo-200 transition-all text-center" data-testid="link-discover-practice">
               <FileText className="w-6 h-6 text-indigo-500" />
-              <span className="text-sm font-medium text-gray-700">Practice Questions</span>
+              <span className="text-sm font-medium text-gray-700">{t("pages.medicalImagingCountry.practiceQuestions2")}</span>
             </Link>
             <Link href={`/medical-imaging/${country}/positioning`} className="flex flex-col items-center gap-2 p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-indigo-200 transition-all text-center" data-testid="link-discover-positioning">
               <Radio className="w-6 h-6 text-indigo-500" />
-              <span className="text-sm font-medium text-gray-700">Positioning Guide</span>
+              <span className="text-sm font-medium text-gray-700">{t("pages.medicalImagingCountry.positioningGuide")}</span>
             </Link>
             <Link href={`/medical-imaging/${country}/flashcards`} className="flex flex-col items-center gap-2 p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-indigo-200 transition-all text-center" data-testid="link-discover-flashcards">
               <Zap className="w-6 h-6 text-indigo-500" />
-              <span className="text-sm font-medium text-gray-700">Flashcards</span>
+              <span className="text-sm font-medium text-gray-700">{t("pages.medicalImagingCountry.flashcards2")}</span>
             </Link>
             <Link href={`/medical-imaging/${country}/physics`} className="flex flex-col items-center gap-2 p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-indigo-200 transition-all text-center" data-testid="link-discover-physics">
               <Brain className="w-6 h-6 text-indigo-500" />
-              <span className="text-sm font-medium text-gray-700">Physics Review</span>
+              <span className="text-sm font-medium text-gray-700">{t("pages.medicalImagingCountry.physicsReview")}</span>
             </Link>
             <Link href="/medical-imaging/blog" className="flex flex-col items-center gap-2 p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-indigo-200 transition-all text-center" data-testid="link-discover-blog">
               <Newspaper className="w-6 h-6 text-indigo-500" />
-              <span className="text-sm font-medium text-gray-700">Study Guides</span>
+              <span className="text-sm font-medium text-gray-700">{t("pages.medicalImagingCountry.studyGuides")}</span>
             </Link>
             <Link href="/radiography-practice-questions" className="flex flex-col items-center gap-2 p-5 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-indigo-200 transition-all text-center" data-testid="link-discover-free">
               <Lightbulb className="w-6 h-6 text-indigo-500" />
-              <span className="text-sm font-medium text-gray-700">Free Resources</span>
+              <span className="text-sm font-medium text-gray-700">{t("pages.medicalImagingCountry.freeResources")}</span>
             </Link>
           </div>
         )}
@@ -227,8 +229,8 @@ function MedicalImagingCountryPage({ country }: { country: string }) {
   if (!config) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Country Not Found</h1>
-        <p className="text-gray-600">The country pathway you're looking for doesn't exist.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.medicalImagingCountry.countryNotFound")}</h1>
+        <p className="text-gray-600">{t("pages.medicalImagingCountry.theCountryPathwayYoureLooking")}</p>
         <Link href="/medical-imaging" className="inline-block mt-4 px-6 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-medium hover:bg-indigo-700" data-testid="link-back-imaging">
           Back to Medical Imaging
         </Link>
@@ -303,7 +305,7 @@ function MedicalImagingCountryPage({ country }: { country: string }) {
       <section className="py-14 sm:py-16" data-testid={`${country}-sections`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">Study Resources</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("pages.medicalImagingCountry.studyResources")}</h2>
             <p className="text-gray-600">Everything you need to pass the {config.exam} exam</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -330,7 +332,7 @@ function MedicalImagingCountryPage({ country }: { country: string }) {
                     Start Now <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 ) : (
-                  <span className="text-sm text-gray-400">Available soon</span>
+                  <span className="text-sm text-gray-400">{t("pages.medicalImagingCountry.availableSoon")}</span>
                 )}
               </div>
             ))}
@@ -341,8 +343,8 @@ function MedicalImagingCountryPage({ country }: { country: string }) {
       <section className="py-14 bg-gradient-to-b from-gray-50 to-white" data-testid={`${country}-quickstart`}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">Quick Start Path</h2>
-            <p className="text-gray-600">Follow these 4 steps to get exam-ready</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("pages.medicalImagingCountry.quickStartPath")}</h2>
+            <p className="text-gray-600">{t("pages.medicalImagingCountry.followThese4StepsTo")}</p>
           </div>
           <div className="space-y-4">
             {config.quickStart.map((step, i) => (

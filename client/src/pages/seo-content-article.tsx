@@ -5,15 +5,17 @@ import type { SeoArticle } from "@/data/seo-content-articles";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 
+import { useI18n } from "@/lib/i18n";
 const SITE_DOMAIN = "https://www.nursenest.ca";
 
 function NotFoundPage() {
+  const { t } = useI18n();
   return (
     <div data-testid="seo-article-not-found">
       <Navigation />
       <div className="max-w-4xl mx-auto px-4 py-24 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">Article Not Found</h1>
-        <p className="text-gray-600">The article you're looking for doesn't exist or has been moved.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.seoContentArticle.articleNotFound")}</h1>
+        <p className="text-gray-600">{t("pages.seoContentArticle.theArticleYoureLookingFor")}</p>
       </div>
       <Footer />
     </div>

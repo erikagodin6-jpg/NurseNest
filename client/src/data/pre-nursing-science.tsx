@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -21,6 +22,7 @@ import {
 } from "lucide-react";
 
 export function ScienceFoundationsModule() {
+  const { t } = useI18n();
   const biosystemsConcept = useEditableText("science-biosystems-concept", "When a patient presents with multi-organ dysfunction, you're seeing the levels of organization failing in reverse — from organism-level symptoms traced back to cellular injury. Understanding this hierarchy helps you prioritize assessments.");
   const biomoleculesRemember = useEditableText("science-biomolecules-remember", "ATP (adenosine triphosphate) is the universal energy currency. Cells generate ATP primarily through aerobic metabolism (oxygen-dependent). When oxygen is unavailable, anaerobic metabolism produces lactic acid — this is why tissue hypoxia leads to metabolic acidosis.");
   const dnaWarning = useEditableText("science-dna-warning", "A single nucleotide mutation can alter the protein produced. Sickle cell disease results from one amino acid change in hemoglobin (Glu→Val), causing red blood cells to deform under low oxygen conditions. This is a powerful example of how molecular changes manifest as clinical disease.");
@@ -61,7 +63,7 @@ export function ScienceFoundationsModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Why This Matters for Nursing"
+          title={t("data.pre_nursing_science.whyThisMattersForNursing")}
           content={biosystemsConcept}
         />
       </MicroLesson>
@@ -73,7 +75,7 @@ export function ScienceFoundationsModule() {
           are the building blocks of all cellular structures and functions. Each plays a distinct role in maintaining health.
         </p>
         <ProgressiveReveal
-          title="The Four Biomolecules"
+          title={t("data.pre_nursing_science.theFourBiomolecules")}
           cards={[
             {
               id: "bio1",
@@ -103,14 +105,14 @@ export function ScienceFoundationsModule() {
         />
         <CognitiveCard
           type="remember"
-          title="Energy Transfer"
+          title={t("data.pre_nursing_science.energyTransfer")}
           content={biomoleculesRemember}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Biomolecule Function Matching"
-        description="Match each biomolecule to its primary role"
+        title={t("data.pre_nursing_science.biomoleculeFunctionMatching")}
+        description={t("data.pre_nursing_science.matchEachBiomoleculeToIts")}
         pairs={[
           { id: "bm1", term: "Enzymes (proteins)", definition: "Catalyze metabolic reactions" },
           { id: "bm2", term: "Phospholipids", definition: "Form cell membrane bilayer" },
@@ -122,7 +124,7 @@ export function ScienceFoundationsModule() {
       />
 
       <SelfCheckQuiz
-        title="Biomolecules & Metabolism Check"
+        title={t("data.pre_nursing_science.biomoleculesMetabolismCheck")}
         questions={[
           {
             id: "sf1",
@@ -176,7 +178,7 @@ export function ScienceFoundationsModule() {
         </div>
         <CognitiveCard
           type="warning"
-          title="Mutations & Disease"
+          title={t("data.pre_nursing_science.mutationsDisease")}
           content={dnaWarning}
         />
       </MicroLesson>
@@ -196,13 +198,13 @@ export function ScienceFoundationsModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Chromosomal Integrity"
+          title={t("data.pre_nursing_science.chromosomalIntegrity")}
           content={celldivConcept}
         />
       </MicroLesson>
 
       <SelfCheckQuiz
-        title="Genetics & Cell Division Check"
+        title={t("data.pre_nursing_science.geneticsCellDivisionCheck")}
         questions={[
           {
             id: "sf4",
@@ -236,7 +238,7 @@ export function ScienceFoundationsModule() {
           is essential for infection control, one of the most critical competencies in nursing practice.
         </p>
         <ProgressiveReveal
-          title="Pathogen Categories"
+          title={t("data.pre_nursing_science.pathogenCategories")}
           cards={[
             {
               id: "mic1",
@@ -266,7 +268,7 @@ export function ScienceFoundationsModule() {
         />
         <CognitiveCard
           type="warning"
-          title="Antimicrobial Resistance"
+          title={t("data.pre_nursing_science.antimicrobialResistance")}
           content={microWarning}
         />
       </MicroLesson>
@@ -286,13 +288,13 @@ export function ScienceFoundationsModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Antibody Logic & Vaccination"
+          title={t("data.pre_nursing_science.antibodyLogicVaccination")}
           content={immunityConcept}
         />
       </MicroLesson>
 
       <SelfCheckQuiz
-        title="Microbiology & Immunity Check"
+        title={t("data.pre_nursing_science.microbiologyImmunityCheck")}
         questions={[
           {
             id: "sf7",
@@ -346,14 +348,14 @@ export function ScienceFoundationsModule() {
         </div>
         <CognitiveCard
           type="remember"
-          title="Electrolytes & Ionization"
+          title={t("data.pre_nursing_science.electrolytesIonization")}
           content={chemRemember}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Chemistry Concepts Matching"
-        description="Match each chemistry concept to its clinical relevance"
+        title={t("data.pre_nursing_science.chemistryConceptsMatching")}
+        description={t("data.pre_nursing_science.matchEachChemistryConceptTo")}
         pairs={[
           { id: "ch1", term: "pH 7.35-7.45", definition: "Normal arterial blood range" },
           { id: "ch2", term: "Isotonic (0.9% NaCl)", definition: "Same osmolarity as plasma" },
@@ -365,7 +367,7 @@ export function ScienceFoundationsModule() {
       />
 
       <SelfCheckQuiz
-        title="Chemistry Check"
+        title={t("data.pre_nursing_science.chemistryCheck")}
         questions={[
           {
             id: "sf10",
@@ -395,7 +397,7 @@ export function ScienceFoundationsModule() {
       <MicroLesson title="Math Skills for Science" subtitle="Scientific notation, ratios, proportions, and unit conversions" icon={<Calculator className="w-5 h-5" />}>
         <EditableModuleText sectionKey="science-math-content" defaultText="Quantitative reasoning is essential in nursing. From calculating medication dosages to interpreting lab values, math skills directly affect patient safety." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="Essential Math Concepts"
+          title={t("data.pre_nursing_science.essentialMathConcepts")}
           cards={[
             {
               id: "math1",
@@ -419,13 +421,13 @@ export function ScienceFoundationsModule() {
         />
         <CognitiveCard
           type="tip"
-          title="Dimensional Analysis"
+          title={t("data.pre_nursing_science.dimensionalAnalysis")}
           content={mathTip}
         />
       </MicroLesson>
 
       <SelfCheckQuiz
-        title="Math Skills Check"
+        title={t("data.pre_nursing_science.mathSkillsCheck")}
         questions={[
           {
             id: "sf13",
@@ -462,13 +464,13 @@ export function ScienceFoundationsModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Evidence-Based Thinking"
+          title={t("data.pre_nursing_science.evidencebasedThinking")}
           content={literacyConcept}
         />
       </MicroLesson>
 
       <SelfCheckQuiz
-        title="Scientific Literacy Check"
+        title={t("data.pre_nursing_science.scientificLiteracyCheck")}
         questions={[
           {
             id: "sf15",
@@ -507,7 +509,7 @@ export function ScienceFoundationsModule() {
           Understanding organelle function explains why certain toxins, drugs, and diseases affect cells the way they do.
         </p>
         <ProgressiveReveal
-          title="Key Organelles and Their Functions"
+          title={t("data.pre_nursing_science.keyOrganellesAndTheirFunctions")}
           cards={[
             {
               id: "org1",
@@ -543,14 +545,14 @@ export function ScienceFoundationsModule() {
         />
         <CognitiveCard
           type="concept"
-          title="Organelle Dysfunction & Disease"
+          title={t("data.pre_nursing_science.organelleDysfunctionDisease")}
           content={organelleConcept}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Organelle Function Matching"
-        description="Match each organelle to its primary role"
+        title={t("data.pre_nursing_science.organelleFunctionMatching")}
+        description={t("data.pre_nursing_science.matchEachOrganelleToIts")}
         pairs={[
           { id: "om1", term: "Mitochondria", definition: "ATP production via aerobic respiration" },
           { id: "om2", term: "Rough ER", definition: "Protein synthesis and folding" },
@@ -562,7 +564,7 @@ export function ScienceFoundationsModule() {
       />
 
       <SelfCheckQuiz
-        title="Cell Structure Check"
+        title={t("data.pre_nursing_science.cellStructureCheck")}
         questions={[
           {
             id: "sf18",
@@ -616,7 +618,7 @@ export function ScienceFoundationsModule() {
         </div>
         <CognitiveCard
           type="remember"
-          title="Dehydration & Water Balance"
+          title={t("data.pre_nursing_science.dehydrationWaterBalance")}
           content={waterRemember}
         />
       </MicroLesson>
@@ -624,7 +626,7 @@ export function ScienceFoundationsModule() {
       <MicroLesson title="Cellular Energy Metabolism" subtitle="Glycolysis, Krebs cycle, electron transport chain" icon={<Sparkles className="w-5 h-5" />}>
         <EditableModuleText sectionKey="science-metabolism-content" defaultText="Cells extract energy from nutrients through a series of metabolic pathways. Understanding these pathways explains why oxygen deprivation is so dangerous and how metabolic diseases affect the body." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="The Three Stages of Aerobic Respiration"
+          title={t("data.pre_nursing_science.theThreeStagesOfAerobic")}
           cards={[
             {
               id: "aer1",
@@ -648,7 +650,7 @@ export function ScienceFoundationsModule() {
         />
         <CognitiveCard
           type="warning"
-          title="Oxygen Deprivation & Cell Death"
+          title={t("data.pre_nursing_science.oxygenDeprivationCellDeath")}
           content={metabolismWarning}
         />
         <div className="p-4 bg-amber-50/60 rounded-xl border border-amber-100 mt-3">
@@ -658,7 +660,7 @@ export function ScienceFoundationsModule() {
       </MicroLesson>
 
       <SelfCheckQuiz
-        title="Metabolism & Water Properties Check"
+        title={t("data.pre_nursing_science.metabolismWaterPropertiesCheck")}
         questions={[
           {
             id: "sf21",
@@ -711,7 +713,7 @@ export function ScienceFoundationsModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Disease as Homeostatic Failure"
+          title={t("data.pre_nursing_science.diseaseAsHomeostaticFailure")}
           content={homeostasisConcept}
         />
       </MicroLesson>
@@ -738,14 +740,14 @@ export function ScienceFoundationsModule() {
         </div>
         <CognitiveCard
           type="remember"
-          title="Dehydration Synthesis & Hydrolysis"
+          title={t("data.pre_nursing_science.dehydrationSynthesisHydrolysis")}
           content={orgchemRemember}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Advanced Science Concepts Matching"
-        description="Match each concept to its description"
+        title={t("data.pre_nursing_science.advancedScienceConceptsMatching")}
+        description={t("data.pre_nursing_science.matchEachConceptToIts")}
         pairs={[
           { id: "adv1", term: "Negative feedback", definition: "Response opposes stimulus to restore set point" },
           { id: "adv2", term: "Positive feedback", definition: "Response amplifies stimulus until external termination" },
@@ -759,7 +761,7 @@ export function ScienceFoundationsModule() {
       />
 
       <SelfCheckQuiz
-        title="Advanced Science Foundations Check"
+        title={t("data.pre_nursing_science.advancedScienceFoundationsCheck")}
         questions={[
           {
             id: "sf25",

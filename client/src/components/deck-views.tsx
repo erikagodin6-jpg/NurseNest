@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import { useI18n } from "@/lib/i18n";
 type DeckViewsProps = {
   user: any;
   isPaid: boolean;
@@ -93,6 +94,7 @@ type DeckViewsProps = {
 type DeckSortOption = "newest" | "oldest" | "alpha-asc" | "alpha-desc" | "cards-most" | "cards-least";
 
 function sortDecks(decks: any[], sortBy: DeckSortOption): any[] {
+
   const sorted = [...decks];
   switch (sortBy) {
     case "newest": return sorted.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
@@ -370,7 +372,7 @@ export function DeckHub({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-foreground" data-testid="text-decks-title">Study Decks</h2>
+          <h2 className="text-2xl font-bold text-foreground" data-testid="text-decks-title">{t("components.deckViews.studyDecks")}</h2>
           <p className="text-muted-foreground text-sm mt-1">
             {isGuest
               ? "Browse public decks or sign up to create your own"
@@ -428,9 +430,9 @@ export function DeckHub({
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-primary" />
-                  <h3 className="text-sm font-bold text-primary">Smart Flashcard Generator</h3>
+                  <h3 className="text-sm font-bold text-primary">{t("components.deckViews.smartFlashcardGenerator")}</h3>
                 </div>
-                <p className="text-xs text-primary/80">Enter any nursing topic and will create a medically verified study deck for you instantly.</p>
+                <p className="text-xs text-primary/80">{t("components.deckViews.enterAnyNursingTopicAnd")}</p>
                 <Input
                   placeholder="e.g., Cardiac medications and their side effects"
                   value={aiTopic}
@@ -441,7 +443,7 @@ export function DeckHub({
                   data-testid="input-ai-topic"
                 />
                 <div className="flex items-center gap-3">
-                  <label className="text-xs text-muted-foreground">Cards:</label>
+                  <label className="text-xs text-muted-foreground">{t("components.deckViews.cards")}</label>
                   <select
                     value={aiCardCount}
                     onChange={(e: any) => setAiCardCount(parseInt(e.target.value))}
@@ -451,7 +453,7 @@ export function DeckHub({
                     {[5, 10, 15, 20, 25, 30, 40, 50, 75, 100, 150, 200, 300].map(n => <option key={n} value={n}>{n}{n > 25 ? " (premium)" : ""} cards</option>)}
                   </select>
                   <div className="flex-1" />
-                  <label className="text-xs text-muted-foreground">Visibility:</label>
+                  <label className="text-xs text-muted-foreground">{t("components.deckViews.visibility")}</label>
                   <div className="flex rounded-lg border overflow-hidden">
                     {[
                       { v: "private", icon: EyeOff, label: "Private" },
@@ -483,12 +485,12 @@ export function DeckHub({
                     data-testid="button-create-ai-deck"
                   >
                     {aiCreating ? (
-                      <><Loader2 className="w-4 h-4 animate-spin" /> Generating Deck...</>
+                      <><Loader2 className="w-4 h-4 animate-spin" /> {t("components.deckViews.generatingDeck")}</>
                     ) : (
-                      <><Sparkles className="w-4 h-4" /> Create Deck Automatically</>
+                      <><Sparkles className="w-4 h-4" /> {t("components.deckViews.createDeckAutomatically")}</>
                     )}
                   </Button>
-                  <Button variant="outline" onClick={() => { setShowCreate(false); setAiError(""); }} className="rounded-xl" disabled={aiCreating}>Cancel</Button>
+                  <Button variant="outline" onClick={() => { setShowCreate(false); setAiError(""); }} className="rounded-xl" disabled={aiCreating}>{t("components.deckViews.cancel")}</Button>
                 </div>
                 <div className="grid grid-cols-2 gap-2 pt-1">
                   {[
@@ -515,9 +517,9 @@ export function DeckHub({
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <Upload className="w-4 h-4 text-blue-600" />
-                  <h3 className="text-sm font-bold text-blue-800">Create Deck from Your Notes</h3>
+                  <h3 className="text-sm font-bold text-blue-800">{t("components.deckViews.createDeckFromYourNotes")}</h3>
                 </div>
-                <p className="text-xs text-blue-600">Paste your study notes or upload a text file and will extract key concepts into flashcards.</p>
+                <p className="text-xs text-blue-600">{t("components.deckViews.pasteYourStudyNotesOr")}</p>
                 <div className="border-2 border-dashed border-blue-200 rounded-xl p-4 text-center hover:border-blue-400 transition-colors">
                   <input
                     type="file"
@@ -529,8 +531,8 @@ export function DeckHub({
                   />
                   <label htmlFor="notes-file-upload" className="cursor-pointer flex flex-col items-center gap-2">
                     <Upload className="w-8 h-8 text-blue-300" />
-                    <span className="text-xs text-blue-600 font-medium">Click to upload a text file</span>
-                    <span className="text-[10px] text-muted-foreground">.txt, .md, .csv, .rtf, .pdf, .doc, .docx (max 5 MB)</span>
+                    <span className="text-xs text-blue-600 font-medium">{t("components.deckViews.clickToUploadAText")}</span>
+                    <span className="text-[10px] text-muted-foreground">{t("components.deckViews.txtMdCsvRtfPdf")}</span>
                   </label>
                   {notesFileName && (
                     <div className="mt-2 inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-medium px-3 py-1.5 rounded-lg" data-testid="text-notes-filename">
@@ -541,11 +543,11 @@ export function DeckHub({
                 </div>
                 <div className="relative">
                   <div className="absolute inset-x-0 top-0 flex items-center justify-center -translate-y-1/2">
-                    <span className="bg-card px-2 text-[10px] text-foreground/40">or paste your notes below</span>
+                    <span className="bg-card px-2 text-[10px] text-foreground/40">{t("components.deckViews.orPasteYourNotesBelow")}</span>
                   </div>
                 </div>
                 <Textarea
-                  placeholder="Paste your study notes here... e.g., lecture notes, textbook summaries, clinical observations"
+                  placeholder={t("components.deckViews.pasteYourStudyNotesHere")}
                   value={notesText}
                   onChange={(e: any) => setNotesText(e.target.value)}
                   className="rounded-xl min-h-[120px] border-blue-200 focus:border-blue-400 text-sm"
@@ -555,7 +557,7 @@ export function DeckHub({
                   <p className="text-[10px] text-muted-foreground" data-testid="text-notes-char-count">{notesText.length.toLocaleString()} characters</p>
                 )}
                 <div className="flex items-center gap-3">
-                  <label className="text-xs text-muted-foreground">Cards:</label>
+                  <label className="text-xs text-muted-foreground">{t("components.deckViews.cards2")}</label>
                   <select
                     value={notesCardCount}
                     onChange={(e: any) => setNotesCardCount(parseInt(e.target.value))}
@@ -565,7 +567,7 @@ export function DeckHub({
                     {[5, 10, 15, 20, 25, 30, 40, 50, 75, 100, 150, 200, 300].map(n => <option key={n} value={n}>{n}{n > 25 ? " (premium)" : ""} cards</option>)}
                   </select>
                   <div className="flex-1" />
-                  <label className="text-xs text-muted-foreground">Visibility:</label>
+                  <label className="text-xs text-muted-foreground">{t("components.deckViews.visibility2")}</label>
                   <div className="flex rounded-lg border overflow-hidden">
                     {[
                       { v: "private", icon: EyeOff, label: "Private" },
@@ -597,33 +599,33 @@ export function DeckHub({
                     data-testid="button-create-from-notes"
                   >
                     {aiCreating ? (
-                      <><Loader2 className="w-4 h-4 animate-spin" /> Converting Notes...</>
+                      <><Loader2 className="w-4 h-4 animate-spin" /> {t("components.deckViews.convertingNotes")}</>
                     ) : (
-                      <><Upload className="w-4 h-4" /> Create Deck from Notes</>
+                      <><Upload className="w-4 h-4" /> {t("components.deckViews.createDeckFromNotes")}</>
                     )}
                   </Button>
-                  <Button variant="outline" onClick={() => { setShowCreate(false); setAiError(""); setNotesText(""); setNotesFileName(""); }} className="rounded-xl" disabled={aiCreating}>Cancel</Button>
+                  <Button variant="outline" onClick={() => { setShowCreate(false); setAiError(""); setNotesText(""); setNotesFileName(""); }} className="rounded-xl" disabled={aiCreating}>{t("components.deckViews.cancel2")}</Button>
                 </div>
               </div>
             ) : (
               <div className="space-y-3">
-                <h3 className="text-sm font-bold text-foreground/70">Create Empty Deck</h3>
+                <h3 className="text-sm font-bold text-foreground/70">{t("components.deckViews.createEmptyDeck")}</h3>
                 <Input
-                  placeholder="Deck title (e.g., Cardiac Medications)"
+                  placeholder={t("components.deckViews.deckTitleEgCardiacMedications")}
                   value={newDeckTitle}
                   onChange={(e: any) => setNewDeckTitle!(e.target.value)}
                   className="rounded-xl"
                   data-testid="input-deck-title"
                 />
                 <Textarea
-                  placeholder="Description (optional)"
+                  placeholder={t("components.deckViews.descriptionOptional")}
                   value={newDeckDescription}
                   onChange={(e: any) => setNewDeckDescription!(e.target.value)}
                   className="rounded-xl min-h-[60px]"
                   data-testid="input-deck-description"
                 />
                 <div className="flex items-center gap-3">
-                  <label className="text-xs text-muted-foreground">Visibility:</label>
+                  <label className="text-xs text-muted-foreground">{t("components.deckViews.visibility3")}</label>
                   <div className="flex rounded-lg border overflow-hidden">
                     {[
                       { v: "private", icon: EyeOff, label: "Private" },
@@ -647,7 +649,7 @@ export function DeckHub({
                   <Button onClick={() => { createDeck!(); setShowCreate(false); }} disabled={!newDeckTitle?.trim()} className="rounded-xl" data-testid="button-create-deck">
                     Create Deck
                   </Button>
-                  <Button variant="outline" onClick={() => setShowCreate(false)} className="rounded-xl">Cancel</Button>
+                  <Button variant="outline" onClick={() => setShowCreate(false)} className="rounded-xl">{t("components.deckViews.cancel3")}</Button>
                 </div>
               </div>
             )}
@@ -682,7 +684,7 @@ export function DeckHub({
           <div className="relative flex-1 min-w-[200px]">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
-              placeholder="Search public decks..."
+              placeholder={t("components.deckViews.searchPublicDecks")}
               value={deckSearchQuery}
               onChange={(e: any) => setDeckSearchQuery!(e.target.value)}
               onKeyDown={(e: any) => e.key === "Enter" && fetchPublicDecks!()}
@@ -727,17 +729,17 @@ export function DeckHub({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Users className="w-4 h-4 text-blue-600" />
-                <h3 className="text-sm font-bold text-blue-900">Study Groups</h3>
+                <h3 className="text-sm font-bold text-blue-900">{t("components.deckViews.studyGroups")}</h3>
               </div>
-              <span className="text-[10px] text-muted-foreground">Invite friends to study together</span>
+              <span className="text-[10px] text-muted-foreground">{t("components.deckViews.inviteFriendsToStudyTogether")}</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div className="space-y-2">
-                <label className="text-xs font-medium text-muted-foreground">Create New Group</label>
+                <label className="text-xs font-medium text-muted-foreground">{t("components.deckViews.createNewGroup")}</label>
                 <div className="flex gap-2">
                   <Input
-                    placeholder="Group name..."
+                    placeholder={t("components.deckViews.groupName")}
                     value={newGroupName}
                     onChange={(e: any) => setNewGroupName(e.target.value)}
                     onKeyDown={(e: any) => e.key === "Enter" && createStudyGroup()}
@@ -751,10 +753,10 @@ export function DeckHub({
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-medium text-muted-foreground">Join with Invite Code</label>
+                <label className="text-xs font-medium text-muted-foreground">{t("components.deckViews.joinWithInviteCode")}</label>
                 <div className="flex gap-2">
                   <Input
-                    placeholder="Enter code (e.g. B4X9KL)"
+                    placeholder={t("components.deckViews.enterCodeEgB4x9kl")}
                     value={joinCode}
                     onChange={(e: any) => setJoinCode(e.target.value.toUpperCase())}
                     onKeyDown={(e: any) => e.key === "Enter" && joinStudyGroup()}
@@ -772,7 +774,7 @@ export function DeckHub({
 
             {studyGroups.length > 0 && (
               <div className="space-y-2 pt-2 border-t border-border">
-                <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">Your Groups</label>
+                <label className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">{t("components.deckViews.yourGroups")}</label>
                 {studyGroups.map((group: any) => (
                   <div key={group.id} className="bg-secondary rounded-xl border border-border overflow-hidden">
                     <div
@@ -822,7 +824,7 @@ export function DeckHub({
                               </div>
                             ))
                           ) : (
-                            <p className="text-xs text-muted-foreground py-2">Loading members...</p>
+                            <p className="text-xs text-muted-foreground py-2">{t("components.deckViews.loadingMembers")}</p>
                           )}
                         </div>
                       </div>
@@ -833,14 +835,14 @@ export function DeckHub({
             )}
 
             {studyGroups.length === 0 && (
-              <p className="text-xs text-muted-foreground text-center py-2">No study groups yet. Create one or join with an invite code to study with friends.</p>
+              <p className="text-xs text-muted-foreground text-center py-2">{t("components.deckViews.noStudyGroupsYetCreate")}</p>
             )}
           </CardContent>
         </Card>
       )}
 
       {deckLoading ? (
-        <div className="text-center py-12 text-muted-foreground">Loading decks...</div>
+        <div className="text-center py-12 text-muted-foreground">{t("components.deckViews.loadingDecks")}</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {sortDecks(deckTab === "my" ? myDecks : deckTab === "browse" ? publicDecks : savedDecksList, deckSortBy)?.map((deck: any) => (
@@ -978,7 +980,7 @@ export function DeckView({
       <div className="flex items-center gap-2 bg-card/90 backdrop-blur-sm border border-border/60 rounded-2xl px-4 py-2.5 shadow-sm">
         <button onClick={() => setView("decks")} className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition" data-testid="button-back-decks">
           <Home className="w-4 h-4" />
-          <span>My Flashcards</span>
+          <span>{t("components.deckViews.myFlashcards")}</span>
         </button>
         <ChevronRight className="w-3.5 h-3.5 text-foreground/30" />
         <span className="text-sm font-semibold text-foreground/70 truncate max-w-[280px]">{currentDeck.title}</span>
@@ -1028,8 +1030,8 @@ export function DeckView({
                       >
                         <EyeOff className="w-4 h-4 text-muted-foreground" />
                         <div>
-                          <div className="font-medium">Private</div>
-                          <div className="text-[10px] text-muted-foreground">Only you can see this deck</div>
+                          <div className="font-medium">{t("components.deckViews.private")}</div>
+                          <div className="text-[10px] text-muted-foreground">{t("components.deckViews.onlyYouCanSeeThis")}</div>
                         </div>
                       </button>
                       <button
@@ -1039,8 +1041,8 @@ export function DeckView({
                       >
                         <Eye className="w-4 h-4 text-amber-500" />
                         <div>
-                          <div className="font-medium">Unlisted</div>
-                          <div className="text-[10px] text-muted-foreground">Anyone with the link can access</div>
+                          <div className="font-medium">{t("components.deckViews.unlisted")}</div>
+                          <div className="text-[10px] text-muted-foreground">{t("components.deckViews.anyoneWithTheLinkCan")}</div>
                         </div>
                       </button>
                       <button
@@ -1050,8 +1052,8 @@ export function DeckView({
                       >
                         <Globe className="w-4 h-4 text-emerald-500" />
                         <div>
-                          <div className="font-medium">Public</div>
-                          <div className="text-[10px] text-muted-foreground">Visible in browse and searchable</div>
+                          <div className="font-medium">{t("components.deckViews.public")}</div>
+                          <div className="text-[10px] text-muted-foreground">{t("components.deckViews.visibleInBrowseAndSearchable")}</div>
                         </div>
                       </button>
                     </div>
@@ -1060,9 +1062,9 @@ export function DeckView({
               </div>
             ) : (
               <span className="flex items-center gap-1">
-                {currentDeck.visibility === "public" ? <><Globe className="w-3 h-3" /> Public</> :
-                 currentDeck.visibility === "unlisted" ? <><Eye className="w-3 h-3" /> Unlisted</> :
-                 <><EyeOff className="w-3 h-3" /> Private</>}
+                {currentDeck.visibility === "public" ? <><Globe className="w-3 h-3" /> {t("components.deckViews.public2")}</> :
+                 currentDeck.visibility === "unlisted" ? <><Eye className="w-3 h-3" /> {t("components.deckViews.unlisted2")}</> :
+                 <><EyeOff className="w-3 h-3" /> {t("components.deckViews.private2")}</>}
               </span>
             )}
           </div>
@@ -1142,18 +1144,18 @@ export function DeckView({
               <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-3">
                 <Trash2 className="w-6 h-6 text-red-500" />
               </div>
-              <h3 className="text-lg font-bold text-foreground">Delete Deck</h3>
+              <h3 className="text-lg font-bold text-foreground">{t("components.deckViews.deleteDeck")}</h3>
               <p className="text-sm text-muted-foreground mt-1">
                 This will permanently delete <strong>{currentDeck?.title}</strong> and all its cards and study history.
               </p>
             </div>
             {currentDeck?.visibility === "public" ? (
               <div className="space-y-2">
-                <p className="text-xs text-red-600 font-medium">This is a public deck. Type DELETE to confirm.</p>
+                <p className="text-xs text-red-600 font-medium">{t("components.deckViews.thisIsAPublicDeck")}</p>
                 <Input
                   value={deleteConfirmText}
                   onChange={(e: any) => setDeleteConfirmText(e.target.value)}
-                  placeholder="Type DELETE"
+                  placeholder={t("components.deckViews.typeDelete")}
                   className="text-center"
                   data-testid="input-delete-confirm"
                 />
@@ -1202,7 +1204,7 @@ export function DeckView({
             />
           </div>
           <Button size="sm" variant="outline" onClick={handleCopyLink} className="rounded-lg gap-1.5 shrink-0" data-testid="button-copy-deck-link">
-            {linkCopied ? <><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Copied!</> : <><Copy className="w-3.5 h-3.5" /> Copy Link</>}
+            {linkCopied ? <><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> {t("components.deckViews.copied")}</> : <><Copy className="w-3.5 h-3.5" /> {t("components.deckViews.copyLink")}</>}
           </Button>
           <Button size="sm" variant="outline" onClick={handleNativeShare} className="rounded-lg gap-1.5 shrink-0" data-testid="button-share-deck-native">
             <Share2 className="w-3.5 h-3.5" /> Share
@@ -1213,9 +1215,9 @@ export function DeckView({
       {reportOpen && (
         <Card className="border-red-200 bg-red-50">
           <CardContent className="p-4 space-y-2">
-            <p className="text-sm font-medium text-red-700">Report this deck for inaccuracy</p>
+            <p className="text-sm font-medium text-red-700">{t("components.deckViews.reportThisDeckForInaccuracy")}</p>
             <Textarea
-              placeholder="Describe the issue..."
+              placeholder={t("components.deckViews.describeTheIssue")}
               value={reportReason}
               onChange={(e) => setReportReason(e.target.value)}
               className="min-h-[80px]"
@@ -1225,7 +1227,7 @@ export function DeckView({
               <Button size="sm" variant="destructive" onClick={() => { reportDeck!(currentDeck.id, reportReason); setReportOpen(false); setReportReason(""); }} disabled={!reportReason.trim()} data-testid="button-submit-report">
                 Submit Report
               </Button>
-              <Button size="sm" variant="outline" onClick={() => setReportOpen(false)}>Cancel</Button>
+              <Button size="sm" variant="outline" onClick={() => setReportOpen(false)}>{t("components.deckViews.cancel4")}</Button>
             </div>
           </CardContent>
         </Card>
@@ -1235,31 +1237,31 @@ export function DeckView({
         <Card className="premium-card border-0 bg-gradient-to-br from-primary/5 to-secondary/60" data-testid="card-deck-progress">
           <CardContent className="p-5 space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold text-foreground">Your Progress</span>
+              <span className="text-sm font-semibold text-foreground">{t("components.deckViews.yourProgress")}</span>
               <span className="text-[10px] text-muted-foreground">{deckStats.totalSessions} session{deckStats.totalSessions !== 1 ? "s" : ""}</span>
             </div>
             <div className="grid grid-cols-4 gap-2">
               <div className="text-center">
                 <p className="text-lg font-bold text-primary" data-testid="text-accuracy">{deckStats.accuracy}%</p>
-                <p className="text-[9px] text-muted-foreground">Accuracy</p>
+                <p className="text-[9px] text-muted-foreground">{t("components.deckViews.accuracy")}</p>
               </div>
               <div className="text-center">
                 <p className="text-lg font-bold text-emerald-600" data-testid="text-mastered">{deckStats.masteredCount}</p>
-                <p className="text-[9px] text-muted-foreground">Mastered</p>
+                <p className="text-[9px] text-muted-foreground">{t("components.deckViews.mastered")}</p>
               </div>
               <div className="text-center">
                 <p className="text-lg font-bold text-amber-600" data-testid="text-learning">{deckStats.learningCount}</p>
-                <p className="text-[9px] text-muted-foreground">Learning</p>
+                <p className="text-[9px] text-muted-foreground">{t("components.deckViews.learning")}</p>
               </div>
               <div className="text-center">
                 <p className="text-lg font-bold text-primary" data-testid="text-streak">{deckStats.streak}</p>
-                <p className="text-[9px] text-muted-foreground">Day Streak</p>
+                <p className="text-[9px] text-muted-foreground">{t("components.deckViews.dayStreak")}</p>
               </div>
             </div>
             {deckStats.totalCards > 0 && (
               <div className="space-y-1">
                 <div className="flex justify-between text-[10px] text-muted-foreground">
-                  <span>Mastery</span>
+                  <span>{t("components.deckViews.mastery")}</span>
                   <span>{Math.round((deckStats.masteredCount / deckStats.totalCards) * 100)}%</span>
                 </div>
                 <div className="h-2 bg-secondary rounded-full overflow-hidden">
@@ -1291,9 +1293,9 @@ export function DeckView({
               <CardContent className="p-4 space-y-3">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-semibold text-primary">Smart Flashcard Generator</span>
+                  <span className="text-sm font-semibold text-primary">{t("components.deckViews.smartFlashcardGenerator2")}</span>
                 </div>
-                <p className="text-xs text-primary/80">Enter a nursing topic and will create study-ready flashcards for you.</p>
+                <p className="text-xs text-primary/80">{t("components.deckViews.enterANursingTopicAnd")}</p>
                 <div className="flex gap-2">
                   <Input
                     placeholder="e.g. Cardiac medications, Diabetes management, Pediatric milestones..."
@@ -1318,10 +1320,10 @@ export function DeckView({
                   className="w-full gap-2 bg-primary hover:bg-primary/90 rounded-xl"
                   data-testid="button-ai-generate-deckview"
                 >
-                  {aiGenerating ? <><Layers className="w-4 h-4 animate-spin" /> Generating...</> : <><Sparkles className="w-4 h-4" /> Generate Cards</>}
+                  {aiGenerating ? <><Layers className="w-4 h-4 animate-spin" /> {t("components.deckViews.generating")}</> : <><Sparkles className="w-4 h-4" /> {t("components.deckViews.generateCards")}</>}
                 </Button>
                 {aiUpgradeRequired && (
-                  <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3">You've reached the free card limit. Upgrade your deck or plan to create more cards automatically.</p>
+                  <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3">{t("components.deckViews.youveReachedTheFreeCard")}</p>
                 )}
                 {aiGeneratedCards && aiGeneratedCards.length > 0 && (
                   <div className="space-y-2 mt-2">
@@ -1373,8 +1375,8 @@ export function DeckView({
         {(!deckCards || deckCards.length === 0) && (
           <div className="text-center py-12 space-y-4">
             <Sparkles className="w-10 h-10 text-primary/30 mx-auto" />
-            <p className="text-muted-foreground text-sm font-medium">This deck is empty</p>
-            <p className="text-muted-foreground text-xs max-w-md mx-auto">Use the Smart Generator above to create flashcards on any nursing topic, or add cards manually.</p>
+            <p className="text-muted-foreground text-sm font-medium">{t("components.deckViews.thisDeckIsEmpty")}</p>
+            <p className="text-muted-foreground text-xs max-w-md mx-auto">{t("components.deckViews.useTheSmartGeneratorAbove")}</p>
             <div className="flex gap-3 justify-center">
               {isOwner && !showAiPanel && (
                 <Button variant="outline" onClick={() => setShowAiPanel(true)} className="gap-2 border-border text-primary hover:bg-secondary rounded-xl" data-testid="button-ai-generate-empty">
@@ -1423,14 +1425,14 @@ export function DeckEditor({
       <div className="flex items-center gap-2 bg-card/90 backdrop-blur-sm border border-border/60 rounded-2xl px-4 py-2.5 shadow-sm flex-wrap">
         <button onClick={() => setView("decks")} className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition" data-testid="button-back-decks-from-edit">
           <Home className="w-4 h-4" />
-          <span>My Flashcards</span>
+          <span>{t("components.deckViews.myFlashcards2")}</span>
         </button>
         <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60" />
         <button onClick={() => setView("deck-view")} className="text-sm font-medium text-primary hover:text-primary/80 transition truncate max-w-[200px]" data-testid="button-back-deck-view">
           {currentDeck.title}
         </button>
         <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60" />
-        <span className="text-sm font-semibold text-foreground/70">Edit</span>
+        <span className="text-sm font-semibold text-foreground/70">{t("components.deckViews.edit")}</span>
         <div className="ml-auto flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={() => setView("deck-view")} className="h-8 text-xs gap-1.5 rounded-xl border-border" data-testid="button-back-to-deck">
             <ArrowLeft className="w-3.5 h-3.5" /> Back to Deck
@@ -1459,9 +1461,9 @@ export function DeckEditor({
           <CardContent className="p-4 space-y-3">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" />
-              <h3 className="text-sm font-bold text-primary">Smart Flashcard Generator</h3>
+              <h3 className="text-sm font-bold text-primary">{t("components.deckViews.smartFlashcardGenerator3")}</h3>
             </div>
-            <p className="text-xs text-foreground/60">Describe what you want to study and will create flashcards for you.</p>
+            <p className="text-xs text-foreground/60">{t("components.deckViews.describeWhatYouWantTo")}</p>
             <Textarea
               placeholder="e.g., Cardiac medications including beta blockers, ACE inhibitors, and antiarrhythmics with their mechanisms of action and side effects"
               value={aiGeneratePrompt}
@@ -1471,7 +1473,7 @@ export function DeckEditor({
             />
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
-                <label className="text-xs text-muted-foreground whitespace-nowrap">Cards:</label>
+                <label className="text-xs text-muted-foreground whitespace-nowrap">{t("components.deckViews.cards3")}</label>
                 <select
                   value={aiGenerateCount}
                   onChange={(e) => setAiGenerateCount!(parseInt(e.target.value))}
@@ -1483,9 +1485,9 @@ export function DeckEditor({
                   <option value={15}>15</option>
                   <option value={20}>20</option>
                   <option value={25}>25</option>
-                  <option value={30}>30 (premium)</option>
-                  <option value={40}>40 (premium)</option>
-                  <option value={50}>50 (premium)</option>
+                  <option value={30}>{t("components.deckViews.30Premium")}</option>
+                  <option value={40}>{t("components.deckViews.40Premium")}</option>
+                  <option value={50}>{t("components.deckViews.50Premium")}</option>
                 </select>
               </div>
               <Button
@@ -1505,14 +1507,14 @@ export function DeckEditor({
                   </>
                 )}
               </Button>
-              <Button size="sm" variant="outline" onClick={() => setShowAiGenerate(false)}>Cancel</Button>
+              <Button size="sm" variant="outline" onClick={() => setShowAiGenerate(false)}>{t("components.deckViews.cancel5")}</Button>
             </div>
 
             {!isPaid && (
               <div className="flex items-center gap-2 text-xs text-muted-foreground bg-secondary rounded-lg px-3 py-2" data-testid="text-ai-card-limit">
                 <span>Free plan: {limitInfo.used} / {limitInfo.max} cards used</span>
                 {limitInfo.used >= limitInfo.max && (
-                  <span className="text-red-500 font-medium">— limit reached</span>
+                  <span className="text-red-500 font-medium">{t("components.deckViews.limitReached")}</span>
                 )}
               </div>
             )}
@@ -1520,8 +1522,8 @@ export function DeckEditor({
             {aiUpgradeRequired && (
               <div className="flex items-center gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl" data-testid="text-ai-upgrade-prompt">
                 <div className="flex-1">
-                  <p className="text-sm font-semibold text-amber-800">Free card limit reached (50 cards)</p>
-                  <p className="text-xs text-amber-600 mt-0.5">Upgrade your plan to generate unlimited auto-generated flashcards and unlock all premium features.</p>
+                  <p className="text-sm font-semibold text-amber-800">{t("components.deckViews.freeCardLimitReached50")}</p>
+                  <p className="text-xs text-amber-600 mt-0.5">{t("components.deckViews.upgradeYourPlanToGenerate")}</p>
                 </div>
                 <Button size="sm" className="bg-amber-600 hover:bg-amber-700 shrink-0" onClick={() => setLocation("/pricing")} data-testid="button-ai-upgrade">
                   Upgrade Now
@@ -1568,7 +1570,7 @@ export function DeckEditor({
       {showCsvImport && (
         <Card className="border-primary/20">
           <CardContent className="p-4 space-y-2">
-            <p className="text-xs text-foreground/60">Paste CSV data (front, back, rationale, clinical pearl per line):</p>
+            <p className="text-xs text-foreground/60">{t("components.deckViews.pasteCsvDataFrontBack")}</p>
             <Textarea
               placeholder={"What is normal saline?, 0.9% NaCl isotonic solution, Used for fluid resuscitation, Always check IV site patency before infusion\nWhat is D5W?, 5% dextrose in water, Provides free water and calories, D5W becomes hypotonic once dextrose is metabolized"}
               value={csvImportText}
@@ -1577,8 +1579,8 @@ export function DeckEditor({
               data-testid="input-csv-import"
             />
             <div className="flex gap-2">
-              <Button size="sm" onClick={handleCsvImport} disabled={!csvImportText?.trim()} data-testid="button-import-csv">Import Cards</Button>
-              <Button size="sm" variant="outline" onClick={() => setShowCsvImport!(false)}>Cancel</Button>
+              <Button size="sm" onClick={handleCsvImport} disabled={!csvImportText?.trim()} data-testid="button-import-csv">{t("components.deckViews.importCards")}</Button>
+              <Button size="sm" variant="outline" onClick={() => setShowCsvImport!(false)}>{t("components.deckViews.cancel6")}</Button>
             </div>
           </CardContent>
         </Card>
@@ -1586,10 +1588,10 @@ export function DeckEditor({
 
       <Card className="border-2 border-primary/20">
         <CardContent className="p-4 space-y-3">
-          <h3 className="text-sm font-bold text-foreground/70">Add New Card</h3>
+          <h3 className="text-sm font-bold text-foreground/70">{t("components.deckViews.addNewCard")}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
-              <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest block mb-1">Front (Question/Term)</label>
+              <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest block mb-1">{t("components.deckViews.frontQuestionterm")}</label>
               <Textarea
                 placeholder="e.g., What is the antidote for heparin?"
                 value={newCardFront}
@@ -1599,7 +1601,7 @@ export function DeckEditor({
               />
             </div>
             <div>
-              <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest block mb-1">Back (Answer/Definition)</label>
+              <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest block mb-1">{t("components.deckViews.backAnswerdefinition")}</label>
               <Textarea
                 placeholder="e.g., Protamine sulfate"
                 value={newCardBack}
@@ -1610,9 +1612,9 @@ export function DeckEditor({
             </div>
           </div>
           <div>
-            <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest block mb-1">Rationale (Optional)</label>
+            <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest block mb-1">{t("components.deckViews.rationaleOptional")}</label>
             <Input
-              placeholder="Why this is the correct answer..."
+              placeholder={t("components.deckViews.whyThisIsTheCorrect")}
               value={newCardRationale}
               onChange={(e) => setNewCardRationale!(e.target.value)}
               className="text-sm"
@@ -1620,9 +1622,9 @@ export function DeckEditor({
             />
           </div>
           <div>
-            <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest block mb-1">Clinical Pearl (Optional)</label>
+            <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest block mb-1">{t("components.deckViews.clinicalPearlOptional")}</label>
             <Input
-              placeholder="High-yield clinical tip or fact..."
+              placeholder={t("components.deckViews.highyieldClinicalTipOrFact")}
               value={newCardClinicalPearl}
               onChange={(e) => setNewCardClinicalPearl!(e.target.value)}
               className="text-sm"
@@ -1755,14 +1757,14 @@ export function DeckStudyLearn({
       <div className="flex items-center gap-2 bg-card/90 backdrop-blur-sm border border-border/60 rounded-2xl px-4 py-2.5 shadow-sm flex-wrap">
         <button onClick={() => setView("decks")} className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition" data-testid="button-exit-to-decks">
           <Home className="w-4 h-4" />
-          <span className="hidden sm:inline">My Flashcards</span>
+          <span className="hidden sm:inline">{t("components.deckViews.myFlashcards3")}</span>
         </button>
         <ChevronRight className="w-3.5 h-3.5 text-foreground/30" />
         <button onClick={() => setView("deck-view")} className="text-sm font-medium text-primary hover:text-primary/80 transition truncate max-w-[160px]" data-testid="button-exit-learn">
           {currentDeck?.title || "Deck"}
         </button>
         <ChevronRight className="w-3.5 h-3.5 text-foreground/30" />
-        <span className="text-sm font-semibold text-foreground/70">Learn</span>
+        <span className="text-sm font-semibold text-foreground/70">{t("components.deckViews.learn")}</span>
         <div className="ml-auto flex items-center gap-4 text-sm">
           <span className="text-emerald-600 font-medium">{deckStudyCorrect} correct</span>
           <span className="text-red-400 font-medium">{deckStudyIncorrect} missed</span>
@@ -1792,7 +1794,7 @@ export function DeckStudyLearn({
         )}>
           {!deckStudyFlipped ? (
             <>
-              <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-6">Question</span>
+              <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-6">{t("components.deckViews.question")}</span>
               <h2 className="text-xl sm:text-2xl font-bold text-foreground leading-relaxed max-w-lg">{card.front}</h2>
               <div className="mt-8 text-xs text-foreground/40 uppercase tracking-widest animate-pulse flex items-center gap-2">
                 <RefreshCw className="w-3 h-3" /> Tap or press Space to reveal
@@ -1800,16 +1802,16 @@ export function DeckStudyLearn({
             </>
           ) : (
             <div className="w-full max-w-lg space-y-3">
-              <span className="text-[10px] font-bold text-primary-foreground/50 uppercase tracking-[0.2em] block text-center mb-2">Tap each section to reveal</span>
+              <span className="text-[10px] font-bold text-primary-foreground/50 uppercase tracking-[0.2em] block text-center mb-2">{t("components.deckViews.tapEachSectionToReveal")}</span>
               <RevealSection
-                label="Correct Answer"
+                label={t("components.deckViews.correctAnswer")}
                 icon={<CheckCircle2 className="w-4 h-4 text-primary-foreground/60" />}
                 content={card.back}
                 testId="reveal-answer"
               />
               {card.rationale?.trim() && (
                 <RevealSection
-                  label="Why This Is Correct"
+                  label={t("components.deckViews.whyThisIsCorrect")}
                   icon={<BookOpen className="w-4 h-4 text-primary-foreground/60" />}
                   content={card.rationale}
                   testId="reveal-rationale"
@@ -1817,7 +1819,7 @@ export function DeckStudyLearn({
               )}
               {card.clinicalPearl?.trim() && (
                 <RevealSection
-                  label="Clinical Pearl"
+                  label={t("components.deckViews.clinicalPearl")}
                   icon={<Lightbulb className="w-4 h-4 text-primary-foreground/60" />}
                   content={card.clinicalPearl}
                   testId="reveal-clinical-pearl"
@@ -1830,7 +1832,7 @@ export function DeckStudyLearn({
 
       {deckStudyFlipped && (
         <div className="space-y-3">
-          <p className="text-center text-xs text-muted-foreground uppercase tracking-[0.15em] font-medium">How well did you know this?</p>
+          <p className="text-center text-xs text-muted-foreground uppercase tracking-[0.15em] font-medium">{t("components.deckViews.howWellDidYouKnow")}</p>
           <div className="flex gap-3 justify-center">
             <Button
               onClick={() => {
@@ -1849,8 +1851,8 @@ export function DeckStudyLearn({
             >
               <XCircle className="w-5 h-5" />
               <div className="text-left">
-                <div className="font-semibold text-sm">I got it wrong</div>
-                <div className="text-[10px] text-red-400">Review tomorrow</div>
+                <div className="font-semibold text-sm">{t("components.deckViews.iGotItWrong")}</div>
+                <div className="text-[10px] text-red-400">{t("components.deckViews.reviewTomorrow")}</div>
               </div>
             </Button>
             <Button
@@ -1870,8 +1872,8 @@ export function DeckStudyLearn({
             >
               <RefreshCw className="w-5 h-5" />
               <div className="text-left">
-                <div className="font-semibold text-sm">I was unsure</div>
-                <div className="text-[10px] text-amber-400">Review in 3 days</div>
+                <div className="font-semibold text-sm">{t("components.deckViews.iWasUnsure")}</div>
+                <div className="text-[10px] text-amber-400">{t("components.deckViews.reviewIn3Days")}</div>
               </div>
             </Button>
             <Button
@@ -1890,8 +1892,8 @@ export function DeckStudyLearn({
             >
               <CheckCircle2 className="w-5 h-5" />
               <div className="text-left">
-                <div className="font-semibold text-sm">I knew this</div>
-                <div className="text-[10px] text-emerald-300">Review in 7+ days</div>
+                <div className="font-semibold text-sm">{t("components.deckViews.iKnewThis")}</div>
+                <div className="text-[10px] text-emerald-300">{t("components.deckViews.reviewIn7Days")}</div>
               </div>
             </Button>
           </div>
@@ -1978,14 +1980,14 @@ export function DeckStudyTest({
       <div className="flex items-center gap-2 bg-card/90 backdrop-blur-sm border border-border/60 rounded-2xl px-4 py-2.5 shadow-sm flex-wrap">
         <button onClick={() => setView("decks")} className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition" data-testid="button-exit-to-decks-test">
           <Home className="w-4 h-4" />
-          <span className="hidden sm:inline">My Flashcards</span>
+          <span className="hidden sm:inline">{t("components.deckViews.myFlashcards4")}</span>
         </button>
         <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60" />
         <button onClick={() => setView("deck-view")} className="text-sm font-medium text-primary hover:text-primary/80 transition truncate max-w-[160px]" data-testid="button-exit-test">
           {currentDeck?.title || "Deck"}
         </button>
         <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60" />
-        <span className="text-sm font-semibold text-foreground/70">Test</span>
+        <span className="text-sm font-semibold text-foreground/70">{t("components.deckViews.test")}</span>
         <div className="ml-auto flex items-center gap-4 text-sm">
           <span className="flex items-center gap-1 text-muted-foreground"><Timer className="w-4 h-4" /> {formatTime(elapsed)}</span>
           <span className="text-muted-foreground font-mono">{deckStudyIndex! + 1} / {total}</span>
@@ -2008,7 +2010,7 @@ export function DeckStudyTest({
         )}>
           {!deckStudyFlipped ? (
             <>
-              <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-6">Test Mode</span>
+              <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-6">{t("components.deckViews.testMode")}</span>
               <h2 className="text-xl sm:text-2xl font-bold text-foreground leading-relaxed max-w-lg">{card.front}</h2>
               <div className="mt-8 text-xs text-foreground/40 uppercase tracking-widest animate-pulse flex items-center gap-2">
                 <RefreshCw className="w-3 h-3" /> Tap or press Space to reveal
@@ -2016,16 +2018,16 @@ export function DeckStudyTest({
             </>
           ) : (
             <div className="w-full max-w-lg space-y-3">
-              <span className="text-[10px] font-bold text-primary-foreground/50 uppercase tracking-[0.2em] block text-center mb-2">Tap each section to reveal</span>
+              <span className="text-[10px] font-bold text-primary-foreground/50 uppercase tracking-[0.2em] block text-center mb-2">{t("components.deckViews.tapEachSectionToReveal2")}</span>
               <RevealSection
-                label="Correct Answer"
+                label={t("components.deckViews.correctAnswer2")}
                 icon={<CheckCircle2 className="w-4 h-4 text-primary-foreground/60" />}
                 content={card.back}
                 testId="reveal-answer-test"
               />
               {card.rationale?.trim() && (
                 <RevealSection
-                  label="Why This Is Correct"
+                  label={t("components.deckViews.whyThisIsCorrect2")}
                   icon={<BookOpen className="w-4 h-4 text-primary-foreground/60" />}
                   content={card.rationale}
                   testId="reveal-rationale-test"
@@ -2033,7 +2035,7 @@ export function DeckStudyTest({
               )}
               {card.clinicalPearl?.trim() && (
                 <RevealSection
-                  label="Clinical Pearl"
+                  label={t("components.deckViews.clinicalPearl2")}
                   icon={<Lightbulb className="w-4 h-4 text-primary-foreground/60" />}
                   content={card.clinicalPearl}
                   testId="reveal-clinical-pearl-test"
@@ -2090,7 +2092,7 @@ export function DeckReportCard({
         )}>
           {percentage}%
         </div>
-        <h2 className="text-2xl font-bold text-foreground">Session Complete</h2>
+        <h2 className="text-2xl font-bold text-foreground">{t("components.deckViews.sessionComplete")}</h2>
         <p className="text-muted-foreground text-sm mt-1">{currentDeck?.title}</p>
       </div>
 
@@ -2098,19 +2100,19 @@ export function DeckReportCard({
         <Card className="text-center premium-card border-0 bg-emerald-50/60">
           <CardContent className="p-4">
             <p className="text-2xl font-bold text-emerald-600">{deckStudyCorrect}</p>
-            <p className="text-xs text-emerald-700 font-medium">Correct</p>
+            <p className="text-xs text-emerald-700 font-medium">{t("components.deckViews.correct")}</p>
           </CardContent>
         </Card>
         <Card className="text-center premium-card border-0 bg-red-50/60">
           <CardContent className="p-4">
             <p className="text-2xl font-bold text-red-500">{deckStudyIncorrect}</p>
-            <p className="text-xs text-red-700 font-medium">Missed</p>
+            <p className="text-xs text-red-700 font-medium">{t("components.deckViews.missed")}</p>
           </CardContent>
         </Card>
         <Card className="text-center premium-card border-0 bg-secondary/60">
           <CardContent className="p-4">
             <p className="text-2xl font-bold text-foreground">{formatTime(timeSeconds)}</p>
-            <p className="text-xs text-muted-foreground font-medium">Time</p>
+            <p className="text-xs text-muted-foreground font-medium">{t("components.deckViews.time")}</p>
           </CardContent>
         </Card>
       </div>

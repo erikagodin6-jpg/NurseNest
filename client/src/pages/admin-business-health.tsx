@@ -4,6 +4,7 @@ import { adminFetch } from "@/lib/admin-fetch";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useI18n } from "@/lib/i18n";
 import {
   RefreshCw,
   DollarSign,
@@ -37,6 +38,7 @@ const EXPENSE_CATEGORIES = [
 const CURRENCIES = ["CAD", "USD"];
 
 function fmt(n: number, decimals = 2): string {
+  const { t } = useI18n();
   return n.toLocaleString("en-CA", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
 }
 
@@ -209,7 +211,7 @@ export default function AdminBusinessHealth() {
             <a href="/admin" className="text-gray-500 hover:text-gray-700" data-testid="link-back-admin">
               <ArrowLeft className="w-5 h-5" />
             </a>
-            <h1 className="text-2xl font-bold" data-testid="text-page-title">Business Health Dashboard</h1>
+            <h1 className="text-2xl font-bold" data-testid="text-page-title">{t("pages.adminBusinessHealth.businessHealthDashboard")}</h1>
           </div>
           <div className="flex items-center gap-2">
             <label className="flex items-center gap-1.5 text-sm text-gray-500 cursor-pointer">
@@ -248,7 +250,7 @@ export default function AdminBusinessHealth() {
                 <CardContent className="pt-4">
                   <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
                     <DollarSign className="w-4 h-4" />
-                    <span>Total Invested</span>
+                    <span>{t("pages.adminBusinessHealth.totalInvested")}</span>
                   </div>
                   <p className="text-2xl font-bold text-blue-600" data-testid="text-total-invested">
                     ${fmt(fin.totalInvestedCAD || 0)} CAD
@@ -261,7 +263,7 @@ export default function AdminBusinessHealth() {
                 <CardContent className="pt-4">
                   <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
                     <TrendingUp className="w-4 h-4" />
-                    <span>Total Revenue</span>
+                    <span>{t("pages.adminBusinessHealth.totalRevenue")}</span>
                   </div>
                   <p className="text-2xl font-bold text-green-600" data-testid="text-total-revenue">
                     ${fmt(fin.totalRevenueCAD || 0)} CAD
@@ -274,7 +276,7 @@ export default function AdminBusinessHealth() {
                 <CardContent className="pt-4">
                   <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
                     <Target className="w-4 h-4" />
-                    <span>Break-Even Remaining</span>
+                    <span>{t("pages.adminBusinessHealth.breakevenRemaining")}</span>
                   </div>
                   <p className={`text-2xl font-bold ${breakEvenColor}`} data-testid="text-breakeven">
                     ${fmt(fin.breakEvenRemainingCAD || 0)} CAD
@@ -287,7 +289,7 @@ export default function AdminBusinessHealth() {
                 <CardContent className="pt-4">
                   <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
                     {(fin.grossProfitLossCAD || 0) >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-                    <span>Gross Profit/Loss</span>
+                    <span>{t("pages.adminBusinessHealth.grossProfitloss")}</span>
                   </div>
                   <p className={`text-2xl font-bold ${profitColor}`} data-testid="text-profit-loss">
                     {(fin.grossProfitLossCAD || 0) >= 0 ? "+" : ""}${fmt(fin.grossProfitLossCAD || 0)} CAD
@@ -308,19 +310,19 @@ export default function AdminBusinessHealth() {
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
-                      <span className="text-sm font-medium">Subscription Revenue</span>
+                      <span className="text-sm font-medium">{t("pages.adminBusinessHealth.subscriptionRevenue")}</span>
                       <span className="font-bold text-green-600" data-testid="text-sub-revenue">
                         ${fmt(fin.subscriptionRevenueCAD || 0)} CAD
                       </span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
-                      <span className="text-sm font-medium">One-Time Purchase Revenue</span>
+                      <span className="text-sm font-medium">{t("pages.adminBusinessHealth.onetimePurchaseRevenue")}</span>
                       <span className="font-bold text-blue-600" data-testid="text-onetime-revenue">
                         ${fmt(fin.oneTimeRevenueCAD || 0)} CAD
                       </span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-purple-50 rounded-lg">
-                      <span className="text-sm font-medium">Revenue This Month</span>
+                      <span className="text-sm font-medium">{t("pages.adminBusinessHealth.revenueThisMonth")}</span>
                       <span className="font-bold text-purple-600" data-testid="text-revenue-month">
                         ${fmt(fin.revenueThisMonthCAD || 0)} CAD
                       </span>
@@ -339,26 +341,26 @@ export default function AdminBusinessHealth() {
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center p-3 bg-orange-50 rounded-lg">
-                      <span className="text-sm font-medium">Replit Spend Total</span>
+                      <span className="text-sm font-medium">{t("pages.adminBusinessHealth.replitSpendTotal")}</span>
                       <span className="font-bold text-orange-600" data-testid="text-replit-spend">
                         ${fmt(spend.replitSpendCAD || 0)} CAD
                       </span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-amber-50 rounded-lg">
-                      <span className="text-sm font-medium">AI Generation Spend</span>
+                      <span className="text-sm font-medium">{t("pages.adminBusinessHealth.aiGenerationSpend")}</span>
                       <span className="font-bold text-amber-600" data-testid="text-ai-spend">
                         ${fmt(spend.aiGenerationSpendCAD || 0)} CAD
                         <span className="text-xs text-gray-400 ml-1">(${fmt(spend.aiGenerationSpendUSD || 0)} USD)</span>
                       </span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg">
-                      <span className="text-sm font-medium">Manual Expenses Total</span>
+                      <span className="text-sm font-medium">{t("pages.adminBusinessHealth.manualExpensesTotal")}</span>
                       <span className="font-bold text-red-600" data-testid="text-manual-expenses">
                         ${fmt(spend.manualExpensesCAD || 0)} CAD
                       </span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-gray-100 rounded-lg border-t-2 border-gray-300">
-                      <span className="text-sm font-semibold">Spend This Month</span>
+                      <span className="text-sm font-semibold">{t("pages.adminBusinessHealth.spendThisMonth")}</span>
                       <span className="font-bold" data-testid="text-spend-month">
                         ${fmt(spend.spendThisMonthCAD || 0)} CAD
                       </span>
@@ -413,7 +415,7 @@ export default function AdminBusinessHealth() {
                   <div className="mb-6 p-4 border rounded-lg bg-gray-50 space-y-3" data-testid="form-expense">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       <div>
-                        <label className="text-xs font-medium text-gray-500 mb-1 block">Category</label>
+                        <label className="text-xs font-medium text-gray-500 mb-1 block">{t("pages.adminBusinessHealth.category")}</label>
                         <select
                           value={expenseForm.category}
                           onChange={(e) => setExpenseForm({ ...expenseForm, category: e.target.value })}
@@ -426,7 +428,7 @@ export default function AdminBusinessHealth() {
                         </select>
                       </div>
                       <div>
-                        <label className="text-xs font-medium text-gray-500 mb-1 block">Vendor</label>
+                        <label className="text-xs font-medium text-gray-500 mb-1 block">{t("pages.adminBusinessHealth.vendor")}</label>
                         <Input
                           placeholder="e.g. Replit, Namecheap..."
                           value={expenseForm.vendor}
@@ -435,9 +437,9 @@ export default function AdminBusinessHealth() {
                         />
                       </div>
                       <div>
-                        <label className="text-xs font-medium text-gray-500 mb-1 block">Description</label>
+                        <label className="text-xs font-medium text-gray-500 mb-1 block">{t("pages.adminBusinessHealth.description")}</label>
                         <Input
-                          placeholder="Optional description"
+                          placeholder={t("pages.adminBusinessHealth.optionalDescription")}
                           value={expenseForm.description}
                           onChange={(e) => setExpenseForm({ ...expenseForm, description: e.target.value })}
                           data-testid="input-expense-description"
@@ -446,7 +448,7 @@ export default function AdminBusinessHealth() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
                       <div>
-                        <label className="text-xs font-medium text-gray-500 mb-1 block">Amount</label>
+                        <label className="text-xs font-medium text-gray-500 mb-1 block">{t("pages.adminBusinessHealth.amount")}</label>
                         <Input
                           type="number"
                           step="0.01"
@@ -457,7 +459,7 @@ export default function AdminBusinessHealth() {
                         />
                       </div>
                       <div>
-                        <label className="text-xs font-medium text-gray-500 mb-1 block">Currency</label>
+                        <label className="text-xs font-medium text-gray-500 mb-1 block">{t("pages.adminBusinessHealth.currency")}</label>
                         <select
                           value={expenseForm.currency}
                           onChange={(e) => setExpenseForm({ ...expenseForm, currency: e.target.value })}
@@ -468,7 +470,7 @@ export default function AdminBusinessHealth() {
                         </select>
                       </div>
                       <div>
-                        <label className="text-xs font-medium text-gray-500 mb-1 block">Date</label>
+                        <label className="text-xs font-medium text-gray-500 mb-1 block">{t("pages.adminBusinessHealth.date")}</label>
                         <Input
                           type="date"
                           value={expenseForm.date}
@@ -506,19 +508,19 @@ export default function AdminBusinessHealth() {
                 )}
 
                 {(expenses || []).length === 0 ? (
-                  <p className="text-gray-400 text-center py-6">No expenses recorded yet.</p>
+                  <p className="text-gray-400 text-center py-6">{t("pages.adminBusinessHealth.noExpensesRecordedYet")}</p>
                 ) : (
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm" data-testid="table-expenses">
                       <thead>
                         <tr className="border-b text-left text-gray-500">
-                          <th className="pb-2 pr-3">Date</th>
-                          <th className="pb-2 pr-3">Category</th>
-                          <th className="pb-2 pr-3">Vendor</th>
-                          <th className="pb-2 pr-3">Description</th>
-                          <th className="pb-2 pr-3 text-right">Amount</th>
-                          <th className="pb-2 pr-3">Recurring</th>
-                          <th className="pb-2">Actions</th>
+                          <th className="pb-2 pr-3">{t("pages.adminBusinessHealth.date2")}</th>
+                          <th className="pb-2 pr-3">{t("pages.adminBusinessHealth.category2")}</th>
+                          <th className="pb-2 pr-3">{t("pages.adminBusinessHealth.vendor2")}</th>
+                          <th className="pb-2 pr-3">{t("pages.adminBusinessHealth.description2")}</th>
+                          <th className="pb-2 pr-3 text-right">{t("pages.adminBusinessHealth.amount2")}</th>
+                          <th className="pb-2 pr-3">{t("pages.adminBusinessHealth.recurring")}</th>
+                          <th className="pb-2">{t("pages.adminBusinessHealth.actions")}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -537,7 +539,7 @@ export default function AdminBusinessHealth() {
                             </td>
                             <td className="py-2 pr-3">
                               {exp.recurring ? (
-                                <span className="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">Yes</span>
+                                <span className="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">{t("pages.adminBusinessHealth.yes")}</span>
                               ) : (
                                 <span className="text-xs text-gray-400">No</span>
                               )}
@@ -578,7 +580,7 @@ export default function AdminBusinessHealth() {
                 <CardContent className="pt-4">
                   <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
                     <Users className="w-4 h-4" />
-                    <span>Total Users</span>
+                    <span>{t("pages.adminBusinessHealth.totalUsers")}</span>
                   </div>
                   <p className="text-2xl font-bold" data-testid="text-total-users">{subs.totalUsers || 0}</p>
                 </CardContent>
@@ -588,7 +590,7 @@ export default function AdminBusinessHealth() {
                 <CardContent className="pt-4">
                   <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
                     <Users className="w-4 h-4" />
-                    <span>Active Subscribers</span>
+                    <span>{t("pages.adminBusinessHealth.activeSubscribers")}</span>
                   </div>
                   <p className="text-2xl font-bold text-green-600" data-testid="text-active-subs">{subs.activeSubscribers || 0}</p>
                 </CardContent>
@@ -598,7 +600,7 @@ export default function AdminBusinessHealth() {
                 <CardContent className="pt-4">
                   <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
                     <Users className="w-4 h-4" />
-                    <span>Cancelled Subscribers</span>
+                    <span>{t("pages.adminBusinessHealth.cancelledSubscribers")}</span>
                   </div>
                   <p className="text-2xl font-bold text-red-600" data-testid="text-cancelled-subs">{subs.cancelledSubscribers || 0}</p>
                 </CardContent>
@@ -608,7 +610,7 @@ export default function AdminBusinessHealth() {
                 <CardContent className="pt-4">
                   <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
                     <BarChart3 className="w-4 h-4" />
-                    <span>Conversion Rate</span>
+                    <span>{t("pages.adminBusinessHealth.conversionRate")}</span>
                   </div>
                   <p className="text-2xl font-bold text-purple-600" data-testid="text-conversion-rate">{subs.conversionRate || "0.0"}%</p>
                   <p className="text-xs text-gray-400 mt-1">{subs.paidUsers || 0} paid / {subs.freeUsers || 0} free</p>
@@ -627,7 +629,7 @@ export default function AdminBusinessHealth() {
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                      <span className="text-sm font-medium">Free Users</span>
+                      <span className="text-sm font-medium">{t("pages.adminBusinessHealth.freeUsers")}</span>
                       <span className="font-bold text-gray-600" data-testid="text-free-users">{subs.freeUsers || 0}</span>
                     </div>
                     {subs.byTier && Object.entries(subs.byTier as Record<string, number>).map(([tier, count]) => {
@@ -647,11 +649,11 @@ export default function AdminBusinessHealth() {
                       );
                     })}
                     <div className="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
-                      <span className="text-sm font-medium">Past Due</span>
+                      <span className="text-sm font-medium">{t("pages.adminBusinessHealth.pastDue")}</span>
                       <span className="font-bold text-yellow-600" data-testid="text-past-due">{subs.pastDueSubscribers || 0}</span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-gray-100 rounded-lg">
-                      <span className="text-sm font-medium">Inactive</span>
+                      <span className="text-sm font-medium">{t("pages.adminBusinessHealth.inactive")}</span>
                       <span className="font-bold text-gray-500" data-testid="text-inactive">{subs.inactiveUsers || 0}</span>
                     </div>
                   </div>
@@ -668,18 +670,18 @@ export default function AdminBusinessHealth() {
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
-                      <span className="text-sm font-medium">Total Purchases</span>
+                      <span className="text-sm font-medium">{t("pages.adminBusinessHealth.totalPurchases")}</span>
                       <span className="font-bold text-green-600" data-testid="text-total-purchases">{purchases.totalPurchases || 0}</span>
                     </div>
                     <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
-                      <span className="text-sm font-medium">Total Sales</span>
+                      <span className="text-sm font-medium">{t("pages.adminBusinessHealth.totalSales")}</span>
                       <span className="font-bold text-blue-600" data-testid="text-total-sales">${fmt(purchases.totalSales || 0)}</span>
                     </div>
                   </div>
 
                   {purchases.byProduct && purchases.byProduct.length > 0 && (
                     <div className="mt-4">
-                      <p className="text-xs font-semibold text-gray-500 uppercase mb-2">By Product</p>
+                      <p className="text-xs font-semibold text-gray-500 uppercase mb-2">{t("pages.adminBusinessHealth.byProduct")}</p>
                       <div className="space-y-2">
                         {purchases.byProduct.map((p: any, i: number) => (
                           <div key={i} className="flex justify-between items-center text-sm p-2 bg-gray-50 rounded" data-testid={`row-product-${i}`}>
@@ -696,7 +698,7 @@ export default function AdminBusinessHealth() {
 
                   {purchases.byTier && purchases.byTier.length > 0 && (
                     <div className="mt-4">
-                      <p className="text-xs font-semibold text-gray-500 uppercase mb-2">By Tier</p>
+                      <p className="text-xs font-semibold text-gray-500 uppercase mb-2">{t("pages.adminBusinessHealth.byTier")}</p>
                       <div className="space-y-2">
                         {purchases.byTier.map((t: any, i: number) => (
                           <div key={i} className="flex justify-between items-center text-sm p-2 bg-gray-50 rounded" data-testid={`row-tier-purchase-${i}`}>
@@ -727,9 +729,9 @@ export default function AdminBusinessHealth() {
                     <table className="w-full text-sm" data-testid="table-sales-by-month">
                       <thead>
                         <tr className="border-b text-left text-gray-500">
-                          <th className="pb-2 pr-4">Month</th>
-                          <th className="pb-2 pr-4 text-right">Purchases</th>
-                          <th className="pb-2 text-right">Revenue</th>
+                          <th className="pb-2 pr-4">{t("pages.adminBusinessHealth.month")}</th>
+                          <th className="pb-2 pr-4 text-right">{t("pages.adminBusinessHealth.purchases")}</th>
+                          <th className="pb-2 text-right">{t("pages.adminBusinessHealth.revenue")}</th>
                         </tr>
                       </thead>
                       <tbody>

@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { LocaleLink } from "@/lib/LocaleLink";
+import { useI18n } from "@/lib/i18n";
 import {
   CheckCircle2, XCircle, BookOpen, ArrowRight, RotateCcw,
   Target, Lightbulb, ChevronRight, Trophy, Star,
@@ -48,6 +49,7 @@ interface PageData {
 }
 
 function DifficultyBadge({ level }: { level: number }) {
+  const { t } = useI18n();
   const colors = level <= 2 ? "bg-green-100 text-green-700" : level <= 3 ? "bg-yellow-100 text-yellow-700" : "bg-red-100 text-red-700";
   const label = level <= 2 ? "Easy" : level <= 3 ? "Medium" : "Hard";
   return <Badge className={colors} data-testid={`badge-difficulty-${level}`}>{label}</Badge>;
@@ -165,7 +167,7 @@ export default function ProfessionPracticeQuestionsPage({ slug }: { slug: string
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-16 text-center">
           <div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-500 mt-4" data-testid="text-loading">Loading practice questions...</p>
+          <p className="text-gray-500 mt-4" data-testid="text-loading">{t("pages.professionPracticeQuestions.loadingPracticeQuestions")}</p>
         </div>
       </div>
     );
@@ -176,10 +178,10 @@ export default function ProfessionPracticeQuestionsPage({ slug }: { slug: string
       <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-          <h1 className="text-2xl font-bold text-gray-800">Practice Questions Not Found</h1>
-          <p className="text-gray-600 mt-2">This practice questions page doesn't exist yet.</p>
+          <h1 className="text-2xl font-bold text-gray-800">{t("pages.professionPracticeQuestions.practiceQuestionsNotFound")}</h1>
+          <p className="text-gray-600 mt-2">{t("pages.professionPracticeQuestions.thisPracticeQuestionsPageDoesnt")}</p>
           <LocaleLink href="/">
-            <Button className="mt-4" data-testid="link-back-home">Go Home</Button>
+            <Button className="mt-4" data-testid="link-back-home">{t("pages.professionPracticeQuestions.goHome")}</Button>
           </LocaleLink>
         </div>
         <Footer />
@@ -235,7 +237,7 @@ export default function ProfessionPracticeQuestionsPage({ slug }: { slug: string
           <div className="flex items-start gap-3">
             <GraduationCap className="w-5 h-5 text-blue-600 mt-0.5 shrink-0" />
             <div>
-              <h3 className="font-semibold text-blue-900 text-sm">Free Practice Mode</h3>
+              <h3 className="font-semibold text-blue-900 text-sm">{t("pages.professionPracticeQuestions.freePracticeMode")}</h3>
               <p className="text-sm text-blue-700 mt-1">
                 Try {freeQuestions.length} free questions below with instant feedback and detailed explanations.
                 {totalQuestions > freeQuestions.length && (
@@ -325,12 +327,12 @@ export default function ProfessionPracticeQuestionsPage({ slug }: { slug: string
                     <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg" data-testid="text-rationale">
                       <div className="flex items-start gap-2 mb-2">
                         <Lightbulb className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                        <h4 className="font-semibold text-blue-900">Explanation</h4>
+                        <h4 className="font-semibold text-blue-900">{t("pages.professionPracticeQuestions.explanation")}</h4>
                       </div>
                       <p className="text-sm text-blue-800 leading-relaxed">{currentQ.rationale}</p>
                       {currentQ.clinicalPearl && (
                         <div className="mt-3 p-3 bg-white/60 rounded border border-blue-100">
-                          <p className="text-xs font-semibold text-blue-700 mb-1">Clinical Pearl</p>
+                          <p className="text-xs font-semibold text-blue-700 mb-1">{t("pages.professionPracticeQuestions.clinicalPearl")}</p>
                           <p className="text-sm text-blue-800">{currentQ.clinicalPearl}</p>
                         </div>
                       )}
@@ -353,7 +355,7 @@ export default function ProfessionPracticeQuestionsPage({ slug }: { slug: string
             <Card className="shadow-lg border-primary/20" data-testid="card-quiz-results">
               <CardContent className="p-6 sm:p-8 text-center">
                 <Trophy className="w-16 h-16 text-primary mx-auto mb-4" />
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Practice Complete!</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.professionPracticeQuestions.practiceComplete")}</h2>
                 <p className="text-4xl font-bold text-primary mb-2" data-testid="text-final-score">
                   {score}/{answeredCount}
                 </p>
@@ -364,15 +366,15 @@ export default function ProfessionPracticeQuestionsPage({ slug }: { slug: string
                 <div className="grid grid-cols-3 gap-4 mb-6 max-w-sm mx-auto">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-green-600">{score}</div>
-                    <div className="text-xs text-gray-500">Correct</div>
+                    <div className="text-xs text-gray-500">{t("pages.professionPracticeQuestions.correct")}</div>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-red-500">{answeredCount - score}</div>
-                    <div className="text-xs text-gray-500">Incorrect</div>
+                    <div className="text-xs text-gray-500">{t("pages.professionPracticeQuestions.incorrect")}</div>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-primary">{scorePercent}%</div>
-                    <div className="text-xs text-gray-500">Score</div>
+                    <div className="text-xs text-gray-500">{t("pages.professionPracticeQuestions.score")}</div>
                   </div>
                 </div>
 
@@ -390,16 +392,16 @@ export default function ProfessionPracticeQuestionsPage({ slug }: { slug: string
                 </div>
 
                 <div className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border border-purple-200">
-                  <h3 className="font-semibold text-gray-800 mb-1">Want more practice?</h3>
+                  <h3 className="font-semibold text-gray-800 mb-1">{t("pages.professionPracticeQuestions.wantMorePractice")}</h3>
                   <p className="text-sm text-gray-600 mb-3">
                     Access {totalQuestions > 0 ? `all ${totalQuestions}` : "thousands of"} questions with adaptive learning, detailed analytics, and personalized study plans.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-2 justify-center">
                     <LocaleLink href={`${page.routePrefix}/pricing`}>
-                      <Button size="sm" data-testid="button-upgrade-full">Unlock Full Access</Button>
+                      <Button size="sm" data-testid="button-upgrade-full">{t("pages.professionPracticeQuestions.unlockFullAccess")}</Button>
                     </LocaleLink>
                     <LocaleLink href={`/allied-health${page.routePrefix}/mock-exams`}>
-                      <Button size="sm" variant="outline" data-testid="button-try-mock">Try Mock Exams</Button>
+                      <Button size="sm" variant="outline" data-testid="button-try-mock">{t("pages.professionPracticeQuestions.tryMockExams")}</Button>
                     </LocaleLink>
                   </div>
                 </div>
@@ -433,7 +435,7 @@ export default function ProfessionPracticeQuestionsPage({ slug }: { slug: string
 
         <section className="mb-8 p-6 bg-gradient-to-r from-primary/5 to-blue-50 rounded-xl border border-primary/10" data-testid="section-cta">
           <div className="text-center">
-            <h2 className="text-xl font-bold text-gray-900 mb-2">Ready for Full Exam Prep?</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-2">{t("pages.professionPracticeQuestions.readyForFullExamPrep")}</h2>
             <p className="text-gray-600 mb-4 max-w-lg mx-auto">
               Access our complete library of practice questions, adaptive mock exams, flashcards, and personalized study plans.
             </p>

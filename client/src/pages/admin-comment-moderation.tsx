@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Navigation } from "@/components/navigation";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   MessageCircle, Trash2, CheckCircle, Flag, Loader2,
   ArrowLeft, AlertTriangle, RefreshCw
@@ -35,6 +36,7 @@ interface RecentComment {
 }
 
 export default function AdminCommentModeration() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [, setLocation] = useLocation();
   const [flaggedComments, setFlaggedComments] = useState<FlaggedComment[]>([]);
@@ -170,8 +172,8 @@ export default function AdminCommentModeration() {
               <Card className="border-0 shadow-md" data-testid="card-no-flagged">
                 <CardContent className="py-12 text-center">
                   <CheckCircle className="h-12 w-12 text-emerald-400 mx-auto mb-3" />
-                  <h3 className="text-lg font-semibold text-gray-700 mb-1">No Flagged Comments</h3>
-                  <p className="text-sm text-gray-500">All clear! No comments need review right now.</p>
+                  <h3 className="text-lg font-semibold text-gray-700 mb-1">{t("pages.adminCommentModeration.noFlaggedComments")}</h3>
+                  <p className="text-sm text-gray-500">{t("pages.adminCommentModeration.allClearNoCommentsNeed")}</p>
                 </CardContent>
               </Card>
             ) : (
@@ -230,8 +232,8 @@ export default function AdminCommentModeration() {
               <Card className="border-0 shadow-md" data-testid="card-no-recent">
                 <CardContent className="py-12 text-center">
                   <MessageCircle className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-                  <h3 className="text-lg font-semibold text-gray-700 mb-1">No Recent Comments</h3>
-                  <p className="text-sm text-gray-500">No comments have been posted yet.</p>
+                  <h3 className="text-lg font-semibold text-gray-700 mb-1">{t("pages.adminCommentModeration.noRecentComments")}</h3>
+                  <p className="text-sm text-gray-500">{t("pages.adminCommentModeration.noCommentsHaveBeenPosted")}</p>
                 </CardContent>
               </Card>
             ) : (
@@ -250,7 +252,7 @@ export default function AdminCommentModeration() {
                             </span>
                             <span className="text-xs text-gray-400">{formatDate(comment.createdAt)}</span>
                             {comment.isFlagged && (
-                              <Badge variant="destructive" className="text-[10px]">Flagged</Badge>
+                              <Badge variant="destructive" className="text-[10px]">{t("pages.adminCommentModeration.flagged")}</Badge>
                             )}
                           </div>
                           <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap mb-2">

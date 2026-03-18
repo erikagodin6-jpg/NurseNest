@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { Scale, Shield, BookOpen, Heart } from "lucide-react";
 
 export function EthicsLegalModule() {
+  const { t } = useI18n();
   const principlesConflict = useEditableText("ethics-principles-conflict", "A competent adult patient refuses a blood transfusion based on religious beliefs, but without it they may die. Autonomy says respect their decision. Beneficence says intervene to save their life. This is an ethical dilemma — and in most legal frameworks, autonomy prevails for competent adults. Recognizing these tensions and reasoning through them is the foundation of ethical practice.");
   const mandatoryReporting = useEditableText("ethics-mandatory-reporting", "Confidentiality is not absolute. Healthcare providers are legally required to report: suspected child abuse or neglect, suspected elder abuse, certain communicable diseases (to public health), gunshot wounds and stab wounds, threats of harm to self or others (duty to warn/protect). These reporting obligations override patient confidentiality.");
 
@@ -23,7 +25,7 @@ export function EthicsLegalModule() {
       <MicroLesson title="Bioethics Principles" subtitle="The four pillars of healthcare ethics" icon={<Heart className="w-5 h-5" />}>
         <EditableModuleText sectionKey="ethics-bioethics-content" defaultText="Healthcare ethics is built on four core bioethics principles — Autonomy (patient self-determination), Beneficence (doing good), Nonmaleficence (do no harm), and Justice (fairness in resource allocation) — established by Beauchamp and Childress. When these principles conflict — and they frequently do — ethical reasoning requires balancing them thoughtfully." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="The Four Principles"
+          title={t("data.pre_nursing_ethics_legal.theFourPrinciples")}
           cards={[
             {
               id: "ep1",
@@ -53,7 +55,7 @@ export function EthicsLegalModule() {
         />
         <CognitiveCard
           type="concept"
-          title="When Principles Conflict"
+          title={t("data.pre_nursing_ethics_legal.whenPrinciplesConflict")}
           content={principlesConflict}
         />
       </MicroLesson>
@@ -90,7 +92,7 @@ export function EthicsLegalModule() {
         </div>
         <CognitiveCard
           type="warning"
-          title="Mandatory Reporting Exceptions"
+          title={t("data.pre_nursing_ethics_legal.mandatoryReportingExceptions")}
           content={mandatoryReporting}
         />
       </MicroLesson>
@@ -110,7 +112,7 @@ export function EthicsLegalModule() {
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Ethics & Legal Concept"
+        title={t("data.pre_nursing_ethics_legal.matchTheEthicsLegalConcept")}
         pairs={[
           { term: "Autonomy", definition: "Patient's right to self-determination" },
           { term: "Beneficence", definition: "Obligation to act in patient's best interest" },
@@ -122,7 +124,7 @@ export function EthicsLegalModule() {
       />
 
       <SelfCheckQuiz
-        title="Ethics & Legal Foundations Quiz"
+        title={t("data.pre_nursing_ethics_legal.ethicsLegalFoundationsQuiz")}
         questions={[
           {
             id: "el1",

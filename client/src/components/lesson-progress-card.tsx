@@ -7,6 +7,7 @@ import { getExamNameForTier } from "@shared/constants";
 import { useRegion } from "@/hooks/use-region";
 import { canonicalDisplayName } from "@/lib/canonical-display";
 
+import { useI18n } from "@/lib/i18n";
 type ProgressEntry = {
   lessonId: string;
   completed: boolean;
@@ -25,6 +26,7 @@ type LessonProgressCardProps = {
 };
 
 export function LessonProgressCard({ activeTier, systems }: LessonProgressCardProps) {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [, setLocation] = useLocation();
   const region = useRegion();
@@ -162,7 +164,7 @@ export function LessonProgressCard({ activeTier, systems }: LessonProgressCardPr
           className="mt-4 p-3 rounded-xl bg-white/60 border border-gray-100 flex flex-col sm:flex-row items-center gap-3"
         >
           <div className="flex-1 text-center sm:text-left">
-            <p className="text-xs text-gray-400 uppercase tracking-wide font-medium">Continue Where You Left Off</p>
+            <p className="text-xs text-gray-400 uppercase tracking-wide font-medium">{t("components.lessonProgressCard.continueWhereYouLeftOff")}</p>
             <p data-testid="text-last-accessed-lesson" className="text-sm font-medium text-gray-700 mt-0.5">
               {lastAccessedLessonName}
             </p>

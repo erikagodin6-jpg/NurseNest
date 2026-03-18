@@ -19,8 +19,8 @@ function ExamNotFound() {
       <Navigation />
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center max-w-md px-4">
-          <h1 className="text-2xl font-bold text-[#2E3A59] mb-4" data-testid="text-not-found">Exam Not Found</h1>
-          <p className="text-gray-600 mb-6">The licensing exam page you are looking for is not available.</p>
+          <h1 className="text-2xl font-bold text-[#2E3A59] mb-4" data-testid="text-not-found">{t("pages.licensingExamDetail.examNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.licensingExamDetail.theLicensingExamPageYou")}</p>
           <LocaleLink href="/nursing-licensing-exams" className="text-[#BFA6F6] hover:underline font-medium" data-testid="link-back-hub">
             Browse All Licensing Exams
           </LocaleLink>
@@ -77,9 +77,9 @@ export default function LicensingExamDetail() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#2E3A59] to-[#3d4d73]" />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
           <nav className="flex items-center gap-2 text-sm text-white/60 mb-6" data-testid="breadcrumb-nav">
-            <LocaleLink href="/" className="hover:text-white/80">Home</LocaleLink>
+            <LocaleLink href="/" className="hover:text-white/80">{t("pages.licensingExamDetail.home")}</LocaleLink>
             <ChevronRight className="w-3 h-3" />
-            <LocaleLink href="/nursing-licensing-exams" className="hover:text-white/80">Licensing Exams</LocaleLink>
+            <LocaleLink href="/nursing-licensing-exams" className="hover:text-white/80">{t("pages.licensingExamDetail.licensingExams")}</LocaleLink>
             <ChevronRight className="w-3 h-3" />
             <span className="text-white/90">{exam.name}</span>
           </nav>
@@ -105,32 +105,32 @@ export default function LicensingExamDetail() {
           <div className="bg-white border border-gray-200 rounded-xl p-6">
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <div data-testid="text-exam-body">
-                <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Exam Body</p>
+                <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.licensingExamDetail.examBody")}</p>
                 <p className="text-sm font-medium text-[#2E3A59]">{exam.examBody}</p>
               </div>
               <div data-testid="text-countries">
-                <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Countries</p>
+                <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.licensingExamDetail.countries")}</p>
                 <p className="text-sm font-medium text-[#2E3A59]">{exam.countries.join(", ")}</p>
               </div>
               <div data-testid="text-question-count">
-                <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Questions</p>
+                <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.licensingExamDetail.questions")}</p>
                 <p className="text-sm font-medium text-[#2E3A59]">{exam.questionCount}</p>
               </div>
               <div data-testid="text-time-limit">
-                <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Time Limit</p>
+                <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.licensingExamDetail.timeLimit")}</p>
                 <p className="text-sm font-medium text-[#2E3A59]">{exam.timeLimit}</p>
               </div>
               <div data-testid="text-pass-rate">
-                <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Pass Rate</p>
+                <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.licensingExamDetail.passRate")}</p>
                 <p className="text-sm font-medium text-[#2E3A59]">{exam.passRate}</p>
               </div>
               <div data-testid="text-cost">
-                <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Cost</p>
+                <p className="text-xs font-semibold text-gray-500 uppercase mb-1">{t("pages.licensingExamDetail.cost")}</p>
                 <p className="text-sm font-medium text-[#2E3A59]">{exam.cost}</p>
               </div>
             </div>
             <div className="mt-6 pt-6 border-t border-gray-100">
-              <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Available Languages</p>
+              <p className="text-xs font-semibold text-gray-500 uppercase mb-2">{t("pages.licensingExamDetail.availableLanguages")}</p>
               <div className="flex flex-wrap gap-2">
                 {exam.languages.map((lang, i) => (
                   <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm" data-testid={`badge-language-${i}`}>
@@ -178,7 +178,7 @@ export default function LicensingExamDetail() {
 
         {exam.nurseNestLinks.length > 0 && (
           <section className="bg-gradient-to-r from-[#BFA6F6]/10 to-[#BFA6F6]/5 border border-[#BFA6F6]/20 rounded-2xl p-8" data-testid="section-nursenest-links">
-            <h2 className="text-2xl font-bold text-[#2E3A59] mb-3">NurseNest Exam Prep Resources</h2>
+            <h2 className="text-2xl font-bold text-[#2E3A59] mb-3">{t("pages.licensingExamDetail.nursenestExamPrepResources")}</h2>
             <p className="text-gray-600 mb-6">Prepare for the {exam.name} with NurseNest's comprehensive exam prep tools.</p>
             <div className="grid sm:grid-cols-2 gap-3">
               {exam.nurseNestLinks.map((link, i) => (
@@ -204,7 +204,7 @@ export default function LicensingExamDetail() {
             <div className="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center">
               <HelpCircle className="w-5 h-5 text-sky-500" />
             </div>
-            <h2 className="text-2xl font-bold text-[#2E3A59]">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-[#2E3A59]">{t("pages.licensingExamDetail.frequentlyAskedQuestions")}</h2>
           </div>
           <div className="space-y-3">
             {exam.faqs.map((faq, i) => (
@@ -229,7 +229,7 @@ export default function LicensingExamDetail() {
 
         {relatedExams.length > 0 && (
           <section data-testid="section-related-exams">
-            <h2 className="text-2xl font-bold text-[#2E3A59] mb-4">Related Licensing Exams</h2>
+            <h2 className="text-2xl font-bold text-[#2E3A59] mb-4">{t("pages.licensingExamDetail.relatedLicensingExams")}</h2>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
               {relatedExams.map((related) => (
                 <LocaleLink
@@ -254,8 +254,8 @@ export default function LicensingExamDetail() {
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-semibold text-[#2E3A59] group-hover:text-[#BFA6F6] transition-colors">All Licensing Exams</p>
-                    <p className="text-xs text-gray-500">Browse the full database</p>
+                    <p className="font-semibold text-[#2E3A59] group-hover:text-[#BFA6F6] transition-colors">{t("pages.licensingExamDetail.allLicensingExams")}</p>
+                    <p className="text-xs text-gray-500">{t("pages.licensingExamDetail.browseTheFullDatabase")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-[#BFA6F6] transition-colors" />
                 </div>

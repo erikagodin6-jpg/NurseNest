@@ -8,9 +8,11 @@ import {
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 
+import { useI18n } from "@/lib/i18n";
 type Tab = "overview" | "questions" | "editor" | "import" | "import-history" | "distribution" | "flashcards" | "lessons" | "seo" | "publish";
 
 function getInitialTab(): Tab {
+
   const path = window.location.pathname;
   if (path.includes("/import/history")) return "import-history";
   if (path.includes("/import")) return "import";
@@ -86,7 +88,7 @@ function QuestionEditor({ question, onSave, onCancel }: { question?: any; onSave
           <button onClick={() => setShowPreview(!showPreview)} className="px-3 py-1.5 text-sm bg-gray-50 rounded-lg hover:bg-gray-100" data-testid="button-toggle-preview">
             <Eye className="w-4 h-4 inline mr-1" /> {showPreview ? "Editor" : "Preview"}
           </button>
-          <button onClick={onCancel} className="px-3 py-1.5 text-sm text-gray-600 bg-gray-50 rounded-lg hover:bg-gray-100" data-testid="button-cancel-editor">Cancel</button>
+          <button onClick={onCancel} className="px-3 py-1.5 text-sm text-gray-600 bg-gray-50 rounded-lg hover:bg-gray-100" data-testid="button-cancel-editor">{t("allied.mltAdmin.cancel")}</button>
         </div>
       </div>
 
@@ -103,7 +105,7 @@ function QuestionEditor({ question, onSave, onCancel }: { question?: any; onSave
           </div>
           {form.rationaleLong && (
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <p className="text-sm font-medium text-blue-800 mb-1">Rationale:</p>
+              <p className="text-sm font-medium text-blue-800 mb-1">{t("allied.mltAdmin.rationale")}</p>
               <p className="text-sm text-blue-700">{form.rationaleLong}</p>
             </div>
           )}
@@ -117,7 +119,7 @@ function QuestionEditor({ question, onSave, onCancel }: { question?: any; onSave
       ) : (
         <div className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Question Stem *</label>
+            <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.mltAdmin.questionStem")}</label>
             <textarea
               value={form.stem}
               onChange={e => setForm(f => ({ ...f, stem: e.target.value }))}
@@ -130,7 +132,7 @@ function QuestionEditor({ question, onSave, onCancel }: { question?: any; onSave
             {opts.map((opt: string, i: number) => (
               <div key={i}>
                 <label className="block text-xs font-medium text-gray-600 mb-1">
-                  Option {String.fromCharCode(65 + i)} {i === form.correctAnswer && <span className="text-green-600">(correct)</span>}
+                  Option {String.fromCharCode(65 + i)} {i === form.correctAnswer && <span className="text-green-600">{t("allied.mltAdmin.correct")}</span>}
                 </label>
                 <div className="flex gap-2">
                   <input
@@ -155,7 +157,7 @@ function QuestionEditor({ question, onSave, onCancel }: { question?: any; onSave
             ))}
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Rationale *</label>
+            <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.mltAdmin.rationale2")}</label>
             <textarea
               value={form.rationaleLong}
               onChange={e => setForm(f => ({ ...f, rationaleLong: e.target.value }))}
@@ -166,49 +168,49 @@ function QuestionEditor({ question, onSave, onCancel }: { question?: any; onSave
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Discipline</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.mltAdmin.discipline")}</label>
               <select value={form.blueprintCategory} onChange={e => setForm(f => ({ ...f, blueprintCategory: e.target.value }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-discipline">
                 {MLT_DISCIPLINES.map(d => <option key={d} value={d}>{d}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Difficulty (1-5)</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.mltAdmin.difficulty15")}</label>
               <select value={form.difficulty} onChange={e => setForm(f => ({ ...f, difficulty: parseInt(e.target.value) }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-difficulty">
                 {[1, 2, 3, 4, 5].map(d => <option key={d} value={d}>{d}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Cognitive Level</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.mltAdmin.cognitiveLevel")}</label>
               <select value={form.cognitiveLevel} onChange={e => setForm(f => ({ ...f, cognitiveLevel: e.target.value }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-cognitive">
                 {COGNITIVE_LEVELS.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Status</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.mltAdmin.status")}</label>
               <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-status">
-                <option value="draft">Draft</option>
-                <option value="published">Published</option>
-                <option value="archived">Archived</option>
+                <option value="draft">{t("allied.mltAdmin.draft")}</option>
+                <option value="published">{t("allied.mltAdmin.published")}</option>
+                <option value="archived">{t("allied.mltAdmin.archived")}</option>
               </select>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Learning Objective</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.mltAdmin.learningObjective")}</label>
               <input value={form.learningObjective} onChange={e => setForm(f => ({ ...f, learningObjective: e.target.value }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-learning-objective" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Subtopic</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.mltAdmin.subtopic")}</label>
               <input value={form.subtopic} onChange={e => setForm(f => ({ ...f, subtopic: e.target.value }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-subtopic" />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Exam Trap (optional)</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.mltAdmin.examTrapOptional")}</label>
               <input value={form.examTrap} onChange={e => setForm(f => ({ ...f, examTrap: e.target.value }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-exam-trap" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Safety Note (optional)</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.mltAdmin.safetyNoteOptional")}</label>
               <input value={form.safetyNote} onChange={e => setForm(f => ({ ...f, safetyNote: e.target.value }))} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="input-safety-note" />
             </div>
           </div>
@@ -219,7 +221,7 @@ function QuestionEditor({ question, onSave, onCancel }: { question?: any; onSave
             </label>
           </div>
           <div className="flex justify-end gap-2 pt-2">
-            <button onClick={onCancel} className="px-4 py-2 text-sm text-gray-600 bg-gray-50 rounded-lg hover:bg-gray-100" data-testid="button-cancel">Cancel</button>
+            <button onClick={onCancel} className="px-4 py-2 text-sm text-gray-600 bg-gray-50 rounded-lg hover:bg-gray-100" data-testid="button-cancel">{t("allied.mltAdmin.cancel2")}</button>
             <button
               onClick={() => onSave(form)}
               className="px-4 py-2 text-sm text-white bg-purple-600 rounded-lg hover:bg-purple-700"
@@ -484,8 +486,8 @@ export default function MltAdminPage() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Admin Access Required</h1>
-        <p className="text-gray-600">You need admin privileges to access this page.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.mltAdmin.adminAccessRequired")}</h1>
+        <p className="text-gray-600">{t("allied.mltAdmin.youNeedAdminPrivilegesTo")}</p>
       </div>
     );
   }
@@ -508,8 +510,8 @@ export default function MltAdminPage() {
         <div className="flex items-center gap-3">
           <Settings className="w-7 h-7 text-purple-600" />
           <div>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-mlt-admin-title">MLT Content Studio</h1>
-            <p className="text-sm text-gray-500">Medical Laboratory Technologist Admin</p>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-mlt-admin-title">{t("allied.mltAdmin.mltContentStudio")}</h1>
+            <p className="text-sm text-gray-500">{t("allied.mltAdmin.medicalLaboratoryTechnologistAdmin")}</p>
           </div>
         </div>
         <button onClick={() => { loadStats(); }} className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-purple-700 bg-purple-50 rounded-lg hover:bg-purple-100" data-testid="button-refresh-mlt">
@@ -535,16 +537,16 @@ export default function MltAdminPage() {
       {tab === "overview" && (
         <div className="space-y-6">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <StatCard icon={BookOpen} label="Total Questions" value={stats?.questions?.total || 0} color="text-purple-500" />
-            <StatCard icon={CheckCircle2} label="Published" value={stats?.questions?.published || 0} color="text-green-500" />
-            <StatCard icon={FileText} label="Drafts" value={stats?.questions?.draft || 0} color="text-amber-500" />
-            <StatCard icon={Brain} label="Flashcards" value={stats?.flashcards || 0} color="text-blue-500" />
-            <StatCard icon={FileCheck} label="Lessons" value={stats?.lessons || 0} color="text-teal-500" />
+            <StatCard icon={BookOpen} label={t("allied.mltAdmin.totalQuestions")} value={stats?.questions?.total || 0} color="text-purple-500" />
+            <StatCard icon={CheckCircle2} label={t("allied.mltAdmin.published4")} value={stats?.questions?.published || 0} color="text-green-500" />
+            <StatCard icon={FileText} label={t("allied.mltAdmin.drafts")} value={stats?.questions?.draft || 0} color="text-amber-500" />
+            <StatCard icon={Brain} label={t("allied.mltAdmin.flashcards2")} value={stats?.flashcards || 0} color="text-blue-500" />
+            <StatCard icon={FileCheck} label={t("allied.mltAdmin.lessons2")} value={stats?.lessons || 0} color="text-teal-500" />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-white rounded-xl border border-gray-100 p-5">
-              <h3 className="font-semibold text-gray-900 mb-3">Distribution by Discipline</h3>
+              <h3 className="font-semibold text-gray-900 mb-3">{t("allied.mltAdmin.distributionByDiscipline")}</h3>
               <div className="space-y-2">
                 {(stats?.distribution || []).reduce((acc: any[], r: any) => {
                   const existing = acc.find(a => a.discipline === r.discipline);
@@ -564,7 +566,7 @@ export default function MltAdminPage() {
             </div>
 
             <div className="bg-white rounded-xl border border-gray-100 p-5">
-              <h3 className="font-semibold text-gray-900 mb-3">Quick Actions</h3>
+              <h3 className="font-semibold text-gray-900 mb-3">{t("allied.mltAdmin.quickActions")}</h3>
               <div className="space-y-2">
                 <button onClick={() => { setShowEditor(true); setEditingQuestion(null); setTab("editor"); }} className="w-full flex items-center gap-2 px-4 py-3 text-left text-sm bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100" data-testid="button-new-question">
                   <Plus className="w-4 h-4" /> Create New Question
@@ -597,25 +599,25 @@ export default function MltAdminPage() {
               <input
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Search questions..."
+                placeholder={t("allied.mltAdmin.searchQuestions")}
                 className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg text-sm"
                 data-testid="input-search-questions"
               />
             </div>
             <select value={filterDiscipline} onChange={e => { setFilterDiscipline(e.target.value); setQuestionsPage(1); }} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="filter-discipline">
-              <option value="">All Disciplines</option>
+              <option value="">{t("allied.mltAdmin.allDisciplines")}</option>
               {MLT_DISCIPLINES.map(d => <option key={d} value={d}>{d}</option>)}
             </select>
             <select value={filterDifficulty} onChange={e => { setFilterDifficulty(e.target.value); setQuestionsPage(1); }} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="filter-difficulty">
-              <option value="">All Difficulties</option>
+              <option value="">{t("allied.mltAdmin.allDifficulties")}</option>
               {[1, 2, 3, 4, 5].map(d => <option key={d} value={d}>Level {d}</option>)}
             </select>
             <select value={filterStatus} onChange={e => { setFilterStatus(e.target.value); setQuestionsPage(1); }} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="filter-status">
-              <option value="">All Statuses</option>
-              <option value="draft">Draft</option>
-              <option value="published">Published</option>
-              <option value="archived">Archived</option>
-              <option value="pending">Pending</option>
+              <option value="">{t("allied.mltAdmin.allStatuses")}</option>
+              <option value="draft">{t("allied.mltAdmin.draft2")}</option>
+              <option value="published">{t("allied.mltAdmin.published2")}</option>
+              <option value="archived">{t("allied.mltAdmin.archived2")}</option>
+              <option value="pending">{t("allied.mltAdmin.pending")}</option>
             </select>
             <button onClick={() => { setShowEditor(true); setEditingQuestion(null); }} className="px-3 py-2 text-sm text-white bg-purple-600 rounded-lg hover:bg-purple-700" data-testid="button-create-question">
               <Plus className="w-4 h-4 inline mr-1" /> New
@@ -625,19 +627,19 @@ export default function MltAdminPage() {
           {selectedIds.size > 0 && (
             <div className="flex items-center gap-2 p-3 bg-purple-50 rounded-lg" data-testid="bulk-actions-bar">
               <span className="text-sm font-medium text-purple-700">{selectedIds.size} selected</span>
-              <button onClick={() => handleBulkAction("publish")} className="px-2 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200" data-testid="bulk-publish">Publish</button>
-              <button onClick={() => handleBulkAction("archive")} className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded hover:bg-gray-200" data-testid="bulk-archive">Archive</button>
-              <button onClick={() => handleBulkAction("draft")} className="px-2 py-1 text-xs bg-amber-100 text-amber-700 rounded hover:bg-amber-200" data-testid="bulk-draft">Set Draft</button>
+              <button onClick={() => handleBulkAction("publish")} className="px-2 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200" data-testid="bulk-publish">{t("allied.mltAdmin.publish")}</button>
+              <button onClick={() => handleBulkAction("archive")} className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded hover:bg-gray-200" data-testid="bulk-archive">{t("allied.mltAdmin.archive")}</button>
+              <button onClick={() => handleBulkAction("draft")} className="px-2 py-1 text-xs bg-amber-100 text-amber-700 rounded hover:bg-amber-200" data-testid="bulk-draft">{t("allied.mltAdmin.setDraft")}</button>
               <select onChange={e => { if (e.target.value) handleBulkAction("tag-discipline", e.target.value); e.target.value = ""; }} className="px-2 py-1 text-xs border border-gray-200 rounded" data-testid="bulk-tag-discipline">
-                <option value="">Tag Discipline...</option>
+                <option value="">{t("allied.mltAdmin.tagDiscipline")}</option>
                 {MLT_DISCIPLINES.map(d => <option key={d} value={d}>{d}</option>)}
               </select>
               <select onChange={e => { if (e.target.value) handleBulkAction("set-difficulty", e.target.value); e.target.value = ""; }} className="px-2 py-1 text-xs border border-gray-200 rounded" data-testid="bulk-set-difficulty">
-                <option value="">Set Difficulty...</option>
+                <option value="">{t("allied.mltAdmin.setDifficulty")}</option>
                 {[1, 2, 3, 4, 5].map(d => <option key={d} value={String(d)}>Level {d}</option>)}
               </select>
-              <button onClick={() => handleBulkAction("delete")} className="px-2 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200" data-testid="bulk-delete">Delete</button>
-              <button onClick={() => setSelectedIds(new Set())} className="ml-auto text-xs text-gray-500 hover:text-gray-700" data-testid="button-clear-selection">Clear</button>
+              <button onClick={() => handleBulkAction("delete")} className="px-2 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200" data-testid="bulk-delete">{t("allied.mltAdmin.delete")}</button>
+              <button onClick={() => setSelectedIds(new Set())} className="ml-auto text-xs text-gray-500 hover:text-gray-700" data-testid="button-clear-selection">{t("allied.mltAdmin.clear")}</button>
             </div>
           )}
 
@@ -656,11 +658,11 @@ export default function MltAdminPage() {
                       data-testid="checkbox-select-all"
                     />
                   </th>
-                  <th className="p-3">Question</th>
-                  <th className="p-3 w-32">Discipline</th>
-                  <th className="p-3 w-16">Diff</th>
-                  <th className="p-3 w-20">Status</th>
-                  <th className="p-3 w-24">Actions</th>
+                  <th className="p-3">{t("allied.mltAdmin.question")}</th>
+                  <th className="p-3 w-32">{t("allied.mltAdmin.discipline2")}</th>
+                  <th className="p-3 w-16">{t("allied.mltAdmin.diff")}</th>
+                  <th className="p-3 w-20">{t("allied.mltAdmin.status2")}</th>
+                  <th className="p-3 w-24">{t("allied.mltAdmin.actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -703,7 +705,7 @@ export default function MltAdminPage() {
                   </tr>
                 ))}
                 {questions.length === 0 && (
-                  <tr><td colSpan={6} className="p-8 text-center text-gray-400">No questions found</td></tr>
+                  <tr><td colSpan={6} className="p-8 text-center text-gray-400">{t("allied.mltAdmin.noQuestionsFound")}</td></tr>
                 )}
               </tbody>
             </table>
@@ -712,9 +714,9 @@ export default function MltAdminPage() {
           <div className="flex items-center justify-between text-sm text-gray-500">
             <span>{questionsTotal} total questions</span>
             <div className="flex gap-2">
-              <button disabled={questionsPage <= 1} onClick={() => setQuestionsPage(p => p - 1)} className="px-3 py-1 bg-gray-100 rounded disabled:opacity-50" data-testid="button-prev-page">Prev</button>
+              <button disabled={questionsPage <= 1} onClick={() => setQuestionsPage(p => p - 1)} className="px-3 py-1 bg-gray-100 rounded disabled:opacity-50" data-testid="button-prev-page">{t("allied.mltAdmin.prev")}</button>
               <span>Page {questionsPage}</span>
-              <button disabled={questionsPage * 50 >= questionsTotal} onClick={() => setQuestionsPage(p => p + 1)} className="px-3 py-1 bg-gray-100 rounded disabled:opacity-50" data-testid="button-next-page">Next</button>
+              <button disabled={questionsPage * 50 >= questionsTotal} onClick={() => setQuestionsPage(p => p + 1)} className="px-3 py-1 bg-gray-100 rounded disabled:opacity-50" data-testid="button-next-page">{t("allied.mltAdmin.next")}</button>
             </div>
           </div>
         </div>
@@ -729,15 +731,15 @@ export default function MltAdminPage() {
 
             <div className="flex gap-3 mb-4">
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Format</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.mltAdmin.format")}</label>
                 <select value={importFormat} onChange={e => setImportFormat(e.target.value as any)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm" data-testid="select-import-format">
                   <option value="json">JSON</option>
                   <option value="csv">CSV</option>
-                  <option value="text">Structured Text</option>
+                  <option value="text">{t("allied.mltAdmin.structuredText")}</option>
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Upload File</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t("allied.mltAdmin.uploadFile")}</label>
                 <input type="file" accept=".json,.csv,.txt" onChange={handleFileUpload} className="text-sm" data-testid="input-file-upload" />
               </div>
             </div>
@@ -785,7 +787,7 @@ export default function MltAdminPage() {
 
                 {importValidation.errors?.length > 0 && (
                   <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-                    <p className="text-xs font-medium text-red-700 mb-1">Errors:</p>
+                    <p className="text-xs font-medium text-red-700 mb-1">{t("allied.mltAdmin.errors")}</p>
                     {importValidation.errors.map((e: string, i: number) => (
                       <p key={i} className="text-xs text-red-600">{e}</p>
                     ))}
@@ -794,7 +796,7 @@ export default function MltAdminPage() {
 
                 {importValidation.warnings?.length > 0 && (
                   <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
-                    <p className="text-xs font-medium text-amber-700 mb-1">Warnings:</p>
+                    <p className="text-xs font-medium text-amber-700 mb-1">{t("allied.mltAdmin.warnings")}</p>
                     {importValidation.warnings.map((w: string, i: number) => (
                       <p key={i} className="text-xs text-amber-600">{w}</p>
                     ))}
@@ -839,7 +841,7 @@ export default function MltAdminPage() {
 
           {importFormat === "text" && (
             <div className="bg-white rounded-xl border border-gray-100 p-6" data-testid="text-format-guide">
-              <h3 className="font-semibold text-gray-900 mb-3">Structured Text Format Guide</h3>
+              <h3 className="font-semibold text-gray-900 mb-3">{t("allied.mltAdmin.structuredTextFormatGuide")}</h3>
               <pre className="text-xs text-gray-600 bg-gray-50 p-4 rounded-lg overflow-x-auto">{`Question: What is the primary function of hemoglobin?
 CountryTrack: both
 Discipline: Hematology
@@ -873,14 +875,14 @@ Rationale: Sodium citrate (light blue top tube) is the anticoagulant of choice f
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-gray-50 text-left">
-                  <th className="p-3">Date</th>
-                  <th className="p-3">Type</th>
-                  <th className="p-3">File</th>
-                  <th className="p-3 text-center">Total</th>
-                  <th className="p-3 text-center">Success</th>
-                  <th className="p-3 text-center">Errors</th>
-                  <th className="p-3">Status</th>
-                  <th className="p-3">Actions</th>
+                  <th className="p-3">{t("allied.mltAdmin.date")}</th>
+                  <th className="p-3">{t("allied.mltAdmin.type")}</th>
+                  <th className="p-3">{t("allied.mltAdmin.file")}</th>
+                  <th className="p-3 text-center">{t("allied.mltAdmin.total")}</th>
+                  <th className="p-3 text-center">{t("allied.mltAdmin.success")}</th>
+                  <th className="p-3 text-center">{t("allied.mltAdmin.errors2")}</th>
+                  <th className="p-3">{t("allied.mltAdmin.status3")}</th>
+                  <th className="p-3">{t("allied.mltAdmin.actions2")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -908,7 +910,7 @@ Rationale: Sodium citrate (light blue top tube) is the anticoagulant of choice f
                   </tr>
                 ))}
                 {importHistory.length === 0 && (
-                  <tr><td colSpan={8} className="p-8 text-center text-gray-400">No import history</td></tr>
+                  <tr><td colSpan={8} className="p-8 text-center text-gray-400">{t("allied.mltAdmin.noImportHistory")}</td></tr>
                 )}
               </tbody>
             </table>
@@ -927,11 +929,11 @@ Rationale: Sodium citrate (light blue top tube) is the anticoagulant of choice f
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="stat-total-target">
                   <div className="text-2xl font-bold text-gray-900">{distribution.totalTarget}</div>
-                  <div className="text-sm text-gray-500">Total Target Questions</div>
+                  <div className="text-sm text-gray-500">{t("allied.mltAdmin.totalTargetQuestions")}</div>
                 </div>
                 <div className="bg-white rounded-xl border border-gray-100 p-5" data-testid="stat-total-actual">
                   <div className="text-2xl font-bold text-gray-900">{distribution.totalActual}</div>
-                  <div className="text-sm text-gray-500">Actual Questions</div>
+                  <div className="text-sm text-gray-500">{t("allied.mltAdmin.actualQuestions")}</div>
                   <div className="text-xs text-gray-400 mt-1">{((distribution.totalActual / distribution.totalTarget) * 100).toFixed(1)}% of target</div>
                 </div>
               </div>
@@ -940,15 +942,15 @@ Rationale: Sodium citrate (light blue top tube) is the anticoagulant of choice f
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="bg-gray-50 text-left">
-                      <th className="p-3">Discipline</th>
-                      <th className="p-3 text-center">Target</th>
-                      <th className="p-3 text-center">Actual</th>
-                      <th className="p-3 text-center">Published</th>
-                      <th className="p-3">Progress</th>
-                      <th className="p-3 text-center">Easy</th>
-                      <th className="p-3 text-center">Medium</th>
-                      <th className="p-3 text-center">Hard</th>
-                      <th className="p-3 text-center">Adaptive</th>
+                      <th className="p-3">{t("allied.mltAdmin.discipline3")}</th>
+                      <th className="p-3 text-center">{t("allied.mltAdmin.target")}</th>
+                      <th className="p-3 text-center">{t("allied.mltAdmin.actual")}</th>
+                      <th className="p-3 text-center">{t("allied.mltAdmin.published3")}</th>
+                      <th className="p-3">{t("allied.mltAdmin.progress")}</th>
+                      <th className="p-3 text-center">{t("allied.mltAdmin.easy")}</th>
+                      <th className="p-3 text-center">{t("allied.mltAdmin.medium")}</th>
+                      <th className="p-3 text-center">{t("allied.mltAdmin.hard")}</th>
+                      <th className="p-3 text-center">{t("allied.mltAdmin.adaptive")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -981,7 +983,7 @@ Rationale: Sodium citrate (light blue top tube) is the anticoagulant of choice f
 
               {distribution.countryBreakdown && distribution.countryBreakdown.length > 0 && (
                 <div className="bg-white rounded-xl border border-gray-100 p-5">
-                  <h4 className="font-medium text-gray-900 mb-3">Country Split</h4>
+                  <h4 className="font-medium text-gray-900 mb-3">{t("allied.mltAdmin.countrySplit")}</h4>
                   <div className="grid grid-cols-3 gap-4 text-center">
                     {distribution.countryBreakdown.map((c: any) => (
                       <div key={c.country} className="p-3 bg-gray-50 rounded-lg" data-testid={`country-${c.country}`}>
@@ -1073,7 +1075,7 @@ Rationale: Sodium citrate (light blue top tube) is the anticoagulant of choice f
               </div>
             ))}
             {flashcards.length === 0 && (
-              <div className="col-span-2 p-8 text-center text-gray-400">No flashcards yet</div>
+              <div className="col-span-2 p-8 text-center text-gray-400">{t("allied.mltAdmin.noFlashcardsYet")}</div>
             )}
           </div>
         </div>
@@ -1108,10 +1110,10 @@ Rationale: Sodium citrate (light blue top tube) is the anticoagulant of choice f
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-gray-50 text-left">
-                  <th className="p-3">Title</th>
-                  <th className="p-3">Slug</th>
-                  <th className="p-3">Status</th>
-                  <th className="p-3">Actions</th>
+                  <th className="p-3">{t("allied.mltAdmin.title")}</th>
+                  <th className="p-3">{t("allied.mltAdmin.slug")}</th>
+                  <th className="p-3">{t("allied.mltAdmin.status4")}</th>
+                  <th className="p-3">{t("allied.mltAdmin.actions3")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -1139,7 +1141,7 @@ Rationale: Sodium citrate (light blue top tube) is the anticoagulant of choice f
                   </tr>
                 ))}
                 {lessons.length === 0 && (
-                  <tr><td colSpan={4} className="p-8 text-center text-gray-400">No lessons yet</td></tr>
+                  <tr><td colSpan={4} className="p-8 text-center text-gray-400">{t("allied.mltAdmin.noLessonsYet")}</td></tr>
                 )}
               </tbody>
             </table>
@@ -1154,13 +1156,13 @@ Rationale: Sodium citrate (light blue top tube) is the anticoagulant of choice f
           </h3>
 
           <div className="grid grid-cols-3 gap-4 mb-4">
-            <StatCard icon={CheckCircle2} label="Published Questions" value={seoData?.contentStats?.published_questions || 0} color="text-green-500" />
-            <StatCard icon={FileText} label="Draft Questions" value={seoData?.contentStats?.draft_questions || 0} color="text-amber-500" />
-            <StatCard icon={BookOpen} label="Total Questions" value={seoData?.contentStats?.total_questions || 0} color="text-purple-500" />
+            <StatCard icon={CheckCircle2} label={t("allied.mltAdmin.publishedQuestions")} value={seoData?.contentStats?.published_questions || 0} color="text-green-500" />
+            <StatCard icon={FileText} label={t("allied.mltAdmin.draftQuestions")} value={seoData?.contentStats?.draft_questions || 0} color="text-amber-500" />
+            <StatCard icon={BookOpen} label={t("allied.mltAdmin.totalQuestions2")} value={seoData?.contentStats?.total_questions || 0} color="text-purple-500" />
           </div>
 
           <div className="bg-white rounded-xl border border-gray-100 p-5">
-            <h4 className="font-medium text-gray-900 mb-3">MLT Content Pages</h4>
+            <h4 className="font-medium text-gray-900 mb-3">{t("allied.mltAdmin.mltContentPages")}</h4>
             {seoData?.pages?.length > 0 ? (
               <div className="space-y-2">
                 {seoData.pages.map((p: any) => (
@@ -1174,7 +1176,7 @@ Rationale: Sodium citrate (light blue top tube) is the anticoagulant of choice f
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-gray-400">No MLT content pages found</p>
+              <p className="text-sm text-gray-400">{t("allied.mltAdmin.noMltContentPagesFound")}</p>
             )}
           </div>
         </div>
@@ -1189,18 +1191,18 @@ Rationale: Sodium citrate (light blue top tube) is the anticoagulant of choice f
           {publishStatus && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white rounded-xl border border-gray-100 p-5">
-                <h4 className="font-medium text-gray-900 mb-3">Questions</h4>
+                <h4 className="font-medium text-gray-900 mb-3">{t("allied.mltAdmin.questions")}</h4>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-green-600">Live</span>
+                    <span className="text-green-600">{t("allied.mltAdmin.live")}</span>
                     <span className="font-bold">{Number(publishStatus.questions?.live_count || 0)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-amber-600">Draft</span>
+                    <span className="text-amber-600">{t("allied.mltAdmin.draft3")}</span>
                     <span className="font-bold">{Number(publishStatus.questions?.draft_count || 0)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Archived</span>
+                    <span className="text-gray-500">{t("allied.mltAdmin.archived3")}</span>
                     <span className="font-bold">{Number(publishStatus.questions?.archived_count || 0)}</span>
                   </div>
                   <div className="h-3 bg-gray-100 rounded-full overflow-hidden mt-2">
@@ -1210,20 +1212,20 @@ Rationale: Sodium citrate (light blue top tube) is the anticoagulant of choice f
               </div>
 
               <div className="bg-white rounded-xl border border-gray-100 p-5">
-                <h4 className="font-medium text-gray-900 mb-3">Flashcards</h4>
+                <h4 className="font-medium text-gray-900 mb-3">{t("allied.mltAdmin.flashcards")}</h4>
                 <div className="text-2xl font-bold text-gray-900">{publishStatus.flashcards?.total || 0}</div>
-                <div className="text-sm text-gray-500">Total MLT flashcards</div>
+                <div className="text-sm text-gray-500">{t("allied.mltAdmin.totalMltFlashcards")}</div>
               </div>
 
               <div className="bg-white rounded-xl border border-gray-100 p-5">
-                <h4 className="font-medium text-gray-900 mb-3">Lessons</h4>
+                <h4 className="font-medium text-gray-900 mb-3">{t("allied.mltAdmin.lessons")}</h4>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-green-600">Live</span>
+                    <span className="text-green-600">{t("allied.mltAdmin.live2")}</span>
                     <span className="font-bold">{Number(publishStatus.lessons?.live_lessons || 0)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-amber-600">Draft</span>
+                    <span className="text-amber-600">{t("allied.mltAdmin.draft4")}</span>
                     <span className="font-bold">{Number(publishStatus.lessons?.draft_lessons || 0)}</span>
                   </div>
                 </div>

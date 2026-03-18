@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   BookOpen,
   CheckCircle2,
@@ -38,6 +39,7 @@ import {
 } from "@/components/premium-study";
 
 function getAuthHeaders(): Record<string, string> {
+
   try {
     const creds = localStorage.getItem("nursenest-credentials");
     if (creds) {
@@ -185,9 +187,9 @@ export default function QBankStudyPage() {
           <div className="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center mx-auto mb-4">
             <AlertTriangle className="h-7 w-7 text-amber-500" />
           </div>
-          <h2 className="text-xl font-bold mb-2">Login Required</h2>
-          <p className="text-gray-500 mb-4">Please log in to access study mode.</p>
-          <Button onClick={() => setLocation("/login")} className="rounded-xl" data-testid="button-go-login">Go to Login</Button>
+          <h2 className="text-xl font-bold mb-2">{t("pages.qbankStudy.loginRequired")}</h2>
+          <p className="text-gray-500 mb-4">{t("pages.qbankStudy.pleaseLogInToAccess")}</p>
+          <Button onClick={() => setLocation("/login")} className="rounded-xl" data-testid="button-go-login">{t("pages.qbankStudy.goToLogin")}</Button>
         </div>
       </div>
     );
@@ -214,28 +216,28 @@ export default function QBankStudyPage() {
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">Questions</label>
+                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">{t("pages.qbankStudy.questions")}</label>
                   <select value={questionCount} onChange={(e) => setQuestionCount(Number(e.target.value))} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 bg-white text-sm" data-testid="select-study-count">
-                    <option value={5}>5 questions</option>
-                    <option value={10}>10 questions</option>
-                    <option value={20}>20 questions</option>
-                    <option value={30}>30 questions</option>
-                    <option value={50}>50 questions</option>
+                    <option value={5}>{t("pages.qbankStudy.5Questions")}</option>
+                    <option value={10}>{t("pages.qbankStudy.10Questions")}</option>
+                    <option value={20}>{t("pages.qbankStudy.20Questions")}</option>
+                    <option value={30}>{t("pages.qbankStudy.30Questions")}</option>
+                    <option value={50}>{t("pages.qbankStudy.50Questions")}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">Category / Topic</label>
+                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">{t("pages.qbankStudy.categoryTopic")}</label>
                   <Input value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)} placeholder="e.g. Cardiac, Pharmacology" className="rounded-xl border-gray-200" data-testid="input-study-category" />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">Difficulty</label>
+                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">{t("pages.qbankStudy.difficulty")}</label>
                   <select value={filterDifficulty} onChange={(e) => setFilterDifficulty(e.target.value)} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 bg-white text-sm" data-testid="select-study-difficulty">
-                    <option value="">All</option>
-                    <option value="easy">Easy</option>
-                    <option value="moderate">Moderate</option>
-                    <option value="hard">Hard</option>
-                    <option value="very_hard">Very Hard</option>
-                    <option value="critical_thinking">Critical Thinking</option>
+                    <option value="">{t("pages.qbankStudy.all")}</option>
+                    <option value="easy">{t("pages.qbankStudy.easy")}</option>
+                    <option value="moderate">{t("pages.qbankStudy.moderate")}</option>
+                    <option value="hard">{t("pages.qbankStudy.hard")}</option>
+                    <option value="very_hard">{t("pages.qbankStudy.veryHard")}</option>
+                    <option value="critical_thinking">{t("pages.qbankStudy.criticalThinking")}</option>
                   </select>
                 </div>
               </div>
@@ -249,7 +251,7 @@ export default function QBankStudyPage() {
           <Card className="premium-card border-0 shadow-md animate-fade-in-up">
             <CardContent className="p-10 text-center">
               <ScoreCircle percentage={scorePercent} className="mx-auto mb-5" />
-              <h2 className="text-xl font-bold mb-2 text-gray-900" data-testid="text-study-complete">Study Session Complete!</h2>
+              <h2 className="text-xl font-bold mb-2 text-gray-900" data-testid="text-study-complete">{t("pages.qbankStudy.studySessionComplete")}</h2>
               <p className="text-gray-500 mb-6">Score: {stats.correct}/{stats.attempted} ({scorePercent}%)</p>
               {bookmarked.size > 0 && (
                 <p className="text-sm text-violet-600 mb-4">
@@ -341,7 +343,7 @@ export default function QBankStudyPage() {
 
                           <RationaleSection
                             icon={<XCircle className="h-4 w-4 text-gray-500" />}
-                            title="Why Other Options Are Wrong"
+                            title={t("pages.qbankStudy.whyOtherOptionsAreWrong")}
                             variant="distractor"
                             data-testid="section-distractor-rationales"
                           >
@@ -368,7 +370,7 @@ export default function QBankStudyPage() {
                         <>
                           <RationaleSection
                             icon={<Lightbulb className="h-4 w-4 text-amber-500" />}
-                            title="Explanation"
+                            title={t("pages.qbankStudy.explanation")}
                           >
                             <RationaleText text={currentQ.rationale} />
                           </RationaleSection>
@@ -376,7 +378,7 @@ export default function QBankStudyPage() {
                           {currentQ.clinicalTakeaway && (
                             <CollapsibleRationaleSection
                               icon={<GraduationCap className="h-4 w-4 text-violet-500" />}
-                              title="Clinical Takeaway"
+                              title={t("pages.qbankStudy.clinicalTakeaway")}
                               variant="pearl"
                             >
                               <p className="text-sm text-gray-700 leading-relaxed">{currentQ.clinicalTakeaway}</p>
@@ -386,7 +388,7 @@ export default function QBankStudyPage() {
                           {currentQ.examPearl && (
                             <CollapsibleRationaleSection
                               icon={<Star className="h-4 w-4 text-amber-500" />}
-                              title="Exam Strategy"
+                              title={t("pages.qbankStudy.examStrategy")}
                               variant="pearl"
                             >
                               <p className="text-sm text-gray-700 leading-relaxed">{currentQ.examPearl}</p>
@@ -396,7 +398,7 @@ export default function QBankStudyPage() {
                           {currentQ.rationaleMedia && currentQ.rationaleMedia.length > 0 && (
                             <RationaleSection
                               icon={<ImageIcon className="h-4 w-4 text-blue-500" />}
-                              title="Clinical Reference"
+                              title={t("pages.qbankStudy.clinicalReference")}
                             >
                               <div className="space-y-3">
                                 {currentQ.rationaleMedia.map((media, i) => (
@@ -429,11 +431,10 @@ export default function QBankStudyPage() {
                             </RationaleSection>
                           )}
 
-
                           {currentQ.lessonLinks && currentQ.lessonLinks.length > 0 && (
                             <RationaleSection
                               icon={<BookOpen className="h-4 w-4 text-emerald-500" />}
-                              title="Related Lessons"
+                              title={t("pages.qbankStudy.relatedLessons")}
                             >
                               <div className="space-y-2">
                                 {currentQ.lessonLinks.map((link, i) => (

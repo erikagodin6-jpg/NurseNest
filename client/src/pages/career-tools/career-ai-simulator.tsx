@@ -11,6 +11,7 @@ import { Send, Bot, User, Loader2, Lock, ArrowLeft } from "lucide-react";
 import { useLocation } from "wouter";
 import { CAREER_CONFIGS, type CareerType } from "@shared/careers";
 
+import { useI18n } from "@/lib/i18n";
 interface Message {
   role: "user" | "assistant" | "system";
   content: string;
@@ -210,6 +211,7 @@ const TOOL_CONFIGS: Record<string, CareerToolConfig> = {
 };
 
 export default function CareerAISimulator({ toolId }: { toolId: string }) {
+  const { t } = useI18n();
   const { career, careerType } = useCareer();
   const { user, effectiveTier } = useAuth();
   const [, setLocation] = useLocation();
@@ -231,7 +233,7 @@ export default function CareerAISimulator({ toolId }: { toolId: string }) {
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <Card className="max-w-md">
             <CardContent className="p-6 text-center">
-              <p className="text-gray-600">Tool not found.</p>
+              <p className="text-gray-600">{t("pages.careerTools.careerAiSimulator.toolNotFound")}</p>
               <Button className="mt-4" onClick={() => setLocation(career.routePrefix)}>
                 Go Back
               </Button>
@@ -320,7 +322,7 @@ export default function CareerAISimulator({ toolId }: { toolId: string }) {
             <Card>
               <CardContent className="p-12 text-center">
                 <Lock className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Premium Feature</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{t("pages.careerTools.careerAiSimulator.premiumFeature")}</h3>
                 <p className="text-gray-600 mb-6">
                   Upgrade your {career.shortName} plan to access AI-powered study tools.
                 </p>
@@ -342,7 +344,7 @@ export default function CareerAISimulator({ toolId }: { toolId: string }) {
                 {messages.length === 0 && (
                   <div className="text-center py-12">
                     <Bot className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <p className="text-gray-500 mb-6">Start a conversation or choose a prompt below</p>
+                    <p className="text-gray-500 mb-6">{t("pages.careerTools.careerAiSimulator.startAConversationOrChoose")}</p>
                     <div className="flex flex-wrap gap-2 justify-center">
                       {toolConfig.starterPrompts.map((prompt, i) => (
                         <Button
@@ -414,7 +416,7 @@ export default function CareerAISimulator({ toolId }: { toolId: string }) {
                   <Textarea
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder="Type your response..."
+                    placeholder={t("pages.careerTools.careerAiSimulator.typeYourResponse")}
                     className="flex-1 resize-none"
                     rows={2}
                     onKeyDown={(e) => {

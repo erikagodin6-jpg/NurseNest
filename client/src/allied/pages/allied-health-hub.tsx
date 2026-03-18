@@ -8,17 +8,19 @@ import {
 import { AlliedSEO } from "@/allied/allied-seo";
 import { ALLIED_HEALTH_PROFESSIONS } from "@/allied/data/allied-health-professions";
 
+import { useI18n } from "@/lib/i18n";
 const ICON_MAP: Record<string, any> = {
   Wind, Ambulance, Pill, Microscope, ScanLine, Hand, Activity, Users, Brain, ShieldCheck, Database, Monitor, HeartPulse, Scissors,
 };
 
 function Breadcrumbs() {
+  const { t } = useI18n();
   return (
-    <nav aria-label="Breadcrumb" className="mb-6" data-testid="breadcrumb-nav">
+    <nav aria-label={t("allied.alliedHealthHub.breadcrumb")} className="mb-6" data-testid="breadcrumb-nav">
       <ol className="flex items-center gap-1.5 text-sm text-gray-500">
-        <li><Link href="/" className="hover:text-teal-600 transition-colors">Home</Link></li>
+        <li><Link href="/" className="hover:text-teal-600 transition-colors">{t("allied.alliedHealthHub.home")}</Link></li>
         <li><ChevronRight className="w-3.5 h-3.5" /></li>
-        <li className="text-gray-900 font-medium">Allied Health Careers</li>
+        <li className="text-gray-900 font-medium">{t("allied.alliedHealthHub.alliedHealthCareers")}</li>
       </ol>
     </nav>
   );
@@ -35,8 +37,8 @@ export default function AlliedHealthHub() {
   return (
     <div data-testid="allied-health-hub-page">
       <AlliedSEO
-        title="Allied Health Careers: Education, Certification & Exam Prep"
-        description="Explore allied health careers including respiratory therapy, paramedic, pharmacy tech, MLT, medical imaging, OT, PT, social work, and more. Complete guides with education pathways, certification requirements, salary data, and exam prep resources."
+        title={t("allied.alliedHealthHub.alliedHealthCareersEducationCertification")}
+        description={t("allied.alliedHealthHub.exploreAlliedHealthCareersIncluding")}
         keywords="allied health careers, healthcare careers, respiratory therapist, paramedic, pharmacy technician, MLT, medical imaging, occupational therapy, physical therapy, social work, exam prep"
         canonicalPath="/allied-health"
         structuredData={{
@@ -67,7 +69,7 @@ export default function AlliedHealthHub() {
           <Breadcrumbs />
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-hub-title">
-              Allied Health <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">Career Guides</span>
+              Allied Health <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">{t("allied.alliedHealthHub.careerGuides")}</span>
             </h1>
             <p className="text-lg text-gray-600 mb-6" data-testid="text-hub-subtitle">
               Explore 11 allied health career paths with comprehensive guides covering education requirements, certification exams, salary data, career outlook, and exam prep resources.
@@ -75,19 +77,19 @@ export default function AlliedHealthHub() {
             <div className="flex flex-wrap justify-center gap-3">
               <div className="flex items-center gap-1.5 text-sm text-gray-500">
                 <GraduationCap className="w-4 h-4 text-teal-500" />
-                <span>Education Pathways</span>
+                <span>{t("allied.alliedHealthHub.educationPathways")}</span>
               </div>
               <div className="flex items-center gap-1.5 text-sm text-gray-500">
                 <Award className="w-4 h-4 text-teal-500" />
-                <span>Certification Guides</span>
+                <span>{t("allied.alliedHealthHub.certificationGuides")}</span>
               </div>
               <div className="flex items-center gap-1.5 text-sm text-gray-500">
                 <BookOpen className="w-4 h-4 text-teal-500" />
-                <span>Exam Prep Resources</span>
+                <span>{t("allied.alliedHealthHub.examPrepResources")}</span>
               </div>
               <div className="flex items-center gap-1.5 text-sm text-gray-500">
                 <TrendingUp className="w-4 h-4 text-teal-500" />
-                <span>Career Outlook Data</span>
+                <span>{t("allied.alliedHealthHub.careerOutlookData")}</span>
               </div>
             </div>
           </div>
@@ -124,15 +126,15 @@ export default function AlliedHealthHub() {
                     <div className="grid grid-cols-3 gap-2 mb-4 text-center">
                       <div className="bg-gray-50 rounded-lg py-2 px-1">
                         <div className="text-sm font-bold text-gray-900">{profession.salaryRange}</div>
-                        <div className="text-[10px] text-gray-500">Salary Range</div>
+                        <div className="text-[10px] text-gray-500">{t("allied.alliedHealthHub.salaryRange")}</div>
                       </div>
                       <div className="bg-gray-50 rounded-lg py-2 px-1">
                         <div className="text-sm font-bold text-green-600">{profession.jobOutlook}</div>
-                        <div className="text-[10px] text-gray-500">Job Outlook</div>
+                        <div className="text-[10px] text-gray-500">{t("allied.alliedHealthHub.jobOutlook")}</div>
                       </div>
                       <div className="bg-gray-50 rounded-lg py-2 px-1">
                         <div className="text-sm font-bold text-gray-900">{profession.examNames.length}</div>
-                        <div className="text-[10px] text-gray-500">Exams</div>
+                        <div className="text-[10px] text-gray-500">{t("allied.alliedHealthHub.exams")}</div>
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-1.5 mb-4">
@@ -154,8 +156,8 @@ export default function AlliedHealthHub() {
       <section className="py-12 bg-white" data-testid="study-resources-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">Exam Prep Study Resources</h2>
-            <p className="text-gray-600">Quick access to popular study tools across all allied health professions.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("allied.alliedHealthHub.examPrepStudyResources")}</h2>
+            <p className="text-gray-600">{t("allied.alliedHealthHub.quickAccessToPopularStudy")}</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {[
@@ -179,7 +181,7 @@ export default function AlliedHealthHub() {
 
       <section className="py-12 bg-gray-50" data-testid="allied-health-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("allied.alliedHealthHub.frequentlyAskedQuestions")}</h2>
           <div className="space-y-4">
             {faqItems.map((faq, i) => (
               <details key={i} className="bg-white rounded-xl border border-gray-100 overflow-hidden group" data-testid={`faq-item-${i}`}>
@@ -197,8 +199,8 @@ export default function AlliedHealthHub() {
       <section className="py-12" data-testid="allied-health-cta">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <div className="bg-gradient-to-br from-teal-600 to-cyan-600 rounded-2xl p-8 sm:p-12 text-white">
-            <h2 className="text-2xl font-bold mb-3">Ready to Start Your Career Journey?</h2>
-            <p className="text-teal-100 mb-6">Take a free diagnostic assessment and get a personalized study plan for your allied health certification exam.</p>
+            <h2 className="text-2xl font-bold mb-3">{t("allied.alliedHealthHub.readyToStartYourCareer")}</h2>
+            <p className="text-teal-100 mb-6">{t("allied.alliedHealthHub.takeAFreeDiagnosticAssessment")}</p>
             <Link href="/diagnostic" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-teal-700 rounded-xl text-base font-semibold hover:bg-teal-50 transition-colors" data-testid="button-cta-diagnostic">
               Take Free Diagnostic <ArrowRight className="w-4 h-4" />
             </Link>

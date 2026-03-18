@@ -332,7 +332,7 @@ export default function QuestionBank() {
       <>
         <Navigation />
         <main className="min-h-screen bg-warmwhite flex items-center justify-center">
-          <div className="text-center text-gray-500">Loading...</div>
+          <div className="text-center text-gray-500">{t("pages.questionBank.loading")}</div>
         </main>
       </>
     );
@@ -341,7 +341,7 @@ export default function QuestionBank() {
   if (mode === "exam" && examSession?.submitted && examReport) {
     return (
       <>
-        <SEO title={`${qbTitle} - Exam Results`} description="View your practice exam results." canonicalPath="/test-bank" />
+        <SEO title={`${qbTitle} - Exam Results`} description={t("pages.questionBank.viewYourPracticeExamResults")} canonicalPath="/test-bank" />
         <Navigation />
         <main className="min-h-screen bg-warmwhite">
           <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -443,7 +443,7 @@ export default function QuestionBank() {
 
     return (
       <>
-        <SEO title={`${qbTitle} - Practice Exam`} description="Timed practice exam with randomized questions." canonicalPath="/test-bank" />
+        <SEO title={`${qbTitle} - Practice Exam`} description={t("pages.questionBank.timedPracticeExamWithRandomized")} canonicalPath="/test-bank" />
         <div className="min-h-screen bg-warmwhite font-sans text-gray-900">
           <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200/60 shadow-sm" data-testid="exam-mode-top-bar">
             <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -524,7 +524,7 @@ export default function QuestionBank() {
     <>
       <SEO
         title={`${qbTitle} - Practice Questions`}
-        description="Practice thousands of nursing questions with instant rationale. Filter by tier (RPN, RN, NP) and body system. Prepare for NCLEX and Canadian nursing exams."
+        description={t("pages.questionBank.practiceThousandsOfNursingQuestions")}
         canonicalPath="/test-bank"
         keywords="nursing test bank, practice questions, NCLEX prep, nursing exam questions, RPN questions, RN questions, NP questions"
       />
@@ -592,10 +592,10 @@ export default function QuestionBank() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="10">10 questions</SelectItem>
-                        <SelectItem value="25">25 questions</SelectItem>
-                        <SelectItem value="50">50 questions</SelectItem>
-                        <SelectItem value="75">75 questions</SelectItem>
+                        <SelectItem value="10">{t("pages.questionBank.10Questions")}</SelectItem>
+                        <SelectItem value="25">{t("pages.questionBank.25Questions")}</SelectItem>
+                        <SelectItem value="50">{t("pages.questionBank.50Questions")}</SelectItem>
+                        <SelectItem value="75">{t("pages.questionBank.75Questions")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -606,12 +606,12 @@ export default function QuestionBank() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="15">15 minutes</SelectItem>
-                        <SelectItem value="30">30 minutes</SelectItem>
-                        <SelectItem value="45">45 minutes</SelectItem>
-                        <SelectItem value="60">60 minutes</SelectItem>
-                        <SelectItem value="90">90 minutes</SelectItem>
-                        <SelectItem value="120">120 minutes</SelectItem>
+                        <SelectItem value="15">{t("pages.questionBank.15Minutes")}</SelectItem>
+                        <SelectItem value="30">{t("pages.questionBank.30Minutes")}</SelectItem>
+                        <SelectItem value="45">{t("pages.questionBank.45Minutes")}</SelectItem>
+                        <SelectItem value="60">{t("pages.questionBank.60Minutes")}</SelectItem>
+                        <SelectItem value="90">{t("pages.questionBank.90Minutes")}</SelectItem>
+                        <SelectItem value="120">{t("pages.questionBank.120Minutes")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -638,7 +638,7 @@ export default function QuestionBank() {
               {allowedQBankTiers.length !== 1 && (
               <Select value={tierFilter} onValueChange={(v) => { setTierFilter(v); setCurrentIndex(0); setSelectedAnswer(null); setRevealed(false); setExamFilter("all"); setDifficultyFilter("all"); setTopicFilter("all"); setSystemFilter("all"); }}>
                 <SelectTrigger className="w-[140px] border-gray-200 bg-white" data-testid="select-tier">
-                  <SelectValue placeholder="Tier" />
+                  <SelectValue placeholder={t("pages.questionBank.tier")} />
                 </SelectTrigger>
                 <SelectContent>
                   {allowedQBankTiers.length === 0 && <SelectItem value="all">{t("qbank.allTiers")}</SelectItem>}
@@ -651,7 +651,7 @@ export default function QuestionBank() {
 
               <Select value={systemFilter} onValueChange={(v) => { setSystemFilter(v); setCurrentIndex(0); setSelectedAnswer(null); setRevealed(false); }}>
                 <SelectTrigger className="w-[160px] border-gray-200 bg-white" data-testid="select-system">
-                  <SelectValue placeholder="Body System" />
+                  <SelectValue placeholder={t("pages.questionBank.bodySystem")} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">{t("qbank.allSystems")}</SelectItem>
@@ -664,7 +664,7 @@ export default function QuestionBank() {
               {filterOptions?.exams && filterOptions.exams.length > 1 && (
                 <Select value={examFilter} onValueChange={(v) => { setExamFilter(v); setCurrentIndex(0); setSelectedAnswer(null); setRevealed(false); }}>
                   <SelectTrigger className="w-[140px] border-gray-200 bg-white" data-testid="select-exam-type">
-                    <SelectValue placeholder="Exam" />
+                    <SelectValue placeholder={t("pages.questionBank.exam")} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">{t("qbank.allExams")}</SelectItem>
@@ -677,7 +677,7 @@ export default function QuestionBank() {
 
               <Select value={difficultyFilter} onValueChange={(v) => { setDifficultyFilter(v); setCurrentIndex(0); setSelectedAnswer(null); setRevealed(false); }}>
                 <SelectTrigger className="w-[130px] border-gray-200 bg-white" data-testid="select-difficulty">
-                  <SelectValue placeholder="Difficulty" />
+                  <SelectValue placeholder={t("pages.questionBank.difficulty")} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">{t("qbank.allLevels")}</SelectItem>
@@ -690,7 +690,7 @@ export default function QuestionBank() {
               {filterOptions?.topics && filterOptions.topics.length > 0 && (
                 <Select value={topicFilter} onValueChange={(v) => { setTopicFilter(v); setCurrentIndex(0); setSelectedAnswer(null); setRevealed(false); }}>
                   <SelectTrigger className="w-[160px] border-gray-200 bg-white" data-testid="select-topic">
-                    <SelectValue placeholder="Topic" />
+                    <SelectValue placeholder={t("pages.questionBank.topic")} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">{t("qbank.allTopics")}</SelectItem>
@@ -969,9 +969,9 @@ export default function QuestionBank() {
         </div>
 
         <MedicalReviewJsonLd
-          title="Nursing Practice Questions & Test Bank"
+          title={t("pages.questionBank.nursingPracticeQuestionsTestBank")}
           slug="test-bank"
-          description="Evidence-based nursing practice questions with detailed clinical rationales for NCLEX-RN, REx-PN, and NP exam preparation."
+          description={t("pages.questionBank.evidencebasedNursingPracticeQuestionsWith")}
           pageUrl="https://www.nursenest.ca/test-bank"
         />
 

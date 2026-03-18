@@ -4,6 +4,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { LocaleLink } from "@/lib/LocaleLink";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, Shield, Globe, BookOpen, GraduationCap,
   Scale, ChevronRight, HelpCircle,
@@ -75,6 +76,7 @@ const RELATED_RESOURCES = [
 ];
 
 function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   return (
     <div className="border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-policy-item-${index}`}>
@@ -94,8 +96,8 @@ export default function HealthcarePolicyHub() {
     <div data-testid="page-healthcare-policy-hub">
       <Navigation />
       <SEO
-        title="Healthcare Policy & Updates Hub: Licensing, Exam Changes, Regulatory Updates | NurseNest"
-        description="Stay informed on healthcare policy changes affecting nurses. Evergreen guides on licensing policy updates, international nursing recruitment, exam format changes, and regulatory developments."
+        title={t("pages.healthcarePolicyHub.healthcarePolicyUpdatesHubLicensing")}
+        description={t("pages.healthcarePolicyHub.stayInformedOnHealthcarePolicy")}
         keywords="healthcare policy, nursing policy changes, nursing licensure updates, exam format changes, regulatory changes nursing, international nursing recruitment, nurse practice act, scope of practice"
         canonicalPath="/healthcare-policy-and-updates"
         structuredData={{
@@ -120,14 +122,14 @@ export default function HealthcarePolicyHub() {
       <section className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-16 sm:py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <LocaleLink href="/" className="hover:text-primary" data-testid="link-policy-breadcrumb-home">Home</LocaleLink>
+            <LocaleLink href="/" className="hover:text-primary" data-testid="link-policy-breadcrumb-home">{t("pages.healthcarePolicyHub.home")}</LocaleLink>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-gray-900 font-medium">Healthcare Policy & Updates</span>
+            <span className="text-gray-900 font-medium">{t("pages.healthcarePolicyHub.healthcarePolicyUpdates")}</span>
           </div>
           <div className="max-w-3xl">
             <div className="flex items-center gap-2 mb-4">
-              <span className="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">Policy Resource</span>
-              <span className="bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full">Evergreen Content</span>
+              <span className="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">{t("pages.healthcarePolicyHub.policyResource")}</span>
+              <span className="bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full">{t("pages.healthcarePolicyHub.evergreenContent")}</span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="heading-policy-hub">
               Healthcare Policy & Updates
@@ -152,8 +154,8 @@ export default function HealthcarePolicyHub() {
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="heading-policy-categories">Policy Categories</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Explore policy topics organized by area of impact on nursing practice and career development.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="heading-policy-categories">{t("pages.healthcarePolicyHub.policyCategories")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.healthcarePolicyHub.explorePolicyTopicsOrganizedBy")}</p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {POLICY_CATEGORIES.map((cat) => {
@@ -193,8 +195,8 @@ export default function HealthcarePolicyHub() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Why Policy Awareness Matters</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Understanding healthcare policy changes helps you stay compliant, advance your career, and advocate for better patient care.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{t("pages.healthcarePolicyHub.whyPolicyAwarenessMatters")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.healthcarePolicyHub.understandingHealthcarePolicyChangesHelps")}</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -221,8 +223,8 @@ export default function HealthcarePolicyHub() {
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Related Resources</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Connect policy knowledge with your exam prep, career planning, and professional development.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{t("pages.healthcarePolicyHub.relatedResources")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.healthcarePolicyHub.connectPolicyKnowledgeWithYour")}</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {RELATED_RESOURCES.map((res, i) => {
@@ -251,7 +253,7 @@ export default function HealthcarePolicyHub() {
 
       <section className="py-16 bg-gray-50">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="heading-policy-faq">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="heading-policy-faq">{t("pages.healthcarePolicyHub.frequentlyAskedQuestions")}</h2>
           <div className="space-y-3">
             {FAQ_DATA.map((faq, i) => (
               <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />
@@ -262,7 +264,7 @@ export default function HealthcarePolicyHub() {
 
       <section className="py-16 bg-gradient-to-br from-blue-600 to-indigo-700">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Prepare for Your Nursing Career</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">{t("pages.healthcarePolicyHub.prepareForYourNursingCareer")}</h2>
           <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
             Combine policy awareness with comprehensive exam preparation. NurseNest offers practice questions, clinical simulations, and study resources aligned with the latest exam formats and licensing requirements.
           </p>

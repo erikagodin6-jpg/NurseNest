@@ -5,6 +5,7 @@ import { SEO } from "@/components/seo";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { Zap, ArrowLeft, RotateCcw, ChevronLeft, ChevronRight, CheckCircle2, ThumbsUp, ThumbsDown, Minus, Eye, Layers } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const EXAM_MAP: Record<string, { exam: string }> = {
   canada: { exam: "CAMRT" },
   usa: { exam: "ARRT" },
@@ -45,6 +46,7 @@ interface SpacedRepProgress {
 }
 
 export default function ImagingFlashcardsPage() {
+  const { t } = useI18n();
   const [, params] = useRoute("/medical-imaging/:country/flashcards");
   const country = params?.country || "canada";
   const examInfo = EXAM_MAP[country] || EXAM_MAP.canada;
@@ -177,9 +179,9 @@ export default function ImagingFlashcardsPage() {
 
         <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-4 mb-6 border border-amber-100">
           <div className="flex items-center gap-6 text-sm">
-            <div><span className="text-gray-500">Reviewed:</span> <span className="font-bold text-amber-700" data-testid="text-reviewed-count">{reviewedCount}</span></div>
-            <div><span className="text-gray-500">Mastered:</span> <span className="font-bold text-green-600">{easyCount}</span></div>
-            <div><span className="text-gray-500">Needs Work:</span> <span className="font-bold text-red-600">{hardCount}</span></div>
+            <div><span className="text-gray-500">{t("pages.imagingFlashcards.reviewed")}</span> <span className="font-bold text-amber-700" data-testid="text-reviewed-count">{reviewedCount}</span></div>
+            <div><span className="text-gray-500">{t("pages.imagingFlashcards.mastered")}</span> <span className="font-bold text-green-600">{easyCount}</span></div>
+            <div><span className="text-gray-500">{t("pages.imagingFlashcards.needsWork")}</span> <span className="font-bold text-red-600">{hardCount}</span></div>
           </div>
         </div>
 
@@ -206,17 +208,17 @@ export default function ImagingFlashcardsPage() {
         )}
 
         {isLoading ? (
-          <div className="text-center py-12 text-gray-400">Loading flashcards...</div>
+          <div className="text-center py-12 text-gray-400">{t("pages.imagingFlashcards.loadingFlashcards")}</div>
         ) : total === 0 ? (
           <div className="text-center py-12 bg-gray-50 rounded-xl">
             <Zap className="w-10 h-10 mx-auto mb-3 text-gray-300" />
-            <p className="font-medium text-gray-500">No flashcards available</p>
+            <p className="font-medium text-gray-500">{t("pages.imagingFlashcards.noFlashcardsAvailable")}</p>
           </div>
         ) : (
           <>
             <div className="mb-3">
               <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
-                <span>Progress</span>
+                <span>{t("pages.imagingFlashcards.progress")}</span>
                 <span>{currentIndex + 1}/{total}</span>
               </div>
               <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
@@ -247,7 +249,7 @@ export default function ImagingFlashcardsPage() {
                     {flipped ? current?.back : current?.front}
                   </p>
                   {!flipped && (
-                    <p className="text-xs text-gray-400 mt-6 flex items-center justify-center gap-1"><Eye className="w-3.5 h-3.5" /> Click to reveal answer</p>
+                    <p className="text-xs text-gray-400 mt-6 flex items-center justify-center gap-1"><Eye className="w-3.5 h-3.5" /> {t("pages.imagingFlashcards.clickToRevealAnswer")}</p>
                   )}
                 </div>
               </div>

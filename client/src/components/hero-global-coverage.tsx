@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { SUPPORTED_COUNTRIES, SUPPORTED_LANGUAGES } from "@shared/platform-manifest";
 import { Globe, Languages } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const FLAG_EMOJI: Record<string, string> = {
   CA: "\u{1F1E8}\u{1F1E6}", US: "\u{1F1FA}\u{1F1F8}", GB: "\u{1F1EC}\u{1F1E7}",
   AU: "\u{1F1E6}\u{1F1FA}", NZ: "\u{1F1F3}\u{1F1FF}", IE: "\u{1F1EE}\u{1F1EA}",
@@ -10,6 +11,7 @@ const FLAG_EMOJI: Record<string, string> = {
 };
 
 export default function HeroGlobalCoverage() {
+  const { t } = useI18n();
   return (
     <section
       className="bg-gradient-to-b from-white to-gray-50/80"
@@ -36,7 +38,7 @@ export default function HeroGlobalCoverage() {
               <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center">
                 <Globe className="w-5 h-5 text-teal-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900">Supported Countries</h3>
+              <h3 className="text-lg font-bold text-gray-900">{t("components.heroGlobalCoverage.supportedCountries")}</h3>
             </div>
             <div className="grid grid-cols-2 gap-3">
               {SUPPORTED_COUNTRIES.map((country) => (
@@ -59,7 +61,7 @@ export default function HeroGlobalCoverage() {
               <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
                 <Languages className="w-5 h-5 text-purple-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900">Supported Languages</h3>
+              <h3 className="text-lg font-bold text-gray-900">{t("components.heroGlobalCoverage.supportedLanguages")}</h3>
             </div>
             <div className="flex flex-wrap gap-2">
               {SUPPORTED_LANGUAGES.map((lang) => (
@@ -78,7 +80,7 @@ export default function HeroGlobalCoverage() {
               data-testid="link-view-all-languages"
             >
               View all languages
-              <span>&rarr;</span>
+              <span>{t("components.heroGlobalCoverage.rarr")}</span>
             </Link>
           </div>
         </div>

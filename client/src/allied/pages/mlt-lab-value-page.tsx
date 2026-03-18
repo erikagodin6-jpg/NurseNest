@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { useI18n } from "@/lib/i18n";
 import {
   getMltLabValueBySlug,
   getAllMltLabValueSlugs,
@@ -28,14 +29,15 @@ import {
 } from "lucide-react";
 
 function Breadcrumbs({ labName }: { labName?: string }) {
+  const { t } = useI18n();
   return (
-    <nav aria-label="Breadcrumb" className="text-sm text-gray-500 mb-6" data-testid="breadcrumbs">
+    <nav aria-label={t("allied.mltLabValuePage.breadcrumb")} className="text-sm text-gray-500 mb-6" data-testid="breadcrumbs">
       <ol className="flex flex-wrap items-center gap-1">
-        <li><Link href="/allied-health" className="hover:text-purple-600">Allied Health</Link></li>
+        <li><Link href="/allied-health" className="hover:text-purple-600">{t("allied.mltLabValuePage.alliedHealth")}</Link></li>
         <li><ChevronRight className="w-3 h-3 inline" /></li>
         <li><Link href="/allied-health/mlt" className="hover:text-purple-600">MLT</Link></li>
         <li><ChevronRight className="w-3 h-3 inline" /></li>
-        <li><Link href="/allied-health/mlt/lab-values" className="hover:text-purple-600">Lab Values</Link></li>
+        <li><Link href="/allied-health/mlt/lab-values" className="hover:text-purple-600">{t("allied.mltLabValuePage.labValues")}</Link></li>
         {labName && (
           <>
             <li><ChevronRight className="w-3 h-3 inline" /></li>
@@ -75,10 +77,10 @@ function ComparisonTable({ data, unit }: { data: MltLabValuePageData; unit: "si"
       <table className="w-full text-sm border-collapse">
         <thead>
           <tr className="bg-purple-50">
-            <th className="text-left px-4 py-3 font-semibold text-purple-900 border-b border-purple-100">Parameter</th>
-            <th className="text-left px-4 py-3 font-semibold text-purple-900 border-b border-purple-100">Normal</th>
-            <th className="text-left px-4 py-3 font-semibold text-purple-900 border-b border-purple-100">Abnormal (High)</th>
-            <th className="text-left px-4 py-3 font-semibold text-purple-900 border-b border-purple-100">Abnormal (Low)</th>
+            <th className="text-left px-4 py-3 font-semibold text-purple-900 border-b border-purple-100">{t("allied.mltLabValuePage.parameter")}</th>
+            <th className="text-left px-4 py-3 font-semibold text-purple-900 border-b border-purple-100">{t("allied.mltLabValuePage.normal")}</th>
+            <th className="text-left px-4 py-3 font-semibold text-purple-900 border-b border-purple-100">{t("allied.mltLabValuePage.abnormalHigh")}</th>
+            <th className="text-left px-4 py-3 font-semibold text-purple-900 border-b border-purple-100">{t("allied.mltLabValuePage.abnormalLow")}</th>
           </tr>
         </thead>
         <tbody>
@@ -129,7 +131,7 @@ function PracticeQuestionWidget({ questions }: { questions: MltLabValuePracticeQ
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <ClipboardList className="w-5 h-5 text-purple-600" />
-          <h3 className="text-lg font-bold text-gray-900">Practice Questions</h3>
+          <h3 className="text-lg font-bold text-gray-900">{t("allied.mltLabValuePage.practiceQuestions")}</h3>
         </div>
         <span className="text-sm text-gray-500" data-testid="badge-question-progress">{currentIdx + 1} / {questions.length}</span>
       </div>
@@ -168,7 +170,7 @@ function PracticeQuestionWidget({ questions }: { questions: MltLabValuePracticeQ
 
         {revealed && q.rationale && (
           <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-100" data-testid="text-rationale">
-            <p className="text-sm text-gray-700 leading-relaxed"><strong>Rationale:</strong> {q.rationale}</p>
+            <p className="text-sm text-gray-700 leading-relaxed"><strong>{t("allied.mltLabValuePage.rationale")}</strong> {q.rationale}</p>
           </div>
         )}
 
@@ -206,7 +208,7 @@ function LockedPremiumTeaser() {
   return (
     <div className="bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200 rounded-xl p-6 text-center" data-testid="premium-teaser">
       <Lock className="w-10 h-10 text-purple-500 mx-auto mb-3" />
-      <h3 className="text-lg font-bold text-gray-900 mb-2">Unlock Full MLT Question Bank</h3>
+      <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.mltLabValuePage.unlockFullMltQuestionBank")}</h3>
       <p className="text-sm text-gray-600 mb-4 max-w-md mx-auto">
         Access 1,000+ exam-authentic MLT practice questions with detailed rationales, adaptive difficulty, and performance tracking across all 16 laboratory disciplines.
       </p>
@@ -297,8 +299,8 @@ export function MltLabValuePage() {
   if (!data) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Lab Value Not Found</h1>
-        <p className="text-gray-600 mb-4">The lab value page you're looking for doesn't exist.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.mltLabValuePage.labValueNotFound")}</h1>
+        <p className="text-gray-600 mb-4">{t("allied.mltLabValuePage.theLabValuePageYoure")}</p>
         <Link href="/allied-health/mlt/lab-values" className="inline-flex items-center gap-2 px-6 py-2.5 bg-purple-600 text-white rounded-xl text-sm font-medium hover:bg-purple-700" data-testid="link-back-hub">
           Back to Lab Values Hub
         </Link>
@@ -379,7 +381,7 @@ export function MltLabValuePage() {
               <div className="text-2xl font-bold text-gray-900">{range.value} <span className="text-lg text-gray-500">{range.unit}</span></div>
             </div>
             <div className="flex-1">
-              <div className="text-sm text-gray-500 font-medium mb-1">Specimen</div>
+              <div className="text-sm text-gray-500 font-medium mb-1">{t("allied.mltLabValuePage.specimen")}</div>
               <div className="text-sm text-gray-700">{data.specimen}</div>
             </div>
           </div>
@@ -402,7 +404,7 @@ export function MltLabValuePage() {
         </section>
 
         <section className="mb-8" data-testid="section-comparison-table">
-          <h2 className="text-xl font-bold text-gray-900 mb-3">Normal vs Abnormal</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-3">{t("allied.mltLabValuePage.normalVsAbnormal")}</h2>
           <ComparisonTable data={data} unit={unit} />
         </section>
 
@@ -446,13 +448,13 @@ export function MltLabValuePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
             {data.criticalValues.high && (
               <div>
-                <span className="text-sm font-medium text-red-700">Critical High:</span>
+                <span className="text-sm font-medium text-red-700">{t("allied.mltLabValuePage.criticalHigh")}</span>
                 <span className="text-sm text-red-600 ml-2">{data.criticalValues.high}</span>
               </div>
             )}
             {data.criticalValues.low && (
               <div>
-                <span className="text-sm font-medium text-amber-700">Critical Low:</span>
+                <span className="text-sm font-medium text-amber-700">{t("allied.mltLabValuePage.criticalLow")}</span>
                 <span className="text-sm text-amber-600 ml-2">{data.criticalValues.low}</span>
               </div>
             )}
@@ -461,7 +463,7 @@ export function MltLabValuePage() {
         </section>
 
         <section className="mb-8" data-testid="section-associated-conditions">
-          <h2 className="text-xl font-bold text-gray-900 mb-3">Associated Conditions</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-3">{t("allied.mltLabValuePage.associatedConditions")}</h2>
           <div className="flex flex-wrap gap-2">
             {data.associatedConditions.map((cond, i) => (
               <span key={i} className="px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-xs font-medium" data-testid={`condition-${i}`}>
@@ -472,7 +474,7 @@ export function MltLabValuePage() {
         </section>
 
         <section className="mb-8" data-testid="section-lab-correlations">
-          <h2 className="text-xl font-bold text-gray-900 mb-3">Lab Correlations</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-3">{t("allied.mltLabValuePage.labCorrelations")}</h2>
           <div className="flex flex-wrap gap-2">
             {data.labCorrelations.map((corr, i) => (
               <span key={i} className="px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full text-xs font-medium" data-testid={`correlation-${i}`}>
@@ -522,8 +524,8 @@ export function MltLabValuePage() {
             >
               <Beaker className="w-5 h-5 text-purple-500" />
               <div>
-                <div className="font-medium text-gray-900 text-sm">All Lab Values</div>
-                <div className="text-xs text-gray-500">Complete MLT lab values reference</div>
+                <div className="font-medium text-gray-900 text-sm">{t("allied.mltLabValuePage.allLabValues")}</div>
+                <div className="text-xs text-gray-500">{t("allied.mltLabValuePage.completeMltLabValuesReference")}</div>
               </div>
             </Link>
             <Link
@@ -533,8 +535,8 @@ export function MltLabValuePage() {
             >
               <ClipboardList className="w-5 h-5 text-purple-500" />
               <div>
-                <div className="font-medium text-gray-900 text-sm">Complete Lab Values Chart</div>
-                <div className="text-xs text-gray-500">Printable reference for exam prep</div>
+                <div className="font-medium text-gray-900 text-sm">{t("allied.mltLabValuePage.completeLabValuesChart")}</div>
+                <div className="text-xs text-gray-500">{t("allied.mltLabValuePage.printableReferenceForExamPrep")}</div>
               </div>
             </Link>
             <Link
@@ -544,8 +546,8 @@ export function MltLabValuePage() {
             >
               <Brain className="w-5 h-5 text-purple-500" />
               <div>
-                <div className="font-medium text-gray-900 text-sm">MLT Question Bank</div>
-                <div className="text-xs text-gray-500">1,000+ practice questions with rationales</div>
+                <div className="font-medium text-gray-900 text-sm">{t("allied.mltLabValuePage.mltQuestionBank")}</div>
+                <div className="text-xs text-gray-500">{t("allied.mltLabValuePage.1000PracticeQuestionsWithRationales")}</div>
               </div>
             </Link>
             <Link
@@ -555,8 +557,8 @@ export function MltLabValuePage() {
             >
               <FileText className="w-5 h-5 text-purple-500" />
               <div>
-                <div className="font-medium text-gray-900 text-sm">MLT Practice Exams</div>
-                <div className="text-xs text-gray-500">CSMLS & ASCP mock exams</div>
+                <div className="font-medium text-gray-900 text-sm">{t("allied.mltLabValuePage.mltPracticeExams")}</div>
+                <div className="text-xs text-gray-500">{t("allied.mltLabValuePage.csmlsAscpMockExams")}</div>
               </div>
             </Link>
           </div>

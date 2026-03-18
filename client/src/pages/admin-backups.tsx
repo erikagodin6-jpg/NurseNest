@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
 import { adminFetch } from "@/lib/admin-fetch";
+import { useI18n } from "@/lib/i18n";
 import {
   Download,
   HardDrive,
@@ -33,6 +34,7 @@ interface BackupLogEntry {
 }
 
 function formatBytes(bytes: number): string {
+
   if (bytes === 0) return "0 B";
   const k = 1024;
   const sizes = ["B", "KB", "MB", "GB"];
@@ -145,7 +147,7 @@ export default function AdminBackupsPage() {
       <div className="max-w-6xl mx-auto p-4 md:p-8 pt-24">
         <div className="flex items-center gap-3 mb-6">
           <HardDrive className="w-7 h-7 text-blue-600" />
-          <h1 className="text-2xl font-bold" data-testid="text-backup-title">Backup & Export System</h1>
+          <h1 className="text-2xl font-bold" data-testid="text-backup-title">{t("pages.adminBackups.backupExportSystem")}</h1>
         </div>
 
         {latestFull && (
@@ -154,7 +156,7 @@ export default function AdminBackupsPage() {
               <div className="flex items-center gap-4 flex-wrap">
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4 text-blue-600" />
-                  <span className="text-sm font-medium">Latest Full Backup:</span>
+                  <span className="text-sm font-medium">{t("pages.adminBackups.latestFullBackup")}</span>
                   <span className="text-sm" data-testid="text-latest-backup-time">{formatDate(latestFull.timestamp)}</span>
                 </div>
                 <Badge variant="outline" data-testid="text-latest-backup-size">{formatBytes(latestFull.size)}</Badge>
@@ -412,17 +414,17 @@ export default function AdminBackupsPage() {
                 <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
               </div>
             ) : history.length === 0 ? (
-              <p className="text-center text-muted-foreground py-8" data-testid="text-no-history">No backup history found. Run your first backup above.</p>
+              <p className="text-center text-muted-foreground py-8" data-testid="text-no-history">{t("pages.adminBackups.noBackupHistoryFoundRun")}</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b">
-                      <th className="text-left py-2 px-2">Type</th>
-                      <th className="text-left py-2 px-2">Timestamp</th>
-                      <th className="text-left py-2 px-2">Size</th>
-                      <th className="text-left py-2 px-2">Files</th>
-                      <th className="text-left py-2 px-2">Status</th>
+                      <th className="text-left py-2 px-2">{t("pages.adminBackups.type")}</th>
+                      <th className="text-left py-2 px-2">{t("pages.adminBackups.timestamp")}</th>
+                      <th className="text-left py-2 px-2">{t("pages.adminBackups.size")}</th>
+                      <th className="text-left py-2 px-2">{t("pages.adminBackups.files")}</th>
+                      <th className="text-left py-2 px-2">{t("pages.adminBackups.status")}</th>
                     </tr>
                   </thead>
                   <tbody>

@@ -6,12 +6,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Shield, CheckCircle, AlertTriangle, XCircle, RefreshCw, Mail, Heart } from "lucide-react";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
+import { useI18n } from "@/lib/i18n";
 export default function RefundPolicyPage() {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen flex flex-col bg-warmwhite font-sans" data-testid="refund-policy-page">
       <SEO
-        title="Refund Policy & 30-Day Satisfaction Guarantee"
-        description="NurseNest offers a 30-day satisfaction guarantee for first-time subscribers. Learn about our refund eligibility, process, and commitment to fairness for all learners."
+        title={t("pages.refundPolicy.refundPolicy30daySatisfactionGuarantee")}
+        description={t("pages.refundPolicy.nursenestOffersA30daySatisfaction")}
         keywords="refund policy, satisfaction guarantee, NurseNest refund, nursing education refund, 30-day guarantee"
         canonicalPath="/refund-policy"
       />
@@ -42,7 +44,7 @@ export default function RefundPolicyPage() {
             <CardContent className="p-6 sm:p-8">
               <div className="flex items-start gap-3 mb-4">
                 <Shield className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" />
-                <h2 className="text-2xl font-semibold text-primary">1. 30-Day Satisfaction Guarantee</h2>
+                <h2 className="text-2xl font-semibold text-primary">{t("pages.refundPolicy.130daySatisfactionGuarantee")}</h2>
               </div>
               <p className="text-gray-700 leading-relaxed mb-3">
                 NurseNest offers a 30-day satisfaction guarantee to give first-time subscribers confidence in their investment. This guarantee applies exclusively to first-time subscriptions purchased directly through our website at nursenest.ca.
@@ -60,24 +62,24 @@ export default function RefundPolicyPage() {
             <CardContent className="p-6 sm:p-8">
               <div className="flex items-start gap-3 mb-4">
                 <CheckCircle className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" />
-                <h2 className="text-2xl font-semibold text-primary">2. Eligibility Conditions</h2>
+                <h2 className="text-2xl font-semibold text-primary">{t("pages.refundPolicy.2EligibilityConditions")}</h2>
               </div>
               <p className="text-gray-700 leading-relaxed mb-3">
                 To be eligible for a refund under our 30-day satisfaction guarantee, all of the following conditions must be met:
               </p>
               <ul className="list-disc list-inside text-gray-700 leading-relaxed space-y-2 ml-2 mb-4">
-                <li>Your refund request is submitted within 30 calendar days of your initial purchase date.</li>
-                <li>The subscription is your first-ever purchase on NurseNest: the guarantee does not apply to returning subscribers.</li>
-                <li>The subscription was purchased directly through NurseNest (nursenest.ca), not through a third-party reseller, app store, or promotional partner.</li>
-                <li>Your account usage falls within reasonable limits as described in Section 3 below.</li>
+                <li>{t("pages.refundPolicy.yourRefundRequestIsSubmitted")}</li>
+                <li>{t("pages.refundPolicy.theSubscriptionIsYourFirstever")}</li>
+                <li>{t("pages.refundPolicy.theSubscriptionWasPurchasedDirectly")}</li>
+                <li>{t("pages.refundPolicy.yourAccountUsageFallsWithin")}</li>
               </ul>
               <p className="text-gray-700 leading-relaxed font-medium mb-2">
                 The following are explicitly excluded from refund eligibility:
               </p>
               <ul className="list-disc list-inside text-gray-700 leading-relaxed space-y-2 ml-2">
-                <li>Subscription renewals (monthly or otherwise): only the initial purchase qualifies.</li>
-                <li>Repeat refund requests from users who have previously received a refund under this guarantee.</li>
-                <li>Purchases made through third-party platforms, gift codes, or promotional bundles not originating from NurseNest.</li>
+                <li>{t("pages.refundPolicy.subscriptionRenewalsMonthlyOrOtherwise")}</li>
+                <li>{t("pages.refundPolicy.repeatRefundRequestsFromUsers")}</li>
+                <li>{t("pages.refundPolicy.purchasesMadeThroughThirdpartyPlatforms")}</li>
               </ul>
             </CardContent>
           </Card>
@@ -86,7 +88,7 @@ export default function RefundPolicyPage() {
             <CardContent className="p-6 sm:p-8">
               <div className="flex items-start gap-3 mb-4">
                 <AlertTriangle className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" />
-                <h2 className="text-2xl font-semibold text-primary">3. Usage-Based Safeguards</h2>
+                <h2 className="text-2xl font-semibold text-primary">{t("pages.refundPolicy.3UsagebasedSafeguards")}</h2>
               </div>
               <p className="text-gray-700 leading-relaxed mb-3">
                 To protect the integrity of our content and ensure fairness for all subscribers, refund eligibility may be denied if your account shows substantial consumption of paid content during the guarantee period.
@@ -95,9 +97,9 @@ export default function RefundPolicyPage() {
                 Examples of substantial usage that may affect refund eligibility include, but are not limited to:
               </p>
               <ul className="list-disc list-inside text-gray-700 leading-relaxed space-y-2 ml-2 mb-4">
-                <li>Completion of more than 25% of the available question bank or practice exams.</li>
-                <li>Excessive access to premium lessons, study modules, or downloadable materials beyond what is consistent with evaluating the platform.</li>
-                <li>Behavior patterns consistent with content harvesting, systematic downloading, or misuse of the platform's educational resources.</li>
+                <li>{t("pages.refundPolicy.completionOfMoreThan25")}</li>
+                <li>{t("pages.refundPolicy.excessiveAccessToPremiumLessons")}</li>
+                <li>{t("pages.refundPolicy.behaviorPatternsConsistentWithContent")}</li>
               </ul>
               <p className="text-gray-600 text-sm italic">
                 These safeguards exist to maintain a fair environment for all learners and are applied thoughtfully on a case-by-case basis.
@@ -109,17 +111,17 @@ export default function RefundPolicyPage() {
             <CardContent className="p-6 sm:p-8">
               <div className="flex items-start gap-3 mb-4">
                 <XCircle className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" />
-                <h2 className="text-2xl font-semibold text-primary">4. Non-Refundable Circumstances</h2>
+                <h2 className="text-2xl font-semibold text-primary">{t("pages.refundPolicy.4NonrefundableCircumstances")}</h2>
               </div>
               <p className="text-gray-700 leading-relaxed mb-3">
                 The following circumstances are not eligible for a refund under any conditions:
               </p>
               <ul className="list-disc list-inside text-gray-700 leading-relaxed space-y-2 ml-2">
-                <li>Change of mind after substantial usage of the platform's premium content and features.</li>
-                <li>Dissatisfaction related to exam outcomes, test performance, or clinical results: NurseNest is an educational resource and does not guarantee specific examination results.</li>
-                <li>Purchases made at promotional, discounted, or special offer pricing.</li>
-                <li>Subscription renewals, whether automatic or manual: only first-time purchases are covered by the satisfaction guarantee.</li>
-                <li>Accounts that have been suspended or terminated due to violations of our Terms of Use, including prohibited conduct such as content redistribution or account sharing.</li>
+                <li>{t("pages.refundPolicy.changeOfMindAfterSubstantial")}</li>
+                <li>{t("pages.refundPolicy.dissatisfactionRelatedToExamOutcomes")}</li>
+                <li>{t("pages.refundPolicy.purchasesMadeAtPromotionalDiscounted")}</li>
+                <li>{t("pages.refundPolicy.subscriptionRenewalsWhetherAutomaticOr")}</li>
+                <li>{t("pages.refundPolicy.accountsThatHaveBeenSuspended")}</li>
               </ul>
             </CardContent>
           </Card>
@@ -128,15 +130,15 @@ export default function RefundPolicyPage() {
             <CardContent className="p-6 sm:p-8">
               <div className="flex items-start gap-3 mb-4">
                 <RefreshCw className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" />
-                <h2 className="text-2xl font-semibold text-primary">5. Effect of Refund</h2>
+                <h2 className="text-2xl font-semibold text-primary">{t("pages.refundPolicy.5EffectOfRefund")}</h2>
               </div>
               <p className="text-gray-700 leading-relaxed mb-3">
                 If your refund request is approved, the following will take effect:
               </p>
               <ul className="list-disc list-inside text-gray-700 leading-relaxed space-y-2 ml-2 mb-4">
-                <li>Immediate termination of your access to all premium content, features, and tools on NurseNest.</li>
-                <li>Revocation of your license to use, reference, or retain any materials accessed through the platform during your subscription period.</li>
-                <li>Your account may be flagged as having used the satisfaction guarantee, which may restrict eligibility for future guarantee claims on subsequent purchases.</li>
+                <li>{t("pages.refundPolicy.immediateTerminationOfYourAccess")}</li>
+                <li>{t("pages.refundPolicy.revocationOfYourLicenseTo")}</li>
+                <li>{t("pages.refundPolicy.yourAccountMayBeFlagged")}</li>
               </ul>
               <p className="text-gray-700 leading-relaxed">
                 Refunds are typically processed within 5-10 business days and will be returned to the original payment method used at the time of purchase.
@@ -148,7 +150,7 @@ export default function RefundPolicyPage() {
             <CardContent className="p-6 sm:p-8">
               <div className="flex items-start gap-3 mb-4">
                 <Mail className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" />
-                <h2 className="text-2xl font-semibold text-primary">6. Refund Request Process</h2>
+                <h2 className="text-2xl font-semibold text-primary">{t("pages.refundPolicy.6RefundRequestProcess")}</h2>
               </div>
               <p className="text-gray-700 leading-relaxed mb-3">
                 To request a refund, please contact our support team via email at{" "}
@@ -161,9 +163,9 @@ export default function RefundPolicyPage() {
                 </a>. Please include the following details in your request:
               </p>
               <ul className="list-disc list-inside text-gray-700 leading-relaxed space-y-2 ml-2 mb-4">
-                <li>Your full name and the email address associated with your NurseNest account.</li>
-                <li>Your date of purchase and subscription plan.</li>
-                <li>A brief explanation of the reason for your refund request.</li>
+                <li>{t("pages.refundPolicy.yourFullNameAndThe")}</li>
+                <li>{t("pages.refundPolicy.yourDateOfPurchaseAnd")}</li>
+                <li>{t("pages.refundPolicy.aBriefExplanationOfThe")}</li>
               </ul>
               <p className="text-gray-700 leading-relaxed">
                 Our team will review your request and respond within 2-3 business days. We are committed to handling all requests with care and transparency.
@@ -175,7 +177,7 @@ export default function RefundPolicyPage() {
             <CardContent className="p-6 sm:p-8">
               <div className="flex items-start gap-3 mb-4">
                 <Heart className="w-6 h-6 text-primary mt-0.5 flex-shrink-0" />
-                <h2 className="text-2xl font-semibold text-primary">7. Our Commitment</h2>
+                <h2 className="text-2xl font-semibold text-primary">{t("pages.refundPolicy.7OurCommitment")}</h2>
               </div>
               <p className="text-gray-700 leading-relaxed mb-3">
                 At NurseNest, we believe in the quality of our educational content and the value it brings to nursing students and professionals. Our 30-day satisfaction guarantee reflects that belief: we want you to feel confident in choosing NurseNest as your study companion.

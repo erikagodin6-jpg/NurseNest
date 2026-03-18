@@ -3,7 +3,9 @@ import { Link } from "wouter";
 import { ArrowLeft, MessageSquare, ChevronDown, ChevronUp, ArrowRight, Tag, AlertCircle, Lightbulb } from "lucide-react";
 import { useState } from "react";
 
+import { useI18n } from "@/lib/i18n";
 export default function ApplyNestInterviewPrep() {
+  const { t } = useI18n();
   const [activeCategory, setActiveCategory] = useState("all");
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
@@ -49,13 +51,13 @@ export default function ApplyNestInterviewPrep() {
           <div className="flex items-start gap-3">
             <Lightbulb className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
             <div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Interview Preparation Tips</h3>
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{t("pages.applynestInterviewPrep.interviewPreparationTips")}</h3>
               <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1.5">
-                <li>Use the <strong>STAR method</strong> (Situation, Task, Action, Result) for behavioral questions</li>
-                <li>Research the facility and unit you're applying to before the interview</li>
-                <li>Prepare 3-4 thoughtful questions to ask the interviewer</li>
-                <li>Practice your answers out loud but don't memorize scripts</li>
-                <li>Dress professionally and arrive 10-15 minutes early</li>
+                <li>Use the <strong>{t("pages.applynestInterviewPrep.starMethod")}</strong> {t("pages.applynestInterviewPrep.situationTaskActionResultFor")}</li>
+                <li>{t("pages.applynestInterviewPrep.researchTheFacilityAndUnit")}</li>
+                <li>{t("pages.applynestInterviewPrep.prepare34ThoughtfulQuestionsTo")}</li>
+                <li>{t("pages.applynestInterviewPrep.practiceYourAnswersOutLoud")}</li>
+                <li>{t("pages.applynestInterviewPrep.dressProfessionallyAndArrive1015")}</li>
               </ul>
             </div>
           </div>
@@ -83,7 +85,7 @@ export default function ApplyNestInterviewPrep() {
         </p>
 
         {isLoading ? (
-          <div className="text-center py-12 text-gray-500">Loading interview questions...</div>
+          <div className="text-center py-12 text-gray-500">{t("pages.applynestInterviewPrep.loadingInterviewQuestions")}</div>
         ) : (
           <div className="space-y-4" data-testid="list-questions">
             {filtered.map((q: any) => {
@@ -121,7 +123,7 @@ export default function ApplyNestInterviewPrep() {
                   {isExpanded && (
                     <div className="px-5 pb-5 border-t border-gray-100 dark:border-gray-800 pt-4 space-y-4">
                       <div>
-                        <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Sample Answer:</h4>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">{t("pages.applynestInterviewPrep.sampleAnswer")}</h4>
                         <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed" data-testid={`text-answer-${q.id}`}>
                           {q.sampleAnswer}
                         </p>
@@ -130,7 +132,7 @@ export default function ApplyNestInterviewPrep() {
                         <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-start gap-2">
                           <AlertCircle className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
                           <p className="text-sm text-blue-700 dark:text-blue-300" data-testid={`text-tips-${q.id}`}>
-                            <strong>Tip:</strong> {q.tips}
+                            <strong>{t("pages.applynestInterviewPrep.tip")}</strong> {q.tips}
                           </p>
                         </div>
                       )}
@@ -143,7 +145,7 @@ export default function ApplyNestInterviewPrep() {
         )}
 
         <div className="mt-12 p-6 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Related Resources</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{t("pages.applynestInterviewPrep.relatedResources")}</h2>
           <div className="flex flex-wrap gap-4">
             <Link href="/applynest/resume-templates" className="flex items-center gap-2 text-teal-600 dark:text-teal-400 font-medium hover:underline" data-testid="link-resume-from-interview">
               Resume Templates <ArrowRight className="w-4 h-4" />

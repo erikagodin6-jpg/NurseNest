@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Users, TrendingUp, Mail, Target, BarChart3, FileText, Share2, Clock, ArrowLeft } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface AnalyticsData {
   totalLeads: number;
   leadsBySource: { source: string; count: number }[];
@@ -44,6 +45,7 @@ interface NurtureSequence {
 }
 
 export default function ImagingMarketingDashboard() {
+  const { t } = useI18n();
   const { isAdmin } = useAuth();
   const [, navigate] = useLocation();
   const [days, setDays] = useState("30");
@@ -90,7 +92,7 @@ export default function ImagingMarketingDashboard() {
   if (!isAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Card><CardContent className="p-8 text-center"><p>Admin access required.</p></CardContent></Card>
+        <Card><CardContent className="p-8 text-center"><p>{t("pages.imagingMarketingDashboard.adminAccessRequired")}</p></CardContent></Card>
       </div>
     );
   }
@@ -112,8 +114,8 @@ export default function ImagingMarketingDashboard() {
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900" data-testid="text-dashboard-title">Medical Imaging Marketing Dashboard</h1>
-              <p className="text-sm text-gray-500">Growth engine analytics and lead management</p>
+              <h1 className="text-2xl font-bold text-gray-900" data-testid="text-dashboard-title">{t("pages.imagingMarketingDashboard.medicalImagingMarketingDashboard")}</h1>
+              <p className="text-sm text-gray-500">{t("pages.imagingMarketingDashboard.growthEngineAnalyticsAndLead")}</p>
             </div>
           </div>
           <Select value={days} onValueChange={setDays}>
@@ -121,10 +123,10 @@ export default function ImagingMarketingDashboard() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="7">Last 7 days</SelectItem>
-              <SelectItem value="30">Last 30 days</SelectItem>
-              <SelectItem value="90">Last 90 days</SelectItem>
-              <SelectItem value="365">Last year</SelectItem>
+              <SelectItem value="7">{t("pages.imagingMarketingDashboard.last7Days")}</SelectItem>
+              <SelectItem value="30">{t("pages.imagingMarketingDashboard.last30Days")}</SelectItem>
+              <SelectItem value="90">{t("pages.imagingMarketingDashboard.last90Days")}</SelectItem>
+              <SelectItem value="365">{t("pages.imagingMarketingDashboard.lastYear")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -151,19 +153,19 @@ export default function ImagingMarketingDashboard() {
 
             <Tabs defaultValue="overview" className="space-y-4">
               <TabsList>
-                <TabsTrigger value="overview" data-testid="tab-overview">Overview</TabsTrigger>
-                <TabsTrigger value="leads" data-testid="tab-leads">Leads</TabsTrigger>
-                <TabsTrigger value="nurture" data-testid="tab-nurture">Nurture Sequences</TabsTrigger>
-                <TabsTrigger value="events" data-testid="tab-events">Events</TabsTrigger>
+                <TabsTrigger value="overview" data-testid="tab-overview">{t("pages.imagingMarketingDashboard.overview")}</TabsTrigger>
+                <TabsTrigger value="leads" data-testid="tab-leads">{t("pages.imagingMarketingDashboard.leads")}</TabsTrigger>
+                <TabsTrigger value="nurture" data-testid="tab-nurture">{t("pages.imagingMarketingDashboard.nurtureSequences")}</TabsTrigger>
+                <TabsTrigger value="events" data-testid="tab-events">{t("pages.imagingMarketingDashboard.events")}</TabsTrigger>
               </TabsList>
 
               <TabsContent value="overview">
                 <div className="grid md:grid-cols-2 gap-6">
                   <Card>
-                    <CardHeader><CardTitle className="text-base flex items-center gap-2"><BarChart3 className="w-4 h-4" /> Leads by Source</CardTitle></CardHeader>
+                    <CardHeader><CardTitle className="text-base flex items-center gap-2"><BarChart3 className="w-4 h-4" /> {t("pages.imagingMarketingDashboard.leadsBySource")}</CardTitle></CardHeader>
                     <CardContent>
                       {analytics?.leadsBySource.length === 0 ? (
-                        <p className="text-sm text-gray-500">No leads yet</p>
+                        <p className="text-sm text-gray-500">{t("pages.imagingMarketingDashboard.noLeadsYet")}</p>
                       ) : (
                         <div className="space-y-2">
                           {analytics?.leadsBySource.map((item, i) => {
@@ -184,10 +186,10 @@ export default function ImagingMarketingDashboard() {
                   </Card>
 
                   <Card>
-                    <CardHeader><CardTitle className="text-base flex items-center gap-2"><TrendingUp className="w-4 h-4" /> Leads Over Time</CardTitle></CardHeader>
+                    <CardHeader><CardTitle className="text-base flex items-center gap-2"><TrendingUp className="w-4 h-4" /> {t("pages.imagingMarketingDashboard.leadsOverTime")}</CardTitle></CardHeader>
                     <CardContent>
                       {analytics?.leadsByDay.length === 0 ? (
-                        <p className="text-sm text-gray-500">No data yet</p>
+                        <p className="text-sm text-gray-500">{t("pages.imagingMarketingDashboard.noDataYet")}</p>
                       ) : (
                         <div className="space-y-1">
                           {analytics?.leadsByDay.slice(-14).map((item, i) => {
@@ -208,10 +210,10 @@ export default function ImagingMarketingDashboard() {
                   </Card>
 
                   <Card>
-                    <CardHeader><CardTitle className="text-base flex items-center gap-2"><Target className="w-4 h-4" /> Top Pages</CardTitle></CardHeader>
+                    <CardHeader><CardTitle className="text-base flex items-center gap-2"><Target className="w-4 h-4" /> {t("pages.imagingMarketingDashboard.topPages")}</CardTitle></CardHeader>
                     <CardContent>
                       {analytics?.topPages.length === 0 ? (
-                        <p className="text-sm text-gray-500">No page data yet</p>
+                        <p className="text-sm text-gray-500">{t("pages.imagingMarketingDashboard.noPageDataYet")}</p>
                       ) : (
                         <div className="space-y-2">
                           {analytics?.topPages.slice(0, 10).map((page, i) => (
@@ -226,10 +228,10 @@ export default function ImagingMarketingDashboard() {
                   </Card>
 
                   <Card>
-                    <CardHeader><CardTitle className="text-base flex items-center gap-2"><Mail className="w-4 h-4" /> Nurture Status</CardTitle></CardHeader>
+                    <CardHeader><CardTitle className="text-base flex items-center gap-2"><Mail className="w-4 h-4" /> {t("pages.imagingMarketingDashboard.nurtureStatus")}</CardTitle></CardHeader>
                     <CardContent>
                       {analytics?.nurtureStats.length === 0 ? (
-                        <p className="text-sm text-gray-500">No enrollments yet</p>
+                        <p className="text-sm text-gray-500">{t("pages.imagingMarketingDashboard.noEnrollmentsYet")}</p>
                       ) : (
                         <div className="space-y-2">
                           {analytics?.nurtureStats.map((stat, i) => (
@@ -252,17 +254,17 @@ export default function ImagingMarketingDashboard() {
                   </CardHeader>
                   <CardContent>
                     {!leadsData?.leads.length ? (
-                      <p className="text-sm text-gray-500 text-center py-4">No leads captured yet</p>
+                      <p className="text-sm text-gray-500 text-center py-4">{t("pages.imagingMarketingDashboard.noLeadsCapturedYet")}</p>
                     ) : (
                       <div className="overflow-x-auto">
                         <table className="w-full text-sm">
                           <thead>
                             <tr className="border-b text-left">
-                              <th className="pb-2 font-medium text-gray-500">Email</th>
-                              <th className="pb-2 font-medium text-gray-500">Source</th>
-                              <th className="pb-2 font-medium text-gray-500">Exam</th>
-                              <th className="pb-2 font-medium text-gray-500">Quiz Score</th>
-                              <th className="pb-2 font-medium text-gray-500">Date</th>
+                              <th className="pb-2 font-medium text-gray-500">{t("pages.imagingMarketingDashboard.email")}</th>
+                              <th className="pb-2 font-medium text-gray-500">{t("pages.imagingMarketingDashboard.source")}</th>
+                              <th className="pb-2 font-medium text-gray-500">{t("pages.imagingMarketingDashboard.exam")}</th>
+                              <th className="pb-2 font-medium text-gray-500">{t("pages.imagingMarketingDashboard.quizScore")}</th>
+                              <th className="pb-2 font-medium text-gray-500">{t("pages.imagingMarketingDashboard.date")}</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -286,7 +288,7 @@ export default function ImagingMarketingDashboard() {
               <TabsContent value="nurture">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle className="text-base">Email Nurture Sequences</CardTitle>
+                    <CardTitle className="text-base">{t("pages.imagingMarketingDashboard.emailNurtureSequences")}</CardTitle>
                     <Button size="sm" variant="outline" onClick={() => seedMutation.mutate()} disabled={seedMutation.isPending} data-testid="button-seed-sequences">
                       {seedMutation.isPending ? "Seeding..." : "Seed Defaults"}
                     </Button>
@@ -295,7 +297,7 @@ export default function ImagingMarketingDashboard() {
                     {sequences.length === 0 ? (
                       <div className="text-center py-8">
                         <Mail className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                        <p className="text-sm text-gray-500 mb-3">No nurture sequences configured</p>
+                        <p className="text-sm text-gray-500 mb-3">{t("pages.imagingMarketingDashboard.noNurtureSequencesConfigured")}</p>
                         <Button size="sm" onClick={() => seedMutation.mutate()} disabled={seedMutation.isPending} data-testid="button-seed-empty">
                           Seed Default Sequences
                         </Button>
@@ -330,10 +332,10 @@ export default function ImagingMarketingDashboard() {
 
               <TabsContent value="events">
                 <Card>
-                  <CardHeader><CardTitle className="text-base">Marketing Events by Type</CardTitle></CardHeader>
+                  <CardHeader><CardTitle className="text-base">{t("pages.imagingMarketingDashboard.marketingEventsByType")}</CardTitle></CardHeader>
                   <CardContent>
                     {analytics?.eventsByType.length === 0 ? (
-                      <p className="text-sm text-gray-500 text-center py-4">No events recorded yet</p>
+                      <p className="text-sm text-gray-500 text-center py-4">{t("pages.imagingMarketingDashboard.noEventsRecordedYet")}</p>
                     ) : (
                       <div className="space-y-2">
                         {analytics?.eventsByType.map((evt, i) => {

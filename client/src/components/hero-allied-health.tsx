@@ -3,7 +3,9 @@ import { ALLIED_HEALTH_CAREERS, PRE_NURSING_GOAL, NEW_GRAD_GOAL } from "@shared/
 import { Briefcase, GraduationCap, BookOpen, ArrowRight } from "lucide-react";
 import { getQuestionCount, getQuestionCountDisplay } from "@/data/career-questions/question-counts";
 
+import { useI18n } from "@/lib/i18n";
 function getSlugFromRoute(route: string): string {
+
   return route.split("/").pop() || "";
 }
 
@@ -18,6 +20,7 @@ function computeCountRange(careers: typeof ALLIED_HEALTH_CAREERS): string {
 }
 
 export default function HeroAlliedHealth() {
+  const { t } = useI18n();
   const majorCareers = ALLIED_HEALTH_CAREERS.filter((c) => c.tier === "major");
   const midCareers = ALLIED_HEALTH_CAREERS.filter((c) => c.tier === "mid");
 
@@ -34,11 +37,11 @@ export default function HeroAlliedHealth() {
               <div className="w-10 h-10 rounded-xl bg-sky-100 flex items-center justify-center">
                 <BookOpen className="w-5 h-5 text-sky-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900">Pre-Nursing</h3>
+              <h3 className="text-lg font-bold text-gray-900">{t("components.heroAlliedHealth.prenursing")}</h3>
             </div>
             <div className="flex items-baseline gap-1 mb-3">
               <span className="text-3xl font-extrabold text-gray-900">{PRE_NURSING_GOAL.goalQuestions.toLocaleString()}+</span>
-              <span className="text-sm text-gray-500">questions (goal)</span>
+              <span className="text-sm text-gray-500">{t("components.heroAlliedHealth.questionsGoal")}</span>
             </div>
             <div className="flex flex-wrap gap-1.5 mb-4">
               {PRE_NURSING_GOAL.subjects.map((s) => (
@@ -47,7 +50,7 @@ export default function HeroAlliedHealth() {
                 </span>
               ))}
             </div>
-            <p className="text-sm text-gray-500 mb-4">Prepare for nursing school success with foundational science and terminology review.</p>
+            <p className="text-sm text-gray-500 mb-4">{t("components.heroAlliedHealth.prepareForNursingSchoolSuccess")}</p>
             <Link
               href={PRE_NURSING_GOAL.route}
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline no-underline"
@@ -62,11 +65,11 @@ export default function HeroAlliedHealth() {
               <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
                 <GraduationCap className="w-5 h-5 text-purple-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900">New Graduate</h3>
+              <h3 className="text-lg font-bold text-gray-900">{t("components.heroAlliedHealth.newGraduate")}</h3>
             </div>
             <div className="flex items-baseline gap-1 mb-3">
               <span className="text-3xl font-extrabold text-gray-900">{NEW_GRAD_GOAL.goalScenarios.toLocaleString()}+</span>
-              <span className="text-sm text-gray-500">career-readiness scenarios (goal)</span>
+              <span className="text-sm text-gray-500">{t("components.heroAlliedHealth.careerreadinessScenariosGoal")}</span>
             </div>
             <div className="flex flex-wrap gap-1.5 mb-4">
               {NEW_GRAD_GOAL.sections.map((s) => (
@@ -75,7 +78,7 @@ export default function HeroAlliedHealth() {
                 </span>
               ))}
             </div>
-            <p className="text-sm text-gray-500 mb-4">Transition from student to confident practitioner with workplace readiness scenarios.</p>
+            <p className="text-sm text-gray-500 mb-4">{t("components.heroAlliedHealth.transitionFromStudentToConfident")}</p>
             <Link
               href={NEW_GRAD_GOAL.route}
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline no-underline"
@@ -122,9 +125,9 @@ export default function HeroAlliedHealth() {
                         <h4 className="text-sm font-bold text-gray-900 truncate">{career.label}</h4>
                         <p className="text-xs text-gray-500">
                           {count > 0 ? (
-                            <><span className="font-semibold text-gray-700">{display}</span> questions</>
+                            <><span className="font-semibold text-gray-700">{display}</span> {t("components.heroAlliedHealth.questions")}</>
                           ) : (
-                            <span className="font-semibold text-amber-600">Coming Soon</span>
+                            <span className="font-semibold text-amber-600">{t("components.heroAlliedHealth.comingSoon")}</span>
                           )}
                         </p>
                       </div>
@@ -156,9 +159,9 @@ export default function HeroAlliedHealth() {
                         <h4 className="text-sm font-bold text-gray-900 truncate">{career.label}</h4>
                         <p className="text-xs text-gray-500">
                           {count > 0 ? (
-                            <><span className="font-semibold text-gray-700">{display}</span> questions</>
+                            <><span className="font-semibold text-gray-700">{display}</span> {t("components.heroAlliedHealth.questions2")}</>
                           ) : (
-                            <span className="font-semibold text-amber-600">Coming Soon</span>
+                            <span className="font-semibold text-amber-600">{t("components.heroAlliedHealth.comingSoon2")}</span>
                           )}
                         </p>
                       </div>

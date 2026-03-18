@@ -39,8 +39,8 @@ export function ParamedicBlogIndex() {
   return (
     <div data-testid="paramedic-blog-index">
       <AlliedSEO
-        title="Paramedic Blog — Study Tips, Exam Strategies & Clinical Guides | NurseNest"
-        description="Expert articles on paramedic exam preparation, EMS study strategies, and clinical knowledge for certification success."
+        title={t("allied.paramedicParamedicBlog.paramedicBlogStudyTipsExam")}
+        description={t("allied.paramedicParamedicBlog.expertArticlesOnParamedicExam")}
         keywords="paramedic blog, EMS study tips, paramedic exam strategies, NREMT preparation articles"
         canonicalPath="/allied-health/paramedic/blog"
         structuredData={structuredData}

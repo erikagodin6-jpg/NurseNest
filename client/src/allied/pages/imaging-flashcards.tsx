@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { Link, useParams } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { useI18n } from "@/lib/i18n";
 import {
   ChevronRight, ChevronLeft, RotateCcw, Eye, Layers, Brain,
   ThumbsUp, ThumbsDown, Minus, BarChart3, Filter, Search
@@ -93,6 +94,7 @@ interface SpacedRepProgress {
 }
 
 export default function ImagingFlashcardsPage() {
+  const { t } = useI18n();
   const params = useParams<{ country: string }>();
   const country = params.country === "usa" ? "usa" : "canada";
   const countryLabel = country === "usa" ? "USA (ARRT)" : "Canada (CAMRT)";
@@ -190,23 +192,23 @@ export default function ImagingFlashcardsPage() {
         />
         <div className="max-w-5xl mx-auto px-4 py-8" data-testid="imaging-flashcards-page">
           <div className="flex items-center gap-2 text-sm text-foreground/60 mb-6">
-            <Link href="/" className="hover:text-primary">Home</Link>
+            <Link href="/" className="hover:text-primary">{t("allied.imagingFlashcards.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href={`/medical-imaging/${country}`} className="hover:text-primary">Medical Imaging</Link>
+            <Link href={`/medical-imaging/${country}`} className="hover:text-primary">{t("allied.imagingFlashcards.medicalImaging")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-primary font-medium">Flashcards</span>
+            <span className="text-primary font-medium">{t("allied.imagingFlashcards.flashcards")}</span>
           </div>
 
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-foreground" data-testid="text-flashcards-title">Radiography Flashcards</h1>
+            <h1 className="text-2xl font-bold text-foreground" data-testid="text-flashcards-title">{t("allied.imagingFlashcards.radiographyFlashcards")}</h1>
             <p className="text-muted-foreground text-sm mt-1">{IMAGING_FLASHCARD_DECKS.length} decks · {totalCards} cards · Spaced repetition learning</p>
           </div>
 
           <div className="bg-gradient-to-r from-primary/5 to-secondary rounded-2xl p-5 mb-6 border border-border">
             <div className="flex items-center gap-6 text-sm">
-              <div><span className="text-foreground/60">Reviewed:</span> <span className="font-bold text-primary" data-testid="text-reviewed-count">{totalReviewed}</span></div>
-              <div><span className="text-muted-foreground">Mastered:</span> <span className="font-bold text-green-600">{easyCount}</span></div>
-              <div><span className="text-muted-foreground">Needs Work:</span> <span className="font-bold text-red-600">{hardCount}</span></div>
+              <div><span className="text-foreground/60">{t("allied.imagingFlashcards.reviewed")}</span> <span className="font-bold text-primary" data-testid="text-reviewed-count">{totalReviewed}</span></div>
+              <div><span className="text-muted-foreground">{t("allied.imagingFlashcards.mastered")}</span> <span className="font-bold text-green-600">{easyCount}</span></div>
+              <div><span className="text-muted-foreground">{t("allied.imagingFlashcards.needsWork")}</span> <span className="font-bold text-red-600">{hardCount}</span></div>
             </div>
           </div>
 
@@ -214,7 +216,7 @@ export default function ImagingFlashcardsPage() {
             <div className="flex items-center gap-3">
               <Layers className="w-6 h-6" />
               <div>
-                <div className="font-semibold text-lg">Study All Decks</div>
+                <div className="font-semibold text-lg">{t("allied.imagingFlashcards.studyAllDecks")}</div>
                 <div className="text-primary-foreground/70 text-sm">{totalCards} cards across all topics</div>
               </div>
             </div>
@@ -254,9 +256,9 @@ export default function ImagingFlashcardsPage() {
       />
       <div className="max-w-3xl mx-auto px-4 py-8" data-testid="imaging-flashcards-study">
         <div className="flex items-center gap-2 text-sm text-foreground/60 mb-6">
-          <Link href="/" className="hover:text-primary">Home</Link>
+          <Link href="/" className="hover:text-primary">{t("allied.imagingFlashcards.home2")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <button onClick={() => setShowDeckBrowser(true)} className="hover:text-primary">Flashcards</button>
+          <button onClick={() => setShowDeckBrowser(true)} className="hover:text-primary">{t("allied.imagingFlashcards.flashcards2")}</button>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-primary font-medium">{selectedDeck?.name || "All Decks"}</span>
         </div>

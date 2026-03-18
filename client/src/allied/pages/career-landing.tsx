@@ -15,6 +15,7 @@ import { getHubMarketingData } from "@/allied/data/hub-marketing-data";
 import { getQuestionCountDisplay } from "@/data/career-questions/question-counts";
 import { buildJobPostingStructuredData, buildJobTrainingStructuredData, PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
 
+import { useI18n } from "@/lib/i18n";
 const FEATURES = [
   { slug: "qbank", label: "Test Bank", desc: "Exam-authentic questions with 600+ word rationales explaining the why behind every answer", icon: BookOpen },
   { slug: "mock-exams", label: "Mock Exams", desc: "Blueprint-weighted timed practice exams with adaptive CAT-style simulation", icon: FileText },
@@ -63,6 +64,7 @@ const GENERIC_FAQ_DATA = [
 ];
 
 export default function CareerLandingPage() {
+  const { t } = useI18n();
   const params = useParams<{ careerSlug: string }>();
   const career = getCareerByRouteSlug(params.careerSlug || "");
   const { region, setRegion, getRegionConfig, regionLabel } = useRegion();
@@ -73,9 +75,9 @@ export default function CareerLandingPage() {
   if (!career) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">Career Not Found</h1>
-        <p className="text-gray-600 mb-6">The career you're looking for doesn't exist.</p>
-        <Link href="/careers" className="text-teal-600 font-medium hover:underline">Browse All Careers</Link>
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">{t("allied.careerLanding.careerNotFound")}</h1>
+        <p className="text-gray-600 mb-6">{t("allied.careerLanding.theCareerYoureLookingFor")}</p>
+        <Link href="/careers" className="text-teal-600 font-medium hover:underline">{t("allied.careerLanding.browseAllCareers")}</Link>
       </div>
     );
   }
@@ -144,7 +146,7 @@ export default function CareerLandingPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-teal-50 via-cyan-50/30 to-white" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/careers" className="hover:text-teal-600">Careers</Link>
+            <Link href="/careers" className="hover:text-teal-600">{t("allied.careerLanding.careers")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-teal-700 font-medium">{career.shortName}</span>
           </div>
@@ -180,19 +182,19 @@ export default function CareerLandingPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-5 h-5 text-teal-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-gray-700"><strong>600+ word rationales</strong> explaining the why behind every answer</span>
+                <span className="text-sm text-gray-700"><strong>{t("allied.careerLanding.600WordRationales")}</strong> {t("allied.careerLanding.explainingTheWhyBehindEvery")}</span>
               </div>
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-5 h-5 text-teal-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-gray-700"><strong>Adaptive CAT-style</strong> simulation matching real exam logic</span>
+                <span className="text-sm text-gray-700"><strong>{t("allied.careerLanding.adaptiveCatstyle")}</strong> {t("allied.careerLanding.simulationMatchingRealExamLogic")}</span>
               </div>
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-5 h-5 text-teal-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-gray-700"><strong>Weak-area targeting</strong> so you study what matters most</span>
+                <span className="text-sm text-gray-700"><strong>{t("allied.careerLanding.weakareaTargeting")}</strong> {t("allied.careerLanding.soYouStudyWhatMatters")}</span>
               </div>
               <div className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-5 h-5 text-teal-500 mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-gray-700"><strong>4,000+ question roadmap</strong> with new content added weekly</span>
+                <span className="text-sm text-gray-700"><strong>{t("allied.careerLanding.4000QuestionRoadmap")}</strong> {t("allied.careerLanding.withNewContentAddedWeekly")}</span>
               </div>
             </div>
 
@@ -217,19 +219,19 @@ export default function CareerLandingPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div data-testid="stat-questions">
               <div className="text-2xl font-bold text-gray-900">{getQuestionCountDisplay(career.slug)}</div>
-              <div className="text-sm text-gray-500">Practice Questions</div>
+              <div className="text-sm text-gray-500">{t("allied.careerLanding.practiceQuestions")}</div>
             </div>
             <div data-testid="stat-lessons">
               <div className="text-2xl font-bold text-gray-900">{hubData?.platformStats.totalLessons || "100+"}</div>
-              <div className="text-sm text-gray-500">Lessons</div>
+              <div className="text-sm text-gray-500">{t("allied.careerLanding.lessons")}</div>
             </div>
             <div data-testid="stat-flashcards">
               <div className="text-2xl font-bold text-gray-900">{hubData?.platformStats.flashcardDecks || "40+"}</div>
-              <div className="text-sm text-gray-500">Flashcard Decks</div>
+              <div className="text-sm text-gray-500">{t("allied.careerLanding.flashcardDecks")}</div>
             </div>
             <div data-testid="stat-mock-exams">
               <div className="text-2xl font-bold text-gray-900">{hubData?.platformStats.mockExams || "Unlimited"}</div>
-              <div className="text-sm text-gray-500">Mock Exams</div>
+              <div className="text-sm text-gray-500">{t("allied.careerLanding.mockExams")}</div>
             </div>
           </div>
         </div>
@@ -258,7 +260,7 @@ export default function CareerLandingPage() {
       <section className="py-16 bg-gradient-to-b from-teal-50/40 to-white" data-testid="section-free-preview">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">Try It Free — No Account Required</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("allied.careerLanding.tryItFreeNoAccount")}</h2>
             <p className="text-gray-600">Experience the depth of NurseNest Allied {career.shortName} prep before you commit.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
@@ -266,29 +268,29 @@ export default function CareerLandingPage() {
               <div className="w-12 h-12 rounded-xl bg-teal-50 flex items-center justify-center mx-auto mb-3">
                 <Target className="w-6 h-6 text-teal-600" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-1">15-Question Diagnostic</h3>
+              <h3 className="font-semibold text-gray-900 mb-1">{t("allied.careerLanding.15questionDiagnostic")}</h3>
               <p className="text-sm text-gray-500">See your readiness score across all {career.shortName} domains</p>
             </div>
             <div className="bg-white rounded-xl border border-gray-200 p-5 text-center" data-testid="preview-questions">
               <div className="w-12 h-12 rounded-xl bg-teal-50 flex items-center justify-center mx-auto mb-3">
                 <BookOpen className="w-6 h-6 text-teal-600" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-1">5 Practice Questions</h3>
-              <p className="text-sm text-gray-500">Experience our 600+ word clinical rationales</p>
+              <h3 className="font-semibold text-gray-900 mb-1">{t("allied.careerLanding.5PracticeQuestions")}</h3>
+              <p className="text-sm text-gray-500">{t("allied.careerLanding.experienceOur600WordClinical")}</p>
             </div>
             <div className="bg-white rounded-xl border border-gray-200 p-5 text-center" data-testid="preview-mock">
               <div className="w-12 h-12 rounded-xl bg-teal-50 flex items-center justify-center mx-auto mb-3">
                 <FileText className="w-6 h-6 text-teal-600" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-1">1 Free Mock Exam</h3>
-              <p className="text-sm text-gray-500">Take a full-length timed mock to experience the format</p>
+              <h3 className="font-semibold text-gray-900 mb-1">{t("allied.careerLanding.1FreeMockExam")}</h3>
+              <p className="text-sm text-gray-500">{t("allied.careerLanding.takeAFulllengthTimedMock")}</p>
             </div>
           </div>
           <div className="text-center">
             <Link href={`/allied-health/diagnostic?career=${career.slug}`} className="inline-flex items-center gap-2 px-8 py-3.5 bg-teal-600 text-white rounded-xl font-bold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200" data-testid="button-free-preview-cta">
               Start Free Diagnostic <ArrowRight className="w-4 h-4" />
             </Link>
-            <p className="text-xs text-gray-400 mt-3">No credit card required</p>
+            <p className="text-xs text-gray-400 mt-3">{t("allied.careerLanding.noCreditCardRequired")}</p>
           </div>
         </div>
       </section>
@@ -296,7 +298,7 @@ export default function CareerLandingPage() {
       {/* Study Features */}
       <section className="py-16" data-testid="section-study-features">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Study Features</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("allied.careerLanding.studyFeatures")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {FEATURES.map(f => (
               <Link key={f.slug} href={f.slug === "qbank" ? `/allied-health/qbank?career=${career.slug}` : `${careerRoute}/${f.slug}`} className="group" data-testid={`card-feature-${f.slug}`}>
@@ -342,7 +344,7 @@ export default function CareerLandingPage() {
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
               <h2 className="text-2xl font-bold text-gray-900 mb-3">{career.shortName} Career Information</h2>
-              <p className="text-gray-600">Salary data, job outlook, and career benefits</p>
+              <p className="text-gray-600">{t("allied.careerLanding.salaryDataJobOutlookAnd")}</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
@@ -354,15 +356,15 @@ export default function CareerLandingPage() {
                 </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="text-sm text-gray-600">Entry Level</span>
+                    <span className="text-sm text-gray-600">{t("allied.careerLanding.entryLevel")}</span>
                     <span className="font-semibold text-gray-900">{hubData.salary.entry}</span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="text-sm text-gray-600">Median</span>
+                    <span className="text-sm text-gray-600">{t("allied.careerLanding.median")}</span>
                     <span className="font-bold text-teal-700 text-lg">{hubData.salary.median}</span>
                   </div>
                   <div className="flex justify-between items-center py-2">
-                    <span className="text-sm text-gray-600">Experienced</span>
+                    <span className="text-sm text-gray-600">{t("allied.careerLanding.experienced")}</span>
                     <span className="font-semibold text-gray-900">{hubData.salary.experienced}</span>
                   </div>
                 </div>
@@ -377,19 +379,19 @@ export default function CareerLandingPage() {
                 </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="text-sm text-gray-600">Growth Rate</span>
+                    <span className="text-sm text-gray-600">{t("allied.careerLanding.growthRate")}</span>
                     <span className="font-bold text-teal-700 text-lg">{hubData.jobOutlook.growthRate}</span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="text-sm text-gray-600">Period</span>
+                    <span className="text-sm text-gray-600">{t("allied.careerLanding.period")}</span>
                     <span className="font-semibold text-gray-900">{hubData.jobOutlook.growthPeriod}</span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="text-sm text-gray-600">Openings/Year</span>
+                    <span className="text-sm text-gray-600">{t("allied.careerLanding.openingsyear")}</span>
                     <span className="font-semibold text-gray-900">{hubData.jobOutlook.openingsPerYear}</span>
                   </div>
                   <div className="flex justify-between items-center py-2">
-                    <span className="text-sm text-gray-600">Demand Level</span>
+                    <span className="text-sm text-gray-600">{t("allied.careerLanding.demandLevel")}</span>
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-teal-50 text-teal-700">{hubData.jobOutlook.demandLevel}</span>
                   </div>
                 </div>
@@ -445,15 +447,15 @@ export default function CareerLandingPage() {
           <section className="py-16 bg-white" data-testid="section-related-resources">
             <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-10">
-                <h2 className="text-2xl font-bold text-gray-900 mb-3">Related Resources</h2>
-                <p className="text-gray-600">Deepen your understanding with clinical lessons and career transition guides from across the NurseNest ecosystem.</p>
+                <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("allied.careerLanding.relatedResources")}</h2>
+                <p className="text-gray-600">{t("allied.careerLanding.deepenYourUnderstandingWithClinical")}</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {lessonLinks.length > 0 && (
                   <div className="bg-blue-50/50 rounded-2xl border border-blue-100 p-6" data-testid="cross-links-lessons">
                     <div className="flex items-center gap-2 mb-4">
                       <Stethoscope className="w-5 h-5 text-blue-600" />
-                      <h3 className="font-semibold text-gray-900">Clinical Lessons</h3>
+                      <h3 className="font-semibold text-gray-900">{t("allied.careerLanding.clinicalLessons")}</h3>
                     </div>
                     <div className="space-y-2">
                       {lessonLinks.map((link, i) => (
@@ -477,7 +479,7 @@ export default function CareerLandingPage() {
                   <div className="bg-indigo-50/50 rounded-2xl border border-indigo-100 p-6" data-testid="cross-links-newgrad">
                     <div className="flex items-center gap-2 mb-4">
                       <GraduationCap className="w-5 h-5 text-indigo-600" />
-                      <h3 className="font-semibold text-gray-900">Career Transition</h3>
+                      <h3 className="font-semibold text-gray-900">{t("allied.careerLanding.careerTransition")}</h3>
                     </div>
                     <div className="space-y-2">
                       {newGradLinks.map((link, i) => (
@@ -519,7 +521,7 @@ export default function CareerLandingPage() {
                   <BookOpen className="w-5 h-5 text-teal-600" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-bold uppercase tracking-wider text-teal-600 mb-0.5">Authority Guide</p>
+                  <p className="text-xs font-bold uppercase tracking-wider text-teal-600 mb-0.5">{t("allied.careerLanding.authorityGuide")}</p>
                   <h3 className="font-semibold text-gray-900 group-hover:text-teal-700 transition-colors">{match.title}</h3>
                   <p className="text-sm text-gray-500">{match.desc}</p>
                 </div>
@@ -534,14 +536,14 @@ export default function CareerLandingPage() {
       <section className="py-16 bg-gray-50" data-testid="section-comparison">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">NurseNest Allied vs. Generic Test Banks</h2>
-            <p className="text-gray-600">See why students switch to NurseNest Allied for serious exam prep</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("allied.careerLanding.nursenestAlliedVsGenericTest")}</h2>
+            <p className="text-gray-600">{t("allied.careerLanding.seeWhyStudentsSwitchTo")}</p>
           </div>
           <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
             <div className="grid grid-cols-3 bg-gray-50 border-b border-gray-200">
-              <div className="px-5 py-3 text-sm font-semibold text-gray-500">Feature</div>
-              <div className="px-5 py-3 text-sm font-semibold text-teal-700 text-center">NurseNest Allied</div>
-              <div className="px-5 py-3 text-sm font-semibold text-gray-400 text-center">Generic Banks</div>
+              <div className="px-5 py-3 text-sm font-semibold text-gray-500">{t("allied.careerLanding.feature")}</div>
+              <div className="px-5 py-3 text-sm font-semibold text-teal-700 text-center">{t("allied.careerLanding.nursenestAllied")}</div>
+              <div className="px-5 py-3 text-sm font-semibold text-gray-400 text-center">{t("allied.careerLanding.genericBanks")}</div>
             </div>
             {COMPARISON_DATA.map((row, i) => (
               <div key={i} className={`grid grid-cols-3 ${i < COMPARISON_DATA.length - 1 ? 'border-b border-gray-100' : ''}`} data-testid={`comparison-row-${i}`}>
@@ -563,7 +565,7 @@ export default function CareerLandingPage() {
       {/* Exam Blueprint Domains */}
       <section className="py-16 bg-gradient-to-b from-teal-50/30 to-white" data-testid="section-domains">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Exam Blueprint Domains</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("allied.careerLanding.examBlueprintDomains")}</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {career.domains.map((domain, i) => (
               <div key={domain} className="bg-white rounded-lg border border-gray-100 px-4 py-3 flex items-center gap-3" data-testid={`domain-${i}`}>
@@ -581,7 +583,7 @@ export default function CareerLandingPage() {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
               <h2 className="text-2xl font-bold text-gray-900 mb-3">{career.shortName} Exam Preparation Tips</h2>
-              <p className="text-gray-600">Expert strategies to maximize your study time and pass on your first attempt</p>
+              <p className="text-gray-600">{t("allied.careerLanding.expertStrategiesToMaximizeYour")}</p>
             </div>
             <div className="space-y-4">
               {hubData.examPrepTips.map((tip, i) => (
@@ -610,19 +612,19 @@ export default function CareerLandingPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
               <div className="text-center px-4 py-4 bg-teal-50 rounded-xl">
                 <div className="text-2xl font-bold text-teal-700">{regionConfig.totalQuestions}</div>
-                <div className="text-sm text-gray-600">Exam Questions</div>
+                <div className="text-sm text-gray-600">{t("allied.careerLanding.examQuestions")}</div>
               </div>
               <div className="text-center px-4 py-4 bg-teal-50 rounded-xl">
                 <div className="text-2xl font-bold text-teal-700">{regionConfig.timeLimit} min</div>
-                <div className="text-sm text-gray-600">Time Limit</div>
+                <div className="text-sm text-gray-600">{t("allied.careerLanding.timeLimit")}</div>
               </div>
               <div className="text-center px-4 py-4 bg-teal-50 rounded-xl">
                 <div className="text-2xl font-bold text-teal-700">{regionConfig.passThreshold}%</div>
-                <div className="text-sm text-gray-600">Pass Threshold</div>
+                <div className="text-sm text-gray-600">{t("allied.careerLanding.passThreshold")}</div>
               </div>
               <div className="text-center px-4 py-4 bg-teal-50 rounded-xl">
                 <div className="text-2xl font-bold text-teal-700">{region === "US" ? "mg/dL" : "mmol/L"}</div>
-                <div className="text-sm text-gray-600">Lab Units</div>
+                <div className="text-sm text-gray-600">{t("allied.careerLanding.labUnits")}</div>
               </div>
             </div>
             <div className="bg-gray-50 rounded-xl p-6">
@@ -666,7 +668,7 @@ export default function CareerLandingPage() {
       {career.aiTools.length > 0 && (
         <section className="py-16 bg-white" data-testid="section-smart-tools">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Smart Study Tools</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t("allied.careerLanding.smartStudyTools")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {career.aiTools.map(tool => (
                 <Link key={tool.id} href={`${careerRoute}/tools`} className="group" data-testid={`card-tool-${tool.id}`}>
@@ -687,7 +689,7 @@ export default function CareerLandingPage() {
         <section className="py-16 bg-gray-50" data-testid="section-instructors">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">Built by Experts</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("allied.careerLanding.builtByExperts")}</h2>
               <p className="text-gray-600">Our content is created and reviewed by credentialed {career.shortName} professionals</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -745,8 +747,8 @@ export default function CareerLandingPage() {
       {/* Mid-Page CTA */}
       <section className="py-12 bg-gradient-to-r from-teal-600 to-teal-700" data-testid="section-mid-cta">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">Start practicing now — create your free account</h2>
-          <p className="text-teal-100 mb-6">Get instant access to practice questions, a diagnostic assessment, and a sample mock exam.</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">{t("allied.careerLanding.startPracticingNowCreateYour")}</h2>
+          <p className="text-teal-100 mb-6">{t("allied.careerLanding.getInstantAccessToPractice")}</p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link href={`/allied-health/diagnostic?career=${career.slug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-teal-700 rounded-xl font-bold hover:bg-teal-50 transition-colors shadow-lg" data-testid="button-mid-cta-diagnostic">
               Start Free Diagnostic <ArrowRight className="w-4 h-4" />
@@ -762,26 +764,26 @@ export default function CareerLandingPage() {
       <section className="py-16 bg-gradient-to-b from-white to-teal-50/40" data-testid="section-pricing">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">Simple, Transparent Pricing</h2>
-            <p className="text-gray-600">Start free. Upgrade when you're ready to go all-in on exam prep.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("allied.careerLanding.simpleTransparentPricing")}</h2>
+            <p className="text-gray-600">{t("allied.careerLanding.startFreeUpgradeWhenYoure")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div className="bg-white rounded-2xl border border-gray-200 p-6" data-testid="pricing-free">
-              <div className="text-sm font-medium text-gray-500 mb-2">Free</div>
+              <div className="text-sm font-medium text-gray-500 mb-2">{t("allied.careerLanding.free")}</div>
               <div className="text-3xl font-bold text-gray-900 mb-1">$0</div>
-              <div className="text-sm text-gray-500 mb-5">forever</div>
+              <div className="text-sm text-gray-500 mb-5">{t("allied.careerLanding.forever")}</div>
               <ul className="space-y-2.5 mb-6">
                 <li className="flex items-start gap-2 text-sm text-gray-600">
                   <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>5 practice questions</span>
+                  <span>{t("allied.careerLanding.5PracticeQuestions2")}</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-gray-600">
                   <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>1 mock exam</span>
+                  <span>{t("allied.careerLanding.1MockExam")}</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-gray-600">
                   <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>Free diagnostic assessment</span>
+                  <span>{t("allied.careerLanding.freeDiagnosticAssessment")}</span>
                 </li>
               </ul>
               <Link href={`/allied-health/diagnostic?career=${career.slug}`} className="block w-full text-center px-4 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors" data-testid="button-pricing-free">
@@ -790,21 +792,21 @@ export default function CareerLandingPage() {
             </div>
 
             <div className="bg-white rounded-2xl border border-gray-200 p-6" data-testid="pricing-monthly">
-              <div className="text-sm font-medium text-gray-500 mb-2">Monthly</div>
+              <div className="text-sm font-medium text-gray-500 mb-2">{t("allied.careerLanding.monthly")}</div>
               <div className="text-3xl font-bold text-gray-900 mb-1">$29</div>
-              <div className="text-sm text-gray-500 mb-5">per month</div>
+              <div className="text-sm text-gray-500 mb-5">{t("allied.careerLanding.perMonth")}</div>
               <ul className="space-y-2.5 mb-6">
                 <li className="flex items-start gap-2 text-sm text-gray-600">
                   <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>Unlimited questions & rationales</span>
+                  <span>{t("allied.careerLanding.unlimitedQuestionsRationales")}</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-gray-600">
                   <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>Unlimited mock exams</span>
+                  <span>{t("allied.careerLanding.unlimitedMockExams")}</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-gray-600">
                   <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>All smart tools & analytics</span>
+                  <span>{t("allied.careerLanding.allSmartToolsAnalytics")}</span>
                 </li>
               </ul>
               <Link href="/allied-health/pricing" className="block w-full text-center px-4 py-2.5 bg-teal-100 text-teal-700 rounded-xl font-medium hover:bg-teal-200 transition-colors" data-testid="button-pricing-monthly">
@@ -816,22 +818,22 @@ export default function CareerLandingPage() {
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-teal-600 text-white text-xs font-bold rounded-full">
                 BEST VALUE
               </div>
-              <div className="text-sm font-medium text-teal-600 mb-2">Annual</div>
+              <div className="text-sm font-medium text-teal-600 mb-2">{t("allied.careerLanding.annual")}</div>
               <div className="text-3xl font-bold text-gray-900 mb-1">$239</div>
-              <div className="text-sm text-gray-500 mb-1">per year</div>
-              <div className="text-xs font-semibold text-teal-600 mb-5">Save 31% vs monthly</div>
+              <div className="text-sm text-gray-500 mb-1">{t("allied.careerLanding.perYear")}</div>
+              <div className="text-xs font-semibold text-teal-600 mb-5">{t("allied.careerLanding.save31VsMonthly")}</div>
               <ul className="space-y-2.5 mb-6">
                 <li className="flex items-start gap-2 text-sm text-gray-600">
                   <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>Everything in Monthly</span>
+                  <span>{t("allied.careerLanding.everythingInMonthly")}</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-gray-600">
                   <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>Priority new content access</span>
+                  <span>{t("allied.careerLanding.priorityNewContentAccess")}</span>
                 </li>
                 <li className="flex items-start gap-2 text-sm text-gray-600">
                   <Check className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
-                  <span>Extended performance history</span>
+                  <span>{t("allied.careerLanding.extendedPerformanceHistory")}</span>
                 </li>
               </ul>
               <Link href="/allied-health/pricing" className="block w-full text-center px-4 py-2.5 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-700 transition-colors shadow-md shadow-teal-200" data-testid="button-pricing-annual">
@@ -846,7 +848,7 @@ export default function CareerLandingPage() {
       <section className="py-16 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("allied.careerLanding.frequentlyAskedQuestions")}</h2>
             <p className="text-gray-600">Everything you need to know about {career.shortName} exam prep</p>
           </div>
           <div className="space-y-3">
@@ -876,8 +878,8 @@ export default function CareerLandingPage() {
           <section className="py-16 bg-gray-50" data-testid="section-browse-careers">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-10">
-                <h2 className="text-2xl font-bold text-gray-900 mb-3">Browse Other Allied Health Careers</h2>
-                <p className="text-gray-600">Explore exam prep resources for other healthcare professions</p>
+                <h2 className="text-2xl font-bold text-gray-900 mb-3">{t("allied.careerLanding.browseOtherAlliedHealthCareers")}</h2>
+                <p className="text-gray-600">{t("allied.careerLanding.exploreExamPrepResourcesFor")}</p>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 {otherCareers.slice(0, 8).map(c => {
@@ -923,9 +925,9 @@ export default function CareerLandingPage() {
             </Link>
           </div>
           <div className="flex items-center justify-center gap-6 mt-8 text-teal-200 text-sm">
-            <Link href={`/allied-health/qbank?career=${career.slug}`} className="hover:text-white transition-colors" data-testid="link-footer-qbank">Test Bank →</Link>
-            <Link href={`${careerRoute}/mock-exams`} className="hover:text-white transition-colors" data-testid="link-footer-mocks">Mock Exams →</Link>
-            <Link href="/allied-health/pricing" className="hover:text-white transition-colors" data-testid="link-footer-pricing">Pricing →</Link>
+            <Link href={`/allied-health/qbank?career=${career.slug}`} className="hover:text-white transition-colors" data-testid="link-footer-qbank">{t("allied.careerLanding.testBank")}</Link>
+            <Link href={`${careerRoute}/mock-exams`} className="hover:text-white transition-colors" data-testid="link-footer-mocks">{t("allied.careerLanding.mockExams2")}</Link>
+            <Link href="/allied-health/pricing" className="hover:text-white transition-colors" data-testid="link-footer-pricing">{t("allied.careerLanding.pricing")}</Link>
           </div>
         </div>
       </section>

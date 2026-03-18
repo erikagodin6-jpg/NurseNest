@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { useI18n } from "@/lib/i18n";
 import {
   Building2,
   Users,
@@ -25,6 +26,7 @@ import {
 } from "lucide-react";
 
 export default function ForInstitutions() {
+  const { t } = useI18n();
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -68,8 +70,8 @@ export default function ForInstitutions() {
   return (
     <div className="min-h-screen bg-white">
       <SEO
-        title="For Nursing Schools and Programs | NurseNest"
-        description="Institutional licensing for nursing education programs. Give your students access to comprehensive exam preparation, clinical lessons, practice questions, and study tools."
+        title={t("pages.forInstitutions.forNursingSchoolsAndPrograms")}
+        description={t("pages.forInstitutions.institutionalLicensingForNursingEducation")}
       />
       <Navigation />
 
@@ -111,8 +113,8 @@ export default function ForInstitutions() {
 
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-[#2E3A59] mb-4">Why Programs Choose NurseNest</h2>
-          <p className="text-gray-600 text-center max-w-2xl mx-auto mb-12">Built specifically for Canadian and international nursing education, not adapted from generic test prep.</p>
+          <h2 className="text-3xl font-bold text-center text-[#2E3A59] mb-4">{t("pages.forInstitutions.whyProgramsChooseNursenest")}</h2>
+          <p className="text-gray-600 text-center max-w-2xl mx-auto mb-12">{t("pages.forInstitutions.builtSpecificallyForCanadianAnd")}</p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
@@ -139,8 +141,8 @@ export default function ForInstitutions() {
 
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-[#2E3A59] mb-4">What Students Get</h2>
-          <p className="text-gray-600 text-center max-w-2xl mx-auto mb-12">Everything they need to prepare for licensure exams and build clinical confidence.</p>
+          <h2 className="text-3xl font-bold text-center text-[#2E3A59] mb-4">{t("pages.forInstitutions.whatStudentsGet")}</h2>
+          <p className="text-gray-600 text-center max-w-2xl mx-auto mb-12">{t("pages.forInstitutions.everythingTheyNeedToPrepare")}</p>
 
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {[
@@ -164,24 +166,24 @@ export default function ForInstitutions() {
 
       <section id="pricing-section" className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-[#2E3A59] mb-3" data-testid="text-pricing-heading">Institutional Pricing</h2>
-          <p className="text-gray-600 text-center max-w-2xl mx-auto mb-4" data-testid="text-pricing-subtitle">Volume pricing that scales with your program. All plans include full platform access.</p>
-          <p className="text-primary font-medium text-center max-w-2xl mx-auto mb-12" data-testid="text-pricing-outcomes">Proven to improve NCLEX pass rates and student confidence — trusted by nursing programs preparing the next generation of nurses.</p>
+          <h2 className="text-3xl font-bold text-center text-[#2E3A59] mb-3" data-testid="text-pricing-heading">{t("pages.forInstitutions.institutionalPricing")}</h2>
+          <p className="text-gray-600 text-center max-w-2xl mx-auto mb-4" data-testid="text-pricing-subtitle">{t("pages.forInstitutions.volumePricingThatScalesWith")}</p>
+          <p className="text-primary font-medium text-center max-w-2xl mx-auto mb-12" data-testid="text-pricing-outcomes">{t("pages.forInstitutions.provenToImproveNclexPass")}</p>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             <Card className="border-2 border-gray-200 hover:border-primary/30 transition-all flex flex-col" data-testid="card-pricing-small">
               <CardContent className="pt-6 text-center flex flex-col flex-1">
                 <GraduationCap className="w-10 h-10 text-primary mx-auto mb-3" />
-                <h3 className="text-xl font-bold text-[#2E3A59] mb-1">Small Program</h3>
-                <p className="text-gray-500 text-sm mb-4">Up to 50 seats</p>
+                <h3 className="text-xl font-bold text-[#2E3A59] mb-1">{t("pages.forInstitutions.smallProgram")}</h3>
+                <p className="text-gray-500 text-sm mb-4">{t("pages.forInstitutions.upTo50Seats")}</p>
                 <p className="text-3xl font-bold text-primary mb-1">$8<span className="text-lg font-normal text-gray-500">/seat/mo</span></p>
                 <p className="text-sm text-gray-500 mb-6">$400/month for 50 seats</p>
                 <ul className="text-left space-y-2 text-sm text-gray-600 mb-6">
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Full platform access</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Instructor dashboard</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Student progress tracking</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Assignment management</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Enrollment codes</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.fullPlatformAccess")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.instructorDashboard")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.studentProgressTracking")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.assignmentManagement")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.enrollmentCodes")}</li>
                 </ul>
                 <div className="mt-auto">
                   <Button
@@ -197,20 +199,20 @@ export default function ForInstitutions() {
 
             <Card className="border-2 border-primary shadow-lg relative flex flex-col" data-testid="card-pricing-medium">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <span className="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Most Popular</span>
+                <span className="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">{t("pages.forInstitutions.mostPopular")}</span>
               </div>
               <CardContent className="pt-6 text-center flex flex-col flex-1">
                 <Award className="w-10 h-10 text-primary mx-auto mb-3" />
-                <h3 className="text-xl font-bold text-[#2E3A59] mb-1">Medium Program</h3>
-                <p className="text-gray-500 text-sm mb-4">51–150 seats</p>
+                <h3 className="text-xl font-bold text-[#2E3A59] mb-1">{t("pages.forInstitutions.mediumProgram")}</h3>
+                <p className="text-gray-500 text-sm mb-4">{t("pages.forInstitutions.51150Seats")}</p>
                 <p className="text-3xl font-bold text-primary mb-1">$6<span className="text-lg font-normal text-gray-500">/seat/mo</span></p>
                 <p className="text-sm text-gray-500 mb-6">$900/month for 150 seats</p>
                 <ul className="text-left space-y-2 text-sm text-gray-600 mb-6">
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Everything in Small</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Institution analytics</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Program benchmarking</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> CSV bulk enrollment</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Certificate generation</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.everythingInSmall")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.institutionAnalytics")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.programBenchmarking")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.csvBulkEnrollment")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.certificateGeneration")}</li>
                 </ul>
                 <div className="mt-auto">
                   <Button
@@ -227,17 +229,17 @@ export default function ForInstitutions() {
             <Card className="border-2 border-gray-200 hover:border-primary/30 transition-all flex flex-col" data-testid="card-pricing-large">
               <CardContent className="pt-6 text-center flex flex-col flex-1">
                 <Zap className="w-10 h-10 text-primary mx-auto mb-3" />
-                <h3 className="text-xl font-bold text-[#2E3A59] mb-1">Large Program</h3>
-                <p className="text-gray-500 text-sm mb-4">151–300 seats</p>
+                <h3 className="text-xl font-bold text-[#2E3A59] mb-1">{t("pages.forInstitutions.largeProgram")}</h3>
+                <p className="text-gray-500 text-sm mb-4">{t("pages.forInstitutions.151300Seats")}</p>
                 <p className="text-3xl font-bold text-primary mb-1">$4<span className="text-lg font-normal text-gray-500">/seat/mo</span></p>
                 <p className="text-sm text-gray-500 mb-6">$1,200/month for 300 seats</p>
                 <ul className="text-left space-y-2 text-sm text-gray-600 mb-6">
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Everything in Medium</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Priority support</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Custom reporting</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> API access</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Dedicated account manager</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> LMS integration (Canvas / Blackboard)</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.everythingInMedium")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.prioritySupport")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.customReporting")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.apiAccess")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.dedicatedAccountManager")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.lmsIntegrationCanvasBlackboard")}</li>
                 </ul>
                 <div className="mt-auto">
                   <Button
@@ -254,17 +256,17 @@ export default function ForInstitutions() {
             <Card className="border-2 border-gray-200 hover:border-primary/30 transition-all flex flex-col" data-testid="card-pricing-enterprise">
               <CardContent className="pt-6 text-center flex flex-col flex-1">
                 <Building2 className="w-10 h-10 text-primary mx-auto mb-3" />
-                <h3 className="text-xl font-bold text-[#2E3A59] mb-1">Enterprise</h3>
-                <p className="text-gray-500 text-sm mb-4">300+ seats</p>
-                <p className="text-3xl font-bold text-primary mb-1">Custom</p>
-                <p className="text-sm text-gray-500 mb-6">Tailored to your program</p>
+                <h3 className="text-xl font-bold text-[#2E3A59] mb-1">{t("pages.forInstitutions.enterprise")}</h3>
+                <p className="text-gray-500 text-sm mb-4">{t("pages.forInstitutions.300Seats")}</p>
+                <p className="text-3xl font-bold text-primary mb-1">{t("pages.forInstitutions.custom")}</p>
+                <p className="text-sm text-gray-500 mb-6">{t("pages.forInstitutions.tailoredToYourProgram")}</p>
                 <ul className="text-left space-y-2 text-sm text-gray-600 mb-6">
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Everything in Large</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Unlimited program support</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Custom integrations</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Enterprise analytics</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> Dedicated onboarding</li>
-                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> LMS integration (Canvas / Blackboard)</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.everythingInLarge")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.unlimitedProgramSupport")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.customIntegrations")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.enterpriseAnalytics")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.dedicatedOnboarding")}</li>
+                  <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" /> {t("pages.forInstitutions.lmsIntegrationCanvasBlackboard2")}</li>
                 </ul>
                 <div className="mt-auto">
                   <Button
@@ -287,7 +289,7 @@ export default function ForInstitutions() {
 
       <section className="py-16 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-[#2E3A59] mb-10" data-testid="text-trust-heading">Why Nursing Programs Choose NurseNest</h2>
+          <h2 className="text-3xl font-bold text-center text-[#2E3A59] mb-10" data-testid="text-trust-heading">{t("pages.forInstitutions.whyNursingProgramsChooseNursenest")}</h2>
           <div className="space-y-5">
             {[
               { icon: Target, text: "Covers NCLEX-RN, NCLEX-PN, and Canadian REx-PN exam formats with competency-mapped questions" },
@@ -309,15 +311,15 @@ export default function ForInstitutions() {
 
       <section id="contact-form" className="py-16 bg-gradient-to-br from-[#BFA6F6]/5 to-[#AEE3E1]/5">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-[#2E3A59] mb-4">Get Started</h2>
-          <p className="text-gray-600 text-center mb-8">Tell us about your program and we will get back to you within 24 hours with a tailored proposal.</p>
+          <h2 className="text-3xl font-bold text-center text-[#2E3A59] mb-4">{t("pages.forInstitutions.getStarted")}</h2>
+          <p className="text-gray-600 text-center mb-8">{t("pages.forInstitutions.tellUsAboutYourProgram")}</p>
 
           {submitted ? (
             <Card className="border-none shadow-lg">
               <CardContent className="py-12 text-center">
                 <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-[#2E3A59] mb-2">Thank You!</h3>
-                <p className="text-gray-600">We have received your inquiry and will reach out within 24 hours.</p>
+                <h3 className="text-2xl font-bold text-[#2E3A59] mb-2">{t("pages.forInstitutions.thankYou")}</h3>
+                <p className="text-gray-600">{t("pages.forInstitutions.weHaveReceivedYourInquiry")}</p>
               </CardContent>
             </Card>
           ) : (
@@ -325,52 +327,52 @@ export default function ForInstitutions() {
               <CardContent className="pt-6">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium text-gray-700 block mb-1">Institution Name *</label>
+                    <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.forInstitutions.institutionName")}</label>
                     <Input value={form.institutionName} onChange={e => setForm(p => ({ ...p, institutionName: e.target.value }))} placeholder="e.g. Humber College" required data-testid="input-lead-institution" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-sm font-medium text-gray-700 block mb-1">Program Type</label>
+                      <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.forInstitutions.programType")}</label>
                       <select value={form.programType} onChange={e => setForm(p => ({ ...p, programType: e.target.value }))} className="w-full h-10 rounded-md border px-3 text-sm" data-testid="select-lead-program">
-                        <option value="RPN">RPN / LPN</option>
-                        <option value="RN">RN (BScN)</option>
-                        <option value="NP">Nurse Practitioner</option>
-                        <option value="PSW">PSW / CNA</option>
-                        <option value="MULTI">Multiple Programs</option>
+                        <option value="RPN">{t("pages.forInstitutions.rpnLpn")}</option>
+                        <option value="RN">{t("pages.forInstitutions.rnBscn")}</option>
+                        <option value="NP">{t("pages.forInstitutions.nursePractitioner")}</option>
+                        <option value="PSW">{t("pages.forInstitutions.pswCna")}</option>
+                        <option value="MULTI">{t("pages.forInstitutions.multiplePrograms")}</option>
                       </select>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-700 block mb-1">Estimated Students</label>
+                      <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.forInstitutions.estimatedStudents")}</label>
                       <Input type="number" value={form.estimatedStudentCount} onChange={e => setForm(p => ({ ...p, estimatedStudentCount: e.target.value }))} placeholder="50" data-testid="input-lead-students" />
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700 block mb-1">Country</label>
+                    <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.forInstitutions.country")}</label>
                     <select value={form.country} onChange={e => setForm(p => ({ ...p, country: e.target.value }))} className="w-full h-10 rounded-md border px-3 text-sm" data-testid="select-lead-country">
-                      <option value="CA">Canada</option>
-                      <option value="US">United States</option>
-                      <option value="UK">United Kingdom</option>
-                      <option value="AU">Australia</option>
-                      <option value="OTHER">Other</option>
+                      <option value="CA">{t("pages.forInstitutions.canada")}</option>
+                      <option value="US">{t("pages.forInstitutions.unitedStates")}</option>
+                      <option value="UK">{t("pages.forInstitutions.unitedKingdom")}</option>
+                      <option value="AU">{t("pages.forInstitutions.australia")}</option>
+                      <option value="OTHER">{t("pages.forInstitutions.other")}</option>
                     </select>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700 block mb-1">Contact Name *</label>
-                    <Input value={form.contactName} onChange={e => setForm(p => ({ ...p, contactName: e.target.value }))} placeholder="Your full name" required data-testid="input-lead-name" />
+                    <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.forInstitutions.contactName")}</label>
+                    <Input value={form.contactName} onChange={e => setForm(p => ({ ...p, contactName: e.target.value }))} placeholder={t("pages.forInstitutions.yourFullName")} required data-testid="input-lead-name" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-sm font-medium text-gray-700 block mb-1">Email *</label>
-                      <Input type="email" value={form.email} onChange={e => setForm(p => ({ ...p, email: e.target.value }))} placeholder="you@institution.edu" required data-testid="input-lead-email" />
+                      <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.forInstitutions.email")}</label>
+                      <Input type="email" value={form.email} onChange={e => setForm(p => ({ ...p, email: e.target.value }))} placeholder={t("pages.forInstitutions.youinstitutionedu")} required data-testid="input-lead-email" />
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-700 block mb-1">Phone</label>
+                      <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.forInstitutions.phone")}</label>
                       <Input value={form.phone} onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} placeholder="(416) 555-0100" data-testid="input-lead-phone" />
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700 block mb-1">Message (optional)</label>
-                    <Textarea value={form.message} onChange={e => setForm(p => ({ ...p, message: e.target.value }))} placeholder="Tell us about your program needs..." rows={3} data-testid="input-lead-message" />
+                    <label className="text-sm font-medium text-gray-700 block mb-1">{t("pages.forInstitutions.messageOptional")}</label>
+                    <Textarea value={form.message} onChange={e => setForm(p => ({ ...p, message: e.target.value }))} placeholder={t("pages.forInstitutions.tellUsAboutYourProgram2")} rows={3} data-testid="input-lead-message" />
                   </div>
                   <Button type="submit" size="lg" className="w-full gap-2" disabled={submitting} data-testid="button-submit-lead">
                     {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : null}

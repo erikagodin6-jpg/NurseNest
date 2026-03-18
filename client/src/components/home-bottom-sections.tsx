@@ -119,7 +119,7 @@ export function HomeBottomSections({
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50 border border-violet-200 mb-4">
                 <Sparkles className="w-3.5 h-3.5 text-violet-600" />
-                <span className="text-xs font-bold text-violet-700 uppercase tracking-wider">Built for You</span>
+                <span className="text-xs font-bold text-violet-700 uppercase tracking-wider">{t("components.homeBottomSections.builtForYou")}</span>
               </div>
               <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-study-tools-heading">
                 Your Personalized Exam Toolkit
@@ -136,21 +136,21 @@ export function HomeBottomSections({
                 data-testid="card-promo-study-planner"
               >
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-violet-100/50 to-transparent rounded-bl-full" />
-                <div className="absolute top-3 right-3 text-[9px] font-bold uppercase tracking-wider bg-violet-500 text-white px-2 py-0.5 rounded-full z-10">Personalized</div>
+                <div className="absolute top-3 right-3 text-[9px] font-bold uppercase tracking-wider bg-violet-500 text-white px-2 py-0.5 rounded-full z-10">{t("components.homeBottomSections.personalized")}</div>
                 <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Brain className="w-6 h-6 text-violet-600" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Custom Study Planner</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("components.homeBottomSections.customStudyPlanner")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">
                   Get a personalized study schedule built around your exam date, available hours, and weak areas. Your plan adapts as you progress.
                 </p>
                 <div className="flex flex-wrap gap-1.5 mb-3">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-50 text-violet-600">Daily Tasks</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-50 text-violet-600">Adaptive</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-50 text-violet-600">Progress Tracking</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-50 text-violet-600">{t("components.homeBottomSections.dailyTasks")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-50 text-violet-600">{t("components.homeBottomSections.adaptive")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-50 text-violet-600">{t("components.homeBottomSections.progressTracking")}</span>
                 </div>
                 <div className="flex items-center text-sm font-medium text-violet-600 group-hover:gap-2 transition-all">
-                  <span>Create Your Plan</span>
+                  <span>{t("components.homeBottomSections.createYourPlan")}</span>
                   <ArrowRight className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
               </div>
@@ -161,21 +161,21 @@ export function HomeBottomSections({
                 data-testid="card-promo-readiness-exam"
               >
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-emerald-100/50 to-transparent rounded-bl-full" />
-                <div className="absolute top-3 right-3 text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full z-10">Free</div>
+                <div className="absolute top-3 right-3 text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full z-10">{t("components.homeBottomSections.free")}</div>
                 <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <ShieldCheck className="w-6 h-6 text-emerald-600" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Free Readiness Exam</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("components.homeBottomSections.freeReadinessExam")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">
                   Take a 25-question readiness check to gauge your exam preparedness. Instant results with a detailed performance breakdown. No account required.
                 </p>
                 <div className="flex flex-wrap gap-1.5 mb-3">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">25 Questions</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">Instant Results</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">No Cost</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">{t("components.homeBottomSections.25Questions")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">{t("components.homeBottomSections.instantResults")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">{t("components.homeBottomSections.noCost")}</span>
                 </div>
                 <div className="flex items-center text-sm font-medium text-emerald-600 group-hover:gap-2 transition-all">
-                  <span>Take the Free Exam</span>
+                  <span>{t("components.homeBottomSections.takeTheFreeExam")}</span>
                   <ArrowRight className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
               </div>
@@ -189,17 +189,17 @@ export function HomeBottomSections({
                 <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <BarChart3 className="w-6 h-6 text-amber-600" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Performance Report Card</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("components.homeBottomSections.performanceReportCard")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">
                   Track your progress across every body system and competency domain. Identify strengths, target weaknesses, and watch your readiness score climb.
                 </p>
                 <div className="flex flex-wrap gap-1.5 mb-3">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Score Trends</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Domain Analysis</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">Weak Area Detection</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">{t("components.homeBottomSections.scoreTrends")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">{t("components.homeBottomSections.domainAnalysis")}</span>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">{t("components.homeBottomSections.weakAreaDetection")}</span>
                 </div>
                 <div className="flex items-center text-sm font-medium text-amber-600 group-hover:gap-2 transition-all">
-                  <span>View Your Report Card</span>
+                  <span>{t("components.homeBottomSections.viewYourReportCard")}</span>
                   <ArrowRight className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
               </div>
@@ -248,7 +248,7 @@ export function HomeBottomSections({
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center">
-                      <span className="text-2xl" role="img" aria-label="Canada">🍁</span>
+                      <span className="text-2xl" role="img" aria-label={t("components.homeBottomSections.canada")}>🍁</span>
                     </div>
                     <div>
                       <h3 className="font-bold text-gray-900 text-lg" data-testid="text-exam-path-ca-title">{t("home.examPath.ca.title")}</h3>
@@ -281,7 +281,7 @@ export function HomeBottomSections({
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center">
-                      <span className="text-2xl" role="img" aria-label="United States">🇺🇸</span>
+                      <span className="text-2xl" role="img" aria-label={t("components.homeBottomSections.unitedStates")}>🇺🇸</span>
                     </div>
                     <div>
                       <h3 className="font-bold text-gray-900 text-lg" data-testid="text-exam-path-us-title">{t("home.examPath.us.title")}</h3>

@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { Building, Users, Shield, Network, HeartPulse } from "lucide-react";
 
 export function HealthcareStructureModule() {
+  const { t } = useI18n();
   const scopeOfPracticeContent = useEditableText("hcs-scope-practice-content", "Scope of practice defines the legal boundaries of what each healthcare professional is authorized to do based on their education, certification, and licensure. Working outside your scope is a legal and ethical violation. RNs can assess, plan, implement, and evaluate care, administer medications, and delegate to LPNs/CNAs. LPNs/LVNs provide direct care under RN or physician supervision, administer certain medications, and perform focused assessments. CNAs/PCAs perform basic care tasks (bathing, feeding, vital signs, ambulation) under nurse supervision. NPs have advanced practice authority including diagnosis, prescribing, and autonomous practice (varies by state/province). PAs practice medicine under physician collaboration. The key principle: always practice within YOUR scope and delegate appropriately within THEIR scope.");
   const deliveryModelsContent = useEditableText("hcs-delivery-models-content", "Healthcare delivery models determine how care is organized, financed, and delivered. Fee-for-service: providers are paid for each service rendered — can incentivize volume over quality. Managed care (HMOs, PPOs): organizations manage cost and quality by requiring referrals, using networks, and implementing utilization review. Accountable Care Organizations (ACOs): groups of providers jointly accountable for quality and cost of care for a patient population. Patient-Centered Medical Home (PCMH): coordinated primary care model with a team approach, emphasizing prevention and chronic disease management. Value-based care: reimbursement tied to patient outcomes rather than volume of services — the direction healthcare is moving globally.");
   const patientRightsContent = useEditableText("hcs-patient-rights-content", "Patient rights are legally protected and include: the right to informed consent (understanding risks, benefits, alternatives before treatment), the right to refuse treatment (even life-saving treatment for competent adults), the right to privacy and confidentiality (HIPAA in the US, PIPEDA in Canada), the right to access medical records, the right to be informed of diagnosis and treatment options, the right to participate in care decisions, the right to be treated with dignity and respect regardless of background, the right to file grievances without retaliation. Advance directives (living will, healthcare power of attorney) extend these rights to situations when patients cannot speak for themselves. Nurses are patient advocates — protecting these rights is a core nursing responsibility.");
@@ -24,7 +26,7 @@ export function HealthcareStructureModule() {
       <MicroLesson title="Levels of Healthcare" subtitle="Primary through quaternary care" icon={<Building className="w-5 h-5" />}>
         <EditableModuleText sectionKey="hcs-levels-intro" defaultText="Healthcare is organized into levels based on the complexity of care provided. Understanding these levels helps nurses appreciate where their role fits within the broader system and how patients move through the continuum of care." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="Levels of Care"
+          title={t("data.pre_nursing_healthcare_structure.levelsOfCare")}
           cards={[
             {
               id: "hcs-primary",
@@ -90,7 +92,7 @@ export function HealthcareStructureModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Scope of Practice — Know Your Boundaries"
+          title={t("data.pre_nursing_healthcare_structure.scopeOfPracticeKnowYour")}
           content={scopeOfPracticeContent}
         />
       </MicroLesson>
@@ -109,18 +111,18 @@ export function HealthcareStructureModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Healthcare Delivery Models"
+          title={t("data.pre_nursing_healthcare_structure.healthcareDeliveryModels")}
           content={deliveryModelsContent}
         />
         <CognitiveCard
           type="concept"
-          title="Patient Rights — A Core Nursing Responsibility"
+          title={t("data.pre_nursing_healthcare_structure.patientRightsACoreNursing")}
           content={patientRightsContent}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Healthcare Role"
+        title={t("data.pre_nursing_healthcare_structure.matchTheHealthcareRole")}
         pairs={[
           { term: "RN", definition: "Full assessment, care planning, delegation, and medication administration", id: "rn" },
           { term: "LPN/LVN", definition: "Focused assessment and stable patient care under supervision", id: "lpn" },
@@ -132,7 +134,7 @@ export function HealthcareStructureModule() {
       />
 
       <SelfCheckQuiz
-        title="Healthcare Structure Quiz"
+        title={t("data.pre_nursing_healthcare_structure.healthcareStructureQuiz")}
         questions={[
           {
             id: "hcs1",

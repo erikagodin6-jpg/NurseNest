@@ -155,7 +155,7 @@ export function HomeBelowFold({
                   <CardContent className="p-6">
                     {isAllied && (
                       <div className="absolute top-3 right-3">
-                        <span className="text-[9px] font-bold uppercase tracking-wider bg-teal-500 text-white px-2 py-0.5 rounded-full">Allied Health</span>
+                        <span className="text-[9px] font-bold uppercase tracking-wider bg-teal-500 text-white px-2 py-0.5 rounded-full">{t("components.homeBelowFold.alliedHealth")}</span>
                       </div>
                     )}
                     <div

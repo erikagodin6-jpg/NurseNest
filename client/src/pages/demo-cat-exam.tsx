@@ -11,11 +11,13 @@ import {
 import { DemoPageWrapper, SectionCard } from "@/components/demo-shared";
 import { catExamData as d } from "@/data/demo-screenshot-data";
 
+import { useI18n } from "@/lib/i18n";
 export default function DemoCatExam() {
+  const { t } = useI18n();
   const { user, isAdmin } = useAuth();
   const [mode, setMode] = useState<"mcq" | "sata">("mcq");
 
-  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">Admin access required.</p></div></DemoPageWrapper>;
+  if (!user || !isAdmin) return <DemoPageWrapper><div className="flex items-center justify-center min-h-screen"><p className="text-slate-500">{t("pages.demoCatExam.adminAccessRequired")}</p></div></DemoPageWrapper>;
 
   return (
     <DemoPageWrapper>
@@ -23,13 +25,13 @@ export default function DemoCatExam() {
         <div className="max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="text-sm font-bold text-violet-700">NurseNest</span>
-            <span className="text-xs text-slate-400">Adaptive Readiness Check</span>
+            <span className="text-xs text-slate-400">{t("pages.demoCatExam.adaptiveReadinessCheck")}</span>
           </div>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 text-sm text-slate-600">
               <Clock className="w-3.5 h-3.5 text-slate-400" />
               <span className="font-mono font-semibold">{d.timeElapsed}</span>
-              <span className="text-[10px] text-slate-400 ml-1">of 2:00:00</span>
+              <span className="text-[10px] text-slate-400 ml-1">{t("pages.demoCatExam.of20000")}</span>
             </div>
             <div className="w-px h-5 bg-slate-200" />
             <Button variant="ghost" size="sm" className="text-xs text-slate-500 gap-1 h-7">
@@ -51,7 +53,7 @@ export default function DemoCatExam() {
       </div>
 
       <div className="max-w-5xl mx-auto px-6 py-3 flex items-center gap-2 border-b border-slate-50">
-        <button onClick={() => setMode("mcq")} className={cn("px-3 py-1 rounded-full text-xs font-medium transition-all", mode === "mcq" ? "bg-violet-100 text-violet-700" : "text-slate-500 hover:bg-slate-50")}>Multiple Choice</button>
+        <button onClick={() => setMode("mcq")} className={cn("px-3 py-1 rounded-full text-xs font-medium transition-all", mode === "mcq" ? "bg-violet-100 text-violet-700" : "text-slate-500 hover:bg-slate-50")}>{t("pages.demoCatExam.multipleChoice")}</button>
         <button onClick={() => setMode("sata")} className={cn("px-3 py-1 rounded-full text-xs font-medium transition-all", mode === "sata" ? "bg-violet-100 text-violet-700" : "text-slate-500 hover:bg-slate-50")}>SATA</button>
       </div>
 

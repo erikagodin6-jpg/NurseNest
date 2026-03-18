@@ -55,7 +55,7 @@ export default function NursingSchoolsHub() {
         <div className="absolute top-20 right-10 w-72 h-72 bg-emerald-100/20 rounded-full blur-3xl" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-emerald-600" data-testid="link-breadcrumb-home">Home</Link>
+            <Link href="/" className="hover:text-emerald-600" data-testid="link-breadcrumb-home">{t("pages.nursingSchoolsHub.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-emerald-700 font-medium">{t("nursingSchools.hub.title")}</span>
           </div>
@@ -118,7 +118,7 @@ export default function NursingSchoolsHub() {
             ))}
           </div>
           {filtered.length === 0 && (
-            <p className="text-center text-gray-500 py-8" data-testid="text-no-results">No countries match your search.</p>
+            <p className="text-center text-gray-500 py-8" data-testid="text-no-results">{t("pages.nursingSchoolsHub.noCountriesMatchYourSearch")}</p>
           )}
         </div>
       </section>
@@ -152,20 +152,20 @@ export default function NursingSchoolsHub() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Link href="/exam-prep" className="group" data-testid="link-exam-prep">
               <div className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-blue-200 transition-all">
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 text-sm">Exam Prep Resources</h3>
-                <p className="text-xs text-gray-500">Prepare for NCLEX, REX-PN, and other licensing exams with NurseNest.</p>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 text-sm">{t("pages.nursingSchoolsHub.examPrepResources")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingSchoolsHub.prepareForNclexRexpnAnd")}</p>
               </div>
             </Link>
             <Link href="/nurse-residency-programs" className="group" data-testid="link-residency">
               <div className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-blue-200 transition-all">
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 text-sm">Nurse Residency Programs</h3>
-                <p className="text-xs text-gray-500">Find transition-to-practice programs for new graduate nurses.</p>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 text-sm">{t("pages.nursingSchoolsHub.nurseResidencyPrograms")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingSchoolsHub.findTransitiontopracticeProgramsForNew")}</p>
               </div>
             </Link>
             <Link href="/applynest" className="group" data-testid="link-applynest">
               <div className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-blue-200 transition-all">
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-teal-700 text-sm">ApplyNest Career Tools</h3>
-                <p className="text-xs text-gray-500">Resume templates, interview prep, and job search resources.</p>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-teal-700 text-sm">{t("pages.nursingSchoolsHub.applynestCareerTools")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingSchoolsHub.resumeTemplatesInterviewPrepAnd")}</p>
               </div>
             </Link>
           </div>

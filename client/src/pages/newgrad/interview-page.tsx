@@ -157,19 +157,19 @@ export default function InterviewPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div className="bg-white rounded-xl border border-purple-100 p-3 text-center" data-testid="stat-total-questions">
               <div className="text-xl font-bold text-purple-700">{totalQuestionCount}+</div>
-              <div className="text-xs text-gray-500">Interview Questions</div>
+              <div className="text-xs text-gray-500">{t("pages.newgrad.interviewPage.interviewQuestions")}</div>
             </div>
             <div className="bg-white rounded-xl border border-purple-100 p-3 text-center" data-testid="stat-categories">
               <div className="text-xl font-bold text-purple-700">{uniqueCategories.length}</div>
-              <div className="text-xs text-gray-500">Question Categories</div>
+              <div className="text-xs text-gray-500">{t("pages.newgrad.interviewPage.questionCategories")}</div>
             </div>
             <div className="bg-white rounded-xl border border-purple-100 p-3 text-center" data-testid="stat-specialties">
               <div className="text-xl font-bold text-purple-700">5</div>
-              <div className="text-xs text-gray-500">Specialty Banks</div>
+              <div className="text-xs text-gray-500">{t("pages.newgrad.interviewPage.specialtyBanks")}</div>
             </div>
             <div className="bg-white rounded-xl border border-purple-100 p-3 text-center" data-testid="stat-star-answers">
               <div className="text-xl font-bold text-purple-700">{totalQuestionCount}+</div>
-              <div className="text-xs text-gray-500">STAR Answers</div>
+              <div className="text-xs text-gray-500">{t("pages.newgrad.interviewPage.starAnswers")}</div>
             </div>
           </div>
         </div>
@@ -241,7 +241,7 @@ export default function InterviewPage() {
           {freeQuestions.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               <Lock className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-              <p>All questions in this category are premium. Upgrade to access them.</p>
+              <p>{t("pages.newgrad.interviewPage.allQuestionsInThisCategory")}</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -377,7 +377,7 @@ export default function InterviewPage() {
       <section className="py-16 bg-white" data-testid="section-interview-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Frequently Asked Questions</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">{t("pages.newgrad.interviewPage.frequentlyAskedQuestions")}</h2>
           </div>
           <div className="space-y-4">
             {INTERVIEW_FAQ.map((faq, i) => (

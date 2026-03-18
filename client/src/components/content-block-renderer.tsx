@@ -3,6 +3,7 @@ import { CheckCircle2, XCircle, Lightbulb, AlertTriangle, BookOpen, Stethoscope,
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
+import { useI18n } from "@/lib/i18n";
 export type ContentBlock = {
   type: string;
   content?: string;
@@ -27,6 +28,7 @@ type BlockQuizQuestion = {
 };
 
 function BlockHeading({ block }: { block: ContentBlock }) {
+  const { t } = useI18n();
   const level = block.level || 2;
   const text = block.content || block.title || "";
   const cls = level === 1
@@ -206,7 +208,7 @@ function BlockClinicalPearl({ block }: { block: ContentBlock }) {
       <div className="flex items-start gap-3">
         <Stethoscope className="w-5 h-5 text-violet-600 flex-shrink-0 mt-0.5" />
         <div>
-          <p className="text-xs font-bold text-violet-700 mb-1.5 uppercase tracking-wider">Clinical Pearl</p>
+          <p className="text-xs font-bold text-violet-700 mb-1.5 uppercase tracking-wider">{t("components.contentBlockRenderer.clinicalPearl")}</p>
           <p className="text-[15px] text-foreground/80 leading-[1.7]">{block.content || ""}</p>
         </div>
       </div>
@@ -216,7 +218,7 @@ function BlockClinicalPearl({ block }: { block: ContentBlock }) {
 
 export function ContentBlockRenderer({ blocks }: { blocks: ContentBlock[] }) {
   if (!blocks || !Array.isArray(blocks) || blocks.length === 0) {
-    return <p className="text-gray-400 text-sm italic">No content available yet.</p>;
+    return <p className="text-gray-400 text-sm italic">{t("components.contentBlockRenderer.noContentAvailableYet")}</p>;
   }
 
   return (

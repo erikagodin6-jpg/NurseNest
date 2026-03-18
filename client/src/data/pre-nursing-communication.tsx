@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { MessageSquare, Users, FileText, Shield } from "lucide-react";
 
 export function CommunicationModule() {
+  const { t } = useI18n();
   const therapeuticWarning = useEditableText("comm-therapeutic-warning", "Giving false reassurance ('Everything will be fine'), being judgmental ('You shouldn't feel that way'), giving advice ('If I were you...'), changing the subject when the patient is expressing concerns, using medical jargon the patient doesn't understand, and asking 'why' questions ('Why didn't you take your medication?') which sound accusatory.");
   const sbarConcept = useEditableText("comm-sbar-concept", "Without a structure, handoffs often bury the critical information in a sea of background data. SBAR forces the communicator to lead with the most important information (Situation), provide only relevant context (Background), share their clinical reasoning (Assessment), and state a clear ask (Recommendation). This saves time and prevents the receiver from having to extract the key message.");
   const justCultureConcept = useEditableText("comm-just-culture-concept", "A just culture distinguishes between human error (unintentional — support the person), at-risk behavior (taking shortcuts — coach the person), and reckless behavior (conscious disregard for safety — hold accountable). This distinction encourages reporting of errors and near-misses without fear of punishment, which is essential for learning and prevention.");
@@ -24,7 +26,7 @@ export function CommunicationModule() {
       <MicroLesson title="Therapeutic Communication" subtitle="Purposeful communication that promotes healing" icon={<MessageSquare className="w-5 h-5" />}>
         <EditableModuleText sectionKey="comm-therapeutic-content" defaultText={'Therapeutic communication is <span data-hover-term="goal-directed">goal-directed</span> interaction that prioritizes the patient\'s needs. It requires active listening, empathy, and intentional use of verbal and nonverbal techniques.'} as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="Therapeutic Techniques"
+          title={t("data.pre_nursing_communication.therapeuticTechniques")}
           cards={[
             {
               id: "tc1",
@@ -54,7 +56,7 @@ export function CommunicationModule() {
         />
         <CognitiveCard
           type="warning"
-          title="Non-Therapeutic Responses to Avoid"
+          title={t("data.pre_nursing_communication.nontherapeuticResponsesToAvoid")}
           content={therapeuticWarning}
         />
       </MicroLesson>
@@ -81,7 +83,7 @@ export function CommunicationModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Why SBAR Works"
+          title={t("data.pre_nursing_communication.whySbarWorks")}
           content={sbarConcept}
         />
       </MicroLesson>
@@ -118,13 +120,13 @@ export function CommunicationModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Just Culture"
+          title={t("data.pre_nursing_communication.justCulture")}
           content={justCultureConcept}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Communication Concept"
+        title={t("data.pre_nursing_communication.matchTheCommunicationConcept")}
         pairs={[
           { term: "Open-ended question", definition: "Invites elaboration — 'How are you feeling?'" },
           { term: "SBAR", definition: "Situation, Background, Assessment, Recommendation" },
@@ -136,7 +138,7 @@ export function CommunicationModule() {
       />
 
       <SelfCheckQuiz
-        title="Communication Foundations Quiz"
+        title={t("data.pre_nursing_communication.communicationFoundationsQuiz")}
         questions={[
           {
             id: "cm1",

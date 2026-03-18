@@ -1,5 +1,6 @@
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight,
   CheckCircle2,
@@ -67,6 +68,7 @@ const GRID_ITEMS = [
 ];
 
 export function WhyNurseNestGrid({ headline, subtitle, context = "general" }: WhyNurseNestGridProps) {
+  const { t } = useI18n();
   const defaultHeadline = context === "np"
     ? "Why NurseNest for Nurse Practitioner Exam Prep"
     : context === "allied"
@@ -87,7 +89,7 @@ export function WhyNurseNestGrid({ headline, subtitle, context = "general" }: Wh
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/8 border border-primary/15 shadow-[var(--shadow-card)] mb-5">
             <Sparkles className="w-3.5 h-3.5 text-primary" />
-            <span className="text-xs font-bold text-primary uppercase tracking-wider">Clinical Learning System</span>
+            <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("components.competitiveDifferentiation.clinicalLearningSystem")}</span>
           </div>
           <h2
             className="font-bold text-gray-900 mb-3"
@@ -181,7 +183,7 @@ export function ComparisonTable({ headline, subtitle }: ComparisonTableProps) {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50/80 border border-emerald-200/40 shadow-[var(--shadow-card)] mb-5">
             <Shield className="w-3.5 h-3.5 text-emerald-600" />
-            <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Platform Comparison</span>
+            <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">{t("components.competitiveDifferentiation.platformComparison")}</span>
           </div>
           <h2
             className="font-bold text-gray-900 mb-3"
@@ -199,9 +201,9 @@ export function ComparisonTable({ headline, subtitle }: ComparisonTableProps) {
           <table className="w-full text-sm" data-testid="table-platform-comparison">
             <thead>
               <tr className="border-b border-gray-200 bg-gray-50/50">
-                <th className="text-left py-4 px-6 font-semibold text-gray-700 w-[200px]">Feature</th>
+                <th className="text-left py-4 px-6 font-semibold text-gray-700 w-[200px]">{t("components.competitiveDifferentiation.feature")}</th>
                 <th className="text-left py-4 px-6 font-bold text-primary bg-primary/5">NurseNest</th>
-                <th className="text-left py-4 px-6 font-semibold text-gray-500">Typical Platforms</th>
+                <th className="text-left py-4 px-6 font-semibold text-gray-500">{t("components.competitiveDifferentiation.typicalPlatforms")}</th>
               </tr>
             </thead>
             <tbody>
@@ -245,7 +247,7 @@ export function ComparisonTable({ headline, subtitle }: ComparisonTableProps) {
                 <div className="flex items-start gap-2">
                   <XCircle className="w-4 h-4 text-gray-300 shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-xs font-semibold text-gray-400 block mb-0.5">Typical Platforms</span>
+                    <span className="text-xs font-semibold text-gray-400 block mb-0.5">{t("components.competitiveDifferentiation.typicalPlatforms2")}</span>
                     <span className="text-sm text-gray-500">{row.typical}</span>
                   </div>
                 </div>
@@ -348,7 +350,7 @@ export function RetentionSection({ headline }: RetentionSectionProps) {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50/80 border border-violet-200/40 shadow-[var(--shadow-card)] mb-5">
             <Brain className="w-3.5 h-3.5 text-violet-600" />
-            <span className="text-xs font-bold text-violet-700 uppercase tracking-wider">Evidence-Based Learning</span>
+            <span className="text-xs font-bold text-violet-700 uppercase tracking-wider">{t("components.competitiveDifferentiation.evidencebasedLearning")}</span>
           </div>
           <h2
             className="font-bold text-gray-900 mb-3"
@@ -437,7 +439,7 @@ export function DifferentiatorCTA({
               {secondaryLabel}
             </Button>
           </div>
-          <p className="text-xs text-gray-400 mt-5">No credit card required. Free tier available.</p>
+          <p className="text-xs text-gray-400 mt-5">{t("components.competitiveDifferentiation.noCreditCardRequiredFree")}</p>
         </div>
       </div>
     </section>

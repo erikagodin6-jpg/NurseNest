@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
 
+import { useI18n } from "@/lib/i18n";
 interface DeckRecord {
   id: string;
   title: string;
@@ -94,6 +95,7 @@ const QUICK_STUDY_CARDS: SimpleFlashcard[] = [
 ];
 
 export default function PublicFlashcards() {
+  const { t } = useI18n();
   const { user, effectiveTier } = useAuth();
   const [, setLocation] = useLocation();
   type PublicFlashcardView = "landing" | "quick-study" | "decks" | "deck-view" | "deck-edit" | "deck-study-learn" | "deck-study-test" | "deck-report";
@@ -531,14 +533,14 @@ export default function PublicFlashcards() {
     return (
       <div className="min-h-screen bg-gradient-to-b from-primary/5 via-white to-blue-50/20 flex flex-col font-sans">
         <Navigation />
-        <SEO title="Study Flashcards - NurseNest" description="Quick study flashcards for nursing concepts and terminology." />
+        <SEO title={t("pages.publicFlashcards.studyFlashcardsNursenest")} description={t("pages.publicFlashcards.quickStudyFlashcardsForNursing")} />
         <main className="flex-1 max-w-3xl mx-auto px-4 sm:px-6 py-8 w-full">
           <Button variant="ghost" className="mb-6 gap-2" onClick={() => { setView("landing"); setQuickStudyIndex(0); setIsFlipped(false); }} data-testid="button-back-flashcards">
             <ArrowLeft className="w-4 h-4" /> Back to Flashcards
           </Button>
 
           <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold text-slate-800 mb-1" data-testid="text-quick-study-title">Quick Study</h1>
+            <h1 className="text-2xl font-bold text-slate-800 mb-1" data-testid="text-quick-study-title">{t("pages.publicFlashcards.quickStudy")}</h1>
             <p className="text-sm text-slate-500">
               {selectedTopic ? `${selectedTopic} - ` : ""}{quickStudyIndex + 1} of {cards.length} cards
               {masteredIds.size > 0 && <span className="ml-2 text-emerald-600">{masteredIds.size} mastered</span>}
@@ -562,12 +564,12 @@ export default function PublicFlashcards() {
                 </Badge>
                 {isFlipped ? (
                   <div>
-                    <p className="text-xs uppercase tracking-wider mb-3 opacity-60">Answer</p>
+                    <p className="text-xs uppercase tracking-wider mb-3 opacity-60">{t("pages.publicFlashcards.answer")}</p>
                     <p className="text-lg sm:text-xl leading-relaxed font-medium" data-testid="text-card-back">{currentCard.back}</p>
                   </div>
                 ) : (
                   <div>
-                    <p className="text-xs uppercase tracking-wider mb-3 text-slate-400">Tap to flip</p>
+                    <p className="text-xs uppercase tracking-wider mb-3 text-slate-400">{t("pages.publicFlashcards.tapToFlip")}</p>
                     <p className="text-xl sm:text-2xl font-bold text-slate-800" data-testid="text-card-front">{currentCard.front}</p>
                   </div>
                 )}
@@ -617,7 +619,7 @@ export default function PublicFlashcards() {
           ) : (
             <div className="text-center py-16">
               <Layers className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-              <p className="text-slate-500 mb-4">No cards match your filters.</p>
+              <p className="text-slate-500 mb-4">{t("pages.publicFlashcards.noCardsMatchYourFilters")}</p>
               <Button variant="outline" className="rounded-xl" onClick={() => { setSelectedTopic(null); setSearchQuery(""); }} data-testid="button-clear-filters">
                 Clear Filters
               </Button>
@@ -633,8 +635,8 @@ export default function PublicFlashcards() {
     <div className="min-h-screen bg-gradient-to-b from-primary/5 via-white to-blue-50/20 flex flex-col font-sans">
       <Navigation />
       <SEO
-        title="Flashcards - Study Nursing Concepts | NurseNest"
-        description="Free nursing flashcards for quick concept review. Browse topics, create custom decks, and study with Learn and Review modes. Available to everyone."
+        title={t("pages.publicFlashcards.flashcardsStudyNursingConceptsNursenest")}
+        description={t("pages.publicFlashcards.freeNursingFlashcardsForQuick")}
         keywords="nursing flashcards, study cards, nursing concepts, free flashcards, study decks, nursing terms"
         canonicalPath="/flashcards"
       />
@@ -696,7 +698,7 @@ export default function PublicFlashcards() {
         <section className="py-12 bg-white border-b" data-testid="section-topic-browse">
           <div className="max-w-5xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3" data-testid="text-explore-topics">Explore Topics</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3" data-testid="text-explore-topics">{t("pages.publicFlashcards.exploreTopics")}</h2>
               <p className="text-slate-500 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
                 Browse flashcards by body system or specialty area. Select a topic to start reviewing.
               </p>
@@ -706,7 +708,7 @@ export default function PublicFlashcards() {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <Input
-                  placeholder="Search flashcards by term or topic..."
+                  placeholder={t("pages.publicFlashcards.searchFlashcardsByTermOr")}
                   value={searchQuery}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
                   className="pl-10 rounded-xl border-slate-200 focus:border-primary"
@@ -755,7 +757,7 @@ export default function PublicFlashcards() {
         <section className="py-12 bg-gradient-to-b from-white to-primary/5" data-testid="section-study-modes">
           <div className="max-w-5xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">Study Your Way</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">{t("pages.publicFlashcards.studyYourWay")}</h2>
               <p className="text-slate-500 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
                 Choose how you want to study - simple card review, deck-based learning, or create your own study materials.
               </p>
@@ -774,7 +776,7 @@ export default function PublicFlashcards() {
                 <div className="w-11 h-11 rounded-2xl bg-blue-100 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
                   <BookOpen className="w-5 h-5 text-blue-600" />
                 </div>
-                <h3 className="text-sm font-bold text-slate-800 mb-1.5">Review Mode</h3>
+                <h3 className="text-sm font-bold text-slate-800 mb-1.5">{t("pages.publicFlashcards.reviewMode")}</h3>
                 <p className="text-xs text-slate-500 leading-relaxed">
                   Flip through cards at your own pace. Simple term-definition review for quick concept recall.
                 </p>
@@ -793,7 +795,7 @@ export default function PublicFlashcards() {
                 <div className="w-11 h-11 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
                   <Layers className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="text-sm font-bold text-slate-800 mb-1.5">Study Decks</h3>
+                <h3 className="text-sm font-bold text-slate-800 mb-1.5">{t("pages.publicFlashcards.studyDecks")}</h3>
                 <p className="text-xs text-slate-500 leading-relaxed">
                   Browse shared decks, save favorites, or create your own custom study decks.
                 </p>
@@ -813,7 +815,7 @@ export default function PublicFlashcards() {
                 <div className="w-11 h-11 rounded-2xl bg-emerald-100 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
                   <Plus className="w-5 h-5 text-emerald-600" />
                 </div>
-                <h3 className="text-sm font-bold text-slate-800 mb-1.5">Create Deck</h3>
+                <h3 className="text-sm font-bold text-slate-800 mb-1.5">{t("pages.publicFlashcards.createDeck")}</h3>
                 <p className="text-xs text-slate-500 leading-relaxed">
                   Build your own flashcard deck manually, from notes, or generate cards automatically.
                 </p>
@@ -826,7 +828,7 @@ export default function PublicFlashcards() {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
             <div className="bg-white rounded-2xl border border-primary/10 shadow-sm p-8 sm:p-10">
               <GraduationCap className="w-10 h-10 text-primary mx-auto mb-4" />
-              <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-3">Looking for Exam-Style Practice?</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-3">{t("pages.publicFlashcards.lookingForExamstylePractice")}</h2>
               <p className="text-slate-500 text-sm sm:text-base max-w-xl mx-auto mb-6 leading-relaxed">
                 Our Test Bank offers clinical scenario questions with full rationales, distractor analysis, adaptive difficulty, and tier-calibrated exam preparation for RPN, RN, and NP.
               </p>

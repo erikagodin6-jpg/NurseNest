@@ -1,12 +1,14 @@
 import { SeoHubPage } from "@/components/seo-content-template";
 
+import { useI18n } from "@/lib/i18n";
 const SITE_DOMAIN = "https://www.nursenest.ca";
 
 export default function SeoHubPersonalStatements() {
+  const { t } = useI18n();
   return (
     <SeoHubPage
-      title="Personal Statements & Application Essays for Nursing"
-      subtitle="Expert guidance for writing nursing school personal statements, scholarship essays, and graduate program applications with real examples and proven frameworks."
+      title={t("pages.seoHubPersonalStatements.personalStatementsApplicationEssaysFor")}
+      subtitle={t("pages.seo_hub_personal_statements.expertGuidanceForWritingNursing")}
       seoTitle="Personal Statements — Nursing School Application Essays & Examples | NurseNest"
       seoDescription="Write winning nursing school personal statements and scholarship essays. Includes real examples, expert frameworks, editing guides, and tips for BSN, MSN, and DNP program applications."
       seoKeywords="nursing personal statement, nursing school application essay, scholarship essay nursing, nursing school essay examples, BSN application essay, nursing program personal statement"

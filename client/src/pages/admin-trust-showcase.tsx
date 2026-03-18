@@ -14,11 +14,13 @@ import {
 } from "lucide-react";
 import { LocaleLink } from "@/lib/LocaleLink";
 
+import { useI18n } from "@/lib/i18n";
 type TrustImageItem = { id: string; type: "image"; title: string; caption?: string; src: string; href?: string; tag?: string; alt: string };
 type TrustSnippetItem = { id: string; type: "snippet"; title: string; excerpt: string; href: string; tag?: string };
 type TrustItem = TrustImageItem | TrustSnippetItem;
 
 function genId() {
+  const { t } = useI18n();
   return "ts-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 }
 
@@ -98,7 +100,7 @@ function ItemEditor({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Title (max 80)</label>
+            <label className="text-xs text-gray-500 mb-1 block">{t("pages.adminTrustShowcase.titleMax80")}</label>
             <Input
               value={item.title}
               maxLength={80}
@@ -107,7 +109,7 @@ function ItemEditor({
             />
           </div>
           <div>
-            <label className="text-xs text-gray-500 mb-1 block">Tag (max 20)</label>
+            <label className="text-xs text-gray-500 mb-1 block">{t("pages.adminTrustShowcase.tagMax20")}</label>
             <Input
               value={item.tag || ""}
               maxLength={20}
@@ -120,7 +122,7 @@ function ItemEditor({
         {item.type === "snippet" && (
           <div className="mt-3 space-y-3">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Excerpt (max 160)</label>
+              <label className="text-xs text-gray-500 mb-1 block">{t("pages.adminTrustShowcase.excerptMax160")}</label>
               <Textarea
                 value={item.excerpt}
                 maxLength={160}
@@ -131,7 +133,7 @@ function ItemEditor({
               <span className="text-xs text-gray-400">{item.excerpt.length}/160</span>
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Link (must start with /)</label>
+              <label className="text-xs text-gray-500 mb-1 block">{t("pages.adminTrustShowcase.linkMustStartWith")}</label>
               <Input
                 value={item.href}
                 onChange={e => onUpdate({ ...item, href: e.target.value })}
@@ -145,7 +147,7 @@ function ItemEditor({
         {item.type === "image" && (
           <div className="mt-3 space-y-3">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Alt Text</label>
+              <label className="text-xs text-gray-500 mb-1 block">{t("pages.adminTrustShowcase.altText")}</label>
               <Input
                 value={item.alt}
                 onChange={e => onUpdate({ ...item, alt: e.target.value })}
@@ -153,7 +155,7 @@ function ItemEditor({
               />
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Caption (optional)</label>
+              <label className="text-xs text-gray-500 mb-1 block">{t("pages.adminTrustShowcase.captionOptional")}</label>
               <Input
                 value={item.caption || ""}
                 onChange={e => onUpdate({ ...item, caption: e.target.value || undefined })}
@@ -161,7 +163,7 @@ function ItemEditor({
               />
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Link (optional, must start with /)</label>
+              <label className="text-xs text-gray-500 mb-1 block">{t("pages.adminTrustShowcase.linkOptionalMustStartWith")}</label>
               <Input
                 value={item.href || ""}
                 onChange={e => onUpdate({ ...item, href: e.target.value || undefined })}
@@ -171,7 +173,7 @@ function ItemEditor({
             </div>
             <div className="flex items-center gap-3">
               <div className="flex-1">
-                <label className="text-xs text-gray-500 mb-1 block">Image Source</label>
+                <label className="text-xs text-gray-500 mb-1 block">{t("pages.adminTrustShowcase.imageSource")}</label>
                 <Input
                   value={item.src}
                   onChange={e => onUpdate({ ...item, src: e.target.value })}
@@ -227,7 +229,7 @@ export default function AdminTrustShowcase() {
   if (!isAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-500">Admin access required</p>
+        <p className="text-gray-500">{t("pages.adminTrustShowcase.adminAccessRequired")}</p>
       </div>
     );
   }
@@ -357,7 +359,7 @@ export default function AdminTrustShowcase() {
               <ArrowLeft className="w-4 h-4 mr-1" /> Admin
             </Button>
           </LocaleLink>
-          <h1 className="text-2xl font-bold" data-testid="text-trust-admin-title">Trust Showcase Manager</h1>
+          <h1 className="text-2xl font-bold" data-testid="text-trust-admin-title">{t("pages.adminTrustShowcase.trustShowcaseManager")}</h1>
         </div>
 
         <div className="flex items-center gap-3 mb-6">
@@ -376,12 +378,12 @@ export default function AdminTrustShowcase() {
         </div>
 
         {loading ? (
-          <p className="text-gray-400 text-center py-12">Loading...</p>
+          <p className="text-gray-400 text-center py-12">{t("pages.adminTrustShowcase.loading")}</p>
         ) : items.length === 0 ? (
           <div className="text-center py-16 border-2 border-dashed border-gray-200 rounded-xl">
             <Eye className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-            <h3 className="font-semibold text-gray-600 mb-1">No showcase items yet</h3>
-            <p className="text-sm text-gray-400 mb-4">Add snippet or image cards to showcase on the homepage</p>
+            <h3 className="font-semibold text-gray-600 mb-1">{t("pages.adminTrustShowcase.noShowcaseItemsYet")}</h3>
+            <p className="text-sm text-gray-400 mb-4">{t("pages.adminTrustShowcase.addSnippetOrImageCards")}</p>
             <div className="flex justify-center gap-3">
               <Button onClick={addSnippet} variant="outline" size="sm">
                 <FileText className="w-4 h-4 mr-1" /> Add Snippet

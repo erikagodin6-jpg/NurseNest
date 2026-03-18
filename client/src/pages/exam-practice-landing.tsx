@@ -11,6 +11,7 @@ import { LocaleLink } from "@/lib/LocaleLink";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { getPoolStats } from "@/lib/question-pool";
 import { SILO_CONFIGS } from "@/lib/silo-config";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, Target, BookOpen, Layers, Stethoscope, FileText,
   ChevronDown, ChevronUp, FlaskConical, Brain, Activity, Shield,
@@ -121,6 +122,7 @@ const EXAM_DATA: Record<ExamType, {
 };
 
 function FAQAccordion({ faqs }: { faqs: { q: string; a: string }[] }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState<number | null>(null);
   return (
     <div className="space-y-3">
@@ -157,7 +159,7 @@ function QuestionBankStats({ tier }: { tier: string }) {
           <Target className="w-5 h-5 text-primary" />
         </div>
         <div>
-          <h3 className="font-semibold text-gray-900">Test Bank</h3>
+          <h3 className="font-semibold text-gray-900">{t("pages.examPracticeLanding.testBank")}</h3>
           <p className="text-sm text-gray-500">{stats.total.toLocaleString()} practice questions available</p>
         </div>
       </div>
@@ -210,8 +212,8 @@ function LessonSection({ sections }: { sections: { title: string; lessons: strin
           <BookOpen className="w-5 h-5 text-blue-600" />
         </div>
         <div>
-          <h3 className="font-semibold text-gray-900">Related Clinical Lessons</h3>
-          <p className="text-sm text-gray-500">In-depth pathophysiology and nursing interventions</p>
+          <h3 className="font-semibold text-gray-900">{t("pages.examPracticeLanding.relatedClinicalLessons")}</h3>
+          <p className="text-sm text-gray-500">{t("pages.examPracticeLanding.indepthPathophysiologyAndNursingInterventions")}</p>
         </div>
       </div>
       <div className="space-y-4">
@@ -252,8 +254,8 @@ function PharmSection({ systems }: { systems: string[] }) {
           <Pill className="w-5 h-5 text-green-600" />
         </div>
         <div>
-          <h3 className="font-semibold text-gray-900">Pharmacology by System</h3>
-          <p className="text-sm text-gray-500">High-yield medications organized by body system</p>
+          <h3 className="font-semibold text-gray-900">{t("pages.examPracticeLanding.pharmacologyBySystem")}</h3>
+          <p className="text-sm text-gray-500">{t("pages.examPracticeLanding.highyieldMedicationsOrganizedByBody")}</p>
         </div>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -277,14 +279,14 @@ function MockExamSection({ examName }: { examName: string }) {
           <ClipboardList className="w-5 h-5 text-orange-600" />
         </div>
         <div>
-          <h3 className="font-semibold text-gray-900">Timed Mock Exams</h3>
+          <h3 className="font-semibold text-gray-900">{t("pages.examPracticeLanding.timedMockExams")}</h3>
           <p className="text-sm text-gray-500">Full-length practice exams simulating the {examName}</p>
         </div>
       </div>
       <div className="bg-orange-50/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="text-sm text-gray-600">
-          <p className="font-medium text-gray-800 mb-1">Simulate real exam conditions</p>
-          <p>Timed, randomized questions with instant scoring and detailed performance analytics by body system and topic.</p>
+          <p className="font-medium text-gray-800 mb-1">{t("pages.examPracticeLanding.simulateRealExamConditions")}</p>
+          <p>{t("pages.examPracticeLanding.timedRandomizedQuestionsWithInstant")}</p>
         </div>
         <LocaleLink href="/mock-exams">
           <Button size="sm" className="bg-orange-500 hover:bg-orange-600 text-white shrink-0" data-testid="button-start-mock-exam">
@@ -304,14 +306,14 @@ function PrintableSection() {
           <Download className="w-5 h-5 text-purple-600" />
         </div>
         <div>
-          <h3 className="font-semibold text-gray-900">Printable Exam Packs</h3>
-          <p className="text-sm text-gray-500">PDF question packs with answer keys for offline study</p>
+          <h3 className="font-semibold text-gray-900">{t("pages.examPracticeLanding.printableExamPacks")}</h3>
+          <p className="text-sm text-gray-500">{t("pages.examPracticeLanding.pdfQuestionPacksWithAnswer")}</p>
         </div>
       </div>
       <div className="bg-purple-50/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="text-sm text-gray-600">
-          <p className="font-medium text-gray-800 mb-1">Study anywhere, anytime</p>
-          <p>250-question print-ready PDF bundles with detailed rationales. Perfect for study groups or offline review.</p>
+          <p className="font-medium text-gray-800 mb-1">{t("pages.examPracticeLanding.studyAnywhereAnytime")}</p>
+          <p>{t("pages.examPracticeLanding.250questionPrintreadyPdfBundlesWith")}</p>
         </div>
         <LocaleLink href="/shop">
           <Button size="sm" variant="outline" className="border-purple-200 text-purple-700 hover:bg-purple-50 shrink-0" data-testid="button-view-printables">
@@ -331,14 +333,14 @@ function FlashcardsSection() {
           <Layers className="w-5 h-5 text-indigo-600" />
         </div>
         <div>
-          <h3 className="font-semibold text-gray-900">Flashcard Decks</h3>
-          <p className="text-sm text-gray-500">High-yield facts for rapid review and spaced repetition</p>
+          <h3 className="font-semibold text-gray-900">{t("pages.examPracticeLanding.flashcardDecks")}</h3>
+          <p className="text-sm text-gray-500">{t("pages.examPracticeLanding.highyieldFactsForRapidReview")}</p>
         </div>
       </div>
       <div className="bg-indigo-50/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="text-sm text-gray-600">
-          <p className="font-medium text-gray-800 mb-1">Flashcards for active recall</p>
-          <p>Pharmacology, lab values, pathophysiology, and nursing interventions. Custom deck creation available.</p>
+          <p className="font-medium text-gray-800 mb-1">{t("pages.examPracticeLanding.flashcardsForActiveRecall")}</p>
+          <p>{t("pages.examPracticeLanding.pharmacologyLabValuesPathophysiologyAnd")}</p>
         </div>
         <LocaleLink href="/flashcards">
           <Button size="sm" variant="outline" className="border-indigo-200 text-indigo-700 hover:bg-indigo-50 shrink-0" data-testid="button-view-flashcards">
@@ -358,8 +360,8 @@ function InternalLinksSection({ links }: { links: { label: string; href: string 
           <Link2 className="w-5 h-5 text-gray-600" />
         </div>
         <div>
-          <h3 className="font-semibold text-gray-900">Explore More Study Resources</h3>
-          <p className="text-sm text-gray-500">All the tools you need in one place</p>
+          <h3 className="font-semibold text-gray-900">{t("pages.examPracticeLanding.exploreMoreStudyResources")}</h3>
+          <p className="text-sm text-gray-500">{t("pages.examPracticeLanding.allTheToolsYouNeed")}</p>
         </div>
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
@@ -476,7 +478,7 @@ export default function ExamPracticeLanding({ examType }: { examType: ExamType }
               <p className="text-gray-600 leading-relaxed" data-testid="text-intro">{data.intro}</p>
             </div>
 
-            <h2 className="text-2xl font-bold mb-6" data-testid="text-features-heading">What You Get</h2>
+            <h2 className="text-2xl font-bold mb-6" data-testid="text-features-heading">{t("pages.examPracticeLanding.whatYouGet")}</h2>
             <div className="grid sm:grid-cols-2 gap-4 mb-16">
               {data.features.map((feat, i) => (
                 <Card key={i} className="border border-gray-100 hover:shadow-md transition-shadow" data-testid={`card-feature-${i}`}>
@@ -523,12 +525,12 @@ export default function ExamPracticeLanding({ examType }: { examType: ExamType }
               </div>
             )}
 
-            <h2 className="text-2xl font-bold mb-6" data-testid="text-faq-heading">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold mb-6" data-testid="text-faq-heading">{t("pages.examPracticeLanding.frequentlyAskedQuestions")}</h2>
             <FAQAccordion faqs={data.faqs} />
 
             <div className="mt-16 text-center bg-gradient-to-r from-primary/5 to-primary/10 rounded-2xl p-8">
-              <h2 className="text-xl font-bold mb-3" data-testid="text-bottom-cta-heading">Ready to Start Practicing?</h2>
-              <p className="text-gray-600 mb-6">Jump into free practice questions or explore our full catalog.</p>
+              <h2 className="text-xl font-bold mb-3" data-testid="text-bottom-cta-heading">{t("pages.examPracticeLanding.readyToStartPracticing")}</h2>
+              <p className="text-gray-600 mb-6">{t("pages.examPracticeLanding.jumpIntoFreePracticeQuestions")}</p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <Button
                   size="lg"

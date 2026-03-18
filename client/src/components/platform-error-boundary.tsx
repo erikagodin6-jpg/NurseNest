@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import { Component, type ReactNode, type ErrorInfo, useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -79,6 +80,7 @@ function PlatformRecoveryUI({
   onRetry: () => void;
   fallbackPath?: string;
 }) {
+  const { t } = useI18n();
   const [reporting, setReporting] = useState(false);
   const [reported, setReported] = useState(false);
 
@@ -165,9 +167,9 @@ function PlatformRecoveryUI({
             <div className="bg-slate-50 rounded-lg p-4 text-sm text-slate-600 space-y-2">
               <p className="font-medium">Still having trouble?</p>
               <ul className="text-left text-xs space-y-1 text-slate-500">
-                <li>Try refreshing the full page</li>
-                <li>Clear your browser cache and try again</li>
-                <li>Try using a different browser</li>
+                <li>{t("components.platform_error_boundary.tryRefreshingTheFullPage")}</li>
+                <li>{t("components.platform_error_boundary.clearYourBrowserCacheAnd")}</li>
+                <li>{t("components.platform_error_boundary.tryUsingADifferentBrowser")}</li>
               </ul>
             </div>
           )}

@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n";
 import {
   Check, X, Star, Shield, Zap, BookOpen, FileText, Brain,
   ArrowRight, CreditCard, Radio, Lock, Crown, Sparkles
@@ -45,6 +46,7 @@ const FREE_FEATURES = [
 ];
 
 function formatPrice(cents: number, symbol: string) {
+
   return `${symbol}${(cents / 100).toFixed(2)}`;
 }
 
@@ -110,8 +112,8 @@ function ImagingPricingPage({ country }: { country: string }) {
   if (!config) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold">Country Not Found</h1>
-        <Link href="/medical-imaging" className="text-indigo-600 mt-4 inline-block" data-testid="link-back-imaging">Back to Medical Imaging</Link>
+        <h1 className="text-2xl font-bold">{t("pages.imagingPricing.countryNotFound")}</h1>
+        <Link href="/medical-imaging" className="text-indigo-600 mt-4 inline-block" data-testid="link-back-imaging">{t("pages.imagingPricing.backToMedicalImaging")}</Link>
       </div>
     );
   }
@@ -144,7 +146,7 @@ function ImagingPricingPage({ country }: { country: string }) {
             {config.flag} {config.exam} Exam Prep
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4" data-testid="text-pricing-title">
-            Invest in Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Radiography Career</span>
+            Invest in Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">{t("pages.imagingPricing.radiographyCareer")}</span>
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto" data-testid="text-pricing-subtitle">
             Choose the plan that fits your study needs. All plans include access to {config.exam}-specific content with detailed rationales and analytics.
@@ -157,15 +159,15 @@ function ImagingPricingPage({ country }: { country: string }) {
           <Card className="relative border-2 border-gray-200 bg-white" data-testid="card-free-plan">
             <CardHeader className="pb-4">
               <div className="flex items-center justify-between mb-2">
-                <Badge variant="secondary" className="text-xs">Free</Badge>
+                <Badge variant="secondary" className="text-xs">{t("pages.imagingPricing.free")}</Badge>
               </div>
-              <CardTitle className="text-xl font-bold text-gray-900">Explorer</CardTitle>
-              <p className="text-sm text-gray-500 mt-1">Try before you buy</p>
+              <CardTitle className="text-xl font-bold text-gray-900">{t("pages.imagingPricing.explorer")}</CardTitle>
+              <p className="text-sm text-gray-500 mt-1">{t("pages.imagingPricing.tryBeforeYouBuy")}</p>
             </CardHeader>
             <CardContent>
               <div className="mb-6">
                 <span className="text-4xl font-bold text-gray-900">{config.currencySymbol}0</span>
-                <span className="text-gray-500 ml-1">/ forever</span>
+                <span className="text-gray-500 ml-1">{t("pages.imagingPricing.forever")}</span>
               </div>
               <ul className="space-y-3 mb-8">
                 {FREE_FEATURES.map((f, i) => (
@@ -261,7 +263,7 @@ function ImagingPricingPage({ country }: { country: string }) {
         </div>
 
         <div className="mt-16 max-w-3xl mx-auto" data-testid="pricing-faq">
-          <h2 className="text-2xl font-bold text-center text-gray-900 mb-8">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-center text-gray-900 mb-8">{t("pages.imagingPricing.frequentlyAskedQuestions")}</h2>
           <div className="space-y-4">
             {[
               { q: "Can I switch plans later?", a: "Yes, you can upgrade or downgrade your plan at any time. When upgrading, you'll receive credit for any unused time on your current plan." },

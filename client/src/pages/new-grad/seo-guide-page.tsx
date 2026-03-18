@@ -5,7 +5,9 @@ import { Footer } from "@/components/footer";
 import { NewGradGuide, GuideData } from "./new-grad-guide-template";
 import { BookOpen, Loader2 } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 export default function SeoGuidePage() {
+  const { t } = useI18n();
   const params = useParams<{ profession: string; guideSlug: string }>();
   const slug = `new-grad/${params.profession}/${params.guideSlug}`;
 
@@ -66,9 +68,9 @@ export default function SeoGuidePage() {
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center max-w-md">
             <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Guide Not Found</h1>
-            <p className="text-gray-600 mb-4">This guide may not be available yet or the URL may be incorrect.</p>
-            <Link href="/new-grad" className="text-blue-600 hover:underline" data-testid="link-back-hub">Back to New Grad Hub</Link>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.newGrad.seoGuidePage.guideNotFound")}</h1>
+            <p className="text-gray-600 mb-4">{t("pages.newGrad.seoGuidePage.thisGuideMayNotBe")}</p>
+            <Link href="/new-grad" className="text-blue-600 hover:underline" data-testid="link-back-hub">{t("pages.newGrad.seoGuidePage.backToNewGradHub")}</Link>
           </div>
         </div>
         <Footer />

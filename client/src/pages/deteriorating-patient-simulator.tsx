@@ -47,6 +47,7 @@ import {
 import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 
+import { useI18n } from "@/lib/i18n";
 interface VitalSigns {
   hr: number;
   bpSystolic: number;
@@ -813,6 +814,7 @@ const examTips = [
 ];
 
 function getVitalStatus(label: string, value: number): "normal" | "abnormal" | "critical" {
+
   switch (label) {
     case "HR":
       if (value < 50 || value > 130) return "critical";
@@ -986,7 +988,7 @@ function QuestionBlock({
               <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
             )}
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider mb-1 text-gray-500">Rationale</p>
+              <p className="text-xs font-bold uppercase tracking-wider mb-1 text-gray-500">{t("pages.deterioratingPatientSimulator.rationale")}</p>
               <p className="text-sm text-gray-700 leading-relaxed">{rationale}</p>
             </div>
           </div>
@@ -1044,7 +1046,7 @@ function EscalationBlock({
               <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
             )}
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider mb-1 text-gray-500">Rationale</p>
+              <p className="text-xs font-bold uppercase tracking-wider mb-1 text-gray-500">{t("pages.deterioratingPatientSimulator.rationale2")}</p>
               <p className="text-sm text-gray-700 leading-relaxed">{rationale}</p>
             </div>
           </div>
@@ -1146,9 +1148,9 @@ function ScenarioRunner({
           <StageTimer isActive={timerActive} elapsed={elapsed} />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-gray-600">
-          <div><span className="font-semibold text-gray-500">History:</span> {scenario.history}</div>
-          <div><span className="font-semibold text-gray-500">Meds:</span> {scenario.meds}</div>
-          <div><span className="font-semibold text-gray-500">Allergies:</span> {scenario.allergies}</div>
+          <div><span className="font-semibold text-gray-500">{t("pages.deterioratingPatientSimulator.history")}</span> {scenario.history}</div>
+          <div><span className="font-semibold text-gray-500">{t("pages.deterioratingPatientSimulator.meds")}</span> {scenario.meds}</div>
+          <div><span className="font-semibold text-gray-500">{t("pages.deterioratingPatientSimulator.allergies")}</span> {scenario.allergies}</div>
         </div>
       </div>
 
@@ -1160,11 +1162,11 @@ function ScenarioRunner({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="bg-white rounded-xl border border-gray-100 p-4">
-          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Mental Status</p>
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">{t("pages.deterioratingPatientSimulator.mentalStatus")}</p>
           <p className="text-sm text-gray-700">{stage.mentalStatus}</p>
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4">
-          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Urine Output</p>
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">{t("pages.deterioratingPatientSimulator.urineOutput")}</p>
           <p className="text-sm text-gray-700">{stage.urineOutput}</p>
         </div>
       </div>
@@ -1174,7 +1176,7 @@ function ScenarioRunner({
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-3">
               <Flag className="w-4 h-4 text-red-500" />
-              <p className="text-xs font-bold text-red-600 uppercase tracking-wider">Red Flag Alerts</p>
+              <p className="text-xs font-bold text-red-600 uppercase tracking-wider">{t("pages.deterioratingPatientSimulator.redFlagAlerts")}</p>
             </div>
             <div className="space-y-1.5">
               {stage.redFlags.map((flag, i) => (
@@ -1190,7 +1192,7 @@ function ScenarioRunner({
 
       <div className="space-y-8 border-t border-gray-100 pt-6">
         <QuestionBlock
-          label="urgent"
+          label={t("pages.deterioratingPatientSimulator.urgent")}
           question={stage.urgentProblem.question}
           options={stage.urgentProblem.options}
           correctIndex={stage.urgentProblem.correctIndex}
@@ -1200,7 +1202,7 @@ function ScenarioRunner({
         />
 
         <QuestionBlock
-          label="action"
+          label={t("pages.deterioratingPatientSimulator.action")}
           question={stage.priorityAction.question}
           options={stage.priorityAction.options}
           correctIndex={stage.priorityAction.correctIndex}
@@ -1294,12 +1296,12 @@ function SummaryScreen({
         <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
           <Award className="w-8 h-8 text-primary" />
         </div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Scenario Complete</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-2">{t("pages.deterioratingPatientSimulator.scenarioComplete")}</h2>
         <p className="text-gray-500">{scenario.title}</p>
       </div>
 
       <div className={`rounded-2xl border-2 p-8 text-center ${scoreBg}`}>
-        <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Total Score</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">{t("pages.deterioratingPatientSimulator.totalScore")}</p>
         <p className={`text-6xl font-bold ${scoreColor}`} data-testid="text-total-score">{scorePercent}%</p>
         <p className="text-sm text-gray-500 mt-2">{totalCorrect} of {totalQuestions} correct</p>
       </div>
@@ -1309,34 +1311,34 @@ function SummaryScreen({
           <CardContent className="p-4 text-center">
             <Target className="w-5 h-5 text-primary mx-auto mb-2" />
             <p className="text-2xl font-bold text-gray-900">{totalCorrect}/{totalQuestions}</p>
-            <p className="text-xs text-gray-400">Correct Answers</p>
+            <p className="text-xs text-gray-400">{t("pages.deterioratingPatientSimulator.correctAnswers")}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <Clock className="w-5 h-5 text-blue-500 mx-auto mb-2" />
             <p className="text-2xl font-bold text-gray-900">{avgTime}s</p>
-            <p className="text-xs text-gray-400">Avg Response Time</p>
+            <p className="text-xs text-gray-400">{t("pages.deterioratingPatientSimulator.avgResponseTime")}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <Timer className="w-5 h-5 text-emerald-500 mx-auto mb-2" />
             <p className="text-2xl font-bold text-gray-900">{fastStages}/{results.length}</p>
-            <p className="text-xs text-gray-400">Quick Responses (≤60s)</p>
+            <p className="text-xs text-gray-400">{t("pages.deterioratingPatientSimulator.quickResponses60s")}</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <Flag className="w-5 h-5 text-amber-500 mx-auto mb-2" />
             <p className="text-2xl font-bold text-gray-900">{results.length}</p>
-            <p className="text-xs text-gray-400">Stages Completed</p>
+            <p className="text-xs text-gray-400">{t("pages.deterioratingPatientSimulator.stagesCompleted")}</p>
           </CardContent>
         </Card>
       </div>
 
       <div className="space-y-3">
-        <h3 className="text-sm font-bold text-gray-900">Stage-by-Stage Breakdown</h3>
+        <h3 className="text-sm font-bold text-gray-900">{t("pages.deterioratingPatientSimulator.stagebystageBreakdown")}</h3>
         {results.map((r, i) => (
           <Card key={i} className="border border-gray-100">
             <CardContent className="p-4">
@@ -1536,8 +1538,8 @@ export default function DeterioratingPatientSimulatorPage() {
       onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}
     >
       <SEO
-        title="Deteriorating Patient Simulator - Interactive Clinical Scenarios | NurseNest"
-        description="Practice recognizing deteriorating patients with interactive simulations. Master ABCs, prioritize interventions, and learn when to escalate in sepsis, respiratory failure, hemorrhage, opioid toxicity, anaphylaxis, and cardiogenic shock scenarios."
+        title={t("pages.deterioratingPatientSimulator.deterioratingPatientSimulatorInteractiveClin")}
+        description={t("pages.deterioratingPatientSimulator.practiceRecognizingDeterioratingPatientsWith")}
         keywords="deteriorating patient simulation nursing, clinical deterioration scenarios, nursing patient assessment, rapid response nursing, sepsis simulation, respiratory failure nursing, hemorrhage management nursing"
         canonicalPath="/deteriorating-patient-simulator"
         ogType="website"
@@ -1552,8 +1554,8 @@ export default function DeterioratingPatientSimulatorPage() {
               <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
                 <Lock className="w-10 h-10 text-primary/60" />
               </div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-3">Deteriorating Patient Simulator</h1>
-              <p className="text-lg text-gray-600 mb-2">Premium Interactive Tool</p>
+              <h1 className="text-3xl font-bold text-gray-900 mb-3">{t("pages.deterioratingPatientSimulator.deterioratingPatientSimulator")}</h1>
+              <p className="text-lg text-gray-600 mb-2">{t("pages.deterioratingPatientSimulator.premiumInteractiveTool")}</p>
               <p className="text-sm text-gray-500 mb-8 leading-relaxed max-w-md mx-auto">
                 Interactive deteriorating patient scenarios with vital sign monitoring, red flag alerts, and timed clinical decision-making are available exclusively for RPN, RN, and NP subscribers.
               </p>
@@ -1565,7 +1567,7 @@ export default function DeterioratingPatientSimulatorPage() {
               </LocaleLink>
               {!user && (
                 <p className="text-xs text-gray-400 mt-4">
-                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">Sign in</LocaleLink> to access.
+                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">{t("pages.deterioratingPatientSimulator.signIn")}</LocaleLink> to access.
                 </p>
               )}
             </div>

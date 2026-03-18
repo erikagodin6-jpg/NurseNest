@@ -1,12 +1,14 @@
 import { SeoHubPage } from "@/components/seo-content-template";
 
+import { useI18n } from "@/lib/i18n";
 const SITE_DOMAIN = "https://www.nursenest.ca";
 
 export default function SeoHubResources() {
+  const { t } = useI18n();
   return (
     <SeoHubPage
-      title="Career Resources for New Graduate Nurses"
-      subtitle="Comprehensive guides for navigating your first year of nursing — from clinical confidence and time management to preventing burnout and planning your career path."
+      title={t("pages.seoHubResources.careerResourcesForNewGraduate")}
+      subtitle={t("pages.seo_hub_resources.comprehensiveGuidesForNavigatingYour")}
       seoTitle="Career Resources — New Graduate Nurse Guides & Tools | NurseNest"
       seoDescription="Navigate your first year of nursing with comprehensive career resources. Guides for clinical confidence, time management, workplace navigation, burnout prevention, and professional development for new graduate nurses."
       seoKeywords="new nurse resources, new graduate nurse guides, first year nursing tips, nursing career resources, new nurse confidence, nursing career development, new grad nurse support"

@@ -7,6 +7,7 @@ import { buildFaqStructuredData } from "@/lib/structured-data";
 import { LeadCaptureInline } from "@/components/new-grad/lead-capture";
 import { InternalLinks } from "@/components/new-grad/internal-links";
 import { NEW_GRAD_PROFESSIONS, getProfessionBySlug } from "@shared/new-grad-professions";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, BookOpen, ChevronRight, GraduationCap, CheckCircle2,
   AlertTriangle, Clock, MessageSquare, Shield, Target, Star, Brain
@@ -372,6 +373,7 @@ const EXAM_PREP_LINKS: Record<string, { label: string; href: string }> = {
 };
 
 export default function FirstYearGuidePage() {
+  const { t } = useI18n();
   const params = useParams<{ profession: string }>();
   const professionSlug = (params.profession || "").replace("-first-year-guide", "");
   const profession = getProfessionBySlug(professionSlug);
@@ -391,8 +393,8 @@ export default function FirstYearGuidePage() {
         <Navigation />
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-guide-not-found">Guide Not Found</h1>
-            <Link href="/new-grad" className="text-blue-600 hover:underline">Back to New Grad Hub</Link>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-guide-not-found">{t("pages.newGrad.firstYearGuidePage.guideNotFound")}</h1>
+            <Link href="/new-grad" className="text-blue-600 hover:underline">{t("pages.newGrad.firstYearGuidePage.backToNewGradHub")}</Link>
           </div>
         </div>
         <Footer />
@@ -436,20 +438,20 @@ export default function FirstYearGuidePage() {
         <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${profession.colorAccent} 0%, white 100%)` }} />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.newGrad.firstYearGuidePage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/new-grad" className="hover:text-blue-600">New Grad Hub</Link>
+            <Link href="/new-grad" className="hover:text-blue-600">{t("pages.newGrad.firstYearGuidePage.newGradHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <Link href={`/new-grad/${professionSlug}`} className="hover:text-blue-600">{profession.shortName}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span style={{ color: profession.color }} className="font-medium">First Year Guide</span>
+            <span style={{ color: profession.color }} className="font-medium">{t("pages.newGrad.firstYearGuidePage.firstYearGuide")}</span>
           </div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: profession.color + "20", color: profession.color }}>
             <GraduationCap className="w-4 h-4" />
             First Year Guide
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-guide-title">
-            {profession.shortName} First Year <span style={{ color: profession.color }}>Guide</span>
+            {profession.shortName} First Year <span style={{ color: profession.color }}>{t("pages.newGrad.firstYearGuidePage.guide")}</span>
           </h1>
           <p className="text-lg text-gray-600 mb-8">
             Everything you need to navigate your first year as a {profession.name} graduate. From day one orientation through confident independent practice.
@@ -469,7 +471,7 @@ export default function FirstYearGuidePage() {
 
       <section className="py-12 bg-white" data-testid="section-guide-nav">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">What's Inside</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.newGrad.firstYearGuidePage.whatsInside")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {FIRST_YEAR_SECTIONS.map((section) => (
               <a key={section.id} href={`#${section.id}`} className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors" data-testid={`nav-section-${section.id}`}>
@@ -493,7 +495,7 @@ export default function FirstYearGuidePage() {
           <div className="prose prose-lg max-w-none text-gray-600">
             <p>Your first year as a {profession.name} graduate is a transformative journey from academic learning to clinical competence. {profession.careerOverview}</p>
             <div className="bg-blue-50 rounded-xl p-6 mt-6 not-prose">
-              <h3 className="font-semibold text-gray-900 mb-3">Key Milestones</h3>
+              <h3 className="font-semibold text-gray-900 mb-3">{t("pages.newGrad.firstYearGuidePage.keyMilestones")}</h3>
               <div className="space-y-2">
                 {profession.firstYearExpectations.map((exp, i) => (
                   <div key={i} className="flex items-start gap-2">
@@ -521,7 +523,7 @@ export default function FirstYearGuidePage() {
                   <div>
                     <p className="text-gray-700">{challenge}</p>
                     <p className="text-sm text-gray-500 mt-2">
-                      <strong>How to avoid:</strong> {profession.clinicalTips[i] || "Seek mentorship and develop a structured approach to build competence gradually."}
+                      <strong>{t("pages.newGrad.firstYearGuidePage.howToAvoid")}</strong> {profession.clinicalTips[i] || "Seek mentorship and develop a structured approach to build competence gradually."}
                     </p>
                   </div>
                 </div>
@@ -644,7 +646,7 @@ export default function FirstYearGuidePage() {
                 <BookOpen className="w-5 h-5 flex-shrink-0" style={{ color: profession.color }} />
                 <div className="min-w-0 flex-1">
                   <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">{profession.shortName} New Grad Hub</h3>
-                  <p className="text-xs text-gray-500">Complete career resources and guides</p>
+                  <p className="text-xs text-gray-500">{t("pages.newGrad.firstYearGuidePage.completeCareerResourcesAndGuides")}</p>
                 </div>
                 <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-blue-500 flex-shrink-0" />
               </div>
@@ -655,7 +657,7 @@ export default function FirstYearGuidePage() {
                   <GraduationCap className="w-5 h-5 flex-shrink-0" style={{ color: profession.color }} />
                   <div className="min-w-0 flex-1">
                     <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">{examLink.label}</h3>
-                    <p className="text-xs text-gray-500">Practice exams and study tools</p>
+                    <p className="text-xs text-gray-500">{t("pages.newGrad.firstYearGuidePage.practiceExamsAndStudyTools")}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-blue-500 flex-shrink-0" />
                 </div>
@@ -665,8 +667,8 @@ export default function FirstYearGuidePage() {
               <div className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-sm transition-all h-full">
                 <Star className="w-5 h-5 text-amber-500 flex-shrink-0" />
                 <div className="min-w-0 flex-1">
-                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">All Professions</h3>
-                  <p className="text-xs text-gray-500">Explore guides for other healthcare careers</p>
+                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">{t("pages.newGrad.firstYearGuidePage.allProfessions")}</h3>
+                  <p className="text-xs text-gray-500">{t("pages.newGrad.firstYearGuidePage.exploreGuidesForOtherHealthcare")}</p>
                 </div>
                 <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-blue-500 flex-shrink-0" />
               </div>
@@ -674,7 +676,7 @@ export default function FirstYearGuidePage() {
           </div>
           {relatedGuides.length > 0 && (
             <div className="mt-6">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Related First Year Guides</h3>
+              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">{t("pages.newGrad.firstYearGuidePage.relatedFirstYearGuides")}</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {relatedGuides.map((rg, i) => (
                   <Link key={rg.slug} href={`/new-grad/${rg.slug}-first-year-guide`} className="group" data-testid={`crosslink-related-guide-${i}`}>
@@ -693,7 +695,7 @@ export default function FirstYearGuidePage() {
 
       <section className="py-16 bg-white" data-testid="section-guide-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t("pages.newGrad.firstYearGuidePage.frequentlyAskedQuestions")}</h2>
           <div className="space-y-4">
             {faqData.map((faq, i) => (
               <details key={i} className="bg-gray-50 rounded-xl p-4 group" data-testid={`faq-${i}`}>

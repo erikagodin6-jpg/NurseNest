@@ -6,12 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowLeft, RefreshCw, TrendingUp, TrendingDown, FileText,
   BookOpen, Brain, Layers, BarChart3, Calendar, Download, Minus
 } from "lucide-react";
 
 function getAdminHeaders(): Record<string, string> {
+
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   try {
     const token = localStorage.getItem("nn_admin_access_token");
@@ -122,8 +124,8 @@ export default function AdminWeeklyReports() {
       <div className="min-h-screen bg-[#F9FAFB]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
         <Navigation />
         <div className="max-w-4xl mx-auto p-8 text-center" data-testid="text-access-denied">
-          <h1 className="text-2xl font-bold text-gray-900">Access Denied</h1>
-          <p className="text-gray-500 mt-2">Admin access required.</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t("pages.adminWeeklyReports.accessDenied")}</h1>
+          <p className="text-gray-500 mt-2">{t("pages.adminWeeklyReports.adminAccessRequired")}</p>
         </div>
       </div>
     );
@@ -143,7 +145,7 @@ export default function AdminWeeklyReports() {
   return (
     <div className="min-h-screen bg-[#F9FAFB]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
       <Navigation />
-      <SEO title="Weekly Content Reports - Admin" description="Automated weekly content creation reports" />
+      <SEO title={t("pages.adminWeeklyReports.weeklyContentReportsAdmin")} description={t("pages.adminWeeklyReports.automatedWeeklyContentCreationReports")} />
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
@@ -152,8 +154,8 @@ export default function AdminWeeklyReports() {
               <ArrowLeft className="w-4 h-4 mr-1" /> Admin
             </Button>
             <div>
-              <h1 className="text-2xl font-bold text-[#2E3A59]" data-testid="text-page-title">Weekly Content Reports</h1>
-              <p className="text-sm text-gray-500 mt-1">Content creation velocity and week-over-week trends</p>
+              <h1 className="text-2xl font-bold text-[#2E3A59]" data-testid="text-page-title">{t("pages.adminWeeklyReports.weeklyContentReports")}</h1>
+              <p className="text-sm text-gray-500 mt-1">{t("pages.adminWeeklyReports.contentCreationVelocityAndWeekoverweek")}</p>
             </div>
           </div>
           <div className="flex gap-2">
@@ -192,14 +194,14 @@ export default function AdminWeeklyReports() {
                 </h2>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
-                  <ContentTypeCard title="Lessons" value={currentWeek.lessonsCreated} icon={BookOpen} color="bg-blue-50 text-blue-800" />
-                  <ContentTypeCard title="Blog Posts" value={currentWeek.blogPostsCreated} icon={FileText} color="bg-purple-50 text-purple-800" />
-                  <ContentTypeCard title="Flashcards" value={currentWeek.flashcardsCreated} icon={Layers} color="bg-emerald-50 text-emerald-800" />
-                  <ContentTypeCard title="Exam Questions" value={currentWeek.examQuestionsCreated} icon={Brain} color="bg-amber-50 text-amber-800" />
-                  <ContentTypeCard title="SEO Articles" value={currentWeek.seoArticlesCreated} icon={BarChart3} color="bg-teal-50 text-teal-800" />
+                  <ContentTypeCard title={t("pages.adminWeeklyReports.lessons2")} value={currentWeek.lessonsCreated} icon={BookOpen} color="bg-blue-50 text-blue-800" />
+                  <ContentTypeCard title={t("pages.adminWeeklyReports.blogPosts")} value={currentWeek.blogPostsCreated} icon={FileText} color="bg-purple-50 text-purple-800" />
+                  <ContentTypeCard title={t("pages.adminWeeklyReports.flashcards2")} value={currentWeek.flashcardsCreated} icon={Layers} color="bg-emerald-50 text-emerald-800" />
+                  <ContentTypeCard title={t("pages.adminWeeklyReports.examQuestions")} value={currentWeek.examQuestionsCreated} icon={Brain} color="bg-amber-50 text-amber-800" />
+                  <ContentTypeCard title={t("pages.adminWeeklyReports.seoArticles")} value={currentWeek.seoArticlesCreated} icon={BarChart3} color="bg-teal-50 text-teal-800" />
                   <div className="rounded-xl p-4 bg-gradient-to-br from-[#BFA6F6]/10 to-[#AEE3E1]/10 border border-[#BFA6F6]/20" data-testid="card-total-current">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-medium text-gray-600">Total This Week</span>
+                      <span className="text-xs font-medium text-gray-600">{t("pages.adminWeeklyReports.totalThisWeek")}</span>
                       <ChangeIndicator value={currentWeek.weekOverWeekChange} />
                     </div>
                     <p className="text-3xl font-bold text-[#2E3A59]">{currentWeek.totalContentCreated}</p>
@@ -233,7 +235,7 @@ export default function AdminWeeklyReports() {
               <Card className="border-0 shadow-sm">
                 <CardContent className="p-6">
                   {velocityDays.length === 0 ? (
-                    <p className="text-sm text-gray-500 text-center py-8" data-testid="text-no-velocity">No content creation data for this period</p>
+                    <p className="text-sm text-gray-500 text-center py-8" data-testid="text-no-velocity">{t("pages.adminWeeklyReports.noContentCreationDataFor")}</p>
                   ) : (
                     <div>
                       <div className="flex items-end gap-[2px] h-48" data-testid="chart-velocity-bars">
@@ -262,11 +264,11 @@ export default function AdminWeeklyReports() {
                         <span>{velocityDays[velocityDays.length - 1]?.date?.slice(5)}</span>
                       </div>
                       <div className="flex gap-4 mt-4 justify-center flex-wrap">
-                        <Legend color="bg-blue-400" label="Lessons" />
-                        <Legend color="bg-purple-400" label="Blogs" />
-                        <Legend color="bg-emerald-400" label="Flashcards" />
-                        <Legend color="bg-amber-400" label="Questions" />
-                        <Legend color="bg-teal-400" label="SEO Articles" />
+                        <Legend color="bg-blue-400" label={t("pages.adminWeeklyReports.lessons3")} />
+                        <Legend color="bg-purple-400" label={t("pages.adminWeeklyReports.blogs2")} />
+                        <Legend color="bg-emerald-400" label={t("pages.adminWeeklyReports.flashcards3")} />
+                        <Legend color="bg-amber-400" label={t("pages.adminWeeklyReports.questions2")} />
+                        <Legend color="bg-teal-400" label={t("pages.adminWeeklyReports.seoArticles2")} />
                       </div>
                     </div>
                   )}
@@ -283,7 +285,7 @@ export default function AdminWeeklyReports() {
                 <Card className="border-0 shadow-sm">
                   <CardContent className="py-12 text-center">
                     <BarChart3 className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-                    <p className="text-sm text-gray-500 mb-4">No historical reports generated yet.</p>
+                    <p className="text-sm text-gray-500 mb-4">{t("pages.adminWeeklyReports.noHistoricalReportsGeneratedYet")}</p>
                     <Button
                       variant="outline"
                       size="sm"
@@ -324,14 +326,14 @@ export default function AdminWeeklyReports() {
                         <table className="w-full text-sm" data-testid="table-weekly-reports">
                           <thead>
                             <tr className="bg-gray-50 border-b">
-                              <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">Week</th>
-                              <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">Lessons</th>
-                              <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">Blogs</th>
-                              <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">Flashcards</th>
-                              <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">Questions</th>
+                              <th className="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminWeeklyReports.week")}</th>
+                              <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminWeeklyReports.lessons")}</th>
+                              <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminWeeklyReports.blogs")}</th>
+                              <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminWeeklyReports.flashcards")}</th>
+                              <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminWeeklyReports.questions")}</th>
                               <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">SEO</th>
-                              <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">Total</th>
-                              <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">WoW</th>
+                              <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminWeeklyReports.total")}</th>
+                              <th className="text-center py-3 px-4 text-xs font-medium text-gray-500 uppercase">{t("pages.adminWeeklyReports.wow")}</th>
                             </tr>
                           </thead>
                           <tbody>

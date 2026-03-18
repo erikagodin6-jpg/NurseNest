@@ -291,7 +291,7 @@ export function ReportProblemButton() {
                   <div className="relative inline-block">
                     <img
                       src={screenshotPreview}
-                      alt="Screenshot preview"
+                      alt={t("components.reportProblemButton.screenshotPreview")}
                       className="max-h-32 rounded border"
                       data-testid="img-screenshot-preview"
                     />

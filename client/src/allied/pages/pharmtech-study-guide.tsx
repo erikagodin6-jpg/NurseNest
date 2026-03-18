@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { ChevronRight, BookOpen, Brain, Pill, FileText, Target, Shield, Beaker, ClipboardList, AlertTriangle } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 
+import { useI18n } from "@/lib/i18n";
 const SECTIONS = [
   {
     id: "pharmacology",
@@ -113,11 +114,12 @@ const SECTIONS = [
 ];
 
 export default function PharmtechStudyGuidePage() {
+  const { t } = useI18n();
   return (
     <>
       <AlliedSEO
-        title="Pharmacy Technician Study Guide - Complete PTCB & ExCPT Review"
-        description="Comprehensive pharmacy technician study guide covering all PTCB and ExCPT exam topics: pharmacology, dosage calculations, pharmacy law, compounding, prescription processing, and patient safety."
+        title={t("allied.pharmtechStudyGuide.pharmacyTechnicianStudyGuideComplete")}
+        description={t("allied.pharmtechStudyGuide.comprehensivePharmacyTechnicianStudyGuide")}
         keywords="pharmacy technician study guide, PTCB study guide, ExCPT study guide, pharmacy tech review, pharmacy technician exam topics"
         canonicalPath="/allied-health/pharmacy-technician/study-guide"
         structuredData={{
@@ -132,18 +134,18 @@ export default function PharmtechStudyGuidePage() {
       />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="pharmtech-study-guide">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">Pharmacy Technician</Link>
+          <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600">{t("allied.pharmtechStudyGuide.pharmacyTechnician")}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-green-700 font-medium">Study Guide</span>
+          <span className="text-green-700 font-medium">{t("allied.pharmtechStudyGuide.studyGuide")}</span>
         </div>
 
         <div className="mb-10">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-study-guide-title">Pharmacy Technician Study Guide</h1>
-          <p className="text-gray-600 leading-relaxed">Complete review of all PTCB and ExCPT exam domains. Use this guide alongside our lessons, flashcards, and practice questions for comprehensive preparation.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-study-guide-title">{t("allied.pharmtechStudyGuide.pharmacyTechnicianStudyGuide")}</h1>
+          <p className="text-gray-600 leading-relaxed">{t("allied.pharmtechStudyGuide.completeReviewOfAllPtcb")}</p>
         </div>
 
         <nav className="bg-green-50 rounded-2xl p-6 border border-green-100 mb-10">
-          <h2 className="font-semibold text-green-800 mb-3">Table of Contents</h2>
+          <h2 className="font-semibold text-green-800 mb-3">{t("allied.pharmtechStudyGuide.tableOfContents")}</h2>
           <ul className="grid sm:grid-cols-2 gap-2">
             {SECTIONS.map((section, i) => (
               <li key={section.id}>
@@ -187,8 +189,8 @@ export default function PharmtechStudyGuidePage() {
         </div>
 
         <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-8 mt-12 border border-green-200 text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-3">Ready to Test Your Knowledge?</h2>
-          <p className="text-gray-600 text-sm mb-6">Take a practice exam or try practice questions to see how well you've prepared.</p>
+          <h2 className="text-xl font-bold text-gray-900 mb-3">{t("allied.pharmtechStudyGuide.readyToTestYourKnowledge")}</h2>
+          <p className="text-gray-600 text-sm mb-6">{t("allied.pharmtechStudyGuide.takeAPracticeExamOr")}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/allied-health/pharmacy-technician/exams" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700" data-testid="button-take-exam">
               <FileText className="w-4 h-4" /> Take Practice Exam

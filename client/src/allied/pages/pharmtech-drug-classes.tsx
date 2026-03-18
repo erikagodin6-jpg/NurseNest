@@ -8,7 +8,9 @@ import {
 import { AlliedSEO } from "@/allied/allied-seo";
 import { DRUG_CLASSES, type DrugClassInfo } from "./pharmtech-drug-classes-data";
 
+import { useI18n } from "@/lib/i18n";
 function getDrugClassIcon(slug: string) {
+
   switch (slug) {
     case "ace-inhibitors": return Heart;
     case "beta-blockers": return Shield;
@@ -38,8 +40,8 @@ export default function PharmtechDrugClassesHub() {
   return (
     <>
       <AlliedSEO
-        title="Drug Classes Study Guide for Pharmacy Technicians | PTCB Exam Prep"
-        description="Master the most commonly tested drug classes for the PTCB and ExCPT exams. Study ACE inhibitors, beta blockers, statins, antibiotics, antidiabetics, antidepressants, and antihistamines with practice questions and flashcards."
+        title={t("allied.pharmtechDrugClasses.drugClassesStudyGuideFor")}
+        description={t("allied.pharmtechDrugClasses.masterTheMostCommonlyTested")}
         keywords="pharmacy technician drug classes, PTCB drug classification, pharmacy tech pharmacology, drug class study guide, medication categories, brand generic names"
         canonicalPath="/allied-health/pharmacy-technician/drug-classes"
         structuredData={{
@@ -81,11 +83,11 @@ export default function PharmtechDrugClassesHub() {
         <section className="relative overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 py-16 sm:py-20">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-              <Link href="/" className="hover:text-teal-600" data-testid="breadcrumb-home">Allied</Link>
+              <Link href="/" className="hover:text-teal-600" data-testid="breadcrumb-home">{t("allied.pharmtechDrugClasses.allied")}</Link>
               <ChevronRight className="w-3.5 h-3.5" />
-              <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600" data-testid="breadcrumb-pharmtech">Pharmacy Technician</Link>
+              <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600" data-testid="breadcrumb-pharmtech">{t("allied.pharmtechDrugClasses.pharmacyTechnician")}</Link>
               <ChevronRight className="w-3.5 h-3.5" />
-              <span className="text-green-700 font-medium">Drug Classes</span>
+              <span className="text-green-700 font-medium">{t("allied.pharmtechDrugClasses.drugClasses")}</span>
             </div>
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-100 text-green-800 rounded-full text-sm font-medium mb-4">
@@ -94,7 +96,7 @@ export default function PharmtechDrugClassesHub() {
               </div>
               <h1 className="text-3xl sm:text-5xl font-bold text-gray-900 leading-tight mb-4" data-testid="text-hub-title">
                 Drug Classes<br />
-                <span className="text-green-600">Study Guide</span>
+                <span className="text-green-600">{t("allied.pharmtechDrugClasses.studyGuide")}</span>
               </h1>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed" data-testid="text-hub-subtitle">
                 Master the most commonly tested medication classes for the PTCB and ExCPT exams. Each drug class guide includes generic and brand names, mechanisms of action, key side effects, clinical pearls, and practice questions with detailed rationales.
@@ -112,8 +114,8 @@ export default function PharmtechDrugClassesHub() {
         </section>
 
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-study-by-class">Study by Drug Class</h2>
-          <p className="text-gray-500 mb-8">Select a drug class below to dive deep into generic/brand names, mechanisms, side effects, and practice questions.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-study-by-class">{t("allied.pharmtechDrugClasses.studyByDrugClass")}</h2>
+          <p className="text-gray-500 mb-8">{t("allied.pharmtechDrugClasses.selectADrugClassBelow")}</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {DRUG_CLASSES.map(dc => {
               const Icon = getDrugClassIcon(dc.slug);
@@ -142,44 +144,44 @@ export default function PharmtechDrugClassesHub() {
 
         <section className="bg-gray-50 py-16">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">How to Study Drug Classes</h2>
-            <p className="text-gray-500 mb-10 text-center max-w-2xl mx-auto">Follow this approach to master drug classifications for your pharmacy technician certification exam.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">{t("allied.pharmtechDrugClasses.howToStudyDrugClasses")}</h2>
+            <p className="text-gray-500 mb-10 text-center max-w-2xl mx-auto">{t("allied.pharmtechDrugClasses.followThisApproachToMaster")}</p>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="bg-white rounded-2xl p-8 border border-gray-100">
                 <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center mb-4">
                   <span className="text-green-700 font-bold text-lg">1</span>
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Learn the Stems</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">Start by memorizing drug class suffixes like -pril, -olol, -statin, and -floxacin. This lets you identify the class of any unfamiliar drug instantly.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.pharmtechDrugClasses.learnTheStems")}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">{t("allied.pharmtechDrugClasses.startByMemorizingDrugClass")}</p>
               </div>
               <div className="bg-white rounded-2xl p-8 border border-gray-100">
                 <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center mb-4">
                   <span className="text-green-700 font-bold text-lg">2</span>
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Brand-Generic Pairs</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">Use flashcards to match brand names to generic names. Focus on the Top 200 drugs first — these appear most frequently on the PTCB exam.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.pharmtechDrugClasses.brandgenericPairs")}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">{t("allied.pharmtechDrugClasses.useFlashcardsToMatchBrand")}</p>
               </div>
               <div className="bg-white rounded-2xl p-8 border border-gray-100">
                 <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center mb-4">
                   <span className="text-green-700 font-bold text-lg">3</span>
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Practice Questions</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">Test your knowledge with drug class-specific practice questions. Focus on side effects, contraindications, and drug interactions — the most commonly tested concepts.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{t("allied.pharmtechDrugClasses.practiceQuestions")}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">{t("allied.pharmtechDrugClasses.testYourKnowledgeWithDrug")}</p>
               </div>
             </div>
           </div>
         </section>
 
         <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">Quick Reference: Drug Class Suffixes</h2>
-          <p className="text-gray-500 mb-8 text-center">Memorize these stems to instantly identify drug classes on the PTCB exam.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">{t("allied.pharmtechDrugClasses.quickReferenceDrugClassSuffixes")}</h2>
+          <p className="text-gray-500 mb-8 text-center">{t("allied.pharmtechDrugClasses.memorizeTheseStemsToInstantly")}</p>
           <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
             <table className="w-full" data-testid="table-suffixes">
               <thead>
                 <tr className="bg-green-50 border-b border-green-100">
-                  <th className="text-left px-6 py-3 text-sm font-semibold text-green-800">Suffix</th>
-                  <th className="text-left px-6 py-3 text-sm font-semibold text-green-800">Drug Class</th>
-                  <th className="text-left px-6 py-3 text-sm font-semibold text-green-800 hidden sm:table-cell">Example</th>
+                  <th className="text-left px-6 py-3 text-sm font-semibold text-green-800">{t("allied.pharmtechDrugClasses.suffix")}</th>
+                  <th className="text-left px-6 py-3 text-sm font-semibold text-green-800">{t("allied.pharmtechDrugClasses.drugClass")}</th>
+                  <th className="text-left px-6 py-3 text-sm font-semibold text-green-800 hidden sm:table-cell">{t("allied.pharmtechDrugClasses.example")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
@@ -207,15 +209,15 @@ export default function PharmtechDrugClassesHub() {
         </section>
 
         <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">Frequently Asked Questions</h2>
-          <p className="text-gray-500 mb-8 text-center">Common questions about studying drug classes for the pharmacy tech exam.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">{t("allied.pharmtechDrugClasses.frequentlyAskedQuestions")}</h2>
+          <p className="text-gray-500 mb-8 text-center">{t("allied.pharmtechDrugClasses.commonQuestionsAboutStudyingDrug")}</p>
           <HubFAQ />
         </section>
 
         <section className="bg-gradient-to-r from-green-600 to-emerald-600 py-16">
           <div className="max-w-3xl mx-auto px-4 text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Master Drug Classes?</h2>
-            <p className="text-green-100 mb-8">Start with our flashcard decks and practice questions to build a strong pharmacology foundation for your PTCB exam.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">{t("allied.pharmtechDrugClasses.readyToMasterDrugClasses")}</h2>
+            <p className="text-green-100 mb-8">{t("allied.pharmtechDrugClasses.startWithOurFlashcardDecks")}</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/allied-health/pharmacy-technician/flashcards" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold hover:bg-green-50 transition-all" data-testid="button-cta-flashcards">
                 <Brain className="w-4 h-4" /> Study Flashcards
@@ -274,8 +276,8 @@ export function PharmtechDrugClassDetail() {
   if (!drugClass) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Drug Class Not Found</h1>
-        <p className="text-gray-600 mb-4">The drug class you're looking for doesn't exist.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.pharmtechDrugClasses.drugClassNotFound")}</h1>
+        <p className="text-gray-600 mb-4">{t("allied.pharmtechDrugClasses.theDrugClassYoureLooking")}</p>
         <Link href="/allied-health/pharmacy-technician/drug-classes" className="inline-block px-6 py-2.5 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700" data-testid="link-back-drug-classes">
           Back to Drug Classes
         </Link>
@@ -337,11 +339,11 @@ function DrugClassPage({ drugClass }: { drugClass: DrugClassInfo }) {
         <section className={`relative overflow-hidden bg-gradient-to-br ${colors.bg} py-14 sm:py-20`}>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-6 flex-wrap">
-              <Link href="/" className="hover:text-teal-600" data-testid="breadcrumb-home">Allied</Link>
+              <Link href="/" className="hover:text-teal-600" data-testid="breadcrumb-home">{t("allied.pharmtechDrugClasses.allied2")}</Link>
               <ChevronRight className="w-3.5 h-3.5" />
-              <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600" data-testid="breadcrumb-pharmtech">Pharmacy Technician</Link>
+              <Link href="/allied-health/pharmacy-technician" className="hover:text-teal-600" data-testid="breadcrumb-pharmtech">{t("allied.pharmtechDrugClasses.pharmacyTechnician2")}</Link>
               <ChevronRight className="w-3.5 h-3.5" />
-              <Link href="/allied-health/pharmacy-technician/drug-classes" className="hover:text-teal-600" data-testid="breadcrumb-drug-classes">Drug Classes</Link>
+              <Link href="/allied-health/pharmacy-technician/drug-classes" className="hover:text-teal-600" data-testid="breadcrumb-drug-classes">{t("allied.pharmtechDrugClasses.drugClasses2")}</Link>
               <ChevronRight className="w-3.5 h-3.5" />
               <span className={`${colors.text} font-medium`}>{drugClass.shortName}</span>
             </div>
@@ -372,8 +374,8 @@ function DrugClassPage({ drugClass }: { drugClass: DrugClassInfo }) {
                   <table className="w-full" data-testid="table-drugs">
                     <thead>
                       <tr className={`${colors.bg} border-b ${colors.border}`}>
-                        <th className={`text-left px-5 py-3 text-sm font-semibold ${colors.text}`}>Generic Name</th>
-                        <th className={`text-left px-5 py-3 text-sm font-semibold ${colors.text}`}>Brand Name</th>
+                        <th className={`text-left px-5 py-3 text-sm font-semibold ${colors.text}`}>{t("allied.pharmtechDrugClasses.genericName")}</th>
+                        <th className={`text-left px-5 py-3 text-sm font-semibold ${colors.text}`}>{t("allied.pharmtechDrugClasses.brandName")}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50">
@@ -460,7 +462,7 @@ function DrugClassPage({ drugClass }: { drugClass: DrugClassInfo }) {
                       </div>
                       {revealedAnswers[qi] !== undefined && (
                         <div className="mt-3 p-4 bg-blue-50 rounded-xl border border-blue-100" data-testid={`rationale-${qi}`}>
-                          <p className="text-xs font-semibold text-blue-800 mb-1">Rationale</p>
+                          <p className="text-xs font-semibold text-blue-800 mb-1">{t("allied.pharmtechDrugClasses.rationale")}</p>
                           <p className="text-sm text-blue-900 leading-relaxed">{q.rationale}</p>
                         </div>
                       )}
@@ -506,34 +508,34 @@ function DrugClassPage({ drugClass }: { drugClass: DrugClassInfo }) {
             <div className="lg:col-span-1">
               <div className="sticky top-20 space-y-6">
                 <div className={`bg-gradient-to-br ${colors.bg} rounded-2xl border ${colors.border} p-6`}>
-                  <h3 className="font-bold text-gray-900 mb-4">Study This Drug Class</h3>
+                  <h3 className="font-bold text-gray-900 mb-4">{t("allied.pharmtechDrugClasses.studyThisDrugClass")}</h3>
                   <div className="space-y-3">
                     <Link href="/allied-health/pharmacy-technician/flashcards" className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="sidebar-flashcards">
                       <Brain className={`w-5 h-5 ${colors.text}`} />
                       <div>
-                        <p className="text-sm font-semibold text-gray-900">Flashcards</p>
-                        <p className="text-xs text-gray-500">Review with spaced repetition</p>
+                        <p className="text-sm font-semibold text-gray-900">{t("allied.pharmtechDrugClasses.flashcards")}</p>
+                        <p className="text-xs text-gray-500">{t("allied.pharmtechDrugClasses.reviewWithSpacedRepetition")}</p>
                       </div>
                     </Link>
                     <Link href="/allied-health/pharmacy-technician/practice-questions" className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="sidebar-questions">
                       <BookOpen className={`w-5 h-5 ${colors.text}`} />
                       <div>
-                        <p className="text-sm font-semibold text-gray-900">Practice Questions</p>
-                        <p className="text-xs text-gray-500">Test your knowledge</p>
+                        <p className="text-sm font-semibold text-gray-900">{t("allied.pharmtechDrugClasses.practiceQuestions2")}</p>
+                        <p className="text-xs text-gray-500">{t("allied.pharmtechDrugClasses.testYourKnowledge")}</p>
                       </div>
                     </Link>
                     <Link href="/allied-health/pharmacy-technician/exams" className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl border border-gray-100 hover:shadow-md transition-all" data-testid="sidebar-exams">
                       <FileText className={`w-5 h-5 ${colors.text}`} />
                       <div>
-                        <p className="text-sm font-semibold text-gray-900">Practice Exams</p>
-                        <p className="text-xs text-gray-500">Full-length mock tests</p>
+                        <p className="text-sm font-semibold text-gray-900">{t("allied.pharmtechDrugClasses.practiceExams")}</p>
+                        <p className="text-xs text-gray-500">{t("allied.pharmtechDrugClasses.fulllengthMockTests")}</p>
                       </div>
                     </Link>
                   </div>
                 </div>
 
                 <div className="bg-white rounded-2xl border border-gray-100 p-6">
-                  <h3 className="font-bold text-gray-900 mb-4">Other Drug Classes</h3>
+                  <h3 className="font-bold text-gray-900 mb-4">{t("allied.pharmtechDrugClasses.otherDrugClasses")}</h3>
                   <div className="space-y-2">
                     {otherClasses.map(dc => {
                       const OtherIcon = getDrugClassIcon(dc.slug);
@@ -554,7 +556,7 @@ function DrugClassPage({ drugClass }: { drugClass: DrugClassInfo }) {
                 </div>
 
                 <div className="bg-white rounded-2xl border border-gray-100 p-6">
-                  <h3 className="font-bold text-gray-900 mb-2">Internal Links</h3>
+                  <h3 className="font-bold text-gray-900 mb-2">{t("allied.pharmtechDrugClasses.internalLinks")}</h3>
                   <div className="space-y-2">
                     <Link href="/allied-health/pharmacy-technician" className="flex items-center gap-2 text-sm text-green-600 hover:text-green-700 font-medium" data-testid="sidebar-link-hub">
                       <GraduationCap className="w-4 h-4" /> Pharmacy Tech Hub
@@ -578,7 +580,7 @@ function DrugClassPage({ drugClass }: { drugClass: DrugClassInfo }) {
         <section className="bg-gradient-to-r from-green-600 to-emerald-600 py-14">
           <div className="max-w-3xl mx-auto px-4 text-center">
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Master {drugClass.shortName} and More</h2>
-            <p className="text-green-100 mb-8">Continue your pharmacy technician exam prep with flashcards, practice questions, and full-length mock exams.</p>
+            <p className="text-green-100 mb-8">{t("allied.pharmtechDrugClasses.continueYourPharmacyTechnicianExam")}</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/allied-health/pharmacy-technician/flashcards" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-green-700 rounded-xl text-sm font-semibold hover:bg-green-50 transition-all" data-testid="button-bottom-cta-flashcards">
                 <Brain className="w-4 h-4" /> Study Flashcards

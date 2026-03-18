@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { UtensilsCrossed, Droplets, Scale, Apple } from "lucide-react";
 
 export function NutritionFoundationsModule() {
+  const { t } = useI18n();
   const macronutrientContent = useEditableText("nf-macronutrient-content", "Macronutrients are nutrients needed in large quantities that provide energy (calories). Carbohydrates provide 4 kcal/g and are the body's preferred energy source — the brain relies almost exclusively on glucose. Proteins provide 4 kcal/g and are essential for tissue repair, immune function, enzyme production, and fluid balance (albumin maintains oncotic pressure). Fats provide 9 kcal/g — the most calorie-dense macronutrient — and are essential for hormone synthesis, cell membrane integrity, absorption of fat-soluble vitamins (A, D, E, K), and insulation. Alcohol provides 7 kcal/g but is not classified as a macronutrient because it offers no nutritional value.");
   const electrolyteContent = useEditableText("nf-electrolyte-content", "Key electrolytes obtained from diet include: Sodium (Na+) — found in processed foods, table salt; regulates fluid balance and nerve impulses; normal: 135-145 mEq/L. Potassium (K+) — found in bananas, oranges, potatoes, spinach; critical for cardiac function and muscle contraction; normal: 3.5-5.0 mEq/L. Calcium (Ca²+) — found in dairy, leafy greens, fortified foods; essential for bone health, muscle contraction, blood clotting; normal: 8.5-10.5 mg/dL. Magnesium (Mg²+) — found in nuts, seeds, whole grains; cofactor in 300+ enzymatic reactions; normal: 1.5-2.5 mEq/L. Phosphorus — found in dairy, meat, beans; partners with calcium for bone health; normal: 2.5-4.5 mg/dL.");
   const malnutritionContent = useEditableText("nf-malnutrition-content", "BMI categories: Underweight (<18.5), Normal (18.5-24.9), Overweight (25.0-29.9), Obese Class I (30.0-34.9), Obese Class II (35.0-39.9), Obese Class III (≥40.0). Malnutrition screening tools include the Malnutrition Screening Tool (MST), Subjective Global Assessment (SGA), and Mini Nutritional Assessment (MNA) for elderly patients. Key lab markers: serum albumin (<3.5 g/dL indicates chronic malnutrition, half-life 18-20 days), prealbumin (<17 mg/dL indicates recent nutritional changes, half-life 2-3 days — more sensitive to acute changes), and transferrin. Unintentional weight loss of >5% in 1 month or >10% in 6 months is clinically significant and warrants nutritional intervention.");
@@ -39,7 +41,7 @@ export function NutritionFoundationsModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Macronutrient Functions and Energy"
+          title={t("data.pre_nursing_nutrition_foundations.macronutrientFunctionsAndEnergy")}
           content={macronutrientContent}
         />
       </MicroLesson>
@@ -50,19 +52,19 @@ export function NutritionFoundationsModule() {
           <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
             <p className="text-xs font-semibold text-blue-700 mb-2">Fat-Soluble Vitamins (A, D, E, K) — stored in body fat</p>
             <div className="space-y-1 text-xs text-blue-600">
-              <p><strong>Vitamin A:</strong> Vision (especially night vision), immune function, skin integrity. Sources: liver, carrots, sweet potatoes. Deficiency: night blindness, xerophthalmia.</p>
-              <p><strong>Vitamin D:</strong> Calcium absorption, bone health, immune modulation. Sources: sunlight, fortified milk, fatty fish. Deficiency: rickets (children), osteomalacia (adults).</p>
-              <p><strong>Vitamin E:</strong> Antioxidant, protects cell membranes. Sources: nuts, seeds, vegetable oils. Deficiency: rare, causes hemolytic anemia.</p>
-              <p><strong>Vitamin K:</strong> Blood clotting (synthesizes clotting factors II, VII, IX, X). Sources: leafy greens, liver. Deficiency: bleeding disorders. Note: interacts with warfarin.</p>
+              <p><strong>{t("data.pre_nursing_nutrition_foundations.vitaminA")}</strong>{t("data.pre_nursing_nutrition_foundations.visionEspeciallyNightVisionImmune")}</p>
+              <p><strong>{t("data.pre_nursing_nutrition_foundations.vitaminD")}</strong>{t("data.pre_nursing_nutrition_foundations.calciumAbsorptionBoneHealthImmune")}</p>
+              <p><strong>{t("data.pre_nursing_nutrition_foundations.vitaminE")}</strong>{t("data.pre_nursing_nutrition_foundations.antioxidantProtectsCellMembranesSources")}</p>
+              <p><strong>{t("data.pre_nursing_nutrition_foundations.vitaminK")}</strong>{t("data.pre_nursing_nutrition_foundations.bloodClottingSynthesizesClottingFactors")}</p>
             </div>
           </div>
           <div className="p-4 bg-purple-50/60 rounded-xl border border-purple-100">
             <p className="text-xs font-semibold text-purple-700 mb-2">Water-Soluble Vitamins (B-complex, C) — not stored, need daily intake</p>
             <div className="space-y-1 text-xs text-purple-600">
-              <p><strong>B1 (Thiamine):</strong> Energy metabolism. Deficiency: Wernicke-Korsakoff syndrome (alcoholism).</p>
-              <p><strong>B9 (Folate):</strong> DNA synthesis, RBC formation. Critical in pregnancy — deficiency causes neural tube defects.</p>
-              <p><strong>B12 (Cobalamin):</strong> Nerve function, RBC maturation. Deficiency: pernicious/megaloblastic anemia, neuropathy.</p>
-              <p><strong>Vitamin C:</strong> Collagen synthesis, wound healing, immune function, iron absorption. Deficiency: scurvy (bleeding gums, poor wound healing).</p>
+              <p><strong>{t("data.pre_nursing_nutrition_foundations.b1Thiamine")}</strong>{t("data.pre_nursing_nutrition_foundations.energyMetabolismDeficiencyWernickekorsak")}</p>
+              <p><strong>{t("data.pre_nursing_nutrition_foundations.b9Folate")}</strong>{t("data.pre_nursing_nutrition_foundations.dnaSynthesisRbcFormationCritical")}</p>
+              <p><strong>{t("data.pre_nursing_nutrition_foundations.b12Cobalamin")}</strong>{t("data.pre_nursing_nutrition_foundations.nerveFunctionRbcMaturationDeficiency")}</p>
+              <p><strong>{t("data.pre_nursing_nutrition_foundations.vitaminC")}</strong>{t("data.pre_nursing_nutrition_foundations.collagenSynthesisWoundHealingImmune")}</p>
             </div>
           </div>
           <div className="p-4 bg-teal-50/60 rounded-xl border border-teal-100">
@@ -72,7 +74,7 @@ export function NutritionFoundationsModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Dietary Electrolytes"
+          title={t("data.pre_nursing_nutrition_foundations.dietaryElectrolytes")}
           content={electrolyteContent}
         />
       </MicroLesson>
@@ -80,7 +82,7 @@ export function NutritionFoundationsModule() {
       <MicroLesson title="Therapeutic Diets" subtitle="Medical nutrition therapy for common conditions" icon={<UtensilsCrossed className="w-5 h-5" />}>
         <EditableModuleText sectionKey="nf-therapeutic-intro" defaultText="Therapeutic diets are prescribed as part of the treatment plan for specific medical conditions. Nurses must understand diet modifications to provide accurate patient education, monitor compliance, and recognize when dietary intake may worsen a condition." as="p" className="text-sm text-gray-600 leading-relaxed" multiline />
         <ProgressiveReveal
-          title="Common Therapeutic Diets"
+          title={t("data.pre_nursing_nutrition_foundations.commonTherapeuticDiets")}
           cards={[
             {
               id: "nf-cardiac",
@@ -115,23 +117,23 @@ export function NutritionFoundationsModule() {
         <div className="p-4 bg-orange-50/60 rounded-xl border border-orange-100 mt-3">
           <p className="text-xs font-semibold text-orange-700 mb-2">Reading a Nutrition Label</p>
           <div className="space-y-1 text-xs text-orange-600">
-            <p><strong>Serving size:</strong> All values are per serving — check the number of servings per container.</p>
-            <p><strong>Calories:</strong> Total energy per serving. General guide: 40 calories = low, 100 = moderate, 400+ = high.</p>
-            <p><strong>% Daily Value (DV):</strong> Based on 2,000 calorie diet. 5% DV or less = low, 20% DV or more = high.</p>
-            <p><strong>Limit these:</strong> Saturated fat, trans fat, sodium, added sugars.</p>
-            <p><strong>Get enough of:</strong> Fiber, vitamin D, calcium, iron, potassium.</p>
-            <p><strong>Ingredient list:</strong> Listed by weight in descending order — first ingredient is present in the greatest amount.</p>
+            <p><strong>{t("data.pre_nursing_nutrition_foundations.servingSize")}</strong>{t("data.pre_nursing_nutrition_foundations.allValuesArePerServing")}</p>
+            <p><strong>{t("data.pre_nursing_nutrition_foundations.calories")}</strong>{t("data.pre_nursing_nutrition_foundations.totalEnergyPerServingGeneral")}</p>
+            <p><strong>% Daily Value (DV):</strong>{t("data.pre_nursing_nutrition_foundations.basedOn2000CalorieDiet")}</p>
+            <p><strong>{t("data.pre_nursing_nutrition_foundations.limitThese")}</strong>{t("data.pre_nursing_nutrition_foundations.saturatedFatTransFatSodium")}</p>
+            <p><strong>{t("data.pre_nursing_nutrition_foundations.getEnoughOf")}</strong>{t("data.pre_nursing_nutrition_foundations.fiberVitaminDCalciumIron")}</p>
+            <p><strong>{t("data.pre_nursing_nutrition_foundations.ingredientList")}</strong>{t("data.pre_nursing_nutrition_foundations.listedByWeightInDescending")}</p>
           </div>
         </div>
         <CognitiveCard
           type="concept"
-          title="BMI and Malnutrition Screening"
+          title={t("data.pre_nursing_nutrition_foundations.bmiAndMalnutritionScreening")}
           content={malnutritionContent}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Nutrition Concept"
+        title={t("data.pre_nursing_nutrition_foundations.matchTheNutritionConcept")}
         pairs={[
           { id: "carbs", term: "Carbohydrates", definition: "Provide 4 kcal/g — the body's preferred energy source" },
           { id: "fats", term: "Fats", definition: "Provide 9 kcal/g — most calorie-dense macronutrient" },
@@ -143,7 +145,7 @@ export function NutritionFoundationsModule() {
       />
 
       <SelfCheckQuiz
-        title="Nutrition Foundations Quiz"
+        title={t("data.pre_nursing_nutrition_foundations.nutritionFoundationsQuiz")}
         questions={[
           {
             id: "nf1",

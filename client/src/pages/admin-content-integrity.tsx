@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowLeft, RefreshCw, Shield, AlertTriangle, CheckCircle, XCircle,
   Search, Wrench, Play, BarChart3, Clock, Eye, ThumbsUp, ThumbsDown,
@@ -49,6 +50,7 @@ const GAP_TYPES = [
 ];
 
 function SeverityBadge({ severity }: { severity: string }) {
+  const { t } = useI18n();
   return (
     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${SEVERITY_COLORS[severity] || SEVERITY_COLORS.info}`} data-testid={`badge-severity-${severity}`}>
       {severity === "critical" && <XCircle className="w-3 h-3" />}
@@ -132,7 +134,7 @@ function OverviewPanel() {
     return (
       <div className="flex items-center justify-center py-12" data-testid="loading-overview">
         <RefreshCw className="w-6 h-6 animate-spin mr-2 text-gray-400" />
-        <span className="text-gray-500">Loading overview...</span>
+        <span className="text-gray-500">{t("pages.adminContentIntegrity.loadingOverview")}</span>
       </div>
     );
   }
@@ -140,18 +142,18 @@ function OverviewPanel() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3" data-testid="section-overview-stats">
-        <StatCard icon={Database} label="Total Scanned" value={overview.totalScanned} testId="card-total-scanned" color="text-blue-600" bgColor="bg-blue-50" />
-        <StatCard icon={AlertTriangle} label="Total Issues" value={overview.totalIssues} testId="card-total-issues" color="text-orange-600" bgColor="bg-orange-50" />
-        <StatCard icon={XCircle} label="Critical" value={overview.criticalIssues} subtitle={`${overview.highIssues} high`} testId="card-critical-issues" color="text-red-600" bgColor="bg-red-50" />
-        <StatCard icon={Wrench} label="Auto-Fixable" value={overview.autoFixable} testId="card-auto-fixable" color="text-emerald-600" bgColor="bg-emerald-50" />
-        <StatCard icon={Eye} label="Manual Review" value={overview.manualReview} testId="card-manual-review" color="text-purple-600" bgColor="bg-purple-50" />
+        <StatCard icon={Database} label={t("pages.adminContentIntegrity.totalScanned")} value={overview.totalScanned} testId="card-total-scanned" color="text-blue-600" bgColor="bg-blue-50" />
+        <StatCard icon={AlertTriangle} label={t("pages.adminContentIntegrity.totalIssues")} value={overview.totalIssues} testId="card-total-issues" color="text-orange-600" bgColor="bg-orange-50" />
+        <StatCard icon={XCircle} label={t("pages.adminContentIntegrity.critical2")} value={overview.criticalIssues} subtitle={`${overview.highIssues} high`} testId="card-critical-issues" color="text-red-600" bgColor="bg-red-50" />
+        <StatCard icon={Wrench} label={t("pages.adminContentIntegrity.autofixable")} value={overview.autoFixable} testId="card-auto-fixable" color="text-emerald-600" bgColor="bg-emerald-50" />
+        <StatCard icon={Eye} label={t("pages.adminContentIntegrity.manualReview2")} value={overview.manualReview} testId="card-manual-review" color="text-purple-600" bgColor="bg-purple-50" />
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <StatCard icon={CheckCircle} label="Repaired Today" value={overview.repairedToday} testId="card-repaired-today" color="text-emerald-600" bgColor="bg-emerald-50" />
-        <StatCard icon={Target} label="Remaining Gaps" value={overview.remainingGaps} testId="card-remaining-gaps" color="text-amber-600" bgColor="bg-amber-50" />
-        <StatCard icon={AlertOctagon} label="Medium Issues" value={overview.mediumIssues} testId="card-medium-issues" color="text-yellow-600" bgColor="bg-yellow-50" />
-        <StatCard icon={Activity} label="Low Issues" value={overview.lowIssues} testId="card-low-issues" color="text-blue-600" bgColor="bg-blue-50" />
+        <StatCard icon={CheckCircle} label={t("pages.adminContentIntegrity.repairedToday")} value={overview.repairedToday} testId="card-repaired-today" color="text-emerald-600" bgColor="bg-emerald-50" />
+        <StatCard icon={Target} label={t("pages.adminContentIntegrity.remainingGaps")} value={overview.remainingGaps} testId="card-remaining-gaps" color="text-amber-600" bgColor="bg-amber-50" />
+        <StatCard icon={AlertOctagon} label={t("pages.adminContentIntegrity.mediumIssues")} value={overview.mediumIssues} testId="card-medium-issues" color="text-yellow-600" bgColor="bg-yellow-50" />
+        <StatCard icon={Activity} label={t("pages.adminContentIntegrity.lowIssues")} value={overview.lowIssues} testId="card-low-issues" color="text-blue-600" bgColor="bg-blue-50" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -168,7 +170,7 @@ function OverviewPanel() {
                   <HealthScoreBar key={tier} label={tier.toUpperCase()} score={score as number} />
                 ))
               ) : (
-                <p className="text-sm text-gray-400 text-center py-4">No tier health data available. Run a scan to populate.</p>
+                <p className="text-sm text-gray-400 text-center py-4">{t("pages.adminContentIntegrity.noTierHealthDataAvailable")}</p>
               )}
             </div>
           </CardContent>
@@ -187,7 +189,7 @@ function OverviewPanel() {
                   <HealthScoreBar key={type} label={type} score={score as number} />
                 ))
               ) : (
-                <p className="text-sm text-gray-400 text-center py-4">No content type data available. Run a scan to populate.</p>
+                <p className="text-sm text-gray-400 text-center py-4">{t("pages.adminContentIntegrity.noContentTypeDataAvailable")}</p>
               )}
             </div>
           </CardContent>
@@ -271,7 +273,7 @@ function GapDetectionPanel() {
               <div className="relative">
                 <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
                 <Input
-                  placeholder="Search..."
+                  placeholder={t("pages.adminContentIntegrity.search")}
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
                   className="h-8 text-xs pl-7 w-48"
@@ -294,24 +296,24 @@ function GapDetectionPanel() {
           {isLoading ? (
             <div className="flex items-center justify-center py-8">
               <RefreshCw className="w-5 h-5 animate-spin mr-2 text-gray-400" />
-              <span className="text-gray-500 text-sm">Loading gap data...</span>
+              <span className="text-gray-500 text-sm">{t("pages.adminContentIntegrity.loadingGapData")}</span>
             </div>
           ) : filteredItems.length === 0 ? (
             <div className="text-center py-8 text-gray-400" data-testid="text-no-gaps">
               <CheckCircle className="w-10 h-10 mx-auto mb-2 text-emerald-400" />
-              <p className="font-medium text-gray-600">No gaps detected</p>
-              <p className="text-sm">All content looks good for this category</p>
+              <p className="font-medium text-gray-600">{t("pages.adminContentIntegrity.noGapsDetected")}</p>
+              <p className="text-sm">{t("pages.adminContentIntegrity.allContentLooksGoodFor")}</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm" data-testid={`table-gaps-${selectedGap}`}>
                 <thead>
                   <tr className="border-b text-left">
-                    <th className="py-2 px-2 text-xs font-medium text-gray-500">Title</th>
-                    <th className="py-2 px-2 text-xs font-medium text-gray-500">Content Type</th>
-                    <th className="py-2 px-2 text-xs font-medium text-gray-500">Tier</th>
-                    <th className="py-2 px-2 text-xs font-medium text-gray-500">Severity</th>
-                    <th className="py-2 px-2 text-xs font-medium text-gray-500">Details</th>
+                    <th className="py-2 px-2 text-xs font-medium text-gray-500">{t("pages.adminContentIntegrity.title")}</th>
+                    <th className="py-2 px-2 text-xs font-medium text-gray-500">{t("pages.adminContentIntegrity.contentType")}</th>
+                    <th className="py-2 px-2 text-xs font-medium text-gray-500">{t("pages.adminContentIntegrity.tier")}</th>
+                    <th className="py-2 px-2 text-xs font-medium text-gray-500">{t("pages.adminContentIntegrity.severity")}</th>
+                    <th className="py-2 px-2 text-xs font-medium text-gray-500">{t("pages.adminContentIntegrity.details")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -376,10 +378,10 @@ function ActionControlsPanel() {
 
   const getStatusIndicator = (state: string) => {
     switch (state) {
-      case "queued": return <span className="flex items-center gap-1 text-xs text-yellow-600"><Clock className="w-3 h-3" /> Queued</span>;
-      case "processing": return <span className="flex items-center gap-1 text-xs text-blue-600"><RefreshCw className="w-3 h-3 animate-spin" /> Processing</span>;
-      case "completed": return <span className="flex items-center gap-1 text-xs text-emerald-600"><CheckCircle className="w-3 h-3" /> Completed</span>;
-      case "failed": return <span className="flex items-center gap-1 text-xs text-red-600"><XCircle className="w-3 h-3" /> Failed</span>;
+      case "queued": return <span className="flex items-center gap-1 text-xs text-yellow-600"><Clock className="w-3 h-3" /> {t("pages.adminContentIntegrity.queued")}</span>;
+      case "processing": return <span className="flex items-center gap-1 text-xs text-blue-600"><RefreshCw className="w-3 h-3 animate-spin" /> {t("pages.adminContentIntegrity.processing")}</span>;
+      case "completed": return <span className="flex items-center gap-1 text-xs text-emerald-600"><CheckCircle className="w-3 h-3" /> {t("pages.adminContentIntegrity.completed")}</span>;
+      case "failed": return <span className="flex items-center gap-1 text-xs text-red-600"><XCircle className="w-3 h-3" /> {t("pages.adminContentIntegrity.failed")}</span>;
       default: return null;
     }
   };
@@ -475,7 +477,7 @@ function ManualReviewQueue() {
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
           <Input
-            placeholder="Search review items..."
+            placeholder={t("pages.adminContentIntegrity.searchReviewItems")}
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
             className="h-8 text-xs pl-7"
@@ -488,7 +490,7 @@ function ManualReviewQueue() {
           className="h-8 text-xs border rounded-md px-2 bg-white"
           data-testid="select-review-type"
         >
-          <option value="all">All Types</option>
+          <option value="all">{t("pages.adminContentIntegrity.allTypes")}</option>
           {contentTypes.map(t => <option key={t} value={t}>{t}</option>)}
         </select>
         <select
@@ -497,11 +499,11 @@ function ManualReviewQueue() {
           className="h-8 text-xs border rounded-md px-2 bg-white"
           data-testid="select-review-severity"
         >
-          <option value="all">All Severities</option>
-          <option value="critical">Critical</option>
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
+          <option value="all">{t("pages.adminContentIntegrity.allSeverities")}</option>
+          <option value="critical">{t("pages.adminContentIntegrity.critical")}</option>
+          <option value="high">{t("pages.adminContentIntegrity.high")}</option>
+          <option value="medium">{t("pages.adminContentIntegrity.medium")}</option>
+          <option value="low">{t("pages.adminContentIntegrity.low")}</option>
         </select>
       </div>
 
@@ -510,25 +512,25 @@ function ManualReviewQueue() {
           {isLoading ? (
             <div className="flex items-center justify-center py-8">
               <RefreshCw className="w-5 h-5 animate-spin mr-2 text-gray-400" />
-              <span className="text-gray-500 text-sm">Loading review queue...</span>
+              <span className="text-gray-500 text-sm">{t("pages.adminContentIntegrity.loadingReviewQueue")}</span>
             </div>
           ) : filtered.length === 0 ? (
             <div className="text-center py-8 text-gray-400" data-testid="text-no-review-items">
               <CheckCircle className="w-10 h-10 mx-auto mb-2 text-emerald-400" />
-              <p className="font-medium text-gray-600">Review queue is empty</p>
-              <p className="text-sm">No items require manual review</p>
+              <p className="font-medium text-gray-600">{t("pages.adminContentIntegrity.reviewQueueIsEmpty")}</p>
+              <p className="text-sm">{t("pages.adminContentIntegrity.noItemsRequireManualReview")}</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm" data-testid="table-review-queue">
                 <thead>
                   <tr className="border-b bg-gray-50 text-left">
-                    <th className="py-2.5 px-3 text-xs font-medium text-gray-500">Content Type</th>
-                    <th className="py-2.5 px-3 text-xs font-medium text-gray-500">Title / Preview</th>
-                    <th className="py-2.5 px-3 text-xs font-medium text-gray-500">Issue Type</th>
-                    <th className="py-2.5 px-3 text-xs font-medium text-gray-500">Severity</th>
-                    <th className="py-2.5 px-3 text-xs font-medium text-gray-500">AI Suggested Fix</th>
-                    <th className="py-2.5 px-3 text-xs font-medium text-gray-500 text-right">Actions</th>
+                    <th className="py-2.5 px-3 text-xs font-medium text-gray-500">{t("pages.adminContentIntegrity.contentType2")}</th>
+                    <th className="py-2.5 px-3 text-xs font-medium text-gray-500">{t("pages.adminContentIntegrity.titlePreview")}</th>
+                    <th className="py-2.5 px-3 text-xs font-medium text-gray-500">{t("pages.adminContentIntegrity.issueType")}</th>
+                    <th className="py-2.5 px-3 text-xs font-medium text-gray-500">{t("pages.adminContentIntegrity.severity2")}</th>
+                    <th className="py-2.5 px-3 text-xs font-medium text-gray-500">{t("pages.adminContentIntegrity.aiSuggestedFix")}</th>
+                    <th className="py-2.5 px-3 text-xs font-medium text-gray-500 text-right">{t("pages.adminContentIntegrity.actions")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -547,7 +549,7 @@ function ManualReviewQueue() {
                         {item.suggestedFix ? (
                           <p className="text-[10px] text-gray-500 truncate italic">"{item.suggestedFix}"</p>
                         ) : (
-                          <span className="text-[10px] text-gray-400">No suggestion</span>
+                          <span className="text-[10px] text-gray-400">{t("pages.adminContentIntegrity.noSuggestion")}</span>
                         )}
                       </td>
                       <td className="py-2.5 px-3">
@@ -619,7 +621,7 @@ function TierHealthTable() {
     return (
       <div className="flex items-center justify-center py-12">
         <RefreshCw className="w-5 h-5 animate-spin mr-2 text-gray-400" />
-        <span className="text-gray-500 text-sm">Loading tier health...</span>
+        <span className="text-gray-500 text-sm">{t("pages.adminContentIntegrity.loadingTierHealth")}</span>
       </div>
     );
   }
@@ -635,23 +637,23 @@ function TierHealthTable() {
         {tiers.length === 0 ? (
           <div className="text-center py-8 text-gray-400" data-testid="text-no-tier-data">
             <Layers className="w-10 h-10 mx-auto mb-2" />
-            <p className="font-medium text-gray-600">No tier health data available</p>
-            <p className="text-sm">Run a scan to populate tier statistics</p>
+            <p className="font-medium text-gray-600">{t("pages.adminContentIntegrity.noTierHealthDataAvailable2")}</p>
+            <p className="text-sm">{t("pages.adminContentIntegrity.runAScanToPopulate")}</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm" data-testid="table-tier-health">
               <thead>
                 <tr className="border-b bg-gray-50 text-left">
-                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500">Tier</th>
-                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500 text-right">Published Q's</th>
-                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500 text-right">Published FC's</th>
-                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500 text-right">Q:FC Ratio</th>
-                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500 text-right">Needs Review</th>
-                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500 text-right">Missing Rationale</th>
-                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500 text-right">Missing Metadata</th>
-                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500 text-right">Sync Issues</th>
-                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500">Health Score</th>
+                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500">{t("pages.adminContentIntegrity.tier2")}</th>
+                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500 text-right">{t("pages.adminContentIntegrity.publishedQs")}</th>
+                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500 text-right">{t("pages.adminContentIntegrity.publishedFcs")}</th>
+                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500 text-right">{t("pages.adminContentIntegrity.qfcRatio")}</th>
+                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500 text-right">{t("pages.adminContentIntegrity.needsReview")}</th>
+                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500 text-right">{t("pages.adminContentIntegrity.missingRationale")}</th>
+                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500 text-right">{t("pages.adminContentIntegrity.missingMetadata")}</th>
+                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500 text-right">{t("pages.adminContentIntegrity.syncIssues")}</th>
+                  <th className="py-2.5 px-3 text-xs font-medium text-gray-500">{t("pages.adminContentIntegrity.healthScore")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -753,14 +755,14 @@ function AuditLogPanel() {
           className="h-8 text-xs border rounded-md px-2 bg-white"
           data-testid="select-audit-process"
         >
-          <option value="all">All Processes</option>
-          <option value="auto-repair">Auto Repair</option>
-          <option value="manual-review">Manual Review</option>
-          <option value="scan">Scan</option>
-          <option value="sync">Sync</option>
-          <option value="generation">Generation</option>
-          <option value="rationale_upgraded">Rationale Upgraded</option>
-          <option value="flashcard_generated">Flashcard Generated</option>
+          <option value="all">{t("pages.adminContentIntegrity.allProcesses")}</option>
+          <option value="auto-repair">{t("pages.adminContentIntegrity.autoRepair")}</option>
+          <option value="manual-review">{t("pages.adminContentIntegrity.manualReview")}</option>
+          <option value="scan">{t("pages.adminContentIntegrity.scan")}</option>
+          <option value="sync">{t("pages.adminContentIntegrity.sync")}</option>
+          <option value="generation">{t("pages.adminContentIntegrity.generation")}</option>
+          <option value="rationale_upgraded">{t("pages.adminContentIntegrity.rationaleUpgraded")}</option>
+          <option value="flashcard_generated">{t("pages.adminContentIntegrity.flashcardGenerated")}</option>
         </select>
       </div>
 
@@ -769,13 +771,13 @@ function AuditLogPanel() {
           {isLoading ? (
             <div className="flex items-center justify-center py-8">
               <RefreshCw className="w-5 h-5 animate-spin mr-2 text-gray-400" />
-              <span className="text-gray-500 text-sm">Loading audit log...</span>
+              <span className="text-gray-500 text-sm">{t("pages.adminContentIntegrity.loadingAuditLog")}</span>
             </div>
           ) : entries.length === 0 ? (
             <div className="text-center py-8 text-gray-400" data-testid="text-no-audit-entries">
               <Clock className="w-10 h-10 mx-auto mb-2" />
-              <p className="font-medium text-gray-600">No audit entries</p>
-              <p className="text-sm">Repairs and actions will be logged here</p>
+              <p className="font-medium text-gray-600">{t("pages.adminContentIntegrity.noAuditEntries")}</p>
+              <p className="text-sm">{t("pages.adminContentIntegrity.repairsAndActionsWillBe")}</p>
             </div>
           ) : (
             <div className="divide-y" data-testid="list-audit-entries">
@@ -787,7 +789,7 @@ function AuditLogPanel() {
                         <span className="text-sm font-medium text-gray-900">{entry.action || "Unknown action"}</span>
                         <Badge variant="outline" className="text-[10px]">{entry.process || "—"}</Badge>
                         {entry.autoPublished && (
-                          <Badge className="text-[10px] bg-emerald-100 text-emerald-800">Auto-published</Badge>
+                          <Badge className="text-[10px] bg-emerald-100 text-emerald-800">{t("pages.adminContentIntegrity.autopublished")}</Badge>
                         )}
                       </div>
                       <div className="flex items-center gap-3 mt-0.5 text-xs text-gray-500">
@@ -815,13 +817,13 @@ function AuditLogPanel() {
                     <div className="mt-3 ml-4 space-y-2 text-xs">
                       {entry.beforeSummary && (
                         <div className="p-2 bg-red-50 rounded border border-red-100">
-                          <span className="font-medium text-red-700">Before:</span>
+                          <span className="font-medium text-red-700">{t("pages.adminContentIntegrity.before")}</span>
                           <p className="text-red-600 mt-0.5">{entry.beforeSummary}</p>
                         </div>
                       )}
                       {entry.afterSummary && (
                         <div className="p-2 bg-emerald-50 rounded border border-emerald-100">
-                          <span className="font-medium text-emerald-700">After:</span>
+                          <span className="font-medium text-emerald-700">{t("pages.adminContentIntegrity.after")}</span>
                           <p className="text-emerald-600 mt-0.5">{entry.afterSummary}</p>
                         </div>
                       )}
@@ -879,7 +881,7 @@ function AnalyticsPanel() {
     return (
       <div className="flex items-center justify-center py-12">
         <RefreshCw className="w-5 h-5 animate-spin mr-2 text-gray-400" />
-        <span className="text-gray-500 text-sm">Loading analytics...</span>
+        <span className="text-gray-500 text-sm">{t("pages.adminContentIntegrity.loadingAnalytics")}</span>
       </div>
     );
   }
@@ -897,7 +899,7 @@ function AnalyticsPanel() {
             {analytics.healthTrend.length > 1 ? (
               <MiniChart data={analytics.healthTrend} color="#3b82f6" height={60} />
             ) : (
-              <p className="text-xs text-gray-400 text-center py-4">Insufficient data for trend chart</p>
+              <p className="text-xs text-gray-400 text-center py-4">{t("pages.adminContentIntegrity.insufficientDataForTrendChart")}</p>
             )}
           </CardContent>
         </Card>
@@ -912,7 +914,7 @@ function AnalyticsPanel() {
             {analytics.repairThroughput.length > 1 ? (
               <MiniChart data={analytics.repairThroughput} color="#10b981" height={60} />
             ) : (
-              <p className="text-xs text-gray-400 text-center py-4">Insufficient data for throughput chart</p>
+              <p className="text-xs text-gray-400 text-center py-4">{t("pages.adminContentIntegrity.insufficientDataForThroughputChart")}</p>
             )}
           </CardContent>
         </Card>
@@ -927,7 +929,7 @@ function AnalyticsPanel() {
             {analytics.issueRecurrence.length > 1 ? (
               <MiniChart data={analytics.issueRecurrence} color="#f59e0b" height={60} />
             ) : (
-              <p className="text-xs text-gray-400 text-center py-4">Insufficient data for recurrence chart</p>
+              <p className="text-xs text-gray-400 text-center py-4">{t("pages.adminContentIntegrity.insufficientDataForRecurrenceChart")}</p>
             )}
           </CardContent>
         </Card>
@@ -937,37 +939,37 @@ function AnalyticsPanel() {
         <Card className="border-0 shadow-sm" data-testid="card-flashcard-coverage-pct">
           <CardContent className="p-3 text-center">
             <p className="text-2xl font-bold text-gray-900">{analytics.flashcardCoverage}%</p>
-            <p className="text-[10px] text-gray-500 mt-0.5">Flashcard Coverage</p>
+            <p className="text-[10px] text-gray-500 mt-0.5">{t("pages.adminContentIntegrity.flashcardCoverage")}</p>
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm" data-testid="card-rationale-coverage-pct">
           <CardContent className="p-3 text-center">
             <p className="text-2xl font-bold text-gray-900">{analytics.rationaleCoverage}%</p>
-            <p className="text-[10px] text-gray-500 mt-0.5">Rationale Coverage</p>
+            <p className="text-[10px] text-gray-500 mt-0.5">{t("pages.adminContentIntegrity.rationaleCoverage")}</p>
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm" data-testid="card-sync-accuracy">
           <CardContent className="p-3 text-center">
             <p className="text-2xl font-bold text-gray-900">{analytics.publishingSyncAccuracy}%</p>
-            <p className="text-[10px] text-gray-500 mt-0.5">Sync Accuracy</p>
+            <p className="text-[10px] text-gray-500 mt-0.5">{t("pages.adminContentIntegrity.syncAccuracy")}</p>
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm" data-testid="card-detection-repair-time">
           <CardContent className="p-3 text-center">
             <p className="text-2xl font-bold text-gray-900">{analytics.avgDetectionToRepairHours}h</p>
-            <p className="text-[10px] text-gray-500 mt-0.5">Avg Detection→Repair</p>
+            <p className="text-[10px] text-gray-500 mt-0.5">{t("pages.adminContentIntegrity.avgDetectionrepair")}</p>
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm" data-testid="card-auto-fixed-pct">
           <CardContent className="p-3 text-center">
             <p className="text-2xl font-bold text-emerald-600">{analytics.autoFixedPercent}%</p>
-            <p className="text-[10px] text-gray-500 mt-0.5">Auto-Fixed</p>
+            <p className="text-[10px] text-gray-500 mt-0.5">{t("pages.adminContentIntegrity.autofixed")}</p>
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm" data-testid="card-manually-reviewed-pct">
           <CardContent className="p-3 text-center">
             <p className="text-2xl font-bold text-purple-600">{analytics.manuallyReviewedPercent}%</p>
-            <p className="text-[10px] text-gray-500 mt-0.5">Manually Reviewed</p>
+            <p className="text-[10px] text-gray-500 mt-0.5">{t("pages.adminContentIntegrity.manuallyReviewed")}</p>
           </CardContent>
         </Card>
       </div>
@@ -987,7 +989,7 @@ function AnalyticsPanel() {
                 ))}
               </div>
             ) : (
-              <p className="text-xs text-gray-400 text-center py-4">No tier completion data available</p>
+              <p className="text-xs text-gray-400 text-center py-4">{t("pages.adminContentIntegrity.noTierCompletionDataAvailable")}</p>
             )}
           </CardContent>
         </Card>
@@ -1015,7 +1017,7 @@ function AnalyticsPanel() {
                 ))}
               </div>
             ) : (
-              <p className="text-xs text-gray-400 text-center py-4">No recommended fixes at this time</p>
+              <p className="text-xs text-gray-400 text-center py-4">{t("pages.adminContentIntegrity.noRecommendedFixesAtThis")}</p>
             )}
           </CardContent>
         </Card>
@@ -1042,7 +1044,7 @@ export default function AdminContentIntegrity() {
                 <Shield className="w-6 h-6 text-indigo-600" />
                 Content Integrity Engine
               </h1>
-              <p className="text-xs text-gray-500 mt-0.5">Monitor content quality, trigger repairs, and track health trends</p>
+              <p className="text-xs text-gray-500 mt-0.5">{t("pages.adminContentIntegrity.monitorContentQualityTriggerRepairs")}</p>
             </div>
           </div>
           <Button

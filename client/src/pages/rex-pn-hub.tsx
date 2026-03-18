@@ -30,6 +30,7 @@ import {
 import { useLocation } from "wouter";
 import { ComparisonTable, DifferentiatorCTA } from "@/components/competitive-differentiation";
 
+import { useI18n } from "@/lib/i18n";
 const domains = [
   { name: "Foundations of Practice", weight: 36, color: "bg-blue-500" },
   { name: "Collaborative Practice", weight: 30, color: "bg-emerald-500" },
@@ -185,13 +186,14 @@ const strategyGuides = [
 ];
 
 export default function RexPnHub() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
       <SEO
-        title="REx-PN Exam Prep | Canadian Practical Nurse Licensing Exam Preparation"
-        description="Prepare for the REx-PN (Regulatory Exam - Practical Nurse) with CAT-adaptive mock exams, a comprehensive question bank, clinical lessons, and study tools. Built for Canadian RPN candidates."
+        title={t("pages.rexPnHub.rexpnExamPrepCanadianPractical")}
+        description={t("pages.rexPnHub.prepareForTheRexpnRegulatory")}
         keywords="REx-PN exam prep, REx-PN practice questions, Canadian practical nurse exam, RPN licensing exam, REx-PN CAT exam, RPN question bank, REx-PN mock exam, REx-PN study guide, Canadian nursing exam"
         canonicalPath="/rex-pn"
       />
@@ -210,7 +212,7 @@ export default function RexPnHub() {
             <div className="text-center max-w-3xl mx-auto space-y-6 mt-8">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-red-200 shadow-sm">
                 <span className="flex h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
-                <span className="text-xs font-medium text-gray-600">Canadian Practical Nurse Licensing Exam</span>
+                <span className="text-xs font-medium text-gray-600">{t("pages.rexPnHub.canadianPracticalNurseLicensingExam")}</span>
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1]" data-testid="text-rex-pn-heading">
@@ -243,7 +245,7 @@ export default function RexPnHub() {
                 </Button>
               </div>
 
-              <p className="text-xs text-gray-500 pt-2">No credit card required. Start free today.</p>
+              <p className="text-xs text-gray-500 pt-2">{t("pages.rexPnHub.noCreditCardRequiredStart")}</p>
             </div>
           </div>
         </section>
@@ -256,7 +258,7 @@ export default function RexPnHub() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 mb-4">
                 <FileText className="w-3.5 h-3.5 text-blue-600" />
-                <span className="text-xs font-bold text-blue-700 uppercase tracking-wider">Exam Overview</span>
+                <span className="text-xs font-bold text-blue-700 uppercase tracking-wider">{t("pages.rexPnHub.examOverview")}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-overview-heading">
                 What Is the REx-PN?
@@ -287,7 +289,7 @@ export default function RexPnHub() {
             </div>
 
             <div className="mt-10 bg-gray-50 rounded-2xl p-6 sm:p-8 border border-gray-100" data-testid="section-cat-explanation">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">How Computer Adaptive Testing (CAT) Works</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">{t("pages.rexPnHub.howComputerAdaptiveTestingCat")}</h3>
               <div className="space-y-3 text-gray-600 text-sm leading-relaxed">
                 <p>
                   The REx-PN uses Computer Adaptive Testing, which tailors the difficulty of questions to your ability level in real time. After each question you answer, the computer recalculates your estimated ability and selects the next question accordingly.
@@ -308,7 +310,7 @@ export default function RexPnHub() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200 mb-4">
                 <BarChart3 className="w-3.5 h-3.5 text-purple-600" />
-                <span className="text-xs font-bold text-purple-700 uppercase tracking-wider">Content Blueprint</span>
+                <span className="text-xs font-bold text-purple-700 uppercase tracking-wider">{t("pages.rexPnHub.contentBlueprint")}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-domains-heading">
                 REx-PN Blueprint Domains
@@ -342,7 +344,7 @@ export default function RexPnHub() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 mb-4">
                 <Stethoscope className="w-3.5 h-3.5 text-emerald-600" />
-                <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Question Formats</span>
+                <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">{t("pages.rexPnHub.questionFormats")}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-formats-heading">
                 Question Types on the REx-PN
@@ -373,7 +375,7 @@ export default function RexPnHub() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 border border-amber-200 mb-4">
                 <GraduationCap className="w-3.5 h-3.5 text-amber-600" />
-                <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">Your Toolkit</span>
+                <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">{t("pages.rexPnHub.yourToolkit")}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-toolkit-heading">
                 Everything You Need to Pass the REx-PN
@@ -443,7 +445,7 @@ export default function RexPnHub() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200 mb-4">
                 <BookOpen className="w-3.5 h-3.5 text-purple-600" />
-                <span className="text-xs font-bold text-purple-700 uppercase tracking-wider">Study Guides</span>
+                <span className="text-xs font-bold text-purple-700 uppercase tracking-wider">{t("pages.rexPnHub.studyGuides")}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-content-hub-heading">
                 REx-PN Content Library
@@ -563,11 +565,11 @@ export default function RexPnHub() {
 
         <ComparisonTable
           headline="How NurseNest Compares for REx-PN Prep"
-          subtitle="See how a modern clinical learning system compares to typical study platforms for REx-PN exam preparation."
+          subtitle={t("pages.rex_pn_hub.seeHowAModernClinical")}
         />
         <DifferentiatorCTA
           headline="Start Your REx-PN Prep Today"
-          subtitle="Join thousands of Canadian nursing students using NurseNest's adaptive REx-PN practice exams, clinical lessons, and readiness analytics."
+          subtitle={t("pages.rex_pn_hub.joinThousandsOfCanadianNursing")}
           primaryHref="/register"
           primaryLabel="Start Free"
           secondaryHref="/pricing"
@@ -576,7 +578,7 @@ export default function RexPnHub() {
 
         <section className="py-12 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-purple-50/30 border-t border-gray-100" data-testid="section-new-grad-cta">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-xl font-bold text-gray-900 mb-3" data-testid="text-rpn-new-grad-cta">Passed Your REx-PN? Launch Your Career</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-3" data-testid="text-rpn-new-grad-cta">{t("pages.rexPnHub.passedYourRexpnLaunchYour")}</h2>
             <p className="text-gray-600 mb-5 max-w-2xl mx-auto text-sm">
               Congratulations on passing! Our New Grad Career Hub helps you land your first nursing job with interview prep, resume templates, salary guides, and first-year survival strategies.
             </p>
@@ -593,7 +595,7 @@ export default function RexPnHub() {
             <div className="flex items-start gap-4 bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
               <AlertCircle className="w-6 h-6 text-amber-500 shrink-0 mt-0.5" />
               <div>
-                <h3 className="font-semibold text-gray-900 mb-2" data-testid="text-disclaimer-heading">Educational Disclaimer</h3>
+                <h3 className="font-semibold text-gray-900 mb-2" data-testid="text-disclaimer-heading">{t("pages.rexPnHub.educationalDisclaimer")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed" data-testid="text-disclaimer-body">
                   This is a training simulator designed to help you prepare for the REx-PN examination. It does not guarantee exam results. NurseNest is not affiliated with, endorsed by, or connected to NCSBN, any provincial or territorial nursing regulatory body, or Pearson VUE. All content is developed independently for educational purposes. Candidates should always consult their regulatory body for official exam information and requirements.
                 </p>

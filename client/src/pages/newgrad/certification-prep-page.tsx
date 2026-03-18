@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { ContentGate } from "@/components/content-gate";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import type { CertPrepContent } from "./certification-prep-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, BookOpen, ChevronRight, Check, GraduationCap,
   ClipboardList, Layers, Award, HelpCircle, Target, Users,
@@ -32,6 +33,7 @@ const RESOURCE_ICONS = {
 };
 
 function FAQItem({ question, answer, index, accentColor }: { question: string; answer: string; index: number; accentColor: string }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   return (
     <div className="border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-item-${index}`}>
@@ -103,11 +105,11 @@ export default function CertificationPrepPage({ cert }: { cert: CertPrepContent 
         <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradientFrom} via-white/50 ${colors.gradientTo}`} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="nav-breadcrumb">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.newgrad.certificationPrepPage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/newgrad" className="hover:text-blue-600">New Grad Hub</Link>
+            <Link href="/newgrad" className="hover:text-blue-600">{t("pages.newgrad.certificationPrepPage.newGradHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/newgrad/certifications" className="hover:text-blue-600">Certifications</Link>
+            <Link href="/newgrad/certifications" className="hover:text-blue-600">{t("pages.newgrad.certificationPrepPage.certifications")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className={`${colors.iconColor} font-medium`}>{cert.name}</span>
           </div>
@@ -427,7 +429,7 @@ export default function CertificationPrepPage({ cert }: { cert: CertPrepContent 
       <section className="py-16 bg-white" data-testid="section-related-certs">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-related-heading">Related Certifications</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-related-heading">{t("pages.newgrad.certificationPrepPage.relatedCertifications")}</h2>
             <p className="text-gray-600 mb-2">Other life support certifications that complement {cert.name}.</p>
             <Link href="/nursing-certifications" className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors" data-testid="link-back-to-hub">
               ← Back to Certification Hub
@@ -441,11 +443,11 @@ export default function CertificationPrepPage({ cert }: { cert: CertPrepContent 
                     <Activity className="w-5 h-5 text-blue-600" />
                   </div>
                   <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 transition-colors text-sm">BLS</h3>
-                  <p className="text-xs text-gray-500">Basic Life Support — the prerequisite for ACLS and PALS.</p>
+                  <p className="text-xs text-gray-500">{t("pages.newgrad.certificationPrepPage.basicLifeSupportThePrerequisite")}</p>
                 </Link>
                 <div className="flex gap-2 mt-3 pt-3 border-t border-gray-100">
-                  <Link href="/certifications/bls-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors" data-testid="link-related-prep-bls">Prep</Link>
-                  <Link href="/certifications/bls-renewal-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" data-testid="link-related-renewal-bls">Renewal</Link>
+                  <Link href="/certifications/bls-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors" data-testid="link-related-prep-bls">{t("pages.newgrad.certificationPrepPage.prep")}</Link>
+                  <Link href="/certifications/bls-renewal-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" data-testid="link-related-renewal-bls">{t("pages.newgrad.certificationPrepPage.renewal")}</Link>
                 </div>
               </div>
             )}
@@ -456,11 +458,11 @@ export default function CertificationPrepPage({ cert }: { cert: CertPrepContent 
                     <Heart className="w-5 h-5 text-red-600" />
                   </div>
                   <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 transition-colors text-sm">ACLS</h3>
-                  <p className="text-xs text-gray-500">Advanced Cardiovascular Life Support for adult cardiac emergencies.</p>
+                  <p className="text-xs text-gray-500">{t("pages.newgrad.certificationPrepPage.advancedCardiovascularLifeSupportFor")}</p>
                 </Link>
                 <div className="flex gap-2 mt-3 pt-3 border-t border-gray-100">
-                  <Link href="/certifications/acls-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors" data-testid="link-related-prep-acls">Prep</Link>
-                  <Link href="/certifications/acls-renewal-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" data-testid="link-related-renewal-acls">Renewal</Link>
+                  <Link href="/certifications/acls-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors" data-testid="link-related-prep-acls">{t("pages.newgrad.certificationPrepPage.prep2")}</Link>
+                  <Link href="/certifications/acls-renewal-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" data-testid="link-related-renewal-acls">{t("pages.newgrad.certificationPrepPage.renewal2")}</Link>
                 </div>
               </div>
             )}
@@ -471,11 +473,11 @@ export default function CertificationPrepPage({ cert }: { cert: CertPrepContent 
                     <Baby className="w-5 h-5 text-sky-600" />
                   </div>
                   <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 transition-colors text-sm">PALS</h3>
-                  <p className="text-xs text-gray-500">Pediatric Advanced Life Support for pediatric emergencies.</p>
+                  <p className="text-xs text-gray-500">{t("pages.newgrad.certificationPrepPage.pediatricAdvancedLifeSupportFor")}</p>
                 </Link>
                 <div className="flex gap-2 mt-3 pt-3 border-t border-gray-100">
-                  <Link href="/certifications/pals-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors" data-testid="link-related-prep-pals">Prep</Link>
-                  <Link href="/certifications/pals-renewal-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" data-testid="link-related-renewal-pals">Renewal</Link>
+                  <Link href="/certifications/pals-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors" data-testid="link-related-prep-pals">{t("pages.newgrad.certificationPrepPage.prep3")}</Link>
+                  <Link href="/certifications/pals-renewal-prep" className="flex-1 text-center text-xs font-medium px-2 py-1 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors" data-testid="link-related-renewal-pals">{t("pages.newgrad.certificationPrepPage.renewal3")}</Link>
                 </div>
               </div>
             )}

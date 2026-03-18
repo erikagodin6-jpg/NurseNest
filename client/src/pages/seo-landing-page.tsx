@@ -8,6 +8,7 @@ import { MedicalReferences } from "@/components/medical-references";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import {
   ChevronRight, BookOpen, Target, Award,
   HelpCircle, Link as LinkIcon, FileText, Brain,
@@ -71,6 +72,7 @@ const PAGE_TYPE_LABELS: Record<string, string> = {
 };
 
 function HeroBlock({ page, colors }: { page: SeoLandingPageData; colors: typeof CLUSTER_COLORS[string] }) {
+  const { t } = useI18n();
   const [, navigate] = useLocation();
   return (
     <section className={`relative overflow-hidden py-12 sm:py-16`} data-testid="section-hero">
@@ -373,7 +375,7 @@ export default function SeoLandingPage({ slug: propSlug }: { slug?: string } = {
     <>
       <Navigation />
       <div className="min-h-screen bg-gray-50 flex items-center justify-center" data-testid="loading-seo-landing">
-        <div className="animate-pulse text-gray-400">Loading...</div>
+        <div className="animate-pulse text-gray-400">{t("pages.seoLandingPage.loading")}</div>
       </div>
     </>
   );
@@ -384,9 +386,9 @@ export default function SeoLandingPage({ slug: propSlug }: { slug?: string } = {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="max-w-md mx-auto">
           <CardContent className="p-8 text-center">
-            <h1 className="text-xl font-bold mb-2" data-testid="heading-error">Page Not Found</h1>
+            <h1 className="text-xl font-bold mb-2" data-testid="heading-error">{t("pages.seoLandingPage.pageNotFound")}</h1>
             <p className="text-gray-600 mb-4" data-testid="text-error">{error || "This page could not be found."}</p>
-            <Button onClick={() => navigate("/")} data-testid="button-go-home">Go Home</Button>
+            <Button onClick={() => navigate("/")} data-testid="button-go-home">{t("pages.seoLandingPage.goHome")}</Button>
           </CardContent>
         </Card>
       </div>

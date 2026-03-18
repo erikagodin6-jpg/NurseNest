@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation } from "wouter";
 import { Clock, Flag, ChevronLeft, ChevronRight, CheckCircle, AlertCircle, X } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface Question {
   id: string;
   question: string;
@@ -24,6 +25,7 @@ interface ExamSession {
 }
 
 export default function MltCanadaExam() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
   const [session, setSession] = useState<ExamSession | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
@@ -174,7 +176,7 @@ export default function MltCanadaExam() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center space-y-3">
           <div className="w-8 h-8 border-3 border-red-500 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-gray-500">Preparing CSMLS exam...</p>
+          <p className="text-gray-500">{t("allied.mltMltCanadaExam.preparingCsmlsExam")}</p>
         </div>
       </div>
     );
@@ -184,7 +186,7 @@ export default function MltCanadaExam() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-        <h2 className="text-xl font-bold text-gray-900 mb-2">Exam Error</h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-2">{t("allied.mltMltCanadaExam.examError")}</h2>
         <p className="text-gray-600 mb-4">{error}</p>
         <button onClick={() => setLocation("/allied-health/mlt/exams")} className="px-6 py-2.5 bg-red-600 text-white rounded-xl text-sm font-medium hover:bg-red-700" data-testid="button-back-to-hub">
           Back to Exam Hub
@@ -241,7 +243,7 @@ export default function MltCanadaExam() {
         <div className="fixed inset-0 z-30 bg-black/30 flex items-center justify-center" onClick={() => setShowNav(false)}>
           <div className="bg-white rounded-2xl shadow-xl p-6 max-w-md w-full mx-4 max-h-[70vh] overflow-auto" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-gray-900">Question Navigator</h3>
+              <h3 className="font-bold text-gray-900">{t("allied.mltMltCanadaExam.questionNavigator")}</h3>
               <button onClick={() => setShowNav(false)} data-testid="button-close-nav"><X className="w-5 h-5" /></button>
             </div>
             <div className="grid grid-cols-8 gap-2">
@@ -267,9 +269,9 @@ export default function MltCanadaExam() {
               })}
             </div>
             <div className="mt-4 flex items-center gap-4 text-xs text-gray-500">
-              <span className="flex items-center gap-1"><span className="w-3 h-3 bg-green-50 border-2 border-gray-200 rounded" /> Answered</span>
-              <span className="flex items-center gap-1"><span className="w-3 h-3 bg-white border-2 border-gray-200 rounded ring-2 ring-yellow-400" /> Flagged</span>
-              <span className="flex items-center gap-1"><span className="w-3 h-3 bg-red-50 border-2 border-red-500 rounded" /> Current</span>
+              <span className="flex items-center gap-1"><span className="w-3 h-3 bg-green-50 border-2 border-gray-200 rounded" /> {t("allied.mltMltCanadaExam.answered")}</span>
+              <span className="flex items-center gap-1"><span className="w-3 h-3 bg-white border-2 border-gray-200 rounded ring-2 ring-yellow-400" /> {t("allied.mltMltCanadaExam.flagged")}</span>
+              <span className="flex items-center gap-1"><span className="w-3 h-3 bg-red-50 border-2 border-red-500 rounded" /> {t("allied.mltMltCanadaExam.current")}</span>
             </div>
           </div>
         </div>

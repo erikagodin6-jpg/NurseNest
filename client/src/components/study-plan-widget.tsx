@@ -3,12 +3,14 @@ import { useLocation } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n";
 import {
   Calendar, CheckCircle2, Clock, Target, BookOpen,
   TrendingUp, ArrowRight, GraduationCap, Sparkles, Brain
 } from "lucide-react";
 
 export function StudyPlanWidget({ user }: { user: any }) {
+  const { t } = useI18n();
   const [, navigate] = useLocation();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -28,7 +30,7 @@ export function StudyPlanWidget({ user }: { user: any }) {
         <CardContent className="p-6">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-            <span className="text-sm text-muted-foreground">Loading study plan...</span>
+            <span className="text-sm text-muted-foreground">{t("components.studyPlanWidget.loadingStudyPlan")}</span>
           </div>
         </CardContent>
       </Card>
@@ -118,15 +120,15 @@ export function StudyPlanWidget({ user }: { user: any }) {
           <div className="grid grid-cols-3 gap-2 text-center">
             <div className="p-2 bg-muted/50 rounded-lg">
               <p className="text-lg font-bold text-primary" data-testid="widget-plan-questions">{pacing.questionsPerDay}</p>
-              <p className="text-[10px] text-muted-foreground">Q/Day</p>
+              <p className="text-[10px] text-muted-foreground">{t("components.studyPlanWidget.qday")}</p>
             </div>
             <div className="p-2 bg-muted/50 rounded-lg">
               <p className="text-lg font-bold text-primary" data-testid="widget-plan-flashcards">{pacing.flashcardsPerWeek}</p>
-              <p className="text-[10px] text-muted-foreground">Cards/Wk</p>
+              <p className="text-[10px] text-muted-foreground">{t("components.studyPlanWidget.cardswk")}</p>
             </div>
             <div className="p-2 bg-muted/50 rounded-lg">
               <p className="text-lg font-bold text-primary" data-testid="widget-plan-minutes">{pacing.studyMinutesPerDay}</p>
-              <p className="text-[10px] text-muted-foreground">Min/Day</p>
+              <p className="text-[10px] text-muted-foreground">{t("components.studyPlanWidget.minday")}</p>
             </div>
           </div>
         )}

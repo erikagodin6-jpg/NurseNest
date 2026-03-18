@@ -29,6 +29,7 @@ import {
 } from "@/components/premium-study";
 
 function getAuthHeaders(): Record<string, string> {
+
   try {
     const creds = localStorage.getItem("nursenest-credentials");
     if (creds) {
@@ -285,9 +286,9 @@ export default function QBankExamPage() {
           <div className="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center mx-auto mb-4">
             <AlertTriangle className="h-7 w-7 text-amber-500" />
           </div>
-          <h2 className="text-xl font-bold mb-2">Login Required</h2>
-          <p className="text-gray-500 mb-4">Please log in to access exam mode.</p>
-          <Button onClick={() => setLocation("/login")} className="rounded-xl" data-testid="button-go-login">Go to Login</Button>
+          <h2 className="text-xl font-bold mb-2">{t("pages.qbankExam.loginRequired")}</h2>
+          <p className="text-gray-500 mb-4">{t("pages.qbankExam.pleaseLogInToAccess")}</p>
+          <Button onClick={() => setLocation("/login")} className="rounded-xl" data-testid="button-go-login">{t("pages.qbankExam.goToLogin")}</Button>
         </div>
       </div>
     );
@@ -322,45 +323,45 @@ export default function QBankExamPage() {
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">Number of Questions</label>
+                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">{t("pages.qbankExam.numberOfQuestions")}</label>
                   <select value={questionCount} onChange={(e) => setQuestionCount(Number(e.target.value))} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 bg-white text-sm" data-testid="select-question-count">
-                    <option value={10}>10 questions</option>
-                    <option value={25}>25 questions</option>
-                    <option value={50}>50 questions</option>
-                    <option value={75}>75 questions</option>
-                    <option value={100}>100 questions</option>
+                    <option value={10}>{t("pages.qbankExam.10Questions")}</option>
+                    <option value={25}>{t("pages.qbankExam.25Questions")}</option>
+                    <option value={50}>{t("pages.qbankExam.50Questions")}</option>
+                    <option value={75}>{t("pages.qbankExam.75Questions")}</option>
+                    <option value={100}>{t("pages.qbankExam.100Questions")}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">Exam / Country</label>
+                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">{t("pages.qbankExam.examCountry")}</label>
                   <select value={filterExam} onChange={(e) => setFilterExam(e.target.value)} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 bg-white text-sm" data-testid="select-exam-type">
-                    <option value="">All Exams (Default Region)</option>
-                    <optgroup label="North America">
-                      <option value="NCLEX-RN">NCLEX-RN (US/Canada)</option>
-                      <option value="REx-PN">REx-PN (Canada)</option>
-                      <option value="NCLEX-PN">NCLEX-PN (US)</option>
+                    <option value="">{t("pages.qbankExam.allExamsDefaultRegion")}</option>
+                    <optgroup label={t("pages.qbankExam.northAmerica")}>
+                      <option value="NCLEX-RN">{t("pages.qbankExam.nclexrnUscanada")}</option>
+                      <option value="REx-PN">{t("pages.qbankExam.rexpnCanada")}</option>
+                      <option value="NCLEX-PN">{t("pages.qbankExam.nclexpnUs")}</option>
                     </optgroup>
-                    <optgroup label="International">
-                      <option value="NMC-CBT">NMC CBT (United Kingdom)</option>
-                      <option value="AHPRA-RN">AHPRA RN (Australia)</option>
-                      <option value="GULF-NURSING">Gulf Nursing (DHA/HAAD/MOH)</option>
+                    <optgroup label={t("pages.qbankExam.international")}>
+                      <option value="NMC-CBT">{t("pages.qbankExam.nmcCbtUnitedKingdom")}</option>
+                      <option value="AHPRA-RN">{t("pages.qbankExam.ahpraRnAustralia")}</option>
+                      <option value="GULF-NURSING">{t("pages.qbankExam.gulfNursingDhahaadmoh")}</option>
                     </optgroup>
                   </select>
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">Category (optional)</label>
+                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">{t("pages.qbankExam.categoryOptional")}</label>
                   <Input value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)} placeholder="e.g. Pharmacology" className="rounded-xl border-gray-200" data-testid="input-exam-category" />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">Difficulty (optional)</label>
+                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">{t("pages.qbankExam.difficultyOptional")}</label>
                   <select value={filterDifficulty} onChange={(e) => setFilterDifficulty(e.target.value)} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 bg-white text-sm" data-testid="select-exam-difficulty">
-                    <option value="">All</option>
-                    <option value="easy">Easy</option>
-                    <option value="moderate">Moderate</option>
-                    <option value="hard">Hard</option>
-                    <option value="very_hard">Very Hard</option>
+                    <option value="">{t("pages.qbankExam.all")}</option>
+                    <option value="easy">{t("pages.qbankExam.easy")}</option>
+                    <option value="moderate">{t("pages.qbankExam.moderate")}</option>
+                    <option value="hard">{t("pages.qbankExam.hard")}</option>
+                    <option value="very_hard">{t("pages.qbankExam.veryHard")}</option>
                   </select>
                 </div>
               </div>
@@ -467,26 +468,26 @@ export default function QBankExamPage() {
                   <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
                     <BarChart3 className="h-5 w-5 text-primary" />
                   </div>
-                  <h2 className="text-xl font-bold text-slate-900" data-testid="text-results-title">Exam Results</h2>
+                  <h2 className="text-xl font-bold text-slate-900" data-testid="text-results-title">{t("pages.qbankExam.examResults")}</h2>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                   <div className="text-center p-4 bg-slate-50 rounded-xl">
                     <div className={`text-3xl font-black ${scorePercent >= 70 ? "text-emerald-600" : "text-red-500"}`} data-testid="text-score">{scorePercent}%</div>
-                    <div className="text-xs text-slate-500 mt-1">Score</div>
+                    <div className="text-xs text-slate-500 mt-1">{t("pages.qbankExam.score")}</div>
                   </div>
                   <div className="text-center p-4 bg-slate-50 rounded-xl">
                     <div className="text-3xl font-black text-primary" data-testid="text-correct-count">{correctCount}/{questions.length}</div>
-                    <div className="text-xs text-slate-500 mt-1">Correct</div>
+                    <div className="text-xs text-slate-500 mt-1">{t("pages.qbankExam.correct")}</div>
                   </div>
                   <div className="text-center p-4 bg-slate-50 rounded-xl">
                     <div className="text-3xl font-black text-slate-600" data-testid="text-time-spent">{formatTime(timer)}</div>
-                    <div className="text-xs text-slate-500 mt-1">Time</div>
+                    <div className="text-xs text-slate-500 mt-1">{t("pages.qbankExam.time")}</div>
                   </div>
                   <div className="text-center p-4 bg-slate-50 rounded-xl">
                     <div className={`text-3xl font-black ${scorePercent >= 70 ? "text-emerald-600" : "text-red-500"}`} data-testid="text-pass-fail">
                       {scorePercent >= 70 ? "PASS" : "FAIL"}
                     </div>
-                    <div className="text-xs text-slate-500 mt-1">Status</div>
+                    <div className="text-xs text-slate-500 mt-1">{t("pages.qbankExam.status")}</div>
                   </div>
                 </div>
                 <div className="flex gap-3 justify-center">
@@ -539,7 +540,7 @@ export default function QBankExamPage() {
                       <ProtectedContent className="ml-10 bg-slate-50 rounded-xl p-4">
                         <div className="flex items-center gap-2 mb-2">
                           <BookOpen className="w-3.5 h-3.5 text-violet-500" />
-                          <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Rationale</span>
+                          <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">{t("pages.qbankExam.rationale")}</span>
                         </div>
                         <p className="text-sm text-slate-700 leading-relaxed">{tq.rationale}</p>
                       </ProtectedContent>

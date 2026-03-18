@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { useI18n } from "@/lib/i18n";
 import {
   MessageSquare, Shield, Settings, BarChart3, Eye, Save,
   Loader2, AlertTriangle, CheckCircle, XCircle, Flag,
@@ -27,6 +28,7 @@ const SAFETY_CATEGORIES = [
 ];
 
 function TutorConfigPanel() {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const { data: config, isLoading } = useQuery({
     queryKey: ["/api/admin/tutor/config"],
@@ -57,7 +59,7 @@ function TutorConfigPanel() {
 
   const hasChanges = systemPrompt !== null || blockedTopics !== null || dailyFreeLimit !== null;
 
-  if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> Loading config...</div>;
+  if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> {t("pages.adminTutor.loadingConfig")}</div>;
 
   function toggleTopic(key: string) {
     const current = blockedTopics ?? config?.blockedTopics ?? [];
@@ -83,10 +85,10 @@ function TutorConfigPanel() {
             onChange={(e) => setSystemPrompt(e.target.value)}
             rows={6}
             className="font-mono text-sm"
-            placeholder="Enter the tutor system prompt..."
+            placeholder={t("pages.adminTutor.enterTheTutorSystemPrompt")}
             data-testid="input-system-prompt"
           />
-          <p className="text-xs text-gray-500 mt-2">This prompt is sent as the system message for every tutor conversation.</p>
+          <p className="text-xs text-gray-500 mt-2">{t("pages.adminTutor.thisPromptIsSentAs")}</p>
         </CardContent>
       </Card>
 
@@ -134,7 +136,7 @@ function TutorConfigPanel() {
               className="w-32"
               data-testid="input-daily-free-limit"
             />
-            <span className="text-sm text-gray-600">questions per day for free-tier users</span>
+            <span className="text-sm text-gray-600">{t("pages.adminTutor.questionsPerDayForFreetier")}</span>
           </div>
         </CardContent>
       </Card>
@@ -176,7 +178,7 @@ function TutorAnalyticsPanel() {
     refetchInterval: 60000,
   });
 
-  if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> Loading analytics...</div>;
+  if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> {t("pages.adminTutor.loadingAnalytics")}</div>;
   if (!analytics) return null;
 
   const maxTopicCount = Math.max(1, ...(analytics.topTopics || []).map((t: any) => t.count));
@@ -185,7 +187,7 @@ function TutorAnalyticsPanel() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-medium">Usage Overview</h3>
+        <h3 className="text-sm font-medium">{t("pages.adminTutor.usageOverview")}</h3>
         <div className="flex gap-1">
           {[7, 30, 90].map((d) => (
             <Button key={d} variant={days === d ? "default" : "outline"} size="sm" onClick={() => setDays(d)} data-testid={`button-period-${d}`}>
@@ -200,28 +202,28 @@ function TutorAnalyticsPanel() {
           <CardContent className="py-3 text-center">
             <MessageSquare className="w-4 h-4 mx-auto text-blue-600 mb-1" />
             <div className="text-lg font-bold">{analytics.dailyQuestions}</div>
-            <div className="text-xs text-gray-500">Today</div>
+            <div className="text-xs text-gray-500">{t("pages.adminTutor.today")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-weekly-questions">
           <CardContent className="py-3 text-center">
             <TrendingUp className="w-4 h-4 mx-auto text-green-600 mb-1" />
             <div className="text-lg font-bold">{analytics.weeklyQuestions}</div>
-            <div className="text-xs text-gray-500">This Week</div>
+            <div className="text-xs text-gray-500">{t("pages.adminTutor.thisWeek")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-monthly-questions">
           <CardContent className="py-3 text-center">
             <BarChart3 className="w-4 h-4 mx-auto text-purple-600 mb-1" />
             <div className="text-lg font-bold">{analytics.monthlyQuestions}</div>
-            <div className="text-xs text-gray-500">This Month</div>
+            <div className="text-xs text-gray-500">{t("pages.adminTutor.thisMonth")}</div>
           </CardContent>
         </Card>
         <Card data-testid="stat-pending-reviews">
           <CardContent className="py-3 text-center">
             <AlertTriangle className="w-4 h-4 mx-auto text-red-500 mb-1" />
             <div className="text-lg font-bold">{analytics.pendingReviews}</div>
-            <div className="text-xs text-gray-500">Pending Reviews</div>
+            <div className="text-xs text-gray-500">{t("pages.adminTutor.pendingReviews")}</div>
           </CardContent>
         </Card>
       </div>
@@ -236,7 +238,7 @@ function TutorAnalyticsPanel() {
           </CardHeader>
           <CardContent>
             {(analytics.topTopics || []).length === 0 ? (
-              <p className="text-xs text-gray-400 py-4 text-center">No topic data yet</p>
+              <p className="text-xs text-gray-400 py-4 text-center">{t("pages.adminTutor.noTopicDataYet")}</p>
             ) : (
               <div className="space-y-2">
                 {analytics.topTopics.slice(0, 10).map((topic: any, i: number) => (
@@ -267,7 +269,7 @@ function TutorAnalyticsPanel() {
           </CardHeader>
           <CardContent>
             {(analytics.explanationTypes || []).length === 0 ? (
-              <p className="text-xs text-gray-400 py-4 text-center">No explanation type data yet</p>
+              <p className="text-xs text-gray-400 py-4 text-center">{t("pages.adminTutor.noExplanationTypeDataYet")}</p>
             ) : (
               <div className="space-y-2">
                 {analytics.explanationTypes.map((type: any, i: number) => (
@@ -298,7 +300,7 @@ function TutorAnalyticsPanel() {
         </CardHeader>
         <CardContent>
           {(analytics.tierUsage || []).length === 0 ? (
-            <p className="text-xs text-gray-400 py-4 text-center">No tier usage data yet</p>
+            <p className="text-xs text-gray-400 py-4 text-center">{t("pages.adminTutor.noTierUsageDataYet")}</p>
           ) : (
             <div className="flex gap-4 flex-wrap">
               {analytics.tierUsage.map((tier: any) => (
@@ -338,7 +340,7 @@ function TutorAnalyticsPanel() {
             </div>
             <div className="flex justify-between text-[10px] text-gray-400 mt-1">
               <span>{analytics.dailyTrend.length > 0 ? new Date(analytics.dailyTrend[analytics.dailyTrend.length - 1].day).toLocaleDateString() : ""}</span>
-              <span>Today</span>
+              <span>{t("pages.adminTutor.today2")}</span>
             </div>
           </CardContent>
         </Card>
@@ -367,7 +369,7 @@ function ConversationReviewPanel() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["/api/admin/tutor/conversations"] }),
   });
 
-  if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> Loading conversations...</div>;
+  if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> {t("pages.adminTutor.loadingConversations")}</div>;
 
   const conversations = data?.conversations || [];
 
@@ -423,7 +425,7 @@ function ConversationReviewPanel() {
                   <div className="mt-3 space-y-3">
                     <div className="bg-white border rounded-lg p-3 max-h-80 overflow-y-auto space-y-2">
                       {(conv.messages || []).length === 0 ? (
-                        <p className="text-xs text-gray-400 text-center">No messages</p>
+                        <p className="text-xs text-gray-400 text-center">{t("pages.adminTutor.noMessages")}</p>
                       ) : (
                         conv.messages.map((msg: any, i: number) => (
                           <div
@@ -440,7 +442,7 @@ function ConversationReviewPanel() {
 
                     {conv.adminNotes && (
                       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-2 text-xs" data-testid={`notes-${conv.id}`}>
-                        <span className="font-medium">Admin Notes:</span> {conv.adminNotes}
+                        <span className="font-medium">{t("pages.adminTutor.adminNotes")}</span> {conv.adminNotes}
                       </div>
                     )}
 
@@ -495,7 +497,7 @@ function TutorRoadmapPanel() {
     queryFn: () => adminFetch("/api/admin/tutor/roadmap").then(r => r.json()),
   });
 
-  if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> Loading roadmap...</div>;
+  if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> {t("pages.adminTutor.loadingRoadmap")}</div>;
 
   const roadmap = data?.roadmap || [];
 
@@ -522,21 +524,21 @@ function TutorRoadmapPanel() {
               <p className="text-sm text-gray-600 mb-3 ml-10">{item.description}</p>
               <div className="ml-10 grid grid-cols-3 gap-2">
                 <div className="bg-gray-50 rounded px-3 py-2 text-center">
-                  <div className="text-xs text-gray-500 mb-0.5">Engagement Impact</div>
+                  <div className="text-xs text-gray-500 mb-0.5">{t("pages.adminTutor.engagementImpact")}</div>
                   <div className="flex items-center justify-center gap-1">
                     <div className="text-lg font-bold text-blue-600">{item.engagementImpact}</div>
                     <span className="text-[10px] text-gray-400">/10</span>
                   </div>
                 </div>
                 <div className="bg-gray-50 rounded px-3 py-2 text-center">
-                  <div className="text-xs text-gray-500 mb-0.5">Conversion Potential</div>
+                  <div className="text-xs text-gray-500 mb-0.5">{t("pages.adminTutor.conversionPotential")}</div>
                   <div className="flex items-center justify-center gap-1">
                     <div className="text-lg font-bold text-green-600">{item.conversionPotential}</div>
                     <span className="text-[10px] text-gray-400">/10</span>
                   </div>
                 </div>
                 <div className="bg-gray-50 rounded px-3 py-2 text-center">
-                  <div className="text-xs text-gray-500 mb-0.5">Learning Effectiveness</div>
+                  <div className="text-xs text-gray-500 mb-0.5">{t("pages.adminTutor.learningEffectiveness")}</div>
                   <div className="flex items-center justify-center gap-1">
                     <div className="text-lg font-bold text-purple-600">{item.learningEffectiveness}</div>
                     <span className="text-[10px] text-gray-400">/10</span>
@@ -561,8 +563,8 @@ export default function AdminTutorManagement() {
           <MessageSquare className="w-5 h-5 text-blue-600" />
         </div>
         <div>
-          <h2 className="text-lg font-bold" data-testid="text-tutor-management-title">AI Tutor Management</h2>
-          <p className="text-xs text-gray-500">Configure tutor behavior, review conversations, and monitor usage</p>
+          <h2 className="text-lg font-bold" data-testid="text-tutor-management-title">{t("pages.adminTutor.aiTutorManagement")}</h2>
+          <p className="text-xs text-gray-500">{t("pages.adminTutor.configureTutorBehaviorReviewConversations")}</p>
         </div>
       </div>
 

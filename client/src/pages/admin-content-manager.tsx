@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 
+import { useI18n } from "@/lib/i18n";
 type ContentTab = "questions" | "flashcards" | "quality";
 
 interface QuestionItem {
@@ -54,6 +55,7 @@ interface ManageResponse<T> {
 }
 
 function StatusBadge({ status }: { status: string }) {
+  const { t } = useI18n();
   const colors: Record<string, string> = {
     draft: "bg-yellow-100 text-yellow-800 border-yellow-200",
     published: "bg-green-100 text-green-800 border-green-200",
@@ -182,7 +184,7 @@ function ExamQuestionsTab() {
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
-            placeholder="Search question stems..."
+            placeholder={t("pages.adminContentManager.searchQuestionStems")}
             value={searchTerm}
             onChange={e => { setSearchTerm(e.target.value); setPage(1); }}
             className="pl-9"
@@ -191,10 +193,10 @@ function ExamQuestionsTab() {
         </div>
         <Select value={tierFilter || "all"} onValueChange={v => { setTierFilter(v === "all" ? "" : v); setPage(1); }}>
           <SelectTrigger className="w-[120px]" data-testid="select-tier-filter">
-            <SelectValue placeholder="Tier" />
+            <SelectValue placeholder={t("pages.adminContentManager.tier3")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Tiers</SelectItem>
+            <SelectItem value="all">{t("pages.adminContentManager.allTiers")}</SelectItem>
             <SelectItem value="rpn">RPN</SelectItem>
             <SelectItem value="rn">RN</SelectItem>
             <SelectItem value="np">NP</SelectItem>
@@ -259,12 +261,12 @@ function ExamQuestionsTab() {
                       data-testid="checkbox-select-all"
                     />
                   </th>
-                  <th className="p-3 text-left text-[#2E3A59] font-medium">Question</th>
-                  <th className="p-3 text-left text-[#2E3A59] font-medium w-20">Tier</th>
-                  <th className="p-3 text-left text-[#2E3A59] font-medium w-28">Status</th>
-                  <th className="p-3 text-left text-[#2E3A59] font-medium w-32">Body System</th>
-                  <th className="p-3 text-left text-[#2E3A59] font-medium w-24">Created</th>
-                  <th className="p-3 text-right text-[#2E3A59] font-medium w-28">Actions</th>
+                  <th className="p-3 text-left text-[#2E3A59] font-medium">{t("pages.adminContentManager.question")}</th>
+                  <th className="p-3 text-left text-[#2E3A59] font-medium w-20">{t("pages.adminContentManager.tier")}</th>
+                  <th className="p-3 text-left text-[#2E3A59] font-medium w-28">{t("pages.adminContentManager.status")}</th>
+                  <th className="p-3 text-left text-[#2E3A59] font-medium w-32">{t("pages.adminContentManager.bodySystem")}</th>
+                  <th className="p-3 text-left text-[#2E3A59] font-medium w-24">{t("pages.adminContentManager.created")}</th>
+                  <th className="p-3 text-right text-[#2E3A59] font-medium w-28">{t("pages.adminContentManager.actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -318,7 +320,7 @@ function ExamQuestionsTab() {
                   </tr>
                 ))}
                 {(!data?.items || data.items.length === 0) && (
-                  <tr><td colSpan={7} className="p-8 text-center text-gray-500">No questions found</td></tr>
+                  <tr><td colSpan={7} className="p-8 text-center text-gray-500">{t("pages.adminContentManager.noQuestionsFound")}</td></tr>
                 )}
               </tbody>
             </table>
@@ -402,7 +404,7 @@ function QuestionPreview({ id, onClose }: { id: string; onClose: () => void }) {
             <Button size="sm" variant="outline" onClick={() => statusMutation.mutate({ status: "archived" })} data-testid="btn-archive-single">
               Archive
             </Button>
-            <Button size="sm" variant="ghost" onClick={onClose}>Close</Button>
+            <Button size="sm" variant="ghost" onClick={onClose}>{t("pages.adminContentManager.close")}</Button>
           </div>
         </div>
       </CardHeader>
@@ -494,7 +496,7 @@ function FlashcardBankTab() {
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
-            placeholder="Search flashcards..."
+            placeholder={t("pages.adminContentManager.searchFlashcards")}
             value={searchTerm}
             onChange={e => { setSearchTerm(e.target.value); setPage(1); }}
             className="pl-9"
@@ -503,11 +505,11 @@ function FlashcardBankTab() {
         </div>
         <Select value={tierFilter || "all"} onValueChange={v => { setTierFilter(v === "all" ? "" : v); setPage(1); }}>
           <SelectTrigger className="w-[120px]" data-testid="select-fc-tier-filter">
-            <SelectValue placeholder="Tier" />
+            <SelectValue placeholder={t("pages.adminContentManager.tier4")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Tiers</SelectItem>
-            <SelectItem value="free">Free</SelectItem>
+            <SelectItem value="all">{t("pages.adminContentManager.allTiers2")}</SelectItem>
+            <SelectItem value="free">{t("pages.adminContentManager.free")}</SelectItem>
             <SelectItem value="rpn">RPN</SelectItem>
             <SelectItem value="rn">RN</SelectItem>
             <SelectItem value="np">NP</SelectItem>
@@ -548,11 +550,11 @@ function FlashcardBankTab() {
                       data-testid="checkbox-fc-select-all"
                     />
                   </th>
-                  <th className="p-3 text-left text-[#2E3A59] font-medium">Front</th>
-                  <th className="p-3 text-left text-[#2E3A59] font-medium w-32">Category</th>
-                  <th className="p-3 text-left text-[#2E3A59] font-medium w-20">Tier</th>
-                  <th className="p-3 text-left text-[#2E3A59] font-medium w-28">Status</th>
-                  <th className="p-3 text-left text-[#2E3A59] font-medium w-24">Created</th>
+                  <th className="p-3 text-left text-[#2E3A59] font-medium">{t("pages.adminContentManager.front")}</th>
+                  <th className="p-3 text-left text-[#2E3A59] font-medium w-32">{t("pages.adminContentManager.category")}</th>
+                  <th className="p-3 text-left text-[#2E3A59] font-medium w-20">{t("pages.adminContentManager.tier2")}</th>
+                  <th className="p-3 text-left text-[#2E3A59] font-medium w-28">{t("pages.adminContentManager.status2")}</th>
+                  <th className="p-3 text-left text-[#2E3A59] font-medium w-24">{t("pages.adminContentManager.created2")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -577,7 +579,7 @@ function FlashcardBankTab() {
                   </tr>
                 ))}
                 {(!data?.items || data.items.length === 0) && (
-                  <tr><td colSpan={6} className="p-8 text-center text-gray-500">No flashcards found</td></tr>
+                  <tr><td colSpan={6} className="p-8 text-center text-gray-500">{t("pages.adminContentManager.noFlashcardsFound")}</td></tr>
                 )}
               </tbody>
             </table>
@@ -682,9 +684,9 @@ function QualityReviewTab() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Types</SelectItem>
-              <SelectItem value="question">Questions Only</SelectItem>
-              <SelectItem value="flashcard">Flashcards Only</SelectItem>
+              <SelectItem value="all">{t("pages.adminContentManager.allTypes")}</SelectItem>
+              <SelectItem value="question">{t("pages.adminContentManager.questionsOnly")}</SelectItem>
+              <SelectItem value="flashcard">{t("pages.adminContentManager.flashcardsOnly")}</SelectItem>
             </SelectContent>
           </Select>
           <span className="text-sm text-gray-500" data-testid="text-flagged-count">
@@ -698,8 +700,8 @@ function QualityReviewTab() {
       ) : allItems.length === 0 ? (
         <div className="text-center py-12 text-gray-500" data-testid="text-no-flagged">
           <ShieldCheck className="h-12 w-12 mx-auto mb-3 text-green-400" />
-          <p className="font-medium">All content passed quality checks</p>
-          <p className="text-sm mt-1">No items need revision</p>
+          <p className="font-medium">{t("pages.adminContentManager.allContentPassedQualityChecks")}</p>
+          <p className="text-sm mt-1">{t("pages.adminContentManager.noItemsNeedRevision")}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -737,7 +739,7 @@ function QualityReviewTab() {
                   <div className="border-t p-4 space-y-4 bg-gray-50">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <h4 className="text-sm font-semibold mb-2 text-gray-700">Content Preview</h4>
+                        <h4 className="text-sm font-semibold mb-2 text-gray-700">{t("pages.adminContentManager.contentPreview")}</h4>
                         <div className="bg-white p-3 rounded border text-sm" data-testid={`text-content-${item.id}`}>
                           {item.type === "question" ? (
                             <p>{item.stem}</p>
@@ -751,7 +753,7 @@ function QualityReviewTab() {
                       </div>
 
                       <div>
-                        <h4 className="text-sm font-semibold mb-2 text-gray-700">Quality Scores</h4>
+                        <h4 className="text-sm font-semibold mb-2 text-gray-700">{t("pages.adminContentManager.qualityScores")}</h4>
                         <div className="space-y-1">
                           {scores.map((s: any, idx: number) => (
                             <div key={idx} className="flex items-center justify-between text-xs" data-testid={`score-dimension-${item.id}-${idx}`}>
@@ -767,7 +769,7 @@ function QualityReviewTab() {
 
                     {revisionFeedback.length > 0 && (
                       <div>
-                        <h4 className="text-sm font-semibold mb-2 text-amber-700">Revision Feedback</h4>
+                        <h4 className="text-sm font-semibold mb-2 text-amber-700">{t("pages.adminContentManager.revisionFeedback")}</h4>
                         <ul className="list-disc pl-5 space-y-1" data-testid={`list-feedback-${item.id}`}>
                           {revisionFeedback.map((f: string, idx: number) => (
                             <li key={idx} className="text-sm text-gray-700">{f}</li>
@@ -803,11 +805,11 @@ function QualityReviewTab() {
 
                     {isOverriding && (
                       <div className="bg-amber-50 p-3 rounded border border-amber-200 space-y-2" data-testid={`form-override-${item.id}`}>
-                        <p className="text-xs text-amber-700 font-medium">Provide justification for overriding quality gate:</p>
+                        <p className="text-xs text-amber-700 font-medium">{t("pages.adminContentManager.provideJustificationForOverridingQuality")}</p>
                         <Textarea
                           value={justification}
                           onChange={e => setJustification(e.target.value)}
-                          placeholder="Explain why this item should bypass quality checks (min 10 chars)..."
+                          placeholder={t("pages.adminContentManager.explainWhyThisItemShould")}
                           className="text-sm"
                           data-testid={`input-justification-${item.id}`}
                         />
@@ -862,13 +864,13 @@ export default function AdminContentManager() {
               <ArrowLeft className="h-4 w-4 mr-1" /> Admin
             </Button>
           </Link>
-          <h1 className="text-2xl font-bold text-[#2E3A59]" data-testid="heading-content-manager">Content Manager</h1>
+          <h1 className="text-2xl font-bold text-[#2E3A59]" data-testid="heading-content-manager">{t("pages.adminContentManager.contentManager")}</h1>
         </div>
 
         <Tabs value={tab} onValueChange={v => setTab(v as ContentTab)}>
           <TabsList data-testid="tabs-content-type">
-            <TabsTrigger value="questions" data-testid="tab-questions">Exam Questions</TabsTrigger>
-            <TabsTrigger value="flashcards" data-testid="tab-flashcards">Flashcard Bank</TabsTrigger>
+            <TabsTrigger value="questions" data-testid="tab-questions">{t("pages.adminContentManager.examQuestions")}</TabsTrigger>
+            <TabsTrigger value="flashcards" data-testid="tab-flashcards">{t("pages.adminContentManager.flashcardBank")}</TabsTrigger>
             <TabsTrigger value="quality" data-testid="tab-quality">
               <AlertTriangle className="h-3.5 w-3.5 mr-1" /> Quality Review
             </TabsTrigger>
@@ -877,7 +879,7 @@ export default function AdminContentManager() {
           <TabsContent value="questions">
             <Card>
               <CardHeader>
-                <CardTitle className="text-[#2E3A59]">Exam Question Management</CardTitle>
+                <CardTitle className="text-[#2E3A59]">{t("pages.adminContentManager.examQuestionManagement")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <ExamQuestionsTab />
@@ -888,7 +890,7 @@ export default function AdminContentManager() {
           <TabsContent value="flashcards">
             <Card>
               <CardHeader>
-                <CardTitle className="text-[#2E3A59]">Flashcard Bank Management</CardTitle>
+                <CardTitle className="text-[#2E3A59]">{t("pages.adminContentManager.flashcardBankManagement")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <FlashcardBankTab />

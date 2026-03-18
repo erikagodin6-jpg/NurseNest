@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { KvpVisualizer, MasSimulator, InverseSquareLawDiagram, AttenuationLayers, SidMagnificationVisual } from "@/allied/components/physics-visuals";
 
+import { useI18n } from "@/lib/i18n";
 const VISUAL_MAP: Record<string, React.FC> = {
   "kvp": KvpVisualizer,
   "tube-current-ma": MasSimulator,
@@ -116,6 +117,7 @@ const SEED_TOPIC_DETAILS: Record<string, any> = {
 };
 
 function toSlug(title: string): string {
+  const { t } = useI18n();
   return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
@@ -170,7 +172,7 @@ function MicroQuiz({ quizItems, topicSlug, country }: { quizItems: QuizItemType[
     return (
       <div className="bg-white rounded-2xl border border-gray-100 p-6 text-center space-y-4" data-testid="quiz-results">
         <Brain className="w-12 h-12 text-purple-500 mx-auto" />
-        <h3 className="text-xl font-bold text-gray-900">Quiz Complete!</h3>
+        <h3 className="text-xl font-bold text-gray-900">{t("pages.imagingPhysicsTopic.quizComplete")}</h3>
         <div className="text-3xl font-bold" data-testid="text-quiz-score">
           <span className={percentage >= 70 ? "text-green-600" : "text-amber-600"}>{score}/{quizItems.length}</span>
           <span className="text-lg text-gray-400 ml-2">({percentage}%)</span>
@@ -276,9 +278,9 @@ export default function ImagingPhysicsTopicPage() {
   if (!topic) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-not-found-title">Topic Not Found</h1>
-        <p className="text-gray-600 mb-4">This physics topic doesn't exist yet.</p>
-        <Link href={`/medical-imaging/${country}/physics`} className="text-purple-600 hover:underline">Back to Physics Topics</Link>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-not-found-title">{t("pages.imagingPhysicsTopic.topicNotFound")}</h1>
+        <p className="text-gray-600 mb-4">{t("pages.imagingPhysicsTopic.thisPhysicsTopicDoesntExist")}</p>
+        <Link href={`/medical-imaging/${country}/physics`} className="text-purple-600 hover:underline">{t("pages.imagingPhysicsTopic.backToPhysicsTopics")}</Link>
       </div>
     );
   }
@@ -333,7 +335,7 @@ export default function ImagingPhysicsTopicPage() {
               </div>
               {keyConcepts.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-gray-100">
-                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Key Concepts</h3>
+                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">{t("pages.imagingPhysicsTopic.keyConcepts")}</h3>
                   <div className="flex flex-wrap gap-1.5">
                     {keyConcepts.map((c: string, i: number) => (
                       <span key={i} className="px-2 py-0.5 bg-purple-50 text-purple-700 text-xs rounded-full">{c}</span>
@@ -369,7 +371,7 @@ export default function ImagingPhysicsTopicPage() {
           {factorRelationships.length > 0 && (
             <section className="bg-white rounded-2xl border border-gray-100 p-6">
               <button onClick={() => setShowRelationships(!showRelationships)} className="w-full flex items-center justify-between" data-testid="button-toggle-relationships">
-                <h2 className="font-bold text-gray-900 text-lg flex items-center gap-2">Factor Relationships</h2>
+                <h2 className="font-bold text-gray-900 text-lg flex items-center gap-2">{t("pages.imagingPhysicsTopic.factorRelationships")}</h2>
                 {showRelationships ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
               </button>
               {showRelationships && (
@@ -423,7 +425,7 @@ export default function ImagingPhysicsTopicPage() {
 
           {VisualComponent && (
             <section>
-              <h2 className="font-bold text-gray-900 text-lg mb-3">Interactive Visual</h2>
+              <h2 className="font-bold text-gray-900 text-lg mb-3">{t("pages.imagingPhysicsTopic.interactiveVisual")}</h2>
               <VisualComponent />
             </section>
           )}

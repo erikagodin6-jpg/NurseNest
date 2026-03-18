@@ -15,7 +15,9 @@ import { AutoRelatedContent } from "@/components/auto-related-content";
 import { MedicalReviewBadge, MedicalReviewJsonLd } from "@/components/medical-review-badge";
 import { MedicalReferences } from "@/components/medical-references";
 
+import { useI18n } from "@/lib/i18n";
 export default function DeckPage() {
+  const { t } = useI18n();
   const params = useParams<{ slug: string }>();
   const [, setLocation] = useLocation();
   const { user, effectiveTier } = useAuth();
@@ -103,11 +105,11 @@ export default function DeckPage() {
     return (
       <div className="min-h-screen bg-gradient-to-b from-primary/5 to-white">
         <Navigation />
-        <SEO title="Deck Not Found - NurseNest" description="This study deck could not be found." />
+        <SEO title={t("pages.deckPage.deckNotFoundNursenest")} description={t("pages.deckPage.thisStudyDeckCouldNot")} />
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
           <Layers className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-deck-not-found">Deck Not Found</h1>
-          <p className="text-gray-500 mb-6">This study deck may have been removed or set to private.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-deck-not-found">{t("pages.deckPage.deckNotFound")}</h1>
+          <p className="text-gray-500 mb-6">{t("pages.deckPage.thisStudyDeckMayHave")}</p>
           <Button onClick={() => setLocation("/flashcards")} className="rounded-xl gap-2" data-testid="button-back-flashcards">
             <ArrowLeft className="w-4 h-4" /> Back to Flashcards
           </Button>
@@ -157,10 +159,10 @@ export default function DeckPage() {
       />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-        <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label="Breadcrumb" data-testid="nav-breadcrumb">
-          <LocaleLink href="/" className="hover:text-primary transition-colors">Home</LocaleLink>
+        <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" aria-label={t("pages.deckPage.breadcrumb")} data-testid="nav-breadcrumb">
+          <LocaleLink href="/" className="hover:text-primary transition-colors">{t("pages.deckPage.home")}</LocaleLink>
           <span>/</span>
-          <LocaleLink href="/flashcards" className="hover:text-primary transition-colors">Flashcards</LocaleLink>
+          <LocaleLink href="/flashcards" className="hover:text-primary transition-colors">{t("pages.deckPage.flashcards")}</LocaleLink>
           <span>/</span>
           <span className="text-gray-900 font-medium">{deck.title}</span>
         </nav>
@@ -302,8 +304,8 @@ export default function DeckPage() {
         )}
 
         <div className="bg-primary/5 rounded-2xl p-6 sm:p-8 text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Ready to study this deck?</h2>
-          <p className="text-gray-600 mb-4">Create a free account to use Learn and Test modes with spaced repetition.</p>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">{t("pages.deckPage.readyToStudyThisDeck")}</h2>
+          <p className="text-gray-600 mb-4">{t("pages.deckPage.createAFreeAccountTo")}</p>
           <div className="flex flex-wrap justify-center gap-3">
             {user ? (
               <Button onClick={() => setLocation("/flashcards")} className="rounded-xl gap-2" data-testid="button-go-study">

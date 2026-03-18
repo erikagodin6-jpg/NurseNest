@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { LabImageViewer } from "./lab-image-viewer";
 
+import { useI18n } from "@/lib/i18n";
 interface Annotation {
   id: string;
   x: number;
@@ -32,6 +33,7 @@ export function AnnotatedImageViewer({
   onAnnotationClick,
   className = "",
 }: AnnotatedImageViewerProps) {
+  const { t } = useI18n();
   const [showAnnotations, setShowAnnotations] = useState(
     showAnnotationsProp !== undefined ? showAnnotationsProp : mode !== "exam"
   );
@@ -116,7 +118,7 @@ export function AnnotatedImageViewer({
           </button>
         )}
         {mode === "exam" && (
-          <p className="text-xs text-gray-400">Click numbered pins to reveal labels</p>
+          <p className="text-xs text-gray-400">{t("allied.annotatedImageViewer.clickNumberedPinsToReveal")}</p>
         )}
         {annotations.length > 0 && (
           <span className="text-xs text-gray-400" data-testid="text-annotation-count">
@@ -128,7 +130,7 @@ export function AnnotatedImageViewer({
       </div>
       {showAnnotations && mode === "review" && annotations.length > 0 && (
         <div className="mt-3 bg-gray-50 rounded-lg p-3 space-y-2" data-testid="annotation-callouts">
-          <p className="text-xs font-semibold text-gray-700 uppercase tracking-wide">Annotations</p>
+          <p className="text-xs font-semibold text-gray-700 uppercase tracking-wide">{t("allied.annotatedImageViewer.annotations")}</p>
           {annotations.map((a) => (
             <div
               key={a.id}

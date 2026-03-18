@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { getTotalAlliedHealthDisplay } from "@/data/career-questions/question-counts";
 
+import { useI18n } from "@/lib/i18n";
 const FEATURED_CAREERS = [
   {
     ...CAREER_CONFIGS.rrt,
@@ -64,6 +65,7 @@ const STATS = [
 ];
 
 export default function AlliedHomePage() {
+  const { t } = useI18n();
   const [email, setEmail] = useState("");
   const [selectedCareer, setSelectedCareer] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -92,8 +94,8 @@ export default function AlliedHomePage() {
   return (
     <div data-testid="allied-home-page">
       <AlliedSEO
-        title="Allied Health Careers & Certification Exam Prep — RRT, MLT, Radiologic Tech, Sonography | NurseNest"
-        description="Pass your allied health certification exams faster with practice questions, career guidance, and salary data for Respiratory Therapy, Medical Laboratory, Radiologic Technology, and Sonography careers. Free to start."
+        title={t("allied.alliedHome.alliedHealthCareersCertificationExam")}
+        description={t("allied.alliedHome.passYourAlliedHealthCertification")}
         keywords="allied health careers, certification exam prep, respiratory therapy exam, medical laboratory technologist exam, healthcare career training, ARRT radiography exam, ARDMS sonography exam, allied health salary, job outlook"
         canonicalPath="/allied-health"
         structuredData={{
@@ -112,7 +114,7 @@ export default function AlliedHomePage() {
               Built for Allied Health Certification Exams — RRT, MLT, Rad Tech, Sonography
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight" data-testid="text-hero-title">
-              Pass Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">Allied Health Certification Exams</span> Faster
+              Pass Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">{t("allied.alliedHome.alliedHealthCertificationExams")}</span> Faster
             </h1>
             <h2 className="text-base sm:text-lg text-gray-600 mb-6 max-w-2xl mx-auto" data-testid="text-hero-subtitle">
               Exam prep, career guidance, {getTotalAlliedHealthDisplay()} practice questions, and certification support — everything you need to launch your allied health career.
@@ -212,8 +214,8 @@ export default function AlliedHomePage() {
       <section className="py-16 sm:py-20" data-testid="allied-career-cards">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Choose Your Career Path</h2>
-            <p className="text-gray-600 max-w-xl mx-auto">Each career vertical comes with exam-specific test banks, mock exams, and AI-powered study tools.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.alliedHome.chooseYourCareerPath")}</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">{t("allied.alliedHome.eachCareerVerticalComesWith")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {ALLIED_CAREERS.filter(c => c.enabled).map(career => (
@@ -247,7 +249,7 @@ export default function AlliedHomePage() {
       <section className="py-16 bg-gradient-to-b from-teal-50/50 to-white" data-testid="allied-features">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Everything You Need to Pass</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.alliedHome.everythingYouNeedToPass")}</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
@@ -271,8 +273,8 @@ export default function AlliedHomePage() {
       <section className="py-16 bg-white" data-testid="allied-study-tools">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Popular Study Resources</h2>
-            <p className="text-gray-600 max-w-xl mx-auto">Jump directly into the study tools used by thousands of allied health students.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">{t("allied.alliedHome.popularStudyResources")}</h2>
+            <p className="text-gray-600 max-w-xl mx-auto">{t("allied.alliedHome.jumpDirectlyIntoTheStudy")}</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             {[
@@ -344,8 +346,8 @@ export default function AlliedHomePage() {
         <div className="max-w-2xl mx-auto px-4 text-center">
           <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-8 sm:p-12 border border-teal-100">
             <Mail className="w-10 h-10 text-teal-500 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Get a Free Diagnostic + Weekly Study Plan</h2>
-            <p className="text-gray-600 mb-6">Enter your email and career to receive a free diagnostic assessment and personalized weekly study tips.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.alliedHome.getAFreeDiagnosticWeekly")}</h2>
+            <p className="text-gray-600 mb-6">{t("allied.alliedHome.enterYourEmailAndCareer")}</p>
             {submitted ? (
               <div className="flex items-center justify-center gap-2 text-teal-700 font-medium" data-testid="text-email-success">
                 <CheckCircle2 className="w-5 h-5" />
@@ -357,7 +359,7 @@ export default function AlliedHomePage() {
                   type="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  placeholder="your@email.com"
+                  placeholder={t("allied.alliedHome.youremailcom")}
                   required
                   className="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
                   data-testid="input-email"
@@ -368,7 +370,7 @@ export default function AlliedHomePage() {
                   className="px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-300"
                   data-testid="select-career"
                 >
-                  <option value="">Select career</option>
+                  <option value="">{t("allied.alliedHome.selectCareer")}</option>
                   {ALLIED_CAREERS.map(c => (
                     <option key={c.slug} value={c.slug}>{c.shortName}</option>
                   ))}

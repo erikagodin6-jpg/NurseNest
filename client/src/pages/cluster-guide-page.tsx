@@ -16,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n";
 import {
   getClusterPage,
   getClusterPagesForParent,
@@ -23,6 +24,7 @@ import {
 } from "@/data/icu-cluster-data";
 
 function ClusterTableOfContents({ page }: { page: ClusterPage }) {
+  const { t } = useI18n();
   const sections = [
     { id: "introduction", title: "Introduction" },
     ...page.sections.map(s => ({ id: s.id, title: s.title })),
@@ -69,10 +71,10 @@ export default function ClusterGuidePage() {
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-cluster-not-found">Guide Not Found</h1>
-          <p className="text-gray-600 mb-6">The guide you are looking for does not exist.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-cluster-not-found">{t("pages.clusterGuidePage.guideNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.clusterGuidePage.theGuideYouAreLooking")}</p>
           <LocaleLink href="/guides">
-            <Button data-testid="button-back-to-guides">Browse All Guides</Button>
+            <Button data-testid="button-back-to-guides">{t("pages.clusterGuidePage.browseAllGuides")}</Button>
           </LocaleLink>
         </div>
         <Footer />
@@ -212,8 +214,8 @@ export default function ClusterGuidePage() {
             ))}
 
             <div className="my-8 rounded-xl p-6 text-center" style={{ backgroundColor: `${page.color}10`, borderLeft: `4px solid ${page.color}` }} data-testid="cta-mid-content">
-              <h3 className="text-lg font-bold text-gray-900 mb-1">Ready to Test Your Knowledge?</h3>
-              <p className="text-sm text-gray-600 mb-4">Practice with exam-style questions and detailed clinical rationales.</p>
+              <h3 className="text-lg font-bold text-gray-900 mb-1">{t("pages.clusterGuidePage.readyToTestYourKnowledge")}</h3>
+              <p className="text-sm text-gray-600 mb-4">{t("pages.clusterGuidePage.practiceWithExamstyleQuestionsAnd")}</p>
               <LocaleLink href={`/preview/${page.ctaPreviewSlug}`}>
                 <Button className="text-white" style={{ backgroundColor: page.color }} data-testid="button-cta-mid-practice">
                   Start Practice Questions <ArrowRight className="w-4 h-4 ml-2" />
@@ -258,7 +260,7 @@ export default function ClusterGuidePage() {
 
             {relatedPages.length > 0 && (
               <section id="related-topics" className="mb-12 scroll-mt-24" data-testid="section-related-topics">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Related Topics</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">{t("pages.clusterGuidePage.relatedTopics")}</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {relatedPages.map((rp) => (
                     <LocaleLink key={rp.slug} href={`/guides/${rp.parentSlug}/${rp.slug}`}>
@@ -302,7 +304,7 @@ export default function ClusterGuidePage() {
                       <ArrowLeft className="w-6 h-6" style={{ color: page.color }} />
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500 mb-1">Return to the complete guide</p>
+                      <p className="text-xs text-gray-500 mb-1">{t("pages.clusterGuidePage.returnToTheCompleteGuide")}</p>
                       <h3 className="font-bold text-gray-900 group-hover:text-blue-700 transition-colors" data-testid="link-back-to-hub">
                         {page.parentTitle}
                       </h3>

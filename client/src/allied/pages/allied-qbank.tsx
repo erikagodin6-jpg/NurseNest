@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { getCareerQuestionPool } from "@/data/career-questions";
 import { AlliedSEO } from "@/allied/allied-seo";
 
+import { useI18n } from "@/lib/i18n";
 const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
   rrt: CAREER_CONFIGS.rrt,
   paramedic: CAREER_CONFIGS.paramedic,
@@ -18,6 +19,7 @@ const ALLIED_CAREER_MAP: Record<string, CareerConfig> = {
 };
 
 export default function AlliedQBankPage() {
+  const { t } = useI18n();
   const searchString = useSearch();
   const careerSlug = new URLSearchParams(searchString).get("career") || "";
   const career = ALLIED_CAREER_MAP[careerSlug];
@@ -71,11 +73,11 @@ export default function AlliedQBankPage() {
     return (
       <>
         <AlliedSEO
-          title="Allied Health Test Bank"
-          description="Browse allied health question banks for RRT, Paramedic, Pharmacy Tech, MLT, and Medical Imaging certification exam prep. Practice with detailed rationales and adaptive difficulty."
+          title={t("allied.alliedQbank.alliedHealthTestBank")}
+          description={t("allied.alliedQbank.browseAlliedHealthQuestionBanks")}
           canonicalPath="/qbank"
         />
-        <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">Career Not Found</h1><Link href="/careers" className="text-teal-600 mt-4 inline-block">Browse Careers</Link></div>
+        <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">{t("allied.alliedQbank.careerNotFound")}</h1><Link href="/careers" className="text-teal-600 mt-4 inline-block">{t("allied.alliedQbank.browseCareers")}</Link></div>
       </>
     );
   }
@@ -176,7 +178,7 @@ export default function AlliedQBankPage() {
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link href={getCanonicalRoute(career.slug)} className="hover:text-teal-600">{career.shortName}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-teal-700 font-medium">Test Bank</span>
+        <span className="text-teal-700 font-medium">{t("allied.alliedQbank.testBank")}</span>
       </div>
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
@@ -204,16 +206,16 @@ export default function AlliedQBankPage() {
         <div className="bg-gray-50 rounded-xl border border-gray-100 p-4 mb-6 space-y-4" data-testid="qbank-filters">
           <div className="flex flex-wrap gap-4">
             <div>
-              <label className="text-xs font-medium text-gray-500 mb-1 block">Difficulty</label>
+              <label className="text-xs font-medium text-gray-500 mb-1 block">{t("allied.alliedQbank.difficulty")}</label>
               <select value={difficulty || ""} onChange={e => setDifficulty(e.target.value ? Number(e.target.value) : null)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm" data-testid="select-difficulty">
-                <option value="">All</option>
+                <option value="">{t("allied.alliedQbank.all")}</option>
                 {[1, 2, 3, 4, 5].map(d => <option key={d} value={d}>Level {d}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 mb-1 block">Topic</label>
+              <label className="text-xs font-medium text-gray-500 mb-1 block">{t("allied.alliedQbank.topic")}</label>
               <select value={topic} onChange={e => setTopic(e.target.value)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm" data-testid="select-topic">
-                <option value="">All Topics</option>
+                <option value="">{t("allied.alliedQbank.allTopics")}</option>
                 {career.domains.map(d => <option key={d} value={d}>{d}</option>)}
               </select>
             </div>
@@ -222,7 +224,7 @@ export default function AlliedQBankPage() {
             </button>
           </div>
           <div>
-            <label className="text-xs font-medium text-gray-500 mb-2 block">Category Quiz (10 questions)</label>
+            <label className="text-xs font-medium text-gray-500 mb-2 block">{t("allied.alliedQbank.categoryQuiz10Questions")}</label>
             <div className="flex flex-wrap gap-2">
               {career.domains.map(d => (
                 <button key={d} onClick={() => startCategoryQuiz(d)} className="px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-gray-200 text-gray-700 hover:border-teal-300 hover:bg-teal-50 transition-colors" data-testid={`button-category-quiz-${d}`}>
@@ -253,7 +255,7 @@ export default function AlliedQBankPage() {
           </div>
           {freeUsed >= FREE_LIMIT ? (
             <div className="flex flex-col sm:flex-row items-center gap-3">
-              <p className="text-sm text-amber-800 flex-1">5 free questions available. Upgrade to unlock full QBank access.</p>
+              <p className="text-sm text-amber-800 flex-1">{t("allied.alliedQbank.5FreeQuestionsAvailableUpgrade")}</p>
               <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-xl text-sm font-semibold hover:from-teal-700 hover:to-cyan-700 shadow-lg shadow-teal-200 whitespace-nowrap" data-testid="button-upgrade-cap">
                 <Lock className="w-4 h-4" /> Unlock Full QBank
               </Link>
@@ -272,7 +274,7 @@ export default function AlliedQBankPage() {
       {!isPro && freeUsed >= FREE_LIMIT && (
         <div className="bg-white rounded-2xl border-2 border-teal-200 p-8 sm:p-12 text-center mb-6" data-testid="free-cap-block">
           <Lock className="w-12 h-12 text-teal-400 mx-auto mb-4" />
-          <h3 className="text-xl font-bold text-gray-900 mb-2">You've Reached Your Free Limit</h3>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">{t("allied.alliedQbank.youveReachedYourFreeLimit")}</h3>
           <p className="text-gray-600 text-sm mb-6 max-w-md mx-auto">
             Upgrade to Pro for unlimited questions with detailed 600+ word rationales, adaptive CAT simulation, weak area targeting, and more.
           </p>
@@ -290,7 +292,7 @@ export default function AlliedQBankPage() {
       {rapidDrill && (
         <div className="bg-teal-50 rounded-xl border border-teal-100 px-4 py-3 mb-6 flex items-center justify-between" data-testid="rapid-drill-bar">
           <div className="flex items-center gap-4 text-sm">
-            <span className="font-medium text-teal-700">Rapid Drill</span>
+            <span className="font-medium text-teal-700">{t("allied.alliedQbank.rapidDrill")}</span>
             <span className="flex items-center gap-1 text-gray-600"><Clock className="w-3.5 h-3.5" /> {Math.floor(drillTimer / 60)}:{(drillTimer % 60).toString().padStart(2, "0")}</span>
             <span className="text-gray-600">Streak: {streak}</span>
           </div>
@@ -367,7 +369,7 @@ export default function AlliedQBankPage() {
 
           {answered && mode === "tutor" && current.rationale && (
             <div className="mt-6 bg-teal-50 rounded-xl p-5 border border-teal-100" data-testid="rationale">
-              <h4 className="font-semibold text-teal-800 mb-2">Rationale</h4>
+              <h4 className="font-semibold text-teal-800 mb-2">{t("allied.alliedQbank.rationale")}</h4>
               <p className="text-sm text-teal-900 leading-relaxed">{current.rationale}</p>
             </div>
           )}
@@ -384,8 +386,8 @@ export default function AlliedQBankPage() {
       ) : (
         <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center">
           <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">No Questions Available</h3>
-          <p className="text-gray-500 text-sm mb-4">Try adjusting your filters or check back soon for more content.</p>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("allied.alliedQbank.noQuestionsAvailable")}</h3>
+          <p className="text-gray-500 text-sm mb-4">{t("allied.alliedQbank.tryAdjustingYourFiltersOr")}</p>
           {!isPro && (
             <Link href="/allied-health/pricing" className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="button-upgrade">
               <Lock className="w-4 h-4" /> Unlock Full QBank

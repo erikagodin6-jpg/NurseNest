@@ -8,6 +8,7 @@ import { NEWGRAD_CERTIFICATIONS } from "./certifications-hub";
 import { CERT_PREP_MAP } from "./certification-prep-data";
 import CertificationPrepPage from "./certification-prep-page";
 import { PremiumUpgradeCTA, useNewGradEntitlements } from "./premium-cta";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, BookOpen, ChevronRight, Check, GraduationCap,
   ClipboardList, Layers, Award, HelpCircle, Clock, Target, Users, Lock
@@ -25,13 +26,14 @@ const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string;
 };
 
 function CertificationNotFound() {
+  const { t } = useI18n();
   return (
     <div data-testid="page-certification-not-found">
       <Navigation />
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center max-w-md px-4">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">Certification Not Found</h1>
-          <p className="text-gray-600 mb-6">The certification page you are looking for is not available.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">{t("pages.newgrad.certificationDetail.certificationNotFound")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.newgrad.certificationDetail.theCertificationPageYouAre")}</p>
           <Link href="/newgrad/certifications" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors" data-testid="link-back-to-certs">
             Back to Certifications <ArrowRight className="w-4 h-4" />
           </Link>
@@ -88,11 +90,11 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
         <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradientFrom} via-white/50 ${colors.gradientTo}`} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="nav-breadcrumb">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.newgrad.certificationDetail.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/newgrad" className="hover:text-blue-600">New Grad Hub</Link>
+            <Link href="/newgrad" className="hover:text-blue-600">{t("pages.newgrad.certificationDetail.newGradHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/newgrad/certifications" className="hover:text-blue-600">Certifications</Link>
+            <Link href="/newgrad/certifications" className="hover:text-blue-600">{t("pages.newgrad.certificationDetail.certifications")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-blue-700 font-medium">{cert.name}</span>
           </div>
@@ -177,7 +179,7 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
                   <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center mb-4`}>
                     <ClipboardList className={`w-6 h-6 ${colors.iconColor}`} />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Practice Questions</h3>
+                  <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">{t("pages.newgrad.certificationDetail.practiceQuestions")}</h3>
                   <p className="text-sm text-gray-500 mb-3">{cert.questionCount} {cert.name}-aligned questions with detailed rationales.</p>
                   <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600">
                     Practice Now <ArrowRight className="w-3.5 h-3.5" />
@@ -189,7 +191,7 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
                   <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center mb-4`}>
                     <BookOpen className={`w-6 h-6 ${colors.iconColor}`} />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Lesson Library</h3>
+                  <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">{t("pages.newgrad.certificationDetail.lessonLibrary")}</h3>
                   <p className="text-sm text-gray-500 mb-3">In-depth clinical lessons covering {cert.name} exam content.</p>
                   <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600">
                     Browse Lessons <ArrowRight className="w-3.5 h-3.5" />
@@ -201,7 +203,7 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
                   <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center mb-4`}>
                     <Layers className={`w-6 h-6 ${colors.iconColor}`} />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">Flashcard Decks</h3>
+                  <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">{t("pages.newgrad.certificationDetail.flashcardDecks")}</h3>
                   <p className="text-sm text-gray-500 mb-3">Spaced-repetition flashcards for {cert.name} algorithms and key concepts.</p>
                   <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600">
                     Study Flashcards <ArrowRight className="w-3.5 h-3.5" />
@@ -220,7 +222,7 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
                   {cert.topics.slice(0, 5).map((topic, i) => (
                     <div key={i} className="bg-white rounded-xl border border-gray-100 p-4 flex items-center gap-3" data-testid={`preview-question-${i}`}>
                       <span className="text-xs font-semibold text-white bg-blue-500 rounded-full w-6 h-6 flex items-center justify-center shrink-0">{i + 1}</span>
-                      <span className="text-sm text-gray-700">A nurse is managing a patient case involving <span className="font-medium">{topic.toLowerCase()}</span>. Which intervention should the nurse prioritize?</span>
+                      <span className="text-sm text-gray-700">A nurse is managing a patient case involving <span className="font-medium">{topic.toLowerCase()}</span>{t("pages.newgrad.certificationDetail.whichInterventionShouldTheNurse")}</span>
                     </div>
                   ))}
                 </div>
@@ -239,7 +241,7 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
                     <ClipboardList className={`w-5 h-5 ${colors.iconColor}`} />
                     <Lock className="w-3.5 h-3.5 text-gray-400" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 text-sm mb-1">Full Question Bank</h3>
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{t("pages.newgrad.certificationDetail.fullQuestionBank")}</h3>
                   <p className="text-xs text-gray-500">{cert.questionCount} questions with rationales</p>
                 </div>
                 <div className={`bg-gray-50 rounded-xl border ${colors.border} p-5 opacity-60`}>
@@ -247,16 +249,16 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
                     <BookOpen className={`w-5 h-5 ${colors.iconColor}`} />
                     <Lock className="w-3.5 h-3.5 text-gray-400" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 text-sm mb-1">Mock Exams</h3>
-                  <p className="text-xs text-gray-500">Timed exam simulations</p>
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{t("pages.newgrad.certificationDetail.mockExams")}</h3>
+                  <p className="text-xs text-gray-500">{t("pages.newgrad.certificationDetail.timedExamSimulations")}</p>
                 </div>
                 <div className={`bg-gray-50 rounded-xl border ${colors.border} p-5 opacity-60`}>
                   <div className="flex items-center gap-2 mb-2">
                     <Layers className={`w-5 h-5 ${colors.iconColor}`} />
                     <Lock className="w-3.5 h-3.5 text-gray-400" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 text-sm mb-1">Flashcard Decks</h3>
-                  <p className="text-xs text-gray-500">Spaced-repetition cards</p>
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1">{t("pages.newgrad.certificationDetail.flashcardDecks2")}</h3>
+                  <p className="text-xs text-gray-500">{t("pages.newgrad.certificationDetail.spacedrepetitionCards")}</p>
                 </div>
               </div>
               <PremiumUpgradeCTA requiredEntitlement="certification" context={`Unlock the full ${cert.name} question bank with ${cert.questionCount} practice questions, mock exams, flashcard decks, and algorithm reviews.`} />
@@ -283,8 +285,8 @@ function CertDetailContent({ cert }: { cert: typeof NEWGRAD_CERTIFICATIONS[0] })
         <section className="py-16 bg-white" data-testid="section-related">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-related-heading">Other Certifications</h2>
-              <p className="text-gray-600 mb-2">Explore other certifications new graduate nurses commonly pursue.</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-related-heading">{t("pages.newgrad.certificationDetail.otherCertifications")}</h2>
+              <p className="text-gray-600 mb-2">{t("pages.newgrad.certificationDetail.exploreOtherCertificationsNewGraduate")}</p>
               <Link href="/nursing-certifications" className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors" data-testid="link-back-to-hub">
                 ← Back to Certification Hub
               </Link>

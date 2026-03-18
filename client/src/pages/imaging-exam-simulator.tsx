@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { ExamCalculator } from "@/components/exam-calculator";
 
+import { useI18n } from "@/lib/i18n";
 const EXAM_LENGTHS = [
   { value: 25, label: "Quick Practice", time: 30, desc: "25 questions in 30 minutes" },
   { value: 50, label: "Standard", time: 60, desc: "50 questions in 60 minutes" },
@@ -71,6 +72,7 @@ interface ExamReport {
 }
 
 function formatTime(seconds: number): string {
+
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
   const s = seconds % 60;
@@ -367,7 +369,7 @@ export default function ImagingExamSimulatorPage() {
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-gray-900" data-testid="text-simulator-title">{examLabel} Exam Simulator</h1>
-              <p className="text-gray-500 text-sm">Adaptive certification exam preparation</p>
+              <p className="text-gray-500 text-sm">{t("pages.imagingExamSimulator.adaptiveCertificationExamPreparation")}</p>
             </div>
           </div>
 
@@ -375,8 +377,8 @@ export default function ImagingExamSimulatorPage() {
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-center gap-3" data-testid="auth-required-banner">
               <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0" />
               <div>
-                <p className="text-sm font-medium text-amber-800">Sign in required</p>
-                <p className="text-xs text-amber-600">Create an account to track your exam history and progress.</p>
+                <p className="text-sm font-medium text-amber-800">{t("pages.imagingExamSimulator.signInRequired")}</p>
+                <p className="text-xs text-amber-600">{t("pages.imagingExamSimulator.createAnAccountToTrack")}</p>
               </div>
               <Link href="/auth" className="ml-auto px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700" data-testid="link-sign-in">
                 Sign In
@@ -599,7 +601,7 @@ export default function ImagingExamSimulatorPage() {
         <div className="flex flex-1 overflow-hidden">
           {navOpen && (
             <div className="w-64 bg-white border-r border-gray-200 overflow-y-auto flex-shrink-0 p-4" data-testid="question-navigator-panel">
-              <h3 className="text-sm font-semibold text-gray-700 mb-3">Question Navigator</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">{t("pages.imagingExamSimulator.questionNavigator")}</h3>
               <div className="grid grid-cols-5 gap-1.5">
                 {Array.from({ length: totalQuestions }, (_, i) => {
                   const served = servedQuestions[i];
@@ -645,7 +647,7 @@ export default function ImagingExamSimulatorPage() {
                 </div>
               </div>
               <div className="mt-4 pt-4 border-t border-gray-100">
-                <p className="text-xs text-gray-500 mb-1">Difficulty Level</p>
+                <p className="text-xs text-gray-500 mb-1">{t("pages.imagingExamSimulator.difficultyLevel")}</p>
                 <div className="flex items-center gap-1">
                   {[1, 2, 3, 4, 5].map(d => (
                     <div
@@ -682,7 +684,7 @@ export default function ImagingExamSimulatorPage() {
                   <div className="mb-4 rounded-xl overflow-hidden border border-gray-200 bg-gray-900" style={{ minHeight: "200px" }} data-testid="question-image-container">
                     <img
                       src={currentQuestion.imageUrl}
-                      alt="Radiographic image for this question"
+                      alt={t("pages.imagingExamSimulator.radiographicImageForThisQuestion")}
                       className="max-w-full max-h-80 mx-auto object-contain"
                       loading="lazy"
                       decoding="async"
@@ -751,7 +753,7 @@ export default function ImagingExamSimulatorPage() {
 
                 {isAnswerSubmitted && selectedMode === "practice" && answerResult?.rationale && (
                   <div className="mt-6 p-4 bg-indigo-50 rounded-xl border border-indigo-100" data-testid="text-rationale">
-                    <p className="text-sm font-semibold text-indigo-800 mb-1">Explanation</p>
+                    <p className="text-sm font-semibold text-indigo-800 mb-1">{t("pages.imagingExamSimulator.explanation")}</p>
                     <p className="text-sm text-indigo-700 leading-relaxed">{answerResult.rationale}</p>
                   </div>
                 )}
@@ -763,7 +765,7 @@ export default function ImagingExamSimulatorPage() {
         <div className="sticky bottom-0 bg-white border-t border-gray-200 px-4 py-3">
           <div className="max-w-3xl mx-auto flex items-center justify-between">
             <div className="text-xs text-gray-400">
-              {isFlagged && <span className="text-amber-500 font-medium">Flagged for review</span>}
+              {isFlagged && <span className="text-amber-500 font-medium">{t("pages.imagingExamSimulator.flaggedForReview")}</span>}
             </div>
             <div className="flex items-center gap-3">
               {!isAnswerSubmitted ? (
@@ -802,8 +804,8 @@ export default function ImagingExamSimulatorPage() {
         {showExitModal && (
           <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" data-testid="exit-modal">
             <div className="bg-white rounded-2xl p-6 max-w-sm w-full">
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Exit Exam?</h3>
-              <p className="text-sm text-gray-600 mb-4">Your progress will be saved. You can resume this exam later.</p>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">{t("pages.imagingExamSimulator.exitExam")}</h3>
+              <p className="text-sm text-gray-600 mb-4">{t("pages.imagingExamSimulator.yourProgressWillBeSaved")}</p>
               <div className="flex gap-3">
                 <button onClick={() => setShowExitModal(false)} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50" data-testid="button-cancel-exit">
                   Continue Exam
@@ -819,24 +821,24 @@ export default function ImagingExamSimulatorPage() {
         {showSubmitModal && (
           <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" data-testid="submit-modal">
             <div className="bg-white rounded-2xl p-6 max-w-md w-full">
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Submit Exam?</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">{t("pages.imagingExamSimulator.submitExam")}</h3>
               <div className="bg-gray-50 rounded-xl p-4 mb-4">
                 <div className="grid grid-cols-3 gap-4 text-center text-sm">
                   <div>
-                    <p className="text-gray-500">Answered</p>
+                    <p className="text-gray-500">{t("pages.imagingExamSimulator.answered")}</p>
                     <p className="text-lg font-bold text-gray-900" data-testid="text-submit-answered">{questionsAnswered}</p>
                   </div>
                   <div>
-                    <p className="text-gray-500">Flagged</p>
+                    <p className="text-gray-500">{t("pages.imagingExamSimulator.flagged")}</p>
                     <p className="text-lg font-bold text-amber-600" data-testid="text-submit-flagged">{flaggedIds.size}</p>
                   </div>
                   <div>
-                    <p className="text-gray-500">Unanswered</p>
+                    <p className="text-gray-500">{t("pages.imagingExamSimulator.unanswered")}</p>
                     <p className="text-lg font-bold text-red-600" data-testid="text-submit-unanswered">{totalQuestions - questionsAnswered}</p>
                   </div>
                 </div>
               </div>
-              <p className="text-sm text-gray-600 mb-4">Once submitted, you cannot change your answers. Your score report will be generated.</p>
+              <p className="text-sm text-gray-600 mb-4">{t("pages.imagingExamSimulator.onceSubmittedYouCannotChange")}</p>
               <div className="flex gap-3">
                 <button onClick={() => setShowSubmitModal(false)} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50" data-testid="button-cancel-submit">
                   Continue Exam
@@ -858,7 +860,7 @@ export default function ImagingExamSimulatorPage() {
         <div className="text-center">
           {showSubmitModal ? (
             <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md mx-4">
-              <h3 className="text-lg font-semibold mb-2">Submit Exam?</h3>
+              <h3 className="text-lg font-semibold mb-2">{t("pages.imagingExamSimulator.submitExam2")}</h3>
               <p className="text-gray-600 text-sm mb-6">You have answered all {totalQuestions} questions. Ready to submit?</p>
               <div className="flex gap-3">
                 <button onClick={handleSubmitExam} disabled={loading} className="flex-1 py-2.5 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700 disabled:opacity-50" data-testid="button-confirm-submit-final">
@@ -869,7 +871,7 @@ export default function ImagingExamSimulatorPage() {
           ) : (
             <>
               <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-gray-600">Loading question...</p>
+              <p className="text-gray-600">{t("pages.imagingExamSimulator.loadingQuestion")}</p>
             </>
           )}
         </div>
@@ -880,7 +882,7 @@ export default function ImagingExamSimulatorPage() {
   if (phase === "report" && examReport) {
     return (
       <div data-testid="exam-report-page">
-        <SEO title={`${examLabel} Exam Report`} description="Your detailed exam performance report" />
+        <SEO title={`${examLabel} Exam Report`} description={t("pages.imagingExamSimulator.yourDetailedExamPerformanceReport")} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <BreadcrumbNav items={breadcrumbs} />
         </div>
@@ -893,7 +895,7 @@ export default function ImagingExamSimulatorPage() {
                 {examReport.scorePercent}%
               </span>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Exam Complete</h1>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.imagingExamSimulator.examComplete")}</h1>
             <p className="text-gray-500 mb-4">{examReport.correctCount} of {examReport.totalQuestions} correct</p>
             <ReadinessBadge band={examReport.readinessBand} />
           </div>
@@ -902,17 +904,17 @@ export default function ImagingExamSimulatorPage() {
             <div className="bg-white rounded-xl border border-gray-100 p-5 text-center">
               <Clock className="w-5 h-5 text-gray-400 mx-auto mb-2" />
               <p className="text-2xl font-bold text-gray-900" data-testid="text-time-spent">{formatTime(examReport.timeSpent)}</p>
-              <p className="text-xs text-gray-500">Total Time</p>
+              <p className="text-xs text-gray-500">{t("pages.imagingExamSimulator.totalTime")}</p>
             </div>
             <div className="bg-white rounded-xl border border-gray-100 p-5 text-center">
               <Timer className="w-5 h-5 text-gray-400 mx-auto mb-2" />
               <p className="text-2xl font-bold text-gray-900" data-testid="text-avg-time">{examReport.averageTimePerQuestion}s</p>
-              <p className="text-xs text-gray-500">Avg per Question</p>
+              <p className="text-xs text-gray-500">{t("pages.imagingExamSimulator.avgPerQuestion")}</p>
             </div>
             <div className="bg-white rounded-xl border border-gray-100 p-5 text-center">
               <TrendingUp className="w-5 h-5 text-gray-400 mx-auto mb-2" />
               <p className="text-2xl font-bold text-gray-900" data-testid="text-ability-est">{examReport.abilityEstimate.toFixed(1)}</p>
-              <p className="text-xs text-gray-500">Ability Estimate</p>
+              <p className="text-xs text-gray-500">{t("pages.imagingExamSimulator.abilityEstimate")}</p>
             </div>
           </div>
 
@@ -1041,7 +1043,7 @@ export default function ImagingExamSimulatorPage() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="text-center">
         <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-gray-600">Loading...</p>
+        <p className="text-gray-600">{t("pages.imagingExamSimulator.loading")}</p>
       </div>
     </div>
   );

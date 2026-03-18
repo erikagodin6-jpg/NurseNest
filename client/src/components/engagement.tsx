@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import {
   Lightbulb,
   ChevronDown,
@@ -19,6 +20,7 @@ interface PauseAndThinkProps {
 }
 
 export function PauseAndThink({ question, hint, className }: PauseAndThinkProps) {
+  const { t } = useI18n();
   const [showHint, setShowHint] = useState(false);
 
   return (
@@ -28,7 +30,7 @@ export function PauseAndThink({ question, hint, className }: PauseAndThinkProps)
           <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
             <Lightbulb className="w-4 h-4 text-primary" />
           </div>
-          <h4 className="text-sm font-bold text-gray-900 uppercase tracking-wider">Pause & Think</h4>
+          <h4 className="text-sm font-bold text-gray-900 uppercase tracking-wider">{t("components.engagement.pauseThink")}</h4>
         </div>
         <p className="text-gray-700 leading-relaxed italic text-[15px]">{question}</p>
         {hint && (
@@ -210,7 +212,7 @@ export function KnowledgeCheck({ question, options, className }: KnowledgeCheckP
           <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center">
             <HelpCircle className="w-3.5 h-3.5 text-primary" />
           </div>
-          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Quick Check</span>
+          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t("components.engagement.quickCheck")}</span>
         </div>
         <p className="text-sm font-semibold text-gray-900 mb-3">{question}</p>
         <div className="space-y-2">

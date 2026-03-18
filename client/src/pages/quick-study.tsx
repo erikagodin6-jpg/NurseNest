@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
 import { ConfidenceRatingModal } from "@/components/study-momentum";
+import { useI18n } from "@/lib/i18n";
 import {
   Clock, CheckCircle2, XCircle, ArrowRight, BookOpen,
   Target, Trophy, RotateCcw, Zap, Timer,
@@ -25,6 +26,7 @@ type QuickQuestion = {
 };
 
 export default function QuickStudy() {
+  const { t } = useI18n();
   const { user, effectiveTier } = useAuth();
   const [, navigate] = useLocation();
   const [questions, setQuestions] = useState<QuickQuestion[]>([]);
@@ -128,9 +130,9 @@ export default function QuickStudy() {
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
         <Navigation />
         <main className="flex-1 container mx-auto px-4 py-12 text-center">
-          <h1 className="text-2xl font-bold mb-4">Quick Study Session</h1>
-          <p className="text-gray-600 mb-6">Sign in to start a quick study session</p>
-          <Button onClick={() => navigate("/login")} data-testid="button-login-prompt">Sign In</Button>
+          <h1 className="text-2xl font-bold mb-4">{t("pages.quickStudy.quickStudySession")}</h1>
+          <p className="text-gray-600 mb-6">{t("pages.quickStudy.signInToStartA")}</p>
+          <Button onClick={() => navigate("/login")} data-testid="button-login-prompt">{t("pages.quickStudy.signIn")}</Button>
         </main>
         <Footer />
       </div>
@@ -143,8 +145,8 @@ export default function QuickStudy() {
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
       <SEO
-        title="Quick Study Session - 10 Minute Practice | NurseNest"
-        description="Complete a focused 10-minute study session with practice questions from your weak areas. Build daily study habits."
+        title={t("pages.quickStudy.quickStudySession10Minute")}
+        description={t("pages.quickStudy.completeAFocused10minuteStudy")}
         keywords="quick study, nursing practice, 10 minute study, NCLEX prep"
         canonicalPath="/quick-study"
       />
@@ -156,8 +158,8 @@ export default function QuickStudy() {
               <div className="w-20 h-20 rounded-full bg-[#BFA6F6]/20 flex items-center justify-center mx-auto mb-6">
                 <Zap className="w-10 h-10 text-[#BFA6F6]" />
               </div>
-              <h1 className="text-2xl font-bold text-[#2E3A59] mb-3" data-testid="text-quick-study-title">Quick Study</h1>
-              <p className="text-gray-600 mb-2">10-minute focused practice session</p>
+              <h1 className="text-2xl font-bold text-[#2E3A59] mb-3" data-testid="text-quick-study-title">{t("pages.quickStudy.quickStudy")}</h1>
+              <p className="text-gray-600 mb-2">{t("pages.quickStudy.10minuteFocusedPracticeSession")}</p>
               <p className="text-sm text-gray-500 mb-8">
                 {questions.length > 0
                   ? `${questions.length} questions from your study areas`
@@ -167,17 +169,17 @@ export default function QuickStudy() {
               <div className="grid grid-cols-3 gap-4 mb-8 text-center">
                 <div>
                   <div className="text-2xl font-bold text-[#BFA6F6]">10</div>
-                  <div className="text-xs text-gray-500">Minutes</div>
+                  <div className="text-xs text-gray-500">{t("pages.quickStudy.minutes")}</div>
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-[#AEE3E1]">{questions.length}</div>
-                  <div className="text-xs text-gray-500">Questions</div>
+                  <div className="text-xs text-gray-500">{t("pages.quickStudy.questions")}</div>
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-amber-500">
                     <Target className="w-6 h-6 mx-auto" />
                   </div>
-                  <div className="text-xs text-gray-500">Focused</div>
+                  <div className="text-xs text-gray-500">{t("pages.quickStudy.focused")}</div>
                 </div>
               </div>
               <Button
@@ -198,25 +200,25 @@ export default function QuickStudy() {
                 <div className="w-16 h-16 rounded-full bg-[#BFA6F6]/20 flex items-center justify-center mx-auto mb-4">
                   <Trophy className="w-8 h-8 text-[#BFA6F6]" />
                 </div>
-                <h2 className="text-xl font-bold text-[#2E3A59] mb-2" data-testid="text-session-complete">Session Complete</h2>
-                <p className="text-sm text-gray-500 mb-6">Great job completing your quick study session</p>
+                <h2 className="text-xl font-bold text-[#2E3A59] mb-2" data-testid="text-session-complete">{t("pages.quickStudy.sessionComplete")}</h2>
+                <p className="text-sm text-gray-500 mb-6">{t("pages.quickStudy.greatJobCompletingYourQuick")}</p>
 
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   <div className="bg-emerald-50 rounded-xl p-3">
                     <div className="text-2xl font-bold text-emerald-600" data-testid="text-score">{score}/{answered}</div>
-                    <div className="text-xs text-emerald-700">Correct</div>
+                    <div className="text-xs text-emerald-700">{t("pages.quickStudy.correct")}</div>
                   </div>
                   <div className="bg-blue-50 rounded-xl p-3">
                     <div className="text-2xl font-bold text-blue-600" data-testid="text-accuracy">
                       {answered > 0 ? Math.round((score / answered) * 100) : 0}%
                     </div>
-                    <div className="text-xs text-blue-700">Accuracy</div>
+                    <div className="text-xs text-blue-700">{t("pages.quickStudy.accuracy")}</div>
                   </div>
                   <div className="bg-purple-50 rounded-xl p-3">
                     <div className="text-2xl font-bold text-purple-600" data-testid="text-time-used">
                       {formatTime(timeUsed)}
                     </div>
-                    <div className="text-xs text-purple-700">Time Used</div>
+                    <div className="text-xs text-purple-700">{t("pages.quickStudy.timeUsed")}</div>
                   </div>
                 </div>
 
@@ -348,7 +350,7 @@ export default function QuickStudy() {
           </div>
         ) : (
           <div className="text-center py-12">
-            <p className="text-gray-500">No questions available for this session</p>
+            <p className="text-gray-500">{t("pages.quickStudy.noQuestionsAvailableForThis")}</p>
           </div>
         )}
       </main>

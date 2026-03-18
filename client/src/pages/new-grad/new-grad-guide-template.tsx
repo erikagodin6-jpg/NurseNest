@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer";
 import { buildFaqStructuredData } from "@/lib/structured-data";
 import { ChecklistGate, FlashcardCTA, PracticeQuestionCTA } from "@/components/marketing-cta";
 import { AutoRelatedContent } from "@/components/auto-related-content";
+import { useI18n } from "@/lib/i18n";
 import {
   ChevronRight, ChevronDown, HelpCircle, BookOpen, ArrowRight,
   Clock, User, Calendar, List,
@@ -64,6 +65,7 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   return (
     <div className="border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-item-${index}`}>
@@ -135,9 +137,9 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
       <main className="min-h-screen bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 py-8">
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="nav-breadcrumb">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.newGrad.newGradGuideTemplate.home")}</Link>
             <ChevronRight className="w-3 h-3" />
-            <Link href="/new-grad" className="hover:text-blue-600">New Grad Hub</Link>
+            <Link href="/new-grad" className="hover:text-blue-600">{t("pages.newGrad.newGradGuideTemplate.newGradHub")}</Link>
             <ChevronRight className="w-3 h-3" />
             <Link href={`/new-grad/${guide.professionSlug}`} className="hover:text-blue-600">{guide.profession}</Link>
             <ChevronRight className="w-3 h-3" />
@@ -222,7 +224,7 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
                     <div className="mt-6">
                       <ChecklistGate
                         title={`Download Your ${guide.profession} Survival Checklist`}
-                        description="Get a printable day-by-day checklist to track your progress through your first year."
+                        description={t("pages.newGrad.newGradGuideTemplate.getAPrintableDaybydayChecklist")}
                         checklistName={`${guide.professionSlug}-guide-checklist`}
                       />
                     </div>
@@ -273,7 +275,7 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
 
               {guide.relatedLinks.length > 0 && (
                 <section className="mb-12" data-testid="section-related">
-                  <h2 className="text-xl font-bold text-gray-900 mb-4">Related Resources</h2>
+                  <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.newGrad.newGradGuideTemplate.relatedResources")}</h2>
                   <div className="grid sm:grid-cols-2 gap-3">
                     {guide.relatedLinks.map((link, i) => (
                       <Link key={i} href={link.href} className="group" data-testid={`link-related-${i}`}>
@@ -292,7 +294,7 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
               )}
 
               <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 text-center" data-testid="section-bottom-cta">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Ready to Build Your Career?</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{t("pages.newGrad.newGradGuideTemplate.readyToBuildYourCareer")}</h3>
                 <p className="text-gray-600 mb-4">Explore our complete {guide.profession.toLowerCase()} resource hub for more guides, exam prep, and career tools.</p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Link href={`/new-grad/${guide.professionSlug}`}>
@@ -325,9 +327,9 @@ export default function NewGradGuidePage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center max-w-md">
           <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Guide Coming Soon</h1>
-          <p className="text-gray-600 mb-4">This guide is being developed and will be available soon with comprehensive content.</p>
-          <Link href="/new-grad" className="text-blue-600 hover:underline">Back to New Grad Hub</Link>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.newGrad.newGradGuideTemplate.guideComingSoon")}</h1>
+          <p className="text-gray-600 mb-4">{t("pages.newGrad.newGradGuideTemplate.thisGuideIsBeingDeveloped")}</p>
+          <Link href="/new-grad" className="text-blue-600 hover:underline">{t("pages.newGrad.newGradGuideTemplate.backToNewGradHub")}</Link>
         </div>
       </div>
       <Footer />

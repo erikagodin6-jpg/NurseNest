@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
+import { useI18n } from "@/lib/i18n";
 import {
   BookOpen, Search, Heart, Brain, FileText, Shield, Stethoscope,
   Activity, AlertTriangle, Beaker, Radio, Pill, MessageCircle, Users,
@@ -28,6 +29,7 @@ const ALLIED_FOUNDATION_LESSONS = [
 const CATEGORIES = ["All", "Sciences", "Clinical Skills", "Safety", "Pharmacology", "Diagnostics", "Professional Practice"];
 
 export default function AlliedLessonsPage() {
+  const { t } = useI18n();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
 
@@ -40,8 +42,8 @@ export default function AlliedLessonsPage() {
   return (
     <div data-testid="allied-lessons-page">
       <AlliedSEO
-        title="Allied Health Foundational Lessons - Core Topics for Certification"
-        description="15 foundational lessons covering human anatomy, physiology, pharmacology, patient assessment, infection control, medical ethics, and more for allied health certification exam prep."
+        title={t("allied.alliedLessons.alliedHealthFoundationalLessonsCore")}
+        description={t("allied.alliedLessons.15FoundationalLessonsCoveringHuman")}
         keywords="allied health lessons, medical terminology, pharmacology basics, patient assessment, infection control, vital signs, lab values, healthcare teamwork"
         canonicalPath="/lessons"
       />
@@ -55,15 +57,15 @@ export default function AlliedLessonsPage() {
               Foundational Lessons
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight" data-testid="text-lessons-title">
-              Allied Health <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">Core Knowledge</span>
+              Allied Health <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">{t("allied.alliedLessons.coreKnowledge")}</span>
             </h1>
             <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto" data-testid="text-lessons-subtitle">
               Master the foundational topics that apply across all allied health professions. Each lesson includes clinical content, exam tips, and embedded quizzes.
             </p>
             <div className="flex items-center justify-center gap-4 text-sm text-gray-500">
-              <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-teal-500" /> 15 Topics</span>
-              <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-teal-500" /> Pre & Post Tests</span>
-              <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-teal-500" /> Clinical Pearls</span>
+              <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-teal-500" /> {t("allied.alliedLessons.15Topics")}</span>
+              <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-teal-500" /> {t("allied.alliedLessons.prePostTests")}</span>
+              <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-teal-500" /> {t("allied.alliedLessons.clinicalPearls")}</span>
             </div>
           </div>
         </div>
@@ -76,7 +78,7 @@ export default function AlliedLessonsPage() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search lessons..."
+                placeholder={t("allied.alliedLessons.searchLessons")}
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"

@@ -8,6 +8,7 @@ import { AlliedSEO } from "@/allied/allied-seo";
 import { CAREER_SUBPAGE_DATA } from "@/allied/data/career-subpage-data";
 import { PROFESSION_HUB_DATA } from "@/allied/data/profession-hub-data";
 
+import { useI18n } from "@/lib/i18n";
 const ICON_MAP: Record<string, any> = {
   Target, Sparkles, Brain, Hand, Activity, BarChart, BookOpen, FileText,
   GraduationCap, Zap, Heart, Shield, Wrench, Search, Layers, ClipboardList,
@@ -15,6 +16,7 @@ const ICON_MAP: Record<string, any> = {
 };
 
 function getIcon(name: string) {
+
   return ICON_MAP[name] || Brain;
 }
 
@@ -52,11 +54,11 @@ export default function CareerFlashcardsPage({ careerSlug }: CareerFlashcardsPag
       <section className="bg-gradient-to-br from-gray-50 via-white to-gray-50/30 py-12 sm:py-16" style={{ background: `linear-gradient(135deg, ${hubData.colorAccent}40, white, ${hubData.colorAccent}20)` }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumbs">
-            <Link href="/allied-health" className="hover:text-gray-700">Allied Health</Link>
+            <Link href="/allied-health" className="hover:text-gray-700">{t("allied.careerFlashcardsPage.alliedHealth")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <Link href={basePath} className="hover:text-gray-700">{hubData.shortName}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="font-medium" style={{ color: hubData.color }}>Flashcards</span>
+            <span className="font-medium" style={{ color: hubData.color }}>{t("allied.careerFlashcardsPage.flashcards")}</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3" data-testid="text-page-title">
             {hubData.shortName} Flashcard Decks
@@ -67,11 +69,11 @@ export default function CareerFlashcardsPage({ careerSlug }: CareerFlashcardsPag
           <div className="flex gap-6 mt-6">
             <div className="text-center">
               <div className="text-2xl font-bold" style={{ color: hubData.color }}>{totalCards}+</div>
-              <div className="text-xs text-gray-500">Total Cards</div>
+              <div className="text-xs text-gray-500">{t("allied.careerFlashcardsPage.totalCards")}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold" style={{ color: hubData.color }}>{decks.length}</div>
-              <div className="text-xs text-gray-500">Decks</div>
+              <div className="text-xs text-gray-500">{t("allied.careerFlashcardsPage.decks")}</div>
             </div>
           </div>
         </div>
@@ -109,8 +111,8 @@ export default function CareerFlashcardsPage({ careerSlug }: CareerFlashcardsPag
 
       <section className="bg-gray-50 py-12">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Ready to Start Reviewing?</h2>
-          <p className="text-gray-600 mb-6">Start with a diagnostic to identify which topics need the most attention, then use flashcards for focused review.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("allied.careerFlashcardsPage.readyToStartReviewing")}</h2>
+          <p className="text-gray-600 mb-6">{t("allied.careerFlashcardsPage.startWithADiagnosticTo")}</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href={`/diagnostic?career=${hubData.careerSlug}`} className="inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 transition-colors shadow-lg" style={{ backgroundColor: hubData.color }} data-testid="button-cta-diagnostic">
               Start Free Diagnostic <ArrowRight className="w-4 h-4" />

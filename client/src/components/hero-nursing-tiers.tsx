@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import type { PlatformProof } from "@shared/lesson-stats";
 import { NURSING_TIERS } from "@shared/platform-manifest";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight,
   BookOpen,
@@ -12,6 +13,7 @@ import {
 } from "lucide-react";
 
 function ProgressBar({ current, goal }: { current: number; goal: number }) {
+  const { t } = useI18n();
   const pct = Math.min(100, Math.round((current / goal) * 100));
   return (
     <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
@@ -84,7 +86,7 @@ export default function HeroNursingTiers() {
                     <span className="text-3xl font-extrabold text-gray-900">
                       {formatK(tier.goalQuestions)}+
                     </span>
-                    <span className="text-sm text-gray-500">questions (goal)</span>
+                    <span className="text-sm text-gray-500">{t("components.heroNursingTiers.questionsGoal")}</span>
                   </div>
                   {current > 0 && (
                     <div className="mt-3">
@@ -99,7 +101,7 @@ export default function HeroNursingTiers() {
 
                 <div className="px-6 py-5 space-y-4">
                   <div>
-                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Major Exams</p>
+                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">{t("components.heroNursingTiers.majorExams")}</p>
                     <div className="flex flex-wrap gap-1.5">
                       {tier.exams.map((exam) => (
                         <span key={exam} className="inline-flex px-2 py-1 rounded-md bg-gray-50 border border-gray-100 text-xs font-medium text-gray-600">
@@ -112,11 +114,11 @@ export default function HeroNursingTiers() {
                   <div className="grid grid-cols-2 gap-3 text-center">
                     <div className="bg-gray-50 rounded-lg p-2.5">
                       <ClipboardCheck className="w-4 h-4 text-gray-400 mx-auto mb-1" />
-                      <div className="text-xs text-gray-500">Mock Exams</div>
+                      <div className="text-xs text-gray-500">{t("components.heroNursingTiers.mockExams")}</div>
                     </div>
                     <div className="bg-gray-50 rounded-lg p-2.5">
                       <BookOpen className="w-4 h-4 text-gray-400 mx-auto mb-1" />
-                      <div className="text-xs text-gray-500">Study Guides</div>
+                      <div className="text-xs text-gray-500">{t("components.heroNursingTiers.studyGuides")}</div>
                     </div>
                     <div className="bg-gray-50 rounded-lg p-2.5">
                       <Globe className="w-4 h-4 text-gray-400 mx-auto mb-1" />
@@ -124,7 +126,7 @@ export default function HeroNursingTiers() {
                     </div>
                     <div className="bg-gray-50 rounded-lg p-2.5">
                       <Languages className="w-4 h-4 text-gray-400 mx-auto mb-1" />
-                      <div className="text-xs text-gray-500">20 Languages</div>
+                      <div className="text-xs text-gray-500">{t("components.heroNursingTiers.20Languages")}</div>
                     </div>
                   </div>
 

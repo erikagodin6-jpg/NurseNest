@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { EndOfContentLeadCapture } from "@/components/lead-capture";
 
+import { useI18n } from "@/lib/i18n";
 const STATS = [
   { value: "6,000+", label: "Lessons" },
   { value: "2,400+", label: "Questions" },
@@ -134,6 +135,7 @@ const FAQ_DATA = [
 ];
 
 function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
 
   return (
@@ -195,8 +197,8 @@ export default function NursingHub() {
     <div data-testid="page-nursing-hub">
       <Navigation />
       <SEO
-        title="Nursing Exam Prep - NCLEX-RN, REX-PN & NP | NurseNest"
-        description="Pass your nursing certification with 6000+ lessons, adaptive mock exams, clinical simulators, and smart study tools. Covers NCLEX-RN, REX-PN, and NP exams."
+        title={t("pages.nursingHub.nursingExamPrepNclexrnRexpn")}
+        description={t("pages.nursingHub.passYourNursingCertificationWith")}
         keywords="nursing exam prep, NCLEX-RN, REX-PN, NP exam, nursing practice questions, mock nursing exam, nursing study guide, NCLEX prep, nursing flashcards, nursing certification"
         canonicalPath="/nursing"
         structuredData={courseStructuredData}
@@ -265,8 +267,8 @@ export default function NursingHub() {
       <section className="py-16 bg-gray-50" data-testid="section-core-problem">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-problem-h2">Why 15% of Candidates Fail</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">The problem isn't intelligence — it's study strategy. Most candidates fail because of preventable mistakes in how they prepare.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-problem-h2">{t("pages.nursingHub.why15OfCandidatesFail")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.nursingHub.theProblemIsntIntelligenceIts")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {PAIN_POINTS.map((point, i) => (
@@ -283,8 +285,8 @@ export default function NursingHub() {
       <section className="py-16" data-testid="section-features">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-features-h2">Your Complete Study System</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Everything you need to prepare for your nursing certification exam — structured, adaptive, and clinically accurate.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-features-h2">{t("pages.nursingHub.yourCompleteStudySystem")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.nursingHub.everythingYouNeedToPrepare")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {FEATURES.map(f => (
@@ -303,13 +305,13 @@ export default function NursingHub() {
       <section className="py-16 bg-gradient-to-b from-blue-50/30 to-white" data-testid="section-blueprint">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-blueprint-h2">Know Your Exam Blueprint</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Our content is mapped directly to official exam blueprints. Study what's actually tested — not what's easy to teach.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-blueprint-h2">{t("pages.nursingHub.knowYourExamBlueprint")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.nursingHub.ourContentIsMappedDirectly")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <ExamBlueprintCard title="NCLEX-RN" domains={NCLEX_RN_DOMAINS} color="text-blue-700" />
-            <ExamBlueprintCard title="REX-PN" domains={REX_PN_DOMAINS} color="text-indigo-700" />
-            <ExamBlueprintCard title="NP Certification" domains={NP_DOMAINS} color="text-purple-700" />
+            <ExamBlueprintCard title={t("pages.nursingHub.nclexrn")} domains={NCLEX_RN_DOMAINS} color="text-blue-700" />
+            <ExamBlueprintCard title={t("pages.nursingHub.rexpn")} domains={REX_PN_DOMAINS} color="text-indigo-700" />
+            <ExamBlueprintCard title={t("pages.nursingHub.npCertification")} domains={NP_DOMAINS} color="text-purple-700" />
           </div>
         </div>
       </section>
@@ -317,8 +319,8 @@ export default function NursingHub() {
       <section className="py-16 bg-white" data-testid="section-sample-content">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-sample-h2">Try It Now</h2>
-            <p className="text-gray-600">Experience the depth and quality of our practice questions</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-sample-h2">{t("pages.nursingHub.tryItNow")}</h2>
+            <p className="text-gray-600">{t("pages.nursingHub.experienceTheDepthAndQuality")}</p>
           </div>
           <div className="space-y-6">
             {SAMPLE_QUESTIONS.map((q, qi) => (
@@ -336,8 +338,8 @@ export default function NursingHub() {
       <section className="py-16 bg-gray-50" data-testid="section-mistakes">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-mistakes-h2">Top 5 Study Mistakes</h2>
-            <p className="text-gray-600">Avoid these common pitfalls that derail exam candidates</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-mistakes-h2">{t("pages.nursingHub.top5StudyMistakes")}</h2>
+            <p className="text-gray-600">{t("pages.nursingHub.avoidTheseCommonPitfallsThat")}</p>
           </div>
           <div className="space-y-4">
             {STUDY_MISTAKES.map((mistake, i) => (
@@ -358,15 +360,15 @@ export default function NursingHub() {
       <section className="py-16" data-testid="section-comparison">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-comparison-h2">NurseNest vs Self-Study vs Competitors</h2>
-            <p className="text-gray-600">See why students switch to NurseNest for serious exam prep</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-comparison-h2">{t("pages.nursingHub.nursenestVsSelfstudyVsCompetitors")}</h2>
+            <p className="text-gray-600">{t("pages.nursingHub.seeWhyStudentsSwitchTo")}</p>
           </div>
           <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm overflow-x-auto">
             <div className="grid grid-cols-4 bg-gray-50 border-b border-gray-200 min-w-[600px]">
-              <div className="px-5 py-3 text-sm font-semibold text-gray-500">Feature</div>
+              <div className="px-5 py-3 text-sm font-semibold text-gray-500">{t("pages.nursingHub.feature")}</div>
               <div className="px-5 py-3 text-sm font-semibold text-blue-700 text-center">NurseNest</div>
-              <div className="px-5 py-3 text-sm font-semibold text-gray-400 text-center">Self-Study</div>
-              <div className="px-5 py-3 text-sm font-semibold text-gray-400 text-center">Competitors</div>
+              <div className="px-5 py-3 text-sm font-semibold text-gray-400 text-center">{t("pages.nursingHub.selfstudy")}</div>
+              <div className="px-5 py-3 text-sm font-semibold text-gray-400 text-center">{t("pages.nursingHub.competitors")}</div>
             </div>
             {COMPARISON_DATA.map((row, i) => (
               <div key={i} className={`grid grid-cols-4 min-w-[600px] ${i < COMPARISON_DATA.length - 1 ? 'border-b border-gray-100' : ''}`} data-testid={`comparison-row-${i}`}>
@@ -392,8 +394,8 @@ export default function NursingHub() {
       <section className="py-16 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-faq-h2">Frequently Asked Questions</h2>
-            <p className="text-gray-600">Everything you need to know about nursing exam prep with NurseNest</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-faq-h2">{t("pages.nursingHub.frequentlyAskedQuestions")}</h2>
+            <p className="text-gray-600">{t("pages.nursingHub.everythingYouNeedToKnow")}</p>
           </div>
           <div className="space-y-3">
             {FAQ_DATA.map((faq, i) => (
@@ -427,48 +429,48 @@ export default function NursingHub() {
 
       <section className="py-10 bg-gray-50 border-t border-gray-100" data-testid="section-explore-resources">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Explore Nursing Resources</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">{t("pages.nursingHub.exploreNursingResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <Link href="/rpn/questions" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-rpn-questions">
               <Target className="w-5 h-5 text-emerald-500" />
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">RPN Questions by Topic</h3>
-                <p className="text-xs text-gray-500">Browse RPN practice questions</p>
+                <h3 className="text-sm font-semibold text-gray-900">{t("pages.nursingHub.rpnQuestionsByTopic")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingHub.browseRpnPracticeQuestions")}</p>
               </div>
             </Link>
             <Link href="/rn/questions" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all" data-testid="link-rn-questions">
               <Target className="w-5 h-5 text-blue-500" />
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">RN Questions by Topic</h3>
-                <p className="text-xs text-gray-500">Browse RN practice questions</p>
+                <h3 className="text-sm font-semibold text-gray-900">{t("pages.nursingHub.rnQuestionsByTopic")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingHub.browseRnPracticeQuestions")}</p>
               </div>
             </Link>
             <Link href="/np/questions" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-purple-200 transition-all" data-testid="link-np-questions">
               <Target className="w-5 h-5 text-purple-500" />
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">NP Questions by Topic</h3>
-                <p className="text-xs text-gray-500">Browse NP practice questions</p>
+                <h3 className="text-sm font-semibold text-gray-900">{t("pages.nursingHub.npQuestionsByTopic")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingHub.browseNpPracticeQuestions")}</p>
               </div>
             </Link>
             <Link href="/how-to-become-a-nurse/rpn" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-teal-200 transition-all" data-testid="link-career-rpn">
               <GraduationCap className="w-5 h-5 text-emerald-500" />
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">How to Become an RPN</h3>
-                <p className="text-xs text-gray-500">Career guide and exam info</p>
+                <h3 className="text-sm font-semibold text-gray-900">{t("pages.nursingHub.howToBecomeAnRpn")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingHub.careerGuideAndExamInfo")}</p>
               </div>
             </Link>
             <Link href="/how-to-become-a-nurse/rn" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all" data-testid="link-career-rn">
               <GraduationCap className="w-5 h-5 text-blue-500" />
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">How to Become an RN</h3>
-                <p className="text-xs text-gray-500">Career guide and exam info</p>
+                <h3 className="text-sm font-semibold text-gray-900">{t("pages.nursingHub.howToBecomeAnRn")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingHub.careerGuideAndExamInfo2")}</p>
               </div>
             </Link>
             <Link href="/how-to-become-a-nurse/np" className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 hover:shadow-md hover:border-purple-200 transition-all" data-testid="link-career-np">
               <GraduationCap className="w-5 h-5 text-purple-500" />
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">How to Become an NP</h3>
-                <p className="text-xs text-gray-500">Career guide and exam info</p>
+                <h3 className="text-sm font-semibold text-gray-900">{t("pages.nursingHub.howToBecomeAnNp")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingHub.careerGuideAndExamInfo3")}</p>
               </div>
             </Link>
           </div>
@@ -480,7 +482,7 @@ export default function NursingHub() {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-indigo-100 text-indigo-700">
             <GraduationCap className="w-4 h-4" /> Graduating Soon?
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-new-grad-cta-title">Ready for Your First Nursing Job?</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-new-grad-cta-title">{t("pages.nursingHub.readyForYourFirstNursing")}</h2>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
             Passed your exam? Our New Grad Career Hub has everything you need — interview prep with 100+ questions, resume templates, salary negotiation tools, and first-year survival guides.
           </p>
@@ -528,7 +530,7 @@ function SampleQuestion({ question, index }: { question: typeof SAMPLE_QUESTIONS
         </button>
       ) : (
         <div className="bg-blue-50 rounded-lg p-4 border border-blue-100" data-testid={`text-rationale-${index}`}>
-          <p className="text-xs font-semibold text-blue-700 mb-1">Rationale</p>
+          <p className="text-xs font-semibold text-blue-700 mb-1">{t("pages.nursingHub.rationale")}</p>
           <p className="text-sm text-gray-700 leading-relaxed">{question.rationale}</p>
         </div>
       )}

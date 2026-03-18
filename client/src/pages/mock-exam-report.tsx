@@ -22,7 +22,9 @@ import {
 
 import { getAuthHeaders } from "@/lib/qbank-api";
 
+import { useI18n } from "@/lib/i18n";
 function formatDuration(seconds: number): string {
+
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
   if (h > 0) return `${h}h ${m}m`;
@@ -99,9 +101,9 @@ export default function MockExamReport() {
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center space-y-4">
             <AlertTriangle className="w-12 h-12 text-gray-400 mx-auto" />
-            <p className="text-gray-500">Exam report not found.</p>
+            <p className="text-gray-500">{t("pages.mockExamReport.examReportNotFound")}</p>
             <LocaleLink href="/mock-exams">
-              <Button variant="outline">Back to Mock Exams</Button>
+              <Button variant="outline">{t("pages.mockExamReport.backToMockExams")}</Button>
             </LocaleLink>
           </div>
         </main>
@@ -347,7 +349,7 @@ export default function MockExamReport() {
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
-      <SEO title="Exam Report - NurseNest" description="Detailed mock exam results and performance analysis" />
+      <SEO title={t("pages.mockExamReport.examReportNursenest")} description={t("pages.mockExamReport.detailedMockExamResultsAnd")} />
       <Navigation />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex-1">
@@ -369,7 +371,7 @@ export default function MockExamReport() {
             {overallPass ? (
               <div className="flex flex-col items-center gap-2">
                 <ShieldCheck className="w-14 h-14 text-emerald-600" />
-                <h2 className="text-3xl font-bold text-emerald-700" data-testid="text-pass-status">You Passed</h2>
+                <h2 className="text-3xl font-bold text-emerald-700" data-testid="text-pass-status">{t("pages.mockExamReport.youPassed")}</h2>
                 <p className="text-emerald-600 text-sm">
                   {isCAT
                     ? `Exam completed in ${report.itemsAdministered || report.totalQuestions} items`
@@ -379,7 +381,7 @@ export default function MockExamReport() {
             ) : (
               <div className="flex flex-col items-center gap-2">
                 <XCircle className="w-14 h-14 text-red-500" />
-                <h2 className="text-3xl font-bold text-red-600" data-testid="text-pass-status">Did Not Pass</h2>
+                <h2 className="text-3xl font-bold text-red-600" data-testid="text-pass-status">{t("pages.mockExamReport.didNotPass")}</h2>
                 <p className="text-red-500 text-sm">
                   {isCAT
                     ? `Exam completed in ${report.itemsAdministered || report.totalQuestions} items`
@@ -393,7 +395,7 @@ export default function MockExamReport() {
         <div className="text-center mb-10 space-y-6">
           <div className="flex items-center justify-center gap-4">
             <Trophy className={`w-10 h-10 ${report.percentage >= 80 ? "text-emerald-500" : report.percentage >= 60 ? "text-amber-500" : "text-red-500"}`} />
-            <h1 className="text-4xl font-bold" data-testid="text-report-title">Exam Results</h1>
+            <h1 className="text-4xl font-bold" data-testid="text-report-title">{t("pages.mockExamReport.examResults")}</h1>
           </div>
 
           {isCAT ? (
@@ -472,11 +474,11 @@ export default function MockExamReport() {
                   </span>
                 </div>
                 {report.percentage >= 80 ? (
-                  <p className="text-emerald-600 font-medium">Strong readiness. You are well-prepared.</p>
+                  <p className="text-emerald-600 font-medium">{t("pages.mockExamReport.strongReadinessYouAreWellprepared")}</p>
                 ) : report.percentage >= 60 ? (
-                  <p className="text-amber-600 font-medium">Moderate readiness. Consider focused review.</p>
+                  <p className="text-amber-600 font-medium">{t("pages.mockExamReport.moderateReadinessConsiderFocusedReview")}</p>
                 ) : (
-                  <p className="text-red-500 font-medium">Additional preparation recommended before exam day.</p>
+                  <p className="text-red-500 font-medium">{t("pages.mockExamReport.additionalPreparationRecommendedBeforeExam")}</p>
                 )}
               </div>
             </div>
@@ -499,11 +501,11 @@ export default function MockExamReport() {
                   </span>
                 </div>
                 {report.percentage >= 80 ? (
-                  <p className="text-emerald-600 font-medium">Strong performance. Keep refining your clinical reasoning.</p>
+                  <p className="text-emerald-600 font-medium">{t("pages.mockExamReport.strongPerformanceKeepRefiningYour")}</p>
                 ) : report.percentage >= 60 ? (
-                  <p className="text-amber-600 font-medium">Solid foundation. Focus on your weak areas below.</p>
+                  <p className="text-amber-600 font-medium">{t("pages.mockExamReport.solidFoundationFocusOnYour")}</p>
                 ) : (
-                  <p className="text-red-500 font-medium">Needs improvement. Review the weak areas and try again.</p>
+                  <p className="text-red-500 font-medium">{t("pages.mockExamReport.needsImprovementReviewTheWeak")}</p>
                 )}
               </div>
             </div>
@@ -559,7 +561,7 @@ export default function MockExamReport() {
                   </div>
                 ))}
                 {(isCAT ? domainBands.filter((b: any) => (b.level || b.band) === "Below Passing").length : weakAreas.length) === 0 && (
-                  <p className="text-sm text-gray-500">Performance was close to the passing standard across all domains. Continue broad review.</p>
+                  <p className="text-sm text-gray-500">{t("pages.mockExamReport.performanceWasCloseToThe")}</p>
                 )}
               </div>
             </CardContent>
@@ -594,7 +596,7 @@ export default function MockExamReport() {
                     className="w-full rounded-t-lg bg-primary transition-all ring-2 ring-primary/30"
                     style={{ height: `${Math.max(report.percentage, 5)}%` }}
                   />
-                  <span className="text-[10px] text-gray-600 font-bold">Now</span>
+                  <span className="text-[10px] text-gray-600 font-bold">{t("pages.mockExamReport.now")}</span>
                 </div>
               </div>
             </CardContent>
@@ -662,7 +664,7 @@ export default function MockExamReport() {
 
           <TabsContent value="breakdown" className="mt-6">
             <div className="space-y-6">
-              <h3 className="text-xl font-bold">Score by Body System</h3>
+              <h3 className="text-xl font-bold">{t("pages.mockExamReport.scoreByBodySystem")}</h3>
 
               {previousExams.length > 0 && (() => {
                 const prevReport = previousExams[0]?.report;
@@ -674,7 +676,7 @@ export default function MockExamReport() {
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">vs. Previous Attempt</p>
+                          <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">{t("pages.mockExamReport.vsPreviousAttempt")}</p>
                           <div className="flex items-center gap-2 mt-1">
                             {delta > 0 ? (
                               <span className="flex items-center gap-1 text-emerald-600 font-bold text-lg" data-testid="text-delta-score">
@@ -772,7 +774,7 @@ export default function MockExamReport() {
               {breakdown.length >= 3 && (
                 <Card className="border-none shadow-sm" data-testid="card-radar-chart">
                   <CardContent className="p-4">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-2">Domain Radar</h4>
+                    <h4 className="text-sm font-semibold text-gray-700 mb-2">{t("pages.mockExamReport.domainRadar")}</h4>
                     <ResponsiveContainer width="100%" height={280}>
                       <RadarChart data={breakdown.slice(0, 8).map((sys: any) => ({
                         subject: (sys.system || "").length > 12 ? (sys.system || "").slice(0, 12) + "…" : sys.system,
@@ -797,17 +799,17 @@ export default function MockExamReport() {
                     <div className="grid grid-cols-3 gap-4 text-center">
                       <div>
                         <p className="text-lg font-bold text-gray-900">{formatDuration(exam.time_spent)}</p>
-                        <p className="text-xs text-muted-foreground">Total Time</p>
+                        <p className="text-xs text-muted-foreground">{t("pages.mockExamReport.totalTime")}</p>
                       </div>
                       <div>
                         <p className="text-lg font-bold text-gray-900">
                           {report.totalQuestions > 0 ? Math.round(exam.time_spent / report.totalQuestions) : 0}s
                         </p>
-                        <p className="text-xs text-muted-foreground">Avg per Question</p>
+                        <p className="text-xs text-muted-foreground">{t("pages.mockExamReport.avgPerQuestion")}</p>
                       </div>
                       <div>
                         <p className="text-lg font-bold text-gray-900">{flaggedIds.length}</p>
-                        <p className="text-xs text-muted-foreground">Flagged Items</p>
+                        <p className="text-xs text-muted-foreground">{t("pages.mockExamReport.flaggedItems")}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -821,13 +823,13 @@ export default function MockExamReport() {
               <Card className="border-none shadow-sm">
                 <CardContent className="p-8 text-center">
                   <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto mb-3" />
-                  <p className="text-lg font-bold text-gray-900">No major weak areas detected</p>
-                  <p className="text-gray-500 text-sm">You scored above 60% in all body systems with enough questions.</p>
+                  <p className="text-lg font-bold text-gray-900">{t("pages.mockExamReport.noMajorWeakAreasDetected")}</p>
+                  <p className="text-gray-500 text-sm">{t("pages.mockExamReport.youScoredAbove60In")}</p>
                 </CardContent>
               </Card>
             ) : (
               <div className="space-y-4">
-                <p className="text-gray-500 text-sm">Areas where you scored below 60% with 2+ questions. Focus your study here.</p>
+                <p className="text-gray-500 text-sm">{t("pages.mockExamReport.areasWhereYouScoredBelow")}</p>
                 {weakAreas.map((wa: any) => (
                   <Card key={wa.system} className="border-none shadow-sm border-l-4 border-l-red-400">
                     <CardContent className="p-6 flex items-center justify-between">
@@ -842,7 +844,7 @@ export default function MockExamReport() {
                 <Card className="border-none shadow-sm bg-primary/5">
                   <CardContent className="p-4">
                     <p className="text-sm text-gray-700">
-                      <strong>Study Tip:</strong> Review the related lessons for each weak area. Focus on understanding the underlying mechanisms rather than memorizing facts.
+                      <strong>{t("pages.mockExamReport.studyTip")}</strong> Review the related lessons for each weak area. Focus on understanding the underlying mechanisms rather than memorizing facts.
                     </p>
                   </CardContent>
                 </Card>
@@ -854,12 +856,12 @@ export default function MockExamReport() {
                 <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
                   <BookOpen className="w-5 h-5 text-primary" /> Recommended Study Resources
                 </h3>
-                <p className="text-sm text-gray-500">Based on your weak areas, here are resources to help you improve:</p>
+                <p className="text-sm text-gray-500">{t("pages.mockExamReport.basedOnYourWeakAreas")}</p>
 
                 {exam.crossContent.lessons && exam.crossContent.lessons.length > 0 && (
                   <Card className="border-none shadow-sm" data-testid="cross-content-lessons">
                     <CardContent className="p-4">
-                      <p className="text-sm font-semibold text-gray-900 mb-2">Related Lessons</p>
+                      <p className="text-sm font-semibold text-gray-900 mb-2">{t("pages.mockExamReport.relatedLessons")}</p>
                       <div className="space-y-2">
                         {exam.crossContent.lessons.map((l: any) => (
                           <LocaleLink key={l.id} href={l.slug ? `/lessons/${l.slug}` : "#"}>
@@ -877,7 +879,7 @@ export default function MockExamReport() {
                 {exam.crossContent.flashcards && exam.crossContent.flashcards.length > 0 && (
                   <Card className="border-none shadow-sm" data-testid="cross-content-flashcards">
                     <CardContent className="p-4">
-                      <p className="text-sm font-semibold text-gray-900 mb-2">Flashcard Decks</p>
+                      <p className="text-sm font-semibold text-gray-900 mb-2">{t("pages.mockExamReport.flashcardDecks")}</p>
                       <div className="space-y-2">
                         {exam.crossContent.flashcards.map((f: any) => (
                           <LocaleLink key={f.id} href="/flashcards">
@@ -895,7 +897,7 @@ export default function MockExamReport() {
                 {exam.crossContent.practiceQuestions && exam.crossContent.practiceQuestions.length > 0 && (
                   <Card className="border-none shadow-sm" data-testid="cross-content-practice">
                     <CardContent className="p-4">
-                      <p className="text-sm font-semibold text-gray-900 mb-2">Practice Questions</p>
+                      <p className="text-sm font-semibold text-gray-900 mb-2">{t("pages.mockExamReport.practiceQuestions")}</p>
                       <div className="space-y-2">
                         {exam.crossContent.practiceQuestions.map((q: any) => (
                           <LocaleLink key={q.id} href={`/practice?topic=${encodeURIComponent(q.topic || "")}&system=${encodeURIComponent(q.bodySystem || "")}`}>
@@ -916,7 +918,7 @@ export default function MockExamReport() {
                 {exam.crossContent.caseStudies && exam.crossContent.caseStudies.length > 0 && (
                   <Card className="border-none shadow-sm" data-testid="cross-content-cases">
                     <CardContent className="p-4">
-                      <p className="text-sm font-semibold text-gray-900 mb-2">Case Studies</p>
+                      <p className="text-sm font-semibold text-gray-900 mb-2">{t("pages.mockExamReport.caseStudies")}</p>
                       <div className="space-y-2">
                         {exam.crossContent.caseStudies.map((c: any) => (
                           <LocaleLink key={c.id} href={`/case-studies/${c.id}`}>
@@ -1044,7 +1046,7 @@ export default function MockExamReport() {
                           </div>
                           <div className="p-3 bg-blue-50 rounded-lg border border-blue-100">
                             <p className="text-sm text-blue-800">
-                              <strong>Rationale:</strong> {q.rationale}
+                              <strong>{t("pages.mockExamReport.rationale")}</strong> {q.rationale}
                             </p>
                           </div>
                         </CardContent>
@@ -1058,7 +1060,7 @@ export default function MockExamReport() {
                 <Card className="border-none shadow-sm bg-gradient-to-r from-primary/5 to-purple-50 border border-primary/20" data-testid="card-upgrade-cta">
                   <CardContent className="p-6 text-center space-y-3">
                     <Lock className="w-8 h-8 text-primary mx-auto" />
-                    <h3 className="font-bold text-gray-900 text-lg">Upgrade for Full Exam Mode</h3>
+                    <h3 className="font-bold text-gray-900 text-lg">{t("pages.mockExamReport.upgradeForFullExamMode")}</h3>
                     <p className="text-sm text-gray-600">
                       Unlock detailed rationales for all questions, full-length exam simulations, and advanced analytics.
                     </p>

@@ -6,6 +6,7 @@ import { ContextualRelatedResources, CrossPlatformRelatedContent } from "@/compo
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { SEO } from "@/components/seo";
 
+import { useI18n } from "@/lib/i18n";
 interface Profession {
   id: string;
   slug: string;
@@ -33,6 +34,7 @@ const MODULE_INFO = [
 ];
 
 export default function ProfessionHubPage() {
+  const { t } = useI18n();
   const params = useParams<{ slug: string }>();
 
   const { data: profession, isLoading, error } = useQuery<Profession>({
@@ -51,9 +53,9 @@ export default function ProfessionHubPage() {
   if (!profession || error) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">Profession Not Found</h1>
-        <p className="text-gray-600 mb-6">The profession you're looking for doesn't exist or isn't available yet.</p>
-        <Link href="/" className="text-teal-600 font-medium hover:underline" data-testid="link-home">Go Home</Link>
+        <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-not-found">{t("pages.professionHub.professionNotFound")}</h1>
+        <p className="text-gray-600 mb-6">{t("pages.professionHub.theProfessionYoureLookingFor")}</p>
+        <Link href="/" className="text-teal-600 font-medium hover:underline" data-testid="link-home">{t("pages.professionHub.goHome")}</Link>
       </div>
     );
   }
@@ -115,7 +117,7 @@ export default function ProfessionHubPage() {
             ))}
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Available Study Modules</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t("pages.professionHub.availableStudyModules")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {enabledModules.map((m) => (
               <Link key={m.key} href={`${profession.routePrefix}${m.path}`} className="block p-5 bg-white border rounded-xl hover:shadow-md transition-shadow" data-testid={`module-card-${m.key}`}>
@@ -137,7 +139,7 @@ export default function ProfessionHubPage() {
       {profession.domains && profession.domains.length > 0 && (
         <section className="py-12 bg-gray-50">
           <div className="max-w-5xl mx-auto px-4">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Exam Domains Covered</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t("pages.professionHub.examDomainsCovered")}</h2>
             <div className="flex flex-wrap gap-2 justify-center">
               {profession.domains.map((d) => (
                 <span key={d} className="px-3 py-1.5 text-sm font-medium rounded-full" style={{ backgroundColor: profession.colorAccent, color: profession.color }} data-testid={`domain-badge-${d}`}>
@@ -152,7 +154,7 @@ export default function ProfessionHubPage() {
       {profession.examNames && profession.examNames.length > 0 && (
         <section className="py-12 bg-white">
           <div className="max-w-3xl mx-auto px-4 text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Covered Exams</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.professionHub.coveredExams")}</h2>
             <div className="flex flex-wrap gap-3 justify-center">
               {profession.examNames.map((exam) => (
                 <div key={exam} className="px-4 py-2 bg-gray-50 border rounded-lg text-sm font-medium text-gray-700" data-testid={`exam-badge-${exam}`}>

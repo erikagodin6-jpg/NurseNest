@@ -284,8 +284,8 @@ export default function HealthcareCareersHub() {
     <div className="min-h-screen bg-background" data-testid="healthcare-careers-hub-page">
       <Navigation />
       <SEO
-        title="Healthcare Careers Hub: Explore Career Paths and Certification Requirements | NurseNest"
-        description="Explore healthcare career paths across nursing, paramedic, respiratory therapy, medical laboratory, medical imaging, pharmacy, social work, and occupational therapy. Compare salaries, job outlook, certification requirements, and access career resources."
+        title={t("pages.healthcareCareersHub.healthcareCareersHubExploreCareer")}
+        description={t("pages.healthcareCareersHub.exploreHealthcareCareerPathsAcross")}
         keywords="healthcare careers, nursing career, paramedic career, respiratory therapist career, MLT career, radiologic technologist career, pharmacy tech career, social work career, occupational therapy career, healthcare salary, healthcare job outlook"
         canonicalPath="/healthcare-careers"
         structuredData={collectionStructuredData}
@@ -298,9 +298,9 @@ export default function HealthcareCareersHub() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-16">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <LocaleLink href="/" className="hover:text-blue-600">Home</LocaleLink>
+          <LocaleLink href="/" className="hover:text-blue-600">{t("pages.healthcareCareersHub.home")}</LocaleLink>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-purple-700 font-medium">Healthcare Careers</span>
+          <span className="text-purple-700 font-medium">{t("pages.healthcareCareersHub.healthcareCareers")}</span>
         </div>
 
         <section className="mb-12" data-testid="section-careers-hero">
@@ -324,26 +324,26 @@ export default function HealthcareCareersHub() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-career-paths">
                 <p className="text-lg sm:text-xl font-bold text-gray-900">14</p>
-                <p className="text-xs text-slate-500 mt-1">Career Paths</p>
+                <p className="text-xs text-slate-500 mt-1">{t("pages.healthcareCareersHub.careerPaths")}</p>
               </div>
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-salary-range">
                 <p className="text-lg sm:text-xl font-bold text-gray-900">$35K–$150K</p>
-                <p className="text-xs text-slate-500 mt-1">Salary Range</p>
+                <p className="text-xs text-slate-500 mt-1">{t("pages.healthcareCareersHub.salaryRange")}</p>
               </div>
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-career-guides">
                 <p className="text-lg sm:text-xl font-bold text-gray-900">12</p>
-                <p className="text-xs text-slate-500 mt-1">Career Guides</p>
+                <p className="text-xs text-slate-500 mt-1">{t("pages.healthcareCareersHub.careerGuides")}</p>
               </div>
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-job-growth">
                 <p className="text-lg sm:text-xl font-bold text-gray-900">5–40%</p>
-                <p className="text-xs text-slate-500 mt-1">Job Growth</p>
+                <p className="text-xs text-slate-500 mt-1">{t("pages.healthcareCareersHub.jobGrowth")}</p>
               </div>
             </div>
           </div>
         </section>
 
         <section className="mb-12" data-testid="section-quick-links">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5">Career Tools and Resources</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5">{t("pages.healthcareCareersHub.careerToolsAndResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <a href="/allied-health/careers" data-testid="card-career-directory-link">
               <Card className="h-full hover:shadow-md hover:border-teal-200 transition-all cursor-pointer group" data-testid="card-career-directory">
@@ -351,8 +351,8 @@ export default function HealthcareCareersHub() {
                   <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center mb-3 group-hover:bg-teal-100 transition-colors">
                     <FileText className="w-5 h-5 text-teal-600" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-teal-600 transition-colors mb-1">Career Directory</h3>
-                  <p className="text-xs text-slate-500">Browse all allied health career paths with tailored study tools and certification details.</p>
+                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-teal-600 transition-colors mb-1">{t("pages.healthcareCareersHub.careerDirectory")}</h3>
+                  <p className="text-xs text-slate-500">{t("pages.healthcareCareersHub.browseAllAlliedHealthCareer")}</p>
                 </CardContent>
               </Card>
             </a>
@@ -362,8 +362,8 @@ export default function HealthcareCareersHub() {
                   <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center mb-3 group-hover:bg-purple-100 transition-colors">
                     <Briefcase className="w-5 h-5 text-purple-600" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-purple-600 transition-colors mb-1">ApplyNest Job Tools</h3>
-                  <p className="text-xs text-slate-500">Interview prep, resume builder, and cover letter generator for healthcare job seekers.</p>
+                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-purple-600 transition-colors mb-1">{t("pages.healthcareCareersHub.applynestJobTools")}</h3>
+                  <p className="text-xs text-slate-500">{t("pages.healthcareCareersHub.interviewPrepResumeBuilderAnd")}</p>
                 </CardContent>
               </Card>
             </LocaleLink>
@@ -373,8 +373,8 @@ export default function HealthcareCareersHub() {
                   <div className="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center mb-3 group-hover:bg-indigo-100 transition-colors">
                     <GraduationCap className="w-5 h-5 text-indigo-600" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-indigo-600 transition-colors mb-1">New Graduate Support</h3>
-                  <p className="text-xs text-slate-500">First 90 days roadmap, clinical confidence tools, and career transition resources.</p>
+                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-indigo-600 transition-colors mb-1">{t("pages.healthcareCareersHub.newGraduateSupport")}</h3>
+                  <p className="text-xs text-slate-500">{t("pages.healthcareCareersHub.first90DaysRoadmapClinical")}</p>
                 </CardContent>
               </Card>
             </LocaleLink>
@@ -384,8 +384,8 @@ export default function HealthcareCareersHub() {
                   <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center mb-3 group-hover:bg-blue-100 transition-colors">
                     <BookOpen className="w-5 h-5 text-blue-600" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-blue-600 transition-colors mb-1">Exam Prep Hub</h3>
-                  <p className="text-xs text-slate-500">Practice questions, mock exams, and study resources for all certification exams.</p>
+                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-blue-600 transition-colors mb-1">{t("pages.healthcareCareersHub.examPrepHub")}</h3>
+                  <p className="text-xs text-slate-500">{t("pages.healthcareCareersHub.practiceQuestionsMockExamsAnd")}</p>
                 </CardContent>
               </Card>
             </LocaleLink>
@@ -393,7 +393,7 @@ export default function HealthcareCareersHub() {
         </section>
 
         <section className="mb-12" data-testid="section-career-paths">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Explore Career Paths</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCareersHub.exploreCareerPaths")}</h2>
           <div className="space-y-5">
             {CAREER_PATHS.map((career) => {
               const Icon = career.icon;
@@ -455,7 +455,7 @@ export default function HealthcareCareersHub() {
         </section>
 
         <section className="mb-12" data-testid="section-cross-links">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Related Resources</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCareersHub.relatedResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <LocaleLink href="/exam-prep">
               <Card className="h-full hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group" data-testid="card-cross-exam-prep">
@@ -465,8 +465,8 @@ export default function HealthcareCareersHub() {
                       <BookOpen className="w-5 h-5 text-blue-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-blue-600 transition-colors">Exam Prep Hub</h3>
-                      <p className="text-xs text-slate-500 mt-1">Practice questions, mock exams, and study resources for all healthcare certification exams.</p>
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-blue-600 transition-colors">{t("pages.healthcareCareersHub.examPrepHub2")}</h3>
+                      <p className="text-xs text-slate-500 mt-1">{t("pages.healthcareCareersHub.practiceQuestionsMockExamsAnd2")}</p>
                     </div>
                     <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-blue-600 shrink-0 mt-1" />
                   </div>
@@ -481,8 +481,8 @@ export default function HealthcareCareersHub() {
                       <GraduationCap className="w-5 h-5 text-indigo-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-indigo-600 transition-colors">New Graduate Support</h3>
-                      <p className="text-xs text-slate-500 mt-1">Interview prep, resume tools, and first-year guides for new healthcare graduates.</p>
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-indigo-600 transition-colors">{t("pages.healthcareCareersHub.newGraduateSupport2")}</h3>
+                      <p className="text-xs text-slate-500 mt-1">{t("pages.healthcareCareersHub.interviewPrepResumeToolsAnd")}</p>
                     </div>
                     <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-indigo-600 shrink-0 mt-1" />
                   </div>
@@ -497,8 +497,8 @@ export default function HealthcareCareersHub() {
                       <Award className="w-5 h-5 text-emerald-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors">Healthcare Certifications</h3>
-                      <p className="text-xs text-slate-500 mt-1">BLS, ACLS, PALS, NRP, CCRN, CEN, and more — eligibility, exam structure, and renewal guides.</p>
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors">{t("pages.healthcareCareersHub.healthcareCertifications")}</h3>
+                      <p className="text-xs text-slate-500 mt-1">{t("pages.healthcareCareersHub.blsAclsPalsNrpCcrn")}</p>
                     </div>
                     <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-emerald-600 shrink-0 mt-1" />
                   </div>
@@ -513,8 +513,8 @@ export default function HealthcareCareersHub() {
                       <Brain className="w-5 h-5 text-teal-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-teal-600 transition-colors">Healthcare Encyclopedia</h3>
-                      <p className="text-xs text-slate-500 mt-1">Clinical reference content organized by profession and specialty area.</p>
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-teal-600 transition-colors">{t("pages.healthcareCareersHub.healthcareEncyclopedia")}</h3>
+                      <p className="text-xs text-slate-500 mt-1">{t("pages.healthcareCareersHub.clinicalReferenceContentOrganizedBy")}</p>
                     </div>
                     <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-teal-600 shrink-0 mt-1" />
                   </div>
@@ -526,12 +526,12 @@ export default function HealthcareCareersHub() {
 
         <div className="mb-12">
           <p className="text-sm text-slate-600 leading-relaxed">
-            If you're exploring healthcare career options and need help with program applications or scholarship searches, <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-purple-600 font-medium hover:underline" data-testid="link-applynest-careers">visit ApplyNest for healthcare application and career tools</a>.
+            If you're exploring healthcare career options and need help with program applications or scholarship searches, <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="text-purple-600 font-medium hover:underline" data-testid="link-applynest-careers">{t("pages.healthcareCareersHub.visitApplynestForHealthcareApplication")}</a>.
           </p>
         </div>
 
         <section className="mb-12" data-testid="section-careers-faq">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCareersHub.frequentlyAskedQuestions")}</h2>
           <div className="space-y-4">
             {FAQ_DATA.map((faq, idx) => (
               <Card key={idx} className="border-slate-200/60" data-testid={`card-faq-${idx}`}>

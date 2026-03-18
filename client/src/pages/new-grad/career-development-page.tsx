@@ -9,7 +9,9 @@ import { LeadCaptureInline } from "@/components/new-grad/lead-capture";
 import { CAREER_DEVELOPMENT_PATHS, NEW_GRAD_PROFESSIONS } from "@shared/new-grad-professions";
 import { ChevronRight, TrendingUp, ArrowRight, CheckCircle2 } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 export default function CareerDevelopmentPage() {
+  const { t } = useI18n();
   const params = useParams<{ path: string }>();
   const careerPath = CAREER_DEVELOPMENT_PATHS[params.path || ""];
 
@@ -28,8 +30,8 @@ export default function CareerDevelopmentPage() {
         <Navigation />
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-career-not-found">Career Path Not Found</h1>
-            <Link href="/new-grad" className="text-blue-600 hover:underline">Back to New Grad Hub</Link>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4" data-testid="text-career-not-found">{t("pages.newGrad.careerDevelopmentPage.careerPathNotFound")}</h1>
+            <Link href="/new-grad" className="text-blue-600 hover:underline">{t("pages.newGrad.careerDevelopmentPage.backToNewGradHub")}</Link>
           </div>
         </div>
         <Footer />
@@ -67,9 +69,9 @@ export default function CareerDevelopmentPage() {
       <section className="relative py-16 sm:py-20 overflow-hidden bg-gradient-to-br from-purple-50 via-indigo-50/50 to-white" data-testid="section-career-hero">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">{t("pages.newGrad.careerDevelopmentPage.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/new-grad" className="hover:text-blue-600">New Grad Hub</Link>
+            <Link href="/new-grad" className="hover:text-blue-600">{t("pages.newGrad.careerDevelopmentPage.newGradHub")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             {fromProfession && (
               <>
@@ -114,15 +116,15 @@ export default function CareerDevelopmentPage() {
             </div>
           ) : (
             <div className="bg-white rounded-2xl border border-gray-200 p-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Career Transition Overview</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.newGrad.careerDevelopmentPage.careerTransitionOverview")}</h2>
               <p className="text-gray-600 mb-6">{careerPath.description}</p>
               <div className="bg-purple-50 rounded-xl p-6">
-                <h3 className="font-semibold text-gray-900 mb-3">Steps to Get Started</h3>
+                <h3 className="font-semibold text-gray-900 mb-3">{t("pages.newGrad.careerDevelopmentPage.stepsToGetStarted")}</h3>
                 <ul className="space-y-2">
-                  <li className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-purple-500" />Research program requirements and prerequisites</li>
-                  <li className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-purple-500" />Gain relevant clinical experience in your current role</li>
-                  <li className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-purple-500" />Connect with professionals who have made this transition</li>
-                  <li className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-purple-500" />Apply to accredited programs and begin your journey</li>
+                  <li className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-purple-500" />{t("pages.newGrad.careerDevelopmentPage.researchProgramRequirementsAndPrerequisites")}</li>
+                  <li className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-purple-500" />{t("pages.newGrad.careerDevelopmentPage.gainRelevantClinicalExperienceIn")}</li>
+                  <li className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-purple-500" />{t("pages.newGrad.careerDevelopmentPage.connectWithProfessionalsWhoHave")}</li>
+                  <li className="flex items-start gap-2 text-sm text-gray-700"><CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-purple-500" />{t("pages.newGrad.careerDevelopmentPage.applyToAccreditedProgramsAnd")}</li>
                 </ul>
               </div>
             </div>

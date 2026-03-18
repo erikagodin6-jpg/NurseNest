@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import { useEffect, useRef, useState } from "react";
 import { brandLogo } from "@/lib/theme-logos";
 
@@ -45,6 +46,7 @@ function getCurrentThemeColor(): string {
 }
 
 export function ThemedLogo({ width = 220, className = "" }: ThemedLogoProps) {
+  const { t } = useI18n();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [dataUrl, setDataUrl] = useState<string | null>(cachedDataUrl);
   const [primaryColor, setPrimaryColor] = useState(cachedColor || getCurrentThemeColor());
@@ -242,7 +244,7 @@ export function ThemedLogo({ width = 220, className = "" }: ThemedLogoProps) {
         <canvas ref={canvasRef} style={{ display: "none" }} />
         <img
           src={dataUrl}
-          alt="NurseNest"
+          alt={t("components.themed_logo.nursenest")}
           className={`max-w-none ${className}`}
           width={width}
           height={Math.round(width * 0.28)}
@@ -257,7 +259,7 @@ export function ThemedLogo({ width = 220, className = "" }: ThemedLogoProps) {
     return (
       <img
         src={brandLogo}
-        alt="NurseNest"
+        alt={t("components.themed_logo.nursenest")}
         className={`max-w-none ${className}`}
         width={width}
         style={{ width: `${width}px`, height: "auto" }}
@@ -274,7 +276,7 @@ export function ThemedLogo({ width = 220, className = "" }: ThemedLogoProps) {
       <canvas ref={canvasRef} style={{ display: "none" }} />
       <img
         src={brandLogo}
-        alt="NurseNest"
+        alt={t("components.themed_logo.nursenest")}
         className={`max-w-none ${className}`}
         width={width}
         style={{ width: `${width}px`, height: "auto" }}

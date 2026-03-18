@@ -40,6 +40,7 @@ import { ExplanationPanel, type ExplanationData } from "@/components/explanation
 import { NGNQuestionDispatcher } from "@/components/ngn-renderers/ngn-question-dispatcher";
 import type { NGNQuestionType, NGNItemPayload, NGNUserResponse } from "@/lib/ngn-question-types";
 
+import { useI18n } from "@/lib/i18n";
 export interface ExamQuestion {
   question: string;
   options: string[];
@@ -89,6 +90,7 @@ export interface ExamConsoleLayoutProps {
 }
 
 function ExhibitViewer({ images }: { images: ExhibitImage[] }) {
+  const { t } = useI18n();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [scale, setScale] = useState(1);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
@@ -548,7 +550,7 @@ export default function ExamConsoleLayout({
             data-testid="button-end-test"
           >
             <Send className="w-3 h-3" />
-            <span className="hidden sm:inline text-xs">End Test</span>
+            <span className="hidden sm:inline text-xs">{t("components.examConsole.endTest")}</span>
           </Button>
         </div>
       </div>
@@ -798,7 +800,7 @@ export default function ExamConsoleLayout({
                 <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Type your notes here..."
+                  placeholder={t("components.examConsole.typeYourNotesHere")}
                   className="w-full h-full resize-none border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 bg-gray-50"
                   data-testid="textarea-notes"
                 />
@@ -855,7 +857,7 @@ export default function ExamConsoleLayout({
                   ) : (
                     <div className="flex flex-col items-center justify-center h-32 text-gray-400">
                       <ImageIcon className="w-8 h-8 mb-2" />
-                      <p className="text-sm">No exhibits</p>
+                      <p className="text-sm">{t("components.examConsole.noExhibits")}</p>
                     </div>
                   )}
                 </TabsContent>
@@ -863,7 +865,7 @@ export default function ExamConsoleLayout({
                   <textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder="Type your notes here..."
+                    placeholder={t("components.examConsole.typeYourNotesHere2")}
                     className="w-full h-40 resize-none border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                     data-testid="textarea-notes-mobile"
                   />
@@ -884,7 +886,7 @@ export default function ExamConsoleLayout({
             data-testid="button-prev-question"
           >
             <ChevronLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">Previous</span>
+            <span className="hidden sm:inline">{t("components.examConsole.previous")}</span>
           </Button>
 
           <div className="flex items-center gap-1">
@@ -908,7 +910,7 @@ export default function ExamConsoleLayout({
               data-testid="button-submit-trial"
             >
               <Send className="w-4 h-4" />
-              <span className="hidden sm:inline">Submit</span>
+              <span className="hidden sm:inline">{t("components.examConsole.submit")}</span>
             </Button>
           ) : (
             <Button
@@ -916,7 +918,7 @@ export default function ExamConsoleLayout({
               className="gap-1.5 rounded-xl bg-primary hover:bg-primary/90 shadow-sm"
               data-testid="button-next-question"
             >
-              <span className="hidden sm:inline">Next</span>
+              <span className="hidden sm:inline">{t("components.examConsole.next")}</span>
               <ChevronRight className="w-4 h-4" />
             </Button>
           )}

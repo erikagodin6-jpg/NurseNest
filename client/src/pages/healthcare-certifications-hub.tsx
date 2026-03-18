@@ -14,6 +14,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
+import { useI18n } from "@/lib/i18n";
 const COLOR_MAP: Record<string, { bg: string; iconColor: string; border: string }> = {
   red: { bg: "bg-red-50", iconColor: "text-red-600", border: "border-red-100" },
   orange: { bg: "bg-orange-50", iconColor: "text-orange-600", border: "border-orange-100" },
@@ -39,6 +40,7 @@ const FAQ_DATA = [
 const allCerts = Object.values(HEALTHCARE_CERTIFICATION_DATA);
 
 export default function HealthcareCertificationsHub() {
+  const { t } = useI18n();
   const [filter, setFilter] = useState<FilterCategory>("all");
   const faqStructuredData = buildFaqStructuredData(FAQ_DATA);
 
@@ -53,8 +55,8 @@ export default function HealthcareCertificationsHub() {
     <div className="min-h-screen bg-background" data-testid="healthcare-certifications-hub-page">
       <Navigation />
       <SEO
-        title="Healthcare Certifications Database: BLS, ACLS, PALS, CCRN, CEN & More | NurseNest"
-        description="Complete database of healthcare certifications. Eligibility requirements, exam structure, renewal cycles, and study preparation for BLS, ACLS, PALS, NRP, TNCC, ENPC, CCRN, CEN, OCN, and CMSRN."
+        title={t("pages.healthcareCertificationsHub.healthcareCertificationsDatabaseBlsAcls")}
+        description={t("pages.healthcareCertificationsHub.completeDatabaseOfHealthcareCertifications")}
         keywords="healthcare certifications, nursing certifications, BLS, ACLS, PALS, NRP, TNCC, ENPC, CCRN, CEN, OCN, CMSRN, certification exam prep, certification renewal"
         canonicalPath="/healthcare-certifications"
         structuredData={{
@@ -73,9 +75,9 @@ export default function HealthcareCertificationsHub() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-16">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-          <LocaleLink href="/" className="hover:text-emerald-600">Home</LocaleLink>
+          <LocaleLink href="/" className="hover:text-emerald-600">{t("pages.healthcareCertificationsHub.home")}</LocaleLink>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-emerald-700 font-medium">Healthcare Certifications</span>
+          <span className="text-emerald-700 font-medium">{t("pages.healthcareCertificationsHub.healthcareCertifications")}</span>
         </div>
 
         <section className="mb-12" data-testid="section-hero">
@@ -99,19 +101,19 @@ export default function HealthcareCertificationsHub() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-total-certs">
                 <p className="text-lg sm:text-xl font-bold text-gray-900">{allCerts.length}</p>
-                <p className="text-xs text-slate-500 mt-1">Certifications</p>
+                <p className="text-xs text-slate-500 mt-1">{t("pages.healthcareCertificationsHub.certifications")}</p>
               </div>
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-life-support">
                 <p className="text-lg sm:text-xl font-bold text-gray-900">{lifeSupportCerts.length}</p>
-                <p className="text-xs text-slate-500 mt-1">Life Support</p>
+                <p className="text-xs text-slate-500 mt-1">{t("pages.healthcareCertificationsHub.lifeSupport")}</p>
               </div>
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-specialty">
                 <p className="text-lg sm:text-xl font-bold text-gray-900">{specialtyCerts.length}</p>
-                <p className="text-xs text-slate-500 mt-1">Specialty</p>
+                <p className="text-xs text-slate-500 mt-1">{t("pages.healthcareCertificationsHub.specialty")}</p>
               </div>
               <div className="bg-white/80 rounded-xl border border-slate-200/60 p-4 text-center" data-testid="stat-prep-guides">
                 <p className="text-lg sm:text-xl font-bold text-gray-900">{allCerts.length}</p>
-                <p className="text-xs text-slate-500 mt-1">Prep Guides</p>
+                <p className="text-xs text-slate-500 mt-1">{t("pages.healthcareCertificationsHub.prepGuides")}</p>
               </div>
             </div>
           </div>
@@ -193,16 +195,16 @@ export default function HealthcareCertificationsHub() {
         </section>
 
         <section className="mb-12" data-testid="section-comparison">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Certification Comparison</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCertificationsHub.certificationComparison")}</h2>
           <div className="overflow-x-auto rounded-xl border border-gray-200">
             <table className="w-full text-sm" data-testid="table-comparison">
               <thead>
                 <tr className="bg-gray-50 text-left">
-                  <th className="px-4 py-3 font-semibold text-gray-900">Certification</th>
-                  <th className="px-4 py-3 font-semibold text-gray-900">Organization</th>
-                  <th className="px-4 py-3 font-semibold text-gray-900">Type</th>
-                  <th className="px-4 py-3 font-semibold text-gray-900">Validity</th>
-                  <th className="px-4 py-3 font-semibold text-gray-900">Details</th>
+                  <th className="px-4 py-3 font-semibold text-gray-900">{t("pages.healthcareCertificationsHub.certification")}</th>
+                  <th className="px-4 py-3 font-semibold text-gray-900">{t("pages.healthcareCertificationsHub.organization")}</th>
+                  <th className="px-4 py-3 font-semibold text-gray-900">{t("pages.healthcareCertificationsHub.type")}</th>
+                  <th className="px-4 py-3 font-semibold text-gray-900">{t("pages.healthcareCertificationsHub.validity")}</th>
+                  <th className="px-4 py-3 font-semibold text-gray-900">{t("pages.healthcareCertificationsHub.details")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -229,7 +231,7 @@ export default function HealthcareCertificationsHub() {
         </section>
 
         <section className="mb-12" data-testid="section-study-tools">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5">Study Tools & Resources</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5">{t("pages.healthcareCertificationsHub.studyToolsResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <LocaleLink href="/free-practice">
               <Card className="h-full hover:shadow-md hover:border-emerald-200 transition-all cursor-pointer group" data-testid="card-tool-practice">
@@ -237,8 +239,8 @@ export default function HealthcareCertificationsHub() {
                   <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center mx-auto mb-3">
                     <BookOpen className="w-5 h-5 text-emerald-600" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors mb-1">Practice Questions</h3>
-                  <p className="text-xs text-slate-500">Certification-aligned question banks</p>
+                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors mb-1">{t("pages.healthcareCertificationsHub.practiceQuestions")}</h3>
+                  <p className="text-xs text-slate-500">{t("pages.healthcareCertificationsHub.certificationalignedQuestionBanks")}</p>
                 </CardContent>
               </Card>
             </LocaleLink>
@@ -248,8 +250,8 @@ export default function HealthcareCertificationsHub() {
                   <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center mx-auto mb-3">
                     <GraduationCap className="w-5 h-5 text-emerald-600" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors mb-1">Flashcards</h3>
-                  <p className="text-xs text-slate-500">Spaced-repetition study decks</p>
+                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors mb-1">{t("pages.healthcareCertificationsHub.flashcards")}</h3>
+                  <p className="text-xs text-slate-500">{t("pages.healthcareCertificationsHub.spacedrepetitionStudyDecks")}</p>
                 </CardContent>
               </Card>
             </LocaleLink>
@@ -259,8 +261,8 @@ export default function HealthcareCertificationsHub() {
                   <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center mx-auto mb-3">
                     <Stethoscope className="w-5 h-5 text-emerald-600" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors mb-1">Clinical Lessons</h3>
-                  <p className="text-xs text-slate-500">In-depth certification content</p>
+                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors mb-1">{t("pages.healthcareCertificationsHub.clinicalLessons")}</h3>
+                  <p className="text-xs text-slate-500">{t("pages.healthcareCertificationsHub.indepthCertificationContent")}</p>
                 </CardContent>
               </Card>
             </LocaleLink>
@@ -270,8 +272,8 @@ export default function HealthcareCertificationsHub() {
                   <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center mx-auto mb-3">
                     <Award className="w-5 h-5 text-emerald-600" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors mb-1">Mock Exams</h3>
-                  <p className="text-xs text-slate-500">Timed exam simulations</p>
+                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors mb-1">{t("pages.healthcareCertificationsHub.mockExams")}</h3>
+                  <p className="text-xs text-slate-500">{t("pages.healthcareCertificationsHub.timedExamSimulations")}</p>
                 </CardContent>
               </Card>
             </LocaleLink>
@@ -279,7 +281,7 @@ export default function HealthcareCertificationsHub() {
         </section>
 
         <section className="mb-12" data-testid="section-cross-links">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5">Related Resources</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5">{t("pages.healthcareCertificationsHub.relatedResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <LocaleLink href="/healthcare-careers">
               <Card className="h-full hover:shadow-md hover:border-purple-200 transition-all cursor-pointer group" data-testid="card-cross-careers">
@@ -289,8 +291,8 @@ export default function HealthcareCertificationsHub() {
                       <TrendingUp className="w-5 h-5 text-purple-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-purple-600 transition-colors">Healthcare Careers Hub</h3>
-                      <p className="text-xs text-slate-500 mt-1">Explore career paths, salary guides, and education requirements.</p>
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-purple-600 transition-colors">{t("pages.healthcareCertificationsHub.healthcareCareersHub")}</h3>
+                      <p className="text-xs text-slate-500 mt-1">{t("pages.healthcareCertificationsHub.exploreCareerPathsSalaryGuides")}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -304,8 +306,8 @@ export default function HealthcareCertificationsHub() {
                       <ShieldCheck className="w-5 h-5 text-emerald-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors">Nursing Certifications</h3>
-                      <p className="text-xs text-slate-500 mt-1">Emergency and specialty nursing certification prep guides.</p>
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-emerald-600 transition-colors">{t("pages.healthcareCertificationsHub.nursingCertifications")}</h3>
+                      <p className="text-xs text-slate-500 mt-1">{t("pages.healthcareCertificationsHub.emergencyAndSpecialtyNursingCertification")}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -319,8 +321,8 @@ export default function HealthcareCertificationsHub() {
                       <BookOpen className="w-5 h-5 text-blue-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-blue-600 transition-colors">Exam Prep Hub</h3>
-                      <p className="text-xs text-slate-500 mt-1">Practice questions, mock exams, and study resources.</p>
+                      <h3 className="font-semibold text-gray-900 text-sm group-hover:text-blue-600 transition-colors">{t("pages.healthcareCertificationsHub.examPrepHub")}</h3>
+                      <p className="text-xs text-slate-500 mt-1">{t("pages.healthcareCertificationsHub.practiceQuestionsMockExamsAnd")}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -330,7 +332,7 @@ export default function HealthcareCertificationsHub() {
         </section>
 
         <section className="mb-12" data-testid="section-faq">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5">Frequently Asked Questions</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5">{t("pages.healthcareCertificationsHub.frequentlyAskedQuestions")}</h2>
           <div className="space-y-3">
             {FAQ_DATA.map((faq, i) => (
               <details key={i} className="border border-gray-200 rounded-xl overflow-hidden group" data-testid={`faq-item-${i}`}>

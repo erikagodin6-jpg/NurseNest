@@ -4,6 +4,7 @@ import { fisherYatesShuffle } from "@shared/shuffle";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { useI18n } from "@/lib/i18n";
 import {
   Play, Pause, Volume2, VolumeX, Repeat,
   HeartPulse, ChevronDown, ChevronUp, Stethoscope,
@@ -29,7 +30,6 @@ const soundS3 = getAssetUrl("S3_1772495949269.mp4");
 const soundSystolicEjection = getAssetUrl("systolicejectionmurmur_1772495949269.mp4");
 const soundVSD = getAssetUrl("VSD_1772495949269.mp4");
 
-
 interface HeartSoundConfig {
   id: string;
   name: string;
@@ -48,6 +48,7 @@ interface HeartSoundConfig {
 }
 
 function createNoise(ctx: AudioContext, duration: number): AudioBufferSourceNode {
+
   const bufferSize = ctx.sampleRate * duration;
   const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
   const data = buffer.getChannelData(0);
@@ -680,7 +681,7 @@ function HeartDiagram({ selectedArea, onSelectArea }: { selectedArea: string | n
           </g>
         );
       })}
-      <text x="215" y="295" textAnchor="middle" fontSize="11" fill="#6b7280" fontWeight="600">Cardiac Auscultation Areas</text>
+      <text x="215" y="295" textAnchor="middle" fontSize="11" fill="#6b7280" fontWeight="600">{t("components.heartSoundsPlayer.cardiacAuscultationAreas")}</text>
     </svg>
   );
 }
@@ -844,7 +845,7 @@ function HeartSoundCard({ sound, allSounds }: { sound: HeartSoundConfig; allSoun
             />
           </div>
         ) : (
-          <span className="flex-1 text-xs text-gray-400 italic">Real auscultation recording</span>
+          <span className="flex-1 text-xs text-gray-400 italic">{t("components.heartSoundsPlayer.realAuscultationRecording")}</span>
         )}
       </div>
 
@@ -873,22 +874,22 @@ function HeartSoundCard({ sound, allSounds }: { sound: HeartSoundConfig; allSoun
 
       {expanded && !quizMode && (
         <div className="mt-3 pt-3 border-t space-y-2 text-sm" data-testid={`details-${sound.id}`}>
-          <div><span className="font-semibold text-gray-700">Timing:</span> <span className="text-gray-600">{sound.timing}</span></div>
-          <div><span className="font-semibold text-gray-700">Location:</span> <span className="text-gray-600">{sound.location}</span></div>
-          <div><span className="font-semibold text-gray-700">Pitch:</span> <span className="text-gray-600">{sound.pitch}</span></div>
+          <div><span className="font-semibold text-gray-700">{t("components.heartSoundsPlayer.timing")}</span> <span className="text-gray-600">{sound.timing}</span></div>
+          <div><span className="font-semibold text-gray-700">{t("components.heartSoundsPlayer.location")}</span> <span className="text-gray-600">{sound.location}</span></div>
+          <div><span className="font-semibold text-gray-700">{t("components.heartSoundsPlayer.pitch")}</span> <span className="text-gray-600">{sound.pitch}</span></div>
           <p className="text-gray-600">{sound.description}</p>
           <div className="p-2.5 bg-blue-50 rounded-lg border border-blue-200">
-            <p className="text-xs font-semibold text-blue-800 mb-1">Clinical Significance</p>
+            <p className="text-xs font-semibold text-blue-800 mb-1">{t("components.heartSoundsPlayer.clinicalSignificance")}</p>
             <p className="text-xs text-blue-700">{sound.clinicalSignificance}</p>
           </div>
           {sound.auscultationTip && (
             <div className="p-2.5 bg-teal-50 rounded-lg border border-teal-200">
-              <p className="text-xs font-semibold text-teal-800 mb-1 flex items-center gap-1"><Stethoscope className="w-3.5 h-3.5" /> How to Auscultate</p>
+              <p className="text-xs font-semibold text-teal-800 mb-1 flex items-center gap-1"><Stethoscope className="w-3.5 h-3.5" /> {t("components.heartSoundsPlayer.howToAuscultate")}</p>
               <p className="text-xs text-teal-700">{sound.auscultationTip}</p>
             </div>
           )}
           <div>
-            <p className="text-xs font-semibold text-gray-700 mb-1">Common Causes</p>
+            <p className="text-xs font-semibold text-gray-700 mb-1">{t("components.heartSoundsPlayer.commonCauses")}</p>
             <ul className="text-xs text-gray-600 space-y-0.5">
               {sound.commonCauses.map((c, i) => <li key={i} className="flex items-start gap-1"><span className="text-gray-400 mt-px">-</span>{c}</li>)}
             </ul>
@@ -947,7 +948,7 @@ export function HeartSoundsLibrary() {
         data-testid="button-toggle-heart-sounds"
       >
         <HeartPulse className="w-5 h-5 text-red-500" />
-        <h3 className="text-lg font-bold text-gray-900 flex-1">Heart Sounds Audio Practice</h3>
+        <h3 className="text-lg font-bold text-gray-900 flex-1">{t("components.heartSoundsPlayer.heartSoundsAudioPractice")}</h3>
         <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">{HEART_SOUNDS.length} sounds</span>
         {expanded ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
       </button>
@@ -957,9 +958,9 @@ export function HeartSoundsLibrary() {
           <Card className="border-red-200 bg-gradient-to-b from-red-50/50 to-white">
             <CardContent className="p-5 space-y-4">
               <div className="flex items-center justify-between">
-                <h4 className="text-base font-bold text-gray-900">Cardiac Auscultation Landmarks</h4>
+                <h4 className="text-base font-bold text-gray-900">{t("components.heartSoundsPlayer.cardiacAuscultationLandmarks")}</h4>
               </div>
-              <p className="text-sm text-gray-500">Tap a landmark to learn the valve area and what you should listen for at that location. Remember: APE-TM (Aortic, Pulmonic, Erb's, Tricuspid, Mitral).</p>
+              <p className="text-sm text-gray-500">{t("components.heartSoundsPlayer.tapALandmarkToLearn")}</p>
               <div className="grid md:grid-cols-2 gap-4 items-start">
                 <HeartDiagram selectedArea={selectedArea} onSelectArea={(id) => setSelectedArea(selectedArea === id ? null : id)} />
                 <div className="space-y-3">
@@ -970,23 +971,23 @@ export function HeartSoundsLibrary() {
                     </div>
                   ) : (
                     <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 text-center">
-                      <p className="text-sm text-gray-500">Select an area on the diagram to view details</p>
+                      <p className="text-sm text-gray-500">{t("components.heartSoundsPlayer.selectAnAreaOnThe")}</p>
                       <div className="mt-3 text-xs text-gray-400 space-y-1">
-                        <p><strong>A</strong> = Aortic (2nd ICS, right)</p>
-                        <p><strong>P</strong> = Pulmonic (2nd ICS, left)</p>
-                        <p><strong>E</strong> = Erb's Point (3rd ICS, left)</p>
-                        <p><strong>T</strong> = Tricuspid (4th ICS, left)</p>
-                        <p><strong>M</strong> = Mitral/Apex (5th ICS, MCL)</p>
+                        <p><strong>A</strong> {t("components.heartSoundsPlayer.aortic2ndIcsRight")}</p>
+                        <p><strong>P</strong> {t("components.heartSoundsPlayer.pulmonic2ndIcsLeft")}</p>
+                        <p><strong>E</strong> {t("components.heartSoundsPlayer.erbsPoint3rdIcsLeft")}</p>
+                        <p><strong>T</strong> {t("components.heartSoundsPlayer.tricuspid4thIcsLeft")}</p>
+                        <p><strong>M</strong> {t("components.heartSoundsPlayer.mitralapex5thIcsMcl")}</p>
                       </div>
                     </div>
                   )}
                   <div className="p-3 bg-amber-50 rounded-lg border border-amber-200">
-                    <p className="text-xs font-semibold text-amber-800 mb-1">Auscultation Tips</p>
+                    <p className="text-xs font-semibold text-amber-800 mb-1">{t("components.heartSoundsPlayer.auscultationTips")}</p>
                     <ul className="text-xs text-amber-700 space-y-1">
-                      <li>- Use the diaphragm for high-pitched sounds (S1, S2, murmurs)</li>
-                      <li>- Use the bell for low-pitched sounds (S3, S4)</li>
-                      <li>- Auscultate in a quiet environment</li>
-                      <li>- Listen to at least 5-10 cardiac cycles at each area</li>
+                      <li>{t("components.heartSoundsPlayer.useTheDiaphragmForHighpitched")}</li>
+                      <li>{t("components.heartSoundsPlayer.useTheBellForLowpitched")}</li>
+                      <li>{t("components.heartSoundsPlayer.auscultateInAQuietEnvironment")}</li>
+                      <li>{t("components.heartSoundsPlayer.listenToAtLeast510")}</li>
                     </ul>
                   </div>
                 </div>

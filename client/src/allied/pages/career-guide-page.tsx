@@ -2,6 +2,7 @@ import { useRoute, Link } from "wouter";
 import { CAREER_GUIDES, type CareerGuideData } from "@shared/career-guide-data";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { AlliedBreadcrumb } from "@/components/allied-breadcrumb";
+import { useI18n } from "@/lib/i18n";
 import {
   GraduationCap, Briefcase, DollarSign, TrendingUp, MapPin, Clock,
   ChevronRight, BookOpen, FileText, ArrowRight, CheckCircle2, Building2,
@@ -9,6 +10,7 @@ import {
 } from "lucide-react";
 
 function HeroSection({ guide }: { guide: CareerGuideData }) {
+  const { t } = useI18n();
   return (
     <section className="bg-gradient-to-br from-teal-600 via-teal-700 to-emerald-800 text-white py-16 sm:py-20" data-testid="section-hero">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,7 +51,7 @@ function TableOfContents() {
 
   return (
     <nav className="bg-gray-50 border border-gray-200 rounded-2xl p-6 mb-10" data-testid="nav-toc">
-      <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">In This Guide</h2>
+      <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">{t("allied.careerGuidePage.inThisGuide")}</h2>
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
         {sections.map(s => (
           <li key={s.id}>
@@ -71,7 +73,7 @@ function OverviewSection({ guide }: { guide: CareerGuideData }) {
         <div className="w-10 h-10 rounded-xl bg-teal-100 flex items-center justify-center">
           <Heart className="w-5 h-5 text-teal-600" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">Career Overview</h2>
+        <h2 className="text-2xl font-bold text-gray-900">{t("allied.careerGuidePage.careerOverview")}</h2>
       </div>
       <p className="text-gray-700 leading-relaxed text-base">{guide.overview}</p>
     </section>
@@ -128,11 +130,11 @@ function LicensingSection({ guide }: { guide: CareerGuideData }) {
           <div className="bg-white border border-gray-100 rounded-xl p-6 shadow-sm" data-testid="card-licensing-canada">
             <div className="flex items-center gap-2 mb-4">
               <span className="text-2xl">🇨🇦</span>
-              <h3 className="font-bold text-gray-900 text-lg">Canada</h3>
+              <h3 className="font-bold text-gray-900 text-lg">{t("allied.careerGuidePage.canada")}</h3>
             </div>
-            <p className="text-sm text-gray-600 mb-3"><span className="font-medium text-gray-800">Regulatory Body:</span> {guide.licensingRequirements.canada.body}</p>
+            <p className="text-sm text-gray-600 mb-3"><span className="font-medium text-gray-800">{t("allied.careerGuidePage.regulatoryBody")}</span> {guide.licensingRequirements.canada.body}</p>
             <div className="mb-3">
-              <p className="text-sm font-medium text-gray-800 mb-1.5">Required Exams:</p>
+              <p className="text-sm font-medium text-gray-800 mb-1.5">{t("allied.careerGuidePage.requiredExams")}</p>
               <ul className="space-y-1">
                 {guide.licensingRequirements.canada.exams.map((exam, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
@@ -151,11 +153,11 @@ function LicensingSection({ guide }: { guide: CareerGuideData }) {
           <div className="bg-white border border-gray-100 rounded-xl p-6 shadow-sm" data-testid="card-licensing-usa">
             <div className="flex items-center gap-2 mb-4">
               <span className="text-2xl">🇺🇸</span>
-              <h3 className="font-bold text-gray-900 text-lg">United States</h3>
+              <h3 className="font-bold text-gray-900 text-lg">{t("allied.careerGuidePage.unitedStates")}</h3>
             </div>
-            <p className="text-sm text-gray-600 mb-3"><span className="font-medium text-gray-800">Regulatory Body:</span> {guide.licensingRequirements.usa.body}</p>
+            <p className="text-sm text-gray-600 mb-3"><span className="font-medium text-gray-800">{t("allied.careerGuidePage.regulatoryBody2")}</span> {guide.licensingRequirements.usa.body}</p>
             <div className="mb-3">
-              <p className="text-sm font-medium text-gray-800 mb-1.5">Required Exams:</p>
+              <p className="text-sm font-medium text-gray-800 mb-1.5">{t("allied.careerGuidePage.requiredExams2")}</p>
               <ul className="space-y-1">
                 {guide.licensingRequirements.usa.exams.map((exam, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
@@ -191,7 +193,7 @@ function SalarySection({ guide }: { guide: CareerGuideData }) {
         <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center">
           <DollarSign className="w-5 h-5 text-green-600" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">Salary Information</h2>
+        <h2 className="text-2xl font-bold text-gray-900">{t("allied.careerGuidePage.salaryInformation")}</h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
         {levels.map((level, i) => (
@@ -217,20 +219,20 @@ function JobOutlookSection({ guide }: { guide: CareerGuideData }) {
         <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
           <TrendingUp className="w-5 h-5 text-purple-600" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">Job Outlook</h2>
+        <h2 className="text-2xl font-bold text-gray-900">{t("allied.careerGuidePage.jobOutlook")}</h2>
       </div>
       <div className="bg-white border border-gray-100 rounded-xl p-6 shadow-sm mb-6">
         <div className="flex flex-wrap items-center gap-6 mb-6">
           <div className="text-center">
             <p className="text-3xl font-bold text-purple-600">{guide.jobOutlook.growthRate}</p>
-            <p className="text-xs text-gray-500 mt-1">Projected Growth</p>
+            <p className="text-xs text-gray-500 mt-1">{t("allied.careerGuidePage.projectedGrowth")}</p>
           </div>
           <div className="text-center">
             <p className="text-lg font-semibold text-gray-700">{guide.jobOutlook.growthPeriod}</p>
-            <p className="text-xs text-gray-500 mt-1">Growth Period</p>
+            <p className="text-xs text-gray-500 mt-1">{t("allied.careerGuidePage.growthPeriod")}</p>
           </div>
         </div>
-        <h3 className="font-bold text-gray-800 mb-3">Demand Drivers</h3>
+        <h3 className="font-bold text-gray-800 mb-3">{t("allied.careerGuidePage.demandDrivers")}</h3>
         <ul className="space-y-2">
           {guide.jobOutlook.demandDrivers.map((driver, i) => (
             <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
@@ -242,7 +244,7 @@ function JobOutlookSection({ guide }: { guide: CareerGuideData }) {
       </div>
       {guide.jobOutlook.topEmploymentAreas && (
         <div className="bg-white border border-gray-100 rounded-xl p-6 shadow-sm">
-          <h3 className="font-bold text-gray-800 mb-3">Top Employment Areas</h3>
+          <h3 className="font-bold text-gray-800 mb-3">{t("allied.careerGuidePage.topEmploymentAreas")}</h3>
           <div className="flex flex-wrap gap-2">
             {guide.jobOutlook.topEmploymentAreas.map((area, i) => (
               <span key={i} className="px-3 py-1.5 bg-purple-50 text-purple-700 rounded-lg text-xs font-medium">{area}</span>
@@ -261,7 +263,7 @@ function WorkEnvironmentsSection({ guide }: { guide: CareerGuideData }) {
         <div className="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center">
           <Building2 className="w-5 h-5 text-orange-600" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">Work Environments</h2>
+        <h2 className="text-2xl font-bold text-gray-900">{t("allied.careerGuidePage.workEnvironments")}</h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {guide.workEnvironments.map((env, i) => (
@@ -282,7 +284,7 @@ function DayInTheLifeSection({ guide }: { guide: CareerGuideData }) {
         <div className="w-10 h-10 rounded-xl bg-cyan-100 flex items-center justify-center">
           <Briefcase className="w-5 h-5 text-cyan-600" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">A Day in the Life</h2>
+        <h2 className="text-2xl font-bold text-gray-900">{t("allied.careerGuidePage.aDayInTheLife")}</h2>
       </div>
       <div className="bg-white border border-gray-100 rounded-xl p-6 shadow-sm">
         <ul className="space-y-3">
@@ -305,7 +307,7 @@ function KeySkillsSection({ guide }: { guide: CareerGuideData }) {
         <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center">
           <Star className="w-5 h-5 text-indigo-600" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">Key Skills</h2>
+        <h2 className="text-2xl font-bold text-gray-900">{t("allied.careerGuidePage.keySkills")}</h2>
       </div>
       <div className="flex flex-wrap gap-2">
         {guide.keySkills.map((skill, i) => (
@@ -353,7 +355,7 @@ function RelatedGuidesSection({ currentSlug }: { currentSlug: string }) {
         <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center">
           <Users className="w-5 h-5 text-gray-600" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">Explore Other Healthcare Careers</h2>
+        <h2 className="text-2xl font-bold text-gray-900">{t("allied.careerGuidePage.exploreOtherHealthcareCareers")}</h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {otherGuides.map(guide => (
@@ -379,9 +381,9 @@ export default function CareerGuidePage() {
   if (!guide) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center" data-testid="career-guide-not-found">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">Career Guide Not Found</h1>
-        <p className="text-gray-600 mb-6">The career guide you're looking for doesn't exist.</p>
-        <Link href="/careers" className="text-teal-600 font-medium hover:underline" data-testid="link-back-careers">Browse All Careers</Link>
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">{t("allied.careerGuidePage.careerGuideNotFound")}</h1>
+        <p className="text-gray-600 mb-6">{t("allied.careerGuidePage.theCareerGuideYoureLooking")}</p>
+        <Link href="/careers" className="text-teal-600 font-medium hover:underline" data-testid="link-back-careers">{t("allied.careerGuidePage.browseAllCareers")}</Link>
       </div>
     );
   }

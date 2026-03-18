@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { ArrowLeft, MapPin, BookOpen, ArrowRight, ChevronRight, FileText, DollarSign, Clock, Briefcase } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const guideIcons: Record<string, any> = {
   "where-to-find-healthcare-jobs": MapPin,
   "how-to-evaluate-healthcare-job-offers": DollarSign,
@@ -10,6 +11,7 @@ const guideIcons: Record<string, any> = {
 };
 
 export default function ApplyNestJobSearchGuide() {
+  const { t } = useI18n();
   const { data: guides, isLoading } = useQuery({
     queryKey: ["/api/applynest/career-guides"],
     queryFn: async () => {
@@ -36,7 +38,7 @@ export default function ApplyNestJobSearchGuide() {
 
       <div className="max-w-5xl mx-auto px-4 py-8">
         {isLoading ? (
-          <div className="text-center py-12 text-gray-500">Loading guides...</div>
+          <div className="text-center py-12 text-gray-500">{t("pages.applynestJobSearchGuide.loadingGuides")}</div>
         ) : (
           <div className="space-y-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8" data-testid="grid-guide-nav">
@@ -87,7 +89,7 @@ export default function ApplyNestJobSearchGuide() {
         )}
 
         <div className="mt-8 p-6 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Related Resources</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{t("pages.applynestJobSearchGuide.relatedResources")}</h2>
           <div className="flex flex-wrap gap-4">
             <Link href="/applynest/resume-templates" className="flex items-center gap-2 text-teal-600 dark:text-teal-400 font-medium hover:underline" data-testid="link-resume-from-guide">
               Resume Templates <ArrowRight className="w-4 h-4" />

@@ -23,6 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+import { useI18n } from "@/lib/i18n";
 export interface ExplanationData {
   rationale: string;
   correctAnswerIndex: number;
@@ -67,6 +68,7 @@ function ExpandableSection({
   locked?: boolean;
   "data-testid"?: string;
 }) {
+  const { t } = useI18n();
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [sectionId] = useState(() => `expandable-section-${++expandableSectionCounter}`);
 
@@ -94,7 +96,7 @@ function ExpandableSection({
           <span className="text-sm font-semibold text-slate-700">{title}</span>
         </div>
         {locked ? (
-          <Lock className="w-3.5 h-3.5 text-slate-400" aria-label="Premium content locked" />
+          <Lock className="w-3.5 h-3.5 text-slate-400" aria-label={t("components.explanationPanel.premiumContentLocked")} />
         ) : isOpen ? (
           <ChevronUp className="w-4 h-4 text-slate-400" />
         ) : (
@@ -170,7 +172,7 @@ export function ExplanationPanel({ data, isLearningMode, className }: Explanatio
       >
         <div className="flex items-center gap-2 mb-2">
           <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-          <span className="text-sm font-semibold text-slate-800">Why This Is Correct</span>
+          <span className="text-sm font-semibold text-slate-800">{t("components.explanationPanel.whyThisIsCorrect")}</span>
         </div>
         <div className="text-sm text-slate-700 leading-relaxed space-y-2">
           {data.rationale.split(/\n\n+/).filter(Boolean).map((para, i) => (
@@ -245,13 +247,13 @@ export function ExplanationPanel({ data, isLearningMode, className }: Explanatio
             >
               <div className="flex items-center gap-2 mb-1.5">
                 <Brain className="w-4 h-4 text-blue-600 shrink-0" />
-                <span className="text-sm font-semibold text-slate-800">Clinical Context</span>
+                <span className="text-sm font-semibold text-slate-800">{t("components.explanationPanel.clinicalContext")}</span>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
                 This question relates to <span className="font-medium">{data.bodySystem}</span>
                 {data.topic && <> &mdash; specifically <span className="font-medium">{data.topic}</span></>}
                 {data.subtopic && <> ({data.subtopic})</>}.
-                {data.frameworkUsed && <> The <span className="font-medium">{data.frameworkUsed}</span> framework applies here.</>}
+                {data.frameworkUsed && <> The <span className="font-medium">{data.frameworkUsed}</span> {t("components.explanationPanel.frameworkAppliesHere")}</>}
               </p>
             </div>
           )}
@@ -261,13 +263,13 @@ export function ExplanationPanel({ data, isLearningMode, className }: Explanatio
               {data.scenario && (
                 <ExpandableSection
                   icon={<ListOrdered className="w-4 h-4 text-indigo-600" />}
-                  title="Step-by-Step Reasoning"
+                  title={t("components.explanationPanel.stepbystepReasoning")}
                   variant="default"
                   defaultOpen={isLearningMode}
                   data-testid="section-step-by-step"
                 >
                   <div className="space-y-2">
-                    <p className="text-xs text-slate-500 italic mb-2">Clinical scenario analysis:</p>
+                    <p className="text-xs text-slate-500 italic mb-2">{t("components.explanationPanel.clinicalScenarioAnalysis")}</p>
                     {generateStepByStep(data).map((step, i) => (
                       <div key={i} className="flex items-start gap-2">
                         <span className="text-xs font-bold text-indigo-500 mt-0.5 shrink-0">
@@ -282,24 +284,24 @@ export function ExplanationPanel({ data, isLearningMode, className }: Explanatio
 
               <ExpandableSection
                 icon={<Layers className="w-4 h-4 text-indigo-600" />}
-                title="Priority Framework"
+                title={t("components.explanationPanel.priorityFramework")}
                 variant="default"
                 defaultOpen={false}
                 data-testid="section-priority-framework"
               >
                 <div className="text-xs text-slate-600 leading-relaxed space-y-1.5">
                   <p>
-                    <span className="font-semibold">Framework:</span>{" "}
+                    <span className="font-semibold">{t("components.explanationPanel.framework")}</span>{" "}
                     {data.frameworkUsed || "Clinical Decision-Making"}
                   </p>
                   <p>
-                    <span className="font-semibold">Priority:</span> In this scenario, the correct approach
+                    <span className="font-semibold">{t("components.explanationPanel.priority")}</span> In this scenario, the correct approach
                     prioritizes {data.correctAnswerText.toLowerCase()} based on patient safety and
                     evidence-based practice guidelines.
                   </p>
                   {data.clinicalTrap && (
                     <p>
-                      <span className="font-semibold">Common Trap:</span> {data.clinicalTrap}
+                      <span className="font-semibold">{t("components.explanationPanel.commonTrap")}</span> {data.clinicalTrap}
                     </p>
                   )}
                 </div>
@@ -310,7 +312,7 @@ export function ExplanationPanel({ data, isLearningMode, className }: Explanatio
           {data.clinicalPearl && (
             <ExpandableSection
               icon={<Lightbulb className="w-4 h-4 text-violet-600" />}
-              title="Clinical Pearl"
+              title={t("components.explanationPanel.clinicalPearl")}
               variant="pearl"
               defaultOpen={false}
               data-testid="section-clinical-pearl"
@@ -322,7 +324,7 @@ export function ExplanationPanel({ data, isLearningMode, className }: Explanatio
           {data.memoryHook && (
             <ExpandableSection
               icon={<Bookmark className="w-4 h-4 text-amber-600" />}
-              title="Mnemonic Device"
+              title={t("components.explanationPanel.mnemonicDevice")}
               variant="memory"
               defaultOpen={false}
               data-testid="section-mnemonic"
@@ -334,7 +336,7 @@ export function ExplanationPanel({ data, isLearningMode, className }: Explanatio
           {data.examStrategy && (
             <ExpandableSection
               icon={<Crosshair className="w-4 h-4 text-blue-600" />}
-              title="Exam Strategy"
+              title={t("components.explanationPanel.examStrategy")}
               variant="strategy"
               defaultOpen={false}
               data-testid="section-exam-strategy"
@@ -346,7 +348,7 @@ export function ExplanationPanel({ data, isLearningMode, className }: Explanatio
           {data.clinicalTrap && !isScenarioQuestion && (
             <ExpandableSection
               icon={<AlertTriangle className="w-4 h-4 text-red-500" />}
-              title="Clinical Trap"
+              title={t("components.explanationPanel.clinicalTrap")}
               variant="warning"
               defaultOpen={false}
               data-testid="section-clinical-trap"

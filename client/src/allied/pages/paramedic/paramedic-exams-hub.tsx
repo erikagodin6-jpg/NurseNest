@@ -4,6 +4,7 @@ import { HubHero, ContentCard, FilterChip, FinalCTASection } from "./components"
 import { FileText, Target } from "lucide-react";
 import { paramedicQuestions } from "@/data/career-questions/paramedic-questions";
 
+import { useI18n } from "@/lib/i18n";
 const CATEGORIES = Array.from(new Set(paramedicQuestions.map(q => q.category))).sort();
 
 const EXAM_SETS = [
@@ -21,6 +22,7 @@ const DIFFICULTY_FILTERS = ["All", "Foundational", "Intermediate", "Advanced", "
 const TRACK_FILTERS = ["All Tracks", "PCP", "ACP", "PCP + ACP"];
 
 export default function ParamedicExamsHub() {
+  const { t } = useI18n();
   const [diffFilter, setDiffFilter] = useState("All");
   const [trackFilter, setTrackFilter] = useState("All Tracks");
 
@@ -33,8 +35,8 @@ export default function ParamedicExamsHub() {
   return (
     <div data-testid="paramedic-exams-hub">
       <AlliedSEO
-        title="Paramedic Practice Exams — Mock Tests & Domain Practice Sets | NurseNest"
-        description="Take full-length paramedic mock exams and domain-specific practice sets. Blueprint-weighted, timed, and adaptive. Covers trauma, cardiac, medical, pharmacology, and more."
+        title={t("allied.paramedicParamedicExamsHub.paramedicPracticeExamsMockTests")}
+        description={t("allied.paramedicParamedicExamsHub.takeFulllengthParamedicMockExams")}
         keywords="paramedic practice exam, paramedic mock exam, NREMT practice test, paramedic test prep, EMS mock exam, paramedic certification exam"
         canonicalPath="/allied-health/paramedic/exams"
         structuredData={{
@@ -47,8 +49,8 @@ export default function ParamedicExamsHub() {
       />
 
       <HubHero
-        title="Paramedic Practice Exams"
-        subtitle="Full-length mock exams and focused practice sets organized by domain, difficulty, and certification track. Every exam provides detailed performance analytics."
+        title={t("allied.paramedicParamedicExamsHub.paramedicPracticeExams")}
+        subtitle={t("allied.paramedic_exams_hub.fulllengthMockExamsAndFocused")}
         breadcrumbs={[
           { label: "Paramedic", href: "/allied-health/paramedic" },
           { label: "Exams" },
@@ -58,7 +60,7 @@ export default function ParamedicExamsHub() {
       <section className="py-8 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
           <div>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Difficulty</p>
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">{t("allied.paramedicParamedicExamsHub.difficulty")}</p>
             <div className="flex flex-wrap gap-2">
               {DIFFICULTY_FILTERS.map(f => (
                 <FilterChip key={f} label={f} active={diffFilter === f} onClick={() => setDiffFilter(f)} />
@@ -66,7 +68,7 @@ export default function ParamedicExamsHub() {
             </div>
           </div>
           <div>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Track</p>
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">{t("allied.paramedicParamedicExamsHub.track")}</p>
             <div className="flex flex-wrap gap-2">
               {TRACK_FILTERS.map(f => (
                 <FilterChip key={f} label={f} active={trackFilter === f} onClick={() => setTrackFilter(f)} />
@@ -98,8 +100,8 @@ export default function ParamedicExamsHub() {
       </section>
 
       <FinalCTASection
-        title="Ready to Test Your Paramedic Knowledge?"
-        subtitle="Start with a free diagnostic to identify your strengths and gaps, then use targeted practice sets to build exam readiness."
+        title={t("allied.paramedicParamedicExamsHub.readyToTestYourParamedic")}
+        subtitle={t("allied.paramedic_exams_hub.startWithAFreeDiagnostic")}
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
         secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}
       />

@@ -9,6 +9,7 @@ import {
   StatCard, ProgressRing, MasteryBar, PriorityBadge,
 } from "@/components/demo-shared";
 import { mockResultProfiles, type MockResultProfile } from "@/data/mock-results-profiles";
+import { useI18n } from "@/lib/i18n";
 import {
   LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip,
   ResponsiveContainer, Cell, PieChart, Pie,
@@ -21,6 +22,7 @@ import {
 } from "lucide-react";
 
 function PassFailBadge({ passed }: { passed: boolean }) {
+  const { t } = useI18n();
   return passed ? (
     <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200" data-testid="badge-pass-fail">
       <CheckCircle2 className="w-3.5 h-3.5" /> PASS
@@ -70,28 +72,28 @@ function TestResultSummary({ profile }: { profile: MockResultProfile }) {
             <div className="bg-emerald-50/60 rounded-xl p-3 text-center">
               <div className="flex items-center justify-center gap-1 mb-1">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                <span className="text-[10px] text-slate-500 font-medium">Correct</span>
+                <span className="text-[10px] text-slate-500 font-medium">{t("pages.adminMockResults.correct")}</span>
               </div>
               <p className="text-xl font-bold text-emerald-700" data-testid="text-correct-count">{profile.correct}</p>
             </div>
             <div className="bg-rose-50/60 rounded-xl p-3 text-center">
               <div className="flex items-center justify-center gap-1 mb-1">
                 <XCircle className="w-3.5 h-3.5 text-rose-500" />
-                <span className="text-[10px] text-slate-500 font-medium">Incorrect</span>
+                <span className="text-[10px] text-slate-500 font-medium">{t("pages.adminMockResults.incorrect")}</span>
               </div>
               <p className="text-xl font-bold text-rose-700" data-testid="text-incorrect-count">{profile.incorrect}</p>
             </div>
             <div className="bg-slate-50/60 rounded-xl p-3 text-center">
               <div className="flex items-center justify-center gap-1 mb-1">
                 <MinusCircle className="w-3.5 h-3.5 text-slate-400" />
-                <span className="text-[10px] text-slate-500 font-medium">Skipped</span>
+                <span className="text-[10px] text-slate-500 font-medium">{t("pages.adminMockResults.skipped")}</span>
               </div>
               <p className="text-xl font-bold text-slate-600" data-testid="text-skipped-count">{profile.skipped}</p>
             </div>
             <div className="bg-violet-50/60 rounded-xl p-3 text-center">
               <div className="flex items-center justify-center gap-1 mb-1">
                 <Clock className="w-3.5 h-3.5 text-violet-500" />
-                <span className="text-[10px] text-slate-500 font-medium">Time Used</span>
+                <span className="text-[10px] text-slate-500 font-medium">{t("pages.adminMockResults.timeUsed")}</span>
               </div>
               <p className="text-xl font-bold text-violet-700" data-testid="text-time-used">{profile.timeUsed}</p>
             </div>
@@ -101,14 +103,14 @@ function TestResultSummary({ profile }: { profile: MockResultProfile }) {
             <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white border border-slate-100 shadow-sm">
               <Target className="w-5 h-5 text-violet-500" />
               <div>
-                <p className="text-[10px] text-slate-400 font-medium">Percentile</p>
+                <p className="text-[10px] text-slate-400 font-medium">{t("pages.adminMockResults.percentile")}</p>
                 <p className="text-lg font-bold text-slate-800" data-testid="text-percentile">{profile.percentile}th</p>
               </div>
             </div>
             <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white border border-slate-100 shadow-sm">
               <Zap className="w-5 h-5 text-amber-500" />
               <div>
-                <p className="text-[10px] text-slate-400 font-medium">Readiness Score</p>
+                <p className="text-[10px] text-slate-400 font-medium">{t("pages.adminMockResults.readinessScore")}</p>
                 <p className="text-lg font-bold text-slate-800" data-testid="text-readiness-score">{profile.readinessScore}%</p>
               </div>
             </div>
@@ -135,27 +137,27 @@ function TestResultSummary({ profile }: { profile: MockResultProfile }) {
 function ReportCard({ profile }: { profile: MockResultProfile }) {
   return (
     <SectionCard className="mb-6" data-testid="section-report-card">
-      <SectionTitle title="Report Card" subtitle="Competency breakdown by domain" right={
+      <SectionTitle title={t("pages.adminMockResults.reportCard")} subtitle={t("pages.admin_mock_results.competencyBreakdownByDomain")} right={
         <span className="text-[10px] text-slate-400">Exam ID: {profile.examId}</span>
       } />
 
       <div className="flex flex-wrap gap-4 mb-5 text-xs text-slate-500">
-        <div><span className="font-semibold text-slate-700">Student:</span> {profile.name}</div>
-        <div><span className="font-semibold text-slate-700">Track:</span> {profile.track}</div>
-        <div><span className="font-semibold text-slate-700">Exam Date:</span> {profile.examDate}</div>
-        <div><span className="font-semibold text-slate-700">Readiness:</span> {profile.readinessScore}%</div>
-        <div><span className="font-semibold text-slate-700">Percentile:</span> {profile.percentile}th</div>
+        <div><span className="font-semibold text-slate-700">{t("pages.adminMockResults.student")}</span> {profile.name}</div>
+        <div><span className="font-semibold text-slate-700">{t("pages.adminMockResults.track")}</span> {profile.track}</div>
+        <div><span className="font-semibold text-slate-700">{t("pages.adminMockResults.examDate")}</span> {profile.examDate}</div>
+        <div><span className="font-semibold text-slate-700">{t("pages.adminMockResults.readiness")}</span> {profile.readinessScore}%</div>
+        <div><span className="font-semibold text-slate-700">{t("pages.adminMockResults.percentile2")}</span> {profile.percentile}th</div>
       </div>
 
       <div className="overflow-x-auto mb-5">
         <table className="w-full text-sm" data-testid="table-domain-breakdown">
           <thead>
             <tr className="border-b border-slate-100">
-              <th className="text-left py-2.5 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Domain</th>
-              <th className="text-center py-2.5 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Correct %</th>
-              <th className="text-center py-2.5 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Avg Time</th>
-              <th className="text-center py-2.5 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Benchmark</th>
-              <th className="text-center py-2.5 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Status</th>
+              <th className="text-left py-2.5 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">{t("pages.adminMockResults.domain")}</th>
+              <th className="text-center py-2.5 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">{t("pages.adminMockResults.correct2")}</th>
+              <th className="text-center py-2.5 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">{t("pages.adminMockResults.avgTime")}</th>
+              <th className="text-center py-2.5 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">{t("pages.adminMockResults.benchmark")}</th>
+              <th className="text-center py-2.5 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">{t("pages.adminMockResults.status")}</th>
             </tr>
           </thead>
           <tbody>
@@ -196,7 +198,7 @@ function ReportCard({ profile }: { profile: MockResultProfile }) {
       <div className="bg-violet-50/40 rounded-xl p-4 border border-violet-100/50" data-testid="section-ai-summary">
         <div className="flex items-center gap-2 mb-2">
           <Sparkles className="w-4 h-4 text-violet-500" />
-          <h4 className="text-xs font-semibold text-violet-700">AI Performance Summary</h4>
+          <h4 className="text-xs font-semibold text-violet-700">{t("pages.adminMockResults.aiPerformanceSummary")}</h4>
         </div>
         <p className="text-sm text-slate-600 leading-relaxed">{profile.aiSummary}</p>
       </div>
@@ -207,7 +209,7 @@ function ReportCard({ profile }: { profile: MockResultProfile }) {
 function PerformanceAnalytics({ profile }: { profile: MockResultProfile }) {
   return (
     <div data-testid="section-performance-analytics">
-      <SectionTitle title="Performance Analytics" subtitle="Detailed insights and trends" />
+      <SectionTitle title={t("pages.adminMockResults.performanceAnalytics")} subtitle={t("pages.admin_mock_results.detailedInsightsAndTrends")} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <SectionCard data-testid="chart-score-trend">
@@ -282,16 +284,16 @@ function PerformanceAnalytics({ profile }: { profile: MockResultProfile }) {
             <Activity className="w-4 h-4 text-amber-500" /> Key Statistics
           </h4>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <StatCard icon={<Flame className="w-4 h-4" />} label="Study Streak" value={`${profile.stats.studyStreak} days`} accent="bg-orange-50 text-orange-500" />
-            <StatCard icon={<BookOpen className="w-4 h-4" />} label="Total Questions" value={profile.stats.totalQuestions.toLocaleString()} accent="bg-sky-50 text-sky-500" />
-            <StatCard icon={<Zap className="w-4 h-4" />} label="This Week" value={`${profile.stats.questionsThisWeek}`} accent="bg-violet-50 text-violet-500" />
-            <StatCard icon={<Star className="w-4 h-4" />} label="Strongest" value={profile.stats.strongestSubject} accent="bg-emerald-50 text-emerald-500" />
-            <StatCard icon={<AlertTriangle className="w-4 h-4" />} label="Weakest" value={profile.stats.weakestSubject} accent="bg-rose-50 text-rose-500" />
-            <StatCard icon={<Clock className="w-4 h-4" />} label="Avg Exam Time" value={profile.stats.avgExamTime} accent="bg-amber-50 text-amber-500" />
+            <StatCard icon={<Flame className="w-4 h-4" />} label={t("pages.adminMockResults.studyStreak")} value={`${profile.stats.studyStreak} days`} accent="bg-orange-50 text-orange-500" />
+            <StatCard icon={<BookOpen className="w-4 h-4" />} label={t("pages.adminMockResults.totalQuestions")} value={profile.stats.totalQuestions.toLocaleString()} accent="bg-sky-50 text-sky-500" />
+            <StatCard icon={<Zap className="w-4 h-4" />} label={t("pages.adminMockResults.thisWeek")} value={`${profile.stats.questionsThisWeek}`} accent="bg-violet-50 text-violet-500" />
+            <StatCard icon={<Star className="w-4 h-4" />} label={t("pages.adminMockResults.strongest")} value={profile.stats.strongestSubject} accent="bg-emerald-50 text-emerald-500" />
+            <StatCard icon={<AlertTriangle className="w-4 h-4" />} label={t("pages.adminMockResults.weakest")} value={profile.stats.weakestSubject} accent="bg-rose-50 text-rose-500" />
+            <StatCard icon={<Clock className="w-4 h-4" />} label={t("pages.adminMockResults.avgExamTime")} value={profile.stats.avgExamTime} accent="bg-amber-50 text-amber-500" />
           </div>
           <div className="mt-3">
             <div className="flex items-center justify-between px-1 mb-1">
-              <span className="text-[10px] text-slate-400 font-medium">Confidence Score</span>
+              <span className="text-[10px] text-slate-400 font-medium">{t("pages.adminMockResults.confidenceScore")}</span>
               <span className="text-sm font-bold text-slate-700">{profile.stats.confidenceScore}%</span>
             </div>
             <MasteryBar value={profile.stats.confidenceScore} height={8} />
@@ -394,7 +396,7 @@ export default function AdminMockResults() {
     return (
       <DemoPageWrapper>
         <div className="flex items-center justify-center min-h-screen">
-          <p className="text-slate-500" data-testid="text-access-denied">Admin access required.</p>
+          <p className="text-slate-500" data-testid="text-access-denied">{t("pages.adminMockResults.adminAccessRequired")}</p>
         </div>
       </DemoPageWrapper>
     );
@@ -484,7 +486,7 @@ export default function AdminMockResults() {
           title={`${profile.name} — ${profile.track}`}
           subtitle={`${profile.institution} · ${profile.examDate}`}
           rightContent={
-            <ProgressRing value={profile.readinessScore} size={64} strokeWidth={5} label="Ready" />
+            <ProgressRing value={profile.readinessScore} size={64} strokeWidth={5} label={t("pages.adminMockResults.ready")} />
           }
         />
 

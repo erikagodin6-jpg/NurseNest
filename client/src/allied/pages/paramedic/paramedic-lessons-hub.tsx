@@ -5,6 +5,7 @@ import { HubHero, ContentCard, FilterChip, FinalCTASection } from "./components"
 import { BookOpen, Search } from "lucide-react";
 import { paramedicLessons } from "@/data/lessons/paramedic-lessons";
 
+import { useI18n } from "@/lib/i18n";
 const LESSON_ENTRIES = Object.entries(paramedicLessons).map(([slug, lesson]) => ({
   slug,
   title: lesson.title,
@@ -15,6 +16,7 @@ const LESSON_ENTRIES = Object.entries(paramedicLessons).map(([slug, lesson]) => 
 const TOPIC_FILTERS = ["All", "Trauma", "Cardiac", "Pharmacology", "Airway", "Pediatric", "Medical", "OB", "Operations"];
 
 export default function ParamedicLessonsHub() {
+  const { t } = useI18n();
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
 
@@ -29,8 +31,8 @@ export default function ParamedicLessonsHub() {
   return (
     <div data-testid="paramedic-lessons-hub">
       <AlliedSEO
-        title="Paramedic Lessons — Clinical Study Guides & Protocols | NurseNest"
-        description="In-depth paramedic lessons covering trauma algorithms, ACLS pharmacology, airway management, pediatric emergencies, and field triage. 600+ word clinical guides with quizzes."
+        title={t("allied.paramedicParamedicLessonsHub.paramedicLessonsClinicalStudyGuides")}
+        description={t("allied.paramedicParamedicLessonsHub.indepthParamedicLessonsCoveringTrauma")}
         keywords="paramedic lessons, paramedic study guide, EMS clinical lessons, paramedic protocols, ACLS lessons, trauma assessment guide, paramedic education"
         canonicalPath="/allied-health/paramedic/lessons"
         structuredData={{
@@ -43,8 +45,8 @@ export default function ParamedicLessonsHub() {
       />
 
       <HubHero
-        title="Paramedic Lessons"
-        subtitle="In-depth clinical study guides covering every domain tested on your paramedic certification exam. Each lesson includes pathophysiology, assessment, management, medications, and practice quizzes."
+        title={t("allied.paramedicParamedicLessonsHub.paramedicLessons")}
+        subtitle={t("allied.paramedic_lessons_hub.indepthClinicalStudyGuidesCovering")}
         breadcrumbs={[
           { label: "Paramedic", href: "/allied-health/paramedic" },
           { label: "Lessons" },
@@ -60,7 +62,7 @@ export default function ParamedicLessonsHub() {
                 type="text"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                placeholder="Search lessons..."
+                placeholder={t("allied.paramedicParamedicLessonsHub.searchLessons")}
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
                 data-testid="input-search-lessons"
               />
@@ -95,14 +97,14 @@ export default function ParamedicLessonsHub() {
           ) : (
             <div className="text-center py-12">
               <BookOpen className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-              <p className="text-gray-500">No lessons match your search. Try a different filter or keyword.</p>
+              <p className="text-gray-500">{t("allied.paramedicParamedicLessonsHub.noLessonsMatchYourSearch")}</p>
             </div>
           )}
         </div>
       </section>
 
       <FinalCTASection
-        title="Want Full Access to All Paramedic Lessons?"
+        title={t("allied.paramedicParamedicLessonsHub.wantFullAccessToAll")}
         subtitle="Pro members get unlimited access to every lesson, question, and study tool. Start with a free diagnostic to see where you stand."
         primaryCTA={{ label: "Start Free Diagnostic", href: "/diagnostic?career=paramedic" }}
         secondaryCTA={{ label: "View Pricing", href: "/allied-health/pricing" }}

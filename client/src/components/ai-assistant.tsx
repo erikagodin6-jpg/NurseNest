@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useI18n } from "@/lib/i18n";
 import {
   Sparkles, Send, Loader2, X, Wand2, FileText,
   Search, Zap, MessageSquare, BookOpen, HelpCircle,
@@ -9,6 +10,7 @@ import {
 } from "lucide-react";
 
 function getCredentials() {
+
   try {
     const stored = localStorage.getItem("nursenest-credentials");
     if (stored) return JSON.parse(stored);
@@ -154,7 +156,7 @@ export function AIAssistant({
       <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-purple-50 to-indigo-50 border-b border-purple-100">
         <div className="flex items-center gap-2">
           <Sparkles className="w-4 h-4 text-purple-600" />
-          <span className="text-sm font-semibold text-purple-900">AI Assistant</span>
+          <span className="text-sm font-semibold text-purple-900">{t("components.aiAssistant.aiAssistant")}</span>
         </div>
         <Button variant="ghost" size="sm" className="h-7 w-7 p-0" onClick={() => setIsOpen(false)} data-testid="button-ai-close">
           <X className="w-4 h-4" />
@@ -297,7 +299,7 @@ export function AIAssistantFAB(props: AIAssistantProps) {
         <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-purple-50 to-indigo-50 border-b border-purple-100">
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-purple-600" />
-            <span className="text-sm font-semibold text-purple-900">AI Assistant</span>
+            <span className="text-sm font-semibold text-purple-900">{t("components.aiAssistant.aiAssistant2")}</span>
           </div>
           <Button variant="ghost" size="sm" className="h-7 w-7 p-0" onClick={() => setIsOpen(false)}>
             <X className="w-4 h-4" />

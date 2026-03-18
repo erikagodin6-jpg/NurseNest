@@ -35,6 +35,7 @@ import { AdminEditButton } from "@/components/admin-edit-button";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { PARENT_EDUCATIONAL_ORG } from "@/lib/structured-data";
 
+import { useI18n } from "@/lib/i18n";
 const paidTiers = ["rpn", "rn", "np", "admin", "all_access"];
 
 type BloodType = "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
@@ -53,6 +54,7 @@ const compatibilityMap: Record<BloodType, BloodType[]> = {
 };
 
 function canReceive(patient: BloodType, donor: BloodType): boolean {
+  const { t } = useI18n();
   return compatibilityMap[donor]?.includes(patient) ?? false;
 }
 
@@ -437,7 +439,7 @@ function PracticeCaseScenario() {
       <CardContent className="p-5 sm:p-6 space-y-4">
         <div className="flex items-center gap-2 mb-2">
           <BookOpen className="w-5 h-5 text-primary" />
-          <h3 className="text-base font-bold text-gray-900">Practice Case Scenario</h3>
+          <h3 className="text-base font-bold text-gray-900">{t("pages.bloodTransfusionSimulator.practiceCaseScenario")}</h3>
         </div>
         <p className="text-sm text-gray-700 leading-relaxed">{caseQuestion.stem}</p>
         <div className="space-y-2">
@@ -478,7 +480,7 @@ function PracticeCaseScenario() {
         {showAnswer && (
           <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
             <CardContent className="p-4">
-              <p className="text-sm font-bold text-gray-900 mb-1">Rationale:</p>
+              <p className="text-sm font-bold text-gray-900 mb-1">{t("pages.bloodTransfusionSimulator.rationale")}</p>
               <p className="text-sm text-gray-600 leading-relaxed">{caseQuestion.rationale}</p>
             </CardContent>
           </Card>
@@ -509,7 +511,7 @@ function NclexPracticeQuestion() {
       <CardContent className="p-5 sm:p-6 space-y-4">
         <div className="flex items-center gap-2 mb-2">
           <ClipboardCheck className="w-5 h-5 text-primary" />
-          <h3 className="text-base font-bold text-gray-900">NCLEX / REx-PN Style Question</h3>
+          <h3 className="text-base font-bold text-gray-900">{t("pages.bloodTransfusionSimulator.nclexRexpnStyleQuestion")}</h3>
         </div>
         <p className="text-sm text-gray-700 leading-relaxed">{question.stem}</p>
         <div className="space-y-2">
@@ -550,7 +552,7 @@ function NclexPracticeQuestion() {
         {showAnswer && (
           <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
             <CardContent className="p-4">
-              <p className="text-sm font-bold text-gray-900 mb-1">Rationale:</p>
+              <p className="text-sm font-bold text-gray-900 mb-1">{t("pages.bloodTransfusionSimulator.rationale2")}</p>
               <p className="text-sm text-gray-600 leading-relaxed">{question.rationale}</p>
             </CardContent>
           </Card>
@@ -565,8 +567,8 @@ function FAQSection() {
 
   return (
     <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12" data-testid="section-faq">
-      <h2 className="text-2xl font-bold text-gray-900 mb-2">Frequently Asked Questions</h2>
-      <p className="text-gray-600 mb-6">Common questions about blood transfusion nursing, reactions, and exam preparation.</p>
+      <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.bloodTransfusionSimulator.frequentlyAskedQuestions")}</h2>
+      <p className="text-gray-600 mb-6">{t("pages.bloodTransfusionSimulator.commonQuestionsAboutBloodTransfusion")}</p>
       <div className="space-y-3">
         {faqItems.map((item, i) => (
           <Card key={i} className="border border-gray-100">
@@ -596,19 +598,19 @@ function SEOEducationalContent() {
   return (
     <div className="space-y-10" data-testid="section-educational-content">
       <section>
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Blood Transfusion Nursing Overview</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.bloodTransfusionSimulator.bloodTransfusionNursingOverview")}</h2>
         <div className="prose prose-sm max-w-none text-gray-600 leading-relaxed space-y-3">
           <p>
             Blood transfusion is one of the most critical procedures in nursing practice, requiring meticulous attention to patient safety at every step. Nurses are responsible for verifying patient identity and blood product compatibility, monitoring for adverse reactions, and intervening rapidly when complications arise. Transfusion errors — particularly ABO incompatibility from misidentification — remain a leading cause of preventable hospital deaths.
           </p>
           <p>
-            Understanding the immunological basis of blood compatibility is essential for safe practice. The ABO blood group system and the Rh factor determine which blood products a patient can safely receive. Patients with conditions like <LocaleLink href="/lessons/sickle-cell" className="text-primary hover:underline">sickle cell disease</LocaleLink>, <LocaleLink href="/lessons/thalassemia" className="text-primary hover:underline">thalassemia</LocaleLink>, and <LocaleLink href="/lessons/acute-blood-loss" className="text-primary hover:underline">acute blood loss anemia</LocaleLink> frequently require transfusions, making this knowledge vital for <LocaleLink href="/lessons/hematology-rpn" className="text-primary hover:underline">hematology nursing practice</LocaleLink>.
+            Understanding the immunological basis of blood compatibility is essential for safe practice. The ABO blood group system and the Rh factor determine which blood products a patient can safely receive. Patients with conditions like <LocaleLink href="/lessons/sickle-cell" className="text-primary hover:underline">{t("pages.bloodTransfusionSimulator.sickleCellDisease")}</LocaleLink>, <LocaleLink href="/lessons/thalassemia" className="text-primary hover:underline">{t("pages.bloodTransfusionSimulator.thalassemia")}</LocaleLink>, and <LocaleLink href="/lessons/acute-blood-loss" className="text-primary hover:underline">{t("pages.bloodTransfusionSimulator.acuteBloodLossAnemia")}</LocaleLink> frequently require transfusions, making this knowledge vital for <LocaleLink href="/lessons/hematology-rpn" className="text-primary hover:underline">{t("pages.bloodTransfusionSimulator.hematologyNursingPractice")}</LocaleLink>.
           </p>
         </div>
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Step-by-Step Blood Transfusion Procedure</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.bloodTransfusionSimulator.stepbystepBloodTransfusionProcedure")}</h2>
         <div className="prose prose-sm max-w-none text-gray-600 leading-relaxed space-y-3">
           <p>
             The blood transfusion procedure follows a standardized protocol designed to maximize patient safety. Before initiating the transfusion, two registered nurses must independently verify the patient's identity using two identifiers, confirm the blood product label matches the patient's blood type and crossmatch, and check the product's expiration date and integrity.
@@ -617,25 +619,25 @@ function SEOEducationalContent() {
             Baseline vital signs (temperature, pulse, blood pressure, respiratory rate, and SpO2) are obtained within 30 minutes before starting. The transfusion is initiated slowly for the first 15 minutes — the period when the most severe reactions, including acute hemolytic and anaphylactic reactions, are most likely to occur. The nurse must remain with the patient during this critical window. Vital signs are reassessed at 15 minutes, then at regular intervals throughout the infusion.
           </p>
           <p>
-            A unit of PRBCs is typically infused over 2-4 hours and must be completed within 4 hours of removal from controlled storage to prevent bacterial growth. IV access must be through an 18-20 gauge catheter, and blood products are infused only with 0.9% normal saline — never with lactated Ringer's (calcium can cause clotting) or dextrose solutions. Safe <LocaleLink href="/iv-complications-simulator" className="text-primary hover:underline">IV therapy practices</LocaleLink> are critical for preventing complications.
+            A unit of PRBCs is typically infused over 2-4 hours and must be completed within 4 hours of removal from controlled storage to prevent bacterial growth. IV access must be through an 18-20 gauge catheter, and blood products are infused only with 0.9% normal saline — never with lactated Ringer's (calcium can cause clotting) or dextrose solutions. Safe <LocaleLink href="/iv-complications-simulator" className="text-primary hover:underline">{t("pages.bloodTransfusionSimulator.ivTherapyPractices")}</LocaleLink> are critical for preventing complications.
           </p>
         </div>
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Signs of a Blood Transfusion Reaction</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.bloodTransfusionSimulator.signsOfABloodTransfusion")}</h2>
         <div className="prose prose-sm max-w-none text-gray-600 leading-relaxed space-y-3">
           <p>
             Transfusion reactions range from mild allergic responses to life-threatening emergencies. The six major reaction types that nurses must recognize are: acute hemolytic reactions (fever, back pain, hemoglobinuria), febrile non-hemolytic reactions (fever and chills without hemolysis), mild allergic reactions (urticaria and pruritus), anaphylactic reactions (bronchospasm, hypotension, angioedema), TACO (dyspnea, hypertension, JVD, crackles), and TRALI (acute respiratory distress with bilateral infiltrates and hypotension).
           </p>
           <p>
-            The most critical skill in transfusion safety is differentiating between reaction types based on clinical presentation. For example, both TACO and TRALI cause respiratory distress, but TACO presents with hypertension and responds to diuretics, while TRALI presents with hypotension and requires supportive respiratory care. Similarly, fever with hemoglobinuria indicates a hemolytic reaction (emergency), while isolated fever without hemoglobinuria suggests a benign febrile non-hemolytic reaction. Nurses working in critical care environments, including those managing <LocaleLink href="/guides/sepsis-nursing-interventions-guide" className="text-primary hover:underline">sepsis</LocaleLink>, must be able to distinguish transfusion-related deterioration from other causes of clinical decline.
+            The most critical skill in transfusion safety is differentiating between reaction types based on clinical presentation. For example, both TACO and TRALI cause respiratory distress, but TACO presents with hypertension and responds to diuretics, while TRALI presents with hypotension and requires supportive respiratory care. Similarly, fever with hemoglobinuria indicates a hemolytic reaction (emergency), while isolated fever without hemoglobinuria suggests a benign febrile non-hemolytic reaction. Nurses working in critical care environments, including those managing <LocaleLink href="/guides/sepsis-nursing-interventions-guide" className="text-primary hover:underline">{t("pages.bloodTransfusionSimulator.sepsis")}</LocaleLink>, must be able to distinguish transfusion-related deterioration from other causes of clinical decline.
           </p>
         </div>
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Nursing Interventions for Transfusion Reactions</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.bloodTransfusionSimulator.nursingInterventionsForTransfusionReactions")}</h2>
         <div className="prose prose-sm max-w-none text-gray-600 leading-relaxed space-y-3">
           <p>
             The universal first action for any suspected transfusion reaction is to stop the transfusion immediately. This applies regardless of severity — even mild urticaria requires stopping until the reaction is assessed. After stopping, the nurse maintains IV access with normal saline using new tubing, assesses vital signs, notifies the provider and blood bank, and sends the blood bag and tubing for investigation.
@@ -644,7 +646,7 @@ function SEOEducationalContent() {
             Reaction-specific interventions vary significantly: acute hemolytic reactions require aggressive IV fluid resuscitation and monitoring of urine output for renal protection; anaphylactic reactions require immediate epinephrine IM (0.3-0.5 mg), airway support, and rapid response activation; TACO is managed with upright positioning, diuretics, and oxygen; and TRALI requires aggressive respiratory support with high-flow oxygen or mechanical ventilation.
           </p>
           <p>
-            Patients with chronic transfusion needs — such as those with <LocaleLink href="/lessons/iron-overload" className="text-primary hover:underline">iron overload from repeated transfusions</LocaleLink> — require ongoing monitoring for cumulative complications. Adherence to <LocaleLink href="/safety-hazard-simulator" className="text-primary hover:underline">patient safety protocols</LocaleLink> throughout the transfusion process is the single most effective way to prevent adverse outcomes.
+            Patients with chronic transfusion needs — such as those with <LocaleLink href="/lessons/iron-overload" className="text-primary hover:underline">{t("pages.bloodTransfusionSimulator.ironOverloadFromRepeatedTransfusions")}</LocaleLink> — require ongoing monitoring for cumulative complications. Adherence to <LocaleLink href="/safety-hazard-simulator" className="text-primary hover:underline">{t("pages.bloodTransfusionSimulator.patientSafetyProtocols")}</LocaleLink> throughout the transfusion process is the single most effective way to prevent adverse outcomes.
           </p>
         </div>
       </section>
@@ -672,7 +674,7 @@ function CompatibilityGrid() {
           <table className="w-full text-xs" data-testid="table-compatibility-grid">
             <thead>
               <tr>
-                <th className="p-2 text-left font-bold text-gray-500 border-b border-gray-100">Donor ↓ / Recipient →</th>
+                <th className="p-2 text-left font-bold text-gray-500 border-b border-gray-100">{t("pages.bloodTransfusionSimulator.donorRecipient")}</th>
                 {allBloodTypes.map(bt => (
                   <th key={bt} className="p-2 text-center font-bold text-gray-700 border-b border-gray-100">{bt}</th>
                 ))}
@@ -696,9 +698,9 @@ function CompatibilityGrid() {
           </table>
         </div>
         <div className="flex flex-wrap gap-4 mt-3 text-[10px] text-gray-400">
-          <span>O− = Universal RBC Donor</span>
-          <span>AB+ = Universal Recipient</span>
-          <span>Rh− cannot receive Rh+</span>
+          <span>{t("pages.bloodTransfusionSimulator.oUniversalRbcDonor")}</span>
+          <span>{t("pages.bloodTransfusionSimulator.abUniversalRecipient")}</span>
+          <span>{t("pages.bloodTransfusionSimulator.rhCannotReceiveRh")}</span>
         </div>
       </CardContent>
     </Card>
@@ -750,7 +752,7 @@ function CompatibilitySimulator() {
         <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
           <CardContent className="p-8 text-center">
             <Trophy className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">Compatibility Challenge Complete!</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.bloodTransfusionSimulator.compatibilityChallengeComplete")}</h3>
             <p className="text-4xl font-bold text-primary mb-2" data-testid="text-compatibility-score">{score}/{TOTAL_ROUNDS}</p>
             <p className="text-sm text-gray-500 mb-1">{pct}% accuracy</p>
             <p className="text-sm text-gray-600 mt-4 max-w-md mx-auto">
@@ -782,9 +784,9 @@ function CompatibilitySimulator() {
 
       <Card className="border-2 border-blue-100 bg-blue-50/30">
         <CardContent className="p-6 text-center">
-          <p className="text-xs font-bold text-blue-500 uppercase tracking-wider mb-2">Patient Blood Type</p>
+          <p className="text-xs font-bold text-blue-500 uppercase tracking-wider mb-2">{t("pages.bloodTransfusionSimulator.patientBloodType")}</p>
           <p className="text-5xl font-bold text-blue-700" data-testid="text-patient-blood-type">{roundData.patient}</p>
-          <p className="text-sm text-blue-600 mt-2">Select a compatible donor unit</p>
+          <p className="text-sm text-blue-600 mt-2">{t("pages.bloodTransfusionSimulator.selectACompatibleDonorUnit")}</p>
         </CardContent>
       </Card>
 
@@ -809,7 +811,7 @@ function CompatibilitySimulator() {
               <CardContent className="p-4 text-center">
                 <div className="flex items-center justify-center gap-2 mb-1">
                   <Droplets className="w-4 h-4 text-red-400" />
-                  <span className="text-xs font-bold text-gray-400 uppercase">Donor</span>
+                  <span className="text-xs font-bold text-gray-400 uppercase">{t("pages.bloodTransfusionSimulator.donor")}</span>
                 </div>
                 <p className="text-2xl font-bold text-gray-900">{donor}</p>
                 {showResult && (
@@ -869,50 +871,50 @@ function CompatibilitySimulator() {
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
               <div className="bg-blue-50/50 rounded-xl p-4 border border-blue-100">
-                <p className="text-xs font-bold text-blue-700 uppercase tracking-wider mb-2">ABO System</p>
+                <p className="text-xs font-bold text-blue-700 uppercase tracking-wider mb-2">{t("pages.bloodTransfusionSimulator.aboSystem")}</p>
                 <div className="space-y-2 text-sm text-gray-700">
-                  <p><span className="font-semibold text-gray-900">Type A:</span> Has A antigens, anti-B antibodies</p>
-                  <p><span className="font-semibold text-gray-900">Type B:</span> Has B antigens, anti-A antibodies</p>
-                  <p><span className="font-semibold text-gray-900">Type AB:</span> Has A and B antigens, no ABO antibodies</p>
-                  <p><span className="font-semibold text-gray-900">Type O:</span> No ABO antigens, has anti-A and anti-B antibodies</p>
+                  <p><span className="font-semibold text-gray-900">{t("pages.bloodTransfusionSimulator.typeA")}</span> {t("pages.bloodTransfusionSimulator.hasAAntigensAntibAntibodies")}</p>
+                  <p><span className="font-semibold text-gray-900">{t("pages.bloodTransfusionSimulator.typeB")}</span> {t("pages.bloodTransfusionSimulator.hasBAntigensAntiaAntibodies")}</p>
+                  <p><span className="font-semibold text-gray-900">{t("pages.bloodTransfusionSimulator.typeAb")}</span> {t("pages.bloodTransfusionSimulator.hasAAndBAntigens")}</p>
+                  <p><span className="font-semibold text-gray-900">{t("pages.bloodTransfusionSimulator.typeO")}</span> {t("pages.bloodTransfusionSimulator.noAboAntigensHasAntia")}</p>
                 </div>
               </div>
               <div className="bg-red-50/50 rounded-xl p-4 border border-red-100">
-                <p className="text-xs font-bold text-red-700 uppercase tracking-wider mb-2">Rh Factor</p>
+                <p className="text-xs font-bold text-red-700 uppercase tracking-wider mb-2">{t("pages.bloodTransfusionSimulator.rhFactor")}</p>
                 <div className="space-y-2 text-sm text-gray-700">
-                  <p><span className="font-semibold text-gray-900">Rh+ (Positive):</span> Has D antigen on RBC surface</p>
-                  <p><span className="font-semibold text-gray-900">Rh- (Negative):</span> No D antigen; cannot receive Rh+ blood</p>
-                  <p><span className="font-semibold text-gray-900">Key Rule:</span> Rh- patients must receive Rh- blood only</p>
-                  <p><span className="font-semibold text-gray-900">Exception:</span> Rh+ patients can receive Rh+ or Rh- blood</p>
+                  <p><span className="font-semibold text-gray-900">{t("pages.bloodTransfusionSimulator.rhPositive")}</span> {t("pages.bloodTransfusionSimulator.hasDAntigenOnRbc")}</p>
+                  <p><span className="font-semibold text-gray-900">{t("pages.bloodTransfusionSimulator.rhNegative")}</span> {t("pages.bloodTransfusionSimulator.noDAntigenCannotReceive")}</p>
+                  <p><span className="font-semibold text-gray-900">{t("pages.bloodTransfusionSimulator.keyRule")}</span> {t("pages.bloodTransfusionSimulator.rhPatientsMustReceiveRh")}</p>
+                  <p><span className="font-semibold text-gray-900">{t("pages.bloodTransfusionSimulator.exception")}</span> {t("pages.bloodTransfusionSimulator.rhPatientsCanReceiveRh")}</p>
                 </div>
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
               <div className="bg-emerald-50/50 rounded-xl p-4 border border-emerald-100">
-                <p className="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-2">Universal Donor & Recipient</p>
+                <p className="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-2">{t("pages.bloodTransfusionSimulator.universalDonorRecipient")}</p>
                 <div className="space-y-2 text-sm text-gray-700">
-                  <p><span className="font-semibold text-gray-900">O- (Universal RBC Donor):</span> No A, B, or Rh antigens; safe for all recipients</p>
-                  <p><span className="font-semibold text-gray-900">AB+ (Universal Recipient):</span> No ABO antibodies and Rh+; can receive any RBC type</p>
-                  <p><span className="font-semibold text-gray-900">AB (Universal Plasma Donor):</span> Plasma has no anti-A or anti-B antibodies</p>
-                  <p><span className="font-semibold text-gray-900">O (Universal Plasma Recipient):</span> Plasma has all ABO antibodies, can receive any</p>
+                  <p><span className="font-semibold text-gray-900">{t("pages.bloodTransfusionSimulator.oUniversalRbcDonor2")}</span> {t("pages.bloodTransfusionSimulator.noABOrRh")}</p>
+                  <p><span className="font-semibold text-gray-900">{t("pages.bloodTransfusionSimulator.abUniversalRecipient2")}</span> {t("pages.bloodTransfusionSimulator.noAboAntibodiesAndRh")}</p>
+                  <p><span className="font-semibold text-gray-900">{t("pages.bloodTransfusionSimulator.abUniversalPlasmaDonor")}</span> {t("pages.bloodTransfusionSimulator.plasmaHasNoAntiaOr")}</p>
+                  <p><span className="font-semibold text-gray-900">{t("pages.bloodTransfusionSimulator.oUniversalPlasmaRecipient")}</span> {t("pages.bloodTransfusionSimulator.plasmaHasAllAboAntibodies")}</p>
                 </div>
               </div>
               <div className="bg-amber-50/50 rounded-xl p-4 border border-amber-100">
-                <p className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-2">Clinical Pearls</p>
+                <p className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-2">{t("pages.bloodTransfusionSimulator.clinicalPearls")}</p>
                 <div className="space-y-2 text-sm text-gray-700">
-                  <p><span className="font-semibold text-gray-900">Type & Crossmatch:</span> Blood bank tests patient serum against donor RBCs</p>
-                  <p><span className="font-semibold text-gray-900">Two-Nurse Verification:</span> Mandatory bedside check of patient ID and blood label</p>
-                  <p><span className="font-semibold text-gray-900">ABO Mismatch:</span> Most common cause is clerical error, not lab error</p>
-                  <p><span className="font-semibold text-gray-900">Emergency:</span> O- PRBCs and AB FFP when no time for crossmatch</p>
+                  <p><span className="font-semibold text-gray-900">{t("pages.bloodTransfusionSimulator.typeCrossmatch")}</span> {t("pages.bloodTransfusionSimulator.bloodBankTestsPatientSerum")}</p>
+                  <p><span className="font-semibold text-gray-900">{t("pages.bloodTransfusionSimulator.twonurseVerification")}</span> {t("pages.bloodTransfusionSimulator.mandatoryBedsideCheckOfPatient")}</p>
+                  <p><span className="font-semibold text-gray-900">{t("pages.bloodTransfusionSimulator.aboMismatch")}</span> {t("pages.bloodTransfusionSimulator.mostCommonCauseIsClerical")}</p>
+                  <p><span className="font-semibold text-gray-900">{t("pages.bloodTransfusionSimulator.emergency")}</span> {t("pages.bloodTransfusionSimulator.oPrbcsAndAbFfp")}</p>
                 </div>
               </div>
             </div>
             <div className="overflow-x-auto">
-              <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Full Compatibility Grid</p>
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">{t("pages.bloodTransfusionSimulator.fullCompatibilityGrid")}</p>
               <table className="w-full text-xs" data-testid="table-full-compatibility-grid">
                 <thead>
                   <tr>
-                    <th className="p-2 text-left font-bold text-gray-500 border-b border-gray-200 bg-gray-50">Donor &#8595; / Recipient &#8594;</th>
+                    <th className="p-2 text-left font-bold text-gray-500 border-b border-gray-200 bg-gray-50">{t("pages.bloodTransfusionSimulator.donor8595Recipient8594")}</th>
                     {allBloodTypes.map(bt => (
                       <th key={bt} className="p-2 text-center font-bold text-gray-700 border-b border-gray-200 bg-gray-50">{bt}</th>
                     ))}
@@ -936,10 +938,10 @@ function CompatibilitySimulator() {
               </table>
             </div>
             <div className="flex flex-wrap gap-4 mt-3 text-[10px] text-gray-400">
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400 inline-block" /> Safe = Compatible</span>
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-300 inline-block" /> -- = Incompatible</span>
-              <span>O- donates to all 8 types</span>
-              <span>AB+ receives from all 8 types</span>
+              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400 inline-block" /> {t("pages.bloodTransfusionSimulator.safeCompatible")}</span>
+              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-300 inline-block" /> {t("pages.bloodTransfusionSimulator.incompatible")}</span>
+              <span>{t("pages.bloodTransfusionSimulator.oDonatesToAll8")}</span>
+              <span>{t("pages.bloodTransfusionSimulator.abReceivesFromAll8")}</span>
             </div>
           </CardContent>
         </Card>
@@ -1018,7 +1020,7 @@ function ReactionRecognition() {
         <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
           <CardContent className="p-8 text-center">
             <Trophy className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">Reaction Recognition Complete!</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.bloodTransfusionSimulator.reactionRecognitionComplete")}</h3>
             <p className="text-4xl font-bold text-primary mb-2" data-testid="text-reaction-score">{score}/{shuffledScenarios.length}</p>
             <p className="text-sm text-gray-500">{pct}% accuracy</p>
             <p className="text-sm text-gray-600 mt-4 max-w-md mx-auto">
@@ -1053,7 +1055,7 @@ function ReactionRecognition() {
           <p className="text-sm text-gray-700 leading-relaxed">{scenario.patientBackground}</p>
 
           <div>
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Presenting Symptoms</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">{t("pages.bloodTransfusionSimulator.presentingSymptoms")}</p>
             <div className="space-y-1.5">
               {scenario.symptoms.map((s, i) => (
                 <div key={i} className="flex items-start gap-2 text-sm text-gray-700">
@@ -1065,14 +1067,14 @@ function ReactionRecognition() {
           </div>
 
           <div>
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Vital Signs</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">{t("pages.bloodTransfusionSimulator.vitalSigns")}</p>
             <VitalsBar vitals={scenario.vitals} unitMode={unitMode} />
           </div>
         </CardContent>
       </Card>
 
       <div>
-        <p className="text-sm font-bold text-gray-900 mb-3">Identify the reaction type:</p>
+        <p className="text-sm font-bold text-gray-900 mb-3">{t("pages.bloodTransfusionSimulator.identifyTheReactionType")}</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {reactionOptions.map(rt => {
             const isSelected = selectedReaction === rt;
@@ -1109,9 +1111,9 @@ function ReactionRecognition() {
         <div className="space-y-4">
           <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
             <CardContent className="p-5 space-y-3">
-              <p className="text-sm font-bold text-gray-900">Priority Nursing Action:</p>
+              <p className="text-sm font-bold text-gray-900">{t("pages.bloodTransfusionSimulator.priorityNursingAction")}</p>
               <p className="text-sm text-gray-700 leading-relaxed">{scenario.priorityAction}</p>
-              <p className="text-sm font-bold text-gray-900 mt-3">Rationale:</p>
+              <p className="text-sm font-bold text-gray-900 mt-3">{t("pages.bloodTransfusionSimulator.rationale3")}</p>
               <p className="text-sm text-gray-600 leading-relaxed">{scenario.rationale}</p>
             </CardContent>
           </Card>
@@ -1191,7 +1193,7 @@ function InterventionDecision() {
         <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
           <CardContent className="p-8 text-center">
             <Trophy className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">Intervention Challenge Complete!</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.bloodTransfusionSimulator.interventionChallengeComplete")}</h3>
             <p className="text-4xl font-bold text-primary mb-2" data-testid="text-intervention-score">{score}/{shuffledScenarios.length}</p>
             <p className="text-sm text-gray-500">{pct}% perfect selections</p>
             <p className="text-sm text-gray-600 mt-4 max-w-md mx-auto">
@@ -1223,7 +1225,7 @@ function InterventionDecision() {
           </div>
           <p className="text-sm text-gray-700 leading-relaxed">{scenario.patientBackground}</p>
           <div>
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Current Vitals</p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">{t("pages.bloodTransfusionSimulator.currentVitals")}</p>
             <VitalsBar vitals={scenario.vitals} unitMode={unitMode} />
           </div>
           <div className="space-y-1.5">
@@ -1238,7 +1240,7 @@ function InterventionDecision() {
       </Card>
 
       <div>
-        <p className="text-sm font-bold text-gray-900 mb-3">Select ALL appropriate nursing interventions:</p>
+        <p className="text-sm font-bold text-gray-900 mb-3">{t("pages.bloodTransfusionSimulator.selectAllAppropriateNursingInterventions")}</p>
         <div className="space-y-2">
           {interventions.map(item => {
             const isSelected = selectedInterventions.has(item.id);
@@ -1321,8 +1323,8 @@ export default function BloodTransfusionSimulatorPage() {
   return (
     <div className={`min-h-screen bg-warmwhite flex flex-col font-sans ${user?.tier !== "admin" ? "select-none" : ""}`} onContextMenu={user?.tier !== "admin" ? (e) => e.preventDefault() : undefined}>
       <SEO
-        title="Blood Transfusion Nursing Simulator | Compatibility & Reactions"
-        description="Interactive blood transfusion simulator for NCLEX & REx-PN prep. Practice ABO/Rh compatibility, recognize hemolytic, TACO & TRALI reactions, and choose nursing interventions."
+        title={t("pages.bloodTransfusionSimulator.bloodTransfusionNursingSimulatorCompatibilit")}
+        description={t("pages.bloodTransfusionSimulator.interactiveBloodTransfusionSimulatorFor")}
         keywords="blood transfusion nursing, ABO compatibility, Rh factor, transfusion reactions, hemolytic reaction, TACO vs TRALI, nursing simulation, NCLEX blood transfusion, REx-PN transfusion, blood bank nursing, transfusion safety"
         canonicalPath="/blood-transfusion-simulator"
         ogType="website"
@@ -1339,8 +1341,8 @@ export default function BloodTransfusionSimulatorPage() {
               <div className="w-20 h-20 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-6">
                 <Lock className="w-10 h-10 text-red-400" />
               </div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-3">Blood Transfusion Simulator</h1>
-              <p className="text-lg text-gray-600 mb-2">Premium Interactive Tool</p>
+              <h1 className="text-3xl font-bold text-gray-900 mb-3">{t("pages.bloodTransfusionSimulator.bloodTransfusionSimulator")}</h1>
+              <p className="text-lg text-gray-600 mb-2">{t("pages.bloodTransfusionSimulator.premiumInteractiveTool")}</p>
               <p className="text-sm text-gray-500 mb-8 leading-relaxed max-w-md mx-auto">
                 Master blood transfusion compatibility, reaction recognition, and nursing interventions with interactive scenarios. Available exclusively for RPN, RN, and NP subscribers.
               </p>
@@ -1352,7 +1354,7 @@ export default function BloodTransfusionSimulatorPage() {
               </LocaleLink>
               {!user && (
                 <p className="text-xs text-gray-400 mt-4">
-                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">Sign in</LocaleLink> to access.
+                  Already subscribed? <LocaleLink href="/login" className="text-primary hover:underline">{t("pages.bloodTransfusionSimulator.signIn")}</LocaleLink> to access.
                 </p>
               )}
             </div>
@@ -1380,10 +1382,10 @@ export default function BloodTransfusionSimulatorPage() {
 
             <div className="mb-10 bg-white border border-gray-100 rounded-2xl p-5 sm:p-6" data-testid="section-seo-intro">
               <p className="text-sm text-gray-700 leading-relaxed mb-3">
-                Blood transfusion errors are among the most preventable causes of patient harm in hospitals. For nursing students preparing for the <strong>NCLEX-RN</strong> or <strong>REx-PN</strong>, mastering transfusion safety is non-negotiable — exam questions frequently test your ability to match blood types, recognize reactions, and prioritize interventions under pressure.
+                Blood transfusion errors are among the most preventable causes of patient harm in hospitals. For nursing students preparing for the <strong>{t("pages.bloodTransfusionSimulator.nclexrn")}</strong> or <strong>{t("pages.bloodTransfusionSimulator.rexpn")}</strong>, mastering transfusion safety is non-negotiable — exam questions frequently test your ability to match blood types, recognize reactions, and prioritize interventions under pressure.
               </p>
               <p className="text-sm text-gray-700 leading-relaxed mb-3">
-                This interactive blood transfusion simulator builds three core competencies: <strong>ABO/Rh compatibility decision-making</strong>, where you determine which donor blood is safe for a given patient; <strong>transfusion reaction recognition</strong>, where you differentiate between hemolytic, febrile, allergic, anaphylactic, TACO, and TRALI reactions based on clinical presentation and vital signs; and <strong>nursing intervention selection</strong>, where you choose the correct actions for each reaction type and learn why incorrect interventions can cause harm.
+                This interactive blood transfusion simulator builds three core competencies: <strong>{t("pages.bloodTransfusionSimulator.aborhCompatibilityDecisionmaking")}</strong>, where you determine which donor blood is safe for a given patient; <strong>{t("pages.bloodTransfusionSimulator.transfusionReactionRecognition")}</strong>, where you differentiate between hemolytic, febrile, allergic, anaphylactic, TACO, and TRALI reactions based on clinical presentation and vital signs; and <strong>{t("pages.bloodTransfusionSimulator.nursingInterventionSelection")}</strong>, where you choose the correct actions for each reaction type and learn why incorrect interventions can cause harm.
               </p>
               <p className="text-sm text-gray-700 leading-relaxed">
                 Each scenario includes detailed clinical rationales and exam-trap alerts that highlight the subtle distinctions examiners use to test your knowledge — such as the critical differences between TACO and TRALI, or why hemoglobinuria distinguishes a hemolytic reaction from a benign febrile response. Whether you are an RPN, RN, or NP student, these scenarios mirror the clinical judgment questions you will encounter on your licensing exam.
@@ -1418,7 +1420,7 @@ export default function BloodTransfusionSimulatorPage() {
               <SEOEducationalContent />
 
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Blood Compatibility Chart for Nursing Students</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t("pages.bloodTransfusionSimulator.bloodCompatibilityChartForNursing")}</h2>
                 <p className="text-sm text-gray-600 leading-relaxed mb-4">
                   The ABO blood group system classifies blood into four types (A, B, AB, O) based on the presence or absence of A and B antigens on red blood cell surfaces. The Rh system adds a second layer — the D antigen — making each type either positive or negative. Together, these two systems create eight blood types. Compatibility depends on a fundamental rule: a patient must never receive blood containing antigens that their plasma antibodies will attack. Type O- is the universal RBC donor (no antigens), and type AB+ is the universal recipient (no ABO antibodies, Rh+). Understanding this chart is essential for safe transfusion practice and is heavily tested on the NCLEX-RN and REx-PN.
                 </p>
@@ -1432,8 +1434,8 @@ export default function BloodTransfusionSimulatorPage() {
       </main>
       <FAQSection />
       <section className="max-w-6xl mx-auto px-4 py-12" data-testid="section-related-lessons">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Deepen Your Knowledge</h2>
-        <p className="text-gray-600 mb-6">Explore detailed lessons on each type of blood transfusion reaction, compatibility rules, and clinical management.</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("pages.bloodTransfusionSimulator.deepenYourKnowledge")}</h2>
+        <p className="text-gray-600 mb-6">{t("pages.bloodTransfusionSimulator.exploreDetailedLessonsOnEach")}</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
             { slug: "ahtr-acute-hemolytic-transfusion-reaction", title: "Acute Hemolytic (AHTR)", desc: "ABO incompatibility causing life-threatening intravascular hemolysis", icon: "text-red-600", bg: "bg-red-50" },

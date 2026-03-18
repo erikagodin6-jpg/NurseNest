@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import HeroFeatureStrip from "@/components/hero-feature-strip";
 import HeroTrustIndicator from "@/components/hero-trust-indicator";
 import { buildFaqStructuredData } from "@/lib/structured-data";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, Award, ShieldCheck, BookOpen, ChevronRight,
   HelpCircle, TrendingUp, Clock, DollarSign, GraduationCap,
@@ -69,14 +70,15 @@ const WHY_CERTIFY = [
 ];
 
 export default function NursingCertificationsHub() {
+  const { t } = useI18n();
   const faqStructuredData = buildFaqStructuredData(FAQ_DATA);
 
   return (
     <div data-testid="page-nursing-certifications-hub">
       <Navigation />
       <SEO
-        title="Nursing Certifications Guide: BLS, ACLS, PALS, CCRN, CEN & More | NurseNest"
-        description="Complete guide to nursing certifications. Prep guides and renewal resources for BLS, ACLS, PALS, NRP, TNCC, ENPC, plus specialty certifications including CCRN, CEN, CMSRN, OCN, CNOR, and Canadian CNA certifications."
+        title={t("pages.nursingCertificationsHub.nursingCertificationsGuideBlsAcls")}
+        description={t("pages.nursingCertificationsHub.completeGuideToNursingCertifications")}
         keywords="nursing certifications, BLS certification, ACLS certification, PALS certification, NRP certification, TNCC certification, ENPC certification, CCRN certification, CEN certification, nursing specialty certification, certification exam prep, certification renewal"
         canonicalPath="/nursing-certifications"
         structuredData={{
@@ -97,9 +99,9 @@ export default function NursingCertificationsHub() {
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-teal-50/50 to-white" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-6" data-testid="breadcrumb-nav">
-            <Link href="/" className="hover:text-emerald-600">Home</Link>
+            <Link href="/" className="hover:text-emerald-600">{t("pages.nursingCertificationsHub.home")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-emerald-700 font-medium">Nursing Certifications</span>
+            <span className="text-emerald-700 font-medium">{t("pages.nursingCertificationsHub.nursingCertifications")}</span>
           </div>
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-700 mb-4" data-testid="badge-certifications">
@@ -128,7 +130,7 @@ export default function NursingCertificationsHub() {
 
       <section className="py-16" data-testid="section-why-certify">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="text-why-heading">Why Get Certified?</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="text-why-heading">{t("pages.nursingCertificationsHub.whyGetCertified")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {WHY_CERTIFY.map((item, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 p-6 text-center" data-testid={`card-why-${i}`}>
@@ -146,8 +148,8 @@ export default function NursingCertificationsHub() {
       <section className="py-16 bg-gray-50" id="emergency-certs" data-testid="section-emergency-certs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-emergency-heading">Life Support & Emergency Certifications</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Course-based certifications required by hospitals for acute care, emergency, pediatric, and neonatal nursing. Each includes a prep guide and renewal resources.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-emergency-heading">{t("pages.nursingCertificationsHub.lifeSupportEmergencyCertifications")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.nursingCertificationsHub.coursebasedCertificationsRequiredByHospitals")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {EMERGENCY_CERTS.map((cert) => {
@@ -194,18 +196,18 @@ export default function NursingCertificationsHub() {
       <section className="py-16 bg-white" data-testid="section-comparison">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-comparison-heading">Certification at a Glance</h2>
-            <p className="text-gray-600">Quick comparison of life support certifications to help you plan your prep and renewal timeline.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-comparison-heading">{t("pages.nursingCertificationsHub.certificationAtAGlance")}</h2>
+            <p className="text-gray-600">{t("pages.nursingCertificationsHub.quickComparisonOfLifeSupport")}</p>
           </div>
           <div className="overflow-x-auto rounded-xl border border-gray-200">
             <table className="w-full text-sm" data-testid="table-comparison">
               <thead>
                 <tr className="bg-gray-50 text-left">
-                  <th className="px-4 py-3 font-semibold text-gray-900">Certification</th>
-                  <th className="px-4 py-3 font-semibold text-gray-900">Organization</th>
-                  <th className="px-4 py-3 font-semibold text-gray-900">Validity</th>
-                  <th className="px-4 py-3 font-semibold text-gray-900">Required For</th>
-                  <th className="px-4 py-3 font-semibold text-gray-900">Links</th>
+                  <th className="px-4 py-3 font-semibold text-gray-900">{t("pages.nursingCertificationsHub.certification")}</th>
+                  <th className="px-4 py-3 font-semibold text-gray-900">{t("pages.nursingCertificationsHub.organization")}</th>
+                  <th className="px-4 py-3 font-semibold text-gray-900">{t("pages.nursingCertificationsHub.validity")}</th>
+                  <th className="px-4 py-3 font-semibold text-gray-900">{t("pages.nursingCertificationsHub.requiredFor")}</th>
+                  <th className="px-4 py-3 font-semibold text-gray-900">{t("pages.nursingCertificationsHub.links")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -224,9 +226,9 @@ export default function NursingCertificationsHub() {
                     <td className="px-4 py-3 text-gray-600">{row.required}</td>
                     <td className="px-4 py-3">
                       <div className="flex gap-2">
-                        <Link href={`/certifications/${row.slug}-prep`} className="text-emerald-600 hover:text-emerald-700 font-medium" data-testid={`table-link-prep-${row.slug}`}>Prep</Link>
+                        <Link href={`/certifications/${row.slug}-prep`} className="text-emerald-600 hover:text-emerald-700 font-medium" data-testid={`table-link-prep-${row.slug}`}>{t("pages.nursingCertificationsHub.prep")}</Link>
                         <span className="text-gray-300">|</span>
-                        <Link href={`/certifications/${row.slug}-renewal-prep`} className="text-emerald-600 hover:text-emerald-700 font-medium" data-testid={`table-link-renewal-${row.slug}`}>Renewal</Link>
+                        <Link href={`/certifications/${row.slug}-renewal-prep`} className="text-emerald-600 hover:text-emerald-700 font-medium" data-testid={`table-link-renewal-${row.slug}`}>{t("pages.nursingCertificationsHub.renewal")}</Link>
                       </div>
                     </td>
                   </tr>
@@ -240,8 +242,8 @@ export default function NursingCertificationsHub() {
       <section className="py-16 bg-gray-50" id="specialty-certs" data-testid="section-specialty-certs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-specialty-heading">Specialty Nursing Certifications</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Knowledge-based exams that validate expertise in a clinical specialty. Typically require 1-2 years of experience in the specialty area.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-specialty-heading">{t("pages.nursingCertificationsHub.specialtyNursingCertifications")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.nursingCertificationsHub.knowledgebasedExamsThatValidateExpertise")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {SPECIALTY_CERTS.map((cert) => {
@@ -273,8 +275,8 @@ export default function NursingCertificationsHub() {
       <section className="py-16 bg-white" data-testid="section-study-tools">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-tools-heading">Study Tools for Certification Prep</h2>
-            <p className="text-gray-600">Everything you need to prepare for and pass your certification exams.</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-tools-heading">{t("pages.nursingCertificationsHub.studyToolsForCertificationPrep")}</h2>
+            <p className="text-gray-600">{t("pages.nursingCertificationsHub.everythingYouNeedToPrepare")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <Link href="/free-practice" className="group" data-testid="link-tool-practice">
@@ -282,8 +284,8 @@ export default function NursingCertificationsHub() {
                 <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3">
                   <ClipboardList className="w-6 h-6 text-emerald-600" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">Practice Questions</h3>
-                <p className="text-xs text-gray-500">Thousands of questions aligned to certification exam blueprints.</p>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">{t("pages.nursingCertificationsHub.practiceQuestions")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingCertificationsHub.thousandsOfQuestionsAlignedTo")}</p>
               </div>
             </Link>
             <Link href="/flashcards" className="group" data-testid="link-tool-flashcards">
@@ -291,8 +293,8 @@ export default function NursingCertificationsHub() {
                 <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3">
                   <Layers className="w-6 h-6 text-emerald-600" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">Flashcards</h3>
-                <p className="text-xs text-gray-500">Spaced-repetition decks for algorithms, medications, and key concepts.</p>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">{t("pages.nursingCertificationsHub.flashcards")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingCertificationsHub.spacedrepetitionDecksForAlgorithmsMedication")}</p>
               </div>
             </Link>
             <Link href="/lessons" className="group" data-testid="link-tool-lessons">
@@ -300,8 +302,8 @@ export default function NursingCertificationsHub() {
                 <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3">
                   <BookOpen className="w-6 h-6 text-emerald-600" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">Lessons</h3>
-                <p className="text-xs text-gray-500">In-depth clinical lessons covering certification content areas.</p>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">{t("pages.nursingCertificationsHub.lessons")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingCertificationsHub.indepthClinicalLessonsCoveringCertification")}</p>
               </div>
             </Link>
             <Link href="/mock-exams" className="group" data-testid="link-tool-mocks">
@@ -309,8 +311,8 @@ export default function NursingCertificationsHub() {
                 <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3">
                   <Award className="w-6 h-6 text-emerald-600" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">Mock Exams</h3>
-                <p className="text-xs text-gray-500">Timed practice exams simulating real certification exam conditions.</p>
+                <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">{t("pages.nursingCertificationsHub.mockExams")}</h3>
+                <p className="text-xs text-gray-500">{t("pages.nursingCertificationsHub.timedPracticeExamsSimulatingReal")}</p>
               </div>
             </Link>
           </div>
@@ -319,35 +321,35 @@ export default function NursingCertificationsHub() {
 
       <section className="py-16 bg-gray-50" data-testid="section-cross-links">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="text-cross-heading">Related Resources</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center" data-testid="text-cross-heading">{t("pages.nursingCertificationsHub.relatedResources")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <Link href="/healthcare-certifications" className="bg-teal-50 rounded-xl p-6 hover:bg-teal-100 transition-colors group" data-testid="link-healthcare-certs">
-              <h3 className="font-semibold text-teal-900 mb-1 group-hover:text-teal-700">Healthcare Certifications Database</h3>
-              <p className="text-sm text-teal-700/70">Detailed guides with eligibility, exam structure, and renewal info for every certification.</p>
+              <h3 className="font-semibold text-teal-900 mb-1 group-hover:text-teal-700">{t("pages.nursingCertificationsHub.healthcareCertificationsDatabase")}</h3>
+              <p className="text-sm text-teal-700/70">{t("pages.nursingCertificationsHub.detailedGuidesWithEligibilityExam")}</p>
             </Link>
             <Link href="/rn" className="bg-blue-50 rounded-xl p-6 hover:bg-blue-100 transition-colors group" data-testid="link-rn-tier">
-              <h3 className="font-semibold text-blue-900 mb-1 group-hover:text-blue-700">RN Exam Prep</h3>
-              <p className="text-sm text-blue-700/70">NCLEX-RN preparation with practice questions, lessons, and study guides.</p>
+              <h3 className="font-semibold text-blue-900 mb-1 group-hover:text-blue-700">{t("pages.nursingCertificationsHub.rnExamPrep")}</h3>
+              <p className="text-sm text-blue-700/70">{t("pages.nursingCertificationsHub.nclexrnPreparationWithPracticeQuestions")}</p>
             </Link>
             <Link href="/np" className="bg-indigo-50 rounded-xl p-6 hover:bg-indigo-100 transition-colors group" data-testid="link-np-tier">
-              <h3 className="font-semibold text-indigo-900 mb-1 group-hover:text-indigo-700">NP Exam Prep</h3>
-              <p className="text-sm text-indigo-700/70">Nurse Practitioner certification exam preparation and study resources.</p>
+              <h3 className="font-semibold text-indigo-900 mb-1 group-hover:text-indigo-700">{t("pages.nursingCertificationsHub.npExamPrep")}</h3>
+              <p className="text-sm text-indigo-700/70">{t("pages.nursingCertificationsHub.nursePractitionerCertificationExamPreparation")}</p>
             </Link>
             <Link href="/emergency-nursing-specialty" className="bg-orange-50 rounded-xl p-6 hover:bg-orange-100 transition-colors group" data-testid="link-emergency-nursing">
-              <h3 className="font-semibold text-orange-900 mb-1 group-hover:text-orange-700">Emergency Nursing</h3>
-              <p className="text-sm text-orange-700/70">Emergency department nursing resources — TNCC, ENPC, and CEN prep.</p>
+              <h3 className="font-semibold text-orange-900 mb-1 group-hover:text-orange-700">{t("pages.nursingCertificationsHub.emergencyNursing")}</h3>
+              <p className="text-sm text-orange-700/70">{t("pages.nursingCertificationsHub.emergencyDepartmentNursingResourcesTncc")}</p>
             </Link>
             <Link href="/critical-care-specialty" className="bg-red-50 rounded-xl p-6 hover:bg-red-100 transition-colors group" data-testid="link-critical-care">
-              <h3 className="font-semibold text-red-900 mb-1 group-hover:text-red-700">Critical Care Nursing</h3>
-              <p className="text-sm text-red-700/70">ICU nursing resources — CCRN prep, hemodynamic monitoring, and ventilator management.</p>
+              <h3 className="font-semibold text-red-900 mb-1 group-hover:text-red-700">{t("pages.nursingCertificationsHub.criticalCareNursing")}</h3>
+              <p className="text-sm text-red-700/70">{t("pages.nursingCertificationsHub.icuNursingResourcesCcrnPrep")}</p>
             </Link>
             <Link href="/guides" className="bg-violet-50 rounded-xl p-6 hover:bg-violet-100 transition-colors group" data-testid="link-study-guides">
-              <h3 className="font-semibold text-violet-900 mb-1 group-hover:text-violet-700">Study Guides</h3>
-              <p className="text-sm text-violet-700/70">Comprehensive study guides for ICU, trauma, and specialty nursing topics.</p>
+              <h3 className="font-semibold text-violet-900 mb-1 group-hover:text-violet-700">{t("pages.nursingCertificationsHub.studyGuides")}</h3>
+              <p className="text-sm text-violet-700/70">{t("pages.nursingCertificationsHub.comprehensiveStudyGuidesForIcu")}</p>
             </Link>
             <Link href="/newgrad/certifications" className="bg-emerald-50 rounded-xl p-6 hover:bg-emerald-100 transition-colors group" data-testid="link-newgrad-hub">
-              <h3 className="font-semibold text-emerald-900 mb-1 group-hover:text-emerald-700">New Grad Certification Guide</h3>
-              <p className="text-sm text-emerald-700/70">Certification timeline and study strategies for new graduate nurses.</p>
+              <h3 className="font-semibold text-emerald-900 mb-1 group-hover:text-emerald-700">{t("pages.nursingCertificationsHub.newGradCertificationGuide")}</h3>
+              <p className="text-sm text-emerald-700/70">{t("pages.nursingCertificationsHub.certificationTimelineAndStudyStrategies")}</p>
             </Link>
           </div>
         </div>
@@ -355,7 +357,7 @@ export default function NursingCertificationsHub() {
 
       <section className="py-16 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="text-faq-heading">Certification FAQs</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center" data-testid="text-faq-heading">{t("pages.nursingCertificationsHub.certificationFaqs")}</h2>
           <div className="space-y-3">
             {FAQ_DATA.map((faq, i) => (
               <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, X, BookOpen, BarChart3, ClipboardList, Shield, ArrowRight } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const valueProps = [
   {
     id: "qbank",
@@ -42,13 +43,14 @@ const comparisonRows = [
 ];
 
 export default function TrialUpgradePage() {
+  const { t } = useI18n();
   const [, navigate] = useLocation();
 
   return (
     <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
       <SEO
-        title="Upgrade Your Exam Prep - NurseNest"
-        description="Unlock full access to NurseNest premium features including unlimited questions, adaptive testing, flashcards, and personalized study plans."
+        title={t("pages.trialUpgrade.upgradeYourExamPrepNursenest")}
+        description={t("pages.trialUpgrade.unlockFullAccessToNursenest")}
         canonicalPath="/trial/upgrade"
       />
       <Navigation />
@@ -106,9 +108,9 @@ export default function TrialUpgradePage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-gray-200 bg-gray-50/50">
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Feature</th>
-                        <th className="text-center py-3 px-4 font-semibold text-gray-500">Free Trial</th>
-                        <th className="text-center py-3 px-4 font-bold text-primary bg-primary/5">Premium</th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700">{t("pages.trialUpgrade.feature")}</th>
+                        <th className="text-center py-3 px-4 font-semibold text-gray-500">{t("pages.trialUpgrade.freeTrial")}</th>
+                        <th className="text-center py-3 px-4 font-bold text-primary bg-primary/5">{t("pages.trialUpgrade.premium")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -169,7 +171,7 @@ export default function TrialUpgradePage() {
                 </Button>
                 <div className="mt-4 flex items-center justify-center gap-2">
                   <Shield className="w-4 h-4 text-green-600" />
-                  <span className="text-sm text-green-700 font-medium">30-day money-back guarantee</span>
+                  <span className="text-sm text-green-700 font-medium">{t("pages.trialUpgrade.30dayMoneybackGuarantee")}</span>
                 </div>
               </CardContent>
             </Card>

@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { AlliedSEO } from "@/allied/allied-seo";
 
+import { useI18n } from "@/lib/i18n";
 interface ScenarioSummary {
   id: string;
   title: string;
@@ -31,6 +32,7 @@ const DIFFICULTY_LABELS: Record<number, string> = {
 };
 
 export default function ParamedicScenariosHub() {
+  const { t } = useI18n();
   const [scenarios, setScenarios] = useState<ScenarioSummary[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -70,20 +72,20 @@ export default function ParamedicScenariosHub() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8" data-testid="scenarios-hub-page">
       <AlliedSEO
-        title="Paramedic EMS Scenario Simulations"
-        description="Practice realistic EMS scenario simulations for paramedic learners. Walk through dispatch-to-debrief clinical encounters with decision point tracking and feedback."
+        title={t("allied.paramedicScenariosHub.paramedicEmsScenarioSimulations")}
+        description={t("allied.paramedicScenariosHub.practiceRealisticEmsScenarioSimulations")}
         keywords="paramedic scenarios, EMS simulation, paramedic exam practice, clinical decision making, NREMT practice"
         canonicalPath="/allied-health/paramedic/scenarios"
       />
 
       <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-        <Link href="/allied-health/paramedic" className="hover:text-teal-600" data-testid="link-breadcrumb-career">Paramedic</Link>
+        <Link href="/allied-health/paramedic" className="hover:text-teal-600" data-testid="link-breadcrumb-career">{t("allied.paramedicScenariosHub.paramedic")}</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-teal-700 font-medium">EMS Scenarios</span>
+        <span className="text-teal-700 font-medium">{t("allied.paramedicScenariosHub.emsScenarios")}</span>
       </div>
 
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-hub-title">EMS Scenario Simulations</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2" data-testid="text-hub-title">{t("allied.paramedicScenariosHub.emsScenarioSimulations")}</h1>
         <p className="text-gray-600 max-w-2xl">
           Walk through realistic EMS scenarios from dispatch to debrief. Each simulation progressively reveals clinical information and tests your decision-making at critical intervention points.
         </p>
@@ -92,11 +94,11 @@ export default function ParamedicScenariosHub() {
       <div className="bg-white rounded-xl border border-gray-100 p-4 mb-6">
         <div className="flex items-center gap-2 mb-3">
           <Filter className="w-4 h-4 text-gray-500" />
-          <span className="text-sm font-medium text-gray-700">Filters</span>
+          <span className="text-sm font-medium text-gray-700">{t("allied.paramedicScenariosHub.filters")}</span>
         </div>
         <div className="flex flex-wrap gap-4">
           <div>
-            <label className="block text-xs text-gray-500 mb-1">Category</label>
+            <label className="block text-xs text-gray-500 mb-1">{t("allied.paramedicScenariosHub.category")}</label>
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
@@ -107,7 +109,7 @@ export default function ParamedicScenariosHub() {
             </select>
           </div>
           <div>
-            <label className="block text-xs text-gray-500 mb-1">Profession Track</label>
+            <label className="block text-xs text-gray-500 mb-1">{t("allied.paramedicScenariosHub.professionTrack")}</label>
             <select
               value={trackFilter}
               onChange={(e) => setTrackFilter(e.target.value)}
@@ -118,14 +120,14 @@ export default function ParamedicScenariosHub() {
             </select>
           </div>
           <div>
-            <label className="block text-xs text-gray-500 mb-1">Difficulty</label>
+            <label className="block text-xs text-gray-500 mb-1">{t("allied.paramedicScenariosHub.difficulty")}</label>
             <select
               value={difficultyFilter ?? ""}
               onChange={(e) => setDifficultyFilter(e.target.value ? parseInt(e.target.value) : null)}
               className="px-3 py-1.5 border border-gray-200 rounded-lg text-sm bg-white"
               data-testid="select-difficulty-filter"
             >
-              <option value="">All</option>
+              <option value="">{t("allied.paramedicScenariosHub.all")}</option>
               {[1, 2, 3, 4, 5].map(d => <option key={d} value={d}>{DIFFICULTY_LABELS[d]}</option>)}
             </select>
           </div>
@@ -139,8 +141,8 @@ export default function ParamedicScenariosHub() {
       ) : scenarios.length === 0 ? (
         <div className="text-center py-20">
           <Radio className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-          <h2 className="text-lg font-semibold text-gray-700 mb-2">No Scenarios Available</h2>
-          <p className="text-sm text-gray-500">Scenarios matching your filters haven't been published yet. Check back soon!</p>
+          <h2 className="text-lg font-semibold text-gray-700 mb-2">{t("allied.paramedicScenariosHub.noScenariosAvailable")}</h2>
+          <p className="text-sm text-gray-500">{t("allied.paramedicScenariosHub.scenariosMatchingYourFiltersHavent")}</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -164,7 +166,7 @@ export default function ParamedicScenariosHub() {
                       <span className="flex items-center gap-1"><Activity className="w-3.5 h-3.5" /> {sc.category}</span>
                       <span className="flex items-center gap-1"><Target className="w-3.5 h-3.5" /> {sc.decisionPoints?.length || 0} decision points</span>
                       <span className="flex items-center gap-1"><Shield className="w-3.5 h-3.5" /> {sc.professionTrack}</span>
-                      <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> ~15 min</span>
+                      <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {t("allied.paramedicScenariosHub.15Min")}</span>
                     </div>
                   </div>
                   <ArrowRight className="w-5 h-5 text-gray-300 flex-shrink-0 mt-2" />

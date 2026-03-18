@@ -1,11 +1,13 @@
 import { ShieldCheck } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 interface IntegrityProps {
   variant?: "inline" | "footer" | "banner";
   className?: string;
 }
 
 export function EducationalIntegrity({ variant = "inline", className = "" }: IntegrityProps) {
+  const { t } = useI18n();
   const text = "NurseNest provides independently developed educational content grounded in established physiological principles and widely accepted clinical reasoning frameworks. NurseNest is not affiliated with or endorsed by any licensing or regulatory authority. All material is intended solely for educational use.";
 
   if (variant === "footer") {
@@ -27,7 +29,7 @@ export function EducationalIntegrity({ variant = "inline", className = "" }: Int
             <ShieldCheck className="w-4 h-4 text-primary" />
           </div>
           <div>
-            <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Educational Integrity</p>
+            <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">{t("components.educationalIntegrity.educationalIntegrity")}</p>
             <p className="text-sm text-gray-500 leading-relaxed">{text}</p>
           </div>
         </div>

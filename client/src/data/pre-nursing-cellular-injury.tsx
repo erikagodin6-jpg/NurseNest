@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import {
   MicroLesson,
   CognitiveCard,
@@ -10,6 +11,7 @@ import { EditableModuleText, useEditableText } from "@/components/module-edit-co
 import { AlertTriangle, Shield, Skull, RefreshCw, Activity } from "lucide-react";
 
 export function CellularInjuryModule() {
+  const { t } = useI18n();
   const freeRadicalContent = useEditableText("ci-free-radical-content", "Free radicals are highly reactive molecules with unpaired electrons that damage cellular components — lipids (cell membrane destruction via lipid peroxidation), proteins (enzyme dysfunction), and DNA (mutations, impaired replication). The body uses antioxidant enzymes (superoxide dismutase, catalase, glutathione peroxidase) and dietary antioxidants (vitamins C, E, selenium) to neutralize free radicals. When production exceeds neutralization capacity, oxidative stress occurs, contributing to aging, cancer, atherosclerosis, and neurodegenerative diseases.");
   const compensationContent = useEditableText("ci-compensation-content", "Compensation is the body's ability to maintain homeostasis despite injury or disease through adaptive mechanisms. For example, the heart compensates for increased workload through hypertrophy, or the kidneys compensate for metabolic acidosis by excreting more hydrogen ions. Decompensation occurs when adaptive mechanisms are overwhelmed and can no longer maintain normal function — this is when clinical symptoms appear and organ failure begins. Recognizing the transition from compensation to decompensation is a critical nursing skill.");
   const reversibleContent = useEditableText("ci-reversible-content", "Reversible injury is characterized by cellular swelling (due to failure of sodium-potassium pump), fatty change (lipid accumulation), and decreased ATP production. The cell can recover if the injurious stimulus is removed. Irreversible injury occurs when membrane damage is severe, mitochondrial function is permanently lost, and calcium floods the cell activating destructive enzymes. Key markers of irreversible injury include: massive calcium influx, lysosomal enzyme release, nuclear changes (pyknosis, karyorrhexis, karyolysis), and release of intracellular enzymes into the blood (troponin, CK, LDH, AST/ALT).");
@@ -67,7 +69,7 @@ export function CellularInjuryModule() {
         </div>
         <CognitiveCard
           type="concept"
-          title="Free Radicals & Oxidative Stress"
+          title={t("data.pre_nursing_cellular_injury.freeRadicalsOxidativeStress")}
           content={freeRadicalContent}
         />
       </MicroLesson>
@@ -85,7 +87,7 @@ export function CellularInjuryModule() {
           </div>
         </div>
         <ProgressiveReveal
-          title="Types of Necrosis"
+          title={t("data.pre_nursing_cellular_injury.typesOfNecrosis")}
           cards={[
             {
               id: "ci-nec1",
@@ -155,18 +157,18 @@ export function CellularInjuryModule() {
         </div>
         <CognitiveCard
           type="warning"
-          title="Reversible vs Irreversible Injury Markers"
+          title={t("data.pre_nursing_cellular_injury.reversibleVsIrreversibleInjuryMarkers")}
           content={reversibleContent}
         />
         <CognitiveCard
           type="concept"
-          title="Compensation vs Decompensation"
+          title={t("data.pre_nursing_cellular_injury.compensationVsDecompensation")}
           content={compensationContent}
         />
       </MicroLesson>
 
       <MatchingExercise
-        title="Match the Cellular Adaptation"
+        title={t("data.pre_nursing_cellular_injury.matchTheCellularAdaptation")}
         pairs={[
           { id: "hypertrophy", term: "Hypertrophy", definition: "Increase in cell size (e.g., cardiac muscle in hypertension)" },
           { id: "hyperplasia", term: "Hyperplasia", definition: "Increase in cell number (e.g., BPH, endometrial growth)" },
@@ -178,7 +180,7 @@ export function CellularInjuryModule() {
       />
 
       <SelfCheckQuiz
-        title="Cellular Injury & Adaptation Quiz"
+        title={t("data.pre_nursing_cellular_injury.cellularInjuryAdaptationQuiz")}
         questions={[
           {
             id: "ci1",

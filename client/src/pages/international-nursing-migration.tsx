@@ -534,14 +534,14 @@ export default function InternationalNursingMigrationPage() {
 
       <section className="py-14 bg-gray-50" data-testid="section-credential">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><Shield className="w-6 h-6 text-teal-500" /> Credential Evaluation</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><Shield className="w-6 h-6 text-teal-500" /> {t("pages.internationalNursingMigration.credentialEvaluation")}</h2>
           <p className="text-gray-700 leading-relaxed">{config.credentialEvaluation}</p>
         </div>
       </section>
 
       <section className="py-14" data-testid="section-exams">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><GraduationCap className="w-6 h-6 text-teal-500" /> Exam Requirements</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><GraduationCap className="w-6 h-6 text-teal-500" /> {t("pages.internationalNursingMigration.examRequirements")}</h2>
           <div className="space-y-3 mb-6">
             {config.examRequirements.map((exam, i) => (
               <div key={i} className="flex items-start gap-3 bg-white rounded-lg p-4 border border-gray-100">
@@ -550,14 +550,14 @@ export default function InternationalNursingMigrationPage() {
               </div>
             ))}
           </div>
-          <h3 className="font-semibold text-gray-900 mb-3">Language Testing Notes</h3>
+          <h3 className="font-semibold text-gray-900 mb-3">{t("pages.internationalNursingMigration.languageTestingNotes")}</h3>
           <p className="text-gray-600 text-sm">{config.languageTesting}</p>
         </div>
       </section>
 
       <section className="py-14 bg-gray-50" data-testid="section-documents">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><FileText className="w-6 h-6 text-teal-500" /> Required Documents</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><FileText className="w-6 h-6 text-teal-500" /> {t("pages.internationalNursingMigration.requiredDocuments")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {config.requiredDocuments.map((doc, i) => (
               <div key={i} className="flex items-center gap-2 p-3 bg-white rounded-lg border border-gray-100">
@@ -571,7 +571,7 @@ export default function InternationalNursingMigrationPage() {
 
       <section className="py-14" data-testid="section-mistakes">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><AlertTriangle className="w-6 h-6 text-amber-500" /> Common Mistakes to Avoid</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3"><AlertTriangle className="w-6 h-6 text-amber-500" /> {t("pages.internationalNursingMigration.commonMistakesToAvoid")}</h2>
           <div className="space-y-3">
             {config.commonMistakes.map((mistake, i) => (
               <div key={i} className="flex items-start gap-3 bg-white rounded-lg p-4 border border-gray-100">

@@ -7,7 +7,9 @@ import { AutoRelatedContent } from "@/components/auto-related-content";
 import { useMemo } from "react";
 import DOMPurify from "dompurify";
 
+import { useI18n } from "@/lib/i18n";
 function renderMarkdown(md: string): string {
+  const { t } = useI18n();
   if (!md) return "";
   let html = md
     .replace(/^### (.+)$/gm, '<h3 class="text-lg font-semibold text-gray-900 mt-8 mb-3">$1</h3>')
@@ -35,11 +37,11 @@ function renderMarkdown(md: string): string {
 
 function Breadcrumbs({ professionSlug, professionName, articleTitle }: { professionSlug: string; professionName: string; articleTitle: string }) {
   return (
-    <nav aria-label="Breadcrumb" className="mb-6" data-testid="breadcrumb-nav">
+    <nav aria-label={t("allied.alliedHealthArticle.breadcrumb")} className="mb-6" data-testid="breadcrumb-nav">
       <ol className="flex items-center gap-1.5 text-sm text-gray-500 flex-wrap">
-        <li><Link href="/" className="hover:text-teal-600 transition-colors">Home</Link></li>
+        <li><Link href="/" className="hover:text-teal-600 transition-colors">{t("allied.alliedHealthArticle.home")}</Link></li>
         <li><ChevronRight className="w-3.5 h-3.5" /></li>
-        <li><Link href="/allied-health" className="hover:text-teal-600 transition-colors">Allied Health</Link></li>
+        <li><Link href="/allied-health" className="hover:text-teal-600 transition-colors">{t("allied.alliedHealthArticle.alliedHealth")}</Link></li>
         <li><ChevronRight className="w-3.5 h-3.5" /></li>
         <li><Link href={`/allied-health/${professionSlug}`} className="hover:text-teal-600 transition-colors">{professionName}</Link></li>
         <li><ChevronRight className="w-3.5 h-3.5" /></li>
@@ -90,8 +92,8 @@ export default function AlliedHealthArticlePage() {
   if (error || !article) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Article Not Found</h1>
-        <p className="text-gray-600 mb-4">The article you're looking for doesn't exist or hasn't been published yet.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t("allied.alliedHealthArticle.articleNotFound")}</h1>
+        <p className="text-gray-600 mb-4">{t("allied.alliedHealthArticle.theArticleYoureLookingFor")}</p>
         <Link href={`/allied-health/${professionSlug}`} className="inline-flex items-center gap-2 px-6 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700" data-testid="link-back-profession">
           Back to {profession?.shortName || "Profession"}
         </Link>
@@ -175,7 +177,7 @@ export default function AlliedHealthArticlePage() {
 
         {profession && (
           <div className="mt-12 bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl border border-teal-100 p-6 sm:p-8" data-testid="article-study-cta">
-            <h2 className="text-xl font-bold text-gray-900 mb-2">Ready to Start Studying?</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-2">{t("allied.alliedHealthArticle.readyToStartStudying")}</h2>
             <p className="text-gray-600 mb-5">Access {profession.shortName}-specific study tools to prepare for your certification exam.</p>
             <div className="flex flex-wrap gap-3">
               <Link href={profession.studyResourceCTAs.questionBank} className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition-colors" data-testid="button-article-qbank">
@@ -203,7 +205,7 @@ export default function AlliedHealthArticlePage() {
 
         {related.length > 0 && (
           <div className="mt-12" data-testid="related-articles">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Related Articles</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-6">{t("allied.alliedHealthArticle.relatedArticles")}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {related.map((rel: any) => (
                 <Link key={rel.id} href={`/allied-health/${professionSlug}/${rel.slug}`} className="block group">

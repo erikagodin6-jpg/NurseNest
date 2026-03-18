@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Play, Pause, FileDown, ArrowLeft, RefreshCw, Loader2, ShoppingBag, DollarSign, Trash2, Package, X, Store, Eye, EyeOff, Download, Edit3, Check, XCircle, ChevronDown, ChevronUp, Sparkles, AlertTriangle, Archive, RotateCcw, Zap, CheckCircle, FileText, ExternalLink } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n";
 const THEMES = [
   { id: "soft-clinical", name: "Soft Clinical", primaryColor: "#7c3aed", secondaryColor: "#06b6d4", accentColor: "#f59e0b", coverBg: "#7c3aed" },
   { id: "structured-academic", name: "Structured Academic", primaryColor: "#1e40af", secondaryColor: "#0f766e", accentColor: "#b45309", coverBg: "#1e40af" },
@@ -27,6 +28,7 @@ const THEMES = [
 ];
 
 async function adminFetch(url: string, options?: RequestInit) {
+  const { t } = useI18n();
   const token = getAdminAccessToken() || "";
   const storedUser = JSON.parse(localStorage.getItem("nursenest-user") || "{}");
   const adminId = storedUser?.id || "";
@@ -678,8 +680,8 @@ export default function GeneratorV2Page() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-xl font-semibold text-gray-700 mb-2" data-testid="text-access-denied">Access Denied</h2>
-          <p className="text-gray-500 text-sm">This page is restricted to administrators.</p>
+          <h2 className="text-xl font-semibold text-gray-700 mb-2" data-testid="text-access-denied">{t("pages.generatorV2.accessDenied")}</h2>
+          <p className="text-gray-500 text-sm">{t("pages.generatorV2.thisPageIsRestrictedTo")}</p>
         </div>
       </div>
     );
@@ -693,11 +695,11 @@ export default function GeneratorV2Page() {
             <Button variant="ghost" size="sm" onClick={() => window.history.back()} data-testid="button-back">
               <ArrowLeft className="w-4 h-4" />
             </Button>
-            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-title">Exam Pack Builder</h1>
+            <h1 className="text-2xl font-bold text-gray-900" data-testid="text-title">{t("pages.generatorV2.examPackBuilder")}</h1>
             <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">V2</span>
           </div>
           <div className="flex gap-1 bg-white rounded-lg border p-0.5" data-testid="panel-switcher">
-            <button onClick={() => setActivePanel("generator")} className={`px-3 py-1.5 rounded-md text-sm font-medium transition ${activePanel === "generator" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:text-gray-700"}`} data-testid="tab-generator">Generator</button>
+            <button onClick={() => setActivePanel("generator")} className={`px-3 py-1.5 rounded-md text-sm font-medium transition ${activePanel === "generator" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:text-gray-700"}`} data-testid="tab-generator">{t("pages.generatorV2.generator")}</button>
             <button onClick={() => setActivePanel("store")} className={`px-3 py-1.5 rounded-md text-sm font-medium transition flex items-center gap-1.5 ${activePanel === "store" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:text-gray-700"}`} data-testid="tab-store">
               <Store className="w-3.5 h-3.5" /> Store Manager
             </button>
@@ -711,22 +713,22 @@ export default function GeneratorV2Page() {
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-3 space-y-4" data-testid="section-config">
               <div className="bg-white rounded-xl border p-4 space-y-3">
-                <h3 className="font-semibold text-sm text-gray-700">Configuration</h3>
+                <h3 className="font-semibold text-sm text-gray-700">{t("pages.generatorV2.configuration")}</h3>
                 <div>
-                  <label className="text-xs font-medium text-gray-500 block mb-1">Template</label>
+                  <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.template")}</label>
                   <select value={template} onChange={e => setTemplate(e.target.value)} className="w-full h-9 rounded-lg border px-2 text-sm" data-testid="select-template">
-                    <option value="question_pack">Question Pack</option>
-                    <option value="premium_exam_pack">Premium Exam Pack</option>
-                    <option value="lab_workbook">Lab Result Workbook</option>
-                    <option value="abg_questions">ABG Interpretation Questions</option>
-                    <option value="med_math">Med Math Questions</option>
-                    <option value="case_study">Case Study Workbook</option>
-                    <option value="cram_guide">Cram Guide</option>
-                    <option value="hybrid">Hybrid (Content + QBank)</option>
+                    <option value="question_pack">{t("pages.generatorV2.questionPack")}</option>
+                    <option value="premium_exam_pack">{t("pages.generatorV2.premiumExamPack")}</option>
+                    <option value="lab_workbook">{t("pages.generatorV2.labResultWorkbook")}</option>
+                    <option value="abg_questions">{t("pages.generatorV2.abgInterpretationQuestions")}</option>
+                    <option value="med_math">{t("pages.generatorV2.medMathQuestions")}</option>
+                    <option value="case_study">{t("pages.generatorV2.caseStudyWorkbook")}</option>
+                    <option value="cram_guide">{t("pages.generatorV2.cramGuide")}</option>
+                    <option value="hybrid">{t("pages.generatorV2.hybridContentQbank")}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500 block mb-1">Topics</label>
+                  <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.topics")}</label>
                   <Input
                     value={topic}
                     onChange={e => setTopic(e.target.value)}
@@ -735,63 +737,63 @@ export default function GeneratorV2Page() {
                     placeholder="e.g., Cardiac, Respiratory, Neuro"
                     data-testid="topics-input"
                   />
-                  <span className="text-[10px] text-gray-400">Short labels only, comma-separated (max 160 chars)</span>
+                  <span className="text-[10px] text-gray-400">{t("pages.generatorV2.shortLabelsOnlyCommaseparatedMax")}</span>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500 block mb-1">Extra Instructions (optional)</label>
+                  <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.extraInstructionsOptional")}</label>
                   <textarea
                     value={instructions}
                     onChange={e => setInstructions(e.target.value)}
                     rows={3}
                     className="w-full rounded-lg border px-3 py-2 text-sm resize-none"
-                    placeholder="Additional rules for AI (e.g., focus on pediatric scenarios, emphasize pharmacology calculations)"
+                    placeholder={t("pages.generatorV2.additionalRulesForAiEg")}
                     data-testid="instructions-input"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500 block mb-1">Tier</label>
+                  <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.tier")}</label>
                   <select value={tier} onChange={e => setTier(e.target.value)} className="w-full h-9 rounded-lg border px-2 text-sm" data-testid="tier-select">
-                    <option value="rpn">RPN - Practical Nurse</option>
-                    <option value="rn">RN - Registered Nurse</option>
-                    <option value="np">NP - Nurse Practitioner</option>
+                    <option value="rpn">{t("pages.generatorV2.rpnPracticalNurse")}</option>
+                    <option value="rn">{t("pages.generatorV2.rnRegisteredNurse")}</option>
+                    <option value="np">{t("pages.generatorV2.npNursePractitioner")}</option>
                   </select>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-xs font-medium text-gray-500 block mb-1">Exam</label>
+                    <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.exam")}</label>
                     <select value={exam} onChange={e => setExam(e.target.value)} className="w-full h-9 rounded-lg border px-2 text-xs" data-testid="select-exam">
-                      <option value="rex-pn">REx-PN (CA)</option>
-                      <option value="nclex-pn">NCLEX-PN</option>
-                      <option value="nclex-rn">NCLEX-RN</option>
+                      <option value="rex-pn">{t("pages.generatorV2.rexpnCa")}</option>
+                      <option value="nclex-pn">{t("pages.generatorV2.nclexpn")}</option>
+                      <option value="nclex-rn">{t("pages.generatorV2.nclexrn")}</option>
                       <option value="np">NP</option>
                     </select>
                   </div>
                   <div>
-                    <label className="text-xs font-medium text-gray-500 block mb-1">Region</label>
+                    <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.region")}</label>
                     <select value={region} onChange={e => setRegion(e.target.value)} className="w-full h-9 rounded-lg border px-2 text-xs" data-testid="select-region">
-                      <option value="CA">Canada</option>
-                      <option value="US">United States</option>
-                      <option value="BOTH">Both</option>
+                      <option value="CA">{t("pages.generatorV2.canada")}</option>
+                      <option value="US">{t("pages.generatorV2.unitedStates")}</option>
+                      <option value="BOTH">{t("pages.generatorV2.both")}</option>
                     </select>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-xs font-medium text-gray-500 block mb-1">Target Count</label>
+                    <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.targetCount")}</label>
                     <Input type="number" min={10} max={1000} value={targetCount} onChange={e => setTargetCount(Number(e.target.value))} className="h-9 text-sm" data-testid="question-count-input" />
                   </div>
                   <div>
-                    <label className="text-xs font-medium text-gray-500 block mb-1">Chunk Size</label>
+                    <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.chunkSize")}</label>
                     <Input type="number" min={5} max={25} value={chunkSize} onChange={e => setChunkSize(Number(e.target.value))} className="h-9 text-sm" data-testid="input-chunk-size" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500 block mb-1">Difficulty</label>
+                  <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.difficulty")}</label>
                   <select value={difficulty} onChange={e => setDifficulty(e.target.value)} className="w-full h-9 rounded-lg border px-2 text-sm" data-testid="select-difficulty">
-                    <option value="mixed">Mixed (30/50/20)</option>
-                    <option value="moderate">Mostly Moderate</option>
-                    <option value="hard">Mostly Hard</option>
-                    <option value="very_challenging">Very Challenging</option>
+                    <option value="mixed">{t("pages.generatorV2.mixed305020")}</option>
+                    <option value="moderate">{t("pages.generatorV2.mostlyModerate")}</option>
+                    <option value="hard">{t("pages.generatorV2.mostlyHard")}</option>
+                    <option value="very_challenging">{t("pages.generatorV2.veryChallenging")}</option>
                   </select>
                 </div>
                 <div>
@@ -826,14 +828,14 @@ export default function GeneratorV2Page() {
                       <div className="h-20 relative flex flex-col justify-end p-2" style={{ backgroundColor: theme.coverBg }}>
                         <div className="absolute top-0 left-0 right-0 h-1.5" style={{ backgroundColor: theme.accentColor, opacity: 0.9 }} />
                         <span className="text-white text-[11px] font-bold opacity-95">NurseNest</span>
-                        <span className="text-white text-[8px] opacity-60">Exam Prep</span>
+                        <span className="text-white text-[8px] opacity-60">{t("pages.generatorV2.examPrep")}</span>
                       </div>
                       <div className="p-2 bg-white border-t">
                         <div className="flex items-center gap-1 mb-1">
-                          <div className="w-4 h-4 rounded" style={{ backgroundColor: theme.primaryColor }} title="Primary" />
-                          <div className="w-4 h-4 rounded" style={{ backgroundColor: theme.secondaryColor }} title="Secondary" />
-                          <div className="w-4 h-4 rounded" style={{ backgroundColor: theme.accentColor }} title="Accent" />
-                          <div className="w-4 h-4 rounded border" style={{ backgroundColor: theme.coverBg }} title="Cover" />
+                          <div className="w-4 h-4 rounded" style={{ backgroundColor: theme.primaryColor }} title={t("pages.generatorV2.primary")} />
+                          <div className="w-4 h-4 rounded" style={{ backgroundColor: theme.secondaryColor }} title={t("pages.generatorV2.secondary")} />
+                          <div className="w-4 h-4 rounded" style={{ backgroundColor: theme.accentColor }} title={t("pages.generatorV2.accent")} />
+                          <div className="w-4 h-4 rounded border" style={{ backgroundColor: theme.coverBg }} title={t("pages.generatorV2.cover")} />
                         </div>
                         <p className="text-[9px] text-gray-400">{theme.name} - Cover &amp; accent preview</p>
                       </div>
@@ -842,7 +844,7 @@ export default function GeneratorV2Page() {
                 })()}
                 {instructions && (
                   <div className="p-2 bg-blue-50 border border-blue-200 rounded-lg">
-                    <p className="text-[10px] font-medium text-blue-700 mb-0.5">Prompt Summary</p>
+                    <p className="text-[10px] font-medium text-blue-700 mb-0.5">{t("pages.generatorV2.promptSummary")}</p>
                     <p className="text-[10px] text-blue-600">Topics: {sanitizeTopic(topic)}</p>
                     <p className="text-[10px] text-blue-600 truncate">Instructions: {instructions.substring(0, 80)}...</p>
                   </div>
@@ -877,7 +879,7 @@ export default function GeneratorV2Page() {
               </div>
               <div className="bg-white rounded-xl border p-4 space-y-2">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-sm text-gray-700">Active Jobs</h3>
+                  <h3 className="font-semibold text-sm text-gray-700">{t("pages.generatorV2.activeJobs")}</h3>
                   <Button variant="ghost" size="sm" onClick={loadGenerations} data-testid="button-refresh-jobs"><RefreshCw className="w-3 h-3" /></Button>
                 </div>
                 <div className="space-y-1 max-h-52 overflow-y-auto">
@@ -888,7 +890,7 @@ export default function GeneratorV2Page() {
                     >
                       <div className="flex items-center gap-1">
                         {g.status !== "running" && !runningIds.has(g.id) && g.status !== "complete" && (
-                          <button onClick={(e) => { e.stopPropagation(); runMultiGeneration(g.id); }} className="p-1.5 rounded hover:bg-blue-100 text-blue-500 shrink-0" title="Run" data-testid={`button-run-multi-${g.id.substring(0, 8)}`}>
+                          <button onClick={(e) => { e.stopPropagation(); runMultiGeneration(g.id); }} className="p-1.5 rounded hover:bg-blue-100 text-blue-500 shrink-0" title={t("pages.generatorV2.run")} data-testid={`button-run-multi-${g.id.substring(0, 8)}`}>
                             <Play className="w-3.5 h-3.5" />
                           </button>
                         )}
@@ -909,19 +911,19 @@ export default function GeneratorV2Page() {
                               {runningIds.has(g.id) ? "running" : g.status}
                             </span>
                             {g.publishedProductId && (
-                              <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-purple-100 text-purple-700" data-testid={`badge-published-${g.id.substring(0, 8)}`}>Published</span>
+                              <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-purple-100 text-purple-700" data-testid={`badge-published-${g.id.substring(0, 8)}`}>{t("pages.generatorV2.published")}</span>
                             )}
                             <span className="text-gray-400">{g.createdCount}/{g.targetCount}</span>
                           </div>
                         </button>
                         <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition shrink-0">
                           {(g.status === "complete" || g.status === "failed") && (
-                            <button onClick={() => archiveGeneration(g.id)} className="p-1 rounded hover:bg-gray-200 text-gray-400" title="Archive" data-testid={`button-archive-${g.id.substring(0, 8)}`}>
+                            <button onClick={() => archiveGeneration(g.id)} className="p-1 rounded hover:bg-gray-200 text-gray-400" title={t("pages.generatorV2.archive")} data-testid={`button-archive-${g.id.substring(0, 8)}`}>
                               <Archive className="w-3 h-3" />
                             </button>
                           )}
                           {g.status !== "running" && !runningIds.has(g.id) && (
-                            <button onClick={() => { if (confirm(`Delete "${g.topic || g.template}" and all its questions? This cannot be undone.`)) deleteGeneration(g.id); }} className="p-1 rounded hover:bg-red-100 text-gray-400 hover:text-red-500" title="Delete" data-testid={`button-delete-gen-${g.id.substring(0, 8)}`}>
+                            <button onClick={() => { if (confirm(`Delete "${g.topic || g.template}" and all its questions? This cannot be undone.`)) deleteGeneration(g.id); }} className="p-1 rounded hover:bg-red-100 text-gray-400 hover:text-red-500" title={t("pages.generatorV2.delete")} data-testid={`button-delete-gen-${g.id.substring(0, 8)}`}>
                               <Trash2 className="w-3 h-3" />
                             </button>
                           )}
@@ -929,7 +931,7 @@ export default function GeneratorV2Page() {
                       </div>
                     </div>
                   ))}
-                  {generations.filter(g => !archivedIds.includes(g.id)).length === 0 && <p className="text-xs text-gray-400 text-center py-4">No active jobs</p>}
+                  {generations.filter(g => !archivedIds.includes(g.id)).length === 0 && <p className="text-xs text-gray-400 text-center py-4">{t("pages.generatorV2.noActiveJobs")}</p>}
                 </div>
                 {runningIds.size > 0 && (
                   <div className="text-[10px] text-blue-600 font-medium bg-blue-50 px-2 py-1 rounded flex items-center gap-1">
@@ -951,22 +953,22 @@ export default function GeneratorV2Page() {
                           <div className="flex items-center gap-2">
                             <span className="text-gray-400">{g.createdCount}Q - {g.status}</span>
                             {g.publishedProductId && (
-                              <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-purple-100 text-purple-700">Published</span>
+                              <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-purple-100 text-purple-700">{t("pages.generatorV2.published2")}</span>
                             )}
                           </div>
                         </button>
                         <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition shrink-0">
-                          <button onClick={() => unarchiveGeneration(g.id)} className="p-1 rounded hover:bg-blue-100 text-gray-400" title="Restore" data-testid={`button-unarchive-${g.id.substring(0, 8)}`}>
+                          <button onClick={() => unarchiveGeneration(g.id)} className="p-1 rounded hover:bg-blue-100 text-gray-400" title={t("pages.generatorV2.restore")} data-testid={`button-unarchive-${g.id.substring(0, 8)}`}>
                             <RotateCcw className="w-3 h-3" />
                           </button>
-                          <button onClick={() => { if (confirm(`Delete "${g.topic || g.template}" and all its questions? This cannot be undone.`)) deleteGeneration(g.id); }} className="p-1 rounded hover:bg-red-100 text-gray-400 hover:text-red-500" title="Delete" data-testid={`button-delete-archived-${g.id.substring(0, 8)}`}>
+                          <button onClick={() => { if (confirm(`Delete "${g.topic || g.template}" and all its questions? This cannot be undone.`)) deleteGeneration(g.id); }} className="p-1 rounded hover:bg-red-100 text-gray-400 hover:text-red-500" title={t("pages.generatorV2.delete2")} data-testid={`button-delete-archived-${g.id.substring(0, 8)}`}>
                             <Trash2 className="w-3 h-3" />
                           </button>
                         </div>
                       </div>
                     ))}
                     {generations.filter(g => archivedIds.includes(g.id)).length === 0 && (
-                      <p className="text-xs text-gray-400 text-center py-2">No archived jobs</p>
+                      <p className="text-xs text-gray-400 text-center py-2">{t("pages.generatorV2.noArchivedJobs")}</p>
                     )}
                   </div>
                 )}
@@ -1020,10 +1022,10 @@ export default function GeneratorV2Page() {
 
                   {status.distributions && (
                     <div className="bg-white rounded-xl border p-4 space-y-3">
-                      <h3 className="font-semibold text-sm text-gray-700">Blueprint Dashboard</h3>
+                      <h3 className="font-semibold text-sm text-gray-700">{t("pages.generatorV2.blueprintDashboard")}</h3>
                       <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <p className="text-[10px] font-medium text-gray-500 mb-1">By Type</p>
+                          <p className="text-[10px] font-medium text-gray-500 mb-1">{t("pages.generatorV2.byType")}</p>
                           {Object.entries(status.distributions.byType || {}).map(([k, v]) => (
                             <div key={k} className="flex items-center gap-2 text-xs mb-1">
                               <span className="w-12 text-gray-600">{k}</span>
@@ -1035,7 +1037,7 @@ export default function GeneratorV2Page() {
                           ))}
                         </div>
                         <div>
-                          <p className="text-[10px] font-medium text-gray-500 mb-1">By Difficulty</p>
+                          <p className="text-[10px] font-medium text-gray-500 mb-1">{t("pages.generatorV2.byDifficulty")}</p>
                           {Object.entries(status.distributions.byDifficulty || {}).map(([k, v]) => (
                             <div key={k} className="flex items-center gap-2 text-xs mb-1">
                               <span className="w-20 text-gray-600 truncate">{k}</span>
@@ -1049,7 +1051,7 @@ export default function GeneratorV2Page() {
                       </div>
                       {status.distributions.bySystem && Object.keys(status.distributions.bySystem).length > 0 && (
                         <div>
-                          <p className="text-[10px] font-medium text-gray-500 mb-1">By System</p>
+                          <p className="text-[10px] font-medium text-gray-500 mb-1">{t("pages.generatorV2.bySystem")}</p>
                           <div className="grid grid-cols-2 gap-x-3 gap-y-1">
                             {Object.entries(status.distributions.bySystem || {}).sort((a, b) => (b[1] as number) - (a[1] as number)).map(([k, v]) => (
                               <div key={k} className="flex items-center gap-2 text-xs">
@@ -1065,7 +1067,7 @@ export default function GeneratorV2Page() {
                       )}
                       {status.distributions.byTopic && Object.keys(status.distributions.byTopic).length > 0 && (
                         <div>
-                          <p className="text-[10px] font-medium text-gray-500 mb-1">By Topic</p>
+                          <p className="text-[10px] font-medium text-gray-500 mb-1">{t("pages.generatorV2.byTopic")}</p>
                           <div className="grid grid-cols-2 gap-x-3 gap-y-1">
                             {Object.entries(status.distributions.byTopic || {}).sort((a, b) => (b[1] as number) - (a[1] as number)).map(([k, v]) => (
                               <div key={k} className="flex items-center gap-2 text-xs">
@@ -1083,7 +1085,7 @@ export default function GeneratorV2Page() {
                   )}
 
                   <div className="bg-white rounded-xl border p-4 space-y-2">
-                    <h3 className="font-semibold text-sm text-gray-700">Recent Events</h3>
+                    <h3 className="font-semibold text-sm text-gray-700">{t("pages.generatorV2.recentEvents")}</h3>
                     <div className="space-y-1 max-h-48 overflow-y-auto">
                       {(status.recentEvents || []).map((ev: any, i: number) => (
                         <div key={i} className="flex items-start gap-2 text-xs py-1 border-b border-gray-50">
@@ -1094,14 +1096,14 @@ export default function GeneratorV2Page() {
                         </div>
                       ))}
                       {(!status.recentEvents || status.recentEvents.length === 0) && (
-                        <p className="text-xs text-gray-400 text-center py-2">No events yet</p>
+                        <p className="text-xs text-gray-400 text-center py-2">{t("pages.generatorV2.noEventsYet")}</p>
                       )}
                     </div>
                   </div>
                 </>
               ) : (
                 <div className="bg-white rounded-xl border p-8 text-center">
-                  <p className="text-gray-400 text-sm">Select or create a generation job to see progress</p>
+                  <p className="text-gray-400 text-sm">{t("pages.generatorV2.selectOrCreateAGeneration")}</p>
                 </div>
               )}
             </div>
@@ -1112,9 +1114,9 @@ export default function GeneratorV2Page() {
                   <h3 className="font-semibold text-sm text-gray-700">Questions {questionsTotal > 0 ? `(${questionsTotal})` : ""}</h3>
                   {questionsTotal > 25 && (
                     <div className="flex gap-1">
-                      <Button variant="ghost" size="sm" disabled={questionsPage === 0} onClick={() => activeGenId && loadQuestions(activeGenId, questionsPage - 1)} className="text-xs h-7 px-2" data-testid="button-prev-page">Prev</Button>
+                      <Button variant="ghost" size="sm" disabled={questionsPage === 0} onClick={() => activeGenId && loadQuestions(activeGenId, questionsPage - 1)} className="text-xs h-7 px-2" data-testid="button-prev-page">{t("pages.generatorV2.prev")}</Button>
                       <span className="text-xs text-gray-400 flex items-center px-1">{questionsPage + 1}/{Math.ceil(questionsTotal / 25)}</span>
-                      <Button variant="ghost" size="sm" disabled={(questionsPage + 1) * 25 >= questionsTotal} onClick={() => activeGenId && loadQuestions(activeGenId, questionsPage + 1)} className="text-xs h-7 px-2" data-testid="button-next-page">Next</Button>
+                      <Button variant="ghost" size="sm" disabled={(questionsPage + 1) * 25 >= questionsTotal} onClick={() => activeGenId && loadQuestions(activeGenId, questionsPage + 1)} className="text-xs h-7 px-2" data-testid="button-next-page">{t("pages.generatorV2.next")}</Button>
                     </div>
                   )}
                 </div>
@@ -1145,7 +1147,7 @@ export default function GeneratorV2Page() {
                       </div>
                     </div>
                   ))}
-                  {questions.length === 0 && <p className="text-xs text-gray-400 text-center py-8">No questions generated yet</p>}
+                  {questions.length === 0 && <p className="text-xs text-gray-400 text-center py-8">{t("pages.generatorV2.noQuestionsGeneratedYet")}</p>}
                 </div>
               </div>
             </div>
@@ -1155,7 +1157,7 @@ export default function GeneratorV2Page() {
         {activePanel === "store" && (
           <div className="space-y-4" data-testid="section-store">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-800">Store Products</h2>
+              <h2 className="text-lg font-semibold text-gray-800">{t("pages.generatorV2.storeProducts")}</h2>
               <div className="flex gap-2">
                 <Button size="sm" variant="outline" onClick={loadStoreProducts} className="gap-1" data-testid="button-refresh-store">
                   <RefreshCw className="w-3 h-3" /> Refresh
@@ -1181,10 +1183,10 @@ export default function GeneratorV2Page() {
                               <Button size="sm" variant="ghost" className="h-7 w-7 p-0" onClick={() => setEditingTitleId(null)} data-testid="button-cancel-title"><XCircle className="w-3.5 h-3.5 text-gray-400" /></Button>
                             </div>
                           ) : (
-                            <h3 className="font-semibold text-sm text-gray-800 truncate cursor-pointer hover:text-primary transition-colors" onClick={() => { setEditingTitleId(product.id); setEditTitle(product.title); }} title="Click to edit title" data-testid={`text-product-title-${product.id.substring(0, 8)}`}>{product.title}</h3>
+                            <h3 className="font-semibold text-sm text-gray-800 truncate cursor-pointer hover:text-primary transition-colors" onClick={() => { setEditingTitleId(product.id); setEditTitle(product.title); }} title={t("pages.generatorV2.clickToEditTitle")} data-testid={`text-product-title-${product.id.substring(0, 8)}`}>{product.title}</h3>
                           )}
-                          {product.featured && <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 font-medium shrink-0">Featured</span>}
-                          {!product.isActive && <span className="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-500 font-medium shrink-0">Hidden</span>}
+                          {product.featured && <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 font-medium shrink-0">{t("pages.generatorV2.featured")}</span>}
+                          {!product.isActive && <span className="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-500 font-medium shrink-0">{t("pages.generatorV2.hidden")}</span>}
                         </div>
                         <p className="text-xs text-gray-500 line-clamp-2 mb-2">{product.description}</p>
                         <div className="flex items-center gap-3 text-xs">
@@ -1197,14 +1199,14 @@ export default function GeneratorV2Page() {
                         {editingProductId === product.id ? (
                           <div className="flex items-center gap-2">
                             <div className="flex flex-col gap-1">
-                              <Input type="number" step="0.01" value={editPrice} onChange={e => setEditPrice(e.target.value)} className="h-7 w-24 text-xs" placeholder="Price" data-testid="input-edit-price" />
-                              <Input type="number" step="0.01" value={editCompareAt} onChange={e => setEditCompareAt(e.target.value)} className="h-7 w-24 text-xs" placeholder="Compare at" data-testid="input-edit-compare" />
+                              <Input type="number" step="0.01" value={editPrice} onChange={e => setEditPrice(e.target.value)} className="h-7 w-24 text-xs" placeholder={t("pages.generatorV2.price")} data-testid="input-edit-price" />
+                              <Input type="number" step="0.01" value={editCompareAt} onChange={e => setEditCompareAt(e.target.value)} className="h-7 w-24 text-xs" placeholder={t("pages.generatorV2.compareAt")} data-testid="input-edit-compare" />
                             </div>
                             <div className="flex flex-col gap-1">
                               <Button size="sm" className="h-7 text-xs px-2" onClick={() => updateProductPrice(product.id)} disabled={savingPrice} data-testid="button-save-price">
                                 {savingPrice ? <Loader2 className="w-3 h-3 animate-spin" /> : "Save"}
                               </Button>
-                              <Button size="sm" variant="ghost" className="h-7 text-xs px-2" onClick={() => setEditingProductId(null)} data-testid="button-cancel-price">Cancel</Button>
+                              <Button size="sm" variant="ghost" className="h-7 text-xs px-2" onClick={() => setEditingProductId(null)} data-testid="button-cancel-price">{t("pages.generatorV2.cancel")}</Button>
                             </div>
                           </div>
                         ) : (
@@ -1231,7 +1233,7 @@ export default function GeneratorV2Page() {
                 {storeProducts.length === 0 && (
                   <div className="bg-white rounded-xl border p-8 text-center">
                     <Store className="w-8 h-8 text-gray-300 mx-auto mb-2" />
-                    <p className="text-gray-400 text-sm">No products in the store yet</p>
+                    <p className="text-gray-400 text-sm">{t("pages.generatorV2.noProductsInTheStore")}</p>
                   </div>
                 )}
               </div>
@@ -1242,7 +1244,7 @@ export default function GeneratorV2Page() {
         {activePanel === "published" && (
           <div className="space-y-4" data-testid="section-published">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-800">Published Products</h2>
+              <h2 className="text-lg font-semibold text-gray-800">{t("pages.generatorV2.publishedProducts")}</h2>
               <Button size="sm" variant="outline" onClick={loadStoreProducts} className="gap-1" data-testid="button-refresh-published">
                 <RefreshCw className="w-3 h-3" /> Refresh
               </Button>
@@ -1268,10 +1270,10 @@ export default function GeneratorV2Page() {
                               <Button size="sm" variant="ghost" className="h-7 w-7 p-0" onClick={() => setEditingTitleId(null)} data-testid="button-cancel-title-published"><XCircle className="w-3.5 h-3.5 text-gray-400" /></Button>
                             </div>
                           ) : (
-                            <h3 className="font-semibold text-gray-800 truncate cursor-pointer hover:text-primary transition-colors" onClick={() => { setEditingTitleId(product.id); setEditTitle(product.title); }} title="Click to edit title" data-testid={`text-published-title-${product.id.substring(0, 8)}`}>{product.title}</h3>
+                            <h3 className="font-semibold text-gray-800 truncate cursor-pointer hover:text-primary transition-colors" onClick={() => { setEditingTitleId(product.id); setEditTitle(product.title); }} title={t("pages.generatorV2.clickToEditTitle2")} data-testid={`text-published-title-${product.id.substring(0, 8)}`}>{product.title}</h3>
                           )}
-                          <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-green-100 text-green-700 shrink-0">Live</span>
-                          {product.featured && <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-700 shrink-0">Featured</span>}
+                          <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-green-100 text-green-700 shrink-0">{t("pages.generatorV2.live")}</span>
+                          {product.featured && <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-700 shrink-0">{t("pages.generatorV2.featured2")}</span>}
                         </div>
                         {product.shortDescription && (
                           <p className="text-xs text-gray-500 mb-2 line-clamp-2">{product.shortDescription}</p>
@@ -1344,8 +1346,8 @@ export default function GeneratorV2Page() {
                 {storeProducts.filter(p => p.isActive && p.fileUrl).length === 0 && (
                   <div className="bg-white rounded-xl border p-8 text-center">
                     <FileText className="w-8 h-8 text-gray-300 mx-auto mb-2" />
-                    <p className="text-gray-400 text-sm">No published products with PDF files yet</p>
-                    <p className="text-gray-300 text-xs mt-1">Generate question packs and publish them to see them here</p>
+                    <p className="text-gray-400 text-sm">{t("pages.generatorV2.noPublishedProductsWithPdf")}</p>
+                    <p className="text-gray-300 text-xs mt-1">{t("pages.generatorV2.generateQuestionPacksAndPublish")}</p>
                   </div>
                 )}
               </div>
@@ -1358,12 +1360,12 @@ export default function GeneratorV2Page() {
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 overflow-y-auto" data-testid="dialog-publish">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl p-6 space-y-4 my-8">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-gray-800">Publish to Store with PDF</h2>
+              <h2 className="text-lg font-bold text-gray-800">{t("pages.generatorV2.publishToStoreWithPdf")}</h2>
               <button onClick={() => setPublishOpen(false)} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
             </div>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-medium text-gray-500">Product Title</label>
+                <label className="text-xs font-medium text-gray-500">{t("pages.generatorV2.productTitle")}</label>
                 <Button size="sm" variant="ghost" className="h-6 text-xs gap-1 text-blue-600" onClick={generateAutoListing} disabled={autoListing} data-testid="button-auto-listing">
                   {autoListing ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
                   Auto-write listing
@@ -1371,7 +1373,7 @@ export default function GeneratorV2Page() {
               </div>
               <Input value={pubTitle} onChange={e => setPubTitle(e.target.value)} className="text-sm" data-testid="input-pub-title" />
               <div>
-                <label className="text-xs font-medium text-gray-500 block mb-1">Description</label>
+                <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.description")}</label>
                 <textarea value={pubDesc} onChange={e => setPubDesc(e.target.value)} rows={3} className="w-full rounded-lg border px-3 py-2 text-sm resize-none" data-testid="input-pub-desc" />
               </div>
               <div className="space-y-2">
@@ -1397,21 +1399,21 @@ export default function GeneratorV2Page() {
               )}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-medium text-gray-500 block mb-1">Category</label>
+                  <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.category")}</label>
                   <select value={pubCategory} onChange={e => setPubCategory(e.target.value)} className="w-full h-9 rounded-lg border px-2 text-sm" data-testid="select-pub-category">
-                    <option value="question-pack">Question Pack</option>
-                    <option value="premium-exam-pack">Premium Exam Pack</option>
-                    <option value="case-pack">NGN Case Pack</option>
-                    <option value="cram-guide">Cram Guide</option>
-                    <option value="study-guide">Study Guide</option>
-                    <option value="bundle">Bundle</option>
+                    <option value="question-pack">{t("pages.generatorV2.questionPack2")}</option>
+                    <option value="premium-exam-pack">{t("pages.generatorV2.premiumExamPack2")}</option>
+                    <option value="case-pack">{t("pages.generatorV2.ngnCasePack")}</option>
+                    <option value="cram-guide">{t("pages.generatorV2.cramGuide2")}</option>
+                    <option value="study-guide">{t("pages.generatorV2.studyGuide")}</option>
+                    <option value="bundle">{t("pages.generatorV2.bundle")}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500 block mb-1">Tier Target</label>
+                  <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.tierTarget")}</label>
                   <select value={pubTierTarget} onChange={e => setPubTierTarget(e.target.value)} className="w-full h-9 rounded-lg border px-2 text-sm" data-testid="select-pub-tier">
-                    <option value="all">All</option>
-                    <option value="free">Free</option>
+                    <option value="all">{t("pages.generatorV2.all")}</option>
+                    <option value="free">{t("pages.generatorV2.free")}</option>
                     <option value="rpn">RPN</option>
                     <option value="rn">RN</option>
                     <option value="np">NP</option>
@@ -1420,7 +1422,7 @@ export default function GeneratorV2Page() {
               </div>
 
               <div>
-                <label className="text-xs font-medium text-gray-500 block mb-1.5">Document Theme</label>
+                <label className="text-xs font-medium text-gray-500 block mb-1.5">{t("pages.generatorV2.documentTheme")}</label>
                 <div className="grid grid-cols-4 gap-1.5" data-testid="theme-picker-publish">
                   {THEMES.slice(0, 8).map(t => (
                     <button
@@ -1440,7 +1442,7 @@ export default function GeneratorV2Page() {
                 </div>
                 {THEMES.length > 8 && (
                   <details className="mt-1">
-                    <summary className="text-[10px] text-blue-600 cursor-pointer">More themes...</summary>
+                    <summary className="text-[10px] text-blue-600 cursor-pointer">{t("pages.generatorV2.moreThemes")}</summary>
                     <div className="grid grid-cols-4 gap-1.5 mt-1">
                       {THEMES.slice(8).map(t => (
                         <button
@@ -1468,26 +1470,26 @@ export default function GeneratorV2Page() {
               </label>
 
               <details className="border rounded-lg p-3 bg-gray-50">
-                <summary className="text-xs font-medium text-gray-500 cursor-pointer">SEO Settings</summary>
+                <summary className="text-xs font-medium text-gray-500 cursor-pointer">{t("pages.generatorV2.seoSettings")}</summary>
                 <div className="mt-2 space-y-2">
                   <div>
-                    <label className="text-[10px] font-medium text-gray-400 block mb-0.5">SEO Title</label>
-                    <Input value={pubSeoTitle} onChange={e => setPubSeoTitle(e.target.value)} placeholder="Custom title for search engines" className="text-xs h-8" data-testid="input-pub-seo-title" />
+                    <label className="text-[10px] font-medium text-gray-400 block mb-0.5">{t("pages.generatorV2.seoTitle")}</label>
+                    <Input value={pubSeoTitle} onChange={e => setPubSeoTitle(e.target.value)} placeholder={t("pages.generatorV2.customTitleForSearchEngines")} className="text-xs h-8" data-testid="input-pub-seo-title" />
                   </div>
                   <div>
-                    <label className="text-[10px] font-medium text-gray-400 block mb-0.5">SEO Description (max 160 chars)</label>
-                    <textarea value={pubSeoDesc} onChange={e => setPubSeoDesc(e.target.value.slice(0, 200))} rows={2} placeholder="Custom meta description for search engines" className="w-full rounded-lg border px-2 py-1 text-xs resize-none" data-testid="input-pub-seo-desc" />
+                    <label className="text-[10px] font-medium text-gray-400 block mb-0.5">{t("pages.generatorV2.seoDescriptionMax160Chars")}</label>
+                    <textarea value={pubSeoDesc} onChange={e => setPubSeoDesc(e.target.value.slice(0, 200))} rows={2} placeholder={t("pages.generatorV2.customMetaDescriptionForSearch")} className="w-full rounded-lg border px-2 py-1 text-xs resize-none" data-testid="input-pub-seo-desc" />
                     <span className="text-[10px] text-gray-400">{pubSeoDesc.length}/200</span>
                   </div>
                   <div>
-                    <label className="text-[10px] font-medium text-gray-400 block mb-0.5">SEO Keywords (comma-separated)</label>
-                    <Input value={pubSeoKeywords} onChange={e => setPubSeoKeywords(e.target.value)} placeholder="nursing, exam prep, NCLEX" className="text-xs h-8" data-testid="input-pub-seo-keywords" />
+                    <label className="text-[10px] font-medium text-gray-400 block mb-0.5">{t("pages.generatorV2.seoKeywordsCommaseparated")}</label>
+                    <Input value={pubSeoKeywords} onChange={e => setPubSeoKeywords(e.target.value)} placeholder={t("pages.generatorV2.nursingExamPrepNclex")} className="text-xs h-8" data-testid="input-pub-seo-keywords" />
                   </div>
                 </div>
               </details>
             </div>
             <div className="flex justify-end gap-2 pt-2">
-              <Button variant="outline" onClick={() => setPublishOpen(false)} data-testid="button-cancel-publish">Cancel</Button>
+              <Button variant="outline" onClick={() => setPublishOpen(false)} data-testid="button-cancel-publish">{t("pages.generatorV2.cancel2")}</Button>
               <Button onClick={publishToStore} disabled={publishing || !pubTitle || !pubDesc} className="gap-1" data-testid="button-confirm-publish">
                 {publishing ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShoppingBag className="w-4 h-4" />}
                 {publishing ? "Generating PDF & Publishing..." : "Publish with PDF"}
@@ -1506,17 +1508,17 @@ export default function GeneratorV2Page() {
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" data-testid="dialog-bundle">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-gray-800">Create Bundle</h2>
+              <h2 className="text-lg font-bold text-gray-800">{t("pages.generatorV2.createBundle")}</h2>
               <button onClick={() => setBundleOpen(false)} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
             </div>
             <div className="space-y-3">
               <div>
-                <label className="text-xs font-medium text-gray-500 block mb-1">Bundle Title</label>
+                <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.bundleTitle")}</label>
                 <Input value={bundleTitle} onChange={e => setBundleTitle(e.target.value)} placeholder="e.g., Complete Cardiac Bundle" className="text-sm" data-testid="input-bundle-title" />
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-500 block mb-1">Description</label>
-                <textarea value={bundleDesc} onChange={e => setBundleDesc(e.target.value)} rows={3} className="w-full rounded-lg border px-3 py-2 text-sm resize-none" placeholder="Describe what's included..." data-testid="input-bundle-desc" />
+                <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.description2")}</label>
+                <textarea value={bundleDesc} onChange={e => setBundleDesc(e.target.value)} rows={3} className="w-full rounded-lg border px-3 py-2 text-sm resize-none" placeholder={t("pages.generatorV2.describeWhatsIncluded")} data-testid="input-bundle-desc" />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
@@ -1541,7 +1543,7 @@ export default function GeneratorV2Page() {
                 </div>
               )}
               <div>
-                <label className="text-xs font-medium text-gray-500 block mb-1">Include Generations</label>
+                <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.includeGenerations")}</label>
                 <div className="max-h-40 overflow-y-auto border rounded-lg p-2 space-y-1">
                   {generations.filter(g => g.status === "complete" && g.createdCount > 0).map((g: any) => (
                     <label key={g.id} className="flex items-center gap-2 text-xs cursor-pointer p-1 rounded hover:bg-gray-50">
@@ -1560,13 +1562,13 @@ export default function GeneratorV2Page() {
                     </label>
                   ))}
                   {generations.filter(g => g.status === "complete" && g.createdCount > 0).length === 0 && (
-                    <p className="text-xs text-gray-400 text-center py-2">No completed generations</p>
+                    <p className="text-xs text-gray-400 text-center py-2">{t("pages.generatorV2.noCompletedGenerations")}</p>
                   )}
                 </div>
               </div>
             </div>
             <div className="flex justify-end gap-2 pt-2">
-              <Button variant="outline" onClick={() => setBundleOpen(false)} data-testid="button-cancel-bundle">Cancel</Button>
+              <Button variant="outline" onClick={() => setBundleOpen(false)} data-testid="button-cancel-bundle">{t("pages.generatorV2.cancel3")}</Button>
               <Button onClick={createBundle} disabled={creatingBundle || !bundleTitle || !bundleDesc || bundleGenIds.length === 0} className="gap-1" data-testid="button-confirm-bundle">
                 {creatingBundle ? <Loader2 className="w-4 h-4 animate-spin" /> : <Package className="w-4 h-4" />}
                 Create Bundle
@@ -1589,11 +1591,11 @@ export default function GeneratorV2Page() {
               <span className="text-gray-400">{editingQuestion.system}</span>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Stem</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.stem")}</label>
               <textarea value={editStem} onChange={e => setEditStem(e.target.value)} rows={4} className="w-full rounded-lg border px-3 py-2 text-sm resize-none" data-testid="edit-stem" />
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Choices</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.choices")}</label>
               <div className="space-y-2">
                 {editChoices.map((c: any, i: number) => (
                   <div key={i} className="flex items-center gap-2">
@@ -1623,11 +1625,11 @@ export default function GeneratorV2Page() {
               </div>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Rationale (Why Correct)</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.rationaleWhyCorrect")}</label>
               <textarea value={editRationale} onChange={e => setEditRationale(e.target.value)} rows={3} className="w-full rounded-lg border px-3 py-2 text-sm resize-none" data-testid="edit-rationale" />
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 block mb-1">Clinical Pearl</label>
+              <label className="text-xs font-medium text-gray-500 block mb-1">{t("pages.generatorV2.clinicalPearl")}</label>
               <Input value={editPearl} onChange={e => setEditPearl(e.target.value)} className="text-sm" data-testid="edit-pearl" />
             </div>
             <div className="flex gap-2 pt-4 border-t">

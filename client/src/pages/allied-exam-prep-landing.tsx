@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { useI18n } from "@/lib/i18n";
 import {
   ArrowRight, Target, BookOpen, Layers, Stethoscope, FileText,
   ChevronDown, ChevronUp, Brain, Activity, Shield, Users,
@@ -636,6 +637,7 @@ const EXAM_PREP_DATA: Record<string, ExamPrepConfig> = {
 };
 
 function FAQAccordion({ faqs }: { faqs: { q: string; a: string }[] }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState<number | null>(null);
   return (
     <div className="space-y-3">
@@ -770,32 +772,32 @@ function AlliedExamPrepLanding({ config }: { config: ExamPrepConfig }) {
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-gray-500 mb-6" data-testid="hero-trust-badges">
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: config.color }} />
-                <span>No credit card required</span>
+                <span>{t("pages.alliedExamPrepLanding.noCreditCardRequired")}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: config.color }} />
-                <span>Blueprint-aligned content</span>
+                <span>{t("pages.alliedExamPrepLanding.blueprintalignedContent")}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: config.color }} />
-                <span>Cancel anytime</span>
+                <span>{t("pages.alliedExamPrepLanding.cancelAnytime")}</span>
               </div>
             </div>
 
             <div className="max-w-lg mx-auto p-4 rounded-xl bg-white/80 border border-gray-200/60 mb-8" data-testid="hero-clarity-block">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2.5">What you get</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2.5">{t("pages.alliedExamPrepLanding.whatYouGet")}</p>
               <div className="space-y-2 text-left">
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: config.color }} />
-                  <span>Exam-aligned question bank with detailed rationales</span>
+                  <span>{t("pages.alliedExamPrepLanding.examalignedQuestionBankWithDetailed")}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: config.color }} />
-                  <span>Blueprint-weighted mock exams that mirror real test conditions</span>
+                  <span>{t("pages.alliedExamPrepLanding.blueprintweightedMockExamsThatMirror")}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: config.color }} />
-                  <span>AI-powered study plans and readiness tracking</span>
+                  <span>{t("pages.alliedExamPrepLanding.aipoweredStudyPlansAndReadiness")}</span>
                 </div>
               </div>
             </div>
@@ -818,10 +820,10 @@ function AlliedExamPrepLanding({ config }: { config: ExamPrepConfig }) {
             </div>
 
             <div className="rounded-xl border border-gray-200 p-6 mb-12" data-testid="section-exam-info">
-              <h2 className="text-xl font-bold mb-4">Exam Information</h2>
+              <h2 className="text-xl font-bold mb-4">{t("pages.alliedExamPrepLanding.examInformation")}</h2>
               <div className="grid sm:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <p className="text-sm font-semibold text-gray-700 mb-1">Certification Exams</p>
+                  <p className="text-sm font-semibold text-gray-700 mb-1">{t("pages.alliedExamPrepLanding.certificationExams")}</p>
                   <div className="flex flex-wrap gap-2">
                     {config.examNames.map((name, i) => (
                       <Badge key={i} variant="outline" className="text-xs" data-testid={`badge-exam-${i}`}>{name}</Badge>
@@ -829,7 +831,7 @@ function AlliedExamPrepLanding({ config }: { config: ExamPrepConfig }) {
                   </div>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-gray-700 mb-1">Certifying Bodies</p>
+                  <p className="text-sm font-semibold text-gray-700 mb-1">{t("pages.alliedExamPrepLanding.certifyingBodies")}</p>
                   <ul className="text-sm text-gray-600 space-y-1">
                     {config.certifyingBodies.map((body, i) => (
                       <li key={i}>{body}</li>
@@ -838,12 +840,12 @@ function AlliedExamPrepLanding({ config }: { config: ExamPrepConfig }) {
                 </div>
               </div>
               <div>
-                <p className="text-sm font-semibold text-gray-700 mb-1">Exam Format</p>
+                <p className="text-sm font-semibold text-gray-700 mb-1">{t("pages.alliedExamPrepLanding.examFormat")}</p>
                 <p className="text-sm text-gray-600">{config.examFormat}</p>
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold mb-6" data-testid="text-features-heading">What You Get</h2>
+            <h2 className="text-2xl font-bold mb-6" data-testid="text-features-heading">{t("pages.alliedExamPrepLanding.whatYouGet2")}</h2>
             <div className="grid sm:grid-cols-2 gap-4 mb-16">
               {config.features.map((feat, i) => (
                 <Card key={i} className="border border-gray-100 hover:shadow-md transition-shadow" data-testid={`card-feature-${i}`}>
@@ -866,7 +868,7 @@ function AlliedExamPrepLanding({ config }: { config: ExamPrepConfig }) {
               ))}
             </div>
 
-            <h2 className="text-2xl font-bold mb-6" data-testid="text-domains-heading">Exam Domains Covered</h2>
+            <h2 className="text-2xl font-bold mb-6" data-testid="text-domains-heading">{t("pages.alliedExamPrepLanding.examDomainsCovered")}</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-16">
               {config.domains.map((domain, i) => (
                 <div key={i} className="rounded-xl border border-gray-100 p-4" data-testid={`domain-${i}`}>
@@ -879,7 +881,7 @@ function AlliedExamPrepLanding({ config }: { config: ExamPrepConfig }) {
               ))}
             </div>
 
-            <h2 className="text-2xl font-bold mb-6" data-testid="text-tools-heading">Study Tools</h2>
+            <h2 className="text-2xl font-bold mb-6" data-testid="text-tools-heading">{t("pages.alliedExamPrepLanding.studyTools")}</h2>
             <div className="grid sm:grid-cols-2 gap-4 mb-16">
               {config.studyTools.map((tool, i) => (
                 <div key={i} className="flex items-start gap-3 p-4 rounded-xl border border-gray-100" data-testid={`tool-${i}`}>
@@ -894,12 +896,12 @@ function AlliedExamPrepLanding({ config }: { config: ExamPrepConfig }) {
               ))}
             </div>
 
-            <h2 className="text-2xl font-bold mb-6" data-testid="text-faq-heading">Frequently Asked Questions</h2>
+            <h2 className="text-2xl font-bold mb-6" data-testid="text-faq-heading">{t("pages.alliedExamPrepLanding.frequentlyAskedQuestions")}</h2>
             <FAQAccordion faqs={config.faqs} />
 
             <div className="mt-16 text-center rounded-2xl p-8" style={{ background: `linear-gradient(135deg, ${config.colorAccent}60, ${config.color}10)` }} data-testid="section-bottom-cta">
-              <h2 className="text-xl font-bold mb-3">Ready to Start Preparing?</h2>
-              <p className="text-gray-600 mb-6">Jump into free practice questions or take a full mock exam to assess your readiness.</p>
+              <h2 className="text-xl font-bold mb-3">{t("pages.alliedExamPrepLanding.readyToStartPreparing")}</h2>
+              <p className="text-gray-600 mb-6">{t("pages.alliedExamPrepLanding.jumpIntoFreePracticeQuestions")}</p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <Button
                   size="lg"
@@ -923,7 +925,7 @@ function AlliedExamPrepLanding({ config }: { config: ExamPrepConfig }) {
             </div>
 
             <div className="mt-12 mb-8" data-testid="section-related">
-              <h3 className="font-semibold text-gray-900 mb-4">Explore Other Exam Prep</h3>
+              <h3 className="font-semibold text-gray-900 mb-4">{t("pages.alliedExamPrepLanding.exploreOtherExamPrep")}</h3>
               <div className="flex flex-wrap gap-2">
                 {config.relatedProfessions.map((rp, i) => (
                   <Button
