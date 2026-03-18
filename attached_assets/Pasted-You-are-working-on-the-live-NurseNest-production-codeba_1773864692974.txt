@@ -1,0 +1,330 @@
+You are working on the live NurseNest production codebase.
+
+This is now a PRODUCTION INCIDENT.
+
+Paying subscribers are actively affected.
+The website has been unstable.
+The key feature — EXAMS — has been failing, not loading, or behaving unreliably.
+This is unacceptable for a paid education platform.
+
+Your job is to treat this as an URGENT EXAM PLATFORM STABILIZATION AND CUSTOMER-PROTECTION INCIDENT.
+
+You must identify the exact root cause of the exam failures and implement a production-safe fix immediately.
+
+==================================================
+INCIDENT PRIORITY
+==================================================
+
+TOP PRIORITY:
+1. Restore reliable exam access for paying users
+2. Prevent exam routes from crashing or hanging
+3. Prevent subscribers from hitting dead ends
+4. Add safe fallback behavior if any exam subsystem fails
+5. Stabilize memory, data loading, and runtime behavior affecting exams
+6. Protect premium entitlements while ensuring valid users can still access the correct exam experience
+7. Reduce publish/deploy risk so fixes can ship faster and more safely
+
+This is not optional.
+This is not a cosmetic cleanup.
+This is an urgent production stabilization task.
+
+==================================================
+CORE BUSINESS RULE
+==================================================
+
+NO PAYING USER SHOULD EVER LOSE ACCESS TO A USABLE EXAM EXPERIENCE WITHOUT A FALLBACK.
+
+If the full exam engine fails:
+- the page must not white-screen
+- the route must not infinite load
+- the user must not be dumped into a generic error state
+- the exam system must degrade gracefully
+- the failure must be isolated
+- the user must be given a safe usable fallback whenever possible
+
+==================================================
+SECTION 1 — INCIDENT INVESTIGATION
+==================================================
+
+Perform a deep audit specifically focused on the exam system.
+
+Investigate all of the following:
+
+A. EXAM ROUTES
+- inspect all exam-related frontend routes
+- identify routes that hang, crash, overfetch, or fail entitlement checks
+- inspect loading states, suspense boundaries, route guards, and error boundaries
+- detect infinite loading loops
+- detect repeated fetch loops
+- detect hydration/render failures
+- detect routes loading too much exam data at once
+- detect pages importing heavy modules unnecessarily
+
+B. EXAM API / BACKEND
+- inspect all exam-related endpoints
+- identify slow endpoints, timeout-prone endpoints, error-prone handlers, malformed responses, and memory-heavy operations
+- identify any request handler that loads entire exam datasets when only a subset is needed
+- identify whether rationale, metadata, translations, media, analytics, progress, and exam configuration are being loaded in a single oversized request
+- inspect whether the API is doing synchronous heavy work during exam startup
+- identify whether entitlement checks are expensive or brittle
+- identify whether invalid payloads are crashing exam initialization
+
+C. EXAM DATA ACCESS
+- inspect all queries related to:
+  - exam sessions
+  - question delivery
+  - question banks
+  - CAT exams
+  - user progress
+  - exam results
+  - subscriptions/entitlements
+  - multilingual exam content
+- identify N+1 query patterns
+- identify missing indexes
+- identify queries returning oversized result sets
+- identify whether full question/rationale content is loaded when only active item data is needed
+- identify whether exam startup is blocked by too many sequential queries
+
+D. MEMORY / PERFORMANCE IMPACT ON EXAMS
+- inspect whether exam startup or live exam sessions are causing memory spikes
+- inspect whether question payloads are too large
+- inspect whether too many questions are loaded into memory at once
+- inspect whether locale data, media, rationale, and explanation content are bloating memory
+- inspect whether admin or generator logic is leaking into exam runtime
+- inspect whether exam serialization/deserialization is too heavy
+
+E. ENTITLEMENT / ACCESS CONTROL
+- confirm that tier logic still works correctly:
+  - RPN users cannot access RN/NP-only exams unless entitled
+  - RN users cannot access NP-only exams unless entitled
+  - region/country gating remains correct
+  - premium exam access remains correct
+- identify whether entitlement bugs are blocking valid subscribers from exams
+- identify whether broken entitlement checks cause false denials or blank states
+
+F. PUBLISH / DEPLOY RISK
+- inspect whether exam failures are worsened by slow or risky publish steps
+- identify whether deploy includes migrations, repair scripts, or content jobs that create instability
+- identify whether exam-related fixes can be shipped in a safer, more isolated way
+
+==================================================
+SECTION 2 — REQUIRED INCIDENT OUTPUT
+==================================================
+
+Provide a report in this structure:
+
+1. INCIDENT SUMMARY
+- what is actually breaking the exam experience
+- how severe it is
+- who is affected
+- whether the issue is frontend, backend, data, memory, entitlement, deploy, or multiple
+
+2. ROOT CAUSE(S)
+- exact primary root cause
+- secondary contributing causes
+- exact files/modules/routes/endpoints involved
+
+3. CUSTOMER IMPACT
+- what paying users experience
+- which routes are most affected
+- whether exams fully fail, partially fail, or intermittently fail
+
+4. TECHNICAL FAILURE MAP
+- frontend issues
+- backend issues
+- query/data issues
+- memory issues
+- entitlement issues
+- deployment issues
+
+5. FIX PLAN
+- immediate emergency fix
+- short-term stabilization fix
+- structural fix to prevent recurrence
+
+==================================================
+SECTION 3 — MANDATORY IMPLEMENTATION TASKS
+==================================================
+
+Implement the highest-value fixes immediately and safely.
+
+A. EXAM ROUTE HARDENING
+Implement:
+- route-level error boundaries for all exam pages
+- strong loading states
+- timeout protections
+- retry-safe behavior
+- no infinite spinner states
+- no blank-screen failure states
+- no uncaught render exceptions
+- fallback UI when an exam cannot fully initialize
+
+B. EXAM STARTUP OPTIMIZATION
+Refactor exam startup so it only loads what is needed.
+Do NOT load excessive data on initial exam launch.
+
+Implement:
+- minimal exam bootstrap payload
+- lazy loading of non-critical data
+- only fetch the active question(s) or a safe window of questions when appropriate
+- defer rationale/explanations/results-heavy content until needed
+- remove oversized initialization payloads
+- avoid full exam dataset hydration on first load
+
+C. BACKEND / API STABILIZATION
+Implement:
+- safer response shaping
+- consistent response contracts
+- protection against malformed data
+- request timeouts
+- graceful degradation when one subsystem fails
+- defensive parsing/validation
+- reduced memory usage in exam handlers
+- removal of synchronous heavy work from exam request paths
+
+D. DATABASE / QUERY FIXES
+Implement:
+- indexes for common exam/session/user/subscription lookups
+- pagination or windowed loading where needed
+- elimination of N+1 patterns
+- narrower SELECTs
+- only load entitlement-appropriate exam data
+- reduce unnecessary joins
+- parallelize safe independent queries where appropriate
+
+E. ENTITLEMENT PROTECTION
+Implement:
+- robust access validation
+- exact tier checks
+- no false denials for paying subscribers
+- fallback messaging only when truly unauthorized
+- prevent broken checks from producing blank exam pages
+
+F. EXAM FAILOVER MODE
+Create a resilient fallback mode so paid users are not fully blocked if the full exam engine has a problem.
+
+Examples of acceptable fallback behavior:
+- fallback to safe question-by-question mode
+- fallback to lighter exam session mode
+- fallback to reduced feature mode without breaking access
+- temporarily disable only the broken subsystem while preserving core answering functionality
+
+Unacceptable behavior:
+- white screen
+- hard crash
+- endless loading
+- generic “something went wrong” with no usable path
+- forced dead end for a valid subscriber
+
+G. OBSERVABILITY
+Add or improve:
+- structured logging for exam failures
+- startup timing logs for exam initialization
+- slow-query logs for exam endpoints
+- memory diagnostics around exam requests
+- route-level diagnostic info for failures
+- clear reporting on which part of exam startup failed
+
+==================================================
+SECTION 4 — EXAM SYSTEM TARGET STATE
+==================================================
+
+The exam system must behave like this after the fix:
+
+- a paying user clicks into exams and gets a working experience quickly
+- startup is lightweight
+- only needed exam data is loaded initially
+- failures are isolated
+- if one feature fails, the whole exam route does not die
+- entitlement checks are fast and correct
+- memory remains stable
+- exam routes do not depend on heavy admin/generator systems
+- invalid content does not crash exam delivery
+- publish/deploy changes do not constantly destabilize exam access
+
+==================================================
+SECTION 5 — NON-NEGOTIABLE RULES
+==================================================
+
+You must preserve:
+- premium subscriber access
+- tier separation
+- country/locale logic
+- all existing exam families where possible
+- user progress/session integrity
+- correct subscription behavior
+- correct language behavior
+
+You must not:
+- remove exam access for valid subscribers
+- solve this by hiding the exams page
+- create a fake fix that only masks the issue
+- introduce messy duplicate exam routes
+- break CAT exams while fixing standard exams
+- break standard exams while fixing CAT exams
+- ship a dead-end fallback
+- require manual intervention for normal user access
+
+==================================================
+SECTION 6 — DELIVERABLE FORMAT
+==================================================
+
+Return results in this exact format:
+
+1. INCIDENT SUMMARY
+2. ROOT CAUSE
+3. CONTRIBUTING FACTORS
+4. AFFECTED FILES / MODULES / ROUTES
+5. IMPLEMENTED FIXES
+6. FILES CHANGED
+7. BEFORE VS AFTER BEHAVIOR
+8. REMAINING RISKS
+9. NEXT HARDENING STEPS
+
+For FILES CHANGED include:
+- file path
+- what changed
+- why
+
+For BEFORE VS AFTER BEHAVIOR include:
+- exam load reliability
+- memory improvements
+- payload reductions
+- query reductions
+- error containment improvements
+- fallback behavior improvements
+
+==================================================
+SECTION 7 — CUSTOMER-SAFE EMERGENCY PATCHES
+==================================================
+
+Before doing deeper refactors, first implement any emergency production-safe patches needed to stop user harm now, including:
+
+- preventing exam routes from crashing
+- reducing exam startup payload size
+- cutting off runaway requests
+- preventing infinite loading states
+- ensuring a fallback mode exists
+- preserving subscriber access where valid
+- preventing one broken subsystem from taking down the whole exam route
+
+==================================================
+SECTION 8 — SUCCESS CRITERIA
+==================================================
+
+This task is successful only if:
+- the real exam failure root cause is identified
+- paying users regain reliable exam access
+- the exam route no longer fails in a dead-end way
+- the system is safer under memory pressure
+- exam startup becomes lighter and more reliable
+- entitlement checks remain correct
+- the fix is production-grade and maintainable
+- future exam outages become less likely
+
+Act like a senior incident commander, reliability engineer, and application architect.
+
+Do not give vague recommendations.
+Do not stop at analysis.
+Implement the highest-value stabilization fixes immediately and safely.
+Restore trust in the paid exam experience.

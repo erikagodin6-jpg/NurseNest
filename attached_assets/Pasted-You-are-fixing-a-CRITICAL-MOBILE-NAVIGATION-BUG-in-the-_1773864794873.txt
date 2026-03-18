@@ -1,0 +1,137 @@
+You are fixing a CRITICAL MOBILE NAVIGATION BUG in the NurseNest production app.
+
+Users (including paying users) cannot properly access RPN and RN content from mobile navigation.
+
+Currently:
+- Only NP appears in the main dropdown
+- RPN and RN options are missing or inaccessible
+- Users cannot easily reach exams, test banks, or study tools
+- This is a major UX and conversion failure
+
+==================================================
+GOAL
+==================================================
+
+Restore FULL, CLEAR, EASY access to:
+
+- RPN
+- RN
+- NP
+
+from mobile navigation, regardless of device.
+
+==================================================
+REQUIREMENTS
+==================================================
+
+1. NAVIGATION MUST SHOW ALL TIERS
+
+Mobile navigation MUST display:
+
+- RPN
+- RN
+- NP
+
+These must be visible even if the user is not subscribed.
+
+Do NOT hide tiers from navigation.
+
+Navigation is for DISCOVERY, not entitlement restriction.
+
+==================================================
+2. ENTITLEMENT LOGIC MUST NOT HIDE NAV
+
+Fix any logic where:
+
+- user role
+- onboarding state
+- subscription tier
+
+is incorrectly hiding navigation items.
+
+Correct behavior:
+- users can SEE all tiers
+- access is gated only when entering restricted content
+
+==================================================
+3. STRUCTURE THE MOBILE NAV PROPERLY
+
+Implement a clean structure:
+
+Study
+  → RPN
+      → Exams
+      → Question Bank
+      → Flashcards
+  → RN
+      → Exams
+      → Question Bank
+      → Flashcards
+  → NP
+      → Exams
+      → Question Bank
+      → Flashcards
+
+This must be:
+- scrollable
+- tappable
+- not hidden behind broken dropdown logic
+
+==================================================
+4. FIX DROPDOWN / RENDERING BUG
+
+Investigate and fix:
+
+- missing array items
+- incorrect filter conditions
+- wrong state mapping
+- component rendering issues
+- mobile-specific UI bugs
+
+Ensure:
+- all tiers render consistently
+- no conditional rendering removes tiers unintentionally
+
+==================================================
+5. ENSURE ROUTES WORK
+
+Verify that:
+
+- /rpn/*
+- /rn/*
+- /np/*
+
+routes exist and load properly
+
+Fix any broken route mappings.
+
+==================================================
+6. ADD FALLBACK PROTECTION
+
+If something fails:
+
+- navigation must still render
+- do not show empty menu
+- do not collapse to single tier
+
+==================================================
+7. DELIVERABLE
+
+Return:
+
+1. Root cause of nav bug
+2. Files changed
+3. Exact fix applied
+4. Before vs after behavior
+
+==================================================
+PRIORITY
+==================================================
+
+This is HIGH PRIORITY because:
+
+- users cannot access content
+- affects paying subscribers
+- impacts conversions and trust
+
+Fix this immediately and safely.
