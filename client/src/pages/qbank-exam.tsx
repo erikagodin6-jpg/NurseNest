@@ -11,6 +11,7 @@ import { ProtectedContent } from "@/components/protected-content";
 import { useLocation } from "wouter";
 import { createCheckpointManager } from "@/lib/session-checkpoint";
 import { getPracticalNurseExamName, type Region } from "@shared/constants";
+import { trackEvent } from "@/lib/analytics";
 import {
   Clock,
   CheckCircle2,
@@ -278,7 +279,7 @@ export default function QBankExamPage() {
       if (ans?.correct) difficultyBreakdown[q.difficulty].correct++;
     }
     try {
-      await fetch("/api/question-bank/results", {
+      const res = await fetch("/api/question-bank/results", {
         method: "POST",
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({
@@ -293,6 +294,9 @@ export default function QBankExamPage() {
           difficultyBreakdown,
         }),
       });
+      if (res.ok) {
+        trackEvent("questions_completed", { totalQuestions: questions.length, correctCount });
+      }
     } catch {}
     setPhase("results");
   }, [answers, questions, timer, user]);

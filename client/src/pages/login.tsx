@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useI18n } from "@/lib/i18n";
 import { Mail, Lock, User, Ticket, Gift } from "lucide-react";
 import { logoOnly } from "@/lib/theme-logos";
+import { trackEvent } from "@/lib/analytics";
 
 export default function LoginPage() {
   const [, navigate] = useLocation();
@@ -41,9 +42,11 @@ export default function LoginPage() {
     const fd = new FormData(e.currentTarget);
     try {
       await login(fd.get("username") as string, fd.get("password") as string);
+      trackEvent("login_success");
       toast({ title: t("login.welcomeBack") });
       navigate("/lessons");
     } catch (err: any) {
+      trackEvent("login_failure");
       toast({ title: t("login.loginFailed"), description: err.message, variant: "destructive" });
     } finally {
       setIsLoading(false);

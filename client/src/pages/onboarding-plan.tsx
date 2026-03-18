@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { getPracticalNurseExamName } from "@shared/constants";
 import { useRegion } from "@/hooks/use-region";
 import { useI18n } from "@/lib/i18n";
+import { trackEvent } from "@/lib/analytics";
 import {
   ArrowRight, ArrowLeft, Check, Clock, BookOpen, Target,
   GraduationCap, Brain, Loader2, ChevronRight
@@ -143,6 +144,7 @@ export default function OnboardingPlanPage() {
       });
       if (!res.ok) throw new Error("Failed to generate study plan");
       const data = await res.json();
+      trackEvent("onboarding_completed");
       toast({ title: "Study Plan Created", description: "Your personalized study plan is ready." });
       navigate("/study-plan");
     } catch (err: any) {

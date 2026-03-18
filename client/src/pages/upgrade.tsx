@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Check, X, Crown, Zap, Shield, Sparkles, BookOpen, Brain, FileText, Loader2, TrendingUp, Clock, Award } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useI18n } from "@/lib/i18n";
+import { trackEvent } from "@/lib/analytics";
 
 function PricingCard({ plan, price, period, isPopular, features, onSelect, loading }: {
   plan: string; price: string; period: string; isPopular?: boolean;
@@ -165,6 +166,14 @@ export default function UpgradePage() {
   const [, navigate] = useLocation();
   const { t } = useI18n();
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const paywallTracked = useRef(false);
+
+  useEffect(() => {
+    if (!paywallTracked.current) {
+      paywallTracked.current = true;
+      trackEvent("paywall_viewed");
+    }
+  }, []);
 
   const searchParams = new URLSearchParams(window.location.search);
   const sessionId = searchParams.get("session_id");
@@ -190,6 +199,7 @@ export default function UpgradePage() {
 
   const checkoutMutation = useMutation({
     mutationFn: async (plan: string) => {
+      trackEvent("upgrade_clicked", { plan });
       setSelectedPlan(plan);
       const res = await apiRequest("POST", "/api/flashcard-upgrade/checkout", {
         userId: user?.id,
