@@ -1134,12 +1134,56 @@ export function registerContentPublishingRoutes(app: Express): void {
     if (!admin) return;
 
     try {
+      const { usePublishGate = false } = req.body || {};
+
+      if (usePublishGate) {
+        const { runPublishGate } = await import("./publish-gate");
+        const approvedQuestions = await pool.query(
+          `SELECT id FROM exam_questions WHERE status = 'approved'
+           AND stem IS NOT NULL AND LENGTH(TRIM(stem)) > 20
+           AND options IS NOT NULL AND correct_answer IS NOT NULL
+           AND rationale IS NOT NULL AND LENGTH(TRIM(rationale)) > 10
+           AND tier IN ('rpn', 'rn', 'np', 'allied')
+           LIMIT 500`
+        );
+
+        let gateBlocked = 0;
+        let gatePublished = 0;
+        const gateResults: any[] = [];
+
+        for (const q of approvedQuestions.rows) {
+          const qData = await pool.query(`SELECT * FROM exam_questions WHERE id = $1`, [q.id]);
+          if (!qData.rows[0]) continue;
+          const gateResult = await runPublishGate("question", q.id, qData.rows[0], (admin as any).id);
+          if (gateResult.allowed) {
+            await pool.query(
+              `UPDATE exam_questions SET status = 'published', published_at = NOW() WHERE id = $1 AND status = 'approved'`,
+              [q.id]
+            );
+            gatePublished++;
+          } else {
+            gateBlocked++;
+            gateResults.push({ contentId: q.id, errors: gateResult.repairReport?.errors?.length || 0 });
+          }
+        }
+
+        return res.json({
+          questionsPublished: gatePublished,
+          questionsBlocked: gateBlocked,
+          flashcardsPublished: 0,
+          totalPublished: gatePublished,
+          gateBlockedDetails: gateResults,
+          publishGateEnabled: true,
+        });
+      }
+
       const result = await validateUnpublishedContent(false);
       res.json({
         questionsPublished: result.questionsBulkUpdated,
         flashcardsPublished: result.flashcardsBulkUpdated,
         totalPublished: result.questionsBulkUpdated + result.flashcardsBulkUpdated,
         issues: result.issues.filter(i => i.autoFixed),
+        publishGateEnabled: false,
       });
     } catch (err: any) {
       res.status(500).json({ error: err.message });

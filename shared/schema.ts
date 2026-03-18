@@ -6920,3 +6920,38 @@ export const insertContentVersionSchema = createInsertSchema(contentVersions).om
 });
 export type ContentVersion = typeof contentVersions.$inferSelect;
 export type InsertContentVersion = z.infer<typeof insertContentVersionSchema>;
+
+export const backupArtifacts = pgTable("backup_artifacts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentVersionId: varchar("content_version_id"),
+  contentId: varchar("content_id").notNull(),
+  contentType: text("content_type").notNull(),
+  artifactType: text("artifact_type").notNull(),
+  storagePath: text("storage_path"),
+  checksum: text("checksum"),
+  status: text("status").default("active"),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  generatedAt: timestamp("generated_at").defaultNow().notNull(),
+});
+
+export const insertBackupArtifactSchema = createInsertSchema(backupArtifacts).omit({
+  id: true,
+  generatedAt: true,
+});
+export type BackupArtifact = typeof backupArtifacts.$inferSelect;
+export type InsertBackupArtifact = z.infer<typeof insertBackupArtifactSchema>;
+
+export const publishValidationLogs = pgTable("publish_validation_logs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentId: varchar("content_id").notNull(),
+  contentType: text("content_type").notNull(),
+  action: text("action").notNull(),
+  passed: boolean("passed").notNull(),
+  errors: jsonb("errors").default(sql`'[]'::jsonb`),
+  warnings: jsonb("warnings").default(sql`'[]'::jsonb`),
+  repairReport: jsonb("repair_report").default(sql`'{}'::jsonb`),
+  previousVersionId: varchar("previous_version_id"),
+  artifactsGenerated: integer("artifacts_generated").default(0),
+  actorId: varchar("actor_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});

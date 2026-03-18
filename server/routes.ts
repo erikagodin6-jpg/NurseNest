@@ -564,6 +564,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerContentVersionRoutes } = await import("./content-version-routes");
   registerContentVersionRoutes(app);
 
+  const { registerPublishGateRoutes } = await import("./publish-gate");
+  registerPublishGateRoutes(app);
+
   const { registerQuestionCommentRoutes } = await import("./question-comment-routes");
   registerQuestionCommentRoutes(app);
 

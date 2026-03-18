@@ -72,6 +72,21 @@ API endpoints (all admin-only):
 - `GET /api/admin/content-publishing/summary` — Content status summary by tier/status
 CAT rationale fix: `server/qbank-api.ts` exam-set endpoint only includes rationale/correctAnswerExplanation/distractorRationales for admin users. Non-admin users never receive rationale in exam-set responses regardless of query params — rationale is only available through `POST /api/qbank/attempt` after answer submission.
 
+### Publish-Time Validation Gate & Backup Artifact Generation
+Strict publish-gate pipeline (`server/publish-gate.ts`) that validates and generates backup artifacts at publish time. DB tables: `backup_artifacts`, `publish_validation_logs`.
+- **Validation pipeline**: Runs schema validation, required fields, content type checks, language detection, auto-repair (whitespace trimming, tier normalization), and blocks publish on failure with detailed repair reports
+- **Backup artifacts**: On successful validation, generates safe JSON render payload, minimal static HTML payload, and downloadable backup (for lessons/blogs). Artifacts stored in `backup_artifacts` table with checksums
+- **Last-known-good preservation**: When updating published content, preserves previous version in `content_snapshots` before allowing update
+- **Integration**: Existing `publish-approved` endpoint supports `usePublishGate: true` flag to run items through gate before publishing
+- Admin API endpoints (all require admin auth):
+  - `POST /api/admin/publish-gate/validate` — Run publish gate validation on content (contentType, contentId, optional data)
+  - `POST /api/admin/publish-gate/publish` — Validate and publish content (blocks if validation fails with 422)
+  - `GET /api/admin/publish-gate/artifacts/:contentId` — List backup artifacts for content
+  - `POST /api/admin/publish-gate/regenerate` — Regenerate backup artifacts for content
+  - `GET /api/admin/publish-gate/validation-logs` — View validation logs (filter by contentId, contentType, passed)
+  - `GET /api/admin/publish-gate/failures` — View recent publish failures
+  - `GET /api/admin/publish-gate/artifact-status/:contentId` — Check artifact status for content item
+
 ### PTA Programmatic SEO Content System
 22 rich educational content pages organized into 4 content clusters (Conditions, Exercises, Anatomy & Movement, Modalities & Protocols) plus 3 blog-style SEO articles for PTA exam prep. Each content page features:
 - Embedded practice questions (first 3 free, remaining locked/blurred with conversion CTA)
