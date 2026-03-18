@@ -858,6 +858,232 @@ export function BackupPracticeSet({
   );
 }
 
+export function CATFixedFormBackup({
+  questions,
+  catConfig,
+  onStart,
+  onExit,
+}: {
+  questions: PooledQuestion[];
+  catConfig?: { algorithm?: string; difficulty?: string; category?: string };
+  onStart?: (questions: PooledQuestion[]) => void;
+  onExit?: () => void;
+}) {
+  const validQuestions = useMemo(() =>
+    questions.filter(q =>
+      q && q.id && q.question && Array.isArray(q.options) && q.options.length >= 2 && q.correct !== undefined && q.correct !== null
+    ),
+    [questions]
+  );
+
+  const [started, setStarted] = useState(false);
+
+  const handleStart = () => {
+    setStarted(true);
+    onStart?.(validQuestions);
+  };
+
+  if (started) {
+    return (
+      <SafeExamPlayer
+        questions={validQuestions}
+        onExit={onExit}
+        examTitle={`CAT Fixed-Form Backup${catConfig?.category ? ` — ${catConfig.category}` : ""}`}
+      />
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-white flex items-center justify-center p-4" data-testid="cat-fixed-form-backup">
+      <Card className="max-w-md w-full shadow-md">
+        <CardContent className="p-8 text-center space-y-5">
+          <div className="mx-auto w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center">
+            <Shield className="w-7 h-7 text-blue-500" />
+          </div>
+          <h2 className="text-xl font-semibold" data-testid="text-cat-fixed-title">
+            CAT Engine Unavailable — Fixed-Form Backup
+          </h2>
+          <p className="text-sm text-gray-600">
+            The adaptive testing engine encountered an issue. A fixed-form practice set with
+            {" "}<strong>{validQuestions.length}</strong> validated questions has been assembled as a backup.
+          </p>
+          {catConfig && (
+            <div className="bg-gray-50 rounded-lg p-3 text-left text-xs space-y-1">
+              {catConfig.algorithm && (
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Original Algorithm</span>
+                  <span className="font-medium">{catConfig.algorithm}</span>
+                </div>
+              )}
+              {catConfig.difficulty && (
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Difficulty Target</span>
+                  <span className="font-medium">{catConfig.difficulty}</span>
+                </div>
+              )}
+              {catConfig.category && (
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Category</span>
+                  <span className="font-medium">{catConfig.category}</span>
+                </div>
+              )}
+            </div>
+          )}
+          <div className="flex gap-3 justify-center">
+            <Button onClick={handleStart} disabled={validQuestions.length === 0} data-testid="button-cat-fixed-start">
+              Start Fixed-Form Exam ({validQuestions.length} questions)
+            </Button>
+            {onExit && (
+              <Button variant="outline" onClick={onExit} data-testid="button-cat-fixed-exit">
+                Back
+              </Button>
+            )}
+          </div>
+          {validQuestions.length === 0 && (
+            <p className="text-xs text-red-500">No valid questions could be assembled for the backup.</p>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+export function CATStaticScoredPractice({
+  questions,
+  onExit,
+}: {
+  questions: PooledQuestion[];
+  onExit?: () => void;
+}) {
+  const [answers, setAnswers] = useState<Record<string, number>>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [showAll, setShowAll] = useState(false);
+
+  const validQuestions = useMemo(() =>
+    questions.filter(q =>
+      q && q.id && q.question && Array.isArray(q.options) && q.options.length >= 2 && q.correct !== undefined
+    ),
+    [questions]
+  );
+
+  const handleSelect = (qId: string, optIdx: number) => {
+    if (submitted) return;
+    setAnswers(prev => ({ ...prev, [qId]: optIdx }));
+  };
+
+  const handleSubmit = () => {
+    setSubmitted(true);
+  };
+
+  const score = useMemo(() => {
+    if (!submitted) return { correct: 0, total: 0, pct: 0 };
+    let correct = 0;
+    for (const q of validQuestions) {
+      if (answers[q.id] === q.correct) correct++;
+    }
+    return { correct, total: validQuestions.length, pct: Math.round((correct / validQuestions.length) * 100) };
+  }, [submitted, validQuestions, answers]);
+
+  return (
+    <div className="min-h-screen bg-white" data-testid="cat-static-scored">
+      <div className="sticky top-0 z-50 bg-white border-b border-gray-200 px-4 py-3">
+        <div className="max-w-3xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Shield className="w-4 h-4 text-purple-500" />
+            <span className="text-sm font-semibold text-gray-900" data-testid="text-cat-static-title">
+              {submitted ? "Practice Results" : `Static Practice — ${validQuestions.length} Questions`}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            {!submitted && (
+              <Button
+                size="sm"
+                onClick={handleSubmit}
+                disabled={Object.keys(answers).length === 0}
+                data-testid="button-cat-static-submit"
+              >
+                Submit ({Object.keys(answers).length}/{validQuestions.length})
+              </Button>
+            )}
+            {onExit && (
+              <Button variant="outline" size="sm" onClick={onExit} data-testid="button-cat-static-exit">
+                <ArrowLeft className="w-3 h-3 mr-1" /> Exit
+              </Button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {submitted && (
+        <div className="max-w-3xl mx-auto px-4 py-6">
+          <div className="text-center space-y-3 mb-6">
+            <ShieldCheck className="w-10 h-10 text-blue-500 mx-auto" />
+            <p className="text-2xl font-bold" data-testid="text-cat-static-score">
+              {score.correct}/{score.total} ({score.pct}%)
+            </p>
+            <p className="text-sm text-gray-500">Static practice set — not an adaptive score</p>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowAll(!showAll)}
+              className="text-xs"
+              data-testid="button-cat-static-toggle-review"
+            >
+              {showAll ? "Hide Review" : "Review Answers"}
+            </Button>
+          </div>
+        </div>
+      )}
+
+      <main className="max-w-3xl mx-auto px-4 py-4 space-y-4">
+        {(!submitted || showAll) && validQuestions.map((q, idx) => {
+          const selected = answers[q.id];
+          return (
+            <Card key={q.id} className="border shadow-sm" data-testid={`cat-static-question-${idx}`}>
+              <CardContent className="p-5 space-y-3">
+                <div className="flex items-start gap-2">
+                  <span className="text-xs font-bold text-gray-400 mt-0.5 min-w-[1.5rem]">{idx + 1}.</span>
+                  <h3 className="text-sm font-semibold text-gray-900 leading-relaxed">{q.question}</h3>
+                </div>
+                <div className="space-y-1.5 ml-6">
+                  {q.options.map((opt, oi) => {
+                    const optText = typeof opt === "string" ? opt : String(opt ?? "");
+                    const letter = String.fromCharCode(65 + oi);
+                    const isSelected = selected === oi;
+                    const isCorrect = oi === q.correct;
+                    let className = "px-3 py-2 rounded text-sm cursor-pointer border ";
+                    if (submitted) {
+                      if (isCorrect) className += "bg-emerald-50 border-emerald-300 font-medium";
+                      else if (isSelected && !isCorrect) className += "bg-red-50 border-red-300";
+                      else className += "bg-gray-50 border-gray-200";
+                    } else {
+                      className += isSelected ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:border-gray-300";
+                    }
+                    return (
+                      <button
+                        key={oi}
+                        className={`w-full text-left ${className}`}
+                        onClick={() => handleSelect(q.id, oi)}
+                        disabled={submitted}
+                        data-testid={`cat-static-option-${idx}-${oi}`}
+                      >
+                        <span className="font-semibold mr-1.5">{letter}.</span>
+                        {optText}
+                        {submitted && isCorrect && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 inline ml-2" />}
+                        {submitted && isSelected && !isCorrect && <XCircle className="w-3.5 h-3.5 text-red-500 inline ml-2" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </main>
+    </div>
+  );
+}
+
 export function SessionRecoveryPrompt({
   attemptId,
   savedProgress,

@@ -649,6 +649,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   ensureResilienceTables().catch((e) => console.error("[BackendResilience] Init error:", e?.message));
   registerBackendResilienceRoutes(app);
 
+  const { registerAccessDeliveryRoutes } = await import("./access-delivery-orchestrator");
+  registerAccessDeliveryRoutes(app);
+
   const { registerSessionCheckpointRoutes } = await import("./session-checkpoint-routes");
   registerSessionCheckpointRoutes(app);
 
