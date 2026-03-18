@@ -1,0 +1,118 @@
+You are working on the NurseNest production codebase.
+
+Do NOT build a React Native app.
+
+Instead, build a COMPLETE PRODUCTION-GRADE PROGRESSIVE WEB APP (PWA) system for NurseNest.
+
+PRIMARY GOAL
+
+Transform the existing NurseNest web platform into an installable, app-like mobile experience that works seamlessly on iOS and Android devices.
+
+This must be fully functional inside Replit and require no external mobile build tools.
+
+==================================================
+CORE REQUIREMENTS
+==================================================
+
+1. INSTALLABLE APP EXPERIENCE
+- Add manifest.json
+- Define app name, icons, theme colors
+- Enable “Add to Home Screen”
+- Ensure it launches as a standalone app (no browser UI)
+
+2. SERVICE WORKER
+- Implement service worker for:
+  - caching
+  - offline fallback
+  - faster load times
+- Cache:
+  - core assets
+  - key study pages
+  - last used content
+- Ensure safe cache invalidation
+
+3. OFFLINE + DEGRADED MODE
+- Define what works offline:
+  - previously viewed lessons
+  - recent flashcards
+  - limited question sets
+- Show clear UI when offline
+- Never corrupt user progress
+
+4. MOBILE UX OPTIMIZATION
+- Optimize layout for mobile:
+  - spacing
+  - touch targets
+  - scrolling
+  - readability
+- Ensure exam UI works perfectly on small screens
+- Prevent heavy re-renders
+- Avoid loading massive datasets
+
+5. PUSH NOTIFICATIONS (WEB PUSH)
+- Implement push notification groundwork
+- Allow:
+  - study reminders
+  - subscription alerts
+  - exam reminders
+- Add user preference controls
+
+6. PERFORMANCE HARDENING
+- Lazy load routes
+- Paginate everything heavy
+- Virtualize large lists
+- Reduce bundle size
+- Avoid memory-heavy components
+
+7. SAFE MODE COMPATIBILITY
+- Ensure PWA works with:
+  - degraded backend
+  - memory protection system
+- Show user-friendly messaging
+- Never dead-end users
+
+8. ICONS + SPLASH
+- Generate:
+  - app icons (multiple sizes)
+  - splash screen config
+- Ensure iOS compatibility (apple-touch-icons)
+
+9. SEO + PWA COEXISTENCE
+- Ensure PWA changes do NOT break:
+  - SEO
+  - indexing
+  - sitemaps
+
+10. ANALYTICS + ERROR TRACKING
+- Track:
+  - installs
+  - app opens
+  - offline usage
+  - failures
+- Log service worker errors safely
+
+==================================================
+DELIVERABLES
+==================================================
+
+1. manifest.json created and configured
+2. service worker implemented
+3. install prompt working
+4. offline fallback working
+5. mobile UX improved
+6. caching strategy implemented
+7. push notification groundwork added
+8. icons and splash configured
+9. code structured cleanly
+
+==================================================
+SUCCESS CRITERIA
+==================================================
+
+- users can install NurseNest like an app
+- works smoothly on iPhone and Android
+- loads fast
+- handles offline scenarios safely
+- preserves user progress
+- does not increase memory issues
+- requires no external mobile build tools
