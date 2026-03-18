@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { ChevronDown, ChevronRight, BookOpen, Lightbulb, AlertTriangle, CheckCircle, ArrowRight } from "lucide-react";
 
 interface BreadcrumbItem {
@@ -14,7 +15,7 @@ export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
           <li key={i} className="flex items-center gap-1">
             {i > 0 && <span className="text-gray-300">/</span>}
             {i < items.length - 1 ? (
-              <a href={item.href} className="hover:text-teal-600 transition-colors" data-testid={`breadcrumb-${i}`}>{item.label}</a>
+              <Link href={item.href} className="hover:text-teal-600 transition-colors" data-testid={`breadcrumb-${i}`}>{item.label}</Link>
             ) : (
               <span className="text-gray-700 font-medium" data-testid={`breadcrumb-${i}`}>{item.label}</span>
             )}

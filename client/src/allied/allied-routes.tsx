@@ -34,6 +34,11 @@ const ParamedicExamsHub = lazy(() => import("./pages/paramedic/paramedic-exams-h
 const ParamedicFlashcardsHub = lazy(() => import("./pages/paramedic/paramedic-flashcards-hub"));
 const ParamedicScenariosHub = lazy(() => import("./pages/paramedic/paramedic-scenarios-hub"));
 const ParamedicPracticeExamsHub = lazy(() => import("./pages/paramedic/paramedic-practice-exams-hub"));
+const ParamedicClusterHub = lazy(() => import("./pages/paramedic/paramedic-cluster-hub"));
+const ParamedicClusterIndex = lazy(() => import("./pages/paramedic/paramedic-cluster-hub").then(m => ({ default: m.ParamedicClusterIndex })));
+const ParamedicClusterTopic = lazy(() => import("./pages/paramedic/paramedic-cluster-topic"));
+const ParamedicBlog = lazy(() => import("./pages/paramedic/paramedic-blog"));
+const ParamedicBlogIndex = lazy(() => import("./pages/paramedic/paramedic-blog").then(m => ({ default: m.ParamedicBlogIndex })));
 const ParamedicECGLibrary = lazy(() => import("./pages/paramedic/ecg-library"));
 const ParamedicECGAdmin = lazy(() => import("./pages/paramedic/ecg-admin"));
 const ParamedicQuestionsIndex = lazy(() => import("./pages/paramedic/paramedic-questions-index"));
@@ -345,6 +350,11 @@ export function AlliedRoutes() {
         <Route path="/allied-health/paramedic/practice-exams" component={ParamedicPracticeExamsHub} />
         <Route path="/allied-health/paramedic/ecg-library" component={ParamedicECGLibrary} />
         <Route path="/admin/paramedic-waveforms" component={ParamedicECGAdmin} />
+        <Route path="/allied-health/paramedic/cluster/:clusterSlug/:topicSlug" component={ParamedicClusterTopic} />
+        <Route path="/allied-health/paramedic/cluster/:clusterSlug" component={ParamedicClusterHub} />
+        <Route path="/allied-health/paramedic/clusters" component={ParamedicClusterIndex} />
+        <Route path="/allied-health/paramedic/blog/:slug" component={ParamedicBlog} />
+        <Route path="/allied-health/paramedic/blog" component={ParamedicBlogIndex} />
         <Route path="/allied-health/paramedic/questions/:topicSlug" component={ParamedicQuestionSeoPage} />
         <Route path="/allied-health/paramedic/questions" component={ParamedicQuestionsIndex} />
         <Route path="/allied-health/respiratory-therapy-exam-prep-guide">{() => <SeoLandingBySlug slug="allied-health/respiratory-therapy-exam-prep-guide" />}</Route>
