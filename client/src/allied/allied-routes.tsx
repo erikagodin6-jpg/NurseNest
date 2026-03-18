@@ -122,6 +122,7 @@ const MltBloodBankCheatSheet = lazy(() => import("./pages/mlt-blood-bank-cheat-s
 const MltMicrobiologyHub = lazy(() => import("./pages/mlt-microbiology-hub").then(m => ({ default: m.MltMicrobiologyHub })));
 const MltMicrobiologyTopic = lazy(() => import("./pages/mlt-microbiology-topic").then(m => ({ default: m.MltMicrobiologyTopic })));
 const MltMicrobiologyQuickGuide = lazy(() => import("./pages/mlt-microbiology-quick-guide").then(m => ({ default: m.MltMicrobiologyQuickGuide })));
+const MltContentPage = lazy(() => import("./pages/mlt-seo-content-pages").then(m => ({ default: m.MltContentPage })));
 const AlliedQuestionSeoPage = lazy(() => import("./pages/allied-question-seo"));
 const PtaTopicBankPage = lazy(() => import("./pages/pta-topic-bank-page"));
 const PtaSeoContentPage = lazy(() => import("./pages/pta-seo-content-page"));
@@ -369,6 +370,17 @@ export function AlliedRoutes() {
         <Route path="/allied-health/mlt/study-guide">{() => <MltSEOPage country="both" pageType="study-guide" />}</Route>
         <Route path="/allied-health/mlt/mock-exam">{() => <MltSEOPage country="both" pageType="mock-exam" />}</Route>
         <Route path="/allied-health/mlt/flashcard-prep">{() => <MltSEOPage country="both" pageType="flashcards" />}</Route>
+        <Route path="/allied-health/mlt/clinical-chemistry-questions">{() => <MltContentPage slug="clinical-chemistry-questions" />}</Route>
+        <Route path="/allied-health/mlt/hematology-practice-questions">{() => <MltContentPage slug="hematology-practice-questions" />}</Route>
+        <Route path="/allied-health/mlt/microbiology-exam-prep">{() => <MltContentPage slug="microbiology-exam-prep" />}</Route>
+        <Route path="/allied-health/mlt/blood-banking-immunohematology">{() => <MltContentPage slug="blood-banking-immunohematology" />}</Route>
+        <Route path="/allied-health/mlt/urinalysis-body-fluids">{() => <MltContentPage slug="urinalysis-body-fluids" />}</Route>
+        <Route path="/allied-health/mlt/laboratory-operations-quality">{() => <MltContentPage slug="laboratory-operations-quality" />}</Route>
+        <Route path="/allied-health/mlt/histotechnology-cytology">{() => <MltContentPage slug="histotechnology-cytology" />}</Route>
+        <Route path="/allied-health/mlt/molecular-diagnostics-poct">{() => <MltContentPage slug="molecular-diagnostics-poct" />}</Route>
+        <Route path="/allied-health/mlt/blog/career-guide">{() => <MltContentPage slug="blog-mlt-career-guide" />}</Route>
+        <Route path="/allied-health/mlt/blog/study-strategies">{() => <MltContentPage slug="blog-mlt-study-strategies" />}</Route>
+        <Route path="/allied-health/mlt/blog/lab-safety">{() => <MltContentPage slug="blog-mlt-lab-safety" />}</Route>
         <Route path="/admin/mlt/images" component={MltImageLibrary} />
         <Route path="/allied-health/mlt/image-drill" component={MltImageDrill} />
         <Route path="/allied-health/careers/mlt/image-drill">{() => <Redirect to="/allied-health/mlt/image-drill" replace />}</Route>

@@ -54,6 +54,11 @@ const questionLoaders: Record<string, () => Promise<CareerQuestion[]>> = {
     import("./mlt-questions-batch5").then(m => m.mltQuestionsBatch5),
     import("./mlt-questions-batch6").then(m => m.mltQuestionsBatch6),
     import("./mlt-questions-batch7").then(m => m.mltQuestionsBatch7),
+    import("./mlt-questions-batch8").then(m => m.mltQuestionsBatch8),
+    import("./mlt-questions-batch9").then(m => m.mltQuestionsBatch9),
+    import("./mlt-questions-batch10").then(m => m.mltQuestionsBatch10),
+    import("./mlt-questions-batch11").then(m => m.mltQuestionsBatch11),
+    import("./mlt-questions-batch12").then(m => m.mltQuestionsBatch12),
   ]).then(parts => parts.flat()),
   imaging: () => Promise.all([
     import("./imaging-questions").then(m => m.imagingQuestions),
