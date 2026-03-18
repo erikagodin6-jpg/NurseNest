@@ -195,6 +195,7 @@ const AdminSiteHealth = lazy(() => import("@/pages/admin-site-health"));
 const AdminExamHealth = lazy(() => import("@/pages/admin-exam-health"));
 const AdminResilience = lazy(() => import("@/pages/admin-resilience"));
 const AdminIncidentResponse = lazy(() => import("@/pages/admin-incident-response"));
+const AdminPerformance = lazy(() => import("@/pages/admin-performance"));
 const AdminQuestionBankPage = lazy(() => import("@/pages/admin-question-bank"));
 const QBankExamPage = lazy(() => import("@/pages/qbank-exam"));
 const QBankStudyPage = lazy(() => import("@/pages/qbank-study"));
@@ -785,6 +786,8 @@ function AppRoutes() {
         <Route path="/:locale/admin/resilience" component={AdminResilience} />
         <Route path="/admin/incident-response" component={AdminIncidentResponse} />
         <Route path="/:locale/admin/incident-response" component={AdminIncidentResponse} />
+        <Route path="/admin-performance" component={AdminPerformance} />
+        <Route path="/:locale/admin-performance" component={AdminPerformance} />
         <Route path="/admin/social-content" component={AdminSocialContent} />
         <Route path="/admin/question-bank" component={AdminQuestionBankPage} />
         <Route path="/admin/comment-moderation" component={AdminCommentModeration} />
@@ -1749,10 +1752,10 @@ function DeferredShellComponents() {
   const [ready, setReady] = useState(false);
   useEffect(() => {
     if ("requestIdleCallback" in window) {
-      const id = requestIdleCallback(() => setReady(true), { timeout: 2000 });
+      const id = requestIdleCallback(() => setReady(true), { timeout: 3000 });
       return () => cancelIdleCallback(id);
     }
-    const timer = setTimeout(() => setReady(true), 100);
+    const timer = setTimeout(() => setReady(true), 3000);
     return () => clearTimeout(timer);
   }, []);
   if (!ready) return null;
@@ -1765,6 +1768,8 @@ function DeferredShellComponents() {
       <PWAInstallPrompt />
       <ExitIntentModal />
       <ReportProblemButton />
+      <IncidentBanner />
+      <StickyCtaBar />
     </Suspense>
   );
 }
@@ -1786,9 +1791,7 @@ function App() {
                 <SiteImagesProvider>
                   <TooltipProvider>
                     <Toaster />
-                    <Suspense fallback={null}><IncidentBanner /></Suspense>
                     <PreviewBanner />
-                    <Suspense fallback={null}><StickyCtaBar /></Suspense>
                     <PageTracker />
                     <CopyProtection />
                     <LanguageGuardWrapper>

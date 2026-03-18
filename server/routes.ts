@@ -216,6 +216,10 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     startKeepWarmInterval();
   }, 3000);
 
+  const { performanceMiddleware, registerPerformanceRoutes, cacheGet, cacheSet, cacheInvalidate, timedQuery, withTimeout, instrumentCorePath } = await import("./performance");
+  app.use(performanceMiddleware());
+  registerPerformanceRoutes(app);
+
   const MIGRATION_REDIRECT_SLUGS = [
     "philippines-to-canada", "india-to-canada", "philippines-to-usa",
     "india-to-uk", "philippines-to-uk", "india-to-australia",
@@ -1420,12 +1424,16 @@ CRITICAL RULES:
       }
       messages.push({ role: "user", content: prompt });
 
-      const response = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages,
-        temperature: 0.7,
-        max_tokens: mode === "bundle" ? 8192 : mode === "guided" ? 16384 : 4096,
-      });
+      const response = await withTimeout(
+        openai.chat.completions.create({
+          model: "gpt-4o-mini",
+          messages,
+          temperature: 0.7,
+          max_tokens: mode === "bundle" ? 8192 : mode === "guided" ? 16384 : 4096,
+        }),
+        30000,
+        "openai_content_generate"
+      );
 
       const text = response.choices[0]?.message?.content || "[]";
       const totalTokens = response.usage?.total_tokens || 0;
@@ -3380,6 +3388,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   });
 
   app.post("/api/auth/login", loginLimiter, async (req, res) => {
+    const loginEnd = instrumentCorePath("login");
     try {
       const { username, password } = req.body;
       if (!username || !password) return res.status(400).json({ error: "Username and password required" });
@@ -3436,8 +3445,10 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       const ut = signUserToken(user.id, user.username);
       response.userToken = ut.userToken;
       response.userTokenExpiry = ut.expiresInSeconds;
+      loginEnd();
       res.json(response);
     } catch (e: any) {
+      loginEnd();
       res.status(400).json({ error: e.message });
     }
   });
@@ -3494,11 +3505,15 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   // --------------------
   app.get("/api/pricing/plans", async (_req, res) => {
     try {
+      const cached = cacheGet("pricing:plans:all");
+      if (cached) return res.json(cached);
+
       const plans = await storage.getAllPricingPlans();
       const filtered = plans.filter((p: any) => {
         const d = (p.duration || "").toLowerCase();
         return !d.includes("trial") && !d.includes("day");
       });
+      cacheSet("pricing:plans:all", filtered, 300);
       res.json(filtered);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -3507,11 +3522,16 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
 
   app.get("/api/pricing/plans/:tier", async (req, res) => {
     try {
+      const cacheKey = `pricing:plans:${req.params.tier}`;
+      const cached = cacheGet(cacheKey);
+      if (cached) return res.json(cached);
+
       const plans = await storage.getPricingPlansByTier(req.params.tier);
       const filtered = plans.filter((p: any) => {
         const d = (p.duration || "").toLowerCase();
         return !d.includes("trial") && !d.includes("day");
       });
+      cacheSet(cacheKey, filtered, 300);
       res.json(filtered);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -3524,6 +3544,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       if (!admin) return;
       const { username: _, password: __, ...updates } = req.body;
       const plan = await storage.updatePricingPlan(req.params.id, updates);
+      cacheInvalidate("pricing:");
       logSecurityAudit("pricing_plan_updated", { adminId: admin.id, planId: req.params.id });
       res.json(plan);
     } catch (e: any) {
@@ -3660,10 +3681,14 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       let customerId = user.stripeCustomerId;
       if (!customerId) {
         console.log(`[Checkout:${env}] Creating new Stripe customer for user ${user.id} (${user.email || 'no email'})`);
-        const customer = await stripe.customers.create({
-          email: user.email || undefined,
-          metadata: { userId: user.id, username: user.username },
-        });
+        const customer = await withTimeout(
+          stripe.customers.create({
+            email: user.email || undefined,
+            metadata: { userId: user.id, username: user.username },
+          }),
+          10000,
+          "stripe_customer_create"
+        );
         await storage.updateUserStripeInfo(user.id, { stripeCustomerId: customer.id });
         customerId = customer.id;
         console.log(`[Checkout:${env}] Created Stripe customer: ${customer.id}`);
@@ -3882,7 +3907,11 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       if (referralCouponId) {
         subscriptionOpts.discounts = [{ coupon: referralCouponId }];
       }
-      const session = await stripe.checkout.sessions.create(subscriptionOpts);
+      const session = await withTimeout(
+        stripe.checkout.sessions.create(subscriptionOpts),
+        10000,
+        "stripe_checkout_create"
+      );
       console.log(`[Checkout:${env}] Subscription session created: ${session.id}`);
 
       res.json({ url: session.url });
@@ -3938,7 +3967,11 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       console.log(`[VerifySession] userId=${userId} tier=${tier} sessionId=${sessionId} currentTier=${user?.tier} isAdmin=${isAdmin} email=${user?.email || 'none'} stripeCustomerId=${user?.stripeCustomerId || 'none'}`);
 
       const stripe = await getUncachableStripeClient();
-      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      const session = await withTimeout(
+        stripe.checkout.sessions.retrieve(sessionId),
+        10000,
+        "stripe_session_retrieve"
+      );
 
       console.log(`[VerifySession] Stripe session status: payment_status=${session.payment_status} mode=${session.mode} subscription=${session.subscription || 'none'}`);
 
@@ -4366,11 +4399,14 @@ Rules:
   });
 
   app.post("/api/test-results", async (req, res) => {
+    const examEnd = instrumentCorePath("exam_answer_submit");
     try {
       const data = insertTestResultSchema.parse(req.body);
       const result = await storage.createTestResult(data);
+      examEnd();
       res.json(result);
     } catch (e: any) {
+      examEnd();
       res.status(400).json({ error: e.message });
     }
   });
@@ -4380,7 +4416,12 @@ Rules:
   // --------------------
   app.get("/api/progress/:userId", async (req, res) => {
     try {
+      const cacheKey = `progress:${req.params.userId}`;
+      const cached = cacheGet(cacheKey);
+      if (cached) return res.json(cached);
+
       const progress = await storage.getUserProgress(req.params.userId);
+      cacheSet(cacheKey, progress, 30);
       res.json(progress);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -4400,6 +4441,7 @@ Rules:
     try {
       const data = insertUserProgressSchema.parse(req.body);
       const progress = await storage.upsertProgress(data);
+      cacheInvalidate(`progress:${data.userId}`);
       res.json(progress);
     } catch (e: any) {
       res.status(400).json({ error: e.message });
@@ -4696,17 +4738,22 @@ Rules:
   app.get("/api/content/lessons", async (req, res) => {
     try {
       const region = req.region || "US";
-      const regionFilter = buildRegionFilter(region);
+      const lang = (req.query.lang as string) || req.lang || "en";
       const userTier = await extractUserTier(req);
+      const cacheKey = `lessons:${region}:${userTier}:${lang}`;
+      const cached = cacheGet(cacheKey);
+      if (cached) return res.json(cached);
+
+      const regionFilter = buildRegionFilter(region);
       const allowedTiers = getAllowedContentTiers(userTier);
       const tierPlaceholders = allowedTiers.map((_, i) => `$${i + 1}`).join(", ");
-      const result = await pool.query(
+      const result = await timedQuery(
         `SELECT id, title, slug, category, body_system, tier, summary, tags, seo_description, published_at, updated_at, region_scope FROM content_items WHERE status = 'published' AND type = 'lesson' AND ${regionFilter} AND (tier IS NULL OR tier IN (${tierPlaceholders})) ORDER BY published_at DESC NULLS LAST`,
-        allowedTiers
+        allowedTiers,
+        { label: "content/lessons", timeoutMs: 5000 }
       );
       let items = snakeToCamel(result.rows);
 
-      const lang = (req.query.lang as string) || req.lang || "en";
       if (lang !== "en" && items.length > 0) {
         const contentIds = items.map((item: any) => item.id);
         const translatedFieldsMap = await getBulkTranslatedFields("content_item", contentIds, lang);
@@ -4733,6 +4780,7 @@ Rules:
         }
       }
 
+      cacheSet(cacheKey, items, 60);
       res.json(items);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -4811,13 +4859,19 @@ Rules:
   app.get("/api/content/flashcard-sets", async (req, res) => {
     try {
       const region = req.region || "US";
+      const lang = (req.query.lang as string) || req.lang || "en";
+      const cacheKey = `flashcard-sets:${region}:${lang}`;
+      const cached = cacheGet(cacheKey);
+      if (cached) return res.json(cached);
+
       const regionFilter = buildRegionFilter(region);
-      const result = await pool.query(
-        `SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at, content, region_scope FROM content_items WHERE status = 'published' AND type = 'flashcard-set' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST`
+      const result = await timedQuery(
+        `SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at, content, region_scope FROM content_items WHERE status = 'published' AND type = 'flashcard-set' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST`,
+        [],
+        { label: "content/flashcard-sets", timeoutMs: 5000 }
       );
       let items = snakeToCamel(result.rows);
 
-      const lang = (req.query.lang as string) || req.lang || "en";
       if (lang !== "en" && items.length > 0) {
         const contentIds = items.map((item: any) => item.id);
         const translatedFieldsMap = await getBulkTranslatedFields("content_item", contentIds, lang);
@@ -4844,6 +4898,7 @@ Rules:
         }
       }
 
+      cacheSet(cacheKey, items, 60);
       res.json(items);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -4853,13 +4908,19 @@ Rules:
   app.get("/api/content/exams", async (req, res) => {
     try {
       const region = req.region || "US";
+      const lang = (req.query.lang as string) || req.lang || "en";
+      const cacheKey = `exams:${region}:${lang}`;
+      const cached = cacheGet(cacheKey);
+      if (cached) return res.json(cached);
+
       const regionFilter = buildRegionFilter(region);
-      const result = await pool.query(
-        `SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at, region_scope FROM content_items WHERE status = 'published' AND type = 'exam' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST`
+      const result = await timedQuery(
+        `SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at, region_scope FROM content_items WHERE status = 'published' AND type = 'exam' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST`,
+        [],
+        { label: "content/exams", timeoutMs: 5000 }
       );
       let items = snakeToCamel(result.rows);
 
-      const lang = (req.query.lang as string) || req.lang || "en";
       if (lang !== "en" && items.length > 0) {
         const contentIds = items.map((item: any) => item.id);
         const translatedFieldsMap = await getBulkTranslatedFields("content_item", contentIds, lang);
@@ -4886,6 +4947,7 @@ Rules:
         }
       }
 
+      cacheSet(cacheKey, items, 60);
       res.json(items);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -5507,6 +5569,7 @@ Rules:
   });
 
   app.get("/api/content/:id", async (req, res) => {
+    const contentEnd = instrumentCorePath("lesson_page_load");
     try {
       const item = await storage.getContentItem(req.params.id);
       if (!item) return res.status(404).json({ error: "Content not found" });
@@ -5540,8 +5603,10 @@ Rules:
         item._translationStatus = "source";
       }
 
+      contentEnd();
       res.json(item);
     } catch (e: any) {
+      contentEnd();
       res.status(500).json({ error: e.message });
     }
   });
@@ -5886,6 +5951,9 @@ Rules:
         }
       }
 
+      cacheInvalidate("lessons:");
+      cacheInvalidate("flashcard-sets:");
+      cacheInvalidate("exams:");
       res.json(item);
     } catch (e: any) {
       res.status(400).json({ error: e.message });
@@ -6128,6 +6196,9 @@ Rules:
         await logAutoRepairs(updateContentType, req.params.id, updateRepairs);
       }
 
+      cacheInvalidate("lessons:");
+      cacheInvalidate("flashcard-sets:");
+      cacheInvalidate("exams:");
       await logAudit(req, admin, "content", req.params.id, "update",
         existing ? { title: existing.title, status: existing.status } : null,
         { title: item.title, status: item.status, autoRepairs: updateRepairs.length }
@@ -6155,6 +6226,9 @@ Rules:
 
       const existing = await storage.getContentItem(req.params.id);
       await storage.deleteContentItem(req.params.id);
+      cacheInvalidate("lessons:");
+      cacheInvalidate("flashcard-sets:");
+      cacheInvalidate("exams:");
       await logAudit(req, admin, "content", req.params.id, "delete", existing ? { title: existing.title, type: existing.type } : null, null);
       res.json({ success: true });
     } catch (e: any) {
@@ -15037,11 +15111,12 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       }
 
       const where = conditions.join(" AND ");
-      const countResult = await pool.query(
+      const countResult = await timedQuery(
         `SELECT COUNT(*)::int as total FROM flashcard_bank WHERE ${where}`,
-        params
+        params,
+        { label: "flashcard-bank/count", timeoutMs: 5000 }
       );
-      const result = await pool.query(
+      const result = await timedQuery(
         `SELECT id, front, back, category, tier, difficulty, source_type,
                 question_type, options, correct_answer, rationale_correct,
                 distractor_rationales, clinical_takeaway, exam_pearl,
@@ -15050,7 +15125,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
          FROM flashcard_bank WHERE ${where}
          ORDER BY RANDOM()
          LIMIT $${paramIdx++} OFFSET $${paramIdx++}`,
-        [...params, limit, offset]
+        [...params, limit, offset],
+        { label: "flashcard-bank/fetch", timeoutMs: 5000 }
       );
       res.json({
         items: result.rows.map(snakeToCamel),
@@ -19591,6 +19667,7 @@ Return ONLY valid JSON with this exact structure:
   const sm2Engine = await import("./sm2-engine");
 
   app.post("/api/sm2/review", requireEntitlement("flashcard_review"), async (req: any, res) => {
+    const reviewEnd = instrumentCorePath("sm2_review");
     try {
       const authUser = req.authUser;
       const { cardId, deckId, rating, responseTimeMs } = req.body;
@@ -19598,8 +19675,10 @@ Return ONLY valid JSON with this exact structure:
         return res.status(400).json({ error: "cardId and valid rating (again/hard/good/easy) required" });
       }
       const result = await sm2Engine.processSM2Review({ userId: authUser.id, cardId, deckId, rating, responseTimeMs });
+      reviewEnd();
       res.json(result);
     } catch (e: any) {
+      reviewEnd();
       res.status(500).json({ error: "Failed to process review" });
     }
   });

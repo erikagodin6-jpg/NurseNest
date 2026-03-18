@@ -50,6 +50,10 @@ export default defineConfig({
         manualChunks(id: string) {
           if (id.includes("node_modules/lucide-react")) return "icons";
           if (id.includes("data/lessons/")) return "lessons";
+          if (id.includes("node_modules/@radix-ui") || id.includes("node_modules/framer-motion") || id.includes("node_modules/@tanstack")) return "vendor";
+          if (id.includes("/pages/admin-") || id.includes("/pages/admin.")) return "admin";
+          if (id.includes("/pages/mock-exam") || id.includes("/pages/qbank-") || id.includes("/components/cat-") || id.includes("/pages/diagnostic-assessment")) return "exams";
+          if (id.includes("/allied/") || id.includes("/pages/allied-")) return "allied";
         },
       },
     },
