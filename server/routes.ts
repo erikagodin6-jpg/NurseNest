@@ -540,6 +540,10 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerResilienceRoutes } = await import("./platform-resilience");
   registerResilienceRoutes(app);
 
+  const { registerBackendResilienceRoutes, ensureResilienceTables, killSwitchGuard } = await import("./backend-resilience");
+  ensureResilienceTables().catch((e) => console.error("[BackendResilience] Init error:", e?.message));
+  registerBackendResilienceRoutes(app);
+
   const { registerClinicalSeoRoutes, seedClinicalSeoPages } = await import("./clinical-seo-routes");
   registerClinicalSeoRoutes(app);
   seedClinicalSeoPages().catch((e) => console.error("Clinical SEO seed error:", e?.message));
@@ -9402,7 +9406,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
-  app.post("/api/mock-exams/start-specialty", examStartLimiter, requireEntitlement("mock_exams"), async (req: any, res) => {
+  app.post("/api/mock-exams/start-specialty", examStartLimiter, killSwitchGuard("mock_exams"), requireEntitlement("mock_exams"), async (req: any, res) => {
     try {
       const authUser = req.authUser;
       console.log("[MockExam][start-specialty] Received payload:", { examDefinitionId: req.body.examDefinitionId, specialty: req.body.specialty });
@@ -9482,6 +9486,11 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       res.json({ attemptId, timeLimit: examDef.time_limit, examTitle: examDef.title });
     } catch (e: any) {
       console.error("[MockExam][start-specialty] Error:", { message: e.message, code: e.code, stack: e.stack?.split("\n").slice(0, 5).join("\n") });
+      import("./backend-resilience").then(({ logCriticalError }) => logCriticalError({
+        route: "/api/mock-exams/start-specialty", method: "POST", userId: req.authUser?.id,
+        examId: req.body?.examDefinitionId, errorMessage: e.message, stackTrace: e.stack,
+        requestParams: { specialty: req.body?.specialty },
+      })).catch(() => {});
       const isColumnError = e.message?.includes("column") && e.message?.includes("does not exist");
       if (isColumnError) {
         res.status(500).json({
@@ -9494,7 +9503,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
-  app.post("/api/mock-exams/start", requireEntitlement("mock_exams"), async (req: any, res) => {
+  app.post("/api/mock-exams/start", killSwitchGuard("mock_exams"), requireEntitlement("mock_exams"), async (req: any, res) => {
     try {
       const authUser = req.authUser;
       console.log("[MockExam][start] Received payload:", { tier: req.body.tier, examMode: req.body.examMode, blueprintCode: req.body.blueprintCode, questionCount: req.body.questions?.length, totalQuestions: req.body.totalQuestions });
@@ -9600,6 +9609,11 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       res.json({ attemptId, creditUsed: usedCredit });
     } catch (e: any) {
       console.error("[MockExam][start] Error:", { message: e.message, code: e.code, stack: e.stack?.split("\n").slice(0, 5).join("\n") });
+      import("./backend-resilience").then(({ logCriticalError }) => logCriticalError({
+        route: "/api/mock-exams/start", method: "POST", userId: req.authUser?.id,
+        examId: req.body?.blueprintCode, errorMessage: e.message, stackTrace: e.stack,
+        requestParams: { tier: req.body?.tier, totalQuestions: req.body?.totalQuestions, examMode: req.body?.examMode },
+      })).catch(() => {});
       const isColumnError = e.message?.includes("column") && e.message?.includes("does not exist");
       if (isColumnError) {
         res.status(500).json({
@@ -9760,6 +9774,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       res.json({ success: true, report: enhancedReport });
     } catch (e: any) {
+      import("./backend-resilience").then(({ logCriticalError }) => logCriticalError({
+        route: `/api/mock-exams/${req.params.attemptId}/complete`, method: "POST", userId: req.authUser?.id,
+        examId: req.params.attemptId, errorMessage: e.message, stackTrace: e.stack,
+      })).catch(() => {});
       res.status(500).json({ error: e.message });
     }
   });

@@ -227,6 +227,10 @@ export function setupQBankRoutes(app: Express) {
       });
     } catch (e: any) {
       console.error("QBank fetch error:", e.message);
+      import("./backend-resilience").then(({ logCriticalError }) => logCriticalError({
+        route: "/api/qbank", method: "GET", userId: (req as any).authUser?.id,
+        errorMessage: e.message, stackTrace: e.stack, requestParams: { tier: req.query?.tier, bodySystem: req.query?.bodySystem },
+      })).catch(() => {});
       res.status(500).json({ error: "Failed to fetch questions" });
     }
   });
@@ -325,6 +329,10 @@ export function setupQBankRoutes(app: Express) {
       });
     } catch (e: any) {
       console.error("QBank attempt error:", e.message);
+      import("./backend-resilience").then(({ logCriticalError }) => logCriticalError({
+        route: "/api/qbank/attempt", method: "POST", userId: (req as any).authUser?.id,
+        errorMessage: e.message, stackTrace: e.stack, requestParams: { questionId: req.body?.questionId },
+      })).catch(() => {});
       res.status(500).json({ error: "Failed to process answer" });
     }
   });
@@ -620,6 +628,10 @@ export function setupQBankRoutes(app: Express) {
         severity: "critical",
         createdAt: new Date().toISOString(),
       });
+      import("./backend-resilience").then(({ logCriticalError }) => logCriticalError({
+        route: "/api/qbank/exam-set", method: "GET", userId: (req as any).authUser?.id,
+        errorMessage: e.message, stackTrace: e.stack, requestParams: { tier: req.query?.tier, count: req.query?.count },
+      })).catch(() => {});
       structuredExamError(res, 500, "exam_set_error", "We're having trouble loading questions right now. Please try again.", {
         retryable: true,
       });

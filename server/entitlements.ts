@@ -613,6 +613,21 @@ export function requireEntitlement(feature: Feature) {
     (req as any).authUser = user;
 
     if (!decision.hasAccess) {
+      try {
+        const { hasProvisionalAccess, isEmergencyMode } = await import("./platform-resilience");
+        if (hasProvisionalAccess(user.id) || isEmergencyMode()) {
+          logPaywallAccess(req.path, user, feature, true, decision);
+          (req as any).provisionalAccess = true;
+          return next();
+        }
+        const { checkAndGrantProvisionalAccess } = await import("./backend-resilience");
+        const provisionalResult = await checkAndGrantProvisionalAccess(user.id);
+        if (provisionalResult.granted) {
+          logPaywallAccess(req.path, user, feature, true, decision);
+          (req as any).provisionalAccess = true;
+          return next();
+        }
+      } catch {}
       logPaywallAccess(req.path, user, feature, false, decision);
       return res.status(403).json({
         error: "Premium feature - upgrade required",
@@ -640,6 +655,19 @@ export function requireAnyPremium() {
     (req as any).authUser = user;
 
     if (!decision.hasAccess) {
+      try {
+        const { hasProvisionalAccess, isEmergencyMode } = await import("./platform-resilience");
+        if (hasProvisionalAccess(user.id) || isEmergencyMode()) {
+          (req as any).provisionalAccess = true;
+          return next();
+        }
+        const { checkAndGrantProvisionalAccess } = await import("./backend-resilience");
+        const provisionalResult = await checkAndGrantProvisionalAccess(user.id);
+        if (provisionalResult.granted) {
+          (req as any).provisionalAccess = true;
+          return next();
+        }
+      } catch {}
       return res.status(403).json({
         error: "Premium feature - upgrade required",
         upgradeRequired: true,
