@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect, lazy, Suspense, Component, type ReactNode } from "react";
 import { getExamConstants, type Region as ConstRegion } from "@shared/constants";
 import { getTierConfig } from "@shared/tier-config";
 import { useLocation } from "wouter";
@@ -76,6 +76,12 @@ import { useI18n, LANGUAGES } from "@/lib/i18n";
 import { Globe, Languages, BarChart3, DollarSign, ShoppingBag, FileStack, Wind, Ambulance, Microscope, ScanLine, GraduationCap, Briefcase, Award, Sparkles, ArrowRightLeft } from "lucide-react";
 import { trackCrossSectionClick } from "@/components/analytics-tracker";
 import { getPlatformSection } from "@shared/platform-sections";
+
+class NavSectionBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
+  state = { hasError: false };
+  static getDerivedStateFromError() { return { hasError: true }; }
+  render() { return this.state.hasError ? null : this.props.children; }
+}
 
 const CAREER_ICON_MAP: Record<string, LucideIcon> = {
   Stethoscope, Wind, Ambulance, Pill, Microscope, ScanLine, HeartPulse,
@@ -463,8 +469,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
     </DropdownMenu>
   );
 
-  const tierConfig = getTierConfig(effectiveTier);
-  const allLearningItems = [
+  const learningItems = [
     { icon: BookOpen, label: t("nav.lessons"), key: "Lessons" },
     { icon: Play, label: t("nav.lectures"), key: "Lectures" },
     { icon: Layers, label: t("nav.flashcards"), key: "Flashcards" },
@@ -474,23 +479,6 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
     { icon: Stethoscope, label: t("nav.simulators"), key: "Simulators" },
     { icon: FileText, label: t("nav.exams"), key: "Exams" },
   ];
-  const tierNavKeys = new Set(tierConfig.navItems.map(n => n.key));
-  const navKeyMapping: Record<string, string> = {
-    "Lessons": "Lessons",
-    "Lectures": "Lessons",
-    "Flashcards": "Flashcards",
-    "Test Bank": "TestBank",
-    "Clinical Clarity": "ClinicalJudgment",
-    "Clinical Skill Lab": "DiagnosticReasoning",
-    "Simulators": "AdvancedCases",
-    "Exams": "Exams",
-  };
-  const learningItems = (effectiveTier && effectiveTier !== "free" && effectiveTier !== "admin")
-    ? allLearningItems.filter(item => {
-        const mappedKey = navKeyMapping[item.key] || item.key;
-        return tierNavKeys.has(item.key) || tierNavKeys.has(mappedKey) || item.key === "Lessons" || item.key === "Exams";
-      })
-    : allLearningItems;
 
   const designations = getExamConstants(region as ConstRegion).designations;
 
@@ -605,7 +593,62 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               <Separator className="my-6 mx-3 bg-gray-100" />
             </div>
 
-            <div className="mb-4">
+            <NavSectionBoundary>
+            <div className="mb-4" data-testid="mobile-rpn-section">
+              <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest mb-2 px-3">RPN Exam Preparation</p>
+              <div className="flex flex-col gap-1 px-1">
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/rpn/exams")} data-testid="mobile-rpn-exams">
+                    <GraduationCap className="w-4 h-4 text-emerald-500" />
+                    RPN Exams
+                  </Button>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/rpn/test-bank")} data-testid="mobile-rpn-test-bank">
+                    <FileText className="w-4 h-4 text-emerald-500" />
+                    RPN Question Bank
+                  </Button>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/rpn/flashcards")} data-testid="mobile-rpn-flashcards">
+                    <Layers className="w-4 h-4 text-emerald-500" />
+                    RPN Flashcards
+                  </Button>
+                </SheetClose>
+              </div>
+              <Separator className="my-3 mx-3 bg-[var(--theme-separator)]" />
+            </div>
+            </NavSectionBoundary>
+
+            <NavSectionBoundary>
+            <div className="mb-4" data-testid="mobile-rn-section">
+              <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-2 px-3">RN Exam Preparation</p>
+              <div className="flex flex-col gap-1 px-1">
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/rn/exams")} data-testid="mobile-rn-exams">
+                    <GraduationCap className="w-4 h-4 text-blue-500" />
+                    RN Exams
+                  </Button>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/rn/test-bank")} data-testid="mobile-rn-test-bank">
+                    <FileText className="w-4 h-4 text-blue-500" />
+                    RN Question Bank
+                  </Button>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/rn/flashcards")} data-testid="mobile-rn-flashcards">
+                    <Layers className="w-4 h-4 text-blue-500" />
+                    RN Flashcards
+                  </Button>
+                </SheetClose>
+              </div>
+              <Separator className="my-3 mx-3 bg-[var(--theme-separator)]" />
+            </div>
+            </NavSectionBoundary>
+
+            <NavSectionBoundary>
+            <div className="mb-4" data-testid="mobile-np-section">
               <p className="text-[10px] font-bold text-purple-600 uppercase tracking-widest mb-2 px-3">{t("components.navigation.npExamPreparation")}</p>
               <div className="flex flex-col gap-1 px-1">
                 <SheetClose asChild>
@@ -615,9 +658,21 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                   </Button>
                 </SheetClose>
                 <SheetClose asChild>
-                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/np/exams")} data-testid="mobile-np-exam-hub">
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/np/exams")} data-testid="mobile-np-exams">
                     <GraduationCap className="w-4 h-4 text-purple-500" />
-                    NP Exam Hub
+                    NP Exams
+                  </Button>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/np/test-bank")} data-testid="mobile-np-test-bank">
+                    <FileText className="w-4 h-4 text-purple-500" />
+                    NP Question Bank
+                  </Button>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/np/flashcards")} data-testid="mobile-np-flashcards">
+                    <Layers className="w-4 h-4 text-purple-500" />
+                    NP Flashcards
                   </Button>
                 </SheetClose>
                 <SheetClose asChild>
@@ -635,6 +690,7 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
               </div>
               <Separator className="my-3 mx-3 bg-[var(--theme-separator)]" />
             </div>
+            </NavSectionBoundary>
 
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-3">{t("nav.freeLearning")}</p>
             <SheetClose asChild>

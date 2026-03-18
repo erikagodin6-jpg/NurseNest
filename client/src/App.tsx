@@ -998,6 +998,8 @@ function AppRoutes() {
         <Route path="/career-development/:slug" component={NewGradGuidePage} />
         <Route path="/clinical-scenarios/:slug" component={NewGradGuidePage} />
         <Route path="/questions/:slug" component={QuestionPreviewPage} />
+        <Route path="/rpn/exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
+        <Route path="/rn/exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
         <Route path="/rpn/questions/:topicSlug">{() => <NursingQuestionSeoPage tier="rpn" />}</Route>
         <Route path="/rpn/questions">{() => <NursingQuestionsIndexPage tier="rpn" />}</Route>
         <Route path="/rn/questions/:topicSlug">{() => <NursingQuestionSeoPage tier="rn" />}</Route>
