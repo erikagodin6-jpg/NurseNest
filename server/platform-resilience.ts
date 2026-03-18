@@ -414,6 +414,10 @@ export function setFeatureFlag(key: string, enabled: boolean, reason?: string, a
   }
   addResilienceEvent("feature_flag_toggle", key, { enabled, reason, actor });
   addResilienceAudit("feature_flag_toggle", "feature_flag", key, { enabled, reason }, actor || null);
+  try {
+    const { trackChange } = require("./incident-correlation");
+    trackChange({ type: "feature_flag", source: "platform-resilience", description: `Feature flag "${key}" ${enabled ? "enabled" : "disabled"}${reason ? `: ${reason}` : ""}`, entityId: key, actor: actor || null, metadata: { enabled, reason } });
+  } catch {}
 }
 
 export function recordFeatureError(key: string): void {
@@ -470,6 +474,10 @@ export function activateKillSwitch(key: string, scope: KillSwitch["scope"], targ
     reason,
   });
   addResilienceEvent("kill_switch_activated", key, { scope, target, reason });
+  try {
+    const { trackChange } = require("./incident-correlation");
+    trackChange({ type: "kill_switch", source: "platform-resilience", description: `Kill switch "${key}" activated: ${reason}`, entityId: key, actor: activatedBy, metadata: { scope, target, reason } });
+  } catch {}
 }
 
 export function deactivateKillSwitch(key: string): void {
@@ -870,6 +878,10 @@ export function activateEmergencyMode(reason: string, actor?: string): void {
   console.error(`[EMERGENCY MODE] ACTIVATED: ${reason}`);
   addResilienceEvent("emergency_mode_activated", "system", { reason, actor, auto: isAuto });
   addAlert("critical", "emergency_mode", "Emergency Mode Activated", `Emergency mode activated. Reason: ${reason}`, "emergency", { reason, actor });
+  try {
+    const { trackChange } = require("./incident-correlation");
+    trackChange({ type: "config_change", source: "emergency-mode", description: `Emergency mode activated: ${reason}`, entityId: "emergency_mode", actor: actor || null, metadata: { reason, auto: isAuto } });
+  } catch {}
   addResilienceAudit("emergency_mode_activate", "platform", "emergency_mode", { reason, auto: isAuto }, actor || null);
   pool.query(
     `INSERT INTO platform_emergency_log (action, reason, actor, auto_triggered) VALUES ($1, $2, $3, $4)`,

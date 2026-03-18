@@ -619,6 +619,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   registerResilienceRoutes(app);
   startPeriodicSelfHealing();
 
+  const { registerIncidentCorrelationRoutes } = await import("./incident-correlation");
+  registerIncidentCorrelationRoutes(app);
+
   const { registerDeploymentProtectionRoutes } = await import("./deployment-protection");
   registerDeploymentProtectionRoutes(app);
 

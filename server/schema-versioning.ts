@@ -510,6 +510,10 @@ export function registerSchemaVersioningRoutes(app: Express): void {
       }
 
       const results = await migrateAllContentTypes(size);
+      try {
+        const { trackChange } = require("./incident-correlation");
+        trackChange({ type: "schema_change" as const, source: "schema-versioning", description: `Schema migration run for all content types`, entityId: "all", actor: user?.id || null, metadata: { results } });
+      } catch {}
       res.json({ success: true, results });
     } catch (err: any) {
       res.status(500).json({ error: err.message });

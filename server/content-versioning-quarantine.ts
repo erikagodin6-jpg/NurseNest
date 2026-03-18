@@ -660,6 +660,11 @@ export async function publishWithValidation(
     console.error("[PublishValidation] Render payload generation failed:", err.message);
   }
 
+  try {
+    const { trackChange } = require("./incident-correlation");
+    trackChange({ type: "content_publish" as const, source: "content-versioning", description: `Published ${contentType} "${data?.title || contentId}"`, entityId: contentId, actor: actorId || null, metadata: { contentType, title: data?.title, contentId } });
+  } catch {}
+
   return {
     allowed: true,
     snapshot,

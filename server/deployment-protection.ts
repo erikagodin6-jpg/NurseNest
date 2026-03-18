@@ -155,6 +155,10 @@ export function startDeployMonitoring(version: string): DeployRecord {
   }, deployHealthConfig.checkIntervalMs);
 
   console.log(`[DeployProtection] Monitoring started for deploy ${deploy.id} (version: ${version})`);
+  try {
+    const { trackChange } = require("./incident-correlation");
+    trackChange({ type: "deploy" as const, source: "deployment-protection", description: `Deploy ${version} started monitoring`, entityId: deploy.id, actor: null, metadata: { version, deployId: deploy.id } });
+  } catch {}
   return deploy;
 }
 
