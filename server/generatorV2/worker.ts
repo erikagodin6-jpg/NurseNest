@@ -2,6 +2,8 @@ import { storage } from "../storage";
 import { validateChunk, extractJsonFromResponse, type ValidationResult } from "./validator";
 import { runPreflightChecks } from "../environment-write-service";
 import { VALID_BODY_SYSTEMS } from "./taxonomyRegistry";
+import { getLanguageInstructionBlock, getTerminologyPromptBlock } from "../medical-terminology-dictionary";
+import { validateGeneratedLanguage } from "../language-detector";
 
 const VALID_SYSTEMS = [...VALID_BODY_SYSTEMS];
 
@@ -351,6 +353,7 @@ function buildChunkPrompt(
   targetCount: number,
   region: string,
   topics: string[] = [],
+  targetLanguage: string = "en",
 ): { system: string; user: string } {
   const distributionBlock = computeDistributionNeeds(state, targetCount - (state.byType.MCQ || 0) - (state.byType.SATA || 0), targetCount);
   const topicBlock = getTopicNeedsBlock(topics, state, targetCount);
@@ -368,10 +371,15 @@ function buildChunkPrompt(
     ? `\nYou MUST generate questions covering these topics: ${topics.join(", ")}. Distribute questions proportionally across all listed topics. Each question's "topic" field must match one of the specified topics exactly.`
     : "";
 
+  const languageBlock = getLanguageInstructionBlock(targetLanguage);
+  const terminologyBlock = getTerminologyPromptBlock(targetLanguage);
+
   const system = `${promptBase}
 ${ANTI_ECHO_SYSTEM}
 ${regionNote}
 ${topicInstruction}
+${languageBlock}
+${terminologyBlock}
 
 You will be called multiple times to generate questions in chunks.
 You MUST return EXACTLY ${chunkSize} question objects in the "items" array. Not ${chunkSize - 1}, not ${chunkSize + 1}. Exactly ${chunkSize}.
@@ -418,6 +426,7 @@ function buildRetryPrompt(
   failureReason: string,
   region: string,
   topics: string[] = [],
+  targetLanguage: string = "en",
 ): { system: string; user: string } {
   const regionNote = region === "CA"
     ? "Use Canadian context: SI units, Canadian drug names, RPN scope."
@@ -429,10 +438,15 @@ function buildRetryPrompt(
     ? `Topics to cover: ${topics.join(", ")}.`
     : "";
 
+  const languageBlock = getLanguageInstructionBlock(targetLanguage);
+  const terminologyBlock = getTerminologyPromptBlock(targetLanguage);
+
   const system = `${promptBase}
 ${ANTI_ECHO_SYSTEM}
 ${regionNote}
 ${topicInstruction}
+${languageBlock}
+${terminologyBlock}
 
 PREVIOUS ATTEMPT FAILED: ${failureReason}
 
@@ -453,11 +467,17 @@ function buildReplacementPrompt(
   promptBase: string,
   invalidItems: { idx: number; errors: string[] }[],
   region: string,
+  targetLanguage: string = "en",
 ): { system: string; user: string } {
+  const languageBlock = getLanguageInstructionBlock(targetLanguage);
+  const terminologyBlock = getTerminologyPromptBlock(targetLanguage);
+
   const system = `${promptBase}
 ${ANTI_ECHO_SYSTEM}
 You are replacing specific invalid questions. Return ONLY the replacement items.
 ${region === "CA" ? "Use Canadian context: SI units, Canadian drug names, RPN scope." : ""}
+${languageBlock}
+${terminologyBlock}
 
 Return JSON: {"replacements": [...]} where each item has: idx, type, difficulty, system, topic, stem, scenario, choices, correct_answers, rationale, exam_pearl.
 MCQ: 4 choices (A-D), 1 correct. SATA: 5-8 choices, 2-5 correct.
@@ -521,7 +541,8 @@ async function generateChunkWithRetry(
   existingHashes: Set<string>,
   generationId: string,
   maxRetries: number = 2,
-): Promise<{ valid: ValidationResult[]; invalid: { idx: number; errors: string[] }[]; tokens: number }> {
+  targetLanguage: string = "en",
+): Promise<{ valid: ValidationResult[]; invalid: { idx: number; errors: string[] }[]; tokens: number; languageValidation?: { checked: boolean; mismatches: number } }> {
   let totalTokens = 0;
   let lastReceivedCount = 0;
   let lastFailReason = "";
@@ -534,12 +555,12 @@ async function generateChunkWithRetry(
       let userPrompt: string;
 
       if (attempt === 0) {
-        const prompts = buildChunkPrompt(promptBase, startIdx, chunkSize, state, targetCount, region, topics);
+        const prompts = buildChunkPrompt(promptBase, startIdx, chunkSize, state, targetCount, region, topics, targetLanguage);
         systemPrompt = prompts.system;
         userPrompt = prompts.user;
       } else {
         const reason = lastFailReason || `Returned ${lastReceivedCount} items instead of ${chunkSize}`;
-        const prompts = buildRetryPrompt(promptBase, chunkSize, lastReceivedCount, reason, region, topics);
+        const prompts = buildRetryPrompt(promptBase, chunkSize, lastReceivedCount, reason, region, topics, targetLanguage);
         systemPrompt = prompts.system;
         userPrompt = prompts.user;
       }
@@ -585,7 +606,7 @@ async function generateChunkWithRetry(
       continue;
     }
 
-    const { valid, invalid } = validateChunk(items, startIdx, existingHashes);
+    let { valid, invalid } = validateChunk(items, startIdx, existingHashes);
 
     if (valid.length > 0) {
       const diffCheck = validateDifficultyDistribution(items);
@@ -608,7 +629,61 @@ async function generateChunkWithRetry(
       if (valid.length < chunkSize && attempt < maxRetries) {
         console.log(`[GenV2] Attempt ${attempt + 1}: only ${valid.length}/${chunkSize} valid (${invalid.length} invalid). Accepting partial, outer loop will request more.`);
       }
-      return { valid, invalid, tokens: totalTokens };
+
+      let languageValidation: { checked: boolean; mismatches: number; filtered: number } | undefined;
+      if (targetLanguage && targetLanguage !== "en") {
+        let mismatches = 0;
+        const languageValid: ValidationResult[] = [];
+        for (const v of valid) {
+          const rationaleText = v.normalized?.rationale
+            ? [
+                v.normalized.rationale.correctReasoning || "",
+                v.normalized.rationale.keyPathophysiology || "",
+                v.normalized.rationale.nursingImplication || "",
+                ...Object.values(v.normalized.rationale.incorrectBreakdown || {}),
+              ].join(" ")
+            : "";
+          const choiceTexts = (v.normalized?.choices || []).map((c: any) => c.text || "").join(" ");
+          const textsToCheck = [
+            v.normalized?.stem || "",
+            rationaleText,
+            v.normalized?.scenario || "",
+            choiceTexts,
+          ].filter(t => typeof t === "string" && t.length > 20);
+          const textToCheck = textsToCheck.join(" ");
+          if (!textToCheck) {
+            languageValid.push(v);
+            continue;
+          }
+          const langCheck = validateGeneratedLanguage(textToCheck, targetLanguage);
+          if (!langCheck.valid) {
+            mismatches++;
+            console.warn(`[GenV2] Language mismatch: expected ${targetLanguage}, detected ${langCheck.result.detectedLanguage} for item idx ${v.normalized?.idx}`);
+            invalid.push({ idx: v.normalized?.idx ?? -1, errors: [`Language mismatch: expected ${targetLanguage}, got ${langCheck.result.detectedLanguage}`] });
+          } else {
+            languageValid.push(v);
+          }
+        }
+        const filtered = valid.length - languageValid.length;
+        valid = languageValid;
+        languageValidation = { checked: true, mismatches, filtered };
+        if (mismatches > 0) {
+          await storage.createGenerationEvent({
+            generationId,
+            eventType: "language_validation",
+            payload: { targetLanguage, mismatches, filtered, totalChecked: valid.length + filtered },
+          });
+
+          if (valid.length === 0 && attempt < maxRetries) {
+            console.log(`[GenV2] All items failed language validation for ${targetLanguage}, retrying...`);
+            lastFailReason = `All items generated in wrong language (expected ${targetLanguage})`;
+            await new Promise(r => setTimeout(r, 1000));
+            continue;
+          }
+        }
+      }
+
+      return { valid, invalid, tokens: totalTokens, languageValidation };
     }
 
     lastFailReason = `All ${items.length} items failed validation: ${invalid.slice(0, 3).map(i => i.errors[0]).join("; ")}`;
@@ -655,6 +730,7 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
     : tierBase;
   const targetCount = gen.targetCount;
   const region = gen.region || "BOTH";
+  const targetLanguage = settings.targetLanguage || "en";
   let state: PromptState = (gen.promptState as PromptState) || getDefaultPromptState();
   if (!state.byTopic) state.byTopic = {};
 
@@ -682,16 +758,16 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
     const thisChunkSize = Math.min(CHUNK_SIZE, remaining);
     const startIdx = maxIdx + 1;
 
-    console.log(`[GenV2] Chunk: generating ${thisChunkSize} items starting at idx ${startIdx} (${currentCount}/${targetCount})`);
+    console.log(`[GenV2] Chunk: generating ${thisChunkSize} items starting at idx ${startIdx} (${currentCount}/${targetCount})${targetLanguage !== "en" ? ` [lang=${targetLanguage}]` : ""}`);
 
     await storage.createGenerationEvent({
       generationId,
       eventType: "chunk_requested",
-      payload: { startIdx, count: thisChunkSize, currentCount, targetCount },
+      payload: { startIdx, count: thisChunkSize, currentCount, targetCount, targetLanguage },
     });
 
-    const { valid, invalid, tokens } = await generateChunkWithRetry(
-      promptBase, startIdx, thisChunkSize, state, targetCount, region, topics, existingHashes, generationId,
+    const { valid, invalid, tokens, languageValidation } = await generateChunkWithRetry(
+      promptBase, startIdx, thisChunkSize, state, targetCount, region, topics, existingHashes, generationId, 2, targetLanguage,
     );
 
     if (valid.length === 0) {
@@ -810,7 +886,7 @@ export async function runGenerationWorker(generationId: string): Promise<void> {
       });
 
       try {
-        const { system: rSys, user: rUser } = buildReplacementPrompt(promptBase, invalid, region);
+        const { system: rSys, user: rUser } = buildReplacementPrompt(promptBase, invalid, region, targetLanguage);
         const rResult = await callModel(rSys, rUser, Math.min(invalid.length * 600 + 500, 8192));
         const replacements = parseModelResponse(rResult.content);
         const { valid: rValid } = validateChunk(replacements, maxIdx + 1, existingHashes);

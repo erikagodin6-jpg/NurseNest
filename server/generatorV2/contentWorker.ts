@@ -1,5 +1,7 @@
 import { storage } from "../storage";
 import { normalizeTopic } from "./topicNormalizer";
+import { getLanguageInstructionBlock, getTerminologyPromptBlock, getLanguageName } from "../medical-terminology-dictionary";
+import { validateGeneratedLanguage } from "../language-detector";
 
 const SECTION_KEYS = [
   "objectives", "pathophysiology", "signs_symptoms", "assessment",
@@ -38,6 +40,7 @@ export async function generateContentBlocks(
   examTarget: string,
   region: string,
   sections: string[] = SECTION_KEYS,
+  targetLanguage: string = "en",
 ): Promise<void> {
   const taxonomyResult = normalizeTopic(topic, "Multi-system");
   const canonicalTopic = taxonomyResult.canonicalTopic;
@@ -85,9 +88,14 @@ export async function generateContentBlocks(
     const label = SECTION_LABELS[sectionKey] || sectionKey;
     console.log(`[GenV2 Content] Generating section: ${label} for topic: ${topic}`);
 
+    const languageBlock = getLanguageInstructionBlock(targetLanguage);
+    const terminologyBlock = getTerminologyPromptBlock(targetLanguage);
+
     const systemPrompt = `You are a nursing education content expert creating high-yield exam preparation material for NurseNest.
 ${regionNote}
 Exam target: ${examTarget}
+${languageBlock}
+${terminologyBlock}
 
 Generate content for the "${label}" section about "${topic}".
 
@@ -115,35 +123,76 @@ Rules:
 
     const userPrompt = `Generate the "${label}" section for: ${topic}. Return JSON only.`;
 
-    try {
-      const raw = await callModel(systemPrompt, userPrompt);
-      const parsed = JSON.parse(raw);
-      const blocks = parsed.blocks || [];
+    const maxLangRetries = (targetLanguage && targetLanguage !== "en") ? 2 : 0;
+    let langAttempt = 0;
+    let savedBlocks = false;
 
-      if (blocks.length > 0) {
-        await storage.createContentBlock({
-          generationId,
-          sectionKey,
-          blocks,
-        });
+    while (langAttempt <= maxLangRetries && !savedBlocks) {
+      try {
+        const retryHint = langAttempt > 0 ? `\n\nIMPORTANT: Your previous response was in the WRONG language. You MUST generate ALL content in ${targetLanguage}. Do not use English.` : "";
+        const raw = await callModel(systemPrompt + retryHint, userPrompt);
+        const parsed = JSON.parse(raw);
+        const blocks = parsed.blocks || [];
 
+        if (blocks.length > 0) {
+          if (targetLanguage && targetLanguage !== "en") {
+            const textToCheck = blocks
+              .filter((b: any) => b.content || b.items)
+              .map((b: any) => b.content || (b.items || []).join(" "))
+              .join(" ")
+              .substring(0, 500);
+
+            const langCheck = validateGeneratedLanguage(textToCheck, targetLanguage);
+            if (!langCheck.valid) {
+              console.warn(`[GenV2 Content] Language mismatch in ${label} (attempt ${langAttempt + 1}): expected ${targetLanguage}, detected ${langCheck.result.detectedLanguage}`);
+              await storage.createGenerationEvent({
+                generationId,
+                eventType: "content_language_mismatch",
+                payload: { sectionKey, targetLanguage, detected: langCheck.result.detectedLanguage, confidence: langCheck.result.confidence, attempt: langAttempt + 1 },
+              });
+
+              if (langAttempt < maxLangRetries) {
+                langAttempt++;
+                await new Promise(r => setTimeout(r, 1000));
+                continue;
+              }
+              console.warn(`[GenV2 Content] Language mismatch persisted after ${langAttempt + 1} attempts for ${label}, rejecting section`);
+              await storage.createGenerationEvent({
+                generationId,
+                eventType: "content_language_rejected",
+                payload: { sectionKey, targetLanguage, detected: langCheck.result.detectedLanguage, attempts: langAttempt + 1 },
+              });
+              break;
+            }
+          }
+
+          await storage.createContentBlock({
+            generationId,
+            sectionKey,
+            blocks,
+          });
+
+          await storage.createGenerationEvent({
+            generationId,
+            eventType: "content_section_saved",
+            payload: { sectionKey, blockCount: blocks.length, targetLanguage },
+          });
+
+          console.log(`[GenV2 Content] Saved ${blocks.length} blocks for ${label}${targetLanguage !== "en" ? ` [lang=${targetLanguage}]` : ""}`);
+          savedBlocks = true;
+        } else {
+          console.warn(`[GenV2 Content] No blocks generated for ${label}`);
+          break;
+        }
+      } catch (err: any) {
+        console.error(`[GenV2 Content] Failed to generate ${label}:`, err.message);
         await storage.createGenerationEvent({
           generationId,
-          eventType: "content_section_saved",
-          payload: { sectionKey, blockCount: blocks.length },
+          eventType: "content_section_failed",
+          payload: { sectionKey, error: err.message },
         });
-
-        console.log(`[GenV2 Content] Saved ${blocks.length} blocks for ${label}`);
-      } else {
-        console.warn(`[GenV2 Content] No blocks generated for ${label}`);
+        break;
       }
-    } catch (err: any) {
-      console.error(`[GenV2 Content] Failed to generate ${label}:`, err.message);
-      await storage.createGenerationEvent({
-        generationId,
-        eventType: "content_section_failed",
-        payload: { sectionKey, error: err.message },
-      });
     }
   }
 

@@ -1044,6 +1044,24 @@ export type LanguagePriority = typeof languagePriority.$inferSelect;
 export const insertLanguagePrioritySchema = createInsertSchema(languagePriority).omit({ id: true, updatedAt: true });
 export type InsertLanguagePriority = z.infer<typeof insertLanguagePrioritySchema>;
 
+export const medicalTerminologyDictionary = pgTable("medical_terminology_dictionary", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  englishTerm: text("english_term").notNull(),
+  languageCode: text("language_code").notNull(),
+  translatedTerm: text("translated_term").notNull(),
+  category: text("category").notNull(),
+  abbreviation: text("abbreviation"),
+  preserveAbbreviation: boolean("preserve_abbreviation").default(true),
+  verified: boolean("verified").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => [
+  uniqueIndex("med_term_unique_idx").on(table.englishTerm, table.languageCode),
+]);
+
+export type MedicalTerminologyEntry = typeof medicalTerminologyDictionary.$inferSelect;
+export const insertMedicalTerminologySchema = createInsertSchema(medicalTerminologyDictionary).omit({ id: true, createdAt: true });
+export type InsertMedicalTerminologyEntry = z.infer<typeof insertMedicalTerminologySchema>;
+
 export const contentIntelligenceReports = pgTable("content_intelligence_reports", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   reportType: text("report_type").notNull(),

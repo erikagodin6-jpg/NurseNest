@@ -202,6 +202,35 @@ export async function getBulkTranslatedTitles(
   return result;
 }
 
+export async function getBulkTranslatedFields(
+  contentType: string,
+  contentIds: string[],
+  lang: string
+): Promise<Map<string, Record<string, string>>> {
+  const result = new Map<string, Record<string, string>>();
+  if (lang === "en" || contentIds.length === 0) return result;
+
+  try {
+    const placeholders = contentIds.map((_, i) => `$${i + 3}`).join(",");
+    const queryResult = await pool.query(
+      `SELECT content_id, field_name, translated_text
+       FROM content_translations
+       WHERE content_type = $1 AND language_code = $2
+       AND content_id IN (${placeholders})`,
+      [contentType, lang, ...contentIds]
+    );
+
+    for (const row of queryResult.rows) {
+      if (!result.has(row.content_id)) result.set(row.content_id, {});
+      result.get(row.content_id)![row.field_name] = row.translated_text;
+    }
+  } catch (e) {
+    console.error("getBulkTranslatedFields error:", e);
+  }
+
+  return result;
+}
+
 export async function getAvailableLanguages(
   contentType: string,
   contentId: string

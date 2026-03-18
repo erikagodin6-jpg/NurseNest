@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { requireAdmin } from "./admin-auth";
 import { pool } from "./storage";
 import { getTranslatedFields, simpleHash } from "./translation-helpers";
+import { getTerminologyPromptBlock } from "./medical-terminology-dictionary";
 import OpenAI from "openai";
 
 const SUPPORTED_LANGUAGES = [
@@ -117,6 +118,7 @@ export function registerExamQuestionTranslationRoutes(app: Express) {
           mnemonic: q.mnemonic,
           language: "en",
           translated: false,
+          _translationStatus: "source",
         });
       }
 
@@ -173,6 +175,7 @@ export function registerExamQuestionTranslationRoutes(app: Express) {
         mnemonic: mergeField("mnemonic", "mnemonic"),
         language: lang,
         translated: hasTranslations,
+        _translationStatus: hasTranslations ? "translated" : "missing",
       });
     } catch (e: any) {
       console.error("[ExamTranslation] Error:", e.message);
@@ -835,7 +838,8 @@ RULES:
 - Keep lab value units (mmol/L, mg/dL, etc.) unchanged
 - Keep option numbering/ordering exactly the same
 - Preserve all formatting (bullet points, numbered lists, line breaks)
-- Return valid JSON only`
+- Return valid JSON only
+${getTerminologyPromptBlock(lang)}`
       },
       { role: "user", content: prompt }
     ],
@@ -927,13 +931,228 @@ async function upsertTranslation(
   fieldName: string,
   lang: string,
   translatedText: string,
-  sourceHash: string
+  sourceHash: string,
+  contentType: string = "exam_question"
 ): Promise<void> {
   await pool.query(
     `INSERT INTO content_translations (id, content_type, content_id, field_name, language_code, translated_text, translation_status, source_hash, last_updated)
-     VALUES (gen_random_uuid(), 'exam_question', $1, $2, $3, $4, 'auto', $5, NOW())
+     VALUES (gen_random_uuid(), $6, $1, $2, $3, $4, 'auto', $5, NOW())
      ON CONFLICT (content_type, content_id, field_name, language_code)
      DO UPDATE SET translated_text = $4, source_hash = $5, translation_status = 'auto', last_updated = NOW()`,
-    [contentId, fieldName, lang, translatedText, sourceHash]
+    [contentId, fieldName, lang, translatedText, sourceHash, contentType]
   );
+}
+
+const CONTENT_TYPE_FIELDS: Record<string, { dbFields: Record<string, string>; contentType: string }> = {
+  lesson: {
+    dbFields: { title: "title", summary: "summary", seoTitle: "seo_title", seoDescription: "seo_description" },
+    contentType: "content_item",
+  },
+  "flashcard-set": {
+    dbFields: { title: "title", summary: "summary", seoTitle: "seo_title", seoDescription: "seo_description" },
+    contentType: "content_item",
+  },
+  blog: {
+    dbFields: { title: "title", summary: "summary", seoTitle: "seo_title", seoDescription: "seo_description" },
+    contentType: "content_item",
+  },
+  "blog-post": {
+    dbFields: { title: "title", summary: "summary", seoTitle: "seo_title", seoDescription: "seo_description" },
+    contentType: "content_item",
+  },
+  "career-guide": {
+    dbFields: { title: "title", summary: "summary", seoTitle: "seo_title", seoDescription: "seo_description" },
+    contentType: "content_item",
+  },
+  exam: {
+    dbFields: { title: "title", summary: "summary", seoTitle: "seo_title", seoDescription: "seo_description" },
+    contentType: "content_item",
+  },
+};
+
+export function registerContentTranslationBatchRoutes(app: Express) {
+  app.post("/api/admin/content/translate-batch", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { contentType, languages, batchSize = 10, offset = 0 } = req.body;
+
+      if (!contentType || !CONTENT_TYPE_FIELDS[contentType]) {
+        return res.status(400).json({
+          error: `contentType must be one of: ${Object.keys(CONTENT_TYPE_FIELDS).join(", ")}`,
+        });
+      }
+
+      const targetLangs = Array.isArray(languages) && languages.length > 0
+        ? languages.filter((l: string) => ALL_SUPPORTED_LANGUAGES.includes(l))
+        : SUPPORTED_LANGUAGES;
+
+      if (targetLangs.length === 0) {
+        return res.status(400).json({ error: "No valid languages specified" });
+      }
+
+      const config = CONTENT_TYPE_FIELDS[contentType];
+      const limit = Math.min(batchSize, 25);
+
+      const itemsResult = await pool.query(
+        `SELECT id, title, summary, seo_title, seo_description FROM content_items
+         WHERE status = 'published' AND type = $1
+         ORDER BY published_at DESC NULLS LAST LIMIT $2 OFFSET $3`,
+        [contentType, limit, offset]
+      );
+
+      if (itemsResult.rows.length === 0) {
+        return res.json({ success: true, message: "No more items to translate", done: true, totalProcessed: 0 });
+      }
+
+      const openai = getOpenAIClient();
+      let totalTranslated = 0;
+      let totalSkipped = 0;
+      const errors: string[] = [];
+
+      for (const item of itemsResult.rows) {
+        for (const lang of targetLangs) {
+          try {
+            const existingResult = await pool.query(
+              `SELECT field_name, source_hash FROM content_translations
+               WHERE content_type = $1 AND content_id = $2 AND language_code = $3`,
+              [config.contentType, item.id, lang]
+            );
+            const existingByField = new Map(existingResult.rows.map((r: any) => [r.field_name, r.source_hash]));
+
+            const fieldsToTranslate: Record<string, string> = {};
+            for (const [fieldName, dbCol] of Object.entries(config.dbFields)) {
+              if (!item[dbCol]) continue;
+              const existingHash = existingByField.get(fieldName);
+              const currentHash = simpleHash(String(item[dbCol]));
+              if (!existingHash || existingHash !== currentHash) {
+                fieldsToTranslate[fieldName] = item[dbCol];
+              }
+            }
+
+            if (Object.keys(fieldsToTranslate).length === 0) {
+              totalSkipped++;
+              continue;
+            }
+
+            const langName = LANGUAGE_NAMES[lang] || lang;
+            const terminologyBlock = getTerminologyPromptBlock(lang);
+            const fieldsPrompt = Object.entries(fieldsToTranslate)
+              .map(([key, val]) => `"${key}": "${val.replace(/"/g, '\\"').replace(/\n/g, '\\n')}"`)
+              .join("\n\n");
+
+            const completion = await openai.chat.completions.create({
+              model: "gpt-4o-mini",
+              messages: [
+                {
+                  role: "system",
+                  content: `You are a medical/nursing content translator. Translate the given content fields into ${langName}.
+Keep medical abbreviations unchanged. Preserve clinical accuracy. Return valid JSON only with the same field names.
+${terminologyBlock}`,
+                },
+                {
+                  role: "user",
+                  content: `Translate these fields into ${langName}:\n\n${fieldsPrompt}\n\nReturn ONLY a JSON object with the translated fields.`,
+                },
+              ],
+              temperature: 0.3,
+              max_tokens: 4000,
+            });
+
+            const responseText = completion.choices[0]?.message?.content?.trim() || "";
+            const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+            const parsed = JSON.parse(jsonMatch ? jsonMatch[0] : responseText);
+
+            for (const [fieldName, originalText] of Object.entries(fieldsToTranslate)) {
+              const translatedText = parsed[fieldName];
+              if (translatedText && typeof translatedText === "string") {
+                await upsertTranslation(
+                  item.id, fieldName, lang,
+                  translatedText, simpleHash(String(originalText)),
+                  config.contentType,
+                );
+              }
+            }
+
+            totalTranslated++;
+          } catch (err: any) {
+            errors.push(`[${item.id}/${lang}] ${err.message}`);
+          }
+        }
+      }
+
+      const totalResult = await pool.query(
+        `SELECT COUNT(*)::int as count FROM content_items WHERE status = 'published' AND type = $1`,
+        [contentType]
+      );
+
+      res.json({
+        success: true,
+        contentType,
+        totalItems: itemsResult.rows.length,
+        totalLanguages: targetLangs.length,
+        totalTranslated,
+        totalSkipped,
+        errors: errors.slice(0, 20),
+        done: itemsResult.rows.length < limit,
+        nextOffset: offset + itemsResult.rows.length,
+        totalInDb: totalResult.rows[0]?.count || 0,
+      });
+    } catch (e: any) {
+      console.error("[ContentTranslation] Batch translate error:", e.message);
+      res.status(500).json({ error: "Batch translation failed: " + e.message });
+    }
+  });
+
+  app.get("/api/admin/content/translation-coverage", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const contentTypes = Object.keys(CONTENT_TYPE_FIELDS);
+      const coverage: Record<string, any> = {};
+
+      for (const type of contentTypes) {
+        const config = CONTENT_TYPE_FIELDS[type];
+        const totalResult = await pool.query(
+          `SELECT COUNT(*)::int as count FROM content_items WHERE status = 'published' AND type = $1`,
+          [type]
+        );
+        const total = totalResult.rows[0]?.count || 0;
+
+        const langResult = await pool.query(
+          `SELECT ct.language_code, COUNT(DISTINCT ct.content_id)::int as translated_count
+           FROM content_translations ct
+           JOIN content_items ci ON ct.content_id = ci.id
+           WHERE ct.content_type = $1 AND ci.type = $2 AND ci.status = 'published'
+           GROUP BY ct.language_code`,
+          [config.contentType, type]
+        );
+
+        const byLanguage: Record<string, { count: number; percentage: number }> = {};
+        for (const row of langResult.rows) {
+          byLanguage[row.language_code] = {
+            count: row.translated_count,
+            percentage: total > 0 ? Math.round((row.translated_count / total) * 100) : 0,
+          };
+        }
+
+        coverage[type] = {
+          total,
+          byLanguage,
+          supportedContentType: config.contentType,
+        };
+      }
+
+      res.json({
+        contentTypes: Object.keys(CONTENT_TYPE_FIELDS),
+        supportedLanguages: ALL_SUPPORTED_LANGUAGES.map(l => ({ code: l, name: LANGUAGE_NAMES[l] || l })),
+        coverage,
+      });
+    } catch (e: any) {
+      console.error("[ContentTranslation] Coverage error:", e.message);
+      res.status(500).json({ error: "Failed to fetch translation coverage" });
+    }
+  });
 }
