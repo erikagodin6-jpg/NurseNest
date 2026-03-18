@@ -1566,6 +1566,9 @@ const SAFE_MODE_CORE_READ_PATHS = new Set([
   "/api/question-bank",
   "/api/downloads",
   "/api/verified-snapshots",
+  "/api/me/entitlements",
+  "/api/me/subscription",
+  "/api/entitlement/resolve",
 ]);
 
 const SAFE_MODE_INFRA_PATHS = new Set([
@@ -1585,6 +1588,8 @@ const SAFE_MODE_ADMIN_WRITE_EXCEPTIONS = new Set([
   "/api/stripe/webhook",
   "/api/boot-beacon",
   "/api/exam-incident-report",
+  "/api/billing/refresh-entitlements",
+  "/api/billing/restore-access",
 ]);
 
 const SAFE_MODE_STATIC_FALLBACKS: Record<string, any> = {
@@ -2019,11 +2024,7 @@ export function readOnlyEnforcement() {
         if (fallback) {
           return res.json(fallback);
         }
-        return res.status(503).json({
-          error: "This content is temporarily unavailable during safe mode.",
-          safeMode: true,
-          _static: true,
-        });
+        return next();
       }
 
       if (isAdminException) {

@@ -312,7 +312,6 @@ app.post(
     try {
       const sig = Array.isArray(signature) ? signature[0] : signature;
 
-      // With express.raw(), req.body should be a Buffer
       if (!Buffer.isBuffer(req.body)) {
         console.error("STRIPE WEBHOOK ERROR: req.body is not a Buffer");
         return res.status(500).json({ error: "Webhook processing error" });
@@ -321,8 +320,32 @@ app.post(
       await WebhookHandlers.processWebhook(req.body as Buffer, sig);
 
       const bodyStr = req.body.toString("utf8");
+      let evt: any;
+      try { evt = JSON.parse(bodyStr); } catch { evt = null; }
+
+      const { isWebhookProcessed, markWebhookProcessing, markWebhookProcessed, emitEntitlementEvent, upsertSubscription, isEventStale } = await import("./subscription-sync");
+
+      if (evt?.id) {
+        const alreadyProcessed = await isWebhookProcessed(evt.id);
+        if (alreadyProcessed) {
+          console.log(`[Webhook] Skipping duplicate event: ${evt.id} (${evt.type})`);
+          return res.status(200).json({ received: true, duplicate: true });
+        }
+        const claimed = await markWebhookProcessing(evt.id, evt.type, null, evt.data?.object?.metadata || {},
+          evt.created ? new Date(evt.created * 1000) : undefined);
+        if (!claimed) {
+          console.log(`[Webhook] Event already being processed: ${evt.id}`);
+          return res.status(200).json({ received: true, duplicate: true });
+        }
+      }
+
       try {
-        const evt = JSON.parse(bodyStr);
+        if (!evt) throw new Error("Failed to parse webhook body");
+
+        let webhookUserId: string | null = null;
+        let webhookError: string | undefined;
+
+        try {
 
         if (evt.type === "checkout.session.completed" && evt.data?.object?.metadata?.purchaseType === "deck_upgrade") {
           const meta = evt.data.object.metadata;
@@ -410,7 +433,10 @@ app.post(
             const r = await dbPool.query(`SELECT id FROM users WHERE stripe_customer_id = $1 LIMIT 1`, [sub.customer]);
             if (r.rows.length > 0) userId = r.rows[0].id;
           }
-          if (userId && !sub?.metadata?.isTrial) {
+          const staleEvent = sub?.id && evt.created ? await isEventStale(sub.id, evt.created) : false;
+          if (staleEvent) {
+            console.log(`[Webhook] Skipping stale subscription.updated event ${evt.id} for sub ${sub.id}`);
+          } else if (userId && !sub?.metadata?.isTrial) {
             const existingUser = await storage.getUser(userId);
             const isAdmin = existingUser?.tier === "admin";
             const status = sub?.status;
@@ -494,6 +520,124 @@ app.post(
             }
           }
         }
+        if (evt.type === "checkout.session.completed") {
+          const session = evt.data?.object;
+          const meta = session?.metadata;
+          if (meta?.userId) {
+            webhookUserId = meta.userId;
+            const subTier = meta.tier || "free";
+            const isLifetimePurchase = meta.isLifetime === "true";
+            await upsertSubscription({
+              userId: meta.userId,
+              stripeSubscriptionId: session.subscription || null,
+              stripeCustomerId: session.customer || null,
+              tier: subTier,
+              status: "active",
+              billingInterval: meta.duration || null,
+              isLifetime: isLifetimePurchase,
+              purchaseSource: "web",
+              currency: session.currency || "usd",
+              amount: session.amount_total || null,
+            });
+            await emitEntitlementEvent(meta.userId, isLifetimePurchase ? "lifetime_purchased" : "subscription_created", {
+              tier: subTier,
+              stripeEventId: evt.id,
+              subscriptionId: session.subscription || null,
+              accessSource: "subscription",
+              metadata: { billingInterval: meta.duration, amount: session.amount_total },
+            });
+          }
+        }
+
+        if (evt.type === "customer.subscription.updated") {
+          const sub = evt.data?.object;
+          let syncUserId = sub?.metadata?.userId;
+          if (!syncUserId && sub?.customer) {
+            const { getUserIdByStripeCustomer } = await import("./subscription-sync");
+            syncUserId = await getUserIdByStripeCustomer(sub.customer);
+          }
+          if (syncUserId) {
+            if (sub?.id && evt.created && await isEventStale(sub.id, evt.created)) {
+              console.log(`[Webhook] Skipping stale subscription.updated event ${evt.id} for sub ${sub.id}`);
+            } else {
+            webhookUserId = syncUserId;
+            const subStatus = sub?.status || "active";
+            const tier = sub?.metadata?.tier;
+            await upsertSubscription({
+              userId: syncUserId,
+              stripeSubscriptionId: sub.id,
+              stripeCustomerId: sub.customer || null,
+              tier: tier || "free",
+              status: subStatus,
+              gracePeriodUntil: subStatus === "past_due" ? new Date(Date.now() + 72 * 60 * 60 * 1000) : null,
+            });
+            if (subStatus === "past_due") {
+              await emitEntitlementEvent(syncUserId, "grace_period_started", {
+                tier, stripeEventId: evt.id, subscriptionId: sub.id,
+                metadata: { gracePeriodHours: 72 },
+              });
+            } else if (subStatus === "active") {
+              await emitEntitlementEvent(syncUserId, "subscription_renewed", {
+                tier, stripeEventId: evt.id, subscriptionId: sub.id,
+              });
+            } else if (subStatus === "canceled" || subStatus === "unpaid") {
+              await emitEntitlementEvent(syncUserId, "subscription_canceled", {
+                tier, stripeEventId: evt.id, subscriptionId: sub.id,
+              });
+            }
+            }
+          }
+        }
+
+        if (evt.type === "customer.subscription.deleted") {
+          const sub = evt.data?.object;
+          let syncUserId = sub?.metadata?.userId;
+          if (!syncUserId && sub?.customer) {
+            const { getUserIdByStripeCustomer } = await import("./subscription-sync");
+            syncUserId = await getUserIdByStripeCustomer(sub.customer);
+          }
+          if (syncUserId) {
+            webhookUserId = syncUserId;
+            await upsertSubscription({
+              userId: syncUserId,
+              stripeSubscriptionId: sub.id,
+              status: "canceled",
+              canceledAt: new Date(),
+              tier: sub?.metadata?.tier || "free",
+            });
+            await emitEntitlementEvent(syncUserId, "subscription_deleted", {
+              tier: sub?.metadata?.tier, stripeEventId: evt.id, subscriptionId: sub.id,
+            });
+          }
+        }
+
+        if (evt.type === "invoice.payment_failed") {
+          const invoice = evt.data?.object;
+          if (invoice?.customer) {
+            const { getUserIdByStripeCustomer } = await import("./subscription-sync");
+            const paymentUserId = await getUserIdByStripeCustomer(invoice.customer);
+            if (paymentUserId) {
+              webhookUserId = paymentUserId;
+              await emitEntitlementEvent(paymentUserId, "payment_failed", {
+                stripeEventId: evt.id,
+                metadata: { invoiceId: invoice.id, amountDue: invoice.amount_due },
+              });
+            }
+          }
+        }
+
+        } catch (innerErr: any) {
+          webhookError = innerErr?.message;
+          console.error("Webhook inner processing error:", innerErr?.message);
+        }
+
+        if (evt.id) {
+          await markWebhookProcessed(evt.id, { userId: webhookUserId, eventType: evt.type }, webhookError);
+          if (webhookUserId) {
+            pool.query(`UPDATE webhook_events SET user_id = $1 WHERE event_id = $2`, [webhookUserId, evt.id]).catch(() => {});
+          }
+        }
+
       } catch (webhookParseErr: any) {
         console.error("Webhook event processing error:", webhookParseErr?.message);
       }

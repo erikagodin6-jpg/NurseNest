@@ -1581,4 +1581,106 @@ async function ensureClinicalSeoPages(pool: pg.Pool): Promise<void> {
       error_message text
     )
   `);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS subscriptions (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      user_id varchar NOT NULL,
+      stripe_subscription_id text,
+      stripe_customer_id text,
+      plan_id text,
+      plan_name text,
+      tier text NOT NULL DEFAULT 'free',
+      billing_interval text,
+      status text NOT NULL DEFAULT 'active',
+      purchase_source text DEFAULT 'web',
+      active_from timestamp DEFAULT NOW(),
+      expires_at timestamp,
+      renews_at timestamp,
+      canceled_at timestamp,
+      trial_start timestamp,
+      trial_end timestamp,
+      grace_period_until timestamp,
+      last_verified_at timestamp DEFAULT NOW(),
+      is_lifetime boolean DEFAULT false,
+      currency text DEFAULT 'usd',
+      amount integer,
+      metadata jsonb DEFAULT '{}'::jsonb,
+      created_at timestamp NOT NULL DEFAULT NOW(),
+      updated_at timestamp NOT NULL DEFAULT NOW()
+    )
+  `);
+
+  const subColumns: [string, string][] = [
+    ["user_id", "varchar NOT NULL DEFAULT ''"],
+    ["stripe_subscription_id", "text"],
+    ["stripe_customer_id", "text"],
+    ["plan_id", "text"],
+    ["plan_name", "text"],
+    ["tier", "text NOT NULL DEFAULT 'free'"],
+    ["billing_interval", "text"],
+    ["status", "text NOT NULL DEFAULT 'active'"],
+    ["purchase_source", "text DEFAULT 'web'"],
+    ["active_from", "timestamp DEFAULT NOW()"],
+    ["expires_at", "timestamp"],
+    ["renews_at", "timestamp"],
+    ["canceled_at", "timestamp"],
+    ["trial_start", "timestamp"],
+    ["trial_end", "timestamp"],
+    ["grace_period_until", "timestamp"],
+    ["last_verified_at", "timestamp DEFAULT NOW()"],
+    ["is_lifetime", "boolean DEFAULT false"],
+    ["currency", "text DEFAULT 'usd'"],
+    ["amount", "integer"],
+    ["metadata", "jsonb DEFAULT '{}'::jsonb"],
+    ["created_at", "timestamp NOT NULL DEFAULT NOW()"],
+    ["updated_at", "timestamp NOT NULL DEFAULT NOW()"],
+  ];
+  for (const [col, def] of subColumns) {
+    await pool.query(`ALTER TABLE subscriptions ADD COLUMN IF NOT EXISTS ${col} ${def}`).catch(() => {});
+  }
+
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_subscriptions_user_id ON subscriptions(user_id)`);
+  await pool.query(`DROP INDEX IF EXISTS idx_subscriptions_stripe_sub_id`);
+  await pool.query(`CREATE UNIQUE INDEX IF NOT EXISTS idx_subscriptions_stripe_sub_id ON subscriptions(stripe_subscription_id) WHERE stripe_subscription_id IS NOT NULL`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_subscriptions_status ON subscriptions(status)`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS webhook_events (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      event_id text NOT NULL UNIQUE,
+      event_type text NOT NULL,
+      source text NOT NULL DEFAULT 'stripe',
+      status text NOT NULL DEFAULT 'processing',
+      user_id varchar,
+      payload jsonb DEFAULT '{}'::jsonb,
+      processing_result jsonb DEFAULT '{}'::jsonb,
+      error_message text,
+      event_timestamp timestamp,
+      processed_at timestamp,
+      created_at timestamp NOT NULL DEFAULT NOW()
+    )
+  `);
+
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_webhook_events_event_id ON webhook_events(event_id)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_webhook_events_user_id ON webhook_events(user_id)`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS entitlement_events (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      user_id varchar NOT NULL,
+      event_type text NOT NULL,
+      tier text,
+      previous_tier text,
+      access_source text,
+      stripe_event_id text,
+      subscription_id text,
+      metadata jsonb DEFAULT '{}'::jsonb,
+      created_at timestamp NOT NULL DEFAULT NOW()
+    )
+  `);
+
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_entitlement_events_user_id ON entitlement_events(user_id)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_entitlement_events_type ON entitlement_events(event_type)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_entitlement_events_created ON entitlement_events(created_at)`);
 }

@@ -277,6 +277,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     res.status(204).end();
   });
 
+  const entitlementApiRouter = (await import("./entitlement-api")).default;
+  app.use(entitlementApiRouter);
+
   app.get("/api/admin/entitlement-debug", async (req, res) => {
     await handleEntitlementDebug(req, res);
   });

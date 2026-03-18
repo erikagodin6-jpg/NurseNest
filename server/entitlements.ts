@@ -271,7 +271,7 @@ function getBundleExpiry(user: any): string | null {
   return bundleEnd ? new Date(bundleEnd).toISOString() : null;
 }
 
-function determineAccessSource(user: any): { source: AccessSource; reason: string; expiresAt: string | null } {
+export function determineAccessSource(user: any): { source: AccessSource; reason: string; expiresAt: string | null } {
   const userTier: string = user.tier || "free";
 
   if (userTier === "admin") {

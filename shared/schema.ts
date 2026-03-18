@@ -7812,3 +7812,86 @@ export const insertClinicalSeoPageTranslationSchema = createInsertSchema(clinica
 });
 export type ClinicalSeoPageTranslation = typeof clinicalSeoPageTranslations.$inferSelect;
 export type InsertClinicalSeoPageTranslation = z.infer<typeof insertClinicalSeoPageTranslationSchema>;
+
+export const subscriptions = pgTable("subscriptions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  stripeSubscriptionId: text("stripe_subscription_id"),
+  stripeCustomerId: text("stripe_customer_id"),
+  planId: text("plan_id"),
+  planName: text("plan_name"),
+  tier: text("tier").notNull().default("free"),
+  billingInterval: text("billing_interval"),
+  status: text("status").notNull().default("active"),
+  purchaseSource: text("purchase_source").default("web"),
+  activeFrom: timestamp("active_from").defaultNow(),
+  expiresAt: timestamp("expires_at"),
+  renewsAt: timestamp("renews_at"),
+  canceledAt: timestamp("canceled_at"),
+  trialStart: timestamp("trial_start"),
+  trialEnd: timestamp("trial_end"),
+  gracePeriodUntil: timestamp("grace_period_until"),
+  lastVerifiedAt: timestamp("last_verified_at").defaultNow(),
+  isLifetime: boolean("is_lifetime").default(false),
+  currency: text("currency").default("usd"),
+  amount: integer("amount"),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertSubscriptionSchema = createInsertSchema(subscriptions).omit({ id: true, createdAt: true, updatedAt: true });
+export type Subscription = typeof subscriptions.$inferSelect;
+export type InsertSubscription = z.infer<typeof insertSubscriptionSchema>;
+
+export const webhookEvents = pgTable("webhook_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  eventId: text("event_id").notNull().unique(),
+  eventType: text("event_type").notNull(),
+  source: text("source").notNull().default("stripe"),
+  status: text("status").notNull().default("processing"),
+  userId: varchar("user_id"),
+  payload: jsonb("payload").default(sql`'{}'::jsonb`),
+  processingResult: jsonb("processing_result").default(sql`'{}'::jsonb`),
+  errorMessage: text("error_message"),
+  eventTimestamp: timestamp("event_timestamp"),
+  processedAt: timestamp("processed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertWebhookEventSchema = createInsertSchema(webhookEvents).omit({ id: true, createdAt: true });
+export type WebhookEvent = typeof webhookEvents.$inferSelect;
+export type InsertWebhookEvent = z.infer<typeof insertWebhookEventSchema>;
+
+export const entitlementEvents = pgTable("entitlement_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  eventType: text("event_type").notNull(),
+  tier: text("tier"),
+  previousTier: text("previous_tier"),
+  accessSource: text("access_source"),
+  stripeEventId: text("stripe_event_id"),
+  subscriptionId: text("subscription_id"),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertEntitlementEventSchema = createInsertSchema(entitlementEvents).omit({ id: true, createdAt: true });
+export type EntitlementEvent = typeof entitlementEvents.$inferSelect;
+export type InsertEntitlementEvent = z.infer<typeof insertEntitlementEventSchema>;
+
+export type SubscriptionStatus = "active" | "trialing" | "past_due" | "canceled" | "unpaid" | "incomplete" | "expired";
+export type EntitlementEventType =
+  | "subscription_created"
+  | "subscription_updated"
+  | "subscription_canceled"
+  | "subscription_renewed"
+  | "subscription_deleted"
+  | "entitlement_granted"
+  | "entitlement_revoked"
+  | "grace_period_started"
+  | "access_restored"
+  | "lifetime_purchased"
+  | "payment_failed"
+  | "manual_grant"
+  | "manual_revoke";
