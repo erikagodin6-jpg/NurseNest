@@ -28,6 +28,7 @@ import { PlatformErrorBoundary } from "@/components/platform-error-boundary";
 import { LanguageGuard } from "@/lib/language-guard";
 import { ProtectedRoute } from "@/components/protected-route";
 import { SafeExamFallback, SafeFlashcardFallback, SafeLessonFallback, SafeDownloadFallback } from "@/components/safe-mode-fallbacks";
+import { ProtectedAccessBoundary, type ProtectedRouteContext, type ContentCategory } from "@/components/protected-access-recovery";
 const IncidentBanner = lazy(() => import("@/components/incident-banner").then(m => ({ default: m.IncidentBanner })));
 
 function PreviewBanner() {
@@ -650,7 +651,26 @@ function ProtectedTestBankRoute({ children }: { children: ReactNode }) {
     return null;
   }
 
-  return <>{children}</>;
+  return (
+    <ProtectedAccessBoundary context={{ contentCategory: "question-bank", fallbackPath: "/dashboard", label: "question bank" }}>
+      {children}
+    </ProtectedAccessBoundary>
+  );
+}
+
+function ProtectedPremiumRoute({ children, category, label, fallbackPath, requiredTier }: { children: ReactNode; category: ContentCategory; label?: string; fallbackPath?: string; requiredTier?: string }) {
+  const { user, hasAccess } = useAuth();
+  const context: ProtectedRouteContext = { contentCategory: category, label, fallbackPath: fallbackPath || "/dashboard", tier: requiredTier };
+
+  if (!user || !hasAccess(requiredTier || "rpn")) {
+    return <>{children}</>;
+  }
+
+  return (
+    <ProtectedAccessBoundary context={context}>
+      {children}
+    </ProtectedAccessBoundary>
+  );
 }
 
 
@@ -827,7 +847,7 @@ function AppRoutes() {
         <Route path="/admin/taxonomy-review" component={AdminTaxonomyReview} />
         <Route path="/:locale/admin/taxonomy-review" component={AdminTaxonomyReview} />
         <Route path="/content-editor" component={ContentEditorPage} />
-        <Route path="/case-simulations" component={CaseSimulationPage} />
+        <Route path="/case-simulations">{() => <ProtectedPremiumRoute category="premium-tool" label="case simulation" fallbackPath="/dashboard"><CaseSimulationPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/first-action-simulator" component={FirstActionSimulatorPage} />
         <Route path="/safety-hazard-simulator" component={SafetyHazardSimulatorPage} />
         <Route path="/iv-complications-simulator" component={IVComplicationsSimulatorPage} />
@@ -1288,13 +1308,13 @@ function AppRoutes() {
         <Route path="/admin/readiness-analytics" component={AdminReadinessAnalytics} />
         <Route path="/demo/exam-readiness" component={ExamReadinessDemo} />
         <Route path="/demo/learning-progress" component={DemoLearningProgress} />
-        <Route path="/diagnostic-assessment" component={DiagnosticAssessmentPage} />
+        <Route path="/diagnostic-assessment">{() => <ProtectedPremiumRoute category="premium-tool" label="diagnostic assessment" fallbackPath="/dashboard"><DiagnosticAssessmentPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/admin/qbank-factory" component={QBankFactoryPage} />
         <Route path="/account/library">{() => <ProtectedRoute contentType="download" safeModeRenderer={() => <SafeDownloadFallback onBack={() => window.location.href = "/en/dashboard"} />}><AccountLibraryPage /></ProtectedRoute>}</Route>
         <Route path="/admin/product-builder" component={ProductBuilderPage} />
         <Route path="/admin/product-builder/:id" component={ProductBuilderPage} />
         <Route path="/admin/trust-showcase" component={AdminTrustShowcase} />
-        <Route path="/medication-mastery" component={MedicationMasteryPage} />
+        <Route path="/medication-mastery">{() => <ProtectedPremiumRoute category="premium-tool" label="medication mastery" fallbackPath="/dashboard"><MedicationMasteryPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/clinical-clarity/:slug" component={ClinicalClarityDetail} />
         <Route path="/clinical-clarity" component={ClinicalClarityIndex} />
         <Route path="/blog" component={BlogPage} />
@@ -1355,9 +1375,9 @@ function AppRoutes() {
         <Route path="/why-nursenest" component={WhyNurseNestPage} />
         <Route path="/medical-review-team" component={MedicalReviewTeamPage} />
         <Route path="/feedback" component={FeedbackPage} />
-        <Route path="/bookmarks" component={BookmarksPage} />
-        <Route path="/practice" component={CustomPracticePage} />
-        <Route path="/performance-analytics" component={PerformanceAnalyticsPage} />
+        <Route path="/bookmarks">{() => <ProtectedPremiumRoute category="premium-tool" label="bookmarks" fallbackPath="/dashboard"><BookmarksPage /></ProtectedPremiumRoute>}</Route>
+        <Route path="/practice">{() => <ProtectedPremiumRoute category="premium-tool" label="custom practice" fallbackPath="/dashboard"><CustomPracticePage /></ProtectedPremiumRoute>}</Route>
+        <Route path="/performance-analytics">{() => <ProtectedPremiumRoute category="analytics" label="performance analytics" fallbackPath="/dashboard"><PerformanceAnalyticsPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/free-practice" component={FreePracticePage} />
         <Route path="/free-demo-exam" component={FreeDemoExamPage} />
         <Route path="/quick-study" component={QuickStudyPage} />
@@ -1365,7 +1385,7 @@ function AppRoutes() {
         <Route path="/practice-questions" component={PracticeQuestionsPage} />
         <Route path="/subscribe/:tier" component={SubscribePage} />
         <Route path="/onboarding/plan" component={OnboardingPlanPage} />
-        <Route path="/study-plan" component={StudyPlanPage} />
+        <Route path="/study-plan">{() => <ProtectedPremiumRoute category="premium-tool" label="study plan" fallbackPath="/dashboard"><StudyPlanPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/pharmacology/curriculum" component={PharmacologyHub} />
         <Route path="/pharmacology/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/pharmacology/faq" component={PharmacologyHub} />
@@ -1445,7 +1465,7 @@ function AppRoutes() {
         <Route path="/np-exam-practice-questions" component={NpExamPracticePage} />
         <Route path="/nursing-exam-prep" component={NursingExamPrepPage} />
         <Route path="/quiz/:slug" component={SeoPracticeQuiz} />
-        <Route path="/offline-study" component={OfflineStudyPage} />
+        <Route path="/offline-study">{() => <ProtectedPremiumRoute category="download" label="offline study" fallbackPath="/dashboard"><OfflineStudyPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/glossary/:term" component={GlossaryPage} />
         <Route path="/glossary" component={GlossaryPage} />
         <Route path="/medical-abbreviations-for-nurses/:slug" component={MedicalAbbreviationDetail} />
@@ -1472,7 +1492,7 @@ function AppRoutes() {
         <Route path="/critical-care/mock-exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
         <Route path="/critical-care/study-plan" component={StudyPlanPage} />
         <Route path="/critical-care/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
-        <Route path="/critical-care/dashboard" component={DashboardPage} />
+        <Route path="/critical-care/dashboard">{() => <ProtectedPremiumRoute category="analytics" label="dashboard" fallbackPath="/critical-care"><DashboardPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/critical-care" component={AlliedHomePage} />
 
         <Route path="/emergency-nursing/question-bank">{() => <Redirect to="/emergency-nursing/test-bank" />}</Route>
@@ -1484,7 +1504,7 @@ function AppRoutes() {
         <Route path="/emergency-nursing/mock-exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
         <Route path="/emergency-nursing/study-plan" component={StudyPlanPage} />
         <Route path="/emergency-nursing/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
-        <Route path="/emergency-nursing/dashboard" component={DashboardPage} />
+        <Route path="/emergency-nursing/dashboard">{() => <ProtectedPremiumRoute category="analytics" label="dashboard" fallbackPath="/emergency-nursing"><DashboardPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/emergency-nursing" component={AlliedHomePage} />
 
         <Route path="/perioperative-nursing" component={PerioperativeNursingHub} />
@@ -1503,7 +1523,7 @@ function AppRoutes() {
         <Route path="/perioperative/mock-exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
         <Route path="/perioperative/study-plan" component={StudyPlanPage} />
         <Route path="/perioperative/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
-        <Route path="/perioperative/dashboard" component={DashboardPage} />
+        <Route path="/perioperative/dashboard">{() => <ProtectedPremiumRoute category="analytics" label="dashboard" fallbackPath="/perioperative"><DashboardPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/perioperative" component={AlliedHomePage} />
 
         <Route path="/oncology-nursing/question-bank">{() => <Redirect to="/oncology-nursing/test-bank" />}</Route>
@@ -1515,7 +1535,7 @@ function AppRoutes() {
         <Route path="/oncology-nursing/mock-exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
         <Route path="/oncology-nursing/study-plan" component={StudyPlanPage} />
         <Route path="/oncology-nursing/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
-        <Route path="/oncology-nursing/dashboard" component={DashboardPage} />
+        <Route path="/oncology-nursing/dashboard">{() => <ProtectedPremiumRoute category="analytics" label="dashboard" fallbackPath="/oncology-nursing"><DashboardPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/oncology-nursing" component={AlliedHomePage} />
 
         <Route path="/pediatric-cert/question-bank">{() => <Redirect to="/pediatric-cert/test-bank" />}</Route>
@@ -1527,7 +1547,7 @@ function AppRoutes() {
         <Route path="/pediatric-cert/mock-exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
         <Route path="/pediatric-cert/study-plan" component={StudyPlanPage} />
         <Route path="/pediatric-cert/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
-        <Route path="/pediatric-cert/dashboard" component={DashboardPage} />
+        <Route path="/pediatric-cert/dashboard">{() => <ProtectedPremiumRoute category="analytics" label="dashboard" fallbackPath="/pediatric-cert"><DashboardPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/pediatric-cert" component={AlliedHomePage} />
 
         {/* Admin Career Management */}

@@ -32,18 +32,34 @@ export class PlatformErrorBoundary extends Component<PlatformErrorBoundaryProps,
     this.setState({ errorInfo: info });
     console.error("[PlatformErrorBoundary] Crash:", error.message, info.componentStack);
     try {
-      fetch("/api/exam-incident-report", {
+      fetch("/api/resilience/incident-report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          examType: "platform",
+          contentType: "platform",
           tier: "unknown",
           route: window.location.pathname,
           errorMessage: error.message,
+          errorName: error.name,
           browserInfo: navigator.userAgent,
           incidentId: this.state.incidentId,
+          source: "auto",
+          retryCount: this.state.retryCount,
         }),
-      }).catch(() => {});
+      }).catch(() => {
+        fetch("/api/exam-incident-report", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            examType: "platform",
+            tier: "unknown",
+            route: window.location.pathname,
+            errorMessage: error.message,
+            browserInfo: navigator.userAgent,
+            incidentId: this.state.incidentId,
+          }),
+        }).catch(() => {});
+      });
     } catch {}
   }
 
@@ -87,24 +103,47 @@ function PlatformRecoveryUI({
   const handleReport = useCallback(async () => {
     setReporting(true);
     try {
-      const res = await fetch("/api/exam-incident-report", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          examType: "platform_crash",
-          tier: "unknown",
-          route: window.location.pathname,
-          errorMessage: error?.message || "Unknown error",
-          browserInfo: navigator.userAgent,
-          incidentId,
-        }),
-      });
-      if (res.ok) setReported(true);
-    } catch {
+      let success = false;
+      try {
+        const res = await fetch("/api/resilience/incident-report", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contentType: "platform",
+            tier: "unknown",
+            route: window.location.pathname,
+            errorMessage: error?.message || "Unknown error",
+            errorName: error?.name,
+            browserInfo: navigator.userAgent,
+            incidentId,
+            source: "user",
+            retryCount,
+          }),
+        });
+        success = res.ok;
+      } catch {}
+      if (!success) {
+        try {
+          const fallbackRes = await fetch("/api/exam-incident-report", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              examType: "platform_crash",
+              tier: "unknown",
+              route: window.location.pathname,
+              errorMessage: error?.message || "Unknown error",
+              browserInfo: navigator.userAgent,
+              incidentId,
+            }),
+          });
+          success = fallbackRes.ok;
+        } catch {}
+      }
+      if (success) setReported(true);
     } finally {
       setReporting(false);
     }
-  }, [error, incidentId]);
+  }, [error, incidentId, retryCount]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white flex items-center justify-center p-4" data-testid="platform-recovery-ui">

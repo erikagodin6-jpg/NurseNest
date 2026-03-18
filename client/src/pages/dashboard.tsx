@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { useToast } from "@/hooks/use-toast";
+import { useProtectedFetch } from "@/components/protected-access-recovery";
 import {
   LayoutDashboard, BookOpen, FlaskConical, Brain, FileText,
   TrendingUp, Plus, X, Eye, EyeOff,
@@ -163,6 +164,7 @@ export default function DashboardPage() {
   const { t } = useI18n();
   const [, navigate] = useLocation();
   const { toast } = useToast();
+  const protectedFetch = useProtectedFetch("dashboard");
   const [widgets, setWidgets] = useState<WidgetConfig[]>(DEFAULT_WIDGETS);
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -189,7 +191,7 @@ export default function DashboardPage() {
       navigate("/login");
       return;
     }
-    fetch("/api/dashboard-widgets", {
+    protectedFetch("/api/dashboard-widgets", {
       headers: { "x-user-id": user.id },
     })
       .then((r) => {

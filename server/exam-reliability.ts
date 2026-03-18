@@ -440,6 +440,68 @@ export function registerExamReliabilityRoutes(app: Express) {
       res.status(500).json({ error: "Failed to submit report" });
     }
   });
+
+  app.post("/api/resilience/incident-report", async (req: any, res) => {
+    try {
+      const user = await resolveAuthUser(req).catch(() => null);
+      const {
+        incidentId,
+        contentType,
+        productId,
+        tier,
+        route,
+        errorMessage,
+        errorName,
+        browserInfo,
+        source,
+        retryCount,
+        additionalContext,
+      } = req.body || {};
+
+      const severity: "critical" | "warning" | "info" =
+        source === "auto" ? "warning" : "info";
+
+      const incident: ExamIncident = {
+        userId: user?.id || null,
+        examType: contentType || "platform",
+        tier: tier || "unknown",
+        reasonCode: source === "auto" ? "protected_route_crash" : "user_report",
+        reasonDetail: errorMessage || "Protected route content delivery failure",
+        endpoint: route || req.originalUrl,
+        requestParams: {
+          incidentId,
+          contentType,
+          productId,
+          errorName,
+          browserInfo,
+          source,
+          retryCount,
+          additionalContext,
+          userEntitlementSnapshot: user ? {
+            userId: user.id,
+            tier: user.tier,
+            subscriptionStatus: user.subscription_status || user.subscriptionStatus,
+          } : null,
+          reportedAt: new Date().toISOString(),
+        },
+        severity,
+        createdAt: new Date().toISOString(),
+      };
+
+      addIncident(incident);
+
+      console.log(`[ResilienceIncident] ${severity.toUpperCase()} | ${contentType || "unknown"} | ${source || "unknown"} | ${route || "unknown"} | ${errorMessage?.substring(0, 100) || "no message"} | incident=${incidentId || "none"}`);
+
+      res.json({
+        success: true,
+        incidentId: incidentId || null,
+        message: "Incident report received.",
+      });
+    } catch (e: any) {
+      console.error("[ResilienceIncident] Error processing report:", e.message);
+      res.status(500).json({ error: "Failed to submit incident report" });
+    }
+  });
 }
 
 export function logExamLoadError(context: {

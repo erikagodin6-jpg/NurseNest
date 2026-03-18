@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { AlertTriangle, RefreshCw, ArrowLeft, MessageSquare, Loader2, ShieldCheck } from "lucide-react";
 import { useLocation } from "wouter";
 import { useAuth } from "@/lib/auth";
+import { ProtectedAccessBoundary, type ProtectedRouteContext } from "@/components/protected-access-recovery";
 
 import { useI18n } from "@/lib/i18n";
 interface ExamErrorBoundaryProps {
@@ -16,225 +17,37 @@ interface ExamErrorBoundaryProps {
   };
 }
 
-interface ExamErrorBoundaryState {
-  hasError: boolean;
-  error: Error | null;
-  retryCount: number;
-}
-
-export class ExamErrorBoundary extends Component<ExamErrorBoundaryProps, ExamErrorBoundaryState> {
+export class ExamErrorBoundary extends Component<ExamErrorBoundaryProps, { initialized: boolean }> {
   constructor(props: ExamErrorBoundaryProps) {
     super(props);
-    this.state = { hasError: false, error: null, retryCount: 0 };
+    this.state = { initialized: true };
   }
 
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true, error };
-  }
+  private getProtectedContext(): ProtectedRouteContext {
+    const ctx = this.props.examContext;
+    const attemptId = typeof window !== "undefined"
+      ? window.location.pathname.match(/mock-exams\/([^/]+)/)?.[1] || ctx?.attemptId
+      : ctx?.attemptId;
 
-  componentDidCatch(error: Error, info: ErrorInfo) {
-    const attemptId = window.location.pathname.match(/mock-exams\/([^/]+)/)?.[1] || this.props.examContext?.attemptId;
-    console.error("[ExamErrorBoundary] Caught:", {
-      message: error.message,
+    return {
+      contentCategory: "mock-exam",
+      contentId: attemptId,
+      examType: ctx?.examType || "mock-exam",
+      tier: ctx?.tier,
       attemptId,
-      examType: this.props.examContext?.examType,
-      route: window.location.pathname,
-      stack: error.stack?.substring(0, 500),
-    });
-    try {
-      fetch("/api/exam-incident-report", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          examType: this.props.examContext?.examType || "unknown",
-          tier: this.props.examContext?.tier || "unknown",
-          route: window.location.pathname,
-          errorMessage: error.message,
-          browserInfo: navigator.userAgent,
-          additionalContext: {
-            attemptId,
-            questionIndex: this.props.examContext?.questionIndex,
-            componentStack: info.componentStack?.substring(0, 300),
-          },
-        }),
-      }).catch(() => {});
-    } catch {}
+      questionIndex: ctx?.questionIndex,
+      fallbackPath: "/mock-exams",
+      label: "exam",
+    };
   }
-
-  handleRetry = () => {
-    this.setState((prev) => ({
-      hasError: false,
-      error: null,
-      retryCount: prev.retryCount + 1,
-    }));
-  };
 
   render() {
-    if (this.state.hasError) {
-      return (
-        <ExamRecoveryUI
-          error={this.state.error}
-          onRetry={this.handleRetry}
-          retryCount={this.state.retryCount}
-          examContext={this.props.examContext}
-        />
-      );
-    }
-    return this.props.children;
+    return (
+      <ProtectedAccessBoundary context={this.getProtectedContext()}>
+        {this.props.children}
+      </ProtectedAccessBoundary>
+    );
   }
-}
-
-function ExamRecoveryUI({
-  error,
-  onRetry,
-  retryCount,
-  examContext,
-}: {
-  error: Error | null;
-  onRetry: () => void;
-  retryCount: number;
-  examContext?: { examType?: string; tier?: string; attemptId?: string; questionIndex?: number };
-}) {
-  const [, navigate] = useLocation();
-  const { user } = useAuth();
-  const { t } = useI18n();
-  const [reportSent, setReportSent] = useState(false);
-  const [sending, setSending] = useState(false);
-
-  const [reportFailed, setReportFailed] = useState(false);
-
-  const attemptId = window.location.pathname.match(/mock-exams\/([^/]+)/)?.[1] || examContext?.attemptId;
-
-  const handleReport = useCallback(async () => {
-    setSending(true);
-    setReportFailed(false);
-    try {
-      const res = await fetch("/api/exam-incident-report", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          examType: examContext?.examType || "unknown",
-          tier: examContext?.tier || "unknown",
-          route: window.location.pathname,
-          errorMessage: error?.message || "Unknown error",
-          browserInfo: navigator.userAgent,
-          additionalContext: { retryCount, attemptId, questionIndex: examContext?.questionIndex },
-        }),
-      });
-      if (!res.ok) throw new Error("Failed");
-      setReportSent(true);
-    } catch {
-      setReportFailed(true);
-    }
-    setSending(false);
-  }, [error, examContext, retryCount]);
-
-  useEffect(() => {
-    const existing = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
-    const meta = document.createElement("meta");
-    meta.name = "robots";
-    meta.content = "noindex, follow";
-    meta.dataset.errorBoundary = "true";
-    if (existing) {
-      existing.dataset.originalContent = existing.content;
-      existing.content = "noindex, follow";
-      existing.dataset.errorBoundary = "true";
-    } else {
-      document.head.appendChild(meta);
-    }
-    return () => {
-      if (existing) {
-        existing.content = existing.dataset.originalContent || "index, follow";
-        delete existing.dataset.errorBoundary;
-        delete existing.dataset.originalContent;
-      } else {
-        meta.remove();
-      }
-    };
-  }, []);
-
-  return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4" data-testid="exam-recovery-ui" data-noindex-error="true">
-      <Card className="max-w-lg w-full shadow-lg border-amber-200">
-        <CardContent className="p-8 text-center space-y-6">
-          <div className="mx-auto w-16 h-16 rounded-full bg-amber-50 flex items-center justify-center">
-            <AlertTriangle className="w-8 h-8 text-amber-500" />
-          </div>
-
-          <div className="space-y-2">
-            <h2 className="text-xl font-semibold text-foreground" data-testid="text-exam-error-title">
-              This exam is temporarily unavailable
-            </h2>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              We encountered an issue loading this exam. Your progress and subscription are safe.
-              Please try again or go back to select a different exam.
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            {retryCount < 3 && (
-              <Button
-                onClick={onRetry}
-                variant="default"
-                className="gap-2"
-                data-testid="button-exam-retry"
-              >
-                <RefreshCw className="w-4 h-4" />
-                Try Again
-              </Button>
-            )}
-            <Button
-              variant="outline"
-              onClick={() => {
-                const path = window.location.pathname;
-                const match = path.match(/^(\/[^/]+)\/mock-exams\//);
-                navigate(match ? `${match[1]}/mock-exams` : "/mock-exams");
-              }}
-              className="gap-2"
-              data-testid="button-exam-go-back"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Exams
-            </Button>
-          </div>
-
-          {reportSent ? (
-            <p className="text-sm text-green-600 flex items-center justify-center gap-1" data-testid="text-report-sent">
-              <ShieldCheck className="w-4 h-4" />
-              Report received. Thank you.
-            </p>
-          ) : (
-            <div className="space-y-1">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleReport}
-                disabled={sending}
-                className="gap-2 text-muted-foreground"
-                data-testid="button-exam-report"
-              >
-                {sending ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <MessageSquare className="w-4 h-4" />
-                )}
-                {reportFailed ? "Try reporting again" : "Report this problem"}
-              </Button>
-              {reportFailed && (
-                <p className="text-xs text-red-500">{t("components.examErrorBoundary.couldNotSendReportPlease")}</p>
-              )}
-            </div>
-          )}
-
-          {user && (
-            <p className="text-xs text-muted-foreground">
-              Your account and progress are not affected.
-            </p>
-          )}
-        </CardContent>
-      </Card>
-    </div>
-  );
 }
 
 export function ExamLoadingFallback() {
@@ -332,22 +145,40 @@ export function ExamReportButton({
     setSending(true);
     setFailed(false);
     try {
-      const res = await fetch("/api/exam-incident-report", {
+      const res = await fetch("/api/resilience/incident-report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          examType: examType || "unknown",
+          contentType: "exam",
           tier: tier || "unknown",
           route: window.location.pathname,
           errorMessage: `User reported problem with question ${questionId || "N/A"}`,
           browserInfo: navigator.userAgent,
-          additionalContext: { questionId },
+          source: "user",
+          additionalContext: { questionId, examType },
         }),
       });
       if (!res.ok) throw new Error("Failed");
       setSent(true);
     } catch {
-      setFailed(true);
+      try {
+        const res = await fetch("/api/exam-incident-report", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            examType: examType || "unknown",
+            tier: tier || "unknown",
+            route: window.location.pathname,
+            errorMessage: `User reported problem with question ${questionId || "N/A"}`,
+            browserInfo: navigator.userAgent,
+            additionalContext: { questionId },
+          }),
+        });
+        if (!res.ok) throw new Error("Failed");
+        setSent(true);
+      } catch {
+        setFailed(true);
+      }
     }
     setSending(false);
   };

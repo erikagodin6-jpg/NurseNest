@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useI18n } from "@/lib/i18n";
+import { useProtectedFetch } from "@/components/protected-access-recovery";
 import {
   Bookmark, BookmarkX, Search, Filter, PlayCircle, ArrowLeft,
   ChevronDown, CheckCircle2, XCircle, Tag
@@ -93,6 +94,7 @@ export default function BookmarksPage() {
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const { toast } = useToast();
+  const protectedFetch = useProtectedFetch("bookmarks");
   const [bookmarks, setBookmarks] = useState<BookmarkedQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -112,7 +114,7 @@ export default function BookmarksPage() {
     if (!user) return;
     setLoading(true);
     try {
-      const res = await fetch("/api/bookmarks", {
+      const res = await protectedFetch("/api/bookmarks", {
         headers: { "x-user-id": user.id },
       });
       if (res.ok) {
