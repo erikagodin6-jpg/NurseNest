@@ -106,7 +106,7 @@ export function vipPriorityMiddleware() {
   return (req: Request, res: Response, next: NextFunction) => {
     if (!vipPriorityConfig.enabled) return next();
 
-    if (req.path.startsWith("/api/admin/") || req.path.startsWith("/api/health") || req.path === "/api/platform/degradation" || req.path === "/api/platform/minimal-core" || req.method === "OPTIONS" || !req.path.startsWith("/api/")) {
+    if (req.path.startsWith("/api/admin/") || req.path.startsWith("/api/health") || req.path.startsWith("/api/auth/") || req.path.startsWith("/api/user/") || req.path.startsWith("/api/entitlement/") || req.path === "/api/platform/degradation" || req.path === "/api/platform/minimal-core" || req.method === "OPTIONS" || !req.path.startsWith("/api/")) {
       return next();
     }
 

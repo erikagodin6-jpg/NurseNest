@@ -1218,7 +1218,7 @@ const loadSheddingConfig: LoadSheddingConfig = {
   enabled: true,
   heavyOperationQueueMax: 10,
   systemLoadThreshold: 0.9,
-  criticalPaths: new Set(["/api/auth", "/api/login", "/api/stripe", "/api/health"]),
+  criticalPaths: new Set(["/api/auth", "/api/login", "/api/stripe", "/api/health", "/api/user", "/api/entitlement", "/api/admin/tester"]),
 };
 
 const heavyOperationQueue: Array<{
@@ -1244,7 +1244,9 @@ export function loadSheddingMiddleware() {
   return (req: Request, res: Response, next: NextFunction) => {
     if (!loadSheddingConfig.enabled) return next();
 
-    if (loadSheddingConfig.criticalPaths.has(req.path) || req.method === "GET") {
+    const isCritical = loadSheddingConfig.criticalPaths.has(req.path) ||
+      Array.from(loadSheddingConfig.criticalPaths).some(p => req.path.startsWith(p + "/"));
+    if (isCritical || req.method === "GET") {
       return next();
     }
 
@@ -1578,6 +1580,9 @@ const SAFE_MODE_INFRA_PATHS = new Set([
   "/api/platform/minimal-core",
   "/api/exam-health",
   "/api/admin/resilience",
+  "/api/auth/",
+  "/api/user/",
+  "/api/entitlement/",
 ]);
 
 const SAFE_MODE_ADMIN_WRITE_EXCEPTIONS = new Set([
@@ -1585,6 +1590,7 @@ const SAFE_MODE_ADMIN_WRITE_EXCEPTIONS = new Set([
   "/api/login",
   "/api/admin/resilience",
   "/api/admin/ops",
+  "/api/admin/tester",
   "/api/stripe/webhook",
   "/api/boot-beacon",
   "/api/exam-incident-report",

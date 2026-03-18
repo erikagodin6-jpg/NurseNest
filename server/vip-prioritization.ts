@@ -108,7 +108,7 @@ export function vipPrioritizationMiddleware() {
 
     if (!req.path.startsWith("/api/")) return next();
 
-    if (req.path.startsWith("/api/admin/") || req.path.startsWith("/api/health") || req.path.startsWith("/api/auth") || req.path.startsWith("/api/login") || req.path.startsWith("/api/platform/")) {
+    if (req.path.startsWith("/api/admin/") || req.path.startsWith("/api/health") || req.path.startsWith("/api/auth") || req.path.startsWith("/api/login") || req.path.startsWith("/api/user/") || req.path.startsWith("/api/entitlement/") || req.path.startsWith("/api/platform/")) {
       return next();
     }
 

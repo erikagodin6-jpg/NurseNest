@@ -3525,7 +3525,6 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
 
       const existing = await storage.getUserByUsername(data.username);
       if (existing) return res.status(400).json({ error: "Username already taken" });
-      data.password = await hashPassword(data.password);
       const user = await storage.createUser(data);
 
       if (inviteCode && typeof inviteCode === "string" && inviteCode.trim()) {

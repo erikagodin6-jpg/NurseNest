@@ -46,7 +46,7 @@ function getRoutePrefix(path: string): string {
 const ROUTE_TIERS: Record<number, Set<string>> = {
   1: new Set([
     "/api/login", "/api/auth", "/api/register",
-    "/api/entitlement", "/api/user/me",
+    "/api/entitlement", "/api/user/",
     "/api/exam-sessions", "/api/cat-", "/api/mock-exam",
     "/api/flashcard-review", "/api/sm2-review", "/api/spaced-repetition",
     "/api/downloads", "/api/digital-products",
@@ -64,6 +64,7 @@ function getRouteTier(path: string): number {
   for (const prefix of ROUTE_TIERS[2]) {
     if (path.startsWith(prefix)) return 2;
   }
+  if (path.startsWith("/api/admin/tester")) return 1;
   if (path.startsWith("/api/admin")) return 3;
   if (path.startsWith("/api/seo")) return 3;
   if (path.startsWith("/api/analytics")) return 3;
@@ -294,8 +295,21 @@ export const SERVICE_TIMEOUTS = {
   SMS: 5000,
 };
 
-export function instrumentCorePath(pathName: string, userId: string | undefined, fn: () => Promise<any>): Promise<any> {
+export function instrumentCorePath(pathName: string, userId?: string | undefined, fn?: () => Promise<any>): any {
   const start = Date.now();
+  if (!fn) {
+    return () => {
+      const duration = Date.now() - start;
+      console.log(JSON.stringify({
+        type: "core_path_latency",
+        path: pathName,
+        userId: typeof userId === "string" ? userId : null,
+        durationMs: duration,
+        success: true,
+        timestamp: new Date().toISOString(),
+      }));
+    };
+  }
   return fn()
     .then((result) => {
       const duration = Date.now() - start;

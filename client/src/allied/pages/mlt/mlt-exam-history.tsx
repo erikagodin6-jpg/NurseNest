@@ -44,13 +44,18 @@ export default function MltExamHistory() {
 
   async function loadHistory() {
     try {
-      const userRes = await fetch("/api/auth/me");
+      const userToken = localStorage.getItem("nursenest-user-token");
+      const headers: Record<string, string> = {};
+      if (userToken) {
+        headers["Authorization"] = `Bearer ${userToken}`;
+      }
+      const userRes = await fetch("/api/auth/me", { headers });
       if (!userRes.ok) {
         setLoading(false);
         return;
       }
       const user = await userRes.json();
-      const res = await fetch(`/api/mlt/exam/history/${user.id}`);
+      const res = await fetch(`/api/mlt/exam/history/${user.id}`, { headers });
       if (res.ok) {
         const data = await res.json();
         setSessions(data);
