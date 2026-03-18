@@ -7132,6 +7132,50 @@ export const insertBackupArtifactSchema = createInsertSchema(backupArtifacts).om
 export type BackupArtifact = typeof backupArtifacts.$inferSelect;
 export type InsertBackupArtifact = z.infer<typeof insertBackupArtifactSchema>;
 
+export const affectedSubscribers = pgTable("affected_subscribers", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  incidentId: varchar("incident_id").notNull(),
+  userId: varchar("user_id").notNull(),
+  userEmail: text("user_email"),
+  username: text("username"),
+  impactType: text("impact_type").notNull().default("service_disruption"),
+  impactDuration: integer("impact_duration"),
+  severity: text("severity").notNull().default("medium"),
+  status: text("status").notNull().default("identified"),
+  rescueActionIds: text("rescue_action_ids").array().default(sql`'{}'::text[]`),
+  suggestedActions: jsonb("suggested_actions").default(sql`'[]'::jsonb`),
+  notes: text("notes"),
+  resolvedAt: timestamp("resolved_at"),
+  resolvedBy: varchar("resolved_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertAffectedSubscriberSchema = createInsertSchema(affectedSubscribers).omit({
+  id: true,
+  createdAt: true,
+});
+export type AffectedSubscriber = typeof affectedSubscribers.$inferSelect;
+export type InsertAffectedSubscriber = z.infer<typeof insertAffectedSubscriberSchema>;
+
+export const supportNotes = pgTable("support_notes", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  authorId: varchar("author_id"),
+  authorUsername: text("author_username"),
+  noteType: text("note_type").notNull().default("general"),
+  content: text("content").notNull(),
+  incidentId: varchar("incident_id"),
+  rescueActionId: varchar("rescue_action_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertSupportNoteSchema = createInsertSchema(supportNotes).omit({
+  id: true,
+  createdAt: true,
+});
+export type SupportNote = typeof supportNotes.$inferSelect;
+export type InsertSupportNote = z.infer<typeof insertSupportNoteSchema>;
+
 export const publishValidationLogs = pgTable("publish_validation_logs", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   contentId: varchar("content_id").notNull(),
@@ -7317,13 +7361,3 @@ export const insertIncidentAffectedUserSchema = createInsertSchema(incidentAffec
 });
 export type IncidentAffectedUser = typeof incidentAffectedUsers.$inferSelect;
 export type InsertIncidentAffectedUser = z.infer<typeof insertIncidentAffectedUserSchema>;
-
-export const supportNotes = pgTable("support_notes", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: varchar("user_id").notNull(),
-  authorId: varchar("author_id").notNull(),
-  authorUsername: text("author_username"),
-  content: text("content").notNull(),
-  category: text("category").default("general"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
