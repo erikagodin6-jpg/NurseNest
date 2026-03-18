@@ -5,6 +5,10 @@ START_SECONDS=$SECONDS
 elapsed() { echo "[$(( SECONDS - START_SECONDS ))s]"; }
 
 echo "$(elapsed) === Deploy Build Start ==="
+
+echo "$(elapsed) Step 0/6: Pre-migration data fixes..."
+node scripts/pre-migration-fix.cjs
+
 rm -rf dist
 mkdir -p dist
 
