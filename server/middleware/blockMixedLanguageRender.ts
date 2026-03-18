@@ -25,6 +25,18 @@ function resolveLocale(raw: string | undefined): string {
   return "en";
 }
 
+function extractTextFields(obj: any): string[] {
+  const texts: string[] = [];
+  if (!obj || typeof obj !== "object") return texts;
+  const textKeys = ["title", "description", "body", "content", "summary", "excerpt", "heading"];
+  for (const key of textKeys) {
+    if (typeof obj[key] === "string" && obj[key].length > 20) {
+      texts.push(obj[key]);
+    }
+  }
+  return texts;
+}
+
 export function blockMixedLanguageRender(req: Request, res: Response, next: NextFunction): void {
   const rawLocale =
     req.query.locale as string ||
@@ -59,6 +71,37 @@ export function blockMixedLanguageRender(req: Request, res: Response, next: Next
 
     return true;
   };
+
+  if (locale !== "en") {
+    const originalJson = res.json.bind(res);
+    (res as any).json = function interceptedJson(body: any) {
+      if (body && typeof body === "object" && !body.error) {
+        const dataToCheck = Array.isArray(body) ? body.slice(0, 3) : [body];
+        for (const item of dataToCheck) {
+          const texts = extractTextFields(item);
+          for (const text of texts) {
+            const detection = detectLanguage(text);
+            if (detection.confidence > 0.7) {
+              const detectedLocale = resolveLocale(detection.language);
+              if (detectedLocale !== locale && detectedLocale !== "en") {
+                console.warn(
+                  `[blockMixedLanguageRender] Blocked response: requested=${locale}, detected=${detectedLocale} (${detection.language}), confidence=${detection.confidence}`
+                );
+                res.status(409);
+                return originalJson({
+                  error: "Language mismatch detected",
+                  requestedLocale: locale,
+                  detectedLanguage: detection.language,
+                  message: "Content language does not match requested locale",
+                });
+              }
+            }
+          }
+        }
+      }
+      return originalJson(body);
+    };
+  }
 
   next();
 }

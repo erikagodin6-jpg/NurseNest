@@ -34,6 +34,7 @@ function StatusBadge({ status }: { status: string }) {
     rejected: "bg-red-100 text-red-800",
     active: "bg-green-100 text-green-800",
     paused: "bg-orange-100 text-orange-800",
+    validation_failed: "bg-orange-100 text-orange-800",
   };
   return (
     <Badge className={colors[status] || "bg-gray-100 text-gray-800"} data-testid={`badge-status-${status}`}>
@@ -43,6 +44,7 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 function OverviewTab() {
+  const { t } = useI18n();
   const { data: stats, isLoading } = useQuery({
     queryKey: ["/api/admin/autopilot/stats"],
     queryFn: () => adminFetch("/api/admin/autopilot/stats").then(r => r.json()),
@@ -142,6 +144,7 @@ function OverviewTab() {
 }
 
 function SchedulesTab() {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [newEngineKey, setNewEngineKey] = useState("");
   const [newFrequency, setNewFrequency] = useState("daily");
@@ -284,6 +287,7 @@ function SchedulesTab() {
 }
 
 function PublishingQueueTab() {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [statusFilter, setStatusFilter] = useState("pending_review");
 
@@ -402,6 +406,7 @@ function PublishingQueueTab() {
 }
 
 function KeywordDiscoveryTab() {
+  const { t } = useI18n();
   const [keywords, setKeywords] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -482,6 +487,7 @@ function KeywordDiscoveryTab() {
 }
 
 function BlogEngineTab() {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [contentType, setContentType] = useState<"nursing" | "allied_health" | "new_grad">("nursing");
   const [topic, setTopic] = useState("");
@@ -706,6 +712,7 @@ function BlogEngineTab() {
 }
 
 function PracticeSEOTab() {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [practiceTitle, setPracticeTitle] = useState("");
   const [bodySystem, setBodySystem] = useState("");
@@ -803,6 +810,7 @@ function PracticeSEOTab() {
 }
 
 function QuestionFactoryTab() {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [topic, setTopic] = useState("");
   const [batchSize, setBatchSize] = useState("25");
@@ -955,6 +963,7 @@ function QuestionFactoryTab() {
 }
 
 function VisualFactoryTab() {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [diagramType, setDiagramType] = useState("anatomy");
   const [diagramTopic, setDiagramTopic] = useState("");
@@ -1041,6 +1050,7 @@ function VisualFactoryTab() {
 }
 
 function PinterestSchedulerTab() {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [pinTitle, setPinTitle] = useState("");
   const [pinBoard, setPinBoard] = useState("nursing-tips");
@@ -1151,6 +1161,7 @@ function PinterestSchedulerTab() {
 }
 
 function AutoExpansionTab() {
+  const { t } = useI18n();
   const { data: expansionData, isLoading } = useQuery({
     queryKey: ["/api/admin/autopilot/jobs", "auto_expansion"],
     queryFn: () => adminFetch("/api/admin/autopilot/jobs?engineKey=auto_expansion&limit=20").then(r => r.json()),
@@ -1227,6 +1238,7 @@ function AutoExpansionTab() {
 }
 
 function CourseBuilderTab() {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [courseTopic, setCourseTopic] = useState("");
   const [courseExam, setCourseExam] = useState("nclex-rn");
@@ -1314,6 +1326,7 @@ function CourseBuilderTab() {
 }
 
 function LifecycleEmailTab() {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [emailSequence, setEmailSequence] = useState("onboarding");
   const [emailSubject, setEmailSubject] = useState("");
@@ -1433,6 +1446,7 @@ function LifecycleEmailTab() {
 }
 
 function PerformanceDashboardTab() {
+  const { t } = useI18n();
   const { data: stats, isLoading } = useQuery({
     queryKey: ["/api/admin/autopilot/stats"],
     queryFn: () => adminFetch("/api/admin/autopilot/stats").then(r => r.json()),
@@ -1511,6 +1525,7 @@ function PerformanceDashboardTab() {
 }
 
 function JobMonitorTab() {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [expandedJob, setExpandedJob] = useState<string | null>(null);
 
@@ -1749,6 +1764,7 @@ function JobMonitorTab() {
 }
 
 function JobQueueSettingsTab() {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
 
   const { data: settingsData, isLoading } = useQuery({
@@ -1850,6 +1866,7 @@ function JobQueueSettingsTab() {
 }
 
 function SettingsTab() {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const { data: engines, isLoading } = useQuery({
     queryKey: ["/api/admin/autopilot/engines"],
@@ -1906,7 +1923,146 @@ function SettingsTab() {
   );
 }
 
+function ValidationFailuresTab() {
+  const queryClient = useQueryClient();
+  const { t } = useI18n();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["/api/admin/autopilot/queue/validation-failures", currentPage],
+    queryFn: () => adminFetch(`/api/admin/autopilot/queue/validation-failures?page=${currentPage}&limit=25`).then(r => r.json()),
+    refetchInterval: 30000,
+  });
+
+  const approveMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await adminFetch(`/api/admin/autopilot/queue/${id}/approve-validation`, { method: "POST" });
+      if (!res.ok) throw new Error("Approve failed");
+      return res.json();
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["/api/admin/autopilot/queue/validation-failures"] }),
+  });
+
+  const regenerateMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await adminFetch(`/api/admin/autopilot/queue/${id}/regenerate`, { method: "POST" });
+      if (!res.ok) throw new Error("Regenerate failed");
+      return res.json();
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["/api/admin/autopilot/queue/validation-failures"] }),
+  });
+
+  if (isLoading) return <div className="flex items-center gap-2 py-8"><Loader2 className="animate-spin" /> Loading validation failures...</div>;
+
+  const items = data?.items || [];
+  const total = data?.total || 0;
+  const totalPages = data?.totalPages || 1;
+
+  return (
+    <div className="space-y-6">
+      <Card data-testid="card-validation-failures">
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <AlertTriangle className="h-5 w-5 text-orange-500" />
+            Language Validation Failures
+            {total > 0 && <Badge className="bg-orange-100 text-orange-800" data-testid="badge-validation-count">{total}</Badge>}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {items.length === 0 ? (
+            <div className="text-center py-8 text-gray-500" data-testid="text-no-validation-failures">
+              <CheckCircle className="h-12 w-12 mx-auto mb-3 text-green-400" />
+              <p>No language validation failures found.</p>
+              <p className="text-xs mt-1">All generated content passed language validation checks.</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {items.map((item: any) => {
+                const meta = item.metadata || {};
+                return (
+                  <div key={item.id} className="border rounded-lg p-4 space-y-3" data-testid={`card-validation-failure-${item.id}`}>
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h4 className="font-medium text-sm" data-testid={`text-failure-title-${item.id}`}>{item.title}</h4>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Badge className="bg-red-100 text-red-800" data-testid={`badge-failure-status-${item.id}`}>validation failed</Badge>
+                          <Badge variant="outline" data-testid={`badge-failure-type-${item.id}`}>{item.contentType}</Badge>
+                          {meta.target_language && (
+                            <Badge variant="outline" data-testid={`badge-failure-lang-${item.id}`}>
+                              Target: {meta.target_language}
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
+                      <span className="text-xs text-gray-400">{item.createdAt ? new Date(item.createdAt).toLocaleString() : ""}</span>
+                    </div>
+
+                    {meta.validation_issues && meta.validation_issues.length > 0 && (
+                      <div className="bg-red-50 rounded p-3">
+                        <p className="text-xs font-medium text-red-700 mb-1">Validation Issues:</p>
+                        <ul className="text-xs text-red-600 space-y-1">
+                          {meta.validation_issues.map((issue: string, idx: number) => (
+                            <li key={idx} data-testid={`text-issue-${item.id}-${idx}`}>- {issue}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {meta.detected_language && (
+                      <div className="text-xs text-gray-500">
+                        Detected language: <strong>{meta.detected_language}</strong>
+                        {meta.attempts && <> | Attempts: <strong>{meta.attempts}</strong></>}
+                        {meta.flagged_at && <> | Flagged: {new Date(meta.flagged_at).toLocaleString()}</>}
+                      </div>
+                    )}
+
+                    <div className="flex gap-2 pt-1">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => approveMutation.mutate(item.id)}
+                        disabled={approveMutation.isPending}
+                        data-testid={`button-approve-validation-${item.id}`}
+                      >
+                        <CheckCircle className="h-3 w-3 mr-1" /> Approve Manually
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => regenerateMutation.mutate(item.id)}
+                        disabled={regenerateMutation.isPending}
+                        data-testid={`button-regenerate-${item.id}`}
+                      >
+                        <RefreshCw className="h-3 w-3 mr-1" /> Reject & Regenerate
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {totalPages > 1 && (
+                <div className="flex items-center justify-between pt-4 border-t">
+                  <span className="text-xs text-gray-500">Page {currentPage} of {totalPages} ({total} total)</span>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" disabled={currentPage <= 1} onClick={() => setCurrentPage(p => p - 1)} data-testid="button-prev-page">
+                      Previous
+                    </Button>
+                    <Button size="sm" variant="outline" disabled={currentPage >= totalPages} onClick={() => setCurrentPage(p => p + 1)} data-testid="button-next-page">
+                      Next
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
 export default function AdminAutopilot() {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-6">
@@ -1943,6 +2099,7 @@ export default function AdminAutopilot() {
               <TabsTrigger value="job-monitor" data-testid="tab-job-monitor">{t("pages.adminAutopilot.jobMonitor")}</TabsTrigger>
               <TabsTrigger value="queue-settings" data-testid="tab-queue-settings">{t("pages.adminAutopilot.queueSettings")}</TabsTrigger>
               <TabsTrigger value="settings" data-testid="tab-settings">{t("pages.adminAutopilot.settings")}</TabsTrigger>
+              <TabsTrigger value="validation-failures" data-testid="tab-validation-failures">Validation Failures</TabsTrigger>
             </TabsList>
           </div>
 
@@ -1962,6 +2119,7 @@ export default function AdminAutopilot() {
           <TabsContent value="job-monitor"><JobMonitorTab /></TabsContent>
           <TabsContent value="queue-settings"><JobQueueSettingsTab /></TabsContent>
           <TabsContent value="settings"><SettingsTab /></TabsContent>
+          <TabsContent value="validation-failures"><ValidationFailuresTab /></TabsContent>
         </Tabs>
       </div>
     </div>

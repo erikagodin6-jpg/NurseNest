@@ -11,6 +11,9 @@ import { fisherYatesShuffle, shuffleOptions } from "../shared/shuffle";
 import { normalizeQuestionOptions } from "./qbank-api";
 import { validateForPublish, autoRepairContent, logAutoRepairs, quarantineContent, type ValidationResult, type ValidationError } from "./content-integrity-validation";
 import { publishWithValidation, quarantineContentItem, isContentQuarantined, getContentWithQuarantineCheck, createContentSnapshot } from "./content-versioning-quarantine";
+import { requireLanguage } from "./middleware/requireLanguage";
+import { blockMixedLanguageRender } from "./middleware/blockMixedLanguageRender";
+import { generateWithLanguageEnforcement } from "./services/generatorEnforcement";
 
 function parseStoragePath(path: string): { bucketName: string; objectName: string } {
   if (!path.startsWith("/")) path = `/${path}`;
@@ -4882,7 +4885,7 @@ Rules:
   // --------------------
   // Content - Public typed endpoints
   // --------------------
-  app.get("/api/content/lessons", async (req, res) => {
+  app.get("/api/content/lessons", blockMixedLanguageRender, async (req, res) => {
     try {
       const region = req.region || "US";
       const lang = (req.query.lang as string) || req.lang || "en";
@@ -5715,7 +5718,7 @@ Rules:
     }
   });
 
-  app.get("/api/content/:id", async (req, res) => {
+  app.get("/api/content/:id", blockMixedLanguageRender, async (req, res) => {
     const contentEnd = instrumentCorePath("lesson_page_load");
     try {
       const item = await storage.getContentItem(req.params.id);
@@ -5758,7 +5761,7 @@ Rules:
     }
   });
 
-  app.get("/api/content/slug/:slug", async (req, res) => {
+  app.get("/api/content/slug/:slug", blockMixedLanguageRender, async (req, res) => {
     try {
       let item: any = null;
       try {
@@ -8914,21 +8917,14 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
-  app.post("/api/lesson-translations/:lessonId/generate", async (req, res) => {
+  app.post("/api/lesson-translations/:lessonId/generate", requireLanguage, async (req, res) => {
     try {
       const { lessonId } = req.params;
       const { lang, fields } = req.body;
-      if (!lang || !fields || typeof fields !== "object") {
+      const targetLang = (res as any).locals.targetLanguage || lang;
+      if (!targetLang || !fields || typeof fields !== "object") {
         return res.status(400).json({ error: "lang and fields object required" });
       }
-
-      const LANG_NAMES: Record<string, string> = {
-        fr: "French", es: "Spanish", zh: "Chinese (Simplified)", ar: "Arabic",
-        hi: "Hindi", pt: "Portuguese", tl: "Filipino/Tagalog", ko: "Korean",
-        ja: "Japanese", de: "German", vi: "Vietnamese", pa: "Punjabi",
-        ur: "Urdu", fa: "Farsi/Persian"
-      };
-      const langName = LANG_NAMES[lang] || lang;
 
       const fieldsToTranslate = Object.entries(fields)
         .filter(([_, v]) => v != null && String(v).trim().length > 0)
@@ -8938,32 +8934,41 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
         return res.json({ success: true, translations: {} });
       }
 
-      const OpenAI = (await import("openai")).default;
-      const openai = new OpenAI({
-        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-      });
-
-      const prompt = `You are a professional medical/nursing translator. Translate the following nursing education content fields from English to ${langName}. 
-Maintain clinical accuracy and use proper medical terminology in ${langName}.
-Keep the same structure (if a field is a JSON array, return a JSON array in ${langName}).
+      const baseSystemPrompt = "You are a medical content translator. Return ONLY valid JSON.";
+      const baseUserPrompt = `You are a professional medical/nursing translator. Translate the following nursing education content fields from English to the target language.
+Maintain clinical accuracy and use proper medical terminology.
+Keep the same structure (if a field is a JSON array, return a JSON array in the target language).
 Do NOT translate medical abbreviations (ECG, IV, NCLEX, etc.).
 Return a JSON object where each key is the field name and each value is the translated text.
 
 Fields to translate:
 ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\n")}`;
 
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
-          { role: "system", content: "You are a medical content translator. Return ONLY valid JSON." },
-          { role: "user", content: prompt }
-        ],
-        temperature: 0.3,
-        max_tokens: 4096,
+      const enforcementResult = await generateWithLanguageEnforcement({
+        targetLanguage: targetLang,
+        baseSystemPrompt,
+        baseUserPrompt,
+        aiOptions: {
+          model: "gpt-4o-mini",
+          temperature: 0.3,
+          maxTokens: 4096,
+          taskType: "content",
+          feature: "lesson-translation",
+        },
+        fieldsToValidate: fieldsToTranslate.map(f => f.field),
+        preserveMedicalTerms: true,
+        contentType: "lesson_translation",
       });
 
-      const raw = completion.choices[0]?.message?.content || "{}";
+      if (!enforcementResult.success) {
+        return res.status(422).json({
+          error: "Language validation failed after retries",
+          validation: enforcementResult.validation,
+          attempts: enforcementResult.attempts,
+        });
+      }
+
+      const raw = enforcementResult.content || "{}";
       let parsed: Record<string, string> = {};
       try {
         const cleaned = raw.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
@@ -8980,11 +8985,11 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
            VALUES ('lesson', $1, $2, $3, $4, 'auto', $5)
            ON CONFLICT (content_type, content_id, field_name, language_code)
            DO UPDATE SET translated_text = $4, translation_status = 'auto', source_hash = $5, last_updated = NOW()`,
-          [lessonId, fieldName, lang, translatedText, simpleHash(String(fields[fieldName] || ""))]
+          [lessonId, fieldName, targetLang, translatedText, simpleHash(String(fields[fieldName] || ""))]
         );
       }
 
-      res.json({ success: true, translations: parsed });
+      res.json({ success: true, translations: parsed, validation: enforcementResult.validation });
     } catch (e: any) {
       console.error("AI translation error:", e);
       res.status(500).json({ error: e.message });
@@ -9016,52 +9021,58 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
     }
   });
 
-  app.post("/api/content-translations/:id/generate", async (req, res) => {
+  app.post("/api/content-translations/:id/generate", requireLanguage, async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
       const { id } = req.params;
       const { lang, fields } = req.body;
-      if (!lang || !fields || typeof fields !== "object") {
+      const targetLang = (res as any).locals.targetLanguage || lang;
+      if (!targetLang || !fields || typeof fields !== "object") {
         return res.status(400).json({ error: "lang and fields object required" });
       }
-      const LANG_NAMES: Record<string, string> = {
-        fr: "French", es: "Spanish", zh: "Chinese (Simplified)", ar: "Arabic",
-        hi: "Hindi", pt: "Portuguese", tl: "Filipino/Tagalog", ko: "Korean",
-        ja: "Japanese", de: "German", vi: "Vietnamese", pa: "Punjabi",
-        ur: "Urdu", fa: "Farsi/Persian"
-      };
-      const langName = LANG_NAMES[lang] || lang;
       const fieldsToTranslate = Object.entries(fields)
         .filter(([_, v]) => v != null && String(v).trim().length > 0)
         .map(([k, v]) => ({ field: k, text: typeof v === "string" ? v : JSON.stringify(v) }));
       if (fieldsToTranslate.length === 0) {
         return res.json({ success: true, translations: {} });
       }
-      const OpenAI = (await import("openai")).default;
-      const openai = new OpenAI({
-        apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-        baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-      });
-      const prompt = `You are a professional medical/nursing translator. Translate the following nursing education content fields from English to ${langName}. 
-Maintain clinical accuracy and use proper medical terminology in ${langName}.
-Keep the same structure (if a field is a JSON array, return a JSON array in ${langName}).
+
+      const baseSystemPrompt = "You are a medical content translator. Return ONLY valid JSON.";
+      const baseUserPrompt = `You are a professional medical/nursing translator. Translate the following nursing education content fields from English to the target language.
+Maintain clinical accuracy and use proper medical terminology.
+Keep the same structure (if a field is a JSON array, return a JSON array in the target language).
 Do NOT translate medical abbreviations (ECG, IV, NCLEX, etc.).
 Return a JSON object where each key is the field name and each value is the translated text.
 
 Fields to translate:
 ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\n")}`;
 
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
-          { role: "system", content: "You are a medical content translator. Return ONLY valid JSON." },
-          { role: "user", content: prompt }
-        ],
-        temperature: 0.3,
-        max_tokens: 4096,
+      const enforcementResult = await generateWithLanguageEnforcement({
+        targetLanguage: targetLang,
+        baseSystemPrompt,
+        baseUserPrompt,
+        aiOptions: {
+          model: "gpt-4o-mini",
+          temperature: 0.3,
+          maxTokens: 4096,
+          taskType: "content",
+          feature: "content-translation",
+        },
+        fieldsToValidate: fieldsToTranslate.map(f => f.field),
+        preserveMedicalTerms: true,
+        contentType: "content_translation",
       });
-      const raw = completion.choices[0]?.message?.content || "{}";
+
+      if (!enforcementResult.success) {
+        return res.status(422).json({
+          error: "Language validation failed after retries",
+          validation: enforcementResult.validation,
+          attempts: enforcementResult.attempts,
+        });
+      }
+
+      const raw = enforcementResult.content || "{}";
       let parsed: Record<string, string> = {};
       try {
         const cleaned = raw.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
@@ -9076,10 +9087,10 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
            VALUES ('content_item', $1, $2, $3, $4, 'auto', $5)
            ON CONFLICT (content_type, content_id, field_name, language_code)
            DO UPDATE SET translated_text = $4, translation_status = 'auto', source_hash = $5, last_updated = NOW()`,
-          [id, fieldName, lang, translatedText, simpleHash(String(fields[fieldName] || ""))]
+          [id, fieldName, targetLang, translatedText, simpleHash(String(fields[fieldName] || ""))]
         );
       }
-      res.json({ success: true, translations: parsed });
+      res.json({ success: true, translations: parsed, validation: enforcementResult.validation });
     } catch (e: any) {
       console.error("AI content translation error:", e);
       res.status(500).json({ error: e.message });
