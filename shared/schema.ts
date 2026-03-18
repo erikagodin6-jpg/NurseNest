@@ -10,9 +10,13 @@ export const users = pgTable("users", {
   email: text("email").notNull(),
   emailVerifiedAt: timestamp("email_verified_at"),
   displayName: text("display_name"),
+  firstName: text("first_name"),
+  role: text("role"),
   country: text("country"),
   examTrack: text("exam_track"),
+  exam: text("exam"),
   onboardingComplete: boolean("onboarding_complete").default(false),
+  onboardingCompleted: boolean("onboarding_completed").default(false),
   tier: text("tier").default("free"),
   stripeCustomerId: text("stripe_customer_id"),
   stripeSubscriptionId: text("stripe_subscription_id"),
@@ -33,6 +37,31 @@ export const users = pgTable("users", {
   preferredTheme: text("preferred_theme"),
   adminRole: text("admin_role"),
 });
+
+export const userSubscriptions = pgTable("user_subscriptions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  planId: text("plan_id"),
+  planName: text("plan_name"),
+  billingInterval: text("billing_interval"),
+  status: text("status").default("active"),
+  activeFrom: timestamp("active_from").defaultNow(),
+  expiresAt: timestamp("expires_at"),
+  renewsAt: timestamp("renews_at"),
+  canceledAt: timestamp("canceled_at"),
+  trialStart: timestamp("trial_start"),
+  trialEnd: timestamp("trial_end"),
+  purchaseSource: text("purchase_source").default("web"),
+  lastVerifiedAt: timestamp("last_verified_at").defaultNow(),
+  stripeSubscriptionId: text("stripe_subscription_id"),
+  stripeCustomerId: text("stripe_customer_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertUserSubscriptionSchema = createInsertSchema(userSubscriptions).omit({ id: true, createdAt: true, updatedAt: true });
+export type UserSubscription = typeof userSubscriptions.$inferSelect;
+export type InsertUserSubscription = z.infer<typeof insertUserSubscriptionSchema>;
 
 export const pricingPlans = pgTable("pricing_plans", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),

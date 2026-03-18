@@ -407,6 +407,23 @@ app.post(
                 ...(isAdmin ? {} : { tier: meta.tier }),
               });
             }
+
+            try {
+              await storage.upsertUserSubscription(meta.userId, {
+                planId: meta.planId || meta.tier,
+                planName: meta.tier?.toUpperCase() || "Subscription",
+                billingInterval: meta.duration || "monthly",
+                status: "active",
+                activeFrom: new Date(),
+                purchaseSource: "web",
+                stripeSubscriptionId: subscriptionId || undefined,
+                stripeCustomerId: session.customer || undefined,
+                lastVerifiedAt: new Date(),
+              });
+            } catch (subErr: any) {
+              console.error("[Webhook] Failed to upsert user_subscription:", subErr.message);
+            }
+
             console.log(`[Webhook] Subscription activated: user ${meta.userId}, tier ${isAdmin ? 'admin (preserved)' : meta.tier}, sub ${subscriptionId}`);
             const { getDevPool } = await import("./db");
             sendAdminNotification(getDevPool(), {
@@ -461,6 +478,21 @@ app.post(
                 details: `Subscription ${status}`,
               }).catch((e: any) => console.error("[Notifications] subscription_cancelled error:", e.message));
             }
+
+            try {
+              const subStatus = (status === "canceled" || status === "unpaid") ? "canceled" : status;
+              await storage.upsertUserSubscription(userId, {
+                status: subStatus,
+                stripeSubscriptionId: sub?.id || undefined,
+                stripeCustomerId: sub?.customer || undefined,
+                lastVerifiedAt: new Date(),
+                ...(subStatus === "canceled" ? { canceledAt: new Date() } : {}),
+                ...(sub?.current_period_end ? { expiresAt: new Date(sub.current_period_end * 1000) } : {}),
+                ...(sub?.current_period_end && subStatus === "active" ? { renewsAt: new Date(sub.current_period_end * 1000) } : {}),
+              });
+            } catch (subErr: any) {
+              console.error("[Webhook] Failed to upsert user_subscription on update:", subErr.message);
+            }
           }
         }
 
@@ -478,6 +510,17 @@ app.post(
             const isAdmin = existingUser?.tier === "admin";
             await storage.updateUserStripeInfo(userId, { subscriptionStatus: "canceled", ...(isAdmin ? {} : { tier: "free" }) });
             console.log(`[Webhook] Subscription deleted: user ${userId} ${isAdmin ? '(admin preserved)' : 'downgraded to free'}`);
+
+            try {
+              await storage.upsertUserSubscription(userId, {
+                status: "canceled",
+                canceledAt: new Date(),
+                lastVerifiedAt: new Date(),
+              });
+            } catch (subErr: any) {
+              console.error("[Webhook] Failed to upsert user_subscription on delete:", subErr.message);
+            }
+
             const { getDevPool } = await import("./db");
             sendAdminNotification(getDevPool(), {
               event: "subscription_cancelled",
@@ -488,6 +531,33 @@ app.post(
               tier: sub?.metadata?.tier || existingUser?.tier || "",
               details: "Subscription deleted by Stripe",
             }).catch((e: any) => console.error("[Notifications] subscription_cancelled error:", e.message));
+          }
+        }
+
+        if (evt.type === "invoice.paid") {
+          const invoice = evt.data?.object;
+          const customerId = invoice?.customer;
+          if (customerId) {
+            try {
+              const { getDevPool } = await import("./db");
+              const dbPool = getDevPool();
+              const result = await dbPool.query(
+                `SELECT id FROM users WHERE stripe_customer_id = $1 LIMIT 1`,
+                [customerId]
+              );
+              if (result.rows.length > 0) {
+                const userId = result.rows[0].id;
+                await storage.upsertUserSubscription(userId, {
+                  status: "active",
+                  lastVerifiedAt: new Date(),
+                  stripeCustomerId: customerId,
+                  ...(invoice.subscription ? { stripeSubscriptionId: invoice.subscription } : {}),
+                });
+                console.log(`[Webhook] invoice.paid: updated user_subscription for user ${userId}`);
+              }
+            } catch (e: any) {
+              console.error("[Webhook] invoice.paid subscription update error:", e.message);
+            }
           }
         }
 
@@ -679,6 +749,12 @@ app.post("/api/admin/verify", (req, res) => {
     return res.json({ isAdmin: false });
   }
 });
+
+// -------------------------
+// Subscription & Entitlement routes
+// -------------------------
+import { registerSubscriptionRoutes } from "./subscription-routes";
+registerSubscriptionRoutes(app);
 
 // -------------------------
 // SEO: robots + sitemap (modular, database-driven)
