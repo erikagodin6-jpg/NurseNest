@@ -2,6 +2,52 @@ import type { Express } from "express";
 import { pool } from "./storage";
 import { resolveAuthUser } from "./admin-auth";
 import { assembleExam, computeScoreReport, ensureMockExamTemplatesTable, type AssemblyConfig } from "./mock-exam-assembly";
+import { normalizeExamQuestions, isCircuitOpen, recordExamFailure, recordExamSuccess, getLastKnownGoodVersion, getBackupPayload, logExamIncident } from "./exam-resilience-engine";
+
+function sanitizeQuestionsForClient(questions: any[]): any[] {
+  return questions.map((q: any) => ({
+    id: q.id,
+    stem: q.stem,
+    options: q.options,
+    domain: q.domain,
+    difficulty: q.difficulty,
+    questionType: q.questionType,
+  }));
+}
+
+async function createFallbackSession(
+  userId: number,
+  tier: string,
+  questions: any[],
+  templateRow: any,
+  fallbackSource: string
+) {
+  const questionIds = questions.map((q: any) => q.id);
+  const sessionResult = await pool.query(
+    `INSERT INTO mock_exam_attempts
+      (user_id, tier, total_questions, status, questions, blueprint_code, blueprint_meta, exam_type)
+     VALUES ($1, $2, $3, 'in_progress', $4, $5, $6, 'flagship_mock')
+     RETURNING *`,
+    [
+      userId,
+      tier,
+      questions.length,
+      JSON.stringify(questionIds),
+      templateRow.template_id,
+      JSON.stringify({
+        templateId: templateRow.template_id,
+        examCode: templateRow.exam_code,
+        examName: templateRow.exam_name,
+        templateName: templateRow.template_name,
+        passingStandard: templateRow.passing_standard,
+        domainWeights: templateRow.domain_weights,
+        timeLimitMinutes: templateRow.time_limit_minutes,
+        fallbackSource,
+      }),
+    ]
+  );
+  return snakeToCamel(sessionResult.rows[0]);
+}
 
 function snakeToCamel(obj: any): any {
   if (Array.isArray(obj)) return obj.map(snakeToCamel);
@@ -252,11 +298,68 @@ export function registerMockExamTemplateRoutes(app: Express) {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });
 
+      const templateId = req.params.templateId;
+      let usedFallback = false;
+      let fallbackSource: string | undefined;
+
       const result = await pool.query(
         `SELECT * FROM mock_exam_templates WHERE template_id = $1 AND active = true`,
-        [req.params.templateId]
+        [templateId]
       );
       if (!result.rows.length) return res.status(404).json({ error: "Template not found" });
+
+      if (isCircuitOpen(templateId)) {
+        const lastGood = await getLastKnownGoodVersion(templateId);
+        if (lastGood) {
+          logExamIncident({
+            examId: templateId,
+            userId: user.id,
+            tier: result.rows[0].tier || "unknown",
+            severity: "warning",
+            reasonCode: "circuit_open",
+            reasonDetail: `Circuit open for ${templateId}, serving last known good v${lastGood.version}`,
+            endpoint: "/api/mock-exam-templates/assemble",
+            fallbackModeTriggered: true,
+          });
+
+          const fallbackQuestions = lastGood.questionsPayload;
+          const session = await createFallbackSession(user.id, result.rows[0].tier, fallbackQuestions, result.rows[0], "last_known_good_circuit");
+
+          return res.json({
+            sessionId: session.id,
+            templateId: result.rows[0].template_id,
+            examName: result.rows[0].exam_name,
+            templateName: result.rows[0].template_name,
+            timeLimitMinutes: result.rows[0].time_limit_minutes,
+            passingStandard: result.rows[0].passing_standard,
+            totalQuestions: fallbackQuestions.length,
+            questions: sanitizeQuestionsForClient(fallbackQuestions),
+            circuitOpen: true,
+            fallbackVersion: lastGood.version,
+            fallbackMode: true,
+          });
+        }
+
+        const backup = await getBackupPayload(templateId);
+        if (backup) {
+          const backupQuestions = backup.questions || [];
+          const session = await createFallbackSession(user.id, result.rows[0].tier, backupQuestions, result.rows[0], "backup_payload");
+
+          return res.json({
+            sessionId: session.id,
+            templateId: result.rows[0].template_id,
+            examName: result.rows[0].exam_name,
+            templateName: result.rows[0].template_name,
+            timeLimitMinutes: result.rows[0].time_limit_minutes,
+            passingStandard: result.rows[0].passing_standard,
+            totalQuestions: backupQuestions.length,
+            questions: sanitizeQuestionsForClient(backupQuestions),
+            circuitOpen: true,
+            fallbackMode: true,
+            fallbackSource: "backup_payload",
+          });
+        }
+      }
 
       const row = result.rows[0];
       const config: AssemblyConfig = {
@@ -272,13 +375,76 @@ export function registerMockExamTemplateRoutes(app: Express) {
         tier: row.tier,
       };
 
-      const questions = await assembleExam(config);
+      let questions: any[];
+      try {
+        questions = await assembleExam(config);
+      } catch (assemblyError: any) {
+        recordExamFailure(templateId, `assembly_error: ${assemblyError.message}`);
+
+        const lastGood = await getLastKnownGoodVersion(templateId);
+        if (lastGood) {
+          logExamIncident({
+            examId: templateId,
+            userId: user.id,
+            tier: row.tier,
+            severity: "warning",
+            reasonCode: "last_known_good_served",
+            reasonDetail: `Assembly failed, serving last known good v${lastGood.version}`,
+            endpoint: "/api/mock-exam-templates/assemble",
+            fallbackModeTriggered: true,
+          });
+
+          const fallbackQuestions = lastGood.questionsPayload;
+          const session = await createFallbackSession(user.id, row.tier, fallbackQuestions, row, "last_known_good_assembly_error");
+
+          return res.json({
+            sessionId: session.id,
+            templateId: row.template_id,
+            examName: row.exam_name,
+            templateName: row.template_name,
+            timeLimitMinutes: row.time_limit_minutes,
+            passingStandard: row.passing_standard,
+            totalQuestions: fallbackQuestions.length,
+            questions: sanitizeQuestionsForClient(fallbackQuestions),
+            fallbackMode: true,
+            fallbackVersion: lastGood.version,
+          });
+        }
+
+        throw assemblyError;
+      }
 
       if (questions.length === 0) {
+        recordExamFailure(templateId, "zero_questions_assembled");
         return res.status(400).json({ error: "No questions available for this exam configuration" });
       }
 
-      const questionIds = questions.map(q => q.id);
+      const normalized = normalizeExamQuestions(questions, templateId);
+
+      if (normalized.fallbackMode) {
+        logExamIncident({
+          examId: templateId,
+          userId: user.id,
+          tier: row.tier,
+          severity: "warning",
+          reasonCode: "normalization_fallback",
+          reasonDetail: normalized.fallbackReason || "Too few valid questions after normalization",
+          endpoint: "/api/mock-exam-templates/assemble",
+          fallbackModeTriggered: true,
+        });
+
+        const lastGood = await getLastKnownGoodVersion(templateId);
+        if (lastGood) {
+          usedFallback = true;
+          fallbackSource = "last_known_good";
+        }
+      }
+
+      const finalQuestions = usedFallback
+        ? (await getLastKnownGoodVersion(templateId))?.questionsPayload || normalized.questions
+        : normalized.questions;
+
+      const questionIds = finalQuestions.map((q: any) => q.id);
       const sessionResult = await pool.query(
         `INSERT INTO mock_exam_attempts
           (user_id, tier, total_questions, status, questions, blueprint_code, blueprint_meta, exam_type)
@@ -287,7 +453,7 @@ export function registerMockExamTemplateRoutes(app: Express) {
         [
           user.id,
           row.tier,
-          questions.length,
+          finalQuestions.length,
           JSON.stringify(questionIds),
           row.template_id,
           JSON.stringify({
@@ -304,6 +470,10 @@ export function registerMockExamTemplateRoutes(app: Express) {
 
       const session = snakeToCamel(sessionResult.rows[0]);
 
+      if (!usedFallback) {
+        recordExamSuccess(templateId);
+      }
+
       res.json({
         sessionId: session.id,
         templateId: row.template_id,
@@ -311,8 +481,8 @@ export function registerMockExamTemplateRoutes(app: Express) {
         templateName: row.template_name,
         timeLimitMinutes: row.time_limit_minutes,
         passingStandard: row.passing_standard,
-        totalQuestions: questions.length,
-        questions: questions.map(q => ({
+        totalQuestions: finalQuestions.length,
+        questions: finalQuestions.map((q: any) => ({
           id: q.id,
           stem: q.stem,
           options: q.options,
@@ -320,9 +490,12 @@ export function registerMockExamTemplateRoutes(app: Express) {
           difficulty: q.difficulty,
           questionType: q.questionType,
         })),
+        ...(usedFallback ? { fallbackMode: true, fallbackSource } : {}),
+        ...(normalized.removedCount > 0 ? { normalizedRemovedCount: normalized.removedCount } : {}),
       });
     } catch (e: any) {
       console.error("Assemble mock exam error:", e);
+      recordExamFailure(req.params.templateId, `unhandled: ${e.message}`);
       res.status(500).json({ error: e.message });
     }
   });

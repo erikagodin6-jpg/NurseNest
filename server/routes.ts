@@ -525,6 +525,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerExamReliabilityRoutes } = await import("./exam-reliability");
   registerExamReliabilityRoutes(app);
 
+  const { registerExamResilienceRoutes } = await import("./exam-resilience-engine");
+  registerExamResilienceRoutes(app);
+
   const { registerResilienceRoutes, initDefaultBreakers, initFeatureFlags } = await import("./platform-resilience");
   initDefaultBreakers();
   initFeatureFlags();
@@ -9510,7 +9513,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
 
       const { attemptId } = req.params;
-      const { answers, flagged, timeSpent, catState, timerState } = req.body;
+      const { answers, flagged, timeSpent, catState, timerState, currentQuestion } = req.body;
 
       const check = await pool.query(`SELECT user_id FROM mock_exam_attempts WHERE id = $1`, [attemptId]);
       if (check.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
@@ -9535,6 +9538,16 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       params.push(attemptId);
 
       await pool.query(query, params);
+
+      const { saveSessionState } = await import("./exam-resilience-engine");
+      saveSessionState(attemptId, String(authUser.id), {
+        answers: answers || {},
+        flagged: flagged || [],
+        timeSpent: timeSpent || 0,
+        currentQuestion: currentQuestion || 0,
+        catState,
+        timerState,
+      }).catch((e: any) => console.error("[ExamResilience] Session state save error:", e.message));
 
       res.json({ success: true });
     } catch (e: any) {

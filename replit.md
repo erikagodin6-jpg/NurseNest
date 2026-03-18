@@ -45,6 +45,7 @@ Key architectural features:
 - **Platform Resilience System**: Enterprise-grade infrastructure providing circuit breakers, feature flags, kill switches, health checks, rate limiting, self-healing triggers, emergency mode, provisional access, and entitlement caching. Includes client-side error boundaries and resilient fetch.
 - **PTA Programmatic SEO Content System**: 22 rich educational content pages organized into 4 clusters plus 3 blog-style articles for PTA exam prep. Features embedded practice questions, FAQ accordion, structured data, internal linking, and conversion CTAs.
 - **i18n Enforcement & Build Tooling**: Compile script for extracting translations, missing key tracking with reporting, a missing key API, and a fallback overlay for development. Includes build-blocking validation scripts for translation coverage, hardcoded string scanning, and locale file completeness, ensuring build aborts on failures.
+- **Exam Resilience Engine**: Production-grade backend resilience for the exam system including pre-publish validation, runtime normalization, versioned backup snapshots (exam_snapshots table), circuit breaker logic (per-exam, 3 failures in 10 min), server-side session recovery (exam_session_state table), static backup payloads (exam_backup_payloads table), and admin monitoring/alerting APIs. Key file: `server/exam-resilience-engine.ts`.
 
 ### External Dependencies
 - **Database**: PostgreSQL

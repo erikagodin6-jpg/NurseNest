@@ -770,6 +770,56 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
     await client.query(`CREATE INDEX IF NOT EXISTS idx_exam_incidents_created ON exam_incidents(created_at)`);
     await client.query(`CREATE INDEX IF NOT EXISTS idx_exam_incidents_severity ON exam_incidents(severity)`);
 
+    await client.query(`ALTER TABLE exam_incidents ADD COLUMN IF NOT EXISTS profession TEXT`);
+    await client.query(`ALTER TABLE exam_incidents ADD COLUMN IF NOT EXISTS language TEXT`);
+    await client.query(`ALTER TABLE exam_incidents ADD COLUMN IF NOT EXISTS route TEXT`);
+    await client.query(`ALTER TABLE exam_incidents ADD COLUMN IF NOT EXISTS fallback_mode BOOLEAN DEFAULT false`);
+    await client.query(`ALTER TABLE exam_incidents ADD COLUMN IF NOT EXISTS question_id TEXT`);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS exam_snapshots (
+        id SERIAL PRIMARY KEY,
+        template_id TEXT NOT NULL,
+        version INTEGER NOT NULL,
+        questions_payload JSONB NOT NULL,
+        metadata_payload JSONB,
+        validation_result JSONB,
+        is_valid BOOLEAN NOT NULL DEFAULT true,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        UNIQUE(template_id, version)
+      )
+    `);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_exam_snapshots_template ON exam_snapshots(template_id, version DESC)`);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_exam_snapshots_valid ON exam_snapshots(template_id, is_valid) WHERE is_valid = true`);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS exam_session_state (
+        id SERIAL PRIMARY KEY,
+        attempt_id VARCHAR NOT NULL UNIQUE,
+        user_id VARCHAR NOT NULL,
+        answers JSONB DEFAULT '{}'::jsonb,
+        flagged JSONB DEFAULT '[]'::jsonb,
+        time_spent INTEGER DEFAULT 0,
+        current_question INTEGER DEFAULT 0,
+        cat_state JSONB,
+        timer_state JSONB,
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_exam_session_state_user ON exam_session_state(user_id)`);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_exam_session_state_attempt ON exam_session_state(attempt_id)`);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS exam_backup_payloads (
+        id SERIAL PRIMARY KEY,
+        template_id TEXT NOT NULL UNIQUE,
+        payload JSONB NOT NULL,
+        question_count INTEGER NOT NULL DEFAULT 0,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_exam_backup_payloads_template ON exam_backup_payloads(template_id)`);
+
     await client.query(`
       CREATE TABLE IF NOT EXISTS problem_reports (
         id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
