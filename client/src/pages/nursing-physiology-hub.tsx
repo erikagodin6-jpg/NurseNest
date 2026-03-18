@@ -72,7 +72,7 @@ const EXAM_TIERS = [
 export default function NursingPhysiologyHub() {
   const { t } = useI18n();
   useEffect(() => {
-    document.title = {t("pages.nursing_physiology_hub.nursingPhysiologyExplainedClinicalPathop")};
+    document.title = "Nursing Physiology Explained | Clinical Pathophysiology - NurseNest";
     const meta = document.querySelector('meta[name="description"]');
     if (meta) {
       meta.setAttribute("content", "Explore nursing pathophysiology topics explained clearly for students. Burns and hyperkalemia, cardiac conduction, acid-base disorders, pyloric stenosis, and ECG interpretation.");
