@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, integer, timestamp, jsonb, boolean, doublePrecision, uniqueIndex } from "drizzle-orm/pg-core";
+import { pgTable, pgEnum, text, varchar, integer, timestamp, jsonb, boolean, doublePrecision, uniqueIndex, index, uuid } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -151,6 +151,7 @@ export const contentItems = pgTable("content_items", {
   versionKey: text("version_key"),
   updatedByAi: boolean("updated_by_ai").default(false),
   protectedFields: text("protected_fields").array().default(sql`'{}'::text[]`),
+  sourceVersion: integer("source_version").default(1).notNull(),
 });
 
 export const insertContentItemSchema = createInsertSchema(contentItems).omit({
@@ -347,6 +348,7 @@ export const qotdHistory = pgTable("qotd_history", {
   bodySystem: text("body_system"),
   lessonId: text("lesson_id"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  sourceVersion: integer("source_version").default(1).notNull(),
 });
 
 export type QotdHistory = typeof qotdHistory.$inferSelect;
@@ -745,6 +747,7 @@ export const flashcardDecks = pgTable("flashcard_decks", {
   saveCount: integer("save_count").default(0),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  sourceVersion: integer("source_version").default(1).notNull(),
 });
 
 export const insertFlashcardDeckSchema = createInsertSchema(flashcardDecks).omit({
@@ -996,6 +999,7 @@ export const examQuestions = pgTable("exam_questions", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
   publishedAt: timestamp("published_at"),
+  sourceVersion: integer("source_version").default(1).notNull(),
 });
 
 export const insertExamQuestionSchema = createInsertSchema(examQuestions).omit({
@@ -1195,6 +1199,7 @@ export const seoPages = pgTable("seo_pages", {
   translationStatus: text("translation_status").default("en_source"),
   pageGroupId: varchar("page_group_id"),
   lastUpdated: timestamp("last_updated").defaultNow().notNull(),
+  sourceVersion: integer("source_version").default(1).notNull(),
 });
 
 export type SeoPage = typeof seoPages.$inferSelect;
@@ -1543,6 +1548,7 @@ export const flashcardBank = pgTable("flashcard_bank", {
   qualityScores: jsonb("quality_scores"),
   qualityFeedback: jsonb("quality_feedback"),
   qualityScore: integer("quality_score"),
+  sourceVersion: integer("source_version").default(1).notNull(),
 });
 
 export const insertFlashcardBankSchema = createInsertSchema(flashcardBank).omit({ id: true, createdAt: true });
@@ -6707,6 +6713,7 @@ export const seoHubPages = pgTable("seo_hub_pages", {
   publishedAt: timestamp("published_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  sourceVersion: integer("source_version").default(1).notNull(),
 });
 
 export const insertSeoHubPageSchema = createInsertSchema(seoHubPages).omit({
@@ -6772,6 +6779,7 @@ export const clinicalSeoPages = pgTable("clinical_seo_pages", {
   lastReviewedAt: timestamp("last_reviewed_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  sourceVersion: integer("source_version").default(1).notNull(),
 });
 
 export const insertClinicalSeoPageSchema = createInsertSchema(clinicalSeoPages).omit({
@@ -7546,3 +7554,256 @@ export const insertSubstitutionEventSchema = createInsertSchema(substitutionEven
 });
 export type SubstitutionEvent = typeof substitutionEvents.$inferSelect;
 export type InsertSubstitutionEvent = z.infer<typeof insertSubstitutionEventSchema>;
+
+export const translationStatusEnum = pgEnum("translation_status_enum", [
+  "missing",
+  "draft",
+  "machine_translated",
+  "human_review_needed",
+  "reviewed",
+  "approved",
+  "stale",
+  "rejected",
+]);
+
+export const examQuestionTranslations = pgTable("exam_question_translations", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  contentId: varchar("content_id").notNull().references(() => examQuestions.id),
+  locale: text("locale").notNull(),
+  sourceVersion: integer("source_version").notNull().default(1),
+  translationStatus: translationStatusEnum("translation_status").notNull().default("missing"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  translatedAt: timestamp("translated_at"),
+  reviewedAt: timestamp("reviewed_at"),
+  stem: text("stem"),
+  scenario: text("scenario"),
+  options: jsonb("options"),
+  rationale: text("rationale"),
+  correctAnswerExplanation: text("correct_answer_explanation"),
+  distractorRationales: jsonb("distractor_rationales"),
+  incorrectAnswerRationale: jsonb("incorrect_answer_rationale"),
+  clinicalPearl: text("clinical_pearl"),
+  examStrategy: text("exam_strategy"),
+  memoryHook: text("memory_hook"),
+  clinicalTrap: text("clinical_trap"),
+  clinicalReasoning: text("clinical_reasoning"),
+  keyTakeaway: text("key_takeaway"),
+  mnemonic: text("mnemonic"),
+  caseContext: text("case_context"),
+  hints: jsonb("hints"),
+}, (table) => [
+  uniqueIndex("exam_question_translations_content_locale_idx").on(table.contentId, table.locale),
+  index("exam_question_translations_locale_status_idx").on(table.locale, table.translationStatus),
+  index("exam_question_translations_status_stale_idx").on(table.translationStatus).where(sql`translation_status = 'stale'`),
+]);
+
+export const insertExamQuestionTranslationSchema = createInsertSchema(examQuestionTranslations).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type ExamQuestionTranslation = typeof examQuestionTranslations.$inferSelect;
+export type InsertExamQuestionTranslation = z.infer<typeof insertExamQuestionTranslationSchema>;
+
+export const contentItemTranslations = pgTable("content_item_translations", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  contentId: varchar("content_id").notNull().references(() => contentItems.id),
+  locale: text("locale").notNull(),
+  sourceVersion: integer("source_version").notNull().default(1),
+  translationStatus: translationStatusEnum("translation_status").notNull().default("missing"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  translatedAt: timestamp("translated_at"),
+  reviewedAt: timestamp("reviewed_at"),
+  title: text("title"),
+  summary: text("summary"),
+  content: jsonb("content"),
+  seoTitle: text("seo_title"),
+  seoDescription: text("seo_description"),
+}, (table) => [
+  uniqueIndex("content_item_translations_content_locale_idx").on(table.contentId, table.locale),
+  index("content_item_translations_locale_status_idx").on(table.locale, table.translationStatus),
+  index("content_item_translations_status_stale_idx").on(table.translationStatus).where(sql`translation_status = 'stale'`),
+]);
+
+export const insertContentItemTranslationSchema = createInsertSchema(contentItemTranslations).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type ContentItemTranslation = typeof contentItemTranslations.$inferSelect;
+export type InsertContentItemTranslation = z.infer<typeof insertContentItemTranslationSchema>;
+
+export const flashcardTranslations = pgTable("flashcard_translations", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  contentId: varchar("content_id").notNull().references(() => flashcardBank.id),
+  locale: text("locale").notNull(),
+  sourceVersion: integer("source_version").notNull().default(1),
+  translationStatus: translationStatusEnum("translation_status").notNull().default("missing"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  translatedAt: timestamp("translated_at"),
+  reviewedAt: timestamp("reviewed_at"),
+  front: text("front"),
+  back: text("back"),
+  rationaleCorrect: text("rationale_correct"),
+  clinicalTakeaway: text("clinical_takeaway"),
+  examPearl: text("exam_pearl"),
+  options: jsonb("options"),
+  distractorRationales: jsonb("distractor_rationales"),
+}, (table) => [
+  uniqueIndex("flashcard_translations_content_locale_idx").on(table.contentId, table.locale),
+  index("flashcard_translations_locale_status_idx").on(table.locale, table.translationStatus),
+  index("flashcard_translations_status_stale_idx").on(table.translationStatus).where(sql`translation_status = 'stale'`),
+]);
+
+export const insertFlashcardTranslationSchema = createInsertSchema(flashcardTranslations).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type FlashcardTranslation = typeof flashcardTranslations.$inferSelect;
+export type InsertFlashcardTranslation = z.infer<typeof insertFlashcardTranslationSchema>;
+
+export const seoPageTranslations = pgTable("seo_page_translations", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  contentId: varchar("content_id").notNull().references(() => seoPages.id),
+  locale: text("locale").notNull(),
+  sourceVersion: integer("source_version").notNull().default(1),
+  translationStatus: translationStatusEnum("translation_status").notNull().default("missing"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  translatedAt: timestamp("translated_at"),
+  reviewedAt: timestamp("reviewed_at"),
+  title: text("title"),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
+  contentHtml: text("content_html"),
+  tocJson: jsonb("toc_json"),
+  faqJson: jsonb("faq_json"),
+}, (table) => [
+  uniqueIndex("seo_page_translations_content_locale_idx").on(table.contentId, table.locale),
+  index("seo_page_translations_locale_status_idx").on(table.locale, table.translationStatus),
+  index("seo_page_translations_status_stale_idx").on(table.translationStatus).where(sql`translation_status = 'stale'`),
+]);
+
+export const insertSeoPageTranslationSchema = createInsertSchema(seoPageTranslations).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type SeoPageTranslation = typeof seoPageTranslations.$inferSelect;
+export type InsertSeoPageTranslation = z.infer<typeof insertSeoPageTranslationSchema>;
+
+export const flashcardDeckTranslations = pgTable("flashcard_deck_translations", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  contentId: varchar("content_id").notNull().references(() => flashcardDecks.id),
+  locale: text("locale").notNull(),
+  sourceVersion: integer("source_version").notNull().default(1),
+  translationStatus: translationStatusEnum("translation_status").notNull().default("missing"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  translatedAt: timestamp("translated_at"),
+  reviewedAt: timestamp("reviewed_at"),
+  title: text("title"),
+  description: text("description"),
+}, (table) => [
+  uniqueIndex("flashcard_deck_translations_content_locale_idx").on(table.contentId, table.locale),
+  index("flashcard_deck_translations_locale_status_idx").on(table.locale, table.translationStatus),
+  index("flashcard_deck_translations_status_stale_idx").on(table.translationStatus).where(sql`translation_status = 'stale'`),
+]);
+
+export const insertFlashcardDeckTranslationSchema = createInsertSchema(flashcardDeckTranslations).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type FlashcardDeckTranslation = typeof flashcardDeckTranslations.$inferSelect;
+export type InsertFlashcardDeckTranslation = z.infer<typeof insertFlashcardDeckTranslationSchema>;
+
+export const qotdTranslations = pgTable("qotd_translations", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  contentId: varchar("content_id").notNull().references(() => qotdHistory.id),
+  locale: text("locale").notNull(),
+  sourceVersion: integer("source_version").notNull().default(1),
+  translationStatus: translationStatusEnum("translation_status").notNull().default("missing"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  translatedAt: timestamp("translated_at"),
+  reviewedAt: timestamp("reviewed_at"),
+  questionText: text("question_text"),
+  options: jsonb("options"),
+  rationale: text("rationale"),
+}, (table) => [
+  uniqueIndex("qotd_translations_content_locale_idx").on(table.contentId, table.locale),
+  index("qotd_translations_locale_status_idx").on(table.locale, table.translationStatus),
+  index("qotd_translations_status_stale_idx").on(table.translationStatus).where(sql`translation_status = 'stale'`),
+]);
+
+export const insertQotdTranslationSchema = createInsertSchema(qotdTranslations).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type QotdTranslation = typeof qotdTranslations.$inferSelect;
+export type InsertQotdTranslation = z.infer<typeof insertQotdTranslationSchema>;
+
+export const seoHubPageTranslations = pgTable("seo_hub_page_translations", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  contentId: varchar("content_id").notNull().references(() => seoHubPages.id),
+  locale: text("locale").notNull(),
+  sourceVersion: integer("source_version").notNull().default(1),
+  translationStatus: translationStatusEnum("translation_status").notNull().default("missing"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  translatedAt: timestamp("translated_at"),
+  reviewedAt: timestamp("reviewed_at"),
+  title: text("title"),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
+  h1: text("h1"),
+  contentSections: jsonb("content_sections"),
+  faqItems: jsonb("faq_items"),
+}, (table) => [
+  uniqueIndex("seo_hub_page_translations_content_locale_idx").on(table.contentId, table.locale),
+  index("seo_hub_page_translations_locale_status_idx").on(table.locale, table.translationStatus),
+  index("seo_hub_page_translations_status_stale_idx").on(table.translationStatus).where(sql`translation_status = 'stale'`),
+]);
+
+export const insertSeoHubPageTranslationSchema = createInsertSchema(seoHubPageTranslations).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type SeoHubPageTranslation = typeof seoHubPageTranslations.$inferSelect;
+export type InsertSeoHubPageTranslation = z.infer<typeof insertSeoHubPageTranslationSchema>;
+
+export const clinicalSeoPageTranslations = pgTable("clinical_seo_page_translations", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  contentId: varchar("content_id").notNull().references(() => clinicalSeoPages.id),
+  locale: text("locale").notNull(),
+  sourceVersion: integer("source_version").notNull().default(1),
+  translationStatus: translationStatusEnum("translation_status").notNull().default("missing"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  translatedAt: timestamp("translated_at"),
+  reviewedAt: timestamp("reviewed_at"),
+  title: text("title"),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
+  summary: text("summary"),
+  data: jsonb("data"),
+}, (table) => [
+  uniqueIndex("clinical_seo_page_translations_content_locale_idx").on(table.contentId, table.locale),
+  index("clinical_seo_page_translations_locale_status_idx").on(table.locale, table.translationStatus),
+  index("clinical_seo_page_translations_status_stale_idx").on(table.translationStatus).where(sql`translation_status = 'stale'`),
+]);
+
+export const insertClinicalSeoPageTranslationSchema = createInsertSchema(clinicalSeoPageTranslations).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type ClinicalSeoPageTranslation = typeof clinicalSeoPageTranslations.$inferSelect;
+export type InsertClinicalSeoPageTranslation = z.infer<typeof insertClinicalSeoPageTranslationSchema>;
