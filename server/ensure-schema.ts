@@ -748,6 +748,28 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
     await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS mnemonic TEXT DEFAULT ''`);
     await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS reference_source TEXT DEFAULT ''`);
 
+    await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS quarantined_at TIMESTAMPTZ`);
+    await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS quarantine_reason TEXT`);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_exam_questions_quarantine ON exam_questions(quarantined_at) WHERE quarantined_at IS NOT NULL`);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS exam_incidents (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR,
+        exam_type TEXT NOT NULL DEFAULT 'unknown',
+        tier TEXT NOT NULL DEFAULT 'unknown',
+        reason_code TEXT NOT NULL,
+        reason_detail TEXT,
+        endpoint TEXT,
+        request_params JSONB,
+        severity TEXT NOT NULL DEFAULT 'warning',
+        resolved_at TIMESTAMPTZ,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_exam_incidents_created ON exam_incidents(created_at)`);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_exam_incidents_severity ON exam_incidents(severity)`);
+
     await client.query(`
       CREATE TABLE IF NOT EXISTS problem_reports (
         id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),

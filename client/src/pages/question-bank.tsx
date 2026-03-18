@@ -24,6 +24,7 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { InlineConfidenceRating } from "@/components/study-momentum";
 import { SocialProofBar } from "@/components/conversion-funnel";
 import { QuestionComments } from "@/components/question-comments";
+import { ExamReportButton } from "@/components/exam-error-boundary";
 import { useI18n } from "@/lib/i18n";
 import {
   AnswerOption,
@@ -900,7 +901,12 @@ export default function QuestionBank() {
                           )}
 
                           {question && (
-                            <QuestionComments questionId={question.id || `qb-${question.tier}-${currentIndex}`} />
+                            <>
+                              <QuestionComments questionId={question.id || `qb-${question.tier}-${currentIndex}`} />
+                              <div className="flex justify-end mt-1">
+                                <ExamReportButton examType="question-bank" tier={question.tier} questionId={String(question.id)} />
+                              </div>
+                            </>
                           )}
 
                           <div className="flex gap-3 pt-2">

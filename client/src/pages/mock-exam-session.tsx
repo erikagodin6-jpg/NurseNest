@@ -14,6 +14,7 @@ import {
   type CATState
 } from "@/lib/cat-engine";
 import { EXAM_BLUEPRINTS } from "@/lib/question-pool";
+import { ExamReportButton } from "@/components/exam-error-boundary";
 import {
   Clock, Flag, ChevronLeft, ChevronRight, CheckCircle2, XCircle,
   Pause, Play, AlertTriangle, Send, SkipForward, Shield, Eye, Coffee
@@ -229,6 +230,7 @@ export default function MockExamSession() {
   const [timeSpent, setTimeSpent] = useState(0);
   const [paused, setPaused] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [showConfirmSubmit, setShowConfirmSubmit] = useState(false);
   const [showNav, setShowNav] = useState(false);
@@ -299,8 +301,15 @@ export default function MockExamSession() {
       }
     } catch {}
 
-    fetch(`/api/mock-exams/${attemptId}`, { headers: getAuthHeaders() })
-      .then((r) => r.json())
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+    fetch(`/api/mock-exams/${attemptId}`, { headers: getAuthHeaders(), signal: controller.signal })
+      .then((r) => {
+        clearTimeout(timeoutId);
+        if (!r.ok) throw new Error(`Server error: ${r.status}`);
+        return r.json();
+      })
       .then((data) => {
         if (data.status === "completed") {
           navigate(`/mock-exams/${attemptId}/report`);
@@ -356,10 +365,24 @@ export default function MockExamSession() {
         setTimeSpent(data.time_spent || 0);
         setLoading(false);
       })
-      .catch(() => {
-        toast({ title: "Error", description: "Could not load exam", variant: "destructive" });
+      .catch((err) => {
+        clearTimeout(timeoutId);
+        const isTimeout = err.name === "AbortError";
+        toast({
+          title: isTimeout ? "Request Timed Out" : "Error Loading Exam",
+          description: isTimeout
+            ? "The exam took too long to load. Please try again."
+            : "Could not load this exam. Your progress is safe.",
+          variant: "destructive",
+        });
+        setLoadError(isTimeout ? "timeout" : (err.message || "unknown"));
         setLoading(false);
       });
+
+    return () => {
+      clearTimeout(timeoutId);
+      controller.abort();
+    };
   }, [attemptId]);
 
   const questionIdSignature = useMemo(() => questions.map(q => q.id).join(","), [questions]);
@@ -978,6 +1001,9 @@ export default function MockExamSession() {
                 >
                   Back to Exams
                 </Button>
+                <div className="flex justify-center mt-2">
+                  <ExamReportButton examType="mock-exam" tier={blueprintMeta?.examCode} />
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -1354,6 +1380,9 @@ export default function MockExamSession() {
                 Finish <Send className="w-4 h-4" />
               </Button>
             )}
+          </div>
+          <div className="flex justify-center mt-2">
+            <ExamReportButton examType="mock-exam" tier={blueprintMeta?.examCode} questionId={question?.id ? String(question.id) : undefined} />
           </div>
         </div>
       )}

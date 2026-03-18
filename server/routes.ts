@@ -528,6 +528,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerUniversalGeneratorRoutes } = await import("./universal-generator-routes");
   registerUniversalGeneratorRoutes(app);
 
+  const { registerExamReliabilityRoutes } = await import("./exam-reliability");
+  registerExamReliabilityRoutes(app);
+
   const { registerClinicalSeoRoutes, seedClinicalSeoPages } = await import("./clinical-seo-routes");
   registerClinicalSeoRoutes(app);
   seedClinicalSeoPages().catch((e) => console.error("Clinical SEO seed error:", e?.message));

@@ -22,6 +22,7 @@ const StickyCtaBar = lazy(() => import("@/components/sticky-cta-bar").then(m => 
 const MobileBottomNav = lazy(() => import("@/components/mobile-study-shell").then(m => ({ default: m.MobileBottomNav })));
 const LazyAnalyticsTracker = lazy(() => import("@/components/analytics-tracker"));
 const ReportProblemButton = lazy(() => import("@/components/report-problem-button").then(m => ({ default: m.ReportProblemButton })));
+import { ExamErrorBoundary, ExamLoadingFallback } from "@/components/exam-error-boundary";
 
 function PreviewBanner() {
   const { previewTier, setPreviewTier, isAdmin } = useAuth();
@@ -174,6 +175,7 @@ const AdminBusinessHealth = lazy(() => import("@/pages/admin-business-health"));
 const AdminContentCoverage = lazy(() => import("@/pages/admin-content-coverage"));
 const AdminNewGradAnalytics = lazy(() => import("@/pages/admin-new-grad-analytics"));
 const AdminSiteHealth = lazy(() => import("@/pages/admin-site-health"));
+const AdminExamHealth = lazy(() => import("@/pages/admin-exam-health"));
 const AdminQuestionBankPage = lazy(() => import("@/pages/admin-question-bank"));
 const QBankExamPage = lazy(() => import("@/pages/qbank-exam"));
 const QBankStudyPage = lazy(() => import("@/pages/qbank-study"));
@@ -757,6 +759,7 @@ function AppRoutes() {
         <Route path="/admin/content-coverage" component={AdminContentCoverage} />
         <Route path="/admin/new-grad-analytics" component={AdminNewGradAnalytics} />
         <Route path="/admin/site-health" component={AdminSiteHealth} />
+        <Route path="/admin/exam-health" component={AdminExamHealth} />
         <Route path="/admin/social-content" component={AdminSocialContent} />
         <Route path="/admin/question-bank" component={AdminQuestionBankPage} />
         <Route path="/admin/comment-moderation" component={AdminCommentModeration} />
@@ -999,7 +1002,7 @@ function AppRoutes() {
         <Route path="/study-pathways/:slug">{() => <NursingHubPage pageType="study-pathway" />}</Route>
         <Route path="/pre-nursing" component={PreNursingPage} />
         <Route path="/mock-exams/:id/report" component={MockExamReport} />
-        <Route path="/mock-exams/:id" component={MockExamSession} />
+        <Route path="/mock-exams/:id">{() => <ExamErrorBoundary examContext={{ examType: "mock-exam" }}><Suspense fallback={<ExamLoadingFallback />}><MockExamSession /></Suspense></ExamErrorBoundary>}</Route>
         <Route path="/mock-exams" component={MockExamsPage} />
         <Route path="/probability-simulator" component={ProbabilitySimulatorPage} />
         <Route path="/shop/:slug" component={ShopProductPage} />
@@ -1410,7 +1413,7 @@ function AppRoutes() {
         <Route path="/critical-care/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/critical-care/flashcards">{() => <Redirect to="/critical-care/test-bank" />}</Route>
         <Route path="/critical-care/mock-exams/:id/report" component={MockExamReport} />
-        <Route path="/critical-care/mock-exams/:id" component={MockExamSession} />
+        <Route path="/critical-care/mock-exams/:id">{() => <ExamErrorBoundary examContext={{ examType: "critical-care" }}><MockExamSession /></ExamErrorBoundary>}</Route>
         <Route path="/critical-care/mock-exams" component={MockExamsPage} />
         <Route path="/critical-care/study-plan" component={StudyPlanPage} />
         <Route path="/critical-care/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
@@ -1422,7 +1425,7 @@ function AppRoutes() {
         <Route path="/emergency-nursing/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/emergency-nursing/flashcards">{() => <Redirect to="/emergency-nursing/test-bank" />}</Route>
         <Route path="/emergency-nursing/mock-exams/:id/report" component={MockExamReport} />
-        <Route path="/emergency-nursing/mock-exams/:id" component={MockExamSession} />
+        <Route path="/emergency-nursing/mock-exams/:id">{() => <ExamErrorBoundary examContext={{ examType: "emergency-nursing" }}><MockExamSession /></ExamErrorBoundary>}</Route>
         <Route path="/emergency-nursing/mock-exams" component={MockExamsPage} />
         <Route path="/emergency-nursing/study-plan" component={StudyPlanPage} />
         <Route path="/emergency-nursing/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
@@ -1441,7 +1444,7 @@ function AppRoutes() {
         <Route path="/perioperative/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/perioperative/flashcards">{() => <Redirect to="/perioperative/test-bank" />}</Route>
         <Route path="/perioperative/mock-exams/:id/report" component={MockExamReport} />
-        <Route path="/perioperative/mock-exams/:id" component={MockExamSession} />
+        <Route path="/perioperative/mock-exams/:id">{() => <ExamErrorBoundary examContext={{ examType: "perioperative" }}><MockExamSession /></ExamErrorBoundary>}</Route>
         <Route path="/perioperative/mock-exams" component={MockExamsPage} />
         <Route path="/perioperative/study-plan" component={StudyPlanPage} />
         <Route path="/perioperative/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
@@ -1453,7 +1456,7 @@ function AppRoutes() {
         <Route path="/oncology-nursing/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/oncology-nursing/flashcards">{() => <Redirect to="/oncology-nursing/test-bank" />}</Route>
         <Route path="/oncology-nursing/mock-exams/:id/report" component={MockExamReport} />
-        <Route path="/oncology-nursing/mock-exams/:id" component={MockExamSession} />
+        <Route path="/oncology-nursing/mock-exams/:id">{() => <ExamErrorBoundary examContext={{ examType: "oncology-nursing" }}><MockExamSession /></ExamErrorBoundary>}</Route>
         <Route path="/oncology-nursing/mock-exams" component={MockExamsPage} />
         <Route path="/oncology-nursing/study-plan" component={StudyPlanPage} />
         <Route path="/oncology-nursing/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
@@ -1465,7 +1468,7 @@ function AppRoutes() {
         <Route path="/pediatric-cert/flashcards/deck/:slug" component={DeckPage} />
         <Route path="/pediatric-cert/flashcards">{() => <Redirect to="/pediatric-cert/test-bank" />}</Route>
         <Route path="/pediatric-cert/mock-exams/:id/report" component={MockExamReport} />
-        <Route path="/pediatric-cert/mock-exams/:id" component={MockExamSession} />
+        <Route path="/pediatric-cert/mock-exams/:id">{() => <ExamErrorBoundary examContext={{ examType: "pediatric-cert" }}><MockExamSession /></ExamErrorBoundary>}</Route>
         <Route path="/pediatric-cert/mock-exams" component={MockExamsPage} />
         <Route path="/pediatric-cert/study-plan" component={StudyPlanPage} />
         <Route path="/pediatric-cert/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>

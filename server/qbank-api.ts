@@ -3,6 +3,7 @@ import { pool } from "./storage";
 import { resolveAuthUser, requireAdmin } from "./admin-auth";
 import rateLimit from "express-rate-limit";
 import { getAllowedExamTiers } from "../shared/tier-config";
+import { validateQuestion, checkPoolHealth, structuredExamError, logExamRequest, addIncident } from "./exam-reliability";
 
 function getPreviewTier(req: any, userTier: string): string {
   if (userTier !== "admin") return userTier;
@@ -477,10 +478,41 @@ export function setupQBankRoutes(app: Express) {
         }
       }
 
+      query += ` AND (quarantined_at IS NULL)`;
+
       query += ` ORDER BY RANDOM() LIMIT $${paramIdx}`;
       params.push(count);
 
+      logExamRequest("exam-set-fetch", {
+        userId: user.id,
+        tier: queryTier,
+        count,
+        bodySystems,
+        exam: examFilter || "all",
+      });
+
       const result = await pool.query(query, params);
+
+      if (result.rows.length === 0) {
+        const poolHealth = await checkPoolHealth(queryTier, { bodySystems, exam: examFilter });
+        addIncident({
+          userId: user.id,
+          examType: examFilter || "general",
+          tier: queryTier,
+          reasonCode: "empty_exam_pool",
+          reasonDetail: `No questions returned for tier=${queryTier}. Pool health: ${JSON.stringify(poolHealth)}`,
+          endpoint: "/api/qbank/exam-set",
+          requestParams: { count, bodySystems, exam: examFilter },
+          severity: "critical",
+          createdAt: new Date().toISOString(),
+        });
+        return structuredExamError(res, 200, "empty_pool", "No questions available for the selected criteria", {
+          tier: queryTier,
+          suggestion: "Try broadening your filter criteria or selecting a different topic.",
+          questions: [],
+          count: 0,
+        });
+      }
 
       const letterMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
 
@@ -561,7 +593,20 @@ export function setupQBankRoutes(app: Express) {
       });
     } catch (e: any) {
       console.error("QBank exam-set error:", e.message);
-      res.status(500).json({ error: "Failed to fetch exam set" });
+      addIncident({
+        userId: null,
+        examType: "exam-set",
+        tier: (req.query?.tier as string) || "unknown",
+        reasonCode: "exam_set_crash",
+        reasonDetail: e.message,
+        endpoint: "/api/qbank/exam-set",
+        requestParams: { query: req.query },
+        severity: "critical",
+        createdAt: new Date().toISOString(),
+      });
+      structuredExamError(res, 500, "exam_set_error", "We're having trouble loading questions right now. Please try again.", {
+        retryable: true,
+      });
     }
   });
 
