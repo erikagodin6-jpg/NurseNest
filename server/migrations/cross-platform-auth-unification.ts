@@ -21,42 +21,46 @@ export async function runCrossPlatformAuthMigration(pool?: pg.Pool) {
     }
   });
 
-  await runStep(pool, "normalize and deduplicate emails", async () => {
-    await pool!.query(`UPDATE users SET email = 'placeholder_' || id || '@nursenest.local' WHERE email IS NULL OR TRIM(email) = ''`);
+  await runStep(pool, "backfill and normalize emails", async () => {
+    const client = await pool!.connect();
+    try {
+      await client.query('BEGIN');
 
-    await pool!.query(`UPDATE users SET email = LOWER(TRIM(email)) WHERE email != LOWER(TRIM(email))`);
-
-    const dupes = await pool!.query(`
-      SELECT LOWER(email) AS norm_email, array_agg(id ORDER BY id ASC) AS ids
-      FROM users
-      WHERE email IS NOT NULL AND email != ''
-      GROUP BY LOWER(email)
-      HAVING COUNT(*) > 1
-    `);
-
-    for (const row of dupes.rows) {
-      const ids: string[] = row.ids;
-      for (let i = 1; i < ids.length; i++) {
-        const deduped = `duplicate_${ids[i]}_${row.norm_email}`;
-        await pool!.query(`UPDATE users SET email = $1 WHERE id = $2`, [deduped, ids[i]]);
-        console.log(`[Auth Migration] Deduplicated email for user ${ids[i]}: ${row.norm_email} -> ${deduped}`);
+      const nullResult = await client.query(`UPDATE users SET email = 'user-' || id || '@placeholder.local' WHERE email IS NULL`);
+      if (nullResult.rowCount && nullResult.rowCount > 0) {
+        console.log(`[Auth Migration] Backfilled ${nullResult.rowCount} NULL emails`);
       }
-    }
-  });
 
-  await runStep(pool, "enforce email NOT NULL", async () => {
-    const nullCount = await pool!.query(`SELECT COUNT(*)::int AS cnt FROM users WHERE email IS NULL`);
-    if (nullCount.rows[0]?.cnt > 0) {
-      console.log(`[Auth Migration] Backfilling ${nullCount.rows[0].cnt} remaining NULL emails...`);
-      await pool!.query(`UPDATE users SET email = 'placeholder_' || id || '@nursenest.local' WHERE email IS NULL`);
-    }
+      const emptyResult = await client.query(`UPDATE users SET email = 'user-' || id || '@placeholder.local' WHERE TRIM(email) = ''`);
+      if (emptyResult.rowCount && emptyResult.rowCount > 0) {
+        console.log(`[Auth Migration] Backfilled ${emptyResult.rowCount} empty emails`);
+      }
 
-    const isNullable = await pool!.query(`
-      SELECT is_nullable FROM information_schema.columns 
-      WHERE table_name='users' AND column_name='email'
-    `);
-    if (isNullable.rows[0]?.is_nullable === 'YES') {
-      await pool!.query(`ALTER TABLE users ALTER COLUMN email SET NOT NULL`);
+      await client.query(`UPDATE users SET email = LOWER(TRIM(email)) WHERE email IS NOT NULL AND email != LOWER(TRIM(email))`);
+
+      const dupes = await client.query(`
+        SELECT LOWER(email) AS norm_email, array_agg(id ORDER BY id ASC) AS ids
+        FROM users
+        WHERE email IS NOT NULL AND email != ''
+        GROUP BY LOWER(email)
+        HAVING COUNT(*) > 1
+      `);
+
+      for (const row of dupes.rows) {
+        const ids: string[] = row.ids;
+        for (let i = 1; i < ids.length; i++) {
+          const deduped = `dedup-${ids[i]}@placeholder.local`;
+          await client.query(`UPDATE users SET email = $1 WHERE id = $2`, [deduped, ids[i]]);
+          console.log(`[Auth Migration] Deduplicated email for user ${ids[i]}: ${row.norm_email} -> ${deduped}`);
+        }
+      }
+
+      await client.query('COMMIT');
+    } catch (err) {
+      await client.query('ROLLBACK');
+      throw err;
+    } finally {
+      client.release();
     }
   });
 
@@ -65,6 +69,11 @@ export async function runCrossPlatformAuthMigration(pool?: pg.Pool) {
       SELECT 1 FROM pg_indexes WHERE tablename='users' AND indexname='idx_users_email_unique'
     `);
     if (indexExists.rows.length === 0) {
+      const remainingNulls = await pool!.query(`SELECT COUNT(*)::int AS cnt FROM users WHERE email IS NULL`);
+      if (remainingNulls.rows[0]?.cnt > 0) {
+        console.log(`[Auth Migration] Skipping unique index — ${remainingNulls.rows[0].cnt} NULL emails remain`);
+        return;
+      }
       await pool!.query(`CREATE UNIQUE INDEX idx_users_email_unique ON users (LOWER(email))`);
     }
   });
