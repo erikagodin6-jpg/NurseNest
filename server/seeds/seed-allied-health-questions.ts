@@ -94,6 +94,18 @@ const SEED_CONFIGS: SeedConfig[] = [
         import("../../client/src/data/career-questions/pta-questions-batch21").then(m => m.ptaQuestionsBatch21),
         import("../../client/src/data/career-questions/pta-questions-batch22").then(m => m.ptaQuestionsBatch22),
         import("../../client/src/data/career-questions/pta-questions-batch23").then(m => m.ptaQuestionsBatch23),
+        import("../../client/src/data/career-questions/pta-questions-batch24").then(m => m.ptaQuestionsBatch24),
+        import("../../client/src/data/career-questions/pta-questions-batch25").then(m => m.ptaQuestionsBatch25),
+        import("../../client/src/data/career-questions/pta-questions-batch26").then(m => m.ptaQuestionsBatch26),
+        import("../../client/src/data/career-questions/pta-questions-batch27").then(m => m.ptaQuestionsBatch27),
+        import("../../client/src/data/career-questions/pta-questions-batch28").then(m => m.ptaQuestionsBatch28),
+        import("../../client/src/data/career-questions/pta-questions-batch29").then(m => m.ptaQuestionsBatch29),
+        import("../../client/src/data/career-questions/pta-questions-batch30").then(m => m.ptaQuestionsBatch30),
+        import("../../client/src/data/career-questions/pta-questions-batch31").then(m => m.ptaQuestionsBatch31),
+        import("../../client/src/data/career-questions/pta-questions-batch32").then(m => m.ptaQuestionsBatch32),
+        import("../../client/src/data/career-questions/pta-questions-batch33").then(m => m.ptaQuestionsBatch33),
+        import("../../client/src/data/career-questions/pta-questions-batch34").then(m => m.ptaQuestionsBatch34),
+        import("../../client/src/data/career-questions/pta-questions-batch35").then(m => m.ptaQuestionsBatch35),
         import("../../client/src/data/career-questions/pta-questions-expansion").then(m => m.ptaQuestionsExpansion),
       ]);
       return parts.flat();
