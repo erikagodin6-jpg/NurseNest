@@ -799,4 +799,132 @@ export function setupAutopilotRoutes(app: Express): void {
       res.status(500).json({ error: err.message });
     }
   });
+
+  app.get("/api/admin/autopilot/queue/validation-failures", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = Math.min(parseInt(req.query.limit as string) || 50, 200);
+      const offset = (page - 1) * limit;
+
+      const countResult = await pool.query(
+        `SELECT COUNT(*)::int as total FROM publishing_queue
+         WHERE status = 'validation_failed'
+            OR metadata->>'validation_status' = 'validation_failed'`
+      );
+      const total = countResult.rows[0]?.total || 0;
+
+      const result = await pool.query(
+        `SELECT id, engine_key, content_type, title, content, status,
+                preview_url, metadata, created_by, approved_by,
+                published_at, created_at
+         FROM publishing_queue
+         WHERE status = 'validation_failed'
+            OR metadata->>'validation_status' = 'validation_failed'
+         ORDER BY created_at DESC
+         LIMIT $1 OFFSET $2`,
+        [limit, offset]
+      );
+
+      res.json({
+        items: result.rows.map((row: any) => ({
+          id: row.id,
+          engineKey: row.engine_key,
+          contentType: row.content_type,
+          title: row.title,
+          content: row.content,
+          status: row.status,
+          previewUrl: row.preview_url,
+          metadata: row.metadata,
+          createdBy: row.created_by,
+          approvedBy: row.approved_by,
+          publishedAt: row.published_at,
+          createdAt: row.created_at,
+        })),
+        total,
+        page,
+        totalPages: Math.ceil(total / limit),
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/autopilot/queue/:id/approve-validation", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const { id } = req.params;
+      const existing = await pool.query("SELECT id, status, metadata FROM publishing_queue WHERE id = $1", [id]);
+      if (!existing.rows[0]) return res.status(404).json({ error: "Queue item not found" });
+
+      const row = existing.rows[0];
+      if (row.status !== "validation_failed" && row.metadata?.validation_status !== "validation_failed") {
+        return res.status(400).json({ error: "Item is not in validation_failed state" });
+      }
+
+      const r = await pool.query(
+        `UPDATE publishing_queue
+         SET status = 'approved',
+             approved_by = $1,
+             metadata = jsonb_set(
+               COALESCE(metadata, '{}'::jsonb),
+               '{validation_status}',
+               '"manually_approved"'
+             )
+         WHERE id = $2 RETURNING *`,
+        [admin.id, id]
+      );
+
+      const updated = r.rows[0];
+      res.json({
+        item: {
+          id: updated.id,
+          engineKey: updated.engine_key,
+          contentType: updated.content_type,
+          title: updated.title,
+          status: updated.status,
+          approvedBy: updated.approved_by,
+          metadata: updated.metadata,
+        },
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/autopilot/queue/:id/regenerate", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const { id } = req.params;
+      const existing = await pool.query("SELECT id, status, metadata, engine_key, content_type FROM publishing_queue WHERE id = $1", [id]);
+      if (!existing.rows[0]) return res.status(404).json({ error: "Queue item not found" });
+
+      const row = existing.rows[0];
+      if (row.status !== "validation_failed" && row.metadata?.validation_status !== "validation_failed") {
+        return res.status(400).json({ error: "Item is not in validation_failed state" });
+      }
+
+      await pool.query(
+        `UPDATE publishing_queue
+         SET status = 'rejected',
+             metadata = jsonb_set(
+               COALESCE(metadata, '{}'::jsonb),
+               '{validation_status}',
+               '"rejected_for_regeneration"'
+             )
+         WHERE id = $1`,
+        [id]
+      );
+
+      res.json({ message: "Item rejected for regeneration", id });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
 }

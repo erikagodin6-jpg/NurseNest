@@ -10,3 +10,4 @@ vite.config.ts.*
 .env.local
 .env.production
 .env.*.local
+scripts/i18n-scan-report.json
