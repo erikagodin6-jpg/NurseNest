@@ -948,7 +948,11 @@ app.use((req, res, next) => {
 // Bootstrap server
 // -------------------------
 (async () => {
+  const startupStart = Date.now();
+  console.log("[Startup Timing] Begin route registration...");
+
   await initStripe();
+  console.log(`[Startup Timing] Stripe init: ${Date.now() - startupStart}ms`);
 
   const { setupSeoRedirects } = await import("./seo-redirects");
   setupSeoRedirects(app);
@@ -1038,6 +1042,9 @@ app.use((req, res, next) => {
   setupQBankRoutes(app);
   loadStripePrices();
 
+  const { registerAdminSeedRoutes } = await import("./admin-seed-routes");
+  registerAdminSeedRoutes(app);
+
   await registerRoutes(httpServer, app);
 
   app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
@@ -1064,6 +1071,7 @@ app.use((req, res, next) => {
   }
 
   appReady = true;
+  console.log(`[Startup Timing] Route registration complete: ${Date.now() - startupStart}ms`);
   log(`routes loaded, app ready on port ${port}`);
 
   const sitemapFiles = [
@@ -1113,237 +1121,89 @@ app.use((req, res, next) => {
   }, 60_000);
 })();
 
-async function startupMemoryGuard(phaseName: string): Promise<void> {
-  const mem = process.memoryUsage();
-  const rssMB = Math.round(mem.rss / 1024 / 1024);
-  if (rssMB > 700) {
-    console.log(`[StartupGuard] RSS ${rssMB}MB > 700MB before ${phaseName}, pausing for GC...`);
-    if (typeof global.gc === "function") {
-      global.gc();
-    }
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    const after = Math.round(process.memoryUsage().rss / 1024 / 1024);
-    console.log(`[StartupGuard] RSS after GC pause: ${after}MB`);
-  }
-}
-
-async function runSeedStep(name: string, fn: () => Promise<void>): Promise<void> {
-  try {
-    await fn();
-  } catch (e: any) {
-    console.error(`[${name}] Failed:`, e.message);
-  }
-}
-
 function runDeferredStartupWork() {
   setImmediate(async () => {
-    console.log("[DeferredStartup] Beginning phased startup...");
+    const deferredStart = Date.now();
 
-    // ── Phase 0: Quick validations (no heavy data) ──
     try {
+      const t0 = Date.now();
       const { validateStripeConnection } = await import("./stripeClient");
       const stripeValid = await validateStripeConnection();
       if (!stripeValid) {
         console.error("[STARTUP] WARNING: Stripe connection validation failed — checkout will not work until the key is fixed");
       }
+      console.log(`[Startup Timing] Stripe validation: ${Date.now() - t0}ms`);
     } catch (e: any) {
       console.error("[Deferred Startup] Stripe validation error:", e.message);
     }
 
     try {
-      const { seedPricingPlans } = await import("./seed-pricing-plans");
-      await seedPricingPlans();
+      const t0 = Date.now();
+      const { validateSchemaAtStartup } = await import("./schema-validation");
+      await validateSchemaAtStartup();
+      console.log(`[Startup Timing] Schema validation: ${Date.now() - t0}ms`);
     } catch (e: any) {
-      console.error("[Deferred Startup] Pricing plan seed error:", e.message);
+      console.error("[Deferred Startup] Schema validation error:", e.message);
     }
 
     try {
-      const { validateSchemaAtStartup } = await import("./schema-validation");
-      await validateSchemaAtStartup();
+      const t0 = Date.now();
+      const { ensureSchemaSync } = await import("./ensure-schema");
+      const { pool: schemaPool } = await import("./storage");
+      await ensureSchemaSync(schemaPool);
+      console.log(`[Startup Timing] Schema sync: ${Date.now() - t0}ms`);
     } catch (e: any) {
-      console.error("[Deferred Startup] Schema validation error:", e.message);
+      console.error("[SchemaSync] Failed:", e.message);
+    }
+
+    try {
+      const t0 = Date.now();
+      const { runStartupDataMigrations } = await import("./startup-data-migrations");
+      await runStartupDataMigrations();
+      console.log(`[Startup Timing] Data migrations: ${Date.now() - t0}ms`);
+    } catch (e: any) {
+      console.error("[Startup Migrations] Failed:", e.message);
     }
 
     import("./reporting-scheduler").then(({ startReportingScheduler }) => startReportingScheduler())
       .catch((e: any) => console.error("[ReportingScheduler] Init failed:", e.message));
 
     const SIX_HOURS_MS = 6 * 60 * 60 * 1000;
+    const MEMORY_LIMIT_MB = 1400;
     setInterval(async () => {
+      const memUsage = process.memoryUsage();
+      const heapMB = Math.round(memUsage.heapUsed / 1024 / 1024);
+      if (heapMB > MEMORY_LIMIT_MB) {
+        console.warn(`[Pipeline Scheduler] Skipping cycle: heap usage ${heapMB}MB exceeds ${MEMORY_LIMIT_MB}MB limit`);
+        return;
+      }
+      const pipelineStart = Date.now();
+      console.log(`[Pipeline Scheduler] Starting cycle (heap: ${heapMB}MB)...`);
       try {
         const { createDailyJobs, runContinuousImprovementJob } = await import("./content-pipeline");
         const jobs = await createDailyJobs();
         if (jobs.length > 0) console.log(`[Pipeline Scheduler] Created ${jobs.length} daily generation jobs`);
         const improvement = await runContinuousImprovementJob();
         console.log(`[Pipeline Scheduler] Continuous improvement: ${improvement.weakQuestions.length} weak questions, ${improvement.weakTopics.length} weak topics, ${improvement.generationJobsQueued} jobs queued`);
+        console.log(`[Pipeline Scheduler] Cycle completed in ${Date.now() - pipelineStart}ms`);
       } catch (e: any) {
-        console.error("[Pipeline Scheduler] Error:", e.message);
+        console.error(`[Pipeline Scheduler] Error after ${Date.now() - pipelineStart}ms:`, e.message);
       }
     }, SIX_HOURS_MS);
     console.log("[Pipeline Scheduler] Registered: daily jobs + continuous improvement (every 6h)");
-    console.log("[DeferredStartup] Phase 0 complete (validations + schedulers)");
 
-    // ── Phase 1: Schema sync + data migrations (sequential) ──
-    await startupMemoryGuard("Phase 1: Schema/Migrations");
-    console.log("[DeferredStartup] Phase 1: Schema sync + data migrations...");
-
-    await runSeedStep("SchemaSync", async () => {
-      const { ensureSchemaSync } = await import("./ensure-schema");
-      const { pool: schemaPool } = await import("./storage");
-      await ensureSchemaSync(schemaPool);
-    });
-
-    await runSeedStep("Startup Migrations", async () => {
-      const { runStartupDataMigrations } = await import("./startup-data-migrations");
-      await runStartupDataMigrations();
-    });
-
-    await runSeedStep("QBank Templates", async () => {
-      const { seedPromptTemplates } = await import("./prompts/qbank-templates");
-      await seedPromptTemplates();
-    });
-
-    console.log("[DeferredStartup] Phase 1 complete");
-
-    // ── Phase 2: Exam questions + flashcard mapping (sequential) ──
-    await startupMemoryGuard("Phase 2: Exam Questions");
-    console.log("[DeferredStartup] Phase 2: Exam questions + flashcard mapping...");
-
-    const { pool: seedPool } = await import("./storage");
-
-    await runSeedStep("ExamSeed", async () => {
-      const { seedExamQuestions } = await import("./seed-exam-questions");
-      await seedExamQuestions(seedPool);
-    });
-
-    await runSeedStep("RRTSeed", async () => {
-      const { seedRRTQuestions } = await import("./seed-rrt-questions");
-      await seedRRTQuestions(seedPool);
-    });
-
-    await runSeedStep("RPNPathoSeed", async () => {
-      const { seedRPNPathoQuestions } = await import("./seed-rpn-patho-questions");
-      await seedRPNPathoQuestions(seedPool);
-    });
-
-    await runSeedStep("CATFlashcards", async () => {
-      const { seedCatFlashcards } = await import("./seed-cat-flashcards");
-      await seedCatFlashcards(seedPool);
-    });
-
-    await runSeedStep("DocxSeed", async () => {
-      const { seedRNQuestionsFromDocx } = await import("./seed-rn-questions-docx");
-      const result = await seedRNQuestionsFromDocx();
-      console.log(`[DocxSeed] Total: ${result.total}, Inserted: ${result.inserted}, Skipped: ${result.skipped}, Errors: ${result.errors}`);
-    });
-
-    await runSeedStep("EmergencyNursing", async () => {
-      const { seedEmergencyNursingToxDisaster } = await import("./seed-emergency-nursing-tox-disaster");
-      await seedEmergencyNursingToxDisaster();
-    });
-
-    await runSeedStep("ParamedicQuestions", async () => {
-      const { seedParamedicQuestions } = await import("./seed-paramedic-questions");
-      await seedParamedicQuestions();
-    });
-
-    // ExamFlashcardMapper runs AFTER all question seeding to avoid deadlocks
-    await startupMemoryGuard("Phase 2b: Flashcard Mapper");
-
-    await runSeedStep("ExamFlashcardMapper", async () => {
-      const { mapExamQuestionsToFlashcards, bulkGenerateAlignedFlashcards } = await import("./exam-flashcard-mapper");
-      const result = await mapExamQuestionsToFlashcards();
-      console.log(`[ExamFlashcardMapper] Synced: ${result.inserted} inserted, ${result.updated} updated, ${result.skipped} skipped`);
-      const aligned = await bulkGenerateAlignedFlashcards();
-      console.log(`[FlashcardAlignment] Bulk aligned: ${aligned.summary.totalCreated} created, ${aligned.summary.totalUpdated} updated`);
-    });
-
-    await runSeedStep("DigitalProductSeed", async () => {
-      const { seedDigitalProducts } = await import("./seed-digital-products");
-      await seedDigitalProducts(seedPool);
-    });
-
-    console.log("[DeferredStartup] Phase 2 complete");
-
-    // ── Phase 3: SEO/content seeds (sequential) ──
-    await startupMemoryGuard("Phase 3: SEO/Content Seeds");
-    console.log("[DeferredStartup] Phase 3: SEO/content seeds...");
-
-    await runSeedStep("StudyDecks", async () => {
-      const { seedStudyDecks } = await import("./seed-study-decks");
-      await seedStudyDecks(seedPool);
-    });
-
-    await runSeedStep("SEOClusters", async () => {
-      const { seedSEOClusters } = await import("./seed-seo-clusters");
-      await seedSEOClusters(seedPool);
-    });
-
-    await runSeedStep("SEO-CTR", async () => {
-      const { seedSeoCtrPages } = await import("./seed-seo-ctr-pages");
-      await seedSeoCtrPages(seedPool);
-    });
-
-    await runSeedStep("ParamedicContent", async () => {
-      const { seedParamedicContent } = await import("./seed-paramedic-content");
-      await seedParamedicContent(seedPool);
-    });
-
-    await runSeedStep("EncyclopediaSeed", async () => {
-      const { seedEncyclopediaEntries } = await import("./encyclopedia-seed");
-      await seedEncyclopediaEntries();
-    });
-
-    await runSeedStep("NursingHubSeed", async () => {
-      const { seedNursingContentHub } = await import("./seed-nursing-content-hub");
-      await seedNursingContentHub(seedPool);
-    });
-
-    await runSeedStep("AlliedLandingPages", async () => {
-      const { seedAlliedHealthLandingPages } = await import("./seed-allied-health-landing-pages");
-      await seedAlliedHealthLandingPages();
-    });
-
-    await runSeedStep("AlliedHealthQuestions", async () => {
-      const { seedAlliedHealthQuestions } = await import("./seeds/seed-allied-health-questions");
-      await seedAlliedHealthQuestions(seedPool);
-    });
-
-    await startupMemoryGuard("Phase 3b: Hub/Guide pages");
-
-    await runSeedStep("TopicHubPages", async () => {
-      const { seedTopicHubPages } = await import("./seed-topic-hub-pages");
-      await seedTopicHubPages();
-    });
-
-    await runSeedStep("LongFormGuides", async () => {
-      const { seedLongFormStudyGuides } = await import("./seed-long-form-study-guides");
-      await seedLongFormStudyGuides();
-    });
-
-    await runSeedStep("LongTailPages", async () => {
-      const { seedLongTailEducationalPages } = await import("./seed-long-tail-educational-pages");
-      await seedLongTailEducationalPages();
-    });
-
-    await runSeedStep("ImagingSeoClustersSeed", async () => {
-      const { seedImagingSeoContent } = await import("./seed-imaging-seo-clusters");
-      await seedImagingSeoContent();
-    });
-
-    console.log("[DeferredStartup] Phase 3 complete");
-
-    // ── Startup health summary ──
     try {
-      const tierCounts = await seedPool.query(
+      const { pool: healthPool } = await import("./storage");
+      const tierCounts = await healthPool.query(
         `SELECT tier, COUNT(*)::int AS count FROM exam_questions WHERE status = 'published' GROUP BY tier ORDER BY tier`
       );
-      const fbCounts = await seedPool.query(
+      const fbCounts = await healthPool.query(
         `SELECT status, COUNT(*)::int AS count FROM flashcard_bank GROUP BY status`
       ).catch(() => ({ rows: [] }));
-      const deckCount = await seedPool.query(
+      const deckCount = await healthPool.query(
         `SELECT COUNT(*)::int AS count FROM flashcard_decks`
       ).catch(() => ({ rows: [{ count: 0 }] }));
-      const dpCounts = await seedPool.query(
+      const dpCounts = await healthPool.query(
         `SELECT COUNT(*)::int AS count, COALESCE(SUM(question_count),0)::int AS total_q FROM digital_products WHERE is_active = true`
       ).catch(() => ({ rows: [{ count: 0, total_q: 0 }] }));
 
@@ -1351,7 +1211,6 @@ function runDeferredStartupWork() {
       const fbSummary = fbCounts.rows.map((r: any) => `${r.status}: ${r.count}`).join(", ");
       const dbHost = (process.env.DATABASE_URL || "").replace(/\/\/.*@/, "//***@").split("/")[2] || "unknown";
       const dp = dpCounts.rows[0] || { count: 0, total_q: 0 };
-      const finalRSS = Math.round(process.memoryUsage().rss / 1024 / 1024);
 
       console.log("═══════════════════════════════════════════");
       console.log("[Startup Health] Environment:", process.env.NODE_ENV || "development");
@@ -1360,12 +1219,11 @@ function runDeferredStartupWork() {
       console.log("[Startup Health] Flashcard Bank:", fbSummary || "none");
       console.log("[Startup Health] Flashcard Decks:", deckCount.rows[0]?.count || 0);
       console.log("[Startup Health] Digital Products:", dp.count, "products,", dp.total_q, "store questions");
-      console.log("[Startup Health] Final RSS:", finalRSS, "MB");
       console.log("═══════════════════════════════════════════");
     } catch (healthErr: any) {
       console.error("[Startup Health] Failed to log summary:", healthErr.message);
     }
 
-    console.log("[DeferredStartup] All phases complete");
+    console.log(`[Startup Timing] Total deferred startup: ${Date.now() - deferredStart}ms`);
   });
 }

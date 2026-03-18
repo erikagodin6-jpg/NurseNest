@@ -1,6 +1,29 @@
 import pg from "pg";
 
 export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
+  const MAX_RETRIES = 3;
+  const BASE_DELAY_MS = 2000;
+
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      await ensureSchemaSyncInner(pool);
+      return;
+    } catch (err: any) {
+      const isDeadlock = err.message?.includes("deadlock") || err.code === "40P01";
+      const isLockTimeout = err.code === "55P03";
+      if ((isDeadlock || isLockTimeout) && attempt < MAX_RETRIES) {
+        const delay = BASE_DELAY_MS * Math.pow(2, attempt - 1);
+        console.warn(`[SchemaSync] ${isDeadlock ? "Deadlock" : "Lock timeout"} detected (attempt ${attempt}/${MAX_RETRIES}), retrying in ${delay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      } else {
+        console.error(`[SchemaSync] Failed after ${attempt} attempt(s):`, err.message);
+        throw err;
+      }
+    }
+  }
+}
+
+async function ensureSchemaSyncInner(pool: pg.Pool): Promise<void> {
   const client = await pool.connect();
   try {
     await client.query("BEGIN");

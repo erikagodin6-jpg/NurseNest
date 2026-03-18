@@ -56,6 +56,8 @@ Core architectural components and design patterns emphasize:
 - **Cross-Platform Subscription & Entitlement Sync System**: Unified subscription management with a canonical `subscriptions` table, mobile-ready entitlement API, idempotent webhook processing, structured `entitlement_events` analytics, email normalization, billing refresh/restore endpoints, and expanded admin tooling.
 - **Cross-Platform Learning System API**: Unified `/api/v1/` REST API shared by website and mobile app. Covers test banks, CAT/adaptive exams (start/answer/pause/resume/results), mock exams (list/start/answer/complete/history), lessons (list/detail/progress/bookmarks), dashboard summary, analytics event logging, and question history. Uses entitlement checks, idempotency keys, auto-created tables, and integrates with the dashboard via `DashboardSummaryContext`.
 
+- **Startup Stabilization**: All seed operations (20+ seeders) removed from the server startup path. Seeds now run only on-demand via `POST /api/admin/run-seeds` (admin-auth-protected) or `npx tsx scripts/run-seeds.ts` CLI. Startup path is lightweight: DB connect, schema sync (with deadlock retry), data migrations, route registration, HTTP listen. The 6-hour content pipeline has memory guards (skips if heap > 1400MB) and structured logging. Schema sync (`ensureSchemaSync`) has exponential backoff retry for deadlock/lock-timeout errors. Deploy script (`scripts/deploy-build-fast.sh`) no longer runs pre-migration SQL fixes at build time — the email backfill is now a guarded one-time migration in `startup-data-migrations.ts`.
+
 ### External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM
