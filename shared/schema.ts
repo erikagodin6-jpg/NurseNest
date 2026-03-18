@@ -6793,12 +6793,18 @@ export type InsertRenderPayload = z.infer<typeof insertRenderPayloadSchema>;
 export const contentSnapshots = pgTable("content_snapshots", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   contentId: varchar("content_id").notNull(),
+  contentType: text("content_type").default("content_item"),
   version: integer("version").notNull().default(1),
   title: text("title"),
   slug: text("slug"),
   contentData: jsonb("content_data"),
+  verifiedPayload: jsonb("verified_payload"),
+  backupPayload: jsonb("backup_payload"),
+  staticFallback: text("static_fallback"),
   metadata: jsonb("metadata"),
   snapshotType: text("snapshot_type").default("auto"),
+  isLastKnownGood: boolean("is_last_known_good").default(false),
+  validatedAt: timestamp("validated_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -6808,6 +6814,50 @@ export const insertContentSnapshotSchema = createInsertSchema(contentSnapshots).
 });
 export type ContentSnapshot = typeof contentSnapshots.$inferSelect;
 export type InsertContentSnapshot = z.infer<typeof insertContentSnapshotSchema>;
+
+export const contentValidationResults = pgTable("content_validation_results", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentId: varchar("content_id").notNull(),
+  contentType: text("content_type").notNull(),
+  version: integer("version").default(1),
+  valid: boolean("valid").notNull(),
+  errors: jsonb("errors").default([]),
+  warnings: jsonb("warnings").default([]),
+  validatorResults: jsonb("validator_results"),
+  triggeredBy: text("triggered_by").default("publish"),
+  actorId: varchar("actor_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertContentValidationResultSchema = createInsertSchema(contentValidationResults).omit({
+  id: true,
+  createdAt: true,
+});
+export type ContentValidationResult = typeof contentValidationResults.$inferSelect;
+export type InsertContentValidationResult = z.infer<typeof insertContentValidationResultSchema>;
+
+export const contentQuarantine = pgTable("content_quarantine", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentId: varchar("content_id").notNull(),
+  contentType: text("content_type").notNull(),
+  reason: text("reason").notNull(),
+  detectedBy: text("detected_by").default("validation"),
+  previousStatus: text("previous_status"),
+  previousVersion: integer("previous_version"),
+  affectedUsersEstimate: integer("affected_users_estimate").default(0),
+  fallbackContentId: varchar("fallback_content_id"),
+  resolvedAt: timestamp("resolved_at"),
+  resolvedBy: varchar("resolved_by"),
+  resolutionAction: text("resolution_action"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertContentQuarantineSchema = createInsertSchema(contentQuarantine).omit({
+  id: true,
+  createdAt: true,
+});
+export type ContentQuarantine = typeof contentQuarantine.$inferSelect;
+export type InsertContentQuarantine = z.infer<typeof insertContentQuarantineSchema>;
 
 export const fallbackEventLogs = pgTable("fallback_event_logs", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),

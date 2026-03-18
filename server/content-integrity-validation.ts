@@ -642,17 +642,33 @@ export async function quarantineContent(
 
     if (!table) return false;
 
+    let previousStatus: string | null = null;
+
     if (table === "exam_questions") {
+      const statusRes = await pool.query("SELECT status FROM exam_questions WHERE id = $1", [contentId]);
+      previousStatus = statusRes.rows[0]?.status || null;
       await pool.query(
         `UPDATE exam_questions SET quarantined_at = NOW(), quarantine_reason = $2 WHERE id = $1`,
         [contentId, reason]
       );
     } else {
+      const statusRes = await pool.query(`SELECT status FROM ${table} WHERE id = $1`, [contentId]);
+      previousStatus = statusRes.rows[0]?.status || null;
       await pool.query(
         `UPDATE ${table} SET status = 'quarantined' WHERE id = $1`,
         [contentId]
       );
     }
+
+    try {
+      await pool.query(
+        `INSERT INTO content_quarantine (id, content_id, content_type, reason, detected_by, previous_status, created_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, 'validation', $4, NOW())
+         ON CONFLICT DO NOTHING`,
+        [contentId, contentType, reason, previousStatus]
+      );
+    } catch {}
+
     return true;
   } catch (err: any) {
     console.error("[Quarantine] Error quarantining content:", err.message);

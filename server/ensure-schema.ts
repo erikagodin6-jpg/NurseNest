@@ -1274,4 +1274,53 @@ async function ensureClinicalSeoPages(pool: pg.Pool): Promise<void> {
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_production_incidents_severity ON production_incidents(severity)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_production_incidents_category ON production_incidents(category)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_production_incidents_last_occurrence ON production_incidents(last_occurrence DESC)`);
+
+  const snapshotsExists = await pool.query(`SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'content_snapshots')`);
+  if (snapshotsExists.rows[0].exists) {
+    await pool.query(`ALTER TABLE content_snapshots ADD COLUMN IF NOT EXISTS content_type text DEFAULT 'content_item'`);
+    await pool.query(`ALTER TABLE content_snapshots ADD COLUMN IF NOT EXISTS verified_payload jsonb`);
+    await pool.query(`ALTER TABLE content_snapshots ADD COLUMN IF NOT EXISTS backup_payload jsonb`);
+    await pool.query(`ALTER TABLE content_snapshots ADD COLUMN IF NOT EXISTS static_fallback text`);
+    await pool.query(`ALTER TABLE content_snapshots ADD COLUMN IF NOT EXISTS is_last_known_good boolean DEFAULT false`);
+    await pool.query(`ALTER TABLE content_snapshots ADD COLUMN IF NOT EXISTS validated_at timestamptz`);
+    await pool.query(`CREATE INDEX IF NOT EXISTS idx_content_snapshots_lkg ON content_snapshots(content_id, is_last_known_good) WHERE is_last_known_good = true`);
+  }
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS content_validation_results (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      content_id varchar NOT NULL,
+      content_type text NOT NULL,
+      version integer DEFAULT 1,
+      valid boolean NOT NULL,
+      errors jsonb DEFAULT '[]'::jsonb,
+      warnings jsonb DEFAULT '[]'::jsonb,
+      validator_results jsonb,
+      triggered_by text DEFAULT 'publish',
+      actor_id varchar,
+      created_at timestamptz DEFAULT NOW() NOT NULL
+    )
+  `);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_content_validation_results_content ON content_validation_results(content_id)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_content_validation_results_valid ON content_validation_results(valid)`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS content_quarantine (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      content_id varchar NOT NULL,
+      content_type text NOT NULL,
+      reason text NOT NULL,
+      detected_by text DEFAULT 'validation',
+      previous_status text,
+      previous_version integer,
+      affected_users_estimate integer DEFAULT 0,
+      fallback_content_id varchar,
+      resolved_at timestamptz,
+      resolved_by varchar,
+      resolution_action text,
+      created_at timestamptz DEFAULT NOW() NOT NULL
+    )
+  `);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_content_quarantine_content ON content_quarantine(content_id)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_content_quarantine_active ON content_quarantine(resolved_at) WHERE resolved_at IS NULL`);
 }

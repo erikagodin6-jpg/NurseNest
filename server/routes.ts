@@ -10,6 +10,7 @@ import { mapExamQuestionsToFlashcards, getExamFlashcardStats, generateAlignedFla
 import { fisherYatesShuffle, shuffleOptions } from "../shared/shuffle";
 import { normalizeQuestionOptions } from "./qbank-api";
 import { validateForPublish, autoRepairContent, logAutoRepairs, quarantineContent, type ValidationResult, type ValidationError } from "./content-integrity-validation";
+import { publishWithValidation, quarantineContentItem, isContentQuarantined, getContentWithQuarantineCheck, createContentSnapshot } from "./content-versioning-quarantine";
 
 function parseStoragePath(path: string): { bucketName: string; objectName: string } {
   if (!path.startsWith("/")) path = `/${path}`;
@@ -389,6 +390,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
 
   const { registerContentSecurityRoutes } = await import("./content-security-routes");
   registerContentSecurityRoutes(app);
+
+  const { registerContentQuarantineRoutes } = await import("./content-quarantine-routes");
+  registerContentQuarantineRoutes(app);
 
   const { registerTaxonomyRoutes } = await import("./taxonomy-routes");
   registerTaxonomyRoutes(app);
@@ -5760,6 +5764,20 @@ Rules:
       const { isPreview: isInPreview, realTier } = await getEffectiveTier(req);
       const isRealAdmin = realTier === "admin";
 
+      if (item.status === "quarantined" && !isRealAdmin) {
+        try {
+          const quarantineCheck = await getContentWithQuarantineCheck(item.id, item.type || "lesson");
+          if (quarantineCheck.quarantined && quarantineCheck.fallback) {
+            res.setHeader("X-Content-Source", "quarantine-fallback");
+            return res.json({
+              ...quarantineCheck.fallback,
+              _quarantineFallback: true,
+              _message: quarantineCheck.message,
+            });
+          }
+        } catch {}
+      }
+
       if (item.status !== "published" && !isRealAdmin) {
         return res.status(404).json({ error: "Content not found" });
       }
@@ -6054,6 +6072,7 @@ Rules:
         try {
           const { generateRenderPayloads } = await import("./content-failover");
           await generateRenderPayloads(item.id);
+          await createContentSnapshot(item.id, contentTypeForValidation, item, "publish");
         } catch (payloadErr: any) {
           console.error("[Content] Render payload generation error:", payloadErr.message);
         }
@@ -6330,6 +6349,7 @@ Rules:
         try {
           const { generateRenderPayloads } = await import("./content-failover");
           await generateRenderPayloads(item.id);
+          await createContentSnapshot(item.id, updateContentType, item, "publish");
         } catch (payloadErr: any) {
           console.error("[Content] Render payload generation error:", payloadErr.message);
         }
@@ -11849,6 +11869,14 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       if (repairs.length > 0) {
         await logAutoRepairs("questions", q.id, repairs);
+      }
+
+      if (q.status === "published" && before.status !== "published") {
+        try {
+          await createContentSnapshot(q.id, "question", q, "publish");
+        } catch (snapErr: any) {
+          console.error("[ExamQuestion] Snapshot creation error:", snapErr.message);
+        }
       }
 
       if (before.status !== q.status) {
