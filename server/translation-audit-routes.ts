@@ -7,6 +7,9 @@ import {
   updateAuditOverride,
   bulkUpdateAudits,
   exportAuditData,
+  getStaleTranslations,
+  getFlaggedContent,
+  quickEditTranslation,
 } from "./translation-audit-engine";
 import { getIndexableLocales, isLocaleIndexable, getHreflangCode, auditAllLocales, getTranslationThreshold } from "./translation-audit";
 import { getSiteBase } from "./sitemap";
@@ -263,6 +266,75 @@ export function registerTranslationAuditRoutes(app: Express) {
     } catch (e: any) {
       console.error("[TranslationAudit] Bulk error:", e);
       res.status(500).json({ error: "Failed to perform bulk action" });
+    }
+  });
+
+  app.get("/api/admin/translation-audit/stale", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const filters = {
+        locale: req.query.locale as string | undefined,
+        contentType: req.query.contentType as string | undefined,
+        limit: parseInt(String(req.query.limit)) || 50,
+        offset: parseInt(String(req.query.offset)) || 0,
+      };
+
+      const data = await getStaleTranslations(filters);
+      res.json(data);
+    } catch (e: any) {
+      console.error("[TranslationAudit] Stale error:", e);
+      res.status(500).json({ error: "Failed to load stale translations" });
+    }
+  });
+
+  app.get("/api/admin/translation-audit/flagged", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const filters = {
+        locale: req.query.locale as string | undefined,
+        limit: parseInt(String(req.query.limit)) || 50,
+        offset: parseInt(String(req.query.offset)) || 0,
+      };
+
+      const data = await getFlaggedContent(filters);
+      res.json(data);
+    } catch (e: any) {
+      console.error("[TranslationAudit] Flagged error:", e);
+      res.status(500).json({ error: "Failed to load flagged content" });
+    }
+  });
+
+  app.post("/api/admin/translation-audit/quick-edit", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { contentType, contentId, fieldName, languageCode, translatedText } = req.body;
+
+      if (!contentType || !contentId || !fieldName || !languageCode || !translatedText) {
+        return res.status(400).json({ error: "Missing required fields: contentType, contentId, fieldName, languageCode, translatedText" });
+      }
+
+      if (typeof translatedText !== "string" || translatedText.trim().length === 0) {
+        return res.status(400).json({ error: "translatedText must be a non-empty string" });
+      }
+
+      const result = await quickEditTranslation({
+        contentType,
+        contentId,
+        fieldName,
+        languageCode,
+        translatedText: translatedText.trim(),
+      });
+
+      res.json({ ok: true, translation: result });
+    } catch (e: any) {
+      console.error("[TranslationAudit] Quick-edit error:", e);
+      res.status(500).json({ error: "Failed to save translation" });
     }
   });
 

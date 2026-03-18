@@ -737,6 +737,207 @@ export async function bulkUpdateAudits(ids: string[], action: string): Promise<n
   return result.rowCount || 0;
 }
 
+export async function getStaleTranslations(filters: {
+  locale?: string;
+  contentType?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<{ items: any[]; total: number }> {
+  const { simpleHash } = await import("./translation-helpers");
+
+  let whereClause = "WHERE ct.source_hash IS NOT NULL";
+  const params: any[] = [];
+
+  if (filters.locale) {
+    params.push(filters.locale);
+    whereClause += ` AND ct.language_code = $${params.length}`;
+  }
+  if (filters.contentType) {
+    params.push(filters.contentType);
+    whereClause += ` AND ct.content_type = $${params.length}`;
+  }
+
+  const countResult = await pool.query(
+    `SELECT COUNT(*)::int as total FROM content_translations ct ${whereClause}`,
+    params
+  );
+
+  const limit = filters.limit || 50;
+  const offset = filters.offset || 0;
+  params.push(limit, offset);
+
+  const result = await pool.query(
+    `SELECT ct.id, ct.content_type, ct.content_id, ct.language_code, ct.field_name,
+            ct.translated_text, ct.source_hash, ct.translation_status, ct.last_updated
+     FROM content_translations ct
+     ${whereClause}
+     ORDER BY ct.last_updated ASC
+     LIMIT $${params.length - 1} OFFSET $${params.length}`,
+    params
+  );
+
+  const staleItems: any[] = [];
+
+  const ALLOWED_CONTENT_FIELDS = new Set(["title", "seo_title", "seo_description", "summary", "content"]);
+  const ALLOWED_EXAM_FIELDS = new Set(["stem"]);
+
+  for (const row of result.rows) {
+    let currentSource: string | null = null;
+
+    if (row.content_type === "content_item" || row.content_type?.startsWith("content_")) {
+      if (ALLOWED_CONTENT_FIELDS.has(row.field_name)) {
+        const sourceResult = await pool.query(
+          `SELECT title, seo_title, seo_description, summary, content FROM content_items WHERE id = $1`,
+          [row.content_id]
+        ).catch(() => ({ rows: [] }));
+        if (sourceResult.rows[0]) {
+          const rawValue = sourceResult.rows[0][row.field_name];
+          currentSource = rawValue != null
+            ? (typeof rawValue === "object" ? JSON.stringify(rawValue).substring(0, 500) : String(rawValue))
+            : "";
+        }
+      }
+    } else if (row.content_type === "exam_question") {
+      if (ALLOWED_EXAM_FIELDS.has(row.field_name)) {
+        const sourceResult = await pool.query(
+          `SELECT stem FROM exam_questions WHERE id = $1`,
+          [row.content_id]
+        ).catch(() => ({ rows: [] }));
+        if (sourceResult.rows[0]) {
+          currentSource = String(sourceResult.rows[0][row.field_name] || "");
+        }
+      }
+    }
+
+    if (currentSource !== null && row.source_hash) {
+      const currentHash = simpleHash(currentSource);
+      if (currentHash !== row.source_hash) {
+        staleItems.push({
+          id: row.id,
+          contentType: row.content_type,
+          contentId: row.content_id,
+          languageCode: row.language_code,
+          fieldName: row.field_name,
+          translatedText: row.translated_text,
+          sourceHash: row.source_hash,
+          currentSourceHash: currentHash,
+          currentSource: currentSource.substring(0, 200),
+          translationStatus: row.translation_status,
+          lastUpdated: row.last_updated,
+        });
+      }
+    }
+  }
+
+  return { items: staleItems, total: staleItems.length };
+}
+
+export async function getFlaggedContent(filters: {
+  locale?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<{ items: any[]; total: number }> {
+  let whereClause = "WHERE i.issue_type = 'mixed_language'";
+  const params: any[] = [];
+
+  if (filters.locale) {
+    params.push(filters.locale);
+    whereClause += ` AND a.locale = $${params.length}`;
+  }
+
+  const countResult = await pool.query(
+    `SELECT COUNT(*)::int as total
+     FROM translation_audit_issues i
+     JOIN translation_audits a ON a.id = i.audit_id
+     ${whereClause}`,
+    params
+  );
+
+  const limit = filters.limit || 50;
+  const offset = filters.offset || 0;
+  params.push(limit, offset);
+
+  const result = await pool.query(
+    `SELECT i.id, i.field_name, i.source_value, i.localized_value, i.issue_type, i.category,
+            a.content_id, a.content_type, a.locale, a.url, a.translation_pct
+     FROM translation_audit_issues i
+     JOIN translation_audits a ON a.id = i.audit_id
+     ${whereClause}
+     ORDER BY a.locale, a.content_type
+     LIMIT $${params.length - 1} OFFSET $${params.length}`,
+    params
+  );
+
+  return {
+    items: result.rows.map(r => ({
+      id: r.id,
+      fieldName: r.field_name,
+      sourceValue: r.source_value,
+      localizedValue: r.localized_value,
+      issueType: r.issue_type,
+      category: r.category,
+      contentId: r.content_id,
+      contentType: r.content_type,
+      locale: r.locale,
+      url: r.url,
+      translationPct: r.translation_pct,
+    })),
+    total: countResult.rows[0]?.total || 0,
+  };
+}
+
+export async function quickEditTranslation(data: {
+  contentType: string;
+  contentId: string;
+  fieldName: string;
+  languageCode: string;
+  translatedText: string;
+}): Promise<any> {
+  const { simpleHash } = await import("./translation-helpers");
+
+  const SAFE_CONTENT_FIELDS = new Set(["title", "seo_title", "seo_description", "summary", "content"]);
+  const SAFE_EXAM_FIELDS = new Set(["stem"]);
+
+  let sourceText: string | null = null;
+  if (data.contentType === "content_item" || data.contentType?.startsWith("content_")) {
+    if (SAFE_CONTENT_FIELDS.has(data.fieldName)) {
+      const sourceResult = await pool.query(
+        `SELECT title, seo_title, seo_description, summary, content FROM content_items WHERE id = $1`,
+        [data.contentId]
+      ).catch(() => ({ rows: [] }));
+      if (sourceResult.rows[0]) {
+        const rawValue = sourceResult.rows[0][data.fieldName];
+        sourceText = rawValue != null
+          ? (typeof rawValue === "object" ? JSON.stringify(rawValue).substring(0, 500) : String(rawValue))
+          : null;
+      }
+    }
+  } else if (data.contentType === "exam_question") {
+    if (SAFE_EXAM_FIELDS.has(data.fieldName)) {
+      const sourceResult = await pool.query(
+        `SELECT stem FROM exam_questions WHERE id = $1`,
+        [data.contentId]
+      ).catch(() => ({ rows: [] }));
+      if (sourceResult.rows[0]) {
+        sourceText = sourceResult.rows[0][data.fieldName] || null;
+      }
+    }
+  }
+
+  const sourceHash = sourceText ? simpleHash(sourceText) : null;
+
+  const result = await pool.query(
+    `INSERT INTO content_translations (id, content_type, content_id, language_code, field_name, translated_text, translation_status, source_hash, last_updated)
+     VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, 'manual', $6, NOW())
+     ON CONFLICT ON CONSTRAINT content_translations_unique_idx
+     DO UPDATE SET translated_text = $5, translation_status = 'manual', source_hash = $6, last_updated = NOW()
+     RETURNING *`,
+    [data.contentType, data.contentId, data.languageCode, data.fieldName, data.translatedText, sourceHash]
+  );
+
+  return result.rows[0];
+}
+
 export async function exportAuditData(format: "csv" | "json", filters: { locale?: string; contentType?: string; status?: string }): Promise<string> {
   let whereClause = "WHERE 1=1";
   const params: any[] = [];

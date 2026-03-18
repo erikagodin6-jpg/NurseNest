@@ -13,7 +13,8 @@ import {
   Globe, AlertTriangle, CheckCircle2, Languages, Search,
   RefreshCw, Download, Eye, ChevronDown, ChevronUp,
   Filter, BarChart3, Play, FileText, Shield, XCircle,
-  ArrowLeft, X, MapPin, ExternalLink, BookOpen, Loader2
+  ArrowLeft, X, MapPin, ExternalLink, BookOpen, Loader2,
+  Edit3, Save, Clock, Flag, Key
 } from "lucide-react";
 
 const LOCALES = [
@@ -107,11 +108,47 @@ type AuditDetail = AuditItem & {
   }[];
 };
 
+type MissingKeyEntry = {
+  key: string;
+  count: number;
+  lastReported: number;
+};
+
+type FlaggedItem = {
+  id: string;
+  fieldName: string;
+  sourceValue: string | null;
+  localizedValue: string | null;
+  issueType: string;
+  category: string;
+  contentId: string;
+  contentType: string;
+  locale: string;
+  url: string | null;
+  translationPct: number;
+};
+
+type StaleItem = {
+  id: string;
+  contentType: string;
+  contentId: string;
+  languageCode: string;
+  fieldName: string;
+  translatedText: string;
+  sourceHash: string;
+  currentSourceHash: string;
+  currentSource: string;
+  translationStatus: string;
+  lastUpdated: string;
+};
+
+type TabKey = "overview" | "audits" | "detail" | "exam_questions" | "missing_keys" | "flagged" | "stale";
+
 export default function AdminTranslationDashboard() {
   const { t } = useI18n();
   const { user } = useAuth();
   const [, navigate] = useLocation();
-  const [activeTab, setActiveTab] = useState<"overview" | "audits" | "detail" | "exam_questions">("overview");
+  const [activeTab, setActiveTab] = useState<TabKey>("overview");
   const [audits, setAudits] = useState<AuditItem[]>([]);
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [total, setTotal] = useState(0);
@@ -319,21 +356,25 @@ export default function AdminTranslationDashboard() {
         {activeTab === "detail" && selectedDetail ? (
           <DetailInspector
             detail={selectedDetail}
-            onBack={() => { setActiveTab("overview"); setSelectedDetail(null); }}
+            onBack={() => { setActiveTab("audits"); setSelectedDetail(null); }}
             onToggleOverride={toggleOverride}
+            onRefresh={fetchDashboard}
           />
         ) : (
           <>
-            <div className="flex gap-1 mb-6 bg-white rounded-lg p-1 border">
+            <div className="flex gap-1 mb-6 bg-white rounded-lg p-1 border overflow-x-auto">
               {([
-                { key: "overview", label: "Overview", icon: BarChart3 },
-                { key: "audits", label: "Audit Results", icon: FileText },
-                { key: "exam_questions", label: "Exam Questions", icon: BookOpen },
-              ] as const).map(tab => (
+                { key: "overview" as TabKey, label: "Overview", icon: BarChart3 },
+                { key: "audits" as TabKey, label: "Audit Results", icon: FileText },
+                { key: "missing_keys" as TabKey, label: "Missing UI Keys", icon: Key },
+                { key: "flagged" as TabKey, label: "Flagged Content", icon: Flag },
+                { key: "stale" as TabKey, label: "Stale Translations", icon: Clock },
+                { key: "exam_questions" as TabKey, label: "Exam Questions", icon: BookOpen },
+              ]).map(tab => (
                 <button
                   key={tab.key}
                   data-testid={`tab-${tab.key}`}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
                     activeTab === tab.key ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-100"
                   }`}
                   onClick={() => setActiveTab(tab.key)}
@@ -361,6 +402,12 @@ export default function AdminTranslationDashboard() {
                 </Button>
               </div>
             )}
+
+            {activeTab === "missing_keys" && <MissingKeysTab />}
+
+            {activeTab === "flagged" && <FlaggedContentTab />}
+
+            {activeTab === "stale" && <StaleTranslationsTab />}
 
             {activeTab === "exam_questions" && (
               <ExamQuestionCoverageTab />
@@ -413,6 +460,49 @@ export default function AdminTranslationDashboard() {
 function OverviewTab({ summary, onViewAudits }: { summary: DashboardSummary; onViewAudits: (locale: string) => void }) {
   return (
     <div className="space-y-6">
+      {summary.byLocale && summary.byLocale.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {summary.byLocale.map(loc => {
+            const locale = LOCALES.find(l => l.code === loc.locale);
+            const missingItems = loc.total - loc.fullyTranslated;
+            return (
+              <div
+                key={loc.locale}
+                className={`p-4 rounded-lg border-2 ${
+                  loc.avgPct >= 95 ? "border-green-200 bg-green-50" :
+                  loc.avgPct >= 50 ? "border-yellow-200 bg-yellow-50" :
+                  "border-red-200 bg-red-50"
+                }`}
+                data-testid={`health-card-${loc.locale}`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-semibold text-sm">
+                    {locale?.flag} {locale?.name || loc.locale}
+                  </span>
+                  <span className={`text-lg font-bold ${
+                    loc.avgPct >= 95 ? "text-green-700" : loc.avgPct >= 50 ? "text-yellow-700" : "text-red-700"
+                  }`}>
+                    {loc.avgPct}%
+                  </span>
+                </div>
+                <p className="text-xs text-gray-600">
+                  {loc.avgPct >= 100 ? "Fully translated" : `${missingItems} missing items`}
+                  {loc.issueCount > 0 && ` \u00b7 ${loc.issueCount} issues`}
+                </p>
+                <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                  <div
+                    className={`h-1.5 rounded-full ${
+                      loc.avgPct >= 95 ? "bg-green-500" : loc.avgPct >= 50 ? "bg-yellow-500" : "bg-red-500"
+                    }`}
+                    style={{ width: `${Math.min(100, loc.avgPct)}%` }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
         <StatCard label={t("pages.adminTranslationDashboard.totalLocales")} value={summary.totalLocales} icon={<Globe className="w-5 h-5 text-blue-500" />} testId="stat-locales" />
         <StatCard label={t("pages.adminTranslationDashboard.itemsAudited")} value={summary.totalAudits} icon={<FileText className="w-5 h-5 text-indigo-500" />} testId="stat-audited" />
@@ -782,13 +872,18 @@ function AuditsTab({
   );
 }
 
-function DetailInspector({ detail, onBack, onToggleOverride }: {
+function DetailInspector({ detail, onBack, onToggleOverride, onRefresh }: {
   detail: AuditDetail;
   onBack: () => void;
   onToggleOverride: (id: string, field: string, value: boolean) => void;
+  onRefresh: () => void;
 }) {
   const locale = LOCALES.find(l => l.code === detail.locale);
   const statusInfo = STATUS_LABELS[detail.status] || STATUS_LABELS.draft;
+  const [editingField, setEditingField] = useState<string | null>(null);
+  const [editValue, setEditValue] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState<string | null>(null);
 
   const issuesByCategory = (detail.issues || []).reduce<Record<string, typeof detail.issues>>((acc, issue) => {
     const cat = issue.category || "other";
@@ -796,6 +891,33 @@ function DetailInspector({ detail, onBack, onToggleOverride }: {
     acc[cat].push(issue);
     return acc;
   }, {});
+
+  const handleQuickEdit = async (issue: AuditDetail["issues"][0]) => {
+    if (!editValue.trim()) return;
+    setSaving(true);
+    try {
+      const res = await adminFetch("/api/admin/translation-audit/quick-edit", {
+        method: "POST",
+        body: {
+          contentType: detail.contentType,
+          contentId: detail.contentId,
+          fieldName: issue.fieldName,
+          languageCode: detail.locale,
+          translatedText: editValue.trim(),
+        },
+      });
+      if (res.ok) {
+        setSaveSuccess(issue.fieldName);
+        setEditingField(null);
+        setEditValue("");
+        setTimeout(() => setSaveSuccess(null), 3000);
+        onRefresh();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    setSaving(false);
+  };
 
   return (
     <div className="space-y-6">
@@ -891,6 +1013,7 @@ function DetailInspector({ detail, onBack, onToggleOverride }: {
           <CardTitle className="flex items-center gap-2">
             <AlertTriangle className="w-5 h-5 text-amber-500" />
             Field-by-Field Audit ({(detail.issues || []).length} issues)
+            <span className="text-xs font-normal text-gray-500 ml-2">Click the edit icon to quick-edit translations</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -912,17 +1035,58 @@ function DetailInspector({ detail, onBack, onToggleOverride }: {
                           <th className="py-1.5 px-3 text-left">{t("pages.adminTranslationDashboard.englishSource")}</th>
                           <th className="py-1.5 px-3 text-left">{t("pages.adminTranslationDashboard.localizedValue")}</th>
                           <th className="py-1.5 px-3 text-center">{t("pages.adminTranslationDashboard.issueType")}</th>
+                          <th className="py-1.5 px-3 text-center">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
                         {issues.map(issue => (
                           <tr key={issue.id} className="border-b hover:bg-gray-50" data-testid={`row-issue-${issue.id}`}>
                             <td className="py-1.5 px-3 font-medium text-xs">{issue.fieldName}</td>
-                            <td className="py-1.5 px-3 text-xs text-gray-600 max-w-[250px] truncate" title={issue.sourceValue || ""}>
+                            <td className="py-1.5 px-3 text-xs text-gray-600 max-w-[200px] truncate" title={issue.sourceValue || ""}>
                               {issue.sourceValue || <span className="text-gray-400 italic">{t("pages.adminTranslationDashboard.empty")}</span>}
                             </td>
-                            <td className="py-1.5 px-3 text-xs max-w-[250px] truncate" title={issue.localizedValue || ""}>
-                              {issue.localizedValue || <span className="text-red-400 italic">{t("pages.adminTranslationDashboard.missing")}</span>}
+                            <td className="py-1.5 px-3 text-xs max-w-[200px]">
+                              {editingField === issue.fieldName ? (
+                                <div className="flex items-center gap-1">
+                                  <Input
+                                    value={editValue}
+                                    onChange={e => setEditValue(e.target.value)}
+                                    className="text-xs h-7"
+                                    placeholder="Enter translation..."
+                                    data-testid={`input-quick-edit-${issue.fieldName}`}
+                                    autoFocus
+                                    onKeyDown={e => {
+                                      if (e.key === "Enter") handleQuickEdit(issue);
+                                      if (e.key === "Escape") { setEditingField(null); setEditValue(""); }
+                                    }}
+                                  />
+                                  <Button
+                                    size="sm"
+                                    className="h-7 px-2"
+                                    onClick={() => handleQuickEdit(issue)}
+                                    disabled={saving || !editValue.trim()}
+                                    data-testid={`button-save-edit-${issue.fieldName}`}
+                                  >
+                                    {saving ? <Loader2 className="w-3 h-3 animate-spin" /> : <Save className="w-3 h-3" />}
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    className="h-7 px-2"
+                                    onClick={() => { setEditingField(null); setEditValue(""); }}
+                                  >
+                                    <X className="w-3 h-3" />
+                                  </Button>
+                                </div>
+                              ) : (
+                                <span className="truncate block" title={issue.localizedValue || ""}>
+                                  {saveSuccess === issue.fieldName ? (
+                                    <span className="text-green-600 font-medium">Saved!</span>
+                                  ) : (
+                                    issue.localizedValue || <span className="text-red-400 italic">{t("pages.adminTranslationDashboard.missing")}</span>
+                                  )}
+                                </span>
+                              )}
                             </td>
                             <td className="py-1.5 px-3 text-center">
                               <Badge className={`text-xs ${
@@ -935,6 +1099,22 @@ function DetailInspector({ detail, onBack, onToggleOverride }: {
                                 {ISSUE_TYPE_LABELS[issue.issueType] || issue.issueType}
                               </Badge>
                             </td>
+                            <td className="py-1.5 px-3 text-center">
+                              {editingField !== issue.fieldName && (
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  className="h-7 px-2"
+                                  onClick={() => {
+                                    setEditingField(issue.fieldName);
+                                    setEditValue(issue.localizedValue || "");
+                                  }}
+                                  data-testid={`button-edit-${issue.fieldName}`}
+                                >
+                                  <Edit3 className="w-3 h-3" />
+                                </Button>
+                              )}
+                            </td>
                           </tr>
                         ))}
                       </tbody>
@@ -946,6 +1126,433 @@ function DetailInspector({ detail, onBack, onToggleOverride }: {
           )}
         </CardContent>
       </Card>
+    </div>
+  );
+}
+
+function MissingKeysTab() {
+  const [missingKeys, setMissingKeys] = useState<Record<string, MissingKeyEntry[]>>({});
+  const [totalKeys, setTotalKeys] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [filterLang, setFilterLang] = useState("");
+  const [searchKey, setSearchKey] = useState("");
+
+  const fetchMissingKeys = useCallback(async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (filterLang) params.set("language", filterLang);
+      const res = await adminFetch(`/api/i18n/missing-keys?${params}`);
+      if (res.ok) {
+        const data = await res.json();
+        setMissingKeys(data.languages || {});
+        setTotalKeys(data.totalKeys || 0);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    setLoading(false);
+  }, [filterLang]);
+
+  useEffect(() => { fetchMissingKeys(); }, [fetchMissingKeys]);
+
+  const clearKeys = async (lang?: string) => {
+    try {
+      const params = new URLSearchParams();
+      if (lang) params.set("language", lang);
+      await adminFetch(`/api/i18n/missing-keys?${params}`, { method: "DELETE" });
+      fetchMissingKeys();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const allEntries: (MissingKeyEntry & { language: string })[] = [];
+  for (const [lang, keys] of Object.entries(missingKeys)) {
+    for (const entry of keys) {
+      if (!searchKey || entry.key.toLowerCase().includes(searchKey.toLowerCase())) {
+        allEntries.push({ ...entry, language: lang });
+      }
+    }
+  }
+  allEntries.sort((a, b) => b.count - a.count);
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <h2 className="text-lg font-semibold flex items-center gap-2">
+            <Key className="w-5 h-5 text-amber-500" />
+            Missing UI Translation Keys
+          </h2>
+          <Badge variant="outline" data-testid="text-missing-keys-total">{totalKeys} keys</Badge>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button size="sm" variant="outline" onClick={fetchMissingKeys} disabled={loading} data-testid="button-refresh-keys">
+            <RefreshCw className={`w-4 h-4 mr-1 ${loading ? "animate-spin" : ""}`} /> Refresh
+          </Button>
+          <Button size="sm" variant="destructive" onClick={() => clearKeys()} data-testid="button-clear-all-keys">
+            <X className="w-4 h-4 mr-1" /> Clear All
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Input
+            placeholder="Search keys..."
+            className="pl-9"
+            value={searchKey}
+            onChange={e => setSearchKey(e.target.value)}
+            data-testid="input-search-keys"
+          />
+        </div>
+        <select
+          className="border rounded-md px-2 py-1.5 text-sm"
+          value={filterLang}
+          onChange={e => setFilterLang(e.target.value)}
+          data-testid="filter-missing-lang"
+        >
+          <option value="">All Languages</option>
+          {LOCALES.map(l => <option key={l.code} value={l.code}>{l.flag} {l.name}</option>)}
+        </select>
+      </div>
+
+      {totalKeys === 0 && !loading ? (
+        <Card className="p-8 text-center">
+          <CheckCircle2 className="w-12 h-12 mx-auto text-green-500 mb-3" />
+          <h3 className="text-lg font-semibold text-gray-700">No missing keys reported</h3>
+          <p className="text-sm text-gray-500 mt-1">The frontend has not reported any missing translation keys.</p>
+        </Card>
+      ) : (
+        <Card>
+          <CardContent className="p-0">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b bg-gray-50">
+                    <th className="py-2 px-3 text-left">Key</th>
+                    <th className="py-2 px-3 text-center">Language</th>
+                    <th className="py-2 px-3 text-center">Frequency</th>
+                    <th className="py-2 px-3 text-center">Last Reported</th>
+                    <th className="py-2 px-3 text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allEntries.slice(0, 100).map((entry, idx) => {
+                    const locale = LOCALES.find(l => l.code === entry.language);
+                    return (
+                      <tr key={`${entry.language}-${entry.key}-${idx}`} className="border-b hover:bg-gray-50" data-testid={`row-missing-key-${idx}`}>
+                        <td className="py-2 px-3 font-mono text-xs">{entry.key}</td>
+                        <td className="py-2 px-3 text-center">
+                          <span title={locale?.name || entry.language}>{locale?.flag || entry.language}</span>
+                          <span className="ml-1 text-xs text-gray-500">{entry.language}</span>
+                        </td>
+                        <td className="py-2 px-3 text-center">
+                          <Badge className={`text-xs ${
+                            entry.count >= 10 ? "bg-red-100 text-red-700" :
+                            entry.count >= 5 ? "bg-amber-100 text-amber-700" :
+                            "bg-gray-100 text-gray-700"
+                          }`}>
+                            {entry.count}x
+                          </Badge>
+                        </td>
+                        <td className="py-2 px-3 text-center text-xs text-gray-500">
+                          {new Date(entry.lastReported).toLocaleString()}
+                        </td>
+                        <td className="py-2 px-3 text-center">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => clearKeys(entry.language)}
+                            data-testid={`button-clear-lang-${entry.language}`}
+                          >
+                            <X className="w-3 h-3" />
+                          </Button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {loading && (
+        <div className="flex justify-center py-8">
+          <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FlaggedContentTab() {
+  const [items, setItems] = useState<FlaggedItem[]>([]);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [filterLang, setFilterLang] = useState("");
+  const [page, setPage] = useState(0);
+
+  const fetchFlagged = useCallback(async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (filterLang) params.set("locale", filterLang);
+      params.set("limit", "50");
+      params.set("offset", String(page * 50));
+      const res = await adminFetch(`/api/admin/translation-audit/flagged?${params}`);
+      if (res.ok) {
+        const data = await res.json();
+        setItems(data.items || []);
+        setTotal(data.total || 0);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    setLoading(false);
+  }, [filterLang, page]);
+
+  useEffect(() => { fetchFlagged(); }, [fetchFlagged]);
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <h2 className="text-lg font-semibold flex items-center gap-2">
+            <Flag className="w-5 h-5 text-purple-500" />
+            Flagged Mixed-Language Content
+          </h2>
+          <Badge variant="outline" data-testid="text-flagged-total">{total} flagged items</Badge>
+        </div>
+        <div className="flex items-center gap-2">
+          <select
+            className="border rounded-md px-2 py-1.5 text-sm"
+            value={filterLang}
+            onChange={e => { setFilterLang(e.target.value); setPage(0); }}
+            data-testid="filter-flagged-lang"
+          >
+            <option value="">All Languages</option>
+            {LOCALES.map(l => <option key={l.code} value={l.code}>{l.flag} {l.name}</option>)}
+          </select>
+          <Button size="sm" variant="outline" onClick={fetchFlagged} disabled={loading} data-testid="button-refresh-flagged">
+            <RefreshCw className={`w-4 h-4 mr-1 ${loading ? "animate-spin" : ""}`} /> Refresh
+          </Button>
+        </div>
+      </div>
+
+      {items.length === 0 && !loading ? (
+        <Card className="p-8 text-center">
+          <CheckCircle2 className="w-12 h-12 mx-auto text-green-500 mb-3" />
+          <h3 className="text-lg font-semibold text-gray-700">No flagged content</h3>
+          <p className="text-sm text-gray-500 mt-1">No mixed-language content has been detected. Run an audit to check.</p>
+        </Card>
+      ) : (
+        <Card>
+          <CardContent className="p-0">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b bg-gray-50">
+                    <th className="py-2 px-3 text-left">Content</th>
+                    <th className="py-2 px-3 text-left">Type</th>
+                    <th className="py-2 px-3 text-center">Locale</th>
+                    <th className="py-2 px-3 text-left">Field</th>
+                    <th className="py-2 px-3 text-left">Source (English)</th>
+                    <th className="py-2 px-3 text-left">Localized</th>
+                    <th className="py-2 px-3 text-center">Coverage</th>
+                    <th className="py-2 px-3 text-center">Link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {items.map((item, idx) => {
+                    const locale = LOCALES.find(l => l.code === item.locale);
+                    return (
+                      <tr key={`${item.id}-${idx}`} className="border-b hover:bg-gray-50" data-testid={`row-flagged-${idx}`}>
+                        <td className="py-2 px-3 text-xs font-medium max-w-[150px] truncate" title={item.contentId}>{item.contentId}</td>
+                        <td className="py-2 px-3">
+                          <Badge variant="outline" className="text-xs capitalize">{item.contentType.replace(/_/g, " ")}</Badge>
+                        </td>
+                        <td className="py-2 px-3 text-center">
+                          <span title={locale?.name}>{locale?.flag || item.locale}</span>
+                        </td>
+                        <td className="py-2 px-3 text-xs font-mono">{item.fieldName}</td>
+                        <td className="py-2 px-3 text-xs text-gray-600 max-w-[150px] truncate" title={item.sourceValue || ""}>
+                          {item.sourceValue || "-"}
+                        </td>
+                        <td className="py-2 px-3 text-xs max-w-[150px] truncate" title={item.localizedValue || ""}>
+                          {item.localizedValue || "-"}
+                        </td>
+                        <td className="py-2 px-3 text-center text-xs font-medium">{item.translationPct}%</td>
+                        <td className="py-2 px-3 text-center">
+                          {item.url && (
+                            <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
+                              <ExternalLink className="w-3 h-3 inline" />
+                            </a>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            {total > 50 && (
+              <div className="flex justify-between items-center p-3 border-t">
+                <Button size="sm" variant="outline" disabled={page === 0} onClick={() => setPage(page - 1)} data-testid="button-flagged-prev">Previous</Button>
+                <span className="text-sm text-gray-500">Page {page + 1} of {Math.ceil(total / 50)}</span>
+                <Button size="sm" variant="outline" disabled={(page + 1) * 50 >= total} onClick={() => setPage(page + 1)} data-testid="button-flagged-next">Next</Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {loading && (
+        <div className="flex justify-center py-8">
+          <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StaleTranslationsTab() {
+  const [items, setItems] = useState<StaleItem[]>([]);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [filterLang, setFilterLang] = useState("");
+  const [page, setPage] = useState(0);
+
+  const fetchStale = useCallback(async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (filterLang) params.set("locale", filterLang);
+      params.set("limit", "50");
+      params.set("offset", String(page * 50));
+      const res = await adminFetch(`/api/admin/translation-audit/stale?${params}`);
+      if (res.ok) {
+        const data = await res.json();
+        setItems(data.items || []);
+        setTotal(data.total || 0);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    setLoading(false);
+  }, [filterLang, page]);
+
+  useEffect(() => { fetchStale(); }, [fetchStale]);
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <h2 className="text-lg font-semibold flex items-center gap-2">
+            <Clock className="w-5 h-5 text-orange-500" />
+            Stale Translations
+          </h2>
+          <Badge variant="outline" data-testid="text-stale-total">{items.length} stale items found</Badge>
+        </div>
+        <div className="flex items-center gap-2">
+          <select
+            className="border rounded-md px-2 py-1.5 text-sm"
+            value={filterLang}
+            onChange={e => { setFilterLang(e.target.value); setPage(0); }}
+            data-testid="filter-stale-lang"
+          >
+            <option value="">All Languages</option>
+            {LOCALES.map(l => <option key={l.code} value={l.code}>{l.flag} {l.name}</option>)}
+          </select>
+          <Button size="sm" variant="outline" onClick={fetchStale} disabled={loading} data-testid="button-refresh-stale">
+            <RefreshCw className={`w-4 h-4 mr-1 ${loading ? "animate-spin" : ""}`} /> Refresh
+          </Button>
+        </div>
+      </div>
+
+      <div className="p-3 bg-orange-50 border border-orange-200 rounded-lg text-sm text-orange-800">
+        <AlertTriangle className="w-4 h-4 inline mr-1" />
+        Stale translations occur when the English source text has been updated after the translation was created.
+        These translations may no longer be accurate and should be re-reviewed.
+      </div>
+
+      {items.length === 0 && !loading ? (
+        <Card className="p-8 text-center">
+          <CheckCircle2 className="w-12 h-12 mx-auto text-green-500 mb-3" />
+          <h3 className="text-lg font-semibold text-gray-700">No stale translations</h3>
+          <p className="text-sm text-gray-500 mt-1">All translations are up to date with their English sources.</p>
+        </Card>
+      ) : (
+        <Card>
+          <CardContent className="p-0">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b bg-gray-50">
+                    <th className="py-2 px-3 text-left">Content ID</th>
+                    <th className="py-2 px-3 text-left">Type</th>
+                    <th className="py-2 px-3 text-center">Language</th>
+                    <th className="py-2 px-3 text-left">Field</th>
+                    <th className="py-2 px-3 text-left">Current Source</th>
+                    <th className="py-2 px-3 text-left">Current Translation</th>
+                    <th className="py-2 px-3 text-center">Status</th>
+                    <th className="py-2 px-3 text-center">Last Updated</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {items.map((item, idx) => {
+                    const locale = LOCALES.find(l => l.code === item.languageCode);
+                    return (
+                      <tr key={`${item.id}-${idx}`} className="border-b hover:bg-orange-50" data-testid={`row-stale-${idx}`}>
+                        <td className="py-2 px-3 text-xs font-medium max-w-[150px] truncate" title={item.contentId}>{item.contentId}</td>
+                        <td className="py-2 px-3">
+                          <Badge variant="outline" className="text-xs capitalize">{item.contentType.replace(/_/g, " ")}</Badge>
+                        </td>
+                        <td className="py-2 px-3 text-center">
+                          <span title={locale?.name}>{locale?.flag || item.languageCode}</span>
+                        </td>
+                        <td className="py-2 px-3 text-xs font-mono">{item.fieldName}</td>
+                        <td className="py-2 px-3 text-xs text-gray-600 max-w-[150px] truncate" title={item.currentSource}>
+                          {item.currentSource || "-"}
+                        </td>
+                        <td className="py-2 px-3 text-xs max-w-[150px] truncate" title={item.translatedText}>
+                          {item.translatedText || "-"}
+                        </td>
+                        <td className="py-2 px-3 text-center">
+                          <Badge className="text-xs bg-orange-100 text-orange-700 border-orange-200">
+                            <Clock className="w-3 h-3 mr-1" />
+                            Stale
+                          </Badge>
+                        </td>
+                        <td className="py-2 px-3 text-center text-xs text-gray-500">
+                          {item.lastUpdated ? new Date(item.lastUpdated).toLocaleDateString() : "-"}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            {total > 50 && (
+              <div className="flex justify-between items-center p-3 border-t">
+                <Button size="sm" variant="outline" disabled={page === 0} onClick={() => setPage(page - 1)} data-testid="button-stale-prev">Previous</Button>
+                <span className="text-sm text-gray-500">Page {page + 1} of {Math.ceil(total / 50)}</span>
+                <Button size="sm" variant="outline" disabled={(page + 1) * 50 >= total} onClick={() => setPage(page + 1)} data-testid="button-stale-next">Next</Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {loading && (
+        <div className="flex justify-center py-8">
+          <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+        </div>
+      )}
     </div>
   );
 }
@@ -1174,7 +1781,7 @@ function ExamQuestionCoverageTab() {
                       return (
                         <tr key={lang.language} className="border-b hover:bg-gray-50" data-testid={`row-exam-lang-${lang.language}`}>
                           <td className="py-2 px-3 font-medium">
-                            <span className="mr-2">{locale?.flag || "🌐"}</span>
+                            <span className="mr-2">{locale?.flag || "\ud83c\udf10"}</span>
                             {lang.languageName}
                           </td>
                           <td className="py-2 px-3 text-center">{lang.totalQuestions}</td>
@@ -1287,7 +1894,7 @@ function ExamQuestionCoverageTab() {
               >
                 {(filters?.languages || []).map(l => (
                   <option key={l.code} value={l.code}>
-                    {priorityLangs.includes(l.code) ? "★ " : ""}{l.name}
+                    {priorityLangs.includes(l.code) ? "\u2605 " : ""}{l.name}
                   </option>
                 ))}
               </select>
@@ -1374,7 +1981,7 @@ function ExamQuestionCoverageTab() {
                   <p className="text-xs font-medium text-amber-700 mb-1">{t("pages.adminTranslationDashboard.qualityIssues")}</p>
                   <ul className="text-xs text-amber-600 space-y-0.5">
                     {translateResult.qualityIssues.slice(0, 5).map((issue: string, i: number) => (
-                      <li key={i}>• {issue}</li>
+                      <li key={i}>{"\u2022"} {issue}</li>
                     ))}
                   </ul>
                 </div>
