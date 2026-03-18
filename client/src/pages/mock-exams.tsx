@@ -45,19 +45,28 @@ function SpecialtyMockExams() {
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const { toast } = useToast();
+  const { t } = useI18n();
   const [examDefs, setExamDefs] = useState<MockExamDef[]>([]);
   const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null);
   const [starting, setStarting] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
 
   useEffect(() => {
     fetch("/api/mock-exam-definitions")
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
       .then((data) => {
         setExamDefs(Array.isArray(data) ? data : []);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((err) => {
+        console.error("[SpecialtyMockExams] Failed to load exam definitions:", err?.message);
+        setFetchError(true);
+        setLoading(false);
+      });
   }, []);
 
   const specialties = [...new Set(examDefs.map((d) => d.specialty))];
@@ -99,7 +108,9 @@ function SpecialtyMockExams() {
     }
   };
 
-  if (loading || examDefs.length === 0) return null;
+  if (loading) return null;
+  if (fetchError) return null;
+  if (!Array.isArray(examDefs) || examDefs.length === 0) return null;
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12" data-testid="specialty-mock-exams-section">
@@ -231,6 +242,7 @@ export default function MockExamsPage() {
   const { t } = useI18n();
   const { toast } = useToast();
   const [, navigate] = useLocation();
+  const [pageError, setPageError] = useState<string | null>(null);
   const primaryExamTier = getPrimaryExamTier(effectiveTier, isAdmin, !!previewTier);
   const isAdminWithAllTiers = isAdmin && !previewTier;
   const allowedTiers = isAdminWithAllTiers ? ["rpn", "rn", "np"] : primaryExamTier ? [primaryExamTier] : [];
@@ -241,6 +253,7 @@ export default function MockExamsPage() {
   const [starting, setStarting] = useState(false);
   const [startError, setStartError] = useState<string | null>(null);
   const [history, setHistory] = useState<any[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
   const [examMode, setExamMode] = useState<"official" | "practice">("official");
   const [selectedBlueprint, setSelectedBlueprint] = useState<string>("");
   const [showThemeCustomizer, setShowThemeCustomizer] = useState(false);
@@ -260,12 +273,21 @@ export default function MockExamsPage() {
     };
   }, []);
 
-  const availableBlueprints = getAvailableBlueprintsForTier(selectedTier, userRegion);
+  let availableBlueprints: ExamBlueprint[] = [];
+  try {
+    availableBlueprints = getAvailableBlueprintsForTier(selectedTier, userRegion) || [];
+  } catch (err) {
+    console.error("[MockExams] Failed to get blueprints:", err);
+  }
 
   useEffect(() => {
-    const bps = getAvailableBlueprintsForTier(selectedTier, userRegion);
-    if (bps.length > 0) {
-      setSelectedBlueprint(bps[0].examCode);
+    try {
+      const bps = getAvailableBlueprintsForTier(selectedTier, userRegion) || [];
+      if (bps.length > 0) {
+        setSelectedBlueprint(bps[0].examCode);
+      }
+    } catch (err) {
+      console.error("[MockExams] Failed to get blueprints for tier:", err);
     }
   }, [selectedTier, userRegion]);
 
@@ -287,18 +309,33 @@ export default function MockExamsPage() {
   const [tierStatsMap, setTierStatsMap] = useState<Record<string, { total: number }>>({});
 
   useEffect(() => {
-    getAvailableBodySystems(selectedTier).then(setAvailableSystems);
-    getPoolStats(selectedTier).then(setStats);
+    getAvailableBodySystems(selectedTier)
+      .then((systems) => setAvailableSystems(Array.isArray(systems) ? systems : []))
+      .catch((err) => {
+        console.error("[MockExams] Failed to load body systems:", err?.message);
+        setAvailableSystems([]);
+      });
+    getPoolStats(selectedTier)
+      .then((s) => setStats(s && typeof s.total === "number" ? s : { total: 0, systems: {} }))
+      .catch((err) => {
+        console.error("[MockExams] Failed to load pool stats:", err?.message);
+        setStats({ total: 0, systems: {} });
+      });
   }, [selectedTier]);
 
   useEffect(() => {
     const tiersToFetch = allowedTiers.length > 0 ? tierOptions.filter(t => allowedTiers.includes(t.value)) : tierOptions;
     Promise.all(
       tiersToFetch.map(async (t) => {
-        const s = await getPoolStats(t.value);
-        return [t.value, { total: s.total }] as const;
+        try {
+          const s = await getPoolStats(t.value);
+          return [t.value, { total: s?.total || 0 }] as const;
+        } catch {
+          return [t.value, { total: 0 }] as const;
+        }
       })
-    ).then((entries) => setTierStatsMap(Object.fromEntries(entries)));
+    ).then((entries) => setTierStatsMap(Object.fromEntries(entries)))
+     .catch((err) => console.error("[MockExams] Failed to load tier stats:", err?.message));
   }, []);
 
   const filteredStats = selectedSystems.length > 0
@@ -312,13 +349,24 @@ export default function MockExamsPage() {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user?.id) {
+      setHistoryLoading(true);
       fetch(`/api/mock-exams/history/${user.id}`, { headers: getAuthHeaders() })
-        .then((r) => r.json())
-        .then((data) => setHistory(Array.isArray(data) ? data : []))
-        .catch(() => {});
+        .then((r) => {
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          return r.json();
+        })
+        .then((data) => {
+          setHistory(Array.isArray(data) ? data : []);
+          setHistoryLoading(false);
+        })
+        .catch((err) => {
+          console.error("[MockExams] Failed to load history:", err?.message);
+          setHistory([]);
+          setHistoryLoading(false);
+        });
     }
-  }, [user]);
+  }, [user?.id]);
 
   const startExam = async () => {
     if (!user) {
@@ -438,20 +486,25 @@ export default function MockExamsPage() {
     }
   };
 
-  const completedExams = history.filter((h) => h.status === "completed");
+  const completedExams = Array.isArray(history) ? history.filter((h) => h?.status === "completed") : [];
   const avgScore = completedExams.length > 0
-    ? Math.round(completedExams.reduce((sum, h) => sum + (h.report?.percentage || 0), 0) / completedExams.length)
+    ? Math.round(completedExams.reduce((sum, h) => sum + (h?.report?.percentage || 0), 0) / completedExams.length)
     : null;
   const bestScore = completedExams.length > 0
-    ? Math.max(...completedExams.map((h) => h.report?.percentage || 0))
+    ? Math.max(...completedExams.map((h) => h?.report?.percentage || 0))
     : null;
 
-  const activeTierConfig = getTierConfig(effectiveTier);
+  let activeTierConfig: ReturnType<typeof getTierConfig>;
+  try {
+    activeTierConfig = getTierConfig(effectiveTier);
+  } catch {
+    activeTierConfig = getTierConfig("free");
+  }
   const tierSpecificTitle = (effectiveTier && effectiveTier !== "free" && effectiveTier !== "admin")
-    ? activeTierConfig.examPrepLabel
+    ? (activeTierConfig?.examPrepLabel || t("mockExams.pageTitle"))
     : t("mockExams.pageTitle");
   const tierSpecificSubtitle = (effectiveTier && effectiveTier !== "free" && effectiveTier !== "admin")
-    ? `${activeTierConfig.readinessLabel} - ${activeTierConfig.tone.split(",")[0].trim()} exam preparation`
+    ? `${activeTierConfig?.readinessLabel || ""} - ${(activeTierConfig?.tone || "").split(",")[0].trim()} exam preparation`
     : t("mockExams.pageSubtitle");
 
   return (
@@ -540,7 +593,7 @@ export default function MockExamsPage() {
         )}
 
         {(() => {
-          const inProgressExams = history.filter((h) => h.status === "in_progress");
+          const inProgressExams = Array.isArray(history) ? history.filter((h) => h?.status === "in_progress") : [];
           if (inProgressExams.length === 0) return null;
           return (
             <div className="mb-8 space-y-3" data-testid="in-progress-exams">
@@ -548,8 +601,9 @@ export default function MockExamsPage() {
                 <Clock className="w-5 h-5" /> Resume In-Progress Exam
               </h2>
               {inProgressExams.map((exam) => {
-                const isCat = exam.exam_type === "cat" || exam.report?.examMode === "official";
-                const label = exam.blueprint_meta?.examName || exam.report?.blueprintName || `${exam.tier?.toUpperCase()} Exam`;
+                if (!exam?.id) return null;
+                const isCat = exam?.exam_type === "cat" || exam?.report?.examMode === "official";
+                const label = exam?.blueprint_meta?.examName || exam?.report?.blueprintName || `${(exam?.tier || "").toUpperCase()} Exam`;
                 return (
                   <Card key={exam.id} className="border-none shadow-sm border-l-4 border-l-amber-400 hover:shadow-md transition-shadow cursor-pointer" data-testid={`card-resume-${exam.id}`}>
                     <CardContent className="p-4 flex items-center justify-between">
@@ -560,18 +614,22 @@ export default function MockExamsPage() {
                           {!isCat && <Badge variant="secondary" className="text-[10px] bg-blue-100 text-blue-700">{t("pages.mockExams.practice")}</Badge>}
                         </div>
                         <p className="text-xs text-gray-400">
-                          Started {new Date(exam.started_at).toLocaleDateString()} &middot; {exam.time_spent ? `${Math.round(exam.time_spent / 60)} min elapsed` : "Just started"}
+                          Started {exam?.started_at ? new Date(exam.started_at).toLocaleDateString() : "N/A"} &middot; {exam?.time_spent ? `${Math.round(exam.time_spent / 60)} min elapsed` : "Just started"}
                         </p>
                       </div>
                       <Button
                         size="sm"
                         className="rounded-full gap-1"
                         onClick={() => {
-                          if (exam.blueprint_meta) {
-                            localStorage.setItem(`blueprint-${exam.id}`, JSON.stringify(exam.blueprint_meta));
-                          }
-                          if (isCat) {
-                            localStorage.setItem(`strict-mode-${exam.id}`, "true");
+                          try {
+                            if (exam?.blueprint_meta) {
+                              localStorage.setItem(`blueprint-${exam.id}`, JSON.stringify(exam.blueprint_meta));
+                            }
+                            if (isCat) {
+                              localStorage.setItem(`strict-mode-${exam.id}`, "true");
+                            }
+                          } catch (e) {
+                            console.error("[MockExams] localStorage write failed:", e);
                           }
                           navigate(`/mock-exams/${exam.id}`);
                         }}
@@ -883,10 +941,11 @@ export default function MockExamsPage() {
           ) : (
             <div className="grid sm:grid-cols-2 gap-3">
               {completedExams.map((exam) => {
-                const isCatExam = exam.exam_type === "cat" || exam.report?.examType === "cat";
-                const isScaledExam = exam.report?.examType === "linear-scaled";
-                const isReadiness = exam.exam_type === "readiness" || exam.report?.examType === "readiness";
-                const examLabel = exam.report?.blueprintName || exam.blueprint_meta?.examName || `${exam.tier?.toUpperCase()} Mock`;
+                if (!exam?.id) return null;
+                const isCatExam = exam?.exam_type === "cat" || exam?.report?.examType === "cat";
+                const isScaledExam = exam?.report?.examType === "linear-scaled";
+                const isReadiness = exam?.exam_type === "readiness" || exam?.report?.examType === "readiness";
+                const examLabel = exam?.report?.blueprintName || exam?.blueprint_meta?.examName || `${(exam?.tier || "").toUpperCase()} Mock`;
                 return (
                   <Card key={exam.id} className="border-none shadow-sm hover:shadow-md transition-shadow cursor-pointer" data-testid={`card-history-${exam.id}`}>
                     <CardContent className="p-4">
@@ -918,7 +977,7 @@ export default function MockExamsPage() {
                         </div>
                         <div className="flex items-center justify-between">
                           <p className="text-xs text-gray-400">
-                            {new Date(exam.started_at).toLocaleDateString()} &middot; {exam.time_spent ? `${Math.round(exam.time_spent / 60)} min` : "N/A"}
+                            {exam?.started_at ? new Date(exam.started_at).toLocaleDateString() : "N/A"} &middot; {exam?.time_spent ? `${Math.round(exam.time_spent / 60)} min` : "N/A"}
                           </p>
                           <span className="text-xs text-primary font-medium flex items-center gap-1">
                             Review Results <ChevronRight className="w-3 h-3" />

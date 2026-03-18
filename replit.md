@@ -1,7 +1,7 @@
 # NurseNest
 
 ### Overview
-NurseNest is an adaptive learning platform designed for nursing and allied health students across 17 specializations. It provides comprehensive educational resources, advanced exam preparation (e.g., NCLEX, REX-PN), and detailed performance analytics. The platform leverages AI for content generation to enhance clinical reasoning, nursing knowledge, and critical thinking, with the ultimate goal of improving patient care outcomes and revolutionizing nursing education. The project aims to become a leader in health education technology.
+NurseNest is an adaptive learning platform for nursing and allied health students across 17 specializations. It offers comprehensive educational resources, advanced exam preparation (e.g., NCLEX, REX-PN), and detailed performance analytics. The platform uses AI for content generation to enhance clinical reasoning, nursing knowledge, and critical thinking, aiming to improve patient care outcomes and revolutionize nursing education. The project's vision is to become a leader in health education technology.
 
 ### User Preferences
 - Preferred communication style: Simple, everyday language.
@@ -15,22 +15,22 @@ NurseNest is an adaptive learning platform designed for nursing and allied healt
 - Copy protection: content cannot be easily copied/screenshotted.
 
 ### System Architecture
-NurseNest utilizes a modern web architecture comprising a React frontend (TypeScript, Wouter, shadcn/ui, Tailwind CSS v4) built with Vite, and an Express 5 backend (Node.js, TypeScript). Data management is handled via TanStack React Query through a RESTful API and persisted in PostgreSQL using Drizzle ORM. The UI features 24 themes, semantic CSS tokens, and DM Sans typography.
+NurseNest employs a modern web architecture featuring a React frontend (TypeScript, Wouter, shadcn/ui, Tailwind CSS v4) built with Vite, and an Express 5 backend (Node.js, TypeScript). Data is managed via TanStack React Query through a RESTful API and stored in PostgreSQL using Drizzle ORM. The UI includes 24 themes, semantic CSS tokens, and DM Sans typography.
 
-Key features include a database-driven subscription model with regional pricing, tiered access, Stripe-based lifetime purchases, and free trials. The platform offers interactive learning modules, a mock exam engine with stratified random sampling, and a comprehensive admin dashboard. AI integrations, managed by a centralized AI Provider Router, power various functionalities including blog automation, an Adaptive CAT Engine, Pass Probability Projection, a Next Best Action Engine, an AI Tutoring Assistant, and content generation with quality gates. Exam blueprints are database-driven, content is categorized by body system, and supports Next Generation NCLEX (NGN) question types, partial credit scoring, and a Spaced Repetition System. User access is dynamically controlled by subscription tier.
+Key features include a database-driven subscription model with regional pricing, tiered access, Stripe-based lifetime purchases, and free trials. The platform offers interactive learning modules, a mock exam engine with stratified random sampling, and a comprehensive admin dashboard. AI integrations, managed by a centralized AI Provider Router, power functionalities such as blog automation, an Adaptive CAT Engine, Pass Probability Projection, a Next Best Action Engine, an AI Tutoring Assistant, and content generation with quality gates. Exam blueprints are database-driven, content is categorized by body system, and supports Next Generation NCLEX (NGN) question types, partial credit scoring, and a Spaced Repetition System. User access is dynamically controlled by subscription tier.
 
-Core architectural components and design patterns include:
-- **Learning & Exam Preparation**: Flashcards, Test/Question Bank, Adaptive Flashcard System, Clinical Vignette Generation, and a Mock Exam Engine (CAT & Practice modes) with an Exam Reliability System.
+Core architectural components and design patterns emphasize:
+- **Learning & Exam Preparation**: Features like Flashcards, Test/Question Bank, Adaptive Flashcard System, Clinical Vignette Generation, and a Mock Exam Engine (CAT & Practice modes) with an Exam Reliability System.
 - **AI-Powered Study & Content**: AI Study Coaching & Course Generation, Exam Date AI Study Planner, AI-Powered Generation & Safety, context-aware AI Tutoring Assistant, and Bulk Question Bank Orchestrator.
-- **Content & SEO Infrastructure**: Allied Health Encyclopedia, SEO Lesson Engine, Programmatic SEO, Multilingual SEO & Translation with build-blocking validation, Database-Driven Multi-Domain Sitemap, Internal Linking, and structured data generation.
+- **Content & SEO Infrastructure**: Allied Health Encyclopedia, SEO Lesson Engine, Programmatic SEO, Multilingual SEO & Translation, Database-Driven Multi-Domain Sitemap, Internal Linking, and structured data generation.
 - **User Experience & Engagement**: Dashboard Lifecycle Command Center, Global Report a Problem System, IndexedDB-based Offline Study, and LocalStorage-based Popup Suppression.
-- **Multi-Profession Support**: Dynamic framework for new healthcare professions with specialized navigation and content.
+- **Multi-Profession Support**: A dynamic framework to support new healthcare professions with specialized navigation and content.
 - **Database Safety & Management**: PostgreSQL with Drizzle ORM, EnvironmentAwareContentWriteService, and a comprehensive Backup, Export & Restore Framework.
-- **Content Integrity Engine**: Automated scanning, AI auto-repair, pre-publish validation, and manual review queue.
+- **Content Integrity Engine**: Automated scanning, AI auto-repair, pre-publish validation, and manual review queue to maintain content quality.
 - **Explanation Engine**: Unified structured explanation storage with AI-powered batch generation and review.
 - **Exam Readiness Predictor Engine**: Provides readiness scores, pass probability, and personalized recommendations.
 - **Unified Question Schema & Country Adaptation**: `exam_questions` table extended for international fields, filtered by country, language, and licensing body.
-- **Multilingual Content Management**: AI-powered batch translation of content with dedicated translation tables and build-blocking validation for coverage.
+- **Multilingual Content Management**: AI-powered batch translation of content with dedicated translation tables and build-blocking validation.
 - **Taxonomy Protection System**: Strict taxonomy validation and normalization for content generation.
 - **Content Publishing Audit**: Admin system for audit reports, quality fixes, coverage, and paywall enforcement, with an 8-section validation for unpublished content.
 - **Clinical SEO Pages**: Database-driven clinical content pages for SEO.
