@@ -3956,6 +3956,52 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   });
 
   // --------------------
+  // Billing Plans API (canonical endpoint for web + mobile app)
+  // --------------------
+  app.get("/api/billing/plans", async (_req, res) => {
+    try {
+      const cached = cacheGet("billing:plans:active");
+      if (cached) return res.json(cached);
+
+      const plans = await storage.getAllPricingPlans();
+      const activePlans = plans.filter((p: any) => {
+        const enabled = p.isEnabled ?? p.is_enabled ?? true;
+        if (!enabled) return false;
+        const d = (p.duration || "").toLowerCase();
+        return !d.includes("trial") && !d.includes("day");
+      });
+
+      const enriched = activePlans.map((p: any) => ({
+        id: p.id,
+        tier: p.tier,
+        duration: p.duration,
+        planName: p.planName ?? p.plan_name ?? null,
+        description: p.description ?? null,
+        priceUSD: p.priceUsd ?? p.priceUSD ?? p.price_usd ?? 0,
+        priceCAD: p.priceCad ?? p.priceCAD ?? p.price_cad ?? 0,
+        currency: "usd",
+        interval: p.duration,
+        stripePriceIdUsd: p.stripePriceIdUsd ?? p.stripe_price_id_usd ?? null,
+        stripePriceIdCad: p.stripePriceIdCad ?? p.stripe_price_id_cad ?? null,
+        isLifetime: p.isLifetime ?? p.is_lifetime ?? false,
+        isPopular: p.isPopular ?? p.is_popular ?? false,
+        isFeatured: p.isFeatured ?? p.is_featured ?? false,
+        isFoundingPrice: p.isFoundingPrice ?? p.is_founding_price ?? false,
+        features: p.featureList ?? p.feature_list ?? [],
+        sortOrder: p.displayOrder ?? p.display_order ?? 0,
+        active: true,
+      }));
+
+      enriched.sort((a: any, b: any) => (a.sortOrder || 0) - (b.sortOrder || 0));
+
+      cacheSet("billing:plans:active", enriched, 300);
+      res.json(enriched);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // --------------------
   // Pricing Plans API
   // --------------------
   app.get("/api/pricing/plans", async (_req, res) => {
@@ -4000,6 +4046,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       const { username: _, password: __, ...updates } = req.body;
       const plan = await storage.updatePricingPlan(req.params.id, updates);
       cacheInvalidate("pricing:");
+      cacheInvalidate("billing:");
       logSecurityAudit("pricing_plan_updated", { adminId: admin.id, planId: req.params.id });
       res.json(plan);
     } catch (e: any) {
@@ -4093,9 +4140,10 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
     const env = isProduction ? 'PRODUCTION' : 'DEVELOPMENT';
 
     try {
-      const { userId, tier, duration, region, planId } = req.body;
+      const { userId, tier, duration, region, planId, source, successUrl: customSuccessUrl, cancelUrl: customCancelUrl } = req.body;
+      const purchaseSource = (source === "mobile_app") ? "mobile_app" : "web";
 
-      console.log(`[Checkout:${env}] Starting checkout — tier=${tier} duration=${duration} region=${region} planId=${planId} userId=${userId}`);
+      console.log(`[Checkout:${env}] Starting checkout — tier=${tier} duration=${duration} region=${region} planId=${planId} userId=${userId} source=${purchaseSource}`);
 
       if (!tier) return res.status(400).json({ error: "Missing tier parameter" });
       if (!userId) return res.status(400).json({ error: "Missing userId parameter" });
@@ -4109,6 +4157,23 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
           error: "Admin accounts already have full access to all content. Subscriptions are for student accounts.",
           isAdmin: true,
         });
+      }
+
+      const subscriptionTiers = ["rpn", "rn", "np", "allied", "newgrad", "new_grad_toolkit", "certification_prep", "full_access"];
+      if (subscriptionTiers.includes(tier)) {
+        const dbPlansForValidation = await storage.getPricingPlansByTier(tier);
+        const activePlansForTier = dbPlansForValidation.filter((p: any) => p.isEnabled !== false && p.is_enabled !== false);
+        if (activePlansForTier.length === 0) {
+          console.warn(`[Checkout:${env}] Rejected: tier=${tier} has no active plans in pricing_plans table`);
+          return res.status(400).json({ error: "This plan is currently unavailable. Please choose a different plan." });
+        }
+        if (planId) {
+          const matchingPlan = activePlansForTier.find((p: any) => p.id === planId);
+          if (!matchingPlan) {
+            console.warn(`[Checkout:${env}] Rejected: planId=${planId} is not an active plan for tier=${tier}`);
+            return res.status(400).json({ error: "The selected plan is inactive or does not exist. Please choose a different plan." });
+          }
+        }
       }
 
       let stripe;
@@ -4176,13 +4241,14 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       let isLifetimePlan = false;
 
       const dbPlans = await storage.getPricingPlansByTier(tier);
+      const enabledPlans = dbPlans.filter((p: any) => p.isEnabled !== false && p.is_enabled !== false);
       const dbPlan = planId
-        ? dbPlans.find((p: any) => p.id === planId)
-        : dbPlans.find((p: any) => p.duration === selectedDuration);
+        ? enabledPlans.find((p: any) => p.id === planId)
+        : enabledPlans.find((p: any) => p.duration === selectedDuration);
 
       if (dbPlan) {
-        amount = isCAD ? dbPlan.priceCad : dbPlan.priceUsd;
-        isLifetimePlan = dbPlan.isLifetime || false;
+        amount = isCAD ? (dbPlan.priceCad ?? dbPlan.price_cad) : (dbPlan.priceUsd ?? dbPlan.price_usd);
+        isLifetimePlan = dbPlan.isLifetime || dbPlan.is_lifetime || false;
         console.log(`[Checkout:${env}] DB plan found: id=${dbPlan.id} amount=${amount} currency=${currency} isLifetime=${isLifetimePlan}`);
       } else {
         const fallbackTierPrices = fallbackPriceTable[tier];
@@ -4217,8 +4283,38 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       const durationLabel = durationLabels[selectedDuration] || "Monthly";
 
       const baseUrl = process.env.SITE_URL || `${req.protocol}://${req.get("host")}`;
-      const successUrl = `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier}`;
-      const cancelUrl = `${baseUrl}/pricing`;
+      const sourceParam = purchaseSource === "mobile_app" ? "&source=mobile_app" : "";
+
+      let validatedSuccessUrl: string | null = null;
+      let validatedCancelUrl: string | null = null;
+      if (customSuccessUrl || customCancelUrl) {
+        const allowedOrigins = [baseUrl];
+        if (process.env.SITE_URL) allowedOrigins.push(process.env.SITE_URL);
+        if (process.env.APP_RETURN_URL) allowedOrigins.push(process.env.APP_RETURN_URL);
+
+        const isAllowedUrl = (url: string) => {
+          try {
+            const parsed = new URL(url);
+            return allowedOrigins.some(origin => {
+              try { return new URL(origin).origin === parsed.origin; } catch { return false; }
+            });
+          } catch { return false; }
+        };
+
+        if (customSuccessUrl && isAllowedUrl(customSuccessUrl)) {
+          validatedSuccessUrl = customSuccessUrl;
+        } else if (customSuccessUrl) {
+          console.warn(`[Checkout:${env}] Rejected untrusted successUrl: ${customSuccessUrl}`);
+        }
+        if (customCancelUrl && isAllowedUrl(customCancelUrl)) {
+          validatedCancelUrl = customCancelUrl;
+        } else if (customCancelUrl) {
+          console.warn(`[Checkout:${env}] Rejected untrusted cancelUrl: ${customCancelUrl}`);
+        }
+      }
+
+      const successUrl = validatedSuccessUrl || `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier}${sourceParam}`;
+      const cancelUrl = validatedCancelUrl || `${baseUrl}/pricing`;
 
       console.log(`[Checkout:${env}] URLs — success: ${successUrl.substring(0, 60)}... cancel: ${cancelUrl}`);
 
@@ -4272,7 +4368,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
           allow_promotion_codes: !referralCouponId,
           success_url: successUrl + '&lifetime=true',
           cancel_url: cancelUrl,
-          metadata: { userId: user.id, tier, duration: "lifetime", isLifetime: "true", referredBy: user.referredBy || "" },
+          metadata: { userId: user.id, tier, duration: "lifetime", isLifetime: "true", purchaseSource, referredBy: user.referredBy || "" },
         };
         if (referralCouponId) {
           sessionOpts.discounts = [{ coupon: referralCouponId }];
@@ -4304,7 +4400,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
           allow_promotion_codes: !referralCouponId,
           success_url: successUrl,
           cancel_url: cancelUrl,
-          metadata: { userId: user.id, tier, duration: selectedDuration, referredBy: user.referredBy || "" },
+          metadata: { userId: user.id, tier, duration: selectedDuration, purchaseSource, referredBy: user.referredBy || "" },
         };
         if (referralCouponId) {
           sessionOpts.discounts = [{ coupon: referralCouponId }];
@@ -4314,7 +4410,12 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         return res.json({ url: session.url });
       }
 
-      const stripePriceId = getStripePriceId(tier, selectedDuration, currency);
+      const dbStripePriceId = dbPlan
+        ? (isCAD
+            ? (dbPlan.stripePriceIdCad || dbPlan.stripe_price_id_cad)
+            : (dbPlan.stripePriceIdUsd || dbPlan.stripe_price_id_usd))
+        : null;
+      const stripePriceId = dbStripePriceId || getStripePriceId(tier, selectedDuration, currency);
 
       if (stripePriceId) {
         if (isProduction && stripePriceId.startsWith('price_') && !stripePriceId.includes('test')) {
@@ -4354,9 +4455,9 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         allow_promotion_codes: !referralCouponId,
         success_url: successUrl,
         cancel_url: cancelUrl,
-        metadata: { userId: user.id, tier, duration: selectedDuration, referredBy: user.referredBy || "" },
+        metadata: { userId: user.id, tier, duration: selectedDuration, purchaseSource, referredBy: user.referredBy || "" },
         subscription_data: {
-          metadata: { userId: user.id, tier, duration: selectedDuration },
+          metadata: { userId: user.id, tier, duration: selectedDuration, purchaseSource },
         },
       };
       if (referralCouponId) {

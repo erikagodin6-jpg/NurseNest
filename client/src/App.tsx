@@ -232,6 +232,7 @@ const AdminIncidentDetail = lazy(() => import("@/pages/admin-incident-detail"));
 const AdminWeeklyReport = lazy(() => import("@/pages/admin-weekly-report"));
 const AdminIncidentResponse = lazy(() => import("@/pages/admin-incident-response"));
 const AdminSubscriberRescue = lazy(() => import("@/pages/admin-subscriber-rescue"));
+const AdminBillingSupport = lazy(() => import("@/pages/admin-billing-support"));
 const AdminPerformance = lazy(() => import("@/pages/admin-performance"));
 const AdminIncidents = lazy(() => import("@/pages/admin-incidents"));
 const AdminOpsIncidents = lazy(() => import("@/pages/admin-ops-incidents"));
@@ -870,6 +871,8 @@ function AppRoutes() {
         <Route path="/:locale/admin/incident-response" component={AdminIncidentResponse} />
         <Route path="/admin/subscriber-rescue" component={AdminSubscriberRescue} />
         <Route path="/:locale/admin/subscriber-rescue" component={AdminSubscriberRescue} />
+        <Route path="/admin/billing-support" component={AdminBillingSupport} />
+        <Route path="/:locale/admin/billing-support" component={AdminBillingSupport} />
         <Route path="/admin-performance" component={AdminPerformance} />
         <Route path="/:locale/admin-performance" component={AdminPerformance} />
         <Route path="/admin/incidents/:id" component={AdminIncidents} />

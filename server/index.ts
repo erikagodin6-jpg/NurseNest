@@ -547,13 +547,28 @@ app.post(
               );
               if (result.rows.length > 0) {
                 const userId = result.rows[0].id;
-                await storage.upsertUserSubscription(userId, {
-                  status: "active",
-                  lastVerifiedAt: new Date(),
-                  stripeCustomerId: customerId,
-                  ...(invoice.subscription ? { stripeSubscriptionId: invoice.subscription } : {}),
+                const subscriptionId = invoice?.subscription;
+                await storage.updateUserStripeInfo(userId, { subscriptionStatus: "active" });
+                if (subscriptionId) {
+                  const invoiceTier = invoice?.lines?.data?.[0]?.metadata?.tier;
+                  const existingUser = await storage.getUser(userId);
+                  const resolvedTier = invoiceTier || existingUser?.tier || "free";
+                  await upsertSubscription({
+                    userId,
+                    stripeSubscriptionId: subscriptionId,
+                    stripeCustomerId: customerId,
+                    tier: resolvedTier,
+                    status: "active",
+                    currency: invoice.currency || "usd",
+                    amount: invoice.amount_paid || null,
+                  });
+                }
+                console.log(`[Webhook] invoice.paid: user ${userId} (customer ${customerId}), subscription confirmed active`);
+                await emitEntitlementEvent(userId, "invoice_paid", {
+                  stripeEventId: evt.id,
+                  subscriptionId: subscriptionId || null,
+                  metadata: { invoiceId: invoice.id, amountPaid: invoice.amount_paid },
                 });
-                console.log(`[Webhook] invoice.paid: updated user_subscription for user ${userId}`);
               }
             } catch (e: any) {
               console.error("[Webhook] invoice.paid subscription update error:", e.message);
@@ -605,7 +620,7 @@ app.post(
               status: "active",
               billingInterval: meta.duration || null,
               isLifetime: isLifetimePurchase,
-              purchaseSource: "web",
+              purchaseSource: meta.purchaseSource || "web",
               currency: session.currency || "usd",
               amount: session.amount_total || null,
             });

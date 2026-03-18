@@ -530,4 +530,89 @@ router.get("/api/admin/duplicate-accounts", async (req, res) => {
   }
 });
 
+router.get("/api/admin/billing-profile/:userId", async (req, res) => {
+  try {
+    const admin = await requireAdmin(req as any, res);
+    if (!admin) return;
+
+    const userId = req.params.userId;
+    const { storage } = await import("./storage");
+    const user = await storage.getUser(userId);
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    const subscriptions = await getSubscriptionsByUserId(userId);
+    const activeSubscription = await getActiveSubscription(userId);
+    const webhookEvents = await getWebhookEventsByUserId(userId, 20);
+    const entitlementEvents = await getEntitlementEventsByUserId(userId, 20);
+
+    const effectiveUser = { ...user };
+    if (activeSubscription && (activeSubscription.status === "active" || activeSubscription.status === "trialing")) {
+      if (activeSubscription.tier && activeSubscription.tier !== "free") {
+        effectiveUser.tier = activeSubscription.tier;
+      }
+    }
+    const entitlements = getUserEntitlements(effectiveUser);
+    const featureFlags: Record<string, boolean> = {};
+    for (const [feature, info] of Object.entries(entitlements)) {
+      featureFlags[feature] = info.allowed;
+    }
+
+    res.json({
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        tier: user.tier,
+        isLifetime: user.isLifetime,
+        stripeCustomerId: user.stripeCustomerId,
+        stripeSubscriptionId: user.stripeSubscriptionId,
+        subscriptionStatus: user.subscriptionStatus,
+        planExpiresAt: user.planExpiresAt,
+      },
+      currentPlan: activeSubscription ? {
+        id: activeSubscription.id,
+        tier: activeSubscription.tier,
+        status: activeSubscription.status,
+        purchaseSource: activeSubscription.purchase_source || activeSubscription.purchaseSource || "web",
+        billingInterval: activeSubscription.billing_interval || activeSubscription.billingInterval,
+        stripeSubscriptionId: activeSubscription.stripe_subscription_id || activeSubscription.stripeSubscriptionId,
+        stripeCustomerId: activeSubscription.stripe_customer_id || activeSubscription.stripeCustomerId,
+        isLifetime: activeSubscription.is_lifetime || activeSubscription.isLifetime || false,
+        currency: activeSubscription.currency,
+        amount: activeSubscription.amount,
+        activeFrom: activeSubscription.active_from || activeSubscription.activeFrom,
+        expiresAt: activeSubscription.expires_at || activeSubscription.expiresAt,
+        renewsAt: activeSubscription.renews_at || activeSubscription.renewsAt,
+        lastVerifiedAt: activeSubscription.last_verified_at || activeSubscription.lastVerifiedAt,
+      } : null,
+      entitlements: featureFlags,
+      subscriptionHistory: subscriptions.map((s: any) => ({
+        id: s.id,
+        tier: s.tier,
+        status: s.status,
+        purchaseSource: s.purchase_source || s.purchaseSource || "web",
+        billingInterval: s.billing_interval || s.billingInterval,
+        isLifetime: s.is_lifetime || s.isLifetime || false,
+        createdAt: s.created_at || s.createdAt,
+        canceledAt: s.canceled_at || s.canceledAt,
+      })),
+      recentWebhookEvents: webhookEvents.slice(0, 10).map((e: any) => ({
+        id: e.id,
+        eventId: e.event_id || e.eventId,
+        eventType: e.event_type || e.eventType,
+        status: e.status,
+        createdAt: e.created_at || e.createdAt,
+      })),
+      recentEntitlementEvents: entitlementEvents.slice(0, 10).map((e: any) => ({
+        id: e.id,
+        eventType: e.event_type || e.eventType,
+        tier: e.tier,
+        createdAt: e.created_at || e.createdAt,
+      })),
+    });
+  } catch (e: any) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 export default router;

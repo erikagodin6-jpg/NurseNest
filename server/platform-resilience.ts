@@ -1571,6 +1571,8 @@ const SAFE_MODE_CORE_READ_PATHS = new Set([
   "/api/me/entitlements",
   "/api/me/subscription",
   "/api/entitlement/resolve",
+  "/api/billing/plans",
+  "/api/pricing/plans",
 ]);
 
 const SAFE_MODE_INFRA_PATHS = new Set([
