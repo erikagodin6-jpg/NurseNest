@@ -214,12 +214,16 @@ export async function resolveAuthUser(req: any): Promise<any | null> {
   const xUsername = String(req.headers?.["x-username"] || "");
   const xPassword = String(req.headers?.["x-password"] || "");
   if (xUsername && xPassword) {
-    const r = await pool.query("SELECT * FROM users WHERE username = $1", [xUsername]);
-    if (r.rows[0]) {
-      const bcrypt = await import("bcryptjs");
-      const match = await bcrypt.compare(xPassword, r.rows[0].password);
-      if (match) return r.rows[0];
-    }
+    try {
+      const r = await pool.query("SELECT * FROM users WHERE username = $1", [xUsername]);
+      if (r.rows[0] && r.rows[0].password) {
+        const match = await verifyPassword(xPassword, r.rows[0].password);
+        if (match) {
+          await migratePasswordIfNeeded(r.rows[0].id, xPassword, r.rows[0].password);
+          return r.rows[0];
+        }
+      }
+    } catch {}
   }
 
   const xUserId = String(req.headers?.["x-user-id"] || "");

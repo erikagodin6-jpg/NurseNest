@@ -7729,7 +7729,66 @@ Rules:
         };
       });
 
-      res.json({ summary, lessons });
+      let qualityScore = 100;
+      let duplicateRate = 0;
+      let invalidQuestions = 0;
+      let totalMissingRationales = 0;
+      try {
+        const dupResult = await pool.query(`
+          SELECT COUNT(*) as total_published,
+            COUNT(*) - COUNT(DISTINCT LOWER(TRIM(stem))) as duplicate_stems
+          FROM exam_questions WHERE status = 'published' AND tier IN ('rpn', 'rn', 'np')
+        `);
+        const totalPub = parseInt(dupResult.rows[0]?.total_published || "0");
+        const dupStems = parseInt(dupResult.rows[0]?.duplicate_stems || "0");
+        duplicateRate = totalPub > 0 ? Math.round((dupStems / totalPub) * 10000) / 100 : 0;
+
+        const invResult = await pool.query(`
+          SELECT COUNT(*) as cnt FROM exam_questions
+          WHERE status = 'published' AND tier IN ('rpn', 'rn', 'np')
+            AND (stem IS NULL OR TRIM(stem) = '' OR LENGTH(TRIM(stem)) < 10
+              OR options IS NULL OR options::text = '[]' OR options::text = 'null'
+              OR correct_answer IS NULL)
+        `);
+        invalidQuestions = parseInt(invResult.rows[0]?.cnt || "0");
+
+        const ratResult = await pool.query(`
+          SELECT COUNT(*) as cnt FROM exam_questions
+          WHERE status = 'published' AND tier IN ('rpn', 'rn', 'np')
+            AND (rationale IS NULL OR TRIM(rationale) = '')
+        `);
+        totalMissingRationales = parseInt(ratResult.rows[0]?.cnt || "0");
+
+        if (duplicateRate > 5) qualityScore -= 20;
+        else if (duplicateRate > 2) qualityScore -= 10;
+        if (invalidQuestions > 0) qualityScore -= Math.min(30, invalidQuestions * 5);
+        if (totalMissingRationales > 0) qualityScore -= Math.min(30, Math.ceil(totalMissingRationales / 10));
+        qualityScore = Math.max(0, qualityScore);
+      } catch (qErr: any) {
+        qualityScore = 0;
+        invalidQuestions = -1;
+        console.error("[ContentAudit] Quality metrics query failed (fail-closed):", qErr?.message);
+      }
+
+      const deployGatePassed = invalidQuestions >= 0 && qualityScore >= 70 && invalidQuestions === 0;
+      res.json({
+        summary,
+        lessons,
+        qualityScore,
+        duplicateRate,
+        invalidQuestions,
+        totalMissingRationales,
+        deployGate: {
+          passed: deployGatePassed,
+          reason: invalidQuestions < 0
+            ? "Quality metrics unavailable (query failed) — gate closed"
+            : invalidQuestions > 0
+              ? `${invalidQuestions} invalid questions found`
+              : qualityScore < 70
+                ? `Quality score ${qualityScore} below threshold 70`
+                : "All checks passed",
+        },
+      });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

@@ -3,7 +3,7 @@ import { pool } from "./storage";
 import { requireAdmin } from "./admin-auth";
 
 export function registerContentAuditRoutes(app: Express) {
-  app.get("/api/admin/content-audit", async (req: Request, res: Response) => {
+  app.get("/api/admin/content-quality-audit", async (req: Request, res: Response) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
@@ -150,8 +150,53 @@ export function registerContentAuditRoutes(app: Express) {
         count: parseInt(r.count),
       }));
 
+      const duplicateResult = await pool.query(`
+        SELECT COUNT(*) as total_published,
+          COUNT(*) - COUNT(DISTINCT LOWER(TRIM(stem))) as duplicate_stems
+        FROM exam_questions
+        WHERE status = 'published' AND tier IN ('rpn', 'rn', 'np')
+      `);
+      const totalPublished = parseInt(duplicateResult.rows[0]?.total_published || "0");
+      const duplicateStems = parseInt(duplicateResult.rows[0]?.duplicate_stems || "0");
+      const duplicateRate = totalPublished > 0 ? Math.round((duplicateStems / totalPublished) * 10000) / 100 : 0;
+
+      const invalidResult = await pool.query(`
+        SELECT COUNT(*) as invalid_count
+        FROM exam_questions
+        WHERE status = 'published' AND tier IN ('rpn', 'rn', 'np')
+          AND (
+            stem IS NULL OR TRIM(stem) = '' OR LENGTH(TRIM(stem)) < 10
+            OR options IS NULL OR options::text = '[]' OR options::text = 'null'
+            OR correct_answer IS NULL
+          )
+      `);
+      const invalidQuestions = parseInt(invalidResult.rows[0]?.invalid_count || "0");
+
+      const totalMissingRationales = dataQuality.reduce((sum, d) => sum + d.missingRationale, 0);
+
+      let qualityScore = 100;
+      if (duplicateRate > 5) qualityScore -= 20;
+      else if (duplicateRate > 2) qualityScore -= 10;
+      if (invalidQuestions > 0) qualityScore -= Math.min(30, invalidQuestions * 5);
+      if (totalMissingRationales > 0) qualityScore -= Math.min(30, Math.ceil(totalMissingRationales / 10));
+      const targetsMet = tierSummary.filter(t => t.targetMet).length;
+      if (targetsMet < allTiers.length) qualityScore -= (allTiers.length - targetsMet) * 5;
+      qualityScore = Math.max(0, qualityScore);
+
       res.json({
         auditTimestamp: new Date().toISOString(),
+        qualityScore,
+        duplicateRate,
+        invalidQuestions,
+        totalMissingRationales,
+        deployGate: {
+          passed: qualityScore >= 70 && invalidQuestions === 0,
+          reason: invalidQuestions > 0
+            ? `${invalidQuestions} invalid questions found`
+            : qualityScore < 70
+              ? `Quality score ${qualityScore} below threshold 70`
+              : "All checks passed",
+        },
         tierSummary,
         dataQuality,
         flashcardCoverage,

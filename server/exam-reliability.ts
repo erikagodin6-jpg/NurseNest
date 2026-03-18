@@ -79,8 +79,18 @@ export function validateQuestion(row: any): QuestionValidationResult {
       issues.push("unparseable_options");
     }
   }
-  if (!Array.isArray(opts) || opts.length < 2) {
+  if (!Array.isArray(opts)) {
+    issues.push("options_not_array");
+  } else if (opts.length < 2) {
     issues.push("insufficient_options");
+  } else if (opts.length !== 4) {
+    issues.push(`expected_4_options_got_${opts.length}`);
+  } else {
+    const normalized = opts.map((o: any) => (typeof o === "string" ? o.trim().toLowerCase() : JSON.stringify(o)));
+    const unique = new Set(normalized);
+    if (unique.size !== opts.length) {
+      issues.push("duplicate_options");
+    }
   }
 
   let correct = row.correct_answer;
@@ -105,6 +115,10 @@ export function validateQuestion(row: any): QuestionValidationResult {
 
   if (row.quarantined_at) {
     issues.push("quarantined");
+  }
+
+  if (!row.rationale || (typeof row.rationale === "string" && row.rationale.trim().length === 0)) {
+    issues.push("missing_rationale");
   }
 
   return { valid: issues.length === 0, questionId: qId, issues };
@@ -500,6 +514,73 @@ export function registerExamReliabilityRoutes(app: Express) {
     } catch (e: any) {
       console.error("[ResilienceIncident] Error processing report:", e.message);
       res.status(500).json({ error: "Failed to submit incident report" });
+    }
+  });
+
+  app.get("/api/admin/entitlement-regression-test", async (req: any, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { resolveEntitlementSync } = await import("./entitlements");
+      const tiers = ["free", "rpn", "rn", "np", "admin"];
+      const features = ["qbank", "mock_exams", "flashcard_bank", "cat_exams", "lessons_rpn", "lessons_rn", "lessons_np", "study_sessions", "reports"];
+
+      const tierHierarchy: Record<string, number> = { free: 0, rpn: 1, rn: 2, np: 3, admin: 4 };
+      const featureMinTier: Record<string, string> = {
+        qbank: "rpn", mock_exams: "rpn", flashcard_bank: "rpn", cat_exams: "rpn",
+        study_sessions: "rpn", reports: "rpn",
+        lessons_rpn: "rpn", lessons_rn: "rn", lessons_np: "np",
+      };
+
+      const results: { tier: string; feature: string; expected: boolean; actual: boolean; passed: boolean }[] = [];
+      let failures = 0;
+
+      for (const tier of tiers) {
+        const mockUser = { id: "regression-test", tier, subscription_status: tier === "free" ? "none" : "active" };
+        for (const feature of features) {
+          const minTier = featureMinTier[feature] || "rpn";
+          const expected = tier === "admin" || tierHierarchy[tier] >= tierHierarchy[minTier];
+          const decision = resolveEntitlementSync(mockUser, "feature", feature);
+          const actual = decision.hasAccess;
+          const passed = expected === actual;
+          if (!passed) failures++;
+          results.push({ tier, feature, expected, actual, passed });
+        }
+      }
+
+      const crossTierTests: { userTier: string; requestedTier: string; shouldAllow: boolean; actualAllow: boolean; passed: boolean }[] = [];
+      const { getAllowedExamTiers } = await import("../shared/tier-config");
+      const crossTierExpected: Record<string, string[]> = {
+        rpn: ["rpn"],
+        rn: ["rpn", "rn"],
+        np: ["rn", "np"],
+      };
+      let crossTierFailures = 0;
+      for (const userTier of ["rpn", "rn", "np"]) {
+        const allowed = getAllowedExamTiers(userTier);
+        for (const requestedTier of ["rpn", "rn", "np"]) {
+          const shouldAllow = (crossTierExpected[userTier] || []).includes(requestedTier);
+          const actualAllow = allowed.includes(requestedTier);
+          const passed = shouldAllow === actualAllow;
+          if (!passed) crossTierFailures++;
+          crossTierTests.push({ userTier, requestedTier, shouldAllow, actualAllow, passed });
+        }
+      }
+
+      const totalFailures = failures + crossTierFailures;
+      res.json({
+        timestamp: new Date().toISOString(),
+        passed: totalFailures === 0,
+        totalTests: results.length + crossTierTests.length,
+        failures: totalFailures,
+        entitlementFailures: results.filter(r => !r.passed),
+        crossTierFailures: crossTierTests.filter(t => !t.passed),
+        allResults: results,
+        crossTierAccess: crossTierTests,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
     }
   });
 }
