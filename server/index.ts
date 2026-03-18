@@ -957,6 +957,7 @@ function runDeferredStartupWork() {
       await import("./seed-topic-hub-pages").then(({ seedTopicHubPages }) => seedTopicHubPages()).catch((e: any) => console.error("[TopicHubPages] Failed:", e.message));
       await import("./seed-long-form-study-guides").then(({ seedLongFormStudyGuides }) => seedLongFormStudyGuides()).catch((e: any) => console.error("[LongFormGuides] Failed:", e.message));
       await import("./seed-long-tail-educational-pages").then(({ seedLongTailEducationalPages }) => seedLongTailEducationalPages()).catch((e: any) => console.error("[LongTailPages] Failed:", e.message));
+      await import("./seed-imaging-seo-clusters").then(({ seedImagingSeoContent }) => seedImagingSeoContent()).catch((e: any) => console.error("[ImagingSeoClustersSeed] Failed:", e.message));
 
       try {
         const tierCounts = await seedPool.query(

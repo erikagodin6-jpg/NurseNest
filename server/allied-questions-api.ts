@@ -48,6 +48,7 @@ const PROFESSIONS: ProfessionConfig[] = [
     exportName: "imagingQuestions",
     additionalImports: [
       { importPath: "../client/src/data/career-questions/imaging-questions-expansion", exportName: "imagingQuestionsExpansion" },
+      { importPath: "../client/src/data/career-questions/imaging-questions-expansion-2", exportName: "imagingQuestionsExpansion2" },
     ],
   },
   {

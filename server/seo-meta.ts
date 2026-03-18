@@ -839,6 +839,90 @@ const staticPages: Record<string, { title: string; description: string }> = {
     title: "Medical Imaging Blog - Study Guides & Articles | NurseNest",
     description: "Educational articles, how-to guides, and study strategies for radiography students preparing for CAMRT and ARRT certification exams.",
   },
+  "/medical-imaging/blog/how-to-pass-arrt-exam": {
+    title: "How to Pass the ARRT Exam on Your First Attempt | NurseNest",
+    description: "Proven strategies to pass the ARRT radiography certification exam. Study schedule, content breakdown, practice question strategies, and test-day tips.",
+  },
+  "/medical-imaging/blog/top-50-radiology-questions": {
+    title: "Top 50 ARRT Radiology Questions – Must-Know Exam Questions | NurseNest",
+    description: "The 50 most important radiology questions for ARRT exam preparation. Covers physics, positioning, safety, patient care, and image quality with detailed rationales.",
+  },
+  "/medical-imaging/blog/common-imaging-mistakes": {
+    title: "10 Common Imaging Mistakes New Radiography Technologists Make | NurseNest",
+    description: "Avoid the 10 most common mistakes new radiography technologists make. Positioning errors, dose management, patient communication, and quality improvement.",
+  },
+  "/medical-imaging/usa/seo/x-ray-vs-ct-vs-mri": {
+    title: "X-ray vs CT vs MRI – Complete Comparison Guide | NurseNest",
+    description: "Compare x-ray, CT, and MRI imaging modalities. Learn the physics, clinical applications, advantages, and limitations for ARRT exam prep.",
+  },
+  "/medical-imaging/usa/seo/how-x-rays-work": {
+    title: "How X-rays Work – X-ray Production Physics | NurseNest",
+    description: "Learn how x-rays are produced including bremsstrahlung, characteristic radiation, tube components, and technical factors for ARRT exam preparation.",
+  },
+  "/medical-imaging/usa/seo/ct-scan-basics": {
+    title: "CT Scan Basics – How Computed Tomography Works | NurseNest",
+    description: "Understand CT scan fundamentals including helical scanning, Hounsfield units, windowing, reconstruction algorithms, and dose metrics for ARRT exam prep.",
+  },
+  "/medical-imaging/usa/seo/mri-basics": {
+    title: "MRI Basics – How Magnetic Resonance Imaging Works | NurseNest",
+    description: "Learn MRI fundamentals including T1/T2 weighting, pulse sequences, gadolinium contrast, and MRI safety for radiography students.",
+  },
+  "/medical-imaging/usa/seo/contrast-media-explained": {
+    title: "Contrast Media Explained – Types, Reactions & Safety | NurseNest",
+    description: "Comprehensive guide to contrast media: iodinated contrast, barium sulfate, gadolinium, reaction management, and CIN prevention for the ARRT exam.",
+  },
+  "/medical-imaging/usa/seo/imaging-artifacts-explained": {
+    title: "Imaging Artifacts – Identification & Prevention Guide | NurseNest",
+    description: "Identify and prevent common imaging artifacts in radiography, CT, and digital imaging. ARRT exam prep guide with solutions.",
+  },
+  "/medical-imaging/usa/seo/radiation-dose-explained": {
+    title: "Radiation Dose Explained – Units & Measurement | NurseNest",
+    description: "Understand radiation dose units (mGy, mSv), dose metrics (CTDIvol, DLP, SSDE), and biological dose concepts for ARRT exam preparation.",
+  },
+  "/medical-imaging/usa/seo/alara-principle": {
+    title: "ALARA Principle – Radiation Protection Guide | NurseNest",
+    description: "Master the ALARA principle for radiation protection. Practical dose minimization techniques while maintaining diagnostic image quality.",
+  },
+  "/medical-imaging/usa/seo/radiation-protection-techniques": {
+    title: "Radiation Protection Techniques – Shielding & Distance | NurseNest",
+    description: "Essential radiation protection techniques including shielding, time-distance principles, collimation, and technique optimization for ARRT exam prep.",
+  },
+  "/medical-imaging/usa/seo/scatter-radiation": {
+    title: "Scatter Radiation – Causes, Effects & Reduction | NurseNest",
+    description: "Understand scatter radiation: Compton effect, image quality impact, dose implications, and reduction techniques for ARRT exam preparation.",
+  },
+  "/medical-imaging/usa/seo/inverse-square-law": {
+    title: "Inverse Square Law – Physics Calculations for ARRT | NurseNest",
+    description: "Master inverse square law calculations for radiation intensity, SID corrections, and dose estimation. Step-by-step examples for ARRT exam prep.",
+  },
+  "/medical-imaging/usa/seo/shielding-exposure-limits": {
+    title: "Radiation Shielding & Dose Limits – NCRP Guidelines | NurseNest",
+    description: "NCRP radiation dose limits for workers, public, and pregnant workers. Complete guide to shielding types and exposure limits for ARRT exam prep.",
+  },
+  "/medical-imaging/usa/seo/chest-xray-positioning": {
+    title: "Chest X-ray Positioning Guide – PA, Lateral & Special Views | NurseNest",
+    description: "Master chest x-ray positioning including PA, lateral, AP, and decubitus projections with evaluation criteria and ARRT exam tips.",
+  },
+  "/medical-imaging/usa/seo/abdomen-imaging": {
+    title: "Abdominal X-ray & Imaging Guide – Positioning & Pathology | NurseNest",
+    description: "Complete guide to abdominal radiography positioning, normal anatomy, bowel gas patterns, and pathological findings for ARRT exam prep.",
+  },
+  "/medical-imaging/usa/seo/skull-imaging": {
+    title: "Skull X-ray Positioning – Towne, Waters & Caldwell | NurseNest",
+    description: "Master skull radiography projections including Towne, Waters, Caldwell, and lateral views with anatomy guide for ARRT exam preparation.",
+  },
+  "/medical-imaging/usa/seo/spine-imaging": {
+    title: "Spine X-ray Positioning – Cervical, Thoracic & Lumbar | NurseNest",
+    description: "Complete spine radiography positioning guide covering cervical, thoracic, and lumbar projections with CR angulation and evaluation criteria.",
+  },
+  "/medical-imaging/usa/seo/extremity-positioning": {
+    title: "Extremity X-ray Positioning – Hands, Knee, Ankle & More | NurseNest",
+    description: "Complete upper and lower extremity positioning guide for radiography. Hand, wrist, elbow, shoulder, knee, ankle, foot, and hip projections.",
+  },
+  "/medical-imaging/usa/seo/cross-sectional-anatomy": {
+    title: "Cross-Sectional Anatomy for CT & MRI – Study Guide | NurseNest",
+    description: "Essential cross-sectional anatomy for CT and MRI interpretation. Key landmarks from head to pelvis with clinical correlations for ARRT exam prep.",
+  },
   "/radiography-practice-questions": {
     title: "Radiography Practice Questions - Free CAMRT & ARRT Exam Prep | NurseNest",
     description: "Practice radiography exam questions for CAMRT and ARRT certification. Timed practice exams, detailed rationales, and performance analytics for radiologic technologists.",
