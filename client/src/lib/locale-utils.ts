@@ -4,18 +4,10 @@ import {
   LOCALIZED_SLUGS,
 } from "@shared/localized-slugs";
 import { normalizeCanonicalUrl } from "@shared/canonical-url";
+import { SUPPORTED_LOCALES, DEFAULT_LOCALE, isValidLocale, getMainSiteDomain } from "@shared/locales";
+export type { SupportedLocale } from "@shared/locales";
 
-export const SUPPORTED_LOCALES = [
-  "en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id"
-] as const;
-
-export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
-
-export const DEFAULT_LOCALE: SupportedLocale = "en";
-
-export function isValidLocale(str: string): str is SupportedLocale {
-  return (SUPPORTED_LOCALES as readonly string[]).includes(str);
-}
+export { SUPPORTED_LOCALES, DEFAULT_LOCALE, isValidLocale };
 
 export function getLocaleFromPath(path: string): { locale: SupportedLocale; pathWithoutLocale: string } {
   const segments = path.split("/").filter(Boolean);
@@ -45,6 +37,7 @@ export function deLocalizeSlug(locale: string, localizedPath: string): string {
 export { LOCALIZED_SLUGS };
 
 export function getMainSiteUrl(path: string = "/", locale?: string): string {
+  const domain = getMainSiteDomain();
   const isProduction = window.location.hostname.includes("nursenest.ca");
   const cleanPath = path.startsWith("/") ? path : "/" + path;
 
@@ -54,7 +47,7 @@ export function getMainSiteUrl(path: string = "/", locale?: string): string {
 
   if (isProduction) {
     const effectiveLocale = locale || "en";
-    return normalizeCanonicalUrl(pathBeforeHash, effectiveLocale, "https://www.nursenest.ca") + hashPart;
+    return normalizeCanonicalUrl(pathBeforeHash, effectiveLocale, domain) + hashPart;
   }
 
   const localeParam = locale && locale !== "en" ? `&locale=${locale}` : "";

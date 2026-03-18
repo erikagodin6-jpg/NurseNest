@@ -2,13 +2,16 @@ import express, { type Express } from "express";
 import fs from "fs";
 import path from "path";
 import { injectMeta, checkContentExists } from "./seo-meta";
+import { SUPPORTED_LOCALES } from "@shared/locales";
 
 let cachedIndexHtml: string | null = null;
 
-const SUPPORTED_LOCALES = new Set(["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id"]);
+const LOCALE_REGEX = new RegExp(
+  `^\\/(${[...SUPPORTED_LOCALES].sort((a, b) => b.length - a.length).join("|")})(\/.*|$)`
+);
 
 function extractLocaleAndPath(reqPath: string): { locale: string; strippedPath: string } {
-  const localeMatch = reqPath.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|ht|ur|ja|fa|de|th|tr|id)(\/.*|$)/);
+  const localeMatch = reqPath.match(LOCALE_REGEX);
   if (localeMatch) {
     return { locale: localeMatch[1], strippedPath: localeMatch[2] || "/" };
   }

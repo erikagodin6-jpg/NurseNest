@@ -2,7 +2,8 @@ import { pool } from "./storage";
 import fs from "fs";
 import path from "path";
 
-const SUPPORTED_LOCALES = ["fr", "es", "fil", "hi", "zh", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
+import { SUPPORTED_LOCALES as _ALL_LOCALES } from "@shared/locales";
+const SUPPORTED_LOCALES = _ALL_LOCALES.filter(l => l !== "en" && l !== "zh-tw" && l !== "id" && l !== "tr" && l !== "th");
 
 const BRAND_ALLOWLIST = new Set([
   "nursenest", "nclex", "nclex-rn", "nclex-pn", "ncsbn", "rex-pn",

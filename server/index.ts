@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import compression from "compression";
 import cookieParser from "cookie-parser";
+import { SUPPORTED_LOCALES, SUPPORTED_LOCALES_SET } from "@shared/locales";
 import path from "path";
 import { createServer } from "http";
 import { registerRoutes } from "./routes";
@@ -555,7 +556,7 @@ const HREFLANG_MAP: Record<string, string> = {
 
 app.get("/api/seo-debug", (_req, res) => {
   const siteBase = getSiteBase();
-  const debugLocales = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr"];
+  const debugLocales = [...SUPPORTED_LOCALES];
   const results: any[] = [];
 
   for (const route of SEO_DEBUG_ROUTES) {
@@ -588,8 +589,6 @@ app.get("/api/seo-debug", (_req, res) => {
 // -------------------------
 // Locale redirect middleware
 // -------------------------
-const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id"];
-const SUPPORTED_LOCALES_SET = new Set(SUPPORTED_LOCALES);
 
 function detectLocaleFromAcceptLanguage(acceptLanguage: string | undefined): string {
   if (!acceptLanguage) return "en";

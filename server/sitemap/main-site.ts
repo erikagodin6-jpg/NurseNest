@@ -448,15 +448,6 @@ export async function generateMainSeoContent(): Promise<string[]> {
     }
   } catch {}
 
-  try {
-    const programmaticPages = await pool.query(
-      `SELECT slug, updated_at, career_track FROM programmatic_pages WHERE status = 'published' ORDER BY updated_at DESC`
-    );
-    for (const page of programmaticPages.rows) {
-      urls.push(localizedUrl(base, `/${page.slug}`, "0.6", "weekly", enOnly, toLastmod(page.updated_at)));
-    }
-  } catch {}
-
   return urls;
 }
 

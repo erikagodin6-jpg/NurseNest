@@ -1,4 +1,5 @@
 import type { Express, Request, Response } from "express";
+import { SUPPORTED_LOCALES } from "@shared/locales";
 import {
   getSiteBase, getAlliedBase, getNewGradBase, todayDate, toLastmod,
   wrapUrlset, wrapSitemapIndex, sitemapIndexEntry,
@@ -101,7 +102,7 @@ async function generateChildSitemap(def: SitemapDef, chunkIndex: number): Promis
   return xml;
 }
 
-const LANGUAGE_SITEMAP_LOCALES = ["en", "fr", "es", "fil", "zh", "zh-tw", "ar", "hi", "ko", "pa", "vi", "ht", "ur", "ja", "fa", "de", "pt", "th", "tr", "id"];
+const LANGUAGE_SITEMAP_LOCALES: readonly string[] = SUPPORTED_LOCALES;
 
 async function buildMainSitemapIndex(): Promise<string> {
   const base = getSiteBase();
@@ -453,10 +454,9 @@ export function registerSitemapRoutes(app: Express) {
     res.redirect(301, "/sitemap-index.xml");
   });
 
-const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id"];
   app.get("/sitemap-:lang.xml", (req: Request, res: Response) => {
     const lang = req.params.lang;
-    if (SUPPORTED_LOCALES.includes(lang)) {
+    if (LANGUAGE_SITEMAP_LOCALES.includes(lang)) {
       return res.redirect(301, "/sitemap-index.xml");
     }
     const programmaticTypes = ["study-guides", "exam-tips", "clinical-scenarios", "practice-questions", "question-details", "flashcard-details"];
@@ -467,7 +467,7 @@ const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "
   });
 
   app.get("/sitemal.xml", (_req: Request, res: Response) => {
-    res.status(404).send("Not found");
+    res.redirect(301, "/sitemap-index.xml");
   });
 
   app.get("/image-sitemap.xml", (_req: Request, res: Response) => {

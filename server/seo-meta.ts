@@ -6,10 +6,10 @@ import { isLocaleIndexable, getIndexableLocales, getHreflangCode, getLocaleDirec
 import { normalizeCanonicalUrl, isLowValueTranslatedPage, hasTimestampSuffix, LOW_VALUE_TRANSLATED_PATHS } from "@shared/canonical-url";
 import { deLocalizeSlug, localizeSlug } from "@shared/localized-slugs";
 
-const SITE_BASE = "https://www.nursenest.ca";
-const ALLIED_SITE_BASE = "https://allied.nursenest.ca";
+import { SUPPORTED_LOCALES as SUPPORTED_LOCALES_LIST, getMainSiteDomain } from "@shared/locales";
 
-const SUPPORTED_LOCALES_LIST = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id"];
+const SITE_BASE = getMainSiteDomain();
+const ALLIED_SITE_BASE = "https://allied.nursenest.ca";
 
 let lessonSeoData: Record<string, any> | null = null;
 function getLessonSeoData(): Record<string, any> {

@@ -1,4 +1,5 @@
 import { getIndexableLocales, getHreflangCode } from "../translation-audit";
+import { getMainSiteDomain } from "@shared/locales";
 
 export const SITEMAP_SPLIT_LIMIT = 5000;
 export const SITEMAP_CACHE_TTL = 3600_000;
@@ -118,7 +119,7 @@ function applySlugMapping(path: string, locale: string): string {
 }
 
 export function getSiteBase(): string {
-  return "https://www.nursenest.ca";
+  return getMainSiteDomain();
 }
 
 export function getAlliedBase(): string {

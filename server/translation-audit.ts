@@ -12,8 +12,8 @@ const __audit_dirname = (() => {
   return process.cwd();
 })();
 
-const SUPPORTED_LOCALES = ["en", "fr", "es", "fil", "hi", "zh", "zh-tw", "ar", "ko", "pt", "pa", "vi", "ht", "ur", "ja", "fa", "de", "th", "tr", "id"] as const;
-type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
+import { SUPPORTED_LOCALES, HREFLANG_MAP, getLocaleDirection as _getLocaleDirection } from "@shared/locales";
+import type { SupportedLocale } from "@shared/locales";
 
 const TRANSLATION_THRESHOLD = 95;
 
@@ -222,17 +222,10 @@ export function getSupportedLocales(): readonly string[] {
 }
 
 export function getLocaleDirection(locale: string): "ltr" | "rtl" {
-  const RTL_LOCALES = new Set(["ar", "ur", "fa"]);
-  return RTL_LOCALES.has(locale) ? "rtl" : "ltr";
+  return _getLocaleDirection(locale);
 }
 
 export function getHreflangCode(locale: string): string {
-  const HREFLANG_MAP: Record<string, string> = {
-    en: "en-ca", fr: "fr-ca", es: "es", fil: "fil", hi: "hi",
-    zh: "zh", "zh-tw": "zh-TW", ar: "ar", ko: "ko", pt: "pt", pa: "pa",
-    vi: "vi", ht: "ht", ur: "ur", ja: "ja", fa: "fa",
-    de: "de", th: "th", tr: "tr", id: "id",
-  };
   return HREFLANG_MAP[locale] || locale;
 }
 

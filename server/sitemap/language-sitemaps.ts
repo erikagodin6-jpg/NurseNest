@@ -186,7 +186,6 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
       return true;
     });
     for (const post of blogPosts) {
-      if (targetLocale !== "en") continue;
       const lastmod = post.updatedAt ? toLastmod(post.updatedAt) : (post.publishedAt ? toLastmod(post.publishedAt) : today);
       const learnLocales = ["en"];
       urls.push(singleLocaleUrl(base, `/learn/${post.slug}`, targetLocale, learnLocales, "0.6", "weekly", lastmod));

@@ -1271,6 +1271,363 @@ const indonesianMetadata: Record<string, LocalizedSEOEntry> = {
   },
 };
 
+const hindiMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – नर्सिंग परीक्षा तैयारी | NCLEX प्रश्न और प्रश्न बैंक",
+    description: "NurseNest के साथ अपनी नर्सिंग परीक्षाओं की तैयारी करें। हजारों NCLEX अभ्यास प्रश्न, क्लिनिकल सिमुलेशन, फ्लैशकार्ड और पैथोफिजियोलॉजी पाठ प्राप्त करें।",
+    keywords: "NCLEX अभ्यास प्रश्न, नर्सिंग परीक्षा तैयारी, नर्सिंग प्रश्न बैंक, नर्सिंग फ्लैशकार्ड, NCLEX समीक्षा, क्लिनिकल सिमुलेशन",
+  },
+  "/pricing": {
+    title: "मूल्य और योजनाएँ | NurseNest – नर्सिंग परीक्षा तैयारी",
+    description: "नर्सिंग परीक्षा तैयारी के लिए NurseNest योजनाओं की तुलना करें। NCLEX प्रश्न बैंक, क्लिनिकल सिमुलेशन और फ्लैशकार्ड के साथ किफायती मासिक योजनाएँ।",
+    keywords: "NurseNest मूल्य, NCLEX तैयारी योजनाएँ, नर्सिंग परीक्षा कीमत, NCLEX समीक्षा सदस्यता",
+  },
+  "/lessons": {
+    title: "क्लिनिकल पाठ – पैथोफिजियोलॉजी और नर्सिंग | NurseNest",
+    description: "पैथोफिजियोलॉजी, फार्माकोलॉजी और क्लिनिकल रीजनिंग पर गहन क्लिनिकल पाठ। शरीर प्रणाली के अनुसार संरचित सामग्री।",
+    keywords: "नर्सिंग पाठ, पैथोफिजियोलॉजी नर्सिंग, क्लिनिकल कक्षाएं, क्लिनिकल रीजनिंग, फार्माकोलॉजी नर्सिंग",
+  },
+  "/flashcards": {
+    title: "नर्सिंग फ्लैशकार्ड – फार्माकोलॉजी और समीक्षा | NurseNest",
+    description: "क्लिनिकली सत्यापित नर्सिंग फ्लैशकार्ड के साथ अध्ययन करें। फार्माकोलॉजी, लैब वैल्यू और पैथोफिजियोलॉजी।",
+    keywords: "नर्सिंग फ्लैशकार्ड, फार्माकोलॉजी फ्लैशकार्ड, NCLEX समीक्षा कार्ड, नर्सिंग अध्ययन",
+  },
+  "/mock-exams": {
+    title: "NCLEX मॉक परीक्षा – समयबद्ध सिमुलेशन | NurseNest",
+    description: "हमारी समयबद्ध NCLEX मॉक परीक्षाओं के साथ वास्तविक परीक्षा स्थितियों का अनुकरण करें। अनुकूली प्रश्न चयन और विस्तृत व्याख्या।",
+    keywords: "NCLEX मॉक परीक्षा, नर्सिंग परीक्षा सिमुलेशन, समयबद्ध अभ्यास परीक्षा, NCLEX सिमुलेशन",
+  },
+  "/glossary": {
+    title: "नर्सिंग शब्दावली – चिकित्सा शब्दावली | NurseNest",
+    description: "नर्सिंग और चिकित्सा शब्दों का व्यापक शब्दकोश। नर्सिंग और परीक्षाओं में प्रयुक्त शब्दावली की स्पष्ट परिभाषाएँ।",
+    keywords: "नर्सिंग शब्दावली, चिकित्सा शब्दावली, नर्सिंग परिभाषाएँ, नर्सिंग शब्दकोश",
+  },
+  "/clinical-clarity": {
+    title: "क्लिनिकल स्पष्टता – साक्ष्य-आधारित उत्तर | NurseNest",
+    description: "परीक्षाओं में अक्सर गलत उत्तर दिए जाने वाले क्लिनिकल प्रश्नों के स्पष्ट, साक्ष्य-आधारित उत्तर प्राप्त करें।",
+    keywords: "क्लिनिकल स्पष्टता नर्सिंग, क्लिनिकल उत्तर, क्लिनिकल रीजनिंग, नर्सिंग परीक्षा प्रश्न",
+  },
+  "/blog": {
+    title: "क्लिनिकल शिक्षा ब्लॉग – नर्सिंग लेख | NurseNest",
+    description: "साक्ष्य-आधारित क्लिनिकल शिक्षा लेख। क्लिनिकल रीजनिंग, पैथोफिजियोलॉजी, फार्माकोलॉजी और परीक्षा तैयारी रणनीतियाँ।",
+    keywords: "नर्सिंग ब्लॉग, क्लिनिकल लेख, नर्सिंग शिक्षा, क्लिनिकल रीजनिंग ब्लॉग",
+  },
+};
+
+const simplifiedChineseMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – 护理考试备考 | NCLEX题库与练习题",
+    description: "使用NurseNest备考护理考试。获取数千道NCLEX练习题、临床模拟、闪卡和病理生理学课程。",
+    keywords: "NCLEX练习题, 护理考试备考, 护理题库, 护理闪卡, NCLEX复习, 临床模拟",
+  },
+  "/pricing": {
+    title: "价格与方案 | NurseNest – 护理考试备考",
+    description: "比较NurseNest护理考试备考方案。含NCLEX题库、临床模拟和闪卡的实惠月度方案。",
+    keywords: "NurseNest价格, NCLEX备考方案, 护理考试价格, NCLEX复习订阅",
+  },
+  "/lessons": {
+    title: "临床课程 – 病理生理学与护理 | NurseNest",
+    description: "探索关于病理生理学、药理学和临床推理的深入临床课程。按人体系统结构化的内容。",
+    keywords: "护理课程, 病理生理学护理, 临床课程, 临床推理, 药理学护理",
+  },
+  "/flashcards": {
+    title: "护理闪卡 – 药理学与复习 | NurseNest",
+    description: "使用经过临床验证的护理闪卡学习。药理学、实验室值和病理生理学。",
+    keywords: "护理闪卡, 药理学闪卡, NCLEX复习卡, 护理学习",
+  },
+  "/mock-exams": {
+    title: "NCLEX模拟考试 – 计时模拟 | NurseNest",
+    description: "通过计时NCLEX模拟考试模拟真实考试条件。自适应题目选择和详细解析。",
+    keywords: "NCLEX模拟考试, 护理考试模拟, 计时练习考试, NCLEX模拟",
+  },
+  "/glossary": {
+    title: "护理词汇表 – 医学术语 | NurseNest",
+    description: "查阅护理和医学术语综合词汇表。护理和考试中使用的术语清晰定义。",
+    keywords: "护理词汇表, 医学术语, 护理定义, 护理词典",
+  },
+  "/clinical-clarity": {
+    title: "临床清晰度 – 基于循证的答案 | NurseNest",
+    description: "获取考试中常见错误临床问题的清晰、基于循证的答案。",
+    keywords: "临床清晰度护理, 临床答案, 临床推理, 护理考试问题",
+  },
+  "/blog": {
+    title: "临床教育博客 – 护理文章 | NurseNest",
+    description: "基于循证的临床教育文章。临床推理、病理生理学、药理学和考试备考策略。",
+    keywords: "护理博客, 临床文章, 护理教育, 临床推理博客",
+  },
+};
+
+const arabicMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – التحضير لامتحان التمريض | أسئلة NCLEX وبنك الأسئلة",
+    description: "استعد لامتحانات التمريض مع NurseNest. احصل على آلاف أسئلة NCLEX التدريبية والمحاكاة السريرية وبطاقات الذاكرة ودروس الفيزيولوجيا المرضية.",
+    keywords: "أسئلة NCLEX تدريبية, التحضير لامتحان التمريض, بنك أسئلة التمريض, بطاقات التمريض, مراجعة NCLEX, محاكاة سريرية",
+  },
+  "/pricing": {
+    title: "الأسعار والخطط | NurseNest – التحضير لامتحان التمريض",
+    description: "قارن خطط NurseNest للتحضير لامتحانات التمريض. خطط شهرية بأسعار معقولة مع بنك أسئلة NCLEX ومحاكاة سريرية وبطاقات ذاكرة.",
+    keywords: "أسعار NurseNest, خطط التحضير لـ NCLEX, سعر امتحان التمريض, اشتراك مراجعة NCLEX",
+  },
+  "/lessons": {
+    title: "الدروس السريرية – الفيزيولوجيا المرضية والتمريض | NurseNest",
+    description: "استكشف دروسنا السريرية المعمقة حول الفيزيولوجيا المرضية وعلم الأدوية والتفكير السريري. محتوى منظم حسب أجهزة الجسم.",
+    keywords: "دروس التمريض, الفيزيولوجيا المرضية, الفصول السريرية, التفكير السريري, علم الأدوية التمريضي",
+  },
+  "/flashcards": {
+    title: "بطاقات التمريض التعليمية – علم الأدوية والمراجعة | NurseNest",
+    description: "ادرس مع بطاقات التمريض المعتمدة سريرياً. علم الأدوية وقيم المختبر والفيزيولوجيا المرضية.",
+    keywords: "بطاقات التمريض, بطاقات علم الأدوية, بطاقات مراجعة NCLEX, دراسة التمريض",
+  },
+  "/mock-exams": {
+    title: "اختبارات NCLEX التجريبية – محاكاة موقوتة | NurseNest",
+    description: "حاكِ ظروف الاختبار الحقيقية مع اختباراتنا التجريبية الموقوتة لـ NCLEX. اختيار تكيفي للأسئلة وشرح مفصل.",
+    keywords: "اختبارات NCLEX تجريبية, محاكاة امتحان التمريض, اختبار تدريبي موقوت, محاكاة NCLEX",
+  },
+  "/glossary": {
+    title: "مسرد التمريض – المصطلحات الطبية | NurseNest",
+    description: "استشر مسرد المصطلحات التمريضية والطبية الشامل. تعريفات واضحة للمصطلحات المستخدمة في التمريض والامتحانات.",
+    keywords: "مسرد التمريض, المصطلحات الطبية, تعريفات التمريض, قاموس التمريض",
+  },
+  "/clinical-clarity": {
+    title: "الوضوح السريري – إجابات مبنية على الأدلة | NurseNest",
+    description: "احصل على إجابات واضحة ومبنية على الأدلة للأسئلة السريرية التي يتم الإجابة عنها بشكل خاطئ في الامتحانات.",
+    keywords: "الوضوح السريري التمريضي, إجابات سريرية, التفكير السريري, أسئلة امتحان التمريض",
+  },
+  "/blog": {
+    title: "مدونة التعليم السريري – مقالات التمريض | NurseNest",
+    description: "مقالات تعليم سريري مبنية على الأدلة. التفكير السريري والفيزيولوجيا المرضية وعلم الأدوية واستراتيجيات التحضير للامتحانات.",
+    keywords: "مدونة التمريض, مقالات سريرية, تعليم التمريض, مدونة التفكير السريري",
+  },
+};
+
+const koreanMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – 간호사 시험 준비 | NCLEX 문제 및 문제은행",
+    description: "NurseNest로 간호사 시험을 준비하세요. 수천 개의 NCLEX 연습 문제, 임상 시뮬레이션, 플래시카드 및 병태생리학 수업을 이용하세요.",
+    keywords: "NCLEX 연습문제, 간호사 시험 준비, 간호 문제은행, 간호 플래시카드, NCLEX 복습, 임상 시뮬레이션",
+  },
+  "/pricing": {
+    title: "가격 및 플랜 | NurseNest – 간호사 시험 준비",
+    description: "간호사 시험 준비를 위한 NurseNest 플랜을 비교하세요. NCLEX 문제은행, 임상 시뮬레이션 및 플래시카드가 포함된 합리적인 월간 플랜.",
+    keywords: "NurseNest 가격, NCLEX 준비 플랜, 간호사 시험 가격, NCLEX 복습 구독",
+  },
+  "/lessons": {
+    title: "임상 수업 – 병태생리학 및 간호 | NurseNest",
+    description: "병태생리학, 약리학 및 임상 추론에 관한 심층 임상 수업을 탐색하세요. 신체 시스템별로 구성된 콘텐츠.",
+    keywords: "간호 수업, 병태생리학 간호, 임상 수업, 임상 추론, 약리학 간호",
+  },
+  "/flashcards": {
+    title: "간호 플래시카드 – 약리학 및 복습 | NurseNest",
+    description: "임상적으로 검증된 간호 플래시카드로 공부하세요. 약리학, 검사 수치 및 병태생리학.",
+    keywords: "간호 플래시카드, 약리학 플래시카드, NCLEX 복습 카드, 간호 학습",
+  },
+  "/mock-exams": {
+    title: "NCLEX 모의고사 – 시간제한 시뮬레이션 | NurseNest",
+    description: "시간제한 NCLEX 모의고사로 실제 시험 조건을 시뮬레이션하세요. 적응형 문제 선택과 상세한 해설.",
+    keywords: "NCLEX 모의고사, 간호사 시험 시뮬레이션, 시간제한 연습 시험, NCLEX 시뮬레이션",
+  },
+  "/glossary": {
+    title: "간호 용어집 – 의학 용어 | NurseNest",
+    description: "간호 및 의학 용어의 종합 용어집을 참조하세요. 간호 및 시험에서 사용되는 용어의 명확한 정의.",
+    keywords: "간호 용어집, 의학 용어, 간호 정의, 간호 사전",
+  },
+  "/clinical-clarity": {
+    title: "임상 명확성 – 근거 기반 답변 | NurseNest",
+    description: "시험에서 자주 틀리는 임상 질문에 대한 명확하고 근거 기반의 답변을 받으세요.",
+    keywords: "임상 명확성 간호, 임상 답변, 임상 추론, 간호 시험 문제",
+  },
+  "/blog": {
+    title: "임상 교육 블로그 – 간호 기사 | NurseNest",
+    description: "근거 기반 임상 교육 기사. 임상 추론, 병태생리학, 약리학 및 시험 준비 전략.",
+    keywords: "간호 블로그, 임상 기사, 간호 교육, 임상 추론 블로그",
+  },
+};
+
+const punjabiMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – ਨਰਸਿੰਗ ਪ੍ਰੀਖਿਆ ਤਿਆਰੀ | NCLEX ਸਵਾਲ ਅਤੇ ਸਵਾਲ ਬੈਂਕ",
+    description: "NurseNest ਨਾਲ ਆਪਣੀਆਂ ਨਰਸਿੰਗ ਪ੍ਰੀਖਿਆਵਾਂ ਦੀ ਤਿਆਰੀ ਕਰੋ। ਹਜ਼ਾਰਾਂ NCLEX ਅਭਿਆਸ ਸਵਾਲ, ਕਲੀਨਿਕਲ ਸਿਮੂਲੇਸ਼ਨ, ਫਲੈਸ਼ਕਾਰਡ ਅਤੇ ਪੈਥੋਫਿਜ਼ੀਓਲੋਜੀ ਪਾਠ ਪ੍ਰਾਪਤ ਕਰੋ।",
+    keywords: "NCLEX ਅਭਿਆਸ ਸਵਾਲ, ਨਰਸਿੰਗ ਪ੍ਰੀਖਿਆ ਤਿਆਰੀ, ਨਰਸਿੰਗ ਸਵਾਲ ਬੈਂਕ, ਨਰਸਿੰਗ ਫਲੈਸ਼ਕਾਰਡ, NCLEX ਸਮੀਖਿਆ",
+  },
+  "/pricing": {
+    title: "ਕੀਮਤਾਂ ਅਤੇ ਯੋਜਨਾਵਾਂ | NurseNest – ਨਰਸਿੰਗ ਪ੍ਰੀਖਿਆ ਤਿਆਰੀ",
+    description: "ਨਰਸਿੰਗ ਪ੍ਰੀਖਿਆ ਤਿਆਰੀ ਲਈ NurseNest ਯੋਜਨਾਵਾਂ ਦੀ ਤੁਲਨਾ ਕਰੋ। NCLEX ਸਵਾਲ ਬੈਂਕ ਅਤੇ ਕਲੀਨਿਕਲ ਸਿਮੂਲੇਸ਼ਨ ਨਾਲ ਕਿਫ਼ਾਇਤੀ ਮਹੀਨਾਵਾਰ ਯੋਜਨਾਵਾਂ।",
+    keywords: "NurseNest ਕੀਮਤਾਂ, NCLEX ਤਿਆਰੀ ਯੋਜਨਾਵਾਂ, ਨਰਸਿੰਗ ਪ੍ਰੀਖਿਆ ਕੀਮਤ",
+  },
+  "/lessons": {
+    title: "ਕਲੀਨਿਕਲ ਪਾਠ – ਪੈਥੋਫਿਜ਼ੀਓਲੋਜੀ ਅਤੇ ਨਰਸਿੰਗ | NurseNest",
+    description: "ਪੈਥੋਫਿਜ਼ੀਓਲੋਜੀ, ਫਾਰਮਾਕੋਲੋਜੀ ਅਤੇ ਕਲੀਨਿਕਲ ਰੀਜ਼ਨਿੰਗ ਬਾਰੇ ਡੂੰਘੇ ਕਲੀਨਿਕਲ ਪਾਠ।",
+    keywords: "ਨਰਸਿੰਗ ਪਾਠ, ਪੈਥੋਫਿਜ਼ੀਓਲੋਜੀ ਨਰਸਿੰਗ, ਕਲੀਨਿਕਲ ਕਲਾਸਾਂ, ਕਲੀਨਿਕਲ ਰੀਜ਼ਨਿੰਗ",
+  },
+  "/flashcards": {
+    title: "ਨਰਸਿੰਗ ਫਲੈਸ਼ਕਾਰਡ – ਫਾਰਮਾਕੋਲੋਜੀ ਅਤੇ ਸਮੀਖਿਆ | NurseNest",
+    description: "ਕਲੀਨਿਕਲੀ ਪ੍ਰਮਾਣਿਤ ਨਰਸਿੰਗ ਫਲੈਸ਼ਕਾਰਡ ਨਾਲ ਅਧਿਐਨ ਕਰੋ।",
+    keywords: "ਨਰਸਿੰਗ ਫਲੈਸ਼ਕਾਰਡ, ਫਾਰਮਾਕੋਲੋਜੀ ਫਲੈਸ਼ਕਾਰਡ, NCLEX ਸਮੀਖਿਆ ਕਾਰਡ",
+  },
+  "/mock-exams": {
+    title: "NCLEX ਮੌਕ ਪ੍ਰੀਖਿਆ – ਸਮੇਂਬੱਧ ਸਿਮੂਲੇਸ਼ਨ | NurseNest",
+    description: "ਸਮੇਂਬੱਧ NCLEX ਮੌਕ ਪ੍ਰੀਖਿਆਵਾਂ ਨਾਲ ਅਸਲ ਪ੍ਰੀਖਿਆ ਹਾਲਾਤ ਦੀ ਨਕਲ ਕਰੋ।",
+    keywords: "NCLEX ਮੌਕ ਪ੍ਰੀਖਿਆ, ਨਰਸਿੰਗ ਪ੍ਰੀਖਿਆ ਸਿਮੂਲੇਸ਼ਨ, ਸਮੇਂਬੱਧ ਅਭਿਆਸ ਪ੍ਰੀਖਿਆ",
+  },
+  "/glossary": {
+    title: "ਨਰਸਿੰਗ ਸ਼ਬਦਾਵਲੀ – ਡਾਕਟਰੀ ਸ਼ਬਦਾਵਲੀ | NurseNest",
+    description: "ਨਰਸਿੰਗ ਅਤੇ ਡਾਕਟਰੀ ਸ਼ਬਦਾਂ ਦਾ ਵਿਆਪਕ ਸ਼ਬਦਕੋਸ਼। ਸਪੱਸ਼ਟ ਪਰਿਭਾਸ਼ਾਵਾਂ।",
+    keywords: "ਨਰਸਿੰਗ ਸ਼ਬਦਾਵਲੀ, ਡਾਕਟਰੀ ਸ਼ਬਦਾਵਲੀ, ਨਰਸਿੰਗ ਪਰਿਭਾਸ਼ਾਵਾਂ",
+  },
+};
+
+const haitianCreoleMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – Preparasyon Egzamen Enfimyè | Kesyon NCLEX ak Bank Kesyon",
+    description: "Prepare egzamen enfimyè ou ak NurseNest. Jwenn dè milye kesyon pratik NCLEX, simulasyon klinik, kat memwa ak leson patofiziyoloji.",
+    keywords: "kesyon pratik NCLEX, preparasyon egzamen enfimyè, bank kesyon enfimyè, kat memwa enfimyè, revizyon NCLEX",
+  },
+  "/pricing": {
+    title: "Pri ak Plan | NurseNest – Preparasyon Egzamen Enfimyè",
+    description: "Konpare plan NurseNest pou preparasyon egzamen enfimyè. Plan mansyèl abòdab ak bank kesyon NCLEX ak simulasyon klinik.",
+    keywords: "pri NurseNest, plan preparasyon NCLEX, pri egzamen enfimyè",
+  },
+  "/lessons": {
+    title: "Leson Klinik – Patofiziyoloji ak Enfimyè | NurseNest",
+    description: "Eksplore leson klinik pwofon sou patofiziyoloji, famakoloji ak rezonman klinik.",
+    keywords: "leson enfimyè, patofiziyoloji enfimyè, klas klinik, rezonman klinik",
+  },
+  "/flashcards": {
+    title: "Kat Memwa Enfimyè – Famakoloji ak Revizyon | NurseNest",
+    description: "Etidye ak kat memwa enfimyè ki verifye klinikman. Famakoloji, valè laboratwa ak patofiziyoloji.",
+    keywords: "kat memwa enfimyè, flashcard famakoloji, kat revizyon NCLEX",
+  },
+  "/mock-exams": {
+    title: "Egzamen Simulasyon NCLEX – Simulasyon ak Tan | NurseNest",
+    description: "Simile kondisyon egzamen reyèl ak egzamen simulasyon NCLEX nou yo ki gen tan.",
+    keywords: "egzamen simulasyon NCLEX, simulasyon egzamen enfimyè, egzamen pratik ak tan",
+  },
+  "/glossary": {
+    title: "Glosè Enfimyè – Tèminoloji Medikal | NurseNest",
+    description: "Konsilte glosè konplè tèm enfimyè ak medikal. Definisyon klè pou tèminoloji ki itilize nan enfimyè ak egzamen.",
+    keywords: "glosè enfimyè, tèminoloji medikal, definisyon enfimyè",
+  },
+};
+
+const urduMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – نرسنگ امتحان کی تیاری | NCLEX سوالات اور سوال بینک",
+    description: "NurseNest کے ساتھ اپنے نرسنگ امتحانات کی تیاری کریں۔ ہزاروں NCLEX پریکٹس سوالات، کلینیکل سمولیشن، فلیش کارڈز اور پیتھوفزیولوجی اسباق حاصل کریں۔",
+    keywords: "NCLEX پریکٹس سوالات, نرسنگ امتحان تیاری, نرسنگ سوال بینک, نرسنگ فلیش کارڈز, NCLEX جائزہ",
+  },
+  "/pricing": {
+    title: "قیمتیں اور منصوبے | NurseNest – نرسنگ امتحان تیاری",
+    description: "نرسنگ امتحان کی تیاری کے لیے NurseNest منصوبوں کا موازنہ کریں۔ NCLEX سوال بینک اور کلینیکل سمولیشن کے ساتھ سستے ماہانہ منصوبے۔",
+    keywords: "NurseNest قیمتیں, NCLEX تیاری منصوبے, نرسنگ امتحان قیمت",
+  },
+  "/lessons": {
+    title: "کلینیکل اسباق – پیتھوفزیولوجی اور نرسنگ | NurseNest",
+    description: "پیتھوفزیولوجی، فارماکولوجی اور کلینیکل استدلال پر گہرے کلینیکل اسباق۔",
+    keywords: "نرسنگ اسباق, پیتھوفزیولوجی نرسنگ, کلینیکل کلاسز, کلینیکل استدلال",
+  },
+  "/flashcards": {
+    title: "نرسنگ فلیش کارڈز – فارماکولوجی اور جائزہ | NurseNest",
+    description: "کلینیکلی تصدیق شدہ نرسنگ فلیش کارڈز کے ساتھ مطالعہ کریں۔",
+    keywords: "نرسنگ فلیش کارڈز, فارماکولوجی فلیش کارڈز, NCLEX جائزہ کارڈز",
+  },
+  "/mock-exams": {
+    title: "NCLEX ماک امتحان – وقتی سمولیشن | NurseNest",
+    description: "ہماری وقتی NCLEX ماک امتحانات کے ساتھ حقیقی امتحان کے حالات کی نقل کریں۔",
+    keywords: "NCLEX ماک امتحان, نرسنگ امتحان سمولیشن, وقتی پریکٹس امتحان",
+  },
+  "/glossary": {
+    title: "نرسنگ لغت – طبی اصطلاحات | NurseNest",
+    description: "نرسنگ اور طبی اصطلاحات کی جامع لغت۔ واضح تعریفیں۔",
+    keywords: "نرسنگ لغت, طبی اصطلاحات, نرسنگ تعریفیں",
+  },
+};
+
+const japaneseMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – 看護師試験対策 | NCLEX問題と問題バンク",
+    description: "NurseNestで看護師試験の準備をしましょう。数千のNCLEX練習問題、臨床シミュレーション、フラッシュカード、病態生理学レッスンにアクセスできます。",
+    keywords: "NCLEX練習問題, 看護師試験対策, 看護問題バンク, 看護フラッシュカード, NCLEXレビュー, 臨床シミュレーション",
+  },
+  "/pricing": {
+    title: "料金とプラン | NurseNest – 看護師試験対策",
+    description: "看護師試験対策のNurseNestプランを比較。NCLEX問題バンク、臨床シミュレーション、フラッシュカード付きのお手頃月額プラン。",
+    keywords: "NurseNest料金, NCLEX対策プラン, 看護師試験料金, NCLEXレビュー購読",
+  },
+  "/lessons": {
+    title: "臨床レッスン – 病態生理学と看護 | NurseNest",
+    description: "病態生理学、薬理学、臨床推論に関する詳細な臨床レッスン。身体システム別に構成されたコンテンツ。",
+    keywords: "看護レッスン, 病態生理学看護, 臨床授業, 臨床推論, 薬理学看護",
+  },
+  "/flashcards": {
+    title: "看護フラッシュカード – 薬理学とレビュー | NurseNest",
+    description: "臨床的に検証された看護フラッシュカードで学習。薬理学、検査値、病態生理学。",
+    keywords: "看護フラッシュカード, 薬理学フラッシュカード, NCLEXレビューカード, 看護学習",
+  },
+  "/mock-exams": {
+    title: "NCLEX模擬試験 – 時間制限シミュレーション | NurseNest",
+    description: "時間制限付きNCLEX模擬試験で実際の試験条件をシミュレート。適応型問題選択と詳細な解説。",
+    keywords: "NCLEX模擬試験, 看護師試験シミュレーション, 時間制限付き練習試験, NCLEXシミュレーション",
+  },
+  "/glossary": {
+    title: "看護用語集 – 医学用語 | NurseNest",
+    description: "看護および医学用語の包括的な用語集。看護と試験で使用される用語の明確な定義。",
+    keywords: "看護用語集, 医学用語, 看護定義, 看護辞典",
+  },
+  "/clinical-clarity": {
+    title: "臨床クラリティ – エビデンスに基づく回答 | NurseNest",
+    description: "試験で頻繁に間違える臨床質問への明確でエビデンスに基づく回答を得ましょう。",
+    keywords: "臨床クラリティ看護, 臨床回答, 臨床推論, 看護試験問題",
+  },
+  "/blog": {
+    title: "臨床教育ブログ – 看護記事 | NurseNest",
+    description: "エビデンスに基づく臨床教育記事。臨床推論、病態生理学、薬理学、試験対策戦略。",
+    keywords: "看護ブログ, 臨床記事, 看護教育, 臨床推論ブログ",
+  },
+};
+
+const farsiMetadata: Record<string, LocalizedSEOEntry> = {
+  "/": {
+    title: "NurseNest – آمادگی آزمون پرستاری | سوالات NCLEX و بانک سوالات",
+    description: "با NurseNest برای آزمون‌های پرستاری آماده شوید. به هزاران سوال تمرینی NCLEX، شبیه‌سازی بالینی، فلش‌کارت و دروس پاتوفیزیولوژی دسترسی پیدا کنید.",
+    keywords: "سوالات تمرینی NCLEX, آمادگی آزمون پرستاری, بانک سوالات پرستاری, فلش‌کارت پرستاری, مرور NCLEX",
+  },
+  "/pricing": {
+    title: "قیمت‌ها و طرح‌ها | NurseNest – آمادگی آزمون پرستاری",
+    description: "طرح‌های NurseNest برای آمادگی آزمون پرستاری را مقایسه کنید. طرح‌های ماهانه مقرون به صرفه با بانک سوالات NCLEX و شبیه‌سازی بالینی.",
+    keywords: "قیمت NurseNest, طرح‌های آمادگی NCLEX, قیمت آزمون پرستاری",
+  },
+  "/lessons": {
+    title: "دروس بالینی – پاتوفیزیولوژی و پرستاری | NurseNest",
+    description: "دروس بالینی عمیق درباره پاتوفیزیولوژی، فارماکولوژی و استدلال بالینی را کاوش کنید.",
+    keywords: "دروس پرستاری, پاتوفیزیولوژی پرستاری, کلاس‌های بالینی, استدلال بالینی",
+  },
+  "/flashcards": {
+    title: "فلش‌کارت پرستاری – فارماکولوژی و مرور | NurseNest",
+    description: "با فلش‌کارت‌های پرستاری تأیید شده بالینی مطالعه کنید. فارماکولوژی، مقادیر آزمایشگاهی و پاتوفیزیولوژی.",
+    keywords: "فلش‌کارت پرستاری, فلش‌کارت فارماکولوژی, کارت‌های مرور NCLEX",
+  },
+  "/mock-exams": {
+    title: "آزمون آزمایشی NCLEX – شبیه‌سازی زمان‌دار | NurseNest",
+    description: "با آزمون‌های آزمایشی زمان‌دار NCLEX شرایط واقعی آزمون را شبیه‌سازی کنید.",
+    keywords: "آزمون آزمایشی NCLEX, شبیه‌سازی آزمون پرستاری, آزمون تمرینی زمان‌دار",
+  },
+  "/glossary": {
+    title: "واژه‌نامه پرستاری – اصطلاحات پزشکی | NurseNest",
+    description: "واژه‌نامه جامع اصطلاحات پرستاری و پزشکی. تعاریف روشن برای اصطلاحات مورد استفاده در پرستاری و آزمون‌ها.",
+    keywords: "واژه‌نامه پرستاری, اصطلاحات پزشکی, تعاریف پرستاری",
+  },
+  "/clinical-clarity": {
+    title: "وضوح بالینی – پاسخ‌های مبتنی بر شواهد | NurseNest",
+    description: "پاسخ‌های روشن و مبتنی بر شواهد برای سوالات بالینی که اغلب در آزمون‌ها اشتباه پاسخ داده می‌شوند.",
+    keywords: "وضوح بالینی پرستاری, پاسخ‌های بالینی, استدلال بالینی",
+  },
+  "/blog": {
+    title: "بلاگ آموزش بالینی – مقالات پرستاری | NurseNest",
+    description: "مقالات آموزش بالینی مبتنی بر شواهد. استدلال بالینی، پاتوفیزیولوژی، فارماکولوژی و راهبردهای آمادگی آزمون.",
+    keywords: "بلاگ پرستاری, مقالات بالینی, آموزش پرستاری",
+  },
+};
+
 export const localizedSEOMetadata: Partial<Record<SEOLocale, Record<string, LocalizedSEOEntry>>> = {
   fr: frenchMetadata,
   es: spanishMetadata,
@@ -1282,6 +1639,15 @@ export const localizedSEOMetadata: Partial<Record<SEOLocale, Record<string, Loca
   th: thaiMetadata,
   tr: turkishMetadata,
   id: indonesianMetadata,
+  hi: hindiMetadata,
+  zh: simplifiedChineseMetadata,
+  ar: arabicMetadata,
+  ko: koreanMetadata,
+  pa: punjabiMetadata,
+  ht: haitianCreoleMetadata,
+  ur: urduMetadata,
+  ja: japaneseMetadata,
+  fa: farsiMetadata,
 };
 
 export function getLocalizedSEO(locale: string, path: string): LocalizedSEOEntry | null {

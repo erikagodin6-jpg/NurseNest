@@ -3,24 +3,11 @@ import { SUPPORTED_LOCALES, getLocaleFromPath } from "@/lib/locale-utils";
 import { buildBreadcrumbs, buildBreadcrumbJsonLd, type BreadcrumbItem } from "@/lib/breadcrumb-builder";
 import { getLocalizedSEO } from "@/data/seo-metadata";
 import { normalizeCanonicalUrl, isLowValueTranslatedPage } from "@shared/canonical-url";
+import { HREFLANG_MAP, LOCALE_LANGUAGE_MAP, getMainSiteDomain } from "@shared/locales";
 
-const SITE_DOMAIN = "https://www.nursenest.ca";
+const SITE_DOMAIN = getMainSiteDomain();
 
 let seoFirstRender = true;
-
-const HREFLANG_MAP: Record<string, string> = {
-  en: "en-ca", fr: "fr-ca", es: "es", fil: "fil", hi: "hi",
-  zh: "zh", "zh-tw": "zh-TW", ar: "ar", ko: "ko", pt: "pt", pa: "pa",
-  vi: "vi", ht: "ht", ur: "ur", ja: "ja", fa: "fa",
-  de: "de", th: "th", tr: "tr", id: "id",
-};
-
-const LOCALE_LANGUAGE_MAP: Record<string, string> = {
-  en: "en-CA", fr: "fr-CA", es: "es", fil: "fil", hi: "hi",
-  zh: "zh", "zh-tw": "zh-TW", ar: "ar", ko: "ko", pt: "pt", pa: "pa",
-  vi: "vi", ht: "ht", ur: "ur", ja: "ja", fa: "fa",
-  de: "de", th: "th", tr: "tr", id: "id",
-};
 
 interface SEOProps {
   title: string;

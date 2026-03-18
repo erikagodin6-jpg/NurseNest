@@ -322,6 +322,33 @@ export function EndOfContentLeadCapture({
   );
 }
 
+const DISMISS_STORAGE_KEY = "nursenest-sticky-banner-dismissed";
+const DISMISS_EXPIRY_MS = 24 * 60 * 60 * 1000;
+
+function isBannerDismissed(): boolean {
+  try {
+    const raw = localStorage.getItem(DISMISS_STORAGE_KEY);
+    if (!raw) return false;
+    const data = JSON.parse(raw);
+    if (data && typeof data.expiry === "number" && Date.now() < data.expiry) {
+      return true;
+    }
+    localStorage.removeItem(DISMISS_STORAGE_KEY);
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+function persistDismiss(): void {
+  try {
+    localStorage.setItem(
+      DISMISS_STORAGE_KEY,
+      JSON.stringify({ expiry: Date.now() + DISMISS_EXPIRY_MS }),
+    );
+  } catch {}
+}
+
 export function StickyLeadBanner({
   leadMagnetType,
   professionContext,
@@ -330,7 +357,7 @@ export function StickyLeadBanner({
 }: LeadCaptureProps) {
   const config = LEAD_MAGNET_CONFIG[leadMagnetType];
   const Icon = config.icon;
-  const [dismissed, setDismissed] = useState(false);
+  const [dismissed, setDismissed] = useState(() => isBannerDismissed());
   const { email, setEmail, status, setStatus, errorMsg, handleSubmit } =
     useLeadCapture(leadMagnetType, professionContext, source || "sticky_banner");
 
@@ -395,7 +422,10 @@ export function StickyLeadBanner({
             </Button>
           </form>
           <button
-            onClick={() => setDismissed(true)}
+            onClick={() => {
+              setDismissed(true);
+              persistDismiss();
+            }}
             className="p-1.5 text-gray-400 hover:text-gray-600 transition-colors shrink-0"
             data-testid={`button-sticky-lead-dismiss-${leadMagnetType}`}
           >
