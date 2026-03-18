@@ -250,12 +250,34 @@ export async function generateAlliedSeoLanding(): Promise<string[]> {
   return urls;
 }
 
+export async function generateBloodBankCluster(): Promise<string[]> {
+  const base = getSiteBase();
+  const locales = getIndexableLocales();
+  const urls: string[] = [];
+
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/mlt/blood-bank`, "0.8", "weekly", locales, STATIC_CONTENT_DATE));
+  urls.push(localizedUrl(base, `${ALLIED_PREFIX}/mlt/blood-bank/cheat-sheet`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
+
+  // Keep in sync with client/src/data/seo-blood-bank.ts seoBloodBankTopics slugs
+  const bloodBankTopicSlugs = [
+    "abo-blood-groups", "rh-factor", "crossmatching", "transfusion-reactions",
+    "compatibility-chart", "hdfn", "massive-transfusion", "antibody-screening",
+    "blood-component-therapy",
+  ];
+  for (const slug of bloodBankTopicSlugs) {
+    urls.push(localizedUrl(base, `${ALLIED_PREFIX}/mlt/blood-bank/${slug}`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
+  }
+
+  return urls;
+}
+
 export async function generateAlliedPages(): Promise<string[]> {
   const careers = await generateAlliedCareers().catch(() => []);
   const exams = await generateAlliedExams().catch(() => []);
   const tools = await generateAlliedTools().catch(() => []);
   const seoLanding = await generateAlliedSeoLanding().catch(() => []);
-  return [...careers, ...exams, ...tools, ...seoLanding];
+  const bloodBank = await generateBloodBankCluster().catch(() => []);
+  return [...careers, ...exams, ...tools, ...seoLanding, ...bloodBank];
 }
 
 export async function generateAlliedDatabaseContent(): Promise<string[]> {

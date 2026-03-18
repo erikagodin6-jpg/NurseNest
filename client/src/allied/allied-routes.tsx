@@ -105,6 +105,9 @@ const MltLabValuePage = lazy(() => import("./pages/mlt-lab-value-page").then(m =
 const MltLabValuesHub = lazy(() => import("./pages/mlt-lab-values-hub").then(m => ({ default: m.MltLabValuesHub })));
 const MltLabValuesCompleteChart = lazy(() => import("./pages/mlt-lab-values-viral").then(m => ({ default: m.MltLabValuesCompleteChart })));
 const MltLabValuesTop50 = lazy(() => import("./pages/mlt-lab-values-viral").then(m => ({ default: m.MltLabValuesTop50 })));
+const MltBloodBankHub = lazy(() => import("./pages/mlt-blood-bank-hub"));
+const MltBloodBankTopicPage = lazy(() => import("./pages/mlt-blood-bank-topic"));
+const MltBloodBankCheatSheet = lazy(() => import("./pages/mlt-blood-bank-cheat-sheet"));
 const AlliedQuestionSeoPage = lazy(() => import("./pages/allied-question-seo"));
 const PtaTopicBankPage = lazy(() => import("./pages/pta-topic-bank-page"));
 const PtaSeoContentPage = lazy(() => import("./pages/pta-seo-content-page"));
@@ -332,6 +335,9 @@ export function AlliedRoutes() {
         <Route path="/allied-health/dashboard/mlt/wrong-answers" component={MltStudentDashboard} />
         <Route path="/allied-health/dashboard/mlt/study-plan" component={MltStudentDashboard} />
         <Route path="/allied-health/dashboard/mlt" component={MltStudentDashboard} />
+        <Route path="/allied-health/mlt/blood-bank/cheat-sheet" component={MltBloodBankCheatSheet} />
+        <Route path="/allied-health/mlt/blood-bank/:slug" component={MltBloodBankTopicPage} />
+        <Route path="/allied-health/mlt/blood-bank" component={MltBloodBankHub} />
         <Route path="/allied-health/mlt/canada/practice-questions">{() => <MltSEOPage country="canada" pageType="practice-questions" />}</Route>
         <Route path="/allied-health/mlt/usa/practice-questions">{() => <MltSEOPage country="usa" pageType="practice-questions" />}</Route>
         <Route path="/allied-health/mlt/exam-prep">{() => <MltSEOPage country="both" pageType="exam-prep" />}</Route>

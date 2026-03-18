@@ -1562,6 +1562,69 @@ export function getInternalLinksForLesson(lessonId: string): InternalLink[] {
   );
 }
 
+export const bloodBankInternalLinks: Record<string, InternalLink[]> = {
+  "abo-blood-groups": [
+    { anchor: "Rh Factor & D Antigen Testing", target: "/allied-health/mlt/blood-bank/rh-factor", reason: "next in blood group systems" },
+    { anchor: "Crossmatching Procedures", target: "/allied-health/mlt/blood-bank/crossmatching", reason: "compatibility testing after typing" },
+    { anchor: "Blood Compatibility Chart", target: "/allied-health/mlt/blood-bank/compatibility-chart", reason: "compatibility rules application" },
+    { anchor: "Transfusion Reactions", target: "/allied-health/mlt/blood-bank/transfusion-reactions", reason: "ABO incompatibility consequences" },
+    { anchor: "MLT Question Bank", target: "/allied-health/mlt/questions", reason: "practice questions", type: "topic-to-qbank", platform: "allied" },
+    { anchor: "Lab Values Reference", target: "/lab-values", reason: "related lab diagnostics", type: "topic-to-lab", platform: "nursenest" },
+  ],
+  "rh-factor": [
+    { anchor: "ABO Blood Groups", target: "/allied-health/mlt/blood-bank/abo-blood-groups", reason: "foundational blood group system" },
+    { anchor: "HDFN (Hemolytic Disease of the Newborn)", target: "/allied-health/mlt/blood-bank/hdfn", reason: "Rh HDFN prevention" },
+    { anchor: "Antibody Screening & Identification", target: "/allied-health/mlt/blood-bank/antibody-screening", reason: "anti-D detection" },
+    { anchor: "Crossmatching Procedures", target: "/allied-health/mlt/blood-bank/crossmatching", reason: "compatibility after Rh typing" },
+    { anchor: "Blood Bank Cheat Sheet", target: "/allied-health/mlt/blood-bank/cheat-sheet", reason: "quick reference", type: "topic-to-resource", platform: "allied" },
+  ],
+  "crossmatching": [
+    { anchor: "ABO Blood Groups", target: "/allied-health/mlt/blood-bank/abo-blood-groups", reason: "ABO compatibility verification" },
+    { anchor: "Antibody Screening & Identification", target: "/allied-health/mlt/blood-bank/antibody-screening", reason: "screen determines crossmatch type" },
+    { anchor: "Transfusion Reactions", target: "/allied-health/mlt/blood-bank/transfusion-reactions", reason: "consequences of incompatibility" },
+    { anchor: "Compatibility Chart", target: "/allied-health/mlt/blood-bank/compatibility-chart", reason: "compatibility rules" },
+    { anchor: "MLT Exam Prep", target: "/allied-health/mlt/exam-prep", reason: "exam preparation", type: "topic-to-exam", platform: "allied" },
+  ],
+  "transfusion-reactions": [
+    { anchor: "ABO Blood Groups", target: "/allied-health/mlt/blood-bank/abo-blood-groups", reason: "AHTR from ABO error" },
+    { anchor: "Crossmatching Procedures", target: "/allied-health/mlt/blood-bank/crossmatching", reason: "prevention through compatibility testing" },
+    { anchor: "HDFN", target: "/allied-health/mlt/blood-bank/hdfn", reason: "neonatal hemolysis" },
+    { anchor: "Massive Transfusion Protocol", target: "/allied-health/mlt/blood-bank/massive-transfusion", reason: "reaction risk in massive transfusion" },
+    { anchor: "Blood Component Therapy", target: "/allied-health/mlt/blood-bank/blood-component-therapy", reason: "product modifications to prevent reactions" },
+    { anchor: "Blood Transfusion Nursing Lesson", target: "/lessons/blood-transfusion-rn", reason: "nursing perspective on transfusion reactions", type: "topic-to-lesson", platform: "nursenest" },
+  ],
+  "compatibility-chart": [
+    { anchor: "ABO Blood Groups", target: "/allied-health/mlt/blood-bank/abo-blood-groups", reason: "antigen-antibody basis for compatibility" },
+    { anchor: "Rh Factor", target: "/allied-health/mlt/blood-bank/rh-factor", reason: "Rh compatibility rules" },
+    { anchor: "Crossmatching", target: "/allied-health/mlt/blood-bank/crossmatching", reason: "compatibility verification" },
+    { anchor: "Massive Transfusion Protocol", target: "/allied-health/mlt/blood-bank/massive-transfusion", reason: "emergency blood issue" },
+  ],
+  "hdfn": [
+    { anchor: "Rh Factor & RhIG", target: "/allied-health/mlt/blood-bank/rh-factor", reason: "Rh HDFN prevention" },
+    { anchor: "ABO Blood Groups", target: "/allied-health/mlt/blood-bank/abo-blood-groups", reason: "ABO HDFN" },
+    { anchor: "Antibody Screening", target: "/allied-health/mlt/blood-bank/antibody-screening", reason: "prenatal antibody detection" },
+    { anchor: "Transfusion Reactions", target: "/allied-health/mlt/blood-bank/transfusion-reactions", reason: "neonatal transfusion risks" },
+  ],
+  "massive-transfusion": [
+    { anchor: "Transfusion Reactions", target: "/allied-health/mlt/blood-bank/transfusion-reactions", reason: "MTP complications" },
+    { anchor: "Compatibility Chart", target: "/allied-health/mlt/blood-bank/compatibility-chart", reason: "emergency blood selection" },
+    { anchor: "Blood Component Therapy", target: "/allied-health/mlt/blood-bank/blood-component-therapy", reason: "component ratios and storage" },
+    { anchor: "Crossmatching", target: "/allied-health/mlt/blood-bank/crossmatching", reason: "retrospective crossmatch" },
+  ],
+  "antibody-screening": [
+    { anchor: "Crossmatching", target: "/allied-health/mlt/blood-bank/crossmatching", reason: "screen result determines crossmatch method" },
+    { anchor: "Transfusion Reactions", target: "/allied-health/mlt/blood-bank/transfusion-reactions", reason: "antibodies cause reactions" },
+    { anchor: "HDFN", target: "/allied-health/mlt/blood-bank/hdfn", reason: "prenatal antibody significance" },
+    { anchor: "Rh Factor", target: "/allied-health/mlt/blood-bank/rh-factor", reason: "Rh antibody identification" },
+  ],
+  "blood-component-therapy": [
+    { anchor: "Massive Transfusion", target: "/allied-health/mlt/blood-bank/massive-transfusion", reason: "component ratios in MTP" },
+    { anchor: "Transfusion Reactions", target: "/allied-health/mlt/blood-bank/transfusion-reactions", reason: "product modifications prevent reactions" },
+    { anchor: "Compatibility Chart", target: "/allied-health/mlt/blood-bank/compatibility-chart", reason: "ABO compatibility for components" },
+    { anchor: "Blood Bank Cheat Sheet", target: "/allied-health/mlt/blood-bank/cheat-sheet", reason: "storage quick reference", type: "topic-to-resource", platform: "allied" },
+  ],
+};
+
 export function getCrossPlatformLinksForLesson(lessonId: string): InternalLink[] {
   return (internalLinkMap[lessonId] ?? []).filter(
     (link) => link.platform && link.platform !== "nursenest",
