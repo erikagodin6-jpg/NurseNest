@@ -29,6 +29,12 @@ type CoverageData = {
   perContentType: Record<string, { totalContent: number; translatedContent: number; coveragePct: number }>;
 };
 
+type StaleMetrics = {
+  totalStale: number;
+  byContentType: Record<string, number>;
+  byLocale: Record<string, number>;
+};
+
 type TranslationEvent = {
   id: string;
   event_type: string;
@@ -81,6 +87,7 @@ export default function AdminTranslationHealth() {
   const [events, setEvents] = useState<TranslationEvent[]>([]);
   const [scanning, setScanning] = useState(false);
   const [scanResult, setScanResult] = useState<any>(null);
+  const [staleMetrics, setStaleMetrics] = useState<StaleMetrics | null>(null);
   const [hoursFilter, setHoursFilter] = useState(24);
   const [eventTypeFilter, setEventTypeFilter] = useState("");
   const [severityFilter, setSeverityFilter] = useState("");
@@ -89,10 +96,11 @@ export default function AdminTranslationHealth() {
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const [summaryRes, coverageRes, eventsRes] = await Promise.all([
+      const [summaryRes, coverageRes, eventsRes, staleRes] = await Promise.all([
         adminFetch(`/api/admin/translation-health/summary?hours=${hoursFilter}`),
         adminFetch(`/api/admin/translation-health/coverage`),
         adminFetch(`/api/admin/translation-health/events?limit=50${eventTypeFilter ? `&eventType=${eventTypeFilter}` : ""}${severityFilter ? `&severity=${severityFilter}` : ""}`),
+        adminFetch(`/api/admin/translation-completeness/stale-metrics`),
       ]);
 
       if (summaryRes.ok) setSummary(await summaryRes.json());
@@ -101,6 +109,7 @@ export default function AdminTranslationHealth() {
         const data = await eventsRes.json();
         setEvents(Array.isArray(data) ? data : data.events || []);
       }
+      if (staleRes.ok) setStaleMetrics(await staleRes.json());
     } catch (err) {
       console.error("Failed to fetch translation health data:", err);
     } finally {
@@ -353,6 +362,56 @@ export default function AdminTranslationHealth() {
                         {(summary.failureRate * 100).toFixed(1)}%
                       </p>
                     </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {staleMetrics && staleMetrics.totalStale > 0 && (
+              <Card className="mb-6" data-testid="card-stale-metrics">
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Clock className="w-5 h-5 text-orange-500" /> Stale Translation Metrics (New Tables)
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="p-3 rounded-lg bg-orange-50 border border-orange-200">
+                      <p className="text-sm text-gray-500">Total Stale</p>
+                      <p className="text-2xl font-bold text-orange-600" data-testid="text-stale-total">{staleMetrics.totalStale}</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {Object.keys(staleMetrics.byContentType).length > 0 && (
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-600 mb-2">By Content Type</h4>
+                        <div className="space-y-1">
+                          {Object.entries(staleMetrics.byContentType)
+                            .sort((a, b) => b[1] - a[1])
+                            .map(([type, count]) => (
+                              <div key={type} className="flex items-center justify-between py-1 border-b border-gray-100" data-testid={`row-stale-type-${type}`}>
+                                <span className="text-sm capitalize">{type.replace(/_/g, " ")}</span>
+                                <Badge className="text-xs bg-orange-100 text-orange-700">{count}</Badge>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    )}
+                    {Object.keys(staleMetrics.byLocale).length > 0 && (
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-600 mb-2">By Locale</h4>
+                        <div className="space-y-1">
+                          {Object.entries(staleMetrics.byLocale)
+                            .sort((a, b) => b[1] - a[1])
+                            .map(([locale, count]) => (
+                              <div key={locale} className="flex items-center justify-between py-1 border-b border-gray-100" data-testid={`row-stale-locale-${locale}`}>
+                                <span className="text-sm">{locale.toUpperCase()}</span>
+                                <Badge className="text-xs bg-orange-100 text-orange-700">{count}</Badge>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>

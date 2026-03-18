@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,13 +7,24 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
-import { Globe, Search, RefreshCw, CheckCircle2, AlertTriangle, XCircle, Eye } from "lucide-react";
+import { Globe, Search, RefreshCw, CheckCircle2, AlertTriangle, XCircle, Eye, Shield, BarChart3, Loader2, ChevronDown, ChevronUp } from "lucide-react";
+import { adminFetch } from "@/lib/admin-fetch";
 
 import { useI18n } from "@/lib/i18n";
 const LANGUAGE_NAMES: Record<string, string> = {
   en: "English", fr: "French", es: "Spanish", fil: "Filipino", hi: "Hindi",
   zh: "Chinese", ar: "Arabic", ko: "Korean", pt: "Portuguese", pa: "Punjabi",
   vi: "Vietnamese", ht: "Haitian Creole", ur: "Urdu", ja: "Japanese", fa: "Farsi",
+};
+
+type ContentTypeCompleteness = {
+  contentType: string;
+  label: string;
+  totalItems: number;
+  totalApproved: number;
+  totalStale: number;
+  totalMissing: number;
+  avgCompleteness: number;
 };
 
 type CoverageSummary = {
@@ -47,6 +58,22 @@ export default function AdminTranslationCoverage() {
   const [selectedLocale, setSelectedLocale] = useState<string | null>(null);
   const [threshold, setThreshold] = useState(95);
   const [indexableLocales, setIndexableLocales] = useState<string[]>([]);
+  const [contentCompleteness, setContentCompleteness] = useState<ContentTypeCompleteness[]>([]);
+  const [loadingCompleteness, setLoadingCompleteness] = useState(false);
+
+  const fetchContentCompleteness = useCallback(async () => {
+    setLoadingCompleteness(true);
+    try {
+      const res = await adminFetch("/api/admin/translation-completeness/summary");
+      if (res.ok) {
+        const data = await res.json();
+        setContentCompleteness(data.summary || []);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    setLoadingCompleteness(false);
+  }, []);
 
   useEffect(() => {
     if (!user || user.tier !== "admin") {
@@ -54,6 +81,7 @@ export default function AdminTranslationCoverage() {
       return;
     }
     loadSummary();
+    fetchContentCompleteness();
   }, [user]);
 
   async function loadSummary() {
@@ -259,6 +287,78 @@ export default function AdminTranslationCoverage() {
             </Card>
           </div>
         )}
+
+        <Card className="mt-6" data-testid="card-content-completeness">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Shield className="w-5 h-5 text-blue-600" />
+                Per-Content-Type Translation Completeness
+              </CardTitle>
+              <Button variant="outline" size="sm" onClick={fetchContentCompleteness} disabled={loadingCompleteness} data-testid="button-refresh-content-completeness">
+                <RefreshCw className={`w-4 h-4 mr-1 ${loadingCompleteness ? "animate-spin" : ""}`} /> Refresh
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {loadingCompleteness ? (
+              <div className="flex justify-center py-8">
+                <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+              </div>
+            ) : contentCompleteness.length === 0 ? (
+              <p className="text-gray-400 text-sm text-center py-8" data-testid="text-no-content-completeness">
+                No per-content-type translation data available yet.
+              </p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm" data-testid="table-content-completeness">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left py-2 px-3">Content Type</th>
+                      <th className="text-right py-2 px-3">Total Items</th>
+                      <th className="text-right py-2 px-3">Approved</th>
+                      <th className="text-right py-2 px-3">Stale</th>
+                      <th className="text-right py-2 px-3">Missing</th>
+                      <th className="text-right py-2 px-3">Completeness</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {contentCompleteness.map(ct => (
+                      <tr key={ct.contentType} className="border-b hover:bg-gray-50" data-testid={`row-content-type-${ct.contentType}`}>
+                        <td className="py-2 px-3 font-medium">{ct.label}</td>
+                        <td className="py-2 px-3 text-right">{ct.totalItems}</td>
+                        <td className="py-2 px-3 text-right">
+                          <Badge className="text-xs bg-green-100 text-green-700">{ct.totalApproved}</Badge>
+                        </td>
+                        <td className="py-2 px-3 text-right">
+                          {ct.totalStale > 0 ? (
+                            <Badge className="text-xs bg-orange-100 text-orange-700">{ct.totalStale}</Badge>
+                          ) : <span className="text-gray-300">0</span>}
+                        </td>
+                        <td className="py-2 px-3 text-right">
+                          {ct.totalMissing > 0 ? (
+                            <Badge className="text-xs bg-red-100 text-red-700">{ct.totalMissing}</Badge>
+                          ) : <span className="text-gray-300">0</span>}
+                        </td>
+                        <td className="py-2 px-3 text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <div className="w-24 bg-gray-200 rounded-full h-2">
+                              <div
+                                className={`h-2 rounded-full ${ct.avgCompleteness >= 80 ? "bg-green-500" : ct.avgCompleteness >= 40 ? "bg-yellow-500" : "bg-red-500"}`}
+                                style={{ width: `${Math.min(100, ct.avgCompleteness)}%` }}
+                              />
+                            </div>
+                            <span className="font-mono text-xs font-bold">{ct.avgCompleteness}%</span>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

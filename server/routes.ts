@@ -416,6 +416,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerTranslationHealthRoutes } = await import("./translation-health-routes");
   registerTranslationHealthRoutes(app);
 
+  const { registerTranslationCompletenessRoutes } = await import("./translation-completeness-routes");
+  registerTranslationCompletenessRoutes(app);
+
   const { registerI18nMissingKeysRoutes } = await import("./i18n-missing-keys-routes");
   registerI18nMissingKeysRoutes(app);
 
@@ -6149,6 +6152,17 @@ Rules:
             code: "VALIDATION_FAILED",
             validation,
           });
+        }
+
+        try {
+          const { checkPublishingGate } = await import("./translation-completeness-routes");
+          const translationGate = await checkPublishingGate("content_item", repairedParsed.slug || "");
+          if (!translationGate.canPublish && translationGate.failures.length > 0) {
+            const failureDetails = translationGate.failures.slice(0, 5).map(f => `${f.locale}: ${f.percentage}%`).join(", ");
+            console.warn(`[PublishGate] Translation completeness below threshold for ${repairedParsed.slug}: ${failureDetails}`);
+          }
+        } catch (gateErr: any) {
+          console.warn("[PublishGate] Translation gate check failed (non-blocking):", gateErr.message);
         }
       }
 

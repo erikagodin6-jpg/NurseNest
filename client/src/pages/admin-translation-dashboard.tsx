@@ -142,7 +142,7 @@ type StaleItem = {
   lastUpdated: string;
 };
 
-type TabKey = "overview" | "audits" | "detail" | "exam_questions" | "missing_keys" | "flagged" | "stale";
+type TabKey = "overview" | "audits" | "detail" | "exam_questions" | "missing_keys" | "flagged" | "stale" | "completeness";
 
 export default function AdminTranslationDashboard() {
   const { t } = useI18n();
@@ -369,6 +369,7 @@ export default function AdminTranslationDashboard() {
                 { key: "missing_keys" as TabKey, label: "Missing UI Keys", icon: Key },
                 { key: "flagged" as TabKey, label: "Flagged Content", icon: Flag },
                 { key: "stale" as TabKey, label: "Stale Translations", icon: Clock },
+                { key: "completeness" as TabKey, label: "Content Completeness", icon: Shield },
                 { key: "exam_questions" as TabKey, label: "Exam Questions", icon: BookOpen },
               ]).map(tab => (
                 <button
@@ -408,6 +409,8 @@ export default function AdminTranslationDashboard() {
             {activeTab === "flagged" && <FlaggedContentTab />}
 
             {activeTab === "stale" && <StaleTranslationsTab />}
+
+            {activeTab === "completeness" && <ContentCompletenessTab />}
 
             {activeTab === "exam_questions" && (
               <ExamQuestionCoverageTab />
@@ -1546,6 +1549,283 @@ function StaleTranslationsTab() {
             )}
           </CardContent>
         </Card>
+      )}
+
+      {loading && (
+        <div className="flex justify-center py-8">
+          <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+        </div>
+      )}
+    </div>
+  );
+}
+
+type CompletenessSummaryEntry = {
+  contentType: string;
+  label: string;
+  totalItems: number;
+  totalApproved: number;
+  totalStale: number;
+  totalMissing: number;
+  avgCompleteness: number;
+  byLocale: {
+    locale: string;
+    totalItems: number;
+    translatedCount: number;
+    approvedCount: number;
+    staleCount: number;
+    missingCount: number;
+    draftCount: number;
+    machineTranslatedCount: number;
+    humanReviewNeededCount: number;
+    reviewedCount: number;
+    rejectedCount: number;
+    completenessPercent: number;
+  }[];
+};
+
+const NEW_STATUS_LABELS: Record<string, { label: string; color: string }> = {
+  missing: { label: "Missing", color: "bg-gray-100 text-gray-700 border-gray-200" },
+  draft: { label: "Draft", color: "bg-red-100 text-red-700 border-red-200" },
+  machine_translated: { label: "Machine Translated", color: "bg-blue-100 text-blue-700 border-blue-200" },
+  human_review_needed: { label: "Review Needed", color: "bg-yellow-100 text-yellow-700 border-yellow-200" },
+  reviewed: { label: "Reviewed", color: "bg-indigo-100 text-indigo-700 border-indigo-200" },
+  approved: { label: "Approved", color: "bg-green-100 text-green-700 border-green-200" },
+  stale: { label: "Stale", color: "bg-orange-100 text-orange-700 border-orange-200" },
+  rejected: { label: "Rejected", color: "bg-red-100 text-red-700 border-red-200" },
+};
+
+function ContentCompletenessTab() {
+  const [summary, setSummary] = useState<CompletenessSummaryEntry[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [filterContentType, setFilterContentType] = useState("");
+  const [filterLocale, setFilterLocale] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
+  const [expandedType, setExpandedType] = useState<string | null>(null);
+  const [bulkIds, setBulkIds] = useState<string[]>([]);
+  const [bulkStatus, setBulkStatus] = useState("");
+  const [bulkContentType, setBulkContentType] = useState("");
+  const [bulkResult, setBulkResult] = useState<any>(null);
+
+  const fetchSummary = useCallback(async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (filterContentType) params.set("contentType", filterContentType);
+      if (filterLocale) params.set("locale", filterLocale);
+      if (filterStatus) params.set("status", filterStatus);
+      const res = await adminFetch(`/api/admin/translation-completeness/summary?${params}`);
+      if (res.ok) {
+        const data = await res.json();
+        setSummary(data.summary || []);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    setLoading(false);
+  }, [filterContentType, filterLocale, filterStatus]);
+
+  useEffect(() => { fetchSummary(); }, [fetchSummary]);
+
+  const handleBulkStatusUpdate = async () => {
+    if (!bulkContentType || !bulkStatus || bulkIds.length === 0) return;
+    try {
+      const res = await adminFetch("/api/admin/translation-completeness/bulk-status", {
+        method: "POST",
+        body: { ids: bulkIds, contentType: bulkContentType, targetStatus: bulkStatus },
+      });
+      if (res.ok) {
+        const result = await res.json();
+        setBulkResult(result);
+        setBulkIds([]);
+        fetchSummary();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const totalItems = summary.reduce((s, ct) => s + ct.totalItems, 0);
+  const totalApproved = summary.reduce((s, ct) => s + ct.totalApproved, 0);
+  const totalStale = summary.reduce((s, ct) => s + ct.totalStale, 0);
+  const totalMissing = summary.reduce((s, ct) => s + ct.totalMissing, 0);
+  const avgCompleteness = summary.length > 0
+    ? Math.round(summary.reduce((s, ct) => s + ct.avgCompleteness, 0) / summary.length * 10) / 10
+    : 0;
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <h2 className="text-lg font-semibold flex items-center gap-2">
+            <Shield className="w-5 h-5 text-blue-600" />
+            Per-Content-Type Translation Completeness
+          </h2>
+        </div>
+        <Button size="sm" variant="outline" onClick={fetchSummary} disabled={loading} data-testid="button-refresh-completeness">
+          <RefreshCw className={`w-4 h-4 mr-1 ${loading ? "animate-spin" : ""}`} /> Refresh
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <StatCard label="Content Types" value={summary.length} icon={<FileText className="w-5 h-5 text-indigo-500" />} testId="stat-completeness-types" />
+        <StatCard label="Total Items" value={totalItems} icon={<Globe className="w-5 h-5 text-blue-500" />} testId="stat-completeness-items" />
+        <StatCard label="Approved" value={totalApproved} icon={<CheckCircle2 className="w-5 h-5 text-green-500" />} testId="stat-completeness-approved" />
+        <StatCard label="Stale" value={totalStale} icon={<Clock className="w-5 h-5 text-orange-500" />} testId="stat-completeness-stale" />
+        <StatCard label="Avg Completeness" value={`${avgCompleteness}%`} icon={<BarChart3 className="w-5 h-5 text-green-500" />} testId="stat-completeness-avg" />
+      </div>
+
+      <div className="flex gap-3">
+        <select
+          className="border rounded-md px-2 py-1.5 text-sm"
+          value={filterContentType}
+          onChange={e => setFilterContentType(e.target.value)}
+          data-testid="filter-completeness-type"
+        >
+          <option value="">All Content Types</option>
+          {summary.map(ct => <option key={ct.contentType} value={ct.contentType}>{ct.label}</option>)}
+        </select>
+        <select
+          className="border rounded-md px-2 py-1.5 text-sm"
+          value={filterLocale}
+          onChange={e => setFilterLocale(e.target.value)}
+          data-testid="filter-completeness-locale"
+        >
+          <option value="">All Locales</option>
+          {LOCALES.map(l => <option key={l.code} value={l.code}>{l.flag} {l.name}</option>)}
+        </select>
+        <select
+          className="border rounded-md px-2 py-1.5 text-sm"
+          value={filterStatus}
+          onChange={e => setFilterStatus(e.target.value)}
+          data-testid="filter-completeness-status"
+        >
+          <option value="">All Statuses</option>
+          {Object.entries(NEW_STATUS_LABELS).map(([key, val]) => (
+            <option key={key} value={key}>{val.label}</option>
+          ))}
+        </select>
+      </div>
+
+      {bulkResult && (
+        <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-sm" data-testid="text-bulk-result">
+          <CheckCircle2 className="w-4 h-4 inline mr-1 text-green-600" />
+          Bulk update complete: {bulkResult.updatedCount} updated
+          {bulkResult.illegalCount > 0 && `, ${bulkResult.illegalCount} skipped (illegal transition)`}
+          <button onClick={() => setBulkResult(null)} className="ml-2 text-green-600 hover:text-green-800" data-testid="button-dismiss-bulk-result"><X className="w-3 h-3 inline" /></button>
+        </div>
+      )}
+
+      {summary.map(ct => (
+        <Card key={ct.contentType} data-testid={`card-completeness-${ct.contentType}`}>
+          <CardHeader
+            className="cursor-pointer hover:bg-gray-50"
+            onClick={() => setExpandedType(expandedType === ct.contentType ? null : ct.contentType)}
+            data-testid={`button-expand-${ct.contentType}`}
+          >
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="text-lg">{ct.label}</span>
+                <Badge variant="outline" className="text-xs">{ct.totalItems} items</Badge>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-24 bg-gray-200 rounded-full h-2">
+                    <div
+                      className={`h-2 rounded-full ${ct.avgCompleteness >= 80 ? "bg-green-500" : ct.avgCompleteness >= 40 ? "bg-yellow-500" : "bg-red-500"}`}
+                      style={{ width: `${Math.min(100, ct.avgCompleteness)}%` }}
+                    />
+                  </div>
+                  <span className="text-sm font-bold">{ct.avgCompleteness}%</span>
+                </div>
+                <div className="flex gap-1">
+                  <Badge className="text-xs bg-green-100 text-green-700">{ct.totalApproved} approved</Badge>
+                  {ct.totalStale > 0 && <Badge className="text-xs bg-orange-100 text-orange-700">{ct.totalStale} stale</Badge>}
+                  {ct.totalMissing > 0 && <Badge className="text-xs bg-gray-100 text-gray-700">{ct.totalMissing} missing</Badge>}
+                </div>
+                {expandedType === ct.contentType ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              </div>
+            </CardTitle>
+          </CardHeader>
+          {expandedType === ct.contentType && (
+            <CardContent>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b bg-gray-50">
+                      <th className="py-2 px-3 text-left">Locale</th>
+                      <th className="py-2 px-3 text-center">Total</th>
+                      <th className="py-2 px-3 text-center">Translated</th>
+                      <th className="py-2 px-3 text-center">Approved</th>
+                      <th className="py-2 px-3 text-center">Stale</th>
+                      <th className="py-2 px-3 text-center">Missing</th>
+                      <th className="py-2 px-3 text-center">Machine</th>
+                      <th className="py-2 px-3 text-center">Review</th>
+                      <th className="py-2 px-3 text-center">Completeness</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {ct.byLocale.map(loc => {
+                      const locale = LOCALES.find(l => l.code === loc.locale);
+                      return (
+                        <tr key={loc.locale} className="border-b hover:bg-gray-50" data-testid={`row-completeness-${ct.contentType}-${loc.locale}`}>
+                          <td className="py-2 px-3 font-medium">
+                            <span className="mr-2">{locale?.flag}</span>
+                            {locale?.name || loc.locale}
+                          </td>
+                          <td className="py-2 px-3 text-center">{loc.totalItems}</td>
+                          <td className="py-2 px-3 text-center">{loc.translatedCount}</td>
+                          <td className="py-2 px-3 text-center">
+                            <Badge className="text-xs bg-green-100 text-green-700">{loc.approvedCount}</Badge>
+                          </td>
+                          <td className="py-2 px-3 text-center">
+                            {loc.staleCount > 0 ? (
+                              <Badge className="text-xs bg-orange-100 text-orange-700">{loc.staleCount}</Badge>
+                            ) : <span className="text-gray-300">0</span>}
+                          </td>
+                          <td className="py-2 px-3 text-center">
+                            {loc.missingCount > 0 ? (
+                              <Badge className="text-xs bg-red-100 text-red-700">{loc.missingCount}</Badge>
+                            ) : <span className="text-gray-300">0</span>}
+                          </td>
+                          <td className="py-2 px-3 text-center">
+                            {loc.machineTranslatedCount > 0 ? (
+                              <Badge className="text-xs bg-blue-100 text-blue-700">{loc.machineTranslatedCount}</Badge>
+                            ) : <span className="text-gray-300">0</span>}
+                          </td>
+                          <td className="py-2 px-3 text-center">
+                            {loc.humanReviewNeededCount > 0 ? (
+                              <Badge className="text-xs bg-yellow-100 text-yellow-700">{loc.humanReviewNeededCount}</Badge>
+                            ) : <span className="text-gray-300">0</span>}
+                          </td>
+                          <td className="py-2 px-3">
+                            <div className="flex items-center gap-2 justify-center">
+                              <div className="w-20 bg-gray-200 rounded-full h-2">
+                                <div
+                                  className={`h-2 rounded-full ${loc.completenessPercent >= 80 ? "bg-green-500" : loc.completenessPercent >= 40 ? "bg-yellow-500" : "bg-red-500"}`}
+                                  style={{ width: `${Math.min(100, loc.completenessPercent)}%` }}
+                                />
+                              </div>
+                              <span className="text-xs font-bold w-10 text-right">{loc.completenessPercent}%</span>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          )}
+        </Card>
+      ))}
+
+      {summary.length === 0 && !loading && (
+        <div className="text-center py-16">
+          <Shield className="w-16 h-16 mx-auto text-gray-300 mb-4" />
+          <h2 className="text-xl font-semibold text-gray-700 mb-2">No translation data</h2>
+          <p className="text-gray-500">Per-content-type translation tables have not been populated yet.</p>
+        </div>
       )}
 
       {loading && (
