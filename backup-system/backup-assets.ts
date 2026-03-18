@@ -1,8 +1,7 @@
 import fs from "fs";
 import path from "path";
+import { PROJECT_ROOT, getTimestamp, ensureDir, computeSHA256, collectFiles, type BackupResult } from "./backup-engine";
 import { logBackup } from "./backup-logger";
-
-const ROOT = path.resolve(import.meta.dirname, "..");
 
 const ASSET_SOURCES = [
   { src: "public", patterns: [".svg", ".png", ".jpg", ".jpeg", ".ico", ".webp", ".gif", ".pdf"] },
@@ -20,7 +19,13 @@ const TRANSLATION_DIRS = [
   "data/translations",
 ];
 
-function copyDir(srcDir: string, destDir: string, extensions: string[] | null, fileCount: { count: number }, errors: string[]) {
+function copyDir(
+  srcDir: string,
+  destDir: string,
+  extensions: string[] | null,
+  fileCount: { count: number },
+  errors: string[]
+) {
   if (!fs.existsSync(srcDir)) return;
   fs.mkdirSync(destDir, { recursive: true });
   const entries = fs.readdirSync(srcDir, { withFileTypes: true });
@@ -45,20 +50,18 @@ function copyDir(srcDir: string, destDir: string, extensions: string[] | null, f
   }
 }
 
-export async function runAssetsBackup(): Promise<{
-  outputDir: string;
-  fileCount: number;
-  timestamp: string;
-}> {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-  const outputDir = path.join(ROOT, "backups", "assets", timestamp);
+export async function runAssetsBackup(): Promise<BackupResult> {
+  const startTime = Date.now();
+  const timestamp = getTimestamp();
+  const outputDir = path.join(PROJECT_ROOT, "backups", "assets", timestamp);
   fs.mkdirSync(outputDir, { recursive: true });
 
   const fileCount = { count: 0 };
   const errors: string[] = [];
+  const warnings: string[] = [];
 
   for (const source of ASSET_SOURCES) {
-    const srcDir = path.join(ROOT, source.src);
+    const srcDir = path.join(PROJECT_ROOT, source.src);
     if (fs.existsSync(srcDir)) {
       const destDir = path.join(outputDir, source.src);
       copyDir(srcDir, destDir, source.patterns, fileCount, errors);
@@ -66,7 +69,7 @@ export async function runAssetsBackup(): Promise<{
   }
 
   for (const tDir of TRANSLATION_DIRS) {
-    const srcDir = path.join(ROOT, tDir);
+    const srcDir = path.join(PROJECT_ROOT, tDir);
     if (fs.existsSync(srcDir)) {
       const destDir = path.join(outputDir, "translations", path.basename(tDir));
       copyDir(srcDir, destDir, null, fileCount, errors);
@@ -75,7 +78,7 @@ export async function runAssetsBackup(): Promise<{
 
   const seoFiles = ["robots.txt", "sitemap.xml", "sitemap-index.xml"];
   for (const sf of seoFiles) {
-    const srcPath = path.join(ROOT, "public", sf);
+    const srcPath = path.join(PROJECT_ROOT, "public", sf);
     if (fs.existsSync(srcPath)) {
       const destPath = path.join(outputDir, "seo", sf);
       fs.mkdirSync(path.dirname(destPath), { recursive: true });
@@ -83,6 +86,18 @@ export async function runAssetsBackup(): Promise<{
       fileCount.count++;
     }
   }
+
+  const checksums: Record<string, string> = {};
+  const allFiles = collectFiles(outputDir, ["**/*"], []);
+  for (const f of allFiles) {
+    const fullPath = path.join(outputDir, f);
+    try {
+      checksums[f] = computeSHA256(fullPath);
+    } catch {}
+  }
+  const checksumPath = path.join(outputDir, "checksums.json");
+  fs.writeFileSync(checksumPath, JSON.stringify(checksums, null, 2));
+  fileCount.count++;
 
   const status = errors.length > 0 ? "partial" : "success";
 
@@ -95,16 +110,27 @@ export async function runAssetsBackup(): Promise<{
     status,
   });
 
-  return { outputDir, fileCount: fileCount.count, timestamp: new Date().toISOString(), errors };
+  return {
+    timestamp,
+    type: "assets",
+    status,
+    fileCount: fileCount.count,
+    archiveSize: 0,
+    archivePath: outputDir,
+    warnings,
+    errors,
+    duration: Date.now() - startTime,
+    manifest: { checksums },
+  };
 }
 
 if (process.argv[1] && process.argv[1].includes("backup-assets")) {
   runAssetsBackup()
     .then((result) => {
       console.log("Assets backup completed:");
-      console.log(`  Output: ${result.outputDir}`);
+      console.log(`  Output: ${result.archivePath}`);
       console.log(`  Files: ${result.fileCount}`);
-      console.log(`  Timestamp: ${result.timestamp}`);
+      console.log(`  Status: ${result.status}`);
     })
     .catch((err) => {
       console.error("Assets backup failed:", err);
