@@ -1,0 +1,446 @@
+You are working on the NurseNest production codebase.
+
+Build a HIGH-UTILITY OPERATIONS, SUPPORT, AND INCIDENT MANAGEMENT LAYER that sits on top of the resilience systems already being implemented.
+
+This phase is focused on fast operator control, subscriber rescue, incident clarity, and release safety.
+
+The goal is simple:
+
+When something goes wrong, admin must be able to understand it fast, act fast, protect subscribers fast, and recover trust fast.
+
+==================================================
+PRIMARY GOAL
+==================================================
+
+Create practical day-to-day operational tools that make NurseNest safer and easier to run in production.
+
+Build the following systems:
+
+1. private status / operations page
+2. automatic “what changed?” incident correlation
+3. customer communication templates
+4. one-click subscriber rescue tools
+5. release checklist gate
+6. content health score
+7. VIP path / subscriber prioritization
+8. mobile-friendly emergency admin controls
+9. refund / chargeback prevention workflow
+10. weekly automated resilience report
+
+==================================================
+SECTION 1 — PRIVATE STATUS / OPERATIONS PAGE
+==================================================
+
+Build an internal admin-only status page that shows platform health at a glance.
+
+Must show:
+- overall platform health
+- current deployment version
+- current feature flag state
+- safe mode / emergency mode status
+- current kill switches in effect
+- recent incidents
+- recent rollbacks
+- exam failure rate
+- CAT failure rate
+- flashcard failure rate
+- lesson failure rate
+- download failure rate
+- entitlement / billing sync issues
+- fallback usage rate
+- quarantine events
+- backup generation health
+- synthetic monitor status
+- alert summary
+- affected users count where available
+
+Requirements:
+- admin-only
+- real-time or near-real-time updates
+- mobile friendly
+- clear severity levels
+- easy scanning from phone
+
+Add quick actions from this page:
+- activate safe mode
+- deactivate safe mode
+- disable a feature flag
+- disable a specific exam/content item
+- restore last-known-good version
+- replay entitlement sync
+- open incident details
+- copy incident summary
+
+==================================================
+SECTION 2 — AUTOMATIC “WHAT CHANGED?” INCIDENT CORRELATION
+==================================================
+
+For every incident, automatically correlate likely causes.
+
+Show:
+- latest deploy before incident
+- latest content publish before incident
+- latest schema/version change
+- latest feature flag change
+- latest kill switch change
+- latest billing or Stripe config change
+- latest admin override or entitlement override
+- latest dependency update if tracked
+
+For each incident page, generate:
+- timeline of relevant changes
+- likely correlated events
+- confidence score if possible
+- links to the exact changed entity if available
+
+Goal:
+When something breaks, admin should immediately see what most likely changed.
+
+==================================================
+SECTION 3 — CUSTOMER COMMUNICATION TEMPLATE SYSTEM
+==================================================
+
+Create prebuilt communication templates for support/admin use.
+
+Include templates for:
+- exam temporarily unavailable
+- backup mode active
+- access protected
+- issue resolved
+- subscription extended
+- backup link sent
+- temporary billing sync issue
+- goodwill credit / extension applied
+
+Requirements:
+- editable templates
+- placeholders for:
+  - customer name
+  - product/exam/resource name
+  - incident ID
+  - duration
+  - extension granted
+- email-safe copy
+- in-app support note copy
+- calm, trust-preserving language
+
+Optional:
+- one-click copy
+- one-click populate from incident/user context
+
+==================================================
+SECTION 4 — ONE-CLICK SUBSCRIBER RESCUE TOOLS
+==================================================
+
+Build support/admin tools to rescue impacted subscribers quickly.
+
+For an affected user, allow:
+- extend subscription by configurable duration
+- grant temporary backup access
+- grant temporary safe-mode access
+- restore entitlement
+- replay billing sync
+- reset stuck exam/session state
+- send backup resource link
+- send issue acknowledgment template
+- log rescue action on account
+- add internal support note
+
+Requirements:
+- all actions must be audited
+- permissions required
+- destructive actions require confirmation where appropriate
+- visible from user profile and incident page
+- mobile friendly
+
+This is one of the highest-value operator tools.
+
+==================================================
+SECTION 5 — RELEASE CHECKLIST GATE
+==================================================
+
+Build a release gate that blocks risky deploys or publishes unless required checks pass.
+
+Before deploy:
+- critical path tests pass
+- login works
+- entitlement check works
+- exam open works
+- CAT start works
+- flashcards load
+- premium downloads work
+- rollback target exists
+- monitoring is healthy
+- backup services are healthy
+
+Before content publish:
+- schema validation passes
+- content health score above threshold
+- backup artifacts generated
+- fallback path available
+- last-known-good version preserved
+- translations valid where required
+
+If checks fail:
+- block deploy or publish
+- show exact failing checks
+- require explicit override only for authorized admin users
+- log override action
+
+Goal:
+Do not allow risky changes into production casually.
+
+==================================================
+SECTION 6 — CONTENT HEALTH SCORE
+==================================================
+
+Create a health score for each content object:
+- exam
+- CAT config
+- flashcard deck
+- lesson
+- download
+- premium resource
+
+Score components may include:
+- schema validity
+- required field completeness
+- renderer compatibility
+- translation completeness
+- backup readiness
+- fallback availability
+- media validity
+- version verification
+- publish confidence
+- prior runtime stability if available
+
+Requirements:
+- score displayed in admin
+- visible before publish
+- visible on content list pages
+- filterable/sortable by lowest health
+- low score triggers warnings
+- critical score blocks publish or auto-quarantines depending on severity
+
+Goal:
+Spot risky content before users do.
+
+==================================================
+SECTION 7 — VIP PATH / SUBSCRIBER PRIORITIZATION
+==================================================
+
+Protect paying users during load or partial outage.
+
+Implement prioritization for:
+- login
+- entitlement check
+- opening exams
+- starting CAT
+- opening flashcards
+- accessing lessons
+- premium downloads
+
+Under heavy load:
+- prioritize subscriber-critical requests
+- deprioritize nonessential background tasks
+- deprioritize expensive noncritical jobs
+- preserve revenue-critical and trust-critical flows first
+
+Requirements:
+- fair and safe load-shedding logic
+- visibility in monitoring
+- configurable thresholds
+
+==================================================
+SECTION 8 — MOBILE-FRIENDLY EMERGENCY ADMIN CONTROLS
+==================================================
+
+Because site operations may need to be managed from a phone, build a compact mobile-friendly emergency admin control panel.
+
+Must allow:
+- activate/deactivate safe mode
+- turn feature flags on/off
+- disable a broken exam/content item
+- restore last-known-good version
+- trigger backup mode for a product
+- replay entitlement sync
+- view top active incidents
+- view current deployment status
+
+Requirements:
+- secure
+- admin-only
+- minimal taps
+- clearly labeled
+- confirmation for destructive actions
+
+Goal:
+Allow rapid response even when away from desktop.
+
+==================================================
+SECTION 9 — REFUND / CHARGEBACK PREVENTION WORKFLOW
+==================================================
+
+Build an incident-aware customer protection workflow.
+
+When a subscriber is materially impacted:
+- log affected user automatically where possible
+- mark issue severity and duration
+- suggest rescue actions:
+  - grant backup access
+  - extend subscription
+  - send communication template
+  - add support follow-up note
+- optionally queue users for goodwill extension review
+
+Requirements:
+- incident-to-user linkage where possible
+- visible list of affected subscribers
+- support/admin can act in bulk when appropriate
+- all actions audited
+
+Goal:
+Reduce refunds, chargebacks, and trust loss.
+
+==================================================
+SECTION 10 — WEEKLY AUTOMATED RESILIENCE REPORT
+==================================================
+
+Generate a weekly internal resilience/ops report.
+
+Include:
+- incidents this week
+- fallback activations
+- rollback events
+- quarantined content
+- missing backup artifacts
+- low health content items
+- entitlement anomalies
+- payment sync anomalies
+- top failing routes
+- affected users count
+- subscriber rescue actions taken
+- open unresolved risks
+- recommended priorities for next week
+
+Requirements:
+- readable summary format
+- mobile-friendly
+- available in admin dashboard
+- exportable or copyable
+- optionally send via configured notification channel
+
+Goal:
+Keep operational risk visible before it becomes a crisis.
+
+==================================================
+SECTION 11 — INCIDENT DETAIL VIEW
+==================================================
+
+Enhance incident pages with:
+- incident ID
+- severity
+- start time / end time / duration
+- impacted routes/features
+- impacted content/product IDs
+- affected users estimate
+- fallback modes triggered
+- likely root cause correlation
+- latest related deploy/content/flag/config changes
+- actions taken
+- current status
+- recommended next actions
+
+==================================================
+SECTION 12 — AUDIT LOGGING
+==================================================
+
+Audit all operator actions:
+- safe mode toggled
+- feature flags changed
+- content disabled
+- version restored
+- billing sync replayed
+- subscriber extended
+- backup access granted
+- rescue links sent
+- communication templates used
+- release overrides approved
+
+Logs must include:
+- who performed action
+- when
+- what was changed
+- target user/content/product
+- reason if supplied
+
+==================================================
+SECTION 13 — PERMISSIONS / SECURITY
+==================================================
+
+Ensure all new ops/support/admin tools are server-authorized.
+
+Use roles/permissions as appropriate:
+- super admin
+- support admin
+- content admin
+- ops/admin viewer
+
+Requirements:
+- no frontend-only access enforcement
+- sensitive actions protected
+- confirmation for destructive changes
+- CSRF/abuse protections where applicable
+
+==================================================
+SECTION 14 — TESTING
+==================================================
+
+Add tests for:
+- status page data correctness
+- incident correlation accuracy where testable
+- communication template population
+- subscriber rescue actions
+- release gate blocking behavior
+- content health score calculation
+- VIP path prioritization
+- mobile emergency controls
+- chargeback prevention workflows
+- weekly report generation
+- audit logging for all sensitive actions
+
+==================================================
+SECTION 15 — IMPLEMENTATION RULES
+==================================================
+
+Do:
+- focus on practical operator usefulness
+- optimize for fast incident response
+- make mobile controls genuinely usable
+- preserve auditability
+- preserve subscriber trust
+
+Do not:
+- make these tools desktop-only if avoidable
+- hide operator actions from logs
+- allow risky actions without proper confirmation/authorization
+- create noisy dashboards with no actionable value
+
+==================================================
+SECTION 16 — DELIVERABLES
+==================================================
+
+Provide:
+1. architecture summary
+2. exact files changed
+3. new admin/ops pages added
+4. incident correlation logic added
+5. subscriber rescue tools added
+6. release gate added
+7. content health score system added
+8. mobile emergency controls added
+9. refund/chargeback prevention workflow added
+10. weekly resilience report added
+11. permissions and audit logging added
+12. tests added
+13. confirmation that admin can now detect, understand, and respond to incidents quickly while protecting subscribers

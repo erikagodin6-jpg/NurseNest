@@ -52,7 +52,13 @@ export function recordFailure(serviceName: string): void {
   const cb = getOrCreateBreaker(serviceName);
   cb.failureCount++;
   cb.lastFailure = Date.now();
-  if (cb.state === "closed" && cb.failureCount >= cb.failureThreshold) {
+  if (cb.state === "half-open") {
+    cb.state = "open";
+    cb.openedAt = Date.now();
+    cb.tripCount++;
+    console.error(`[CircuitBreaker] RE-TRIPPED from half-open: ${serviceName} (trip #${cb.tripCount})`);
+    addResilienceEvent("circuit_breaker_trip", serviceName, { failureCount: cb.failureCount, tripCount: cb.tripCount, fromHalfOpen: true });
+  } else if (cb.state === "closed" && cb.failureCount >= cb.failureThreshold) {
     cb.state = "open";
     cb.openedAt = Date.now();
     cb.tripCount++;
@@ -268,6 +274,8 @@ interface HealthCheckResult {
 
 const healthCheckResults = new Map<string, HealthCheckResult>();
 let lastFullHealthCheck = 0;
+let cachedHealthResponse: { status: string; services: HealthCheckResult[]; timestamp: number } | null = null;
+const HEALTH_CACHE_TTL = 15000;
 
 async function checkDatabaseHealth(): Promise<HealthCheckResult> {
   const start = Date.now();
@@ -350,6 +358,12 @@ export async function runHealthChecks(): Promise<HealthCheckResult[]> {
   }
 
   lastFullHealthCheck = Date.now();
+  const overallStatus = results.some((r) => r.status === "down")
+    ? "down"
+    : results.some((r) => r.status === "degraded")
+    ? "degraded"
+    : "healthy";
+  cachedHealthResponse = { status: overallStatus, services: results, timestamp: Date.now() };
   return results;
 }
 
@@ -622,18 +636,36 @@ export function makeEntitlementDecision(user: any, feature: string): Entitlement
   };
 }
 
-function requireAdmin(req: Request, res: Response): boolean {
-  const user = (req as any).authUser;
-  if (!user || user.tier !== "admin") {
+async function resolveAdmin(req: Request, res: Response): Promise<any | null> {
+  try {
+    const { resolveAuthUser } = await import("./admin-auth");
+    const user = await resolveAuthUser(req as any);
+    if (!user || user.tier !== "admin") {
+      res.status(403).json({ error: "Admin access required" });
+      return null;
+    }
+    return user;
+  } catch {
     res.status(403).json({ error: "Admin access required" });
-    return false;
+    return null;
   }
-  return true;
 }
 
 export function registerResilienceRoutes(app: Express): void {
   app.get("/api/health", async (_req: Request, res: Response) => {
     try {
+      if (cachedHealthResponse && Date.now() - cachedHealthResponse.timestamp < HEALTH_CACHE_TTL) {
+        const status = cachedHealthResponse.status;
+        return res.status(status === "down" ? 503 : 200).json({
+          status,
+          emergency: isEmergencyMode(),
+          services: cachedHealthResponse.services,
+          timestamp: cachedHealthResponse.timestamp,
+          uptime: process.uptime(),
+          cached: true,
+        });
+      }
+
       const results = await runHealthChecks();
       const overallStatus = results.some((r) => r.status === "down")
         ? "down"
@@ -663,7 +695,8 @@ export function registerResilienceRoutes(app: Express): void {
   });
 
   app.get("/api/admin/resilience/status", async (req: Request, res: Response) => {
-    if (!requireAdmin(req, res)) return;
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
     const healthResults = await runHealthChecks();
     res.json({
       circuitBreakers: getCircuitBreakerStates(),
@@ -678,8 +711,9 @@ export function registerResilienceRoutes(app: Express): void {
     });
   });
 
-  app.post("/api/admin/resilience/feature-flags/:key", (req: Request, res: Response) => {
-    if (!requireAdmin(req, res)) return;
+  app.post("/api/admin/resilience/feature-flags/:key", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
     const { key } = req.params;
     const { enabled, reason } = req.body;
     if (typeof enabled !== "boolean") {
@@ -689,35 +723,38 @@ export function registerResilienceRoutes(app: Express): void {
     res.json({ success: true, flag: featureFlags.get(key) });
   });
 
-  app.post("/api/admin/resilience/feature-flags/:key/reset-errors", (req: Request, res: Response) => {
-    if (!requireAdmin(req, res)) return;
+  app.post("/api/admin/resilience/feature-flags/:key/reset-errors", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
     resetFeatureErrors(req.params.key);
     res.json({ success: true });
   });
 
-  app.post("/api/admin/resilience/kill-switch", (req: Request, res: Response) => {
-    if (!requireAdmin(req, res)) return;
+  app.post("/api/admin/resilience/kill-switch", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
     const { key, scope, target, reason, active } = req.body;
     if (!key || !scope || !target) {
       return res.status(400).json({ error: "key, scope, and target are required" });
     }
-    const user = (req as any).authUser;
     if (active === false) {
       deactivateKillSwitch(key);
     } else {
-      activateKillSwitch(key, scope, target, reason || "admin_action", user.username);
+      activateKillSwitch(key, scope, target, reason || "admin_action", admin.username);
     }
     res.json({ success: true, killSwitch: killSwitches.get(key) });
   });
 
-  app.post("/api/admin/resilience/circuit-breaker/:name/reset", (req: Request, res: Response) => {
-    if (!requireAdmin(req, res)) return;
+  app.post("/api/admin/resilience/circuit-breaker/:name/reset", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
     resetCircuitBreaker(req.params.name);
     res.json({ success: true });
   });
 
-  app.post("/api/admin/resilience/emergency-mode", (req: Request, res: Response) => {
-    if (!requireAdmin(req, res)) return;
+  app.post("/api/admin/resilience/emergency-mode", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
     const { active, reason } = req.body;
     if (active) {
       activateEmergencyMode(reason || "admin_activated");
@@ -727,8 +764,9 @@ export function registerResilienceRoutes(app: Express): void {
     res.json({ success: true, emergencyMode: getEmergencyModeStatus() });
   });
 
-  app.post("/api/admin/resilience/provisional-access", (req: Request, res: Response) => {
-    if (!requireAdmin(req, res)) return;
+  app.post("/api/admin/resilience/provisional-access", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
     const { userId, reason } = req.body;
     if (!userId) {
       return res.status(400).json({ error: "userId is required" });
@@ -737,8 +775,9 @@ export function registerResilienceRoutes(app: Express): void {
     res.json({ success: true });
   });
 
-  app.post("/api/admin/resilience/clear-entitlement-cache", (req: Request, res: Response) => {
-    if (!requireAdmin(req, res)) return;
+  app.post("/api/admin/resilience/clear-entitlement-cache", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
     clearEntitlementCache(req.body.userId);
     res.json({ success: true });
   });

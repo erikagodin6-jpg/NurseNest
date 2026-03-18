@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 function getAuthHeaders(): Record<string, string> {
-  const token = localStorage.getItem("nursenest-token");
+  const token = localStorage.getItem("nn_admin_access_token") || localStorage.getItem("nursenest-user-token");
   return token ? { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } : { "Content-Type": "application/json" };
 }
 
@@ -114,7 +114,7 @@ function FeatureFlagsPanel({ flags, onToggle, onResetErrors }: {
   );
 }
 
-function KillSwitchesPanel({ switches, onToggle }: { switches: any[]; onToggle: (key: string, active: boolean, scope: string, target: string) => void }) {
+function KillSwitchesPanel({ switches, onToggle }: { switches: any[]; onToggle: (key: string, active: boolean, scope: string, target: string, reason?: string) => void }) {
   const [newKey, setNewKey] = useState("");
   const [newScope, setNewScope] = useState("feature");
   const [newTarget, setNewTarget] = useState("");
@@ -179,7 +179,7 @@ function KillSwitchesPanel({ switches, onToggle }: { switches: any[]; onToggle: 
             variant="destructive"
             disabled={!newKey || !newTarget}
             onClick={() => {
-              onToggle(newKey, true, newScope, newTarget);
+              onToggle(newKey, true, newScope, newTarget, newReason);
               setNewKey(""); setNewTarget(""); setNewReason("");
             }}
             data-testid="button-add-killswitch"
@@ -304,7 +304,7 @@ export default function AdminResilienceDashboard() {
       const res = await fetch("/api/admin/resilience/kill-switch", {
         method: "POST",
         headers: getAuthHeaders(),
-        body: JSON.stringify({ key, active, scope, target, reason }),
+        body: JSON.stringify({ key, active, scope, target, reason: reason || "admin_action" }),
       });
       if (!res.ok) throw new Error("Failed to update kill switch");
       return res.json();
@@ -462,7 +462,7 @@ export default function AdminResilienceDashboard() {
           <TabsContent value="killswitches" className="mt-4">
             <KillSwitchesPanel
               switches={data?.killSwitches || []}
-              onToggle={(key, active, scope, target) => killSwitchMutation.mutate({ key, active, scope, target })}
+              onToggle={(key, active, scope, target, reason) => killSwitchMutation.mutate({ key, active, scope, target, reason })}
             />
           </TabsContent>
 

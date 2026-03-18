@@ -764,6 +764,7 @@ function AppRoutes() {
         <Route path="/admin/site-health" component={AdminSiteHealth} />
         <Route path="/admin/exam-health" component={AdminExamHealth} />
         <Route path="/admin/resilience" component={AdminResilience} />
+        <Route path="/:locale/admin/resilience" component={AdminResilience} />
         <Route path="/admin/social-content" component={AdminSocialContent} />
         <Route path="/admin/question-bank" component={AdminQuestionBankPage} />
         <Route path="/admin/comment-moderation" component={AdminCommentModeration} />
