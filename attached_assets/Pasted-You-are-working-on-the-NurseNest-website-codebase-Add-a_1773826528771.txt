@@ -1,0 +1,96 @@
+You are working on the NurseNest website codebase.
+
+Add a COMPLETE app-download promotion system across the website to encourage users to download the NurseNest mobile app.
+
+==================================================
+PRIMARY GOAL
+==================================================
+
+Increase mobile app downloads from existing website traffic without being intrusive or misleading.
+
+The promotion system should clearly communicate the value of downloading the app and link users to the App Store / Google Play.
+
+==================================================
+IMPLEMENT
+==================================================
+
+1. SITE-WIDE APP BANNER
+Add a dismissible banner that appears across the website.
+
+Requirements:
+- clear headline promoting the mobile app
+- short supporting text
+- App Store button
+- Google Play button
+- remember dismissal state so it does not reappear constantly
+- mobile-friendly and brand-consistent
+
+Suggested messaging:
+- “Get NurseNest on mobile”
+- “Study anywhere with the NurseNest app”
+- “Practice, flashcards, and exams on the go”
+
+2. HOMEPAGE APP PROMO SECTION
+Add a dedicated homepage section promoting the app.
+
+Include:
+- headline
+- short supporting text
+- 3–5 app benefits
+- phone mockup or screenshot area
+- App Store and Google Play buttons
+- note that users can sign in with their existing NurseNest account
+
+Suggested benefits:
+- mobile practice anywhere
+- flashcards on the go
+- exam prep from your phone
+- synced progress
+- fast daily studying
+
+3. CONTEXTUAL APP CTAS
+Add app download prompts in high-intent locations:
+- dashboard
+- after completing a practice session
+- subscription/account page
+- checkout success / thank-you page
+
+These should be tasteful, not spammy.
+
+4. FOOTER + QR CODE AREA
+Add app store links to the website footer and an optional QR code block in a suitable section.
+
+==================================================
+COPY RULES
+==================================================
+
+- use healthcare-inclusive language
+- no “AI” wording
+- only promise features that actually exist in the app
+- emphasize convenience and mobility
+- mention existing account sign-in if supported
+
+==================================================
+TRACKING
+==================================================
+
+Add analytics tracking for:
+- app_banner_viewed
+- app_banner_clicked
+- homepage_app_cta_clicked
+- dashboard_app_cta_clicked
+- post_practice_app_cta_clicked
+- footer_app_cta_clicked
+
+Analytics must be non-blocking.
+
+==================================================
+DELIVERABLES
+==================================================
+
+Return:
+1. files changed
+2. locations where app promotion was added
+3. copy used
+4. analytics events added
+5. any remaining assets needed (store links, screenshots, QR code, etc.)
