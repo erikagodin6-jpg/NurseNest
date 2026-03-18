@@ -3320,6 +3320,129 @@ export function registerResilienceRoutes(app: Express): void {
     res.json({ success: true, thresholds: getScaleThresholds() });
   });
 
+  // --- Unified Ops Status Dashboard API ---
+
+  app.get("/api/admin/ops/status", async (req: Request, res: Response) => {
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin", "ops_viewer");
+    if (!admin) return;
+    try {
+      const healthResults = cachedHealthResponse || { status: "unknown", services: [], timestamp: 0 };
+      const cbStates = getCircuitBreakerStates();
+      const flags = getFeatureFlags();
+      const kswitches = getKillSwitches();
+      const safeMode = getSafeModeStatus();
+      const minCore = getMinimalCoreStatus();
+      const budgets = getErrorBudgets();
+      const provisionalGrants = getProvisionalAccessGrants();
+      const recentAlerts = alertEvents.filter(a => !a.acknowledged).slice(0, 20);
+      const selfHealLog = getSelfHealingLog();
+      const loadShedding = getLoadSheddingStatus();
+
+      let examHealth: any = null;
+      try {
+        const { checkPoolHealth, getQuarantinedCount } = await import("./exam-reliability");
+        const tiers = ["rpn", "rn", "np"];
+        const poolChecks: Record<string, any> = {};
+        for (const tier of tiers) { poolChecks[tier] = await checkPoolHealth(tier); }
+        const quarantinedCount = await getQuarantinedCount();
+        examHealth = { tiers: poolChecks, quarantinedCount };
+      } catch {}
+
+      let aiStatus: any = null;
+      try {
+        const { getAiConfig } = await import("./ai-safety");
+        aiStatus = getAiConfig();
+      } catch {}
+
+      let dbMetrics: any = null;
+      try {
+        const userCount = await pool.query("SELECT COUNT(*)::int AS cnt FROM users");
+        const activeSubCount = await pool.query("SELECT COUNT(*)::int AS cnt FROM users WHERE tier != 'free' AND tier IS NOT NULL AND tier != ''");
+        const recentIncidentCount = await pool.query(
+          `SELECT COUNT(*)::int AS cnt FROM exam_incidents WHERE created_at > NOW() - INTERVAL '24 hours'`
+        ).catch(() => ({ rows: [{ cnt: 0 }] }));
+        dbMetrics = {
+          totalUsers: userCount.rows[0]?.cnt || 0,
+          activeSubscribers: activeSubCount.rows[0]?.cnt || 0,
+          recentIncidents24h: recentIncidentCount.rows[0]?.cnt || 0,
+        };
+      } catch {}
+
+      let recentAuditActions: any[] = [];
+      try {
+        const auditResult = await pool.query(
+          `SELECT id, actor_username, action, entity_type, entity_id, severity, created_at
+           FROM audit_logs ORDER BY created_at DESC LIMIT 10`
+        );
+        recentAuditActions = auditResult.rows;
+      } catch {}
+
+      const servicesDown = healthResults.services.filter((s: any) => s.status === "down");
+      const servicesDegraded = healthResults.services.filter((s: any) => s.status === "degraded");
+      const servicesHealthy = healthResults.services.filter((s: any) => s.status === "healthy");
+
+      const openBreakers = cbStates.filter(cb => cb.state === "open");
+      const halfOpenBreakers = cbStates.filter(cb => cb.state === "half-open");
+      const disabledFlags = flags.filter(f => !isFeatureEnabled(f.key));
+      const activeKillSwitches = kswitches.filter(ks => ks.active);
+      const criticalBudgets = budgets.filter(b => b.escalationLevel === "critical" || b.escalationLevel === "exhausted");
+
+      let overallHealth: "green" | "yellow" | "red" = "green";
+      if (safeMode.active || servicesDown.length >= 2 || openBreakers.length >= 2 || criticalBudgets.length >= 2) {
+        overallHealth = "red";
+      } else if (servicesDegraded.length > 0 || openBreakers.length > 0 || halfOpenBreakers.length > 0 || criticalBudgets.length > 0 || minCore.active) {
+        overallHealth = "yellow";
+      }
+
+      const overallStatusMap: Record<string, string> = { green: "healthy", yellow: "degraded", red: "down" };
+
+      res.json({
+        overallHealth,
+        overallStatus: overallStatusMap[overallHealth] || "unknown",
+        deploymentVersion: process.env.REPL_SLUG || "development",
+        uptime: process.uptime(),
+        safeMode,
+        emergencyMode: safeMode,
+        minimalCore: minCore,
+        healthChecks: healthResults.services,
+        circuitBreakers: cbStates,
+        featureFlags: flags.map(f => ({ key: f.key, enabled: isFeatureEnabled(f.key), description: f.description, errorCount: f.errorCount, errorThreshold: (f as any).errorThreshold || 5, disabledReason: f.disabledReason, adminOverride: f.adminOverride, autoDisableOnErrors: f.autoDisableOnErrors })),
+        killSwitches: kswitches,
+        errorBudgets: budgets,
+        alerts: { unacknowledged: recentAlerts, totalUnack: alertEvents.filter(a => !a.acknowledged).length },
+        events: getResilienceEvents(100),
+        examHealth,
+        aiStatus,
+        dbMetrics,
+        provisionalAccess: provisionalGrants,
+        affectedUsers: dbMetrics?.activeSubscribers || 0,
+        fallbackUsageRate: safeMode.active ? 100 : 0,
+        loadShedding,
+        selfHealing: selfHealLog.slice(0, 10),
+        recentAuditActions,
+        timestamp: Date.now(),
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: "Failed to load ops status", detail: err.message });
+    }
+  });
+
+  app.get("/api/admin/ops/incidents-summary", async (req: Request, res: Response) => {
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin", "ops_viewer");
+    if (!admin) return;
+    try {
+      const incidents = await pool.query(
+        `SELECT severity, COUNT(*)::int AS cnt FROM exam_incidents WHERE created_at > NOW() - INTERVAL '24 hours' GROUP BY severity`
+      ).catch(() => ({ rows: [] }));
+      const emergencyLog = await pool.query(
+        `SELECT action, reason, actor, auto_triggered, created_at FROM platform_emergency_log ORDER BY created_at DESC LIMIT 10`
+      ).catch(() => ({ rows: [] }));
+      res.json({ incidentsBySeverity: incidents.rows, emergencyLog: emergencyLog.rows, timestamp: Date.now() });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   // --- Client degradation info endpoint ---
 
   app.get("/api/platform/degradation", (_req: Request, res: Response) => {
