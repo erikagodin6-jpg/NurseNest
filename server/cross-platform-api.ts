@@ -1518,18 +1518,29 @@ router.get("/api/v1/dashboard/summary", async (req, res) => {
 
     const [
       recentActivityResult,
+      activityLogResult,
       inProgressCatResult,
+      catSessionsResult,
       inProgressMockResult,
+      mockSessionProgressResult,
       lessonProgressResult,
       testBankProgressResult,
       questionHistoryResult,
       streakResult,
       bookmarksResult,
       mockHistoryResult,
+      resumeStateResult,
+      categoryBreakdownResult,
     ] = await Promise.all([
       pool.query(
-        `SELECT event_type, event_data, created_at FROM analytics_events
-         WHERE user_id = $1 ORDER BY created_at DESC LIMIT 10`,
+        `SELECT event_type, event_data, platform, created_at FROM analytics_events
+         WHERE user_id = $1 ORDER BY created_at DESC LIMIT 20`,
+        [userId]
+      ).catch(() => ({ rows: [] })),
+
+      pool.query(
+        `SELECT event_type, entity_id, entity_type, metadata, created_at FROM user_activity_log
+         WHERE user_id = $1 ORDER BY created_at DESC LIMIT 20`,
         [userId]
       ).catch(() => ({ rows: [] })),
 
@@ -1541,6 +1552,14 @@ router.get("/api/v1/dashboard/summary", async (req, res) => {
       ).catch(() => ({ rows: [] })),
 
       pool.query(
+        `SELECT id, status, start_time, last_active_at, total_questions, correct_count, time_spent_seconds, exam_type, tier, question_sequence
+         FROM cat_sessions
+         WHERE user_id = $1 AND status IN ('in_progress', 'paused')
+         ORDER BY last_active_at DESC LIMIT 3`,
+        [userId]
+      ).catch(() => ({ rows: [] })),
+
+      pool.query(
         `SELECT id, tier, total_questions, exam_type, started_at FROM mock_exam_attempts
          WHERE user_id = $1 AND exam_type != 'cat' AND status = 'in_progress'
          ORDER BY started_at DESC LIMIT 3`,
@@ -1548,7 +1567,17 @@ router.get("/api/v1/dashboard/summary", async (req, res) => {
       ).catch(() => ({ rows: [] })),
 
       pool.query(
-        `SELECT lesson_id, completed, last_accessed FROM user_progress
+        `SELECT mesp.attempt_id, mesp.current_question_index, mesp.answered_count, mesp.time_remaining, mesp.status, mesp.last_active_at,
+                mea.tier, mea.total_questions, mea.exam_type
+         FROM mock_exam_session_progress mesp
+         JOIN mock_exam_attempts mea ON mesp.attempt_id = mea.id
+         WHERE mesp.user_id = $1 AND mesp.status = 'in_progress'
+         ORDER BY mesp.last_active_at DESC LIMIT 3`,
+        [userId]
+      ).catch(() => ({ rows: [] })),
+
+      pool.query(
+        `SELECT lesson_id, completed, completion_percent, last_accessed FROM user_progress
          WHERE user_id = $1 ORDER BY last_accessed DESC LIMIT 20`,
         [userId]
       ).catch(() => ({ rows: [] })),
@@ -1585,59 +1614,158 @@ router.get("/api/v1/dashboard/summary", async (req, res) => {
          ORDER BY completed_at DESC LIMIT 10`,
         [userId]
       ).catch(() => ({ rows: [] })),
+
+      pool.query(
+        `SELECT last_cat_session_id, last_mock_session_id, last_test_bank_id, last_lesson_id, recommended_next_action
+         FROM dashboard_resume_state WHERE user_id = $1`,
+        [userId]
+      ).catch(() => ({ rows: [] })),
+
+      pool.query(
+        `SELECT
+           COALESCE(mea.tier, 'general') as category,
+           COUNT(*) as total,
+           SUM(CASE WHEN uqh.was_correct THEN 1 ELSE 0 END) as correct
+         FROM unified_question_history uqh
+         LEFT JOIN mock_exam_attempts mea ON uqh.source_id = mea.id
+         WHERE uqh.user_id = $1
+         GROUP BY COALESCE(mea.tier, 'general')`,
+        [userId]
+      ).catch(() => ({ rows: [] })),
     ]);
 
-    const completedLessons = lessonProgressResult.rows.filter((r: any) => r.completed === "true").length;
+    const completedLessons = lessonProgressResult.rows.filter((r: any) => r.completed === true || r.completed === "true").length;
     const totalLessonsAccessed = lessonProgressResult.rows.length;
+    const inProgressLessons = lessonProgressResult.rows.filter((r: any) => r.completed !== true && r.completed !== "true").length;
 
     const lastLesson = lessonProgressResult.rows[0];
+    const lastInProgressLesson = lessonProgressResult.rows.find((r: any) => r.completed !== true && r.completed !== "true");
     const lastTestBank = testBankProgressResult.rows[0];
 
     const questionStats: Record<string, { total: number; correct: number }> = {};
+    let totalQuestionsAnswered = 0;
+    let totalQuestionsCorrect = 0;
     for (const row of questionHistoryResult.rows) {
-      questionStats[row.source_type] = {
-        total: parseInt(row.total) || 0,
-        correct: parseInt(row.correct) || 0,
-      };
+      const total = parseInt(row.total) || 0;
+      const correct = parseInt(row.correct) || 0;
+      questionStats[row.source_type] = { total, correct };
+      totalQuestionsAnswered += total;
+      totalQuestionsCorrect += correct;
     }
+    const overallAccuracy = totalQuestionsAnswered > 0
+      ? Math.round((totalQuestionsCorrect / totalQuestionsAnswered) * 100)
+      : 0;
 
     const mockCompleted = mockHistoryResult.rows.length;
     const avgMockScore = mockCompleted > 0
       ? Math.round(mockHistoryResult.rows.reduce((s: number, r: any) => s + (r.score || 0), 0) / mockCompleted)
       : 0;
+    const bestMockScore = mockCompleted > 0
+      ? Math.max(...mockHistoryResult.rows.map((r: any) => r.score || 0))
+      : 0;
 
     const streak = streakResult.rows[0];
+    const resumeState = resumeStateResult.rows[0];
+
+    const mergedActivity: any[] = [];
+    for (const r of activityLogResult.rows) {
+      mergedActivity.push({
+        eventType: r.event_type,
+        entityId: r.entity_id,
+        entityType: r.entity_type,
+        metadata: r.metadata,
+        source: "activity_log",
+        createdAt: r.created_at,
+      });
+    }
+    for (const r of recentActivityResult.rows) {
+      mergedActivity.push({
+        eventType: r.event_type,
+        eventData: r.event_data,
+        platform: r.platform,
+        source: "analytics",
+        createdAt: r.created_at,
+      });
+    }
+    mergedActivity.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    const recentActivity = mergedActivity.slice(0, 20);
 
     const continueWhereYouLeftOff: any[] = [];
 
+    for (const cat of catSessionsResult.rows) {
+      continueWhereYouLeftOff.push({
+        type: "cat_session",
+        id: cat.id,
+        title: `CAT Exam${cat.tier ? ` (${cat.tier.toUpperCase()})` : ""}`,
+        progress: `${Array.isArray(cat.question_sequence) ? cat.question_sequence.length : (cat.correct_count || 0)}/${cat.total_questions || 0} questions`,
+        timeSpent: cat.time_spent_seconds,
+        lastAccessed: cat.last_active_at,
+        isPaused: cat.status === "paused",
+        resumePath: "/mock-exams",
+      });
+    }
+
     for (const cat of inProgressCatResult.rows) {
       const catState = cat.cat_state || {};
+      const alreadyTracked = continueWhereYouLeftOff.some(
+        (item) => item.id === cat.id
+      );
+      if (!alreadyTracked) {
+        continueWhereYouLeftOff.push({
+          type: "cat_exam",
+          id: cat.id,
+          title: `CAT Exam (${cat.tier?.toUpperCase()})`,
+          progress: `${(catState.questionsSeen || []).length}/${cat.total_questions} questions`,
+          lastAccessed: cat.started_at,
+          isPaused: catState.isPaused || false,
+          resumePath: "/mock-exams",
+        });
+      }
+    }
+
+    for (const sp of mockSessionProgressResult.rows) {
       continueWhereYouLeftOff.push({
-        type: "cat_exam",
-        id: cat.id,
-        title: `CAT Exam (${cat.tier?.toUpperCase()})`,
-        progress: `${(catState.questionsSeen || []).length}/${cat.total_questions} questions`,
-        lastAccessed: cat.started_at,
-        isPaused: catState.isPaused || false,
+        type: "mock_exam",
+        id: sp.attempt_id,
+        title: `Mock Exam (${sp.tier?.toUpperCase()})`,
+        progress: `Q${(sp.current_question_index || 0) + 1} · ${sp.answered_count || 0} answered`,
+        timeRemaining: sp.time_remaining,
+        lastAccessed: sp.last_active_at,
+        resumePath: "/mock-exams",
       });
     }
 
     for (const mock of inProgressMockResult.rows) {
-      continueWhereYouLeftOff.push({
-        type: "mock_exam",
-        id: mock.id,
-        title: `Mock Exam (${mock.tier?.toUpperCase()})`,
-        lastAccessed: mock.started_at,
-      });
+      const alreadyTracked = continueWhereYouLeftOff.some((item) => item.id === mock.id);
+      if (!alreadyTracked) {
+        continueWhereYouLeftOff.push({
+          type: "mock_exam",
+          id: mock.id,
+          title: `Mock Exam (${mock.tier?.toUpperCase()})`,
+          lastAccessed: mock.started_at,
+          resumePath: "/mock-exams",
+        });
+      }
     }
 
-    if (lastLesson) {
+    if (lastInProgressLesson) {
+      continueWhereYouLeftOff.push({
+        type: "lesson",
+        id: lastInProgressLesson.lesson_id,
+        title: `Continue lesson: ${lastInProgressLesson.lesson_id}`,
+        progress: `${lastInProgressLesson.completion_percent || 0}% complete`,
+        lastAccessed: lastInProgressLesson.last_accessed,
+        completed: false,
+        resumePath: `/lessons/${lastInProgressLesson.lesson_id}`,
+      });
+    } else if (lastLesson && lastLesson.completed !== true && lastLesson.completed !== "true") {
       continueWhereYouLeftOff.push({
         type: "lesson",
         id: lastLesson.lesson_id,
         title: `Continue lesson: ${lastLesson.lesson_id}`,
         lastAccessed: lastLesson.last_accessed,
-        completed: lastLesson.completed === "true",
+        completed: false,
+        resumePath: `/lessons/${lastLesson.lesson_id}`,
       });
     }
 
@@ -1648,32 +1776,128 @@ router.get("/api/v1/dashboard/summary", async (req, res) => {
         title: `Test Bank: ${lastTestBank.collection_name || "Questions"}`,
         progress: `${lastTestBank.questions_attempted || 0} questions attempted`,
         lastAccessed: lastTestBank.last_accessed_at,
+        resumePath: "/test-bank",
       });
     }
 
-    let recommendedNextAction = "Start a study session";
-    if (inProgressCatResult.rows.length > 0) {
-      recommendedNextAction = "Resume your in-progress CAT exam";
-    } else if (inProgressMockResult.rows.length > 0) {
-      recommendedNextAction = "Complete your in-progress mock exam";
+    continueWhereYouLeftOff.sort((a, b) => {
+      const dateA = new Date(a.lastAccessed || 0).getTime();
+      const dateB = new Date(b.lastAccessed || 0).getTime();
+      return dateB - dateA;
+    });
+
+    const weakCategories = categoryBreakdownResult.rows
+      .map((r: any) => ({
+        category: r.category,
+        total: parseInt(r.total) || 0,
+        correct: parseInt(r.correct) || 0,
+        accuracy: (parseInt(r.total) || 0) > 0
+          ? Math.round(((parseInt(r.correct) || 0) / (parseInt(r.total) || 0)) * 100)
+          : 0,
+      }))
+      .filter((c: any) => c.total >= 3)
+      .sort((a: any, b: any) => a.accuracy - b.accuracy);
+
+    const isNewUser = totalQuestionsAnswered === 0 && completedLessons === 0 && mockCompleted === 0;
+
+    let recommendedNextAction: { action: string; description: string; path: string; priority: string };
+
+    if (inProgressCatResult.rows.length > 0 || catSessionsResult.rows.length > 0) {
+      recommendedNextAction = {
+        action: "Resume CAT Exam",
+        description: "You have an in-progress CAT exam waiting. Complete it to get your adaptive score.",
+        path: "/mock-exams",
+        priority: "high",
+      };
+    } else if (inProgressMockResult.rows.length > 0 || mockSessionProgressResult.rows.length > 0) {
+      recommendedNextAction = {
+        action: "Complete Mock Exam",
+        description: "Finish your in-progress mock exam to see your results.",
+        path: "/mock-exams",
+        priority: "high",
+      };
+    } else if (isNewUser) {
+      recommendedNextAction = {
+        action: "Start Your First Lesson",
+        description: "Begin your study journey by exploring a lesson topic.",
+        path: "/lessons",
+        priority: "medium",
+      };
     } else if (completedLessons < 5) {
-      recommendedNextAction = "Study more lessons to build your foundation";
+      recommendedNextAction = {
+        action: "Build Your Foundation",
+        description: `You've completed ${completedLessons} lesson${completedLessons !== 1 ? "s" : ""}. Study a few more to build a strong foundation.`,
+        path: "/lessons",
+        priority: "medium",
+      };
+    } else if (weakCategories.length > 0 && weakCategories[0].accuracy < 50) {
+      const weakest = weakCategories[0];
+      recommendedNextAction = {
+        action: `Focus on ${weakest.category}`,
+        description: `Your ${weakest.category} accuracy is ${weakest.accuracy}%. Practice more questions in this area.`,
+        path: "/test-bank",
+        priority: "high",
+      };
     } else if (!isPremium) {
-      recommendedNextAction = "Upgrade to unlock more practice questions and exams";
+      recommendedNextAction = {
+        action: "Upgrade Your Plan",
+        description: "Unlock premium practice questions, CAT exams, and full mock exams.",
+        path: "/pricing",
+        priority: "low",
+      };
     } else if (avgMockScore > 0 && avgMockScore < 65) {
-      recommendedNextAction = "Focus on weak areas identified in your mock exams";
+      recommendedNextAction = {
+        action: "Review Weak Areas",
+        description: `Your average mock score is ${avgMockScore}%. Review your weak topics to improve.`,
+        path: "/test-bank",
+        priority: "high",
+      };
+    } else if (mockCompleted === 0 && isPremium) {
+      recommendedNextAction = {
+        action: "Take Your First Mock Exam",
+        description: "Test your knowledge with a full-length practice exam.",
+        path: "/mock-exams",
+        priority: "medium",
+      };
+    } else if (streak && !streak.last_answer_date) {
+      recommendedNextAction = {
+        action: "Answer Today's Question",
+        description: "Start a daily study streak with the Question of the Day.",
+        path: "/question-of-the-day",
+        priority: "medium",
+      };
     } else {
-      recommendedNextAction = "Take a practice exam to test your readiness";
+      recommendedNextAction = {
+        action: "Take a Practice Exam",
+        description: "Continue building your readiness with another practice session.",
+        path: "/mock-exams",
+        priority: "medium",
+      };
     }
 
     const lockedSections: string[] = [];
-    const unlockedSections: string[] = ["lessons_free"];
+    const unlockedSections: string[] = ["lessons_free", "question_of_the_day", "flashcards_basic"];
 
     if (isPremium) {
-      unlockedSections.push("test_banks", "cat_exams", "mock_exams", "flashcards");
+      unlockedSections.push(
+        "test_banks", "cat_exams", "mock_exams", "flashcards_unlimited",
+        "study_coach", "pass_probability", "adaptive_engine", "reports"
+      );
     } else {
-      lockedSections.push("test_banks_premium", "cat_exams", "unlimited_mock_exams");
+      lockedSections.push(
+        "test_banks_premium", "cat_exams", "unlimited_mock_exams",
+        "study_coach", "pass_probability", "adaptive_engine", "reports"
+      );
     }
+
+    const hasNewGrad = checkEntitlement(user, "newgrad");
+    const hasCertPrep = checkEntitlement(user, "certification_prep");
+    if (hasNewGrad) unlockedSections.push("new_grad_toolkit");
+    else lockedSections.push("new_grad_toolkit");
+    if (hasCertPrep) unlockedSections.push("certification_prep");
+    else lockedSections.push("certification_prep");
+
+    res.set("Cache-Control", "private, max-age=60, stale-while-revalidate=120");
 
     res.json({
       user: {
@@ -1683,17 +1907,18 @@ router.get("/api/v1/dashboard/summary", async (req, res) => {
         role: user.role,
         country: user.country,
         examTrack: user.exam_track || user.examTrack,
+        exam: user.exam,
         isPremium,
+        studyGoal: user.study_goal || user.studyGoal,
+        dailyStudyTime: user.daily_study_time || user.dailyStudyTime,
       },
-      recentActivity: recentActivityResult.rows.map((r: any) => ({
-        eventType: r.event_type,
-        eventData: r.event_data,
-        createdAt: r.created_at,
-      })),
+      isNewUser,
+      recentActivity,
       continueWhereYouLeftOff,
       progress: {
         lessons: {
           completed: completedLessons,
+          inProgress: inProgressLessons,
           accessed: totalLessonsAccessed,
         },
         testBanks: testBankProgressResult.rows.map((r: any) => ({
@@ -1701,11 +1926,20 @@ router.get("/api/v1/dashboard/summary", async (req, res) => {
           collectionName: r.collection_name,
           questionsAttempted: r.questions_attempted,
           questionsCorrect: r.questions_correct,
+          completionRate: (r.questions_attempted || 0) > 0
+            ? Math.round(((r.questions_correct || 0) / r.questions_attempted) * 100)
+            : 0,
         })),
         questionHistory: questionStats,
+        overallStats: {
+          totalQuestionsAnswered,
+          totalQuestionsCorrect,
+          overallAccuracy,
+        },
         mockExams: {
           completed: mockCompleted,
           avgScore: avgMockScore,
+          bestScore: bestMockScore,
           recentScores: mockHistoryResult.rows.map((r: any) => ({
             id: r.id,
             score: r.score,
@@ -1713,16 +1947,56 @@ router.get("/api/v1/dashboard/summary", async (req, res) => {
             completedAt: r.completed_at,
           })),
         },
+        weakCategories: weakCategories.slice(0, 5),
       },
       catExamState: {
-        inProgress: inProgressCatResult.rows.map((r: any) => ({
-          id: r.id,
-          tier: r.tier,
-          questionsAnswered: ((r.cat_state || {}).questionsSeen || []).length,
-          totalQuestions: r.total_questions,
-          isPaused: (r.cat_state || {}).isPaused || false,
-          startedAt: r.started_at,
-        })),
+        inProgress: [
+          ...catSessionsResult.rows.map((r: any) => ({
+            id: r.id,
+            source: "cat_sessions",
+            tier: r.tier,
+            questionsAnswered: Array.isArray(r.question_sequence) ? r.question_sequence.length : (r.correct_count || 0),
+            totalQuestions: r.total_questions || 0,
+            timeSpent: r.time_spent_seconds,
+            isPaused: r.status === "paused",
+            lastActiveAt: r.last_active_at,
+            startedAt: r.start_time,
+          })),
+          ...inProgressCatResult.rows.map((r: any) => ({
+            id: r.id,
+            source: "mock_exam_attempts",
+            tier: r.tier,
+            questionsAnswered: ((r.cat_state || {}).questionsSeen || []).length,
+            totalQuestions: r.total_questions,
+            isPaused: (r.cat_state || {}).isPaused || false,
+            startedAt: r.started_at,
+          })),
+        ],
+      },
+      mockExamState: {
+        inProgress: [
+          ...mockSessionProgressResult.rows.map((r: any) => ({
+            attemptId: r.attempt_id,
+            tier: r.tier,
+            totalQuestions: r.total_questions,
+            examType: r.exam_type,
+            currentQuestionIndex: r.current_question_index,
+            answeredCount: r.answered_count,
+            timeRemaining: r.time_remaining,
+            lastActiveAt: r.last_active_at,
+            source: "session_progress",
+          })),
+          ...inProgressMockResult.rows
+            .filter((r: any) => !mockSessionProgressResult.rows.some((sp: any) => sp.attempt_id === r.id))
+            .map((r: any) => ({
+              attemptId: r.id,
+              tier: r.tier,
+              totalQuestions: r.total_questions,
+              examType: r.exam_type,
+              startedAt: r.started_at,
+              source: "mock_exam_attempts",
+            })),
+        ],
       },
       streak: streak ? {
         currentStreak: streak.current_streak,
@@ -1730,22 +2004,34 @@ router.get("/api/v1/dashboard/summary", async (req, res) => {
         totalAnswered: streak.total_answered,
         totalCorrect: streak.total_correct,
         lastAnswerDate: streak.last_answer_date,
-      } : null,
+      } : { currentStreak: 0, longestStreak: 0, totalAnswered: 0, totalCorrect: 0, lastAnswerDate: null },
       bookmarks: bookmarksResult.rows.map((r: any) => ({
         lessonId: r.lesson_id,
         title: r.title,
         slug: r.slug,
       })),
       recommendedNextAction,
+      resumeState: resumeState ? {
+        lastCatSessionId: resumeState.last_cat_session_id,
+        lastMockSessionId: resumeState.last_mock_session_id,
+        lastTestBankId: resumeState.last_test_bank_id,
+        lastLessonId: resumeState.last_lesson_id,
+      } : null,
       sections: {
         locked: lockedSections,
         unlocked: unlockedSections,
       },
+      generatedAt: new Date().toISOString(),
     });
   } catch (e: any) {
     console.error("[Dashboard] Summary error:", e.message);
     res.status(500).json({ error: "Failed to generate dashboard summary" });
   }
+});
+
+router.get("/api/dashboard/summary", (req, res, next) => {
+  req.url = "/api/v1/dashboard/summary";
+  router.handle(req, res, next);
 });
 
 const analyticsEventSchema = z.object({

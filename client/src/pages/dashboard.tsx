@@ -62,6 +62,7 @@ const WIDGET_ICONS: Record<string, any> = {
   exam_readiness: Gauge,
   weak_topics: AlertTriangle,
   bookmarks_preview: Bookmark,
+  recent_activity: Activity,
   performance_overview: BarChart3,
   post_exam_new_grad: PartyPopper,
   post_exam_recovery: Target,
@@ -92,6 +93,7 @@ const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
   exam_readiness: ExamReadinessWidget,
   weak_topics: WeakTopicsWidget,
   bookmarks_preview: BookmarksPreviewWidget,
+  recent_activity: RecentActivityWidget,
   performance_overview: PerformanceOverviewWidget,
   post_exam_new_grad: PostExamNewGradWidget,
   post_exam_recovery: PostExamRecoveryWidget,
@@ -122,6 +124,7 @@ const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
   exam_readiness: { label: "dashboard.widget.examReadiness", desc: "dashboard.widget.examReadinessDesc" },
   weak_topics: { label: "dashboard.widget.weakTopics", desc: "dashboard.widget.weakTopicsDesc" },
   bookmarks_preview: { label: "dashboard.widget.bookmarks", desc: "dashboard.widget.bookmarksDesc" },
+  recent_activity: { label: "dashboard.widget.recentActivity", desc: "dashboard.widget.recentActivityDesc" },
   performance_overview: { label: "dashboard.widget.performanceOverview", desc: "dashboard.widget.performanceOverviewDesc" },
   post_exam_new_grad: { label: "dashboard.widget.newGradTransition", desc: "dashboard.widget.newGradTransitionDesc" },
   post_exam_recovery: { label: "dashboard.widget.recoveryPlan", desc: "dashboard.widget.recoveryPlanDesc" },
@@ -160,7 +163,8 @@ const DEFAULT_WIDGETS: WidgetConfig[] = [
   { widgetType: "review_due", position: 13, visible: true },
   { widgetType: "topic_mastery", position: 14, visible: true },
   { widgetType: "bookmarks_preview", position: 15, visible: true },
-  { widgetType: "performance_overview", position: 16, visible: true },
+  { widgetType: "recent_activity", position: 16, visible: true },
+  { widgetType: "performance_overview", position: 17, visible: true },
 ];
 
 function useDashboardSummary(userId: string | undefined) {
@@ -169,7 +173,7 @@ function useDashboardSummary(userId: string | undefined) {
 
   useEffect(() => {
     if (!userId) return;
-    fetch("/api/v1/dashboard/summary", {
+    fetch("/api/dashboard/summary", {
       headers: { "x-user-id": userId },
       credentials: "include",
     })
@@ -668,11 +672,18 @@ function WelcomeWidget({ user }: { user: any }) {
 }
 
 function ContinueWhereYouLeftOffWidget({ user }: { user: any }) {
-  const [sessions, setSessions] = useState<any[]>([]);
+  const summary = useContext(DashboardSummaryContext);
+  const [fallbackSessions, setFallbackSessions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [, navigate] = useLocation();
 
+  const summaryItems = summary?.continueWhereYouLeftOff;
+
   useEffect(() => {
+    if (summaryItems && summaryItems.length > 0) {
+      setLoading(false);
+      return;
+    }
     if (!user?.id) { setLoading(false); return; }
     const headers: Record<string, string> = {};
     try {
@@ -685,10 +696,10 @@ function ContinueWhereYouLeftOffWidget({ user }: { user: any }) {
     } catch {}
     fetch("/api/session-checkpoint/active", { headers })
       .then((r) => r.ok ? r.json() : { sessions: [] })
-      .then((data) => setSessions(data.sessions || []))
+      .then((data) => setFallbackSessions(data.sessions || []))
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, [user?.id]);
+  }, [user?.id, summaryItems]);
 
   if (loading) {
     return (
@@ -698,7 +709,69 @@ function ContinueWhereYouLeftOffWidget({ user }: { user: any }) {
     );
   }
 
-  if (sessions.length === 0) return null;
+  if (summaryItems && summaryItems.length > 0) {
+    const typeLabel = (type: string) => {
+      if (type === "cat_session" || type === "cat_exam") return "CAT Exam";
+      if (type === "mock_exam") return "Mock Exam";
+      if (type === "lesson") return "Lesson";
+      if (type === "test_bank") return "Test Bank";
+      return type.replace(/[_-]/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
+    };
+
+    const formatTimeAgo = (dateStr: string) => {
+      if (!dateStr) return "";
+      const diff = Date.now() - new Date(dateStr).getTime();
+      const mins = Math.floor(diff / 60000);
+      if (mins < 60) return `${mins}m ago`;
+      const hrs = Math.floor(mins / 60);
+      if (hrs < 24) return `${hrs}h ago`;
+      const days = Math.floor(hrs / 24);
+      return `${days}d ago`;
+    };
+
+    return (
+      <div data-testid="widget-content-continue">
+        <div className="space-y-2">
+          {summaryItems.slice(0, 4).map((item: any, i: number) => (
+            <button
+              key={`${item.type}-${item.id}-${i}`}
+              className="w-full flex items-center gap-3 p-3 rounded-lg border border-primary/20 bg-primary/[0.03] hover:bg-primary/[0.07] transition-all text-left group"
+              onClick={() => navigate(item.resumePath || "/dashboard")}
+              data-testid={`link-resume-session-${i}`}
+            >
+              <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/15 transition-colors">
+                <RefreshCw className="h-4 w-4 text-primary" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium truncate" data-testid={`text-session-type-${i}`}>{typeLabel(item.type)}</p>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
+                  {item.progress && <span data-testid={`text-session-progress-${i}`}>{item.progress}</span>}
+                  {item.isPaused && <span className="text-amber-600 font-medium">Paused</span>}
+                  {item.lastAccessed && <span data-testid={`text-session-ago-${i}`}>{formatTimeAgo(item.lastAccessed)}</span>}
+                </div>
+              </div>
+              <ArrowRight className="h-4 w-4 text-primary flex-shrink-0 opacity-50 group-hover:opacity-100 transition-opacity" />
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (fallbackSessions.length === 0) {
+    if (summary?.isNewUser) {
+      return (
+        <div className="text-center py-4" data-testid="widget-content-continue-empty">
+          <PlayCircle className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
+          <p className="text-sm text-muted-foreground mb-2">No sessions in progress yet</p>
+          <Button size="sm" variant="link" onClick={() => navigate("/lessons")} data-testid="button-start-first-session">
+            Start your first lesson <ArrowRight className="h-3 w-3 ml-1" />
+          </Button>
+        </div>
+      );
+    }
+    return null;
+  }
 
   const sessionTypeLabel = (type: string) => {
     if (type === "qbank-exam") return "QBank Exam";
@@ -734,7 +807,7 @@ function ContinueWhereYouLeftOffWidget({ user }: { user: any }) {
   return (
     <div data-testid="widget-content-continue">
       <div className="space-y-2">
-        {sessions.slice(0, 3).map((s, i) => (
+        {fallbackSessions.slice(0, 3).map((s, i) => (
           <button
             key={i}
             className="w-full flex items-center gap-3 p-3 rounded-lg border border-primary/20 bg-primary/[0.03] hover:bg-primary/[0.07] transition-all text-left group"
@@ -803,11 +876,16 @@ function ProgressWidget({ user }: { user: any }) {
   const { t } = useI18n();
   const summary = useContext(DashboardSummaryContext);
 
-  const completed = progress.filter((p: any) => p.completed).length;
-  const total = progress.length || 1;
-  const pct = Math.round((completed / total) * 100);
+  const summaryLessons = summary?.progress?.lessons;
+  const summaryOverall = summary?.progress?.overallStats;
 
-  if (progress.length === 0) {
+  const completed = summaryLessons?.completed ?? progress.filter((p: any) => p.completed).length;
+  const total = summaryLessons?.accessed ?? progress.length ?? 0;
+  const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+  const hasNoData = completed === 0 && total === 0 && progress.length === 0;
+
+  if (hasNoData) {
     return (
       <div className="text-center py-4" data-testid="widget-content-progress-empty">
         <TrendingUp className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
@@ -845,13 +923,18 @@ function ProgressWidget({ user }: { user: any }) {
         <div>
           <p className="text-2xl font-bold">{completed}</p>
           <p className="text-xs text-muted-foreground">{t("dashboard.lessonsCompleted")}</p>
+          {summaryOverall && summaryOverall.totalQuestionsAnswered > 0 && (
+            <p className="text-xs text-muted-foreground mt-0.5" data-testid="text-overall-accuracy">
+              {summaryOverall.overallAccuracy}% accuracy ({summaryOverall.totalQuestionsAnswered} Q)
+            </p>
+          )}
         </div>
       </div>
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
         <div className="flex-1 h-1.5 rounded-full bg-muted overflow-hidden">
           <div className="h-full rounded-full bg-primary transition-all duration-700" style={{ width: `${pct}%` }} />
         </div>
-        <span>{total - completed} {t("dashboard.lessonsLeft")}</span>
+        <span>{Math.max(0, total - completed)} {t("dashboard.lessonsLeft")}</span>
       </div>
     </div>
   );
@@ -1175,6 +1258,7 @@ function ClinicalToolsWidget({ user }: { user: any }) {
 function RecommendedWidget({ user }: { user: any }) {
   const [, navigate] = useLocation();
   const { t } = useI18n();
+  const summary = useContext(DashboardSummaryContext);
   const [serverRecs, setServerRecs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -1196,6 +1280,8 @@ function RecommendedWidget({ user }: { user: any }) {
   }
 
   if (serverRecs.length === 0) {
+    const summaryRec = summary?.recommendedNextAction;
+
     const fallbacks = [
       { text: t("dashboard.recQotd"), action: t("dashboard.recTryQotd"), path: "/question-of-the-day", icon: Target },
       { text: t("dashboard.recStartLesson"), action: t("dashboard.recBeginLearning"), path: "/lessons", icon: BookOpen },
@@ -1204,6 +1290,22 @@ function RecommendedWidget({ user }: { user: any }) {
 
     return (
       <div data-testid="widget-content-recommended">
+        {summaryRec && summaryRec.action && (
+          <button
+            className="w-full flex items-start gap-3 p-3.5 mb-3 rounded-lg border-2 border-primary/20 bg-primary/[0.03] hover:bg-primary/[0.07] transition-all text-left group"
+            onClick={() => navigate(summaryRec.path || "/dashboard")}
+            data-testid="link-recommended-action"
+          >
+            <div className="p-2 rounded-lg bg-primary/10 flex-shrink-0 group-hover:bg-primary/15 transition-colors">
+              <Zap className="h-4 w-4 text-primary" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold leading-snug mb-0.5">{summaryRec.action}</p>
+              <p className="text-xs text-muted-foreground leading-relaxed">{summaryRec.description}</p>
+            </div>
+            <ArrowRight className="h-4 w-4 text-primary flex-shrink-0 mt-1 opacity-50 group-hover:opacity-100 transition-opacity" />
+          </button>
+        )}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {fallbacks.map((rec, i) => {
             const Icon = rec.icon;
@@ -1981,19 +2083,86 @@ function BookmarksPreviewWidget({ user }: { user: any }) {
   );
 }
 
+function RecentActivityWidget({ user }: { user: any }) {
+  const summary = useContext(DashboardSummaryContext);
+  const recentActivity = summary?.recentActivity || [];
+
+  if (recentActivity.length === 0) {
+    return (
+      <div data-testid="widget-content-recent-activity" className="text-center py-4 text-muted-foreground text-sm">
+        No recent activity yet. Start studying to see your activity here.
+      </div>
+    );
+  }
+
+  const formatEventType = (type: string) => {
+    return type.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+  };
+
+  const formatTimeAgo = (dateStr: string) => {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return "Just now";
+    if (mins < 60) return `${mins}m ago`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
+  };
+
+  const platformIcon = (platform?: string) => {
+    if (platform === "ios" || platform === "android") return "📱";
+    return "💻";
+  };
+
+  return (
+    <div data-testid="widget-content-recent-activity" className="space-y-2 max-h-[280px] overflow-y-auto">
+      {recentActivity.slice(0, 10).map((item: any, i: number) => (
+        <div
+          key={i}
+          className="flex items-start gap-2.5 p-2 rounded-lg hover:bg-muted/50 transition-colors"
+          data-testid={`activity-item-${i}`}
+        >
+          <span className="text-sm flex-shrink-0 mt-0.5">{platformIcon(item.platform)}</span>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-medium truncate">{formatEventType(item.eventType)}</p>
+            {item.entityType && (
+              <p className="text-xs text-muted-foreground truncate">{item.entityType}{item.entityId ? `: ${item.entityId}` : ""}</p>
+            )}
+          </div>
+          <span className="text-[11px] text-muted-foreground flex-shrink-0 whitespace-nowrap">
+            {formatTimeAgo(item.createdAt)}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function PerformanceOverviewWidget({ user }: { user: any }) {
+  const summary = useContext(DashboardSummaryContext);
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [, navigate] = useLocation();
 
   useEffect(() => {
+    if (summary?.progress?.overallStats) {
+      setStats({
+        totalQuestions: summary.progress.overallStats.totalQuestionsAnswered,
+        overallAccuracy: summary.progress.overallStats.overallAccuracy,
+        mockExamsCompleted: summary.progress.mockExams?.completed || 0,
+        studyTimeHours: 0,
+      });
+      setLoading(false);
+      return;
+    }
     if (!user?.id) { setLoading(false); return; }
     fetch(`/api/performance-analytics?period=30d`, { headers: { "x-user-id": user.id } })
       .then((r) => r.ok ? r.json() : null)
       .then(setStats)
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, [user?.id]);
+  }, [user?.id, summary]);
 
   if (loading) {
     return (
@@ -2037,9 +2206,16 @@ function PerformanceOverviewWidget({ user }: { user: any }) {
 
 function QotdTeaserWidget({ user }: { user: any }) {
   const [, navigate] = useLocation();
+  const summary = useContext(DashboardSummaryContext);
   const [qotd, setQotd] = useState<any>(null);
   const [streak, setStreak] = useState<any>(null);
   const [answered, setAnswered] = useState(false);
+
+  useEffect(() => {
+    if (summary?.streak) {
+      setStreak(summary.streak);
+    }
+  }, [summary]);
 
   useEffect(() => {
     fetch("/api/qotd/today")
@@ -2048,17 +2224,19 @@ function QotdTeaserWidget({ user }: { user: any }) {
       .catch(() => {});
 
     if (user?.id) {
-      fetch("/api/qotd/streak", { headers: { Authorization: `Bearer ${user.id}` } })
-        .then((r) => r.ok ? r.json() : null)
-        .then((data) => { if (data) setStreak(data); })
-        .catch(() => {});
+      if (!summary?.streak) {
+        fetch("/api/qotd/streak", { headers: { Authorization: `Bearer ${user.id}` } })
+          .then((r) => r.ok ? r.json() : null)
+          .then((data) => { if (data) setStreak(data); })
+          .catch(() => {});
+      }
 
       fetch("/api/qotd/my-answer", { headers: { Authorization: `Bearer ${user.id}` } })
         .then((r) => r.ok ? r.json() : null)
         .then((data) => { if (data?.answer) setAnswered(true); })
         .catch(() => {});
     }
-  }, [user?.id]);
+  }, [user?.id, summary]);
 
   return (
     <div data-testid="widget-content-qotd">
