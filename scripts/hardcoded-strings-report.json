@@ -1,14 +1,62 @@
 [
   {
     "file": "/home/runner/workspace/client/src/App.tsx",
-    "line": 741,
+    "line": 813,
     "text": "Loading...",
     "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/App.tsx",
+    "line": 902,
+    "text": "case simulation",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/App.tsx",
+    "line": 1367,
+    "text": "diagnostic assessment",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/App.tsx",
+    "line": 1373,
+    "text": "medication mastery",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/App.tsx",
+    "line": 1435,
+    "text": "custom practice",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/App.tsx",
+    "line": 1436,
+    "text": "performance analytics",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/App.tsx",
+    "line": 1444,
+    "text": "study plan",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/App.tsx",
+    "line": 1524,
+    "text": "offline study",
+    "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/allied/allied-navigation.tsx",
     "line": 179,
     "text": "NurseNest",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/allied/allied-routes.tsx",
+    "line": 236,
+    "text": "Loading…",
     "type": "jsx-text"
   },
   {
@@ -1560,21 +1608,345 @@
     "type": "string-prop"
   },
   {
+    "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
+    "line": 182,
+    "text": "Rationale",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
+    "line": 269,
+    "text": "No Valid Questions",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
+    "line": 270,
+    "text": "No questions could be loaded for this exam.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
+    "line": 581,
+    "text": "Subscriber Feature",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
+    "line": 598,
+    "text": "Printable Exam Backup",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
+    "line": 652,
+    "text": "Answer Key",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
+    "line": 667,
+    "text": "Rationales",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
+    "line": 764,
+    "text": "Subscriber Feature",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
+    "line": 829,
+    "text": "Backup Practice Set",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
+    "line": 914,
+    "text": "Original Algorithm",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
+    "line": 920,
+    "text": "Difficulty Target",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
+    "line": 926,
+    "text": "Category",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
+    "line": 943,
+    "text": "No valid questions could be assembled for the backup.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
+    "line": 1024,
+    "text": "Static practice set — not an adaptive score",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
+    "line": 1127,
+    "text": "Progress",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/exam-fallbacks.tsx",
+    "line": 1131,
+    "text": "Time Spent",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/offline-status-banner.tsx",
+    "line": 71,
+    "text": "You're offline",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/offline-status-banner.tsx",
+    "line": 90,
+    "text": "Retry connection",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/offline-status-banner.tsx",
+    "line": 98,
+    "text": "Dismiss",
+    "type": "string-prop"
+  },
+  {
     "file": "/home/runner/workspace/client/src/components/platform-error-boundary.tsx",
-    "line": 155,
+    "line": 194,
     "text": "Sending report...",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/platform-error-boundary.tsx",
-    "line": 157,
+    "line": 196,
     "text": "Report this issue",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/components/platform-error-boundary.tsx",
-    "line": 168,
+    "line": 207,
     "text": "Still having trouble?",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/protected-access-recovery.tsx",
+    "line": 403,
+    "text": "Still having trouble?",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/protected-route.tsx",
+    "line": 238,
+    "text": "Sending report...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/protected-route.tsx",
+    "line": 253,
+    "text": "Still having trouble?",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/protected-route.tsx",
+    "line": 255,
+    "text": "Try refreshing the full page (Ctrl+Shift+R)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/protected-route.tsx",
+    "line": 256,
+    "text": "Clear your browser cache and try again",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/protected-route.tsx",
+    "line": 257,
+    "text": "Try using a different browser or device",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 16,
+    "text": "Safe Mode — Simplified View",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 49,
+    "text": "Show Answer",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 60,
+    "text": "Questions could not be loaded in safe mode.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 61,
+    "text": "Please try again later or contact support.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 77,
+    "text": "Safe Mode — Basic Flashcards",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 99,
+    "text": "Flip Card",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 117,
+    "text": "Flashcards could not be loaded in safe mode.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 133,
+    "text": "Safe Mode — Static Lesson View",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 183,
+    "text": "Lesson content could not be loaded in safe mode.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 199,
+    "text": "Downloads Temporarily Unavailable",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 215,
+    "text": "Downloads are temporarily unavailable",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 216,
+    "text": "Please try again in a few minutes. If the issue persists, contact support.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 267,
+    "text": "Downloadable Flashcard Backup",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 287,
+    "text": "Preparing...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 289,
+    "text": "Downloaded",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 291,
+    "text": "Download Flashcards",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 305,
+    "text": "Show Answer",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 411,
+    "text": "Lesson Backup Download",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 431,
+    "text": "Preparing...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 433,
+    "text": "Download Lesson",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 591,
+    "text": "Download Issue",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 608,
+    "text": "Primary Download",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 615,
+    "text": "Mirrored Storage",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 622,
+    "text": "Manual Fulfillment",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 682,
+    "text": "Waiting",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 760,
+    "text": "Requesting...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 762,
+    "text": "Request Manual Delivery",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
+    "line": 778,
+    "text": "Your subscription and purchases are not affected.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/trust-error-boundary.tsx",
+    "line": 168,
+    "text": "Incident ID:",
     "type": "jsx-text"
   },
   {
@@ -1645,45 +2017,129 @@
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-autopilot.tsx",
-    "line": 747,
+    "line": 754,
     "text": "e.g., Free Cardiac Practice Questions",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-autopilot.tsx",
-    "line": 856,
+    "line": 864,
     "text": "e.g., Fluid and Electrolyte Imbalances",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-autopilot.tsx",
-    "line": 1009,
+    "line": 1018,
     "text": "e.g., Heart Anatomy",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-autopilot.tsx",
-    "line": 1089,
+    "line": 1099,
     "text": "e.g., 10 Must-Know Cardiac Facts",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-autopilot.tsx",
-    "line": 1268,
+    "line": 1280,
     "text": "e.g., Cardiac Nursing Fundamentals",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-autopilot.tsx",
-    "line": 1376,
+    "line": 1389,
     "text": "e.g., Your study plan is ready",
     "type": "string-prop"
   },
   {
+    "file": "/home/runner/workspace/client/src/pages/admin-autopilot.tsx",
+    "line": 1955,
+    "text": "Loading validation failures...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-autopilot.tsx",
+    "line": 1975,
+    "text": "No language validation failures found.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-autopilot.tsx",
+    "line": 1976,
+    "text": "All generated content passed language validation checks.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-autopilot.tsx",
+    "line": 2002,
+    "text": "Validation Issues:",
+    "type": "jsx-text"
+  },
+  {
     "file": "/home/runner/workspace/client/src/pages/admin-business-health.tsx",
-    "line": 433,
+    "line": 443,
     "text": "e.g. Replit, Namecheap...",
     "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-business-health.tsx",
+    "line": 799,
+    "text": "Active Grants",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-business-health.tsx",
+    "line": 803,
+    "text": "Total Grants",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-business-health.tsx",
+    "line": 809,
+    "text": "Auto-Granted",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-business-health.tsx",
+    "line": 820,
+    "text": "No active provisional access grants",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-business-health.tsx",
+    "line": 821,
+    "text": "Users with billing issues will appear here automatically",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-business-health.tsx",
+    "line": 828,
+    "text": "User",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-business-health.tsx",
+    "line": 829,
+    "text": "Reason",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-business-health.tsx",
+    "line": 830,
+    "text": "Granted By",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-business-health.tsx",
+    "line": 831,
+    "text": "Expires",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-business-health.tsx",
+    "line": 832,
+    "text": "Status",
+    "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-case-studies.tsx",
@@ -1758,6 +2214,96 @@
     "type": "string-prop"
   },
   {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-health.tsx",
+    "line": 177,
+    "text": "Reason for override (required)...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-health.tsx",
+    "line": 252,
+    "text": "Total Requests",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-health.tsx",
+    "line": 256,
+    "text": "Subscriber Requests",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-health.tsx",
+    "line": 260,
+    "text": "Prioritized",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-health.tsx",
+    "line": 264,
+    "text": "Shed (Load)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-health.tsx",
+    "line": 271,
+    "text": "Current Memory Load",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-health.tsx",
+    "line": 290,
+    "text": "Load-Shedding Thresholds",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-health.tsx",
+    "line": 304,
+    "text": "Shed by Tier",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-health.tsx",
+    "line": 317,
+    "text": "Recent Shed Events",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-health.tsx",
+    "line": 347,
+    "text": "All Types",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-health.tsx",
+    "line": 348,
+    "text": "Exam Questions",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-health.tsx",
+    "line": 349,
+    "text": "Flashcards",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-health.tsx",
+    "line": 350,
+    "text": "Content Items",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-health.tsx",
+    "line": 351,
+    "text": "Lessons",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-health.tsx",
+    "line": 385,
+    "text": "Loading scores...",
+    "type": "jsx-text"
+  },
+  {
     "file": "/home/runner/workspace/client/src/pages/admin-content-metrics.tsx",
     "line": 78,
     "text": "e.g. Hosting",
@@ -1768,6 +2314,558 @@
     "line": 82,
     "text": "e.g. Replit Pro",
     "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 331,
+    "text": "Total Rate Limit Hits",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 347,
+    "text": "Active Blocks",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 361,
+    "text": "Offending IPs (24h)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 374,
+    "text": "Offending Users (24h)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 392,
+    "text": "Category",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 393,
+    "text": "Total Hits",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 394,
+    "text": "Last 24h",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 395,
+    "text": "Last 7d",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 410,
+    "text": "No rate limit events recorded",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 471,
+    "text": "No offending IPs in this period",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 526,
+    "text": "No offending users in the last 24h",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 544,
+    "text": "User",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 546,
+    "text": "Endpoint",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 547,
+    "text": "Event",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 548,
+    "text": "Count",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 549,
+    "text": "Time",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-content-security.tsx",
+    "line": 569,
+    "text": "No escalation events recorded",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 209,
+    "text": "Manage schema migrations, rollbacks, and automated cleanup",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 236,
+    "text": "Registered",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 242,
+    "text": "Applied",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 248,
+    "text": "Pending",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 254,
+    "text": "Last Applied",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 275,
+    "text": "Applied",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 277,
+    "text": "Pending",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 306,
+    "text": "No migrations registered",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 322,
+    "text": "Direction:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 325,
+    "text": "Validation:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 326,
+    "text": "Passed",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 327,
+    "text": "Failed",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 331,
+    "text": "Breaking Change:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 332,
+    "text": "Yes",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 337,
+    "text": "Affected Tables:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 348,
+    "text": "Conflicts:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 374,
+    "text": "Version",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 375,
+    "text": "Name",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 376,
+    "text": "Direction",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 377,
+    "text": "Status",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 378,
+    "text": "Dry Run",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 379,
+    "text": "Duration",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 380,
+    "text": "When",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 400,
+    "text": "No audit log entries",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 459,
+    "text": "No cleanup reports yet. Run a cleanup to get started.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 484,
+    "text": "Table",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 485,
+    "text": "Current Version",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 486,
+    "text": "Records by Version",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 487,
+    "text": "Status",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 506,
+    "text": "No records",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 511,
+    "text": "Current",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 513,
+    "text": "Mixed",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 522,
+    "text": "No schema version data available",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 554,
+    "text": "Scanned:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 555,
+    "text": "Cleaned:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 556,
+    "text": "Flagged:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-data-migration.tsx",
+    "line": 581,
+    "text": "No details available",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 287,
+    "text": "Dismiss",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 382,
+    "text": "Duration:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 385,
+    "text": "Core Value:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 386,
+    "text": "Maintained",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 386,
+    "text": "Lost",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 391,
+    "text": "Fallbacks:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 399,
+    "text": "Breakers Tripped:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 422,
+    "text": "Test Summary",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 425,
+    "text": "Total",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 429,
+    "text": "Passed",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 433,
+    "text": "Failed",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 437,
+    "text": "Score",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 494,
+    "text": "Last Full Backup:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 495,
+    "text": "Status:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 500,
+    "text": "Total Backups:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 503,
+    "text": "No backups found",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 514,
+    "text": "Valid:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 516,
+    "text": "Valid",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 518,
+    "text": "Issues Found",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 538,
+    "text": "No verification data available",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 549,
+    "text": "Would Succeed:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 551,
+    "text": "Yes",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 556,
+    "text": "Mode:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 558,
+    "text": "Steps",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 559,
+    "text": "Pass",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 560,
+    "text": "Fail",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 561,
+    "text": "Warn",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 582,
+    "text": "Environment Variables:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 583,
+    "text": "Required with values:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 584,
+    "text": "Asset Types:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 585,
+    "text": "Critical Files:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 587,
+    "text": "Stripe Products:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 610,
+    "text": "Date",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 611,
+    "text": "Status",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 612,
+    "text": "Scenarios",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 613,
+    "text": "Pass/Fail",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 614,
+    "text": "Score",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-disaster-recovery.tsx",
+    "line": 644,
+    "text": "No chaos test history. Run chaos tests to see results here.",
+    "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-flashcard-studio.tsx",
@@ -1806,6 +2904,522 @@
     "type": "string-prop"
   },
   {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-detail.tsx",
+    "line": 255,
+    "text": "Timing",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-detail.tsx",
+    "line": 266,
+    "text": "Impact",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-detail.tsx",
+    "line": 278,
+    "text": "Details",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-detail.tsx",
+    "line": 286,
+    "text": "User:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-detail.tsx",
+    "line": 308,
+    "text": "Impacted Content / Product IDs",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-detail.tsx",
+    "line": 381,
+    "text": "Recommended Actions",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-detail.tsx",
+    "line": 419,
+    "text": "Take Action",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-detail.tsx",
+    "line": 425,
+    "text": "Select action",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-detail.tsx",
+    "line": 428,
+    "text": "Investigated",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-detail.tsx",
+    "line": 429,
+    "text": "Escalated",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-detail.tsx",
+    "line": 430,
+    "text": "Mitigated",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-detail.tsx",
+    "line": 431,
+    "text": "Root Cause Found",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-detail.tsx",
+    "line": 432,
+    "text": "Monitoring",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-detail.tsx",
+    "line": 433,
+    "text": "Added Note",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-detail.tsx",
+    "line": 446,
+    "text": "Notes (optional)...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-detail.tsx",
+    "line": 459,
+    "text": "Request Parameters",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 86,
+    "text": "Admin access required",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 219,
+    "text": "Incidents (24h)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 225,
+    "text": "Critical",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 231,
+    "text": "Warnings",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 237,
+    "text": "Provisional Access",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 244,
+    "text": "Failing Routes",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 260,
+    "text": "Incident Types",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 276,
+    "text": "Active Session Checkpoints",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 294,
+    "text": "Recent Incidents",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 297,
+    "text": "No incidents in the last 24 hours",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 312,
+    "text": "Resolved",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 341,
+    "text": "Provisional Access Grants",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 344,
+    "text": "No active provisional access grants",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 374,
+    "text": "Entitlement Mismatches",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 377,
+    "text": "No entitlement mismatches found",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 389,
+    "text": "Stripe Sub",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 412,
+    "text": "Grant Temporary Access",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 416,
+    "text": "User ID",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 417,
+    "text": "User ID",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 420,
+    "text": "Reason",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 421,
+    "text": "Billing sync delay",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 424,
+    "text": "Duration (hours)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 436,
+    "text": "Extend Subscription",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 440,
+    "text": "User ID",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 441,
+    "text": "User ID",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 444,
+    "text": "Days to Extend",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 456,
+    "text": "Replay Billing Sync",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 459,
+    "text": "User ID",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incident-response.tsx",
+    "line": 460,
+    "text": "User ID",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 257,
+    "text": "Loading incident...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 332,
+    "text": "Resolution notes (optional)...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 355,
+    "text": "Occurrences",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 361,
+    "text": "Affected Users",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 367,
+    "text": "Duration",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 373,
+    "text": "First Seen",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 379,
+    "text": "Last Seen",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 387,
+    "text": "Impact & Actions",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 392,
+    "text": "Impacted Routes",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 400,
+    "text": "Impacted Features",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 408,
+    "text": "Impacted Content IDs",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 416,
+    "text": "Fallback Modes Triggered",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 424,
+    "text": "Recommended Actions",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 521,
+    "text": "Add a note...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 564,
+    "text": "Metadata",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 647,
+    "text": "Production monitoring, incident management & root-cause correlation",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 661,
+    "text": "Critical",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 667,
+    "text": "Warning",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 673,
+    "text": "Info",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 679,
+    "text": "Active",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 685,
+    "text": "Acknowledged",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 691,
+    "text": "Resolved",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 697,
+    "text": "Affected Users",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 711,
+    "text": "Incident title",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 717,
+    "text": "Describe the incident...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 730,
+    "text": "Critical",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 731,
+    "text": "Warning",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 732,
+    "text": "Info",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 761,
+    "text": "Search incidents...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 774,
+    "text": "All Severities",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 775,
+    "text": "Critical",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 776,
+    "text": "Warning",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 777,
+    "text": "Info",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 785,
+    "text": "All Categories",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 796,
+    "text": "All Statuses",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 797,
+    "text": "Active",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 798,
+    "text": "Acknowledged",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 799,
+    "text": "Resolved",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 807,
+    "text": "Loading incidents...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 814,
+    "text": "No incidents found",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-incidents.tsx",
+    "line": 815,
+    "text": "All systems operating normally",
+    "type": "jsx-text"
+  },
+  {
     "file": "/home/runner/workspace/client/src/pages/admin-institutions.tsx",
     "line": 403,
     "text": "e.g. Humber College",
@@ -1816,6 +3430,186 @@
     "line": 442,
     "text": "e.g. humber.ca, student.humber.ca",
     "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 64,
+    "text": "No data available",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 83,
+    "text": "Health Score",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 83,
+    "text": "Last 24 hours",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 84,
+    "text": "Total Events",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 85,
+    "text": "Validation Failures",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 86,
+    "text": "Language Mismatches",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 90,
+    "text": "Fallback Activations",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 91,
+    "text": "Retries",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 92,
+    "text": "Scanner Violations",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 93,
+    "text": "Isolation Enforced",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 131,
+    "text": "Top Content Types",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 149,
+    "text": "Top Languages",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 213,
+    "text": "Content Type:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 214,
+    "text": "Content ID:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 215,
+    "text": "Source:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 216,
+    "text": "Detail:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 253,
+    "text": "Language",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 254,
+    "text": "Total",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 255,
+    "text": "Auto",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 256,
+    "text": "Reviewed",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 257,
+    "text": "Failed",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 258,
+    "text": "Quality",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 320,
+    "text": "Language",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 321,
+    "text": "Missing Keys",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 322,
+    "text": "Last Seen",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 398,
+    "text": "Last 1 hour",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 399,
+    "text": "Last 6 hours",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 400,
+    "text": "Last 24 hours",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 401,
+    "text": "Last 3 days",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-language-health.tsx",
+    "line": 402,
+    "text": "Last 7 days",
+    "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-medical-imaging.tsx",
@@ -1872,6 +3666,714 @@
     "type": "string-prop"
   },
   {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 150,
+    "text": "Safe Mode (Emergency Mode)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 151,
+    "text": "Restricts platform to read-only core features",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 173,
+    "text": "Minimal Core Mode",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 174,
+    "text": "Disables non-essential features to reduce load",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 195,
+    "text": "Replay Entitlement Sync",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 196,
+    "text": "Clear entitlement cache and force re-sync",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 215,
+    "text": "Run Health Check",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 216,
+    "text": "Manually trigger a full health check",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 233,
+    "text": "No health data available.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 257,
+    "text": "No feature flags configured.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 295,
+    "text": "No circuit breakers configured.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 357,
+    "text": "No kill switches configured.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 365,
+    "text": "No recent incidents (24h).",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 408,
+    "text": "No exam health data.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 427,
+    "text": "Quarantined questions:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 433,
+    "text": "No backup data available.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 450,
+    "text": "No recent events.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 539,
+    "text": "Failed to Load Operations Status",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 577,
+    "text": "Consolidated platform health & controls",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 614,
+    "text": "Exam Health",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-dashboard.tsx",
+    "line": 618,
+    "text": "Backup Status",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-emergency.tsx",
+    "line": 99,
+    "text": "Connection Failed",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-emergency.tsx",
+    "line": 181,
+    "text": "Emergency Actions",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-emergency.tsx",
+    "line": 252,
+    "text": "Open Circuit Breakers",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-emergency.tsx",
+    "line": 277,
+    "text": "Active Kill Switches",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-emergency.tsx",
+    "line": 301,
+    "text": "Feature Flags",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-emergency.tsx",
+    "line": 337,
+    "text": "All feature flags healthy",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-emergency.tsx",
+    "line": 342,
+    "text": "Deployment Info",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-emergency.tsx",
+    "line": 346,
+    "text": "Version",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-emergency.tsx",
+    "line": 350,
+    "text": "Uptime",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-emergency.tsx",
+    "line": 354,
+    "text": "Subscribers",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-emergency.tsx",
+    "line": 358,
+    "text": "Entitlement Issues",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-emergency.tsx",
+    "line": 362,
+    "text": "Last Updated",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 232,
+    "text": "Loading incident details...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 244,
+    "text": "Back to Incidents",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 294,
+    "text": "Overview",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 298,
+    "text": "Started",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 302,
+    "text": "Ended",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 306,
+    "text": "Duration",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 310,
+    "text": "Affected Users",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 317,
+    "text": "Description",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 324,
+    "text": "Impacted Features",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 335,
+    "text": "Fallback Modes",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 346,
+    "text": "Root Cause",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 368,
+    "text": "No correlated changes found in the lookback window",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 417,
+    "text": "No timeline events yet",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 461,
+    "text": "Actions",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 466,
+    "text": "Change Status",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 473,
+    "text": "Active",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 474,
+    "text": "Investigating",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 475,
+    "text": "Mitigated",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 480,
+    "text": "Change Severity",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 487,
+    "text": "Critical",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 488,
+    "text": "High",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 489,
+    "text": "Medium",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 490,
+    "text": "Low",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 495,
+    "text": "Resolve Incident",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 499,
+    "text": "Root cause summary / resolution notes...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 527,
+    "text": "Reason for reopening...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 552,
+    "text": "Log Action",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 557,
+    "text": "Action taken (e.g., Restarted service)",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 563,
+    "text": "Additional details...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 581,
+    "text": "Actions Log",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incident-detail.tsx",
+    "line": 584,
+    "text": "No actions logged yet",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 154,
+    "text": "Track, correlate, and resolve production incidents",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 196,
+    "text": "Create New Incident",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 199,
+    "text": "Title *",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 203,
+    "text": "Brief description of the incident",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 208,
+    "text": "Description",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 212,
+    "text": "Detailed description...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 218,
+    "text": "Severity",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 225,
+    "text": "Critical",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 226,
+    "text": "High",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 227,
+    "text": "Medium",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 228,
+    "text": "Low",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 232,
+    "text": "Affected Users (est.)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 242,
+    "text": "Impacted Features (comma-separated)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 246,
+    "text": "exams, flashcards, lessons",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 271,
+    "text": "Search incidents...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 282,
+    "text": "All Severities",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 283,
+    "text": "Critical",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 284,
+    "text": "High",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 285,
+    "text": "Medium",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 286,
+    "text": "Low",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 294,
+    "text": "All Statuses",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 295,
+    "text": "Active",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 296,
+    "text": "Investigating",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 297,
+    "text": "Mitigated",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 298,
+    "text": "Resolved",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 305,
+    "text": "Loading incidents...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 311,
+    "text": "No incidents found",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-ops-incidents.tsx",
+    "line": 312,
+    "text": "All systems operational or no matching results",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-performance.tsx",
+    "line": 40,
+    "text": "Total Requests",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-performance.tsx",
+    "line": 49,
+    "text": "Error Rate",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-performance.tsx",
+    "line": 75,
+    "text": "Load Level",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-performance.tsx",
+    "line": 89,
+    "text": "No route timing data available.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-performance.tsx",
+    "line": 95,
+    "text": "Route",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-performance.tsx",
+    "line": 96,
+    "text": "Count",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-performance.tsx",
+    "line": 100,
+    "text": "Err%",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-performance.tsx",
+    "line": 127,
+    "text": "No slow queries recorded.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-performance.tsx",
+    "line": 150,
+    "text": "No circuit breakers configured.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-performance.tsx",
+    "line": 173,
+    "text": "No feature flags.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-performance.tsx",
+    "line": 218,
+    "text": "Failed to load performance data",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-performance.tsx",
+    "line": 219,
+    "text": "Admin access required",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-performance.tsx",
+    "line": 272,
+    "text": "Route Timing Percentiles",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-performance.tsx",
+    "line": 308,
+    "text": "Circuit Breaker Status",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-performance.tsx",
+    "line": 319,
+    "text": "Feature Flag Status",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-performance.tsx",
+    "line": 331,
+    "text": "Request Volume (Last Hour)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-preview-mode.tsx",
+    "line": 112,
+    "text": "Auto-Activated",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-preview-mode.tsx",
+    "line": 141,
+    "text": "Reason for activation...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-preview-mode.tsx",
+    "line": 271,
+    "text": "Preview Active",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-preview-mode.tsx",
+    "line": 275,
+    "text": "Fallback",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-preview-mode.tsx",
+    "line": 405,
+    "text": "Enable Mobile View",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-preview-mode.tsx",
+    "line": 422,
+    "text": "Off",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-preview-mode.tsx",
+    "line": 465,
+    "text": "Fallback Mode",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-preview-mode.tsx",
+    "line": 466,
+    "text": "Simulate content fallback behavior",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-preview-mode.tsx",
+    "line": 488,
+    "text": "Degradation Level",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-preview-mode.tsx",
+    "line": 489,
+    "text": "Simulate platform degradation",
+    "type": "jsx-text"
+  },
+  {
     "file": "/home/runner/workspace/client/src/pages/admin-professions.tsx",
     "line": 260,
     "text": "RRT",
@@ -1896,153 +4398,1089 @@
     "type": "string-prop"
   },
   {
+    "file": "/home/runner/workspace/client/src/pages/admin-release-gate.tsx",
+    "line": 92,
+    "text": "Pre-deploy and pre-publish safety checks",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-release-gate.tsx",
+    "line": 107,
+    "text": "Running checks...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-release-gate.tsx",
+    "line": 115,
+    "text": "Passed",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-release-gate.tsx",
+    "line": 121,
+    "text": "Failed",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-release-gate.tsx",
+    "line": 127,
+    "text": "Warnings",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-release-gate.tsx",
+    "line": 135,
+    "text": "Overall",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-release-gate.tsx",
+    "line": 156,
+    "text": "Check Results",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-release-gate.tsx",
+    "line": 169,
+    "text": "Required",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-release-gate.tsx",
+    "line": 180,
+    "text": "Override",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-release-gate.tsx",
+    "line": 189,
+    "text": "Justification for override (min 10 characters)...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-release-gate.tsx",
+    "line": 210,
+    "text": "Recent Overrides",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 63,
+    "text": "Loading failing routes...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 64,
+    "text": "No failing routes detected",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 75,
+    "text": "Errors (24h):",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 105,
+    "text": "Loading fallback usage...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 106,
+    "text": "No fallback events in the last 24 hours",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 112,
+    "text": "By Route",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 123,
+    "text": "By Reason",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 137,
+    "text": "Recent Fallback Events",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 215,
+    "text": "Loading quarantined content...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 216,
+    "text": "No quarantined content",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 269,
+    "text": "Loading validation failures...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 270,
+    "text": "No recent validation failures",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 326,
+    "text": "Loading provisional access events...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 327,
+    "text": "No provisional access events in the last 24 hours",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 335,
+    "text": "Total Events",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 341,
+    "text": "Unique Users",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 406,
+    "text": "Checking entitlement mismatches...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 407,
+    "text": "No entitlement mismatches detected",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 466,
+    "text": "Loading incidents...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 484,
+    "text": "No recent incidents",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 587,
+    "text": "System reliability monitoring and incident response",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 621,
+    "text": "System Overview",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 623,
+    "text": "Loading overview...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 627,
+    "text": "Health Status",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 630,
+    "text": "Overall",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 631,
+    "text": "Failing Routes (24h)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 632,
+    "text": "Fallback Events (24h)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 633,
+    "text": "Active Incidents",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 638,
+    "text": "Content & Access",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 641,
+    "text": "Quarantined Content",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 642,
+    "text": "Validation Failures (24h)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 643,
+    "text": "Entitlement Mismatches",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-reliability.tsx",
+    "line": 644,
+    "text": "Provisional Access (24h)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience-report.tsx",
+    "line": 125,
+    "text": "Incidents, fallbacks, rollbacks, and operational risks",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience-report.tsx",
+    "line": 141,
+    "text": "Generating report...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience-report.tsx",
+    "line": 149,
+    "text": "Risk Level",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience-report.tsx",
+    "line": 155,
+    "text": "Incidents",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience-report.tsx",
+    "line": 161,
+    "text": "Affected Users",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience-report.tsx",
+    "line": 167,
+    "text": "Open Risks",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience-report.tsx",
+    "line": 175,
+    "text": "Recommended Priorities:",
+    "type": "jsx-text"
+  },
+  {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 38,
+    "line": 43,
     "text": "No circuit breakers configured.",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 72,
+    "line": 77,
     "text": "No feature flags configured.",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 158,
+    "line": 163,
     "text": "Add Kill Switch",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 160,
+    "line": 165,
     "text": "Key",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 167,
+    "line": 172,
     "text": "Feature",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 168,
+    "line": 173,
     "text": "Route",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 169,
+    "line": 174,
     "text": "Exam",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 170,
+    "line": 175,
     "text": "Language",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 171,
+    "line": 176,
     "text": "Component",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 172,
+    "line": 177,
     "text": "Global",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 175,
+    "line": 180,
     "text": "Target",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 176,
+    "line": 181,
     "text": "Reason",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 196,
+    "line": 201,
     "text": "No health data available.",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 227,
+    "line": 232,
     "text": "No resilience events recorded.",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 331,
+    "line": 309,
+    "text": "No scoped failure domains active.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 314,
+    "text": "Add Scoped Kill Switch",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 317,
+    "text": "Profession",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 318,
+    "text": "Exam Type",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 319,
+    "text": "Language",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 320,
+    "text": "Region",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 322,
+    "text": "Value (e.g. nursing, NCLEX)",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 324,
+    "text": "Reason",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 342,
+    "text": "No degradation data.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 359,
+    "text": "Current Level:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 360,
+    "text": "Manual Override",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 395,
+    "text": "Escalation History",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 413,
+    "text": "No timeout configurations.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 460,
+    "text": "Detection Thresholds",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 464,
+    "text": "Infinite Loading",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 468,
+    "text": "Retry Count",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 472,
+    "text": "Stalled Session",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 476,
+    "text": "Navigation Loop",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 507,
+    "text": "No stuck state sessions detected.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 514,
+    "text": "No performance data.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 521,
+    "text": "Scale Protection",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 525,
+    "text": "Load Level",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 529,
+    "text": "Throttled Requests",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 534,
+    "text": "Active Throttles",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 555,
+    "text": "Route Latency (Top Routes by P95)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 559,
+    "text": "Route",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 560,
+    "text": "Calls",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 698,
     "text": "Admin access required.",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 355,
-    "text": "System health, circuit breakers, feature flags, and kill switches",
+    "line": 724,
+    "text": "System health, fault tolerance, degradation, and scale protection",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 372,
+    "line": 744,
     "text": "Services Healthy",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 378,
+    "line": 750,
     "text": "Open Breakers",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 384,
+    "line": 756,
     "text": "Disabled Flags",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 390,
-    "text": "Active Kill Switches",
+    "line": 762,
+    "text": "Kill Switches",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 396,
-    "text": "Recent Events",
+    "line": 768,
+    "text": "Quarantined",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 405,
+    "line": 774,
+    "text": "Degradation",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 780,
+    "text": "Events",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
+    "line": 789,
     "text": "Emergency Mode",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 406,
+    "line": 790,
     "text": "Grants all users basic access during outages",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 477,
+    "line": 909,
     "text": "Provisional Access Grants",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-resilience.tsx",
-    "line": 498,
+    "line": 930,
     "text": "Self-Healing Log",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 98,
+    "text": "Monitor payment failures, access issues, and churn risk signals",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 134,
+    "text": "Total Events",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 140,
+    "text": "Unresolved",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 146,
+    "text": "Failed Checkouts",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 152,
+    "text": "Affected Users",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 159,
+    "text": "Events by Type",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 162,
+    "text": "No revenue protection events recorded",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 180,
+    "text": "Recent Events",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 183,
+    "text": "No recent events",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 201,
+    "text": "Resolved",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 224,
+    "text": "Failed Checkouts",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 227,
+    "text": "No failed checkout events",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 253,
+    "text": "Paid But No Access",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 256,
+    "text": "No access issues detected",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 282,
+    "text": "Blocked Premium Access Attempts",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 285,
+    "text": "No blocked premium access attempts",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 305,
+    "text": "Fallback-Heavy Users",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 308,
+    "text": "No fallback-heavy users detected",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 329,
+    "text": "Churn Risk Signals",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 332,
+    "text": "No churn risk signals detected",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 368,
+    "text": "Actions Log",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 371,
+    "text": "No actions recorded",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 377,
+    "text": "Date",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 378,
+    "text": "Type",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 379,
+    "text": "User",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 380,
+    "text": "Severity",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 381,
+    "text": "Status",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 382,
+    "text": "Action Taken",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 399,
+    "text": "Resolved",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 399,
+    "text": "Open",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 420,
+    "text": "User:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 425,
+    "text": "Extension (days)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 429,
+    "text": "Reason",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 430,
+    "text": "Reason for extension",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 441,
+    "text": "Tier",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 443,
+    "text": "Select tier...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 444,
+    "text": "New Grad Toolkit",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 445,
+    "text": "Certification Prep",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 446,
+    "text": "Full Access",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 450,
+    "text": "Duration (days, leave empty for indefinite)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 454,
+    "text": "Reason",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 455,
+    "text": "Reason for granting access",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 466,
+    "text": "Message Type",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 468,
+    "text": "Select type...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 469,
+    "text": "Payment Failed",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 470,
+    "text": "Access Issue",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 471,
+    "text": "Churn Prevention",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 472,
+    "text": "Custom Message",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 477,
+    "text": "Custom Message",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-revenue-protection.tsx",
+    "line": 478,
+    "text": "Write your message...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 164,
+    "text": "Symptoms",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 178,
+    "text": "Likely Causes",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 192,
+    "text": "Quick Reference",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 195,
+    "text": "Est. Resolution:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 199,
+    "text": "Kill Switches:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 207,
+    "text": "Feature Flags:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 221,
+    "text": "Step-by-Step Execution",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 303,
+    "text": "Critical Action",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 306,
+    "text": "Use Caution",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 329,
+    "text": "Expected:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 336,
+    "text": "Add a note for this step (optional)...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 373,
+    "text": "Subject",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 379,
+    "text": "Internal Message",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 385,
+    "text": "External Message (User-Facing)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 391,
+    "text": "Status Page Update",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 449,
+    "text": "Search runbooks by title, symptom, or tag...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 462,
+    "text": "All Categories",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 463,
+    "text": "Exams",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 465,
+    "text": "Billing",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 466,
+    "text": "Performance",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 467,
+    "text": "Content",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 475,
+    "text": "All Severities",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 476,
+    "text": "Critical",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 477,
+    "text": "High",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 478,
+    "text": "Medium",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-runbooks.tsx",
+    "line": 479,
+    "text": "Low",
     "type": "jsx-text"
   },
   {
@@ -2082,10 +5520,1018 @@
     "type": "string-prop"
   },
   {
+    "file": "/home/runner/workspace/client/src/pages/admin-session-replay.tsx",
+    "line": 57,
+    "text": "Time-travel debugging: replay user sessions, API calls, and state transitions",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-session-replay.tsx",
+    "line": 69,
+    "text": "Filter by User ID...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-session-replay.tsx",
+    "line": 99,
+    "text": "User",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-session-replay.tsx",
+    "line": 103,
+    "text": "Duration",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-session-replay.tsx",
+    "line": 107,
+    "text": "Started",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-session-replay.tsx",
+    "line": 111,
+    "text": "Errors",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-session-replay.tsx",
+    "line": 121,
+    "text": "Actions Timeline",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-session-replay.tsx",
+    "line": 124,
+    "text": "No actions recorded",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-session-replay.tsx",
+    "line": 146,
+    "text": "No API calls recorded",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-session-replay.tsx",
+    "line": 163,
+    "text": "State Transitions",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-session-replay.tsx",
+    "line": 166,
+    "text": "No state transitions recorded",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-session-replay.tsx",
+    "line": 184,
+    "text": "Errors",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-session-replay.tsx",
+    "line": 229,
+    "text": "No session recordings yet",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-session-replay.tsx",
+    "line": 230,
+    "text": "Sessions will appear here as users interact with the platform",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-site-health.tsx",
+    "line": 544,
+    "text": "Loading failover data...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-site-health.tsx",
+    "line": 588,
+    "text": "Payload Coverage",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-site-health.tsx",
+    "line": 600,
+    "text": "Fallback Events (7d)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-site-health.tsx",
+    "line": 612,
+    "text": "Substitutions (7d)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-site-health.tsx",
+    "line": 624,
+    "text": "Total Fallback Events",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-site-health.tsx",
+    "line": 634,
+    "text": "Fallback Usage by Tier (7d)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-site-health.tsx",
+    "line": 694,
+    "text": "Recent Fallback Events",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-site-health.tsx",
+    "line": 718,
+    "text": "No Content Failover Issues",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-site-health.tsx",
+    "line": 719,
+    "text": "All content is being served successfully without fallbacks.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 255,
+    "text": "Admin access required.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 267,
+    "text": "One-click rescue tools, communication templates, and refund prevention",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 292,
+    "text": "Search User",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 297,
+    "text": "Search by username, email, or user ID...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 327,
+    "text": "Email:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 328,
+    "text": "Plan Expires:",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 333,
+    "text": "Rescue Actions",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 336,
+    "text": "Reason",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 337,
+    "text": "Reason for action...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 340,
+    "text": "Incident ID (optional)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 341,
+    "text": "INC-...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 347,
+    "text": "Extend Subscription",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 358,
+    "text": "Grant Temporary Access",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 369,
+    "text": "Restore Entitlement",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 371,
+    "text": "Current Tier",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 382,
+    "text": "Replay Billing Sync",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 383,
+    "text": "Clear entitlement cache and re-verify",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 390,
+    "text": "Reset Exam State",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 391,
+    "text": "Reset stuck exam/session state",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 398,
+    "text": "Add Support Note",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 399,
+    "text": "Note text...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 409,
+    "text": "Rescue History",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 436,
+    "text": "Communication Templates",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 468,
+    "text": "Placeholder Values",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 496,
+    "text": "Subject",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 505,
+    "text": "Email Body",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 514,
+    "text": "In-App Message",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 533,
+    "text": "Name",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 537,
+    "text": "Subject",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 541,
+    "text": "Email Body",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 545,
+    "text": "In-App Message",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 565,
+    "text": "Active Critical Incidents",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 571,
+    "text": "At-Risk Subscribers",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 577,
+    "text": "Rescue Actions (7d)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 586,
+    "text": "Active Incidents Affecting Subscribers",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 610,
+    "text": "At-Risk Subscribers",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 641,
+    "text": "Suggested Actions",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 656,
+    "text": "Bulk Action",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 658,
+    "text": "Select action...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 659,
+    "text": "Extend Subscription",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 660,
+    "text": "Grant Temporary Access",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 661,
+    "text": "Replay Billing Sync",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 662,
+    "text": "Add Support Note",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 666,
+    "text": "Reason",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 667,
+    "text": "Reason...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 700,
+    "text": "Rescue Actions for this Incident",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-subscriber-rescue.tsx",
+    "line": 720,
+    "text": "Confirm Destructive Action",
+    "type": "jsx-text"
+  },
+  {
     "file": "/home/runner/workspace/client/src/pages/admin-taxonomy-review.tsx",
     "line": 179,
     "text": "e.g., heart attack, AKI, DKA",
     "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 65,
+    "text": "User behavior signals, retry patterns, and failure analysis",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 107,
+    "text": "Total Events",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 113,
+    "text": "Unique Sessions",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 119,
+    "text": "Retry Events",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 125,
+    "text": "Drop-off Points",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 132,
+    "text": "Retry Frequency",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 135,
+    "text": "No retry events recorded yet",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 154,
+    "text": "Fallback Usage",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 157,
+    "text": "No fallback events",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 175,
+    "text": "Drop-off Points",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 178,
+    "text": "No drop-off data",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 194,
+    "text": "Repeated Failures by User",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 197,
+    "text": "No repeated failure patterns detected",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 203,
+    "text": "User ID",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 204,
+    "text": "Error Type",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 205,
+    "text": "Count",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 224,
+    "text": "Session Abandonment",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 227,
+    "text": "No abandonment data",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 245,
+    "text": "Silent Failures",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 248,
+    "text": "No silent failures detected",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 270,
+    "text": "Prioritized Fixes",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 273,
+    "text": "No issues to prioritize",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 279,
+    "text": "Feature",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 280,
+    "text": "Error Type",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 281,
+    "text": "Occurrences",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 282,
+    "text": "Affected Users",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 283,
+    "text": "Sessions",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 284,
+    "text": "Priority",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 313,
+    "text": "Silent Failure Detection",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 316,
+    "text": "No silent failures detected",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 345,
+    "text": "Weak Areas Analysis",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 348,
+    "text": "No weak areas identified",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 354,
+    "text": "Area",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 355,
+    "text": "Errors",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 356,
+    "text": "Retries",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 357,
+    "text": "Fallbacks",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 358,
+    "text": "Drop-offs",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-telemetry.tsx",
+    "line": 359,
+    "text": "Error Rate",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1016,
+    "text": "Click the edit icon to quick-edit translations",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1038,
+    "text": "Actions",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1055,
+    "text": "Enter translation...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1084,
+    "text": "Saved!",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1204,
+    "text": "Search keys...",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1217,
+    "text": "All Languages",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1225,
+    "text": "No missing keys reported",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1226,
+    "text": "The frontend has not reported any missing translation keys.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1235,
+    "text": "Key",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1236,
+    "text": "Language",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1237,
+    "text": "Frequency",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1238,
+    "text": "Last Reported",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1239,
+    "text": "Actions",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1338,
+    "text": "All Languages",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1350,
+    "text": "No flagged content",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1351,
+    "text": "No mixed-language content has been detected. Run an audit to check.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1360,
+    "text": "Content",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1361,
+    "text": "Type",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1362,
+    "text": "Locale",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1363,
+    "text": "Field",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1364,
+    "text": "Source (English)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1365,
+    "text": "Localized",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1366,
+    "text": "Coverage",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1367,
+    "text": "Link",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1468,
+    "text": "All Languages",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1486,
+    "text": "No stale translations",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1487,
+    "text": "All translations are up to date with their English sources.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1496,
+    "text": "Content ID",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1497,
+    "text": "Type",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1498,
+    "text": "Language",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1499,
+    "text": "Field",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1500,
+    "text": "Current Source",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1501,
+    "text": "Current Translation",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1502,
+    "text": "Status",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-dashboard.tsx",
+    "line": 1503,
+    "text": "Last Updated",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 145,
+    "text": "Translation Health - Admin",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 145,
+    "text": "AI Pipeline Language Enforcement & Translation Observability",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 216,
+    "text": "Language Mismatches",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 244,
+    "text": "Validated",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 272,
+    "text": "No events recorded yet",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 296,
+    "text": "No events recorded yet",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 314,
+    "text": "Language",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 315,
+    "text": "Total Content",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 316,
+    "text": "Translated",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 317,
+    "text": "Coverage",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 345,
+    "text": "Mismatch Rate",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 351,
+    "text": "Failure Rate",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 389,
+    "text": "Last 1h",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 390,
+    "text": "Last 6h",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 391,
+    "text": "Last 24h",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 392,
+    "text": "Last 3d",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 393,
+    "text": "Last 7d",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 401,
+    "text": "All Types",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 402,
+    "text": "Mismatch",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 403,
+    "text": "Validated",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 404,
+    "text": "Rejected",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 414,
+    "text": "All Severity",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 415,
+    "text": "Info",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 416,
+    "text": "Warning",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-translation-health.tsx",
+    "line": 417,
+    "text": "Error",
+    "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin-trust-showcase.tsx",
@@ -2112,56 +6558,218 @@
     "type": "string-prop"
   },
   {
+    "file": "/home/runner/workspace/client/src/pages/admin-vip-status.tsx",
+    "line": 43,
+    "text": "Loading...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-vip-status.tsx",
+    "line": 44,
+    "text": "Failed to load VIP status. Admin access required.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-vip-status.tsx",
+    "line": 55,
+    "text": "Subscriber priority under load and load shedding status",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-vip-status.tsx",
+    "line": 65,
+    "text": "Load Shedding",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-vip-status.tsx",
+    "line": 73,
+    "text": "Current Load",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-vip-status.tsx",
+    "line": 79,
+    "text": "Active Requests",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-vip-status.tsx",
+    "line": 92,
+    "text": "Metrics",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-vip-status.tsx",
+    "line": 95,
+    "text": "Background Requests Shed",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-vip-status.tsx",
+    "line": 99,
+    "text": "Max Concurrent Requests",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-vip-status.tsx",
+    "line": 103,
+    "text": "Load Threshold",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-vip-status.tsx",
+    "line": 108,
+    "text": "Load Bar",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-vip-status.tsx",
+    "line": 121,
+    "text": "Configuration",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-vip-status.tsx",
+    "line": 133,
+    "text": "Load Threshold (%)",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-vip-status.tsx",
+    "line": 162,
+    "text": "Max Concurrent Requests",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-vip-status.tsx",
+    "line": 206,
+    "text": "Sheddable Background Paths",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-weekly-report.tsx",
+    "line": 162,
+    "text": "Total Incidents",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-weekly-report.tsx",
+    "line": 163,
+    "text": "Critical",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-weekly-report.tsx",
+    "line": 164,
+    "text": "Affected Users",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-weekly-report.tsx",
+    "line": 165,
+    "text": "Fallback Activations",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-weekly-report.tsx",
+    "line": 169,
+    "text": "Circuit Breaker Trips",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-weekly-report.tsx",
+    "line": 170,
+    "text": "Feature Flag Changes",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-weekly-report.tsx",
+    "line": 171,
+    "text": "Kill Switch Activations",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-weekly-report.tsx",
+    "line": 172,
+    "text": "Emergency Mode",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-weekly-report.tsx",
+    "line": 178,
+    "text": "Top Incident Reasons",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-weekly-report.tsx",
+    "line": 198,
+    "text": "Top Failing Routes",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-weekly-report.tsx",
+    "line": 219,
+    "text": "Service Health Summary",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/admin-weekly-report.tsx",
+    "line": 287,
+    "text": "Additional Metrics",
+    "type": "jsx-text"
+  },
+  {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 2257,
+    "line": 2262,
     "text": "e.g., barrel-chest-comparison",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 2430,
+    "line": 2435,
     "text": "e.g., ECG interpretation, medication safety",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 4292,
+    "line": 4297,
     "text": "e.g., Pharmacology, Cardiac Care",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 4384,
+    "line": 4389,
     "text": "e.g., Lab Values, Electrolytes",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 4553,
+    "line": 4558,
     "text": "e.g., Batch for March cohort",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 4633,
+    "line": 4638,
     "text": "e.g., March cohort",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 4917,
+    "line": 4922,
     "text": "Reported by:",
     "type": "jsx-text"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 5111,
+    "line": 5119,
     "text": "e.g., Cardiovascular, Respiratory (comma-separated, blank = all)",
     "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/admin.tsx",
-    "line": 5122,
+    "line": 5130,
     "text": "e.g., free, rpn (comma-separated, blank = all)",
     "type": "string-prop"
   },
@@ -2484,6 +7092,12 @@
     "type": "jsx-text"
   },
   {
+    "file": "/home/runner/workspace/client/src/pages/mock-exam-session.tsx",
+    "line": 1386,
+    "text": "Your access is protected.",
+    "type": "jsx-text"
+  },
+  {
     "file": "/home/runner/workspace/client/src/pages/newgrad/newgrad-hub.tsx",
     "line": 516,
     "text": "Mock Interview",
@@ -2494,6 +7108,18 @@
     "line": 247,
     "text": "You've completed all available scenarios in",
     "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/not-found.tsx",
+    "line": 11,
+    "text": "Page Not Found",
+    "type": "string-prop"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/not-found.tsx",
+    "line": 12,
+    "text": "The page you are looking for does not exist.",
+    "type": "string-prop"
   },
   {
     "file": "/home/runner/workspace/client/src/pages/np-exam-prep-pillar.tsx",
@@ -2617,7 +7243,7 @@
   },
   {
     "file": "/home/runner/workspace/client/src/pages/qbank-exam.tsx",
-    "line": 355,
+    "line": 378,
     "text": "e.g. Pharmacology",
     "type": "string-prop"
   },
@@ -2695,7 +7321,7 @@
   },
   {
     "file": "/home/runner/workspace/client/src/pages/upgrade.tsx",
-    "line": 289,
+    "line": 290,
     "text": "Quizlet+ $7.99/month",
     "type": "jsx-text"
   }
