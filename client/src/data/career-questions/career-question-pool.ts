@@ -6,6 +6,12 @@ import { rrtQuestionsBatch3 } from "./rrt-questions-batch3";
 import { rrtPharmacologyQuestions } from "./rrt-pharmacology-questions";
 import { rrtQuestionsBatch2 } from "./rrt-questions-batch2";
 import { paramedicQuestions } from "./paramedic-questions";
+import { paramedicQuestionsBatch7 } from "./paramedic-questions-batch7";
+import { paramedicQuestionsBatch8 } from "./paramedic-questions-batch8";
+import { paramedicQuestionsBatch9 } from "./paramedic-questions-batch9";
+import { paramedicQuestionsBatch10 } from "./paramedic-questions-batch10";
+import { paramedicQuestionsBatch11 } from "./paramedic-questions-batch11";
+import { paramedicQuestionsBatch12 } from "./paramedic-questions-batch12";
 import { pharmacyTechQuestions } from "./pharmacy-tech-questions";
 import { pharmacyTechQuestionsExtended } from "./pharmacy-tech-questions-extended";
 import { pharmacyTechQuestionsBatch2 } from "./pharmacy-tech-questions-batch2";
@@ -57,7 +63,7 @@ import { ptaQuestionsBatch18 } from "./pta-questions-batch18";
 
 const pools: Record<string, CareerQuestion[]> = {
   rrt: [...rrtQuestions, ...rrtQuestionsBatch1, ...rrtQuestionsBatch2, ...rrtQuestionsBatch3, ...rrtPharmacologyQuestions],
-  paramedic: paramedicQuestions,
+  paramedic: [...paramedicQuestions, ...paramedicQuestionsBatch7, ...paramedicQuestionsBatch8, ...paramedicQuestionsBatch9, ...paramedicQuestionsBatch10, ...paramedicQuestionsBatch11, ...paramedicQuestionsBatch12],
   pharmacyTech: [...pharmacyTechQuestions, ...pharmacyTechQuestionsExtended, ...pharmacyTechQuestionsBatch2, ...pharmacyTechQuestionsBatch3, ...pharmacyTechQuestionsBatch4, ...pharmacyTechQuestionsPEBC],
   mlt: [...mltQuestions, ...mltQuestionsBatch2],
   imaging: imagingQuestions,

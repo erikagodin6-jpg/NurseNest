@@ -24,6 +24,12 @@ const questionLoaders: Record<string, () => Promise<CareerQuestion[]>> = {
     import("./paramedic-questions-batch4").then(m => m.paramedicQuestionsBatch4),
     import("./paramedic-questions-batch5").then(m => m.paramedicQuestionsBatch5),
     import("./paramedic-questions-batch6").then(m => m.paramedicQuestionsBatch6),
+    import("./paramedic-questions-batch7").then(m => m.paramedicQuestionsBatch7),
+    import("./paramedic-questions-batch8").then(m => m.paramedicQuestionsBatch8),
+    import("./paramedic-questions-batch9").then(m => m.paramedicQuestionsBatch9),
+    import("./paramedic-questions-batch10").then(m => m.paramedicQuestionsBatch10),
+    import("./paramedic-questions-batch11").then(m => m.paramedicQuestionsBatch11),
+    import("./paramedic-questions-batch12").then(m => m.paramedicQuestionsBatch12),
   ]).then(parts => parts.flat()),
   pharmacyTech: () => Promise.all([
     import("./pharmacy-tech-questions").then(m => m.pharmacyTechQuestions),
