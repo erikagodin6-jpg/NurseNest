@@ -279,6 +279,13 @@ async function buildAll() {
     rm("dist/public/translations", { recursive: true, force: true }),
   ]);
 
+  log("running bundle size report...");
+  try {
+    execSync("node scripts/report-bundle-size.js", { stdio: "inherit", encoding: "utf-8" });
+  } catch (err: any) {
+    console.warn("\n⚠️  Bundle size report failed:", err.message || err);
+  }
+
   await generateCoverageReport(log);
 
   log(`build complete`);

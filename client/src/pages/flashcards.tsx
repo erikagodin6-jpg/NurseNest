@@ -80,19 +80,6 @@ import { AnswerOption, RationaleSection, RationaleImageBlock, QuestionContextHea
 import { ProtectedImage } from "@/components/protected-image";
 import { getCategoryImage } from "@/lib/system-images";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
-import { rnFlashcards } from "@/data/flashcards-rn";
-import { npFlashcards } from "@/data/flashcards-np";
-import { icuCriticalCareFlashcards } from "@/data/flashcards-icu-critical-care";
-import { npPathoFlashcards } from "@/data/flashcards-np-patho";
-import { npFlashcardsEnrichment1 } from "@/data/flashcards-np-enrichment-1";
-import { npFlashcardsEnrichment2 } from "@/data/flashcards-np-enrichment-2";
-import { npFlashcardsEnrichment3 } from "@/data/flashcards-np-enrichment-3";
-import { npFlashcardsEnrichment4 } from "@/data/flashcards-np-enrichment-4";
-import { npFlashcardsEnrichment5 } from "@/data/flashcards-np-enrichment-5";
-import { npFlashcardsEnrichment6 } from "@/data/flashcards-np-enrichment-6";
-import { npSubspecialtyFlashcards } from "@/data/flashcards-np-subspecialties";
-import { rpnExpansionFlashcards } from "@/data/flashcards-rpn-expansion";
-import { rnExpansion2Flashcards } from "@/data/flashcards-rn-expansion-2";
 import { AdaptiveStudyHub } from "@/components/adaptive-study";
 import { SocialProofBar } from "@/components/conversion-funnel";
 import { AITutorWidget } from "@/components/ai-tutor-widget";
@@ -1961,64 +1948,62 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
   const { hasAccess: hasFlashcardAccess } = useEntitlement("feature", "flashcards");
   const isPaid = hasFlashcardAccess;
 
+  const [staticFlashcardData, setStaticFlashcardData] = useState<Flashcard[]>([]);
+  useEffect(() => {
+    let cancelled = false;
+    async function loadFlashcardData() {
+      const mapToStatic = (cards: any[]) =>
+        cards.filter((c: any) => c.type === "question").map((c: any) => ({ ...c, source: "static" as const }));
+      const [
+        { rnFlashcards: _rn },
+        { npFlashcards: _np },
+        { icuCriticalCareFlashcards: _icu },
+        { npPathoFlashcards: _npPatho },
+        { npFlashcardsEnrichment1: _e1 },
+        { npFlashcardsEnrichment2: _e2 },
+        { npFlashcardsEnrichment3: _e3 },
+        { npFlashcardsEnrichment4: _e4 },
+        { npFlashcardsEnrichment5: _e5 },
+        { npFlashcardsEnrichment6: _e6 },
+        { npSubspecialtyFlashcards: _sub },
+        { rpnExpansionFlashcards: _rpnExp },
+        { rnExpansion2Flashcards: _rnExp2 },
+      ] = await Promise.all([
+        import("@/data/flashcards-rn"),
+        import("@/data/flashcards-np"),
+        import("@/data/flashcards-icu-critical-care"),
+        import("@/data/flashcards-np-patho"),
+        import("@/data/flashcards-np-enrichment-1"),
+        import("@/data/flashcards-np-enrichment-2"),
+        import("@/data/flashcards-np-enrichment-3"),
+        import("@/data/flashcards-np-enrichment-4"),
+        import("@/data/flashcards-np-enrichment-5"),
+        import("@/data/flashcards-np-enrichment-6"),
+        import("@/data/flashcards-np-subspecialties"),
+        import("@/data/flashcards-rpn-expansion"),
+        import("@/data/flashcards-rn-expansion-2"),
+      ]);
+      if (cancelled) return;
+      const all = [
+        ...mapToStatic(_rn), ...mapToStatic(_icu), ...mapToStatic(_npPatho), ...mapToStatic(_np),
+        ...mapToStatic([..._e1, ..._e2, ..._e3, ..._e4, ..._e5, ..._e6]),
+        ...mapToStatic(_sub), ...mapToStatic(_rpnExp), ...mapToStatic(_rnExp2),
+      ];
+      setStaticFlashcardData(all);
+    }
+    loadFlashcardData();
+    return () => { cancelled = true; };
+  }, []);
+
   const allCards = useMemo(() => {
-    const icuMapped: Flashcard[] = icuCriticalCareFlashcards
-      .filter(c => c.type === "question")
-      .map(c => ({
-        ...c,
-        source: "static" as const,
-      }));
-    const npPathoMapped: Flashcard[] = npPathoFlashcards
-      .filter(c => c.type === "question")
-      .map(c => ({
-        ...c,
-        source: "static" as const,
-      }));
-    const npCoreMapped: Flashcard[] = npFlashcards
-      .filter(c => c.type === "question")
-      .map(c => ({
-        ...c,
-        source: "static" as const,
-      }));
-    const npEnrichmentAll: Flashcard[] = [
-      ...npFlashcardsEnrichment1,
-      ...npFlashcardsEnrichment2,
-      ...npFlashcardsEnrichment3,
-      ...npFlashcardsEnrichment4,
-      ...npFlashcardsEnrichment5,
-      ...npFlashcardsEnrichment6,
-    ]
-      .filter(c => c.type === "question")
-      .map(c => ({
-        ...c,
-        source: "static" as const,
-      }));
-    const npSubspecialtyMapped: Flashcard[] = npSubspecialtyFlashcards
-      .filter(c => c.type === "question")
-      .map(c => ({
-        ...c,
-        source: "static" as const,
-      }));
-    const rpnExpansionMapped: Flashcard[] = rpnExpansionFlashcards
-      .filter(c => c.type === "question")
-      .map(c => ({
-        ...c,
-        source: "static" as const,
-      }));
-    const rnExpansion2Mapped: Flashcard[] = rnExpansion2Flashcards
-      .filter(c => c.type === "question")
-      .map(c => ({
-        ...c,
-        source: "static" as const,
-      }));
-    const combined = [...baseCards.filter(c => c.type === "question"), ...icuMapped, ...npPathoMapped, ...npCoreMapped, ...npEnrichmentAll, ...npSubspecialtyMapped, ...rpnExpansionMapped, ...rnExpansion2Mapped];
+    const combined = [...baseCards.filter(c => c.type === "question"), ...staticFlashcardData];
     const seen = new Set<string>();
     return combined.filter(c => {
       if (seen.has(c.id)) return false;
       seen.add(c.id);
       return true;
     });
-  }, []);
+  }, [staticFlashcardData]);
 
   const [myDecks, setMyDecks] = useState<any[]>([]);
   const [publicDecks, setPublicDecks] = useState<any[]>([]);

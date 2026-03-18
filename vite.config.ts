@@ -41,10 +41,21 @@ export default defineConfig({
     emptyOutDir: true,
     target: "es2020",
     sourcemap: false,
-    chunkSizeWarningLimit: 3000,
+    chunkSizeWarningLimit: 500,
     cssMinify: "esbuild",
     minify: "esbuild",
-    modulePreload: false,
+    modulePreload: {
+      polyfill: true,
+      resolveDependencies: (filename, deps, { hostId, hostType }) => {
+        return deps.filter(dep =>
+          !dep.includes('admin-routes') &&
+          !dep.includes('admin-') &&
+          !dep.includes('instructor-') &&
+          !dep.includes('demo-') &&
+          !dep.includes('content-editor')
+        );
+      },
+    },
     assetsInlineLimit: 0,
     rollupOptions: {
       output: {
@@ -54,6 +65,20 @@ export default defineConfig({
           if (id.includes("node_modules/@radix-ui")) return "radix";
           if (id.includes("node_modules/framer-motion")) return "motion";
           if (id.includes("node_modules/@tanstack")) return "tanstack";
+          if (id.includes("node_modules/recharts") || id.includes("node_modules/d3-")) return "charts";
+          if (id.includes("node_modules/zod")) return "zod";
+          if (id.includes("node_modules/date-fns") || id.includes("node_modules/@date-fns")) return "date-fns";
+          if (id.includes("node_modules/react-day-picker")) return "date-picker";
+          if (id.includes("node_modules/react-hook-form") || id.includes("node_modules/@hookform")) return "forms";
+          if (id.includes("node_modules/jspdf") || id.includes("node_modules/html2canvas")) return "pdf-export";
+          if (id.includes("node_modules/dompurify") || id.includes("node_modules/marked")) return "markdown";
+          if (id.includes("node_modules/wouter")) return "router";
+          if (id.includes("node_modules/cmdk")) return "cmdk";
+          if (id.includes("node_modules/embla-carousel")) return "carousel";
+          if (id.includes("node_modules/react-resizable-panels")) return "panels";
+          if (id.includes("node_modules/next-themes")) return "themes";
+          if (id.includes("node_modules/vaul")) return "vaul";
+          if (id.includes("node_modules/class-variance-authority") || id.includes("node_modules/clsx") || id.includes("node_modules/tailwind-merge")) return "styling";
         },
       },
     },

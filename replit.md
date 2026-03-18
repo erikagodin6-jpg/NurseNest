@@ -58,6 +58,14 @@ Core architectural components and design patterns emphasize:
 
 - **Startup Stabilization**: All seed operations (20+ seeders) removed from the server startup path. Seeds now run only on-demand via `POST /api/admin/run-seeds` (admin-auth-protected) or `npx tsx scripts/run-seeds.ts` CLI. Startup path is lightweight: DB connect, schema sync (with deadlock retry), data migrations, route registration, HTTP listen. The 6-hour content pipeline has memory guards (skips if heap > 1400MB) and structured logging. Schema sync (`ensureSchemaSync`) has exponential backoff retry for deadlock/lock-timeout errors. Deploy script (`scripts/deploy-build-fast.sh`) no longer runs pre-migration SQL fixes at build time — the email backfill is now a guarded one-time migration in `startup-data-migrations.ts`.
 
+### Frontend Bundle Optimization
+- **Admin Route Separation**: All admin routes (~120+) are lazy-loaded via `client/src/admin-routes.tsx`, wrapped in error boundaries. Regular users never download admin code.
+- **Vendor Chunking**: Expanded manual chunks in `vite.config.ts` for recharts/d3, zod, date-fns, react-day-picker, react-hook-form, jspdf/html2canvas, dompurify/marked, wouter, cmdk, embla-carousel, panels, next-themes, vaul, and styling libs.
+- **Route Error Boundaries**: `client/src/components/route-error-boundary.tsx` wraps admin and allied route groups with user-friendly fallback UI.
+- **Module Preloading**: Re-enabled with polyfill for selective preloading of lazy chunks.
+- **Bundle Monitoring**: `scripts/report-bundle-size.js` reports top 10 largest chunks with 500KB warning threshold.
+- **Chunk Size Warning**: Lowered to 500KB (from default 500KB).
+
 ### External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM
