@@ -5,6 +5,7 @@ import { existsSync } from "fs";
 import { gzipSync } from "zlib";
 import { compileI18n } from "./compile-i18n";
 import { execSync } from "child_process";
+import { runI18nScan } from "./scan-hardcoded-strings-lib";
 import path from "path";
 
 const allowlist = [
@@ -210,6 +211,24 @@ async function buildAll() {
   );
 
   await rm("dist", { recursive: true, force: true });
+
+  log("scanning for hardcoded strings...");
+  let scanConfig: Record<string, any> = {};
+  try {
+    scanConfig = JSON.parse(await readFile("i18n-scan.config.json", "utf-8"));
+  } catch {}
+  const scanPassed = runI18nScan({
+    quiet: true,
+    failOnCritical: scanConfig.failOnCritical ?? false,
+    criticalThreshold: scanConfig.criticalThreshold ?? 0,
+    totalThreshold: scanConfig.totalThreshold ?? 35000,
+  });
+  if (!scanPassed) {
+    console.error("\n❌ Build aborted: hardcoded string violations exceed thresholds.");
+    console.error("   Run 'npm run i18n:scan' for details.\n");
+    process.exit(1);
+  }
+  log("i18n scan passed");
 
   log("building i18n...");
   await compileI18n();
