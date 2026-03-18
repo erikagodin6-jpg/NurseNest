@@ -293,6 +293,9 @@ const AdminSeoInspector = lazy(() => import("@/pages/admin-seo-inspector"));
 const AdminContentIntelligence = lazy(() => import("@/pages/admin-content-intelligence"));
 const AdminCatDashboard = lazy(() => import("@/pages/admin-cat-dashboard"));
 const AdminRevenueDashboard = lazy(() => import("@/pages/admin-revenue-dashboard"));
+const AdminTelemetry = lazy(() => import("@/pages/admin-telemetry"));
+const AdminSessionReplay = lazy(() => import("@/pages/admin-session-replay"));
+const AdminRevenueProtection = lazy(() => import("@/pages/admin-revenue-protection"));
 const AdminPipelineDashboard = lazy(() => import("@/pages/admin-pipeline-dashboard"));
 const AdminContentMetrics = lazy(() => import("@/pages/admin-content-metrics"));
 const ComparePage = lazy(() => import("@/pages/compare"));
@@ -1208,6 +1211,9 @@ function AppRoutes() {
         <Route path="/admin/content-intelligence" component={AdminContentIntelligence} />
         <Route path="/admin/cat" component={AdminCatDashboard} />
         <Route path="/admin/revenue" component={AdminRevenueDashboard} />
+        <Route path="/admin/telemetry" component={AdminTelemetry} />
+        <Route path="/admin/session-replay" component={AdminSessionReplay} />
+        <Route path="/admin/revenue-protection" component={AdminRevenueProtection} />
         <Route path="/admin/pipeline" component={AdminPipelineDashboard} />
         <Route path="/admin/content-metrics" component={AdminContentMetrics} />
         <Route path="/admin/content-manager" component={AdminContentManager} />

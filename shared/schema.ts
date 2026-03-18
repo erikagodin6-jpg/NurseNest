@@ -7423,3 +7423,65 @@ export const cleanupReports = pgTable("cleanup_reports", {
 });
 
 export type CleanupReport = typeof cleanupReports.$inferSelect;
+
+export const telemetryEvents = pgTable("telemetry_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sessionId: text("session_id").notNull(),
+  userId: varchar("user_id"),
+  eventType: text("event_type").notNull(),
+  eventCategory: text("event_category").notNull(),
+  eventData: jsonb("event_data").default(sql`'{}'::jsonb`),
+  page: text("page"),
+  component: text("component"),
+  severity: text("severity").default("info"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertTelemetryEventSchema = createInsertSchema(telemetryEvents).omit({
+  id: true,
+  createdAt: true,
+});
+export type TelemetryEvent = typeof telemetryEvents.$inferSelect;
+export type InsertTelemetryEvent = z.infer<typeof insertTelemetryEventSchema>;
+
+export const sessionRecordings = pgTable("session_recordings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sessionId: text("session_id").notNull(),
+  userId: varchar("user_id"),
+  actions: jsonb("actions").default(sql`'[]'::jsonb`),
+  apiCalls: jsonb("api_calls").default(sql`'[]'::jsonb`),
+  stateTransitions: jsonb("state_transitions").default(sql`'[]'::jsonb`),
+  errors: jsonb("errors").default(sql`'[]'::jsonb`),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  endedAt: timestamp("ended_at"),
+  duration: integer("duration").default(0),
+});
+
+export const insertSessionRecordingSchema = createInsertSchema(sessionRecordings).omit({
+  id: true,
+  startedAt: true,
+});
+export type SessionRecording = typeof sessionRecordings.$inferSelect;
+export type InsertSessionRecording = z.infer<typeof insertSessionRecordingSchema>;
+
+export const revenueProtectionEvents = pgTable("revenue_protection_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id"),
+  username: text("username"),
+  eventType: text("event_type").notNull(),
+  severity: text("severity").default("medium"),
+  details: jsonb("details").default(sql`'{}'::jsonb`),
+  resolved: boolean("resolved").default(false),
+  resolvedBy: text("resolved_by"),
+  resolvedAt: timestamp("resolved_at"),
+  actionTaken: text("action_taken"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertRevenueProtectionEventSchema = createInsertSchema(revenueProtectionEvents).omit({
+  id: true,
+  createdAt: true,
+});
+export type RevenueProtectionEvent = typeof revenueProtectionEvents.$inferSelect;
+export type InsertRevenueProtectionEvent = z.infer<typeof insertRevenueProtectionEventSchema>;

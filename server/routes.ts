@@ -630,6 +630,12 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   registerResilienceRoutes(app);
   startPeriodicSelfHealing();
 
+  const { registerTelemetryRoutes } = await import("./telemetry-service");
+  registerTelemetryRoutes(app);
+
+  const { registerRevenueProtectionRoutes } = await import("./revenue-protection-routes");
+  registerRevenueProtectionRoutes(app);
+
   const { registerIncidentCorrelationRoutes } = await import("./incident-correlation");
   registerIncidentCorrelationRoutes(app);
 
