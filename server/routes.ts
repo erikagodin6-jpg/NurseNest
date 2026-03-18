@@ -10773,6 +10773,77 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  app.get("/api/mock-exams/:attemptId/rationales", requireAnyPaidTier(), async (req: any, res) => {
+    try {
+      const authUser = await getAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+
+      const { attemptId } = req.params;
+      const check = await pool.query(
+        `SELECT user_id, questions, status FROM mock_exam_attempts WHERE id = $1`,
+        [attemptId]
+      );
+      if (check.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
+      if (check.rows[0].user_id !== String(authUser.id) && authUser.tier !== "admin") {
+        return res.status(403).json({ error: "Access denied" });
+      }
+
+      const row = check.rows[0];
+      const rawQuestions = Array.isArray(row.questions) ? row.questions : [];
+      const isIdOnlyFormat = rawQuestions.length > 0 && typeof rawQuestions[0] === "string";
+
+      if (!isIdOnlyFormat) {
+        const rationales: Record<string, any> = {};
+        for (const q of rawQuestions) {
+          if (q && q.id) {
+            rationales[q.id] = {
+              rationale: q.rationale || null,
+              clinicalPearl: q.clinicalPearl || null,
+              examStrategy: q.examStrategy || null,
+              memoryHook: q.memoryHook || null,
+              frameworkUsed: q.frameworkUsed || null,
+              clinicalTrap: q.clinicalTrap || null,
+              distractorRationales: q.distractorRationales || null,
+              scenario: q.scenario || null,
+            };
+          }
+        }
+        return res.json({ rationales });
+      }
+
+      const questionIds = rawQuestions.filter((id: any) => typeof id === "string" && id.length > 0);
+      if (questionIds.length === 0) return res.json({ rationales: {} });
+
+      const BATCH_SIZE = 100;
+      const rationales: Record<string, any> = {};
+      for (let i = 0; i < questionIds.length; i += BATCH_SIZE) {
+        const batch = questionIds.slice(i, i + BATCH_SIZE);
+        const placeholders = batch.map((_: any, idx: number) => `$${idx + 1}`).join(",");
+        const qResult = await pool.query(
+          `SELECT id, rationale, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap, distractor_rationales, scenario
+           FROM exam_questions WHERE id IN (${placeholders})`,
+          batch
+        );
+        for (const q of qResult.rows) {
+          rationales[q.id] = {
+            rationale: q.rationale || null,
+            clinicalPearl: q.clinical_pearl || null,
+            examStrategy: q.exam_strategy || null,
+            memoryHook: q.memory_hook || null,
+            frameworkUsed: q.framework_used || null,
+            clinicalTrap: q.clinical_trap || null,
+            distractorRationales: q.distractor_rationales || null,
+            scenario: q.scenario || null,
+          };
+        }
+      }
+      res.json({ rationales });
+    } catch (e: any) {
+      console.error("[ExamRationales] Error:", e.message);
+      res.status(500).json({ error: "Failed to load rationales" });
+    }
+  });
+
   app.post("/api/mock-exams/:attemptId/complete", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const authUser = await getAuthUser(req);
@@ -10983,17 +11054,42 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         if (isIdOnlyFormat && rawQuestions.length > 0) {
           const questionIds = rawQuestions.filter((id: any) => typeof id === "string" && id.length > 0);
           if (questionIds.length > 0) {
-            const placeholders = questionIds.map((_: any, i: number) => `$${i + 1}`).join(",");
-            const qResult = await pool.query(
-              `SELECT id, stem, options, correct_answer, body_system, topic, subtopic, difficulty, question_type, career_type, scenario, region_scope
-               FROM exam_questions WHERE id IN (${placeholders})`,
-              questionIds
-            );
-            const qMap = new Map(qResult.rows.map((q: any) => [q.id, q]));
+            const BATCH_SIZE = 100;
+            const qMap = new Map<string, any>();
+
+            if (questionIds.length > 200) {
+              for (let i = 0; i < questionIds.length; i += BATCH_SIZE) {
+                const batch = questionIds.slice(i, i + BATCH_SIZE);
+                const placeholders = batch.map((_: any, idx: number) => `$${idx + 1}`).join(",");
+                const qResult = await pool.query(
+                  `SELECT id, stem, options, correct_answer, body_system, topic, subtopic, difficulty, question_type, career_type, region_scope
+                   FROM exam_questions WHERE id IN (${placeholders})`,
+                  batch
+                );
+                for (const row of qResult.rows) {
+                  qMap.set(row.id, row);
+                }
+              }
+            } else {
+              const placeholders = questionIds.map((_: any, i: number) => `$${i + 1}`).join(",");
+              const qResult = await pool.query(
+                `SELECT id, stem, options, correct_answer, body_system, topic, subtopic, difficulty, question_type, career_type, region_scope
+                 FROM exam_questions WHERE id IN (${placeholders})`,
+                questionIds
+              );
+              for (const row of qResult.rows) {
+                qMap.set(row.id, row);
+              }
+            }
+
+            let missingCount = 0;
             questions = questionIds
               .map((qId: string) => {
                 const q = qMap.get(qId);
-                if (!q) return null;
+                if (!q) {
+                  missingCount++;
+                  return null;
+                }
                 return {
                   id: q.id,
                   question: q.stem,
@@ -11011,6 +11107,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
                 };
               })
               .filter(Boolean);
+
+            if (missingCount > 0) {
+              console.warn(`[ExamLoad] Skipped ${missingCount} missing/deleted question IDs for attemptId=${attemptId}`);
+            }
           }
         }
 
@@ -11024,6 +11124,14 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
             failureReason: "in_progress_exam_has_zero_questions",
             questionCount: 0,
             route: req.originalUrl,
+          });
+          return res.status(200).json({
+            ...row,
+            questions: [],
+            reasonCode: "zero_questions",
+            error: "No questions could be loaded for this exam. The question data may be missing or deleted.",
+            recoverable: true,
+            timestamp: new Date().toISOString(),
           });
         }
 
@@ -11043,7 +11151,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
             return true;
           })
           .map((q: any) => {
-            const { rationale, explanation, clinicalPearl, examStrategy, ...rest } = q;
+            const { rationale, explanation, clinicalPearl, examStrategy, memoryHook, frameworkUsed, clinicalTrap, distractorRationales, scenario, ...rest } = q;
             if (rest.options) rest.options = normalizeQuestionOptions(rest.options);
             return rest;
           });
@@ -11057,17 +11165,42 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         if (completedIsIdOnly) {
           const questionIds = completedQuestions.filter((id: any) => typeof id === "string" && id.length > 0);
           if (questionIds.length > 0) {
-            const placeholders = questionIds.map((_: any, i: number) => `$${i + 1}`).join(",");
-            const qResult = await pool.query(
-              `SELECT id, stem, options, correct_answer, body_system, topic, subtopic, difficulty, question_type, career_type, rationale, region_scope
-               FROM exam_questions WHERE id IN (${placeholders})`,
-              questionIds
-            );
-            const qMap = new Map(qResult.rows.map((q: any) => [q.id, q]));
+            const BATCH_SIZE = 100;
+            const qMap = new Map<string, any>();
+
+            if (questionIds.length > 200) {
+              for (let i = 0; i < questionIds.length; i += BATCH_SIZE) {
+                const batch = questionIds.slice(i, i + BATCH_SIZE);
+                const placeholders = batch.map((_: any, idx: number) => `$${idx + 1}`).join(",");
+                const qResult = await pool.query(
+                  `SELECT id, stem, options, correct_answer, body_system, topic, subtopic, difficulty, question_type, career_type, rationale, region_scope
+                   FROM exam_questions WHERE id IN (${placeholders})`,
+                  batch
+                );
+                for (const row of qResult.rows) {
+                  qMap.set(row.id, row);
+                }
+              }
+            } else {
+              const placeholders = questionIds.map((_: any, i: number) => `$${i + 1}`).join(",");
+              const qResult = await pool.query(
+                `SELECT id, stem, options, correct_answer, body_system, topic, subtopic, difficulty, question_type, career_type, rationale, region_scope
+                 FROM exam_questions WHERE id IN (${placeholders})`,
+                questionIds
+              );
+              for (const row of qResult.rows) {
+                qMap.set(row.id, row);
+              }
+            }
+
+            let missingCount = 0;
             completedQuestions = questionIds
               .map((qId: string) => {
                 const q = qMap.get(qId);
-                if (!q) return null;
+                if (!q) {
+                  missingCount++;
+                  return null;
+                }
                 return {
                   id: q.id,
                   question: q.stem,
@@ -11086,6 +11219,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
                 };
               })
               .filter(Boolean);
+
+            if (missingCount > 0) {
+              console.warn(`[ExamLoad] Skipped ${missingCount} missing/deleted question IDs for completed attemptId=${attemptId}`);
+            }
           }
         }
 

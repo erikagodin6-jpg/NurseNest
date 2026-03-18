@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, Component, type ReactNode, type ErrorInfo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/lib/auth";
@@ -8,6 +8,67 @@ import {
   Eye, EyeOff, Printer, RefreshCw, Shield, ShieldCheck, BookOpen,
   ArrowLeft, CheckCircle2, XCircle, Loader2, FileText
 } from "lucide-react";
+
+interface FallbackErrorBoundaryState {
+  hasError: boolean;
+}
+
+export class FallbackErrorBoundary extends Component<{ children: ReactNode; onExit?: () => void }, FallbackErrorBoundaryState> {
+  constructor(props: { children: ReactNode; onExit?: () => void }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(): FallbackErrorBoundaryState {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error("[FallbackErrorBoundary] Fallback component crashed:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-white flex items-center justify-center p-4" data-testid="fallback-error-boundary">
+          <Card className="max-w-md w-full shadow-lg border-amber-200">
+            <CardContent className="p-8 text-center space-y-4">
+              <div className="mx-auto w-14 h-14 rounded-full bg-amber-50 flex items-center justify-center">
+                <AlertTriangle className="w-7 h-7 text-amber-500" />
+              </div>
+              <h2 className="text-lg font-semibold text-gray-900" data-testid="text-fallback-error-title">
+                Exam Temporarily Unavailable
+              </h2>
+              <p className="text-sm text-gray-600">
+                We're experiencing a temporary issue. Please try again later. Your progress and subscription are safe.
+              </p>
+              <div className="flex gap-3 justify-center pt-2">
+                <Button
+                  variant="outline"
+                  onClick={() => window.location.reload()}
+                  className="gap-1"
+                  data-testid="button-fallback-retry"
+                >
+                  <RefreshCw className="w-4 h-4" /> Try Again
+                </Button>
+                {this.props.onExit && (
+                  <Button
+                    variant="default"
+                    onClick={this.props.onExit}
+                    data-testid="button-fallback-exit"
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-1" /> Back to Exams
+                  </Button>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 function getAuthHeaders(): Record<string, string> {
   try {

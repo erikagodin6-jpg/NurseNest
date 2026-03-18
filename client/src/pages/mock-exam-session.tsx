@@ -22,13 +22,14 @@ import {
   classifyHttpError, classifyClientError,
   type ClassifiedExamError, type RecoveryStage,
   RECOVERY_STAGES, getRecoveryStageInfo,
+  EXAM_FAILURE_CODES,
 } from "../../../shared/exam-error-codes";
 import {
   Clock, Flag, ChevronLeft, ChevronRight, CheckCircle2, XCircle,
   Pause, Play, AlertTriangle, Send, SkipForward, Shield, Eye, Coffee,
   ShieldCheck, BookOpen, Printer, Home, RefreshCw, MessageSquare, Loader2, FileText
 } from "lucide-react";
-import { QuestionGuard, MediaGuard, TranslationGuard, RationaleGuard, SafeExamPlayer, StudyModeFallback, PrintableBackup, BackupPracticeSet, SessionRecoveryPrompt } from "@/components/exam-fallbacks";
+import { QuestionGuard, MediaGuard, TranslationGuard, RationaleGuard, SafeExamPlayer, StudyModeFallback, PrintableBackup, BackupPracticeSet, SessionRecoveryPrompt, FallbackErrorBoundary } from "@/components/exam-fallbacks";
 
 function getAuthHeaders(): Record<string, string> {
 
@@ -365,7 +366,10 @@ export default function MockExamSession() {
         parsedBp = JSON.parse(bpData);
         setBlueprintMeta(parsedBp);
       }
-    } catch {}
+    } catch (e) {
+      console.warn("[ExamSession] Failed to parse blueprint localStorage, continuing with defaults:", e);
+      try { localStorage.removeItem(`blueprint-${attemptId}`); } catch {}
+    }
 
     try {
       const specialtyData = localStorage.getItem(`specialty-mock-${attemptId}`);
@@ -381,14 +385,26 @@ export default function MockExamSession() {
           timeLimit: sp.timeLimit || 150,
         });
       }
-    } catch {}
+    } catch (e) {
+      console.warn("[ExamSession] Failed to parse specialty-mock localStorage, continuing with defaults:", e);
+      try { localStorage.removeItem(`specialty-mock-${attemptId}`); } catch {}
+    }
 
     try {
       const savedCat = localStorage.getItem(`cat-state-${attemptId}`);
       if (savedCat) {
-        setCatState(JSON.parse(savedCat));
+        const parsed = JSON.parse(savedCat);
+        if (parsed && typeof parsed === "object" && typeof parsed.itemsAdministered === "number") {
+          setCatState(parsed);
+        } else {
+          console.warn("[ExamSession] Corrupted cat-state in localStorage, ignoring");
+          try { localStorage.removeItem(`cat-state-${attemptId}`); } catch {}
+        }
       }
-    } catch {}
+    } catch (e) {
+      console.warn("[ExamSession] Failed to parse cat-state localStorage, continuing with defaults:", e);
+      try { localStorage.removeItem(`cat-state-${attemptId}`); } catch {}
+    }
 
     const controller = new AbortController();
     let timedOut = false;
@@ -428,6 +444,7 @@ export default function MockExamSession() {
           return;
         }
 
+        try {
         const savedAnswers = data.answers || {};
         const savedTimeSpent = data.time_spent || 0;
         const totalQ = (data.questions || []).length;
@@ -442,12 +459,37 @@ export default function MockExamSession() {
           });
         }
 
+        if (data.reasonCode === "zero_questions" || (!Array.isArray(data.questions) && data.status === "in_progress")) {
+          setLoadError("zero_questions");
+          setClassifiedError({
+            code: EXAM_FAILURE_CODES.QUESTION_BATCH_MISSING,
+            message: data.error || "No questions could be loaded for this exam.",
+            recoverable: true,
+            timestamp: new Date().toISOString(),
+          });
+          setLoading(false);
+          return;
+        }
+
         const rawQuestionData: PooledQuestion[] = data.questions || [];
         const allQuestions = rawQuestionData.map((q, idx) => {
           if (!q) return { id: `placeholder-${idx}`, question: "", options: [], correct: -1, lessonId: "", bodySystem: "", tier: "", rationale: "", source: "quiz" as const };
           if (!q.id) return { ...q, id: `auto-${idx}` };
           return q;
         });
+
+        if (allQuestions.length === 0 && data.status === "in_progress") {
+          setLoadError("zero_questions");
+          setClassifiedError({
+            code: EXAM_FAILURE_CODES.QUESTION_BATCH_MISSING,
+            message: "No questions could be loaded for this exam. The question data may be missing or corrupted.",
+            recoverable: true,
+            timestamp: new Date().toISOString(),
+          });
+          setLoading(false);
+          return;
+        }
+
         const invalidQuestionIds = allQuestions
           .filter(q => !q.question || !Array.isArray(q.options) || q.options.length < 2 || q.correct === undefined || q.correct === null || q.correct < 0)
           .map(q => q.id);
@@ -487,8 +529,19 @@ export default function MockExamSession() {
           const savedCatStr = localStorage.getItem(`cat-state-${attemptId}`);
           let existingCat: CATState | null = null;
           try {
-            if (savedCatStr) existingCat = JSON.parse(savedCatStr);
-          } catch {}
+            if (savedCatStr) {
+              const parsed = JSON.parse(savedCatStr);
+              if (parsed && typeof parsed === "object" && typeof parsed.itemsAdministered === "number") {
+                existingCat = parsed;
+              } else {
+                console.warn("[ExamSession] Corrupted cat-state during hydration, ignoring");
+                try { localStorage.removeItem(`cat-state-${attemptId}`); } catch {}
+              }
+            }
+          } catch (e) {
+            console.warn("[ExamSession] Failed to parse cat-state during hydration:", e);
+            try { localStorage.removeItem(`cat-state-${attemptId}`); } catch {}
+          }
 
           if (data.cat_state) {
             const serverItems = data.cat_state.itemsAdministered || 0;
@@ -515,7 +568,11 @@ export default function MockExamSession() {
               setCurrentQ(0);
             }
             setCatState(freshCat);
-            localStorage.setItem(`cat-state-${attemptId}`, JSON.stringify(freshCat));
+            try {
+              localStorage.setItem(`cat-state-${attemptId}`, JSON.stringify(freshCat));
+            } catch (e) {
+              console.warn("[ExamSession] Failed to save cat-state to localStorage:", e);
+            }
           }
         } else {
           setQuestions(allQuestions);
@@ -543,6 +600,18 @@ export default function MockExamSession() {
         }
 
         setLoading(false);
+        } catch (processingError: any) {
+          console.error("[ExamSession] Data processing pipeline error:", processingError);
+          setFallbackMode("safe");
+          setLoadError("frontend_parse_failure");
+          setClassifiedError({
+            code: EXAM_FAILURE_CODES.FRONTEND_PARSE_FAILURE,
+            message: "An error occurred while processing exam data. Entering safe mode.",
+            recoverable: true,
+            timestamp: new Date().toISOString(),
+          });
+          setLoading(false);
+        }
       })
       .catch((err) => {
         clearTimeout(timeoutId);
@@ -630,6 +699,9 @@ export default function MockExamSession() {
     setRecoveryInProgress(true);
     const currentRetry = retryCount + 1;
 
+    const recoveryTimeout = new Promise<"timeout">((resolve) => setTimeout(() => resolve("timeout"), 15000));
+
+    const recoveryWork = (async () => {
     try {
       if (currentRetry === 1) {
         setRecoveryStage(RECOVERY_STAGES.CLEAR_CACHE);
@@ -676,7 +748,7 @@ export default function MockExamSession() {
               setLoading(false);
               toast({ title: "Exam Recovered", description: `Recovered ${recoveredQuestions.length} questions successfully.` });
               setRecoveryInProgress(false);
-              return;
+              return "recovered";
             }
           }
         } catch {}
@@ -701,9 +773,25 @@ export default function MockExamSession() {
       console.error("[ExamRecovery] Recovery error:", err);
       setLoading(false);
       setLoadError("Recovery failed unexpectedly");
-    } finally {
-      setRecoveryInProgress(false);
     }
+    return "done";
+    })();
+
+    const result = await Promise.race([recoveryWork, recoveryTimeout]);
+    if (result === "timeout") {
+      console.error("[ExamRecovery] Recovery timed out after 15 seconds");
+      setRecoveryStage(RECOVERY_STAGES.SAFE_EXIT);
+      setFallbackMode("safe");
+      setLoading(false);
+      setLoadError("Recovery timed out");
+      setClassifiedError({
+        code: EXAM_FAILURE_CODES.NETWORK_TIMEOUT,
+        message: "Recovery timed out. Entering safe mode.",
+        recoverable: true,
+        timestamp: new Date().toISOString(),
+      });
+    }
+    setRecoveryInProgress(false);
   }, [attemptId, retryCount, recoveryInProgress, classifiedError, incidentRef, clearStaleExamCache, submitExamIncidentReport, toast]);
 
   const questionIdSignature = useMemo(() => questions.map(q => q.id).join(","), [questions]);
@@ -800,22 +888,52 @@ export default function MockExamSession() {
 
   const checkpointManagerRef = useRef<ReturnType<typeof createCheckpointManager> | null>(null);
 
+  const autoSaveFailCountRef = useRef(0);
+  const autoSaveWarningShownRef = useRef(false);
+
   useEffect(() => {
     if (loading || !attemptId) return;
     const interval = setInterval(() => {
       const { answers: a, flagged: f, timeSpent: t } = latestStateRef.current;
-      fetch(`/api/mock-exams/${attemptId}/progress`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
-        body: JSON.stringify({
-          answers: a, flagged: f, timeSpent: t,
-          catState: catState || undefined,
-          timerState: { elapsed: t, paused },
-        }),
-      }).catch(() => {});
+      try {
+        fetch(`/api/mock-exams/${attemptId}/progress`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+          body: JSON.stringify({
+            answers: a, flagged: f, timeSpent: t,
+            catState: catState || undefined,
+            timerState: { elapsed: t, paused },
+          }),
+        }).then((res) => {
+          if (res.ok) {
+            autoSaveFailCountRef.current = 0;
+            autoSaveWarningShownRef.current = false;
+          } else {
+            autoSaveFailCountRef.current++;
+            if (autoSaveFailCountRef.current >= 3 && !autoSaveWarningShownRef.current) {
+              autoSaveWarningShownRef.current = true;
+              toast({
+                title: "Auto-Save Issue",
+                description: "Progress auto-save is having trouble. Your answers are still saved locally. Please check your connection.",
+                variant: "destructive",
+              });
+            }
+          }
+        }).catch(() => {
+          autoSaveFailCountRef.current++;
+          if (autoSaveFailCountRef.current >= 3 && !autoSaveWarningShownRef.current) {
+            autoSaveWarningShownRef.current = true;
+            toast({
+              title: "Auto-Save Issue",
+              description: "Progress auto-save is having trouble. Your answers are still saved locally. Please check your connection.",
+              variant: "destructive",
+            });
+          }
+        });
+      } catch {}
     }, 10000);
     return () => clearInterval(interval);
-  }, [loading, attemptId, catState, paused]);
+  }, [loading, attemptId, catState, paused, toast]);
 
   useEffect(() => {
     if (loading || !attemptId) return;
@@ -928,17 +1046,23 @@ export default function MockExamSession() {
   const saveProgressToServer = useCallback((currentCatState?: CATState) => {
     if (!attemptId) return;
     const state = currentCatState || catState;
-    fetch(`/api/mock-exams/${attemptId}/progress`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
-      body: JSON.stringify({
-        answers,
-        flagged,
-        timeSpent,
-        catState: state,
-        timerState: { elapsed: timeSpent, paused },
-      }),
-    }).catch(() => {});
+    try {
+      fetch(`/api/mock-exams/${attemptId}/progress`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+        body: JSON.stringify({
+          answers,
+          flagged,
+          timeSpent,
+          catState: state,
+          timerState: { elapsed: timeSpent, paused },
+        }),
+      }).catch((err) => {
+        console.warn("[ExamSession] saveProgressToServer failed:", err?.message);
+      });
+    } catch (err: any) {
+      console.warn("[ExamSession] saveProgressToServer error:", err?.message);
+    }
   }, [attemptId, answers, flagged, timeSpent, catState, paused]);
 
   const submitExamWithState = async (finalCatState?: CATState, stoppingReason?: string) => {
@@ -997,10 +1121,26 @@ export default function MockExamSession() {
   const fetchFullQuestions = async () => {
     if (!attemptId) return;
     try {
-      const res = await fetch(`/api/mock-exams/${attemptId}`, { headers: getAuthHeaders() });
-      const data = await res.json();
+      const [examRes, rationalesRes] = await Promise.all([
+        fetch(`/api/mock-exams/${attemptId}`, { headers: getAuthHeaders() }),
+        fetch(`/api/mock-exams/${attemptId}/rationales`, { headers: getAuthHeaders() }).catch(() => null),
+      ]);
+      const data = await examRes.json();
+      let rationales: Record<string, any> = {};
+      try {
+        if (rationalesRes && rationalesRes.ok) {
+          const rationalesData = await rationalesRes.json();
+          rationales = rationalesData.rationales || {};
+        }
+      } catch {}
       if (data.questions) {
-        setFullQuestions(data.questions);
+        const enrichedQuestions = data.questions.map((q: any) => {
+          if (q && q.id && rationales[q.id]) {
+            return { ...q, ...rationales[q.id] };
+          }
+          return q;
+        });
+        setFullQuestions(enrichedQuestions);
       }
     } catch {}
   };
@@ -1021,50 +1161,58 @@ export default function MockExamSession() {
 
   if (fallbackMode === "safe") {
     return (
-      <SafeExamPlayer
-        questions={questions}
-        answers={answers}
-        examTitle={blueprintMeta?.examName}
-        onComplete={(finalAnswers) => {
-          setAnswers(finalAnswers);
-        }}
-        onExit={() => navigate(backToExamsPath)}
-      />
+      <FallbackErrorBoundary onExit={() => navigate(backToExamsPath)}>
+        <SafeExamPlayer
+          questions={questions}
+          answers={answers}
+          examTitle={blueprintMeta?.examName}
+          onComplete={(finalAnswers) => {
+            setAnswers(finalAnswers);
+          }}
+          onExit={() => navigate(backToExamsPath)}
+        />
+      </FallbackErrorBoundary>
     );
   }
 
   if (fallbackMode === "study") {
     return (
-      <StudyModeFallback
-        questions={questions}
-        examTitle={blueprintMeta?.examName}
-        onExit={() => navigate(backToExamsPath)}
-      />
+      <FallbackErrorBoundary onExit={() => navigate(backToExamsPath)}>
+        <StudyModeFallback
+          questions={questions}
+          examTitle={blueprintMeta?.examName}
+          onExit={() => navigate(backToExamsPath)}
+        />
+      </FallbackErrorBoundary>
     );
   }
 
   if (fallbackMode === "backup-practice") {
     return (
-      <BackupPracticeSet
-        originalExamTier={blueprintMeta?.examCode?.includes("PN") ? "rpn" : blueprintMeta?.examCode?.includes("RN") ? "rn" : "rpn"}
-        originalExamCode={blueprintMeta?.examCode}
-        onStart={(backupQuestions) => {
-          setQuestions(backupQuestions);
-          setFallbackMode("safe");
-        }}
-        onExit={() => navigate(backToExamsPath)}
-      />
+      <FallbackErrorBoundary onExit={() => navigate(backToExamsPath)}>
+        <BackupPracticeSet
+          originalExamTier={blueprintMeta?.examCode?.includes("PN") ? "rpn" : blueprintMeta?.examCode?.includes("RN") ? "rn" : "rpn"}
+          originalExamCode={blueprintMeta?.examCode}
+          onStart={(backupQuestions) => {
+            setQuestions(backupQuestions);
+            setFallbackMode("safe");
+          }}
+          onExit={() => navigate(backToExamsPath)}
+        />
+      </FallbackErrorBoundary>
     );
   }
 
   if (fallbackMode === "printable") {
     return (
-      <PrintableBackup
-        questions={questions}
-        examTitle={blueprintMeta?.examName}
-        tier={blueprintMeta?.examCode}
-        onExit={() => navigate(backToExamsPath)}
-      />
+      <FallbackErrorBoundary onExit={() => navigate(backToExamsPath)}>
+        <PrintableBackup
+          questions={questions}
+          examTitle={blueprintMeta?.examName}
+          tier={blueprintMeta?.examCode}
+          onExit={() => navigate(backToExamsPath)}
+        />
+      </FallbackErrorBoundary>
     );
   }
 
