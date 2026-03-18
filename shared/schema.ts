@@ -485,7 +485,6 @@ export const auditLogs = pgTable("audit_logs", {
   confirmationRequired: boolean("confirmation_required").default(false),
   beforeJson: jsonb("before_json"),
   afterJson: jsonb("after_json"),
-  reason: text("reason"),
   metadata: jsonb("metadata"),
   severity: text("severity").default("info"),
   ipAddress: text("ip_address"),
