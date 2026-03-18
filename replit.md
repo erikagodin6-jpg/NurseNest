@@ -35,44 +35,48 @@ Core architectural components and design patterns include:
 - **Content Publishing Audit**: Admin system for audit reports, quality fixes, coverage, and paywall enforcement, with an 8-section validation for unpublished content.
 - **Clinical SEO Pages**: Database-driven clinical content pages for SEO.
 - **Question Comments & Discussion**: Lightweight discussion system on practice questions with admin moderation.
-- **Exam Reliability System**: Production-grade exam stability with question validation, pool health checks, quarantine, incident tracking, and error boundaries.
-- **Ops Foundation & Audit Infrastructure**: Unified operational data layer with audit logging for all operator actions and role-based admin permissions. CSRF protection on admin mutation endpoints.
-- **Subscription & Entitlement System**: Dedicated `user_subscriptions` table, JWT-based auth endpoints returning user, subscription, and entitlements. Stripe webhooks update subscription status.
-- **Platform Resilience System**: Circuit breakers, feature flags, kill switches, health checks, rate limiting, load shedding, self-healing, emergency mode, and entitlement caching, with an Ops Dashboard.
-- **Memory Protection & Auto-Recovery System**: RSS-based memory monitoring, load shedding for bulk AI POSTs, response size limiter, and client-side query caching with auto-retries.
-- **Production Incident Monitoring System**: Unified monitoring and alerting via `server/incident-monitor.ts` with structured logging, deduplication, affected-user tracking, severity escalation, and Admin Incident Center.
-- **Incident System & Correlation Engine**: Structured incident management with CRUD, timeline tracking, and correlation engine.
-- **Performance Protection System**: Per-route response time metrics, slow DB query logging, server-side TTL caching, query timeouts, route priority tiers for load shedding, and admin performance dashboard.
-- **Deployment Protection & Self-Healing**: Blue-green deployment health gate with post-deploy monitoring, auto-rollback alerts, and deploy freeze mechanism. Periodic self-healing checks for cache corruption, schema drift, and backups.
-- **Schema Versioning**: `schema_version` field for all content types with version-aware normalizers and migration utilities.
-- **Substitute Content Engine**: Automatically finds closest equivalent premium resource when primary content is unavailable.
-- **Multilingual Content Schema & Admin Tooling**: Per-content-type translation tables with `translation_status_enum` tracking, admin tools for managing translation lifecycle, and i18n enforcement with build-blocking validation.
-- **Exam Resilience Engine**: Production-grade backend resilience for the exam system with pre-publish validation, runtime normalization, versioned backup snapshots, circuit breaker logic, and server-side session recovery.
+- **Exam Reliability System**: Production-grade exam stability with question validation, pool health checks, quarantine, incident tracking, error boundaries, and API normalization.
+- **Ops Foundation & Audit Infrastructure**: Unified operational data layer with audit logging service for all operator actions. Role-based admin permissions via `requireAdminRole()` middleware. CSRF protection on all admin mutation endpoints. Structured audit entries for sensitive platform operations.
+- **Cross-Platform REST API**: Dedicated route files for test banks (`server/test-bank-api.ts`) and CAT exam sessions (`server/cat-session-api.ts`), plus enhanced mock exam and lesson endpoints in `server/cross-platform-api.ts`. All endpoints enforce auth, entitlement/tier gating, write to `unified_question_history`, log analytics events to `analytics_events`, and include idempotency protections. Test bank endpoints at `/api/test-banks/...`, CAT endpoints at `/api/cat-exams/...`, V1 endpoints at `/api/v1/...`.
+- **Subscription & Entitlement System**: Dedicated `user_subscriptions` table with comprehensive plan details. Auth endpoints manage user authentication and entitlements. Stripe webhooks update subscription status.
+- **Platform Resilience System**: Enterprise-grade infrastructure providing circuit breakers, feature flags, kill switches, health checks, rate limiting, load shedding, self-healing, emergency mode, and entitlement caching. Includes scope isolation, progressive degradation, graceful timeout, stuck state detection, and performance/scale protection. An Ops Dashboard provides a single-screen platform health overview.
+- **Memory Protection & Auto-Recovery System**: RSS-based memory monitoring with configurable thresholds. Load shedding middleware blocks bulk AI POSTs and caps list pagination under pressure. Response size limiter caps JSON responses. Cleanup sweeps prune stale sessions and caches. Frontend uses staleTime/gcTime for queryClient, auto-retries on 503, and an incident banner.
+- **Production Incident Monitoring System**: Unified monitoring and alerting via `server/incident-monitor.ts` with structured `logIncident()`, unique IDs, deduplication, affected-user tracking, severity escalation, DB persistence, and notification hooks. An Admin Incident Center provides an overview.
+- **Incident System & Correlation Engine**: Structured incident management with CRUD operations, timeline tracking, and a correlation engine that scores recent changes against incident start times. Auto-detects incidents from resilience events.
+- **Performance Protection System**: Production-grade performance instrumentation providing per-route response time metrics, slow DB query logging, server-side in-memory TTL caching, statement-level query timeouts, route priority tiers for load shedding, and an admin performance dashboard. Non-critical UI elements are deferred.
+- **Deployment Protection & Self-Healing**: Blue-green deployment health gate with post-deploy monitoring, configurable monitoring window, and auto-rollback alerts. A deploy freeze mechanism activates on instability. Periodic self-healing checks run for cache corruption, schema drift, and missing backups.
+- **Schema Versioning**: All content types include a `schema_version` field. Version-aware normalizers handle legacy formats. A migration utility upgrades old records.
+- **Substitute Content Engine**: Automatically finds and offers the closest equivalent premium resource when primary content is unavailable, logging all substitution events.
+- **Multilingual Content Schema (Phase 1)**: Per-content-type translation tables with `translation_status_enum` and `source_version` tracking. English content backfilled as `approved`.
+- **Multilingual Admin Audit & Completeness Tooling (Phase 3)**: Admin-facing tools for managing multilingual content lifecycle using per-content-type translation tables.
+- **i18n Enforcement & Build Tooling**: Compile script for extracting translations, missing key tracking with reporting, a missing key API, and a fallback overlay for development. Build-blocking validation scripts ensure translation coverage and prevent hardcoded strings. Runtime i18n enforcement replaces silent English fallbacks with `TRANSLATION_UNAVAILABLE_MARKER`.
+- **Exam Resilience Engine**: Production-grade backend resilience for the exam system including pre-publish validation, runtime normalization, versioned backup snapshots, circuit breaker logic, server-side session recovery, static backup payloads, and admin monitoring/alerting APIs.
 - **Cross-Platform Session Sync**: Dashboard "Continue Where You Left Off" widget surfaces in-progress sessions from `/api/session-checkpoint/active`. RecommendedWidget uses `/api/study-recommendations` instead of local computation. Lesson quiz completion persists to `/api/progress`. QBank exam detects prior checkpoints on load. StudyStreakWidget uses server streak data only.
-- **Centralized Entitlement Resolver**: Single function `resolveEntitlement()` for all access sources.
-- **Access Delivery Orchestrator**: Middleware factory `createAccessDeliveryOrchestrator()` for content delivery with automatic fallback chains.
-- **Content Fault Isolation**: Component-level error boundaries and `SafeList`/`SafeRender` utilities prevent cascading failures.
-- **Content-Type Fallback Renderers**: Complete fallback chains for major content types.
-- **Runtime Language Safety & Monitoring**: Language isolation middleware enforces per-request language scoping on API responses.
-- **Content Failover & Backup Pipeline**: 4-tier fallback delivery chain to prevent blank/broken content.
-- **Abuse & Rate Limiting Protection**: Centralized abuse detection middleware with tiered escalation and reusable rate limiter factory.
-- **Content Validation, Versioning & Quarantine System**: Publish-Time Validation Pipeline, Snapshot & Versioning System, and Content Quarantine System.
-- **Incident Correlation & Weekly Resilience Report**: Automatic "what changed?" incident correlation with change tracking.
-- **Content Publishing & Live Validation**: 8-section validation for unpublished content, metadata, and integrity.
-- **Publish-Time Validation Gate & Backup Artifact Generation**: Strict publish-gate pipeline validating content and generating backup artifacts.
-- **Cross-Platform Auth API**: Unified JWT-based auth for web/mobile supporting email/username login, password reset, and profile management.
-- **Admin Security**: JWT-only admin auth, role-based access control, CSRF protection, rate limiting, and enhanced audit logging.
-- **Last-Known-Good Content Versioning**: Immutable versioning for premium content with automatic failover.
-- **Release Gate API**: Pre-deploy and pre-publish safety checks.
-- **Content Health Score Engine**: 0-100 scoring engine with per-dimension breakdown.
-- **VIP Subscriber Prioritization**: Middleware prioritizing paid subscriber requests under high load.
-- **Chaos Testing & Disaster Recovery**: Configurable chaos engine with failure scenarios and DR readiness scoring.
-- **Admin Reliability Dashboard**: Unified reliability monitoring dashboard.
-- **Data Migration & Auto-Cleanup System**: Versioned migration framework with dry-run, validation, auto-rollback, and scheduled cleanup.
-- **Observability, Telemetry & Revenue Protection**: Behavioral telemetry, time-travel debugging, and revenue protection dashboard.
-- **Exam Load Failure Recovery Pipeline**: Multi-stage client-side recovery for exam loading failures.
-- **Subscriber Rescue & Refund Prevention**: Admin tools for subscriber retention.
-- **Cross-Platform Subscription & Entitlement Sync System**: Unified subscription management with mobile-ready API, webhook processing, and analytics.
+- **Centralized Entitlement Resolver**: Single function `resolveEntitlement(userId, productType, productId)` returns a normalized `EntitlementDecisionObject` handling all access sources.
+- **Access Delivery Orchestrator**: Middleware factory `createAccessDeliveryOrchestrator()` wraps content delivery endpoints with an automatic fallback chain (primary → safe fallback → last-known-good → backup snapshot → substitute equivalent → static fallback).
+- **Content Fault Isolation**: Component-level error boundaries (`ContentItemBoundary`, `WidgetBoundary`, `MediaBoundary`) and `SafeList`/`SafeRender` utilities prevent cascading failures.
+- **Content-Type Fallback Renderers**: Complete fallback chains for every major content type (CAT, Flashcard, Lesson, Download).
+- **Runtime Language Safety & Monitoring**: Language isolation middleware enforces per-request language scoping on all API responses. Structured logging tracks validation failures and language mismatches.
+- **Content Failover & Backup Pipeline**: Ensures no paying user sees blank/broken content via a 4-tier fallback delivery chain.
+- **Abuse & Rate Limiting Protection**: Centralized abuse detection middleware with tiered escalation, IP/UA bot heuristics, and reusable rate limiter factory.
+- **Content Validation, Versioning & Quarantine System**: Three interconnected systems for content reliability: Publish-Time Validation Pipeline, Snapshot & Versioning System, and Content Quarantine System.
+- **Incident Correlation & Weekly Resilience Report**: Automatic "what changed?" incident correlation with change tracking (deploys, content publishes, feature flags, kill switches, config changes, schema migrations) and confidence-scored correlation matching.
+- **Content Publishing & Live Validation**: Comprehensive 8-section validation system (`server/content-publishing-validator.ts`) for unpublished content, metadata, duplicates, CAT rationale, exam page routes, flashcard linkage, tier access control, and content integrity.
+- **Publish-Time Validation Gate & Backup Artifact Generation**: Strict publish-gate pipeline (`server/publish-gate.ts`) validates content and generates backup artifacts (safe JSON, static HTML, downloadable) at publish time.
+- **Cross-Platform Auth API**: Unified JWT-based auth for web and mobile with consistent response shape via `buildAuthUserResponse()` helper (`server/auth-response.ts`). Email required and unique (case-insensitive) at registration. Login supports username or email. Registration returns JWT token. All auth endpoints (login, register, me, profile) return the same canonical user object including: profile fields, onboarding state (`onboardingCompleted`, `studyGoal`, `dailyStudyTime`, `examType`), subscription/tier info, entitlement map, and free-tier usage summary (`questionsUsed`, `flashcardsUsed`, `catExamsUsed`). Dedicated `POST /api/me/onboarding` endpoint accepts `{role, country, examType, studyGoal, dailyStudyTime}`, validates with Zod, persists atomically, and sets `onboardingCompleted=true`. Answer submission endpoints (test-results, qotd, flashcard-session) increment free-tier usage counters and return updated usage in response. Clean 401 JSON for expired/invalid tokens. Endpoints also cover token refresh, logout, entitlements, profile management, and password recovery. Users table has `study_goal`, `daily_study_time`, `exam_type`, `role`, `onboarding_completed` columns.
+- **Admin Security**: JWT-only admin auth, role-based access control (`super_admin`, `content_admin`, `support_admin`, `analytics_viewer`), CSRF protection, rate limiting, re-auth/confirmation tokens for sensitive operations, and enhanced audit logging.
+- **Last-Known-Good Content Versioning**: Immutable versioning system for premium content with automatic failover and admin restore.
+- **Release Gate API**: Pre-deploy and pre-publish safety checks with override audit logging.
+- **Content Health Score Engine**: 0-100 scoring engine with per-dimension breakdown for content items.
+- **VIP Subscriber Prioritization**: Middleware that prioritizes paid subscriber requests under high load.
+- **Chaos Testing & Disaster Recovery**: Configurable chaos engine with failure scenarios, DR readiness scoring, backup restore dry-run, and manifest generation.
+- **Admin Reliability Dashboard**: Unified reliability monitoring dashboard with summary stats and actionable controls.
+- **Data Migration & Auto-Cleanup System**: Versioned migration framework with up/down SQL scripts, dry-run preview, validation checks, automatic rollback, and scheduled auto-cleanup jobs.
+- **Observability, Telemetry & Revenue Protection**: Behavioral telemetry service, time-travel debugging, and a revenue protection dashboard.
+- **Exam Load Failure Recovery Pipeline**: Multi-stage client-side recovery for exam loading failures, with server-side incident storage and per-question error boundaries.
+- **Subscriber Rescue & Refund Prevention**: Admin tools for subscriber retention including communication template management, rescue actions, and a refund prevention dashboard.
+- **Cross-Platform Subscription & Entitlement Sync System**: Unified subscription management with a canonical `subscriptions` table, mobile-ready entitlement API, idempotent webhook processing, structured `entitlement_events` analytics, email normalization, billing refresh/restore endpoints, and expanded admin tooling.
+- **Cross-Platform Learning System API**: Unified `/api/v1/` REST API (`server/cross-platform-api.ts`) shared by website and mobile app. Covers test banks, CAT/adaptive exams (start/answer/pause/resume/results), mock exams (list/start/answer/complete/history), lessons (list/detail/progress/bookmarks), dashboard summary, analytics event logging, and question history. Uses entitlement checks, idempotency keys, auto-created tables (`test_bank_collections`, `unified_question_history`, `lesson_bookmarks`, `analytics_events`, `test_bank_progress`), and integrates with the dashboard via `DashboardSummaryContext`. Safe mode whitelists all v1 read/write paths.
 
 ### External Dependencies
 - **Database**: PostgreSQL

@@ -530,6 +530,12 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerCrossPlatformApiRoutes } = await import("./cross-platform-api");
   registerCrossPlatformApiRoutes(app);
 
+  const { registerTestBankApiRoutes } = await import("./test-bank-api");
+  registerTestBankApiRoutes(app);
+
+  const { registerCatSessionApiRoutes } = await import("./cat-session-api");
+  registerCatSessionApiRoutes(app);
+
   const { registerAnalyticsEventsRoutes } = await import("./analytics-events-routes");
   registerAnalyticsEventsRoutes(app);
 

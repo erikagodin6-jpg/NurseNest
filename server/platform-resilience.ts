@@ -1579,6 +1579,8 @@ const SAFE_MODE_CORE_READ_PATHS = new Set([
   "/api/v1/lessons",
   "/api/v1/dashboard",
   "/api/v1/question-history",
+  "/api/test-banks",
+  "/api/cat-exams",
 ]);
 
 const SAFE_MODE_INFRA_PATHS = new Set([

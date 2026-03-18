@@ -1116,6 +1116,109 @@ router.post("/api/v1/mock-exams/:id/complete", async (req, res) => {
   }
 });
 
+router.post("/api/v1/mock-exams/:id/save-progress", async (req, res) => {
+  try {
+    const user = await requireAuth(req, res);
+    if (!user) return;
+
+    const { id } = req.params;
+    const { answers, flaggedQuestions, currentQuestionIndex, timerState } = req.body;
+
+    if (!answers || typeof answers !== "object") {
+      return res.status(400).json({ error: "answers object is required" });
+    }
+
+    const attemptResult = await pool.query(
+      `SELECT * FROM mock_exam_attempts WHERE id = $1 AND user_id = $2 AND status = 'in_progress'`,
+      [id, user.id]
+    );
+
+    if (attemptResult.rows.length === 0) {
+      return res.status(404).json({ error: "Active mock exam not found" });
+    }
+
+    const attempt = attemptResult.rows[0];
+    const existingAnswers = attempt.answers || {};
+    const mergedAnswers = { ...existingAnswers, ...answers };
+
+    const newAnswerIds = Object.keys(answers).filter(qId => !existingAnswers[qId]);
+    for (const qId of newAnswerIds) {
+      const ans = answers[qId];
+      if (ans && typeof ans.selectedAnswer === "number") {
+        const qResult = await pool.query(
+          `SELECT correct_answer FROM exam_questions WHERE id = $1`,
+          [qId]
+        );
+        if (qResult.rows.length > 0) {
+          let correctAnswer = qResult.rows[0].correct_answer;
+          if (typeof correctAnswer === "string") {
+            try { correctAnswer = JSON.parse(correctAnswer); } catch {}
+          }
+          const letterMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
+          if (typeof correctAnswer === "string") {
+            const mapped = letterMap[correctAnswer.toUpperCase()];
+            if (mapped !== undefined) correctAnswer = [mapped];
+          }
+          if (typeof correctAnswer === "number") correctAnswer = [correctAnswer];
+          if (!Array.isArray(correctAnswer)) correctAnswer = [0];
+
+          const isCorrect = correctAnswer.includes(ans.selectedAnswer);
+          mergedAnswers[qId] = { ...ans, isCorrect };
+
+          await recordQuestionHistory(
+            user.id, qId, ans.selectedAnswer, isCorrect,
+            "mock_exam", id, undefined, ans.timeSpent
+          );
+        }
+      }
+    }
+
+    const totalTime = Object.values(mergedAnswers).reduce((s: number, a: any) => s + ((a as any).timeSpent || 0), 0);
+
+    const updateFields: string[] = [
+      `answers = $1`,
+      `time_spent = $2`,
+    ];
+    const updateParams: any[] = [JSON.stringify(mergedAnswers), Math.round(totalTime)];
+    let pIdx = 3;
+
+    if (flaggedQuestions !== undefined) {
+      updateFields.push(`flagged = $${pIdx}`);
+      updateParams.push(JSON.stringify(flaggedQuestions));
+      pIdx++;
+    }
+
+    if (timerState !== undefined) {
+      updateFields.push(`timer_state = $${pIdx}`);
+      updateParams.push(JSON.stringify(timerState));
+      pIdx++;
+    }
+
+    updateParams.push(id, user.id);
+
+    await pool.query(
+      `UPDATE mock_exam_attempts SET ${updateFields.join(", ")} WHERE id = $${pIdx} AND user_id = $${pIdx + 1}`,
+      updateParams
+    );
+
+    await logAnalyticsEvent(user.id, "mock_progress_saved", {
+      attemptId: id,
+      answeredCount: Object.keys(mergedAnswers).length,
+      totalQuestions: attempt.total_questions,
+      currentQuestionIndex,
+    });
+
+    res.json({
+      success: true,
+      answeredCount: Object.keys(mergedAnswers).length,
+      totalQuestions: attempt.total_questions,
+    });
+  } catch (e: any) {
+    console.error("[MockExams] Save progress error:", e.message);
+    res.status(500).json({ error: "Failed to save progress" });
+  }
+});
+
 router.get("/api/v1/mock-exams/history", async (req, res) => {
   try {
     const user = await requireAuth(req, res);
@@ -1157,6 +1260,18 @@ router.get("/api/v1/lessons", async (req, res) => {
     if (category) {
       query += ` AND category = $${idx}`;
       params.push(category);
+      idx++;
+    }
+
+    if (role) {
+      query += ` AND (tier = $${idx} OR tier = 'free')`;
+      params.push(role);
+      idx++;
+    }
+
+    if (exam) {
+      query += ` AND (tags::text ILIKE '%' || $${idx} || '%' OR category ILIKE '%' || $${idx} || '%')`;
+      params.push(exam);
       idx++;
     }
 
