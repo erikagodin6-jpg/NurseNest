@@ -1,0 +1,106 @@
+You are working on the NurseNest production codebase.
+
+Implement PHASE 1: IMMEDIATE PRODUCTION STABILIZATION.
+
+This phase is focused on stopping subscriber-facing failures right now, especially around exams, paid access, and critical study flows.
+
+PRIMARY GOAL
+Stabilize the live site fast without risky large-scale refactors.
+
+DO FIRST
+1. Protect critical routes:
+- login
+- entitlement/subscription checks
+- exam list
+- exam player
+- CAT start
+- flashcards
+- premium downloads
+
+2. Add route-level fail-safe handling:
+- no critical route may hard-crash to a blank page or generic error boundary
+- every critical route must show a protected recovery UI
+- recovery UI must say:
+  “We’re having trouble loading this right now. Your access is protected.”
+- include buttons for:
+  - Retry
+  - Open Safe Mode
+  - Return to Dashboard
+  - Report Issue
+
+3. Build immediate safe fallback modes for:
+- exams
+- CAT exams
+- flashcards
+- lessons
+- downloads
+
+Fallback priority:
+- main experience
+- safe/simple renderer
+- backup/static version
+- substitute equivalent content where applicable
+
+4. Add centralized structured error logging for critical routes:
+Capture:
+- route
+- user id if available
+- exam/content/product id
+- locale/language
+- entitlement result
+- stack trace
+- fallback mode triggered
+- timestamp
+
+5. Add last-known-good serving for published premium content:
+- if current version fails validation or rendering, automatically serve the most recent verified good version
+
+6. Add strict runtime payload validation before rendering:
+- validate required fields
+- skip malformed items
+- never allow one bad item to crash an entire exam, deck, or lesson
+
+7. Add session checkpointing for exam flows:
+- current question
+- selected answers
+- progress state
+- restore after reload/crash where possible
+
+8. Add provisional access protection for recent valid payers:
+- do not immediately block access because of temporary billing sync issues
+- if recent valid payment evidence exists, allow provisional access and log it
+
+9. Add kill switches for:
+- exam player
+- CAT engine
+- specific broken exams
+- specific broken locales/languages
+- specific feature flags
+
+10. Add content quarantine:
+- if content is malformed or dangerous to render, remove it from live user delivery immediately
+- route users to last-known-good or fallback mode instead
+
+TESTS REQUIRED
+- paid user can still access fallback when main exam fails
+- malformed exam payload does not crash route
+- last-known-good version is served when current version is broken
+- provisional access works for recent verified purchase
+- broken flashcard/lesson/download routes show protected recovery UI
+- session restores after refresh/crash where possible
+
+DO NOT
+- attempt full enterprise architecture in this phase
+- rewrite the whole platform
+- deploy risky deep refactors
+- remove features just to hide the issue
+
+DELIVERABLES
+1. exact files changed
+2. root cause protections added
+3. fallback modes added
+4. logging added
+5. kill switches added
+6. last-known-good serving added
+7. tests added
+8. confirmation that critical subscriber flows can no longer hard-dead-end

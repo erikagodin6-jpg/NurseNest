@@ -535,6 +535,11 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerExamReliabilityRoutes } = await import("./exam-reliability");
   registerExamReliabilityRoutes(app);
 
+  const { registerResilienceRoutes, initDefaultBreakers, initFeatureFlags } = await import("./platform-resilience");
+  initDefaultBreakers();
+  initFeatureFlags();
+  registerResilienceRoutes(app);
+
   const { registerClinicalSeoRoutes, seedClinicalSeoPages } = await import("./clinical-seo-routes");
   registerClinicalSeoRoutes(app);
   seedClinicalSeoPages().catch((e) => console.error("Clinical SEO seed error:", e?.message));

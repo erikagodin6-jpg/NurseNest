@@ -287,6 +287,15 @@ export function requireEntitlement(feature: Feature) {
     }
 
     if (!checkEntitlement(user, feature)) {
+      try {
+        const { hasProvisionalAccess, isEmergencyMode } = await import("./platform-resilience");
+        if (hasProvisionalAccess(user.id) || isEmergencyMode()) {
+          logPaywallAccess(req.path, user, feature, true);
+          (req as any).authUser = user;
+          return next();
+        }
+      } catch {}
+
       logPaywallAccess(req.path, user, feature, false);
       return res.status(403).json({
         error: "Premium feature - upgrade required",
@@ -314,6 +323,14 @@ export function requireAnyPremium() {
     const paidTiers = new Set(["rpn", "rn", "np", "newgrad", "new_grad_toolkit", "certification_prep", "full_access", "admin"]);
 
     if (!paidTiers.has(userTier) && !isActiveTester(user) && !hasActiveTrialAccess(user)) {
+      try {
+        const { hasProvisionalAccess, isEmergencyMode } = await import("./platform-resilience");
+        if (hasProvisionalAccess(user.id) || isEmergencyMode()) {
+          (req as any).authUser = user;
+          return next();
+        }
+      } catch {}
+
       return res.status(403).json({
         error: "Premium feature - upgrade required",
         upgradeRequired: true,

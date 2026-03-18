@@ -1,0 +1,88 @@
+You are working on the NurseNest production codebase.
+
+Implement PHASE 3: ENTERPRISE HARDENING, SELF-HEALING, AND DISASTER RECOVERY.
+
+PRIMARY GOAL
+Make the platform highly resilient under bad deploys, load spikes, partial outages, and future scale.
+
+BUILD THESE CAPABILITIES
+
+1. Emergency Read-Only Safe Mode
+Auto-trigger when critical systems fail.
+Serve only:
+- static lessons
+- backup exams
+- flashcard list mode
+- downloads
+- verified snapshots
+
+2. Blue-Green / Canary Deployment Protection
+- staged rollout
+- health checks before full traffic
+- auto rollback on error spike, latency spike, or fallback spike
+- deploy freeze when instability detected
+
+3. Feature Flags + Kill Switches
+- global and scoped flags
+- instantly disable risky subsystems without redeploy
+- auto-disable some features when thresholds are exceeded
+
+4. Schema Versioning
+All content must include schemaVersion.
+Renderers must support legacy versions safely.
+Provide migration tooling.
+
+5. Self-Healing Systems
+- retry transient failures
+- rebuild corrupted caches
+- regenerate missing backup payloads
+- auto-repair minor schema issues where safe
+
+6. Error Budget + Auto-Throttling
+Define thresholds.
+When exceeded:
+- disable risky features
+- prioritize core user paths
+- reduce nonessential load
+- activate safe mode if needed
+
+7. Cold Start / Warm Path Protection
+- prewarm critical routes
+- keep core services warm
+- cache critical responses
+
+8. Rate Limiting + Load Shedding
+- rate limit login, exam start, AI-heavy routes, sensitive APIs
+- prioritize subscribers and critical paths
+- queue heavy operations
+
+9. Full Backup + Restore Discipline
+Back up externally:
+- database
+- content payloads
+- codebase
+- Stripe config
+- env vars
+- assets
+
+Also implement restore testing.
+
+10. Chaos Testing
+Simulate:
+- API failures
+- malformed payloads
+- renderer crashes
+- billing delays
+- cache corruption
+- deployment rollback triggers
+
+11. Minimal Core Mode
+A stripped text-first, dependency-light mode that can always serve core subscriber value.
+
+DELIVERABLES
+1. hardening systems added
+2. deployment protections added
+3. backup/restore procedures implemented
+4. self-healing logic added
+5. chaos tests added
+6. confirmation that the platform can degrade safely under major failures
