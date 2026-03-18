@@ -35,7 +35,7 @@ function serverToPooled(sq: ServerQuestion): PooledQuestion {
     exam: sq.exam,
     question: sq.stem,
     options: sq.options,
-    correct: Array.isArray(correctAnswer) ? correctAnswer[0] : 0,
+    correct: Array.isArray(correctAnswer) ? (correctAnswer[0] ?? 0) : (typeof correctAnswer === "number" ? correctAnswer : 0),
     rationale: sq.rationale || "",
     source: "quiz",
     scenario: sq.scenario,

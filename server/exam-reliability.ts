@@ -442,4 +442,37 @@ export function registerExamReliabilityRoutes(app: Express) {
   });
 }
 
+export function logExamLoadError(context: {
+  attemptId: string;
+  userId?: string | null;
+  examType?: string;
+  failureReason: string;
+  questionCount?: number;
+  invalidQuestionIds?: string[];
+  route?: string;
+}) {
+  const entry = {
+    context: "exam_load_error",
+    timestamp: new Date().toISOString(),
+    ...context,
+  };
+  console.error(`[ExamReliability] exam_load_error:`, JSON.stringify(entry));
+
+  addIncident({
+    userId: context.userId || null,
+    examType: context.examType || "unknown",
+    tier: "unknown",
+    reasonCode: "exam_load_failure",
+    reasonDetail: context.failureReason,
+    endpoint: context.route || `/api/mock-exams/${context.attemptId}`,
+    requestParams: {
+      attemptId: context.attemptId,
+      questionCount: context.questionCount,
+      invalidQuestionIds: context.invalidQuestionIds,
+    },
+    severity: context.questionCount === 0 ? "critical" : "warning",
+    createdAt: new Date().toISOString(),
+  });
+}
+
 export { addIncident, recentIncidents };

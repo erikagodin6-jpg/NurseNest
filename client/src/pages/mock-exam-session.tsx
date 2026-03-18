@@ -91,10 +91,11 @@ function computeReport(
   }
 
   for (const q of questions) {
-    if (!systemScores[q.bodySystem]) {
-      systemScores[q.bodySystem] = { correct: 0, total: 0 };
+    const bodySystem = q.bodySystem || "General";
+    if (!systemScores[bodySystem]) {
+      systemScores[bodySystem] = { correct: 0, total: 0 };
     }
-    systemScores[q.bodySystem].total++;
+    systemScores[bodySystem].total++;
 
     const domainName = blueprintMeta?.domainAssignments?.[q.id];
     if (domainName) {
@@ -106,7 +107,7 @@ function computeReport(
     const isCorrect = userAnswer === q.correct;
     if (isCorrect) {
       correct++;
-      systemScores[q.bodySystem].correct++;
+      systemScores[bodySystem].correct++;
       if (domainName && domainScores[domainName]) {
         domainScores[domainName].correct++;
       }
@@ -114,13 +115,13 @@ function computeReport(
 
     questionReview.push({
       id: q.id,
-      question: q.question,
-      options: q.options,
+      question: q.question || "",
+      options: q.options || [],
       correct: q.correct,
       selected: userAnswer ?? -1,
       isCorrect,
-      rationale: q.rationale,
-      bodySystem: q.bodySystem,
+      rationale: q.rationale || "",
+      bodySystem,
       lessonId: q.lessonId,
       domain: domainName || undefined,
     });
@@ -136,7 +137,7 @@ function computeReport(
       total: s.total,
     }));
 
-  const overallPercentage = Math.round((correct / questions.length) * 100);
+  const overallPercentage = questions.length > 0 ? Math.round((correct / questions.length) * 100) : 0;
   const examType = blueprintMeta?.examType || null;
 
   let isOfficialMode = false;
@@ -324,7 +325,42 @@ export default function MockExamSession() {
           navigate(`/mock-exams/${attemptId}/report`);
           return;
         }
-        const allQuestions: PooledQuestion[] = data.questions || [];
+        const rawQuestionData: PooledQuestion[] = data.questions || [];
+        const invalidQuestionIds: string[] = [];
+        const allQuestions = rawQuestionData.filter((q) => {
+          if (!q || !q.id) { invalidQuestionIds.push(String(q?.id ?? "unknown")); return false; }
+          if (!q.question && !(q as any).stem) { invalidQuestionIds.push(String(q.id)); return false; }
+          if (!Array.isArray(q.options) || q.options.length < 2) { invalidQuestionIds.push(String(q.id)); return false; }
+          if (q.correct === undefined || q.correct === null || q.correct < 0) { invalidQuestionIds.push(String(q.id)); return false; }
+          return true;
+        });
+        if (invalidQuestionIds.length > 0) {
+          console.warn("[ExamSession] Filtered out invalid questions:", {
+            attemptId,
+            invalidCount: invalidQuestionIds.length,
+            totalRaw: rawQuestionData.length,
+            validCount: allQuestions.length,
+            invalidIds: invalidQuestionIds.slice(0, 10),
+          });
+          try {
+            fetch("/api/exam-incident-report", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+              body: JSON.stringify({
+                examType: parsedBp?.examCode || "mock-exam",
+                tier: parsedBp?.examCode || "unknown",
+                route: window.location.pathname,
+                errorMessage: `Filtered ${invalidQuestionIds.length} invalid questions from exam`,
+                additionalContext: {
+                  attemptId,
+                  invalidCount: invalidQuestionIds.length,
+                  validCount: allQuestions.length,
+                  invalidIds: invalidQuestionIds.slice(0, 10),
+                },
+              }),
+            }).catch(() => {});
+          } catch {}
+        }
 
         if (parsedBp?.examType === "cat") {
           setAllPoolQuestions(allQuestions);
@@ -813,7 +849,7 @@ export default function MockExamSession() {
               </h2>
 
               <div className="space-y-2">
-                {rq.options.map((rawOpt, oi) => {
+                {(rq.options || []).map((rawOpt, oi) => {
                   const optionText = typeof rawOpt === "object" && rawOpt !== null && typeof rawOpt.text === "string" ? rawOpt.text : String(rawOpt ?? "");
                   const isUserAnswer = userAnswer === oi;
                   const isCorrectOption = rq.correct === oi;
@@ -1052,11 +1088,38 @@ export default function MockExamSession() {
     );
   }
 
+  if (questions.length === 0) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center font-sans">
+        <div className="text-center space-y-4 max-w-md px-6">
+          <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto" />
+          <h2 className="text-xl font-semibold text-gray-800" data-testid="text-no-questions-title">
+            No Questions Available
+          </h2>
+          <p className="text-gray-600">
+            This exam has no questions loaded. This may be a temporary issue — please try again or go back to select a different exam.
+          </p>
+          <div className="flex gap-3 justify-center pt-2">
+            <Button onClick={() => { setLoadError(null); setLoading(true); setRetryCount(c => c + 1); }} data-testid="button-retry-empty-exam">
+              Try Again
+            </Button>
+            <Button variant="outline" onClick={() => navigate(backToExamsPath)} data-testid="button-back-exams-empty">
+              Back to Exams
+            </Button>
+          </div>
+          <div className="pt-2">
+            <ExamReportButton examType="mock-exam" tier={blueprintMeta?.examCode} questionId={attemptId} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const rawQuestion = questions[currentQ];
   const question = rawQuestion ? getTranslatedQuestion(rawQuestion) : undefined;
   const answeredCount = Object.keys(answers).length;
   const unansweredCount = questions.length - answeredCount;
-  const progressPercent = (answeredCount / questions.length) * 100;
+  const progressPercent = questions.length > 0 ? (answeredCount / questions.length) * 100 : 0;
 
   const progressLabel = isCATExam
     ? `Item ${(catState?.itemsAdministered || 0) + 1} in Progress`
@@ -1304,7 +1367,7 @@ export default function MockExamSession() {
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-3 flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-400 font-medium uppercase tracking-wide">{question.bodySystem}</span>
+                  <span className="text-xs text-gray-400 font-medium uppercase tracking-wide">{question.bodySystem || "General"}</span>
                   {flagged.includes(question.id) && (
                     <span className="text-xs bg-amber-50 text-amber-600 px-2 py-0.5 rounded font-medium">{t("pages.mockExamSession.flagged2")}</span>
                   )}
@@ -1326,8 +1389,8 @@ export default function MockExamSession() {
             </div>
 
             <div className="space-y-1" role="radiogroup" aria-label={t("pages.mockExamSession.answerOptions")}>
-              {(optionShuffleMap[question.id] || question.options.map((_, i) => i)).map((originalIdx, displayIdx) => {
-                const rawOption = question.options[originalIdx];
+              {(optionShuffleMap[question.id] || (question.options || []).map((_, i) => i)).map((originalIdx, displayIdx) => {
+                const rawOption = (question.options || [])[originalIdx];
                 const option = typeof rawOption === "object" && rawOption !== null && typeof rawOption.text === "string" ? rawOption.text : String(rawOption ?? "");
                 const isSelected = answers[question.id] === originalIdx;
                 const isLocked = (strictMode || isCATExam) && answers[question.id] !== undefined;

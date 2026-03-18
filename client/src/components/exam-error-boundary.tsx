@@ -11,6 +11,8 @@ interface ExamErrorBoundaryProps {
   examContext?: {
     examType?: string;
     tier?: string;
+    attemptId?: string;
+    questionIndex?: number;
   };
 }
 
@@ -31,7 +33,14 @@ export class ExamErrorBoundary extends Component<ExamErrorBoundaryProps, ExamErr
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error("[ExamErrorBoundary] Caught:", error.message, info.componentStack);
+    const attemptId = window.location.pathname.match(/mock-exams\/([^/]+)/)?.[1] || this.props.examContext?.attemptId;
+    console.error("[ExamErrorBoundary] Caught:", {
+      message: error.message,
+      attemptId,
+      examType: this.props.examContext?.examType,
+      route: window.location.pathname,
+      stack: error.stack?.substring(0, 500),
+    });
     try {
       fetch("/api/exam-incident-report", {
         method: "POST",
@@ -42,6 +51,11 @@ export class ExamErrorBoundary extends Component<ExamErrorBoundaryProps, ExamErr
           route: window.location.pathname,
           errorMessage: error.message,
           browserInfo: navigator.userAgent,
+          additionalContext: {
+            attemptId,
+            questionIndex: this.props.examContext?.questionIndex,
+            componentStack: info.componentStack?.substring(0, 300),
+          },
         }),
       }).catch(() => {});
     } catch {}
@@ -79,14 +93,17 @@ function ExamRecoveryUI({
   error: Error | null;
   onRetry: () => void;
   retryCount: number;
-  examContext?: { examType?: string; tier?: string };
+  examContext?: { examType?: string; tier?: string; attemptId?: string; questionIndex?: number };
 }) {
   const [, navigate] = useLocation();
   const { user } = useAuth();
+  const { t } = useI18n();
   const [reportSent, setReportSent] = useState(false);
   const [sending, setSending] = useState(false);
 
   const [reportFailed, setReportFailed] = useState(false);
+
+  const attemptId = window.location.pathname.match(/mock-exams\/([^/]+)/)?.[1] || examContext?.attemptId;
 
   const handleReport = useCallback(async () => {
     setSending(true);
@@ -101,7 +118,7 @@ function ExamRecoveryUI({
           route: window.location.pathname,
           errorMessage: error?.message || "Unknown error",
           browserInfo: navigator.userAgent,
-          additionalContext: { retryCount },
+          additionalContext: { retryCount, attemptId, questionIndex: examContext?.questionIndex },
         }),
       });
       if (!res.ok) throw new Error("Failed");
@@ -282,6 +299,7 @@ export function ExamReportButton({
   tier?: string;
   questionId?: string;
 }) {
+  const { t } = useI18n();
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [failed, setFailed] = useState(false);

@@ -9715,11 +9715,39 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       if (row.status === "in_progress") {
         const questions = Array.isArray(row.questions) ? row.questions : [];
-        const strippedQuestions = questions.map((q: any) => {
-          const { rationale, explanation, clinicalPearl, examStrategy, ...rest } = q;
-          if (rest.options) rest.options = normalizeQuestionOptions(rest.options);
-          return rest;
-        });
+
+        if (questions.length === 0) {
+          const { logExamLoadError } = await import("./exam-reliability");
+          logExamLoadError({
+            attemptId: String(attemptId),
+            userId: String(authUser.id),
+            examType: row.exam_type || row.blueprint_code || "unknown",
+            failureReason: "in_progress_exam_has_zero_questions",
+            questionCount: 0,
+            route: req.originalUrl,
+          });
+        }
+
+        const strippedQuestions = questions
+          .filter((q: any) => {
+            if (!q) return false;
+            const hasId = q.id !== undefined && q.id !== null;
+            const hasStem = typeof q.stem === "string" || typeof q.question === "string";
+            const opts = typeof q.options === "string" ? (() => { try { return JSON.parse(q.options); } catch { return null; } })() : q.options;
+            const hasOptions = Array.isArray(opts) && opts.length >= 2;
+            if (!hasId || !hasStem || !hasOptions) {
+              console.warn(`[MockExam] Filtering invalid question in attempt ${attemptId}:`, {
+                id: q.id, hasId, hasStem, hasOptions, optionsType: typeof q.options
+              });
+              return false;
+            }
+            return true;
+          })
+          .map((q: any) => {
+            const { rationale, explanation, clinicalPearl, examStrategy, ...rest } = q;
+            if (rest.options) rest.options = normalizeQuestionOptions(rest.options);
+            return rest;
+          });
         res.json({ ...row, questions: strippedQuestions });
       } else if (isFree && isReadiness && row.status === "completed") {
         const questions = Array.isArray(row.questions) ? row.questions : [];
