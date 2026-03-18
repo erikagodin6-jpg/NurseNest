@@ -74,6 +74,7 @@ import { registerPremiumStudyRoutes } from "./premium-study-routes";
 import { registerMltRemediationRoutes } from "./mlt-remediation-routes";
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedFields, getBulkTranslationStatuses, getAvailableLanguages, simpleHash, markTranslationsOutdated, checkTranslationCompleteness } from "./translation-helpers";
+import { incrementSourceVersionAndMarkStale, getLocaleConfig, clearLocaleConfigCache } from "./locale-content-fetcher";
 import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig, ACTIVE_BUILD_PRIORITY } from "./ai-safety";
 import { requireAdmin, requireAdminRole, signAdminToken, signUserToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier, verifyPassword, migratePasswordIfNeeded, hashPassword, recordFailedLogin, logSecurityAudit, logAdminAudit, logOperatorAction, issueConfirmationToken, validateConfirmationToken, signReAuthToken, generateCsrfToken, csrfProtection, adminApiRateLimit, requirePermission, requireDestructiveAction, hasPermission } from "./admin-auth";
 import type { AdminRole, OperatorActionParams } from "./admin-auth";
@@ -6392,6 +6393,11 @@ Rules:
           const markedCount = await markTranslationsOutdated("content_item", req.params.id, updatedSourceFields);
           if (markedCount > 0) {
             console.log(`[i18n-versioning] Marked ${markedCount} translations as outdated for content ${req.params.id}`);
+          }
+          try {
+            await incrementSourceVersionAndMarkStale("content_items", req.params.id);
+          } catch (svErr: any) {
+            console.error("[i18n-versioning] source_version increment error:", svErr.message);
           }
         }
       }
@@ -13842,6 +13848,44 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  app.get("/api/admin/locale-settings", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const result = await pool.query(`SELECT * FROM locale_settings ORDER BY locale`);
+      res.json(result.rows);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/locale-settings/:locale", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { locale } = req.params;
+      const { strictMode, allowReviewed, allowEnglishFallback, enabled } = req.body;
+
+      const result = await pool.query(
+        `INSERT INTO locale_settings (locale, strict_mode, allow_reviewed, allow_english_fallback, enabled)
+         VALUES ($1, $2, $3, $4, $5)
+         ON CONFLICT (locale) DO UPDATE SET
+           strict_mode = COALESCE($2, locale_settings.strict_mode),
+           allow_reviewed = COALESCE($3, locale_settings.allow_reviewed),
+           allow_english_fallback = COALESCE($4, locale_settings.allow_english_fallback),
+           enabled = COALESCE($5, locale_settings.enabled),
+           updated_at = NOW()
+         RETURNING *`,
+        [locale, strictMode ?? true, allowReviewed ?? false, allowEnglishFallback ?? false, enabled ?? true]
+      );
+
+      clearLocaleConfigCache();
+      res.json(result.rows[0]);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/admin/translation-coverage", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
@@ -14498,12 +14542,27 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         params.push(status);
       }
 
+      const hasTextChange = stem !== undefined || options !== undefined || rationale !== undefined
+        || req.body.scenario !== undefined || req.body.clinicalPearl !== undefined
+        || req.body.examStrategy !== undefined || req.body.memoryHook !== undefined
+        || req.body.correctAnswerExplanation !== undefined || req.body.incorrectAnswerRationale !== undefined
+        || req.body.distractorRationales !== undefined || req.body.clinicalReasoning !== undefined
+        || req.body.keyTakeaway !== undefined || req.body.mnemonic !== undefined;
       params.push(req.params.id);
       const result = await pool.query(
         `UPDATE exam_questions SET ${sets.join(", ")} WHERE id = $${idx} RETURNING *`,
         params
       );
       if (!result.rows.length) return res.status(404).json({ error: "Question not found" });
+
+      if (hasTextChange) {
+        try {
+          await incrementSourceVersionAndMarkStale("exam_questions", req.params.id);
+        } catch (svErr: any) {
+          console.error("[i18n-versioning] exam question source_version increment error:", svErr.message);
+        }
+      }
+
       heroStatsCache = null;
       const updatedQ = result.rows[0];
       if (updatedQ.status === "published") {

@@ -63,6 +63,14 @@ export async function getTranslatedField(
   if (lang === "en") return null;
 
   try {
+    const newTableResult = await queryNewTranslationTable(contentType, contentId, fieldName, lang);
+    if (newTableResult !== null) return newTableResult;
+  } catch (e) {
+    console.error("[TranslationHelpers] New table query error, falling back to EAV:", e);
+  }
+
+  console.warn(`[TranslationHelpers] DEPRECATED: EAV fallback for ${contentType}/${contentId}/${fieldName}/${lang}`);
+  try {
     const result = await pool.query(
       `SELECT translated_text FROM content_translations
        WHERE content_type = $1 AND content_id = $2 AND field_name = $3 AND language_code = $4
@@ -76,6 +84,67 @@ export async function getTranslatedField(
   }
 }
 
+async function queryNewTranslationTable(
+  contentType: string,
+  contentId: string,
+  fieldName: string,
+  lang: string
+): Promise<string | null> {
+  const tableConfig = NEW_TRANSLATION_TABLE_MAP[contentType];
+  if (!tableConfig) return null;
+
+  const columnName = camelToSnake(fieldName);
+  const validColumns = tableConfig.columns;
+  if (!validColumns.includes(columnName)) return null;
+
+  const { getLocaleConfig } = await import("./locale-content-fetcher");
+  const config = await getLocaleConfig(lang);
+  const allowedStatuses = config.allowReviewed
+    ? ["approved", "reviewed"]
+    : ["approved"];
+  const statusPlaceholders = allowedStatuses.map((_, i) => `$${i + 3}`).join(",");
+
+  const result = await pool.query(
+    `SELECT ${columnName} FROM ${tableConfig.table}
+     WHERE ${tableConfig.foreignKey} = $1 AND locale = $2
+     AND translation_status IN (${statusPlaceholders})
+     LIMIT 1`,
+    [contentId, lang, ...allowedStatuses]
+  );
+
+  if (result.rows.length === 0) return null;
+  const value = result.rows[0][columnName];
+  if (value === null || value === undefined) return null;
+  return typeof value === "object" ? JSON.stringify(value) : String(value);
+}
+
+function camelToSnake(str: string): string {
+  return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+}
+
+const NEW_TRANSLATION_TABLE_MAP: Record<string, { table: string; foreignKey: string; columns: string[] }> = {
+  exam_question: {
+    table: "exam_question_translations",
+    foreignKey: "exam_question_id",
+    columns: ["stem", "options", "rationale", "scenario", "clinical_pearl", "exam_strategy", "memory_hook", "correct_answer_explanation", "incorrect_answer_rationale", "distractor_rationales", "clinical_reasoning", "key_takeaway", "mnemonic"],
+  },
+  content_item: {
+    table: "content_item_translations",
+    foreignKey: "content_item_id",
+    columns: ["title", "summary", "content", "seo_title", "seo_description"],
+  },
+  flashcard: {
+    table: "flashcard_translations",
+    foreignKey: "flashcard_id",
+    columns: ["front", "back", "options", "rationale_correct", "clinical_takeaway", "exam_pearl"],
+  },
+  seo_page: {
+    table: "seo_page_translations",
+    foreignKey: "seo_page_id",
+    columns: ["title", "meta_title", "meta_description", "content_html", "toc_json", "faq_json"],
+  },
+};
+
 export async function getTranslatedFields(
   contentType: string,
   contentId: string,
@@ -83,6 +152,47 @@ export async function getTranslatedFields(
 ): Promise<Record<string, { text: string; status: string; sourceHash: string | null }>> {
   if (lang === "en") return {};
 
+  const tableConfig = NEW_TRANSLATION_TABLE_MAP[contentType];
+  if (tableConfig) {
+    try {
+      const { getLocaleConfig } = await import("./locale-content-fetcher");
+      const config = await getLocaleConfig(lang);
+      const allowedStatuses = config.allowReviewed
+        ? ["approved", "reviewed"]
+        : ["approved"];
+      const statusPlaceholders = allowedStatuses.map((_, i) => `$${i + 3}`).join(",");
+
+      const result = await pool.query(
+        `SELECT * FROM ${tableConfig.table}
+         WHERE ${tableConfig.foreignKey} = $1 AND locale = $2
+         AND translation_status IN (${statusPlaceholders})
+         LIMIT 1`,
+        [contentId, lang, ...allowedStatuses]
+      );
+
+      if (result.rows.length > 0) {
+        const row = result.rows[0];
+        const fields: Record<string, { text: string; status: string; sourceHash: string | null }> = {};
+        for (const col of tableConfig.columns) {
+          const val = row[col];
+          if (val !== null && val !== undefined) {
+            const text = typeof val === "object" ? JSON.stringify(val) : String(val);
+            const camelKey = col.replace(/_([a-z])/g, (_: string, c: string) => c.toUpperCase());
+            fields[camelKey] = {
+              text,
+              status: row.translation_status || "draft",
+              sourceHash: null,
+            };
+          }
+        }
+        if (Object.keys(fields).length > 0) return fields;
+      }
+    } catch (e) {
+      console.error("[TranslationHelpers] New table getTranslatedFields error:", e);
+    }
+  }
+
+  console.warn(`[TranslationHelpers] DEPRECATED: EAV fallback for getTranslatedFields ${contentType}/${contentId}/${lang}`);
   try {
     const result = await pool.query(
       `SELECT field_name, translated_text, translation_status, source_hash
@@ -210,6 +320,44 @@ export async function getBulkTranslatedFields(
   const result = new Map<string, Record<string, string>>();
   if (lang === "en" || contentIds.length === 0) return result;
 
+  const tableConfig = NEW_TRANSLATION_TABLE_MAP[contentType];
+  if (tableConfig) {
+    try {
+      const { getLocaleConfig } = await import("./locale-content-fetcher");
+      const config = await getLocaleConfig(lang);
+      const allowedStatuses = config.allowReviewed
+        ? ["approved", "reviewed"]
+        : ["approved"];
+
+      const queryResult = await pool.query(
+        `SELECT * FROM ${tableConfig.table}
+         WHERE locale = $1 AND ${tableConfig.foreignKey} = ANY($2::text[])
+         AND translation_status = ANY($3::text[])`,
+        [lang, contentIds, allowedStatuses]
+      );
+
+      for (const row of queryResult.rows) {
+        const id = row[tableConfig.foreignKey];
+        const fields: Record<string, string> = {};
+        for (const col of tableConfig.columns) {
+          const val = row[col];
+          if (val !== null && val !== undefined) {
+            const camelKey = col.replace(/_([a-z])/g, (_: string, c: string) => c.toUpperCase());
+            fields[camelKey] = typeof val === "object" ? JSON.stringify(val) : String(val);
+          }
+        }
+        if (Object.keys(fields).length > 0) {
+          result.set(id, fields);
+        }
+      }
+
+      if (result.size > 0) return result;
+    } catch (e) {
+      console.error("[TranslationHelpers] New table getBulkTranslatedFields error:", e);
+    }
+  }
+
+  console.warn(`[TranslationHelpers] DEPRECATED: EAV fallback for getBulkTranslatedFields ${contentType}/${lang}`);
   try {
     const placeholders = contentIds.map((_, i) => `$${i + 3}`).join(",");
     const queryResult = await pool.query(
@@ -235,6 +383,21 @@ export async function getAvailableLanguages(
   contentType: string,
   contentId: string
 ): Promise<string[]> {
+  const tableConfig = NEW_TRANSLATION_TABLE_MAP[contentType];
+  if (tableConfig) {
+    try {
+      const result = await pool.query(
+        `SELECT DISTINCT locale FROM ${tableConfig.table}
+         WHERE ${tableConfig.foreignKey} = $1`,
+        [contentId]
+      );
+      const newLocales = result.rows.map((r: any) => r.locale);
+      if (newLocales.length > 0) return ["en", ...newLocales];
+    } catch (e) {
+      console.error("[TranslationHelpers] New table getAvailableLanguages error:", e);
+    }
+  }
+
   try {
     const result = await pool.query(
       `SELECT DISTINCT language_code FROM content_translations
@@ -323,9 +486,26 @@ export async function markTranslationsOutdated(
   updatedFields: Record<string, string | null | undefined>
 ): Promise<number> {
   let markedCount = 0;
+
+  const tableConfig = NEW_TRANSLATION_TABLE_MAP[contentType];
+  if (tableConfig) {
+    try {
+      const updateResult = await pool.query(
+        `UPDATE ${tableConfig.table}
+         SET translation_status = 'stale', updated_at = NOW()
+         WHERE ${tableConfig.foreignKey} = $1
+         AND translation_status NOT IN ('stale', 'missing')`,
+        [contentId]
+      );
+      markedCount += updateResult.rowCount || 0;
+    } catch (e) {
+      console.error("[TranslationHelpers] New table markTranslationsOutdated error:", e);
+    }
+  }
+
   try {
     const fieldNames = Object.keys(updatedFields).filter(k => updatedFields[k] != null);
-    if (fieldNames.length === 0) return 0;
+    if (fieldNames.length === 0) return markedCount;
 
     const fieldPlaceholders = fieldNames.map((_, i) => `$${i + 3}`).join(",");
     const updateResult = await pool.query(
@@ -336,7 +516,7 @@ export async function markTranslationsOutdated(
        AND translation_status != 'outdated'`,
       [contentType, contentId, ...fieldNames]
     );
-    markedCount = updateResult.rowCount || 0;
+    markedCount += updateResult.rowCount || 0;
   } catch (e) {
     console.error("markTranslationsOutdated error:", e);
   }

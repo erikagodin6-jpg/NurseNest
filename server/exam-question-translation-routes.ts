@@ -4,6 +4,13 @@ import { pool } from "./storage";
 import { getTranslatedFields, simpleHash } from "./translation-helpers";
 import { getTerminologyPromptBlock } from "./medical-terminology-dictionary";
 import OpenAI from "openai";
+import {
+  getExamQuestionTranslation,
+  getBatchExamQuestionTranslations,
+  shouldFallbackToEnglish,
+  translationMissingError,
+  getLocaleConfig,
+} from "./locale-content-fetcher";
 
 const SUPPORTED_LANGUAGES = [
   "fr", "es", "zh", "ar", "hi", "pt", "tl", "ko"
@@ -136,6 +143,44 @@ export function registerExamQuestionTranslationRoutes(app: Express) {
       if (qResult.rows.length === 0) return res.status(404).json({ error: "Question not found" });
       const q = qResult.rows[0];
 
+      const translation = await getExamQuestionTranslation(id, lang);
+
+      if (translation) {
+        const localeConfig = await getLocaleConfig(lang);
+        const useFieldFallback = localeConfig.allowEnglishFallback;
+
+        const fieldOrNull = (translatedVal: any, englishVal: any) =>
+          translatedVal != null ? translatedVal : (useFieldFallback ? englishVal : null);
+
+        res.json({
+          id: q.id,
+          stem: fieldOrNull(translation.stem, q.stem),
+          options: fieldOrNull(translation.options, q.options),
+          rationale: fieldOrNull(translation.rationale, q.rationale),
+          scenario: fieldOrNull(translation.scenario, q.scenario),
+          clinicalPearl: fieldOrNull(translation.clinicalPearl, q.clinical_pearl),
+          examStrategy: fieldOrNull(translation.examStrategy, q.exam_strategy),
+          memoryHook: fieldOrNull(translation.memoryHook, q.memory_hook),
+          correctAnswerExplanation: fieldOrNull(translation.correctAnswerExplanation, q.correct_answer_explanation),
+          incorrectAnswerRationale: fieldOrNull(translation.incorrectAnswerRationale, q.incorrect_answer_rationale),
+          distractorRationales: fieldOrNull(translation.distractorRationales, q.distractor_rationales),
+          clinicalReasoning: fieldOrNull(translation.clinicalReasoning, q.clinical_reasoning),
+          keyTakeaway: fieldOrNull(translation.keyTakeaway, q.key_takeaway),
+          mnemonic: fieldOrNull(translation.mnemonic, q.mnemonic),
+          language: lang,
+          translated: true,
+          _translationStatus: translation.translationStatus,
+          _fieldFallback: useFieldFallback,
+        });
+        return;
+      }
+
+      const canFallback = await shouldFallbackToEnglish(lang);
+      if (!canFallback) {
+        return res.status(404).json(translationMissingError("exam_question", id, lang));
+      }
+
+      console.warn(`[ExamTranslation] Falling back to EAV table for question ${id}, locale ${lang}`);
       const translations = await getTranslatedFields("exam_question", id, lang);
 
       const mergeField = (fieldName: string, dbCol: string) =>
@@ -158,6 +203,10 @@ export function registerExamQuestionTranslationRoutes(app: Express) {
 
       const hasTranslations = Object.keys(translations).length > 0;
 
+      if (!hasTranslations) {
+        return res.status(404).json(translationMissingError("exam_question", id, lang));
+      }
+
       res.json({
         id: q.id,
         stem: mergeField("stem", "stem"),
@@ -175,7 +224,7 @@ export function registerExamQuestionTranslationRoutes(app: Express) {
         mnemonic: mergeField("mnemonic", "mnemonic"),
         language: lang,
         translated: hasTranslations,
-        _translationStatus: hasTranslations ? "translated" : "missing",
+        _translationStatus: "translated_eav_fallback",
       });
     } catch (e: any) {
       console.error("[ExamTranslation] Error:", e.message);
@@ -199,19 +248,43 @@ export function registerExamQuestionTranslationRoutes(app: Express) {
       }
 
       const ids = questionIds.slice(0, 200);
-      const placeholders = ids.map((_: any, i: number) => `$${i + 2}`).join(",");
-      const result = await pool.query(
-        `SELECT content_id, field_name, translated_text
-         FROM content_translations
-         WHERE content_type = 'exam_question' AND language_code = $1
-         AND content_id IN (${placeholders})`,
-        [lang, ...ids]
-      );
 
-      const translationMap: Record<string, Record<string, string>> = {};
-      for (const row of result.rows) {
-        if (!translationMap[row.content_id]) translationMap[row.content_id] = {};
-        translationMap[row.content_id][row.field_name] = row.translated_text;
+      const batchTranslations = await getBatchExamQuestionTranslations(ids, lang);
+
+      const translationMap: Record<string, Record<string, any>> = {};
+      for (const [qId, trans] of batchTranslations) {
+        translationMap[qId] = {
+          stem: trans.stem,
+          options: trans.options,
+          rationale: trans.rationale,
+          scenario: trans.scenario,
+          clinicalPearl: trans.clinicalPearl,
+          examStrategy: trans.examStrategy,
+          memoryHook: trans.memoryHook,
+          correctAnswerExplanation: trans.correctAnswerExplanation,
+          incorrectAnswerRationale: trans.incorrectAnswerRationale,
+          distractorRationales: trans.distractorRationales,
+          clinicalReasoning: trans.clinicalReasoning,
+          keyTakeaway: trans.keyTakeaway,
+          mnemonic: trans.mnemonic,
+        };
+      }
+
+      if (batchTranslations.size === 0) {
+        console.warn(`[ExamTranslation] No translations in new tables for batch, falling back to EAV`);
+        const placeholders = ids.map((_: any, i: number) => `$${i + 2}`).join(",");
+        const result = await pool.query(
+          `SELECT content_id, field_name, translated_text
+           FROM content_translations
+           WHERE content_type = 'exam_question' AND language_code = $1
+           AND content_id IN (${placeholders})`,
+          [lang, ...ids]
+        );
+
+        for (const row of result.rows) {
+          if (!translationMap[row.content_id]) translationMap[row.content_id] = {};
+          translationMap[row.content_id][row.field_name] = row.translated_text;
+        }
       }
 
       res.json({ translations: translationMap, language: lang });

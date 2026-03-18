@@ -1454,6 +1454,118 @@ async function ensureClinicalSeoPages(pool: pg.Pool): Promise<void> {
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_migration_audit_status ON migration_audit_log(status)`);
 
   await pool.query(`
+    CREATE TABLE IF NOT EXISTS exam_question_translations (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      exam_question_id varchar NOT NULL,
+      locale text NOT NULL,
+      stem text,
+      options jsonb,
+      rationale text,
+      scenario text,
+      clinical_pearl text,
+      exam_strategy text,
+      memory_hook text,
+      correct_answer_explanation text,
+      incorrect_answer_rationale jsonb,
+      distractor_rationales jsonb,
+      clinical_reasoning text,
+      key_takeaway text,
+      mnemonic text,
+      translation_status text NOT NULL DEFAULT 'draft',
+      source_version integer NOT NULL DEFAULT 1,
+      translated_by text,
+      reviewed_by text,
+      created_at timestamp NOT NULL DEFAULT NOW(),
+      updated_at timestamp NOT NULL DEFAULT NOW()
+    )
+  `);
+  await pool.query(`CREATE UNIQUE INDEX IF NOT EXISTS exam_question_translations_unique_idx ON exam_question_translations(exam_question_id, locale)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_eqt_locale_status ON exam_question_translations(locale, translation_status)`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS content_item_translations (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      content_item_id varchar NOT NULL,
+      locale text NOT NULL,
+      title text,
+      summary text,
+      content jsonb,
+      seo_title text,
+      seo_description text,
+      translation_status text NOT NULL DEFAULT 'draft',
+      source_version integer NOT NULL DEFAULT 1,
+      translated_by text,
+      reviewed_by text,
+      created_at timestamp NOT NULL DEFAULT NOW(),
+      updated_at timestamp NOT NULL DEFAULT NOW()
+    )
+  `);
+  await pool.query(`CREATE UNIQUE INDEX IF NOT EXISTS content_item_translations_unique_idx ON content_item_translations(content_item_id, locale)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_cit_locale_status ON content_item_translations(locale, translation_status)`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS flashcard_translations (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      flashcard_id varchar NOT NULL,
+      locale text NOT NULL,
+      front text,
+      back text,
+      options jsonb,
+      rationale_correct text,
+      clinical_takeaway text,
+      exam_pearl text,
+      translation_status text NOT NULL DEFAULT 'draft',
+      source_version integer NOT NULL DEFAULT 1,
+      translated_by text,
+      reviewed_by text,
+      created_at timestamp NOT NULL DEFAULT NOW(),
+      updated_at timestamp NOT NULL DEFAULT NOW()
+    )
+  `);
+  await pool.query(`CREATE UNIQUE INDEX IF NOT EXISTS flashcard_translations_unique_idx ON flashcard_translations(flashcard_id, locale)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_ft_locale_status ON flashcard_translations(locale, translation_status)`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS seo_page_translations (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      seo_page_id varchar NOT NULL,
+      locale text NOT NULL,
+      title text,
+      meta_title text,
+      meta_description text,
+      content_html text,
+      toc_json jsonb,
+      faq_json jsonb,
+      translation_status text NOT NULL DEFAULT 'draft',
+      source_version integer NOT NULL DEFAULT 1,
+      translated_by text,
+      reviewed_by text,
+      created_at timestamp NOT NULL DEFAULT NOW(),
+      updated_at timestamp NOT NULL DEFAULT NOW()
+    )
+  `);
+  await pool.query(`CREATE UNIQUE INDEX IF NOT EXISTS seo_page_translations_unique_idx ON seo_page_translations(seo_page_id, locale)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_spt_locale_status ON seo_page_translations(locale, translation_status)`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS locale_settings (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      locale text NOT NULL UNIQUE,
+      strict_mode boolean NOT NULL DEFAULT true,
+      allow_reviewed boolean NOT NULL DEFAULT false,
+      allow_english_fallback boolean NOT NULL DEFAULT false,
+      enabled boolean NOT NULL DEFAULT true,
+      created_at timestamp NOT NULL DEFAULT NOW(),
+      updated_at timestamp NOT NULL DEFAULT NOW()
+    )
+  `);
+
+  await pool.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS source_version integer DEFAULT 1`);
+  await pool.query(`ALTER TABLE content_items ADD COLUMN IF NOT EXISTS source_version integer DEFAULT 1`);
+  await pool.query(`ALTER TABLE flashcard_bank ADD COLUMN IF NOT EXISTS source_version integer DEFAULT 1`);
+  await pool.query(`ALTER TABLE seo_pages ADD COLUMN IF NOT EXISTS source_version integer DEFAULT 1`);
+
+  await pool.query(`
     CREATE TABLE IF NOT EXISTS cleanup_reports (
       id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
       run_type text NOT NULL,
