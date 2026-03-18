@@ -1,0 +1,388 @@
+You are working on the NurseNest production codebase.
+
+Build a COMPLETE PRODUCTION-READY MOBILE APP SYSTEM for NurseNest for both:
+
+- iOS (Apple)
+- Android
+
+The mobile app must be a true companion to the NurseNest platform and support the nursing education ecosystem already built on the website.
+
+The app must be architected so it can be published to:
+- Apple App Store
+- Google Play Store
+
+The solution must be maintainable, scalable, secure, and aligned with the current NurseNest brand and platform architecture.
+
+==================================================
+PRIMARY GOAL
+==================================================
+
+Create a cross-platform NurseNest mobile application that gives users a polished, fast, reliable native-like experience for studying, question practice, exams, flashcards, lessons, account access, subscriptions, and notifications.
+
+The app must feel premium, modern-clinical, and aligned with the NurseNest website and brand.
+
+==================================================
+TECHNICAL DIRECTION
+==================================================
+
+Build this using a production-grade cross-platform mobile stack.
+
+Preferred approach:
+- React Native with Expo if compatible with current architecture
+OR
+- React Native CLI if needed for deeper native integrations
+
+Choose the best option based on the current NurseNest codebase and long-term maintainability.
+
+If possible:
+- reuse shared logic, API clients, validation schemas, types, entitlement logic, and design tokens from the web platform
+- create a shared package structure where appropriate
+- do NOT duplicate business logic unnecessarily
+
+==================================================
+CORE PRODUCT REQUIREMENTS
+==================================================
+
+The mobile app must support:
+
+1. AUTHENTICATION
+- sign up
+- sign in
+- forgot password
+- secure session persistence
+- logout
+- role-aware access
+- account recovery
+- social login only if already supported on web
+
+2. SUBSCRIPTION + ENTITLEMENT AWARENESS
+- reflect paid/free access correctly
+- protect premium content
+- sync subscription/access state with backend
+- ensure valid paying users never lose rightful access due to mobile sync issues
+- gracefully handle degraded connectivity
+
+3. DASHBOARD
+- mobile-friendly student dashboard
+- progress overview
+- recent activity
+- quick actions
+- saved items
+- recommended next steps
+
+4. QUESTION BANKS
+- browse question banks by:
+  - profession
+  - tier
+  - exam
+  - country
+  - language
+  - topic
+  - difficulty
+- answer practice questions
+- see deep rationales
+- show correct/incorrect review
+- bookmark/favorite questions
+- track performance
+
+5. EXAMS
+- start exam
+- resume exam
+- submit exam
+- review results
+- preserve progress safely
+- support fail-safe recovery
+- support degraded mode if network is unstable
+- never dead-end paying users
+- support question batching rather than huge payloads
+
+6. FLASHCARDS
+- browse decks
+- study decks
+- spaced-repetition-friendly interactions if possible
+- favorite cards
+- continue where left off
+
+7. LESSONS / STUDY GUIDES
+- browse and read lessons
+- mobile-optimized article layout
+- tables, bullets, headings, clinical pearls, labs, medications, and nursing interventions render cleanly
+- support multilingual display
+
+8. SEARCH + FILTERING
+- global search
+- filters for profession/tier/exam/topic/language
+- fast response
+- graceful empty states
+
+9. USER PROFILE
+- profile details
+- subscription info
+- billing/status summary if appropriate
+- settings
+- language preference
+- country preference
+- accessibility settings
+
+10. NOTIFICATIONS
+- push notifications for:
+  - subscription/purchase confirmations
+  - study reminders
+  - streak reminders
+  - new content
+  - exam reminders
+  - important account alerts
+- user notification preferences
+- backend-safe and rate-limited notification system
+
+11. OFFLINE / DEGRADED EXPERIENCE
+- define what can be cached safely
+- allow some recent lessons/flashcards/question sets to be available offline if feasible
+- queue lightweight actions when offline if safe
+- clear UX messaging for offline vs online mode
+- never corrupt progress because of sync issues
+
+12. ISSUE REPORTING
+- report a problem from inside the app
+- include useful diagnostics when safe
+- preserve user trust
+
+==================================================
+BRAND / DESIGN REQUIREMENTS
+==================================================
+
+The app must match the NurseNest brand:
+- soft modern-clinical aesthetic
+- premium educational feel
+- rounded corners
+- calming pastel options where appropriate
+- clean typography
+- polished cards, buttons, tabs, inputs, and study surfaces
+- strong readability for long educational content
+- excellent mobile spacing and hierarchy
+
+Support:
+- dark mode if practical
+- light mode
+- accessibility-minded contrast and sizing
+- safe areas / notch handling / tablet responsiveness
+
+==================================================
+INFORMATION ARCHITECTURE
+==================================================
+
+Create a clean mobile navigation system such as:
+
+- Home
+- Study
+- Exams
+- Flashcards
+- Progress
+- Profile
+
+Or another mobile architecture that best fits the content.
+
+Ensure navigation is intuitive and supports deep linking to:
+- a specific lesson
+- a specific exam
+- a specific question bank
+- a flashcard deck
+- notifications / alerts
+- report issue
+
+==================================================
+SYNC + BACKEND INTEGRATION
+==================================================
+
+Integrate the mobile app with the existing NurseNest backend and APIs.
+
+Requirements:
+- reuse current auth where possible
+- reuse entitlement/subscription logic
+- reuse question/exam/lesson APIs where possible
+- add mobile-safe endpoints if needed
+- avoid oversized payloads
+- paginate aggressively
+- support retry with capped backoff
+- support safe-mode fallbacks
+- preserve progress server-side
+
+Inspect current APIs and adapt them where necessary for mobile efficiency.
+
+==================================================
+PERFORMANCE REQUIREMENTS
+==================================================
+
+The app must be performant on real devices.
+
+Requirements:
+- lazy-load screens
+- paginate heavy data
+- virtualize long lists
+- avoid huge in-memory payloads
+- optimize image usage
+- reduce unnecessary rerenders
+- guard against memory-heavy study/exam flows
+- support slow/intermittent mobile networks
+
+==================================================
+SECURITY REQUIREMENTS
+==================================================
+
+Implement secure mobile practices:
+- secure token storage
+- safe auth persistence
+- no secret keys in client
+- no trusting client-side entitlement alone
+- validate access server-side
+- protect premium content
+- secure API communication
+- environment separation for dev/staging/prod
+- privacy-conscious analytics/error reporting
+
+==================================================
+APP STORE / PLAY STORE READINESS
+==================================================
+
+Prepare the project for eventual store submission.
+
+Requirements:
+- proper app structure
+- app icons
+- splash screens
+- bundle identifiers / package names
+- environment config
+- versioning strategy
+- production build configuration
+- privacy policy / terms links
+- permissions review
+- notification permission flow
+- store-compliant auth and subscription behavior
+
+Do not publish yet unless explicitly asked, but prepare the codebase for publishable builds.
+
+==================================================
+PUSH NOTIFICATION SYSTEM
+==================================================
+
+Build the full app-side and backend-side groundwork for push notifications.
+
+Support:
+- Expo notifications or native push setup depending on chosen architecture
+- device token registration
+- notification preferences
+- targeted notification categories
+- safe backend delivery logic
+- unsubscribe handling
+- quiet hours if practical
+
+==================================================
+ANALYTICS + CRASH SAFETY
+==================================================
+
+Implement a safe mobile observability layer.
+
+Track:
+- app opens
+- sign-in success/failure
+- study starts
+- exam starts/resumes/submits
+- question answer events
+- flashcard usage
+- screen errors
+- recovery/fallback events
+
+Also add:
+- crash-safe boundaries
+- screen-level error handling
+- degraded-mode messaging
+- retry flows that are meaningful
+
+==================================================
+MULTILINGUAL SUPPORT
+==================================================
+
+The mobile app must support the NurseNest multilingual system.
+
+Requirements:
+- language selection
+- locale-aware UI
+- fully translatable user-facing strings
+- no hardcoded visible strings
+- support the same multilingual content model as the website where possible
+- guardrails against mixed-language UI
+
+==================================================
+MONOREPO / CODE ORGANIZATION
+==================================================
+
+If appropriate, organize code to support:
+- shared types
+- shared validators
+- shared API interfaces
+- shared design tokens
+- shared utility functions
+- mobile-specific components
+- web-specific components
+
+Keep the architecture clean and scalable.
+
+==================================================
+DELIVERABLES REQUIRED
+==================================================
+
+1. Create the mobile app code directly in the codebase.
+2. Choose and implement the best stack.
+3. Reuse shared logic where appropriate.
+4. Build the initial screens and navigation.
+5. Wire up real backend integration where possible.
+6. Add placeholders/stubs for any APIs that need follow-up.
+7. Add secure auth/session handling.
+8. Add push notification groundwork.
+9. Add offline/degraded-mode protection.
+10. Add branding and polished UI foundations.
+11. Prepare iOS and Android project configuration.
+12. Explain:
+   - what stack was chosen
+   - what files/folders were created
+   - what is already working
+   - what still needs follow-up before store submission
+
+==================================================
+INITIAL MVP SCREEN SET
+==================================================
+
+At minimum, build these screens first:
+
+- Splash / App bootstrap
+- Sign in
+- Sign up
+- Forgot password
+- Home dashboard
+- Study browser
+- Question bank list
+- Question practice screen
+- Exam list
+- Exam session screen
+- Exam results
+- Flashcard deck list
+- Flashcard study screen
+- Lesson list
+- Lesson detail
+- Profile / settings
+- Subscription/access status
+- Notifications/preferences
+- Report issue
+
+==================================================
+SUCCESS CRITERIA
+==================================================
+
+- mobile app exists in codebase
+- works for both iOS and Android
+- integrates with current backend
+- is architected for real production use
+- preserves entitlement and user trust
+- handles mobile network instability gracefully
+- is branded and polished
+- is structured for App Store and Play Store submission
