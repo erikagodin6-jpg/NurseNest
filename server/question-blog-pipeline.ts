@@ -190,7 +190,8 @@ async function fetchQuestionContext(
 
 async function generateQuestionDrivenBlogPost(
   gap: TopicGap,
-  citationStyle: "apa7" | "mla" = "apa7"
+  citationStyle: "apa7" | "mla" = "apa7",
+  language: string = "en"
 ): Promise<{
   title: string;
   slug: string;
@@ -215,7 +216,7 @@ async function generateQuestionDrivenBlogPost(
   const tierLabel = gap.tier === "rpn" ? "RPN/LVN" : gap.tier === "rn" ? "RN" : "NP";
   const topicPrompt = buildQuestionDrivenPrompt(gap, context, tierLabel);
 
-  const post = await generateBlogPost(topicPrompt, citationStyle);
+  const post = await generateBlogPost(topicPrompt, citationStyle, language);
 
   const relatedContent = await findRelatedContent({
     slug: post.slug,

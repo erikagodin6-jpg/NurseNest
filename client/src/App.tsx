@@ -241,6 +241,7 @@ const AdminSeoDashboard = lazy(() => import("@/pages/admin-seo-dashboard"));
 const AdminSeoPerformance = lazy(() => import("@/pages/admin-seo-performance"));
 const AdminTranslationDashboard = lazy(() => import("@/pages/admin-translation-dashboard"));
 const AdminTranslationCoverage = lazy(() => import("@/pages/admin-translation-coverage"));
+const AdminTranslationHealth = lazy(() => import("@/pages/admin-translation-health"));
 const AdminSeoInspector = lazy(() => import("@/pages/admin-seo-inspector"));
 const AdminContentIntelligence = lazy(() => import("@/pages/admin-content-intelligence"));
 const AdminCatDashboard = lazy(() => import("@/pages/admin-cat-dashboard"));
@@ -1097,6 +1098,7 @@ function AppRoutes() {
         <Route path="/admin/seo-performance" component={AdminSeoPerformance} />
         <Route path="/admin/translations" component={AdminTranslationDashboard} />
         <Route path="/admin/translation-coverage" component={AdminTranslationCoverage} />
+        <Route path="/admin/translation-health" component={AdminTranslationHealth} />
         <Route path="/admin/seo-inspector" component={AdminSeoInspector} />
         <Route path="/admin/content-intelligence" component={AdminContentIntelligence} />
         <Route path="/admin/cat" component={AdminCatDashboard} />

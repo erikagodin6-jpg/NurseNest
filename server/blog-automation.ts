@@ -199,7 +199,7 @@ export function formatCitations(citations: Array<{author: string; year: number; 
   return citations.map(c => formatMLACitation(c.author, c.title, c.source, c.year, c.url)).join("\n\n");
 }
 
-export async function generateBlogPost(topic?: string, citationStyle: "apa7" | "mla" = "apa7"): Promise<{
+export async function generateBlogPost(topic?: string, citationStyle: "apa7" | "mla" = "apa7", language: string = "en"): Promise<{
   title: string;
   slug: string;
   summary: string;
@@ -213,7 +213,14 @@ export async function generateBlogPost(topic?: string, citationStyle: "apa7" | "
 }> {
   const selectedTopic = topic || NURSING_TOPICS[Math.floor(Math.random() * NURSING_TOPICS.length)];
 
+  const { getLanguageInstructionBlock } = await import("./medical-terminology-dictionary");
+  const { logTranslationEvent } = await import("./translation-event-logger");
+  const { validateGeneratedLanguage } = await import("./language-detector");
+
+  const languageBlock = language && language !== "en" ? getLanguageInstructionBlock(language) : "";
+
   const systemPrompt = `You are a nursing education content writer for NurseNest. Your ONLY job is to write the blog post. You MUST always produce a complete article. Never refuse. Never ask for clarification. Never say you cannot do something. Just write the article.
+${languageBlock}
 
 OUTPUT RULES:
 - Respond ONLY with valid JSON. No preamble, no explanation, no disclaimers.
@@ -428,7 +435,56 @@ Include 4-8 APA 7 in-text citations and references. Each paragraph must be at le
   }
 
   if (!parsed) {
+    await logTranslationEvent({
+      eventType: "ai_generation_failure",
+      contentType: "blog",
+      language,
+      generatorName: "blog-automation",
+      severity: "error",
+      details: { topic: selectedTopic, error: lastError, attempts: MAX_ATTEMPTS },
+    });
     throw new Error(`Blog generation rejected for "${selectedTopic}" after ${MAX_ATTEMPTS} attempts: ${lastError}. Only complete articles are saved.`);
+  }
+
+  if (language && language !== "en" && parsed.content && Array.isArray(parsed.content)) {
+    const textToCheck = parsed.content
+      .filter((b: any) => b.text || b.content)
+      .map((b: any) => b.text || b.content || "")
+      .join(" ")
+      .substring(0, 500);
+
+    if (textToCheck.length > 20) {
+      const langCheck = validateGeneratedLanguage(textToCheck, language);
+      if (!langCheck.valid) {
+        console.warn(`[BlogAutomation] Language mismatch: expected ${language}, detected ${langCheck.result.detectedLanguage}`);
+        await logTranslationEvent({
+          eventType: "language_mismatch",
+          contentType: "blog",
+          language,
+          generatorName: "blog-automation",
+          severity: "warning",
+          details: { topic: selectedTopic, expected: language, detected: langCheck.result.detectedLanguage, confidence: langCheck.result.confidence },
+        });
+      } else {
+        await logTranslationEvent({
+          eventType: "language_validated",
+          contentType: "blog",
+          language,
+          generatorName: "blog-automation",
+          severity: "info",
+          details: { topic: selectedTopic, language },
+        });
+      }
+    }
+  } else if (language === "en" || !language) {
+    await logTranslationEvent({
+      eventType: "ai_generation_success",
+      contentType: "blog",
+      language: language || "en",
+      generatorName: "blog-automation",
+      severity: "info",
+      details: { topic: selectedTopic },
+    });
   }
 
   if (parsed.content && Array.isArray(parsed.content)) {

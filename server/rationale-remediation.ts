@@ -2,6 +2,9 @@ import type { Express, Request, Response } from "express";
 import { pool } from "./storage";
 import { requireAdmin } from "./admin-auth";
 import { routeAIRequest, getKillSwitch } from "./ai-provider-router";
+import { getLanguageInstructionBlock } from "./medical-terminology-dictionary";
+import { validateGeneratedLanguage } from "./language-detector";
+import { logTranslationEvent } from "./translation-event-logger";
 
 const PLACEHOLDER_PATTERNS = [
   /^tbd$/i,
@@ -164,6 +167,7 @@ function validateGeneratedRationale(
 
 async function generateRationalesForBatch(
   questions: Array<{ id: string; stem: string; options: any; correctAnswer: any; questionType: string; tier: string; topic: string | null }>,
+  language: string = "en",
 ): Promise<{
   scanned: number;
   fixed: number;
@@ -197,13 +201,15 @@ async function generateRationalesForBatch(
         ? q.correctAnswer.join(", ")
         : JSON.stringify(q.correctAnswer);
 
+      const languageBlock = language && language !== "en" ? getLanguageInstructionBlock(language) : "";
       const systemPrompt = `You are a senior nursing educator writing exam rationales. Write a clear, educational rationale for the given exam question. The rationale must:
 1. Explain WHY the correct answer is correct with clinical reasoning
 2. Briefly explain why each incorrect option is wrong
 3. Include relevant clinical pearls or exam tips
 4. Be 100-300 words
 5. Reference evidence-based nursing practice
-Return ONLY the rationale text, no JSON, no markdown fences.`;
+Return ONLY the rationale text, no JSON, no markdown fences.
+${languageBlock}`;
 
       const userPrompt = `Question (${q.tier.toUpperCase()} level, ${q.questionType}):
 ${q.stem}
@@ -230,7 +236,38 @@ Write the educational rationale:`;
       if (!validation.valid) {
         report.failed++;
         report.results.push({ id: q.id, status: "failed", reason: validation.reason });
+        await logTranslationEvent({
+          eventType: "ai_generation_failure",
+          contentType: "rationale",
+          language,
+          generatorName: "rationale-remediation",
+          severity: "warning",
+          details: { questionId: q.id, reason: validation.reason },
+        });
         continue;
+      }
+
+      if (language && language !== "en") {
+        const langCheck = validateGeneratedLanguage(generatedRationale.substring(0, 500), language);
+        if (!langCheck.valid) {
+          await logTranslationEvent({
+            eventType: "language_mismatch",
+            contentType: "rationale",
+            language,
+            generatorName: "rationale-remediation",
+            severity: "warning",
+            details: { questionId: q.id, expected: language, detected: langCheck.result.detectedLanguage },
+          });
+        } else {
+          await logTranslationEvent({
+            eventType: "language_validated",
+            contentType: "rationale",
+            language,
+            generatorName: "rationale-remediation",
+            severity: "info",
+            details: { questionId: q.id },
+          });
+        }
       }
 
       await pool.query(

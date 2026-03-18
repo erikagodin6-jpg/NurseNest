@@ -6569,3 +6569,23 @@ export const insertJobListingSchema = createInsertSchema(jobListings).omit({
 });
 export type JobListing = typeof jobListings.$inferSelect;
 export type InsertJobListing = z.infer<typeof insertJobListingSchema>;
+
+export const translationEvents = pgTable("translation_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  eventType: text("event_type").notNull(),
+  contentType: text("content_type"),
+  contentId: text("content_id"),
+  language: text("language"),
+  generatorName: text("generator_name"),
+  generationId: text("generation_id"),
+  severity: text("severity").default("info"),
+  details: jsonb("details").default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertTranslationEventSchema = createInsertSchema(translationEvents).omit({
+  id: true,
+  createdAt: true,
+});
+export type TranslationEvent = typeof translationEvents.$inferSelect;
+export type InsertTranslationEvent = z.infer<typeof insertTranslationEventSchema>;

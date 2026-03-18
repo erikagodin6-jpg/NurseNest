@@ -2,6 +2,7 @@ import { storage } from "../storage";
 import { normalizeTopic } from "./topicNormalizer";
 import { getLanguageInstructionBlock, getTerminologyPromptBlock, getLanguageName } from "../medical-terminology-dictionary";
 import { validateGeneratedLanguage } from "../language-detector";
+import { logTranslationEvent } from "../translation-event-logger";
 
 const SECTION_KEYS = [
   "objectives", "pathophysiology", "signs_symptoms", "assessment",
@@ -151,6 +152,16 @@ Rules:
                 payload: { sectionKey, targetLanguage, detected: langCheck.result.detectedLanguage, confidence: langCheck.result.confidence, attempt: langAttempt + 1 },
               });
 
+              await logTranslationEvent({
+                eventType: "language_mismatch",
+                contentType: "lesson_content",
+                language: targetLanguage,
+                generatorName: "generatorV2-contentWorker",
+                generationId,
+                severity: "warning",
+                details: { sectionKey, expected: targetLanguage, detected: langCheck.result.detectedLanguage, confidence: langCheck.result.confidence, attempt: langAttempt + 1 },
+              });
+
               if (langAttempt < maxLangRetries) {
                 langAttempt++;
                 await new Promise(r => setTimeout(r, 1000));
@@ -161,6 +172,16 @@ Rules:
                 generationId,
                 eventType: "content_language_rejected",
                 payload: { sectionKey, targetLanguage, detected: langCheck.result.detectedLanguage, attempts: langAttempt + 1 },
+              });
+
+              await logTranslationEvent({
+                eventType: "language_rejected",
+                contentType: "lesson_content",
+                language: targetLanguage,
+                generatorName: "generatorV2-contentWorker",
+                generationId,
+                severity: "error",
+                details: { sectionKey, expected: targetLanguage, detected: langCheck.result.detectedLanguage, attempts: langAttempt + 1 },
               });
               break;
             }

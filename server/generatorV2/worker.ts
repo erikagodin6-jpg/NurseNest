@@ -4,6 +4,7 @@ import { runPreflightChecks } from "../environment-write-service";
 import { VALID_BODY_SYSTEMS } from "./taxonomyRegistry";
 import { getLanguageInstructionBlock, getTerminologyPromptBlock } from "../medical-terminology-dictionary";
 import { validateGeneratedLanguage } from "../language-detector";
+import { logTranslationEvent } from "../translation-event-logger";
 
 const VALID_SYSTEMS = [...VALID_BODY_SYSTEMS];
 
@@ -672,6 +673,16 @@ async function generateChunkWithRetry(
             generationId,
             eventType: "language_validation",
             payload: { targetLanguage, mismatches, filtered, totalChecked: valid.length + filtered },
+          });
+
+          await logTranslationEvent({
+            eventType: "language_mismatch",
+            contentType: "exam_question",
+            language: targetLanguage,
+            generatorName: "generatorV2-worker",
+            generationId,
+            severity: "warning",
+            details: { mismatches, filtered, totalChecked: valid.length + filtered, attempt: attempt + 1 },
           });
 
           if (valid.length === 0 && attempt < maxRetries) {
