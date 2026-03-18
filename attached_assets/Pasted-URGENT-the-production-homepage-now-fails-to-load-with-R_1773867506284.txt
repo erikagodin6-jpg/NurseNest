@@ -1,0 +1,71 @@
+URGENT: the production homepage now fails to load with:
+
+ReferenceError: Cannot access 'A' before initialization
+
+This is a frontend production-bundle crash, likely caused by a circular import, barrel export loop, or top-level initialization order bug.
+
+I need a ROOT-CAUSE FIX immediately.
+
+TASKS
+
+1. IDENTIFY THE EXACT SOURCE
+- Reproduce the homepage crash locally in production mode, not just dev mode
+- Run the app with a production build and inspect the stack/source maps
+- Map minified symbol `A` back to the real variable/module/component
+- Identify the exact file and line causing the initialization error
+
+2. CHECK FOR CIRCULAR DEPENDENCIES
+Audit especially:
+- homepage route/component
+- layout files
+- shared UI components
+- constants/config files
+- hooks
+- context providers
+- SEO/meta utilities
+- i18n files
+- barrel exports like index.ts
+
+Look for:
+- file A importing B while B imports A
+- barrel files re-exporting modules that import the barrel back
+- top-level objects referencing each other during import time
+
+3. SEARCH FOR TOP-LEVEL INITIALIZATION BUGS
+Find any code patterns like:
+- const foo = bar before `bar` is initialized
+- exported const using another imported symbol that depends back on this file
+- component maps/config arrays declared before imported values are ready
+- immediate function calls at module scope
+
+4. FIX SAFELY
+- break circular imports
+- remove barrel export loops
+- move fragile initialization inside functions/components where appropriate
+- avoid top-level execution that depends on other modules being initialized
+- keep homepage route resilient even if one section fails
+
+5. VERIFY ALL CORE ROUTES
+After fixing, verify production build loads:
+- homepage
+- pricing
+- dashboard
+- exams
+- mock exams
+- lessons
+- flashcards
+- admin-critical pages if applicable
+
+6. ADD PREVENTION
+- add circular dependency detection to CI/build if possible
+- fail build on known circular imports in app-critical modules
+- prevent homepage from depending on fragile top-level config chains
+
+7. DELIVERABLES
+Return:
+- exact root cause
+- exact file(s)
+- exact code change
+- why it appeared only in production or after minification
+- proof that homepage now loads in production build
+- list of any similar circular-import risks found elsewhere
