@@ -4,8 +4,11 @@ import { resolveAuthUser } from "./admin-auth";
 import { resolveEntitlementSync, checkEntitlement } from "./entitlements";
 import { z } from "zod";
 import type { Request, Response } from "express";
+import { premiumDegradationMiddleware, getDegradation, attachDegradationToResponse, logDegradedAccess } from "./premium-degradation";
 
 const router = Router();
+
+router.use(premiumDegradationMiddleware());
 
 function snakeToCamel(obj: any): any {
   if (Array.isArray(obj)) return obj.map(snakeToCamel);
@@ -95,7 +98,7 @@ router.get("/api/test-banks", async (req, res) => {
 
     const { role, country, exam } = req.query;
 
-    let query = `SELECT * FROM test_bank_collections WHERE status = 'active'`;
+    let query = `SELECT id, name, slug, description, role, country, exam_type, tier, question_count, categories, sort_order FROM test_bank_collections WHERE status = 'active'`;
     const params: any[] = [];
     let idx = 1;
 
@@ -176,7 +179,8 @@ router.get("/api/test-banks/:bankId", async (req, res) => {
 
     const { bankId } = req.params;
     const result = await pool.query(
-      `SELECT * FROM test_bank_collections WHERE id = $1 AND status = 'active'`,
+      `SELECT id, name, slug, description, role, country, exam_type, tier, question_count, categories, metadata
+       FROM test_bank_collections WHERE id = $1 AND status = 'active'`,
       [bankId]
     );
 
@@ -189,7 +193,8 @@ router.get("/api/test-banks/:bankId", async (req, res) => {
     const isLocked = bank.tier !== "free" && !entitlement.hasAccess;
 
     const progress = await pool.query(
-      `SELECT * FROM test_bank_progress WHERE user_id = $1 AND collection_id = $2`,
+      `SELECT questions_attempted, questions_correct, last_question_id, last_accessed_at
+       FROM test_bank_progress WHERE user_id = $1 AND collection_id = $2`,
       [user.id, bankId]
     );
 
@@ -247,7 +252,7 @@ router.get("/api/test-banks/:bankId/questions", async (req, res) => {
     const shuffle = req.query.shuffle !== "false";
 
     const bankResult = await pool.query(
-      `SELECT * FROM test_bank_collections WHERE id = $1 AND status = 'active'`,
+      `SELECT id, name, exam_type, tier, question_count FROM test_bank_collections WHERE id = $1 AND status = 'active'`,
       [bankId]
     );
     if (bankResult.rows.length === 0) {
@@ -326,7 +331,12 @@ router.get("/api/test-banks/:bankId/questions", async (req, res) => {
       offset,
     });
 
-    res.json({
+    const deg = getDegradation(req);
+    if (deg.degradedMode) {
+      logDegradedAccess(user.id, "/api/test-banks/questions", deg.degradationReason || "memory_pressure", deg.memoryLevel || "unknown");
+    }
+
+    const response: any = {
       questions: result.rows.map((q: any) => ({
         id: q.id,
         stem: q.stem,
@@ -339,7 +349,14 @@ router.get("/api/test-banks/:bankId/questions", async (req, res) => {
       total: parseInt(countResult.rows[0].count),
       limit,
       offset,
-    });
+    };
+
+    if (deg.degradedMode) {
+      response.degradedMode = true;
+      response.degradationReason = deg.degradationReason;
+    }
+
+    res.json(response);
   } catch (e: any) {
     console.error("[TestBankAPI] Questions error:", e.message);
     res.status(500).json({ error: "Failed to fetch questions" });
@@ -374,7 +391,7 @@ router.post("/api/test-banks/:bankId/answer", async (req, res) => {
     }
 
     const bankResult = await pool.query(
-      `SELECT * FROM test_bank_collections WHERE id = $1 AND status = 'active'`,
+      `SELECT id, name, tier FROM test_bank_collections WHERE id = $1 AND status = 'active'`,
       [bankId]
     );
     if (bankResult.rows.length === 0) {
@@ -463,7 +480,8 @@ router.get("/api/test-banks/:bankId/progress", async (req, res) => {
     const bank = bankResult.rows[0];
 
     const progress = await pool.query(
-      `SELECT * FROM test_bank_progress WHERE user_id = $1 AND collection_id = $2`,
+      `SELECT questions_attempted, questions_correct, last_question_id, last_accessed_at
+       FROM test_bank_progress WHERE user_id = $1 AND collection_id = $2`,
       [user.id, bankId]
     );
 

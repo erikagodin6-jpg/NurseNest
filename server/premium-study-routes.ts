@@ -10,6 +10,7 @@ import {
   type QuestionCandidate,
 } from "./mlt-adaptive-engine";
 import { DEFAULT_CAT_PARAMS } from "../shared/mlt-exam-types";
+import { premiumDegradationMiddleware, getDegradation, attachDegradationToResponse, logDegradedAccess } from "./premium-degradation";
 
 function snakeToCamel(obj: any): any {
   if (Array.isArray(obj)) return obj.map(snakeToCamel);
@@ -107,9 +108,20 @@ export function registerPremiumStudyRoutes(app: Express) {
   const examInteractionLimiter = createRateLimiter("exam_interaction");
   const contentBrowseLimiter = createRateLimiter("content_browse");
 
-  app.use("/api/practice-sessions", abuseEscalationMiddleware, botDetectionMiddleware);
-  app.use("/api/adaptive", abuseEscalationMiddleware, botDetectionMiddleware);
-  app.use("/api/bookmarks", abuseEscalationMiddleware, botDetectionMiddleware, contentBrowseLimiter);
+  const premiumDegMiddleware = premiumDegradationMiddleware();
+  const autoAttachDegradation = (req: any, res: any, next: any) => {
+    premiumDegMiddleware(req, res, () => {
+      attachDegradationToResponse(res, req);
+      next();
+    });
+  };
+
+  app.use("/api/practice-sessions", abuseEscalationMiddleware, botDetectionMiddleware, autoAttachDegradation);
+  app.use("/api/adaptive", abuseEscalationMiddleware, botDetectionMiddleware, autoAttachDegradation);
+  app.use("/api/bookmarks", abuseEscalationMiddleware, botDetectionMiddleware, contentBrowseLimiter, autoAttachDegradation);
+  app.use("/api/exam-readiness-enhanced", autoAttachDegradation);
+  app.use("/api/weak-areas-enhanced", autoAttachDegradation);
+  app.use("/api/mock-exams", autoAttachDegradation);
 
   // ─── Question Bookmark API ───
 
@@ -189,17 +201,31 @@ export function registerPremiumStudyRoutes(app: Express) {
       const bookmarks = await pool.query(bookmarkQuery, params);
       const results: any[] = [];
 
+      const examIds = bookmarks.rows.filter((bm: any) => bm.question_source === "exam_questions").map((bm: any) => bm.question_id);
+      const alliedIds = bookmarks.rows.filter((bm: any) => bm.question_source === "allied_questions").map((bm: any) => bm.question_id);
+
+      const questionMap = new Map<string, any>();
+
+      if (examIds.length > 0) {
+        const eq = await pool.query(
+          `SELECT id, stem, options, body_system, topic, difficulty, question_type, career_type, subtopic, blueprint_category
+           FROM exam_questions WHERE id = ANY($1)`,
+          [examIds]
+        );
+        for (const row of eq.rows) questionMap.set(row.id, snakeToCamel(row));
+      }
+
+      if (alliedIds.length > 0) {
+        const aq = await pool.query(
+          `SELECT id, stem, options, body_system, topic, difficulty, question_type, career_type, subtopic, blueprint_category
+           FROM allied_questions WHERE id = ANY($1)`,
+          [alliedIds]
+        );
+        for (const row of aq.rows) questionMap.set(row.id, snakeToCamel(row));
+      }
+
       for (const bm of bookmarks.rows) {
-        let questionData: any = null;
-
-        if (bm.question_source === "exam_questions") {
-          const q = await pool.query(`SELECT * FROM exam_questions WHERE id = $1`, [bm.question_id]);
-          if (q.rows.length > 0) questionData = snakeToCamel(q.rows[0]);
-        } else if (bm.question_source === "allied_questions") {
-          const q = await pool.query(`SELECT * FROM allied_questions WHERE id = $1`, [bm.question_id]);
-          if (q.rows.length > 0) questionData = snakeToCamel(q.rows[0]);
-        }
-
+        const questionData = questionMap.get(bm.question_id);
         if (!questionData) continue;
 
         if (profession) {
@@ -221,7 +247,14 @@ export function registerPremiumStudyRoutes(app: Express) {
         });
       }
 
-      res.json({ bookmarks: results, total: results.length });
+      const degradation = getDegradation(req);
+      const response: any = { bookmarks: results, total: results.length };
+      if (degradation.degradedMode) {
+        response.degradedMode = true;
+        response.degradationReason = degradation.degradationReason;
+        logDegradedAccess(user.id, "/api/bookmarks", degradation.degradationReason || "memory_pressure", degradation.memoryLevel || "unknown");
+      }
+      res.json(response);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -233,6 +266,11 @@ export function registerPremiumStudyRoutes(app: Express) {
     try {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });
+
+      const psDeg = getDegradation(req);
+      if (psDeg.degradedMode) {
+        logDegradedAccess(user.id, "/api/practice-sessions", psDeg.degradationReason || "memory_pressure", psDeg.memoryLevel || "unknown");
+      }
 
       const {
         topics,
@@ -411,6 +449,11 @@ export function registerPremiumStudyRoutes(app: Express) {
   app.post("/api/adaptive/next-question", examInteractionLimiter, requireEntitlement("adaptive_engine"), async (req: any, res) => {
     try {
       const user = req.authUser;
+
+      const adaptiveDeg = getDegradation(req);
+      if (adaptiveDeg.degradedMode) {
+        logDegradedAccess(user?.id || "unknown", "/api/adaptive/next-question", adaptiveDeg.degradationReason || "memory_pressure", adaptiveDeg.memoryLevel || "unknown");
+      }
 
       const { professionType, currentAbility, usedQuestionIds, sessionState } = req.body;
 
@@ -615,6 +658,12 @@ export function registerPremiumStudyRoutes(app: Express) {
     try {
       const user = await resolveAuthUser(req as any);
       if (!user) return res.status(401).json({ error: "Authentication required" });
+
+      const readinessDeg = getDegradation(req);
+      if (readinessDeg.degradedMode) {
+        logDegradedAccess(user.id, "/api/exam-readiness-enhanced", readinessDeg.degradationReason || "memory_pressure", readinessDeg.memoryLevel || "unknown");
+      }
+
       if (String(user.id) !== req.params.userId && (user as any).tier !== "admin") {
         return res.status(403).json({ error: "Access denied" });
       }

@@ -27,6 +27,7 @@ const LazyAnalyticsTracker = lazy(() => import("@/components/analytics-tracker")
 const ReportProblemButton = lazy(() => import("@/components/report-problem-button").then(m => ({ default: m.ReportProblemButton })));
 import { ExamErrorBoundary, ExamLoadingFallback } from "@/components/exam-error-boundary";
 import { PlatformErrorBoundary } from "@/components/platform-error-boundary";
+import { PremiumFeatureErrorBoundary } from "@/components/premium-error-boundary";
 import { LanguageGuard } from "@/lib/language-guard";
 import { ProtectedRoute } from "@/components/protected-route";
 import { SafeExamFallback, SafeFlashcardFallback, SafeLessonFallback, SafeDownloadFallback } from "@/components/safe-mode-fallbacks";
@@ -711,7 +712,7 @@ function AppRoutes() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/languages" component={LanguagesPage} />
-        <Route path="/dashboard">{() => <ProtectedRoute contentType="general" fallbackPath="/en/lessons"><DashboardPage /></ProtectedRoute>}</Route>
+        <Route path="/dashboard">{() => <PremiumFeatureErrorBoundary featureName="dashboard" fallbackPath="/en/lessons"><ProtectedRoute contentType="general" fallbackPath="/en/lessons"><DashboardPage /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/start-free" component={StartFreePage} />
         <Route path="/pathways" component={PathwaysPage} />
         <Route path="/med-math" component={MedMathPage} />
@@ -737,11 +738,11 @@ function AppRoutes() {
         <Route path="/instructor">{() => <RouteErrorBoundary groupName="admin"><LazyAdminRoutes /></RouteErrorBoundary>}</Route>
         <Route path="/demo/exam-readiness">{() => <RouteErrorBoundary groupName="admin"><LazyAdminRoutes /></RouteErrorBoundary>}</Route>
         <Route path="/demo/learning-progress">{() => <RouteErrorBoundary groupName="admin"><LazyAdminRoutes /></RouteErrorBoundary>}</Route>
-        <Route path="/study/:mode">{() => <ProtectedRoute contentType="exam" killSwitchKey="cat"><AdaptiveStudyPage /></ProtectedRoute>}</Route>
-        <Route path="/study">{() => <ProtectedRoute contentType="exam" killSwitchKey="cat"><AdaptiveStudyPage /></ProtectedRoute>}</Route>
-        <Route path="/qbank/exam">{() => <ProtectedRoute contentType="exam" killSwitchKey="qbank" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/dashboard"} />}><QBankExamPage /></ProtectedRoute>}</Route>
-        <Route path="/qbank/study">{() => <ProtectedRoute contentType="exam" killSwitchKey="qbank"><QBankStudyPage /></ProtectedRoute>}</Route>
-        <Route path="/qbank/browse">{() => <ProtectedRoute contentType="exam" killSwitchKey="qbank"><QBankPreviewPage /></ProtectedRoute>}</Route>
+        <Route path="/study/:mode">{() => <PremiumFeatureErrorBoundary featureName="study" fallbackPath="/en/dashboard"><ProtectedRoute contentType="exam" killSwitchKey="cat"><AdaptiveStudyPage /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/study">{() => <PremiumFeatureErrorBoundary featureName="study" fallbackPath="/en/dashboard"><ProtectedRoute contentType="exam" killSwitchKey="cat"><AdaptiveStudyPage /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/qbank/exam">{() => <PremiumFeatureErrorBoundary featureName="question bank" fallbackPath="/en/dashboard"><ProtectedRoute contentType="exam" killSwitchKey="qbank" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/dashboard"} />}><QBankExamPage /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/qbank/study">{() => <PremiumFeatureErrorBoundary featureName="question bank" fallbackPath="/en/dashboard"><ProtectedRoute contentType="exam" killSwitchKey="qbank"><QBankStudyPage /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/qbank/browse">{() => <PremiumFeatureErrorBoundary featureName="question bank" fallbackPath="/en/dashboard"><ProtectedRoute contentType="exam" killSwitchKey="qbank"><QBankPreviewPage /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/case-simulations">{() => <ProtectedPremiumRoute category="premium-tool" label="case simulation" fallbackPath="/dashboard"><CaseSimulationPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/first-action-simulator" component={FirstActionSimulatorPage} />
         <Route path="/safety-hazard-simulator" component={SafetyHazardSimulatorPage} />
@@ -837,8 +838,8 @@ function AppRoutes() {
         <Route path="/career-development/:slug" component={NewGradGuidePage} />
         <Route path="/clinical-scenarios/:slug" component={NewGradGuidePage} />
         <Route path="/questions/:slug" component={QuestionPreviewPage} />
-        <Route path="/rpn/exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
-        <Route path="/rn/exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
+        <Route path="/rpn/exams">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/dashboard"><ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/rn/exams">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/dashboard"><ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/rpn/questions/:topicSlug">{() => <NursingQuestionSeoPage tier="rpn" />}</Route>
         <Route path="/rpn/questions">{() => <NursingQuestionsIndexPage tier="rpn" />}</Route>
         <Route path="/rn/questions/:topicSlug">{() => <NursingQuestionSeoPage tier="rn" />}</Route>
@@ -971,9 +972,9 @@ function AppRoutes() {
         <Route path="/specialties/:slug">{() => <NursingHubPage pageType="specialty" />}</Route>
         <Route path="/study-pathways/:slug">{() => <NursingHubPage pageType="study-pathway" />}</Route>
         <Route path="/pre-nursing" component={PreNursingPage} />
-        <Route path="/mock-exams/:id/report">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamReport /></ProtectedRoute>}</Route>
-        <Route path="/mock-exams/:id">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/mock-exams"} />}><ExamErrorBoundary examContext={{ examType: "mock-exam" }}><Suspense fallback={<ExamLoadingFallback />}><MockExamSession /></Suspense></ExamErrorBoundary></ProtectedRoute>}</Route>
-        <Route path="/mock-exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
+        <Route path="/mock-exams/:id/report">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/mock-exams"><ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamReport /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/mock-exams/:id">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/mock-exams"><ProtectedRoute contentType="exam" killSwitchKey="mockExams" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/mock-exams"} />}><ExamErrorBoundary examContext={{ examType: "mock-exam" }}><Suspense fallback={<ExamLoadingFallback />}><MockExamSession /></Suspense></ExamErrorBoundary></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/mock-exams">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/dashboard"><ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/probability-simulator" component={ProbabilitySimulatorPage} />
         <Route path="/shop/:slug">{() => <ProtectedRoute contentType="download" safeModeRenderer={() => <SafeDownloadFallback onBack={() => window.location.href = "/en/shop"} />}><ShopProductPage /></ProtectedRoute>}</Route>
         <Route path="/shop">{() => <ProtectedRoute contentType="download" safeModeRenderer={() => <SafeDownloadFallback onBack={() => window.location.href = "/en/dashboard"} />}><ShopPage /></ProtectedRoute>}</Route>
@@ -1142,20 +1143,20 @@ function AppRoutes() {
         <Route path="/learn/:slug" component={ContentPage} />
         <Route path="/anatomy/:systemId" component={AnatomyPage} />
         <Route path="/anatomy" component={AnatomyPage} />
-        <Route path="/lessons">{() => <ProtectedRoute contentType="lesson" killSwitchKey="lessons" safeModeRenderer={() => <SafeLessonFallback onBack={() => window.location.href = "/en/dashboard"} />}><Lessons /></ProtectedRoute>}</Route>
+        <Route path="/lessons">{() => <PremiumFeatureErrorBoundary featureName="lessons" fallbackPath="/en/dashboard"><ProtectedRoute contentType="lesson" killSwitchKey="lessons" safeModeRenderer={() => <SafeLessonFallback onBack={() => window.location.href = "/en/dashboard"} />}><Lessons /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/lectures" component={LecturesPage} />
         <Route path="/lectures/:slug" component={LectureViewer} />
-        <Route path="/lessons/:id">{() => <ProtectedRoute contentType="lesson" killSwitchKey="lessons" safeModeRenderer={() => <SafeLessonFallback onBack={() => window.location.href = "/en/lessons"} />}><LessonDetail /></ProtectedRoute>}</Route>
-        <Route path="/flashcards/deck/:slug">{() => <ProtectedRoute contentType="flashcard" killSwitchKey="flashcards" safeModeRenderer={() => <SafeFlashcardFallback onBack={() => window.location.href = "/en/flashcards"} />}><DeckPage /></ProtectedRoute>}</Route>
-        <Route path="/flashcards">{() => <ProtectedRoute contentType="flashcard" killSwitchKey="flashcards" safeModeRenderer={() => <SafeFlashcardFallback onBack={() => window.location.href = "/en/dashboard"} />}><PublicFlashcards /></ProtectedRoute>}</Route>
+        <Route path="/lessons/:id">{() => <PremiumFeatureErrorBoundary featureName="lessons" fallbackPath="/en/lessons"><ProtectedRoute contentType="lesson" killSwitchKey="lessons" safeModeRenderer={() => <SafeLessonFallback onBack={() => window.location.href = "/en/lessons"} />}><LessonDetail /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/flashcards/deck/:slug">{() => <PremiumFeatureErrorBoundary featureName="flashcards" fallbackPath="/en/flashcards"><ProtectedRoute contentType="flashcard" killSwitchKey="flashcards" safeModeRenderer={() => <SafeFlashcardFallback onBack={() => window.location.href = "/en/flashcards"} />}><DeckPage /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/flashcards">{() => <PremiumFeatureErrorBoundary featureName="flashcards" fallbackPath="/en/dashboard"><ProtectedRoute contentType="flashcard" killSwitchKey="flashcards" safeModeRenderer={() => <SafeFlashcardFallback onBack={() => window.location.href = "/en/dashboard"} />}><PublicFlashcards /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
 
         {/* Specialty Preview Pages (public) */}
         <Route path="/preview/:specialty" component={SpecialtyPreviewPage} />
 
         {/* Tier-specific Test Bank routes (auth-guarded) */}
-        <Route path="/rpn/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
-        <Route path="/rn/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
-        <Route path="/np/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
+        <Route path="/rpn/test-bank">{() => <PremiumFeatureErrorBoundary featureName="question bank" fallbackPath="/en/dashboard"><ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/rn/test-bank">{() => <PremiumFeatureErrorBoundary featureName="question bank" fallbackPath="/en/dashboard"><ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/np/test-bank">{() => <PremiumFeatureErrorBoundary featureName="question bank" fallbackPath="/en/dashboard"><ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute></PremiumFeatureErrorBoundary>}</Route>
         {/* Legacy tier flashcard routes → redirect to test-bank */}
         <Route path="/rpn/flashcards">{() => <Redirect to="/rpn/test-bank" />}</Route>
         <Route path="/rn/flashcards">{() => <Redirect to="/rn/test-bank" />}</Route>
@@ -1190,7 +1191,7 @@ function AppRoutes() {
         <Route path="/email-preferences" component={EmailPreferencesPage} />
         <Route path="/question-of-the-day" component={QuestionOfTheDay} />
         <Route path="/daily-question" component={DailyQuestionPage} />
-        <Route path="/test-bank">{() => <ProtectedTestBankRoute><QuestionBank /></ProtectedTestBankRoute>}</Route>
+        <Route path="/test-bank">{() => <PremiumFeatureErrorBoundary featureName="question bank" fallbackPath="/en/dashboard"><ProtectedTestBankRoute><QuestionBank /></ProtectedTestBankRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/question-bank">{() => <Redirect to="/test-bank" />}</Route>
         <Route path="/contact" component={ContactPage} />
         <Route path="/about" component={AboutPage} />
@@ -1306,24 +1307,24 @@ function AppRoutes() {
 
         {/* Phase 3: Advanced Clinical & Specialist Certifications */}
         <Route path="/critical-care/question-bank">{() => <Redirect to="/critical-care/test-bank" />}</Route>
-        <Route path="/critical-care/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
+        <Route path="/critical-care/test-bank">{() => <PremiumFeatureErrorBoundary featureName="question bank" fallbackPath="/en/critical-care"><ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/critical-care/flashcards/deck/:slug">{() => <ProtectedRoute contentType="flashcard" killSwitchKey="flashcards" safeModeRenderer={() => <SafeFlashcardFallback onBack={() => window.location.href = "/en/critical-care"} />}><DeckPage /></ProtectedRoute>}</Route>
         <Route path="/critical-care/flashcards">{() => <Redirect to="/critical-care/test-bank" />}</Route>
-        <Route path="/critical-care/mock-exams/:id/report">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamReport /></ProtectedRoute>}</Route>
-        <Route path="/critical-care/mock-exams/:id">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/critical-care/mock-exams"} />}><ExamErrorBoundary examContext={{ examType: "critical-care" }}><MockExamSession /></ExamErrorBoundary></ProtectedRoute>}</Route>
-        <Route path="/critical-care/mock-exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
+        <Route path="/critical-care/mock-exams/:id/report">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/critical-care/mock-exams"><ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamReport /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/critical-care/mock-exams/:id">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/critical-care/mock-exams"><ProtectedRoute contentType="exam" killSwitchKey="mockExams" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/critical-care/mock-exams"} />}><ExamErrorBoundary examContext={{ examType: "critical-care" }}><MockExamSession /></ExamErrorBoundary></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/critical-care/mock-exams">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/critical-care"><ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/critical-care/study-plan" component={StudyPlanPage} />
         <Route path="/critical-care/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/critical-care/dashboard">{() => <ProtectedPremiumRoute category="analytics" label="dashboard" fallbackPath="/critical-care"><DashboardPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/critical-care" component={AlliedHomePage} />
 
         <Route path="/emergency-nursing/question-bank">{() => <Redirect to="/emergency-nursing/test-bank" />}</Route>
-        <Route path="/emergency-nursing/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
+        <Route path="/emergency-nursing/test-bank">{() => <PremiumFeatureErrorBoundary featureName="question bank" fallbackPath="/en/emergency-nursing"><ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/emergency-nursing/flashcards/deck/:slug">{() => <ProtectedRoute contentType="flashcard" killSwitchKey="flashcards" safeModeRenderer={() => <SafeFlashcardFallback onBack={() => window.location.href = "/en/emergency-nursing"} />}><DeckPage /></ProtectedRoute>}</Route>
         <Route path="/emergency-nursing/flashcards">{() => <Redirect to="/emergency-nursing/test-bank" />}</Route>
-        <Route path="/emergency-nursing/mock-exams/:id/report">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamReport /></ProtectedRoute>}</Route>
-        <Route path="/emergency-nursing/mock-exams/:id">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/emergency-nursing/mock-exams"} />}><ExamErrorBoundary examContext={{ examType: "emergency-nursing" }}><MockExamSession /></ExamErrorBoundary></ProtectedRoute>}</Route>
-        <Route path="/emergency-nursing/mock-exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
+        <Route path="/emergency-nursing/mock-exams/:id/report">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/emergency-nursing/mock-exams"><ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamReport /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/emergency-nursing/mock-exams/:id">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/emergency-nursing/mock-exams"><ProtectedRoute contentType="exam" killSwitchKey="mockExams" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/emergency-nursing/mock-exams"} />}><ExamErrorBoundary examContext={{ examType: "emergency-nursing" }}><MockExamSession /></ExamErrorBoundary></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/emergency-nursing/mock-exams">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/emergency-nursing"><ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/emergency-nursing/study-plan" component={StudyPlanPage} />
         <Route path="/emergency-nursing/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/emergency-nursing/dashboard">{() => <ProtectedPremiumRoute category="analytics" label="dashboard" fallbackPath="/emergency-nursing"><DashboardPage /></ProtectedPremiumRoute>}</Route>
@@ -1337,23 +1338,23 @@ function AppRoutes() {
         <Route path="/perioperative/lessons/:slug" component={PerioperativeLessonsPage} />
         <Route path="/perioperative/lessons" component={PerioperativeLessonsPage} />
         <Route path="/perioperative/question-bank">{() => <Redirect to="/perioperative/test-bank" />}</Route>
-        <Route path="/perioperative/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
+        <Route path="/perioperative/test-bank">{() => <PremiumFeatureErrorBoundary featureName="question bank" fallbackPath="/en/perioperative"><ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/perioperative/flashcards/deck/:slug">{() => <ProtectedRoute contentType="flashcard" killSwitchKey="flashcards" safeModeRenderer={() => <SafeFlashcardFallback onBack={() => window.location.href = "/en/perioperative"} />}><DeckPage /></ProtectedRoute>}</Route>
         <Route path="/perioperative/flashcards">{() => <Redirect to="/perioperative/test-bank" />}</Route>
-        <Route path="/perioperative/mock-exams/:id/report">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamReport /></ProtectedRoute>}</Route>
-        <Route path="/perioperative/mock-exams/:id">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/perioperative/mock-exams"} />}><ExamErrorBoundary examContext={{ examType: "perioperative" }}><MockExamSession /></ExamErrorBoundary></ProtectedRoute>}</Route>
-        <Route path="/perioperative/mock-exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
+        <Route path="/perioperative/mock-exams/:id/report">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/perioperative/mock-exams"><ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamReport /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/perioperative/mock-exams/:id">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/perioperative/mock-exams"><ProtectedRoute contentType="exam" killSwitchKey="mockExams" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/perioperative/mock-exams"} />}><ExamErrorBoundary examContext={{ examType: "perioperative" }}><MockExamSession /></ExamErrorBoundary></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/perioperative/mock-exams">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/perioperative"><ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/perioperative/study-plan" component={StudyPlanPage} />
         <Route path="/perioperative/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/perioperative/dashboard">{() => <ProtectedPremiumRoute category="analytics" label="dashboard" fallbackPath="/perioperative"><DashboardPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/perioperative" component={AlliedHomePage} />
 
         <Route path="/oncology-nursing/question-bank">{() => <Redirect to="/oncology-nursing/test-bank" />}</Route>
-        <Route path="/oncology-nursing/test-bank">{() => <ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute>}</Route>
+        <Route path="/oncology-nursing/test-bank">{() => <PremiumFeatureErrorBoundary featureName="question bank" fallbackPath="/en/oncology-nursing"><ProtectedTestBankRoute><TestBank /></ProtectedTestBankRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/oncology-nursing/flashcards/deck/:slug">{() => <ProtectedRoute contentType="flashcard" killSwitchKey="flashcards" safeModeRenderer={() => <SafeFlashcardFallback onBack={() => window.location.href = "/en/oncology-nursing"} />}><DeckPage /></ProtectedRoute>}</Route>
         <Route path="/oncology-nursing/flashcards">{() => <Redirect to="/oncology-nursing/test-bank" />}</Route>
-        <Route path="/oncology-nursing/mock-exams/:id/report">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamReport /></ProtectedRoute>}</Route>
-        <Route path="/oncology-nursing/mock-exams/:id">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/oncology-nursing/mock-exams"} />}><ExamErrorBoundary examContext={{ examType: "oncology-nursing" }}><MockExamSession /></ExamErrorBoundary></ProtectedRoute>}</Route>
+        <Route path="/oncology-nursing/mock-exams/:id/report">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/oncology-nursing/mock-exams"><ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamReport /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
+        <Route path="/oncology-nursing/mock-exams/:id">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/oncology-nursing/mock-exams"><ProtectedRoute contentType="exam" killSwitchKey="mockExams" safeModeRenderer={() => <SafeExamFallback onBack={() => window.location.href = "/en/oncology-nursing/mock-exams"} />}><ExamErrorBoundary examContext={{ examType: "oncology-nursing" }}><MockExamSession /></ExamErrorBoundary></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/oncology-nursing/mock-exams">{() => <ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute>}</Route>
         <Route path="/oncology-nursing/study-plan" component={StudyPlanPage} />
         <Route path="/oncology-nursing/pricing">{() => <Redirect to="/pricing?section=nursing" />}</Route>

@@ -211,7 +211,18 @@ interface CacheEntry<T> {
 }
 
 const memoryCache = new Map<string, CacheEntry<any>>();
+const MEMORY_CACHE_MAX_ENTRIES = parseInt(process.env.MEMORY_CACHE_MAX || "0") || 1000;
 let cacheCleanupInterval: ReturnType<typeof setInterval> | null = null;
+
+function evictOldestCacheEntries(): void {
+  if (memoryCache.size <= MEMORY_CACHE_MAX_ENTRIES) return;
+  const entries = Array.from(memoryCache.entries())
+    .sort((a, b) => a[1].expiresAt - b[1].expiresAt);
+  const toEvict = entries.slice(0, memoryCache.size - MEMORY_CACHE_MAX_ENTRIES);
+  for (const [key] of toEvict) {
+    memoryCache.delete(key);
+  }
+}
 
 export function cacheGet<T>(key: string): T | undefined {
   const entry = memoryCache.get(key);
@@ -225,6 +236,11 @@ export function cacheGet<T>(key: string): T | undefined {
 
 export function cacheSet<T>(key: string, value: T, ttlSeconds: number): void {
   memoryCache.set(key, { value, expiresAt: Date.now() + ttlSeconds * 1000 });
+  evictOldestCacheEntries();
+}
+
+export function getCacheStats(): { size: number; maxEntries: number } {
+  return { size: memoryCache.size, maxEntries: MEMORY_CACHE_MAX_ENTRIES };
 }
 
 export function cacheInvalidate(pattern: string): void {

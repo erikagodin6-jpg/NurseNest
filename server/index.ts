@@ -6,13 +6,6 @@ import path from "path";
 import { createServer } from "http";
 import { registerRoutes } from "./routes";
 import { adminApiRateLimit, csrfProtection } from "./admin-auth";
-import { registerAlliedPipelineRoutes } from "./allied-pipeline";
-import { registerAutomationRoutes } from "./allied-automations";
-import { registerAiJobsRoutes } from "./ai-jobs-routes";
-import { registerMassExpansionRoutes } from "./mass-expansion-routes";
-import { registerSocialContentRoutes } from "./social-content-automation";
-import { registerScenarioRoutes } from "./allied-scenarios";
-import { registerParamedicBulkUploadRoutes } from "./paramedic-bulk-upload";
 import { registerNotificationRoutes } from "./notification-routes";
 import { registerAlertingRoutes } from "./alerting-routes";
 import { sendAdminNotification } from "./admin-notifications";
@@ -962,13 +955,26 @@ app.use((req, res, next) => {
   registerNotificationRoutes(app, devPool);
   registerAlertingRoutes(app, devPool);
 
-  registerAlliedPipelineRoutes(app);
-  registerAutomationRoutes(app);
-  registerAiJobsRoutes(app);
-  registerSocialContentRoutes(app);
-  registerScenarioRoutes(app);
-  registerParamedicBulkUploadRoutes(app);
-  registerMassExpansionRoutes(app);
+  const deferredAdminModules = [
+    { path: "./allied-pipeline", fn: "registerAlliedPipelineRoutes" },
+    { path: "./allied-automations", fn: "registerAutomationRoutes" },
+    { path: "./ai-jobs-routes", fn: "registerAiJobsRoutes" },
+    { path: "./social-content-automation", fn: "registerSocialContentRoutes" },
+    { path: "./allied-scenarios", fn: "registerScenarioRoutes" },
+    { path: "./paramedic-bulk-upload", fn: "registerParamedicBulkUploadRoutes" },
+    { path: "./mass-expansion-routes", fn: "registerMassExpansionRoutes" },
+  ];
+  setTimeout(async () => {
+    for (const { path: modPath, fn } of deferredAdminModules) {
+      try {
+        const mod = await import(modPath);
+        mod[fn](app);
+      } catch (e: any) {
+        console.error(`[DeferredLoad] Failed to load ${modPath}: ${e.message}`);
+      }
+    }
+    console.log(`[DeferredLoad] ${deferredAdminModules.length} admin modules loaded`);
+  }, 5000);
 
   const { registerMockExamTemplateRoutes } = await import("./mock-exam-template-routes");
   registerMockExamTemplateRoutes(app);

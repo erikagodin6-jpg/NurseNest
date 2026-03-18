@@ -5,8 +5,11 @@ import { resolveEntitlementSync } from "./entitlements";
 import { computeAbilityEstimate, selectNextItem, type QuestionResponse, type CandidateItem } from "./cat-engine";
 import { z } from "zod";
 import type { Request, Response } from "express";
+import { premiumDegradationMiddleware, getDegradation, logDegradedAccess } from "./premium-degradation";
 
 const router = Router();
+
+router.use(premiumDegradationMiddleware());
 
 function snakeToCamel(obj: any): any {
   if (Array.isArray(obj)) return obj.map(snakeToCamel);
@@ -171,6 +174,11 @@ router.post("/api/cat-exams/start", async (req, res) => {
     const user = await requireAuth(req, res);
     if (!user) return;
 
+    const catDeg = getDegradation(req);
+    if (catDeg.degradedMode) {
+      logDegradedAccess(user.id, "/api/cat-exams/start", catDeg.degradationReason || "memory_pressure", catDeg.memoryLevel || "unknown");
+    }
+
     const entitlement = resolveEntitlementSync(user, "feature", "cat_exams");
     if (!entitlement.hasAccess) {
       return res.status(403).json({
@@ -270,7 +278,8 @@ router.get("/api/cat-exams/:sessionId", async (req, res) => {
 
     const { sessionId } = req.params;
     const result = await pool.query(
-      `SELECT id, user_id, tier, total_questions, status, cat_state, score, started_at, completed_at FROM mock_exam_attempts WHERE id = $1 AND user_id = $2 AND exam_type = 'cat'`,
+      `SELECT id, user_id, tier, total_questions, status, exam_type, career_type, cat_state, blueprint_code, score, started_at, completed_at, answers
+       FROM mock_exam_attempts WHERE id = $1 AND user_id = $2 AND exam_type = 'cat'`,
       [sessionId, user.id]
     );
 
@@ -345,7 +354,8 @@ router.post("/api/cat-exams/:sessionId/answer", async (req, res) => {
     const { questionId, selectedAnswer, timeSpent } = parsed.data;
 
     const attemptResult = await pool.query(
-      `SELECT id, user_id, tier, total_questions, status, cat_state, answers FROM mock_exam_attempts WHERE id = $1 AND user_id = $2 AND exam_type = 'cat' AND status = 'in_progress'`,
+      `SELECT id, user_id, tier, total_questions, status, cat_state, answers
+       FROM mock_exam_attempts WHERE id = $1 AND user_id = $2 AND exam_type = 'cat' AND status = 'in_progress'`,
       [sessionId, user.id]
     );
 
@@ -519,7 +529,7 @@ router.post("/api/cat-exams/:sessionId/pause", async (req, res) => {
 
     const { sessionId } = req.params;
     const result = await pool.query(
-      `SELECT * FROM mock_exam_attempts WHERE id = $1 AND user_id = $2 AND exam_type = 'cat' AND status = 'in_progress'`,
+      `SELECT id, cat_state FROM mock_exam_attempts WHERE id = $1 AND user_id = $2 AND exam_type = 'cat' AND status = 'in_progress'`,
       [sessionId, user.id]
     );
 
@@ -561,7 +571,7 @@ router.post("/api/cat-exams/:sessionId/resume", async (req, res) => {
 
     const { sessionId } = req.params;
     const result = await pool.query(
-      `SELECT * FROM mock_exam_attempts WHERE id = $1 AND user_id = $2 AND exam_type = 'cat' AND status = 'paused'`,
+      `SELECT id, tier, cat_state FROM mock_exam_attempts WHERE id = $1 AND user_id = $2 AND exam_type = 'cat' AND status = 'paused'`,
       [sessionId, user.id]
     );
 
@@ -624,7 +634,8 @@ router.get("/api/cat-exams/:sessionId/results", async (req, res) => {
 
     const { sessionId } = req.params;
     const result = await pool.query(
-      `SELECT * FROM mock_exam_attempts WHERE id = $1 AND user_id = $2 AND exam_type = 'cat' AND status = 'completed'`,
+      `SELECT id, tier, total_questions, cat_state, answers, score, started_at, completed_at
+       FROM mock_exam_attempts WHERE id = $1 AND user_id = $2 AND exam_type = 'cat' AND status = 'completed'`,
       [sessionId, user.id]
     );
 

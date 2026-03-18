@@ -145,20 +145,33 @@ const PROFESSIONS: ProfessionConfig[] = [
 ];
 
 const questionsCache: Record<string, any[]> = {};
-const MAX_CACHE_ENTRIES = 20;
+const questionsCacheAccess: Record<string, number> = {};
+const MAX_CACHE_ENTRIES = parseInt(process.env.ALLIED_CACHE_MAX || "0") || 20;
 
 export function clearAlliedQuestionsCache(): void {
   for (const key of Object.keys(questionsCache)) {
     delete questionsCache[key];
+    delete questionsCacheAccess[key];
+  }
+}
+
+function evictLRUQuestionCache(): void {
+  const keys = Object.keys(questionsCache);
+  if (keys.length <= MAX_CACHE_ENTRIES) return;
+  const sorted = keys.sort((a, b) => (questionsCacheAccess[a] || 0) - (questionsCacheAccess[b] || 0));
+  const toRemove = sorted.slice(0, keys.length - MAX_CACHE_ENTRIES);
+  for (const key of toRemove) {
+    delete questionsCache[key];
+    delete questionsCacheAccess[key];
   }
 }
 
 async function loadQuestions(profession: ProfessionConfig): Promise<any[]> {
-  if (questionsCache[profession.key]) return questionsCache[profession.key];
-  if (Object.keys(questionsCache).length >= MAX_CACHE_ENTRIES) {
-    const firstKey = Object.keys(questionsCache)[0];
-    if (firstKey) delete questionsCache[firstKey];
+  if (questionsCache[profession.key]) {
+    questionsCacheAccess[profession.key] = Date.now();
+    return questionsCache[profession.key];
   }
+  evictLRUQuestionCache();
   const mod = await import(profession.importPath);
   let questions: any[] = mod[profession.exportName] as any[];
   if (profession.additionalImports) {
@@ -168,6 +181,7 @@ async function loadQuestions(profession: ProfessionConfig): Promise<any[]> {
     }
   }
   questionsCache[profession.key] = questions;
+  questionsCacheAccess[profession.key] = Date.now();
   return questionsCache[profession.key];
 }
 
@@ -185,6 +199,10 @@ export function registerAlliedQuestionsRoutes(app: Express) {
   for (const profession of PROFESSIONS) {
     app.get(`/api/${profession.key}/question-topics`, abuseEscalationMiddleware, botDetectionMiddleware, contentBrowseLimiter, async (_req: Request, res: Response) => {
       try {
+        const page = Math.max(1, parseInt(_req.query.page as string) || 1);
+        const limit = Math.min(100, Math.max(1, parseInt(_req.query.limit as string) || 50));
+        const categoryFilter = (_req.query.category as string) || "";
+
         const questions = await loadQuestions(profession);
         const topicMap = new Map<string, TopicGroup>();
 
@@ -206,11 +224,19 @@ export function registerAlliedQuestionsRoutes(app: Express) {
           }
         }
 
-        const topics = Array.from(topicMap.values())
+        let topics = Array.from(topicMap.values())
           .sort((a, b) => b.questionCount - a.questionCount || a.topic.localeCompare(b.topic));
 
+        if (categoryFilter) {
+          topics = topics.filter(t => slugify(t.category) === categoryFilter);
+        }
+
+        const totalTopics = topics.length;
+        const offset = (page - 1) * limit;
+        const paginatedTopics = topics.slice(offset, offset + limit);
+
         const categories = new Map<string, { category: string; categorySlug: string; topicCount: number; questionCount: number }>();
-        for (const t of topics) {
+        for (const t of Array.from(topicMap.values())) {
           const catSlug = slugify(t.category);
           if (!categories.has(catSlug)) {
             categories.set(catSlug, { category: t.category, categorySlug: catSlug, topicCount: 0, questionCount: 0 });
@@ -221,10 +247,13 @@ export function registerAlliedQuestionsRoutes(app: Express) {
         }
 
         res.json({
-          topics,
+          topics: paginatedTopics,
           categories: Array.from(categories.values()).sort((a, b) => b.questionCount - a.questionCount),
           totalQuestions: questions.length,
-          totalTopics: topics.length,
+          totalTopics,
+          page,
+          limit,
+          totalPages: Math.ceil(totalTopics / limit),
         });
       } catch (e: any) {
         res.status(500).json({ error: e.message });

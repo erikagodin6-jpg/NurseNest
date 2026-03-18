@@ -108,53 +108,17 @@ function trackFailureRate(source: string) {
   }
 }
 
+let platformTablesInitialized = false;
+
 async function ensurePlatformTables() {
+  if (platformTablesInitialized) return;
   try {
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS platform_alerts (
-        id TEXT PRIMARY KEY,
-        severity TEXT NOT NULL,
-        category TEXT NOT NULL,
-        title TEXT NOT NULL,
-        message TEXT NOT NULL,
-        source TEXT,
-        acknowledged BOOLEAN DEFAULT false,
-        data JSONB DEFAULT '{}',
-        created_at TIMESTAMP DEFAULT NOW()
-      )
-    `);
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS platform_health_checks (
-        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
-        service TEXT NOT NULL,
-        status TEXT NOT NULL,
-        latency_ms INTEGER DEFAULT 0,
-        details TEXT,
-        checked_at TIMESTAMP DEFAULT NOW()
-      )
-    `);
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS platform_emergency_log (
-        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
-        action TEXT NOT NULL,
-        reason TEXT,
-        actor TEXT,
-        auto_triggered BOOLEAN DEFAULT false,
-        created_at TIMESTAMP DEFAULT NOW()
-      )
-    `);
-    await pool.query(`ALTER TABLE audit_logs ADD COLUMN IF NOT EXISTS actor_role TEXT`);
-    await pool.query(`ALTER TABLE audit_logs ADD COLUMN IF NOT EXISTS action_category TEXT`);
-    await pool.query(`ALTER TABLE audit_logs ADD COLUMN IF NOT EXISTS target_type TEXT`);
-    await pool.query(`ALTER TABLE audit_logs ADD COLUMN IF NOT EXISTS target_id VARCHAR`);
-    await pool.query(`ALTER TABLE audit_logs ADD COLUMN IF NOT EXISTS reason TEXT`);
-    await pool.query(`ALTER TABLE audit_logs ADD COLUMN IF NOT EXISTS confirmation_required BOOLEAN DEFAULT false`);
-    await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS admin_role TEXT`);
-    await pool.query(`CREATE INDEX IF NOT EXISTS idx_audit_logs_action_category ON audit_logs(action_category)`);
-    await pool.query(`CREATE INDEX IF NOT EXISTS idx_audit_logs_actor_id ON audit_logs(actor_id)`);
-    await pool.query(`CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON audit_logs(created_at)`);
     await pool.query(`UPDATE users SET admin_role = 'super_admin' WHERE tier = 'admin' AND (admin_role IS NULL OR admin_role = '')`);
-  } catch {}
+    platformTablesInitialized = true;
+    console.log("[PlatformResilience] Platform tables initialized successfully");
+  } catch (e: any) {
+    console.error("[PlatformResilience] Table initialization error:", e.message);
+  }
 }
 
 interface CircuitBreakerState {

@@ -3533,6 +3533,38 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   app.use("/api/admin", adminRateLimiter);
 
   const { examStartRateLimitMiddleware, aiHeavyRateLimitMiddleware, sensitiveApiRateLimitMiddleware } = await import("./platform-resilience");
+  const { isMemoryProtectionActive: checkMemPressure, isMemoryCritical: checkMemCritical } = await import("./memory-monitor");
+
+  const heavyEndpointMemoryGuard = (_req: Request, res: Response, next: NextFunction) => {
+    if (checkMemCritical()) {
+      console.warn(`[MemoryGuard] Rejected heavy endpoint ${_req.path} — memory critical`);
+      return res.status(503).json({ error: "Server is under memory pressure. Please try again shortly.", code: "MEMORY_PRESSURE" });
+    }
+    if (checkMemPressure()) {
+      console.warn(`[MemoryGuard] Rejected heavy endpoint ${_req.path} — memory protection active`);
+      return res.status(503).json({ error: "Server is temporarily limiting heavy operations. Please try again shortly.", code: "MEMORY_PRESSURE" });
+    }
+    next();
+  };
+
+  const heavyEndpoints = [
+    "/api/ai/generate-content",
+    "/api/ai/generate-pipeline",
+    "/api/ai/generate-questions-batch",
+    "/api/ai/generate-test-bank",
+    "/api/ai/chat-assist",
+    "/api/admin/ai/exam-questions/generate",
+    "/api/admin/ai/flashcards/generate",
+    "/api/admin/images/generate",
+    "/api/admin/generate-image",
+    "/api/admin/bulk-orchestrator/start",
+    "/api/admin/rn-lesson-repair",
+    "/api/generator-v2/generations",
+  ];
+  for (const ep of heavyEndpoints) {
+    app.use(ep, heavyEndpointMemoryGuard);
+  }
+
   app.use("/api/ai/generate-content", aiHeavyRateLimitMiddleware());
   app.use("/api/ai/generate-pipeline", aiHeavyRateLimitMiddleware());
   app.use("/api/ai/generate-questions-batch", aiHeavyRateLimitMiddleware());

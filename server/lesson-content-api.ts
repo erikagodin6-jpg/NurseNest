@@ -60,17 +60,80 @@ type LessonMeta = {
   isComplete: boolean;
 };
 
-let lessonData: Record<string, any> | null = null;
 let metadataCache: LessonMeta[] | null = null;
+let lessonKeysCache: Set<string> | null = null;
 
-export async function loadLessonData(): Promise<Record<string, any>> {
-  if (lessonData) return lessonData;
+const LESSON_LRU_MAX = parseInt(process.env.LESSON_LRU_MAX || "0") || 200;
+const lessonLRU = new Map<string, any>();
+const lessonLRUAccess = new Map<string, number>();
+
+function touchLessonLRU(key: string): void {
+  lessonLRUAccess.set(key, Date.now());
+}
+
+function evictLessonLRU(): void {
+  if (lessonLRU.size <= LESSON_LRU_MAX) return;
+  const entries = Array.from(lessonLRUAccess.entries()).sort((a, b) => a[1] - b[1]);
+  const toEvict = entries.slice(0, lessonLRU.size - LESSON_LRU_MAX);
+  for (const [key] of toEvict) {
+    lessonLRU.delete(key);
+    lessonLRUAccess.delete(key);
+  }
+}
+
+async function loadContentMapOnce(): Promise<Record<string, any>> {
   const mod = await import("../client/src/data/lessons/index");
   if (typeof mod.loadNpGeneratedBatches === "function") {
     await mod.loadNpGeneratedBatches();
   }
-  lessonData = mod.contentMap;
-  return lessonData!;
+  return mod.contentMap;
+}
+
+export async function loadLessonData(): Promise<Record<string, any>> {
+  return await loadContentMapOnce();
+}
+
+async function ensureLessonKeys(): Promise<Set<string>> {
+  if (lessonKeysCache) return lessonKeysCache;
+  const data = await loadContentMapOnce();
+  lessonKeysCache = new Set(Object.keys(data));
+  return lessonKeysCache;
+}
+
+export function getLessonFromLRU(id: string): any | undefined {
+  if (lessonLRU.has(id)) {
+    touchLessonLRU(id);
+    return lessonLRU.get(id);
+  }
+  return undefined;
+}
+
+export function setLessonInLRU(id: string, lesson: any): void {
+  lessonLRU.set(id, lesson);
+  touchLessonLRU(id);
+  evictLessonLRU();
+}
+
+export async function getLessonById(id: string): Promise<any | null> {
+  const cached = getLessonFromLRU(id);
+  if (cached) return cached;
+  const keys = await ensureLessonKeys();
+  if (!keys.has(id)) return null;
+  const data = await loadContentMapOnce();
+  const lesson = data[id];
+  if (lesson) {
+    setLessonInLRU(id, lesson);
+  }
+  return lesson || null;
+}
+
+export function clearLessonLRU(): void {
+  lessonLRU.clear();
+  lessonLRUAccess.clear();
+}
+
+export function getLessonLRUStats(): { size: number; max: number } {
+  return { size: lessonLRU.size, max: LESSON_LRU_MAX };
 }
 
 export function deriveTier(id: string, metadata?: { tier?: string }): string {
@@ -324,9 +387,8 @@ export function setupLessonContentRoutes(app: Express): void {
 
   app.get("/api/lessons/content/:slug", async (req: Request, res: Response) => {
     try {
-      const data = await loadLessonData();
       let slug = req.params.slug;
-      let lesson = data[slug];
+      let lesson = await getLessonById(slug);
 
       if (!lesson) {
         try {
@@ -339,9 +401,10 @@ export function setupLessonContentRoutes(app: Express): void {
           );
           if (aliasResult.rows.length > 0) {
             const canonicalSlug = aliasResult.rows[0].canonical_slug;
-            if (data[canonicalSlug]) {
+            const aliasLesson = await getLessonById(canonicalSlug);
+            if (aliasLesson) {
               slug = canonicalSlug;
-              lesson = data[slug];
+              lesson = aliasLesson;
             }
           }
         } catch (aliasErr: any) {
