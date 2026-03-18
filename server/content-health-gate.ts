@@ -61,10 +61,16 @@ const vipPriorityConfig = {
     free: { priority: 10, label: "Free" },
   } as Record<string, { priority: number; label: string }>,
   loadThresholds: {
-    shed_free_nonessential: 0.75,
-    shed_free_all: 0.85,
-    shed_low_priority: 0.92,
-    emergency: 0.97,
+    shed_free_nonessential: 0.95,
+    shed_free_all: 0.97,
+    shed_low_priority: 0.98,
+    emergency: 0.99,
+  },
+  rssThresholdsMB: {
+    shed_free_nonessential: 900,
+    shed_free_all: 1000,
+    shed_low_priority: 1100,
+    emergency: 1200,
   },
 };
 
@@ -107,8 +113,26 @@ export function vipPriorityMiddleware() {
     if (!vipPriorityConfig.enabled) return next();
 
     const isReadOnly = req.method === "GET" || req.method === "HEAD";
-    const isExamOrKillSwitch = isReadOnly && (req.path.startsWith("/api/exams") || req.path.startsWith("/api/kill-switches"));
-    if (req.path.startsWith("/api/admin/") || req.path.startsWith("/api/health") || req.path.startsWith("/api/auth/") || req.path.startsWith("/api/user/") || req.path.startsWith("/api/entitlement/") || isExamOrKillSwitch || req.path === "/api/platform/degradation" || req.path === "/api/platform/minimal-core" || req.method === "OPTIONS" || !req.path.startsWith("/api/")) {
+    const isEssentialRead = isReadOnly && (
+      req.path.startsWith("/api/exams") ||
+      req.path.startsWith("/api/kill-switches") ||
+      req.path.startsWith("/api/hero-stats") ||
+      req.path.startsWith("/api/site-images") ||
+      req.path.startsWith("/api/region") ||
+      req.path.startsWith("/api/public/") ||
+      req.path.startsWith("/api/lessons") ||
+      req.path.startsWith("/api/flashcard") ||
+      req.path.startsWith("/api/pricing") ||
+      req.path.startsWith("/api/billing") ||
+      req.path.startsWith("/api/dashboard") ||
+      req.path.startsWith("/api/subscription") ||
+      req.path.startsWith("/api/daily-goals") ||
+      req.path.startsWith("/api/exam-planner") ||
+      req.path.startsWith("/api/mock-exams") ||
+      req.path.startsWith("/api/question-bank") ||
+      req.path.startsWith("/api/me/")
+    );
+    if (req.path.startsWith("/api/admin/") || req.path.startsWith("/api/health") || req.path.startsWith("/api/auth/") || req.path.startsWith("/api/user/") || req.path.startsWith("/api/entitlement/") || isEssentialRead || req.path === "/api/platform/degradation" || req.path === "/api/platform/minimal-core" || req.path === "/api/platform/status" || req.method === "OPTIONS" || !req.path.startsWith("/api/")) {
       return next();
     }
 
@@ -142,9 +166,10 @@ export function vipPriorityMiddleware() {
     }
 
     const mem = process.memoryUsage();
-    const memUsage = mem.heapUsed / mem.heapTotal;
+    const rssMB = mem.rss / (1024 * 1024);
+    const rssThresholds = vipPriorityConfig.rssThresholdsMB;
 
-    if (memUsage >= vipPriorityConfig.loadThresholds.emergency) {
+    if (rssMB >= rssThresholds.emergency) {
       if (!isPaid) {
         recordShedEvent(userTier, req.path, "emergency_load");
         return res.status(503).json({
@@ -155,7 +180,7 @@ export function vipPriorityMiddleware() {
       }
     }
 
-    if (memUsage >= vipPriorityConfig.loadThresholds.shed_low_priority) {
+    if (rssMB >= rssThresholds.shed_low_priority) {
       if (tierConfig.priority < 50) {
         recordShedEvent(userTier, req.path, "low_priority_shed");
         return res.status(503).json({
@@ -166,7 +191,7 @@ export function vipPriorityMiddleware() {
       }
     }
 
-    if (memUsage >= vipPriorityConfig.loadThresholds.shed_free_all) {
+    if (rssMB >= rssThresholds.shed_free_all) {
       if (!isPaid) {
         recordShedEvent(userTier, req.path, "free_all_shed");
         return res.status(503).json({
@@ -177,7 +202,7 @@ export function vipPriorityMiddleware() {
       }
     }
 
-    if (memUsage >= vipPriorityConfig.loadThresholds.shed_free_nonessential) {
+    if (rssMB >= rssThresholds.shed_free_nonessential) {
       if (!isPaid && !isSubscriberCritical) {
         recordShedEvent(userTier, req.path, "free_nonessential_shed");
         return res.status(503).json({

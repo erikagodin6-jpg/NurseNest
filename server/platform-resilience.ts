@@ -1583,6 +1583,14 @@ const SAFE_MODE_CORE_READ_PATHS = new Set([
   "/api/cat-exams",
   "/api/exams",
   "/api/kill-switches",
+  "/api/hero-stats",
+  "/api/site-images",
+  "/api/region",
+  "/api/public/platform-proof",
+  "/api/subscription",
+  "/api/daily-goals",
+  "/api/dashboard",
+  "/api/exam-planner",
 ]);
 
 const SAFE_MODE_INFRA_PATHS = new Set([
