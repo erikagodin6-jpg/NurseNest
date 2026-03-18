@@ -14,9 +14,15 @@ import {
   type CATState
 } from "@/lib/cat-engine";
 import { EXAM_BLUEPRINTS } from "@/lib/question-pool";
-import { ExamReportButton } from "@/components/exam-error-boundary";
+import { ExamReportButton, QuestionErrorBoundary } from "@/components/exam-error-boundary";
 import { createCheckpointManager } from "@/lib/session-checkpoint";
 import { clearExamCheckpoint } from "@/lib/exam-session-checkpoint";
+import { generateIncidentId } from "@/lib/resilience";
+import {
+  classifyHttpError, classifyClientError,
+  type ClassifiedExamError, type RecoveryStage,
+  RECOVERY_STAGES, getRecoveryStageInfo,
+} from "../../../shared/exam-error-codes";
 import {
   Clock, Flag, ChevronLeft, ChevronRight, CheckCircle2, XCircle,
   Pause, Play, AlertTriangle, Send, SkipForward, Shield, Eye, Coffee,
@@ -281,7 +287,12 @@ export default function MockExamSession() {
   const [paused, setPaused] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [classifiedError, setClassifiedError] = useState<ClassifiedExamError | null>(null);
   const [retryCount, setRetryCount] = useState(0);
+  const [recoveryStage, setRecoveryStage] = useState<RecoveryStage | null>(null);
+  const [recoveryInProgress, setRecoveryInProgress] = useState(false);
+  const [incidentRef] = useState(() => generateIncidentId());
+  const loadStartTimeRef = useRef<number>(Date.now());
   const [submitting, setSubmitting] = useState(false);
   const [showConfirmSubmit, setShowConfirmSubmit] = useState(false);
   const [showNav, setShowNav] = useState(false);
@@ -310,6 +321,16 @@ export default function MockExamSession() {
     } catch {
     }
     return null;
+  });
+  const [reducedLoadMode] = useState(() => {
+    try {
+      return new URLSearchParams(window.location.search).get("reduced_load") === "1";
+    } catch { return false; }
+  });
+  const [resumeFromLast] = useState(() => {
+    try {
+      return new URLSearchParams(window.location.search).get("resume") === "last";
+    } catch { return false; }
   });
   const [circuitOpen, setCircuitOpen] = useState(false);
   const [sessionRecovery, setSessionRecovery] = useState<{
@@ -373,10 +394,19 @@ export default function MockExamSession() {
     let timedOut = false;
     const timeoutId = setTimeout(() => { timedOut = true; controller.abort(); }, 30000);
 
+    loadStartTimeRef.current = Date.now();
+
     fetch(`/api/mock-exams/${attemptId}`, { headers: getAuthHeaders(), signal: controller.signal })
-      .then((r) => {
+      .then(async (r) => {
         clearTimeout(timeoutId);
-        if (!r.ok) throw new Error(`Server error: ${r.status}`);
+        if (!r.ok) {
+          let body: any;
+          try { body = await r.json(); } catch { body = null; }
+          const classified = classifyHttpError(r.status, body);
+          const err = new Error(classified.message);
+          (err as any).classifiedError = classified;
+          throw err;
+        }
         return r.json();
       })
       .then((data) => {
@@ -495,21 +525,53 @@ export default function MockExamSession() {
         setAnswers(data.answers || {});
         setFlagged(data.flagged || []);
         setTimeSpent(data.time_spent || 0);
+
+        if (resumeFromLast) {
+          const answeredCount = Object.keys(data.answers || {}).length;
+          if (answeredCount > 0) {
+            setCurrentQ(Math.min(answeredCount, allQuestions.length - 1));
+          }
+        }
+
+        if (reducedLoadMode && allQuestions.length > 0 && parsedBp?.examType !== "cat") {
+          const answeredCount = Object.keys(data.answers || {}).length;
+          const nextIdx = Math.min(answeredCount, allQuestions.length - 1);
+          setQuestions([allQuestions[nextIdx]]);
+          setOptionShuffleMap(createOptionShuffleMap([allQuestions[nextIdx]]));
+          setCurrentQ(0);
+          setFullQuestions(allQuestions);
+        }
+
         setLoading(false);
       })
       .catch((err) => {
         clearTimeout(timeoutId);
         if (err.name === "AbortError" && !timedOut) return;
-        const isTimeout = err.name === "AbortError" && timedOut;
+        const classified = (err as any).classifiedError || classifyClientError(err);
+        const elapsed = Date.now() - loadStartTimeRef.current;
+
+        console.error("[ExamSession] Load failed:", {
+          attemptId,
+          code: classified.code,
+          message: classified.message,
+          elapsed,
+          retryCount,
+          incidentRef,
+        });
+
         toast({
-          title: isTimeout ? "Request Timed Out" : "Error Loading Exam",
-          description: isTimeout
+          title: classified.code === "network_timeout" ? "Request Timed Out" : "Error Loading Exam",
+          description: classified.code === "network_timeout"
             ? "The exam took too long to load. Please try again."
             : "Could not load this exam. Your progress is safe.",
           variant: "destructive",
         });
-        setLoadError(isTimeout ? "timeout" : (err.message || "unknown"));
+
+        setClassifiedError(classified);
+        setLoadError(classified.code);
         setLoading(false);
+
+        submitExamIncidentReport(classified, elapsed);
       });
 
     return () => {
@@ -517,6 +579,132 @@ export default function MockExamSession() {
       controller.abort();
     };
   }, [attemptId, retryCount]);
+
+  const submitExamIncidentReport = useCallback((classified: ClassifiedExamError, elapsed: number) => {
+    if (!attemptId) return;
+    fetch("/api/exam-load-incidents", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+      body: JSON.stringify({
+        incidentRef,
+        attemptId,
+        failureCode: classified.code,
+        failureMessage: classified.message,
+        httpStatus: classified.httpStatus,
+        recoveryAttempts: retryCount,
+        browserInfo: navigator.userAgent,
+        elapsedMs: elapsed,
+        route: window.location.pathname,
+        requestSummary: {
+          online: navigator.onLine,
+          screenWidth: window.innerWidth,
+        },
+      }),
+    }).catch(() => {});
+  }, [attemptId, incidentRef, retryCount]);
+
+  const clearStaleExamCache = useCallback(() => {
+    if (!attemptId) return;
+    const keysToCheck = [
+      `cat-state-${attemptId}`,
+      `blueprint-${attemptId}`,
+      `specialty-mock-${attemptId}`,
+      `strict-mode-${attemptId}`,
+      `nursenest-exam-checkpoint-${attemptId}`,
+      `session-checkpoint-mock-exam-${attemptId}`,
+    ];
+    let cleared = 0;
+    for (const key of keysToCheck) {
+      try {
+        if (localStorage.getItem(key)) {
+          localStorage.removeItem(key);
+          cleared++;
+        }
+      } catch {}
+    }
+    console.log(`[ExamRecovery] Cleared ${cleared} stale localStorage keys for attempt ${attemptId}`);
+  }, [attemptId]);
+
+  const performMultiStageRecovery = useCallback(async () => {
+    if (!attemptId || recoveryInProgress) return;
+    setRecoveryInProgress(true);
+    const currentRetry = retryCount + 1;
+
+    try {
+      if (currentRetry === 1) {
+        setRecoveryStage(RECOVERY_STAGES.CLEAR_CACHE);
+        clearStaleExamCache();
+        await new Promise(r => setTimeout(r, 500));
+        setRetryCount(currentRetry);
+      } else if (currentRetry === 2) {
+        setRecoveryStage(RECOVERY_STAGES.CALL_RECOVERY);
+        const backoff = Math.min(1000 * Math.pow(2, currentRetry - 1), 8000);
+        await new Promise(r => setTimeout(r, backoff));
+
+        try {
+          const recoveryRes = await fetch(`/api/mock-exams/${attemptId}/recover`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+            body: JSON.stringify({
+              incidentRef,
+              failureCode: classifiedError?.code || "unknown",
+              recoveryAttempt: currentRetry,
+              clearStaleState: true,
+              browserInfo: navigator.userAgent,
+            }),
+          });
+
+          if (recoveryRes.ok) {
+            const recoveryData = await recoveryRes.json();
+            if (recoveryData.recovered && recoveryData.questions?.length > 0) {
+              const recoveredQuestions = recoveryData.questions as PooledQuestion[];
+              setQuestions(recoveredQuestions);
+              if (recoveryData.state) {
+                setAnswers(recoveryData.state.answers || {});
+                setFlagged(recoveryData.state.flagged || []);
+                setTimeSpent(recoveryData.state.timeSpent || 0);
+                if (recoveryData.state.currentQuestion !== undefined) {
+                  setCurrentQ(recoveryData.state.currentQuestion);
+                }
+                if (recoveryData.state.catState) {
+                  setCatState(recoveryData.state.catState);
+                }
+              }
+              setLoadError(null);
+              setClassifiedError(null);
+              setRecoveryStage(null);
+              setLoading(false);
+              toast({ title: "Exam Recovered", description: `Recovered ${recoveredQuestions.length} questions successfully.` });
+              setRecoveryInProgress(false);
+              return;
+            }
+          }
+        } catch {}
+
+        setRetryCount(currentRetry);
+      } else if (currentRetry === 3) {
+        setRecoveryStage(RECOVERY_STAGES.FRESH_REHYDRATION);
+        const backoff = Math.min(1000 * Math.pow(2, currentRetry - 1), 8000);
+        await new Promise(r => setTimeout(r, backoff));
+        setRetryCount(currentRetry);
+      } else {
+        setRecoveryStage(RECOVERY_STAGES.SAFE_EXIT);
+        setLoading(false);
+        setLoadError("All automatic recovery attempts exhausted");
+        setClassifiedError(classifiedError || { code: "retries_exhausted", message: "All retries exhausted", recoverable: false, timestamp: new Date().toISOString() });
+        submitExamIncidentReport(
+          classifiedError || { code: "retries_exhausted", message: "All retries exhausted", recoverable: false, timestamp: new Date().toISOString() },
+          Date.now() - loadStartTimeRef.current
+        );
+      }
+    } catch (err) {
+      console.error("[ExamRecovery] Recovery error:", err);
+      setLoading(false);
+      setLoadError("Recovery failed unexpectedly");
+    } finally {
+      setRecoveryInProgress(false);
+    }
+  }, [attemptId, retryCount, recoveryInProgress, classifiedError, incidentRef, clearStaleExamCache, submitExamIncidentReport, toast]);
 
   const questionIdSignature = useMemo(() => questions.map(q => q.id).join(","), [questions]);
 
@@ -916,8 +1104,29 @@ export default function MockExamSession() {
   }
 
   if (loadError) {
-    const incidentId = `INC-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 8)}`.toUpperCase();
     const isSubscriber = user && user.tier !== "free";
+    const errorTitle = classifiedError?.code === "network_timeout"
+      ? "Exam Loading Timed Out"
+      : classifiedError?.code === "missing_session"
+      ? "Exam Session Not Found"
+      : classifiedError?.code === "access_denied"
+      ? "Access Denied"
+      : "We're having trouble loading this exam";
+
+    const errorDescription = classifiedError?.code === "network_timeout"
+      ? "The server took too long to respond. This is usually temporary."
+      : classifiedError?.code === "missing_session"
+      ? "This exam session could not be found. It may have expired or been removed."
+      : classifiedError?.code === "access_denied"
+      ? "You don't have permission to access this exam."
+      : "Your progress and subscription are safe. Choose an option below to continue.";
+
+    const canRetry = retryCount < 4 && classifiedError?.recoverable !== false;
+    const showRecoveryProgress = recoveryInProgress && recoveryStage;
+    const stageInfo = recoveryStage ? getRecoveryStageInfo(recoveryStage) : null;
+
+    const answeredCount = Object.keys(answers).length;
+    const canResumeFromLastQuestion = answeredCount > 0 && questions.length > 0;
 
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center font-sans p-4" data-testid="exam-load-error">
@@ -928,7 +1137,7 @@ export default function MockExamSession() {
                 <AlertTriangle className="w-8 h-8 text-amber-500" />
               </div>
               <h2 className="text-xl font-semibold text-gray-800" data-testid="text-load-error-title">
-                {loadError === "timeout" ? "Exam Loading Timed Out" : "We're having trouble loading this exam"}
+                {errorTitle}
               </h2>
               {isSubscriber && (
                 <div className="flex items-center justify-center gap-1.5 text-sm text-emerald-600">
@@ -936,27 +1145,75 @@ export default function MockExamSession() {
                   <span className="font-medium" data-testid="text-load-error-access-protected">Your access is protected.</span>
                 </div>
               )}
-              <p className="text-gray-600 text-sm">
-                {loadError === "timeout"
-                  ? "The server took too long to respond. This is usually temporary."
-                  : "Your progress and subscription are safe. Choose an option below to continue."}
-              </p>
+              <p className="text-gray-600 text-sm">{errorDescription}</p>
+              {classifiedError && (
+                <p className="text-xs text-gray-400" data-testid="text-failure-code">
+                  Error: {classifiedError.code}
+                </p>
+              )}
             </div>
 
+            {showRecoveryProgress && stageInfo && (
+              <div className="bg-blue-50 rounded-lg p-4 space-y-2" data-testid="container-recovery-progress">
+                <div className="flex items-center gap-2">
+                  <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
+                  <span className="text-sm font-medium text-blue-800">{stageInfo.message}</span>
+                </div>
+                <div className="w-full bg-blue-100 rounded-full h-2">
+                  <div
+                    className="bg-blue-600 h-2 rounded-full transition-all duration-500"
+                    style={{ width: `${((stageInfo.stageIndex + 1) / stageInfo.totalStages) * 100}%` }}
+                  />
+                </div>
+                <p className="text-xs text-blue-600">
+                  Step {stageInfo.stageIndex + 1} of {stageInfo.totalStages}
+                </p>
+              </div>
+            )}
+
             <div className="space-y-2">
-              <Button
-                onClick={() => { setLoadError(null); setLoading(true); setRetryCount(c => c + 1); }}
-                className="w-full gap-2"
-                data-testid="button-retry-exam"
-              >
-                <RefreshCw className="w-4 h-4" /> Retry
-              </Button>
+              {canRetry && (
+                <Button
+                  onClick={() => {
+                    setLoadError(null);
+                    setClassifiedError(null);
+                    setLoading(true);
+                    performMultiStageRecovery();
+                  }}
+                  disabled={recoveryInProgress}
+                  className="w-full gap-2"
+                  data-testid="button-retry-exam"
+                >
+                  {recoveryInProgress ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <RefreshCw className="w-4 h-4" />
+                  )}
+                  {retryCount === 0 ? "Retry" : retryCount === 1 ? "Try Recovery" : retryCount === 2 ? "Deep Recovery" : "Last Attempt"}
+                </Button>
+              )}
+
+              {canResumeFromLastQuestion && (
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setLoadError(null);
+                    setClassifiedError(null);
+                    setCurrentQ(Math.min(answeredCount, questions.length - 1));
+                    setLoading(false);
+                  }}
+                  className="w-full gap-2"
+                  data-testid="button-resume-last-question"
+                >
+                  <SkipForward className="w-4 h-4" /> Resume from Question {answeredCount + 1}
+                </Button>
+              )}
 
               {questions.length > 0 && (
                 <>
                   <Button
                     variant="outline"
-                    onClick={() => { setLoadError(null); setFallbackMode("safe"); }}
+                    onClick={() => { setLoadError(null); setClassifiedError(null); setFallbackMode("safe"); }}
                     className="w-full gap-2"
                     data-testid="button-load-error-safe-mode"
                   >
@@ -964,7 +1221,7 @@ export default function MockExamSession() {
                   </Button>
                   <Button
                     variant="outline"
-                    onClick={() => { setLoadError(null); setFallbackMode("study"); }}
+                    onClick={() => { setLoadError(null); setClassifiedError(null); setFallbackMode("study"); }}
                     className="w-full gap-2"
                     data-testid="button-load-error-study-mode"
                   >
@@ -973,7 +1230,7 @@ export default function MockExamSession() {
                   {isSubscriber && (
                     <Button
                       variant="outline"
-                      onClick={() => { setLoadError(null); setFallbackMode("printable"); }}
+                      onClick={() => { setLoadError(null); setClassifiedError(null); setFallbackMode("printable"); }}
                       className="w-full gap-2"
                       data-testid="button-load-error-printable"
                     >
@@ -990,6 +1247,7 @@ export default function MockExamSession() {
                   setQuestions(backupQuestions);
                   setFallbackMode("safe");
                   setLoadError(null);
+                  setClassifiedError(null);
                 }}
                 onExit={() => navigate(backToExamsPath)}
                 inline
@@ -1005,10 +1263,22 @@ export default function MockExamSession() {
               </Button>
             </div>
 
+            {retryCount >= 3 && (
+              <div className="bg-slate-50 rounded-lg p-4 text-sm text-slate-600 space-y-2" data-testid="container-exhausted-tips">
+                <p className="font-medium">All automatic recovery attempts exhausted</p>
+                <ul className="text-left text-xs space-y-1 text-slate-500">
+                  <li>• Your entitlement is safe — you can restart this exam without losing credit</li>
+                  <li>• Try refreshing the full page</li>
+                  <li>• Clear your browser cache and cookies</li>
+                  <li>• Try using a different browser or device</li>
+                </ul>
+              </div>
+            )}
+
             <div className="text-center space-y-1">
               <ExamReportButton examType="mock-exam" tier={blueprintMeta?.examCode} />
               <p className="text-xs text-gray-400" data-testid="text-load-error-incident-id">
-                Incident ID: {incidentId}
+                Reference: {incidentRef}
               </p>
             </div>
           </div>
@@ -1668,6 +1938,14 @@ export default function MockExamSession() {
       )}
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-6 pb-24">
+        <QuestionErrorBoundary
+          key={`qeb-${question?.id || currentQ}`}
+          questionId={question?.id || `q-${currentQ}`}
+          questionIndex={currentQ}
+          onSkip={(qId) => {
+            if (currentQ < questions.length - 1) setCurrentQ(currentQ + 1);
+          }}
+        >
         <QuestionGuard question={question ? rawQuestion : undefined} index={currentQ}>
           {question && (
             <div className="space-y-6">
@@ -1756,6 +2034,7 @@ export default function MockExamSession() {
             </div>
           )}
         </QuestionGuard>
+        </QuestionErrorBoundary>
       </main>
 
       {question && (

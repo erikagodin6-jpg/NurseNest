@@ -10546,20 +10546,28 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   });
 
   app.get("/api/mock-exams/:attemptId", requireAnyPaidTier(), async (req: any, res) => {
+    const loadStartTime = Date.now();
     try {
       const authUser = await getAuthUser(req);
-      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      if (!authUser) {
+        return res.status(401).json({ error: "Authentication required", reasonCode: "entitlement_failure", recoverable: true, timestamp: new Date().toISOString() });
+      }
 
       const { attemptId } = req.params;
+      console.log(`[ExamLoad] Starting load: attemptId=${attemptId} userId=${authUser.id} tier=${authUser.tier}`);
+
       const result = await pool.query(
         `SELECT id, user_id, questions, status, report, exam_type, blueprint_code, answers, flagged, cat_state, time_spent, score, started_at, completed_at, stopping_reason
          FROM mock_exam_attempts WHERE id = $1`,
         [attemptId]
       );
 
-      if (result.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
+      if (result.rows.length === 0) {
+        console.warn(`[ExamLoad] Session not found: attemptId=${attemptId} userId=${authUser.id}`);
+        return res.status(404).json({ error: "Exam not found", reasonCode: "missing_session", recoverable: false, timestamp: new Date().toISOString() });
+      }
       if (result.rows[0].user_id !== String(authUser.id) && authUser.tier !== "admin") {
-        return res.status(403).json({ error: "Access denied" });
+        return res.status(403).json({ error: "Access denied", reasonCode: "access_denied", recoverable: false, timestamp: new Date().toISOString() });
       }
 
       const row = result.rows[0];
@@ -10616,6 +10624,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         }
 
         if (questions.length === 0) {
+          console.error(`[ExamLoad] ZERO_QUESTIONS: attemptId=${attemptId} userId=${authUser.id} status=in_progress`);
           const { logExamLoadError } = await import("./exam-reliability");
           logExamLoadError({
             attemptId: String(attemptId),
@@ -10647,6 +10656,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
             if (rest.options) rest.options = normalizeQuestionOptions(rest.options);
             return rest;
           });
+        const elapsed = Date.now() - loadStartTime;
+        console.log(`[ExamLoad] SUCCESS: attemptId=${attemptId} userId=${authUser.id} questions=${strippedQuestions.length} filtered=${questions.length - strippedQuestions.length} elapsed=${elapsed}ms payloadSize=${JSON.stringify(strippedQuestions).length}`);
         res.json({ ...row, questions: strippedQuestions });
       } else if (row.status === "completed" || row.status === "abandoned") {
         let completedQuestions = Array.isArray(row.questions) ? row.questions : [];
@@ -10743,7 +10754,29 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         res.json(row);
       }
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      const elapsed = Date.now() - loadStartTime;
+      const { classifyServerError } = await import("../shared/exam-error-codes");
+      const classified = classifyServerError(e, { attemptId: req.params.attemptId });
+
+      console.error(`[ExamLoad] FAILURE: attemptId=${req.params.attemptId} code=${classified.code} elapsed=${elapsed}ms error=${e.message}`);
+
+      try {
+        const { logExamLoadError } = await import("./exam-reliability");
+        logExamLoadError({
+          attemptId: req.params.attemptId,
+          userId: req.authUser?.id ? String(req.authUser.id) : undefined,
+          examType: "unknown",
+          failureReason: classified.code,
+          route: req.originalUrl,
+        });
+      } catch {}
+
+      res.status(500).json({
+        error: classified.message,
+        reasonCode: classified.code,
+        recoverable: classified.recoverable,
+        timestamp: classified.timestamp,
+      });
     }
   });
 

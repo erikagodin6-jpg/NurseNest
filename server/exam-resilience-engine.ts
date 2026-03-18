@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { pool } from "./storage";
 import { resolveAuthUser, requireAdmin } from "./admin-auth";
 import { validateQuestion, addIncident, type ExamIncident } from "./exam-reliability";
+import { classifyServerError, type ExamFailureCode, EXAM_FAILURE_CODES } from "../shared/exam-error-codes";
 
 export interface ExamValidationError {
   field: string;
@@ -751,75 +752,358 @@ async function getAlertThresholds(): Promise<{
   return { loadFailures1h, zeroValidExams, fallbackModeSpike, circuitOpenExams };
 }
 
+export async function ensureExamIncidentTables(): Promise<void> {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS exam_load_incidents (
+        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid()::text,
+        incident_ref TEXT NOT NULL,
+        user_id VARCHAR,
+        exam_id VARCHAR,
+        attempt_id VARCHAR,
+        session_id VARCHAR,
+        route TEXT,
+        failure_code TEXT NOT NULL,
+        failure_message TEXT,
+        http_status INTEGER,
+        request_summary JSONB DEFAULT '{}'::jsonb,
+        recovery_attempts INTEGER DEFAULT 0,
+        recovery_stages TEXT[] DEFAULT '{}'::text[],
+        final_disposition TEXT,
+        browser_info TEXT,
+        payload_size INTEGER,
+        elapsed_ms INTEGER,
+        created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_exam_load_incidents_ref ON exam_load_incidents(incident_ref);
+      CREATE INDEX IF NOT EXISTS idx_exam_load_incidents_user ON exam_load_incidents(user_id);
+      CREATE INDEX IF NOT EXISTS idx_exam_load_incidents_attempt ON exam_load_incidents(attempt_id);
+      CREATE INDEX IF NOT EXISTS idx_exam_load_incidents_created ON exam_load_incidents(created_at);
+      CREATE INDEX IF NOT EXISTS idx_exam_load_incidents_code ON exam_load_incidents(failure_code);
+    `);
+  } catch (e: any) {
+    console.error("[ExamResilience] CRITICAL: Failed to create exam_load_incidents table:", e.message, e.stack);
+  }
+}
+
+export async function storeExamIncident(params: {
+  incidentRef: string;
+  userId?: string | null;
+  examId?: string | null;
+  attemptId?: string | null;
+  sessionId?: string | null;
+  route?: string;
+  failureCode: string;
+  failureMessage?: string;
+  httpStatus?: number;
+  requestSummary?: Record<string, any>;
+  recoveryAttempts?: number;
+  recoveryStages?: string[];
+  finalDisposition?: string;
+  browserInfo?: string;
+  payloadSize?: number;
+  elapsedMs?: number;
+}): Promise<boolean> {
+  try {
+    await pool.query(
+      `INSERT INTO exam_load_incidents
+        (incident_ref, user_id, exam_id, attempt_id, session_id, route, failure_code, failure_message,
+         http_status, request_summary, recovery_attempts, recovery_stages, final_disposition,
+         browser_info, payload_size, elapsed_ms)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
+      [
+        params.incidentRef,
+        params.userId || null,
+        params.examId || null,
+        params.attemptId || null,
+        params.sessionId || null,
+        params.route || null,
+        params.failureCode,
+        params.failureMessage || null,
+        params.httpStatus || null,
+        JSON.stringify(params.requestSummary || {}),
+        params.recoveryAttempts || 0,
+        params.recoveryStages || [],
+        params.finalDisposition || null,
+        params.browserInfo || null,
+        params.payloadSize || null,
+        params.elapsedMs || null,
+      ]
+    );
+    return true;
+  } catch (e: any) {
+    console.error("[ExamResilience] Failed to store incident:", e.message);
+    return false;
+  }
+}
+
+async function performFullRecovery(attemptId: string, userId: string, options?: {
+  clearStaleState?: boolean;
+  rebuildQuestions?: boolean;
+  batchSize?: number;
+}): Promise<{
+  recovered: boolean;
+  source: string;
+  state?: any;
+  questions?: any[];
+  questionsRecovered?: number;
+  questionsSkipped?: number;
+  reason?: string;
+}> {
+  const batchSize = options?.batchSize || 50;
+
+  const attemptResult = await pool.query(
+    `SELECT id, user_id, status, questions, answers, flagged, time_spent, cat_state, timer_state, report, total_questions
+     FROM mock_exam_attempts WHERE id = $1`,
+    [attemptId]
+  );
+
+  if (attemptResult.rows.length === 0) {
+    return { recovered: false, source: "none", reason: "Exam session not found" };
+  }
+
+  const attempt = attemptResult.rows[0];
+  if (attempt.user_id !== userId) {
+    return { recovered: false, source: "none", reason: "Access denied" };
+  }
+  if (attempt.status === "completed") {
+    return { recovered: false, source: "completed", reason: "Exam already completed" };
+  }
+
+  const sessionState = await recoverSessionState(attemptId, userId);
+
+  let rawQuestions = Array.isArray(attempt.questions) ? attempt.questions : [];
+  if (typeof attempt.questions === "string") {
+    try { rawQuestions = JSON.parse(attempt.questions); } catch { rawQuestions = []; }
+  }
+
+  let validQuestions: any[] = [];
+  let skippedCount = 0;
+
+  for (let i = 0; i < rawQuestions.length; i += batchSize) {
+    const batch = rawQuestions.slice(i, i + batchSize);
+    for (const q of batch) {
+      if (!q) { skippedCount++; continue; }
+      const hasId = q.id !== undefined && q.id !== null;
+      const hasStem = typeof q.stem === "string" || typeof q.question === "string";
+      let opts = q.options;
+      if (typeof opts === "string") {
+        try { opts = JSON.parse(opts); } catch { opts = null; }
+      }
+      const hasOptions = Array.isArray(opts) && opts.length >= 2;
+
+      if (hasId && hasStem && hasOptions) {
+        validQuestions.push({ ...q, options: opts });
+      } else {
+        skippedCount++;
+        console.warn(`[ExamRecovery] Skipping invalid question in ${attemptId}: id=${q.id}, hasStem=${hasStem}, hasOptions=${hasOptions}`);
+      }
+    }
+  }
+
+  const recoveredAnswers = sessionState?.answers
+    || (typeof attempt.answers === "string" ? JSON.parse(attempt.answers) : attempt.answers)
+    || {};
+  const recoveredFlagged = sessionState?.flagged
+    || (typeof attempt.flagged === "string" ? JSON.parse(attempt.flagged) : attempt.flagged)
+    || [];
+  const recoveredTimeSpent = sessionState?.timeSpent || attempt.time_spent || 0;
+  const recoveredCurrentQ = sessionState?.currentQuestion || Object.keys(recoveredAnswers).length;
+  const recoveredCatState = sessionState?.catState
+    || (attempt.cat_state ? (typeof attempt.cat_state === "string" ? JSON.parse(attempt.cat_state) : attempt.cat_state) : null);
+  const recoveredTimerState = sessionState?.timerState
+    || (attempt.timer_state ? (typeof attempt.timer_state === "string" ? JSON.parse(attempt.timer_state) : attempt.timer_state) : null);
+
+  const stateChecksum = `${Object.keys(recoveredAnswers).length}:${validQuestions.length}:${recoveredTimeSpent}`;
+
+  return {
+    recovered: validQuestions.length > 0,
+    source: sessionState ? "session_state" : "attempt_record",
+    state: {
+      answers: recoveredAnswers,
+      flagged: recoveredFlagged,
+      timeSpent: recoveredTimeSpent,
+      currentQuestion: recoveredCurrentQ,
+      catState: recoveredCatState,
+      timerState: recoveredTimerState,
+      checksum: stateChecksum,
+    },
+    questions: validQuestions,
+    questionsRecovered: validQuestions.length,
+    questionsSkipped: skippedCount,
+  };
+}
+
 export function registerExamResilienceRoutes(app: Express) {
+  ensureExamIncidentTables().catch(() => {});
+
   app.get("/api/mock-exams/:id/recover", async (req: any, res) => {
     try {
       const user = await resolveAuthUser(req);
       if (!user) return res.status(401).json({ error: "Authentication required" });
 
       const { id } = req.params;
-
-      const attemptResult = await pool.query(
-        `SELECT id, user_id, status FROM mock_exam_attempts WHERE id = $1`,
-        [id]
-      );
-
-      if (attemptResult.rows.length === 0) {
-        return res.status(404).json({ error: "Exam session not found" });
-      }
-
-      const attemptOwnerId = attemptResult.rows[0].user_id;
-      if (attemptOwnerId !== String(user.id) && user.tier !== "admin") {
-        return res.status(403).json({ error: "Access denied" });
-      }
-
-      if (attemptResult.rows[0].status === "completed") {
-        return res.json({
-          recovered: false,
-          reason: "Exam already completed",
-          status: "completed",
-        });
-      }
-
-      const sessionState = await recoverSessionState(id, attemptOwnerId);
-
-      if (!sessionState) {
-        const fallbackResult = await pool.query(
-          `SELECT answers, flagged, time_spent, cat_state, timer_state
-           FROM mock_exam_attempts WHERE id = $1`,
-          [id]
-        );
-
-        if (fallbackResult.rows.length > 0) {
-          const row = fallbackResult.rows[0];
-          return res.json({
-            recovered: true,
-            source: "attempt_record",
-            state: {
-              answers: typeof row.answers === "string" ? JSON.parse(row.answers) : (row.answers || {}),
-              flagged: typeof row.flagged === "string" ? JSON.parse(row.flagged) : (row.flagged || []),
-              timeSpent: row.time_spent || 0,
-              currentQuestion: 0,
-              catState: row.cat_state,
-              timerState: row.timer_state,
-            },
-          });
-        }
-
-        return res.json({
-          recovered: false,
-          reason: "No saved session state found",
-        });
-      }
-
-      res.json({
-        recovered: true,
-        source: "session_state",
-        state: sessionState,
-      });
+      const result = await performFullRecovery(id, String(user.id));
+      res.json(result);
     } catch (e: any) {
       console.error("[ExamResilience] Recovery error:", e.message);
       res.status(500).json({ error: "Failed to recover session" });
+    }
+  });
+
+  app.post("/api/mock-exams/:id/recover", async (req: any, res) => {
+    const startTime = Date.now();
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Authentication required", reasonCode: EXAM_FAILURE_CODES.ENTITLEMENT_FAILURE });
+
+      const { id } = req.params;
+      const { incidentRef, failureCode, recoveryAttempt, clearStaleState, browserInfo } = req.body || {};
+
+      console.log(`[ExamRecovery] POST recover attempt=${id} user=${user.id} failureCode=${failureCode} recoveryAttempt=${recoveryAttempt}`);
+
+      const result = await performFullRecovery(id, String(user.id), {
+        clearStaleState: clearStaleState === true,
+        rebuildQuestions: true,
+      });
+
+      const elapsed = Date.now() - startTime;
+
+      if (incidentRef) {
+        storeExamIncident({
+          incidentRef,
+          userId: String(user.id),
+          attemptId: id,
+          route: `/api/mock-exams/${id}/recover`,
+          failureCode: failureCode || "unknown",
+          failureMessage: result.reason,
+          recoveryAttempts: recoveryAttempt || 1,
+          recoveryStages: ["call_recovery"],
+          finalDisposition: result.recovered ? "recovered" : "failed",
+          browserInfo,
+          elapsedMs: elapsed,
+          requestSummary: { questionsRecovered: result.questionsRecovered, questionsSkipped: result.questionsSkipped, source: result.source },
+        }).catch(() => {});
+      }
+
+      console.log(`[ExamRecovery] Result: recovered=${result.recovered} source=${result.source} questions=${result.questionsRecovered} skipped=${result.questionsSkipped} elapsed=${elapsed}ms`);
+
+      res.json({
+        ...result,
+        elapsedMs: elapsed,
+      });
+    } catch (e: any) {
+      console.error("[ExamResilience] Recovery error:", e.message);
+      const classified = classifyServerError(e);
+      res.status(500).json({ error: "Failed to recover session", reasonCode: classified.code });
+    }
+  });
+
+  app.post("/api/exam-load-incidents", async (req: any, res) => {
+    try {
+      const user = await resolveAuthUser(req).catch(() => null);
+      const {
+        incidentRef, attemptId, examId, failureCode, failureMessage,
+        httpStatus, recoveryAttempts, recoveryStages, finalDisposition,
+        browserInfo, payloadSize, elapsedMs, requestSummary,
+      } = req.body || {};
+
+      if (!incidentRef || !failureCode) {
+        return res.status(400).json({ error: "incidentRef and failureCode are required" });
+      }
+
+      await storeExamIncident({
+        incidentRef,
+        userId: user ? String(user.id) : null,
+        examId,
+        attemptId,
+        route: req.body.route || req.originalUrl,
+        failureCode,
+        failureMessage,
+        httpStatus,
+        requestSummary,
+        recoveryAttempts,
+        recoveryStages,
+        finalDisposition,
+        browserInfo,
+        payloadSize,
+        elapsedMs,
+      });
+
+      console.log(`[ExamIncident] Stored: ref=${incidentRef} code=${failureCode} user=${user?.id || "anon"} attempt=${attemptId || "none"} disposition=${finalDisposition || "pending"}`);
+
+      res.json({ success: true, incidentRef });
+    } catch (e: any) {
+      console.error("[ExamIncident] Error storing incident:", e.message);
+      res.status(500).json({ error: "Failed to store incident" });
+    }
+  });
+
+  app.get("/api/admin/exam-load-incidents", async (req: any, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { ref, attemptId, userId, failureCode, limit: limitStr } = req.query;
+      const limit = Math.min(parseInt(limitStr as string) || 50, 200);
+
+      let query = `SELECT * FROM exam_load_incidents WHERE 1=1`;
+      const params: any[] = [];
+      let idx = 1;
+
+      if (ref) {
+        query += ` AND incident_ref = $${idx}`;
+        params.push(ref);
+        idx++;
+      }
+      if (attemptId) {
+        query += ` AND attempt_id = $${idx}`;
+        params.push(attemptId);
+        idx++;
+      }
+      if (userId) {
+        query += ` AND user_id = $${idx}`;
+        params.push(userId);
+        idx++;
+      }
+      if (failureCode) {
+        query += ` AND failure_code = $${idx}`;
+        params.push(failureCode);
+        idx++;
+      }
+
+      query += ` ORDER BY created_at DESC LIMIT $${idx}`;
+      params.push(limit);
+
+      const result = await pool.query(query, params);
+      res.json({
+        incidents: result.rows,
+        total: result.rows.length,
+        timestamp: new Date().toISOString(),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/exam-load-incidents/:ref", async (req: any, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { ref } = req.params;
+      const result = await pool.query(
+        `SELECT * FROM exam_load_incidents WHERE incident_ref = $1 ORDER BY created_at DESC`,
+        [ref]
+      );
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Incident not found" });
+      }
+
+      res.json({ incident: result.rows[0], relatedIncidents: result.rows.slice(1) });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
     }
   });
 

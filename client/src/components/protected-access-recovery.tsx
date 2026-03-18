@@ -289,7 +289,35 @@ export function ProtectedAccessRecovery({
     testId: "button-recovery-dashboard",
   });
 
-  if (context.contentCategory === "exam" || context.contentCategory === "mock-exam") {
+  if (context.contentCategory === "exam" || context.contentCategory === "mock-exam" || context.contentCategory === "cat") {
+    if (context.attemptId) {
+      actions.push({
+        id: "resume-safe",
+        label: "Resume from Last Question",
+        icon: <FileText className="w-4 h-4" />,
+        onClick: () => {
+          const url = new URL(window.location.href);
+          url.searchParams.set("resume", "last");
+          window.location.href = url.toString();
+        },
+        variant: "outline",
+        testId: "button-recovery-resume-safe",
+      });
+
+      actions.push({
+        id: "reduced-load",
+        label: "One Question at a Time",
+        icon: <Eye className="w-4 h-4" />,
+        onClick: () => {
+          const url = new URL(window.location.href);
+          url.searchParams.set("reduced_load", "1");
+          window.location.href = url.toString();
+        },
+        variant: "outline",
+        testId: "button-recovery-reduced-load",
+      });
+    }
+
     const backPath = context.fallbackPath || "/mock-exams";
     actions.push({
       id: "back",

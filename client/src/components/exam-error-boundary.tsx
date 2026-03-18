@@ -401,6 +401,67 @@ export function ExamEmptyState({
   );
 }
 
+interface QuestionErrorBoundaryProps {
+  children: ReactNode;
+  questionId: string;
+  questionIndex: number;
+  onSkip?: (questionId: string) => void;
+  fallback?: ReactNode;
+}
+
+interface QuestionErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+}
+
+export class QuestionErrorBoundary extends Component<QuestionErrorBoundaryProps, QuestionErrorBoundaryState> {
+  constructor(props: QuestionErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error): QuestionErrorBoundaryState {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error(`[QuestionErrorBoundary] Question ${this.props.questionId} (index ${this.props.questionIndex}) crashed:`, error.message);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      if (this.props.fallback) return this.props.fallback;
+
+      return (
+        <Card className="border-red-200 bg-red-50">
+          <CardContent className="p-6 text-center space-y-3">
+            <AlertTriangle className="w-6 h-6 text-red-500 mx-auto" />
+            <p className="text-sm font-medium text-red-800" data-testid={`text-question-error-${this.props.questionIndex}`}>
+              This question could not be displayed
+            </p>
+            <p className="text-xs text-red-600">
+              Question {this.props.questionIndex + 1} encountered a rendering error and has been isolated.
+            </p>
+            {this.props.onSkip && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => this.props.onSkip?.(this.props.questionId)}
+                className="gap-1"
+                data-testid={`button-skip-question-${this.props.questionIndex}`}
+              >
+                Skip This Question
+              </Button>
+            )}
+          </CardContent>
+        </Card>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 export function ExamReportButton({
   examType,
   tier,
