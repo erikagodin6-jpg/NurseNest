@@ -1127,6 +1127,24 @@ app.use((req, res, next) => {
   }, 60_000);
 })();
 
+async function startupMemoryGuard(label: string) {
+  const rss = process.memoryUsage.rss();
+  const rssMB = Math.round(rss / 1024 / 1024);
+  if (rssMB > 900) {
+    console.log(`[StartupMemoryGuard] ${label}: RSS at ${rssMB}MB, pausing for GC...`);
+    if (global.gc) global.gc();
+    await new Promise(r => setTimeout(r, 500));
+  }
+}
+
+async function runSeedStep(name: string, fn: () => Promise<void>) {
+  try {
+    await fn();
+  } catch (e: any) {
+    console.error(`[Seed] ${name} failed (non-fatal):`, e.message);
+  }
+}
+
 function runDeferredStartupWork() {
   setImmediate(async () => {
     const deferredStart = Date.now();
