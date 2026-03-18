@@ -228,6 +228,8 @@ const AdminVipStatus = lazy(() => import("@/pages/admin-vip-status"));
 const AdminIncidentResponse = lazy(() => import("@/pages/admin-incident-response"));
 const AdminPerformance = lazy(() => import("@/pages/admin-performance"));
 const AdminIncidents = lazy(() => import("@/pages/admin-incidents"));
+const AdminOpsIncidents = lazy(() => import("@/pages/admin-ops-incidents"));
+const AdminOpsIncidentDetail = lazy(() => import("@/pages/admin-ops-incident-detail"));
 const AdminQuestionBankPage = lazy(() => import("@/pages/admin-question-bank"));
 const QBankExamPage = lazy(() => import("@/pages/qbank-exam"));
 const QBankStudyPage = lazy(() => import("@/pages/qbank-study"));
@@ -852,6 +854,10 @@ function AppRoutes() {
         <Route path="/:locale/admin-performance" component={AdminPerformance} />
         <Route path="/admin/incidents" component={AdminIncidents} />
         <Route path="/:locale/admin/incidents" component={AdminIncidents} />
+        <Route path="/admin/ops/incidents/:id" component={AdminOpsIncidentDetail} />
+        <Route path="/admin/ops/incidents" component={AdminOpsIncidents} />
+        <Route path="/:locale/admin/ops/incidents/:id" component={AdminOpsIncidentDetail} />
+        <Route path="/:locale/admin/ops/incidents" component={AdminOpsIncidents} />
         <Route path="/admin/social-content" component={AdminSocialContent} />
         <Route path="/admin/question-bank" component={AdminQuestionBankPage} />
         <Route path="/admin/comment-moderation" component={AdminCommentModeration} />

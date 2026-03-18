@@ -1323,4 +1323,60 @@ async function ensureClinicalSeoPages(pool: pg.Pool): Promise<void> {
   `);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_content_quarantine_content ON content_quarantine(content_id)`);
   await pool.query(`CREATE INDEX IF NOT EXISTS idx_content_quarantine_active ON content_quarantine(resolved_at) WHERE resolved_at IS NULL`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS incidents (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      severity text NOT NULL DEFAULT 'medium',
+      status text NOT NULL DEFAULT 'active',
+      title text NOT NULL,
+      description text,
+      start_time timestamp NOT NULL DEFAULT NOW(),
+      end_time timestamp,
+      duration integer,
+      impacted_features jsonb DEFAULT '[]',
+      impacted_content_ids jsonb DEFAULT '[]',
+      affected_users_estimate integer DEFAULT 0,
+      fallback_modes jsonb DEFAULT '[]',
+      root_cause_summary text,
+      actions_taken jsonb DEFAULT '[]',
+      created_by varchar,
+      production_incident_id text,
+      created_at timestamp NOT NULL DEFAULT NOW(),
+      updated_at timestamp NOT NULL DEFAULT NOW()
+    )
+  `);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_incidents_status ON incidents(status)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_incidents_severity ON incidents(severity)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_incidents_start_time ON incidents(start_time DESC)`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS incident_events (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      incident_id varchar NOT NULL,
+      event_type text NOT NULL,
+      event_data jsonb DEFAULT '{}',
+      actor text,
+      timestamp timestamp NOT NULL DEFAULT NOW()
+    )
+  `);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_incident_events_incident ON incident_events(incident_id)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_incident_events_timestamp ON incident_events(timestamp DESC)`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS change_log (
+      id varchar PRIMARY KEY DEFAULT gen_random_uuid(),
+      change_type text NOT NULL,
+      source text NOT NULL,
+      entity_type text,
+      entity_id text,
+      description text NOT NULL,
+      metadata jsonb DEFAULT '{}',
+      changed_by text,
+      created_at timestamp NOT NULL DEFAULT NOW()
+    )
+  `);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_change_log_type ON change_log(change_type)`);
+  await pool.query(`CREATE INDEX IF NOT EXISTS idx_change_log_created ON change_log(created_at DESC)`);
+
 }

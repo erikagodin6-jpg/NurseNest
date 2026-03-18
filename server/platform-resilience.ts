@@ -769,6 +769,30 @@ function addResilienceEvent(type: string, source: string, data: Record<string, a
   }
 
   try {
+    const { logChange } = require("./incident-correlation");
+    const changeTypeMap: Record<string, string> = {
+      circuit_breaker_trip: "circuit_breaker_trip",
+      circuit_breaker_reset: "circuit_breaker_reset",
+      feature_auto_disabled: "feature_auto_disabled",
+      emergency_mode_activated: "emergency_mode",
+      emergency_mode_deactivated: "emergency_mode",
+      kill_switch_activated: "kill_switch_change",
+      kill_switch_deactivated: "kill_switch_change",
+      feature_flag_toggled: "feature_flag_toggle",
+      health_check_degraded: "health_check_change",
+    };
+    const changeType = changeTypeMap[type] || "resilience_event";
+    logChange({
+      changeType,
+      source: "platform-resilience",
+      entityType: type,
+      entityId: source,
+      description: `${type}: ${source}`,
+      metadata: data,
+    }).catch(() => {});
+  } catch {}
+
+  try {
     const { logIncident } = require("./incident-monitor");
     const eventToIncident: Record<string, { category: string; severity: "critical" | "warning" | "info"; title: string }> = {
       circuit_breaker_trip: { category: "circuit_breaker_trip", severity: "warning", title: `Circuit Breaker Tripped: ${source}` },
@@ -787,6 +811,40 @@ function addResilienceEvent(type: string, source: string, data: Record<string, a
         userId: source.match(/^[a-f0-9-]+$/i) ? source : undefined,
         metadata: { resilienceEventType: type, ...data },
       });
+    }
+
+    const autoDetectTypes = ["circuit_breaker_trip", "emergency_mode_activated", "feature_auto_disabled"];
+    if (autoDetectTypes.includes(type)) {
+      try {
+        const { pool: dbPool } = require("./storage");
+        const severityMap: Record<string, string> = {
+          circuit_breaker_trip: "high",
+          emergency_mode_activated: "critical",
+          feature_auto_disabled: "medium",
+        };
+        const sev = severityMap[type] || "medium";
+        const title = mapping?.title || `Auto-detected: ${type}`;
+        dbPool.query(
+          `SELECT id FROM incidents WHERE title = $1 AND status IN ('active', 'investigating', 'identified')
+           AND created_at > NOW() - INTERVAL '30 minutes' LIMIT 1`,
+          [title]
+        ).then((existing: any) => {
+          if (existing.rows?.length > 0) return;
+          dbPool.query(
+            `INSERT INTO incidents (title, description, severity, impacted_features, created_by, status)
+             VALUES ($1, $2, $3, $4, 'system', 'active') RETURNING id`,
+            [title, `Auto-detected from resilience event: ${type} on ${source}`, sev, JSON.stringify([source])]
+          ).then((r: any) => {
+            if (r.rows?.[0]?.id) {
+              dbPool.query(
+                `INSERT INTO incident_events (incident_id, event_type, event_data, actor)
+                 VALUES ($1, 'created', $2, 'system')`,
+                [r.rows[0].id, JSON.stringify({ autoDetected: true, resilienceEventType: type, source })]
+              ).catch(() => {});
+            }
+          }).catch(() => {});
+        }).catch(() => {});
+      } catch {}
     }
   } catch {}
 }

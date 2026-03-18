@@ -7146,3 +7146,66 @@ export const publishValidationLogs = pgTable("publish_validation_logs", {
   actorId: varchar("actor_id"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const incidents = pgTable("incidents", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  severity: text("severity").notNull().default("medium"),
+  status: text("status").notNull().default("active"),
+  title: text("title").notNull(),
+  description: text("description"),
+  startTime: timestamp("start_time").defaultNow().notNull(),
+  endTime: timestamp("end_time"),
+  duration: integer("duration"),
+  impactedFeatures: jsonb("impacted_features").default(sql`'[]'::jsonb`),
+  impactedContentIds: jsonb("impacted_content_ids").default(sql`'[]'::jsonb`),
+  affectedUsersEstimate: integer("affected_users_estimate").default(0),
+  fallbackModes: jsonb("fallback_modes").default(sql`'[]'::jsonb`),
+  rootCauseSummary: text("root_cause_summary"),
+  actionsTaken: jsonb("actions_taken").default(sql`'[]'::jsonb`),
+  createdBy: varchar("created_by"),
+  productionIncidentId: text("production_incident_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertIncidentSchema = createInsertSchema(incidents).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type Incident = typeof incidents.$inferSelect;
+export type InsertIncident = z.infer<typeof insertIncidentSchema>;
+
+export const incidentEvents = pgTable("incident_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  incidentId: varchar("incident_id").notNull(),
+  eventType: text("event_type").notNull(),
+  eventData: jsonb("event_data").default(sql`'{}'::jsonb`),
+  actor: text("actor"),
+  timestamp: timestamp("timestamp").defaultNow().notNull(),
+});
+
+export const insertIncidentEventSchema = createInsertSchema(incidentEvents).omit({
+  id: true,
+});
+export type IncidentEvent = typeof incidentEvents.$inferSelect;
+export type InsertIncidentEvent = z.infer<typeof insertIncidentEventSchema>;
+
+export const changeLog = pgTable("change_log", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  changeType: text("change_type").notNull(),
+  source: text("source").notNull(),
+  entityType: text("entity_type"),
+  entityId: text("entity_id"),
+  description: text("description").notNull(),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  changedBy: text("changed_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertChangeLogSchema = createInsertSchema(changeLog).omit({
+  id: true,
+  createdAt: true,
+});
+export type ChangeLog = typeof changeLog.$inferSelect;
+export type InsertChangeLog = z.infer<typeof insertChangeLogSchema>;
