@@ -527,6 +527,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerAnalyticsDashboardRoutes } = await import("./analytics-dashboard-routes");
   registerAnalyticsDashboardRoutes(app);
 
+  const { registerCrossPlatformApiRoutes } = await import("./cross-platform-api");
+  registerCrossPlatformApiRoutes(app);
+
   const { registerTutorAdminRoutes } = await import("./tutor-admin-routes");
   registerTutorAdminRoutes(app);
 

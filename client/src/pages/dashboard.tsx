@@ -1,5 +1,5 @@
 import { LocaleLink } from "@/lib/LocaleLink";
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
@@ -159,6 +159,29 @@ const DEFAULT_WIDGETS: WidgetConfig[] = [
   { widgetType: "performance_overview", position: 14, visible: true },
 ];
 
+function useDashboardSummary(userId: string | undefined) {
+  const [summary, setSummary] = useState<any>(null);
+  const [summaryLoading, setSummaryLoading] = useState(true);
+
+  useEffect(() => {
+    if (!userId) return;
+    fetch("/api/v1/dashboard/summary", {
+      headers: { "x-user-id": userId },
+      credentials: "include",
+    })
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => {
+        if (data) setSummary(data);
+      })
+      .catch(() => {})
+      .finally(() => setSummaryLoading(false));
+  }, [userId]);
+
+  return { summary, summaryLoading };
+}
+
+const DashboardSummaryContext = React.createContext<any>(null);
+
 export default function DashboardPage() {
   const { user, effectiveTier } = useAuth();
   const { t } = useI18n();
@@ -170,6 +193,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const { summary, summaryLoading } = useDashboardSummary(user?.id);
 
   const {
     shouldShowModal,
@@ -336,6 +360,7 @@ export default function DashboardPage() {
   }
 
   return (
+    <DashboardSummaryContext.Provider value={summary}>
     <div className="min-h-screen bg-background animate-page-enter" data-testid="dashboard-page">
       <SEO
         title={t("pages.dashboard.myDashboardPersonalizedLearningHub")}
@@ -566,6 +591,7 @@ export default function DashboardPage() {
       </main>
       <Footer />
     </div>
+    </DashboardSummaryContext.Provider>
   );
 }
 
@@ -641,16 +667,19 @@ function ProgressWidget({ user }: { user: any }) {
   const [progress, setProgress] = useState<any[]>([]);
   const [, navigate] = useLocation();
   const { t } = useI18n();
+  const summary = useContext(DashboardSummaryContext);
 
   useEffect(() => {
+    if (summary?.progress?.lessons) return;
     fetch(`/api/progress/${user.id}`)
       .then((r) => r.json())
       .then(setProgress)
       .catch(() => {});
-  }, [user.id]);
+  }, [user.id, summary]);
 
-  const completed = progress.filter((p: any) => p.completed).length;
-  const total = progress.length || 1;
+  const summaryLessons = summary?.progress?.lessons;
+  const completed = summaryLessons ? summaryLessons.completed : progress.filter((p: any) => p.completed).length;
+  const total = summaryLessons ? Math.max(summaryLessons.accessed, 1) : (progress.length || 1);
   const pct = Math.round((completed / total) * 100);
 
   if (progress.length === 0) {
@@ -796,15 +825,20 @@ function ExamStatsWidget({ user }: { user: any }) {
   const [stats, setStats] = useState<any[]>([]);
   const [, navigate] = useLocation();
   const { t } = useI18n();
+  const summary = useContext(DashboardSummaryContext);
 
   useEffect(() => {
+    if (summary?.progress?.mockExams?.recentScores?.length > 0) {
+      setStats(summary.progress.mockExams.recentScores.slice(0, 5));
+      return;
+    }
     import("@/lib/qbank-api").then(({ getAuthHeaders }) => {
       fetch(`/api/mock-exams/history/${user.id}`, { headers: getAuthHeaders() })
         .then((r) => r.json())
         .then((data: any[]) => setStats(data.slice(0, 5)))
         .catch(() => {});
     });
-  }, [user.id]);
+  }, [user.id, summary]);
 
   if (stats.length === 0) {
     return (
@@ -848,8 +882,13 @@ function StudyStreakWidget({ user }: { user: any }) {
   const [streakData, setStreakData] = useState<any>(null);
   const [progress, setProgress] = useState<any[]>([]);
   const { t } = useI18n();
+  const summary = useContext(DashboardSummaryContext);
 
   useEffect(() => {
+    if (summary?.streak) {
+      setStreakData({ streak: summary.streak.currentStreak, longestStreak: summary.streak.longestStreak });
+      return;
+    }
     fetch(`/api/progress/${user.id}`)
       .then((r) => r.json())
       .then(setProgress)
@@ -858,7 +897,7 @@ function StudyStreakWidget({ user }: { user: any }) {
       .then((r) => r.ok ? r.json() : null)
       .then(setStreakData)
       .catch(() => {});
-  }, [user.id]);
+  }, [user.id, summary]);
 
   const streak = streakData?.streak || 0;
   const longestStreak = streakData?.longestStreak || Math.max(streak, progress.length > 0 ? 7 : 0);

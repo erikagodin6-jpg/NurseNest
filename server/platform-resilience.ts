@@ -1573,6 +1573,12 @@ const SAFE_MODE_CORE_READ_PATHS = new Set([
   "/api/entitlement/resolve",
   "/api/billing/plans",
   "/api/pricing/plans",
+  "/api/v1/test-banks",
+  "/api/v1/cat-exams",
+  "/api/v1/mock-exams",
+  "/api/v1/lessons",
+  "/api/v1/dashboard",
+  "/api/v1/question-history",
 ]);
 
 const SAFE_MODE_INFRA_PATHS = new Set([
@@ -1598,6 +1604,11 @@ const SAFE_MODE_ADMIN_WRITE_EXCEPTIONS = new Set([
   "/api/exam-incident-report",
   "/api/billing/refresh-entitlements",
   "/api/billing/restore-access",
+  "/api/v1/cat-exams",
+  "/api/v1/mock-exams",
+  "/api/v1/lessons",
+  "/api/v1/analytics/events",
+  "/api/v1/question-history",
 ]);
 
 const SAFE_MODE_STATIC_FALLBACKS: Record<string, any> = {
