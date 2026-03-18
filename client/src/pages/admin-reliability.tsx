@@ -8,10 +8,11 @@ import { Badge } from "@/components/ui/badge";
 import {
   Shield, AlertTriangle, CheckCircle, XCircle, RefreshCw,
   Activity, Clock, ArrowLeft, Zap, ToggleLeft, ToggleRight,
-  Users, FileX, Lock, Play, Archive, Timer,
+  Users, FileX, Lock, Play, Archive, Timer, Download,
+  Bell, Settings, Database, ArrowRightLeft, AlertOctagon,
 } from "lucide-react";
 
-type TabId = "overview" | "failing-routes" | "fallbacks" | "quarantine" | "validation" | "provisional" | "entitlements" | "incidents";
+type TabId = "overview" | "failing-routes" | "fallbacks" | "quarantine" | "validation" | "provisional" | "entitlements" | "incidents" | "backup-usage" | "alerts";
 
 function HealthBadge({ status }: { status: string }) {
   const config: Record<string, { bg: string; label: string }> = {
@@ -165,51 +166,16 @@ function QuarantineTab() {
     },
   });
 
-  const disableMutation = useMutation({
-    mutationFn: async ({ contentId, contentType }: { contentId: string; contentType: string }) => {
-      const res = await adminFetch("/api/admin/reliability/actions/disable-content", {
+  const actionMutation = useMutation({
+    mutationFn: async ({ action, payload }: { action: string; payload: any }) => {
+      const res = await adminFetch(`/api/admin/reliability/actions/${action}`, {
         method: "POST",
-        body: JSON.stringify({ contentId, contentType }),
+        body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error("Failed to disable content");
+      if (!res.ok) throw new Error(`Failed to ${action}`);
       return res.json();
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["reliability-quarantine"] }),
-  });
-
-  const restoreMutation = useMutation({
-    mutationFn: async (contentId: string) => {
-      const res = await adminFetch("/api/admin/reliability/actions/restore-version", {
-        method: "POST",
-        body: JSON.stringify({ contentId }),
-      });
-      if (!res.ok) throw new Error("Failed to restore version");
-      return res.json();
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["reliability-quarantine"] }),
-  });
-
-  const backupMutation = useMutation({
-    mutationFn: async (contentId: string) => {
-      const res = await adminFetch("/api/admin/reliability/actions/force-backup-mode", {
-        method: "POST",
-        body: JSON.stringify({ contentId }),
-      });
-      if (!res.ok) throw new Error("Failed");
-      return res.json();
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["reliability-quarantine"] }),
-  });
-
-  const regenMutation = useMutation({
-    mutationFn: async (contentId: string) => {
-      const res = await adminFetch("/api/admin/reliability/actions/regenerate-backups", {
-        method: "POST",
-        body: JSON.stringify({ contentId }),
-      });
-      if (!res.ok) throw new Error("Failed");
-      return res.json();
-    },
   });
 
   if (isLoading) return <LoadingSpinner label="Loading quarantined content..." />;
@@ -235,17 +201,23 @@ function QuarantineTab() {
                 </p>
               </div>
               <div className="flex gap-1 flex-wrap justify-end">
-                <Button size="sm" variant="outline" onClick={() => disableMutation.mutate({ contentId: item.contentId, contentType: item.contentType })} data-testid={`button-disable-${idx}`}>
+                <Button size="sm" variant="outline" onClick={() => actionMutation.mutate({ action: "disable-content", payload: { contentId: item.contentId, contentType: item.contentType } })} data-testid={`button-disable-${idx}`}>
                   <ToggleLeft className="w-3 h-3 mr-1" /> Disable
                 </Button>
-                <Button size="sm" variant="outline" onClick={() => restoreMutation.mutate(item.contentId)} data-testid={`button-restore-${idx}`}>
+                <Button size="sm" variant="outline" onClick={() => actionMutation.mutate({ action: "restore-version", payload: { contentId: item.contentId } })} data-testid={`button-restore-${idx}`}>
                   <Archive className="w-3 h-3 mr-1" /> Restore
                 </Button>
-                <Button size="sm" variant="outline" onClick={() => backupMutation.mutate(item.contentId)} data-testid={`button-backup-${idx}`}>
+                <Button size="sm" variant="outline" onClick={() => actionMutation.mutate({ action: "force-backup-mode", payload: { contentId: item.contentId } })} data-testid={`button-backup-${idx}`}>
                   <Shield className="w-3 h-3 mr-1" /> Backup
                 </Button>
-                <Button size="sm" variant="outline" onClick={() => regenMutation.mutate(item.contentId)} data-testid={`button-regen-${idx}`}>
+                <Button size="sm" variant="outline" onClick={() => actionMutation.mutate({ action: "regenerate-backups", payload: { contentId: item.contentId } })} data-testid={`button-regen-${idx}`}>
                   <RefreshCw className="w-3 h-3 mr-1" /> Regen
+                </Button>
+                <Button size="sm" variant="outline" onClick={() => actionMutation.mutate({ action: "swap-substitute", payload: { contentId: item.contentId } })} data-testid={`button-swap-substitute-${idx}`}>
+                  <ArrowRightLeft className="w-3 h-3 mr-1" /> Swap
+                </Button>
+                <Button size="sm" variant="outline" onClick={() => actionMutation.mutate({ action: "revalidate-content", payload: { contentId: item.contentId } })} data-testid={`button-revalidate-${idx}`}>
+                  <CheckCircle className="w-3 h-3 mr-1" /> Revalidate
                 </Button>
               </div>
             </div>
@@ -257,6 +229,7 @@ function QuarantineTab() {
 }
 
 function ValidationFailuresTab() {
+  const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
     queryKey: ["reliability-validation-failures"],
     queryFn: async () => {
@@ -264,6 +237,18 @@ function ValidationFailuresTab() {
       if (!res.ok) throw new Error("Failed");
       return res.json();
     },
+  });
+
+  const revalidateMutation = useMutation({
+    mutationFn: async (contentId: string) => {
+      const res = await adminFetch("/api/admin/reliability/actions/revalidate-content", {
+        method: "POST",
+        body: JSON.stringify({ contentId }),
+      });
+      if (!res.ok) throw new Error("Failed to revalidate");
+      return res.json();
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["reliability-validation-failures"] }),
   });
 
   if (isLoading) return <LoadingSpinner label="Loading validation failures..." />;
@@ -293,6 +278,9 @@ function ValidationFailuresTab() {
                   {failure.createdAt && new Date(failure.createdAt).toLocaleString()}
                 </p>
               </div>
+              <Button size="sm" variant="outline" onClick={() => revalidateMutation.mutate(failure.contentId)} disabled={revalidateMutation.isPending} data-testid={`button-revalidate-failure-${idx}`}>
+                <CheckCircle className="w-3 h-3 mr-1" /> Revalidate
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -311,7 +299,6 @@ function ProvisionalAccessTab() {
     },
   });
 
-  const queryClient = useQueryClient();
   const extendMutation = useMutation({
     mutationFn: async ({ userId, days }: { userId: string; days: number }) => {
       const res = await adminFetch("/api/admin/reliability/actions/extend-access", {
@@ -453,6 +440,7 @@ function EntitlementMismatchesTab() {
 }
 
 function IncidentsTab() {
+  const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
     queryKey: ["reliability-incidents"],
     queryFn: async () => {
@@ -461,6 +449,18 @@ function IncidentsTab() {
       return res.json();
     },
     refetchInterval: 15000,
+  });
+
+  const resolveMutation = useMutation({
+    mutationFn: async (incidentId: string) => {
+      const res = await adminFetch("/api/admin/reliability/actions/mark-incident-resolved", {
+        method: "POST",
+        body: JSON.stringify({ incidentId }),
+      });
+      if (!res.ok) throw new Error("Failed");
+      return res.json();
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["reliability-incidents"] }),
   });
 
   if (isLoading) return <LoadingSpinner label="Loading incidents..." />;
@@ -472,7 +472,7 @@ function IncidentsTab() {
           <h3 className="text-sm font-semibold mb-2 text-red-700">Active Incidents ({data.totalActive})</h3>
           <div className="space-y-2" data-testid="list-active-incidents">
             {data.active.map((inc: any, idx: number) => (
-              <IncidentCard key={inc.incidentId || idx} incident={inc} idx={idx} />
+              <IncidentCard key={inc.incidentId || idx} incident={inc} idx={idx} onResolve={() => resolveMutation.mutate(inc.incidentId)} resolving={resolveMutation.isPending} />
             ))}
           </div>
         </div>
@@ -485,7 +485,7 @@ function IncidentsTab() {
         ) : (
           <div className="space-y-2" data-testid="list-recent-incidents">
             {data.recent.map((inc: any, idx: number) => (
-              <IncidentCard key={inc.incidentId || idx} incident={inc} idx={idx} />
+              <IncidentCard key={inc.incidentId || idx} incident={inc} idx={idx} onResolve={() => resolveMutation.mutate(inc.incidentId)} resolving={resolveMutation.isPending} />
             ))}
           </div>
         )}
@@ -494,7 +494,7 @@ function IncidentsTab() {
   );
 }
 
-function IncidentCard({ incident, idx }: { incident: any; idx: number }) {
+function IncidentCard({ incident, idx, onResolve, resolving }: { incident: any; idx: number; onResolve: () => void; resolving: boolean }) {
   const severityColors: Record<string, string> = {
     critical: "bg-red-100 text-red-800",
     warning: "bg-amber-100 text-amber-800",
@@ -522,11 +522,313 @@ function IncidentCard({ incident, idx }: { incident: any; idx: number }) {
               <span>Occurrences: {incident.occurrenceCount}</span>
               <span>Affected users: {incident.affectedUserCount}</span>
               {incident.firstOccurrence && <span>First: {new Date(incident.firstOccurrence).toLocaleString()}</span>}
+              {incident.lastOccurrence && <span>Last: {new Date(incident.lastOccurrence).toLocaleString()}</span>}
             </div>
           </div>
+          {incident.status !== "resolved" && (
+            <Button size="sm" variant="outline" onClick={onResolve} disabled={resolving} data-testid={`button-resolve-incident-${idx}`}>
+              <CheckCircle className="w-3 h-3 mr-1" /> Resolve
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>
+  );
+}
+
+function BackupUsageTab() {
+  const { data: backupData, isLoading: backupLoading } = useQuery({
+    queryKey: ["reliability-backup-usage"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/reliability/backup-usage");
+      if (!res.ok) throw new Error("Failed");
+      return res.json();
+    },
+  });
+
+  const { data: substituteData, isLoading: substituteLoading } = useQuery({
+    queryKey: ["reliability-substitute-routing"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/reliability/substitute-routing");
+      if (!res.ok) throw new Error("Failed");
+      return res.json();
+    },
+  });
+
+  const { data: missingData, isLoading: missingLoading } = useQuery({
+    queryKey: ["reliability-missing-backups"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/reliability/missing-backups");
+      if (!res.ok) throw new Error("Failed");
+      return res.json();
+    },
+  });
+
+  const { data: topFailingData, isLoading: topFailingLoading } = useQuery({
+    queryKey: ["reliability-top-failing-content"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/reliability/top-failing-content");
+      if (!res.ok) throw new Error("Failed");
+      return res.json();
+    },
+  });
+
+  const isLoading = backupLoading || substituteLoading || missingLoading || topFailingLoading;
+  if (isLoading) return <LoadingSpinner label="Loading backup & content health data..." />;
+
+  return (
+    <div className="space-y-6" data-testid="section-backup-usage">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card data-testid="card-backup-served-total">
+          <CardContent className="pt-4 pb-4 text-center">
+            <Database className="w-6 h-6 mx-auto mb-1 text-blue-500" />
+            <p className="text-2xl font-bold" data-testid="text-backup-served-count">{backupData?.totalBackupServed || 0}</p>
+            <p className="text-xs text-muted-foreground">Backup Mode Served (24h)</p>
+          </CardContent>
+        </Card>
+        <Card data-testid="card-substitute-total">
+          <CardContent className="pt-4 pb-4 text-center">
+            <ArrowRightLeft className="w-6 h-6 mx-auto mb-1 text-amber-500" />
+            <p className="text-2xl font-bold" data-testid="text-substitute-count">{substituteData?.totalSubstitutes || 0}</p>
+            <p className="text-xs text-muted-foreground">Substitute Routes (24h)</p>
+          </CardContent>
+        </Card>
+        <Card data-testid="card-missing-backups-total">
+          <CardContent className="pt-4 pb-4 text-center">
+            <AlertOctagon className="w-6 h-6 mx-auto mb-1 text-red-500" />
+            <p className="text-2xl font-bold" data-testid="text-missing-backups-count">{missingData?.total || 0}</p>
+            <p className="text-xs text-muted-foreground">Missing Backup Artifacts</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {backupData && Object.keys(backupData.byFeatureType || {}).length > 0 && (
+        <Card data-testid="card-backup-by-feature">
+          <CardHeader><CardTitle className="text-sm">Backup Mode Usage by Feature Type</CardTitle></CardHeader>
+          <CardContent>
+            <div className="space-y-1" data-testid="list-backup-by-feature">
+              {Object.entries(backupData.byFeatureType).map(([key, count]) => (
+                <div key={key} className="flex justify-between py-1 text-sm border-b last:border-0" data-testid={`backup-feature-${key}`}>
+                  <code className="text-xs">{key}</code>
+                  <Badge variant="outline">{count as number}</Badge>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {substituteData?.events?.length > 0 && (
+        <Card data-testid="card-substitute-events">
+          <CardHeader><CardTitle className="text-sm">Substitute Content Routing Events</CardTitle></CardHeader>
+          <CardContent>
+            <div className="space-y-2" data-testid="list-substitute-events">
+              {substituteData.events.slice(0, 15).map((event: any, idx: number) => (
+                <div key={idx} className="text-sm border-b pb-2 last:border-0" data-testid={`substitute-event-${idx}`}>
+                  <div className="flex justify-between">
+                    <span className="font-medium">{event.productType}: {event.productId}</span>
+                    <span className="text-xs text-muted-foreground">{new Date(event.createdAt).toLocaleString()}</span>
+                  </div>
+                  {event.substituteId && <p className="text-xs text-muted-foreground">Substitute: {event.substituteId}</p>}
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {missingData?.missingBackups?.length > 0 && (
+        <Card data-testid="card-missing-backups-list">
+          <CardHeader><CardTitle className="text-sm">Missing Backup Artifacts</CardTitle></CardHeader>
+          <CardContent>
+            <div className="space-y-2" data-testid="list-missing-backups">
+              {missingData.missingBackups.slice(0, 15).map((item: any, idx: number) => (
+                <div key={idx} className="flex justify-between text-sm border-b pb-2 last:border-0" data-testid={`missing-backup-${idx}`}>
+                  <div>
+                    <span className="font-medium">{item.contentId}</span>
+                    <Badge variant="outline" className="ml-2 text-xs">{item.contentType}</Badge>
+                    <p className="text-xs text-red-600">{item.errorMessage || item.status}</p>
+                  </div>
+                  {item.generatedAt && <span className="text-xs text-muted-foreground">{new Date(item.generatedAt).toLocaleString()}</span>}
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {topFailingData?.topFailing?.length > 0 && (
+        <Card data-testid="card-top-failing-content">
+          <CardHeader><CardTitle className="text-sm">Top Failing Content IDs (7 days)</CardTitle></CardHeader>
+          <CardContent>
+            <div className="space-y-2" data-testid="list-top-failing-content">
+              {topFailingData.topFailing.map((item: any, idx: number) => (
+                <div key={idx} className="flex justify-between text-sm border-b pb-2 last:border-0" data-testid={`top-failing-${idx}`}>
+                  <div>
+                    <span className="font-medium" data-testid={`text-failing-id-${idx}`}>{item.contentId}</span>
+                    <Badge variant="outline" className="ml-2 text-xs">{item.contentType}</Badge>
+                  </div>
+                  <div className="text-right">
+                    <Badge className="bg-red-100 text-red-800" data-testid={`badge-failure-count-${idx}`}>{item.failureCount} failures</Badge>
+                    {item.lastOccurrence && (
+                      <p className="text-xs text-muted-foreground mt-0.5" data-testid={`text-last-occurrence-${idx}`}>
+                        Last: {new Date(item.lastOccurrence).toLocaleString()}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+}
+
+function AlertsTab() {
+  const queryClient = useQueryClient();
+  const { data: alertsData, isLoading: alertsLoading } = useQuery({
+    queryKey: ["reliability-alerts"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/reliability/alerts");
+      if (!res.ok) throw new Error("Failed");
+      return res.json();
+    },
+    refetchInterval: 30000,
+  });
+
+  const { data: thresholdsData, isLoading: thresholdsLoading } = useQuery({
+    queryKey: ["reliability-alert-thresholds"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/reliability/alert-thresholds");
+      if (!res.ok) throw new Error("Failed");
+      return res.json();
+    },
+  });
+
+  const [editingThresholds, setEditingThresholds] = useState(false);
+  const [thresholdEdits, setThresholdEdits] = useState<Record<string, number>>({});
+
+  const updateThresholdsMutation = useMutation({
+    mutationFn: async (updates: Record<string, number>) => {
+      const res = await adminFetch("/api/admin/reliability/alert-thresholds", {
+        method: "PUT",
+        body: JSON.stringify(updates),
+      });
+      if (!res.ok) throw new Error("Failed to update thresholds");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["reliability-alert-thresholds"] });
+      setEditingThresholds(false);
+      setThresholdEdits({});
+    },
+  });
+
+  const acknowledgeMutation = useMutation({
+    mutationFn: async (alertId: string) => {
+      const res = await adminFetch("/api/admin/reliability/actions/acknowledge-alert", {
+        method: "POST",
+        body: JSON.stringify({ alertId }),
+      });
+      if (!res.ok) throw new Error("Failed");
+      return res.json();
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["reliability-alerts"] }),
+  });
+
+  if (alertsLoading || thresholdsLoading) return <LoadingSpinner label="Loading alerts..." />;
+
+  const severityColors: Record<string, string> = {
+    critical: "bg-red-100 text-red-800",
+    warning: "bg-amber-100 text-amber-800",
+    info: "bg-blue-100 text-blue-800",
+  };
+
+  const thresholdLabels: Record<string, string> = {
+    failureRatePercent: "Failure Rate (%)",
+    fallbackRatePercent: "Fallback Rate (%)",
+    quarantineCountPerHour: "Quarantine Events/hr",
+    protectedRecoveryCountPerHour: "Protected Recovery/hr",
+    backupFailureCountPerHour: "Backup Failures/hr",
+    entitlementMismatchCountPerHour: "Entitlement Mismatches/hr",
+    cooldownMinutes: "Alert Cooldown (min)",
+    zeroValidItemsThreshold: "Zero Valid Items",
+    lkgFailoverCountPerHour: "LKG Failovers/hr",
+    paymentSyncErrorCountPerHour: "Payment Sync Errors/hr",
+  };
+
+  return (
+    <div className="space-y-6" data-testid="section-alerts">
+      <Card data-testid="card-alert-thresholds">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-sm flex items-center gap-2"><Settings className="w-4 h-4" /> Alert Thresholds</CardTitle>
+            {!editingThresholds ? (
+              <Button size="sm" variant="outline" onClick={() => { setEditingThresholds(true); setThresholdEdits(thresholdsData?.thresholds || {}); }} data-testid="button-edit-thresholds">
+                Edit
+              </Button>
+            ) : (
+              <div className="flex gap-2">
+                <Button size="sm" variant="outline" onClick={() => { setEditingThresholds(false); setThresholdEdits({}); }} data-testid="button-cancel-thresholds">Cancel</Button>
+                <Button size="sm" onClick={() => updateThresholdsMutation.mutate(thresholdEdits)} disabled={updateThresholdsMutation.isPending} data-testid="button-save-thresholds">Save</Button>
+              </div>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3" data-testid="grid-thresholds">
+            {Object.entries(thresholdsData?.thresholds || {}).map(([key, value]) => (
+              <div key={key} className="text-center p-2 border rounded" data-testid={`threshold-${key}`}>
+                <p className="text-xs text-muted-foreground mb-1">{thresholdLabels[key] || key}</p>
+                {editingThresholds ? (
+                  <Input
+                    type="number"
+                    value={thresholdEdits[key] ?? value as number}
+                    onChange={(e) => setThresholdEdits({ ...thresholdEdits, [key]: parseFloat(e.target.value) })}
+                    className="h-8 text-center text-sm"
+                    data-testid={`input-threshold-${key}`}
+                  />
+                ) : (
+                  <p className="text-lg font-bold" data-testid={`text-threshold-${key}-value`}>{value as number}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card data-testid="card-alert-history">
+        <CardHeader><CardTitle className="text-sm flex items-center gap-2"><Bell className="w-4 h-4" /> Recent Alerts ({alertsData?.total || 0})</CardTitle></CardHeader>
+        <CardContent>
+          {!alertsData?.alerts?.length ? (
+            <EmptyState icon={CheckCircle} label="No alerts triggered" />
+          ) : (
+            <div className="space-y-2" data-testid="list-alerts">
+              {alertsData.alerts.map((alert: any, idx: number) => (
+                <div key={alert.id || idx} className="flex items-start justify-between border-b pb-3 last:border-0" data-testid={`alert-item-${idx}`}>
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-2">
+                      <Badge className={severityColors[alert.severity] || ""} data-testid={`badge-alert-severity-${idx}`}>{alert.severity}</Badge>
+                      <Badge variant="outline" className="text-xs" data-testid={`badge-alert-type-${idx}`}>{alert.alertType}</Badge>
+                      {alert.acknowledged && <Badge className="bg-green-100 text-green-800 text-xs">Ack</Badge>}
+                    </div>
+                    <p className="text-sm" data-testid={`text-alert-message-${idx}`}>{alert.message}</p>
+                    <p className="text-xs text-muted-foreground" data-testid={`text-alert-time-${idx}`}>{new Date(alert.createdAt).toLocaleString()}</p>
+                  </div>
+                  {!alert.acknowledged && (
+                    <Button size="sm" variant="outline" onClick={() => acknowledgeMutation.mutate(alert.id)} disabled={acknowledgeMutation.isPending} data-testid={`button-acknowledge-${idx}`}>
+                      Ack
+                    </Button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 }
 
@@ -552,11 +854,13 @@ const TABS: { id: TabId; label: string; icon: any }[] = [
   { id: "overview", label: "Overview", icon: Activity },
   { id: "failing-routes", label: "Failing Routes", icon: AlertTriangle },
   { id: "fallbacks", label: "Fallback Usage", icon: Shield },
+  { id: "backup-usage", label: "Backup & Content", icon: Database },
   { id: "quarantine", label: "Quarantine", icon: FileX },
   { id: "validation", label: "Validation", icon: XCircle },
   { id: "provisional", label: "Provisional Access", icon: Lock },
   { id: "entitlements", label: "Entitlements", icon: Users },
   { id: "incidents", label: "Incidents", icon: Zap },
+  { id: "alerts", label: "Alerts", icon: Bell },
 ];
 
 export default function AdminReliabilityDashboard() {
@@ -572,6 +876,23 @@ export default function AdminReliabilityDashboard() {
     refetchInterval: 30000,
   });
 
+  const handleDownloadReport = async () => {
+    try {
+      const res = await adminFetch("/api/admin/reliability/download-report");
+      if (!res.ok) throw new Error("Failed");
+      const data = await res.json();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `reliability-report-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Download failed:", err);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-6">
@@ -584,8 +905,16 @@ export default function AdminReliabilityDashboard() {
               <h1 className="text-2xl font-bold text-slate-800" data-testid="text-page-title">Reliability Dashboard</h1>
               {summary && <HealthBadge status={summary.overallHealth} />}
             </div>
-            <p className="text-sm text-slate-500 mt-0.5">System reliability monitoring and incident response</p>
+            <p className="text-sm text-slate-500 mt-0.5">System reliability monitoring, alerting, and incident response</p>
           </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleDownloadReport}
+            data-testid="button-download-report"
+          >
+            <Download className="w-4 h-4 mr-1" /> Report
+          </Button>
           <Button
             variant="outline"
             size="sm"
@@ -647,18 +976,20 @@ export default function AdminReliabilityDashboard() {
                   </Card>
                 </div>
               ) : null}
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-muted-foreground" data-testid="text-last-updated">
                 Last updated: {summary?.generatedAt ? new Date(summary.generatedAt).toLocaleString() : "N/A"}
               </p>
             </div>
           )}
           {activeTab === "failing-routes" && <FailingRoutesTab />}
           {activeTab === "fallbacks" && <FallbackUsageTab />}
+          {activeTab === "backup-usage" && <BackupUsageTab />}
           {activeTab === "quarantine" && <QuarantineTab />}
           {activeTab === "validation" && <ValidationFailuresTab />}
           {activeTab === "provisional" && <ProvisionalAccessTab />}
           {activeTab === "entitlements" && <EntitlementMismatchesTab />}
           {activeTab === "incidents" && <IncidentsTab />}
+          {activeTab === "alerts" && <AlertsTab />}
         </div>
       </div>
     </div>

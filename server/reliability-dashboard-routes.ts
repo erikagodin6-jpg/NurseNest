@@ -636,4 +636,445 @@ export function registerReliabilityDashboardRoutes(app: Express): void {
       res.status(500).json({ error: err.message });
     }
   });
+
+  app.get("/api/admin/reliability/backup-usage", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      let byFeatureType: Record<string, number> = {};
+      let totalBackupServed = 0;
+      let recentEvents: any[] = [];
+
+      try {
+        const result = await pool.query(`
+          SELECT delivered_tier, product_type, COUNT(*)::int as cnt,
+                 MAX(created_at) as last_occurrence
+          FROM orchestrator_routing_decisions
+          WHERE delivered_tier IN ('backup_snapshot', 'last_known_good', 'static_fallback')
+            AND created_at > NOW() - INTERVAL '24 hours'
+          GROUP BY delivered_tier, product_type
+          ORDER BY cnt DESC
+        `);
+        for (const row of result.rows) {
+          const key = `${row.product_type}:${row.delivered_tier}`;
+          byFeatureType[key] = row.cnt;
+          totalBackupServed += row.cnt;
+        }
+      } catch {}
+
+      try {
+        const eventsResult = await pool.query(`
+          SELECT id, product_type, product_id, delivered_tier, created_at
+          FROM orchestrator_routing_decisions
+          WHERE delivered_tier IN ('backup_snapshot', 'last_known_good', 'static_fallback')
+            AND created_at > NOW() - INTERVAL '24 hours'
+          ORDER BY created_at DESC
+          LIMIT 30
+        `);
+        recentEvents = eventsResult.rows.map(snakeToCamel);
+      } catch {}
+
+      res.json({ totalBackupServed, byFeatureType, recentEvents });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/admin/reliability/substitute-routing", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      let events: any[] = [];
+      let totalSubstitutes = 0;
+
+      try {
+        const result = await pool.query(`
+          SELECT id, product_type, product_id, delivered_tier, substitute_id, created_at
+          FROM orchestrator_routing_decisions
+          WHERE delivered_tier = 'substitute_equivalent'
+            AND created_at > NOW() - INTERVAL '24 hours'
+          ORDER BY created_at DESC
+          LIMIT 50
+        `);
+        events = result.rows.map(snakeToCamel);
+        totalSubstitutes = events.length;
+      } catch {}
+
+      try {
+        const countResult = await pool.query(`
+          SELECT COUNT(*)::int as cnt
+          FROM orchestrator_routing_decisions
+          WHERE delivered_tier = 'substitute_equivalent'
+            AND created_at > NOW() - INTERVAL '24 hours'
+        `);
+        totalSubstitutes = countResult.rows[0]?.cnt || totalSubstitutes;
+      } catch {}
+
+      res.json({ totalSubstitutes, events });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/admin/reliability/missing-backups", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      let missingBackups: any[] = [];
+
+      try {
+        const result = await pool.query(`
+          SELECT ba.id, ba.content_id, ba.content_type, ba.status, ba.error_message, ba.generated_at
+          FROM backup_artifacts ba
+          WHERE ba.status = 'failed' OR ba.status = 'missing'
+          ORDER BY ba.generated_at DESC NULLS LAST
+          LIMIT 50
+        `);
+        missingBackups = result.rows.map(snakeToCamel);
+      } catch {}
+
+      if (missingBackups.length === 0) {
+        try {
+          const result = await pool.query(`
+            SELECT ci.id as content_id, ci.type as content_type, ci.title, ci.status
+            FROM content_items ci
+            LEFT JOIN content_snapshots cs ON cs.content_id = ci.id AND cs.is_last_known_good = true
+            WHERE ci.status = 'published' AND cs.id IS NULL
+            ORDER BY ci.updated_at DESC
+            LIMIT 50
+          `);
+          missingBackups = result.rows.map(r => snakeToCamel({
+            ...r,
+            status: "no_snapshot",
+            error_message: "Published content has no last-known-good snapshot",
+          }));
+        } catch {}
+      }
+
+      res.json({ missingBackups, total: missingBackups.length });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/admin/reliability/top-failing-content", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      let topFailing: any[] = [];
+
+      try {
+        const result = await pool.query(`
+          SELECT cq.content_id, cq.content_type, COUNT(*)::int as failure_count,
+                 MAX(cq.created_at) as last_occurrence,
+                 COALESCE((
+                   SELECT COUNT(DISTINCT up.user_id)::int
+                   FROM user_progress up
+                   WHERE up.lesson_id = cq.content_id
+                 ), 0) as impacted_users
+          FROM content_quarantine cq
+          WHERE cq.created_at > NOW() - INTERVAL '7 days'
+          GROUP BY cq.content_id, cq.content_type
+          ORDER BY failure_count DESC
+          LIMIT 20
+        `);
+        topFailing = result.rows.map(snakeToCamel);
+      } catch {}
+
+      if (topFailing.length === 0) {
+        try {
+          const result = await pool.query(`
+            SELECT content_id, content_type, COUNT(*)::int as failure_count,
+                   MAX(created_at) as last_occurrence
+            FROM content_validation_results
+            WHERE valid = false AND created_at > NOW() - INTERVAL '7 days'
+            GROUP BY content_id, content_type
+            ORDER BY failure_count DESC
+            LIMIT 20
+          `);
+          topFailing = result.rows.map(snakeToCamel);
+        } catch {}
+      }
+
+      res.json({ topFailing, total: topFailing.length });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/admin/reliability/alerts", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      let alerts: any[] = [];
+      let total = 0;
+
+      try {
+        const result = await pool.query(`
+          SELECT id, alert_type, severity, message, metadata, acknowledged, created_at
+          FROM reliability_alerts
+          ORDER BY created_at DESC
+          LIMIT 100
+        `);
+        alerts = result.rows.map(snakeToCamel);
+        total = alerts.length;
+      } catch {}
+
+      res.json({ alerts, total });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/admin/reliability/alert-thresholds", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { getAlertThresholds } = await import("./alerting-engine");
+      res.json({ thresholds: getAlertThresholds() });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.put("/api/admin/reliability/alert-thresholds", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      if (!requireSuperAdmin(admin, res)) return;
+
+      const updates = req.body;
+      const { setAlertThresholds } = await import("./alerting-engine");
+      const newThresholds = await setAlertThresholds(updates, pool);
+
+      await logOperatorAction({
+        req, actor: admin, action: "reliability_update_alert_thresholds",
+        actionCategory: "reliability", entityType: "alert_config",
+        reason: "Alert thresholds updated via reliability dashboard",
+        afterState: newThresholds,
+      });
+
+      res.json({ success: true, thresholds: newThresholds });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/reliability/actions/swap-substitute", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      if (!requireSuperAdmin(admin, res)) return;
+
+      const { contentId, substituteId } = req.body;
+      if (!contentId) {
+        return res.status(400).json({ error: "contentId is required" });
+      }
+
+      if (substituteId) {
+        await pool.query(
+          `UPDATE content_items SET content = (SELECT content FROM content_items WHERE id = $1), updated_at = NOW() WHERE id = $2`,
+          [substituteId, contentId]
+        );
+      } else {
+        await pool.query(
+          `INSERT INTO content_quarantine (id, content_id, content_type, reason, triggered_by, created_at)
+           VALUES (gen_random_uuid(), $1, 'content', 'swapped_to_substitute', 'admin', NOW())
+           ON CONFLICT DO NOTHING`,
+          [contentId]
+        );
+      }
+
+      await logOperatorAction({
+        req, actor: admin, action: "reliability_swap_substitute",
+        actionCategory: "reliability", entityType: "content",
+        entityId: contentId, reason: "Swapped to substitute resource via reliability dashboard",
+        afterState: { substituteId },
+      });
+
+      res.json({ success: true, action: "swap_substitute", contentId, substituteId });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/reliability/actions/revalidate-content", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      if (!requireSuperAdmin(admin, res)) return;
+
+      const { contentId } = req.body;
+      if (!contentId) {
+        return res.status(400).json({ error: "contentId is required" });
+      }
+
+      let validationResult: any = null;
+      try {
+        const { validateForPublish } = await import("./content-integrity-validation");
+        const content = await pool.query(`SELECT * FROM content_items WHERE id = $1`, [contentId]);
+        if (content.rows[0]) {
+          validationResult = await validateForPublish(content.rows[0]);
+        }
+      } catch (e: any) {
+        console.warn("[ReliabilityDashboard] Validation module unavailable:", e.message);
+      }
+
+      await pool.query(
+        `DELETE FROM content_quarantine WHERE content_id = $1`,
+        [contentId]
+      );
+
+      await logOperatorAction({
+        req, actor: admin, action: "reliability_revalidate_content",
+        actionCategory: "reliability", entityType: "content",
+        entityId: contentId, reason: "Content revalidated via reliability dashboard",
+        afterState: { validationResult },
+      });
+
+      res.json({ success: true, action: "revalidate_content", contentId, validationResult });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/reliability/actions/mark-incident-resolved", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      if (!requireSuperAdmin(admin, res)) return;
+
+      const { incidentId } = req.body;
+      if (!incidentId) {
+        return res.status(400).json({ error: "incidentId is required" });
+      }
+
+      try {
+        const { resolveIncident } = await import("./incident-monitor");
+        resolveIncident(incidentId, admin.username || admin.id || "admin", "Resolved via reliability dashboard");
+      } catch (e: any) {
+        console.warn("[ReliabilityDashboard] In-memory incident resolution skipped:", e.message);
+      }
+
+      await pool.query(
+        `UPDATE incidents SET status = 'resolved', resolved_at = NOW() WHERE id = $1 OR incident_id = $1`,
+        [incidentId]
+      );
+
+      await logOperatorAction({
+        req, actor: admin, action: "reliability_mark_incident_resolved",
+        actionCategory: "reliability", entityType: "incident",
+        entityId: incidentId, reason: "Incident marked resolved via reliability dashboard",
+      });
+
+      res.json({ success: true, action: "mark_incident_resolved", incidentId });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/reliability/actions/acknowledge-alert", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { alertId } = req.body;
+      if (!alertId) {
+        return res.status(400).json({ error: "alertId is required" });
+      }
+
+      await pool.query(
+        `UPDATE reliability_alerts SET acknowledged = true WHERE id = $1`,
+        [alertId]
+      );
+
+      res.json({ success: true, action: "acknowledge_alert", alertId });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/admin/reliability/download-report", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const cutoff24h = Date.now() - 24 * 60 * 60 * 1000;
+      const report: any = {
+        generatedAt: new Date().toISOString(),
+        generatedBy: admin.username || admin.id,
+      };
+
+      let failingRouteCount = 0;
+      const routesList: any[] = [];
+      for (const [path, data] of routeErrorCounts.entries()) {
+        const recent = data.statuses.filter(s => s.timestamp > cutoff24h);
+        if (recent.length > 0) {
+          failingRouteCount++;
+          routesList.push({ path, errors24h: recent.length, lastSeen: new Date(data.lastSeen).toISOString() });
+        }
+      }
+      report.failingRoutes = { count: failingRouteCount, routes: routesList };
+
+      const recentFallbacks = fallbackEvents.filter(e => e.timestamp > cutoff24h);
+      report.fallbackUsage = { count: recentFallbacks.length };
+
+      const recentProvisional = provisionalAccessEvents.filter(e => e.timestamp > cutoff24h);
+      report.provisionalAccess = { count: recentProvisional.length, uniqueUsers: new Set(recentProvisional.map(e => e.userId)).size };
+
+      try {
+        const qr = await pool.query("SELECT COUNT(*)::int as cnt FROM content_quarantine WHERE resolved_at IS NULL");
+        report.quarantinedContent = { count: qr.rows[0]?.cnt || 0 };
+      } catch { report.quarantinedContent = { count: 0 }; }
+
+      try {
+        const vr = await pool.query(
+          "SELECT COUNT(*)::int as cnt FROM content_validation_results WHERE valid = false AND created_at > NOW() - INTERVAL '24 hours'"
+        );
+        report.validationFailures = { count: vr.rows[0]?.cnt || 0 };
+      } catch { report.validationFailures = { count: 0 }; }
+
+      try {
+        const mr = await pool.query(`
+          SELECT COUNT(*)::int as cnt FROM users
+          WHERE (tier IN ('rpn','rn','np','allied','imaging','new_grad_toolkit','certification_prep','full_access')
+                 AND (subscription_status IS NULL OR subscription_status NOT IN ('active','trialing')))
+             OR (subscription_status = 'active' AND (tier IS NULL OR tier = 'free'))
+        `);
+        report.entitlementMismatches = { count: mr.rows[0]?.cnt || 0 };
+      } catch { report.entitlementMismatches = { count: 0 }; }
+
+      try {
+        const ar = await pool.query(`
+          SELECT id, alert_type, severity, message, created_at
+          FROM reliability_alerts
+          WHERE created_at > NOW() - INTERVAL '24 hours'
+          ORDER BY created_at DESC
+        `);
+        report.recentAlerts = ar.rows.map(snakeToCamel);
+      } catch { report.recentAlerts = []; }
+
+      let activeIncidents: any[] = [];
+      try { activeIncidents = getActiveIncidents(); } catch {}
+      report.activeIncidents = activeIncidents;
+
+      await logOperatorAction({
+        req, actor: admin, action: "reliability_download_report",
+        actionCategory: "reliability", entityType: "report",
+        reason: "Downloaded failure report via reliability dashboard",
+      });
+
+      res.setHeader("Content-Type", "application/json");
+      res.setHeader("Content-Disposition", `attachment; filename="reliability-report-${new Date().toISOString().slice(0, 10)}.json"`);
+      res.json(report);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
 }

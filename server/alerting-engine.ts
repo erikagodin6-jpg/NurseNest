@@ -11,7 +11,10 @@ export type AlertType =
   | "protected_recovery_excessive"
   | "synthetic_test_failure"
   | "circuit_breaker_trip"
-  | "emergency_mode_activated";
+  | "emergency_mode_activated"
+  | "zero_valid_items"
+  | "lkg_failover_repeated"
+  | "payment_sync_spike";
 
 export type AlertSeverity = "info" | "warning" | "critical";
 
@@ -23,6 +26,9 @@ interface AlertThresholds {
   backupFailureCountPerHour: number;
   entitlementMismatchCountPerHour: number;
   cooldownMinutes: number;
+  zeroValidItemsThreshold: number;
+  lkgFailoverCountPerHour: number;
+  paymentSyncErrorCountPerHour: number;
 }
 
 const DEFAULT_THRESHOLDS: AlertThresholds = {
@@ -33,6 +39,9 @@ const DEFAULT_THRESHOLDS: AlertThresholds = {
   backupFailureCountPerHour: 2,
   entitlementMismatchCountPerHour: 5,
   cooldownMinutes: 15,
+  zeroValidItemsThreshold: 1,
+  lkgFailoverCountPerHour: 5,
+  paymentSyncErrorCountPerHour: 3,
 };
 
 let thresholds: AlertThresholds = { ...DEFAULT_THRESHOLDS };
@@ -74,7 +83,17 @@ export async function loadThresholdsFromDb(pool: pg.Pool): Promise<void> {
 }
 
 export async function setAlertThresholds(updates: Partial<AlertThresholds>, pool?: pg.Pool): Promise<AlertThresholds> {
-  thresholds = { ...thresholds, ...updates };
+  const validated: Partial<AlertThresholds> = {};
+  for (const [key, value] of Object.entries(updates)) {
+    if (key in thresholds) {
+      const num = typeof value === "number" ? value : parseFloat(value as any);
+      if (!Number.isFinite(num) || num < 0) {
+        throw new Error(`Invalid threshold value for ${key}: must be a finite non-negative number`);
+      }
+      (validated as any)[key] = num;
+    }
+  }
+  thresholds = { ...thresholds, ...validated };
   if (pool) {
     try {
       await pool.query(
@@ -212,7 +231,7 @@ export async function checkQuarantineAlert(pool: pg.Pool): Promise<void> {
     const result = await pool.query(`
       SELECT COUNT(*)::int AS count
       FROM content_quarantine
-      WHERE quarantined_at > NOW() - INTERVAL '1 hour'
+      WHERE created_at > NOW() - INTERVAL '1 hour'
     `);
     const count = result.rows[0]?.count || 0;
     if (count >= thresholds.quarantineCountPerHour) {
@@ -358,6 +377,70 @@ export async function fireSyntheticTestFailureAlert(pool: pg.Pool, testName: str
   );
 }
 
+export async function checkZeroValidItemsAlert(pool: pg.Pool): Promise<void> {
+  try {
+    const result = await pool.query(`
+      SELECT ci.id, ci.title, ci.type
+      FROM content_items ci
+      WHERE ci.status = 'published'
+        AND (ci.content IS NULL OR ci.content::text = '[]' OR ci.content::text = '{}' OR ci.content::text = 'null')
+    `);
+    const count = result.rows.length;
+    if (count >= thresholds.zeroValidItemsThreshold) {
+      await fireAlert(pool, "zero_valid_items", "critical",
+        `${count} published content item(s) have zero valid items: ${result.rows.slice(0, 5).map((r: any) => r.title || r.id).join(", ")}`,
+        { count, items: result.rows.slice(0, 10).map((r: any) => ({ id: r.id, title: r.title, type: r.type })), threshold: thresholds.zeroValidItemsThreshold }
+      );
+    }
+  } catch (e: any) {
+    if (!e.message?.includes("does not exist")) {
+      console.error("[AlertEngine] checkZeroValidItemsAlert error:", e.message);
+    }
+  }
+}
+
+export async function checkLkgFailoverRepeatedAlert(pool: pg.Pool): Promise<void> {
+  try {
+    const result = await pool.query(`
+      SELECT COUNT(*)::int AS count
+      FROM orchestrator_routing_decisions
+      WHERE delivered_tier = 'last_known_good'
+        AND created_at > NOW() - INTERVAL '1 hour'
+    `);
+    const count = result.rows[0]?.count || 0;
+    if (count >= thresholds.lkgFailoverCountPerHour) {
+      await fireAlert(pool, "lkg_failover_repeated", count >= 15 ? "critical" : "warning",
+        `Last-known-good failover triggered ${count} times in the last hour (threshold: ${thresholds.lkgFailoverCountPerHour})`,
+        { count, threshold: thresholds.lkgFailoverCountPerHour }
+      );
+    }
+  } catch (e: any) {
+    if (!e.message?.includes("does not exist")) {
+      console.error("[AlertEngine] checkLkgFailoverRepeatedAlert error:", e.message);
+    }
+  }
+}
+
+export async function checkPaymentSyncSpikeAlert(pool: pg.Pool): Promise<void> {
+  try {
+    const result = await pool.query(`
+      SELECT COUNT(*)::int AS count
+      FROM users
+      WHERE subscription_status = 'past_due'
+        OR (subscription_status = 'active' AND (tier IS NULL OR tier = 'free'))
+    `);
+    const count = result.rows[0]?.count || 0;
+    if (count >= thresholds.paymentSyncErrorCountPerHour) {
+      await fireAlert(pool, "payment_sync_spike", count >= 10 ? "critical" : "warning",
+        `Payment sync errors: ${count} users with subscription status mismatches (threshold: ${thresholds.paymentSyncErrorCountPerHour})`,
+        { count, threshold: thresholds.paymentSyncErrorCountPerHour }
+      );
+    }
+  } catch (e: any) {
+    console.error("[AlertEngine] checkPaymentSyncSpikeAlert error:", e.message);
+  }
+}
+
 export async function runAlertingChecks(pool: pg.Pool): Promise<void> {
   console.log("[AlertEngine] Running periodic alerting checks...");
   await Promise.allSettled([
@@ -369,6 +452,9 @@ export async function runAlertingChecks(pool: pg.Pool): Promise<void> {
     checkProtectedRecoveryAlert(pool),
     checkCircuitBreakerAlert(pool),
     checkEmergencyModeAlert(pool),
+    checkZeroValidItemsAlert(pool),
+    checkLkgFailoverRepeatedAlert(pool),
+    checkPaymentSyncSpikeAlert(pool),
   ]);
 }
 
