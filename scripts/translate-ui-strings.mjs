@@ -105,7 +105,7 @@ function escapeForTs(str) {
 }
 
 function writeTranslationFile(langCode, allEntries) {
-  const filePath = path.resolve(`client/src/lib/i18n-${langCode}.ts`);
+  const filePath = path.resolve(`tools/i18n/source/i18n-${langCode}.ts`);
   const sortedKeys = Object.keys(allEntries).sort();
   const existingContent = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : '';
 
@@ -140,7 +140,7 @@ function writeTranslationFile(langCode, allEntries) {
 async function main() {
   const targetLangs = process.argv[2] ? process.argv[2].split(',') : Object.keys(LANG_NAMES);
   const maxBatches = process.argv[3] ? parseInt(process.argv[3]) : 999;
-  const libDir = path.resolve('client/src/lib');
+  const libDir = path.resolve('tools/i18n/source');
   const enKeys = extractKeysFromTs(path.join(libDir, 'i18n-en.ts'));
   const progress = loadProgress();
 

@@ -30,7 +30,7 @@ export async function compileI18n() {
   let totalKeys = 0;
 
   for (const lang of LANGUAGES) {
-    const filePath = path.resolve(process.cwd(), `client/src/lib/i18n-${lang}.ts`);
+    const filePath = path.resolve(process.cwd(), `tools/i18n/source/i18n-${lang}.ts`);
     try {
       const data = extractTranslationsFromSource(filePath);
       if (!data || typeof data !== "object") {

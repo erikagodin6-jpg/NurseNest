@@ -34,6 +34,7 @@ const EXCLUDE_PATTERNS = [
   "**/__tests__/**",
   "**/i18n-en.ts",
   "**/i18n-*.ts",
+  "tools/i18n/**",
   "**/i18n-translations.ts",
   "**/i18n-types.ts",
   "**/locale-utils.ts",

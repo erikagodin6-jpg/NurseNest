@@ -155,7 +155,7 @@ const reportOnly = args.includes('--report');
 const enforce = args.includes('--enforce');
 const failOnThreshold = args.includes('--fail-on-threshold');
 
-const libDir = path.resolve('client/src/lib');
+const libDir = path.resolve('tools/i18n/source');
 
 const enFile = path.join(libDir, 'i18n-en.ts');
 if (!fs.existsSync(enFile)) {

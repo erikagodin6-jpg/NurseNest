@@ -156,7 +156,7 @@ async function scanUiTranslationKeys(indexingThreshold: number): Promise<AuditRe
   let nonEnTranslations: Record<string, Record<string, string>> = {};
 
   try {
-    const enPath = path.resolve(process.cwd(), "client/src/lib/i18n-en.ts");
+    const enPath = path.resolve(process.cwd(), "tools/i18n/source/i18n-en.ts");
     if (fs.existsSync(enPath)) {
       const content = fs.readFileSync(enPath, "utf-8");
       const match = content.match(/\{[\s\S]*\}/);
@@ -183,7 +183,7 @@ async function scanUiTranslationKeys(indexingThreshold: number): Promise<AuditRe
 
   for (const langCode of LANG_FILE_CODES) {
     try {
-      const langPath = path.resolve(process.cwd(), `client/src/lib/i18n-${langCode}.ts`);
+      const langPath = path.resolve(process.cwd(), `tools/i18n/source/i18n-${langCode}.ts`);
       if (fs.existsSync(langPath)) {
         const content = fs.readFileSync(langPath, "utf-8");
         const sectionKeys: Record<string, string> = {};

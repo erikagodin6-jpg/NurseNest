@@ -2,11 +2,33 @@ import { createContext, useContext, useState, useEffect, useCallback, type React
 import { getLocaleFromPath, isValidLocale, buildLocalePath, deLocalizeSlug, localizeSlug, type SupportedLocale } from "./locale-utils";
 import { loadLanguage, getLoadedTranslations, hasLoader } from "./i18n-translations";
 import type { LanguageCode } from "./i18n-types";
-import enTranslations from "./i18n-en";
 
 export type { LanguageCode } from "./i18n-types";
 
 export const TRANSLATION_UNAVAILABLE_MARKER = "@@TRANSLATION_UNAVAILABLE@@";
+
+const EMERGENCY_FALLBACK: Record<string, string> = {
+  "common.loading": "Loading",
+  "common.error": "Error",
+  "common.tryAgain": "Try again",
+  "common.save": "Save",
+  "common.cancel": "Cancel",
+  "common.close": "Close",
+  "common.submit": "Submit",
+  "common.back": "Back",
+  "common.next": "Next",
+  "common.search": "Search",
+  "common.home": "Home",
+  "common.signIn": "Sign In",
+  "common.signOut": "Sign Out",
+  "common.signUp": "Sign Up",
+  "common.yes": "Yes",
+  "common.no": "No",
+  "common.ok": "OK",
+  "common.delete": "Delete",
+  "common.edit": "Edit",
+  "common.settings": "Settings",
+};
 
 export const LANGUAGES: { code: LanguageCode; name: string; nativeName: string; flag: string }[] = [
   { code: "en", name: "English", nativeName: "English", flag: "\ud83c\uddec\ud83c\udde7" },
@@ -32,7 +54,7 @@ export const LANGUAGES: { code: LanguageCode; name: string; nativeName: string; 
 ];
 
 const translations: Partial<Record<LanguageCode, Record<string, string>>> & { en: Record<string, string> } = {
-  en: { ...enTranslations },
+  en: { ...EMERGENCY_FALLBACK },
 };
 
 const missingKeys: Map<string, Set<string>> = new Map();
@@ -109,7 +131,7 @@ function trackMissingKey(lang: string, key: string) {
   }
 }
 
-let enLoaded = true;
+let enFullyLoaded = false;
 const enReady: Promise<void> = (async () => {
   try {
     let res = await fetch("/i18n/en.json");
@@ -119,6 +141,7 @@ const enReady: Promise<void> = (async () => {
     if (res.ok) {
       const data: Record<string, string> = await res.json();
       Object.assign(translations.en, data);
+      enFullyLoaded = true;
     }
   } catch {}
 })();
@@ -179,14 +202,14 @@ function getInitialLanguage(): LanguageCode {
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<LanguageCode>(getInitialLanguage);
-  const [ready, setReady] = useState(enLoaded);
+  const [, forceUpdate] = useState(0);
   const [langLoaded, setLangLoaded] = useState<LanguageCode | null>(language === "en" ? "en" : null);
 
   useEffect(() => {
-    if (!ready) {
-      enReady.then(() => setReady(true));
+    if (!enFullyLoaded) {
+      enReady.then(() => forceUpdate((n) => n + 1));
     }
-  }, [ready]);
+  }, []);
 
   useEffect(() => {
     if (language !== "en" && hasLoader(language)) {
@@ -320,9 +343,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     reportMissingKeyToServer(language, `${key}${context ? `|ctx:${context}` : ""}`);
   }, [language]);
 
-  const isTranslationLoaded = ready && (language === "en" || langLoaded === language);
-
-  if (!ready) return null;
+  const isTranslationLoaded = language === "en" || langLoaded === language;
 
   return (
     <I18nContext.Provider value={{ language, setLanguage, t, tSafe, isTranslationLoaded, isFallback, translationStatus, reportMissingTranslation }}>

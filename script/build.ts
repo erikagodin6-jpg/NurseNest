@@ -272,34 +272,8 @@ async function buildAll() {
 
   if (global.gc) global.gc();
 
-  const i18nSourceDir = path.resolve("client/src/lib");
-  const i18nTempDir = path.resolve(".i18n-sources-tmp");
-  const i18nLocaleFiles = (await readdir(i18nSourceDir))
-    .filter((f: string) => /^i18n-(ar|de|es|fa|fr|hi|ht|id|ja|ko|pa|pt|th|tl|tr|ur|vi|zh|zh-tw)\.ts$/.test(f));
-
-  if (i18nLocaleFiles.length > 0) {
-    await mkdir(i18nTempDir, { recursive: true });
-    for (const f of i18nLocaleFiles) {
-      const src = path.join(i18nSourceDir, f);
-      const dst = path.join(i18nTempDir, f);
-      await copyFile(src, dst);
-      await unlink(src);
-    }
-    log(`moved ${i18nLocaleFiles.length} i18n source files out of client tree for build`);
-  }
-
-  try {
-    await viteBuild();
-    log("client done");
-  } finally {
-    for (const f of i18nLocaleFiles) {
-      const src = path.join(i18nTempDir, f);
-      const dst = path.join(i18nSourceDir, f);
-      if (existsSync(src)) await copyFile(src, dst);
-    }
-    await rm(i18nTempDir, { recursive: true, force: true });
-    if (i18nLocaleFiles.length > 0) log(`restored ${i18nLocaleFiles.length} i18n source files`);
-  }
+  await viteBuild();
+  log("client done");
 
   log("removing bundled assets...");
   await Promise.all([

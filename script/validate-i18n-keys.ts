@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const EN_FILE = path.resolve(__dirname, "../client/src/lib/i18n-en.ts");
+const EN_FILE = path.resolve(__dirname, "../tools/i18n/source/i18n-en.ts");
 const SRC_DIR = path.resolve(__dirname, "../client/src");
 
 function extractEnKeys(): Set<string> {

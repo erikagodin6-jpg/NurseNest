@@ -103,10 +103,10 @@ Rules:
 
 async function processLanguage(lang: string): Promise<number> {
   const langName = LANG_NAMES[lang];
-  const enContent = fs.readFileSync(path.join(rootDir, "client/src/lib/i18n-en.ts"), "utf8");
+  const enContent = fs.readFileSync(path.join(rootDir, "tools/i18n/source/i18n-en.ts"), "utf8");
   const enKeys = extractNewGradKeys(enContent);
 
-  const langFile = path.join(rootDir, `client/src/lib/i18n-${lang}.ts`);
+  const langFile = path.join(rootDir, `tools/i18n/source/i18n-${lang}.ts`);
   const langContent = fs.readFileSync(langFile, "utf8");
   const langKeys = extractNewGradKeys(langContent);
 

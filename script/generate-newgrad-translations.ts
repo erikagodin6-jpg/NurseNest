@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const EN_FILE = path.join(__dirname, '../client/src/lib/i18n-en.ts');
+const EN_FILE = path.join(__dirname, '../tools/i18n/source/i18n-en.ts');
 const enContent = fs.readFileSync(EN_FILE, 'utf-8');
 
 const enEntries: Record<string, string> = {};
@@ -20,7 +20,7 @@ console.log(`Found ${Object.keys(enEntries).length} English newGrad keys`);
 type TMap = Record<string, string>;
 
 function injectTranslations(lang: string, translations: TMap): void {
-  const filePath = path.join(__dirname, `../client/src/lib/i18n-${lang}.ts`);
+  const filePath = path.join(__dirname, `../tools/i18n/source/i18n-${lang}.ts`);
   let content = fs.readFileSync(filePath, 'utf-8');
 
   const existingCount = (content.match(/"newGrad\./g) || []).length;
