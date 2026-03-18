@@ -19,7 +19,7 @@ export interface IStorage {
   getUserByUsername(username: string): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-  updateUserProfile(userId: string, updates: { displayName?: string; country?: string; examTrack?: string; careerType?: string; onboardingComplete?: boolean; region?: string }): Promise<User>;
+  updateUserProfile(userId: string, updates: { displayName?: string; country?: string; examTrack?: string; careerType?: string; onboardingComplete?: boolean; onboardingCompleted?: boolean; region?: string; role?: string; studyGoal?: string; dailyStudyTime?: string; examType?: string }): Promise<User>;
   updateUserTier(userId: string, tier: string): Promise<void>;
   updateUserTheme(userId: string, theme: string): Promise<void>;
   updateUserStripeInfo(userId: string, info: { stripeCustomerId?: string; stripeSubscriptionId?: string; subscriptionStatus?: string; tier?: string }): Promise<User>;
@@ -401,14 +401,19 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  async updateUserProfile(userId: string, updates: { displayName?: string; country?: string; examTrack?: string; careerType?: string; onboardingComplete?: boolean; region?: string }): Promise<User> {
+  async updateUserProfile(userId: string, updates: { displayName?: string; country?: string; examTrack?: string; careerType?: string; onboardingComplete?: boolean; onboardingCompleted?: boolean; region?: string; role?: string; studyGoal?: string; dailyStudyTime?: string; examType?: string }): Promise<User> {
     const setObj: any = {};
     if (updates.displayName !== undefined) setObj.displayName = updates.displayName;
     if (updates.country !== undefined) setObj.country = updates.country;
     if (updates.examTrack !== undefined) setObj.examTrack = updates.examTrack;
     if (updates.careerType !== undefined) setObj.careerType = updates.careerType;
     if (updates.onboardingComplete !== undefined) setObj.onboardingComplete = updates.onboardingComplete;
+    if (updates.onboardingCompleted !== undefined) setObj.onboardingCompleted = updates.onboardingCompleted;
     if (updates.region !== undefined) setObj.region = updates.region;
+    if (updates.role !== undefined) setObj.role = updates.role;
+    if (updates.studyGoal !== undefined) setObj.studyGoal = updates.studyGoal;
+    if (updates.dailyStudyTime !== undefined) setObj.dailyStudyTime = updates.dailyStudyTime;
+    if (updates.examType !== undefined) setObj.examType = updates.examType;
     const [user] = await db.update(users).set(setObj).where(eq(users.id, userId)).returning();
     return user;
   }

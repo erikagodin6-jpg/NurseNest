@@ -36,6 +36,9 @@ export const users = pgTable("users", {
   lifetimePurchasedAt: timestamp("lifetime_purchased_at"),
   preferredTheme: text("preferred_theme"),
   adminRole: text("admin_role"),
+  studyGoal: text("study_goal"),
+  dailyStudyTime: text("daily_study_time"),
+  examType: text("exam_type"),
 });
 
 export const userSubscriptions = pgTable("user_subscriptions", {

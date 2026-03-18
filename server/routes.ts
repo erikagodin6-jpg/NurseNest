@@ -3582,14 +3582,10 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
 
       const ut = signUserToken(user.id, user.username);
 
+      const { buildAuthUserResponse } = await import("./auth-response");
+      const userResponse = await buildAuthUserResponse(user);
       res.json({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        tier: user.tier,
-        subscriptionStatus: user.subscriptionStatus,
-        testerAccess: user.testerAccess,
-        testerExpiry: user.testerExpiry,
+        ...userResponse,
         userToken: ut.userToken,
         userTokenExpiry: ut.expiresInSeconds,
       });
@@ -3654,17 +3650,8 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
 
       logSecurityAudit("login_success", { userId: user.id, username: user.username, ip: req.ip });
 
-      const response: any = {
-        id: user.id,
-        username: user.username,
-        tier: user.tier,
-        subscriptionStatus: user.subscriptionStatus,
-        email: user.email,
-        region: user.region,
-        testerAccess: user.testerAccess,
-        testerExpiry: user.testerExpiry,
-        preferredTheme: user.preferredTheme,
-      };
+      const { buildAuthUserResponse } = await import("./auth-response");
+      const response: any = await buildAuthUserResponse(user);
       if (user.tier === "admin") {
         const adminRole = (user as any).admin_role || (user as any).adminRole || "super_admin";
         const tokenData = signAdminToken(user.id, user.username, adminRole as AdminRole);
@@ -3697,29 +3684,11 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       const user = await resolveAuthUser(req);
       if (!user) return res.status(401).json({ error: "Not authenticated" });
 
-      const { getUserEntitlements } = await import("./entitlements");
-      const entitlements = getUserEntitlements(user);
-
-      res.json({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        tier: user.tier,
-        subscriptionStatus: user.subscription_status || user.subscriptionStatus,
-        region: user.region,
-        displayName: user.display_name || user.displayName,
-        country: user.country,
-        examTrack: user.exam_track || user.examTrack,
-        careerType: user.career_type || user.careerType,
-        onboardingComplete: user.onboarding_complete ?? user.onboardingComplete ?? false,
-        testerAccess: user.tester_access ?? user.testerAccess,
-        testerExpiry: user.tester_expiry || user.testerExpiry,
-        preferredTheme: user.preferred_theme || user.preferredTheme,
-        isLifetime: user.is_lifetime ?? user.isLifetime ?? false,
-        entitlements,
-      });
+      const { buildAuthUserResponse } = await import("./auth-response");
+      const userResponse = await buildAuthUserResponse(user);
+      res.json(userResponse);
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      res.status(401).json({ error: "Invalid or expired token" });
     }
   });
 
@@ -3748,6 +3717,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   });
 
   app.post("/api/auth/logout", async (_req, res) => {
+    res.clearCookie("csrf_token");
     res.json({ success: true });
   });
 
@@ -3780,19 +3750,11 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       const user = await resolveAuthUser(req);
       if (!user) return res.status(401).json({ error: "Not authenticated" });
 
-      res.json({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        displayName: user.display_name || user.displayName || null,
-        country: user.country || null,
-        examTrack: user.exam_track || user.examTrack || null,
-        careerType: user.career_type || user.careerType || "nursing",
-        region: user.region || "US",
-        onboardingComplete: user.onboarding_complete ?? user.onboardingComplete ?? false,
-      });
+      const { buildAuthUserResponse } = await import("./auth-response");
+      const userResponse = await buildAuthUserResponse(user);
+      res.json(userResponse);
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      res.status(401).json({ error: "Invalid or expired token" });
     }
   });
 
@@ -3801,7 +3763,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       const user = await resolveAuthUser(req);
       if (!user) return res.status(401).json({ error: "Not authenticated" });
 
-      const allowedFields = ["displayName", "country", "examTrack", "careerType", "onboardingComplete", "region"];
+      const allowedFields = ["displayName", "country", "examTrack", "careerType", "onboardingComplete", "onboardingCompleted", "region", "role", "studyGoal", "dailyStudyTime", "examType"];
       const updates: any = {};
       for (const field of allowedFields) {
         if (req.body[field] !== undefined) {
@@ -3815,17 +3777,47 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
 
       const updated = await storage.updateUserProfile(user.id, updates);
 
-      res.json({
-        id: updated.id,
-        username: updated.username,
-        email: updated.email,
-        displayName: updated.displayName || null,
-        country: updated.country || null,
-        examTrack: updated.examTrack || null,
-        careerType: updated.careerType || "nursing",
-        region: updated.region || "US",
-        onboardingComplete: updated.onboardingComplete ?? false,
+      const { buildAuthUserResponse } = await import("./auth-response");
+      const userResponse = await buildAuthUserResponse(updated);
+      res.json(userResponse);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/me/onboarding", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Not authenticated" });
+
+      const { z } = await import("zod");
+      const onboardingSchema = z.object({
+        role: z.string().min(1),
+        country: z.string().min(1),
+        examType: z.string().min(1),
+        studyGoal: z.string().min(1),
+        dailyStudyTime: z.string().min(1),
       });
+
+      const parsed = onboardingSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "All onboarding fields are required: role, country, examType, studyGoal, dailyStudyTime", details: parsed.error.flatten().fieldErrors });
+      }
+
+      const { role, country, examType, studyGoal, dailyStudyTime } = parsed.data;
+      const updated = await storage.updateUserProfile(user.id, {
+        role,
+        country,
+        examType,
+        studyGoal,
+        dailyStudyTime,
+        onboardingCompleted: true,
+        onboardingComplete: true,
+      });
+
+      const { buildAuthUserResponse } = await import("./auth-response");
+      const userResponse = await buildAuthUserResponse(updated);
+      res.json(userResponse);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -4973,6 +4965,20 @@ Rules:
     try {
       const data = insertTestResultSchema.parse(req.body);
       const result = await storage.createTestResult(data);
+
+      try {
+        const authUser = await resolveAuthUser(req);
+        if (authUser) {
+          const userTier = authUser.tier || "free";
+          const isTester = authUser.tester_access || authUser.testerAccess;
+          if (userTier === "free" && !isTester) {
+            const updatedUsage = await storage.incrementFreeTrialUsage(authUser.id, "questionsUsed");
+            examEnd();
+            return res.json({ ...result, usage: { questionsUsed: updatedUsage.questionsUsed, flashcardsUsed: updatedUsage.flashcardsUsed, catExamsUsed: updatedUsage.catExamsUsed } });
+          }
+        }
+      } catch {}
+
       examEnd();
       res.json(result);
     } catch (e: any) {
@@ -11653,7 +11659,16 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
           selectedIndex,
           isCorrect,
         }, isCorrect);
-        res.json({ answer, streak, isCorrect });
+        let usageData;
+        try {
+          const userTier = user.tier || "free";
+          const isTester = user.tester_access || user.testerAccess;
+          if (userTier === "free" && !isTester) {
+            const updatedUsage = await storage.incrementFreeTrialUsage(user.id, "questionsUsed");
+            usageData = { questionsUsed: updatedUsage.questionsUsed, flashcardsUsed: updatedUsage.flashcardsUsed, catExamsUsed: updatedUsage.catExamsUsed };
+          }
+        } catch {}
+        res.json({ answer, streak, isCorrect, ...(usageData ? { usage: usageData } : {}) });
       } catch (txErr: any) {
         if (txErr.message === "Already answered today's question") {
           const existing = await storage.getQotdUserAnswer(user.id, today);
@@ -21406,7 +21421,17 @@ Return ONLY valid JSON with this exact structure:
         [userId, questionId, `adaptive-${tier || "nursing"}`, response, interval, easeFactor, repetitions, nextReviewDate]
       );
 
-      res.json({ success: true, nextReviewDate, interval, easeFactor });
+      let usageData;
+      try {
+        const userTier = authUser.tier || "free";
+        const isTester = authUser.tester_access || authUser.testerAccess;
+        if (userTier === "free" && !isTester) {
+          const updatedUsage = await storage.incrementFreeTrialUsage(userId, "flashcardsUsed");
+          usageData = { questionsUsed: updatedUsage.questionsUsed, flashcardsUsed: updatedUsage.flashcardsUsed, catExamsUsed: updatedUsage.catExamsUsed };
+        }
+      } catch {}
+
+      res.json({ success: true, nextReviewDate, interval, easeFactor, ...(usageData ? { usage: usageData } : {}) });
     } catch (e: any) {
       console.error("[flashcard-session/answer] Error:", e.message);
       res.status(500).json({ error: "Failed to record answer" });

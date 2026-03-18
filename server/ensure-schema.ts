@@ -740,6 +740,14 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
     await client.query(`ALTER TABLE mock_exam_attempts ADD COLUMN IF NOT EXISTS blueprint_meta jsonb`);
 
     await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS preferred_theme text`);
+    await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS first_name text`);
+    await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS admin_role text`);
+    await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS role text`);
+    await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS exam text`);
+    await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS onboarding_completed boolean DEFAULT false`);
+    await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS study_goal text`);
+    await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS daily_study_time text`);
+    await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS exam_type text`);
 
     await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS correct_answer_explanation TEXT DEFAULT ''`);
     await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS incorrect_answer_rationale TEXT DEFAULT ''`);
