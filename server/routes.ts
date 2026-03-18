@@ -3511,6 +3511,15 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
     try {
       const data = insertUserSchema.parse(req.body);
       const { inviteCode, referralCode: refCode } = req.body;
+
+      if (!data.email || typeof data.email !== "string" || !data.email.includes("@")) {
+        return res.status(400).json({ error: "A valid email address is required" });
+      }
+      data.email = data.email.trim().toLowerCase();
+
+      const existingEmail = await storage.getUserByEmail(data.email);
+      if (existingEmail) return res.status(400).json({ error: "An account with this email already exists" });
+
       const existing = await storage.getUserByUsername(data.username);
       if (existing) return res.status(400).json({ error: "Username already taken" });
       data.password = await hashPassword(data.password);
@@ -3563,13 +3572,18 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         }
       }
 
+      const ut = signUserToken(user.id, user.username);
+
       res.json({
         id: user.id,
         username: user.username,
+        email: user.email,
         tier: user.tier,
         subscriptionStatus: user.subscriptionStatus,
         testerAccess: user.testerAccess,
         testerExpiry: user.testerExpiry,
+        userToken: ut.userToken,
+        userTokenExpiry: ut.expiresInSeconds,
       });
     } catch (e: any) {
       res.status(400).json({ error: e.message });
@@ -3588,15 +3602,26 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   app.post("/api/auth/login", loginLimiter, async (req, res) => {
     const loginEnd = instrumentCorePath("login");
     try {
-      const { username, password } = req.body;
-      if (!username || !password) return res.status(400).json({ error: "Username and password required" });
-      const user = await storage.getUserByUsername(username);
+      const { username, email, password } = req.body;
+      const identifier = username || email;
+      if (!identifier || !password) return res.status(400).json({ error: "Username/email and password required" });
+
+      let user;
+      if (email && typeof email === "string" && email.includes("@")) {
+        user = await storage.getUserByEmail(email.trim().toLowerCase());
+      } else if (username) {
+        user = await storage.getUserByUsername(username);
+        if (!user && typeof username === "string" && username.includes("@")) {
+          user = await storage.getUserByEmail(username.trim().toLowerCase());
+        }
+      }
+
       if (!user) {
-        recordFailedLogin(`user:${username}`);
+        recordFailedLogin(`user:${identifier}`);
         recordFailedLogin(`ip:${req.ip}`);
         try {
           const { logIncident } = await import("./incident-monitor");
-          logIncident({ category: "login_failure", severity: "info", title: "Login Failure: Unknown User", message: `Login attempt for non-existent user: ${username}`, errorKey: `login_unknown_user`, metadata: { username, ip: req.ip } });
+          logIncident({ category: "login_failure", severity: "info", title: "Login Failure: Unknown User", message: `Login attempt for non-existent user: ${identifier}`, errorKey: `login_unknown_user`, metadata: { username: identifier, ip: req.ip } });
         } catch {}
         return res.status(401).json({ error: "Invalid credentials" });
       }
@@ -3656,6 +3681,228 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
     } catch (e: any) {
       loginEnd();
       res.status(400).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/auth/me", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Not authenticated" });
+
+      const { getUserEntitlements } = await import("./entitlements");
+      const entitlements = getUserEntitlements(user);
+
+      res.json({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        tier: user.tier,
+        subscriptionStatus: user.subscription_status || user.subscriptionStatus,
+        region: user.region,
+        displayName: user.display_name || user.displayName,
+        country: user.country,
+        examTrack: user.exam_track || user.examTrack,
+        careerType: user.career_type || user.careerType,
+        onboardingComplete: user.onboarding_complete ?? user.onboardingComplete ?? false,
+        testerAccess: user.tester_access ?? user.testerAccess,
+        testerExpiry: user.tester_expiry || user.testerExpiry,
+        preferredTheme: user.preferred_theme || user.preferredTheme,
+        isLifetime: user.is_lifetime ?? user.isLifetime ?? false,
+        entitlements,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/auth/refresh", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Invalid or expired token" });
+
+      const ut = signUserToken(user.id, user.username);
+      const response: any = {
+        userToken: ut.userToken,
+        userTokenExpiry: ut.expiresInSeconds,
+      };
+
+      if (user.tier === "admin") {
+        const adminRole = user.admin_role || user.adminRole || "super_admin";
+        const tokenData = signAdminToken(user.id, user.username, adminRole as any);
+        response.accessToken = tokenData.accessToken;
+        response.expiresInSeconds = tokenData.expiresInSeconds;
+      }
+
+      res.json(response);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/auth/logout", async (_req, res) => {
+    res.json({ success: true });
+  });
+
+  app.get("/api/auth/entitlements", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Not authenticated" });
+
+      const { getUserEntitlements, isActiveTester } = await import("./entitlements");
+      const entitlements = getUserEntitlements(user);
+
+      res.json({
+        tier: user.tier || "free",
+        subscriptionStatus: user.subscription_status || user.subscriptionStatus || "inactive",
+        planType: user.stripe_subscription_id || user.stripeSubscriptionId ? "stripe" : (user.is_lifetime || user.isLifetime ? "lifetime" : "free"),
+        isActive: (user.subscription_status || user.subscriptionStatus) === "active" || user.tier === "admin",
+        isTester: isActiveTester(user),
+        isLifetime: user.is_lifetime ?? user.isLifetime ?? false,
+        testerExpiry: user.tester_expiry || user.testerExpiry || null,
+        planExpiresAt: user.plan_expires_at || user.planExpiresAt || null,
+        entitlements,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/auth/profile", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Not authenticated" });
+
+      res.json({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        displayName: user.display_name || user.displayName || null,
+        country: user.country || null,
+        examTrack: user.exam_track || user.examTrack || null,
+        careerType: user.career_type || user.careerType || "nursing",
+        region: user.region || "US",
+        onboardingComplete: user.onboarding_complete ?? user.onboardingComplete ?? false,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.patch("/api/auth/profile", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) return res.status(401).json({ error: "Not authenticated" });
+
+      const allowedFields = ["displayName", "country", "examTrack", "careerType", "onboardingComplete", "region"];
+      const updates: any = {};
+      for (const field of allowedFields) {
+        if (req.body[field] !== undefined) {
+          updates[field] = req.body[field];
+        }
+      }
+
+      if (Object.keys(updates).length === 0) {
+        return res.status(400).json({ error: "No valid fields to update" });
+      }
+
+      const updated = await storage.updateUserProfile(user.id, updates);
+
+      res.json({
+        id: updated.id,
+        username: updated.username,
+        email: updated.email,
+        displayName: updated.displayName || null,
+        country: updated.country || null,
+        examTrack: updated.examTrack || null,
+        careerType: updated.careerType || "nursing",
+        region: updated.region || "US",
+        onboardingComplete: updated.onboardingComplete ?? false,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/auth/forgot-password", sensitiveApiRateLimitMiddleware(), async (req, res) => {
+    try {
+      const { email } = req.body;
+      if (!email || typeof email !== "string" || !email.includes("@")) {
+        return res.status(400).json({ error: "A valid email address is required" });
+      }
+
+      const normalizedEmail = email.trim().toLowerCase();
+      const user = await storage.getUserByEmail(normalizedEmail);
+
+      if (!user) {
+        return res.json({ success: true, message: "If an account exists with this email, a reset link has been sent." });
+      }
+
+      const token = crypto.randomBytes(32).toString("hex");
+      const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+
+      await pool.query(
+        `DELETE FROM password_reset_tokens WHERE user_id = $1`,
+        [user.id]
+      );
+      await pool.query(
+        `INSERT INTO password_reset_tokens (user_id, token, expires_at) VALUES ($1, $2, $3)`,
+        [user.id, token, expiresAt]
+      );
+
+      const { getResendClient } = await import("./resend-client");
+      const { client, fromEmail } = await getResendClient();
+      const baseUrl = process.env.REPLIT_DEV_DOMAIN
+        ? `https://${process.env.REPLIT_DEV_DOMAIN}`
+        : (process.env.BASE_URL || "https://nursenest.app");
+      const resetLink = `${baseUrl}/reset-password?token=${token}`;
+
+      try {
+        await client.emails.send({
+          from: fromEmail,
+          to: normalizedEmail,
+          subject: "NurseNest - Reset Your Password",
+          html: `<h2>Password Reset</h2><p>Click the link below to reset your password. This link expires in 1 hour.</p><p><a href="${resetLink}">Reset Password</a></p><p>If you didn't request this, please ignore this email.</p>`,
+        });
+      } catch (emailErr) {
+        console.error("[ForgotPassword] CRITICAL: Failed to send reset email to user:", user.id, emailErr);
+        await pool.query(`DELETE FROM password_reset_tokens WHERE user_id = $1 AND token = $2`, [user.id, token]);
+        return res.status(503).json({ error: "Unable to send reset email. Please try again later." });
+      }
+
+      res.json({ success: true, message: "If an account exists with this email, a reset link has been sent." });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/auth/reset-password", sensitiveApiRateLimitMiddleware(), async (req, res) => {
+    try {
+      const { token, newPassword } = req.body;
+      if (!token || !newPassword) {
+        return res.status(400).json({ error: "Token and new password are required" });
+      }
+      if (typeof newPassword !== "string" || newPassword.length < 6) {
+        return res.status(400).json({ error: "Password must be at least 6 characters" });
+      }
+
+      const result = await pool.query(
+        `SELECT * FROM password_reset_tokens WHERE token = $1 AND used_at IS NULL AND expires_at > NOW() LIMIT 1`,
+        [token]
+      );
+
+      if (!result.rows[0]) {
+        return res.status(400).json({ error: "Invalid or expired reset token" });
+      }
+
+      const resetToken = result.rows[0];
+      const hashedPassword = await hashPassword(newPassword);
+
+      await pool.query(`UPDATE users SET password = $1 WHERE id = $2`, [hashedPassword, resetToken.user_id]);
+      await pool.query(`UPDATE password_reset_tokens SET used_at = NOW() WHERE id = $1`, [resetToken.id]);
+
+      res.json({ success: true, message: "Password has been reset successfully" });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
     }
   });
 

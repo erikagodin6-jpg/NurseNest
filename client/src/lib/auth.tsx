@@ -7,17 +7,25 @@ type User = {
   subscriptionStatus: string;
   email?: string;
   region?: string;
+  displayName?: string | null;
+  country?: string | null;
+  examTrack?: string | null;
+  careerType?: string | null;
+  onboardingComplete?: boolean;
   testerAccess?: boolean;
   testerExpiry?: string | null;
   preferredTheme?: string | null;
+  isLifetime?: boolean;
 };
 
 type AuthContextType = {
   user: User | null;
-  login: (username: string, password: string) => Promise<void>;
-  register: (username: string, password: string, email?: string, inviteCode?: string) => Promise<void>;
+  login: (identifier: string, password: string) => Promise<void>;
+  register: (username: string, password: string, email: string, inviteCode?: string) => Promise<void>;
   logout: () => void;
   refreshUser: () => Promise<void>;
+  forgotPassword: (email: string) => Promise<{ success: boolean; message: string }>;
+  resetPassword: (token: string, newPassword: string) => Promise<{ success: boolean; message: string }>;
   isLoading: boolean;
   hasAccess: (requiredTier: string) => boolean;
   previewTier: string | null;
@@ -27,7 +35,55 @@ type AuthContextType = {
   isTester: boolean;
 };
 
+type LoginResponse = {
+  id: string;
+  username: string;
+  tier: string;
+  subscriptionStatus: string;
+  email?: string;
+  region?: string;
+  testerAccess?: boolean;
+  testerExpiry?: string | null;
+  preferredTheme?: string | null;
+  accessToken?: string;
+  expiresInSeconds?: number;
+  userToken?: string;
+  userTokenExpiry?: string;
+};
+
+type RegisterResponse = {
+  id: string;
+  username: string;
+  email?: string;
+  tier: string;
+  subscriptionStatus: string;
+  testerAccess?: boolean;
+  testerExpiry?: string | null;
+  userToken?: string;
+};
+
 const AuthContext = createContext<AuthContextType | null>(null);
+
+function getUserToken(): string | null {
+  try {
+    return localStorage.getItem("nursenest-user-token");
+  } catch {
+    return null;
+  }
+}
+
+function getAuthHeaders(): Record<string, string> {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  const token = getUserToken();
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+  const adminToken = getAdminAccessToken();
+  if (adminToken) {
+    headers["Authorization"] = `Bearer ${adminToken}`;
+  }
+  return headers;
+}
 
 export function getAdminAccessToken(): string | null {
   try {
@@ -82,64 +138,92 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  async function refreshUserData(userId: string) {
+  async function restoreSessionFromToken() {
+    const token = getUserToken();
+    if (!token) return null;
+
     try {
-      const res = await fetch(`/api/user/${userId}`);
-      if (!res.ok) return;
+      const res = await fetch("/api/auth/me", {
+        headers: { "Authorization": `Bearer ${token}` },
+      });
+      if (!res.ok) {
+        localStorage.removeItem("nursenest-user-token");
+        localStorage.removeItem("nursenest-user");
+        return null;
+      }
       const data = await res.json();
       if (data?.tier === "admin") {
         await syncPreviewFromServer();
       }
-      setUser(data);
-      localStorage.setItem("nursenest-user", JSON.stringify(data));
-    } catch {}
+      const userData: User = {
+        id: data.id,
+        username: data.username,
+        tier: data.tier,
+        subscriptionStatus: data.subscriptionStatus,
+        email: data.email,
+        region: data.region,
+        displayName: data.displayName,
+        country: data.country,
+        examTrack: data.examTrack,
+        careerType: data.careerType,
+        onboardingComplete: data.onboardingComplete,
+        testerAccess: data.testerAccess,
+        testerExpiry: data.testerExpiry,
+        preferredTheme: data.preferredTheme,
+        isLifetime: data.isLifetime,
+      };
+      setUser(userData);
+      localStorage.setItem("nursenest-user", JSON.stringify(userData));
+      return userData;
+    } catch {
+      return null;
+    }
   }
 
   useEffect(() => {
     (async () => {
-      const stored = localStorage.getItem("nursenest-user");
-      if (stored) {
-        try {
-          const parsed = JSON.parse(stored) as User;
-          setUser(parsed);
-          await refreshUserData(parsed.id);
-        } catch {
-          localStorage.removeItem("nursenest-user");
-        }
+      const restored = await restoreSessionFromToken();
+      if (!restored) {
+        setUser(null);
+        localStorage.removeItem("nursenest-user");
       }
       setIsLoading(false);
     })();
   }, []);
 
-  async function login(username: string, password: string) {
+  async function login(identifier: string, password: string) {
+    const isEmail = identifier.includes("@");
+    const body: Record<string, string> = { password };
+    if (isEmail) {
+      body.email = identifier;
+    } else {
+      body.username = identifier;
+    }
+
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify(body),
     });
 
     if (!res.ok) {
-      const err = await res.json().catch(() => ({} as any));
+      const err: { error?: string } = await res.json().catch(() => ({}));
       throw new Error(err.error || "Login failed");
     }
 
-    const data = (await res.json()) as any;
-    if (data?.accessToken) {
+    const data: LoginResponse = await res.json();
+    if (data.accessToken) {
       localStorage.setItem("nn_admin_access_token", data.accessToken);
       const expiresAt = Date.now() + (data.expiresInSeconds || 1800) * 1000;
       localStorage.setItem("nn_admin_expires_at", String(expiresAt));
-      delete data.accessToken;
-      delete data.expiresInSeconds;
     }
-    if (data?.userToken) {
+    if (data.userToken) {
       localStorage.setItem("nursenest-user-token", data.userToken);
-      delete data.userToken;
-      delete data.userTokenExpiry;
     }
-    if (data?.tier === "admin") {
+    if (data.tier === "admin") {
       await syncPreviewFromServer();
     }
-    localStorage.setItem("nursenest-credentials", JSON.stringify({ username, password }));
+    localStorage.setItem("nursenest-credentials", JSON.stringify({ username: data.username || identifier, password: body.password || "" }));
     const userData: User = {
       id: data.id,
       username: data.username,
@@ -155,25 +239,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("nursenest-user", JSON.stringify(userData));
   }
 
-  async function register(username: string, password: string, email?: string, inviteCode?: string, referralCode?: string) {
-    const body: any = { username, password, email };
-    if (inviteCode) body.inviteCode = inviteCode;
-    if (referralCode) body.referralCode = referralCode;
+  async function register(username: string, password: string, email: string, inviteCode?: string, referralCode?: string) {
+    const registerBody: Record<string, string> = { username, password, email };
+    if (inviteCode) registerBody.inviteCode = inviteCode;
+    if (referralCode) registerBody.referralCode = referralCode;
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: JSON.stringify(registerBody),
     });
 
     if (!res.ok) {
-      const err = await res.json().catch(() => ({} as any));
+      const err: { error?: string } = await res.json().catch(() => ({}));
       throw new Error(err.error || "Registration failed");
     }
 
-    const data = (await res.json()) as User;
+    const data: RegisterResponse = await res.json();
+    if (data.userToken) {
+      localStorage.setItem("nursenest-user-token", data.userToken);
+    }
     localStorage.setItem("nursenest-credentials", JSON.stringify({ username, password }));
-    setUser(data);
-    localStorage.setItem("nursenest-user", JSON.stringify(data));
+    const userData: User = {
+      id: data.id,
+      username: data.username,
+      email: data.email,
+      tier: data.tier,
+      subscriptionStatus: data.subscriptionStatus,
+      testerAccess: data.testerAccess,
+      testerExpiry: data.testerExpiry,
+    };
+    setUser(userData);
+    localStorage.setItem("nursenest-user", JSON.stringify(userData));
   }
 
   function logout() {
@@ -184,10 +280,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("nursenest-user-token");
     localStorage.removeItem("nursenest-admin-api-key");
     clearAdminToken();
+    fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
   }
 
   async function refreshUser() {
-    if (user) await refreshUserData(user.id);
+    await restoreSessionFromToken();
+  }
+
+  async function forgotPassword(email: string): Promise<{ success: boolean; message: string }> {
+    const res = await fetch("/api/auth/forgot-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || "Failed to send reset email");
+    }
+    return data;
+  }
+
+  async function resetPassword(token: string, newPassword: string): Promise<{ success: boolean; message: string }> {
+    const res = await fetch("/api/auth/reset-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, newPassword }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || "Failed to reset password");
+    }
+    return data;
   }
 
   const isAdmin = user?.tier === "admin";
@@ -216,6 +339,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         register,
         logout,
         refreshUser,
+        forgotPassword,
+        resetPassword,
         isLoading,
         hasAccess,
         previewTier,

@@ -199,6 +199,7 @@ const TestBank = lazy(() => import("@/pages/test-bank"));
 const UpgradePage = lazy(() => import("@/pages/upgrade"));
 const Reports = lazy(() => import("@/pages/reports"));
 const LoginPage = lazy(() => import("@/pages/login"));
+const ResetPasswordPage = lazy(() => import("@/pages/reset-password"));
 const ProfilePage = lazy(() => import("@/pages/profile"));
 const SubscriptionSuccess = lazy(() => import("@/pages/subscription-success"));
 const PricingPage = lazy(() => import("@/pages/pricing"));
@@ -1399,6 +1400,7 @@ function AppRoutes() {
         <Route path="/upgrade/success">{() => <ProtectedRoute contentType="general"><UpgradePage /></ProtectedRoute>}</Route>
         <Route path="/reports" component={Reports} />
         <Route path="/login">{() => <ProtectedRoute contentType="general"><LoginPage /></ProtectedRoute>}</Route>
+        <Route path="/reset-password" component={ResetPasswordPage} />
         <Route path="/profile" component={ProfilePage} />
         <Route path="/subscription/success" component={SubscriptionSuccess} />
         <Route path="/pricing/allied">{() => <Redirect to="/pricing?section=allied" />}</Route>

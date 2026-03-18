@@ -345,6 +345,9 @@ export async function runStartupDataMigrations() {
         console.error(`[Echo QBank] Seed error: ${echoErr.message}`);
       }
 
+      const { runCrossPlatformAuthMigration } = await import("./migrations/cross-platform-auth-unification");
+      await runCrossPlatformAuthMigration(pool);
+
       lastStartupMigrationTimestamp = new Date().toISOString();
       console.log(`[Startup Migration] Completed at ${lastStartupMigrationTimestamp}`);
       const dbHost = (process.env.DATABASE_URL || "").replace(/\/\/.*@/, "//***@").split("/")[2] || "unknown";

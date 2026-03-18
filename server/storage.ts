@@ -17,7 +17,9 @@ function snakeToCamel(obj: any): any {
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUserProfile(userId: string, updates: { displayName?: string; country?: string; examTrack?: string; careerType?: string; onboardingComplete?: boolean; region?: string }): Promise<User>;
   updateUserTier(userId: string, tier: string): Promise<void>;
   updateUserTheme(userId: string, theme: string): Promise<void>;
   updateUserStripeInfo(userId: string, info: { stripeCustomerId?: string; stripeSubscriptionId?: string; subscriptionStatus?: string; tier?: string }): Promise<User>;
@@ -372,10 +374,27 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(sql`LOWER(${users.email}) = LOWER(${email})`);
+    return user;
+  }
+
   async createUser(insertUser: InsertUser): Promise<User> {
     const { hashPassword } = await import("./admin-auth");
     const hashedPassword = await hashPassword(insertUser.password);
     const [user] = await db.insert(users).values({ ...insertUser, password: hashedPassword }).returning();
+    return user;
+  }
+
+  async updateUserProfile(userId: string, updates: { displayName?: string; country?: string; examTrack?: string; careerType?: string; onboardingComplete?: boolean; region?: string }): Promise<User> {
+    const setObj: any = {};
+    if (updates.displayName !== undefined) setObj.displayName = updates.displayName;
+    if (updates.country !== undefined) setObj.country = updates.country;
+    if (updates.examTrack !== undefined) setObj.examTrack = updates.examTrack;
+    if (updates.careerType !== undefined) setObj.careerType = updates.careerType;
+    if (updates.onboardingComplete !== undefined) setObj.onboardingComplete = updates.onboardingComplete;
+    if (updates.region !== undefined) setObj.region = updates.region;
+    const [user] = await db.update(users).set(setObj).where(eq(users.id, userId)).returning();
     return user;
   }
 

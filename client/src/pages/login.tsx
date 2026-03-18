@@ -20,6 +20,10 @@ export default function LoginPage() {
   const { t } = useI18n();
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotSent, setForgotSent] = useState(false);
+  const { forgotPassword } = useAuth();
 
   const refCodeFromUrl = useMemo(() => {
     const params = new URLSearchParams(window.location.search);
@@ -62,11 +66,22 @@ export default function LoginPage() {
     }
   }
 
-  function handleForgotPassword() {
-    toast({
-      title: t("login.passwordResetTitle"),
-      description: t("login.passwordResetDescription"),
-    });
+  async function handleForgotPassword() {
+    setShowForgotPassword(true);
+  }
+
+  async function handleForgotSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      await forgotPassword(forgotEmail);
+      setForgotSent(true);
+      toast({ title: "Reset link sent", description: "Check your email for a password reset link." });
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -96,18 +111,79 @@ export default function LoginPage() {
                 style={{ color: "var(--theme-heading-text)" }}
                 data-testid="text-auth-title"
               >
-                {activeTab === "login" ? t("login.welcome") : t("login.signupTitle")}
+                {showForgotPassword ? "Reset Password" : (activeTab === "login" ? t("login.welcome") : t("login.signupTitle"))}
               </h1>
               <p
                 className="text-sm mt-1"
                 style={{ color: "var(--theme-muted-text)" }}
                 data-testid="text-auth-subtitle"
               >
-                {activeTab === "login"
-                  ? t("login.welcomeSubtitle")
-                  : t("login.signupSubtitle")}
+                {showForgotPassword
+                  ? "Enter your email to receive a reset link"
+                  : (activeTab === "login"
+                    ? t("login.welcomeSubtitle")
+                    : t("login.signupSubtitle"))}
               </p>
             </div>
+
+            {showForgotPassword ? (
+              <div className="space-y-4">
+                {forgotSent ? (
+                  <div className="text-center space-y-4" data-testid="text-forgot-success">
+                    <p className="text-sm" style={{ color: "var(--theme-body-text)" }}>
+                      If an account exists with that email, we've sent a password reset link. Please check your inbox.
+                    </p>
+                    <Button
+                      onClick={() => { setShowForgotPassword(false); setForgotSent(false); setForgotEmail(""); }}
+                      className="w-full rounded-full"
+                      style={{ background: "var(--theme-primary)", color: "var(--theme-primary-foreground)" }}
+                      data-testid="button-back-to-login"
+                    >
+                      Back to Login
+                    </Button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleForgotSubmit} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="forgot-email" style={{ color: "var(--theme-heading-text)" }}>Email Address</Label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-3 w-4 h-4" style={{ color: "var(--theme-muted-text)" }} />
+                        <Input
+                          id="forgot-email"
+                          type="email"
+                          value={forgotEmail}
+                          onChange={(e) => setForgotEmail(e.target.value)}
+                          placeholder="Enter your email"
+                          className="pl-10 auth-input"
+                          required
+                          data-testid="input-forgot-email"
+                        />
+                      </div>
+                    </div>
+                    <Button
+                      type="submit"
+                      className="w-full rounded-full shadow-md"
+                      style={{ background: "var(--theme-primary)", color: "var(--theme-primary-foreground)" }}
+                      disabled={isLoading}
+                      data-testid="button-send-reset"
+                    >
+                      {isLoading ? "Sending..." : "Send Reset Link"}
+                    </Button>
+                    <div className="text-center">
+                      <button
+                        type="button"
+                        onClick={() => { setShowForgotPassword(false); setForgotEmail(""); }}
+                        className="text-sm font-medium hover:underline"
+                        style={{ color: "var(--theme-primary)" }}
+                        data-testid="link-back-to-login"
+                      >
+                        Back to Login
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
+            ) : (
 
             <Tabs defaultValue="login" value={activeTab} onValueChange={setActiveTab}>
               <TabsList
@@ -143,13 +219,13 @@ export default function LoginPage() {
               <TabsContent value="login">
                 <form onSubmit={handleLogin} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="login-username" style={{ color: "var(--theme-heading-text)" }}>{t("login.username")}</Label>
+                    <Label htmlFor="login-username" style={{ color: "var(--theme-heading-text)" }}>Username or Email</Label>
                     <div className="relative">
                       <User className="absolute left-3 top-3 w-4 h-4" style={{ color: "var(--theme-muted-text)" }} />
                       <Input
                         id="login-username"
                         name="username"
-                        placeholder={t("login.usernamePlaceholder")}
+                        placeholder="Enter username or email"
                         className="pl-10 auth-input"
                         required
                         data-testid="input-login-username"
@@ -225,7 +301,7 @@ export default function LoginPage() {
                     <Label htmlFor="reg-email" style={{ color: "var(--theme-heading-text)" }}>{t("login.email")}</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 w-4 h-4" style={{ color: "var(--theme-muted-text)" }} />
-                      <Input id="reg-email" name="email" type="email" placeholder={t("login.emailPlaceholder")} className="pl-10 auth-input" data-testid="input-register-email" />
+                      <Input id="reg-email" name="email" type="email" placeholder={t("login.emailPlaceholder")} className="pl-10 auth-input" required data-testid="input-register-email" />
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -268,6 +344,7 @@ export default function LoginPage() {
                 </form>
               </TabsContent>
             </Tabs>
+            )}
           </CardContent>
         </Card>
       </main>
