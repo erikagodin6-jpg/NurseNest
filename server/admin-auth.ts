@@ -424,6 +424,11 @@ export function csrfProtection() {
       return next();
     }
 
+    const authHeader = String(req.headers?.["authorization"] || "");
+    if (authHeader.startsWith("Bearer ")) {
+      return next();
+    }
+
     const cookieToken = req.cookies?.csrf_token || "";
     const headerToken = req.headers?.["x-csrf-token"] || "";
 
@@ -507,11 +512,11 @@ export function adminApiRateLimit() {
   };
 }
 
-export async function logAdminAudit(req: any, actor: any, action: string, entityType: string, entityId: string | null, beforeState?: any, afterState?: any) {
+export async function logAdminAudit(req: any, actor: any, action: string, entityType: string, entityId: string | null, beforeState?: any, afterState?: any, reason?: string, severity?: string) {
   try {
     await pool.query(
-      `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, before_json, after_json, ip_address, user_agent, created_at)
-       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, NOW())`,
+      `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, before_json, after_json, reason, severity, ip_address, user_agent, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW())`,
       [
         actor?.id || null,
         actor?.username || null,
@@ -520,6 +525,8 @@ export async function logAdminAudit(req: any, actor: any, action: string, entity
         action,
         beforeState ? JSON.stringify(beforeState) : null,
         afterState ? JSON.stringify(afterState) : null,
+        reason || null,
+        severity || "info",
         req.ip || req.headers?.["x-forwarded-for"] || null,
         req.headers?.["user-agent"] || null,
       ]

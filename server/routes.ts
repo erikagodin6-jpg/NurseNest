@@ -83,13 +83,14 @@ import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware, a
 
 const TOKEN_EXPIRY_SECONDS = 1800;
 
-async function logAudit(req: any, actor: any, entityType: string, entityId: string | null, action: string, beforeJson?: any, afterJson?: any) {
+async function logAudit(req: any, actor: any, entityType: string, entityId: string | null, action: string, beforeJson?: any, afterJson?: any, reason?: string, severity?: string) {
   try {
     await pool.query(
-      `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, before_json, after_json, ip_address, user_agent, created_at)
-       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, NOW())`,
+      `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, before_json, after_json, reason, severity, ip_address, user_agent, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW())`,
       [actor?.id || null, actor?.username || null, entityType, entityId, action,
        beforeJson ? JSON.stringify(beforeJson) : null, afterJson ? JSON.stringify(afterJson) : null,
+       reason || null, severity || "info",
        req.ip || req.headers?.["x-forwarded-for"] || null, req.headers?.["user-agent"] || null]
     );
   } catch (e) {
@@ -598,6 +599,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
 
   const { registerExamReliabilityRoutes } = await import("./exam-reliability");
   registerExamReliabilityRoutes(app);
+
+  const { registerOpsRoutes } = await import("./ops-routes");
+  registerOpsRoutes(app);
 
   const { registerExamResilienceRoutes } = await import("./exam-resilience-engine");
   registerExamResilienceRoutes(app);

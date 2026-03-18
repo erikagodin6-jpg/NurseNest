@@ -1,6 +1,21 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { pool } from "./storage";
 
+async function auditSensitiveAction(req: any, admin: any, action: string, entityType: string, entityId: string | null, before?: any, after?: any, reason?: string, severity?: string) {
+  try {
+    await pool.query(
+      `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, before_json, after_json, reason, severity, ip_address, user_agent, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW())`,
+      [admin?.id || null, admin?.username || null, entityType, entityId, action,
+       before ? JSON.stringify(before) : null, after ? JSON.stringify(after) : null,
+       reason || null, severity || "info",
+       req.ip || req.headers?.["x-forwarded-for"] || null, req.headers?.["user-agent"] || null]
+    );
+  } catch (e) {
+    console.error("[ResilienceAudit] Failed to log:", e);
+  }
+}
+
 const alertEvents: Array<{
   id: string;
   severity: "critical" | "warning" | "info";
@@ -48,9 +63,9 @@ function addResilienceAudit(action: string, entity: string, entityId: string, de
 async function persistResilienceAudit(action: string, entity: string, entityId: string, details: any, actor: string | null) {
   try {
     await pool.query(
-      `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, after_json, created_at)
-       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, NOW())`,
-      [actor, actor, entity, entityId, action, JSON.stringify(details)]
+      `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, after_json, severity, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, NOW())`,
+      [actor, actor, entity, entityId, action, JSON.stringify(details), "info"]
     );
   } catch {}
 }
@@ -1376,6 +1391,48 @@ async function auditOperatorAction(req: Request, admin: any, action: string, act
   });
 }
 
+async function resolveAdminWithRole(req: Request, res: Response, ...allowedRoles: string[]): Promise<any | null> {
+  try {
+    const { requireAdmin } = await import("./admin-auth");
+    const admin = await requireAdmin(req as any, res as any);
+    if (!admin) return null;
+
+    const userRole: string = admin.admin_role || admin.adminRole || "super_admin";
+    if (userRole === "super_admin") {
+      (req as any).adminUser = admin;
+      return admin;
+    }
+    if (!allowedRoles.includes(userRole)) {
+      res.status(403).json({ error: "Insufficient admin permissions", required: allowedRoles, current: userRole });
+      return null;
+    }
+    (req as any).adminUser = admin;
+    return admin;
+  } catch {
+    res.status(403).json({ error: "Admin access required" });
+    return null;
+  }
+}
+
+function requireConfirmToken(req: any, res: any, admin: any, action: string): boolean {
+  try {
+    const { issueConfirmationToken, validateConfirmationToken } = require("./admin-auth");
+    const confirmToken = req.headers?.["x-confirm-token"] as string;
+    if (!confirmToken || !validateConfirmationToken(confirmToken, admin?.id, action).valid) {
+      const token = issueConfirmationToken(admin?.id, action);
+      res.status(428).json({
+        error: "Confirmation required for this destructive action",
+        confirmToken: token,
+        action,
+      });
+      return false;
+    }
+    return true;
+  } catch {
+    return true;
+  }
+}
+
 export const isSafeMode = isEmergencyMode;
 export const activateSafeMode = activateEmergencyMode;
 export const deactivateSafeMode = deactivateEmergencyMode;
@@ -2622,94 +2679,113 @@ export function registerResilienceRoutes(app: Express): void {
     });
   });
 
+  app.get("/api/admin/resilience/status", async (req: Request, res: Response) => {
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin", "content_admin", "ops_viewer");
+    if (!admin) return;
+    const healthResults = await runHealthChecks();
+    res.json({
+      circuitBreakers: getCircuitBreakerStates(),
+      featureFlags: getFeatureFlags(),
+      killSwitches: getKillSwitches(),
+      healthChecks: healthResults,
+      emergencyMode: getEmergencyModeStatus(),
+      safeMode: getSafeModeStatus(),
+      minimalCore: getMinimalCoreStatus(),
+      errorBudgets: getErrorBudgets(),
+      cacheWarmStatus: getCacheWarmStatus(),
+      provisionalAccess: getProvisionalAccessGrants(),
+      selfHealingLog: getSelfHealingLog(),
+      events: getResilienceEvents(100),
+      scopeIsolation: getScopedFailureDomains(),
+      degradation: getDegradationState(),
+      timeouts: getTimeoutConfigs(),
+      stuckStates: getStuckStateSessions(20),
+      stuckStateThresholds: getStuckStateThresholds(),
+      performance: {
+        routeLatency: getRouteLatencyStats().slice(0, 20),
+        scaleProtection: getScaleProtectionState(),
+        scaleThresholds: getScaleThresholds(),
+      },
+      timestamp: Date.now(),
+    });
+  });
+
   app.post("/api/admin/resilience/feature-flags/:key", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin");
     if (!admin) return;
     if (!(await checkAdminPermission(admin, "feature_flag", res))) return;
-    if (!(await requireConfirmationToken(req, res, admin, "feature_flag"))) return;
+    if (!requireConfirmToken(req, res, admin, "feature_flag_toggle")) return;
     const { key } = req.params;
     const { enabled, reason } = req.body;
     if (typeof enabled !== "boolean") {
       return res.status(400).json({ error: "enabled must be a boolean" });
     }
-    const beforeFlag = featureFlags.get(key);
+    const beforeState = featureFlags.get(key);
     setFeatureFlag(key, enabled, reason, admin.username || admin.id);
-    await auditOperatorAction(req, admin, "feature_flag_toggled", "feature_flag", "feature_flag", key, {
-      targetType: "feature_flag", targetId: key, reason,
-      confirmationRequired: true,
-      beforeState: beforeFlag ? { enabled: beforeFlag.adminOverride ?? beforeFlag.enabled } : null,
-      afterState: { enabled },
-    });
+    auditSensitiveAction(req, admin, "feature_flag_toggle", "feature_flag", key, { enabled: beforeState?.enabled, adminOverride: beforeState?.adminOverride }, { enabled, reason }, reason, "warning");
     res.json({ success: true, flag: featureFlags.get(key) });
   });
 
   app.post("/api/admin/resilience/feature-flags/:key/reset-errors", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin");
     if (!admin) return;
     if (!(await checkAdminPermission(admin, "feature_flag", res))) return;
-    resetFeatureErrors(req.params.key);
-    await auditOperatorAction(req, admin, "feature_flag_errors_reset", "feature_flag", "feature_flag", req.params.key, {
-      targetType: "feature_flag", targetId: req.params.key,
-    });
+    const key = req.params.key;
+    const beforeState = featureFlags.get(key);
+    resetFeatureErrors(key);
+    auditSensitiveAction(req, admin, "feature_flag_error_reset", "feature_flag", key, { errorCount: beforeState?.errorCount }, { errorCount: 0 }, "Error count reset");
     res.json({ success: true });
   });
 
   app.post("/api/admin/resilience/kill-switch", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin");
     if (!admin) return;
     if (!(await checkAdminPermission(admin, "safe_mode", res))) return;
-    if (!(await requireConfirmationToken(req, res, admin, "safe_mode"))) return;
+    if (!requireConfirmToken(req, res, admin, "kill_switch_toggle")) return;
     const { key, scope, target, reason, active } = req.body;
     if (!key || !scope || !target) {
       return res.status(400).json({ error: "key, scope, and target are required" });
     }
+    const wasActive = killSwitches.get(key)?.active;
     if (active === false) {
       deactivateKillSwitch(key);
     } else {
       activateKillSwitch(key, scope, target, reason || "admin_action", admin.username);
     }
-    await auditOperatorAction(req, admin, active === false ? "kill_switch_deactivated" : "kill_switch_activated", "safe_mode", "kill_switch", key, {
-      targetType: "kill_switch", targetId: key, reason,
-      confirmationRequired: true,
-      afterState: { active: active !== false, scope, target },
-    });
+    auditSensitiveAction(req, admin, active === false ? "kill_switch_deactivated" : "kill_switch_activated", "kill_switch", key, { active: wasActive }, { active: active !== false, scope, target }, reason, "warning");
     res.json({ success: true, killSwitch: killSwitches.get(key) });
   });
 
   app.post("/api/admin/resilience/circuit-breaker/:name/reset", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin");
     if (!admin) return;
     if (!(await checkAdminPermission(admin, "system_config", res))) return;
-    resetCircuitBreaker(req.params.name);
-    await auditOperatorAction(req, admin, "circuit_breaker_reset", "system_config", "circuit_breaker", req.params.name, {
-      targetType: "circuit_breaker", targetId: req.params.name,
-    });
+    if (!requireConfirmToken(req, res, admin, "circuit_breaker_reset")) return;
+    const name = req.params.name;
+    const before = circuitBreakers.get(name);
+    resetCircuitBreaker(name);
+    auditSensitiveAction(req, admin, "circuit_breaker_reset", "circuit_breaker", name, { state: before?.state, failureCount: before?.failureCount }, { state: "closed", failureCount: 0 }, "Manual circuit breaker reset");
     res.json({ success: true });
   });
 
   app.post("/api/admin/resilience/emergency-mode", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin");
     if (!admin) return;
     if (!(await checkAdminPermission(admin, "safe_mode", res))) return;
-    if (!(await requireConfirmationToken(req, res, admin, "safe_mode"))) return;
+    if (!requireConfirmToken(req, res, admin, "emergency_mode_toggle")) return;
     const { active, reason } = req.body;
-    const beforeState = getEmergencyModeStatus();
+    const wasActive = emergencyModeActive;
     if (active) {
       activateEmergencyMode(reason || "admin_activated", admin.username || admin.id);
     } else {
       deactivateEmergencyMode(admin.username || admin.id);
     }
-    await auditOperatorAction(req, admin, active ? "safe_mode_activated" : "safe_mode_deactivated", "safe_mode", "emergency_mode", "global", {
-      targetType: "platform", targetId: "emergency_mode", reason,
-      confirmationRequired: true,
-      beforeState,
-      afterState: getEmergencyModeStatus(),
-    });
+    auditSensitiveAction(req, admin, active ? "safe_mode_activated" : "safe_mode_deactivated", "emergency_mode", "global", { active: wasActive }, { active }, reason, "critical");
     res.json({ success: true, emergencyMode: getEmergencyModeStatus() });
   });
 
   app.post("/api/admin/resilience/provisional-access", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin");
     if (!admin) return;
     if (!(await checkAdminPermission(admin, "subscriber_management", res))) return;
     const { userId, reason } = req.body;
@@ -2717,25 +2793,20 @@ export function registerResilienceRoutes(app: Express): void {
       return res.status(400).json({ error: "userId is required" });
     }
     grantProvisionalAccess(userId, reason || "admin_grant");
-    await auditOperatorAction(req, admin, "provisional_access_granted", "subscriber_management", "user", userId, {
-      targetType: "user", targetId: userId, reason: reason || "admin_grant",
-    });
+    auditSensitiveAction(req, admin, "provisional_access_granted", "user", userId, null, { reason }, reason);
     res.json({ success: true });
   });
 
   app.post("/api/admin/resilience/clear-entitlement-cache", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin");
     if (!admin) return;
     clearEntitlementCache(req.body.userId);
-    try {
-      const { logAuditAction } = await import("./admin-auth");
-      await logAuditAction({ req, actor: { id: admin.id, username: admin.username }, action: "entitlement_cache_clear", entityType: "entitlement_cache", entityId: req.body.userId || "all", reason: "admin_action" });
-    } catch {}
+    auditSensitiveAction(req, admin, "entitlement_cache_cleared", "entitlement_cache", req.body.userId || "all", null, { userId: req.body.userId }, "Cache cleared");
     res.json({ success: true });
   });
 
   app.get("/api/admin/resilience/alerts", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin", "content_admin", "ops_viewer");
     if (!admin) return;
     const limit = Math.min(parseInt(req.query.limit as string) || 50, 200);
     const severity = req.query.severity as string;
@@ -2761,7 +2832,7 @@ export function registerResilienceRoutes(app: Express): void {
   });
 
   app.post("/api/admin/resilience/alerts/:id/acknowledge", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin");
     if (!admin) return;
     const alertId = req.params.id as string;
     const memAlert = alertEvents.find(a => a.id === alertId);
@@ -2777,7 +2848,7 @@ export function registerResilienceRoutes(app: Express): void {
   });
 
   app.get("/api/admin/resilience/audit-log", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin", "content_admin", "ops_viewer");
     if (!admin) return;
     const limit = Math.min(parseInt(req.query.limit as string) || 50, 200);
     try {
@@ -2795,7 +2866,7 @@ export function registerResilienceRoutes(app: Express): void {
   });
 
   app.post("/api/admin/resilience/feature-flags/:key/scope", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin");
     if (!admin) return;
     const { key } = req.params;
     const { scopeMode, scope } = req.body;
@@ -2807,7 +2878,7 @@ export function registerResilienceRoutes(app: Express): void {
   });
 
   app.post("/api/admin/resilience/self-heal/run", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin");
     if (!admin) return;
     try {
       const [cacheResult, backupResult, schemaResult] = await Promise.all([
@@ -2828,20 +2899,20 @@ export function registerResilienceRoutes(app: Express): void {
   });
 
   app.get("/api/admin/resilience/load-shedding", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin", "content_admin", "ops_viewer");
     if (!admin) return;
     res.json(getLoadSheddingStatus());
   });
 
   app.post("/api/admin/resilience/health-check/run", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin");
     if (!admin) return;
     await runHealthChecks();
     res.json({ success: true, results: getLastHealthResults() });
   });
 
   app.get("/api/admin/resilience/health-history", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin", "content_admin", "ops_viewer");
     if (!admin) return;
     try {
       const result = await pool.query(
@@ -2854,52 +2925,45 @@ export function registerResilienceRoutes(app: Express): void {
   });
 
   app.get("/api/admin/resilience/error-budgets", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin", "content_admin", "ops_viewer");
     if (!admin) return;
     res.json({ errorBudgets: getErrorBudgets(), timestamp: Date.now() });
   });
 
   app.post("/api/admin/resilience/error-budgets/:subsystem/reset", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin");
     if (!admin) return;
     if (!(await checkAdminPermission(admin, "system_config", res))) return;
     resetErrorBudget(req.params.subsystem);
     addResilienceAudit("error_budget_reset", "error_budget", req.params.subsystem, {}, admin.username || admin.id);
-    await auditOperatorAction(req, admin, "error_budget_reset", "system_config", "error_budget", req.params.subsystem, {
-      targetType: "error_budget", targetId: req.params.subsystem,
-    });
+    auditSensitiveAction(req, admin, "error_budget_reset", "error_budget", req.params.subsystem, null, { reset: true }, "Error budget manually reset", "warning");
     res.json({ success: true });
   });
 
   app.post("/api/admin/resilience/minimal-core", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin");
     if (!admin) return;
     if (!(await checkAdminPermission(admin, "safe_mode", res))) return;
-    if (!(await requireConfirmationToken(req, res, admin, "safe_mode"))) return;
+    if (!requireConfirmToken(req, res, admin, "minimal_core_toggle")) return;
     const { active, reason } = req.body;
-    const beforeState = getMinimalCoreStatus();
+    const wasPreviouslyActive = minimalCoreActive;
     if (active) {
       activateMinimalCore(reason || "admin_activated", admin.username || admin.id);
     } else {
       deactivateMinimalCore(admin.username || admin.id);
     }
-    await auditOperatorAction(req, admin, active ? "minimal_core_activated" : "minimal_core_deactivated", "safe_mode", "platform", "minimal_core", {
-      targetType: "platform", targetId: "minimal_core", reason,
-      confirmationRequired: true,
-      beforeState,
-      afterState: getMinimalCoreStatus(),
-    });
+    auditSensitiveAction(req, admin, active ? "minimal_core_activated" : "minimal_core_deactivated", "minimal_core", "global", { active: wasPreviouslyActive }, { active }, reason, "critical");
     res.json({ success: true, minimalCore: getMinimalCoreStatus() });
   });
 
   app.get("/api/admin/resilience/cache-warm", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin", "content_admin", "ops_viewer");
     if (!admin) return;
     res.json({ cacheWarmStatus: getCacheWarmStatus(), timestamp: Date.now() });
   });
 
   app.post("/api/admin/resilience/cache-warm/run", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin");
     if (!admin) return;
     await prewarmCriticalRoutes();
     addResilienceAudit("cache_warm_manual", "platform", "cache_warm", {}, admin.username || admin.id);
@@ -2907,7 +2971,7 @@ export function registerResilienceRoutes(app: Express): void {
   });
 
   app.get("/api/admin/resilience/dashboard", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin", "content_admin", "ops_viewer");
     if (!admin) return;
     res.json({
       safeMode: getSafeModeStatus(),
@@ -3089,37 +3153,5 @@ export function registerResilienceRoutes(app: Express): void {
     });
   });
 
-  // --- Extended Status endpoint ---
-
-  app.get("/api/admin/resilience/status", async (req: Request, res: Response) => {
-    const admin = await resolveAdmin(req, res);
-    if (!admin) return;
-    const healthResults = await runHealthChecks();
-    res.json({
-      circuitBreakers: getCircuitBreakerStates(),
-      featureFlags: getFeatureFlags(),
-      killSwitches: getKillSwitches(),
-      healthChecks: healthResults,
-      emergencyMode: getEmergencyModeStatus(),
-      safeMode: getSafeModeStatus(),
-      minimalCore: getMinimalCoreStatus(),
-      errorBudgets: getErrorBudgets(),
-      cacheWarmStatus: getCacheWarmStatus(),
-      provisionalAccess: getProvisionalAccessGrants(),
-      selfHealingLog: getSelfHealingLog(),
-      events: getResilienceEvents(100),
-      scopeIsolation: getScopedFailureDomains(),
-      degradation: getDegradationState(),
-      timeouts: getTimeoutConfigs(),
-      stuckStates: getStuckStateSessions(20),
-      stuckStateThresholds: getStuckStateThresholds(),
-      performance: {
-        routeLatency: getRouteLatencyStats().slice(0, 20),
-        scaleProtection: getScaleProtectionState(),
-        scaleThresholds: getScaleThresholds(),
-      },
-      timestamp: Date.now(),
-    });
-  });
 
 }

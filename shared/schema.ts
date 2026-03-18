@@ -487,6 +487,7 @@ export const auditLogs = pgTable("audit_logs", {
   afterJson: jsonb("after_json"),
   reason: text("reason"),
   metadata: jsonb("metadata"),
+  severity: text("severity").default("info"),
   ipAddress: text("ip_address"),
   userAgent: text("user_agent"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -546,6 +547,165 @@ export const ROLE_PERMISSIONS: Record<string, string[]> = {
     "read_audit_logs",
   ],
 };
+
+export const opsIncidents = pgTable("ops_incidents", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  description: text("description"),
+  severity: text("severity").notNull().default("warning"),
+  status: text("status").notNull().default("open"),
+  category: text("category").notNull().default("general"),
+  source: text("source"),
+  affectedServices: text("affected_services").array().default(sql`'{}'::text[]`),
+  assignedTo: varchar("assigned_to"),
+  resolvedAt: timestamp("resolved_at"),
+  resolvedBy: varchar("resolved_by"),
+  resolutionNotes: text("resolution_notes"),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertOpsIncidentSchema = createInsertSchema(opsIncidents).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type OpsIncident = typeof opsIncidents.$inferSelect;
+export type InsertOpsIncident = z.infer<typeof insertOpsIncidentSchema>;
+
+export const commTemplates = pgTable("comm_templates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull().unique(),
+  channel: text("channel").notNull().default("email"),
+  subject: text("subject"),
+  bodyTemplate: text("body_template").notNull(),
+  variables: text("variables").array().default(sql`'{}'::text[]`),
+  category: text("category").default("general"),
+  isActive: boolean("is_active").default(true),
+  createdBy: varchar("created_by"),
+  updatedBy: varchar("updated_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertCommTemplateSchema = createInsertSchema(commTemplates).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type CommTemplate = typeof commTemplates.$inferSelect;
+export type InsertCommTemplate = z.infer<typeof insertCommTemplateSchema>;
+
+export const rescueActions = pgTable("rescue_actions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  subscriberId: varchar("subscriber_id"),
+  subscriberEmail: text("subscriber_email"),
+  actionType: text("action_type").notNull(),
+  reason: text("reason"),
+  templateId: varchar("template_id"),
+  extensionDays: integer("extension_days"),
+  discountPercent: integer("discount_percent"),
+  rescueLink: text("rescue_link"),
+  status: text("status").notNull().default("pending"),
+  sentAt: timestamp("sent_at"),
+  redeemedAt: timestamp("redeemed_at"),
+  expiresAt: timestamp("expires_at"),
+  performedBy: varchar("performed_by"),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertRescueActionSchema = createInsertSchema(rescueActions).omit({
+  id: true,
+  createdAt: true,
+});
+export type RescueAction = typeof rescueActions.$inferSelect;
+export type InsertRescueAction = z.infer<typeof insertRescueActionSchema>;
+
+export const releaseChecks = pgTable("release_checks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  releaseVersion: text("release_version").notNull(),
+  checkName: text("check_name").notNull(),
+  checkType: text("check_type").notNull().default("automated"),
+  status: text("status").notNull().default("pending"),
+  result: text("result"),
+  details: jsonb("details").default(sql`'{}'::jsonb`),
+  overriddenBy: varchar("overridden_by"),
+  overrideReason: text("override_reason"),
+  executedAt: timestamp("executed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertReleaseCheckSchema = createInsertSchema(releaseChecks).omit({
+  id: true,
+  createdAt: true,
+});
+export type ReleaseCheck = typeof releaseChecks.$inferSelect;
+export type InsertReleaseCheck = z.infer<typeof insertReleaseCheckSchema>;
+
+export const contentHealthScores = pgTable("content_health_scores", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentId: varchar("content_id").notNull(),
+  contentType: text("content_type").notNull(),
+  overallScore: integer("overall_score").notNull().default(0),
+  accuracyScore: integer("accuracy_score"),
+  completenessScore: integer("completeness_score"),
+  freshnessScore: integer("freshness_score"),
+  engagementScore: integer("engagement_score"),
+  issues: jsonb("issues").default(sql`'[]'::jsonb`),
+  lastCheckedAt: timestamp("last_checked_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertContentHealthScoreSchema = createInsertSchema(contentHealthScores).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type ContentHealthScore = typeof contentHealthScores.$inferSelect;
+export type InsertContentHealthScore = z.infer<typeof insertContentHealthScoreSchema>;
+
+export const vipConfig = pgTable("vip_config", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  priorityLevel: text("priority_level").notNull().default("standard"),
+  supportTier: text("support_tier").default("normal"),
+  notes: text("notes"),
+  isActive: boolean("is_active").default(true),
+  addedBy: varchar("added_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertVipConfigSchema = createInsertSchema(vipConfig).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type VipConfig = typeof vipConfig.$inferSelect;
+export type InsertVipConfig = z.infer<typeof insertVipConfigSchema>;
+
+export const weeklyReports = pgTable("weekly_reports", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  weekStart: timestamp("week_start").notNull(),
+  weekEnd: timestamp("week_end").notNull(),
+  reportType: text("report_type").notNull().default("ops_summary"),
+  metrics: jsonb("metrics").default(sql`'{}'::jsonb`),
+  incidents: jsonb("incidents").default(sql`'[]'::jsonb`),
+  highlights: text("highlights").array().default(sql`'{}'::text[]`),
+  generatedBy: varchar("generated_by"),
+  status: text("status").default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertWeeklyReportSchema = createInsertSchema(weeklyReports).omit({
+  id: true,
+  createdAt: true,
+});
+export type WeeklyReport = typeof weeklyReports.$inferSelect;
+export type InsertWeeklyReport = z.infer<typeof insertWeeklyReportSchema>;
 
 export const contentRevisions = pgTable("content_revisions", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
