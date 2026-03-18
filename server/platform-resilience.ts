@@ -128,6 +128,17 @@ async function ensurePlatformTables() {
         created_at TIMESTAMP DEFAULT NOW()
       )
     `);
+    await pool.query(`ALTER TABLE audit_logs ADD COLUMN IF NOT EXISTS actor_role TEXT`);
+    await pool.query(`ALTER TABLE audit_logs ADD COLUMN IF NOT EXISTS action_category TEXT`);
+    await pool.query(`ALTER TABLE audit_logs ADD COLUMN IF NOT EXISTS target_type TEXT`);
+    await pool.query(`ALTER TABLE audit_logs ADD COLUMN IF NOT EXISTS target_id VARCHAR`);
+    await pool.query(`ALTER TABLE audit_logs ADD COLUMN IF NOT EXISTS reason TEXT`);
+    await pool.query(`ALTER TABLE audit_logs ADD COLUMN IF NOT EXISTS confirmation_required BOOLEAN DEFAULT false`);
+    await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS admin_role TEXT`);
+    await pool.query(`CREATE INDEX IF NOT EXISTS idx_audit_logs_action_category ON audit_logs(action_category)`);
+    await pool.query(`CREATE INDEX IF NOT EXISTS idx_audit_logs_actor_id ON audit_logs(actor_id)`);
+    await pool.query(`CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON audit_logs(created_at)`);
+    await pool.query(`UPDATE users SET admin_role = 'super_admin' WHERE tier = 'admin' AND (admin_role IS NULL OR admin_role = '')`);
   } catch {}
 }
 
@@ -1316,6 +1327,55 @@ async function resolveAdmin(req: Request, res: Response): Promise<any | null> {
   }
 }
 
+async function checkAdminPermission(admin: any, actionCategory: string, res: Response): Promise<boolean> {
+  const { hasPermission } = await import("./admin-auth");
+  const role = admin.admin_role || admin.adminRole || "super_admin";
+  if (!hasPermission(role, actionCategory)) {
+    res.status(403).json({ error: "Insufficient permissions", requiredPermission: actionCategory, currentRole: role });
+    return false;
+  }
+  return true;
+}
+
+async function requireConfirmationToken(req: Request, res: Response, admin: any, actionCategory: string): Promise<boolean> {
+  const { issueConfirmationToken, validateConfirmationToken } = await import("./admin-auth");
+  const confirmToken = String((req as any).headers?.["x-confirmation-token"] || (req as any).body?.confirmationToken || "");
+  if (!confirmToken) {
+    const token = issueConfirmationToken(admin.id, actionCategory);
+    res.status(428).json({
+      error: "Destructive action requires confirmation",
+      confirmationToken: token,
+      action: actionCategory,
+      message: "Re-submit with the provided confirmationToken to proceed",
+    });
+    return false;
+  }
+  const validation = validateConfirmationToken(confirmToken, admin.id, actionCategory);
+  if (!validation.valid) {
+    res.status(403).json({ error: "Invalid or expired confirmation token" });
+    return false;
+  }
+  return true;
+}
+
+async function auditOperatorAction(req: Request, admin: any, action: string, actionCategory: string, entityType: string, entityId?: string, opts?: { targetType?: string; targetId?: string; reason?: string; confirmationRequired?: boolean; beforeState?: any; afterState?: any }) {
+  const { logOperatorAction } = await import("./admin-auth");
+  await logOperatorAction({
+    req: req as any,
+    actor: admin,
+    action,
+    actionCategory,
+    entityType,
+    entityId: entityId || null,
+    targetType: opts?.targetType || null,
+    targetId: opts?.targetId || null,
+    reason: opts?.reason || null,
+    confirmationRequired: opts?.confirmationRequired || false,
+    beforeState: opts?.beforeState,
+    afterState: opts?.afterState,
+  });
+}
+
 export const isSafeMode = isEmergencyMode;
 export const activateSafeMode = activateEmergencyMode;
 export const deactivateSafeMode = deactivateEmergencyMode;
@@ -1974,34 +2034,40 @@ export function registerResilienceRoutes(app: Express): void {
   app.post("/api/admin/resilience/feature-flags/:key", async (req: Request, res: Response) => {
     const admin = await resolveAdmin(req, res);
     if (!admin) return;
+    if (!(await checkAdminPermission(admin, "feature_flag", res))) return;
+    if (!(await requireConfirmationToken(req, res, admin, "feature_flag"))) return;
     const { key } = req.params;
     const { enabled, reason } = req.body;
     if (typeof enabled !== "boolean") {
       return res.status(400).json({ error: "enabled must be a boolean" });
     }
-    const before = featureFlags.get(key);
+    const beforeFlag = featureFlags.get(key);
     setFeatureFlag(key, enabled, reason, admin.username || admin.id);
-    try {
-      const { logAuditAction } = await import("./admin-auth");
-      await logAuditAction({ req, actor: { id: admin.id, username: admin.username }, action: "feature_flag_toggle", entityType: "feature_flag", entityId: key, reason: reason || "admin_action", metadata: { enabled }, before: before ? { enabled: before.enabled } : null, after: { enabled } });
-    } catch {}
+    await auditOperatorAction(req, admin, "feature_flag_toggled", "feature_flag", "feature_flag", key, {
+      targetType: "feature_flag", targetId: key, reason,
+      confirmationRequired: true,
+      beforeState: beforeFlag ? { enabled: beforeFlag.adminOverride ?? beforeFlag.enabled } : null,
+      afterState: { enabled },
+    });
     res.json({ success: true, flag: featureFlags.get(key) });
   });
 
   app.post("/api/admin/resilience/feature-flags/:key/reset-errors", async (req: Request, res: Response) => {
     const admin = await resolveAdmin(req, res);
     if (!admin) return;
+    if (!(await checkAdminPermission(admin, "feature_flag", res))) return;
     resetFeatureErrors(req.params.key);
-    try {
-      const { logAuditAction } = await import("./admin-auth");
-      await logAuditAction({ req, actor: { id: admin.id, username: admin.username }, action: "feature_flag_reset_errors", entityType: "feature_flag", entityId: req.params.key, reason: "admin_reset" });
-    } catch {}
+    await auditOperatorAction(req, admin, "feature_flag_errors_reset", "feature_flag", "feature_flag", req.params.key, {
+      targetType: "feature_flag", targetId: req.params.key,
+    });
     res.json({ success: true });
   });
 
   app.post("/api/admin/resilience/kill-switch", async (req: Request, res: Response) => {
     const admin = await resolveAdmin(req, res);
     if (!admin) return;
+    if (!(await checkAdminPermission(admin, "safe_mode", res))) return;
+    if (!(await requireConfirmationToken(req, res, admin, "safe_mode"))) return;
     const { key, scope, target, reason, active } = req.body;
     if (!key || !scope || !target) {
       return res.status(400).json({ error: "key, scope, and target are required" });
@@ -2011,53 +2077,58 @@ export function registerResilienceRoutes(app: Express): void {
     } else {
       activateKillSwitch(key, scope, target, reason || "admin_action", admin.username);
     }
-    try {
-      const { logAuditAction } = await import("./admin-auth");
-      await logAuditAction({ req, actor: { id: admin.id, username: admin.username }, action: active === false ? "kill_switch_deactivate" : "kill_switch_activate", entityType: "kill_switch", entityId: key, reason: reason || "admin_action", metadata: { scope, target, active } });
-    } catch {}
+    await auditOperatorAction(req, admin, active === false ? "kill_switch_deactivated" : "kill_switch_activated", "safe_mode", "kill_switch", key, {
+      targetType: "kill_switch", targetId: key, reason,
+      confirmationRequired: true,
+      afterState: { active: active !== false, scope, target },
+    });
     res.json({ success: true, killSwitch: killSwitches.get(key) });
   });
 
   app.post("/api/admin/resilience/circuit-breaker/:name/reset", async (req: Request, res: Response) => {
     const admin = await resolveAdmin(req, res);
     if (!admin) return;
-    const before = circuitBreakers.get(req.params.name);
+    if (!(await checkAdminPermission(admin, "system_config", res))) return;
     resetCircuitBreaker(req.params.name);
-    try {
-      const { logAuditAction } = await import("./admin-auth");
-      await logAuditAction({ req, actor: { id: admin.id, username: admin.username }, action: "circuit_breaker_reset", entityType: "circuit_breaker", entityId: req.params.name, reason: "admin_reset", metadata: { previousState: before?.state } });
-    } catch {}
+    await auditOperatorAction(req, admin, "circuit_breaker_reset", "system_config", "circuit_breaker", req.params.name, {
+      targetType: "circuit_breaker", targetId: req.params.name,
+    });
     res.json({ success: true });
   });
 
   app.post("/api/admin/resilience/emergency-mode", async (req: Request, res: Response) => {
     const admin = await resolveAdmin(req, res);
     if (!admin) return;
+    if (!(await checkAdminPermission(admin, "safe_mode", res))) return;
+    if (!(await requireConfirmationToken(req, res, admin, "safe_mode"))) return;
     const { active, reason } = req.body;
+    const beforeState = getEmergencyModeStatus();
     if (active) {
       activateEmergencyMode(reason || "admin_activated", admin.username || admin.id);
     } else {
       deactivateEmergencyMode(admin.username || admin.id);
     }
-    try {
-      const { logAuditAction } = await import("./admin-auth");
-      await logAuditAction({ req, actor: { id: admin.id, username: admin.username }, action: active ? "emergency_mode_activate" : "emergency_mode_deactivate", entityType: "platform", entityId: "emergency_mode", reason: reason || "admin_action", metadata: { active } });
-    } catch {}
+    await auditOperatorAction(req, admin, active ? "safe_mode_activated" : "safe_mode_deactivated", "safe_mode", "emergency_mode", "global", {
+      targetType: "platform", targetId: "emergency_mode", reason,
+      confirmationRequired: true,
+      beforeState,
+      afterState: getEmergencyModeStatus(),
+    });
     res.json({ success: true, emergencyMode: getEmergencyModeStatus() });
   });
 
   app.post("/api/admin/resilience/provisional-access", async (req: Request, res: Response) => {
     const admin = await resolveAdmin(req, res);
     if (!admin) return;
+    if (!(await checkAdminPermission(admin, "subscriber_management", res))) return;
     const { userId, reason } = req.body;
     if (!userId) {
       return res.status(400).json({ error: "userId is required" });
     }
     grantProvisionalAccess(userId, reason || "admin_grant");
-    try {
-      const { logAuditAction } = await import("./admin-auth");
-      await logAuditAction({ req, actor: { id: admin.id, username: admin.username }, action: "provisional_access_grant", entityType: "provisional_access", entityId: userId, reason: reason || "admin_grant", metadata: { targetUserId: userId } });
-    } catch {}
+    await auditOperatorAction(req, admin, "provisional_access_granted", "subscriber_management", "user", userId, {
+      targetType: "user", targetId: userId, reason: reason || "admin_grant",
+    });
     res.json({ success: true });
   });
 
@@ -2108,6 +2179,9 @@ export function registerResilienceRoutes(app: Express): void {
       await pool.query(`UPDATE platform_alerts SET acknowledged = true WHERE id = $1`, [alertId]);
     } catch {}
     addResilienceAudit("alert_acknowledged", "alert", alertId, { title: memAlert?.title }, admin.username || admin.id);
+    await auditOperatorAction(req, admin, "alert_acknowledged", "system_config", "alert", alertId, {
+      targetType: "alert", targetId: alertId,
+    });
     res.json({ success: true });
   });
 
@@ -2197,20 +2271,33 @@ export function registerResilienceRoutes(app: Express): void {
   app.post("/api/admin/resilience/error-budgets/:subsystem/reset", async (req: Request, res: Response) => {
     const admin = await resolveAdmin(req, res);
     if (!admin) return;
+    if (!(await checkAdminPermission(admin, "system_config", res))) return;
     resetErrorBudget(req.params.subsystem);
     addResilienceAudit("error_budget_reset", "error_budget", req.params.subsystem, {}, admin.username || admin.id);
+    await auditOperatorAction(req, admin, "error_budget_reset", "system_config", "error_budget", req.params.subsystem, {
+      targetType: "error_budget", targetId: req.params.subsystem,
+    });
     res.json({ success: true });
   });
 
   app.post("/api/admin/resilience/minimal-core", async (req: Request, res: Response) => {
     const admin = await resolveAdmin(req, res);
     if (!admin) return;
+    if (!(await checkAdminPermission(admin, "safe_mode", res))) return;
+    if (!(await requireConfirmationToken(req, res, admin, "safe_mode"))) return;
     const { active, reason } = req.body;
+    const beforeState = getMinimalCoreStatus();
     if (active) {
       activateMinimalCore(reason || "admin_activated", admin.username || admin.id);
     } else {
       deactivateMinimalCore(admin.username || admin.id);
     }
+    await auditOperatorAction(req, admin, active ? "minimal_core_activated" : "minimal_core_deactivated", "safe_mode", "platform", "minimal_core", {
+      targetType: "platform", targetId: "minimal_core", reason,
+      confirmationRequired: true,
+      beforeState,
+      afterState: getMinimalCoreStatus(),
+    });
     res.json({ success: true, minimalCore: getMinimalCoreStatus() });
   });
 

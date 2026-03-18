@@ -33,7 +33,7 @@ const SERVER_API_KEY = () => process.env.ADMIN_API_KEY || "";
 const TOKEN_EXPIRY_SECONDS = 1800;
 const BCRYPT_ROUNDS = 12;
 
-export type AdminRole = "super_admin" | "content_admin" | "support_admin" | "analytics_viewer" | "ops_viewer";
+export type AdminRole = "super_admin" | "content_admin" | "support_admin" | "ops_viewer" | "analytics_viewer";
 
 export interface AdminTokenPayload {
   sub: string;
@@ -563,6 +563,157 @@ export async function logAuditAction(opts: {
   }
 }
 
+export interface OperatorActionParams {
+  req: any;
+  actor: any;
+  action: string;
+  actionCategory: string;
+  entityType: string;
+  entityId?: string | null;
+  targetType?: string | null;
+  targetId?: string | null;
+  reason?: string | null;
+  confirmationRequired?: boolean;
+  beforeState?: any;
+  afterState?: any;
+}
+
+export async function logOperatorAction(params: OperatorActionParams): Promise<void> {
+  const {
+    req, actor, action, actionCategory, entityType,
+    entityId = null, targetType = null, targetId = null,
+    reason = null, confirmationRequired = false,
+    beforeState, afterState,
+  } = params;
+  try {
+    await pool.query(
+      `INSERT INTO audit_logs (
+        id, actor_id, actor_username, actor_role,
+        entity_type, entity_id, action, action_category,
+        target_type, target_id, reason, confirmation_required,
+        before_json, after_json, ip_address, user_agent, created_at
+      ) VALUES (
+        gen_random_uuid(), $1, $2, $3,
+        $4, $5, $6, $7,
+        $8, $9, $10, $11,
+        $12, $13, $14, $15, NOW()
+      )`,
+      [
+        actor?.id || null,
+        actor?.username || null,
+        actor?.admin_role || actor?.adminRole || "super_admin",
+        entityType,
+        entityId,
+        action,
+        actionCategory,
+        targetType,
+        targetId,
+        reason,
+        confirmationRequired,
+        beforeState ? JSON.stringify(beforeState) : null,
+        afterState ? JSON.stringify(afterState) : null,
+        req.ip || req.headers?.["x-forwarded-for"] || null,
+        req.headers?.["user-agent"] || null,
+      ]
+    );
+  } catch (e) {
+    console.error("[OperatorAudit] Failed to log:", e);
+  }
+}
+
+const ROLE_PERMISSIONS: Record<string, string[]> = {
+  super_admin: ["*"],
+  support_admin: [
+    "subscriber_management",
+    "rescue_link",
+    "communication",
+    "billing",
+    "backup_access",
+    "read_dashboards",
+    "read_audit_logs",
+  ],
+  content_admin: [
+    "content_management",
+    "version_control",
+    "feature_flag",
+    "read_dashboards",
+    "read_audit_logs",
+  ],
+  ops_viewer: [
+    "read_dashboards",
+    "read_audit_logs",
+  ],
+  analytics_viewer: [
+    "read_dashboards",
+    "read_audit_logs",
+  ],
+};
+
+export function hasPermission(role: AdminRole | string, actionCategory: string): boolean {
+  if (role === "super_admin") return true;
+  const perms: string[] = ROLE_PERMISSIONS[role] || [];
+  if (perms.includes("*")) return true;
+  return perms.includes(actionCategory);
+}
+
+export function requirePermission(actionCategory: string) {
+  return async (req: any, res: any, next: any) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    const userRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+
+    if (!hasPermission(userRole, actionCategory)) {
+      return res.status(403).json({
+        error: "Insufficient permissions for this action",
+        requiredPermission: actionCategory,
+        currentRole: userRole,
+      });
+    }
+
+    req.adminUser = admin;
+    next();
+  };
+}
+
+export function requireDestructiveAction(actionCategory: string) {
+  return async (req: any, res: any, next: any) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    const userRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+
+    if (!hasPermission(userRole, actionCategory)) {
+      return res.status(403).json({
+        error: "Insufficient permissions for this action",
+        requiredPermission: actionCategory,
+        currentRole: userRole,
+      });
+    }
+
+    const confirmToken = String(req.headers?.["x-confirmation-token"] || req.body?.confirmationToken || "");
+    if (!confirmToken) {
+      const token = issueConfirmationToken(admin.id, actionCategory);
+      return res.status(428).json({
+        error: "Destructive action requires confirmation",
+        confirmationToken: token,
+        action: actionCategory,
+        message: "Re-submit with the provided confirmationToken to proceed",
+      });
+    }
+
+    const validation = validateConfirmationToken(confirmToken, admin.id, actionCategory);
+    if (!validation.valid) {
+      return res.status(403).json({
+        error: "Invalid or expired confirmation token",
+      });
+    }
+
+    req.adminUser = admin;
+    req.confirmationValidated = true;
+    next();
+  };
+}
 setInterval(() => {
   const now = Date.now();
   for (const [key, entry] of reauthTokens) {

@@ -71,8 +71,8 @@ import { registerMltRemediationRoutes } from "./mlt-remediation-routes";
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedFields, getBulkTranslationStatuses, getAvailableLanguages, simpleHash, markTranslationsOutdated, checkTranslationCompleteness } from "./translation-helpers";
 import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig, ACTIVE_BUILD_PRIORITY } from "./ai-safety";
-import { requireAdmin, requireAdminRole, signAdminToken, signUserToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier, verifyPassword, migratePasswordIfNeeded, hashPassword, recordFailedLogin, logSecurityAudit, logAdminAudit, issueConfirmationToken, validateConfirmationToken, signReAuthToken, generateCsrfToken, csrfProtection, adminApiRateLimit } from "./admin-auth";
-import type { AdminRole } from "./admin-auth";
+import { requireAdmin, requireAdminRole, signAdminToken, signUserToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier, verifyPassword, migratePasswordIfNeeded, hashPassword, recordFailedLogin, logSecurityAudit, logAdminAudit, logOperatorAction, issueConfirmationToken, validateConfirmationToken, signReAuthToken, generateCsrfToken, csrfProtection, adminApiRateLimit, requirePermission, requireDestructiveAction, hasPermission } from "./admin-auth";
+import type { AdminRole, OperatorActionParams } from "./admin-auth";
 import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEntitlementDebug, handleEntitlementResolve } from "./entitlements";
 import { validateQuestionBankImport, getCountryForUserRegion, getExamTypeForCountry } from "./question-bank-validation";
 import { getAllowedContentTiers } from "../shared/tier-config";
@@ -744,7 +744,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       if (!admin) return;
       const { action, metadata } = req.body;
       if (!action) return res.status(400).json({ error: "action is required" });
-      const validActions = ["bulk_delete", "kill_switch_toggle", "billing_override", "quarantine"];
+      const validActions = ["bulk_delete", "kill_switch_toggle", "billing_override", "quarantine", "safe_mode", "feature_flag", "content_management", "user_management", "subscriber_management", "release_override", "system_config"];
       if (!validActions.includes(action)) {
         return res.status(400).json({ error: `Invalid action. Must be one of: ${validActions.join(", ")}` });
       }
@@ -756,7 +756,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     }
   });
 
-  app.get("/api/admin/roles", async (req, res) => {
+  app.get("/api/admin/roles/admins", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
@@ -779,18 +779,40 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       if (adminRole !== "super_admin") {
         return res.status(403).json({ error: "Only super admins can manage roles" });
       }
-      const { role } = req.body;
-      const validRoles: AdminRole[] = ["super_admin", "content_admin", "support_admin", "analytics_viewer"];
+      const { role, confirmationToken } = req.body;
+      const validRoles: AdminRole[] = ["super_admin", "content_admin", "support_admin", "ops_viewer", "analytics_viewer"];
       if (!role || !validRoles.includes(role)) {
         return res.status(400).json({ error: `Invalid role. Must be one of: ${validRoles.join(", ")}` });
       }
+
+      if (!confirmationToken) {
+        const token = issueConfirmationToken(admin.id, "user_management", { userId: req.params.userId, role });
+        return res.status(428).json({
+          error: "Destructive action requires confirmation",
+          confirmationToken: token,
+          action: "user_management",
+          message: "Re-submit with the provided confirmationToken to proceed",
+        });
+      }
+      const validation = validateConfirmationToken(confirmationToken, admin.id, "user_management");
+      if (!validation.valid) {
+        return res.status(403).json({ error: "Invalid or expired confirmation token" });
+      }
+
       const targetUser = await storage.getUser(req.params.userId);
       if (!targetUser || targetUser.tier !== "admin") {
         return res.status(404).json({ error: "Admin user not found" });
       }
       const beforeRole = targetUser.admin_role || targetUser.adminRole || "super_admin";
       await pool.query("UPDATE users SET admin_role = $1 WHERE id = $2", [role, req.params.userId]);
-      await logAdminAudit(req, admin, "admin_role_change", "user", req.params.userId, { admin_role: beforeRole }, { admin_role: role });
+      await logOperatorAction({
+        req, actor: admin, action: "admin_role_changed", actionCategory: "user_management",
+        entityType: "user", entityId: req.params.userId,
+        targetType: "admin_role", targetId: req.params.userId,
+        reason: req.body.reason || null,
+        confirmationRequired: true,
+        beforeState: { role: beforeRole }, afterState: { role },
+      });
       res.json({ success: true, userId: req.params.userId, role });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -6539,19 +6561,198 @@ Rules:
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const limit = parseInt(req.query.limit as string) || 50;
+
+      const adminRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+      if (!hasPermission(adminRole, "read_audit_logs")) {
+        return res.status(403).json({ error: "Insufficient permissions to view audit logs" });
+      }
+
+      const limit = Math.min(parseInt(req.query.limit as string) || 50, 200);
       const offset = parseInt(req.query.offset as string) || 0;
       const entityType = req.query.entityType as string;
-      let query = `SELECT * FROM audit_logs`;
+      const actorId = req.query.actorId as string;
+      const actorUsername = req.query.actorUsername as string;
+      const action = req.query.action as string;
+      const actionCategory = req.query.actionCategory as string;
+      const targetType = req.query.targetType as string;
+      const targetId = req.query.targetId as string;
+      const startDate = req.query.startDate as string;
+      const endDate = req.query.endDate as string;
+
+      const conditions: string[] = [];
       const params: any[] = [];
+
       if (entityType) {
-        query += ` WHERE entity_type = $1`;
         params.push(entityType);
+        conditions.push(`entity_type = $${params.length}`);
       }
-      query += ` ORDER BY created_at DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
+      if (actorId) {
+        params.push(actorId);
+        conditions.push(`actor_id = $${params.length}`);
+      }
+      if (actorUsername) {
+        params.push(`%${actorUsername}%`);
+        conditions.push(`actor_username ILIKE $${params.length}`);
+      }
+      if (action) {
+        params.push(action);
+        conditions.push(`action = $${params.length}`);
+      }
+      if (actionCategory) {
+        params.push(actionCategory);
+        conditions.push(`action_category = $${params.length}`);
+      }
+      if (targetType) {
+        params.push(targetType);
+        conditions.push(`target_type = $${params.length}`);
+      }
+      if (targetId) {
+        params.push(targetId);
+        conditions.push(`target_id = $${params.length}`);
+      }
+      if (startDate) {
+        params.push(startDate);
+        conditions.push(`created_at >= $${params.length}::timestamp`);
+      }
+      if (endDate) {
+        params.push(endDate);
+        conditions.push(`created_at <= $${params.length}::timestamp`);
+      }
+
+      const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+
+      const countResult = await pool.query(
+        `SELECT COUNT(*)::int as total FROM audit_logs ${whereClause}`,
+        params
+      );
+      const total = countResult.rows[0]?.total || 0;
+
       params.push(limit, offset);
-      const result = await pool.query(query, params);
-      res.json(snakeToCamel(result.rows));
+      const result = await pool.query(
+        `SELECT * FROM audit_logs ${whereClause} ORDER BY created_at DESC LIMIT $${params.length - 1} OFFSET $${params.length}`,
+        params
+      );
+
+      res.json({
+        logs: snakeToCamel(result.rows),
+        total,
+        limit,
+        offset,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/audit-logs/actions", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const adminRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+      if (!hasPermission(adminRole, "read_audit_logs")) {
+        return res.status(403).json({ error: "Insufficient permissions to view audit logs" });
+      }
+      const result = await pool.query(
+        `SELECT DISTINCT action FROM audit_logs ORDER BY action`
+      );
+      res.json(result.rows.map((r: any) => r.action));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/audit-logs/categories", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const adminRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+      if (!hasPermission(adminRole, "read_audit_logs")) {
+        return res.status(403).json({ error: "Insufficient permissions to view audit logs" });
+      }
+      const result = await pool.query(
+        `SELECT DISTINCT action_category FROM audit_logs WHERE action_category IS NOT NULL ORDER BY action_category`
+      );
+      res.json(result.rows.map((r: any) => r.action_category));
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/roles", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      res.json({
+        roles: ["super_admin", "support_admin", "content_admin", "ops_viewer", "analytics_viewer"],
+        permissions: {
+          super_admin: ["*"],
+          support_admin: ["subscriber_management", "rescue_link", "communication", "billing", "backup_access", "read_dashboards", "read_audit_logs"],
+          content_admin: ["content_management", "version_control", "feature_flag", "read_dashboards", "read_audit_logs"],
+          ops_viewer: ["read_dashboards", "read_audit_logs"],
+          analytics_viewer: ["read_dashboards", "read_audit_logs"],
+        },
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/users/:userId/role", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const adminRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+      if (adminRole !== "super_admin") {
+        return res.status(403).json({ error: "Only super admins can change user roles" });
+      }
+
+      const { userId } = req.params;
+      const { role, confirmationToken } = req.body;
+      const validRoles = ["super_admin", "support_admin", "content_admin", "ops_viewer", "analytics_viewer"];
+      if (!validRoles.includes(role)) {
+        return res.status(400).json({ error: "Invalid role", validRoles });
+      }
+
+      if (!confirmationToken) {
+        const token = issueConfirmationToken(admin.id, "user_management", { userId, role });
+        return res.status(428).json({
+          error: "Destructive action requires confirmation",
+          confirmationToken: token,
+          action: "user_management",
+          message: "Re-submit with the provided confirmationToken to proceed",
+        });
+      }
+
+      const validation = validateConfirmationToken(confirmationToken, admin.id, "user_management");
+      if (!validation.valid) {
+        return res.status(403).json({ error: "Invalid or expired confirmation token" });
+      }
+
+      const existing = await pool.query("SELECT * FROM users WHERE id = $1 AND tier = 'admin'", [userId]);
+      if (!existing.rows[0]) {
+        return res.status(404).json({ error: "Admin user not found" });
+      }
+
+      const beforeRole = existing.rows[0].admin_role || "super_admin";
+      await pool.query("UPDATE users SET admin_role = $1 WHERE id = $2", [role, userId]);
+
+      await logOperatorAction({
+        req,
+        actor: admin,
+        action: "admin_role_changed",
+        actionCategory: "user_management",
+        entityType: "user",
+        entityId: userId,
+        targetType: "admin_role",
+        targetId: userId,
+        reason: req.body.reason || null,
+        confirmationRequired: true,
+        beforeState: { role: beforeRole },
+        afterState: { role },
+      });
+
+      res.json({ success: true, userId, role });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -13384,9 +13585,20 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
+      const adminRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+      if (!hasPermission(adminRole, "subscriber_management")) {
+        return res.status(403).json({ error: "Insufficient permissions" });
+      }
       const { limit } = req.body;
       if (limit === undefined) return res.status(400).json({ error: "limit required (number or null for unlimited)" });
       await pool.query(`UPDATE users SET flashcard_limit = $1 WHERE id = $2`, [limit, req.params.id]);
+      await logOperatorAction({
+        req, actor: admin, action: "flashcard_limit_override", actionCategory: "subscriber_management",
+        entityType: "user", entityId: req.params.id,
+        targetType: "user", targetId: req.params.id,
+        reason: req.body.reason || null,
+        afterState: { flashcardLimit: limit },
+      });
       res.json({ success: true, flashcardLimit: limit });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -13397,6 +13609,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
+      const adminRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+      if (!hasPermission(adminRole, "subscriber_management")) {
+        return res.status(403).json({ error: "Insufficient permissions" });
+      }
       const { duration } = req.body;
       const expiresAt = duration ? new Date(Date.now() + parseInt(duration) * 86400000) : null;
       await pool.query(
@@ -13404,6 +13620,14 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
          subscription_status = 'active', flashcard_limit = NULL, plan_expires_at = $1 WHERE id = $2`,
         [expiresAt, req.params.id]
       );
+      await logOperatorAction({
+        req, actor: admin, action: "comp_pro_granted", actionCategory: "subscriber_management",
+        entityType: "user", entityId: req.params.id,
+        targetType: "user", targetId: req.params.id,
+        reason: req.body.reason || null,
+        confirmationRequired: true,
+        afterState: { tier: "pro", expiresAt },
+      });
       res.json({ success: true, expiresAt });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -13427,10 +13651,20 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
+      const adminRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+      if (!hasPermission(adminRole, "content_management")) {
+        return res.status(403).json({ error: "Insufficient permissions" });
+      }
       const { tier, contentType, count } = req.body;
       if (!tier || !contentType || !count) return res.status(400).json({ error: "tier, contentType, count required" });
       const { runManualGeneration } = await import("./content-pipeline");
       const result = await runManualGeneration(tier, contentType, Math.min(count, 50));
+      await logOperatorAction({
+        req, actor: admin, action: "content_pipeline_run", actionCategory: "content_management",
+        entityType: "content_pipeline", entityId: null,
+        targetType: "content", targetId: null,
+        afterState: { tier, contentType, count: Math.min(count, 50) },
+      });
       res.json(result);
     } catch (e: any) {
       res.status(500).json({ error: e.message });

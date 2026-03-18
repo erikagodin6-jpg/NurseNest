@@ -474,9 +474,15 @@ export const auditLogs = pgTable("audit_logs", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   actorId: varchar("actor_id"),
   actorUsername: text("actor_username"),
+  actorRole: text("actor_role"),
   entityType: text("entity_type").notNull(),
   entityId: varchar("entity_id"),
   action: text("action").notNull(),
+  actionCategory: text("action_category"),
+  targetType: text("target_type"),
+  targetId: varchar("target_id"),
+  reason: text("reason"),
+  confirmationRequired: boolean("confirmation_required").default(false),
   beforeJson: jsonb("before_json"),
   afterJson: jsonb("after_json"),
   reason: text("reason"),
@@ -493,6 +499,53 @@ export const insertAuditLogSchema = createInsertSchema(auditLogs).omit({
 
 export type AuditLog = typeof auditLogs.$inferSelect;
 export type InsertAuditLog = z.infer<typeof insertAuditLogSchema>;
+
+export const ADMIN_ROLES = ["super_admin", "support_admin", "content_admin", "ops_viewer", "analytics_viewer"] as const;
+export type AdminRoleType = typeof ADMIN_ROLES[number];
+
+export const ACTION_CATEGORIES = [
+  "safe_mode",
+  "feature_flag",
+  "content_management",
+  "version_control",
+  "billing",
+  "subscriber_management",
+  "backup_access",
+  "rescue_link",
+  "communication",
+  "release_override",
+  "user_management",
+  "system_config",
+] as const;
+export type ActionCategory = typeof ACTION_CATEGORIES[number];
+
+export const ROLE_PERMISSIONS: Record<string, string[]> = {
+  super_admin: ["*"],
+  support_admin: [
+    "subscriber_management",
+    "rescue_link",
+    "communication",
+    "billing",
+    "backup_access",
+    "read_dashboards",
+    "read_audit_logs",
+  ],
+  content_admin: [
+    "content_management",
+    "version_control",
+    "feature_flag",
+    "read_dashboards",
+    "read_audit_logs",
+  ],
+  ops_viewer: [
+    "read_dashboards",
+    "read_audit_logs",
+  ],
+  analytics_viewer: [
+    "read_dashboards",
+    "read_audit_logs",
+  ],
+};
 
 export const contentRevisions = pgTable("content_revisions", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),

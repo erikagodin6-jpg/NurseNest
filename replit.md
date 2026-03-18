@@ -101,7 +101,7 @@ Key files:
 - **CSRF Protection**: Double-submit cookie pattern on all `/api/admin` state-changing routes. Token set on admin login, validated via `x-csrf-token` header.
 - **Rate Limiting**: In-memory rate limiter on `/api/admin` routes (100 req/min per admin). Login rate limit (5 attempts/15 min per IP).
 - **Re-auth & Confirmation Tokens**: Single-use re-auth tokens (5 min TTL) for sensitive ops. Single-use confirmation tokens (5 min TTL) for destructive actions.
-- **Audit Logging**: Structured `logAdminAudit()` for admin actions with IP, action, and metadata.
+- **Audit Logging & RBAC**: Enhanced audit logging with `logOperatorAction()` for granular operator action tracking (actor_role, action_category, target_type, target_id, reason, confirmation_required). Role-based access control with 5 roles (super_admin, support_admin, content_admin, ops_viewer, analytics_viewer) enforced via `requirePermission()`, `requireDestructiveAction()`, and `hasPermission()` in `server/admin-auth.ts`. Audit log query API supports filtering by actor, action, category, date range, and target. Role assignment restricted to super_admin. Backward compatible: existing admins default to super_admin.
 - **JWT Secret**: `ADMIN_JWT_SECRET` env var required in production. Dev uses Repl-specific fallback.
 
 ### External Dependencies
