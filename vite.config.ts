@@ -45,11 +45,18 @@ export default defineConfig({
     cssMinify: "esbuild",
     minify: "esbuild",
     modulePreload: false,
+    assetsInlineLimit: 0,
     rollupOptions: {
       output: {
         manualChunks(id: string) {
           if (id.includes("node_modules/lucide-react")) return "icons";
-          if (id.includes("node_modules/@radix-ui") || id.includes("node_modules/framer-motion") || id.includes("node_modules/@tanstack")) return "vendor";
+          if (id.includes("node_modules/@radix-ui")) return "radix";
+          if (id.includes("node_modules/framer-motion")) return "motion";
+          if (id.includes("node_modules/@tanstack")) return "tanstack";
+          if (id.includes("node_modules/react-dom")) return "react-dom";
+          if (id.includes("node_modules/")) return "vendor";
+          if (id.includes("/data/lessons/")) return "lessons-data";
+          if (id.includes("/allied/")) return "allied";
         },
       },
     },

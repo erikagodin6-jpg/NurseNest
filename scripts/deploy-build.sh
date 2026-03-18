@@ -53,16 +53,19 @@ const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 rm -rf dist
 mkdir -p dist
 
-echo "$(elapsed) Step 1/5: Compiling i18n..."
+LOADER="--loader:.png=empty --loader:.jpg=empty --loader:.jpeg=empty --loader:.svg=empty --loader:.webp=empty --loader:.gif=empty"
+ESBUILD=$(npx which esbuild 2>/dev/null || echo "npx esbuild")
+
+echo "$(elapsed) Step 1/4: i18n + seed data (parallel)..."
 SKIP_I18N_VALIDATION=1 npx tsx -e "
 (async () => {
   const { compileI18n } = await import('./script/compile-i18n');
   await compileI18n();
   console.log('i18n compiled');
 })();
-"
+" &
+I18N_PID=$!
 
-echo "$(elapsed) Step 2/5: Copying seed data..."
 if [ -d "server/seed-data" ]; then
   mkdir -p dist/seed-data
   for f in server/seed-data/*; do
@@ -72,9 +75,10 @@ if [ -d "server/seed-data" ]; then
 fi
 echo "seed data done"
 
-LOADER="--loader:.png=empty --loader:.jpg=empty --loader:.jpeg=empty --loader:.svg=empty --loader:.webp=empty --loader:.gif=empty"
+wait $I18N_PID
+echo "$(elapsed) i18n + seed data complete"
 
-echo "$(elapsed) Step 3/5: Building lessons data (esbuild)..."
+echo "$(elapsed) Step 2/4: Building lessons data + NP batches (parallel esbuild)..."
 npx esbuild client/src/data/lessons/index.ts \
   --bundle --platform=node --format=cjs \
   --outfile=dist/lessons-data.cjs \
@@ -84,21 +88,26 @@ npx esbuild client/src/data/lessons/index.ts \
   --alias:@=client/src --alias:@shared=shared \
   --external:./np-generated-batch-*
 
+BATCH_PIDS=""
 for f in client/src/data/lessons/np-generated-batch-*.ts; do
   [ -f "$f" ] || continue
   base=$(basename "$f" .ts)
-  echo "  building $base..."
   npx esbuild "$f" \
     --bundle --platform=node --format=cjs \
     --outfile="dist/${base}.cjs" \
     --define:process.env.NODE_ENV=\"production\" \
     --minify --log-level=warning \
     $LOADER \
-    --alias:@=client/src --alias:@shared=shared
+    --alias:@=client/src --alias:@shared=shared &
+  BATCH_PIDS="$BATCH_PIDS $!"
 done
-echo "lessons data done"
 
-echo "$(elapsed) Step 4/5: Building server (esbuild)..."
+for pid in $BATCH_PIDS; do
+  wait $pid
+done
+echo "$(elapsed) lessons data done"
+
+echo "$(elapsed) Step 3/4: Building server (esbuild)..."
 EXTERNALS=$(node -e "
 const p=JSON.parse(require('fs').readFileSync('package.json','utf-8'));
 const allow=['@google/generative-ai','axios','connect-pg-simple','cors','date-fns','drizzle-orm','drizzle-zod','express','express-rate-limit','express-session','jsonwebtoken','memorystore','multer','nanoid','nodemailer','openai','passport','passport-local','pg','stripe','uuid','ws','xlsx','zod','zod-validation-error'];
@@ -115,11 +124,11 @@ npx esbuild server/index.ts \
   --external:../client/src/data/lessons/index \
   $EXTERNALS \
   --alias:@=client/src --alias:@shared=shared
-echo "server done"
+echo "$(elapsed) server done"
 
-echo "$(elapsed) Step 5/5: Building client (vite in subprocess)..."
-NODE_OPTIONS='--max-old-space-size=3072' npx vite build
-echo "client done"
+echo "$(elapsed) Step 4/4: Building client (vite)..."
+NODE_OPTIONS='--max-old-space-size=3584' npx vite build --logLevel warn
+echo "$(elapsed) client done"
 
 rm -rf dist/public/videos dist/public/translations 2>/dev/null || true
 
