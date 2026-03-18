@@ -49,14 +49,11 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id: string) {
+          if (id.includes("node_modules/react") || id.includes("node_modules/scheduler")) return "react-core";
           if (id.includes("node_modules/lucide-react")) return "icons";
           if (id.includes("node_modules/@radix-ui")) return "radix";
           if (id.includes("node_modules/framer-motion")) return "motion";
           if (id.includes("node_modules/@tanstack")) return "tanstack";
-          if (id.includes("node_modules/react-dom")) return "react-dom";
-          if (id.includes("node_modules/")) return "vendor";
-          if (id.includes("/data/lessons/")) return "lessons-data";
-          if (id.includes("/allied/")) return "allied";
         },
       },
     },
