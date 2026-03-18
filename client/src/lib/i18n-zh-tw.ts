@@ -1002,7 +1002,7 @@ const translations: Record<string, string> = {
   "home.hero.title": "掌握護理。通過考試。",
   "home.hero.trustFlashcards": "13,000+ 閃卡",
   "home.hero.trustPassRate": "94% 首次通過率",
-  "home.hero.trustQuestions": "40,000+ 練習問題",
+  "home.hero.trustQuestions": "13,000+ 練習問題",
   "home.hero.trustStudents": "5,000+ 學生",
   "home.howItWorks.badge": "3個簡單步驟",
   "home.howItWorks.heading": "NurseNest 如何運作",

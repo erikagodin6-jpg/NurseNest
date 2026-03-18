@@ -397,7 +397,7 @@ function slugToTitle(slug: string): string {
 const staticPages: Record<string, { title: string; description: string }> = {
   "/": {
     title: "NurseNest - Healthcare Exam Prep | Nursing, NP, Allied Health & Certification Test Bank, Simulations & Flashcards",
-    description: "Prepare for NCLEX-RN, NCLEX-PN, REx-PN, NP certification, and allied health exams with NurseNest. 40,000+ practice questions, clinical case simulations, 13,000+ flashcards, and 8,000+ lessons for nursing students, NP candidates, allied health professionals, and new graduates in Canada and the US. Start free.",
+    description: "Prepare for NCLEX-RN, NCLEX-PN, REx-PN, NP certification, and allied health exams with NurseNest. 13,000+ practice questions, clinical case simulations, 13,000+ flashcards, and 8,000+ lessons for nursing students, NP candidates, allied health professionals, and new graduates in Canada and the US. Start free.",
   },
   "/new-grad": {
     title: "New Grad Career Hub — Resume, Interview & Career Resources | NurseNest",
@@ -2805,7 +2805,7 @@ const localeMatch = pathname.match(/^\/(en|fr|es|fil|hi|zh-tw|zh|ar|ko|pt|pa|vi|
   } else if ((strippedPath === "/" || strippedPath === "") && detectedLocale === "en") {
     const homepageNoscript = `<noscript><article role="main" lang="en">` +
       `<h1>NurseNest — Healthcare Exam Prep for Nursing, NP &amp; Allied Health</h1>` +
-      `<p>Prepare for NCLEX-RN, NCLEX-PN, REx-PN, NP certification, and allied health exams with NurseNest. Access 40,000+ practice questions, 13,000+ flashcards, 8,000+ clinical lessons, adaptive CAT exams, and clinical case simulations.</p>` +
+      `<p>Prepare for NCLEX-RN, NCLEX-PN, REx-PN, NP certification, and allied health exams with NurseNest. Access 13,000+ practice questions, 13,000+ flashcards, 8,000+ clinical lessons, adaptive CAT exams, and clinical case simulations.</p>` +
       `<h2>Why NurseNest?</h2>` +
       `<ul>` +
       `<li>Evidence-based active recall and spaced repetition</li>` +

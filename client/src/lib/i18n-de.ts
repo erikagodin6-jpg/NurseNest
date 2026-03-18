@@ -978,7 +978,7 @@ const translations: Record<string, string> = {
   "home.hero.lvnLpn": "LVN / LPN",
   "home.hero.mainTitle": "Bestehen Sie Ihre Pflege- oder Gesundheitsprüfung mit Zuversicht",
     "home.hero.trustPassRate": "94% First-Attempt Pass Rate",
-    "home.hero.trustQuestions": "40,000+ Practice Questions",
+    "home.hero.trustQuestions": "13,000+ Practice Questions",
     "home.hero.trustQuestionsLabel": "Practice Questions",
     "home.hero.trustFlashcards": "13,000+ Flashcards",
     "home.hero.trustFlashcardsLabel": "Flashcards",

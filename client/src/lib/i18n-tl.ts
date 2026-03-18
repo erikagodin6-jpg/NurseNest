@@ -3260,7 +3260,7 @@ const translations: Record<string, string> = {
   "home.hero.title": "I-master ang Nursing. Ipasa ang Iyong mga Eksam.",
   "home.hero.trustFlashcards": "13,000+ Mga Flashcard",
   "home.hero.trustPassRate": "94% na Pass Rate sa Unang Subok",
-  "home.hero.trustQuestions": "40,000+ Mga Tanong sa Pagsasanay",
+  "home.hero.trustQuestions": "13,000+ Mga Tanong sa Pagsasanay",
   "home.hero.trustStudents": "5,000+ Mga Estudyante",
   "home.howItWorks.badge": "3 Simpleng Hakbang",
   "home.howItWorks.heading": "Paano Gumagana ang NurseNest",

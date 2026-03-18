@@ -933,7 +933,7 @@ export default {
   "home.hero.title": "Kuasai Keperawatan dengan Penalaran Klinis Mendalam",
   "home.hero.trustFlashcards": "13,000+ Kartu Flash",
   "home.hero.trustPassRate": "94% Tingkat Lulus Pertama Kali",
-  "home.hero.trustQuestions": "40,000+ Pertanyaan Praktik",
+  "home.hero.trustQuestions": "13,000+ Pertanyaan Praktik",
   "home.hero.trustStudents": "5,000+ Mahasiswa",
   "home.howItWorks.badge": "Cara Kerja",
   "home.howItWorks.heading": "Cara Kerja NurseNest",

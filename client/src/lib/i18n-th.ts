@@ -1048,7 +1048,7 @@ const translations: Record<string, string> = {
   "home.hero.title": "NurseNest: แพลตฟอร์มเตรียมสอบพยาบาลครบวงจรของคุณ",
   "home.hero.trustFlashcards": "13,000+ แฟลชการ์ด",
   "home.hero.trustPassRate": "อัตราผ่าน 94% ในการสอบครั้งแรก",
-  "home.hero.trustQuestions": "40,000+ คำถามฝึกซ้อม",
+  "home.hero.trustQuestions": "13,000+ คำถามฝึกซ้อม",
   "home.hero.trustStudents": "5,000+ นักเรียน",
   "home.howItWorks.badge": "3 ขั้นตอนง่ายๆ",
   "home.howItWorks.heading": "NurseNest ทำงานอย่างไร",
