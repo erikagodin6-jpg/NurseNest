@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 import { metaImagesPlugin } from "./vite-plugin-meta-images";
+import circularDependency from "vite-plugin-circular-dependency";
 
 export default defineConfig({
   plugins: [
@@ -11,6 +12,15 @@ export default defineConfig({
     runtimeErrorOverlay(),
     tailwindcss(),
     metaImagesPlugin(),
+    ...(process.env.NODE_ENV === "production"
+      ? [
+          circularDependency({
+            exclude: [/[\\/]node_modules[\\/]/],
+            circleImportThrowErr: true,
+            ignoreDynamicImport: true,
+          }),
+        ]
+      : []),
     ...(process.env.NODE_ENV !== "production" &&
     process.env.REPL_ID !== undefined
       ? [

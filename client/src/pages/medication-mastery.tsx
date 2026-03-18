@@ -37,7 +37,8 @@ import {
   ShieldCheck,
   Baby,
 } from "lucide-react";
-import { medications, moaCategories, medBodySystems, type Medication } from "@/data/medications";
+import { medications, moaCategories, medBodySystems } from "@/data/medications";
+import type { Medication } from "@/data/medications-types";
 
 import { useI18n } from "@/lib/i18n";
 const systemIcons: Record<string, any> = {

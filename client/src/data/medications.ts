@@ -2,34 +2,8 @@ import { medicationsBatchA } from "./medications-batch-a";
 import { medicationsBatchB } from "./medications-batch-b";
 import { medicationsBatchC } from "./medications-batch-c";
 import { medicationsBatchD } from "./medications-batch-d";
-
-export interface Medication {
-  id: string;
-  genericName: string;
-  brandNames: string[];
-  drugClass: string;
-  moaCategory: string;
-  mechanismOfAction: {
-    summary: string;
-    receptorPathway: string;
-    cellularDetail: string;
-  };
-  indications: string[];
-  sideEffects: {
-    effect: string;
-    mechanism: string;
-    severity: "common" | "serious" | "life-threatening";
-  }[];
-  nursingConsiderations: string[];
-  blackBoxWarnings?: string[];
-  keyInteractions?: {
-    drug: string;
-    consequence: string;
-    mechanism: string;
-  }[];
-  bodySystem: string;
-  relatedLessons: { id: string; title: string }[];
-}
+export type { Medication } from "./medications-types";
+import type { Medication } from "./medications-types";
 
 const baseMedications: Medication[] = [
   {

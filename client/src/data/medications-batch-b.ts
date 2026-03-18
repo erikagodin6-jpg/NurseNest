@@ -1,4 +1,4 @@
-import type { Medication } from "./medications";
+import type { Medication } from "./medications-types";
 
 export const medicationsBatchB: Medication[] = [
   {

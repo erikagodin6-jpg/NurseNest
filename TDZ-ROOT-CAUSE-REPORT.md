@@ -58,8 +58,32 @@ While `i18n-translations.ts` used `import type` (erased at compile time), the st
 - `client/src/App.tsx` (improved ErrorBoundary with dev diagnostics, clean prod UX)
 - `vite.config.ts` (enabled sourcemaps)
 
+## Task #907 Update (March 18, 2026) — Symbol `A` TDZ Crash
+
+### Additional Fix: Complete Type Extraction
+The previous fix (Task #764) changed `import { Medication }` to `import type { Medication }` in batch files. While `import type` is erased at build time, Rollup's static analysis still saw the back-edge in the module graph and could reorder initialization. Task #907 extracted the `Medication` interface to a standalone `client/src/data/medications-types.ts` file with zero imports, fully eliminating the circular reference from the module graph.
+
+### Comprehensive Circular Dependency Audit
+A full DFS/SCC scan of all `client/src/` and `shared/` files (excluding type-only imports) found **zero runtime circular dependencies** remaining in the codebase. The scan was automated in `scripts/check-circular-deps.cjs`.
+
+### Build-Time Circular Dependency Detection
+Added `vite-plugin-circular-dependency` to `vite.config.ts` (production builds only) with `circleImportThrowErr: true`. Any future circular dependency will fail the production build.
+
+### Files Changed (Task #907)
+- `client/src/data/medications-types.ts` (new — standalone Medication interface, zero imports)
+- `client/src/data/medications.ts` (re-exports Medication type from medications-types.ts)
+- `client/src/data/medications-batch-a.ts` (imports from medications-types.ts)
+- `client/src/data/medications-batch-b.ts` (imports from medications-types.ts)
+- `client/src/data/medications-batch-c.ts` (imports from medications-types.ts)
+- `client/src/data/medications-batch-d.ts` (imports from medications-types.ts)
+- `client/src/pages/medication-mastery.tsx` (imports Medication type from medications-types.ts)
+- `vite.config.ts` (added circular dependency plugin for production builds)
+- `scripts/check-circular-deps.cjs` (new — pre-build circular dependency scanner)
+
+### Symbol `A` Analysis
+The minified symbol `A` cannot be definitively mapped without production sourcemaps (disabled due to OOM during production builds at 512MB–2048MB heap). However, the comprehensive audit confirms all circular dependencies have been eliminated, removing the root cause of Rollup module reordering that triggers TDZ crashes.
+
 ## Remaining Notes
 - The ngn-renderers still appear as a "circular dependency" in static analysis tools (madge) because both files reference each other via dynamic `import()`. At runtime, lazy loading prevents any TDZ.
-- The medications circular deps still appear in madge because it doesn't distinguish `import type` from `import`. At runtime, TypeScript/esbuild erases type-only imports.
-- Zero circular dependencies in lib/, config/, shared/, allied/, hooks/ directories.
-- Recommendation: Add `eslint-plugin-import` with `no-cycle` rule to catch future circular imports at lint time.
+- Zero runtime circular dependencies remain in the codebase (verified by `scripts/check-circular-deps.cjs`).
+- Production builds will fail on any new circular dependency via `vite-plugin-circular-dependency`.
