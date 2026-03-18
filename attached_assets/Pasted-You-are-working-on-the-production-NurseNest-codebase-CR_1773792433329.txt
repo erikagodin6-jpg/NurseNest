@@ -1,0 +1,349 @@
+You are working on the production NurseNest codebase.
+
+CRITICAL PRODUCTION ISSUE:
+Live exams are intermittently failing to load in production.
+Customers are actively affected.
+This must be fixed permanently, not patched temporarily.
+
+YOUR GOAL:
+1. Restore exam loading immediately
+2. Find the real root cause(s)
+3. Add permanent safeguards so this cannot silently happen again
+4. Add monitoring, fallback behavior, validation, and admin alerts
+5. Ensure customers never see a blank/broken exam screen again
+
+NON-NEGOTIABLE RULES:
+- Do not remove existing exam products, routes, or published data
+- Do not break current subscriptions, entitlements, results, analytics, or progress
+- Do not create duplicate exam records
+- Do not rely on manual fixes as the long-term solution
+- If content is missing or invalid, the UI must fail gracefully and show a safe fallback
+- Every production-critical exam route must be protected by defensive checks
+- Add logs everywhere needed to diagnose future failures quickly
+
+==================================================
+SECTION 1 — FULL ROOT CAUSE AUDIT
+==================================================
+
+Audit the full live exam pipeline end-to-end, including:
+
+A. FRONTEND
+- exam page route loading
+- route params parsing
+- tier/country/language/exam type resolution
+- auth/subscription gating
+- fetch requests
+- loading states
+- error states
+- retry logic
+- empty-state behavior
+- hydration/state issues
+- cached stale payload handling
+
+B. BACKEND/API
+- exam fetch endpoints
+- exam session creation endpoints
+- question retrieval queries
+- answer submission endpoints
+- result calculation endpoints
+- language filters
+- country filters
+- tier filters
+- published/draft filters
+- CAT/live exam specific logic
+- randomization/selection logic
+- session expiry logic
+
+C. DATABASE / CONTENT LAYER
+- missing published questions
+- invalid question counts
+- orphaned exams
+- exams pointing to missing questions
+- wrong status flags
+- questions missing rationale/options/correct answer metadata
+- language mismatch
+- empty topic pools
+- bad joins
+- null slug/id references
+- duplicate or corrupt sessions
+- exam blueprint mapping issues
+- content generated today causing invalid payloads
+
+D. DEPLOYMENT / OPS
+- environment variables
+- secret/config mismatch
+- recent code changes from today
+- migration issues
+- build issues
+- stale server process
+- cache invalidation problems
+- race conditions
+- timeout problems
+- production-only behavior differences
+
+Identify the exact failure points and document them clearly in comments and logs.
+
+==================================================
+SECTION 2 — IMMEDIATE STABILIZATION
+==================================================
+
+Fix the current issue so live exams load again right now.
+
+Implement all of the following:
+
+1. DEFENSIVE EXAM LOADER
+Before rendering any exam UI:
+- verify exam exists
+- verify user has access
+- verify question pool is non-empty
+- verify all returned questions are valid
+- verify required fields are present
+- verify language/tier/country filters returned usable content
+
+If validation fails:
+- do NOT crash
+- do NOT show infinite spinner
+- do NOT show blank page
+- return a structured safe error payload
+- show a branded fallback UI with:
+  - “This exam is temporarily unavailable”
+  - option to retry
+  - option to go back
+  - option to load a fallback equivalent exam if available
+  - support/report issue CTA
+
+2. FAILSAFE FALLBACK EXAM RESOLUTION
+If the exact requested live exam cannot load, try in this order:
+- same exam, same tier, same language, same country
+- same exam, same tier, same language, fallback country rules if compatible
+- same exam, same tier, default supported language for that product
+- same tier equivalent practice exam
+Only do this if it does not violate product integrity or mislabel the exam.
+If fallback is used, clearly label it internally in logs.
+
+3. RETRY + TIMEOUT PROTECTION
+- Add server-side and client-side timeout handling
+- Add safe retry for transient fetch failures
+- Prevent endless loading states
+- Ensure the UI exits loading and enters a known recoverable state
+
+==================================================
+SECTION 3 — PERMANENT PREVENTION LAYER
+==================================================
+
+Build a permanent “Exam Integrity Protection System”.
+
+A. PRE-PUBLISH VALIDATION
+Before any exam or question set can be marked published or used in live exams, validate:
+- minimum question count met
+- all options present
+- correct answer present
+- supported question type structure valid
+- no malformed NGN payloads
+- language matches target language
+- exam/tier mapping exists
+- no null critical fields
+- status flags consistent
+- content belongs to expected country/tier/exam
+- CAT-specific exclusions respected where applicable
+
+If validation fails:
+- block publish
+- block live exam use
+- write error to admin dashboard
+- log reason
+
+B. RUNTIME VALIDATION
+When a live exam is requested:
+- validate dataset again at runtime
+- reject bad payloads before UI render
+- if invalid, mark the exam pull as failed with reason code
+- never send malformed data to frontend
+
+C. CONTENT QUARANTINE SYSTEM
+Any generated or recently modified exam content that fails validation must be:
+- automatically quarantined from live delivery
+- excluded from production live exams
+- surfaced in admin as “Needs Repair”
+- not silently mixed into exam pools
+
+D. SAFE QUESTION SELECTION ENGINE
+Refactor selection logic so it only chooses:
+- published
+- validated
+- non-quarantined
+- exam-compatible
+- language-correct
+- tier-correct
+- country-correct
+questions
+
+If the pool is below threshold:
+- do not partially build a corrupted exam
+- return a structured failure
+- trigger alert
+- optionally substitute only from explicitly allowed validated backup pools
+
+==================================================
+SECTION 4 — MONITORING, ALERTS, AND AUDITABILITY
+==================================================
+
+Add a complete monitoring layer for live exams.
+
+1. STRUCTURED LOGGING
+Log at minimum:
+- user id
+- exam id / slug
+- exam type
+- tier
+- country
+- language
+- fetch start
+- fetch success/failure
+- question pool count
+- validation result
+- fallback used or not
+- session creation success/failure
+- error reason code
+- stack traces where applicable
+
+2. ADMIN ALERTS
+Create admin-visible production alerts for:
+- exam failed to load
+- empty question pool
+- malformed question payload
+- missing published content
+- validation blocked publish
+- runtime validation failure spike
+- repeated failures for same exam
+
+3. ERROR DASHBOARD
+Add an admin dashboard section showing:
+- broken exams
+- quarantined content
+- validation failures
+- exams with low question inventory
+- top failing routes
+- recent live exam incidents
+- exact reason codes
+- timestamps
+
+4. CUSTOMER INCIDENT PROTECTION
+If the exam fails for a paid user:
+- log incident
+- preserve attempt state where possible
+- prevent charging twice
+- avoid progress corruption
+- show reassuring branded message
+- provide support/report button
+
+==================================================
+SECTION 5 — FRONTEND UX HARDENING
+==================================================
+
+Refactor the live exam UI so customers never experience blank or confusing failures.
+
+Implement:
+- proper loading skeleton
+- explicit error boundary for exam screens
+- no silent failures
+- no white screen
+- no endless spinner
+- retry button
+- back button
+- contact/report issue button
+- fallback recovery state
+- user-friendly language
+- mobile-safe rendering
+
+Add a persistent “Report a problem with this exam” action on exam pages.
+This should capture:
+- route
+- exam id
+- tier
+- language
+- country
+- user id if authenticated
+- browser/device info if available
+- timestamp
+- latest client error
+Store it in admin for review.
+
+==================================================
+SECTION 6 — TESTING
+==================================================
+
+Create and run tests for:
+- exam exists and loads normally
+- missing exam
+- empty question pool
+- malformed question
+- language mismatch
+- unpublished content in pool
+- quarantined content excluded
+- fallback logic
+- retry logic
+- timeout handling
+- subscription gating still works
+- progress/session save still works
+- results still calculate correctly
+- mobile render works
+- production build succeeds
+
+Add regression tests specifically for:
+- “live exams not loading”
+- “spinner never ends”
+- “published questions invalid”
+- “new generated content broke exams”
+
+==================================================
+SECTION 7 — TODAY’S CHANGES AUDIT
+==================================================
+
+Because Replit has been working on questions/content all day, inspect all recent changes that could have broken exams:
+- generator changes
+- publish pipeline changes
+- question schema changes
+- language enforcement changes
+- exam mapping changes
+- admin changes
+- content seeding/import jobs
+- route changes
+- API response shape changes
+
+Find any recent changes that introduced instability and repair them safely.
+
+==================================================
+SECTION 8 — BACKUP SAFETY MECHANISM
+==================================================
+
+Implement a production-safe backup mechanism:
+
+If a newly generated or newly published content batch affects live exam integrity:
+- automatically exclude that batch from live exam delivery
+- continue serving only last known valid question pools
+- log the excluded batch
+- notify admin
+
+This is mandatory.
+New content must never be able to take down existing paid exam functionality.
+
+==================================================
+SECTION 9 — FINAL OUTPUT REQUIRED
+==================================================
+
+After implementation, provide:
+
+1. Exact root cause(s) found
+2. What was fixed immediately
+3. What permanent protections were added
+4. What admin alerts/dashboard items were added
+5. What fallback behavior now protects customers
+6. What tests were added
+7. Any remaining risk areas
+8. Production readiness assessment
+
+IMPORTANT:
+Do not just describe the fix.
+Make the code changes now across frontend, backend, validation, admin monitoring, and production safeguards.
+Prioritize robustness, observability, graceful failure, and customer trust.
