@@ -220,6 +220,7 @@ const AdminNewGradAnalytics = lazy(() => import("@/pages/admin-new-grad-analytic
 const AdminSiteHealth = lazy(() => import("@/pages/admin-site-health"));
 const AdminExamHealth = lazy(() => import("@/pages/admin-exam-health"));
 const AdminResilience = lazy(() => import("@/pages/admin-resilience"));
+const AdminReliability = lazy(() => import("@/pages/admin-reliability"));
 const AdminOpsDashboard = lazy(() => import("@/pages/admin-ops-dashboard"));
 const AdminOpsEmergency = lazy(() => import("@/pages/admin-ops-emergency"));
 const AdminReleaseGate = lazy(() => import("@/pages/admin-release-gate"));
@@ -838,6 +839,8 @@ function AppRoutes() {
         <Route path="/admin/exam-health" component={AdminExamHealth} />
         <Route path="/admin/resilience" component={AdminResilience} />
         <Route path="/:locale/admin/resilience" component={AdminResilience} />
+        <Route path="/admin/reliability" component={AdminReliability} />
+        <Route path="/:locale/admin/reliability" component={AdminReliability} />
         <Route path="/admin/ops" component={AdminOpsDashboard} />
         <Route path="/:locale/admin/ops" component={AdminOpsDashboard} />
         <Route path="/admin/ops/emergency" component={AdminOpsEmergency} />

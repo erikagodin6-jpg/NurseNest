@@ -479,6 +479,12 @@ export function requestMetricsMiddleware() {
         endpoint: req.path,
         isFallback,
       });
+      if (res.statusCode >= 400) {
+        try {
+          const { recordRouteError } = require("./reliability-dashboard-routes");
+          recordRouteError(req.path, res.statusCode);
+        } catch {}
+      }
       return originalEnd.apply(res, args);
     };
     next();

@@ -1602,6 +1602,9 @@ export default function AdminPage() {
                 <a href="/admin/content-integrity" className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors" data-testid="link-content-integrity">
                   <Shield className="w-4 h-4" /> Content Integrity
                 </a>
+                <a href="/admin/reliability" className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors" data-testid="link-reliability">
+                  <Shield className="w-4 h-4" /> Reliability
+                </a>
               </div>
               {/* Tab Navigation */}
               <div className="flex gap-1 mb-8 bg-white rounded-lg border border-primary/10 p-1 overflow-x-auto" data-testid="nav-admin-tabs">
