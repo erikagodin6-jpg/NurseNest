@@ -85,10 +85,13 @@ function ExamRecoveryUI({
   const [reportSent, setReportSent] = useState(false);
   const [sending, setSending] = useState(false);
 
+  const [reportFailed, setReportFailed] = useState(false);
+
   const handleReport = useCallback(async () => {
     setSending(true);
+    setReportFailed(false);
     try {
-      await fetch("/api/exam-incident-report", {
+      const res = await fetch("/api/exam-incident-report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -100,9 +103,10 @@ function ExamRecoveryUI({
           additionalContext: { retryCount },
         }),
       });
+      if (!res.ok) throw new Error("Failed");
       setReportSent(true);
     } catch {
-      setReportSent(true);
+      setReportFailed(true);
     }
     setSending(false);
   }, [error, examContext, retryCount]);
@@ -139,7 +143,11 @@ function ExamRecoveryUI({
             )}
             <Button
               variant="outline"
-              onClick={() => navigate("/mock-exams")}
+              onClick={() => {
+                const path = window.location.pathname;
+                const match = path.match(/^(\/[^/]+)\/mock-exams\//);
+                navigate(match ? `${match[1]}/mock-exams` : "/mock-exams");
+              }}
               className="gap-2"
               data-testid="button-exam-go-back"
             >
@@ -148,27 +156,32 @@ function ExamRecoveryUI({
             </Button>
           </div>
 
-          {!reportSent ? (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleReport}
-              disabled={sending}
-              className="gap-2 text-muted-foreground"
-              data-testid="button-exam-report"
-            >
-              {sending ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <MessageSquare className="w-4 h-4" />
-              )}
-              Report this problem
-            </Button>
-          ) : (
+          {reportSent ? (
             <p className="text-sm text-green-600 flex items-center justify-center gap-1" data-testid="text-report-sent">
               <ShieldCheck className="w-4 h-4" />
               Report received. Thank you.
             </p>
+          ) : (
+            <div className="space-y-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleReport}
+                disabled={sending}
+                className="gap-2 text-muted-foreground"
+                data-testid="button-exam-report"
+              >
+                {sending ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <MessageSquare className="w-4 h-4" />
+                )}
+                {reportFailed ? "Try reporting again" : "Report this problem"}
+              </Button>
+              {reportFailed && (
+                <p className="text-xs text-red-500">Could not send report. Please try again.</p>
+              )}
+            </div>
           )}
 
           {user && (
@@ -269,11 +282,13 @@ export function ExamReportButton({
 }) {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   const handleReport = async () => {
     setSending(true);
+    setFailed(false);
     try {
-      await fetch("/api/exam-incident-report", {
+      const res = await fetch("/api/exam-incident-report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -285,9 +300,10 @@ export function ExamReportButton({
           additionalContext: { questionId },
         }),
       });
+      if (!res.ok) throw new Error("Failed");
       setSent(true);
     } catch {
-      setSent(true);
+      setFailed(true);
     }
     setSending(false);
   };
@@ -301,20 +317,25 @@ export function ExamReportButton({
   }
 
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      onClick={handleReport}
-      disabled={sending}
-      className="text-xs text-muted-foreground gap-1 h-auto py-1 px-2"
-      data-testid="button-report-exam-problem"
-    >
-      {sending ? (
-        <Loader2 className="w-3 h-3 animate-spin" />
-      ) : (
-        <MessageSquare className="w-3 h-3" />
+    <div className="flex flex-col items-center">
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={handleReport}
+        disabled={sending}
+        className="text-xs text-muted-foreground gap-1 h-auto py-1 px-2"
+        data-testid="button-report-exam-problem"
+      >
+        {sending ? (
+          <Loader2 className="w-3 h-3 animate-spin" />
+        ) : (
+          <MessageSquare className="w-3 h-3" />
+        )}
+        {failed ? "Try again" : "Report a problem"}
+      </Button>
+      {failed && (
+        <p className="text-xs text-red-500 mt-0.5">Could not send report</p>
       )}
-      Report a problem
-    </Button>
+    </div>
   );
 }

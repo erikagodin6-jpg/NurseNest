@@ -223,6 +223,12 @@ export default function MockExamSession() {
   const { toast } = useToast();
   const { language } = useI18n();
 
+  const backToExamsPath = useMemo(() => {
+    const path = window.location.pathname;
+    const match = path.match(/^(\/[^/]+)\/mock-exams\//);
+    return match ? `${match[1]}/mock-exams` : "/mock-exams";
+  }, []);
+
   const [questions, setQuestions] = useState<PooledQuestion[]>([]);
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
@@ -231,6 +237,7 @@ export default function MockExamSession() {
   const [paused, setPaused] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [showConfirmSubmit, setShowConfirmSubmit] = useState(false);
   const [showNav, setShowNav] = useState(false);
@@ -302,7 +309,8 @@ export default function MockExamSession() {
     } catch {}
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000);
+    let timedOut = false;
+    const timeoutId = setTimeout(() => { timedOut = true; controller.abort(); }, 30000);
 
     fetch(`/api/mock-exams/${attemptId}`, { headers: getAuthHeaders(), signal: controller.signal })
       .then((r) => {
@@ -367,7 +375,8 @@ export default function MockExamSession() {
       })
       .catch((err) => {
         clearTimeout(timeoutId);
-        const isTimeout = err.name === "AbortError";
+        if (err.name === "AbortError" && !timedOut) return;
+        const isTimeout = err.name === "AbortError" && timedOut;
         toast({
           title: isTimeout ? "Request Timed Out" : "Error Loading Exam",
           description: isTimeout
@@ -383,7 +392,7 @@ export default function MockExamSession() {
       clearTimeout(timeoutId);
       controller.abort();
     };
-  }, [attemptId]);
+  }, [attemptId, retryCount]);
 
   const questionIdSignature = useMemo(() => questions.map(q => q.id).join(","), [questions]);
 
@@ -655,6 +664,35 @@ export default function MockExamSession() {
       setCurrentQ(currentQ + 1);
     }
   };
+
+  if (loadError) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center font-sans">
+        <div className="text-center space-y-4 max-w-md px-6">
+          <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto" />
+          <h2 className="text-xl font-semibold text-gray-800">
+            {loadError === "timeout" ? "Exam Loading Timed Out" : "Could Not Load Exam"}
+          </h2>
+          <p className="text-gray-600">
+            {loadError === "timeout"
+              ? "The server took too long to respond. This is usually temporary."
+              : "Something went wrong loading this exam. Your progress is safe."}
+          </p>
+          <div className="flex gap-3 justify-center pt-2">
+            <Button onClick={() => { setLoadError(null); setLoading(true); setRetryCount(c => c + 1); }} data-testid="button-retry-exam">
+              Try Again
+            </Button>
+            <Button variant="outline" onClick={() => navigate(backToExamsPath)} data-testid="button-back-exams">
+              Back to Exams
+            </Button>
+          </div>
+          <div className="pt-2">
+            <ExamReportButton examType="mock-exam" tier={blueprintMeta?.examCode} />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -996,7 +1034,7 @@ export default function MockExamSession() {
                 <Button
                   variant="ghost"
                   className="w-full text-sm text-gray-500"
-                  onClick={() => navigate("/mock-exams")}
+                  onClick={() => navigate(backToExamsPath)}
                   data-testid="button-back-to-exams"
                 >
                   Back to Exams
