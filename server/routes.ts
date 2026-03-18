@@ -68,7 +68,7 @@ import { registerMltExamRoutes } from "./mlt-exam-routes";
 import { registerPremiumStudyRoutes } from "./premium-study-routes";
 import { registerMltRemediationRoutes } from "./mlt-remediation-routes";
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
-import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedFields, getAvailableLanguages, simpleHash } from "./translation-helpers";
+import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedFields, getBulkTranslationStatuses, getAvailableLanguages, simpleHash, markTranslationsOutdated, checkTranslationCompleteness } from "./translation-helpers";
 import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig, ACTIVE_BUILD_PRIORITY } from "./ai-safety";
 import { requireAdmin, signAdminToken, signUserToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier, verifyPassword, migratePasswordIfNeeded, hashPassword, recordFailedLogin, logSecurityAudit } from "./admin-auth";
 import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEntitlementDebug, handleEntitlementResolve } from "./entitlements";
@@ -4560,12 +4560,13 @@ Rules:
         `SELECT id, title, slug, category, body_system, tier, summary, tags, seo_description, published_at, updated_at, region_scope FROM content_items WHERE status = 'published' AND type = 'lesson' AND ${regionFilter} AND (tier IS NULL OR tier IN (${tierPlaceholders})) ORDER BY published_at DESC NULLS LAST`,
         allowedTiers
       );
-      const items = snakeToCamel(result.rows);
+      let items = snakeToCamel(result.rows);
 
       const lang = (req.query.lang as string) || req.lang || "en";
       if (lang !== "en" && items.length > 0) {
         const contentIds = items.map((item: any) => item.id);
         const translatedFieldsMap = await getBulkTranslatedFields("content_item", contentIds, lang);
+        const translationStatuses = await getBulkTranslationStatuses("content_item", contentIds, lang);
         for (const item of items) {
           const fields = translatedFieldsMap.get(item.id);
           if (fields && Object.keys(fields).length > 0) {
@@ -4578,6 +4579,10 @@ Rules:
             item._translationStatus = "missing";
           }
         }
+        items = items.filter((item: any) => {
+          const status = translationStatuses.get(item.id);
+          return status === "translated";
+        });
       } else {
         for (const item of items) {
           item._translationStatus = lang === "en" ? "source" : "missing";
@@ -4666,12 +4671,13 @@ Rules:
       const result = await pool.query(
         `SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at, content, region_scope FROM content_items WHERE status = 'published' AND type = 'flashcard-set' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST`
       );
-      const items = snakeToCamel(result.rows);
+      let items = snakeToCamel(result.rows);
 
       const lang = (req.query.lang as string) || req.lang || "en";
       if (lang !== "en" && items.length > 0) {
         const contentIds = items.map((item: any) => item.id);
         const translatedFieldsMap = await getBulkTranslatedFields("content_item", contentIds, lang);
+        const translationStatuses = await getBulkTranslationStatuses("content_item", contentIds, lang);
         for (const item of items) {
           const fields = translatedFieldsMap.get(item.id);
           if (fields && Object.keys(fields).length > 0) {
@@ -4684,6 +4690,10 @@ Rules:
             item._translationStatus = "missing";
           }
         }
+        items = items.filter((item: any) => {
+          const status = translationStatuses.get(item.id);
+          return status === "translated";
+        });
       } else {
         for (const item of items) {
           item._translationStatus = lang === "en" ? "source" : "missing";
@@ -4703,12 +4713,13 @@ Rules:
       const result = await pool.query(
         `SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at, region_scope FROM content_items WHERE status = 'published' AND type = 'exam' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST`
       );
-      const items = snakeToCamel(result.rows);
+      let items = snakeToCamel(result.rows);
 
       const lang = (req.query.lang as string) || req.lang || "en";
       if (lang !== "en" && items.length > 0) {
         const contentIds = items.map((item: any) => item.id);
         const translatedFieldsMap = await getBulkTranslatedFields("content_item", contentIds, lang);
+        const translationStatuses = await getBulkTranslationStatuses("content_item", contentIds, lang);
         for (const item of items) {
           const fields = translatedFieldsMap.get(item.id);
           if (fields && Object.keys(fields).length > 0) {
@@ -4721,6 +4732,10 @@ Rules:
             item._translationStatus = "missing";
           }
         }
+        items = items.filter((item: any) => {
+          const status = translationStatuses.get(item.id);
+          return status === "translated";
+        });
       } else {
         for (const item of items) {
           item._translationStatus = lang === "en" ? "source" : "missing";
@@ -5304,6 +5319,7 @@ Rules:
       if (lang !== "en" && items.length > 0) {
         const contentIds = items.map((item: any) => item.id);
         const translatedFieldsMap = await getBulkTranslatedFields("content_item", contentIds, lang);
+        const translationStatuses = await getBulkTranslationStatuses("content_item", contentIds, lang);
         for (const item of items) {
           const fields = translatedFieldsMap.get(item.id);
           if (fields && Object.keys(fields).length > 0) {
@@ -5316,6 +5332,10 @@ Rules:
             item._translationStatus = "missing";
           }
         }
+        items = items.filter((item: any) => {
+          const status = translationStatuses.get(item.id);
+          return status === "translated";
+        });
       } else {
         for (const item of items) {
           item._translationStatus = lang === "en" ? "source" : "missing";
@@ -5463,14 +5483,20 @@ Rules:
         const contentId = item.id;
         const translations = await getTranslatedFields("content_item", contentId, lang);
 
-        if (translations.title) item.title = translations.title.text;
-        if (translations.summary) item.summary = translations.summary.text;
-        if (translations.seoTitle) item.seoTitle = translations.seoTitle.text;
-        if (translations.seoDescription) item.seoDescription = translations.seoDescription.text;
-        if (translations.content) {
-          try {
-            item.content = JSON.parse(translations.content.text);
-          } catch {}
+        const hasOutdated = Object.values(translations).some(
+          (t: any) => t.status === "outdated" || t.status === "stale"
+        );
+
+        if (!hasOutdated) {
+          if (translations.title?.text) item.title = translations.title.text;
+          if (translations.summary?.text) item.summary = translations.summary.text;
+          if (translations.seoTitle?.text) item.seoTitle = translations.seoTitle.text;
+          if (translations.seoDescription?.text) item.seoDescription = translations.seoDescription.text;
+          if (translations.content?.text) {
+            try {
+              item.content = JSON.parse(translations.content.text);
+            } catch {}
+          }
         }
 
         const sourceFields: Record<string, string | null | undefined> = {
@@ -5488,8 +5514,11 @@ Rules:
           missingFields: translationStatusInfo.missing,
           staleFields: translationStatusInfo.stale,
           availableLanguages,
+          isOutdated: hasOutdated,
         };
-        item._translationStatus = translationStatusInfo.status === "complete" ? "translated" : translationStatusInfo.status === "missing" ? "missing" : "partial";
+        item._translationStatus = translationStatusInfo.status === "complete" ? "translated"
+          : translationStatusInfo.status === "stale" ? "stale"
+          : translationStatusInfo.status === "missing" ? "missing" : "partial";
       } else {
         item._translation = {
           lang: "en",
@@ -5497,6 +5526,7 @@ Rules:
           missingFields: [],
           staleFields: [],
           availableLanguages: await getAvailableLanguages("content_item", item.id),
+          isOutdated: false,
         };
         item._translationStatus = "source";
       }
@@ -5546,10 +5576,29 @@ Rules:
         top.push(...remaining);
       }
 
-      const relatedItems = top.slice(0, 4);
+      let relatedItems = top.slice(0, 4);
       const lang = (req.query.lang as string) || req.lang || "en";
-      for (const item of relatedItems) {
-        item._translationStatus = lang === "en" ? "source" : "missing";
+
+      if (lang !== "en" && relatedItems.length > 0) {
+        const slugToId = new Map<string, string>();
+        for (const c of candidates) {
+          if (c.slug && c.id) slugToId.set(c.slug, String(c.id));
+        }
+        const itemIds = relatedItems.map((r: any) => slugToId.get(r.slug)).filter(Boolean) as string[];
+        if (itemIds.length > 0) {
+          const translationStatuses = await getBulkTranslationStatuses("content_item", itemIds, lang);
+          relatedItems = relatedItems.filter((r: any) => {
+            const id = slugToId.get(r.slug);
+            return id && translationStatuses.get(id) === "translated";
+          });
+        }
+        for (const item of relatedItems) {
+          item._translationStatus = "translated";
+        }
+      } else {
+        for (const item of relatedItems) {
+          item._translationStatus = lang === "en" ? "source" : "missing";
+        }
       }
 
       res.setHeader("Cache-Control", "public, max-age=3600");
@@ -5833,6 +5882,55 @@ Rules:
             minimum: lessonMinWords,
             code: "LESSON_TOO_SHORT",
           });
+        }
+      }
+
+      if (isPublishing && !contentData.forcePublish) {
+        try {
+          const requiredFields = ["title", "summary"];
+          const translationCheck = await checkTranslationCompleteness("content_item", req.params.id, requiredFields);
+          if (!translationCheck.complete) {
+            const incompleteLangs = Object.entries(translationCheck.languages)
+              .filter(([_, info]) => info.status !== "complete")
+              .map(([lang, info]) => `${lang}: ${info.status} (missing: ${info.missingFields.join(", ") || "none"}, stale: ${info.staleFields.join(", ") || "none"})`)
+              .join("; ");
+            return res.status(422).json({
+              error: `Cannot publish: translations are incomplete for some languages. Use forcePublish to override. Incomplete: ${incompleteLangs}`,
+              code: "TRANSLATION_INCOMPLETE",
+              translationStatus: translationCheck.languages,
+              canOverride: true,
+            });
+          }
+        } catch (translationErr: any) {
+          console.warn("[TranslationLock] Error checking translation completeness:", translationErr.message);
+        }
+      }
+
+      if (existing) {
+        const updatedSourceFields: Record<string, string | null | undefined> = {};
+        if (contentData.title !== undefined && contentData.title !== existing.title) {
+          updatedSourceFields.title = contentData.title;
+        }
+        if (contentData.summary !== undefined && contentData.summary !== existing.summary) {
+          updatedSourceFields.summary = contentData.summary;
+        }
+        if (contentData.seoTitle !== undefined && contentData.seoTitle !== (existing as any).seoTitle) {
+          updatedSourceFields.seoTitle = contentData.seoTitle;
+        }
+        if (contentData.seoDescription !== undefined && contentData.seoDescription !== (existing as any).seoDescription) {
+          updatedSourceFields.seoDescription = contentData.seoDescription;
+        }
+        const contentStr = contentData.content !== undefined ? contentData.content : contentData.body;
+        const existingContent = existing.content || (existing as any).body;
+        if (contentStr !== undefined && JSON.stringify(contentStr) !== JSON.stringify(existingContent)) {
+          updatedSourceFields.content = typeof contentStr === "string" ? contentStr : JSON.stringify(contentStr);
+        }
+
+        if (Object.keys(updatedSourceFields).length > 0) {
+          const markedCount = await markTranslationsOutdated("content_item", req.params.id, updatedSourceFields);
+          if (markedCount > 0) {
+            console.log(`[i18n-versioning] Marked ${markedCount} translations as outdated for content ${req.params.id}`);
+          }
         }
       }
 

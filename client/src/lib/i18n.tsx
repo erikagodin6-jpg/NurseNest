@@ -6,6 +6,8 @@ import enTranslations from "./i18n-en";
 
 export type { LanguageCode } from "./i18n-types";
 
+export const TRANSLATION_UNAVAILABLE_MARKER = "@@TRANSLATION_UNAVAILABLE@@";
+
 export const LANGUAGES: { code: LanguageCode; name: string; nativeName: string; flag: string }[] = [
   { code: "en", name: "English", nativeName: "English", flag: "\ud83c\uddec\ud83c\udde7" },
   { code: "fr", name: "French", nativeName: "Fran\u00e7ais", flag: "\ud83c\uddeb\ud83c\uddf7" },
@@ -127,18 +129,22 @@ type I18nContextType = {
   language: LanguageCode;
   setLanguage: (lang: LanguageCode) => void;
   t: (key: string, vars?: Record<string, string>) => string;
+  tSafe: (key: string, vars?: Record<string, string>) => { text: string; status: TranslationStatus; isUnavailable: boolean };
   isTranslationLoaded: boolean;
   isFallback: (key: string) => boolean;
   translationStatus: (key: string) => TranslationStatus;
+  reportMissingTranslation: (key: string, context?: string) => void;
 };
 
 const I18nContext = createContext<I18nContextType>({
   language: "en",
   setLanguage: () => {},
   t: (key: string, _vars?: Record<string, string>) => humanizeKey(key),
+  tSafe: (key: string) => ({ text: humanizeKey(key), status: "translated" as TranslationStatus, isUnavailable: false }),
   isTranslationLoaded: false,
   isFallback: () => false,
   translationStatus: () => "translated",
+  reportMissingTranslation: () => {},
 });
 
 function localeToLanguage(locale: SupportedLocale): LanguageCode {
@@ -242,16 +248,25 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   const t = useCallback((key: string, vars?: Record<string, string>): string => {
     const langStrings = translations[language];
-    let val = langStrings?.[key] || translations.en[key];
 
-    if (language !== "en" && (!langStrings || !langStrings[key])) {
+    if (language !== "en") {
+      const hasTranslation = langStrings && langStrings[key];
+      if (hasTranslation) {
+        let val = langStrings[key];
+        if (vars) {
+          for (const [k, v] of Object.entries(vars)) {
+            val = val.replace(new RegExp(`\\{\\{${k}\\}\\}`, "g"), v);
+          }
+        }
+        return val;
+      }
       trackMissingKey(language, key);
+      return TRANSLATION_UNAVAILABLE_MARKER;
     }
 
+    let val = translations.en[key];
     if (!val || isDottedKey(val)) {
-      if (!translations.en[key]) {
-        trackMissingKey("en", key);
-      }
+      trackMissingKey("en", key);
       val = humanizeKey(key);
     }
 
@@ -261,22 +276,56 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       }
     }
 
-    if (import.meta.env.DEV && language !== "en") {
-      const status = langStrings?.[key] ? "translated" : "fallback";
-      if (status === "fallback") {
-        return `[${val}]`;
-      }
-    }
-
     return val;
   }, [language, langLoaded]);
+
+  const tSafe = useCallback((key: string, vars?: Record<string, string>): { text: string; status: TranslationStatus; isUnavailable: boolean } => {
+    const langStrings = translations[language];
+
+    if (language === "en") {
+      const val = translations.en[key];
+      if (!val || isDottedKey(val)) {
+        return { text: humanizeKey(key), status: "missing", isUnavailable: false };
+      }
+      let result = val;
+      if (vars) {
+        for (const [k, v] of Object.entries(vars)) {
+          result = result.replace(new RegExp(`\\{\\{${k}\\}\\}`, "g"), v);
+        }
+      }
+      return { text: result, status: "translated", isUnavailable: false };
+    }
+
+    const hasTranslation = langStrings && langStrings[key];
+    if (hasTranslation) {
+      let val = langStrings[key];
+      if (vars) {
+        for (const [k, v] of Object.entries(vars)) {
+          val = val.replace(new RegExp(`\\{\\{${k}\\}\\}`, "g"), v);
+        }
+      }
+      return { text: val, status: "translated", isUnavailable: false };
+    }
+
+    trackMissingKey(language, key);
+    const enVal = translations.en[key];
+    return {
+      text: enVal || humanizeKey(key),
+      status: enVal ? "fallback" : "missing",
+      isUnavailable: true,
+    };
+  }, [language, langLoaded]);
+
+  const reportMissingTranslation = useCallback((key: string, context?: string) => {
+    reportMissingKeyToServer(language, `${key}${context ? `|ctx:${context}` : ""}`);
+  }, [language]);
 
   const isTranslationLoaded = ready && (language === "en" || langLoaded === language);
 
   if (!ready) return null;
 
   return (
-    <I18nContext.Provider value={{ language, setLanguage, t, isTranslationLoaded, isFallback, translationStatus }}>
+    <I18nContext.Provider value={{ language, setLanguage, t, tSafe, isTranslationLoaded, isFallback, translationStatus, reportMissingTranslation }}>
       {children}
     </I18nContext.Provider>
   );
@@ -284,4 +333,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
 export function useI18n() {
   return useContext(I18nContext);
+}
+
+export function isTranslationUnavailable(text: string): boolean {
+  return text === TRANSLATION_UNAVAILABLE_MARKER;
 }

@@ -247,3 +247,160 @@ export async function getAvailableLanguages(
     return ["en"];
   }
 }
+
+const REQUIRED_FIELDS_BY_CONTENT_TYPE: Record<string, string[]> = {
+  content_item: ["title"],
+  exam_question: ["stem"],
+  flashcard: ["question"],
+  blog: ["title"],
+};
+
+export async function getBulkTranslationStatuses(
+  contentType: string,
+  contentIds: string[],
+  lang: string
+): Promise<Map<string, "translated" | "missing" | "stale">> {
+  const result = new Map<string, "translated" | "missing" | "stale">();
+  if (lang === "en" || contentIds.length === 0) {
+    for (const id of contentIds) result.set(id, "translated");
+    return result;
+  }
+
+  const requiredFields = REQUIRED_FIELDS_BY_CONTENT_TYPE[contentType] || ["title"];
+
+  try {
+    const placeholders = contentIds.map((_, i) => `$${i + 3}`).join(",");
+    const queryResult = await pool.query(
+      `SELECT content_id, field_name, translation_status
+       FROM content_translations
+       WHERE content_type = $1 AND language_code = $2
+       AND content_id IN (${placeholders})`,
+      [contentType, lang, ...contentIds]
+    );
+
+    const translationsByContent = new Map<string, Map<string, string>>();
+    for (const row of queryResult.rows) {
+      if (!translationsByContent.has(row.content_id)) {
+        translationsByContent.set(row.content_id, new Map());
+      }
+      translationsByContent.get(row.content_id)!.set(row.field_name, row.translation_status || "auto");
+    }
+
+    for (const id of contentIds) {
+      const fields = translationsByContent.get(id);
+      if (!fields) {
+        result.set(id, "missing");
+        continue;
+      }
+
+      const hasAllRequired = requiredFields.every(f => fields.has(f));
+      if (!hasAllRequired) {
+        result.set(id, "missing");
+        continue;
+      }
+
+      let hasStale = false;
+      for (const [, status] of fields) {
+        if (status === "outdated" || status === "stale") {
+          hasStale = true;
+          break;
+        }
+      }
+
+      result.set(id, hasStale ? "stale" : "translated");
+    }
+  } catch (e) {
+    console.error("getBulkTranslationStatuses error:", e);
+    for (const id of contentIds) result.set(id, "missing");
+  }
+
+  return result;
+}
+
+export async function markTranslationsOutdated(
+  contentType: string,
+  contentId: string,
+  updatedFields: Record<string, string | null | undefined>
+): Promise<number> {
+  let markedCount = 0;
+  try {
+    const fieldNames = Object.keys(updatedFields).filter(k => updatedFields[k] != null);
+    if (fieldNames.length === 0) return 0;
+
+    const fieldPlaceholders = fieldNames.map((_, i) => `$${i + 3}`).join(",");
+    const updateResult = await pool.query(
+      `UPDATE content_translations
+       SET translation_status = 'outdated', last_updated = NOW()
+       WHERE content_type = $1 AND content_id = $2
+       AND field_name IN (${fieldPlaceholders})
+       AND translation_status != 'outdated'`,
+      [contentType, contentId, ...fieldNames]
+    );
+    markedCount = updateResult.rowCount || 0;
+  } catch (e) {
+    console.error("markTranslationsOutdated error:", e);
+  }
+  return markedCount;
+}
+
+export async function checkTranslationCompleteness(
+  contentType: string,
+  contentId: string,
+  requiredFields: string[]
+): Promise<{ complete: boolean; languages: Record<string, { status: string; missingFields: string[]; staleFields: string[] }> }> {
+  const ACTIVE_LANGUAGES = SUPPORTED_LANGUAGES.filter(l => l !== "en");
+
+  const languages: Record<string, { status: string; missingFields: string[]; staleFields: string[] }> = {};
+  let allComplete = true;
+
+  try {
+    const result = await pool.query(
+      `SELECT language_code, field_name, translation_status
+       FROM content_translations
+       WHERE content_type = $1 AND content_id = $2`,
+      [contentType, contentId]
+    );
+
+    const byLang = new Map<string, Map<string, string>>();
+    for (const row of result.rows) {
+      if (!byLang.has(row.language_code)) byLang.set(row.language_code, new Map());
+      byLang.get(row.language_code)!.set(row.field_name, row.translation_status);
+    }
+
+    for (const lang of ACTIVE_LANGUAGES) {
+      const fields = byLang.get(lang);
+      const missingFields: string[] = [];
+      const staleFields: string[] = [];
+
+      for (const field of requiredFields) {
+        if (!fields || !fields.has(field)) {
+          missingFields.push(field);
+        } else {
+          const status = fields.get(field)!;
+          if (status === "outdated" || status === "stale") {
+            staleFields.push(field);
+          }
+        }
+      }
+
+      let status = "complete";
+      if (missingFields.length === requiredFields.length) {
+        status = "missing";
+        allComplete = false;
+      } else if (missingFields.length > 0) {
+        status = "partial";
+        allComplete = false;
+      } else if (staleFields.length > 0) {
+        status = "stale";
+        allComplete = false;
+      }
+
+      languages[lang] = { status, missingFields, staleFields };
+    }
+  } catch (e) {
+    console.error("checkTranslationCompleteness error:", e);
+    allComplete = false;
+  }
+
+  return { complete: allComplete, languages };
+}
