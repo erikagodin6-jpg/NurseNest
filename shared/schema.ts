@@ -7937,16 +7937,23 @@ export type AnalyticsEventName = (typeof ANALYTICS_EVENT_NAMES)[number];
 
 export const analyticsEvents = pgTable("analytics_events", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  eventName: text("event_name").notNull(),
+  eventName: text("event_name"),
+  eventType: text("event_type"),
   userId: varchar("user_id"),
   sessionId: text("session_id"),
   platform: text("platform"),
   timestamp: timestamp("timestamp").defaultNow().notNull(),
   metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  eventData: jsonb("event_data").default(sql`'{}'::jsonb`),
+  deviceInfo: jsonb("device_info").default(sql`'{}'::jsonb`),
   ipAddress: text("ip_address"),
   userAgent: text("user_agent"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
-});
+}, (table) => [
+  index("analytics_events_user_idx").on(table.userId),
+  index("analytics_events_type_idx").on(table.eventType),
+  index("analytics_events_created_idx").on(table.createdAt),
+]);
 
 export const insertAnalyticsEventSchema = createInsertSchema(analyticsEvents).omit({
   id: true,
@@ -8030,24 +8037,6 @@ export const insertLessonBookmarkSchema = createInsertSchema(lessonBookmarks).om
 export type LessonBookmark = typeof lessonBookmarks.$inferSelect;
 export type InsertLessonBookmark = z.infer<typeof insertLessonBookmarkSchema>;
 
-export const analyticsEvents = pgTable("analytics_events", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: varchar("user_id").notNull(),
-  eventType: text("event_type").notNull(),
-  eventData: jsonb("event_data").default(sql`'{}'::jsonb`),
-  sessionId: varchar("session_id"),
-  platform: text("platform").default("web"),
-  deviceInfo: jsonb("device_info").default(sql`'{}'::jsonb`),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-}, (table) => [
-  index("analytics_events_user_idx").on(table.userId),
-  index("analytics_events_type_idx").on(table.eventType),
-  index("analytics_events_created_idx").on(table.createdAt),
-]);
-
-export const insertAnalyticsEventSchema = createInsertSchema(analyticsEvents).omit({ id: true, createdAt: true });
-export type AnalyticsEvent = typeof analyticsEvents.$inferSelect;
-export type InsertAnalyticsEvent = z.infer<typeof insertAnalyticsEventSchema>;
 
 export const testBankProgress = pgTable("test_bank_progress", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
