@@ -55,9 +55,11 @@ mkdir -p dist
 
 echo "$(elapsed) Step 1/5: Compiling i18n..."
 SKIP_I18N_VALIDATION=1 npx tsx -e "
-import { compileI18n } from './script/compile-i18n';
-await compileI18n();
-console.log('i18n compiled');
+(async () => {
+  const { compileI18n } = await import('./script/compile-i18n');
+  await compileI18n();
+  console.log('i18n compiled');
+})();
 "
 
 echo "$(elapsed) Step 2/5: Copying seed data..."
