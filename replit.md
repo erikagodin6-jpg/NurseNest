@@ -81,8 +81,16 @@ Key files:
 - **Missing Key Tracking**: `t()` function in `client/src/lib/i18n.tsx` reports missing translation keys to `POST /api/i18n/missing-keys` via debounced batched requests. In dev mode, non-English fallback content is wrapped in `[brackets]` for visibility.
 - **Missing Key API**: `POST /api/i18n/missing-keys` (rate-limited, unauthenticated) accepts batched missing key reports. `GET` and `DELETE` endpoints require admin auth. Server: `server/i18n-missing-keys-routes.ts`.
 - **Fallback Overlay** (`client/src/components/i18n-fallback-overlay.tsx`): Dev-mode component that wraps translated text with a red dashed border when `isFallback()` returns true.
-- **Hardcoded String Scanner** (`script/scan-hardcoded-strings.ts`): Scans `client/src/` TSX/TS files for raw user-facing strings not wrapped in `t()`. Exits non-zero on violations.
 - **`translationStatus(key)`**: New i18n context function returning `"translated" | "fallback" | "missing"` for granular status checking.
+
+### i18n Build & Deploy Enforcement
+Three validation scripts integrated as blocking pre-build steps in `script/build.ts`:
+1. **Translation Coverage Enforcement** (`scripts/validate-translations.mjs --enforce`): Per-content-type threshold enforcement — UI: 100%, questions: 100%, rationales: 100%, lessons: 100%, blogs: ≥95%, optional: ≥90%. Keys are classified by prefix into content types. Generates `scripts/translation-report.json` with per-language, per-content-type coverage data.
+2. **Hardcoded String Scanner** (`scripts/scan-hardcoded-strings.mjs`): Scans `.tsx` files in `client/src/` for text content outside `t()` calls, string props like `title`/`label`/`placeholder` with hardcoded English. Supports `--warn` (non-blocking, used in build) and `--enforce` (blocking) modes. Generates `scripts/hardcoded-strings-report.json`.
+3. **Locale File Completeness** (`scripts/check-locale-completeness.mjs --enforce`): Runs after i18n compilation. Compares every non-English JSON in `client/public/i18n/` against `en.json` baseline and flags missing keys. Generates `scripts/locale-completeness-report.json`.
+
+Build flow: validate-translations → scan-hardcoded-strings → compile i18n → check-locale-completeness → build → generate coverage report (`dist/i18n-coverage-report.json`).
+Deploy gate: `.replit` deployment runs `npm run build`, which includes all validators. Build aborts if any enforced check fails.
 
 ### External Dependencies
 - **Database**: PostgreSQL

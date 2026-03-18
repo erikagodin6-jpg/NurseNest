@@ -1,12 +1,89 @@
 {
   "fr": {
     "name": "French",
-    "totalKeys": 3668,
-    "missingKeys": 0,
-    "untranslatedKeys": 61,
-    "mixedKeys": 22,
-    "coverage": 98.1,
-    "missing": [],
+    "totalKeys": 4559,
+    "missingKeys": 507,
+    "untranslatedKeys": 95,
+    "mixedKeys": 25,
+    "coverage": 87,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1611,
+        "missing": 77,
+        "untranslated": 24,
+        "coverage": 94.1,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1127,
+        "missing": 54,
+        "untranslated": 38,
+        "coverage": 92.5,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 833,
+        "missing": 354,
+        "untranslated": 16,
+        "coverage": 69.2,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 281,
+        "missing": 0,
+        "untranslated": 17,
+        "coverage": 94.3,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "medAbbreviations.all",
+      "medAbbreviations.backToHub",
+      "medAbbreviations.badge",
+      "medAbbreviations.breadcrumb",
+      "medAbbreviations.clinicalExamples",
+      "medAbbreviations.commonMistakes",
+      "medAbbreviations.ctaDesc",
+      "medAbbreviations.ctaFlashcards",
+      "medAbbreviations.ctaPractice",
+      "medAbbreviations.ctaTitle",
+      "medAbbreviations.description",
+      "medAbbreviations.examRelevance",
+      "medAbbreviations.faqTitle",
+      "medAbbreviations.linkChecklists",
+      "medAbbreviations.linkChecklistsDesc",
+      "medAbbreviations.linkExamPrep",
+      "medAbbreviations.linkExamPrepDesc",
+      "medAbbreviations.linkGlossary"
+    ],
     "untranslated": [
       "anatomy.examContext.np.title",
       "dashboard.tier.rn",
@@ -54,12 +131,89 @@
   },
   "tl": {
     "name": "Filipino",
-    "totalKeys": 3292,
-    "missingKeys": 0,
-    "untranslatedKeys": 78,
+    "totalKeys": 3321,
+    "missingKeys": 1330,
+    "untranslatedKeys": 80,
     "mixedKeys": 66,
-    "coverage": 97.6,
-    "missing": [],
+    "coverage": 69.7,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1561,
+        "missing": 77,
+        "untranslated": 74,
+        "coverage": 91.2,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1029,
+        "missing": 186,
+        "untranslated": 4,
+        "coverage": 84.4,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 180,
+        "missing": 1022,
+        "untranslated": 1,
+        "coverage": 15,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 274,
+        "missing": 23,
+        "untranslated": 1,
+        "coverage": 91.9,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
     "untranslated": [
       "home.mostTested.obDesc",
       "home.mostTested.sepsisDesc",
@@ -107,12 +261,89 @@
   },
   "hi": {
     "name": "Hindi",
-    "totalKeys": 4603,
-    "missingKeys": 0,
-    "untranslatedKeys": 15,
-    "mixedKeys": 5,
-    "coverage": 99.5,
-    "missing": [],
+    "totalKeys": 5173,
+    "missingKeys": 788,
+    "untranslatedKeys": 39,
+    "mixedKeys": 10,
+    "coverage": 82.2,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1631,
+        "missing": 77,
+        "untranslated": 4,
+        "coverage": 95.3,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1006,
+        "missing": 185,
+        "untranslated": 28,
+        "coverage": 82.5,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 719,
+        "missing": 481,
+        "untranslated": 3,
+        "coverage": 59.8,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 271,
+        "missing": 23,
+        "untranslated": 4,
+        "coverage": 90.9,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
     "untranslated": [
       "dashboard.tier.rn",
       "flashcards.compare.generic",
@@ -120,6 +351,8 @@
       "home.competitive.archer",
       "home.competitive.uworld",
       "home.hero.lvnLpn",
+      "home.hero.trustQuestionsLabel",
+      "home.hero.builtFor",
       "home.socialProof.passRateValue",
       "lessons.competitor.youtube",
       "lessons.lesson.allopurinol-safety",
@@ -128,24 +361,109 @@
       "pathways.card.np.title",
       "pathways.card.rpn.title",
       "preNursing.compare.uworld",
-      "pricing.competitorUWorld"
+      "pricing.competitorUWorld",
+      "newGrad.certs.phase3Certs",
+      "newGrad.certs.phase4Certs",
+      "hero.trustIndicator.builtFor"
     ],
     "mixed": [
       "lessons.lesson.functional-assessment-rn",
       "lessons.lesson.pain-assessment-rpn",
       "pathways.rn.mod.labValues.desc",
       "pricing.np.feature3",
-      "pricing.np.feature5"
+      "pricing.np.feature5",
+      "newGrad.hub.cat.certsDesc",
+      "newGrad.hub.premiumFeat4Desc",
+      "newGrad.hub.eco2Desc",
+      "newGrad.career.s2i1",
+      "newGrad.certs.seoTitle"
     ]
   },
   "es": {
     "name": "Spanish",
-    "totalKeys": 3668,
-    "missingKeys": 0,
-    "untranslatedKeys": 63,
-    "mixedKeys": 24,
-    "coverage": 98.1,
-    "missing": [],
+    "totalKeys": 4559,
+    "missingKeys": 507,
+    "untranslatedKeys": 94,
+    "mixedKeys": 27,
+    "coverage": 87.1,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1595,
+        "missing": 77,
+        "untranslated": 40,
+        "coverage": 93.2,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1131,
+        "missing": 54,
+        "untranslated": 34,
+        "coverage": 92.8,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 841,
+        "missing": 354,
+        "untranslated": 8,
+        "coverage": 69.9,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 150,
+        "missing": 0,
+        "untranslated": 1,
+        "coverage": 99.3,
+        "threshold": 100,
+        "passed": false
+      },
+      "questions": {
+        "total": 298,
+        "translated": 287,
+        "missing": 0,
+        "untranslated": 11,
+        "coverage": 96.3,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "medAbbreviations.all",
+      "medAbbreviations.backToHub",
+      "medAbbreviations.badge",
+      "medAbbreviations.breadcrumb",
+      "medAbbreviations.clinicalExamples",
+      "medAbbreviations.commonMistakes",
+      "medAbbreviations.ctaDesc",
+      "medAbbreviations.ctaFlashcards",
+      "medAbbreviations.ctaPractice",
+      "medAbbreviations.ctaTitle",
+      "medAbbreviations.description",
+      "medAbbreviations.examRelevance",
+      "medAbbreviations.faqTitle",
+      "medAbbreviations.linkChecklists",
+      "medAbbreviations.linkChecklistsDesc",
+      "medAbbreviations.linkExamPrep",
+      "medAbbreviations.linkExamPrepDesc",
+      "medAbbreviations.linkGlossary"
+    ],
     "untranslated": [
       "anatomy.examContext.np.title",
       "anatomy.examContext.rn.title",
@@ -161,12 +479,12 @@
       "footer.legal",
       "home.competitive.archer",
       "home.hero.lvnLpn",
+      "home.hero.builtFor",
       "home.socialProof.passRateValue",
       "lessons.competitor.youtube",
       "lessons.lesson.alopecia-rpn",
       "lessons.lesson.bartholinitis",
-      "lessons.lesson.bartholinitis-rpn",
-      "lessons.lesson.cervicitis"
+      "lessons.lesson.bartholinitis-rpn"
     ],
     "mixed": [
       "home.mostTested.ecgDesc",
@@ -193,12 +511,89 @@
   },
   "zh": {
     "name": "Chinese (Simplified)",
-    "totalKeys": 3668,
-    "missingKeys": 0,
-    "untranslatedKeys": 20,
-    "mixedKeys": 2,
-    "coverage": 99.4,
-    "missing": [],
+    "totalKeys": 4370,
+    "missingKeys": 657,
+    "untranslatedKeys": 44,
+    "mixedKeys": 3,
+    "coverage": 84.9,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1628,
+        "missing": 77,
+        "untranslated": 7,
+        "coverage": 95.1,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1137,
+        "missing": 54,
+        "untranslated": 28,
+        "coverage": 93.3,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 717,
+        "missing": 481,
+        "untranslated": 5,
+        "coverage": 59.6,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 271,
+        "missing": 23,
+        "untranslated": 4,
+        "coverage": 90.9,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
     "untranslated": [
       "anatomy.examContext.np.title",
       "anatomy.examContext.rn.title",
@@ -208,6 +603,8 @@
       "flashcards.socialProof.stat3Value",
       "home.competitive.archer",
       "home.hero.lvnLpn",
+      "home.hero.trustQuestionsLabel",
+      "home.hero.builtFor",
       "home.socialProof.passRateValue",
       "lessons.competitor.youtube",
       "lessons.rpn",
@@ -217,23 +614,99 @@
       "pathways.card.rpn.title",
       "preNursing.compare.archer",
       "preNursing.compare.linkArcher",
-      "preNursing.compare.linkUworld",
-      "pricing.competitorArcher",
-      "pricing.competitorUWorld"
+      "preNursing.compare.linkUworld"
     ],
     "mixed": [
       "mockExams.tierNpDesc",
-      "alliedFaq.exams3.a"
+      "alliedFaq.exams3.a",
+      "newGrad.certs.seoTitle"
     ]
   },
   "zh-tw": {
     "name": "Chinese (Traditional)",
-    "totalKeys": 3668,
-    "missingKeys": 0,
-    "untranslatedKeys": 22,
+    "totalKeys": 3697,
+    "missingKeys": 1330,
+    "untranslatedKeys": 42,
     "mixedKeys": 6,
-    "coverage": 99.3,
-    "missing": [],
+    "coverage": 70.5,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1628,
+        "missing": 77,
+        "untranslated": 7,
+        "coverage": 95.1,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1006,
+        "missing": 186,
+        "untranslated": 27,
+        "coverage": 82.5,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 177,
+        "missing": 1022,
+        "untranslated": 4,
+        "coverage": 14.7,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 271,
+        "missing": 23,
+        "untranslated": 4,
+        "coverage": 90.9,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
     "untranslated": [
       "anatomy.examContext.np.title",
       "anatomy.examContext.rn.title",
@@ -267,12 +740,89 @@
   },
   "ar": {
     "name": "Arabic",
-    "totalKeys": 3668,
-    "missingKeys": 0,
-    "untranslatedKeys": 19,
+    "totalKeys": 4370,
+    "missingKeys": 657,
+    "untranslatedKeys": 43,
     "mixedKeys": 2,
-    "coverage": 99.4,
-    "missing": [],
+    "coverage": 84.9,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1626,
+        "missing": 77,
+        "untranslated": 9,
+        "coverage": 95,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1138,
+        "missing": 54,
+        "untranslated": 27,
+        "coverage": 93.4,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 719,
+        "missing": 481,
+        "untranslated": 3,
+        "coverage": 59.8,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 271,
+        "missing": 23,
+        "untranslated": 4,
+        "coverage": 90.9,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
     "untranslated": [
       "anatomy.examContext.np.title",
       "anatomy.examContext.rn.title",
@@ -283,6 +833,8 @@
       "home.competitive.archer",
       "home.competitive.uworld",
       "home.hero.lvnLpn",
+      "home.hero.trustQuestionsLabel",
+      "home.hero.builtFor",
       "lessons.hero.stat1",
       "lessons.lesson.pemphigus-rpn",
       "lessons.lesson.phenylketonuria-rpn",
@@ -291,8 +843,7 @@
       "mockExams.tierRpnLabel",
       "pathways.card.np.title",
       "pathways.card.rpn.title",
-      "preNursing.compare.uworld",
-      "pricing.competitorUWorld"
+      "preNursing.compare.uworld"
     ],
     "mixed": [
       "lessons.lesson.cognitive-screening-np",
@@ -301,12 +852,89 @@
   },
   "ko": {
     "name": "Korean",
-    "totalKeys": 3668,
-    "missingKeys": 0,
-    "untranslatedKeys": 24,
-    "mixedKeys": 8,
-    "coverage": 99.3,
-    "missing": [],
+    "totalKeys": 4238,
+    "missingKeys": 789,
+    "untranslatedKeys": 48,
+    "mixedKeys": 13,
+    "coverage": 82,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1627,
+        "missing": 77,
+        "untranslated": 8,
+        "coverage": 95,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1003,
+        "missing": 186,
+        "untranslated": 30,
+        "coverage": 82.3,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 716,
+        "missing": 481,
+        "untranslated": 6,
+        "coverage": 59.5,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 271,
+        "missing": 23,
+        "untranslated": 4,
+        "coverage": 90.9,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
     "untranslated": [
       "anatomy.examContext.np.title",
       "anatomy.examContext.rn.title",
@@ -317,6 +945,8 @@
       "home.competitive.archer",
       "home.competitive.uworld",
       "home.hero.lvnLpn",
+      "home.hero.trustQuestionsLabel",
+      "home.hero.builtFor",
       "home.socialProof.passRateValue",
       "lessons.competitor.youtube",
       "lessons.hero.stat1",
@@ -325,9 +955,7 @@
       "mockExams.tierRpnLabel",
       "pathways.card.np.title",
       "pathways.card.rpn.title",
-      "preNursing.compare.archer",
-      "preNursing.compare.linkArcher",
-      "preNursing.compare.linkUworld"
+      "preNursing.compare.archer"
     ],
     "mixed": [
       "home.region.usDesc",
@@ -337,17 +965,99 @@
       "lessons.lesson.pain-assessment-rpn",
       "mockExams.tierNpDesc",
       "pathways.rn.mod.labValues.desc",
-      "pricing.np.feature3"
+      "pricing.np.feature3",
+      "newGrad.hub.cat.certsDesc",
+      "newGrad.hub.premiumFeat4Desc",
+      "newGrad.hub.eco2Desc",
+      "newGrad.profDev.s2i6",
+      "newGrad.certs.seoTitle"
     ]
   },
   "pt": {
     "name": "Portuguese",
-    "totalKeys": 3880,
-    "missingKeys": 0,
-    "untranslatedKeys": 44,
-    "mixedKeys": 16,
-    "coverage": 98.7,
-    "missing": [],
+    "totalKeys": 4582,
+    "missingKeys": 657,
+    "untranslatedKeys": 72,
+    "mixedKeys": 20,
+    "coverage": 84.3,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1609,
+        "missing": 77,
+        "untranslated": 26,
+        "coverage": 94,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1135,
+        "missing": 54,
+        "untranslated": 30,
+        "coverage": 93.1,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 715,
+        "missing": 481,
+        "untranslated": 7,
+        "coverage": 59.4,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 266,
+        "missing": 23,
+        "untranslated": 9,
+        "coverage": 89.3,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
     "untranslated": [
       "anatomy.examContext.np.title",
       "anatomy.examContext.rn.title",
@@ -358,6 +1068,7 @@
       "home.competitive.uworld",
       "home.hero.flashcardsInfo",
       "home.hero.lvnLpn",
+      "home.hero.trustQuestionsLabel",
       "home.socialProof.passRateValue",
       "lessons.competitor.youtube",
       "lessons.lesson.alopecia-rpn",
@@ -367,8 +1078,7 @@
       "lessons.lesson.glaucoma-rpn",
       "lessons.lesson.impetigo",
       "lessons.lesson.influenza-rpn",
-      "lessons.lesson.levetiracetam-rpn",
-      "lessons.lesson.neuroblastoma-rpn"
+      "lessons.lesson.levetiracetam-rpn"
     ],
     "mixed": [
       "lessons.lesson.abdominal-exam-np",
@@ -386,17 +1096,98 @@
       "mockExams.tierNpDesc",
       "profile.myPurchases.downloadsRemaining",
       "shop.purchased.downloadsRemaining",
-      "upgrade.usageNote"
+      "upgrade.usageNote",
+      "newGrad.hub.eco2Desc",
+      "newGrad.career.s3i1",
+      "newGrad.certs.faq6Q",
+      "newGrad.certs.seoTitle"
     ]
   },
   "pa": {
     "name": "Punjabi",
-    "totalKeys": 3668,
-    "missingKeys": 0,
-    "untranslatedKeys": 19,
-    "mixedKeys": 5,
-    "coverage": 99.4,
-    "missing": [],
+    "totalKeys": 4238,
+    "missingKeys": 789,
+    "untranslatedKeys": 43,
+    "mixedKeys": 12,
+    "coverage": 82.1,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1627,
+        "missing": 77,
+        "untranslated": 8,
+        "coverage": 95,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1005,
+        "missing": 186,
+        "untranslated": 28,
+        "coverage": 82.4,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 719,
+        "missing": 481,
+        "untranslated": 3,
+        "coverage": 59.8,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 271,
+        "missing": 23,
+        "untranslated": 4,
+        "coverage": 90.9,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
     "untranslated": [
       "anatomy.examContext.np.title",
       "anatomy.examContext.rn.title",
@@ -407,6 +1198,8 @@
       "home.competitive.archer",
       "home.competitive.uworld",
       "home.hero.lvnLpn",
+      "home.hero.trustQuestionsLabel",
+      "home.hero.builtFor",
       "home.socialProof.passRateValue",
       "lessons.competitor.youtube",
       "lessons.hero.stat1",
@@ -415,25 +1208,108 @@
       "mockExams.tierRpnLabel",
       "pathways.card.np.title",
       "pathways.card.rpn.title",
-      "preNursing.compare.uworld",
-      "pricing.competitorUWorld"
+      "preNursing.compare.uworld"
     ],
     "mixed": [
       "home.region.usDesc",
       "lessons.lesson.functional-assessment-rn",
       "mockExams.tierNpDesc",
       "pricing.np.feature3",
-      "pricing.np.feature5"
+      "pricing.np.feature5",
+      "newGrad.hub.cat.certsDesc",
+      "newGrad.hub.premiumFeat4Desc",
+      "newGrad.hub.eco2Desc",
+      "newGrad.workplace.s2i3",
+      "newGrad.profDev.s2i3",
+      "newGrad.profDev.s2i4",
+      "newGrad.certs.seoTitle"
     ]
   },
   "vi": {
     "name": "Vietnamese",
-    "totalKeys": 3668,
-    "missingKeys": 0,
-    "untranslatedKeys": 41,
-    "mixedKeys": 14,
-    "coverage": 98.8,
-    "missing": [],
+    "totalKeys": 4238,
+    "missingKeys": 789,
+    "untranslatedKeys": 68,
+    "mixedKeys": 16,
+    "coverage": 81.6,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1611,
+        "missing": 77,
+        "untranslated": 24,
+        "coverage": 94.1,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1001,
+        "missing": 186,
+        "untranslated": 32,
+        "coverage": 82.1,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 714,
+        "missing": 481,
+        "untranslated": 8,
+        "coverage": 59.4,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 271,
+        "missing": 23,
+        "untranslated": 4,
+        "coverage": 90.9,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
     "untranslated": [
       "anatomy.examContext.np.title",
       "anatomy.examContext.rn.title",
@@ -446,15 +1322,15 @@
       "home.competitive.uworld",
       "home.examPath.ca.title",
       "home.hero.lvnLpn",
+      "home.hero.trustQuestionsLabel",
+      "home.hero.builtFor",
       "home.region.ca",
       "home.socialProof.passRateValue",
       "lessons.competitor.youtube",
       "lessons.lesson.allopurinol-safety",
       "lessons.lesson.amyloidosis-np",
       "lessons.lesson.chlamydia",
-      "lessons.lesson.cholangitis-np",
-      "lessons.lesson.cholinergic-toxidrome-np",
-      "lessons.lesson.hemochromatosis-np"
+      "lessons.lesson.cholangitis-np"
     ],
     "mixed": [
       "lessons.lesson.abdominal-exam-np",
@@ -470,32 +1346,193 @@
       "lessons.lesson.short-acting-insulin-rpn",
       "lessons.lesson.spine-exam-np",
       "lessons.lesson.ttp-np",
-      "mockExams.tierNpDesc"
+      "mockExams.tierNpDesc",
+      "newGrad.hub.eco2Desc",
+      "newGrad.certs.seoTitle"
     ]
   },
   "ht": {
     "name": "Haitian Creole",
-    "totalKeys": 3668,
-    "missingKeys": 0,
-    "untranslatedKeys": 1,
-    "mixedKeys": 1,
-    "coverage": 100,
-    "missing": [],
+    "totalKeys": 4238,
+    "missingKeys": 789,
+    "untranslatedKeys": 4,
+    "mixedKeys": 3,
+    "coverage": 82.9,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1634,
+        "missing": 77,
+        "untranslated": 1,
+        "coverage": 95.4,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1030,
+        "missing": 186,
+        "untranslated": 3,
+        "coverage": 84.5,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 722,
+        "missing": 481,
+        "untranslated": 0,
+        "coverage": 60,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 275,
+        "missing": 23,
+        "untranslated": 0,
+        "coverage": 92.3,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
     "untranslated": [
-      "lessons.lesson.spina-bifida"
+      "home.hero.builtFor",
+      "lessons.lesson.spina-bifida",
+      "home.heroFeatures.multilingualCallout",
+      "home.heroFeatures.learningAreasSubtitle"
     ],
     "mixed": [
-      "mockExams.tierNpDesc"
+      "mockExams.tierNpDesc",
+      "newGrad.hub.eco2Desc",
+      "newGrad.certs.seoTitle"
     ]
   },
   "ur": {
     "name": "Urdu",
-    "totalKeys": 3668,
-    "missingKeys": 0,
-    "untranslatedKeys": 21,
-    "mixedKeys": 4,
-    "coverage": 99.4,
-    "missing": [],
+    "totalKeys": 4238,
+    "missingKeys": 789,
+    "untranslatedKeys": 45,
+    "mixedKeys": 6,
+    "coverage": 82.1,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1626,
+        "missing": 77,
+        "untranslated": 9,
+        "coverage": 95,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1005,
+        "missing": 186,
+        "untranslated": 28,
+        "coverage": 82.4,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 718,
+        "missing": 481,
+        "untranslated": 4,
+        "coverage": 59.7,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 271,
+        "missing": 23,
+        "untranslated": 4,
+        "coverage": 90.9,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
     "untranslated": [
       "anatomy.examContext.np.title",
       "anatomy.examContext.rn.title",
@@ -506,6 +1543,8 @@
       "home.competitive.archer",
       "home.competitive.uworld",
       "home.hero.lvnLpn",
+      "home.hero.trustQuestionsLabel",
+      "home.hero.builtFor",
       "home.socialProof.passRateValue",
       "lessons.hero.stat1",
       "lessons.lesson.allopurinol-safety",
@@ -514,25 +1553,102 @@
       "mockExams.tierRnLabel",
       "mockExams.tierRpnLabel",
       "pathways.card.np.title",
-      "pathways.card.rpn.title",
-      "preNursing.compare.archer",
-      "preNursing.compare.uworld"
+      "pathways.card.rpn.title"
     ],
     "mixed": [
       "lessons.lesson.iv-fluid-types-rpn",
       "mockExams.tierNpDesc",
       "pricing.np.feature3",
-      "pricing.np.feature5"
+      "pricing.np.feature5",
+      "newGrad.profDev.s2i3",
+      "newGrad.profDev.s2i4"
     ]
   },
   "ja": {
     "name": "Japanese",
-    "totalKeys": 3668,
-    "missingKeys": 0,
-    "untranslatedKeys": 21,
+    "totalKeys": 4238,
+    "missingKeys": 789,
+    "untranslatedKeys": 45,
     "mixedKeys": 2,
-    "coverage": 99.4,
-    "missing": [],
+    "coverage": 82.1,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1627,
+        "missing": 77,
+        "untranslated": 8,
+        "coverage": 95,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1005,
+        "missing": 186,
+        "untranslated": 28,
+        "coverage": 82.4,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 717,
+        "missing": 481,
+        "untranslated": 5,
+        "coverage": 59.6,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 271,
+        "missing": 23,
+        "untranslated": 4,
+        "coverage": 90.9,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
     "untranslated": [
       "anatomy.examContext.np.title",
       "anatomy.examContext.rn.title",
@@ -542,6 +1658,8 @@
       "flashcards.socialProof.stat3Value",
       "home.competitive.uworld",
       "home.hero.lvnLpn",
+      "home.hero.trustQuestionsLabel",
+      "home.hero.builtFor",
       "home.socialProof.passRateValue",
       "lessons.competitor.youtube",
       "lessons.hero.stat1",
@@ -551,9 +1669,7 @@
       "pathways.card.np.title",
       "pathways.card.rpn.title",
       "preNursing.compare.linkArcher",
-      "preNursing.compare.linkUworld",
-      "preNursing.compare.uworld",
-      "pricing.competitorArcher"
+      "preNursing.compare.linkUworld"
     ],
     "mixed": [
       "lessons.lesson.pain-assessment-rpn",
@@ -562,12 +1678,89 @@
   },
   "fa": {
     "name": "Farsi",
-    "totalKeys": 3668,
-    "missingKeys": 0,
-    "untranslatedKeys": 17,
+    "totalKeys": 4238,
+    "missingKeys": 789,
+    "untranslatedKeys": 41,
     "mixedKeys": 0,
-    "coverage": 99.5,
-    "missing": [],
+    "coverage": 82.1,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1629,
+        "missing": 77,
+        "untranslated": 6,
+        "coverage": 95.2,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1005,
+        "missing": 186,
+        "untranslated": 28,
+        "coverage": 82.4,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 719,
+        "missing": 481,
+        "untranslated": 3,
+        "coverage": 59.8,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 271,
+        "missing": 23,
+        "untranslated": 4,
+        "coverage": 90.9,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
     "untranslated": [
       "anatomy.examContext.np.title",
       "anatomy.examContext.rn.title",
@@ -578,6 +1771,8 @@
       "home.competitive.archer",
       "home.competitive.uworld",
       "home.hero.lvnLpn",
+      "home.hero.trustQuestionsLabel",
+      "home.hero.builtFor",
       "lessons.rpn",
       "mockExams.tierRnLabel",
       "mockExams.tierRpnLabel",
@@ -585,18 +1780,96 @@
       "pathways.card.rpn.title",
       "preNursing.compare.uworld",
       "pricing.competitorArcher",
-      "pricing.competitorUWorld"
+      "pricing.competitorUWorld",
+      "newGrad.certs.phase3Certs"
     ],
     "mixed": []
   },
   "de": {
     "name": "German",
-    "totalKeys": 3668,
-    "missingKeys": 0,
-    "untranslatedKeys": 74,
+    "totalKeys": 3697,
+    "missingKeys": 1330,
+    "untranslatedKeys": 96,
     "mixedKeys": 21,
-    "coverage": 97.7,
-    "missing": [],
+    "coverage": 69.3,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1589,
+        "missing": 77,
+        "untranslated": 46,
+        "coverage": 92.8,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 999,
+        "missing": 186,
+        "untranslated": 34,
+        "coverage": 82,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 176,
+        "missing": 1022,
+        "untranslated": 5,
+        "coverage": 14.6,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 150,
+        "missing": 0,
+        "untranslated": 1,
+        "coverage": 99.3,
+        "threshold": 100,
+        "passed": false
+      },
+      "questions": {
+        "total": 298,
+        "translated": 265,
+        "missing": 23,
+        "untranslated": 10,
+        "coverage": 88.9,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
     "untranslated": [
       "anatomy.examContext.np.title",
       "anatomy.examContext.rn.title",
@@ -610,14 +1883,14 @@
       "home.competitive.archer",
       "home.competitive.uworld",
       "home.hero.lvnLpn",
+      "home.hero.trustQuestionsLabel",
+      "home.hero.builtFor",
       "home.socialProof.passRateValue",
       "home.why.rationale",
       "lesson.management",
       "lessons.competitor.youtube",
       "lessons.lesson.alopecia-rpn",
-      "lessons.lesson.anorexia-nervosa",
-      "lessons.lesson.asthma-emergency",
-      "lessons.lesson.bartholinitis"
+      "lessons.lesson.anorexia-nervosa"
     ],
     "mixed": [
       "home.mostTested.ecgDesc",
@@ -644,12 +1917,89 @@
   },
   "th": {
     "name": "Thai",
-    "totalKeys": 3762,
-    "missingKeys": 0,
-    "untranslatedKeys": 34,
+    "totalKeys": 3791,
+    "missingKeys": 1330,
+    "untranslatedKeys": 54,
     "mixedKeys": 25,
-    "coverage": 99,
-    "missing": [],
+    "coverage": 70.2,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1617,
+        "missing": 77,
+        "untranslated": 18,
+        "coverage": 94.5,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1006,
+        "missing": 186,
+        "untranslated": 27,
+        "coverage": 82.5,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 177,
+        "missing": 1022,
+        "untranslated": 4,
+        "coverage": 14.7,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 270,
+        "missing": 23,
+        "untranslated": 5,
+        "coverage": 90.6,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
     "untranslated": [
       "anatomy.examContext.np.title",
       "anatomy.examContext.rn.title",
@@ -697,12 +2047,89 @@
   },
   "tr": {
     "name": "Turkish",
-    "totalKeys": 3288,
-    "missingKeys": 0,
-    "untranslatedKeys": 39,
+    "totalKeys": 3317,
+    "missingKeys": 1330,
+    "untranslatedKeys": 61,
     "mixedKeys": 21,
-    "coverage": 98.8,
-    "missing": [],
+    "coverage": 70.1,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1611,
+        "missing": 77,
+        "untranslated": 24,
+        "coverage": 94.1,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1004,
+        "missing": 186,
+        "untranslated": 29,
+        "coverage": 82.4,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 176,
+        "missing": 1022,
+        "untranslated": 5,
+        "coverage": 14.6,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 272,
+        "missing": 23,
+        "untranslated": 3,
+        "coverage": 91.3,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
     "untranslated": [
       "anatomy.examContext.np.title",
       "anatomy.examContext.rn.title",
@@ -712,6 +2139,8 @@
       "home.competitive.archer",
       "home.competitive.uworld",
       "home.hero.lvnLpn",
+      "home.hero.trustQuestionsLabel",
+      "home.hero.builtFor",
       "home.socialProof.passRateValue",
       "lessons.competitor.youtube",
       "lessons.hero.stat1",
@@ -721,9 +2150,7 @@
       "lessons.lesson.chlamydia",
       "lessons.lesson.dysrhythmias",
       "lessons.lesson.herpes-simplex-rpn",
-      "lessons.lesson.levetiracetam-rpn",
-      "lessons.lesson.myasthenia-gravis",
-      "lessons.lesson.pavlik-harness-rpn"
+      "lessons.lesson.levetiracetam-rpn"
     ],
     "mixed": [
       "home.mostTested.ecgDesc",
@@ -750,13 +2177,93 @@
   },
   "id": {
     "name": "Indonesian",
-    "totalKeys": 3288,
-    "missingKeys": 0,
-    "untranslatedKeys": 0,
+    "totalKeys": 3317,
+    "missingKeys": 1330,
+    "untranslatedKeys": 2,
     "mixedKeys": 1,
-    "coverage": 100,
-    "missing": [],
-    "untranslated": [],
+    "coverage": 71.3,
+    "byContentType": {
+      "lessons": {
+        "total": 1712,
+        "translated": 1635,
+        "missing": 77,
+        "untranslated": 0,
+        "coverage": 95.5,
+        "threshold": 100,
+        "passed": false
+      },
+      "blogs": {
+        "total": 64,
+        "translated": 42,
+        "missing": 22,
+        "untranslated": 0,
+        "coverage": 65.6,
+        "threshold": 95,
+        "passed": false
+      },
+      "ui": {
+        "total": 1219,
+        "translated": 1031,
+        "missing": 186,
+        "untranslated": 2,
+        "coverage": 84.6,
+        "threshold": 100,
+        "passed": false
+      },
+      "optional": {
+        "total": 1203,
+        "translated": 181,
+        "missing": 1022,
+        "untranslated": 0,
+        "coverage": 15,
+        "threshold": 90,
+        "passed": false
+      },
+      "rationales": {
+        "total": 151,
+        "translated": 151,
+        "missing": 0,
+        "untranslated": 0,
+        "coverage": 100,
+        "threshold": 100,
+        "passed": true
+      },
+      "questions": {
+        "total": 298,
+        "translated": 275,
+        "missing": 23,
+        "untranslated": 0,
+        "coverage": 92.3,
+        "threshold": 100,
+        "passed": false
+      }
+    },
+    "missing": [
+      "examHub.contentHubTitle",
+      "examHub.contentHubDesc",
+      "flashcards.rateDifficulty",
+      "flashcards.ratingAgain",
+      "flashcards.ratingHard",
+      "flashcards.ratingGood",
+      "flashcards.ratingEasy",
+      "flashcards.dashboardTitle",
+      "flashcards.dueToday",
+      "flashcards.cardsLearned",
+      "flashcards.streakDays",
+      "flashcards.masteryPct",
+      "flashcards.dailyReviewPrompt",
+      "flashcards.reviewNow",
+      "flashcards.analyticsTitle",
+      "flashcards.difficultyDistribution",
+      "flashcards.retentionRate",
+      "flashcards.topicMastery",
+      "flashcards.reviewFrequency",
+      "flashcards.ctaTitle"
+    ],
+    "untranslated": [
+      "home.heroFeatures.multilingualCallout",
+      "home.heroFeatures.learningAreasSubtitle"
+    ],
     "mixed": [
       "mockExams.tierNpDesc"
     ]

@@ -4,6 +4,7 @@ import { rm, readFile, readdir, readFile as readFileAsync, writeFile, copyFile, 
 import { existsSync } from "fs";
 import { gzipSync } from "zlib";
 import { compileI18n } from "./compile-i18n";
+import { execSync } from "child_process";
 import path from "path";
 
 const allowlist = [
@@ -142,14 +143,75 @@ async function copySeedData() {
   );
 }
 
+function runValidationStep(name: string, command: string, log: (msg: string) => void): void {
+  log(`running ${name}...`);
+  try {
+    execSync(command, { stdio: "pipe", encoding: "utf-8" });
+    log(`${name} passed`);
+  } catch (err: any) {
+    const output = (err.stdout || "") + (err.stderr || "");
+    console.error(`\n=== ${name} FAILED ===\n`);
+    console.error(output);
+    process.exit(1);
+  }
+}
+
+async function generateCoverageReport(log: (msg: string) => void): Promise<void> {
+  log("generating coverage report...");
+  const reportFiles = [
+    "scripts/translation-report.json",
+    "scripts/locale-completeness-report.json",
+    "scripts/hardcoded-strings-report.json",
+  ];
+
+  const coverageReport: Record<string, any> = {
+    generatedAt: new Date().toISOString(),
+    validators: {},
+  };
+
+  for (const rf of reportFiles) {
+    if (existsSync(rf)) {
+      try {
+        const data = JSON.parse(await readFile(rf, "utf-8"));
+        const name = path.basename(rf, ".json");
+        coverageReport.validators[name] = data;
+      } catch {}
+    }
+  }
+
+  await mkdir("dist", { recursive: true });
+  await writeFile("dist/i18n-coverage-report.json", JSON.stringify(coverageReport, null, 2));
+  log("coverage report written to dist/i18n-coverage-report.json");
+}
+
 async function buildAll() {
   const t0 = Date.now();
   const log = (msg: string) => console.log(`[${((Date.now() - t0) / 1000).toFixed(1)}s] ${msg}`);
+
+  log("=== Pre-build i18n validation ===");
+
+  runValidationStep(
+    "translation coverage enforcement",
+    "node scripts/validate-translations.mjs --enforce",
+    log,
+  );
+
+  runValidationStep(
+    "hardcoded string scan",
+    "node scripts/scan-hardcoded-strings.mjs --warn",
+    log,
+  );
 
   await rm("dist", { recursive: true, force: true });
 
   log("building i18n...");
   await compileI18n();
+
+  runValidationStep(
+    "locale file completeness check",
+    "node scripts/check-locale-completeness.mjs --enforce",
+    log,
+  );
 
   log("building client + server in parallel...");
   const lessonsDir = path.resolve("client/src/data/lessons");
@@ -179,6 +241,8 @@ async function buildAll() {
     rm("dist/public/videos", { recursive: true, force: true }),
     rm("dist/public/translations", { recursive: true, force: true }),
   ]);
+
+  await generateCoverageReport(log);
 
   log(`build complete`);
 }
