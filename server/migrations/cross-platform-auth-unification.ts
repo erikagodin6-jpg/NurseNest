@@ -22,7 +22,9 @@ export async function runCrossPlatformAuthMigration(pool?: pg.Pool) {
   });
 
   await runStep(pool, "normalize and deduplicate emails", async () => {
-    await pool!.query(`UPDATE users SET email = LOWER(TRIM(email)) WHERE email IS NOT NULL AND email != '' AND email != LOWER(TRIM(email))`);
+    await pool!.query(`UPDATE users SET email = 'placeholder_' || id || '@nursenest.local' WHERE email IS NULL OR TRIM(email) = ''`);
+
+    await pool!.query(`UPDATE users SET email = LOWER(TRIM(email)) WHERE email != LOWER(TRIM(email))`);
 
     const dupes = await pool!.query(`
       SELECT LOWER(email) AS norm_email, array_agg(id ORDER BY id ASC) AS ids
@@ -40,11 +42,15 @@ export async function runCrossPlatformAuthMigration(pool?: pg.Pool) {
         console.log(`[Auth Migration] Deduplicated email for user ${ids[i]}: ${row.norm_email} -> ${deduped}`);
       }
     }
-
-    await pool!.query(`UPDATE users SET email = 'placeholder_' || id || '@nursenest.local' WHERE email IS NULL OR email = ''`);
   });
 
   await runStep(pool, "enforce email NOT NULL", async () => {
+    const nullCount = await pool!.query(`SELECT COUNT(*)::int AS cnt FROM users WHERE email IS NULL`);
+    if (nullCount.rows[0]?.cnt > 0) {
+      console.log(`[Auth Migration] Backfilling ${nullCount.rows[0].cnt} remaining NULL emails...`);
+      await pool!.query(`UPDATE users SET email = 'placeholder_' || id || '@nursenest.local' WHERE email IS NULL`);
+    }
+
     const isNullable = await pool!.query(`
       SELECT is_nullable FROM information_schema.columns 
       WHERE table_name='users' AND column_name='email'
