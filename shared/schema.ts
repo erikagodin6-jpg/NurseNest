@@ -8031,38 +8031,6 @@ export const insertUnifiedQuestionHistorySchema = createInsertSchema(unifiedQues
 export type UnifiedQuestionHistory = typeof unifiedQuestionHistory.$inferSelect;
 export type InsertUnifiedQuestionHistory = z.infer<typeof insertUnifiedQuestionHistorySchema>;
 
-export const lessonBookmarks = pgTable("lesson_bookmarks", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: varchar("user_id").notNull(),
-  lessonId: varchar("lesson_id").notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-}, (table) => [
-  uniqueIndex("lesson_bookmarks_user_lesson_idx").on(table.userId, table.lessonId),
-]);
-
-export const insertLessonBookmarkSchema = createInsertSchema(lessonBookmarks).omit({ id: true, createdAt: true });
-export type LessonBookmark = typeof lessonBookmarks.$inferSelect;
-export type InsertLessonBookmark = z.infer<typeof insertLessonBookmarkSchema>;
-
-export const analyticsEvents = pgTable("analytics_events", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: varchar("user_id").notNull(),
-  eventType: text("event_type").notNull(),
-  eventData: jsonb("event_data").default(sql`'{}'::jsonb`),
-  sessionId: varchar("session_id"),
-  platform: text("platform").default("web"),
-  deviceInfo: jsonb("device_info").default(sql`'{}'::jsonb`),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-}, (table) => [
-  index("analytics_events_user_idx").on(table.userId),
-  index("analytics_events_type_idx").on(table.eventType),
-  index("analytics_events_created_idx").on(table.createdAt),
-]);
-
-export const insertAnalyticsEventSchema = createInsertSchema(analyticsEvents).omit({ id: true, createdAt: true });
-export type AnalyticsEvent = typeof analyticsEvents.$inferSelect;
-export type InsertAnalyticsEvent = z.infer<typeof insertAnalyticsEventSchema>;
-
 export const testBankProgress = pgTable("test_bank_progress", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").notNull().references(() => users.id),
