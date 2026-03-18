@@ -472,6 +472,87 @@ export function registerContentIntegrityRoutes(app: Express) {
     }
   });
 
+  app.get("/api/admin/content-integrity/diagnostics", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const [
+        questionCounts,
+        flashcardCounts,
+        lessonCounts,
+        blogCounts,
+        quarantinedQuestions,
+        quarantinedReasons,
+        recentRepairs,
+        recentScanRuns,
+        healthRecordStats,
+      ] = await Promise.all([
+        pool.query(`SELECT status, COUNT(*)::int as count FROM exam_questions GROUP BY status`),
+        pool.query(`SELECT status, COUNT(*)::int as count FROM flashcard_bank GROUP BY status`).catch(() => ({ rows: [] })),
+        pool.query(`SELECT status, COUNT(*)::int as count FROM content_items WHERE type = 'lesson' GROUP BY status`).catch(() => ({ rows: [] })),
+        pool.query(`SELECT status, COUNT(*)::int as count FROM content_items WHERE type IN ('blog', 'blog-post', 'article') GROUP BY status`).catch(() => ({ rows: [] })),
+        pool.query(`SELECT COUNT(*)::int as count FROM exam_questions WHERE quarantined_at IS NOT NULL`),
+        pool.query(`SELECT quarantine_reason, COUNT(*)::int as count FROM exam_questions WHERE quarantined_at IS NOT NULL AND quarantine_reason IS NOT NULL GROUP BY quarantine_reason ORDER BY count DESC LIMIT 20`),
+        pool.query(`SELECT content_type, repair_type, status, COUNT(*)::int as count FROM content_repair_log WHERE created_at > NOW() - INTERVAL '7 days' GROUP BY content_type, repair_type, status ORDER BY count DESC LIMIT 50`),
+        pool.query(`SELECT id, scan_type, status, total_records, scanned_records, issues_found, auto_fixable, repairs_attempted, repairs_succeeded, started_at, completed_at FROM integrity_scan_runs ORDER BY created_at DESC LIMIT 10`),
+        pool.query(`SELECT content_type, severity, COUNT(*)::int as count FROM content_health_records WHERE repair_status = 'pending' GROUP BY content_type, severity ORDER BY severity, content_type`),
+      ]);
+
+      const statusToObj = (rows: any[]) => {
+        const obj: Record<string, number> = {};
+        for (const r of rows) obj[r.status || "unknown"] = r.count;
+        return obj;
+      };
+
+      const recentRuns = recentScanRuns.rows;
+      const passRate = recentRuns.length > 0
+        ? recentRuns.reduce((acc: number, r: any) => {
+            const total = r.total_records || 1;
+            const issues = r.issues_found || 0;
+            return acc + ((total - issues) / total);
+          }, 0) / recentRuns.length
+        : 1;
+
+      const totalQuestions = questionCounts.rows.reduce((s: number, r: any) => s + r.count, 0);
+      const totalFlashcards = flashcardCounts.rows.reduce((s: number, r: any) => s + r.count, 0);
+      const totalLessons = lessonCounts.rows.reduce((s: number, r: any) => s + r.count, 0);
+      const totalBlogs = blogCounts.rows.reduce((s: number, r: any) => s + r.count, 0);
+
+      const healthScores: Record<string, number> = {};
+      const pendingByType: Record<string, number> = {};
+      for (const r of healthRecordStats.rows) {
+        pendingByType[r.content_type] = (pendingByType[r.content_type] || 0) + r.count;
+      }
+      const typeToTotal: Record<string, number> = { questions: totalQuestions, flashcards: totalFlashcards, lessons: totalLessons, blogs: totalBlogs };
+      for (const [ct, pending] of Object.entries(pendingByType)) {
+        const total = typeToTotal[ct] || 1;
+        healthScores[ct] = Math.round(((total - pending) / total) * 100);
+      }
+
+      res.json({
+        contentCounts: {
+          questions: statusToObj(questionCounts.rows),
+          flashcards: statusToObj(flashcardCounts.rows),
+          lessons: statusToObj(lessonCounts.rows),
+          blogs: statusToObj(blogCounts.rows),
+          totals: { questions: totalQuestions, flashcards: totalFlashcards, lessons: totalLessons, blogs: totalBlogs },
+        },
+        quarantine: {
+          totalQuarantined: quarantinedQuestions.rows[0]?.count || 0,
+          reasons: quarantinedReasons.rows,
+        },
+        recentRepairs: recentRepairs.rows,
+        recentScanRuns: recentRuns,
+        validationPassRate: Math.round(passRate * 100),
+        healthScores,
+        pendingIssuesByType: pendingByType,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   app.get("/api/admin/content-integrity/summary", async (req: Request, res: Response) => {
     try {
       const admin = await requireAdmin(req, res);

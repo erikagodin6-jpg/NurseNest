@@ -9,6 +9,7 @@ import { storage, DatabaseStorage, pool } from "./storage";
 import { mapExamQuestionsToFlashcards, getExamFlashcardStats, generateAlignedFlashcardsFromQuestions, bulkGenerateAlignedFlashcards } from "./exam-flashcard-mapper";
 import { fisherYatesShuffle, shuffleOptions } from "../shared/shuffle";
 import { normalizeQuestionOptions } from "./qbank-api";
+import { validateForPublish, autoRepairContent, logAutoRepairs, quarantineContent, type ValidationResult, type ValidationError } from "./content-integrity-validation";
 
 function parseStoragePath(path: string): { bucketName: string; objectName: string } {
   if (!path.startsWith("/")) path = `/${path}`;
@@ -5824,15 +5825,33 @@ Rules:
         }
       }
 
-      const existingBySlug = parsed.slug ? await storage.getContentItemBySlug(parsed.slug) : undefined;
+      const contentTypeForValidation = parsed.type === "lesson" ? "lesson" : parsed.type?.includes("blog") ? "blog" : parsed.type === "flashcard-set" ? "flashcard" : parsed.type || "";
+      const { repairedData: repairedParsed, repairs: createRepairs } = autoRepairContent(contentTypeForValidation, parsed);
+
+      if (repairedParsed.status === "published" && !contentData.forcePublish) {
+        const validation = validateForPublish(contentTypeForValidation, repairedParsed);
+        if (!validation.valid) {
+          return res.status(422).json({
+            error: "Content validation failed. Fix critical errors before publishing.",
+            code: "VALIDATION_FAILED",
+            validation,
+          });
+        }
+      }
+
+      const existingBySlug = repairedParsed.slug ? await storage.getContentItemBySlug(repairedParsed.slug) : undefined;
       let item;
       if (existingBySlug) {
         await saveRevision(existingBySlug.id, existingBySlug, admin);
-        item = await storage.updateContentItem(existingBySlug.id, parsed);
+        item = await storage.updateContentItem(existingBySlug.id, repairedParsed);
         await logAudit(req, admin, "content", item.id, "update", { title: existingBySlug.title, status: existingBySlug.status }, { title: item.title, type: item.type, status: item.status, regionScope: item.regionScope });
       } else {
-        item = await storage.createContentItem(parsed);
+        item = await storage.createContentItem(repairedParsed);
         await logAudit(req, admin, "content", item.id, "create", null, { title: item.title, type: item.type, status: item.status, regionScope: item.regionScope });
+      }
+
+      if (createRepairs.length > 0) {
+        await logAutoRepairs(contentTypeForValidation, item.id, createRepairs);
       }
 
       if (item.status === "published") {
@@ -6061,13 +6080,34 @@ Rules:
         }
       }
 
-      const item = await storage.updateContentItem(req.params.id, contentData);
-      if (contentData.status === "published" || existing?.status === "published") {
+      const updateContentType = contentType === "lesson" ? "lesson" : contentType.includes("blog") ? "blog" : contentType === "flashcard-set" ? "flashcard" : contentType;
+      const { repairedData: repairedContentData, repairs: updateRepairs } = autoRepairContent(updateContentType, contentData);
+
+      const isPublishAttempt = repairedContentData.status === "published" && existing?.status !== "published";
+      if (isPublishAttempt && !repairedContentData.forcePublish) {
+        const mergedForValidation = { ...existing, ...repairedContentData };
+        const validation = validateForPublish(updateContentType, mergedForValidation);
+        if (!validation.valid) {
+          return res.status(422).json({
+            error: "Content validation failed. Fix critical errors before publishing.",
+            code: "VALIDATION_FAILED",
+            validation,
+          });
+        }
+      }
+
+      const item = await storage.updateContentItem(req.params.id, repairedContentData);
+      if (repairedContentData.status === "published" || existing?.status === "published") {
         heroStatsCache = null;
       }
+
+      if (updateRepairs.length > 0) {
+        await logAutoRepairs(updateContentType, req.params.id, updateRepairs);
+      }
+
       await logAudit(req, admin, "content", req.params.id, "update",
         existing ? { title: existing.title, status: existing.status } : null,
-        { title: item.title, status: item.status }
+        { title: item.title, status: item.status, autoRepairs: updateRepairs.length }
       );
 
       if (item.status === "published") {
@@ -11320,16 +11360,35 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const { tier, exam, questionType, stem, options, correctAnswer, rationale, difficulty, tags, bodySystem, topic, subtopic, regionScope, status, publishAt } = req.body;
+      const { tier, exam, questionType, stem, options, correctAnswer, rationale, difficulty, tags, bodySystem, topic, subtopic, regionScope, status, publishAt, forcePublish } = req.body;
       if (!tier || !exam || !questionType || !stem) return res.status(400).json({ error: "tier, exam, questionType, and stem are required" });
+
+      const questionData = { tier, exam, questionType, stem, options, correctAnswer, rationale, difficulty, tags, bodySystem, topic, subtopic, regionScope, status: status || "draft" };
+      const { repairedData, repairs } = autoRepairContent("question", questionData);
+
+      if (repairedData.status === "published" && !forcePublish) {
+        const validation = validateForPublish("question", repairedData);
+        if (!validation.valid) {
+          return res.status(422).json({
+            error: "Content validation failed. Fix critical errors before publishing.",
+            code: "VALIDATION_FAILED",
+            validation,
+          });
+        }
+      }
+
       const q = await storage.createExamQuestion({
-        tier, exam, questionType, stem, options, correctAnswer, rationale,
-        difficulty, tags, bodySystem, topic, subtopic, regionScope,
-        status: status || "draft", publishAt: publishAt ? new Date(publishAt) : undefined,
-        stemHash: crypto.createHash("md5").update(stem).digest("hex"),
+        ...repairedData,
+        publishAt: publishAt ? new Date(publishAt) : undefined,
+        stemHash: crypto.createHash("md5").update(repairedData.stem).digest("hex"),
       });
-      await logAudit(req, admin, "exam_question", q.id, "create", null, { tier, exam, questionType, stem: stem.substring(0, 100) });
-      res.json(q);
+
+      if (repairs.length > 0) {
+        await logAutoRepairs("questions", q.id, repairs);
+      }
+
+      await logAudit(req, admin, "exam_question", q.id, "create", null, { tier, exam, questionType, stem: stem.substring(0, 100), autoRepairs: repairs.length });
+      res.json({ ...q, autoRepairs: repairs.length > 0 ? repairs : undefined });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -11341,15 +11400,53 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!admin) return;
       const before = await storage.getExamQuestion(req.params.id);
       if (!before) return res.status(404).json({ error: "Question not found" });
-      const updates: any = { ...req.body };
+      const { forcePublish, ...rawUpdates } = req.body;
+      const updates: any = { ...rawUpdates };
       if (updates.publishAt) updates.publishAt = new Date(updates.publishAt);
       if (updates.stem) updates.stemHash = crypto.createHash("md5").update(updates.stem).digest("hex");
-      const q = await storage.updateExamQuestion(req.params.id, updates);
+
+      const { repairedData: repairedUpdates, repairs } = autoRepairContent("question", updates);
+      const isPublishing = repairedUpdates.status === "published" && before.status !== "published";
+      const isUpdatingPublished = repairedUpdates.status === "published" || (!repairedUpdates.status && before.status === "published");
+      const mergedData = { ...before, ...repairedUpdates };
+
+      if ((isPublishing || (isUpdatingPublished && repairedUpdates.status !== "draft")) && !forcePublish) {
+        const validation = validateForPublish("question", mergedData);
+        if (!validation.valid) {
+          if (isPublishing) {
+            return res.status(422).json({
+              error: "Content validation failed. Fix critical errors before publishing.",
+              code: "VALIDATION_FAILED",
+              validation,
+            });
+          }
+          const hasCritical = validation.errors.some(e => e.field === "stem" || e.field === "options" || e.field === "correctAnswer");
+          if (hasCritical) {
+            try {
+              await quarantineContent("question", req.params.id, `Validation failed on update: ${validation.errors.map(e => e.message).join("; ")}`);
+            } catch (qErr: any) {
+              console.error(`[ContentIntegrity] Failed to quarantine question ${req.params.id}:`, qErr.message);
+            }
+            return res.status(422).json({
+              error: "Critical validation errors detected. Content has been quarantined.",
+              code: "QUARANTINED",
+              validation,
+            });
+          }
+        }
+      }
+
+      const q = await storage.updateExamQuestion(req.params.id, repairedUpdates);
+
+      if (repairs.length > 0) {
+        await logAutoRepairs("questions", q.id, repairs);
+      }
+
       if (before.status !== q.status) {
         await storage.createQuestionScheduleLog({ questionId: q.id, action: "status_change", previousStatus: before.status || undefined, newStatus: q.status || undefined, actorId: admin.id });
       }
-      await logAudit(req, admin, "exam_question", q.id, "update", { status: before.status }, { status: q.status });
-      res.json(q);
+      await logAudit(req, admin, "exam_question", q.id, "update", { status: before.status }, { status: q.status, autoRepairs: repairs.length });
+      res.json({ ...q, autoRepairs: repairs.length > 0 ? repairs : undefined });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -13847,15 +13944,31 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const { front, back, category, tier, status, difficulty, rationale } = req.body;
+      const { front, back, category, tier, status, difficulty, rationale, forcePublish } = req.body;
+
+      if (status === "published" && !forcePublish) {
+        const existingResult = await pool.query(`SELECT * FROM flashcard_bank WHERE id = $1`, [req.params.id]);
+        if (existingResult.rows.length > 0) {
+          const merged = { ...snakeToCamel(existingResult.rows[0]), front, back, tier, category };
+          const validation = validateForPublish("flashcard", merged);
+          if (!validation.valid) {
+            return res.status(422).json({
+              error: "Content validation failed. Fix critical errors before publishing.",
+              code: "VALIDATION_FAILED",
+              validation,
+            });
+          }
+        }
+      }
+
       const sets: string[] = ["updated_at = NOW()"];
       const params: any[] = [];
       let idx = 1;
 
-      if (front !== undefined) { sets.push(`front = $${idx++}`); params.push(front); }
-      if (back !== undefined) { sets.push(`back = $${idx++}`); params.push(back); }
+      if (front !== undefined) { sets.push(`front = $${idx++}`); params.push(typeof front === "string" ? front.trim() : front); }
+      if (back !== undefined) { sets.push(`back = $${idx++}`); params.push(typeof back === "string" ? back.trim() : back); }
       if (category !== undefined) { sets.push(`category = $${idx++}`); params.push(category); }
-      if (tier !== undefined) { sets.push(`tier = $${idx++}`); params.push(tier); }
+      if (tier !== undefined) { sets.push(`tier = $${idx++}`); params.push(typeof tier === "string" ? tier.toLowerCase().trim() : tier); }
       if (difficulty !== undefined) { sets.push(`difficulty = $${idx++}`); params.push(difficulty); }
       if (rationale !== undefined) { sets.push(`rationale = $${idx++}`); params.push(rationale); }
       if (status !== undefined) {
@@ -13890,8 +14003,30 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const { ids } = req.body;
+      const { ids, forcePublish } = req.body;
       if (!ids?.length) return res.status(400).json({ error: "ids required" });
+
+      if (!forcePublish) {
+        const cardsResult = await pool.query(
+          `SELECT id, front, back, tier, tags_json as tags FROM flashcard_bank WHERE id = ANY($1)`,
+          [ids]
+        );
+        const validationErrors: { id: string; errors: ValidationError[] }[] = [];
+        for (const card of cardsResult.rows) {
+          const validation = validateForPublish("flashcard", card);
+          if (!validation.valid) {
+            validationErrors.push({ id: card.id, errors: validation.errors });
+          }
+        }
+        if (validationErrors.length > 0) {
+          return res.status(422).json({
+            error: `${validationErrors.length} flashcard(s) failed validation.`,
+            code: "VALIDATION_FAILED",
+            failedCards: validationErrors,
+          });
+        }
+      }
+
       const result = await pool.query(
         `UPDATE flashcard_bank SET status = 'published', updated_at = NOW()
          WHERE id = ANY($1) AND status != 'published'`,
