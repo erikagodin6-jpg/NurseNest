@@ -29,9 +29,9 @@ interface MemorySpikeEntry {
   activeConnections: number;
 }
 
-const WARNING_THRESHOLD_MB = parseInt(process.env.MEMORY_WARNING_MB || "0") || 768;
-const PROTECTION_THRESHOLD_MB = parseInt(process.env.MEMORY_PROTECTION_MB || "0") || 896;
-const CRITICAL_THRESHOLD_MB = parseInt(process.env.MEMORY_CRITICAL_MB || "0") || 1024;
+const WARNING_THRESHOLD_MB = parseInt(process.env.MEMORY_WARNING_MB || "0") || 900;
+const PROTECTION_THRESHOLD_MB = parseInt(process.env.MEMORY_PROTECTION_MB || "0") || 1024;
+const CRITICAL_THRESHOLD_MB = parseInt(process.env.MEMORY_CRITICAL_MB || "0") || 1200;
 const MONITOR_INTERVAL_MS = 10_000;
 const MAX_SPIKE_LOG = 100;
 const CLEANUP_INTERVAL_MS = 60_000;

@@ -193,6 +193,7 @@ export default function AdminPage() {
   // Admin verification (server-confirmed OR user payload fast-path)
   const [adminChecked, setAdminChecked] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [adminLoginError, setAdminLoginError] = useState<string | null>(null);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [sortField, setSortField] = useState<string>("lastActivity");
@@ -1376,15 +1377,23 @@ export default function AdminPage() {
                 data-testid="admin-login-form"
                 onSubmit={async (e) => {
                   e.preventDefault();
+                  setAdminLoginError(null);
                   const fd = new FormData(e.currentTarget);
                   const u = fd.get("username") as string;
                   const p = fd.get("password") as string;
                   try {
                     await login(u, p);
-                  } catch {}
+                  } catch (err: any) {
+                    setAdminLoginError(err?.message || "Login failed. Please check your credentials and try again.");
+                  }
                 }}
               >
                 <p className="text-sm font-medium text-gray-700 text-center">{t("pages.admin.signInAsAdmin")}</p>
+                {adminLoginError && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded text-sm" data-testid="text-admin-login-error">
+                    {adminLoginError}
+                  </div>
+                )}
                 <div className="relative">
                   <UserIcon className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
                   <Input name="username" placeholder={t("pages.admin.username2")} className="pl-10" required data-testid="input-admin-username" />
