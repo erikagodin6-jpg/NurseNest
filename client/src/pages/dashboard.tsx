@@ -18,7 +18,7 @@ import {
   ChevronUp, ChevronDown, BarChart3, Bookmark, Clock,
   Sparkles, ArrowRight, CheckCircle2, PlayCircle, Flame,
   RotateCcw, Lock, Bot, Gauge, Lightbulb, CalendarClock, AlertTriangle, BarChart,
-  Zap, SlidersHorizontal, Trophy, PartyPopper
+  Zap, SlidersHorizontal, Trophy, PartyPopper, RefreshCw
 } from "lucide-react";
 import { canAccessFeature, type Feature } from "@/lib/entitlements";
 import { TrialDashboardWidget } from "@/components/trial-dashboard-widget";
@@ -41,6 +41,7 @@ type WidgetConfig = {
 
 const WIDGET_ICONS: Record<string, any> = {
   welcome: LayoutDashboard,
+  continue_where_left_off: RefreshCw,
   progress: TrendingUp,
   recent_lessons: BookOpen,
   quick_links: Target,
@@ -70,6 +71,7 @@ const WIDGET_ICONS: Record<string, any> = {
 
 const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
   welcome: WelcomeWidget,
+  continue_where_left_off: ContinueWhereYouLeftOffWidget,
   progress: ProgressWidget,
   recent_lessons: RecentLessonsWidget,
   quick_links: QuickLinksWidget,
@@ -99,6 +101,7 @@ const WIDGET_COMPONENTS: Record<string, React.FC<{ user: any }>> = {
 
 const WIDGET_I18N_KEYS: Record<string, { label: string; desc: string }> = {
   welcome: { label: "dashboard.widget.welcome", desc: "dashboard.widget.welcomeDesc" },
+  continue_where_left_off: { label: "Continue Where You Left Off", desc: "Resume in-progress exams and quizzes" },
   progress: { label: "dashboard.widget.progress", desc: "dashboard.widget.progressDesc" },
   recent_lessons: { label: "dashboard.widget.recentLessons", desc: "dashboard.widget.recentLessonsDesc" },
   quick_links: { label: "dashboard.widget.quickLinks", desc: "dashboard.widget.quickLinksDesc" },
@@ -141,22 +144,23 @@ const PREMIUM_WIDGET_MESSAGE_KEYS: Record<string, string> = {
 };
 
 const DEFAULT_WIDGETS: WidgetConfig[] = [
-  { widgetType: "progress", position: 0, visible: true },
-  { widgetType: "qotd_teaser", position: 1, visible: true },
-  { widgetType: "recommended", position: 2, visible: true },
-  { widgetType: "adaptive_engine", position: 3, visible: true },
-  { widgetType: "recent_lessons", position: 3, visible: true },
-  { widgetType: "quick_links", position: 4, visible: true },
-  { widgetType: "exam_stats", position: 5, visible: true },
-  { widgetType: "flashcard_review", position: 6, visible: true },
-  { widgetType: "clinical_tools", position: 7, visible: true },
-  { widgetType: "ai_study_coach", position: 8, visible: true },
-  { widgetType: "intelligent_recommendations", position: 9, visible: true },
-  { widgetType: "quick_study", position: 10, visible: true },
-  { widgetType: "review_due", position: 11, visible: true },
-  { widgetType: "topic_mastery", position: 12, visible: true },
-  { widgetType: "bookmarks_preview", position: 13, visible: true },
-  { widgetType: "performance_overview", position: 14, visible: true },
+  { widgetType: "continue_where_left_off", position: 0, visible: true },
+  { widgetType: "progress", position: 1, visible: true },
+  { widgetType: "qotd_teaser", position: 2, visible: true },
+  { widgetType: "recommended", position: 3, visible: true },
+  { widgetType: "adaptive_engine", position: 4, visible: true },
+  { widgetType: "recent_lessons", position: 5, visible: true },
+  { widgetType: "quick_links", position: 6, visible: true },
+  { widgetType: "exam_stats", position: 7, visible: true },
+  { widgetType: "flashcard_review", position: 8, visible: true },
+  { widgetType: "clinical_tools", position: 9, visible: true },
+  { widgetType: "ai_study_coach", position: 10, visible: true },
+  { widgetType: "intelligent_recommendations", position: 11, visible: true },
+  { widgetType: "quick_study", position: 12, visible: true },
+  { widgetType: "review_due", position: 13, visible: true },
+  { widgetType: "topic_mastery", position: 14, visible: true },
+  { widgetType: "bookmarks_preview", position: 15, visible: true },
+  { widgetType: "performance_overview", position: 16, visible: true },
 ];
 
 function useDashboardSummary(userId: string | undefined) {
@@ -663,23 +667,144 @@ function WelcomeWidget({ user }: { user: any }) {
   );
 }
 
+function ContinueWhereYouLeftOffWidget({ user }: { user: any }) {
+  const [sessions, setSessions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [, navigate] = useLocation();
+
+  useEffect(() => {
+    if (!user?.id) { setLoading(false); return; }
+    const headers: Record<string, string> = {};
+    try {
+      const creds = localStorage.getItem("nursenest-credentials");
+      if (creds) {
+        const { username, password } = JSON.parse(creds);
+        headers["x-username"] = username;
+        headers["x-password"] = password;
+      }
+    } catch {}
+    fetch("/api/session-checkpoint/active", { headers })
+      .then((r) => r.ok ? r.json() : { sessions: [] })
+      .then((data) => setSessions(data.sessions || []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [user?.id]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-6" data-testid="widget-continue-loading">
+        <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (sessions.length === 0) return null;
+
+  const sessionTypeLabel = (type: string) => {
+    if (type === "qbank-exam") return "QBank Exam";
+    if (type === "mock-exam") return "Mock Exam";
+    if (type === "cat-exam") return "CAT Exam";
+    if (type === "lesson-quiz") return "Lesson Quiz";
+    return type.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
+  };
+
+  const sessionResumePath = (type: string, _id: string) => {
+    if (type === "qbank-exam") return "/qbank-exam";
+    if (type === "mock-exam" || type === "cat-exam") return "/mock-exams";
+    if (type === "lesson-quiz") return "/lessons";
+    return "/practice";
+  };
+
+  const formatTimeAgo = (dateStr: string) => {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 60) return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    return "1d ago";
+  };
+
+  const formatElapsed = (seconds: number) => {
+    if (seconds < 60) return `${seconds}s`;
+    const mins = Math.floor(seconds / 60);
+    if (mins < 60) return `${mins}m`;
+    return `${Math.floor(mins / 60)}h ${mins % 60}m`;
+  };
+
+  return (
+    <div data-testid="widget-content-continue">
+      <div className="space-y-2">
+        {sessions.slice(0, 3).map((s, i) => (
+          <button
+            key={i}
+            className="w-full flex items-center gap-3 p-3 rounded-lg border border-primary/20 bg-primary/[0.03] hover:bg-primary/[0.07] transition-all text-left group"
+            onClick={() => navigate(sessionResumePath(s.sessionType, s.sessionId))}
+            data-testid={`link-resume-session-${i}`}
+          >
+            <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/15 transition-colors">
+              <RefreshCw className="h-4 w-4 text-primary" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium truncate" data-testid={`text-session-type-${i}`}>{sessionTypeLabel(s.sessionType)}</p>
+              <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
+                {s.answeredCount > 0 && (
+                  <span data-testid={`text-session-answered-${i}`}>Q{s.currentIndex + 1} · {s.answeredCount} answered</span>
+                )}
+                {s.timeSpent > 0 && (
+                  <span data-testid={`text-session-time-${i}`}>{formatElapsed(s.timeSpent)}</span>
+                )}
+                <span data-testid={`text-session-ago-${i}`}>{formatTimeAgo(s.updatedAt)}</span>
+              </div>
+            </div>
+            <ArrowRight className="h-4 w-4 text-primary flex-shrink-0 opacity-50 group-hover:opacity-100 transition-opacity" />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const progressCache = new Map<string, { data: any[]; ts: number }>();
+const progressInflight = new Map<string, Promise<any[]>>();
+function useSharedProgress(userId: string) {
+  const [progress, setProgress] = useState<any[]>(() => {
+    const cached = progressCache.get(userId);
+    return cached && Date.now() - cached.ts < 30000 ? cached.data : [];
+  });
+  useEffect(() => {
+    const cached = progressCache.get(userId);
+    if (cached && Date.now() - cached.ts < 30000) {
+      setProgress(cached.data);
+      return;
+    }
+    let pending = progressInflight.get(userId);
+    if (!pending) {
+      pending = fetch(`/api/progress/${userId}`)
+        .then((r) => r.json())
+        .then((data: any[]) => {
+          progressCache.set(userId, { data, ts: Date.now() });
+          progressInflight.delete(userId);
+          return data;
+        })
+        .catch(() => {
+          progressInflight.delete(userId);
+          return [] as any[];
+        });
+      progressInflight.set(userId, pending);
+    }
+    pending.then(setProgress);
+  }, [userId]);
+  return progress;
+}
+
 function ProgressWidget({ user }: { user: any }) {
-  const [progress, setProgress] = useState<any[]>([]);
+  const progress = useSharedProgress(user.id);
   const [, navigate] = useLocation();
   const { t } = useI18n();
   const summary = useContext(DashboardSummaryContext);
 
-  useEffect(() => {
-    if (summary?.progress?.lessons) return;
-    fetch(`/api/progress/${user.id}`)
-      .then((r) => r.json())
-      .then(setProgress)
-      .catch(() => {});
-  }, [user.id, summary]);
-
-  const summaryLessons = summary?.progress?.lessons;
-  const completed = summaryLessons ? summaryLessons.completed : progress.filter((p: any) => p.completed).length;
-  const total = summaryLessons ? Math.max(summaryLessons.accessed, 1) : (progress.length || 1);
+  const completed = progress.filter((p: any) => p.completed).length;
+  const total = progress.length || 1;
   const pct = Math.round((completed / total) * 100);
 
   if (progress.length === 0) {
@@ -735,16 +860,8 @@ function ProgressWidget({ user }: { user: any }) {
 function RecentLessonsWidget({ user }: { user: any }) {
   const [, navigate] = useLocation();
   const { t } = useI18n();
-  const [progress, setProgress] = useState<any[]>([]);
-
-  useEffect(() => {
-    fetch(`/api/progress/${user.id}`)
-      .then((r) => r.json())
-      .then((data: any[]) => {
-        setProgress(data.slice(0, 5));
-      })
-      .catch(() => {});
-  }, [user.id]);
+  const allProgress = useSharedProgress(user.id);
+  const progress = allProgress.slice(0, 5);
 
   if (progress.length === 0) {
     return (
@@ -880,19 +997,10 @@ function ExamStatsWidget({ user }: { user: any }) {
 
 function StudyStreakWidget({ user }: { user: any }) {
   const [streakData, setStreakData] = useState<any>(null);
-  const [progress, setProgress] = useState<any[]>([]);
   const { t } = useI18n();
   const summary = useContext(DashboardSummaryContext);
 
   useEffect(() => {
-    if (summary?.streak) {
-      setStreakData({ streak: summary.streak.currentStreak, longestStreak: summary.streak.longestStreak });
-      return;
-    }
-    fetch(`/api/progress/${user.id}`)
-      .then((r) => r.json())
-      .then(setProgress)
-      .catch(() => {});
     fetch(`/api/readiness/${user.id}`)
       .then((r) => r.ok ? r.json() : null)
       .then(setStreakData)
@@ -900,7 +1008,7 @@ function StudyStreakWidget({ user }: { user: any }) {
   }, [user.id, summary]);
 
   const streak = streakData?.streak || 0;
-  const longestStreak = streakData?.longestStreak || Math.max(streak, progress.length > 0 ? 7 : 0);
+  const longestStreak = streakData?.longestStreak || streak;
 
   const milestones = [
     { threshold: 7, label: "1 Week!", emoji: "🔥" },
@@ -1067,63 +1175,102 @@ function ClinicalToolsWidget({ user }: { user: any }) {
 function RecommendedWidget({ user }: { user: any }) {
   const [, navigate] = useLocation();
   const { t } = useI18n();
-  const [progress, setProgress] = useState<any[]>([]);
-  const [examStats, setExamStats] = useState<any[]>([]);
+  const [serverRecs, setServerRecs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    import("@/lib/qbank-api").then(({ getAuthHeaders }) => {
-      const h = getAuthHeaders();
-      fetch(`/api/progress/${user.id}`, { headers: h }).then((r) => r.json()).then(setProgress).catch(() => {});
-      fetch(`/api/mock-exams/history/${user.id}`, { headers: h }).then((r) => r.json()).then(setExamStats).catch(() => {});
-    });
+    if (!user?.id) { setLoading(false); return; }
+    fetch(`/api/study-recommendations/${user.id}`)
+      .then((r) => r.ok ? r.json() : { recommendations: [] })
+      .then((data) => setServerRecs(data.recommendations || []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, [user.id]);
 
-  const completedCount = progress.filter((p: any) => p.completed).length;
-  const hasExams = examStats.length > 0;
-  const avgScore = hasExams ? Math.round(examStats.reduce((s, e) => s + (e.score || 0), 0) / examStats.length) : 0;
-
-  const recommendations: { text: string; action: string; path: string; icon: any; priority: number }[] = [];
-
-  if (completedCount === 0) {
-    recommendations.push({ text: t("dashboard.recStartLesson"), action: t("dashboard.recBeginLearning"), path: "/lessons", icon: BookOpen, priority: 1 });
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-6" data-testid="widget-recommended-loading">
+        <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
   }
-  if (!hasExams) {
-    recommendations.push({ text: t("dashboard.recTakeMock"), action: t("dashboard.recStartMockExam"), path: "/mock-exams", icon: ClipboardList, priority: 2 });
-  } else if (avgScore < 70) {
-    recommendations.push({ text: t("dashboard.recFocusWeak"), action: t("dashboard.recReviewLessons"), path: "/lessons", icon: BookOpen, priority: 1 });
-  }
-  recommendations.push({ text: t("dashboard.recQotd"), action: t("dashboard.recTryQotd"), path: "/question-of-the-day", icon: Target, priority: 3 });
-  if (completedCount > 0 && completedCount < 10) {
-    recommendations.push({ text: t("dashboard.recKeepMomentum"), action: t("dashboard.recContinue"), path: "/lessons", icon: TrendingUp, priority: 2 });
-  }
-  recommendations.push({ text: t("dashboard.recTrySimulator"), action: t("dashboard.recSimulate"), path: "/first-action-simulator", icon: Stethoscope, priority: 4 });
 
-  const sorted = recommendations.sort((a, b) => a.priority - b.priority).slice(0, 3);
+  if (serverRecs.length === 0) {
+    const fallbacks = [
+      { text: t("dashboard.recQotd"), action: t("dashboard.recTryQotd"), path: "/question-of-the-day", icon: Target },
+      { text: t("dashboard.recStartLesson"), action: t("dashboard.recBeginLearning"), path: "/lessons", icon: BookOpen },
+      { text: t("dashboard.recTrySimulator"), action: t("dashboard.recSimulate"), path: "/first-action-simulator", icon: Stethoscope },
+    ];
+
+    return (
+      <div data-testid="widget-content-recommended">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {fallbacks.map((rec, i) => {
+            const Icon = rec.icon;
+            return (
+              <button
+                key={i}
+                className="flex items-start gap-3 p-3 rounded-lg border hover:bg-muted hover:border-primary/30 transition-all text-left group"
+                onClick={() => navigate(rec.path)}
+                data-testid={`link-recommendation-${i}`}
+              >
+                <div className="p-2 rounded-lg bg-primary/10 flex-shrink-0 group-hover:bg-primary/15 transition-colors">
+                  <Icon className="h-4 w-4 text-primary" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium leading-snug mb-1">{rec.text}</p>
+                  <span className="text-xs text-primary font-medium flex items-center gap-1">
+                    {rec.action} <ArrowRight className="h-3 w-3" />
+                  </span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div data-testid="widget-content-recommended">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {sorted.map((rec, i) => {
-          const Icon = rec.icon;
-          return (
-            <button
-              key={i}
-              className="flex items-start gap-3 p-3 rounded-lg border hover:bg-muted hover:border-primary/30 transition-all text-left group"
-              onClick={() => navigate(rec.path)}
-              data-testid={`link-recommendation-${i}`}
-            >
-              <div className="p-2 rounded-lg bg-primary/10 flex-shrink-0 group-hover:bg-primary/15 transition-colors">
-                <Icon className="h-4 w-4 text-primary" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium leading-snug mb-1">{rec.text}</p>
-                <span className="text-xs text-primary font-medium flex items-center gap-1">
-                  {rec.action} <ArrowRight className="h-3 w-3" />
-                </span>
-              </div>
-            </button>
-          );
-        })}
+        {serverRecs.slice(0, 3).map((rec, i) => (
+          <div
+            key={i}
+            className="p-3 rounded-lg border bg-card"
+            data-testid={`link-recommendation-${i}`}
+          >
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-foreground">{rec.category}</span>
+              <span className={`text-xs font-semibold ${rec.accuracy >= 50 ? "text-amber-600" : "text-red-600"}`}>
+                {rec.accuracy}%
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => navigate(rec.links.lessons)}
+                className="flex items-center gap-1 text-[10px] text-blue-600 hover:text-blue-800 hover:underline"
+                data-testid={`link-rec-lessons-${i}`}
+              >
+                <BookOpen className="h-3 w-3" /> Lessons
+              </button>
+              <button
+                onClick={() => navigate(rec.links.flashcards)}
+                className="flex items-center gap-1 text-[10px] text-purple-600 hover:text-purple-800 hover:underline"
+                data-testid={`link-rec-flashcards-${i}`}
+              >
+                <Brain className="h-3 w-3" /> Flashcards
+              </button>
+              <button
+                onClick={() => navigate(rec.links.practice)}
+                className="flex items-center gap-1 text-[10px] text-emerald-600 hover:text-emerald-800 hover:underline"
+                data-testid={`link-rec-practice-${i}`}
+              >
+                <Target className="h-3 w-3" /> Practice
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

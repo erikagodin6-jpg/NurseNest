@@ -171,18 +171,25 @@ export function registerSessionCheckpointRoutes(app: Express) {
       if (!user) return res.status(401).json({ error: "Authentication required" });
 
       const result = await pool.query(
-        `SELECT session_type, session_id, updated_at FROM session_checkpoints
+        `SELECT session_type, session_id, updated_at, checkpoint_data FROM session_checkpoints
          WHERE user_id = $1 AND updated_at > NOW() - INTERVAL '24 hours'
          ORDER BY updated_at DESC LIMIT 10`,
         [user.id]
       );
 
       res.json({
-        sessions: result.rows.map(r => ({
-          sessionType: r.session_type,
-          sessionId: r.session_id,
-          updatedAt: r.updated_at,
-        })),
+        sessions: result.rows.map(r => {
+          const cpData = r.checkpoint_data || {};
+          const inner = cpData.checkpointData || cpData;
+          return {
+            sessionType: r.session_type,
+            sessionId: r.session_id,
+            updatedAt: r.updated_at,
+            currentIndex: inner.currentIndex ?? 0,
+            timeSpent: inner.timeSpent ?? 0,
+            answeredCount: inner.answers ? Object.keys(inner.answers).length : 0,
+          };
+        }),
       });
     } catch (e: any) {
       res.json({ sessions: [] });

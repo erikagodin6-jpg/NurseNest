@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -121,6 +121,19 @@ function QuestionCard({
   );
 }
 
+function getProgressHeaders(): Record<string, string> {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  try {
+    const creds = localStorage.getItem("nursenest-credentials");
+    if (creds) {
+      const { username, password } = JSON.parse(creds);
+      headers["x-username"] = username;
+      headers["x-password"] = password;
+    }
+  } catch {}
+  return headers;
+}
+
 export function LessonQuizEmbed({ lessonSlug }: LessonQuizEmbedProps) {
   const { t } = useI18n();
   const questions = getQuizEmbedForLesson(lessonSlug);
@@ -128,6 +141,23 @@ export function LessonQuizEmbed({ lessonSlug }: LessonQuizEmbedProps) {
   const isLoggedIn = !!user;
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [showCta, setShowCta] = useState(false);
+  const [persisted, setPersisted] = useState(false);
+  const [persistError, setPersistError] = useState(false);
+  const [restoredFromServer, setRestoredFromServer] = useState(false);
+
+  useEffect(() => {
+    if (!isLoggedIn || !user?.id || !questions || questions.length === 0 || restoredFromServer) return;
+    fetch(`/api/progress/${user.id}`, { headers: getProgressHeaders() })
+      .then((r) => r.ok ? r.json() : [])
+      .then((data: any[]) => {
+        const existing = data.find((p: any) => p.lessonId === lessonSlug && (p.completed === "true" || p.completed === true));
+        if (existing) {
+          setPersisted(true);
+        }
+      })
+      .catch(() => {})
+      .finally(() => setRestoredFromServer(true));
+  }, [isLoggedIn, user?.id, lessonSlug, restoredFromServer]);
 
   const handleAnswer = useCallback((qIndex: number, aIndex: number) => {
     setAnswers((prev) => ({ ...prev, [qIndex]: aIndex }));
@@ -135,6 +165,32 @@ export function LessonQuizEmbed({ lessonSlug }: LessonQuizEmbedProps) {
       setShowCta(true);
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (!isLoggedIn || !user?.id || !questions || persisted) return;
+    const answeredCount = Object.keys(answers).length;
+    if (answeredCount < questions.length) return;
+    const correctCount = Object.values(answers).filter((a, i) => {
+      const q = questions[i];
+      return q && a === q.correct;
+    }).length;
+    setPersistError(false);
+    fetch("/api/progress", {
+      method: "POST",
+      headers: getProgressHeaders(),
+      body: JSON.stringify({
+        userId: user.id,
+        lessonId: lessonSlug,
+        completed: "true",
+        postTestScore: Math.round((correctCount / questions.length) * 100),
+      }),
+    })
+      .then((r) => {
+        if (!r.ok) throw new Error("Failed to save progress");
+        setPersisted(true);
+      })
+      .catch(() => setPersistError(true));
+  }, [answers, questions, isLoggedIn, user?.id, lessonSlug, persisted]);
 
   if (!questions || questions.length === 0) return null;
 
@@ -196,9 +252,10 @@ export function LessonQuizEmbed({ lessonSlug }: LessonQuizEmbedProps) {
               <div>
                 <p className="text-sm font-semibold text-gray-800">
                   You scored {correctCount}/{questions.length}
+                  {persisted && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 inline ml-1.5" />}
                 </p>
                 <p className="text-xs text-gray-500 mt-0.5">
-                  Keep practicing to strengthen weak areas
+                  {persisted ? "Progress saved" : persistError ? "Could not save progress — please try again later" : "Keep practicing to strengthen weak areas"}
                 </p>
               </div>
               <LocaleLink href="/free-practice">

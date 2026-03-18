@@ -9,7 +9,7 @@ import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { ProtectedContent } from "@/components/protected-content";
 import { useLocation } from "wouter";
-import { createCheckpointManager } from "@/lib/session-checkpoint";
+import { createCheckpointManager, clearCheckpointServer } from "@/lib/session-checkpoint";
 import { getPracticalNurseExamName, type Region } from "@shared/constants";
 import { trackEvent } from "@/lib/analytics";
 import {
@@ -93,6 +93,7 @@ export default function QBankExamPage() {
   const [timer, setTimer] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [pendingCheckpoint, setPendingCheckpoint] = useState<any>(null);
   const [questionCount, setQuestionCount] = useState(25);
   const [filterCategory, setFilterCategory] = useState("");
   const [filterDifficulty, setFilterDifficulty] = useState("");
@@ -111,6 +112,30 @@ export default function QBankExamPage() {
   }, [questions]);
 
   useEffect(() => {
+    if (phase !== "setup" || !user?.id) return;
+    const headers: Record<string, string> = {};
+    try {
+      const creds = localStorage.getItem("nursenest-credentials");
+      if (creds) {
+        const { username, password } = JSON.parse(creds);
+        headers["x-username"] = username;
+        headers["x-password"] = password;
+      }
+    } catch {}
+    fetch(`/api/session-checkpoint/restore?sessionType=qbank-exam`, { headers })
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => {
+        if (!data?.found) return;
+        const cp = data.checkpoint;
+        const inner = cp.checkpointData?.checkpointData || cp.checkpointData || {};
+        if (inner.answers && Object.keys(inner.answers).length > 0) {
+          setPendingCheckpoint({ ...inner, sessionId: cp.sessionId });
+        }
+      })
+      .catch(() => {});
+  }, [phase, user?.id]);
+
+  useEffect(() => {
     if (phase !== "exam" || !qbankSessionId) return;
     const mgr = createCheckpointManager("qbank-exam", qbankSessionId);
     checkpointRef.current = mgr;
@@ -126,6 +151,10 @@ export default function QBankExamPage() {
   const startExam = async () => {
     setLoading(true);
     setError("");
+    if (pendingCheckpoint?.sessionId) {
+      clearCheckpointServer("qbank-exam", pendingCheckpoint.sessionId).catch(() => {});
+    }
+    setPendingCheckpoint(null);
     try {
       const params = new URLSearchParams({ count: String(questionCount) });
       if (filterCategory) params.set("category", filterCategory);
@@ -392,6 +421,21 @@ export default function QBankExamPage() {
                   </select>
                 </div>
               </div>
+              {pendingCheckpoint && (
+                <div className="p-4 rounded-xl border border-amber-200 bg-amber-50/50 space-y-2" data-testid="checkpoint-resume-prompt">
+                  <div className="flex items-center gap-2">
+                    <RotateCcw className="h-4 w-4 text-amber-600" />
+                    <span className="text-sm font-medium text-amber-800">Previous Session Detected</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    You had an in-progress exam with {Object.keys(pendingCheckpoint.answers || {}).length} questions answered
+                    ({formatTime(pendingCheckpoint.timeSpent || 0)} elapsed). Starting a new exam will replace this session.
+                  </p>
+                  <Button size="sm" variant="ghost" className="rounded-xl text-xs text-amber-700" onClick={() => setPendingCheckpoint(null)} data-testid="button-dismiss-checkpoint">
+                    Dismiss
+                  </Button>
+                </div>
+              )}
               {error && <div className="text-red-500 text-sm flex items-center gap-2 bg-red-50 rounded-xl p-3" data-testid="text-exam-error"><AlertTriangle className="h-4 w-4 shrink-0" />{error}</div>}
               <Button onClick={startExam} disabled={loading} className="w-full rounded-xl py-5 bg-primary hover:bg-primary/90 text-white font-semibold shadow-sm shadow-primary/20" data-testid="button-start-exam">
                 {loading ? "Loading..." : "Start Exam"}
