@@ -1,0 +1,353 @@
+You are working on the NurseNest backend and website on Replit.
+
+Build a COMPLETE CROSS-PLATFORM LEARNING SYSTEM so the website and mobile app share the same user content, activity, progress, exam history, and dashboard state.
+
+This is a CORE PRODUCT INFRASTRUCTURE task.
+
+==================================================
+PRIMARY OBJECTIVE
+==================================================
+
+Users must be able to:
+
+- view test banks on web and mobile
+- take CAT exams on web and mobile
+- take mock exams on web and mobile
+- view lessons on web and mobile
+- have all activity sync to the same account
+- see progress reflected on the website dashboard and in the app
+- move between desktop and mobile without losing continuity
+
+The backend must be the SINGLE SOURCE OF TRUTH.
+
+==================================================
+SECTION 1 — CORE PRODUCT DOMAINS
+==================================================
+
+Build or extend backend models / APIs for these content and activity domains:
+
+1. TEST BANKS
+- test bank collections
+- categories / systems / subjects
+- tier / role mapping (RPN, RN, NP, Allied, New Grad)
+- country / exam mapping
+- question counts
+- locked/free visibility
+- progress summary per bank
+
+2. CAT EXAMS
+- adaptive exam definition
+- session state
+- question sequence
+- current difficulty / adaptive state
+- paused/in-progress/completed states
+- score/result summary
+- resume support
+
+3. MOCK EXAMS
+- fixed exam templates
+- timed or untimed mode
+- attempt history
+- completed results
+- review state
+
+4. LESSONS
+- lesson metadata
+- role/tier/exam mapping
+- lesson completion state
+- bookmarked/saved state
+- progress state
+
+==================================================
+SECTION 2 — USER ACTIVITY / PROGRESS MODELS
+==================================================
+
+Create or extend central user-progress models so all platforms read/write the same account data.
+
+Support at minimum:
+
+USER CONTENT PROGRESS
+- userId
+- role
+- country
+- exam
+- active plan / entitlements
+
+TEST BANK PROGRESS
+- bankId
+- questionsAttempted
+- correctCount
+- incorrectCount
+- lastQuestionId
+- lastStudiedAt
+- completedPercent
+
+QUESTION HISTORY
+- questionId
+- selectedAnswer
+- wasCorrect
+- rationaleViewed
+- answeredAt
+- sessionId
+- sourceType (test bank, CAT, mock)
+
+CAT SESSION
+- sessionId
+- status (in_progress, paused, completed)
+- startTime
+- lastActiveAt
+- adaptive state / current level
+- question history
+- result summary
+
+MOCK EXAM SESSION
+- sessionId
+- examId
+- status
+- startTime
+- submittedAt
+- score
+- percent
+- timing data
+- review availability
+
+LESSON PROGRESS
+- lessonId
+- viewedAt
+- completionPercent
+- completedAt
+- bookmarked
+
+DASHBOARD SUMMARY
+- recent activity
+- streak or study-day count if applicable
+- last studied module
+- recommended next action
+- overall counts by content type
+
+==================================================
+SECTION 3 — SHARED DASHBOARD DATA
+==================================================
+
+Create backend endpoints that provide dashboard-ready cross-platform data.
+
+The website and app dashboard must be able to show:
+- current role / exam path
+- recent activity
+- continue where you left off
+- test bank progress
+- CAT exam state
+- mock exam state
+- lesson progress
+- recommended next action
+- locked vs unlocked sections based on entitlements
+
+Create a clean endpoint such as:
+GET /dashboard/summary
+
+Return structured data for direct UI consumption.
+
+==================================================
+SECTION 4 — TEST BANK API
+==================================================
+
+Create endpoints such as:
+
+GET /test-banks
+- returns test bank collections filtered by user role/country/exam/entitlements
+
+GET /test-banks/:bankId
+- returns bank metadata, categories, question counts, progress summary
+
+GET /test-banks/:bankId/questions
+- paginated / session-ready question delivery
+
+POST /test-banks/:bankId/answer
+- save answer
+- return correctness/rationale metadata if allowed
+- update progress
+
+GET /test-banks/:bankId/progress
+- return current bank progress
+
+Requirements:
+- support free vs premium access
+- support role/exam filtering
+- support resume behavior
+
+==================================================
+SECTION 5 — CAT EXAM API
+==================================================
+
+Create endpoints such as:
+
+POST /cat-exams/start
+- create CAT session for user based on role/exam
+
+GET /cat-exams/:sessionId
+- get session state / current question / progress
+
+POST /cat-exams/:sessionId/answer
+- submit answer
+- update adaptive state
+- return next question or completion state
+
+POST /cat-exams/:sessionId/pause
+- pause session safely
+
+POST /cat-exams/:sessionId/resume
+- resume in-progress CAT session
+
+GET /cat-exams/:sessionId/results
+- return final summary
+
+Requirements:
+- central adaptive state
+- no client-side-only CAT logic
+- session can resume across web and mobile
+
+==================================================
+SECTION 6 — MOCK EXAM API
+==================================================
+
+Create endpoints such as:
+
+GET /mock-exams
+GET /mock-exams/:examId
+POST /mock-exams/:examId/start
+GET /mock-exams/session/:sessionId
+POST /mock-exams/session/:sessionId/answer
+POST /mock-exams/session/:sessionId/submit
+GET /mock-exams/session/:sessionId/results
+
+Requirements:
+- fixed exam structure
+- attempt history stored centrally
+- timed and untimed support if applicable
+- results visible on both web and mobile
+
+==================================================
+SECTION 7 — LESSON API
+==================================================
+
+Create endpoints such as:
+
+GET /lessons
+GET /lessons/:lessonId
+POST /lessons/:lessonId/progress
+POST /lessons/:lessonId/bookmark
+GET /lessons/:lessonId/progress
+
+Requirements:
+- lessons filtered by role/country/exam
+- completion state shared across platforms
+- bookmark state shared across platforms
+
+==================================================
+SECTION 8 — CROSS-PLATFORM SYNC RULES
+==================================================
+
+This is critical.
+
+All user actions must sync centrally so they appear on both platforms.
+
+Examples:
+- answer questions in app → web dashboard updates
+- complete lesson on web → app reflects completion
+- start CAT on desktop → resume on phone
+- pause mock exam on phone → continue on desktop
+- bookmarks, progress, recent activity, and completion state stay shared
+
+Rules:
+- backend is source of truth
+- no shadow local-only progress systems
+- app may cache locally for speed, but must sync to backend
+- website must read the same stored progress
+
+==================================================
+SECTION 9 — ENTITLEMENT / GATING INTEGRATION
+==================================================
+
+All content APIs must respect the central entitlement system.
+
+Support:
+- free preview content
+- premium content gating
+- role-based access if applicable
+- locked state metadata returned from backend
+
+Do not leave locking decisions to ad hoc frontend logic alone.
+
+==================================================
+SECTION 10 — RESUME / CONTINUITY
+==================================================
+
+Support “continue where you left off” across devices.
+
+Build backend logic to determine:
+- current in-progress CAT exam
+- current in-progress mock exam
+- last active test bank
+- last viewed lesson
+- recommended next action
+
+Expose this in dashboard summary responses.
+
+==================================================
+SECTION 11 — WEBSITE INTEGRATION
+==================================================
+
+Update the website/dashboard code as needed so it reads from the new shared endpoints and shows:
+
+- synced progress
+- synced recent activity
+- in-progress exam state
+- lesson completion state
+- recommended next action
+
+Do not leave the website using stale or separate logic if new central endpoints exist.
+
+==================================================
+SECTION 12 — ANALYTICS / OBSERVABILITY
+==================================================
+
+Track/log:
+- test_bank_started
+- question_answered
+- cat_started
+- cat_paused
+- cat_resumed
+- cat_completed
+- mock_started
+- mock_submitted
+- lesson_viewed
+- lesson_completed
+- bookmark_toggled
+- sync_write_success
+- sync_write_failure
+
+==================================================
+SECTION 13 — RESILIENCE
+==================================================
+
+Requirements:
+- safe retries for progress writes when appropriate
+- avoid duplicate writes corrupting progress
+- idempotent session updates where possible
+- protect against malformed state
+- never lose valid user progress because of temporary failures
+- return clean fallback states
+
+==================================================
+SECTION 14 — DELIVERABLES
+==================================================
+
+First audit current state, then implement/fix what is needed.
+
+At the end provide:
+1. models added/updated
+2. endpoints added
+3. how cross-platform sync works
+4. website dashboard changes made
+5. how CAT/mock/test bank/lesson progress is shared
+6. any remaining blockers for full production use

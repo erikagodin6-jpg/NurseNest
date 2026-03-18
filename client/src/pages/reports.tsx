@@ -314,7 +314,7 @@ export default function Reports() {
 
         {!hasReportsAccess && !entitlementLoading ? (
           <FeatureLockedPreview feature="reports" />
-        ) : (
+        ) : (<>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           <Card className="border-none shadow-md bg-white rounded-2xl p-5">
             <div className="flex items-center gap-3 mb-2">
@@ -502,7 +502,7 @@ export default function Reports() {
             </Card>
           </div>
         )}
-        )}
+        </>)}
       </main>
       <AdminEditButton />
       <Footer />

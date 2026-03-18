@@ -607,7 +607,7 @@ export default function QuestionBank() {
             </FeatureLockedPreview>
           )}
 
-          {!isDailyLimitReached && (
+          {!isDailyLimitReached && (<>
           <div className="flex items-center justify-center gap-2 mb-6" data-testid="mode-selector">
             <div className="inline-flex bg-gray-100/80 rounded-2xl p-1">
               <Button
@@ -1024,7 +1024,7 @@ export default function QuestionBank() {
             <p>{t("qbank.disclaimerIndependent")}</p>
             <p>{t("qbank.disclaimerNotAffiliated")}</p>
           </div>
-          )}
+          </>)}
         </div>
       </main>
 
