@@ -7176,6 +7176,48 @@ export const insertIncidentSchema = createInsertSchema(incidents).omit({
 export type Incident = typeof incidents.$inferSelect;
 export type InsertIncident = z.infer<typeof insertIncidentSchema>;
 
+export const subscriberRescueActions = pgTable("subscriber_rescue_actions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  incidentId: varchar("incident_id"),
+  actionType: text("action_type").notNull(),
+  actionData: jsonb("action_data").default(sql`'{}'::jsonb`),
+  performedBy: varchar("performed_by").notNull(),
+  performedByUsername: text("performed_by_username"),
+  reason: text("reason"),
+  status: text("status").default("completed"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertSubscriberRescueActionSchema = createInsertSchema(subscriberRescueActions).omit({
+  id: true,
+  createdAt: true,
+});
+export type SubscriberRescueAction = typeof subscriberRescueActions.$inferSelect;
+export type InsertSubscriberRescueAction = z.infer<typeof insertSubscriberRescueActionSchema>;
+
+export const communicationTemplates = pgTable("communication_templates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  templateKey: text("template_key").notNull().unique(),
+  name: text("name").notNull(),
+  subject: text("subject").notNull(),
+  bodyEmail: text("body_email").notNull(),
+  bodyInApp: text("body_in_app").notNull(),
+  placeholders: jsonb("placeholders").default(sql`'[]'::jsonb`),
+  isActive: boolean("is_active").default(true),
+  updatedBy: varchar("updated_by"),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertCommunicationTemplateSchema = createInsertSchema(communicationTemplates).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type CommunicationTemplate = typeof communicationTemplates.$inferSelect;
+export type InsertCommunicationTemplate = z.infer<typeof insertCommunicationTemplateSchema>;
+
 export const incidentEvents = pgTable("incident_events", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   incidentId: varchar("incident_id").notNull(),

@@ -1,778 +1,803 @@
 import type { Express } from "express";
+import { z } from "zod";
 import { pool } from "./storage";
 import { requireAdmin } from "./admin-auth";
-import { z } from "zod";
 
-const VALID_TEMPLATE_CATEGORIES = ["incident", "assurance", "resolution", "goodwill", "support", "billing"] as const;
-const VALID_SEVERITIES = ["critical", "high", "medium", "low"] as const;
-const VALID_TIERS = ["rpn", "rn", "np", "allied", "imaging", "new_grad_toolkit", "certification_prep", "full_access"] as const;
-const VALID_NOTE_CATEGORIES = ["general", "billing", "incident", "rescue", "escalation"] as const;
-const VALID_RESCUE_STATUSES = ["pending", "rescued", "acknowledged", "skipped"] as const;
+const VALID_ACTION_TYPES = ["extend_subscription", "grant_temporary_access", "restore_entitlement", "replay_billing_sync", "reset_exam_state", "send_backup_link", "support_note"] as const;
+const VALID_TIERS = ["free", "basic", "premium", "pro", "enterprise"] as const;
 
-const templateCreateSchema = z.object({
-  name: z.string().min(1).max(200),
-  category: z.enum(VALID_TEMPLATE_CATEGORIES),
-  subject: z.string().max(500).optional(),
-  body: z.string().min(1).max(10000),
-  placeholders: z.array(z.string().max(100)).optional(),
-  isActive: z.boolean().optional(),
-});
-
-const rescueActionSchema = z.object({
+const extendSubscriptionSchema = z.object({
   userId: z.string().min(1),
-  reason: z.string().min(1).max(1000).optional(),
+  days: z.coerce.number().int().min(1).max(365),
+  reason: z.string().optional(),
   incidentId: z.string().optional(),
 });
 
-const extendSubscriptionSchema = rescueActionSchema.extend({
-  days: z.number().int().min(1).max(365),
+const grantTempAccessSchema = z.object({
+  userId: z.string().min(1),
+  hours: z.coerce.number().int().min(1).max(720),
+  tier: z.enum(VALID_TIERS).optional(),
+  reason: z.string().optional(),
+  incidentId: z.string().optional(),
 });
 
-const grantAccessSchema = rescueActionSchema.extend({
-  durationHours: z.number().int().min(1).max(720).optional(),
+const restoreEntitlementSchema = z.object({
+  userId: z.string().min(1),
+  tier: z.enum(VALID_TIERS).optional(),
+  reason: z.string().optional(),
+  incidentId: z.string().optional(),
 });
 
-const restoreEntitlementSchema = rescueActionSchema.extend({
-  tier: z.enum(VALID_TIERS),
+const userActionSchema = z.object({
+  userId: z.string().min(1),
+  reason: z.string().optional(),
+  incidentId: z.string().optional(),
 });
 
-const noteCreateSchema = z.object({
-  content: z.string().min(1).max(5000),
-  category: z.enum(VALID_NOTE_CATEGORIES).optional(),
+const sendBackupLinkSchema = userActionSchema.extend({
+  resourceUrl: z.string().url().optional().or(z.literal("")),
+  resourceName: z.string().max(500).optional(),
+});
+
+const addSupportNoteSchema = z.object({
+  userId: z.string().min(1),
+  note: z.string().min(1).max(5000),
+  reason: z.string().optional(),
+  incidentId: z.string().optional(),
 });
 
 const bulkActionSchema = z.object({
-  affectedUserIds: z.array(z.string().min(1)).min(1).max(200),
-  action: z.enum(["extend_subscription", "grant_temporary_access"]),
-  actionParams: z.object({
-    days: z.number().int().min(1).max(365).optional(),
-    durationHours: z.number().int().min(1).max(720).optional(),
-  }).optional(),
-  reason: z.string().max(1000).optional(),
+  userIds: z.array(z.string().min(1)).min(1).max(100),
+  actionType: z.enum(VALID_ACTION_TYPES),
+  actionData: z.record(z.unknown()).optional(),
+  reason: z.string().optional(),
   incidentId: z.string().optional(),
 });
 
-async function ensureRescueTables() {
-  try {
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS communication_templates (
-        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
-        name TEXT NOT NULL,
-        category TEXT NOT NULL,
-        subject TEXT,
-        body TEXT NOT NULL,
-        placeholders JSONB DEFAULT '[]'::jsonb,
-        is_active BOOLEAN DEFAULT true,
-        created_by VARCHAR,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW()
-      )
-    `);
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS rescue_action_logs (
-        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
-        target_user_id VARCHAR NOT NULL,
-        target_username TEXT,
-        actor_id VARCHAR NOT NULL,
-        actor_username TEXT,
-        action_type TEXT NOT NULL,
-        action_details JSONB DEFAULT '{}'::jsonb,
-        reason TEXT,
-        incident_id VARCHAR,
-        created_at TIMESTAMP DEFAULT NOW()
-      )
-    `);
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS incident_affected_users (
-        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
-        incident_id VARCHAR NOT NULL,
-        user_id VARCHAR NOT NULL,
-        username TEXT,
-        email TEXT,
-        tier TEXT,
-        subscription_status TEXT,
-        severity TEXT DEFAULT 'medium',
-        impact_description TEXT,
-        rescue_status TEXT DEFAULT 'pending',
-        suggested_actions JSONB DEFAULT '[]'::jsonb,
-        actions_applied JSONB DEFAULT '[]'::jsonb,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW()
-      )
-    `);
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS support_notes (
-        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
-        user_id VARCHAR NOT NULL,
-        author_id VARCHAR NOT NULL,
-        author_username TEXT,
-        content TEXT NOT NULL,
-        category TEXT DEFAULT 'general',
-        created_at TIMESTAMP DEFAULT NOW()
-      )
-    `);
-    await pool.query(`CREATE INDEX IF NOT EXISTS idx_rescue_logs_target ON rescue_action_logs(target_user_id)`);
-    await pool.query(`CREATE INDEX IF NOT EXISTS idx_rescue_logs_incident ON rescue_action_logs(incident_id)`);
-    await pool.query(`CREATE INDEX IF NOT EXISTS idx_affected_users_incident ON incident_affected_users(incident_id)`);
-    await pool.query(`CREATE INDEX IF NOT EXISTS idx_affected_users_user ON incident_affected_users(user_id)`);
-    await pool.query(`CREATE INDEX IF NOT EXISTS idx_support_notes_user ON support_notes(user_id)`);
-  } catch (e) {
-    console.error("[SubscriberRescue] Table creation error:", e);
-  }
-}
+const createTemplateSchema = z.object({
+  templateKey: z.string().min(1).max(100),
+  name: z.string().min(1).max(200),
+  subject: z.string().min(1).max(500),
+  bodyEmail: z.string().min(1).max(10000),
+  bodyInApp: z.string().min(1).max(5000),
+  placeholders: z.array(z.string()).optional(),
+});
 
-function snakeToCamel(obj: any): any {
-  if (Array.isArray(obj)) return obj.map(snakeToCamel);
-  if (obj === null || typeof obj !== "object") return obj;
-  const result: any = {};
-  for (const [key, value] of Object.entries(obj)) {
-    const camelKey = key.replace(/_([a-z])/g, (_, c) => c.toUpperCase());
-    result[camelKey] = value;
-  }
-  return result;
-}
+const updateTemplateSchema = z.object({
+  name: z.string().min(1).max(200).optional(),
+  subject: z.string().min(1).max(500).optional(),
+  bodyEmail: z.string().min(1).max(10000).optional(),
+  bodyInApp: z.string().min(1).max(5000).optional(),
+  placeholders: z.array(z.string()).optional(),
+  isActive: z.boolean().optional(),
+});
 
-function getAdminRole(admin: any): string {
-  return admin.admin_role || admin.adminRole || "super_admin";
-}
-
-function hasRescuePermission(admin: any): boolean {
-  const role = getAdminRole(admin);
-  return ["super_admin", "support_admin"].includes(role);
-}
-
-function hasReadPermission(admin: any): boolean {
-  const role = getAdminRole(admin);
-  return ["super_admin", "support_admin", "ops_viewer", "content_admin"].includes(role);
-}
-
-async function logRescueAction(actorId: string, actorUsername: string, targetUserId: string, targetUsername: string | null, actionType: string, actionDetails: any, reason: string | null, incidentId: string | null) {
-  const client = await pool.connect();
-  try {
-    await client.query("BEGIN");
-    await client.query(
-      `INSERT INTO rescue_action_logs (id, target_user_id, target_username, actor_id, actor_username, action_type, action_details, reason, incident_id, created_at)
-       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, NOW())`,
-      [targetUserId, targetUsername, actorId, actorUsername, actionType, JSON.stringify(actionDetails), reason, incidentId]
-    );
-    await client.query(
-      `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, action_category, target_type, target_id, after_json, reason, severity, created_at)
-       VALUES (gen_random_uuid(), $1, $2, 'subscriber_rescue', $3, $4, 'rescue', 'user', $3, $5, $6, 'info', NOW())`,
-      [actorId, actorUsername, targetUserId, `rescue:${actionType}`, JSON.stringify(actionDetails), reason]
-    );
-    await client.query("COMMIT");
-  } catch (e) {
-    await client.query("ROLLBACK");
-    console.error("[SubscriberRescue] Audit log transaction error:", e);
-    throw e;
-  } finally {
-    client.release();
-  }
-}
-
-async function logAdminAction(actorId: string, actorUsername: string, entityType: string, entityId: string | null, action: string, details: any) {
-  try {
-    await pool.query(
-      `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, action_category, after_json, severity, created_at)
-       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, 'rescue_admin', $6, 'info', NOW())`,
-      [actorId, actorUsername, entityType, entityId, action, JSON.stringify(details)]
-    );
-  } catch (e) {
-    console.error("[SubscriberRescue] Admin action log error:", e);
-  }
+function sanitizeError(e: any): string {
+  if (e?.code === "23505") return "A record with this key already exists";
+  if (e?.code === "23503") return "Referenced record not found";
+  if (e?.code === "42P01") return "Required database table not found";
+  return "An internal error occurred";
 }
 
 const DEFAULT_TEMPLATES = [
   {
+    template_key: "exam_temporarily_unavailable",
     name: "Exam Temporarily Unavailable",
-    category: "incident",
-    subject: "{{exam_name}} is temporarily unavailable",
-    body: "Hi {{customer_name}},\n\nWe're aware that {{exam_name}} is temporarily unavailable due to a service issue (Incident #{{incident_id}}). Our team is actively working to restore access.\n\nYour subscription and progress are fully protected. We expect this to be resolved within {{duration}}.\n\nThank you for your patience.",
-    placeholders: ["customer_name", "exam_name", "incident_id", "duration"],
+    subject: "Your exam access is temporarily interrupted",
+    body_email: "Hi {{customer_name}},\n\nWe're aware of an issue affecting access to {{product_name}}. Our team is working to resolve this as quickly as possible.\n\nIncident Reference: {{incident_id}}\n\nYour progress has been saved and your exam time will not be affected. We expect this to be resolved within {{duration}}.\n\nThank you for your patience.",
+    body_in_app: "We're aware of an issue affecting {{product_name}}. Your progress is saved and exam time is paused. Expected resolution: {{duration}}.",
+    placeholders: JSON.stringify(["customer_name", "product_name", "incident_id", "duration"]),
   },
   {
+    template_key: "backup_mode_active",
     name: "Backup Mode Active",
-    category: "incident",
-    subject: "Service update: Backup mode activated",
-    body: "Hi {{customer_name}},\n\nWe've activated backup mode for {{product_name}} to ensure you can continue studying. Some features may be limited, but your core access is protected.\n\nIncident: #{{incident_id}}\nExpected resolution: {{duration}}\n\nWe'll notify you when full service is restored.",
-    placeholders: ["customer_name", "product_name", "incident_id", "duration"],
+    subject: "You're now in backup study mode",
+    body_email: "Hi {{customer_name}},\n\nDue to a temporary service issue, we've activated backup study mode for your account. You can continue studying with cached content.\n\nIncident Reference: {{incident_id}}\n\nAll your progress will sync once the issue is resolved. Thank you for your understanding.",
+    body_in_app: "Backup study mode is active. Your progress will sync automatically once normal service resumes.",
+    placeholders: JSON.stringify(["customer_name", "incident_id"]),
   },
   {
+    template_key: "access_protected",
     name: "Access Protected",
-    category: "assurance",
-    subject: "Your access is protected",
-    body: "Hi {{customer_name}},\n\nWe want to assure you that your access to {{product_name}} is fully protected during the current service event. Your subscription status, study progress, and all data remain safe.\n\nNo action is needed on your part.",
-    placeholders: ["customer_name", "product_name"],
+    subject: "Your subscription access has been protected",
+    body_email: "Hi {{customer_name}},\n\nWe experienced a brief service interruption that may have affected your access to {{product_name}}. We want you to know that your subscription access has been fully protected.\n\nNo action is needed on your part. If you experience any issues, please don't hesitate to reach out.\n\nThank you for being a valued subscriber.",
+    body_in_app: "Your subscription access to {{product_name}} has been fully protected during the recent service interruption. No action needed.",
+    placeholders: JSON.stringify(["customer_name", "product_name"]),
   },
   {
+    template_key: "issue_resolved",
     name: "Issue Resolved",
-    category: "resolution",
-    subject: "Service restored: {{product_name}}",
-    body: "Hi {{customer_name}},\n\nGreat news! The issue affecting {{product_name}} has been resolved (Incident #{{incident_id}}). All services are back to normal.\n\nDuration of impact: {{duration}}\n\nWe apologize for any inconvenience. If you experience any remaining issues, please don't hesitate to reach out.",
-    placeholders: ["customer_name", "product_name", "incident_id", "duration"],
+    subject: "Service issue resolved - everything is back to normal",
+    body_email: "Hi {{customer_name}},\n\nThe service issue ({{incident_id}}) that was affecting {{product_name}} has been resolved. Everything is back to normal.\n\nIf you notice anything unusual, please let us know.\n\nThank you for your patience and understanding.",
+    body_in_app: "The service issue affecting {{product_name}} has been resolved. Everything is back to normal.",
+    placeholders: JSON.stringify(["customer_name", "product_name", "incident_id"]),
   },
   {
+    template_key: "subscription_extended",
     name: "Subscription Extended",
-    category: "goodwill",
-    subject: "Your subscription has been extended",
-    body: "Hi {{customer_name}},\n\nAs a gesture of goodwill for the recent service disruption, we've extended your {{product_name}} subscription by {{extension_days}} days.\n\nYour new expiration date is {{new_expiry_date}}.\n\nThank you for being a valued member.",
-    placeholders: ["customer_name", "product_name", "extension_days", "new_expiry_date"],
+    subject: "We've extended your subscription",
+    body_email: "Hi {{customer_name}},\n\nDue to the recent service interruption, we've extended your {{product_name}} subscription by {{extension_granted}}.\n\nYour new access extends through the additional period. No action is needed on your part.\n\nWe value your trust and apologize for any inconvenience.",
+    body_in_app: "Your {{product_name}} subscription has been extended by {{extension_granted}} due to the recent service interruption.",
+    placeholders: JSON.stringify(["customer_name", "product_name", "extension_granted"]),
   },
   {
+    template_key: "backup_link_sent",
     name: "Backup Link Sent",
-    category: "support",
-    subject: "Backup resource access for {{product_name}}",
-    body: "Hi {{customer_name}},\n\nWhile we work on restoring full access to {{product_name}}, here's a backup resource link you can use:\n\n{{backup_link}}\n\nThis temporary access will remain active until the main service is restored.",
-    placeholders: ["customer_name", "product_name", "backup_link"],
+    subject: "Backup study resources available",
+    body_email: "Hi {{customer_name}},\n\nWhile we resolve a temporary issue with {{product_name}}, we've prepared backup study resources for you.\n\nYou can access them to continue your study session without interruption.\n\nThank you for your understanding.",
+    body_in_app: "Backup study resources are available for {{product_name}} while we resolve the current issue.",
+    placeholders: JSON.stringify(["customer_name", "product_name"]),
   },
   {
+    template_key: "temporary_billing_sync",
     name: "Temporary Billing Sync Issue",
-    category: "billing",
-    subject: "Billing update: Temporary sync issue",
-    body: "Hi {{customer_name}},\n\nWe noticed a temporary billing synchronization issue with your {{product_name}} subscription. Rest assured, your access has NOT been interrupted and your subscription remains active.\n\nWe've resolved the sync issue on our end. No action is needed from you.\n\nIf you see any unexpected charges, please contact us immediately.",
-    placeholders: ["customer_name", "product_name"],
+    subject: "Brief billing sync delay - your access is unaffected",
+    body_email: "Hi {{customer_name}},\n\nWe noticed a brief delay in our billing sync system. We want to assure you that your subscription to {{product_name}} is active and your access is completely unaffected.\n\nNo action is needed on your part. If you have any billing questions, please reach out.\n\nThank you.",
+    body_in_app: "A brief billing sync delay was detected. Your subscription and access are fully active and unaffected.",
+    placeholders: JSON.stringify(["customer_name", "product_name"]),
   },
   {
+    template_key: "goodwill_credit_applied",
     name: "Goodwill Credit Applied",
-    category: "goodwill",
     subject: "A credit has been applied to your account",
-    body: "Hi {{customer_name}},\n\nWe've applied a goodwill credit to your account as a thank you for your patience during the recent service event affecting {{product_name}}.\n\nCredit details: {{credit_details}}\n\nThank you for being a loyal subscriber.",
-    placeholders: ["customer_name", "product_name", "credit_details"],
+    body_email: "Hi {{customer_name}},\n\nAs a gesture of goodwill following the recent service interruption ({{incident_id}}), we've applied {{extension_granted}} of additional access to your {{product_name}} subscription.\n\nWe appreciate your patience and continued trust.\n\nThank you for being part of our community.",
+    body_in_app: "{{extension_granted}} of additional access has been applied to your {{product_name}} subscription as a goodwill gesture.",
+    placeholders: JSON.stringify(["customer_name", "product_name", "incident_id", "extension_granted"]),
   },
 ];
 
+async function ensureRescueTables() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS subscriber_rescue_actions (
+        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+        user_id VARCHAR NOT NULL,
+        incident_id VARCHAR,
+        action_type TEXT NOT NULL,
+        action_data JSONB DEFAULT '{}'::jsonb,
+        performed_by VARCHAR NOT NULL,
+        performed_by_username TEXT,
+        reason TEXT,
+        status TEXT DEFAULT 'completed',
+        created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
+      )
+    `);
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS communication_templates (
+        id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+        template_key TEXT NOT NULL UNIQUE,
+        name TEXT NOT NULL,
+        subject TEXT NOT NULL,
+        body_email TEXT NOT NULL,
+        body_in_app TEXT NOT NULL,
+        placeholders JSONB DEFAULT '[]'::jsonb,
+        is_active BOOLEAN DEFAULT true,
+        updated_by VARCHAR,
+        updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
+        created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
+      )
+    `);
+    await pool.query(`CREATE INDEX IF NOT EXISTS idx_rescue_actions_user ON subscriber_rescue_actions(user_id)`);
+    await pool.query(`CREATE INDEX IF NOT EXISTS idx_rescue_actions_incident ON subscriber_rescue_actions(incident_id)`);
+  } catch (e: any) {
+    console.error("[SubscriberRescue] Table creation error:", e.message);
+  }
+}
+
+async function seedDefaultTemplates() {
+  try {
+    for (const t of DEFAULT_TEMPLATES) {
+      await pool.query(
+        `INSERT INTO communication_templates (template_key, name, subject, body_email, body_in_app, placeholders)
+         VALUES ($1, $2, $3, $4, $5, $6::jsonb)
+         ON CONFLICT (template_key) DO NOTHING`,
+        [t.template_key, t.name, t.subject, t.body_email, t.body_in_app, t.placeholders]
+      );
+    }
+  } catch (e: any) {
+    console.error("[SubscriberRescue] Template seeding error:", e.message);
+  }
+}
+
+async function logRescueAction(
+  userId: string,
+  incidentId: string | null,
+  actionType: string,
+  actionData: any,
+  performedBy: string,
+  performedByUsername: string | null,
+  reason: string | null
+) {
+  await pool.query(
+    `INSERT INTO subscriber_rescue_actions (user_id, incident_id, action_type, action_data, performed_by, performed_by_username, reason)
+     VALUES ($1, $2, $3, $4::jsonb, $5, $6, $7)`,
+    [userId, incidentId, actionType, JSON.stringify(actionData), performedBy, performedByUsername, reason]
+  );
+  await pool.query(
+    `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, after_json, reason, severity, created_at)
+     VALUES (gen_random_uuid(), $1, $2, 'subscriber_rescue', $3, $4, $5, $6, 'warning', NOW())`,
+    [performedBy, performedByUsername, userId, `rescue_${actionType}`, JSON.stringify(actionData), reason]
+  );
+}
+
+function renderTemplate(template: string, values: Record<string, string>): string {
+  let result = template;
+  for (const [key, value] of Object.entries(values)) {
+    result = result.replace(new RegExp(`\\{\\{${key}\\}\\}`, "g"), value || "");
+  }
+  return result;
+}
+
 export function registerSubscriberRescueRoutes(app: Express) {
-  ensureRescueTables().catch(() => {});
+  ensureRescueTables().then(() => seedDefaultTemplates());
 
-  app.get("/api/admin/rescue/templates", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasReadPermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
+  app.post("/api/admin/rescue/extend-subscription", async (req: any, res) => {
     try {
-      const { rows } = await pool.query(`SELECT * FROM communication_templates ORDER BY category, name`);
-      res.json(snakeToCamel(rows));
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-  app.post("/api/admin/rescue/templates", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasRescuePermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
-    try {
-      const parsed = templateCreateSchema.safeParse(req.body);
-      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten() });
-      const { name, category, subject, body, placeholders, isActive } = parsed.data;
-      const { rows } = await pool.query(
-        `INSERT INTO communication_templates (id, name, category, subject, body, placeholders, is_active, created_by, created_at, updated_at)
-         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, NOW(), NOW()) RETURNING *`,
-        [name, category, subject || null, body, JSON.stringify(placeholders || []), isActive !== false, admin.id]
-      );
-      await logAdminAction(admin.id, admin.username, "communication_template", rows[0].id, "template_created", { name, category });
-      res.json(snakeToCamel(rows[0]));
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-  app.put("/api/admin/rescue/templates/:id", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasRescuePermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
-    try {
-      const parsed = templateCreateSchema.partial().safeParse(req.body);
-      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten() });
-      const { name, category, subject, body, placeholders, isActive } = parsed.data;
-      const { rows } = await pool.query(
-        `UPDATE communication_templates SET name = COALESCE($1, name), category = COALESCE($2, category), subject = $3, body = COALESCE($4, body), placeholders = COALESCE($5, placeholders), is_active = COALESCE($6, is_active), updated_at = NOW() WHERE id = $7 RETURNING *`,
-        [name, category, subject, body, placeholders ? JSON.stringify(placeholders) : null, isActive, req.params.id]
-      );
-      if (!rows[0]) return res.status(404).json({ error: "Template not found" });
-      await logAdminAction(admin.id, admin.username, "communication_template", req.params.id, "template_updated", { name, category });
-      res.json(snakeToCamel(rows[0]));
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-  app.delete("/api/admin/rescue/templates/:id", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasRescuePermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
-    try {
-      await logAdminAction(admin.id, admin.username, "communication_template", req.params.id, "template_deleted", {});
-      await pool.query(`DELETE FROM communication_templates WHERE id = $1`, [req.params.id]);
-      res.json({ success: true });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-  app.post("/api/admin/rescue/templates/seed", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasRescuePermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
-    try {
-      const { rows: existing } = await pool.query(`SELECT COUNT(*) as cnt FROM communication_templates`);
-      if (parseInt(existing[0].cnt) > 0) return res.json({ message: "Templates already seeded", count: parseInt(existing[0].cnt) });
-      for (const t of DEFAULT_TEMPLATES) {
-        await pool.query(
-          `INSERT INTO communication_templates (id, name, category, subject, body, placeholders, is_active, created_by, created_at, updated_at)
-           VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, true, $6, NOW(), NOW())`,
-          [t.name, t.category, t.subject, t.body, JSON.stringify(t.placeholders), admin.id]
-        );
-      }
-      await logAdminAction(admin.id, admin.username, "communication_template", null, "templates_seeded", { count: DEFAULT_TEMPLATES.length });
-      res.json({ message: "Seeded default templates", count: DEFAULT_TEMPLATES.length });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-  app.post("/api/admin/rescue/templates/:id/populate", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasReadPermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
-    try {
-      const { rows } = await pool.query(`SELECT * FROM communication_templates WHERE id = $1`, [req.params.id]);
-      if (!rows[0]) return res.status(404).json({ error: "Template not found" });
-      const template = rows[0];
-      const values = req.body.values || {};
-      let populatedSubject = template.subject || "";
-      let populatedBody = template.body || "";
-      for (const [key, val] of Object.entries(values)) {
-        const safeKey = key.replace(/[^a-zA-Z0-9_]/g, "");
-        const regex = new RegExp(`\\{\\{${safeKey}\\}\\}`, "g");
-        populatedSubject = populatedSubject.replace(regex, String(val));
-        populatedBody = populatedBody.replace(regex, String(val));
-      }
-      res.json({ subject: populatedSubject, body: populatedBody, template: snakeToCamel(template) });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-  app.post("/api/admin/rescue/extend-subscription", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasRescuePermission(admin)) return res.status(403).json({ error: "Insufficient permissions for rescue actions" });
-    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
       const parsed = extendSubscriptionSchema.safeParse(req.body);
-      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten() });
+      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten().fieldErrors });
       const { userId, days, reason, incidentId } = parsed.data;
-      const { rows: userRows } = await pool.query(`SELECT * FROM users WHERE id = $1`, [userId]);
-      if (!userRows[0]) return res.status(404).json({ error: "User not found" });
-      const user = userRows[0];
-      const currentExpiry = user.plan_expires_at ? new Date(user.plan_expires_at) : new Date();
-      const newExpiry = new Date(Math.max(currentExpiry.getTime(), Date.now()) + days * 86400000);
-      await pool.query(`UPDATE users SET plan_expires_at = $1 WHERE id = $2`, [newExpiry, userId]);
-      await logRescueAction(admin.id, admin.username, userId, user.username, "extend_subscription", { days, previousExpiry: user.plan_expires_at, newExpiry: newExpiry.toISOString() }, reason || null, incidentId || null);
-      res.json({ success: true, newExpiry: newExpiry.toISOString(), user: snakeToCamel(userRows[0]) });
+
+      const userResult = await pool.query("SELECT id, username, tier, subscription_status FROM users WHERE id = $1", [userId]);
+      if (!userResult.rows[0]) return res.status(404).json({ error: "User not found" });
+
+      const extensionMs = days * 24 * 60 * 60 * 1000;
+      const newExpiry = new Date(Date.now() + extensionMs);
+      await pool.query(
+        `UPDATE users SET plan_expires_at = GREATEST(COALESCE(plan_expires_at, NOW()), NOW()) + INTERVAL '1 day' * $1 WHERE id = $2`,
+        [days, userId]
+      );
+
+      await logRescueAction(userId, incidentId || null, "extend_subscription", { days, newExpiry: newExpiry.toISOString() }, admin.id, admin.username, reason || null);
+      res.json({ success: true, action: "extend_subscription", userId, days });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[SubscriberRescue] extend-subscription error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
     }
   });
 
-  app.post("/api/admin/rescue/grant-temporary-access", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasRescuePermission(admin)) return res.status(403).json({ error: "Insufficient permissions for rescue actions" });
+  app.post("/api/admin/rescue/grant-temporary-access", async (req: any, res) => {
     try {
-      const parsed = grantAccessSchema.safeParse(req.body);
-      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten() });
-      const { userId, durationHours, reason, incidentId } = parsed.data;
-      const hours = durationHours || 24;
-      const { rows: userRows } = await pool.query(`SELECT * FROM users WHERE id = $1`, [userId]);
-      if (!userRows[0]) return res.status(404).json({ error: "User not found" });
-      const user = userRows[0];
-      const expiry = new Date(Date.now() + hours * 3600000);
-      await pool.query(`UPDATE users SET tester_access = true, tester_expiry = $1 WHERE id = $2`, [expiry, userId]);
-      await logRescueAction(admin.id, admin.username, userId, user.username, "grant_temporary_access", { durationHours: hours, expiry: expiry.toISOString() }, reason || null, incidentId || null);
-      res.json({ success: true, accessExpiry: expiry.toISOString() });
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const parsed = grantTempAccessSchema.safeParse(req.body);
+      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten().fieldErrors });
+      const { userId, hours, tier, reason, incidentId } = parsed.data;
+
+      const userResult = await pool.query("SELECT id, username, tier FROM users WHERE id = $1", [userId]);
+      if (!userResult.rows[0]) return res.status(404).json({ error: "User not found" });
+
+      const expiresAt = new Date(Date.now() + hours * 60 * 60 * 1000);
+
+      await pool.query(
+        `CREATE TABLE IF NOT EXISTS provisional_access_grants (
+          id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
+          user_id VARCHAR NOT NULL,
+          reason TEXT,
+          granted_by VARCHAR,
+          granted_at TIMESTAMPTZ DEFAULT NOW(),
+          expires_at TIMESTAMPTZ,
+          revoked_at TIMESTAMPTZ
+        )`
+      );
+      await pool.query(
+        `INSERT INTO provisional_access_grants (id, user_id, reason, granted_by, granted_at, expires_at)
+         VALUES (gen_random_uuid(), $1, $2, $3, NOW(), $4)`,
+        [userId, reason || `Temporary access for ${hours}h`, admin.id, expiresAt]
+      );
+
+      await logRescueAction(userId, incidentId || null, "grant_temporary_access", { hours, tier: tier || "current", expiresAt: expiresAt.toISOString() }, admin.id, admin.username, reason || null);
+      res.json({ success: true, action: "grant_temporary_access", userId, hours, expiresAt });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[SubscriberRescue] grant-temporary-access error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
     }
   });
 
-  app.post("/api/admin/rescue/restore-entitlement", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasRescuePermission(admin)) return res.status(403).json({ error: "Insufficient permissions for rescue actions" });
+  app.post("/api/admin/rescue/restore-entitlement", async (req: any, res) => {
     try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
       const parsed = restoreEntitlementSchema.safeParse(req.body);
-      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten() });
+      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten().fieldErrors });
       const { userId, tier, reason, incidentId } = parsed.data;
-      const { rows: userRows } = await pool.query(`SELECT * FROM users WHERE id = $1`, [userId]);
-      if (!userRows[0]) return res.status(404).json({ error: "User not found" });
-      const user = userRows[0];
-      const previousTier = user.tier;
-      await pool.query(`UPDATE users SET tier = $1, subscription_status = 'active' WHERE id = $2`, [tier, userId]);
-      await logRescueAction(admin.id, admin.username, userId, user.username, "restore_entitlement", { previousTier, newTier: tier }, reason || null, incidentId || null);
-      res.json({ success: true, previousTier, newTier: tier });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
 
-  app.post("/api/admin/rescue/replay-billing-sync", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasRescuePermission(admin)) return res.status(403).json({ error: "Insufficient permissions for rescue actions" });
-    try {
-      const parsed = rescueActionSchema.safeParse(req.body);
-      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten() });
-      const { userId, reason, incidentId } = parsed.data;
-      const { rows: userRows } = await pool.query(`SELECT * FROM users WHERE id = $1`, [userId]);
-      if (!userRows[0]) return res.status(404).json({ error: "User not found" });
-      const user = userRows[0];
-      const syncResult: any = { synced: true, timestamp: new Date().toISOString() };
-      if (user.stripe_subscription_id) {
-        try {
-          const { getUncachableStripeClient } = await import("./stripeClient");
-          const stripe = await getUncachableStripeClient();
-          if (stripe) {
-            const sub = await stripe.subscriptions.retrieve(user.stripe_subscription_id);
-            const status = sub.status === "active" ? "active" : sub.status === "past_due" ? "past_due" : sub.status === "canceled" ? "canceled" : "inactive";
-            await pool.query(`UPDATE users SET subscription_status = $1 WHERE id = $2`, [status, userId]);
-            syncResult.stripeStatus = sub.status;
-            syncResult.mappedStatus = status;
-          }
-        } catch (stripeErr: any) {
-          syncResult.stripeError = stripeErr.message;
-        }
+      const userResult = await pool.query("SELECT id, username, tier, subscription_status FROM users WHERE id = $1", [userId]);
+      if (!userResult.rows[0]) return res.status(404).json({ error: "User not found" });
+
+      const previousTier = userResult.rows[0].tier;
+      const targetTier = tier || previousTier;
+
+      if (targetTier !== "admin") {
+        await pool.query("UPDATE users SET tier = $1, subscription_status = 'active' WHERE id = $2", [targetTier, userId]);
       }
-      await logRescueAction(admin.id, admin.username, userId, user.username, "replay_billing_sync", syncResult, reason || null, incidentId || null);
-      res.json({ success: true, syncResult });
+
+      await logRescueAction(userId, incidentId || null, "restore_entitlement", { previousTier, restoredTier: targetTier }, admin.id, admin.username, reason || null);
+      res.json({ success: true, action: "restore_entitlement", userId, previousTier, restoredTier: targetTier });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[SubscriberRescue] restore-entitlement error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
     }
   });
 
-  app.post("/api/admin/rescue/reset-stuck-state", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasRescuePermission(admin)) return res.status(403).json({ error: "Insufficient permissions for rescue actions" });
+  app.post("/api/admin/rescue/replay-billing-sync", async (req: any, res) => {
     try {
-      const parsed = rescueActionSchema.safeParse(req.body);
-      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten() });
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const parsed = userActionSchema.safeParse(req.body);
+      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten().fieldErrors });
       const { userId, reason, incidentId } = parsed.data;
-      const { rows: userRows } = await pool.query(`SELECT * FROM users WHERE id = $1`, [userId]);
-      if (!userRows[0]) return res.status(404).json({ error: "User not found" });
-      const user = userRows[0];
-      const resetDetails: any = { resets: [] };
-      const { rows: stuckTests } = await pool.query(
-        `UPDATE test_results SET completed_at = NOW() WHERE user_id = $1 AND completed_at IS NULL RETURNING id`,
-        [userId]
-      ).catch(() => ({ rows: [] }));
-      if (stuckTests.length > 0) {
-        resetDetails.resets.push({ type: "stuck_tests", count: stuckTests.length });
+
+      const userResult = await pool.query("SELECT id, username, tier, stripe_customer_id, stripe_subscription_id FROM users WHERE id = $1", [userId]);
+      if (!userResult.rows[0]) return res.status(404).json({ error: "User not found" });
+
+      let clearedCache = false;
+      try {
+        await pool.query("DELETE FROM entitlement_cache WHERE user_id = $1", [userId]);
+        clearedCache = true;
+      } catch (cacheErr: any) {
+        console.warn("[SubscriberRescue] entitlement_cache table may not exist:", cacheErr.message);
       }
-      await logRescueAction(admin.id, admin.username, userId, user.username, "reset_stuck_state", resetDetails, reason || null, incidentId || null);
-      res.json({ success: true, resetDetails });
+
+      await logRescueAction(userId, incidentId || null, "replay_billing_sync", { clearedCache, stripeCustomerId: userResult.rows[0].stripe_customer_id }, admin.id, admin.username, reason || null);
+      res.json({ success: true, action: "replay_billing_sync", userId, clearedCache });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[SubscriberRescue] replay-billing-sync error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
     }
   });
 
-  app.get("/api/admin/rescue/actions", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasReadPermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
+  app.post("/api/admin/rescue/reset-exam-state", async (req: any, res) => {
     try {
-      const userId = req.query.userId as string;
-      const incidentId = req.query.incidentId as string;
-      const limit = Math.min(parseInt(req.query.limit as string) || 50, 200);
-      let query = `SELECT * FROM rescue_action_logs`;
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const parsed = userActionSchema.safeParse(req.body);
+      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten().fieldErrors });
+      const { userId, reason, incidentId } = parsed.data;
+
+      const userResult = await pool.query("SELECT id, username FROM users WHERE id = $1", [userId]);
+      if (!userResult.rows[0]) return res.status(404).json({ error: "User not found" });
+
+      let resetCount = 0;
+      try {
+        const stuckSessions = await pool.query(
+          `UPDATE session_checkpoints SET status = 'reset_by_admin', updated_at = NOW()
+           WHERE user_id = $1 AND status = 'active'
+           RETURNING id`,
+          [userId]
+        );
+        resetCount = stuckSessions.rows.length;
+      } catch (sessErr: any) {
+        console.warn("[SubscriberRescue] session_checkpoints table may not exist:", sessErr.message);
+      }
+
+      await logRescueAction(userId, incidentId || null, "reset_exam_state", { resetCount }, admin.id, admin.username, reason || null);
+      res.json({ success: true, action: "reset_exam_state", userId, resetCount });
+    } catch (e: any) {
+      console.error("[SubscriberRescue] reset-exam-state error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
+    }
+  });
+
+  app.post("/api/admin/rescue/send-backup-link", async (req: any, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const parsed = sendBackupLinkSchema.safeParse(req.body);
+      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten().fieldErrors });
+      const { userId, resourceUrl, resourceName, reason, incidentId } = parsed.data;
+
+      const userResult = await pool.query("SELECT id, username, email FROM users WHERE id = $1", [userId]);
+      if (!userResult.rows[0]) return res.status(404).json({ error: "User not found" });
+
+      await logRescueAction(userId, incidentId || null, "send_backup_link", { resourceUrl: resourceUrl || "", resourceName: resourceName || "Backup Resources" }, admin.id, admin.username, reason || null);
+      res.json({ success: true, action: "send_backup_link", userId, resourceUrl, resourceName });
+    } catch (e: any) {
+      console.error("[SubscriberRescue] send-backup-link error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
+    }
+  });
+
+  app.post("/api/admin/rescue/add-support-note", async (req: any, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const parsed = addSupportNoteSchema.safeParse(req.body);
+      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten().fieldErrors });
+      const { userId, note, reason, incidentId } = parsed.data;
+
+      const userResult = await pool.query("SELECT id, username FROM users WHERE id = $1", [userId]);
+      if (!userResult.rows[0]) return res.status(404).json({ error: "User not found" });
+
+      await logRescueAction(userId, incidentId || null, "support_note", { note }, admin.id, admin.username, reason || null);
+      res.json({ success: true, action: "support_note", userId });
+    } catch (e: any) {
+      console.error("[SubscriberRescue] add-support-note error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
+    }
+  });
+
+  app.get("/api/admin/rescue/actions", async (req: any, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { userId, incidentId, limit: limitStr } = req.query;
+      const limit = Math.min(Math.max(parseInt(limitStr as string) || 50, 1), 200);
+
+      let query = `SELECT * FROM subscriber_rescue_actions WHERE 1=1`;
       const params: any[] = [];
-      const conditions: string[] = [];
-      if (userId) { conditions.push(`target_user_id = $${params.length + 1}`); params.push(userId); }
-      if (incidentId) { conditions.push(`incident_id = $${params.length + 1}`); params.push(incidentId); }
-      if (conditions.length) query += ` WHERE ${conditions.join(" AND ")}`;
-      query += ` ORDER BY created_at DESC LIMIT $${params.length + 1}`;
+      let idx = 1;
+
+      if (userId && typeof userId === "string") { query += ` AND user_id = $${idx++}`; params.push(userId); }
+      if (incidentId && typeof incidentId === "string") { query += ` AND incident_id = $${idx++}`; params.push(incidentId); }
+
+      query += ` ORDER BY created_at DESC LIMIT $${idx++}`;
       params.push(limit);
-      const { rows } = await pool.query(query, params);
-      res.json(snakeToCamel(rows));
+
+      const result = await pool.query(query, params);
+      res.json({ actions: result.rows, total: result.rows.length });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[SubscriberRescue] actions list error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
     }
   });
 
-  app.get("/api/admin/rescue/incidents/:incidentId/affected-users", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasReadPermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
+  app.get("/api/admin/rescue/user/:userId", async (req: any, res) => {
     try {
-      const { rows } = await pool.query(
-        `SELECT * FROM incident_affected_users WHERE incident_id = $1 ORDER BY severity DESC, created_at DESC`,
-        [req.params.incidentId]
-      );
-      res.json(snakeToCamel(rows));
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { userId } = req.params;
+
+      const [userResult, actionsResult, provisionalResult] = await Promise.all([
+        pool.query(
+          `SELECT id, username, email, tier, subscription_status, stripe_customer_id, stripe_subscription_id,
+                  plan_expires_at, tester_access, tester_expiry, trial_active, trial_end, is_lifetime, created_at
+           FROM users WHERE id = $1`,
+          [userId]
+        ),
+        pool.query(
+          `SELECT * FROM subscriber_rescue_actions WHERE user_id = $1 ORDER BY created_at DESC LIMIT 20`,
+          [userId]
+        ),
+        pool.query(
+          `SELECT * FROM provisional_access_grants WHERE user_id = $1 ORDER BY granted_at DESC LIMIT 5`,
+          [userId]
+        ).catch(() => ({ rows: [] })),
+      ]);
+
+      if (!userResult.rows[0]) return res.status(404).json({ error: "User not found" });
+
+      res.json({
+        user: userResult.rows[0],
+        rescueHistory: actionsResult.rows,
+        provisionalGrants: provisionalResult.rows,
+      });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[SubscriberRescue] user detail error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
     }
   });
 
-  app.post("/api/admin/rescue/incidents/:incidentId/affected-users", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasRescuePermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
+  app.get("/api/admin/rescue/templates", async (req: any, res) => {
     try {
-      const { userId, severity, impactDescription, suggestedActions } = req.body;
-      if (!userId) return res.status(400).json({ error: "userId is required" });
-      if (severity && !VALID_SEVERITIES.includes(severity)) return res.status(400).json({ error: "Invalid severity" });
-      const { rows: userRows } = await pool.query(`SELECT id, username, email, tier, subscription_status FROM users WHERE id = $1`, [userId]);
-      if (!userRows[0]) return res.status(404).json({ error: "User not found" });
-      const user = userRows[0];
-      const { rows: existing } = await pool.query(`SELECT id FROM incident_affected_users WHERE incident_id = $1 AND user_id = $2`, [req.params.incidentId, userId]);
-      if (existing[0]) return res.status(409).json({ error: "User already linked to this incident" });
-      const { rows } = await pool.query(
-        `INSERT INTO incident_affected_users (id, incident_id, user_id, username, email, tier, subscription_status, severity, impact_description, suggested_actions, created_at, updated_at)
-         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, NOW(), NOW()) RETURNING *`,
-        [req.params.incidentId, userId, user.username, user.email, user.tier, user.subscription_status, severity || "medium", impactDescription || null, JSON.stringify(suggestedActions || [])]
-      );
-      await logAdminAction(admin.id, admin.username, "incident_affected_user", rows[0].id, "affected_user_linked", { incidentId: req.params.incidentId, userId });
-      res.json(snakeToCamel(rows[0]));
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const result = await pool.query("SELECT * FROM communication_templates ORDER BY name ASC");
+      res.json({ templates: result.rows });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[SubscriberRescue] templates list error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
     }
   });
 
-  app.post("/api/admin/rescue/incidents/:incidentId/auto-detect", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasRescuePermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
+  app.get("/api/admin/rescue/templates/:id", async (req: any, res) => {
     try {
-      const { rows: incidentRows } = await pool.query(`SELECT * FROM incidents WHERE id = $1`, [req.params.incidentId]);
-      if (!incidentRows[0]) return res.status(404).json({ error: "Incident not found" });
-      const incident = incidentRows[0];
-      const { rows: activeUsers } = await pool.query(
-        `SELECT DISTINCT u.id, u.username, u.email, u.tier, u.subscription_status
-         FROM users u
-         WHERE u.subscription_status = 'active' AND u.tier != 'free' AND u.tier != 'admin'
-         LIMIT 100`
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const result = await pool.query("SELECT * FROM communication_templates WHERE id = $1", [req.params.id]);
+      if (!result.rows[0]) return res.status(404).json({ error: "Template not found" });
+      res.json(result.rows[0]);
+    } catch (e: any) {
+      console.error("[SubscriberRescue] template detail error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
+    }
+  });
+
+  app.put("/api/admin/rescue/templates/:id", async (req: any, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const parsed = updateTemplateSchema.safeParse(req.body);
+      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten().fieldErrors });
+      const { name, subject, bodyEmail, bodyInApp, placeholders, isActive } = parsed.data;
+
+      const result = await pool.query(
+        `UPDATE communication_templates
+         SET name = COALESCE($1, name), subject = COALESCE($2, subject),
+             body_email = COALESCE($3, body_email), body_in_app = COALESCE($4, body_in_app),
+             placeholders = COALESCE($5::jsonb, placeholders), is_active = COALESCE($6, is_active),
+             updated_by = $7, updated_at = NOW()
+         WHERE id = $8 RETURNING *`,
+        [name, subject, bodyEmail, bodyInApp, placeholders ? JSON.stringify(placeholders) : null, isActive ?? null, admin.id, req.params.id]
       );
-      let added = 0;
-      for (const user of activeUsers) {
-        const { rows: existing } = await pool.query(`SELECT id FROM incident_affected_users WHERE incident_id = $1 AND user_id = $2`, [req.params.incidentId, user.id]);
-        if (!existing[0]) {
-          const sev = incident.severity === "critical" ? "high" : incident.severity || "medium";
-          const suggested = [];
-          if (incident.severity === "critical" || incident.severity === "high") {
-            suggested.push("extend_subscription", "send_acknowledgment");
-          }
-          suggested.push("send_status_update");
-          await pool.query(
-            `INSERT INTO incident_affected_users (id, incident_id, user_id, username, email, tier, subscription_status, severity, impact_description, suggested_actions, created_at, updated_at)
-             VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, NOW(), NOW())`,
-            [req.params.incidentId, user.id, user.username, user.email, user.tier, user.subscription_status, sev, `Affected by incident: ${incident.title}`, JSON.stringify(suggested)]
+
+      if (!result.rows[0]) return res.status(404).json({ error: "Template not found" });
+
+      await pool.query(
+        `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, after_json, severity, created_at)
+         VALUES (gen_random_uuid(), $1, $2, 'communication_template', $3, 'template_updated', $4, 'info', NOW())`,
+        [admin.id, admin.username, req.params.id, JSON.stringify({ name, subject })]
+      );
+
+      res.json(result.rows[0]);
+    } catch (e: any) {
+      console.error("[SubscriberRescue] template update error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
+    }
+  });
+
+  app.post("/api/admin/rescue/templates", async (req: any, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const parsed = createTemplateSchema.safeParse(req.body);
+      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten().fieldErrors });
+      const { templateKey, name, subject, bodyEmail, bodyInApp, placeholders } = parsed.data;
+
+      const result = await pool.query(
+        `INSERT INTO communication_templates (template_key, name, subject, body_email, body_in_app, placeholders, updated_by)
+         VALUES ($1, $2, $3, $4, $5, $6::jsonb, $7) RETURNING *`,
+        [templateKey, name, subject, bodyEmail, bodyInApp, JSON.stringify(placeholders || []), admin.id]
+      );
+
+      res.json(result.rows[0]);
+    } catch (e: any) {
+      console.error("[SubscriberRescue] template create error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
+    }
+  });
+
+  app.post("/api/admin/rescue/templates/:id/render", async (req: any, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { values } = req.body;
+      const result = await pool.query("SELECT * FROM communication_templates WHERE id = $1", [req.params.id]);
+      if (!result.rows[0]) return res.status(404).json({ error: "Template not found" });
+
+      const template = result.rows[0];
+      const renderedSubject = renderTemplate(template.subject, values || {});
+      const renderedEmail = renderTemplate(template.body_email, values || {});
+      const renderedInApp = renderTemplate(template.body_in_app, values || {});
+
+      res.json({ subject: renderedSubject, bodyEmail: renderedEmail, bodyInApp: renderedInApp });
+    } catch (e: any) {
+      console.error("[SubscriberRescue] template render error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
+    }
+  });
+
+  app.get("/api/admin/rescue/incident/:incidentId/affected-users", async (req: any, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { incidentId } = req.params;
+
+      const incidentResult = await pool.query(
+        `SELECT * FROM production_incidents WHERE incident_id = $1 LIMIT 1`,
+        [incidentId]
+      ).catch(() => ({ rows: [] }));
+
+      let affectedUsers: any[] = [];
+      if (incidentResult.rows[0]) {
+        const incident = incidentResult.rows[0];
+        const userIds = (incident.affected_user_ids || []).filter((id: any) => id && id !== "unknown" && id !== "anonymous");
+
+        if (userIds.length > 0) {
+          const userResult = await pool.query(
+            `SELECT id, username, email, tier, subscription_status FROM users WHERE id = ANY($1)`,
+            [userIds.slice(0, 100)]
           );
-          added++;
+          affectedUsers = userResult.rows;
         }
       }
-      await logAdminAction(admin.id, admin.username, "incident", req.params.incidentId, "auto_detect_affected_users", { usersAdded: added, totalChecked: activeUsers.length });
-      res.json({ success: true, usersAdded: added, totalChecked: activeUsers.length });
+
+      const rescueActions = await pool.query(
+        `SELECT * FROM subscriber_rescue_actions WHERE incident_id = $1 ORDER BY created_at DESC`,
+        [incidentId]
+      ).catch(() => ({ rows: [] }));
+
+      res.json({
+        incident: incidentResult.rows[0] || null,
+        affectedUsers,
+        rescueActions: rescueActions.rows,
+        suggestedActions: getSuggestedActions(incidentResult.rows[0]),
+      });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[SubscriberRescue] affected-users error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
     }
   });
 
-  app.put("/api/admin/rescue/affected-users/:id", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasRescuePermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
+  app.post("/api/admin/rescue/bulk-action", async (req: any, res) => {
     try {
-      const { rescueStatus, actionsApplied } = req.body;
-      if (rescueStatus && !(VALID_RESCUE_STATUSES as readonly string[]).includes(rescueStatus)) {
-        return res.status(400).json({ error: "Invalid rescue status" });
-      }
-      const updates: string[] = [];
-      const params: any[] = [];
-      if (rescueStatus) { params.push(rescueStatus); updates.push(`rescue_status = $${params.length}`); }
-      if (actionsApplied) { params.push(JSON.stringify(actionsApplied)); updates.push(`actions_applied = $${params.length}`); }
-      updates.push("updated_at = NOW()");
-      params.push(req.params.id);
-      const { rows } = await pool.query(
-        `UPDATE incident_affected_users SET ${updates.join(", ")} WHERE id = $${params.length} RETURNING *`,
-        params
-      );
-      if (!rows[0]) return res.status(404).json({ error: "Affected user record not found" });
-      await logAdminAction(admin.id, admin.username, "incident_affected_user", req.params.id, "affected_user_updated", { rescueStatus });
-      res.json(snakeToCamel(rows[0]));
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-  app.post("/api/admin/rescue/bulk-action", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasRescuePermission(admin)) return res.status(403).json({ error: "Insufficient permissions for bulk rescue actions" });
-    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
       const parsed = bulkActionSchema.safeParse(req.body);
-      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten() });
-      const { affectedUserIds, action, actionParams: ap, reason, incidentId } = parsed.data;
+      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten().fieldErrors });
+      const { userIds, actionType, actionData, reason, incidentId } = parsed.data;
+
       const results: any[] = [];
-      for (const auId of affectedUserIds) {
-        const { rows: auRows } = await pool.query(`SELECT * FROM incident_affected_users WHERE id = $1`, [auId]);
-        if (!auRows[0]) { results.push({ id: auId, error: "Not found" }); continue; }
-        const au = auRows[0];
+      for (const userId of userIds) {
         try {
-          if (action === "extend_subscription") {
-            const days = ap?.days || 7;
-            const { rows: userRows } = await pool.query(`SELECT * FROM users WHERE id = $1`, [au.user_id]);
-            if (userRows[0]) {
-              const currentExpiry = userRows[0].plan_expires_at ? new Date(userRows[0].plan_expires_at) : new Date();
-              const newExpiry = new Date(Math.max(currentExpiry.getTime(), Date.now()) + days * 86400000);
-              await pool.query(`UPDATE users SET plan_expires_at = $1 WHERE id = $2`, [newExpiry, au.user_id]);
-              await logRescueAction(admin.id, admin.username, au.user_id, au.username, "extend_subscription", { days, bulk: true }, reason || null, incidentId || au.incident_id);
+          switch (actionType) {
+            case "extend_subscription": {
+              const days = actionData?.days || 7;
+              await pool.query(
+                `UPDATE users SET plan_expires_at = GREATEST(COALESCE(plan_expires_at, NOW()), NOW()) + INTERVAL '1 day' * $1 WHERE id = $2`,
+                [days, userId]
+              );
+              await logRescueAction(userId, incidentId || null, "extend_subscription", { days, bulk: true }, admin.id, admin.username, reason || null);
+              results.push({ userId, success: true, action: "extend_subscription" });
+              break;
             }
-          } else if (action === "grant_temporary_access") {
-            const hours = ap?.durationHours || 24;
-            const expiry = new Date(Date.now() + hours * 3600000);
-            await pool.query(`UPDATE users SET tester_access = true, tester_expiry = $1 WHERE id = $2`, [expiry, au.user_id]);
-            await logRescueAction(admin.id, admin.username, au.user_id, au.username, "grant_temporary_access", { durationHours: hours, bulk: true }, reason || null, incidentId || au.incident_id);
+            case "grant_temporary_access": {
+              const hours = Math.min(Math.max(Number(actionData?.hours) || 24, 1), 720);
+              const expiresAt = new Date(Date.now() + hours * 60 * 60 * 1000);
+              try {
+                await pool.query(
+                  `INSERT INTO provisional_access_grants (id, user_id, reason, granted_by, granted_at, expires_at)
+                   VALUES (gen_random_uuid(), $1, $2, $3, NOW(), $4)`,
+                  [userId, reason || `Bulk temporary access for ${hours}h`, admin.id, expiresAt]
+                );
+              } catch (grantErr: any) {
+                console.warn("[SubscriberRescue] Bulk grant insert warning:", grantErr.message);
+              }
+              await logRescueAction(userId, incidentId || null, "grant_temporary_access", { hours, bulk: true }, admin.id, admin.username, reason || null);
+              results.push({ userId, success: true, action: "grant_temporary_access" });
+              break;
+            }
+            case "replay_billing_sync": {
+              try {
+                await pool.query("DELETE FROM entitlement_cache WHERE user_id = $1", [userId]);
+              } catch (cacheErr: any) {
+                console.warn("[SubscriberRescue] Bulk cache clear warning:", cacheErr.message);
+              }
+              await logRescueAction(userId, incidentId || null, "replay_billing_sync", { bulk: true }, admin.id, admin.username, reason || null);
+              results.push({ userId, success: true, action: "replay_billing_sync" });
+              break;
+            }
+            case "support_note": {
+              await logRescueAction(userId, incidentId || null, "support_note", { note: actionData?.note || reason || "Bulk support action", bulk: true }, admin.id, admin.username, reason || null);
+              results.push({ userId, success: true, action: "support_note" });
+              break;
+            }
+            default:
+              results.push({ userId, success: false, error: "Unknown action type" });
           }
-          await pool.query(
-            `UPDATE incident_affected_users SET rescue_status = 'rescued', actions_applied = actions_applied || $1::jsonb, updated_at = NOW() WHERE id = $2`,
-            [JSON.stringify([{ action, params: ap, appliedAt: new Date().toISOString(), appliedBy: admin.username }]), auId]
-          );
-          results.push({ id: auId, userId: au.user_id, success: true });
-        } catch (actionErr: any) {
-          results.push({ id: auId, userId: au.user_id, error: actionErr.message });
+        } catch (err: any) {
+          console.error(`[SubscriberRescue] Bulk action error for user ${userId}:`, err.message);
+          results.push({ userId, success: false, error: "Action failed for this user" });
         }
       }
-      res.json({ results, total: affectedUserIds.length, succeeded: results.filter((r: any) => r.success).length });
+
+      res.json({ results, totalProcessed: results.length, successCount: results.filter(r => r.success).length });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[SubscriberRescue] bulk-action error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
     }
   });
 
-  app.get("/api/admin/rescue/user/:userId/notes", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasReadPermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
+  app.get("/api/admin/rescue/refund-prevention", async (req: any, res) => {
     try {
-      const { rows } = await pool.query(`SELECT * FROM support_notes WHERE user_id = $1 ORDER BY created_at DESC`, [req.params.userId]);
-      res.json(snakeToCamel(rows));
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
 
-  app.post("/api/admin/rescue/user/:userId/notes", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasRescuePermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
-    try {
-      const parsed = noteCreateSchema.safeParse(req.body);
-      if (!parsed.success) return res.status(400).json({ error: "Invalid input", details: parsed.error.flatten() });
-      const { content, category } = parsed.data;
-      const { rows } = await pool.query(
-        `INSERT INTO support_notes (id, user_id, author_id, author_username, content, category, created_at)
-         VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, NOW()) RETURNING *`,
-        [req.params.userId, admin.id, admin.username, content, category || "general"]
-      );
-      await logAdminAction(admin.id, admin.username, "support_note", rows[0].id, "note_created", { userId: req.params.userId, category });
-      res.json(snakeToCamel(rows[0]));
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
+      const [activeIncidents, recentRescues, atRiskUsers] = await Promise.all([
+        pool.query(
+          `SELECT * FROM production_incidents
+           WHERE status = 'active' AND severity IN ('critical', 'warning')
+           ORDER BY last_occurrence DESC LIMIT 20`
+        ).catch(() => ({ rows: [] })),
+        pool.query(
+          `SELECT action_type, COUNT(*)::int as count, MAX(created_at) as last_action
+           FROM subscriber_rescue_actions
+           WHERE created_at > NOW() - INTERVAL '7 days'
+           GROUP BY action_type ORDER BY count DESC`
+        ).catch(() => ({ rows: [] })),
+        pool.query(
+          `SELECT u.id, u.username, u.email, u.tier, u.subscription_status,
+                  COUNT(pi.id)::int as incident_count
+           FROM users u
+           JOIN production_incidents pi ON u.id = ANY(pi.affected_user_ids)
+           WHERE pi.status = 'active' AND pi.severity IN ('critical', 'warning')
+             AND u.tier != 'free' AND u.tier != 'admin'
+           GROUP BY u.id, u.username, u.email, u.tier, u.subscription_status
+           ORDER BY incident_count DESC LIMIT 50`
+        ).catch(() => ({ rows: [] })),
+      ]);
 
-  app.delete("/api/admin/rescue/notes/:id", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasRescuePermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
-    try {
-      await logAdminAction(admin.id, admin.username, "support_note", req.params.id, "note_deleted", {});
-      await pool.query(`DELETE FROM support_notes WHERE id = $1`, [req.params.id]);
-      res.json({ success: true });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-  app.get("/api/admin/rescue/user/:userId/profile", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasReadPermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
-    try {
-      const { rows: userRows } = await pool.query(`SELECT id, username, email, tier, subscription_status, plan_expires_at, stripe_customer_id, stripe_subscription_id, region, tester_access, tester_expiry, is_lifetime FROM users WHERE id = $1`, [req.params.userId]);
-      if (!userRows[0]) return res.status(404).json({ error: "User not found" });
-      const { rows: rescueActions } = await pool.query(`SELECT * FROM rescue_action_logs WHERE target_user_id = $1 ORDER BY created_at DESC LIMIT 20`, [req.params.userId]);
-      const { rows: notes } = await pool.query(`SELECT * FROM support_notes WHERE user_id = $1 ORDER BY created_at DESC LIMIT 20`, [req.params.userId]);
-      const { rows: affectedIncidents } = await pool.query(
-        `SELECT iau.*, i.title as incident_title, i.severity as incident_severity, i.status as incident_status
-         FROM incident_affected_users iau
-         LEFT JOIN incidents i ON iau.incident_id = i.id
-         WHERE iau.user_id = $1 ORDER BY iau.created_at DESC LIMIT 10`,
-        [req.params.userId]
-      );
       res.json({
-        user: snakeToCamel(userRows[0]),
-        rescueActions: snakeToCamel(rescueActions),
-        supportNotes: snakeToCamel(notes),
-        affectedIncidents: snakeToCamel(affectedIncidents),
+        activeIncidents: activeIncidents.rows.map((i: any) => ({
+          incidentId: i.incident_id,
+          title: i.title,
+          severity: i.severity,
+          category: i.category,
+          affectedUserCount: i.affected_user_count || 0,
+          firstOccurrence: i.first_occurrence,
+          lastOccurrence: i.last_occurrence,
+          status: i.status,
+        })),
+        recentRescueStats: recentRescues.rows,
+        atRiskSubscribers: atRiskUsers.rows,
       });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[SubscriberRescue] refund-prevention error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
     }
   });
 
-  app.get("/api/admin/rescue/user-search", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasReadPermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
+  app.get("/api/admin/rescue/search-user", async (req: any, res) => {
     try {
-      const q = req.query.q as string;
-      if (!q || q.length < 2) return res.json([]);
-      const { rows } = await pool.query(
-        `SELECT id, username, email, tier, subscription_status, plan_expires_at FROM users
-         WHERE username ILIKE $1 OR email ILIKE $1 OR id = $2
-         ORDER BY username LIMIT 20`,
-        [`%${q}%`, q]
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { q } = req.query;
+      if (!q || typeof q !== "string" || q.length < 2) return res.json({ users: [] });
+
+      const searchTerm = q.substring(0, 100).toLowerCase();
+      const result = await pool.query(
+        `SELECT id, username, email, tier, subscription_status
+         FROM users
+         WHERE LOWER(username) LIKE $1 OR LOWER(email) LIKE $1 OR id = $2
+         LIMIT 20`,
+        [`%${searchTerm}%`, q]
       );
-      res.json(snakeToCamel(rows));
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
 
-  app.get("/api/admin/rescue/incidents-list", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasReadPermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
-    try {
-      const { rows } = await pool.query(
-        `SELECT i.*, (SELECT COUNT(*) FROM incident_affected_users WHERE incident_id = i.id) as affected_count
-         FROM incidents i ORDER BY i.created_at DESC LIMIT 50`
-      );
-      res.json(snakeToCamel(rows));
+      res.json({ users: result.rows });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[SubscriberRescue] search-user error:", e.message);
+      res.status(500).json({ error: sanitizeError(e) });
     }
   });
+}
 
-  app.get("/api/admin/rescue/stats", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    if (!hasReadPermission(admin)) return res.status(403).json({ error: "Insufficient permissions" });
-    try {
-      const { rows: totalActions } = await pool.query(`SELECT COUNT(*) as cnt FROM rescue_action_logs`);
-      const { rows: recentActions } = await pool.query(`SELECT COUNT(*) as cnt FROM rescue_action_logs WHERE created_at > NOW() - INTERVAL '7 days'`);
-      const { rows: pendingAffected } = await pool.query(`SELECT COUNT(*) as cnt FROM incident_affected_users WHERE rescue_status = 'pending'`);
-      const { rows: activeIncidents } = await pool.query(`SELECT COUNT(*) as cnt FROM incidents WHERE status IN ('active', 'investigating')`);
-      const { rows: templateCount } = await pool.query(`SELECT COUNT(*) as cnt FROM communication_templates`);
-      res.json({
-        totalRescueActions: parseInt(totalActions[0].cnt),
-        recentRescueActions: parseInt(recentActions[0].cnt),
-        pendingAffectedUsers: parseInt(pendingAffected[0].cnt),
-        activeIncidents: parseInt(activeIncidents[0].cnt),
-        templateCount: parseInt(templateCount[0].cnt),
-      });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
+function getSuggestedActions(incident: any): any[] {
+  if (!incident) return [];
+  const severity = incident.severity || "info";
+  const category = incident.category || "";
+  const suggestions: any[] = [];
+
+  if (severity === "critical") {
+    suggestions.push(
+      { action: "grant_temporary_access", label: "Grant Temporary Access", priority: "high", description: "Give affected users emergency access while the issue is resolved" },
+      { action: "extend_subscription", label: "Extend Subscriptions", priority: "high", description: "Extend subscription by the duration of the outage" },
+    );
+  }
+
+  if (category.includes("billing") || category.includes("subscription") || category.includes("payment")) {
+    suggestions.push(
+      { action: "replay_billing_sync", label: "Replay Billing Sync", priority: "high", description: "Clear entitlement cache and re-verify billing status" },
+      { action: "restore_entitlement", label: "Restore Entitlements", priority: "medium", description: "Manually restore subscription tier access" },
+    );
+  }
+
+  if (category.includes("exam") || category.includes("session")) {
+    suggestions.push(
+      { action: "reset_exam_state", label: "Reset Exam State", priority: "high", description: "Reset stuck exam or study sessions" },
+    );
+  }
+
+  if (severity === "warning" || severity === "critical") {
+    suggestions.push(
+      { action: "support_note", label: "Add Support Note", priority: "low", description: "Log an internal note about actions taken" },
+    );
+  }
+
+  return suggestions;
 }
