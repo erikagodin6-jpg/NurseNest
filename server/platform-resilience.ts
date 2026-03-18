@@ -1345,6 +1345,7 @@ const SAFE_MODE_ADMIN_WRITE_EXCEPTIONS = new Set([
   "/api/auth",
   "/api/login",
   "/api/admin/resilience",
+  "/api/admin/ops",
   "/api/stripe/webhook",
   "/api/boot-beacon",
   "/api/exam-incident-report",
@@ -1978,7 +1979,12 @@ export function registerResilienceRoutes(app: Express): void {
     if (typeof enabled !== "boolean") {
       return res.status(400).json({ error: "enabled must be a boolean" });
     }
+    const before = featureFlags.get(key);
     setFeatureFlag(key, enabled, reason, admin.username || admin.id);
+    try {
+      const { logAuditAction } = await import("./admin-auth");
+      await logAuditAction({ req, actor: { id: admin.id, username: admin.username }, action: "feature_flag_toggle", entityType: "feature_flag", entityId: key, reason: reason || "admin_action", metadata: { enabled }, before: before ? { enabled: before.enabled } : null, after: { enabled } });
+    } catch {}
     res.json({ success: true, flag: featureFlags.get(key) });
   });
 
@@ -1986,6 +1992,10 @@ export function registerResilienceRoutes(app: Express): void {
     const admin = await resolveAdmin(req, res);
     if (!admin) return;
     resetFeatureErrors(req.params.key);
+    try {
+      const { logAuditAction } = await import("./admin-auth");
+      await logAuditAction({ req, actor: { id: admin.id, username: admin.username }, action: "feature_flag_reset_errors", entityType: "feature_flag", entityId: req.params.key, reason: "admin_reset" });
+    } catch {}
     res.json({ success: true });
   });
 
@@ -2001,13 +2011,22 @@ export function registerResilienceRoutes(app: Express): void {
     } else {
       activateKillSwitch(key, scope, target, reason || "admin_action", admin.username);
     }
+    try {
+      const { logAuditAction } = await import("./admin-auth");
+      await logAuditAction({ req, actor: { id: admin.id, username: admin.username }, action: active === false ? "kill_switch_deactivate" : "kill_switch_activate", entityType: "kill_switch", entityId: key, reason: reason || "admin_action", metadata: { scope, target, active } });
+    } catch {}
     res.json({ success: true, killSwitch: killSwitches.get(key) });
   });
 
   app.post("/api/admin/resilience/circuit-breaker/:name/reset", async (req: Request, res: Response) => {
     const admin = await resolveAdmin(req, res);
     if (!admin) return;
+    const before = circuitBreakers.get(req.params.name);
     resetCircuitBreaker(req.params.name);
+    try {
+      const { logAuditAction } = await import("./admin-auth");
+      await logAuditAction({ req, actor: { id: admin.id, username: admin.username }, action: "circuit_breaker_reset", entityType: "circuit_breaker", entityId: req.params.name, reason: "admin_reset", metadata: { previousState: before?.state } });
+    } catch {}
     res.json({ success: true });
   });
 
@@ -2020,6 +2039,10 @@ export function registerResilienceRoutes(app: Express): void {
     } else {
       deactivateEmergencyMode(admin.username || admin.id);
     }
+    try {
+      const { logAuditAction } = await import("./admin-auth");
+      await logAuditAction({ req, actor: { id: admin.id, username: admin.username }, action: active ? "emergency_mode_activate" : "emergency_mode_deactivate", entityType: "platform", entityId: "emergency_mode", reason: reason || "admin_action", metadata: { active } });
+    } catch {}
     res.json({ success: true, emergencyMode: getEmergencyModeStatus() });
   });
 
@@ -2031,6 +2054,10 @@ export function registerResilienceRoutes(app: Express): void {
       return res.status(400).json({ error: "userId is required" });
     }
     grantProvisionalAccess(userId, reason || "admin_grant");
+    try {
+      const { logAuditAction } = await import("./admin-auth");
+      await logAuditAction({ req, actor: { id: admin.id, username: admin.username }, action: "provisional_access_grant", entityType: "provisional_access", entityId: userId, reason: reason || "admin_grant", metadata: { targetUserId: userId } });
+    } catch {}
     res.json({ success: true });
   });
 
@@ -2038,6 +2065,10 @@ export function registerResilienceRoutes(app: Express): void {
     const admin = await resolveAdmin(req, res);
     if (!admin) return;
     clearEntitlementCache(req.body.userId);
+    try {
+      const { logAuditAction } = await import("./admin-auth");
+      await logAuditAction({ req, actor: { id: admin.id, username: admin.username }, action: "entitlement_cache_clear", entityType: "entitlement_cache", entityId: req.body.userId || "all", reason: "admin_action" });
+    } catch {}
     res.json({ success: true });
   });
 

@@ -220,6 +220,8 @@ const AdminNewGradAnalytics = lazy(() => import("@/pages/admin-new-grad-analytic
 const AdminSiteHealth = lazy(() => import("@/pages/admin-site-health"));
 const AdminExamHealth = lazy(() => import("@/pages/admin-exam-health"));
 const AdminResilience = lazy(() => import("@/pages/admin-resilience"));
+const AdminOpsDashboard = lazy(() => import("@/pages/admin-ops-dashboard"));
+const AdminOpsEmergency = lazy(() => import("@/pages/admin-ops-emergency"));
 const AdminIncidentResponse = lazy(() => import("@/pages/admin-incident-response"));
 const AdminPerformance = lazy(() => import("@/pages/admin-performance"));
 const AdminIncidents = lazy(() => import("@/pages/admin-incidents"));
@@ -830,6 +832,10 @@ function AppRoutes() {
         <Route path="/admin/exam-health" component={AdminExamHealth} />
         <Route path="/admin/resilience" component={AdminResilience} />
         <Route path="/:locale/admin/resilience" component={AdminResilience} />
+        <Route path="/admin/ops" component={AdminOpsDashboard} />
+        <Route path="/:locale/admin/ops" component={AdminOpsDashboard} />
+        <Route path="/admin/ops/emergency" component={AdminOpsEmergency} />
+        <Route path="/:locale/admin/ops/emergency" component={AdminOpsEmergency} />
         <Route path="/admin/incident-response" component={AdminIncidentResponse} />
         <Route path="/:locale/admin/incident-response" component={AdminIncidentResponse} />
         <Route path="/admin-performance" component={AdminPerformance} />

@@ -602,6 +602,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerSchemaVersioningRoutes } = await import("./schema-versioning");
   registerSchemaVersioningRoutes(app);
 
+  const { registerOpsDashboardRoutes } = await import("./ops-dashboard-routes");
+  registerOpsDashboardRoutes(app);
+
   const { registerBackendResilienceRoutes, ensureResilienceTables, killSwitchGuard } = await import("./backend-resilience");
   ensureResilienceTables().catch((e) => console.error("[BackendResilience] Init error:", e?.message));
   registerBackendResilienceRoutes(app);

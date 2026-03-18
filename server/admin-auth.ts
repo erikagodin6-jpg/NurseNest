@@ -33,7 +33,7 @@ const SERVER_API_KEY = () => process.env.ADMIN_API_KEY || "";
 const TOKEN_EXPIRY_SECONDS = 1800;
 const BCRYPT_ROUNDS = 12;
 
-export type AdminRole = "super_admin" | "content_admin" | "support_admin" | "analytics_viewer";
+export type AdminRole = "super_admin" | "content_admin" | "support_admin" | "analytics_viewer" | "ops_viewer";
 
 export interface AdminTokenPayload {
   sub: string;
@@ -526,6 +526,40 @@ export async function logAdminAudit(req: any, actor: any, action: string, entity
     );
   } catch (e) {
     console.error("[AdminAudit] Failed to log:", e);
+  }
+}
+
+export async function logAuditAction(opts: {
+  req?: any;
+  actor: { id: string; username: string } | null;
+  action: string;
+  entityType: string;
+  entityId: string | null;
+  reason?: string;
+  metadata?: Record<string, any>;
+  before?: any;
+  after?: any;
+}): Promise<void> {
+  try {
+    await pool.query(
+      `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, before_json, after_json, reason, metadata, ip_address, user_agent, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW())`,
+      [
+        opts.actor?.id || null,
+        opts.actor?.username || null,
+        opts.entityType,
+        opts.entityId,
+        opts.action,
+        opts.before ? JSON.stringify(opts.before) : null,
+        opts.after ? JSON.stringify(opts.after) : null,
+        opts.reason || null,
+        opts.metadata ? JSON.stringify(opts.metadata) : null,
+        opts.req?.ip || opts.req?.headers?.["x-forwarded-for"] || null,
+        opts.req?.headers?.["user-agent"] || null,
+      ]
+    );
+  } catch (e) {
+    console.error("[AuditAction] Failed to log:", e);
   }
 }
 

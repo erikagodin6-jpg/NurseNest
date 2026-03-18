@@ -479,6 +479,8 @@ export const auditLogs = pgTable("audit_logs", {
   action: text("action").notNull(),
   beforeJson: jsonb("before_json"),
   afterJson: jsonb("after_json"),
+  reason: text("reason"),
+  metadata: jsonb("metadata"),
   ipAddress: text("ip_address"),
   userAgent: text("user_agent"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
