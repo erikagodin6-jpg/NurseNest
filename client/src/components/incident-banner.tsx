@@ -1,24 +1,43 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { AlertTriangle, X, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getHealthStatus, onHealthChange, startHealthPolling } from "@/lib/resilience";
 
 export function IncidentBanner() {
   const [health, setHealth] = useState(getHealthStatus());
+  const [platformStatus, setPlatformStatus] = useState<{ emergencyMode: boolean; message: string | null } | null>(null);
   const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
     startHealthPolling(30000);
     const unsub = onHealthChange((h) => {
       setHealth(h);
-      if (h.status === "healthy") setDismissed(false);
+      if (h.status === "healthy" && !h.emergency) setDismissed(false);
     });
     return unsub;
   }, []);
 
+  useEffect(() => {
+    let active = true;
+    const pollStatus = async () => {
+      try {
+        const res = await fetch("/api/platform/status");
+        if (res.ok && active) {
+          const data = await res.json();
+          setPlatformStatus(data);
+          if (!data.emergencyMode) setDismissed(false);
+        }
+      } catch {}
+    };
+    pollStatus();
+    const interval = setInterval(pollStatus, 30000);
+    return () => { active = false; clearInterval(interval); };
+  }, []);
+
   const isDown = health.status === "down";
   const isDegraded = health.status === "degraded";
-  const showBanner = (isDown || isDegraded || health.emergency) && !dismissed;
+  const isEmergency = health.emergency || platformStatus?.emergencyMode;
+  const showBanner = (isDown || isDegraded || isEmergency) && !dismissed;
 
   if (!showBanner) return null;
 
@@ -26,18 +45,18 @@ export function IncidentBanner() {
     <div
       className={`w-full px-4 py-2 flex items-center justify-between gap-3 text-sm ${
         isDown ? "bg-red-50 text-red-800 border-b border-red-200" :
-        health.emergency ? "bg-orange-50 text-orange-800 border-b border-orange-200" :
+        isEmergency ? "bg-orange-50 text-orange-800 border-b border-orange-200" :
         "bg-amber-50 text-amber-800 border-b border-amber-200"
       }`}
       data-testid="banner-incident"
     >
       <div className="flex items-center gap-2 flex-1">
         <AlertTriangle className="w-4 h-4 flex-shrink-0" />
-        <span>
-          {isDown
+        <span data-testid="text-incident-message">
+          {isEmergency
+            ? "We're running in backup mode. Your access is protected."
+            : isDown
             ? "Some services are experiencing issues. Your access and progress are protected."
-            : health.emergency
-            ? "We are operating in maintenance mode. Core features remain available."
             : "We are experiencing minor service delays. Everything should be back to normal shortly."}
         </span>
       </div>

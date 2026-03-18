@@ -200,6 +200,11 @@ async function isAdminUser(req: any): Promise<boolean> {
 
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
 
+  const { readOnlyEnforcement, initDefaultBreakers, initFeatureFlags } = await import("./platform-resilience");
+  initDefaultBreakers();
+  initFeatureFlags();
+  app.use(readOnlyEnforcement());
+
   const MIGRATION_REDIRECT_SLUGS = [
     "philippines-to-canada", "india-to-canada", "philippines-to-usa",
     "india-to-uk", "philippines-to-uk", "india-to-australia",
@@ -528,9 +533,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerExamResilienceRoutes } = await import("./exam-resilience-engine");
   registerExamResilienceRoutes(app);
 
-  const { registerResilienceRoutes, initDefaultBreakers, initFeatureFlags } = await import("./platform-resilience");
-  initDefaultBreakers();
-  initFeatureFlags();
+  const { registerResilienceRoutes } = await import("./platform-resilience");
   registerResilienceRoutes(app);
 
   const { registerClinicalSeoRoutes, seedClinicalSeoPages } = await import("./clinical-seo-routes");
