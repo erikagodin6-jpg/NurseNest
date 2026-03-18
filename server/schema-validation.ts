@@ -20,6 +20,16 @@ const CRITICAL_SCHEMA: TableColumnCheck[] = [
   },
 ];
 
+interface NullabilityCheck {
+  table: string;
+  column: string;
+  expectedNullable: boolean;
+}
+
+const NULLABILITY_CHECKS: NullabilityCheck[] = [
+  { table: "users", column: "email", expectedNullable: true },
+];
+
 export async function validateSchemaAtStartup(): Promise<void> {
   try {
     const result = await pool.query(
@@ -44,6 +54,22 @@ export async function validateSchemaAtStartup(): Promise<void> {
       const missing = check.columns.filter(col => !tableColumns.has(col));
       if (missing.length > 0) {
         console.warn(`[SCHEMA VALIDATION] WARNING: Table "${check.table}" is missing columns: ${missing.join(", ")}`);
+        driftDetected = true;
+      }
+    }
+
+    const nullResult = await pool.query(
+      `SELECT table_name, column_name, is_nullable FROM information_schema.columns WHERE table_schema = 'public' AND (${NULLABILITY_CHECKS.map((_, i) => `(table_name = $${i * 2 + 1} AND column_name = $${i * 2 + 2})`).join(' OR ')})`,
+      NULLABILITY_CHECKS.flatMap(c => [c.table, c.column])
+    );
+    for (const check of NULLABILITY_CHECKS) {
+      const row = nullResult.rows.find(r => r.table_name === check.table && r.column_name === check.column);
+      if (!row) continue;
+      const isNullable = row.is_nullable === 'YES';
+      if (isNullable !== check.expectedNullable) {
+        const expected = check.expectedNullable ? 'nullable' : 'NOT NULL';
+        const actual = isNullable ? 'nullable' : 'NOT NULL';
+        console.warn(`[SCHEMA VALIDATION] WARNING: ${check.table}.${check.column} should be ${expected} but is ${actual}`);
         driftDetected = true;
       }
     }
