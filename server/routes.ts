@@ -511,6 +511,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerSubscriberRescueRoutes } = await import("./subscriber-rescue-routes");
   registerSubscriberRescueRoutes(app);
 
+  const { registerSubstituteContentRoutes } = await import("./substitute-content-routes");
+  registerSubstituteContentRoutes(app);
+
   const { registerNclexRnHubSeedRoutes } = await import("./nclex-rn-hub-seed");
   registerNclexRnHubSeedRoutes(app);
 

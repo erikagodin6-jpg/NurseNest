@@ -7485,3 +7485,64 @@ export const insertRevenueProtectionEventSchema = createInsertSchema(revenueProt
 });
 export type RevenueProtectionEvent = typeof revenueProtectionEvents.$inferSelect;
 export type InsertRevenueProtectionEvent = z.infer<typeof insertRevenueProtectionEventSchema>;
+
+export const contentSubstitutionRules = pgTable("content_substitution_rules", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentType: text("content_type").notNull(),
+  matchProfession: boolean("match_profession").default(true),
+  matchTier: boolean("match_tier").default(true),
+  matchExamType: boolean("match_exam_type").default(true),
+  matchDomain: boolean("match_domain").default(true),
+  matchRegion: boolean("match_region").default(false),
+  matchLanguage: boolean("match_language").default(true),
+  matchPlanEligibility: boolean("match_plan_eligibility").default(true),
+  professionWeight: integer("profession_weight").default(10),
+  tierWeight: integer("tier_weight").default(8),
+  examTypeWeight: integer("exam_type_weight").default(7),
+  domainWeight: integer("domain_weight").default(9),
+  regionWeight: integer("region_weight").default(3),
+  languageWeight: integer("language_weight").default(6),
+  planWeight: integer("plan_weight").default(5),
+  allowCrossLanguage: boolean("allow_cross_language").default(true),
+  defaultLanguage: text("default_language").default("en"),
+  maxSubstitutes: integer("max_substitutes").default(3),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertContentSubstitutionRuleSchema = createInsertSchema(contentSubstitutionRules).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type ContentSubstitutionRule = typeof contentSubstitutionRules.$inferSelect;
+export type InsertContentSubstitutionRule = z.infer<typeof insertContentSubstitutionRuleSchema>;
+
+export const substitutionEvents = pgTable("substitution_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id"),
+  originalContentId: varchar("original_content_id").notNull(),
+  originalContentType: text("original_content_type").notNull(),
+  substituteContentId: varchar("substitute_content_id").notNull(),
+  substituteContentType: text("substitute_content_type").notNull(),
+  matchScore: doublePrecision("match_score").default(0),
+  matchingCriteria: jsonb("matching_criteria").default(sql`'{}'::jsonb`),
+  ruleId: varchar("rule_id"),
+  profession: text("profession"),
+  tier: text("tier"),
+  examType: text("exam_type"),
+  domain: text("domain"),
+  region: text("region"),
+  language: text("language"),
+  wasLanguageFallback: boolean("was_language_fallback").default(false),
+  requestPath: text("request_path"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertSubstitutionEventSchema = createInsertSchema(substitutionEvents).omit({
+  id: true,
+  createdAt: true,
+});
+export type SubstitutionEvent = typeof substitutionEvents.$inferSelect;
+export type InsertSubstitutionEvent = z.infer<typeof insertSubstitutionEventSchema>;

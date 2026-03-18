@@ -91,22 +91,32 @@ async function fetchBackupSnapshot(contentId: string): Promise<any | null> {
   }
 }
 
-async function findSubstituteContent(contentId: string): Promise<any | null> {
+async function findSubstituteContent(contentId: string, req?: Request): Promise<any | null> {
   try {
-    const original = await pool.query(
-      `SELECT category, tier, content_type FROM content_items WHERE id = $1`,
-      [contentId],
-    );
-    if (original.rows.length === 0) return null;
-    const { category, tier, content_type } = original.rows[0];
+    const { findSubstitute } = await import("./substitute-content-engine");
+    const userId: string | null = req ? ((req as any).authUser?.id || (req as any).user?.id || null) : null;
+    const context = {
+      userId,
+      tier: (req as any)?.authUser?.tier || null,
+      profession: (req as any)?.authUser?.careerType || (req as any)?.authUser?.career_type || null,
+      region: (req as any)?.authUser?.region || null,
+      requestPath: req?.originalUrl || req?.url || null,
+    };
 
-    const substitute = await pool.query(
-      `SELECT * FROM content_items 
-       WHERE category = $1 AND tier = $2 AND content_type = $3 AND id != $4 AND status = 'published'
-       ORDER BY RANDOM() LIMIT 1`,
-      [category, tier, content_type, contentId],
-    );
-    return substitute.rows[0] || null;
+    const result = await findSubstitute(contentId, null, context);
+    if (!result) return null;
+
+    return {
+      ...result.substituteData,
+      _substitutionMeta: {
+        originalContentId: contentId,
+        substituteId: result.substituteId,
+        matchScore: result.matchScore,
+        matchingCriteria: result.matchingCriteria,
+        wasLanguageFallback: result.wasLanguageFallback,
+        message: result.message,
+      },
+    };
   } catch {
     return null;
   }
@@ -216,7 +226,7 @@ export function createAccessDeliveryOrchestrator(config: OrchestratorConfig) {
         }
       } else {
         const subStart = Date.now();
-        const subData = await findSubstituteContent(contentId);
+        const subData = await findSubstituteContent(contentId, req);
         if (subData) {
           logRoutingDecision(userId, contentId, requestPath, "primary", "substitute_equivalent", primaryResult.error || null, Date.now() - subStart).catch(() => {});
           if (!res.headersSent) {
