@@ -15,6 +15,7 @@ import {
 } from "@/lib/cat-engine";
 import { EXAM_BLUEPRINTS } from "@/lib/question-pool";
 import { ExamReportButton } from "@/components/exam-error-boundary";
+import { createCheckpointManager } from "@/lib/session-checkpoint";
 import {
   Clock, Flag, ChevronLeft, ChevronRight, CheckCircle2, XCircle,
   Pause, Play, AlertTriangle, Send, SkipForward, Shield, Eye, Coffee
@@ -520,8 +521,10 @@ export default function MockExamSession() {
     return () => clearInterval(timerRef.current);
   }, [loading, paused]);
 
-  const latestStateRef = useRef({ answers, flagged, timeSpent });
-  latestStateRef.current = { answers, flagged, timeSpent };
+  const latestStateRef = useRef({ answers, flagged, timeSpent, currentQ });
+  latestStateRef.current = { answers, flagged, timeSpent, currentQ };
+
+  const checkpointManagerRef = useRef<ReturnType<typeof createCheckpointManager> | null>(null);
 
   useEffect(() => {
     if (loading || !attemptId) return;
@@ -538,6 +541,23 @@ export default function MockExamSession() {
       }).catch(() => {});
     }, 10000);
     return () => clearInterval(interval);
+  }, [loading, attemptId, catState, paused]);
+
+  useEffect(() => {
+    if (loading || !attemptId) return;
+    const mgr = createCheckpointManager("mock-exam", attemptId);
+    checkpointManagerRef.current = mgr;
+    mgr.startAutoSave(() => {
+      const { answers: a, flagged: f, timeSpent: t, currentQ: idx } = latestStateRef.current;
+      return {
+        currentIndex: idx,
+        answers: a,
+        flagged: f,
+        timeSpent: t,
+        metadata: { catState: catState || undefined, paused },
+      };
+    });
+    return () => { mgr.stopAutoSave(); };
   }, [loading, attemptId, catState, paused]);
 
   const selectAnswer = (questionId: string, optionIndex: number) => {
@@ -631,6 +651,7 @@ export default function MockExamSession() {
   const submitExamWithState = async (finalCatState?: CATState, stoppingReason?: string) => {
     if (!attemptId) return;
     setSubmitting(true);
+    checkpointManagerRef.current?.clear().catch(() => {});
     try {
       const report = computeReport(questions, answers, blueprintMeta, finalCatState || catState);
       const res = await fetch(`/api/mock-exams/${attemptId}/complete`, {
@@ -659,6 +680,7 @@ export default function MockExamSession() {
   const submitExam = async () => {
     if (!attemptId) return;
     setSubmitting(true);
+    checkpointManagerRef.current?.clear().catch(() => {});
     try {
       const report = computeReport(questions, answers, blueprintMeta, catState);
       const res = await fetch(`/api/mock-exams/${attemptId}/complete`, {

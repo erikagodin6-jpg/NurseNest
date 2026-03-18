@@ -473,7 +473,7 @@ export async function resolveEntitlement(
 
   if (!decision.hasAccess) {
     try {
-      const { hasProvisionalAccess, isEmergencyMode } = await import("./platform-resilience");
+      const { hasProvisionalAccess, isEmergencyMode, grantProvisionalAccess } = await import("./platform-resilience");
       if (hasProvisionalAccess(userId) || isEmergencyMode()) {
         const cached = await getCachedEntitlement(userId, productType, productId);
         if (cached && cached.hasAccess) {
@@ -489,6 +489,51 @@ export async function resolveEntitlement(
           await logProvisionalAccess(userId, decision, requestPath);
           return decision;
         }
+      }
+
+      if (user?.stripeCustomerId || user?.stripe_customer_id) {
+        try {
+          const subResult = await pool.query(
+            `SELECT status, created_at FROM subscriptions WHERE user_id = $1
+             AND status IN ('active', 'trialing', 'past_due')
+             ORDER BY created_at DESC LIMIT 1`,
+            [userId]
+          ).catch(() => ({ rows: [] }));
+
+          if (subResult.rows.length > 0) {
+            const sub = subResult.rows[0];
+            if (sub.status === "active" || sub.status === "trialing") {
+              grantProvisionalAccess(userId, `billing_sync_delay:${sub.status}`);
+              decision.hasAccess = true;
+              decision.provisional = true;
+              decision.accessDecisionReason = `subscription_fallback:${sub.status}`;
+              pool.query(
+                `INSERT INTO provisional_access_grants (user_id, reason, expires_at, granted_by)
+                 VALUES ($1, $2, NOW() + INTERVAL '1 hour', 'system')
+                 ON CONFLICT DO NOTHING`,
+                [userId, `auto:subscription_fallback:${sub.status}`]
+              ).catch(() => {});
+              return decision;
+            }
+            if (sub.status === "past_due") {
+              const createdAt = new Date(sub.created_at).getTime();
+              const gracePeriod = 72 * 60 * 60 * 1000;
+              if (Date.now() - createdAt < gracePeriod) {
+                grantProvisionalAccess(userId, "past_due_grace_period");
+                decision.hasAccess = true;
+                decision.provisional = true;
+                decision.accessDecisionReason = "past_due_grace_period";
+                pool.query(
+                  `INSERT INTO provisional_access_grants (user_id, reason, expires_at, granted_by)
+                   VALUES ($1, $2, NOW() + INTERVAL '1 hour', 'system')
+                   ON CONFLICT DO NOTHING`,
+                  [userId, `auto:past_due_grace`]
+                ).catch(() => {});
+                return decision;
+              }
+            }
+          }
+        } catch {}
       }
     } catch {}
   }

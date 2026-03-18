@@ -4,6 +4,7 @@ import { adminFetch } from "@/lib/admin-fetch";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import { useI18n } from "@/lib/i18n";
 import {
   RefreshCw,
@@ -23,6 +24,8 @@ import {
   Target,
   PieChart,
   Calendar,
+  Shield,
+  AlertTriangle,
 } from "lucide-react";
 
 const EXPENSE_CATEGORIES = [
@@ -44,7 +47,7 @@ function fmt(n: number, decimals = 2): string {
 
 export default function AdminBusinessHealth() {
   const queryClient = useQueryClient();
-  const [activeSection, setActiveSection] = useState<"financial" | "subscribers">("financial");
+  const [activeSection, setActiveSection] = useState<"financial" | "subscribers" | "provisional">("financial");
   const [showExpenseForm, setShowExpenseForm] = useState(false);
   const [editingExpense, setEditingExpense] = useState<any>(null);
   const [expenseForm, setExpenseForm] = useState({
@@ -238,6 +241,13 @@ export default function AdminBusinessHealth() {
                 data-testid="tab-subscribers"
               >
                 Subscribers & Purchases
+              </button>
+              <button
+                onClick={() => setActiveSection("provisional")}
+                className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${activeSection === "provisional" ? "bg-primary text-white" : "text-gray-600"}`}
+                data-testid="tab-provisional-access"
+              >
+                Provisional Access
               </button>
             </div>
           </div>
@@ -750,7 +760,110 @@ export default function AdminBusinessHealth() {
             )}
           </div>
         )}
+
+        {activeSection === "provisional" && (
+          <ProvisionalAccessPanel />
+        )}
       </div>
+    </div>
+  );
+}
+
+function ProvisionalAccessPanel() {
+  const { data: provisionalData, isLoading } = useQuery({
+    queryKey: ["provisional-access"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/incident-response/provisional-access");
+      if (!res.ok) return { grants: [] };
+      return res.json();
+    },
+    refetchInterval: 30000,
+  });
+
+  const grants = provisionalData?.grants || [];
+  const activeGrants = grants.filter((g: any) => new Date(g.expiresAt) > new Date());
+
+  return (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Shield className="w-5 h-5 text-amber-500" />
+            Provisional Access Grants
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+            <div className="bg-amber-50 rounded-lg p-4 text-center">
+              <p className="text-2xl font-bold text-amber-700" data-testid="text-active-grants">{activeGrants.length}</p>
+              <p className="text-sm text-amber-600">Active Grants</p>
+            </div>
+            <div className="bg-blue-50 rounded-lg p-4 text-center">
+              <p className="text-2xl font-bold text-blue-700" data-testid="text-total-grants">{grants.length}</p>
+              <p className="text-sm text-blue-600">Total Grants</p>
+            </div>
+            <div className="bg-green-50 rounded-lg p-4 text-center">
+              <p className="text-2xl font-bold text-green-700" data-testid="text-auto-grants">
+                {grants.filter((g: any) => g.grantedBy === "system").length}
+              </p>
+              <p className="text-sm text-green-600">Auto-Granted</p>
+            </div>
+          </div>
+
+          {isLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <RefreshCw className="w-6 h-6 animate-spin text-gray-400" />
+            </div>
+          ) : activeGrants.length === 0 ? (
+            <div className="text-center py-8 text-gray-500">
+              <Shield className="w-12 h-12 mx-auto mb-2 opacity-30" />
+              <p>No active provisional access grants</p>
+              <p className="text-sm">Users with billing issues will appear here automatically</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b text-left text-gray-500">
+                    <th className="pb-2 pr-4">User</th>
+                    <th className="pb-2 pr-4">Reason</th>
+                    <th className="pb-2 pr-4">Granted By</th>
+                    <th className="pb-2 pr-4">Expires</th>
+                    <th className="pb-2">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {activeGrants.map((grant: any, i: number) => {
+                    const isExpiringSoon = new Date(grant.expiresAt).getTime() - Date.now() < 1800000;
+                    return (
+                      <tr key={grant.id || i} className="border-b hover:bg-gray-50" data-testid={`row-provisional-${i}`}>
+                        <td className="py-2 pr-4 font-medium">{grant.userId}</td>
+                        <td className="py-2 pr-4">
+                          <span className="text-xs bg-gray-100 px-2 py-1 rounded">{grant.reason}</span>
+                        </td>
+                        <td className="py-2 pr-4">{grant.grantedBy || "system"}</td>
+                        <td className="py-2 pr-4 text-xs">
+                          {new Date(grant.expiresAt).toLocaleString()}
+                        </td>
+                        <td className="py-2">
+                          {isExpiringSoon ? (
+                            <Badge variant="destructive" className="text-xs" data-testid={`badge-expiring-${i}`}>
+                              <AlertTriangle className="w-3 h-3 mr-1" />
+                              Expiring Soon
+                            </Badge>
+                          ) : (
+                            <Badge className="bg-green-100 text-green-800 text-xs" data-testid={`badge-active-${i}`}>Active</Badge>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

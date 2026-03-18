@@ -553,6 +553,12 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   ensureResilienceTables().catch((e) => console.error("[BackendResilience] Init error:", e?.message));
   registerBackendResilienceRoutes(app);
 
+  const { registerSessionCheckpointRoutes } = await import("./session-checkpoint-routes");
+  registerSessionCheckpointRoutes(app);
+
+  const { registerIncidentResponseRoutes } = await import("./incident-response-routes");
+  registerIncidentResponseRoutes(app);
+
   const { registerClinicalSeoRoutes, seedClinicalSeoPages } = await import("./clinical-seo-routes");
   registerClinicalSeoRoutes(app);
   seedClinicalSeoPages().catch((e) => console.error("Clinical SEO seed error:", e?.message));

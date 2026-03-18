@@ -9,6 +9,7 @@ import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { ProtectedContent } from "@/components/protected-content";
 import { useLocation } from "wouter";
+import { createCheckpointManager } from "@/lib/session-checkpoint";
 import { getPracticalNurseExamName, type Region } from "@shared/constants";
 import {
   Clock,
@@ -99,6 +100,27 @@ export default function QBankExamPage() {
     return urlParams.get("exam") || "";
   });
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const checkpointRef = useRef<ReturnType<typeof createCheckpointManager> | null>(null);
+  const qbankStateRef = useRef({ answers, currentIdx, timer });
+  qbankStateRef.current = { answers, currentIdx, timer };
+
+  const qbankSessionId = useMemo(() => {
+    if (questions.length === 0) return "";
+    return `qbank-${questions.map(q => q.id).sort().slice(0, 3).join("-")}`;
+  }, [questions]);
+
+  useEffect(() => {
+    if (phase !== "exam" || !qbankSessionId) return;
+    const mgr = createCheckpointManager("qbank-exam", qbankSessionId);
+    checkpointRef.current = mgr;
+    mgr.startAutoSave(() => {
+      const { answers: a, currentIdx: idx, timer: t } = qbankStateRef.current;
+      const answersObj: Record<string, any> = {};
+      a.forEach((v, k) => { answersObj[k] = v; });
+      return { currentIndex: idx, answers: answersObj, timeSpent: t };
+    });
+    return () => { mgr.stopAutoSave(); };
+  }, [phase, questions.length]);
 
   const startExam = async () => {
     setLoading(true);
@@ -241,6 +263,7 @@ export default function QBankExamPage() {
 
   const submitExam = useCallback(async () => {
     if (timerRef.current) clearInterval(timerRef.current);
+    checkpointRef.current?.clear().catch(() => {});
     const answersArr = Array.from(answers.values());
     const correctCount = answersArr.filter((a) => a.correct).length;
     const categoryBreakdown: Record<string, { total: number; correct: number }> = {};

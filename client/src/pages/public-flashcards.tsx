@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { SEO } from "@/components/seo";
@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { DeckHub, DeckView, DeckEditor, DeckStudyLearn, DeckStudyTest, DeckReportCard } from "@/components/deck-views";
 import { useAuth } from "@/lib/auth";
 import { useLocation } from "wouter";
+import { createCheckpointManager } from "@/lib/session-checkpoint";
 import { cn } from "@/lib/utils";
 import {
   Layers, Search, BookOpen, Plus, ArrowLeft, ChevronRight,
@@ -141,6 +142,34 @@ export default function PublicFlashcards() {
   const [deckStudyComplete, setDeckStudyComplete] = useState(false);
   const [deckStudyStartTime, setDeckStudyStartTime] = useState(0);
   const [deckStudyMissed, setDeckStudyMissed] = useState<string[]>([]);
+  const flashcardCheckpointRef = useRef<ReturnType<typeof createCheckpointManager> | null>(null);
+  const flashcardStateRef = useRef({ quickStudyIndex, masteredIds, view, deckStudyIndex, deckStudyCorrect, deckStudyIncorrect });
+  flashcardStateRef.current = { quickStudyIndex, masteredIds, view, deckStudyIndex, deckStudyCorrect, deckStudyIncorrect };
+
+  useEffect(() => {
+    if (view !== "quick-study" && view !== "deck-study-learn" && view !== "deck-study-test") {
+      flashcardCheckpointRef.current?.stopAutoSave();
+      return;
+    }
+    const deckId = currentDeck?.id || "quick";
+    const sessionId = `flashcard-${view}-${deckId}`;
+    const mgr = createCheckpointManager("flashcard-study", sessionId);
+    flashcardCheckpointRef.current = mgr;
+    mgr.startAutoSave(() => {
+      const s = flashcardStateRef.current;
+      return {
+        currentIndex: view === "quick-study" ? s.quickStudyIndex : s.deckStudyIndex,
+        answers: {
+          mastered: Array.from(s.masteredIds),
+          correct: s.deckStudyCorrect,
+          incorrect: s.deckStudyIncorrect,
+        },
+        timeSpent: 0,
+        metadata: { view: s.view },
+      };
+    });
+    return () => { mgr.stopAutoSave(); };
+  }, [view]);
 
   const isPaid = user && effectiveTier !== "free" && (user.subscriptionStatus === "active" || (user.tier === "admin" && effectiveTier !== "free"));
 

@@ -6660,3 +6660,59 @@ export interface EntitlementDecisionObject {
   accessDecisionReason: string;
   provisional: boolean;
 }
+
+export const sessionCheckpoints = pgTable("session_checkpoints", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  sessionType: text("session_type").notNull(),
+  sessionId: text("session_id").notNull(),
+  checkpointData: jsonb("checkpoint_data").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertSessionCheckpointSchema = createInsertSchema(sessionCheckpoints).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export type SessionCheckpoint = typeof sessionCheckpoints.$inferSelect;
+export type InsertSessionCheckpoint = z.infer<typeof insertSessionCheckpointSchema>;
+
+export const provisionalAccessGrants = pgTable("provisional_access_grants", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  reason: text("reason").notNull(),
+  grantedAt: timestamp("granted_at").defaultNow().notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+  revokedAt: timestamp("revoked_at"),
+  grantedBy: text("granted_by").default("system"),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+});
+
+export const insertProvisionalAccessGrantSchema = createInsertSchema(provisionalAccessGrants).omit({
+  id: true,
+  grantedAt: true,
+});
+export type ProvisionalAccessGrant = typeof provisionalAccessGrants.$inferSelect;
+export type InsertProvisionalAccessGrant = z.infer<typeof insertProvisionalAccessGrantSchema>;
+
+export const platformIncidents = pgTable("platform_incidents", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  incidentId: text("incident_id").notNull().unique(),
+  type: text("type").notNull(),
+  severity: text("severity").notNull().default("warning"),
+  userId: varchar("user_id"),
+  route: text("route"),
+  message: text("message").notNull(),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  resolvedAt: timestamp("resolved_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertPlatformIncidentSchema = createInsertSchema(platformIncidents).omit({
+  id: true,
+  createdAt: true,
+});
+export type PlatformIncident = typeof platformIncidents.$inferSelect;
+export type InsertPlatformIncident = z.infer<typeof insertPlatformIncidentSchema>;
