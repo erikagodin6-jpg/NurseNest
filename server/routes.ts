@@ -671,6 +671,16 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerResilienceReportRoutes } = await import("./resilience-report");
   registerResilienceReportRoutes(app);
 
+  const { registerRunbookRoutes } = await import("./admin-runbooks");
+  registerRunbookRoutes(app);
+
+  const { registerPreviewModeRoutes } = await import("./admin-preview-mode");
+  registerPreviewModeRoutes(app);
+
+  const { registerLiteModeRoutes, liteModeFallbackMiddleware } = await import("./nursenest-lite");
+  registerLiteModeRoutes(app);
+  app.use(liteModeFallbackMiddleware());
+
   const { registerClinicalSeoRoutes, seedClinicalSeoPages } = await import("./clinical-seo-routes");
   registerClinicalSeoRoutes(app);
   seedClinicalSeoPages().catch((e) => console.error("Clinical SEO seed error:", e?.message));
