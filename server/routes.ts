@@ -500,6 +500,12 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerContentHealthRoutes } = await import("./content-health-routes");
   registerContentHealthRoutes(app);
 
+  const { registerLanguageHealthRoutes } = await import("./language-health-routes");
+  registerLanguageHealthRoutes(app);
+
+  const { ensureLanguageEnforcementTable } = await import("./language-enforcement-logger");
+  ensureLanguageEnforcementTable().catch((e) => console.error("Language enforcement table init error:", e?.message));
+
   const { registerRationaleRemediationRoutes } = await import("./rationale-remediation");
   registerRationaleRemediationRoutes(app);
 
@@ -560,6 +566,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
 
   app.use(regionMiddleware);
   app.use(languageMiddleware);
+
+  const { enforceLanguageIsolation } = await import("./language-isolation");
+  app.use("/api", enforceLanguageIsolation);
 
   app.get("/api/region", (req, res) => {
     const region = req.region || "US";

@@ -25,6 +25,7 @@ const LazyAnalyticsTracker = lazy(() => import("@/components/analytics-tracker")
 const ReportProblemButton = lazy(() => import("@/components/report-problem-button").then(m => ({ default: m.ReportProblemButton })));
 import { ExamErrorBoundary, ExamLoadingFallback } from "@/components/exam-error-boundary";
 import { PlatformErrorBoundary } from "@/components/platform-error-boundary";
+import { LanguageGuard } from "@/lib/language-guard";
 const IncidentBanner = lazy(() => import("@/components/incident-banner").then(m => ({ default: m.IncidentBanner })));
 
 function PreviewBanner() {
@@ -242,6 +243,7 @@ const AdminSeoPerformance = lazy(() => import("@/pages/admin-seo-performance"));
 const AdminTranslationDashboard = lazy(() => import("@/pages/admin-translation-dashboard"));
 const AdminTranslationCoverage = lazy(() => import("@/pages/admin-translation-coverage"));
 const AdminTranslationHealth = lazy(() => import("@/pages/admin-translation-health"));
+const AdminLanguageHealth = lazy(() => import("@/pages/admin-language-health"));
 const AdminSeoInspector = lazy(() => import("@/pages/admin-seo-inspector"));
 const AdminContentIntelligence = lazy(() => import("@/pages/admin-content-intelligence"));
 const AdminCatDashboard = lazy(() => import("@/pages/admin-cat-dashboard"));
@@ -1099,6 +1101,7 @@ function AppRoutes() {
         <Route path="/admin/translations" component={AdminTranslationDashboard} />
         <Route path="/admin/translation-coverage" component={AdminTranslationCoverage} />
         <Route path="/admin/translation-health" component={AdminTranslationHealth} />
+        <Route path="/admin/language-health" component={AdminLanguageHealth} />
         <Route path="/admin/seo-inspector" component={AdminSeoInspector} />
         <Route path="/admin/content-intelligence" component={AdminContentIntelligence} />
         <Route path="/admin/cat" component={AdminCatDashboard} />
@@ -1761,6 +1764,10 @@ function DeferredShellComponents() {
   );
 }
 
+function LanguageGuardWrapper({ children }: { children: ReactNode }) {
+  return <LanguageGuard>{children}</LanguageGuard>;
+}
+
 function App() {
   return (
     <PlatformErrorBoundary>
@@ -1779,7 +1786,9 @@ function App() {
                     <Suspense fallback={null}><StickyCtaBar /></Suspense>
                     <PageTracker />
                     <CopyProtection />
-                    <LocaleRouter />
+                    <LanguageGuardWrapper>
+                      <LocaleRouter />
+                    </LanguageGuardWrapper>
                     <DeferredShellComponents />
                   </TooltipProvider>
                 </SiteImagesProvider>
