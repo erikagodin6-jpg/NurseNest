@@ -1,0 +1,84 @@
+You did NOT fully fix the deployment issue.
+
+Evidence:
+- Your summary says email is now intentionally nullable
+- But the Publishing screen is STILL attempting:
+  ALTER TABLE "users" ALTER COLUMN "email" SET NOT NULL;
+- Therefore the deploy pipeline is still reading a stale migration, stale drizzle snapshot, stale generated SQL, or stale build/deploy step.
+
+I need you to stop investigating generally and fix the ACTUAL source of the stale NOT NULL migration.
+
+MANDATORY TASKS
+
+1. Find the exact source still generating this SQL:
+   ALTER TABLE "users" ALTER COLUMN "email" SET NOT NULL;
+
+Search ALL of the following and report exact file paths and contents:
+- drizzle schema files
+- drizzle migrations folder
+- drizzle meta/snapshot files
+- generated SQL files
+- deploy scripts
+- build scripts
+- package.json scripts
+- bash/sh scripts
+- CI/publish scripts
+- any runtime migration code
+- any predeploy/prebuild hooks
+- any old migration artifacts
+- any checked-in SQL under scripts/db/migrations/etc
+
+2. Show me every occurrence of:
+- SET NOT NULL
+- users.email
+- ALTER TABLE "users"
+- drizzle-kit push
+- pre-migration
+- migration validation
+- email backfill
+- unique index on email
+
+3. Determine whether Publishing is:
+- using checked-in migration files
+- using drizzle-kit push from current schema
+- using a cached build artifact
+- using a deployment script with old commands
+- using a separate branch/commit/worktree than the one you edited
+
+4. Fix the root cause, not the symptom:
+- remove/replace every stale migration or snapshot that still expects users.email NOT NULL
+- regenerate Drizzle state cleanly from the CURRENT intended schema where email is nullable
+- ensure there is no migration diff trying to enforce NOT NULL
+- ensure publishing uses the corrected files
+
+5. Hard reset the migration state safely in development only if needed:
+- remove stale generated migration artifacts that reference NOT NULL
+- regenerate clean migration metadata/snapshots from the current schema
+- do NOT destroy production data
+- do NOT copy development DB to production
+
+6. Verify with explicit proof:
+Run and show output for:
+- grep/search results proving no remaining `ALTER COLUMN "email" SET NOT NULL`
+- drizzle-kit push / migration dry-run showing zero email NOT NULL changes
+- the exact package.json deploy/publish scripts now being used
+- which commit/files changed
+- confirmation of which branch/environment Publishing is building from
+
+7. If Replit Publishing is caching old deploy state:
+- identify how to invalidate that cache
+- create a no-op but real deploy-triggering change if needed
+- ensure the next publish uses the corrected migration state
+
+8. Final deliverable must include:
+- exact root cause
+- exact stale file(s) or script(s)
+- exact fix applied
+- proof that no email NOT NULL migration remains
+- confirmation that the next publish should not show the same validation error
+
+IMPORTANT:
+Do not tell me it is fixed unless you prove the actual SQL is gone from the publish pipeline.
+Do not give me a summary without file paths, commands run, and outputs.
+Do not repeat the same explanation about nullable email.
+The issue now is stale deployment state still generating old SQL.
