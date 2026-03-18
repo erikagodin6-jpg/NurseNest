@@ -500,6 +500,12 @@ app.post(
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: false }));
 
+import { connectionTrackingMiddleware, loadSheddingMiddleware, responseSizeLimiterMiddleware, memoryAwareRequestLogger } from "./memory-middleware";
+app.use(connectionTrackingMiddleware());
+app.use(loadSheddingMiddleware());
+app.use(responseSizeLimiterMiddleware());
+app.use(memoryAwareRequestLogger());
+
 // -------------------------
 // Admin verify (needs express.json() ABOVE)
 // Register this BEFORE registerRoutes()
@@ -845,6 +851,8 @@ app.use((req, res, next) => {
     console.log(`[Sitemap] robots.txt → Sitemap: https://www.nursenest.ca/sitemap-index.xml`);
     console.log(`[Sitemap] /sitemap.xml → 301 → /sitemap-index.xml`);
     console.log(`[Sitemap] /sitemap_index.xml → 301 → /sitemap-index.xml\n`);
+
+    import("./memory-monitor").then(({ startMemoryMonitor }) => startMemoryMonitor()).catch(e => console.error("[MemoryMonitor] Failed to start:", e.message));
 
     runDeferredStartupWork();
   });

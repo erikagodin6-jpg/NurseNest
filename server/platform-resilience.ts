@@ -2597,6 +2597,67 @@ export function scaleProtectionMiddleware() {
 // REGISTER RESILIENCE ROUTES
 // ==========================================
 
+export function pruneResilienceCaches(): void {
+  const now = Date.now();
+  const MAX_AGE_MS = 300_000;
+
+  while (alertEvents.length > MAX_ALERTS) {
+    alertEvents.pop();
+  }
+  while (resilienceAuditLog.length > MAX_AUDIT) {
+    resilienceAuditLog.pop();
+  }
+  while (resilienceEvents.length > MAX_EVENTS) {
+    resilienceEvents.pop();
+  }
+
+  for (const [key, entry] of entitlementCache) {
+    if (entry.expiresAt < now) {
+      entitlementCache.delete(key);
+    }
+  }
+
+  for (const [key, grant] of provisionalAccessGrants) {
+    if (now > grant.expiresAt) {
+      provisionalAccessGrants.delete(key);
+    }
+  }
+
+  for (const [key, entry] of rateLimitStore) {
+    if (now - entry.windowStart > 120000) {
+      rateLimitStore.delete(key);
+    }
+  }
+
+  for (const [key, entry] of warmCache) {
+    if (now - entry.warmedAt > entry.ttlMs * 2) {
+      warmCache.delete(key);
+    }
+  }
+
+  while (selfHealingLog.length > 100) {
+    selfHealingLog.pop();
+  }
+
+  if (circuitBreakers.size > 50) {
+    const toDelete: string[] = [];
+    for (const [name, cb] of circuitBreakers) {
+      if (cb.state === "closed" && cb.failureCount === 0 && cb.lastFailure && now - cb.lastFailure > MAX_AGE_MS) {
+        toDelete.push(name);
+      }
+    }
+    for (const key of toDelete) {
+      circuitBreakers.delete(key);
+    }
+  }
+
+  for (const budget of errorBudgets.values()) {
+    budget.errors = budget.errors.filter(t => now - t < budget.windowMs);
+    budget.consumed = budget.errors.length;
+    recomputeEscalationLevel(budget);
+  }
+}
+
 export function registerResilienceRoutes(app: Express): void {
   ensurePlatformTables().catch(() => {});
   initTimeoutConfigs();
@@ -2606,16 +2667,33 @@ export function registerResilienceRoutes(app: Express): void {
     healthCheckTimer = setInterval(() => runHealthChecks(), HEALTH_CHECK_INTERVAL_MS);
   }
 
-  app.get("/api/platform/status", (_req: Request, res: Response) => {
+  app.get("/api/platform/status", async (_req: Request, res: Response) => {
+    let memoryPressure = false;
+    let memoryLevel = "normal";
+    try {
+      const { getMemoryPressure } = await import("./memory-monitor");
+      const pressure = getMemoryPressure();
+      memoryPressure = pressure.isProtection || pressure.isCritical;
+      memoryLevel = pressure.level;
+    } catch {}
+
+    const highLoad = emergencyModeActive || minimalCoreActive || memoryPressure;
+
     res.json({
       emergencyMode: emergencyModeActive,
       safeMode: emergencyModeActive,
       minimalCore: minimalCoreActive,
+      memoryPressure,
+      memoryLevel,
+      highLoad,
+      highLoadMessage: highLoad ? "System under high load — running in safe mode" : null,
       renderMode: minimalCoreActive ? "text-first" : emergencyModeActive ? "safe-static" : "full",
       message: emergencyModeActive
         ? "We're running in safe mode. Core reading features remain available."
         : minimalCoreActive
         ? "Platform is in minimal core mode. Only essential features are active."
+        : memoryPressure
+        ? "System under high load — running in safe mode"
         : null,
       reason: emergencyModeActive ? emergencyModeReason : minimalCoreActive ? minimalCoreReason : null,
     });
@@ -2970,15 +3048,34 @@ export function registerResilienceRoutes(app: Express): void {
     res.json({ success: true, cacheWarmStatus: getCacheWarmStatus() });
   });
 
+  app.get("/api/admin/resilience/memory", async (req: Request, res: Response) => {
+    const admin = await resolveAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { getMemoryMonitorStatus } = await import("./memory-monitor");
+      res.json(getMemoryMonitorStatus());
+    } catch {
+      res.json({ error: "Memory monitor not available" });
+    }
+  });
+
   app.get("/api/admin/resilience/dashboard", async (req: Request, res: Response) => {
     const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin", "content_admin", "ops_viewer");
     if (!admin) return;
+
+    let memoryInfo = null;
+    try {
+      const { getMemoryMonitorStatus } = await import("./memory-monitor");
+      memoryInfo = getMemoryMonitorStatus();
+    } catch {}
+
     res.json({
       safeMode: getSafeModeStatus(),
       minimalCore: getMinimalCoreStatus(),
       errorBudgets: getErrorBudgets(),
       cacheWarmStatus: getCacheWarmStatus(),
       circuitBreakers: getCircuitBreakerStates(),
+      memory: memoryInfo,
       featureFlags: getFeatureFlags().map(f => ({
         key: f.key,
         enabled: isFeatureEnabled(f.key),

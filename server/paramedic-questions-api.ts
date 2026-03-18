@@ -9,6 +9,10 @@ function slugify(text: string): string {
 
 let questionsCache: any[] | null = null;
 
+export function clearParamedicQuestionsCache(): void {
+  questionsCache = null;
+}
+
 async function loadQuestions(): Promise<any[]> {
   if (questionsCache) return questionsCache;
   const { paramedicQuestions } = await import("../client/src/data/career-questions/paramedic-questions");

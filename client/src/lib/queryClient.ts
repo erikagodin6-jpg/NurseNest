@@ -19,9 +19,27 @@ export function getAuthHeaders(): Record<string, string> {
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
+    if (res.status === 503) {
+      const retryAfter = res.headers.get("Retry-After");
+      const text = (await res.text()) || res.statusText;
+      const err = new Error(`${res.status}: ${text}`) as any;
+      err.status = 503;
+      err.retryAfter = retryAfter ? parseInt(retryAfter) : 30;
+      throw err;
+    }
     const text = (await res.text()) || res.statusText;
     throw new Error(`${res.status}: ${text}`);
   }
+}
+
+const DEFAULT_PAGE_LIMIT = 50;
+
+export function appendPaginationParams(url: string, limit?: number, offset?: number): string {
+  const sep = url.includes("?") ? "&" : "?";
+  const params: string[] = [];
+  params.push(`limit=${limit ?? DEFAULT_PAGE_LIMIT}`);
+  if (offset != null) params.push(`offset=${offset}`);
+  return `${url}${sep}${params.join("&")}`;
 }
 
 export async function apiRequest(
@@ -63,14 +81,26 @@ export const getQueryFn: <T>(options: {
     return await res.json();
   };
 
+const FIVE_MINUTES = 5 * 60 * 1000;
+const TEN_MINUTES = 10 * 60 * 1000;
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       queryFn: getQueryFn({ on401: "throw" }),
       refetchInterval: false,
       refetchOnWindowFocus: false,
-      staleTime: Infinity,
-      retry: false,
+      staleTime: FIVE_MINUTES,
+      gcTime: TEN_MINUTES,
+      retry: (failureCount, error: any) => {
+        if (error?.status === 503 && failureCount < 2) return true;
+        return false;
+      },
+      retryDelay: (attemptIndex, error: any) => {
+        const retryAfter = (error as any)?.retryAfter;
+        if (retryAfter) return retryAfter * 1000;
+        return Math.min(1000 * 2 ** attemptIndex, 30000);
+      },
     },
     mutations: {
       retry: false,

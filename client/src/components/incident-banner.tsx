@@ -25,7 +25,7 @@ export function IncidentBanner() {
         if (res.ok && active) {
           const data = await res.json();
           setPlatformStatus(data);
-          if (!data.emergencyMode) setDismissed(false);
+          if (!data.emergencyMode && !data.highLoad) setDismissed(false);
         }
       } catch {}
     };
@@ -37,7 +37,8 @@ export function IncidentBanner() {
   const isDown = health.status === "down";
   const isDegraded = health.status === "degraded";
   const isEmergency = health.emergency || platformStatus?.emergencyMode;
-  const showBanner = (isDown || isDegraded || isEmergency) && !dismissed;
+  const isHighLoad = (platformStatus as any)?.highLoad || (platformStatus as any)?.memoryPressure;
+  const showBanner = (isDown || isDegraded || isEmergency || isHighLoad) && !dismissed;
 
   if (!showBanner) return null;
 
@@ -55,6 +56,8 @@ export function IncidentBanner() {
         <span data-testid="text-incident-message">
           {isEmergency
             ? "We're running in backup mode. Your access is protected."
+            : isHighLoad
+            ? (platformStatus as any)?.highLoadMessage || "System under high load — running in safe mode"
             : isDown
             ? "Some services are experiencing issues. Your access and progress are protected."
             : "We are experiencing minor service delays. Everything should be back to normal shortly."}

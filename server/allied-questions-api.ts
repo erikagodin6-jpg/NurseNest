@@ -145,9 +145,20 @@ const PROFESSIONS: ProfessionConfig[] = [
 ];
 
 const questionsCache: Record<string, any[]> = {};
+const MAX_CACHE_ENTRIES = 20;
+
+export function clearAlliedQuestionsCache(): void {
+  for (const key of Object.keys(questionsCache)) {
+    delete questionsCache[key];
+  }
+}
 
 async function loadQuestions(profession: ProfessionConfig): Promise<any[]> {
   if (questionsCache[profession.key]) return questionsCache[profession.key];
+  if (Object.keys(questionsCache).length >= MAX_CACHE_ENTRIES) {
+    const firstKey = Object.keys(questionsCache)[0];
+    if (firstKey) delete questionsCache[firstKey];
+  }
   const mod = await import(profession.importPath);
   let questions: any[] = mod[profession.exportName] as any[];
   if (profession.additionalImports) {

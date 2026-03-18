@@ -49,9 +49,14 @@ const MIN_VALID_QUESTIONS_RATIO = 0.3;
 const MIN_VALID_QUESTIONS_ABSOLUTE = 5;
 
 const circuitBreakers = new Map<string, CircuitState>();
+const MAX_CIRCUIT_BREAKERS = 200;
 
 function getCircuitState(examId: string): CircuitState {
   if (!circuitBreakers.has(examId)) {
+    if (circuitBreakers.size >= MAX_CIRCUIT_BREAKERS) {
+      const oldestKey = circuitBreakers.keys().next().value;
+      if (oldestKey) circuitBreakers.delete(oldestKey);
+    }
     circuitBreakers.set(examId, {
       failures: [],
       state: "closed",

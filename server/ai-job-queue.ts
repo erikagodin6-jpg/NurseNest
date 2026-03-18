@@ -15,6 +15,7 @@ const GPT4O_MINI_OUTPUT_COST = 0.0006 / 1000;
 const AVG_COST_PER_1K_TOKENS = 0.0004;
 
 const runningJobs = new Map<string, { cancel: boolean; pause: boolean }>();
+const MAX_RUNNING_JOBS = 50;
 
 export const JOB_TYPES = [
   "exam_questions", "cat_questions", "flashcards", "lessons",
@@ -372,6 +373,13 @@ export async function startJob(jobId: string): Promise<void> {
     [jobId, JSON.stringify(logs)]
   );
 
+  if (runningJobs.size >= MAX_RUNNING_JOBS) {
+    await pool.query(
+      `UPDATE ai_jobs SET status = 'queued', logs = $2 WHERE id = $1`,
+      [jobId, JSON.stringify([...logs, { t: Date.now(), msg: "Deferred: max concurrent jobs reached" }])]
+    );
+    return;
+  }
   runningJobs.set(jobId, { cancel: false, pause: false });
 
   const freshJob = await pool.query("SELECT * FROM ai_jobs WHERE id = $1", [jobId]);
