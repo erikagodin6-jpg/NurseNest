@@ -632,6 +632,19 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerIncidentMonitorRoutes } = await import("./incident-routes");
   registerIncidentMonitorRoutes(app);
 
+  const { registerReleaseGateRoutes } = await import("./release-gate");
+  registerReleaseGateRoutes(app);
+
+  const { registerContentHealthScoreRoutes } = await import("./content-health-score");
+  registerContentHealthScoreRoutes(app);
+
+  const { registerVipPrioritizationRoutes, vipPrioritizationMiddleware } = await import("./vip-prioritization");
+  app.use(vipPrioritizationMiddleware());
+  registerVipPrioritizationRoutes(app);
+
+  const { registerResilienceReportRoutes } = await import("./resilience-report");
+  registerResilienceReportRoutes(app);
+
   const { registerClinicalSeoRoutes, seedClinicalSeoPages } = await import("./clinical-seo-routes");
   registerClinicalSeoRoutes(app);
   seedClinicalSeoPages().catch((e) => console.error("Clinical SEO seed error:", e?.message));

@@ -120,6 +120,11 @@ Key files:
 - **Re-auth & Confirmation Tokens**: Single-use re-auth tokens (5 min TTL) for sensitive ops. Single-use confirmation tokens (5 min TTL) for destructive actions.
 - **Audit Logging & RBAC**: Enhanced audit logging with `logOperatorAction()` for granular operator action tracking (actor_role, action_category, target_type, target_id, reason, confirmation_required). Role-based access control with 5 roles (super_admin, support_admin, content_admin, ops_viewer, analytics_viewer) enforced via `requirePermission()`, `requireDestructiveAction()`, and `hasPermission()` in `server/admin-auth.ts`. Audit log query API supports filtering by actor, action, category, date range, and target. Role assignment restricted to super_admin. Backward compatible: existing admins default to super_admin.
 - **JWT Secret**: `ADMIN_JWT_SECRET` env var required in production. Dev uses Repl-specific fallback.
+- **Last-Known-Good Content Versioning**: Immutable versioning system for premium content, with automatic failover to previous verified versions.
+- **Release Gate API**: Pre-deploy and pre-publish safety checks (13 checks across DB health, auth, exam, CAT, flashcards, entitlements, rollback, monitoring, backups, content schema, content health, backup artifacts, fallback paths) with override audit logging. Admin UI at `/admin/release-gate`.
+- **Content Health Score Engine**: 0-100 scoring engine with per-dimension breakdown for exam questions, flashcard decks, lessons, and content items. Dimensions include schema validity, field completeness, content adequacy, metadata quality, and runtime stability.
+- **VIP Subscriber Prioritization**: Middleware that prioritizes paid subscriber requests under high load, with configurable thresholds, critical path exemptions for admin/auth/health endpoints, and background operation shedding. Admin UI at `/admin/vip-status`.
+- **Weekly Resilience Report**: Automated report covering incidents, fallback activations, rollback events, quarantined content, low-health content, entitlement anomalies, payment sync issues, top failing routes, rescue actions, and open risks with risk level computation and recommended priorities. Admin UI at `/admin/resilience-report`.
 
 ### External Dependencies
 - **Database**: PostgreSQL
