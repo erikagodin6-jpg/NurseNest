@@ -60,7 +60,7 @@ export function MobileBottomNav() {
             return (
               <LocaleLink key={item.href} href={item.href}>
                 <button
-                  className={`flex flex-col items-center justify-center w-full h-full px-2 py-1 rounded-lg transition-colors ${
+                  className={`flex flex-col items-center justify-center w-full min-h-[44px] min-w-[44px] px-2 py-1.5 rounded-lg transition-colors ${
                     isActive ? "text-primary" : "text-gray-400 active:text-gray-600"
                   }`}
                   data-testid={`nav-mobile-${item.label.toLowerCase()}`}

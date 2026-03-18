@@ -18,6 +18,7 @@ const AlliedRoutes = lazy(() => import("@/allied/allied-routes").then(m => ({ de
 const TesterBanner = lazy(() => import("@/components/tester-banner").then(m => ({ default: m.TesterBanner })));
 const UpgradePrompt = lazy(() => import("@/components/upgrade-prompt").then(m => ({ default: m.UpgradePrompt })));
 const PWAInstallPrompt = lazy(() => import("@/components/pwa-install-prompt").then(m => ({ default: m.PWAInstallPrompt })));
+const OfflineStatusBanner = lazy(() => import("@/components/offline-status-banner").then(m => ({ default: m.OfflineStatusBanner })));
 const ExitIntentModal = lazy(() => import("@/components/exit-intent-modal").then(m => ({ default: m.ExitIntentModal })));
 const StickyCtaBar = lazy(() => import("@/components/sticky-cta-bar").then(m => ({ default: m.StickyCtaBar })));
 const MobileBottomNav = lazy(() => import("@/components/mobile-study-shell").then(m => ({ default: m.MobileBottomNav })));
@@ -1854,6 +1855,7 @@ function DeferredShellComponents() {
       <MobileBottomNav />
       <UpgradePrompt />
       <PWAInstallPrompt />
+      <OfflineStatusBanner />
       <ExitIntentModal />
       <ReportProblemButton />
       <IncidentBanner />

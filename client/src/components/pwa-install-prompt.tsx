@@ -56,6 +56,14 @@ export function PWAInstallPrompt() {
     if (deferredPrompt) {
       await deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
+      try {
+        if (typeof (window as any).gtag === "function") {
+          (window as any).gtag("event", "pwa_install_prompt_result", {
+            event_category: "pwa",
+            event_label: outcome,
+          });
+        }
+      } catch {}
       if (outcome === "accepted") {
         setShowBanner(false);
       }
@@ -67,6 +75,14 @@ export function PWAInstallPrompt() {
     setShowBanner(false);
     suppressPopup("pwa_install");
     localStorage.setItem("nursenest-pwa-dismissed", Date.now().toString());
+    try {
+      if (typeof (window as any).gtag === "function") {
+        (window as any).gtag("event", "pwa_install_dismissed", {
+          event_category: "pwa",
+          event_label: isIOS ? "ios_banner" : "android_banner",
+        });
+      }
+    } catch {}
   };
 
   if (!showBanner || isStandalone) return null;

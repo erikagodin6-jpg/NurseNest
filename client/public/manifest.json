@@ -1,7 +1,7 @@
 {
-  "name": "NurseNest - Nursing Exam Prep",
+  "name": "NurseNest - Healthcare Exam Prep",
   "short_name": "NurseNest",
-  "description": "10,000+ practice questions, clinical simulations, pharmacology flashcards, and pathophysiology lessons for NCLEX & REX-PN exam preparation.",
+  "description": "40,000+ practice questions, clinical simulations, 13,000+ pharmacology flashcards, 8,000+ pathophysiology lessons, and mock exams for NCLEX, REx-PN, NP certification, and allied health exam preparation.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f8f7ff",
@@ -67,7 +67,22 @@
       "purpose": "any"
     }
   ],
-  "screenshots": [],
+  "screenshots": [
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "NurseNest mobile - Practice questions and flashcards"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "NurseNest desktop - Full exam preparation platform"
+    }
+  ],
   "shortcuts": [
     {
       "name": "Question Bank",
@@ -95,6 +110,13 @@
       "short_name": "Exams",
       "description": "Take practice exams",
       "url": "/mock-exams",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "Offline Study",
+      "short_name": "Offline",
+      "description": "Study downloaded content offline",
+      "url": "/offline-study",
       "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
     }
   ]

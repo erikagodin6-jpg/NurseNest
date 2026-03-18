@@ -247,10 +247,10 @@ export default function OfflineStudyPage() {
                     }
                     return (
                       <button key={idx} onClick={() => handleAnswer(label)} disabled={showResult}
-                        className={`w-full text-left p-3 rounded-lg border-2 transition-all ${cls}`}
+                        className={`w-full text-left p-4 rounded-lg border-2 transition-all min-h-[48px] ${cls}`}
                         data-testid={`button-offline-opt-${label}`}>
-                        <div className="flex items-center gap-2">
-                          <span className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-xs font-semibold">{label}</span>
+                        <div className="flex items-center gap-3">
+                          <span className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-xs font-semibold shrink-0">{label}</span>
                           <span className="text-sm">{text}</span>
                           {showResult && isCorrect && <CheckCircle2 className="w-4 h-4 text-green-600 ml-auto" />}
                           {showResult && isSelected && !isCorrect && <XCircle className="w-4 h-4 text-red-500 ml-auto" />}
@@ -304,11 +304,11 @@ export default function OfflineStudyPage() {
             </Card>
             {flipped && (
               <div className="flex gap-3 justify-center">
-                <Button variant="outline" className="border-red-200 text-red-600" onClick={() => markCard(false)} data-testid="button-fc-incorrect">
-                  <XCircle className="w-4 h-4 mr-1" /> Didn't Know
+                <Button variant="outline" className="border-red-200 text-red-600 min-h-[48px] min-w-[120px] text-base" onClick={() => markCard(false)} data-testid="button-fc-incorrect">
+                  <XCircle className="w-5 h-5 mr-1.5" /> Didn't Know
                 </Button>
-                <Button variant="outline" className="border-green-200 text-green-600" onClick={() => markCard(true)} data-testid="button-fc-correct">
-                  <CheckCircle2 className="w-4 h-4 mr-1" /> Got It
+                <Button variant="outline" className="border-green-200 text-green-600 min-h-[48px] min-w-[120px] text-base" onClick={() => markCard(true)} data-testid="button-fc-correct">
+                  <CheckCircle2 className="w-5 h-5 mr-1.5" /> Got It
                 </Button>
               </div>
             )}

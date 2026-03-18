@@ -1,10 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
   Download, Trash2, Wifi, WifiOff, RefreshCw, CheckCircle2,
-  BookOpen, Brain, HardDrive, CloudOff,
+  BookOpen, Brain, HardDrive, CloudOff, ChevronDown,
 } from "lucide-react";
 import {
   saveQuestionPack,
@@ -141,7 +141,18 @@ export function OfflineDownloadManager() {
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   };
 
+  const [questionPackLimit, setQuestionPackLimit] = useState(10);
+  const [flashcardPackLimit, setFlashcardPackLimit] = useState(10);
   const downloadedIds = new Set(downloadedPacks.map((p) => p.id));
+
+  const visibleQuestionPacks = useMemo(
+    () => availablePacks.questionPacks.slice(0, questionPackLimit),
+    [availablePacks.questionPacks, questionPackLimit]
+  );
+  const visibleFlashcardPacks = useMemo(
+    () => availablePacks.flashcardPacks.slice(0, flashcardPackLimit),
+    [availablePacks.flashcardPacks, flashcardPackLimit]
+  );
 
   return (
     <div className="space-y-6" data-testid="section-offline-manager">
@@ -236,7 +247,7 @@ export function OfflineDownloadManager() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                {availablePacks.questionPacks.slice(0, 10).map((pack) => (
+                {visibleQuestionPacks.map((pack) => (
                   <div
                     key={pack.id}
                     className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
@@ -269,6 +280,18 @@ export function OfflineDownloadManager() {
                     )}
                   </div>
                 ))}
+                {availablePacks.questionPacks.length > questionPackLimit && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full mt-2 min-h-[44px]"
+                    onClick={() => setQuestionPackLimit((l) => l + 10)}
+                    data-testid="button-show-more-questions"
+                  >
+                    <ChevronDown className="w-4 h-4 mr-1" />
+                    Show More ({availablePacks.questionPacks.length - questionPackLimit} remaining)
+                  </Button>
+                )}
               </CardContent>
             </Card>
           )}
@@ -282,7 +305,7 @@ export function OfflineDownloadManager() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                {availablePacks.flashcardPacks.slice(0, 10).map((pack) => (
+                {visibleFlashcardPacks.map((pack) => (
                   <div
                     key={pack.id}
                     className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
@@ -315,6 +338,18 @@ export function OfflineDownloadManager() {
                     )}
                   </div>
                 ))}
+                {availablePacks.flashcardPacks.length > flashcardPackLimit && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full mt-2 min-h-[44px]"
+                    onClick={() => setFlashcardPackLimit((l) => l + 10)}
+                    data-testid="button-show-more-flashcards"
+                  >
+                    <ChevronDown className="w-4 h-4 mr-1" />
+                    Show More ({availablePacks.flashcardPacks.length - flashcardPackLimit} remaining)
+                  </Button>
+                )}
               </CardContent>
             </Card>
           )}

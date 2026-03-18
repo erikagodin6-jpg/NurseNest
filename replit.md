@@ -1,7 +1,7 @@
 # NurseNest
 
 ### Overview
-NurseNest is an adaptive learning platform for nursing and allied health students across 17 specializations. It provides extensive educational resources, advanced exam preparation (e.g., NCLEX, REX-PN), and performance analytics. The platform utilizes AI for content generation to foster clinical reasoning, enhance nursing knowledge, and critical thinking, aiming to improve patient care outcomes and revolutionize nursing education. The business vision is to become a leader in health education technology with significant market potential.
+NurseNest is an adaptive learning platform for nursing and allied health students across 17 specializations. It provides extensive educational resources, advanced exam preparation (e.g., NCLEX, REX-PN), and performance analytics. The platform uses AI for content generation to foster clinical reasoning, enhance nursing knowledge, and critical thinking, aiming to improve patient care outcomes and revolutionize nursing education. The business vision is to become a leader in health education technology with significant market potential.
 
 ## User Preferences
 - Preferred communication style: Simple, everyday language.
@@ -20,9 +20,9 @@ NurseNest utilizes a modern web architecture with a React UI (TypeScript, Wouter
 The platform incorporates a database-driven subscription model supporting regional pricing, tiered access, Stripe-based lifetime purchases, and free trial usage caps. Key features include interactive learning modules, a mock exam engine with stratified random sampling, and a comprehensive admin dashboard. AI integrations, managed through a centralized AI Provider Router, are critical for functionalities such as blog automation, an Adaptive CAT Engine, Pass Probability Projection, a Next Best Action Engine, an AI Tutoring Assistant, and content generation with quality gates. Exam blueprints are database-driven, content is categorized by body system, and supports Next Generation NCLEX (NGN) question types, partial credit scoring, and a Spaced Repetition System. Content access is dynamically controlled by user subscription tier.
 
 Core architectural components and design patterns include:
-- **Learning & Exam Preparation**: Flashcards, Test Bank, Question Bank, Adaptive Flashcard System, Clinical Vignette Generation Engine, and a Mock Exam Engine (CAT & Practice modes) supporting multiple nursing certifications.
+- **Learning & Exam Preparation**: Flashcards, Test Bank, Question Bank, Adaptive Flashcard System, Clinical Vignette Generation Engine, and a Mock Exam Engine (CAT & Practice modes) supporting multiple nursing certifications, with an Exam Reliability System with question validation and pool health checks.
 - **AI-Powered Study & Content**: AI Study Coaching & Course Generation, Exam Date AI Study Planner, AI-Powered Generation & Safety system, context-aware AI Tutoring Assistant, and Bulk Question Bank Orchestrator.
-- **Content & SEO Infrastructure**: Allied Health Encyclopedia, SEO Lesson Engine, Programmatic SEO Engines, Multilingual SEO & Translation System, Database-Driven Multi-Domain Sitemap Architecture, Internal Linking Engine, and structured data generation.
+- **Content & SEO Infrastructure**: Allied Health Encyclopedia, SEO Lesson Engine, Programmatic SEO Engines, Multilingual SEO & Translation System (with build-blocking validation and runtime enforcement), Database-Driven Multi-Domain Sitemap Architecture, Internal Linking Engine, and structured data generation (Article, Course, MedicalCondition, FAQ schemas). Includes a dedicated PTA Programmatic SEO Content System.
 - **User Experience & Engagement**: Dashboard Lifecycle Command Center, Global Report a Problem System, IndexedDB-based Offline Study System, and LocalStorage-based Popup Suppression System.
 - **Multi-Profession Support**: Dynamic framework for new healthcare professions with specialized navigation and content, including dedicated NP Exam Ecosystems.
 - **Database Safety & Management**: PostgreSQL with Drizzle ORM, EnvironmentAwareContentWriteService, and a comprehensive Backup, Export & Restore Framework.
