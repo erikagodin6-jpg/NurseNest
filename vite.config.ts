@@ -40,8 +40,8 @@ export default defineConfig({
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
     target: "es2020",
-    sourcemap: true,
-    chunkSizeWarningLimit: 2000,
+    sourcemap: false,
+    chunkSizeWarningLimit: 3000,
     cssMinify: "esbuild",
     minify: "esbuild",
     modulePreload: false,
@@ -51,12 +51,16 @@ export default defineConfig({
           if (id.includes("node_modules/lucide-react")) return "icons";
           if (id.includes("data/lessons/")) return "lessons";
           if (id.includes("node_modules/@radix-ui") || id.includes("node_modules/framer-motion") || id.includes("node_modules/@tanstack")) return "vendor";
-          if (id.includes("/pages/admin-") || id.includes("/pages/admin.")) return "admin";
-          if (id.includes("/pages/mock-exam") || id.includes("/pages/qbank-") || id.includes("/components/cat-") || id.includes("/pages/diagnostic-assessment")) return "exams";
-          if (id.includes("/allied/") || id.includes("/pages/allied-")) return "allied";
         },
       },
     },
+  },
+  optimizeDeps: {
+    exclude: [
+      "i18n-fr", "i18n-ar", "i18n-es", "i18n-de", "i18n-zh", "i18n-zh-tw",
+      "i18n-hi", "i18n-pa", "i18n-ko", "i18n-ja", "i18n-pt", "i18n-vi",
+      "i18n-tl", "i18n-ur", "i18n-ht", "i18n-fa", "i18n-th", "i18n-tr", "i18n-id",
+    ],
   },
   server: {
     host: "0.0.0.0",

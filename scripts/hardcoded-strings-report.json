@@ -1741,7 +1741,7 @@
   },
   {
     "file": "/home/runner/workspace/client/src/components/protected-access-recovery.tsx",
-    "line": 403,
+    "line": 431,
     "text": "Still having trouble?",
     "type": "jsx-text"
   },
@@ -1941,6 +1941,12 @@
     "file": "/home/runner/workspace/client/src/components/safe-mode-fallbacks.tsx",
     "line": 778,
     "text": "Your subscription and purchases are not affected.",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/components/substitute-content-banner.tsx",
+    "line": 45,
+    "text": "This resource is displayed in the default language.",
     "type": "jsx-text"
   },
   {
@@ -7093,7 +7099,13 @@
   },
   {
     "file": "/home/runner/workspace/client/src/pages/mock-exam-session.tsx",
-    "line": 1386,
+    "line": 1268,
+    "text": "All automatic recovery attempts exhausted",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/home/runner/workspace/client/src/pages/mock-exam-session.tsx",
+    "line": 1656,
     "text": "Your access is protected.",
     "type": "jsx-text"
   },

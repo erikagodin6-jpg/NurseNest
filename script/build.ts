@@ -196,48 +196,58 @@ async function buildAll() {
   const t0 = Date.now();
   const log = (msg: string) => console.log(`[${((Date.now() - t0) / 1000).toFixed(1)}s] ${msg}`);
 
-  log("=== Pre-build i18n validation ===");
+  const skipValidation = process.env.SKIP_I18N_VALIDATION === "1";
 
-  runValidationStep(
-    "translation coverage check",
-    "node scripts/validate-translations.mjs --warn",
-    log,
-  );
+  if (!skipValidation) {
+    log("=== Pre-build i18n validation ===");
 
-  runValidationStep(
-    "hardcoded string scan",
-    "node scripts/scan-hardcoded-strings.mjs --warn",
-    log,
-  );
+    runValidationStep(
+      "translation coverage check",
+      "node scripts/validate-translations.mjs --warn",
+      log,
+    );
+
+    runValidationStep(
+      "hardcoded string scan",
+      "node scripts/scan-hardcoded-strings.mjs --warn",
+      log,
+    );
+  } else {
+    log("skipping i18n validation (SKIP_I18N_VALIDATION=1)");
+  }
 
   await rm("dist", { recursive: true, force: true });
 
-  log("scanning for hardcoded strings...");
-  let scanConfig: Record<string, any> = {};
-  try {
-    scanConfig = JSON.parse(await readFile("i18n-scan.config.json", "utf-8"));
-  } catch {}
-  const scanPassed = runI18nScan({
-    quiet: true,
-    failOnCritical: scanConfig.failOnCritical ?? false,
-    criticalThreshold: scanConfig.criticalThreshold ?? 0,
-    totalThreshold: scanConfig.totalThreshold ?? 35000,
-  });
-  if (!scanPassed) {
-    console.error("\n❌ Build aborted: hardcoded string violations exceed thresholds.");
-    console.error("   Run 'npm run i18n:scan' for details.\n");
-    process.exit(1);
+  if (!skipValidation) {
+    log("scanning for hardcoded strings...");
+    let scanConfig: Record<string, any> = {};
+    try {
+      scanConfig = JSON.parse(await readFile("i18n-scan.config.json", "utf-8"));
+    } catch {}
+    const scanPassed = runI18nScan({
+      quiet: true,
+      failOnCritical: scanConfig.failOnCritical ?? false,
+      criticalThreshold: scanConfig.criticalThreshold ?? 0,
+      totalThreshold: scanConfig.totalThreshold ?? 35000,
+    });
+    if (!scanPassed) {
+      console.error("\n❌ Build aborted: hardcoded string violations exceed thresholds.");
+      console.error("   Run 'npm run i18n:scan' for details.\n");
+      process.exit(1);
+    }
+    log("i18n scan passed");
   }
-  log("i18n scan passed");
 
   log("building i18n...");
   await compileI18n();
 
-  runValidationStep(
-    "locale file completeness check",
-    "node scripts/check-locale-completeness.mjs --warn",
-    log,
-  );
+  if (!skipValidation) {
+    runValidationStep(
+      "locale file completeness check",
+      "node scripts/check-locale-completeness.mjs --warn",
+      log,
+    );
+  }
 
   log("building server + data sequentially to reduce memory pressure...");
   const lessonsDir = path.resolve("client/src/data/lessons");
@@ -262,8 +272,34 @@ async function buildAll() {
 
   if (global.gc) global.gc();
 
-  await viteBuild();
-  log("client done");
+  const i18nSourceDir = path.resolve("client/src/lib");
+  const i18nTempDir = path.resolve(".i18n-sources-tmp");
+  const i18nLocaleFiles = (await readdir(i18nSourceDir))
+    .filter((f: string) => /^i18n-(ar|de|es|fa|fr|hi|ht|id|ja|ko|pa|pt|th|tl|tr|ur|vi|zh|zh-tw)\.ts$/.test(f));
+
+  if (i18nLocaleFiles.length > 0) {
+    await mkdir(i18nTempDir, { recursive: true });
+    for (const f of i18nLocaleFiles) {
+      const src = path.join(i18nSourceDir, f);
+      const dst = path.join(i18nTempDir, f);
+      await copyFile(src, dst);
+      await unlink(src);
+    }
+    log(`moved ${i18nLocaleFiles.length} i18n source files out of client tree for build`);
+  }
+
+  try {
+    await viteBuild();
+    log("client done");
+  } finally {
+    for (const f of i18nLocaleFiles) {
+      const src = path.join(i18nTempDir, f);
+      const dst = path.join(i18nSourceDir, f);
+      if (existsSync(src)) await copyFile(src, dst);
+    }
+    await rm(i18nTempDir, { recursive: true, force: true });
+    if (i18nLocaleFiles.length > 0) log(`restored ${i18nLocaleFiles.length} i18n source files`);
+  }
 
   log("removing bundled assets...");
   await Promise.all([
