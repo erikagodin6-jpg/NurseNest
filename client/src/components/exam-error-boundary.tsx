@@ -1,12 +1,19 @@
 import { Component, type ReactNode, type ErrorInfo, useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { AlertTriangle, RefreshCw, ArrowLeft, MessageSquare, Loader2, ShieldCheck } from "lucide-react";
+import { AlertTriangle, RefreshCw, ArrowLeft, MessageSquare, Loader2, ShieldCheck, Shield, BookOpen, Printer, FileText, Home } from "lucide-react";
 import { useLocation } from "wouter";
 import { useAuth } from "@/lib/auth";
 import { ProtectedAccessBoundary, type ProtectedRouteContext } from "@/components/protected-access-recovery";
 
 import { useI18n } from "@/lib/i18n";
+
+function generateIncidentId(): string {
+  const ts = Date.now().toString(36);
+  const rand = Math.random().toString(36).substring(2, 8);
+  return `INC-${ts}-${rand}`.toUpperCase();
+}
+
 interface ExamErrorBoundaryProps {
   children: ReactNode;
   examContext?: {
@@ -15,13 +22,39 @@ interface ExamErrorBoundaryProps {
     attemptId?: string;
     questionIndex?: number;
   };
+  onSafeMode?: () => void;
+  onStudyMode?: () => void;
+  onPrintable?: () => void;
 }
 
-export class ExamErrorBoundary extends Component<ExamErrorBoundaryProps, { initialized: boolean }> {
+interface ExamErrorBoundaryState {
+  initialized: boolean;
+  hasError: boolean;
+  error: Error | null;
+  retryCount: number;
+}
+
+export class ExamErrorBoundary extends Component<ExamErrorBoundaryProps, ExamErrorBoundaryState> {
   constructor(props: ExamErrorBoundaryProps) {
     super(props);
-    this.state = { initialized: true };
+    this.state = { initialized: true, hasError: false, error: null, retryCount: 0 };
   }
+
+  static getDerivedStateFromError(error: Error): Partial<ExamErrorBoundaryState> {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error("[ExamErrorBoundary] Caught error:", error, errorInfo);
+  }
+
+  private handleRetry = () => {
+    this.setState((prev) => ({
+      hasError: false,
+      error: null,
+      retryCount: prev.retryCount + 1,
+    }));
+  };
 
   private getProtectedContext(): ProtectedRouteContext {
     const ctx = this.props.examContext;
@@ -42,12 +75,253 @@ export class ExamErrorBoundary extends Component<ExamErrorBoundaryProps, { initi
   }
 
   render() {
+    if (this.state.hasError) {
+      return (
+        <ExamRecoveryUI
+          error={this.state.error}
+          onRetry={this.handleRetry}
+          retryCount={this.state.retryCount}
+          examContext={this.props.examContext}
+          onSafeMode={this.props.onSafeMode}
+          onStudyMode={this.props.onStudyMode}
+          onPrintable={this.props.onPrintable}
+        />
+      );
+    }
     return (
       <ProtectedAccessBoundary context={this.getProtectedContext()}>
         {this.props.children}
       </ProtectedAccessBoundary>
     );
   }
+}
+
+function ExamRecoveryUI({
+  error,
+  onRetry,
+  retryCount,
+  examContext,
+  onSafeMode,
+  onStudyMode,
+  onPrintable,
+}: {
+  error: Error | null;
+  onRetry: () => void;
+  retryCount: number;
+  examContext?: { examType?: string; tier?: string; attemptId?: string; questionIndex?: number };
+  onSafeMode?: () => void;
+  onStudyMode?: () => void;
+  onPrintable?: () => void;
+}) {
+  const [, navigate] = useLocation();
+  const { user } = useAuth();
+  const { t } = useI18n();
+  const [reportSent, setReportSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [reportFailed, setReportFailed] = useState(false);
+  const [incidentId] = useState(() => generateIncidentId());
+
+  const attemptId = window.location.pathname.match(/mock-exams\/([^/]+)/)?.[1] || examContext?.attemptId;
+
+  const backToExams = useCallback(() => {
+    const path = window.location.pathname;
+    const match = path.match(/^(\/[^/]+)\/mock-exams\//);
+    navigate(match ? `${match[1]}/mock-exams` : "/mock-exams");
+  }, [navigate]);
+
+  const handleReport = useCallback(async () => {
+    setSending(true);
+    setReportFailed(false);
+    try {
+      const res = await fetch("/api/exam-incident-report", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          examType: examContext?.examType || "unknown",
+          tier: examContext?.tier || "unknown",
+          route: window.location.pathname,
+          errorMessage: error?.message || "Unknown error",
+          browserInfo: navigator.userAgent,
+          additionalContext: { retryCount, attemptId, questionIndex: examContext?.questionIndex, incidentId },
+        }),
+      });
+      if (!res.ok) throw new Error("Failed");
+      setReportSent(true);
+    } catch {
+      setReportFailed(true);
+    }
+    setSending(false);
+  }, [error, examContext, retryCount, incidentId]);
+
+  const isSubscriber = user && user.tier !== "free";
+
+  useEffect(() => {
+    const existing = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    const meta = document.createElement("meta");
+    meta.name = "robots";
+    meta.content = "noindex, follow";
+    meta.dataset.errorBoundary = "true";
+    if (existing) {
+      existing.dataset.originalContent = existing.content;
+      existing.content = "noindex, follow";
+      existing.dataset.errorBoundary = "true";
+    } else {
+      document.head.appendChild(meta);
+    }
+    return () => {
+      if (existing) {
+        existing.content = existing.dataset.originalContent || "index, follow";
+        delete existing.dataset.errorBoundary;
+        delete existing.dataset.originalContent;
+      } else {
+        meta.remove();
+      }
+    };
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center p-4" data-testid="exam-recovery-ui" data-noindex-error="true">
+      <Card className="max-w-lg w-full shadow-lg border-amber-200">
+        <CardContent className="p-8 space-y-6">
+          <div className="text-center space-y-3">
+            <div className="mx-auto w-16 h-16 rounded-full bg-amber-50 flex items-center justify-center">
+              <AlertTriangle className="w-8 h-8 text-amber-500" />
+            </div>
+            <h2 className="text-xl font-semibold text-foreground" data-testid="text-exam-error-title">
+              We're having trouble loading this exam
+            </h2>
+            {isSubscriber && (
+              <div className="flex items-center justify-center gap-1.5 text-sm text-emerald-600">
+                <ShieldCheck className="w-4 h-4" />
+                <span className="font-medium" data-testid="text-access-protected">Your access is protected.</span>
+              </div>
+            )}
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              Your progress and subscription are safe. Choose an option below to continue studying.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            {retryCount < 3 && (
+              <Button
+                onClick={onRetry}
+                variant="default"
+                className="w-full gap-2"
+                data-testid="button-exam-retry"
+              >
+                <RefreshCw className="w-4 h-4" />
+                Retry Loading Exam
+              </Button>
+            )}
+
+            <Button
+              onClick={onSafeMode || (() => {
+                const currentPath = window.location.pathname;
+                navigate(`${currentPath}?fallback=safe`);
+                window.location.reload();
+              })}
+              variant="outline"
+              className="w-full gap-2"
+              data-testid="button-safe-exam-player"
+            >
+              <Shield className="w-4 h-4" />
+              Safe Exam Player
+            </Button>
+
+            <Button
+              onClick={onStudyMode || (() => {
+                const currentPath = window.location.pathname;
+                navigate(`${currentPath}?fallback=study`);
+                window.location.reload();
+              })}
+              variant="outline"
+              className="w-full gap-2"
+              data-testid="button-study-mode"
+            >
+              <BookOpen className="w-4 h-4" />
+              Study Mode
+            </Button>
+
+            {isSubscriber && (
+              <Button
+                onClick={onPrintable || (() => {
+                  const currentPath = window.location.pathname;
+                  navigate(`${currentPath}?fallback=printable`);
+                  window.location.reload();
+                })}
+                variant="outline"
+                className="w-full gap-2"
+                data-testid="button-printable-backup"
+              >
+                <Printer className="w-4 h-4" />
+                Printable Backup
+              </Button>
+            )}
+
+            {isSubscriber && (
+              <Button
+                onClick={() => {
+                  const currentPath = window.location.pathname;
+                  navigate(`${currentPath}?fallback=backup-practice`);
+                  window.location.reload();
+                }}
+                variant="outline"
+                className="w-full gap-2"
+                data-testid="button-backup-practice-set"
+              >
+                <FileText className="w-4 h-4" />
+                Backup Practice Set
+              </Button>
+            )}
+
+            <Button
+              variant="outline"
+              onClick={backToExams}
+              className="w-full gap-2"
+              data-testid="button-exam-go-back"
+            >
+              <Home className="w-4 h-4" />
+              Return to Dashboard
+            </Button>
+          </div>
+
+          <div className="text-center space-y-2">
+            {reportSent ? (
+              <p className="text-sm text-green-600 flex items-center justify-center gap-1" data-testid="text-report-sent">
+                <ShieldCheck className="w-4 h-4" />
+                Report received. Thank you.
+              </p>
+            ) : (
+              <div className="space-y-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleReport}
+                  disabled={sending}
+                  className="gap-2 text-muted-foreground"
+                  data-testid="button-exam-report"
+                >
+                  {sending ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <MessageSquare className="w-4 h-4" />
+                  )}
+                  {reportFailed ? "Try reporting again" : "Report this issue"}
+                </Button>
+                {reportFailed && (
+                  <p className="text-xs text-red-500">{t("components.examErrorBoundary.couldNotSendReportPlease")}</p>
+                )}
+              </div>
+            )}
+
+            <p className="text-xs text-muted-foreground" data-testid="text-incident-id">
+              Incident ID: {incidentId}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }
 
 export function ExamLoadingFallback() {

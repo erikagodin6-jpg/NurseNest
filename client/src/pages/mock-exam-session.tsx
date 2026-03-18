@@ -19,8 +19,10 @@ import { createCheckpointManager } from "@/lib/session-checkpoint";
 import { clearExamCheckpoint } from "@/lib/exam-session-checkpoint";
 import {
   Clock, Flag, ChevronLeft, ChevronRight, CheckCircle2, XCircle,
-  Pause, Play, AlertTriangle, Send, SkipForward, Shield, Eye, Coffee
+  Pause, Play, AlertTriangle, Send, SkipForward, Shield, Eye, Coffee,
+  ShieldCheck, BookOpen, Printer, Home, RefreshCw, MessageSquare, Loader2, FileText
 } from "lucide-react";
+import { QuestionGuard, MediaGuard, TranslationGuard, RationaleGuard, SafeExamPlayer, StudyModeFallback, PrintableBackup, BackupPracticeSet, SessionRecoveryPrompt } from "@/components/exam-fallbacks";
 
 function getAuthHeaders(): Record<string, string> {
 
@@ -75,6 +77,16 @@ interface BlueprintMeta {
   showQuestionCount?: boolean;
 }
 
+function isQuestionAnswerable(q: PooledQuestion): boolean {
+  if (!q || !q.id || !q.question) return false;
+  if (!Array.isArray(q.options) || q.options.length < 2) return false;
+  if (q.correct === undefined || q.correct === null || q.correct < 0 || q.correct >= q.options.length) return false;
+  const questionType = q.questionType || "multiple-choice";
+  const supportedTypes = ["multiple-choice", "mcq"];
+  if (!supportedTypes.includes(questionType.toLowerCase())) return false;
+  return true;
+}
+
 function computeReport(
   questions: PooledQuestion[],
   answers: Record<string, number>,
@@ -84,7 +96,19 @@ function computeReport(
   let correct = 0;
   const systemScores: Record<string, { correct: number; total: number }> = {};
   const domainScores: Record<string, { correct: number; total: number }> = {};
-  const questionReview: any[] = [];
+  const questionReview: Array<{
+    id: string;
+    question: string;
+    options: string[];
+    correct: number;
+    selected: number;
+    isCorrect: boolean;
+    rationale: string;
+    bodySystem: string;
+    lessonId: string;
+    domain?: string;
+    skipped?: boolean;
+  }> = [];
 
   if (blueprintMeta?.domains) {
     for (const d of blueprintMeta.domains) {
@@ -93,6 +117,21 @@ function computeReport(
   }
 
   for (const q of questions) {
+    if (!isQuestionAnswerable(q)) {
+      questionReview.push({
+        id: q.id,
+        question: q.question || "",
+        options: q.options || [],
+        correct: q.correct,
+        selected: -1,
+        isCorrect: false,
+        rationale: q.rationale || "",
+        bodySystem: q.bodySystem || "General",
+        lessonId: q.lessonId,
+        skipped: true,
+      });
+      continue;
+    }
     const bodySystem = q.bodySystem || "General";
     if (!systemScores[bodySystem]) {
       systemScores[bodySystem] = { correct: 0, total: 0 };
@@ -139,7 +178,8 @@ function computeReport(
       total: s.total,
     }));
 
-  const overallPercentage = questions.length > 0 ? Math.round((correct / questions.length) * 100) : 0;
+  const answerableCount = questionReview.filter(qr => !qr.skipped).length;
+  const overallPercentage = answerableCount > 0 ? Math.round((correct / answerableCount) * 100) : 0;
   const examType = blueprintMeta?.examType || null;
 
   let isOfficialMode = false;
@@ -193,7 +233,7 @@ function computeReport(
 
   return {
     score: correct,
-    totalQuestions: questions.length,
+    totalQuestions: answerableCount,
     percentage: overallPercentage,
     systemBreakdown: Object.entries(systemScores).map(([system, s]) => ({
       system,
@@ -262,6 +302,23 @@ export default function MockExamSession() {
   const lastBreakRef = useRef(0);
   const timerRef = useRef<NodeJS.Timeout>(undefined);
   const [accentColor] = useState(() => getExamAccentColor());
+  const [fallbackMode, setFallbackMode] = useState<"safe" | "study" | "printable" | "backup-practice" | null>(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const fb = params.get("fallback");
+      if (fb === "safe" || fb === "study" || fb === "printable" || fb === "backup-practice") return fb;
+    } catch {
+    }
+    return null;
+  });
+  const [circuitOpen, setCircuitOpen] = useState(false);
+  const [sessionRecovery, setSessionRecovery] = useState<{
+    show: boolean;
+    answeredCount: number;
+    totalQuestions: number;
+    timeSpent: number;
+    currentQuestion?: number;
+  } | null>(null);
 
   useEffect(() => {
     document.documentElement.style.setProperty("--exam-accent", accentColor);
@@ -323,25 +380,52 @@ export default function MockExamSession() {
         return r.json();
       })
       .then((data) => {
+        if (data.fallbackMode) {
+          setCircuitOpen(!!data.circuitOpen);
+          if (data.fallbackMode === "safe" || data.fallbackMode === "study" || data.fallbackMode === "printable" || data.fallbackMode === "backup-practice") {
+            setFallbackMode(data.fallbackMode);
+          }
+        }
+        if (data.circuitOpen) {
+          setCircuitOpen(true);
+          if (!data.fallbackMode) {
+            setFallbackMode("safe");
+          }
+        }
+
         if (data.status === "completed") {
           navigate(`/mock-exams/${attemptId}/report`);
           return;
         }
+
+        const savedAnswers = data.answers || {};
+        const savedTimeSpent = data.time_spent || 0;
+        const totalQ = (data.questions || []).length;
+        const answeredCount = Object.keys(savedAnswers).length;
+        if (answeredCount > 0 && data.status === "in_progress" && totalQ > 0) {
+          setSessionRecovery({
+            show: true,
+            answeredCount,
+            totalQuestions: totalQ,
+            timeSpent: savedTimeSpent,
+            currentQuestion: answeredCount,
+          });
+        }
+
         const rawQuestionData: PooledQuestion[] = data.questions || [];
-        const invalidQuestionIds: string[] = [];
-        const allQuestions = rawQuestionData.filter((q) => {
-          if (!q || !q.id) { invalidQuestionIds.push(String(q?.id ?? "unknown")); return false; }
-          if (!q.question && !(q as any).stem) { invalidQuestionIds.push(String(q.id)); return false; }
-          if (!Array.isArray(q.options) || q.options.length < 2) { invalidQuestionIds.push(String(q.id)); return false; }
-          if (q.correct === undefined || q.correct === null || q.correct < 0) { invalidQuestionIds.push(String(q.id)); return false; }
-          return true;
+        const allQuestions = rawQuestionData.map((q, idx) => {
+          if (!q) return { id: `placeholder-${idx}`, question: "", options: [], correct: -1, lessonId: "", bodySystem: "", tier: "", rationale: "", source: "quiz" as const };
+          if (!q.id) return { ...q, id: `auto-${idx}` };
+          return q;
         });
+        const invalidQuestionIds = allQuestions
+          .filter(q => !q.question || !Array.isArray(q.options) || q.options.length < 2 || q.correct === undefined || q.correct === null || q.correct < 0)
+          .map(q => q.id);
         if (invalidQuestionIds.length > 0) {
-          console.warn("[ExamSession] Filtered out invalid questions:", {
+          console.warn("[ExamSession] Detected invalid questions (guarded in-place by QuestionGuard):", {
             attemptId,
             invalidCount: invalidQuestionIds.length,
             totalRaw: rawQuestionData.length,
-            validCount: allQuestions.length,
             invalidIds: invalidQuestionIds.slice(0, 10),
           });
           try {
@@ -352,16 +436,17 @@ export default function MockExamSession() {
                 examType: parsedBp?.examCode || "mock-exam",
                 tier: parsedBp?.examCode || "unknown",
                 route: window.location.pathname,
-                errorMessage: `Filtered ${invalidQuestionIds.length} invalid questions from exam`,
+                errorMessage: `Detected ${invalidQuestionIds.length} invalid questions (guarded in-place)`,
                 additionalContext: {
                   attemptId,
                   invalidCount: invalidQuestionIds.length,
-                  validCount: allQuestions.length,
+                  totalCount: allQuestions.length,
                   invalidIds: invalidQuestionIds.slice(0, 10),
                 },
               }),
             }).catch(() => {});
-          } catch {}
+          } catch {
+          }
         }
 
         if (parsedBp?.examType === "cat") {
@@ -584,6 +669,25 @@ export default function MockExamSession() {
     const currentQuestion = questions[currentQ];
     if (!currentQuestion) return;
 
+    if (!isQuestionAnswerable(currentQuestion)) {
+      const administeredIds = new Set(catState.responses.map(r => r.itemId));
+      const remaining = allPoolQuestions.filter(q => !administeredIds.has(q.id) && q.id !== currentQuestion.id);
+      const fullBlueprint = blueprintMeta?.examCode ? EXAM_BLUEPRINTS[blueprintMeta.examCode] : null;
+      const domainMap = blueprintMeta?.domainAssignments || {};
+      const nextItem = selectNextItem(catState, remaining, fullBlueprint || undefined, domainMap);
+      if (nextItem) {
+        setQuestions(prev => [...prev, nextItem]);
+        setOptionShuffleMap(prev => ({ ...prev, ...createOptionShuffleMap([nextItem]) }));
+        setCurrentQ(prev => prev + 1);
+      } else {
+        setCatFinished(true);
+        setTimeout(() => {
+          submitExamWithState(catState, "pool_exhausted");
+        }, 0);
+      }
+      return;
+    }
+
     const userAnswer = answers[currentQuestion.id];
     if (userAnswer === undefined) return;
 
@@ -727,29 +831,186 @@ export default function MockExamSession() {
     }
   };
 
-  if (loadError) {
+  if (fallbackMode === "safe") {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center font-sans">
-        <div className="text-center space-y-4 max-w-md px-6">
-          <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto" />
-          <h2 className="text-xl font-semibold text-gray-800">
-            {loadError === "timeout" ? "Exam Loading Timed Out" : "Could Not Load Exam"}
-          </h2>
-          <p className="text-gray-600">
-            {loadError === "timeout"
-              ? "The server took too long to respond. This is usually temporary."
-              : "Something went wrong loading this exam. Your progress is safe."}
-          </p>
-          <div className="flex gap-3 justify-center pt-2">
-            <Button onClick={() => { setLoadError(null); setLoading(true); setRetryCount(c => c + 1); }} data-testid="button-retry-exam">
-              Try Again
-            </Button>
-            <Button variant="outline" onClick={() => navigate(backToExamsPath)} data-testid="button-back-exams">
-              Back to Exams
-            </Button>
-          </div>
-          <div className="pt-2">
-            <ExamReportButton examType="mock-exam" tier={blueprintMeta?.examCode} />
+      <SafeExamPlayer
+        questions={questions}
+        answers={answers}
+        examTitle={blueprintMeta?.examName}
+        onComplete={(finalAnswers) => {
+          setAnswers(finalAnswers);
+        }}
+        onExit={() => navigate(backToExamsPath)}
+      />
+    );
+  }
+
+  if (fallbackMode === "study") {
+    return (
+      <StudyModeFallback
+        questions={questions}
+        examTitle={blueprintMeta?.examName}
+        onExit={() => navigate(backToExamsPath)}
+      />
+    );
+  }
+
+  if (fallbackMode === "backup-practice") {
+    return (
+      <BackupPracticeSet
+        originalExamTier={blueprintMeta?.examCode?.includes("PN") ? "rpn" : blueprintMeta?.examCode?.includes("RN") ? "rn" : "rpn"}
+        originalExamCode={blueprintMeta?.examCode}
+        onStart={(backupQuestions) => {
+          setQuestions(backupQuestions);
+          setFallbackMode("safe");
+        }}
+        onExit={() => navigate(backToExamsPath)}
+      />
+    );
+  }
+
+  if (fallbackMode === "printable") {
+    return (
+      <PrintableBackup
+        questions={questions}
+        examTitle={blueprintMeta?.examName}
+        tier={blueprintMeta?.examCode}
+        onExit={() => navigate(backToExamsPath)}
+      />
+    );
+  }
+
+  if (sessionRecovery?.show && !loading) {
+    return (
+      <SessionRecoveryPrompt
+        attemptId={attemptId || ""}
+        savedProgress={{
+          answeredCount: sessionRecovery.answeredCount,
+          totalQuestions: sessionRecovery.totalQuestions,
+          timeSpent: sessionRecovery.timeSpent,
+          currentQuestion: sessionRecovery.currentQuestion,
+        }}
+        onRestore={() => {
+          setSessionRecovery(null);
+          if (sessionRecovery.currentQuestion) {
+            setCurrentQ(Math.min(sessionRecovery.currentQuestion, questions.length - 1));
+          }
+        }}
+        onRestartSafe={() => {
+          setSessionRecovery(null);
+          setFallbackMode("safe");
+        }}
+        onDiscard={() => {
+          setSessionRecovery(null);
+          setAnswers({});
+          setFlagged([]);
+          setTimeSpent(0);
+          setCurrentQ(0);
+          fetch(`/api/mock-exams/${attemptId}/reset`, {
+            method: "POST",
+            credentials: "include",
+          }).catch(() => {});
+        }}
+      />
+    );
+  }
+
+  if (loadError) {
+    const incidentId = `INC-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 8)}`.toUpperCase();
+    const isSubscriber = user && user.tier !== "free";
+
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center font-sans p-4" data-testid="exam-load-error">
+        <div className="max-w-lg w-full">
+          <div className="bg-white rounded-xl shadow-lg border border-amber-200 p-8 space-y-6">
+            <div className="text-center space-y-3">
+              <div className="mx-auto w-16 h-16 rounded-full bg-amber-50 flex items-center justify-center">
+                <AlertTriangle className="w-8 h-8 text-amber-500" />
+              </div>
+              <h2 className="text-xl font-semibold text-gray-800" data-testid="text-load-error-title">
+                {loadError === "timeout" ? "Exam Loading Timed Out" : "We're having trouble loading this exam"}
+              </h2>
+              {isSubscriber && (
+                <div className="flex items-center justify-center gap-1.5 text-sm text-emerald-600">
+                  <ShieldCheck className="w-4 h-4" />
+                  <span className="font-medium" data-testid="text-load-error-access-protected">Your access is protected.</span>
+                </div>
+              )}
+              <p className="text-gray-600 text-sm">
+                {loadError === "timeout"
+                  ? "The server took too long to respond. This is usually temporary."
+                  : "Your progress and subscription are safe. Choose an option below to continue."}
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Button
+                onClick={() => { setLoadError(null); setLoading(true); setRetryCount(c => c + 1); }}
+                className="w-full gap-2"
+                data-testid="button-retry-exam"
+              >
+                <RefreshCw className="w-4 h-4" /> Retry
+              </Button>
+
+              {questions.length > 0 && (
+                <>
+                  <Button
+                    variant="outline"
+                    onClick={() => { setLoadError(null); setFallbackMode("safe"); }}
+                    className="w-full gap-2"
+                    data-testid="button-load-error-safe-mode"
+                  >
+                    <Shield className="w-4 h-4" /> Safe Exam Player
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => { setLoadError(null); setFallbackMode("study"); }}
+                    className="w-full gap-2"
+                    data-testid="button-load-error-study-mode"
+                  >
+                    <BookOpen className="w-4 h-4" /> Study Mode
+                  </Button>
+                  {isSubscriber && (
+                    <Button
+                      variant="outline"
+                      onClick={() => { setLoadError(null); setFallbackMode("printable"); }}
+                      className="w-full gap-2"
+                      data-testid="button-load-error-printable"
+                    >
+                      <Printer className="w-4 h-4" /> Printable Backup
+                    </Button>
+                  )}
+                </>
+              )}
+
+              <BackupPracticeSet
+                originalExamTier={blueprintMeta?.examCode?.includes("PN") ? "rpn" : blueprintMeta?.examCode?.includes("RN") ? "rn" : "rpn"}
+                originalExamCode={blueprintMeta?.examCode}
+                onStart={(backupQuestions) => {
+                  setQuestions(backupQuestions);
+                  setFallbackMode("safe");
+                  setLoadError(null);
+                }}
+                onExit={() => navigate(backToExamsPath)}
+                inline
+              />
+
+              <Button
+                variant="outline"
+                onClick={() => navigate(backToExamsPath)}
+                className="w-full gap-2"
+                data-testid="button-back-exams"
+              >
+                <Home className="w-4 h-4" /> Return to Dashboard
+              </Button>
+            </div>
+
+            <div className="text-center space-y-1">
+              <ExamReportButton examType="mock-exam" tier={blueprintMeta?.examCode} />
+              <p className="text-xs text-gray-400" data-testid="text-load-error-incident-id">
+                Incident ID: {incidentId}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -913,14 +1174,7 @@ export default function MockExamSession() {
                 })}
               </div>
 
-              {(rq.rationale || rq.explanation) && (
-                <Card className="border-none shadow-sm bg-blue-50/50" data-testid="review-rationale">
-                  <CardContent className="p-4 space-y-2">
-                    <p className="text-xs font-bold text-blue-700 uppercase tracking-wider">{t("pages.mockExamSession.rationale")}</p>
-                    <p className="text-sm text-gray-700 leading-relaxed">{rq.rationale || rq.explanation}</p>
-                  </CardContent>
-                </Card>
-              )}
+              <RationaleGuard rationale={rq.rationale || rq.explanation} questionIndex={reviewIdx} />
 
               {(rq as any).clinicalPearl && (
                 <Card className="border-none shadow-sm bg-amber-50/50" data-testid="review-clinical-pearl">
@@ -1114,26 +1368,53 @@ export default function MockExamSession() {
   }
 
   if (questions.length === 0) {
+    const isSubscriber = user && user.tier !== "free";
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center font-sans">
-        <div className="text-center space-y-4 max-w-md px-6">
-          <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto" />
-          <h2 className="text-xl font-semibold text-gray-800" data-testid="text-no-questions-title">
-            No Questions Available
-          </h2>
-          <p className="text-gray-600">
-            This exam has no questions loaded. This may be a temporary issue — please try again or go back to select a different exam.
-          </p>
-          <div className="flex gap-3 justify-center pt-2">
-            <Button onClick={() => { setLoadError(null); setLoading(true); setRetryCount(c => c + 1); }} data-testid="button-retry-empty-exam">
-              Try Again
-            </Button>
-            <Button variant="outline" onClick={() => navigate(backToExamsPath)} data-testid="button-back-exams-empty">
-              Back to Exams
-            </Button>
-          </div>
-          <div className="pt-2">
-            <ExamReportButton examType="mock-exam" tier={blueprintMeta?.examCode} questionId={attemptId} />
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center font-sans p-4" data-testid="exam-no-questions">
+        <div className="max-w-lg w-full space-y-4">
+          <div className="bg-white rounded-xl shadow-lg border border-amber-200 p-8 space-y-6">
+            <div className="text-center space-y-3">
+              <div className="mx-auto w-14 h-14 rounded-full bg-amber-50 flex items-center justify-center">
+                <AlertTriangle className="w-7 h-7 text-amber-500" />
+              </div>
+              <h2 className="text-xl font-semibold text-gray-800" data-testid="text-no-questions-title">
+                No Questions Available
+              </h2>
+              {isSubscriber && (
+                <div className="flex items-center justify-center gap-1.5 text-sm text-emerald-600">
+                  <ShieldCheck className="w-4 h-4" />
+                  <span className="font-medium">Your access is protected.</span>
+                </div>
+              )}
+              <p className="text-gray-600 text-sm">
+                This exam has no questions loaded. This may be a temporary issue.
+              </p>
+            </div>
+            <div className="space-y-2">
+              <Button
+                onClick={() => { setLoadError(null); setLoading(true); setRetryCount(c => c + 1); }}
+                className="w-full gap-2"
+                data-testid="button-retry-empty-exam"
+              >
+                <RefreshCw className="w-4 h-4" /> Try Again
+              </Button>
+              <BackupPracticeSet
+                originalExamTier={blueprintMeta?.examCode?.includes("PN") ? "rpn" : blueprintMeta?.examCode?.includes("RN") ? "rn" : "rpn"}
+                originalExamCode={blueprintMeta?.examCode}
+                onStart={(backupQuestions) => {
+                  setQuestions(backupQuestions);
+                  setFallbackMode("safe");
+                }}
+                onExit={() => navigate(backToExamsPath)}
+                inline
+              />
+              <Button variant="outline" onClick={() => navigate(backToExamsPath)} className="w-full gap-2" data-testid="button-back-exams-empty">
+                <Home className="w-4 h-4" /> Return to Dashboard
+              </Button>
+            </div>
+            <div className="text-center pt-2">
+              <ExamReportButton examType="mock-exam" tier={blueprintMeta?.examCode} questionId={attemptId} />
+            </div>
           </div>
         </div>
       </div>
@@ -1387,79 +1668,94 @@ export default function MockExamSession() {
       )}
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-6 pb-24">
-        {question && (
-          <div className="space-y-6">
-            <div className="flex items-start justify-between gap-4">
-              <div className="space-y-3 flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-400 font-medium uppercase tracking-wide">{question.bodySystem || "General"}</span>
-                  {flagged.includes(question.id) && (
-                    <span className="text-xs bg-amber-50 text-amber-600 px-2 py-0.5 rounded font-medium">{t("pages.mockExamSession.flagged2")}</span>
-                  )}
-                </div>
-                <h2 className="text-lg sm:text-xl font-semibold text-[#2E3A59] leading-relaxed" data-testid="text-question">
-                  {question.question}
-                </h2>
-              </div>
-              <button
-                onClick={() => toggleFlag(question.id)}
-                className={`p-2 rounded transition-colors ${
-                  flagged.includes(question.id) ? "bg-amber-50 text-amber-600" : "text-gray-300 hover:text-amber-500"
-                }`}
-                data-testid="button-flag-question"
-                aria-label={flagged.includes(question.id) ? "Unflag question" : "Flag question for review"}
-              >
-                <Flag className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="space-y-1" role="radiogroup" aria-label={t("pages.mockExamSession.answerOptions")}>
-              {(optionShuffleMap[question.id] || (question.options || []).map((_, i) => i)).map((originalIdx, displayIdx) => {
-                const rawOption = (question.options || [])[originalIdx];
-                const option = typeof rawOption === "object" && rawOption !== null && typeof rawOption.text === "string" ? rawOption.text : String(rawOption ?? "");
-                const isSelected = answers[question.id] === originalIdx;
-                const isLocked = (strictMode || isCATExam) && answers[question.id] !== undefined;
-                const letterLabel = String.fromCharCode(65 + displayIdx);
-                return (
-                  <button
-                    key={originalIdx}
-                    onClick={() => selectAnswer(question.id, originalIdx)}
-                    disabled={isLocked && !isSelected}
-                    role="radio"
-                    aria-checked={isSelected}
-                    aria-label={`Option ${letterLabel}: ${option}`}
-                    className={`w-full text-left px-4 py-3.5 transition-colors flex items-start gap-3 rounded focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-                      isLocked && !isSelected ? "cursor-not-allowed opacity-50" : "hover:bg-gray-50"
-                    }`}
-                    style={isSelected ? {
-                      backgroundColor: accentColor + "14",
-                      borderLeft: `3px solid ${accentColor}`,
-                      boxShadow: `inset 0 0 0 0 transparent`,
-                    } : undefined}
-                    data-testid={`button-option-${displayIdx}`}
+        <QuestionGuard question={question ? rawQuestion : undefined} index={currentQ}>
+          {question && (
+            <div className="space-y-6">
+              <div className="flex items-start justify-between gap-4">
+                <div className="space-y-3 flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-gray-400 font-medium uppercase tracking-wide">{question.bodySystem || "General"}</span>
+                    {flagged.includes(question.id) && (
+                      <span className="text-xs bg-amber-50 text-amber-600 px-2 py-0.5 rounded font-medium">{t("pages.mockExamSession.flagged2")}</span>
+                    )}
+                  </div>
+                  <TranslationGuard
+                    translatedText={language !== "en" && rawQuestion ? (translationMap[rawQuestion.id]?.stem || null) : question.question}
+                    originalText={rawQuestion?.question || ""}
+                    questionIndex={currentQ}
                   >
-                    <span
-                      className={`mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                        !isSelected ? "border-gray-300" : ""
+                    <h2 className="text-lg sm:text-xl font-semibold text-[#2E3A59] leading-relaxed" data-testid="text-question">
+                      {question.question}
+                    </h2>
+                  </TranslationGuard>
+                </div>
+                <button
+                  onClick={() => toggleFlag(question.id)}
+                  className={`p-2 rounded transition-colors ${
+                    flagged.includes(question.id) ? "bg-amber-50 text-amber-600" : "text-gray-300 hover:text-amber-500"
+                  }`}
+                  data-testid="button-flag-question"
+                  aria-label={flagged.includes(question.id) ? "Unflag question" : "Flag question for review"}
+                >
+                  <Flag className="w-5 h-5" />
+                </button>
+              </div>
+
+              <MediaGuard
+                src={(rawQuestion && "imageUrl" in rawQuestion) ? String((rawQuestion as Record<string, unknown>).imageUrl) : undefined}
+                questionIndex={currentQ}
+              >
+                <span />
+              </MediaGuard>
+
+              <div className="space-y-1" role="radiogroup" aria-label={t("pages.mockExamSession.answerOptions")}>
+                {(optionShuffleMap[question.id] || (question.options || []).map((_, i) => i)).map((originalIdx, displayIdx) => {
+                  const rawOption = (question.options || [])[originalIdx];
+                  const option = typeof rawOption === "object" && rawOption !== null && typeof rawOption.text === "string" ? rawOption.text : String(rawOption ?? "");
+                  const isSelected = answers[question.id] === originalIdx;
+                  const isLocked = (strictMode || isCATExam) && answers[question.id] !== undefined;
+                  const letterLabel = String.fromCharCode(65 + displayIdx);
+                  return (
+                    <button
+                      key={originalIdx}
+                      onClick={() => selectAnswer(question.id, originalIdx)}
+                      disabled={isLocked && !isSelected}
+                      role="radio"
+                      aria-checked={isSelected}
+                      aria-label={`Option ${letterLabel}: ${option}`}
+                      className={`w-full text-left px-4 py-3.5 transition-colors flex items-start gap-3 rounded focus:outline-none focus:ring-2 focus:ring-offset-1 ${
+                        isLocked && !isSelected ? "cursor-not-allowed opacity-50" : "hover:bg-gray-50"
                       }`}
-                      style={isSelected ? { borderColor: accentColor, backgroundColor: accentColor } : undefined}
+                      style={isSelected ? {
+                        backgroundColor: accentColor + "14",
+                        borderLeft: `3px solid ${accentColor}`,
+                        boxShadow: `inset 0 0 0 0 transparent`,
+                      } : undefined}
+                      data-testid={`button-option-${displayIdx}`}
                     >
-                      {isSelected && (
-                        <span className="w-2 h-2 rounded-full bg-white" />
-                      )}
-                    </span>
-                    <span className={`text-sm sm:text-base leading-relaxed ${
-                      isSelected ? "text-[#2E3A59] font-medium" : "text-gray-700"
-                    }`}>
-                      <span className="font-semibold mr-1.5">{letterLabel}.</span>
-                      {option}
-                    </span>
-                  </button>
-                );
-              })}
+                      <span
+                        className={`mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
+                          !isSelected ? "border-gray-300" : ""
+                        }`}
+                        style={isSelected ? { borderColor: accentColor, backgroundColor: accentColor } : undefined}
+                      >
+                        {isSelected && (
+                          <span className="w-2 h-2 rounded-full bg-white" />
+                        )}
+                      </span>
+                      <span className={`text-sm sm:text-base leading-relaxed ${
+                        isSelected ? "text-[#2E3A59] font-medium" : "text-gray-700"
+                      }`}>
+                        <span className="font-semibold mr-1.5">{letterLabel}.</span>
+                        {option}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </QuestionGuard>
       </main>
 
       {question && (
@@ -1485,7 +1781,7 @@ export default function MockExamSession() {
                 onClick={handleNextQuestion}
                 className="gap-1 text-white font-semibold"
                 style={{ backgroundColor: accentColor, borderRadius: "10px" }}
-                disabled={answers[question.id] === undefined || catFinished}
+                disabled={(answers[question.id] === undefined && isQuestionAnswerable(rawQuestion)) || catFinished}
                 data-testid="button-next-question"
               >
                 Next <ChevronRight className="w-4 h-4" />
