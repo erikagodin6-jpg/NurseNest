@@ -47,6 +47,12 @@ interface ExamSessionState {
   submitted: boolean;
 }
 
+function optText(opt: any): string {
+  if (typeof opt === "string") return opt;
+  if (typeof opt === "object" && opt !== null && typeof opt.text === "string") return opt.text;
+  return String(opt ?? "");
+}
+
 function shuffleWithMapping(options: string[], correctIndex: number): { options: string[]; correctIndex: number } {
   const indexed = options.map((opt, i) => ({ opt, origIdx: i }));
   for (let i = indexed.length - 1; i > 0; i--) {
@@ -473,7 +479,7 @@ export default function QuestionBank() {
                       <AnswerOption
                         key={idx}
                         index={idx}
-                        text={opt}
+                        text={optText(opt)}
                         isSelected={idx === userAnswer}
                         onClick={() => handleAnswer(idx)}
                         data-testid={`button-exam-option-${idx}`}
@@ -825,7 +831,7 @@ export default function QuestionBank() {
                           <AnswerOption
                             key={idx}
                             index={idx}
-                            text={opt}
+                            text={optText(opt)}
                             isSelected={idx === selectedAnswer}
                             isCorrect={revealed && idx === question.correct}
                             isWrong={revealed && idx === selectedAnswer && !isCorrect}
@@ -858,7 +864,7 @@ export default function QuestionBank() {
                         <>
                           <ResultHeader
                             isCorrect={isCorrect}
-                            correctText={`Correct Answer: ${String.fromCharCode(65 + question.correct)}. ${question.options[question.correct]}`}
+                            correctText={`Correct Answer: ${String.fromCharCode(65 + question.correct)}. ${optText(question.options[question.correct])}`}
                             data-testid="section-result-header"
                           />
 
@@ -874,7 +880,7 @@ export default function QuestionBank() {
                             data={{
                               rationale: question.rationale,
                               correctAnswerIndex: question.correct,
-                              correctAnswerText: question.options[question.correct],
+                              correctAnswerText: optText(question.options[question.correct]),
                               options: question.options,
                               distractorRationales: question.distractorRationales,
                               clinicalPearl: question.clinicalPearl,

@@ -8,6 +8,7 @@ import multer from "multer";
 import { storage, DatabaseStorage, pool } from "./storage";
 import { mapExamQuestionsToFlashcards, getExamFlashcardStats, generateAlignedFlashcardsFromQuestions, bulkGenerateAlignedFlashcards } from "./exam-flashcard-mapper";
 import { fisherYatesShuffle, shuffleOptions } from "../shared/shuffle";
+import { normalizeQuestionOptions } from "./qbank-api";
 
 function parseStoragePath(path: string): { bucketName: string; objectName: string } {
   if (!path.startsWith("/")) path = `/${path}`;
@@ -9621,14 +9622,17 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         const questions = Array.isArray(row.questions) ? row.questions : [];
         const strippedQuestions = questions.map((q: any) => {
           const { rationale, explanation, clinicalPearl, examStrategy, ...rest } = q;
+          if (rest.options) rest.options = normalizeQuestionOptions(rest.options);
           return rest;
         });
         res.json({ ...row, questions: strippedQuestions });
       } else if (isFree && isReadiness && row.status === "completed") {
         const questions = Array.isArray(row.questions) ? row.questions : [];
         const fullQuestions = questions.map((q: any, idx: number) => {
-          if (idx < 5) return q;
-          const { rationale, explanation, ...rest } = q;
+          const normalized = { ...q };
+          if (normalized.options) normalized.options = normalizeQuestionOptions(normalized.options);
+          if (idx < 5) return normalized;
+          const { rationale, explanation, ...rest } = normalized;
           return rest;
         });
         const limitedReport = { ...examReport, questionReviewLimited: true, reviewLimit: 5 };
@@ -9659,11 +9663,29 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
             practiceQuestions: questionsResult.rows.map((r: any) => ({ id: r.id, stem: r.stem?.substring(0, 80), bodySystem: r.body_system, topic: r.topic })),
             caseStudies: casesResult.rows.map((r: any) => ({ id: r.id, title: r.title, bodySystem: r.body_system, category: r.category })),
           };
+          if (row.questions && Array.isArray(row.questions)) {
+            row.questions = row.questions.map((q: any) => {
+              if (q?.options) q.options = normalizeQuestionOptions(q.options);
+              return q;
+            });
+          }
           res.json({ ...row, crossContent });
         } catch {
+          if (row.questions && Array.isArray(row.questions)) {
+            row.questions = row.questions.map((q: any) => {
+              if (q?.options) q.options = normalizeQuestionOptions(q.options);
+              return q;
+            });
+          }
           res.json(row);
         }
       } else {
+        if (row.questions && Array.isArray(row.questions)) {
+          row.questions = row.questions.map((q: any) => {
+            if (q?.options) q.options = normalizeQuestionOptions(q.options);
+            return q;
+          });
+        }
         res.json(row);
       }
     } catch (e: any) {

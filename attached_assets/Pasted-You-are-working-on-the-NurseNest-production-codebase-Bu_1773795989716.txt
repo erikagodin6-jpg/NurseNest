@@ -1,0 +1,407 @@
+You are working on the NurseNest production codebase.
+
+Build a COMPLETE PLATFORM RESILIENCE, FAILOVER, AND DISASTER RECOVERY SYSTEM that ensures:
+
+A paying or entitled user NEVER loses access to usable study functionality, even during:
+- frontend crashes
+- backend/API failures
+- database issues
+- bad deployments
+- content corruption
+- billing sync delays
+- infrastructure instability
+
+This is a full system hardening initiative across ALL subscription activities and critical user flows.
+
+==================================================
+PRIMARY OBJECTIVE
+==================================================
+
+Guarantee CONTINUITY OF ACCESS.
+
+If the primary system fails, the platform must:
+1. Automatically detect the failure
+2. Degrade gracefully
+3. Route to a safe backup experience
+4. Preserve user progress where possible
+5. Maintain user trust with clear messaging
+6. Alert admin systems immediately
+7. Recover or rollback automatically where applicable
+
+==================================================
+SECTION 1 — GLOBAL EMERGENCY MODE (READ-ONLY SAFE MODE)
+==================================================
+
+Implement a platform-wide “Emergency Mode” that activates automatically when critical systems fail.
+
+Triggers:
+- exam load failure rate spike
+- subscription/entitlement failures
+- frontend crash spike
+- API failure rate threshold
+- DB query failures
+- deployment instability
+
+Behavior:
+- switch platform into READ-ONLY SAFE MODE
+- disable unstable features (CAT engine, heavy UI, complex interactions)
+- serve ONLY:
+  - static lessons
+  - static exam backups
+  - flashcard list mode
+  - downloadable resources
+  - last-known-good snapshots
+- prevent write operations that could corrupt data
+- preserve login + entitlement checks
+- show system banner:
+  “We’re running in backup mode. Your access is protected.”
+
+Admin controls:
+- manual toggle ON/OFF
+- auto-trigger with threshold
+- audit log for activation
+
+==================================================
+SECTION 2 — BLUE-GREEN DEPLOYMENT + AUTO ROLLBACK
+==================================================
+
+Implement safe deployment strategy.
+
+Requirements:
+- maintain two environments:
+  - current (stable)
+  - next (new build)
+- route small % of traffic to new build first
+- run health checks before full rollout
+
+Health checks must include:
+- login
+- subscription verification
+- exam load
+- CAT exam start
+- flashcard load
+- premium download access
+
+If failure threshold exceeded:
+- automatically rollback to previous version
+- stop rollout immediately
+- log incident
+
+Admin:
+- manual rollback option
+- release history log
+- deploy health metrics dashboard
+
+==================================================
+SECTION 3 — FEATURE FLAGS SYSTEM
+==================================================
+
+Implement feature toggles for high-risk systems:
+
+Flaggable systems:
+- exam renderer versions
+- CAT engine
+- multilingual rendering
+- analytics UI
+- subscription logic changes
+- AI-generated content rendering
+- new UI components
+
+Requirements:
+- toggle ON/OFF instantly without redeploy
+- user-level targeting (optional)
+- safe fallback when feature disabled
+- default OFF for experimental features
+
+==================================================
+SECTION 4 — SECONDARY CONTENT DELIVERY SOURCE
+==================================================
+
+Decouple content delivery from live generation.
+
+Create:
+- verified render payload store
+- backup JSON payload store
+- static HTML snapshot store
+- downloadable artifact store
+
+At runtime:
+- if live API fails → serve cached payload
+- if transform fails → serve backup payload
+- if UI fails → serve static HTML fallback
+
+Never rely solely on:
+- raw DB content
+- live transforms
+- client-side parsing of raw generator output
+
+==================================================
+SECTION 5 — RENDER PAYLOAD SEPARATION
+==================================================
+
+At publish time generate:
+
+1. Raw Content (editable)
+2. Verified Render Payload (clean, validated, normalized)
+3. Backup Payload (minimal safe version)
+4. Static Backup (HTML/PDF-safe)
+
+Rules:
+- frontend ONLY uses verified render payload
+- backup system uses backup payload/static fallback
+- never render raw unvalidated content
+
+==================================================
+SECTION 6 — CRITICAL PATH HEALTH CHECK SYSTEM
+==================================================
+
+Continuously test production with synthetic flows.
+
+Create automated checks for:
+- login
+- subscription access validation
+- open exam
+- start CAT exam
+- load flashcards
+- load lesson
+- download premium resource
+- restore session
+
+Run checks at intervals.
+
+If failures detected:
+- trigger alerts
+- increment failure metrics
+- potentially trigger emergency mode
+
+==================================================
+SECTION 7 — SYNTHETIC TEST SUBSCRIBER
+==================================================
+
+Create an internal test account with:
+- full subscription access
+- access to all tiers and features
+
+Automate actions:
+- log in
+- open multiple exam types
+- start CAT session
+- load flashcards
+- access downloads
+
+If any fail:
+- log detailed error
+- notify admin
+
+==================================================
+SECTION 8 — SESSION CHECKPOINTING SYSTEM
+==================================================
+
+For:
+- exams
+- CAT exams
+- study sessions
+
+Persist:
+- current question index
+- selected answers
+- timestamps where applicable
+- session state
+
+On crash/reload:
+- restore session
+- or offer recovery:
+  “Resume your session” or “Restart safely”
+
+Store locally + server-side where appropriate.
+
+==================================================
+SECTION 9 — SUBSCRIBER TRUST + INCIDENT UX
+==================================================
+
+Replace crash screens with trust-preserving UI.
+
+If failure occurs:
+Display:
+
+- “We’re having trouble loading this feature.”
+- “Your access is protected.”
+- explanation of backup mode
+
+Buttons:
+- Retry
+- Open Safe Mode
+- Open Backup Version
+- Open Study Mode
+- Download Backup
+- Open Substitute Resource
+- Return to Dashboard
+- Report Issue
+
+Include:
+- incident ID
+- auto-logging metadata
+
+==================================================
+SECTION 10 — ADMIN INCIDENT RESPONSE TOOLS
+==================================================
+
+Build reliability dashboard.
+
+Show:
+- failing routes
+- fallback usage rates
+- broken content IDs
+- entitlement errors
+- payment sync issues
+- recent incidents
+- affected users
+
+Actions:
+- disable content
+- force fallback mode
+- restore last-known-good version
+- regenerate backups
+- replay billing sync
+- grant temporary access
+- extend subscription
+- send backup links manually
+
+==================================================
+SECTION 11 — PAYMENT / ENTITLEMENT RESILIENCE
+==================================================
+
+Protect users from billing sync issues.
+
+Requirements:
+- verify via:
+  - Stripe webhook
+  - direct API check
+  - recent cache
+- if recent valid purchase exists:
+  - grant provisional access
+  - log event
+
+Do NOT:
+- instantly revoke access due to temporary sync issues
+
+Admin visibility:
+- mismatches
+- pending sync users
+- provisional access users
+
+==================================================
+SECTION 12 — DATA + PLATFORM BACKUPS
+==================================================
+
+Implement full disaster recovery.
+
+Backup:
+- database (automated + versioned)
+- content snapshots
+- render payloads
+- downloadable assets
+- Stripe product/pricing mappings
+- environment variables (secure external storage)
+- full codebase export
+
+Ensure:
+- external storage outside Replit
+- regular backup intervals
+- restore procedure documented and testable
+
+==================================================
+SECTION 13 — SUBSTITUTE CONTENT ENGINE
+==================================================
+
+If original content unavailable:
+
+Auto-match substitute based on:
+- profession
+- tier
+- exam type
+- topic/domain
+- country/region
+- language
+
+Display:
+“This item is temporarily unavailable. We’ve opened a backup resource.”
+
+Log every substitution event.
+
+==================================================
+SECTION 14 — ALERTING SYSTEM
+==================================================
+
+Trigger alerts for:
+- exam load failure spikes
+- fallback mode spikes
+- entitlement errors
+- payment sync failures
+- backup generation failures
+- crash frequency increase
+
+Send to:
+- admin dashboard
+- configured notification channel
+
+==================================================
+SECTION 15 — TESTING
+==================================================
+
+Add:
+
+Unit tests:
+- entitlement logic
+- fallback routing
+- backup payload usage
+- substitute matching
+
+Integration tests:
+- failure → fallback routing
+- payment delay → provisional access
+- content corruption → last-known-good served
+
+E2E tests:
+- full subscriber journey with simulated failures
+- emergency mode activation
+- recovery flows
+- session restore
+
+==================================================
+SECTION 16 — IMPLEMENTATION RULES
+==================================================
+
+Do NOT:
+- rely on a single system path
+- allow uncaught runtime crashes for premium routes
+- revoke access during temporary failures
+- generate backups only after failure
+
+DO:
+- generate backups at publish time
+- preserve last-known-good versions
+- route automatically to fallback experiences
+- protect subscriber trust at all times
+- log every failure and recovery event
+
+==================================================
+SECTION 17 — DELIVERABLES
+==================================================
+
+Provide:
+
+1. architecture overview
+2. files changed
+3. database/schema updates
+4. emergency mode implementation
+5. deployment/rollback system
+6. feature flag system
+7. backup storage system
+8. snapshot/versioning system
+9. session checkpointing system
+10. entitlement resilience logic
+11. admin dashboard
+12. alerting system
+13. test coverage
+14. confirmation that NO valid subscriber can be fully blocked from access under any failure condition

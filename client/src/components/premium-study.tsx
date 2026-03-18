@@ -146,7 +146,7 @@ export function AnswerOption({
       )}>
         {isCorrect ? <CheckCircle2 className="h-4 w-4" /> : isWrong ? <XCircle className="h-4 w-4" /> : letter}
       </span>
-      <span className="flex-1 text-sm sm:text-[15px] leading-relaxed text-foreground">{text}</span>
+      <span className="flex-1 text-sm sm:text-[15px] leading-relaxed text-foreground">{typeof text === "object" && text !== null ? (text as any).text || JSON.stringify(text) : text}</span>
       {iconEl || statusIcon}
     </button>
   );

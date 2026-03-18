@@ -38,6 +38,7 @@ Key architectural features include:
 - **Content Publishing Audit**: Admin-only content audit system providing reports on content quality, coverage, and paywall enforcement, with an option to fix quality issues.
 - **Clinical SEO Pages**: Database-driven clinical content pages for SEO across 5 types (Conditions, Symptoms, Medications, Lab Values, Comparisons), each featuring medical review badges, references, structured data, practice questions, and breadcrumbs.
 - **Question Comments & Discussion**: Lightweight, flat-thread discussion system for practice questions, allowing users to post, vote, and flag comments, with admin moderation.
+- **Exam Reliability System**: Production-grade exam stability with `server/exam-reliability.ts` (question validation, pool health checks, quarantine, incident tracking), `ExamErrorBoundary` wrapping all mock exam routes, `ExamReportButton` on exam pages, timeout/retry logic, admin health dashboard at `/admin/exam-health`, and API normalization for question options via `normalizeQuestionOptions()` in `server/qbank-api.ts`.
 
 ### Content Publishing & Live Validation
 Comprehensive validation system at `server/content-publishing-validator.ts` with 8-section validation:

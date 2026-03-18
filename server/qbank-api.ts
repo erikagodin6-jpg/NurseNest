@@ -5,6 +5,25 @@ import rateLimit from "express-rate-limit";
 import { getAllowedExamTiers } from "../shared/tier-config";
 import { validateQuestion, checkPoolHealth, structuredExamError, logExamRequest, addIncident } from "./exam-reliability";
 
+export function normalizeQuestionOptions(options: any): string[] {
+  let parsed = options;
+  if (typeof parsed === "string") {
+    try { parsed = JSON.parse(parsed); } catch { return [String(parsed)]; }
+  }
+  if (!Array.isArray(parsed)) return [];
+  return parsed.map((opt: any) =>
+    typeof opt === "object" && opt !== null && typeof opt.text === "string" ? opt.text : String(opt ?? "")
+  );
+}
+
+function normalizeQuestionRecord(q: any): any {
+  if (!q || typeof q !== "object") return q;
+  if (q.options) {
+    q.options = normalizeQuestionOptions(q.options);
+  }
+  return q;
+}
+
 function getPreviewTier(req: any, userTier: string): string {
   if (userTier !== "admin") return userTier;
   const previewToken = (req.cookies?.nursenest_preview || "") as string;
@@ -517,10 +536,7 @@ export function setupQBankRoutes(app: Express) {
       const letterMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
 
       const parsedQuestions = result.rows.map((row: any) => {
-          let parsedOptions = row.options;
-          if (typeof parsedOptions === "string") {
-            try { parsedOptions = JSON.parse(parsedOptions); } catch { parsedOptions = [parsedOptions]; }
-          }
+          const parsedOptions = normalizeQuestionOptions(row.options);
 
           let parsedCorrect = row.correct_answer;
           if (typeof parsedCorrect === "string") {

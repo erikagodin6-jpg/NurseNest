@@ -812,7 +812,8 @@ export default function MockExamSession() {
               </h2>
 
               <div className="space-y-2">
-                {rq.options.map((option, oi) => {
+                {rq.options.map((rawOpt, oi) => {
+                  const optionText = typeof rawOpt === "object" && rawOpt !== null && typeof rawOpt.text === "string" ? rawOpt.text : String(rawOpt ?? "");
                   const isUserAnswer = userAnswer === oi;
                   const isCorrectOption = rq.correct === oi;
                   const letterLabel = String.fromCharCode(65 + oi);
@@ -840,7 +841,7 @@ export default function MockExamSession() {
                       <div className="flex-1">
                         <span className="text-sm">
                           <span className="font-semibold mr-1">{letterLabel}.</span>
-                          {option}
+                          {optionText}
                         </span>
                         {isCorrectOption && <span className="text-xs text-emerald-600 ml-2 font-medium">(Correct Answer)</span>}
                         {isUserAnswer && !isCorrectOption && <span className="text-xs text-red-600 ml-2 font-medium">(Your Answer)</span>}
@@ -1325,7 +1326,8 @@ export default function MockExamSession() {
 
             <div className="space-y-1" role="radiogroup" aria-label="Answer options">
               {(optionShuffleMap[question.id] || question.options.map((_, i) => i)).map((originalIdx, displayIdx) => {
-                const option = question.options[originalIdx];
+                const rawOption = question.options[originalIdx];
+                const option = typeof rawOption === "object" && rawOption !== null && typeof rawOption.text === "string" ? rawOption.text : String(rawOption ?? "");
                 const isSelected = answers[question.id] === originalIdx;
                 const isLocked = (strictMode || isCATExam) && answers[question.id] !== undefined;
                 const letterLabel = String.fromCharCode(65 + displayIdx);
