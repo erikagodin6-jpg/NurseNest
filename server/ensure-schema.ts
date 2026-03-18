@@ -760,6 +760,12 @@ export async function ensureSchemaSync(pool: pg.Pool): Promise<void> {
     await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS quarantine_reason TEXT`);
     await client.query(`CREATE INDEX IF NOT EXISTS idx_exam_questions_quarantine ON exam_questions(quarantined_at) WHERE quarantined_at IS NOT NULL`);
 
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_exam_questions_tier_status ON exam_questions(tier, status)`);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_exam_questions_tier_status_difficulty ON exam_questions(tier, status, difficulty)`);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_exam_questions_status_exam ON exam_questions(status, exam)`);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_mock_exam_attempts_user_status ON mock_exam_attempts(user_id, status)`);
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_mock_exam_attempts_id_status ON mock_exam_attempts(id, status)`);
+
     await client.query(`
       CREATE TABLE IF NOT EXISTS exam_incidents (
         id SERIAL PRIMARY KEY,

@@ -237,7 +237,7 @@ router.get("/api/v1/test-banks/:id/questions", async (req, res) => {
       idx++;
     }
 
-    query += ` ORDER BY RANDOM() LIMIT $${idx} OFFSET $${idx + 1}`;
+    query += ` ORDER BY id LIMIT $${idx} OFFSET $${idx + 1}`;
     params.push(limit, offset);
 
     const result = await pool.query(query, params);
@@ -252,7 +252,7 @@ router.get("/api/v1/test-banks/:id/questions", async (req, res) => {
       questions: result.rows.map((q: any) => ({
         id: q.id,
         stem: q.stem,
-        options: typeof q.options === "string" ? JSON.parse(q.options) : q.options,
+        options: (() => { try { return typeof q.options === "string" ? JSON.parse(q.options) : q.options; } catch { return []; } })(),
         bodySystem: q.body_system,
         topic: q.topic,
         difficulty: q.difficulty,
@@ -449,8 +449,9 @@ router.post("/api/v1/cat-exams/start", async (req, res) => {
       `SELECT id, stem, options, body_system, topic, difficulty, question_type
        FROM exam_questions
        WHERE tier = $1 AND status = 'published'
-       ORDER BY RANDOM() LIMIT 1`,
-      [examTier]
+       ORDER BY md5(id::text || $2::text)
+       LIMIT 1`,
+      [examTier, Date.now().toString()]
     );
 
     await logAnalyticsEvent(user.id, "cat_started", {
@@ -469,7 +470,7 @@ router.post("/api/v1/cat-exams/start", async (req, res) => {
       currentQuestion: firstQuestion ? {
         id: firstQuestion.id,
         stem: firstQuestion.stem,
-        options: typeof firstQuestion.options === "string" ? JSON.parse(firstQuestion.options) : firstQuestion.options,
+        options: (() => { try { return typeof firstQuestion.options === "string" ? JSON.parse(firstQuestion.options) : firstQuestion.options; } catch { return []; } })(),
         bodySystem: firstQuestion.body_system,
         topic: firstQuestion.topic,
         difficulty: firstQuestion.difficulty,
@@ -917,11 +918,16 @@ router.post("/api/v1/mock-exams/start", async (req, res) => {
     const isTimed = timed !== false;
 
     const questionsResult = await pool.query(
-      `SELECT id, stem, options, body_system, topic, difficulty, question_type, correct_answer, rationale
-       FROM exam_questions
-       WHERE tier = $1 AND status = 'published'
-       ORDER BY RANDOM() LIMIT $2`,
-      [examTier, numQuestions]
+      `WITH candidate_ids AS (
+         SELECT id FROM exam_questions
+         WHERE tier = $1 AND status = 'published'
+         ORDER BY md5(id::text || $2::text)
+         LIMIT $3
+       )
+       SELECT eq.id, eq.stem, eq.options, eq.body_system, eq.topic, eq.difficulty, eq.question_type, eq.correct_answer, eq.rationale
+       FROM exam_questions eq
+       JOIN candidate_ids c ON eq.id = c.id`,
+      [examTier, Date.now().toString(), numQuestions]
     );
 
     const questions = questionsResult.rows.map((q: any) => ({

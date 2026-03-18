@@ -1,4 +1,4 @@
-import type { Express, Request } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import type { Server } from "http";
 import { sql } from "drizzle-orm";
 import crypto from "crypto";
@@ -14,6 +14,20 @@ import { publishWithValidation, quarantineContentItem, isContentQuarantined, get
 import { requireLanguage } from "./middleware/requireLanguage";
 import { blockMixedLanguageRender } from "./middleware/blockMixedLanguageRender";
 import { generateWithLanguageEnforcement } from "./services/generatorEnforcement";
+
+function examRequestTimeout(timeoutMs: number = 15000) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const timer = setTimeout(() => {
+      if (!res.headersSent) {
+        console.error(`[Timeout] ${req.method} ${req.originalUrl} exceeded ${timeoutMs}ms`);
+        res.status(504).json({ error: "Request timed out", timeout: timeoutMs });
+      }
+    }, timeoutMs);
+    res.on("finish", () => clearTimeout(timer));
+    res.on("close", () => clearTimeout(timer));
+    next();
+  };
+}
 
 function parseStoragePath(path: string): { bucketName: string; objectName: string } {
   if (!path.startsWith("/")) path = `/${path}`;
@@ -526,6 +540,23 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
 
   const { registerAnalyticsDashboardRoutes } = await import("./analytics-dashboard-routes");
   registerAnalyticsDashboardRoutes(app);
+
+  const examTimeout = examRequestTimeout(15000);
+  const memoryGuard = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { isMemoryCritical } = await import("./memory-monitor");
+      if (isMemoryCritical() && (req.method === "POST" || req.originalUrl.includes("/start"))) {
+        console.warn(`[MemoryGuard] Rejecting ${req.method} ${req.originalUrl} — memory critical`);
+        return res.status(503).json({ error: "Server under memory pressure, please retry in a few seconds" });
+      }
+    } catch {}
+    next();
+  };
+  app.use("/api/v1/cat-exams", memoryGuard, examTimeout);
+  app.use("/api/v1/mock-exams", memoryGuard, examTimeout);
+  app.use("/api/v1/test-banks", memoryGuard, examTimeout);
+  app.use("/api/cat-exams", memoryGuard, examTimeout);
+  app.use("/api/mock-exams", memoryGuard, examTimeout);
 
   const { registerCrossPlatformApiRoutes } = await import("./cross-platform-api");
   registerCrossPlatformApiRoutes(app);
@@ -12541,11 +12572,14 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const { tier, exam, questionType, status, bodySystem } = req.query;
+      const { tier, exam, questionType, status, bodySystem, limit, offset } = req.query;
+      const pageLimit = Math.min(parseInt(limit as string) || 500, 1000);
+      const pageOffset = parseInt(offset as string) || 0;
       const questions = await storage.getAllExamQuestions({
         tier: tier as string, exam: exam as string,
         questionType: questionType as string, status: status as string,
         bodySystem: bodySystem as string,
+        limit: pageLimit, offset: pageOffset,
       });
       const { normalizeContentArray } = await import("./schema-versioning");
       res.json(normalizeContentArray("exam_question", questions));

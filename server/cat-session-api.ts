@@ -238,7 +238,7 @@ router.post("/api/cat-exams/start", async (req, res) => {
       currentQuestion: nextQ ? {
         id: nextQ.id,
         stem: nextQ.stem,
-        options: typeof nextQ.options === "string" ? JSON.parse(nextQ.options) : nextQ.options,
+        options: (() => { try { return typeof nextQ.options === "string" ? JSON.parse(nextQ.options) : nextQ.options; } catch { return []; } })(),
         bodySystem: nextQ.body_system,
         topic: nextQ.topic,
         difficulty: nextQ.difficulty,
@@ -270,7 +270,7 @@ router.get("/api/cat-exams/:sessionId", async (req, res) => {
 
     const { sessionId } = req.params;
     const result = await pool.query(
-      `SELECT * FROM mock_exam_attempts WHERE id = $1 AND user_id = $2 AND exam_type = 'cat'`,
+      `SELECT id, user_id, tier, total_questions, status, cat_state, score, started_at, completed_at FROM mock_exam_attempts WHERE id = $1 AND user_id = $2 AND exam_type = 'cat'`,
       [sessionId, user.id]
     );
 
@@ -288,7 +288,7 @@ router.get("/api/cat-exams/:sessionId", async (req, res) => {
         currentQuestion = {
           id: currentQuestion.id,
           stem: currentQuestion.stem,
-          options: typeof currentQuestion.options === "string" ? JSON.parse(currentQuestion.options) : currentQuestion.options,
+          options: (() => { try { return typeof currentQuestion.options === "string" ? JSON.parse(currentQuestion.options) : currentQuestion.options; } catch { return []; } })(),
           bodySystem: currentQuestion.body_system,
           topic: currentQuestion.topic,
           difficulty: currentQuestion.difficulty,
@@ -345,7 +345,7 @@ router.post("/api/cat-exams/:sessionId/answer", async (req, res) => {
     const { questionId, selectedAnswer, timeSpent } = parsed.data;
 
     const attemptResult = await pool.query(
-      `SELECT * FROM mock_exam_attempts WHERE id = $1 AND user_id = $2 AND exam_type = 'cat' AND status = 'in_progress'`,
+      `SELECT id, user_id, tier, total_questions, status, cat_state, answers FROM mock_exam_attempts WHERE id = $1 AND user_id = $2 AND exam_type = 'cat' AND status = 'in_progress'`,
       [sessionId, user.id]
     );
 
@@ -416,9 +416,23 @@ router.post("/api/cat-exams/:sessionId/answer", async (req, res) => {
       const score = Math.round((correctCount / questionCount) * 100);
 
       await pool.query(
-        `UPDATE mock_exam_attempts SET status = 'completed', cat_state = $1, answers = $2, score = $3, completed_at = NOW()
+        `UPDATE mock_exam_attempts SET status = 'completed', score = $1, completed_at = NOW(),
+         cat_state = cat_state || $2::jsonb,
+         answers = COALESCE(answers, '{}'::jsonb) || $3::jsonb
          WHERE id = $4`,
-        [JSON.stringify(updatedCatState), JSON.stringify(answers), score, sessionId]
+        [
+          score,
+          JSON.stringify({
+            currentAbility: updatedCatState.currentAbility,
+            standardError: updatedCatState.standardError,
+            questionsSeen: updatedCatState.questionsSeen,
+            abilityTrajectory: updatedCatState.abilityTrajectory,
+            responses: updatedCatState.responses,
+            version: updatedCatState.version,
+          }),
+          JSON.stringify({ [questionId]: { selectedAnswer, isCorrect, timeSpent } }),
+          sessionId,
+        ]
       );
 
       await logActivity(user.id, "cat_session_completed", {
@@ -429,8 +443,22 @@ router.post("/api/cat-exams/:sessionId/answer", async (req, res) => {
       }, catState.sessionId);
     } else {
       await pool.query(
-        `UPDATE mock_exam_attempts SET cat_state = $1, answers = $2 WHERE id = $3`,
-        [JSON.stringify(updatedCatState), JSON.stringify(answers), sessionId]
+        `UPDATE mock_exam_attempts SET
+         cat_state = cat_state || $1::jsonb,
+         answers = COALESCE(answers, '{}'::jsonb) || $2::jsonb
+         WHERE id = $3`,
+        [
+          JSON.stringify({
+            currentAbility: updatedCatState.currentAbility,
+            standardError: updatedCatState.standardError,
+            questionsSeen: updatedCatState.questionsSeen,
+            abilityTrajectory: updatedCatState.abilityTrajectory,
+            responses: updatedCatState.responses,
+            version: updatedCatState.version,
+          }),
+          JSON.stringify({ [questionId]: { selectedAnswer, isCorrect, timeSpent } }),
+          sessionId,
+        ]
       );
     }
 
@@ -451,7 +479,7 @@ router.post("/api/cat-exams/:sessionId/answer", async (req, res) => {
         nextQuestion = {
           id: nextQ.id,
           stem: nextQ.stem,
-          options: typeof nextQ.options === "string" ? JSON.parse(nextQ.options) : nextQ.options,
+          options: (() => { try { return typeof nextQ.options === "string" ? JSON.parse(nextQ.options) : nextQ.options; } catch { return []; } })(),
           bodySystem: nextQ.body_system,
           topic: nextQ.topic,
           difficulty: nextQ.difficulty,

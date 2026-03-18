@@ -103,7 +103,7 @@ export interface IStorage {
   getLessonAudioLinks(lessonId: string): Promise<(LessonAudioLink & { clip: AudioClip })[]>;
   createLessonAudioLink(link: InsertLessonAudioLink): Promise<LessonAudioLink>;
   deleteLessonAudioLink(id: string): Promise<void>;
-  getAllExamQuestions(filters?: { tier?: string; exam?: string; questionType?: string; status?: string; bodySystem?: string }): Promise<ExamQuestion[]>;
+  getAllExamQuestions(filters?: { tier?: string; exam?: string; questionType?: string; status?: string; bodySystem?: string; limit?: number; offset?: number }): Promise<ExamQuestion[]>;
   getExamQuestion(id: string): Promise<ExamQuestion | undefined>;
   createExamQuestion(q: InsertExamQuestion): Promise<ExamQuestion>;
   createExamQuestionsBulk(questions: InsertExamQuestion[]): Promise<ExamQuestion[]>;
@@ -1143,18 +1143,25 @@ export class DatabaseStorage implements IStorage {
     await db.delete(lessonAudioLinks).where(eq(lessonAudioLinks.id, id));
   }
 
-  async getAllExamQuestions(filters?: { tier?: string; exam?: string; questionType?: string; status?: string; bodySystem?: string }): Promise<ExamQuestion[]> {
-    let query = db.select().from(examQuestions);
-    const conditions: any[] = [];
-    if (filters?.tier) conditions.push(eq(examQuestions.tier, filters.tier));
-    if (filters?.exam) conditions.push(eq(examQuestions.exam, filters.exam));
-    if (filters?.questionType) conditions.push(eq(examQuestions.questionType, filters.questionType));
-    if (filters?.status) conditions.push(eq(examQuestions.status, filters.status));
-    if (filters?.bodySystem) conditions.push(eq(examQuestions.bodySystem, filters.bodySystem));
-    if (conditions.length > 0) {
-      return (query as any).where(and(...conditions)).orderBy(desc(examQuestions.createdAt));
-    }
-    return query.orderBy(desc(examQuestions.createdAt));
+  async getAllExamQuestions(filters?: { tier?: string; exam?: string; questionType?: string; status?: string; bodySystem?: string; limit?: number; offset?: number }): Promise<ExamQuestion[]> {
+    const pageLimit = filters?.limit ?? 500;
+    const pageOffset = filters?.offset ?? 0;
+
+    let query = `SELECT id, tier, exam, question_type, stem, options, correct_answer, body_system, topic, subtopic, difficulty, status, region_scope, country_code, language_code, licensing_body, cognitive_level, question_format, rationale, created_at FROM exam_questions WHERE 1=1`;
+    const params: any[] = [];
+    let idx = 1;
+
+    if (filters?.tier) { query += ` AND tier = $${idx++}`; params.push(filters.tier); }
+    if (filters?.exam) { query += ` AND exam = $${idx++}`; params.push(filters.exam); }
+    if (filters?.questionType) { query += ` AND question_type = $${idx++}`; params.push(filters.questionType); }
+    if (filters?.status) { query += ` AND status = $${idx++}`; params.push(filters.status); }
+    if (filters?.bodySystem) { query += ` AND body_system = $${idx++}`; params.push(filters.bodySystem); }
+
+    query += ` ORDER BY created_at DESC LIMIT $${idx++} OFFSET $${idx++}`;
+    params.push(pageLimit, pageOffset);
+
+    const result = await pool.query(query, params);
+    return result.rows.map((r: any) => snakeToCamel(r));
   }
 
   async getExamQuestion(id: string): Promise<ExamQuestion | undefined> {
@@ -1259,13 +1266,25 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getUserPurchases(userId: string): Promise<(ProductPurchase & { product: DigitalProduct })[]> {
-    const purchases = await db.select().from(productPurchases).where(eq(productPurchases.userId, userId)).orderBy(desc(productPurchases.purchaseDate));
-    const results: (ProductPurchase & { product: DigitalProduct })[] = [];
-    for (const p of purchases) {
-      const [product] = await db.select().from(digitalProducts).where(eq(digitalProducts.id, p.productId));
-      if (product) results.push({ ...p, product });
-    }
-    return results;
+    const result = await pool.query(
+      `SELECT pp.*, dp.id as dp_id, dp.title as dp_title, dp.slug as dp_slug, dp.description as dp_description,
+              dp.price as dp_price, dp.category as dp_category, dp.tier as dp_tier, dp.is_active as dp_is_active,
+              dp.question_count as dp_question_count, dp.format as dp_format, dp.created_at as dp_created_at
+       FROM product_purchases pp
+       JOIN digital_products dp ON pp.product_id = dp.id
+       WHERE pp.user_id = $1
+       ORDER BY pp.purchase_date DESC`,
+      [userId]
+    );
+    return result.rows.map((r: any) => {
+      const purchase = snakeToCamel(r) as any;
+      purchase.product = {
+        id: r.dp_id, title: r.dp_title, slug: r.dp_slug, description: r.dp_description,
+        price: r.dp_price, category: r.dp_category, tier: r.dp_tier, isActive: r.dp_is_active,
+        questionCount: r.dp_question_count, format: r.dp_format, createdAt: r.dp_created_at,
+      };
+      return purchase;
+    });
   }
 
   async getPurchase(id: string): Promise<ProductPurchase | undefined> {
@@ -1395,14 +1414,31 @@ export class DatabaseStorage implements IStorage {
     return m;
   }
   async getStudyGroupMembers(groupId: string): Promise<(StudyGroupMember & { username: string; stats?: UserStats })[]> {
-    const members = await db.select().from(studyGroupMembers).where(eq(studyGroupMembers.groupId, groupId));
-    const result: (StudyGroupMember & { username: string; stats?: UserStats })[] = [];
-    for (const m of members) {
-      const user = await this.getUser(m.userId);
-      const stats = await this.getUserStats(m.userId);
-      result.push({ ...m, username: user?.username || "Unknown", stats: stats || undefined });
-    }
-    return result;
+    const result = await pool.query(
+      `SELECT sgm.*, u.username, us.total_questions_answered, us.correct_answers, us.study_streak,
+              us.total_study_time, us.last_study_date, us.updated_at as stats_updated_at
+       FROM study_group_members sgm
+       LEFT JOIN users u ON sgm.user_id = u.id
+       LEFT JOIN user_stats us ON sgm.user_id = us.user_id
+       WHERE sgm.group_id = $1`,
+      [groupId]
+    );
+    return result.rows.map((r: any) => {
+      const member = snakeToCamel(r) as any;
+      member.username = r.username || "Unknown";
+      if (r.total_questions_answered !== null) {
+        member.stats = {
+          userId: r.user_id,
+          totalQuestionsAnswered: r.total_questions_answered,
+          correctAnswers: r.correct_answers,
+          studyStreak: r.study_streak,
+          totalStudyTime: r.total_study_time,
+          lastStudyDate: r.last_study_date,
+          updatedAt: r.stats_updated_at,
+        };
+      }
+      return member;
+    });
   }
   async removeStudyGroupMember(groupId: string, userId: string): Promise<void> {
     await db.delete(studyGroupMembers).where(and(eq(studyGroupMembers.groupId, groupId), eq(studyGroupMembers.userId, userId)));
@@ -2253,12 +2289,25 @@ export class DatabaseStorage implements IStorage {
     const study = await this.getCaseStudy(id);
     if (!study) return undefined;
     const steps = await this.getCaseStudySteps(id);
-    const stepsWithQuestions = await Promise.all(
-      steps.map(async (step) => {
-        const questions = await this.getCaseStudyQuestions(step.id);
-        return { ...step, questions };
-      })
+    if (steps.length === 0) return { study, steps: [] };
+
+    const stepIds = steps.map(s => s.id);
+    const questionsResult = await pool.query(
+      `SELECT * FROM case_study_questions WHERE case_step_id = ANY($1) ORDER BY question_number ASC`,
+      [stepIds]
     );
+    const questionsByStep = new Map<string, CaseStudyQuestion[]>();
+    for (const row of questionsResult.rows) {
+      const q = snakeToCamel(row) as CaseStudyQuestion;
+      const stepId = row.case_step_id;
+      if (!questionsByStep.has(stepId)) questionsByStep.set(stepId, []);
+      questionsByStep.get(stepId)!.push(q);
+    }
+
+    const stepsWithQuestions = steps.map(step => ({
+      ...step,
+      questions: questionsByStep.get(step.id) || [],
+    }));
     return { study, steps: stepsWithQuestions };
   }
 

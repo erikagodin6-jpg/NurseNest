@@ -188,13 +188,18 @@ export async function assembleExam(config: AssemblyConfig): Promise<AssembledQue
   const { questionCount, domainWeights, difficultyDistribution, formatMix, tier, seed, examCode } = config;
 
   const tierFilter = tier === "np" ? "np" : tier === "rn" ? "rn" : "rpn";
+  const poolSize = questionCount * 5;
   const result = await pool.query(
-    `SELECT id, stem, options, correct_answer, rationale, body_system, topic, subtopic, difficulty, question_type
-     FROM exam_questions
-     WHERE tier = $1 AND status = 'published'
-     ORDER BY RANDOM()
-     LIMIT $2`,
-    [tierFilter, questionCount * 5]
+    `WITH candidate_ids AS (
+       SELECT id FROM exam_questions
+       WHERE tier = $1 AND status = 'published'
+       ORDER BY md5(id::text || $2::text)
+       LIMIT $3
+     )
+     SELECT eq.id, eq.stem, eq.options, eq.correct_answer, eq.rationale, eq.body_system, eq.topic, eq.subtopic, eq.difficulty, eq.question_type
+     FROM exam_questions eq
+     JOIN candidate_ids c ON eq.id = c.id`,
+    [tierFilter, seed || Date.now().toString(), poolSize]
   );
 
   if (result.rows.length === 0) {
