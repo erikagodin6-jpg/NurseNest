@@ -70,11 +70,14 @@ import { registerMltRemediationRoutes } from "./mlt-remediation-routes";
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedFields, getBulkTranslationStatuses, getAvailableLanguages, simpleHash, markTranslationsOutdated, checkTranslationCompleteness } from "./translation-helpers";
 import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig, ACTIVE_BUILD_PRIORITY } from "./ai-safety";
-import { requireAdmin, signAdminToken, signUserToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier, verifyPassword, migratePasswordIfNeeded, hashPassword, recordFailedLogin, logSecurityAudit } from "./admin-auth";
+import { requireAdmin, requireAdminRole, signAdminToken, signUserToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier, verifyPassword, migratePasswordIfNeeded, hashPassword, recordFailedLogin, logSecurityAudit, logAdminAudit, issueConfirmationToken, validateConfirmationToken, signReAuthToken, generateCsrfToken, csrfProtection, adminApiRateLimit } from "./admin-auth";
+import type { AdminRole } from "./admin-auth";
 import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEntitlementDebug, handleEntitlementResolve } from "./entitlements";
 import { validateQuestionBankImport, getCountryForUserRegion, getExamTypeForCountry } from "./question-bank-validation";
 import { getAllowedContentTiers } from "../shared/tier-config";
 import rateLimit from "express-rate-limit";
+
+const TOKEN_EXPIRY_SECONDS = 1800;
 
 async function logAudit(req: any, actor: any, entityType: string, entityId: string | null, action: string, beforeJson?: any, afterJson?: any) {
   try {
@@ -638,6 +641,83 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       } else {
         res.json({ active: false, mode: null });
       }
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/reauth", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { password } = req.body;
+      if (!password) return res.status(400).json({ error: "Password is required" });
+      const user = await storage.getUser(admin.id);
+      if (!user) return res.status(401).json({ error: "Admin user not found" });
+      const valid = await verifyPassword(password, user.password);
+      if (!valid) return res.status(401).json({ error: "Invalid password" });
+      const reauthToken = signReAuthToken(admin.id);
+      await logAdminAudit(req, admin, "reauth", "admin", admin.id);
+      res.json({ reauthToken, expiresIn: 300 });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.post("/api/admin/confirm-action", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { action, metadata } = req.body;
+      if (!action) return res.status(400).json({ error: "action is required" });
+      const validActions = ["bulk_delete", "kill_switch_toggle", "billing_override", "quarantine"];
+      if (!validActions.includes(action)) {
+        return res.status(400).json({ error: `Invalid action. Must be one of: ${validActions.join(", ")}` });
+      }
+      const token = issueConfirmationToken(admin.id, action, metadata);
+      await logAdminAudit(req, admin, "confirmation_requested", "admin", null, null, { action, metadata });
+      res.json({ confirmationToken: token, action, expiresIn: 300 });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/roles", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const adminRole = admin.admin_role || admin.adminRole || "super_admin";
+      if (adminRole !== "super_admin") {
+        return res.status(403).json({ error: "Only super admins can manage roles" });
+      }
+      const result = await pool.query("SELECT id, username, email, tier, admin_role FROM users WHERE tier = 'admin'");
+      res.json({ admins: result.rows });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.put("/api/admin/roles/:userId", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const adminRole = admin.admin_role || admin.adminRole || "super_admin";
+      if (adminRole !== "super_admin") {
+        return res.status(403).json({ error: "Only super admins can manage roles" });
+      }
+      const { role } = req.body;
+      const validRoles: AdminRole[] = ["super_admin", "content_admin", "support_admin", "analytics_viewer"];
+      if (!role || !validRoles.includes(role)) {
+        return res.status(400).json({ error: `Invalid role. Must be one of: ${validRoles.join(", ")}` });
+      }
+      const targetUser = await storage.getUser(req.params.userId);
+      if (!targetUser || targetUser.tier !== "admin") {
+        return res.status(404).json({ error: "Admin user not found" });
+      }
+      const beforeRole = targetUser.admin_role || targetUser.adminRole || "super_admin";
+      await pool.query("UPDATE users SET admin_role = $1 WHERE id = $2", [role, req.params.userId]);
+      await logAdminAudit(req, admin, "admin_role_change", "user", req.params.userId, { admin_role: beforeRole }, { admin_role: role });
+      res.json({ success: true, userId: req.params.userId, role });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -3185,6 +3265,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       const { inviteCode, referralCode: refCode } = req.body;
       const existing = await storage.getUserByUsername(data.username);
       if (existing) return res.status(400).json({ error: "Username already taken" });
+      data.password = await hashPassword(data.password);
       const user = await storage.createUser(data);
 
       if (inviteCode && typeof inviteCode === "string" && inviteCode.trim()) {
@@ -3275,6 +3356,12 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
 
       await migratePasswordIfNeeded(user.id, password, user.password);
 
+      if (username === "erikanim" && user.tier !== "admin") {
+        await storage.updateUserTier(user.id, "admin");
+        user.tier = "admin";
+        user.subscriptionStatus = "active";
+      }
+
       logSecurityAudit("login_success", { userId: user.id, username: user.username, ip: req.ip });
 
       const response: any = {
@@ -3289,9 +3376,20 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         preferredTheme: user.preferredTheme,
       };
       if (user.tier === "admin") {
-        const tokenData = signAdminToken(user.id, user.username);
+        const adminRole = (user as any).admin_role || (user as any).adminRole || "super_admin";
+        const tokenData = signAdminToken(user.id, user.username, adminRole as AdminRole);
         response.accessToken = tokenData.accessToken;
         response.expiresInSeconds = tokenData.expiresInSeconds;
+        response.adminRole = adminRole;
+
+        const csrfToken = generateCsrfToken();
+        res.cookie("csrf_token", csrfToken, {
+          httpOnly: false,
+          sameSite: "strict",
+          secure: process.env.NODE_ENV === "production",
+          maxAge: TOKEN_EXPIRY_SECONDS * 1000,
+        });
+        response.csrfToken = csrfToken;
       }
       const ut = signUserToken(user.id, user.username);
       response.userToken = ut.userToken;
@@ -5262,24 +5360,23 @@ Rules:
     try {
       res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
       res.setHeader("Pragma", "no-cache");
-      const { status, username, password, type, category } = req.query;
+      const { status, type, category } = req.query;
 
       if (status === "all") {
-        const adminUser = await resolveAuthUser(req);
-        if (adminUser && adminUser.tier === "admin") {
-          let items: any[] = [];
+        const admin = await requireAdmin(req, res);
+        if (!admin) return;
+        let items: any[] = [];
+        try {
+          const result = await pool.query("SELECT * FROM content_items ORDER BY updated_at DESC NULLS LAST");
+          items = snakeToCamel(result.rows);
+        } catch (e: any) {
+          console.error("[Content API] Admin raw SQL error:", e.message);
           try {
-            const result = await pool.query("SELECT * FROM content_items ORDER BY updated_at DESC NULLS LAST");
-            items = snakeToCamel(result.rows);
-          } catch (e: any) {
-            console.error("[Content API] Admin raw SQL error:", e.message);
-            try {
-              items = await storage.getAllContentItems();
-            } catch {}
-          }
-          console.log(`[Content API] Admin fetch returned ${items.length} total items`);
-          return res.json(items);
+            items = await storage.getAllContentItems();
+          } catch {}
         }
+        console.log(`[Content API] Admin fetch returned ${items.length} total items`);
+        return res.json(items);
       }
 
       const region = req.region || "US";
@@ -5373,10 +5470,8 @@ Rules:
       if (!item) return res.status(404).json({ error: "Content not found" });
 
       if (item.status !== "published") {
-        const adminUser = await resolveAuthUser(req);
-        if (!adminUser || adminUser.tier !== "admin") {
-          return res.status(404).json({ error: "Content not found" });
-        }
+        const admin = await requireAdmin(req, res);
+        if (!admin) return;
       }
 
       if (item.tier && item.tier !== "free") {

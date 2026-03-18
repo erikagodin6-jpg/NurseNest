@@ -18,9 +18,8 @@
 
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import { pool } from "./storage";
-
-const BCRYPT_ROUNDS = 12;
 
 function getJwtSecret(): string {
   const secret = process.env.ADMIN_JWT_SECRET;
@@ -32,11 +31,15 @@ function getJwtSecret(): string {
 
 const SERVER_API_KEY = () => process.env.ADMIN_API_KEY || "";
 const TOKEN_EXPIRY_SECONDS = 1800;
+const BCRYPT_ROUNDS = 12;
+
+export type AdminRole = "super_admin" | "content_admin" | "support_admin" | "analytics_viewer";
 
 export interface AdminTokenPayload {
   sub: string;
   username: string;
   role: "admin";
+  adminRole?: AdminRole;
   iat: number;
   exp: number;
 }
@@ -63,8 +66,9 @@ export async function migratePasswordIfNeeded(userId: string, plaintext: string,
   }
 }
 
-export function signAdminToken(adminId: string, username: string): { accessToken: string; expiresInSeconds: number } {
-  const payload = { sub: adminId, username, role: "admin" as const };
+export function signAdminToken(adminId: string, username: string, adminRole?: AdminRole): { accessToken: string; expiresInSeconds: number } {
+  const payload: any = { sub: adminId, username, role: "admin" as const };
+  if (adminRole) payload.adminRole = adminRole;
   const accessToken = jwt.sign(payload, getJwtSecret(), { expiresIn: TOKEN_EXPIRY_SECONDS });
   return { accessToken, expiresInSeconds: TOKEN_EXPIRY_SECONDS };
 }
@@ -123,6 +127,7 @@ export function logSecurityAudit(action: string, details: Record<string, any>): 
   })}`);
 }
 
+
 export async function requireAdmin(req: any, res: any): Promise<any> {
   const authHeader = String(req.headers?.["authorization"] || "");
   if (authHeader.startsWith("Bearer ")) {
@@ -136,13 +141,37 @@ export async function requireAdmin(req: any, res: any): Promise<any> {
 
     const serverKey = SERVER_API_KEY();
     if (serverKey && token === serverKey) {
-      const r = await pool.query("SELECT * FROM users WHERE tier = 'admin' LIMIT 1");
-      if (r.rows[0]) return r.rows[0];
+      return { id: "internal", username: "system", tier: "admin", admin_role: "super_admin" };
     }
   }
 
   res.status(401).json({ error: "Unauthorized" });
   return null;
+}
+
+export function requireAdminRole(...allowedRoles: AdminRole[]) {
+  return async (req: any, res: any, next: any) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    const userRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+
+    if (userRole === "super_admin") {
+      req.adminUser = admin;
+      return next();
+    }
+
+    if (!allowedRoles.includes(userRole)) {
+      return res.status(403).json({
+        error: "Insufficient admin permissions",
+        required: allowedRoles,
+        current: userRole,
+      });
+    }
+
+    req.adminUser = admin;
+    next();
+  };
 }
 
 export async function resolveAuthUser(req: any): Promise<any | null> {
@@ -308,9 +337,7 @@ export async function requireInternalOrAdmin(req: any, res: any): Promise<any> {
 
     const serverKey = SERVER_API_KEY();
     if (serverKey && token === serverKey) {
-      const r = await pool.query("SELECT * FROM users WHERE tier = 'admin' LIMIT 1");
-      if (r.rows[0]) return r.rows[0];
-      return { id: "internal", username: "system", tier: "admin" };
+      return { id: "internal", username: "system", tier: "admin", admin_role: "super_admin" };
     }
 
     const decoded = verifyAdminToken(token);
@@ -323,3 +350,191 @@ export async function requireInternalOrAdmin(req: any, res: any): Promise<any> {
   res.status(401).json({ error: "Unauthorized" });
   return null;
 }
+
+const reauthTokens = new Map<string, { adminId: string; expiresAt: number }>();
+
+export function signReAuthToken(adminId: string): string {
+  const token = crypto.randomBytes(32).toString("hex");
+  reauthTokens.set(token, { adminId, expiresAt: Date.now() + 5 * 60 * 1000 });
+  return token;
+}
+
+export function verifyReAuthToken(token: string, adminId: string): boolean {
+  const entry = reauthTokens.get(token);
+  if (!entry) return false;
+  if (entry.adminId !== adminId) return false;
+  if (Date.now() > entry.expiresAt) {
+    reauthTokens.delete(token);
+    return false;
+  }
+  reauthTokens.delete(token);
+  return true;
+}
+
+export function requireReAuth() {
+  return async (req: any, res: any, next: any) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    const reauthToken = String(req.headers?.["x-reauth-token"] || req.body?.reauthToken || "");
+    if (!reauthToken || !verifyReAuthToken(reauthToken, admin.id)) {
+      return res.status(403).json({
+        error: "Re-authentication required for this action",
+        requireReAuth: true,
+      });
+    }
+
+    req.adminUser = admin;
+    next();
+  };
+}
+
+const confirmationTokens = new Map<string, { adminId: string; action: string; expiresAt: number; metadata?: any }>();
+
+export function issueConfirmationToken(adminId: string, action: string, metadata?: any): string {
+  const token = crypto.randomBytes(32).toString("hex");
+  confirmationTokens.set(token, {
+    adminId,
+    action,
+    expiresAt: Date.now() + 5 * 60 * 1000,
+    metadata,
+  });
+  return token;
+}
+
+export function validateConfirmationToken(token: string, adminId: string, action: string): { valid: boolean; metadata?: any } {
+  const entry = confirmationTokens.get(token);
+  if (!entry) return { valid: false };
+  if (entry.adminId !== adminId || entry.action !== action) return { valid: false };
+  if (Date.now() > entry.expiresAt) {
+    confirmationTokens.delete(token);
+    return { valid: false };
+  }
+  confirmationTokens.delete(token);
+  return { valid: true, metadata: entry.metadata };
+}
+
+export function generateCsrfToken(): string {
+  return crypto.randomBytes(32).toString("hex");
+}
+
+export function csrfProtection() {
+  return (req: any, res: any, next: any) => {
+    if (req.method === "GET" || req.method === "HEAD" || req.method === "OPTIONS") {
+      return next();
+    }
+
+    const cookieToken = req.cookies?.csrf_token || "";
+    const headerToken = req.headers?.["x-csrf-token"] || "";
+
+    if (!cookieToken || !headerToken || cookieToken !== headerToken) {
+      return res.status(403).json({ error: "CSRF token mismatch" });
+    }
+
+    next();
+  };
+}
+
+const adminRateLimitStore = new Map<string, { count: number; windowStart: number }>();
+
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, entry] of adminRateLimitStore) {
+    if (now - entry.windowStart > 120000) {
+      adminRateLimitStore.delete(key);
+    }
+  }
+}, 60000);
+
+export function adminLoginRateLimit() {
+  return (req: any, res: any, next: any) => {
+    const ip = req.ip || req.headers?.["x-forwarded-for"] || "unknown";
+    const key = `admin_login:${ip}`;
+    const now = Date.now();
+    const windowMs = 15 * 60 * 1000;
+    const maxAttempts = 5;
+
+    let entry = adminRateLimitStore.get(key);
+    if (!entry || now - entry.windowStart > windowMs) {
+      entry = { count: 0, windowStart: now };
+      adminRateLimitStore.set(key, entry);
+    }
+
+    entry.count++;
+
+    if (entry.count > maxAttempts) {
+      const retryAfter = Math.ceil((entry.windowStart + windowMs - now) / 1000);
+      res.setHeader("Retry-After", String(retryAfter));
+      return res.status(429).json({
+        error: "Too many admin login attempts. Try again later.",
+        retryAfter,
+      });
+    }
+
+    next();
+  };
+}
+
+export function adminApiRateLimit() {
+  return (req: any, res: any, next: any) => {
+    const adminUser = req.adminUser || req.authUser;
+    const identifier = adminUser?.id || req.ip || "unknown";
+    const key = `admin_api:${identifier}`;
+    const now = Date.now();
+    const windowMs = 60 * 1000;
+    const maxRequests = 100;
+
+    let entry = adminRateLimitStore.get(key);
+    if (!entry || now - entry.windowStart > windowMs) {
+      entry = { count: 0, windowStart: now };
+      adminRateLimitStore.set(key, entry);
+    }
+
+    entry.count++;
+
+    if (entry.count > maxRequests) {
+      const retryAfter = Math.ceil((entry.windowStart + windowMs - now) / 1000);
+      res.setHeader("Retry-After", String(retryAfter));
+      return res.status(429).json({
+        error: "Too many requests",
+        retryAfter,
+      });
+    }
+
+    res.setHeader("X-RateLimit-Limit", String(maxRequests));
+    res.setHeader("X-RateLimit-Remaining", String(Math.max(0, maxRequests - entry.count)));
+    next();
+  };
+}
+
+export async function logAdminAudit(req: any, actor: any, action: string, entityType: string, entityId: string | null, beforeState?: any, afterState?: any) {
+  try {
+    await pool.query(
+      `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, before_json, after_json, ip_address, user_agent, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, NOW())`,
+      [
+        actor?.id || null,
+        actor?.username || null,
+        entityType,
+        entityId,
+        action,
+        beforeState ? JSON.stringify(beforeState) : null,
+        afterState ? JSON.stringify(afterState) : null,
+        req.ip || req.headers?.["x-forwarded-for"] || null,
+        req.headers?.["user-agent"] || null,
+      ]
+    );
+  } catch (e) {
+    console.error("[AdminAudit] Failed to log:", e);
+  }
+}
+
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, entry] of reauthTokens) {
+    if (now > entry.expiresAt) reauthTokens.delete(key);
+  }
+  for (const [key, entry] of confirmationTokens) {
+    if (now > entry.expiresAt) confirmationTokens.delete(key);
+  }
+}, 60000);

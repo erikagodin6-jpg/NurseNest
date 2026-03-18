@@ -5,6 +5,7 @@ import { SUPPORTED_LOCALES, SUPPORTED_LOCALES_SET } from "@shared/locales";
 import path from "path";
 import { createServer } from "http";
 import { registerRoutes } from "./routes";
+import { adminApiRateLimit, csrfProtection } from "./admin-auth";
 import { registerAlliedPipelineRoutes } from "./allied-pipeline";
 import { registerAutomationRoutes } from "./allied-automations";
 import { registerAiJobsRoutes } from "./ai-jobs-routes";
@@ -214,6 +215,8 @@ app.use((req, res, next) => {
 
 app.use(compression());
 app.use(cookieParser());
+app.use("/api/admin", adminApiRateLimit());
+app.use("/api/admin", csrfProtection());
 
 app.use((_req, res, next) => {
   res.setHeader("X-Content-Type-Options", "nosniff");

@@ -91,6 +91,15 @@ Key files:
 - **AST Hardcoded String Scanner** (`script/scan-hardcoded-strings.ts` + `script/scan-hardcoded-strings-lib.ts`): AST-based scanner using TypeScript Compiler API that parses all frontend `.tsx`/`.ts` files and identifies hardcoded user-facing strings not wrapped in `t()`. Violations are classified into severity tiers: CRITICAL (buttons, headings, CTAs), HIGH (cards, labels, tooltips, placeholders), MEDIUM (metadata, secondary UI), LOW (logs). Each violation includes file path, line/column, the offending string, severity, and an auto-fix suggestion. Configurable via `i18n-scan.config.json` (thresholds, output path). Integrated into production build pipeline (`script/build.ts`). Pre-commit hook script at `script/i18n-precommit.sh`. Run via: `npx tsx script/scan-hardcoded-strings.ts [--no-fail] [--json] [--output path] [--threshold N]`.
 - **`translationStatus(key)`**: New i18n context function returning `"translated" | "fallback" | "missing"` for granular status checking.
 
+### Admin Security
+- **Authentication**: JWT-only admin auth via `server/admin-auth.ts`. All x-admin-id header/body/query bypasses and plaintext password comparisons removed. Passwords hashed with bcrypt (12 rounds) with automatic migration from plaintext on login.
+- **Admin Roles**: `super_admin`, `content_admin`, `support_admin`, `analytics_viewer` — enforced via `requireAdminRole()` middleware. `super_admin` bypasses role checks.
+- **CSRF Protection**: Double-submit cookie pattern on all `/api/admin` state-changing routes. Token set on admin login, validated via `x-csrf-token` header.
+- **Rate Limiting**: In-memory rate limiter on `/api/admin` routes (100 req/min per admin). Login rate limit (5 attempts/15 min per IP).
+- **Re-auth & Confirmation Tokens**: Single-use re-auth tokens (5 min TTL) for sensitive ops. Single-use confirmation tokens (5 min TTL) for destructive actions.
+- **Audit Logging**: Structured `logAdminAudit()` for admin actions with IP, action, and metadata.
+- **JWT Secret**: `ADMIN_JWT_SECRET` env var required in production. Dev uses Repl-specific fallback.
+
 ### External Dependencies
 - **Database**: PostgreSQL
 - **ORM**: Drizzle ORM

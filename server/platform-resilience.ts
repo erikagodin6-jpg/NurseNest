@@ -875,13 +875,8 @@ export function makeEntitlementDecision(user: any, feature: string): Entitlement
 
 async function resolveAdmin(req: Request, res: Response): Promise<any | null> {
   try {
-    const { resolveAuthUser } = await import("./admin-auth");
-    const user = await resolveAuthUser(req as any);
-    if (!user || user.tier !== "admin") {
-      res.status(403).json({ error: "Admin access required" });
-      return null;
-    }
-    return user;
+    const { requireAdmin } = await import("./admin-auth");
+    return await requireAdmin(req as any, res as any);
   } catch {
     res.status(403).json({ error: "Admin access required" });
     return null;

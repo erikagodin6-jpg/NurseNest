@@ -27,6 +27,7 @@ export const users = pgTable("users", {
   isLifetime: boolean("is_lifetime").default(false),
   lifetimePurchasedAt: timestamp("lifetime_purchased_at"),
   preferredTheme: text("preferred_theme"),
+  adminRole: text("admin_role"),
 });
 
 export const pricingPlans = pgTable("pricing_plans", {
