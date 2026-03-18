@@ -6716,3 +6716,75 @@ export const insertPlatformIncidentSchema = createInsertSchema(platformIncidents
 });
 export type PlatformIncident = typeof platformIncidents.$inferSelect;
 export type InsertPlatformIncident = z.infer<typeof insertPlatformIncidentSchema>;
+
+export const renderPayloads = pgTable("render_payloads", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentId: varchar("content_id").notNull(),
+  payloadType: text("payload_type").notNull(),
+  version: integer("version").notNull().default(1),
+  data: jsonb("data").notNull(),
+  htmlSnapshot: text("html_snapshot"),
+  validatedAt: timestamp("validated_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertRenderPayloadSchema = createInsertSchema(renderPayloads).omit({
+  id: true,
+  createdAt: true,
+});
+export type RenderPayload = typeof renderPayloads.$inferSelect;
+export type InsertRenderPayload = z.infer<typeof insertRenderPayloadSchema>;
+
+export const contentSnapshots = pgTable("content_snapshots", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentId: varchar("content_id").notNull(),
+  version: integer("version").notNull().default(1),
+  title: text("title"),
+  slug: text("slug"),
+  contentData: jsonb("content_data"),
+  metadata: jsonb("metadata"),
+  snapshotType: text("snapshot_type").default("auto"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertContentSnapshotSchema = createInsertSchema(contentSnapshots).omit({
+  id: true,
+  createdAt: true,
+});
+export type ContentSnapshot = typeof contentSnapshots.$inferSelect;
+export type InsertContentSnapshot = z.infer<typeof insertContentSnapshotSchema>;
+
+export const fallbackEventLogs = pgTable("fallback_event_logs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contentId: varchar("content_id"),
+  failureReason: text("failure_reason").notNull(),
+  fallbackTier: text("fallback_tier").notNull(),
+  requestPath: text("request_path"),
+  responseTime: integer("response_time"),
+  resolved: boolean("resolved").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertFallbackEventLogSchema = createInsertSchema(fallbackEventLogs).omit({
+  id: true,
+  createdAt: true,
+});
+export type FallbackEventLog = typeof fallbackEventLogs.$inferSelect;
+export type InsertFallbackEventLog = z.infer<typeof insertFallbackEventLogSchema>;
+
+export const substitutionEventLogs = pgTable("substitution_event_logs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  originalContentId: varchar("original_content_id"),
+  substituteContentId: varchar("substitute_content_id"),
+  matchCriteria: jsonb("match_criteria"),
+  matchScore: integer("match_score"),
+  reason: text("reason"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertSubstitutionEventLogSchema = createInsertSchema(substitutionEventLogs).omit({
+  id: true,
+  createdAt: true,
+});
+export type SubstitutionEventLog = typeof substitutionEventLogs.$inferSelect;
+export type InsertSubstitutionEventLog = z.infer<typeof insertSubstitutionEventLogSchema>;

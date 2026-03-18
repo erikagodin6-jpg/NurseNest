@@ -12,7 +12,7 @@ import {
   Activity, BarChart3, ChevronDown, ChevronUp,
 } from "lucide-react";
 
-type TabId = "overview" | "broken-links" | "missing-content" | "seo-audit" | "sitemap" | "internal-links";
+type TabId = "overview" | "broken-links" | "missing-content" | "seo-audit" | "sitemap" | "internal-links" | "content-failover";
 
 const SEVERITY_CONFIG = {
   critical: { color: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400", icon: XCircle, label: "Critical" },
@@ -69,6 +69,7 @@ function SeverityBadge({ severity }: { severity: string }) {
 }
 
 function IssuesList({ issues, searchTerm, onRepair }: { issues: any[]; searchTerm: string; onRepair: (id: string, action: string) => void }) {
+  const { t } = useI18n();
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const filtered = issues.filter(issue => {
@@ -165,6 +166,7 @@ function IssuesList({ issues, searchTerm, onRepair }: { issues: any[]; searchTer
 }
 
 function OverviewTab({ data, isLoading, onRepairAll, isRepairing }: { data: any; isLoading: boolean; onRepairAll: () => void; isRepairing: boolean }) {
+  const { t } = useI18n();
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12" data-testid="loading-overview">
@@ -309,6 +311,7 @@ function OverviewTab({ data, isLoading, onRepairAll, isRepairing }: { data: any;
 }
 
 function SeoAuditTab() {
+  const { t } = useI18n();
   const { data, isLoading } = useQuery({
     queryKey: ["site-health-seo"],
     queryFn: async () => {
@@ -416,6 +419,7 @@ function SeoAuditTab() {
 }
 
 function InternalLinksTab() {
+  const { t } = useI18n();
   const { data, isLoading } = useQuery({
     queryKey: ["site-health-internal-links"],
     queryFn: async () => {
@@ -476,8 +480,252 @@ function InternalLinksTab() {
   );
 }
 
+function ContentFailoverTab() {
+  const queryClient = useQueryClient();
+  const [generating, setGenerating] = useState(false);
+  const [regeneratingId, setRegeneratingId] = useState<string | null>(null);
+
+  const { data: failoverStats, isLoading: statsLoading, refetch: refetchStats } = useQuery({
+    queryKey: ["content-failover-stats"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/content-failover/stats");
+      if (!res.ok) throw new Error("Failed to load failover stats");
+      return res.json();
+    },
+    staleTime: 60 * 1000,
+  });
+
+  const { data: brokenContent } = useQuery({
+    queryKey: ["content-failover-broken"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/content-failover/broken-content");
+      if (!res.ok) throw new Error("Failed to load broken content");
+      return res.json();
+    },
+    staleTime: 60 * 1000,
+  });
+
+  const generateAllMutation = useMutation({
+    mutationFn: async () => {
+      setGenerating(true);
+      const res = await adminFetch("/api/admin/content-failover/generate-all", { method: "POST" });
+      if (!res.ok) throw new Error("Failed to generate payloads");
+      return res.json();
+    },
+    onSuccess: () => {
+      setGenerating(false);
+      queryClient.invalidateQueries({ queryKey: ["content-failover-stats"] });
+    },
+    onError: () => setGenerating(false),
+  });
+
+  const regenerateMutation = useMutation({
+    mutationFn: async (contentId: string) => {
+      setRegeneratingId(contentId);
+      const res = await adminFetch("/api/admin/content-failover/generate-payloads", {
+        method: "POST",
+        body: { contentId },
+      });
+      if (!res.ok) throw new Error("Failed to regenerate payload");
+      return res.json();
+    },
+    onSuccess: () => {
+      setRegeneratingId(null);
+      queryClient.invalidateQueries({ queryKey: ["content-failover-stats"] });
+      queryClient.invalidateQueries({ queryKey: ["content-failover-broken"] });
+    },
+    onError: () => setRegeneratingId(null),
+  });
+
+  if (statsLoading) {
+    return (
+      <div className="flex items-center justify-center py-12" data-testid="loading-failover">
+        <RefreshCw className="w-6 h-6 animate-spin mr-2" />
+        <span>Loading failover data...</span>
+      </div>
+    );
+  }
+
+  const coverage = failoverStats?.coverage || { publishedItems: 0, itemsWithPayloads: 0, coveragePercent: 0 };
+  const fallbacks = failoverStats?.fallbacks || { total: "0", last24h: "0", last7d: "0" };
+  const substitutions = failoverStats?.substitutions || { total: "0", last24h: "0", last7d: "0" };
+
+  return (
+    <div className="space-y-6" data-testid="content-failover-tab">
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-semibold flex items-center gap-2">
+          <Shield className="w-5 h-5 text-blue-600" />
+          Content Failover & Backup Pipeline
+        </h2>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => refetchStats()}
+            data-testid="button-refresh-failover"
+          >
+            <RefreshCw className="w-4 h-4 mr-1" /> Refresh
+          </Button>
+          <Button
+            size="sm"
+            onClick={() => generateAllMutation.mutate()}
+            disabled={generating}
+            data-testid="button-generate-all-payloads"
+          >
+            {generating ? <RefreshCw className="w-4 h-4 mr-1 animate-spin" /> : <Shield className="w-4 h-4 mr-1" />}
+            {generating ? "Generating..." : "Generate All Payloads"}
+          </Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card data-testid="card-payload-coverage">
+          <CardContent className="pt-4 pb-4">
+            <div className="flex items-center gap-3">
+              <Shield className="w-8 h-8 text-green-500" />
+              <div>
+                <p className="text-2xl font-bold" data-testid="text-coverage-percent">{coverage.coveragePercent}%</p>
+                <p className="text-xs text-muted-foreground">Payload Coverage</p>
+                <p className="text-xs text-muted-foreground">{coverage.itemsWithPayloads}/{coverage.publishedItems} items</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card data-testid="card-fallback-events">
+          <CardContent className="pt-4 pb-4">
+            <div className="flex items-center gap-3">
+              <AlertTriangle className="w-8 h-8 text-yellow-500" />
+              <div>
+                <p className="text-2xl font-bold" data-testid="text-fallback-total">{fallbacks.last7d}</p>
+                <p className="text-xs text-muted-foreground">Fallback Events (7d)</p>
+                <p className="text-xs text-muted-foreground">{fallbacks.last24h} in last 24h</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card data-testid="card-substitution-events">
+          <CardContent className="pt-4 pb-4">
+            <div className="flex items-center gap-3">
+              <Activity className="w-8 h-8 text-blue-500" />
+              <div>
+                <p className="text-2xl font-bold" data-testid="text-substitution-total">{substitutions.last7d}</p>
+                <p className="text-xs text-muted-foreground">Substitutions (7d)</p>
+                <p className="text-xs text-muted-foreground">{substitutions.last24h} in last 24h</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card data-testid="card-total-fallbacks">
+          <CardContent className="pt-4 pb-4">
+            <div className="flex items-center gap-3">
+              <BarChart3 className="w-8 h-8 text-purple-500" />
+              <div>
+                <p className="text-2xl font-bold" data-testid="text-total-fallbacks">{fallbacks.total}</p>
+                <p className="text-xs text-muted-foreground">Total Fallback Events</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {failoverStats?.fallbackByTier && failoverStats.fallbackByTier.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Fallback Usage by Tier (7d)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {failoverStats.fallbackByTier.map((tier: any) => (
+                <div key={tier.fallbackTier} className="flex items-center justify-between p-2 border rounded" data-testid={`fallback-tier-${tier.fallbackTier}`}>
+                  <span className="text-sm font-medium">{tier.fallbackTier?.replace(/_/g, " ")}</span>
+                  <span className="text-sm font-bold">{tier.count}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {brokenContent && brokenContent.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <XCircle className="w-5 h-5 text-red-500" />
+              Broken Content (30d)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {brokenContent.map((item: any) => (
+                <div key={item.contentId} className="flex items-center justify-between p-3 border rounded hover:bg-accent/50" data-testid={`broken-content-${item.contentId}`}>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-sm truncate">{item.title || item.contentId}</p>
+                    <div className="flex gap-3 text-xs text-muted-foreground mt-1">
+                      <span>Slug: {item.slug || "N/A"}</span>
+                      <span>Failures: {item.failureCount}</span>
+                      <span>Last: {item.lastReason}</span>
+                      <span>Worst: {item.worstFallback?.replace(/_/g, " ")}</span>
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => regenerateMutation.mutate(item.contentId)}
+                    disabled={regeneratingId === item.contentId}
+                    data-testid={`button-regenerate-${item.contentId}`}
+                  >
+                    {regeneratingId === item.contentId ? (
+                      <RefreshCw className="w-3 h-3 animate-spin" />
+                    ) : (
+                      <Wrench className="w-3 h-3 mr-1" />
+                    )}
+                    Regenerate
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {failoverStats?.recentFallbacks && failoverStats.recentFallbacks.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Recent Fallback Events</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-1">
+              {failoverStats.recentFallbacks.slice(0, 10).map((event: any, idx: number) => (
+                <div key={idx} className="flex items-center gap-3 p-2 text-sm border-b last:border-0" data-testid={`recent-fallback-${idx}`}>
+                  <span className="text-muted-foreground w-36 shrink-0">
+                    {new Date(event.createdAt).toLocaleString()}
+                  </span>
+                  <span className="font-mono text-xs truncate flex-1">{event.contentId || "N/A"}</span>
+                  <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    {event.fallbackTier?.replace(/_/g, " ")}
+                  </span>
+                  <span className="text-xs text-muted-foreground truncate max-w-48">{event.failureReason}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {(!brokenContent || brokenContent.length === 0) && (!failoverStats?.recentFallbacks || failoverStats.recentFallbacks.length === 0) && (
+        <div className="text-center py-8 text-muted-foreground" data-testid="text-no-failover-issues">
+          <CheckCircle className="w-12 h-12 mx-auto mb-2 text-green-500" />
+          <p className="font-medium">No Content Failover Issues</p>
+          <p className="text-sm">All content is being served successfully without fallbacks.</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function AdminSiteHealth() {
   const queryClient = useQueryClient();
+  const { t } = useI18n();
   const [activeTab, setActiveTab] = useState<TabId>("overview");
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -523,6 +771,7 @@ export default function AdminSiteHealth() {
     { id: "seo-audit", label: "SEO Audit", icon: Globe },
     { id: "sitemap", label: "Sitemap", icon: Map },
     { id: "internal-links", label: "Internal Links", icon: LinkIcon },
+    { id: "content-failover", label: "Content Failover", icon: Shield },
   ];
 
   const filteredIssues = (category?: string) => {
@@ -707,6 +956,8 @@ export default function AdminSiteHealth() {
           </CardContent>
         </Card>
       )}
+
+      {activeTab === "content-failover" && <ContentFailoverTab />}
     </div>
   );
 }

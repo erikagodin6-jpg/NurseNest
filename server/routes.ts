@@ -524,6 +524,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerJobBoardRoutes } = await import("./job-board-routes");
   registerJobBoardRoutes(app);
 
+  const { registerContentFailoverRoutes } = await import("./content-failover");
+  registerContentFailoverRoutes(app);
+
   const { registerSeoPerformanceRoutes } = await import("./seo-performance-routes");
   registerSeoPerformanceRoutes(app);
 
@@ -5831,6 +5834,16 @@ Rules:
         item = await storage.createContentItem(parsed);
         await logAudit(req, admin, "content", item.id, "create", null, { title: item.title, type: item.type, status: item.status, regionScope: item.regionScope });
       }
+
+      if (item.status === "published") {
+        try {
+          const { generateRenderPayloads } = await import("./content-failover");
+          await generateRenderPayloads(item.id);
+        } catch (payloadErr: any) {
+          console.error("[Content] Render payload generation error:", payloadErr.message);
+        }
+      }
+
       res.json(item);
     } catch (e: any) {
       res.status(400).json({ error: e.message });
@@ -6056,6 +6069,16 @@ Rules:
         existing ? { title: existing.title, status: existing.status } : null,
         { title: item.title, status: item.status }
       );
+
+      if (item.status === "published") {
+        try {
+          const { generateRenderPayloads } = await import("./content-failover");
+          await generateRenderPayloads(item.id);
+        } catch (payloadErr: any) {
+          console.error("[Content] Render payload generation error:", payloadErr.message);
+        }
+      }
+
       res.json(item);
     } catch (e: any) {
       res.status(400).json({ error: e.message });

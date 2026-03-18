@@ -224,6 +224,71 @@ async function exportAllTablesAsJson(
         warnings.push(`Failed to export table ${tableName}: ${err.message}`);
       }
     }
+
+    const drizzleConfig = path.join(ROOT, "drizzle.config.ts");
+    if (fs.existsSync(drizzleConfig)) {
+      fs.copyFileSync(drizzleConfig, path.join(outputDir, "drizzle.config.ts"));
+      fileCount++;
+    }
+
+    try {
+      const pricingResult = await pool.query(
+        `SELECT id, tier, duration, is_lifetime, price_cad, price_usd, is_enabled, is_popular, feature_list, display_order
+         FROM pricing_plans ORDER BY display_order`
+      );
+      if (pricingResult.rows.length > 0) {
+        fs.writeFileSync(
+          path.join(outputDir, "stripe-pricing-config.json"),
+          JSON.stringify({
+            exportedAt: new Date().toISOString(),
+            plans: pricingResult.rows,
+          }, null, 2)
+        );
+        fileCount++;
+      }
+    } catch (err: any) {
+      errors.push(`Failed to export pricing config: ${err.message}`);
+    }
+
+    try {
+      const snapshotResult = await pool.query(
+        `SELECT id, content_id, version, title, slug, snapshot_type, created_at
+         FROM content_snapshots ORDER BY created_at DESC LIMIT 100`
+      );
+      if (snapshotResult.rows.length > 0) {
+        fs.writeFileSync(
+          path.join(outputDir, "content-snapshots-index.json"),
+          JSON.stringify({
+            exportedAt: new Date().toISOString(),
+            totalSnapshots: snapshotResult.rows.length,
+            snapshots: snapshotResult.rows,
+          }, null, 2)
+        );
+        fileCount++;
+      }
+    } catch (err: any) {
+      errors.push(`Failed to export content snapshots index: ${err.message}`);
+    }
+
+    try {
+      const payloadResult = await pool.query(
+        `SELECT content_id, payload_type, version, validated_at, created_at
+         FROM render_payloads ORDER BY created_at DESC LIMIT 200`
+      );
+      if (payloadResult.rows.length > 0) {
+        fs.writeFileSync(
+          path.join(outputDir, "render-payloads-index.json"),
+          JSON.stringify({
+            exportedAt: new Date().toISOString(),
+            totalPayloads: payloadResult.rows.length,
+            payloads: payloadResult.rows,
+          }, null, 2)
+        );
+        fileCount++;
+      }
+    } catch (err: any) {
+      errors.push(`Failed to export render payloads index: ${err.message}`);
+    }
   } finally {
     await pool.end();
   }
