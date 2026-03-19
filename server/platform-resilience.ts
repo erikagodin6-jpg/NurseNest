@@ -41,14 +41,28 @@ function genId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
+const alertEmailRateLimit = new Map<string, number>();
+const ALERT_EMAIL_RATE_LIMIT_MS = 10 * 60 * 1000;
+
 export function addAlert(severity: "critical" | "warning" | "info", category: string, title: string, message: string, source: string, data: Record<string, any> = {}) {
-  const existing = alertEvents.find(a => a.category === category && a.title === title && !a.acknowledged && Date.now() - a.createdAt < 300000);
-  if (existing) return;
-  const alert = { id: genId(), severity, category, title, message, source, acknowledged: false, createdAt: Date.now(), data };
+  const activeIncident = alertEvents.find(a => a.category === category && a.title === title && !a.acknowledged);
+  if (activeIncident) {
+    activeIncident.data = { ...activeIncident.data, lastSeenAt: Date.now(), repeatCount: (activeIncident.data.repeatCount || 1) + 1 };
+    activeIncident.message = message;
+    return;
+  }
+  const alert = { id: genId(), severity, category, title, message, source, acknowledged: false, createdAt: Date.now(), data: { ...data, repeatCount: 1 } };
   alertEvents.unshift(alert);
   if (alertEvents.length > MAX_ALERTS) alertEvents.length = MAX_ALERTS;
   persistAlert(alert).catch(() => {});
   if (severity === "critical") {
+    const emailKey = `${category}:${title}`;
+    const lastEmailSent = alertEmailRateLimit.get(emailKey);
+    if (lastEmailSent && Date.now() - lastEmailSent < ALERT_EMAIL_RATE_LIMIT_MS) {
+      console.log(`[Resilience] Alert email rate-limited: ${title}`);
+      return;
+    }
+    alertEmailRateLimit.set(emailKey, Date.now());
     sendAlertEmail(title, message, severity).catch(e => console.error("[Resilience] Alert email failed:", e.message));
   }
 }
@@ -80,20 +94,33 @@ async function persistAlert(alert: any) {
   } catch {}
 }
 
+const sendAlertEmailRateLimit = new Map<string, number>();
+const SEND_ALERT_EMAIL_RATE_LIMIT_MS = 10 * 60 * 1000;
+
 async function sendAlertEmail(title: string, message: string, severity: string) {
   try {
-    const { getResendClient } = await import("./resend-client");
-    const { client, fromEmail } = await getResendClient();
     const { getNotificationSettings } = await import("./admin-notifications");
     const settings = await getNotificationSettings(pool);
     if (!settings.emailEnabled) return;
+
+    const recipient = settings.adminEmail || "admin@nursenest.ca";
+    const perRecipientKey = `${recipient}:${severity}:${title}`;
+    const lastSent = sendAlertEmailRateLimit.get(perRecipientKey);
+    if (lastSent && Date.now() - lastSent < SEND_ALERT_EMAIL_RATE_LIMIT_MS) {
+      console.log(`[Resilience] Alert email rate-limited for ${recipient}: ${title}`);
+      return;
+    }
+
+    const { getResendClient } = await import("./resend-client");
+    const { client, fromEmail } = await getResendClient();
     await client.emails.send({
       from: fromEmail || "NurseNest <noreply@nursenest.ca>",
-      to: settings.adminEmail || "admin@nursenest.ca",
+      to: recipient,
       subject: `[${severity.toUpperCase()}] NurseNest Alert: ${title}`,
       html: `<h2 style="color: ${severity === 'critical' ? '#dc2626' : '#d97706'}">${title}</h2><p>${message}</p><p style="color: #6b7280; font-size: 12px;">Timestamp: ${new Date().toISOString()}</p>`,
     });
-    console.log(`[Resilience] Alert email sent: ${title}`);
+    sendAlertEmailRateLimit.set(perRecipientKey, Date.now());
+    console.log(`[Resilience] Alert email sent: ${title} -> ${recipient}`);
   } catch (e: any) {
     console.error("[Resilience] Failed to send alert email:", e.message);
   }

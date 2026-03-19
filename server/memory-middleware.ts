@@ -4,6 +4,7 @@ import {
   isMemoryCritical,
   checkMemoryNow,
   logSpike,
+  logProtectionAction,
   incrementConnections,
   decrementConnections,
   shouldPauseBackgroundJobs,
@@ -56,6 +57,21 @@ let currentHeavyOps = 0;
 
 const heavyRouteCounters = new Map<string, number>();
 
+const HEAVY_ROUTE_PATTERNS = [
+  ...BULK_AI_PATTERNS,
+  ...LARGE_LIST_PATTERNS,
+  "/api/exams/generate",
+  "/api/cat-exam/start",
+  "/api/mlt-exam",
+];
+
+const MAX_CONCURRENT_HEAVY = 3;
+let currentHeavyRequests = 0;
+
+export function getHeavyConcurrency(): { current: number; max: number } {
+  return { current: currentHeavyRequests, max: MAX_CONCURRENT_HEAVY };
+}
+
 export function connectionTrackingMiddleware() {
   return (req: Request, res: Response, next: NextFunction) => {
     incrementConnections();
@@ -97,6 +113,7 @@ export function loadSheddingMiddleware() {
 
     if (EXEMPT_PATHS.some(p => req.path.startsWith(p))) return next();
 
+    // Emergency mode block (broadest) — block non-essential heavy routes entirely
     let emergencyMode = false;
     try {
       const resilience = require("./platform-resilience");
@@ -104,8 +121,8 @@ export function loadSheddingMiddleware() {
     } catch {}
 
     if (emergencyMode) {
-      const isHeavy = HEAVY_NON_ESSENTIAL_PATTERNS.some(p => req.path.startsWith(p));
-      if (isHeavy) {
+      const isNonEssential = HEAVY_NON_ESSENTIAL_PATTERNS.some(p => req.path.startsWith(p));
+      if (isNonEssential) {
         res.setHeader("Retry-After", "120");
         return res.status(503).json({
           error: "Platform is in emergency mode. Non-essential operations are temporarily disabled.",
@@ -120,36 +137,43 @@ export function loadSheddingMiddleware() {
       }
     }
 
-    if (isMemoryCritical()) {
-      const isBulkAI = BULK_AI_PATTERNS.some(p => req.path.startsWith(p));
-      if (isBulkAI) {
-        res.setHeader("Retry-After", "60");
+    // Memory pressure block — block all heavy routes when memory protection is active
+    const isHeavy = HEAVY_ROUTE_PATTERNS.some(p => req.path.startsWith(p));
+
+    if (isMemoryProtectionActive()) {
+      if (isHeavy) {
+        const retryAfter = isMemoryCritical() ? 60 : 30;
+        logProtectionAction("load_shed_block", `Blocked heavy route ${req.method} ${req.path} (memory pressure)`);
+        res.setHeader("Retry-After", String(retryAfter));
         return res.status(503).json({
-          error: "System under high memory pressure. Bulk operations temporarily disabled.",
-          retryAfter: 60,
+          error: "System under memory pressure. This operation is temporarily disabled. Please try again shortly.",
+          retryAfter,
           memoryPressure: true,
         });
       }
     }
 
-    if (isMemoryProtectionActive()) {
-      const isBulkAI = BULK_AI_PATTERNS.some(p => req.path.startsWith(p));
-      if (isBulkAI && req.method === "POST") {
-        res.setHeader("Retry-After", "30");
+    if (isHeavy) {
+      if (currentHeavyRequests >= MAX_CONCURRENT_HEAVY) {
+        logProtectionAction("concurrency_limit", `Rejected ${req.method} ${req.path} (${currentHeavyRequests}/${MAX_CONCURRENT_HEAVY} concurrent)`);
+        res.setHeader("Retry-After", "10");
         return res.status(503).json({
-          error: "AI generation temporarily disabled due to high memory usage. Please try again shortly.",
-          retryAfter: 30,
-          memoryPressure: true,
+          error: "Too many heavy operations in progress. Please try again shortly.",
+          retryAfter: 10,
+          concurrencyLimit: true,
         });
       }
 
-      const isLargeList = LARGE_LIST_PATTERNS.some(p => req.path.startsWith(p));
-      if (isLargeList && req.method === "GET") {
-        const currentLimit = parseInt(req.query.limit as string) || 50;
-        if (currentLimit > MAX_ITEMS_UNDER_PRESSURE) {
-          req.query.limit = String(MAX_ITEMS_UNDER_PRESSURE);
+      currentHeavyRequests++;
+      let decremented = false;
+      const onDone = () => {
+        if (!decremented) {
+          decremented = true;
+          currentHeavyRequests = Math.max(0, currentHeavyRequests - 1);
         }
-      }
+      };
+      res.on("finish", onDone);
+      res.on("close", onDone);
     }
 
     next();

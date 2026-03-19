@@ -74,6 +74,9 @@ export function getDetectedMemoryLimitMB(): number {
 let monitorTimer: ReturnType<typeof setInterval> | null = null;
 let cleanupTimer: ReturnType<typeof setInterval> | null = null;
 
+const HYSTERESIS_CHECKS_REQUIRED = 12;
+let consecutiveNormalChecks = 0;
+
 const pressureState: MemoryPressureState = {
   isWarning: false,
   isProtection: false,
@@ -151,19 +154,43 @@ function runMemoryCheck(): void {
   const prevLevel = pressureState.level;
 
   pressureState.lastCheck = status;
-  pressureState.level = status.level;
-  pressureState.isWarning = status.level === "warning" || status.level === "protection" || status.level === "critical";
-  pressureState.isProtection = status.level === "protection" || status.level === "critical";
-  pressureState.isCritical = status.level === "critical";
 
-  if (status.level !== "normal" && !pressureState.activeSince) {
-    pressureState.activeSince = Date.now();
-  } else if (status.level === "normal") {
-    pressureState.activeSince = null;
-  }
+  if (status.level !== "normal") {
+    consecutiveNormalChecks = 0;
+    pressureState.level = status.level;
+    pressureState.isWarning = status.level === "warning" || status.level === "protection" || status.level === "critical";
+    pressureState.isProtection = status.level === "protection" || status.level === "critical";
+    pressureState.isCritical = status.level === "critical";
 
-  if (prevLevel !== status.level) {
-    handleLevelTransition(prevLevel, status);
+    if (!pressureState.activeSince) {
+      pressureState.activeSince = Date.now();
+    }
+
+    if (prevLevel !== status.level) {
+      handleLevelTransition(prevLevel, status);
+    }
+  } else {
+    consecutiveNormalChecks++;
+
+    if (prevLevel === "normal" || consecutiveNormalChecks >= HYSTERESIS_CHECKS_REQUIRED) {
+      if (prevLevel !== "normal" && consecutiveNormalChecks >= HYSTERESIS_CHECKS_REQUIRED) {
+        console.log(`[MemoryMonitor] Memory stable at normal for ${consecutiveNormalChecks} consecutive checks (${consecutiveNormalChecks * 10}s) — deactivating protection`);
+        pressureState.level = "normal";
+        pressureState.isWarning = false;
+        pressureState.isProtection = false;
+        pressureState.isCritical = false;
+        pressureState.activeSince = null;
+        consecutiveNormalChecks = 0;
+        handleLevelTransition(prevLevel, status);
+      } else {
+        pressureState.level = "normal";
+        pressureState.isWarning = false;
+        pressureState.isProtection = false;
+        pressureState.isCritical = false;
+      }
+    } else {
+      console.log(`[MemoryMonitor] Memory at normal but holding protection (${consecutiveNormalChecks}/${HYSTERESIS_CHECKS_REQUIRED} checks, ~${consecutiveNormalChecks * 10}s/${HYSTERESIS_CHECKS_REQUIRED * 10}s before deactivation)`);
+    }
   }
 
   if (status.level !== "normal") {

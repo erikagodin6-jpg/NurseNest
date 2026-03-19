@@ -65,6 +65,24 @@ const hardRateLimitMap = new Map<string, number>();
 const alertCountsPerHour = new Map<string, { count: number; windowStart: number }>();
 const MAX_ALERTS_PER_TYPE_PER_HOUR = 5;
 
+const EMAIL_RATE_LIMIT_MS = 10 * 60 * 1000;
+const emailRateLimit = new Map<string, number>();
+
+function getEmailRateLimitKey(alertType: AlertType, severity: AlertSeverity, context?: string): string {
+  return context ? `${alertType}:${severity}:${context}` : `${alertType}:${severity}`;
+}
+
+function isEmailRateLimited(alertType: AlertType, severity: AlertSeverity, context?: string): boolean {
+  const key = getEmailRateLimitKey(alertType, severity, context);
+  const lastSent = emailRateLimit.get(key);
+  if (!lastSent) return false;
+  return Date.now() - lastSent < EMAIL_RATE_LIMIT_MS;
+}
+
+function markEmailSent(alertType: AlertType, severity: AlertSeverity, context?: string): void {
+  emailRateLimit.set(getEmailRateLimitKey(alertType, severity, context), Date.now());
+}
+
 function evictExpiredAlerts(): void {
   const cooldownMs = thresholds.cooldownMinutes * 60 * 1000;
   const now = Date.now();
@@ -218,7 +236,12 @@ export async function fireAlert(
     const alertId = result.rows[0]?.id;
     markFired(alertType, context);
 
-    console.log(`[AlertEngine] ALERT ${severity.toUpperCase()}: [${alertType}] ${message}`);
+    console.log(`[AlertEngine] ALERT ${severity.toUpperCase()}: [${alertType}] ${message} (incident #${group.count})`);
+
+    if (isEmailRateLimited(alertType, severity, context)) {
+      console.log(`[AlertEngine] Email suppressed (rate limit): ${alertType}`);
+      return alertId;
+    }
 
     const settings = await getNotificationSettings(pool);
     const shouldNotifyAdmin =
@@ -236,6 +259,7 @@ export async function fireAlert(
 
     if (shouldNotifyAdmin && withinHardRateLimit) {
       hardRateLimitMap.set(hardRateKey, now);
+      markEmailSent(alertType, severity, context);
 
       const severityEmoji = severity === "critical" ? "🔴" : severity === "warning" ? "🟡" : "🔵";
       type NotificationEventType = "service_down" | "synthetic_test_failure" | "content_integrity_failure" | "reliability_warning";
@@ -261,7 +285,10 @@ export async function fireAlert(
         event: notificationEvent,
         alertType,
         details: `${severityEmoji} Reliability Alert: ${message}\n\nType: ${alertType}\nSeverity: ${severity}\nTime: ${new Date().toISOString()}${incidentInfo}`,
-      }).catch((e: any) => console.error("[AlertEngine] Notification send failed:", e.message));
+      }).catch((e: any) => {
+        emailRateLimit.delete(getEmailRateLimitKey(alertType, severity, context));
+        console.error("[AlertEngine] Notification send failed:", e.message);
+      });
       group.notified = true;
     }
 

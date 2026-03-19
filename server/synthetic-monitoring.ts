@@ -292,28 +292,31 @@ export async function runSyntheticTest(
   return { testName, ...result };
 }
 
+const LIGHTWEIGHT_TESTS = new Set(["healthcheck", "database_connectivity"]);
+
 export async function runAllSyntheticTests(
   pool: pg.Pool,
   baseUrl: string
 ): Promise<Array<SyntheticTestRunResult & { testName: string }>> {
+  let isUnstable = false;
   try {
     const { isEmergencyMode } = await import("./platform-resilience");
     const { isMemoryProtectionActive } = await import("./memory-monitor");
-    if (isEmergencyMode()) {
-      console.log("[SyntheticMonitor] Skipping — emergency mode is active");
-      return [];
-    }
-    if (isMemoryProtectionActive()) {
-      console.log("[SyntheticMonitor] Skipping — memory protection is active");
-      return [];
-    }
+    isUnstable = isEmergencyMode() || isMemoryProtectionActive();
   } catch {}
 
-  const enabledTests = ALL_TESTS.filter(t => t.enabled);
-  console.log(`[SyntheticMonitor] Running ${enabledTests.length} synthetic tests...`);
+  let testsToRun: SyntheticTestConfig[];
+  if (isUnstable) {
+    testsToRun = ALL_TESTS.filter(t => t.enabled && LIGHTWEIGHT_TESTS.has(t.name));
+    const skippedCount = ALL_TESTS.filter(t => t.enabled && !LIGHTWEIGHT_TESTS.has(t.name)).length;
+    console.log(`[SyntheticMonitor] System unstable — skipping ${skippedCount} heavy tests, running ${testsToRun.length} lightweight tests only`);
+  } else {
+    testsToRun = ALL_TESTS.filter(t => t.enabled);
+    console.log(`[SyntheticMonitor] Running ${testsToRun.length} synthetic tests...`);
+  }
 
   const results: Array<SyntheticTestRunResult & { testName: string }> = [];
-  for (const test of enabledTests) {
+  for (const test of testsToRun) {
     const result = await runSyntheticTest(pool, test.name, baseUrl);
     results.push(result);
     console.log(`[SyntheticMonitor] ${test.name}: ${result.status} (${result.responseTimeMs}ms)${result.errorDetails ? ` - ${result.errorDetails}` : ""}`);
