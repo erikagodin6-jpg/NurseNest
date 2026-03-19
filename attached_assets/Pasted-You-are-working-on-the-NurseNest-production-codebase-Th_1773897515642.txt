@@ -1,0 +1,224 @@
+You are working on the NurseNest production codebase.
+
+The platform is currently more stable, but recent failures revealed a serious architectural risk:
+TOO MUCH DATA/APPLICATION STATE IS BEING LOADED INTO MEMORY AT ONCE.
+
+Your task is to implement a FULL MEMORY-SAFE, LAZY-LOADED, CHUNKED DATA DELIVERY ARCHITECTURE across the platform so this does not happen again.
+
+==================================================
+PRIMARY GOAL
+==================================================
+
+Prevent memory collapse, oversized payloads, and cascading page failures by ensuring the app only loads the minimum data required for the current user action.
+
+Core principle:
+LOAD THE NEXT USEFUL PIECE ONLY.
+DO NOT LOAD ENTIRE LIBRARIES, POOLS, OR TREES UP FRONT.
+
+==================================================
+SECTION 1 — GLOBAL AUDIT
+==================================================
+
+Audit all major user-facing and admin-facing flows for overfetching, oversized in-memory objects, unbounded caches, and heavy synchronous assembly.
+
+Specifically inspect:
+- CAT exams
+- standard exams
+- question bank flows
+- flashcards
+- lessons/content pages
+- New Grad hub
+- Nursing specialties
+- career guides
+- analytics pages
+- admin dashboards
+- content generation tools
+- background jobs
+- cache warmers
+- publish/build steps that may preload large data
+
+For each area, identify:
+1. what is being loaded initially
+2. what should be deferred
+3. what is too large
+4. what is stored in process memory
+5. what can be chunked/paginated/lazy-loaded
+6. what can be cached safely
+7. what should never be cached in RAM
+
+==================================================
+SECTION 2 — EXAMS
+==================================================
+
+Refactor exams to be memory-safe.
+
+Required:
+- do NOT load full exam question pools into memory on exam start
+- do NOT preload all questions for a session
+- load exam metadata first
+- initialize attempt separately
+- fetch questions in small batches or one-at-a-time
+- store progress incrementally
+- use cursor/page-based loading where appropriate
+- enforce hard limits on query size and response size
+- ensure exam assembly is streaming/incremental, not giant-object based
+
+Add safeguards:
+- if pool is large, do not assemble all candidate questions in RAM
+- if DB query returns too many rows, fail safely and log it
+- if a question batch fails, preserve attempt and allow retry
+
+==================================================
+SECTION 3 — FLASHCARDS
+==================================================
+
+Refactor flashcards to:
+- load deck metadata only on first page
+- load one selected deck only when opened
+- load cards in pages/chunks
+- load progress separately
+- allow study even if progress sync fails
+- avoid loading all decks/cards in one payload
+- cap deck/card response sizes
+
+==================================================
+SECTION 4 — CONTENT PAGES
+==================================================
+
+Refactor dynamic content pages to:
+- load shell/hero/basic content first
+- lazy-load related resources, recommendations, and secondary sections
+- avoid eager loading of all linked content
+- validate content shape before render
+- hide broken/missing sections instead of crashing full page
+
+Applies to:
+- New Grad
+- Nursing specialties
+- career/certification pages
+- any slug-based route
+
+==================================================
+SECTION 5 — API CONTRACTS
+==================================================
+
+Redesign endpoints so metadata and full content are separated.
+
+Examples:
+- list endpoints return lightweight summaries only
+- detail endpoints return only one record
+- nested resources are paginated
+- related content is fetched separately
+- progress/status is fetched independently
+
+Enforce:
+- max page size
+- max response bytes
+- timeout budget
+- schema validation
+- defensive partial success behavior
+
+==================================================
+SECTION 6 — CACHING
+==================================================
+
+Audit all caches.
+
+Implement:
+- bounded cache size
+- TTL expiration
+- cache key isolation by feature
+- eviction policy
+- no unbounded in-process caches
+- cache metadata more often than full content
+- prevent exam caches from affecting flashcard/content page memory
+
+If there are global Maps/objects holding question pools, decks, content trees, or generated payloads in memory, replace or strictly bound them.
+
+==================================================
+SECTION 7 — BACKGROUND JOBS
+==================================================
+
+Audit all jobs and warmers.
+
+Required:
+- run heavy tasks off request path
+- batch processing only
+- no full-library scans in one pass
+- resumable jobs
+- memory usage logging per job
+- concurrency limits
+- jobs must not starve live traffic
+
+==================================================
+SECTION 8 — OBSERVABILITY
+==================================================
+
+Add instrumentation for:
+- per-endpoint response size
+- per-endpoint execution time
+- DB row counts returned
+- memory usage before/after heavy requests
+- cache hit/miss ratio
+- top memory-consuming flows
+- oversized payload warnings
+- repeated retries
+- fallback/degraded mode activation
+
+Every major route and endpoint should make it obvious when it is overfetching.
+
+==================================================
+SECTION 9 — SAFETY GUARDS
+==================================================
+
+Implement hard protection rules:
+- reject or trim oversized responses
+- cap maximum rows returned
+- cap maximum cards/questions per request
+- cancel stale duplicate requests
+- do not render giant client payloads
+- prevent infinite retry loops
+- circuit-breaker behavior for unstable services
+- fallback to cached/static lightweight content where possible
+
+==================================================
+SECTION 10 — DEPLOYMENT PROTECTION
+==================================================
+
+Before deploy, run smoke tests for:
+- homepage
+- dashboard
+- exam catalog
+- exam start
+- flashcard deck list
+- flashcard deck open
+- New Grad route
+- Nursing specialties click-through
+- pricing
+- login
+
+Also add checks for:
+- memory spike during test flow
+- endpoint payload size regressions
+- critical route runtime errors
+
+Block deployment if thresholds are exceeded.
+
+==================================================
+SECTION 11 — DELIVERABLES
+==================================================
+
+Provide:
+1. list of all overfetching/memory hotspot areas found
+2. exact files/endpoints changed
+3. caching changes
+4. pagination/chunking/lazy-load changes
+5. memory safety protections added
+6. what was previously loading too much at once
+7. how each major feature now loads incrementally
+8. what thresholds/limits were added
+9. test results showing reduced payloads and safer memory behavior
+10. confirmation that critical user flows no longer depend on loading everything up front
+
+This is a prevention and resilience task, not a cosmetic refactor.
+Focus on memory stability, incremental loading, strict limits, and graceful degradation.

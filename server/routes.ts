@@ -6396,39 +6396,43 @@ Rules:
   app.get("/api/content/slug/:slug/related", async (req, res) => {
     try {
       const currentSlug = req.params.slug;
-      const allPublished = await storage.getPublishedContent();
-      const blogTypes = ["blog", "blog-post", "article"];
-      const current = allPublished.find((i) => i.slug === currentSlug);
-      if (!current) return res.json([]);
-
-      const candidates = allPublished.filter(
-        (i) => blogTypes.includes(i.type || "") && i.slug && i.slug !== currentSlug && JSON.stringify(i.content || "").length >= 5000
+      const currentResult = await pool.query(
+        `SELECT slug, title, category, tags FROM content_items WHERE slug = $1 AND status = 'published' LIMIT 1`,
+        [currentSlug]
       );
+      if (currentResult.rows.length === 0) return res.json([]);
+      const current = currentResult.rows[0];
 
       const currentCategory = (current.category || "").toLowerCase();
-      const currentTags = ((current as any).tags || []).map((t: string) => t.toLowerCase());
-      const currentWords = new Set(
-        (current.title || "").toLowerCase().split(/\s+/).filter((w: string) => w.length > 3)
+      const currentTags: string[] = (Array.isArray(current.tags) ? current.tags : []).map((t: string) => t.toLowerCase());
+
+      const relatedResult = await pool.query(
+        `SELECT slug, title, category, seo_description AS summary, tags
+         FROM content_items
+         WHERE status = 'published' AND type IN ('blog', 'blog-post', 'article')
+           AND slug IS NOT NULL AND slug != $1
+           AND length(COALESCE(content::text, '')) >= 5000
+         ORDER BY
+           CASE WHEN lower(category) = $2 THEN 3 ELSE 0 END DESC,
+           published_at DESC NULLS LAST
+         LIMIT 20`,
+        [currentSlug, currentCategory]
       );
 
-      const scored = candidates.map((c) => {
+      const scored = relatedResult.rows.map((c: any) => {
         let score = 0;
         if (currentCategory && (c.category || "").toLowerCase() === currentCategory) score += 3;
-        const cTags = ((c as any).tags || []).map((t: string) => t.toLowerCase());
+        const cTags: string[] = (Array.isArray(c.tags) ? c.tags : []).map((t: string) => t.toLowerCase());
         for (const tag of cTags) {
           if (currentTags.includes(tag)) score += 2;
         }
-        const cWords = (c.title || "").toLowerCase().split(/\s+/).filter((w: string) => w.length > 3);
-        for (const w of cWords) {
-          if (currentWords.has(w)) score += 1;
-        }
-        return { slug: c.slug, title: c.title, category: c.category, summary: (c as any).seoDescription || "", score };
+        return { slug: c.slug, title: c.title, category: c.category, summary: c.summary || "", score };
       });
 
-      scored.sort((a, b) => b.score - a.score);
-      const top: any[] = scored.slice(0, 4).filter((s) => s.score > 0);
+      scored.sort((a: any, b: any) => b.score - a.score);
+      const top: any[] = scored.slice(0, 4).filter((s: any) => s.score > 0);
       if (top.length < 3) {
-        const remaining = scored.filter((s) => !top.includes(s)).slice(0, 4 - top.length);
+        const remaining = scored.filter((s: any) => !top.includes(s)).slice(0, 4 - top.length);
         top.push(...remaining);
       }
 
@@ -8613,7 +8617,7 @@ Rules:
     try {
       const userId = req.query.userId as string;
       const result = await pool.query(
-        `SELECT * FROM deck_flashcards WHERE deck_id = $1 ORDER BY sort_order ASC, created_at ASC`,
+        `SELECT * FROM deck_flashcards WHERE deck_id = $1 ORDER BY sort_order ASC, created_at ASC LIMIT 500`,
         [req.params.id]
       );
       const { normalizeContentArray } = await import("./schema-versioning");
@@ -9161,7 +9165,7 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
          VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, 'private', $6, NOW(), NOW()) RETURNING *`,
         [userId, deck.title + " (Copy)", deck.description, deck.tags, deck.tier, newSlug]
       );
-      const cards = await pool.query(`SELECT * FROM deck_flashcards WHERE deck_id = $1 ORDER BY sort_order`, [req.params.id]);
+      const cards = await pool.query(`SELECT * FROM deck_flashcards WHERE deck_id = $1 ORDER BY sort_order LIMIT 500`, [req.params.id]);
       for (const card of cards.rows) {
         await pool.query(
           `INSERT INTO deck_flashcards (id, deck_id, front, back, rationale, clinical_pearl, tags, difficulty, sort_order, created_at, updated_at)

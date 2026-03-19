@@ -1,0 +1,283 @@
+The flashcards screen is failing through the same resilience/fallback layer, which means the issue is likely in a shared system underneath multiple features, not in the flashcard UI itself.
+Most likely root causes
+Shared content/API failure
+Both Exams and Flashcards probably depend on the same backend patterns:
+auth/session validation
+entitlement/subscription check
+content fetch wrapper
+database query layer
+cache/content assembly service
+If that shared layer fails, multiple pages break at once.
+Overloaded or blocked content query
+If flashcards are being loaded as one large payload, or the app is trying to fetch all decks/cards/progress at once, it can fail the same way as exams.
+Central “safe mode” or resilience wrapper is masking the real error
+The screenshot shows a polished recovery screen:
+“Your access is protected”
+retry button
+safe mode
+reference code
+That means your app is catching an exception and showing a generic protected failure state instead of the real backend error. Good for users, but bad for debugging unless logs are being captured properly.
+Broken auth/entitlement middleware
+If the middleware that checks:
+logged in user
+subscription/tier
+access scope
+is failing, then flashcards, exams, and possibly lessons can all fail together.
+Database/read path instability
+If the database connection pool, ORM query, or content table read is unstable, the features that depend on content reads will all crash together.
+What this means
+This is now a platform-level availability issue, not a single-page bug.
+The pattern is:
+CAT exams not loading
+flashcards not loading
+question pool unavailable
+intermittent publishing/performance trouble
+repeated memory/load issues
+That points to one or more of these:
+content loading strategy is too heavy
+backend is under-protected
+caching is unsafe or stale
+fallback system exists, but real failover does not
+shared services are too tightly coupled
+What needs to be fixed now
+Your developer/AI needs to do all of this together, not one small patch at a time:
+trace the exact request the flashcards page makes
+inspect the response status and backend logs for that request
+confirm whether failure occurs before or after auth
+confirm whether failure occurs before or after DB read
+make flashcards load in small paginated chunks, never full deck libraries at once
+separate deck list loading from card loading
+preload only deck metadata first
+load user progress independently so progress failure does not block deck access
+add hard timeouts and graceful fallback data
+make each feature independent so exam failure does not break flashcards
+add a lightweight “minimum viable content” mode from local cache or static backup
+log the actual error behind the reference code shown on screen
+Most important architectural point
+Flashcards should not require full platform health to open.
+A stable system should work like this:
+Step 1: load flashcard deck list only
+Step 2: load one selected deck only when user opens it
+Step 3: load cards in batches
+Step 4: load progress separately
+Step 5: if progress fails, still let user study
+Step 6: if live API fails, serve cached/static emergency deck content
+That way users always get something usable.
+Prompt for Replit or your AI developer
+Use this as one direct prompt:
+You are working on the NurseNest production codebase.
+
+CRITICAL ISSUE:
+Multiple learner-facing features are failing, including:
+- CAT exams not loading
+- flashcards not loading
+- question pools intermittently unavailable
+- generic protected fallback screens appearing instead of usable content
+
+This is now a PLATFORM-LEVEL AVAILABILITY FAILURE, not an isolated page bug.
+
+Your task is to perform a COMPLETE ROOT-CAUSE FIX for the flashcards and shared content loading architecture so flashcards remain available even if other systems fail.
+
+==================================================
+PRIMARY GOAL
+==================================================
+
+Make flashcards load reliably under all normal conditions and degrade gracefully under partial failure.
+
+NO USER should hit a dead-end error screen for flashcards unless absolutely everything has failed.
+
+==================================================
+SECTION 1 — FIND THE ROOT CAUSE
+==================================================
+
+Trace the exact flashcards page load path end to end:
+
+1. frontend route/component that loads flashcards
+2. API client request(s)
+3. auth/session middleware
+4. entitlement/subscription middleware
+5. backend route/controller
+6. DB/storage layer
+7. cache layer
+8. any content transformation/assembly layer
+9. resilience wrapper/fallback screen generator
+10. logging/monitoring path tied to the displayed reference code
+
+Identify whether flashcards fail because of:
+- auth/session validation
+- entitlement logic
+- oversized payloads
+- DB query failures
+- cache corruption
+- content assembly exceptions
+- memory pressure
+- timeout issues
+- shared middleware failure
+- frontend retry loop bugs
+
+Add structured logs at every step.
+
+==================================================
+SECTION 2 — FIX FLASHCARDS ARCHITECTURE
+==================================================
+
+Refactor flashcards so they NEVER load all data at once.
+
+Required behavior:
+- initial page load fetches ONLY deck metadata
+- do not fetch all cards for all decks
+- do not fetch all progress for all decks on first render
+- open a deck only after explicit user action
+- fetch cards for one deck only
+- support pagination or chunked loading for large decks
+- fetch progress separately and non-blocking
+- if progress fails, user can still study
+- if analytics fails, user can still study
+- if recommendation/personalization fails, user can still study
+
+==================================================
+SECTION 3 — IMPLEMENT HARD FAILOVER
+==================================================
+
+Build flashcards failover layers:
+
+Layer A — live API
+Layer B — cached API response
+Layer C — local persisted emergency deck metadata
+Layer D — static emergency study deck
+
+If live backend fails:
+- show deck list from cache if available
+- allow opening cached decks
+- preserve study continuity
+- clearly indicate limited mode only if needed
+- do NOT block the user behind a generic error card if usable cached content exists
+
+==================================================
+SECTION 4 — DECOUPLE FROM EXAMS
+==================================================
+
+Ensure flashcards are fully decoupled from:
+- CAT exam services
+- exam question pool services
+- exam attempt services
+- exam-specific caches
+- exam content assembly pipelines
+
+A failure in the exam subsystem must NOT break flashcards.
+
+Audit for shared imports, shared services, shared loaders, shared cache keys, shared memory-heavy stores, and shared fallback handlers.
+
+==================================================
+SECTION 5 — BACKEND SAFETY
+==================================================
+
+Audit and fix backend flashcard endpoints:
+
+- add strict response size limits
+- add pagination/chunking
+- add query limits
+- add timeouts
+- add defensive null checks
+- handle malformed deck/card records gracefully
+- never let one corrupted deck break the entire response
+- return partial success where possible
+
+If one deck is broken:
+- log it
+- exclude it
+- still return the remaining valid decks
+
+==================================================
+SECTION 6 — FRONTEND SAFETY
+==================================================
+
+On the frontend:
+- prevent infinite retries
+- prevent duplicate fetch storms
+- prevent loading all decks/cards simultaneously
+- use request deduplication
+- cancel stale in-flight requests on navigation
+- guard against undefined/null payload shapes
+- show skeleton/loading states correctly
+- show per-section fallback instead of full-page fatal failure whenever possible
+
+==================================================
+SECTION 7 — OBSERVABILITY
+==================================================
+
+Every displayed reference code must map to real structured logs containing:
+- timestamp
+- user ID if available
+- route name
+- request ID
+- API endpoint
+- failure stage
+- error class
+- stack trace
+- degraded/fallback mode entered
+- whether user still received usable content
+
+==================================================
+SECTION 8 — PERFORMANCE / MEMORY
+==================================================
+
+Audit memory usage specifically for flashcards:
+- ensure card payloads are not over-expanded
+- remove any full-library preloading
+- remove large in-memory caches without bounds
+- enforce cache size limits and TTLs
+- stream or batch card content where possible
+
+==================================================
+SECTION 9 — USER EXPERIENCE RULE
+==================================================
+
+Flashcards must degrade in this order:
+
+Best case:
+- full live deck list
+- full live deck content
+- progress synced
+
+If partial failure:
+- deck list still loads
+- deck opens
+- progress sync disabled temporarily
+
+If deeper failure:
+- cached deck list loads
+- cached deck content opens
+- study still possible
+
+Only if all layers fail:
+- show a recovery screen
+
+==================================================
+SECTION 10 — DELIVERABLES
+==================================================
+
+Implement the fix and provide:
+1. root cause summary
+2. exact files changed
+3. endpoints changed
+4. frontend components changed
+5. caching/failover changes
+6. pagination/chunking strategy
+7. logging added
+8. what was causing the crash
+9. how flashcards now survive partial outages
+10. test scenarios proving:
+   - backend failure
+   - cache failure
+   - corrupted deck
+   - slow response
+   - large deck
+   - expired auth
+   - exam subsystem failure while flashcards still work
+
+Do not provide a shallow patch.
+Do not only improve the error message.
+Do not leave flashcards dependent on full platform health.
+
+Implement a durable production-grade availability fix.

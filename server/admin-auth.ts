@@ -385,8 +385,23 @@ export async function requireInternalOrAdmin(req: any, res: any): Promise<any> {
 }
 
 const reauthTokens = new Map<string, { adminId: string; expiresAt: number }>();
+const MAX_REAUTH_TOKENS = 200;
+
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, entry] of reauthTokens) {
+    if (now > entry.expiresAt) reauthTokens.delete(key);
+  }
+  for (const [key, entry] of confirmationTokens) {
+    if (now > entry.expiresAt) confirmationTokens.delete(key);
+  }
+}, 60000);
 
 export function signReAuthToken(adminId: string): string {
+  if (reauthTokens.size >= MAX_REAUTH_TOKENS) {
+    const firstKey = reauthTokens.keys().next().value;
+    if (firstKey) reauthTokens.delete(firstKey);
+  }
   const token = crypto.randomBytes(32).toString("hex");
   reauthTokens.set(token, { adminId, expiresAt: Date.now() + 5 * 60 * 1000 });
   return token;
@@ -423,8 +438,13 @@ export function requireReAuth() {
 }
 
 const confirmationTokens = new Map<string, { adminId: string; action: string; expiresAt: number; metadata?: any }>();
+const MAX_CONFIRMATION_TOKENS = 200;
 
 export function issueConfirmationToken(adminId: string, action: string, metadata?: any): string {
+  if (confirmationTokens.size >= MAX_CONFIRMATION_TOKENS) {
+    const firstKey = confirmationTokens.keys().next().value;
+    if (firstKey) confirmationTokens.delete(firstKey);
+  }
   const token = crypto.randomBytes(32).toString("hex");
   confirmationTokens.set(token, {
     adminId,

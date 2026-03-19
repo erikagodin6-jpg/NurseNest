@@ -395,9 +395,16 @@ const INSTRUMENTED_ROUTES = [
   "/api/exams",
   "/api/exam-questions",
   "/api/mock-exams",
+  "/api/cat-exams",
+  "/api/v1/cat-exams",
   "/api/ai/",
   "/api/content",
   "/api/lessons",
+  "/api/decks",
+  "/api/flashcard",
+  "/api/new-grad",
+  "/api/newgrad",
+  "/api/question-bank",
 ];
 
 export function routeInstrumentationMiddleware() {

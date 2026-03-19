@@ -1,0 +1,159 @@
+You are working on the NurseNest production codebase.
+
+A new production issue has been identified:
+
+The Nursing Specialties page crashes after clicking into a specialty.
+Users land on a route that shows:
+- “Something Went Wrong”
+- “Unexpected Error”
+- “Reload Page”
+
+This is part of a broader pattern affecting multiple dynamic content routes.
+
+==================================================
+GOAL
+==================================================
+
+Fix the Nursing Specialties click-through flow and harden all specialty detail routes so no single malformed specialty record, slug mismatch, or missing field can crash the page.
+
+==================================================
+SECTION 1 — TRACE THE FAILING PATH
+==================================================
+
+Audit the complete click-through path:
+
+1. Specialty listing/index page
+2. Specialty card/link generation
+3. href/slug creation
+4. destination route file
+5. route param parsing
+6. content lookup logic
+7. translation lookup
+8. hero/overview/resource modules
+9. metadata/title generation
+10. error boundary behavior
+
+Confirm exactly where the exception occurs.
+
+==================================================
+SECTION 2 — CHECK FOR THESE ROOT CAUSES
+==================================================
+
+Investigate and fix all of the following:
+
+- slug mismatch between source page and destination route
+- malformed or missing specialty record
+- null/undefined fields being destructured
+- array `.map()` on undefined
+- translation key/object missing
+- invalid nested resource structure
+- bad server response assumptions
+- page expecting content blocks that do not exist
+- metadata generation failing on missing title/description
+- one specialty variant having inconsistent schema
+
+==================================================
+SECTION 3 — IMPLEMENT DEFENSIVE RENDERING
+==================================================
+
+For specialty detail pages:
+
+- validate route params before render
+- validate specialty data shape before render
+- provide safe defaults for optional fields
+- if one section is missing, hide only that section
+- if specialty record is missing, show a proper “Specialty not found” page
+- do NOT throw full-page runtime error for recoverable content issues
+
+Examples:
+- missing hero subtitle → render page without subtitle
+- missing resources array → render empty state
+- missing related items → hide related section
+- missing specialty record → show 404-like page with return link
+
+==================================================
+SECTION 4 — HARDEN ALL DYNAMIC CONTENT ROUTES
+==================================================
+
+Apply the same defensive pattern to:
+- nursing specialties
+- new grad subpages
+- career guides
+- certification detail pages
+- any route driven by slug/content config
+
+Create shared helpers if needed:
+- safe content lookup
+- route param normalization
+- schema guards
+- render-safe defaults
+
+==================================================
+SECTION 5 — LINKING AND SLUG NORMALIZATION
+==================================================
+
+Normalize all specialty links so source and destination use the same slug contract.
+
+Examples:
+- lowercase
+- trim spaces
+- replace spaces with hyphens
+- consistent handling of ampersands, commas, apostrophes, and abbreviations
+
+Ensure content lookup uses the same canonical slug format.
+
+==================================================
+SECTION 6 — ERROR UX
+==================================================
+
+Replace route-fatal crashes with graceful behavior:
+
+If specialty exists but section data is broken:
+- render rest of page
+- log broken section
+
+If specialty does not exist:
+- show clean not-found page
+- include return to specialties button
+
+If fetch fails:
+- show specialty fallback state
+- do not white-screen the entire route
+
+==================================================
+SECTION 7 — LOGGING
+==================================================
+
+Add structured logs for:
+- incoming route
+- resolved slug
+- lookup result
+- missing fields
+- failing component/section
+- stack trace
+- whether fallback or not-found view was rendered
+
+==================================================
+SECTION 8 — QA
+==================================================
+
+Verify:
+- every specialty card opens successfully
+- no runtime white-screen after click
+- bad/missing specialty records no longer crash app
+- invalid slug shows not-found page
+- mobile and desktop both work
+- translations do not crash route
+- metadata generation is safe
+
+==================================================
+SECTION 9 — DELIVERABLES
+==================================================
+
+Provide:
+1. root cause
+2. exact route/component that failed
+3. files changed
+4. slug/content schema issues found
+5. fallback behavior added
+6. proof all specialty pages now load safely

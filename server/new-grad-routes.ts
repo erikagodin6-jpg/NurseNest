@@ -182,7 +182,7 @@ export function registerNewGradRoutes(app: Express) {
         query += ` AND status = 'published'`;
       }
 
-      query += ` ORDER BY created_at DESC`;
+      query += ` ORDER BY created_at DESC LIMIT 200`;
       const result = await pool.query(query, params);
 
       const guides = result.rows.map((guide: any) => {
@@ -288,7 +288,7 @@ export function registerNewGradRoutes(app: Express) {
         query += ` AND status = 'approved'`;
       }
 
-      query += ` ORDER BY created_at DESC`;
+      query += ` ORDER BY created_at DESC LIMIT 200`;
       const result = await pool.query(query, params);
       res.json(result.rows);
     } catch (e: any) {
@@ -419,7 +419,7 @@ export function registerNewGradRoutes(app: Express) {
         params.push(category);
         query += ` AND category = $${params.length}`;
       }
-      query += ` ORDER BY sort_order ASC, created_at DESC`;
+      query += ` ORDER BY sort_order ASC, created_at DESC LIMIT 500`;
       const result = await pool.query(query, params);
       res.json(result.rows);
     } catch (e: any) {
@@ -498,7 +498,7 @@ export function registerNewGradRoutes(app: Express) {
         params.push(type);
         query += ` AND template_type = $${params.length}`;
       }
-      query += ` ORDER BY created_at DESC`;
+      query += ` ORDER BY created_at DESC LIMIT 200`;
       const result = await pool.query(query, params);
       res.json(result.rows);
     } catch (e: any) {
@@ -578,12 +578,12 @@ export function registerNewGradRoutes(app: Express) {
       const { certSlug } = req.params;
 
       const questionsResult = await pool.query(
-        `SELECT * FROM new_grad_interview_questions WHERE status = 'published' AND category = $1 ORDER BY sort_order ASC, created_at DESC`,
+        `SELECT * FROM new_grad_interview_questions WHERE status = 'published' AND category = $1 ORDER BY sort_order ASC, created_at DESC LIMIT 500`,
         [certSlug]
       );
 
       const templatesResult = await pool.query(
-        `SELECT * FROM new_grad_templates WHERE status = 'published' AND category = $1 ORDER BY created_at DESC`,
+        `SELECT * FROM new_grad_templates WHERE status = 'published' AND category = $1 ORDER BY created_at DESC LIMIT 200`,
         [certSlug]
       );
 
@@ -608,7 +608,7 @@ export function registerNewGradRoutes(app: Express) {
         params.push(category);
         query += ` AND category = $${params.length}`;
       }
-      query += ` ORDER BY sort_order ASC, created_at DESC`;
+      query += ` ORDER BY sort_order ASC, created_at DESC LIMIT 500`;
       const result = await pool.query(query, params);
       res.json(result.rows);
     } catch (e: any) {
@@ -625,7 +625,7 @@ export function registerNewGradRoutes(app: Express) {
         params.push(type);
         query += ` AND template_type = $${params.length}`;
       }
-      query += ` ORDER BY created_at DESC`;
+      query += ` ORDER BY created_at DESC LIMIT 200`;
       const result = await pool.query(query, params);
       res.json(result.rows);
     } catch (e: any) {

@@ -1,0 +1,231 @@
+You are working on the NurseNest production codebase.
+
+We need to make the CAT exam system capable of surviving large traffic spikes and future high concurrency without memory collapse, full-site instability, or user-facing outages.
+
+Assume a future scenario where thousands of users may be taking CAT exams concurrently.
+
+Your task is to redesign and harden the CAT exam architecture for HIGH-CONCURRENCY, MEMORY-SAFE, HORIZONTALLY SCALABLE delivery.
+
+==================================================
+PRIMARY GOAL
+==================================================
+
+Ensure the CAT exam system remains stable under heavy concurrent usage by eliminating full-pool loading, minimizing per-user memory usage, externalizing exam state, enforcing strict request limits, and isolating CAT workloads from the rest of the platform.
+
+==================================================
+SECTION 1 — AUDIT CURRENT CAT FLOW
+==================================================
+
+Trace the complete CAT lifecycle:
+
+- exam catalog load
+- exam start
+- question selection
+- answer submission
+- ability update / scoring update
+- next question selection
+- exam resume
+- exam completion
+- result generation
+
+For each step, identify:
+1. what data is loaded
+2. what is stored in process memory
+3. what is queried from the database
+4. what can grow with concurrency
+5. where full pools or oversized objects may be loaded
+6. where latency or retries could multiply load
+7. what would fail first under thousands of concurrent users
+
+==================================================
+SECTION 2 — REFACTOR TO ONE-QUESTION-AT-A-TIME DELIVERY
+==================================================
+
+Implement CAT delivery so the system never loads the full exam or full question pool into memory per user.
+
+Required behavior:
+
+- exam start creates attempt record only
+- return only initial exam metadata + first selected question
+- every answer submission computes the next state incrementally
+- return only the next needed question
+- do not preload the whole exam
+- do not materialize entire eligible pools in memory
+- do not keep giant session objects
+
+==================================================
+SECTION 3 — EXTERNALIZE SESSION / ATTEMPT STATE
+==================================================
+
+Move all CAT state out of local app memory.
+
+Store attempt/session state in durable storage and/or a fast external store.
+
+Attempt state must include:
+- attempt id
+- user id
+- exam id
+- current CAT state / ability estimate
+- items already seen
+- answers submitted
+- timing / last activity
+- stop rule state
+- completion state
+
+The app instances must remain stateless or near-stateless so CAT can scale horizontally.
+
+==================================================
+SECTION 4 — OPTIMIZE QUESTION SELECTION
+==================================================
+
+Question selection must be index-driven and memory-safe.
+
+Precompute / store fields needed for efficient selection:
+- exam type
+- tier
+- language
+- difficulty / ability band
+- topic/domain
+- exposure controls
+- active status
+- exclusion flags
+- content quality state
+
+Selection queries must:
+- be bounded
+- use indexes
+- avoid full scans
+- avoid pulling huge candidate sets into RAM
+- return only the minimal data needed
+
+==================================================
+SECTION 5 — ISOLATE CAT FROM OTHER SYSTEMS
+==================================================
+
+CAT delivery must be isolated from:
+- flashcards
+- lessons/content pages
+- admin tools
+- AI generators
+- analytics jobs
+- content expansion jobs
+- cache warmers
+- marketing pages
+
+A slowdown or spike in another subsystem must not degrade active CAT attempts.
+
+Audit current shared services, caches, and background jobs for interference.
+
+==================================================
+SECTION 6 — ADD HARD PROTECTION LIMITS
+==================================================
+
+For all CAT-related endpoints, implement:
+- max query row limits
+- max response size
+- max execution time
+- timeout protection
+- bounded retries
+- duplicate-request suppression
+- stale request cancellation where relevant
+- safe fallbacks
+- clear logging on trimmed or rejected requests
+
+==================================================
+SECTION 7 — SPIKE PROTECTION
+==================================================
+
+Protect against many users starting exams at once.
+
+Implement:
+- rate limiting where appropriate
+- smoothing/queueing for exam initialization if needed
+- capacity prioritization for active attempts over new starts
+- backpressure behavior that degrades gracefully instead of crashing
+- incident mode that can temporarily restrict new CAT starts while preserving active sessions
+
+==================================================
+SECTION 8 — CACHING
+==================================================
+
+Audit all caches used by CAT.
+
+Required:
+- no unbounded in-process caches
+- no full question pools held in RAM
+- bounded cache size
+- TTLs
+- feature-isolated cache keys
+- cache only lightweight metadata where possible
+- ensure CAT caches do not interfere with flashcards/content memory
+
+==================================================
+SECTION 9 — DATABASE + PERFORMANCE
+==================================================
+
+Audit and improve:
+- indexes for CAT selection queries
+- write patterns for answer submission
+- contention hotspots
+- slow queries
+- repeated reads that can be reduced
+- locking/contention risks under concurrency
+
+Ensure the database path can support large concurrent active attempts safely.
+
+==================================================
+SECTION 10 — OBSERVABILITY
+==================================================
+
+Add structured monitoring for:
+- CAT exam starts per minute
+- active CAT attempts
+- answer submissions per minute
+- endpoint latency
+- response size
+- DB row counts
+- memory growth per request type
+- cache hit/miss
+- failed selection queries
+- retries
+- degraded mode activation
+
+We need visibility into what breaks first under load.
+
+==================================================
+SECTION 11 — LOAD TESTING
+==================================================
+
+Create or configure load tests for:
+- many concurrent CAT exam starts
+- many concurrent answer submissions
+- large active session counts
+- slow DB scenario
+- cache miss scenario
+- partial service degradation
+
+Report:
+- where bottlenecks occur
+- max safe concurrency observed
+- what still needs scaling work
+
+==================================================
+SECTION 12 — DELIVERABLES
+==================================================
+
+Provide:
+1. current CAT scalability risks found
+2. exact files/endpoints changed
+3. how CAT now avoids full-pool loading
+4. where session state is stored now
+5. DB/index/query changes
+6. cache changes
+7. spike-protection changes
+8. degraded-mode behavior
+9. load test results
+10. estimated next bottleneck after these fixes
+
+This is a production scalability and resilience task.
+Do not provide only minor patches.
+Do not keep CAT dependent on large in-memory objects.
+Do not allow one traffic spike to take down the platform.
