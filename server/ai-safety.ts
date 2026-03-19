@@ -126,6 +126,29 @@ export function getAiConfig() {
   };
 }
 
+const MAX_USER_DAILY_ENTRIES = 5000;
+
+export function pruneUserDailyCounts(): void {
+  const today = getTodayKey();
+  let pruned = 0;
+  for (const [userId, entry] of userDailyCounts) {
+    if (entry.date !== today) {
+      userDailyCounts.delete(userId);
+      pruned++;
+    }
+  }
+  if (userDailyCounts.size > MAX_USER_DAILY_ENTRIES) {
+    const entries = Array.from(userDailyCounts.entries());
+    entries.sort((a, b) => a[1].count - b[1].count);
+    const toRemove = entries.slice(0, userDailyCounts.size - MAX_USER_DAILY_ENTRIES);
+    for (const [key] of toRemove) {
+      userDailyCounts.delete(key);
+      pruned++;
+    }
+  }
+  while (recentCalls.length > 200) recentCalls.shift();
+}
+
 export function setAiConfig(config: { enabled?: boolean; maxItemsPerDay?: number; maxTokensPerDay?: number; freeTierDailyLimit?: number; rateLimitPerMinute?: number }): void {
   if (typeof config.enabled === "boolean") runtimeEnabled = config.enabled;
   if (typeof config.maxItemsPerDay === "number" && config.maxItemsPerDay > 0) runtimeMaxItems = config.maxItemsPerDay;

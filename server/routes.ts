@@ -12897,7 +12897,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const admin = await requireAdmin(req, res);
       if (!admin) return;
       const { tier, exam, questionType, status, bodySystem, limit, offset } = req.query;
-      const pageLimit = Math.min(parseInt(limit as string) || 500, 1000);
+      const pageLimit = Math.min(parseInt(limit as string) || 50, 200);
       const pageOffset = parseInt(offset as string) || 0;
       const questions = await storage.getAllExamQuestions({
         tier: tier as string, exam: exam as string,
@@ -15196,7 +15196,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const admin = await requireAdmin(req, res);
       if (!admin) return;
       const { tier, topic, status: qStatus, limit: lim, offset: off } = req.query;
-      let query = `SELECT eq.*, vr.verdict, vr.confidence_score, vr.issues_json
+      let query = `SELECT eq.id, eq.tier, eq.exam, eq.question_type, eq.status, eq.stem, eq.body_system, eq.topic, eq.difficulty, eq.created_at, eq.updated_at, vr.verdict, vr.confidence_score, vr.issues_json
         FROM exam_questions eq
         LEFT JOIN verification_reports vr ON vr.entity_type = 'exam_question' AND vr.entity_id = eq.id
         WHERE 1=1`;
@@ -15205,7 +15205,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (topic) { params.push(topic); query += ` AND eq.body_system = $${params.length}`; }
       if (qStatus) { params.push(qStatus); query += ` AND eq.status = $${params.length}`; }
       const offset = parseInt(String(off)) || 0;
-      const limit = parseInt(String(lim)) || 50;
+      const limit = Math.min(parseInt(String(lim)) || 50, 200);
       query += ` ORDER BY eq.created_at DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
       params.push(limit, offset);
       const result = await pool.query(query, params);
@@ -15221,7 +15221,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const admin = await requireAdmin(req, res);
       if (!admin) return;
       const { tier, status: fStatus, limit: lim, offset: off } = req.query;
-      let query = `SELECT fb.*, vr.verdict, vr.confidence_score, vr.issues_json
+      let query = `SELECT fb.id, fb.tier, fb.category, fb.subcategory, fb.front, fb.status, fb.difficulty, fb.body_system, fb.created_at, fb.updated_at, vr.verdict, vr.confidence_score, vr.issues_json
         FROM flashcard_bank fb
         LEFT JOIN verification_reports vr ON vr.entity_type = 'flashcard' AND vr.entity_id = fb.id
         WHERE 1=1`;
@@ -15229,7 +15229,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (tier) { params.push(tier); query += ` AND fb.tier = $${params.length}`; }
       if (fStatus) { params.push(fStatus); query += ` AND fb.status = $${params.length}`; }
       const offset = parseInt(String(off)) || 0;
-      const limit = parseInt(String(lim)) || 50;
+      const limit = Math.min(parseInt(String(lim)) || 50, 200);
       query += ` ORDER BY fb.created_at DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
       params.push(limit, offset);
       const result = await pool.query(query, params);

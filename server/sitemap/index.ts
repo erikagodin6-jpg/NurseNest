@@ -564,4 +564,27 @@ export function registerSitemapRoutes(app: Express) {
   });
 }
 
+const MAX_SITEMAP_CACHE_ENTRIES = 100;
+
+export function pruneSitemapCache(underPressure: boolean): void {
+  const now = Date.now();
+  const ttl = underPressure ? 60_000 : SITEMAP_CACHE_TTL;
+  let pruned = 0;
+  for (const [key, entry] of cache) {
+    if (now - entry.builtAt > ttl) {
+      cache.delete(key);
+      pruned++;
+    }
+  }
+  if (cache.size > MAX_SITEMAP_CACHE_ENTRIES) {
+    const entries = Array.from(cache.entries())
+      .sort((a, b) => a[1].builtAt - b[1].builtAt);
+    const toRemove = entries.slice(0, cache.size - MAX_SITEMAP_CACHE_ENTRIES);
+    for (const [key] of toRemove) {
+      cache.delete(key);
+      pruned++;
+    }
+  }
+}
+
 export { getSiteBase } from "./helpers";

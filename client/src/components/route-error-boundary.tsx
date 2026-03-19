@@ -1,4 +1,4 @@
-import { Component, type ReactNode, type ErrorInfo } from "react";
+import { Component, type ReactNode, type ErrorInfo, useState, useEffect } from "react";
 
 interface RouteErrorBoundaryProps {
   children: ReactNode;
@@ -8,6 +8,58 @@ interface RouteErrorBoundaryProps {
 interface RouteErrorBoundaryState {
   hasError: boolean;
   error: Error | null;
+}
+
+function is503Error(error: Error | null): boolean {
+  if (!error) return false;
+  return error.message?.includes("503") || (error as any)?.status === 503;
+}
+
+export function ServiceUnavailableFallback({ retryAfter, onRetry }: { retryAfter?: number; onRetry?: () => void }) {
+  const [countdown, setCountdown] = useState(retryAfter || 30);
+
+  useEffect(() => {
+    if (countdown <= 0) return;
+    const timer = setInterval(() => setCountdown(c => Math.max(0, c - 1)), 1000);
+    return () => clearInterval(timer);
+  }, [countdown]);
+
+  return (
+    <div
+      className="min-h-[40vh] flex items-center justify-center p-8"
+      data-testid="service-unavailable-fallback"
+    >
+      <div className="max-w-md text-center space-y-4">
+        <div className="w-12 h-12 mx-auto rounded-full bg-amber-100 flex items-center justify-center">
+          <svg className="w-6 h-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h2 className="text-lg font-semibold text-gray-900">
+          Temporarily Unavailable
+        </h2>
+        <p className="text-sm text-gray-500">
+          This feature is experiencing high demand. Please try again shortly.
+        </p>
+        {countdown > 0 && (
+          <p className="text-xs text-gray-400" data-testid="text-retry-countdown">
+            Auto-retry in {countdown}s
+          </p>
+        )}
+        <button
+          onClick={() => {
+            setCountdown(retryAfter || 30);
+            if (onRetry) onRetry();
+            else window.location.reload();
+          }}
+          className="mt-4 px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700 transition-colors"
+          data-testid="button-retry-unavailable"
+        >
+          Try Again
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export class RouteErrorBoundary extends Component<RouteErrorBoundaryProps, RouteErrorBoundaryState> {
@@ -30,6 +82,16 @@ export class RouteErrorBoundary extends Component<RouteErrorBoundaryProps, Route
 
   render() {
     if (this.state.hasError) {
+      if (is503Error(this.state.error)) {
+        const retryAfter = (this.state.error as any)?.retryAfter || 30;
+        return (
+          <ServiceUnavailableFallback
+            retryAfter={retryAfter}
+            onRetry={() => this.setState({ hasError: false, error: null })}
+          />
+        );
+      }
+
       return (
         <div
           className="min-h-[60vh] flex items-center justify-center p-8"

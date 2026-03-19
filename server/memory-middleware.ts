@@ -6,6 +6,7 @@ import {
   logSpike,
   incrementConnections,
   decrementConnections,
+  shouldPauseBackgroundJobs,
 } from "./memory-monitor";
 
 const MAX_RESPONSE_SIZE_BYTES = 1 * 1024 * 1024;
@@ -37,6 +38,23 @@ const LARGE_LIST_PATTERNS = [
   "/api/nursing/question-topics",
   "/api/allied-questions",
 ];
+
+const HEAVY_OPERATION_PATTERNS = [
+  "/api/exam-sessions",
+  "/api/cat-session",
+  "/api/mock-exam",
+  "/api/ai/generate",
+  "/api/ai/content",
+  "/api/ai/tutor",
+  "/api/admin/ai",
+  "/api/admin/bulk",
+  "/api/admin/mass-expansion",
+];
+
+const MAX_CONCURRENT_HEAVY_OPS = parseInt(process.env.MAX_CONCURRENT_HEAVY_OPS || "0") || 8;
+let currentHeavyOps = 0;
+
+const heavyRouteCounters = new Map<string, number>();
 
 export function connectionTrackingMiddleware() {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -146,22 +164,21 @@ export function responseSizeLimiterMiddleware() {
 
     res.json = function (body: any): Response {
       try {
-        const serialized = JSON.stringify(body);
-        const sizeBytes = Buffer.byteLength(serialized, "utf8");
+        const sizeEstimate = estimateJsonSize(body);
 
-        if (sizeBytes > MAX_RESPONSE_SIZE_BYTES) {
+        if (sizeEstimate > MAX_RESPONSE_SIZE_BYTES) {
           const status = checkMemoryNow();
-          logSpike(status, req.path, sizeBytes);
+          logSpike(status, req.path, sizeEstimate);
 
           console.warn(
-            `[ResponseSizeLimiter] Oversized response blocked: ${req.path} (${Math.round(sizeBytes / 1024)}KB)`
+            `[ResponseSizeLimiter] Oversized response blocked: ${req.path} (~${Math.round(sizeEstimate / 1024)}KB)`
           );
 
           res.status(413);
           return originalJson({
             error: "Response too large. Please use pagination or filters to reduce the result set.",
             maxSizeBytes: MAX_RESPONSE_SIZE_BYTES,
-            actualSizeBytes: sizeBytes,
+            estimatedSizeBytes: sizeEstimate,
             path: req.path,
           });
         }
@@ -174,6 +191,31 @@ export function responseSizeLimiterMiddleware() {
 
     next();
   };
+}
+
+function estimateJsonSize(obj: any): number {
+  if (obj === null || obj === undefined) return 4;
+  if (typeof obj === "string") return obj.length + 2;
+  if (typeof obj === "number" || typeof obj === "boolean") return 8;
+  if (Array.isArray(obj)) {
+    if (obj.length === 0) return 2;
+    const sampleSize = Math.min(obj.length, 5);
+    let sampleBytes = 0;
+    for (let i = 0; i < sampleSize; i++) {
+      sampleBytes += estimateJsonSize(obj[i]);
+    }
+    const avgItemSize = sampleBytes / sampleSize;
+    return Math.ceil(avgItemSize * obj.length * 1.05) + obj.length + 2;
+  }
+  if (typeof obj === "object") {
+    let size = 2;
+    const keys = Object.keys(obj);
+    for (const key of keys) {
+      size += key.length + 3 + estimateJsonSize(obj[key]) + 1;
+    }
+    return size;
+  }
+  return 16;
 }
 
 export function memoryAwareRequestLogger() {
@@ -277,4 +319,52 @@ export function routeInstrumentationMiddleware() {
     res.on("finish", onFinish);
     next();
   };
+}
+
+export function concurrencyLimiterMiddleware() {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!req.path.startsWith("/api/")) return next();
+
+    const isHeavy = HEAVY_OPERATION_PATTERNS.some(p => req.path.startsWith(p));
+    if (!isHeavy) return next();
+
+    const routePrefix = req.path.split("/").slice(0, 4).join("/");
+    const count = heavyRouteCounters.get(routePrefix) || 0;
+    heavyRouteCounters.set(routePrefix, count + 1);
+
+    if (currentHeavyOps >= MAX_CONCURRENT_HEAVY_OPS) {
+      const retryAfter = isMemoryProtectionActive() ? 30 : 10;
+      res.setHeader("Retry-After", String(retryAfter));
+      return res.status(503).json({
+        error: "Too many concurrent requests. Please try again shortly.",
+        retryAfter,
+        memoryPressure: isMemoryProtectionActive(),
+      });
+    }
+
+    currentHeavyOps++;
+    let released = false;
+    const release = () => {
+      if (!released) {
+        released = true;
+        currentHeavyOps = Math.max(0, currentHeavyOps - 1);
+      }
+    };
+    res.on("finish", release);
+    res.on("close", release);
+
+    next();
+  };
+}
+
+export function getHeavyRouteCounters(): Record<string, number> {
+  const result: Record<string, number> = {};
+  for (const [key, val] of heavyRouteCounters) {
+    result[key] = val;
+  }
+  return result;
+}
+
+export function getCurrentHeavyOps(): number {
+  return currentHeavyOps;
 }

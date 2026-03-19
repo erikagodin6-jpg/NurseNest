@@ -26,7 +26,56 @@ const app = express();
 app.set("trust proxy", 1);
 
 let appReady = false;
-app.get("/healthz", (_req, res) => res.status(200).send("ok"));
+const APP_START_TIME = Date.now();
+app.get("/healthz", async (_req, res) => {
+  try {
+    const { checkMemoryNow, getMemoryPressure, getActiveConnectionCount, getDetectedMemoryLimitMB } = await import("./memory-monitor");
+    const memStatus = checkMemoryNow();
+    const pressure = getMemoryPressure();
+    let dbStatus: "healthy" | "degraded" | "down" = "down";
+    let dbLatencyMs = 0;
+    try {
+      const dbStart = Date.now();
+      const { pool: healthPool } = await import("./storage");
+      await healthPool.query("SELECT 1");
+      dbLatencyMs = Date.now() - dbStart;
+      dbStatus = dbLatencyMs > 2000 ? "degraded" : "healthy";
+    } catch { dbStatus = "down"; }
+
+    let emergencyMode = false;
+    let minimalCoreMode = false;
+    try {
+      const resilience = await import("./platform-resilience");
+      emergencyMode = resilience.isEmergencyMode();
+      minimalCoreMode = resilience.isMinimalCoreMode();
+    } catch {}
+
+    const overallStatus = dbStatus === "down" ? "unhealthy" : (pressure.isProtection || emergencyMode) ? "degraded" : "healthy";
+
+    res.status(overallStatus === "unhealthy" ? 503 : 200).json({
+      status: overallStatus,
+      uptime: Math.round((Date.now() - APP_START_TIME) / 1000),
+      memory: {
+        rssMB: memStatus.rssMB,
+        heapUsedMB: memStatus.heapUsedMB,
+        heapTotalMB: memStatus.heapTotalMB,
+        memoryLimitMB: memStatus.memoryLimitMB,
+        usagePercent: memStatus.heapUsagePercent,
+        pressureLevel: pressure.level,
+      },
+      database: { status: dbStatus, latencyMs: dbLatencyMs },
+      activeConnections: getActiveConnectionCount(),
+      modes: { emergency: emergencyMode, minimalCore: minimalCoreMode },
+      appReady,
+    });
+  } catch (e: any) {
+    res.status(500).json({ status: "unhealthy", error: e.message });
+  }
+});
+
+app.get("/health", (req, res) => {
+  res.redirect(301, "/healthz");
+});
 
 // Canonical host + HTTPS redirect middleware (production only).
 // Handles:
@@ -733,13 +782,14 @@ app.post(
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: false }));
 
-import { connectionTrackingMiddleware, loadSheddingMiddleware, responseSizeLimiterMiddleware, memoryAwareRequestLogger, aiConcurrencyLimiterMiddleware, routeInstrumentationMiddleware } from "./memory-middleware";
+import { connectionTrackingMiddleware, loadSheddingMiddleware, responseSizeLimiterMiddleware, memoryAwareRequestLogger, aiConcurrencyLimiterMiddleware, routeInstrumentationMiddleware, concurrencyLimiterMiddleware } from "./memory-middleware";
 app.use(connectionTrackingMiddleware());
 app.use(routeInstrumentationMiddleware());
 app.use(loadSheddingMiddleware());
 app.use(aiConcurrencyLimiterMiddleware());
 app.use(responseSizeLimiterMiddleware());
 app.use(memoryAwareRequestLogger());
+app.use(concurrencyLimiterMiddleware());
 
 // -------------------------
 // Admin verify (needs express.json() ABOVE)
@@ -1124,6 +1174,10 @@ app.use((req, res, next) => {
 
   setInterval(async () => {
     try {
+      const { shouldPauseBackgroundJobs } = await import("./memory-monitor");
+      if (shouldPauseBackgroundJobs()) {
+        return;
+      }
       const count = await storage.publishScheduledContent();
       if (count > 0) log(`Scheduler: auto-published ${count} content item(s)`);
     } catch (err: any) {
@@ -1135,8 +1189,11 @@ app.use((req, res, next) => {
 async function startupMemoryGuard(label: string) {
   const rss = process.memoryUsage.rss();
   const rssMB = Math.round(rss / 1024 / 1024);
-  if (rssMB > 900) {
-    console.log(`[StartupMemoryGuard] ${label}: RSS at ${rssMB}MB, pausing for GC...`);
+  let limitMB = 512;
+  try { const { getDetectedMemoryLimitMB } = await import("./memory-monitor"); limitMB = getDetectedMemoryLimitMB(); } catch {}
+  const guardThreshold = Math.round(limitMB * 0.70);
+  if (rssMB > guardThreshold) {
+    console.log(`[StartupMemoryGuard] ${label}: RSS at ${rssMB}MB (limit: ${limitMB}MB), pausing for GC...`);
     if (global.gc) global.gc();
     await new Promise(r => setTimeout(r, 500));
   }
@@ -1210,14 +1267,24 @@ function runDeferredStartupWork() {
       .catch((e: any) => console.error("[ReportingScheduler] Init failed:", e.message));
 
     const SIX_HOURS_MS = 6 * 60 * 60 * 1000;
-    const MEMORY_LIMIT_MB = 160;
     setInterval(async () => {
+      try {
+        const { shouldPauseBackgroundJobs, getDetectedMemoryLimitMB } = await import("./memory-monitor");
+        if (shouldPauseBackgroundJobs()) {
+          console.warn("[Pipeline Scheduler] Skipping cycle: memory pressure active");
+          return;
+        }
+        const limitMB = getDetectedMemoryLimitMB();
+        const pipelineMemLimit = Math.round(limitMB * 0.70);
+        const memUsage = process.memoryUsage();
+        const heapMB = Math.round(memUsage.heapUsed / 1024 / 1024);
+        if (heapMB > pipelineMemLimit) {
+          console.warn(`[Pipeline Scheduler] Skipping cycle: heap usage ${heapMB}MB exceeds ${pipelineMemLimit}MB limit (${limitMB}MB detected)`);
+          return;
+        }
+      } catch {}
       const memUsage = process.memoryUsage();
       const heapMB = Math.round(memUsage.heapUsed / 1024 / 1024);
-      if (heapMB > MEMORY_LIMIT_MB) {
-        console.warn(`[Pipeline Scheduler] Skipping cycle: heap usage ${heapMB}MB exceeds ${MEMORY_LIMIT_MB}MB limit`);
-        return;
-      }
       const pipelineStart = Date.now();
       console.log(`[Pipeline Scheduler] Starting cycle (heap: ${heapMB}MB)...`);
       try {
@@ -1244,10 +1311,13 @@ function runDeferredStartupWork() {
       const mem = process.memoryUsage();
       const heapUsedMB = Math.round(mem.heapUsed / 1024 / 1024);
       const rssMB = Math.round(mem.rss / 1024 / 1024);
-      if (heapUsedMB > 400) {
-        console.warn(`[MemoryGuard] ${label}: heapUsed=${heapUsedMB}MB rss=${rssMB}MB — forcing GC`);
+      let limitMB = 512;
+      try { const { getDetectedMemoryLimitMB } = await import("./memory-monitor"); limitMB = getDetectedMemoryLimitMB(); } catch {}
+      const guardThreshold = Math.round(limitMB * 0.60);
+      if (heapUsedMB > guardThreshold || rssMB > Math.round(limitMB * 0.70)) {
+        console.warn(`[MemoryGuard] ${label}: heapUsed=${heapUsedMB}MB rss=${rssMB}MB (limit: ${limitMB}MB) — forcing GC`);
         if (global.gc) global.gc();
-        await new Promise(r => setTimeout(r, 100));
+        await new Promise(r => setTimeout(r, 200));
       }
     }
 
@@ -1259,6 +1329,20 @@ function runDeferredStartupWork() {
       } catch (e: any) {
         console.error(`[${name}] Failed:`, e.message);
       }
+    }
+
+    const isProduction = process.env.NODE_ENV === "production";
+    async function shouldSkipSeed(tableName: string, minRows: number = 1): Promise<boolean> {
+      if (!isProduction) return false;
+      try {
+        const { pool: checkPool } = await import("./storage");
+        const result = await checkPool.query(`SELECT EXISTS (SELECT 1 FROM ${tableName} LIMIT 1) as has_data`);
+        if (result.rows[0]?.has_data) {
+          console.log(`[DeferredStartup] Skipping seed for ${tableName} — data already exists`);
+          return true;
+        }
+      } catch {}
+      return false;
     }
 
     const phase1Start = Date.now();
@@ -1295,57 +1379,63 @@ function runDeferredStartupWork() {
 
     const { pool: seedPool } = await import("./storage");
 
-    await runSeedStep("ExamSeed", async () => {
-      const { seedExamQuestions } = await import("./seed-exam-questions");
-      await seedExamQuestions(seedPool);
-    });
+    const skipExamSeed = await shouldSkipSeed("exam_questions");
+    if (!skipExamSeed) {
+      await runSeedStep("ExamSeed", async () => {
+        const { seedExamQuestions } = await import("./seed-exam-questions");
+        await seedExamQuestions(seedPool);
+      });
 
-    await runSeedStep("RRTSeed", async () => {
-      const { seedRRTQuestions } = await import("./seed-rrt-questions");
-      await seedRRTQuestions(seedPool);
-    });
+      await runSeedStep("RRTSeed", async () => {
+        const { seedRRTQuestions } = await import("./seed-rrt-questions");
+        await seedRRTQuestions(seedPool);
+      });
 
-    await runSeedStep("RPNPathoSeed", async () => {
-      const { seedRPNPathoQuestions } = await import("./seed-rpn-patho-questions");
-      await seedRPNPathoQuestions(seedPool);
-    });
+      await runSeedStep("RPNPathoSeed", async () => {
+        const { seedRPNPathoQuestions } = await import("./seed-rpn-patho-questions");
+        await seedRPNPathoQuestions(seedPool);
+      });
 
-    await runSeedStep("CATFlashcards", async () => {
-      const { seedCatFlashcards } = await import("./seed-cat-flashcards");
-      await seedCatFlashcards(seedPool);
-    });
+      await runSeedStep("DocxSeed", async () => {
+        const { seedRNQuestionsFromDocx } = await import("./seed-rn-questions-docx");
+        const result = await seedRNQuestionsFromDocx();
+        console.log(`[DocxSeed] Total: ${result.total}, Inserted: ${result.inserted}, Skipped: ${result.skipped}, Errors: ${result.errors}`);
+      });
 
-    await runSeedStep("DocxSeed", async () => {
-      const { seedRNQuestionsFromDocx } = await import("./seed-rn-questions-docx");
-      const result = await seedRNQuestionsFromDocx();
-      console.log(`[DocxSeed] Total: ${result.total}, Inserted: ${result.inserted}, Skipped: ${result.skipped}, Errors: ${result.errors}`);
-    });
+      await runSeedStep("EmergencyNursing", async () => {
+        const { seedEmergencyNursingToxDisaster } = await import("./seed-emergency-nursing-tox-disaster");
+        await seedEmergencyNursingToxDisaster();
+      });
 
-    await runSeedStep("EmergencyNursing", async () => {
-      const { seedEmergencyNursingToxDisaster } = await import("./seed-emergency-nursing-tox-disaster");
-      await seedEmergencyNursingToxDisaster();
-    });
+      await runSeedStep("ParamedicQuestions", async () => {
+        const { seedParamedicQuestions } = await import("./seed-paramedic-questions");
+        await seedParamedicQuestions();
+      });
+    }
 
-    await runSeedStep("ParamedicQuestions", async () => {
-      const { seedParamedicQuestions } = await import("./seed-paramedic-questions");
-      await seedParamedicQuestions();
-    });
+    if (!(await shouldSkipSeed("flashcard_bank"))) {
+      await runSeedStep("CATFlashcards", async () => {
+        const { seedCatFlashcards } = await import("./seed-cat-flashcards");
+        await seedCatFlashcards(seedPool);
+      });
 
-    // ExamFlashcardMapper runs AFTER all question seeding to avoid deadlocks
-    await startupMemoryGuard("Phase 2b: Flashcard Mapper");
+      await startupMemoryGuard("Phase 2b: Flashcard Mapper");
 
-    await runSeedStep("ExamFlashcardMapper", async () => {
-      const { mapExamQuestionsToFlashcards, bulkGenerateAlignedFlashcards } = await import("./exam-flashcard-mapper");
-      const result = await mapExamQuestionsToFlashcards();
-      console.log(`[ExamFlashcardMapper] Synced: ${result.inserted} inserted, ${result.updated} updated, ${result.skipped} skipped`);
-      const aligned = await bulkGenerateAlignedFlashcards();
-      console.log(`[FlashcardAlignment] Bulk aligned: ${aligned.summary.totalCreated} created, ${aligned.summary.totalUpdated} updated`);
-    });
+      await runSeedStep("ExamFlashcardMapper", async () => {
+        const { mapExamQuestionsToFlashcards, bulkGenerateAlignedFlashcards } = await import("./exam-flashcard-mapper");
+        const result = await mapExamQuestionsToFlashcards();
+        console.log(`[ExamFlashcardMapper] Synced: ${result.inserted} inserted, ${result.updated} updated, ${result.skipped} skipped`);
+        const aligned = await bulkGenerateAlignedFlashcards();
+        console.log(`[FlashcardAlignment] Bulk aligned: ${aligned.summary.totalCreated} created, ${aligned.summary.totalUpdated} updated`);
+      });
+    }
 
-    await runSeedStep("DigitalProductSeed", async () => {
-      const { seedDigitalProducts } = await import("./seed-digital-products");
-      await seedDigitalProducts(seedPool);
-    });
+    if (!(await shouldSkipSeed("digital_products"))) {
+      await runSeedStep("DigitalProductSeed", async () => {
+        const { seedDigitalProducts } = await import("./seed-digital-products");
+        await seedDigitalProducts(seedPool);
+      });
+    }
 
     console.log(`[DeferredStartup] Phase 2 complete in ${Date.now() - phase2Start}ms`);
 
@@ -1354,67 +1444,87 @@ function runDeferredStartupWork() {
     await startupMemoryGuard("Phase 3: SEO/Content Seeds");
     console.log("[DeferredStartup] Phase 3: SEO/content seeds...");
 
-    await runSeedStep("StudyDecks", async () => {
-      const { seedStudyDecks } = await import("./seed-study-decks");
-      await seedStudyDecks(seedPool);
-    });
+    if (!(await shouldSkipSeed("flashcard_decks"))) {
+      await runSeedStep("StudyDecks", async () => {
+        const { seedStudyDecks } = await import("./seed-study-decks");
+        await seedStudyDecks(seedPool);
+      });
+    }
 
-    await runSeedStep("SEOClusters", async () => {
-      const { seedSEOClusters } = await import("./seed-seo-clusters");
-      await seedSEOClusters(seedPool);
-    });
+    if (!(await shouldSkipSeed("seo_clusters"))) {
+      await runSeedStep("SEOClusters", async () => {
+        const { seedSEOClusters } = await import("./seed-seo-clusters");
+        await seedSEOClusters(seedPool);
+      });
+    }
 
-    await runSeedStep("SEO-CTR", async () => {
-      const { seedSeoCtrPages } = await import("./seed-seo-ctr-pages");
-      await seedSeoCtrPages(seedPool);
-    });
+    if (!(await shouldSkipSeed("seo_ctr_pages"))) {
+      await runSeedStep("SEO-CTR", async () => {
+        const { seedSeoCtrPages } = await import("./seed-seo-ctr-pages");
+        await seedSeoCtrPages(seedPool);
+      });
+    }
 
-    await runSeedStep("ParamedicContent", async () => {
-      const { seedParamedicContent } = await import("./seed-paramedic-content");
-      await seedParamedicContent(seedPool);
-    });
+    if (!(await shouldSkipSeed("content_items"))) {
+      await runSeedStep("ParamedicContent", async () => {
+        const { seedParamedicContent } = await import("./seed-paramedic-content");
+        await seedParamedicContent(seedPool);
+      });
 
-    await runSeedStep("EncyclopediaSeed", async () => {
-      const { seedEncyclopediaEntries } = await import("./encyclopedia-seed");
-      await seedEncyclopediaEntries();
-    });
+      await runSeedStep("NursingHubSeed", async () => {
+        const { seedNursingContentHub } = await import("./seed-nursing-content-hub");
+        await seedNursingContentHub(seedPool);
+      });
 
-    await runSeedStep("NursingHubSeed", async () => {
-      const { seedNursingContentHub } = await import("./seed-nursing-content-hub");
-      await seedNursingContentHub(seedPool);
-    });
+      await runSeedStep("AlliedLandingPages", async () => {
+        const { seedAlliedHealthLandingPages } = await import("./seed-allied-health-landing-pages");
+        await seedAlliedHealthLandingPages();
+      });
+    }
 
-    await runSeedStep("AlliedLandingPages", async () => {
-      const { seedAlliedHealthLandingPages } = await import("./seed-allied-health-landing-pages");
-      await seedAlliedHealthLandingPages();
-    });
+    if (!(await shouldSkipSeed("encyclopedia_entries"))) {
+      await runSeedStep("EncyclopediaSeed", async () => {
+        const { seedEncyclopediaEntries } = await import("./encyclopedia-seed");
+        await seedEncyclopediaEntries();
+      });
+    }
 
-    await runSeedStep("AlliedHealthQuestions", async () => {
-      const { seedAlliedHealthQuestions } = await import("./seeds/seed-allied-health-questions");
-      await seedAlliedHealthQuestions(seedPool);
-    });
+    if (!(await shouldSkipSeed("allied_health_questions"))) {
+      await runSeedStep("AlliedHealthQuestions", async () => {
+        const { seedAlliedHealthQuestions } = await import("./seeds/seed-allied-health-questions");
+        await seedAlliedHealthQuestions(seedPool);
+      });
+    }
 
     await startupMemoryGuard("Phase 3b: Hub/Guide pages");
 
-    await runSeedStep("TopicHubPages", async () => {
-      const { seedTopicHubPages } = await import("./seed-topic-hub-pages");
-      await seedTopicHubPages();
-    });
+    if (!(await shouldSkipSeed("topic_hub_pages"))) {
+      await runSeedStep("TopicHubPages", async () => {
+        const { seedTopicHubPages } = await import("./seed-topic-hub-pages");
+        await seedTopicHubPages();
+      });
+    }
 
-    await runSeedStep("LongFormGuides", async () => {
-      const { seedLongFormStudyGuides } = await import("./seed-long-form-study-guides");
-      await seedLongFormStudyGuides();
-    });
+    if (!(await shouldSkipSeed("long_form_study_guides"))) {
+      await runSeedStep("LongFormGuides", async () => {
+        const { seedLongFormStudyGuides } = await import("./seed-long-form-study-guides");
+        await seedLongFormStudyGuides();
+      });
+    }
 
-    await runSeedStep("LongTailPages", async () => {
-      const { seedLongTailEducationalPages } = await import("./seed-long-tail-educational-pages");
-      await seedLongTailEducationalPages();
-    });
+    if (!(await shouldSkipSeed("educational_pages"))) {
+      await runSeedStep("LongTailPages", async () => {
+        const { seedLongTailEducationalPages } = await import("./seed-long-tail-educational-pages");
+        await seedLongTailEducationalPages();
+      });
+    }
 
-    await runSeedStep("ImagingSeoClustersSeed", async () => {
-      const { seedImagingSeoContent } = await import("./seed-imaging-seo-clusters");
-      await seedImagingSeoContent();
-    });
+    if (!(await shouldSkipSeed("imaging_seo_clusters"))) {
+      await runSeedStep("ImagingSeoClustersSeed", async () => {
+        const { seedImagingSeoContent } = await import("./seed-imaging-seo-clusters");
+        await seedImagingSeoContent();
+      });
+    }
 
     console.log(`[DeferredStartup] Phase 3 complete in ${Date.now() - phase3Start}ms`);
 

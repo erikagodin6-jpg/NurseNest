@@ -1,4 +1,5 @@
 import { pool } from "./storage";
+import fs from "fs";
 
 export interface MemoryStatus {
   heapUsedMB: number;
@@ -8,6 +9,7 @@ export interface MemoryStatus {
   heapUsagePercent: number;
   level: "normal" | "warning" | "protection" | "critical";
   timestamp: number;
+  memoryLimitMB: number;
 }
 
 export interface MemoryPressureState {
@@ -23,19 +25,51 @@ export interface MemoryPressureState {
 interface MemorySpikeEntry {
   timestamp: number;
   heapUsedMB: number;
+  rssMB: number;
   heapUsagePercent: number;
   route: string | null;
   payloadSizeBytes: number | null;
   activeConnections: number;
 }
 
-const WARNING_THRESHOLD_MB = parseInt(process.env.MEMORY_WARNING_MB || "0") || 140;
-const PROTECTION_THRESHOLD_MB = parseInt(process.env.MEMORY_PROTECTION_MB || "0") || 160;
-const CRITICAL_THRESHOLD_MB = parseInt(process.env.MEMORY_CRITICAL_MB || "0") || 180;
+function detectMemoryLimitMB(): number {
+  if (process.env.MEMORY_TOTAL_MB) {
+    const envLimit = parseInt(process.env.MEMORY_TOTAL_MB);
+    if (envLimit > 0) return envLimit;
+  }
+  try {
+    const cgroupV2 = "/sys/fs/cgroup/memory.max";
+    if (fs.existsSync(cgroupV2)) {
+      const val = fs.readFileSync(cgroupV2, "utf8").trim();
+      if (val !== "max") {
+        const bytes = parseInt(val);
+        if (bytes > 0) return Math.round(bytes / 1024 / 1024);
+      }
+    }
+  } catch {}
+  try {
+    const cgroupV1 = "/sys/fs/cgroup/memory/memory.limit_in_bytes";
+    if (fs.existsSync(cgroupV1)) {
+      const bytes = parseInt(fs.readFileSync(cgroupV1, "utf8").trim());
+      if (bytes > 0 && bytes < 1e15) return Math.round(bytes / 1024 / 1024);
+    }
+  } catch {}
+  const totalSystemMB = Math.round(require("os").totalmem() / 1024 / 1024);
+  return Math.min(totalSystemMB, 512);
+}
+
+const DETECTED_MEMORY_LIMIT_MB = detectMemoryLimitMB();
+const WARNING_THRESHOLD_MB = parseInt(process.env.MEMORY_WARNING_MB || "0") || Math.round(DETECTED_MEMORY_LIMIT_MB * 0.70);
+const PROTECTION_THRESHOLD_MB = parseInt(process.env.MEMORY_PROTECTION_MB || "0") || Math.round(DETECTED_MEMORY_LIMIT_MB * 0.80);
+const CRITICAL_THRESHOLD_MB = parseInt(process.env.MEMORY_CRITICAL_MB || "0") || Math.round(DETECTED_MEMORY_LIMIT_MB * 0.90);
 const MONITOR_INTERVAL_MS = 10_000;
 const MAX_SPIKE_LOG = 30;
 const CLEANUP_INTERVAL_MS = 60_000;
 const MAX_PROTECTION_ACTIONS = 50;
+
+export function getDetectedMemoryLimitMB(): number {
+  return DETECTED_MEMORY_LIMIT_MB;
+}
 
 let monitorTimer: ReturnType<typeof setInterval> | null = null;
 let cleanupTimer: ReturnType<typeof setInterval> | null = null;
@@ -84,8 +118,8 @@ export function checkMemoryNow(): MemoryStatus {
   const externalMB = Math.round(mem.external / 1024 / 1024);
 
   const usageMB = rssMB;
-  const heapUsagePercent = CRITICAL_THRESHOLD_MB > 0
-    ? Math.round((usageMB / CRITICAL_THRESHOLD_MB) * 100)
+  const heapUsagePercent = DETECTED_MEMORY_LIMIT_MB > 0
+    ? Math.round((usageMB / DETECTED_MEMORY_LIMIT_MB) * 100)
     : (heapTotalMB > 0 ? Math.round((mem.heapUsed / mem.heapTotal) * 100) : 0);
 
   let level: MemoryStatus["level"] = "normal";
@@ -105,8 +139,12 @@ export function checkMemoryNow(): MemoryStatus {
     heapUsagePercent,
     level,
     timestamp: Date.now(),
+    memoryLimitMB: DETECTED_MEMORY_LIMIT_MB,
   };
 }
+
+let trendLogCounter = 0;
+const TREND_LOG_INTERVAL = 6;
 
 function runMemoryCheck(): void {
   const status = checkMemoryNow();
@@ -130,6 +168,16 @@ function runMemoryCheck(): void {
 
   if (status.level !== "normal") {
     logSpike(status, null, null);
+  }
+
+  trendLogCounter++;
+  if (trendLogCounter >= TREND_LOG_INTERVAL) {
+    trendLogCounter = 0;
+    const topRoutes = pressureState.spikeLog
+      .filter(s => s.route)
+      .reduce((acc, s) => { acc[s.route!] = (acc[s.route!] || 0) + 1; return acc; }, {} as Record<string, number>);
+    const routeSummary = Object.entries(topRoutes).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([r, c]) => `${r}:${c}`).join(", ");
+    console.log(`[MemoryTrend] RSS=${status.rssMB}MB heap=${status.heapUsedMB}MB (${status.heapUsagePercent}% of ${DETECTED_MEMORY_LIMIT_MB}MB) level=${status.level} connections=${activeConnectionCount}${routeSummary ? ` top_routes=[${routeSummary}]` : ""}`);
   }
 }
 
@@ -193,6 +241,7 @@ export function logSpike(status: MemoryStatus, route: string | null, payloadSize
   pressureState.spikeLog.push({
     timestamp: Date.now(),
     heapUsedMB: status.heapUsedMB,
+    rssMB: status.rssMB,
     heapUsagePercent: status.heapUsagePercent,
     route,
     payloadSizeBytes,
@@ -218,6 +267,20 @@ async function pruneInMemoryCaches(): Promise<void> {
     const { pruneResilienceCaches } = await import("./platform-resilience");
     if (typeof pruneResilienceCaches === "function") {
       pruneResilienceCaches();
+    }
+  } catch {}
+
+  try {
+    const { pruneUserDailyCounts } = await import("./ai-safety");
+    if (typeof pruneUserDailyCounts === "function") {
+      pruneUserDailyCounts();
+    }
+  } catch {}
+
+  try {
+    const { pruneSitemapCache } = await import("./sitemap/index");
+    if (typeof pruneSitemapCache === "function") {
+      pruneSitemapCache(pressureState.isWarning);
     }
   } catch {}
 
@@ -300,6 +363,8 @@ export function getMaxPayloadSize(): number {
 
 export function startMemoryMonitor(): void {
   if (monitorTimer) return;
+  console.log(`[MemoryMonitor] Detected memory limit: ${DETECTED_MEMORY_LIMIT_MB}MB`);
+  console.log(`[MemoryMonitor] Thresholds — warning: ${WARNING_THRESHOLD_MB}MB (70%), protection: ${PROTECTION_THRESHOLD_MB}MB (80%), critical: ${CRITICAL_THRESHOLD_MB}MB (90%)`);
   console.log("[MemoryMonitor] Starting memory monitor (10s interval)");
   runMemoryCheck();
   monitorTimer = setInterval(runMemoryCheck, MONITOR_INTERVAL_MS);
@@ -322,7 +387,7 @@ export function stopMemoryMonitor(): void {
 export function getMemoryMonitorStatus(): {
   pressure: MemoryPressureState;
   current: MemoryStatus;
-  thresholds: { warningMB: number; protectionMB: number; criticalMB: number };
+  thresholds: { warningMB: number; protectionMB: number; criticalMB: number; detectedLimitMB: number };
 } {
   return {
     pressure: getMemoryPressure(),
@@ -331,6 +396,7 @@ export function getMemoryMonitorStatus(): {
       warningMB: WARNING_THRESHOLD_MB,
       protectionMB: PROTECTION_THRESHOLD_MB,
       criticalMB: CRITICAL_THRESHOLD_MB,
+      detectedLimitMB: DETECTED_MEMORY_LIMIT_MB,
     },
   };
 }
