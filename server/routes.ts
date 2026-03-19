@@ -163,10 +163,23 @@ async function extractUserTier(req: Request): Promise<string | null> {
 }
 
 const activePreviewSessions = new Map<string, { mode: string; expiresAt: number; adminUserId: string }>();
+const MAX_PREVIEW_SESSIONS = 100;
 
 function setPreviewMode(adminUserId: string, mode: string): string {
   const token = crypto.randomBytes(16).toString("hex");
   const expiresAt = Date.now() + 30 * 60 * 1000;
+
+  if (activePreviewSessions.size >= MAX_PREVIEW_SESSIONS) {
+    const now = Date.now();
+    for (const [k, v] of activePreviewSessions) {
+      if (now > v.expiresAt) activePreviewSessions.delete(k);
+    }
+    if (activePreviewSessions.size >= MAX_PREVIEW_SESSIONS) {
+      const firstKey = activePreviewSessions.keys().next().value;
+      if (firstKey) activePreviewSessions.delete(firstKey);
+    }
+  }
+
   activePreviewSessions.set(token, { mode, expiresAt, adminUserId });
   return token;
 }
@@ -253,6 +266,85 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { vipPriorityMiddleware } = await import("./content-health-gate");
   app.use(vipPriorityMiddleware());
   autoStartDeployMonitoring();
+
+  const { getMemoryMonitorStatus, getMemoryTrend, getRouteLatencyStats, getActiveConnectionCount, recordRouteLatency, isHeavyRoute, logHeavyRouteMemory, checkMemoryNow } = await import("./memory-monitor");
+  const { getJobQueueDepth } = await import("./job-queue");
+
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    const startTime = Date.now();
+    const originalEnd = res.end;
+    const path = req.path;
+    const method = req.method;
+
+    if (isHeavyRoute(path)) {
+      logHeavyRouteMemory(method, path, "start");
+    }
+
+    (res as any).end = function (...args: any[]) {
+      const duration = Date.now() - startTime;
+      const payloadBytes = parseInt(res.getHeader("content-length") as string) || 0;
+      recordRouteLatency(method, path, duration, payloadBytes);
+
+      if (isHeavyRoute(path)) {
+        logHeavyRouteMemory(method, path, "end", { durationMs: duration, statusCode: res.statusCode });
+      }
+
+      return originalEnd.apply(this, args);
+    };
+
+    next();
+  });
+
+  app.get("/api/admin/memory-stats", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const monitorStatus = getMemoryMonitorStatus();
+      const trend = getMemoryTrend();
+      const routeLatency = getRouteLatencyStats(50);
+      const jobQueueDepth = await getJobQueueDepth();
+      const current = checkMemoryNow();
+
+      res.json({
+        current: {
+          rssMB: current.rssMB,
+          heapUsedMB: current.heapUsedMB,
+          heapTotalMB: current.heapTotalMB,
+          externalMB: current.externalMB,
+          heapUsagePercent: current.heapUsagePercent,
+          level: current.level,
+        },
+        pressure: monitorStatus.pressure,
+        thresholds: monitorStatus.thresholds,
+        concurrentRequests: getActiveConnectionCount(),
+        uptime: Math.round(process.uptime()),
+        jobQueueDepth,
+        routeLatency,
+        memoryTrend: trend,
+        spikeLog: monitorStatus.pressure.spikeLog,
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/process-health", (_req, res) => {
+    try {
+      const current = checkMemoryNow();
+      res.json({
+        status: current.level === "normal" ? "healthy" : current.level === "warning" ? "degraded" : "unhealthy",
+        memoryLevel: current.level,
+        rssMB: current.rssMB,
+        heapUsedMB: current.heapUsedMB,
+        activeConnections: getActiveConnectionCount(),
+        uptime: Math.round(process.uptime()),
+        timestamp: Date.now(),
+      });
+    } catch (e: any) {
+      res.status(500).json({ status: "error", error: e.message });
+    }
+  });
 
   const MIGRATION_REDIRECT_SLUGS = [
     "philippines-to-canada", "india-to-canada", "philippines-to-usa",
@@ -10357,100 +10449,17 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         return res.status(400).json({ error: "Maximum 20 topics per batch" });
       }
 
-      const perDay = Math.max(1, Math.min(10, postsPerDay || 1));
-      const results: any[] = [];
-      const startDate = scheduleStartDate ? new Date(scheduleStartDate) : new Date();
+      const { createBgJob } = await import("./job-queue");
+      const jobId = await createBgJob({
+        type: "blog_batch_generate",
+        payload: { topics, citationStyle, scheduleStartDate, postsPerDay, publishAllNow, authorName, smartSchedule, overrideDates },
+        totalItems: topics.length,
+        batchSize: 5,
+        createdBy: admin.id,
+        priority: 1,
+      });
 
-      let availableDays: string[] = [];
-      if (smartSchedule && !publishAllNow) {
-        const occResult = await pool.query(`
-          SELECT DISTINCT DATE(COALESCE(scheduled_at, published_at)) AS day
-          FROM content_items
-          WHERE type = 'blog'
-            AND status IN ('scheduled', 'published')
-            AND COALESCE(scheduled_at, published_at) >= CURRENT_DATE
-        `);
-        const occupiedSet = new Set(occResult.rows.map((r: any) => r.day ? new Date(r.day).toISOString().slice(0, 10) : "").filter(Boolean));
-
-        const totalSlotsNeeded = Math.ceil(topics.filter(t => typeof t === "string" ? t.trim() : t?.topic?.trim()).length / perDay);
-        const cursor = new Date(startDate);
-        while (availableDays.length < totalSlotsNeeded) {
-          const dayStr = cursor.toISOString().slice(0, 10);
-          if (!occupiedSet.has(dayStr)) {
-            availableDays.push(dayStr);
-          }
-          cursor.setDate(cursor.getDate() + 1);
-          if (availableDays.length === 0 && cursor.getTime() - startDate.getTime() > 365 * 86400000) break;
-        }
-      }
-
-      const useOverride = overrideDates && Array.isArray(overrideDates) && overrideDates.length > 0;
-
-      let slotCounter = 0;
-
-      for (let i = 0; i < topics.length; i++) {
-        const topicEntry = topics[i];
-        const topicText = typeof topicEntry === "string" ? topicEntry : topicEntry.topic;
-
-        if (!topicText || !topicText.trim()) {
-          results.push({ index: i, status: "skipped", reason: "Empty topic" });
-          continue;
-        }
-
-        try {
-          const post = await generateBlogPost(topicText.trim(), citationStyle || "apa7");
-          const { generateUniqueSlugSuffix: genSlugSuffix } = await import("@shared/seo-utils");
-          const safeSlugBatch = post.slug.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "") || `blog-${genSlugSuffix()}`;
-          const isDup = await storage.checkDuplicateSlug(safeSlugBatch);
-          const finalSlug = isDup ? `${safeSlugBatch}-${genSlugSuffix()}` : safeSlugBatch;
-
-          let scheduledDate: Date;
-          const slotInDay = slotCounter % perDay;
-
-          if (useOverride && overrideDates[i]) {
-            scheduledDate = new Date(overrideDates[i]);
-          } else if (smartSchedule && !publishAllNow && availableDays.length > 0) {
-            const dayIndex = Math.floor(slotCounter / perDay);
-            const dayStr = availableDays[Math.min(dayIndex, availableDays.length - 1)];
-            scheduledDate = new Date(dayStr + "T09:00:00");
-            scheduledDate.setHours(9 + slotInDay * 2, 0, 0, 0);
-          } else {
-            const dayOffset = typeof topicEntry === "string" ? Math.floor(slotCounter / perDay) : (topicEntry.dayOffset ?? Math.floor(slotCounter / perDay));
-            scheduledDate = new Date(startDate);
-            scheduledDate.setDate(scheduledDate.getDate() + dayOffset);
-            scheduledDate.setHours(9 + slotInDay * 2, 0, 0, 0);
-          }
-
-          const isImmediate = publishAllNow;
-
-          const created = await storage.createContentItem({
-            title: post.title,
-            slug: finalSlug,
-            type: "blog",
-            category: "nursing-education",
-            tier: "free",
-            status: isImmediate ? "published" : "scheduled",
-            tags: post.tags,
-            summary: post.summary,
-            content: post.content,
-            seoTitle: post.seoTitle,
-            seoDescription: post.seoDescription,
-            seoKeywords: post.seoKeywords,
-            primaryKeyword: post.primaryKeyword,
-            publishedAt: isImmediate ? new Date() : null,
-            scheduledAt: isImmediate ? null : scheduledDate,
-            autoPublish: true,
-            authorName: authorName || "Erika Godin, RN",
-          });
-
-          slotCounter++;
-          results.push({ index: i, status: "success", id: created.id, title: created.title, scheduledAt: isImmediate ? null : scheduledDate.toISOString() });
-        } catch (err: any) {
-          results.push({ index: i, status: "failed", topic: topicText, error: err.message });
-        }
-      }
-
-      res.json({ total: topics.length, generated: results.filter(r => r.status === "success").length, results });
+      res.json({ status: "queued", jobId, message: `Batch blog generation queued as job ${jobId} (${topics.length} topics)` });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -10552,13 +10561,15 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!admin) return;
 
       const minWords = req.body.minWords || 2000;
-      res.json({ status: "started", message: "Blog expansion started in background" });
-
-      expandAllShortPosts(minWords).then(result => {
-        console.log("Blog expansion complete:", JSON.stringify(result));
-      }).catch(err => {
-        console.error("Blog expansion error:", err);
+      const { createBgJob } = await import("./job-queue");
+      const jobId = await createBgJob({
+        type: "blog_expand_all",
+        payload: { minWords },
+        createdBy: admin.id,
+        priority: 0,
       });
+
+      res.json({ status: "queued", jobId, message: `Blog expansion queued as job ${jobId}` });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
@@ -16717,9 +16728,16 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const result = await bulkGenerateAlignedFlashcards();
-      heroStatsCache = null;
-      res.json(result);
+
+      const { createBgJob } = await import("./job-queue");
+      const jobId = await createBgJob({
+        type: "bulk_flashcard_align",
+        payload: {},
+        createdBy: admin.id,
+        priority: 1,
+      });
+
+      res.json({ status: "queued", jobId, message: `Bulk flashcard alignment queued as job ${jobId}` });
     } catch (e: any) {
       console.error("[Bulk Flashcard Alignment] Error:", e);
       res.status(500).json({ error: e.message });
@@ -21512,10 +21530,18 @@ Return ONLY valid JSON with this exact structure:
       if (!user || user.tier !== "admin") return res.status(403).json({ error: "Admin access required" });
       const { sourceType, tier, limit } = req.body;
       if (!sourceType || !tier) return res.status(400).json({ error: "sourceType and tier required" });
-      const result = await sm2Engine.bulkGenerateFromContent(sourceType, tier, limit || 50);
-      res.json(result);
+
+      const { createBgJob } = await import("./job-queue");
+      const jobId = await createBgJob({
+        type: "sm2_bulk_generate",
+        payload: { sourceType, tier, limit: limit || 50 },
+        createdBy: authUser.id,
+        priority: 0,
+      });
+
+      res.json({ status: "queued", jobId, message: `SM2 bulk generation queued as job ${jobId}` });
     } catch (e: any) {
-      res.status(500).json({ error: "Failed to generate flashcards" });
+      res.status(500).json({ error: "Failed to queue flashcard generation" });
     }
   });
 
@@ -22133,15 +22159,15 @@ Return ONLY valid JSON with this exact structure:
     const admin = await requireAdmin(req, res);
     if (!admin) return;
     try {
-      const { mapExamQuestionsToFlashcards, bulkGenerateAlignedFlashcards } = await import("./exam-flashcard-mapper");
-      const mapResult = await mapExamQuestionsToFlashcards();
-      const alignResult = await bulkGenerateAlignedFlashcards();
-      res.json({
-        success: true,
-        created: (mapResult.created || 0) + alignResult.summary.totalCreated,
-        ...mapResult,
-        aligned: alignResult.summary,
+      const { createBgJob } = await import("./job-queue");
+      const jobId = await createBgJob({
+        type: "convert_to_flashcard",
+        payload: {},
+        createdBy: admin.id,
+        priority: 1,
       });
+
+      res.json({ status: "queued", jobId, message: `Flashcard conversion queued as job ${jobId}` });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
     }

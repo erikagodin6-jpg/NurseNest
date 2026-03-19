@@ -351,6 +351,17 @@ async function pruneInMemoryCaches(): Promise<void> {
     }
   } catch {}
 
+  if (pressureState.isWarning || pressureState.isProtection) {
+    try {
+      const { pruneAlliedCachesUnderPressure } = await import("./allied-questions-api");
+      pruneAlliedCachesUnderPressure();
+    } catch {}
+    try {
+      const { pruneParamedicCacheUnderPressure } = await import("./paramedic-questions-api");
+      pruneParamedicCacheUnderPressure();
+    } catch {}
+  }
+
   if (pressureState.isCritical) {
     try {
       const { clearAlliedQuestionsCache } = await import("./allied-questions-api");
@@ -466,4 +477,127 @@ export function getMemoryMonitorStatus(): {
       detectedLimitMB: DETECTED_MEMORY_LIMIT_MB,
     },
   };
+}
+
+const memoryTrend: Array<{ timestamp: number; rssMB: number; heapUsedMB: number; heapTotalMB: number }> = [];
+const MAX_TREND_POINTS = 30;
+
+function recordMemoryTrend(): void {
+  const mem = process.memoryUsage();
+  memoryTrend.push({
+    timestamp: Date.now(),
+    rssMB: Math.round(mem.rss / 1024 / 1024),
+    heapUsedMB: Math.round(mem.heapUsed / 1024 / 1024),
+    heapTotalMB: Math.round(mem.heapTotal / 1024 / 1024),
+  });
+  if (memoryTrend.length > MAX_TREND_POINTS) {
+    memoryTrend.splice(0, memoryTrend.length - MAX_TREND_POINTS);
+  }
+}
+
+export function getMemoryTrend(): typeof memoryTrend {
+  return memoryTrend.slice();
+}
+
+interface RouteLatencyEntry {
+  route: string;
+  method: string;
+  count: number;
+  totalMs: number;
+  maxMs: number;
+  avgMs: number;
+  totalPayloadBytes: number;
+  lastSeen: number;
+}
+
+const routeLatencyMap = new Map<string, RouteLatencyEntry>();
+const MAX_ROUTE_LATENCY_ENTRIES = 200;
+
+export function recordRouteLatency(method: string, route: string, durationMs: number, payloadBytes: number = 0): void {
+  const key = `${method}:${route}`;
+  let entry = routeLatencyMap.get(key);
+  if (!entry) {
+    if (routeLatencyMap.size >= MAX_ROUTE_LATENCY_ENTRIES) {
+      let oldestKey: string | null = null;
+      let oldestTime = Infinity;
+      for (const [k, v] of routeLatencyMap) {
+        if (v.lastSeen < oldestTime) {
+          oldestTime = v.lastSeen;
+          oldestKey = k;
+        }
+      }
+      if (oldestKey) routeLatencyMap.delete(oldestKey);
+    }
+    entry = { route, method, count: 0, totalMs: 0, maxMs: 0, avgMs: 0, totalPayloadBytes: 0, lastSeen: 0 };
+    routeLatencyMap.set(key, entry);
+  }
+  entry.count++;
+  entry.totalMs += durationMs;
+  entry.maxMs = Math.max(entry.maxMs, durationMs);
+  entry.avgMs = Math.round(entry.totalMs / entry.count);
+  entry.totalPayloadBytes += payloadBytes;
+  entry.lastSeen = Date.now();
+}
+
+export function getRouteLatencyStats(limit: number = 50): RouteLatencyEntry[] {
+  return Array.from(routeLatencyMap.values())
+    .sort((a, b) => b.totalMs - a.totalMs)
+    .slice(0, limit);
+}
+
+const HEAVY_ROUTES = new Set([
+  "/api/exams",
+  "/api/exam-questions",
+  "/api/blog/generate",
+  "/api/blog/generate-batch",
+  "/api/blog/run-scheduler",
+  "/api/admin/blog/expand-all",
+  "/api/admin/exam-flashcards/bulk-align",
+  "/api/admin/convert-to-flashcard",
+  "/api/admin/sm2/bulk-generate",
+  "/api/admin/content",
+  "/api/content",
+  "/api/imaging/physics-topics/generate",
+  "/api/imaging/flashcards/generate",
+]);
+
+export function isHeavyRoute(path: string): boolean {
+  if (HEAVY_ROUTES.has(path)) return true;
+  for (const r of HEAVY_ROUTES) {
+    if (path.startsWith(r)) return true;
+  }
+  return false;
+}
+
+export function logHeavyRouteMemory(method: string, path: string, phase: "start" | "end", extra: Record<string, any> = {}): void {
+  const mem = process.memoryUsage();
+  console.log(JSON.stringify({
+    type: "heavy_route_memory",
+    method,
+    path,
+    phase,
+    rssMB: Math.round(mem.rss / 1024 / 1024),
+    heapUsedMB: Math.round(mem.heapUsed / 1024 / 1024),
+    activeConnections: activeConnectionCount,
+    timestamp: new Date().toISOString(),
+    ...extra,
+  }));
+}
+
+let trendTimer: ReturnType<typeof setInterval> | null = null;
+
+export function startMemoryMonitorWithTrend(): void {
+  startMemoryMonitor();
+  if (!trendTimer) {
+    trendTimer = setInterval(recordMemoryTrend, 30_000);
+    recordMemoryTrend();
+  }
+}
+
+export function stopMemoryMonitorWithTrend(): void {
+  stopMemoryMonitor();
+  if (trendTimer) {
+    clearInterval(trendTimer);
+    trendTimer = null;
+  }
 }

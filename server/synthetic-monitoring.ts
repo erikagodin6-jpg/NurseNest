@@ -329,14 +329,20 @@ export async function runAllSyntheticTests(
   if (underPressure) {
     enabledTests = enabledTests.filter(t => CRITICAL_ONLY_TESTS.has(t.name));
     console.log(`[SyntheticMonitor] Memory pressure active — running only critical tests (${enabledTests.length})`);
-  } else {
-    console.log(`[SyntheticMonitor] Running ${enabledTests.length} synthetic tests...`);
   }
 
+  const eligibleTests = enabledTests.filter(t => !isTestBackedOff(t.name));
+  const skippedCount = enabledTests.length - eligibleTests.length;
+  if (skippedCount > 0) {
+    console.log(`[SyntheticMonitor] Skipping ${skippedCount} backed-off tests`);
+  }
+  console.log(`[SyntheticMonitor] Running ${eligibleTests.length} synthetic tests...`);
+
   const results: Array<SyntheticTestRunResult & { testName: string }> = [];
-  for (const test of enabledTests) {
+  for (const test of eligibleTests) {
     const result = await runSyntheticTest(pool, test.name, baseUrl);
     results.push(result);
+    recordTestBackoff(test.name, result.status === "pass");
     console.log(`[SyntheticMonitor] ${test.name}: ${result.status} (${result.responseTimeMs}ms)${result.errorDetails ? ` - ${result.errorDetails}` : ""}`);
   }
 
@@ -349,6 +355,38 @@ export async function runAllSyntheticTests(
 
 let syntheticInterval: ReturnType<typeof setInterval> | null = null;
 let syntheticStartTimeout: ReturnType<typeof setTimeout> | null = null;
+const testBackoff: Map<string, { failures: number; nextRunAfter: number }> = new Map();
+const MAX_BACKOFF_MS = 30 * 60 * 1000;
+const BASE_BACKOFF_MS = 60_000;
+const MAX_BACKOFF_ENTRIES = 50;
+
+function getBackoffDelay(failures: number): number {
+  return Math.min(BASE_BACKOFF_MS * Math.pow(2, failures), MAX_BACKOFF_MS);
+}
+
+function recordTestBackoff(testName: string, passed: boolean): void {
+  if (passed) {
+    testBackoff.delete(testName);
+    return;
+  }
+  const entry = testBackoff.get(testName) || { failures: 0, nextRunAfter: 0 };
+  entry.failures++;
+  entry.nextRunAfter = Date.now() + getBackoffDelay(entry.failures);
+  testBackoff.set(testName, entry);
+
+  if (testBackoff.size > MAX_BACKOFF_ENTRIES) {
+    const firstKey = testBackoff.keys().next().value;
+    if (firstKey) testBackoff.delete(firstKey);
+  }
+
+  console.log(`[SyntheticMonitor] ${testName} failed ${entry.failures}x, next eligible in ${Math.round(getBackoffDelay(entry.failures) / 1000)}s`);
+}
+
+function isTestBackedOff(testName: string): boolean {
+  const entry = testBackoff.get(testName);
+  if (!entry) return false;
+  return Date.now() < entry.nextRunAfter;
+}
 
 export function startSyntheticMonitoring(pool: pg.Pool, baseUrl: string, intervalMs = 10 * 60 * 1000): void {
   stopSyntheticMonitoring();

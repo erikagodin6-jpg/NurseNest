@@ -128,10 +128,15 @@ async function sendAlertEmail(title: string, message: string, severity: string) 
   }
 }
 
+const MAX_FAILURE_RATE_ENTRIES = 200;
+
 function trackFailureRate(source: string) {
   const now = Date.now();
   failureRateWindow.push(now);
   failureRateWindow = failureRateWindow.filter(t => now - t < FAILURE_RATE_WINDOW_MS);
+  if (failureRateWindow.length > MAX_FAILURE_RATE_ENTRIES) {
+    failureRateWindow = failureRateWindow.slice(-MAX_FAILURE_RATE_ENTRIES);
+  }
   if (failureRateWindow.length >= FAILURE_RATE_THRESHOLD && !emergencyModeActive) {
     activateEmergencyMode(`Auto-triggered: ${failureRateWindow.length} failures in ${FAILURE_RATE_WINDOW_MS / 1000}s from ${source}`);
   }

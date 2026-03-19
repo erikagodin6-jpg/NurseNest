@@ -357,8 +357,21 @@ async function pollAndProcess(): Promise<void> {
   isProcessing = true;
 
   try {
+    let memoryPaused = false;
+    try {
+      const { shouldPauseBackgroundJobs, isMemoryProtectionActive } = await import("./memory-monitor");
+      if (shouldPauseBackgroundJobs() || isMemoryProtectionActive()) {
+        memoryPaused = true;
+        console.log("[JobQueue] Skipping poll — memory pressure active, deferring work");
+      }
+    } catch {}
+
     await loadSettings();
     await detectStalledJobs();
+
+    if (memoryPaused) {
+      return;
+    }
 
     const runningJobs = await pool.query(
       "SELECT * FROM bg_jobs WHERE status = 'running' ORDER BY priority DESC, started_at ASC"
@@ -392,6 +405,21 @@ async function pollAndProcess(): Promise<void> {
     console.error("[JobQueue] Poll error:", err.message);
   } finally {
     isProcessing = false;
+  }
+}
+
+export async function getJobQueueDepth(): Promise<{ queued: number; running: number; total: number }> {
+  try {
+    const r = await pool.query(`
+      SELECT
+        COUNT(*) FILTER (WHERE status = 'queued')::int AS queued,
+        COUNT(*) FILTER (WHERE status = 'running')::int AS running,
+        COUNT(*)::int AS total
+      FROM bg_jobs WHERE status IN ('queued', 'running')
+    `);
+    return r.rows[0] || { queued: 0, running: 0, total: 0 };
+  } catch {
+    return { queued: 0, running: 0, total: 0 };
   }
 }
 

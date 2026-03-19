@@ -8,15 +8,31 @@ function slugify(text: string): string {
 }
 
 let questionsCache: any[] | null = null;
+let questionsCacheCreatedAt: number = 0;
+const PARAMEDIC_CACHE_TTL_MS = 30 * 60 * 1000;
 
 export function clearParamedicQuestionsCache(): void {
   questionsCache = null;
+  questionsCacheCreatedAt = 0;
+}
+
+export function pruneParamedicCacheUnderPressure(): void {
+  questionsCache = null;
+  questionsCacheCreatedAt = 0;
 }
 
 async function loadQuestions(): Promise<any[]> {
-  if (questionsCache) return questionsCache;
+  if (questionsCache) {
+    if (Date.now() - questionsCacheCreatedAt > PARAMEDIC_CACHE_TTL_MS) {
+      questionsCache = null;
+      questionsCacheCreatedAt = 0;
+    } else {
+      return questionsCache;
+    }
+  }
   const { paramedicQuestions } = await import("../client/src/data/career-questions/paramedic-questions");
   questionsCache = paramedicQuestions as any[];
+  questionsCacheCreatedAt = Date.now();
   return questionsCache;
 }
 

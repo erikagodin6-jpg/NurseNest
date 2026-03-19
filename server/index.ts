@@ -1100,6 +1100,71 @@ app.use((req, res, next) => {
   setupAutopilotRoutes(app);
   setupContentCoverageRoutes(app);
 
+  jobQueue.registerJobHandler("blog_batch_generate", async (_job: any, batch: any, payload: any) => {
+    const { generateBlogPost } = await import("./blog-automation");
+    const { storage } = await import("./storage");
+    const topics = payload.topics || [];
+    const citationStyle = payload.citationStyle || "apa7";
+    const authorName = payload.authorName || "Erika Godin, RN";
+    const publishAllNow = payload.publishAllNow || false;
+
+    const batchIndex = payload.batchIndex || 0;
+    const batchItemCount = payload.batchItemCount || topics.length;
+    const startIdx = batchIndex * (payload.batchSize || 5);
+    const endIdx = Math.min(startIdx + batchItemCount, topics.length);
+
+    for (let i = startIdx; i < endIdx; i++) {
+      const topicEntry = topics[i];
+      const topicText = typeof topicEntry === "string" ? topicEntry : topicEntry?.topic;
+      if (!topicText || !topicText.trim()) continue;
+
+      try {
+        const post = await generateBlogPost(topicText.trim(), citationStyle);
+        const { generateUniqueSlugSuffix } = await import("@shared/seo-utils");
+        const safeSlug = post.slug.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "") || `blog-${generateUniqueSlugSuffix()}`;
+        const isDup = await storage.checkDuplicateSlug(safeSlug);
+        const finalSlug = isDup ? `${safeSlug}-${generateUniqueSlugSuffix()}` : safeSlug;
+
+        await storage.createContentItem({
+          title: post.title, slug: finalSlug, type: "blog", category: "nursing-education", tier: "free",
+          status: publishAllNow ? "published" : "draft", tags: post.tags, summary: post.summary,
+          content: post.content, seoTitle: post.seoTitle, seoDescription: post.seoDescription,
+          seoKeywords: post.seoKeywords, primaryKeyword: post.primaryKeyword,
+          publishedAt: publishAllNow ? new Date() : null, autoPublish: true, authorName,
+        });
+        console.log(`[BlogBatchJob] Generated: ${post.title}`);
+      } catch (err: any) {
+        console.error(`[BlogBatchJob] Failed topic "${topicText}":`, err.message);
+      }
+    }
+  });
+
+  jobQueue.registerJobHandler("blog_expand_all", async (_job: any, _batch: any, payload: any) => {
+    const { expandAllShortPosts } = await import("./blog-automation");
+    const minWords = payload.minWords || 2000;
+    const result = await expandAllShortPosts(minWords);
+    console.log("[BlogExpandJob] Complete:", JSON.stringify(result));
+  });
+
+  jobQueue.registerJobHandler("bulk_flashcard_align", async (_job: any, _batch: any, _payload: any) => {
+    const { bulkGenerateAlignedFlashcards } = await import("./exam-flashcard-mapper");
+    const result = await bulkGenerateAlignedFlashcards();
+    console.log("[BulkFlashcardJob] Complete:", JSON.stringify(result.summary));
+  });
+
+  jobQueue.registerJobHandler("convert_to_flashcard", async (_job: any, _batch: any, _payload: any) => {
+    const { mapExamQuestionsToFlashcards, bulkGenerateAlignedFlashcards } = await import("./exam-flashcard-mapper");
+    const mapResult = await mapExamQuestionsToFlashcards();
+    const alignResult = await bulkGenerateAlignedFlashcards();
+    console.log(`[ConvertFlashcardJob] Complete: mapped=${mapResult.created || 0}, aligned=${alignResult.summary.totalCreated}`);
+  });
+
+  jobQueue.registerJobHandler("sm2_bulk_generate", async (_job: any, _batch: any, payload: any) => {
+    const sm2Engine = await import("./sm2-engine");
+    const result = await sm2Engine.bulkGenerateFromContent(payload.sourceType, payload.tier, payload.limit || 50);
+    console.log("[SM2BulkJob] Complete:", JSON.stringify(result));
+  });
+
   const processRole = process.env.PROCESS_ROLE || "web";
   if (processRole === "worker") {
     jobQueue.startJobQueueWorker();
@@ -1195,7 +1260,7 @@ app.use((req, res, next) => {
   console.log(`[Sitemap] /sitemap.xml → 301 → /sitemap-index.xml`);
   console.log(`[Sitemap] /sitemap_index.xml → 301 → /sitemap-index.xml\n`);
 
-  import("./memory-monitor").then(({ startMemoryMonitor }) => startMemoryMonitor()).catch(e => console.error("[MemoryMonitor] Failed to start:", e.message));
+  import("./memory-monitor").then(({ startMemoryMonitorWithTrend }) => startMemoryMonitorWithTrend()).catch(e => console.error("[MemoryMonitor] Failed to start:", e.message));
 
   import("./memory-observability").then(({ startMemoryTrendTracking }) => {
     startMemoryTrendTracking(30_000);

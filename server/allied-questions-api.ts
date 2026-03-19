@@ -146,16 +146,31 @@ const PROFESSIONS: ProfessionConfig[] = [
 
 const questionsCache: Record<string, any[]> = {};
 const questionsCacheAccess: Record<string, number> = {};
+const questionsCacheCreated: Record<string, number> = {};
 const MAX_CACHE_ENTRIES = parseInt(process.env.ALLIED_CACHE_MAX || "0") || 20;
+const CACHE_TTL_MS = 30 * 60 * 1000;
 
 export function clearAlliedQuestionsCache(): void {
   for (const key of Object.keys(questionsCache)) {
     delete questionsCache[key];
     delete questionsCacheAccess[key];
+    delete questionsCacheCreated[key];
+  }
+}
+
+function evictExpiredCacheEntries(): void {
+  const now = Date.now();
+  for (const key of Object.keys(questionsCacheCreated)) {
+    if (now - questionsCacheCreated[key] > CACHE_TTL_MS) {
+      delete questionsCache[key];
+      delete questionsCacheAccess[key];
+      delete questionsCacheCreated[key];
+    }
   }
 }
 
 function evictLRUQuestionCache(): void {
+  evictExpiredCacheEntries();
   const keys = Object.keys(questionsCache);
   if (keys.length <= MAX_CACHE_ENTRIES) return;
   const sorted = keys.sort((a, b) => (questionsCacheAccess[a] || 0) - (questionsCacheAccess[b] || 0));
@@ -163,13 +178,32 @@ function evictLRUQuestionCache(): void {
   for (const key of toRemove) {
     delete questionsCache[key];
     delete questionsCacheAccess[key];
+    delete questionsCacheCreated[key];
+  }
+}
+
+export function pruneAlliedCachesUnderPressure(): void {
+  const keys = Object.keys(questionsCache);
+  const half = Math.ceil(keys.length / 2);
+  const sorted = keys.sort((a, b) => (questionsCacheAccess[a] || 0) - (questionsCacheAccess[b] || 0));
+  for (let i = 0; i < half; i++) {
+    delete questionsCache[sorted[i]];
+    delete questionsCacheAccess[sorted[i]];
+    delete questionsCacheCreated[sorted[i]];
   }
 }
 
 async function loadQuestions(profession: ProfessionConfig): Promise<any[]> {
   if (questionsCache[profession.key]) {
-    questionsCacheAccess[profession.key] = Date.now();
-    return questionsCache[profession.key];
+    const created = questionsCacheCreated[profession.key] || 0;
+    if (Date.now() - created > CACHE_TTL_MS) {
+      delete questionsCache[profession.key];
+      delete questionsCacheAccess[profession.key];
+      delete questionsCacheCreated[profession.key];
+    } else {
+      questionsCacheAccess[profession.key] = Date.now();
+      return questionsCache[profession.key];
+    }
   }
   evictLRUQuestionCache();
   const mod = await import(profession.importPath);
@@ -182,6 +216,7 @@ async function loadQuestions(profession: ProfessionConfig): Promise<any[]> {
   }
   questionsCache[profession.key] = questions;
   questionsCacheAccess[profession.key] = Date.now();
+  questionsCacheCreated[profession.key] = Date.now();
   return questionsCache[profession.key];
 }
 
