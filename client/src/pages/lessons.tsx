@@ -1170,6 +1170,7 @@ function CustomSystemCard({ system, tier, isAdmin, onSelect, onEdit, onDelete, l
 }
 
 function AddSystemCard({ onClick }: { onClick: () => void }) {
+  const { t } = useI18n();
   return (
     <Card
       className="border-2 border-dashed border-primary/30 hover:border-primary/50 transition-all cursor-pointer bg-white/50 flex items-center justify-center min-h-[200px]"

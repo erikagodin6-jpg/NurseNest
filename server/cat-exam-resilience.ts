@@ -83,10 +83,14 @@ export function runQuestionPoolDiagnostics(
 
   const afterRegion = filters?.region
     ? afterEntitlement.filter(q => {
-        if (!q.region || q.region === "all") return true;
-        const match = q.region.toLowerCase() === filters.region!.toLowerCase();
-        if (!match) incr("wrong_region");
-        return match;
+        const region = (q.region_scope || q.region || "").toLowerCase();
+        if (!region || region === "all" || region === "both") return true;
+        const userRegion = filters.region!.toLowerCase();
+        if (region === userRegion) return true;
+        if (userRegion === "ca" && region === "can") return true;
+        if (userRegion === "can" && region === "ca") return true;
+        incr("wrong_region");
+        return false;
       })
     : afterEntitlement;
 
@@ -153,7 +157,7 @@ export async function fetchQuestionsFromPrimaryDb(
   const limit = opts?.limit || 500;
 
   const result = await pool.query(
-    `SELECT id, stem, options, correct_answer, body_system, topic, difficulty, question_type, tier, status, region, language
+    `SELECT id, stem, options, correct_answer, body_system, topic, difficulty, question_type, tier, status, region_scope, language, is_adaptive_eligible
      FROM exam_questions
      WHERE tier = $1 AND status = 'published'
      ORDER BY RANDOM()
@@ -162,7 +166,7 @@ export async function fetchQuestionsFromPrimaryDb(
   );
 
   const rawAll = await pool.query(
-    `SELECT id, stem, options, correct_answer, body_system, topic, difficulty, question_type, tier, status, region, language
+    `SELECT id, stem, options, correct_answer, body_system, topic, difficulty, question_type, tier, status, region_scope, language, is_adaptive_eligible
      FROM exam_questions
      WHERE tier = $1
      LIMIT 2000`,

@@ -188,7 +188,8 @@ async function buildCATPool(
   const rawResult = await pool.query(
     `SELECT id, stem, options, body_system, topic, difficulty, question_type, correct_answer, is_adaptive_eligible
      FROM exam_questions
-     WHERE tier = $1 AND status = 'published'`,
+     WHERE tier = $1 AND status = 'published'
+     LIMIT 2000`,
     [tier]
   );
 
@@ -508,7 +509,7 @@ router.post("/api/cat-exams/start",
     const sessionId = `cat_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 
     const rawPoolResult = await pool.query(
-      `SELECT id, stem, options, correct_answer, body_system, topic, difficulty, question_type, tier, status, region, language
+      `SELECT id, stem, options, correct_answer, body_system, topic, difficulty, question_type, tier, status, region_scope, language, is_adaptive_eligible
        FROM exam_questions WHERE tier = $1 LIMIT 2000`,
       [examTier]
     );

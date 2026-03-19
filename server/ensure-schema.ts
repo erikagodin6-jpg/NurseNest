@@ -781,6 +781,8 @@ async function ensureSchemaSyncInner(pool: pg.Pool): Promise<void> {
 
     await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS quarantined_at TIMESTAMPTZ`);
     await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS quarantine_reason TEXT`);
+    await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS is_adaptive_eligible BOOLEAN DEFAULT NULL`);
+    await client.query(`ALTER TABLE exam_questions ADD COLUMN IF NOT EXISTS language TEXT DEFAULT NULL`);
     await client.query(`CREATE INDEX IF NOT EXISTS idx_exam_questions_quarantine ON exam_questions(quarantined_at) WHERE quarantined_at IS NOT NULL`);
 
     await client.query(`CREATE INDEX IF NOT EXISTS idx_exam_questions_tier_status ON exam_questions(tier, status)`);

@@ -10961,7 +10961,13 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         }
         const { validateQuestion } = await import("./exam-reliability");
         const validatedAssembly = assembled.filter((q: any) => {
-          const result = validateQuestion(q);
+          const normalizedForValidation = {
+            ...q,
+            correct_answer: q.correct_answer ?? q.correctAnswer,
+            status: q.status || "published",
+            rationale: q.rationale || q.explanation || "(assembled)",
+          };
+          const result = validateQuestion(normalizedForValidation);
           if (!result.valid) {
             console.warn("[MockExam][start] Assembly validation rejected question:", { id: q.id, issues: result.issues });
           }
@@ -10977,7 +10983,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
           id: q.id,
           question: q.stem,
           options: q.options,
-          correct: q.correctAnswer,
+          correct: q.correctAnswer ?? q.correct_answer,
           bodySystem: q.domain,
           tier: tier,
           lessonId: "mock-exam",
@@ -11639,7 +11645,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       }
 
       const result = await timedExamQuery(
-        `SELECT id, user_id, questions, status, report, exam_type, blueprint_code, blueprint_meta, answers, flagged, cat_state, time_spent, score, started_at, completed_at, stopping_reason, total_questions
+        `SELECT id, user_id, questions, status, report, exam_type, blueprint_code, blueprint_meta, answers, flagged, cat_state, time_spent, score, started_at, completed_at, stopping_rule_status, total_questions
          FROM mock_exam_attempts WHERE id = $1`,
         [attemptId],
         "shell",

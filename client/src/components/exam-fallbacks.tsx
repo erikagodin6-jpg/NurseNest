@@ -125,9 +125,9 @@ export function QuestionGuard({
     );
   }
 
-  const questionType = question.questionType || "multiple-choice";
-  const supportedTypes = ["multiple-choice", "mcq"];
-  if (questionType && !supportedTypes.includes(questionType.toLowerCase())) {
+  const questionType = (question.questionType || "multiple-choice").toLowerCase().replace(/_/g, "-");
+  const supportedTypes = ["multiple-choice", "mcq", "mcq-single", "select-all-that-apply", "sata", "scenario-based", "prioritization", "delegation", "multiple-choice"];
+  if (questionType && !supportedTypes.includes(questionType)) {
     return (
       <QuestionUnavailableCard
         reason="unsupported-type"

@@ -88,9 +88,9 @@ function isQuestionAnswerable(q: PooledQuestion): boolean {
   if (!q || !q.id || !q.question) return false;
   if (!Array.isArray(q.options) || q.options.length < 2) return false;
   if (q.correct === undefined || q.correct === null || q.correct < 0 || q.correct >= q.options.length) return false;
-  const questionType = q.questionType || "multiple-choice";
-  const supportedTypes = ["multiple-choice", "mcq"];
-  if (!supportedTypes.includes(questionType.toLowerCase())) return false;
+  const questionType = (q.questionType || "multiple-choice").toLowerCase().replace(/_/g, "-");
+  const supportedTypes = ["multiple-choice", "mcq", "mcq-single", "select-all-that-apply", "sata", "scenario-based", "prioritization", "delegation"];
+  if (!supportedTypes.includes(questionType)) return false;
   return true;
 }
 
@@ -280,7 +280,7 @@ function MockExamSessionInner() {
   const [, navigate] = useLocation();
   const { user } = useAuth();
   const { toast } = useToast();
-  const { language } = useI18n();
+  const { t, language } = useI18n();
 
   const backToExamsPath = useMemo(() => {
     const path = window.location.pathname;
@@ -1115,6 +1115,18 @@ function MockExamSessionInner() {
     });
     return () => { mgr.stopAutoSave(); };
   }, [loading, attemptId, catState, paused]);
+
+  const rawQuestion = questions[currentQ] ?? null;
+  const question = rawQuestion ? getTranslatedQuestion(rawQuestion) : null;
+  const answeredCount = Object.keys(answers).length;
+  const unansweredCount = questions.length - answeredCount;
+  const progressPercent = questions.length > 0 ? (answeredCount / questions.length) * 100 : 0;
+
+  useEffect(() => {
+    if (!rawQuestion && questions.length > 0 && currentQ >= questions.length) {
+      setCurrentQ(Math.max(0, questions.length - 1));
+    }
+  }, [rawQuestion, questions.length, currentQ]);
 
   const selectAnswer = (questionId: string, optionIndex: number) => {
     if (strictMode && answers[questionId] !== undefined) {
@@ -2026,18 +2038,6 @@ function MockExamSessionInner() {
       </div>
     );
   }
-
-  const rawQuestion = questions[currentQ] ?? null;
-  const question = rawQuestion ? getTranslatedQuestion(rawQuestion) : null;
-  const answeredCount = Object.keys(answers).length;
-  const unansweredCount = questions.length - answeredCount;
-  const progressPercent = questions.length > 0 ? (answeredCount / questions.length) * 100 : 0;
-
-  useEffect(() => {
-    if (!rawQuestion && questions.length > 0 && currentQ >= questions.length) {
-      setCurrentQ(Math.max(0, questions.length - 1));
-    }
-  }, [rawQuestion, questions.length, currentQ]);
 
   const progressLabel = isCATExam
     ? `Item ${(catState?.itemsAdministered || 0) + 1} in Progress`
