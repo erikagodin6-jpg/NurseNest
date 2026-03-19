@@ -1,0 +1,639 @@
+You are working on the live NurseNest production system.
+
+This is a FULL PLATFORM STABILITY, MEMORY SAFETY, CONTENT INTEGRITY, DEPLOYMENT SAFETY, EXAM RELIABILITY, PAYMENT PROTECTION, AND ALERT-NOISE REDUCTION initiative.
+
+This is not a partial fix.
+This is not a surface-level patch.
+This is not a best-effort cleanup.
+
+This must become a HARDENED, PRODUCTION-SAFE, SELF-PROTECTING system.
+
+The platform must be able to survive:
+- memory pressure
+- traffic spikes
+- malformed data
+- invalid AI-generated content
+- exam rendering failures
+- deployment regressions
+- health check failures
+- content quarantine spikes
+- database latency or partial failures
+- payment/entitlement desync
+- retry storms
+- notification floods
+- worker crashes
+- API timeouts
+- oversized payloads
+- concurrency spikes
+- partial infrastructure outages
+
+==================================================
+PRIMARY NON-NEGOTIABLE OUTCOMES
+==================================================
+
+1. NO valid paying user should hit a dead end.
+2. NO core exam path should hard fail without graceful fallback.
+3. NO invalid content should be published.
+4. NO deploy should reach production if critical flows fail.
+5. NO single memory spike should take down the platform.
+6. NO alert storm should spam the owner every few seconds.
+7. NO background process should run unbounded.
+8. NO large request should be handled in a way that risks process death.
+9. The platform must fail closed for unsafe content and fail open for safe user access where appropriate.
+10. Core study functionality must remain usable even during degraded mode.
+
+==================================================
+SECTION 1 — ROOT PROBLEM ASSUMPTION
+==================================================
+
+Assume the current incidents are caused by a combination of:
+- unbounded memory growth
+- oversized exam/content payloads
+- loading too much data into memory at once
+- invalid generated/published content
+- weak pre-publish validation
+- health checks that detect failure too late
+- deploys reaching production before critical flows are proven healthy
+- background jobs or generators competing with request-serving workloads
+- alerting without deduplication/cooldowns
+- emergency mode that is too noisy and not sufficiently layered
+
+Design and implement fixes accordingly.
+
+==================================================
+SECTION 2 — MEMORY SAFETY SYSTEM (CRITICAL)
+==================================================
+
+Build a strict memory governance system across the app.
+
+Requirements:
+- Add process-level memory monitoring with periodic sampling of:
+  - RSS
+  - heap used
+  - heap total
+  - event loop lag
+  - request concurrency
+  - queue depth
+- Define 3 memory states:
+  - NORMAL
+  - DEGRADED
+  - CRITICAL
+- Configure conservative thresholds well below process death.
+- Enter DEGRADED before CRITICAL.
+- Enter CRITICAL before OOM.
+- Add hysteresis so the platform does not flap between states.
+
+When DEGRADED:
+- disable non-essential generators
+- pause expensive background jobs
+- reduce concurrency limits
+- shorten payload sizes
+- force exam endpoints into paginated/lightweight mode
+- disable prefetching and cache warming
+- suspend non-critical analytics/event fanout
+- serve minimal responses where possible
+
+When CRITICAL:
+- block non-essential write-heavy or generation-heavy operations
+- protect login, entitlements, checkout verification, existing content access, and active exam sessions first
+- reject new heavy generation jobs with clear retry-safe responses
+- isolate or terminate runaway workers
+- shed optional traffic
+- keep core user study flows alive in reduced mode
+
+Also:
+- identify and remove memory leaks
+- eliminate unbounded arrays/maps/caches
+- add TTLs and max sizes to in-memory caches
+- ensure streams/buffers/files are properly closed
+- prevent loading large exam/content datasets fully into memory
+- replace bulk loading with pagination, chunking, lazy loading, and cursor-based retrieval
+- ensure JSON serialization is bounded and safe
+- add body size limits and output size limits
+- add safeguards against accidental giant AI responses or giant content blobs
+- add request timeouts and abort controllers for long-running operations
+- ensure heavy processing is moved off the main request thread where possible
+
+==================================================
+SECTION 3 — EXAM SYSTEM HARDENING (MISSION CRITICAL)
+==================================================
+
+The exam system is a protected revenue-critical flow and must never behave as an all-or-nothing feature.
+
+Implement all of the following:
+
+A. Exam retrieval safety
+- Never fetch full exam banks when only a page/session slice is needed
+- Serve questions in chunks/pages
+- Only load the current question or a small window when possible
+- Add lightweight exam session state storage
+- Prevent giant nested payloads
+
+B. Session resilience
+- Preserve in-progress sessions
+- autosave answers
+- support restore-after-refresh/reconnect
+- protect against partial backend failure
+- if rationale or enrichment data fails, continue exam delivery without blocking the question
+
+C. Fallback mode
+If exam generation/open flow fails:
+- offer fallback to cached published exam
+- offer fallback to smaller exam set
+- offer fallback to practice-by-category
+- offer fallback to question-of-the-day style emergency mode
+- never show a blank failure screen
+
+D. Validation
+- every question must have:
+  - stable id
+  - tier
+  - exam type
+  - question text
+  - valid answer structure
+  - minimum option count if MCQ type
+  - correct answer
+  - safe rationale handling rules
+- reject malformed exam payloads before publish and before runtime delivery
+
+E. Response shaping
+- cap maximum questions returned per request
+- cap rationale sizes
+- strip unnecessary metadata from runtime exam payloads
+- send only what the client needs for the current interaction
+
+F. Synthetic monitoring
+- create hardened synthetic tests for:
+  - exam open flow
+  - next question flow
+  - submit answer flow
+  - restore exam session flow
+  - results flow
+- these tests must run pre-deploy and post-deploy
+- exam failures must block rollout
+
+==================================================
+SECTION 4 — CONTENT INTEGRITY FIREWALL
+==================================================
+
+Build a strict content integrity firewall so invalid content cannot enter production.
+
+Content types include:
+- question banks
+- exams
+- flashcards
+- lessons
+- blog content
+- scenarios
+- allied health content
+- multilingual content
+- generated products
+- preview/store content
+
+Implement a 4-stage pipeline:
+
+Stage 1: generation validation
+- validate structure immediately after generation
+- reject malformed output before save
+
+Stage 2: business-rule validation
+- tier correctness
+- exam mapping correctness
+- locale/language correctness
+- required field completeness
+- no empty lessons
+- no zero-valid-item published bundles
+- no mixed-language output
+- no placeholder keys exposed to users
+- no invalid pricing/store metadata
+- no broken entitlement mappings
+
+Stage 3: publish validation
+- content cannot be marked published/store-ready/live unless all validations pass
+
+Stage 4: runtime validation
+- if corrupt content somehow exists, quarantine it automatically and do not serve it to end users
+
+Rules:
+- quarantine must be targeted, not catastrophic
+- a spike in quarantined items must trigger investigation but should not collapse all content delivery
+- published items with zero valid child items must be blocked at publish time
+- empty lesson content must be blocked
+- broken translations/i18n keys must be blocked from user-facing rendering
+- all generators must produce schema-valid, language-valid, tier-valid output or fail safely
+
+Also:
+- add schema contracts for every content type
+- add server-side validation, not just client-side
+- add repair tooling/admin reporting for quarantined items
+- add publish preflight summaries so admins can see exactly why a content item is blocked
+
+==================================================
+SECTION 5 — PAYMENT, ENTITLEMENT, AND ACCESS PROTECTION
+==================================================
+
+Implement a central entitlement protection layer.
+
+Requirements:
+- one canonical access decision service
+- access must be determined by plan, tier, region, product type, and subscription status
+- RPN users cannot access RN/NP-only content
+- RN users can access RN and allowed lower-tier content only
+- NP users can access permitted NP/RN/RPN content
+- Allied users can access only allied-appropriate content
+- free users must see gated previews only where intended
+
+Payment and subscription safety:
+- payment failures must not be triggered merely because content payloads are malformed
+- checkout and entitlement verification must be isolated from content generation issues
+- add idempotency for payment webhooks and purchase processing
+- add retry-safe reconciliation for billing desync
+- preserve paid access during transient verification failures using short grace windows where appropriate
+- never revoke valid paid access because of temporary backend instability
+
+If entitlement lookup fails:
+- prefer a safe temporary grace/fallback path for recently verified paid users
+- log and flag for reconciliation
+- do not hard lock legitimate users out in error
+
+==================================================
+SECTION 6 — DEPLOYMENT SAFETY GATE
+==================================================
+
+Build a strict deployment protection system.
+
+No deploy may go live unless all critical gates pass.
+
+Required pre-deploy gates:
+- type checks
+- lint/build
+- schema validation
+- migration safety checks
+- no dangerous migrations without explicit approval
+- critical API smoke tests
+- content integrity checks
+- entitlement checks
+- payment path smoke tests
+- exam flow synthetic tests
+- memory/performance smoke tests
+- translation/i18n exposure checks
+- zero user-facing placeholder key leakage
+- publishable content sanity checks
+
+Required post-deploy gates:
+- live health checks
+- startup readiness
+- critical route smoke tests
+- exam open flow
+- auth flow
+- entitlement flow
+- payment verification flow
+- dashboard open flow
+
+Deployment behavior:
+- if critical checks fail, block rollout
+- if post-deploy health fails, automatically rollback
+- rollback should be fast and deterministic
+- do not repeatedly redeploy known-bad builds
+- add deploy freeze logic only for truly critical situations
+- deploy freeze must not create alert spam
+- clearly distinguish:
+  - blocked deploy
+  - rolled back deploy
+  - frozen deploy
+  - degraded but stable deploy
+
+Also:
+- health gates must use realistic thresholds
+- error rate spikes must be correlated with route and feature area
+- do not allow non-critical route failures to masquerade as full-platform outages
+
+==================================================
+SECTION 7 — REQUEST CONTROL, BACKPRESSURE, AND WORKER ISOLATION
+==================================================
+
+Implement backpressure and concurrency control.
+
+Requirements:
+- rate limit expensive endpoints
+- set per-route concurrency caps
+- cap simultaneous generation jobs
+- queue background jobs
+- use worker isolation for heavy generation/transformation jobs
+- separate user-facing API serving from heavy AI/content processing where possible
+- add circuit breakers around expensive dependencies
+- add retry policies with bounded retries and exponential backoff
+- prevent retry storms
+- ensure failed jobs do not immediately restart forever
+
+Heavy tasks that should be isolated or queued:
+- AI generation
+- large content transformation
+- bulk publish jobs
+- report building
+- image/PDF generation
+- large exam assembly
+- backfill/reindex operations
+
+When queues grow too large:
+- reject or defer non-essential jobs
+- do not consume all memory trying to process backlog
+- provide admin visibility into queue health
+
+==================================================
+SECTION 8 — ALERTING, DEDUPLICATION, AND OWNER NOTIFICATION SANITY
+==================================================
+
+The current alert storm is unacceptable.
+
+Build an alert system that is useful, not abusive.
+
+Requirements:
+- deduplicate repeated alerts by incident key
+- group related alerts into one incident
+- add cooldown windows
+- send one incident-open notification, periodic summary updates, and one resolved notification
+- do not send a new email every few seconds for the same condition
+- distinguish severity:
+  - info
+  - warning
+  - critical
+- route only actionable critical alerts immediately
+
+Alert grouping examples:
+- repeated memory threshold breaches within same incident = one incident thread
+- deploy unhealthy + rollback recommended + freeze active = one deploy incident
+- multiple quarantined content items in same window = one content integrity incident summary
+- exam synthetic failures in same deploy = one exam reliability incident
+
+Notification improvements:
+- include root signal, impacted systems, current mode, and what the platform is doing automatically
+- include whether users are blocked, degraded, or unaffected
+- include next recommended action only if action is actually needed
+- suppress duplicate recovery messages
+- provide digest summaries during long incidents
+
+==================================================
+SECTION 9 — OBSERVABILITY AND DIAGNOSTICS
+==================================================
+
+Implement structured observability across the platform.
+
+Need:
+- structured logs with correlation ids
+- route-level latency/error metrics
+- memory metrics
+- queue metrics
+- worker crash metrics
+- content quarantine metrics
+- publish validation metrics
+- entitlement mismatch metrics
+- payment reconciliation metrics
+- deploy health metrics
+- synthetic test results
+- degraded/critical mode transitions
+
+Dashboards should make it obvious:
+- what failed
+- where it failed
+- whether it is isolated or systemic
+- whether users are impacted
+- whether the issue is memory, deploy, content, payments, exams, or integrations
+
+Also:
+- capture top memory-consuming routes/jobs
+- identify largest payload producers
+- identify repeated quarantine causes
+- identify which exact validation rule failed for content items
+- identify which dependency caused fallback activation
+
+==================================================
+SECTION 10 — DEGRADED MODE / EMERGENCY MODE REDESIGN
+==================================================
+
+Emergency mode must become intelligent and layered.
+
+Create modes:
+1. NORMAL
+2. GUARDED
+3. DEGRADED
+4. CRITICAL
+5. RECOVERY
+
+NORMAL
+- all features available
+
+GUARDED
+- heightened monitoring
+- lower concurrency on heavy paths
+- prepare to shed optional load
+
+DEGRADED
+- pause generators
+- pause bulk jobs
+- protect exams, auth, entitlements, and access to already-published content
+- serve smaller payloads
+- disable non-essential enrichments
+
+CRITICAL
+- preserve only core routes
+- protect active paying users
+- block heavy admin/generation operations
+- keep already-published study access available if safe
+
+RECOVERY
+- restore services gradually
+- do not re-enable all heavy jobs at once
+- confirm memory and error rate stabilization before exiting
+
+Requirements:
+- transitions must be automatic but stable
+- every mode transition must be logged
+- user-facing messaging must be calm and brief
+- non-essential features must degrade gracefully, not explode
+- emergency mode must not itself create excessive notifications
+
+==================================================
+SECTION 11 — I18N / STRING SAFETY
+==================================================
+
+Since string and key leakage has already been a problem, enforce:
+
+- no user-facing raw i18n keys
+- no publish if required translations are missing for enabled locales
+- no mixed-language generated content
+- fallback locale behavior must be explicit and safe
+- missing translation detection in CI and pre-publish checks
+- runtime rendering should fail gracefully to safe fallback copy, not raw keys
+
+==================================================
+SECTION 12 — DATABASE AND DATA ACCESS SAFETY
+==================================================
+
+Implement safe data access patterns:
+
+- no unbounded selects for runtime user flows
+- use pagination/cursors
+- select only required fields
+- cap nested joins/population depth
+- add indexes for critical exam/content lookup paths
+- protect against N+1 hotspots
+- add query timeouts where appropriate
+- ensure migrations are backward-compatible when possible
+- add safe migration prechecks
+- prevent long-running admin queries from impacting user-facing traffic
+
+==================================================
+SECTION 13 — ADMIN AND OPERATOR SAFETY TOOLS
+==================================================
+
+Build operator tooling for fast intervention:
+
+- admin incident panel showing current platform mode
+- current memory state
+- top failing routes
+- queue depth
+- quarantined content summary
+- deploy status
+- last successful synthetic tests
+- current feature sheds/disabled systems
+
+Add safe controls:
+- pause generators
+- pause publishing
+- drain queues
+- unfreeze deploys after recovery
+- re-run validations
+- retry isolated failed jobs
+- clear specific bad cache entries
+- inspect quarantined items
+- manually place platform in guarded/degraded mode if necessary
+
+These controls must be permission-protected and audit logged.
+
+==================================================
+SECTION 14 — TESTING REQUIREMENTS
+==================================================
+
+Add tests for all critical guarantees.
+
+Unit tests:
+- schema validation
+- entitlement rules
+- memory-state transition logic
+- alert deduplication logic
+- fallback selection logic
+- queue limits
+- i18n safety
+
+Integration tests:
+- exam open flow
+- question pagination
+- payment verification
+- entitlement restoration
+- quarantine behavior
+- publish blocking
+- rollback triggering
+- degraded mode behavior
+
+Load/performance tests:
+- exam open under concurrency
+- large content catalog access
+- generation queue saturation
+- memory thresholds
+- degraded mode entry and recovery
+
+Chaos/failure tests:
+- dependency timeout
+- worker crash
+- malformed generated payload
+- DB partial failure
+- cache poisoning attempt
+- oversized response attempt
+- deploy with critical route regression
+
+==================================================
+SECTION 15 — IMPLEMENTATION PRIORITY
+==================================================
+
+Implement in this order:
+
+PHASE 1 — STOP THE BLEEDING
+- memory monitoring and state machine
+- alert deduplication/cooldowns
+- cap payload sizes
+- exam chunking/pagination
+- disable unbounded generation/runtime loading
+- content publish blocking for zero-valid-item and empty content
+- critical synthetic tests
+- deploy gating for exam/auth/entitlements
+
+PHASE 2 — CORE RELIABILITY
+- queueing and worker isolation
+- fallback exam flows
+- entitlement grace logic
+- quarantine improvements
+- structured observability dashboards
+- degraded/emergency mode redesign
+
+PHASE 3 — LONG-TERM HARDENING
+- operator console
+- advanced recovery controls
+- performance tuning
+- chaos testing
+- full validation coverage across all generators and locales
+
+==================================================
+SECTION 16 — CODE CHANGE EXPECTATIONS
+==================================================
+
+Do not just describe recommendations.
+
+Actually implement the system changes in code.
+
+For every change:
+- explain root cause being addressed
+- show files changed
+- show exact logic added
+- show thresholds/configs added
+- show fallback behavior
+- show test coverage added
+- show how alert spam is prevented
+- show how memory safety is enforced
+- show how invalid content is blocked
+- show how deploys are blocked or rolled back safely
+
+==================================================
+SECTION 17 — FINAL ACCEPTANCE CRITERIA
+==================================================
+
+The work is only complete when all of the following are true:
+
+1. Memory spikes no longer immediately collapse the platform.
+2. Heavy features cannot consume unbounded memory.
+3. Exam flows are chunked, resilient, and never return a dead-end blank failure.
+4. Invalid content cannot be published live.
+5. Published content cannot have zero valid items.
+6. Empty lessons and malformed question sets are blocked.
+7. Synthetic tests protect exam, auth, entitlement, and payment-critical paths.
+8. Broken deploys are blocked or rolled back before prolonged user harm.
+9. Paying users retain protected access during transient system instability.
+10. Alert floods are replaced by grouped incident notifications.
+11. Emergency mode becomes layered, stable, and quiet.
+12. The owner can clearly see what failed, why, and what the platform is doing automatically.
+13. The system remains usable for core study flows during degraded conditions.
+14. The fixes cover nursing, NP, RPN, allied, multilingual, store, exams, flashcards, lessons, and paid-access flows.
+15. The platform is materially safer under both current traffic and future subscriber growth.
+
+Now perform the full hardening initiative end-to-end.
+Start by auditing the current architecture and code paths most likely responsible for:
+- memory critical alerts
+- service down alerts
+- deploy unhealthy alerts
+- exam synthetic failures
+- content integrity failures
+- zero-valid-item publish failures
+- payment-related failures caused by platform instability
+- alert storms and duplicate incident emails
+
+Then implement the fixes in priority order, with production-safe code changes and tests.
