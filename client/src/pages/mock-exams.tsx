@@ -94,7 +94,10 @@ function SpecialtyMockExams() {
         const httpErr: any = new Error(data.error || data.message || "Exam start failed");
         httpErr.status = res.status;
         httpErr.code = data.reasonCode || data.code;
+        httpErr.reasonCode = data.reasonCode;
         httpErr.recoverable = data.recoverable;
+        httpErr.requiredTier = data.requiredTier;
+        httpErr.fallbackHint = data.fallbackHint;
         throw httpErr;
       }
       if (data.attemptId) {
@@ -115,7 +118,7 @@ function SpecialtyMockExams() {
       const httpStatus = err?.status || 0;
       const reasonCode = err?.code || err?.reasonCode || "";
       const classified = httpStatus > 0
-        ? classifyHttpError(httpStatus, { reasonCode: reasonCode || undefined, error: err?.message, recoverable: err?.recoverable })
+        ? classifyHttpError(httpStatus, { reasonCode: reasonCode || undefined, error: err?.message, recoverable: err?.recoverable, requiredTier: err?.requiredTier, fallbackHint: err?.fallbackHint })
         : classifyClientError(err instanceof Error ? err : new Error(err?.message || "Unknown error"));
 
       console.error("[MockExam][specialty] startSpecialtyExam failed:", { message: err?.message, code: classified.code, httpStatus, recoverable: classified.recoverable, examId: examDef.id });
@@ -555,6 +558,9 @@ function MockExamsPage() {
         err.reasonCode = data.reasonCode;
         err.status = res.status;
         err.recoverable = data.recoverable;
+        err.requiredTier = data.requiredTier;
+        err.fallbackHint = data.fallbackHint;
+        err.correlationId = data.correlationId;
         throw err;
       }
       if (data.attemptId) {
@@ -575,13 +581,14 @@ function MockExamsPage() {
         throw noSessionErr;
       }
     } catch (err: any) {
+      const correlationId = `client-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
       const httpStatus = err?.status || 0;
       const reasonCode = err?.code || err?.reasonCode || "";
       const classified = httpStatus > 0
-        ? classifyHttpError(httpStatus, { reasonCode: reasonCode || undefined, error: err?.message, recoverable: err?.recoverable })
+        ? classifyHttpError(httpStatus, { reasonCode: reasonCode || undefined, error: err?.message, recoverable: err?.recoverable, requiredTier: err?.requiredTier, fallbackHint: err?.fallbackHint })
         : classifyClientError(err instanceof Error ? err : new Error(err?.message || "Unknown error"));
 
-      console.error("[MockExam] startExam failed:", { message: err?.message, code: classified.code, httpStatus, recoverable: classified.recoverable, tier: selectedTier, examMode, blueprint: selectedBlueprint });
+      console.error("[MockExam] startExam failed:", { correlationId, message: err?.message, code: classified.code, httpStatus, recoverable: classified.recoverable, tier: selectedTier, examMode, blueprint: selectedBlueprint });
 
       if (!classified.recoverable) {
         const userMsg = EXAM_ERROR_USER_MESSAGES[classified.code] || EXAM_ERROR_USER_MESSAGES[EXAM_FAILURE_CODES.UNKNOWN];
@@ -591,73 +598,130 @@ function MockExamsPage() {
         return;
       }
 
-      console.log("[MockExam] Attempting fallback cascade...", { code: classified.code });
+      const fallbackStages = [
+        { name: "resume", label: "Checking for existing session..." },
+        { name: "reduced", label: "Trying with fewer questions..." },
+        { name: "minimal", label: "Attempting minimal exam..." },
+        { name: "practice", label: "Redirecting to practice mode..." },
+      ];
 
-      try {
-        toast({ title: "Restoring previous session...", description: "Looking for an existing exam session to resume." });
-        const resumeRes = await fetch("/api/mock-exams/resume-latest", {
-          headers: { ...getAuthHeaders() },
-        });
-        if (resumeRes.ok) {
-          const resumeData = await resumeRes.json();
-          if (resumeData.attemptId) {
-            toast({ title: "Session Restored", description: "Your previous exam session was restored." });
-            navigate(`/mock-exams/${resumeData.attemptId}`);
-            return;
+      const userMsg = EXAM_ERROR_USER_MESSAGES[classified.code] || EXAM_ERROR_USER_MESSAGES[EXAM_FAILURE_CODES.UNKNOWN];
+      toast({ title: userMsg.title, description: userMsg.description });
+
+      for (const stage of fallbackStages) {
+        try {
+          console.log(`[MockExam] Fallback cascade: attempting ${stage.name}`, { correlationId });
+          setStartError(stage.label);
+
+          if (stage.name === "resume" && user) {
+            const historyRes = await fetch(`/api/mock-exams/history/${user.id}`, { headers: getAuthHeaders() });
+            if (historyRes.ok) {
+              const historyData = await historyRes.json();
+              const inProgress = Array.isArray(historyData)
+                ? historyData.find((h: any) => h.status === "in_progress")
+                : null;
+              if (inProgress) {
+                console.log("[MockExam] Fallback: resuming existing session", inProgress.id);
+                toast({ title: "Resuming Exam", description: "Found an existing exam session. Resuming where you left off." });
+                navigate(`/mock-exams/${inProgress.id}`);
+                setStarting(false);
+                setStartError(null);
+                return;
+              }
+            }
           }
-        }
-      } catch (resumeErr) {
-        console.warn("[MockExam] Resume fallback failed:", resumeErr);
-      }
 
-      try {
-        toast({ title: "Loading a lighter version...", description: "Preparing a reduced exam with fewer questions." });
-        const reducedRes = await fetch("/api/mock-exams/start", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", ...getAuthHeaders() },
-          body: JSON.stringify({
-            tier: selectedTier,
-            totalQuestions: 25,
-            serverAssembly: true,
-            assemblyConfig: {
+          if (stage.name === "reduced") {
+            const reducedLength = Math.max(10, Math.floor(selectedLength / 2));
+            const reducedConfig = {
               templateId: "practice",
               examCode: "practice",
-              questionCount: 25,
-              timeLimitMinutes: 38,
+              questionCount: reducedLength,
+              timeLimitMinutes: Math.ceil(reducedLength * 1.5),
               domainWeights: [{ domain: "General", weight: 1.0 }],
-              difficultyDistribution: { foundational: 0.3, moderate: 0.4, difficult: 0.3 },
-              formatMix: { mcqSingle: 0.6, selectAllThatApply: 0.2, scenarioBased: 0.1, prioritization: 0.05, delegation: 0.05 },
+              difficultyDistribution: { foundational: 0.4, moderate: 0.4, difficult: 0.2 },
+              formatMix: { mcqSingle: 0.8, selectAllThatApply: 0.1, scenarioBased: 0.05, prioritization: 0.025, delegation: 0.025 },
               passingStandard: 65,
               seed: Date.now(),
               tier: selectedTier,
-            },
-            examMode: "practice",
-          }),
-        });
-        if (reducedRes.ok) {
-          const reducedData = await reducedRes.json();
-          if (reducedData.attemptId) {
-            toast({ title: "Lighter Exam Ready", description: "A 25-question practice exam has been prepared." });
-            navigate(`/mock-exams/${reducedData.attemptId}`);
+              bodySystems: selectedSystems.length > 0 ? selectedSystems : undefined,
+            };
+            const retryRes = await fetch("/api/mock-exams/start", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+              body: JSON.stringify({
+                tier: selectedTier,
+                totalQuestions: reducedLength,
+                serverAssembly: true,
+                assemblyConfig: reducedConfig,
+                examMode: "practice",
+              }),
+            });
+            if (retryRes.ok) {
+              const retryData = await retryRes.json();
+              if (retryData.attemptId) {
+                console.log("[MockExam] Fallback: reduced exam started", retryData.attemptId);
+                toast({ title: "Lighter Exam Ready", description: `Started a ${reducedLength}-question practice exam instead.` });
+                navigate(`/mock-exams/${retryData.attemptId}`);
+                setStarting(false);
+                setStartError(null);
+                return;
+              }
+            }
+          }
+
+          if (stage.name === "minimal") {
+            const minimalConfig = {
+              templateId: "practice",
+              examCode: "practice",
+              questionCount: 10,
+              timeLimitMinutes: 15,
+              domainWeights: [{ domain: "General", weight: 1.0 }],
+              difficultyDistribution: { foundational: 0.6, moderate: 0.3, difficult: 0.1 },
+              formatMix: { mcqSingle: 1.0, selectAllThatApply: 0, scenarioBased: 0, prioritization: 0, delegation: 0 },
+              passingStandard: 65,
+              seed: Date.now(),
+              tier: selectedTier,
+            };
+            const minRes = await fetch("/api/mock-exams/start", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+              body: JSON.stringify({
+                tier: selectedTier,
+                totalQuestions: 10,
+                serverAssembly: true,
+                assemblyConfig: minimalConfig,
+                examMode: "practice",
+              }),
+            });
+            if (minRes.ok) {
+              const minData = await minRes.json();
+              if (minData.attemptId) {
+                console.log("[MockExam] Fallback: minimal study mode started", minData.attemptId);
+                toast({ title: "Study Mode Ready", description: "Started a 10-question study session to keep your momentum." });
+                navigate(`/mock-exams/${minData.attemptId}`);
+                setStarting(false);
+                setStartError(null);
+                return;
+              }
+            }
+          }
+
+          if (stage.name === "practice") {
+            navigate("/test-bank");
+            toast({ title: "Practice Mode", description: "Redirecting to the question bank where you can practice by category." });
+            setStarting(false);
+            setStartError(null);
             return;
           }
+        } catch (fallbackErr) {
+          console.warn(`[MockExam] Fallback ${stage.name} failed:`, fallbackErr);
         }
-      } catch (reducedErr) {
-        console.warn("[MockExam] Reduced exam fallback failed:", reducedErr);
-      }
-
-      try {
-        const practiceUrl = selectedTier === "rn" ? "/nclex-rn/practice-questions" : selectedTier === "np" ? "/np-exam/practice-questions" : "/mock-exams";
-        toast({ title: "Opening practice mode...", description: "Redirecting to practice questions." });
-        navigate(practiceUrl);
-        return;
-      } catch (navErr) {
-        console.warn("[MockExam] Navigation fallback failed:", navErr);
       }
 
       const finalMsg = EXAM_ERROR_USER_MESSAGES[classified.code] || EXAM_ERROR_USER_MESSAGES[EXAM_FAILURE_CODES.UNKNOWN];
       setStartError(`${finalMsg.description} (${classified.code})`);
-      toast({ title: finalMsg.title, description: `${finalMsg.description} All recovery options were attempted.`, variant: "destructive" });
+      toast({ title: "Unable to Start Exam", description: "All recovery options were attempted. Please try again later or contact support.", variant: "destructive" });
       setStarting(false);
     }
   };

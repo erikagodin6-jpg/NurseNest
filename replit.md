@@ -67,7 +67,7 @@ Core architectural components and design patterns emphasize:
 - **Memory Observability**: `server/memory-observability.ts` provides 30s ring buffer trend tracking, per-route heap/RSS deltas, RSS baseline drift detection, top memory routes summary, and production sizing recommendations. Admin endpoint: `GET /api/admin/memory-observability`.
 - **Enhanced Critical Mode**: Memory monitor clears performance cache and stops synthetic monitoring when entering critical mode. Job queue skips poll cycles when memory pressure is active.
 - **Lazy NurseNest Lite**: Prebuilt payloads are lazily initialized on first access.
-- **Frontend Bundle Optimization**: Admin routes are lazy-loaded, vendor chunking is expanded, route error boundaries are implemented, module preloading is enabled, and bundle size is monitored with a 500KB chunk size warning.
+- **Frontend Bundle Optimization**: Admin routes are lazy-loaded and wrapped in error boundaries. Vendor chunking is expanded for key libraries. Route error boundaries provide user-friendly fallback UI. Module preloading is enabled. Bundle monitoring reports large chunks with a 500KB warning.
 
 ### External Dependencies
 - **Database**: PostgreSQL

@@ -14,13 +14,15 @@ export const EXAM_FAILURE_CODES = {
   ACCESS_DENIED: "access_denied",
   EXAM_NOT_FOUND: "exam_not_found",
   EXAM_UNPUBLISHED: "exam_unpublished",
-  INVALID_PAYLOAD: "invalid_payload",
   SESSION_CREATE_FAILED: "session_create_failed",
   ASSEMBLY_FAILED: "assembly_failed",
+  INVALID_PAYLOAD: "invalid_payload",
+  ZERO_VALID_ITEMS: "zero_valid_items",
+  REGION_UNAVAILABLE: "region_unavailable",
+  SUBSCRIPTION_REQUIRED: "subscription_required",
   NAVIGATION_FAILED: "navigation_failed",
   TIER_MISMATCH: "tier_mismatch",
   NOT_ENTITLED: "not_entitled",
-  SUBSCRIPTION_REQUIRED: "subscription_required",
   EXAM_UNAVAILABLE_FOR_REGION: "exam_unavailable_for_region",
   FEATURE_DISABLED: "feature_disabled",
   ASSEMBLY_CAPACITY: "assembly_capacity",
@@ -53,6 +55,8 @@ export const EXAM_ERROR_USER_MESSAGES: Record<string, { title: string; descripti
   [EXAM_FAILURE_CODES.EXAM_UNAVAILABLE_FOR_REGION]: { title: "Not Available in Your Region", description: "This exam is not available in your region. Please choose a different exam." },
   [EXAM_FAILURE_CODES.FEATURE_DISABLED]: { title: "Temporarily Disabled", description: "This feature is temporarily disabled for maintenance. Please try again later." },
   [EXAM_FAILURE_CODES.ASSEMBLY_CAPACITY]: { title: "Server Busy", description: "Too many exams are being prepared. Please wait a moment and try again." },
+  [EXAM_FAILURE_CODES.ZERO_VALID_ITEMS]: { title: "No Valid Questions", description: "No valid questions could be assembled for this exam. Please try a different configuration." },
+  [EXAM_FAILURE_CODES.REGION_UNAVAILABLE]: { title: "Not Available in Your Region", description: "This exam is not currently available in your region. Please choose a different exam." },
   [EXAM_FAILURE_CODES.UNKNOWN]: { title: "Unable to Start Exam", description: "An unexpected issue occurred. Please retry — if it persists, contact support." },
 };
 
@@ -76,18 +80,46 @@ export function classifyHttpError(status: number, body?: any): ClassifiedExamErr
       message: body.error || body.message || "Server error",
       recoverable: body.recoverable ?? status < 500,
       httpStatus: status,
-      details: body.details,
+      details: { ...body.details, requiredTier: body.requiredTier, fallbackHint: body.fallbackHint, correlationId: body.correlationId },
       timestamp: now,
     };
+  }
+
+  if (body?.code) {
+    const codeMap: Record<string, ExamFailureCode> = {
+      "MOCK_PAYWALL": EXAM_FAILURE_CODES.SUBSCRIPTION_REQUIRED,
+      "TIER_MISMATCH": EXAM_FAILURE_CODES.SUBSCRIPTION_REQUIRED,
+      "SCHEMA_DRIFT": EXAM_FAILURE_CODES.SCHEMA_MISMATCH,
+      "ASSEMBLY_CAPACITY": EXAM_FAILURE_CODES.ASSEMBLY_FAILED,
+      "EXAM_START_TIMEOUT": EXAM_FAILURE_CODES.NETWORK_TIMEOUT,
+      "FEATURE_DISABLED": EXAM_FAILURE_CODES.REGION_UNAVAILABLE,
+      "EXAM_NOT_FOUND": EXAM_FAILURE_CODES.EXAM_NOT_FOUND,
+      "EXAM_UNPUBLISHED": EXAM_FAILURE_CODES.EXAM_UNPUBLISHED,
+      "SESSION_CREATE_FAILED": EXAM_FAILURE_CODES.SESSION_CREATE_FAILED,
+      "ASSEMBLY_FAILED": EXAM_FAILURE_CODES.ASSEMBLY_FAILED,
+      "INVALID_PAYLOAD": EXAM_FAILURE_CODES.INVALID_PAYLOAD,
+      "ZERO_VALID_ITEMS": EXAM_FAILURE_CODES.ZERO_VALID_ITEMS,
+    };
+    const mapped = codeMap[body.code];
+    if (mapped) {
+      return {
+        code: mapped,
+        message: body.error || body.message || "Server error",
+        recoverable: body.recoverable ?? status < 500,
+        httpStatus: status,
+        details: { ...body.details, requiredTier: body.requiredTier, fallbackHint: body.fallbackHint },
+        timestamp: now,
+      };
+    }
   }
 
   switch (status) {
     case 401:
       return { code: EXAM_FAILURE_CODES.ENTITLEMENT_FAILURE, message: "Authentication required", recoverable: true, httpStatus: status, timestamp: now };
     case 403:
-      return { code: EXAM_FAILURE_CODES.ACCESS_DENIED, message: "Access denied", recoverable: false, httpStatus: status, timestamp: now };
+      return { code: EXAM_FAILURE_CODES.ACCESS_DENIED, message: body?.error || "Access denied", recoverable: false, httpStatus: status, timestamp: now, details: { requiredTier: body?.requiredTier } };
     case 404:
-      return { code: EXAM_FAILURE_CODES.MISSING_SESSION, message: "Exam session not found", recoverable: false, httpStatus: status, timestamp: now };
+      return { code: EXAM_FAILURE_CODES.EXAM_NOT_FOUND, message: body?.error || "Exam not found", recoverable: false, httpStatus: status, timestamp: now };
     case 409:
       return { code: EXAM_FAILURE_CODES.STALE_RESUME_POINTER, message: body?.error || "Session state conflict", recoverable: true, httpStatus: status, timestamp: now };
     case 413:
@@ -95,7 +127,7 @@ export function classifyHttpError(status: number, body?: any): ClassifiedExamErr
     case 422:
       return { code: EXAM_FAILURE_CODES.CORRUPTED_SESSION, message: body?.error || "Invalid session data", recoverable: true, httpStatus: status, timestamp: now };
     case 503:
-      return { code: EXAM_FAILURE_CODES.DB_TIMEOUT, message: "Service temporarily unavailable", recoverable: true, httpStatus: status, timestamp: now };
+      return { code: EXAM_FAILURE_CODES.DB_TIMEOUT, message: body?.error || "Service temporarily unavailable", recoverable: true, httpStatus: status, timestamp: now };
     default:
       if (status >= 500) {
         return { code: EXAM_FAILURE_CODES.UNKNOWN, message: body?.error || `Server error: ${status}`, recoverable: true, httpStatus: status, timestamp: now };
@@ -208,4 +240,116 @@ export function getRecoveryStageInfo(stage: RecoveryStage): RecoveryProgress {
     totalStages: stages.length,
     message: stages[idx]?.message || "Recovering...",
   };
+}
+
+export interface ExamStartErrorMessage {
+  title: string;
+  description: string;
+  action?: string;
+  showUpgrade?: boolean;
+  showRetry?: boolean;
+  showAlternatives?: boolean;
+  requiredTier?: string;
+}
+
+export function getExamStartErrorMessage(classified: ClassifiedExamError): ExamStartErrorMessage {
+  const requiredTier = classified.details?.requiredTier;
+
+  switch (classified.code) {
+    case EXAM_FAILURE_CODES.SUBSCRIPTION_REQUIRED:
+      return {
+        title: "Subscription Required",
+        description: requiredTier
+          ? `This exam requires a${requiredTier === "rn" ? "n RN" : ` ${requiredTier.toUpperCase()}`} subscription. Please upgrade your plan to access this exam.`
+          : "This exam requires a paid subscription. Please upgrade your plan to access the question bank.",
+        showUpgrade: true,
+        requiredTier,
+      };
+    case EXAM_FAILURE_CODES.ENTITLEMENT_FAILURE:
+      return {
+        title: "Authentication Required",
+        description: "Please log in to start an exam.",
+        action: "login",
+      };
+    case EXAM_FAILURE_CODES.ACCESS_DENIED:
+      return {
+        title: "Access Restricted",
+        description: requiredTier
+          ? `This exam requires a${requiredTier === "rn" ? "n RN" : ` ${requiredTier.toUpperCase()}`} subscription.`
+          : "You don't have access to this exam tier. Please check your subscription.",
+        showUpgrade: true,
+        requiredTier,
+      };
+    case EXAM_FAILURE_CODES.EXAM_NOT_FOUND:
+      return {
+        title: "Exam Not Found",
+        description: "This exam could not be found. It may have been removed or is no longer available.",
+        showAlternatives: true,
+      };
+    case EXAM_FAILURE_CODES.EXAM_UNPUBLISHED:
+      return {
+        title: "Exam Not Available",
+        description: "This exam is not currently published. Please try a different exam or check back later.",
+        showAlternatives: true,
+      };
+    case EXAM_FAILURE_CODES.ZERO_VALID_ITEMS:
+    case EXAM_FAILURE_CODES.QUESTION_BATCH_MISSING:
+      return {
+        title: "No Questions Available",
+        description: "No questions are available for this exam configuration. Please try a different tier or body system.",
+        showAlternatives: true,
+        showRetry: true,
+      };
+    case EXAM_FAILURE_CODES.ASSEMBLY_FAILED:
+      return {
+        title: "Exam Assembly Issue",
+        description: "We're having trouble assembling your exam. Loading a lighter version...",
+        showRetry: true,
+      };
+    case EXAM_FAILURE_CODES.SESSION_CREATE_FAILED:
+    case EXAM_FAILURE_CODES.SCHEMA_MISMATCH:
+      return {
+        title: "Unable to Start Exam",
+        description: "Unable to create exam session — please retry in a moment. If it persists, contact support.",
+        showRetry: true,
+      };
+    case EXAM_FAILURE_CODES.NETWORK_TIMEOUT:
+    case EXAM_FAILURE_CODES.DB_TIMEOUT:
+      return {
+        title: "Connection Issue",
+        description: "The request timed out. Please check your connection and try again.",
+        showRetry: true,
+      };
+    case EXAM_FAILURE_CODES.OVERSIZED_PAYLOAD:
+      return {
+        title: "Exam Too Large",
+        description: "The exam payload is too large. Loading a lighter version with fewer questions...",
+        showRetry: true,
+      };
+    case EXAM_FAILURE_CODES.INVALID_PAYLOAD:
+      return {
+        title: "Invalid Configuration",
+        description: "The exam configuration is invalid. Please try a different exam setup.",
+        showRetry: true,
+        showAlternatives: true,
+      };
+    case EXAM_FAILURE_CODES.REGION_UNAVAILABLE:
+      return {
+        title: "Temporarily Unavailable",
+        description: "Mock exams are temporarily unavailable for your account. Please try again later.",
+        showRetry: true,
+      };
+    case EXAM_FAILURE_CODES.MEMORY_REJECTION:
+      return {
+        title: "System Busy",
+        description: "The system is under heavy load. Loading a lighter version...",
+        showRetry: true,
+      };
+    default:
+      return {
+        title: "Unable to Start Exam",
+        description: classified.message || "An unexpected error occurred. Attempting recovery...",
+        showRetry: true,
+      };
+  }
 }

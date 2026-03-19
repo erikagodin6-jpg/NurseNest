@@ -10544,7 +10544,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     const startTimeout = setTimeout(() => {
       if (!res.headersSent) {
         console.warn("[MockExam][start-specialty] Timed out after 20s", { requestId });
-        res.status(503).json({ error: "Exam start timed out. Please try again.", reasonCode: "db_timeout", recoverable: true });
+        res.status(503).json({ error: "Exam start timed out. Please try again.", code: "EXAM_START_TIMEOUT", reasonCode: "network_timeout", recoverable: true, fallbackHint: "retry" });
       }
     }, 20000);
     try {
@@ -10556,7 +10556,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         region: req.region || "US",
         profession: authUser?.profession || undefined,
       })) {
-        return res.status(503).json({ error: "Mock exams are temporarily unavailable for your account.", reasonCode: "feature_disabled", recoverable: true });
+        return res.status(503).json({ error: "Mock exams are temporarily unavailable for your account.", code: "FEATURE_DISABLED", reasonCode: "feature_disabled", recoverable: true, fallbackHint: "retry_later" });
       }
       console.log("[MockExam][start-specialty] Stage: payload_received", { requestId, examDefinitionId: req.body.examDefinitionId, specialty: req.body.specialty });
       console.log("[MockExam][start-specialty] Stage: user_auth", { requestId, userId: authUser?.id, userTier: authUser?.tier, subscriptionStatus: authUser?.subscriptionStatus });
@@ -10564,13 +10564,13 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const { examDefinitionId, specialty } = req.body;
       if (!examDefinitionId) {
         console.log("[MockExam][start-specialty] Validation failed: missing exam definition ID", { requestId });
-        return res.status(400).json({ error: "Missing exam definition ID", reasonCode: "invalid_payload", recoverable: false });
+        return res.status(400).json({ error: "Missing exam definition ID", code: "INVALID_PAYLOAD", reasonCode: "invalid_payload", recoverable: false });
       }
 
       console.log("[MockExam][start-specialty] Stage: exam_fetch", { requestId });
       const defResult = await pool.query(`SELECT id, title, specialty, question_ids, time_limit, sections FROM mock_exam_definitions WHERE id = $1`, [examDefinitionId]);
       if (defResult.rows.length === 0) {
-        return res.status(404).json({ error: "Exam definition not found", reasonCode: "exam_not_found", recoverable: false });
+        return res.status(404).json({ error: "Exam definition not found", code: "EXAM_NOT_FOUND", reasonCode: "exam_not_found", recoverable: false });
       }
       const examDef = defResult.rows[0];
 
@@ -10582,18 +10582,22 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const questionIds = examDef.question_ids || [];
       if (questionIds.length === 0) {
         console.log("[MockExam][start-specialty] Stage: validation_failed - zero questions", { requestId });
-        return res.status(400).json({ error: "No questions in this exam definition", reasonCode: "question_batch_missing", recoverable: false });
+        return res.status(400).json({ error: "No questions in this exam definition", code: "ZERO_VALID_ITEMS", reasonCode: "zero_valid_items", recoverable: false, fallbackHint: "try_different_exam" });
       }
       console.log("[MockExam][start-specialty] Stage: assembly", { requestId, questionCount: questionIds.length });
 
       const placeholders = questionIds.map((_: any, i: number) => `$${i + 1}`).join(",");
       const qResult = await pool.query(
-        `SELECT id, stem, options, correct_answer, body_system, topic, subtopic, difficulty, question_type, career_type, scenario, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap, distractor_rationales, region_scope
+        `SELECT id, stem, options, correct_answer, body_system, topic, subtopic, difficulty, question_type, career_type, scenario, clinical_pearl, exam_strategy, memory_hook, framework_used, clinical_trap, distractor_rationales, region_scope, status
          FROM exam_questions WHERE id IN (${placeholders})`,
         questionIds
       );
+      const publishedQuestions = qResult.rows.filter((q: any) => q.status === "published" || !q.status);
+      if (publishedQuestions.length === 0 && qResult.rows.length > 0) {
+        return res.status(400).json({ error: "This exam's questions are not currently published. Please try a different exam.", code: "EXAM_UNPUBLISHED", reasonCode: "exam_unpublished", recoverable: false, fallbackHint: "try_different_exam" });
+      }
 
-      let questions = qResult.rows.map((q: any) => ({
+      const questions = publishedQuestions.map((q: any) => ({
         id: q.id,
         question: q.stem,
         options: q.options,
@@ -10680,20 +10684,27 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!res.headersSent) res.json(responsePayload);
     } catch (e: any) {
       clearTimeout(startTimeout);
+      const correlationId = `exam-specialty-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
       const { classifyServerError } = await import("../shared/exam-error-codes");
       const classified = classifyServerError(e, { attemptId: undefined, questionCount: req.body?.questions?.length, stage: "start-specialty" });
-      console.error("[MockExam][start-specialty] Error:", { message: e.message, code: e.code, reasonCode: classified.code, stack: e.stack?.split("\n").slice(0, 5).join("\n") });
+      console.error("[MockExam][start-specialty] Error:", { correlationId, message: e.message, code: e.code, reasonCode: classified.code, userId: req.authUser?.id, specialty: req.body?.specialty, examDefinitionId: req.body?.examDefinitionId, stack: e.stack?.split("\n").slice(0, 5).join("\n") });
       import("./backend-resilience").then(({ logCriticalError }) => logCriticalError({
         route: "/api/mock-exams/start-specialty", method: "POST", userId: req.authUser?.id,
         examId: req.body?.examDefinitionId, errorMessage: e.message, stackTrace: e.stack,
-        requestParams: { specialty: req.body?.specialty, reasonCode: classified.code },
+        requestParams: { specialty: req.body?.specialty, correlationId, reasonCode: classified.code },
       })).catch(() => {});
       if (res.headersSent) return;
-      res.status(500).json({
+      const isColumnError = e.message?.includes("column") && e.message?.includes("does not exist");
+      const legacyCode = isColumnError ? "SCHEMA_DRIFT" : (classified.code === "unknown" ? "SESSION_CREATE_FAILED" : classified.code.toUpperCase().replace(/-/g, "_"));
+      const reasonCode = isColumnError ? "schema_mismatch" : (classified.code === "unknown" ? "session_create_failed" : classified.code);
+      const httpStatus = isColumnError ? 500 : (classified.httpStatus || 500);
+      res.status(httpStatus).json({
         error: classified.message,
-        reasonCode: classified.code,
+        code: legacyCode,
+        reasonCode,
         recoverable: classified.recoverable,
-        message: classified.message,
+        fallbackHint: classified.recoverable ? "retry_reduced" : undefined,
+        correlationId,
         details: { stage: "start-specialty" },
       });
     }
@@ -10701,17 +10712,18 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
   app.post("/api/mock-exams/start", killSwitchGuard("mock_exams"), requireEntitlement("mock_exams"), async (req: any, res) => {
     const startTime = Date.now();
-    const requestId = `start-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const correlationId = `exam-start-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+    const requestId = correlationId;
+    const stageLog = (stage: string, detail?: any) => console.log(`[MockExam][start][${correlationId}] Stage: ${stage}`, detail || "");
     const startTimeout = setTimeout(() => {
       if (!res.headersSent) {
-        console.warn("[MockExam][start] Timed out after 20s", { requestId });
-        res.status(503).json({ error: "Exam start timed out. Please try again.", reasonCode: "db_timeout", recoverable: true });
+        stageLog("timeout", { elapsed: Date.now() - startTime });
+        res.status(503).json({ error: "Exam start timed out. Please try again.", code: "EXAM_START_TIMEOUT", reasonCode: "network_timeout", recoverable: true, fallbackHint: "retry", correlationId });
       }
     }, 20000);
     try {
       const authUser = req.authUser;
-      console.log("[MockExam][start] Stage: payload_received", { requestId, tier: req.body.tier, examMode: req.body.examMode, blueprintCode: req.body.blueprintCode, questionCount: req.body.questions?.length, totalQuestions: req.body.totalQuestions, serverAssembly: req.body.serverAssembly });
-      console.log("[MockExam][start] Stage: user_auth", { requestId, userId: authUser?.id, userTier: authUser?.tier, subscriptionStatus: authUser?.subscriptionStatus });
+      stageLog("received", { tier: req.body.tier, examMode: req.body.examMode, blueprintCode: req.body.blueprintCode, questionCount: req.body.questions?.length, totalQuestions: req.body.totalQuestions, serverAssembly: req.body.serverAssembly, userId: authUser?.id, userTier: authUser?.tier });
 
       const { tier, totalQuestions, examMode } = req.body;
       let { questions } = req.body;
@@ -10734,8 +10746,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
             examDeliveryLog("Assembly capacity exceeded", { requestId, userId: authUser?.id }, examReqId);
             return res.status(503).json({
               error: "Exam assembly is at capacity. Please try again shortly.",
+              code: "ASSEMBLY_CAPACITY",
               reasonCode: "assembly_capacity",
               recoverable: true,
+              fallbackHint: "retry",
               retryAfter: semErr.retryAfter || 10,
             });
           }
@@ -10743,9 +10757,23 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         }
         console.log("[MockExam][start] Stage: assembly_complete", { requestId, assembledCount: assembled.length });
         if (assembled.length === 0) {
-          return res.status(400).json({ error: "No questions available for this exam configuration.", reasonCode: "question_batch_missing", recoverable: false });
+          return res.status(400).json({ error: "No questions available for this exam configuration.", code: "ZERO_VALID_ITEMS", reasonCode: "zero_valid_items", recoverable: false, fallbackHint: "try_different_config" });
         }
-        questions = assembled.map((q: any) => ({
+        const { validateQuestion } = await import("./exam-reliability");
+        const validatedAssembly = assembled.filter((q: any) => {
+          const result = validateQuestion(q);
+          if (!result.valid) {
+            console.warn("[MockExam][start] Assembly validation rejected question:", { id: q.id, issues: result.issues });
+          }
+          return result.valid;
+        });
+        if (validatedAssembly.length === 0) {
+          return res.status(400).json({ error: "All assembled questions failed validation.", code: "ZERO_VALID_ITEMS", reasonCode: "zero_valid_items", recoverable: true, fallbackHint: "retry_reduced" });
+        }
+        if (validatedAssembly.length < assembled.length) {
+          console.warn(`[MockExam][start] Assembly validation: ${assembled.length - validatedAssembly.length} questions rejected, ${validatedAssembly.length} valid`);
+        }
+        questions = validatedAssembly.map((q: any) => ({
           id: q.id,
           question: q.stem,
           options: q.options,
@@ -10759,16 +10787,16 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
           difficulty: q.difficulty,
           questionType: q.questionType,
         }));
-        console.log("[MockExam][start] Server-assembled", assembled.length, "questions");
+        stageLog("assembly_complete", { assembledCount: validatedAssembly.length, originalCount: assembled.length, rejected: assembled.length - validatedAssembly.length });
       }
 
       if (!tier || !questions || !Array.isArray(questions)) {
-        console.log("[MockExam][start] Validation failed: missing required fields", { requestId });
-        return res.status(400).json({ error: "Missing required fields", reasonCode: "invalid_payload", recoverable: false });
+        stageLog("validation_failed", { reason: "missing_required_fields" });
+        return res.status(400).json({ error: "Missing required fields", code: "INVALID_PAYLOAD", reasonCode: "invalid_payload", recoverable: false });
       }
       if (questions.length === 0) {
-        console.log("[MockExam][start] Validation failed: zero questions", { requestId });
-        return res.status(400).json({ error: "Cannot start an exam with zero questions. Please select a valid exam configuration.", reasonCode: "question_batch_missing", recoverable: false });
+        stageLog("validation_failed", { reason: "zero_questions" });
+        return res.status(400).json({ error: "Cannot start an exam with zero questions. Please select a valid exam configuration.", code: "ZERO_VALID_ITEMS", reasonCode: "zero_valid_items", recoverable: false, fallbackHint: "try_different_config" });
       }
 
       console.log("[MockExam][start] Stage: validation", { requestId, questionCount: questions.length });
@@ -10813,7 +10841,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const MAX_EXAM_QUESTIONS = 300;
       if (questions.length > MAX_EXAM_QUESTIONS) {
         console.warn(`[MockExam][start] Rejecting oversized question array: ${questions.length} questions from user ${authUser?.id}`);
-        return res.status(400).json({ error: `Too many questions. Maximum allowed is ${MAX_EXAM_QUESTIONS}.`, code: "PAYLOAD_TOO_LARGE" });
+        return res.status(400).json({ error: `Too many questions. Maximum allowed is ${MAX_EXAM_QUESTIONS}.`, code: "PAYLOAD_TOO_LARGE", reasonCode: "oversized_payload", recoverable: true, fallbackHint: "retry_reduced" });
       }
       let effectiveExamTier = authUser.tier || "free";
       if (authUser.tier === "admin") {
@@ -10821,14 +10849,14 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         const preview = getPreviewFromToken(previewToken);
         effectiveExamTier = preview ? preview.mode : "admin";
       }
-      console.log("[MockExam][start] Effective tier:", effectiveExamTier);
+      stageLog("tier_check", { effectiveExamTier, requestedTier: tier });
 
       console.log("[MockExam][start] Stage: entitlement_check", { requestId, effectiveExamTier, tier });
       if (effectiveExamTier !== "admin" && effectiveExamTier !== "free") {
         const { getAllowedExamTiers } = await import("../shared/tier-config");
         const allowedTiers = getAllowedExamTiers(effectiveExamTier);
         if (!allowedTiers.includes(tier)) {
-          return res.status(403).json({ error: "Unauthorized exam tier", reasonCode: "tier_mismatch", recoverable: false, currentTier: effectiveExamTier, requiredTier: tier });
+          return res.status(403).json({ error: "Unauthorized exam tier", code: "TIER_MISMATCH", reasonCode: "subscription_required", recoverable: false, currentTier: effectiveExamTier, requiredTier: tier });
         }
       }
 
@@ -10863,6 +10891,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
           } else {
             return res.status(403).json({
               error: "Upgrade required",
+              code: "MOCK_PAYWALL",
               reasonCode: "subscription_required",
               recoverable: false,
               requiredTier: tier,
@@ -10881,16 +10910,41 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       const storedBpMeta = blueprintMetaData ? { ...blueprintMetaData, domainAssignments } : null;
 
+      for (const q of questions) {
+        if (!q.id || !q.question || !Array.isArray(q.options) || q.options.length < 2 || q.correct === undefined || q.correct === null) {
+          console.warn("[MockExam][start] Malformed question detected:", { id: q.id, hasQuestion: !!q.question, optionCount: q.options?.length, hasCorrect: q.correct !== undefined });
+        }
+      }
+
+      const MAX_QUESTION_PAYLOAD_BYTES = 2 * 1024 * 1024;
+      const questionPayloadSize = JSON.stringify(questions).length;
+      if (questionPayloadSize > MAX_QUESTION_PAYLOAD_BYTES) {
+        console.warn(`[MockExam][start] Payload size guard: ${questionPayloadSize} bytes exceeds ${MAX_QUESTION_PAYLOAD_BYTES} limit, truncating to fit`);
+        const maxQuestions = Math.floor(questions.length * (MAX_QUESTION_PAYLOAD_BYTES / questionPayloadSize));
+        questions = questions.slice(0, Math.max(10, maxQuestions));
+      }
+
       const questionIdsOnly = questions.map((q: any) => q.id).filter(Boolean);
 
-      console.log("[MockExam][start] Stage: session_insert", { requestId, userId: String(authUser.id), tier, effectiveTotalQuestions, resolvedExamType, blueprintCode: blueprintCode || null, usedCredit, strippedRationales });
+      if (questionIdsOnly.length === 0) {
+        stageLog("validation_failed", { reason: "zero_valid_ids_after_filtering" });
+        return res.status(400).json({ error: "No valid questions could be assembled for this exam.", code: "ZERO_VALID_ITEMS", reasonCode: "zero_valid_items", recoverable: true, fallbackHint: "retry_reduced" });
+      }
+
+      for (const q of questions) {
+        if (!q.id || !q.question || !Array.isArray(q.options) || q.options.length < 2 || q.correct === undefined || q.correct === null) {
+          console.warn("[MockExam][start] Malformed question detected:", { id: q.id, hasQuestion: !!q.question, optionCount: q.options?.length, hasCorrect: q.correct !== undefined });
+        }
+      }
+
+      stageLog("session_create", { userId: String(authUser.id), tier, questionCount: questions.length, resolvedExamType, blueprintCode: blueprintCode || null, usedCredit });
 
       const result = await pool.query(
         `INSERT INTO mock_exam_attempts (user_id, tier, total_questions, questions, status, report, exam_type, blueprint_code, blueprint_meta)
          VALUES ($1, $2, $3, $4, 'in_progress', $5, $6, $7, $8)
          RETURNING id`,
         [
-          String(authUser.id), tier, effectiveTotalQuestions, JSON.stringify(questionIdsOnly),
+          String(authUser.id), tier, questions.length, JSON.stringify(questionIdsOnly),
           JSON.stringify({ examMode: examMode || "practice" }),
           resolvedExamType, blueprintCode || null,
           storedBpMeta ? JSON.stringify(storedBpMeta) : null,
@@ -10898,7 +10952,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       );
 
       const attemptId = result.rows[0].id;
-      console.log("[MockExam][start] INSERT success, attemptId:", attemptId);
+      stageLog("session_created", { attemptId, elapsed: Date.now() - startTime });
 
       if (usedCredit) {
         await pool.query(
@@ -10906,7 +10960,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
            VALUES ($1, 'MOCK_OFFICIAL', $2, -1, $3, 'Consumed for official mock exam')`,
           [String(authUser.id), creditScope, attemptId]
         );
-        console.log("[MockExam][start] Credit consumed for scope:", creditScope);
+        stageLog("credit_consumed", { creditScope });
       }
 
       console.log("[MockExam][start] Stage: response_send", { requestId, attemptId });
@@ -10922,18 +10976,25 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       clearTimeout(startTimeout);
       const { classifyServerError } = await import("../shared/exam-error-codes");
       const classified = classifyServerError(e, { attemptId: undefined, questionCount: req.body?.totalQuestions, stage: "start" });
-      console.error("[MockExam][start] Error:", { message: e.message, code: e.code, reasonCode: classified.code, stack: e.stack?.split("\n").slice(0, 5).join("\n") });
+      stageLog("error", { message: e.message, code: e.code, reasonCode: classified.code, elapsed: Date.now() - startTime });
+      console.error("[MockExam][start] Error:", { correlationId, message: e.message, code: e.code, reasonCode: classified.code, userId: req.authUser?.id, tier: req.body?.tier, examMode: req.body?.examMode, blueprintCode: req.body?.blueprintCode, stack: e.stack?.split("\n").slice(0, 5).join("\n") });
       import("./backend-resilience").then(({ logCriticalError }) => logCriticalError({
         route: "/api/mock-exams/start", method: "POST", userId: req.authUser?.id,
         examId: req.body?.blueprintCode, errorMessage: e.message, stackTrace: e.stack,
-        requestParams: { tier: req.body?.tier, totalQuestions: req.body?.totalQuestions, examMode: req.body?.examMode, reasonCode: classified.code },
+        requestParams: { tier: req.body?.tier, totalQuestions: req.body?.totalQuestions, examMode: req.body?.examMode, correlationId, reasonCode: classified.code },
       })).catch(() => {});
       if (res.headersSent) return;
-      res.status(500).json({
+      const isColumnError = e.message?.includes("column") && e.message?.includes("does not exist");
+      const legacyCode = isColumnError ? "SCHEMA_DRIFT" : (classified.code === "unknown" ? "SESSION_CREATE_FAILED" : classified.code.toUpperCase().replace(/-/g, "_"));
+      const reasonCode = isColumnError ? "schema_mismatch" : (classified.code === "unknown" ? "session_create_failed" : classified.code);
+      const httpStatus = isColumnError ? 500 : (classified.httpStatus || 500);
+      res.status(httpStatus).json({
         error: classified.message,
-        reasonCode: classified.code,
+        code: legacyCode,
+        reasonCode,
         recoverable: classified.recoverable,
-        message: classified.message,
+        fallbackHint: classified.recoverable ? "retry_reduced" : undefined,
+        correlationId,
         details: { stage: "start", tier: req.body?.tier, examMode: req.body?.examMode },
       });
     }
