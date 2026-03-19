@@ -9,8 +9,11 @@ import { requireEntitlement, checkEntitlement } from "./entitlements";
 const QBANK_FREE_DAILY_LIMIT = 15;
 
 function getMemoryAwareLimit(requestedLimit: number, maxLimit: number): number {
+  let limitMB = 0;
+  try { const mm = require("./memory-monitor"); if (typeof mm.getDetectedMemoryLimitMB === "function") limitMB = mm.getDetectedMemoryLimitMB(); } catch {}
+  if (limitMB <= 0) limitMB = 2048;
   const rssMB = process.memoryUsage().rss / (1024 * 1024);
-  const cap = rssMB > 150 ? Math.ceil(maxLimit * 0.5) : rssMB > 120 ? Math.ceil(maxLimit * 0.75) : maxLimit;
+  const cap = rssMB > limitMB * 0.85 ? Math.ceil(maxLimit * 0.5) : rssMB > limitMB * 0.75 ? Math.ceil(maxLimit * 0.75) : maxLimit;
   return Math.max(1, Math.min(requestedLimit, cap));
 }
 

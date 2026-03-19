@@ -1,0 +1,230 @@
+That message is much more useful. It means the system is reaching the CAT startup logic, but it is failing at the question-pool stage.
+So the problem is no longer “exam button broken.” It is almost certainly one of these:
+Most likely causes
+Zero eligible CAT questions after filtering
+tier filter
+region filter
+language filter
+published/active filter
+premium/free entitlement filter
+Questions exist, but CAT rejects them as invalid
+missing difficulty
+missing blueprint/domain
+missing correct answer
+malformed options
+inactive/unpublished rows
+The CAT pool minimum threshold is set too high
+for example, CAT requires 75/100 valid items but only 20–40 pass validation
+Wrong exam-to-question mapping
+CAT exam points to an empty bank or wrong stream
+This is actually good news because it narrows the root cause a lot.
+Send this prompt now:
+You are working on the NurseNest production codebase.
+
+URGENT: CAT exams now fail with this specific message:
+
+“Question Pool Unavailable
+We're having trouble loading the question pool right now. This is usually temporary — please try again in a moment.”
+
+This means the frontend is reaching the CAT startup flow, but the backend cannot produce a valid CAT question pool.
+
+I need you to find and permanently fix the exact root cause.
+
+==================================================
+GOAL
+==================================================
+
+For every CAT exam start request, determine exactly:
+
+1. how many raw questions exist for that CAT exam
+2. how many remain after each filter
+3. how many are rejected by validation
+4. why the final usable pool is empty or below threshold
+5. how to recover automatically without blocking the user
+
+==================================================
+SECTION 1 — TRACE THE FULL QUESTION POOL PIPELINE
+==================================================
+
+Audit the exact code path that builds the CAT pool.
+
+Find:
+- CAT start endpoint
+- question pool loader
+- exam-to-bank mapping logic
+- entitlement/tier filters
+- region/country filters
+- language filters
+- active/published filters
+- CAT validation rules
+- minimum pool threshold logic
+
+Return the exact files/functions involved.
+
+==================================================
+SECTION 2 — LOG COUNTS AT EVERY STAGE
+==================================================
+
+Add structured logs for each CAT start request showing:
+
+- user id
+- role/tier/subscription
+- exam id / exam type
+- region
+- language
+- total raw candidate questions
+- after exam mapping filter
+- after tier filter
+- after entitlement filter
+- after region filter
+- after language filter
+- after active/published filter
+- after CAT validation
+- minimum required pool size
+- final usable count
+- rejection reasons grouped by type
+
+Example rejection buckets:
+- missing difficulty
+- missing correct answer
+- fewer than 4 options
+- empty stem/content
+- unpublished
+- inactive
+- wrong tier
+- wrong exam type
+- wrong language
+
+==================================================
+SECTION 3 — IDENTIFY THE EXACT ROOT CAUSE
+==================================================
+
+I need the exact reason the pool is unavailable.
+
+Possible root causes to verify:
+- exam points to wrong/empty bank
+- filters remove everything
+- CAT metadata missing on existing questions
+- language/region mismatch
+- published flag false
+- content is in DB but not considered CAT-eligible
+- threshold too strict for available content
+- query bug returns too few rows
+- cache contains stale/empty pool
+
+Do not guess. Find the exact failing condition.
+
+==================================================
+SECTION 4 — FIX THE POOL BUILDER
+==================================================
+
+Refactor the CAT pool builder so it:
+
+1. loads candidate questions deterministically
+2. validates them safely
+3. logs all rejection reasons
+4. returns a normalized result object:
+   - rawCount
+   - filteredCount
+   - validCount
+   - invalidReasons
+   - thresholdRequired
+   - canStartCat
+
+Do not allow silent empty-pool failure.
+
+==================================================
+SECTION 5 — RELAX OVERLY STRICT RULES SAFELY
+==================================================
+
+If the pool is failing only because validation or thresholds are too strict, fix that.
+
+Examples:
+- if CAT requires 100 valid questions but only 35 exist, make threshold configurable
+- if rationale is required for CAT startup, do not block startup on rationale alone unless absolutely necessary
+- only require fields truly necessary for CAT delivery and scoring
+- support fallback difficulty defaults if safe and explicitly logged
+
+Do NOT weaken correctness in a way that breaks scoring, but remove unnecessary blockers.
+
+==================================================
+SECTION 6 — ADD AUTOMATIC USER FALLBACK
+==================================================
+
+If CAT pool cannot be built, do not dead-end the user.
+
+Fallback order:
+1. start a fixed-form standard exam from the same eligible bank
+2. if unavailable, start a smaller adaptive-ready practice set
+3. if unavailable, show a specific unavailable state with incident logged
+
+User-facing copy should say:
+“Adaptive mode is temporarily unavailable. We’ve started a standard exam instead.”
+
+==================================================
+SECTION 7 — ADD AN ADMIN DIAGNOSTIC
+==================================================
+
+Create an admin/debug endpoint or report for CAT pool health:
+
+For each CAT exam show:
+- total mapped questions
+- valid CAT questions
+- invalid CAT questions
+- invalid reason breakdown
+- counts by tier
+- counts by language
+- counts by region
+- current minimum threshold
+- whether exam can start right now
+
+==================================================
+SECTION 8 — VERIFY DATA, NOT JUST CODE
+==================================================
+
+Audit the actual database/content records used by CAT.
+
+I need confirmation of:
+- how many CAT questions exist per tier
+- whether they have difficulty values
+- whether they are active/published
+- whether they are correctly tagged to the exam
+- whether any migration or content generator created malformed rows
+
+If data is bad, add a repair script or normalization migration.
+
+==================================================
+SECTION 9 — OUTPUT REQUIRED
+==================================================
+
+After the audit/fix, return:
+
+1. exact root cause
+2. exact counts before/after filters
+3. files changed
+4. DB/content issues found
+5. thresholds changed
+6. fallback behavior added
+7. test cases added
+8. any remaining risks
+
+IMPORTANT:
+Do not just improve the error message.
+Do not stop at “question pool unavailable.”
+Find the exact condition that makes the final CAT pool unusable and fix it permanently.
+And this is the most likely technical explanation in plain language:
+Your CAT exam starter is probably doing something like this:
+fetch questions for CAT exam
+filter to user tier
+filter to region/language
+filter to active/published
+validate CAT metadata
+require minimum pool size
+fail if remaining count is 0 or below threshold
+So even if you “have questions in the database,” the usable CAT pool may still be zero.
+The fastest permanent fix is usually:
+add count logging after every filter
+inspect the actual rejected questions
+reduce over-strict thresholds where safe
+add fallback to standard exam mode
+Paste their audit output or the CAT pool code and I’ll tell you which filter is probably wiping it out.

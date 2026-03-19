@@ -1433,7 +1433,15 @@ export function getLoadSheddingStatus(): { enabled: boolean; queueLength: number
 }
 
 export function loadSheddingMiddleware() {
-  const RSS_SHED_THRESHOLD_MB = 160;
+  let detectedLimitMB = 0;
+  try {
+    const mm = require("./memory-monitor");
+    if (typeof mm.getDetectedMemoryLimitMB === "function") {
+      detectedLimitMB = mm.getDetectedMemoryLimitMB();
+    }
+  } catch {}
+  if (detectedLimitMB <= 0) detectedLimitMB = 2048;
+  const RSS_SHED_THRESHOLD_MB = Math.round(detectedLimitMB * 0.85);
   return (req: Request, res: Response, next: NextFunction) => {
     if (!loadSheddingConfig.enabled) return next();
 

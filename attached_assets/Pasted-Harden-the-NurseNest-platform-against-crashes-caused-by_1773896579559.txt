@@ -1,0 +1,83 @@
+Harden the NurseNest platform against crashes caused by loading too much data or doing too much work in a single request.
+
+GOAL:
+Ensure no single request, exam start, publish job, AI generation task, or user action can overwhelm memory, block the server, or cascade into platform instability.
+
+Implement the following system-wide protections:
+
+1. QUERY SAFETY
+- Add explicit LIMITs to all list/content/question queries
+- Select only required columns
+- Move filtering to the database
+- Add pagination for admin/content screens
+- Audit and remove any unlimited queries
+
+2. INCREMENTAL LOADING
+- Do not preload full question banks, lesson banks, or exam datasets
+- Load lightweight metadata first
+- Hydrate full records only when needed
+- Serve one question at a time for exams/CAT
+
+3. TIMEOUTS
+- Add DB statement timeouts
+- Add API handler timeouts
+- Add worker/job timeouts
+- Fail fast instead of hanging
+
+4. CONCURRENCY CONTROL
+- Add per-endpoint concurrency limits for expensive routes
+- Add queueing for heavy jobs
+- Add per-user and global rate limiting for exam starts, AI generation, and publish actions
+
+5. CIRCUIT BREAKERS + BACKPRESSURE
+- If a dependency is degraded, stop repeated expensive retries
+- Temporarily reject or downgrade nonessential operations under load
+- Protect critical user flows first
+
+6. GRACEFUL DEGRADATION
+- CAT failure → standard exam fallback
+- AI failure → static/default content fallback
+- analytics/recommendations failure must never block core flows
+- never leave users at a dead end
+
+7. CACHE DISCIPLINE
+- Cache only small metadata and lookup results
+- Remove any cache that stores giant full-bank payloads
+- Add TTL, max size, and eviction policy to all caches
+
+8. MEMORY DISCIPLINE
+- Remove code paths that load or duplicate large arrays
+- Avoid repeated array cloning/transformation on large datasets
+- Stream or batch large processing tasks
+- free intermediates as early as possible
+
+9. WORKER ISOLATION
+- Separate live user traffic from heavy background tasks where possible
+- move audits, generation, exports, and heavy recomputations off the request path
+
+10. DATA VALIDATION BEFORE PRODUCTION USE
+- Validate questions/content before publish
+- reject malformed content early
+- add admin diagnostics for invalid rows that would break exams
+
+11. IDEMPOTENCY + DUPLICATE REQUEST PROTECTION
+- prevent duplicate exam start requests
+- add idempotency for critical mutations
+- disable buttons while requests are active
+
+12. OBSERVABILITY
+- log slow queries, large payloads, memory-heavy routes, queue depth, fallback usage, and concurrency spikes
+- identify top crash-risk endpoints
+- expose a simple admin/system health view
+
+13. FEATURE FLAGS / KILL SWITCHES
+- add emergency toggles for unstable subsystems so one bad feature does not take down the site
+
+OUTPUT REQUIRED:
+1. exact crash-risk code paths found
+2. files changed
+3. query limits/indexes/timeouts added
+4. concurrency protections added
+5. fallback paths added
+6. monitoring added
+7. remaining risks

@@ -66,12 +66,20 @@ const vipPriorityConfig = {
     shed_low_priority: 0.98,
     emergency: 0.99,
   },
-  rssThresholdsMB: {
-    shed_free_nonessential: 130,
-    shed_free_all: 150,
-    shed_low_priority: 165,
-    emergency: 180,
-  },
+  rssThresholdsMB: (() => {
+    let limitMB = 0;
+    try {
+      const mm = require("./memory-monitor");
+      if (typeof mm.getDetectedMemoryLimitMB === "function") limitMB = mm.getDetectedMemoryLimitMB();
+    } catch {}
+    if (limitMB <= 0) limitMB = 2048;
+    return {
+      shed_free_nonessential: Math.round(limitMB * 0.75),
+      shed_free_all: Math.round(limitMB * 0.80),
+      shed_low_priority: Math.round(limitMB * 0.85),
+      emergency: Math.round(limitMB * 0.90),
+    };
+  })(),
 };
 
 const vipMetrics = {
