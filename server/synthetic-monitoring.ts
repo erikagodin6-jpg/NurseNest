@@ -270,6 +270,19 @@ export async function runAllSyntheticTests(
   pool: pg.Pool,
   baseUrl: string
 ): Promise<Array<SyntheticTestRunResult & { testName: string }>> {
+  try {
+    const { isEmergencyMode } = await import("./platform-resilience");
+    const { isMemoryProtectionActive } = await import("./memory-monitor");
+    if (isEmergencyMode()) {
+      console.log("[SyntheticMonitor] Skipping — emergency mode is active");
+      return [];
+    }
+    if (isMemoryProtectionActive()) {
+      console.log("[SyntheticMonitor] Skipping — memory protection is active");
+      return [];
+    }
+  } catch {}
+
   const enabledTests = ALL_TESTS.filter(t => t.enabled);
   console.log(`[SyntheticMonitor] Running ${enabledTests.length} synthetic tests...`);
 

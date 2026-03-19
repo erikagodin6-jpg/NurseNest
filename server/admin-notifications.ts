@@ -63,7 +63,8 @@ type NotificationEvent =
   | "payment_failed"
   | "lifetime_purchase"
   | "trial_started"
-  | "test";
+  | "test"
+  | "reliability_alert";
 
 interface NotificationPayload {
   event: NotificationEvent;
@@ -76,6 +77,7 @@ interface NotificationPayload {
   currency?: string;
   subscriptionId?: string;
   details?: string;
+  alertType?: string;
 }
 
 function shouldNotify(settings: NotificationSettings, event: NotificationEvent): boolean {
@@ -85,25 +87,27 @@ function shouldNotify(settings: NotificationSettings, event: NotificationEvent):
     case "payment_failed": return settings.notifyOnPaymentFailed;
     case "lifetime_purchase": return settings.notifyOnLifetimePurchase;
     case "trial_started": return settings.notifyOnTrialStart;
+    case "reliability_alert": return settings.notifyOnCriticalIncident || settings.notifyOnWarningIncident;
     case "test": return true;
     default: return false;
   }
 }
 
-function formatEventTitle(event: NotificationEvent): string {
+function formatEventTitle(event: NotificationEvent, alertType?: string): string {
   switch (event) {
     case "new_subscription": return "New Subscription";
     case "subscription_cancelled": return "Subscription Cancelled";
     case "payment_failed": return "Payment Failed";
     case "lifetime_purchase": return "Lifetime Purchase";
     case "trial_started": return "New Trial Started";
+    case "reliability_alert": return `Reliability Alert: ${alertType || "System Issue"}`;
     case "test": return "Test Notification";
     default: return "Notification";
   }
 }
 
 function formatEmailBody(payload: NotificationPayload): string {
-  const title = formatEventTitle(payload.event);
+  const title = formatEventTitle(payload.event, payload.alertType);
   const time = new Date().toLocaleString("en-CA", { timeZone: "America/Toronto" });
 
   let details = "";
@@ -120,6 +124,7 @@ function formatEmailBody(payload: NotificationPayload): string {
     trial_started: "#3b82f6",
     subscription_cancelled: "#f59e0b",
     payment_failed: "#ef4444",
+    reliability_alert: "#dc2626",
     test: "#6366f1",
   };
   const color = eventColors[payload.event] || "#6366f1";
@@ -149,7 +154,7 @@ function formatEmailBody(payload: NotificationPayload): string {
 }
 
 function formatSmsBody(payload: NotificationPayload): string {
-  const title = formatEventTitle(payload.event);
+  const title = formatEventTitle(payload.event, payload.alertType);
   const parts = [`NurseNest: ${title}`];
   if (payload.userName) parts.push(`Student: ${payload.userName}`);
   if (payload.tier) parts.push(`Tier: ${payload.tier.toUpperCase()}`);
@@ -208,7 +213,7 @@ async function sendEmail(pool: any, settings: NotificationSettings, payload: Not
     console.log(`[Notifications] Skipping duplicate email for ${payload.stripeEventId}`);
     return;
   }
-  const subject = `NurseNest: ${formatEventTitle(payload.event)}`;
+  const subject = `NurseNest: ${formatEventTitle(payload.event, payload.alertType)}`;
   const html = formatEmailBody(payload);
   const to = settings.adminEmail;
 

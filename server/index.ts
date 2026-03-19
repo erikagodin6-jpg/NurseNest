@@ -733,9 +733,11 @@ app.post(
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: false }));
 
-import { connectionTrackingMiddleware, loadSheddingMiddleware, responseSizeLimiterMiddleware, memoryAwareRequestLogger } from "./memory-middleware";
+import { connectionTrackingMiddleware, loadSheddingMiddleware, responseSizeLimiterMiddleware, memoryAwareRequestLogger, aiConcurrencyLimiterMiddleware, routeInstrumentationMiddleware } from "./memory-middleware";
 app.use(connectionTrackingMiddleware());
+app.use(routeInstrumentationMiddleware());
 app.use(loadSheddingMiddleware());
+app.use(aiConcurrencyLimiterMiddleware());
 app.use(responseSizeLimiterMiddleware());
 app.use(memoryAwareRequestLogger());
 
@@ -1268,6 +1270,11 @@ function runDeferredStartupWork() {
     await runSeedStep("QBank Templates", async () => {
       const { seedPromptTemplates } = await import("./prompts/qbank-templates");
       await seedPromptTemplates();
+    });
+
+    await runSeedStep("Quarantine Zero-Valid Content", async () => {
+      const { runStartupQuarantine } = await import("./publish-gate");
+      await runStartupQuarantine();
     });
 
     console.log(`[DeferredStartup] Phase 1 complete in ${Date.now() - phase1Start}ms`);

@@ -10,6 +10,10 @@ import {
 
 const MAX_RESPONSE_SIZE_BYTES = 1 * 1024 * 1024;
 const MAX_ITEMS_UNDER_PRESSURE = 10;
+const MAX_CONCURRENT_AI_OPS = 2;
+const AI_REQUEST_TIMEOUT_MS = 45_000;
+const MAX_REQUEST_BODY_SIZE = 512 * 1024;
+let activeAiOps = 0;
 
 const BULK_AI_PATTERNS = [
   "/api/ai/generate",
@@ -59,11 +63,44 @@ const EXEMPT_PATHS = [
   "/api/stripe/webhook",
 ];
 
+const HEAVY_NON_ESSENTIAL_PATTERNS = [
+  "/api/ai/",
+  "/api/admin/ai",
+  "/api/admin/seo",
+  "/api/seo/generate",
+  "/api/admin/mass-expansion",
+  "/api/admin/bulk",
+  "/api/admin/publish-gate",
+];
+
 export function loadSheddingMiddleware() {
   return (req: Request, res: Response, next: NextFunction) => {
     if (!req.path.startsWith("/api/")) return next();
 
     if (EXEMPT_PATHS.some(p => req.path.startsWith(p))) return next();
+
+    let emergencyMode = false;
+    try {
+      const resilience = require("./platform-resilience");
+      emergencyMode = typeof resilience.isEmergencyMode === "function" && resilience.isEmergencyMode();
+    } catch {}
+
+    if (emergencyMode) {
+      const isHeavy = HEAVY_NON_ESSENTIAL_PATTERNS.some(p => req.path.startsWith(p));
+      if (isHeavy) {
+        res.setHeader("Retry-After", "120");
+        return res.status(503).json({
+          error: "Platform is in emergency mode. Non-essential operations are temporarily disabled.",
+          retryAfter: 120,
+          emergencyMode: true,
+        });
+      }
+
+      const isLargeList = LARGE_LIST_PATTERNS.some(p => req.path.startsWith(p));
+      if (isLargeList && req.method === "GET") {
+        req.query.limit = String(Math.min(parseInt(req.query.limit as string) || 50, 5));
+      }
+    }
 
     if (isMemoryCritical()) {
       const isBulkAI = BULK_AI_PATTERNS.some(p => req.path.startsWith(p));
@@ -151,6 +188,93 @@ export function memoryAwareRequestLogger() {
       }
     }
 
+    next();
+  };
+}
+
+export function aiConcurrencyLimiterMiddleware() {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const isBulkAI = BULK_AI_PATTERNS.some(p => req.path.startsWith(p));
+    if (!isBulkAI || req.method !== "POST") return next();
+
+    if (isMemoryProtectionActive()) {
+      res.setHeader("Retry-After", "30");
+      return res.status(503).json({
+        error: "AI operations temporarily disabled due to memory pressure.",
+        retryAfter: 30,
+        memoryPressure: true,
+      });
+    }
+
+    if (activeAiOps >= MAX_CONCURRENT_AI_OPS) {
+      return res.status(503).json({
+        error: `Too many concurrent AI operations (${activeAiOps}/${MAX_CONCURRENT_AI_OPS}). Please try again shortly.`,
+        retryAfter: 10,
+      });
+    }
+
+    const contentLength = parseInt(req.headers["content-length"] || "0");
+    if (contentLength > MAX_REQUEST_BODY_SIZE) {
+      return res.status(413).json({
+        error: `Request body too large (${Math.round(contentLength / 1024)}KB). Maximum: ${Math.round(MAX_REQUEST_BODY_SIZE / 1024)}KB.`,
+      });
+    }
+
+    activeAiOps++;
+    const timer = setTimeout(() => {
+      if (!res.headersSent) {
+        res.status(504).json({ error: "AI operation timed out." });
+      }
+    }, AI_REQUEST_TIMEOUT_MS);
+
+    let decremented = false;
+    const onComplete = () => {
+      if (!decremented) {
+        decremented = true;
+        clearTimeout(timer);
+        activeAiOps = Math.max(0, activeAiOps - 1);
+      }
+    };
+    res.on("finish", onComplete);
+    res.on("close", onComplete);
+
+    next();
+  };
+}
+
+const INSTRUMENTED_ROUTES = [
+  "/api/exams",
+  "/api/exam-questions",
+  "/api/mock-exams",
+  "/api/ai/",
+  "/api/content",
+  "/api/lessons",
+];
+
+export function routeInstrumentationMiddleware() {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!req.path.startsWith("/api/")) return next();
+
+    const isInstrumented = INSTRUMENTED_ROUTES.some(p => req.path.startsWith(p));
+    if (!isInstrumented) return next();
+
+    const startTime = Date.now();
+    const mem = process.memoryUsage();
+
+    const onFinish = () => {
+      const latencyMs = Date.now() - startTime;
+      const memAfter = process.memoryUsage();
+      const contentLength = res.getHeader("content-length");
+      const payloadSize = contentLength ? parseInt(String(contentLength)) : 0;
+
+      if (latencyMs > 1000 || payloadSize > 100_000) {
+        console.log(
+          `[RouteInstrumentation] ${req.method} ${req.path} | ${res.statusCode} | ${latencyMs}ms | payload=${Math.round(payloadSize / 1024)}KB | rss=${Math.round(memAfter.rss / 1024 / 1024)}MB | heapUsed=${Math.round(memAfter.heapUsed / 1024 / 1024)}MB | heapDelta=${Math.round((memAfter.heapUsed - mem.heapUsed) / 1024)}KB`
+        );
+      }
+    };
+
+    res.on("finish", onFinish);
     next();
   };
 }

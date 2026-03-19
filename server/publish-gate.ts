@@ -299,6 +299,35 @@ async function storeArtifact(
   return result.rows[0].id;
 }
 
+function checkZeroValidItems(normalizedType: string, data: any): boolean {
+  if (normalizedType === "question") {
+    const options = Array.isArray(data.options) ? data.options : [];
+    const validOptions = options.filter((o: any) => {
+      const text = typeof o === "string" ? o : o?.text;
+      return text && text.trim().length > 0;
+    });
+    if (validOptions.length === 0) return true;
+    if (!data.stem || (typeof data.stem === "string" && data.stem.trim().length === 0)) return true;
+  }
+
+  if (normalizedType === "flashcard") {
+    if ((!data.front || data.front.trim().length === 0) && (!data.back || data.back.trim().length === 0)) return true;
+  }
+
+  if (normalizedType === "lesson" || normalizedType === "blog") {
+    const content = data.content;
+    if (content === null || content === undefined) return true;
+    if (typeof content === "string" && (content === "[]" || content === "{}" || content === "null" || content.trim().length === 0)) return true;
+    if (Array.isArray(content) && content.length === 0) return true;
+    if (typeof content === "object" && !Array.isArray(content) && Object.keys(content).length === 0) return true;
+
+    const hasSubstantive = data.title || data.definition || data.summary || data.pathophysiology;
+    if (!hasSubstantive && (!content || (Array.isArray(content) && content.length === 0))) return true;
+  }
+
+  return false;
+}
+
 function validateLinkedMediaAssets(data: any, contentType: string): ValidationError[] {
   const errors: ValidationError[] = [];
   const normalized = normalizeContentType(contentType);
@@ -463,6 +492,16 @@ export async function runPublishGate(
   const { repairedData, repairs } = autoRepairContent(contentType, data);
 
   const validation = validateForPublish(contentType, repairedData);
+
+  const hasZeroValidItems = checkZeroValidItems(normalized, repairedData);
+  if (hasZeroValidItems) {
+    validation.errors.push({
+      field: "content",
+      message: "Content has zero valid items and cannot be published. Add valid content before publishing.",
+      severity: "error",
+    });
+    validation.valid = false;
+  }
 
   const mediaErrors = validateLinkedMediaAssets(repairedData, contentType);
   const accessErrors = validateAccessMetadata(repairedData, contentType);
@@ -767,4 +806,65 @@ export function registerPublishGateRoutes(app: Express): void {
       res.status(500).json({ error: err.message });
     }
   });
+
+  app.post("/api/admin/publish-gate/quarantine-zero-valid", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const result = await quarantineZeroValidContent();
+      res.json(result);
+    } catch (err: any) {
+      console.error("[PublishGate] Quarantine scan error:", err.message);
+      res.status(500).json({ error: err.message });
+    }
+  });
+}
+
+async function quarantineZeroValidContent(): Promise<{ quarantined: Array<{ id: string; title: string; type: string }>; count: number }> {
+  const quarantined: Array<{ id: string; title: string; type: string }> = [];
+
+  const contentItems = await pool.query(
+    `SELECT id, title, type, content FROM content_items WHERE status = 'published'`
+  );
+  for (const item of contentItems.rows) {
+    const content = item.content;
+    const isEmpty = content === null || content === undefined ||
+      (typeof content === "string" && (content === "[]" || content === "{}" || content === "null" || content.trim().length === 0)) ||
+      (Array.isArray(content) && content.length === 0) ||
+      (typeof content === "object" && !Array.isArray(content) && Object.keys(content).length === 0);
+
+    if (isEmpty) {
+      await pool.query(`UPDATE content_items SET status = 'quarantined' WHERE id = $1`, [item.id]);
+      quarantined.push({ id: item.id, title: item.title, type: item.type });
+    }
+  }
+
+  const examQuestions = await pool.query(
+    `SELECT id, stem, tier FROM exam_questions WHERE status = 'published' AND (
+      stem IS NULL OR stem = '' OR
+      options IS NULL OR options::text = '[]' OR options::text = '{}' OR
+      correct_answer IS NULL
+    )`
+  );
+  for (const q of examQuestions.rows) {
+    await pool.query(`UPDATE exam_questions SET status = 'quarantined' WHERE id = $1`, [q.id]);
+    quarantined.push({ id: q.id, title: q.stem?.substring(0, 60) || "No stem", type: "exam_question" });
+  }
+
+  console.log(`[PublishGate] Quarantined ${quarantined.length} zero-valid-items content`);
+  return { quarantined, count: quarantined.length };
+}
+
+export async function runStartupQuarantine(): Promise<void> {
+  try {
+    const result = await quarantineZeroValidContent();
+    if (result.count > 0) {
+      console.log(`[PublishGate] Startup quarantine: removed ${result.count} zero-valid items from public visibility`);
+    } else {
+      console.log(`[PublishGate] Startup quarantine: no zero-valid items found`);
+    }
+  } catch (err: any) {
+    console.warn(`[PublishGate] Startup quarantine skipped (non-fatal):`, err.message);
+  }
 }

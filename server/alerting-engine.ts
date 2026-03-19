@@ -44,14 +44,37 @@ const DEFAULT_THRESHOLDS: AlertThresholds = {
   paymentSyncErrorCountPerHour: 3,
 };
 
+const HARD_RATE_LIMIT_MS = 30 * 60 * 1000;
+
 let thresholds: AlertThresholds = { ...DEFAULT_THRESHOLDS };
 const recentAlerts = new Map<string, number>();
 const MAX_RECENT_ALERTS = 500;
 
+interface IncidentGroup {
+  alertType: AlertType;
+  context?: string;
+  firstSeen: number;
+  lastSeen: number;
+  count: number;
+  lastMessage: string;
+  notified: boolean;
+}
+
+const incidentGroups = new Map<string, IncidentGroup>();
+const hardRateLimitMap = new Map<string, number>();
+
 function evictExpiredAlerts(): void {
-  if (recentAlerts.size <= MAX_RECENT_ALERTS) return;
   const cooldownMs = thresholds.cooldownMinutes * 60 * 1000;
   const now = Date.now();
+
+  for (const [key, ts] of hardRateLimitMap) {
+    if (now - ts > HARD_RATE_LIMIT_MS) hardRateLimitMap.delete(key);
+  }
+  for (const [key, group] of incidentGroups) {
+    if (now - group.lastSeen > HARD_RATE_LIMIT_MS) incidentGroups.delete(key);
+  }
+
+  if (recentAlerts.size <= MAX_RECENT_ALERTS) return;
   for (const [key, ts] of recentAlerts) {
     if (now - ts > cooldownMs) recentAlerts.delete(key);
   }
@@ -135,15 +158,43 @@ export async function fireAlert(
   context?: string
 ): Promise<string | null> {
   if (isInCooldown(alertType, context)) {
-    console.log(`[AlertEngine] Suppressed (cooldown): ${alertType} - ${message}`);
+    const groupKey = getCooldownKey(alertType, context);
+    const group = incidentGroups.get(groupKey);
+    if (group) {
+      group.lastSeen = Date.now();
+      group.count++;
+      group.lastMessage = message;
+    }
+    console.log(`[AlertEngine] Suppressed (cooldown): ${alertType} - ${message}${group ? ` (occurrence #${group.count})` : ""}`);
     return null;
   }
 
   try {
+    const groupKey = getCooldownKey(alertType, context);
+    let group = incidentGroups.get(groupKey);
+    const now = Date.now();
+
+    if (group) {
+      group.lastSeen = now;
+      group.count++;
+      group.lastMessage = message;
+    } else {
+      group = {
+        alertType,
+        context,
+        firstSeen: now,
+        lastSeen: now,
+        count: 1,
+        lastMessage: message,
+        notified: false,
+      };
+      incidentGroups.set(groupKey, group);
+    }
+
     const result = await pool.query(
       `INSERT INTO reliability_alerts (alert_type, severity, message, metadata)
        VALUES ($1, $2, $3, $4) RETURNING id`,
-      [alertType, severity, message, JSON.stringify(metadata)]
+      [alertType, severity, message, JSON.stringify({ ...metadata, incidentCount: group.count, firstSeen: new Date(group.firstSeen).toISOString() })]
     );
     const alertId = result.rows[0]?.id;
     markFired(alertType, context);
@@ -151,16 +202,27 @@ export async function fireAlert(
     console.log(`[AlertEngine] ALERT ${severity.toUpperCase()}: [${alertType}] ${message}`);
 
     const settings = await getNotificationSettings(pool);
-    const shouldNotify =
+    const shouldNotifyAdmin =
       (severity === "critical" && settings.notifyOnCriticalIncident) ||
       (severity === "warning" && settings.notifyOnWarningIncident);
 
-    if (shouldNotify) {
+    const hardRateKey = alertType;
+    const lastHardRate = hardRateLimitMap.get(hardRateKey);
+    const withinHardRateLimit = !lastHardRate || (now - lastHardRate >= HARD_RATE_LIMIT_MS);
+
+    if (shouldNotifyAdmin && withinHardRateLimit) {
+      hardRateLimitMap.set(hardRateKey, now);
+
       const severityEmoji = severity === "critical" ? "🔴" : severity === "warning" ? "🟡" : "🔵";
+      const incidentInfo = group.count > 1
+        ? `\n\nIncident Group: ${group.count} occurrences\nFirst seen: ${new Date(group.firstSeen).toISOString()}\nLast seen: ${new Date(group.lastSeen).toISOString()}`
+        : "";
       sendAdminNotification(pool, {
-        event: severity === "critical" ? "payment_failed" : "test",
-        details: `${severityEmoji} Reliability Alert: ${message}\n\nType: ${alertType}\nSeverity: ${severity}\nTime: ${new Date().toISOString()}`,
+        event: "reliability_alert",
+        alertType,
+        details: `${severityEmoji} Reliability Alert: ${message}\n\nType: ${alertType}\nSeverity: ${severity}\nTime: ${new Date().toISOString()}${incidentInfo}`,
       }).catch((e: any) => console.error("[AlertEngine] Notification send failed:", e.message));
+      group.notified = true;
     }
 
     return alertId;

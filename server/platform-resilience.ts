@@ -855,6 +855,8 @@ export function getResilienceEvents(limit = 50): ResilienceEvent[] {
 let emergencyModeActive = false;
 let emergencyModeReason: string | null = null;
 let emergencyModeActivatedAt: number | null = null;
+let emergencyModeDeactivatedAt: number | null = null;
+const EMERGENCY_MODE_COOLDOWN_MS = 60_000;
 
 export function isEmergencyMode(): boolean {
   return emergencyModeActive;
@@ -862,6 +864,10 @@ export function isEmergencyMode(): boolean {
 
 export function activateEmergencyMode(reason: string, actor?: string): void {
   if (emergencyModeActive) return;
+  if (emergencyModeDeactivatedAt && Date.now() - emergencyModeDeactivatedAt < EMERGENCY_MODE_COOLDOWN_MS) {
+    console.log(`[EMERGENCY MODE] Cooldown active (${Math.round((EMERGENCY_MODE_COOLDOWN_MS - (Date.now() - emergencyModeDeactivatedAt)) / 1000)}s remaining), skipping re-activation`);
+    return;
+  }
   emergencyModeActive = true;
   emergencyModeReason = reason;
   emergencyModeActivatedAt = Date.now();
@@ -886,6 +892,7 @@ export function deactivateEmergencyMode(actor?: string): void {
   emergencyModeActive = false;
   emergencyModeReason = null;
   emergencyModeActivatedAt = null;
+  emergencyModeDeactivatedAt = Date.now();
   addResilienceEvent("emergency_mode_deactivated", "system", { actor, durationMs: duration });
   addResilienceAudit("emergency_mode_deactivate", "platform", "emergency_mode", { actor, durationMs: duration }, actor || null);
   pool.query(
