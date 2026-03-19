@@ -1,5 +1,6 @@
 import type { Request, Response, Express } from "express";
 import crypto from "crypto";
+import { BoundedMap } from "./bounded-map";
 
 interface PreviewSession {
   id: string;
@@ -17,7 +18,7 @@ interface PreviewSession {
   active: boolean;
 }
 
-const previewSessions = new Map<string, PreviewSession>();
+const previewSessions = new BoundedMap<string, PreviewSession>(50, 60 * 60 * 1000);
 
 const MOBILE_DEVICES: Record<string, { width: number; height: number; userAgent: string }> = {
   "iphone-14": { width: 390, height: 844, userAgent: "iPhone 14" },

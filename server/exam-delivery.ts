@@ -369,7 +369,7 @@ export function registerExamDeliveryRoutes(app: Express): void {
       const pageSize = Math.min(Math.max(requestedPageSize || DEFAULT_PAGE_SIZE, 5), MAX_PAGE_SIZE);
 
       const templateResult = await pool.query(
-        "SELECT * FROM mock_exam_templates WHERE template_id = $1 AND active = true",
+        "SELECT template_id, template_name, exam_name, exam_code, question_count, time_limit_minutes, domain_weights, difficulty_distribution, format_mix, passing_standard, tier FROM mock_exam_templates WHERE template_id = $1 AND active = true",
         [templateId]
       );
 
@@ -457,7 +457,7 @@ export function registerExamDeliveryRoutes(app: Express): void {
       const page = Math.max(1, parseInt(req.query.page as string) || 1);
 
       const attempt = await pool.query(
-        "SELECT * FROM exam_attempts WHERE id = $1 AND user_id = $2",
+        "SELECT status, question_count, page_size, questions_payload FROM exam_attempts WHERE id = $1 AND user_id = $2",
         [attemptId, user.id]
       );
 
@@ -607,7 +607,7 @@ export function registerExamDeliveryRoutes(app: Express): void {
       const { attemptId } = req.params;
 
       const attempt = await pool.query(
-        "SELECT * FROM exam_attempts WHERE id = $1 AND user_id = $2",
+        "SELECT status, questions_payload, answers, template_id, exam_code, question_count, time_limit_minutes, passing_standard FROM exam_attempts WHERE id = $1 AND user_id = $2",
         [attemptId, user.id]
       );
 
@@ -629,7 +629,7 @@ export function registerExamDeliveryRoutes(app: Express): void {
       const { computeScoreReport } = await import("./mock-exam-assembly");
 
       const template = await pool.query(
-        "SELECT * FROM mock_exam_templates WHERE template_id = $1",
+        "SELECT domain_weights, difficulty_distribution, format_mix, tier FROM mock_exam_templates WHERE template_id = $1",
         [row.template_id]
       );
       const tmpl = template.rows[0] || {};

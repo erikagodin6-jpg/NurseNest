@@ -2,6 +2,7 @@ import type { Express, Request, Response } from "express";
 import { pool } from "./storage";
 import { requireAdmin, logOperatorAction } from "./admin-auth";
 import { getActiveIncidents, getAllIncidents } from "./incident-monitor";
+import { BoundedMap } from "./bounded-map";
 
 function snakeToCamel(obj: any): any {
   if (Array.isArray(obj)) return obj.map(snakeToCamel);
@@ -20,7 +21,7 @@ interface RouteErrorEntry {
   statuses: { code: number; timestamp: number }[];
 }
 
-const routeErrorCounts = new Map<string, RouteErrorEntry>();
+const routeErrorCounts = new BoundedMap<string, RouteErrorEntry>(500, 30 * 60 * 1000);
 
 export function recordRouteError(path: string, statusCode: number): void {
   const key = path.replace(/\/[0-9a-f-]{36}/g, "/:id").replace(/\/\d+/g, "/:id");

@@ -774,8 +774,7 @@ interface RateLimitEntry {
   windowStart: number;
 }
 
-const rateLimitStore = new Map<string, RateLimitEntry>();
-const MAX_RATE_LIMIT_ENTRIES = 1000;
+const rateLimitStore = new BoundedMap<string, RateLimitEntry>(1000, 120000);
 const RATE_LIMIT_CLEANUP_INTERVAL = 60000;
 
 setInterval(() => {
@@ -785,8 +784,8 @@ setInterval(() => {
       rateLimitStore.delete(key);
     }
   }
-  if (rateLimitStore.size > MAX_RATE_LIMIT_ENTRIES) {
-    const toDelete = rateLimitStore.size - MAX_RATE_LIMIT_ENTRIES;
+  if (rateLimitStore.size > 1000) {
+    const toDelete = rateLimitStore.size - 1000;
     let deleted = 0;
     for (const key of rateLimitStore.keys()) {
       if (deleted >= toDelete) break;
@@ -1528,9 +1527,8 @@ export function sensitiveApiRateLimitMiddleware() {
   return rateLimitMiddleware({ windowMs: 300000, maxRequests: 20, keyPrefix: "sensitive", subscriberMultiplier: 2 });
 }
 
-const entitlementCache = new Map<string, { result: any; expiresAt: number }>();
+const entitlementCache = new BoundedMap<string, { result: any; expiresAt: number }>(500, 30000);
 const ENTITLEMENT_CACHE_TTL = 30000;
-const MAX_ENTITLEMENT_CACHE_SIZE = 500;
 
 export function getCachedEntitlement(userId: string): any | null {
   const cached = entitlementCache.get(userId);
@@ -1540,10 +1538,6 @@ export function getCachedEntitlement(userId: string): any | null {
 }
 
 export function setCachedEntitlement(userId: string, result: any): void {
-  if (entitlementCache.size >= MAX_ENTITLEMENT_CACHE_SIZE) {
-    const firstKey = entitlementCache.keys().next().value;
-    if (firstKey) entitlementCache.delete(firstKey);
-  }
   entitlementCache.set(userId, { result, expiresAt: Date.now() + ENTITLEMENT_CACHE_TTL });
 }
 

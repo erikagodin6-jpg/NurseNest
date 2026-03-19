@@ -1,5 +1,6 @@
 import { pool } from "./storage";
 import fs from "fs";
+import { BoundedMap } from "./bounded-map";
 
 export interface MemoryStatus {
   heapUsedMB: number;
@@ -514,14 +515,13 @@ interface RouteLatencyEntry {
   lastSeen: number;
 }
 
-const routeLatencyMap = new Map<string, RouteLatencyEntry>();
-const MAX_ROUTE_LATENCY_ENTRIES = 200;
+const routeLatencyMap = new BoundedMap<string, RouteLatencyEntry>(200, 30 * 60 * 1000);
 
 export function recordRouteLatency(method: string, route: string, durationMs: number, payloadBytes: number = 0): void {
   const key = `${method}:${route}`;
   let entry = routeLatencyMap.get(key);
   if (!entry) {
-    if (routeLatencyMap.size >= MAX_ROUTE_LATENCY_ENTRIES) {
+    if (routeLatencyMap.size >= 200) {
       let oldestKey: string | null = null;
       let oldestTime = Infinity;
       for (const [k, v] of routeLatencyMap) {

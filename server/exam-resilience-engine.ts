@@ -3,6 +3,7 @@ import { pool } from "./storage";
 import { resolveAuthUser, requireAdmin } from "./admin-auth";
 import { validateQuestion, addIncident, type ExamIncident } from "./exam-reliability";
 import { classifyServerError, type ExamFailureCode, EXAM_FAILURE_CODES } from "../shared/exam-error-codes";
+import { BoundedMap } from "./bounded-map";
 
 export interface ExamValidationError {
   field: string;
@@ -49,15 +50,10 @@ const CIRCUIT_COOLDOWN_MS = 5 * 60 * 1000;
 const MIN_VALID_QUESTIONS_RATIO = 0.3;
 const MIN_VALID_QUESTIONS_ABSOLUTE = 5;
 
-const circuitBreakers = new Map<string, CircuitState>();
-const MAX_CIRCUIT_BREAKERS = 200;
+const circuitBreakers = new BoundedMap<string, CircuitState>(200, 30 * 60 * 1000);
 
 function getCircuitState(examId: string): CircuitState {
   if (!circuitBreakers.has(examId)) {
-    if (circuitBreakers.size >= MAX_CIRCUIT_BREAKERS) {
-      const oldestKey = circuitBreakers.keys().next().value;
-      if (oldestKey) circuitBreakers.delete(oldestKey);
-    }
     circuitBreakers.set(examId, {
       failures: [],
       state: "closed",

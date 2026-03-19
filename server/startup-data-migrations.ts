@@ -293,6 +293,9 @@ export async function runStartupDataMigrations() {
       const { runAnalyticsEventsMigration } = await import("./migrations/analytics-events");
       await runAnalyticsEventsMigration(pool);
 
+      const { runQuerySafetyIndexMigration } = await import("./migrations/query-safety-indexes");
+      await runQuerySafetyIndexMigration(pool);
+
       lastStartupMigrationTimestamp = new Date().toISOString();
       console.log(`[Startup Migration] Completed at ${lastStartupMigrationTimestamp}`);
       const dbHost = (process.env.DATABASE_URL || "").replace(/\/\/.*@/, "//***@").split("/")[2] || "unknown";
