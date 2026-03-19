@@ -208,51 +208,98 @@ export function getSlowQueryLog(): SlowQueryEntry[] {
 interface CacheEntry<T> {
   value: T;
   expiresAt: number;
+  lastAccessed: number;
+  sizeBytes: number;
 }
 
 const memoryCache = new Map<string, CacheEntry<any>>();
 const MEMORY_CACHE_MAX_ENTRIES = parseInt(process.env.MEMORY_CACHE_MAX || "0") || 200;
+const MEMORY_CACHE_MAX_BYTES = parseInt(process.env.MEMORY_CACHE_MAX_BYTES || "0") || 50 * 1024 * 1024;
+const MAX_SINGLE_ENTRY_BYTES = 512 * 1024;
 let cacheCleanupInterval: ReturnType<typeof setInterval> | null = null;
+let totalCacheBytes = 0;
 
-function evictOldestCacheEntries(): void {
-  if (memoryCache.size <= MEMORY_CACHE_MAX_ENTRIES) return;
+function estimateSize(value: any): number {
+  try {
+    const str = JSON.stringify(value);
+    return str ? str.length * 2 : 0;
+  } catch {
+    return 1024;
+  }
+}
+
+function evictLRU(): void {
+  if (memoryCache.size <= MEMORY_CACHE_MAX_ENTRIES && totalCacheBytes <= MEMORY_CACHE_MAX_BYTES) return;
+
   const entries = Array.from(memoryCache.entries())
-    .sort((a, b) => a[1].expiresAt - b[1].expiresAt);
-  const toEvict = entries.slice(0, memoryCache.size - MEMORY_CACHE_MAX_ENTRIES);
-  for (const [key] of toEvict) {
+    .sort((a, b) => a[1].lastAccessed - b[1].lastAccessed);
+
+  while (
+    (memoryCache.size > MEMORY_CACHE_MAX_ENTRIES || totalCacheBytes > MEMORY_CACHE_MAX_BYTES) &&
+    entries.length > 0
+  ) {
+    const [key, entry] = entries.shift()!;
+    totalCacheBytes -= entry.sizeBytes;
     memoryCache.delete(key);
   }
+
+  if (totalCacheBytes < 0) totalCacheBytes = 0;
 }
 
 export function cacheGet<T>(key: string): T | undefined {
   const entry = memoryCache.get(key);
   if (!entry) return undefined;
   if (Date.now() > entry.expiresAt) {
+    totalCacheBytes -= entry.sizeBytes;
     memoryCache.delete(key);
     return undefined;
   }
+  entry.lastAccessed = Date.now();
   return entry.value;
 }
 
 export function cacheSet<T>(key: string, value: T, ttlSeconds: number): void {
-  memoryCache.set(key, { value, expiresAt: Date.now() + ttlSeconds * 1000 });
-  evictOldestCacheEntries();
+  const sizeBytes = estimateSize(value);
+
+  if (sizeBytes > MAX_SINGLE_ENTRY_BYTES) {
+    return;
+  }
+
+  const existing = memoryCache.get(key);
+  if (existing) {
+    totalCacheBytes -= existing.sizeBytes;
+  }
+
+  const now = Date.now();
+  memoryCache.set(key, { value, expiresAt: now + ttlSeconds * 1000, lastAccessed: now, sizeBytes });
+  totalCacheBytes += sizeBytes;
+  evictLRU();
 }
 
-export function getCacheStats(): { size: number; maxEntries: number } {
-  return { size: memoryCache.size, maxEntries: MEMORY_CACHE_MAX_ENTRIES };
+export function getCacheStats(): { size: number; maxEntries: number; totalBytes: number; maxBytes: number } {
+  return { size: memoryCache.size, maxEntries: MEMORY_CACHE_MAX_ENTRIES, totalBytes: totalCacheBytes, maxBytes: MEMORY_CACHE_MAX_BYTES };
+}
+
+export function clearCache(): void {
+  memoryCache.clear();
+  totalCacheBytes = 0;
 }
 
 export function cacheInvalidate(pattern: string): void {
-  for (const key of memoryCache.keys()) {
+  for (const [key, entry] of memoryCache) {
     if (key.startsWith(pattern)) {
+      totalCacheBytes -= entry.sizeBytes;
       memoryCache.delete(key);
     }
   }
 }
 
 export function cacheInvalidateExact(key: string): void {
-  memoryCache.delete(key);
+  const entry = memoryCache.get(key);
+  if (entry) {
+    totalCacheBytes -= entry.sizeBytes;
+    memoryCache.delete(key);
+  }
 }
 
 export function startCacheCleanup() {
@@ -260,8 +307,12 @@ export function startCacheCleanup() {
     cacheCleanupInterval = setInterval(() => {
       const now = Date.now();
       for (const [key, entry] of memoryCache) {
-        if (now > entry.expiresAt) memoryCache.delete(key);
+        if (now > entry.expiresAt) {
+          totalCacheBytes -= entry.sizeBytes;
+          memoryCache.delete(key);
+        }
       }
+      if (totalCacheBytes < 0) totalCacheBytes = 0;
     }, 60000);
   }
 }

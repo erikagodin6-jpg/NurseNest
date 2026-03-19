@@ -164,7 +164,11 @@ function initPrebuiltPayloads(): void {
   lastPayloadBuild = Date.now();
 }
 
-initPrebuiltPayloads();
+function ensurePayloadsLoaded(): void {
+  if (lastPayloadBuild === null) {
+    initPrebuiltPayloads();
+  }
+}
 
 async function buildPayloadsFromDb(): Promise<{ lessons: number; flashcards: number; exams: number }> {
   const counts = { lessons: 0, flashcards: 0, exams: 0 };
@@ -280,6 +284,7 @@ export function liteModeFallbackMiddleware() {
 
 export function registerLiteModeRoutes(app: Express): void {
   app.get("/api/lite/status", (_req: Request, res: Response) => {
+    ensurePayloadsLoaded();
     res.json({
       active: liteConfig.active,
       activatedAt: liteConfig.activatedAt,
@@ -292,6 +297,7 @@ export function registerLiteModeRoutes(app: Express): void {
   });
 
   app.get("/api/lite/lessons", (_req: Request, res: Response) => {
+    ensurePayloadsLoaded();
     const lessons = prebuiltPayloads.get("lessons") || [];
     const userTier = "free";
     const accessible = lessons.filter(l => isEntitled(userTier, l.tier));
@@ -303,6 +309,7 @@ export function registerLiteModeRoutes(app: Express): void {
   });
 
   app.get("/api/lite/lessons/:id", (_req: Request, res: Response) => {
+    ensurePayloadsLoaded();
     const lessons = prebuiltPayloads.get("lessons") || [];
     const lesson = lessons.find(l => l.id === _req.params.id);
     if (!lesson) return res.status(404).json({ _lite: true, error: "Lesson not found" });
@@ -310,6 +317,7 @@ export function registerLiteModeRoutes(app: Express): void {
   });
 
   app.get("/api/lite/flashcards", (_req: Request, res: Response) => {
+    ensurePayloadsLoaded();
     const flashcards = prebuiltPayloads.get("flashcards") || [];
     const userTier = "free";
     const accessible = flashcards.filter(f => isEntitled(userTier, f.tier));
@@ -321,6 +329,7 @@ export function registerLiteModeRoutes(app: Express): void {
   });
 
   app.get("/api/lite/flashcards/:id", (_req: Request, res: Response) => {
+    ensurePayloadsLoaded();
     const flashcards = prebuiltPayloads.get("flashcards") || [];
     const deck = flashcards.find(f => f.id === _req.params.id);
     if (!deck) return res.status(404).json({ _lite: true, error: "Flashcard deck not found" });
@@ -328,6 +337,7 @@ export function registerLiteModeRoutes(app: Express): void {
   });
 
   app.get("/api/lite/exams", (_req: Request, res: Response) => {
+    ensurePayloadsLoaded();
     const exams = prebuiltPayloads.get("exams") || [];
     const userTier = "free";
     const accessible = exams.filter(e => isEntitled(userTier, e.tier));
@@ -344,6 +354,7 @@ export function registerLiteModeRoutes(app: Express): void {
   });
 
   app.get("/api/lite/exams/:id", (_req: Request, res: Response) => {
+    ensurePayloadsLoaded();
     const exams = prebuiltPayloads.get("exams") || [];
     const exam = exams.find(e => e.id === _req.params.id);
     if (!exam) return res.status(404).json({ _lite: true, error: "Exam not found" });
@@ -354,6 +365,7 @@ export function registerLiteModeRoutes(app: Express): void {
     const admin = await resolveAdmin(req, res);
     if (!admin) return;
 
+    ensurePayloadsLoaded();
     const payloadStats: Record<string, number> = {};
     for (const [type, payloads] of prebuiltPayloads) {
       payloadStats[type] = payloads.length;

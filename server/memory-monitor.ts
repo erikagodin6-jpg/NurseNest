@@ -218,6 +218,18 @@ async function triggerCriticalMode(): Promise<void> {
   }
 
   try {
+    const { clearCache } = await import("./performance");
+    clearCache();
+    console.log("[MemoryMonitor] Cleared memory cache during critical mode");
+  } catch {}
+
+  try {
+    const { stopSyntheticMonitoring } = await import("./synthetic-monitoring");
+    stopSyntheticMonitoring();
+    console.log("[MemoryMonitor] Stopped synthetic monitoring during critical mode");
+  } catch {}
+
+  try {
     if (typeof global.gc === "function") {
       global.gc();
       console.log("[MemoryMonitor] Forced garbage collection");

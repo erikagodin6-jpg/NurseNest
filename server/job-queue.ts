@@ -345,6 +345,15 @@ function getJobHandler(type: string): JobHandler | undefined {
 
 async function pollAndProcess(): Promise<void> {
   if (isProcessing) return;
+
+  try {
+    const { shouldPauseBackgroundJobs } = await import("./memory-monitor");
+    if (shouldPauseBackgroundJobs()) {
+      console.warn("[JobQueue] Skipping poll cycle: memory pressure active");
+      return;
+    }
+  } catch {}
+
   isProcessing = true;
 
   try {

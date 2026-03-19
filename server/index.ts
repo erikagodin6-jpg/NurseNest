@@ -1094,7 +1094,13 @@ app.use((req, res, next) => {
   jobQueue.setupJobQueueRoutes(app);
   setupAutopilotRoutes(app);
   setupContentCoverageRoutes(app);
-  jobQueue.startJobQueueWorker();
+
+  const processRole = process.env.PROCESS_ROLE || "web";
+  if (processRole === "worker") {
+    jobQueue.startJobQueueWorker();
+  } else {
+    console.log("[Startup] Web process: job queue worker deferred to worker process");
+  }
   setupLessonContentRoutes(app);
   setupSeoEngineRoutes(app);
   setupContentGrowthRoutes(app);
@@ -1103,6 +1109,27 @@ app.use((req, res, next) => {
   registerParamedicSeoRoutes(app);
   setupQBankRoutes(app);
   loadStripePrices();
+
+  const { registerExamDeliveryRoutes } = await import("./exam-delivery");
+  registerExamDeliveryRoutes(app);
+  console.log("[ExamDelivery] Paginated exam delivery routes registered");
+
+  const { routeMemoryDeltaMiddleware } = await import("./memory-observability");
+  app.use(routeMemoryDeltaMiddleware());
+
+  app.get("/api/admin/memory-observability", async (req, res) => {
+    try {
+      const { resolveAuthUser } = await import("./admin-auth");
+      const user = await resolveAuthUser(req as any);
+      if (!user || user.tier !== "admin") {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+      const { getMemoryObservabilityDashboard } = await import("./memory-observability");
+      res.json(getMemoryObservabilityDashboard());
+    } catch (err: any) {
+      res.status(500).json({ error: "Failed to get memory observability data" });
+    }
+  });
 
   const routeStart = Date.now();
   await registerRoutes(httpServer, app);
@@ -1165,6 +1192,13 @@ app.use((req, res, next) => {
 
   import("./memory-monitor").then(({ startMemoryMonitor }) => startMemoryMonitor()).catch(e => console.error("[MemoryMonitor] Failed to start:", e.message));
 
+  import("./memory-observability").then(({ startMemoryTrendTracking }) => {
+    startMemoryTrendTracking(30_000);
+    console.log("[MemoryObservability] Memory trend tracking active");
+  }).catch(e => console.error("[MemoryObservability] Failed to start:", e.message));
+
+  const webProcessRole = process.env.PROCESS_ROLE || "web";
+
   runDeferredStartupWork();
 
   const alertPool = getDevPool();
@@ -1172,18 +1206,22 @@ app.use((req, res, next) => {
   const syntheticBaseUrl = `http://127.0.0.1:${port}`;
   startSyntheticMonitoring(alertPool, syntheticBaseUrl, 10 * 60 * 1000);
 
-  setInterval(async () => {
-    try {
-      const { shouldPauseBackgroundJobs } = await import("./memory-monitor");
-      if (shouldPauseBackgroundJobs()) {
-        return;
+  if (webProcessRole === "worker") {
+    setInterval(async () => {
+      try {
+        const { shouldPauseBackgroundJobs } = await import("./memory-monitor");
+        if (shouldPauseBackgroundJobs()) {
+          return;
+        }
+        const count = await storage.publishScheduledContent();
+        if (count > 0) log(`Scheduler: auto-published ${count} content item(s)`);
+      } catch (err: any) {
+        console.error("Scheduler error:", err?.message || err);
       }
-      const count = await storage.publishScheduledContent();
-      if (count > 0) log(`Scheduler: auto-published ${count} content item(s)`);
-    } catch (err: any) {
-      console.error("Scheduler error:", err?.message || err);
-    }
-  }, 60_000);
+    }, 60_000);
+  } else {
+    console.log("[Startup] Web process: content scheduler deferred to worker process");
+  }
 })();
 
 async function startupMemoryGuard(label: string) {
@@ -1263,47 +1301,52 @@ function runDeferredStartupWork() {
       console.error("[StartupScan] Content quarantine scan failed:", e.message);
     }
 
-    import("./reporting-scheduler").then(({ startReportingScheduler }) => startReportingScheduler())
-      .catch((e: any) => console.error("[ReportingScheduler] Init failed:", e.message));
+    const deferredRole = process.env.PROCESS_ROLE || "web";
+    if (deferredRole === "worker") {
+      import("./reporting-scheduler").then(({ startReportingScheduler }) => startReportingScheduler())
+        .catch((e: any) => console.error("[ReportingScheduler] Init failed:", e.message));
 
-    const SIX_HOURS_MS = 6 * 60 * 60 * 1000;
-    setInterval(async () => {
-      try {
-        const { shouldPauseBackgroundJobs, getDetectedMemoryLimitMB } = await import("./memory-monitor");
-        if (shouldPauseBackgroundJobs()) {
-          console.warn("[Pipeline Scheduler] Skipping cycle: memory pressure active");
-          return;
-        }
-        const limitMB = getDetectedMemoryLimitMB();
-        const pipelineMemLimit = Math.round(limitMB * 0.70);
+      const SIX_HOURS_MS = 6 * 60 * 60 * 1000;
+      setInterval(async () => {
+        try {
+          const { shouldPauseBackgroundJobs, getDetectedMemoryLimitMB } = await import("./memory-monitor");
+          if (shouldPauseBackgroundJobs()) {
+            console.warn("[Pipeline Scheduler] Skipping cycle: memory pressure active");
+            return;
+          }
+          const limitMB = getDetectedMemoryLimitMB();
+          const pipelineMemLimit = Math.round(limitMB * 0.70);
+          const memUsage = process.memoryUsage();
+          const heapMB = Math.round(memUsage.heapUsed / 1024 / 1024);
+          if (heapMB > pipelineMemLimit) {
+            console.warn(`[Pipeline Scheduler] Skipping cycle: heap usage ${heapMB}MB exceeds ${pipelineMemLimit}MB limit (${limitMB}MB detected)`);
+            return;
+          }
+        } catch {}
         const memUsage = process.memoryUsage();
         const heapMB = Math.round(memUsage.heapUsed / 1024 / 1024);
-        if (heapMB > pipelineMemLimit) {
-          console.warn(`[Pipeline Scheduler] Skipping cycle: heap usage ${heapMB}MB exceeds ${pipelineMemLimit}MB limit (${limitMB}MB detected)`);
-          return;
+        const pipelineStart = Date.now();
+        console.log(`[Pipeline Scheduler] Starting cycle (heap: ${heapMB}MB)...`);
+        try {
+          const { createDailyJobs } = await import("./content-pipeline");
+          const jobs = await createDailyJobs();
+          if (jobs.length > 0) console.log(`[Pipeline Scheduler] Created ${jobs.length} daily generation jobs`);
+        } catch (e: any) {
+          console.error("[Pipeline Scheduler] createDailyJobs error (non-fatal):", e.message);
         }
-      } catch {}
-      const memUsage = process.memoryUsage();
-      const heapMB = Math.round(memUsage.heapUsed / 1024 / 1024);
-      const pipelineStart = Date.now();
-      console.log(`[Pipeline Scheduler] Starting cycle (heap: ${heapMB}MB)...`);
-      try {
-        const { createDailyJobs } = await import("./content-pipeline");
-        const jobs = await createDailyJobs();
-        if (jobs.length > 0) console.log(`[Pipeline Scheduler] Created ${jobs.length} daily generation jobs`);
-      } catch (e: any) {
-        console.error("[Pipeline Scheduler] createDailyJobs error (non-fatal):", e.message);
-      }
-      try {
-        const { runContinuousImprovementJob } = await import("./content-pipeline");
-        const improvement = await runContinuousImprovementJob();
-        console.log(`[Pipeline Scheduler] Continuous improvement: ${improvement.weakQuestions.length} weak questions, ${improvement.weakTopics.length} weak topics, ${improvement.generationJobsQueued} jobs queued`);
-        console.log(`[Pipeline Scheduler] Cycle completed in ${Date.now() - pipelineStart}ms`);
-      } catch (e: any) {
-        console.error("[Pipeline Scheduler] runContinuousImprovementJob error (non-fatal):", e.message);
-      }
-    }, SIX_HOURS_MS);
-    console.log("[Pipeline Scheduler] Registered: daily jobs + continuous improvement (every 6h)");
+        try {
+          const { runContinuousImprovementJob } = await import("./content-pipeline");
+          const improvement = await runContinuousImprovementJob();
+          console.log(`[Pipeline Scheduler] Continuous improvement: ${improvement.weakQuestions.length} weak questions, ${improvement.weakTopics.length} weak topics, ${improvement.generationJobsQueued} jobs queued`);
+          console.log(`[Pipeline Scheduler] Cycle completed in ${Date.now() - pipelineStart}ms`);
+        } catch (e: any) {
+          console.error("[Pipeline Scheduler] runContinuousImprovementJob error (non-fatal):", e.message);
+        }
+      }, SIX_HOURS_MS);
+      console.log("[Pipeline Scheduler] Registered: daily jobs + continuous improvement (every 6h)");
+    } else {
+      console.log("[DeferredStartup] Web process: reporting scheduler + pipeline scheduler deferred to worker");
+    }
     console.log(`[DeferredStartup] Phase 0 complete (validations + schedulers) in ${Date.now() - phase0Start}ms`);
 
     // ── Phase 1: Schema sync + data migrations (sequential) ──
@@ -1372,9 +1415,15 @@ function runDeferredStartupWork() {
 
     console.log(`[DeferredStartup] Phase 1 complete in ${Date.now() - phase1Start}ms`);
 
+    const shouldRunSeeding = deferredRole === "worker" || process.env.RUN_SEEDING === "true";
+    if (!shouldRunSeeding) {
+      console.log("[DeferredStartup] Web process: skipping Phase 2 & 3 seeding (deferred to worker process)");
+    }
+
     // ── Phase 2: Exam questions + flashcard mapping (sequential) ──
     const phase2Start = Date.now();
     await startupMemoryGuard("Phase 2: Exam Questions");
+    if (shouldRunSeeding) {
     console.log("[DeferredStartup] Phase 2: Exam questions + flashcard mapping...");
 
     const { pool: seedPool } = await import("./storage");
@@ -1438,10 +1487,12 @@ function runDeferredStartupWork() {
     }
 
     console.log(`[DeferredStartup] Phase 2 complete in ${Date.now() - phase2Start}ms`);
+    } // end shouldRunSeeding for Phase 2
 
     // ── Phase 3: SEO/content seeds (sequential) ──
     const phase3Start = Date.now();
     await startupMemoryGuard("Phase 3: SEO/Content Seeds");
+    if (shouldRunSeeding) {
     console.log("[DeferredStartup] Phase 3: SEO/content seeds...");
 
     if (!(await shouldSkipSeed("flashcard_decks"))) {
@@ -1527,6 +1578,7 @@ function runDeferredStartupWork() {
     }
 
     console.log(`[DeferredStartup] Phase 3 complete in ${Date.now() - phase3Start}ms`);
+    } // end shouldRunSeeding for Phase 3
 
     // ── Startup health summary ──
     try {
