@@ -1,0 +1,205 @@
+You are working on the live NurseNest production system.
+
+This is a CRITICAL service reliability and permanent stabilization task.
+
+The main issue is NOT alerts. The main issue is that the service itself is unstable and core user flows are failing.
+
+Current symptoms include:
+- memory pressure and emergency mode activation
+- exam_open_flow failures / aborted operations
+- unstable page and exam loading
+- broken content reaching production
+- deploy freezes and service-down incidents
+
+Your task is to implement a PERMANENT SERVICE RELIABILITY FIX so the platform continues working reliably as usage grows.
+
+PRIMARY GOALS
+1. Keep the service working under load
+2. Prevent heavy features from taking down core user flows
+3. Make exam loading reliable and memory-safe
+4. Prevent invalid content from breaking the user experience
+5. Add self-protection so failures are contained automatically
+6. Establish architecture that can support subscriber growth safely
+
+==================================================
+SECTION 1 — ARCHITECTURE SEPARATION
+==================================================
+
+Audit the current architecture and identify what heavy workloads are running inside the live web process.
+
+Inspect whether the web app is also handling:
+- AI generation
+- bulk question generation
+- exam assembly
+- PDF/image generation
+- scheduled audits
+- content validation jobs
+- repair/regeneration jobs
+- analytics aggregation
+- other long-running or memory-intensive tasks
+
+Implement a production-safe separation:
+- web process handles lightweight request/response traffic only
+- heavy or long-running work moves to workers/queues/background jobs
+
+The live user-facing service must remain lightweight and reliable.
+
+==================================================
+SECTION 2 — EXAM SYSTEM HARDENING
+==================================================
+
+Trace the full exam_open_flow and all exam-related endpoints.
+
+Implement permanent memory-safe and reliability-safe behavior:
+- load exam shell/metadata first
+- load questions in chunks/pages/sections
+- load rationales and heavy metadata only when needed
+- avoid giant all-at-once payloads
+- store attempt state in durable storage, not in-process memory
+- cap concurrent exam loads
+- add route timeouts and circuit breakers
+- add graceful fallback if a full exam cannot load
+
+Requirements:
+- no dead-end exam screen
+- no blank page
+- one failing exam must not affect the whole platform
+- exam routes must not be able to crash the service
+
+==================================================
+SECTION 3 — MEMORY AND LOAD CONTAINMENT
+==================================================
+
+Perform a full audit of memory pressure, leaks, and load amplification.
+
+Inspect and fix:
+- oversized DB queries
+- oversized API responses
+- unbounded caches
+- global arrays/maps/objects growing over time
+- duplicate object expansion/serialization
+- retry loops
+- repeated listeners/timers
+- frontend refetch loops
+- concurrent heavy route pileups
+- background jobs sharing the web process
+- synthetic tests worsening instability
+
+Implement:
+- bounded caches with eviction
+- response trimming
+- request size limits
+- response size limits
+- concurrency limits on heavy endpoints
+- queueing or rejection for expensive work
+- route-level memory logging
+- load shedding at warning/critical thresholds
+
+When memory or latency is high:
+- preserve core user flows
+- degrade or disable nonessential expensive features
+- do not continue attempting heavy work while the service is unstable
+
+==================================================
+SECTION 4 — CONTENT INTEGRITY PROTECTION
+==================================================
+
+Audit how invalid content reached production.
+
+Implement strict publish and display protections:
+- content with zero valid items must never be publishable
+- add pre-publish validation blockers
+- auto-quarantine or unpublish invalid content
+- remove invalid content from public listings automatically
+- show exact validation reasons in admin
+- add safe repair/regeneration tooling
+
+Broken content must never be allowed to break the live user experience.
+
+==================================================
+SECTION 5 — GRACEFUL DEGRADATION AND RESILIENCE
+==================================================
+
+Build real resilience into the platform.
+
+Implement:
+- health endpoints
+- circuit breakers
+- frontend error boundaries
+- backend fallback responses
+- route-level degraded mode
+- emergency mode actions that actively reduce load
+- preservation of critical user paths first
+
+Critical user paths to preserve:
+- login
+- dashboard
+- exam list
+- exam open flow
+- question answering
+- subscription/account access
+
+If the system is stressed:
+- disable optional heavy features first
+- keep critical flows alive
+- never leave users on blank or dead-end screens where avoidable
+
+==================================================
+SECTION 6 — OBSERVABILITY AND VERIFICATION
+==================================================
+
+Add instrumentation and dashboards for:
+- RSS
+- heap used / total
+- route-level latency
+- memory deltas by route
+- exam_open_flow success rate
+- request concurrency
+- heavy job backlog
+- degraded mode activations
+- invalid content count
+- user-facing failure rate on critical routes
+
+Make it possible to answer:
+- what route is destabilizing the service
+- what job is causing memory pressure
+- whether memory returns to baseline
+- whether critical user flows remain available under load
+
+==================================================
+SECTION 7 — PRODUCTION READINESS FOR GROWTH
+==================================================
+
+Assume subscriber growth and more concurrent usage.
+
+Determine whether the current architecture is safe for growth.
+
+Return:
+- minimum safe infrastructure baseline
+- whether worker separation is mandatory
+- whether autoscaling is required
+- which routes are most likely to fail first under increased usage
+- what must be fixed before the platform can safely support more subscribers
+
+==================================================
+SECTION 8 — DELIVERABLES
+==================================================
+
+Return:
+1. root causes of service instability
+2. exact files changed
+3. architecture changes made
+4. exam hardening changes made
+5. memory/load containment changes made
+6. content integrity protections added
+7. resilience/fallback systems added
+8. recommended production sizing
+9. remaining risks, if any
+10. verification proving critical service flows now work reliably
+
+NON-NEGOTIABLE REQUIREMENTS
+- do not focus on alerts as the main problem
+- do not stop at increasing memory
+- do not allow heavy features to take down the live service
+- do not allow invalid content to reach users
+- prioritize service continuity and subscriber trust over feature completeness
