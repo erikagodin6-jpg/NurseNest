@@ -55,7 +55,25 @@ const HEAVY_OPERATION_PATTERNS = [
 const MAX_CONCURRENT_HEAVY_OPS = parseInt(process.env.MAX_CONCURRENT_HEAVY_OPS || "0") || 8;
 let currentHeavyOps = 0;
 
-const heavyRouteCounters = new Map<string, number>();
+const heavyRouteCounters = new Map<string, { count: number; lastSeen: number }>();
+const MAX_HEAVY_ROUTE_ENTRIES = 200;
+const HEAVY_ROUTE_TTL_MS = 30 * 60 * 1000;
+
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, val] of heavyRouteCounters) {
+    if (now - val.lastSeen > HEAVY_ROUTE_TTL_MS) {
+      heavyRouteCounters.delete(key);
+    }
+  }
+  if (heavyRouteCounters.size > MAX_HEAVY_ROUTE_ENTRIES) {
+    const entries = Array.from(heavyRouteCounters.entries()).sort((a, b) => a[1].count - b[1].count);
+    const toRemove = entries.slice(0, entries.length - MAX_HEAVY_ROUTE_ENTRIES);
+    for (const [key] of toRemove) {
+      heavyRouteCounters.delete(key);
+    }
+  }
+}, 5 * 60 * 1000);
 
 const HEAVY_ROUTE_PATTERNS = [
   ...BULK_AI_PATTERNS,
@@ -410,8 +428,8 @@ export function concurrencyLimiterMiddleware() {
     if (!isHeavy) return next();
 
     const routePrefix = req.path.split("/").slice(0, 4).join("/");
-    const count = heavyRouteCounters.get(routePrefix) || 0;
-    heavyRouteCounters.set(routePrefix, count + 1);
+    const existing = heavyRouteCounters.get(routePrefix);
+    heavyRouteCounters.set(routePrefix, { count: (existing?.count || 0) + 1, lastSeen: Date.now() });
 
     if (currentHeavyOps >= MAX_CONCURRENT_HEAVY_OPS) {
       const retryAfter = isMemoryProtectionActive() ? 30 : 10;
@@ -441,7 +459,7 @@ export function concurrencyLimiterMiddleware() {
 export function getHeavyRouteCounters(): Record<string, number> {
   const result: Record<string, number> = {};
   for (const [key, val] of heavyRouteCounters) {
-    result[key] = val;
+    result[key] = val.count;
   }
   return result;
 }

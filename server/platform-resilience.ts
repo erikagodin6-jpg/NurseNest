@@ -98,6 +98,25 @@ async function persistAlert(alert: any) {
 
 const sendAlertEmailRateLimit = new Map<string, number>();
 const SEND_ALERT_EMAIL_RATE_LIMIT_MS = 10 * 60 * 1000;
+const MAX_ALERT_EMAIL_ENTRIES = 500;
+
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, ts] of sendAlertEmailRateLimit) {
+    if (now - ts > SEND_ALERT_EMAIL_RATE_LIMIT_MS) {
+      sendAlertEmailRateLimit.delete(key);
+    }
+  }
+  if (sendAlertEmailRateLimit.size > MAX_ALERT_EMAIL_ENTRIES) {
+    const toDelete = sendAlertEmailRateLimit.size - MAX_ALERT_EMAIL_ENTRIES;
+    let deleted = 0;
+    for (const key of sendAlertEmailRateLimit.keys()) {
+      if (deleted >= toDelete) break;
+      sendAlertEmailRateLimit.delete(key);
+      deleted++;
+    }
+  }
+}, 5 * 60 * 1000);
 
 async function sendAlertEmail(title: string, message: string, severity: string) {
   try {
@@ -2918,6 +2937,18 @@ export function pruneResilienceCaches(): void {
   for (const [key, entry] of rateLimitStore) {
     if (now - entry.windowStart > 120000) {
       rateLimitStore.delete(key);
+    }
+  }
+
+  for (const [key, ts] of sendAlertEmailRateLimit) {
+    if (now - ts > SEND_ALERT_EMAIL_RATE_LIMIT_MS) {
+      sendAlertEmailRateLimit.delete(key);
+    }
+  }
+
+  for (const [key, cb] of circuitBreakers) {
+    if (cb.state === "closed" && cb.failureCount === 0 && cb.lastSuccess && now - cb.lastSuccess > MAX_AGE_MS) {
+      circuitBreakers.delete(key);
     }
   }
 

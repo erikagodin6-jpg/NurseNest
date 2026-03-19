@@ -1358,106 +1358,82 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       const pPool = getProdPool();
       const errors: string[] = [];
 
-      logDatabaseTarget("Sync exam_questions", "production");
-      const devExam = await devPool.query(
-        `SELECT tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, career_type, stem_hash, published_at FROM exam_questions`
+      const SYNC_BATCH_SIZE = 500;
+
+      async function syncTableInBatches(
+        tableName: string,
+        stemColumn: string,
+        columns: string[],
+        devPoolRef: any,
+        prodPoolRef: any,
+        errorsRef: string[]
+      ): Promise<{ synced: number; skipped: number }> {
+        logDatabaseTarget(`Sync ${tableName}`, "production");
+
+        let synced = 0;
+        let skipped = 0;
+        let offset = 0;
+        const colList = columns.join(", ");
+
+        while (true) {
+          const batch = await devPoolRef.query(
+            `SELECT ${colList} FROM ${tableName} ORDER BY id LIMIT ${SYNC_BATCH_SIZE} OFFSET ${offset}`
+          );
+          if (batch.rows.length === 0) break;
+
+          for (const row of batch.rows) {
+            try {
+              const values = columns.map(c => row[c]);
+              const placeholders = columns.map((_, i) => `$${i + 1}`).join(",");
+              const stemIdx = columns.indexOf(stemColumn) + 1;
+              const result = await prodPoolRef.query(
+                `INSERT INTO ${tableName} (${colList})
+                 SELECT ${placeholders}
+                 WHERE NOT EXISTS (SELECT 1 FROM ${tableName} WHERE LEFT(${stemColumn}, 200) = LEFT($${stemIdx}, 200))`,
+                values
+              );
+              if (result.rowCount && result.rowCount > 0) {
+                synced++;
+              } else {
+                skipped++;
+              }
+            } catch (e: any) {
+              if (e.code === '23505') {
+                skipped++;
+              } else {
+                errorsRef.push(`${tableName}: ${e.message}`);
+              }
+            }
+          }
+
+          offset += batch.rows.length;
+          if (batch.rows.length < SYNC_BATCH_SIZE) break;
+        }
+        logRowCount(`${tableName} sync (inserted)`, synced);
+        console.log(`[DB Sync] ${tableName}: ${skipped} skipped (already exist)`);
+        return { synced, skipped };
+      }
+
+      const examResult = await syncTableInBatches(
+        "exam_questions", "stem",
+        ["tier", "exam", "question_type", "status", "stem", "options", "correct_answer", "rationale", "difficulty", "tags", "body_system", "topic", "subtopic", "region_scope", "career_type", "stem_hash", "published_at"],
+        devPool, pPool, errors
       );
-      const prodExamStems = await pPool.query(`SELECT DISTINCT LEFT(stem, 200) AS stem_prefix FROM exam_questions`);
-      const prodStemSet = new Set(prodExamStems.rows.map((r: any) => r.stem_prefix));
+      const examSynced = examResult.synced;
 
-      let examSynced = 0;
-      let examSkipped = 0;
-      for (const row of devExam.rows) {
-        const stemPrefix = (row.stem || "").substring(0, 200);
-        if (prodStemSet.has(stemPrefix)) {
-          examSkipped++;
-          continue;
-        }
-        try {
-          const result = await pPool.query(
-            `INSERT INTO exam_questions (tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, career_type, stem_hash, published_at)
-             SELECT $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17
-             WHERE NOT EXISTS (SELECT 1 FROM exam_questions WHERE LEFT(stem, 200) = LEFT($5, 200))`,
-            [row.tier, row.exam, row.question_type, row.status, row.stem, row.options, row.correct_answer, row.rationale, row.difficulty, row.tags, row.body_system, row.topic, row.subtopic, row.region_scope, row.career_type, row.stem_hash, row.published_at]
-          );
-          if (result.rowCount && result.rowCount > 0) {
-            examSynced++;
-            prodStemSet.add(stemPrefix);
-          } else {
-            examSkipped++;
-          }
-        } catch (e: any) {
-          errors.push(`exam: ${e.message}`);
-        }
-      }
-      logRowCount("exam_questions sync (inserted)", examSynced);
-      console.log(`[DB Sync] exam_questions: ${examSkipped} skipped (already exist)`);
+      const alliedResult = await syncTableInBatches(
+        "allied_questions", "stem",
+        ["career_type", "stem", "options", "correct_answer", "rationale_long", "learning_objective", "blueprint_category", "subtopic", "difficulty", "cognitive_level", "question_type", "exam_trap", "clinical_pearls", "safety_note", "distractor_rationales", "status"],
+        devPool, pPool, errors
+      );
+      const alliedSynced = alliedResult.synced;
 
-      logDatabaseTarget("Sync allied_questions", "production");
-      const devAllied = await devPool.query(`SELECT career_type, stem, options, correct_answer, rationale_long, learning_objective, blueprint_category, subtopic, difficulty, cognitive_level, question_type, exam_trap, clinical_pearls, safety_note, distractor_rationales, status FROM allied_questions`);
-      const prodAlliedStems = await pPool.query(`SELECT DISTINCT LEFT(stem, 200) AS stem_prefix FROM allied_questions`);
-      const prodAlliedSet = new Set(prodAlliedStems.rows.map((r: any) => r.stem_prefix));
-
-      let alliedSynced = 0;
-      let alliedSkipped = 0;
-      for (const row of devAllied.rows) {
-        const stemPrefix = (row.stem || "").substring(0, 200);
-        if (prodAlliedSet.has(stemPrefix)) {
-          alliedSkipped++;
-          continue;
-        }
-        try {
-          const result = await pPool.query(
-            `INSERT INTO allied_questions (career_type, stem, options, correct_answer, rationale_long, learning_objective, blueprint_category, subtopic, difficulty, cognitive_level, question_type, exam_trap, clinical_pearls, safety_note, distractor_rationales, status)
-             SELECT $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16
-             WHERE NOT EXISTS (SELECT 1 FROM allied_questions WHERE LEFT(stem, 200) = LEFT($2, 200))`,
-            [row.career_type, row.stem, row.options, row.correct_answer, row.rationale_long, row.learning_objective, row.blueprint_category, row.subtopic, row.difficulty, row.cognitive_level, row.question_type, row.exam_trap, row.clinical_pearls, row.safety_note, row.distractor_rationales, row.status]
-          );
-          if (result.rowCount && result.rowCount > 0) {
-            alliedSynced++;
-            prodAlliedSet.add(stemPrefix);
-          } else {
-            alliedSkipped++;
-          }
-        } catch (e: any) {
-          errors.push(`allied: ${e.message}`);
-        }
-      }
-      logRowCount("allied_questions sync (inserted)", alliedSynced);
-      console.log(`[DB Sync] allied_questions: ${alliedSkipped} skipped (already exist)`);
-
-      logDatabaseTarget("Sync imaging_questions", "production");
-      const devImaging = await devPool.query(`SELECT question, option_a, option_b, option_c, option_d, correct_answer, rationale, category, topic, difficulty, country, body_part, modality, exam FROM imaging_questions`);
-      const prodImagingStems = await pPool.query(`SELECT DISTINCT LEFT(question, 200) AS q_prefix FROM imaging_questions`);
-      const prodImagingSet = new Set(prodImagingStems.rows.map((r: any) => r.q_prefix));
-
-      let imagingSynced = 0;
-      let imagingSkipped = 0;
-      for (const row of devImaging.rows) {
-        const qPrefix = (row.question || "").substring(0, 200);
-        if (prodImagingSet.has(qPrefix)) {
-          imagingSkipped++;
-          continue;
-        }
-        try {
-          const result = await pPool.query(
-            `INSERT INTO imaging_questions (question, option_a, option_b, option_c, option_d, correct_answer, rationale, category, topic, difficulty, country, body_part, modality, exam)
-             SELECT $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14
-             WHERE NOT EXISTS (SELECT 1 FROM imaging_questions WHERE LEFT(question, 200) = LEFT($1, 200))`,
-            [row.question, row.option_a, row.option_b, row.option_c, row.option_d, row.correct_answer, row.rationale, row.category, row.topic, row.difficulty, row.country, row.body_part, row.modality, row.exam]
-          );
-          if (result.rowCount && result.rowCount > 0) {
-            imagingSynced++;
-            prodImagingSet.add(qPrefix);
-          } else {
-            imagingSkipped++;
-          }
-        } catch (e: any) {
-          errors.push(`imaging: ${e.message}`);
-        }
-      }
-      logRowCount("imaging_questions sync (inserted)", imagingSynced);
-      console.log(`[DB Sync] imaging_questions: ${imagingSkipped} skipped (already exist)`);
+      const imagingResult = await syncTableInBatches(
+        "imaging_questions", "question",
+        ["question", "option_a", "option_b", "option_c", "option_d", "correct_answer", "rationale", "category", "topic", "difficulty", "country", "body_part", "modality", "exam"],
+        devPool, pPool, errors
+      );
+      const imagingSynced = imagingResult.synced;
 
       const prodExamCount = await pPool.query(`SELECT COUNT(*)::int AS count FROM exam_questions`);
       const prodAlliedCount = await pPool.query(`SELECT COUNT(*)::int AS count FROM allied_questions`);
@@ -1471,9 +1447,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
           imagingQuestions: imagingSynced,
         },
         skipped: {
-          examQuestions: examSkipped,
-          alliedQuestions: alliedSkipped,
-          imagingQuestions: imagingSkipped,
+          examQuestions: examResult.skipped,
+          alliedQuestions: alliedResult.skipped,
+          imagingQuestions: imagingResult.skipped,
         },
         errors: errors.length > 0 ? errors.slice(0, 20) : undefined,
         prodTotals: {
@@ -6111,17 +6087,21 @@ Rules:
       res.setHeader("Pragma", "no-cache");
       const { status, type, category } = req.query;
 
+      const CONTENT_COLUMNS = "id, title, slug, type, category, body_system, tier, status, tags, summary, seo_title, seo_description, seo_keywords, primary_keyword, secondary_keywords, scheduled_at, clinical_safety_review, auto_publish, created_at, updated_at, published_at, region_scope";
+      const contentLimit = Math.min(parseInt(req.query.limit as string) || 500, 1000);
+      const contentOffset = Math.max(parseInt(req.query.offset as string) || 0, 0);
+
       if (status === "all") {
         const admin = await requireAdmin(req, res);
         if (!admin) return;
         let items: any[] = [];
         try {
-          const result = await pool.query("SELECT * FROM content_items ORDER BY updated_at DESC NULLS LAST");
+          const result = await pool.query(`SELECT ${CONTENT_COLUMNS} FROM content_items ORDER BY updated_at DESC NULLS LAST LIMIT $1 OFFSET $2`, [contentLimit, contentOffset]);
           items = snakeToCamel(result.rows);
         } catch (e: any) {
           console.error("[Content API] Admin raw SQL error:", e.message);
           try {
-            items = await storage.getAllContentItems();
+            items = await storage.getAllContentItems(contentLimit, contentOffset);
           } catch {}
         }
         console.log(`[Content API] Admin fetch returned ${items.length} total items`);
@@ -6132,8 +6112,8 @@ Rules:
       const regionFilter = buildRegionFilter(region);
       let items: any[] = [];
       try {
-        let q = `SELECT * FROM content_items WHERE status = 'published' AND status != 'quarantined' AND ${regionFilter}`;
-        const params: string[] = [];
+        let q = `SELECT ${CONTENT_COLUMNS} FROM content_items WHERE status = 'published' AND status != 'quarantined' AND ${regionFilter}`;
+        const params: any[] = [];
         if (type) {
           params.push(type as string);
           q += ` AND type = $${params.length}`;
@@ -6143,6 +6123,10 @@ Rules:
           q += ` AND category = $${params.length}`;
         }
         q += " ORDER BY published_at DESC NULLS LAST";
+        params.push(contentLimit);
+        q += ` LIMIT $${params.length}`;
+        params.push(contentOffset);
+        q += ` OFFSET $${params.length}`;
         const result = await pool.query(q, params);
         items = snakeToCamel(result.rows);
       } catch (sqlErr: any) {
@@ -6267,7 +6251,7 @@ Rules:
 
       if (!item) {
         try {
-          const result = await pool.query("SELECT * FROM content_items WHERE slug = $1 LIMIT 1", [req.params.slug]);
+          const result = await pool.query("SELECT id, title, slug, type, category, body_system, tier, status, tags, summary, content, seo_title, seo_description, seo_keywords, primary_keyword, secondary_keywords, scheduled_at, clinical_safety_review, auto_publish, created_at, updated_at, published_at, region_scope FROM content_items WHERE slug = $1 LIMIT 1", [req.params.slug]);
           item = result.rows[0] ? snakeToCamel(result.rows[0]) : null;
         } catch (sqlErr: any) {
           console.error("Raw SQL slug fetch error:", sqlErr.message);
@@ -10401,9 +10385,11 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const admin = await requireAdmin(req, res);
       if (!admin) return;
       const result = await pool.query(`
-        SELECT * FROM content_items
+        SELECT id, title, slug, type, category, body_system, tier, status, tags, summary, seo_title, seo_description, scheduled_at, created_at, updated_at, published_at
+        FROM content_items
         WHERE status = 'scheduled' AND type = 'blog'
         ORDER BY scheduled_at ASC NULLS LAST
+        LIMIT 200
       `);
       res.json(snakeToCamel(result.rows));
     } catch (e: any) {
@@ -10542,7 +10528,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   app.get("/api/mock-exam-definitions/:id", requireEntitlement("mock_exams"), async (req: any, res) => {
     try {
       const { id } = req.params;
-      const result = await pool.query(`SELECT * FROM mock_exam_definitions WHERE id = $1`, [id]);
+      const result = await pool.query(`SELECT id, title, specialty, question_ids, time_limit, sections, created_at FROM mock_exam_definitions WHERE id = $1`, [id]);
       if (result.rows.length === 0) return res.status(404).json({ error: "Exam definition not found" });
       res.json(snakeToCamel(result.rows[0]));
     } catch (e: any) {
@@ -10577,7 +10563,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         return res.status(400).json({ error: "Missing exam definition ID" });
       }
 
-      const defResult = await pool.query(`SELECT * FROM mock_exam_definitions WHERE id = $1`, [examDefinitionId]);
+      const defResult = await pool.query(`SELECT id, title, specialty, question_ids, time_limit, sections FROM mock_exam_definitions WHERE id = $1`, [examDefinitionId]);
       if (defResult.rows.length === 0) {
         return res.status(404).json({ error: "Exam definition not found" });
       }
@@ -10730,6 +10716,11 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (questions.length === 0) {
         console.log("[MockExam][start] Validation failed: zero questions");
         return res.status(400).json({ error: "Cannot start an exam with zero questions. Please select a valid exam configuration." });
+      }
+      const MAX_EXAM_QUESTIONS = 300;
+      if (questions.length > MAX_EXAM_QUESTIONS) {
+        console.warn(`[MockExam][start] Rejecting oversized question array: ${questions.length} questions from user ${authUser?.id}`);
+        return res.status(400).json({ error: `Too many questions. Maximum allowed is ${MAX_EXAM_QUESTIONS}.`, code: "PAYLOAD_TOO_LARGE" });
       }
       let effectiveExamTier = authUser.tier || "free";
       if (authUser.tier === "admin") {
@@ -15483,7 +15474,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         try {
           const { createVersionOnPublish } = await import("./content-version-service");
           const publishedRows = await pool.query(
-            `SELECT * FROM exam_questions WHERE id = ANY($1) LIMIT 200`,
+            `SELECT id, tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, career_type FROM exam_questions WHERE id = ANY($1) LIMIT 200`,
             [eligible.slice(0, 200)]
           );
           for (const q of publishedRows.rows) {
@@ -16737,7 +16728,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     async (req: any, res) => {
       const { contentId } = req.params;
       const result = await pool.query(
-        `SELECT * FROM content_items WHERE id = $1 AND status = 'published'`,
+        `SELECT id, title, slug, type, category, body_system, tier, status, tags, summary, content, seo_title, seo_description, seo_keywords, primary_keyword, secondary_keywords, scheduled_at, clinical_safety_review, auto_publish, created_at, updated_at, published_at, region_scope FROM content_items WHERE id = $1 AND status = 'published'`,
         [contentId],
       );
       if (result.rows.length === 0) throw new Error("Content not found");
@@ -19240,14 +19231,15 @@ Return ONLY valid JSON with this exact structure:
       const { userId, examTarget } = req.body;
       if (!userId) return res.status(400).json({ error: "userId required" });
       const exam = examTarget || "rex-pn";
+      const EXAM_Q_COLS = "id, tier, exam, question_type, status, stem, options, correct_answer, rationale, difficulty, body_system, topic, subtopic, region_scope, career_type";
       const publishedQs = await pool.query(
-        `SELECT * FROM exam_questions WHERE status = 'published' AND exam = $1 ORDER BY random() LIMIT 30`,
+        `SELECT ${EXAM_Q_COLS} FROM exam_questions WHERE status = 'published' AND exam = $1 ORDER BY random() LIMIT 30`,
         [exam === "rex-pn" ? "rex-pn" : "nclex-rn"]
       );
       let questions = publishedQs.rows;
       if (questions.length < 30) {
         const fallbackQs = await pool.query(
-          `SELECT * FROM exam_questions WHERE status = 'published' ORDER BY random() LIMIT 30`
+          `SELECT ${EXAM_Q_COLS} FROM exam_questions WHERE status = 'published' ORDER BY random() LIMIT 30`
         );
         questions = fallbackQs.rows;
       }
