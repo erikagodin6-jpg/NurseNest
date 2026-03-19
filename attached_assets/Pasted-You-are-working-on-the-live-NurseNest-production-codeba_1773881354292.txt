@@ -1,0 +1,228 @@
+You are working on the live NurseNest production codebase.
+
+This is a permanent production hardening initiative, not a temporary patch.
+
+Current symptoms include:
+- repeated memory alerts
+- emergency mode activation
+- RSS exceeding critical threshold
+- exam_open_flow failures / aborted operations
+- published content with zero valid items
+- alert emails firing every few seconds
+- alert misclassification (e.g. reliability alerts mislabeled as payment failures)
+- unstable exam/page loading for users
+
+Your objective is to implement a PERMANENT, production-safe fix across architecture, backend, frontend, content pipeline, and alerting.
+
+PRIMARY GOALS
+1. Eliminate recurring memory meltdown loops
+2. Make exam delivery reliable under normal and peak load
+3. Prevent invalid content from ever reaching production
+4. Prevent alert spam and misclassified incident emails
+5. Ensure graceful degradation instead of broken user experiences
+6. Establish observability so regressions are caught early
+7. Separate heavy workloads from the live web process
+
+==================================================
+SECTION 1 — ARCHITECTURE HARDENING
+==================================================
+
+Audit the current production architecture and identify which workloads are running inside the live web process.
+
+Specifically inspect whether the main web process is also handling:
+- AI generation
+- bulk question generation
+- PDF/image generation
+- analytics aggregation
+- background validation jobs
+- scheduled audits
+- synthetic tests
+- large exam assembly
+- content repair or migration work
+
+Implement a permanent separation of concerns:
+- main web app handles lightweight request/response traffic only
+- heavy or long-running jobs move to background workers / queued jobs
+- the live user-facing app must remain lightweight and stable
+
+Return the final recommended architecture.
+
+==================================================
+SECTION 2 — MEMORY STABILITY AND LEAK PREVENTION
+==================================================
+
+Perform a deep audit for memory pressure and memory leaks.
+
+Inspect and fix:
+- large exam payload creation
+- oversized JSON responses
+- overfetching from the database
+- unbounded caches
+- global arrays/maps/objects that grow over time
+- repeated timers, listeners, subscriptions
+- retained request/response objects
+- memory not returning to baseline after requests
+- duplicate in-memory transformations
+- repeated polling / retry loops
+- frontend refetch loops
+- synthetic tests repeatedly hammering unstable routes
+- background jobs sharing memory with the web app
+- session or exam attempt state stored in process memory
+
+Implement permanent memory-safe patterns:
+- chunking/pagination
+- lazy loading
+- bounded caches with eviction
+- request timeouts
+- route concurrency caps
+- route-level memory logging
+- load shedding when memory thresholds are exceeded
+- memory thresholds with warning/critical actions
+- safe process health endpoints
+
+Add instrumentation for:
+- RSS
+- heap used / heap total
+- route-level latency
+- payload size
+- concurrent requests
+- concurrent heavy jobs
+- memory trend over time
+- restart frequency
+
+Identify the top memory offenders and fix them first.
+
+==================================================
+SECTION 3 — EXAM SYSTEM REDESIGN FOR RELIABILITY
+==================================================
+
+Redesign the exam delivery path to be production-safe.
+
+Trace the full exam_open_flow:
+- frontend initiation
+- auth/session
+- entitlement checks
+- exam lookup
+- content/question retrieval
+- validation
+- serialization
+- response delivery
+- frontend rendering
+
+Implement permanent rules:
+- never load massive full exams into memory unnecessarily
+- return exam shell/metadata first
+- stream, page, or chunk questions
+- lazy-load rationales/heavy metadata only when needed
+- keep attempt state in durable storage, not in-process memory
+- add strict timeouts
+- add fallback responses if full exam load fails
+- add request IDs and structured logs
+- cap concurrent exam-open operations
+- ensure users never hit a dead-end screen
+
+If an exam cannot fully load, users must receive a graceful fallback experience and alternate valid options.
+
+==================================================
+SECTION 4 — CONTENT INTEGRITY ENFORCEMENT
+==================================================
+
+Audit the entire content generation and publishing pipeline.
+
+Known issue:
+published content items have reached production with zero valid items.
+
+Implement strict enforcement so this can never happen again.
+
+Add:
+- pre-publish validation blockers
+- minimum valid-item thresholds
+- required field validation
+- answer/rationale integrity checks
+- tier/language integrity checks
+- automatic quarantine or unpublish of invalid content
+- admin visibility into exact validation failures
+- repair/regeneration tooling for broken items
+- post-publish audits with safe quarantining
+
+Content with zero valid items must NEVER be publishable or remain publicly visible.
+
+Trace how invalid content bypassed protections and close every bypass path.
+
+==================================================
+SECTION 5 — ALERTING, INCIDENT MANAGEMENT, AND EMAIL FLOOD CONTROL
+==================================================
+
+Audit the alerting system end-to-end.
+
+Known issues:
+- nonstop duplicate alert emails
+- incorrect alert template routing
+- reliability issues mislabeled as payment failures
+- repeated incidents are not being grouped correctly
+
+Implement permanent incident management improvements:
+- correct alert classification
+- distinct templates for:
+  - payment_failure
+  - service_down
+  - memory_critical
+  - synthetic_test_failure
+  - content_integrity_failure
+  - emergency_mode_activated
+  - reliability_warning
+- incident grouping / deduplication
+- cooldown windows / rate limiting
+- one open incident per root cause where appropriate
+- first seen / last seen / count / severity metadata
+- alert escalation rules without email spam
+
+The operator must receive accurate, actionable alerts, not a flood of mislabeled noise.
+
+==================================================
+SECTION 6 — USER RESILIENCE AND FAILURE CONTAINMENT
+==================================================
+
+Implement platform-wide resilience protections.
+
+Requirements:
+- no blank pages
+- no dead-end exam failures
+- if heavy systems are degraded, provide lightweight fallback responses
+- if content is invalid, automatically remove it from listings
+- preserve user trust and access where possible
+- degrade gracefully under pressure instead of crashing
+- protect paying users from unusable states
+
+Emergency mode must actively reduce load and preserve service, not just send notifications.
+
+==================================================
+SECTION 7 — DELIVERABLES
+==================================================
+
+Return:
+1. Root cause analysis for each incident category
+2. Exact files changed
+3. Exact code paths fixed
+4. Architecture changes made
+5. Memory stabilization changes made
+6. Exam delivery changes made
+7. Content integrity changes made
+8. Alerting/deduplication/template changes made
+9. Remaining risks, if any
+10. Verification checklist proving:
+   - memory is stable
+   - emergency mode no longer loops
+   - exam_open_flow passes
+   - no zero-valid-item content remains published
+   - alerts are correctly classified
+   - alert spam is controlled
+   - users receive graceful fallbacks instead of broken pages
+
+NON-NEGOTIABLE REQUIREMENTS
+- Do not stop at increasing memory
+- Do not leave heavy workloads in the live web process without justification
+- Do not leave broken content publishable
+- Do not leave alert spam unresolved
+- Do not allow exam delivery to remain memory-fragile
+- Prioritize reliability and containment over elegance

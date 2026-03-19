@@ -1,0 +1,186 @@
+You are working on the live NurseNest production system.
+
+We need a PERMANENT MEMORY STABILIZATION FIX.
+
+This is not a patch and not just a request to increase RAM. The goal is to make memory-related outages unlikely to recur.
+
+Current incident pattern includes:
+- repeated memory critical alerts
+- emergency mode activation
+- RSS exceeding critical threshold
+- exam flow failures
+- repeated service instability under load
+
+Your job is to redesign the system so memory usage is predictable, bounded, and safe in production.
+
+==================================================
+PRIMARY GOALS
+==================================================
+
+1. Identify exactly why memory grows so high
+2. Separate temporary spikes from true leaks
+3. Reduce peak memory usage in the live web app
+4. Remove heavy work from the user-facing web process
+5. Add protective controls so high memory cannot cascade into outages
+6. Define the correct production memory baseline for this app
+
+==================================================
+SECTION 1 — MEMORY ROOT CAUSE ANALYSIS
+==================================================
+
+Audit the full production system and identify the main causes of memory pressure.
+
+Inspect for:
+- large exam payload creation
+- loading too many questions at once
+- loading rationales/metadata/images too early
+- oversized DB queries
+- oversized API responses
+- duplicate object expansion or serialization
+- unbounded caches
+- global arrays/maps/objects growing over time
+- retained request/response objects
+- repeated timers/listeners/subscriptions
+- retry loops
+- frontend refetch loops
+- synthetic tests repeatedly hitting heavy routes
+- AI/content generation sharing the main web process
+- background jobs sharing the main web process
+- in-process storage of exam attempts/sessions
+- memory not returning toward baseline after requests complete
+
+Clearly distinguish:
+- memory spike causes
+- memory leak causes
+- architecture causes
+- workload sizing causes
+
+==================================================
+SECTION 2 — WEB PROCESS HARDENING
+==================================================
+
+Redesign the live web process so it stays lightweight.
+
+The web app should primarily handle:
+- auth/session
+- entitlement checks
+- lightweight reads
+- small API responses
+- page/API rendering
+
+Move OUT of the web process:
+- AI generation
+- bulk content/question generation
+- PDF/image generation
+- scheduled audits
+- heavy background jobs
+- large exam assembly
+- repair/regeneration jobs
+
+Implement or document the separation between:
+- web process
+- worker/queue process
+
+==================================================
+SECTION 3 — EXAM MEMORY REDUCTION
+==================================================
+
+Audit exam_open_flow and all exam-related endpoints.
+
+Implement permanent memory-safe patterns:
+- exam shell loads first
+- questions load in chunks/pages/sections
+- rationales and heavy metadata load only when needed
+- no giant all-at-once payloads
+- no duplicate expansion of question objects
+- durable storage for attempt state instead of process memory
+- concurrency caps for exam open/load
+- response trimming to minimum required fields
+
+Ensure exam delivery cannot create large uncontrolled memory spikes.
+
+==================================================
+SECTION 4 — BOUNDED RESOURCE CONTROLS
+==================================================
+
+Implement explicit bounds for:
+- cache size
+- cache eviction
+- max payload size
+- max response size
+- max question batch size
+- max concurrent heavy requests
+- max concurrent worker jobs
+- max retry count
+- max synthetic monitor frequency on heavy routes
+
+Heavy work must be queue-based or rejected when limits are exceeded.
+
+==================================================
+SECTION 5 — LOAD SHEDDING AND SELF-PROTECTION
+==================================================
+
+Implement real protective behavior when memory rises.
+
+At warning and critical thresholds:
+- block or degrade heavy routes
+- disable nonessential expensive features
+- return lightweight fallback responses
+- prevent the app from continuing expensive work while already unstable
+- preserve core user flows where possible
+
+Emergency mode must actively reduce load, not just send alerts.
+
+==================================================
+SECTION 6 — OBSERVABILITY
+==================================================
+
+Add instrumentation and reporting for:
+- RSS
+- heap used / heap total
+- route-level latency
+- payload size
+- route-level memory deltas
+- request counts on heavy endpoints
+- worker concurrency
+- memory trend over time
+- whether memory returns toward baseline after requests
+
+Identify the top memory offenders and prove they were reduced.
+
+==================================================
+SECTION 7 — PRODUCTION SIZING
+==================================================
+
+Define the minimum safe production memory baseline for NurseNest based on actual workload.
+
+Do not assume tiny memory is acceptable.
+
+Recommend:
+- minimum RAM for safe production
+- preferred RAM for peak load
+- whether autoscaling or multiple instances are required
+- whether worker separation is mandatory
+
+==================================================
+SECTION 8 — DELIVERABLES
+==================================================
+
+Return:
+1. exact memory root causes
+2. which were spikes vs leaks
+3. architecture changes made
+4. exam memory changes made
+5. bounded resource controls added
+6. load shedding behaviors added
+7. recommended production sizing
+8. exact files changed
+9. verification showing improved memory behavior
+10. remaining risks, if any
+
+NON-NEGOTIABLE REQUIREMENTS
+- Do not stop at increasing memory
+- Do not leave heavy workloads in the web process
+- Do not leave exam delivery as an all-at-once payload
+- Do not leave unbounded caches or concurrency
+- Prioritize stable predictable memory over feature completeness
