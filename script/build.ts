@@ -56,6 +56,7 @@ function buildLessonsData() {
     define: { "process.env.NODE_ENV": '"production"' },
     minify: true,
     logLevel: "warning",
+    logOverride: { "import-meta": "silent" },
     loader: ASSET_LOADER,
     alias: CLIENT_ALIAS,
     plugins: [{
@@ -80,6 +81,7 @@ function buildNpBatch(i: number) {
     define: { "process.env.NODE_ENV": '"production"' },
     minify: true,
     logLevel: "warning",
+    logOverride: { "import-meta": "silent" },
     loader: ASSET_LOADER,
     alias: CLIENT_ALIAS,
   });
@@ -103,6 +105,7 @@ async function buildServer() {
     minify: true,
     external: [...externals, "../client/src/data/lessons/index"],
     logLevel: "warning",
+    logOverride: { "import-meta": "silent" },
     loader: ASSET_LOADER,
     plugins: [{
       name: "redirect-lessons-data",

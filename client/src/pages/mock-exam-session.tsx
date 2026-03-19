@@ -435,7 +435,7 @@ function MockExamSessionInner() {
         }
         return r.json();
       })
-      .then((data) => {
+      .then(async (data) => {
         if (data.fallbackMode) {
           setCircuitOpen(!!data.circuitOpen);
           if (data.fallbackMode === "safe" || data.fallbackMode === "study" || data.fallbackMode === "printable" || data.fallbackMode === "backup-practice") {
