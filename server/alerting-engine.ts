@@ -47,8 +47,6 @@ const DEFAULT_THRESHOLDS: AlertThresholds = {
 const HARD_RATE_LIMIT_MS = 30 * 60 * 1000;
 
 let thresholds: AlertThresholds = { ...DEFAULT_THRESHOLDS };
-const recentAlerts = new Map<string, number>();
-const MAX_RECENT_ALERTS = 500;
 
 interface IncidentGroup {
   alertType: AlertType;
@@ -62,6 +60,7 @@ interface IncidentGroup {
 
 const incidentGroups = new Map<string, IncidentGroup>();
 const hardRateLimitMap = new Map<string, number>();
+const incidentTypeCooldowns = new Map<AlertType, number>();
 const alertCountsPerHour = new Map<string, { count: number; windowStart: number }>();
 const MAX_ALERTS_PER_TYPE_PER_HOUR = 5;
 
@@ -84,7 +83,6 @@ function markEmailSent(alertType: AlertType, severity: AlertSeverity, context?: 
 }
 
 function evictExpiredAlerts(): void {
-  const cooldownMs = thresholds.cooldownMinutes * 60 * 1000;
   const now = Date.now();
 
   for (const [key, ts] of hardRateLimitMap) {
@@ -92,16 +90,6 @@ function evictExpiredAlerts(): void {
   }
   for (const [key, group] of incidentGroups) {
     if (now - group.lastSeen > HARD_RATE_LIMIT_MS) incidentGroups.delete(key);
-  }
-
-  if (recentAlerts.size <= MAX_RECENT_ALERTS) return;
-  for (const [key, ts] of recentAlerts) {
-    if (now - ts > cooldownMs) recentAlerts.delete(key);
-  }
-  if (recentAlerts.size > MAX_RECENT_ALERTS) {
-    const sorted = [...recentAlerts.entries()].sort((a, b) => a[1] - b[1]);
-    const toRemove = sorted.slice(0, recentAlerts.size - MAX_RECENT_ALERTS);
-    for (const [key] of toRemove) recentAlerts.delete(key);
   }
 }
 
@@ -166,21 +154,19 @@ export async function setAlertThresholds(updates: Partial<AlertThresholds>, pool
   return { ...thresholds };
 }
 
-function getCooldownKey(alertType: AlertType, context?: string): string {
+function getGroupKey(alertType: AlertType, context?: string): string {
   return context ? `${alertType}:${context}` : alertType;
 }
 
-function isInCooldown(alertType: AlertType, context?: string): boolean {
-  const key = getCooldownKey(alertType, context);
-  const lastFired = recentAlerts.get(key);
+function isInCooldown(alertType: AlertType, _context?: string): boolean {
+  const lastFired = incidentTypeCooldowns.get(alertType);
   if (!lastFired) return false;
   const cooldownMs = thresholds.cooldownMinutes * 60 * 1000;
   return Date.now() - lastFired < cooldownMs;
 }
 
-function markFired(alertType: AlertType, context?: string): void {
-  const key = getCooldownKey(alertType, context);
-  recentAlerts.set(key, Date.now());
+function markFired(alertType: AlertType, _context?: string): void {
+  incidentTypeCooldowns.set(alertType, Date.now());
   evictExpiredAlerts();
 }
 
@@ -193,7 +179,7 @@ export async function fireAlert(
   context?: string
 ): Promise<string | null> {
   if (isInCooldown(alertType, context)) {
-    const groupKey = getCooldownKey(alertType, context);
+    const groupKey = getGroupKey(alertType, context);
     const group = incidentGroups.get(groupKey);
     if (group) {
       group.lastSeen = Date.now();
@@ -207,7 +193,7 @@ export async function fireAlert(
   const rateLimited = isRateLimited(alertType);
 
   try {
-    const groupKey = getCooldownKey(alertType, context);
+    const groupKey = getGroupKey(alertType, context);
     let group = incidentGroups.get(groupKey);
     const now = Date.now();
 
@@ -277,13 +263,14 @@ export async function fireAlert(
         lkg_failover_repeated: "reliability_warning",
         payment_sync_spike: "reliability_warning",
       };
-      const notificationEvent = (eventTypeMap[alertType] || (severity === "critical" ? "service_down" : "reliability_warning")) as any;
+      const notificationEvent = eventTypeMap[alertType] || (severity === "critical" ? "service_down" : "reliability_warning");
       const incidentInfo = group.count > 1
         ? `\n\nIncident Group: ${group.count} occurrences\nFirst seen: ${new Date(group.firstSeen).toISOString()}\nLast seen: ${new Date(group.lastSeen).toISOString()}`
         : "";
       sendAdminNotification(pool, {
         event: notificationEvent,
         alertType,
+        alertSeverity: severity,
         details: `${severityEmoji} Reliability Alert: ${message}\n\nType: ${alertType}\nSeverity: ${severity}\nTime: ${new Date().toISOString()}${incidentInfo}`,
       }).catch((e: any) => {
         emailRateLimit.delete(getEmailRateLimitKey(alertType, severity, context));

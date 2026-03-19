@@ -128,10 +128,7 @@ export async function runStartupDataMigrations() {
       );
       const nrCount = parseInt(needsReviewCount);
       if (nrCount > 0) {
-        const result = await client.query(
-          "UPDATE exam_questions SET status = 'published' WHERE status = 'needs_review'"
-        );
-        console.log(`[Startup Migration] Published ${result.rowCount} exam questions (were needs_review)`);
+        console.log(`[Startup Migration] Found ${nrCount} exam questions with needs_review status (not auto-promoting — use publish gate)`);
       }
 
       const { rows: [{ count: draftCount }] } = await client.query(
@@ -139,16 +136,15 @@ export async function runStartupDataMigrations() {
       );
       const dCount = parseInt(draftCount);
       if (dCount > 0) {
-        const result = await client.query(
-          "UPDATE exam_questions SET status = 'published' WHERE status = 'draft'"
-        );
-        console.log(`[Startup Migration] Published ${result.rowCount} draft exam questions`);
+        console.log(`[Startup Migration] Found ${dCount} draft exam questions (not auto-promoting — use publish gate)`);
       }
 
       const { rows: [{ count: publishedCount }] } = await client.query(
         "SELECT count(*) as count FROM exam_questions WHERE status = 'published'"
       );
       console.log(`[Startup Migration] Total published exam questions: ${publishedCount}`);
+
+      await quarantineKnownBrokenContent(client);
 
       try {
         await client.query(`ALTER TABLE imaging_positioning_entries ADD COLUMN IF NOT EXISTS slug text NOT NULL DEFAULT ''`);
@@ -275,5 +271,63 @@ export async function runStartupDataMigrations() {
     }
   } catch (err: any) {
     console.error("[Startup Migration] Error:", err.message);
+  }
+}
+
+const KNOWN_BROKEN_CONTENT_TITLES = [
+  "Restless Leg Syndrome",
+  "Macular Degeneration",
+  "Gestational Diabetes",
+  "Bell's Palsy",
+];
+
+const BOILERPLATE_PATTERNS = [
+  /is a clinical topic requiring comprehensive nursing knowledge/i,
+  /requires comprehensive nursing knowledge and understanding/i,
+  /is an important clinical topic that nursing students/i,
+  /\[Topic\] is a/i,
+];
+
+async function quarantineKnownBrokenContent(client: any): Promise<void> {
+  try {
+    const tableCheck = await client.query(
+      `SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'exam_questions') AS exists`
+    );
+    if (!tableCheck.rows[0]?.exists) return;
+
+    for (const title of KNOWN_BROKEN_CONTENT_TITLES) {
+      try {
+        const result = await client.query(
+          `UPDATE exam_questions SET status = 'quarantined', quarantined_at = NOW(), quarantine_reason = $2
+           WHERE status = 'published' AND (stem ILIKE $1 OR topic ILIKE $1)
+           RETURNING id`,
+          [`%${title}%`, `Known broken content: ${title} - quarantined by startup migration`]
+        );
+        if (result.rowCount > 0) {
+          console.log(`[Startup Migration] Quarantined ${result.rowCount} questions matching "${title}"`);
+        }
+      } catch {}
+    }
+
+    try {
+      let boilerplateCount = 0;
+      for (const pattern of BOILERPLATE_PATTERNS) {
+        const patternStr = pattern.source;
+        const result = await client.query(
+          `UPDATE exam_questions SET status = 'quarantined', quarantined_at = NOW(), quarantine_reason = 'Boilerplate/template content detected by startup migration'
+           WHERE status = 'published' AND stem ~* $1
+           RETURNING id`,
+          [patternStr]
+        );
+        boilerplateCount += result.rowCount || 0;
+      }
+      if (boilerplateCount > 0) {
+        console.log(`[Startup Migration] Quarantined ${boilerplateCount} questions with boilerplate content`);
+      }
+    } catch (e: any) {
+      console.warn(`[Startup Migration] Boilerplate quarantine check: ${e.message}`);
+    }
+  } catch (e: any) {
+    console.warn(`[Startup Migration] Quarantine check error: ${e.message}`);
   }
 }

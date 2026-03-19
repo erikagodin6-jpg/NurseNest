@@ -81,6 +81,57 @@ const BLOCK_REQUIRED_FIELDS: Record<string, string[]> = {
   references: [],
 };
 
+const BOILERPLATE_PATTERNS = [
+  /is a clinical topic requiring comprehensive nursing knowledge/i,
+  /requires comprehensive nursing knowledge and understanding/i,
+  /is an important clinical topic that nursing students/i,
+  /\[Topic\] is a/i,
+  /\[Insert .+? here\]/i,
+  /Lorem ipsum/i,
+  /TODO:?\s/i,
+  /placeholder text/i,
+  /sample question about/i,
+];
+
+function detectBoilerplateContent(data: any): ValidationError[] {
+  const errors: ValidationError[] = [];
+  const fieldsToCheck: { key: string; value: string }[] = [];
+
+  if (data.stem && typeof data.stem === "string") fieldsToCheck.push({ key: "stem", value: data.stem });
+  if (data.rationale && typeof data.rationale === "string") fieldsToCheck.push({ key: "rationale", value: data.rationale });
+
+  for (const field of fieldsToCheck) {
+    for (const pattern of BOILERPLATE_PATTERNS) {
+      if (pattern.test(field.value)) {
+        errors.push({
+          field: field.key,
+          message: `Boilerplate/template text detected in ${field.key}: matches pattern "${pattern.source}"`,
+          severity: "error",
+        });
+        break;
+      }
+    }
+  }
+
+  if (data.stem && typeof data.stem === "string" && data.rationale && typeof data.rationale === "string") {
+    const stemWords = new Set(data.stem.toLowerCase().split(/\s+/).filter((w: string) => w.length > 4));
+    const rationaleWords = data.rationale.toLowerCase().split(/\s+/).filter((w: string) => w.length > 4);
+    if (stemWords.size > 5 && rationaleWords.length > 5) {
+      const overlap = rationaleWords.filter((w: string) => stemWords.has(w)).length;
+      const overlapRatio = overlap / rationaleWords.length;
+      if (overlapRatio > 0.8) {
+        errors.push({
+          field: "rationale",
+          message: "Rationale appears to be a near-duplicate of the stem (>80% word overlap), likely formulaic content",
+          severity: "error",
+        });
+      }
+    }
+  }
+
+  return errors;
+}
+
 export function validateQuestion(data: any): ValidationResult {
   const errors: ValidationError[] = [];
   const warnings: ValidationError[] = [];
@@ -130,16 +181,19 @@ export function validateQuestion(data: any): ValidationResult {
   }
 
   if (!data.bodySystem) {
-    warnings.push({ field: "bodySystem", message: "Body system is not set", severity: "warning", autoFixSuggestion: "ai_infer_metadata" });
+    errors.push({ field: "bodySystem", message: "Body system is required for publishing", severity: "error", autoFixSuggestion: "ai_infer_metadata" });
   }
 
   if (!data.topic) {
-    warnings.push({ field: "topic", message: "Topic is not set", severity: "warning", autoFixSuggestion: "ai_infer_metadata" });
+    errors.push({ field: "topic", message: "Topic is required for publishing", severity: "error", autoFixSuggestion: "ai_infer_metadata" });
   }
 
   if (!data.tags || (Array.isArray(data.tags) && data.tags.length === 0)) {
-    warnings.push({ field: "tags", message: "No tags assigned", severity: "warning", autoFixSuggestion: "ai_infer_metadata" });
+    errors.push({ field: "tags", message: "At least one tag is required for publishing", severity: "error", autoFixSuggestion: "ai_infer_metadata" });
   }
+
+  const boilerplateErrors = detectBoilerplateContent(data);
+  errors.push(...boilerplateErrors);
 
   const ngnErrors = validateNGNPayload(data);
   errors.push(...ngnErrors.filter(e => e.severity === "error"));

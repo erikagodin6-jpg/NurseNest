@@ -82,16 +82,21 @@ interface NotificationPayload {
   subscriptionId?: string;
   details?: string;
   alertType?: string;
+  alertSeverity?: string;
 }
 
-function shouldNotify(settings: NotificationSettings, event: NotificationEvent): boolean {
+function shouldNotify(settings: NotificationSettings, event: NotificationEvent, payload?: NotificationPayload): boolean {
   switch (event) {
     case "new_subscription": return settings.notifyOnNewSubscription;
     case "subscription_cancelled": return settings.notifyOnCancellation;
     case "payment_failed": return settings.notifyOnPaymentFailed;
     case "lifetime_purchase": return settings.notifyOnLifetimePurchase;
     case "trial_started": return settings.notifyOnTrialStart;
-    case "reliability_alert": return settings.notifyOnCriticalIncident || settings.notifyOnWarningIncident;
+    case "reliability_alert": {
+      const sev = payload?.alertSeverity;
+      if (sev === "warning") return settings.notifyOnWarningIncident;
+      return settings.notifyOnCriticalIncident;
+    }
     case "test": return true;
     case "service_down": return settings.notifyOnCriticalIncident;
     case "synthetic_test_failure": return settings.notifyOnCriticalIncident;
@@ -210,6 +215,37 @@ async function logNotification(
   }
 }
 
+const recentReliabilityAlerts = new Map<string, number>();
+const RELIABILITY_ALERT_COOLDOWN_MS = 15 * 60 * 1000;
+const MAX_RELIABILITY_ALERT_ENTRIES = 200;
+
+function stableAlertDedupeKey(payload: NotificationPayload): string {
+  const alertType = payload.alertType || payload.event || "unknown";
+  const msgNormalized = (payload.details || "")
+    .replace(/Time:\s*\d{4}-\d{2}-\d{2}T[\d:.Z]+/g, "")
+    .replace(/\d{4}-\d{2}-\d{2}T[\d:.Z]+/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .substring(0, 150);
+  return `${alertType}:${msgNormalized}`;
+}
+
+function isReliabilityAlertDuplicate(payload: NotificationPayload): boolean {
+  const key = stableAlertDedupeKey(payload);
+  const lastSent = recentReliabilityAlerts.get(key);
+  if (lastSent && Date.now() - lastSent < RELIABILITY_ALERT_COOLDOWN_MS) {
+    return true;
+  }
+  recentReliabilityAlerts.set(key, Date.now());
+  if (recentReliabilityAlerts.size > MAX_RELIABILITY_ALERT_ENTRIES) {
+    const now = Date.now();
+    for (const [k, ts] of recentReliabilityAlerts) {
+      if (now - ts > RELIABILITY_ALERT_COOLDOWN_MS) recentReliabilityAlerts.delete(k);
+    }
+  }
+  return false;
+}
+
 async function isDuplicateForChannel(pool: any, stripeEventId: string, channel: "email" | "sms"): Promise<boolean> {
   if (!stripeEventId) return false;
   try {
@@ -277,9 +313,17 @@ async function sendSms(pool: any, settings: NotificationSettings, payload: Notif
 export async function sendAdminNotification(pool: any, payload: NotificationPayload): Promise<void> {
   try {
     const settings = await getNotificationSettings(pool);
-    if (!shouldNotify(settings, payload.event)) {
+    if (!shouldNotify(settings, payload.event, payload)) {
       console.log(`[Notifications] Event ${payload.event} disabled, skipping`);
       return;
+    }
+
+    const isReliabilityEvent = ["reliability_alert", "service_down", "synthetic_test_failure", "content_integrity_failure", "reliability_warning"].includes(payload.event);
+    if (isReliabilityEvent) {
+      if (isReliabilityAlertDuplicate(payload)) {
+        console.log(`[Notifications] Suppressed duplicate reliability alert within cooldown`);
+        return;
+      }
     }
 
     await Promise.allSettled([
