@@ -1197,11 +1197,20 @@ function runDeferredStartupWork() {
       console.error("[Startup Migrations] Failed:", e.message);
     }
 
+    try {
+      const t0 = Date.now();
+      const { scanAndQuarantineInvalidPublishedContent } = await import("./content-versioning-quarantine");
+      const scanResult = await scanAndQuarantineInvalidPublishedContent();
+      console.log(`[Startup Timing] Content quarantine scan: ${Date.now() - t0}ms (quarantined: ${scanResult.quarantined})`);
+    } catch (e: any) {
+      console.error("[StartupScan] Content quarantine scan failed:", e.message);
+    }
+
     import("./reporting-scheduler").then(({ startReportingScheduler }) => startReportingScheduler())
       .catch((e: any) => console.error("[ReportingScheduler] Init failed:", e.message));
 
     const SIX_HOURS_MS = 6 * 60 * 60 * 1000;
-    const MEMORY_LIMIT_MB = 1400;
+    const MEMORY_LIMIT_MB = 160;
     setInterval(async () => {
       const memUsage = process.memoryUsage();
       const heapMB = Math.round(memUsage.heapUsed / 1024 / 1024);

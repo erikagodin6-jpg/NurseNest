@@ -465,6 +465,65 @@ export function validateBlogPost(data: any): ValidationResult {
   return { valid: errors.length === 0, errors, warnings };
 }
 
+export function validateZeroValidItems(contentType: string, data: any): ValidationError | null {
+  if (contentType === "question" || contentType === "questions" || contentType === "exam_question") {
+    const options = Array.isArray(data.options) ? data.options : [];
+    const validOptions = options.filter((opt: any) => {
+      const text = typeof opt === "string" ? opt : opt?.text;
+      return text && text.trim().length > 0;
+    });
+    if (validOptions.length === 0 && (!data.stem || data.stem.trim().length === 0)) {
+      return { field: "content", message: "Content item has zero valid questions/items and cannot be published", severity: "error" };
+    }
+  }
+
+  if (contentType === "flashcard-set" || contentType === "flashcard-deck") {
+    if (!data.cards || !Array.isArray(data.cards) || data.cards.length === 0) {
+      return { field: "cards", message: "Flashcard set has zero cards and cannot be published", severity: "error" };
+    }
+  }
+
+  if (contentType === "flashcard" || contentType === "flashcards") {
+    if (data.cards !== undefined && Array.isArray(data.cards) && data.cards.length === 0) {
+      return { field: "cards", message: "Flashcard set has zero cards and cannot be published", severity: "error" };
+    }
+    if (!data.front && !data.back && !data.term && !data.definition) {
+      if (!data.cards || (Array.isArray(data.cards) && data.cards.length === 0)) {
+        return { field: "content", message: "Flashcard has no content and cannot be published", severity: "error" };
+      }
+    }
+  }
+
+  if (contentType === "lesson" || contentType === "lessons") {
+    const hasContent = data.content && (
+      (Array.isArray(data.content) && data.content.length > 0) ||
+      (typeof data.content === "string" && data.content.trim().length > 0)
+    );
+    const isNonEmptyString = (v: any) => typeof v === "string" && v.trim().length > 0;
+    const hasSubstantive = isNonEmptyString(data.definition) || isNonEmptyString(data.pathophysiology) || isNonEmptyString(data.summary) ||
+      (Array.isArray(data.signsSymptoms) && data.signsSymptoms.length > 0) ||
+      (Array.isArray(data.treatment) && data.treatment.length > 0) ||
+      (Array.isArray(data.nursingInterventions) && data.nursingInterventions.length > 0);
+    if (!hasContent && !hasSubstantive) {
+      return { field: "content", message: "Lesson has zero valid content sections and cannot be published", severity: "error" };
+    }
+  }
+
+  if (contentType === "blog" || contentType === "blog-post" || contentType === "article") {
+    const content = data.content;
+    const contentStr = typeof content === "string" ? content.trim() : "";
+    if (!content || contentStr.length === 0 ||
+        contentStr === "null" || contentStr === "[]" || contentStr === "{}") {
+      return { field: "content", message: "Content item has zero valid content and cannot be published", severity: "error" };
+    }
+    if (Array.isArray(content) && content.length === 0) {
+      return { field: "content", message: "Content item has zero valid content blocks and cannot be published", severity: "error" };
+    }
+  }
+
+  return null;
+}
+
 export function validateForPublish(contentType: string, data: any, targetLanguage?: string): ValidationResult {
   let result: ValidationResult;
   switch (contentType) {
@@ -489,6 +548,12 @@ export function validateForPublish(contentType: string, data: any, targetLanguag
       break;
     default:
       result = { valid: true, errors: [], warnings: [] };
+  }
+
+  const zeroItemsError = validateZeroValidItems(contentType, data);
+  if (zeroItemsError) {
+    result.errors.push(zeroItemsError);
+    result.valid = false;
   }
 
   if (targetLanguage) {

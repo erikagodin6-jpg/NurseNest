@@ -8,6 +8,12 @@ import { requireEntitlement, checkEntitlement } from "./entitlements";
 
 const QBANK_FREE_DAILY_LIMIT = 15;
 
+function getMemoryAwareLimit(requestedLimit: number, maxLimit: number): number {
+  const rssMB = process.memoryUsage().rss / (1024 * 1024);
+  const cap = rssMB > 150 ? Math.ceil(maxLimit * 0.5) : rssMB > 120 ? Math.ceil(maxLimit * 0.75) : maxLimit;
+  return Math.max(1, Math.min(requestedLimit, cap));
+}
+
 export function normalizeQuestionOptions(options: any): string[] {
   let parsed = options;
   if (typeof parsed === "string") {
@@ -583,7 +589,7 @@ export function setupQBankRoutes(app: Express) {
         queryTier = allowed.includes(requestedTier) ? requestedTier : (allowed[0] || userTier);
       }
 
-      const count = Math.min(parseInt(req.query.count as string) || 25, 100);
+      const count = getMemoryAwareLimit(parseInt(req.query.count as string) || 25, 100);
       const mode = (req.query.mode as string) || "exam";
       const bodySystems = req.query.bodySystems ? (req.query.bodySystems as string).split(",") : [];
       const examFilter = req.query.exam as string;

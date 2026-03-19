@@ -62,6 +62,8 @@ interface IncidentGroup {
 
 const incidentGroups = new Map<string, IncidentGroup>();
 const hardRateLimitMap = new Map<string, number>();
+const alertCountsPerHour = new Map<string, { count: number; windowStart: number }>();
+const MAX_ALERTS_PER_TYPE_PER_HOUR = 5;
 
 function evictExpiredAlerts(): void {
   const cooldownMs = thresholds.cooldownMinutes * 60 * 1000;
@@ -83,6 +85,21 @@ function evictExpiredAlerts(): void {
     const toRemove = sorted.slice(0, recentAlerts.size - MAX_RECENT_ALERTS);
     for (const [key] of toRemove) recentAlerts.delete(key);
   }
+}
+
+function isRateLimited(alertType: AlertType): boolean {
+  const now = Date.now();
+  const hourMs = 60 * 60 * 1000;
+  const entry = alertCountsPerHour.get(alertType);
+  if (!entry || now - entry.windowStart > hourMs) {
+    alertCountsPerHour.set(alertType, { count: 1, windowStart: now });
+    return false;
+  }
+  if (entry.count >= MAX_ALERTS_PER_TYPE_PER_HOUR) {
+    return true;
+  }
+  entry.count++;
+  return false;
 }
 
 export function getAlertThresholds(): AlertThresholds {
@@ -169,6 +186,8 @@ export async function fireAlert(
     return null;
   }
 
+  const rateLimited = isRateLimited(alertType);
+
   try {
     const groupKey = getCooldownKey(alertType, context);
     let group = incidentGroups.get(groupKey);
@@ -206,6 +225,11 @@ export async function fireAlert(
       (severity === "critical" && settings.notifyOnCriticalIncident) ||
       (severity === "warning" && settings.notifyOnWarningIncident);
 
+    if (rateLimited) {
+      console.log(`[AlertEngine] Persisted but notification suppressed (rate limit ${MAX_ALERTS_PER_TYPE_PER_HOUR}/hr): ${alertType}`);
+      return alertId;
+    }
+
     const hardRateKey = alertType;
     const lastHardRate = hardRateLimitMap.get(hardRateKey);
     const withinHardRateLimit = !lastHardRate || (now - lastHardRate >= HARD_RATE_LIMIT_MS);
@@ -214,11 +238,27 @@ export async function fireAlert(
       hardRateLimitMap.set(hardRateKey, now);
 
       const severityEmoji = severity === "critical" ? "🔴" : severity === "warning" ? "🟡" : "🔵";
+      type NotificationEventType = "service_down" | "synthetic_test_failure" | "content_integrity_failure" | "reliability_warning";
+      const eventTypeMap: Record<AlertType, NotificationEventType> = {
+        emergency_mode_activated: "service_down",
+        circuit_breaker_trip: "service_down",
+        synthetic_test_failure: "synthetic_test_failure",
+        zero_valid_items: "content_integrity_failure",
+        quarantine_event: "content_integrity_failure",
+        backup_generation_failure: "content_integrity_failure",
+        failure_rate_spike: "reliability_warning",
+        fallback_usage_spike: "reliability_warning",
+        entitlement_anomaly: "reliability_warning",
+        protected_recovery_excessive: "reliability_warning",
+        lkg_failover_repeated: "reliability_warning",
+        payment_sync_spike: "reliability_warning",
+      };
+      const notificationEvent = (eventTypeMap[alertType] || (severity === "critical" ? "service_down" : "reliability_warning")) as any;
       const incidentInfo = group.count > 1
         ? `\n\nIncident Group: ${group.count} occurrences\nFirst seen: ${new Date(group.firstSeen).toISOString()}\nLast seen: ${new Date(group.lastSeen).toISOString()}`
         : "";
       sendAdminNotification(pool, {
-        event: "reliability_alert",
+        event: notificationEvent,
         alertType,
         details: `${severityEmoji} Reliability Alert: ${message}\n\nType: ${alertType}\nSeverity: ${severity}\nTime: ${new Date().toISOString()}${incidentInfo}`,
       }).catch((e: any) => console.error("[AlertEngine] Notification send failed:", e.message));

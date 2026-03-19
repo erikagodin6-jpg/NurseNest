@@ -14,7 +14,7 @@ import {
   type CATState
 } from "@/lib/cat-engine";
 import { EXAM_BLUEPRINTS } from "@/lib/question-pool";
-import { ExamReportButton, QuestionErrorBoundary } from "@/components/exam-error-boundary";
+import { ExamErrorBoundary, ExamReportButton, QuestionErrorBoundary } from "@/components/exam-error-boundary";
 import { createCheckpointManager } from "@/lib/session-checkpoint";
 import { clearExamCheckpoint } from "@/lib/exam-session-checkpoint";
 import { generateIncidentId } from "@/lib/resilience";
@@ -267,7 +267,15 @@ function computeReport(
   };
 }
 
-export default function MockExamSession() {
+export default function MockExamSessionWithBoundary() {
+  return (
+    <ExamErrorBoundary examContext={{ examType: "mock-exam" }}>
+      <MockExamSessionInner />
+    </ExamErrorBoundary>
+  );
+}
+
+function MockExamSessionInner() {
   const { id: attemptId } = useParams();
   const [, navigate] = useLocation();
   const { user } = useAuth();

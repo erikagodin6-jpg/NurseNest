@@ -12,6 +12,12 @@ import {
 import { DEFAULT_CAT_PARAMS } from "../shared/mlt-exam-types";
 import { premiumDegradationMiddleware, getDegradation, attachDegradationToResponse, logDegradedAccess } from "./premium-degradation";
 
+function getMemoryAwareLimit(requestedLimit: number, maxLimit: number): number {
+  const rssMB = process.memoryUsage().rss / (1024 * 1024);
+  const cap = rssMB > 150 ? Math.ceil(maxLimit * 0.5) : rssMB > 120 ? Math.ceil(maxLimit * 0.75) : maxLimit;
+  return Math.max(1, Math.min(requestedLimit, cap));
+}
+
 function snakeToCamel(obj: any): any {
   if (Array.isArray(obj)) return obj.map(snakeToCamel);
   if (obj === null || typeof obj !== "object") return obj;
@@ -282,7 +288,7 @@ export function registerPremiumStudyRoutes(app: Express) {
         questionCount = 20,
       } = req.body;
 
-      const limit = Math.min(Math.max(questionCount, 5), 100);
+      const limit = getMemoryAwareLimit(Math.max(questionCount, 5), 100);
       let questions: any[] = [];
 
       if (bookmarkedOnly) {

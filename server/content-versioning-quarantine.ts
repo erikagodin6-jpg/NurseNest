@@ -466,10 +466,14 @@ export async function quarantineContentItem(
       }
     } catch {}
 
-    const currentVersion = await pool.query(
-      "SELECT COALESCE(MAX(version), 0) as max_v FROM content_snapshots WHERE content_id = $1",
-      [contentId]
-    );
+    let maxVersion: number | null = null;
+    try {
+      const currentVersion = await pool.query(
+        "SELECT COALESCE(MAX(version), 0) as max_v FROM content_snapshots WHERE content_id = $1",
+        [contentId]
+      );
+      maxVersion = parseInt(currentVersion.rows[0].max_v) || null;
+    } catch {}
 
     const insertResult = await pool.query(
       `INSERT INTO content_quarantine (id, content_id, content_type, reason, detected_by, previous_status, previous_version, affected_users_estimate, fallback_content_id, created_at)
@@ -481,7 +485,7 @@ export async function quarantineContentItem(
         reason,
         detectedBy,
         previousStatus,
-        parseInt(currentVersion.rows[0].max_v) || null,
+        maxVersion,
         fallbackContentId,
       ]
     );
@@ -629,6 +633,89 @@ export async function getContentWithQuarantineCheck(
     fallback: null,
     message: "This content is temporarily unavailable. We're working to resolve the issue.",
   };
+}
+
+export async function scanAndQuarantineInvalidPublishedContent(): Promise<{
+  scanned: number;
+  quarantined: number;
+  items: Array<{ id: string; title: string; type: string; reason: string }>;
+}> {
+  const { validateZeroValidItems } = await import("./content-integrity-validation");
+  const result = { scanned: 0, quarantined: 0, items: [] as Array<{ id: string; title: string; type: string; reason: string }> };
+
+  try {
+    const BATCH_SIZE = 500;
+
+    let contentOffset = 0;
+    let hasMoreContent = true;
+    while (hasMoreContent) {
+      const contentItems = await pool.query(`
+        SELECT id, title, type, content, summary, status
+        FROM content_items
+        WHERE status = 'published'
+        ORDER BY id
+        LIMIT ${BATCH_SIZE} OFFSET ${contentOffset}
+      `);
+      result.scanned += contentItems.rows.length;
+      hasMoreContent = contentItems.rows.length === BATCH_SIZE;
+      contentOffset += BATCH_SIZE;
+
+      for (const item of contentItems.rows) {
+        const contentType = item.type || "content_item";
+        const validationError = validateZeroValidItems(contentType, item);
+        if (validationError) {
+          const reason = validationError.message;
+          const qResult = await quarantineContentItem(item.id, contentType, reason, "startup_scan");
+          if (qResult) {
+            result.quarantined++;
+            result.items.push({ id: item.id, title: item.title || "Untitled", type: contentType, reason });
+            console.log(`[StartupScan] Quarantined published content item "${item.title || item.id}" - ${reason}`);
+          }
+        }
+      }
+    }
+
+    let questionOffset = 0;
+    let hasMore = true;
+    while (hasMore) {
+      const questions = await pool.query(`
+        SELECT id, tier, stem, options, status
+        FROM exam_questions
+        WHERE status = 'published'
+        ORDER BY id
+        LIMIT ${BATCH_SIZE} OFFSET ${questionOffset}
+      `);
+      result.scanned += questions.rows.length;
+      hasMore = questions.rows.length === BATCH_SIZE;
+      questionOffset += BATCH_SIZE;
+
+      for (const q of questions.rows) {
+        const validationError = validateZeroValidItems("exam_question", {
+          stem: q.stem,
+          options: q.options,
+        });
+        if (validationError) {
+          const reason = validationError.message;
+          const qResult = await quarantineContentItem(q.id, "exam_question", reason, "startup_scan");
+          if (qResult) {
+            result.quarantined++;
+            result.items.push({ id: q.id, title: q.stem || "Empty question", type: "exam_question", reason });
+            console.log(`[StartupScan] Quarantined invalid published question ${q.id}`);
+          }
+        }
+      }
+    }
+
+    if (result.quarantined > 0) {
+      console.log(`[StartupScan] Quarantined ${result.quarantined} invalid published content items out of ${result.scanned} scanned`);
+    } else {
+      console.log(`[StartupScan] Scanned ${result.scanned} items, no invalid published content found`);
+    }
+  } catch (err: any) {
+    console.error("[StartupScan] Error scanning for invalid published content:", err.message);
+  }
+
+  return result;
 }
 
 export async function publishWithValidation(

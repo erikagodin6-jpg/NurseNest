@@ -64,7 +64,11 @@ type NotificationEvent =
   | "lifetime_purchase"
   | "trial_started"
   | "test"
-  | "reliability_alert";
+  | "reliability_alert"
+  | "service_down"
+  | "synthetic_test_failure"
+  | "content_integrity_failure"
+  | "reliability_warning";
 
 interface NotificationPayload {
   event: NotificationEvent;
@@ -89,6 +93,10 @@ function shouldNotify(settings: NotificationSettings, event: NotificationEvent):
     case "trial_started": return settings.notifyOnTrialStart;
     case "reliability_alert": return settings.notifyOnCriticalIncident || settings.notifyOnWarningIncident;
     case "test": return true;
+    case "service_down": return settings.notifyOnCriticalIncident;
+    case "synthetic_test_failure": return settings.notifyOnCriticalIncident;
+    case "content_integrity_failure": return settings.notifyOnCriticalIncident;
+    case "reliability_warning": return settings.notifyOnWarningIncident;
     default: return false;
   }
 }
@@ -102,6 +110,10 @@ function formatEventTitle(event: NotificationEvent, alertType?: string): string 
     case "trial_started": return "New Trial Started";
     case "reliability_alert": return `Reliability Alert: ${alertType || "System Issue"}`;
     case "test": return "Test Notification";
+    case "service_down": return "Service Down";
+    case "synthetic_test_failure": return "Synthetic Test Failure";
+    case "content_integrity_failure": return "Content Integrity Failure";
+    case "reliability_warning": return "Reliability Warning";
     default: return "Notification";
   }
 }
@@ -126,6 +138,10 @@ function formatEmailBody(payload: NotificationPayload): string {
     payment_failed: "#ef4444",
     reliability_alert: "#dc2626",
     test: "#6366f1",
+    service_down: "#dc2626",
+    synthetic_test_failure: "#ea580c",
+    content_integrity_failure: "#d97706",
+    reliability_warning: "#ca8a04",
   };
   const color = eventColors[payload.event] || "#6366f1";
 

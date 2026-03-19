@@ -19,35 +19,49 @@ interface SyntheticTestRunResult {
 async function makeInternalRequest(
   baseUrl: string,
   path: string,
-  options: { method?: string; body?: any; timeoutMs?: number; headers?: Record<string, string> } = {}
+  options: { method?: string; body?: any; timeoutMs?: number; headers?: Record<string, string>; retries?: number } = {}
 ): Promise<{ status: number; body: any; timeMs: number }> {
-  const { method = "GET", body, timeoutMs = 10000, headers = {} } = options;
+  const { method = "GET", body, timeoutMs = 30000, headers = {}, retries = 2 } = options;
   const url = `${baseUrl}${path}`;
-  const start = Date.now();
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  let lastError: Error | null = null;
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    const start = Date.now();
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
-  try {
-    const fetchOptions: RequestInit = {
-      method,
-      headers: { "Content-Type": "application/json", ...headers },
-      signal: controller.signal,
-    };
-    if (body) fetchOptions.body = JSON.stringify(body);
-
-    const resp = await fetch(url, fetchOptions);
-    const elapsed = Date.now() - start;
-    let respBody: any;
     try {
-      respBody = await resp.json();
-    } catch {
-      respBody = await resp.text().catch(() => null);
+      const fetchOptions: RequestInit = {
+        method,
+        headers: { "Content-Type": "application/json", ...headers },
+        signal: controller.signal,
+      };
+      if (body) fetchOptions.body = JSON.stringify(body);
+
+      const resp = await fetch(url, fetchOptions);
+      const elapsed = Date.now() - start;
+      let respBody: any;
+      try {
+        respBody = await resp.json();
+      } catch {
+        respBody = await resp.text().catch(() => null);
+      }
+      return { status: resp.status, body: respBody, timeMs: elapsed };
+    } catch (e: any) {
+      lastError = e;
+      if (attempt < retries) {
+        const backoffMs = (attempt + 1) * 1000;
+        await new Promise(resolve => setTimeout(resolve, backoffMs));
+      }
+    } finally {
+      clearTimeout(timeout);
     }
-    return { status: resp.status, body: respBody, timeMs: elapsed };
-  } finally {
-    clearTimeout(timeout);
   }
+
+  const errorMsg = lastError?.name === "AbortError"
+    ? `Request to ${path} timed out after ${timeoutMs}ms (${retries + 1} attempts)`
+    : `Request to ${path} failed after ${retries + 1} attempts: ${lastError?.message || "Unknown error"}`;
+  throw new Error(errorMsg);
 }
 
 const loginTest: SyntheticTestConfig = {
@@ -74,14 +88,26 @@ const examOpenTest: SyntheticTestConfig = {
   name: "exam_open_flow",
   description: "Tests that exam listing endpoint is available",
   enabled: true,
-  timeoutMs: 10000,
+  timeoutMs: 30000,
   runner: async (_pool, baseUrl) => {
     const start = Date.now();
     try {
-      const resp = await makeInternalRequest(baseUrl, "/api/exams?tier=rpn&limit=1");
+      const resp = await makeInternalRequest(baseUrl, "/api/content/exams?limit=1", { timeoutMs: 30000, retries: 2 });
       const timeMs = Date.now() - start;
-      if (resp.status === 200 || resp.status === 401) {
+      if (resp.status === 200) {
+        try {
+          const body = await resp.json();
+          if (body?._degraded) {
+            return { status: "fail", responseTimeMs: timeMs, errorDetails: `Exam endpoint returned degraded response: ${body._reason || "unknown"}` };
+          }
+        } catch {}
         return { status: "pass", responseTimeMs: timeMs, metadata: { statusCode: resp.status } };
+      }
+      if (resp.status === 401) {
+        return { status: "pass", responseTimeMs: timeMs, metadata: { statusCode: resp.status } };
+      }
+      if (resp.status === 503) {
+        return { status: "fail", responseTimeMs: timeMs, errorDetails: `Exam endpoint returned 503 (service under memory pressure)` };
       }
       return { status: "fail", responseTimeMs: timeMs, errorDetails: `Exam endpoint returned ${resp.status}` };
     } catch (e: any) {

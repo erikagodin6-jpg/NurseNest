@@ -5490,18 +5490,26 @@ Rules:
   });
 
   app.get("/api/content/exams", async (req, res) => {
+    const requestTimeout = setTimeout(() => {
+      if (!res.headersSent) {
+        console.warn("[ExamRoute] /api/content/exams timed out after 15s, returning lightweight fallback");
+        res.status(200).json({ items: [], _degraded: true, _reason: "timeout" });
+      }
+    }, 15000);
+
     try {
       const region = req.region || "US";
       const lang = (req.query.lang as string) || req.lang || "en";
-      const cacheKey = `exams:${region}:${lang}`;
+      const limit = Math.max(1, Math.min(parseInt(req.query.limit as string) || 50, 100));
+      const cacheKey = `exams:${region}:${lang}:${limit}`;
       const cached = cacheGet(cacheKey);
-      if (cached) return res.json(cached);
+      if (cached) { clearTimeout(requestTimeout); return res.json(cached); }
 
       const regionFilter = buildRegionFilter(region);
       const result = await timedQuery(
-        `SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at, region_scope FROM content_items WHERE status = 'published' AND type = 'exam' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST`,
+        `SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at, region_scope FROM content_items WHERE status = 'published' AND type = 'exam' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST LIMIT ${limit}`,
         [],
-        { label: "content/exams", timeoutMs: 5000 }
+        { label: "content/exams", timeoutMs: 10000 }
       );
       let items = snakeToCamel(result.rows);
 
@@ -5531,10 +5539,20 @@ Rules:
         }
       }
 
-      cacheSet(cacheKey, items, 60);
-      res.json(items);
+      clearTimeout(requestTimeout);
+      if (!res.headersSent) {
+        cacheSet(cacheKey, items, 60);
+        res.json(items);
+      }
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      clearTimeout(requestTimeout);
+      if (!res.headersSent) {
+        if (e.message?.includes("aborted") || e.message?.includes("timeout") || e.message?.includes("timed out")) {
+          res.status(200).json({ items: [], _degraded: true, _reason: "timeout" });
+        } else {
+          res.status(500).json({ error: "Failed to load exam content. Please try again.", code: "EXAM_LOAD_ERROR" });
+        }
+      }
     }
   });
 
@@ -10570,6 +10588,12 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
   app.post("/api/mock-exams/start-specialty", examStartLimiter, killSwitchGuard("mock_exams"), requireEntitlement("mock_exams"), async (req: any, res) => {
     const _routeStart = Date.now();
+    const startTimeout = setTimeout(() => {
+      if (!res.headersSent) {
+        console.warn("[MockExam][start-specialty] Timed out after 20s");
+        res.status(503).json({ error: "Exam start timed out. Please try again.", code: "EXAM_START_TIMEOUT", recoverable: true });
+      }
+    }, 20000);
     try {
       const authUser = req.authUser;
       const { isFeatureEnabledForContext } = await import("./platform-resilience");
@@ -10653,14 +10677,17 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       const responsePayload = { attemptId, timeLimit: examDef.time_limit, examTitle: examDef.title };
       logExamRoute("/api/mock-exams/start-specialty", "POST", authUser.id, _routeStart, { attemptId, questionCount: questions.length, payloadSize: JSON.stringify(responsePayload).length });
-      res.json(responsePayload);
+      clearTimeout(startTimeout);
+      if (!res.headersSent) res.json(responsePayload);
     } catch (e: any) {
+      clearTimeout(startTimeout);
       console.error("[MockExam][start-specialty] Error:", { message: e.message, code: e.code, stack: e.stack?.split("\n").slice(0, 5).join("\n") });
       import("./backend-resilience").then(({ logCriticalError }) => logCriticalError({
         route: "/api/mock-exams/start-specialty", method: "POST", userId: req.authUser?.id,
         examId: req.body?.examDefinitionId, errorMessage: e.message, stackTrace: e.stack,
         requestParams: { specialty: req.body?.specialty },
       })).catch(() => {});
+      if (res.headersSent) return;
       const isColumnError = e.message?.includes("column") && e.message?.includes("does not exist");
       if (isColumnError) {
         res.status(500).json({
@@ -10675,6 +10702,12 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
   app.post("/api/mock-exams/start", killSwitchGuard("mock_exams"), requireEntitlement("mock_exams"), async (req: any, res) => {
     const startTime = Date.now();
+    const startTimeout = setTimeout(() => {
+      if (!res.headersSent) {
+        console.warn("[MockExam][start] Timed out after 20s");
+        res.status(503).json({ error: "Exam start timed out. Please try again.", code: "EXAM_START_TIMEOUT", recoverable: true });
+      }
+    }, 20000);
     try {
       const authUser = req.authUser;
       console.log("[MockExam][start] Received payload:", { tier: req.body.tier, examMode: req.body.examMode, blueprintCode: req.body.blueprintCode, questionCount: req.body.questions?.length, totalQuestions: req.body.totalQuestions, serverAssembly: req.body.serverAssembly });
@@ -10810,14 +10843,17 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       const responsePayloadStart = JSON.stringify({ attemptId, creditUsed: usedCredit });
       logExamRoute("/api/mock-exams/start", "POST", authUser.id, startTime, { attemptId, payloadSize: responsePayloadStart.length });
-      res.json({ attemptId, creditUsed: usedCredit });
+      clearTimeout(startTimeout);
+      if (!res.headersSent) res.json({ attemptId, creditUsed: usedCredit });
     } catch (e: any) {
+      clearTimeout(startTimeout);
       console.error("[MockExam][start] Error:", { message: e.message, code: e.code, stack: e.stack?.split("\n").slice(0, 5).join("\n") });
       import("./backend-resilience").then(({ logCriticalError }) => logCriticalError({
         route: "/api/mock-exams/start", method: "POST", userId: req.authUser?.id,
         examId: req.body?.blueprintCode, errorMessage: e.message, stackTrace: e.stack,
         requestParams: { tier: req.body?.tier, totalQuestions: req.body?.totalQuestions, examMode: req.body?.examMode },
       })).catch(() => {});
+      if (res.headersSent) return;
       const isColumnError = e.message?.includes("column") && e.message?.includes("does not exist");
       if (isColumnError) {
         res.status(500).json({

@@ -67,10 +67,10 @@ const vipPriorityConfig = {
     emergency: 0.99,
   },
   rssThresholdsMB: {
-    shed_free_nonessential: 900,
-    shed_free_all: 1000,
-    shed_low_priority: 1100,
-    emergency: 1200,
+    shed_free_nonessential: 130,
+    shed_free_all: 150,
+    shed_low_priority: 165,
+    emergency: 180,
   },
 };
 
@@ -644,8 +644,8 @@ async function runReleaseGateChecks(): Promise<GateResult> {
 
   const mem = process.memoryUsage();
   const rssMB = Math.round(mem.rss / (1024 * 1024));
-  const RSS_WARNING_MB = 1200;
-  const RSS_CRITICAL_MB = 1500;
+  const RSS_WARNING_MB = 140;
+  const RSS_CRITICAL_MB = 180;
   checks.push({
     name: "memory_healthy",
     passed: rssMB < RSS_WARNING_MB,

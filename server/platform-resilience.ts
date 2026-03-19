@@ -569,8 +569,8 @@ async function checkMemory(): Promise<HealthCheckResult> {
   const rssMB = Math.round(mem.rss / 1024 / 1024);
   const heapUsedMB = Math.round(mem.heapUsed / 1024 / 1024);
   const heapTotalMB = Math.round(mem.heapTotal / 1024 / 1024);
-  const warningMB = parseInt(process.env.MEMORY_WARNING_MB || "0") || 900;
-  const criticalMB = parseInt(process.env.MEMORY_CRITICAL_MB || "0") || 1200;
+  const warningMB = parseInt(process.env.MEMORY_WARNING_MB || "0") || 140;
+  const criticalMB = parseInt(process.env.MEMORY_CRITICAL_MB || "0") || 180;
   const status = rssMB > criticalMB ? "down" : rssMB > warningMB ? "degraded" : "healthy";
   return { service: "memory", status, latencyMs: Date.now() - start, lastChecked: Date.now(), details: `RSS: ${rssMB}MB, Heap: ${heapUsedMB}/${heapTotalMB}MB` };
 }
@@ -1214,7 +1214,7 @@ export function getLoadSheddingStatus(): { enabled: boolean; queueLength: number
 }
 
 export function loadSheddingMiddleware() {
-  const RSS_SHED_THRESHOLD_MB = 1400;
+  const RSS_SHED_THRESHOLD_MB = 160;
   return (req: Request, res: Response, next: NextFunction) => {
     if (!loadSheddingConfig.enabled) return next();
 
