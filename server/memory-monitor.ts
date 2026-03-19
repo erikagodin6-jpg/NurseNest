@@ -107,6 +107,10 @@ export function getMemoryPressure(): MemoryPressureState {
   return { ...pressureState };
 }
 
+export function isMemoryWarning(): boolean {
+  return pressureState.isWarning || pressureState.isProtection || pressureState.isCritical;
+}
+
 export function isMemoryProtectionActive(): boolean {
   return pressureState.isProtection || pressureState.isCritical;
 }

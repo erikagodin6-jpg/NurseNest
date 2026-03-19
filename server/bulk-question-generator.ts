@@ -118,7 +118,7 @@ function splitIntoBatches(totalCount: number, maxBatchSize: number = 50): number
   return batches;
 }
 
-async function runBulkGeneration(params: {
+export async function runBulkGeneration(params: {
   model: string;
   triggeredBy: string;
   dryRun: boolean;
@@ -472,21 +472,29 @@ export function setupBulkGeneratorRoutes(app: Express): void {
 
       const tierFilter = tiers ? (Array.isArray(tiers) ? tiers : String(tiers).split(",")) : undefined;
 
-      const bulkRunId = await runBulkGeneration({
-        model,
-        triggeredBy: admin.username || "admin",
-        dryRun,
-        batchSize: Math.min(Math.max(batchSize, 10), 100),
-        tierFilter,
+      const { createBgJob } = await import("./job-queue");
+      const jobId = await createBgJob({
+        type: "bulk_question_generate",
+        payload: {
+          model,
+          dryRun,
+          batchSize: Math.min(Math.max(batchSize, 10), 100),
+          tierFilter,
+          triggeredBy: admin.username || "admin",
+        },
+        totalItems: 1,
+        batchSize: 1,
+        createdBy: admin.username || "admin",
       });
 
+      console.log(`[BulkGenerator] Job queued by admin: ${admin.username} (bgJobId: ${jobId})`);
       res.json({
-        bulkRunId,
-        status: "running",
-        message: "Bulk generation started. Poll status endpoint for progress.",
+        jobId,
+        status: "queued",
+        message: "Bulk generation queued for worker processing. Poll status endpoint for progress.",
       });
     } catch (err: any) {
-      console.error("[Bulk Generator] Start error:", err.message);
+      console.error("[Bulk Generator] Queue error:", err.message);
       res.status(500).json({ error: err.message });
     }
   });

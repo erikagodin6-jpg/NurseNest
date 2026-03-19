@@ -1,6 +1,7 @@
 import type { Express, Request, Response } from "express";
 import { requireAdmin } from "./admin-auth";
 import rateLimit from "express-rate-limit";
+import { BoundedMap } from "./bounded-map";
 
 interface MissingKeyEntry {
   language: string;
@@ -9,9 +10,8 @@ interface MissingKeyEntry {
   count: number;
 }
 
-const missingKeysStore: Map<string, MissingKeyEntry> = new Map();
-
 const MAX_STORE_SIZE = 500;
+const missingKeysStore = new BoundedMap<string, MissingKeyEntry>(MAX_STORE_SIZE);
 
 const missingKeysPostLimiter = rateLimit({
   windowMs: 60 * 1000,
@@ -51,18 +51,6 @@ export function registerI18nMissingKeysRoutes(app: Express) {
         existing.reportedAt = Date.now();
         updated++;
       } else {
-        if (missingKeysStore.size >= MAX_STORE_SIZE) {
-          let oldestKey = "";
-          let oldestTime = Infinity;
-          for (const [k, v] of missingKeysStore) {
-            if (v.reportedAt < oldestTime) {
-              oldestTime = v.reportedAt;
-              oldestKey = k;
-            }
-          }
-          if (oldestKey) missingKeysStore.delete(oldestKey);
-        }
-
         missingKeysStore.set(storeKey, {
           language: lang,
           key,

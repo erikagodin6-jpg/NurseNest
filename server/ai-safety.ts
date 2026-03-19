@@ -1,3 +1,5 @@
+import { BoundedMap } from "./bounded-map";
+
 export const ACTIVE_BUILD_PRIORITY = "AI_TUTORING_ASSISTANT";
 
 const ENABLE_AI_AUTOGEN = process.env.ENABLE_AI_AUTOGEN === "true";
@@ -32,7 +34,7 @@ let runtimeMaxTokens = MAX_AI_TOKENS_PER_DAY;
 let runtimeFreeTierLimit = FREE_TIER_DAILY_LIMIT;
 let runtimeRateLimit = RATE_LIMIT_PER_MINUTE;
 const recentCalls: AiCallLog[] = [];
-const userDailyCounts: Map<string, { date: string; count: number }> = new Map();
+const userDailyCounts = new BoundedMap<string, { date: string; count: number }>(500, 24 * 60 * 60 * 1000);
 
 function getTodayKey(): string {
   return new Date().toISOString().slice(0, 10);

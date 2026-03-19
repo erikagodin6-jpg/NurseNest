@@ -1,5 +1,6 @@
 import pg from "pg";
 import { fireSyntheticTestFailureAlert } from "./alerting-engine";
+import { BoundedMap } from "./bounded-map";
 
 interface SyntheticTestConfig {
   name: string;
@@ -355,10 +356,9 @@ export async function runAllSyntheticTests(
 
 let syntheticInterval: ReturnType<typeof setInterval> | null = null;
 let syntheticStartTimeout: ReturnType<typeof setTimeout> | null = null;
-const testBackoff: Map<string, { failures: number; nextRunAfter: number }> = new Map();
+const testBackoff = new BoundedMap<string, { failures: number; nextRunAfter: number }>(50);
 const MAX_BACKOFF_MS = 30 * 60 * 1000;
 const BASE_BACKOFF_MS = 60_000;
-const MAX_BACKOFF_ENTRIES = 50;
 
 function getBackoffDelay(failures: number): number {
   return Math.min(BASE_BACKOFF_MS * Math.pow(2, failures), MAX_BACKOFF_MS);
@@ -373,11 +373,6 @@ function recordTestBackoff(testName: string, passed: boolean): void {
   entry.failures++;
   entry.nextRunAfter = Date.now() + getBackoffDelay(entry.failures);
   testBackoff.set(testName, entry);
-
-  if (testBackoff.size > MAX_BACKOFF_ENTRIES) {
-    const firstKey = testBackoff.keys().next().value;
-    if (firstKey) testBackoff.delete(firstKey);
-  }
 
   console.log(`[SyntheticMonitor] ${testName} failed ${entry.failures}x, next eligible in ${Math.round(getBackoffDelay(entry.failures) / 1000)}s`);
 }

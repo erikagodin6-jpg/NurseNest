@@ -14,8 +14,8 @@ const GPT4O_MINI_INPUT_COST = 0.00015 / 1000;
 const GPT4O_MINI_OUTPUT_COST = 0.0006 / 1000;
 const AVG_COST_PER_1K_TOKENS = 0.0004;
 
-const runningJobs = new Map<string, { cancel: boolean; pause: boolean }>();
-const MAX_RUNNING_JOBS = 50;
+import { BoundedMap } from "./bounded-map";
+const runningJobs = new BoundedMap<string, { cancel: boolean; pause: boolean }>(50);
 
 export const JOB_TYPES = [
   "exam_questions", "cat_questions", "flashcards", "lessons",

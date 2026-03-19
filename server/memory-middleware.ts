@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction } from "express";
 import {
   isMemoryProtectionActive,
   isMemoryCritical,
+  isMemoryWarning,
   checkMemoryNow,
   logSpike,
   logProtectionAction,
@@ -9,6 +10,7 @@ import {
   decrementConnections,
   shouldPauseBackgroundJobs,
 } from "./memory-monitor";
+import { BoundedMap } from "./bounded-map";
 
 const MAX_RESPONSE_SIZE_BYTES = 1 * 1024 * 1024;
 const MAX_ITEMS_UNDER_PRESSURE = 10;
@@ -55,25 +57,7 @@ const HEAVY_OPERATION_PATTERNS = [
 const MAX_CONCURRENT_HEAVY_OPS = parseInt(process.env.MAX_CONCURRENT_HEAVY_OPS || "0") || 8;
 let currentHeavyOps = 0;
 
-const heavyRouteCounters = new Map<string, { count: number; lastSeen: number }>();
-const MAX_HEAVY_ROUTE_ENTRIES = 200;
-const HEAVY_ROUTE_TTL_MS = 30 * 60 * 1000;
-
-setInterval(() => {
-  const now = Date.now();
-  for (const [key, val] of heavyRouteCounters) {
-    if (now - val.lastSeen > HEAVY_ROUTE_TTL_MS) {
-      heavyRouteCounters.delete(key);
-    }
-  }
-  if (heavyRouteCounters.size > MAX_HEAVY_ROUTE_ENTRIES) {
-    const entries = Array.from(heavyRouteCounters.entries()).sort((a, b) => a[1].count - b[1].count);
-    const toRemove = entries.slice(0, entries.length - MAX_HEAVY_ROUTE_ENTRIES);
-    for (const [key] of toRemove) {
-      heavyRouteCounters.delete(key);
-    }
-  }
-}, 5 * 60 * 1000);
+const heavyRouteCounters = new BoundedMap<string, { count: number; lastSeen: number }>(200, 30 * 60 * 1000);
 
 const HEAVY_ROUTE_PATTERNS = [
   ...BULK_AI_PATTERNS,
@@ -155,6 +139,25 @@ export function loadSheddingMiddleware() {
       emergencyMode = typeof resilience.isEmergencyMode === "function" && resilience.isEmergencyMode();
     } catch {}
 
+    if (isMemoryWarning()) {
+      const isBulkAI = BULK_AI_PATTERNS.some(p => req.path.startsWith(p));
+      if (isBulkAI && req.method === "POST") {
+        logProtectionAction("warning_shed_ai", `Blocked AI POST ${req.path} (memory warning)`);
+        res.setHeader("Retry-After", "30");
+        return res.status(503).json({
+          error: "AI operations temporarily paused due to elevated memory usage.",
+          retryAfter: 30,
+          memoryPressure: true,
+        });
+      }
+
+      const isLargeList = LARGE_LIST_PATTERNS.some(p => req.path.startsWith(p));
+      if (isLargeList && req.method === "GET") {
+        const requestedLimit = parseInt(req.query.limit as string) || 50;
+        req.query.limit = String(Math.min(requestedLimit, 25));
+      }
+    }
+
     if (isMemoryCritical()) {
       const isNonEssential = NON_ESSENTIAL_PATHS.some(p => req.path.startsWith(p));
       if (isNonEssential) {
@@ -174,6 +177,11 @@ export function loadSheddingMiddleware() {
           retryAfter: 60,
           memoryPressure: true,
         });
+      }
+
+      const isLargeList = LARGE_LIST_PATTERNS.some(p => req.path.startsWith(p));
+      if (isLargeList && req.method === "GET") {
+        req.query.limit = String(Math.min(parseInt(req.query.limit as string) || 50, 5));
       }
     }
 

@@ -19,7 +19,7 @@ import {
   generateInternalLinkMap,
   generateQuestionBankProduct,
 } from "./content-generators";
-import { createBgJob, registerJobHandler } from "./job-queue";
+import { createBgJob } from "./job-queue";
 
 const DEFAULT_ENGINES = [
   { engineKey: "blog_engine", name: "Blog Engine", description: "Generate SEO blog clusters and articles" },
@@ -58,7 +58,7 @@ async function seedDefaultEngines(): Promise<void> {
   }
 }
 
-async function processAutopilotJob(jobId: string, engineKey: string, payload: any): Promise<void> {
+export async function processAutopilotJob(jobId: string, engineKey: string, payload: any): Promise<void> {
   const targetLang = payload.target_language || payload.targetLanguage || "en";
   try {
     switch (engineKey) {
@@ -693,26 +693,6 @@ export function setupAutopilotRoutes(app: Express): void {
       });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
-    }
-  });
-
-  registerJobHandler("autopilot_content", async (job: any, batch: any, payload: any) => {
-    const engineKey = payload.engineKey || job.engine_key || "";
-    const jobPayload = typeof job.payload === "string" ? JSON.parse(job.payload) : (job.payload || {});
-    const mergedPayload = { ...jobPayload, ...payload };
-
-    const tempJobId = `bg_${batch.id}`;
-    try {
-      const tempRow = await pool.query(
-        `INSERT INTO autopilot_jobs (engine_key, status, payload)
-         VALUES ($1, 'running', $2) RETURNING id`,
-        [engineKey, JSON.stringify(mergedPayload)]
-      );
-      const autopilotJobId = tempRow.rows[0].id;
-      await processAutopilotJob(autopilotJobId, engineKey, mergedPayload);
-    } catch (err: any) {
-      console.error(`[Autopilot BG] Handler error for ${engineKey}:`, err.message);
-      throw err;
     }
   });
 

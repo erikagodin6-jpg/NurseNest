@@ -556,7 +556,7 @@ async function refreshIndexes(targetPool: pg.Pool): Promise<void> {
   }
 }
 
-async function runExpansionJob(): Promise<void> {
+export async function runExpansionJob(): Promise<void> {
   if (jobRunning) {
     throw new Error("A content expansion job is already running");
   }
@@ -826,19 +826,21 @@ export function setupContentExpansionRoutes(app: Express): void {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
 
-    if (jobRunning) {
-      return res.status(409).json({ error: "A content expansion job is already running", jobId: currentJob?.jobId });
+    try {
+      const { createBgJob } = await import("./job-queue");
+      const jobId = await createBgJob({
+        type: "content_expansion",
+        payload: {},
+        totalItems: 1,
+        batchSize: 1,
+        createdBy: admin.username || "admin",
+      });
+      console.log(`[ContentExpansion] Job queued by admin: ${admin.username} (bgJobId: ${jobId})`);
+      res.json({ started: true, jobId, status: "queued", message: "Content expansion queued for worker processing." });
+    } catch (err: any) {
+      console.error("[ContentExpansion] Queue error:", err.message);
+      res.status(500).json({ error: err.message });
     }
-
-    console.log(`[ContentExpansion] Job triggered by admin: ${admin.username}`);
-
-    runExpansionJob().catch(err => {
-      console.error("[ContentExpansion] Unhandled job error:", err);
-    });
-
-    await new Promise(r => setTimeout(r, 200));
-
-    res.json({ started: true, jobId: currentJob?.jobId });
   });
 
   app.get("/api/admin/content-expansion/status", async (req, res) => {

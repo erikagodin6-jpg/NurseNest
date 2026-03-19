@@ -1,5 +1,6 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { pool } from "./storage";
+import { BoundedMap } from "./bounded-map";
 
 async function auditSensitiveAction(req: any, admin: any, action: string, entityType: string, entityId: string | null, before?: any, after?: any, reason?: string, severity?: string) {
   try {
@@ -96,7 +97,7 @@ async function persistAlert(alert: any) {
   } catch {}
 }
 
-const sendAlertEmailRateLimit = new Map<string, number>();
+const sendAlertEmailRateLimit = new BoundedMap<string, number>(100, 10 * 60 * 1000);
 const SEND_ALERT_EMAIL_RATE_LIMIT_MS = 10 * 60 * 1000;
 const MAX_ALERT_EMAIL_ENTRIES = 500;
 
@@ -188,7 +189,7 @@ interface CircuitBreakerState {
   halfOpenMaxAttempts: number;
 }
 
-const circuitBreakers = new Map<string, CircuitBreakerState>();
+const circuitBreakers = new BoundedMap<string, CircuitBreakerState>(50);
 
 function getOrCreateBreaker(name: string, opts?: { threshold?: number; cooldownMs?: number }): CircuitBreakerState {
   let cb = circuitBreakers.get(name);
@@ -478,7 +479,7 @@ interface KillSwitch {
   reason: string | null;
 }
 
-const killSwitches = new Map<string, KillSwitch>();
+const killSwitches = new BoundedMap<string, KillSwitch>(50);
 
 export function activateKillSwitch(key: string, scope: KillSwitch["scope"], target: string, reason: string, activatedBy: string): void {
   killSwitches.set(key, {
@@ -522,7 +523,7 @@ interface HealthCheckResult {
   details?: string;
 }
 
-const healthCheckResults = new Map<string, HealthCheckResult>();
+const healthCheckResults = new BoundedMap<string, HealthCheckResult>(30);
 let lastFullHealthCheck = 0;
 let cachedHealthResponse: { status: string; services: HealthCheckResult[]; timestamp: number } | null = null;
 const HEALTH_CACHE_TTL = 15000;
@@ -2034,7 +2035,7 @@ interface CacheWarmEntry {
   stale: boolean;
 }
 
-const warmCache = new Map<string, CacheWarmEntry>();
+const warmCache = new BoundedMap<string, CacheWarmEntry>(200, 10 * 60 * 1000);
 let cacheWarmStatus: {
   lastWarmAt: number | null;
   routesWarmed: number;
@@ -2319,7 +2320,7 @@ interface ScopedFailureDomain {
   lastError: number | null;
 }
 
-const scopedFailureDomains = new Map<string, ScopedFailureDomain>();
+const scopedFailureDomains = new BoundedMap<string, ScopedFailureDomain>(200, 5 * 60 * 1000);
 const SCOPED_WINDOW_MS = 300000;
 const SCOPED_THRESHOLD = 15;
 
@@ -2532,7 +2533,7 @@ interface TimeoutConfig {
   lastTimeout: number | null;
 }
 
-const timeoutConfigs = new Map<string, TimeoutConfig>();
+const timeoutConfigs = new BoundedMap<string, TimeoutConfig>(30);
 
 const DEFAULT_TIMEOUTS: Array<{ operation: string; timeoutMs: number; fallback: any }> = [
   { operation: "exam_load", timeoutMs: 10000, fallback: { items: [], message: "Exam loading timed out. Please try again.", _timeout: true } },
@@ -2626,7 +2627,7 @@ interface UserActivityTracker {
   loadingStarted: number | null;
 }
 
-const userActivityTrackers = new Map<string, UserActivityTracker>();
+const userActivityTrackers = new BoundedMap<string, UserActivityTracker>(500, 5 * 60 * 1000);
 
 const STUCK_STATE_THRESHOLDS = {
   infiniteLoadingMs: 30000,
@@ -2745,7 +2746,7 @@ interface RouteLatencyTracker {
   lastUpdated: number;
 }
 
-const routeLatencyTrackers = new Map<string, RouteLatencyTracker>();
+const routeLatencyTrackers = new BoundedMap<string, RouteLatencyTracker>(200);
 const LATENCY_SAMPLE_LIMIT = 500;
 
 const CRITICAL_PATHS = new Set([

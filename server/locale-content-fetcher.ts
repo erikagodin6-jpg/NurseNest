@@ -1,4 +1,5 @@
 import { pool } from "./storage";
+import { BoundedMap } from "./bounded-map";
 
 const APPROVED_STATUSES = ["approved"];
 const APPROVED_OR_REVIEWED_STATUSES = ["approved", "reviewed"];
@@ -10,8 +11,8 @@ interface LocaleConfig {
   enabled: boolean;
 }
 
-const localeConfigCache: Map<string, { config: LocaleConfig; expiresAt: number }> = new Map();
 const CACHE_TTL_MS = 60_000;
+const localeConfigCache = new BoundedMap<string, { config: LocaleConfig; expiresAt: number }>(50, CACHE_TTL_MS);
 
 export async function getLocaleConfig(locale: string): Promise<LocaleConfig> {
   const cached = localeConfigCache.get(locale);
