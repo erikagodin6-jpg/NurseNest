@@ -1166,8 +1166,8 @@ function AppRoutes() {
         <Route path="/reports" component={Reports} />
         <Route path="/login">{() => <ProtectedRoute contentType="general"><LoginPage /></ProtectedRoute>}</Route>
         <Route path="/reset-password" component={ResetPasswordPage} />
-        <Route path="/profile" component={ProfilePage} />
-        <Route path="/subscription/success" component={SubscriptionSuccess} />
+        <Route path="/profile">{() => <PlatformErrorBoundary fallbackPath="/en/dashboard"><ProfilePage /></PlatformErrorBoundary>}</Route>
+        <Route path="/subscription/success">{() => <PlatformErrorBoundary fallbackPath="/en/dashboard"><SubscriptionSuccess /></PlatformErrorBoundary>}</Route>
         <Route path="/pricing/allied">{() => <Redirect to="/pricing?section=allied" />}</Route>
         <Route path="/pricing/rpn">{() => <Redirect to="/pricing?section=nursing" />}</Route>
         <Route path="/pricing/rn">{() => <Redirect to="/pricing?section=nursing" />}</Route>
@@ -1206,7 +1206,7 @@ function AppRoutes() {
         <Route path="/quick-study" component={QuickStudyPage} />
         <Route path="/practice-questions/:tier/:system" component={PracticeQuestionsPage} />
         <Route path="/practice-questions" component={PracticeQuestionsPage} />
-        <Route path="/subscribe/:tier" component={SubscribePage} />
+        <Route path="/subscribe/:tier">{() => <PlatformErrorBoundary fallbackPath="/en/pricing"><SubscribePage /></PlatformErrorBoundary>}</Route>
         <Route path="/onboarding/plan" component={OnboardingPlanPage} />
         <Route path="/study-plan">{() => <ProtectedPremiumRoute category="premium-tool" label="study plan" fallbackPath="/dashboard"><StudyPlanPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/pharmacology/curriculum" component={PharmacologyHub} />

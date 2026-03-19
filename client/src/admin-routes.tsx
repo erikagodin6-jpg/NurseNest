@@ -114,6 +114,7 @@ const AdminCareersPage = lazy(() => import("@/pages/admin-careers"));
 const AdminProfessionsPage = lazy(() => import("@/pages/admin-professions"));
 const AdminUniversalImport = lazy(() => import("@/pages/admin-universal-import"));
 const AdminAlliedHealthSEO = lazy(() => import("@/pages/admin-allied-health-seo"));
+const AdminObservability = lazy(() => import("@/pages/admin-observability"));
 const ExamReadinessDemo = lazy(() => import("@/pages/exam-readiness-demo"));
 const DemoLearningProgress = lazy(() => import("@/pages/demo-learning-progress"));
 const ContentEditorPage = lazy(() => import("@/pages/content-editor"));
@@ -266,6 +267,7 @@ export function AdminRoutes() {
         <Route path="/admin/professions" component={AdminProfessionsPage} />
         <Route path="/admin/universal-import" component={AdminUniversalImport} />
         <Route path="/admin/allied-health-seo" component={AdminAlliedHealthSEO} />
+        <Route path="/admin/observability" component={AdminObservability} />
         <Route path="/content-editor" component={ContentEditorPage} />
         <Route path="/instructor" component={InstructorDashboard} />
         <Route path="/demo/exam-readiness" component={ExamReadinessDemo} />

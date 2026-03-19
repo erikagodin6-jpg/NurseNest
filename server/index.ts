@@ -261,8 +261,10 @@ app.use((req, res, next) => {
 app.use(compression());
 app.use(cookieParser());
 
-import("./platform-resilience").then(({ emergencyModeMiddleware }) => {
+import("./platform-resilience").then(({ emergencyModeMiddleware, degradationLadderMiddleware, fallbackResponseMiddleware }) => {
   app.use(emergencyModeMiddleware);
+  app.use(degradationLadderMiddleware);
+  app.use(fallbackResponseMiddleware);
 }).catch(() => {});
 
 app.use("/api/admin", adminApiRateLimit());

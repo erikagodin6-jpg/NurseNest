@@ -629,6 +629,46 @@ async function checkMemory(): Promise<HealthCheckResult> {
   return { service: "memory", status, latencyMs: Date.now() - start, lastChecked: Date.now(), details: `RSS: ${rssMB}MB, Heap: ${heapUsedMB}/${heapTotalMB}MB` };
 }
 
+async function withTimeout<T>(fn: () => Promise<T>, timeoutMs: number, label: string): Promise<T> {
+  return Promise.race([
+    fn(),
+    new Promise<never>((_, reject) => setTimeout(() => reject(new Error(`${label} timed out after ${timeoutMs}ms`)), timeoutMs)),
+  ]);
+}
+
+async function checkStripeHealth(): Promise<HealthCheckResult> {
+  const start = Date.now();
+  try {
+    const { validateStripeConnection } = await import("./stripeClient");
+    const ok = await withTimeout(() => validateStripeConnection(), 5000, "Stripe");
+    const latency = Date.now() - start;
+    return { service: "stripe", status: ok ? (latency > 3000 ? "degraded" : "healthy") : "down", latencyMs: latency, lastChecked: Date.now(), details: ok ? "Stripe API reachable" : "Stripe validation failed" };
+  } catch (err: any) {
+    return { service: "stripe", status: "down", latencyMs: Date.now() - start, lastChecked: Date.now(), details: err.message };
+  }
+}
+
+async function checkContentDeliveryHealth(): Promise<HealthCheckResult> {
+  const start = Date.now();
+  try {
+    const r = await withTimeout(
+      () => pool.query("SELECT COUNT(*)::int AS cnt FROM content_items WHERE status = 'published' LIMIT 1"),
+      5000, "ContentDelivery"
+    );
+    const cnt = r.rows[0]?.cnt || 0;
+    const latency = Date.now() - start;
+    return {
+      service: "content_delivery",
+      status: cnt === 0 ? "degraded" : latency > 3000 ? "degraded" : "healthy",
+      latencyMs: latency,
+      lastChecked: Date.now(),
+      details: `${cnt} published content items`,
+    };
+  } catch (err: any) {
+    return { service: "content_delivery", status: "degraded", latencyMs: Date.now() - start, lastChecked: Date.now(), details: err.message };
+  }
+}
+
 export async function runHealthChecks(): Promise<HealthCheckResult[]> {
   const checks = await Promise.allSettled([
     checkDatabaseHealth(),
@@ -639,6 +679,8 @@ export async function runHealthChecks(): Promise<HealthCheckResult[]> {
     checkLessonLoad(),
     checkSessionRestore(),
     checkMemory(),
+    checkStripeHealth(),
+    checkContentDeliveryHealth(),
   ]);
 
   const results: HealthCheckResult[] = [];
@@ -2415,12 +2457,32 @@ interface DegradationState {
 
 const DEGRADATION_LEVEL_NAMES: Record<DegradationLevel, string> = {
   0: "normal",
-  1: "disable_animations",
-  2: "simplify_ui",
-  3: "safe_renderer",
-  4: "static_backup",
+  1: "warning",
+  2: "high",
+  3: "critical",
+  4: "emergency",
   5: "substitute_content",
 };
+
+const DEGRADATION_LADDER: Record<number, { label: string; disabledFeatures: string[]; enabledAlways: string[] }> = {
+  0: { label: "normal", disabledFeatures: [], enabledAlways: [] },
+  1: { label: "warning", disabledFeatures: ["ai_generation", "analytics_aggregation"], enabledAlways: ["login", "dashboard", "exam_list", "exam_open", "question_answering", "subscription"] },
+  2: { label: "high", disabledFeatures: ["ai_generation", "analytics_aggregation", "content_expansion", "bulk_operations"], enabledAlways: ["login", "dashboard", "exam_list", "exam_open", "question_answering", "subscription"] },
+  3: { label: "critical", disabledFeatures: ["ai_generation", "analytics_aggregation", "content_expansion", "bulk_operations", "seo_generation", "blog_automation", "background_jobs"], enabledAlways: ["login", "dashboard", "exam_list", "exam_open", "question_answering", "subscription"] },
+  4: { label: "emergency", disabledFeatures: ["ai_generation", "analytics_aggregation", "content_expansion", "bulk_operations", "seo_generation", "blog_automation", "background_jobs", "non_essential_api"], enabledAlways: ["login", "dashboard", "exam_list", "exam_open", "question_answering", "subscription"] },
+  5: { label: "substitute_content", disabledFeatures: ["ai_generation", "analytics_aggregation", "content_expansion", "bulk_operations", "seo_generation", "blog_automation", "background_jobs", "non_essential_api", "dynamic_content"], enabledAlways: ["login", "dashboard", "exam_list", "exam_open", "question_answering", "subscription"] },
+};
+
+export function getDegradationLadder(): typeof DEGRADATION_LADDER {
+  return DEGRADATION_LADDER;
+}
+
+export function isFeatureDisabledByDegradation(feature: string): boolean {
+  const level = degradationState.manualOverride !== null ? degradationState.manualOverride : degradationState.level;
+  const config = DEGRADATION_LADDER[level];
+  if (!config) return false;
+  return config.disabledFeatures.includes(feature);
+}
 
 const DEGRADATION_THRESHOLDS = {
   errorRate: [0, 5, 15, 30, 50, 75],
@@ -3067,8 +3129,28 @@ export function registerResilienceRoutes(app: Express): void {
 
   app.get("/api/health/ready", async (_req: Request, res: Response) => {
     try {
-      await pool.query("SELECT 1");
-      res.json({ ready: true, timestamp: Date.now() });
+      const checks = await Promise.allSettled([
+        withTimeout(() => pool.query("SELECT 1"), 3000, "db"),
+        withTimeout(() => pool.query("SELECT id FROM users LIMIT 1"), 3000, "auth"),
+        withTimeout(async () => {
+          const { validateStripeConnection } = await import("./stripeClient");
+          return validateStripeConnection();
+        }, 5000, "stripe"),
+        withTimeout(() => pool.query("SELECT COUNT(*)::int AS cnt FROM content_items WHERE status = 'published' LIMIT 1"), 3000, "content"),
+      ]);
+      const labels = ["database", "auth", "stripe", "content_delivery"];
+      const results: Record<string, string> = {};
+      let allReady = true;
+      checks.forEach((c, i) => {
+        if (c.status === "fulfilled") {
+          results[labels[i]] = "ok";
+        } else {
+          results[labels[i]] = "failed";
+          if (labels[i] !== "stripe") allReady = false;
+        }
+      });
+      const code = allReady ? 200 : 503;
+      res.status(code).json({ ready: allReady, checks: results, timestamp: Date.now() });
     } catch {
       res.status(503).json({ ready: false, timestamp: Date.now() });
     }
@@ -3741,9 +3823,13 @@ export function registerResilienceRoutes(app: Express): void {
 
   app.get("/api/platform/degradation", (_req: Request, res: Response) => {
     const state = getDegradationState();
+    const ladder = DEGRADATION_LADDER[state.level] || DEGRADATION_LADDER[0];
     res.json({
       level: state.level,
       levelName: state.levelName,
+      ladderLabel: ladder.label,
+      disabledFeatures: ladder.disabledFeatures,
+      enabledAlways: ladder.enabledAlways,
       disableAnimations: state.level >= 1,
       simplifyUi: state.level >= 2,
       safeRenderer: state.level >= 3,
@@ -3752,5 +3838,245 @@ export function registerResilienceRoutes(app: Express): void {
     });
   });
 
+  // --- Admin observability dashboard endpoint ---
 
+  app.get("/api/admin/observability", async (req: Request, res: Response) => {
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin", "ops_viewer");
+    if (!admin) return;
+    try {
+      const mem = process.memoryUsage();
+      const rssMB = Math.round(mem.rss / 1024 / 1024);
+      const heapUsedMB = Math.round(mem.heapUsed / 1024 / 1024);
+      const heapTotalMB = Math.round(mem.heapTotal / 1024 / 1024);
+
+      let memoryTrend: any[] = [];
+      try {
+        const { getMemoryTrend } = await import("./memory-monitor");
+        memoryTrend = getMemoryTrend().slice(-60);
+      } catch {}
+
+      const routeLatency = getRouteLatencyStats().slice(0, 30);
+      const degradation = getDegradationState();
+      const ladder = DEGRADATION_LADDER[degradation.level] || DEGRADATION_LADDER[0];
+      const cbStates = getCircuitBreakerStates();
+      const healthResults = cachedHealthResponse || { status: "unknown", services: [], timestamp: 0 };
+      const budgets = getErrorBudgets();
+      const recentAlerts = alertEvents.filter(a => !a.acknowledged).slice(0, 20);
+      const loadShedding = getLoadSheddingStatus();
+
+      const dbPool = {
+        totalCount: (pool as any).totalCount || 0,
+        idleCount: (pool as any).idleCount || 0,
+        waitingCount: (pool as any).waitingCount || 0,
+      };
+
+      let activeExams = 0;
+      try {
+        const r = await pool.query("SELECT COUNT(*)::int AS cnt FROM mock_exam_attempts WHERE status = 'in_progress'");
+        activeExams = r.rows[0]?.cnt || 0;
+      } catch {}
+
+      let recentIncidents = 0;
+      try {
+        const r = await pool.query("SELECT COUNT(*)::int AS cnt FROM exam_incidents WHERE created_at > NOW() - INTERVAL '1 hour'");
+        recentIncidents = r.rows[0]?.cnt || 0;
+      } catch {}
+
+      res.json({
+        memory: { rssMB, heapUsedMB, heapTotalMB, trend: memoryTrend },
+        routeLatency,
+        degradation: {
+          level: degradation.level,
+          levelName: degradation.levelName,
+          ladderLabel: ladder.label,
+          disabledFeatures: ladder.disabledFeatures,
+          escalationHistory: degradation.escalationHistory.slice(0, 20),
+        },
+        circuitBreakers: cbStates,
+        healthChecks: healthResults.services,
+        healthStatus: healthResults.status,
+        errorBudgets: budgets,
+        alerts: recentAlerts,
+        loadShedding,
+        dbPool,
+        concurrency: { activeExams, recentIncidents1h: recentIncidents },
+        uptime: process.uptime(),
+        emergencyMode: getEmergencyModeStatus(),
+        timestamp: Date.now(),
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: "Failed to load observability data", detail: err.message });
+    }
+  });
+
+  // --- Growth readiness assessment endpoint ---
+
+  app.get("/api/admin/growth-readiness", async (req: Request, res: Response) => {
+    const admin = await resolveAdminWithRole(req, res, "super_admin", "ops_viewer");
+    if (!admin) return;
+    try {
+      const mem = process.memoryUsage();
+      const rssMB = Math.round(mem.rss / 1024 / 1024);
+      const heapTotalMB = Math.round(mem.heapTotal / 1024 / 1024);
+      const memoryLimitMB = parseInt(process.env.MEMORY_TOTAL_MB || "0") || 256;
+      const memoryUsagePercent = Math.round((rssMB / memoryLimitMB) * 100);
+
+      const dbPool = {
+        totalCount: (pool as any).totalCount || 0,
+        idleCount: (pool as any).idleCount || 0,
+        waitingCount: (pool as any).waitingCount || 0,
+        maxConnections: (pool as any).options?.max || 10,
+      };
+      const dbPoolUsagePercent = dbPool.maxConnections > 0 ? Math.round(((dbPool.totalCount - dbPool.idleCount) / dbPool.maxConnections) * 100) : 0;
+
+      let totalUsers = 0;
+      let activeSubscribers = 0;
+      let recentSignups7d = 0;
+      try {
+        const r1 = await pool.query("SELECT COUNT(*)::int AS cnt FROM users");
+        totalUsers = r1.rows[0]?.cnt || 0;
+        const r2 = await pool.query("SELECT COUNT(*)::int AS cnt FROM users WHERE tier != 'free' AND tier IS NOT NULL AND tier != ''");
+        activeSubscribers = r2.rows[0]?.cnt || 0;
+        const r3 = await pool.query("SELECT COUNT(*)::int AS cnt FROM users WHERE created_at > NOW() - INTERVAL '7 days'");
+        recentSignups7d = r3.rows[0]?.cnt || 0;
+      } catch {}
+
+      const routeLatency = getRouteLatencyStats();
+      const slowRoutes = routeLatency.filter((r: any) => (r.avgMs || r.avg || 0) > 2000);
+      const cbStates = getCircuitBreakerStates();
+      const openBreakers = cbStates.filter(cb => cb.state === "open");
+      const healthResults = cachedHealthResponse || { status: "unknown", services: [], timestamp: 0 };
+      const downServices = (healthResults.services || []).filter((s: any) => s.status === "down");
+      const degradedServices = (healthResults.services || []).filter((s: any) => s.status === "degraded");
+
+      const findings: Array<{ category: string; severity: "ok" | "warning" | "critical"; message: string }> = [];
+
+      if (memoryUsagePercent > 85) {
+        findings.push({ category: "memory", severity: "critical", message: `Memory usage at ${memoryUsagePercent}% (${rssMB}/${memoryLimitMB}MB) — near capacity` });
+      } else if (memoryUsagePercent > 65) {
+        findings.push({ category: "memory", severity: "warning", message: `Memory usage at ${memoryUsagePercent}% — consider scaling before growth` });
+      } else {
+        findings.push({ category: "memory", severity: "ok", message: `Memory usage at ${memoryUsagePercent}% — healthy headroom` });
+      }
+
+      if (dbPoolUsagePercent > 80) {
+        findings.push({ category: "database", severity: "critical", message: `DB pool usage at ${dbPoolUsagePercent}% (${dbPool.totalCount - dbPool.idleCount}/${dbPool.maxConnections}) — increase pool size` });
+      } else if (dbPoolUsagePercent > 50) {
+        findings.push({ category: "database", severity: "warning", message: `DB pool usage at ${dbPoolUsagePercent}% — monitor under growth` });
+      } else {
+        findings.push({ category: "database", severity: "ok", message: `DB pool usage at ${dbPoolUsagePercent}% — adequate capacity` });
+      }
+
+      if (dbPool.waitingCount > 0) {
+        findings.push({ category: "database", severity: "warning", message: `${dbPool.waitingCount} queries waiting for DB connections` });
+      }
+
+      if (slowRoutes.length > 5) {
+        findings.push({ category: "performance", severity: "critical", message: `${slowRoutes.length} routes with avg latency >2s — optimize before scaling` });
+      } else if (slowRoutes.length > 0) {
+        findings.push({ category: "performance", severity: "warning", message: `${slowRoutes.length} routes with avg latency >2s` });
+      } else {
+        findings.push({ category: "performance", severity: "ok", message: "All routes within latency targets" });
+      }
+
+      if (openBreakers.length > 0) {
+        findings.push({ category: "reliability", severity: "critical", message: `${openBreakers.length} circuit breakers open — fix before growth` });
+      }
+      if (downServices.length > 0) {
+        findings.push({ category: "reliability", severity: "critical", message: `${downServices.length} services down` });
+      } else if (degradedServices.length > 0) {
+        findings.push({ category: "reliability", severity: "warning", message: `${degradedServices.length} services degraded` });
+      } else {
+        findings.push({ category: "reliability", severity: "ok", message: "All services healthy" });
+      }
+
+      const criticalCount = findings.filter(f => f.severity === "critical").length;
+      const warningCount = findings.filter(f => f.severity === "warning").length;
+      const overallReadiness: "ready" | "caution" | "not_ready" = criticalCount > 0 ? "not_ready" : warningCount > 2 ? "caution" : "ready";
+      const score = Math.max(0, 100 - (criticalCount * 25) - (warningCount * 10));
+
+      res.json({
+        readiness: overallReadiness,
+        score,
+        findings,
+        metrics: {
+          memory: { rssMB, heapTotalMB, limitMB: memoryLimitMB, usagePercent: memoryUsagePercent },
+          dbPool: { ...dbPool, usagePercent: dbPoolUsagePercent },
+          users: { total: totalUsers, subscribers: activeSubscribers, recentSignups7d },
+          performance: { totalRoutes: routeLatency.length, slowRoutes: slowRoutes.length },
+          reliability: { downServices: downServices.length, degradedServices: degradedServices.length, openBreakers: openBreakers.length },
+        },
+        uptime: process.uptime(),
+        timestamp: Date.now(),
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: "Failed to generate growth readiness report", detail: err.message });
+    }
+  });
+
+}
+
+export function degradationLadderMiddleware(req: Request, res: Response, next: NextFunction): void {
+  const level = degradationState.manualOverride !== null ? degradationState.manualOverride : degradationState.level;
+  if (level === 0) return next();
+  if (!req.path.startsWith("/api")) return next();
+
+  const ladder = DEGRADATION_LADDER[level];
+  if (!ladder) return next();
+
+  const ESSENTIAL_PATHS = ["/api/auth", "/api/user", "/api/stripe", "/api/mock-exams", "/api/exam-questions", "/api/content/exams", "/api/health", "/api/admin/resilience"];
+  for (const prefix of ESSENTIAL_PATHS) {
+    if (req.path.startsWith(prefix)) return next();
+  }
+
+  if (level >= 4) {
+    for (const prefix of NON_ESSENTIAL_ROUTE_PREFIXES) {
+      if (req.path.startsWith(prefix)) {
+        res.status(503).json({ error: "Feature disabled during emergency degradation", _degraded: true, degradationLevel: level });
+        return;
+      }
+    }
+  }
+
+  if (level >= 2 && req.path.includes("bulk")) {
+    res.status(503).json({ error: "Bulk operations disabled during degradation", _degraded: true, degradationLevel: level });
+    return;
+  }
+
+  if (level >= 1 && (req.path.includes("ai-") || req.path.includes("generate"))) {
+    if (req.method !== "GET") {
+      res.status(503).json({ error: "AI generation disabled during degradation", _degraded: true, degradationLevel: level });
+      return;
+    }
+  }
+
+  next();
+}
+
+export function fallbackResponseMiddleware(req: Request, res: Response, next: NextFunction): void {
+  const originalJson = res.json.bind(res);
+  const originalStatus = res.status.bind(res);
+  let statusCode = 200;
+
+  res.status = function(code: number) {
+    statusCode = code;
+    return originalStatus(code);
+  } as any;
+
+  res.json = function(body: any) {
+    if (statusCode >= 500 && !body?._degraded) {
+      const fallback = {
+        ...body,
+        _degraded: true,
+        _fallback: true,
+        _originalError: body?.error || "Internal server error",
+        error: "Service temporarily degraded — partial data may be shown",
+        timestamp: Date.now(),
+      };
+      return originalJson.call(res, fallback);
+    }
+    return originalJson.call(res, body);
+  } as any;
+
+  next();
 }
