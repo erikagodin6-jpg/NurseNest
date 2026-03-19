@@ -3,6 +3,13 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and, or, desc, sql, lte, ne, ilike, gte, count } from "drizzle-orm";
 import pg from "pg";
 
+export const MAX_QUERY_LIMIT = 2000;
+
+function capLimit(limit: number | undefined, defaultLimit: number): number {
+  if (limit === undefined) return defaultLimit;
+  return Math.min(limit, MAX_QUERY_LIMIT);
+}
+
 function snakeToCamel(obj: any): any {
   if (Array.isArray(obj)) return obj.map(snakeToCamel);
   if (obj === null || typeof obj !== "object") return obj;
@@ -489,7 +496,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getNotesByUser(userId: string): Promise<Note[]> {
-    return db.select().from(notes).where(eq(notes.userId, userId)).orderBy(desc(notes.updatedAt));
+    return db.select().from(notes).where(eq(notes.userId, userId)).orderBy(desc(notes.updatedAt)).limit(1000);
   }
 
   async upsertNote(note: InsertNote): Promise<Note> {
@@ -508,9 +515,9 @@ export class DatabaseStorage implements IStorage {
 
   async getTestResults(userId: string, lessonId?: string): Promise<TestResult[]> {
     if (lessonId) {
-      return db.select().from(testResults).where(and(eq(testResults.userId, userId), eq(testResults.lessonId, lessonId))).orderBy(desc(testResults.completedAt));
+      return db.select().from(testResults).where(and(eq(testResults.userId, userId), eq(testResults.lessonId, lessonId))).orderBy(desc(testResults.completedAt)).limit(500);
     }
-    return db.select().from(testResults).where(eq(testResults.userId, userId)).orderBy(desc(testResults.completedAt));
+    return db.select().from(testResults).where(eq(testResults.userId, userId)).orderBy(desc(testResults.completedAt)).limit(500);
   }
 
   async createTestResult(result: InsertTestResult): Promise<TestResult> {
@@ -726,8 +733,8 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllContentItems(limit?: number, offset?: number): Promise<ContentItem[]> {
-    let q = db.select().from(contentItems).orderBy(desc(contentItems.updatedAt));
-    if (limit !== undefined) q = q.limit(limit) as any;
+    const effectiveLimit = capLimit(limit, 500);
+    let q = db.select().from(contentItems).orderBy(desc(contentItems.updatedAt)).limit(effectiveLimit) as any;
     if (offset !== undefined) q = q.offset(offset) as any;
     return q;
   }
@@ -746,8 +753,8 @@ export class DatabaseStorage implements IStorage {
     const conditions = [eq(contentItems.status, "published")];
     if (type) conditions.push(eq(contentItems.type, type));
     if (category) conditions.push(eq(contentItems.category, category));
-    let q = db.select().from(contentItems).where(and(...conditions)).orderBy(desc(contentItems.publishedAt));
-    if (limit !== undefined) q = q.limit(limit) as any;
+    const effectiveLimit = capLimit(limit, 500);
+    let q = db.select().from(contentItems).where(and(...conditions)).orderBy(desc(contentItems.publishedAt)).limit(effectiveLimit) as any;
     if (offset !== undefined) q = q.offset(offset) as any;
     return q;
   }
@@ -757,7 +764,8 @@ export class DatabaseStorage implements IStorage {
       .where(and(
         eq(contentItems.status, "scheduled"),
         lte(contentItems.scheduledAt, new Date())
-      ));
+      ))
+      .limit(200);
   }
 
   async publishScheduledContent(): Promise<number> {
@@ -1302,7 +1310,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllExamQuestions(filters?: { tier?: string; exam?: string; questionType?: string; status?: string; bodySystem?: string; limit?: number; offset?: number }): Promise<ExamQuestion[]> {
-    const pageLimit = filters?.limit ?? 500;
+    const pageLimit = capLimit(filters?.limit, 500);
     const pageOffset = filters?.offset ?? 0;
 
     let query = `SELECT id, tier, exam, question_type, stem, options, correct_answer, body_system, topic, subtopic, difficulty, status, region_scope, country_code, language_code, licensing_body, cognitive_level, question_format, rationale, created_at FROM exam_questions WHERE 1=1`;
@@ -2453,7 +2461,7 @@ export class DatabaseStorage implements IStorage {
 
     const stepIds = steps.map(s => s.id);
     const questionsResult = await pool.query(
-      `SELECT * FROM case_study_questions WHERE case_step_id = ANY($1) ORDER BY question_number ASC`,
+      `SELECT * FROM case_study_questions WHERE case_step_id = ANY($1) ORDER BY question_number ASC LIMIT 500`,
       [stepIds]
     );
     const questionsByStep = new Map<string, CaseStudyQuestion[]>();
@@ -2482,7 +2490,9 @@ export class DatabaseStorage implements IStorage {
     if (filters?.tier) { query += ` AND tier = $${idx++}`; params.push(filters.tier); }
     if (filters?.status) { query += ` AND status = $${idx++}`; params.push(filters.status); }
     query += " ORDER BY created_at DESC";
-    if (filters?.limit) { query += ` LIMIT $${idx++}`; params.push(filters.limit); }
+    const effectiveLimit = capLimit(filters?.limit, 500);
+    query += ` LIMIT $${idx++}`;
+    params.push(effectiveLimit);
     if (filters?.offset) { query += ` OFFSET $${idx++}`; params.push(filters.offset); }
     const r = await pool.query(query, params);
     return r.rows.map(snakeToCamel);
@@ -2610,7 +2620,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllPricingPlans(): Promise<PricingPlan[]> {
-    const r = await pool.query("SELECT * FROM pricing_plans ORDER BY tier, display_order ASC");
+    const r = await pool.query("SELECT * FROM pricing_plans ORDER BY tier, display_order ASC LIMIT 200");
     return r.rows.map(snakeToCamel);
   }
 

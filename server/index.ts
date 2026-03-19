@@ -23,39 +23,45 @@ const app = express();
 // Using 1 = trust first proxy hop. Switch to true if protocol still wrong.
 app.set("trust proxy", 1);
 
-let appReady = false;
-const APP_START_TIME = Date.now();
-app.get("/healthz", (_req, res) => {
-  res.status(200).json({
-    status: "healthy",
-    uptime: Math.round((Date.now() - APP_START_TIME) / 1000),
-    rssMB: Math.round(process.memoryUsage.rss() / 1024 / 1024),
-    appReady,
-  });
-});
+import { isAppReady, markAppReady, getAppStartTime, startupMemoryGuard as policyMemoryGuard, runSeedStep as policyRunSeedStep, shouldRunSeeding as policyShouldRunSeeding, shouldStartMonitors, isWorkerRole, shouldSkipSeed as policyShouldSkipSeed } from "./startup-policy";
 
-app.get("/readyz", async (_req, res) => {
-  if (!appReady) {
+// GUARDRAIL: /healthz must complete in <100ms. No optional dependencies.
+// Only depends on core DB (SELECT 1). Wrapped with a 3-second timeout so a
+// slow DB cannot hang the health check indefinitely.
+app.get("/healthz", async (_req, res) => {
+  if (!isAppReady()) {
     return res.status(503).json({ status: "starting", appReady: false });
   }
-  try {
-    let dbOk = false;
-    try {
-      const { pool: healthPool } = await import("./storage");
-      await healthPool.query("SELECT 1");
-      dbOk = true;
-    } catch {}
 
-    const mem = process.memoryUsage();
-    const status = dbOk ? "ready" : "unhealthy";
-    res.status(dbOk ? 200 : 503).json({
-      status,
-      uptime: Math.round((Date.now() - APP_START_TIME) / 1000),
-      rssMB: Math.round(mem.rss / 1024 / 1024),
-      appReady,
-    });
+  const healthTimeout = new Promise<void>((_, reject) =>
+    setTimeout(() => reject(new Error("Health check timeout")), 3000)
+  );
+
+  try {
+    await Promise.race([
+      (async () => {
+        const mem = process.memoryUsage();
+        let dbOk = false;
+        try {
+          const { pool: healthPool } = await import("./storage");
+          await healthPool.query("SELECT 1");
+          dbOk = true;
+        } catch {}
+
+        const status = dbOk ? "healthy" : "unhealthy";
+        res.status(dbOk ? 200 : 503).json({
+          status,
+          uptime: Math.round((Date.now() - getAppStartTime()) / 1000),
+          rssMB: Math.round(mem.rss / 1024 / 1024),
+          appReady: true,
+        });
+      })(),
+      healthTimeout,
+    ]);
   } catch (e: any) {
-    res.status(500).json({ status: "unhealthy", error: e.message });
+    if (!res.headersSent) {
+      res.status(503).json({ status: "unhealthy", error: e.message });
+    }
   }
 });
 
@@ -143,7 +149,7 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-  if (!appReady && req.path === "/" && req.method === "GET") {
+  if (!isAppReady() && req.path === "/" && req.method === "GET") {
     return res.status(200).send("<!DOCTYPE html><html><head><meta http-equiv='refresh' content='2'></head><body>Loading...</body></html>");
   }
   next();
@@ -1156,7 +1162,7 @@ app.use((req, res, next) => {
     await setupVite(httpServer, app);
   }
 
-  appReady = true;
+  markAppReady();
   console.log(`[Startup] Total server startup: ${Date.now() - serverStartTime}ms`);
   log(`routes loaded, app ready on port ${port}`);
 
@@ -1188,20 +1194,22 @@ app.use((req, res, next) => {
   console.log(`[Sitemap] /sitemap.xml → 301 → /sitemap-index.xml`);
   console.log(`[Sitemap] /sitemap_index.xml → 301 → /sitemap-index.xml\n`);
 
-  import("./memory-monitor").then(({ startMemoryMonitorWithTrend }) => startMemoryMonitorWithTrend()).catch(e => console.error("[MemoryMonitor] Failed to start:", e.message));
-  import("./resource-budgets").then(({ startMemoryMonitor: startBudgetMonitor }) => startBudgetMonitor(30000)).catch(e => console.error("[ResourceBudgets] Failed to start memory monitor:", e.message));
-  import("./auto-containment").then(({ startAutoContainment }) => startAutoContainment(60000)).catch(e => console.error("[AutoContainment] Failed to start:", e.message));
-
-  import("./memory-observability").then(({ startMemoryTrendTracking }) => {
-    startMemoryTrendTracking(30_000);
-    console.log("[MemoryObservability] Memory trend tracking active");
-  }).catch(e => console.error("[MemoryObservability] Failed to start:", e.message));
-
-  const webProcessRole = process.env.PROCESS_ROLE || "web";
+  if (shouldStartMonitors()) {
+    import("./memory-monitor").then(({ startMemoryMonitorWithTrend }) => startMemoryMonitorWithTrend()).catch(e => console.error("[MemoryMonitor] Failed to start:", e.message));
+    import("./resource-budgets").then(({ startMemoryMonitor: startBudgetMonitor }) => startBudgetMonitor(30000)).catch(e => console.error("[ResourceBudgets] Failed to start memory monitor:", e.message));
+    import("./auto-containment").then(({ startAutoContainment }) => startAutoContainment(60000)).catch(e => console.error("[AutoContainment] Failed to start:", e.message));
+    import("./memory-observability").then(({ startMemoryTrendTracking }) => {
+      startMemoryTrendTracking(30_000);
+      console.log("[MemoryObservability] Memory trend tracking active");
+    }).catch(e => console.error("[MemoryObservability] Failed to start:", e.message));
+    console.log("[Startup] Monitors started (PROCESS_ROLE=worker or ENABLE_MONITORS=true)");
+  } else {
+    console.log("[Startup] Monitors skipped on web process (set PROCESS_ROLE=worker or ENABLE_MONITORS=true to enable)");
+  }
 
   runDeferredStartupWork();
 
-  if (webProcessRole === "worker") {
+  if (isWorkerRole()) {
     const alertPool = getDevPool();
     import("./alerting-engine").then(({ startAlertingEngine }) => startAlertingEngine(alertPool, 5 * 60 * 1000)).catch(e => console.error("[AlertingEngine] Init failed:", e.message));
     const syntheticBaseUrl = `http://127.0.0.1:${port}`;
@@ -1227,27 +1235,6 @@ app.use((req, res, next) => {
     console.log("[Startup] Web process: alerting, synthetic monitoring, content scheduler, post-publish audit deferred to worker process");
   }
 })();
-
-async function startupMemoryGuard(label: string) {
-  const rss = process.memoryUsage.rss();
-  const rssMB = Math.round(rss / 1024 / 1024);
-  let limitMB = 512;
-  try { const { getDetectedMemoryLimitMB } = await import("./memory-monitor"); limitMB = getDetectedMemoryLimitMB(); } catch {}
-  const guardThreshold = Math.round(limitMB * 0.70);
-  if (rssMB > guardThreshold) {
-    console.log(`[StartupMemoryGuard] ${label}: RSS at ${rssMB}MB (limit: ${limitMB}MB), pausing for GC...`);
-    if (global.gc) global.gc();
-    await new Promise(r => setTimeout(r, 500));
-  }
-}
-
-async function runSeedStep(name: string, fn: () => Promise<void>) {
-  try {
-    await fn();
-  } catch (e: any) {
-    console.error(`[Seed] ${name} failed (non-fatal):`, e.message);
-  }
-}
 
 function runDeferredStartupWork() {
   setImmediate(async () => {
@@ -1280,6 +1267,7 @@ function runDeferredStartupWork() {
       return;
     }
 
+    const phase0Start = Date.now();
     try {
       const { validateStripeConnection } = await import("./stripeClient");
       const stripeValid = await validateStripeConnection();
@@ -1304,53 +1292,58 @@ function runDeferredStartupWork() {
       console.error("[StartupScan] Content quarantine scan failed:", e.message);
     }
 
-    import("./reporting-scheduler").then(({ startReportingScheduler }) => startReportingScheduler())
-      .catch((e: any) => console.error("[ReportingScheduler] Init failed:", e.message));
+    if (isWorkerRole()) {
+      import("./reporting-scheduler").then(({ startReportingScheduler }) => startReportingScheduler())
+        .catch((e: any) => console.error("[ReportingScheduler] Init failed:", e.message));
 
-    const SIX_HOURS_MS = 6 * 60 * 60 * 1000;
-    setInterval(async () => {
-      try {
-        const { shouldPauseBackgroundJobs, getDetectedMemoryLimitMB } = await import("./memory-monitor");
-        if (shouldPauseBackgroundJobs()) return;
-        const limitMB = getDetectedMemoryLimitMB();
-        const pipelineMemLimit = Math.round(limitMB * 0.70);
-        const heapMB = Math.round(process.memoryUsage().heapUsed / 1024 / 1024);
-        if (heapMB > pipelineMemLimit) return;
-      } catch {}
-      try {
-        const { createDailyJobs } = await import("./content-pipeline");
-        const jobs = await createDailyJobs();
-        if (jobs.length > 0) console.log(`[Pipeline] Created ${jobs.length} daily jobs`);
-      } catch (e: any) {
-        console.error("[Pipeline] createDailyJobs error:", e.message);
-      }
-      try {
-        const { runContinuousImprovementJob } = await import("./content-pipeline");
-        await runContinuousImprovementJob();
-      } catch (e: any) {
-        console.error("[Pipeline] improvement error:", e.message);
-      }
-    }, SIX_HOURS_MS);
-
-    async function runSeedStep(name: string, fn: () => Promise<void>) {
-      try {
-        const t0 = Date.now();
-        await fn();
-        console.log(`[Seed] ${name}: ${Date.now() - t0}ms`);
-      } catch (e: any) {
-        console.error(`[Seed] ${name} failed:`, e.message);
-      }
+      const SIX_HOURS_MS = 6 * 60 * 60 * 1000;
+      setInterval(async () => {
+        try {
+          const { shouldPauseBackgroundJobs, getDetectedMemoryLimitMB } = await import("./memory-monitor");
+          if (shouldPauseBackgroundJobs()) {
+            console.warn("[Pipeline Scheduler] Skipping cycle: memory pressure active");
+            return;
+          }
+          const limitMB = getDetectedMemoryLimitMB();
+          const pipelineMemLimit = Math.round(limitMB * 0.70);
+          const memUsage = process.memoryUsage();
+          const heapMB = Math.round(memUsage.heapUsed / 1024 / 1024);
+          if (heapMB > pipelineMemLimit) {
+            console.warn(`[Pipeline Scheduler] Skipping cycle: heap usage ${heapMB}MB exceeds ${pipelineMemLimit}MB limit (${limitMB}MB detected)`);
+            return;
+          }
+        } catch {}
+        const memUsage = process.memoryUsage();
+        const heapMB = Math.round(memUsage.heapUsed / 1024 / 1024);
+        const pipelineStart = Date.now();
+        console.log(`[Pipeline Scheduler] Starting cycle (heap: ${heapMB}MB)...`);
+        try {
+          const { createDailyJobs } = await import("./content-pipeline");
+          const jobs = await createDailyJobs();
+          if (jobs.length > 0) console.log(`[Pipeline Scheduler] Created ${jobs.length} daily generation jobs`);
+        } catch (e: any) {
+          console.error("[Pipeline Scheduler] createDailyJobs error (non-fatal):", e.message);
+        }
+        try {
+          const { runContinuousImprovementJob } = await import("./content-pipeline");
+          const improvement = await runContinuousImprovementJob();
+          console.log(`[Pipeline Scheduler] Continuous improvement: ${improvement.weakQuestions.length} weak questions, ${improvement.weakTopics.length} weak topics, ${improvement.generationJobsQueued} jobs queued`);
+          console.log(`[Pipeline Scheduler] Cycle completed in ${Date.now() - pipelineStart}ms`);
+        } catch (e: any) {
+          console.error("[Pipeline Scheduler] runContinuousImprovementJob error (non-fatal):", e.message);
+        }
+      }, SIX_HOURS_MS);
+      console.log("[Pipeline Scheduler] Registered: daily jobs + continuous improvement (every 6h)");
+    } else {
+      console.log("[DeferredStartup] Web process: reporting scheduler + pipeline scheduler deferred to worker");
     }
+    console.log(`[DeferredStartup] Phase 0 complete (validations + schedulers) in ${Date.now() - phase0Start}ms`);
 
-    async function shouldSkipSeed(tableName: string): Promise<boolean> {
-      if (process.env.NODE_ENV !== "production") return false;
-      try {
-        const { pool: checkPool } = await import("./storage");
-        const result = await checkPool.query(`SELECT EXISTS (SELECT 1 FROM ${tableName} LIMIT 1) as has_data`);
-        return !!result.rows[0]?.has_data;
-      } catch {}
-      return false;
-    }
+    // ── Phase 1: Schema sync + data migrations (sequential) ──
+    const phase1Start = Date.now();
+    const startupMemoryGuard = policyMemoryGuard;
+    const runSeedStep = policyRunSeedStep;
+    const shouldSkipSeed = policyShouldSkipSeed;
 
     await runSeedStep("QBank Templates", async () => {
       const { seedPromptTemplates } = await import("./prompts/qbank-templates");
@@ -1361,6 +1354,19 @@ function runDeferredStartupWork() {
       const { runStartupQuarantine } = await import("./publish-gate");
       await runStartupQuarantine();
     });
+
+    console.log(`[DeferredStartup] Phase 1 complete in ${Date.now() - phase1Start}ms`);
+
+    const shouldRunSeedingFlag = policyShouldRunSeeding();
+    if (!shouldRunSeedingFlag) {
+      console.log("[DeferredStartup] Web process: skipping Phase 2 & 3 seeding (deferred to worker process)");
+    }
+
+    // ── Phase 2: Exam questions + flashcard mapping (sequential) ──
+    const phase2Start = Date.now();
+    await startupMemoryGuard("Phase 2: Exam Questions");
+    if (shouldRunSeedingFlag) {
+    console.log("[DeferredStartup] Phase 2: Exam questions + flashcard mapping...");
 
     const { pool: seedPool } = await import("./storage");
 
@@ -1385,6 +1391,16 @@ function runDeferredStartupWork() {
     if (!(await shouldSkipSeed("digital_products"))) {
       await runSeedStep("DigitalProducts", async () => { const { seedDigitalProducts } = await import("./seed-digital-products"); await seedDigitalProducts(seedPool); });
     }
+
+    console.log(`[DeferredStartup] Phase 2 complete in ${Date.now() - phase2Start}ms`);
+    } // end shouldRunSeeding for Phase 2
+
+    // ── Phase 3: SEO/content seeds (sequential) ──
+    const phase3Start = Date.now();
+    await startupMemoryGuard("Phase 3: SEO/Content Seeds");
+    if (shouldRunSeedingFlag) {
+    console.log("[DeferredStartup] Phase 3: SEO/content seeds...");
+
     if (!(await shouldSkipSeed("flashcard_decks"))) {
       await runSeedStep("StudyDecks", async () => { const { seedStudyDecks } = await import("./seed-study-decks"); await seedStudyDecks(seedPool); });
     }
@@ -1417,6 +1433,9 @@ function runDeferredStartupWork() {
     if (!(await shouldSkipSeed("imaging_seo_clusters"))) {
       await runSeedStep("ImagingSEO", async () => { const { seedImagingSeoContent } = await import("./seed-imaging-seo-clusters"); await seedImagingSeoContent(); });
     }
+
+    console.log(`[DeferredStartup] Phase 3 complete in ${Date.now() - phase3Start}ms`);
+    } // end shouldRunSeeding for Phase 3
 
     console.log(`[DeferredStartup] All phases complete — total: ${Date.now() - deferredStart}ms`);
   });
@@ -1459,6 +1478,10 @@ function setupGracefulShutdown() {
     try {
       const { stopPostPublishAudit } = await import("./content-integrity-audit");
       stopPostPublishAudit();
+    } catch {}
+    try {
+      const { stopCacheSweep } = await import("./allied-questions-api");
+      stopCacheSweep();
     } catch {}
     console.log("[Shutdown] All interval timers cleared");
     process.exit(0);

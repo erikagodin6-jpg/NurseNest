@@ -10,6 +10,7 @@ function slugify(text: string): string {
 let questionsCache: any[] | null = null;
 let questionsCacheCreatedAt: number = 0;
 const PARAMEDIC_CACHE_TTL_MS = 30 * 60 * 1000;
+const MAX_PARAMEDIC_CACHED_QUESTIONS = 5000;
 
 export function clearParamedicQuestionsCache(): void {
   questionsCache = null;
@@ -31,7 +32,10 @@ async function loadQuestions(): Promise<any[]> {
     }
   }
   const { paramedicQuestions } = await import("../client/src/data/career-questions/paramedic-questions");
-  questionsCache = paramedicQuestions as any[];
+  const allQuestions = paramedicQuestions as any[];
+  questionsCache = allQuestions.length > MAX_PARAMEDIC_CACHED_QUESTIONS
+    ? allQuestions.slice(0, MAX_PARAMEDIC_CACHED_QUESTIONS)
+    : allQuestions;
   questionsCacheCreatedAt = Date.now();
   return questionsCache;
 }

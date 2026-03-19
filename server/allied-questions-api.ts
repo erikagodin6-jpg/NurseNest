@@ -301,7 +301,27 @@ interface TopicGroup {
   difficulties: number[];
 }
 
+const CACHE_SWEEP_INTERVAL_MS = 5 * 60 * 1000;
+let cacheSweepTimer: ReturnType<typeof setInterval> | null = null;
+
+function startCacheSweep(): void {
+  if (cacheSweepTimer) return;
+  cacheSweepTimer = setInterval(() => {
+    evictExpiredCacheEntries();
+    enforceQuestionCountCap();
+  }, CACHE_SWEEP_INTERVAL_MS);
+  if (cacheSweepTimer.unref) cacheSweepTimer.unref();
+}
+
+export function stopCacheSweep(): void {
+  if (cacheSweepTimer) {
+    clearInterval(cacheSweepTimer);
+    cacheSweepTimer = null;
+  }
+}
+
 export function registerAlliedQuestionsRoutes(app: Express) {
+  startCacheSweep();
   const contentBrowseLimiter = createRateLimiter("content_browse");
 
   for (const profession of PROFESSIONS) {
