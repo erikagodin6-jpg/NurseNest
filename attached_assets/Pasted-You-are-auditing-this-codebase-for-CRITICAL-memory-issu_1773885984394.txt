@@ -1,0 +1,195 @@
+You are auditing this codebase for CRITICAL memory issues and exam system instability.
+
+Your task is to FIND and SHOW the exact code responsible for high memory usage, crashes, and exam failures.
+
+DO NOT summarize.
+DO NOT give general advice.
+DO NOT skip files.
+
+You must locate and OUTPUT the actual code blocks.
+
+==================================================
+STEP 1 — FIND BACKEND ENTRY POINT
+==================================================
+
+Locate the main backend file (e.g. server.py, app.py, index.js, server.js).
+
+Output:
+- file path
+- first 200–300 lines
+- any global variables
+- any in-memory caches
+- any middleware affecting requests
+
+==================================================
+STEP 2 — FIND EXAM-RELATED ENDPOINTS
+==================================================
+
+Search the entire codebase for:
+
+- /api/exam
+- /api/exams
+- /api/questions
+- /api/mock-exams
+- exam start / open logic
+
+For each match:
+- output FULL handler function
+- include all logic inside it
+- include any helper functions it calls
+
+Highlight:
+- where questions are loaded
+- how many are loaded
+- whether pagination exists
+
+==================================================
+STEP 3 — FIND QUESTION / EXAM GENERATION
+==================================================
+
+Search for:
+
+- generateQuestions
+- createExam
+- ai.generate
+- openai
+- any content generation logic
+
+Output:
+- full function
+- how many items are generated
+- how results are stored (memory vs database)
+
+Highlight:
+- loops building large arrays
+- unbounded generation
+
+==================================================
+STEP 4 — FIND DATABASE QUERIES
+==================================================
+
+Search for:
+
+- SELECT *
+- .find()
+- .all()
+- .populate()
+- .include()
+
+Output all queries related to:
+- exams
+- questions
+- flashcards
+- lessons
+
+Highlight:
+- queries with no limit
+- queries returning full datasets
+- joins loading large nested objects
+
+==================================================
+STEP 5 — FIND IN-MEMORY STORAGE
+==================================================
+
+Search for:
+
+- global arrays/lists/dicts
+- caches
+- variables storing content
+
+Examples:
+- exams = []
+- questions = []
+- cache = {}
+
+Output:
+- all instances
+- where they are appended to
+- whether they are cleared
+
+==================================================
+STEP 6 — FIND BACKGROUND TASKS / LOOPS
+==================================================
+
+Search for:
+
+- while True
+- setInterval
+- cron jobs
+- background workers
+
+Output:
+- full code
+- what they do
+- whether they generate or load data
+
+==================================================
+STEP 7 — FIND RESPONSE SIZES
+==================================================
+
+Search for API responses returning:
+
+- full exam objects
+- full question banks
+- large JSON payloads
+
+Output:
+- response structure
+- estimated size if possible
+
+==================================================
+STEP 8 — ANALYZE AND FLAG CRITICAL RISKS
+==================================================
+
+After showing all code, identify EXACT issues:
+
+- loading entire exam into memory
+- returning too many questions at once
+- no pagination
+- memory leaks
+- unbounded arrays
+- heavy generation in request cycle
+- large nested JSON responses
+
+For EACH issue:
+- show exact file and line
+- explain why it causes memory spikes
+- label severity: HIGH / CRITICAL
+
+==================================================
+STEP 9 — DO NOT FIX YET
+==================================================
+
+DO NOT modify code yet.
+
+ONLY:
+- find
+- show
+- highlight
+- explain
+
+We will fix in the next step.
+
+==================================================
+OUTPUT FORMAT
+==================================================
+
+Use clear sections:
+
+FILE: path/to/file
+CODE:
+<code block>
+
+ISSUE:
+<exact problem>
+
+IMPACT:
+<why it causes crashes>
+
+SEVERITY:
+CRITICAL / HIGH / MEDIUM
+
+==================================================
+
+This is a full memory and exam system audit.
+Find EVERYTHING relevant to crashes and exam failures.

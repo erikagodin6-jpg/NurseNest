@@ -1,0 +1,166 @@
+You are working on the live NurseNest production codebase.
+
+You have already completed a memory and exam-system audit.
+Now implement the fixes.
+
+This is a production hardening task.
+Do not just describe recommendations.
+Do not create a vague plan.
+Actually modify code.
+
+==================================================
+PRIORITY ORDER
+==================================================
+
+Fix these issues in this exact order:
+
+1. CRITICAL — Admin content query with no LIMIT
+   Location: routes.ts around line 6188
+   Problem: SELECT * FROM content_items ORDER BY updated_at DESC NULLS LAST with no pagination
+   Required fix:
+   - add server-side pagination with safe defaults
+   - enforce a maximum page size
+   - select only required columns, not SELECT *
+   - move filtering to SQL where possible
+   - do not camelCase huge result sets unnecessarily
+   - return total count separately if needed
+   - ensure admin UI still works
+
+2. CRITICAL — Public content query with no LIMIT
+   Location: routes.ts around line 6204
+   Problem: published content loads all rows, then filters in memory
+   Required fix:
+   - add pagination
+   - add maximum page size
+   - move language, region, tier, and translation-status filtering into SQL
+   - select only needed fields
+   - do not load all published content into memory
+   - preserve existing frontend behavior
+
+3. CRITICAL — Allied questions in-memory cache too heavy
+   Location: allied-questions-api.ts lines 147-221
+   Problem: global cache stores large question arrays loaded from static imports
+   Required fix:
+   - reduce memory footprint drastically
+   - do not keep full question banks permanently in memory
+   - lazy load by profession and batch only when needed
+   - cache only metadata or small slices where possible
+   - enforce much smaller cache size and TTL
+   - add hard cap on total cached question count or bytes
+   - ensure evictions free memory aggressively
+   - if possible, stop concatenating entire imported arrays into one giant array
+   - preserve API correctness
+
+4. HIGH — Exam assembly loads too many questions
+   Location: mock-exam-assembly.ts lines 188-213
+   Problem: poolSize = questionCount * 5 loads too many full question records into memory
+   Required fix:
+   - reduce pool multiplier safely
+   - make pool multiplier configurable
+   - select only required columns
+   - avoid loading full rationale/body fields until needed
+   - reduce intermediate arrays during bucketing/sorting/shuffling
+   - make assembly memory-aware
+   - if system is in warning/protection/critical mode, lower pool size automatically
+   - preserve exam quality as much as possible
+
+5. HIGH — Client can send unbounded questions array into exam start
+   Location: routes.ts around line 10750
+   Problem: req.body.questions can be huge and is stringified/stored
+   Required fix:
+   - reject client-supplied questions arrays above strict limits
+   - validate schema of every question object
+   - cap payload size
+   - prefer server-side exam assembly only
+   - if client-side questions are still supported, only allow small trusted payloads
+   - return structured error messages
+   - prevent memory spikes from oversized request bodies
+
+6. HIGH — Specialty exam uses SELECT *
+   Location: routes.ts around line 10649
+   Problem: loads full mock_exam_definitions row and then all question records in one shot
+   Required fix:
+   - replace SELECT * with explicit columns
+   - batch question loading if needed
+   - select only fields needed for exam start
+   - avoid loading all question details at once if only first slice is needed
+
+==================================================
+CROSS-CUTTING REQUIREMENTS
+==================================================
+
+Apply these to all relevant fixes:
+
+A. MEMORY SAFETY
+- no unbounded result sets
+- no SELECT *
+- no giant in-memory concatenation of arrays
+- no full payload serialization if not needed
+- use pagination, batching, slicing, and explicit projection
+- avoid copying large arrays unless necessary
+- prefer streaming/chunked behavior where practical
+
+B. VALIDATION
+- validate query params for page, limit, offset
+- enforce maximum limits server-side
+- validate request body size and question array size
+- return safe structured errors, not generic 500s
+
+C. OBSERVABILITY
+Add logs/metrics for:
+- number of rows returned by each content endpoint
+- page size used
+- cache hits/misses/evictions for allied questions
+- estimated payload size where practical
+- exam assembly candidate pool size
+- when memory-aware degradation lowers limits
+
+D. BACKWARD COMPATIBILITY
+- do not break existing frontend flows
+- if response shape changes are required, update the calling code too
+- preserve admin and public content browsing behavior
+- preserve exam start behavior for valid users
+
+E. TESTS
+Add or update tests for:
+- admin content pagination and max limit enforcement
+- public content pagination and filtering in SQL
+- allied question cache eviction and reduced memory behavior
+- exam assembly under memory-aware lower pool sizes
+- oversized client questions payload rejection
+- specialty exam explicit column selection path
+- invalid pagination params rejection
+- valid requests still succeeding
+
+==================================================
+IMPLEMENTATION DETAILS
+==================================================
+
+For each changed area:
+- explain root cause
+- show file changed
+- show exact code change
+- show why memory usage improves
+- show tests added
+- show any config/env vars added
+
+==================================================
+DELIVERABLE FORMAT
+==================================================
+
+Return results in this format:
+
+1. ROOT CAUSE FIXED
+2. FILES CHANGED
+3. CODE CHANGES
+4. TESTS ADDED
+5. MEMORY IMPACT
+6. ANY FOLLOW-UP RISKS
+
+==================================================
+IMPORTANT
+==================================================
+
+Do not stop at analysis.
+Do not ask whether to proceed.
+Implement the code changes now, starting with the two content query fixes, then allied question cache, then exam assembly, then exam start payload validation, then specialty exam query hardening.
