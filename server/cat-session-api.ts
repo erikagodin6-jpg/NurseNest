@@ -6,6 +6,9 @@ import { computeAbilityEstimate, selectNextItem, type QuestionResponse, type Can
 import { z } from "zod";
 import type { Request, Response } from "express";
 import { premiumDegradationMiddleware, getDegradation, logDegradedAccess } from "./premium-degradation";
+import { BoundedMap } from "./bounded-map";
+
+const catStartIdempotency = new BoundedMap<string, { attemptId: string; expiresAt: number }>(500, 5 * 60 * 1000);
 
 const router = Router();
 
@@ -161,6 +164,7 @@ const startSchema = z.object({
   tier: z.string().optional(),
   questionCount: z.number().int().min(50).max(200).optional(),
   blueprintCode: z.string().optional(),
+  idempotencyKey: z.string().optional(),
 });
 
 const answerSchema = z.object({
@@ -197,9 +201,46 @@ router.post("/api/cat-exams/start", async (req, res) => {
       return res.status(400).json({ error: "Invalid input", details: parsed.error.issues });
     }
 
-    const { tier, questionCount, blueprintCode } = parsed.data;
+    const { tier, questionCount, blueprintCode, idempotencyKey } = parsed.data;
     const examTier = tier || user.tier || "rpn";
     const maxQuestions = questionCount || 150;
+
+    if (idempotencyKey && typeof idempotencyKey === "string" && idempotencyKey.length <= 128) {
+      const idemKey = `${user.id}:${idempotencyKey}`;
+      const cached = catStartIdempotency.get(idemKey);
+      if (cached && cached.expiresAt > Date.now()) {
+        const existingAttempt = await pool.query(
+          "SELECT * FROM mock_exam_attempts WHERE id = $1 AND user_id = $2 AND exam_type = 'cat'",
+          [cached.attemptId, user.id]
+        );
+        if (existingAttempt.rows.length > 0) {
+          const row = existingAttempt.rows[0];
+          const catState = typeof row.cat_state === "string" ? JSON.parse(row.cat_state) : (row.cat_state || {});
+          const nextQ = await selectNextQuestion(row.id, row.tier, catState);
+          return res.json({
+            attemptId: row.id,
+            sessionId: catState.sessionId || row.id,
+            status: row.status || "in_progress",
+            currentQuestion: nextQ ? {
+              id: nextQ.id,
+              stem: nextQ.stem,
+              options: (() => { try { return typeof nextQ.options === "string" ? JSON.parse(nextQ.options) : nextQ.options; } catch { return []; } })(),
+              bodySystem: nextQ.body_system,
+              topic: nextQ.topic,
+              difficulty: nextQ.difficulty,
+              questionType: nextQ.question_type,
+            } : null,
+            questionNumber: (catState.questionsSeen?.length || 0) + 1,
+            maxQuestions: row.total_questions,
+            catState: {
+              currentAbility: catState.currentAbility || 0,
+              standardError: catState.standardError || 1.0,
+              questionCount: catState.questionsSeen?.length || 0,
+            },
+          });
+        }
+      }
+    }
 
     const sessionId = `cat_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 
@@ -230,6 +271,12 @@ router.post("/api/cat-exams/start", async (req, res) => {
     );
 
     const attempt = attemptResult.rows[0];
+
+    if (idempotencyKey && typeof idempotencyKey === "string" && idempotencyKey.length <= 128) {
+      const idemKey = `${user.id}:${idempotencyKey}`;
+      catStartIdempotency.set(idemKey, { attemptId: attempt.id, expiresAt: Date.now() + 5 * 60 * 1000 });
+    }
+
     const nextQ = await selectNextQuestion(attempt.id, examTier, initialCatState);
 
     await logActivity(user.id, "cat_session_started", {
@@ -262,7 +309,11 @@ router.post("/api/cat-exams/start", async (req, res) => {
     });
   } catch (e: any) {
     console.error("[CATSessionAPI] Start error:", e.message);
-    res.status(500).json({ error: "Failed to start CAT exam" });
+    res.status(500).json({
+      error: "Failed to start CAT exam",
+      fallback: "standard_mock_exam",
+      fallbackMessage: "CAT engine is temporarily unavailable. You can take a standard mock exam instead.",
+    });
   }
 });
 

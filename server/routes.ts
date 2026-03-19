@@ -359,19 +359,108 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     });
   }
 
-  app.get("/api/kill-switches", (_req, res) => {
+  app.get("/api/kill-switches", async (_req, res) => {
     try {
+      const { isFeatureEnabled } = await import("./platform-resilience");
       res.json({
-        exams: false,
-        flashcards: false,
-        lessons: false,
-        downloads: false,
-        cat: false,
-        qbank: false,
-        mockExams: false,
+        exams: !isFeatureEnabled("mock_exams"),
+        flashcards: !isFeatureEnabled("flashcards"),
+        lessons: !isFeatureEnabled("lesson_rendering"),
+        downloads: !isFeatureEnabled("stripe_payments"),
+        cat: !isFeatureEnabled("cat_engine"),
+        qbank: !isFeatureEnabled("question_bank"),
+        mockExams: !isFeatureEnabled("mock_exams"),
+        aiTutor: !isFeatureEnabled("ai_tutor"),
+        aiContentGen: !isFeatureEnabled("ai_content_gen"),
+        advancedAnalytics: !isFeatureEnabled("advanced_analytics"),
       });
     } catch {
       res.json({});
+    }
+  });
+
+  app.get("/api/admin/system-health-dashboard", async (req: any, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { getFeatureFlags, isFeatureEnabled, getCircuitBreakerStates } = await import("./platform-resilience");
+      const { getMemoryMonitorStatus, getActiveConnectionCount } = await import("./memory-monitor");
+      const { getCacheStats } = await import("./performance");
+      const { getAssemblyStats } = await import("./exam-delivery");
+      const { getConcurrencyStats } = await import("./concurrency-limiter");
+
+      const memoryStatus = getMemoryMonitorStatus();
+      const cacheStats = getCacheStats();
+      const assemblyStats = getAssemblyStats();
+      const concurrencyStats = getConcurrencyStats();
+      const circuitBreakers = getCircuitBreakerStates();
+      const flags = getFeatureFlags();
+
+      const mem = process.memoryUsage();
+      const disabledFlags = flags.filter(f => !isFeatureEnabled(f.key));
+
+      let dbStatus = "healthy";
+      let dbLatency = 0;
+      try {
+        const dbStart = Date.now();
+        await pool.query("SELECT 1");
+        dbLatency = Date.now() - dbStart;
+        if (dbLatency > 500) dbStatus = "slow";
+      } catch {
+        dbStatus = "unreachable";
+      }
+
+      const overallStatus = dbStatus === "unreachable" ? "critical" :
+        disabledFlags.length > 2 || memoryStatus.level === "critical" ? "degraded" : "healthy";
+
+      res.json({
+        status: overallStatus,
+        timestamp: new Date().toISOString(),
+        uptime: Math.round(process.uptime()),
+        database: { status: dbStatus, latencyMs: dbLatency, activeConnections: getActiveConnectionCount(), statementTimeoutMs: 10000 },
+        memory: { heapUsedMB: Math.round(mem.heapUsed / 1048576), heapTotalMB: Math.round(mem.heapTotal / 1048576), rssMB: Math.round(mem.rss / 1048576), level: memoryStatus.level },
+        cache: cacheStats,
+        examAssembly: assemblyStats,
+        concurrency: concurrencyStats,
+        circuitBreakers: circuitBreakers.map(cb => ({ name: cb.name, state: cb.state, failures: cb.failures })),
+        featureFlags: flags.map(f => ({ key: f.key, enabled: isFeatureEnabled(f.key), errorCount: f.errorCount })),
+        killSwitchesActive: disabledFlags.map(f => f.key),
+      });
+    } catch (e: any) {
+      res.status(500).json({ status: "error", error: e.message });
+    }
+  });
+
+  app.get("/api/admin/content-validation-report", async (req: any, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const issues: any[] = [];
+
+      const emptyLessons = await pool.query(
+        `SELECT id, slug, title, status FROM lessons WHERE status = 'published' AND (title IS NULL OR title = '' OR definition IS NULL OR definition = '') LIMIT 100`
+      );
+      for (const row of emptyLessons.rows) {
+        issues.push({ type: "lesson", id: row.id, slug: row.slug, problem: "Published lesson missing title or definition" });
+      }
+
+      const emptyQuestions = await pool.query(
+        `SELECT id, stem, status FROM exam_questions WHERE status = 'published' AND (stem IS NULL OR stem = '' OR options IS NULL) LIMIT 100`
+      );
+      for (const row of emptyQuestions.rows) {
+        issues.push({ type: "exam_question", id: row.id, problem: "Published question missing stem or options" });
+      }
+
+      const emptyFlashcards = await pool.query(
+        `SELECT id, front, status FROM flashcard_bank WHERE status = 'published' AND (front IS NULL OR front = '' OR back IS NULL OR back = '') LIMIT 100`
+      );
+      for (const row of emptyFlashcards.rows) {
+        issues.push({ type: "flashcard", id: row.id, problem: "Published flashcard missing front or back" });
+      }
+
+      res.json({ totalIssues: issues.length, issues });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
     }
   });
 
@@ -13592,7 +13681,18 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         }),
       });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[Recommendations] generation failed, returning safe fallback:", e.message);
+      res.json({
+        readinessScore: 0,
+        projectedPassProbability: 0,
+        weaknesses: [],
+        strengths: [],
+        recommendations: [
+          { type: "foundational", topic: "general", title: "Review Core Concepts", slug: "/lessons", estimatedMinutes: 30, difficulty: "foundational", reason: "Recommendations temporarily unavailable — start with a general review" }
+        ],
+        masteryProgress: [],
+        degraded: true,
+      });
     }
   });
 
@@ -13607,7 +13707,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (result.rows.length === 0) return res.json(null);
       res.json(result.rows[0]);
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[Recommendations] latest fetch failed, returning null:", e.message);
+      res.json(null);
     }
   });
 
@@ -23453,7 +23554,8 @@ Return ONLY valid JSON with this exact structure:
       const analytics = await storage.getQuestionBankAnalytics();
       res.json(analytics);
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[QBankAnalytics] failed, returning empty fallback:", e.message);
+      res.json([]);
     }
   });
 

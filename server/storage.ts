@@ -557,7 +557,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async listProducts(active = true): Promise<any[]> {
-    const result = await db.execute(sql`SELECT * FROM stripe.products WHERE active = ${active}`);
+    const result = await db.execute(sql`SELECT * FROM stripe.products WHERE active = ${active} LIMIT ${MAX_QUERY_LIMIT}`);
     return result.rows;
   }
 
@@ -577,6 +577,7 @@ export class DatabaseStorage implements IStorage {
       FROM paginated_products p
       LEFT JOIN stripe.prices pr ON pr.product = p.id AND pr.active = true
       ORDER BY p.id, pr.unit_amount
+      LIMIT ${MAX_QUERY_LIMIT}
     `);
     return result.rows;
   }
@@ -597,31 +598,20 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllUsers(): Promise<Omit<User, 'password'>[]> {
-    const LIMIT = 10000;
-    const rows = await db.select().from(users).limit(LIMIT);
-    if (rows.length >= LIMIT) console.warn(`[Storage] getAllUsers hit safety limit of ${LIMIT} rows`);
+    const rows = await db.select().from(users).limit(MAX_QUERY_LIMIT);
     return rows.map(({ password, ...rest }) => rest);
   }
 
   async getAllTestResults(): Promise<TestResult[]> {
-    const LIMIT = 10000;
-    const rows = await db.select().from(testResults).orderBy(desc(testResults.completedAt)).limit(LIMIT);
-    if (rows.length >= LIMIT) console.warn(`[Storage] getAllTestResults hit safety limit of ${LIMIT} rows`);
-    return rows;
+    return db.select().from(testResults).orderBy(desc(testResults.completedAt)).limit(MAX_QUERY_LIMIT);
   }
 
   async getAllProgress(): Promise<UserProgress[]> {
-    const LIMIT = 10000;
-    const rows = await db.select().from(userProgress).orderBy(desc(userProgress.lastAccessed)).limit(LIMIT);
-    if (rows.length >= LIMIT) console.warn(`[Storage] getAllProgress hit safety limit of ${LIMIT} rows`);
-    return rows;
+    return db.select().from(userProgress).orderBy(desc(userProgress.lastAccessed)).limit(MAX_QUERY_LIMIT);
   }
 
   async getAllNotes(): Promise<Note[]> {
-    const LIMIT = 10000;
-    const rows = await db.select().from(notes).orderBy(desc(notes.updatedAt)).limit(LIMIT);
-    if (rows.length >= LIMIT) console.warn(`[Storage] getAllNotes hit safety limit of ${LIMIT} rows`);
-    return rows;
+    return db.select().from(notes).orderBy(desc(notes.updatedAt)).limit(MAX_QUERY_LIMIT);
   }
 
   async getAdminAnalyticsAggregated(): Promise<any> {
@@ -990,10 +980,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllFeedback(): Promise<UserFeedback[]> {
-    const LIMIT = 10000;
-    const rows = await db.select().from(userFeedback).orderBy(desc(userFeedback.createdAt)).limit(LIMIT);
-    if (rows.length >= LIMIT) console.warn(`[Storage] getAllFeedback hit safety limit of ${LIMIT} rows`);
-    return rows;
+    return db.select().from(userFeedback).orderBy(desc(userFeedback.createdAt)).limit(MAX_QUERY_LIMIT);
   }
 
   async updateFeedback(id: string, updates: Partial<UserFeedback>): Promise<UserFeedback> {
@@ -1150,10 +1137,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllSocialPosts(): Promise<SocialPost[]> {
-    const LIMIT = 10000;
-    const rows = await db.select().from(socialPosts).orderBy(desc(socialPosts.createdAt)).limit(LIMIT);
-    if (rows.length >= LIMIT) console.warn(`[Storage] getAllSocialPosts hit safety limit of ${LIMIT} rows`);
-    return rows;
+    return db.select().from(socialPosts).orderBy(desc(socialPosts.createdAt)).limit(MAX_QUERY_LIMIT);
   }
 
   async getSocialPost(id: string): Promise<SocialPost | undefined> {
@@ -1164,7 +1148,8 @@ export class DatabaseStorage implements IStorage {
   async getScheduledSocialPosts(): Promise<SocialPost[]> {
     return db.select().from(socialPosts)
       .where(and(eq(socialPosts.status, "scheduled"), lte(socialPosts.scheduledAt, new Date())))
-      .orderBy(socialPosts.scheduledAt);
+      .orderBy(socialPosts.scheduledAt)
+      .limit(MAX_QUERY_LIMIT);
   }
 
   async createSocialPost(data: InsertSocialPost): Promise<SocialPost> {
@@ -1199,7 +1184,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllSiteImages(): Promise<SiteImage[]> {
-    return db.select().from(siteImages);
+    return db.select().from(siteImages).limit(MAX_QUERY_LIMIT);
   }
 
   async getSiteImage(key: string): Promise<SiteImage | undefined> {
@@ -1245,7 +1230,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllAudioClips(): Promise<AudioClip[]> {
-    return db.select().from(audioClips).orderBy(desc(audioClips.createdAt));
+    return db.select().from(audioClips).orderBy(desc(audioClips.createdAt)).limit(MAX_QUERY_LIMIT);
   }
 
   async getAudioClip(id: string): Promise<AudioClip | undefined> {
@@ -1254,7 +1239,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAudioClipsByCategory(category: string): Promise<AudioClip[]> {
-    return db.select().from(audioClips).where(eq(audioClips.category, category)).orderBy(audioClips.title);
+    return db.select().from(audioClips).where(eq(audioClips.category, category)).orderBy(audioClips.title).limit(MAX_QUERY_LIMIT);
   }
 
   async createAudioClip(clip: InsertAudioClip): Promise<AudioClip> {
@@ -1397,9 +1382,9 @@ export class DatabaseStorage implements IStorage {
 
   async listDigitalProducts(activeOnly = true): Promise<DigitalProduct[]> {
     if (activeOnly) {
-      return db.select().from(digitalProducts).where(eq(digitalProducts.isActive, true)).orderBy(desc(digitalProducts.featured), desc(digitalProducts.createdAt));
+      return db.select().from(digitalProducts).where(eq(digitalProducts.isActive, true)).orderBy(desc(digitalProducts.featured), desc(digitalProducts.createdAt)).limit(MAX_QUERY_LIMIT);
     }
-    return db.select().from(digitalProducts).orderBy(desc(digitalProducts.createdAt));
+    return db.select().from(digitalProducts).orderBy(desc(digitalProducts.createdAt)).limit(MAX_QUERY_LIMIT);
   }
 
   async getDigitalProduct(id: string): Promise<DigitalProduct | undefined> {
@@ -1492,7 +1477,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async listQbankDrafts(): Promise<QbankDraft[]> {
-    return db.select().from(qbankDrafts).orderBy(desc(qbankDrafts.createdAt));
+    return db.select().from(qbankDrafts).orderBy(desc(qbankDrafts.createdAt)).limit(MAX_QUERY_LIMIT);
   }
   async getQbankDraft(id: string): Promise<QbankDraft | undefined> {
     const [d] = await db.select().from(qbankDrafts).where(eq(qbankDrafts.id, id));
@@ -1511,7 +1496,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async listQbankRecipes(): Promise<QbankRecipe[]> {
-    return db.select().from(qbankRecipes).orderBy(desc(qbankRecipes.createdAt));
+    return db.select().from(qbankRecipes).orderBy(desc(qbankRecipes.createdAt)).limit(MAX_QUERY_LIMIT);
   }
   async getQbankRecipe(id: string): Promise<QbankRecipe | undefined> {
     const [r] = await db.select().from(qbankRecipes).where(eq(qbankRecipes.id, id));
@@ -1667,7 +1652,7 @@ export class DatabaseStorage implements IStorage {
     return r;
   }
   async listProductGenerations(): Promise<ProductGeneration[]> {
-    return db.select().from(productGenerations).orderBy(desc(productGenerations.createdAt));
+    return db.select().from(productGenerations).orderBy(desc(productGenerations.createdAt)).limit(MAX_QUERY_LIMIT);
   }
   async deleteProductGeneration(id: string): Promise<void> {
     await db.delete(generationEvents).where(eq(generationEvents.generationId, id));
@@ -1772,7 +1757,7 @@ export class DatabaseStorage implements IStorage {
     return r;
   }
   async listTesterInviteCodes(): Promise<TesterInviteCode[]> {
-    return db.select().from(testerInviteCodes).orderBy(desc(testerInviteCodes.createdAt));
+    return db.select().from(testerInviteCodes).orderBy(desc(testerInviteCodes.createdAt)).limit(MAX_QUERY_LIMIT);
   }
   async createTesterInviteCode(data: InsertTesterInviteCode): Promise<TesterInviteCode> {
     const [r] = await db.insert(testerInviteCodes).values(data).returning();
@@ -1796,10 +1781,10 @@ export class DatabaseStorage implements IStorage {
     return r;
   }
   async listTesterFeedback(): Promise<TesterFeedback[]> {
-    return db.select().from(testerFeedback).orderBy(desc(testerFeedback.createdAt));
+    return db.select().from(testerFeedback).orderBy(desc(testerFeedback.createdAt)).limit(MAX_QUERY_LIMIT);
   }
   async getUserTesterFeedback(userId: string): Promise<TesterFeedback[]> {
-    return db.select().from(testerFeedback).where(eq(testerFeedback.userId, userId)).orderBy(desc(testerFeedback.createdAt));
+    return db.select().from(testerFeedback).where(eq(testerFeedback.userId, userId)).orderBy(desc(testerFeedback.createdAt)).limit(MAX_QUERY_LIMIT);
   }
   async updateTesterFeedback(id: string, updates: Partial<{ status: string; adminResponse: string }>): Promise<TesterFeedback> {
     const [r] = await db.update(testerFeedback).set({ ...updates, updatedAt: new Date() }).where(eq(testerFeedback.id, id)).returning();
@@ -1858,8 +1843,8 @@ export class DatabaseStorage implements IStorage {
     if (filters?.topic) conditions.push(eq(imagingQuestions.topic, filters.topic));
     if (filters?.difficulty) conditions.push(eq(imagingQuestions.difficulty, Number(filters.difficulty)));
     if (filters?.status) conditions.push(eq(imagingQuestions.status, filters.status));
-    if (conditions.length > 0) return db.select().from(imagingQuestions).where(and(...conditions)).orderBy(desc(imagingQuestions.updatedAt));
-    return db.select().from(imagingQuestions).orderBy(desc(imagingQuestions.updatedAt));
+    if (conditions.length > 0) return db.select().from(imagingQuestions).where(and(...conditions)).orderBy(desc(imagingQuestions.updatedAt)).limit(MAX_QUERY_LIMIT);
+    return db.select().from(imagingQuestions).orderBy(desc(imagingQuestions.updatedAt)).limit(MAX_QUERY_LIMIT);
   }
   async getImagingQuestion(id: string): Promise<ImagingQuestion | undefined> {
     const [r] = await db.select().from(imagingQuestions).where(eq(imagingQuestions.id, id));
@@ -1887,8 +1872,8 @@ export class DatabaseStorage implements IStorage {
     if (filters?.assetType) conditions.push(eq(imageAssets.assetType, filters.assetType));
     if (filters?.modality) conditions.push(eq(imageAssets.modality, filters.modality));
     if (filters?.approvalStatus) conditions.push(eq(imageAssets.approvalStatus, filters.approvalStatus));
-    if (conditions.length > 0) return db.select().from(imageAssets).where(and(...conditions)).orderBy(desc(imageAssets.updatedAt));
-    return db.select().from(imageAssets).orderBy(desc(imageAssets.updatedAt));
+    if (conditions.length > 0) return db.select().from(imageAssets).where(and(...conditions)).orderBy(desc(imageAssets.updatedAt)).limit(MAX_QUERY_LIMIT);
+    return db.select().from(imageAssets).orderBy(desc(imageAssets.updatedAt)).limit(MAX_QUERY_LIMIT);
   }
   async getImageAsset(id: string): Promise<ImageAsset | undefined> {
     const [r] = await db.select().from(imageAssets).where(eq(imageAssets.id, id));
@@ -1916,8 +1901,8 @@ export class DatabaseStorage implements IStorage {
     if (filters?.examType) conditions.push(eq(imagingFlashcards.examType, filters.examType));
     if (filters?.topic) conditions.push(eq(imagingFlashcards.category, filters.topic));
     if (filters?.status) conditions.push(eq(imagingFlashcards.status, filters.status));
-    if (conditions.length > 0) return db.select().from(imagingFlashcards).where(and(...conditions)).orderBy(desc(imagingFlashcards.updatedAt));
-    return db.select().from(imagingFlashcards).orderBy(desc(imagingFlashcards.updatedAt));
+    if (conditions.length > 0) return db.select().from(imagingFlashcards).where(and(...conditions)).orderBy(desc(imagingFlashcards.updatedAt)).limit(MAX_QUERY_LIMIT);
+    return db.select().from(imagingFlashcards).orderBy(desc(imagingFlashcards.updatedAt)).limit(MAX_QUERY_LIMIT);
   }
   async getImagingFlashcard(id: string): Promise<ImagingFlashcard | undefined> {
     const [r] = await db.select().from(imagingFlashcards).where(eq(imagingFlashcards.id, id));
@@ -1944,8 +1929,8 @@ export class DatabaseStorage implements IStorage {
     if (filters?.country) conditions.push(eq(imagingCaseStudies.country, filters.country));
     if (filters?.examType) conditions.push(eq(imagingCaseStudies.examType, filters.examType));
     if (filters?.status) conditions.push(eq(imagingCaseStudies.status, filters.status));
-    if (conditions.length > 0) return db.select().from(imagingCaseStudies).where(and(...conditions)).orderBy(desc(imagingCaseStudies.updatedAt));
-    return db.select().from(imagingCaseStudies).orderBy(desc(imagingCaseStudies.updatedAt));
+    if (conditions.length > 0) return db.select().from(imagingCaseStudies).where(and(...conditions)).orderBy(desc(imagingCaseStudies.updatedAt)).limit(MAX_QUERY_LIMIT);
+    return db.select().from(imagingCaseStudies).orderBy(desc(imagingCaseStudies.updatedAt)).limit(MAX_QUERY_LIMIT);
   }
   async getImagingCaseStudy(id: string): Promise<ImagingCaseStudy | undefined> {
     const [r] = await db.select().from(imagingCaseStudies).where(eq(imagingCaseStudies.id, id));
@@ -2026,8 +2011,8 @@ export class DatabaseStorage implements IStorage {
     if (filters?.country) conditions.push(eq(imagingPhysicsTopics.country, filters.country));
     if (filters?.category) conditions.push(eq(imagingPhysicsTopics.category, filters.category));
     if (filters?.status) conditions.push(eq(imagingPhysicsTopics.status, filters.status));
-    if (conditions.length > 0) return db.select().from(imagingPhysicsTopics).where(and(...conditions)).orderBy(desc(imagingPhysicsTopics.updatedAt));
-    return db.select().from(imagingPhysicsTopics).orderBy(desc(imagingPhysicsTopics.updatedAt));
+    if (conditions.length > 0) return db.select().from(imagingPhysicsTopics).where(and(...conditions)).orderBy(desc(imagingPhysicsTopics.updatedAt)).limit(MAX_QUERY_LIMIT);
+    return db.select().from(imagingPhysicsTopics).orderBy(desc(imagingPhysicsTopics.updatedAt)).limit(MAX_QUERY_LIMIT);
   }
   async getImagingPhysicsTopic(id: string): Promise<ImagingPhysicsTopic | undefined> {
     const [r] = await db.select().from(imagingPhysicsTopics).where(eq(imagingPhysicsTopics.id, id));
@@ -2049,8 +2034,8 @@ export class DatabaseStorage implements IStorage {
     const conditions = [];
     if (filters?.artifactType) conditions.push(eq(imagingArtifactImages.artifactType, filters.artifactType));
     if (filters?.status) conditions.push(eq(imagingArtifactImages.status, filters.status));
-    if (conditions.length > 0) return db.select().from(imagingArtifactImages).where(and(...conditions)).orderBy(desc(imagingArtifactImages.updatedAt));
-    return db.select().from(imagingArtifactImages).orderBy(desc(imagingArtifactImages.updatedAt));
+    if (conditions.length > 0) return db.select().from(imagingArtifactImages).where(and(...conditions)).orderBy(desc(imagingArtifactImages.updatedAt)).limit(MAX_QUERY_LIMIT);
+    return db.select().from(imagingArtifactImages).orderBy(desc(imagingArtifactImages.updatedAt)).limit(MAX_QUERY_LIMIT);
   }
   async getImagingArtifactImage(id: string): Promise<ImagingArtifactImage | undefined> {
     const [r] = await db.select().from(imagingArtifactImages).where(eq(imagingArtifactImages.id, id));
@@ -2072,8 +2057,8 @@ export class DatabaseStorage implements IStorage {
     const conditions = [];
     if (filters?.comparisonType) conditions.push(eq(imagingComparisonSets.comparisonType, filters.comparisonType));
     if (filters?.status) conditions.push(eq(imagingComparisonSets.status, filters.status));
-    if (conditions.length > 0) return db.select().from(imagingComparisonSets).where(and(...conditions)).orderBy(desc(imagingComparisonSets.updatedAt));
-    return db.select().from(imagingComparisonSets).orderBy(desc(imagingComparisonSets.updatedAt));
+    if (conditions.length > 0) return db.select().from(imagingComparisonSets).where(and(...conditions)).orderBy(desc(imagingComparisonSets.updatedAt)).limit(MAX_QUERY_LIMIT);
+    return db.select().from(imagingComparisonSets).orderBy(desc(imagingComparisonSets.updatedAt)).limit(MAX_QUERY_LIMIT);
   }
   async getImagingComparisonSet(id: string): Promise<ImagingComparisonSet | undefined> {
     const [r] = await db.select().from(imagingComparisonSets).where(eq(imagingComparisonSets.id, id));
@@ -2095,8 +2080,8 @@ export class DatabaseStorage implements IStorage {
     const conditions = [];
     if (filters?.bodyRegion) conditions.push(eq(imagingAnatomyImages.bodyRegion, filters.bodyRegion));
     if (filters?.status) conditions.push(eq(imagingAnatomyImages.status, filters.status));
-    if (conditions.length > 0) return db.select().from(imagingAnatomyImages).where(and(...conditions)).orderBy(desc(imagingAnatomyImages.updatedAt));
-    return db.select().from(imagingAnatomyImages).orderBy(desc(imagingAnatomyImages.updatedAt));
+    if (conditions.length > 0) return db.select().from(imagingAnatomyImages).where(and(...conditions)).orderBy(desc(imagingAnatomyImages.updatedAt)).limit(MAX_QUERY_LIMIT);
+    return db.select().from(imagingAnatomyImages).orderBy(desc(imagingAnatomyImages.updatedAt)).limit(MAX_QUERY_LIMIT);
   }
   async getImagingAnatomyImage(id: string): Promise<ImagingAnatomyImage | undefined> {
     const [r] = await db.select().from(imagingAnatomyImages).where(eq(imagingAnatomyImages.id, id));
@@ -2118,8 +2103,8 @@ export class DatabaseStorage implements IStorage {
     const conditions = [];
     if (filters?.category) conditions.push(eq(imagingPhysicsVisuals.category, filters.category));
     if (filters?.status) conditions.push(eq(imagingPhysicsVisuals.status, filters.status));
-    if (conditions.length > 0) return db.select().from(imagingPhysicsVisuals).where(and(...conditions)).orderBy(desc(imagingPhysicsVisuals.updatedAt));
-    return db.select().from(imagingPhysicsVisuals).orderBy(desc(imagingPhysicsVisuals.updatedAt));
+    if (conditions.length > 0) return db.select().from(imagingPhysicsVisuals).where(and(...conditions)).orderBy(desc(imagingPhysicsVisuals.updatedAt)).limit(MAX_QUERY_LIMIT);
+    return db.select().from(imagingPhysicsVisuals).orderBy(desc(imagingPhysicsVisuals.updatedAt)).limit(MAX_QUERY_LIMIT);
   }
   async getImagingPhysicsVisual(id: string): Promise<ImagingPhysicsVisual | undefined> {
     const [r] = await db.select().from(imagingPhysicsVisuals).where(eq(imagingPhysicsVisuals.id, id));
@@ -2142,8 +2127,8 @@ export class DatabaseStorage implements IStorage {
     if (filters?.status) conditions.push(eq(imagingImageBriefs.status, filters.status));
     if (filters?.targetCategory) conditions.push(eq(imagingImageBriefs.targetCategory, filters.targetCategory));
     if (filters?.priority) conditions.push(eq(imagingImageBriefs.priority, filters.priority));
-    if (conditions.length > 0) return db.select().from(imagingImageBriefs).where(and(...conditions)).orderBy(desc(imagingImageBriefs.updatedAt));
-    return db.select().from(imagingImageBriefs).orderBy(desc(imagingImageBriefs.updatedAt));
+    if (conditions.length > 0) return db.select().from(imagingImageBriefs).where(and(...conditions)).orderBy(desc(imagingImageBriefs.updatedAt)).limit(MAX_QUERY_LIMIT);
+    return db.select().from(imagingImageBriefs).orderBy(desc(imagingImageBriefs.updatedAt)).limit(MAX_QUERY_LIMIT);
   }
   async getImagingImageBrief(id: string): Promise<ImagingImageBrief | undefined> {
     const [r] = await db.select().from(imagingImageBriefs).where(eq(imagingImageBriefs.id, id));
@@ -2170,9 +2155,9 @@ export class DatabaseStorage implements IStorage {
     if (filters?.topic) conditions.push(eq(questionBank.topic, filters.topic));
     if (filters?.status) conditions.push(eq(questionBank.status, filters.status));
     if (conditions.length > 0) {
-      return db.select().from(questionBank).where(and(...conditions)).orderBy(desc(questionBank.createdAt));
+      return db.select().from(questionBank).where(and(...conditions)).orderBy(desc(questionBank.createdAt)).limit(MAX_QUERY_LIMIT);
     }
-    return db.select().from(questionBank).orderBy(desc(questionBank.createdAt));
+    return db.select().from(questionBank).orderBy(desc(questionBank.createdAt)).limit(MAX_QUERY_LIMIT);
   }
 
   async getQuestionBankItem(id: string): Promise<QuestionBankItem | undefined> {
@@ -2221,40 +2206,34 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getUserQuestionBankResults(userId: string): Promise<QuestionBankResult[]> {
-    return db.select().from(questionBankResults).where(eq(questionBankResults.userId, userId)).orderBy(desc(questionBankResults.createdAt));
+    return db.select().from(questionBankResults).where(eq(questionBankResults.userId, userId)).orderBy(desc(questionBankResults.createdAt)).limit(MAX_QUERY_LIMIT);
   }
 
   async getQuestionBankAnalytics(): Promise<{ category: string; difficulty: string; totalAttempts: number; correctRate: number }[]> {
-    const results = await db.select().from(questionBankResults);
-    const aggregated: Record<string, { total: number; correctSum: number; count: number }> = {};
-    for (const r of results) {
-      const catBreakdown = (r.categoryBreakdown || {}) as Record<string, { total: number; correct: number }>;
-      const diffBreakdown = (r.difficultyBreakdown || {}) as Record<string, { total: number; correct: number }>;
-      for (const [cat, data] of Object.entries(catBreakdown)) {
-        for (const [diff, dData] of Object.entries(diffBreakdown)) {
-          const key = `${cat}||${diff}`;
-          if (!aggregated[key]) aggregated[key] = { total: 0, correctSum: 0, count: 0 };
-          aggregated[key].count++;
-        }
-        const key = `${cat}||all`;
-        if (!aggregated[key]) aggregated[key] = { total: 0, correctSum: 0, count: 0 };
-        aggregated[key].total += data.total;
-        aggregated[key].correctSum += data.correct;
-        aggregated[key].count++;
-      }
-    }
-    const output: { category: string; difficulty: string; totalAttempts: number; correctRate: number }[] = [];
-    for (const [key, data] of Object.entries(aggregated)) {
-      const [category, difficulty] = key.split("||");
-      if (difficulty !== "all") continue;
-      output.push({
-        category,
-        difficulty: "all",
-        totalAttempts: data.total,
-        correctRate: data.total > 0 ? Math.round((data.correctSum / data.total) * 1000) / 10 : 0,
-      });
-    }
-    return output.sort((a, b) => a.category.localeCompare(b.category));
+    const r = await pool.query(`
+      SELECT 
+        cat_entry.key as category,
+        'all' as difficulty,
+        COALESCE(SUM(NULLIF((cat_entry.value->>'total')::numeric, 0)::int), 0) as total_attempts,
+        CASE 
+          WHEN COALESCE(SUM(NULLIF((cat_entry.value->>'total')::numeric, 0)), 0) > 0 
+          THEN ROUND(
+            COALESCE(SUM(NULLIF((cat_entry.value->>'correct')::numeric, 0)), 0) / 
+            COALESCE(SUM(NULLIF((cat_entry.value->>'total')::numeric, 0)), 1) * 100, 1)
+          ELSE 0 
+        END as correct_rate
+      FROM question_bank_results,
+           jsonb_each(COALESCE(category_breakdown, '{}'::jsonb)) AS cat_entry
+      WHERE cat_entry.value->>'total' IS NOT NULL
+      GROUP BY cat_entry.key
+      ORDER BY cat_entry.key
+    `);
+    return r.rows.map((row: any) => ({
+      category: row.category,
+      difficulty: row.difficulty,
+      totalAttempts: parseInt(row.total_attempts) || 0,
+      correctRate: parseFloat(row.correct_rate) || 0,
+    }));
   }
 
   async getAllMltLabImages(filters?: { discipline?: string; imageType?: string; status?: string; approvalExam?: boolean; approvalLesson?: boolean }): Promise<MltLabImage[]> {
@@ -2265,9 +2244,9 @@ export class DatabaseStorage implements IStorage {
     if (filters?.approvalExam !== undefined) conditions.push(eq(mltLabImages.approvalExam, filters.approvalExam));
     if (filters?.approvalLesson !== undefined) conditions.push(eq(mltLabImages.approvalLesson, filters.approvalLesson));
     if (conditions.length > 0) {
-      return db.select().from(mltLabImages).where(and(...conditions)).orderBy(desc(mltLabImages.createdAt));
+      return db.select().from(mltLabImages).where(and(...conditions)).orderBy(desc(mltLabImages.createdAt)).limit(MAX_QUERY_LIMIT);
     }
-    return db.select().from(mltLabImages).orderBy(desc(mltLabImages.createdAt));
+    return db.select().from(mltLabImages).orderBy(desc(mltLabImages.createdAt)).limit(MAX_QUERY_LIMIT);
   }
 
   async getMltLabImage(id: string): Promise<MltLabImage | undefined> {
@@ -2319,7 +2298,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getUserMltImageDrillAttempts(userId: string): Promise<MltImageDrillAttempt[]> {
-    return db.select().from(mltImageDrillAttempts).where(eq(mltImageDrillAttempts.userId, userId)).orderBy(desc(mltImageDrillAttempts.createdAt));
+    return db.select().from(mltImageDrillAttempts).where(eq(mltImageDrillAttempts.userId, userId)).orderBy(desc(mltImageDrillAttempts.createdAt)).limit(MAX_QUERY_LIMIT);
   }
 
   async updateMltImageDrillAttempt(id: string, updates: Partial<InsertMltImageDrillAttempt>): Promise<MltImageDrillAttempt> {
@@ -2334,7 +2313,8 @@ export class DatabaseStorage implements IStorage {
     if (filters?.status) { paramValues.push(filters.status); parts.push(`status = $${paramValues.length}`); }
     if (filters?.difficulty) { paramValues.push(filters.difficulty); parts.push(`difficulty = $${paramValues.length}`); }
     const where = parts.length > 0 ? `WHERE ${parts.join(" AND ")}` : "";
-    const r = await pool.query(`SELECT * FROM case_studies ${where} ORDER BY created_at DESC`, paramValues);
+    paramValues.push(MAX_QUERY_LIMIT);
+    const r = await pool.query(`SELECT * FROM case_studies ${where} ORDER BY created_at DESC LIMIT $${paramValues.length}`, paramValues);
     return r.rows.map(snakeToCamel) as CaseStudy[];
   }
 
@@ -2615,7 +2595,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllPublishedLessonSlugs(): Promise<string[]> {
-    const r = await pool.query("SELECT slug FROM lessons WHERE status = 'published' ORDER BY title ASC");
+    const r = await pool.query(`SELECT slug FROM lessons WHERE status = 'published' ORDER BY title ASC LIMIT ${MAX_QUERY_LIMIT}`);
     return r.rows.map((row: any) => row.slug);
   }
 
@@ -2798,7 +2778,8 @@ export class DatabaseStorage implements IStorage {
     if (filters?.startDate) { conditions.push(`created_at >= $${idx++}`); params.push(new Date(filters.startDate)); }
     if (filters?.endDate) { conditions.push(`created_at <= $${idx++}`); params.push(new Date(filters.endDate)); }
     const where = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
-    const r = await pool.query(`SELECT * FROM problem_reports ${where} ORDER BY created_at DESC`, params);
+    params.push(MAX_QUERY_LIMIT);
+    const r = await pool.query(`SELECT * FROM problem_reports ${where} ORDER BY created_at DESC LIMIT $${idx}`, params);
     return r.rows.map(snakeToCamel);
   }
 
@@ -3298,9 +3279,9 @@ export class DatabaseStorage implements IStorage {
     if (filters?.isActive !== undefined) conditions.push(eq(testBankCollections.isActive, filters.isActive));
     const query = db.select().from(testBankCollections);
     if (conditions.length > 0) {
-      return query.where(and(...conditions)).orderBy(testBankCollections.sortOrder);
+      return query.where(and(...conditions)).orderBy(testBankCollections.sortOrder).limit(MAX_QUERY_LIMIT);
     }
-    return query.orderBy(testBankCollections.sortOrder);
+    return query.orderBy(testBankCollections.sortOrder).limit(MAX_QUERY_LIMIT);
   }
 
   async getTestBankCollection(id: string): Promise<TestBankCollection | undefined> {
@@ -3453,7 +3434,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getUserLessonBookmarks(userId: string): Promise<LessonBookmark[]> {
-    return db.select().from(lessonBookmarks).where(eq(lessonBookmarks.userId, userId)).orderBy(desc(lessonBookmarks.createdAt));
+    return db.select().from(lessonBookmarks).where(eq(lessonBookmarks.userId, userId)).orderBy(desc(lessonBookmarks.createdAt)).limit(MAX_QUERY_LIMIT);
   }
 
   async updateLessonBookmark(userId: string, lessonId: string, updates: Partial<InsertLessonBookmark>): Promise<LessonBookmark> {
@@ -3471,7 +3452,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getUserMockExamSessionProgress(userId: string): Promise<MockExamSessionProgress[]> {
-    return db.select().from(mockExamSessionProgress).where(eq(mockExamSessionProgress.userId, userId)).orderBy(desc(mockExamSessionProgress.updatedAt));
+    return db.select().from(mockExamSessionProgress).where(eq(mockExamSessionProgress.userId, userId)).orderBy(desc(mockExamSessionProgress.updatedAt)).limit(MAX_QUERY_LIMIT);
   }
 
   async upsertMockExamSessionProgress(userId: string, attemptId: string, updates: Partial<InsertMockExamSessionProgress>): Promise<MockExamSessionProgress> {

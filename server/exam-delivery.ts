@@ -3,7 +3,10 @@ import { pool } from "./storage";
 import { assembleExam, type AssemblyConfig, type AssembledQuestion } from "./mock-exam-assembly";
 import { resolveAuthUser } from "./admin-auth";
 import { isMemoryProtectionActive, shouldRejectHeavyWork } from "./memory-monitor";
+import { BoundedMap } from "./bounded-map";
 import crypto from "crypto";
+
+const examStartIdempotency = new BoundedMap<string, { attemptId: string; expiresAt: number }>(500, 5 * 60 * 1000);
 
 export function generateRequestId(): string {
   return `exam-${Date.now().toString(36)}-${crypto.randomBytes(4).toString("hex")}`;
@@ -327,8 +330,41 @@ export function registerExamDeliveryRoutes(app: Express): void {
 
       await ensureTable();
 
-      const { templateId, examCode, pageSize: requestedPageSize } = req.body;
+      const { templateId, examCode, pageSize: requestedPageSize, idempotencyKey } = req.body;
       if (!templateId) return res.status(400).json({ error: "templateId is required" });
+
+      if (idempotencyKey && typeof idempotencyKey === "string" && idempotencyKey.length <= 128) {
+        const idemKey = `${user.id}:${idempotencyKey}`;
+        const cached = examStartIdempotency.get(idemKey);
+        if (cached && cached.expiresAt > Date.now()) {
+          const existingAttempt = await pool.query(
+            "SELECT * FROM exam_attempts WHERE id = $1 AND user_id = $2",
+            [cached.attemptId, user.id]
+          );
+          if (existingAttempt.rows.length > 0) {
+            const row = existingAttempt.rows[0];
+            const questions = typeof row.questions_payload === "string" ? JSON.parse(row.questions_payload) : (row.questions_payload || []);
+            const ps = row.page_size || DEFAULT_PAGE_SIZE;
+            const domainCounts = new Map<string, number>();
+            for (const q of questions) {
+              domainCounts.set(q.domain, (domainCounts.get(q.domain) || 0) + 1);
+            }
+            const shell: DeliveryExamShell = {
+              attemptId: cached.attemptId,
+              templateId: row.template_id,
+              examCode: row.exam_code,
+              examName: row.exam_code,
+              totalQuestions: questions.length,
+              timeLimitMinutes: row.time_limit_minutes,
+              passingStandard: row.passing_standard,
+              sections: Array.from(domainCounts.entries()).map(([domain, count]) => ({ domain, questionCount: count })),
+              pageSize: ps,
+              totalPages: Math.ceil(questions.length / ps),
+            };
+            return res.json({ shell });
+          }
+        }
+      }
 
       const pageSize = Math.min(Math.max(requestedPageSize || DEFAULT_PAGE_SIZE, 5), MAX_PAGE_SIZE);
 
@@ -376,6 +412,12 @@ export function registerExamDeliveryRoutes(app: Express): void {
         );
 
         const attemptId = attemptResult.rows[0].id;
+
+        if (idempotencyKey && typeof idempotencyKey === "string" && idempotencyKey.length <= 128) {
+          const idemKey = `${user.id}:${idempotencyKey}`;
+          examStartIdempotency.set(idemKey, { attemptId, expiresAt: Date.now() + 5 * 60 * 1000 });
+        }
+
         const totalPages = Math.ceil(questions.length / pageSize);
 
         const domainCounts = new Map<string, number>();
