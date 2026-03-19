@@ -73,6 +73,7 @@ Core architectural patterns and components include:
 - **Lazy NurseNest Lite**: Prebuilt payloads are lazily initialized on first access.
 - **Frontend Bundle Optimization**: Admin routes are lazy-loaded and wrapped in error boundaries; vendor chunking is expanded.
 - **Flashcard Platform Availability**: localStorage-backed caching with 30min TTL, static emergency nursing deck, and per-section FlashcardErrorBoundary isolation.
+- **Exam Submission Resilience**: Async finalization architecture in `server/exam-finalization.ts` with state machine (in_progress→completion_requested→processing→completed/failed). Incremental per-answer saves via `/api/mock-exams/:attemptId/answer`, lightweight `/complete` endpoint (no answer payload), `/result` polling endpoint. Server-side correctness computation from `exam_questions.correct_answer`. Frontend shows processing overlay during finalization.
 
 ### External Dependencies
 - **Database**: PostgreSQL

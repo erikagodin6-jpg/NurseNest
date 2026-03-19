@@ -1,0 +1,424 @@
+You are working on the NurseNest production codebase.
+
+Fix the CAT EXAM “FAILED TO SUBMIT EXAM” problem permanently.
+
+This is a production-critical issue affecting exam completion, user trust, and paid-user experience.
+
+The solution must be robust, memory-safe, retry-safe, and scalable.
+
+==================================================
+PRIMARY GOAL
+==================================================
+
+Make CAT exam submission succeed reliably even under:
+- large exams
+- slow network
+- autoscaling / cold starts
+- partial backend instability
+- frontend refreshes
+- duplicate submit clicks
+- high traffic
+
+The system must NEVER depend on submitting the entire exam payload at the very end.
+
+==================================================
+LIKELY ROOT CAUSE
+==================================================
+
+The current implementation is likely doing one or more of the following:
+- posting the full exam/question set on submit
+- scoring synchronously during final submission
+- writing too much data in one request
+- timing out during finalization
+- duplicating or corrupting results on retry
+- holding too much exam state in memory
+- failing when DB or API response is slow
+
+==================================================
+MANDATORY ARCHITECTURE CHANGES
+==================================================
+
+1. SAVE ANSWERS INCREMENTALLY DURING THE EXAM
+
+Implement or refactor so that each answer is persisted during the exam, not only at the end.
+
+Create or fix endpoint:
+
+POST /api/exams/attempts/:attemptId/answer
+
+Request body:
+{
+  "questionId": "string",
+  "selectedOption": "string",
+  "timeSpentSeconds": 12,
+  "sequence": 5,
+  "clientTimestamp": "ISO_STRING"
+}
+
+Backend requirements:
+- validate attemptId exists
+- validate question belongs to this exam/attempt
+- upsert answer by unique key (attemptId + questionId)
+- store only minimal answer data
+- do not store full question objects in answer rows
+- do not recompute the entire exam on every answer save
+- return success quickly
+
+Answer-saving must be idempotent:
+- repeat save for same question updates existing row safely
+- no duplicates
+- no attempt corruption
+
+==================================================
+2. FINAL SUBMIT MUST BE LIGHTWEIGHT
+==================================================
+
+Create or refactor endpoint:
+
+POST /api/exams/attempts/:attemptId/complete
+
+Request body:
+{
+  "finalQuestionCount": number,
+  "clientTimestamp": "ISO_STRING"
+}
+
+This endpoint must NOT receive:
+- full question set
+- rationales
+- answer history blobs
+- exam metadata duplicates
+- large arrays of unnecessary frontend state
+
+This endpoint should only:
+- verify attempt exists
+- verify attempt is not already finalized
+- mark attempt as “completion_requested”
+- enqueue or trigger lightweight finalization
+- return immediately
+
+Target response time:
+- under 2 seconds
+
+Return shape:
+{
+  "ok": true,
+  "attemptId": "...",
+  "status": "processing"
+}
+
+==================================================
+3. MOVE SCORING / FINALIZATION OUT OF THE REQUEST PATH
+==================================================
+
+Scoring and finalization must not block the submit request.
+
+Implement async-safe finalization logic:
+- load persisted answers from DB
+- compute CAT result server-side
+- compute score / pass estimate / exam summary
+- save only final summary fields
+- mark attempt as completed
+- record completion timestamp
+
+If background jobs already exist, use them.
+If not, implement a safe deferred service layer or queue-like internal worker pattern.
+
+Do not leave the user hanging on one giant synchronous request.
+
+==================================================
+4. ADD RESULT POLLING / RECOVERY
+==================================================
+
+Create endpoint:
+
+GET /api/exams/attempts/:attemptId/result
+
+Possible states:
+- in_progress
+- processing
+- completed
+- failed
+
+If completed, return summary/result payload.
+If processing, return lightweight status.
+If failed, return retryable status without losing data.
+
+Frontend must poll this endpoint after completion request until result is ready.
+
+==================================================
+5. IDEMPOTENT FINAL SUBMISSION
+==================================================
+
+The complete endpoint must be safe if called:
+- twice
+- after page refresh
+- after network retry
+- after the user taps submit multiple times
+
+Required behavior:
+- no duplicate result rows
+- no duplicate analytics
+- no duplicate progress awards
+- no duplicate completion actions
+- if already completed, return existing result/status safely
+
+Use explicit attempt state transitions, for example:
+- in_progress
+- completion_requested
+- processing
+- completed
+- failed
+
+Guard state transitions carefully.
+
+==================================================
+6. HARD LIMIT PAYLOAD SIZE
+==================================================
+
+Protect the API from oversized requests.
+
+Requirements:
+- reject request bodies above a reasonable limit such as 1 MB
+- log payload size on exam endpoints
+- strip unused fields from frontend before sending
+- ensure submit never sends full question objects
+
+If any endpoint currently accepts massive exam payloads, refactor it now.
+
+==================================================
+7. REDUCE MEMORY PRESSURE
+==================================================
+
+Audit the CAT flow for memory-heavy behavior.
+
+Fix any logic that:
+- loads the full question bank into memory unnecessarily
+- stores the full exam state in session memory
+- serializes large question sets on submit
+- attaches rationales or content blobs to attempt state
+- recomputes all prior questions on each action
+
+Use minimal persisted state:
+- attempt record
+- delivered question IDs
+- selected answers
+- score/result summary
+- required CAT metadata only
+
+==================================================
+8. ADD FRONTEND RESILIENCE
+==================================================
+
+Refactor CAT frontend flow so it is failure tolerant.
+
+Requirements:
+- auto-save answer after each question
+- debounce rapid duplicate saves if needed
+- retry answer save on transient failure
+- keep a small local unsynced queue if save momentarily fails
+- retry unsynced answers before final submit
+- disable duplicate submit button taps
+- show clear submit states:
+  - Saving answers…
+  - Submitting exam…
+  - Processing results…
+- if result is processing, route user to a processing screen instead of hard failing
+- if the app refreshes, recover the active attempt from attemptId
+
+Never show a dead-end “failed to submit exam” message without recovery.
+
+==================================================
+9. ADD ATTEMPT RECOVERY
+==================================================
+
+Users must be able to recover from interruption.
+
+Implement:
+- persistent attemptId on client
+- resume endpoint or resume logic
+- ability to reopen a partially completed CAT attempt
+- ability to retry completion if status = failed or processing timed out
+- safe reconciliation between local answers and server answers
+
+If the user completed all questions but the final submit response failed, the system must still be recoverable.
+
+==================================================
+10. ADD DATABASE SAFETY
+==================================================
+
+Review schema and DB writes for exam attempts.
+
+Ensure:
+- unique constraint or equivalent protection on attempt answer rows
+- unique result/finalization protection per attempt
+- indexes on attemptId, questionId, userId
+- transactions where appropriate for finalization
+- no huge JSON blobs unless absolutely necessary
+- analytics writes do not block exam completion
+
+If analytics, badges, progress, or notifications are written on completion, make them non-blocking or post-completion.
+
+==================================================
+11. ADD LOGGING AND OBSERVABILITY
+==================================================
+
+Instrument all CAT attempt lifecycle stages.
+
+Log:
+- attempt created
+- question delivered
+- answer saved
+- answer save failure
+- completion requested
+- completion started
+- completion succeeded
+- completion failed
+- payload sizes
+- endpoint timings
+- memory usage if available
+- retry counts
+
+Include attemptId in logs for traceability.
+
+Do not log PHI or unnecessary sensitive content.
+
+==================================================
+12. ADD CIRCUIT-BREAKER / FALLBACK BEHAVIOR
+==================================================
+
+If finalization service fails temporarily:
+- keep attempt in retryable state
+- do not discard answers
+- do not tell user the exam is lost
+- allow reprocessing from persisted answers
+
+If nonessential subsystems fail:
+- analytics
+- recommendation generation
+- achievements
+- emails
+- AI enrichment
+
+…exam completion must still succeed.
+
+Exam completion is the priority.
+Everything else is secondary.
+
+==================================================
+13. AUDIT EXISTING CAT ROUTES AND REMOVE DANGEROUS PATTERNS
+==================================================
+
+Search for and fix:
+- routes that submit full exam objects
+- scoring inline in HTTP handlers
+- large req.body usage
+- JSON blobs of questions/answers/rationales
+- “Promise.all” over massive datasets on submit
+- repeated DB reads of entire question pools
+- duplicate completion code paths
+- missing try/catch around finalization
+- stale state updates causing multiple submissions
+
+Refactor into:
+- controller
+- validation layer
+- service layer
+- storage/repository layer
+
+==================================================
+14. USER EXPERIENCE REQUIREMENTS
+==================================================
+
+The user experience must be calm and recoverable.
+
+Replace any hard-fail message with state-aware handling:
+- “We’re processing your results”
+- “Your answers were saved”
+- “We’re retrying completion”
+- “Your exam is safe — please do not restart”
+
+Do not show messaging that implies answers are lost unless that is confirmed.
+In normal failure scenarios, assume recoverability.
+
+==================================================
+15. TESTING REQUIREMENTS
+==================================================
+
+Add tests for:
+- save one answer
+- update previously saved answer
+- duplicate save request
+- submit completed attempt
+- duplicate submit click
+- submit after refresh
+- submit with slow DB
+- submit with transient failure
+- finalization retry after failure
+- large CAT attempt
+- server restart during processing
+- processing state polling
+- resume interrupted attempt
+
+Also run load-minded manual validation for:
+- long exam sessions
+- unstable network
+- mobile browser/app behavior
+- slow Replit cold start conditions
+
+==================================================
+16. SUCCESS CRITERIA
+==================================================
+
+A CAT exam is considered fixed only if all of the following are true:
+
+- no full exam payload is required at final submit
+- answers are persisted incrementally
+- final submit is lightweight
+- completion is idempotent
+- no duplicate results are created
+- user can refresh and recover
+- processing can continue after transient failure
+- exam data is not lost
+- heavy scoring does not block the request
+- user sees a recovery-safe result flow
+
+==================================================
+17. DELIVERABLES
+==================================================
+
+Produce all of the following:
+
+1. exact files changed
+2. summary of old failure pattern
+3. new endpoint contract(s)
+4. schema/storage changes
+5. frontend flow changes
+6. retry/recovery design
+7. logging added
+8. tests added
+9. any remaining risk areas
+10. final explanation of why this fix prevents future CAT submit failures
+
+==================================================
+IMPORTANT CONSTRAINTS
+==================================================
+
+- Do not break existing paid-user entitlements
+- Do not remove CAT adaptive logic
+- Do not degrade security
+- Do not introduce dead-end UI states
+- Do not solve this with only bigger memory
+- Fix the architecture, not just the symptoms
+
+==================================================
+FINAL INSTRUCTION
+==================================================
+
+Implement the permanent fix now.
+
+Do a real code-level audit first, identify the exact submit path, then refactor the CAT exam save/submit/finalize flow end-to-end.
+
+Do not give a shallow summary.
+Do not stop at temporary patches.
+Apply the full permanent repair.

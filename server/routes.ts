@@ -11416,133 +11416,257 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
   app.post("/api/mock-exams/:attemptId/complete", requireAnyPaidTier(), async (req: any, res) => {
     const _routeStart = Date.now();
+    let userId: string | null = null;
+    try {
+      const authUser = await getAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+      userId = String(authUser.id);
+
+      const { attemptId } = req.params;
+      const { flagged, timeSpent, catState: completeCatState, stoppingReason } = req.body;
+
+      const check = await pool.query(
+        `SELECT id, user_id, status, score, report FROM mock_exam_attempts WHERE id = $1`,
+        [attemptId]
+      );
+      if (check.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
+      if (check.rows[0].user_id !== userId) return res.status(403).json({ error: "Access denied" });
+
+      if (check.rows[0].status === "completed") {
+        return res.json({ success: true, report: check.rows[0].report || {} });
+      }
+
+      await pool.query(
+        `UPDATE mock_exam_attempts SET
+           flagged = COALESCE($2, flagged),
+           time_spent = COALESCE($3, time_spent),
+           cat_state = COALESCE($4, cat_state),
+           stopping_rule_status = COALESCE($5, stopping_rule_status),
+           status = 'completion_requested'
+         WHERE id = $1 AND status IN ('in_progress', 'failed')`,
+        [
+          attemptId,
+          flagged ? JSON.stringify(flagged) : null,
+          timeSpent || null,
+          completeCatState ? JSON.stringify(completeCatState) : null,
+          stoppingReason || null,
+        ]
+      );
+
+      const { finalizeExamAttempt } = await import("./exam-finalization");
+      const finalizationResult = await Promise.race([
+        finalizeExamAttempt(attemptId, userId),
+        new Promise<null>((resolve) => setTimeout(() => resolve(null), 8000)),
+      ]);
+
+      if (finalizationResult && finalizationResult.success) {
+        logExamRoute("/api/mock-exams/:attemptId/complete", "POST", userId, _routeStart, { attemptId, score: finalizationResult.score });
+        return res.json({ success: true, report: finalizationResult.report });
+      }
+
+      if (!finalizationResult) {
+        console.warn(`[MockExam][complete] Finalization timed out for ${attemptId}, returning processing status`);
+      }
+
+      logExamRoute("/api/mock-exams/:attemptId/complete", "POST", userId, _routeStart, { attemptId, status: "processing" });
+      res.json({ success: true, status: "processing", attemptId });
+    } catch (e: any) {
+      import("./backend-resilience").then(({ logCriticalError }) => logCriticalError({
+        route: `/api/mock-exams/${req.params.attemptId}/complete`, method: "POST", userId,
+        examId: req.params.attemptId, errorMessage: e.message, stackTrace: e.stack,
+      })).catch(() => {});
+
+      try {
+        await pool.query(
+          `UPDATE mock_exam_attempts SET status = 'completion_requested' WHERE id = $1 AND status = 'in_progress'`,
+          [req.params.attemptId]
+        );
+        const { finalizeExamAttempt } = await import("./exam-finalization");
+        setImmediate(() => {
+          finalizeExamAttempt(req.params.attemptId, userId || "").catch(() => {});
+        });
+        return res.json({ success: true, status: "processing", attemptId: req.params.attemptId });
+      } catch {}
+
+      res.status(500).json({ error: "Submission failed - your answers are saved. Please try again." });
+    }
+  });
+
+  app.post("/api/mock-exams/:attemptId/answer", requireAnyPaidTier(), async (req: any, res) => {
+    const _routeStart = Date.now();
     try {
       const authUser = await getAuthUser(req);
       if (!authUser) return res.status(401).json({ error: "Authentication required" });
 
       const { attemptId } = req.params;
-      const { answers, flagged, timeSpent, report, catState: completeCatState, stoppingReason } = req.body;
-      if (!answers || !report) return res.status(400).json({ error: "Missing required fields" });
+      const { questionId, selectedOption, timeSpentSeconds, sequence, isCorrect, clientTimestamp } = req.body;
+
+      if (!questionId || selectedOption === undefined) {
+        return res.status(400).json({ error: "Missing questionId or selectedOption" });
+      }
 
       const check = await pool.query(
-        `SELECT id, user_id, questions, status, report, exam_type, blueprint_code FROM mock_exam_attempts WHERE id = $1`,
+        `SELECT user_id, status, questions FROM mock_exam_attempts WHERE id = $1`,
+        [attemptId]
+      );
+      if (check.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
+      if (check.rows[0].user_id !== String(authUser.id)) return res.status(403).json({ error: "Access denied" });
+      if (check.rows[0].status !== "in_progress") return res.status(409).json({ error: "Exam not accepting answers" });
+
+      const attemptQuestions = check.rows[0].questions || [];
+      const questionBelongs = attemptQuestions.some((q: any) =>
+        (typeof q === "string" ? q : (q?.id || q?.questionId)) === questionId
+      );
+      if (!questionBelongs) {
+        return res.status(400).json({ error: "Question does not belong to this exam" });
+      }
+
+      await pool.query(
+        `UPDATE mock_exam_attempts
+         SET answers = jsonb_set(COALESCE(answers, '{}'::jsonb), $2::text[], $3::jsonb)
+         WHERE id = $1 AND status = 'in_progress'`,
+        [
+          attemptId,
+          `{${questionId}}`,
+          JSON.stringify({
+            selectedOption,
+            responseTimeMs: (timeSpentSeconds || 0) * 1000,
+            timeSpent: timeSpentSeconds || 0,
+            sequence: sequence || 0,
+            savedAt: clientTimestamp || new Date().toISOString(),
+          }),
+        ]
+      );
+
+      logExamRoute("/api/mock-exams/:attemptId/answer", "POST", authUser.id, _routeStart, { attemptId, questionId });
+      res.json({ ok: true, saved: true });
+    } catch (e: any) {
+      console.error("[MockExam][answer] Error:", e.message);
+      res.status(500).json({ error: "Failed to save answer" });
+    }
+  });
+
+  app.post("/api/mock-exams/:attemptId/complete-lightweight", requireAnyPaidTier(), async (req: any, res) => {
+    const _routeStart = Date.now();
+    try {
+      const authUser = await getAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+
+      const { attemptId } = req.params;
+      const { finalQuestionCount, stoppingReason, catState, timeSpent, clientTimestamp } = req.body;
+
+      const check = await pool.query(
+        `SELECT user_id, status, score, report FROM mock_exam_attempts WHERE id = $1`,
         [attemptId]
       );
       if (check.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
       if (check.rows[0].user_id !== String(authUser.id)) return res.status(403).json({ error: "Access denied" });
 
-      const attempt = check.rows[0];
-      const rawQuestions = attempt.questions || [];
-      const flaggedIds = flagged || [];
+      const currentStatus = check.rows[0].status;
 
-      let questions: any[] = rawQuestions;
-      const isIdOnlyFormat = rawQuestions.length > 0 && typeof rawQuestions[0] === "string";
-      if (isIdOnlyFormat) {
-        const questionIds = rawQuestions.filter((id: any) => typeof id === "string" && id.length > 0);
-        if (questionIds.length > 0) {
-          const placeholders = questionIds.map((_: any, i: number) => `$${i + 1}`).join(",");
-          const qResult = await pool.query(
-            `SELECT id, body_system, topic, category FROM exam_questions WHERE id IN (${placeholders})`,
-            questionIds
-          );
-          const qMap = new Map(qResult.rows.map((q: any) => [q.id, q]));
-          questions = questionIds.map((qId: string) => {
-            const q = qMap.get(qId);
-            return q ? { id: q.id, bodySystem: q.body_system || "General", category: q.category, topic: q.topic } : { id: qId, bodySystem: "General" };
-          });
-        }
+      if (currentStatus === "completed") {
+        return res.json({
+          ok: true,
+          attemptId,
+          status: "completed",
+          score: check.rows[0].score,
+          report: check.rows[0].report,
+        });
       }
 
-      const domainBreakdown: Record<string, { total: number; correct: number; percentage: number; avgTimeMs: number }> = {};
-      let totalTimeMs = 0;
-      let totalQuestions = 0;
-      let totalCorrect = 0;
-
-      for (const q of questions) {
-        const qId = q.id || q.questionId;
-        const answer = answers[qId];
-        const domain = q.bodySystem || q.category || q.topic || "General";
-        const isCorrect = answer?.isCorrect ?? false;
-        const timeMs = answer?.responseTimeMs || answer?.timeSpent || 0;
-
-        if (!domainBreakdown[domain]) {
-          domainBreakdown[domain] = { total: 0, correct: 0, percentage: 0, avgTimeMs: 0 };
-        }
-        domainBreakdown[domain].total++;
-        if (isCorrect) domainBreakdown[domain].correct++;
-        domainBreakdown[domain].avgTimeMs += timeMs;
-
-        totalTimeMs += timeMs;
-        totalQuestions++;
-        if (isCorrect) totalCorrect++;
+      if (currentStatus === "processing") {
+        return res.json({ ok: true, attemptId, status: "processing" });
       }
 
-      for (const domain of Object.keys(domainBreakdown)) {
-        const d = domainBreakdown[domain];
-        d.percentage = d.total > 0 ? Math.round((d.correct / d.total) * 100) : 0;
-        d.avgTimeMs = d.total > 0 ? Math.round(d.avgTimeMs / d.total) : 0;
+      const updateParams: any[] = [attemptId];
+      let setClauses = [`status = 'completion_requested'`];
+      let paramIdx = 2;
+
+      if (catState) {
+        setClauses.push(`cat_state = $${paramIdx}`);
+        updateParams.push(JSON.stringify(catState));
+        paramIdx++;
       }
-
-      const avgTimePerQuestion = totalQuestions > 0 ? Math.round(totalTimeMs / totalQuestions) : 0;
-      const score = report.score ?? (totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0);
-
-      const previousResult = await pool.query(
-        `SELECT id, score, time_spent FROM mock_exam_attempts
-         WHERE user_id = $1 AND status = 'completed' AND id != $2
-         ORDER BY completed_at DESC LIMIT 1`,
-        [authUser.id, attemptId]
-      );
-
-      let comparison: any = null;
-      if (previousResult.rows.length > 0) {
-        const prev = previousResult.rows[0];
-        comparison = {
-          previousAttemptId: prev.id,
-          previousScore: prev.score,
-          scoreDelta: score - (prev.score || 0),
-          improved: score > (prev.score || 0),
-        };
+      if (stoppingReason) {
+        setClauses.push(`stopping_rule_status = $${paramIdx}`);
+        updateParams.push(stoppingReason);
+        paramIdx++;
       }
-
-      const enhancedReport = {
-        ...report,
-        domainBreakdown,
-        avgTimePerQuestion,
-        flaggedSummary: { count: flaggedIds.length, questionIds: flaggedIds },
-        comparison,
-        passPrediction: score >= 65 ? "likely_pass" : "needs_improvement",
-      };
+      if (timeSpent !== undefined) {
+        setClauses.push(`time_spent = $${paramIdx}`);
+        updateParams.push(timeSpent);
+        paramIdx++;
+      }
 
       await pool.query(
-        `UPDATE mock_exam_attempts
-         SET status = 'completed',
-             answers = $1,
-             flagged = $2,
-             time_spent = $3,
-             report = $4,
-             score = $5,
-             completed_at = NOW(),
-             review_unlocked = true,
-             cat_state = COALESCE($7, cat_state),
-             stopping_rule_status = COALESCE($8, stopping_rule_status)
-         WHERE id = $6`,
-        [
-          JSON.stringify(answers), JSON.stringify(flaggedIds), timeSpent,
-          JSON.stringify(enhancedReport), score, attemptId,
-          completeCatState ? JSON.stringify(completeCatState) : null,
-          stoppingReason || null,
-        ],
+        `UPDATE mock_exam_attempts SET ${setClauses.join(", ")} WHERE id = $1 AND status IN ('in_progress', 'failed')`,
+        updateParams
       );
 
-      const completePayload = JSON.stringify({ success: true, report: enhancedReport });
-      logExamRoute("/api/mock-exams/:attemptId/complete", "POST", authUser.id, _routeStart, { attemptId, score: report?.score, payloadSize: completePayload.length });
-      res.json({ success: true, report: enhancedReport });
+      const { finalizeExamAttempt } = await import("./exam-finalization");
+      setImmediate(async () => {
+        try {
+          const result = await finalizeExamAttempt(attemptId, String(authUser.id));
+          if (!result.success) {
+            console.error(`[MockExam][complete-lightweight] Async finalization failed for ${attemptId}: ${result.error}`);
+          }
+        } catch (e: any) {
+          console.error(`[MockExam][complete-lightweight] Async finalization error for ${attemptId}: ${e.message}`);
+        }
+      });
+
+      logExamRoute("/api/mock-exams/:attemptId/complete-lightweight", "POST", authUser.id, _routeStart, { attemptId, finalQuestionCount });
+      res.json({ ok: true, attemptId, status: "processing" });
     } catch (e: any) {
-      import("./backend-resilience").then(({ logCriticalError }) => logCriticalError({
-        route: `/api/mock-exams/${req.params.attemptId}/complete`, method: "POST", userId: req.authUser?.id,
-        examId: req.params.attemptId, errorMessage: e.message, stackTrace: e.stack,
-      })).catch(() => {});
-      res.status(500).json({ error: e.message });
+      console.error("[MockExam][complete-lightweight] Error:", e.message);
+      res.status(500).json({ error: "Failed to initiate completion" });
+    }
+  });
+
+  app.get("/api/mock-exams/:attemptId/result", requireAnyPaidTier(), async (req: any, res) => {
+    try {
+      const authUser = await getAuthUser(req);
+      if (!authUser) return res.status(401).json({ error: "Authentication required" });
+
+      const { attemptId } = req.params;
+      const result = await pool.query(
+        `SELECT user_id, status, score, report, completed_at FROM mock_exam_attempts WHERE id = $1`,
+        [attemptId]
+      );
+      if (result.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
+      if (result.rows[0].user_id !== String(authUser.id) && authUser.tier !== "admin") {
+        return res.status(403).json({ error: "Access denied" });
+      }
+
+      const row = result.rows[0];
+
+      if (row.status === "completed") {
+        return res.json({
+          status: "completed",
+          score: row.score,
+          report: row.report,
+          completedAt: row.completed_at,
+        });
+      }
+
+      if (row.status === "processing" || row.status === "completion_requested") {
+        return res.json({ status: "processing" });
+      }
+
+      if (row.status === "failed") {
+        const { retryFailedFinalization } = await import("./exam-finalization");
+        setImmediate(async () => {
+          try {
+            await retryFailedFinalization(attemptId, String(authUser.id));
+          } catch {}
+        });
+        return res.json({ status: "processing", retrying: true });
+      }
+
+      return res.json({ status: row.status });
+    } catch (e: any) {
+      console.error("[MockExam][result] Error:", e.message);
+      res.status(500).json({ error: "Failed to fetch result" });
     }
   });
 

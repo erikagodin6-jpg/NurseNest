@@ -1128,6 +1128,53 @@ function MockExamSessionInner() {
     }
   }, [rawQuestion, questions.length, currentQ]);
 
+  const unsyncedAnswersRef = useRef<Map<string, { questionId: string; selectedOption: number; timeSpentSeconds: number; sequence: number }>>(new Map());
+  const answerSaveInFlightRef = useRef<Set<string>>(new Set());
+
+  const saveAnswerToServer = useCallback((questionId: string, selectedOption: number, seq: number): Promise<boolean> => {
+    if (!attemptId) return Promise.resolve(false);
+    if (answerSaveInFlightRef.current.has(questionId)) return Promise.resolve(true);
+    answerSaveInFlightRef.current.add(questionId);
+    const payload = {
+      questionId,
+      selectedOption,
+      timeSpentSeconds: 0,
+      sequence: seq,
+      clientTimestamp: new Date().toISOString(),
+    };
+    return fetch(`/api/mock-exams/${attemptId}/answer`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+      body: JSON.stringify(payload),
+    })
+      .then((r) => {
+        answerSaveInFlightRef.current.delete(questionId);
+        if (r.ok) {
+          unsyncedAnswersRef.current.delete(questionId);
+          return true;
+        } else {
+          unsyncedAnswersRef.current.set(questionId, payload);
+          return false;
+        }
+      })
+      .catch(() => {
+        answerSaveInFlightRef.current.delete(questionId);
+        unsyncedAnswersRef.current.set(questionId, payload);
+        return false;
+      });
+  }, [attemptId]);
+
+  const flushUnsyncedAnswers = useCallback(async (): Promise<void> => {
+    if (!attemptId) return;
+    const entries = Array.from(unsyncedAnswersRef.current.entries());
+    if (entries.length === 0) return;
+    await Promise.allSettled(
+      entries.map(([qId, payload]) =>
+        saveAnswerToServer(qId, payload.selectedOption, payload.sequence)
+      )
+    );
+  }, [attemptId, saveAnswerToServer]);
+
   const selectAnswer = (questionId: string, optionIndex: number) => {
     if (strictMode && answers[questionId] !== undefined) {
       toast({ title: "Answer Locked", description: "In strict mode, you cannot change your answer once selected.", variant: "destructive" });
@@ -1137,6 +1184,8 @@ function MockExamSessionInner() {
       return;
     }
     setAnswers((prev) => ({ ...prev, [questionId]: optionIndex }));
+
+    saveAnswerToServer(questionId, optionIndex, answeredCount + 1);
   };
 
   const toggleFlag = (questionId: string) => {
@@ -1241,56 +1290,135 @@ function MockExamSessionInner() {
     }
   }, [attemptId, answers, flagged, timeSpent, catState, paused]);
 
+  const [submissionPhase, setSubmissionPhase] = useState<"idle" | "saving" | "submitting" | "processing" | "done">("idle");
+
+  const pollForResult = useCallback(async (aid: string, localReport: any, localCatState: CATState | null): Promise<void> => {
+    setSubmissionPhase("processing");
+    const maxPolls = 30;
+    const pollInterval = 2000;
+    for (let i = 0; i < maxPolls; i++) {
+      await new Promise(resolve => setTimeout(resolve, pollInterval));
+      try {
+        const pollRes = await fetch(`/api/mock-exams/${aid}/result`, {
+          headers: getAuthHeaders(),
+        });
+        if (!pollRes.ok) continue;
+        const data = await pollRes.json();
+        if (data.status === "completed") {
+          clearExamCheckpoint(aid);
+          setCompletionData({ report: data.report || localReport, catState: localCatState });
+          setSubmissionPhase("done");
+          fetchFullQuestions();
+          return;
+        }
+        if (data.status === "failed") {
+          continue;
+        }
+      } catch {
+        continue;
+      }
+    }
+    toast({ title: "Processing", description: "Your exam is still being processed. Your answers are safe — please check back shortly." });
+    setSubmitting(false);
+    setSubmissionPhase("idle");
+  }, [toast]);
+
   const submitExamWithState = async (finalCatState?: CATState, stoppingReason?: string) => {
-    if (!attemptId) return;
+    if (!attemptId || submitting) return;
     setSubmitting(true);
+    setSubmissionPhase("saving");
     checkpointManagerRef.current?.clear().catch(() => {});
+
+    await flushUnsyncedAnswers();
+
     try {
+      setSubmissionPhase("submitting");
       const report = computeReport(questions, answers, blueprintMeta, finalCatState || catState);
       const res = await fetch(`/api/mock-exams/${attemptId}/complete`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({
-          answers,
           flagged,
           timeSpent,
-          report,
           catState: finalCatState || catState,
           stoppingReason,
         }),
       });
+
       if (!res.ok) {
         throw new Error("Server returned error");
       }
+
+      const data = await res.json();
+
+      if (data.status === "processing") {
+        await pollForResult(attemptId, report, finalCatState || catState);
+        return;
+      }
+
       clearExamCheckpoint(attemptId);
-      setCompletionData({ report, stoppingReason, catState: finalCatState || catState });
+      setCompletionData({ report: data.report || report, stoppingReason, catState: finalCatState || catState });
+      setSubmissionPhase("done");
       fetchFullQuestions();
-    } catch {
-      toast({ title: "Error", description: "Failed to submit exam", variant: "destructive" });
-      setSubmitting(false);
+    } catch (e: any) {
+      console.error("[ExamSession] Submit failed:", e?.message);
+      toast({
+        title: "Processing Your Exam",
+        description: "Your answers are saved. We're processing your results — please wait.",
+      });
+      if (attemptId) {
+        await pollForResult(attemptId, computeReport(questions, answers, blueprintMeta, finalCatState || catState), finalCatState || catState);
+      } else {
+        setSubmitting(false);
+        setSubmissionPhase("idle");
+      }
     }
   };
 
   const submitExam = async () => {
-    if (!attemptId) return;
+    if (!attemptId || submitting) return;
     setSubmitting(true);
+    setSubmissionPhase("saving");
     checkpointManagerRef.current?.clear().catch(() => {});
+
+    await flushUnsyncedAnswers();
+
     try {
+      setSubmissionPhase("submitting");
       const report = computeReport(questions, answers, blueprintMeta, catState);
       const res = await fetch(`/api/mock-exams/${attemptId}/complete`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
-        body: JSON.stringify({ answers, flagged, timeSpent, report }),
+        body: JSON.stringify({ flagged, timeSpent }),
       });
+
       if (!res.ok) {
         throw new Error("Server returned error");
       }
+
+      const data = await res.json();
+
+      if (data.status === "processing") {
+        await pollForResult(attemptId, report, catState);
+        return;
+      }
+
       clearExamCheckpoint(attemptId);
-      setCompletionData({ report, catState });
+      setCompletionData({ report: data.report || report, catState });
+      setSubmissionPhase("done");
       fetchFullQuestions();
-    } catch {
-      toast({ title: "Error", description: "Failed to submit exam", variant: "destructive" });
-      setSubmitting(false);
+    } catch (e: any) {
+      console.error("[ExamSession] Submit failed:", e?.message);
+      toast({
+        title: "Processing Your Exam",
+        description: "Your answers are saved. We're processing your results — please wait.",
+      });
+      if (attemptId) {
+        await pollForResult(attemptId, computeReport(questions, answers, blueprintMeta, catState), catState);
+      } else {
+        setSubmitting(false);
+        setSubmissionPhase("idle");
+      }
     }
   };
 
@@ -1850,6 +1978,36 @@ function MockExamSessionInner() {
     );
   }
 
+  if (submissionPhase === "processing" || submissionPhase === "saving" || submissionPhase === "submitting") {
+    return (
+      <div className="min-h-screen bg-gray-50 font-sans text-gray-900 flex items-center justify-center" data-testid="processing-screen">
+        <div className="max-w-md w-full mx-4">
+          <Card className="border-none shadow-xl">
+            <CardContent className="p-8 space-y-6 text-center">
+              <div className="w-16 h-16 mx-auto rounded-full bg-blue-50 flex items-center justify-center">
+                <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+              </div>
+              <h2 className="text-xl font-semibold text-gray-800" data-testid="text-processing-title">
+                {submissionPhase === "saving" ? "Saving Your Answers" :
+                 submissionPhase === "submitting" ? "Submitting Your Exam" :
+                 "Processing Your Results"}
+              </h2>
+              <p className="text-sm text-gray-500">
+                {submissionPhase === "processing"
+                  ? "Your answers are saved and your results are being calculated. This page will update automatically."
+                  : "Please wait while we save your progress. Do not close or refresh this page."}
+              </p>
+              <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Your exam data is safe</span>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
   if (completionData) {
     const report = completionData.report;
     const cState = completionData.catState as CATState | null;
@@ -2231,7 +2389,10 @@ function MockExamSessionInner() {
                   Go Back
                 </Button>
                 <Button className="flex-1" onClick={submitExam} disabled={submitting} data-testid="button-confirm-submit">
-                  {submitting ? "Submitting..." : "Submit Exam"}
+                  {submissionPhase === "saving" ? "Saving answers..." :
+                   submissionPhase === "submitting" ? "Submitting..." :
+                   submissionPhase === "processing" ? "Processing results..." :
+                   submitting ? "Submitting..." : "Submit Exam"}
                 </Button>
               </div>
             </CardContent>
