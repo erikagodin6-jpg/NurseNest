@@ -456,20 +456,10 @@ function MockExamSessionInner() {
 
         try {
         const savedAnswers = data.answers || {};
-        const savedTimeSpent = data.time_spent || 0;
-        const totalQ = (data.questions || []).length;
-        const answeredCount = Object.keys(savedAnswers).length;
-        if (answeredCount > 0 && data.status === "in_progress" && totalQ > 0) {
-          setSessionRecovery({
-            show: true,
-            answeredCount,
-            totalQuestions: totalQ,
-            timeSpent: savedTimeSpent,
-            currentQuestion: answeredCount,
-          });
-        }
+        const savedTimeSpent = data.timeSpent || data.time_spent || 0;
+        const isShellResponse = data.shell === true;
 
-        if (data.reasonCode === "zero_questions" || (!Array.isArray(data.questions) && data.status === "in_progress")) {
+        if (data.reasonCode === "zero_questions") {
           setLoadError("zero_questions");
           setClassifiedError({
             code: EXAM_FAILURE_CODES.QUESTION_BATCH_MISSING,
@@ -481,8 +471,153 @@ function MockExamSessionInner() {
           return;
         }
 
-        if (data.total_questions) {
-          setTotalServerQuestions(data.total_questions);
+        const totalQ = data.total_questions || data.totalQuestions || (data.questions || []).length;
+
+        if (data.total_questions || data.totalQuestions) {
+          setTotalServerQuestions(totalQ);
+        }
+
+        if (isShellResponse && data.status === "in_progress" && totalQ > 0) {
+          if (data.blueprintMeta) {
+            setBlueprintMeta(data.blueprintMeta);
+          }
+          setAnswers(savedAnswers);
+          setFlagged(data.flagged || []);
+          setTimeSpent(savedTimeSpent);
+
+          if (data.catState) {
+            try {
+              if (typeof data.catState === "object" && typeof data.catState.itemsAdministered === "number") {
+                setCatState(data.catState);
+              }
+            } catch {}
+          }
+
+          const answeredCount = Object.keys(savedAnswers).length;
+          if (answeredCount > 0) {
+            setSessionRecovery({
+              show: true,
+              answeredCount,
+              totalQuestions: totalQ,
+              timeSpent: savedTimeSpent,
+              currentQuestion: answeredCount,
+            });
+          }
+
+          try {
+            const batchSize = 25;
+            const firstBatchRes = await fetch(`/api/mock-exams/${attemptId}/questions?offset=0&limit=${batchSize}`, {
+              headers: getAuthHeaders(),
+            });
+            if (!firstBatchRes.ok) {
+              throw new Error(`Failed to fetch first question batch: ${firstBatchRes.status}`);
+            }
+            const firstBatch = await firstBatchRes.json();
+            const batchQuestions: PooledQuestion[] = (firstBatch.questions || []).map((q: any, idx: number) => {
+              if (!q) return { id: `placeholder-${idx}`, question: "", options: [], correct: -1, lessonId: "", bodySystem: "", tier: "", rationale: "", source: "quiz" as const };
+              if (!q.id) return { ...q, id: `auto-${idx}` };
+              return q;
+            });
+
+            if (batchQuestions.length === 0) {
+              setLoadError("zero_questions");
+              setClassifiedError({
+                code: EXAM_FAILURE_CODES.QUESTION_BATCH_MISSING,
+                message: "No questions could be loaded for this exam.",
+                recoverable: true,
+                timestamp: new Date().toISOString(),
+              });
+              setLoading(false);
+              return;
+            }
+
+            if (parsedBp?.examType === "cat") {
+              let catPool = batchQuestions;
+              if (totalQ > batchQuestions.length) {
+                try {
+                  const allRes = await fetch(`/api/mock-exams/${attemptId}/questions?offset=0&limit=${totalQ}`, {
+                    headers: getAuthHeaders(),
+                  });
+                  if (allRes.ok) {
+                    const allData = await allRes.json();
+                    const fullPool: PooledQuestion[] = (allData.questions || []).filter((q: any) => q && q.id);
+                    if (fullPool.length > catPool.length) {
+                      catPool = fullPool;
+                    }
+                  }
+                } catch {}
+              }
+              setAllPoolQuestions(catPool);
+              const fullBlueprint = parsedBp?.examCode ? EXAM_BLUEPRINTS[parsedBp.examCode] : undefined;
+              let existingCat: CATState | null = null;
+
+              if (data.catState && typeof data.catState === "object" && typeof data.catState.itemsAdministered === "number") {
+                existingCat = data.catState;
+              }
+
+              if (existingCat && existingCat.itemsAdministered > 0) {
+                const administeredIds = new Set(existingCat.responses.map(r => r.itemId));
+                const administeredQuestions = catPool.filter(q => administeredIds.has(q.id));
+                setQuestions(administeredQuestions.length > 0 ? administeredQuestions : [catPool[0]]);
+                setOptionShuffleMap(createOptionShuffleMap(administeredQuestions.length > 0 ? administeredQuestions : [catPool[0]]));
+                setCurrentQ(administeredQuestions.length > 0 ? administeredQuestions.length - 1 : 0);
+                setCatState(existingCat);
+              } else {
+                const freshCat = initCAT(fullBlueprint);
+                const domainMap = parsedBp?.domainAssignments || {};
+                const firstItem = selectNextItem(freshCat, catPool, fullBlueprint, domainMap);
+                if (firstItem) {
+                  setQuestions([firstItem]);
+                  setOptionShuffleMap(createOptionShuffleMap([firstItem]));
+                  setCurrentQ(0);
+                }
+                setCatState(freshCat);
+                try { localStorage.setItem(`cat-state-${attemptId}`, JSON.stringify(freshCat)); } catch {}
+              }
+            } else {
+              setQuestions(batchQuestions);
+              setOptionShuffleMap(createOptionShuffleMap(batchQuestions));
+              if (resumeFromLast && answeredCount > 0) {
+                setCurrentQ(Math.min(answeredCount, batchQuestions.length - 1));
+              }
+            }
+
+            setLoading(false);
+          } catch (fetchErr: any) {
+            console.error("[ExamSession] Failed to fetch initial questions from shell:", fetchErr);
+            setLoadError("question_fetch_failed");
+            setClassifiedError({
+              code: EXAM_FAILURE_CODES.QUESTION_BATCH_MISSING,
+              message: "Failed to load exam questions. Please try again.",
+              recoverable: true,
+              timestamp: new Date().toISOString(),
+            });
+            setLoading(false);
+          }
+          return;
+        }
+
+        if (!Array.isArray(data.questions) && data.status === "in_progress") {
+          setLoadError("zero_questions");
+          setClassifiedError({
+            code: EXAM_FAILURE_CODES.QUESTION_BATCH_MISSING,
+            message: data.error || "No questions could be loaded for this exam.",
+            recoverable: true,
+            timestamp: new Date().toISOString(),
+          });
+          setLoading(false);
+          return;
+        }
+
+        const answeredCount = Object.keys(savedAnswers).length;
+        if (answeredCount > 0 && data.status === "in_progress" && totalQ > 0) {
+          setSessionRecovery({
+            show: true,
+            answeredCount,
+            totalQuestions: totalQ,
+            timeSpent: savedTimeSpent,
+            currentQuestion: answeredCount,
+          });
         }
 
         const rawQuestionData: PooledQuestion[] = data.questions || [];
@@ -1400,6 +1535,30 @@ function MockExamSessionInner() {
                 onExit={() => navigate(backToExamsPath)}
                 inline
               />
+
+              <div className="border-t pt-3 mt-2">
+                <p className="text-xs text-gray-500 mb-2 font-medium">Try a different exam:</p>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => navigate(backToExamsPath)}
+                    className="text-xs gap-1"
+                    data-testid="link-browse-exams"
+                  >
+                    <BookOpen className="w-3 h-3" /> Browse All Exams
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => navigate(backToExamsPath.replace("/mock-exams", "/practice"))}
+                    className="text-xs gap-1"
+                    data-testid="link-practice-questions"
+                  >
+                    <FileText className="w-3 h-3" /> Practice Questions
+                  </Button>
+                </div>
+              </div>
 
               <Button
                 variant="outline"

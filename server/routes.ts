@@ -95,6 +95,7 @@ import type { AdminRole, OperatorActionParams } from "./admin-auth";
 import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEntitlementDebug, handleEntitlementResolve, resolveEntitlementSync } from "./entitlements";
 import { wrapWithOrchestrator, getOrchestratorStats } from "./access-delivery-orchestrator";
 import { validateQuestionBankImport, getCountryForUserRegion, getExamTypeForCountry } from "./question-bank-validation";
+import { examRequestIdMiddleware, getExamRequestId, withAssemblyConcurrencyLimit, timedExamQuery, buildExamShell, examDeliveryLog, getAssemblyStats } from "./exam-delivery";
 import { getAllowedContentTiers } from "../shared/tier-config";
 import rateLimit from "express-rate-limit";
 import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware, antiScrapingHeaders } from "./abuse-protection";
@@ -541,11 +542,11 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     } catch {}
     next();
   };
-  app.use("/api/v1/cat-exams", memoryGuard, examTimeout);
-  app.use("/api/v1/mock-exams", memoryGuard, examTimeout);
+  app.use("/api/v1/cat-exams", examRequestIdMiddleware(), memoryGuard, examTimeout);
+  app.use("/api/v1/mock-exams", examRequestIdMiddleware(), memoryGuard, examTimeout);
   app.use("/api/v1/test-banks", memoryGuard, examTimeout);
-  app.use("/api/cat-exams", memoryGuard, examTimeout);
-  app.use("/api/mock-exams", memoryGuard, examTimeout);
+  app.use("/api/cat-exams", examRequestIdMiddleware(), memoryGuard, examTimeout);
+  app.use("/api/mock-exams", examRequestIdMiddleware(), memoryGuard, examTimeout);
 
   const { registerCrossPlatformApiRoutes } = await import("./cross-platform-api");
   registerCrossPlatformApiRoutes(app);
@@ -10736,11 +10737,28 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       let { questions } = req.body;
 
       if (req.body.serverAssembly && req.body.assemblyConfig) {
+        const requestId = getExamRequestId(req);
         const { assembleExam } = await import("./mock-exam-assembly");
         const config = req.body.assemblyConfig;
         config.tier = tier || config.tier;
         config.seed = config.seed || Date.now();
-        const assembled = await assembleExam(config);
+        let assembled: any[];
+        try {
+          assembled = await withAssemblyConcurrencyLimit(
+            () => assembleExam(config),
+            requestId
+          );
+        } catch (semErr: any) {
+          if (semErr.statusCode === 503) {
+            examDeliveryLog("Assembly capacity exceeded", { requestId, userId: authUser?.id }, requestId);
+            return res.status(503).json({
+              error: "Exam assembly is at capacity. Please try again shortly.",
+              code: "ASSEMBLY_CAPACITY",
+              retryAfter: semErr.retryAfter || 10,
+            });
+          }
+          throw semErr;
+        }
         if (assembled.length === 0) {
           return res.status(400).json({ error: "No questions available for this exam configuration." });
         }
@@ -10894,7 +10912,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const { attemptId } = req.params;
       const { answers, flagged, timeSpent, catState, timerState, currentQuestion } = req.body;
 
-      const check = await pool.query(`SELECT user_id FROM mock_exam_attempts WHERE id = $1`, [attemptId]);
+      const requestId = getExamRequestId(req);
+      const check = await timedExamQuery(`SELECT user_id FROM mock_exam_attempts WHERE id = $1`, [attemptId], "progress", requestId) as any;
       if (check.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
       if (check.rows[0].user_id !== String(authUser.id)) return res.status(403).json({ error: "Access denied" });
 
@@ -10916,7 +10935,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       query += ` WHERE id = $${paramIdx}`;
       params.push(attemptId);
 
-      await pool.query(query, params);
+      await timedExamQuery(query, params, "progress", requestId);
 
       const { saveSessionState } = await import("./exam-resilience-engine");
       saveSessionState(attemptId, String(authUser.id), {
@@ -11192,6 +11211,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
   app.get("/api/mock-exams/:attemptId", requireAnyPaidTier(), async (req: any, res) => {
     const loadStartTime = Date.now();
+    const requestId = getExamRequestId(req);
     try {
       try {
         const { isMemoryCritical } = await import("./memory-monitor");
@@ -11209,27 +11229,29 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       const authUser = await getAuthUser(req);
       if (!authUser) {
-        return res.status(401).json({ error: "Authentication required", reasonCode: "entitlement_failure", recoverable: true, timestamp: new Date().toISOString() });
+        return res.status(401).json({ error: "Authentication required", reasonCode: "entitlement_failure", recoverable: true, timestamp: new Date().toISOString(), requestId });
       }
 
       const { attemptId } = req.params;
-      console.log(`[ExamLoad] Starting load: attemptId=${attemptId} userId=${authUser.id} tier=${authUser.tier}`);
+      examDeliveryLog("Starting exam load", { attemptId, userId: authUser.id, tier: authUser.tier }, requestId);
 
-      const result = await pool.query(
-        `SELECT id, user_id, questions, status, report, exam_type, blueprint_code, answers, flagged, cat_state, time_spent, score, started_at, completed_at, stopping_reason, total_questions
+      const result = await timedExamQuery(
+        `SELECT id, user_id, questions, status, report, exam_type, blueprint_code, blueprint_meta, answers, flagged, cat_state, time_spent, score, started_at, completed_at, stopping_reason, total_questions
          FROM mock_exam_attempts WHERE id = $1`,
-        [attemptId]
+        [attemptId],
+        "shell",
+        requestId
       );
 
-      if (result.rows.length === 0) {
-        console.warn(`[ExamLoad] Session not found: attemptId=${attemptId} userId=${authUser.id}`);
-        return res.status(404).json({ error: "Exam not found", reasonCode: "missing_session", recoverable: false, timestamp: new Date().toISOString() });
+      if ((result as any).rows.length === 0) {
+        examDeliveryLog("Session not found", { attemptId, userId: authUser.id }, requestId);
+        return res.status(404).json({ error: "Exam not found", reasonCode: "missing_session", recoverable: false, timestamp: new Date().toISOString(), requestId });
       }
-      if (result.rows[0].user_id !== String(authUser.id) && authUser.tier !== "admin") {
-        return res.status(403).json({ error: "Access denied", reasonCode: "access_denied", recoverable: false, timestamp: new Date().toISOString() });
+      if ((result as any).rows[0].user_id !== String(authUser.id) && authUser.tier !== "admin") {
+        return res.status(403).json({ error: "Access denied", reasonCode: "access_denied", recoverable: false, timestamp: new Date().toISOString(), requestId });
       }
 
-      const row = result.rows[0];
+      const row = (result as any).rows[0];
       let effectiveUserTier = authUser.tier || "free";
       if (authUser.tier === "admin") {
         const previewToken = ((req as any).cookies?.nursenest_preview || "") as string;
@@ -11243,111 +11265,45 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const isSpecialtyMock = examReport.examMode === "specialty-mock";
 
       if (row.status === "in_progress") {
-        let rawQuestions = Array.isArray(row.questions) ? row.questions : [];
+        const shell = buildExamShell(row);
 
-        const isIdOnlyFormat = rawQuestions.length > 0 && typeof rawQuestions[0] === "string";
-        let questions: any[] = rawQuestions;
-
-        if (isIdOnlyFormat && rawQuestions.length > 0) {
-          const questionIds = rawQuestions.filter((id: any) => typeof id === "string" && id.length > 0);
-          if (questionIds.length > 0) {
-            const INITIAL_PAGE_SIZE_HYDRATE = 25;
-            const pageIds = questionIds.slice(0, INITIAL_PAGE_SIZE_HYDRATE);
-            const placeholders = pageIds.map((_: any, idx: number) => `$${idx + 1}`).join(",");
-            const qResult = await pool.query(
-              `SELECT id, stem, options, correct_answer, body_system, topic, subtopic, difficulty, question_type, career_type, region_scope
-               FROM exam_questions WHERE id IN (${placeholders})`,
-              pageIds
-            );
-            const qMap = new Map<string, any>();
-            for (const row of qResult.rows) {
-              qMap.set(row.id, row);
-            }
-
-            let missingCount = 0;
-            const hydratedPage = pageIds
-              .map((qId: string) => {
-                const q = qMap.get(qId);
-                if (!q) {
-                  missingCount++;
-                  return null;
-                }
-                return {
-                  id: q.id,
-                  question: q.stem,
-                  options: q.options,
-                  correct: Array.isArray(q.correct_answer) ? q.correct_answer[0] : 0,
-                  bodySystem: q.body_system || "General",
-                  tier: "all",
-                  lessonId: "mock-exam",
-                  source: "quiz",
-                  topic: q.topic,
-                  subtopic: q.subtopic,
-                  difficulty: q.difficulty,
-                  questionType: q.question_type,
-                  regionScope: q.region_scope,
-                };
-              })
-              .filter(Boolean);
-
-            if (missingCount > 0) {
-              console.warn(`[ExamLoad] Skipped ${missingCount} missing/deleted question IDs for attemptId=${attemptId}`);
-            }
-
-            questions = hydratedPage;
-            (row as any)._totalQuestionIds = questionIds.length;
-          }
-        }
-
-        if (questions.length === 0) {
-          console.error(`[ExamLoad] ZERO_QUESTIONS: attemptId=${attemptId} userId=${authUser.id} status=in_progress`);
-          const { logExamLoadError } = await import("./exam-reliability");
-          logExamLoadError({
-            attemptId: String(attemptId),
-            userId: String(authUser.id),
-            examType: row.exam_type || row.blueprint_code || "unknown",
-            failureReason: "in_progress_exam_has_zero_questions",
-            questionCount: 0,
-            route: req.originalUrl,
-          });
+        if (shell.totalQuestions === 0) {
+          examDeliveryLog("ZERO_QUESTIONS shell", { attemptId, userId: authUser.id }, requestId);
+          try {
+            const { logExamLoadError } = await import("./exam-reliability");
+            logExamLoadError({
+              attemptId: String(attemptId),
+              userId: String(authUser.id),
+              examType: row.exam_type || row.blueprint_code || "unknown",
+              failureReason: "in_progress_exam_has_zero_questions",
+              questionCount: 0,
+              route: req.originalUrl,
+            });
+          } catch {}
           return res.status(200).json({
-            ...row,
+            ...shell,
             questions: [],
             reasonCode: "zero_questions",
             error: "No questions could be loaded for this exam. The question data may be missing or deleted.",
             recoverable: true,
             timestamp: new Date().toISOString(),
+            requestId,
           });
         }
 
-        const strippedQuestions = questions
-          .filter((q: any) => {
-            if (!q) return false;
-            const hasId = q.id !== undefined && q.id !== null;
-            const hasStem = typeof q.stem === "string" || typeof q.question === "string";
-            const opts = typeof q.options === "string" ? (() => { try { return JSON.parse(q.options); } catch { return null; } })() : q.options;
-            const hasOptions = Array.isArray(opts) && opts.length >= 2;
-            if (!hasId || !hasStem || !hasOptions) {
-              console.warn(`[MockExam] Filtering invalid question in attempt ${attemptId}:`, {
-                id: q.id, hasId, hasStem, hasOptions, optionsType: typeof q.options
-              });
-              return false;
-            }
-            return true;
-          })
-          .map((q: any) => {
-            const { rationale, explanation, clinicalPearl, examStrategy, memoryHook, frameworkUsed, clinicalTrap, distractorRationales, scenario, ...rest } = q;
-            if (rest.options) rest.options = normalizeQuestionOptions(rest.options);
-            return rest;
-          });
-        const INITIAL_PAGE_SIZE = 25;
-        const totalQuestions = (row as any)._totalQuestionIds || strippedQuestions.length;
-        const firstPage = strippedQuestions.slice(0, INITIAL_PAGE_SIZE);
-        const hasMore = totalQuestions > INITIAL_PAGE_SIZE;
+        const responseObj = {
+          ...shell,
+          questions: [],
+          total_questions: shell.totalQuestions,
+          hasMore: true,
+          offset: 0,
+          limit: 0,
+          requestId,
+        };
 
-        const responseObj = { ...row, questions: firstPage, total_questions: totalQuestions, hasMore, offset: 0, limit: INITIAL_PAGE_SIZE };
         const payloadSize = JSON.stringify(responseObj).length;
-        logExamRoute("/api/mock-exams/:attemptId", "GET", authUser.id, loadStartTime, { attemptId, questionCount: firstPage.length, totalQuestions, payloadSize });
+        examDeliveryLog("Shell response sent", { attemptId, totalQuestions: shell.totalQuestions, payloadSize, elapsed: Date.now() - loadStartTime }, requestId);
+        logExamRoute("/api/mock-exams/:attemptId", "GET", authUser.id, loadStartTime, { attemptId, shell: true, totalQuestions: shell.totalQuestions, payloadSize, requestId });
         res.json(responseObj);
       } else if (row.status === "completed" || row.status === "abandoned") {
         const REVIEW_PAGE_SIZE = 25;
@@ -11477,7 +11433,12 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const { classifyServerError } = await import("../shared/exam-error-codes");
       const classified = classifyServerError(e, { attemptId: req.params.attemptId });
 
-      console.error(`[ExamLoad] FAILURE: attemptId=${req.params.attemptId} code=${classified.code} elapsed=${elapsed}ms error=${e.message}`);
+      examDeliveryLog("Exam load failure", {
+        attemptId: req.params.attemptId,
+        code: classified.code,
+        elapsed,
+        error: e.message,
+      }, requestId);
 
       try {
         const { logExamLoadError } = await import("./exam-reliability");
@@ -11490,17 +11451,20 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         });
       } catch {}
 
-      res.status(500).json({
+      const isTimeout = (e as any).code === "QUERY_TIMEOUT";
+      res.status(isTimeout ? 504 : 500).json({
         error: classified.message,
-        reasonCode: classified.code,
+        reasonCode: isTimeout ? "query_timeout" : classified.code,
         recoverable: classified.recoverable,
         timestamp: classified.timestamp,
+        requestId,
       });
     }
   });
 
   app.get("/api/mock-exams/:attemptId/questions", requireAnyPaidTier(), async (req: any, res) => {
     const startTime = Date.now();
+    const requestId = getExamRequestId(req);
     try {
       try {
         const { isMemoryCritical } = await import("./memory-monitor");
@@ -11516,10 +11480,12 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const offset = Math.max(0, parseInt(req.query.offset as string) || 0);
       const limit = Math.min(Math.max(1, parseInt(req.query.limit as string) || 25), 50);
 
-      const result = await pool.query(
+      const result = await timedExamQuery(
         `SELECT user_id, questions, status FROM mock_exam_attempts WHERE id = $1`,
-        [attemptId]
-      );
+        [attemptId],
+        "shell",
+        requestId
+      ) as any;
       if (result.rows.length === 0) return res.status(404).json({ error: "Exam not found" });
       if (result.rows[0].user_id !== String(authUser.id) && authUser.tier !== "admin") {
         return res.status(403).json({ error: "Access denied" });
@@ -11537,11 +11503,13 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         if (pageIds.length > 0) {
           const placeholders = pageIds.map((_: any, i: number) => `$${i + 1}`).join(",");
           const rationaleCol = isCompleted ? ", rationale" : "";
-          const qResult = await pool.query(
+          const qResult = await timedExamQuery(
             `SELECT id, stem, options, correct_answer, body_system, topic, subtopic, difficulty, question_type, region_scope${rationaleCol}
              FROM exam_questions WHERE id IN (${placeholders})`,
-            pageIds
-          );
+            pageIds,
+            "questionFetch",
+            requestId
+          ) as any;
           const qMap = new Map<string, any>();
           for (const r of qResult.rows) qMap.set(r.id, r);
 

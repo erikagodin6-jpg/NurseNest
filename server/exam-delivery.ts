@@ -1,8 +1,256 @@
-import type { Express, Request, Response } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { pool } from "./storage";
 import { assembleExam, type AssemblyConfig, type AssembledQuestion } from "./mock-exam-assembly";
 import { resolveAuthUser } from "./admin-auth";
 import { isMemoryProtectionActive, shouldRejectHeavyWork } from "./memory-monitor";
+import crypto from "crypto";
+
+export function generateRequestId(): string {
+  return `exam-${Date.now().toString(36)}-${crypto.randomBytes(4).toString("hex")}`;
+}
+
+export function examRequestIdMiddleware() {
+  return (req: Request, _res: Response, next: NextFunction) => {
+    const requestId = generateRequestId();
+    (req as any).examRequestId = requestId;
+    next();
+  };
+}
+
+export function getExamRequestId(req: any): string {
+  return (req as any).examRequestId || generateRequestId();
+}
+
+class Semaphore {
+  private current = 0;
+  private queue: Array<{ resolve: () => void; cancelled: boolean }> = [];
+
+  constructor(private readonly max: number) {}
+
+  acquire(): { promise: Promise<boolean>; cancel: () => void } {
+    if (this.current < this.max) {
+      this.current++;
+      return { promise: Promise.resolve(true), cancel: () => {} };
+    }
+    const entry = { resolve: () => {}, cancelled: false };
+    const promise = new Promise<boolean>((resolve) => {
+      entry.resolve = () => {
+        if (entry.cancelled) {
+          if (this.queue.length > 0) {
+            const next = this.queue.shift();
+            if (next && !next.cancelled) {
+              this.current++;
+              next.resolve();
+            }
+          }
+          resolve(false);
+          return;
+        }
+        this.current++;
+        resolve(true);
+      };
+    });
+    this.queue.push(entry);
+    return {
+      promise,
+      cancel: () => { entry.cancelled = true; },
+    };
+  }
+
+  release(): void {
+    this.current--;
+    while (this.queue.length > 0) {
+      const next = this.queue.shift();
+      if (next && !next.cancelled) {
+        next.resolve();
+        return;
+      }
+    }
+  }
+
+  get activeCount(): number {
+    return this.current;
+  }
+
+  get waitingCount(): number {
+    return this.queue.filter(e => !e.cancelled).length;
+  }
+
+  get isFull(): boolean {
+    return this.current >= this.max;
+  }
+}
+
+const assemblySemaphore = new Semaphore(10);
+
+export async function withAssemblyConcurrencyLimit<T>(
+  fn: () => Promise<T>,
+  requestId: string
+): Promise<T> {
+  if (assemblySemaphore.isFull) {
+    console.warn(`[ExamDelivery] Assembly semaphore full (${assemblySemaphore.activeCount}/${10}), queuing request ${requestId}`);
+  }
+
+  const waitStart = Date.now();
+  const acquireTimeout = 15000;
+  const handle = assemblySemaphore.acquire();
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+  const acquired = await Promise.race([
+    handle.promise,
+    new Promise<false>((resolve) => {
+      timeoutId = setTimeout(() => resolve(false), acquireTimeout);
+    }),
+  ]);
+
+  if (timeoutId) clearTimeout(timeoutId);
+
+  if (!acquired) {
+    handle.cancel();
+    const err = new Error("Exam assembly capacity exceeded");
+    (err as any).statusCode = 503;
+    (err as any).retryAfter = 10;
+    throw err;
+  }
+
+  const waitTime = Date.now() - waitStart;
+  if (waitTime > 100) {
+    console.log(`[ExamDelivery] Request ${requestId} waited ${waitTime}ms for assembly slot`);
+  }
+
+  try {
+    return await fn();
+  } finally {
+    assemblySemaphore.release();
+  }
+}
+
+export function getAssemblyStats() {
+  return {
+    activeAssemblies: assemblySemaphore.activeCount,
+    waitingAssemblies: assemblySemaphore.waitingCount,
+    isFull: assemblySemaphore.isFull,
+    maxConcurrent: 10,
+  };
+}
+
+const QUERY_TIMEOUTS = {
+  questionFetch: 5000,
+  assembly: 10000,
+  progress: 5000,
+  shell: 3000,
+  rationale: 5000,
+} as const;
+
+export async function timedExamQuery<T = any>(
+  queryText: string,
+  params: any[],
+  category: keyof typeof QUERY_TIMEOUTS,
+  requestId?: string
+): Promise<T> {
+  const timeoutMs = QUERY_TIMEOUTS[category];
+  const start = Date.now();
+
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    await client.query(`SET LOCAL statement_timeout = '${timeoutMs}'`);
+    const result = await client.query(queryText, params);
+    await client.query("COMMIT");
+    const elapsed = Date.now() - start;
+
+    if (elapsed > timeoutMs * 0.8) {
+      console.warn(`[ExamDelivery] Slow query (${category}): ${elapsed}ms / ${timeoutMs}ms limit, requestId=${requestId || "unknown"}`);
+    }
+
+    return result as T;
+  } catch (err: any) {
+    await client.query("ROLLBACK").catch(() => {});
+    const elapsed = Date.now() - start;
+    if (err.message?.includes("statement timeout") || err.code === "57014") {
+      console.error(`[ExamDelivery] Query timeout (${category}): ${elapsed}ms exceeded ${timeoutMs}ms limit, requestId=${requestId || "unknown"}`);
+      const timeoutErr = new Error(`Database query timed out (${category})`);
+      (timeoutErr as any).code = "QUERY_TIMEOUT";
+      (timeoutErr as any).category = category;
+      (timeoutErr as any).requestId = requestId;
+      throw timeoutErr;
+    }
+    throw err;
+  } finally {
+    client.release();
+  }
+}
+
+export interface ExamShell {
+  attemptId: string;
+  status: string;
+  tier: string;
+  totalQuestions: number;
+  examType: string | null;
+  blueprintCode: string | null;
+  blueprintMeta: any;
+  timeLimit: number | null;
+  startedAt: string | null;
+  completedAt: string | null;
+  score: number | null;
+  answers: Record<string, any>;
+  flagged: string[];
+  timeSpent: number;
+  catState: any;
+  report: any;
+  questionIds: string[];
+  shell: true;
+}
+
+export function buildExamShell(row: any): ExamShell {
+  const rawQuestions = Array.isArray(row.questions) ? row.questions : [];
+  const isIdOnly = rawQuestions.length > 0 && typeof rawQuestions[0] === "string";
+
+  let questionIds: string[] = [];
+  if (isIdOnly) {
+    questionIds = rawQuestions.filter((id: any) => typeof id === "string" && id.length > 0);
+  } else {
+    questionIds = rawQuestions.map((q: any) => q?.id).filter(Boolean);
+  }
+
+  const report = typeof row.report === "string" ? (() => { try { return JSON.parse(row.report); } catch { return {}; } })() : (row.report || {});
+  const bpMeta = typeof row.blueprint_meta === "string" ? (() => { try { return JSON.parse(row.blueprint_meta); } catch { return null; } })() : (row.blueprint_meta || null);
+
+  return {
+    attemptId: row.id,
+    status: row.status,
+    tier: row.tier,
+    totalQuestions: row.total_questions || questionIds.length,
+    examType: row.exam_type || null,
+    blueprintCode: row.blueprint_code || null,
+    blueprintMeta: bpMeta,
+    timeLimit: report?.timeLimit || bpMeta?.timeLimit || null,
+    startedAt: row.started_at,
+    completedAt: row.completed_at,
+    score: row.score,
+    answers: row.answers || {},
+    flagged: row.flagged || [],
+    timeSpent: row.time_spent || 0,
+    catState: row.cat_state || null,
+    report: report,
+    questionIds,
+    shell: true,
+  };
+}
+
+export function examDeliveryLog(
+  message: string,
+  data: Record<string, any>,
+  requestId?: string
+): void {
+  console.log(JSON.stringify({
+    component: "ExamDelivery",
+    requestId: requestId || "unknown",
+    message,
+    timestamp: new Date().toISOString(),
+    ...data,
+  }));
+}
 
 const MAX_CONCURRENT_ASSEMBLIES = 3;
 let activeAssemblies = 0;
@@ -10,7 +258,7 @@ let activeAssemblies = 0;
 const DEFAULT_PAGE_SIZE = 15;
 const MAX_PAGE_SIZE = 50;
 
-export interface ExamShell {
+export interface DeliveryExamShell {
   attemptId: string;
   templateId: string;
   examCode: string;
@@ -129,7 +377,7 @@ export function registerExamDeliveryRoutes(app: Express): void {
           domainCounts.set(q.domain, (domainCounts.get(q.domain) || 0) + 1);
         }
 
-        const shell: ExamShell = {
+        const shell: DeliveryExamShell = {
           attemptId,
           templateId,
           examCode: config.examCode,

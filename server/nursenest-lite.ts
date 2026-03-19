@@ -358,7 +358,45 @@ export function registerLiteModeRoutes(app: Express): void {
     const exams = prebuiltPayloads.get("exams") || [];
     const exam = exams.find(e => e.id === _req.params.id);
     if (!exam) return res.status(404).json({ _lite: true, error: "Exam not found" });
-    res.json({ _lite: true, exam });
+
+    const offset = Math.max(0, parseInt(_req.query.offset as string) || 0);
+    const limit = Math.min(Math.max(1, parseInt(_req.query.limit as string) || 10), 50);
+    const allQuestions = exam.content?.questions || [];
+    const pageQuestions = allQuestions.slice(offset, offset + limit);
+    const hasMore = offset + limit < allQuestions.length;
+
+    res.json({
+      _lite: true,
+      shell: true,
+      examId: exam.id,
+      title: exam.title,
+      tier: exam.tier,
+      totalQuestions: allQuestions.length,
+      questions: pageQuestions,
+      offset,
+      limit,
+      hasMore,
+    });
+  });
+
+  app.get("/api/lite/exams/:id/questions", (_req: Request, res: Response) => {
+    const exams = prebuiltPayloads.get("exams") || [];
+    const exam = exams.find(e => e.id === _req.params.id);
+    if (!exam) return res.status(404).json({ _lite: true, error: "Exam not found" });
+
+    const offset = Math.max(0, parseInt(_req.query.offset as string) || 0);
+    const limit = Math.min(Math.max(1, parseInt(_req.query.limit as string) || 10), 50);
+    const allQuestions = exam.content?.questions || [];
+    const pageQuestions = allQuestions.slice(offset, offset + limit);
+
+    res.json({
+      _lite: true,
+      questions: pageQuestions,
+      offset,
+      limit,
+      total: allQuestions.length,
+      hasMore: offset + limit < allQuestions.length,
+    });
   });
 
   app.get("/api/admin/lite/status", async (req: Request, res: Response) => {
