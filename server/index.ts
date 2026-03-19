@@ -25,10 +25,14 @@ app.set("trust proxy", 1);
 
 import { isAppReady, markAppReady, getAppStartTime, startupMemoryGuard as policyMemoryGuard, runSeedStep as policyRunSeedStep, shouldRunSeeding as policyShouldRunSeeding, shouldStartMonitors, isWorkerRole, shouldSkipSeed as policyShouldSkipSeed } from "./startup-policy";
 
-// GUARDRAIL: /healthz must complete in <100ms. No optional dependencies.
-// Only depends on core DB (SELECT 1). Wrapped with a 3-second timeout so a
-// slow DB cannot hang the health check indefinitely.
-app.get("/healthz", async (_req, res) => {
+app.get("/healthz", (_req, res) => {
+  res.status(200).json({
+    status: "ok",
+    uptime: Math.round((Date.now() - getAppStartTime()) / 1000),
+  });
+});
+
+app.get("/readyz", async (_req, res) => {
   if (!isAppReady()) {
     return res.status(503).json({ status: "starting", appReady: false });
   }
@@ -294,7 +298,8 @@ httpServer.keepAliveTimeout = 65000;
 httpServer.headersTimeout = 66000;
 httpServer.timeout = 30000;
 httpServer.listen({ port, host: "0.0.0.0", reusePort: true }, () => {
-  log(`port ${port} open (health check ready, routes loading...)`);
+  markAppReady();
+  log(`port ${port} open, appReady=true (routes loading in background...)`);
 });
 
 // -------------------------
@@ -1164,7 +1169,7 @@ app.use((req, res, next) => {
 
   markAppReady();
   console.log(`[Startup] Total server startup: ${Date.now() - serverStartTime}ms`);
-  log(`routes loaded, app ready on port ${port}`);
+  log(`routes loaded on port ${port}`);
 
   const sitemapFiles = [
     "sitemap-index.xml (master index)",
@@ -1344,6 +1349,9 @@ function runDeferredStartupWork() {
     const startupMemoryGuard = policyMemoryGuard;
     const runSeedStep = policyRunSeedStep;
     const shouldSkipSeed = policyShouldSkipSeed;
+
+    await startupMemoryGuard("Phase 1: Templates/Quarantine");
+    console.log("[DeferredStartup] Phase 1: Templates + quarantine (schema sync already ran in Phase 0)...");
 
     await runSeedStep("QBank Templates", async () => {
       const { seedPromptTemplates } = await import("./prompts/qbank-templates");

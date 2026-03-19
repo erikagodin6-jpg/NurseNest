@@ -14,6 +14,7 @@ const allowlist = [
   "drizzle-zod",
   "nanoid",
   "uuid",
+  "ws",
   "zod",
   "zod-validation-error",
 ];
@@ -69,13 +70,46 @@ function buildNpBatch(i: number) {
   });
 }
 
-async function buildServer() {
+const SEED_MODULE_PATTERN = /^\.\/(seed-[^/]+|encyclopedia-seed|nclex-rn-hub-seed|certification-question-seed|new-grad-content-seed|new-grad-scenario-routes|seeds\/[^/]+)$/;
+
+const LAZY_ROUTE_MODULES = new Set([
+  "clinical-seo-routes", "new-grad-routes",
+  "paramedic-seo", "paramedic-questions-api", "paramedic-waveform-routes", "paramedic-exam-routes",
+  "pharmtech-routes", "allied-questions-api", "allied-article-routes", "allied-health-article-routes",
+  "imaging-seo-routes", "imaging-exam-routes", "imaging-content-pipeline",
+  "rrt-pharmacology-api", "seo-quiz-engine", "programmatic-seo-engine", "seo-hub-routes",
+  "exam-blueprint-seo-routes", "seo-content-pages", "nursing-questions-api",
+  "cross-platform-api", "test-bank-api", "cat-session-api",
+  "content-publishing-validator", "exam-resilience-engine", "chaos-testing",
+  "encyclopedia-routes", "tutor-routes", "study-coaching-routes",
+  "readiness-routes", "exam-planner-routes", "post-exam-routes",
+  "applynest-routes", "substitute-content-routes",
+  "profession-routes", "profession-practice-questions-routes",
+  "question-preview-api", "environment-routes",
+  "platform-resilience", "performance", "deployment-protection",
+  "memory-middleware", "content-health-gate", "memory-monitor", "job-queue",
+  "entitlement-api", "analytics-events-routes", "translation-audit",
+  "startup-data-migrations", "adaptive-engine", "sm2-engine",
+  "lesson-content-api", "content-version-service", "taxonomy-normalizer",
+  "nursing-question-seeder", "expansion-engine-routes",
+  "site-health-routes", "content-health-routes", "content-relationship-service",
+]);
+
+const TRANSITIVE_EXTERNALS = [
+  "iconv-lite", "tr46", "whatwg-url", "raw-body", "body-parser", "mime-db",
+];
+
+async function getExternals() {
   const pkg = JSON.parse(await readFile("package.json", "utf-8"));
   const allDeps = [
     ...Object.keys(pkg.dependencies || {}),
     ...Object.keys(pkg.devDependencies || {}),
   ];
-  const externals = allDeps.filter((dep) => !allowlist.includes(dep));
+  return allDeps.filter((dep) => !allowlist.includes(dep));
+}
+
+async function buildServer() {
+  const externals = await getExternals();
 
   return esbuild({
     entryPoints: ["server/index.ts"],
@@ -85,7 +119,7 @@ async function buildServer() {
     outfile: "dist/index.cjs",
     define: { "process.env.NODE_ENV": '"production"' },
     minify: true,
-    external: [...externals, "../client/src/data/lessons/index", "tr46", "whatwg-url"],
+    external: [...externals, ...TRANSITIVE_EXTERNALS],
     logLevel: "warning",
     logOverride: { "import-meta": "silent" },
     loader: ASSET_LOADER,
@@ -100,186 +134,126 @@ async function buildServer() {
         },
       },
       {
-        name: "externalize-dynamic-imports",
+        name: "externalize-client-data",
         setup(build) {
-          const dynamicExternalPatterns = [
-            /\.\/seed-[^/]+$/,
-            /\.\/seeds\/[^/]+$/,
-            /\.\/seed-data\/[^/]+$/,
-            /\.\/encyclopedia-seed$/,
-            /\.\/startup-data-migrations$/,
-            /\.\/alerting-engine$/,
-            /\.\/synthetic-monitoring$/,
-            /\.\/content-integrity-audit$/,
-            /\.\/reporting-scheduler$/,
-            /\.\/content-pipeline$/,
-            /\.\/schema-validation$/,
-            /\.\/content-versioning-quarantine$/,
-            /\.\/ensure-schema$/,
-            /\.\/exam-flashcard-mapper$/,
-            /\.\/exam-delivery$/,
-            /\.\/prompts\/qbank-templates$/,
-            /\.\/publish-gate$/,
-            /\.\/memory-monitor$/,
-            /\.\/memory-observability$/,
-            /\.\/resource-budgets$/,
-            /\.\/auto-containment$/,
-            /\.\/qbank-scheduler$/,
-            /\.\.\/client\/src\/data\//,
-            /\.\.\/\.\.\/client\/src\/data\//,
-            /\.\/new-grad-content-seed$/,
-            /\.\/data\/nclex-rn-hub-content$/,
-            /\.\/certification-question-seed$/,
-            /\.\/nursing-question-seeder$/,
-          ];
-          for (const pattern of dynamicExternalPatterns) {
-            build.onResolve({ filter: pattern }, (args) => {
-              if (args.kind === "dynamic-import" || args.kind === "require-call") {
-                return { path: args.path, external: true };
-              }
-              return undefined;
-            });
-          }
+          build.onResolve({ filter: /\.\.\/client\/src\/data\// }, (args) => {
+            if (args.path.includes("lessons/index")) return null;
+            return { path: args.path, external: true };
+          });
+        },
+      },
+      {
+        name: "externalize-seed-modules",
+        setup(build) {
+          build.onResolve({ filter: SEED_MODULE_PATTERN }, (args) => {
+            const baseName = args.path.replace(/^\.\//, "").replace(/\//g, "__");
+            return { path: `./${baseName}.cjs`, external: true };
+          });
+          build.onResolve({ filter: /\.\/seed-data\// }, (args) => {
+            const baseName = args.path.replace(/^\.\//, "").replace(/\//g, "__");
+            return { path: `./${baseName}.cjs`, external: true };
+          });
+        },
+      },
+      {
+        name: "externalize-lazy-routes",
+        setup(build) {
+          build.onResolve({ filter: /^\.\/[a-z]/ }, (args) => {
+            const moduleName = args.path.replace(/^\.\//, "");
+            if (LAZY_ROUTE_MODULES.has(moduleName)) {
+              return { path: `./${moduleName}.cjs`, external: true };
+            }
+            return null;
+          });
         },
       },
     ],
   });
 }
 
-async function buildExternalizedModules() {
-  const pkg = JSON.parse(await readFile("package.json", "utf-8"));
-  const allDeps = [
-    ...Object.keys(pkg.dependencies || {}),
-    ...Object.keys(pkg.devDependencies || {}),
-  ];
-
-  const serverDir = path.resolve("server");
-  const entryPoints: string[] = [];
-
-  async function collectTsFiles(dir: string, prefix: string) {
-    const entries = await readdir(dir, { withFileTypes: true });
-    for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name);
-      if (entry.isDirectory() && (entry.name === "seeds" || entry.name === "data" || entry.name === "prompts" || entry.name === "seed-data")) {
-        await collectTsFiles(fullPath, prefix + entry.name + "/");
-      } else if (entry.isFile() && entry.name.endsWith(".ts") && !entry.name.endsWith(".d.ts")) {
-        const rel = prefix + entry.name;
-        if (
-          rel.startsWith("seed-") ||
-          rel.startsWith("seeds/") ||
-          rel.startsWith("seed-data/") ||
-          rel === "encyclopedia-seed.ts" ||
-          rel === "startup-data-migrations.ts" ||
-          rel === "alerting-engine.ts" ||
-          rel === "synthetic-monitoring.ts" ||
-          rel === "content-integrity-audit.ts" ||
-          rel === "reporting-scheduler.ts" ||
-          rel === "content-pipeline.ts" ||
-          rel === "schema-validation.ts" ||
-          rel === "content-versioning-quarantine.ts" ||
-          rel === "ensure-schema.ts" ||
-          rel === "exam-flashcard-mapper.ts" ||
-          rel === "exam-delivery.ts" ||
-          rel.startsWith("prompts/") ||
-          rel === "publish-gate.ts" ||
-          rel === "memory-monitor.ts" ||
-          rel === "memory-observability.ts" ||
-          rel === "resource-budgets.ts" ||
-          rel === "auto-containment.ts" ||
-          rel === "qbank-scheduler.ts" ||
-          rel === "new-grad-content-seed.ts" ||
-          rel.startsWith("data/") ||
-          rel === "certification-question-seed.ts" ||
-          rel === "nursing-question-seeder.ts"
-        ) {
-          entryPoints.push(fullPath);
-        }
+async function discoverSeedEntryPoints(): Promise<string[]> {
+  const serverDir = "server";
+  const entries: string[] = [];
+  const topFiles = await readdir(serverDir);
+  const seedPattern = /^(seed-.*|encyclopedia-seed|nclex-rn-hub-seed|certification-question-seed|new-grad-content-seed|new-grad-scenario-routes)\.ts$/;
+  for (const f of topFiles) {
+    if (seedPattern.test(f)) {
+      entries.push(`${serverDir}/${f}`);
+    }
+  }
+  if (existsSync(`${serverDir}/seeds`)) {
+    const seedsFiles = await readdir(`${serverDir}/seeds`);
+    for (const f of seedsFiles) {
+      if (f.endsWith(".ts")) {
+        entries.push(`${serverDir}/seeds/${f}`);
       }
     }
   }
+  if (existsSync(`${serverDir}/seed-data`)) {
+    const sdFiles = await readdir(`${serverDir}/seed-data`);
+    for (const f of sdFiles) {
+      if (f.endsWith(".ts")) {
+        entries.push(`${serverDir}/seed-data/${f}`);
+      }
+    }
+  }
+  return entries;
+}
 
-  await collectTsFiles(serverDir, "");
+async function discoverLazyRouteEntryPoints(): Promise<string[]> {
+  const entries: string[] = [];
+  const topFiles = await readdir("server");
+  for (const f of topFiles) {
+    const baseName = f.replace(/\.ts$/, "");
+    if (f.endsWith(".ts") && LAZY_ROUTE_MODULES.has(baseName)) {
+      entries.push(`server/${f}`);
+    }
+  }
+  return entries;
+}
 
-  if (entryPoints.length === 0) return;
+async function buildExternalModules(entries: string[], label: string) {
+  if (entries.length === 0) return;
+  const externals = await getExternals();
 
-  const dynamicPatterns = [
-    /\.\/seed-[^/]+$/,
-    /\.\/seeds\/[^/]+$/,
-    /\.\/seed-data\/[^/]+$/,
-    /\.\/encyclopedia-seed$/,
-    /\.\/startup-data-migrations$/,
-    /\.\/alerting-engine$/,
-    /\.\/synthetic-monitoring$/,
-    /\.\/content-integrity-audit$/,
-    /\.\/reporting-scheduler$/,
-    /\.\/content-pipeline$/,
-    /\.\/schema-validation$/,
-    /\.\/content-versioning-quarantine$/,
-    /\.\/ensure-schema$/,
-    /\.\/exam-flashcard-mapper$/,
-    /\.\/exam-delivery$/,
-    /\.\/prompts\/qbank-templates$/,
-    /\.\/publish-gate$/,
-    /\.\/memory-monitor$/,
-    /\.\/memory-observability$/,
-    /\.\/resource-budgets$/,
-    /\.\/auto-containment$/,
-    /\.\/qbank-scheduler$/,
-    /\.\.\/client\/src\/data\//,
-    /\.\.\/\.\.\/client\/src\/data\//,
-    /\.\/new-grad-content-seed$/,
-    /\.\/data\/nclex-rn-hub-content$/,
-    /\.\/certification-question-seed$/,
-    /\.\/nursing-question-seeder$/,
-  ];
+  const BATCH_SIZE = 8;
+  for (let i = 0; i < entries.length; i += BATCH_SIZE) {
+    const batch = entries.slice(i, i + BATCH_SIZE);
+    await Promise.all(
+      batch.map((entry) => {
+        const baseName = entry
+          .replace(/^server\//, "")
+          .replace(/\.ts$/, "")
+          .replace(/\//g, "__");
+        return esbuild({
+          entryPoints: [entry],
+          platform: "node",
+          bundle: true,
+          format: "cjs",
+          outfile: `dist/${baseName}.cjs`,
+          define: { "process.env.NODE_ENV": '"production"' },
+          minify: true,
+          external: [...externals, ...TRANSITIVE_EXTERNALS],
+          logLevel: "warning",
+          logOverride: { "import-meta": "silent" },
+          loader: ASSET_LOADER,
+          alias: CLIENT_ALIAS,
+        });
+      })
+    );
+  }
+  console.log(`  Built ${entries.length} ${label} into dist/`);
+}
 
-  await esbuild({
-    entryPoints,
-    platform: "node",
-    bundle: true,
-    format: "cjs",
-    outdir: "dist",
-    outbase: "server",
-    define: { "process.env.NODE_ENV": '"production"' },
-    minify: true,
-    external: [...allDeps, "tr46", "whatwg-url", "../client/src/data/lessons/index"],
-    logLevel: "warning",
-    logOverride: { "import-meta": "silent" },
-    loader: ASSET_LOADER,
-    plugins: [
-      {
-        name: "redirect-lessons-data",
-        setup(build) {
-          build.onResolve({ filter: /\.\.\/client\/src\/data\/lessons\/index$/ }, () => ({
-            path: "./lessons-data.cjs",
-            external: true,
-          }));
-        },
-      },
-      {
-        name: "externalize-cross-refs",
-        setup(build) {
-          for (const pattern of dynamicPatterns) {
-            build.onResolve({ filter: pattern }, (args) => {
-              if (args.kind === "dynamic-import" || args.kind === "require-call") {
-                return { path: args.path, external: true };
-              }
-              return undefined;
-            });
-          }
-        },
-      },
-    ],
-  });
+async function buildSeedModules() {
+  return buildExternalModules(await discoverSeedEntryPoints(), "seed modules");
+}
+
+async function buildLazyRouteModules() {
+  return buildExternalModules(await discoverLazyRouteEntryPoints(), "lazy route modules");
 }
 
 async function buildClientDataModules() {
-  const pkg = JSON.parse(await readFile("package.json", "utf-8"));
-  const allDeps = [
-    ...Object.keys(pkg.dependencies || {}),
-    ...Object.keys(pkg.devDependencies || {}),
-  ];
-
   const clientDataFiles: string[] = [];
   const dataDir = path.resolve("client/src/data");
 
@@ -298,6 +272,8 @@ async function buildClientDataModules() {
   await collectClientData(dataDir);
   if (clientDataFiles.length === 0) return;
 
+  const externals = await getExternals();
+
   await esbuild({
     entryPoints: clientDataFiles,
     platform: "node",
@@ -311,6 +287,7 @@ async function buildClientDataModules() {
     logOverride: { "import-meta": "silent" },
     loader: ASSET_LOADER,
   });
+  console.log(`  Built ${clientDataFiles.length} client data modules`);
 }
 
 async function copySeedData() {
@@ -465,8 +442,11 @@ async function buildAll() {
   await buildServer();
   log("server done");
 
-  await buildExternalizedModules();
-  log("externalized modules done");
+  await buildSeedModules();
+  log("seed modules done");
+
+  await buildLazyRouteModules();
+  log("lazy route modules done");
 
   await buildClientDataModules();
   log("client data modules done");
