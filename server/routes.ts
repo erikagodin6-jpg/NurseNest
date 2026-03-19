@@ -96,6 +96,7 @@ import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEnti
 import { wrapWithOrchestrator, getOrchestratorStats } from "./access-delivery-orchestrator";
 import { validateQuestionBankImport, getCountryForUserRegion, getExamTypeForCountry } from "./question-bank-validation";
 import { examRequestIdMiddleware, getExamRequestId, withAssemblyConcurrencyLimit, timedExamQuery, buildExamShell, examDeliveryLog, getAssemblyStats } from "./exam-delivery";
+import { isCircuitOpen, recordExamFailure, recordExamSuccess, getCircuitStatus } from "./exam-resilience-engine";
 import { getAllowedContentTiers } from "../shared/tier-config";
 import rateLimit from "express-rate-limit";
 import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware, antiScrapingHeaders } from "./abuse-protection";
@@ -3613,6 +3614,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   app.use("/api/mock-exams/start-specialty", concurrencyLimiter({ maxConcurrent: 10, label: "exam_session_start" }));
   app.use("/api/exams", concurrencyLimiter({ maxConcurrent: 20, label: "exam_data_loading" }));
   app.use("/api/exam-questions", concurrencyLimiter({ maxConcurrent: 20, label: "exam_data_loading" }));
+  app.use("/api/mock-exams/:attemptId", concurrencyLimiter({ maxConcurrent: 20, label: "exam_session_loading" }));
   app.use("/api/question-bank", concurrencyLimiter({ maxConcurrent: 15, label: "question_bank_queries" }));
   app.use("/api/ai/generate-content", concurrencyLimiter({ maxConcurrent: 3, label: "ai_generation" }));
   app.use("/api/ai/generate-pipeline", concurrencyLimiter({ maxConcurrent: 3, label: "ai_generation" }));
@@ -11303,6 +11305,41 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const { attemptId } = req.params;
       examDeliveryLog("Starting exam load", { attemptId, userId: authUser.id, tier: authUser.tier }, requestId);
 
+      const circuitId = `exam-load-${attemptId}`;
+      if (isCircuitOpen(circuitId)) {
+        const circuitInfo = getCircuitStatus(circuitId);
+        examDeliveryLog("Circuit breaker OPEN for exam load", { attemptId, circuitState: circuitInfo.state, recentFailures: circuitInfo.recentFailures }, requestId);
+        try {
+          const cachedAttempt = await pool.query(
+            `SELECT id, status, total_questions, report, started_at FROM mock_exam_attempts WHERE id = $1 AND user_id = $2`,
+            [attemptId, String(authUser.id)]
+          );
+          if (cachedAttempt.rows.length > 0) {
+            const r = cachedAttempt.rows[0];
+            return res.status(200).json({
+              attemptId: r.id,
+              status: r.status,
+              totalQuestions: r.total_questions || 0,
+              questions: [],
+              hasMore: true,
+              offset: 0,
+              limit: 0,
+              _degraded: true,
+              _circuitOpen: true,
+              _fallbackReason: `Circuit breaker open: ${circuitInfo.lastFailureReason || "repeated failures"}`,
+              requestId,
+            });
+          }
+        } catch {}
+        return res.status(503).json({
+          error: "Exam loading is temporarily unavailable due to repeated errors. Please try again in a few minutes.",
+          code: "CIRCUIT_OPEN",
+          recoverable: true,
+          retryAfter: 300,
+          requestId,
+        });
+      }
+
       const result = await timedExamQuery(
         `SELECT id, user_id, questions, status, report, exam_type, blueprint_code, blueprint_meta, answers, flagged, cat_state, time_spent, score, started_at, completed_at, stopping_reason, total_questions
          FROM mock_exam_attempts WHERE id = $1`,
@@ -11372,6 +11409,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         const payloadSize = JSON.stringify(responseObj).length;
         examDeliveryLog("Shell response sent", { attemptId, totalQuestions: shell.totalQuestions, payloadSize, elapsed: Date.now() - loadStartTime }, requestId);
         logExamRoute("/api/mock-exams/:attemptId", "GET", authUser.id, loadStartTime, { attemptId, shell: true, totalQuestions: shell.totalQuestions, payloadSize, requestId });
+        recordExamSuccess(circuitId);
         res.json(responseObj);
       } else if (row.status === "completed" || row.status === "abandoned") {
         const REVIEW_PAGE_SIZE = 25;
@@ -11451,6 +11489,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
             return rest;
           });
           const limitedReport = { ...examReport, questionReviewLimited: true, reviewLimit: 5 };
+          recordExamSuccess(circuitId);
           res.json({ ...row, questions: fullQuestions, report: limitedReport, limitedReview: true, ...reviewMeta });
         } else if (isSpecialtyMock) {
           const careerType = row.career_type || examReport.specialty || "nursing";
@@ -11478,11 +11517,14 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
               practiceQuestions: questionsResult.rows.map((r: any) => ({ id: r.id, stem: r.stem?.substring(0, 80), bodySystem: r.body_system, topic: r.topic })),
               caseStudies: casesResult.rows.map((r: any) => ({ id: r.id, title: r.title, bodySystem: r.body_system, category: r.category })),
             };
+            recordExamSuccess(circuitId);
             res.json({ ...row, questions: completedQuestions, crossContent, ...reviewMeta });
           } catch {
+            recordExamSuccess(circuitId);
             res.json({ ...row, questions: completedQuestions, ...reviewMeta });
           }
         } else {
+          recordExamSuccess(circuitId);
           res.json({ ...row, questions: completedQuestions, ...reviewMeta });
         }
       } else {
@@ -11494,12 +11536,16 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         }
         const completedPayloadSize = JSON.stringify(row).length;
         logExamRoute("/api/mock-exams/:attemptId", "GET", authUser.id, loadStartTime, { attemptId, status: row.status, questionCount: Array.isArray(row.questions) ? row.questions.length : 0, payloadSize: completedPayloadSize });
+        recordExamSuccess(circuitId);
         res.json(row);
       }
     } catch (e: any) {
       const elapsed = Date.now() - loadStartTime;
       const { classifyServerError } = await import("../shared/exam-error-codes");
       const classified = classifyServerError(e, { attemptId: req.params.attemptId });
+
+      const failCircuitId = `exam-load-${req.params.attemptId}`;
+      recordExamFailure(failCircuitId, classified.code);
 
       examDeliveryLog("Exam load failure", {
         attemptId: req.params.attemptId,
@@ -11547,6 +11593,17 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const { attemptId } = req.params;
       const offset = Math.max(0, parseInt(req.query.offset as string) || 0);
       const limit = Math.min(Math.max(1, parseInt(req.query.limit as string) || 25), 50);
+
+      const qCircuitId = `exam-questions-${attemptId}`;
+      if (isCircuitOpen(qCircuitId)) {
+        return res.status(503).json({
+          error: "Question loading is temporarily unavailable. Please try again shortly.",
+          code: "CIRCUIT_OPEN",
+          recoverable: true,
+          retryAfter: 60,
+          requestId,
+        });
+      }
 
       const result = await timedExamQuery(
         `SELECT user_id, questions, status FROM mock_exam_attempts WHERE id = $1`,
@@ -11601,6 +11658,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
           const idOnlyResponse = { questions, offset, limit, total: totalQuestions, hasMore: offset + limit < totalQuestions };
           logExamRoute("/api/mock-exams/:attemptId/questions", "GET", authUser.id, startTime, { attemptId, offset, limit, returned: questions.length, totalQuestions, payloadSize: JSON.stringify(idOnlyResponse).length });
+          recordExamSuccess(qCircuitId);
           return res.json(idOnlyResponse);
         }
       }
@@ -11616,8 +11674,11 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
       const rawObjResponse = { questions: pageQuestions, offset, limit, total: totalQuestions, hasMore: offset + limit < totalQuestions };
       logExamRoute("/api/mock-exams/:attemptId/questions", "GET", authUser.id, startTime, { attemptId, offset, limit, returned: pageQuestions.length, totalQuestions, payloadSize: JSON.stringify(rawObjResponse).length });
+      recordExamSuccess(qCircuitId);
       res.json(rawObjResponse);
     } catch (e: any) {
+      const qFailCircuitId = `exam-questions-${req.params.attemptId}`;
+      recordExamFailure(qFailCircuitId, e.message || "unknown");
       console.error("[MockExam] paginated questions error:", e.message);
       res.status(500).json({ error: "Failed to load questions" });
     }

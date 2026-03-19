@@ -503,6 +503,52 @@ export async function runPublishGate(
     validation.valid = false;
   }
 
+  if (normalized === "question") {
+    const stem = repairedData.stem || repairedData.question;
+    if (!stem || (typeof stem === "string" && stem.trim().length < 10)) {
+      validation.errors.push({
+        field: "stem",
+        message: "Question stem is missing or too short (minimum 10 characters). Cannot publish without a valid question.",
+        severity: "error",
+      });
+      validation.valid = false;
+    }
+
+    const correctAnswer = repairedData.correct_answer ?? repairedData.correctAnswer ?? repairedData.correct;
+    if (correctAnswer === null || correctAnswer === undefined || (typeof correctAnswer === "string" && correctAnswer.trim().length === 0)) {
+      validation.errors.push({
+        field: "correct_answer",
+        message: "Missing correct answer. Every question must have a correct answer to be published.",
+        severity: "error",
+      });
+      validation.valid = false;
+    }
+
+    const opts = repairedData.options || repairedData.choices;
+    const parsedOpts = typeof opts === "string" ? (() => { try { return JSON.parse(opts); } catch { return null; } })() : opts;
+    if (!Array.isArray(parsedOpts) || parsedOpts.length < 2) {
+      validation.errors.push({
+        field: "options",
+        message: `Question must have at least 2 answer options (found ${Array.isArray(parsedOpts) ? parsedOpts.length : 0}). Cannot publish.`,
+        severity: "error",
+      });
+      validation.valid = false;
+    } else {
+      const emptyOpts = parsedOpts.filter((o: any) => {
+        const text = typeof o === "string" ? o : o?.text || o?.content || "";
+        return !text || text.trim().length === 0;
+      });
+      if (emptyOpts.length > 0) {
+        validation.errors.push({
+          field: "options",
+          message: `${emptyOpts.length} answer option(s) are empty. All options must have text content.`,
+          severity: "error",
+        });
+        validation.valid = false;
+      }
+    }
+  }
+
   const mediaErrors = validateLinkedMediaAssets(repairedData, contentType);
   const accessErrors = validateAccessMetadata(repairedData, contentType);
   const routeErrors = validateRouteGeneration(repairedData, contentType);

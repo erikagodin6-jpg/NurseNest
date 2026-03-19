@@ -15,13 +15,14 @@ import {
   ClipboardCheck, Database, Target, AlertOctagon, Sparkles,
 } from "lucide-react";
 
-type TabId = "overview" | "gaps" | "actions" | "review" | "tier-health" | "audit-log" | "analytics";
+type TabId = "overview" | "gaps" | "actions" | "review" | "quarantine" | "tier-health" | "audit-log" | "analytics";
 
 const TABS: { id: TabId; label: string; icon: any }[] = [
   { id: "overview", label: "Overview", icon: Activity },
   { id: "gaps", label: "Gap Detection", icon: AlertTriangle },
   { id: "actions", label: "Actions", icon: Wrench },
   { id: "review", label: "Review Queue", icon: Eye },
+  { id: "quarantine", label: "Quarantine", icon: Ban },
   { id: "tier-health", label: "Tier Health", icon: Layers },
   { id: "audit-log", label: "Audit Log", icon: Clock },
   { id: "analytics", label: "Analytics", icon: BarChart3 },
@@ -111,6 +112,7 @@ function MiniChart({ data, height = 40, color = "#6366f1" }: { data: number[]; h
 }
 
 function OverviewPanel() {
+  const { t } = useI18n();
   const { data, isLoading } = useQuery({
     queryKey: ["content-integrity-overview"],
     queryFn: async () => {
@@ -206,6 +208,7 @@ function OverviewPanel() {
 }
 
 function GapDetectionPanel() {
+  const { t } = useI18n();
   const [selectedGap, setSelectedGap] = useState<string>(GAP_TYPES[0].key);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState<"severity" | "title">("severity");
@@ -345,6 +348,7 @@ function GapDetectionPanel() {
 }
 
 function ActionControlsPanel() {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [actionStates, setActionStates] = useState<Record<string, "idle" | "queued" | "processing" | "completed" | "failed">>({});
 
@@ -428,6 +432,7 @@ function ActionControlsPanel() {
 }
 
 function ManualReviewQueue() {
+  const { t } = useI18n();
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
   const [filterSeverity, setFilterSeverity] = useState("all");
@@ -604,6 +609,7 @@ function ManualReviewQueue() {
 }
 
 function TierHealthTable() {
+  const { t } = useI18n();
   const { data, isLoading } = useQuery({
     queryKey: ["content-integrity-tier-health"],
     queryFn: async () => {
@@ -714,6 +720,7 @@ function TierHealthTable() {
 }
 
 function AuditLogPanel() {
+  const { t } = useI18n();
   const [page, setPage] = useState(1);
   const [filterProcess, setFilterProcess] = useState("all");
   const queryClient = useQueryClient();
@@ -852,6 +859,7 @@ function AuditLogPanel() {
 }
 
 function AnalyticsPanel() {
+  const { t } = useI18n();
   const { data, isLoading } = useQuery({
     queryKey: ["content-integrity-analytics"],
     queryFn: async () => {
@@ -1026,7 +1034,304 @@ function AnalyticsPanel() {
   );
 }
 
+function QuarantinePanel() {
+  const queryClient = useQueryClient();
+  const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const [filterType, setFilterType] = useState<string>("all");
+
+  const { data: quarantineData, isLoading } = useQuery({
+    queryKey: ["content-quarantine-list"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/content-quarantine/list");
+      if (!res.ok) throw new Error("Failed to load quarantine list");
+      return res.json();
+    },
+    staleTime: 30000,
+    retry: false,
+  });
+
+  const { data: statsData } = useQuery({
+    queryKey: ["content-quarantine-stats"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/content-quarantine/stats");
+      if (!res.ok) throw new Error("Failed to load stats");
+      return res.json();
+    },
+    staleTime: 30000,
+    retry: false,
+  });
+
+  const resolveMutation = useMutation({
+    mutationFn: async ({ contentId, action }: { contentId: string; action: string }) => {
+      const res = await adminFetch("/api/admin/content-quarantine/resolve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contentId, action }),
+      });
+      if (!res.ok) throw new Error("Failed to resolve quarantine");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["content-quarantine-list"] });
+      queryClient.invalidateQueries({ queryKey: ["content-quarantine-stats"] });
+    },
+  });
+
+  const repairMutation = useMutation({
+    mutationFn: async ({ contentId, contentType }: { contentId: string; contentType: string }) => {
+      const res = await adminFetch("/api/admin/content-quarantine/repair", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contentId, contentType }),
+      });
+      if (!res.ok) throw new Error("Failed to repair content");
+      return res.json();
+    },
+  });
+
+  const items: any[] = quarantineData || [];
+  const stats = statsData || { active: 0, resolved: 0, byType: [] };
+
+  const filteredItems = filterType === "all" ? items : items.filter((i: any) => i.contentType === filterType);
+  const contentTypes = [...new Set(items.map((i: any) => i.contentType))];
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12" data-testid="loading-quarantine">
+        <RefreshCw className="w-6 h-6 animate-spin mr-2 text-gray-400" />
+        <span className="text-gray-500">Loading quarantine data...</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3" data-testid="section-quarantine-stats">
+        <StatCard icon={Ban} label="Active Quarantine" value={stats.active} testId="card-quarantine-active" color="text-red-600" bgColor="bg-red-50" />
+        <StatCard icon={CheckCircle} label="Resolved" value={stats.resolved} testId="card-quarantine-resolved" color="text-emerald-600" bgColor="bg-emerald-50" />
+        <StatCard icon={Shield} label="Content Types" value={contentTypes.length} testId="card-quarantine-types" color="text-blue-600" bgColor="bg-blue-50" />
+        <StatCard icon={AlertTriangle} label="Total Items" value={items.length} testId="card-quarantine-total" color="text-orange-600" bgColor="bg-orange-50" />
+      </div>
+
+      <div className="flex items-center gap-2 flex-wrap">
+        <Button
+          variant={filterType === "all" ? "default" : "outline"}
+          size="sm"
+          className="h-7 text-xs"
+          onClick={() => setFilterType("all")}
+          data-testid="button-filter-all"
+        >
+          All ({items.length})
+        </Button>
+        {contentTypes.map(ct => (
+          <Button
+            key={ct}
+            variant={filterType === ct ? "default" : "outline"}
+            size="sm"
+            className="h-7 text-xs"
+            onClick={() => setFilterType(ct)}
+            data-testid={`button-filter-${ct}`}
+          >
+            {ct} ({items.filter((i: any) => i.contentType === ct).length})
+          </Button>
+        ))}
+      </div>
+
+      {filteredItems.length === 0 ? (
+        <Card className="border-0 shadow-sm" data-testid="card-quarantine-empty">
+          <CardContent className="py-12 text-center">
+            <Shield className="w-12 h-12 text-emerald-400 mx-auto mb-3" />
+            <p className="text-sm font-medium text-gray-700">No quarantined items</p>
+            <p className="text-xs text-gray-500 mt-1">All content is currently healthy</p>
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="space-y-3">
+          {filteredItems.map((item: any) => {
+            const isExpanded = expandedItem === item.contentId;
+            return (
+              <Card key={item.id || item.contentId} className="border-0 shadow-sm" data-testid={`card-quarantine-item-${item.contentId}`}>
+                <CardContent className="p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <Ban className="w-4 h-4 text-red-500 flex-shrink-0" />
+                        <span className="text-sm font-semibold text-gray-900 truncate" data-testid={`text-quarantine-title-${item.contentId}`}>
+                          {item.contentTitle || item.contentId}
+                        </span>
+                        <Badge variant="outline" className="text-[10px]" data-testid={`badge-quarantine-type-${item.contentId}`}>
+                          {item.contentType}
+                        </Badge>
+                      </div>
+                      <p className="text-xs text-red-600 mt-1 font-medium" data-testid={`text-quarantine-reason-${item.contentId}`}>
+                        {item.reason}
+                      </p>
+                      <p className="text-[10px] text-gray-400 mt-0.5">
+                        Quarantined: {item.createdAt ? new Date(item.createdAt).toLocaleString() : "Unknown"}
+                        {item.quarantinedBy && ` by ${item.quarantinedBy}`}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1 flex-shrink-0">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-xs"
+                        onClick={() => setExpandedItem(isExpanded ? null : item.contentId)}
+                        data-testid={`button-expand-${item.contentId}`}
+                      >
+                        {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-xs text-blue-600 hover:bg-blue-50"
+                        onClick={() => repairMutation.mutate({ contentId: item.contentId, contentType: item.contentType })}
+                        disabled={repairMutation.isPending}
+                        data-testid={`button-repair-${item.contentId}`}
+                      >
+                        <Wrench className="w-3 h-3 mr-1" /> Repair
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-xs text-emerald-600 hover:bg-emerald-50"
+                        onClick={() => resolveMutation.mutate({ contentId: item.contentId, action: "restore" })}
+                        disabled={resolveMutation.isPending}
+                        data-testid={`button-restore-${item.contentId}`}
+                      >
+                        <RotateCcw className="w-3 h-3 mr-1" /> Restore
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-xs text-red-600 hover:bg-red-50"
+                        onClick={() => resolveMutation.mutate({ contentId: item.contentId, action: "delete" })}
+                        disabled={resolveMutation.isPending}
+                        data-testid={`button-delete-${item.contentId}`}
+                      >
+                        <XCircle className="w-3 h-3 mr-1" /> Delete
+                      </Button>
+                    </div>
+                  </div>
+
+                  {isExpanded && (
+                    <QuarantineItemDetail contentId={item.contentId} contentType={item.contentType} repairResult={repairMutation.data?.contentId === item.contentId ? repairMutation.data : null} />
+                  )}
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function QuarantineItemDetail({ contentId, contentType, repairResult }: { contentId: string; contentType: string; repairResult: any }) {
+  const { data: validationHistory, isLoading } = useQuery({
+    queryKey: ["quarantine-validation-history", contentId],
+    queryFn: async () => {
+      const res = await adminFetch(`/api/admin/content-quarantine/validation-history/${contentId}`);
+      if (!res.ok) throw new Error("Failed to load validation history");
+      return res.json();
+    },
+    staleTime: 30000,
+    retry: false,
+  });
+
+  const records: any[] = validationHistory || [];
+
+  return (
+    <div className="mt-3 pt-3 border-t border-gray-100 space-y-3" data-testid={`detail-quarantine-${contentId}`}>
+      {repairResult && (
+        <div className={`p-3 rounded-lg text-xs ${repairResult.validAfterRepair ? "bg-emerald-50 border border-emerald-200" : "bg-amber-50 border border-amber-200"}`} data-testid={`repair-result-${contentId}`}>
+          <p className="font-semibold mb-1">
+            {repairResult.validAfterRepair ? <CheckCircle className="w-3.5 h-3.5 inline mr-1 text-emerald-600" /> : <AlertTriangle className="w-3.5 h-3.5 inline mr-1 text-amber-600" />}
+            Repair Result: {repairResult.validAfterRepair ? "Content is now valid" : "Repair incomplete - manual fixes needed"}
+          </p>
+          {repairResult.repairs?.length > 0 && (
+            <div className="mt-1">
+              <p className="text-gray-600 mb-0.5">Repairs applied:</p>
+              <ul className="list-disc list-inside text-gray-700">
+                {repairResult.repairs.map((r: any, i: number) => (
+                  <li key={i}>{r.field}: {r.description || r.action}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {repairResult.remainingErrors?.length > 0 && (
+            <div className="mt-1">
+              <p className="text-red-700 mb-0.5">Remaining errors:</p>
+              <ul className="list-disc list-inside text-red-600">
+                {repairResult.remainingErrors.map((e: any, i: number) => (
+                  <li key={i}>{e.field}: {e.message}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
+
+      <div>
+        <p className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-1">
+          <ClipboardCheck className="w-3.5 h-3.5" /> Validation History
+        </p>
+        {isLoading ? (
+          <div className="flex items-center gap-2 py-3">
+            <RefreshCw className="w-3.5 h-3.5 animate-spin text-gray-400" />
+            <span className="text-xs text-gray-500">Loading history...</span>
+          </div>
+        ) : records.length === 0 ? (
+          <p className="text-xs text-gray-400 py-2">No validation history found</p>
+        ) : (
+          <div className="space-y-2 max-h-60 overflow-y-auto">
+            {records.slice(0, 5).map((record: any, idx: number) => (
+              <div key={record.id || idx} className={`p-2 rounded-lg text-xs ${record.valid ? "bg-emerald-50" : "bg-red-50"}`} data-testid={`validation-record-${contentId}-${idx}`}>
+                <div className="flex items-center justify-between">
+                  <span className="font-medium text-gray-900">
+                    Version {record.version || idx + 1}
+                    {record.valid ? (
+                      <CheckCircle className="w-3 h-3 inline ml-1 text-emerald-600" />
+                    ) : (
+                      <XCircle className="w-3 h-3 inline ml-1 text-red-600" />
+                    )}
+                  </span>
+                  <span className="text-[10px] text-gray-400">
+                    {record.createdAt ? new Date(record.createdAt).toLocaleString() : ""}
+                  </span>
+                </div>
+                {record.errors && Array.isArray(record.errors) && record.errors.length > 0 && (
+                  <div className="mt-1">
+                    <p className="text-red-700 font-medium">Errors ({record.errors.length}):</p>
+                    <ul className="list-disc list-inside text-red-600 mt-0.5">
+                      {record.errors.slice(0, 5).map((err: any, ei: number) => (
+                        <li key={ei}>{typeof err === "string" ? err : `${err.field || ""}: ${err.message || err}`}</li>
+                      ))}
+                      {record.errors.length > 5 && <li className="text-gray-500">... and {record.errors.length - 5} more</li>}
+                    </ul>
+                  </div>
+                )}
+                {record.warnings && Array.isArray(record.warnings) && record.warnings.length > 0 && (
+                  <div className="mt-1">
+                    <p className="text-amber-700 font-medium">Warnings ({record.warnings.length}):</p>
+                    <ul className="list-disc list-inside text-amber-600 mt-0.5">
+                      {record.warnings.slice(0, 3).map((w: any, wi: number) => (
+                        <li key={wi}>{typeof w === "string" ? w : `${w.field || ""}: ${w.message || w}`}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function AdminContentIntegrity() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState<TabId>("overview");
   const queryClient = useQueryClient();
@@ -1057,6 +1362,8 @@ export default function AdminContentIntegrity() {
               queryClient.invalidateQueries({ queryKey: ["content-integrity-tier-health"] });
               queryClient.invalidateQueries({ queryKey: ["content-integrity-audit-log"] });
               queryClient.invalidateQueries({ queryKey: ["content-integrity-analytics"] });
+              queryClient.invalidateQueries({ queryKey: ["content-quarantine-list"] });
+              queryClient.invalidateQueries({ queryKey: ["content-quarantine-stats"] });
             }}
             data-testid="button-refresh-all"
           >
@@ -1087,6 +1394,7 @@ export default function AdminContentIntegrity() {
         {activeTab === "gaps" && <GapDetectionPanel />}
         {activeTab === "actions" && <ActionControlsPanel />}
         {activeTab === "review" && <ManualReviewQueue />}
+        {activeTab === "quarantine" && <QuarantinePanel />}
         {activeTab === "tier-health" && <TierHealthTable />}
         {activeTab === "audit-log" && <AuditLogPanel />}
         {activeTab === "analytics" && <AnalyticsPanel />}
