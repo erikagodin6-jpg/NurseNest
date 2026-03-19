@@ -1,6 +1,7 @@
 import pg from "pg";
 import { sendAdminNotification } from "./admin-notifications";
 import { getNotificationSettings } from "./admin-notifications";
+import { evaluateAlert, recordEmailSent, type AlertCategory } from "./alert-coordinator";
 
 export type AlertType =
   | "failure_rate_spike"
@@ -229,54 +230,51 @@ export async function fireAlert(
       return alertId;
     }
 
-    const settings = await getNotificationSettings(pool);
-    const shouldNotifyAdmin =
-      (severity === "critical" && settings.notifyOnCriticalIncident) ||
-      (severity === "warning" && settings.notifyOnWarningIncident);
+    const coordinatorCategory = alertType as unknown as AlertCategory;
+    const decision = evaluateAlert(coordinatorCategory, severity, message, context);
 
-    if (rateLimited) {
-      console.log(`[AlertEngine] Persisted but notification suppressed (rate limit ${MAX_ALERTS_PER_TYPE_PER_HOUR}/hr): ${alertType}`);
-      return alertId;
-    }
+    if (decision.shouldSendEmail) {
+      const settings = await getNotificationSettings(pool);
+      const shouldSend =
+        (severity === "critical" && settings.notifyOnCriticalIncident) ||
+        (severity === "warning" && settings.notifyOnWarningIncident);
 
-    const hardRateKey = alertType;
-    const lastHardRate = hardRateLimitMap.get(hardRateKey);
-    const withinHardRateLimit = !lastHardRate || (now - lastHardRate >= HARD_RATE_LIMIT_MS);
-
-    if (shouldNotifyAdmin && withinHardRateLimit) {
-      hardRateLimitMap.set(hardRateKey, now);
-      markEmailSent(alertType, severity, context);
-
-      const severityEmoji = severity === "critical" ? "🔴" : severity === "warning" ? "🟡" : "🔵";
-      type NotificationEventType = "service_down" | "synthetic_test_failure" | "content_integrity_failure" | "reliability_warning";
-      const eventTypeMap: Record<AlertType, NotificationEventType> = {
-        emergency_mode_activated: "service_down",
-        circuit_breaker_trip: "service_down",
-        synthetic_test_failure: "synthetic_test_failure",
-        zero_valid_items: "content_integrity_failure",
-        quarantine_event: "content_integrity_failure",
-        backup_generation_failure: "content_integrity_failure",
-        failure_rate_spike: "reliability_warning",
-        fallback_usage_spike: "reliability_warning",
-        entitlement_anomaly: "reliability_warning",
-        protected_recovery_excessive: "reliability_warning",
-        lkg_failover_repeated: "reliability_warning",
-        payment_sync_spike: "reliability_warning",
-      };
-      const notificationEvent = eventTypeMap[alertType] || (severity === "critical" ? "service_down" : "reliability_warning");
-      const incidentInfo = group.count > 1
-        ? `\n\nIncident Group: ${group.count} occurrences\nFirst seen: ${new Date(group.firstSeen).toISOString()}\nLast seen: ${new Date(group.lastSeen).toISOString()}`
-        : "";
-      sendAdminNotification(pool, {
-        event: notificationEvent,
-        alertType,
-        alertSeverity: severity,
-        details: `${severityEmoji} Reliability Alert: ${message}\n\nType: ${alertType}\nSeverity: ${severity}\nTime: ${new Date().toISOString()}${incidentInfo}`,
-      }).catch((e: any) => {
-        emailRateLimit.delete(getEmailRateLimitKey(alertType, severity, context));
-        console.error("[AlertEngine] Notification send failed:", e.message);
-      });
+      if (shouldSend) {
+        const severityEmoji = severity === "critical" ? "🔴" : severity === "warning" ? "🟡" : "🔵";
+        type NotificationEventType = "service_down" | "synthetic_test_failure" | "content_integrity_failure" | "reliability_warning" | "reliability_alert";
+        const eventTypeMap: Record<AlertType, NotificationEventType> = {
+          emergency_mode_activated: "service_down",
+          circuit_breaker_trip: "service_down",
+          synthetic_test_failure: "synthetic_test_failure",
+          zero_valid_items: "content_integrity_failure",
+          quarantine_event: "content_integrity_failure",
+          backup_generation_failure: "content_integrity_failure",
+          failure_rate_spike: "reliability_warning",
+          fallback_usage_spike: "reliability_warning",
+          entitlement_anomaly: "reliability_warning",
+          protected_recovery_excessive: "reliability_warning",
+          lkg_failover_repeated: "reliability_warning",
+          payment_sync_spike: "reliability_warning",
+        };
+        const notificationEvent = eventTypeMap[alertType] || (severity === "critical" ? "service_down" : "reliability_warning");
+        const incidentInfo = group.count > 1
+          ? `\n\nIncident Group: ${group.count} occurrences\nFirst seen: ${new Date(group.firstSeen).toISOString()}\nLast seen: ${new Date(group.lastSeen).toISOString()}`
+          : "";
+        try {
+          await sendAdminNotification(pool, {
+            event: notificationEvent,
+            alertType,
+            alertSeverity: severity,
+            details: `${severityEmoji} Reliability Alert: ${message}\n\nType: ${alertType}\nSeverity: ${severity}\nTime: ${new Date().toISOString()}${incidentInfo}`,
+          });
+          recordEmailSent(decision.incidentSignature);
+        } catch (e: any) {
+          console.error("[AlertEngine] Notification send failed:", e.message);
+        }
+      }
       group.notified = true;
+    } else {
+      console.log(`[AlertEngine] Email suppressed (${decision.reason}): ${alertType} - ${message}`);
     }
 
     return alertId;

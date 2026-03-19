@@ -41,9 +41,6 @@ function genId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
-const alertEmailRateLimit = new Map<string, number>();
-const ALERT_EMAIL_RATE_LIMIT_MS = 10 * 60 * 1000;
-
 export function addAlert(severity: "critical" | "warning" | "info", category: string, title: string, message: string, source: string, data: Record<string, any> = {}) {
   const activeIncident = alertEvents.find(a => a.category === category && a.title === title && !a.acknowledged);
   if (activeIncident) {
@@ -56,14 +53,19 @@ export function addAlert(severity: "critical" | "warning" | "info", category: st
   if (alertEvents.length > MAX_ALERTS) alertEvents.length = MAX_ALERTS;
   persistAlert(alert).catch(() => {});
   if (severity === "critical") {
-    const emailKey = `${category}:${title}`;
-    const lastEmailSent = alertEmailRateLimit.get(emailKey);
-    if (lastEmailSent && Date.now() - lastEmailSent < ALERT_EMAIL_RATE_LIMIT_MS) {
-      console.log(`[Resilience] Alert email rate-limited: ${title}`);
-      return;
+    try {
+      const { evaluateAlert, recordEmailSent } = require("./alert-coordinator");
+      const decision = evaluateAlert(category as any, severity, message, source);
+      if (decision.shouldSendEmail) {
+        sendAlertEmail(title, message, severity).then(() => {
+          recordEmailSent(decision.incidentSignature);
+        }).catch((e: any) => console.error("[Resilience] Alert email failed:", e.message));
+      } else {
+        console.log(`[Resilience] Alert email suppressed (${decision.reason}): ${title}`);
+      }
+    } catch {
+      sendAlertEmail(title, message, severity).catch(e => console.error("[Resilience] Alert email failed:", e.message));
     }
-    alertEmailRateLimit.set(emailKey, Date.now());
-    sendAlertEmail(title, message, severity).catch(e => console.error("[Resilience] Alert email failed:", e.message));
   }
 }
 
@@ -882,8 +884,8 @@ export function getResilienceEvents(limit = 50): ResilienceEvent[] {
 let emergencyModeActive = false;
 let emergencyModeReason: string | null = null;
 let emergencyModeActivatedAt: number | null = null;
-let emergencyModeDeactivatedAt: number | null = null;
-const EMERGENCY_MODE_COOLDOWN_MS = 60_000;
+let emergencyModeLastDeactivatedAt: number | null = null;
+const EMERGENCY_MODE_REACTIVATION_COOLDOWN_MS = 10 * 60 * 1000;
 
 export function isEmergencyMode(): boolean {
   return emergencyModeActive;
@@ -891,8 +893,8 @@ export function isEmergencyMode(): boolean {
 
 export function activateEmergencyMode(reason: string, actor?: string): void {
   if (emergencyModeActive) return;
-  if (emergencyModeDeactivatedAt && Date.now() - emergencyModeDeactivatedAt < EMERGENCY_MODE_COOLDOWN_MS) {
-    console.log(`[EMERGENCY MODE] Cooldown active (${Math.round((EMERGENCY_MODE_COOLDOWN_MS - (Date.now() - emergencyModeDeactivatedAt)) / 1000)}s remaining), skipping re-activation`);
+  if (emergencyModeLastDeactivatedAt && Date.now() - emergencyModeLastDeactivatedAt < EMERGENCY_MODE_REACTIVATION_COOLDOWN_MS) {
+    console.log(`[EMERGENCY MODE] Reactivation suppressed (cooldown ${Math.round((EMERGENCY_MODE_REACTIVATION_COOLDOWN_MS - (Date.now() - emergencyModeLastDeactivatedAt)) / 1000)}s remaining): ${reason}`);
     return;
   }
   emergencyModeActive = true;
@@ -919,7 +921,7 @@ export function deactivateEmergencyMode(actor?: string): void {
   emergencyModeActive = false;
   emergencyModeReason = null;
   emergencyModeActivatedAt = null;
-  emergencyModeDeactivatedAt = Date.now();
+  emergencyModeLastDeactivatedAt = Date.now();
   addResilienceEvent("emergency_mode_deactivated", "system", { actor, durationMs: duration });
   addResilienceAudit("emergency_mode_deactivate", "platform", "emergency_mode", { actor, durationMs: duration }, actor || null);
   pool.query(

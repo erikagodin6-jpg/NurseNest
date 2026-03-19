@@ -57,7 +57,7 @@ export async function saveNotificationSettings(pool: any, settings: Partial<Noti
   return merged;
 }
 
-type NotificationEvent =
+export type NotificationEvent =
   | "new_subscription"
   | "subscription_cancelled"
   | "payment_failed"
@@ -85,7 +85,7 @@ interface NotificationPayload {
   alertSeverity?: string;
 }
 
-function shouldNotify(settings: NotificationSettings, event: NotificationEvent, payload?: NotificationPayload): boolean {
+export function shouldNotify(settings: NotificationSettings, event: NotificationEvent, payload?: NotificationPayload): boolean {
   switch (event) {
     case "new_subscription": return settings.notifyOnNewSubscription;
     case "subscription_cancelled": return settings.notifyOnCancellation;

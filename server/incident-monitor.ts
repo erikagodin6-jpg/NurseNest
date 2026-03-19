@@ -47,8 +47,6 @@ const activeIncidents = new Map<string, ProductionIncident>();
 const DEDUP_WINDOW_MS = 15 * 60 * 1000;
 const MAX_AFFECTED_USERS_TRACKED = 500;
 const ALERT_USER_THRESHOLDS = [10, 50, 200];
-const incidentNotificationCooldown = new Map<string, number>();
-const INCIDENT_NOTIFICATION_COOLDOWN_MS = 15 * 60 * 1000;
 
 function generateIncidentId(): string {
   const date = new Date();
@@ -191,13 +189,18 @@ function emitStructuredLog(incident: ProductionIncident, action: string): void {
 
 async function fireIncidentNotification(incident: ProductionIncident, action: "created" | "escalated"): Promise<void> {
   try {
-    const cooldownKey = `${incident.errorSignature}:${action}`;
-    const lastNotified = incidentNotificationCooldown.get(cooldownKey);
-    if (lastNotified && Date.now() - lastNotified < INCIDENT_NOTIFICATION_COOLDOWN_MS) {
-      console.log(`[IncidentMonitor] Suppressed notification (cooldown): ${cooldownKey}`);
+    const { evaluateAlert, recordEmailSent } = await import("./alert-coordinator");
+    const decision = evaluateAlert(
+      (incident.category as any) || "general",
+      incident.severity as any,
+      `${incident.title}: ${incident.message}`,
+      incident.incidentId
+    );
+
+    if (!decision.shouldSendEmail) {
+      console.log(`[IncidentMonitor] Notification suppressed (${decision.reason}): ${incident.title}`);
       return;
     }
-    incidentNotificationCooldown.set(cooldownKey, Date.now());
 
     const { getNotificationSettings } = await import("./admin-notifications");
     const settings = await getNotificationSettings(pool);
@@ -232,6 +235,8 @@ async function fireIncidentNotification(incident: ProductionIncident, action: "c
       </div>
     `;
 
+    let emailSent = false;
+
     if (shouldEmail && settings.emailEnabled) {
       try {
         const { getResendClient } = await import("./resend-client");
@@ -242,6 +247,7 @@ async function fireIncidentNotification(incident: ProductionIncident, action: "c
           subject,
           html,
         });
+        emailSent = true;
       } catch (e: any) {
         console.error("[IncidentMonitor] Email notification failed:", e.message);
       }
@@ -257,9 +263,14 @@ async function fireIncidentNotification(incident: ProductionIncident, action: "c
           to: settings.adminPhone,
           from: fromNumber,
         });
+        emailSent = true;
       } catch (e: any) {
         console.error("[IncidentMonitor] SMS notification failed:", e.message);
       }
+    }
+
+    if (emailSent) {
+      recordEmailSent(decision.incidentSignature);
     }
   } catch (e: any) {
     console.error("[IncidentMonitor] Notification dispatch failed:", e.message);

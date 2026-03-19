@@ -247,6 +247,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { requestMetricsMiddleware, autoStartDeployMonitoring } = await import("./deployment-protection");
   app.use(requestMetricsMiddleware());
   app.use(loadSheddingMiddleware());
+  const { requestPayloadLimiterMiddleware } = await import("./memory-middleware");
+  app.use(requestPayloadLimiterMiddleware());
   const { vipPriorityMiddleware } = await import("./content-health-gate");
   app.use(vipPriorityMiddleware());
   autoStartDeployMonitoring();
@@ -3513,6 +3515,23 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   app.use("/api/admin/ai/flashcards/generate", aiHeavyRateLimitMiddleware());
   app.use("/api/mock-exams/start", examStartRateLimitMiddleware());
   app.use("/api/mock-exams/start-specialty", examStartRateLimitMiddleware());
+
+  const { concurrencyLimiter } = await import("./concurrency-limiter");
+  app.use("/api/mock-exams/start", concurrencyLimiter({ maxConcurrent: 10, label: "exam_session_start" }));
+  app.use("/api/mock-exams/start-specialty", concurrencyLimiter({ maxConcurrent: 10, label: "exam_session_start" }));
+  app.use("/api/exams", concurrencyLimiter({ maxConcurrent: 20, label: "exam_data_loading" }));
+  app.use("/api/exam-questions", concurrencyLimiter({ maxConcurrent: 20, label: "exam_data_loading" }));
+  app.use("/api/question-bank", concurrencyLimiter({ maxConcurrent: 15, label: "question_bank_queries" }));
+  app.use("/api/ai/generate-content", concurrencyLimiter({ maxConcurrent: 3, label: "ai_generation" }));
+  app.use("/api/ai/generate-pipeline", concurrencyLimiter({ maxConcurrent: 3, label: "ai_generation" }));
+  app.use("/api/ai/generate-questions-batch", concurrencyLimiter({ maxConcurrent: 3, label: "ai_generation" }));
+  app.use("/api/ai/generate-test-bank", concurrencyLimiter({ maxConcurrent: 3, label: "ai_generation" }));
+  app.use("/api/ai/chat-assist", concurrencyLimiter({ maxConcurrent: 3, label: "ai_generation" }));
+  app.use("/api/admin/ai/exam-questions/generate", concurrencyLimiter({ maxConcurrent: 3, label: "ai_generation" }));
+  app.use("/api/admin/ai/flashcards/generate", concurrencyLimiter({ maxConcurrent: 3, label: "ai_generation" }));
+  app.use("/api/admin/bulk", concurrencyLimiter({ maxConcurrent: 3, label: "ai_generation" }));
+  app.use("/api/admin/mass-expansion", concurrencyLimiter({ maxConcurrent: 3, label: "ai_generation" }));
+  app.use("/api/generator-v2/generations", concurrencyLimiter({ maxConcurrent: 3, label: "ai_generation" }));
   app.use("/api/auth/recover-account", sensitiveApiRateLimitMiddleware());
 
   const signupLimiter = rateLimit({
@@ -25204,6 +25223,72 @@ Rules:
       res.json({ generated: results.filter((r: any) => !r.error).length, failed: results.filter((r: any) => r.error).length, results });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get("/api/admin/incidents/summary", async (req: any, res) => {
+    try {
+      const admin = await resolveAuthUser(req);
+      if (!admin || admin.tier !== "admin") {
+        return res.status(403).json({ error: "Admin access required" });
+      }
+
+      const { getActiveIncidents, getIncidentStats } = await import("./incident-monitor");
+      const { getCoordinatorStats } = await import("./alert-coordinator");
+      const { getEmergencyModeStatus } = await import("./platform-resilience");
+      const { getConcurrencyStats } = await import("./concurrency-limiter");
+      const { getMemoryPressure } = await import("./memory-monitor");
+
+      const stats = getIncidentStats();
+      const coordinatorStats = getCoordinatorStats();
+      const emergencyStatus = getEmergencyModeStatus();
+      const activeIncidents = getActiveIncidents();
+      const concurrency = getConcurrencyStats();
+      const memory = getMemoryPressure();
+
+      const bySeverity: Record<string, number> = {};
+      const byCategory: Record<string, number> = {};
+      for (const inc of activeIncidents) {
+        bySeverity[inc.severity] = (bySeverity[inc.severity] || 0) + 1;
+        byCategory[inc.category] = (byCategory[inc.category] || 0) + 1;
+      }
+
+      res.json({
+        activeIncidentCount: stats.totalActive,
+        bySeverity,
+        byCategory,
+        acknowledgedCount: stats.acknowledgedCount,
+        resolvedCount: stats.resolvedCount,
+        totalAffectedUsers: stats.totalAffectedUsers,
+        alertCoordinator: {
+          suppressedDuplicateCount: coordinatorStats.totalSuppressed,
+          currentAlertRate: coordinatorStats.globalEmailsInWindow,
+          globalRateLimit: coordinatorStats.globalRateLimit,
+          activeTrackedIncidents: coordinatorStats.activeIncidents,
+        },
+        emergencyMode: emergencyStatus,
+        memoryPressure: {
+          level: memory.level,
+          isWarning: memory.isWarning,
+          isProtection: memory.isProtection,
+          isCritical: memory.isCritical,
+        },
+        concurrency,
+        recentIncidents: activeIncidents.slice(0, 20).map(inc => ({
+          incidentId: inc.incidentId,
+          category: inc.category,
+          severity: inc.severity,
+          title: inc.title,
+          status: inc.status,
+          affectedUserCount: inc.affectedUserCount,
+          occurrenceCount: inc.occurrenceCount,
+          firstOccurrence: new Date(inc.firstOccurrence).toISOString(),
+          lastOccurrence: new Date(inc.lastOccurrence).toISOString(),
+        })),
+      });
+    } catch (e: any) {
+      console.error("[IncidentSummary] Error:", e.message);
+      res.status(500).json({ error: "Failed to generate incident summary" });
     }
   });
 

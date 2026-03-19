@@ -62,6 +62,8 @@ const DETECTED_MEMORY_LIMIT_MB = detectMemoryLimitMB();
 const WARNING_THRESHOLD_MB = parseInt(process.env.MEMORY_WARNING_MB || "0") || Math.round(DETECTED_MEMORY_LIMIT_MB * 0.70);
 const PROTECTION_THRESHOLD_MB = parseInt(process.env.MEMORY_PROTECTION_MB || "0") || Math.round(DETECTED_MEMORY_LIMIT_MB * 0.80);
 const CRITICAL_THRESHOLD_MB = parseInt(process.env.MEMORY_CRITICAL_MB || "0") || Math.round(DETECTED_MEMORY_LIMIT_MB * 0.90);
+const SAFE_THRESHOLD_MB = Math.round(CRITICAL_THRESHOLD_MB * 0.8);
+const HYSTERESIS_DURATION_MS = 60_000;
 const MONITOR_INTERVAL_MS = 10_000;
 const MAX_SPIKE_LOG = 30;
 const CLEANUP_INTERVAL_MS = 60_000;
@@ -193,7 +195,12 @@ function runMemoryCheck(): void {
     }
   }
 
+  if (status.level === "normal" && prevLevel === "normal") {
+    deactivateProtectionMode();
+  }
+
   if (status.level !== "normal") {
+    belowSafeThresholdSince = null;
     logSpike(status, null, null);
   }
 
@@ -264,8 +271,29 @@ async function triggerCriticalMode(): Promise<void> {
   } catch {}
 }
 
+let belowSafeThresholdSince: number | null = null;
+
 async function deactivateProtectionMode(): Promise<void> {
   try {
+    const status = checkMemoryNow();
+    if (status.rssMB > SAFE_THRESHOLD_MB) {
+      belowSafeThresholdSince = null;
+      return;
+    }
+
+    if (!belowSafeThresholdSince) {
+      belowSafeThresholdSince = Date.now();
+      console.log(`[MemoryMonitor] Memory below safe threshold (${SAFE_THRESHOLD_MB}MB), starting hysteresis timer`);
+      return;
+    }
+
+    if (Date.now() - belowSafeThresholdSince < HYSTERESIS_DURATION_MS) {
+      return;
+    }
+
+    console.log(`[MemoryMonitor] Hysteresis period elapsed, deactivating protection modes`);
+    belowSafeThresholdSince = null;
+
     const { deactivateMinimalCore, isMinimalCoreMode, deactivateEmergencyMode, isEmergencyMode } = await import("./platform-resilience");
     if (isMinimalCoreMode()) {
       deactivateMinimalCore("memory_monitor");

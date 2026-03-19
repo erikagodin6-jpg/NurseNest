@@ -779,7 +779,7 @@ app.post(
 // -------------------------
 // Body parsers (AFTER webhook route)
 // -------------------------
-app.use(express.json({ limit: "10mb" }));
+app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: false }));
 
 import { connectionTrackingMiddleware, loadSheddingMiddleware, responseSizeLimiterMiddleware, memoryAwareRequestLogger, aiConcurrencyLimiterMiddleware, routeInstrumentationMiddleware, concurrencyLimiterMiddleware } from "./memory-middleware";

@@ -88,14 +88,24 @@ export function connectionTrackingMiddleware() {
   };
 }
 
-const EXEMPT_PATHS = [
+const CORE_USER_PATHS = [
   "/api/platform/status",
   "/api/admin/resilience",
   "/api/healthz",
   "/api/auth",
   "/api/user",
   "/api/stripe/webhook",
+  "/api/login",
+  "/api/register",
+  "/api/exam-sessions",
+  "/api/exams",
+  "/api/dashboard",
+  "/api/kill-switches",
+  "/api/entitlement",
+  "/api/boot-beacon",
 ];
+
+const EXEMPT_PATHS = CORE_USER_PATHS;
 
 const HEAVY_NON_ESSENTIAL_PATTERNS = [
   "/api/ai/",
@@ -105,20 +115,49 @@ const HEAVY_NON_ESSENTIAL_PATTERNS = [
   "/api/admin/mass-expansion",
   "/api/admin/bulk",
   "/api/admin/publish-gate",
+  "/api/admin/analytics",
+  "/api/blog/generate",
 ];
+
+const NON_ESSENTIAL_PATHS = HEAVY_NON_ESSENTIAL_PATTERNS;
+
+const MAX_REQUEST_PAYLOAD_BYTES = 2 * 1024 * 1024;
+
 
 export function loadSheddingMiddleware() {
   return (req: Request, res: Response, next: NextFunction) => {
     if (!req.path.startsWith("/api/")) return next();
 
-    if (EXEMPT_PATHS.some(p => req.path.startsWith(p))) return next();
+    const isCoreUserPath = CORE_USER_PATHS.some(p => req.path.startsWith(p));
+    if (isCoreUserPath) return next();
 
-    // Emergency mode block (broadest) — block non-essential heavy routes entirely
     let emergencyMode = false;
     try {
       const resilience = require("./platform-resilience");
       emergencyMode = typeof resilience.isEmergencyMode === "function" && resilience.isEmergencyMode();
     } catch {}
+
+    if (isMemoryCritical()) {
+      const isNonEssential = NON_ESSENTIAL_PATHS.some(p => req.path.startsWith(p));
+      if (isNonEssential) {
+        res.setHeader("Retry-After", "60");
+        return res.status(503).json({
+          error: "System under high memory pressure. This operation is temporarily disabled.",
+          retryAfter: 60,
+          memoryPressure: true,
+        });
+      }
+
+      const isBulkAI = BULK_AI_PATTERNS.some(p => req.path.startsWith(p));
+      if (isBulkAI) {
+        res.setHeader("Retry-After", "60");
+        return res.status(503).json({
+          error: "System under high memory pressure. Bulk operations temporarily disabled.",
+          retryAfter: 60,
+          memoryPressure: true,
+        });
+      }
+    }
 
     if (emergencyMode) {
       const isNonEssential = HEAVY_NON_ESSENTIAL_PATTERNS.some(p => req.path.startsWith(p));
@@ -174,6 +213,24 @@ export function loadSheddingMiddleware() {
       };
       res.on("finish", onDone);
       res.on("close", onDone);
+    }
+
+    next();
+  };
+}
+
+export function requestPayloadLimiterMiddleware() {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!req.path.startsWith("/api/")) return next();
+    if (req.method !== "POST" && req.method !== "PUT" && req.method !== "PATCH") return next();
+
+    const contentLength = parseInt(req.headers["content-length"] || "0");
+    if (contentLength > MAX_REQUEST_PAYLOAD_BYTES) {
+      return res.status(413).json({
+        error: "Request payload too large",
+        maxSizeBytes: MAX_REQUEST_PAYLOAD_BYTES,
+        actualSizeBytes: contentLength,
+      });
     }
 
     next();
