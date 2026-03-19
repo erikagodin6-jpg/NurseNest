@@ -1,0 +1,75 @@
+You are fixing a production deployment pipeline that currently takes 30–50 minutes to publish. This is unacceptable.
+
+Goal:
+Reduce publish time to under 5 minutes and ensure the app becomes healthy quickly after deploy.
+
+Perform a full deployment-path audit and implement the following:
+
+1. Identify the exact publish pipeline:
+- build command
+- run command
+- startup script
+- health check target
+- any migrations/backfills/seed jobs
+- any background jobs started in the web process
+
+2. Remove ALL nonessential work from publish/startup:
+- no AI content generation
+- no sitemap rebuild unless explicitly required
+- no bulk content audits
+- no question bank preloading
+- no cache warmup that blocks readiness
+- no background workers inside the main web server startup
+- no full filesystem scans
+- no PDF/image generation on boot
+
+3. Make startup minimal:
+- app should bind port immediately
+- health endpoint should return fast
+- defer noncritical tasks until after readiness, or move them to separate worker jobs
+
+4. Audit build output size and dependencies:
+- identify largest bundles
+- remove dead code and unused packages
+- exclude tests, scripts, backups, fixtures, and dev-only tooling from production build
+- code-split large routes
+- lazy-load admin-only pages and heavy editors
+- ensure no giant JSON/content files are imported into the client bundle
+
+5. Audit Vite / frontend build:
+- verify only production-required routes are bundled
+- split admin and public app code where possible
+- remove monolithic imports
+- report top bundle offenders and exact changes made
+
+6. Audit backend startup:
+- remove preload of exams/questions/content into memory
+- remove startup loops, intervals, and warmers from the web process
+- move scheduled jobs to a dedicated worker or cron process
+
+7. Audit database deployment path:
+- remove migrations/backfills from every publish if they are heavy
+- separate schema migration from app deploy
+- ensure app can start without waiting on heavy DB work
+
+8. Improve readiness:
+- create /healthz endpoint that checks only essential service liveness
+- do not block health on optional integrations
+- app must listen on the deployment port immediately
+
+9. Provide a publish-time breakdown:
+- dependency install time
+- frontend build time
+- backend build time
+- startup time
+- time to first healthy response
+
+10. Output:
+- root causes found
+- exact files changed
+- old vs new publish path
+- measured publish time before vs after
+- remaining bottlenecks
+- next optimizations if still above 5 minutes
+
+Do not add workarounds. Do not leave heavy tasks in startup. Implement the changes directly.

@@ -10602,7 +10602,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         return res.status(400).json({ error: "This exam's questions are not currently published. Please try a different exam.", code: "EXAM_UNPUBLISHED", reasonCode: "exam_unpublished", recoverable: false, fallbackHint: "try_different_exam" });
       }
 
-      const questions = publishedQuestions.map((q: any) => ({
+      let questions = publishedQuestions.map((q: any) => ({
         id: q.id,
         question: q.stem,
         options: q.options,

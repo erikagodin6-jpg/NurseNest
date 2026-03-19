@@ -33,7 +33,7 @@ npx esbuild server/index.ts \
   --bundle --platform=node --format=cjs \
   --outfile=dist/index.cjs \
   --define:process.env.NODE_ENV=\"production\" \
-  --minify --log-level=warning \
+  --minify --log-level=error \
   $LOADER \
   --external:../client/src/data/lessons/index \
   $EXTERNALS \

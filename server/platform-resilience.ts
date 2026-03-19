@@ -623,10 +623,12 @@ async function checkMemory(): Promise<HealthCheckResult> {
   const rssMB = Math.round(mem.rss / 1024 / 1024);
   const heapUsedMB = Math.round(mem.heapUsed / 1024 / 1024);
   const heapTotalMB = Math.round(mem.heapTotal / 1024 / 1024);
-  const warningMB = parseInt(process.env.MEMORY_WARNING_MB || "0") || 140;
-  const criticalMB = parseInt(process.env.MEMORY_CRITICAL_MB || "0") || 180;
+  let limitMB = 512;
+  try { const { getDetectedMemoryLimitMB } = await import("./memory-monitor"); limitMB = getDetectedMemoryLimitMB(); } catch {}
+  const warningMB = parseInt(process.env.MEMORY_WARNING_MB || "0") || Math.round(limitMB * 0.70);
+  const criticalMB = parseInt(process.env.MEMORY_CRITICAL_MB || "0") || Math.round(limitMB * 0.90);
   const status = rssMB > criticalMB ? "down" : rssMB > warningMB ? "degraded" : "healthy";
-  return { service: "memory", status, latencyMs: Date.now() - start, lastChecked: Date.now(), details: `RSS: ${rssMB}MB, Heap: ${heapUsedMB}/${heapTotalMB}MB` };
+  return { service: "memory", status, latencyMs: Date.now() - start, lastChecked: Date.now(), details: `RSS: ${rssMB}MB, Heap: ${heapUsedMB}/${heapTotalMB}MB (limit: ${limitMB}MB, warn: ${warningMB}MB, crit: ${criticalMB}MB)` };
 }
 
 async function withTimeout<T>(fn: () => Promise<T>, timeoutMs: number, label: string): Promise<T> {

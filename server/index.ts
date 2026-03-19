@@ -28,44 +28,23 @@ app.set("trust proxy", 1);
 let appReady = false;
 const APP_START_TIME = Date.now();
 app.get("/healthz", async (_req, res) => {
+  if (!appReady) {
+    return res.status(503).json({ status: "starting", appReady: false });
+  }
   try {
-    const { checkMemoryNow, getMemoryPressure, getActiveConnectionCount, getDetectedMemoryLimitMB } = await import("./memory-monitor");
-    const memStatus = checkMemoryNow();
-    const pressure = getMemoryPressure();
-    let dbStatus: "healthy" | "degraded" | "down" = "down";
-    let dbLatencyMs = 0;
+    const mem = process.memoryUsage();
+    let dbOk = false;
     try {
-      const dbStart = Date.now();
       const { pool: healthPool } = await import("./storage");
       await healthPool.query("SELECT 1");
-      dbLatencyMs = Date.now() - dbStart;
-      dbStatus = dbLatencyMs > 2000 ? "degraded" : "healthy";
-    } catch { dbStatus = "down"; }
-
-    let emergencyMode = false;
-    let minimalCoreMode = false;
-    try {
-      const resilience = await import("./platform-resilience");
-      emergencyMode = resilience.isEmergencyMode();
-      minimalCoreMode = resilience.isMinimalCoreMode();
+      dbOk = true;
     } catch {}
 
-    const overallStatus = dbStatus === "down" ? "unhealthy" : (pressure.isProtection || emergencyMode) ? "degraded" : "healthy";
-
-    res.status(overallStatus === "unhealthy" ? 503 : 200).json({
-      status: overallStatus,
+    const status = dbOk ? "healthy" : "unhealthy";
+    res.status(dbOk ? 200 : 503).json({
+      status,
       uptime: Math.round((Date.now() - APP_START_TIME) / 1000),
-      memory: {
-        rssMB: memStatus.rssMB,
-        heapUsedMB: memStatus.heapUsedMB,
-        heapTotalMB: memStatus.heapTotalMB,
-        memoryLimitMB: memStatus.memoryLimitMB,
-        usagePercent: memStatus.heapUsagePercent,
-        pressureLevel: pressure.level,
-      },
-      database: { status: dbStatus, latencyMs: dbLatencyMs },
-      activeConnections: getActiveConnectionCount(),
-      modes: { emergency: emergencyMode, minimalCore: minimalCoreMode },
+      rssMB: Math.round(mem.rss / 1024 / 1024),
       appReady,
     });
   } catch (e: any) {
@@ -1407,19 +1386,8 @@ function runDeferredStartupWork() {
     }
 
     const phase1Start = Date.now();
-    await startupMemoryGuard("Phase 1: Schema/Migrations");
-    console.log("[DeferredStartup] Phase 1: Schema sync + data migrations...");
-
-    await runSeedStep("SchemaSync", async () => {
-      const { ensureSchemaSync } = await import("./ensure-schema");
-      const { pool: schemaPool } = await import("./storage");
-      await ensureSchemaSync(schemaPool);
-    });
-
-    await runSeedStep("Startup Migrations", async () => {
-      const { runStartupDataMigrations } = await import("./startup-data-migrations");
-      await runStartupDataMigrations();
-    });
+    await startupMemoryGuard("Phase 1: Templates/Quarantine");
+    console.log("[DeferredStartup] Phase 1: Templates + quarantine (schema sync already ran in Phase 0)...");
 
     await runSeedStep("QBank Templates", async () => {
       const { seedPromptTemplates } = await import("./prompts/qbank-templates");
