@@ -2027,11 +2027,17 @@ function MockExamSessionInner() {
     );
   }
 
-  const rawQuestion = questions[currentQ];
-  const question = rawQuestion ? getTranslatedQuestion(rawQuestion) : undefined;
+  const rawQuestion = questions[currentQ] ?? null;
+  const question = rawQuestion ? getTranslatedQuestion(rawQuestion) : null;
   const answeredCount = Object.keys(answers).length;
   const unansweredCount = questions.length - answeredCount;
   const progressPercent = questions.length > 0 ? (answeredCount / questions.length) * 100 : 0;
+
+  useEffect(() => {
+    if (!rawQuestion && questions.length > 0 && currentQ >= questions.length) {
+      setCurrentQ(Math.max(0, questions.length - 1));
+    }
+  }, [rawQuestion, questions.length, currentQ]);
 
   const progressLabel = isCATExam
     ? `Item ${(catState?.itemsAdministered || 0) + 1} in Progress`

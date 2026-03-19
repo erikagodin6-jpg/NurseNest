@@ -557,10 +557,24 @@ function MockExamsPage() {
         err.code = data.reasonCode || data.code;
         err.reasonCode = data.reasonCode;
         err.status = res.status;
-        err.recoverable = data.recoverable;
+        err.recoverable = data.recoverable ?? data.retryable ?? false;
+        err.retryable = data.retryable ?? data.recoverable ?? false;
         err.requiredTier = data.requiredTier;
         err.fallbackHint = data.fallbackHint;
         err.correlationId = data.correlationId;
+        err.mode = data.mode;
+        err.fallbackMessage = data.fallbackMessage;
+
+        if (data.mode === "fallback_standard_exam") {
+          toast({
+            title: "CAT Engine Unavailable",
+            description: data.fallbackMessage || "The adaptive exam engine is temporarily unavailable. You can take a standard mock exam instead.",
+          });
+          setStarting(false);
+          setStartError(data.fallbackMessage || "CAT engine temporarily unavailable. Try a standard exam instead.");
+          return;
+        }
+
         throw err;
       }
       if (data.attemptId) {
@@ -584,6 +598,7 @@ function MockExamsPage() {
         const noSessionErr: any = new Error("No exam session was created.");
         noSessionErr.code = EXAM_FAILURE_CODES.SESSION_CREATE_FAILED;
         noSessionErr.recoverable = true;
+        noSessionErr.retryable = true;
         throw noSessionErr;
       }
     } catch (err: any) {
@@ -596,7 +611,8 @@ function MockExamsPage() {
 
       console.error("[MockExam] startExam failed:", { correlationId, message: err?.message, code: classified.code, httpStatus, recoverable: classified.recoverable, tier: selectedTier, examMode, blueprint: selectedBlueprint });
 
-      if (!classified.recoverable) {
+      const isRetryable = err?.retryable ?? classified.recoverable;
+      if (!isRetryable) {
         const userMsg = EXAM_ERROR_USER_MESSAGES[classified.code] || EXAM_ERROR_USER_MESSAGES[EXAM_FAILURE_CODES.UNKNOWN];
         setStartError(userMsg.description);
         toast({ title: userMsg.title, description: userMsg.description, variant: "destructive" });

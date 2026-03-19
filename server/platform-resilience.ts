@@ -342,6 +342,9 @@ const DEFAULT_FLAGS: Array<{ key: string; description: string; enabled: boolean;
   { key: "lesson_rendering", description: "Lesson content rendering", enabled: true, autoDisable: true, errorThreshold: 10 },
   { key: "new_ui_components", description: "Experimental UI components (high-risk)", enabled: false, autoDisable: true, errorThreshold: 3 },
   { key: "advanced_analytics", description: "Advanced analytics dashboard (experimental)", enabled: false, autoDisable: true, errorThreshold: 5 },
+  { key: "heavy_exports", description: "Heavy data export operations", enabled: true, autoDisable: true, errorThreshold: 5 },
+  { key: "expensive_diagnostics", description: "Expensive diagnostic queries and reports", enabled: true, autoDisable: true, errorThreshold: 5 },
+  { key: "large_background_jobs", description: "Large background processing jobs", enabled: true, autoDisable: true, errorThreshold: 3 },
 ];
 
 export function initFeatureFlags(): void {

@@ -7,6 +7,18 @@ import { z } from "zod";
 import type { Request, Response } from "express";
 import { premiumDegradationMiddleware, getDegradation, logDegradedAccess } from "./premium-degradation";
 import { BoundedMap } from "./bounded-map";
+import {
+  logStructuredExamStart,
+  generateTraceId,
+  recordDiagnostic,
+  validateQuestionsForExam,
+  perUserExamStartLimiter,
+  requestDeduplication,
+  apiHandlerTimeout,
+  type StructuredExamLog,
+} from "./system-hardening";
+import { isFeatureEnabled, withCircuitBreaker, recordFeatureError } from "./platform-resilience";
+import { concurrencyLimiter } from "./concurrency-limiter";
 
 const catStartIdempotency = new BoundedMap<string, { attemptId: string; expiresAt: number }>(500, 5 * 60 * 1000);
 
@@ -358,9 +370,41 @@ const answerSchema = z.object({
   timeSpent: z.number().int().min(0).max(3600).optional(),
 });
 
-router.post("/api/cat-exams/start", async (req, res) => {
+router.post("/api/cat-exams/start",
+  apiHandlerTimeout(20000),
+  concurrencyLimiter({ maxConcurrent: 5, label: "cat_exam_start" }),
+  async (req: any, res, next) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (user) {
+        req.authUser = user;
+        req._catAuthResolved = true;
+      }
+    } catch {}
+    next();
+  },
+  perUserExamStartLimiter(3, 60000),
+  requestDeduplication((req) => {
+    const userId = (req as any).authUser?.id;
+    return userId ? `cat_start:${userId}` : null;
+  }),
+  async (req, res) => {
+  const startTime = Date.now();
+  const traceId = generateTraceId();
   try {
-    const user = await requireAuth(req, res);
+    if (!isFeatureEnabled("cat_engine")) {
+      return res.status(503).json({
+        error: "CAT exam engine is temporarily disabled",
+        mode: "fallback_standard_exam",
+        retryable: false,
+        reasonCode: "feature_disabled",
+        fallbackMessage: "CAT exams are temporarily disabled. You can take a standard mock exam instead.",
+      });
+    }
+
+    recordDiagnostic("cat_start_attempt");
+
+    const user = (req as any)._catAuthResolved ? (req as any).authUser : await requireAuth(req, res);
     if (!user) return;
 
     const catDeg = getDegradation(req);
@@ -373,6 +417,8 @@ router.post("/api/cat-exams/start", async (req, res) => {
       return res.status(403).json({
         error: "CAT exam access requires premium subscription",
         isLocked: true,
+        retryable: false,
+        reasonCode: "not_entitled",
         entitlement: {
           hasAccess: false,
           accessSource: entitlement.accessSource,
@@ -383,7 +429,7 @@ router.post("/api/cat-exams/start", async (req, res) => {
 
     const parsed = startSchema.safeParse(req.body);
     if (!parsed.success) {
-      return res.status(400).json({ error: "Invalid input", details: parsed.error.issues });
+      return res.status(400).json({ error: "Invalid input", details: parsed.error.issues, retryable: false, reasonCode: "invalid_payload" });
     }
 
     const { tier, questionCount, blueprintCode, idempotencyKey } = parsed.data;
@@ -618,10 +664,25 @@ router.post("/api/cat-exams/start", async (req, res) => {
       poolDiagnostics: { validCount: diagnostics.validCount, rawCount: diagnostics.rawCount, canStartCat: diagnostics.canStartCat },
     }, sessionId);
 
+    recordDiagnostic("cat_start_success");
+    logStructuredExamStart({
+      requestId: traceId,
+      userId: user.id,
+      tier: examTier,
+      examType: "cat",
+      source: "cat_session_api",
+      mode: "cat",
+      questionCount: maxQuestions,
+      blueprintCode: blueprintCode || undefined,
+      startupDurationMs: Date.now() - startTime,
+      rowCountsAfterFilters: { poolAvailable: nextQ ? 1 : 0 },
+    });
+
     res.json({
       attemptId: attempt.id,
       sessionId,
       status: "in_progress",
+      mode: "cat",
       currentQuestion: {
         id: nextQ.id,
         stem: nextQ.stem,
@@ -640,13 +701,33 @@ router.post("/api/cat-exams/start", async (req, res) => {
       },
       fallbackMode: null,
       fallbackMessage: null,
+      retryable: false,
     });
   } catch (e: any) {
     console.error("[CATSessionAPI] Start error:", e.message);
+    recordDiagnostic("cat_start_failure", e.code || "unknown");
+    recordFeatureError("cat_engine");
+
+    logStructuredExamStart({
+      requestId: traceId,
+      userId: (req as any).authUser?.id || "unknown",
+      tier: req.body?.tier || "unknown",
+      examType: "cat",
+      source: "cat_session_api",
+      startupDurationMs: Date.now() - startTime,
+      errorCode: e.code || "unknown",
+      fallbackUsed: "standard_mock_exam",
+    });
+
+    recordDiagnostic("fallback_used");
+
     res.status(500).json({
       error: "Failed to start CAT exam",
+      mode: "fallback_standard_exam",
       fallback: "standard_mock_exam",
       fallbackMessage: "CAT engine is temporarily unavailable. You can take a standard mock exam instead.",
+      retryable: true,
+      reasonCode: "cat_engine_failure",
     });
   }
 });

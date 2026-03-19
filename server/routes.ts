@@ -1367,6 +1367,49 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     }
   });
 
+  app.get("/api/admin/exam-diagnostics", async (req, res) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+    try {
+      const { getDiagnosticStats, resetDiagnosticStats } = await import("./system-hardening");
+      const { getConcurrencyStats } = await import("./concurrency-limiter");
+      const { getAssemblyStats } = await import("./exam-delivery");
+      const { getFeatureFlags, getCircuitBreakerStates } = await import("./platform-resilience");
+
+      const stats = getDiagnosticStats();
+      const concurrency = getConcurrencyStats();
+      const assembly = getAssemblyStats();
+
+      let featureFlagList: any = [];
+      try { featureFlagList = getFeatureFlags(); } catch {}
+
+      let circuitBreakers: any = [];
+      try { circuitBreakers = getCircuitBreakerStates(); } catch {}
+
+      const catSuccessRate = stats.catStartsAttempted > 0
+        ? Math.round((stats.catStartsSucceeded / stats.catStartsAttempted) * 100)
+        : null;
+
+      if (req.query.reset === "true") {
+        resetDiagnosticStats();
+      }
+
+      res.json({
+        examDiagnostics: {
+          ...stats,
+          catSuccessRate,
+        },
+        concurrency,
+        assembly,
+        featureFlags: featureFlagList,
+        circuitBreakers,
+        serverTime: new Date().toISOString(),
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get("/api/admin/database-status", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
@@ -10842,18 +10885,31 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
 
   app.post("/api/mock-exams/start", killSwitchGuard("mock_exams"), requireEntitlement("mock_exams"), async (req: any, res) => {
     const startTime = Date.now();
-    const correlationId = `exam-start-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+    const { generateTraceId, logStructuredExamStart, recordDiagnostic, getMockExamIdempotencyCache } = await import("./system-hardening");
+    const correlationId = generateTraceId();
     const requestId = correlationId;
     const stageLog = (stage: string, detail?: any) => console.log(`[MockExam][start][${correlationId}] Stage: ${stage}`, detail || "");
     const startTimeout = setTimeout(() => {
       if (!res.headersSent) {
         stageLog("timeout", { elapsed: Date.now() - startTime });
-        res.status(503).json({ error: "Exam start timed out. Please try again.", code: "EXAM_START_TIMEOUT", reasonCode: "network_timeout", recoverable: true, fallbackHint: "retry", correlationId });
+        res.status(503).json({ error: "Exam start timed out. Please try again.", code: "EXAM_START_TIMEOUT", reasonCode: "network_timeout", recoverable: true, retryable: true, fallbackHint: "retry", correlationId });
       }
     }, 20000);
     try {
       const authUser = req.authUser;
       stageLog("received", { tier: req.body.tier, examMode: req.body.examMode, blueprintCode: req.body.blueprintCode, questionCount: req.body.questions?.length, totalQuestions: req.body.totalQuestions, serverAssembly: req.body.serverAssembly, userId: authUser?.id, userTier: authUser?.tier });
+
+      const idempotencyKey = req.body.idempotencyKey || req.headers["x-idempotency-key"];
+      if (idempotencyKey && authUser) {
+        const idemCache = getMockExamIdempotencyCache();
+        const idemKey = `mock:${authUser.id}:${idempotencyKey}`;
+        const cached = idemCache.get(idemKey);
+        if (cached && cached.expiresAt > Date.now()) {
+          stageLog("idempotent_hit", { attemptId: cached.attemptId });
+          clearTimeout(startTimeout);
+          return res.json({ attemptId: cached.attemptId, idempotent: true });
+        }
+      }
 
       const { tier, totalQuestions, examMode } = req.body;
       let { questions } = req.body;
@@ -11098,6 +11154,25 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (strippedRationales) {
         responseBody.stripped = true;
       }
+
+      if (idempotencyKey && authUser) {
+        const idemCache = getMockExamIdempotencyCache();
+        const idemKey = `mock:${authUser.id}:${idempotencyKey}`;
+        idemCache.set(idemKey, { attemptId, expiresAt: Date.now() + 5 * 60 * 1000 });
+      }
+
+      logStructuredExamStart({
+        requestId: correlationId,
+        userId: authUser.id,
+        tier: req.body?.tier || "unknown",
+        examType: req.body?.examMode || "practice",
+        source: "mock_exam_start",
+        mode: "standard",
+        questionCount: questions?.length,
+        blueprintCode: req.body?.blueprintCode,
+        startupDurationMs: Date.now() - startTime,
+      });
+
       const responsePayloadStart = JSON.stringify(responseBody);
       logExamRoute("/api/mock-exams/start", "POST", authUser.id, startTime, { attemptId, payloadSize: responsePayloadStart.length, requestId });
       clearTimeout(startTimeout);
@@ -11108,6 +11183,17 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const classified = classifyServerError(e, { attemptId: undefined, questionCount: req.body?.totalQuestions, stage: "start" });
       stageLog("error", { message: e.message, code: e.code, reasonCode: classified.code, elapsed: Date.now() - startTime });
       console.error("[MockExam][start] Error:", { correlationId, message: e.message, code: e.code, reasonCode: classified.code, userId: req.authUser?.id, tier: req.body?.tier, examMode: req.body?.examMode, blueprintCode: req.body?.blueprintCode, stack: e.stack?.split("\n").slice(0, 5).join("\n") });
+
+      logStructuredExamStart({
+        requestId: correlationId,
+        userId: req.authUser?.id || "unknown",
+        tier: req.body?.tier || "unknown",
+        examType: req.body?.examMode || "practice",
+        source: "mock_exam_start",
+        startupDurationMs: Date.now() - startTime,
+        errorCode: classified.code || "unknown",
+      });
+
       import("./backend-resilience").then(({ logCriticalError }) => logCriticalError({
         route: "/api/mock-exams/start", method: "POST", userId: req.authUser?.id,
         examId: req.body?.blueprintCode, errorMessage: e.message, stackTrace: e.stack,
@@ -11123,6 +11209,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         code: legacyCode,
         reasonCode,
         recoverable: classified.recoverable,
+        retryable: classified.recoverable,
         fallbackHint: classified.recoverable ? "retry_reduced" : undefined,
         correlationId,
         details: { stage: "start", tier: req.body?.tier, examMode: req.body?.examMode },
