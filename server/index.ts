@@ -1690,3 +1690,50 @@ function runDeferredStartupWork() {
     console.log(`[DeferredStartup] All phases complete — total deferred startup: ${Date.now() - deferredStart}ms`);
   });
 }
+
+function setupGracefulShutdown() {
+  let shuttingDown = false;
+  const shutdown = async (signal: string) => {
+    if (shuttingDown) return;
+    shuttingDown = true;
+    console.log(`[Shutdown] Received ${signal}, cleaning up interval timers...`);
+    try {
+      const { stopMemoryMonitor } = await import("./memory-monitor");
+      stopMemoryMonitor();
+    } catch {}
+    try {
+      const { stopMemoryTrendTracking } = await import("./memory-observability");
+      stopMemoryTrendTracking();
+    } catch {}
+    try {
+      const { stopJobQueueWorker } = await import("./job-queue");
+      stopJobQueueWorker();
+    } catch {}
+    try {
+      const { stopAIHealthChecks } = await import("./ai-provider-router");
+      stopAIHealthChecks();
+    } catch {}
+    try {
+      const { stopQBankScheduler } = await import("./qbank-scheduler");
+      stopQBankScheduler();
+    } catch {}
+    try {
+      const { stopAlertingEngine } = await import("./alerting-engine");
+      stopAlertingEngine();
+    } catch {}
+    try {
+      const { stopSyntheticMonitoring } = await import("./synthetic-monitoring");
+      stopSyntheticMonitoring();
+    } catch {}
+    try {
+      const { stopPostPublishAudit } = await import("./content-integrity-audit");
+      stopPostPublishAudit();
+    } catch {}
+    console.log("[Shutdown] All interval timers cleared");
+    process.exit(0);
+  };
+  process.on("SIGTERM", () => shutdown("SIGTERM"));
+  process.on("SIGINT", () => shutdown("SIGINT"));
+}
+
+setupGracefulShutdown();

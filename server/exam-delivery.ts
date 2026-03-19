@@ -21,6 +21,8 @@ export function getExamRequestId(req: any): string {
   return (req as any).examRequestId || generateRequestId();
 }
 
+const MAX_SEMAPHORE_WAIT_QUEUE = 200;
+
 class Semaphore {
   private current = 0;
   private queue: Array<{ resolve: () => void; cancelled: boolean }> = [];
@@ -50,6 +52,10 @@ class Semaphore {
         resolve(true);
       };
     });
+    this.queue = this.queue.filter(e => !e.cancelled);
+    if (this.queue.length >= MAX_SEMAPHORE_WAIT_QUEUE) {
+      return { promise: Promise.resolve(false), cancel: () => {} };
+    }
     this.queue.push(entry);
     return {
       promise,

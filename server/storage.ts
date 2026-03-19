@@ -590,20 +590,139 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllUsers(): Promise<Omit<User, 'password'>[]> {
-    const rows = await db.select().from(users);
+    const LIMIT = 10000;
+    const rows = await db.select().from(users).limit(LIMIT);
+    if (rows.length >= LIMIT) console.warn(`[Storage] getAllUsers hit safety limit of ${LIMIT} rows`);
     return rows.map(({ password, ...rest }) => rest);
   }
 
   async getAllTestResults(): Promise<TestResult[]> {
-    return db.select().from(testResults).orderBy(desc(testResults.completedAt));
+    const LIMIT = 10000;
+    const rows = await db.select().from(testResults).orderBy(desc(testResults.completedAt)).limit(LIMIT);
+    if (rows.length >= LIMIT) console.warn(`[Storage] getAllTestResults hit safety limit of ${LIMIT} rows`);
+    return rows;
   }
 
   async getAllProgress(): Promise<UserProgress[]> {
-    return db.select().from(userProgress).orderBy(desc(userProgress.lastAccessed));
+    const LIMIT = 10000;
+    const rows = await db.select().from(userProgress).orderBy(desc(userProgress.lastAccessed)).limit(LIMIT);
+    if (rows.length >= LIMIT) console.warn(`[Storage] getAllProgress hit safety limit of ${LIMIT} rows`);
+    return rows;
   }
 
   async getAllNotes(): Promise<Note[]> {
-    return db.select().from(notes).orderBy(desc(notes.updatedAt));
+    const LIMIT = 10000;
+    const rows = await db.select().from(notes).orderBy(desc(notes.updatedAt)).limit(LIMIT);
+    if (rows.length >= LIMIT) console.warn(`[Storage] getAllNotes hit safety limit of ${LIMIT} rows`);
+    return rows;
+  }
+
+  async getAdminAnalyticsAggregated(): Promise<any> {
+    const now = new Date();
+    const last7Days = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const last30Days = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+    const [
+      totalUsersResult,
+      tierCountsResult,
+      regionCountsResult,
+      statusCountsResult,
+      totalTestsResult,
+      totalProgressResult,
+      totalNotesResult,
+      avgScoreResult,
+      activeUsers7Result,
+      activeUsers30Result,
+      topLessonsResult,
+      userListResult,
+      recentActivityResult,
+    ] = await Promise.all([
+      pool.query("SELECT COUNT(*) as cnt FROM users"),
+      pool.query("SELECT COALESCE(tier, 'free') as tier, COUNT(*) as cnt FROM users GROUP BY COALESCE(tier, 'free')"),
+      pool.query("SELECT COALESCE(region, 'US') as region, COUNT(*) as cnt FROM users GROUP BY COALESCE(region, 'US')"),
+      pool.query("SELECT COALESCE(subscription_status, 'inactive') as status, COUNT(*) as cnt FROM users GROUP BY COALESCE(subscription_status, 'inactive')"),
+      pool.query("SELECT COUNT(*) as cnt FROM test_results"),
+      pool.query("SELECT COUNT(*) as cnt FROM user_progress"),
+      pool.query("SELECT COUNT(*) as cnt FROM notes"),
+      pool.query("SELECT ROUND(AVG(CASE WHEN total_questions > 0 THEN (score::numeric / total_questions) * 100 ELSE 0 END)) as avg FROM test_results"),
+      pool.query(`SELECT COUNT(DISTINCT user_id) as cnt FROM (
+        SELECT user_id FROM test_results WHERE completed_at > $1
+        UNION
+        SELECT user_id FROM user_progress WHERE last_accessed > $1
+      ) active`, [last7Days]),
+      pool.query(`SELECT COUNT(DISTINCT user_id) as cnt FROM (
+        SELECT user_id FROM test_results WHERE completed_at > $1
+        UNION
+        SELECT user_id FROM user_progress WHERE last_accessed > $1
+      ) active`, [last30Days]),
+      pool.query("SELECT lesson_id, COUNT(*) as cnt FROM user_progress GROUP BY lesson_id ORDER BY cnt DESC LIMIT 15"),
+      pool.query(`SELECT u.id, u.username, u.email,
+        COALESCE(u.tier, 'free') as tier,
+        COALESCE(u.subscription_status, 'inactive') as subscription_status,
+        COALESCE(u.region, 'US') as region,
+        COALESCE(tc.cnt, 0) as tests_completed,
+        COALESCE(pc.cnt, 0) as lessons_accessed,
+        COALESCE(nc.cnt, 0) as notes_created,
+        CASE WHEN tc.last_activity IS NULL THEN pc.last_activity WHEN pc.last_activity IS NULL THEN tc.last_activity ELSE GREATEST(tc.last_activity, pc.last_activity) END as last_activity
+        FROM users u
+        LEFT JOIN (SELECT user_id, COUNT(*) as cnt, MAX(completed_at) as last_activity FROM test_results GROUP BY user_id) tc ON tc.user_id = u.id
+        LEFT JOIN (SELECT user_id, COUNT(*) as cnt, MAX(last_accessed) as last_activity FROM user_progress GROUP BY user_id) pc ON pc.user_id = u.id
+        LEFT JOIN (SELECT user_id, COUNT(*) as cnt FROM notes GROUP BY user_id) nc ON nc.user_id = u.id
+        ORDER BY u.id LIMIT 500`),
+      pool.query(`SELECT tr.lesson_id, tr.test_type, tr.score, tr.total_questions, tr.completed_at, u.username
+        FROM test_results tr
+        LEFT JOIN users u ON u.id = tr.user_id
+        ORDER BY tr.completed_at DESC LIMIT 20`),
+    ]);
+
+    const tierCounts: Record<string, number> = {};
+    tierCountsResult.rows.forEach((r: any) => { tierCounts[r.tier] = parseInt(r.cnt); });
+    const regionCounts: Record<string, number> = {};
+    regionCountsResult.rows.forEach((r: any) => { regionCounts[r.region] = parseInt(r.cnt); });
+    const statusCounts: Record<string, number> = {};
+    statusCountsResult.rows.forEach((r: any) => { statusCounts[r.status] = parseInt(r.cnt); });
+
+    const topLessons = topLessonsResult.rows.map((r: any) => ({ lessonId: r.lesson_id, accessCount: parseInt(r.cnt) }));
+
+    const userList = userListResult.rows.map((r: any) => ({
+      id: r.id,
+      username: r.username,
+      email: r.email,
+      tier: r.tier,
+      subscriptionStatus: r.subscription_status,
+      region: r.region,
+      testsCompleted: parseInt(r.tests_completed),
+      lessonsAccessed: parseInt(r.lessons_accessed),
+      notesCreated: parseInt(r.notes_created),
+      lastActivity: r.last_activity || null,
+    }));
+
+    const recentActivity = recentActivityResult.rows.map((r: any) => ({
+      username: r.username || "Unknown",
+      lessonId: r.lesson_id,
+      testType: r.test_type,
+      score: r.score,
+      totalQuestions: r.total_questions,
+      date: r.completed_at,
+    }));
+
+    return {
+      overview: {
+        totalUsers: parseInt(totalUsersResult.rows[0].cnt),
+        activeUsers7Day: parseInt(activeUsers7Result.rows[0].cnt),
+        activeUsers30Day: parseInt(activeUsers30Result.rows[0].cnt),
+        totalTests: parseInt(totalTestsResult.rows[0].cnt),
+        totalLessonsAccessed: parseInt(totalProgressResult.rows[0].cnt),
+        totalNotes: parseInt(totalNotesResult.rows[0].cnt),
+        averageTestScore: parseInt(avgScoreResult.rows[0].avg) || 0,
+      },
+      tiers: tierCounts,
+      regions: regionCounts,
+      subscriptionStatus: statusCounts,
+      topLessons,
+      users: userList,
+      recentActivity,
+    };
   }
 
   async getAllContentItems(limit?: number, offset?: number): Promise<ContentItem[]> {
@@ -757,79 +876,82 @@ export class DatabaseStorage implements IStorage {
   async getPageViewAnalytics(days = 30): Promise<any> {
     const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
 
-    const allViews = await db.select().from(pageViews)
-      .where(gte(pageViews.createdAt, since))
-      .orderBy(desc(pageViews.createdAt));
+    const [
+      overviewResult,
+      sessionStatsResult,
+      topPagesResult,
+      topReferrersResult,
+      deviceResult,
+      browserResult,
+      osResult,
+      utmSourceResult,
+      utmMediumResult,
+      utmCampaignNameResult,
+      utmCombinedResult,
+      countryResult,
+      dailyViewsResult,
+      blogPagesResult,
+    ] = await Promise.all([
+      pool.query(
+        `SELECT COUNT(*) as total_views,
+          COUNT(DISTINCT session_id) as unique_sessions,
+          ROUND(AVG(CASE WHEN duration > 0 THEN duration ELSE NULL END)) as avg_duration,
+          COUNT(*) FILTER (WHERE is_checkout_intent = true) as checkout_intents,
+          COUNT(*) FILTER (WHERE is_pricing_view = true) as pricing_views
+        FROM page_views WHERE created_at >= $1`, [since]
+      ),
+      pool.query(
+        `SELECT COUNT(*) FILTER (WHERE page_count = 1) as bounce_sessions, COUNT(*) as total_sessions
+        FROM (SELECT session_id, COUNT(*) as page_count FROM page_views WHERE created_at >= $1 GROUP BY session_id) s`, [since]
+      ),
+      pool.query("SELECT page, COUNT(*) as views FROM page_views WHERE created_at >= $1 GROUP BY page ORDER BY views DESC LIMIT 20", [since]),
+      pool.query("SELECT referrer, COUNT(*) as views FROM page_views WHERE created_at >= $1 AND referrer IS NOT NULL GROUP BY referrer ORDER BY views DESC LIMIT 15", [since]),
+      pool.query("SELECT device_type, COUNT(*) as cnt FROM page_views WHERE created_at >= $1 AND device_type IS NOT NULL GROUP BY device_type", [since]),
+      pool.query("SELECT browser, COUNT(*) as cnt FROM page_views WHERE created_at >= $1 AND browser IS NOT NULL GROUP BY browser", [since]),
+      pool.query("SELECT os, COUNT(*) as cnt FROM page_views WHERE created_at >= $1 AND os IS NOT NULL GROUP BY os", [since]),
+      pool.query("SELECT utm_source, COUNT(*) as cnt FROM page_views WHERE created_at >= $1 AND utm_source IS NOT NULL GROUP BY utm_source", [since]),
+      pool.query("SELECT utm_medium, COUNT(*) as cnt FROM page_views WHERE created_at >= $1 AND utm_medium IS NOT NULL GROUP BY utm_medium", [since]),
+      pool.query("SELECT utm_campaign, COUNT(*) as cnt FROM page_views WHERE created_at >= $1 AND utm_campaign IS NOT NULL GROUP BY utm_campaign", [since]),
+      pool.query(
+        `SELECT COALESCE(utm_source, 'direct') as source, COALESCE(utm_medium, 'none') as medium, COALESCE(utm_campaign, 'none') as campaign, COUNT(*) as views
+        FROM page_views WHERE created_at >= $1 AND (utm_source IS NOT NULL OR utm_medium IS NOT NULL OR utm_campaign IS NOT NULL)
+        GROUP BY source, medium, campaign ORDER BY views DESC LIMIT 20`, [since]
+      ),
+      pool.query("SELECT country, COUNT(*) as views FROM page_views WHERE created_at >= $1 AND country IS NOT NULL GROUP BY country ORDER BY views DESC LIMIT 30", [since]),
+      pool.query("SELECT created_at::date::text as day, COUNT(*) as views FROM page_views WHERE created_at >= $1 GROUP BY day ORDER BY day", [since]),
+      pool.query("SELECT page, COUNT(*) as views FROM page_views WHERE created_at >= $1 AND (page LIKE '/blog%' OR page LIKE '/content/%') GROUP BY page ORDER BY views DESC LIMIT 15", [since]),
+    ]);
 
-    const totalViews = allViews.length;
-    const sessionPageCounts: Record<string, number> = {};
-    allViews.forEach(v => {
-      sessionPageCounts[v.sessionId] = (sessionPageCounts[v.sessionId] || 0) + 1;
-    });
-    const uniqueSessions = Object.keys(sessionPageCounts).length;
-    const bounceSessions = Object.values(sessionPageCounts).filter(c => c === 1).length;
-    const bounceRate = uniqueSessions > 0 ? Math.round((bounceSessions / uniqueSessions) * 100) : 0;
+    const ov = overviewResult.rows[0];
+    const totalViews = parseInt(ov.total_views);
+    const uniqueSessions = parseInt(ov.unique_sessions);
+    const avgDuration = parseInt(ov.avg_duration) || 0;
+    const checkoutIntents = parseInt(ov.checkout_intents);
+    const pricingViews = parseInt(ov.pricing_views);
 
-    const pageCounts: Record<string, number> = {};
-    const referrerCounts: Record<string, number> = {};
-    const deviceCounts: Record<string, number> = {};
-    const browserCounts: Record<string, number> = {};
-    const osCounts: Record<string, number> = {};
-    const utmSourceCounts: Record<string, number> = {};
-    const utmMediumCounts: Record<string, number> = {};
-    const utmCampaignCounts: Record<string, number> = {};
-    const utmCombined: Record<string, number> = {};
-    const countryCounts: Record<string, number> = {};
-    const dailyViews: Record<string, number> = {};
-    let totalDuration = 0;
-    let durationCount = 0;
-    let checkoutIntents = 0;
-    let pricingViews = 0;
+    const ss = sessionStatsResult.rows[0];
+    const totalSessions = parseInt(ss.total_sessions) || 0;
+    const bounceSessions = parseInt(ss.bounce_sessions) || 0;
+    const bounceRate = totalSessions > 0 ? Math.round((bounceSessions / totalSessions) * 100) : 0;
 
-    allViews.forEach(v => {
-      pageCounts[v.page] = (pageCounts[v.page] || 0) + 1;
-      if (v.referrer) referrerCounts[v.referrer] = (referrerCounts[v.referrer] || 0) + 1;
-      if (v.deviceType) deviceCounts[v.deviceType] = (deviceCounts[v.deviceType] || 0) + 1;
-      if (v.browser) browserCounts[v.browser] = (browserCounts[v.browser] || 0) + 1;
-      if (v.os) osCounts[v.os] = (osCounts[v.os] || 0) + 1;
-      if (v.utmSource) utmSourceCounts[v.utmSource] = (utmSourceCounts[v.utmSource] || 0) + 1;
-      if (v.utmMedium) utmMediumCounts[v.utmMedium] = (utmMediumCounts[v.utmMedium] || 0) + 1;
-      if (v.utmCampaign) utmCampaignCounts[v.utmCampaign] = (utmCampaignCounts[v.utmCampaign] || 0) + 1;
-      if (v.utmSource || v.utmMedium || v.utmCampaign) {
-        const key = `${v.utmSource || "direct"}|${v.utmMedium || "none"}|${v.utmCampaign || "none"}`;
-        utmCombined[key] = (utmCombined[key] || 0) + 1;
-      }
-      if (v.country) countryCounts[v.country] = (countryCounts[v.country] || 0) + 1;
-      if (v.duration && v.duration > 0) { totalDuration += v.duration; durationCount++; }
-      if (v.isCheckoutIntent) checkoutIntents++;
-      if (v.isPricingView) pricingViews++;
+    const toCountMap = (rows: any[], keyCol: string) => {
+      const m: Record<string, number> = {};
+      rows.forEach(r => { m[r[keyCol]] = parseInt(r.cnt || r.views); });
+      return m;
+    };
 
-      const day = v.createdAt.toISOString().split("T")[0];
-      dailyViews[day] = (dailyViews[day] || 0) + 1;
-    });
-
-    const topPages = Object.entries(pageCounts).sort((a, b) => b[1] - a[1]).slice(0, 20).map(([page, views]) => ({ page, views }));
-    const topReferrers = Object.entries(referrerCounts).sort((a, b) => b[1] - a[1]).slice(0, 15).map(([referrer, views]) => ({ referrer, views }));
-    const avgDuration = durationCount > 0 ? Math.round(totalDuration / durationCount) : 0;
-
-    const blogPages = Object.entries(pageCounts)
-      .filter(([page]) => page.startsWith("/blog") || page.startsWith("/content/"))
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 15)
-      .map(([page, views]) => ({ page, views }));
-
-    const utmCampaigns = Object.entries(utmCombined)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 20)
-      .map(([key, views]) => {
-        const [source, medium, campaign] = key.split("|");
-        return { source, medium, campaign, views };
-      });
-
-    const countries = Object.entries(countryCounts)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 30)
-      .map(([country, views]) => ({ country, views }));
+    const topPages = topPagesResult.rows.map((r: any) => ({ page: r.page, views: parseInt(r.views) }));
+    const topReferrers = topReferrersResult.rows.map((r: any) => ({ referrer: r.referrer, views: parseInt(r.views) }));
+    const deviceCounts = toCountMap(deviceResult.rows, "device_type");
+    const browserCounts = toCountMap(browserResult.rows, "browser");
+    const osCounts = toCountMap(osResult.rows, "os");
+    const utmSourceCounts = toCountMap(utmSourceResult.rows, "utm_source");
+    const utmMediumCounts = toCountMap(utmMediumResult.rows, "utm_medium");
+    const utmCampaignCounts = toCountMap(utmCampaignNameResult.rows, "utm_campaign");
+    const utmCampaigns = utmCombinedResult.rows.map((r: any) => ({ source: r.source, medium: r.medium, campaign: r.campaign, views: parseInt(r.views) }));
+    const countries = countryResult.rows.map((r: any) => ({ country: r.country, views: parseInt(r.views) }));
+    const blogPages = blogPagesResult.rows.map((r: any) => ({ page: r.page, views: parseInt(r.views) }));
+    const dailyViews = dailyViewsResult.rows.map((r: any) => ({ date: r.day, views: parseInt(r.views) }));
 
     return {
       totalViews,
@@ -849,7 +971,7 @@ export class DatabaseStorage implements IStorage {
       utmCampaigns,
       countries,
       blogContent: blogPages,
-      dailyViews: Object.entries(dailyViews).sort((a, b) => a[0].localeCompare(b[0])).map(([date, views]) => ({ date, views })),
+      dailyViews,
       conversionRate: uniqueSessions > 0 ? Math.round((checkoutIntents / uniqueSessions) * 100) : 0,
     };
   }
@@ -860,7 +982,10 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllFeedback(): Promise<UserFeedback[]> {
-    return db.select().from(userFeedback).orderBy(desc(userFeedback.createdAt));
+    const LIMIT = 10000;
+    const rows = await db.select().from(userFeedback).orderBy(desc(userFeedback.createdAt)).limit(LIMIT);
+    if (rows.length >= LIMIT) console.warn(`[Storage] getAllFeedback hit safety limit of ${LIMIT} rows`);
+    return rows;
   }
 
   async updateFeedback(id: string, updates: Partial<UserFeedback>): Promise<UserFeedback> {
@@ -1017,7 +1142,10 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllSocialPosts(): Promise<SocialPost[]> {
-    return db.select().from(socialPosts).orderBy(desc(socialPosts.createdAt));
+    const LIMIT = 10000;
+    const rows = await db.select().from(socialPosts).orderBy(desc(socialPosts.createdAt)).limit(LIMIT);
+    if (rows.length >= LIMIT) console.warn(`[Storage] getAllSocialPosts hit safety limit of ${LIMIT} rows`);
+    return rows;
   }
 
   async getSocialPost(id: string): Promise<SocialPost | undefined> {

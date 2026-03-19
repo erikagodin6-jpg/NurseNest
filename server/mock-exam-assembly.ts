@@ -189,7 +189,11 @@ export async function assembleExam(config: AssemblyConfig): Promise<AssembledQue
   const { questionCount, domainWeights, difficultyDistribution, formatMix, tier, seed, examCode, bodySystems } = config;
 
   const tierFilter = tier === "np" ? "np" : tier === "rn" ? "rn" : "rpn";
-  const poolSize = questionCount * 5;
+  const MAX_POOL_SIZE = 1500;
+  const poolSize = Math.min(questionCount * 5, MAX_POOL_SIZE);
+  if (questionCount * 5 > MAX_POOL_SIZE) {
+    console.warn(`[ExamAssembly] Pool size capped from ${questionCount * 5} to ${MAX_POOL_SIZE}`);
+  }
 
   let bodySystemFilter = "";
   const params: any[] = [tierFilter, seed || Date.now().toString(), poolSize];

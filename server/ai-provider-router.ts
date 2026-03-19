@@ -60,6 +60,7 @@ interface RateLimiterState {
 const CIRCUIT_BREAKER_THRESHOLD = 5;
 const CIRCUIT_BREAKER_COOLDOWN_MS = 60000;
 const HEALTH_CHECK_INTERVAL_MS = 120000;
+const MAX_MAP_ENTRIES = 500;
 
 let globalKillSwitch = false;
 let providers: ProviderConfig[] = [];
@@ -67,6 +68,13 @@ let providersLoaded = false;
 const circuitBreakers = new Map<string, CircuitBreakerState>();
 const rateLimiters = new Map<string, RateLimiterState>();
 let healthCheckTimer: ReturnType<typeof setInterval> | null = null;
+
+function pruneMapIfNeeded<T>(map: Map<string, T>, maxEntries = MAX_MAP_ENTRIES): void {
+  if (map.size > maxEntries) {
+    const keysToDelete = Array.from(map.keys()).slice(0, map.size - maxEntries);
+    keysToDelete.forEach(k => map.delete(k));
+  }
+}
 
 let dailyTokens = 0;
 let dailyCost = 0;
@@ -259,6 +267,7 @@ async function seedDefaultProvider(): Promise<void> {
 
 function getCircuitBreaker(providerId: string): CircuitBreakerState {
   if (!circuitBreakers.has(providerId)) {
+    pruneMapIfNeeded(circuitBreakers);
     circuitBreakers.set(providerId, { failures: 0, lastFailure: 0, isOpen: false, cooldownMs: CIRCUIT_BREAKER_COOLDOWN_MS });
   }
   return circuitBreakers.get(providerId)!;
@@ -293,6 +302,7 @@ function recordCircuitBreakerFailure(providerId: string): void {
 
 function checkRateLimit(provider: ProviderConfig): boolean {
   if (!rateLimiters.has(provider.id)) {
+    pruneMapIfNeeded(rateLimiters);
     rateLimiters.set(provider.id, { tokens: provider.rateLimit, lastRefill: Date.now(), activeRequests: 0 });
   }
   const rl = rateLimiters.get(provider.id)!;
@@ -549,6 +559,14 @@ async function runHealthChecks(): Promise<void> {
         console.log(`[AIRouter] Health check failed: ${provider.name} marked UNHEALTHY`);
       }
     }
+  }
+}
+
+export function stopAIHealthChecks(): void {
+  if (healthCheckTimer) {
+    clearInterval(healthCheckTimer);
+    healthCheckTimer = null;
+    console.log("[AIRouter] Health check timer stopped");
   }
 }
 
