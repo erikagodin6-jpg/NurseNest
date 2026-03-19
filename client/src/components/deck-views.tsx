@@ -125,6 +125,7 @@ export function DeckHub({
   newDeckTitle, setNewDeckTitle, newDeckDescription, setNewDeckDescription,
   newDeckVisibility, setNewDeckVisibility,
 }: Partial<DeckViewsProps> & { user: any; setView: any; setLocation: any }) {
+  const { t } = useI18n();
   const [showCreate, setShowCreate] = useState(false);
   const [createMode, setCreateMode] = useState<"manual" | "ai" | "notes">("ai");
   const [deckSortBy, setDeckSortBy] = useState<DeckSortOption>("newest");
@@ -142,14 +143,18 @@ export function DeckHub({
     try {
       const res = await fetch(`/api/study-groups/user/${user.id}`);
       if (res.ok) { const data = await res.json(); setStudyGroups(data); }
-    } catch {}
+    } catch (err: any) {
+      console.warn("[DeckViews] fetchStudyGroups failed:", err.message);
+    }
   }, [user?.id]);
 
   const fetchGroupMembers = async (groupId: string) => {
     try {
       const res = await fetch(`/api/study-groups/${groupId}/members`);
       if (res.ok) { const data = await res.json(); setGroupMembers(prev => ({ ...prev, [groupId]: data })); }
-    } catch {}
+    } catch (err: any) {
+      console.warn("[DeckViews] fetchGroupMembers failed:", err.message);
+    }
   };
 
   const createStudyGroup = async () => {
@@ -162,7 +167,9 @@ export function DeckHub({
         body: JSON.stringify({ name: newGroupName.trim(), userId: user.id }),
       });
       if (res.ok) { setNewGroupName(""); fetchStudyGroups(); }
-    } catch {}
+    } catch (err: any) {
+      console.warn("[DeckViews] createStudyGroup failed:", err.message);
+    }
     setGroupLoading(false);
   };
 
@@ -176,7 +183,9 @@ export function DeckHub({
         body: JSON.stringify({ inviteCode: joinCode.trim().toUpperCase(), userId: user.id }),
       });
       if (res.ok) { setJoinCode(""); fetchStudyGroups(); }
-    } catch {}
+    } catch (err: any) {
+      console.warn("[DeckViews] joinStudyGroup failed:", err.message);
+    }
     setGroupLoading(false);
   };
 

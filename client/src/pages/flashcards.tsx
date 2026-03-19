@@ -1,5 +1,5 @@
 import { getAssetUrl } from "@/lib/asset-url";
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { fisherYatesShuffle } from "@shared/shuffle";
 import { Navigation } from "@/components/navigation";
 import { ProtectedContent } from "@/components/protected-content";
@@ -14,6 +14,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DeckHub, DeckView, DeckEditor, DeckStudyLearn, DeckStudyTest, DeckReportCard } from "@/components/deck-views";
+import {
+  cacheMyDecks, getCachedMyDecks,
+  cachePublicDecks, getCachedPublicDecks,
+  cacheDeckCards, getCachedDeckCards,
+  cacheExamFlashcardCounts, getCachedExamFlashcardCounts,
+  cacheExamFlashcards, getCachedExamFlashcards,
+  EMERGENCY_NURSING_DECK, EMERGENCY_NURSING_CARDS,
+  type DegradedMode,
+} from "@/lib/flashcard-cache";
+import { FlashcardErrorBoundary, DegradedModeIndicator } from "@/components/flashcard-error-boundary";
 import { Textarea } from "@/components/ui/textarea";
 import { 
 
@@ -2048,54 +2058,122 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [previewConfig, setPreviewConfig] = useState<{ upgradeHeadline: string; upgradeBody: string } | null>(null);
 
+  const [degradedMode, setDegradedMode] = useState<DegradedMode>("live");
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  const activateEmergencyMode = useCallback(() => {
+    setMyDecks([EMERGENCY_NURSING_DECK as any]);
+    setDeckCards(EMERGENCY_NURSING_CARDS as any[]);
+    setDegradedMode("emergency");
+  }, []);
+
   const fetchMyDecks = useCallback(async () => {
     if (!user) return;
     setDeckLoading(true);
     try {
-      const res = await fetch(`/api/decks?userId=${user.id}`);
-      if (res.ok) setMyDecks(await res.json());
-    } catch {} finally { setDeckLoading(false); }
-  }, [user]);
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
+      const res = await fetch(`/api/decks?userId=${user.id}`, { signal: controller.signal });
+      clearTimeout(timeout);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      setMyDecks(data);
+      cacheMyDecks(data);
+      setDegradedMode("live");
+    } catch (err: any) {
+      console.warn("[Flashcards] fetchMyDecks failed:", err.message);
+      const cached = getCachedMyDecks();
+      if (cached) {
+        setMyDecks(cached);
+        setDegradedMode("cached");
+      } else {
+        activateEmergencyMode();
+      }
+    } finally { setDeckLoading(false); }
+  }, [user, activateEmergencyMode]);
 
   const fetchPublicDecks = useCallback(async () => {
     try {
       const url = deckSearchQuery ? `/api/decks?visibility=public&search=${encodeURIComponent(deckSearchQuery)}` : `/api/decks?visibility=public`;
-      const res = await fetch(url);
-      if (res.ok) setPublicDecks(await res.json());
-    } catch {}
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
+      const res = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeout);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      setPublicDecks(data);
+      if (!deckSearchQuery) cachePublicDecks(data);
+    } catch (err: any) {
+      console.warn("[Flashcards] fetchPublicDecks failed:", err.message);
+      if (!deckSearchQuery) {
+        const cached = getCachedPublicDecks();
+        if (cached) {
+          setPublicDecks(cached);
+          setDegradedMode("cached");
+        }
+      }
+    }
   }, [deckSearchQuery]);
 
   const fetchSavedDecks = useCallback(async () => {
     if (!user) return;
     try {
-      const res = await fetch(`/api/saved-decks?userId=${user.id}`);
-      if (res.ok) setSavedDecksList(await res.json());
-    } catch {}
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
+      const res = await fetch(`/api/saved-decks?userId=${user.id}`, { signal: controller.signal });
+      clearTimeout(timeout);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setSavedDecksList(await res.json());
+    } catch (err: any) {
+      console.warn("[Flashcards] fetchSavedDecks failed:", err.message);
+    }
   }, [user]);
 
   const fetchEntitlement = useCallback(async () => {
     if (!user) return;
     try {
-      const res = await fetch(`/api/flashcard-usage/${user.id}`);
-      if (res.ok) {
-        const data = await res.json();
-        setEntitlement({
-          isPremium: data.isPremium,
-          totalFreeCards: data.used,
-          limit: data.limit,
-          percentage: data.percentage,
-          remaining: data.remaining,
-        });
-      }
-    } catch {}
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
+      const res = await fetch(`/api/flashcard-usage/${user.id}`, { signal: controller.signal });
+      clearTimeout(timeout);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      setEntitlement({
+        isPremium: data.isPremium,
+        totalFreeCards: data.used,
+        limit: data.limit,
+        percentage: data.percentage,
+        remaining: data.remaining,
+      });
+    } catch (err: any) {
+      console.warn("[Flashcards] fetchEntitlement failed (non-blocking):", err.message);
+    }
   }, [user]);
 
   const fetchDeckCards = useCallback(async (deckId: string) => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
     try {
       const uid = user?.id || "";
-      const res = await fetch(`/api/decks/${deckId}/cards?userId=${uid}`);
-      if (res.ok) setDeckCards(await res.json());
-    } catch {}
+      const timeout = setTimeout(() => controller.abort(), 10000);
+      const res = await fetch(`/api/decks/${deckId}/cards?userId=${uid}`, { signal: controller.signal });
+      clearTimeout(timeout);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      setDeckCards(data);
+      cacheDeckCards(deckId, data);
+    } catch (err: any) {
+      if (err.name === "AbortError") return;
+      console.warn("[Flashcards] fetchDeckCards failed:", err.message);
+      const cached = getCachedDeckCards(deckId);
+      if (cached) {
+        setDeckCards(cached);
+        setDegradedMode("cached");
+      }
+    }
   }, [user?.id]);
 
   useEffect(() => {
@@ -2566,9 +2644,15 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
     if (!user) return;
     setCustomCardsLoading(true);
     try {
-      const res = await fetch(`/api/user-flashcards/${user.id}`);
-      if (res.ok) setCustomCards(await res.json());
-    } catch {} finally {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
+      const res = await fetch(`/api/user-flashcards/${user.id}`, { signal: controller.signal });
+      clearTimeout(timeout);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setCustomCards(await res.json());
+    } catch (err: any) {
+      console.warn("[Flashcards] fetchCustomCards failed:", err.message);
+    } finally {
       setCustomCardsLoading(false);
     }
   }, [user]);
@@ -2579,13 +2663,24 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
 
   const fetchExamFlashcardCounts = useCallback(async () => {
     try {
-      const res = await fetch("/api/flashcard-bank/counts");
-      if (res.ok) {
-        const data = await res.json();
-        setExamFlashcardCounts(data.counts || data.tiers || {});
-        setExamFlashcardTotal(data.total || 0);
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
+      const res = await fetch("/api/flashcard-bank/counts", { signal: controller.signal });
+      clearTimeout(timeout);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      setExamFlashcardCounts(data.counts || data.tiers || {});
+      setExamFlashcardTotal(data.total || 0);
+      cacheExamFlashcardCounts(data.counts || data.tiers || {}, data.total || 0);
+    } catch (err: any) {
+      console.warn("[Flashcards] fetchExamFlashcardCounts failed:", err.message);
+      const cached = getCachedExamFlashcardCounts();
+      if (cached) {
+        setExamFlashcardCounts(cached.counts);
+        setExamFlashcardTotal(cached.total);
+        setDegradedMode("cached");
       }
-    } catch {}
+    }
   }, []);
 
   const fetchExamFlashcards = useCallback(async () => {
@@ -2593,21 +2688,24 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
     setExamFlashcardsLoading(true);
     try {
       const tierParam = effectiveTier === "admin" ? "" : `&tier=${effectiveTier}`;
-      let allItems: ExamFlashcard[] = [];
-      let offset = 0;
-      const batchSize = 500;
-      let hasMore = true;
-      while (hasMore) {
-        const res = await fetch(`/api/flashcard-bank?sourceType=cat_exam&limit=${batchSize}&offset=${offset}${tierParam}`);
-        if (!res.ok) break;
-        const data = await res.json();
-        const items = data.items || [];
-        allItems = [...allItems, ...items];
-        offset += batchSize;
-        hasMore = items.length === batchSize && allItems.length < data.total;
+      const batchSize = 200;
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000);
+      const res = await fetch(`/api/flashcard-bank?sourceType=cat_exam&limit=${batchSize}&offset=0${tierParam}`, { signal: controller.signal });
+      clearTimeout(timeout);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      const items = data.items || [];
+      setExamFlashcards(items);
+      cacheExamFlashcards(effectiveTier || "all", items);
+    } catch (err: any) {
+      console.warn("[Flashcards] fetchExamFlashcards failed:", err.message);
+      const cached = getCachedExamFlashcards(effectiveTier || "all");
+      if (cached) {
+        setExamFlashcards(cached);
+        setDegradedMode("cached");
       }
-      setExamFlashcards(allItems);
-    } catch {} finally {
+    } finally {
       setExamFlashcardsLoading(false);
     }
   }, [effectiveTier]);
@@ -2645,7 +2743,9 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
         setExamShowRationale(false);
         return true;
       }
-    } catch {}
+    } catch (err: any) {
+      console.warn("[Flashcards] resumeExamSession failed:", err.message);
+    }
     return false;
   }, []);
 
@@ -4920,6 +5020,8 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           <Button variant="ghost" className="mb-8 gap-2" onClick={() => setView("setup")} data-testid="button-back-decks">
             <ArrowLeft className="w-4 h-4" /> {t("flashcards.backToConfig")}
           </Button>
+          <DegradedModeIndicator mode={degradedMode} />
+          <FlashcardErrorBoundary section="deck-list" onStudyEmergencyDeck={() => { activateEmergencyMode(); setView("deck-view"); setCurrentDeck(EMERGENCY_NURSING_DECK as any); }}>
           <DeckHub
             user={user}
             isPaid={!!isPaid}
@@ -4955,6 +5057,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
             newDeckVisibility={newDeckVisibility}
             setNewDeckVisibility={setNewDeckVisibility}
           />
+          </FlashcardErrorBoundary>
         </main>
         <Footer />
       </div>
@@ -4966,6 +5069,8 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
         <Navigation />
         <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1">
+          <DegradedModeIndicator mode={degradedMode} />
+          <FlashcardErrorBoundary section="card-viewer" onStudyEmergencyDeck={() => { activateEmergencyMode(); setCurrentDeck(EMERGENCY_NURSING_DECK as any); }}>
           <DeckView
             user={user}
             isPaid={!!isPaid}
@@ -4993,6 +5098,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
             aiUpgradeRequired={aiUpgradeRequired}
             fetchEntitlement={fetchEntitlement}
           />
+          </FlashcardErrorBoundary>
         </main>
         <Footer />
       </div>
@@ -5004,6 +5110,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
         <Navigation />
         <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1">
+          <FlashcardErrorBoundary section="card-viewer" onStudyEmergencyDeck={() => { activateEmergencyMode(); setView("deck-view"); setCurrentDeck(EMERGENCY_NURSING_DECK as any); }}>
           <DeckEditor
             user={user}
             isPaid={!!isPaid}
@@ -5044,6 +5151,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
             removeAiGeneratedCard={removeAiGeneratedCard}
             aiUpgradeRequired={aiUpgradeRequired}
           />
+          </FlashcardErrorBoundary>
         </main>
         <Footer />
       </div>
@@ -5055,6 +5163,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
         <Navigation />
         <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1">
+          <FlashcardErrorBoundary section="card-viewer" onStudyEmergencyDeck={() => { activateEmergencyMode(); setView("deck-view"); setCurrentDeck(EMERGENCY_NURSING_DECK as any); }}>
           <DeckStudyLearn
             user={user}
             setView={setView}
@@ -5067,6 +5176,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
             deckStudyIncorrect={deckStudyIncorrect}
             handleDeckStudyAnswer={handleDeckStudyAnswer}
           />
+          </FlashcardErrorBoundary>
         </main>
         <Footer />
       </div>
@@ -5078,6 +5188,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
       <div className="min-h-screen bg-warmwhite flex flex-col font-sans">
         <Navigation />
         <main className="max-w-4xl mx-auto px-4 py-12 w-full flex-1">
+          <FlashcardErrorBoundary section="card-viewer" onStudyEmergencyDeck={() => { activateEmergencyMode(); setView("deck-view"); setCurrentDeck(EMERGENCY_NURSING_DECK as any); }}>
           <DeckStudyTest
             user={user}
             setView={setView}
@@ -5091,6 +5202,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
             handleDeckStudyAnswer={handleDeckStudyAnswer}
             deckStudyStartTime={deckStudyStartTime}
           />
+          </FlashcardErrorBoundary>
         </main>
         <Footer />
       </div>

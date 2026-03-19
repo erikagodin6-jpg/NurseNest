@@ -71,6 +71,7 @@ Core architectural components and design patterns emphasize:
 - **Enhanced Critical Mode**: Memory monitor clears performance cache and stops synthetic monitoring when entering critical mode. Job queue skips poll cycles when memory pressure is active.
 - **Lazy NurseNest Lite**: Prebuilt payloads are lazily initialized on first access.
 - **Frontend Bundle Optimization**: Admin routes are lazy-loaded and wrapped in error boundaries. Vendor chunking is expanded for key libraries. Route error boundaries provide user-friendly fallback UI. Module preloading is enabled. Bundle monitoring reports large chunks with a 500KB warning.
+- **Flashcard Platform Availability**: localStorage-backed caching with 30min TTL, static emergency nursing deck (20 cards), per-section FlashcardErrorBoundary isolation, backend endpoint hardening with pagination clamping/timeouts/partial results, and degradation chain (live→cached→emergency→error).
 
 ### External Dependencies
 - **Database**: PostgreSQL

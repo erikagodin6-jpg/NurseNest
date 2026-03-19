@@ -4890,10 +4890,14 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
   // --------------------
   app.get("/api/user-flashcards/:userId", async (req, res) => {
     try {
+      const limit = Math.min(Math.max(parseInt(req.query.limit as string) || 200, 1), 500);
+      const offset = Math.max(parseInt(req.query.offset as string) || 0, 0);
       const cards = await storage.getUserFlashcards(req.params.userId);
-      res.json(cards);
+      const paginated = cards.slice(offset, offset + limit);
+      res.json(paginated);
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[user-flashcards] Error:", { userId: req.params.userId, error: e.message });
+      res.status(500).json({ error: "Failed to load flashcards" });
     }
   });
 
@@ -8577,6 +8581,8 @@ Rules:
       const userId = req.query.userId as string;
       const visibility = req.query.visibility as string;
       const search = req.query.search as string;
+      const limit = Math.min(Math.max(parseInt(req.query.limit as string) || 50, 1), 100);
+      const offset = Math.max(parseInt(req.query.offset as string) || 0, 0);
       let query = `SELECT d.*, u.username as owner_username FROM flashcard_decks d LEFT JOIN users u ON d.owner_id = u.id`;
       const params: any[] = [];
       const conditions: string[] = [];
@@ -8592,11 +8598,23 @@ Rules:
         params.push(`%${search}%`);
       }
       if (conditions.length > 0) query += ` WHERE ` + conditions.join(` AND `);
-      query += ` ORDER BY d.updated_at DESC LIMIT 100`;
-      const result = await pool.query(query, params);
-      res.json(snakeToCamel(result.rows));
+      query += ` ORDER BY d.updated_at DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
+      params.push(limit, offset);
+      const result = await timedQuery(query, params, { label: "decks/list", timeoutMs: 5000 });
+      const safeDecks = result.rows
+        .map((row: any) => {
+          try {
+            return snakeToCamel(row);
+          } catch (err: any) {
+            console.error("[decks] Skipping malformed deck:", row?.id, err.message);
+            return null;
+          }
+        })
+        .filter(Boolean);
+      res.json(safeDecks);
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[decks] List error:", e.message);
+      res.status(500).json({ error: "Failed to load decks" });
     }
   });
 
@@ -8705,12 +8723,25 @@ Rules:
   app.get("/api/decks/:id/cards", async (req, res) => {
     try {
       const userId = req.query.userId as string;
-      const result = await pool.query(
-        `SELECT * FROM deck_flashcards WHERE deck_id = $1 ORDER BY sort_order ASC, created_at ASC LIMIT 500`,
-        [req.params.id]
+      const limit = Math.min(Math.max(parseInt(req.query.limit as string) || 500, 1), 500);
+      const offset = Math.max(parseInt(req.query.offset as string) || 0, 0);
+      const result = await timedQuery(
+        `SELECT * FROM deck_flashcards WHERE deck_id = $1 ORDER BY sort_order ASC, created_at ASC LIMIT $2 OFFSET $3`,
+        [req.params.id, limit, offset],
+        { label: "deck-cards/fetch", timeoutMs: 5000 }
       );
       const { normalizeContentArray } = await import("./schema-versioning");
-      const allCards = normalizeContentArray("flashcard", snakeToCamel(result.rows));
+      const rawCards = result.rows
+        .map((row: any) => {
+          try {
+            return snakeToCamel(row);
+          } catch (cardErr: any) {
+            console.error("[deck-cards] Skipping malformed card:", row?.id, cardErr.message);
+            return null;
+          }
+        })
+        .filter(Boolean);
+      const allCards = normalizeContentArray("flashcard", rawCards);
 
       if (userId) {
         const deckCheck = await pool.query(`SELECT owner_id, tier FROM flashcard_decks WHERE id = $1`, [req.params.id]);
@@ -8745,7 +8776,8 @@ Rules:
       res.json(limited);
       return;
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[deck-cards] Error:", { deckId: req.params.id, error: e.message });
+      res.status(500).json({ error: "Failed to load deck cards" });
     }
   });
 
@@ -17128,8 +17160,8 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const tier = req.query.tier as string;
       const category = req.query.category as string;
       const sourceType = req.query.sourceType as string;
-      const limit = Math.min(parseInt(req.query.limit as string) || 100, 500);
-      const offset = parseInt(req.query.offset as string) || 0;
+      const limit = Math.min(Math.max(parseInt(req.query.limit as string) || 100, 1), 200);
+      const offset = Math.max(parseInt(req.query.offset as string) || 0, 0);
 
       const conditions = ["status = 'published'", "status != 'quarantined'", "flashcard_enabled = true"];
       const params: any[] = [];
@@ -17169,32 +17201,49 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         [...params, limit, offset],
         { label: "flashcard-bank/fetch", timeoutMs: 5000 }
       );
+      const safeItems = result.rows
+        .map((row: any) => {
+          try {
+            return snakeToCamel(row);
+          } catch (cardErr: any) {
+            console.error("[flashcard-bank] Skipping malformed card:", row?.id, cardErr.message);
+            return null;
+          }
+        })
+        .filter(Boolean);
       res.json({
-        items: result.rows.map(snakeToCamel),
+        items: safeItems,
         total: countResult.rows[0]?.total || 0,
+        hasMore: offset + limit < (countResult.rows[0]?.total || 0),
       });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[flashcard-bank] Endpoint error:", { error: e.message, query: req.originalUrl });
+      res.status(500).json({ error: "Failed to load flashcard bank" });
     }
   });
 
   app.get("/api/flashcard-bank/counts", requireAnyPaidTier(), async (req: any, res) => {
     try {
-      const { rows } = await pool.query(
+      const { rows } = await timedQuery(
         `SELECT tier, COUNT(*)::int as count 
          FROM flashcard_bank 
          WHERE status = 'published' AND flashcard_enabled = true AND source_type = 'cat_exam'
-         GROUP BY tier`
+         GROUP BY tier`,
+        [],
+        { label: "flashcard-bank/counts", timeoutMs: 5000 }
       );
       const counts: Record<string, number> = {};
       let total = 0;
       for (const r of rows) {
-        counts[r.tier] = r.count;
-        total += r.count;
+        if (r.tier && typeof r.count === "number") {
+          counts[r.tier] = r.count;
+          total += r.count;
+        }
       }
       res.json({ counts, total });
     } catch (e: any) {
-      res.status(500).json({ error: e.message });
+      console.error("[flashcard-bank/counts] Error:", e.message);
+      res.status(500).json({ error: "Failed to load flashcard counts" });
     }
   });
 
