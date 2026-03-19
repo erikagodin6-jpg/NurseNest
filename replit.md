@@ -74,6 +74,7 @@ Core architectural patterns and components include:
 - **Frontend Bundle Optimization**: Admin routes are lazy-loaded and wrapped in error boundaries; vendor chunking is expanded.
 - **Flashcard Platform Availability**: localStorage-backed caching with 30min TTL, static emergency nursing deck, and per-section FlashcardErrorBoundary isolation.
 - **Exam Submission Resilience**: Async finalization architecture in `server/exam-finalization.ts` with state machine (in_progress→completion_requested→processing→completed/failed). Incremental per-answer saves via `/api/mock-exams/:attemptId/answer`, lightweight `/complete` endpoint (no answer payload), `/result` polling endpoint. Server-side correctness computation from `exam_questions.correct_answer`. Frontend shows processing overlay during finalization.
+- **Question Type Fallback System**: Universal type safety in `client/src/lib/question-type-safety.ts`. Safe type mapping normalizes all question types to `multiple-choice` or `multiple-select`. Unknown types fall back to MCQ rendering (never block exam). `QuestionGuard` applies normalization at render boundary. `QuestionErrorBoundary` auto-skips crashed questions after 5s. Generator type enforcement in `server/qbank-generator.ts` forces disallowed types (drag_drop, hotspot, ranking, etc.) to MCQ at ingestion. Telemetry logged to `/api/telemetry/unsupported-question-types`.
 
 ### External Dependencies
 - **Database**: PostgreSQL

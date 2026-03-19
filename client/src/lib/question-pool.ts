@@ -1,4 +1,5 @@
 import { fetchExamSet, fetchBodySystems, fetchQBankStats, type ServerQuestion } from "./qbank-api";
+import { normalizeQuestionType } from "./question-type-safety";
 
 export interface PooledQuestion {
   id: string;
@@ -48,7 +49,7 @@ function serverToPooled(sq: ServerQuestion): PooledQuestion {
     topic: sq.topic,
     subtopic: sq.subtopic,
     difficulty: sq.difficulty ?? undefined,
-    questionType: sq.questionType,
+    questionType: normalizeQuestionType(sq.questionType),
     regionScope: sq.regionScope,
   };
 }

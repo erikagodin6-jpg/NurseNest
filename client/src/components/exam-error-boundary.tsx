@@ -415,6 +415,8 @@ interface QuestionErrorBoundaryState {
 }
 
 export class QuestionErrorBoundary extends Component<QuestionErrorBoundaryProps, QuestionErrorBoundaryState> {
+  private autoSkipTimer: ReturnType<typeof setTimeout> | null = null;
+
   constructor(props: QuestionErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false, error: null };
@@ -426,6 +428,30 @@ export class QuestionErrorBoundary extends Component<QuestionErrorBoundaryProps,
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error(`[QuestionErrorBoundary] Question ${this.props.questionId} (index ${this.props.questionIndex}) crashed:`, error.message);
+
+    try {
+      fetch("/api/telemetry/unsupported-question-types", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          events: [{
+            type: "render_crash",
+            questionId: this.props.questionId,
+            error: error.message,
+          }],
+        }),
+      }).catch(() => {});
+    } catch {}
+
+    if (this.props.onSkip) {
+      this.autoSkipTimer = setTimeout(() => {
+        this.props.onSkip?.(this.props.questionId);
+      }, 5000);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.autoSkipTimer) clearTimeout(this.autoSkipTimer);
   }
 
   render() {
@@ -433,25 +459,31 @@ export class QuestionErrorBoundary extends Component<QuestionErrorBoundaryProps,
       if (this.props.fallback) return this.props.fallback;
 
       return (
-        <Card className="border-red-200 bg-red-50">
+        <Card className="border-amber-200 bg-amber-50">
           <CardContent className="p-6 text-center space-y-3">
-            <AlertTriangle className="w-6 h-6 text-red-500 mx-auto" />
-            <p className="text-sm font-medium text-red-800" data-testid={`text-question-error-${this.props.questionIndex}`}>
+            <AlertTriangle className="w-6 h-6 text-amber-500 mx-auto" />
+            <p className="text-sm font-medium text-gray-800" data-testid={`text-question-error-${this.props.questionIndex}`}>
               This question could not be displayed
             </p>
-            <p className="text-xs text-red-600">
-              Question {this.props.questionIndex + 1} encountered a rendering error and has been isolated.
+            <p className="text-xs text-gray-600">
+              Question {this.props.questionIndex + 1} encountered an issue. You can skip it and continue your exam.
             </p>
             {this.props.onSkip && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => this.props.onSkip?.(this.props.questionId)}
-                className="gap-1"
-                data-testid={`button-skip-question-${this.props.questionIndex}`}
-              >
-                Skip This Question
-              </Button>
+              <div className="space-y-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    if (this.autoSkipTimer) clearTimeout(this.autoSkipTimer);
+                    this.props.onSkip?.(this.props.questionId);
+                  }}
+                  className="gap-1"
+                  data-testid={`button-skip-question-${this.props.questionIndex}`}
+                >
+                  Skip and Continue
+                </Button>
+                <p className="text-xs text-gray-400">This question will be auto-skipped in a few seconds</p>
+              </div>
             )}
           </CardContent>
         </Card>

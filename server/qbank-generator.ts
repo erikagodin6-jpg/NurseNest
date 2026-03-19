@@ -5,6 +5,13 @@ import { renderPromptForVariant, getActiveTemplates } from "./prompts/qbank-temp
 import { runContentQualityGate } from "./content-quality-gate";
 import { routeAIRequest, getKillSwitch } from "./ai-provider-router";
 
+const ALLOWED_QUESTION_TYPES = new Set(["MCQ", "MCQ_SINGLE", "SATA", "multiple_choice", "select_all_that_apply"]);
+function enforceQuestionType(type: string): string {
+  if (ALLOWED_QUESTION_TYPES.has(type)) return type;
+  console.warn(`[QBankGenerator] Disallowed question type "${type}" forced to MCQ`);
+  return "MCQ";
+}
+
 async function aiGenerate(systemPrompt: string, userPrompt: string, model: string, maxTokens = 16000): Promise<{ content: string; tokensUsed: number }> {
   const result = await routeAIRequest(systemPrompt, userPrompt, {
     model,
@@ -416,7 +423,7 @@ async function ingestQuestions(runId: string, questions: any[], variant: any, te
         `INSERT INTO exam_questions (tier, exam, question_type, status, ${autoPublish && qStatus !== "needs_revision" ? "published_at," : ""} stem, options, correct_answer, rationale, difficulty, tags, body_system, topic, subtopic, region_scope, career_type, quality_scores, quality_feedback, quality_score)
          VALUES ($1, $2, $3, $4, ${autoPublish && qStatus !== "needs_revision" ? "NOW()," : ""} $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, 'nursing', $15, $16, $17)`,
         [
-          tier, variant.examKey, q.questionType || "MCQ", qStatus, q.stem,
+          tier, variant.examKey, enforceQuestionType(q.questionType || "MCQ"), qStatus, q.stem,
           JSON.stringify(q.options || []), JSON.stringify(q.correctAnswer || []),
           q.rationale || q.rationaleLong || "", q.difficulty || 3,
           q.tags || [], q.bodySystem || q.domain || q.clientNeedDomain || null,
@@ -437,7 +444,7 @@ async function ingestQuestions(runId: string, questions: any[], variant: any, te
           q.rationale || q.rationaleLong || "", q.learningObjective || "",
           q.domain || q.blueprintCategory || "", q.subtopic || q.subDomain || "",
           q.difficulty || 3, q.cognitiveLevel || "application",
-          q.questionType || "MCQ_SINGLE", q.examTrap || null,
+          enforceQuestionType(q.questionType || "MCQ_SINGLE"), q.examTrap || null,
           JSON.stringify(q.clinicalPearls || []), q.safetyNote || null,
           JSON.stringify(q.distractorRationales || []),
         ]

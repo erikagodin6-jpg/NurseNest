@@ -88,9 +88,6 @@ function isQuestionAnswerable(q: PooledQuestion): boolean {
   if (!q || !q.id || !q.question) return false;
   if (!Array.isArray(q.options) || q.options.length < 2) return false;
   if (q.correct === undefined || q.correct === null || q.correct < 0 || q.correct >= q.options.length) return false;
-  const questionType = (q.questionType || "multiple-choice").toLowerCase().replace(/_/g, "-");
-  const supportedTypes = ["multiple-choice", "mcq", "mcq-single", "select-all-that-apply", "sata", "scenario-based", "prioritization", "delegation"];
-  if (!supportedTypes.includes(questionType)) return false;
   return true;
 }
 
@@ -2446,7 +2443,12 @@ function MockExamSessionInner() {
           questionId={question?.id || `q-${currentQ}`}
           questionIndex={currentQ}
           onSkip={(qId) => {
-            if (currentQ < questions.length - 1) setCurrentQ(currentQ + 1);
+            setAnswers((prev) => ({ ...prev, [qId]: -1 }));
+            if (currentQ < questions.length - 1) {
+              setCurrentQ(currentQ + 1);
+            } else if (isCATExam) {
+              submitExamWithState(catState, "question_render_failure");
+            }
           }}
         >
         <QuestionGuard question={question ? rawQuestion : undefined} index={currentQ}>

@@ -11670,6 +11670,21 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  app.post("/api/telemetry/unsupported-question-types", async (req: any, res) => {
+    try {
+      const events = req.body?.events;
+      if (!Array.isArray(events) || events.length === 0) {
+        return res.json({ ok: true });
+      }
+      for (const evt of events.slice(0, 50)) {
+        console.warn(`[QuestionTypeTelemetry] ${evt.type || "unsupported_type"} questionId=${evt.questionId || "unknown"} error=${evt.error || ""}`);
+      }
+      res.json({ ok: true, logged: events.length });
+    } catch {
+      res.json({ ok: true });
+    }
+  });
+
   app.get("/api/mock-exams/history/:userId", requireAnyPaidTier(), async (req: any, res) => {
     try {
       const authUser = await getAuthUser(req);

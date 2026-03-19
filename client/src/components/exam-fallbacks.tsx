@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/lib/auth";
 import type { PooledQuestion } from "@/lib/question-pool";
+import { normalizeQuestionType, isKnownType, logUnsupportedType } from "@/lib/question-type-safety";
 import {
   AlertTriangle, ChevronLeft, ChevronRight, ChevronDown, ChevronUp,
   Eye, EyeOff, Printer, RefreshCw, Shield, ShieldCheck, BookOpen,
@@ -125,16 +126,13 @@ export function QuestionGuard({
     );
   }
 
-  const questionType = (question.questionType || "multiple-choice").toLowerCase().replace(/_/g, "-");
-  const supportedTypes = ["multiple-choice", "mcq", "mcq-single", "select-all-that-apply", "sata", "scenario-based", "prioritization", "delegation", "multiple-choice"];
-  if (questionType && !supportedTypes.includes(questionType)) {
-    return (
-      <QuestionUnavailableCard
-        reason="unsupported-type"
-        index={index}
-        detail={`Question type "${questionType}" is not yet supported.`}
-      />
-    );
+  if (!isKnownType(question.questionType)) {
+    console.warn(`[QuestionGuard] Unknown type "${question.questionType}" for question ${question.id}, rendering as multiple-choice fallback`);
+    logUnsupportedType(question.questionType || "undefined", question.id);
+  }
+  const safeType = normalizeQuestionType(question.questionType);
+  if (question.questionType !== safeType) {
+    (question as any).questionType = safeType;
   }
 
   if (!Array.isArray(question.options) || question.options.length < 2) {
