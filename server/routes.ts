@@ -6097,32 +6097,57 @@ Rules:
         const admin = await requireAdmin(req, res);
         if (!admin) return;
         let items: any[] = [];
+        let total = 0;
         try {
+          const countResult = await pool.query(`SELECT COUNT(*) FROM content_items`);
+          total = parseInt(countResult.rows[0]?.count || "0", 10);
           const result = await pool.query(`SELECT ${CONTENT_COLUMNS} FROM content_items ORDER BY updated_at DESC NULLS LAST LIMIT $1 OFFSET $2`, [contentLimit, contentOffset]);
           items = snakeToCamel(result.rows);
         } catch (e: any) {
           console.error("[Content API] Admin raw SQL error:", e.message);
           try {
             items = await storage.getAllContentItems(contentLimit, contentOffset);
+            total = -1;
           } catch {}
         }
-        console.log(`[Content API] Admin fetch returned ${items.length} total items`);
-        return res.json(items);
+        console.log(`[Content API] Admin fetch returned ${items.length} items (total=${total}, offset=${contentOffset}, limit=${contentLimit})`);
+        return res.json({ items, total, offset: contentOffset, limit: contentLimit });
       }
 
       const region = req.region || "US";
       const regionFilter = buildRegionFilter(region);
       let items: any[] = [];
+      const lang = (req.query.lang as string) || req.lang || "en";
+      const sqlFilters: string[] = [];
       try {
         let q = `SELECT ${CONTENT_COLUMNS} FROM content_items WHERE status = 'published' AND status != 'quarantined' AND ${regionFilter}`;
         const params: any[] = [];
         if (type) {
           params.push(type as string);
           q += ` AND type = $${params.length}`;
+          sqlFilters.push(`type=${type}`);
         }
         if (category) {
           params.push(category as string);
           q += ` AND category = $${params.length}`;
+          sqlFilters.push(`category=${category}`);
+        }
+        if (type === "lesson" || type === "lessons") {
+          const userTier = await extractUserTier(req);
+          const effectiveTier = userTier || "free";
+          const allowedTiers = effectiveTier === "admin"
+            ? ["free", "general", "rpn", "rn", "np"]
+            : effectiveTier === "free"
+              ? ["free", "general"]
+              : ["free", "general", effectiveTier];
+          const tierPlaceholders = allowedTiers.map((t) => { params.push(t); return `$${params.length}`; }).join(",");
+          q += ` AND COALESCE(tier, 'free') IN (${tierPlaceholders})`;
+          sqlFilters.push(`tier IN [${allowedTiers.join(",")}]`);
+        }
+        if (lang !== "en") {
+          q += ` AND id IN (SELECT content_item_id FROM content_item_translations WHERE locale = $${params.length + 1} AND translation_status IN ('approved', 'reviewed'))`;
+          params.push(lang);
+          sqlFilters.push(`lang=${lang}`);
         }
         q += " ORDER BY published_at DESC NULLS LAST";
         params.push(contentLimit);
@@ -6135,27 +6160,11 @@ Rules:
         console.error("[Content API] SQL error:", sqlErr.message);
       }
 
-      if (type === "lesson" || type === "lessons") {
-        const userTier = await extractUserTier(req);
-        const effectiveTier = userTier || "free";
-        const allowedTiers = effectiveTier === "admin"
-          ? ["free", "general", "rpn", "rn", "np"]
-          : effectiveTier === "free"
-            ? ["free", "general"]
-            : ["free", "general", effectiveTier];
-        items = items.filter((item: any) => {
-          const t = item.tier || "free";
-          return allowedTiers.includes(t);
-        });
-      }
+      console.log(`[Content API] Returned ${items.length} items | type=${type || "all"} | region=${region} | lang=${lang} | sqlFilters=[${sqlFilters.join(", ")}] | limit=${contentLimit} | offset=${contentOffset}`);
 
-      console.log(`[Content API] Returned ${items.length} items for type=${type || "all"}, region=${region}`);
-
-      const lang = (req.query.lang as string) || req.lang || "en";
       if (lang !== "en" && items.length > 0) {
         const contentIds = items.map((item: any) => item.id);
         const translatedFieldsMap = await getBulkTranslatedFields("content_item", contentIds, lang);
-        const translationStatuses = await getBulkTranslationStatuses("content_item", contentIds, lang);
         for (const item of items) {
           const fields = translatedFieldsMap.get(item.id);
           if (fields && Object.keys(fields).length > 0) {
@@ -6168,10 +6177,6 @@ Rules:
             item._translationStatus = "missing";
           }
         }
-        items = items.filter((item: any) => {
-          const status = translationStatuses.get(item.id);
-          return status === "translated";
-        });
       } else {
         for (const item of items) {
           item._translationStatus = lang === "en" ? "source" : "missing";

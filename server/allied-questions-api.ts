@@ -144,80 +144,153 @@ const PROFESSIONS: ProfessionConfig[] = [
   },
 ];
 
-const questionsCache: Record<string, any[]> = {};
-const questionsCacheAccess: Record<string, number> = {};
-const questionsCacheCreated: Record<string, number> = {};
-const MAX_CACHE_ENTRIES = parseInt(process.env.ALLIED_CACHE_MAX || "0") || 20;
-const CACHE_TTL_MS = 30 * 60 * 1000;
+interface BatchRef {
+  importPath: string;
+  exportName: string;
+}
+
+interface CacheEntry {
+  batches: BatchRef[];
+  totalCount: number;
+  accessedAt: number;
+  createdAt: number;
+}
+
+const batchCache: Record<string, CacheEntry> = {};
+const MAX_CACHE_ENTRIES = parseInt(process.env.ALLIED_CACHE_MAX || "0") || 6;
+const CACHE_TTL_MS = 10 * 60 * 1000;
+const MAX_TOTAL_CACHED_QUESTIONS = 5000;
+
+let cacheHits = 0;
+let cacheMisses = 0;
+let cacheEvictions = 0;
+
+function getTotalCachedQuestionCount(): number {
+  let total = 0;
+  for (const key of Object.keys(batchCache)) {
+    total += batchCache[key].totalCount;
+  }
+  return total;
+}
+
+function evictCacheEntry(key: string, reason: string): void {
+  const entry = batchCache[key];
+  const count = entry?.totalCount || 0;
+  delete batchCache[key];
+  cacheEvictions++;
+  console.log(`[AlliedCache] Evicted (${reason}): ${key} (${count} questions)`);
+}
 
 export function clearAlliedQuestionsCache(): void {
-  for (const key of Object.keys(questionsCache)) {
-    delete questionsCache[key];
-    delete questionsCacheAccess[key];
-    delete questionsCacheCreated[key];
+  const count = Object.keys(batchCache).length;
+  for (const key of Object.keys(batchCache)) {
+    delete batchCache[key];
+  }
+  if (count > 0) {
+    cacheEvictions += count;
+    console.log(`[AlliedCache] Cleared all ${count} cache entries`);
   }
 }
 
 function evictExpiredCacheEntries(): void {
   const now = Date.now();
-  for (const key of Object.keys(questionsCacheCreated)) {
-    if (now - questionsCacheCreated[key] > CACHE_TTL_MS) {
-      delete questionsCache[key];
-      delete questionsCacheAccess[key];
-      delete questionsCacheCreated[key];
+  for (const key of Object.keys(batchCache)) {
+    if (now - batchCache[key].createdAt > CACHE_TTL_MS) {
+      evictCacheEntry(key, "expired");
     }
   }
 }
 
-function evictLRUQuestionCache(): void {
+function evictLRUEntry(excludeKey?: string): string | null {
+  const keys = Object.keys(batchCache).filter(k => k !== excludeKey);
+  if (keys.length === 0) return null;
+  const sorted = keys.sort((a, b) => batchCache[a].accessedAt - batchCache[b].accessedAt);
+  const lruKey = sorted[0];
+  evictCacheEntry(lruKey, "LRU");
+  return lruKey;
+}
+
+function evictLRUQuestionCache(excludeKey?: string): void {
   evictExpiredCacheEntries();
-  const keys = Object.keys(questionsCache);
-  if (keys.length <= MAX_CACHE_ENTRIES) return;
-  const sorted = keys.sort((a, b) => (questionsCacheAccess[a] || 0) - (questionsCacheAccess[b] || 0));
-  const toRemove = sorted.slice(0, keys.length - MAX_CACHE_ENTRIES);
+  const keys = Object.keys(batchCache);
+  if (keys.length < MAX_CACHE_ENTRIES) return;
+  const sorted = keys.filter(k => k !== excludeKey).sort((a, b) => batchCache[a].accessedAt - batchCache[b].accessedAt);
+  const toRemove = sorted.slice(0, keys.length - MAX_CACHE_ENTRIES + 1);
   for (const key of toRemove) {
-    delete questionsCache[key];
-    delete questionsCacheAccess[key];
-    delete questionsCacheCreated[key];
+    evictCacheEntry(key, "capacity");
+  }
+}
+
+function enforceQuestionCountCap(currentKey?: string): void {
+  while (getTotalCachedQuestionCount() > MAX_TOTAL_CACHED_QUESTIONS) {
+    const keysExcludingCurrent = Object.keys(batchCache).filter(k => k !== currentKey);
+    if (keysExcludingCurrent.length > 0) {
+      if (!evictLRUEntry(currentKey)) break;
+    } else {
+      if (currentKey && batchCache[currentKey]) {
+        console.warn(`[AlliedCache] Single profession '${currentKey}' (${batchCache[currentKey].totalCount} questions) exceeds cap of ${MAX_TOTAL_CACHED_QUESTIONS}; evicting to stay within bounds`);
+        evictCacheEntry(currentKey, "exceeds-cap-alone");
+      }
+      break;
+    }
   }
 }
 
 export function pruneAlliedCachesUnderPressure(): void {
-  const keys = Object.keys(questionsCache);
+  const keys = Object.keys(batchCache);
   const half = Math.ceil(keys.length / 2);
-  const sorted = keys.sort((a, b) => (questionsCacheAccess[a] || 0) - (questionsCacheAccess[b] || 0));
+  const sorted = keys.sort((a, b) => batchCache[a].accessedAt - batchCache[b].accessedAt);
   for (let i = 0; i < half; i++) {
-    delete questionsCache[sorted[i]];
-    delete questionsCacheAccess[sorted[i]];
-    delete questionsCacheCreated[sorted[i]];
+    evictCacheEntry(sorted[i], "pressure");
   }
 }
 
+async function assembleBatches(batches: BatchRef[]): Promise<any[]> {
+  const result: any[] = [];
+  for (const batch of batches) {
+    const mod = await import(batch.importPath);
+    const arr = mod[batch.exportName] as any[];
+    result.push(...arr);
+  }
+  return result;
+}
+
 async function loadQuestions(profession: ProfessionConfig): Promise<any[]> {
-  if (questionsCache[profession.key]) {
-    const created = questionsCacheCreated[profession.key] || 0;
-    if (Date.now() - created > CACHE_TTL_MS) {
-      delete questionsCache[profession.key];
-      delete questionsCacheAccess[profession.key];
-      delete questionsCacheCreated[profession.key];
+  const cached = batchCache[profession.key];
+  if (cached) {
+    if (Date.now() - cached.createdAt > CACHE_TTL_MS) {
+      evictCacheEntry(profession.key, "TTL");
     } else {
-      questionsCacheAccess[profession.key] = Date.now();
-      return questionsCache[profession.key];
+      cached.accessedAt = Date.now();
+      cacheHits++;
+      const questions = await assembleBatches(cached.batches);
+      console.log(`[AlliedCache] HIT: ${profession.key} | assembled=${questions.length} | cacheSize=${Object.keys(batchCache).length} | totalCachedCount=${getTotalCachedQuestionCount()} | hits=${cacheHits} misses=${cacheMisses} evictions=${cacheEvictions}`);
+      return questions;
     }
   }
-  evictLRUQuestionCache();
-  const mod = await import(profession.importPath);
-  let questions: any[] = mod[profession.exportName] as any[];
+
+  cacheMisses++;
+  evictLRUQuestionCache(profession.key);
+
+  const batches: BatchRef[] = [{ importPath: profession.importPath, exportName: profession.exportName }];
   if (profession.additionalImports) {
     for (const extra of profession.additionalImports) {
-      const extraMod = await import(extra.importPath);
-      questions = [...questions, ...(extraMod[extra.exportName] as any[])];
+      batches.push({ importPath: extra.importPath, exportName: extra.exportName });
     }
   }
-  questionsCache[profession.key] = questions;
-  questionsCacheAccess[profession.key] = Date.now();
-  questionsCacheCreated[profession.key] = Date.now();
-  return questionsCache[profession.key];
+
+  const questions = await assembleBatches(batches);
+
+  batchCache[profession.key] = {
+    batches,
+    totalCount: questions.length,
+    accessedAt: Date.now(),
+    createdAt: Date.now(),
+  };
+  enforceQuestionCountCap(profession.key);
+
+  console.log(`[AlliedCache] MISS: ${profession.key} | assembled=${questions.length} | cacheSize=${Object.keys(batchCache).length} | totalCachedCount=${getTotalCachedQuestionCount()} | hits=${cacheHits} misses=${cacheMisses} evictions=${cacheEvictions}`);
+  return questions;
 }
 
 interface TopicGroup {
@@ -348,16 +421,21 @@ export function registerAlliedQuestionsRoutes(app: Express) {
   }
 }
 
-export function getAlliedQuestionTopicSlugs(): { profession: string; slugs: string[] }[] {
+export async function getAlliedQuestionTopicSlugs(): Promise<{ profession: string; slugs: string[] }[]> {
   const results: { profession: string; slugs: string[] }[] = [];
   for (const profession of PROFESSIONS) {
-    const cached = questionsCache[profession.key];
+    const cached = batchCache[profession.key];
     if (cached) {
-      const slugSet = new Set<string>();
-      for (const q of cached) {
-        slugSet.add(slugify(q.topic));
+      try {
+        const questions = await assembleBatches(cached.batches);
+        const slugSet = new Set<string>();
+        for (const q of questions) {
+          slugSet.add(slugify(q.topic));
+        }
+        results.push({ profession: profession.key, slugs: Array.from(slugSet) });
+      } catch (e) {
+        console.error(`[AlliedCache] Failed to assemble batches for topic slugs: ${profession.key}`, e);
       }
-      results.push({ profession: profession.key, slugs: Array.from(slugSet) });
     }
   }
   return results;

@@ -1,4 +1,5 @@
 import { pool } from "./storage";
+import { getMemoryLevel } from "./memory-monitor";
 
 export interface AssemblyConfig {
   templateId: string;
@@ -190,9 +191,23 @@ export async function assembleExam(config: AssemblyConfig): Promise<AssembledQue
 
   const tierFilter = tier === "np" ? "np" : tier === "rn" ? "rn" : "rpn";
   const MAX_POOL_SIZE = 1500;
-  const poolSize = Math.min(questionCount * 5, MAX_POOL_SIZE);
-  if (questionCount * 5 > MAX_POOL_SIZE) {
-    console.warn(`[ExamAssembly] Pool size capped from ${questionCount * 5} to ${MAX_POOL_SIZE}`);
+  const memoryLevel = getMemoryLevel();
+  let poolMultiplier = 5;
+  if (memoryLevel === "critical") {
+    poolMultiplier = 1.5;
+  } else if (memoryLevel === "protection") {
+    poolMultiplier = 2;
+  } else if (memoryLevel === "warning") {
+    poolMultiplier = 3;
+  }
+  const rawPoolSize = Math.ceil(questionCount * poolMultiplier);
+  const poolSize = Math.min(rawPoolSize, MAX_POOL_SIZE);
+  console.log(`[ExamAssembly] Pool sizing: questionCount=${questionCount} | multiplier=${poolMultiplier}x | memoryLevel=${memoryLevel} | poolSize=${poolSize} | tier=${tierFilter} | examCode=${examCode}`);
+  if (poolMultiplier < 5) {
+    console.warn(`[ExamAssembly] Memory-aware pool reduction: multiplier=${poolMultiplier}x (memoryLevel=${memoryLevel}), poolSize=${poolSize} (from default ${questionCount * 5})`);
+  }
+  if (rawPoolSize > MAX_POOL_SIZE) {
+    console.warn(`[ExamAssembly] Pool size capped from ${rawPoolSize} to ${MAX_POOL_SIZE}`);
   }
 
   let bodySystemFilter = "";
