@@ -55,15 +55,15 @@ export default function NewGradProfessionHub() {
 
   const Icon = ICON_MAP[profession.icon] || GraduationCap;
   const unitGuides = Object.entries(UNIT_GUIDES).filter(([_, u]) => u.professions.includes(profession.id));
-  const skillCategories = Object.entries(CLINICAL_SKILLS_CATEGORIES).filter(([key]) => profession.clinicalSkillCategories.includes(key));
-  const careerPaths = Object.entries(CAREER_DEVELOPMENT_PATHS).filter(([key]) => profession.careerPaths.includes(key));
-  const relatedProfessions = profession.relatedProfessions.map(s => NEW_GRAD_PROFESSIONS[s]).filter(Boolean);
+  const skillCategories = Object.entries(CLINICAL_SKILLS_CATEGORIES).filter(([key]) => (profession.clinicalSkillCategories || []).includes(key));
+  const careerPaths = Object.entries(CAREER_DEVELOPMENT_PATHS).filter(([key]) => (profession.careerPaths || []).includes(key));
+  const relatedProfessions = (profession.relatedProfessions || []).map(s => NEW_GRAD_PROFESSIONS[s]).filter(Boolean);
 
   const faqData = [
-    { question: `What should I expect in my first year as a ${profession.shortName}?`, answer: profession.firstYearExpectations.join(" ") },
-    { question: `What are common challenges for new ${profession.shortName} graduates?`, answer: profession.commonChallenges.join(" ") },
+    { question: `What should I expect in my first year in ${profession.shortName}?`, answer: (profession.firstYearExpectations || []).join(" ") },
+    { question: `What are common challenges for new ${profession.shortName} graduates?`, answer: (profession.commonChallenges || []).join(" ") },
     { question: `How can NurseNest help me prepare for my ${profession.shortName} career?`, answer: `NurseNest provides exam prep, clinical guides, and career resources specifically designed for ${profession.name} graduates. Access practice exams, study plans, and career transition tools.` },
-    { question: `What exams do I need to pass as a new ${profession.shortName}?`, answer: `Key exams include: ${profession.examNames.join(", ")}. Our exam prep resources cover all major certification exams for ${profession.name}.` },
+    { question: `What exams do I need to pass as a new ${profession.shortName} graduate?`, answer: `Key exams include: ${(profession.examNames || []).join(", ")}. Our exam prep resources cover all major certification exams for ${profession.name}.` },
   ];
 
   const faqStructuredData = buildFaqStructuredData(faqData);
@@ -84,7 +84,7 @@ export default function NewGradProfessionHub() {
       <SEO
         title={`New Grad ${profession.name} Hub - Career Guide & Exam Prep | NurseNest`}
         description={profession.description}
-        keywords={`new grad ${profession.shortName}, ${profession.name} career, ${profession.examNames.join(", ")}, first year ${profession.shortName}`}
+        keywords={`new grad ${profession.shortName}, ${profession.name} career, ${(profession.examNames || []).join(", ")}, first year ${profession.shortName}`}
         canonicalPath={`/new-grad/${profession.slug}`}
         structuredData={courseStructuredData}
         additionalStructuredData={[faqStructuredData]}
@@ -111,7 +111,7 @@ export default function NewGradProfessionHub() {
               New Grad {profession.shortName}
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-profession-title">
-              Your First Year as a <span style={{ color: profession.color }}>{profession.shortName}</span>, Mastered
+              Your First Year in <span style={{ color: profession.color }}>{profession.shortName}</span>, Mastered
             </h1>
             <p className="text-lg text-gray-600 mb-8" data-testid="text-profession-description">
               {profession.description}
@@ -131,8 +131,8 @@ export default function NewGradProfessionHub() {
       <section className="py-12 bg-white border-y border-gray-100" data-testid="section-profession-stats">
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div><div className="text-2xl font-bold" style={{ color: profession.color }}>{profession.examNames.length}</div><div className="text-sm text-gray-500">{t("pages.newGrad.professionHubPage.certificationExams")}</div></div>
-            <div><div className="text-2xl font-bold" style={{ color: profession.color }}>{profession.clinicalTips.length}</div><div className="text-sm text-gray-500">{t("pages.newGrad.professionHubPage.clinicalTips")}</div></div>
+            <div><div className="text-2xl font-bold" style={{ color: profession.color }}>{(profession.examNames || []).length}</div><div className="text-sm text-gray-500">{t("pages.newGrad.professionHubPage.certificationExams")}</div></div>
+            <div><div className="text-2xl font-bold" style={{ color: profession.color }}>{(profession.clinicalTips || []).length}</div><div className="text-sm text-gray-500">{t("pages.newGrad.professionHubPage.clinicalTips")}</div></div>
             <div><div className="text-2xl font-bold" style={{ color: profession.color }}>{careerPaths.length}</div><div className="text-sm text-gray-500">{t("pages.newGrad.professionHubPage.careerPaths")}</div></div>
             <div><div className="text-2xl font-bold" style={{ color: profession.color }}>{guides.length || "5+"}</div><div className="text-sm text-gray-500">{t("pages.newGrad.professionHubPage.resources")}</div></div>
           </div>
@@ -144,7 +144,7 @@ export default function NewGradProfessionHub() {
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">{t("pages.newGrad.professionHubPage.careerOverview")}</h2>
           <p className="text-gray-600 text-lg leading-relaxed mb-8">{profession.careerOverview}</p>
           <div className="flex flex-wrap gap-2">
-            {profession.examNames.map((exam) => (
+            {(profession.examNames || []).map((exam) => (
               <span key={exam} className="px-3 py-1.5 text-sm font-medium rounded-full" style={{ backgroundColor: profession.colorAccent, color: profession.color }} data-testid={`badge-exam-${exam}`}>
                 {exam}
               </span>
@@ -157,7 +157,7 @@ export default function NewGradProfessionHub() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">{t("pages.newGrad.professionHubPage.firstYearExpectations")}</h2>
           <div className="space-y-3">
-            {profession.firstYearExpectations.map((item, i) => (
+            {(profession.firstYearExpectations || []).map((item, i) => (
               <div key={i} className="flex items-start gap-3 bg-white rounded-xl p-4 border border-gray-100" data-testid={`expectation-${i}`}>
                 <CheckCircle2 className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: profession.color }} />
                 <span className="text-gray-700">{item}</span>
@@ -172,7 +172,7 @@ export default function NewGradProfessionHub() {
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">{t("pages.newGrad.professionHubPage.commonChallenges")}</h2>
           <p className="text-gray-600 mb-6">{t("pages.newGrad.professionHubPage.everyNewGradFacesThese")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {profession.commonChallenges.map((challenge, i) => (
+            {(profession.commonChallenges || []).map((challenge, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md transition-all" data-testid={`challenge-${i}`}>
                 <div className="flex items-start gap-3">
                   <AlertTriangle className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
@@ -188,7 +188,7 @@ export default function NewGradProfessionHub() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">{t("pages.newGrad.professionHubPage.clinicalTipsForNewGrads")}</h2>
           <div className="space-y-3">
-            {profession.clinicalTips.map((tip, i) => (
+            {(profession.clinicalTips || []).map((tip, i) => (
               <div key={i} className="flex items-start gap-3 bg-white rounded-xl p-4 border border-gray-100" data-testid={`tip-${i}`}>
                 <Star className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: profession.color }} />
                 <span className="text-gray-700">{tip}</span>
@@ -271,7 +271,7 @@ export default function NewGradProfessionHub() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Ready for Your {profession.shortName} Exam?</h2>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            NurseNest offers comprehensive exam preparation for {profession.examNames.join(", ")} with practice questions, study plans, and mock exams.
+            NurseNest offers comprehensive exam preparation for {(profession.examNames || []).join(", ")} with practice questions, study plans, and mock exams.
           </p>
           <Link href={profession.nurseNestExamPrepLink} className="inline-flex items-center gap-2 px-8 py-3.5 text-white rounded-xl font-semibold transition-colors shadow-lg" style={{ backgroundColor: profession.color }} data-testid="button-start-exam-prep">
             Start Exam Prep <ArrowRight className="w-4 h-4" />

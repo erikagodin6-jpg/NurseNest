@@ -46,6 +46,7 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
 }
 
 export default function NewGradProfessionHub() {
+  const { t } = useI18n();
   const params = useParams<{ profession: string }>();
   const profession = getProfessionBySlug(params.profession || "");
 
@@ -66,7 +67,7 @@ export default function NewGradProfessionHub() {
   }
 
   const faqStructuredData = buildFaqStructuredData(
-    profession.faqs.map(f => ({ question: f.question, answer: f.answer }))
+    (profession.faqs || []).map(f => ({ question: f.question, answer: f.answer }))
   );
 
   const courseStructuredData = {
@@ -157,7 +158,7 @@ export default function NewGradProfessionHub() {
             </div>
             <div data-testid="stat-certs">
               <Award className="w-5 h-5 text-gray-400 mx-auto mb-1" />
-              <div className="text-lg font-bold text-gray-900">{profession.certifications.length}</div>
+              <div className="text-lg font-bold text-gray-900">{(profession.certifications || []).length}</div>
               <div className="text-sm text-gray-500">{t("pages.newGrad.professionHub.keyCertifications")}</div>
             </div>
           </div>
@@ -169,7 +170,7 @@ export default function NewGradProfessionHub() {
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4" data-testid="text-overview-title">{t("pages.newGrad.professionHub.careerOverview")}</h2>
           <p className="text-gray-600 leading-relaxed mb-6" data-testid="text-overview-body">{profession.careerOverview}</p>
           <div className="flex flex-wrap gap-2">
-            {profession.certifications.map((cert, i) => (
+            {(profession.certifications || []).map((cert, i) => (
               <span key={i} className={`px-3 py-1 rounded-full text-sm font-medium ${profession.badgeColor}`} data-testid={`badge-cert-${i}`}>
                 {cert}
               </span>
@@ -183,7 +184,7 @@ export default function NewGradProfessionHub() {
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-first-year-title">{t("pages.newGrad.professionHub.whatToExpectInYour")}</h2>
           <p className="text-gray-600 mb-8">{t("pages.newGrad.professionHub.keyMilestonesAndExpectationsDuring")}</p>
           <div className="space-y-4">
-            {profession.firstYearExpectations.map((item, i) => (
+            {(profession.firstYearExpectations || []).map((item, i) => (
               <div key={i} className="flex items-start gap-3 bg-white rounded-xl border border-gray-100 p-4" data-testid={`expectation-${i}`}>
                 <CheckCircle2 className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
                 <span className="text-gray-700">{item}</span>
@@ -200,7 +201,7 @@ export default function NewGradProfessionHub() {
             <p className="text-gray-600 max-w-2xl mx-auto">Every new {profession.name.toLowerCase()} professional faces these hurdles. Knowing what to expect helps you prepare.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {profession.challenges.map((challenge, i) => (
+            {(profession.challenges || []).map((challenge, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md hover:border-blue-200 transition-all" data-testid={`card-challenge-${i}`}>
                 <challenge.icon className="w-7 h-7 text-blue-500 mb-3" />
                 <h3 className="font-semibold text-gray-900 mb-1">{challenge.title}</h3>
@@ -226,7 +227,7 @@ export default function NewGradProfessionHub() {
             <p className="text-gray-600 max-w-2xl mx-auto">Practical advice from experienced {profession.name.toLowerCase()} professionals to help you succeed.</p>
           </div>
           <div className="space-y-5">
-            {profession.clinicalTips.map((tip, i) => (
+            {(profession.clinicalTips || []).map((tip, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 p-6" data-testid={`card-tip-${i}`}>
                 <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
                   <span className="w-7 h-7 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-sm font-bold flex-shrink-0">
@@ -248,7 +249,7 @@ export default function NewGradProfessionHub() {
             <p className="text-gray-600 max-w-2xl mx-auto">{t("pages.newGrad.professionHub.toolsAndResourcesToHelp")}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {profession.resources.map((resource, i) => (
+            {(profession.resources || []).map((resource, i) => (
               <Link key={i} href={resource.href} className="group" data-testid={`card-resource-${i}`}>
                 <div className="bg-white rounded-xl border border-gray-100 p-6 hover:shadow-md hover:border-blue-200 transition-all h-full">
                   <BookOpen className="w-7 h-7 text-blue-500 mb-3" />
@@ -266,8 +267,8 @@ export default function NewGradProfessionHub() {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="grid sm:grid-cols-2 gap-4">
-          <FlashcardCTA profession={profession.name.toLowerCase()} href={profession.resources[1]?.href || "/flashcards"} variant="sidebar" />
-          <PracticeQuestionCTA profession={profession.name.toLowerCase()} href={profession.resources[0]?.href || "/free-practice"} variant="sidebar" />
+          <FlashcardCTA profession={profession.name.toLowerCase()} href={profession.resources?.[1]?.href || "/flashcards"} variant="sidebar" />
+          <PracticeQuestionCTA profession={profession.name.toLowerCase()} href={profession.resources?.[0]?.href || "/free-practice"} variant="sidebar" />
         </div>
       </div>
 
@@ -278,7 +279,7 @@ export default function NewGradProfessionHub() {
             <p className="text-gray-600">Common questions from new {profession.name.toLowerCase()} graduates</p>
           </div>
           <div className="space-y-3">
-            {profession.faqs.map((faq, i) => (
+            {(profession.faqs || []).map((faq, i) => (
               <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />
             ))}
           </div>

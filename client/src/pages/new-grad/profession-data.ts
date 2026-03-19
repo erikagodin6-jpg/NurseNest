@@ -64,7 +64,7 @@ export const PROFESSIONS: Record<string, ProfessionData> = {
     color: "blue",
     gradient: "from-blue-600 to-indigo-600",
     badgeColor: "bg-blue-100 text-blue-700",
-    heroTitle: "Your First Year as a Nurse,",
+    heroTitle: "Your First Year in Nursing,",
     heroHighlight: "Mastered",
     heroSubtitle: "Bridge the gap between nursing school and confident clinical practice. Evidence-based tools for interview prep, clinical confidence, and career development.",
     careerOverview: "Registered Nurses (RNs) and Registered Practical Nurses (RPNs) provide direct patient care across hospitals, clinics, long-term care, and community settings. New graduate nurses face a unique transition from student to professional, navigating complex healthcare systems while building clinical confidence.",

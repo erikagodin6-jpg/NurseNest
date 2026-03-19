@@ -19,17 +19,17 @@ NurseNest employs a React frontend (TypeScript, Wouter, shadcn/ui, Tailwind CSS 
 
 Key features include a database-driven subscription model with regional pricing, tiered access, Stripe-based lifetime purchases, and free trials. The platform offers interactive learning modules, a mock exam engine using stratified random sampling, and a comprehensive admin dashboard. AI integrations, managed by a centralized AI Provider Router, power functionalities like blog automation, an Adaptive CAT Engine, Pass Probability Projection, a Next Best Action Engine, an AI Tutoring Assistant, and content generation with quality gates. Exam blueprints are database-driven, content is categorized by body system, and supports Next Generation NCLEX (NGN) question types, partial credit scoring, and a Spaced Repetition System. User access is dynamically controlled by subscription tier.
 
-Core architectural components and design patterns emphasize:
-- **Learning & Exam Preparation**: Flashcards, Test/Question Bank, Adaptive Flashcard System, Clinical Vignette Generation, Mock Exam Engine (CAT & Practice modes).
-- **AI-Powered Study & Content**: AI Study Coaching & Course Generation, Exam Date AI Study Planner, context-aware AI Tutoring Assistant, and Bulk Question Bank Orchestrator.
-- **Content & SEO Infrastructure**: Allied Health Encyclopedia, SEO Lesson Engine, Programmatic SEO, Multilingual SEO & Translation, and Database-Driven Multi-Domain Sitemap.
-- **User Experience & Engagement**: Dashboard Lifecycle Command Center, Global Report a Problem System, IndexedDB-based Offline Study, and LocalStorage-based Popup Suppression.
-- **Multi-Profession Support**: Dynamic framework for new healthcare professions with specialized navigation and content.
-- **Database Safety & Management**: PostgreSQL with Drizzle ORM, EnvironmentAwareContentWriteService, and a comprehensive Backup, Export & Restore Framework.
-- **Content Integrity Engine**: Automated scanning, AI auto-repair, pre-publish validation, and manual review queue.
-- **Explanation Engine**: Unified structured explanation storage with AI-powered batch generation and review.
+Key architectural patterns and components include:
+- **Learning & Exam Preparation**: Features like flashcards, question banks, adaptive flashcards, clinical vignette generation, and a mock exam engine with CAT and practice modes.
+- **AI-Powered Study & Content**: AI study coaching, course generation, exam date planners, a context-aware AI tutoring assistant, and a bulk question bank orchestrator.
+- **Content & SEO Infrastructure**: An allied health encyclopedia, an SEO lesson engine, programmatic SEO, multilingual SEO and translation capabilities, and a database-driven multi-domain sitemap.
+- **User Experience & Engagement**: A dashboard lifecycle command center, a global problem reporting system, IndexedDB-based offline study, and LocalStorage-based popup suppression.
+- **Multi-Profession Support**: A dynamic framework allows for the addition of new healthcare professions with specialized navigation and content.
+- **Database Safety & Management**: PostgreSQL with Drizzle ORM, an EnvironmentAwareContentWriteService, and a comprehensive Backup, Export & Restore Framework.
+- **Content Integrity Engine**: Automated scanning, AI auto-repair, pre-publish validation, and a manual review queue to maintain content quality.
+- **Explanation Engine**: A unified system for structured explanation storage with AI-powered batch generation and review.
 - **Exam Readiness Predictor Engine**: Provides readiness scores, pass probability, and personalized recommendations.
-- **Unified Question Schema & Country Adaptation**: `exam_questions` table extended for international fields, filtered by country, language, and licensing body.
+- **Unified Question Schema & Country Adaptation**: `exam_questions` table is extended for international fields, filtered by country, language, and licensing body.
 - **Multilingual Content Management**: AI-powered batch translation of content with dedicated translation tables and build-blocking validation.
 - **Taxonomy Protection System**: Strict taxonomy validation and normalization for content generation.
 - **Content Publishing Audit**: Admin system for audit reports, quality fixes, coverage, and paywall enforcement.

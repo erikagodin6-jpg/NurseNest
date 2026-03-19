@@ -551,6 +551,12 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                     {t("nav.healthcareCareers")}
                   </Button>
                 </SheetClose>
+                <SheetClose asChild>
+                  <Button variant="ghost" className="w-full justify-start text-[var(--theme-menu-text)] hover:text-[var(--theme-menu-hover-text)] hover:bg-[var(--theme-menu-hover-bg)] gap-2 h-9" onClick={() => navTo("/allied-health")} data-testid="mobile-ecosystem-allied-health">
+                    <Heart className="w-4 h-4 text-teal-500" />
+                    Allied Health
+                  </Button>
+                </SheetClose>
               </div>
               <Separator className="my-3 mx-3 bg-[var(--theme-separator)]" />
             </div>
@@ -1302,6 +1308,10 @@ export function Navigation({ compact = false }: { compact?: boolean } = {}) {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+
+              <Button variant="ghost" className="text-sm font-medium text-softgray hover:text-primary hover:bg-transparent px-2 lg:px-2.5" onClick={() => navTo("/allied-health")} data-testid="nav-allied-health-desktop">
+                Allied Health
+              </Button>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

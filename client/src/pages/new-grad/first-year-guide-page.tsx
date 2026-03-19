@@ -408,11 +408,11 @@ export default function FirstYearGuidePage() {
   const relatedGuides = RELATED_GUIDES[professionSlug] || [];
 
   const faqData = [
-    { question: `How long does the first year as a ${profession.shortName} typically feel overwhelming?`, answer: `Most new ${profession.shortName} graduates report feeling significantly more confident by months 6-8. The first 3 months are typically the most challenging as you build clinical routines and relationships. By the end of your first year, tasks that once felt daunting will become second nature.` },
+    { question: `How long does the first year in ${profession.shortName} typically feel overwhelming?`, answer: `Most new ${profession.shortName} graduates report feeling significantly more confident by months 6-8. The first 3 months are typically the most challenging as you build clinical routines and relationships. By the end of your first year, tasks that once felt daunting will become second nature.` },
     { question: `What's the biggest mistake new ${profession.shortName} graduates make?`, answer: `Not asking for help early enough. New graduates often feel they should know everything, but experienced colleagues expect questions and prefer you ask rather than guess. Your first year is a learning year — take full advantage of the mentorship and support available to you.` },
-    { question: `How can I organize my workday as a new ${profession.shortName}?`, answer: `Develop a consistent pre-work routine: review your assignments, prepare supplies, and mentally prioritize your tasks. During your day, address time-sensitive items first, document in real time, and communicate proactively with your team. Consistency in preparation builds confidence and reduces errors.` },
+    { question: `How can I organize my workday as a new ${profession.shortName} graduate?`, answer: `Develop a consistent pre-work routine: review your assignments, prepare supplies, and mentally prioritize your tasks. During your day, address time-sensitive items first, document in real time, and communicate proactively with your team. Consistency in preparation builds confidence and reduces errors.` },
     { question: `How do I communicate effectively with senior ${profession.shortName} staff?`, answer: `Come prepared with specific observations and questions rather than vague uncertainty. Present your clinical thinking: 'I'm seeing X, I'm thinking Y — does that sound right?' This shows initiative and earns respect. Accept constructive feedback gracefully and follow up on suggestions.` },
-    { question: `When will I start feeling confident as a ${profession.shortName}?`, answer: `Clinical confidence builds gradually through repetition and positive experiences. Most new graduates notice significant improvement around months 4-6, with a second leap at 9-12 months. Track your growth — you'll be surprised how far you've come when you look back at your first week.` },
+    { question: `When will I start feeling confident in ${profession.shortName}?`, answer: `Clinical confidence builds gradually through repetition and positive experiences. Most new graduates notice significant improvement around months 4-6, with a second leap at 9-12 months. Track your growth — you'll be surprised how far you've come when you look back at your first week.` },
   ];
 
   const faqStructuredData = buildFaqStructuredData(faqData);
@@ -523,7 +523,7 @@ export default function FirstYearGuidePage() {
                   <div>
                     <p className="text-gray-700">{challenge}</p>
                     <p className="text-sm text-gray-500 mt-2">
-                      <strong>{t("pages.newGrad.firstYearGuidePage.howToAvoid")}</strong> {profession.clinicalTips[i] || "Seek mentorship and develop a structured approach to build competence gradually."}
+                      <strong>{t("pages.newGrad.firstYearGuidePage.howToAvoid")}</strong> {(profession.clinicalTips || [])[i] || "Seek mentorship and develop a structured approach to build competence gradually."}
                     </p>
                   </div>
                 </div>

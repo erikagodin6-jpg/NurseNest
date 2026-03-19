@@ -205,6 +205,51 @@ export default function NewGradHub() {
         </div>
       </section>
 
+      <section className="py-12 bg-white border-y border-gray-100" data-testid="section-pathways">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3" data-testid="text-pathways-title">Choose Your Pathway</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">New grad resources tailored to your profession. Select your path to get started.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <Link href="/new-grad/nursing" className="group" data-testid="card-pathway-nursing">
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-100 p-6 hover:shadow-lg hover:border-blue-300 transition-all h-full">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
+                    <Stethoscope className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-700 transition-colors">Nursing</h3>
+                    <p className="text-xs text-gray-500">RPN/LVN & RN</p>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-600 mb-4">Career guides, clinical tips, first year survival resources, and exam prep for new nursing graduates.</p>
+                <span className="inline-flex items-center gap-1 text-sm text-blue-600 font-semibold group-hover:translate-x-1 transition-transform">
+                  Explore Nursing Hub <ArrowRight className="w-4 h-4" />
+                </span>
+              </div>
+            </Link>
+            <Link href="/allied-health" className="group" data-testid="card-pathway-allied-health">
+              <div className="bg-gradient-to-br from-teal-50 to-emerald-50 rounded-2xl border border-teal-100 p-6 hover:shadow-lg hover:border-teal-300 transition-all h-full">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-12 h-12 rounded-xl bg-teal-100 flex items-center justify-center">
+                    <Briefcase className="w-6 h-6 text-teal-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 group-hover:text-teal-700 transition-colors">Allied Health</h3>
+                    <p className="text-xs text-gray-500">RRT, Paramedic, MLT, Imaging & more</p>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-600 mb-4">Exam prep, career resources, and first year guides for respiratory therapy, paramedicine, lab tech, and more.</p>
+                <span className="inline-flex items-center gap-1 text-sm text-teal-600 font-semibold group-hover:translate-x-1 transition-transform">
+                  Explore Allied Health <ArrowRight className="w-4 h-4" />
+                </span>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="py-12 bg-white border-y border-gray-100" data-testid="section-stats">
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
