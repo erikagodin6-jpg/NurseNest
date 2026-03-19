@@ -15,7 +15,12 @@ export type AlertType =
   | "emergency_mode_activated"
   | "zero_valid_items"
   | "lkg_failover_repeated"
-  | "payment_sync_spike";
+  | "payment_sync_spike"
+  | "memory_pressure"
+  | "content_validation_failure"
+  | "deploy_smoke_failure"
+  | "exam_flow_failure"
+  | "resource_budget_violation";
 
 export type AlertSeverity = "info" | "warning" | "critical";
 
@@ -47,21 +52,156 @@ const DEFAULT_THRESHOLDS: AlertThresholds = {
 
 const HARD_RATE_LIMIT_MS = 30 * 60 * 1000;
 
+const PER_TYPE_COOLDOWNS: Record<string, number> = {
+  failure_rate_spike: 10,
+  fallback_usage_spike: 15,
+  entitlement_anomaly: 30,
+  backup_generation_failure: 20,
+  quarantine_event: 5,
+  protected_recovery_excessive: 15,
+  synthetic_test_failure: 10,
+  circuit_breaker_trip: 5,
+  emergency_mode_activated: 30,
+  zero_valid_items: 60,
+  lkg_failover_repeated: 15,
+  payment_sync_spike: 20,
+  memory_pressure: 10,
+  content_validation_failure: 15,
+  deploy_smoke_failure: 5,
+  exam_flow_failure: 5,
+  resource_budget_violation: 10,
+};
+
 let thresholds: AlertThresholds = { ...DEFAULT_THRESHOLDS };
 
 interface IncidentGroup {
-  alertType: AlertType;
-  context?: string;
+  groupId: string;
+  component: string;
+  severity: AlertSeverity;
+  alertTypes: AlertType[];
+  alertCount: number;
   firstSeen: number;
   lastSeen: number;
-  count: number;
-  lastMessage: string;
+  suppressed: number;
+  summary: string;
   notified: boolean;
-  severity: AlertSeverity;
   affectedScope: string[];
 }
 
 const incidentGroups = new Map<string, IncidentGroup>();
+const INCIDENT_GROUP_WINDOW_MS = 15 * 60 * 1000;
+const MAX_INCIDENT_GROUPS = 100;
+const DEDUP_WINDOW_MS = 5 * 60 * 1000;
+const dedupHistory = new Map<string, { count: number; firstSeen: number; lastSeen: number }>();
+
+function getComponentFromAlertType(alertType: AlertType): string {
+  if (alertType.includes("failure_rate") || alertType.includes("fallback")) return "request_pipeline";
+  if (alertType.includes("exam") || alertType.includes("cat")) return "exam_system";
+  if (alertType.includes("content") || alertType.includes("quarantine") || alertType.includes("zero_valid")) return "content_system";
+  if (alertType.includes("payment") || alertType.includes("entitlement") || alertType.includes("stripe")) return "billing_system";
+  if (alertType.includes("circuit") || alertType.includes("emergency") || alertType.includes("memory")) return "platform_health";
+  if (alertType.includes("deploy") || alertType.includes("smoke")) return "deployment";
+  return "general";
+}
+
+function getOrCreateIncidentGroup(alertType: AlertType, severity: AlertSeverity): IncidentGroup {
+  const component = getComponentFromAlertType(alertType);
+  const activeGroup = Array.from(incidentGroups.values()).find(
+    g => g.component === component && Date.now() - g.lastSeen < INCIDENT_GROUP_WINDOW_MS
+  );
+
+  if (activeGroup) {
+    activeGroup.lastSeen = Date.now();
+    activeGroup.alertCount++;
+    if (!activeGroup.alertTypes.includes(alertType)) activeGroup.alertTypes.push(alertType);
+    if (severityRank(severity) > severityRank(activeGroup.severity)) activeGroup.severity = severity;
+    return activeGroup;
+  }
+
+  const group: IncidentGroup = {
+    groupId: `grp-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+    component,
+    severity,
+    alertTypes: [alertType],
+    alertCount: 1,
+    firstSeen: Date.now(),
+    lastSeen: Date.now(),
+    suppressed: 0,
+    summary: "",
+    notified: false,
+    affectedScope: [alertType],
+  };
+  incidentGroups.set(group.groupId, group);
+  if (incidentGroups.size > MAX_INCIDENT_GROUPS) {
+    const oldest = Array.from(incidentGroups.entries()).sort((a, b) => a[1].lastSeen - b[1].lastSeen)[0];
+    if (oldest) incidentGroups.delete(oldest[0]);
+  }
+  return group;
+}
+
+function severityRank(s: AlertSeverity): number {
+  return s === "critical" ? 3 : s === "warning" ? 2 : 1;
+}
+
+function isDuplicate(alertType: AlertType, message: string): boolean {
+  const key = `${alertType}::${message.substring(0, 100)}`;
+  const existing = dedupHistory.get(key);
+  if (existing && Date.now() - existing.lastSeen < DEDUP_WINDOW_MS) {
+    existing.count++;
+    existing.lastSeen = Date.now();
+    return true;
+  }
+  dedupHistory.set(key, { count: 1, firstSeen: Date.now(), lastSeen: Date.now() });
+  if (dedupHistory.size > 500) {
+    const cutoff = Date.now() - DEDUP_WINDOW_MS;
+    for (const [k, v] of dedupHistory) {
+      if (v.lastSeen < cutoff) dedupHistory.delete(k);
+    }
+  }
+  return false;
+}
+
+export function buildOperatorSummary(alertType: AlertType, severity: AlertSeverity, message: string, metadata: Record<string, any>): string {
+  const component = getComponentFromAlertType(alertType);
+  const group = Array.from(incidentGroups.values()).find(
+    g => g.component === component && Date.now() - g.lastSeen < INCIDENT_GROUP_WINDOW_MS
+  );
+  const isNewIncident = !group || group.alertCount <= 1;
+
+  const userImpact = severity === "critical"
+    ? "Users may be unable to access core functionality"
+    : severity === "warning"
+    ? "Some users may experience degraded service"
+    : "No immediate user impact expected";
+
+  return [
+    `WHAT FAILED: ${message}`,
+    `SEVERITY: ${severity.toUpperCase()}`,
+    `USER IMPACT: ${userImpact}`,
+    `AFFECTED COMPONENT: ${component}`,
+    isNewIncident ? "STATUS: New incident" : `STATUS: Part of existing incident (${group?.alertCount || 0} related alerts)`,
+    group && group.suppressed > 0 ? `SUPPRESSED: ${group.suppressed} duplicate alerts` : "",
+  ].filter(Boolean).join("\n");
+}
+
+export function getIncidentGroups(): IncidentGroup[] {
+  return Array.from(incidentGroups.values())
+    .filter(g => Date.now() - g.lastSeen < INCIDENT_GROUP_WINDOW_MS)
+    .sort((a, b) => b.lastSeen - a.lastSeen);
+}
+
+export function getAlertCountByType(): Record<string, number> {
+  const counts: Record<string, number> = {};
+  for (const [key, ts] of recentAlerts) {
+    const alertType = key.split(":")[0];
+    counts[alertType] = (counts[alertType] || 0) + 1;
+  }
+  return counts;
+}
+
+const recentAlerts = new Map<string, number>();
+const MAX_RECENT_ALERTS = 500;
+
 const hardRateLimitMap = new Map<string, number>();
 const incidentTypeCooldowns = new Map<AlertType, number>();
 const alertCountsPerHour = new Map<string, { count: number; windowStart: number }>();
@@ -83,10 +223,6 @@ function isEmailRateLimited(alertType: AlertType, severity: AlertSeverity, conte
 
 function markEmailSent(alertType: AlertType, severity: AlertSeverity, context?: string): void {
   emailRateLimit.set(getEmailRateLimitKey(alertType, severity, context), Date.now());
-}
-
-export function getIncidentGroups(): Array<IncidentGroup & { groupKey: string }> {
-  return Array.from(incidentGroups.entries()).map(([key, group]) => ({ ...group, groupKey: key }));
 }
 
 function evictExpiredAlerts(): void {
@@ -117,6 +253,15 @@ function isRateLimited(alertType: AlertType): boolean {
 
 export function getAlertThresholds(): AlertThresholds {
   return { ...thresholds };
+}
+
+export function updateAlertThresholds(updates: Partial<AlertThresholds>): void {
+  for (const [key, value] of Object.entries(updates)) {
+    if (key in thresholds && typeof value === "number" && value > 0) {
+      (thresholds as any)[key] = value;
+    }
+  }
+  console.log(`[AlertEngine] Thresholds updated: ${JSON.stringify(updates)}`);
 }
 
 export async function loadThresholdsFromDb(pool: pg.Pool): Promise<void> {
@@ -168,7 +313,8 @@ function getGroupKey(alertType: AlertType, context?: string): string {
 function isInCooldown(alertType: AlertType, _context?: string): boolean {
   const lastFired = incidentTypeCooldowns.get(alertType);
   if (!lastFired) return false;
-  const cooldownMs = thresholds.cooldownMinutes * 60 * 1000;
+  const perTypeCooldownMin = PER_TYPE_COOLDOWNS[alertType] ?? thresholds.cooldownMinutes;
+  const cooldownMs = perTypeCooldownMin * 60 * 1000;
   return Date.now() - lastFired < cooldownMs;
 }
 
@@ -185,66 +331,58 @@ export async function fireAlert(
   metadata: Record<string, any> = {},
   context?: string
 ): Promise<string | null> {
-  const groupKey = getCooldownKey(alertType, context);
-
   if (isInCooldown(alertType, context)) {
-    const groupKey = getGroupKey(alertType, context);
-    const group = incidentGroups.get(groupKey);
-    if (group) {
-      group.lastSeen = Date.now();
-      group.count++;
-      group.lastMessage = message;
-      if (severityRank(severity) > severityRank(group.severity)) {
-        group.severity = severity;
-      }
-      const scope = context || alertType;
-      if (!group.affectedScope.includes(scope)) {
-        group.affectedScope.push(scope);
-      }
-      persistIncidentGroupUpdate(pool, group, groupKey).catch(() => {});
-    }
-    console.log(`[AlertEngine] Suppressed (cooldown): ${alertType} - ${message}${group ? ` (occurrence #${group.count})` : ""}`);
+    const group = getOrCreateIncidentGroup(alertType, severity);
+    group.suppressed++;
+    const scope = context || alertType;
+    if (!group.affectedScope.includes(scope)) group.affectedScope.push(scope);
+    persistIncidentGroupUpdate(pool, group).catch(() => {});
+    console.log(`[AlertEngine] Suppressed (cooldown): ${alertType} - ${message}`);
+    return null;
+  }
+
+  if (isDuplicate(alertType, message)) {
+    const group = getOrCreateIncidentGroup(alertType, severity);
+    group.suppressed++;
+    console.log(`[AlertEngine] Suppressed (dedup): ${alertType} - ${message}`);
     return null;
   }
 
   const rateLimited = isRateLimited(alertType);
+  const group = getOrCreateIncidentGroup(alertType, severity);
+  group.summary = buildOperatorSummary(alertType, severity, message, metadata);
+  const scope = context || alertType;
+  if (!group.affectedScope.includes(scope)) group.affectedScope.push(scope);
+  const now = Date.now();
 
   try {
-    const groupKey = getGroupKey(alertType, context);
-    let group = incidentGroups.get(groupKey);
-    const now = Date.now();
-
-    if (group && now - group.lastSeen < HARD_RATE_LIMIT_MS) {
-      group.lastSeen = now;
-      group.count++;
-      group.lastMessage = message;
-      if (severityRank(severity) > severityRank(group.severity)) {
-        group.severity = severity;
-      }
-    } else {
-      group = {
-        alertType,
-        context,
-        firstSeen: now,
-        lastSeen: now,
-        count: 1,
-        lastMessage: message,
-        notified: false,
-        severity,
-        affectedScope: [context || alertType],
-      };
-      incidentGroups.set(groupKey, group);
-    }
+    const enrichedMetadata = {
+      ...metadata,
+      incidentGroupId: group.groupId,
+      component: group.component,
+      operatorSummary: group.summary,
+      isNewIncident: group.alertCount <= 1,
+      relatedAlertCount: group.alertCount,
+      firstSeen: new Date(group.firstSeen).toISOString(),
+      affectedScope: group.affectedScope,
+    };
 
     const result = await pool.query(
       `INSERT INTO reliability_alerts (alert_type, severity, message, metadata)
        VALUES ($1, $2, $3, $4) RETURNING id`,
-      [alertType, severity, message, JSON.stringify({ ...metadata, incidentCount: group.count, firstSeen: new Date(group.firstSeen).toISOString() })]
+      [alertType, severity, message, JSON.stringify(enrichedMetadata)]
     );
     const alertId = result.rows[0]?.id;
     markFired(alertType, context);
 
-    console.log(`[AlertEngine] ALERT ${severity.toUpperCase()}: [${alertType}] ${message} (incident #${group.count})`);
+    const recentKey = `${alertType}:${context || "global"}:${now}`;
+    recentAlerts.set(recentKey, now);
+    if (recentAlerts.size > MAX_RECENT_ALERTS) {
+      const oldest = recentAlerts.keys().next().value;
+      if (oldest) recentAlerts.delete(oldest);
+    }
+
+    console.log(`[AlertEngine] ALERT ${severity.toUpperCase()}: [${alertType}] ${message} (incident #${group.alertCount})`);
 
     if (isEmailRateLimited(alertType, severity, context)) {
       console.log(`[AlertEngine] Email suppressed (rate limit): ${alertType}`);
@@ -278,15 +416,15 @@ export async function fireAlert(
           payment_sync_spike: "reliability_warning",
         };
         const notificationEvent = eventTypeMap[alertType] || (severity === "critical" ? "service_down" : "reliability_warning");
-        const incidentInfo = group.count > 1
-          ? `\n\nIncident Group: ${group.count} occurrences\nFirst seen: ${new Date(group.firstSeen).toISOString()}\nLast seen: ${new Date(group.lastSeen).toISOString()}`
+        const incidentInfo = group.alertCount > 1
+          ? `\n\nIncident Group: ${group.alertCount} occurrences\nFirst seen: ${new Date(group.firstSeen).toISOString()}\nLast seen: ${new Date(group.lastSeen).toISOString()}`
           : "";
         try {
           await sendAdminNotification(pool, {
             event: notificationEvent,
             alertType,
             alertSeverity: severity,
-            details: `${severityEmoji} Reliability Alert: ${message}\n\nType: ${alertType}\nSeverity: ${severity}\nTime: ${new Date().toISOString()}${incidentInfo}`,
+            details: `${severityEmoji} Reliability Alert: ${message}\n\nType: ${alertType}\nSeverity: ${severity}\nTime: ${new Date().toISOString()}${incidentInfo}\n\n${group.summary}`,
           });
           recordEmailSent(decision.incidentSignature);
         } catch (e: any) {
@@ -621,24 +759,16 @@ export function stopAlertingEngine(): void {
   }
 }
 
-function severityRank(severity: AlertSeverity): number {
-  switch (severity) {
-    case "critical": return 3;
-    case "warning": return 2;
-    case "info": return 1;
-    default: return 0;
-  }
-}
-
-async function persistIncidentGroupUpdate(pool: pg.Pool, group: IncidentGroup, groupKey: string): Promise<void> {
+async function persistIncidentGroupUpdate(pool: pg.Pool, group: IncidentGroup): Promise<void> {
   try {
+    const primaryAlertType = group.alertTypes[0] || "unknown";
     await pool.query(
       `INSERT INTO alert_incident_groups (group_key, alert_type, severity, first_seen, last_seen, occurrence_count, last_message, affected_scope, notified, context)
        VALUES ($1, $2, $3, to_timestamp($4::double precision / 1000), to_timestamp($5::double precision / 1000), $6, $7, $8, $9, $10)
        ON CONFLICT (group_key) DO UPDATE SET
          severity = $3, last_seen = to_timestamp($5::double precision / 1000), occurrence_count = $6,
          last_message = $7, affected_scope = $8, notified = $9`,
-      [groupKey, group.alertType, group.severity, group.firstSeen, group.lastSeen, group.count, group.lastMessage, JSON.stringify(group.affectedScope), group.notified, group.context || null]
+      [group.groupId, primaryAlertType, group.severity, group.firstSeen, group.lastSeen, group.alertCount, group.summary, JSON.stringify(group.affectedScope), group.notified, group.component]
     );
   } catch (e: any) {
     if (!e.message?.includes("does not exist")) {

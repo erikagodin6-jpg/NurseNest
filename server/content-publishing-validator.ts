@@ -1110,6 +1110,214 @@ function emptyIntegrity(): ContentIntegrityResult {
   return { scanMode: "skipped", totalRecords: 0, issueCount: 0, autoFixable: 0, issues: [] };
 }
 
+export interface ContentQualityGateResult {
+  passed: boolean;
+  totalChecked: number;
+  blocked: number;
+  warnings: number;
+  checks: Array<{ name: string; status: "pass" | "fail" | "warn"; message: string; count?: number }>;
+}
+
+export async function runContentQualityGates(): Promise<ContentQualityGateResult> {
+  const checks: ContentQualityGateResult["checks"] = [];
+  let blocked = 0;
+  let warnings = 0;
+  let totalChecked = 0;
+
+  try {
+    const blankStems = await pool.query(
+      `SELECT COUNT(*)::int AS cnt FROM exam_questions
+       WHERE status = 'published' AND (stem IS NULL OR LENGTH(TRIM(stem)) < 10)`
+    );
+    const blankCount = blankStems.rows[0]?.cnt || 0;
+    totalChecked++;
+    if (blankCount > 0) {
+      blocked++;
+      checks.push({ name: "No blank/short stems published", status: "fail", message: `${blankCount} published questions have blank or too-short stems`, count: blankCount });
+    } else {
+      checks.push({ name: "No blank/short stems published", status: "pass", message: "All published questions have valid stems" });
+    }
+
+    const missingOptions = await pool.query(
+      `SELECT COUNT(*)::int AS cnt FROM exam_questions
+       WHERE status = 'published' AND (options IS NULL OR correct_answer IS NULL)`
+    );
+    const missingOptsCount = missingOptions.rows[0]?.cnt || 0;
+    totalChecked++;
+    if (missingOptsCount > 0) {
+      blocked++;
+      checks.push({ name: "No published questions without options/answer", status: "fail", message: `${missingOptsCount} published questions missing options or correct answer`, count: missingOptsCount });
+    } else {
+      checks.push({ name: "No published questions without options/answer", status: "pass", message: "All published questions have options and correct answers" });
+    }
+
+    const invalidTier = await pool.query(
+      `SELECT COUNT(*)::int AS cnt FROM exam_questions
+       WHERE status = 'published' AND (tier IS NULL OR tier NOT IN ('rpn', 'rn', 'np', 'allied', 'free', 'newgrad'))`
+    );
+    const invalidTierCount = invalidTier.rows[0]?.cnt || 0;
+    totalChecked++;
+    if (invalidTierCount > 0) {
+      blocked++;
+      checks.push({ name: "Tier consistency", status: "fail", message: `${invalidTierCount} published questions have invalid or missing tier`, count: invalidTierCount });
+    } else {
+      checks.push({ name: "Tier consistency", status: "pass", message: "All published questions have valid tiers" });
+    }
+
+    for (const tier of ["rn", "rpn", "np"]) {
+      const tierCount = await pool.query(
+        `SELECT COUNT(*)::int AS cnt FROM exam_questions WHERE status = 'published' AND tier = $1`,
+        [tier]
+      );
+      const cnt = tierCount.rows[0]?.cnt || 0;
+      totalChecked++;
+      if (cnt < 10) {
+        blocked++;
+        checks.push({ name: `Minimum valid items (${tier})`, status: "fail", message: `Only ${cnt} published questions for tier ${tier} (minimum: 10)`, count: cnt });
+      } else if (cnt < 50) {
+        warnings++;
+        checks.push({ name: `Minimum valid items (${tier})`, status: "warn", message: `Low question count for tier ${tier}: ${cnt} (recommend 50+)`, count: cnt });
+      } else {
+        checks.push({ name: `Minimum valid items (${tier})`, status: "pass", message: `${cnt} published questions for tier ${tier}`, count: cnt });
+      }
+    }
+
+    try {
+      const languageMix = await pool.query(
+        `SELECT COUNT(*)::int AS cnt FROM exam_questions
+         WHERE status = 'published' AND language IS NOT NULL AND language != 'en' AND language != ''
+         AND tier IN ('rn', 'rpn', 'np')`
+      );
+      const mixCount = languageMix.rows[0]?.cnt || 0;
+      totalChecked++;
+      if (mixCount > 0) {
+        warnings++;
+        checks.push({ name: "Language consistency", status: "warn", message: `${mixCount} non-English published questions in core tiers`, count: mixCount });
+      } else {
+        checks.push({ name: "Language consistency", status: "pass", message: "No language consistency issues in core tiers" });
+      }
+    } catch {
+      checks.push({ name: "Language consistency", status: "pass", message: "Language check skipped (column may not exist)" });
+    }
+
+    const draftPublished = await pool.query(
+      `SELECT COUNT(*)::int AS cnt FROM exam_questions
+       WHERE status = 'published' AND published_at IS NULL`
+    );
+    const draftPubCount = draftPublished.rows[0]?.cnt || 0;
+    totalChecked++;
+    if (draftPubCount > 0) {
+      warnings++;
+      checks.push({ name: "Published without timestamp", status: "warn", message: `${draftPubCount} published questions have no published_at timestamp`, count: draftPubCount });
+    } else {
+      checks.push({ name: "Published without timestamp", status: "pass", message: "All published questions have timestamps" });
+    }
+
+    try {
+      const quarantined = await pool.query(
+        `SELECT COUNT(*)::int AS cnt FROM content_quarantine WHERE status = 'quarantined'`
+      );
+      const qCount = quarantined.rows[0]?.cnt || 0;
+      totalChecked++;
+      if (qCount > 5) {
+        warnings++;
+        checks.push({ name: "Quarantined content count", status: "warn", message: `${qCount} items currently quarantined`, count: qCount });
+      } else {
+        checks.push({ name: "Quarantined content count", status: "pass", message: `${qCount} items quarantined (acceptable)`, count: qCount });
+      }
+    } catch {
+      checks.push({ name: "Quarantined content count", status: "pass", message: "Quarantine table not available" });
+    }
+  } catch (err: any) {
+    checks.push({ name: "Quality gate execution", status: "fail", message: `Quality gate check failed: ${err.message}` });
+    blocked++;
+  }
+
+  return { passed: blocked === 0, totalChecked, blocked, warnings, checks };
+}
+
+export async function runNightlyIntegrityAudit(): Promise<{
+  auditedAt: string;
+  questionsScanned: number;
+  issuesFound: number;
+  quarantined: number;
+  repaired: number;
+  details: Array<{ type: string; count: number; action: string }>;
+}> {
+  const details: Array<{ type: string; count: number; action: string }> = [];
+  let questionsScanned = 0;
+  let issuesFound = 0;
+  let quarantined = 0;
+  let repaired = 0;
+
+  try {
+    const blankStems = await pool.query(
+      `SELECT id, tier FROM exam_questions
+       WHERE status = 'published' AND (stem IS NULL OR LENGTH(TRIM(stem)) < 10) LIMIT 100`
+    );
+    questionsScanned += blankStems.rows.length;
+    if (blankStems.rows.length > 0) {
+      issuesFound += blankStems.rows.length;
+      for (const q of blankStems.rows) {
+        try {
+          const { quarantineContentItem } = await import("./content-versioning-quarantine");
+          await quarantineContentItem(q.id, "exam_question", "nightly_audit: blank/short stem", "nightly_audit");
+          quarantined++;
+        } catch (qErr: any) {
+          console.error(`[NightlyAudit] Failed to quarantine question ${q.id}:`, qErr.message);
+        }
+      }
+      details.push({ type: "blank_stems", count: blankStems.rows.length, action: "quarantined" });
+    }
+
+    const missingAnswers = await pool.query(
+      `SELECT id FROM exam_questions
+       WHERE status = 'published' AND (options IS NULL OR correct_answer IS NULL) LIMIT 100`
+    );
+    questionsScanned += missingAnswers.rows.length;
+    if (missingAnswers.rows.length > 0) {
+      issuesFound += missingAnswers.rows.length;
+      for (const q of missingAnswers.rows) {
+        await pool.query(`UPDATE exam_questions SET status = 'needs_review' WHERE id = $1`, [q.id]);
+        repaired++;
+      }
+      details.push({ type: "missing_options_or_answer", count: missingAnswers.rows.length, action: "moved_to_needs_review" });
+    }
+
+    const invalidTiers = await pool.query(
+      `SELECT id FROM exam_questions
+       WHERE status = 'published' AND (tier IS NULL OR tier NOT IN ('rpn', 'rn', 'np', 'allied', 'free', 'newgrad')) LIMIT 100`
+    );
+    if (invalidTiers.rows.length > 0) {
+      issuesFound += invalidTiers.rows.length;
+      for (const q of invalidTiers.rows) {
+        await pool.query(`UPDATE exam_questions SET status = 'needs_review' WHERE id = $1`, [q.id]);
+        repaired++;
+      }
+      details.push({ type: "invalid_tier", count: invalidTiers.rows.length, action: "moved_to_needs_review" });
+    }
+
+    const totalPublished = await pool.query(
+      `SELECT COUNT(*)::int AS cnt FROM exam_questions WHERE status = 'published'`
+    );
+    questionsScanned = totalPublished.rows[0]?.cnt || questionsScanned;
+
+    try {
+      await pool.query(
+        `INSERT INTO platform_emergency_log (action, reason, actor, auto_triggered) VALUES ($1, $2, $3, $4)`,
+        ["nightly_integrity_audit", `Scanned ${questionsScanned} questions, found ${issuesFound} issues, quarantined ${quarantined}, repaired ${repaired}`, "nightly_audit", true]
+      );
+    } catch (logErr: any) {
+      console.error("[NightlyAudit] Failed to log audit results:", logErr.message);
+    }
+
+  } catch (err: any) {
+    details.push({ type: "audit_error", count: 1, action: `error: ${err.message}` });
+  }
+
+  return { auditedAt: new Date().toISOString(), questionsScanned, issuesFound, quarantined, repaired, details };
+}
+
 export function registerContentPublishingRoutes(app: Express): void {
   app.post("/api/admin/content-publishing/validate", async (req: Request, res: Response) => {
     const admin = await requireAdmin(req, res);
@@ -1177,6 +1385,19 @@ export function registerContentPublishingRoutes(app: Express): void {
         });
       }
 
+      const qualityGate = await runContentQualityGates();
+      if (!qualityGate.passed) {
+        const criticalBlocks = qualityGate.checks.filter(c => c.status === "fail");
+        if (criticalBlocks.length > 0) {
+          return res.status(422).json({
+            error: "Publishing blocked: content quality gate failed",
+            code: "QUALITY_GATE_FAILED",
+            failedChecks: criticalBlocks.map(c => c.name),
+            details: criticalBlocks.map(c => c.message),
+          });
+        }
+      }
+
       const result = await validateUnpublishedContent(false);
       res.json({
         questionsPublished: result.questionsBulkUpdated,
@@ -1184,6 +1405,7 @@ export function registerContentPublishingRoutes(app: Express): void {
         totalPublished: result.questionsBulkUpdated + result.flashcardsBulkUpdated,
         issues: result.issues.filter(i => i.autoFixed),
         publishGateEnabled: false,
+        qualityGatePassed: qualityGate.passed,
       });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
@@ -1236,6 +1458,30 @@ export function registerContentPublishingRoutes(app: Express): void {
 
     try {
       const result = await validateExamPageRoutes();
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/admin/content-publishing/quality-gates", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const result = await runContentQualityGates();
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/content-publishing/nightly-audit", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
+    if (!admin) return;
+
+    try {
+      const result = await runNightlyIntegrityAudit();
       res.json(result);
     } catch (err: any) {
       res.status(500).json({ error: err.message });

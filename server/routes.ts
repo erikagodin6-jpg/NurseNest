@@ -739,6 +739,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       import("./exam-question-translation-routes").then(m => { m.registerExamQuestionTranslationRoutes(app); m.registerContentTranslationBatchRoutes(app); }),
       import("./backup-routes").then(m => m.registerBackupRoutes(app)),
       import("./chaos-testing").then(m => m.registerChaosTestingRoutes(app)),
+      import("./resource-budgets").then(m => m.registerResourceBudgetRoutes(app)),
+      import("./auto-containment").then(m => m.registerAutoContainmentRoutes(app)),
       import("./ops-status-routes").then(m => m.registerOpsStatusRoutes(app)),
       import("./universal-generator-routes").then(m => m.registerUniversalGeneratorRoutes(app)),
       import("./ops-routes").then(m => m.registerOpsRoutes(app)),
@@ -1496,6 +1498,23 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
+      try {
+        const { isHeavyRouteThrottled } = await import("./auto-containment");
+        if (isHeavyRouteThrottled()) {
+          return res.status(503).json({ error: "Heavy operations are throttled due to memory pressure", code: "CONTAINMENT_THROTTLE" });
+        }
+      } catch {}
+      const budgets = await import("./resource-budgets");
+      const boundary = budgets.checkArchitectureBoundary("ai_content_generation", "web");
+      if (!boundary.allowed && process.env.NODE_ENV === "production") {
+        return res.status(422).json({ error: boundary.reason, code: "ARCHITECTURE_BOUNDARY" });
+      } else if (!boundary.allowed) {
+        console.warn(`[ArchBoundary] Heavy operation ai_content_generation in web process (dev mode, allowing with warning)`);
+      }
+      if (!budgets.trackHeavyJobStart()) {
+        return res.status(503).json({ error: "Too many concurrent heavy operations", code: "CONCURRENT_LIMIT" });
+      }
+
       const { queueHeavyOperation, dequeueHeavyOperation } = await import("./platform-resilience");
       const queueResult = queueHeavyOperation("ai_generate_content", admin.id, admin.tier !== "free");
       if (!queueResult.queued) {
@@ -1701,6 +1720,10 @@ CRITICAL RULES:
       res.status(500).json({ error: e.message || "AI generation failed" });
     } finally {
       if (_dequeueOnFinish) _dequeueOnFinish();
+      try {
+        const { trackHeavyJobEnd } = await import("./resource-budgets");
+        trackHeavyJobEnd();
+      } catch {}
     }
   });
 

@@ -788,6 +788,7 @@ app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: false }));
 
 import { connectionTrackingMiddleware, loadSheddingMiddleware, responseSizeLimiterMiddleware, memoryAwareRequestLogger, aiConcurrencyLimiterMiddleware, routeInstrumentationMiddleware, concurrencyLimiterMiddleware } from "./memory-middleware";
+import { resourceBudgetMiddleware } from "./resource-budgets";
 app.use(connectionTrackingMiddleware());
 app.use(routeInstrumentationMiddleware());
 app.use(loadSheddingMiddleware());
@@ -795,6 +796,7 @@ app.use(aiConcurrencyLimiterMiddleware());
 app.use(responseSizeLimiterMiddleware());
 app.use(memoryAwareRequestLogger());
 app.use(concurrencyLimiterMiddleware());
+app.use(resourceBudgetMiddleware());
 
 // -------------------------
 // Admin verify (needs express.json() ABOVE)
@@ -1261,6 +1263,8 @@ app.use((req, res, next) => {
   console.log(`[Sitemap] /sitemap_index.xml → 301 → /sitemap-index.xml\n`);
 
   import("./memory-monitor").then(({ startMemoryMonitorWithTrend }) => startMemoryMonitorWithTrend()).catch(e => console.error("[MemoryMonitor] Failed to start:", e.message));
+  import("./resource-budgets").then(({ startMemoryMonitor: startBudgetMonitor }) => startBudgetMonitor(30000)).catch(e => console.error("[ResourceBudgets] Failed to start memory monitor:", e.message));
+  import("./auto-containment").then(({ startAutoContainment }) => startAutoContainment(60000)).catch(e => console.error("[AutoContainment] Failed to start:", e.message));
 
   import("./memory-observability").then(({ startMemoryTrendTracking }) => {
     startMemoryTrendTracking(30_000);

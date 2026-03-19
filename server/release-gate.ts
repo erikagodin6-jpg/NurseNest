@@ -185,7 +185,7 @@ async function checkContentHealthThreshold(): Promise<ReleaseCheck> {
     }
     return { name: "Content Health Score", category: "content", status: "pass", message: `Content health acceptable (${result.totalRecords} records scanned)`, details: { total: result.totalRecords }, required: true };
   } catch (err: any) {
-    return { name: "Content Health Score", category: "content", status: "warn", message: `Content health check skipped: ${err.message}`, required: true };
+    return { name: "Content Health Score", category: "content", status: "fail", message: `Content health check failed: ${err.message}`, required: true };
   }
 }
 
@@ -211,6 +211,121 @@ function checkFallbackPath(): ReleaseCheck {
   return { name: "Fallback Path", category: "content", status: "pass", message: "Fallback paths available", required: false };
 }
 
+function checkMemoryRegression(): ReleaseCheck {
+  const mem = process.memoryUsage();
+  const rssMB = mem.rss / 1024 / 1024;
+  const heapMB = mem.heapUsed / 1024 / 1024;
+
+  if (rssMB > 400) {
+    return { name: "Memory Regression", category: "deploy", status: "fail", message: `RSS memory critically high: ${rssMB.toFixed(0)}MB`, details: { rssMB, heapMB }, required: true };
+  }
+  if (rssMB > 300) {
+    return { name: "Memory Regression", category: "deploy", status: "warn", message: `RSS memory elevated: ${rssMB.toFixed(0)}MB`, details: { rssMB, heapMB }, required: true };
+  }
+  return { name: "Memory Regression", category: "deploy", status: "pass", message: `Memory within budget (RSS: ${rssMB.toFixed(0)}MB, Heap: ${heapMB.toFixed(0)}MB)`, details: { rssMB, heapMB }, required: true };
+}
+
+async function checkExamOpenFlow(): Promise<ReleaseCheck> {
+  try {
+    const port = process.env.PORT || "5000";
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+    const start = Date.now();
+
+    const response = await fetch(`http://localhost:${port}/api/exams`, {
+      signal: controller.signal,
+      headers: { "User-Agent": "ReleaseGate-SmokeTest/1.0" },
+    });
+    clearTimeout(timeout);
+    const latency = Date.now() - start;
+
+    if (!response.ok && response.status !== 401 && response.status !== 403) {
+      return { name: "Exam Open Flow", category: "deploy", status: "fail", message: `Exam listing returned HTTP ${response.status} (${latency}ms)`, details: { statusCode: response.status, latency }, required: true };
+    }
+    if (latency > 5000) {
+      return { name: "Exam Open Flow", category: "deploy", status: "warn", message: `Exam listing slow: ${latency}ms`, details: { statusCode: response.status, latency }, required: true };
+    }
+    return { name: "Exam Open Flow", category: "deploy", status: "pass", message: `Exam open flow healthy (${latency}ms)`, details: { statusCode: response.status, latency }, required: true };
+  } catch (err: any) {
+    return { name: "Exam Open Flow", category: "deploy", status: "fail", message: `Exam open flow check failed: ${err.message}`, required: true };
+  }
+}
+
+function checkResourceBudgets(): ReleaseCheck {
+  try {
+    const { getBudgetCheckReport } = require("./resource-budgets");
+    const report = getBudgetCheckReport();
+
+    if (!report.canDeploy) {
+      return { name: "Resource Budgets", category: "deploy", status: "fail", message: `${report.violations.criticalCount} critical budget violations`, details: report, required: true };
+    }
+    if (report.violations.warningCount > 0) {
+      return { name: "Resource Budgets", category: "deploy", status: "warn", message: `${report.violations.warningCount} budget warnings`, details: report, required: false };
+    }
+    return { name: "Resource Budgets", category: "deploy", status: "pass", message: "All resource budgets within limits", details: report, required: false };
+  } catch (err: any) {
+    return { name: "Resource Budgets", category: "deploy", status: "skip", message: `Budget check skipped: ${err.message}`, required: false };
+  }
+}
+
+function checkEmergencyModeLogic(): ReleaseCheck {
+  if (isEmergencyMode()) {
+    return { name: "Emergency Mode", category: "deploy", status: "fail", message: "Emergency mode is active - resolve before deploying", required: true };
+  }
+  return { name: "Emergency Mode", category: "deploy", status: "pass", message: "Emergency mode is not active", required: true };
+}
+
+async function checkRouteTimeouts(): Promise<ReleaseCheck> {
+  try {
+    const { getLatencyPercentiles } = require("./resource-budgets");
+    const percentiles = getLatencyPercentiles();
+
+    if (percentiles.count < 10) {
+      return { name: "Route Timeouts", category: "deploy", status: "skip", message: "Insufficient data for latency analysis", required: false };
+    }
+    if (percentiles.p95 > 8000) {
+      return { name: "Route Timeouts", category: "deploy", status: "fail", message: `P95 latency ${percentiles.p95}ms exceeds 8s threshold`, details: percentiles, required: true };
+    }
+    if (percentiles.p95 > 5000) {
+      return { name: "Route Timeouts", category: "deploy", status: "warn", message: `P95 latency ${percentiles.p95}ms elevated`, details: percentiles, required: false };
+    }
+    return { name: "Route Timeouts", category: "deploy", status: "pass", message: `P95 latency: ${percentiles.p95}ms`, details: percentiles, required: false };
+  } catch {
+    return { name: "Route Timeouts", category: "deploy", status: "skip", message: "Route timeout check skipped", required: false };
+  }
+}
+
+async function checkContentValidationGates(): Promise<ReleaseCheck> {
+  try {
+    const invalidPublished = await pool.query(`
+      SELECT COUNT(*)::int AS cnt FROM exam_questions
+      WHERE status = 'published' AND (stem IS NULL OR LENGTH(TRIM(stem)) < 10 OR options IS NULL OR correct_answer IS NULL)
+    `);
+    const count = invalidPublished.rows[0]?.cnt || 0;
+    if (count > 0) {
+      return { name: "Content Validation", category: "content", status: "fail", message: `${count} invalid published questions detected`, details: { invalidCount: count }, required: true };
+    }
+    return { name: "Content Validation", category: "content", status: "pass", message: "All published content passes validation", required: true };
+  } catch (err: any) {
+    return { name: "Content Validation", category: "content", status: "fail", message: `Content validation check failed: ${err.message}`, required: true };
+  }
+}
+
+async function checkPayloadSizes(): Promise<ReleaseCheck> {
+  try {
+    const { getViolations } = require("./resource-budgets");
+    const recentPayloadViolations = getViolations(100).filter(
+      (v: any) => v.type === "payload_size" && Date.now() - v.timestamp < 3600000
+    );
+    if (recentPayloadViolations.length > 5) {
+      return { name: "Payload Sizes", category: "deploy", status: "warn", message: `${recentPayloadViolations.length} payload size violations in the last hour`, details: { count: recentPayloadViolations.length }, required: false };
+    }
+    return { name: "Payload Sizes", category: "deploy", status: "pass", message: "Payload sizes within limits", required: false };
+  } catch {
+    return { name: "Payload Sizes", category: "deploy", status: "skip", message: "Payload size check skipped", required: false };
+  }
+}
+
 async function runAllChecks(type: "deploy" | "content" | "all"): Promise<ReleaseGateResult> {
   const checks: ReleaseCheck[] = [];
 
@@ -225,6 +340,12 @@ async function runAllChecks(type: "deploy" | "content" | "all"): Promise<Release
       checkRollbackTarget(),
       Promise.resolve(checkMonitoringHealth()),
       checkBackupServices(),
+      Promise.resolve(checkMemoryRegression()),
+      checkExamOpenFlow(),
+      Promise.resolve(checkResourceBudgets()),
+      Promise.resolve(checkEmergencyModeLogic()),
+      checkRouteTimeouts(),
+      checkPayloadSizes(),
     ]);
     checks.push(...deployChecks);
   }
@@ -235,6 +356,7 @@ async function runAllChecks(type: "deploy" | "content" | "all"): Promise<Release
       checkContentHealthThreshold(),
       checkBackupArtifacts(),
       Promise.resolve(checkFallbackPath()),
+      checkContentValidationGates(),
     ]);
     checks.push(...contentChecks);
   }

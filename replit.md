@@ -48,7 +48,8 @@ Core architectural components and design patterns emphasize:
 - **Release Gate API**: Pre-deploy and pre-publish safety checks with override audit logging.
 - **Content Health Score Engine**: 0-100 scoring engine with per-dimension breakdown for content items.
 - **VIP Subscriber Prioritization**: Middleware that prioritizes paid subscriber requests under high load.
-- **Chaos Testing & Disaster Recovery**: Configurable chaos engine with failure scenarios, DR readiness scoring, backup restore dry-run, and manifest generation.
+- **Chaos Testing & Disaster Recovery**: Configurable chaos engine with 15 failure scenarios (including memory pressure, slow exam, invalid content injection, slow DB, unavailable worker, failed alerts, API timeout), DR readiness scoring, backup restore dry-run, and manifest generation.
+- **Production Recurrence Prevention System**: Resource budget enforcement (payload size, memory growth, route latency, concurrent jobs, exam batch size), architecture boundary enforcement (web vs job queue), auto-containment runbooks (memory pressure, exam flow failure, invalid content quarantine, alert flood grouping), post-deploy smoke tests with rollback/freeze recommendations, content quality gates (blank stems, missing answers, tier consistency, minimum items, language checks), nightly integrity audit with auto-quarantine, enhanced alert hygiene (per-type cooldowns, incident grouping, dedup windows, operator summaries), and expanded observability dashboard with Resilience tab.
 - **Admin Reliability Dashboard**: Unified reliability monitoring dashboard with summary stats and actionable controls.
 - **Data Migration & Auto-Cleanup System**: Versioned migration framework with up/down SQL scripts, dry-run preview, validation checks, automatic rollback, and scheduled auto-cleanup jobs.
 - **Observability, Telemetry & Revenue Protection**: Behavioral telemetry service, time-travel debugging, and a revenue protection dashboard.

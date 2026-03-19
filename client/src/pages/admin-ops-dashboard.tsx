@@ -10,7 +10,8 @@ import {
   Shield, Activity, AlertTriangle, RefreshCw, ArrowLeft, Power,
   Zap, ToggleRight, ToggleLeft, CheckCircle2, XCircle, Clock,
   Server, Heart, Copy, Smartphone, Eye, Bell, BellOff,
-  HardDrive, Users, AlertCircle, TrendingDown, Loader2
+  HardDrive, Users, AlertCircle, TrendingDown, Loader2,
+  Gauge, MemoryStick, Timer, Database
 } from "lucide-react";
 
 function getStatusBg(status: string) {
@@ -464,6 +465,260 @@ function EventsSection({ events }: { events: any[] }) {
   );
 }
 
+function ResiliencePanel() {
+  const [smokeLoading, setSmokeLoading] = useState(false);
+
+  const { data: budgetData } = useQuery({
+    queryKey: ["admin-resource-budgets"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/resource-budgets");
+      if (!res.ok) return null;
+      return res.json();
+    },
+    refetchInterval: 30000,
+    retry: 1,
+  });
+
+  const { data: containmentData } = useQuery({
+    queryKey: ["admin-auto-containment"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/auto-containment/status");
+      if (!res.ok) return null;
+      return res.json();
+    },
+    refetchInterval: 30000,
+    retry: 1,
+  });
+
+  const { data: qualityGates } = useQuery({
+    queryKey: ["admin-quality-gates"],
+    queryFn: async () => {
+      const res = await adminFetch("/api/admin/content-publishing/quality-gates");
+      if (!res.ok) return null;
+      return res.json();
+    },
+    refetchInterval: 60000,
+    retry: 1,
+  });
+
+  const queryClient = useQueryClient();
+
+  const runSmoke = async () => {
+    setSmokeLoading(true);
+    try {
+      await adminFetch("/api/admin/smoke-tests/run", { method: "POST" });
+      queryClient.invalidateQueries({ queryKey: ["admin-auto-containment"] });
+    } catch {}
+    setSmokeLoading(false);
+  };
+
+  const report = budgetData?.report;
+  const memHistory = budgetData?.memoryHistory || [];
+  const latencyP = budgetData?.latencyPercentiles || {};
+  const errorRates = budgetData?.errorRateByRoute || [];
+  const runbooks = containmentData?.runbooks ? Object.values(containmentData.runbooks) : [];
+  const smokeHistory = containmentData?.smokeTestHistory || [];
+
+  return (
+    <div className="space-y-6" data-testid="panel-resilience">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
+        <Card>
+          <CardContent className="p-3 text-center">
+            <MemoryStick className={`w-4 h-4 mx-auto mb-1 ${report?.memory?.overBudget ? "text-red-600" : "text-green-600"}`} />
+            <p className="text-lg font-bold" data-testid="stat-memory-rss">{report ? `${Math.round((report.memory?.current?.rss || 0) / 1024 / 1024)}MB` : "—"}</p>
+            <p className="text-[10px] text-slate-500">RSS Memory</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-3 text-center">
+            <Timer className={`w-4 h-4 mx-auto mb-1 ${(latencyP.p95 || 0) > 5000 ? "text-red-600" : "text-green-600"}`} />
+            <p className="text-lg font-bold" data-testid="stat-p95-latency">{latencyP.p95 ? `${latencyP.p95}ms` : "—"}</p>
+            <p className="text-[10px] text-slate-500">P95 Latency</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-3 text-center">
+            <AlertCircle className={`w-4 h-4 mx-auto mb-1 ${(report?.violations?.criticalCount || 0) > 0 ? "text-red-600" : "text-green-600"}`} />
+            <p className="text-lg font-bold" data-testid="stat-violations">{report?.violations?.criticalCount ?? "—"}</p>
+            <p className="text-[10px] text-slate-500">Critical Violations</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-3 text-center">
+            <Database className={`w-4 h-4 mx-auto mb-1 ${report?.heavyJobs?.atLimit ? "text-amber-600" : "text-green-600"}`} />
+            <p className="text-lg font-bold" data-testid="stat-heavy-jobs">{report ? `${report.heavyJobs?.active || 0}/${report.heavyJobs?.limit || 3}` : "—"}</p>
+            <p className="text-[10px] text-slate-500">Heavy Jobs</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-3 text-center">
+            <Gauge className={`w-4 h-4 mx-auto mb-1 ${qualityGates?.passed === false ? "text-red-600" : "text-green-600"}`} />
+            <p className="text-lg font-bold" data-testid="stat-quality-gates">{qualityGates ? (qualityGates.passed ? "PASS" : "FAIL") : "—"}</p>
+            <p className="text-[10px] text-slate-500">Quality Gates</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-3 text-center">
+            <Shield className={`w-4 h-4 mx-auto mb-1 ${report?.canDeploy ? "text-green-600" : "text-red-600"}`} />
+            <p className="text-lg font-bold" data-testid="stat-deploy-ready">{report ? (report.canDeploy ? "YES" : "NO") : "—"}</p>
+            <p className="text-[10px] text-slate-500">Deploy Ready</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2"><MemoryStick className="w-4 h-4" /> Memory Trend</CardTitle>
+          </CardHeader>
+          <CardContent className="p-3">
+            {memHistory.length > 0 ? (
+              <div className="space-y-1 max-h-[200px] overflow-y-auto">
+                {memHistory.slice(-20).map((snap: any, i: number) => {
+                  const rssMB = Math.round(snap.rss / 1024 / 1024);
+                  const heapMB = Math.round(snap.heapUsed / 1024 / 1024);
+                  const pct = Math.min(100, (rssMB / 400) * 100);
+                  return (
+                    <div key={i} className="flex items-center gap-2 text-xs" data-testid={`memory-snapshot-${i}`}>
+                      <span className="text-slate-400 w-16">{new Date(snap.timestamp).toLocaleTimeString()}</span>
+                      <div className="flex-1 bg-slate-100 rounded h-3 overflow-hidden">
+                        <div className={`h-full ${pct > 80 ? "bg-red-400" : pct > 60 ? "bg-amber-400" : "bg-green-400"}`} style={{ width: `${pct}%` }} />
+                      </div>
+                      <span className="w-20 text-right">{rssMB}MB / {heapMB}MB</span>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : <p className="text-xs text-slate-500">No memory data yet</p>}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2"><AlertTriangle className="w-4 h-4" /> Error Rate by Route</CardTitle>
+          </CardHeader>
+          <CardContent className="p-3">
+            {errorRates.length > 0 ? (
+              <div className="space-y-1 max-h-[200px] overflow-y-auto">
+                {errorRates.slice(0, 15).map((r: any, i: number) => (
+                  <div key={i} className="flex items-center justify-between text-xs" data-testid={`error-rate-${i}`}>
+                    <span className="text-slate-700 truncate max-w-[200px]">{r.route}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-slate-500">{r.errors}/{r.total}</span>
+                      <Badge className={r.rate > 0.1 ? "bg-red-100 text-red-800" : r.rate > 0 ? "bg-amber-100 text-amber-800" : "bg-green-100 text-green-800"}>
+                        {(r.rate * 100).toFixed(1)}%
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : <p className="text-xs text-slate-500">No error data in the last 15 minutes</p>}
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2"><Shield className="w-4 h-4" /> Auto-Containment Runbooks</CardTitle>
+          </CardHeader>
+          <CardContent className="p-3">
+            {(runbooks as any[]).length > 0 ? (
+              <div className="space-y-2">
+                {(runbooks as any[]).map((rb: any) => (
+                  <div key={rb.name} className="flex items-center justify-between p-2 bg-slate-50 rounded" data-testid={`runbook-${rb.name}`}>
+                    <div>
+                      <span className="text-sm font-medium text-slate-700">{rb.name}</span>
+                      <div className="text-xs text-slate-500">
+                        Triggers: {rb.triggerCount} | Last: {rb.lastTriggered ? new Date(rb.lastTriggered).toLocaleTimeString() : "never"}
+                      </div>
+                    </div>
+                    <Badge className={rb.enabled ? "bg-green-100 text-green-800" : "bg-slate-100 text-slate-600"}>
+                      {rb.enabled ? "ON" : "OFF"}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+            ) : <p className="text-xs text-slate-500">No runbook data</p>}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm flex items-center gap-2"><Activity className="w-4 h-4" /> Smoke Tests</CardTitle>
+              <Button size="sm" variant="outline" onClick={runSmoke} disabled={smokeLoading} data-testid="button-run-smoke-tests">
+                {smokeLoading ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : <RefreshCw className="w-3 h-3 mr-1" />}
+                Run
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="p-3">
+            {smokeHistory.length > 0 ? (
+              <div className="space-y-2">
+                {smokeHistory.slice(0, 5).map((report: any, i: number) => (
+                  <div key={i} className={`p-2 rounded text-xs ${report.overallStatus === "pass" ? "bg-green-50" : "bg-red-50"}`} data-testid={`smoke-test-${i}`}>
+                    <div className="flex justify-between items-center">
+                      <Badge className={report.overallStatus === "pass" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}>
+                        {report.passed}/{report.totalTests} passed
+                      </Badge>
+                      <span className="text-slate-500">{new Date(report.runAt).toLocaleTimeString()}</span>
+                    </div>
+                    {report.rollbackRecommended && <p className="text-red-600 font-medium mt-1">Rollback recommended</p>}
+                  </div>
+                ))}
+              </div>
+            ) : <p className="text-xs text-slate-500">No smoke test history</p>}
+          </CardContent>
+        </Card>
+      </div>
+
+      {qualityGates && (
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2"><Gauge className="w-4 h-4" /> Content Quality Gates</CardTitle>
+          </CardHeader>
+          <CardContent className="p-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {qualityGates.checks?.map((check: any, i: number) => (
+                <div key={i} className="flex items-center justify-between p-2 bg-slate-50 rounded text-xs" data-testid={`quality-gate-${i}`}>
+                  <span className="text-slate-700">{check.name}</span>
+                  <Badge className={check.status === "pass" ? "bg-green-100 text-green-800" : check.status === "warn" ? "bg-amber-100 text-amber-800" : "bg-red-100 text-red-800"}>
+                    {check.status.toUpperCase()}{check.count !== undefined ? ` (${check.count})` : ""}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {report?.violations?.recent?.length > 0 && (
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2"><AlertCircle className="w-4 h-4" /> Recent Budget Violations</CardTitle>
+          </CardHeader>
+          <CardContent className="p-3">
+            <div className="space-y-1 max-h-[250px] overflow-y-auto">
+              {report.violations.recent.slice(0, 20).map((v: any, i: number) => (
+                <div key={i} className="flex items-center justify-between p-2 bg-slate-50 rounded text-xs" data-testid={`violation-${i}`}>
+                  <div className="flex-1 min-w-0">
+                    <span className="font-medium text-slate-700 truncate block">{v.message}</span>
+                    <span className="text-slate-400">{new Date(v.timestamp).toLocaleTimeString()} | {v.endpoint}</span>
+                  </div>
+                  <Badge className={v.severity === "critical" ? "bg-red-100 text-red-800" : "bg-amber-100 text-amber-800"}>
+                    {v.severity}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+}
+
 export default function AdminOpsDashboard() {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState("overview");
@@ -596,9 +851,10 @@ export default function AdminOpsDashboard() {
         <SummaryCards data={data} />
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid grid-cols-4 md:grid-cols-8 w-full">
+          <TabsList className="grid grid-cols-4 md:grid-cols-9 w-full">
             <TabsTrigger value="overview" data-testid="tab-overview"><Eye className="w-3 h-3 mr-1 hidden md:inline" /> Overview</TabsTrigger>
             <TabsTrigger value="health" data-testid="tab-health"><Heart className="w-3 h-3 mr-1 hidden md:inline" /> Health</TabsTrigger>
+            <TabsTrigger value="resilience" data-testid="tab-resilience"><Gauge className="w-3 h-3 mr-1 hidden md:inline" /> Resilience</TabsTrigger>
             <TabsTrigger value="flags" data-testid="tab-flags"><ToggleRight className="w-3 h-3 mr-1 hidden md:inline" /> Flags</TabsTrigger>
             <TabsTrigger value="breakers" data-testid="tab-breakers"><Zap className="w-3 h-3 mr-1 hidden md:inline" /> Breakers</TabsTrigger>
             <TabsTrigger value="switches" data-testid="tab-switches"><Power className="w-3 h-3 mr-1 hidden md:inline" /> Switches</TabsTrigger>
@@ -623,6 +879,10 @@ export default function AdminOpsDashboard() {
 
           <TabsContent value="health" className="mt-4">
             <HealthChecksSection checks={data?.healthChecks || []} />
+          </TabsContent>
+
+          <TabsContent value="resilience" className="mt-4">
+            <ResiliencePanel />
           </TabsContent>
 
           <TabsContent value="flags" className="mt-4">
