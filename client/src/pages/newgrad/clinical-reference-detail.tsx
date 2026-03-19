@@ -29,6 +29,10 @@ function FlashcardDeck({ flashcards, color }: { flashcards: ClinicalFlashcard[];
   const [isFlipped, setIsFlipped] = useState(false);
   const [showAll, setShowAll] = useState(false);
 
+  if (!flashcards || flashcards.length === 0) {
+    return null;
+  }
+
   const card = flashcards[currentIndex];
 
   const handleNext = () => {
@@ -116,6 +120,7 @@ function FlashcardDeck({ flashcards, color }: { flashcards: ClinicalFlashcard[];
 }
 
 export default function ClinicalReferenceDetail() {
+  const { t } = useI18n();
   const params = useParams<{ slug: string }>();
   const lesson = getClinicalReferenceBySlug(params.slug || "");
   const [expandedConcept, setExpandedConcept] = useState<number | null>(0);
@@ -174,13 +179,13 @@ export default function ClinicalReferenceDetail() {
             </h1>
             <div className="flex flex-wrap gap-2">
               <Badge variant="outline" className="text-xs">
-                <Lightbulb className="w-3 h-3 mr-1" /> {lesson.clinicalPearls.length} Clinical Pearls
+                <Lightbulb className="w-3 h-3 mr-1" /> {(lesson.clinicalPearls || []).length} Clinical Pearls
               </Badge>
               <Badge variant="outline" className="text-xs">
-                <AlertTriangle className="w-3 h-3 mr-1" /> {lesson.redFlags.length} Red Flags
+                <AlertTriangle className="w-3 h-3 mr-1" /> {(lesson.redFlags || []).length} Red Flags
               </Badge>
               <Badge variant="outline" className="text-xs">
-                <Zap className="w-3 h-3 mr-1" /> {lesson.flashcards.length} Flashcards
+                <Zap className="w-3 h-3 mr-1" /> {(lesson.flashcards || []).length} Flashcards
               </Badge>
             </div>
           </div>
@@ -228,13 +233,14 @@ export default function ClinicalReferenceDetail() {
               <p className="text-gray-600 leading-relaxed">{lesson.overview}</p>
             </section>
 
+            {(lesson.keyConcepts || []).length > 0 && (
             <section id="key-concepts" className="mb-10 scroll-mt-24" data-testid="section-key-concepts">
               <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3">
                 <div className="w-1.5 h-8 rounded-full" style={{ backgroundColor: lesson.color }} />
                 Key Concepts
               </h2>
               <div className="space-y-3">
-                {lesson.keyConcepts.map((concept, i) => (
+                {(lesson.keyConcepts || []).map((concept, i) => (
                   <div key={i} className="border border-gray-200 rounded-lg overflow-hidden" data-testid={`concept-${i}`}>
                     <button
                       className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition-colors"
@@ -258,14 +264,16 @@ export default function ClinicalReferenceDetail() {
                 ))}
               </div>
             </section>
+            )}
 
+            {(lesson.clinicalPearls || []).length > 0 && (
             <section id="clinical-pearls" className="mb-10 scroll-mt-24" data-testid="section-clinical-pearls">
               <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3">
                 <div className="w-1.5 h-8 rounded-full" style={{ backgroundColor: lesson.color }} />
                 <Lightbulb className="w-5 h-5" style={{ color: lesson.color }} /> Clinical Pearls
               </h2>
               <div className="space-y-2">
-                {lesson.clinicalPearls.map((pearl, i) => (
+                {(lesson.clinicalPearls || []).map((pearl, i) => (
                   <div key={i} className="flex items-start gap-3 p-3 bg-amber-50 rounded-lg" data-testid={`pearl-${i}`}>
                     <Lightbulb className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                     <p className="text-sm text-amber-900">{pearl}</p>
@@ -273,7 +281,9 @@ export default function ClinicalReferenceDetail() {
                 ))}
               </div>
             </section>
+            )}
 
+            {(lesson.redFlags || []).length > 0 && (
             <section id="red-flags" className="mb-10 scroll-mt-24" data-testid="section-red-flags">
               <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3">
                 <div className="w-1.5 h-8 rounded-full bg-red-500" />
@@ -281,7 +291,7 @@ export default function ClinicalReferenceDetail() {
               </h2>
               <div className="bg-red-50 rounded-xl p-5">
                 <ul className="space-y-2">
-                  {lesson.redFlags.map((flag, i) => (
+                  {(lesson.redFlags || []).map((flag, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm text-red-800" data-testid={`red-flag-${i}`}>
                       <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                       {flag}
@@ -290,7 +300,9 @@ export default function ClinicalReferenceDetail() {
                 </ul>
               </div>
             </section>
+            )}
 
+            {(lesson.examTips || []).length > 0 && (
             <section id="exam-tips" className="mb-10 scroll-mt-24" data-testid="section-exam-tips">
               <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3">
                 <div className="w-1.5 h-8 rounded-full" style={{ backgroundColor: lesson.color }} />
@@ -298,7 +310,7 @@ export default function ClinicalReferenceDetail() {
               </h2>
               <div className="bg-blue-50 rounded-xl p-5">
                 <ul className="space-y-2">
-                  {lesson.examTips.map((tip, i) => (
+                  {(lesson.examTips || []).map((tip, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm text-blue-800" data-testid={`exam-tip-${i}`}>
                       <CheckCircle2 className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
                       {tip}
@@ -307,6 +319,7 @@ export default function ClinicalReferenceDetail() {
                 </ul>
               </div>
             </section>
+            )}
 
             {lesson.quickReferenceSummary && lesson.quickReferenceSummary.length > 0 && (
               <section id="quick-reference" className="mb-10 scroll-mt-24" data-testid="section-quick-reference">
@@ -332,7 +345,7 @@ export default function ClinicalReferenceDetail() {
                 <div className="w-1.5 h-8 rounded-full" style={{ backgroundColor: lesson.color }} />
                 <Zap className="w-5 h-5" style={{ color: lesson.color }} /> Flashcards
               </h2>
-              <FlashcardDeck flashcards={lesson.flashcards} color={lesson.color} />
+              <FlashcardDeck flashcards={lesson.flashcards || []} color={lesson.color} />
             </section>
 
             {lesson.relatedLessons && lesson.relatedLessons.length > 0 && (() => {

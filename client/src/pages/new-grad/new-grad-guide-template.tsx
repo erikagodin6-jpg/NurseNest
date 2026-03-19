@@ -91,15 +91,20 @@ interface NewGradGuideProps {
 }
 
 export function NewGradGuide({ guideData }: NewGradGuideProps) {
+  const { t } = useI18n();
   const guide = guideData;
 
-  const tocItems: GuideTOCItem[] = guide.sections.map(s => ({ id: s.id, title: s.title }));
-  if (guide.faqs.length > 0) {
+  const sections = Array.isArray(guide.sections) ? guide.sections : [];
+  const faqs = Array.isArray(guide.faqs) ? guide.faqs : [];
+  const relatedLinks = Array.isArray(guide.relatedLinks) ? guide.relatedLinks : [];
+
+  const tocItems: GuideTOCItem[] = sections.map(s => ({ id: s.id, title: s.title }));
+  if (faqs.length > 0) {
     tocItems.push({ id: "faq", title: "Frequently Asked Questions" });
   }
 
-  const faqStructuredData = guide.faqs.length > 0
-    ? buildFaqStructuredData(guide.faqs.map(f => ({ question: f.question, answer: f.answer })))
+  const faqStructuredData = faqs.length > 0
+    ? buildFaqStructuredData(faqs.map(f => ({ question: f.question, answer: f.answer })))
     : null;
 
   const articleStructuredData = {
@@ -205,7 +210,7 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
                 </span>
               </div>
 
-              {guide.sections.map((section, i) => (
+              {sections.map((section, i) => (
                 <section key={section.id} id={section.id} className="mb-10" data-testid={`section-${section.id}`}>
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">{section.title}</h2>
                   <p className="text-gray-700 leading-relaxed mb-4">{section.content}</p>
@@ -230,7 +235,7 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
                     </div>
                   )}
 
-                  {i === Math.floor(guide.sections.length / 2) && (
+                  {i === Math.floor(sections.length / 2) && (
                     <div className="mt-6">
                       <FlashcardCTA
                         profession={guide.profession.toLowerCase()}
@@ -242,13 +247,13 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
                 </section>
               ))}
 
-              {guide.faqs.length > 0 && (
+              {faqs.length > 0 && (
                 <section id="faq" className="mb-12" data-testid="section-faq">
                   <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                     <HelpCircle className="w-6 h-6 text-blue-500" /> Frequently Asked Questions
                   </h2>
                   <div className="space-y-3">
-                    {guide.faqs.map((faq, i) => (
+                    {faqs.map((faq, i) => (
                       <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />
                     ))}
                   </div>
@@ -273,11 +278,11 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
                 sectionTitle="Related Lessons & Study Resources"
               />
 
-              {guide.relatedLinks.length > 0 && (
+              {relatedLinks.length > 0 && (
                 <section className="mb-12" data-testid="section-related">
                   <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.newGrad.newGradGuideTemplate.relatedResources")}</h2>
                   <div className="grid sm:grid-cols-2 gap-3">
-                    {guide.relatedLinks.map((link, i) => (
+                    {relatedLinks.map((link, i) => (
                       <Link key={i} href={link.href} className="group" data-testid={`link-related-${i}`}>
                         <div className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-sm transition-all">
                           <BookOpen className="w-5 h-5 text-blue-500 shrink-0" />
@@ -320,6 +325,7 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
 }
 
 export default function NewGradGuidePage() {
+  const { t } = useI18n();
   const params = useParams<{ slug: string }>();
   return (
     <div data-testid="guide-page-placeholder">

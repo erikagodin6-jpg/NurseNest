@@ -90,16 +90,22 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
     );
   }
 
-  const faqStructuredData = page.faqJson?.length ? buildFaqStructuredData(page.faqJson) : null;
+  const faqItems = Array.isArray(page.faqJson) ? page.faqJson : [];
+  const tocItems = Array.isArray(page.tocJson) ? page.tocJson : [];
+  const internalLinks = Array.isArray(page.internalLinksJson) ? page.internalLinksJson : [];
+  const relatedPages = Array.isArray(page.relatedPages) ? page.relatedPages : [];
+  const contentHtml = page.contentHtml || "";
+
+  const faqStructuredData = faqItems.length > 0 ? buildFaqStructuredData(faqItems) : null;
 
   const breadcrumbItems = [
     { name: "Home", url: "https://www.nursenest.ca" },
     { name: config.parentLabel, url: `https://www.nursenest.ca${config.parentPath}` },
-    { name: page.title.split(":")[0]?.trim() || page.title, url: `https://www.nursenest.ca/${urlPrefix}/${page.slug}` },
+    { name: page.title?.split(":")[0]?.trim() || page.title || "", url: `https://www.nursenest.ca/${urlPrefix}/${page.slug}` },
   ];
 
-  const productLinks = (page.internalLinksJson || []).filter(l => l.context === "product");
-  const relatedContentLinks = (page.internalLinksJson || []).filter(l => l.context !== "product");
+  const productLinks = internalLinks.filter(l => l.context === "product");
+  const relatedContentLinks = internalLinks.filter(l => l.context !== "product");
 
   return (
     <div data-testid={`page-nursing-hub-${pageType}-${slug}`}>
@@ -127,7 +133,7 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
             <ChevronRight className="w-3.5 h-3.5" />
             <Link href={config.parentPath} className="hover:text-blue-600">{config.parentLabel}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className={`${config.accent} font-medium`}>{page.exam || page.title.split(":")[0]?.trim()}</span>
+            <span className={`${config.accent} font-medium`}>{page.exam || page.title?.split(":")[0]?.trim() || ""}</span>
           </div>
         </div>
       </div>
@@ -141,17 +147,19 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
               </div>
             </div>
 
-            <article
-              className="prose prose-gray max-w-none prose-headings:scroll-mt-20 prose-h1:text-3xl prose-h1:font-bold prose-h2:text-xl prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-4 prose-p:leading-relaxed prose-li:leading-relaxed prose-ul:my-4 prose-ol:my-4 prose-strong:text-gray-900 [&_.lead]:text-lg [&_.lead]:text-gray-600 [&_.lead]:leading-relaxed [&_.exam-trap]:bg-amber-50 [&_.exam-trap]:border [&_.exam-trap]:border-amber-200 [&_.exam-trap]:rounded-lg [&_.exam-trap]:p-4 [&_.exam-trap]:my-4 [&_.exam-trap]:text-sm"
-              dangerouslySetInnerHTML={{ __html: page.contentHtml }}
-              data-testid="article-content"
-            />
+            {contentHtml && (
+              <article
+                className="prose prose-gray max-w-none prose-headings:scroll-mt-20 prose-h1:text-3xl prose-h1:font-bold prose-h2:text-xl prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-4 prose-p:leading-relaxed prose-li:leading-relaxed prose-ul:my-4 prose-ol:my-4 prose-strong:text-gray-900 [&_.lead]:text-lg [&_.lead]:text-gray-600 [&_.lead]:leading-relaxed [&_.exam-trap]:bg-amber-50 [&_.exam-trap]:border [&_.exam-trap]:border-amber-200 [&_.exam-trap]:rounded-lg [&_.exam-trap]:p-4 [&_.exam-trap]:my-4 [&_.exam-trap]:text-sm"
+                dangerouslySetInnerHTML={{ __html: contentHtml }}
+                data-testid="article-content"
+              />
+            )}
 
-            {page.faqJson?.length > 0 && (
+            {faqItems.length > 0 && (
               <section className="mt-12 pt-8 border-t border-gray-200" data-testid="section-faq">
                 <h2 className="text-xl font-bold text-gray-900 mb-6">{t("pages.nursingHubPage.frequentlyAskedQuestions")}</h2>
                 <div className="space-y-3">
-                  {page.faqJson.map((faq: { question: string; answer: string }, i: number) => (
+                  {faqItems.map((faq: { question: string; answer: string }, i: number) => (
                     <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />
                   ))}
                 </div>
@@ -177,11 +185,11 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
               </section>
             )}
 
-            {page.relatedPages && page.relatedPages.length > 0 && (
+            {relatedPages.length > 0 && (
               <section className="mt-12 pt-8 border-t border-gray-200" data-testid="section-more-pages">
                 <h2 className="text-xl font-bold text-gray-900 mb-4">{t("pages.nursingHubPage.exploreMore")}</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {page.relatedPages.map((rp, i) => {
+                  {relatedPages.map((rp, i) => {
                     const rpPrefix = TYPE_TO_URL_PREFIX[rp.pageType] || rp.pageType;
                     const rpConfig = TYPE_CONFIG[rp.pageType] || TYPE_CONFIG.certification;
                     return (
@@ -199,11 +207,11 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
 
           <aside className="hidden lg:block">
             <div className="sticky top-24 space-y-6">
-              {page.tocJson?.length > 0 && (
+              {tocItems.length > 0 && (
                 <div className="bg-white rounded-xl border border-gray-200 p-5" data-testid="sidebar-toc">
                   <h3 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wider">{t("pages.nursingHubPage.onThisPage")}</h3>
                   <nav className="space-y-1.5">
-                    {page.tocJson.map((item: { id: string; label: string }) => (
+                    {tocItems.map((item: { id: string; label: string }) => (
                       <a key={item.id} href={`#${item.id}`} className="block text-sm text-gray-600 hover:text-blue-700 transition-colors py-0.5" data-testid={`toc-link-${item.id}`}>
                         {item.label}
                       </a>

@@ -3,6 +3,7 @@ import {
   Ribbon, Shield, Users, Bone, Siren, Dumbbell
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { normalizeSlug } from "@/lib/utils";
 
 export interface PracticeQuestion {
   question: string;
@@ -1022,7 +1023,8 @@ export const NURSING_SPECIALTIES: NursingSpecialtyDetail[] = [
 ];
 
 export function getSpecialtyBySlug(slug: string): NursingSpecialtyDetail | undefined {
-  return NURSING_SPECIALTIES.find(s => s.slug === slug);
+  const normalized = normalizeSlug(slug);
+  return NURSING_SPECIALTIES.find(s => normalizeSlug(s.slug) === normalized);
 }
 
 export function getAllSpecialtySlugs(): string[] {

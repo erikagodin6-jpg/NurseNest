@@ -51,7 +51,8 @@ export default function HealthcareCertificationDetail() {
   }
 
   const colors = COLOR_MAP[cert.color] || COLOR_MAP.blue;
-  const faqStructuredData = cert.faqs.length > 0 ? buildFaqStructuredData(cert.faqs) : null;
+  const certFaqs = Array.isArray(cert.faqs) ? cert.faqs : [];
+  const faqStructuredData = certFaqs.length > 0 ? buildFaqStructuredData(certFaqs) : null;
 
   const articleStructuredData = {
     "@context": "https://schema.org",
@@ -136,7 +137,7 @@ export default function HealthcareCertificationDetail() {
                 <h2 className="text-2xl font-bold text-gray-900">Who Is {cert.certName} For?</h2>
               </div>
               <ul className="space-y-2.5">
-                {cert.whoItsFor.map((role, i) => (
+                {(cert.whoItsFor || []).map((role, i) => (
                   <li key={i} className="flex items-start gap-2.5 text-sm text-gray-700" data-testid={`text-role-${i}`}>
                     <CheckCircle2 className={`w-4 h-4 ${colors.text} mt-0.5 flex-shrink-0`} />
                     {role}
@@ -152,7 +153,7 @@ export default function HealthcareCertificationDetail() {
             <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCertificationDetail.eligibilityRequirements")}</h2>
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <ul className="space-y-3">
-                {cert.eligibilityRequirements.map((req, i) => (
+                {(cert.eligibilityRequirements || []).map((req, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-gray-700" data-testid={`text-eligibility-${i}`}>
                     <ShieldCheck className={`w-5 h-5 ${colors.text} mt-0.5 flex-shrink-0`} />
                     {req}
@@ -188,7 +189,7 @@ export default function HealthcareCertificationDetail() {
               <div className="bg-white rounded-xl border border-gray-200 p-6">
                 <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">{t("pages.healthcareCertificationDetail.examContentAreas")}</h3>
                 <ul className="space-y-2">
-                  {cert.examStructure.sections.map((section, i) => (
+                  {(cert.examStructure?.sections || []).map((section, i) => (
                     <li key={i} className="flex items-start gap-2.5 text-sm text-gray-700" data-testid={`text-section-${i}`}>
                       <CheckCircle2 className={`w-4 h-4 ${colors.text} mt-0.5 flex-shrink-0`} />
                       {section}
@@ -233,7 +234,7 @@ export default function HealthcareCertificationDetail() {
           <div className="max-w-5xl mx-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCertificationDetail.clinicalRelevance")}</h2>
             <div className="grid sm:grid-cols-2 gap-3">
-              {cert.clinicalRelevance.map((item, i) => (
+              {(cert.clinicalRelevance || []).map((item, i) => (
                 <div key={i} className={`flex items-start gap-3 px-4 py-3 rounded-lg ${colors.bg} ${colors.border} border`} data-testid={`text-relevance-${i}`}>
                   <Stethoscope className={`w-4 h-4 ${colors.text} mt-0.5 flex-shrink-0`} />
                   <span className="text-sm text-gray-800">{item}</span>
@@ -247,7 +248,7 @@ export default function HealthcareCertificationDetail() {
           <div className="max-w-5xl mx-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCertificationDetail.studyPreparationGuide")}</h2>
             <div className="space-y-4">
-              {cert.studyPreparation.map((step, i) => (
+              {(cert.studyPreparation || []).map((step, i) => (
                 <div key={i} className="flex gap-4 bg-white rounded-xl border border-gray-200 p-6" data-testid={`card-study-${i}`}>
                   <div className={`flex-shrink-0 w-10 h-10 rounded-full ${colors.bg} flex items-center justify-center font-bold ${colors.text}`}>
                     {i + 1}
@@ -266,7 +267,7 @@ export default function HealthcareCertificationDetail() {
           <div className="max-w-5xl mx-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCertificationDetail.nursenestStudyResources")}</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {cert.relatedNurseNestLinks.map((link, i) => (
+              {(cert.relatedNurseNestLinks || []).map((link, i) => (
                 <LocaleLink key={i} href={link.href}>
                   <Card className="h-full hover:shadow-md hover:border-emerald-200 transition-all cursor-pointer group" data-testid={`card-link-${i}`}>
                     <CardContent className="p-5">
@@ -285,12 +286,12 @@ export default function HealthcareCertificationDetail() {
           </div>
         </section>
 
-        {cert.faqs.length > 0 && (
+        {certFaqs.length > 0 && (
           <section className="py-12 px-4 bg-gray-50" data-testid="section-faqs">
             <div className="max-w-5xl mx-auto">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCertificationDetail.frequentlyAskedQuestions")}</h2>
               <div className="space-y-3">
-                {cert.faqs.map((faq, i) => (
+                {certFaqs.map((faq, i) => (
                   <div key={i} className="border border-gray-200 rounded-xl overflow-hidden bg-white" data-testid={`faq-item-${i}`}>
                     <button
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}

@@ -54,7 +54,8 @@ export default function HealthcareCareerDetail() {
   }
 
   const colors = COLOR_MAP[career.color] || COLOR_MAP.blue;
-  const faqStructuredData = career.faqs.length > 0 ? buildFaqStructuredData(career.faqs) : null;
+  const careerFaqs = Array.isArray(career.faqs) ? career.faqs : [];
+  const faqStructuredData = careerFaqs.length > 0 ? buildFaqStructuredData(careerFaqs) : null;
 
   const articleStructuredData = {
     "@context": "https://schema.org",
@@ -140,7 +141,7 @@ export default function HealthcareCareerDetail() {
           <div className="max-w-5xl mx-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-5">{t("pages.healthcareCareerDetail.roleOverview")}</h2>
             <div className="space-y-4">
-              {career.overview.map((p, i) => (
+              {(career.overview || []).map((p, i) => (
                 <p key={i} className="text-gray-600 leading-relaxed" data-testid={`text-overview-${i}`}>{p}</p>
               ))}
             </div>
@@ -151,7 +152,7 @@ export default function HealthcareCareerDetail() {
           <div className="max-w-5xl mx-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCareerDetail.educationPathways")}</h2>
             <div className="space-y-4">
-              {career.educationPathways.map((path, i) => (
+              {(career.educationPathways || []).map((path, i) => (
                 <div key={i} className="flex gap-4 bg-white rounded-xl border border-gray-200 p-6" data-testid={`card-edu-${i}`}>
                   <div className={`flex-shrink-0 w-10 h-10 rounded-full ${colors.bg} flex items-center justify-center`}>
                     <GraduationCap className={`w-5 h-5 ${colors.text}`} />
@@ -171,7 +172,7 @@ export default function HealthcareCareerDetail() {
             <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCareerDetail.licensingRequirements")}</h2>
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <ul className="space-y-3">
-                {career.licensingRequirements.map((req, i) => (
+                {(career.licensingRequirements || []).map((req, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-gray-700" data-testid={`text-license-${i}`}>
                     <CheckCircle2 className={`w-5 h-5 ${colors.text} mt-0.5 flex-shrink-0`} />
                     {req}
@@ -188,7 +189,7 @@ export default function HealthcareCareerDetail() {
               <div>
                 <h2 className="text-xl font-bold text-gray-900 mb-5">{t("pages.healthcareCareerDetail.typicalResponsibilities")}</h2>
                 <ul className="space-y-2.5">
-                  {career.typicalResponsibilities.map((resp, i) => (
+                  {(career.typicalResponsibilities || []).map((resp, i) => (
                     <li key={i} className="flex items-start gap-2.5 text-sm text-gray-700">
                       <Stethoscope className={`w-4 h-4 ${colors.text} mt-0.5 flex-shrink-0`} />
                       {resp}
@@ -199,7 +200,7 @@ export default function HealthcareCareerDetail() {
               <div>
                 <h2 className="text-xl font-bold text-gray-900 mb-5">{t("pages.healthcareCareerDetail.workEnvironments")}</h2>
                 <ul className="space-y-2.5">
-                  {career.workEnvironments.map((env, i) => (
+                  {(career.workEnvironments || []).map((env, i) => (
                     <li key={i} className="flex items-start gap-2.5 text-sm text-gray-700">
                       <MapPin className={`w-4 h-4 ${colors.text} mt-0.5 flex-shrink-0`} />
                       {env}
@@ -215,7 +216,7 @@ export default function HealthcareCareerDetail() {
           <div className="max-w-5xl mx-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCareerDetail.advancementOpportunities")}</h2>
             <div className="grid sm:grid-cols-2 gap-3">
-              {career.advancementOpportunities.map((opp, i) => (
+              {(career.advancementOpportunities || []).map((opp, i) => (
                 <div key={i} className={`flex items-center gap-3 px-4 py-3 rounded-lg ${colors.bg} ${colors.border} border`} data-testid={`text-advancement-${i}`}>
                   <TrendingUp className={`w-4 h-4 ${colors.text} flex-shrink-0`} />
                   <span className="text-sm text-gray-800">{opp}</span>
@@ -234,7 +235,7 @@ export default function HealthcareCareerDetail() {
                   <BookOpen className="w-4 h-4" /> Exam Prep
                 </h3>
                 <ul className="space-y-2">
-                  {career.relatedExamPrep.map((link, i) => (
+                  {(career.relatedExamPrep || []).map((link, i) => (
                     <li key={i}>
                       <LocaleLink href={link.href} className="flex items-center gap-2 text-sm text-purple-700 hover:text-purple-900 font-medium" data-testid={`link-exam-${i}`}>
                         <ArrowRight className="w-3 h-3" /> {link.title}
@@ -248,7 +249,7 @@ export default function HealthcareCareerDetail() {
                   <Award className="w-4 h-4" /> Certifications
                 </h3>
                 <ul className="space-y-2">
-                  {career.relatedCertifications.map((link, i) => (
+                  {(career.relatedCertifications || []).map((link, i) => (
                     <li key={i}>
                       <LocaleLink href={link.href} className="flex items-center gap-2 text-sm text-purple-700 hover:text-purple-900 font-medium" data-testid={`link-cert-${i}`}>
                         <ArrowRight className="w-3 h-3" /> {link.title}
@@ -262,7 +263,7 @@ export default function HealthcareCareerDetail() {
                   <Briefcase className="w-4 h-4" /> Career & Job Tools
                 </h3>
                 <ul className="space-y-2">
-                  {career.relatedJobTools.map((link, i) => (
+                  {(career.relatedJobTools || []).map((link, i) => (
                     <li key={i}>
                       <LocaleLink href={link.href} className="flex items-center gap-2 text-sm text-purple-700 hover:text-purple-900 font-medium" data-testid={`link-job-${i}`}>
                         <ArrowRight className="w-3 h-3" /> {link.title}
@@ -275,12 +276,12 @@ export default function HealthcareCareerDetail() {
           </div>
         </section>
 
-        {career.faqs.length > 0 && (
+        {careerFaqs.length > 0 && (
           <section className="py-12 px-4" data-testid="section-faqs">
             <div className="max-w-5xl mx-auto">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("pages.healthcareCareerDetail.frequentlyAskedQuestions")}</h2>
               <div className="space-y-3">
-                {career.faqs.map((faq, i) => (
+                {careerFaqs.map((faq, i) => (
                   <div key={i} className="border border-gray-200 rounded-xl overflow-hidden" data-testid={`faq-item-${i}`}>
                     <button
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}

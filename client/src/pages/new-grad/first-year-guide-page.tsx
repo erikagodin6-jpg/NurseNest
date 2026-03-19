@@ -497,7 +497,7 @@ export default function FirstYearGuidePage() {
             <div className="bg-blue-50 rounded-xl p-6 mt-6 not-prose">
               <h3 className="font-semibold text-gray-900 mb-3">{t("pages.newGrad.firstYearGuidePage.keyMilestones")}</h3>
               <div className="space-y-2">
-                {profession.firstYearExpectations.map((exp, i) => (
+                {(profession.firstYearExpectations || []).map((exp, i) => (
                   <div key={i} className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: profession.color }} />
                     <span className="text-sm text-gray-700">{exp}</span>
@@ -516,7 +516,7 @@ export default function FirstYearGuidePage() {
             Common Mistakes to Avoid
           </h2>
           <div className="space-y-4">
-            {profession.commonChallenges.map((challenge, i) => (
+            {(profession.commonChallenges || []).map((challenge, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-100 p-5" data-testid={`mistake-${i}`}>
                 <div className="flex items-start gap-4">
                   <div className="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-sm flex-shrink-0">{i + 1}</div>
@@ -543,7 +543,7 @@ export default function FirstYearGuidePage() {
             <div className="bg-white rounded-xl border border-gray-100 p-6">
               <h3 className="font-bold text-gray-900 mb-3">{shiftPrep.beforeTitle}</h3>
               <ul className="space-y-2 text-sm text-gray-600">
-                {shiftPrep.beforeItems.map((item, i) => (
+                {(shiftPrep.beforeItems || []).map((item, i) => (
                   <li key={i} className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-green-500" />
                     {item}
@@ -554,7 +554,7 @@ export default function FirstYearGuidePage() {
             <div className="bg-white rounded-xl border border-gray-100 p-6">
               <h3 className="font-bold text-gray-900 mb-3">{shiftPrep.duringTitle}</h3>
               <ul className="space-y-2 text-sm text-gray-600">
-                {shiftPrep.duringItems.map((item, i) => (
+                {(shiftPrep.duringItems || []).map((item, i) => (
                   <li key={i} className="flex items-start gap-2">
                     <Target className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: profession.color }} />
                     {item}
@@ -565,7 +565,7 @@ export default function FirstYearGuidePage() {
             <div className="bg-white rounded-xl border border-gray-100 p-6 md:col-span-2 lg:col-span-1">
               <h3 className="font-bold text-gray-900 mb-3">{shiftPrep.afterTitle}</h3>
               <ul className="space-y-2 text-sm text-gray-600">
-                {shiftPrep.afterItems.map((item, i) => (
+                {(shiftPrep.afterItems || []).map((item, i) => (
                   <li key={i} className="flex items-start gap-2">
                     <Star className="w-4 h-4 mt-0.5 flex-shrink-0 text-amber-500" />
                     {item}
@@ -617,7 +617,7 @@ export default function FirstYearGuidePage() {
           </h2>
           <p className="text-gray-600 mb-6">Confidence as a new {profession.shortName} graduate doesn't come from knowing everything — it comes from developing reliable systems, asking the right questions, and reflecting on your growth.</p>
           <div className="space-y-4">
-            {profession.clinicalTips.map((tip, i) => (
+            {(profession.clinicalTips || []).map((tip, i) => (
               <div key={i} className="flex items-start gap-4 bg-white rounded-xl border border-gray-100 p-5" data-testid={`confidence-tip-${i}`}>
                 <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 text-white" style={{ backgroundColor: profession.color }}>
                   {i + 1}
