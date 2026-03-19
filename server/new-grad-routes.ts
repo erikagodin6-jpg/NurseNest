@@ -1,7 +1,10 @@
 import type { Express } from "express";
 import { pool } from "./storage";
 import { requireAdmin, resolveAuthUser } from "./admin-auth";
-import { seedNewGradContent } from "./new-grad-content-seed";
+async function loadSeedNewGradContent() {
+  const { seedNewGradContent } = await import("./new-grad-content-seed");
+  return seedNewGradContent;
+}
 import { generateNewGradGuide } from "./content-generators";
 import { checkEntitlement, requireEntitlement, type Feature } from "./entitlements";
 import { logPaywallAudit, type PaywallAuditEntry } from "./admin-auth";
@@ -33,6 +36,7 @@ export function registerNewGradRoutes(app: Express) {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
+      const seedNewGradContent = await loadSeedNewGradContent();
       const result = await seedNewGradContent();
       res.json({
         ok: true,

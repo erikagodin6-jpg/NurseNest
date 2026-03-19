@@ -9,12 +9,13 @@ import {
   insertImagingImageBriefSchema,
   insertImagingPositioningEntrySchema,
 } from "@shared/schema";
-import {
-  positioningSeeds,
-  artifactSeeds,
-  comparisonSeeds,
-  anatomySeeds,
-} from "./seed-data/imaging-library-seed";
+let _seedCache: any = null;
+async function getImagingSeedData() {
+  if (!_seedCache) {
+    _seedCache = await import("./seed-data/imaging-library-seed");
+  }
+  return _seedCache;
+}
 
 export function registerImagingLibraryRoutes(app: Express) {
   app.get("/api/imaging/positioning-entries", async (req, res) => {
@@ -72,9 +73,11 @@ export function registerImagingLibraryRoutes(app: Express) {
       if (!admin) return;
       const results: Record<string, number> = { positioning: 0, artifacts: 0, comparisons: 0, anatomy: 0 };
 
+      const seedData = await getImagingSeedData();
+
       const existingPositioning = await storage.getAllImagingPositioningEntries();
       const existingProjectionNames = new Set(existingPositioning.map((e: any) => e.projectionName));
-      for (const seed of positioningSeeds) {
+      for (const seed of seedData.positioningSeeds) {
         if (!existingProjectionNames.has(seed.projectionName)) {
           await storage.createImagingPositioningEntry(seed as any);
           results.positioning++;
@@ -83,7 +86,7 @@ export function registerImagingLibraryRoutes(app: Express) {
 
       const existingArtifacts = await storage.getAllImagingArtifactImages();
       const existingArtifactNames = new Set(existingArtifacts.map((e: any) => e.artifactName));
-      for (const seed of artifactSeeds) {
+      for (const seed of seedData.artifactSeeds) {
         if (!existingArtifactNames.has(seed.artifactName)) {
           await storage.createImagingArtifactImage(seed as any);
           results.artifacts++;
@@ -92,7 +95,7 @@ export function registerImagingLibraryRoutes(app: Express) {
 
       const existingComparisons = await storage.getAllImagingComparisonSets();
       const existingComparisonTitles = new Set(existingComparisons.map((e: any) => e.title));
-      for (const seed of comparisonSeeds) {
+      for (const seed of seedData.comparisonSeeds) {
         if (!existingComparisonTitles.has(seed.title)) {
           await storage.createImagingComparisonSet(seed as any);
           results.comparisons++;
@@ -101,7 +104,7 @@ export function registerImagingLibraryRoutes(app: Express) {
 
       const existingAnatomy = await storage.getAllImagingAnatomyImages();
       const existingAnatomyTitles = new Set(existingAnatomy.map((e: any) => e.title));
-      for (const seed of anatomySeeds) {
+      for (const seed of seedData.anatomySeeds) {
         if (!existingAnatomyTitles.has(seed.title)) {
           await storage.createImagingAnatomyImage(seed as any);
           results.anatomy++;

@@ -3,7 +3,39 @@ import { fixCorrectAnswerData, verifyCorrectAnswerData } from "./migrations/fix-
 
 export let lastStartupMigrationTimestamp: string | null = null;
 
-export const IMAGING_QUESTIONS = [
+let _cachedImagingQuestions: any[] | null = null;
+export function getImagingQuestions() {
+  if (!_cachedImagingQuestions) {
+    _cachedImagingQuestions = IMAGING_QUESTIONS_DATA;
+  }
+  return _cachedImagingQuestions;
+}
+
+let _cachedPositioningEntries: any[] | null = null;
+export function getPositioningEntries() {
+  if (!_cachedPositioningEntries) {
+    _cachedPositioningEntries = POSITIONING_ENTRIES_DATA;
+  }
+  return _cachedPositioningEntries;
+}
+
+let _cachedPhysicsTopics: any[] | null = null;
+export function getPhysicsTopics() {
+  if (!_cachedPhysicsTopics) {
+    _cachedPhysicsTopics = PHYSICS_TOPICS_DATA;
+  }
+  return _cachedPhysicsTopics;
+}
+
+let _cachedFlashcards: any[] | null = null;
+export function getFlashcards() {
+  if (!_cachedFlashcards) {
+    _cachedFlashcards = FLASHCARDS_DATA;
+  }
+  return _cachedFlashcards;
+}
+
+const IMAGING_QUESTIONS_DATA = [
   { question: "For a PA chest radiograph, the central ray should be directed to which vertebral level?", optionA: "T5", optionB: "T7", optionC: "T10", optionD: "L1", correctAnswer: "B", rationale: "The central ray for a PA chest is directed perpendicular to T7, which corresponds to the level of the inferior angle of the scapulae.", category: "Radiographic Positioning", topic: "Chest", difficulty: 1, country: "canada", bodyPart: "Chest", exam: "camrt" },
   { question: "What is the standard SID for a PA chest radiograph?", optionA: "40 inches (100 cm)", optionB: "48 inches (120 cm)", optionC: "60 inches (150 cm)", optionD: "72 inches (180 cm)", correctAnswer: "D", rationale: "72 inches (180 cm) is the standard SID for erect chest radiography to minimize cardiac magnification.", category: "Radiographic Positioning", topic: "Chest", difficulty: 1, country: "canada", bodyPart: "Chest", exam: "camrt" },
   { question: "On a properly positioned PA chest radiograph, how many posterior ribs should be visible above the diaphragm?", optionA: "6-7 ribs", optionB: "8-9 ribs", optionC: "10 or more ribs", optionD: "12 or more ribs", correctAnswer: "C", rationale: "A minimum of 10 posterior ribs visible above the diaphragm indicates adequate inspiration.", category: "Radiographic Positioning", topic: "Chest", difficulty: 1, country: "canada", bodyPart: "Chest", exam: "camrt" },
@@ -39,7 +71,7 @@ export const IMAGING_QUESTIONS = [
   { question: "An automatic exposure control (AEC) system terminates the exposure based on:", optionA: "A predetermined time", optionB: "The amount of radiation reaching the detector behind the patient", optionC: "The mAs set by the technologist", optionD: "The kVp selected", correctAnswer: "B", rationale: "AEC systems use radiation detectors behind the patient to measure receptor exposure and terminate when adequate density is achieved.", category: "Equipment Operation", topic: "X-ray Equipment", difficulty: 2, country: "usa", exam: "arrt" },
 ];
 
-export const POSITIONING_ENTRIES = [
+const POSITIONING_ENTRIES_DATA = [
   { projectionName: "PA Erect Chest", bodyPart: "Chest", patientPosition: "Patient stands upright facing the image receptor with chin extended. Arms internally rotated with backs of hands on hips.", centralRay: "Perpendicular to T7, entering at the level of the inferior angle of the scapulae. 72-inch SID.", sid: "72 inches (180 cm)", anatomyDemonstrated: "Both lung fields, costophrenic angles, cardiac silhouette, trachea, mediastinum", tips: "Ensure scapulae are rotated out of lung fields. Check for rotation by comparing medial clavicle ends to spinous processes. Minimum 10 posterior ribs should be visible above diaphragm." },
   { projectionName: "Lateral Chest", bodyPart: "Chest", patientPosition: "Patient stands with left side against image receptor. Arms raised overhead and crossed.", centralRay: "Perpendicular to T7 at the level of the inferior angle of the scapulae, midcoronal plane", sid: "72 inches (180 cm)", anatomyDemonstrated: "Retrosternal and retrocardiac spaces, thoracic spine, sternum, diaphragm", tips: "Left lateral preferred to minimize cardiac magnification. Arms must be elevated sufficiently." },
   { projectionName: "PA Hand", bodyPart: "Upper Extremity", patientPosition: "Patient seated at end of table with hand pronated, fingers extended and slightly separated on image receptor.", centralRay: "Perpendicular to the third MCP joint", anatomyDemonstrated: "All phalanges, metacarpals, carpals, and distal radius and ulna", tips: "Ensure fingers are separated to prevent overlap. Remove rings and jewelry." },
@@ -62,7 +94,7 @@ export const POSITIONING_ENTRIES = [
   { projectionName: "AP Foot", bodyPart: "Lower Extremity", patientPosition: "Patient supine or seated, plantar surface of foot flat on IR.", centralRay: "10 degrees posteriorly, directed to base of third metatarsal", anatomyDemonstrated: "Phalanges, metatarsals, cuneiforms, cuboid, navicular, tarsometatarsal joints", tips: "10-degree posterior angle opens tarsometatarsal joint spaces." },
 ] as const;
 
-export const PHYSICS_TOPICS = [
+const PHYSICS_TOPICS_DATA = [
   { title: "X-ray Production", category: "Radiation Physics", difficulty: 2, content: "X-rays are produced when high-speed electrons strike a target material (tungsten, Z=74). Two types: Bremsstrahlung (braking) radiation and Characteristic radiation. Maximum photon energy equals kVp.", keyConcepts: ["Bremsstrahlung radiation", "Characteristic radiation", "Tungsten target Z=74", "K-shell binding energy 69.5 keV", "Maximum energy = kVp"], formulas: [{ name: "Maximum Photon Energy", formula: "E_max = kVp (in keV)" }, { name: "Beam Intensity", formula: "I proportional to kVp^2 x mAs x Z" }] },
   { title: "Radiation Interactions with Matter", category: "Radiation Physics", difficulty: 3, content: "Compton Scattering: photon interacts with outer-shell electron, producing scatter. Photoelectric Absorption: photon completely absorbed, probability proportional to Z^3/E^3.", keyConcepts: ["Compton scattering", "Photoelectric absorption", "Z^3/E^3 relationship", "Subject contrast", "30 keV crossover"], formulas: [{ name: "Compton Probability", formula: "Proportional to electron density" }, { name: "Photoelectric Probability", formula: "Proportional to Z^3 / E^3" }] },
   { title: "Image Quality Factors", category: "Image Production", difficulty: 2, content: "Spatial Resolution: ability to distinguish closely spaced objects. Contrast Resolution: ability to distinguish similar tissues. Window width controls contrast, window level controls brightness.", keyConcepts: ["Spatial resolution", "Contrast resolution", "Focal spot size", "Window width", "Window level"], formulas: [{ name: "Magnification Factor", formula: "MF = SID / SOD" }, { name: "mAs Reciprocity", formula: "mA x time(s) = mAs" }] },
@@ -73,7 +105,7 @@ export const PHYSICS_TOPICS = [
   { title: "Exposure Factors and Technique", category: "Image Production", difficulty: 1, content: "kVp controls beam quality and contrast. mAs controls quantity and has direct relationship with patient dose. 15% rule: 15% kVp increase doubles exposure.", keyConcepts: ["kVp controls quality", "mAs controls quantity", "15% rule", "SID and inverse square law", "Grid ratio", "AEC"], formulas: [{ name: "15% Rule", formula: "15% increase in kVp = doubling of mAs" }, { name: "Direct Square Law", formula: "New mAs = old mAs x (new SID / old SID)^2" }] },
 ] as const;
 
-export const FLASHCARDS = [
+const FLASHCARDS_DATA = [
   { front: "What is the standard SID for a PA chest radiograph?", back: "72 inches (180 cm). Minimizes cardiac magnification.", category: "Positioning", bodyPart: "Chest", difficulty: 1 },
   { front: "How many posterior ribs should be visible on a properly inspired PA chest?", back: "Minimum of 10 posterior ribs above the diaphragm.", category: "Positioning", bodyPart: "Chest", difficulty: 1 },
   { front: "What indicates rotation on a PA chest radiograph?", back: "Unequal distances between medial clavicle ends and spinous processes.", category: "Positioning", bodyPart: "Chest", difficulty: 2 },

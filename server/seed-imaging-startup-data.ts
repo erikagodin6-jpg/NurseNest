@@ -1,5 +1,9 @@
 import pg from "pg";
-import { IMAGING_QUESTIONS, POSITIONING_ENTRIES, PHYSICS_TOPICS, FLASHCARDS } from "./startup-data-migrations";
+import { getImagingQuestions, getPositioningEntries, getPhysicsTopics, getFlashcards } from "./startup-data-migrations";
+const IMAGING_QUESTIONS = getImagingQuestions();
+const POSITIONING_ENTRIES = getPositioningEntries();
+const PHYSICS_TOPICS = getPhysicsTopics();
+const FLASHCARDS = getFlashcards();
 
 export async function seedImagingQuestions(pool: pg.Pool) {
   const client = await pool.connect();

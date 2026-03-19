@@ -9,29 +9,11 @@ import { runI18nScan } from "./scan-hardcoded-strings-lib";
 import path from "path";
 
 const allowlist = [
-  "@google/generative-ai",
-  "axios",
-  "connect-pg-simple",
-  "cors",
   "date-fns",
   "drizzle-orm",
   "drizzle-zod",
-  "express",
-  "express-rate-limit",
-  "express-session",
-  "jsonwebtoken",
-  "memorystore",
-  "multer",
   "nanoid",
-  "nodemailer",
-  "openai",
-  "passport",
-  "passport-local",
-  "pg",
-  "stripe",
   "uuid",
-  "ws",
-  "xlsx",
   "zod",
   "zod-validation-error",
 ];
@@ -103,19 +85,231 @@ async function buildServer() {
     outfile: "dist/index.cjs",
     define: { "process.env.NODE_ENV": '"production"' },
     minify: true,
-    external: [...externals, "../client/src/data/lessons/index"],
+    external: [...externals, "../client/src/data/lessons/index", "tr46", "whatwg-url"],
     logLevel: "warning",
     logOverride: { "import-meta": "silent" },
     loader: ASSET_LOADER,
-    plugins: [{
-      name: "redirect-lessons-data",
-      setup(build) {
-        build.onResolve({ filter: /\.\.\/client\/src\/data\/lessons\/index$/ }, () => ({
-          path: "./lessons-data.cjs",
-          external: true,
-        }));
+    plugins: [
+      {
+        name: "redirect-lessons-data",
+        setup(build) {
+          build.onResolve({ filter: /\.\.\/client\/src\/data\/lessons\/index$/ }, () => ({
+            path: "./lessons-data.cjs",
+            external: true,
+          }));
+        },
       },
-    }],
+      {
+        name: "externalize-dynamic-imports",
+        setup(build) {
+          const dynamicExternalPatterns = [
+            /\.\/seed-[^/]+$/,
+            /\.\/seeds\/[^/]+$/,
+            /\.\/seed-data\/[^/]+$/,
+            /\.\/encyclopedia-seed$/,
+            /\.\/startup-data-migrations$/,
+            /\.\/alerting-engine$/,
+            /\.\/synthetic-monitoring$/,
+            /\.\/content-integrity-audit$/,
+            /\.\/reporting-scheduler$/,
+            /\.\/content-pipeline$/,
+            /\.\/schema-validation$/,
+            /\.\/content-versioning-quarantine$/,
+            /\.\/ensure-schema$/,
+            /\.\/exam-flashcard-mapper$/,
+            /\.\/exam-delivery$/,
+            /\.\/prompts\/qbank-templates$/,
+            /\.\/publish-gate$/,
+            /\.\/memory-monitor$/,
+            /\.\/memory-observability$/,
+            /\.\/resource-budgets$/,
+            /\.\/auto-containment$/,
+            /\.\/qbank-scheduler$/,
+            /\.\.\/client\/src\/data\//,
+            /\.\.\/\.\.\/client\/src\/data\//,
+            /\.\/new-grad-content-seed$/,
+            /\.\/data\/nclex-rn-hub-content$/,
+            /\.\/certification-question-seed$/,
+            /\.\/nursing-question-seeder$/,
+          ];
+          for (const pattern of dynamicExternalPatterns) {
+            build.onResolve({ filter: pattern }, (args) => {
+              if (args.kind === "dynamic-import" || args.kind === "require-call") {
+                return { path: args.path, external: true };
+              }
+              return undefined;
+            });
+          }
+        },
+      },
+    ],
+  });
+}
+
+async function buildExternalizedModules() {
+  const pkg = JSON.parse(await readFile("package.json", "utf-8"));
+  const allDeps = [
+    ...Object.keys(pkg.dependencies || {}),
+    ...Object.keys(pkg.devDependencies || {}),
+  ];
+
+  const serverDir = path.resolve("server");
+  const entryPoints: string[] = [];
+
+  async function collectTsFiles(dir: string, prefix: string) {
+    const entries = await readdir(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory() && (entry.name === "seeds" || entry.name === "data" || entry.name === "prompts" || entry.name === "seed-data")) {
+        await collectTsFiles(fullPath, prefix + entry.name + "/");
+      } else if (entry.isFile() && entry.name.endsWith(".ts") && !entry.name.endsWith(".d.ts")) {
+        const rel = prefix + entry.name;
+        if (
+          rel.startsWith("seed-") ||
+          rel.startsWith("seeds/") ||
+          rel.startsWith("seed-data/") ||
+          rel === "encyclopedia-seed.ts" ||
+          rel === "startup-data-migrations.ts" ||
+          rel === "alerting-engine.ts" ||
+          rel === "synthetic-monitoring.ts" ||
+          rel === "content-integrity-audit.ts" ||
+          rel === "reporting-scheduler.ts" ||
+          rel === "content-pipeline.ts" ||
+          rel === "schema-validation.ts" ||
+          rel === "content-versioning-quarantine.ts" ||
+          rel === "ensure-schema.ts" ||
+          rel === "exam-flashcard-mapper.ts" ||
+          rel === "exam-delivery.ts" ||
+          rel.startsWith("prompts/") ||
+          rel === "publish-gate.ts" ||
+          rel === "memory-monitor.ts" ||
+          rel === "memory-observability.ts" ||
+          rel === "resource-budgets.ts" ||
+          rel === "auto-containment.ts" ||
+          rel === "qbank-scheduler.ts" ||
+          rel === "new-grad-content-seed.ts" ||
+          rel.startsWith("data/") ||
+          rel === "certification-question-seed.ts" ||
+          rel === "nursing-question-seeder.ts"
+        ) {
+          entryPoints.push(fullPath);
+        }
+      }
+    }
+  }
+
+  await collectTsFiles(serverDir, "");
+
+  if (entryPoints.length === 0) return;
+
+  const dynamicPatterns = [
+    /\.\/seed-[^/]+$/,
+    /\.\/seeds\/[^/]+$/,
+    /\.\/seed-data\/[^/]+$/,
+    /\.\/encyclopedia-seed$/,
+    /\.\/startup-data-migrations$/,
+    /\.\/alerting-engine$/,
+    /\.\/synthetic-monitoring$/,
+    /\.\/content-integrity-audit$/,
+    /\.\/reporting-scheduler$/,
+    /\.\/content-pipeline$/,
+    /\.\/schema-validation$/,
+    /\.\/content-versioning-quarantine$/,
+    /\.\/ensure-schema$/,
+    /\.\/exam-flashcard-mapper$/,
+    /\.\/exam-delivery$/,
+    /\.\/prompts\/qbank-templates$/,
+    /\.\/publish-gate$/,
+    /\.\/memory-monitor$/,
+    /\.\/memory-observability$/,
+    /\.\/resource-budgets$/,
+    /\.\/auto-containment$/,
+    /\.\/qbank-scheduler$/,
+    /\.\.\/client\/src\/data\//,
+    /\.\.\/\.\.\/client\/src\/data\//,
+    /\.\/new-grad-content-seed$/,
+    /\.\/data\/nclex-rn-hub-content$/,
+    /\.\/certification-question-seed$/,
+    /\.\/nursing-question-seeder$/,
+  ];
+
+  await esbuild({
+    entryPoints,
+    platform: "node",
+    bundle: true,
+    format: "cjs",
+    outdir: "dist",
+    outbase: "server",
+    define: { "process.env.NODE_ENV": '"production"' },
+    minify: true,
+    external: [...allDeps, "tr46", "whatwg-url", "../client/src/data/lessons/index"],
+    logLevel: "warning",
+    logOverride: { "import-meta": "silent" },
+    loader: ASSET_LOADER,
+    plugins: [
+      {
+        name: "redirect-lessons-data",
+        setup(build) {
+          build.onResolve({ filter: /\.\.\/client\/src\/data\/lessons\/index$/ }, () => ({
+            path: "./lessons-data.cjs",
+            external: true,
+          }));
+        },
+      },
+      {
+        name: "externalize-cross-refs",
+        setup(build) {
+          for (const pattern of dynamicPatterns) {
+            build.onResolve({ filter: pattern }, (args) => {
+              if (args.kind === "dynamic-import" || args.kind === "require-call") {
+                return { path: args.path, external: true };
+              }
+              return undefined;
+            });
+          }
+        },
+      },
+    ],
+  });
+}
+
+async function buildClientDataModules() {
+  const pkg = JSON.parse(await readFile("package.json", "utf-8"));
+  const allDeps = [
+    ...Object.keys(pkg.dependencies || {}),
+    ...Object.keys(pkg.devDependencies || {}),
+  ];
+
+  const clientDataFiles: string[] = [];
+  const dataDir = path.resolve("client/src/data");
+
+  async function collectClientData(dir: string) {
+    const entries = await readdir(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        await collectClientData(fullPath);
+      } else if (entry.isFile() && entry.name.endsWith(".ts") && !entry.name.endsWith(".d.ts")) {
+        clientDataFiles.push(fullPath);
+      }
+    }
+  }
+
+  await collectClientData(dataDir);
+  if (clientDataFiles.length === 0) return;
+
+  await esbuild({
+    entryPoints: clientDataFiles,
+    platform: "node",
+    bundle: false,
+    format: "cjs",
+    outdir: "client/src/data",
+    outbase: "client/src/data",
+    define: { "process.env.NODE_ENV": '"production"' },
+    minify: true,
+    logLevel: "warning",
+    logOverride: { "import-meta": "silent" },
+    loader: ASSET_LOADER,
   });
 }
 
@@ -270,6 +464,12 @@ async function buildAll() {
 
   await buildServer();
   log("server done");
+
+  await buildExternalizedModules();
+  log("externalized modules done");
+
+  await buildClientDataModules();
+  log("client data modules done");
 
   if (global.gc) global.gc();
 

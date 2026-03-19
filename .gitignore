@@ -11,4 +11,5 @@ vite.config.ts.*
 .env.production
 .env.*.local
 scripts/i18n-scan-report.json
+client/src/data/**/*.js
 i18n-violations-report.json

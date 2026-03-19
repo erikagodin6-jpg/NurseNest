@@ -1,7 +1,10 @@
 import type { Express, Request, Response } from "express";
 import { pool } from "./storage";
 import { requireAdmin } from "./admin-auth";
-import { ALL_NCLEX_RN_HUB_PAGES } from "./data/nclex-rn-hub-content";
+async function loadNclexRnHubPages() {
+  const { ALL_NCLEX_RN_HUB_PAGES } = await import("./data/nclex-rn-hub-content");
+  return ALL_NCLEX_RN_HUB_PAGES;
+}
 
 export function registerNclexRnHubSeedRoutes(app: Express): void {
   app.post("/api/admin/nclex-rn-hub/seed", async (req: Request, res: Response) => {
@@ -10,7 +13,7 @@ export function registerNclexRnHubSeedRoutes(app: Express): void {
 
     try {
       const dryRun = req.query.dryRun === "true";
-      const pages = ALL_NCLEX_RN_HUB_PAGES;
+      const pages = await loadNclexRnHubPages();
       let created = 0;
       let skipped = 0;
       let updated = 0;
@@ -106,7 +109,7 @@ export function registerNclexRnHubSeedRoutes(app: Express): void {
       );
       res.json({
         totalPages: total.rows[0]?.total || 0,
-        expectedPages: ALL_NCLEX_RN_HUB_PAGES.length,
+        expectedPages: (await loadNclexRnHubPages()).length,
         byType: result.rows,
       });
     } catch (e: any) {
