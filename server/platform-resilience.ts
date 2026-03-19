@@ -565,12 +565,9 @@ async function checkSessionRestore(): Promise<HealthCheckResult> {
 
 async function checkMemory(): Promise<HealthCheckResult> {
   const start = Date.now();
-  const mem = process.memoryUsage();
-  const heapUsedMB = Math.round(mem.heapUsed / 1024 / 1024);
-  const heapTotalMB = Math.round(mem.heapTotal / 1024 / 1024);
-  const pct = Math.round((mem.heapUsed / mem.heapTotal) * 100);
-  const status = pct > 97 ? "down" : pct > 95 ? "degraded" : "healthy";
-  return { service: "memory", status, latencyMs: Date.now() - start, lastChecked: Date.now(), details: `${heapUsedMB}MB / ${heapTotalMB}MB (${pct}%)` };
+  const rssMB = Math.round(process.memoryUsage.rss() / 1024 / 1024);
+  const status = rssMB > 1200 ? "down" : rssMB > 1000 ? "degraded" : "healthy";
+  return { service: "memory", status, latencyMs: Date.now() - start, lastChecked: Date.now(), details: `RSS: ${rssMB}MB` };
 }
 
 export async function runHealthChecks(): Promise<HealthCheckResult[]> {
