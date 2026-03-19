@@ -739,6 +739,13 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   const { registerCatSessionApiRoutes } = await import("./cat-session-api");
   registerCatSessionApiRoutes(app);
 
+  try {
+    const { initCatResilience } = await import("./cat-exam-resilience");
+    initCatResilience().catch(e => console.error("[Routes] CAT resilience init failed:", e.message));
+  } catch (e: any) {
+    console.error("[Routes] Failed to import cat-exam-resilience:", e.message);
+  }
+
   const { registerAnalyticsEventsRoutes } = await import("./analytics-events-routes");
   registerAnalyticsEventsRoutes(app);
 
@@ -10850,7 +10857,14 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       console.log("[MockExam][start-specialty] INSERT success, attemptId:", attemptId);
 
       console.log("[MockExam][start-specialty] Stage: response_send", { requestId, attemptId });
-      const responsePayload: any = { attemptId, timeLimit: examDef.time_limit, examTitle: examDef.title };
+      const responsePayload: any = {
+        ok: true,
+        mode: "specialty-mock",
+        attemptId,
+        timeLimit: examDef.time_limit,
+        examTitle: examDef.title,
+        meta: { tier: "all", source: "primary_db", specialty: examDef.specialty },
+      };
       if (specStripped) responsePayload.stripped = true;
       logExamRoute("/api/mock-exams/start-specialty", "POST", authUser.id, _routeStart, { attemptId, questionCount: questions.length, payloadSize: JSON.stringify(responsePayload).length, requestId });
       clearTimeout(startTimeout);
@@ -11150,7 +11164,13 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       }
 
       console.log("[MockExam][start] Stage: response_send", { requestId, attemptId });
-      const responseBody: any = { attemptId, creditUsed: usedCredit };
+      const responseBody: any = {
+        ok: true,
+        mode: examMode || "practice",
+        attemptId,
+        creditUsed: usedCredit,
+        meta: { tier: tier || authUser?.tier, source: "primary_db" },
+      };
       if (strippedRationales) {
         responseBody.stripped = true;
       }

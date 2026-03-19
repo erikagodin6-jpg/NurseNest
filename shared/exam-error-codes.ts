@@ -209,6 +209,74 @@ export function classifyServerError(error: any, context?: { attemptId?: string; 
   return { code: EXAM_FAILURE_CODES.UNKNOWN, message: msg || "Internal server error", recoverable: true, timestamp: now, details: context };
 }
 
+export const CAT_FALLBACK_CODES = {
+  CAT_POOL_EMPTY: "cat_pool_empty",
+  CAT_POOL_INSUFFICIENT: "cat_pool_insufficient",
+  CAT_DB_ERROR: "cat_db_error",
+  CAT_TIMEOUT: "cat_timeout",
+  CAT_VALIDATION_FAILED: "cat_validation_failed",
+  CAT_ENGINE_ERROR: "cat_engine_error",
+} as const;
+
+export type CatFallbackCode = typeof CAT_FALLBACK_CODES[keyof typeof CAT_FALLBACK_CODES];
+
+export type ExamStartMode =
+  | "cat"
+  | "fallback_standard_exam"
+  | "fallback_practice_block"
+  | "fallback_emergency_bank"
+  | "unavailable";
+
+export type QuestionSource =
+  | "primary_db"
+  | "validated_snapshot"
+  | "emergency_fallback_bank";
+
+export interface NormalizedExamStartResponse {
+  ok: boolean;
+  mode: ExamStartMode;
+  attemptId?: string;
+  sessionId?: string;
+  question?: any;
+  questions?: any[];
+  progress?: {
+    questionNumber: number;
+    totalQuestions: number;
+    questionsAnswered: number;
+  };
+  meta?: {
+    tier: string;
+    source: QuestionSource;
+    fallbackReason?: string;
+    fallbackMessage?: string;
+    catState?: {
+      currentAbility: number;
+      standardError: number;
+      questionCount: number;
+    };
+    degradedMode?: boolean;
+    incidentId?: string;
+  };
+  errorCode?: string;
+  message?: string;
+  retryable?: boolean;
+}
+
+export interface QuestionPoolDiagnostics {
+  rawCandidates: number;
+  afterTierFilter: number;
+  afterEntitlementFilter: number;
+  afterRegionFilter: number;
+  afterLanguageFilter: number;
+  afterActivePublishedFilter: number;
+  afterCatValidation: number;
+  finalUsableCount: number;
+  rejectionReasons: Record<string, number>;
+  filterTimestamp: string;
+  tier: string;
+  examType: string;
+}
+
 export const RECOVERY_STAGES = {
   CLEAR_CACHE: "clear_cache",
   CALL_RECOVERY: "call_recovery",

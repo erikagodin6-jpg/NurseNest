@@ -19,6 +19,14 @@ import {
 } from "./system-hardening";
 import { isFeatureEnabled, withCircuitBreaker, recordFeatureError } from "./platform-resilience";
 import { concurrencyLimiter } from "./concurrency-limiter";
+import {
+  runQuestionPoolDiagnostics,
+  attemptFallbackChain,
+  buildNormalizedCatSuccess,
+  buildNormalizedError,
+  safeNonEssential,
+} from "./cat-exam-resilience";
+import type { NormalizedExamStartResponse, QuestionSource } from "@shared/exam-error-codes";
 
 const catStartIdempotency = new BoundedMap<string, { attemptId: string; expiresAt: number }>(500, 5 * 60 * 1000);
 
@@ -63,7 +71,13 @@ function snakeToCamel(obj: any): any {
 async function requireAuth(req: Request, res: Response): Promise<any | null> {
   const user = await resolveAuthUser(req as any);
   if (!user) {
-    res.status(401).json({ error: "Authentication required" });
+    res.status(401).json({
+      ok: false,
+      mode: "unavailable" as const,
+      errorCode: "authentication_required",
+      message: "Authentication required",
+      retryable: false,
+    });
     return null;
   }
   return user;
@@ -414,8 +428,14 @@ router.post("/api/cat-exams/start",
 
     const entitlement = resolveEntitlementSync(user, "feature", "cat_exams");
     if (!entitlement.hasAccess) {
+      const errResp = buildNormalizedError(
+        "not_entitled",
+        "CAT exam access requires premium subscription",
+        false,
+        user.tier || "free"
+      );
       return res.status(403).json({
-        error: "CAT exam access requires premium subscription",
+        ...errResp,
         isLocked: true,
         retryable: false,
         reasonCode: "not_entitled",
@@ -429,7 +449,7 @@ router.post("/api/cat-exams/start",
 
     const parsed = startSchema.safeParse(req.body);
     if (!parsed.success) {
-      return res.status(400).json({ error: "Invalid input", details: parsed.error.issues, retryable: false, reasonCode: "invalid_payload" });
+      return res.status(400).json(buildNormalizedError("invalid_payload", "Invalid input", false, user.tier || "free"));
     }
 
     const { tier, questionCount, blueprintCode, idempotencyKey } = parsed.data;
@@ -448,11 +468,22 @@ router.post("/api/cat-exams/start",
           const row = existingAttempt.rows[0];
           const catState = typeof row.cat_state === "string" ? JSON.parse(row.cat_state) : (row.cat_state || {});
           const nextQ = await selectNextQuestion(row.id, row.tier, catState);
-          return res.json({
-            attemptId: row.id,
-            sessionId: catState.sessionId || row.id,
-            status: row.status || "in_progress",
-            currentQuestion: nextQ ? {
+          if (!nextQ) {
+            console.warn(`[CATSessionAPI] Idempotent resume: no next question for attempt ${row.id}, entering fallback chain`);
+            const fallbackResponse = await attemptFallbackChain(
+              user.id, row.tier, row.total_questions,
+              "idempotent_resume_no_question"
+            );
+            if (fallbackResponse.ok) {
+              return res.json(fallbackResponse);
+            }
+            return res.status(503).json(fallbackResponse);
+          }
+          const examSource: QuestionSource = catState.examSource || "primary_db";
+          return res.json(buildNormalizedCatSuccess(
+            row.id,
+            catState.sessionId || row.id,
+            {
               id: nextQ.id,
               stem: nextQ.stem,
               options: (() => { try { return typeof nextQ.options === "string" ? JSON.parse(nextQ.options) : nextQ.options; } catch { return []; } })(),
@@ -460,67 +491,51 @@ router.post("/api/cat-exams/start",
               topic: nextQ.topic,
               difficulty: nextQ.difficulty,
               questionType: nextQ.question_type,
-            } : null,
-            questionNumber: (catState.questionsSeen?.length || 0) + 1,
-            maxQuestions: row.total_questions,
-            catState: {
+            },
+            row.tier,
+            row.total_questions,
+            {
               currentAbility: catState.currentAbility || 0,
               standardError: catState.standardError || 1.0,
               questionCount: catState.questionsSeen?.length || 0,
             },
-          });
-        }
-      }
-    }
-
-    const { questions: _catPool, diagnostics } = await buildCATPool(examTier, user.id);
-
-    let fallbackMode: string | null = null;
-    let fallbackMessage: string | null = null;
-    let examType = "cat";
-
-    let fallbackQuestions: any[] = [];
-
-    if (!diagnostics.canStartCat) {
-      console.warn(`[CATPoolBuilder] CAT pool below threshold for tier=${examTier} userId=${user.id} validCount=${diagnostics.validCount} threshold=${diagnostics.thresholdRequired}. Attempting standard fallback.`);
-
-      const standardQuestions = await buildStandardFallbackExam(examTier, Math.min(maxQuestions, 75));
-
-      if (standardQuestions.length >= 10) {
-        fallbackMode = "standard_fallback";
-        fallbackMessage = "Adaptive mode is temporarily unavailable. We've started a standard exam instead.";
-        examType = "standard";
-        fallbackQuestions = standardQuestions;
-        console.log(`[CATPoolBuilder] Standard fallback successful for tier=${examTier}: ${standardQuestions.length} questions`);
-      } else {
-        const practiceQuestions = await buildStandardFallbackExam(examTier, 25);
-        if (practiceQuestions.length >= 5) {
-          fallbackMode = "practice_fallback";
-          fallbackMessage = "Adaptive mode is temporarily unavailable. We've started a practice set instead.";
-          examType = "practice";
-          fallbackQuestions = practiceQuestions;
-          console.log(`[CATPoolBuilder] Practice fallback for tier=${examTier}: ${practiceQuestions.length} questions`);
-        } else {
-          console.error(`[CATPoolBuilder] ALL FALLBACKS FAILED for tier=${examTier} userId=${user.id}. No questions available.`);
-          try {
-            await pool.query(
-              `INSERT INTO exam_incidents (user_id, exam_type, tier, reason_code, reason_detail, endpoint, request_params, severity)
-               VALUES ($1, 'cat', $2, 'cat_pool_empty_all_fallbacks', $3, '/api/cat-exams/start', $4, 'critical')`,
-              [user.id, examTier, `CAT pool: ${diagnostics.validCount} valid, standard: ${standardQuestions.length}, practice: ${practiceQuestions.length}`, JSON.stringify(diagnostics)]
-            ).catch(() => {});
-          } catch {}
-
-          return res.status(503).json({
-            error: "Question Pool Unavailable",
-            reasonCode: "cat_pool_exhausted",
-            poolDiagnostics: diagnostics,
-            recoverable: true,
-          });
+            examSource
+          ));
         }
       }
     }
 
     const sessionId = `cat_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+
+    const rawPoolResult = await pool.query(
+      `SELECT id, stem, options, correct_answer, body_system, topic, difficulty, question_type, tier, status, region, language
+       FROM exam_questions WHERE tier = $1 LIMIT 2000`,
+      [examTier]
+    );
+    const diagnostics = runQuestionPoolDiagnostics(rawPoolResult.rows, examTier, "cat", {
+      region: user.region,
+      language: undefined,
+    });
+
+    if (diagnostics.finalUsableCount === 0) {
+      console.warn(`[CATSessionAPI] Zero usable questions for tier=${examTier}, entering fallback chain`);
+      const fallbackResponse = await attemptFallbackChain(
+        user.id, examTier, maxQuestions,
+        `pool_empty: ${JSON.stringify(diagnostics.rejectionReasons)}`,
+        { region: user.region, blueprintCode: blueprintCode || undefined }
+      );
+
+      await safeNonEssential("analytics_log", () => logActivity(user.id, "cat_session_fallback", {
+        tier: examTier,
+        mode: fallbackResponse.mode,
+        diagnostics: { finalUsableCount: diagnostics.finalUsableCount, rejections: diagnostics.rejectionReasons },
+      }, sessionId), undefined);
+
+      if (fallbackResponse.ok) {
+        return res.json(fallbackResponse);
+      }
+      return res.status(503).json(fallbackResponse);
+    }
 
     const initialCatState = {
       sessionId,
@@ -532,22 +547,24 @@ router.post("/api/cat-exams/start",
       stabilityIndex: 0,
       isPaused: false,
       version: 1,
+      examSource: "primary_db" as QuestionSource,
+      examMode: "cat",
+      poolDiagnostics: {
+        usableCount: diagnostics.finalUsableCount,
+        rejections: diagnostics.rejectionReasons,
+      },
     };
-
-    const isFallback = fallbackQuestions.length > 0;
-    const effectiveMaxQuestions = isFallback ? fallbackQuestions.length : maxQuestions;
 
     const attemptResult = await pool.query(
       `INSERT INTO mock_exam_attempts (id, user_id, tier, total_questions, status, exam_type, career_type, cat_state, blueprint_code, started_at)
-       VALUES (gen_random_uuid(), $1, $2, $3, 'in_progress', $4, $5, $6, $7, NOW())
+       VALUES (gen_random_uuid(), $1, $2, $3, 'in_progress', 'cat', $4, $5, $6, NOW())
        RETURNING *`,
       [
         user.id,
         examTier,
-        effectiveMaxQuestions,
-        examType,
+        maxQuestions,
         user.career_type || user.careerType || "nursing",
-        isFallback ? null : JSON.stringify(initialCatState),
+        JSON.stringify(initialCatState),
         blueprintCode || null,
       ]
     );
@@ -559,110 +576,29 @@ router.post("/api/cat-exams/start",
       catStartIdempotency.set(idemKey, { attemptId: attempt.id, expiresAt: Date.now() + 5 * 60 * 1000 });
     }
 
-    if (isFallback) {
-      const questionData = fallbackQuestions.map((q: any) => ({
-        id: q.id,
-        question: q.stem,
-        options: (() => { try { return typeof q.options === "string" ? JSON.parse(q.options) : q.options; } catch { return []; } })(),
-        correct: q.correct_answer,
-        bodySystem: q.body_system,
-        tier: examTier,
-        lessonId: "mock-exam",
-        source: "quiz",
-        topic: q.topic,
-        subtopic: q.subtopic,
-        difficulty: q.difficulty,
-        questionType: q.question_type,
-      }));
-
-      await pool.query(
-        `UPDATE mock_exam_attempts SET questions = $1 WHERE id = $2`,
-        [JSON.stringify(questionData), attempt.id]
-      );
-
-      await logActivity(user.id, "cat_session_started", {
-        attemptId: attempt.id,
-        sessionId,
-        tier: examTier,
-        maxQuestions: effectiveMaxQuestions,
-        fallbackMode,
-        poolDiagnostics: { validCount: diagnostics.validCount, rawCount: diagnostics.rawCount, canStartCat: diagnostics.canStartCat },
-      }, sessionId);
-
-      return res.json({
-        attemptId: attempt.id,
-        sessionId,
-        status: "in_progress",
-        questions: questionData,
-        totalQuestions: questionData.length,
-        fallbackMode,
-        fallbackMessage,
-      });
-    }
-
     const nextQ = await selectNextQuestion(attempt.id, examTier, initialCatState);
 
     if (!nextQ) {
-      console.warn(`[CATPoolBuilder] selectNextQuestion returned null despite canStartCat=true for tier=${examTier}. Pivoting to standard fallback.`);
-
-      const emergencyQuestions = await buildStandardFallbackExam(examTier, Math.min(maxQuestions, 75));
-      if (emergencyQuestions.length >= 5) {
-        const questionData = emergencyQuestions.map((q: any, idx: number) => ({
-          id: q.id,
-          question: q.stem,
-          options: (() => { try { return typeof q.options === "string" ? JSON.parse(q.options) : q.options; } catch { return []; } })(),
-          correct: q.correct_answer,
-          bodySystem: q.body_system,
-          tier: examTier,
-          lessonId: "mock-exam",
-          source: "quiz",
-          topic: q.topic,
-          subtopic: q.subtopic,
-          difficulty: q.difficulty,
-          questionType: q.question_type,
-        }));
-
-        await pool.query(
-          `UPDATE mock_exam_attempts SET questions = $1, total_questions = $2, exam_type = 'standard', cat_state = NULL WHERE id = $3`,
-          [JSON.stringify(questionData), questionData.length, attempt.id]
-        );
-
-        await logActivity(user.id, "cat_session_started", {
-          attemptId: attempt.id,
-          sessionId,
-          tier: examTier,
-          maxQuestions: questionData.length,
-          fallbackMode: "standard_fallback_on_null_selection",
-          poolDiagnostics: { validCount: diagnostics.validCount, rawCount: diagnostics.rawCount, canStartCat: diagnostics.canStartCat },
-        }, sessionId);
-
-        return res.json({
-          attemptId: attempt.id,
-          sessionId,
-          status: "in_progress",
-          questions: questionData,
-          totalQuestions: questionData.length,
-          fallbackMode: "standard_fallback",
-          fallbackMessage: "Adaptive mode is temporarily unavailable. We've started a standard exam instead.",
-        });
+      console.warn(`[CATSessionAPI] selectNextQuestion returned null despite ${diagnostics.finalUsableCount} usable, entering fallback chain`);
+      const fallbackResponse = await attemptFallbackChain(
+        user.id, examTier, maxQuestions,
+        "cat_select_returned_null",
+        { region: user.region, blueprintCode: blueprintCode || undefined }
+      );
+      if (fallbackResponse.ok) {
+        return res.json(fallbackResponse);
       }
-
-      return res.status(503).json({
-        error: "Question Pool Unavailable",
-        reasonCode: "cat_selection_failed",
-        poolDiagnostics: diagnostics,
-        recoverable: true,
-      });
+      return res.status(503).json(fallbackResponse);
     }
 
-    await logActivity(user.id, "cat_session_started", {
+    await safeNonEssential("analytics_log", () => logActivity(user.id, "cat_session_started", {
       attemptId: attempt.id,
       sessionId,
       tier: examTier,
-      maxQuestions: effectiveMaxQuestions,
-      fallbackMode: null,
-      poolDiagnostics: { validCount: diagnostics.validCount, rawCount: diagnostics.rawCount, canStartCat: diagnostics.canStartCat },
-    }, sessionId);
+      maxQuestions,
+      source: "primary_db",
+      poolDiagnostics: { usableCount: diagnostics.finalUsableCount },
+    }, sessionId), undefined);
 
     recordDiagnostic("cat_start_success");
     logStructuredExamStart({
@@ -678,12 +614,12 @@ router.post("/api/cat-exams/start",
       rowCountsAfterFilters: { poolAvailable: nextQ ? 1 : 0 },
     });
 
-    res.json({
-      attemptId: attempt.id,
+    console.log(`[CATSessionAPI][ExamSource] attemptId=${attempt.id}, source=primary_db, mode=cat, tier=${examTier}`);
+
+    res.json(buildNormalizedCatSuccess(
+      attempt.id,
       sessionId,
-      status: "in_progress",
-      mode: "cat",
-      currentQuestion: {
+      {
         id: nextQ.id,
         stem: nextQ.stem,
         options: (() => { try { return typeof nextQ.options === "string" ? JSON.parse(nextQ.options) : nextQ.options; } catch { return []; } })(),
@@ -692,17 +628,11 @@ router.post("/api/cat-exams/start",
         difficulty: nextQ.difficulty,
         questionType: nextQ.question_type,
       },
-      questionNumber: 1,
-      maxQuestions: effectiveMaxQuestions,
-      catState: {
-        currentAbility: 0,
-        standardError: 1.0,
-        questionCount: 0,
-      },
-      fallbackMode: null,
-      fallbackMessage: null,
-      retryable: false,
-    });
+      examTier,
+      maxQuestions,
+      { currentAbility: 0, standardError: 1.0, questionCount: 0 },
+      "primary_db"
+    ));
   } catch (e: any) {
     console.error("[CATSessionAPI] Start error:", e.message);
     recordDiagnostic("cat_start_failure", e.code || "unknown");
@@ -716,19 +646,34 @@ router.post("/api/cat-exams/start",
       source: "cat_session_api",
       startupDurationMs: Date.now() - startTime,
       errorCode: e.code || "unknown",
-      fallbackUsed: "standard_mock_exam",
+      fallbackUsed: "fallback_chain",
     });
 
-    recordDiagnostic("fallback_used");
-
-    res.status(500).json({
-      error: "Failed to start CAT exam",
-      mode: "fallback_standard_exam",
-      fallback: "standard_mock_exam",
-      fallbackMessage: "CAT engine is temporarily unavailable. You can take a standard mock exam instead.",
-      retryable: true,
-      reasonCode: "cat_engine_failure",
-    });
+    try {
+      const user = await resolveAuthUser(req as any);
+      if (user) {
+        const examTier = req.body?.tier || user.tier || "rpn";
+        const maxQuestions = req.body?.questionCount || 150;
+        recordDiagnostic("fallback_used");
+        const fallbackResponse = await attemptFallbackChain(
+          user.id, examTier, maxQuestions,
+          `start_exception: ${e.message}`,
+          { region: user.region }
+        );
+        if (fallbackResponse.ok) {
+          return res.json(fallbackResponse);
+        }
+        return res.status(503).json(fallbackResponse);
+      }
+    } catch (fallbackErr: any) {
+      console.error("[CATSessionAPI] Fallback chain also failed:", fallbackErr.message);
+    }
+    res.status(500).json(buildNormalizedError(
+      "cat_start_failed",
+      "Failed to start CAT exam. Please try again.",
+      true,
+      req.body?.tier || "unknown"
+    ));
   }
 });
 
@@ -1187,6 +1132,45 @@ router.get("/api/cat-exams/:sessionId/results", async (req, res) => {
   } catch (e: any) {
     console.error("[CATSessionAPI] Results error:", e.message);
     res.status(500).json({ error: "Failed to get results" });
+  }
+});
+
+router.get("/api/cat-exams/resilience/status", async (req, res) => {
+  try {
+    const user = await requireAuth(req, res);
+    if (!user) return;
+    if (user.tier !== "admin") {
+      return res.status(403).json({ error: "Admin access required" });
+    }
+
+    const { getEmergencyBankStatus } = await import("./cat-exam-resilience");
+    res.json({
+      emergencyBanks: getEmergencyBankStatus(),
+      timestamp: new Date().toISOString(),
+    });
+  } catch (e: any) {
+    console.error("[CATSessionAPI] Resilience status error:", e.message);
+    res.status(500).json({ error: "Failed to get resilience status" });
+  }
+});
+
+router.post("/api/cat-exams/resilience/refresh-banks", async (req, res) => {
+  try {
+    const user = await requireAuth(req, res);
+    if (!user) return;
+    if (user.tier !== "admin") {
+      return res.status(403).json({ error: "Admin access required" });
+    }
+
+    const { refreshEmergencyBanks } = await import("./cat-exam-resilience");
+    const results = await refreshEmergencyBanks();
+    res.json({
+      results,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (e: any) {
+    console.error("[CATSessionAPI] Bank refresh error:", e.message);
+    res.status(500).json({ error: "Failed to refresh emergency banks" });
   }
 });
 
