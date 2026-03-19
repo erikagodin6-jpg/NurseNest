@@ -687,7 +687,7 @@ export function requireEntitlement(feature: Feature) {
     const user = await resolveAuthUser(req as any);
     if (!user) {
       logEntitlementWarning(req.path, null, feature);
-      return res.status(401).json({ error: "Authentication required" });
+      return res.status(401).json({ error: "Authentication required", reasonCode: "entitlement_failure", recoverable: true });
     }
 
     const decision = await resolveEntitlement(user.id, "feature", feature, req.path);
@@ -711,11 +711,39 @@ export function requireEntitlement(feature: Feature) {
         }
       } catch {}
       logPaywallAccess(req.path, user, feature, false, decision);
+
+      let reasonCode = "not_entitled";
+      const reason = decision.accessDecisionReason || "";
+      if (reason.includes("requires_")) {
+        reasonCode = "subscription_required";
+      }
+      if (reason === "admin_only") {
+        reasonCode = "access_denied";
+      }
+      if (reason === "not_authenticated") {
+        reasonCode = "entitlement_failure";
+      }
+
+      const userRegion = user.region || null;
+      if (decision.region && userRegion && decision.region !== userRegion) {
+        reasonCode = "exam_unavailable_for_region";
+      }
+
       return res.status(403).json({
         error: "Premium feature - upgrade required",
+        reasonCode,
+        recoverable: false,
         upgradeRequired: true,
         feature,
         requiredTier: FEATURE_TIERS[feature],
+        currentTier: user.tier || "free",
+        accessDecisionReason: reason,
+        message: reasonCode === "exam_unavailable_for_region"
+          ? "This exam is not available in your region."
+          : reasonCode === "subscription_required"
+          ? `This feature requires a ${FEATURE_TIERS[feature]} subscription or higher.`
+          : "Premium feature - upgrade required",
+        details: { feature, userTier: user.tier || "free", requiredTier: FEATURE_TIERS[feature] },
       });
     }
 
@@ -729,7 +757,7 @@ export function requireAnyPremium() {
     const user = await resolveAuthUser(req as any);
     if (!user) {
       logEntitlementWarning(req.path, null, "any_premium");
-      return res.status(401).json({ error: "Authentication required" });
+      return res.status(401).json({ error: "Authentication required", reasonCode: "entitlement_failure", recoverable: true });
     }
 
     const decision = await resolveEntitlement(user.id, "any_premium", null, req.path);
@@ -752,7 +780,11 @@ export function requireAnyPremium() {
       } catch {}
       return res.status(403).json({
         error: "Premium feature - upgrade required",
+        reasonCode: "subscription_required",
+        recoverable: false,
         upgradeRequired: true,
+        currentTier: user.tier || "free",
+        message: "A paid subscription is required for this feature.",
       });
     }
 
@@ -764,7 +796,7 @@ export function requireAuthenticated() {
   return async (req: Request, res: Response, next: NextFunction) => {
     const user = await resolveAuthUser(req as any);
     if (!user) {
-      return res.status(401).json({ error: "Authentication required" });
+      return res.status(401).json({ error: "Authentication required", reasonCode: "entitlement_failure", recoverable: true });
     }
     (req as any).authUser = user;
     next();

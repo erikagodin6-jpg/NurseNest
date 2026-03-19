@@ -12,8 +12,49 @@ export const EXAM_FAILURE_CODES = {
   SCHEMA_MISMATCH: "schema_mismatch",
   NETWORK_TIMEOUT: "network_timeout",
   ACCESS_DENIED: "access_denied",
+  EXAM_NOT_FOUND: "exam_not_found",
+  EXAM_UNPUBLISHED: "exam_unpublished",
+  INVALID_PAYLOAD: "invalid_payload",
+  SESSION_CREATE_FAILED: "session_create_failed",
+  ASSEMBLY_FAILED: "assembly_failed",
+  NAVIGATION_FAILED: "navigation_failed",
+  TIER_MISMATCH: "tier_mismatch",
+  NOT_ENTITLED: "not_entitled",
+  SUBSCRIPTION_REQUIRED: "subscription_required",
+  EXAM_UNAVAILABLE_FOR_REGION: "exam_unavailable_for_region",
+  FEATURE_DISABLED: "feature_disabled",
+  ASSEMBLY_CAPACITY: "assembly_capacity",
   UNKNOWN: "unknown",
 } as const;
+
+export const EXAM_ERROR_USER_MESSAGES: Record<string, { title: string; description: string }> = {
+  [EXAM_FAILURE_CODES.ENTITLEMENT_FAILURE]: { title: "Authentication Required", description: "Please log in to start an exam." },
+  [EXAM_FAILURE_CODES.MISSING_SESSION]: { title: "Session Not Found", description: "This exam session could not be found. It may have expired." },
+  [EXAM_FAILURE_CODES.CORRUPTED_SESSION]: { title: "Session Issue", description: "This exam session has a data issue. Please start a new exam." },
+  [EXAM_FAILURE_CODES.QUESTION_BATCH_MISSING]: { title: "No Questions Available", description: "No questions are available for this exam configuration. Try a different tier or body system." },
+  [EXAM_FAILURE_CODES.DB_TIMEOUT]: { title: "Temporarily Unavailable", description: "The server is busy. Please wait a moment and try again." },
+  [EXAM_FAILURE_CODES.OVERSIZED_PAYLOAD]: { title: "Exam Too Large", description: "This exam configuration is too large. A lighter version will be loaded." },
+  [EXAM_FAILURE_CODES.MEMORY_REJECTION]: { title: "Server Busy", description: "The server is under heavy load. Please try again in a moment." },
+  [EXAM_FAILURE_CODES.MALFORMED_QUESTION]: { title: "Question Data Issue", description: "Some questions have data issues. A corrected version is being prepared." },
+  [EXAM_FAILURE_CODES.FRONTEND_PARSE_FAILURE]: { title: "Loading Error", description: "The exam data could not be loaded. Please refresh and try again." },
+  [EXAM_FAILURE_CODES.STALE_RESUME_POINTER]: { title: "Resume Position Changed", description: "Your exam position was out of sync. It has been corrected." },
+  [EXAM_FAILURE_CODES.SCHEMA_MISMATCH]: { title: "System Update in Progress", description: "A system update is being applied. Please retry in a moment." },
+  [EXAM_FAILURE_CODES.NETWORK_TIMEOUT]: { title: "Connection Issue", description: "The request timed out. Please check your connection and try again." },
+  [EXAM_FAILURE_CODES.ACCESS_DENIED]: { title: "Access Denied", description: "You do not have permission to access this exam." },
+  [EXAM_FAILURE_CODES.EXAM_NOT_FOUND]: { title: "Exam Not Found", description: "This exam could not be found. It may have been removed or is no longer available." },
+  [EXAM_FAILURE_CODES.EXAM_UNPUBLISHED]: { title: "Exam Unavailable", description: "This exam is not currently published. Please choose a different exam." },
+  [EXAM_FAILURE_CODES.INVALID_PAYLOAD]: { title: "Invalid Request", description: "The exam request was invalid. Please refresh the page and try again." },
+  [EXAM_FAILURE_CODES.SESSION_CREATE_FAILED]: { title: "Unable to Start Exam", description: "The exam session could not be created. Please retry in a moment." },
+  [EXAM_FAILURE_CODES.ASSEMBLY_FAILED]: { title: "Exam Preparation Failed", description: "The exam questions could not be assembled. Please try again." },
+  [EXAM_FAILURE_CODES.NAVIGATION_FAILED]: { title: "Navigation Error", description: "Could not navigate to the exam. Please try again from the exam list." },
+  [EXAM_FAILURE_CODES.TIER_MISMATCH]: { title: "Subscription Required", description: "This exam requires a higher subscription tier. Please upgrade your plan." },
+  [EXAM_FAILURE_CODES.NOT_ENTITLED]: { title: "Subscription Required", description: "This feature requires a paid subscription. Please upgrade your plan." },
+  [EXAM_FAILURE_CODES.SUBSCRIPTION_REQUIRED]: { title: "Upgrade Required", description: "This exam feature requires a paid subscription. Please upgrade your plan to access the question bank." },
+  [EXAM_FAILURE_CODES.EXAM_UNAVAILABLE_FOR_REGION]: { title: "Not Available in Your Region", description: "This exam is not available in your region. Please choose a different exam." },
+  [EXAM_FAILURE_CODES.FEATURE_DISABLED]: { title: "Temporarily Disabled", description: "This feature is temporarily disabled for maintenance. Please try again later." },
+  [EXAM_FAILURE_CODES.ASSEMBLY_CAPACITY]: { title: "Server Busy", description: "Too many exams are being prepared. Please wait a moment and try again." },
+  [EXAM_FAILURE_CODES.UNKNOWN]: { title: "Unable to Start Exam", description: "An unexpected issue occurred. Please retry — if it persists, contact support." },
+};
 
 export type ExamFailureCode = typeof EXAM_FAILURE_CODES[keyof typeof EXAM_FAILURE_CODES];
 
@@ -95,7 +136,7 @@ export function classifyClientError(error: Error): ClassifiedExamError {
   return { code: EXAM_FAILURE_CODES.UNKNOWN, message: msg || "Unknown error", recoverable: true, timestamp: now };
 }
 
-export function classifyServerError(error: any, context?: { attemptId?: string; questionCount?: number }): ClassifiedExamError {
+export function classifyServerError(error: any, context?: { attemptId?: string; questionCount?: number; stage?: string }): ClassifiedExamError {
   const now = new Date().toISOString();
   const msg = typeof error === "string" ? error : (error?.message || "");
 
@@ -119,6 +160,18 @@ export function classifyServerError(error: any, context?: { attemptId?: string; 
   }
   if (msg.includes("stale") || msg.includes("resume pointer") || msg.includes("out of range")) {
     return { code: EXAM_FAILURE_CODES.STALE_RESUME_POINTER, message: "Stale resume pointer", recoverable: true, timestamp: now, details: context };
+  }
+  if (msg.includes("not found") || msg.includes("no rows") || error?.code === "EXAM_NOT_FOUND") {
+    return { code: EXAM_FAILURE_CODES.EXAM_NOT_FOUND, message: "Exam not found", recoverable: false, timestamp: now, details: context };
+  }
+  if (msg.includes("unpublished") || msg.includes("inactive") || error?.code === "EXAM_UNPUBLISHED") {
+    return { code: EXAM_FAILURE_CODES.EXAM_UNPUBLISHED, message: "Exam is not published", recoverable: false, timestamp: now, details: context };
+  }
+  if (msg.includes("INSERT") || msg.includes("insert") || msg.includes("violates") || (context?.stage === "session_insert")) {
+    return { code: EXAM_FAILURE_CODES.SESSION_CREATE_FAILED, message: "Failed to create exam session", recoverable: true, timestamp: now, details: context };
+  }
+  if (msg.includes("assembly") || msg.includes("assemble") || (context?.stage === "assembly")) {
+    return { code: EXAM_FAILURE_CODES.ASSEMBLY_FAILED, message: "Exam assembly failed", recoverable: true, timestamp: now, details: context };
   }
 
   return { code: EXAM_FAILURE_CODES.UNKNOWN, message: msg || "Internal server error", recoverable: true, timestamp: now, details: context };

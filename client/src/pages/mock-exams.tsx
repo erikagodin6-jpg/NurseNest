@@ -28,6 +28,7 @@ import { AITutorWidget } from "@/components/ai-tutor-widget";
 import { ContextualRelatedResources } from "@/components/related-resources";
 import { getTierConfig } from "@shared/tier-config";
 import { useToast } from "@/hooks/use-toast";
+import { classifyHttpError, classifyClientError, EXAM_ERROR_USER_MESSAGES, EXAM_FAILURE_CODES } from "@shared/exam-error-codes";
 import { ExamListingFallback } from "@/components/exam-fallbacks";
 import { CAREER_TYPES, CAREER_CONFIGS } from "@shared/careers";
 
@@ -87,9 +88,14 @@ function SpecialtyMockExams() {
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({ examDefinitionId: examDef.id, specialty: examDef.specialty }),
       });
-      const data = await res.json();
+      let data: any = {};
+      try { data = await res.json(); } catch {}
       if (!res.ok) {
-        throw new Error(data.error || "Failed to start exam");
+        const httpErr: any = new Error(data.error || data.message || "Exam start failed");
+        httpErr.status = res.status;
+        httpErr.code = data.reasonCode || data.code;
+        httpErr.recoverable = data.recoverable;
+        throw httpErr;
       }
       if (data.attemptId) {
         localStorage.setItem(`specialty-mock-${data.attemptId}`, JSON.stringify({
@@ -99,13 +105,47 @@ function SpecialtyMockExams() {
           sections: examDef.sections,
         }));
         navigate(`/mock-exams/${data.attemptId}`);
+      } else {
+        const noSessionErr: any = new Error("No exam session was created.");
+        noSessionErr.code = EXAM_FAILURE_CODES.SESSION_CREATE_FAILED;
+        noSessionErr.recoverable = true;
+        throw noSessionErr;
       }
     } catch (err: any) {
-      toast({
-        title: "Failed to Start Exam",
-        description: err.message || "Please try again.",
-        variant: "destructive",
-      });
+      const httpStatus = err?.status || 0;
+      const reasonCode = err?.code || err?.reasonCode || "";
+      const classified = httpStatus > 0
+        ? classifyHttpError(httpStatus, { reasonCode: reasonCode || undefined, error: err?.message, recoverable: err?.recoverable })
+        : classifyClientError(err instanceof Error ? err : new Error(err?.message || "Unknown error"));
+
+      console.error("[MockExam][specialty] startSpecialtyExam failed:", { message: err?.message, code: classified.code, httpStatus, recoverable: classified.recoverable, examId: examDef.id });
+
+      if (!classified.recoverable) {
+        const userMsg = EXAM_ERROR_USER_MESSAGES[classified.code] || EXAM_ERROR_USER_MESSAGES[EXAM_FAILURE_CODES.UNKNOWN];
+        toast({ title: userMsg.title, description: userMsg.description, variant: "destructive" });
+        setStarting(null);
+        return;
+      }
+
+      try {
+        toast({ title: "Restoring previous session...", description: "Looking for an existing exam session to resume." });
+        const resumeRes = await fetch("/api/mock-exams/resume-latest", {
+          headers: { ...getAuthHeaders() },
+        });
+        if (resumeRes.ok) {
+          const resumeData = await resumeRes.json();
+          if (resumeData.attemptId) {
+            toast({ title: "Session Restored", description: "Your previous exam session was restored." });
+            navigate(`/mock-exams/${resumeData.attemptId}`);
+            return;
+          }
+        }
+      } catch (resumeErr) {
+        console.warn("[MockExam][specialty] Resume fallback failed:", resumeErr);
+      }
+
+      const userMsg = EXAM_ERROR_USER_MESSAGES[classified.code] || EXAM_ERROR_USER_MESSAGES[EXAM_FAILURE_CODES.UNKNOWN];
+      toast({ title: userMsg.title, description: userMsg.description, variant: "destructive" });
       setStarting(null);
     }
   };
@@ -511,8 +551,10 @@ function MockExamsPage() {
       const data = await res.json();
       if (!res.ok) {
         const err: any = new Error(data.error || "Failed to start exam session");
-        err.code = data.code;
+        err.code = data.reasonCode || data.code;
+        err.reasonCode = data.reasonCode;
         err.status = res.status;
+        err.recoverable = data.recoverable;
         throw err;
       }
       if (data.attemptId) {
@@ -527,45 +569,95 @@ function MockExamsPage() {
         }
         navigate(`/mock-exams/${data.attemptId}`);
       } else {
-        throw new Error("No exam session was created. Please try again.");
+        const noSessionErr: any = new Error("No exam session was created.");
+        noSessionErr.code = EXAM_FAILURE_CODES.SESSION_CREATE_FAILED;
+        noSessionErr.recoverable = true;
+        throw noSessionErr;
       }
     } catch (err: any) {
-      console.error("[MockExam] startExam failed:", { message: err?.message, code: err?.code, status: err?.status, tier: selectedTier, examMode, blueprint: selectedBlueprint });
-      const message = err?.message || "Failed to start exam";
-      const code = err?.code || "";
-      if (code === "MOCK_PAYWALL" || code === "TIER_MISMATCH" || message.includes("Upgrade required") || message.includes("403")) {
-        toast({
-          title: "Subscription Required",
-          description: "This exam feature requires a paid subscription. Please upgrade your plan to access the question bank.",
-          variant: "destructive",
-        });
-      } else if (message.includes("No questions") || message.includes("zero questions") || message.includes("question bank may be empty")) {
-        toast({
-          title: "No Questions Available",
-          description: "No questions available for this exam configuration. Please try a different tier or body system.",
-          variant: "destructive",
-        });
-      } else if (message.includes("Authentication") || message.includes("401")) {
-        toast({
-          title: "Authentication Required",
-          description: "Please log in to start an exam.",
-          variant: "destructive",
-        });
-      } else if (code === "SCHEMA_DRIFT" || err?.status === 500 || message.includes("Unable to create") || message.includes("database")) {
-        setStartError("Unable to create exam session — please retry in a moment. If it persists, contact support.");
-        toast({
-          title: "Unable to Start Exam",
-          description: "Unable to create exam session — please retry in a moment.",
-          variant: "destructive",
-        });
-      } else {
-        setStartError("Something went wrong — please try again.");
-        toast({
-          title: "Exam Start Failed",
-          description: "Something went wrong — please try again.",
-          variant: "destructive",
-        });
+      const httpStatus = err?.status || 0;
+      const reasonCode = err?.code || err?.reasonCode || "";
+      const classified = httpStatus > 0
+        ? classifyHttpError(httpStatus, { reasonCode: reasonCode || undefined, error: err?.message, recoverable: err?.recoverable })
+        : classifyClientError(err instanceof Error ? err : new Error(err?.message || "Unknown error"));
+
+      console.error("[MockExam] startExam failed:", { message: err?.message, code: classified.code, httpStatus, recoverable: classified.recoverable, tier: selectedTier, examMode, blueprint: selectedBlueprint });
+
+      if (!classified.recoverable) {
+        const userMsg = EXAM_ERROR_USER_MESSAGES[classified.code] || EXAM_ERROR_USER_MESSAGES[EXAM_FAILURE_CODES.UNKNOWN];
+        setStartError(userMsg.description);
+        toast({ title: userMsg.title, description: userMsg.description, variant: "destructive" });
+        setStarting(false);
+        return;
       }
+
+      console.log("[MockExam] Attempting fallback cascade...", { code: classified.code });
+
+      try {
+        toast({ title: "Restoring previous session...", description: "Looking for an existing exam session to resume." });
+        const resumeRes = await fetch("/api/mock-exams/resume-latest", {
+          headers: { ...getAuthHeaders() },
+        });
+        if (resumeRes.ok) {
+          const resumeData = await resumeRes.json();
+          if (resumeData.attemptId) {
+            toast({ title: "Session Restored", description: "Your previous exam session was restored." });
+            navigate(`/mock-exams/${resumeData.attemptId}`);
+            return;
+          }
+        }
+      } catch (resumeErr) {
+        console.warn("[MockExam] Resume fallback failed:", resumeErr);
+      }
+
+      try {
+        toast({ title: "Loading a lighter version...", description: "Preparing a reduced exam with fewer questions." });
+        const reducedRes = await fetch("/api/mock-exams/start", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+          body: JSON.stringify({
+            tier: selectedTier,
+            totalQuestions: 25,
+            serverAssembly: true,
+            assemblyConfig: {
+              templateId: "practice",
+              examCode: "practice",
+              questionCount: 25,
+              timeLimitMinutes: 38,
+              domainWeights: [{ domain: "General", weight: 1.0 }],
+              difficultyDistribution: { foundational: 0.3, moderate: 0.4, difficult: 0.3 },
+              formatMix: { mcqSingle: 0.6, selectAllThatApply: 0.2, scenarioBased: 0.1, prioritization: 0.05, delegation: 0.05 },
+              passingStandard: 65,
+              seed: Date.now(),
+              tier: selectedTier,
+            },
+            examMode: "practice",
+          }),
+        });
+        if (reducedRes.ok) {
+          const reducedData = await reducedRes.json();
+          if (reducedData.attemptId) {
+            toast({ title: "Lighter Exam Ready", description: "A 25-question practice exam has been prepared." });
+            navigate(`/mock-exams/${reducedData.attemptId}`);
+            return;
+          }
+        }
+      } catch (reducedErr) {
+        console.warn("[MockExam] Reduced exam fallback failed:", reducedErr);
+      }
+
+      try {
+        const practiceUrl = selectedTier === "rn" ? "/nclex-rn/practice-questions" : selectedTier === "np" ? "/np-exam/practice-questions" : "/mock-exams";
+        toast({ title: "Opening practice mode...", description: "Redirecting to practice questions." });
+        navigate(practiceUrl);
+        return;
+      } catch (navErr) {
+        console.warn("[MockExam] Navigation fallback failed:", navErr);
+      }
+
+      const finalMsg = EXAM_ERROR_USER_MESSAGES[classified.code] || EXAM_ERROR_USER_MESSAGES[EXAM_FAILURE_CODES.UNKNOWN];
+      setStartError(`${finalMsg.description} (${classified.code})`);
+      toast({ title: finalMsg.title, description: `${finalMsg.description} All recovery options were attempted.`, variant: "destructive" });
       setStarting(false);
     }
   };

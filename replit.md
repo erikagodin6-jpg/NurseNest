@@ -22,7 +22,7 @@ Key features encompass a database-driven subscription model with regional pricin
 Core architectural components and design patterns emphasize:
 - **Learning & Exam Preparation**: Flashcards, Test/Question Bank, Adaptive Flashcard System, Clinical Vignette Generation, Mock Exam Engine (CAT & Practice modes) with an Exam Reliability System.
 - **AI-Powered Study & Content**: AI Study Coaching & Course Generation, Exam Date AI Study Planner, context-aware AI Tutoring Assistant, and Bulk Question Bank Orchestrator.
-- **Content & SEO Infrastructure**: Allied Health Encyclopedia, SEO Lesson Engine, Programmatic SEO, Multilingual SEO & Translation, Database-Driven Multi-Domain Sitemap, Internal Linking, and structured data generation.
+- **Content & SEO Infrastructure**: Allied Health Encyclopedia, SEO Lesson Engine, Programmatic SEO, Multilingual SEO & Translation, and Database-Driven Multi-Domain Sitemap.
 - **User Experience & Engagement**: Dashboard Lifecycle Command Center, Global Report a Problem System, IndexedDB-based Offline Study, and LocalStorage-based Popup Suppression.
 - **Multi-Profession Support**: Dynamic framework for new healthcare professions with specialized navigation and content.
 - **Database Safety & Management**: PostgreSQL with Drizzle ORM, EnvironmentAwareContentWriteService, and a comprehensive Backup, Export & Restore Framework.
@@ -32,7 +32,7 @@ Core architectural components and design patterns emphasize:
 - **Unified Question Schema & Country Adaptation**: `exam_questions` table extended for international fields, filtered by country, language, and licensing body.
 - **Multilingual Content Management**: AI-powered batch translation of content with dedicated translation tables and build-blocking validation.
 - **Taxonomy Protection System**: Strict taxonomy validation and normalization for content generation.
-- **Content Publishing Audit**: Admin system for audit reports, quality fixes, coverage, and paywall enforcement, with an 8-section validation for unpublished content.
+- **Content Publishing Audit**: Admin system for audit reports, quality fixes, coverage, and paywall enforcement.
 - **Cross-Platform REST API**: Dedicated route files for test banks, CAT exam sessions, enhanced mock exam and lesson endpoints. All endpoints enforce auth, entitlement/tier gating, write to `unified_question_history`, log analytics events to `analytics_events`, and include idempotency protections.
 - **Subscription & Entitlement System**: Dedicated `user_subscriptions` table with comprehensive plan details. Auth endpoints manage user authentication and entitlements. Stripe webhooks update subscription status.
 - **Platform Resilience System**: Enterprise-grade infrastructure providing circuit breakers, feature flags, kill switches, health checks, rate limiting, load shedding, self-healing, emergency mode, and entitlement caching. Includes scope isolation, progressive degradation, graceful timeout, stuck state detection, and performance/scale protection. An Ops Dashboard provides a single-screen platform health overview.
@@ -41,7 +41,7 @@ Core architectural components and design patterns emphasize:
 - **Production Incident Monitoring System**: Unified monitoring and alerting via `server/incident-monitor.ts` with structured `logIncident()`, unique IDs, deduplication, affected-user tracking, severity escalation, DB persistence, and notification hooks.
 - **Incident System & Correlation Engine**: Structured incident management with CRUD operations, timeline tracking, and a correlation engine that scores recent changes against incident start times. Auto-detects incidents from resilience events.
 - **Performance Protection System**: Production-grade performance instrumentation providing per-route response time metrics, slow DB query logging, server-side in-memory TTL caching, statement-level query timeouts, route priority tiers for load shedding, and an admin performance dashboard.
-- **Deployment Protection & Self-Healing**: Blue-green deployment health gate with post-deploy monitoring, configurable monitoring window, and auto-rollback alerts. A deploy freeze mechanism activates on instability. Periodic self-healing checks run.
+- **Deployment Protection & Self-Healing**: Blue-green deployment health gate with post-deploy monitoring, configurable monitoring window, and auto-rollback alerts. A deploy freeze mechanism activates on instability. Periodic self-healing checks run for cache corruption and schema drift.
 - **Cross-Platform Auth API**: Unified JWT-based auth for web and mobile with consistent response shape. Login supports username or email. Registration returns JWT token. All auth endpoints return the same canonical user object including: profile fields, onboarding state, subscription/tier info, entitlement map, and free-tier usage summary. Dedicated `POST /api/me/onboarding` endpoint accepts user preferences. Answer submission endpoints increment free-tier usage counters.
 - **Admin Security**: JWT-only admin auth, role-based access control, CSRF protection, rate limiting, re-auth/confirmation tokens for sensitive operations, and enhanced audit logging.
 - **Last-Known-Good Content Versioning**: Immutable versioning system for premium content with automatic failover and admin restore.
