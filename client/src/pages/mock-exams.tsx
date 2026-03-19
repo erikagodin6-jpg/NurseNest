@@ -573,6 +573,12 @@ function MockExamsPage() {
             domainAssignments,
           }));
         }
+        if (data.fallbackMode && data.fallbackMessage) {
+          localStorage.setItem(`cat-fallback-${data.attemptId}`, JSON.stringify({
+            fallbackMode: data.fallbackMode,
+            fallbackMessage: data.fallbackMessage,
+          }));
+        }
         navigate(`/mock-exams/${data.attemptId}`);
       } else {
         const noSessionErr: any = new Error("No exam session was created.");

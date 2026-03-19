@@ -400,6 +400,27 @@ function MockExamSessionInner() {
       try { localStorage.removeItem(`specialty-mock-${attemptId}`); } catch {}
     }
 
+    let fallbackToastShown = false;
+    try {
+      const catFallbackData = localStorage.getItem(`cat-fallback-${attemptId}`);
+      if (catFallbackData) {
+        const fb = JSON.parse(catFallbackData);
+        if (fb.fallbackMessage) {
+          toast({
+            title: "Exam Mode Changed",
+            description: fb.fallbackMessage,
+            variant: "default",
+            duration: 8000,
+          });
+          fallbackToastShown = true;
+        }
+        localStorage.removeItem(`cat-fallback-${attemptId}`);
+      }
+    } catch (e) {
+      console.warn("[ExamSession] Failed to parse cat-fallback localStorage:", e);
+      try { localStorage.removeItem(`cat-fallback-${attemptId}`); } catch {}
+    }
+
     try {
       const savedCat = localStorage.getItem(`cat-state-${attemptId}`);
       if (savedCat) {
@@ -440,6 +461,14 @@ function MockExamSessionInner() {
           setCircuitOpen(!!data.circuitOpen);
           if (data.fallbackMode === "safe" || data.fallbackMode === "study" || data.fallbackMode === "printable" || data.fallbackMode === "backup-practice") {
             setFallbackMode(data.fallbackMode);
+          }
+          if (data.fallbackMessage && !fallbackToastShown) {
+            toast({
+              title: "Exam Mode Changed",
+              description: data.fallbackMessage,
+              variant: "default",
+              duration: 8000,
+            });
           }
         }
         if (data.circuitOpen) {

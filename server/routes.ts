@@ -17516,8 +17516,78 @@ Return ONLY valid JSON with this exact structure:
         abilityDistribution[bucket]++;
       });
       const earlyStopCount = sessions.rows.filter((s: any) => s.early_stop).length;
-      res.json({ totalSessions: sessions.rows.length, abilityDistribution, earlyStopRate: sessions.rows.length > 0 ? (earlyStopCount / sessions.rows.length * 100).toFixed(1) : 0, avgQuestionCount: sessions.rows.length > 0 ? Math.round(sessions.rows.reduce((a: number, s: any) => a + s.question_count, 0) / sessions.rows.length) : 0, recentSessions: sessions.rows.slice(0, 20), adjustmentLog: adjustments.rows });
+
+      let poolHealth: any = null;
+      try {
+        const { buildCATPool } = await import("./cat-session-api");
+        const tiers = ["rpn", "rn", "np"];
+        const tierHealth: Record<string, any> = {};
+        for (const t of tiers) {
+          const { diagnostics } = await buildCATPool(t);
+          tierHealth[t] = diagnostics;
+        }
+        poolHealth = tierHealth;
+      } catch (poolErr: any) {
+        console.error("[CATAnalytics] Pool health check error:", poolErr.message);
+      }
+
+      res.json({ totalSessions: sessions.rows.length, abilityDistribution, earlyStopRate: sessions.rows.length > 0 ? (earlyStopCount / sessions.rows.length * 100).toFixed(1) : 0, avgQuestionCount: sessions.rows.length > 0 ? Math.round(sessions.rows.reduce((a: number, s: any) => a + s.question_count, 0) / sessions.rows.length) : 0, recentSessions: sessions.rows.slice(0, 20), adjustmentLog: adjustments.rows, poolHealth });
     } catch (e: any) { res.status(500).json({ error: e.message }); }
+  });
+
+  app.post("/api/admin/cat-pool-normalize", async (req, res) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const dryRun = req.body?.dryRun !== false;
+      const changes: any[] = [];
+
+      const nullDiffResult = await pool.query(
+        `SELECT id, tier, stem FROM exam_questions WHERE status = 'published' AND difficulty IS NULL`
+      );
+      for (const q of nullDiffResult.rows) {
+        changes.push({ id: q.id, tier: q.tier, action: "set_difficulty_3", reason: "published question with null difficulty" });
+        if (!dryRun) {
+          await pool.query(`UPDATE exam_questions SET difficulty = 3 WHERE id = $1`, [q.id]);
+        }
+      }
+
+      const eligibleResult = await pool.query(
+        `SELECT id, tier, stem, options, correct_answer, difficulty, is_adaptive_eligible
+         FROM exam_questions
+         WHERE status = 'published'
+         AND (is_adaptive_eligible IS NULL OR is_adaptive_eligible = false)
+         AND stem IS NOT NULL AND LENGTH(TRIM(stem)) >= 10
+         AND correct_answer IS NOT NULL
+         AND difficulty IS NOT NULL`
+      );
+      for (const q of eligibleResult.rows) {
+        let opts = q.options;
+        if (typeof opts === "string") {
+          try { opts = JSON.parse(opts); } catch { continue; }
+        }
+        if (!Array.isArray(opts) || opts.length < 4) continue;
+
+        changes.push({ id: q.id, tier: q.tier, action: "set_adaptive_eligible", reason: "meets minimum CAT criteria" });
+        if (!dryRun) {
+          await pool.query(`UPDATE exam_questions SET is_adaptive_eligible = true WHERE id = $1`, [q.id]);
+        }
+      }
+
+      console.log(`[CATNormalize] dryRun=${dryRun} totalChanges=${changes.length} difficultyFixes=${nullDiffResult.rows.length} eligibilityFixes=${changes.filter(c => c.action === "set_adaptive_eligible").length}`);
+
+      res.json({
+        dryRun,
+        totalChanges: changes.length,
+        difficultyFixes: nullDiffResult.rows.length,
+        eligibilityFixes: changes.filter(c => c.action === "set_adaptive_eligible").length,
+        changes: changes.slice(0, 200),
+      });
+    } catch (e: any) {
+      console.error("[CATNormalize] Error:", e.message);
+      res.status(500).json({ error: e.message });
+    }
   });
 
   // ====== BLUEPRINT COVERAGE + DIFFICULTY DISTRIBUTION ======

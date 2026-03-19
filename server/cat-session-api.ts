@@ -14,6 +14,29 @@ const router = Router();
 
 router.use(premiumDegradationMiddleware());
 
+const CAT_POOL_MIN_THRESHOLD = parseInt(process.env.CAT_POOL_MIN_THRESHOLD || "20", 10);
+
+interface CATPoolDiagnostics {
+  tier: string;
+  totalMapped: number;
+  unpublishedCount: number;
+  rawCount: number;
+  filteredCount: number;
+  validCount: number;
+  invalidReasons: Record<string, number>;
+  thresholdRequired: number;
+  canStartCat: boolean;
+  bodySystemCounts: Record<string, number>;
+  stageCounts: {
+    published: number;
+    adaptiveEligible: number;
+    hasDifficulty: number;
+    hasCorrectAnswer: number;
+    validOptions: number;
+    validStem: number;
+  };
+}
+
 function snakeToCamel(obj: any): any {
   if (Array.isArray(obj)) return obj.map(snakeToCamel);
   if (obj === null || typeof obj !== "object") return obj;
@@ -86,6 +109,130 @@ function parseCorrectAnswer(raw: any): number[] {
   return [0];
 }
 
+function validateCATQuestion(row: any): { valid: boolean; reasons: string[] } {
+  const reasons: string[] = [];
+
+  if (row.is_adaptive_eligible === false) {
+    reasons.push("not_adaptive_eligible");
+  }
+
+  if (row.difficulty === null || row.difficulty === undefined) {
+    reasons.push("missing_difficulty");
+  }
+
+  if (row.correct_answer === null || row.correct_answer === undefined ||
+      (typeof row.correct_answer === "string" && row.correct_answer.trim() === "")) {
+    reasons.push("missing_correct_answer");
+  }
+
+  let opts = row.options;
+  if (typeof opts === "string") {
+    try { opts = JSON.parse(opts); } catch { reasons.push("unparseable_options"); }
+  }
+  if (Array.isArray(opts)) {
+    if (opts.length < 4) {
+      reasons.push("fewer_than_4_options");
+    }
+  } else if (!reasons.includes("unparseable_options")) {
+    reasons.push("options_not_array");
+  }
+
+  if (!row.stem || (typeof row.stem === "string" && row.stem.trim().length < 10)) {
+    reasons.push("missing_or_short_stem");
+  }
+
+  return { valid: reasons.length === 0, reasons };
+}
+
+async function buildCATPool(
+  tier: string,
+  userId?: string
+): Promise<{ questions: any[]; diagnostics: CATPoolDiagnostics }> {
+  const invalidReasons: Record<string, number> = {};
+  const bodySystemCounts: Record<string, number> = {};
+
+  const totalTierResult = await pool.query(
+    `SELECT COUNT(*) as total, COUNT(*) FILTER (WHERE status = 'published') as published, COUNT(*) FILTER (WHERE status != 'published') as unpublished
+     FROM exam_questions WHERE tier = $1`,
+    [tier]
+  );
+  const totalMapped = parseInt(totalTierResult.rows[0]?.total || "0", 10);
+  const unpublishedCount = parseInt(totalTierResult.rows[0]?.unpublished || "0", 10);
+
+  const rawResult = await pool.query(
+    `SELECT id, stem, options, body_system, topic, difficulty, question_type, correct_answer, is_adaptive_eligible
+     FROM exam_questions
+     WHERE tier = $1 AND status = 'published'`,
+    [tier]
+  );
+
+  const rawCount = rawResult.rows.length;
+  let filteredCount = 0;
+  const validQuestions: any[] = [];
+
+  const stageCounts = {
+    published: rawCount,
+    adaptiveEligible: 0,
+    hasDifficulty: 0,
+    hasCorrectAnswer: 0,
+    validOptions: 0,
+    validStem: 0,
+  };
+
+  for (const row of rawResult.rows) {
+    filteredCount++;
+
+    if (row.is_adaptive_eligible !== false) stageCounts.adaptiveEligible++;
+    if (row.difficulty !== null && row.difficulty !== undefined) stageCounts.hasDifficulty++;
+    if (row.correct_answer !== null && row.correct_answer !== undefined &&
+        !(typeof row.correct_answer === "string" && row.correct_answer.trim() === "")) stageCounts.hasCorrectAnswer++;
+
+    let opts = row.options;
+    if (typeof opts === "string") { try { opts = JSON.parse(opts); } catch {} }
+    if (Array.isArray(opts) && opts.length >= 4) stageCounts.validOptions++;
+
+    if (row.stem && typeof row.stem === "string" && row.stem.trim().length >= 10) stageCounts.validStem++;
+
+    const validation = validateCATQuestion(row);
+
+    if (!validation.valid) {
+      for (const reason of validation.reasons) {
+        invalidReasons[reason] = (invalidReasons[reason] || 0) + 1;
+      }
+      continue;
+    }
+
+    validQuestions.push(row);
+    const bs = row.body_system || "General";
+    bodySystemCounts[bs] = (bodySystemCounts[bs] || 0) + 1;
+  }
+
+  const validCount = validQuestions.length;
+  const canStartCat = validCount >= CAT_POOL_MIN_THRESHOLD;
+
+  if (unpublishedCount > 0) {
+    invalidReasons["unpublished"] = unpublishedCount;
+  }
+
+  const diagnostics: CATPoolDiagnostics = {
+    tier,
+    totalMapped,
+    unpublishedCount,
+    rawCount,
+    filteredCount,
+    validCount,
+    invalidReasons,
+    thresholdRequired: CAT_POOL_MIN_THRESHOLD,
+    canStartCat,
+    bodySystemCounts,
+    stageCounts,
+  };
+
+  console.log(`[CATPoolBuilder] tier=${tier} userId=${userId || "unknown"} rawCount=${rawCount} validCount=${validCount} threshold=${CAT_POOL_MIN_THRESHOLD} canStart=${canStartCat} stageCounts=${JSON.stringify(stageCounts)} invalidReasons=${JSON.stringify(invalidReasons)}`);
+
+  return { questions: validQuestions, diagnostics };
+}
+
 async function selectNextQuestion(
   attemptId: string,
   tier: string,
@@ -94,9 +241,12 @@ async function selectNextQuestion(
   const seenIds: string[] = catState.questionsSeen || [];
   const currentAbility = catState.currentAbility || 0;
 
-  let query = `SELECT id, stem, options, body_system, topic, difficulty, question_type
+  let query = `SELECT id, stem, options, body_system, topic, difficulty, question_type, correct_answer
                FROM exam_questions
-               WHERE tier = $1 AND status = 'published'`;
+               WHERE tier = $1 AND status = 'published'
+               AND difficulty IS NOT NULL
+               AND correct_answer IS NOT NULL
+               AND (is_adaptive_eligible = true OR is_adaptive_eligible IS NULL)`;
   const params: any[] = [tier];
   let idx = 2;
 
@@ -106,12 +256,20 @@ async function selectNextQuestion(
     idx++;
   }
 
-  query += ` ORDER BY ABS(difficulty - $${idx}) ASC, RANDOM() LIMIT 10`;
+  query += ` ORDER BY ABS(difficulty - $${idx}) ASC, RANDOM() LIMIT 20`;
   params.push(Math.max(1, Math.min(5, Math.round(3 + currentAbility))));
 
   const result = await pool.query(query, params);
 
-  if (result.rows.length === 0) return null;
+  const validRows = result.rows.filter(row => {
+    let opts = row.options;
+    if (typeof opts === "string") {
+      try { opts = JSON.parse(opts); } catch { return false; }
+    }
+    return Array.isArray(opts) && opts.length >= 4 && row.stem && row.stem.trim().length >= 10;
+  });
+
+  if (validRows.length === 0) return null;
 
   const responses: QuestionResponse[] = (catState.responses || []).map((r: any) => ({
     questionId: r.questionId,
@@ -128,7 +286,7 @@ async function selectNextQuestion(
     }
   }
 
-  const candidates: CandidateItem[] = result.rows.map((r: any) => ({
+  const candidates: CandidateItem[] = validRows.map((r: any) => ({
     id: r.id,
     difficulty: r.difficulty || 3,
     blueprintCategory: r.body_system || "General",
@@ -154,11 +312,38 @@ async function selectNextQuestion(
     -20
   );
 
-  if (!selected) return result.rows[0] || null;
+  if (!selected) return validRows[0] || null;
 
-  const match = result.rows.find((r: any) => r.id === selected.id);
-  return match || result.rows[0];
+  const match = validRows.find((r: any) => r.id === selected.id);
+  return match || validRows[0];
 }
+
+async function buildStandardFallbackExam(
+  tier: string,
+  questionCount: number
+): Promise<any[]> {
+  const result = await pool.query(
+    `SELECT id, stem, options, body_system, topic, difficulty, question_type, correct_answer
+     FROM exam_questions
+     WHERE tier = $1 AND status = 'published'
+     AND stem IS NOT NULL AND LENGTH(TRIM(stem)) >= 10
+     AND options IS NOT NULL
+     AND correct_answer IS NOT NULL
+     ORDER BY RANDOM()
+     LIMIT $2`,
+    [tier, questionCount]
+  );
+
+  return result.rows.filter(row => {
+    let opts = row.options;
+    if (typeof opts === "string") {
+      try { opts = JSON.parse(opts); } catch { return false; }
+    }
+    return Array.isArray(opts) && opts.length >= 2;
+  });
+}
+
+export { buildCATPool, CAT_POOL_MIN_THRESHOLD, type CATPoolDiagnostics };
 
 const startSchema = z.object({
   tier: z.string().optional(),
@@ -242,6 +427,53 @@ router.post("/api/cat-exams/start", async (req, res) => {
       }
     }
 
+    const { questions: _catPool, diagnostics } = await buildCATPool(examTier, user.id);
+
+    let fallbackMode: string | null = null;
+    let fallbackMessage: string | null = null;
+    let examType = "cat";
+
+    let fallbackQuestions: any[] = [];
+
+    if (!diagnostics.canStartCat) {
+      console.warn(`[CATPoolBuilder] CAT pool below threshold for tier=${examTier} userId=${user.id} validCount=${diagnostics.validCount} threshold=${diagnostics.thresholdRequired}. Attempting standard fallback.`);
+
+      const standardQuestions = await buildStandardFallbackExam(examTier, Math.min(maxQuestions, 75));
+
+      if (standardQuestions.length >= 10) {
+        fallbackMode = "standard_fallback";
+        fallbackMessage = "Adaptive mode is temporarily unavailable. We've started a standard exam instead.";
+        examType = "standard";
+        fallbackQuestions = standardQuestions;
+        console.log(`[CATPoolBuilder] Standard fallback successful for tier=${examTier}: ${standardQuestions.length} questions`);
+      } else {
+        const practiceQuestions = await buildStandardFallbackExam(examTier, 25);
+        if (practiceQuestions.length >= 5) {
+          fallbackMode = "practice_fallback";
+          fallbackMessage = "Adaptive mode is temporarily unavailable. We've started a practice set instead.";
+          examType = "practice";
+          fallbackQuestions = practiceQuestions;
+          console.log(`[CATPoolBuilder] Practice fallback for tier=${examTier}: ${practiceQuestions.length} questions`);
+        } else {
+          console.error(`[CATPoolBuilder] ALL FALLBACKS FAILED for tier=${examTier} userId=${user.id}. No questions available.`);
+          try {
+            await pool.query(
+              `INSERT INTO exam_incidents (user_id, exam_type, tier, reason_code, reason_detail, endpoint, request_params, severity)
+               VALUES ($1, 'cat', $2, 'cat_pool_empty_all_fallbacks', $3, '/api/cat-exams/start', $4, 'critical')`,
+              [user.id, examTier, `CAT pool: ${diagnostics.validCount} valid, standard: ${standardQuestions.length}, practice: ${practiceQuestions.length}`, JSON.stringify(diagnostics)]
+            ).catch(() => {});
+          } catch {}
+
+          return res.status(503).json({
+            error: "Question Pool Unavailable",
+            reasonCode: "cat_pool_exhausted",
+            poolDiagnostics: diagnostics,
+            recoverable: true,
+          });
+        }
+      }
+    }
+
     const sessionId = `cat_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 
     const initialCatState = {
@@ -256,16 +488,20 @@ router.post("/api/cat-exams/start", async (req, res) => {
       version: 1,
     };
 
+    const isFallback = fallbackQuestions.length > 0;
+    const effectiveMaxQuestions = isFallback ? fallbackQuestions.length : maxQuestions;
+
     const attemptResult = await pool.query(
       `INSERT INTO mock_exam_attempts (id, user_id, tier, total_questions, status, exam_type, career_type, cat_state, blueprint_code, started_at)
-       VALUES (gen_random_uuid(), $1, $2, $3, 'in_progress', 'cat', $4, $5, $6, NOW())
+       VALUES (gen_random_uuid(), $1, $2, $3, 'in_progress', $4, $5, $6, $7, NOW())
        RETURNING *`,
       [
         user.id,
         examTier,
-        maxQuestions,
+        effectiveMaxQuestions,
+        examType,
         user.career_type || user.careerType || "nursing",
-        JSON.stringify(initialCatState),
+        isFallback ? null : JSON.stringify(initialCatState),
         blueprintCode || null,
       ]
     );
@@ -277,20 +513,116 @@ router.post("/api/cat-exams/start", async (req, res) => {
       catStartIdempotency.set(idemKey, { attemptId: attempt.id, expiresAt: Date.now() + 5 * 60 * 1000 });
     }
 
+    if (isFallback) {
+      const questionData = fallbackQuestions.map((q: any) => ({
+        id: q.id,
+        question: q.stem,
+        options: (() => { try { return typeof q.options === "string" ? JSON.parse(q.options) : q.options; } catch { return []; } })(),
+        correct: q.correct_answer,
+        bodySystem: q.body_system,
+        tier: examTier,
+        lessonId: "mock-exam",
+        source: "quiz",
+        topic: q.topic,
+        subtopic: q.subtopic,
+        difficulty: q.difficulty,
+        questionType: q.question_type,
+      }));
+
+      await pool.query(
+        `UPDATE mock_exam_attempts SET questions = $1 WHERE id = $2`,
+        [JSON.stringify(questionData), attempt.id]
+      );
+
+      await logActivity(user.id, "cat_session_started", {
+        attemptId: attempt.id,
+        sessionId,
+        tier: examTier,
+        maxQuestions: effectiveMaxQuestions,
+        fallbackMode,
+        poolDiagnostics: { validCount: diagnostics.validCount, rawCount: diagnostics.rawCount, canStartCat: diagnostics.canStartCat },
+      }, sessionId);
+
+      return res.json({
+        attemptId: attempt.id,
+        sessionId,
+        status: "in_progress",
+        questions: questionData,
+        totalQuestions: questionData.length,
+        fallbackMode,
+        fallbackMessage,
+      });
+    }
+
     const nextQ = await selectNextQuestion(attempt.id, examTier, initialCatState);
+
+    if (!nextQ) {
+      console.warn(`[CATPoolBuilder] selectNextQuestion returned null despite canStartCat=true for tier=${examTier}. Pivoting to standard fallback.`);
+
+      const emergencyQuestions = await buildStandardFallbackExam(examTier, Math.min(maxQuestions, 75));
+      if (emergencyQuestions.length >= 5) {
+        const questionData = emergencyQuestions.map((q: any, idx: number) => ({
+          id: q.id,
+          question: q.stem,
+          options: (() => { try { return typeof q.options === "string" ? JSON.parse(q.options) : q.options; } catch { return []; } })(),
+          correct: q.correct_answer,
+          bodySystem: q.body_system,
+          tier: examTier,
+          lessonId: "mock-exam",
+          source: "quiz",
+          topic: q.topic,
+          subtopic: q.subtopic,
+          difficulty: q.difficulty,
+          questionType: q.question_type,
+        }));
+
+        await pool.query(
+          `UPDATE mock_exam_attempts SET questions = $1, total_questions = $2, exam_type = 'standard', cat_state = NULL WHERE id = $3`,
+          [JSON.stringify(questionData), questionData.length, attempt.id]
+        );
+
+        await logActivity(user.id, "cat_session_started", {
+          attemptId: attempt.id,
+          sessionId,
+          tier: examTier,
+          maxQuestions: questionData.length,
+          fallbackMode: "standard_fallback_on_null_selection",
+          poolDiagnostics: { validCount: diagnostics.validCount, rawCount: diagnostics.rawCount, canStartCat: diagnostics.canStartCat },
+        }, sessionId);
+
+        return res.json({
+          attemptId: attempt.id,
+          sessionId,
+          status: "in_progress",
+          questions: questionData,
+          totalQuestions: questionData.length,
+          fallbackMode: "standard_fallback",
+          fallbackMessage: "Adaptive mode is temporarily unavailable. We've started a standard exam instead.",
+        });
+      }
+
+      return res.status(503).json({
+        error: "Question Pool Unavailable",
+        reasonCode: "cat_selection_failed",
+        poolDiagnostics: diagnostics,
+        recoverable: true,
+      });
+    }
 
     await logActivity(user.id, "cat_session_started", {
       attemptId: attempt.id,
       sessionId,
       tier: examTier,
-      maxQuestions,
+      maxQuestions: effectiveMaxQuestions,
+      fallbackMode: null,
+      poolDiagnostics: { validCount: diagnostics.validCount, rawCount: diagnostics.rawCount, canStartCat: diagnostics.canStartCat },
     }, sessionId);
 
     res.json({
       attemptId: attempt.id,
       sessionId,
       status: "in_progress",
-      currentQuestion: nextQ ? {
+      currentQuestion: {
         id: nextQ.id,
         stem: nextQ.stem,
         options: (() => { try { return typeof nextQ.options === "string" ? JSON.parse(nextQ.options) : nextQ.options; } catch { return []; } })(),
@@ -298,14 +630,16 @@ router.post("/api/cat-exams/start", async (req, res) => {
         topic: nextQ.topic,
         difficulty: nextQ.difficulty,
         questionType: nextQ.question_type,
-      } : null,
+      },
       questionNumber: 1,
-      maxQuestions,
+      maxQuestions: effectiveMaxQuestions,
       catState: {
         currentAbility: 0,
         standardError: 1.0,
         questionCount: 0,
       },
+      fallbackMode: null,
+      fallbackMessage: null,
     });
   } catch (e: any) {
     console.error("[CATSessionAPI] Start error:", e.message);
