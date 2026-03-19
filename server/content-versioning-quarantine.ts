@@ -718,6 +718,67 @@ export async function scanAndQuarantineInvalidPublishedContent(): Promise<{
   return result;
 }
 
+const MIN_VALID_ITEMS_THRESHOLD = parseInt(process.env.MIN_VALID_ITEMS_THRESHOLD || "1", 10);
+
+function enforceMinimumValidItems(contentType: string, data: any): { passed: boolean; errors: ValidationError[] } {
+  const errors: ValidationError[] = [];
+
+  if (contentType === "question" || contentType === "questions" || contentType === "exam_question") {
+    if (!data.stem || (typeof data.stem === "string" && data.stem.trim().length < 10)) {
+      errors.push({ field: "stem", message: "Question stem is required and must be at least 10 characters (hard gate)", severity: "error" });
+    }
+    const options = Array.isArray(data.options) ? data.options.filter((o: any) => {
+      const text = typeof o === "string" ? o : o?.text;
+      return text && text.trim().length > 0;
+    }) : [];
+    if (options.length < MIN_VALID_ITEMS_THRESHOLD) {
+      errors.push({ field: "options", message: `At least ${MIN_VALID_ITEMS_THRESHOLD} valid answer option(s) required (found ${options.length}) (hard gate)`, severity: "error" });
+    }
+    if (data.correctAnswer === undefined || data.correctAnswer === null) {
+      errors.push({ field: "correctAnswer", message: "Correct answer must be specified (hard gate)", severity: "error" });
+    }
+    if (!data.rationale || (typeof data.rationale === "string" && data.rationale.trim().length < 20)) {
+      errors.push({ field: "rationale", message: "Rationale is required (min 20 characters) (hard gate)", severity: "error" });
+    }
+  }
+
+  if (contentType === "flashcard" || contentType === "flashcards" || contentType === "flashcard-set") {
+    if (data.cards && Array.isArray(data.cards)) {
+      const validCards = data.cards.filter((c: any) => c.front && c.front.trim().length >= 3 && c.back && c.back.trim().length >= 3);
+      if (validCards.length < MIN_VALID_ITEMS_THRESHOLD) {
+        errors.push({ field: "cards", message: `At least ${MIN_VALID_ITEMS_THRESHOLD} valid card(s) required (found ${validCards.length}) (hard gate)`, severity: "error" });
+      }
+    } else {
+      if (!data.front || (typeof data.front === "string" && data.front.trim().length < 3)) {
+        errors.push({ field: "front", message: "Flashcard front is required (min 3 characters) (hard gate)", severity: "error" });
+      }
+      if (!data.back || (typeof data.back === "string" && data.back.trim().length < 3)) {
+        errors.push({ field: "back", message: "Flashcard back is required (min 3 characters) (hard gate)", severity: "error" });
+      }
+    }
+  }
+
+  if (contentType === "lesson" || contentType === "lessons") {
+    if (!data.title || (typeof data.title === "string" && data.title.trim().length < 3)) {
+      errors.push({ field: "title", message: "Lesson title is required (min 3 characters) (hard gate)", severity: "error" });
+    }
+    if (!data.slug || (typeof data.slug === "string" && data.slug.trim().length < 2)) {
+      errors.push({ field: "slug", message: "Lesson slug is required (hard gate)", severity: "error" });
+    }
+  }
+
+  if (contentType === "blog" || contentType === "blog-post" || contentType === "article") {
+    if (!data.title || (typeof data.title === "string" && data.title.trim().length < 5)) {
+      errors.push({ field: "title", message: "Blog title is required (min 5 characters) (hard gate)", severity: "error" });
+    }
+    if (!data.content) {
+      errors.push({ field: "content", message: "Blog content is required (hard gate)", severity: "error" });
+    }
+  }
+
+  return { passed: errors.length === 0, errors };
+}
+
 export async function publishWithValidation(
   contentType: string,
   contentId: string,
@@ -730,16 +791,22 @@ export async function publishWithValidation(
   snapshot?: SnapshotResult | null;
   error?: string;
 }> {
-  if (!forcePublish) {
-    const pipelineResult = await runPublishValidationPipeline(contentType, contentId, data, actorId);
+  const pipelineResult = await runPublishValidationPipeline(contentType, contentId, data, actorId);
 
-    if (!pipelineResult.passed) {
-      return {
-        allowed: false,
-        validationResult: pipelineResult,
-        error: pipelineResult.blockedReason,
-      };
-    }
+  const minValidItemCheck = enforceMinimumValidItems(contentType, data);
+  if (!minValidItemCheck.passed) {
+    pipelineResult.passed = false;
+    pipelineResult.validationResult.valid = false;
+    pipelineResult.validationResult.errors.push(...minValidItemCheck.errors);
+    pipelineResult.blockedReason = [pipelineResult.blockedReason, ...minValidItemCheck.errors.map(e => e.message)].filter(Boolean).join("; ");
+  }
+
+  if (!pipelineResult.passed) {
+    return {
+      allowed: false,
+      validationResult: pipelineResult,
+      error: pipelineResult.blockedReason,
+    };
   }
 
   const snapshot = await createContentSnapshot(contentId, contentType, data, "publish");

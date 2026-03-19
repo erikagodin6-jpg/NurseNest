@@ -891,6 +891,8 @@ export function isEmergencyMode(): boolean {
   return emergencyModeActive;
 }
 
+const emergencyPausedJobs: string[] = [];
+
 export function activateEmergencyMode(reason: string, actor?: string): void {
   if (emergencyModeActive) return;
   if (emergencyModeLastDeactivatedAt && Date.now() - emergencyModeLastDeactivatedAt < EMERGENCY_MODE_REACTIVATION_COOLDOWN_MS) {
@@ -904,6 +906,10 @@ export function activateEmergencyMode(reason: string, actor?: string): void {
   console.error(`[EMERGENCY MODE] ACTIVATED: ${reason}`);
   addResilienceEvent("emergency_mode_activated", "system", { reason, actor, auto: isAuto });
   addAlert("critical", "emergency_mode", "Emergency Mode Activated", `Emergency mode activated. Reason: ${reason}`, "emergency", { reason, actor });
+
+  pauseBackgroundJobs();
+  reduceMonitoringFrequency();
+
   try {
     const { trackChange } = require("./incident-correlation");
     trackChange({ type: "config_change", source: "emergency-mode", description: `Emergency mode activated: ${reason}`, entityId: "emergency_mode", actor: actor || null, metadata: { reason, auto: isAuto } });
@@ -913,6 +919,11 @@ export function activateEmergencyMode(reason: string, actor?: string): void {
     `INSERT INTO platform_emergency_log (action, reason, actor, auto_triggered) VALUES ($1, $2, $3, $4)`,
     ["activate", reason, actor || "system", isAuto]
   ).catch(() => {});
+
+  try {
+    const { sendAdminNotification } = require("./admin-notifications");
+    sendAdminNotification(pool, { event: "emergency_mode_activated", details: reason, alertType: "emergency_mode" }).catch(() => {});
+  } catch {}
 }
 
 export function deactivateEmergencyMode(actor?: string): void {
@@ -922,6 +933,10 @@ export function deactivateEmergencyMode(actor?: string): void {
   emergencyModeReason = null;
   emergencyModeActivatedAt = null;
   emergencyModeLastDeactivatedAt = Date.now();
+
+  resumeBackgroundJobs();
+  restoreMonitoringFrequency();
+
   addResilienceEvent("emergency_mode_deactivated", "system", { actor, durationMs: duration });
   addResilienceAudit("emergency_mode_deactivate", "platform", "emergency_mode", { actor, durationMs: duration }, actor || null);
   pool.query(
@@ -932,6 +947,112 @@ export function deactivateEmergencyMode(actor?: string): void {
 
 export function getEmergencyModeStatus(): { active: boolean; reason: string | null; activatedAt: number | null } {
   return { active: emergencyModeActive, reason: emergencyModeReason, activatedAt: emergencyModeActivatedAt };
+}
+
+const NON_ESSENTIAL_ROUTE_PREFIXES = [
+  "/api/admin/blog",
+  "/api/admin/content-generate",
+  "/api/admin/ai-",
+  "/api/admin/seo",
+  "/api/admin/bulk-generate",
+];
+
+const ESSENTIAL_ROUTE_PREFIXES = [
+  "/api/auth",
+  "/api/user",
+  "/api/stripe",
+  "/api/content/lessons",
+  "/api/content/flashcard-sets",
+  "/api/content/exams",
+  "/api/content-items",
+  "/api/flashcard-bank",
+  "/api/exam-questions",
+  "/api/mock-exams",
+  "/api/admin/resilience",
+  "/api/admin/safe-mode",
+  "/api/admin/health",
+  "/healthz",
+];
+
+export function emergencyModeMiddleware(req: Request, res: Response, next: NextFunction): void {
+  if (!emergencyModeActive) return next();
+
+  if (!req.path.startsWith("/api")) return next();
+
+  for (const prefix of ESSENTIAL_ROUTE_PREFIXES) {
+    if (req.path.startsWith(prefix)) return next();
+  }
+
+  if (req.method === "GET" || req.method === "HEAD") {
+    return next();
+  }
+
+  res.status(503).json({
+    error: "Service temporarily unavailable - emergency mode active",
+    emergencyMode: true,
+    reason: emergencyModeReason,
+  });
+}
+
+let originalHealthCheckInterval: number | null = null;
+
+function pauseBackgroundJobs(): void {
+  try {
+    const { stopPostPublishAudit } = require("./content-integrity-audit");
+    stopPostPublishAudit();
+    emergencyPausedJobs.push("post_publish_audit");
+    console.log("[EMERGENCY MODE] Paused post-publish audit");
+  } catch {}
+
+  try {
+    const { stopAlertingEngine } = require("./alerting-engine");
+    stopAlertingEngine();
+    emergencyPausedJobs.push("alerting_engine");
+    console.log("[EMERGENCY MODE] Paused alerting engine");
+  } catch {}
+
+  console.log(`[EMERGENCY MODE] Paused ${emergencyPausedJobs.length} background jobs`);
+}
+
+function resumeBackgroundJobs(): void {
+  try {
+    if (emergencyPausedJobs.includes("post_publish_audit")) {
+      const { startPostPublishAudit } = require("./content-integrity-audit");
+      startPostPublishAudit();
+    }
+  } catch {}
+
+  try {
+    if (emergencyPausedJobs.includes("alerting_engine")) {
+      const { startAlertingEngine } = require("./alerting-engine");
+      startAlertingEngine(pool, 5 * 60 * 1000);
+    }
+  } catch {}
+
+  emergencyPausedJobs.length = 0;
+  console.log("[EMERGENCY MODE] Resumed background jobs");
+}
+
+function reduceMonitoringFrequency(): void {
+  if (healthCheckTimer) {
+    originalHealthCheckInterval = HEALTH_CHECK_INTERVAL_MS;
+    clearInterval(healthCheckTimer);
+    healthCheckTimer = setInterval(() => {
+      runHealthChecks().catch(e => console.error("[Resilience] Emergency health check error:", e.message));
+    }, HEALTH_CHECK_INTERVAL_MS * 3);
+    console.log("[EMERGENCY MODE] Reduced monitoring frequency to", HEALTH_CHECK_INTERVAL_MS * 3 / 1000, "s");
+  }
+}
+
+function restoreMonitoringFrequency(): void {
+  if (healthCheckTimer && originalHealthCheckInterval) {
+    clearInterval(healthCheckTimer);
+    healthCheckTimer = setInterval(() => {
+      runHealthChecks().catch(e => console.error("[Resilience] Health check error:", e.message));
+    }, originalHealthCheckInterval);
+    originalHealthCheckInterval = null;
+    console.log("[EMERGENCY MODE] Restored normal monitoring frequency");
+  }
 }
 
 let selfHealingActive = true;

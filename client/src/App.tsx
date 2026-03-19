@@ -710,13 +710,13 @@ function AppRoutes() {
   return (
     <Suspense fallback={<LoadingFallback />}>
       <Switch>
-        <Route path="/" component={Home} />
+        <Route path="/">{() => <RouteErrorBoundary groupName="home"><Home /></RouteErrorBoundary>}</Route>
         <Route path="/languages" component={LanguagesPage} />
         <Route path="/dashboard">{() => <PremiumFeatureErrorBoundary featureName="dashboard" fallbackPath="/en/lessons"><ProtectedRoute contentType="general" fallbackPath="/en/lessons"><DashboardPage /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/start-free" component={StartFreePage} />
-        <Route path="/pathways" component={PathwaysPage} />
-        <Route path="/med-math" component={MedMathPage} />
-        <Route path="/lab-values" component={LabValuesPage} />
+        <Route path="/pathways">{() => <RouteErrorBoundary groupName="content"><PathwaysPage /></RouteErrorBoundary>}</Route>
+        <Route path="/med-math">{() => <RouteErrorBoundary groupName="tools"><MedMathPage /></RouteErrorBoundary>}</Route>
+        <Route path="/lab-values">{() => <RouteErrorBoundary groupName="tools"><LabValuesPage /></RouteErrorBoundary>}</Route>
         <Route path="/si-to-conventional-units-converter" component={SIConventionalConverterPage} />
         <Route path="/canadian-vs-american-lab-values" component={ConversionClusterWrapper} />
         <Route path="/glucose-mmol-l-to-mg-dl" component={ConversionClusterWrapper} />
@@ -754,8 +754,8 @@ function AppRoutes() {
         <Route path="/simulators/osce" component={SimulatorsPage} />
         <Route path="/simulators/clinical-lab" component={SimulatorsPage} />
         <Route path="/osce-skills" component={OSCESkillsPage} />
-        <Route path="/jobs/:slug" component={JobDetail} />
-        <Route path="/jobs" component={JobsHub} />
+        <Route path="/jobs/:slug">{() => <RouteErrorBoundary groupName="content"><JobDetail /></RouteErrorBoundary>}</Route>
+        <Route path="/jobs">{() => <RouteErrorBoundary groupName="content"><JobsHub /></RouteErrorBoundary>}</Route>
         <Route path="/newgrad/certifications/:slug" component={NewGradCertificationDetail} />
         <Route path="/newgrad/certifications" component={NewGradCertificationsHub} />
         <Route path="/new-grad/certifications/:slug">{(params: any) => <Redirect to={`/newgrad/certifications/${params.slug}`} />}</Route>
@@ -832,12 +832,12 @@ function AppRoutes() {
         <Route path="/applynest/interview-prep" component={ApplyNestInterviewPrep} />
         <Route path="/applynest/job-search-guide" component={ApplyNestJobSearchGuide} />
         <Route path="/applynest" component={ApplyNestLanding} />
-        <Route path="/clinical-skills" component={ClinicalSkillsHub} />
-        <Route path="/clinical-skills/:slug" component={ClinicalSkillsGuideDetail} />
+        <Route path="/clinical-skills">{() => <RouteErrorBoundary groupName="content"><ClinicalSkillsHub /></RouteErrorBoundary>}</Route>
+        <Route path="/clinical-skills/:slug">{() => <RouteErrorBoundary groupName="content"><ClinicalSkillsGuideDetail /></RouteErrorBoundary>}</Route>
         <Route path="/unit-guides/:slug" component={NewGradGuidePage} />
         <Route path="/career-development/:slug" component={NewGradGuidePage} />
         <Route path="/clinical-scenarios/:slug" component={NewGradGuidePage} />
-        <Route path="/questions/:slug" component={QuestionPreviewPage} />
+        <Route path="/questions/:slug">{() => <RouteErrorBoundary groupName="content"><QuestionPreviewPage /></RouteErrorBoundary>}</Route>
         <Route path="/rpn/exams">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/dashboard"><ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/rn/exams">{() => <PremiumFeatureErrorBoundary featureName="exams" fallbackPath="/en/dashboard"><ProtectedRoute contentType="exam" killSwitchKey="mockExams"><MockExamsPage /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
         <Route path="/rpn/questions/:topicSlug">{() => <NursingQuestionSeoPage tier="rpn" />}</Route>
@@ -1047,7 +1047,7 @@ function AppRoutes() {
         <Route path="/nclex-rn-guide/:slug" component={NclexRnGuide} />
         <Route path="/nclex-rn-guide" component={NclexRnGuide} />
         <Route path="/study-guide/:slug" component={SeoPage} />
-        <Route path="/clinical-case-studies" component={ClinicalCaseStudyPage} />
+        <Route path="/clinical-case-studies">{() => <RouteErrorBoundary groupName="content"><ClinicalCaseStudyPage /></RouteErrorBoundary>}</Route>
         <Route path="/for-institutions" component={ForInstitutions} />
         <Route path="/healthcare-policy-and-updates/licensing-policy-changes" component={LicensingPolicyChanges} />
         <Route path="/healthcare-policy-and-updates/international-nursing-recruitment" component={InternationalNursingRecruitmentPolicy} />
@@ -1133,14 +1133,14 @@ function AppRoutes() {
         <Route path="/medical-imaging/usa" component={MedicalImagingUSAPage} />
         <Route path="/medical-imaging" component={MedicalImagingHub} />
         <Route path="/order-of-the-draw" component={OrderOfTheDraw} />
-        <Route path="/exam-readiness" component={ExamReadinessPage} />
+        <Route path="/exam-readiness">{() => <RouteErrorBoundary groupName="content"><ExamReadinessPage /></RouteErrorBoundary>}</Route>
         <Route path="/diagnostic-assessment">{() => <ProtectedPremiumRoute category="premium-tool" label="diagnostic assessment" fallbackPath="/dashboard"><DiagnosticAssessmentPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/account/library">{() => <ProtectedRoute contentType="download" safeModeRenderer={() => <SafeDownloadFallback onBack={() => window.location.href = "/en/dashboard"} />}><AccountLibraryPage /></ProtectedRoute>}</Route>
         <Route path="/medication-mastery">{() => <ProtectedPremiumRoute category="premium-tool" label="medication mastery" fallbackPath="/dashboard"><MedicationMasteryPage /></ProtectedPremiumRoute>}</Route>
         <Route path="/clinical-clarity/:slug" component={ClinicalClarityDetail} />
         <Route path="/clinical-clarity" component={ClinicalClarityIndex} />
-        <Route path="/blog" component={BlogPage} />
-        <Route path="/learn/:slug" component={ContentPage} />
+        <Route path="/blog">{() => <RouteErrorBoundary groupName="content"><BlogPage /></RouteErrorBoundary>}</Route>
+        <Route path="/learn/:slug">{() => <RouteErrorBoundary groupName="content"><ContentPage /></RouteErrorBoundary>}</Route>
         <Route path="/anatomy/:systemId" component={AnatomyPage} />
         <Route path="/anatomy" component={AnatomyPage} />
         <Route path="/lessons">{() => <PremiumFeatureErrorBoundary featureName="lessons" fallbackPath="/en/dashboard"><ProtectedRoute contentType="lesson" killSwitchKey="lessons" safeModeRenderer={() => <SafeLessonFallback onBack={() => window.location.href = "/en/dashboard"} />}><Lessons /></ProtectedRoute></PremiumFeatureErrorBoundary>}</Route>
@@ -1175,7 +1175,7 @@ function AppRoutes() {
         <Route path="/pricing/newgrad">{() => <Redirect to="/pricing?section=newgrad" />}</Route>
         <Route path="/pricing/imaging">{() => <Redirect to="/pricing?section=imaging" />}</Route>
         <Route path="/pricing/:tier">{() => <Redirect to="/pricing?section=nursing" />}</Route>
-        <Route path="/pricing">{() => <ProtectedRoute contentType="general"><PricingPage /></ProtectedRoute>}</Route>
+        <Route path="/pricing">{() => <RouteErrorBoundary groupName="content"><ProtectedRoute contentType="general"><PricingPage /></ProtectedRoute></RouteErrorBoundary>}</Route>
         <Route path="/refer" component={ReferPage} />
         <Route path="/signup">{() => <Redirect to={`/login${window.location.search}`} />}</Route>
         <Route path="/register">{() => <Redirect to={`/login${window.location.search}`} />}</Route>

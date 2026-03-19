@@ -260,6 +260,11 @@ app.use((req, res, next) => {
 
 app.use(compression());
 app.use(cookieParser());
+
+import("./platform-resilience").then(({ emergencyModeMiddleware }) => {
+  app.use(emergencyModeMiddleware);
+}).catch(() => {});
+
 app.use("/api/admin", adminApiRateLimit());
 app.use("/api/admin", csrfProtection());
 
@@ -1205,6 +1210,10 @@ app.use((req, res, next) => {
   startAlertingEngine(alertPool, 5 * 60 * 1000);
   const syntheticBaseUrl = `http://127.0.0.1:${port}`;
   startSyntheticMonitoring(alertPool, syntheticBaseUrl, 10 * 60 * 1000);
+
+  import("./content-integrity-audit").then(({ startPostPublishAudit }) => {
+    startPostPublishAudit();
+  }).catch(e => console.error("[PostPublishAudit] Failed to start:", e.message));
 
   if (webProcessRole === "worker") {
     setInterval(async () => {

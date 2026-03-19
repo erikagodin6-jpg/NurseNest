@@ -5352,7 +5352,7 @@ Rules:
       const allowedTiers = getAllowedContentTiers(userTier);
       const tierPlaceholders = allowedTiers.map((_, i) => `$${i + 1}`).join(", ");
       const result = await timedQuery(
-        `SELECT id, title, slug, category, body_system, tier, summary, tags, seo_description, published_at, updated_at, region_scope FROM content_items WHERE status = 'published' AND type = 'lesson' AND ${regionFilter} AND (tier IS NULL OR tier IN (${tierPlaceholders})) ORDER BY published_at DESC NULLS LAST`,
+        `SELECT id, title, slug, category, body_system, tier, summary, tags, seo_description, published_at, updated_at, region_scope FROM content_items WHERE status = 'published' AND status != 'quarantined' AND type = 'lesson' AND ${regionFilter} AND (tier IS NULL OR tier IN (${tierPlaceholders})) ORDER BY published_at DESC NULLS LAST`,
         allowedTiers,
         { label: "content/lessons", timeoutMs: 5000 }
       );
@@ -5470,7 +5470,7 @@ Rules:
 
       const regionFilter = buildRegionFilter(region);
       const result = await timedQuery(
-        `SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at, content, region_scope FROM content_items WHERE status = 'published' AND type = 'flashcard-set' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST`,
+        `SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at, content, region_scope FROM content_items WHERE status = 'published' AND status != 'quarantined' AND type = 'flashcard-set' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST`,
         [],
         { label: "content/flashcard-sets", timeoutMs: 5000 }
       );
@@ -5527,7 +5527,7 @@ Rules:
 
       const regionFilter = buildRegionFilter(region);
       const result = await timedQuery(
-        `SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at, region_scope FROM content_items WHERE status = 'published' AND type = 'exam' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST LIMIT ${limit}`,
+        `SELECT id, title, slug, category, tier, summary, tags, published_at, updated_at, region_scope FROM content_items WHERE status = 'published' AND status != 'quarantined' AND type = 'exam' AND ${regionFilter} ORDER BY published_at DESC NULLS LAST LIMIT ${limit}`,
         [],
         { label: "content/exams", timeoutMs: 10000 }
       );
@@ -6109,7 +6109,7 @@ Rules:
       const regionFilter = buildRegionFilter(region);
       let items: any[] = [];
       try {
-        let q = `SELECT * FROM content_items WHERE status = 'published' AND ${regionFilter}`;
+        let q = `SELECT * FROM content_items WHERE status = 'published' AND status != 'quarantined' AND ${regionFilter}`;
         const params: string[] = [];
         if (type) {
           params.push(type as string);
@@ -6552,13 +6552,14 @@ Rules:
       const contentTypeForValidation = parsed.type === "lesson" ? "lesson" : parsed.type?.includes("blog") ? "blog" : parsed.type === "flashcard-set" ? "flashcard" : parsed.type || "";
       const { repairedData: repairedParsed, repairs: createRepairs } = autoRepairContent(contentTypeForValidation, parsed);
 
-      if (repairedParsed.status === "published" && !contentData.forcePublish) {
+      if (repairedParsed.status === "published") {
         const validation = validateForPublish(contentTypeForValidation, repairedParsed);
         if (!validation.valid) {
           return res.status(422).json({
             error: "Content validation failed. Fix critical errors before publishing.",
             code: "VALIDATION_FAILED",
             validation,
+            forcePublishBypassed: !!contentData.forcePublish,
           });
         }
 
@@ -6828,7 +6829,7 @@ Rules:
       const { repairedData: repairedContentData, repairs: updateRepairs } = autoRepairContent(updateContentType, contentData);
 
       const isPublishAttempt = repairedContentData.status === "published" && existing?.status !== "published";
-      if (isPublishAttempt && !repairedContentData.forcePublish) {
+      if (isPublishAttempt) {
         const mergedForValidation = { ...existing, ...repairedContentData };
         const validation = validateForPublish(updateContentType, mergedForValidation);
         if (!validation.valid) {
@@ -6836,6 +6837,7 @@ Rules:
             error: "Content validation failed. Fix critical errors before publishing.",
             code: "VALIDATION_FAILED",
             validation,
+            forcePublishBypassed: !!repairedContentData.forcePublish,
           });
         }
       }
@@ -12941,13 +12943,14 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const questionData = { tier, exam, questionType, stem, options, correctAnswer, rationale, difficulty, tags, bodySystem, topic, subtopic, regionScope, status: status || "draft" };
       const { repairedData, repairs } = autoRepairContent("question", questionData);
 
-      if (repairedData.status === "published" && !forcePublish) {
+      if (repairedData.status === "published") {
         const validation = validateForPublish("question", repairedData);
         if (!validation.valid) {
           return res.status(422).json({
             error: "Content validation failed. Fix critical errors before publishing.",
             code: "VALIDATION_FAILED",
             validation,
+            forcePublishBypassed: !!forcePublish,
           });
         }
       }
@@ -12985,7 +12988,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const isUpdatingPublished = repairedUpdates.status === "published" || (!repairedUpdates.status && before.status === "published");
       const mergedData = { ...before, ...repairedUpdates };
 
-      if ((isPublishing || (isUpdatingPublished && repairedUpdates.status !== "draft")) && !forcePublish) {
+      if (isPublishing || (isUpdatingPublished && repairedUpdates.status !== "draft")) {
         const validation = validateForPublish("question", mergedData);
         if (!validation.valid) {
           if (isPublishing) {
@@ -12993,6 +12996,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
               error: "Content validation failed. Fix critical errors before publishing.",
               code: "VALIDATION_FAILED",
               validation,
+              forcePublishBypassed: !!forcePublish,
             });
           }
           const hasCritical = validation.errors.some(e => e.field === "stem" || e.field === "options" || e.field === "correctAnswer");
@@ -15682,7 +15686,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!admin) return;
       const { front, back, category, tier, status, difficulty, rationale, forcePublish } = req.body;
 
-      if (status === "published" && !forcePublish) {
+      if (status === "published") {
         const existingResult = await pool.query(`SELECT * FROM flashcard_bank WHERE id = $1`, [req.params.id]);
         if (existingResult.rows.length > 0) {
           const merged = { ...snakeToCamel(existingResult.rows[0]), front, back, tier, category };
@@ -15692,6 +15696,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
               error: "Content validation failed. Fix critical errors before publishing.",
               code: "VALIDATION_FAILED",
               validation,
+              forcePublishBypassed: !!forcePublish,
             });
           }
         }
@@ -15756,7 +15761,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const { ids, forcePublish } = req.body;
       if (!ids?.length) return res.status(400).json({ error: "ids required" });
 
-      if (!forcePublish) {
+      {
         const cardsResult = await pool.query(
           `SELECT id, front, back, tier, tags_json as tags FROM flashcard_bank WHERE id = ANY($1)`,
           [ids]
@@ -15773,6 +15778,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
             error: `${validationErrors.length} flashcard(s) failed validation.`,
             code: "VALIDATION_FAILED",
             failedCards: validationErrors,
+            forcePublishBypassed: !!forcePublish,
           });
         }
       }
@@ -16820,7 +16826,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const limit = Math.min(parseInt(req.query.limit as string) || 100, 500);
       const offset = parseInt(req.query.offset as string) || 0;
 
-      const conditions = ["status = 'published'", "flashcard_enabled = true"];
+      const conditions = ["status = 'published'", "status != 'quarantined'", "flashcard_enabled = true"];
       const params: any[] = [];
       let paramIdx = 1;
 

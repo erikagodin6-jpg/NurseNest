@@ -65,9 +65,12 @@ export type NotificationEvent =
   | "trial_started"
   | "test"
   | "reliability_alert"
+  | "payment_failure"
   | "service_down"
+  | "memory_critical"
   | "synthetic_test_failure"
   | "content_integrity_failure"
+  | "emergency_mode_activated"
   | "reliability_warning";
 
 interface NotificationPayload {
@@ -89,7 +92,8 @@ export function shouldNotify(settings: NotificationSettings, event: Notification
   switch (event) {
     case "new_subscription": return settings.notifyOnNewSubscription;
     case "subscription_cancelled": return settings.notifyOnCancellation;
-    case "payment_failed": return settings.notifyOnPaymentFailed;
+    case "payment_failed":
+    case "payment_failure": return settings.notifyOnPaymentFailed;
     case "lifetime_purchase": return settings.notifyOnLifetimePurchase;
     case "trial_started": return settings.notifyOnTrialStart;
     case "reliability_alert": {
@@ -97,9 +101,10 @@ export function shouldNotify(settings: NotificationSettings, event: Notification
       if (sev === "warning") return settings.notifyOnWarningIncident;
       return settings.notifyOnCriticalIncident;
     }
-    case "test": return true;
-    case "service_down": return settings.notifyOnCriticalIncident;
-    case "synthetic_test_failure": return settings.notifyOnCriticalIncident;
+    case "service_down":
+    case "memory_critical":
+    case "emergency_mode_activated": return settings.notifyOnCriticalIncident;
+    case "synthetic_test_failure":
     case "content_integrity_failure": return settings.notifyOnCriticalIncident;
     case "reliability_warning": return settings.notifyOnWarningIncident;
     default: return false;
@@ -110,9 +115,16 @@ function formatEventTitle(event: NotificationEvent, alertType?: string): string 
   switch (event) {
     case "new_subscription": return "New Subscription";
     case "subscription_cancelled": return "Subscription Cancelled";
-    case "payment_failed": return "Payment Failed";
+    case "payment_failed":
+    case "payment_failure": return "Payment Failed";
     case "lifetime_purchase": return "Lifetime Purchase";
     case "trial_started": return "New Trial Started";
+    case "service_down": return "Service Down";
+    case "memory_critical": return "Memory Critical";
+    case "synthetic_test_failure": return "Synthetic Test Failure";
+    case "content_integrity_failure": return "Content Integrity Failure";
+    case "emergency_mode_activated": return "Emergency Mode Activated";
+    case "reliability_warning": return "Reliability Warning";
     case "reliability_alert": return `Reliability Alert: ${alertType || "System Issue"}`;
     case "test": return "Test Notification";
     case "service_down": return "Service Down";
@@ -122,6 +134,30 @@ function formatEventTitle(event: NotificationEvent, alertType?: string): string 
     default: return "Notification";
   }
 }
+
+const ALERT_CATEGORY_CONFIG: Record<string, { color: string; icon: string; severity: string }> = {
+  payment_failed: { color: "#ef4444", icon: "💳", severity: "critical" },
+  payment_failure: { color: "#ef4444", icon: "💳", severity: "critical" },
+  service_down: { color: "#dc2626", icon: "🔴", severity: "critical" },
+  memory_critical: { color: "#b91c1c", icon: "🧠", severity: "critical" },
+  synthetic_test_failure: { color: "#ea580c", icon: "🧪", severity: "warning" },
+  content_integrity_failure: { color: "#d97706", icon: "📋", severity: "warning" },
+  emergency_mode_activated: { color: "#991b1b", icon: "🚨", severity: "critical" },
+  reliability_warning: { color: "#f59e0b", icon: "⚠️", severity: "warning" },
+  reliability_alert: { color: "#dc2626", icon: "🔔", severity: "critical" },
+  new_subscription: { color: "#10b981", icon: "✅", severity: "info" },
+  subscription_cancelled: { color: "#f59e0b", icon: "❌", severity: "warning" },
+  lifetime_purchase: { color: "#8b5cf6", icon: "⭐", severity: "info" },
+  trial_started: { color: "#3b82f6", icon: "🎯", severity: "info" },
+  test: { color: "#6366f1", icon: "🔧", severity: "info" },
+  quarantine_event: { color: "#d97706", icon: "🔒", severity: "warning" },
+  circuit_breaker_trip: { color: "#ea580c", icon: "⚡", severity: "warning" },
+  high_error_rate: { color: "#dc2626", icon: "📈", severity: "critical" },
+  health_check_failure: { color: "#ef4444", icon: "❤️", severity: "critical" },
+  memory_pressure: { color: "#b91c1c", icon: "🧠", severity: "warning" },
+  database_slow: { color: "#ea580c", icon: "🗄️", severity: "warning" },
+  emergency_mode: { color: "#991b1b", icon: "🚨", severity: "critical" },
+};
 
 function formatEmailBody(payload: NotificationPayload): string {
   const title = formatEventTitle(payload.event, payload.alertType);
@@ -135,20 +171,16 @@ function formatEmailBody(payload: NotificationPayload): string {
   if (payload.subscriptionId) details += `<tr><td style="padding:4px 8px;color:#64748b;">Subscription</td><td style="padding:4px 8px;font-size:12px;">${payload.subscriptionId}</td></tr>`;
   if (payload.details) details += `<tr><td style="padding:4px 8px;color:#64748b;">Details</td><td style="padding:4px 8px;">${payload.details}</td></tr>`;
 
-  const eventColors: Record<string, string> = {
-    new_subscription: "#10b981",
-    lifetime_purchase: "#8b5cf6",
-    trial_started: "#3b82f6",
-    subscription_cancelled: "#f59e0b",
-    payment_failed: "#ef4444",
-    reliability_alert: "#dc2626",
-    test: "#6366f1",
-    service_down: "#dc2626",
-    synthetic_test_failure: "#ea580c",
-    content_integrity_failure: "#d97706",
-    reliability_warning: "#ca8a04",
-  };
-  const color = eventColors[payload.event] || "#6366f1";
+  const categoryConfig = (payload.event === "reliability_alert" && payload.alertType)
+    ? (ALERT_CATEGORY_CONFIG[payload.alertType] || ALERT_CATEGORY_CONFIG[payload.event] || null)
+    : (ALERT_CATEGORY_CONFIG[payload.event] || ALERT_CATEGORY_CONFIG[payload.alertType || ""] || null);
+  const color = categoryConfig?.color || "#6366f1";
+  const severityLabel = categoryConfig?.severity || "info";
+  const severityBadge = severityLabel === "critical"
+    ? `<span style="background:#fee2e2;color:#991b1b;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:bold;">CRITICAL</span>`
+    : severityLabel === "warning"
+    ? `<span style="background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:bold;">WARNING</span>`
+    : `<span style="background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:bold;">INFO</span>`;
 
   return `
 <!DOCTYPE html>
@@ -158,7 +190,7 @@ function formatEmailBody(payload: NotificationPayload): string {
   <div style="max-width:480px;margin:0 auto;background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
     <div style="background:${color};padding:20px 24px;">
       <h1 style="margin:0;color:white;font-size:18px;">NurseNest</h1>
-      <p style="margin:4px 0 0;color:rgba(255,255,255,0.9);font-size:14px;">${title}</p>
+      <p style="margin:4px 0 0;color:rgba(255,255,255,0.9);font-size:14px;">${title} ${severityBadge}</p>
     </div>
     <div style="padding:24px;">
       <table style="width:100%;border-collapse:collapse;font-size:14px;">

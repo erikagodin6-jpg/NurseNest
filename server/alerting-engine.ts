@@ -57,6 +57,8 @@ interface IncidentGroup {
   count: number;
   lastMessage: string;
   notified: boolean;
+  severity: AlertSeverity;
+  affectedScope: string[];
 }
 
 const incidentGroups = new Map<string, IncidentGroup>();
@@ -81,6 +83,10 @@ function isEmailRateLimited(alertType: AlertType, severity: AlertSeverity, conte
 
 function markEmailSent(alertType: AlertType, severity: AlertSeverity, context?: string): void {
   emailRateLimit.set(getEmailRateLimitKey(alertType, severity, context), Date.now());
+}
+
+export function getIncidentGroups(): Array<IncidentGroup & { groupKey: string }> {
+  return Array.from(incidentGroups.entries()).map(([key, group]) => ({ ...group, groupKey: key }));
 }
 
 function evictExpiredAlerts(): void {
@@ -179,6 +185,8 @@ export async function fireAlert(
   metadata: Record<string, any> = {},
   context?: string
 ): Promise<string | null> {
+  const groupKey = getCooldownKey(alertType, context);
+
   if (isInCooldown(alertType, context)) {
     const groupKey = getGroupKey(alertType, context);
     const group = incidentGroups.get(groupKey);
@@ -186,6 +194,14 @@ export async function fireAlert(
       group.lastSeen = Date.now();
       group.count++;
       group.lastMessage = message;
+      if (severityRank(severity) > severityRank(group.severity)) {
+        group.severity = severity;
+      }
+      const scope = context || alertType;
+      if (!group.affectedScope.includes(scope)) {
+        group.affectedScope.push(scope);
+      }
+      persistIncidentGroupUpdate(pool, group, groupKey).catch(() => {});
     }
     console.log(`[AlertEngine] Suppressed (cooldown): ${alertType} - ${message}${group ? ` (occurrence #${group.count})` : ""}`);
     return null;
@@ -198,10 +214,13 @@ export async function fireAlert(
     let group = incidentGroups.get(groupKey);
     const now = Date.now();
 
-    if (group) {
+    if (group && now - group.lastSeen < HARD_RATE_LIMIT_MS) {
       group.lastSeen = now;
       group.count++;
       group.lastMessage = message;
+      if (severityRank(severity) > severityRank(group.severity)) {
+        group.severity = severity;
+      }
     } else {
       group = {
         alertType,
@@ -211,6 +230,8 @@ export async function fireAlert(
         count: 1,
         lastMessage: message,
         notified: false,
+        severity,
+        affectedScope: [context || alertType],
       };
       incidentGroups.set(groupKey, group);
     }
@@ -597,5 +618,64 @@ export function stopAlertingEngine(): void {
     clearInterval(alertInterval);
     alertInterval = null;
     console.log("[AlertEngine] Stopped");
+  }
+}
+
+function severityRank(severity: AlertSeverity): number {
+  switch (severity) {
+    case "critical": return 3;
+    case "warning": return 2;
+    case "info": return 1;
+    default: return 0;
+  }
+}
+
+async function persistIncidentGroupUpdate(pool: pg.Pool, group: IncidentGroup, groupKey: string): Promise<void> {
+  try {
+    await pool.query(
+      `INSERT INTO alert_incident_groups (group_key, alert_type, severity, first_seen, last_seen, occurrence_count, last_message, affected_scope, notified, context)
+       VALUES ($1, $2, $3, to_timestamp($4::double precision / 1000), to_timestamp($5::double precision / 1000), $6, $7, $8, $9, $10)
+       ON CONFLICT (group_key) DO UPDATE SET
+         severity = $3, last_seen = to_timestamp($5::double precision / 1000), occurrence_count = $6,
+         last_message = $7, affected_scope = $8, notified = $9`,
+      [groupKey, group.alertType, group.severity, group.firstSeen, group.lastSeen, group.count, group.lastMessage, JSON.stringify(group.affectedScope), group.notified, group.context || null]
+    );
+  } catch (e: any) {
+    if (!e.message?.includes("does not exist")) {
+      console.error("[AlertEngine] Failed to persist incident group:", e.message);
+    }
+  }
+}
+
+async function checkEmailRateLimitInDb(pool: pg.Pool, alertType: string): Promise<boolean> {
+  try {
+    const result = await pool.query(
+      `SELECT 1 FROM alert_email_rate_limits
+       WHERE alert_type = $1 AND sent_at > NOW() - INTERVAL '30 minutes'
+       LIMIT 1`,
+      [alertType]
+    );
+    return result.rows.length === 0;
+  } catch (e: any) {
+    if (e.message?.includes("does not exist")) {
+      return true;
+    }
+    return true;
+  }
+}
+
+async function recordEmailSentInDb(pool: pg.Pool, alertType: string): Promise<void> {
+  try {
+    await pool.query(
+      `INSERT INTO alert_email_rate_limits (alert_type, sent_at) VALUES ($1, NOW())`,
+      [alertType]
+    );
+    await pool.query(
+      `DELETE FROM alert_email_rate_limits WHERE sent_at < NOW() - INTERVAL '2 hours'`
+    );
+  } catch (e: any) {
+    if (!e.message?.includes("does not exist")) {
+      console.error("[AlertEngine] Failed to record email rate limit:", e.message);
+    }
   }
 }

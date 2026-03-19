@@ -264,4 +264,71 @@ export function registerContentQuarantineRoutes(app: Express): void {
       res.status(500).json({ error: err.message });
     }
   });
+
+  app.post("/api/admin/content-quarantine/repair", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { contentId, contentType } = req.body;
+      if (!contentId || !contentType) return res.status(400).json({ error: "contentId and contentType are required" });
+
+      const { autoRepairContent, validateForPublish } = await import("./content-integrity-validation");
+
+      let contentRow: any = null;
+      if (contentType === "question") {
+        const r = await pool.query(`SELECT * FROM exam_questions WHERE id = $1`, [contentId]);
+        contentRow = r.rows[0] ? snakeToCamel(r.rows[0]) : null;
+      } else if (contentType === "flashcard") {
+        const r = await pool.query(`SELECT * FROM flashcard_bank WHERE id = $1`, [contentId]);
+        contentRow = r.rows[0] ? snakeToCamel(r.rows[0]) : null;
+      } else {
+        const r = await pool.query(`SELECT * FROM content_items WHERE id = $1`, [contentId]);
+        contentRow = r.rows[0] ? snakeToCamel(r.rows[0]) : null;
+      }
+
+      if (!contentRow) return res.status(404).json({ error: "Content not found" });
+
+      const { repairedData, repairs } = autoRepairContent(contentType, contentRow);
+      const validation = validateForPublish(contentType, repairedData);
+
+      res.json({
+        contentId,
+        contentType,
+        repairs,
+        validAfterRepair: validation.valid,
+        remainingErrors: validation.valid ? [] : validation.errors,
+        repairedFields: repairs.map((r: any) => r.field),
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/admin/content-quarantine/audit-history", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { getAuditHistory } = await import("./content-integrity-audit");
+      const limit = Math.min(parseInt(req.query.limit as string) || 20, 100);
+      const history = await getAuditHistory(limit);
+      res.json({ history });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.post("/api/admin/content-quarantine/run-audit", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+
+      const { runPostPublishIntegrityAudit } = await import("./content-integrity-audit");
+      const result = await runPostPublishIntegrityAudit();
+      res.json({ result });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
 }
