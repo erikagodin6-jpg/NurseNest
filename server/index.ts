@@ -914,11 +914,14 @@ export function log(message: string, source = "express") {
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined;
+  let capturedSnippet: string | undefined;
 
   const originalResJson = res.json.bind(res);
   res.json = ((bodyJson: any, ...args: any[]) => {
-    capturedJsonResponse = bodyJson;
+    try {
+      const str = JSON.stringify(bodyJson);
+      capturedSnippet = str.length > 500 ? str.slice(0, 500) + "…" : str;
+    } catch {}
     return originalResJson(bodyJson, ...args);
   }) as any;
 
@@ -926,10 +929,10 @@ app.use((req, res, next) => {
     const duration = Date.now() - start;
     if (path.startsWith("/api")) {
       let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        const body = JSON.stringify(capturedJsonResponse);
-        logLine += ` :: ${body.length > 500 ? body.slice(0, 500) + "…" : body}`;
+      if (capturedSnippet) {
+        logLine += ` :: ${capturedSnippet}`;
       }
+      capturedSnippet = undefined;
       log(logLine);
     }
   });

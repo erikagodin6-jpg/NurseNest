@@ -11688,7 +11688,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
   // Tracking + Admin site analytics (NOW PROTECTED)
   // --------------------
   const recentPageviews = new Map<string, number>();
-  const MAX_RECENT_PAGEVIEWS = 5000;
+  const MAX_RECENT_PAGEVIEWS = 1000;
 
   setInterval(() => {
     const cutoff = Date.now() - 35 * 60 * 1000;

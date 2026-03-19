@@ -11,7 +11,7 @@ interface MissingKeyEntry {
 
 const missingKeysStore: Map<string, MissingKeyEntry> = new Map();
 
-const MAX_STORE_SIZE = 10000;
+const MAX_STORE_SIZE = 500;
 
 const missingKeysPostLimiter = rateLimit({
   windowMs: 60 * 1000,

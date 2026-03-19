@@ -27,7 +27,7 @@ const alertEvents: Array<{
   createdAt: number;
   data: Record<string, any>;
 }> = [];
-const MAX_ALERTS = 500;
+const MAX_ALERTS = 100;
 
 let failureRateWindow: number[] = [];
 const FAILURE_RATE_THRESHOLD = 10;
@@ -35,7 +35,7 @@ const FAILURE_RATE_WINDOW_MS = 60000;
 let healthCheckTimer: ReturnType<typeof setInterval> | null = null;
 const HEALTH_CHECK_INTERVAL_MS = 120000;
 const resilienceAuditLog: Array<{ id: string; action: string; entity: string; entityId: string; details: any; actor: string | null; timestamp: number }> = [];
-const MAX_AUDIT = 500;
+const MAX_AUDIT = 100;
 
 function genId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
@@ -565,9 +565,14 @@ async function checkSessionRestore(): Promise<HealthCheckResult> {
 
 async function checkMemory(): Promise<HealthCheckResult> {
   const start = Date.now();
-  const rssMB = Math.round(process.memoryUsage.rss() / 1024 / 1024);
-  const status = rssMB > 1200 ? "down" : rssMB > 1000 ? "degraded" : "healthy";
-  return { service: "memory", status, latencyMs: Date.now() - start, lastChecked: Date.now(), details: `RSS: ${rssMB}MB` };
+  const mem = process.memoryUsage();
+  const rssMB = Math.round(mem.rss / 1024 / 1024);
+  const heapUsedMB = Math.round(mem.heapUsed / 1024 / 1024);
+  const heapTotalMB = Math.round(mem.heapTotal / 1024 / 1024);
+  const warningMB = parseInt(process.env.MEMORY_WARNING_MB || "0") || 900;
+  const criticalMB = parseInt(process.env.MEMORY_CRITICAL_MB || "0") || 1200;
+  const status = rssMB > criticalMB ? "down" : rssMB > warningMB ? "degraded" : "healthy";
+  return { service: "memory", status, latencyMs: Date.now() - start, lastChecked: Date.now(), details: `RSS: ${rssMB}MB, Heap: ${heapUsedMB}/${heapTotalMB}MB` };
 }
 
 export async function runHealthChecks(): Promise<HealthCheckResult[]> {
@@ -672,7 +677,7 @@ interface RateLimitEntry {
 }
 
 const rateLimitStore = new Map<string, RateLimitEntry>();
-const MAX_RATE_LIMIT_ENTRIES = 5000;
+const MAX_RATE_LIMIT_ENTRIES = 1000;
 const RATE_LIMIT_CLEANUP_INTERVAL = 60000;
 
 setInterval(() => {
@@ -743,7 +748,7 @@ interface ResilienceEvent {
 }
 
 const resilienceEvents: ResilienceEvent[] = [];
-const MAX_EVENTS = 500;
+const MAX_EVENTS = 100;
 
 function addResilienceEvent(type: string, source: string, data: Record<string, any>): void {
   const event: ResilienceEvent = {
@@ -1291,7 +1296,7 @@ export function sensitiveApiRateLimitMiddleware() {
 
 const entitlementCache = new Map<string, { result: any; expiresAt: number }>();
 const ENTITLEMENT_CACHE_TTL = 30000;
-const MAX_ENTITLEMENT_CACHE_SIZE = 2000;
+const MAX_ENTITLEMENT_CACHE_SIZE = 500;
 
 export function getCachedEntitlement(userId: string): any | null {
   const cached = entitlementCache.get(userId);

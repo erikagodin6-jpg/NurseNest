@@ -85,7 +85,7 @@ const vipMetrics = {
   recentShedEvents: [] as Array<{ tier: string; path: string; reason: string; timestamp: number }>,
 };
 
-const MAX_SHED_EVENTS = 200;
+const MAX_SHED_EVENTS = 50;
 
 function resetVipMetricsIfStale() {
   if (Date.now() - vipMetrics.lastResetAt > 3600000) {

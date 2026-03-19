@@ -41,6 +41,7 @@ async function logSecurityEvent(
 }
 
 const userRequestTrackers = new Map<string, { timestamps: number[]; blocked: boolean; blockedUntil: number }>();
+const MAX_REQUEST_TRACKERS = 500;
 
 function cleanupTrackers(): void {
   const now = Date.now();
@@ -53,6 +54,14 @@ function cleanupTrackers(): void {
     );
     if (tracker.timestamps.length === 0 && !tracker.blocked) {
       userRequestTrackers.delete(key);
+    }
+  }
+  if (userRequestTrackers.size > MAX_REQUEST_TRACKERS) {
+    let toDelete = userRequestTrackers.size - MAX_REQUEST_TRACKERS;
+    for (const key of userRequestTrackers.keys()) {
+      if (toDelete <= 0) break;
+      userRequestTrackers.delete(key);
+      toDelete--;
     }
   }
 }

@@ -1,0 +1,127 @@
+You are working on the NurseNest production codebase.
+
+We have a critical production infrastructure and application memory failure that has persisted for over 30 hours.
+
+Observed production alert:
+- Repeated “Service Down: memory” alerts every hour
+- Runtime memory usage is approximately 188–189 MB out of 192–193 MB
+- Utilization is 98%
+- Previous fixes have NOT resolved the issue
+
+This means the app is running with effectively zero memory headroom and is repeatedly failing under production conditions.
+
+Your task is to implement a FULL MEMORY STABILIZATION AND OVERLOAD PROTECTION FIX across the platform.
+
+PRIMARY GOALS
+1. Stop repeated memory-down incidents
+2. Make exams and high-traffic pages reliable
+3. Prevent heavy features from crashing the main web app
+4. Add diagnostics so future memory regressions are detectable immediately
+5. Ensure graceful degradation instead of broken pages
+
+SECTION 1 — INFRASTRUCTURE REVIEW
+First, audit the current deployment/runtime assumptions and identify:
+- current memory limits
+- current deployment mode
+- whether the web process is underprovisioned
+- whether background jobs, AI generation, or exam assembly are running inside the main web process
+- whether there are multiple workers/processes competing for memory
+
+Then propose and implement the minimum safe production configuration for this app.
+Assume that ~192 MB is unacceptable and far too low for this workload.
+
+SECTION 2 — MEMORY LEAK AUDIT
+Audit the codebase for likely memory leaks, especially:
+- global in-memory caches without eviction
+- arrays/maps/objects that grow over time
+- intervals/timeouts not being cleared
+- repeated listeners/subscriptions
+- request-scoped data accidentally retained globally
+- AI generation history stored in memory
+- large logs or buffers retained
+- retry loops
+- repeated frontend polling or refetch loops
+- exam/session state stored in-process
+
+Fix every confirmed or high-probability leak.
+
+SECTION 3 — EXAM PAGE HARDENING
+Audit all exam-related routes and UI flows, including:
+- mock exams
+- live exams
+- question banks
+- practice sessions
+- CAT/NGN related generators if present
+
+Implement these protections:
+- never load massive question sets all at once unless absolutely required
+- paginate or chunk payloads
+- lazy-load rationale and heavy metadata only when needed
+- trim API responses to only required fields
+- remove duplicate object expansion
+- avoid keeping full exam attempts in server memory
+- prevent frontend infinite refetch/re-render loops
+- cap concurrent exam-generation requests
+- add route-level timeout and fallback behavior
+
+SECTION 4 — RESILIENCE AND FAILSAFE BEHAVIOR
+Implement:
+- /health endpoint returning memory, uptime, and core dependency health
+- memory usage logging at regular intervals
+- warnings at 70%, 80%, 90% memory
+- emergency degradation mode above threshold:
+  - disable nonessential heavy features
+  - serve lightweight exam list pages
+  - show graceful fallback instead of crashing
+- per-route circuit breakers for heavy endpoints
+- request concurrency limits
+- safe error boundaries on the frontend
+- meaningful user-facing error states, never blank or broken pages
+
+SECTION 5 — OBSERVABILITY
+Add instrumentation for:
+- process RSS
+- heap used / heap total
+- route-level latency
+- payload sizes
+- request counts on exam endpoints
+- number of concurrent heavy jobs
+- restart frequency
+- memory trend over time
+
+Log enough detail to identify:
+- which routes spike memory
+- whether memory returns to baseline
+- whether leaks persist after requests complete
+
+SECTION 6 — PERFORMANCE AND DATA ACCESS
+Audit all database/API access patterns for wasteful memory usage:
+- overfetching
+- loading all rows into memory
+- large joins returning unnecessary fields
+- expensive server-side aggregation
+- duplicate transformation passes
+- excessive JSON serialization
+- unbounded caching
+
+Replace these with efficient, bounded, production-safe patterns.
+
+SECTION 7 — DELIVERABLES
+Produce:
+1. Root-cause analysis of repeated memory-down alerts
+2. Exact files changed
+3. Exact leaks or pressure points found
+4. Infrastructure recommendations
+5. Code changes implemented
+6. Remaining risks, if any
+7. Verification checklist proving memory behavior improved
+
+NON-NEGOTIABLE REQUIREMENTS
+- Do not give superficial advice only
+- Do not stop at “upgrade memory”
+- Implement both infrastructure-aware and code-level fixes
+- Prioritize production reliability over architectural elegance
+- Never allow exam routes to take down the entire app
+- Never return a dead-end broken page
+
+Start by tracing the highest-memory routes and the heaviest in-process workloads, then apply the fixes systematically.

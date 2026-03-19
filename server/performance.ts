@@ -13,7 +13,7 @@ interface RequestMetric {
   tier?: number;
 }
 
-const RING_BUFFER_SIZE = 10000;
+const RING_BUFFER_SIZE = 2000;
 const metricsBuffer: RequestMetric[] = [];
 let metricsHead = 0;
 let metricsCount = 0;
@@ -156,7 +156,7 @@ interface SlowQueryEntry {
 }
 
 const slowQueryLog: SlowQueryEntry[] = [];
-const MAX_SLOW_QUERIES = 200;
+const MAX_SLOW_QUERIES = 50;
 const SLOW_QUERY_THRESHOLD_MS = 500;
 
 export async function timedQuery(
@@ -211,7 +211,7 @@ interface CacheEntry<T> {
 }
 
 const memoryCache = new Map<string, CacheEntry<any>>();
-const MEMORY_CACHE_MAX_ENTRIES = parseInt(process.env.MEMORY_CACHE_MAX || "0") || 1000;
+const MEMORY_CACHE_MAX_ENTRIES = parseInt(process.env.MEMORY_CACHE_MAX || "0") || 200;
 let cacheCleanupInterval: ReturnType<typeof setInterval> | null = null;
 
 function evictOldestCacheEntries(): void {

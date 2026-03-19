@@ -34,6 +34,8 @@ const EXTENDED_BLOCK_DURATION_MS = 30 * 60 * 1000;
 const EXTENDED_BLOCK_THRESHOLD = 3;
 const TRACKER_CLEANUP_INTERVAL_MS = 10 * 60 * 1000;
 
+const MAX_ABUSE_TRACKERS = 500;
+
 function cleanupAbuseTrackers(): void {
   const now = Date.now();
   const staleThreshold = 60 * 60 * 1000;
@@ -45,6 +47,13 @@ function cleanupAbuseTrackers(): void {
   for (const [key, block] of manualBlocks.entries()) {
     if (block.until > 0 && block.until < now) {
       manualBlocks.delete(key);
+    }
+  }
+  if (abuseTrackers.size > MAX_ABUSE_TRACKERS) {
+    const entries = [...abuseTrackers.entries()].sort((a, b) => a[1].firstSeenAt - b[1].firstSeenAt);
+    const toDelete = abuseTrackers.size - MAX_ABUSE_TRACKERS;
+    for (let i = 0; i < toDelete; i++) {
+      abuseTrackers.delete(entries[i][0]);
     }
   }
 }
