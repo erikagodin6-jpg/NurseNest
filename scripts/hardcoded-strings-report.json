@@ -1,5 +1,53 @@
 [
   {
+    "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/App.tsx",
+    "line": 568,
+    "text": "Loading...",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/App.tsx",
+    "line": 611,
+    "text": "case simulation",
+    "type": "string-prop"
+  },
+  {
+    "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/App.tsx",
+    "line": 1002,
+    "text": "diagnostic assessment",
+    "type": "string-prop"
+  },
+  {
+    "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/App.tsx",
+    "line": 1004,
+    "text": "medication mastery",
+    "type": "string-prop"
+  },
+  {
+    "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/App.tsx",
+    "line": 1067,
+    "text": "custom practice",
+    "type": "string-prop"
+  },
+  {
+    "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/App.tsx",
+    "line": 1068,
+    "text": "performance analytics",
+    "type": "string-prop"
+  },
+  {
+    "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/App.tsx",
+    "line": 1076,
+    "text": "study plan",
+    "type": "string-prop"
+  },
+  {
+    "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/App.tsx",
+    "line": 1156,
+    "text": "offline study",
+    "type": "string-prop"
+  },
+  {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/admin-routes.tsx",
     "line": 128,
     "text": "Loading admin…",
@@ -2029,7 +2077,7 @@
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-ai-ops.tsx",
-    "line": 237,
+    "line": 283,
     "text": "e.g. Ollama Local",
     "type": "string-prop"
   },
@@ -2461,91 +2509,91 @@
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-content-health.tsx",
-    "line": 177,
+    "line": 186,
     "text": "Reason for override (required)...",
     "type": "string-prop"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-content-health.tsx",
-    "line": 252,
+    "line": 268,
     "text": "Total Requests",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-content-health.tsx",
-    "line": 256,
+    "line": 272,
     "text": "Subscriber Requests",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-content-health.tsx",
-    "line": 260,
+    "line": 276,
     "text": "Prioritized",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-content-health.tsx",
-    "line": 264,
+    "line": 280,
     "text": "Shed (Load)",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-content-health.tsx",
-    "line": 271,
+    "line": 287,
     "text": "Current Memory Load",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-content-health.tsx",
-    "line": 290,
+    "line": 306,
     "text": "Load-Shedding Thresholds",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-content-health.tsx",
-    "line": 304,
+    "line": 320,
     "text": "Shed by Tier",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-content-health.tsx",
-    "line": 317,
+    "line": 333,
     "text": "Recent Shed Events",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-content-health.tsx",
-    "line": 347,
+    "line": 363,
     "text": "All Types",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-content-health.tsx",
-    "line": 348,
+    "line": 364,
     "text": "Exam Questions",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-content-health.tsx",
-    "line": 349,
+    "line": 365,
     "text": "Flashcards",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-content-health.tsx",
-    "line": 350,
+    "line": 366,
     "text": "Content Items",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-content-health.tsx",
-    "line": 351,
+    "line": 367,
     "text": "Lessons",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-content-health.tsx",
-    "line": 385,
+    "line": 401,
     "text": "Loading scores...",
     "type": "jsx-text"
   },
@@ -3733,13 +3781,13 @@
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-institutions.tsx",
-    "line": 403,
+    "line": 418,
     "text": "e.g. Humber College",
     "type": "string-prop"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-institutions.tsx",
-    "line": 442,
+    "line": 457,
     "text": "e.g. humber.ca, student.humber.ca",
     "type": "string-prop"
   },
@@ -6031,19 +6079,19 @@
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-seo-autopilot.tsx",
-    "line": 1123,
+    "line": 1150,
     "text": "Page Templates:",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-seo-autopilot.tsx",
-    "line": 1125,
+    "line": 1152,
     "text": "Blog Templates:",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/admin-seo-autopilot.tsx",
-    "line": 1127,
+    "line": 1154,
     "text": "Internal Links:",
     "type": "jsx-text"
   },
@@ -7597,13 +7645,19 @@
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/dashboard.tsx",
-    "line": 749,
+    "line": 503,
+    "text": "Some dashboard data did not load",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/dashboard.tsx",
+    "line": 862,
     "text": "Paused",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/dashboard.tsx",
-    "line": 766,
+    "line": 879,
     "text": "No sessions in progress yet",
     "type": "jsx-text"
   },
@@ -7633,31 +7687,31 @@
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/flashcards.tsx",
-    "line": 3384,
+    "line": 3457,
     "text": "Save $20.88/year",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/flashcards.tsx",
-    "line": 4659,
+    "line": 4784,
     "text": "e.g., What are the signs of right-sided heart failure?",
     "type": "string-prop"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/flashcards.tsx",
-    "line": 4669,
+    "line": 4794,
     "text": "e.g., Peripheral edema, jugular venous distension (JVD), hepatomegaly, weight ga",
     "type": "string-prop"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/flashcards.tsx",
-    "line": 4679,
+    "line": 4804,
     "text": "e.g., Cardiac, Pharmacology, Maternity",
     "type": "string-prop"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/flashcards.tsx",
-    "line": 4791,
+    "line": 4916,
     "text": "e.g., Cardiac medications and their side effects",
     "type": "string-prop"
   },
@@ -7765,19 +7819,37 @@
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/lesson-detail.tsx",
-    "line": 498,
+    "line": 505,
     "text": "e.g. Respiratory, Cardiovascular...",
     "type": "string-prop"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/lesson-detail.tsx",
-    "line": 3522,
+    "line": 2019,
+    "text": "Sign in required",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/lesson-detail.tsx",
+    "line": 2044,
+    "text": "Content temporarily unavailable",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/lesson-detail.tsx",
+    "line": 2104,
+    "text": "Something went wrong",
+    "type": "jsx-text"
+  },
+  {
+    "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/lesson-detail.tsx",
+    "line": 3681,
     "text": "Pearl:",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/lessons.tsx",
-    "line": 1307,
+    "line": 1325,
     "text": "e.g. Endocrine System",
     "type": "string-prop"
   },
@@ -7849,25 +7921,25 @@
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/mock-exam-session.tsx",
-    "line": 1706,
+    "line": 1737,
     "text": "Try a different exam:",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/mock-exam-session.tsx",
-    "line": 1741,
+    "line": 1772,
     "text": "All automatic recovery attempts exhausted",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/mock-exam-session.tsx",
-    "line": 1999,
+    "line": 2030,
     "text": "Your exam data is safe",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/mock-exam-session.tsx",
-    "line": 2159,
+    "line": 2190,
     "text": "Your access is protected.",
     "type": "jsx-text"
   },
@@ -8155,7 +8227,7 @@
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/specialty-seo-page.tsx",
-    "line": 294,
+    "line": 313,
     "text": "View All Nursing Specialties",
     "type": "jsx-text"
   },
