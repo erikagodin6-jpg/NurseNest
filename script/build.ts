@@ -279,7 +279,8 @@ async function buildClientDataModules() {
     platform: "node",
     bundle: false,
     format: "cjs",
-    outdir: "client/src/data",
+    // Emit outside src so Vite/Rollup resolve .ts, not shadowing CJS siblings
+    outdir: "dist/client-data-cjs",
     outbase: "client/src/data",
     define: { "process.env.NODE_ENV": '"production"' },
     minify: true,
@@ -288,6 +289,27 @@ async function buildClientDataModules() {
     loader: ASSET_LOADER,
   });
   console.log(`  Built ${clientDataFiles.length} client data modules`);
+}
+
+/** Remove stale CJS emit files that sit next to .ts/.tsx and break Vite resolution. */
+async function removeShadowingJsNextToTs(rootDir: string) {
+  async function walk(dir: string) {
+    const entries = await readdir(dir, { withFileTypes: true });
+    for (const e of entries) {
+      const full = path.join(dir, e.name);
+      if (e.isDirectory()) {
+        await walk(full);
+      } else if (e.isFile() && e.name.endsWith(".js")) {
+        const base = e.name.slice(0, -3);
+        const ts = path.join(dir, `${base}.ts`);
+        const tsx = path.join(dir, `${base}.tsx`);
+        if (existsSync(ts) || existsSync(tsx)) {
+          await unlink(full);
+        }
+      }
+    }
+  }
+  await walk(rootDir);
 }
 
 async function copySeedData() {
@@ -452,6 +474,9 @@ async function buildAll() {
   log("client data modules done");
 
   if (global.gc) global.gc();
+
+  await removeShadowingJsNextToTs(path.resolve("client/src"));
+  log("pruned shadowing .js next to TS sources under client/src");
 
   await viteBuild();
   log("client done");
