@@ -222,19 +222,25 @@ interface ValidationResult {
 
 function validateLessonContent(content: LessonContent): ValidationResult {
   const reasons: string[] = [];
-  const requiredSections = [
+  const requiredSections: (keyof LessonContent)[] = [
     "overview", "pathophysiology", "cardiopulmonaryPhysiology", "clinicalPresentation",
     "assessment", "abgInterpretation", "respiratoryInterventions", "ventilatorManagement",
     "complications", "clinicalPearls"
   ];
 
-  const missingSections = requiredSections.filter(s => !content[s]);
+  const missingSections = requiredSections.filter((s) => !content[s]);
   if (missingSections.length > 0) {
     reasons.push(`missing_sections: ${missingSections.join(", ")}`);
   }
 
   const allText = requiredSections
-    .map(s => typeof content[s] === "string" ? content[s] : Array.isArray(content[s]) ? content[s].join(" ") : "")
+    .map((s) =>
+      typeof content[s] === "string"
+        ? content[s]
+        : Array.isArray(content[s])
+          ? (content[s] as string[]).join(" ")
+          : ""
+    )
     .join(" ");
   const wc = wordCount(allText);
 

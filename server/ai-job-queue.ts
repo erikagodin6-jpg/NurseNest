@@ -9,6 +9,8 @@ import {
   buildValidationReport,
   type LanguageValidationReport,
 } from "./language-enforcement";
+import { checkAiLimits, recordAiUsage } from "./ai-safety";
+import { emitStructuredLog } from "./log-sink";
 
 const GPT4O_MINI_INPUT_COST = 0.00015 / 1000;
 const GPT4O_MINI_OUTPUT_COST = 0.0006 / 1000;
@@ -16,6 +18,7 @@ const AVG_COST_PER_1K_TOKENS = 0.0004;
 
 import { BoundedMap } from "./bounded-map";
 const runningJobs = new BoundedMap<string, { cancel: boolean; pause: boolean }>(50);
+const MAX_RUNNING_JOBS = 1;
 
 export const JOB_TYPES = [
   "exam_questions", "cat_questions", "flashcards", "lessons",
@@ -268,6 +271,41 @@ function getModelForTier(modelTier: string): string {
 
 function hasRunningJob(): boolean {
   return runningJobs.size > 0;
+}
+
+async function checkAndRecordAiUsage(
+  model: string,
+  response: any,
+  endpoint: string
+): Promise<number> {
+  const check = await checkAiLimits({ userId: "system_ai_job_engine" });
+  if (!check.allowed) {
+    throw new Error(`AI limit reached: ${check.reason}`);
+  }
+
+  const tokensUsed =
+    response?.usage?.total_tokens ||
+    Math.ceil((response?.choices?.[0]?.message?.content?.length || 500) / 4);
+
+  await recordAiUsage(1, tokensUsed, {
+    userId: "system_ai_job_engine",
+    endpoint,
+  }).catch((err: unknown) => {
+    emitStructuredLog(
+      {
+        level: "error",
+        type: "ai_usage_record_failed",
+        provider: "openai",
+        route: "ai-job-queue",
+        job: endpoint,
+        userId: "system_ai_job_engine",
+        msg: err instanceof Error ? err.message : String(err),
+      },
+      "error",
+    );
+  });
+
+  return tokensUsed;
 }
 
 export async function createJob(params: {
@@ -716,6 +754,11 @@ async function executeQBankItem(index: number, config: any, jobId: string, logs:
     ? "Generate CAT (Computer Adaptive Testing) style NCLEX questions with adaptive difficulty. Return valid JSON with a 'questions' array of objects with: stem, options (array of 4), correctAnswer (0-3 index), rationale, category, difficulty (1-5), adaptiveLevel (string: 'below_passing', 'near_passing', 'above_passing')."
     : "Generate NCLEX-style practice questions. Return valid JSON with a 'questions' array of objects with: stem, options (array of 4), correctAnswer (0-3 index), rationale, category, difficulty (1-5).";
 
+  const limitCheck = await checkAiLimits({ userId: "system_ai_job_engine" });
+  if (!limitCheck.allowed) {
+    throw new Error(`AI limit reached: ${limitCheck.reason}`);
+  }
+
   const response = await openai.chat.completions.create({
     model,
     messages: [
@@ -727,7 +770,7 @@ async function executeQBankItem(index: number, config: any, jobId: string, logs:
     response_format: { type: "json_object" },
   });
 
-  const tokens = response.usage?.total_tokens || 0;
+  const tokens = await checkAndRecordAiUsage(model, response, "ai-job-engine-qbank");
   const content = response.choices[0]?.message?.content || "{}";
 
   let questions: any[] = [];
@@ -766,6 +809,11 @@ async function executeAlliedItem(index: number, config: any, jobId: string, logs
   const career = config.career || "respiratory_therapy";
   const topic = config.topic || `${career} certification practice questions batch ${index + 1}`;
 
+  const limitCheck = await checkAiLimits({ userId: "system_ai_job_engine" });
+  if (!limitCheck.allowed) {
+    throw new Error(`AI limit reached: ${limitCheck.reason}`);
+  }
+
   const response = await openai.chat.completions.create({
     model,
     messages: [
@@ -777,7 +825,7 @@ async function executeAlliedItem(index: number, config: any, jobId: string, logs
     response_format: { type: "json_object" },
   });
 
-  const tokens = response.usage?.total_tokens || 0;
+  const tokens = await checkAndRecordAiUsage(model, response, "ai-job-engine-allied");
   const content = response.choices[0]?.message?.content || "{}";
 
   let questions: any[] = [];
@@ -817,6 +865,11 @@ async function executeFlashcardItem(index: number, config: any, jobId: string, l
   const tier = config.tier || "rn_nclex";
   const specialty = config.specialty || "general";
 
+  const limitCheck = await checkAiLimits({ userId: "system_ai_job_engine" });
+  if (!limitCheck.allowed) {
+    throw new Error(`AI limit reached: ${limitCheck.reason}`);
+  }
+
   const response = await openai.chat.completions.create({
     model,
     messages: [
@@ -828,7 +881,7 @@ async function executeFlashcardItem(index: number, config: any, jobId: string, l
     response_format: { type: "json_object" },
   });
 
-  const tokens = response.usage?.total_tokens || 0;
+  const tokens = await checkAndRecordAiUsage(model, response, "ai-job-engine-flashcards");
   const content = response.choices[0]?.message?.content || "{}";
 
   let cards: any[] = [];
@@ -872,6 +925,11 @@ async function executeLessonItem(index: number, config: any, jobId: string, logs
     if (isDup) return { tokens: 0, duplicate: true, logs };
   }
 
+  const limitCheck = await checkAiLimits({ userId: "system_ai_job_engine" });
+  if (!limitCheck.allowed) {
+    throw new Error(`AI limit reached: ${limitCheck.reason}`);
+  }
+
   const response = await openai.chat.completions.create({
     model,
     messages: [
@@ -883,7 +941,7 @@ async function executeLessonItem(index: number, config: any, jobId: string, logs
     response_format: { type: "json_object" },
   });
 
-  const tokens = response.usage?.total_tokens || 0;
+  const tokens = await checkAndRecordAiUsage(model, response, "ai-job-engine-lessons");
   const content = response.choices[0]?.message?.content || "{}";
 
   let lesson: any;

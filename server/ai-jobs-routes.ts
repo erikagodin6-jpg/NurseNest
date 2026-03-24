@@ -1,338 +1,354 @@
-import type { Express } from "express";
 import { pool } from "./storage";
-import { requireAdmin } from "./admin-auth";
-import {
-  createJob,
-  startJob,
-  pauseJob,
-  cancelJob,
-  retryFailedItems,
-  getJobStatus,
-  listJobs,
-  getJobHistory,
-  getJobStats,
-  getBudgetLogs,
-  isKillSwitchActive,
-  setKillSwitch,
-  getSpendCaps,
-  setSpendCaps,
-  getSpendSummary,
-  verifyProductionEnvironment,
-  JOB_TYPES,
-  TIERS,
-  MODEL_TIERS,
-  BATCH_LIMITS,
-} from "./ai-job-queue";
 
-export function registerAiJobsRoutes(app: Express): void {
-  app.get("/api/admin/ai-jobs", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      const limit = parseInt(String(req.query.limit || "50"));
-      const offset = parseInt(String(req.query.offset || "0"));
-      const status = req.query.status as string | undefined;
-      const type = req.query.type as string | undefined;
-      const jobs = await listJobs(limit, offset, status, type);
-      const totalR = await pool.query("SELECT COUNT(*) as c FROM ai_jobs");
-      res.json({ jobs, total: parseInt(totalR.rows[0]?.c || "0") });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
+export interface AuditEntry {
+  actorId: string | null;
+  actorUsername: string | null;
+  action: string;
+  entityType: string;
+  entityId: string | null;
+  beforeState?: unknown;
+  afterState?: unknown;
+  reason?: string;
+  severity?: "info" | "warning" | "critical";
+  ipAddress?: string | null;
+  userAgent?: string | null;
+}
+
+export interface AuditQueryFilters {
+  action?: string;
+  actorId?: string;
+  actorUsername?: string;
+  entityType?: string;
+  entityId?: string;
+  severity?: "info" | "warning" | "critical";
+  startDate?: string;
+  endDate?: string;
+  limit?: number;
+  offset?: number;
+}
+
+const ALLOWED_SEVERITIES = new Set(["info", "warning", "critical"]);
+
+function sanitizeString(value: unknown, maxLength = 255): string | null {
+  if (typeof value !== "string") return null;
+  const cleaned = value.trim().replace(/[<>]/g, "");
+  if (!cleaned) return null;
+  return cleaned.slice(0, maxLength);
+}
+
+function sanitizeOptionalText(value: unknown, maxLength = 2000): string | null {
+  if (typeof value !== "string") return null;
+  const cleaned = value.trim();
+  if (!cleaned) return null;
+  return cleaned.slice(0, maxLength);
+}
+
+function normalizeSeverity(value: unknown): "info" | "warning" | "critical" {
+  const severity = sanitizeString(value, 20)?.toLowerCase() || "info";
+  if (ALLOWED_SEVERITIES.has(severity)) {
+    return severity as "info" | "warning" | "critical";
+  }
+  return "info";
+}
+
+function safeJson(value: unknown): string | null {
+  if (value === undefined) return null;
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return JSON.stringify({ serializationError: true });
+  }
+}
+
+function sanitizeDate(value: unknown): Date | null {
+  if (!value || typeof value !== "string") return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  return date;
+}
+
+function clampLimit(value: unknown, fallback = 50, max = 500): number {
+  const num = Number(value);
+  if (!Number.isFinite(num)) return fallback;
+  return Math.min(Math.max(Math.floor(num), 1), max);
+}
+
+function clampOffset(value: unknown): number {
+  const num = Number(value);
+  if (!Number.isFinite(num)) return 0;
+  return Math.max(Math.floor(num), 0);
+}
+
+function extractIpAddress(req: any): string | null {
+  const forwarded = req?.headers?.["x-forwarded-for"];
+  if (typeof forwarded === "string" && forwarded.trim()) {
+    return forwarded.split(",")[0].trim().slice(0, 100);
+  }
+
+  if (Array.isArray(forwarded) && forwarded.length > 0) {
+    const first = String(forwarded[0] || "").trim();
+    return first ? first.slice(0, 100) : null;
+  }
+
+  if (typeof req?.ip === "string" && req.ip.trim()) {
+    return req.ip.trim().slice(0, 100);
+  }
+
+  return null;
+}
+
+function normalizeAuditEntry(entry: AuditEntry): AuditEntry | null {
+  const actorId = sanitizeString(entry.actorId, 100);
+  const actorUsername = sanitizeString(entry.actorUsername, 150);
+  const action = sanitizeString(entry.action, 120);
+  const entityType = sanitizeString(entry.entityType, 120);
+  const entityId = sanitizeString(entry.entityId, 150);
+  const reason = sanitizeOptionalText(entry.reason, 2000);
+  const severity = normalizeSeverity(entry.severity);
+  const ipAddress = sanitizeString(entry.ipAddress, 100);
+  const userAgent = sanitizeString(entry.userAgent, 500);
+
+  if (!action || !entityType) {
+    return null;
+  }
+
+  return {
+    actorId,
+    actorUsername,
+    action,
+    entityType,
+    entityId,
+    beforeState: entry.beforeState,
+    afterState: entry.afterState,
+    reason: reason ?? undefined,
+    severity,
+    ipAddress,
+    userAgent,
+  };
+}
+
+export async function recordAuditLog(entry: AuditEntry): Promise<string | null> {
+  try {
+    const normalized = normalizeAuditEntry(entry);
+
+    if (!normalized) {
+      console.error("[OpsAudit] Refused to record invalid audit log entry");
+      return null;
     }
+
+    const result = await pool.query(
+      `INSERT INTO audit_logs (
+        id,
+        actor_id,
+        actor_username,
+        entity_type,
+        entity_id,
+        action,
+        before_json,
+        after_json,
+        reason,
+        severity,
+        ip_address,
+        user_agent,
+        created_at
+      )
+      VALUES (
+        gen_random_uuid(),
+        $1, $2, $3, $4, $5, $6::jsonb, $7::jsonb, $8, $9, $10, $11, NOW()
+      )
+      RETURNING id`,
+      [
+        normalized.actorId,
+        normalized.actorUsername,
+        normalized.entityType,
+        normalized.entityId,
+        normalized.action,
+        safeJson(normalized.beforeState),
+        safeJson(normalized.afterState),
+        normalized.reason,
+        normalized.severity,
+        normalized.ipAddress,
+        normalized.userAgent,
+      ],
+    );
+
+    return result.rows[0]?.id || null;
+  } catch (e) {
+    console.error("[OpsAudit] Failed to record audit log:", e);
+    return null;
+  }
+}
+
+export function extractAuditContext(
+  req: any,
+  admin: any,
+): Pick<AuditEntry, "actorId" | "actorUsername" | "ipAddress" | "userAgent"> {
+  return {
+    actorId: sanitizeString(admin?.id, 100),
+    actorUsername: sanitizeString(admin?.username, 150),
+    ipAddress: extractIpAddress(req),
+    userAgent: sanitizeString(req?.headers?.["user-agent"], 500),
+  };
+}
+
+export async function auditAction(
+  req: any,
+  admin: any,
+  action: string,
+  entityType: string,
+  entityId: string | null,
+  opts?: {
+    before?: unknown;
+    after?: unknown;
+    reason?: string;
+    severity?: "info" | "warning" | "critical";
+  },
+): Promise<string | null> {
+  const ctx = extractAuditContext(req, admin);
+
+  return recordAuditLog({
+    ...ctx,
+    action,
+    entityType,
+    entityId,
+    beforeState: opts?.before,
+    afterState: opts?.after,
+    reason: opts?.reason,
+    severity: opts?.severity || "info",
   });
+}
 
-  app.get("/api/admin/ai-jobs/stats", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      const stats = await getJobStats();
-      res.json(stats);
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
+export async function queryAuditLogs(
+  filters: AuditQueryFilters,
+): Promise<{ logs: any[]; total: number }> {
+  const conditions: string[] = [];
+  const params: any[] = [];
+  let idx = 1;
 
-  app.get("/api/admin/ai-jobs/history", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      const limit = parseInt(String(req.query.limit || "100"));
-      const history = await getJobHistory(limit);
-      res.json({ jobs: history });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
+  const action = sanitizeString(filters.action, 120);
+  const actorId = sanitizeString(filters.actorId, 100);
+  const actorUsername = sanitizeString(filters.actorUsername, 150);
+  const entityType = sanitizeString(filters.entityType, 120);
+  const entityId = sanitizeString(filters.entityId, 150);
+  const severity = filters.severity ? normalizeSeverity(filters.severity) : null;
+  const startDate = sanitizeDate(filters.startDate);
+  const endDate = sanitizeDate(filters.endDate);
 
-  app.get("/api/admin/ai-jobs/config", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      const env = verifyProductionEnvironment();
-      res.json({
-        jobTypes: JOB_TYPES,
-        tiers: TIERS,
-        modelTiers: Object.keys(MODEL_TIERS),
-        batchLimits: BATCH_LIMITS,
-        environment: env,
-      });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
+  if (action) {
+    conditions.push(`action = $${idx++}`);
+    params.push(action);
+  }
 
-  app.get("/api/admin/ai-jobs/:id", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      const job = await getJobStatus(req.params.id);
-      if (!job) return res.status(404).json({ error: "Job not found" });
-      res.json({ job });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
+  if (actorId) {
+    conditions.push(`actor_id = $${idx++}`);
+    params.push(actorId);
+  }
 
-  app.post("/api/admin/ai-jobs", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      const { type, tier, contentType, itemCount, batchSize, modelTier, spendCap, duplicateProtection, dryRun, topic, specialty, framework, config } = req.body;
-      if (!type) {
-        return res.status(400).json({ error: "type is required" });
-      }
-      if (!JOB_TYPES.includes(type as any)) {
-        return res.status(400).json({ error: `Invalid type. Must be one of: ${JOB_TYPES.join(", ")}` });
-      }
-      if (tier && !TIERS.includes(tier as any)) {
-        return res.status(400).json({ error: `Invalid tier. Must be one of: ${TIERS.join(", ")}` });
-      }
-      if (modelTier && !MODEL_TIERS[modelTier]) {
-        return res.status(400).json({ error: `Invalid modelTier. Must be one of: ${Object.keys(MODEL_TIERS).join(", ")}` });
-      }
+  if (actorUsername) {
+    conditions.push(`actor_username ILIKE $${idx++}`);
+    params.push(`%${actorUsername}%`);
+  }
 
-      const id = await createJob({
-        type,
-        tier,
-        contentType,
-        itemCount: itemCount ? parseInt(String(itemCount)) : undefined,
-        batchSize: batchSize ? parseInt(String(batchSize)) : undefined,
-        modelTier,
-        spendCap: spendCap ? parseFloat(String(spendCap)) : undefined,
-        duplicateProtection: duplicateProtection !== false,
-        dryRun: dryRun === true,
-        topic,
-        specialty,
-        framework,
-        config: config || {},
-        createdBy: admin.username || admin.id,
-      });
-      res.json({ id, message: "Job created. Use POST /api/admin/ai-jobs/:id/start to begin." });
-    } catch (e: any) {
-      console.error("[AI Jobs] Failed to create job:", e);
-      const isDbError = e.code || e.message?.includes("column") || e.message?.includes("relation") || e.message?.includes("syntax");
-      if (isDbError) {
-        res.status(500).json({ error: "Unable to create AI job — please try again. If the problem persists, contact support." });
-      } else {
-        res.status(400).json({ error: e.message || "Failed to create AI job" });
-      }
-    }
-  });
+  if (entityType) {
+    conditions.push(`entity_type = $${idx++}`);
+    params.push(entityType);
+  }
 
-  app.post("/api/admin/ai-jobs/:id/start", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      await startJob(req.params.id);
-      res.json({ message: "Job started" });
-    } catch (e: any) {
-      res.status(400).json({ error: e.message });
-    }
-  });
+  if (entityId) {
+    conditions.push(`entity_id = $${idx++}`);
+    params.push(entityId);
+  }
 
-  app.post("/api/admin/ai-jobs/:id/pause", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      await pauseJob(req.params.id);
-      res.json({ message: "Job paused" });
-    } catch (e: any) {
-      res.status(400).json({ error: e.message });
-    }
-  });
+  if (severity) {
+    conditions.push(`severity = $${idx++}`);
+    params.push(severity);
+  }
 
-  app.post("/api/admin/ai-jobs/:id/cancel", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      await cancelJob(req.params.id);
-      res.json({ message: "Job cancelled" });
-    } catch (e: any) {
-      res.status(400).json({ error: e.message });
-    }
-  });
+  if (startDate) {
+    conditions.push(`created_at >= $${idx++}`);
+    params.push(startDate);
+  }
 
-  app.post("/api/admin/ai-jobs/:id/retry", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      await retryFailedItems(req.params.id);
-      res.json({ message: "Job queued for retry" });
-    } catch (e: any) {
-      res.status(400).json({ error: e.message });
-    }
-  });
+  if (endDate) {
+    conditions.push(`created_at <= $${idx++}`);
+    params.push(endDate);
+  }
 
-  app.get("/api/admin/ai-kill-switch", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      const active = await isKillSwitchActive();
-      res.json({ active });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
+  const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+  const limit = clampLimit(filters.limit, 50, 500);
+  const offset = clampOffset(filters.offset);
 
-  app.post("/api/admin/ai-kill-switch", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      const { enabled } = req.body;
-      if (typeof enabled !== "boolean") {
-        return res.status(400).json({ error: "enabled must be a boolean" });
-      }
-      await setKillSwitch(enabled, admin.username || admin.id);
-      res.json({ active: enabled, message: enabled ? "Kill switch activated. All AI jobs will stop." : "Kill switch deactivated. AI jobs can now run." });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
+  try {
+    const countResult = await pool.query(
+      `SELECT COUNT(*)::int AS total FROM audit_logs ${whereClause}`,
+      params,
+    );
 
-  app.get("/api/admin/ai-spend", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      const summary = await getSpendSummary();
-      res.json(summary);
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
+    const total = countResult.rows[0]?.total || 0;
 
-  app.get("/api/admin/ai-spend-caps", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      const caps = await getSpendCaps();
-      res.json(caps);
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
+    const dataResult = await pool.query(
+      `SELECT *
+       FROM audit_logs
+       ${whereClause}
+       ORDER BY created_at DESC
+       LIMIT $${idx++}
+       OFFSET $${idx++}`,
+      [...params, limit, offset],
+    );
 
-  app.post("/api/admin/ai-spend-caps", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      const { dailyCap, weeklyCap, perJobCap, monthlyCap } = req.body;
-      await setSpendCaps(
-        {
-          dailyCap: dailyCap != null ? parseFloat(String(dailyCap)) : undefined,
-          weeklyCap: weeklyCap != null ? parseFloat(String(weeklyCap)) : undefined,
-          perJobCap: perJobCap != null ? parseFloat(String(perJobCap)) : undefined,
-          monthlyCap: monthlyCap != null ? parseFloat(String(monthlyCap)) : undefined,
-        },
-        admin.username || admin.id
-      );
-      const updated = await getSpendCaps();
-      res.json(updated);
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
+    return {
+      logs: dataResult.rows,
+      total,
+    };
+  } catch (e) {
+    console.error("[OpsAudit] Failed to query audit logs:", e);
+    return { logs: [], total: 0 };
+  }
+}
 
-  app.get("/api/admin/ai-budget-logs", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      const limit = parseInt(String(req.query.limit || "100"));
-      const logs = await getBudgetLogs(limit);
-      res.json({ logs });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
+export async function getAuditLogActions(): Promise<string[]> {
+  try {
+    const result = await pool.query(
+      `SELECT DISTINCT action
+       FROM audit_logs
+       WHERE action IS NOT NULL
+       ORDER BY action`,
+    );
 
-  app.get("/api/admin/business-health", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      const spendSummary = await getSpendSummary();
+    return result.rows
+      .map((r: any) => r.action)
+      .filter((value: unknown): value is string => typeof value === "string" && value.length > 0);
+  } catch (e) {
+    console.error("[OpsAudit] Failed to load audit actions:", e);
+    return [];
+  }
+}
 
-      const contentStats = await pool.query(`
-        SELECT
-          COUNT(*) FILTER (WHERE status = 'published') as published_count,
-          COUNT(*) FILTER (WHERE status = 'draft') as draft_count,
-          COUNT(*) as total_count
-        FROM content_items
-      `);
+export async function getAuditLogEntityTypes(): Promise<string[]> {
+  try {
+    const result = await pool.query(
+      `SELECT DISTINCT entity_type
+       FROM audit_logs
+       WHERE entity_type IS NOT NULL
+       ORDER BY entity_type`,
+    );
 
-      const aiJobStats = await pool.query(`
-        SELECT
-          COUNT(*) as total_jobs,
-          COUNT(*) FILTER (WHERE status = 'completed') as completed_jobs,
-          COALESCE(SUM(items_completed), 0) as total_items_generated,
-          COALESCE(SUM(actual_cost), 0) as total_ai_spend
-        FROM ai_jobs
-      `);
+    return result.rows
+      .map((r: any) => r.entity_type)
+      .filter((value: unknown): value is string => typeof value === "string" && value.length > 0);
+  } catch (e) {
+    console.error("[OpsAudit] Failed to load audit entity types:", e);
+    return [];
+  }
+}
 
-      let stripeMetrics = { activeSubscribers: 0, mrr: 0, totalRevenue: 0 };
-      try {
-        const { getUncachableStripeClient } = await import("./stripeClient");
-        const stripe = await getUncachableStripeClient();
+export async function exportAuditLogs(filters: AuditQueryFilters): Promise<any[]> {
+  const allFilters: AuditQueryFilters = {
+    ...filters,
+    limit: 10000,
+    offset: 0,
+  };
 
-        const subscriptions = await stripe.subscriptions.list({ status: "active", limit: 100 });
-        stripeMetrics.activeSubscribers = subscriptions.data.length;
-        stripeMetrics.mrr = subscriptions.data.reduce((sum: number, sub: any) => {
-          const amount = sub.items?.data?.[0]?.price?.unit_amount || 0;
-          return sum + (amount / 100);
-        }, 0);
-
-        const charges = await stripe.charges.list({ limit: 100 });
-        stripeMetrics.totalRevenue = charges.data
-          .filter((c: any) => c.status === "succeeded")
-          .reduce((sum: number, c: any) => sum + (c.amount / 100), 0);
-      } catch (stripeErr: any) {
-        console.error("[Business Health] Stripe error:", stripeErr.message);
-      }
-
-      const cs = contentStats.rows[0] || {};
-      const js = aiJobStats.rows[0] || {};
-      const totalAiSpend = parseFloat(String(js.total_ai_spend || "0"));
-      const totalItemsGenerated = parseInt(String(js.total_items_generated || "0"));
-      const costPerItem = totalItemsGenerated > 0 ? totalAiSpend / totalItemsGenerated : 0;
-      const roi = totalAiSpend > 0 ? stripeMetrics.totalRevenue / totalAiSpend : 0;
-
-      res.json({
-        spend: spendSummary,
-        content: {
-          published: parseInt(String(cs.published_count || "0")),
-          drafts: parseInt(String(cs.draft_count || "0")),
-          total: parseInt(String(cs.total_count || "0")),
-        },
-        aiJobs: {
-          totalJobs: parseInt(String(js.total_jobs || "0")),
-          completedJobs: parseInt(String(js.completed_jobs || "0")),
-          totalItemsGenerated,
-          totalAiSpend,
-          costPerItem,
-        },
-        revenue: stripeMetrics,
-        roi,
-      });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
+  const { logs } = await queryAuditLogs(allFilters);
+  return logs;
 }

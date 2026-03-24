@@ -203,16 +203,15 @@ export function registerTutorAdminRoutes(app: Express) {
 
       const result = await pool.query(
         `SELECT id, user_id, username, user_tier, topic, explanation_type, messages,
-                flagged, flag_reason, admin_reviewed, admin_notes, created_at, updated_at
+                flagged, flag_reason, admin_reviewed, admin_notes, created_at, updated_at,
+                COUNT(*) OVER()::int AS _total
          FROM tutor_conversations ${whereClause}
          ORDER BY created_at DESC
          LIMIT $1 OFFSET $2`,
         [limit, offset]
       );
 
-      const countResult = await pool.query(
-        `SELECT COUNT(*)::int as total FROM tutor_conversations ${whereClause}`
-      );
+      const total = result.rows[0]?._total ?? 0;
 
       res.json({
         conversations: result.rows.map((r: any) => ({
@@ -230,7 +229,7 @@ export function registerTutorAdminRoutes(app: Express) {
           createdAt: r.created_at,
           updatedAt: r.updated_at,
         })),
-        total: countResult.rows[0]?.total || 0,
+        total,
       });
     } catch (err: any) {
       console.error("Tutor conversations error:", err.message);

@@ -519,7 +519,7 @@ export function registerPremiumStudyRoutes(app: Express) {
       const state = {
         sessionId: "adaptive-" + Date.now(),
         mode: "adaptive_practice" as any,
-        country: "US",
+        country: "US" as const,
         currentIndex: (usedQuestionIds || []).length,
         totalQuestions: 100,
         timeLimit: 120,

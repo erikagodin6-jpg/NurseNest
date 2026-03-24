@@ -451,6 +451,11 @@ export function stopAutoContainment(): void {
   }
 }
 
+function routeParamString(value: string | string[] | undefined): string {
+  if (value === undefined) return "";
+  return Array.isArray(value) ? (value[0] ?? "") : value;
+}
+
 export function registerAutoContainmentRoutes(app: Express): void {
   app.get("/api/admin/auto-containment/status", async (req: Request, res: Response) => {
     const admin = await requireAdmin(req, res);
@@ -506,7 +511,7 @@ export function registerAutoContainmentRoutes(app: Express): void {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
 
-    const { name } = req.params;
+    const name = routeParamString(req.params.name);
     const status = runbookStatuses.get(name);
     if (!status) return res.status(404).json({ error: `Unknown runbook: ${name}` });
 

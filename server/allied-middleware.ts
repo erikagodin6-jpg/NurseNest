@@ -1,5 +1,10 @@
 import type { Request, Response, NextFunction } from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 import { getCanonicalRoute } from "@shared/careers";
+import { importClientDataAbsolute } from "./client-data-import";
+
+const __dirnameAlliedMw = path.dirname(fileURLToPath(import.meta.url));
 
 declare global {
   namespace Express {
@@ -302,7 +307,9 @@ export async function generateAlliedSitemapAsync(baseUrl: string): Promise<strin
   } catch {}
 
   try {
-    const { paramedicQuestions } = await import("../client/src/data/career-questions/paramedic-questions");
+    const { paramedicQuestions } = await importClientDataAbsolute(
+      path.resolve(__dirnameAlliedMw, "../client/src/data/career-questions/paramedic-questions"),
+    );
     const topicSlugs = new Set<string>();
     for (const q of paramedicQuestions as any[]) {
       const slug = q.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");

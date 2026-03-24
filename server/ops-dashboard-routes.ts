@@ -1,5 +1,6 @@
 import type { Express, Request, Response } from "express";
 import { pool } from "./storage";
+import { routeParamString } from "./route-params";
 import { requireAdmin, requireAdminRole, logAuditAction } from "./admin-auth";
 import type { AdminRole } from "./admin-auth";
 import {
@@ -130,7 +131,7 @@ export function registerOpsDashboardRoutes(app: Express): void {
 
   app.post("/api/admin/ops/feature-flag/:key", requireAdminRole(...OPS_WRITE_ROLES), async (req: Request, res: Response) => {
     const admin = (req as any).adminUser;
-    const { key } = req.params;
+    const key = routeParamString(req.params.key);
     const { enabled, reason } = req.body;
 
     if (typeof enabled !== "boolean") {
@@ -159,7 +160,7 @@ export function registerOpsDashboardRoutes(app: Express): void {
 
   app.post("/api/admin/ops/feature-flag/:key/reset-errors", requireAdminRole(...OPS_WRITE_ROLES), async (req: Request, res: Response) => {
     const admin = (req as any).adminUser;
-    const { key } = req.params;
+    const key = routeParamString(req.params.key);
 
     resetFeatureErrors(key);
 
@@ -177,7 +178,7 @@ export function registerOpsDashboardRoutes(app: Express): void {
 
   app.post("/api/admin/ops/circuit-breaker/:name/reset", requireAdminRole(...OPS_WRITE_ROLES), async (req: Request, res: Response) => {
     const admin = (req as any).adminUser;
-    const { name } = req.params;
+    const name = routeParamString(req.params.name);
 
     const breakers = getCircuitBreakerStates();
     const before = breakers.find(b => b.name === name);

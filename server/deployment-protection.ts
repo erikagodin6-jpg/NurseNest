@@ -489,7 +489,7 @@ export function requestMetricsMiddleware() {
           recordRouteError(req.path, res.statusCode);
         } catch {}
       }
-      return originalEnd.apply(res, args);
+      return (originalEnd as (...a: unknown[]) => unknown).apply(res, args);
     };
     next();
   };

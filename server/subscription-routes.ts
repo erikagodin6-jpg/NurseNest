@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { resolveAuthUser, requireAdmin, signUserToken, hashPassword } from "./admin-auth";
 import { storage, pool } from "./storage";
-import { insertUserSchema } from "@shared/schema";
+import { insertUserSchema, type InsertUser } from "@shared/schema";
 import rateLimit from "express-rate-limit";
 
 export interface SimpleEntitlements {
@@ -106,25 +106,27 @@ export function registerSubscriptionRoutes(app: Express): void {
 
   app.post("/api/auth/signup", signupLimiter, async (req, res) => {
     try {
-      const data = insertUserSchema.parse(req.body);
+      const parsed = insertUserSchema.parse(req.body);
       const { inviteCode, referralCode: refCode, firstName, role: userRole, country, exam } = req.body;
 
-      if (data.email && typeof data.email === "string" && data.email.includes("@")) {
-        data.email = data.email.trim().toLowerCase();
+      if (parsed.email && typeof parsed.email === "string" && parsed.email.includes("@")) {
+        parsed.email = parsed.email.trim().toLowerCase();
       }
 
-      const existing = await storage.getUserByUsername(data.username);
+      const existing = await storage.getUserByUsername(parsed.username);
       if (existing) return res.status(400).json({ error: "Username already taken" });
-      data.password = await hashPassword(data.password);
+      parsed.password = await hashPassword(parsed.password);
 
-      data.tier = "free";
-      data.region = "US";
-      if ((data as any).adminRole) delete (data as any).adminRole;
-      if ((data as any).subscriptionStatus) delete (data as any).subscriptionStatus;
-      if ((data as any).testerAccess) delete (data as any).testerAccess;
-      if ((data as any).isLifetime) delete (data as any).isLifetime;
+      const insertPayload = { ...parsed, tier: "free", region: "US" } as InsertUser & {
+        tier: string;
+        region: string;
+      };
+      if ((insertPayload as any).adminRole) delete (insertPayload as any).adminRole;
+      if ((insertPayload as any).subscriptionStatus) delete (insertPayload as any).subscriptionStatus;
+      if ((insertPayload as any).testerAccess) delete (insertPayload as any).testerAccess;
+      if ((insertPayload as any).isLifetime) delete (insertPayload as any).isLifetime;
 
-      const user = await storage.createUser(data);
+      const user = await storage.createUser(insertPayload as InsertUser);
 
       if (firstName || userRole || country || exam) {
         const updates: string[] = [];

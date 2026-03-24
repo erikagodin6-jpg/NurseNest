@@ -2,6 +2,7 @@ import type { Express, Request, Response, NextFunction } from "express";
 import { pool } from "./storage";
 import type { OrchestratorDeliveryTier } from "@shared/schema";
 import { resolveAuthUser } from "./admin-auth";
+import { queryParamString, routeParamString } from "./route-params";
 
 export interface DeliveryAttemptResult {
   success: boolean;
@@ -579,14 +580,20 @@ export async function evaluateDeliveryMode(
 
 export function deliveryOrchestratorMiddleware(contentType: ContentType) {
   return async (req: Request, res: Response, next: NextFunction) => {
-    const contentId = req.params.id || req.params.contentId || req.params.attemptId;
+    const contentId =
+      routeParamString(req.params.id) ||
+      routeParamString(req.params.contentId) ||
+      routeParamString(req.params.attemptId) ||
+      undefined;
     let userId: string | undefined;
     try {
       const user = await resolveAuthUser(req as any);
       userId = user?.id;
     } catch {}
 
-    const requestedMode = (req.query.fallback as string) || (req.query.delivery_mode as string);
+    const requestedMode =
+      queryParamString(req.query.fallback as string | string[] | undefined) ||
+      queryParamString(req.query.delivery_mode as string | string[] | undefined);
 
     try {
       const decision = await evaluateDeliveryMode(

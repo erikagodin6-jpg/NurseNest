@@ -1,4 +1,5 @@
 import type { Express, Request, Response } from "express";
+import { queryParamString, routeParamString } from "./route-params";
 import { pool } from "./storage";
 import { requireAdmin } from "./admin-auth";
 import {
@@ -132,7 +133,7 @@ export function registerContentQuarantineRoutes(app: Express): void {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const { contentId } = req.params;
+      const contentId = routeParamString(req.params.contentId);
       const quarantined = await isContentQuarantined(contentId);
       const info = quarantined ? await getQuarantineInfo(contentId) : null;
 
@@ -147,8 +148,8 @@ export function registerContentQuarantineRoutes(app: Express): void {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const { contentId } = req.params;
-      const contentType = (req.query.type as string) || "content_item";
+      const contentId = routeParamString(req.params.contentId);
+      const contentType = queryParamString(req.query.type as string | string[] | undefined) || "content_item";
 
       const check = await getContentWithQuarantineCheck(contentId, contentType);
       if (!check.quarantined) {

@@ -1,618 +1,433 @@
-import { Router } from "express";
+import type { Express, Request, Response } from "express";
 import { pool } from "./storage";
-import { resolveAuthUser, requireAdmin } from "./admin-auth";
-import { getUserEntitlements, resolveEntitlementSync, FEATURE_TIERS, isActiveTester, PAID_TIERS, determineAccessSource as centralDetermineAccessSource } from "./entitlements";
-import {
-  getSubscriptionsByUserId, getActiveSubscription,
-  getWebhookEventsByUserId, getEntitlementEventsByUserId,
-  findDuplicateAccounts, findPotentialDuplicates,
-  emitEntitlementEvent, upsertSubscription,
-  normalizeEmail,
-} from "./subscription-sync";
-import type { Feature, Tier } from "./entitlements";
+import { emitStructuredLog } from "./log-sink";
+import { requireAdmin } from "./admin-auth";
+import { tryAcquireSchedulerLease, SCHEDULER_LOCK_NAMES } from "./scheduler-db-lock";
 
-const router = Router();
+/* =========================
+   STATE
+========================= */
 
-router.get("/api/me/entitlements", async (req, res) => {
-  try {
-    const user = await resolveAuthUser(req as any);
-    if (!user) {
-      return res.status(401).json({ error: "Authentication required" });
-    }
+let schedulerInterval: NodeJS.Timeout | null = null;
 
-    const subscription = await getActiveSubscription(user.id);
+/* =========================
+   TIME HELPERS
+========================= */
 
-    const canonicalTier = subscription?.tier || user.tier || "free";
-    const canonicalStatus = subscription?.status || user.subscription_status || user.subscriptionStatus || "inactive";
+function getNextRunAt(
+  frequency: string,
+  hour: number,
+  customDays?: number[]
+): Date {
+  const now = new Date();
+  const next = new Date(now);
 
-    const effectiveUser = { ...user };
-    if (subscription && (subscription.status === "active" || subscription.status === "trialing")) {
-      if (subscription.tier && subscription.tier !== "free") {
-        effectiveUser.tier = subscription.tier;
+  next.setUTCMinutes(0, 0, 0);
+  next.setUTCHours(hour);
+
+  if (next <= now) next.setUTCDate(next.getUTCDate() + 1);
+
+  if (frequency === "daily") return next;
+
+  if (frequency === "weekly") {
+    const day = next.getUTCDay();
+    const offset = day === 0 ? 1 : day === 1 ? 0 : 8 - day;
+    if (offset > 0) next.setUTCDate(next.getUTCDate() + offset);
+    return next;
+  }
+
+  if (frequency === "custom" && customDays?.length) {
+    const sorted = [...customDays].sort((a, b) => a - b);
+
+    for (let i = 0; i < 7; i++) {
+      const candidate = new Date(now);
+      candidate.setUTCDate(candidate.getUTCDate() + i);
+      candidate.setUTCHours(hour, 0, 0, 0);
+
+      if (candidate > now && sorted.includes(candidate.getUTCDay())) {
+        return candidate;
       }
     }
+  }
 
-    const entitlements = getUserEntitlements(effectiveUser);
-    const accessInfo = centralDetermineAccessSource(effectiveUser);
+  return next;
+}
 
-    const featureFlags: Record<string, boolean> = {};
-    for (const [feature, info] of Object.entries(entitlements)) {
-      featureFlags[feature] = info.allowed;
-    }
+/* =========================
+   DB HELPERS
+========================= */
 
-    const isPremiumByResolver = Object.values(entitlements).some(e => e.allowed && e.reason !== "free_feature");
+async function getRunsToday(scheduleId: string): Promise<number> {
+  const today = new Date().toISOString().split("T")[0];
 
-    const canAccessPremiumQuestions = featureFlags["qbank"] || false;
-    const canAccessFlashcards = featureFlags["flashcards"] || false;
-    const canAccessAI = featureFlags["ai_study_coach"] || false;
-    const canAccessMockExams = featureFlags["mock_exams"] || false;
+  const r = await pool.query(
+    `SELECT COUNT(*)::int AS c
+     FROM qbank_generation_runs
+     WHERE schedule_id = $1
+       AND created_at::date = $2::date`,
+    [scheduleId, today]
+  );
 
-    res.json({
-      userId: user.id,
-      tier: canonicalTier,
-      subscriptionStatus: canonicalStatus,
-      isPremium: isPremiumByResolver || accessInfo.source !== "free",
-      accessSource: accessInfo.source,
-      expiresAt: accessInfo.expiresAt,
-      gracePeriodActive: !!subscription?.grace_period_until && new Date(subscription.grace_period_until) > new Date(),
-      gracePeriodUntil: subscription?.grace_period_until || null,
-      isLifetime: subscription?.is_lifetime || user.is_lifetime || user.isLifetime || false,
-      isTester: isActiveTester(effectiveUser),
-      isTrialing: accessInfo.source === "trial",
-      verifiedAt: new Date().toISOString(),
-      features: featureFlags,
-      gating: {
-        canAccessPremiumQuestions,
-        canAccessFlashcards,
-        canAccessAI,
-        canAccessMockExams,
+  return r.rows[0]?.c ?? 0;
+}
+
+async function createRun(schedule: any): Promise<string> {
+  const r = await pool.query(
+    `INSERT INTO qbank_generation_runs
+     (template_key, variant_key, exam_key, region, target_count, status, is_dry_run, triggered_by, schedule_id, model)
+     VALUES ($1,$2,$3,$4,$5,'queued',$6,'schedule',$7,'gpt-4o-mini')
+     RETURNING id`,
+    [
+      schedule.template_key,
+      schedule.variant_key,
+      schedule.exam_key,
+      schedule.region,
+      schedule.questions_per_run || 25,
+      !schedule.auto_ingest,
+      schedule.id,
+    ]
+  );
+
+  return r.rows[0].id;
+}
+
+async function updateSchedule(schedule: any): Promise<void> {
+  await pool.query(
+    `UPDATE qbank_generation_schedules
+     SET last_run_at = NOW(),
+         total_runs_completed = COALESCE(total_runs_completed, 0) + 1,
+         next_run_at = $1,
+         updated_at = NOW()
+     WHERE id = $2`,
+    [
+      getNextRunAt(
+        schedule.frequency || "daily",
+        schedule.run_time_hour ?? 3,
+        schedule.custom_cron_days
+      ),
+      schedule.id,
+    ]
+  );
+}
+
+/* =========================
+   PARSER (SAFE)
+========================= */
+
+function extractQuestions(content: string): any[] {
+  try {
+    const arrayMatch = content.match(/\[[\s\S]*\]/);
+    if (arrayMatch) return JSON.parse(arrayMatch[0]);
+
+    const objectMatch = content.match(/\{[\s\S]*\}/);
+    if (objectMatch) return [JSON.parse(objectMatch[0])];
+  } catch (e) {
+    emitStructuredLog(
+      {
+        level: "warn",
+        type: "entitlement_qbank_scheduler_parse_failed",
+        job: "entitlement_qbank_scheduler",
+        msg: "Failed to parse AI response",
       },
-      subscription: subscription ? {
-        id: subscription.id,
-        stripeSubscriptionId: subscription.stripe_subscription_id,
-        tier: subscription.tier,
-        status: subscription.status,
-        billingInterval: subscription.billing_interval,
-        activeFrom: subscription.active_from,
-        expiresAt: subscription.expires_at,
-        renewsAt: subscription.renews_at,
-        isLifetime: subscription.is_lifetime,
-      } : null,
-    });
-  } catch (e: any) {
-    console.error("[EntitlementAPI] /api/me/entitlements error:", e.message);
-    res.status(500).json({ error: "Failed to resolve entitlements" });
+      "warn",
+    );
   }
-});
 
-router.get("/api/me/subscription", async (req, res) => {
+  return [];
+}
+
+/* =========================
+   GENERATION
+========================= */
+
+async function runGeneration(runId: string, schedule: any): Promise<void> {
   try {
-    const user = await resolveAuthUser(req as any);
-    if (!user) {
-      return res.status(401).json({ error: "Authentication required" });
-    }
+    const { renderPromptForVariant } = await import("./prompts/qbank-templates");
 
-    const subscriptions = await getSubscriptionsByUserId(user.id);
-    const active = subscriptions.find(s => s.status === "active" || s.status === "trialing") || null;
-
-    res.json({
-      userId: user.id,
-      currentSubscription: active ? {
-        id: active.id,
-        stripeSubscriptionId: active.stripe_subscription_id,
-        planId: active.plan_id,
-        planName: active.plan_name,
-        tier: active.tier,
-        billingInterval: active.billing_interval,
-        status: active.status,
-        purchaseSource: active.purchase_source,
-        activeFrom: active.active_from,
-        expiresAt: active.expires_at,
-        renewsAt: active.renews_at,
-        canceledAt: active.canceled_at,
-        trialStart: active.trial_start,
-        trialEnd: active.trial_end,
-        gracePeriodUntil: active.grace_period_until,
-        isLifetime: active.is_lifetime,
-        currency: active.currency,
-        lastVerifiedAt: active.last_verified_at,
-      } : null,
-      history: subscriptions.map(s => ({
-        id: s.id,
-        tier: s.tier,
-        status: s.status,
-        billingInterval: s.billing_interval,
-        activeFrom: s.active_from,
-        expiresAt: s.expires_at,
-        canceledAt: s.canceled_at,
-        isLifetime: s.is_lifetime,
-        createdAt: s.created_at,
-      })),
-      userTier: user.tier || "free",
-      stripeCustomerId: user.stripe_customer_id || user.stripeCustomerId || null,
-      isLifetime: user.is_lifetime || user.isLifetime || false,
-    });
-  } catch (e: any) {
-    console.error("[EntitlementAPI] /api/me/subscription error:", e.message);
-    res.status(500).json({ error: "Failed to retrieve subscription" });
-  }
-});
-
-router.post("/api/billing/refresh-entitlements", async (req, res) => {
-  try {
-    const user = await resolveAuthUser(req as any);
-    if (!user) {
-      return res.status(401).json({ error: "Authentication required" });
-    }
-
-    const stripeCustomerId = user.stripe_customer_id || user.stripeCustomerId;
-    if (!stripeCustomerId) {
-      return res.json({
-        refreshed: false,
-        reason: "no_stripe_customer",
-        currentTier: user.tier || "free",
-      });
-    }
-
-    let stripeSubscription: any = null;
-    try {
-      const { getUncachableStripeClient } = await import("./stripeClient");
-      const stripe = await getUncachableStripeClient();
-      const subs = await stripe.subscriptions.list({
-        customer: stripeCustomerId,
-        status: "all",
-        limit: 1,
-      });
-      stripeSubscription = subs.data[0] || null;
-    } catch (e: any) {
-      console.error("[BillingRefresh] Stripe lookup failed:", e.message);
-      return res.status(503).json({ error: "Unable to reach billing provider" });
-    }
-
-    if (!stripeSubscription) {
-      return res.json({
-        refreshed: true,
-        reason: "no_active_subscription",
-        currentTier: user.tier || "free",
-      });
-    }
-
-    const tier = stripeSubscription.metadata?.tier || user.tier || "free";
-    const status = stripeSubscription.status;
-
-    await upsertSubscription({
-      userId: user.id,
-      stripeSubscriptionId: stripeSubscription.id,
-      stripeCustomerId,
-      tier,
-      status,
-      billingInterval: stripeSubscription.items?.data?.[0]?.plan?.interval || null,
-      renewsAt: stripeSubscription.current_period_end ? new Date(stripeSubscription.current_period_end * 1000) : null,
-      expiresAt: stripeSubscription.current_period_end ? new Date(stripeSubscription.current_period_end * 1000) : null,
-      canceledAt: stripeSubscription.canceled_at ? new Date(stripeSubscription.canceled_at * 1000) : null,
-      currency: stripeSubscription.currency || "usd",
-      amount: stripeSubscription.items?.data?.[0]?.plan?.amount || null,
-    });
-
-    if (status === "active" || status === "trialing") {
-      const storage = (await import("./storage")).storage;
-      const isAdmin = user.tier === "admin";
-      await storage.updateUserStripeInfo(user.id, {
-        stripeSubscriptionId: stripeSubscription.id,
-        subscriptionStatus: "active",
-        ...(isAdmin ? {} : { tier }),
-      });
-    }
-
-    await emitEntitlementEvent(user.id, "access_restored", {
-      tier,
-      accessSource: "subscription",
-      subscriptionId: stripeSubscription.id,
-      metadata: { trigger: "user_refresh", stripeStatus: status },
-    });
-
-    const updatedUser = await pool.query("SELECT * FROM users WHERE id = $1", [user.id]);
-    const refreshedEntitlements = getUserEntitlements(updatedUser.rows[0] || user);
-
-    res.json({
-      refreshed: true,
-      currentTier: updatedUser.rows[0]?.tier || user.tier,
-      stripeStatus: status,
-      entitlements: refreshedEntitlements,
-    });
-  } catch (e: any) {
-    console.error("[BillingRefresh] Error:", e.message);
-    res.status(500).json({ error: "Failed to refresh entitlements" });
-  }
-});
-
-router.post("/api/billing/restore-access", async (req, res) => {
-  try {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-
-    const { userId, tier, reason, hours } = req.body;
-    if (!userId) return res.status(400).json({ error: "userId is required" });
-
-    const user = await pool.query("SELECT * FROM users WHERE id = $1", [userId]);
-    if (!user.rows[0]) return res.status(404).json({ error: "User not found" });
-
-    const targetUser = user.rows[0];
-    const previousTier = targetUser.tier;
-    const targetTier = tier || previousTier || "rpn";
-    const durationHours = hours || 24;
-
-    const storage = (await import("./storage")).storage;
-    const isAdmin = targetUser.tier === "admin";
-
-    if (!isAdmin) {
-      await storage.updateUserStripeInfo(userId, {
-        subscriptionStatus: "active",
-        tier: targetTier,
-      });
-    }
-
-    const gracePeriodUntil = new Date(Date.now() + durationHours * 60 * 60 * 1000);
-
-    await upsertSubscription({
-      userId,
-      tier: targetTier,
-      status: "active",
-      purchaseSource: "admin_restore",
-      gracePeriodUntil,
-      metadata: { restoredBy: admin.id || admin.username, reason: reason || "admin_restore" },
-    });
-
-    await emitEntitlementEvent(userId, "access_restored", {
-      tier: targetTier,
-      previousTier,
-      accessSource: "admin_override",
-      metadata: {
-        restoredBy: admin.id || admin.username,
-        reason: reason || "admin_restore",
-        durationHours,
-      },
-    });
-
-    try {
-      await pool.query(
-        `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, before_json, after_json, reason, severity, created_at)
-         VALUES (gen_random_uuid(), $1, $2, 'user', $3, 'restore_access', $4, $5, $6, 'warning', NOW())`,
-        [
-          admin.id, admin.username, userId,
-          JSON.stringify({ tier: previousTier }),
-          JSON.stringify({ tier: targetTier, gracePeriodUntil }),
-          reason || "admin_restore",
-        ]
-      );
-    } catch {}
-
-    res.json({
-      restored: true,
-      userId,
-      tier: targetTier,
-      previousTier,
-      gracePeriodUntil,
-      restoredBy: admin.username,
-    });
-  } catch (e: any) {
-    console.error("[RestoreAccess] Error:", e.message);
-    res.status(500).json({ error: "Failed to restore access" });
-  }
-});
-
-router.get("/api/admin/subscription-history/:userId", async (req, res) => {
-  try {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-
-    const { userId } = req.params;
-    const subscriptions = await getSubscriptionsByUserId(userId);
-    const user = await pool.query("SELECT id, username, email, tier, subscription_status, stripe_customer_id, is_lifetime FROM users WHERE id = $1", [userId]);
-
-    res.json({
-      user: user.rows[0] || null,
-      subscriptions,
-    });
-  } catch (e: any) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
-router.get("/api/admin/webhook-history/:userId", async (req, res) => {
-  try {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-
-    const { userId } = req.params;
-    const limit = parseInt(req.query.limit as string) || 50;
-    const events = await getWebhookEventsByUserId(userId, limit);
-
-    res.json({ userId, events });
-  } catch (e: any) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
-router.get("/api/admin/entitlement-audit/:userId", async (req, res) => {
-  try {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-
-    const { userId } = req.params;
-    const limit = parseInt(req.query.limit as string) || 50;
-    const events = await getEntitlementEventsByUserId(userId, limit);
-
-    const user = await pool.query("SELECT * FROM users WHERE id = $1", [userId]);
-    const entitlements = user.rows[0] ? getUserEntitlements(user.rows[0]) : {};
-
-    res.json({
-      userId,
-      currentEntitlements: entitlements,
-      auditTrail: events,
-    });
-  } catch (e: any) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
-router.post("/api/admin/refresh-user-entitlements", async (req, res) => {
-  try {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-
-    const { userId } = req.body;
-    if (!userId) return res.status(400).json({ error: "userId required" });
-
-    const user = await pool.query("SELECT * FROM users WHERE id = $1", [userId]);
-    if (!user.rows[0]) return res.status(404).json({ error: "User not found" });
-
-    const targetUser = user.rows[0];
-    const stripeCustomerId = targetUser.stripe_customer_id;
-
-    if (!stripeCustomerId) {
-      return res.json({
-        refreshed: false,
-        reason: "no_stripe_customer",
-        entitlements: getUserEntitlements(targetUser),
-      });
-    }
-
-    let stripeSubscription: any = null;
-    try {
-      const { getUncachableStripeClient } = await import("./stripeClient");
-      const stripe = await getUncachableStripeClient();
-      const subs = await stripe.subscriptions.list({
-        customer: stripeCustomerId,
-        status: "all",
-        limit: 5,
-      });
-      stripeSubscription = subs.data.find((s: any) => s.status === "active" || s.status === "trialing") || subs.data[0] || null;
-    } catch (e: any) {
-      return res.status(503).json({ error: "Stripe lookup failed: " + e.message });
-    }
-
-    if (stripeSubscription) {
-      const tier = stripeSubscription.metadata?.tier || targetUser.tier || "free";
-      const status = stripeSubscription.status;
-
-      await upsertSubscription({
-        userId,
-        stripeSubscriptionId: stripeSubscription.id,
-        stripeCustomerId,
-        tier,
-        status,
-        billingInterval: stripeSubscription.items?.data?.[0]?.plan?.interval || null,
-        renewsAt: stripeSubscription.current_period_end ? new Date(stripeSubscription.current_period_end * 1000) : null,
-        currency: stripeSubscription.currency || "usd",
-      });
-
-      const storage = (await import("./storage")).storage;
-      const isAdmin = targetUser.tier === "admin";
-      if ((status === "active" || status === "trialing") && !isAdmin) {
-        await storage.updateUserStripeInfo(userId, {
-          stripeSubscriptionId: stripeSubscription.id,
-          subscriptionStatus: "active",
-          tier,
-        });
+    const rendered = await renderPromptForVariant(
+      schedule.template_key,
+      schedule.variant_key,
+      {
+        count: schedule.questions_per_run || 25,
+        rationaleMinWords: schedule.rationale_min_words || 250,
       }
-    }
-
-    await emitEntitlementEvent(userId, "access_restored", {
-      tier: targetUser.tier,
-      accessSource: "admin_override",
-      metadata: { trigger: "admin_refresh", adminId: admin.id },
-    });
-
-    const refreshedUser = await pool.query("SELECT * FROM users WHERE id = $1", [userId]);
-    res.json({
-      refreshed: true,
-      user: {
-        id: refreshedUser.rows[0]?.id,
-        tier: refreshedUser.rows[0]?.tier,
-        subscriptionStatus: refreshedUser.rows[0]?.subscription_status,
-      },
-      entitlements: getUserEntitlements(refreshedUser.rows[0] || targetUser),
-    });
-  } catch (e: any) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
-router.post("/api/admin/grant-entitlement", async (req, res) => {
-  try {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-
-    const { userId, tier, hours, reason } = req.body;
-    if (!userId) return res.status(400).json({ error: "userId required" });
-
-    const user = await pool.query("SELECT * FROM users WHERE id = $1", [userId]);
-    if (!user.rows[0]) return res.status(404).json({ error: "User not found" });
-
-    const targetUser = user.rows[0];
-    const previousTier = targetUser.tier;
-    const targetTier = tier || "rpn";
-    const durationHours = hours || 24;
-
-    const storage = (await import("./storage")).storage;
-    const isAdmin = targetUser.tier === "admin";
-
-    if (!isAdmin) {
-      await storage.updateUserStripeInfo(userId, {
-        subscriptionStatus: "active",
-        tier: targetTier,
-      });
-    }
-
-    const expiresAt = new Date(Date.now() + durationHours * 60 * 60 * 1000);
-
-    await pool.query(
-      `INSERT INTO provisional_access_grants (user_id, reason, expires_at, granted_by, metadata)
-       VALUES ($1, $2, $3, $4, $5)`,
-      [userId, reason || "admin_manual_grant", expiresAt, admin.username || admin.id, JSON.stringify({ tier: targetTier, hours: durationHours })]
     );
 
-    await emitEntitlementEvent(userId, "manual_grant", {
-      tier: targetTier,
-      previousTier,
-      accessSource: "admin_override",
-      metadata: {
-        grantedBy: admin.id || admin.username,
-        reason: reason || "admin_manual_grant",
-        durationHours,
-        expiresAt: expiresAt.toISOString(),
+    if (!rendered) throw new Error("Template not found");
+
+    await pool.query(
+      `UPDATE qbank_generation_runs SET status='running', started_at=NOW() WHERE id=$1`,
+      [runId]
+    );
+
+    const OpenAI = (await import("openai")).default;
+    const openai = new OpenAI({
+      apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+    });
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: rendered.systemPrompt },
+        { role: "user", content: rendered.userPrompt },
+      ],
+      max_tokens: 16000,
+      temperature: 0.7,
+    });
+
+    const questions = extractQuestions(
+      response.choices[0]?.message?.content || ""
+    );
+
+    await finalizeRun(runId, schedule, questions, response.usage?.total_tokens || 0);
+
+  } catch (err: any) {
+    emitStructuredLog(
+      {
+        level: "error",
+        type: "entitlement_qbank_scheduler_generation_failed",
+        job: "entitlement_qbank_scheduler",
+        msg: err.message,
       },
-    });
+      "error",
+    );
 
-    try {
-      await pool.query(
-        `INSERT INTO audit_logs (id, actor_id, actor_username, entity_type, entity_id, action, before_json, after_json, reason, severity, created_at)
-         VALUES (gen_random_uuid(), $1, $2, 'user', $3, 'manual_entitlement_grant', $4, $5, $6, 'warning', NOW())`,
-        [
-          admin.id, admin.username, userId,
-          JSON.stringify({ tier: previousTier }),
-          JSON.stringify({ tier: targetTier, expiresAt, durationHours }),
-          reason || "admin_manual_grant",
-        ]
-      );
-    } catch {}
-
-    res.json({
-      granted: true,
-      userId,
-      tier: targetTier,
-      previousTier,
-      expiresAt,
-      grantedBy: admin.username,
-    });
-  } catch (e: any) {
-    res.status(500).json({ error: e.message });
+    await pool.query(
+      `UPDATE qbank_generation_runs
+       SET status='failed', error_message=$1, completed_at=NOW()
+       WHERE id=$2`,
+      [err.message, runId]
+    );
   }
-});
+}
 
-router.get("/api/admin/duplicate-accounts", async (req, res) => {
+/* =========================
+   FINALIZE
+========================= */
+
+async function finalizeRun(
+  runId: string,
+  schedule: any,
+  questions: any[],
+  tokens: number
+): Promise<void> {
+  const accepted = questions.filter((q) => q?.stem || q?.questionType);
+
+  await pool.query(
+    `UPDATE qbank_generation_runs SET
+      status='completed',
+      generated_count=$1,
+      accepted_count=$2,
+      rejected_count=$3,
+      generated_items=$4,
+      preview_items=$5,
+      token_cost=$6,
+      completed_at=NOW()
+     WHERE id=$7`,
+    [
+      questions.length,
+      accepted.length,
+      questions.length - accepted.length,
+      JSON.stringify(questions),
+      JSON.stringify(questions.slice(0, 5)),
+      tokens,
+      runId,
+    ]
+  );
+
+  if (schedule.auto_ingest && accepted.length > 0) {
+    await pool.query(
+      `UPDATE qbank_generation_runs SET ingested=true WHERE id=$1`,
+      [runId]
+    );
+  }
+
+  emitStructuredLog({
+    level: "info",
+    type: "entitlement_qbank_scheduler_run_complete",
+    job: "entitlement_qbank_scheduler",
+    runId,
+    msg: `Run ${runId} complete → ${accepted.length}/${questions.length} accepted`,
+    accepted: accepted.length,
+    total: questions.length,
+  });
+}
+
+/* =========================
+   MAIN LOOP
+========================= */
+
+let schedulerTickRunning = false;
+
+async function checkSchedules(): Promise<void> {
+  if (schedulerTickRunning) {
+    emitStructuredLog(
+      {
+        level: "warn",
+        type: "scheduler_skip",
+        job: "entitlement_qbank_scheduler",
+        reason: "overlapping_tick",
+      },
+      "warn",
+    );
+    return;
+  }
+  const dbLease = await tryAcquireSchedulerLease(SCHEDULER_LOCK_NAMES.ENTITLEMENT_QBANK, 540);
+  if (!dbLease) {
+    emitStructuredLog({
+      level: "info",
+      type: "scheduler_skip",
+      job: "entitlement_qbank_scheduler",
+      reason: "db_lease_held",
+    });
+    return;
+  }
+  schedulerTickRunning = true;
   try {
+  const now = new Date();
+
+  const r = await pool.query(
+    `SELECT * FROM qbank_generation_schedules
+     WHERE enabled = true
+       AND next_run_at <= $1`,
+    [now]
+  );
+
+  for (const schedule of r.rows) {
+    try {
+      const runsToday = await getRunsToday(schedule.id);
+
+      if (runsToday >= (schedule.max_daily_runs || 1)) {
+        await updateSchedule(schedule);
+        continue;
+      }
+
+      const runId = await createRun(schedule);
+      await updateSchedule(schedule);
+
+      // IMPORTANT: non-blocking execution
+      void runGeneration(runId, schedule);
+
+    } catch (err: any) {
+      emitStructuredLog(
+        {
+          level: "error",
+          type: "entitlement_qbank_scheduler_tick_error",
+          job: "entitlement_qbank_scheduler",
+          msg: err.message,
+        },
+        "error",
+      );
+    }
+  }
+  } finally {
+    schedulerTickRunning = false;
+  }
+}
+
+/* =========================
+   START / STOP
+========================= */
+
+export function startScheduler(): void {
+  if (schedulerInterval) {
+    emitStructuredLog(
+      {
+        level: "warn",
+        type: "scheduler_skip",
+        job: "entitlement_qbank_scheduler",
+        reason: "already_running",
+      },
+      "warn",
+    );
+    return;
+  }
+
+  emitStructuredLog({
+    level: "info",
+    type: "scheduler_start",
+    job: "entitlement_qbank_scheduler",
+    msg: "Started",
+  });
+
+  schedulerInterval = setInterval(checkSchedules, 5 * 60 * 1000);
+
+  setTimeout(() => {
+    void checkSchedules();
+  }, 30_000);
+}
+
+export function stopScheduler(): void {
+  if (!schedulerInterval) return;
+
+  clearInterval(schedulerInterval);
+  schedulerInterval = null;
+
+  emitStructuredLog({
+    level: "info",
+    type: "scheduler_stop",
+    job: "entitlement_qbank_scheduler",
+    msg: "Stopped",
+  });
+}
+
+/* =========================
+   ROUTES
+========================= */
+
+export function registerScheduleRoutes(app: Express): void {
+  app.get("/api/admin/qbank/schedules", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
 
-    const email = req.query.email as string;
+    const r = await pool.query(
+      `SELECT * FROM qbank_generation_schedules ORDER BY created_at DESC`
+    );
 
-    if (email) {
-      const duplicates = await findDuplicateAccounts(email);
-      return res.json({ email, accounts: duplicates });
-    }
+    res.json({ schedules: r.rows });
+  });
 
-    const allDuplicates = await findPotentialDuplicates();
-    res.json({ duplicates: allDuplicates });
-  } catch (e: any) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
-router.get("/api/admin/billing-profile/:userId", async (req, res) => {
-  try {
-    const admin = await requireAdmin(req as any, res);
+  app.post("/api/admin/qbank/schedules", async (req: Request, res: Response) => {
+    const admin = await requireAdmin(req, res);
     if (!admin) return;
 
-    const userId = req.params.userId;
-    const { storage } = await import("./storage");
-    const user = await storage.getUser(userId);
-    if (!user) return res.status(404).json({ error: "User not found" });
+    const {
+      name,
+      templateKey,
+      variantKey,
+      examKey,
+      region,
+      frequency = "daily",
+      runTimeHour = 3,
+      enabled = false,
+    } = req.body;
 
-    const subscriptions = await getSubscriptionsByUserId(userId);
-    const activeSubscription = await getActiveSubscription(userId);
-    const webhookEvents = await getWebhookEventsByUserId(userId, 20);
-    const entitlementEvents = await getEntitlementEventsByUserId(userId, 20);
-
-    const effectiveUser = { ...user };
-    if (activeSubscription && (activeSubscription.status === "active" || activeSubscription.status === "trialing")) {
-      if (activeSubscription.tier && activeSubscription.tier !== "free") {
-        effectiveUser.tier = activeSubscription.tier;
-      }
-    }
-    const entitlements = getUserEntitlements(effectiveUser);
-    const featureFlags: Record<string, boolean> = {};
-    for (const [feature, info] of Object.entries(entitlements)) {
-      featureFlags[feature] = info.allowed;
+    if (!name || !templateKey || !variantKey || !examKey || !region) {
+      return res.status(400).json({ error: "Missing required fields" });
     }
 
-    res.json({
-      user: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        tier: user.tier,
-        isLifetime: user.isLifetime,
-        stripeCustomerId: user.stripeCustomerId,
-        stripeSubscriptionId: user.stripeSubscriptionId,
-        subscriptionStatus: user.subscriptionStatus,
-        planExpiresAt: user.planExpiresAt,
-      },
-      currentPlan: activeSubscription ? {
-        id: activeSubscription.id,
-        tier: activeSubscription.tier,
-        status: activeSubscription.status,
-        purchaseSource: activeSubscription.purchase_source || activeSubscription.purchaseSource || "web",
-        billingInterval: activeSubscription.billing_interval || activeSubscription.billingInterval,
-        stripeSubscriptionId: activeSubscription.stripe_subscription_id || activeSubscription.stripeSubscriptionId,
-        stripeCustomerId: activeSubscription.stripe_customer_id || activeSubscription.stripeCustomerId,
-        isLifetime: activeSubscription.is_lifetime || activeSubscription.isLifetime || false,
-        currency: activeSubscription.currency,
-        amount: activeSubscription.amount,
-        activeFrom: activeSubscription.active_from || activeSubscription.activeFrom,
-        expiresAt: activeSubscription.expires_at || activeSubscription.expiresAt,
-        renewsAt: activeSubscription.renews_at || activeSubscription.renewsAt,
-        lastVerifiedAt: activeSubscription.last_verified_at || activeSubscription.lastVerifiedAt,
-      } : null,
-      entitlements: featureFlags,
-      subscriptionHistory: subscriptions.map((s: any) => ({
-        id: s.id,
-        tier: s.tier,
-        status: s.status,
-        purchaseSource: s.purchase_source || s.purchaseSource || "web",
-        billingInterval: s.billing_interval || s.billingInterval,
-        isLifetime: s.is_lifetime || s.isLifetime || false,
-        createdAt: s.created_at || s.createdAt,
-        canceledAt: s.canceled_at || s.canceledAt,
-      })),
-      recentWebhookEvents: webhookEvents.slice(0, 10).map((e: any) => ({
-        id: e.id,
-        eventId: e.event_id || e.eventId,
-        eventType: e.event_type || e.eventType,
-        status: e.status,
-        createdAt: e.created_at || e.createdAt,
-      })),
-      recentEntitlementEvents: entitlementEvents.slice(0, 10).map((e: any) => ({
-        id: e.id,
-        eventType: e.event_type || e.eventType,
-        tier: e.tier,
-        createdAt: e.created_at || e.createdAt,
-      })),
-    });
-  } catch (e: any) {
-    res.status(500).json({ error: e.message });
-  }
-});
+    const nextRunAt = enabled
+      ? getNextRunAt(frequency, runTimeHour)
+      : null;
 
-export default router;
+    const r = await pool.query(
+      `INSERT INTO qbank_generation_schedules
+       (name, template_key, variant_key, exam_key, region, frequency, run_time_hour, enabled, next_run_at)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+       RETURNING *`,
+      [
+        name,
+        templateKey,
+        variantKey,
+        examKey,
+        region,
+        frequency,
+        runTimeHour,
+        enabled,
+        nextRunAt,
+      ]
+    );
+
+    res.json({ schedule: r.rows[0] });
+  });
+}

@@ -1,8 +1,12 @@
 import { pool } from "./storage";
+import { emitStructuredLog } from "./log-sink";
 import { tryGoogleSearchConsole, getInternalSearchMetrics } from "./search-performance-routes";
+import { tryAcquireSchedulerLease, SCHEDULER_LOCK_NAMES } from "./scheduler-db-lock";
 
 let weeklyReportTimer: NodeJS.Timeout | null = null;
 let searchSnapshotTimer: NodeJS.Timeout | null = null;
+let weeklyReportRunning = false;
+let searchSnapshotRunning = false;
 
 function getWeekBounds(weeksAgo: number = 0): { start: Date; end: Date } {
   const now = new Date();
@@ -54,8 +58,38 @@ async function computeWeeklyContentCounts(start: Date, end: Date) {
 }
 
 async function generateWeeklyReport() {
-  console.log("[ReportingScheduler] Generating weekly content report...");
+  if (weeklyReportRunning) {
+    emitStructuredLog(
+      {
+        level: "warn",
+        type: "reporting_scheduler_skip",
+        job: "weekly_report",
+        reason: "overlapping_run",
+      },
+      "warn",
+    );
+    return;
+  }
+  weeklyReportRunning = true;
+  const startedAt = Date.now();
+  emitStructuredLog({
+    level: "info",
+    type: "reporting_scheduler_start",
+    job: "weekly_report",
+  });
   try {
+    const lease = await tryAcquireSchedulerLease(SCHEDULER_LOCK_NAMES.REPORTING_WEEKLY, 900);
+    if (!lease) {
+      emitStructuredLog({
+        level: "info",
+        type: "reporting_scheduler_skip",
+        job: "weekly_report",
+        reason: "db_lease_held",
+        durationMs: Date.now() - startedAt,
+      });
+      return;
+    }
+
     const prevWeekBounds = getWeekBounds(1);
 
     const existing = await pool.query(
@@ -64,7 +98,13 @@ async function generateWeeklyReport() {
     ).catch(() => ({ rows: [] }));
 
     if (existing.rows.length > 0) {
-      console.log("[ReportingScheduler] Weekly report already exists for last week, skipping");
+      emitStructuredLog({
+        level: "info",
+        type: "reporting_scheduler_skip",
+        job: "weekly_report",
+        reason: "already_exists",
+        durationMs: Date.now() - startedAt,
+      });
       return;
     }
 
@@ -94,15 +134,63 @@ async function generateWeeklyReport() {
       ]
     );
 
-    console.log(`[ReportingScheduler] Weekly report generated: ${total} content items`);
+    emitStructuredLog({
+      level: "info",
+      type: "reporting_scheduler_finish",
+      job: "weekly_report",
+      durationMs: Date.now() - startedAt,
+      totalContent: total,
+      msg: `Weekly report generated: ${total} content items`,
+    });
   } catch (error) {
-    console.error("[ReportingScheduler] Weekly report generation error:", error);
+    emitStructuredLog(
+      {
+        level: "error",
+        type: "reporting_scheduler_failure",
+        job: "weekly_report",
+        durationMs: Date.now() - startedAt,
+        msg: error instanceof Error ? error.message : String(error),
+      },
+      "error",
+    );
+  } finally {
+    weeklyReportRunning = false;
   }
 }
 
 async function captureSearchSnapshot() {
-  console.log("[ReportingScheduler] Capturing search performance snapshot...");
+  if (searchSnapshotRunning) {
+    emitStructuredLog(
+      {
+        level: "warn",
+        type: "reporting_scheduler_skip",
+        job: "search_snapshot",
+        reason: "overlapping_run",
+      },
+      "warn",
+    );
+    return;
+  }
+  searchSnapshotRunning = true;
+  const startedAt = Date.now();
+  emitStructuredLog({
+    level: "info",
+    type: "reporting_scheduler_start",
+    job: "search_snapshot",
+  });
   try {
+    const lease = await tryAcquireSchedulerLease(SCHEDULER_LOCK_NAMES.REPORTING_SEARCH_SNAPSHOT, 900);
+    if (!lease) {
+      emitStructuredLog({
+        level: "info",
+        type: "reporting_scheduler_skip",
+        job: "search_snapshot",
+        reason: "db_lease_held",
+        durationMs: Date.now() - startedAt,
+      });
+      return;
+    }
+
     let metrics = await tryGoogleSearchConsole();
     if (!metrics) {
       metrics = await getInternalSearchMetrics();
@@ -127,9 +215,29 @@ async function captureSearchSnapshot() {
       ]
     );
 
-    console.log(`[ReportingScheduler] Search snapshot captured (${metrics.dataSource}): ${indexedPages} indexed pages`);
+    emitStructuredLog({
+      level: "info",
+      type: "reporting_scheduler_finish",
+      job: "search_snapshot",
+      durationMs: Date.now() - startedAt,
+      indexedPages,
+      provider: metrics.dataSource === "google_search_console" ? "google_search_console" : "internal",
+      dataSource: metrics.dataSource,
+      msg: `Search snapshot captured (${metrics.dataSource}): ${indexedPages} indexed pages`,
+    });
   } catch (error) {
-    console.error("[ReportingScheduler] Search snapshot error:", error);
+    emitStructuredLog(
+      {
+        level: "error",
+        type: "reporting_scheduler_failure",
+        job: "search_snapshot",
+        durationMs: Date.now() - startedAt,
+        msg: error instanceof Error ? error.message : String(error),
+      },
+      "error",
+    );
+  } finally {
+    searchSnapshotRunning = false;
   }
 }
 
@@ -164,7 +272,13 @@ function scheduleWeeklyReport() {
   const nextRun = getNextMondayMorning();
   const delayMs = nextRun.getTime() - Date.now();
 
-  console.log(`[ReportingScheduler] Next weekly report at ${nextRun.toISOString()} (${Math.round(delayMs / 3600000)}h from now)`);
+  emitStructuredLog({
+    level: "info",
+    type: "reporting_scheduler_scheduled",
+    job: "weekly_report",
+    msg: `Next weekly report at ${nextRun.toISOString()} (${Math.round(delayMs / 3600000)}h from now)`,
+    nextRunAt: nextRun.toISOString(),
+  });
 
   weeklyReportTimer = setTimeout(async () => {
     await generateWeeklyReport();
@@ -176,7 +290,13 @@ function scheduleDailySnapshot() {
   const nextRun = getNextSnapshotTime();
   const delayMs = nextRun.getTime() - Date.now();
 
-  console.log(`[ReportingScheduler] Next search snapshot at ${nextRun.toISOString()} (${Math.round(delayMs / 3600000)}h from now)`);
+  emitStructuredLog({
+    level: "info",
+    type: "reporting_scheduler_scheduled",
+    job: "search_snapshot",
+    msg: `Next search snapshot at ${nextRun.toISOString()} (${Math.round(delayMs / 3600000)}h from now)`,
+    nextRunAt: nextRun.toISOString(),
+  });
 
   searchSnapshotTimer = setTimeout(async () => {
     await captureSearchSnapshot();
@@ -185,7 +305,12 @@ function scheduleDailySnapshot() {
 }
 
 export function startReportingScheduler() {
-  console.log("[ReportingScheduler] Reporting scheduler initialized");
+  emitStructuredLog({
+    level: "info",
+    type: "reporting_scheduler_init",
+    job: "reporting_scheduler",
+    msg: "Reporting scheduler initialized",
+  });
   scheduleWeeklyReport();
   scheduleDailySnapshot();
 }
@@ -199,5 +324,10 @@ export function stopReportingScheduler() {
     clearTimeout(searchSnapshotTimer);
     searchSnapshotTimer = null;
   }
-  console.log("[ReportingScheduler] Scheduler stopped");
+  emitStructuredLog({
+    level: "info",
+    type: "reporting_scheduler_stop",
+    job: "reporting_scheduler",
+    msg: "Scheduler stopped",
+  });
 }

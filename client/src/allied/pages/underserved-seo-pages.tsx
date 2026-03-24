@@ -6,10 +6,16 @@ import {
   ArrowRight, CheckCircle2, ChevronDown, Award, BarChart3,
   BookOpen, Brain, Target, Users, ShieldCheck, Hand,
   FileText, GraduationCap, Briefcase, TrendingUp, Clock,
-  Heart, Shield, Star, Zap, HelpCircle, MapPin
+  Heart, Shield, Star, Zap, HelpCircle, MapPin, Activity,
 } from "lucide-react";
 
-type ProfessionSlug = "social-worker" | "psychotherapist" | "addictions-counsellor" | "occupational-therapy";
+type ProfessionSlug =
+  | "social-worker"
+  | "psychotherapist"
+  | "addictions-counsellor"
+  | "occupational-therapy"
+  | "physical-therapy"
+  | "health-info-mgmt";
 type PageType = "exam-prep" | "career-guide" | "study-guide" | "practice-questions";
 
 interface UnderservedSEOPageProps {
@@ -156,6 +162,61 @@ const PROFESSION_CONFIG: Record<ProfessionSlug, {
     flashcardsPath: "/allied-health/occupational-therapy/flashcards",
     mockExamsPath: "/allied-health/occupational-therapy/mock-exams",
   },
+  "physical-therapy": {
+    label: "Physical Therapy",
+    shortName: "Physical Therapy",
+    color: "#00897B",
+    colorAccent: "#B2DFDB",
+    colorTailwind: "teal",
+    Icon: Activity,
+    examNames: ["NPTE", "PCE (Canada)"],
+    domains: [
+      "Musculoskeletal",
+      "Neuromuscular & Nervous Systems",
+      "Cardiovascular & Pulmonary",
+      "Other Systems",
+      "Equipment & Devices; Therapeutic Modalities",
+      "Safety & Professional Responsibilities",
+      "Research & Evidence-Based Practice",
+    ],
+    features: [
+      "NPTE-style clinical cases",
+      "Special tests & interventions",
+      "Cardiopulmonary rehab scenarios",
+      "Ethics & jurisprudence drills",
+    ],
+    dashboardPath: "/allied-health/physical-therapy/dashboard",
+    qbankPath: "/qbank?career=physical-therapy",
+    flashcardsPath: "/allied-health/physical-therapy/flashcards",
+    mockExamsPath: "/allied-health/physical-therapy/mock-exams",
+  },
+  "health-info-mgmt": {
+    label: "Health Information Management",
+    shortName: "Health Information",
+    color: "#1565C0",
+    colorAccent: "#BBDEFB",
+    colorTailwind: "blue",
+    Icon: FileText,
+    examNames: ["RHIA", "RHIT", "CCS (coding)"],
+    domains: [
+      "Data Content, Structure & Standards",
+      "Information Protection",
+      "Informatics, Analytics & Data Use",
+      "Revenue Management",
+      "Compliance",
+      "Leadership",
+    ],
+    features: [
+      "AHIMA-style competency coverage",
+      "Privacy, HIPAA & release of information",
+      "Revenue cycle & coding concepts",
+      "Data quality & registry basics",
+    ],
+    dashboardPath: "/allied-health/health-info-mgmt/dashboard",
+    qbankPath: "/qbank?career=health-info-mgmt",
+    flashcardsPath: "/allied-health/health-info-mgmt/flashcards",
+    mockExamsPath: "/allied-health/health-info-mgmt/mock-exams",
+  },
 };
 
 interface PageContent {
@@ -168,7 +229,7 @@ interface PageContent {
   faqs: { q: string; a: string }[];
 }
 
-function getPageContent(profession: ProfessionSlug, pageType: PageType): PageContent {
+function getPageContent(profession: ProfessionSlug, pageType: PageType): PageContent | null {
 
   const cfg = PROFESSION_CONFIG[profession];
   const exams = cfg.examNames.join(", ");
@@ -488,9 +549,83 @@ function getPageContent(profession: ProfessionSlug, pageType: PageType): PageCon
         ],
       },
     },
+    "physical-therapy": {
+      "career-guide": {
+        title: `Physical Therapy Career Guide | Education, Licensing & Salary`,
+        metaDesc: `Career guide for physical therapists. DPT education, NPTE licensing, salary ranges, practice settings, and specialization paths for aspiring PTs.`,
+        keywords: `physical therapy career, DPT requirements, NPTE licensing, physical therapist salary, PT education, physical therapy job outlook`,
+        h1: "Physical Therapy Career Guide",
+        heroSub:
+          "Plan your path to licensure—from CAPTE-accredited DPT programs and clinical education to the NPTE, state licensure, residencies/fellowships, and high-demand practice settings.",
+        sections: [
+          {
+            heading: "Education & Clinical Training",
+            content:
+              "Entry-level practice in the United States requires a Doctor of Physical Therapy (DPT) from a CAPTE-accredited program. Coursework covers musculoskeletal, neuromuscular, cardiopulmonary, and integumentary systems; therapeutic exercise; manual therapy; pharmacology; imaging; and evidence-based practice. Full-time clinical education (typically 30+ weeks) builds patient management skills across inpatient, outpatient, neuro, ortho, and acute care. Canadian pathways differ by province but similarly emphasize master's-level training and national/clinical exams.",
+          },
+          {
+            heading: "Licensure & the NPTE",
+            content:
+              "After graduation, candidates sit for the National Physical Therapy Examination (NPTE) administered by FSBPT, then apply for licensure in each state of practice. Requirements include jurisprudence exams in some jurisdictions, background checks, and continuing competence. Maintaining licensure requires ongoing CEUs. Understanding scope of practice, referral relationships, and documentation standards is essential from day one.",
+          },
+          {
+            heading: "Salary, Demand & Practice Settings",
+            content:
+              "PTs work in outpatient orthopedics, hospitals, home health, skilled nursing, schools, sports medicine, and telehealth. Compensation varies by setting, geography, experience, and specialization. Demand remains strong due to aging populations, chronic disease management, and value-based care emphasizing mobility and fall prevention.",
+          },
+          {
+            heading: "Specialization & Advancement",
+            content:
+              "Board certification (e.g., orthopedics, neurology, sports, pediatrics), residency and fellowship training, cash-based practices, and leadership roles in clinics or health systems are common advancement routes. Many PTs pursue teaching, research, or hybrid clinical-educator positions.",
+          },
+        ],
+        faqs: [
+          { q: "Do I need a doctorate to practice as a PT in the US?", a: "Yes. The DPT is the required entry-level degree for licensure in the United States." },
+          { q: "What exam do I take for US licensure?", a: "Graduates typically take the NPTE through FSBPT, then complete state-specific licensure steps." },
+          { q: "Can PTs specialize?", a: "Yes—through residencies, fellowships, and ABPTS board certification in focused practice areas." },
+        ],
+      },
+    },
+    "health-info-mgmt": {
+      "career-guide": {
+        title: `Health Information Management Career Guide | RHIA, RHIT & Coding Pathways`,
+        metaDesc: `Career guide for health information professionals. Education for RHIA/RHIT, CCS coding, privacy & compliance roles, salaries, and digital health career paths.`,
+        keywords: `health information management career, RHIA, RHIT, medical coding career, HIM salary, health informatics jobs, HIPAA career`,
+        h1: "Health Information Management Career Guide",
+        heroSub:
+          "Navigate accredited HIM programs, AHIMA credentials, coding and revenue-cycle roles, privacy & security careers, and the shift toward analytics, informatics, and interoperability.",
+        sections: [
+          {
+            heading: "Education & Core Credentials",
+            content:
+              "Health Information Management blends clinical knowledge with data governance, coding, privacy, and analytics. CAHIIM-accredited programs support eligibility for AHIMA credentials such as RHIA and RHIT. Coding specialists often pursue CCS or CCA and build expertise in ICD-10-CM/PCS, CPT, and payer rules. Informatics-focused roles may emphasize data standards (HL7 FHIR), EHR build, and quality reporting.",
+          },
+          {
+            heading: "Privacy, Security & Compliance",
+            content:
+              "HIM professionals operationalize HIPAA minimum necessary standards, authorization workflows, breach analysis, release of information, and audit responses. Risk analysis, security rule safeguards, and policy management intersect with IT and legal teams—creating hybrid compliance career ladders.",
+          },
+          {
+            heading: "Revenue Cycle & Data Integrity",
+            content:
+              "Accurate documentation, coder–clinician collaboration, CDI programs, and denial management protect revenue integrity. HIM leads DRG/APC accuracy initiatives, registry abstraction, and clinical documentation improvement that ties clinical facts to coded data.",
+          },
+          {
+            heading: "Salary Outlook & Career Paths",
+            content:
+              "Roles span acute hospitals, payers, vendors, consulting, and public health. Compensation varies by credential, setting, and geography. Growth areas include clinical informatics, analytics, privacy officer tracks, and data quality leadership for value-based care programs.",
+          },
+        ],
+        faqs: [
+          { q: "What is the difference between RHIA and RHIT?", a: "RHIA aligns with baccalaureate-level HIM leadership curricula; RHIT historically aligns with associate-level programs—verify current AHIMA eligibility requirements for your program." },
+          { q: "Is HIM only about medical coding?", a: "No—HIM spans data integrity, privacy, release of information, informatics, analytics, and compliance in addition to coding." },
+          { q: "Are remote HIM jobs available?", a: "Many coding, ROI, audit, and informatics roles support remote or hybrid models depending on employer policies." },
+        ],
+      },
+    },
   };
 
-  return contentMap[profession]?.[pageType] || null!;
+  return contentMap[profession]?.[pageType] ?? null;
 }
 
 function FAQSection({ faqs }: { faqs: { q: string; a: string }[] }) {
@@ -517,6 +652,7 @@ function FAQSection({ faqs }: { faqs: { q: string; a: string }[] }) {
 }
 
 export function UnderservedSEOPage({ profession, pageType }: UnderservedSEOPageProps) {
+  const { t } = useI18n();
   const cfg = PROFESSION_CONFIG[profession];
   const content = getPageContent(profession, pageType);
 

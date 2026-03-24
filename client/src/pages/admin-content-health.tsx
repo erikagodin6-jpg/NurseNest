@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { adminFetch } from "@/lib/admin-fetch";
+import { adminFetch, adminJson } from "@/lib/admin-fetch";
+import { ApiError, getAdminOpsMessageForCode, readApiJsonResponse } from "@/lib/api-error";
 import {
   Shield,
   AlertTriangle,
@@ -40,49 +41,30 @@ export default function AdminContentHealth() {
 
   const summaryQuery = useQuery({
     queryKey: ["content-health-summary"],
-    queryFn: async () => {
-      const res = await adminFetch("/api/admin/content-health/summary");
-      if (!res.ok) throw new Error("Failed to load summary");
-      return res.json();
-    },
+    queryFn: () => adminJson("/api/admin/content-health/summary"),
     refetchInterval: 30000,
   });
 
   const scoresQuery = useQuery({
     queryKey: ["content-health-scores", contentType, sortDir],
-    queryFn: async () => {
-      const res = await adminFetch(`/api/admin/content-health/scores?type=${contentType}&sortBy=score&sortDir=${sortDir}`);
-      if (!res.ok) throw new Error("Failed to load scores");
-      return res.json();
-    },
+    queryFn: () =>
+      adminJson(`/api/admin/content-health/scores?type=${contentType}&sortBy=score&sortDir=${sortDir}`),
   });
 
   const releaseGateQuery = useQuery({
     queryKey: ["release-gate"],
-    queryFn: async () => {
-      const res = await adminFetch("/api/admin/release-gate/check");
-      if (!res.ok) throw new Error("Failed to check release gate");
-      return res.json();
-    },
+    queryFn: () => adminJson("/api/admin/release-gate/check"),
   });
 
   const vipQuery = useQuery({
     queryKey: ["vip-priority-status"],
-    queryFn: async () => {
-      const res = await adminFetch("/api/admin/vip-priority/status");
-      if (!res.ok) throw new Error("Failed to load VIP status");
-      return res.json();
-    },
+    queryFn: () => adminJson("/api/admin/vip-priority/status"),
     refetchInterval: 15000,
   });
 
   const overridesQuery = useQuery({
     queryKey: ["gate-overrides"],
-    queryFn: async () => {
-      const res = await adminFetch("/api/admin/gate-overrides?limit=20");
-      if (!res.ok) throw new Error("Failed to load overrides");
-      return res.json();
-    },
+    queryFn: () => adminJson("/api/admin/gate-overrides?limit=20"),
   });
 
   const releaseOverrideMutation = useMutation({
@@ -92,11 +74,11 @@ export default function AdminContentHealth() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error((err as any).error || "Override failed");
+      const parsed = await readApiJsonResponse(res);
+      if (!parsed.ok) {
+        throw new ApiError(parsed.message, parsed.status, parsed.errorBody);
       }
-      return res.json();
+      return parsed.data;
     },
     onSuccess: () => {
       setOverrideReason("");
@@ -111,8 +93,35 @@ export default function AdminContentHealth() {
   const releaseGate = releaseGateQuery.data;
   const vipStatus = vipQuery.data;
 
+  const contentHealthErrors = [
+    summaryQuery.isError && { label: "Summary", q: summaryQuery },
+    scoresQuery.isError && { label: "Scores", q: scoresQuery },
+    releaseGateQuery.isError && { label: "Release gate", q: releaseGateQuery },
+    vipQuery.isError && { label: "VIP status", q: vipQuery },
+    overridesQuery.isError && { label: "Overrides", q: overridesQuery },
+  ].filter(Boolean) as { label: string; q: { error: unknown; refetch: () => void } }[];
+
   return (
     <div className="space-y-6" data-testid="admin-content-health">
+      {contentHealthErrors.length > 0 && (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 space-y-2" data-testid="banner-content-health-errors">
+          {contentHealthErrors.map(({ label, q }) => {
+            const err = q.error;
+            const msg =
+              err instanceof ApiError
+                ? getAdminOpsMessageForCode(err.code, err.message)
+                : `${label}: failed to load.`;
+            return (
+              <div key={label} className="flex flex-wrap items-center gap-2 text-sm text-amber-900">
+                <span>{msg}</span>
+                <Button size="sm" variant="outline" onClick={() => q.refetch()}>
+                  Retry {label}
+                </Button>
+              </div>
+            );
+          })}
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {summary?.contentTypes?.map((ct: any) => (
           <Card key={ct.label} data-testid={`card-health-${ct.label.toLowerCase().replace(/\s+/g, "-")}`}>
@@ -205,7 +214,14 @@ export default function AdminContentHealth() {
                     </Button>
                   </div>
                   {releaseOverrideMutation.isError && (
-                    <p className="text-sm text-red-600">{(releaseOverrideMutation.error as Error).message}</p>
+                    <p className="text-sm text-red-600">
+                      {releaseOverrideMutation.error instanceof ApiError
+                        ? getAdminOpsMessageForCode(
+                            releaseOverrideMutation.error.code,
+                            releaseOverrideMutation.error.message,
+                          )
+                        : (releaseOverrideMutation.error as Error).message}
+                    </p>
                   )}
                 </div>
               ) : (

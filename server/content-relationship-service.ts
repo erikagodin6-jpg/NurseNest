@@ -1,4 +1,9 @@
+import path from "path";
+import { fileURLToPath } from "url";
 import { pool } from "./storage";
+import { importClientDataAbsolute } from "./client-data-import";
+
+const __dirnameContentRel = path.dirname(fileURLToPath(import.meta.url));
 
 export interface RelatedContentItem {
   type: "lesson" | "blog" | "flashcard" | "exam-question" | "clinical-clarity" | "glossary" | "medication" | "lab-value" | "condition";
@@ -136,9 +141,12 @@ let _conditionCache: any[] | null = null;
 async function getMedications(): Promise<any[]> {
   if (_medicationCache) return _medicationCache;
   try {
-    const { seoMedications } = await import("../client/src/data/seo-medications");
-    _medicationCache = seoMedications || [];
-    return _medicationCache;
+    const { seoMedications } = await importClientDataAbsolute(
+      path.resolve(__dirnameContentRel, "../client/src/data/seo-medications"),
+    );
+    const list = seoMedications ?? [];
+    _medicationCache = list;
+    return list;
   } catch {
     return [];
   }
@@ -147,9 +155,12 @@ async function getMedications(): Promise<any[]> {
 async function getLabValues(): Promise<any[]> {
   if (_labValueCache) return _labValueCache;
   try {
-    const { seoLabValues } = await import("../client/src/data/seo-lab-values");
-    _labValueCache = seoLabValues || [];
-    return _labValueCache;
+    const { seoLabValues } = await importClientDataAbsolute(
+      path.resolve(__dirnameContentRel, "../client/src/data/seo-lab-values"),
+    );
+    const list = seoLabValues ?? [];
+    _labValueCache = list;
+    return list;
   } catch {
     return [];
   }
@@ -158,9 +169,12 @@ async function getLabValues(): Promise<any[]> {
 async function getConditions(): Promise<any[]> {
   if (_conditionCache) return _conditionCache;
   try {
-    const { seoConditions } = await import("../client/src/data/seo-conditions");
-    _conditionCache = seoConditions || [];
-    return _conditionCache;
+    const { seoConditions } = await importClientDataAbsolute(
+      path.resolve(__dirnameContentRel, "../client/src/data/seo-conditions"),
+    );
+    const list = seoConditions ?? [];
+    _conditionCache = list;
+    return list;
   } catch {
     return [];
   }
@@ -403,14 +417,14 @@ async function findRelatedMedications(
     let score = 0;
     for (const term of keyTerms) {
       if (medNorm.includes(term) || term.includes(medNorm)) score += 5;
-      if (brandNorms.some(b => b.includes(term) || term.includes(b))) score += 4;
+      if (brandNorms.some((b: string) => b.includes(term) || term.includes(b))) score += 4;
       if (medClass.includes(term)) score += 3;
-      if (medIndications.some(i => i.includes(term))) score += 2;
-      if (medKeywords.some(k => k.includes(term))) score += 1;
+      if (medIndications.some((i: string) => i.includes(term))) score += 2;
+      if (medKeywords.some((k: string) => k.includes(term))) score += 1;
     }
 
     for (const sys of bodySystems) {
-      if (medClass.includes(sys) || medIndications.some(i => i.includes(sys))) score += 2;
+      if (medClass.includes(sys) || medIndications.some((i: string) => i.includes(sys))) score += 2;
     }
 
     if (score >= 3) {

@@ -1,5 +1,10 @@
 import type { Express, Request, Response } from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 import { resolveAuthUser } from "./admin-auth";
+import { importClientDataAbsolute } from "./client-data-import";
+
+const __dirnameRrtPharm = path.dirname(fileURLToPath(import.meta.url));
 import { checkEntitlement } from "./entitlements";
 
 interface PharmacologyTopicFull {
@@ -41,7 +46,9 @@ function stripPremiumFields(topic: PharmacologyTopicFull) {
 export function registerRrtPharmacologyRoutes(app: Express) {
   app.get("/api/allied/rrt/pharmacology/topics", async (_req: Request, res: Response) => {
     try {
-      const { RRT_PHARMACOLOGY_TOPICS } = await import("../client/src/data/lessons/rrt-pharmacology-topics");
+      const { RRT_PHARMACOLOGY_TOPICS } = await importClientDataAbsolute(
+        path.resolve(__dirnameRrtPharm, "../client/src/data/lessons/rrt-pharmacology-topics"),
+      );
       const previews = RRT_PHARMACOLOGY_TOPICS.map((t: PharmacologyTopicFull) => ({
         slug: t.slug,
         title: t.title,
@@ -61,7 +68,9 @@ export function registerRrtPharmacologyRoutes(app: Express) {
   app.get("/api/allied/rrt/pharmacology/topics/:slug", async (req: Request, res: Response) => {
     try {
       const { slug } = req.params;
-      const { RRT_PHARMACOLOGY_TOPICS } = await import("../client/src/data/lessons/rrt-pharmacology-topics");
+      const { RRT_PHARMACOLOGY_TOPICS } = await importClientDataAbsolute(
+        path.resolve(__dirnameRrtPharm, "../client/src/data/lessons/rrt-pharmacology-topics"),
+      );
       const topic = RRT_PHARMACOLOGY_TOPICS.find((t: PharmacologyTopicFull) => t.slug === slug);
 
       if (!topic) {

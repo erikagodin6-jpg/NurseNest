@@ -23,25 +23,34 @@ import {
   type ClassifiedExamError, type RecoveryStage,
   RECOVERY_STAGES, getRecoveryStageInfo,
   EXAM_FAILURE_CODES,
+  EXAM_ERROR_USER_MESSAGES,
 } from "../../../shared/exam-error-codes";
+import { getAuthHeaders as getSessionAuthHeaders } from "@/lib/queryClient";
+
+const EXAM_FETCH_DEFAULTS = { credentials: "include" as const };
+
+/** Session/JWT headers plus legacy basic-auth-style headers; matches app-wide `getAuthHeaders` + nursenest-credentials. */
+function buildMockExamHeaders(jsonBody = false): Record<string, string> {
+  const headers: Record<string, string> = { ...getSessionAuthHeaders() };
+  try {
+    const creds = localStorage.getItem("nursenest-credentials");
+    if (creds) {
+      const { username, password } = JSON.parse(creds);
+      if (username != null) headers["x-username"] = String(username);
+      if (password != null) headers["x-password"] = String(password);
+    }
+  } catch {
+    /* ignore */
+  }
+  if (jsonBody) headers["Content-Type"] = "application/json";
+  return headers;
+}
 import {
   Clock, Flag, ChevronLeft, ChevronRight, CheckCircle2, XCircle,
   Pause, Play, AlertTriangle, Send, SkipForward, Shield, Eye, Coffee,
   ShieldCheck, BookOpen, Printer, Home, RefreshCw, MessageSquare, Loader2, FileText
 } from "lucide-react";
 import { QuestionGuard, MediaGuard, TranslationGuard, RationaleGuard, SafeExamPlayer, StudyModeFallback, PrintableBackup, BackupPracticeSet, SessionRecoveryPrompt, FallbackErrorBoundary } from "@/components/exam-fallbacks";
-
-function getAuthHeaders(): Record<string, string> {
-
-  try {
-    const creds = localStorage.getItem("nursenest-credentials");
-    if (creds) {
-      const { username, password } = JSON.parse(creds);
-      return { "x-username": username, "x-password": password };
-    }
-  } catch {}
-  return {};
-}
 
 function getExamAccentColor(): string {
   return localStorage.getItem("examThemeColor") || "#C7B8FF";
@@ -440,7 +449,7 @@ function MockExamSessionInner() {
 
     loadStartTimeRef.current = Date.now();
 
-    fetch(`/api/mock-exams/${attemptId}`, { headers: getAuthHeaders(), signal: controller.signal })
+    fetch(`/api/mock-exams/${attemptId}`, { ...EXAM_FETCH_DEFAULTS, headers: buildMockExamHeaders(), signal: controller.signal })
       .then(async (r) => {
         clearTimeout(timeoutId);
         if (!r.ok) {
@@ -533,12 +542,25 @@ function MockExamSessionInner() {
           try {
             const batchSize = 25;
             const firstBatchRes = await fetch(`/api/mock-exams/${attemptId}/questions?offset=0&limit=${batchSize}`, {
-              headers: getAuthHeaders(),
+              ...EXAM_FETCH_DEFAULTS,
+              headers: buildMockExamHeaders(),
             });
-            if (!firstBatchRes.ok) {
-              throw new Error(`Failed to fetch first question batch: ${firstBatchRes.status}`);
+            const firstBatchText = await firstBatchRes.text();
+            let firstBatchParsed: unknown = null;
+            try {
+              firstBatchParsed = firstBatchText.trim() ? JSON.parse(firstBatchText) : null;
+            } catch {
+              firstBatchParsed = null;
             }
-            const firstBatch = await firstBatchRes.json();
+            if (!firstBatchRes.ok) {
+              const classified = classifyHttpError(firstBatchRes.status, firstBatchParsed);
+              const batchErr = new Error(classified.message);
+              (batchErr as any).classifiedError = classified;
+              throw batchErr;
+            }
+            const firstBatch = (firstBatchParsed && typeof firstBatchParsed === "object"
+              ? firstBatchParsed
+              : {}) as { questions?: unknown[] };
             const batchQuestions: PooledQuestion[] = (firstBatch.questions || []).map((q: any, idx: number) => {
               if (!q) return { id: `placeholder-${idx}`, question: "", options: [], correct: -1, lessonId: "", bodySystem: "", tier: "", rationale: "", source: "quiz" as const };
               if (!q.id) return { ...q, id: `auto-${idx}` };
@@ -562,7 +584,8 @@ function MockExamSessionInner() {
               if (totalQ > batchQuestions.length) {
                 try {
                   const allRes = await fetch(`/api/mock-exams/${attemptId}/questions?offset=0&limit=${totalQ}`, {
-                    headers: getAuthHeaders(),
+                    ...EXAM_FETCH_DEFAULTS,
+                    headers: buildMockExamHeaders(),
                   });
                   if (allRes.ok) {
                     const allData = await allRes.json();
@@ -611,13 +634,16 @@ function MockExamSessionInner() {
             setLoading(false);
           } catch (fetchErr: any) {
             console.error("[ExamSession] Failed to fetch initial questions from shell:", fetchErr);
+            const fromClassified = fetchErr?.classifiedError as ClassifiedExamError | undefined;
             setLoadError("question_fetch_failed");
-            setClassifiedError({
-              code: EXAM_FAILURE_CODES.QUESTION_BATCH_MISSING,
-              message: "Failed to load exam questions. Please try again.",
-              recoverable: true,
-              timestamp: new Date().toISOString(),
-            });
+            setClassifiedError(
+              fromClassified ?? {
+                code: EXAM_FAILURE_CODES.QUESTION_BATCH_MISSING,
+                message: fetchErr?.message || "Failed to load exam questions. Please try again.",
+                recoverable: true,
+                timestamp: new Date().toISOString(),
+              },
+            );
             setLoading(false);
           }
           return;
@@ -678,7 +704,8 @@ function MockExamSessionInner() {
           try {
             fetch("/api/exam-incident-report", {
               method: "POST",
-              headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+              ...EXAM_FETCH_DEFAULTS,
+              headers: buildMockExamHeaders(true),
               body: JSON.stringify({
                 examType: parsedBp?.examCode || "mock-exam",
                 tier: parsedBp?.examCode || "unknown",
@@ -840,7 +867,8 @@ function MockExamSessionInner() {
       while (offset < totalServerQuestions && !cancelled) {
         try {
           const res = await fetch(`/api/mock-exams/${attemptId}/questions?offset=${offset}&limit=${batchSize}`, {
-            headers: getAuthHeaders(),
+            ...EXAM_FETCH_DEFAULTS,
+            headers: buildMockExamHeaders(),
           });
           if (!res.ok) break;
           const data = await res.json();
@@ -878,7 +906,8 @@ function MockExamSessionInner() {
     if (!attemptId) return;
     fetch("/api/exam-load-incidents", {
       method: "POST",
-      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+      ...EXAM_FETCH_DEFAULTS,
+      headers: buildMockExamHeaders(true),
       body: JSON.stringify({
         incidentRef,
         attemptId,
@@ -965,7 +994,8 @@ function MockExamSessionInner() {
     const questionIds = questions.map(q => q.id);
     fetch("/api/exam-questions/translated-batch", {
       method: "POST",
-      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+      ...EXAM_FETCH_DEFAULTS,
+      headers: buildMockExamHeaders(true),
       body: JSON.stringify({ questionIds, lang: language }),
     })
       .then(r => {
@@ -1059,7 +1089,8 @@ function MockExamSessionInner() {
       try {
         fetch(`/api/mock-exams/${attemptId}/progress`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+          ...EXAM_FETCH_DEFAULTS,
+          headers: buildMockExamHeaders(true),
           body: JSON.stringify({
             answers: a, flagged: f, timeSpent: t,
             catState: catState || undefined,
@@ -1141,7 +1172,8 @@ function MockExamSessionInner() {
     };
     return fetch(`/api/mock-exams/${attemptId}/answer`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+      ...EXAM_FETCH_DEFAULTS,
+      headers: buildMockExamHeaders(true),
       body: JSON.stringify(payload),
     })
       .then((r) => {
@@ -1271,7 +1303,8 @@ function MockExamSessionInner() {
     try {
       fetch(`/api/mock-exams/${attemptId}/progress`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+        ...EXAM_FETCH_DEFAULTS,
+        headers: buildMockExamHeaders(true),
         body: JSON.stringify({
           answers,
           flagged,
@@ -1297,7 +1330,8 @@ function MockExamSessionInner() {
       await new Promise(resolve => setTimeout(resolve, pollInterval));
       try {
         const pollRes = await fetch(`/api/mock-exams/${aid}/result`, {
-          headers: getAuthHeaders(),
+          ...EXAM_FETCH_DEFAULTS,
+          headers: buildMockExamHeaders(),
         });
         if (!pollRes.ok) continue;
         const data = await pollRes.json();
@@ -1333,7 +1367,8 @@ function MockExamSessionInner() {
       const report = computeReport(questions, answers, blueprintMeta, finalCatState || catState);
       const res = await fetch(`/api/mock-exams/${attemptId}/complete`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+        ...EXAM_FETCH_DEFAULTS,
+        headers: buildMockExamHeaders(true),
         body: JSON.stringify({
           flagged,
           timeSpent,
@@ -1385,7 +1420,8 @@ function MockExamSessionInner() {
       const report = computeReport(questions, answers, blueprintMeta, catState);
       const res = await fetch(`/api/mock-exams/${attemptId}/complete`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+        ...EXAM_FETCH_DEFAULTS,
+        headers: buildMockExamHeaders(true),
         body: JSON.stringify({ flagged, timeSpent }),
       });
 
@@ -1423,8 +1459,8 @@ function MockExamSessionInner() {
     if (!attemptId) return;
     try {
       const [examRes, rationalesRes] = await Promise.all([
-        fetch(`/api/mock-exams/${attemptId}`, { headers: getAuthHeaders() }),
-        fetch(`/api/mock-exams/${attemptId}/rationales`, { headers: getAuthHeaders() }).catch(() => null),
+        fetch(`/api/mock-exams/${attemptId}`, { ...EXAM_FETCH_DEFAULTS, headers: buildMockExamHeaders() }),
+        fetch(`/api/mock-exams/${attemptId}/rationales`, { ...EXAM_FETCH_DEFAULTS, headers: buildMockExamHeaders() }).catch(() => null),
       ]);
       const data = await examRes.json();
       let rationales: Record<string, any> = {};
@@ -1545,7 +1581,8 @@ function MockExamSessionInner() {
           setCurrentQ(0);
           fetch(`/api/mock-exams/${attemptId}/reset`, {
             method: "POST",
-            credentials: "include",
+            ...EXAM_FETCH_DEFAULTS,
+            headers: buildMockExamHeaders(),
           }).catch(() => {});
         }}
       />
@@ -1554,21 +1591,15 @@ function MockExamSessionInner() {
 
   if (loadError) {
     const isSubscriber = user && user.tier !== "free";
-    const errorTitle = classifiedError?.code === "network_timeout"
-      ? "Exam Loading Timed Out"
-      : classifiedError?.code === "missing_session"
-      ? "Exam Session Not Found"
-      : classifiedError?.code === "access_denied"
-      ? "Access Denied"
-      : "We're having trouble loading this exam";
-
-    const errorDescription = classifiedError?.code === "network_timeout"
-      ? "The server took too long to respond. This is usually temporary."
-      : classifiedError?.code === "missing_session"
-      ? "This exam session could not be found. It may have expired or been removed."
-      : classifiedError?.code === "access_denied"
-      ? "You don't have permission to access this exam."
-      : "Your progress and subscription are safe. Choose an option below to continue.";
+    const failureCode = classifiedError?.code;
+    const mapped =
+      failureCode && EXAM_ERROR_USER_MESSAGES[failureCode]
+        ? EXAM_ERROR_USER_MESSAGES[failureCode]
+        : null;
+    const errorTitle = mapped?.title ?? "We're having trouble loading this exam";
+    const errorDescription =
+      mapped?.description ??
+      "Your progress and subscription are safe. Choose an option below to continue.";
 
     const canRetry = retryCount < 2 && classifiedError?.recoverable !== false;
     const showRecoveryProgress = recoveryInProgress && recoveryStage;

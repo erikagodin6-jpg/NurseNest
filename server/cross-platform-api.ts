@@ -2,8 +2,9 @@ import { Router } from "express";
 import { pool } from "./storage";
 import { resolveAuthUser } from "./admin-auth";
 import { resolveEntitlementSync, checkEntitlement } from "./entitlements";
+import { emitStructuredLog } from "./log-sink";
 import { z } from "zod";
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 
 const router = Router();
 
@@ -21,7 +22,7 @@ function snakeToCamel(obj: any): any {
 async function requireAuth(req: Request, res: Response): Promise<any | null> {
   const user = await resolveAuthUser(req as any);
   if (!user) {
-    res.status(401).json({ error: "Authentication required" });
+    res.status(401).json({ error: "Authentication required", code: "AUTH_REQUIRED" });
     return null;
   }
   return user;
@@ -2030,14 +2031,31 @@ router.get("/api/v1/dashboard/summary", async (req, res) => {
       generatedAt: new Date().toISOString(),
     });
   } catch (e: any) {
-    console.error("[Dashboard] Summary error:", e.message);
-    res.status(500).json({ error: "Failed to generate dashboard summary" });
+    const msg = e?.message || String(e);
+    emitStructuredLog(
+      {
+        level: "error",
+        type: "dashboard_summary_failure",
+        route: "GET /api/v1/dashboard/summary",
+        message: msg,
+      },
+      "error",
+    );
+    console.error("[Dashboard] Summary error:", msg);
+    res.status(500).json({
+      error: "Failed to generate dashboard summary",
+      code: "DASHBOARD_SUMMARY_ERROR",
+    });
   }
 });
 
 router.get("/api/dashboard/summary", (req, res, next) => {
   req.url = "/api/v1/dashboard/summary";
-  router.handle(req, res, next);
+  (router as typeof router & { handle: (req: Request, res: Response, next: NextFunction) => void }).handle(
+    req,
+    res,
+    next,
+  );
 });
 
 const analyticsEventSchema = z.object({

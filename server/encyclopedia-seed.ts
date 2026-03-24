@@ -18,6 +18,7 @@ interface EncyclopediaEntry {
   keywords: string[];
   seoTitle: string;
   seoDescription: string;
+  crossLinks?: { slug: string; profession: string; title: string }[];
 }
 
 function slugify(profession: string, title: string): string {
@@ -716,7 +717,7 @@ function buildCrossLinks(allEntries: EncyclopediaEntry[]): EncyclopediaEntry[] {
       }
     }
 
-    entry.crossLinks = crossLinks.slice(0, 10) as any;
+    entry.crossLinks = crossLinks.slice(0, 10);
   }
 
   return allEntries;

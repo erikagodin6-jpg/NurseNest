@@ -1,11 +1,19 @@
 import type { Express, Request, Response } from "express";
+import type { Pool } from "pg";
+import path from "path";
+import { fileURLToPath } from "url";
 import { requireAdmin } from "./admin-auth";
+import { ClientDataImportError, importTsModuleAbsolute } from "./client-data-import";
+import { emitStructuredLog } from "./log-sink";
+
+const __dirnameAdminSeed = path.dirname(fileURLToPath(import.meta.url));
 
 export function registerAdminSeedRoutes(app: Express) {
   app.post("/api/admin/run-seeds", async (req: Request, res: Response) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
 
+    try {
     const startTime = Date.now();
     const results: Record<string, { status: string; duration: number; error?: string }> = {};
 
@@ -14,9 +22,25 @@ export function registerAdminSeedRoutes(app: Express) {
       try {
         await fn();
         results[name] = { status: "ok", duration: Date.now() - t0 };
-      } catch (e: any) {
-        results[name] = { status: "error", duration: Date.now() - t0, error: e.message };
-        console.error(`[AdminSeed] ${name} failed:`, e.message);
+      } catch (e: unknown) {
+        const msg =
+          e instanceof ClientDataImportError
+            ? `${e.message} (path=${e.requestedPath})`
+            : e instanceof Error
+              ? e.message
+              : String(e);
+        results[name] = { status: "error", duration: Date.now() - t0, error: msg };
+        emitStructuredLog(
+          {
+            level: "warn",
+            type: "admin_seed_step_failure",
+            seed: name,
+            message: msg,
+            importFailure: e instanceof ClientDataImportError,
+          },
+          "warn",
+        );
+        console.error(`[AdminSeed] ${name} failed:`, msg);
       }
     }
 
@@ -122,9 +146,19 @@ export function registerAdminSeedRoutes(app: Express) {
     });
 
     await runSeed("alliedHealthQuestions", async () => {
-      const { seedAlliedHealthQuestions } = await import("./seeds/seed-allied-health-questions");
+      const seedPath = path.resolve(__dirnameAdminSeed, "seeds/seed-allied-health-questions.ts");
+      let mod: { seedAlliedHealthQuestions?: (p: Pool) => Promise<void> };
+      try {
+        mod = await importTsModuleAbsolute(seedPath);
+      } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : String(e);
+        throw new Error(`Failed to load allied health seed module (${seedPath}): ${msg}`);
+      }
+      if (typeof mod?.seedAlliedHealthQuestions !== "function") {
+        throw new Error(`Module does not export seedAlliedHealthQuestions (${seedPath})`);
+      }
       const { pool } = await import("./storage");
-      await seedAlliedHealthQuestions(pool);
+      await mod.seedAlliedHealthQuestions(pool);
     });
 
     await runSeed("topicHubPages", async () => {
@@ -195,5 +229,23 @@ export function registerAdminSeedRoutes(app: Express) {
       errorCount,
       results,
     });
+    } catch (fatal: unknown) {
+      const msg = fatal instanceof Error ? fatal.message : String(fatal);
+      emitStructuredLog(
+        {
+          level: "error",
+          type: "admin_seed_fatal",
+          route: "POST /api/admin/run-seeds",
+          message: msg,
+        },
+        "error",
+      );
+      console.error("[AdminSeed] Fatal:", msg);
+      res.status(500).json({
+        error: "Seed runner failed unexpectedly",
+        code: "ADMIN_SEED_FATAL",
+        message: msg,
+      });
+    }
   });
 }

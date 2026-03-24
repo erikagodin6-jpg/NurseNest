@@ -1,4 +1,5 @@
 import { createDailyJobs, runGenerationJob } from "./content-pipeline";
+import { emitStructuredLog } from "./log-sink";
 
 let schedulerTimer: NodeJS.Timeout | null = null;
 
@@ -17,23 +18,62 @@ function getNextRunTime(): Date {
 }
 
 async function runDailyPipeline() {
-  console.log("[Scheduler] Starting daily content generation pipeline...");
+  emitStructuredLog({
+    level: "info",
+    type: "content_scheduler_start",
+    job: "daily_content_pipeline",
+    msg: "Starting daily content generation pipeline",
+  });
   try {
     const jobIds = await createDailyJobs();
-    console.log(`[Scheduler] Created ${jobIds.length} jobs for today`);
+    emitStructuredLog({
+      level: "info",
+      type: "content_scheduler_jobs_created",
+      job: "daily_content_pipeline",
+      msg: `Created ${jobIds.length} jobs for today`,
+      jobCount: jobIds.length,
+    });
 
     for (const jobId of jobIds) {
       try {
         const result = await runGenerationJob(jobId);
-        console.log(`[Scheduler] Job ${jobId} result:`, result);
+        emitStructuredLog({
+          level: "info",
+          type: "content_scheduler_job_finish",
+          job: "daily_content_pipeline",
+          pipelineJobId: jobId,
+          msg: "Job completed",
+        });
       } catch (error) {
-        console.error(`[Scheduler] Job ${jobId} failed:`, error);
+        emitStructuredLog(
+          {
+            level: "error",
+            type: "content_scheduler_job_failure",
+            job: "daily_content_pipeline",
+            pipelineJobId: jobId,
+            msg: error instanceof Error ? error.message : String(error),
+          },
+          "error",
+        );
       }
     }
 
-    console.log("[Scheduler] Daily pipeline complete");
+    emitStructuredLog({
+      level: "info",
+      type: "content_scheduler_finish",
+      job: "daily_content_pipeline",
+      msg: "Daily pipeline complete",
+    });
   } catch (error) {
-    console.error("[Scheduler] Pipeline error:", error);
+    emitStructuredLog(
+      {
+        level: "error",
+        type: "content_scheduler_failure",
+        job: "daily_content_pipeline",
+        msg: error instanceof Error ? error.message : String(error),
+      },
+      "error",
+    );
   }
 }
 
@@ -41,7 +81,13 @@ function scheduleNext() {
   const nextRun = getNextRunTime();
   const delayMs = nextRun.getTime() - Date.now();
 
-  console.log(`[Scheduler] Next pipeline run at ${nextRun.toISOString()} (${Math.round(delayMs / 3600000)}h from now)`);
+  emitStructuredLog({
+    level: "info",
+    type: "content_scheduler_scheduled",
+    job: "daily_content_pipeline",
+    msg: `Next pipeline run at ${nextRun.toISOString()} (${Math.round(delayMs / 3600000)}h from now)`,
+    nextRunAt: nextRun.toISOString(),
+  });
 
   schedulerTimer = setTimeout(async () => {
     await runDailyPipeline();
@@ -50,7 +96,12 @@ function scheduleNext() {
 }
 
 export function startContentScheduler() {
-  console.log("[Scheduler] Content generation scheduler initialized");
+  emitStructuredLog({
+    level: "info",
+    type: "content_scheduler_init",
+    job: "daily_content_pipeline",
+    msg: "Content generation scheduler initialized",
+  });
   scheduleNext();
 }
 
@@ -58,6 +109,11 @@ export function stopContentScheduler() {
   if (schedulerTimer) {
     clearTimeout(schedulerTimer);
     schedulerTimer = null;
-    console.log("[Scheduler] Scheduler stopped");
+    emitStructuredLog({
+      level: "info",
+      type: "content_scheduler_stop",
+      job: "daily_content_pipeline",
+      msg: "Scheduler stopped",
+    });
   }
 }

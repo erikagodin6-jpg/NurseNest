@@ -28,6 +28,13 @@ import { getDifficulty, difficultyConfig } from "@/lib/difficulty";
 import { getLessonI18n, loadTranslationLanguage, isTranslationLoaded } from "@/lib/getI18n";
 import { useAuth } from "@/lib/auth";
 import { getAuthHeaders } from "@/lib/queryClient";
+import {
+  BackendErrorCodes,
+  getLearnerMessageForCode,
+  isAuthRequiredCode,
+  isLessonNotFoundCode,
+  readApiJsonResponse,
+} from "@/lib/api-error";
 import { canAccessTier, getTierPricingPath, getTierLabel } from "@/lib/access";
 import type { LessonContent, QuizQuestion } from "@/data/lessons/types";
 import { generateLessonSeoDescription, generateLessonSeoTitle, generateLessonKeywords, buildLessonStructuredData, getLessonBodySystem, buildArticleStructuredData, buildCourseStructuredData, buildLessonFaqFromContent, buildFaqStructuredData, isLessonThinContent } from "@/lib/seo-utils";
@@ -1726,7 +1733,7 @@ export default function LessonDetail() {
     const controller = new AbortController();
     fetch(`/api/seo-lessons/${id}`, { signal: controller.signal, headers: getAuthHeaders() })
       .then(r => {
-        if (!r.ok) throw new Error("Not found");
+        if (!r.ok) return null;
         return r.json();
       })
       .then(data => {
@@ -1752,6 +1759,12 @@ export default function LessonDetail() {
   const [apiLoading, setApiLoading] = useState(true);
   const [apiLessonId, setApiLessonId] = useState<string | null>(null);
   const [tierLocked, setTierLocked] = useState<{ requiredTier: string } | null>(null);
+  const [lessonApiError, setLessonApiError] = useState<{
+    code?: string;
+    status: number;
+    retryable?: boolean;
+  } | null>(null);
+  const [lessonContentRetryNonce, setLessonContentRetryNonce] = useState(0);
 
   useEffect(() => {
     if (!id) { setApiLoading(false); return; }
@@ -1760,6 +1773,7 @@ export default function LessonDetail() {
     setApiLessonId(null);
     setIsPreviewOnly(false);
     setTierLocked(null);
+    setLessonApiError(null);
     setOverrides(null);
     setDbContent(null);
     setNoteContent("");
@@ -1768,24 +1782,59 @@ export default function LessonDetail() {
     const controller = new AbortController();
     fetch(`/api/lessons/content/${id}`, { signal: controller.signal, headers: getAuthHeaders() })
       .then(async (r) => {
-        if (!r.ok) {
-          if (r.status === 403) {
-            try {
-              const errData = await r.json();
-              if (errData.code === "LESSON_TIER_LOCKED") {
-                setTierLocked({ requiredTier: errData.requiredTier || "rpn" });
-              }
-            } catch {}
+        const parsed = await readApiJsonResponse(r);
+        if (!parsed.ok) {
+          const st = parsed.status;
+          const code = parsed.code;
+          const body = parsed.errorBody as Record<string, unknown>;
+
+          if (st === 403 && body.code === BackendErrorCodes.LESSON_TIER_LOCKED) {
+            setTierLocked({ requiredTier: String(body.requiredTier || "rpn") });
+            setApiLesson(null);
+            setApiLoading(false);
+            return;
           }
+          if (st === 403 && (code === BackendErrorCodes.ENTITLEMENT_DENIED || code === BackendErrorCodes.PREMIUM_REQUIRED)) {
+            setTierLocked({ requiredTier: String(body.requiredTier || body.currentTier || "rn") });
+            setApiLesson(null);
+            setApiLoading(false);
+            return;
+          }
+
+          if (isAuthRequiredCode(code, st)) {
+            setLessonApiError({ code: code || BackendErrorCodes.AUTH_REQUIRED, status: st });
+            setApiLesson(null);
+            setApiLoading(false);
+            return;
+          }
+
+          if (code === BackendErrorCodes.CONTENT_MODULE_UNAVAILABLE || st === 503) {
+            setLessonApiError({
+              code: code || BackendErrorCodes.CONTENT_MODULE_UNAVAILABLE,
+              status: st,
+              retryable: true,
+            });
+            setApiLesson(null);
+            setApiLoading(false);
+            return;
+          }
+
+          if (isLessonNotFoundCode(code, st)) {
+            setLessonApiError({ code: code || BackendErrorCodes.LESSON_NOT_FOUND, status: st });
+            setApiLesson(null);
+            setApiLoading(false);
+            return;
+          }
+
+          setLessonApiError({ code, status: st });
           setApiLesson(null);
           setApiLoading(false);
           return;
         }
-        return r.json();
-      })
-      .then((data) => {
+
+        const data = parsed.data as Record<string, unknown> | null;
         if (data) {
-          const returnedId = data.id;
+          const returnedId = data.id as string | undefined;
           if (returnedId && returnedId !== id) {
             window.history.replaceState(null, "", `/lessons/${returnedId}`);
             setLocation(`/lessons/${returnedId}`);
@@ -1793,7 +1842,7 @@ export default function LessonDetail() {
           }
           if (data.isPreviewOnly) {
             setIsPreviewOnly(true);
-            setPreviewRequiredTier(data.requiredTier || data.tier || "rpn");
+            setPreviewRequiredTier((data.requiredTier as string) || (data.tier as string) || "rpn");
           }
           const { id: _id, isPreviewOnly: _ip, requiredTier: _rt, ...lesson } = data;
           setApiLesson(lesson as LessonContent);
@@ -1802,13 +1851,14 @@ export default function LessonDetail() {
         setApiLoading(false);
       })
       .catch((err) => {
-        if (err.name !== 'AbortError') {
+        if (err.name !== "AbortError") {
+          setLessonApiError({ status: 0 });
           setApiLesson(null);
           setApiLoading(false);
         }
       });
     return () => controller.abort();
-  }, [id, authLoading]);
+  }, [id, authLoading, lessonContentRetryNonce, setLocation]);
 
   const baseLesson = apiLesson;
 
@@ -1855,7 +1905,7 @@ export default function LessonDetail() {
     const params = queryParts.length > 0 ? `?${queryParts.join("&")}` : "";
     fetch(`/api/content/slug/${slug}${params}`, { headers: getAuthHeaders() })
       .then((r) => {
-        if (!r.ok) throw new Error("Not found");
+        if (!r.ok) return null;
         return r.json();
       })
       .then((data) => {
@@ -1949,6 +1999,115 @@ export default function LessonDetail() {
               <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
               <span className="text-gray-600">{t("pages.lessonDetail.loadingLesson")}</span>
             </div>
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    if (lessonApiError && isAuthRequiredCode(lessonApiError.code, lessonApiError.status)) {
+      return (
+        <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+          <Navigation />
+          <main className="max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-6">
+            <LocaleLink href="/lessons">
+              <Button variant="ghost" className="mb-4 group">
+                <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                Back to Lessons
+              </Button>
+            </LocaleLink>
+            <h1 className="text-2xl font-bold text-gray-900">Sign in required</h1>
+            <p className="text-gray-600 max-w-md mx-auto">{getLearnerMessageForCode(lessonApiError.code, "Please sign in to view this lesson.")}</p>
+            <Button
+              className="mt-4"
+              onClick={() => setLocation(`/login?returnUrl=${encodeURIComponent(`/lessons/${id || ""}`)}`)}
+            >
+              Sign in
+            </Button>
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    if (lessonApiError?.retryable && lessonApiError.code === BackendErrorCodes.CONTENT_MODULE_UNAVAILABLE) {
+      return (
+        <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+          <Navigation />
+          <main className="max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-6">
+            <LocaleLink href="/lessons">
+              <Button variant="ghost" className="mb-4 group">
+                <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                Back to Lessons
+              </Button>
+            </LocaleLink>
+            <h1 className="text-2xl font-bold text-gray-900">Content temporarily unavailable</h1>
+            <p className="text-gray-600 max-w-md mx-auto">{getLearnerMessageForCode(lessonApiError.code, "Please try again in a moment.")}</p>
+            <Button className="mt-4" onClick={() => setLessonContentRetryNonce((n) => n + 1)}>
+              Try again
+            </Button>
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    if (lessonApiError && isLessonNotFoundCode(lessonApiError.code, lessonApiError.status)) {
+      return (
+        <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+          <Navigation />
+          <main className="max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-6">
+            <LocaleLink href="/lessons">
+              <Button variant="ghost" className="mb-4 group">
+                <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                Back to Lessons
+              </Button>
+            </LocaleLink>
+            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-lesson-not-found-api">{t("pages.lessonDetail.lessonNotFound")}</h1>
+            <p className="text-gray-600">{getLearnerMessageForCode(lessonApiError.code, t("pages.lessonDetail.thisLessonDoesNotExist"))}</p>
+            {isAdmin && id ? (
+              <>
+                <Button
+                  className="mt-4"
+                  onClick={() => setShowAdminCreator(true)}
+                  data-testid="button-create-lesson-api-notfound"
+                >
+                  Create New Lesson: {id}
+                </Button>
+                {showAdminCreator && (
+                  <AdminLessonCreator lessonId={id} onPublished={() => fetchDbLesson(id)} />
+                )}
+              </>
+            ) : null}
+            <LocaleLink href="/lessons">
+              <Button variant="outline" className="mt-4">
+                Browse lessons
+              </Button>
+            </LocaleLink>
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    if (lessonApiError) {
+      return (
+        <div className="min-h-screen bg-warmwhite flex flex-col font-sans text-gray-900">
+          <Navigation />
+          <main className="max-w-2xl mx-auto px-4 py-20 w-full text-center space-y-6">
+            <LocaleLink href="/lessons">
+              <Button variant="ghost" className="mb-4 group">
+                <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                Back to Lessons
+              </Button>
+            </LocaleLink>
+            <h1 className="text-2xl font-bold text-gray-900">Something went wrong</h1>
+            <p className="text-gray-600 max-w-md mx-auto">
+              {getLearnerMessageForCode(lessonApiError.code, "We could not load this lesson. Please try again later.")}
+            </p>
+            <Button className="mt-4" onClick={() => setLessonContentRetryNonce((n) => n + 1)}>
+              Try again
+            </Button>
           </main>
           <Footer />
         </div>

@@ -31,6 +31,13 @@ import {
   usePostExamCheck,
 } from "@/components/post-exam-followup";
 import { CommandCenter } from "@/components/command-center";
+import { getAuthHeaders } from "@/lib/queryClient";
+import {
+  readApiJsonResponse,
+  getLearnerMessageForCode,
+  BackendErrorCodes,
+  isAuthRequiredCode,
+} from "@/lib/api-error";
 
 type WidgetConfig = {
   widgetType: string;
@@ -170,22 +177,54 @@ const DEFAULT_WIDGETS: WidgetConfig[] = [
 function useDashboardSummary(userId: string | undefined) {
   const [summary, setSummary] = useState<any>(null);
   const [summaryLoading, setSummaryLoading] = useState(true);
+  const [summaryError, setSummaryError] = useState<{ code?: string; message: string } | null>(null);
 
   useEffect(() => {
     if (!userId) return;
-    fetch("/api/dashboard/summary", {
-      headers: { "x-user-id": userId },
-      credentials: "include",
-    })
-      .then((r) => r.ok ? r.json() : null)
-      .then((data) => {
-        if (data) setSummary(data);
-      })
-      .catch(() => {})
-      .finally(() => setSummaryLoading(false));
+    const controller = new AbortController();
+    let cancelled = false;
+    setSummaryLoading(true);
+    setSummaryError(null);
+    (async () => {
+      try {
+        const res = await fetch("/api/dashboard/summary", {
+          headers: { ...getAuthHeaders(), "x-user-id": userId },
+          credentials: "include",
+          signal: controller.signal,
+        });
+        const parsed = await readApiJsonResponse(res);
+        if (cancelled) return;
+        if (!parsed.ok) {
+          setSummary(null);
+          if (isAuthRequiredCode(parsed.code, parsed.status)) {
+            setSummaryError({
+              code: parsed.code || BackendErrorCodes.AUTH_REQUIRED,
+              message: getLearnerMessageForCode(parsed.code, parsed.message),
+            });
+          } else {
+            setSummaryError({
+              code: parsed.code,
+              message: getLearnerMessageForCode(parsed.code, parsed.message),
+            });
+          }
+          return;
+        }
+        setSummary(parsed.data);
+      } catch (e: unknown) {
+        if (cancelled || (e instanceof Error && e.name === "AbortError")) return;
+        setSummary(null);
+        setSummaryError({ message: "Could not load dashboard summary." });
+      } finally {
+        if (!cancelled) setSummaryLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+      controller.abort();
+    };
   }, [userId]);
 
-  return { summary, summaryLoading };
+  return { summary, summaryLoading, summaryError };
 }
 
 const DashboardSummaryContext = React.createContext<any>(null);
@@ -201,7 +240,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
-  const { summary, summaryLoading } = useDashboardSummary(user?.id);
+  const { summary, summaryLoading, summaryError } = useDashboardSummary(user?.id);
 
   const {
     shouldShowModal,
@@ -223,6 +262,7 @@ export default function DashboardPage() {
       navigate("/login");
       return;
     }
+    let cancelled = false;
     protectedFetch("/api/dashboard-widgets", {
       headers: { "x-user-id": user.id },
     })
@@ -231,6 +271,7 @@ export default function DashboardPage() {
         return r.json();
       })
       .then((data: any[]) => {
+        if (cancelled) return;
         if (Array.isArray(data) && data.length > 0) {
           const sorted = [...data].sort((a, b) => (a.position ?? 0) - (b.position ?? 0));
           const loaded = sorted.map((d) => ({
@@ -251,7 +292,12 @@ export default function DashboardPage() {
         }
       })
       .catch(() => {})
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [user]);
 
   const saveWidgets = useCallback(async (newWidgets: WidgetConfig[]) => {
@@ -407,7 +453,74 @@ export default function DashboardPage() {
           <CommandCenter />
         </div>
 
+        {!summaryLoading && summary && (summary.isNewUser || (
+          (summary.continueWhereYouLeftOff?.length ?? 0) === 0 &&
+          (summary.progress?.overallStats?.totalQuestionsAnswered ?? 0) < 25
+        )) && (
+          <Card className="mb-6 border-primary/25 bg-gradient-to-r from-primary/5 to-transparent" data-testid="dashboard-next-step">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-primary" />
+                {t("dashboard.nextStepTitle")}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <p className="text-sm text-muted-foreground">{t("dashboard.nextStepEmptyDesc")}</p>
+              {summary.recommendedNextAction?.path ? (
+                <Button size="sm" className="w-full sm:w-auto" asChild>
+                  <LocaleLink href={summary.recommendedNextAction.path}>{summary.recommendedNextAction.action}</LocaleLink>
+                </Button>
+              ) : null}
+              <div className="flex flex-wrap gap-2">
+                <Button size="sm" variant="outline" asChild>
+                  <LocaleLink href="/lessons">{t("dashboard.nextStepBrowseLessons")}</LocaleLink>
+                </Button>
+                <Button size="sm" variant="outline" asChild>
+                  <LocaleLink href="/flashcards">{t("dashboard.nextStepOpenFlashcards")}</LocaleLink>
+                </Button>
+                <Button size="sm" variant="outline" asChild>
+                  <LocaleLink href="/mock-exams">{t("dashboard.nextStepMockExams")}</LocaleLink>
+                </Button>
+                <Button size="sm" variant="outline" asChild>
+                  <LocaleLink href="/question-bank">{t("dashboard.nextStepQuestionBank")}</LocaleLink>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         <TrialDashboardWidget />
+
+        {summaryError && (
+          <div
+            className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+            role="alert"
+            data-testid="dashboard-summary-warning"
+          >
+            <div className="flex gap-2 items-start">
+              <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-medium text-amber-900">Some dashboard data did not load</p>
+                <p className="text-sm text-amber-800">{summaryError.message}</p>
+              </div>
+            </div>
+            <div className="flex gap-2 shrink-0">
+              {summaryError.code === BackendErrorCodes.AUTH_REQUIRED ? (
+                <Button size="sm" onClick={() => navigate("/login?returnUrl=/dashboard")}>
+                  Sign in
+                </Button>
+              ) : null}
+              <Button size="sm" variant="outline" onClick={() => window.location.reload()}>
+                Refresh page
+              </Button>
+              {summaryError.code !== BackendErrorCodes.AUTH_REQUIRED ? (
+                <Button size="sm" variant="ghost" asChild>
+                  <LocaleLink href="/lessons">{t("dashboard.summaryErrorSecondary")}</LocaleLink>
+                </Button>
+              ) : null}
+            </div>
+          </div>
+        )}
 
         <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>

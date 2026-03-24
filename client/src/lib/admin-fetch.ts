@@ -1,4 +1,5 @@
 import { getAdminAccessToken, clearAdminToken } from "./auth";
+import { ApiError, readApiJsonResponse } from "./api-error";
 
 function getStoredAdminId(): string | null {
   if (typeof window === "undefined") return null;
@@ -75,4 +76,14 @@ export async function adminFetch(
   }
 
   return res;
+}
+
+/** Parse JSON and throw {@link ApiError} with backend `code` when status is not OK. */
+export async function adminJson<T>(url: string, init?: RequestInit): Promise<T> {
+  const res = await adminFetch(url, init);
+  const parsed = await readApiJsonResponse<T>(res);
+  if (!parsed.ok) {
+    throw new ApiError(`${parsed.status}: ${parsed.message}`, parsed.status, parsed.errorBody);
+  }
+  return parsed.data as T;
 }

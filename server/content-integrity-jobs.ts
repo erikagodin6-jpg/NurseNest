@@ -252,8 +252,9 @@ export function startScheduledJobs() {
           if (issuesResult.rows.length > 0) {
             const criticalIssues: ScanIssue[] = issuesResult.rows.map((r: any) => ({
               contentType: r.content_type, contentId: r.content_id, contentTitle: r.content_title,
-              tier: "", issueType: r.issue_type, severity: r.severity, description: r.description,
-              field: "", currentValue: "", autoFixable: r.auto_fixable,
+              tier: null, issueType: r.issue_type, severity: r.severity, description: r.description,
+              field: null, currentValue: null, autoFixable: r.auto_fixable,
+              repairAction: null,
             }));
             await autoQuarantineCriticalIssues(criticalIssues);
           }
@@ -281,8 +282,9 @@ export function startScheduledJobs() {
             if (issuesResult.rows.length > 0) {
               const criticalIssues: ScanIssue[] = issuesResult.rows.map((r: any) => ({
                 contentType: r.content_type, contentId: r.content_id, contentTitle: r.content_title,
-                tier: "", issueType: r.issue_type, severity: r.severity, description: r.description,
-                field: "", currentValue: "", autoFixable: false,
+                tier: null, issueType: r.issue_type, severity: r.severity, description: r.description,
+                field: null, currentValue: null, autoFixable: false,
+                repairAction: null,
               }));
               await autoQuarantineCriticalIssues(criticalIssues);
             }

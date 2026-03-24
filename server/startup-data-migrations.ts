@@ -14,7 +14,7 @@ export function getImagingQuestions() {
 let _cachedPositioningEntries: any[] | null = null;
 export function getPositioningEntries() {
   if (!_cachedPositioningEntries) {
-    _cachedPositioningEntries = POSITIONING_ENTRIES_DATA;
+    _cachedPositioningEntries = [...POSITIONING_ENTRIES_DATA];
   }
   return _cachedPositioningEntries;
 }
@@ -22,7 +22,7 @@ export function getPositioningEntries() {
 let _cachedPhysicsTopics: any[] | null = null;
 export function getPhysicsTopics() {
   if (!_cachedPhysicsTopics) {
-    _cachedPhysicsTopics = PHYSICS_TOPICS_DATA;
+    _cachedPhysicsTopics = [...PHYSICS_TOPICS_DATA];
   }
   return _cachedPhysicsTopics;
 }
@@ -30,7 +30,7 @@ export function getPhysicsTopics() {
 let _cachedFlashcards: any[] | null = null;
 export function getFlashcards() {
   if (!_cachedFlashcards) {
-    _cachedFlashcards = FLASHCARDS_DATA;
+    _cachedFlashcards = [...FLASHCARDS_DATA];
   }
   return _cachedFlashcards;
 }

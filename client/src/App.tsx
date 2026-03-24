@@ -1,7 +1,6 @@
-import { useI18n } from "@/lib/i18n";
 import { Switch, Route, Router, Redirect, useLocation } from "wouter";
 import { useBrowserLocation, navigate as wouterNavigate } from "wouter/use-browser-location";
-import { useEffect, useState, lazy, Suspense, Component, type ReactNode, type ErrorInfo } from "react";
+import { useEffect, useState, lazy, Suspense, type ReactNode } from "react";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -27,6 +26,7 @@ const LazyAnalyticsTracker = lazy(() => import("@/components/analytics-tracker")
 const ReportProblemButton = lazy(() => import("@/components/report-problem-button").then(m => ({ default: m.ReportProblemButton })));
 import { ExamErrorBoundary, ExamLoadingFallback } from "@/components/exam-error-boundary";
 import { PlatformErrorBoundary } from "@/components/platform-error-boundary";
+import { AppErrorBoundary } from "@/components/app-error-boundary";
 import { PremiumFeatureErrorBoundary } from "@/components/premium-error-boundary";
 import { LanguageGuard } from "@/lib/language-guard";
 import { ProtectedRoute } from "@/components/protected-route";
@@ -52,141 +52,6 @@ function PreviewBanner() {
   );
 }
 
-interface ErrorBoundaryProps {
-  children: ReactNode;
-  route?: string;
-  component?: string;
-}
-
-
-interface ErrorBoundaryState {
-  hasError: boolean;
-  error: Error | null;
-  errorInfo: ErrorInfo | null;
-}
-
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.state = { hasError: false, error: null, errorInfo: null };
-  }
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true, error };
-  }
-  componentDidCatch(error: Error, info: ErrorInfo) {
-    this.setState({ errorInfo: info });
-    const isDev = import.meta.env.DEV;
-    const route = this.props.route || (typeof window !== "undefined" ? window.location.pathname : "unknown");
-    const component = this.props.component || "unknown";
-    const fingerprint = `${error.name}:${error.message?.slice(0, 80)}`;
-    const isTDZ = error.message?.includes("before initialization") ||
-                  error.message?.includes("Cannot access");
-    console.error(
-      `[ErrorBoundary] Crash on route="${route}" component="${component}" fingerprint="${fingerprint}"`,
-      "\n  Error:", error.message,
-      isTDZ ? "\n  ⚠ TDZ/circular-import detected — check module initialization order" : "",
-      "\n  Component stack:", info.componentStack,
-    );
-    if (isDev) {
-      console.groupCollapsed("[ErrorBoundary] Full diagnostic context");
-      console.error("Error object:", error);
-      console.error("Stack:", error.stack);
-      console.error("React component stack:", info.componentStack);
-      console.error("Route:", route);
-      console.error("Component:", component);
-      console.groupEnd();
-    }
-  }
-  render() {
-    if (this.state.hasError) {
-      return (
-        <ErrorBoundaryFallback
-          error={this.state.error}
-          errorInfo={this.state.errorInfo}
-          route={this.props.route || (typeof window !== "undefined" ? window.location.pathname : "unknown")}
-          component={this.props.component}
-        />
-      );
-    }
-    return this.props.children;
-  }
-}
-
-function ErrorBoundaryFallback({ error, errorInfo, route, component }: { error: Error | null; errorInfo: ErrorInfo | null; route: string; component?: string }) {
-  const { t } = useI18n();
-  const isDev = import.meta.env.DEV;
-
-  useEffect(() => {
-    const meta = document.createElement("meta");
-    meta.name = "robots";
-    meta.content = "noindex, follow";
-    meta.dataset.errorBoundary = "true";
-    const existing = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
-    if (existing) {
-      existing.dataset.originalContent = existing.content;
-      existing.content = "noindex, follow";
-      existing.dataset.errorBoundary = "true";
-    } else {
-      document.head.appendChild(meta);
-    }
-    return () => {
-      if (existing) {
-        existing.content = existing.dataset.originalContent || "index, follow";
-        delete existing.dataset.errorBoundary;
-        delete existing.dataset.originalContent;
-      } else {
-        meta.remove();
-      }
-    };
-  }, []);
-
-  return (
-    <div style={{ padding: "40px", fontFamily: "sans-serif" }} data-testid="error-boundary-fallback" data-noindex-error="true">
-      <h1 style={{ color: "#dc2626" }}>{t("app.App.somethingWentWrong")}</h1>
-      {isDev ? (
-        <>
-          <p style={{ color: "#6b7280", marginBottom: "8px" }}>
-            Route: <code>{route}</code>
-          </p>
-          <pre style={{ background: "#f3f4f6", padding: "16px", borderRadius: "8px", overflow: "auto", fontSize: "13px", maxHeight: "300px" }}>
-            {error?.message}
-            {"\n\n"}
-            {error?.stack}
-          </pre>
-          {errorInfo?.componentStack && (
-            <details style={{ marginTop: "12px" }}>
-              <summary style={{ cursor: "pointer", color: "#4b5563", fontSize: "14px" }}>{t("app.App.componentStack")}</summary>
-              <pre style={{ background: "#f3f4f6", padding: "16px", borderRadius: "8px", overflow: "auto", fontSize: "12px", maxHeight: "200px", marginTop: "8px" }}>
-                {errorInfo.componentStack}
-              </pre>
-            </details>
-          )}
-          <details style={{ marginTop: "12px" }}>
-            <summary style={{ cursor: "pointer", fontWeight: "bold", color: "#6b7280" }}>
-              {t("app.App.diagnosticContext")}
-            </summary>
-            <pre style={{ background: "#fef3c7", padding: "12px", borderRadius: "8px", fontSize: "12px", marginTop: "8px", overflow: "auto" }}>
-              Route: {route}{"\n"}
-              Component: {component || "root"}{"\n"}
-              {errorInfo?.componentStack}
-            </pre>
-          </details>
-        </>
-      ) : (
-        <p style={{ color: "#6b7280" }}>
-          {t("app.App.unexpectedError")}
-        </p>
-      )}
-      <button
-        onClick={() => window.location.reload()}
-        style={{ marginTop: "16px", padding: "8px 16px", background: "#3b82f6", color: "white", border: "none", borderRadius: "6px", cursor: "pointer" }}
-        data-testid="button-reload"
-      >
-        {t("app.App.reloadPage")}
-      </button>
-    </div>
-  );
-}
 const Home = lazy(() => import("@/pages/home"));
 const LanguagesPage = lazy(() => import("@/pages/languages"));
 import { usePageTracker } from "@/hooks/use-page-tracker";
@@ -1646,32 +1511,32 @@ function LanguageGuardWrapper({ children }: { children: ReactNode }) {
 function App() {
   return (
     <PlatformErrorBoundary>
-      <ErrorBoundary>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider attribute="data-theme" defaultTheme="clinical-light" enableSystem={false}>
-            <I18nProvider>
-              <AuthProvider>
-                <CareerProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider attribute="data-theme" defaultTheme="clinical-light" enableSystem={false}>
+          <I18nProvider>
+            <AuthProvider>
+              <CareerProvider>
                 <ParamedicRegionProvider>
-                <SiteImagesProvider>
-                  <TooltipProvider>
-                    <Toaster />
-                    <PreviewBanner />
-                    <PageTracker />
-                    <CopyProtection />
-                    <LanguageGuardWrapper>
-                      <LocaleRouter />
-                    </LanguageGuardWrapper>
-                    <DeferredShellComponents />
-                  </TooltipProvider>
-                </SiteImagesProvider>
+                  <SiteImagesProvider>
+                    <TooltipProvider>
+                      <Toaster />
+                      <PreviewBanner />
+                      <PageTracker />
+                      <CopyProtection />
+                      <AppErrorBoundary>
+                        <LanguageGuardWrapper>
+                          <LocaleRouter />
+                        </LanguageGuardWrapper>
+                        <DeferredShellComponents />
+                      </AppErrorBoundary>
+                    </TooltipProvider>
+                  </SiteImagesProvider>
                 </ParamedicRegionProvider>
-                </CareerProvider>
-              </AuthProvider>
-            </I18nProvider>
-          </ThemeProvider>
-        </QueryClientProvider>
-      </ErrorBoundary>
+              </CareerProvider>
+            </AuthProvider>
+          </I18nProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
     </PlatformErrorBoundary>
   );
 }

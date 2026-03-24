@@ -1,7 +1,17 @@
+import path from "path";
+import { fileURLToPath } from "url";
 import { pool } from "../storage";
+import { importClientDataAbsolute } from "../client-data-import";
 import {
   getSiteBase, todayDate, toLastmod, localizedUrl, getIndexableLocales
 } from "./helpers";
+
+const __dirnameAlliedSitemap = path.dirname(fileURLToPath(import.meta.url));
+
+/** Avoid literal `../../client/...` strings so server `tsc` does not trace client modules. */
+function alliedSiteClientDataModule(...segments: string[]): string {
+  return path.resolve(__dirnameAlliedSitemap, "..", "..", "client", "src", "data", ...segments);
+}
 
 const ALLIED_PREFIX = "/allied-health";
 
@@ -173,7 +183,9 @@ export async function generateAlliedTopics(): Promise<string[]> {
   urls.push(localizedUrl(base, `${ALLIED_PREFIX}/mlt/lab-values/complete-chart`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
   urls.push(localizedUrl(base, `${ALLIED_PREFIX}/mlt/lab-values/top-50`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
   try {
-    const { getAllMltLabValueSlugs } = await import("../../client/src/data/mlt-lab-values");
+    const { getAllMltLabValueSlugs } = await importClientDataAbsolute(
+      alliedSiteClientDataModule("mlt-lab-values"),
+    );
     for (const slug of getAllMltLabValueSlugs()) {
       urls.push(localizedUrl(base, `${ALLIED_PREFIX}/mlt/lab-values/${slug}`, "0.7", "weekly", locales, STATIC_CONTENT_DATE));
     }
@@ -182,7 +194,9 @@ export async function generateAlliedTopics(): Promise<string[]> {
   urls.push(localizedUrl(base, `${ALLIED_PREFIX}/mlt/microbiology`, "0.8", "weekly", locales, STATIC_CONTENT_DATE));
   urls.push(localizedUrl(base, `${ALLIED_PREFIX}/mlt/microbiology/quick-guide`, "0.7", "monthly", locales, STATIC_CONTENT_DATE));
   try {
-    const { getAllMicrobiologyTopicSlugs } = await import("../../client/src/data/seo-microbiology");
+    const { getAllMicrobiologyTopicSlugs } = await importClientDataAbsolute(
+      alliedSiteClientDataModule("seo-microbiology"),
+    );
     for (const slug of getAllMicrobiologyTopicSlugs()) {
       urls.push(localizedUrl(base, `${ALLIED_PREFIX}/mlt/microbiology/${slug}`, "0.7", "weekly", locales, STATIC_CONTENT_DATE));
     }
@@ -216,7 +230,9 @@ export async function generateAlliedTopics(): Promise<string[]> {
   }
 
   try {
-    const { paramedicQuestions } = await import("../../client/src/data/career-questions/paramedic-questions");
+    const { paramedicQuestions } = await importClientDataAbsolute(
+      alliedSiteClientDataModule("career-questions", "paramedic-questions"),
+    );
     const topicSlugs = new Set<string>();
     for (const q of paramedicQuestions as any[]) {
       const slug = q.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
@@ -237,14 +253,16 @@ export async function generateAlliedTopics(): Promise<string[]> {
     }
   } catch {}
 
-  const alliedQuestionSources: { key: string; importPath: string; exportName: string }[] = [
-    { key: "rrt", importPath: "../../client/src/data/career-questions/rrt-questions", exportName: "rrtQuestions" },
-    { key: "mlt", importPath: "../../client/src/data/career-questions/mlt-questions", exportName: "mltQuestions" },
-    { key: "imaging", importPath: "../../client/src/data/career-questions/imaging-questions", exportName: "imagingQuestions" },
+  const alliedQuestionSources: { key: string; stem: string; exportName: string }[] = [
+    { key: "rrt", stem: "rrt-questions", exportName: "rrtQuestions" },
+    { key: "mlt", stem: "mlt-questions", exportName: "mltQuestions" },
+    { key: "imaging", stem: "imaging-questions", exportName: "imagingQuestions" },
   ];
   for (const source of alliedQuestionSources) {
     try {
-      const mod = await import(source.importPath);
+      const mod = await importClientDataAbsolute(
+        alliedSiteClientDataModule("career-questions", source.stem),
+      );
       const questions = mod[source.exportName] as any[];
       const slugSet = new Set<string>();
       for (const q of questions) {

@@ -100,7 +100,10 @@ export async function createBgJob(params: {
           `INSERT INTO bg_job_batches (job_id, batch_index, status, total_items, max_retries, payload)
            VALUES ($1, $2, 'queued', $3, $4, $5)`,
           [
-            jobId, i, batchItemCount, settings.retryLimit,
+            jobId,
+            i,
+            batchItemCount,
+            settings.retryLimit,
             JSON.stringify({ ...params.payload, batchIndex: i, batchItemCount }),
           ]
         );
@@ -247,7 +250,7 @@ async function checkJobCompletion(jobId: string): Promise<void> {
     [jobId]
   );
 
-  const { total, done, failed, pending } = r.rows[0];
+  const { done, failed, pending } = r.rows[0];
 
   if (pending === 0) {
     const finalStatus = failed > 0 && done === 0 ? "failed" : failed > 0 ? "partial" : "completed";
@@ -291,17 +294,26 @@ async function detectStalledJobs(): Promise<void> {
 }
 
 async function processBatch(job: any, batch: any): Promise<void> {
-  const batchPayload = typeof batch.payload === "string" ? JSON.parse(batch.payload) : (batch.payload || {});
+  const batchPayload =
+    typeof batch.payload === "string"
+      ? JSON.parse(batch.payload)
+      : batch.payload || {};
 
   try {
-    const check = checkAiLimits({ role: "admin" });
+    const check = await checkAiLimits({ role: "admin" });
+
     if (!check.allowed) {
       await failBatch(batch.id, `AI safety limit: ${check.reason}`);
       return;
     }
 
     const jobStatus = await pool.query("SELECT status FROM bg_jobs WHERE id = $1", [job.id]);
-    if (!jobStatus.rows[0] || jobStatus.rows[0].status === "paused" || jobStatus.rows[0].status === "cancelled") {
+
+    if (
+      !jobStatus.rows[0] ||
+      jobStatus.rows[0].status === "paused" ||
+      jobStatus.rows[0].status === "cancelled"
+    ) {
       await pool.query(
         "UPDATE bg_job_batches SET status = 'queued', claimed_by = NULL WHERE id = $1",
         [batch.id]
@@ -319,7 +331,6 @@ async function processBatch(job: any, batch: any): Promise<void> {
 
     await handler(job, batch, batchPayload);
     await completeBatch(batch.id, { processedAt: new Date().toISOString() });
-
   } catch (err: any) {
     const retryCount = batch.retry_count || 0;
     const backoffMs = currentSettings.retryBackoffMs * Math.pow(2, retryCount);
@@ -443,7 +454,6 @@ export function stopJobQueueWorker(): void {
 }
 
 export function setupJobQueueRoutes(app: Express): void {
-
   app.get("/api/admin/bg-jobs/stats", async (req: Request, res: Response) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
@@ -760,5 +770,4 @@ export function setupJobQueueRoutes(app: Express): void {
       res.status(500).json({ error: err.message });
     }
   });
-
 }

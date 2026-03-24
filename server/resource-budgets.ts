@@ -375,7 +375,10 @@ export function resourceBudgetMiddleware() {
         }
       }
 
-      return originalEnd.apply(res, args);
+      return (originalEnd as (...a: Parameters<Response["end"]>) => ReturnType<Response["end"]>).apply(
+        res,
+        args as Parameters<Response["end"]>
+      );
     };
 
     next();

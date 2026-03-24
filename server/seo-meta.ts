@@ -67,25 +67,36 @@ const NOINDEX_PATHS = new Set([
 ]);
 
 export function isNoindexPath(path: string, locale?: string): boolean {
-  if (NOINDEX_PATHS.has(path)) return true;
-  if (path.startsWith("/admin")) return true;
-  if (path.startsWith("/content-editor")) return true;
-  if (/^\/mock-exams\/[^/]+/.test(path)) return true;
-  if (path.startsWith("/dashboard")) return true;
-  if (path.startsWith("/flashcards/deck/")) return true;
-  if (path.startsWith("/trial/")) return true;
-  if (path.startsWith("/trial")) return true;
-  if (path.startsWith("/account")) return true;
-  if (path.startsWith("/checkout")) return true;
-  if (path.startsWith("/subscription")) return true;
-  if (/^\/allied-health\/[^/]+\/dashboard/.test(path)) return true;
-  if (path.startsWith("/allied-health/diagnostic")) return true;
-  if (path.startsWith("/qbank")) return true;
-  if (path.startsWith("/cat-exam")) return true;
-  if (path.startsWith("/provisional")) return true;
-  if (/^\/[^/]+\/mock-exams\/[^/]+/.test(path)) return true;
-  if (locale && isLowValueTranslatedPage(path, locale)) return true;
-  return false;
+  try {
+    // 🚨 FAST EXIT FOR EXAM + HEAVY ROUTES
+    if (
+      path.startsWith("/cat-exam") ||
+      path.startsWith("/qbank") ||
+      path.startsWith("/mock-exams") ||
+      path.startsWith("/dashboard") ||
+      path.startsWith("/admin")
+    ) {
+      return true;
+    }
+
+    if (NOINDEX_PATHS.has(path)) return true;
+
+    if (path.startsWith("/content-editor")) return true;
+    if (path.startsWith("/flashcards/deck/")) return true;
+    if (path.startsWith("/trial")) return true;
+    if (path.startsWith("/account")) return true;
+    if (path.startsWith("/checkout")) return true;
+    if (path.startsWith("/subscription")) return true;
+
+    if (/^\/allied-health\/[^/]+\/dashboard/.test(path)) return true;
+
+    if (locale && isLowValueTranslatedPage(path, locale)) return true;
+
+    return false;
+  } catch (err) {
+    console.error("[SEO] isNoindexPath error:", err);
+    return true;
+  }
 }
 
 function buildBreadcrumbs(pathname: string): { name: string; url: string }[] {

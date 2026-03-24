@@ -1,5 +1,6 @@
 import type { Express, Request, Response } from "express";
 import { pool } from "./storage";
+import { routeParamString } from "./route-params";
 import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware } from "./abuse-protection";
 
 function slugify(text: string): string {
@@ -38,7 +39,7 @@ export function registerNursingQuestionsRoutes(app: Express) {
 
   app.get("/api/nursing/question-topics/:tier", async (req: Request, res: Response) => {
     try {
-      const { tier } = req.params;
+      const tier = routeParamString(req.params.tier);
       if (!NURSING_TIERS.includes(tier)) {
         return res.status(400).json({ error: "Invalid tier. Must be rpn, rn, or np." });
       }
@@ -102,7 +103,8 @@ export function registerNursingQuestionsRoutes(app: Express) {
 
   app.get("/api/nursing/question-topics/:tier/:topicSlug", async (req: Request, res: Response) => {
     try {
-      const { tier, topicSlug } = req.params;
+      const tier = routeParamString(req.params.tier);
+      const topicSlug = routeParamString(req.params.topicSlug);
       if (!NURSING_TIERS.includes(tier)) {
         return res.status(400).json({ error: "Invalid tier." });
       }

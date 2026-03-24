@@ -14,17 +14,29 @@ import { publishWithValidation, quarantineContentItem, isContentQuarantined, get
 import { requireLanguage } from "./middleware/requireLanguage";
 import { blockMixedLanguageRender } from "./middleware/blockMixedLanguageRender";
 import { generateWithLanguageEnforcement } from "./services/generatorEnforcement";
+import { routeParamString } from "./route-params";
 
-function examRequestTimeout(timeoutMs: number = 15000) {
+function examRequestTimeout(timeoutMs: number = 60000) {
   return (req: Request, res: Response, next: NextFunction) => {
+    let finished = false;
+
     const timer = setTimeout(() => {
-      if (!res.headersSent) {
+      if (!res.headersSent && !finished) {
         console.error(`[Timeout] ${req.method} ${req.originalUrl} exceeded ${timeoutMs}ms`);
         res.status(504).json({ error: "Request timed out", timeout: timeoutMs });
       }
     }, timeoutMs);
-    res.on("finish", () => clearTimeout(timer));
-    res.on("close", () => clearTimeout(timer));
+
+    res.on("finish", () => {
+      finished = true;
+      clearTimeout(timer);
+    });
+
+    res.on("close", () => {
+      finished = true;
+      clearTimeout(timer);
+    });
+
     next();
   };
 }
@@ -46,6 +58,15 @@ function snakeToCamel(obj: any): any {
   }
   return result;
 }
+
+/** Matches `flashcardDecks` in shared/schema.ts — prefer over `d.*` on deck read paths */
+const FLASHCARD_DECK_SELECT_D = `d.id, d.owner_id, d.title, d.description, d.tags, d.tier, d.visibility, d.slug, d.career_type, d.is_upgraded, d.upgraded_at, d.upgraded_limit, d.stripe_payment_intent_id, d.card_count, d.view_count, d.save_count, d.created_at, d.updated_at, d.source_version`;
+
+/** Matches `deckFlashcards` in shared/schema.ts */
+const DECK_FLASHCARD_LIST_COLS = `id, deck_id, front, back, rationale, clinical_pearl, tags, difficulty, ai_check_status, ai_check_summary, ai_check_confidence, user_override, sort_order, created_at, updated_at`;
+
+/** List/index shape for `seoPages` — omits large blobs (content_html, *_json); detail stays full */
+const SEO_PAGE_INDEX_COLS = `id, page_type, exam, language_code, title, slug, meta_title, meta_description, is_public, is_indexable, canonical_url, translation_status, page_group_id, last_updated, source_version`;
 import {
   insertNoteSchema,
   insertTestResultSchema,
@@ -74,6 +95,7 @@ import {
   MLT_DRILL_TYPES,
   insertProblemReportSchema,
 } from "@shared/schema";
+import type { PricingPlan, ContentItem, InsertQbankDraft } from "@shared/schema";
 import { getUncachableStripeClient, getStripePublishableKey, validateStripeConnection, getCredentialInfo } from "./stripeClient";
 import { getStripePriceId, loadStripePrices } from "./stripe-pricing";
 import { createPaypalOrder, capturePaypalOrder, loadPaypalDefault, isPaypalConfigured } from "./paypal";
@@ -89,8 +111,10 @@ import { registerMltRemediationRoutes } from "./mlt-remediation-routes";
 import { regionMiddleware, getEffectiveRegion, isRegionAllowed, getDefaultRegionScope, canChangeRegionScope, buildRegionFilter, type Region, type RegionScope } from "./region";
 import { languageMiddleware, getTranslatedFields, getTranslationStatus, getBulkTranslatedFields, getBulkTranslationStatuses, getAvailableLanguages, simpleHash, markTranslationsOutdated, checkTranslationCompleteness } from "./translation-helpers";
 import { incrementSourceVersionAndMarkStale, getLocaleConfig, clearLocaleConfigCache } from "./locale-content-fetcher";
-import { checkAiLimits, recordAiUsage, getAiConfig, setAiConfig, ACTIVE_BUILD_PRIORITY } from "./ai-safety";
+import { checkAiLimits, recordAiUsageFireAndForget, getAiConfig, setAiConfig, ACTIVE_BUILD_PRIORITY } from "./ai-safety";
+import { emitStructuredLog } from "./log-sink";
 import { requireAdmin, requireAdminRole, signAdminToken, signUserToken, verifyAdminToken, resolveAuthUser, requireExactTier, requireAnyPaidTier, verifyPassword, migratePasswordIfNeeded, hashPassword, recordFailedLogin, logSecurityAudit, logAdminAudit, logOperatorAction, issueConfirmationToken, validateConfirmationToken, signReAuthToken, generateCsrfToken, csrfProtection, adminApiRateLimit, requirePermission, requireDestructiveAction, hasPermission } from "./admin-auth";
+import { parseAdminPaginationParams, buildAdminPaginationMeta } from "./pagination-query";
 import type { AdminRole, OperatorActionParams } from "./admin-auth";
 import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEntitlementDebug, handleEntitlementResolve, resolveEntitlementSync } from "./entitlements";
 import { wrapWithOrchestrator, getOrchestratorStats } from "./access-delivery-orchestrator";
@@ -100,8 +124,170 @@ import { isCircuitOpen, recordExamFailure, recordExamSuccess, getCircuitStatus }
 import { getAllowedContentTiers } from "../shared/tier-config";
 import rateLimit from "express-rate-limit";
 import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware, antiScrapingHeaders } from "./abuse-protection";
+import { z } from "zod";
+import { validateBody } from "./validate-request";
 
 const TOKEN_EXPIRY_SECONDS = 1800;
+
+const adminExamQuestionsGenerateBodySchema = z.object({
+  tier: z.enum(["free", "rpn", "rn", "np"]),
+  topic: z.string().trim().min(1).max(500),
+  quantity: z.coerce.number().int().min(1).max(50),
+  questionTypes: z.array(z.string().max(80)).max(20).optional(),
+});
+
+const aiExamTargetSchema = z.enum(["rex-pn", "nclex-pn", "nclex-rn", "np"]).optional();
+
+const aiGenerateQuestionsBatchBodySchema = z.object({
+  topic: z.string().trim().min(1).max(4000),
+  examTarget: aiExamTargetSchema,
+  region: z.enum(["US", "CA", "BOTH"]).optional(),
+  totalCount: z.coerce.number().int().min(5).max(200).optional(),
+  batchSize: z.coerce.number().int().min(10).max(50).optional(),
+});
+
+const aiGenerateTestBankBodySchema = z.object({
+  topic: z.string().trim().min(1).max(4000),
+  customPrompt: z.string().max(20000).optional(),
+  examTarget: z.string().max(64).optional(),
+  questionCount: z.coerce.number().int().min(5).max(150).optional(),
+  difficulty: z.enum(["easy", "mixed", "hard"]).optional(),
+  questionTypes: z.array(z.string().max(64)).max(20).optional(),
+});
+
+const explanationsGenerateBatchBodySchema = z.object({
+  source: z.enum(["exam_questions", "allied_questions", "imaging_questions"]),
+  batchSize: z.coerce.number().int().min(1).max(20).optional(),
+});
+
+const adminExplanationsBatchByCareerBodySchema = z.object({
+  source: z.enum(["exam_questions", "allied_questions", "imaging_questions"]),
+  careerType: z.string().max(64).optional().nullable(),
+  batchSize: z.coerce.number().int().min(1).max(20).optional(),
+});
+
+const contentWriteCredentialMixin = z.object({
+  username: z.string().max(256).optional(),
+  password: z.string().max(256).optional(),
+  forcePublish: z.boolean().optional(),
+});
+const postContentBodySchema = insertContentItemSchema.merge(contentWriteCredentialMixin);
+const putContentBodySchema = insertContentItemSchema.partial().merge(contentWriteCredentialMixin);
+
+const adminAiConfigBodySchema = z.object({
+  enabled: z.boolean().optional(),
+  maxItemsPerDay: z.coerce.number().int().positive().optional(),
+  maxTokensPerDay: z.coerce.number().int().positive().optional(),
+  freeTierDailyLimit: z.coerce.number().int().positive().optional(),
+  rateLimitPerMinute: z.coerce.number().int().positive().optional(),
+});
+
+const translationSaveBodySchema = z.object({
+  lang: z.string().trim().min(1).max(32),
+  translations: z.record(z.string().max(200), z.string().max(500000)),
+});
+
+const translationGenerateBodySchema = z.object({
+  lang: z.string().trim().min(1).max(32).optional(),
+  fields: z.record(z.string().max(200), z.unknown()),
+});
+
+const deckAiCheckBodySchema = z.object({
+  front: z.string().min(1).max(20000),
+  back: z.string().min(1).max(20000),
+  rationale: z.string().max(50000).optional(),
+  tier: z.string().max(64).optional(),
+  tags: z.unknown().optional(),
+});
+
+const deckAiGenerateBodySchema = z.object({
+  prompt: z.string().trim().min(1).max(10000),
+  count: z.coerce.number().int().min(1).max(500).optional(),
+});
+
+const deckAiGenerateFromNotesBodySchema = z.object({
+  notes: z.string().trim().min(1).max(50000),
+  count: z.coerce.number().int().min(1).max(500).optional(),
+});
+
+const lessonOverridesPutBodySchema = z
+  .object({
+    username: z.string().max(256).optional(),
+    password: z.string().max(256).optional(),
+  })
+  .passthrough();
+
+/** Stripe checkout — billing; strict shape, unknown keys stripped. */
+const stripeCreateCheckoutBodySchema = z.object({
+  userId: z.string().trim().min(1).max(200),
+  tier: z.string().trim().min(1).max(80),
+  duration: z.string().max(32).optional(),
+  region: z.string().max(16).optional(),
+  planId: z.union([z.string().max(128), z.null()]).optional(),
+  source: z.string().max(32).optional(),
+  successUrl: z.string().max(4096).optional(),
+  cancelUrl: z.string().max(4096).optional(),
+});
+
+/** Admin AI content generation — large prompt / optional context JSON */
+const aiGenerateContentBodySchema = z.object({
+  prompt: z.string().min(1).max(200_000),
+  mode: z.string().max(40).optional(),
+  context: z.unknown().optional(),
+  contentId: z.union([z.string().max(128), z.null()]).optional(),
+  examTarget: z.union([z.string().max(64), z.null()]).optional(),
+});
+
+const aiGeneratePipelineStepSchema = z.enum([
+  "strategy",
+  "blueprint",
+  "content",
+  "survival-content",
+  "fix",
+  "enhance",
+  "qa",
+]);
+
+/** Pipeline — nested previousStepData / sections preserved via passthrough */
+const aiGeneratePipelineBodySchema = z
+  .object({
+    step: aiGeneratePipelineStepSchema,
+    topic: z.string().trim().min(1).max(4000),
+    examTarget: z.string().max(64).optional(),
+    region: z.string().max(16).optional(),
+    templateLabel: z.string().max(200).optional(),
+    sections: z.union([z.array(z.record(z.string(), z.any())).max(500), z.null()]).optional(),
+    targetPages: z.coerce.number().int().min(1).max(500).optional(),
+    includeQuestions: z.boolean().optional(),
+    questionCount: z.coerce.number().int().min(1).max(500).optional(),
+    previousStepData: z.union([z.record(z.string(), z.any()), z.null()]).optional(),
+  })
+  .passthrough();
+
+const stripeVerifySessionBodySchema = z.object({
+  sessionId: z.string().trim().min(1).max(256),
+  userId: z.string().trim().min(1).max(200),
+  tier: z.string().trim().min(1).max(80),
+});
+
+const stripePortalBodySchema = z.object({
+  userId: z.string().trim().min(1).max(200),
+});
+
+const flashcardUpgradeCheckoutBodySchema = z.object({
+  userId: z.string().trim().min(1).max(200),
+  plan: z.enum(["monthly", "yearly"]).optional(),
+});
+
+const flashcardUpgradeVerifyBodySchema = z.object({
+  sessionId: z.string().trim().min(1).max(256),
+  userId: z.string().trim().min(1).max(200),
+});
+
+const billingDeckUpgradeCheckoutBodySchema = z.object({
+  userId: z.string().trim().min(1).max(200),
+  deckId: z.string().trim().min(1).max(128),
+});
 
 async function logAudit(req: any, actor: any, entityType: string, entityId: string | null, action: string, beforeJson?: any, afterJson?: any, reason?: string, severity?: string) {
   try {
@@ -281,7 +467,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       logHeavyRouteMemory(method, path, "start");
     }
 
-    (res as any).end = function (...args: any[]) {
+    // Express `Response#end` has multiple overloads; wrapping with a single rest signature is easier via `any[]` here.
+    (res as { end: (...args: unknown[]) => ReturnType<Response["end"]> }).end = function (this: Response, ...args: unknown[]) {
       const duration = Date.now() - startTime;
       const payloadBytes = parseInt(res.getHeader("content-length") as string) || 0;
       recordRouteLatency(method, path, duration, payloadBytes);
@@ -290,7 +477,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         logHeavyRouteMemory(method, path, "end", { durationMs: duration, statusCode: res.statusCode });
       }
 
-      return originalEnd.apply(this, args);
+      return originalEnd.apply(this, args as never);
     };
 
     next();
@@ -422,7 +609,12 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         cache: cacheStats,
         examAssembly: assemblyStats,
         concurrency: concurrencyStats,
-        circuitBreakers: circuitBreakers.map(cb => ({ name: cb.name, state: cb.state, failures: cb.failures })),
+        circuitBreakers: circuitBreakers.map(cb => ({
+          name: cb.name,
+          state: cb.state,
+          failureCount: cb.failureCount,
+          failures: cb.failureCount,
+        })),
         featureFlags: flags.map(f => ({ key: f.key, enabled: isFeatureEnabled(f.key), errorCount: f.errorCount })),
         killSwitchesActive: disabledFlags.map(f => f.key),
       });
@@ -476,8 +668,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     res.status(204).end();
   });
 
-  const entitlementApiRouter = (await import("./entitlement-api")).default;
-  app.use(entitlementApiRouter);
+  const { registerScheduleRoutes } = await import("./entitlement-api");
+  registerScheduleRoutes(app);
 
   app.get("/api/admin/entitlement-debug", async (req, res) => {
     await handleEntitlementDebug(req, res);
@@ -697,6 +889,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       import("./subscriber-rescue-routes").then(m => m.registerSubscriberRescueRoutes(app)),
       import("./nclex-rn-hub-seed").then(m => m.registerNclexRnHubSeedRoutes(app)),
       import("./analytics-dashboard-routes").then(m => m.registerAnalyticsDashboardRoutes(app)),
+      import("./content-health-routes").then(m => m.registerContentHealthRoutes(app)),
+      import("./ai-ops-routes").then(m => m.setupAiOpsRoutes(app)),
     ];
     await Promise.all(adminModules);
     console.log(`[LazyRoutes] Admin/generator/ops routes loaded in ${Date.now() - startMs}ms`);
@@ -713,18 +907,24 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     next();
   });
 
-  const examTimeout = examRequestTimeout(15000);
-  const memoryGuard = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { isMemoryCritical } = await import("./memory-monitor");
-      if (isMemoryCritical() && (req.method === "POST" || req.originalUrl.includes("/start"))) {
-        console.warn(`[MemoryGuard] Rejecting ${req.method} ${req.originalUrl} — memory critical`);
-        return res.status(503).json({ error: "Server under memory pressure, please retry in a few seconds" });
-      }
-    } catch {}
-    next();
-  };
-  app.use("/api/v1/cat-exams", examRequestIdMiddleware(), memoryGuard, examTimeout);
+          const examTimeout = examRequestTimeout(60000);
+
+          const memoryGuard = async (req: Request, res: Response, next: NextFunction) => {
+            try {
+              const { isMemoryCritical } = await import("./memory-monitor");
+
+              if (isMemoryCritical()) {
+                console.warn(`[MemoryGuard] High memory usage detected but allowing request: ${req.method} ${req.originalUrl}`);
+              }
+
+            } catch (err) {
+              console.error("[MemoryGuard] Error checking memory:", err);
+            }
+
+            next();
+          };
+
+          app.use("/api/v1/cat-exams",examRequestIdMiddleware(), memoryGuard, examTimeout);
   app.use("/api/v1/mock-exams", examRequestIdMiddleware(), memoryGuard, examTimeout);
   app.use("/api/v1/test-banks", memoryGuard, examTimeout);
   app.use("/api/cat-exams", examRequestIdMiddleware(), memoryGuard, examTimeout);
@@ -732,6 +932,18 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
 
   const { registerCrossPlatformApiRoutes } = await import("./cross-platform-api");
   registerCrossPlatformApiRoutes(app);
+
+  const { registerExamDeliveryRoutes } = await import("./exam-delivery");
+  await registerExamDeliveryRoutes(app);
+
+  const { setupLessonContentRoutes } = await import("./lesson-content-api");
+  setupLessonContentRoutes(app);
+
+  const { registerAdminSeedRoutes } = await import("./admin-seed-routes");
+  registerAdminSeedRoutes(app);
+
+  const { registerSitemapRoutes } = await import("./sitemap/index");
+  registerSitemapRoutes(app);
 
   const { registerTestBankApiRoutes } = await import("./test-bank-api");
   registerTestBankApiRoutes(app);
@@ -824,7 +1036,6 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       import("./business-health-routes").then(m => m.registerBusinessHealthRoutes(app)),
       import("./reliability-dashboard-routes").then(m => m.registerReliabilityDashboardRoutes(app)),
       import("./site-health-routes").then(m => m.registerSiteHealthRoutes(app)),
-      import("./content-health-routes").then(m => m.registerContentHealthRoutes(app)),
       import("./language-health-routes").then(m => m.registerLanguageHealthRoutes(app)),
       import("./rationale-remediation").then(m => m.registerRationaleRemediationRoutes(app)),
       import("./content-integrity-routes").then(m => m.registerContentIntegrityRoutes(app)),
@@ -835,7 +1046,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       import("./seo-performance-routes").then(m => m.registerSeoPerformanceRoutes(app)),
       import("./exam-question-translation-routes").then(m => { m.registerExamQuestionTranslationRoutes(app); m.registerContentTranslationBatchRoutes(app); }),
       import("./backup-routes").then(m => m.registerBackupRoutes(app)),
-      import("./chaos-testing").then(m => m.registerChaosTestingRoutes(app)),
+      import("./chaos-testing").then(m => m.registerChaosRoutes(app)),
       import("./resource-budgets").then(m => m.registerResourceBudgetRoutes(app)),
       import("./auto-containment").then(m => m.registerAutoContainmentRoutes(app)),
       import("./ops-status-routes").then(m => m.registerOpsStatusRoutes(app)),
@@ -849,7 +1060,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       import("./schema-versioning").then(m => m.registerSchemaVersioningRoutes(app)),
       import("./ops-dashboard-routes").then(m => m.registerOpsDashboardRoutes(app)),
       import("./incident-response-routes").then(m => m.registerIncidentResponseRoutes(app)),
-      import("./incident-routes").then(m => m.registerIncidentMonitorRoutes(app)),
+      import("./incident-routes").then(m => m.registerIncidentRoutes(app)),
       import("./release-gate").then(m => m.registerReleaseGateRoutes(app)),
       import("./content-health-score").then(m => m.registerContentHealthScoreRoutes(app)),
       import("./resilience-report").then(m => m.registerResilienceReportRoutes(app)),
@@ -1018,7 +1229,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const adminRole = admin.admin_role || admin.adminRole || "super_admin";
+      const adminRole = admin.adminRole || (admin as any).admin_role || "super_admin";
       if (adminRole !== "super_admin") {
         return res.status(403).json({ error: "Only super admins can manage roles" });
       }
@@ -1033,7 +1244,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const adminRole = admin.admin_role || admin.adminRole || "super_admin";
+      const adminRole = admin.adminRole || (admin as any).admin_role || "super_admin";
       if (adminRole !== "super_admin") {
         return res.status(403).json({ error: "Only super admins can manage roles" });
       }
@@ -1061,7 +1272,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       if (!targetUser || targetUser.tier !== "admin") {
         return res.status(404).json({ error: "Admin user not found" });
       }
-      const beforeRole = targetUser.admin_role || targetUser.adminRole || "super_admin";
+      const beforeRole = targetUser.adminRole || (targetUser as any).admin_role || "super_admin";
       await pool.query("UPDATE users SET admin_role = $1 WHERE id = $2", [role, req.params.userId]);
       await logOperatorAction({
         req, actor: admin, action: "admin_role_changed", actionCategory: "user_management",
@@ -1608,7 +1819,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   // --------------------
   // AI Content Generation (admin-only)
   // --------------------
-  app.post("/api/ai/generate-content", async (req, res) => {
+  app.post("/api/ai/generate-content", validateBody(aiGenerateContentBodySchema), async (req, res) => {
     let _dequeueOnFinish: (() => void) | null = null;
     try {
       const admin = await requireAdmin(req, res);
@@ -1638,11 +1849,10 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       }
       _dequeueOnFinish = dequeueHeavyOperation;
 
-      const aiCheck = checkAiLimits({ role: "admin" });
+      const aiCheck = await checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { prompt, context, mode, contentId, examTarget } = req.body;
-      if (!prompt) return res.status(400).json({ error: "Prompt is required" });
 
       if (contentId) {
         const existing = await storage.getContentItem(contentId);
@@ -1789,7 +1999,7 @@ CRITICAL RULES:
 
       const text = response.choices[0]?.message?.content || "[]";
       const totalTokens = response.usage?.total_tokens || 0;
-      recordAiUsage(1, totalTokens);
+      recordAiUsageFireAndForget(1, totalTokens, undefined, { route: "POST /api/ai/generate-content", requestId: req.requestId });
       await logAudit(req, admin, "ai", null, "generate-content", null, { mode, prompt: prompt.substring(0, 200) });
 
       if (mode === "bundle") {
@@ -1960,16 +2170,15 @@ CRITICAL RULES:
     return { score, pass: score >= 80, reasons };
   }
 
-  app.post("/api/ai/generate-pipeline", async (req, res) => {
+  app.post("/api/ai/generate-pipeline", validateBody(aiGeneratePipelineBodySchema), async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const aiCheck = checkAiLimits({ role: "admin" });
+      const aiCheck = await checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { step, topic, examTarget, region: reqRegion, templateLabel, sections, targetPages, includeQuestions, questionCount, previousStepData } = req.body;
-      if (!step || !topic) return res.status(400).json({ error: "step and topic are required" });
 
       const region = reqRegion || req.region || "US";
       const examNotes: Record<string, string> = {
@@ -2253,7 +2462,17 @@ Return the corrected content in the same JSON structure:
       if (!pipeline) return res.status(400).json({ error: `Unknown pipeline step: ${step}` });
 
       const callLLM = async (sysPrompt: string, userPrompt: string, maxTok: number, temp: number) => {
-        console.log(`[LLM] model=gpt-4o-mini step=${step} prompt_chars=${sysPrompt.length + userPrompt.length} max_tokens=${maxTok} temp=${temp}`);
+        emitStructuredLog({
+          level: "info",
+          type: "ai_pipeline_llm_call",
+          route: "POST /api/ai/generate-pipeline",
+          requestId: req.requestId,
+          msg: "llm call start",
+          step,
+          promptChars: sysPrompt.length + userPrompt.length,
+          maxTokens: maxTok,
+          temp,
+        });
         const resp = await openai.chat.completions.create({
           model: "gpt-4o-mini",
           messages: [
@@ -2266,10 +2485,30 @@ Return the corrected content in the same JSON structure:
         const raw = resp.choices[0]?.message?.content || "{}";
         const finishReason = resp.choices[0]?.finish_reason || "unknown";
         const tokens = resp.usage?.total_tokens || 0;
-        recordAiUsage(1, tokens);
-        console.log(`[LLM] output_chars=${raw.length} finish_reason=${finishReason} tokens=${tokens}`);
+        recordAiUsageFireAndForget(1, tokens, undefined, { route: "POST /api/ai/generate-pipeline", requestId: req.requestId });
+        emitStructuredLog({
+          level: "info",
+          type: "ai_pipeline_llm_done",
+          route: "POST /api/ai/generate-pipeline",
+          requestId: req.requestId,
+          msg: "llm call complete",
+          step,
+          outputChars: raw.length,
+          finishReason,
+          tokens,
+        });
         if (finishReason === "length") {
-          console.warn(`[LLM] WARNING: output truncated (finish_reason=length). Increase max_tokens or reduce prompt.`);
+          emitStructuredLog(
+            {
+              level: "warn",
+              type: "ai_pipeline_llm_truncated",
+              route: "POST /api/ai/generate-pipeline",
+              requestId: req.requestId,
+              msg: "output truncated (finish_reason=length)",
+              step,
+            },
+            "warn",
+          );
         }
         let result;
         try {
@@ -2277,10 +2516,32 @@ Return the corrected content in the same JSON structure:
           const match = clean.match(/\{[\s\S]*\}/);
           result = match ? JSON.parse(match[0]) : null;
           if (!result) {
-            console.error(`[LLM] JSON parse: no JSON object found in output. First 500 chars: ${raw.substring(0, 500)}`);
+            emitStructuredLog(
+              {
+                level: "error",
+                type: "ai_pipeline_llm_parse_empty",
+                route: "POST /api/ai/generate-pipeline",
+                requestId: req.requestId,
+                msg: "no JSON object in model output",
+                step,
+                preview: raw.substring(0, 500),
+              },
+              "error",
+            );
           }
         } catch (parseErr: any) {
-          console.error(`[LLM] JSON parse error: ${parseErr.message}. First 500 chars: ${raw.substring(0, 500)}`);
+          emitStructuredLog(
+            {
+              level: "error",
+              type: "ai_pipeline_llm_parse_error",
+              route: "POST /api/ai/generate-pipeline",
+              requestId: req.requestId,
+              msg: parseErr?.message,
+              step,
+              preview: raw.substring(0, 500),
+            },
+            "error",
+          );
           result = null;
         }
         return { result, raw, tokens, finishReason };
@@ -2294,7 +2555,10 @@ Return the corrected content in the same JSON structure:
         const isSurvival = step === "survival-content";
         const allSections: any[] = [];
         let totalTokens = 0;
-        const sectionReport: Record<string, { blocks: number; chars: number; status: string; score: number; attempts: number }> = {};
+        const sectionReport: Record<
+          string,
+          { blocks: number; chars: number; status: string; score: number; attempts: number; substantive?: number }
+        > = {};
         const failedSections: string[] = [];
 
         const callLLMJson = async (sys: string, usr: string, maxTok: number, temp: number) => {
@@ -2309,7 +2573,7 @@ Return the corrected content in the same JSON structure:
           const raw = resp.choices[0]?.message?.content || "{}";
           const finishReason = resp.choices[0]?.finish_reason || "unknown";
           const tokens = resp.usage?.total_tokens || 0;
-          recordAiUsage(1, tokens);
+          recordAiUsageFireAndForget(1, tokens, undefined, { route: "POST /api/ai/generate-pipeline", requestId: req.requestId });
           console.log(`[LLM-JSON] output_chars=${raw.length} finish=${finishReason} tokens=${tokens}`);
           if (finishReason === "length") {
             console.warn(`[LLM-JSON] WARNING: output truncated`);
@@ -2666,7 +2930,7 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`
             sectionReport[sec.id] = { blocks: validation.blocks, chars: validation.chars, substantive: validation.substantive, status: validation.pass ? "ok" : "weak", score: validation.pass ? 85 : 50, attempts };
           } else {
             failedSections.push(sec.id);
-            sectionReport[sec.id] = { blocks: 0, chars: 0, status: "FAILED", score: 0, attempts };
+            sectionReport[sec.id] = { blocks: 0, chars: 0, substantive: 0, status: "FAILED", score: 0, attempts };
             console.error(`[Chunked] FAILED section "${sec.id}" after ${attempts - 1} attempts. Last raw (300 chars): ${lastRaw.substring(0, 300)}`);
           }
         }
@@ -2711,7 +2975,7 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`
   });
 
   // --- Question batch endpoint for large question counts ---
-  app.post("/api/ai/generate-questions-batch", async (req, res) => {
+  app.post("/api/ai/generate-questions-batch", validateBody(aiGenerateQuestionsBatchBodySchema), async (req, res) => {
     let _dequeueOnFinish: (() => void) | null = null;
     try {
       const admin = await requireAdmin(req, res);
@@ -2724,11 +2988,10 @@ Return JSON: {"id":"${sec.id}","title":"${sec.label}","blocks":[...]}`
       }
       _dequeueOnFinish = dequeueHeavyOperation;
 
-      const aiCheck = checkAiLimits({ role: "admin" });
+      const aiCheck = await checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { topic, examTarget, region: reqRegion, totalCount, batchSize: reqBatchSize } = req.body;
-      if (!topic) return res.status(400).json({ error: "topic is required" });
 
       const region = reqRegion || "US";
       const examNotes: Record<string, string> = {
@@ -2786,6 +3049,8 @@ Return JSON: {"questions":[{"stem":"...","options":["A)...","B)...","C)...","D).
 
         let batchQuestions: any[] | null = null;
         const MAX_RETRIES = 3;
+        let batchOpenAiCalls = 0;
+        let batchOpenAiTokens = 0;
         for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
           console.log(`[QuestionBatch] batch=${batch + 1} attempt=${attempt + 1}`);
           const resp = await openai.chat.completions.create({
@@ -2799,8 +3064,10 @@ Return JSON: {"questions":[{"stem":"...","options":["A)...","B)...","C)...","D).
             response_format: { type: "json_object" },
           });
           const raw = resp.choices[0]?.message?.content || "[]";
-          totalTokens += resp.usage?.total_tokens || 0;
-          recordAiUsage(1, resp.usage?.total_tokens || 0);
+          const usageTokens = resp.usage?.total_tokens || 0;
+          totalTokens += usageTokens;
+          batchOpenAiCalls += 1;
+          batchOpenAiTokens += usageTokens;
           console.log(`[QuestionBatch] output_chars=${raw.length} finish_reason=${resp.choices[0]?.finish_reason}`);
 
           try {
@@ -2821,8 +3088,31 @@ Return JSON: {"questions":[{"stem":"...","options":["A)...","B)...","C)...","D).
           }
         }
 
+        if (batchOpenAiCalls > 0) {
+          recordAiUsageFireAndForget(batchOpenAiCalls, batchOpenAiTokens, undefined, {
+            route: "POST /api/ai/generate-questions-batch",
+            batch: batch + 1,
+          });
+        }
+
         if (!batchQuestions) {
           console.error(`[QuestionBatch] batch=${batch + 1} FAILED after ${MAX_RETRIES + 1} attempts`);
+          emitStructuredLog(
+            {
+              level: "warn",
+              type: "question_batch_partial_failure",
+              provider: "openai",
+              route: "POST /api/ai/generate-questions-batch",
+              batch: batch + 1,
+              totalBatches: batches,
+              questionsGenerated: allQuestions.length,
+              questionsRequested: total,
+              openAiCallsThisBatch: batchOpenAiCalls,
+              tokensThisBatch: batchOpenAiTokens,
+              tokensTotalSoFar: totalTokens,
+            },
+            "warn",
+          );
           return res.status(422).json({
             error: "QUESTION_BATCH_FAILED",
             batch: batch + 1,
@@ -2847,8 +3137,10 @@ Return JSON: {"questions":[{"stem":"...","options":["A)...","B)...","C)...","D).
     }
   });
 
-  app.post("/api/ai/generate-test-bank", async (req, res) => {
+  app.post("/api/ai/generate-test-bank", validateBody(aiGenerateTestBankBodySchema), async (req, res) => {
     let _dequeueOnFinish: (() => void) | null = null;
+    let totalTokensUsed = 0;
+    let totalAttempts = 0;
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
@@ -2860,11 +3152,10 @@ Return JSON: {"questions":[{"stem":"...","options":["A)...","B)...","C)...","D).
       }
       _dequeueOnFinish = dequeueHeavyOperation;
 
-      const aiCheck = checkAiLimits({ role: "admin" });
+      const aiCheck = await checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { topic, customPrompt, examTarget, questionCount, difficulty, questionTypes } = req.body;
-      if (!topic) return res.status(400).json({ error: "Topic is required" });
 
       let testBankMemoryGated = false;
       try {
@@ -3001,8 +3292,6 @@ The "questions" array length MUST equal ${requestedCount}.`;
       const MAX_COMPLETION_PASSES = Math.ceil(requestedCount / CHUNK_SIZE) + 5;
       const allQuestions: any[] = [];
       const seenHashes = new Set<string>();
-      let totalTokensUsed = 0;
-      let totalAttempts = 0;
 
       for (let pass = 0; pass < MAX_COMPLETION_PASSES && allQuestions.length < requestedCount; pass++) {
         const missing = requestedCount - allQuestions.length;
@@ -3155,8 +3444,6 @@ Start numbering at q${startNum}. Return STRICT JSON only with exactly ${fillCoun
         }
       }
 
-      recordAiUsage(totalAttempts, totalTokensUsed);
-
       const finalValidation = validateQuestions({ questions: allQuestions });
       const lastErrors = finalValidation.errors.filter(e => !e.startsWith("COUNT_MISMATCH"));
 
@@ -3198,6 +3485,9 @@ Start numbering at q${startNum}. Return STRICT JSON only with exactly ${fillCoun
       console.error("AI test bank error:", e);
       res.status(500).json({ error: e.message || "AI test bank generation failed" });
     } finally {
+      if (totalTokensUsed > 0) {
+        recordAiUsageFireAndForget(totalAttempts, totalTokensUsed, undefined, { route: "POST /api/ai/generate-test-bank" });
+      }
       if (_dequeueOnFinish) _dequeueOnFinish();
     }
   });
@@ -3207,7 +3497,7 @@ Start numbering at q${startNum}. Return STRICT JSON only with exactly ${fillCoun
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const aiCheck = checkAiLimits({ role: "admin" });
+      const aiCheck = await checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { topic, examTarget, chapterTitle, chapterNumber, totalChapters, previousChapters } = req.body;
@@ -3283,7 +3573,7 @@ Exam context: ${examNote}`;
       }
 
       const totalTokens = response.usage?.total_tokens || 0;
-      recordAiUsage(1, totalTokens);
+      recordAiUsageFireAndForget(1, totalTokens, undefined, { route: "POST /api/ai/generate-bundle-chapter", requestId: req.requestId });
       await logAudit(req, admin, "ai", null, "generate-bundle-chapter", null, { topic, chapterTitle, chapterNumber });
       res.json(chapter);
     } catch (e: any) {
@@ -3297,7 +3587,7 @@ Exam context: ${examNote}`;
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const aiCheck = checkAiLimits({ role: "admin" });
+      const aiCheck = await checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { topic, examTarget, targetPages, includeFlashcards, includeQbank } = req.body;
@@ -3359,7 +3649,7 @@ The guide should be comprehensive enough to fill approximately ${pages} printed 
       }
 
       const totalTokens = response.usage?.total_tokens || 0;
-      recordAiUsage(1, totalTokens);
+      recordAiUsageFireAndForget(1, totalTokens, undefined, { route: "POST /api/ai/generate-bundle-outline", requestId: req.requestId });
       await logAudit(req, admin, "ai", null, "generate-bundle-outline", null, { topic, targetPages: pages, chapters: chaptersNeeded });
       res.json(outline);
     } catch (e: any) {
@@ -3373,7 +3663,7 @@ The guide should be comprehensive enough to fill approximately ${pages} printed 
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const aiCheck = checkAiLimits({ role: "admin" });
+      const aiCheck = await checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { title, summary, content, tier, category } = req.body;
@@ -3416,7 +3706,7 @@ The guide should be comprehensive enough to fill approximately ${pages} printed 
       }
 
       const totalTokens = response.usage?.total_tokens || 0;
-      recordAiUsage(1, totalTokens);
+      recordAiUsageFireAndForget(1, totalTokens, undefined, { route: "POST /api/ai/generate-seo", requestId: req.requestId });
       await logAudit(req, admin, "ai", null, "generate-seo", null, { title });
       res.json(seo);
     } catch (e: any) {
@@ -3430,7 +3720,7 @@ The guide should be comprehensive enough to fill approximately ${pages} printed 
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const aiCheck = checkAiLimits({ role: "admin" });
+      const aiCheck = await checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { message, contentContext } = req.body;
@@ -3464,7 +3754,7 @@ Keep responses concise and actionable.`
 
       const reply = response.choices[0]?.message?.content || "I couldn't generate a response.";
       const totalTokens = response.usage?.total_tokens || 0;
-      recordAiUsage(1, totalTokens);
+      recordAiUsageFireAndForget(1, totalTokens, undefined, { route: "POST /api/ai/chat-assist", requestId: req.requestId });
       res.json({ reply });
     } catch (e: any) {
       console.error("AI chat error:", e);
@@ -3498,12 +3788,12 @@ Keep responses concise and actionable.`
     }
   });
 
-  app.post("/api/admin/ai-config", async (req, res) => {
+  app.post("/api/admin/ai-config", validateBody(adminAiConfigBodySchema), async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
       const { enabled, maxItemsPerDay, maxTokensPerDay, freeTierDailyLimit, rateLimitPerMinute } = req.body;
-      setAiConfig({ enabled, maxItemsPerDay, maxTokensPerDay, freeTierDailyLimit, rateLimitPerMinute });
+      await setAiConfig({ enabled, maxItemsPerDay, maxTokensPerDay, freeTierDailyLimit, rateLimitPerMinute });
       await logAudit(req, admin, "ai-config", null, "update", null, { enabled, maxItemsPerDay, maxTokensPerDay, freeTierDailyLimit, rateLimitPerMinute });
       res.json(getAiConfig());
     } catch (e: any) {
@@ -3514,20 +3804,14 @@ Keep responses concise and actionable.`
   // --------------------
   // AI Batch Generation (admin-only, draft-only)
   // --------------------
-  app.post("/api/admin/ai/exam-questions/generate", async (req, res) => {
+  app.post("/api/admin/ai/exam-questions/generate", validateBody(adminExamQuestionsGenerateBodySchema), async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const aiCheck = checkAiLimits({ role: "admin" });
+      const aiCheck = await checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
-      const { tier, topic, quantity, questionTypes } = req.body;
-      if (!tier || !topic || !quantity || quantity < 1 || quantity > 50) {
-        return res.status(400).json({ error: "Invalid parameters. tier, topic required, quantity 1-50." });
-      }
-
-      const validTiers = ["free", "rpn", "rn", "np"];
-      if (!validTiers.includes(tier)) return res.status(400).json({ error: "Invalid tier" });
+      const { tier, topic, quantity, questionTypes } = req.body as z.infer<typeof adminExamQuestionsGenerateBodySchema>;
 
       const types = questionTypes || ["mcq", "sata", "prioritization", "pharmacology", "lab-values"];
       const batchId = `batch-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -3562,7 +3846,7 @@ Return ONLY the JSON array, no other text.`;
       });
 
       const totalTokens = response.usage?.total_tokens || 0;
-      recordAiUsage(quantity, totalTokens);
+      recordAiUsageFireAndForget(quantity, totalTokens, undefined, { route: "POST /api/admin/ai/exam-questions/generate", requestId: req.requestId });
       await logAudit(req, admin, "ai-batch-exam", null, "generate", null, { batchId, tier, topic, quantity, totalTokens });
 
       let questions: any[] = [];
@@ -3596,7 +3880,7 @@ Return ONLY the JSON array, no other text.`;
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const aiCheck = checkAiLimits({ role: "admin" });
+      const aiCheck = await checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { topic, quantity, tier, deckTitle } = req.body;
@@ -3633,7 +3917,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       });
 
       const totalTokens = response.usage?.total_tokens || 0;
-      recordAiUsage(quantity, totalTokens);
+      recordAiUsageFireAndForget(quantity, totalTokens, undefined, { route: "POST /api/admin/ai/flashcards/generate", requestId: req.requestId });
       await logAudit(req, admin, "ai-batch-flashcards", null, "generate", null, { batchId, topic, quantity, tier, totalTokens });
 
       let cards: any[] = [];
@@ -3964,7 +4248,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       };
 
       if (user.tier === "admin") {
-        const adminRole = user.admin_role || user.adminRole || "super_admin";
+        const adminRole = user.adminRole || (user as any).admin_role || "super_admin";
         const tokenData = signAdminToken(user.id, user.username, adminRole as any);
         response.accessToken = tokenData.accessToken;
         response.expiresInSeconds = tokenData.expiresInSeconds;
@@ -4206,7 +4490,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       if (!validThemes.includes(theme)) {
         return res.status(400).json({ error: "Invalid theme" });
       }
-      await storage.updateUserTheme(req.params.userId, theme);
+      await storage.updateUserTheme(routeParamString(req.params.userId), theme);
       res.json({ success: true });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -4222,31 +4506,30 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       if (cached) return res.json(cached);
 
       const plans = await storage.getAllPricingPlans();
-      const activePlans = plans.filter((p: any) => {
-        const enabled = p.isEnabled ?? p.is_enabled ?? true;
-        if (!enabled) return false;
+      const activePlans = plans.filter((p: PricingPlan) => {
+        if (p.isEnabled === false) return false;
         const d = (p.duration || "").toLowerCase();
         return !d.includes("trial") && !d.includes("day");
       });
 
-      const enriched = activePlans.map((p: any) => ({
+      const enriched = activePlans.map((p: PricingPlan) => ({
         id: p.id,
         tier: p.tier,
         duration: p.duration,
-        planName: p.planName ?? p.plan_name ?? null,
+        planName: p.planName ?? null,
         description: p.description ?? null,
-        priceUSD: p.priceUsd ?? p.priceUSD ?? p.price_usd ?? 0,
-        priceCAD: p.priceCad ?? p.priceCAD ?? p.price_cad ?? 0,
+        priceUSD: p.priceUSD,
+        priceCAD: p.priceCAD,
         currency: "usd",
         interval: p.duration,
-        stripePriceIdUsd: p.stripePriceIdUsd ?? p.stripe_price_id_usd ?? null,
-        stripePriceIdCad: p.stripePriceIdCad ?? p.stripe_price_id_cad ?? null,
-        isLifetime: p.isLifetime ?? p.is_lifetime ?? false,
-        isPopular: p.isPopular ?? p.is_popular ?? false,
-        isFeatured: p.isFeatured ?? p.is_featured ?? false,
-        isFoundingPrice: p.isFoundingPrice ?? p.is_founding_price ?? false,
-        features: p.featureList ?? p.feature_list ?? [],
-        sortOrder: p.displayOrder ?? p.display_order ?? 0,
+        stripePriceIdUsd: p.stripePriceIdUsd ?? null,
+        stripePriceIdCad: p.stripePriceIdCad ?? null,
+        isLifetime: p.isLifetime ?? false,
+        isPopular: p.isPopular ?? false,
+        isFeatured: p.isFeatured ?? false,
+        isFoundingPrice: p.isFoundingPrice ?? false,
+        features: p.featureList ?? [],
+        sortOrder: p.displayOrder ?? 0,
         active: true,
       }));
 
@@ -4268,7 +4551,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       if (cached) return res.json(cached);
 
       const plans = await storage.getAllPricingPlans();
-      const filtered = plans.filter((p: any) => {
+      const filtered = plans.filter((p: PricingPlan) => {
         const d = (p.duration || "").toLowerCase();
         return !d.includes("trial") && !d.includes("day");
       });
@@ -4286,7 +4569,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       if (cached) return res.json(cached);
 
       const plans = await storage.getPricingPlansByTier(req.params.tier);
-      const filtered = plans.filter((p: any) => {
+      const filtered = plans.filter((p: PricingPlan) => {
         const d = (p.duration || "").toLowerCase();
         return !d.includes("trial") && !d.includes("day");
       });
@@ -4393,7 +4676,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
     }
   });
 
-  app.post("/api/stripe/create-checkout", stripeCheckoutLimiter, async (req, res) => {
+  app.post("/api/stripe/create-checkout", stripeCheckoutLimiter, validateBody(stripeCreateCheckoutBodySchema), async (req, res) => {
     const isProduction = process.env.REPLIT_DEPLOYMENT === '1';
     const env = isProduction ? 'PRODUCTION' : 'DEVELOPMENT';
 
@@ -4402,9 +4685,6 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       const purchaseSource = (source === "mobile_app") ? "mobile_app" : "web";
 
       console.log(`[Checkout:${env}] Starting checkout — tier=${tier} duration=${duration} region=${region} planId=${planId} userId=${userId} source=${purchaseSource}`);
-
-      if (!tier) return res.status(400).json({ error: "Missing tier parameter" });
-      if (!userId) return res.status(400).json({ error: "Missing userId parameter" });
 
       const user = await storage.getUser(userId);
       if (!user) return res.status(404).json({ error: "User not found" });
@@ -4420,13 +4700,13 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       const subscriptionTiers = ["rpn", "rn", "np", "allied", "newgrad", "new_grad_toolkit", "certification_prep", "full_access"];
       if (subscriptionTiers.includes(tier)) {
         const dbPlansForValidation = await storage.getPricingPlansByTier(tier);
-        const activePlansForTier = dbPlansForValidation.filter((p: any) => p.isEnabled !== false && p.is_enabled !== false);
+        const activePlansForTier = dbPlansForValidation.filter((p: PricingPlan) => p.isEnabled !== false);
         if (activePlansForTier.length === 0) {
           console.warn(`[Checkout:${env}] Rejected: tier=${tier} has no active plans in pricing_plans table`);
           return res.status(400).json({ error: "This plan is currently unavailable. Please choose a different plan." });
         }
         if (planId) {
-          const matchingPlan = activePlansForTier.find((p: any) => p.id === planId);
+          const matchingPlan = activePlansForTier.find((p: PricingPlan) => p.id === planId);
           if (!matchingPlan) {
             console.warn(`[Checkout:${env}] Rejected: planId=${planId} is not an active plan for tier=${tier}`);
             return res.status(400).json({ error: "The selected plan is inactive or does not exist. Please choose a different plan." });
@@ -4499,14 +4779,14 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       let isLifetimePlan = false;
 
       const dbPlans = await storage.getPricingPlansByTier(tier);
-      const enabledPlans = dbPlans.filter((p: any) => p.isEnabled !== false && p.is_enabled !== false);
-      const dbPlan = planId
-        ? enabledPlans.find((p: any) => p.id === planId)
-        : enabledPlans.find((p: any) => p.duration === selectedDuration);
+      const enabledPlans = dbPlans.filter((p: PricingPlan) => p.isEnabled !== false);
+      const dbPlan: PricingPlan | undefined = planId
+        ? enabledPlans.find((p: PricingPlan) => p.id === planId)
+        : enabledPlans.find((p: PricingPlan) => p.duration === selectedDuration);
 
       if (dbPlan) {
-        amount = isCAD ? (dbPlan.priceCad ?? dbPlan.price_cad) : (dbPlan.priceUsd ?? dbPlan.price_usd);
-        isLifetimePlan = dbPlan.isLifetime || dbPlan.is_lifetime || false;
+        amount = isCAD ? dbPlan.priceCAD : dbPlan.priceUSD;
+        isLifetimePlan = !!dbPlan.isLifetime;
         console.log(`[Checkout:${env}] DB plan found: id=${dbPlan.id} amount=${amount} currency=${currency} isLifetime=${isLifetimePlan}`);
       } else {
         const fallbackTierPrices = fallbackPriceTable[tier];
@@ -4669,9 +4949,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       }
 
       const dbStripePriceId = dbPlan
-        ? (isCAD
-            ? (dbPlan.stripePriceIdCad || dbPlan.stripe_price_id_cad)
-            : (dbPlan.stripePriceIdUsd || dbPlan.stripe_price_id_usd))
+        ? (isCAD ? dbPlan.stripePriceIdCad : dbPlan.stripePriceIdUsd) ?? null
         : null;
       const stripePriceId = dbStripePriceId || getStripePriceId(tier, selectedDuration, currency);
 
@@ -4742,16 +5020,49 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         userId: req.body?.userId,
         stack: e.stack?.split('\n').slice(0, 5).join('\n'),
       };
-      console.error(`[Checkout:${env}] ERROR:`, JSON.stringify(errorDetail, null, 2));
+      emitStructuredLog(
+        {
+          level: "error",
+          type: "stripe_checkout_error",
+          provider: "stripe",
+          route: "POST /api/stripe/create-checkout",
+          requestId: req.requestId,
+          userId: errorDetail.userId,
+          msg: "create-checkout failed",
+          reason: e?.message,
+          detail: errorDetail,
+        },
+        "error",
+      );
 
       if (e.type === 'StripeAuthenticationError') {
-        console.error(`[Checkout:${env}] The Stripe secret key is INVALID or REVOKED. Update STRIPE_SECRET_KEY at https://dashboard.stripe.com/apikeys`);
+        emitStructuredLog(
+          {
+            level: "error",
+            type: "stripe_auth_error",
+            provider: "stripe",
+            route: "POST /api/stripe/create-checkout",
+            requestId: req.requestId,
+            msg: "Stripe secret key invalid or revoked",
+          },
+          "error",
+        );
         res.status(503).json({
           error: "Payment system authentication failed. The API key may be invalid or expired. Please contact support.",
           stripeError: isProduction ? undefined : e.message,
         });
       } else if (e.type === 'StripeInvalidRequestError') {
-        console.error(`[Checkout:${env}] Stripe rejected the request: ${e.message}`);
+        emitStructuredLog(
+          {
+            level: "error",
+            type: "stripe_invalid_request",
+            provider: "stripe",
+            route: "POST /api/stripe/create-checkout",
+            requestId: req.requestId,
+            msg: e.message,
+          },
+          "error",
+        );
         res.status(400).json({
           error: isProduction
             ? "There was a problem with the checkout configuration. Please try again or contact support."
@@ -4761,7 +5072,18 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         res.status(503).json({ error: "Payment system temporarily unavailable. Please try again shortly." });
       } else if (e.message?.includes('No such price')) {
         const missingId = e.message.match(/price_\w+/)?.[0] || 'unknown';
-        console.error(`[Checkout:${env}] Invalid price ID: ${missingId}`);
+        emitStructuredLog(
+          {
+            level: "error",
+            type: "stripe_invalid_price",
+            provider: "stripe",
+            route: "POST /api/stripe/create-checkout",
+            requestId: req.requestId,
+            msg: "Invalid price ID",
+            reason: missingId,
+          },
+          "error",
+        );
         res.status(400).json({ error: `Invalid price configuration (${missingId}). Please refresh and try again.` });
       } else {
         res.status(500).json({
@@ -4772,13 +5094,25 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
     }
   });
 
-  app.post("/api/stripe/verify-session", async (req, res) => {
+  app.post("/api/stripe/verify-session", validateBody(stripeVerifySessionBodySchema), async (req, res) => {
     try {
       const { sessionId, userId, tier } = req.body;
       const user = await storage.getUser(userId);
       const isAdmin = user?.tier === "admin";
 
-      console.log(`[VerifySession] userId=${userId} tier=${tier} sessionId=${sessionId} currentTier=${user?.tier} isAdmin=${isAdmin} email=${user?.email || 'none'} stripeCustomerId=${user?.stripeCustomerId || 'none'}`);
+      emitStructuredLog({
+        level: "info",
+        type: "stripe_verify_session_start",
+        provider: "stripe",
+        route: "POST /api/stripe/verify-session",
+        requestId: req.requestId,
+        userId,
+        msg: "verify-session started",
+        tier,
+        sessionId,
+        currentTier: user?.tier,
+        isAdmin,
+      });
 
       const stripe = await getUncachableStripeClient();
       const session = await withTimeout(
@@ -4787,13 +5121,35 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         "stripe_session_retrieve"
       );
 
-      console.log(`[VerifySession] Stripe session status: payment_status=${session.payment_status} mode=${session.mode} subscription=${session.subscription || 'none'}`);
+      emitStructuredLog({
+        level: "info",
+        type: "stripe_session_retrieved",
+        provider: "stripe",
+        route: "POST /api/stripe/verify-session",
+        requestId: req.requestId,
+        userId,
+        msg: "session retrieved",
+        payment_status: session.payment_status,
+        mode: session.mode,
+        subscription: session.subscription || null,
+      });
 
       if (session.payment_status === "paid") {
         const isLifetime = session.metadata?.isLifetime === "true";
 
         const effectiveTier = isAdmin ? "admin" : tier;
-        console.log(`[VerifySession] Payment confirmed. isLifetime=${isLifetime} effectiveTier=${effectiveTier} (preserving admin=${isAdmin})`);
+        emitStructuredLog({
+          level: "info",
+          type: "stripe_verify_payment_confirmed",
+          provider: "stripe",
+          route: "POST /api/stripe/verify-session",
+          requestId: req.requestId,
+          userId,
+          msg: "payment confirmed",
+          isLifetime,
+          effectiveTier,
+          preserveAdmin: isAdmin,
+        });
 
         if (isLifetime) {
           await storage.setUserLifetime(userId);
@@ -4809,22 +5165,68 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
         }
 
         const paidUser = await storage.getUser(userId);
-        console.log(`[VerifySession] DB write complete. user tier=${paidUser?.tier} subscriptionStatus=${paidUser?.subscriptionStatus} stripeSubId=${paidUser?.stripeSubscriptionId || 'none'}`);
+        emitStructuredLog({
+          level: "info",
+          type: "stripe_verify_db_complete",
+          provider: "stripe",
+          route: "POST /api/stripe/verify-session",
+          requestId: req.requestId,
+          userId,
+          msg: "db write complete",
+          tier: paidUser?.tier,
+          subscriptionStatus: paidUser?.subscriptionStatus,
+          stripeSubId: paidUser?.stripeSubscriptionId || null,
+        });
 
         if (paidUser?.referredBy && !paidUser.referralDiscountUsed) {
           try {
             await storage.markReferralDiscountUsed(userId);
           } catch (e) {
-            console.error("[VerifySession] Failed to mark referral discount used:", e);
+            emitStructuredLog(
+              {
+                level: "error",
+                type: "stripe_verify_referral_mark_failed",
+                provider: "stripe",
+                route: "POST /api/stripe/verify-session",
+                requestId: req.requestId,
+                userId,
+                msg: "mark referral discount failed",
+                reason: e instanceof Error ? e.message : String(e),
+              },
+              "error",
+            );
           }
         }
         res.json({ success: true, tier: effectiveTier, isLifetime });
       } else {
-        console.warn(`[VerifySession] Payment NOT paid — status=${session.payment_status}`);
+        emitStructuredLog(
+          {
+            level: "warn",
+            type: "stripe_verify_not_paid",
+            provider: "stripe",
+            route: "POST /api/stripe/verify-session",
+            requestId: req.requestId,
+            userId,
+            msg: "payment not paid",
+            reason: session.payment_status,
+          },
+          "warn",
+        );
         res.json({ success: false, error: `Payment status: ${session.payment_status}` });
       }
     } catch (e: any) {
-      console.error(`[VerifySession] ERROR: type=${e.type || 'unknown'} message=${e.message}`);
+      emitStructuredLog(
+        {
+          level: "error",
+          type: "stripe_verify_error",
+          provider: "stripe",
+          route: "POST /api/stripe/verify-session",
+          requestId: req.requestId,
+          msg: e?.message,
+          stripeErrorType: e?.type || "unknown",
+        },
+        "error",
+      );
       const isProduction = process.env.REPLIT_DEPLOYMENT === '1';
       if (e.type === 'StripeAuthenticationError') {
         res.status(503).json({ error: "Payment verification temporarily unavailable. Your subscription will activate automatically. If it doesn't appear within a few minutes, please contact support." });
@@ -4834,7 +5236,7 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
     }
   });
 
-  app.post("/api/stripe/portal", async (req, res) => {
+  app.post("/api/stripe/portal", validateBody(stripePortalBodySchema), async (req, res) => {
     try {
       const { userId } = req.body;
       const user = await storage.getUser(userId);
@@ -5487,7 +5889,7 @@ Rules:
     try {
       const region = req.region || "US";
       const lang = (req.query.lang as string) || req.lang || "en";
-      const userTier = await extractUserTier(req);
+      const userTier = (await extractUserTier(req)) || "free";
       const cacheKey = `lessons:${region}:${userTier}:${lang}`;
       const cached = cacheGet(cacheKey);
       if (cached) return res.json(cached);
@@ -6350,7 +6752,7 @@ Rules:
   app.get("/api/content/:id", blockMixedLanguageRender, async (req, res) => {
     const contentEnd = instrumentCorePath("lesson_page_load");
     try {
-      const item = await storage.getContentItem(req.params.id);
+      const item = await storage.getContentItem(routeParamString(req.params.id));
       if (!item) return res.status(404).json({ error: "Content not found" });
 
       if (item.status !== "published") {
@@ -6365,25 +6767,32 @@ Rules:
         }
       }
 
+      type ContentItemApiPayload = ContentItem & {
+        _originalTitle?: string;
+        _translationStatus?: "translated" | "missing" | "source";
+      };
+
+      const payload: ContentItemApiPayload = { ...item };
+
       const lang = (req.query.lang as string) || req.lang || "en";
       if (lang !== "en") {
         const translatedFields = await getTranslatedFields("content_item", item.id, lang);
         if (translatedFields && Object.keys(translatedFields).length > 0) {
           if (translatedFields.title) {
-            item._originalTitle = item.title;
-            item.title = translatedFields.title;
+            payload._originalTitle = item.title;
+            payload.title = translatedFields.title.text;
           }
-          if (translatedFields.summary) item.summary = translatedFields.summary;
-          item._translationStatus = "translated";
+          if (translatedFields.summary) payload.summary = translatedFields.summary.text;
+          payload._translationStatus = "translated";
         } else {
-          item._translationStatus = "missing";
+          payload._translationStatus = "missing";
         }
       } else {
-        item._translationStatus = "source";
+        payload._translationStatus = "source";
       }
 
       contentEnd();
-      res.json(item);
+      res.json(payload);
     } catch (e: any) {
       contentEnd();
       res.status(500).json({ error: e.message });
@@ -6394,14 +6803,14 @@ Rules:
     try {
       let item: any = null;
       try {
-        item = await storage.getContentItemBySlug(req.params.slug);
+        item = await storage.getContentItemBySlug(routeParamString(req.params.slug));
       } catch (ormErr: any) {
         console.error("Drizzle ORM slug fetch error:", ormErr.message);
       }
 
       if (!item) {
         try {
-          const result = await pool.query("SELECT id, title, slug, type, category, body_system, tier, status, tags, summary, content, seo_title, seo_description, seo_keywords, primary_keyword, secondary_keywords, scheduled_at, clinical_safety_review, auto_publish, created_at, updated_at, published_at, region_scope FROM content_items WHERE slug = $1 LIMIT 1", [req.params.slug]);
+          const result = await pool.query("SELECT id, title, slug, type, category, body_system, tier, status, tags, summary, content, seo_title, seo_description, seo_keywords, primary_keyword, secondary_keywords, scheduled_at, clinical_safety_review, auto_publish, created_at, updated_at, published_at, region_scope FROM content_items WHERE slug = $1 LIMIT 1", [routeParamString(req.params.slug)]);
           item = result.rows[0] ? snakeToCamel(result.rows[0]) : null;
         } catch (sqlErr: any) {
           console.error("Raw SQL slug fetch error:", sqlErr.message);
@@ -6411,7 +6820,7 @@ Rules:
       if (!item) {
         try {
           const { normalizeForAlias } = await import("./title-canonicalizer");
-          const normalizedSlug = normalizeForAlias(req.params.slug);
+          const normalizedSlug = normalizeForAlias(routeParamString(req.params.slug));
           const aliasResult = await pool.query(
             `SELECT canonical_slug FROM lesson_aliases WHERE normalized_alias = $1 LIMIT 1`,
             [normalizedSlug]
@@ -6550,7 +6959,7 @@ Rules:
       const currentTags: string[] = (Array.isArray(current.tags) ? current.tags : []).map((t: string) => t.toLowerCase());
 
       const relatedResult = await pool.query(
-        `SELECT slug, title, category, seo_description AS summary, tags
+        `SELECT id, slug, title, category, seo_description AS summary, tags
          FROM content_items
          WHERE status = 'published' AND type IN ('blog', 'blog-post', 'article')
            AND slug IS NOT NULL AND slug != $1
@@ -6584,7 +6993,7 @@ Rules:
 
       if (lang !== "en" && relatedItems.length > 0) {
         const slugToId = new Map<string, string>();
-        for (const c of candidates) {
+        for (const c of relatedResult.rows) {
           if (c.slug && c.id) slugToId.set(c.slug, String(c.id));
         }
         const itemIds = relatedItems.map((r: any) => slugToId.get(r.slug)).filter(Boolean) as string[];
@@ -6611,7 +7020,7 @@ Rules:
     }
   });
 
-  app.post("/api/content", async (req, res) => {
+  app.post("/api/content", validateBody(postContentBodySchema), async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
@@ -6770,7 +7179,7 @@ Rules:
     }
   });
 
-  app.put("/api/content/:id", async (req, res) => {
+  app.put("/api/content/:id", validateBody(putContentBodySchema), async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
@@ -6779,9 +7188,9 @@ Rules:
       void username;
       void password;
 
-      const existing = await storage.getContentItem(req.params.id);
+      const existing = await storage.getContentItem(routeParamString(req.params.id));
       if (existing) {
-        await saveRevision(req.params.id, existing, admin);
+        await saveRevision(routeParamString(req.params.id), existing, admin);
         const region = req.region || "US";
         const existingTier = (existing.tier || "free").toLowerCase();
         const updateTier = (contentData.tier || existingTier).toLowerCase();
@@ -6801,7 +7210,7 @@ Rules:
         if (timestampSlugMatch) {
           const cleanSlug = timestampSlugMatch[1];
           const existingClean = await storage.getContentItemBySlug(cleanSlug);
-          if (existingClean && existingClean.id !== req.params.id) {
+          if (existingClean && existingClean.id !== routeParamString(req.params.id)) {
             return res.status(409).json({
               error: `Slug "${contentData.slug}" contains a timestamp suffix. A clean version "${cleanSlug}" already exists.`,
               code: "DUPLICATE_TIMESTAMP_SLUG",
@@ -6843,7 +7252,7 @@ Rules:
           return res.status(422).json({ error: "Cannot publish: slug is required.", code: "MISSING_SLUG" });
         }
 
-        const pubContent = contentData.content || contentData.body || existing?.content || existing?.body;
+        const pubContent = contentData.content || contentData.body || existing?.content;
         const contentStr = typeof pubContent === "string" ? pubContent : JSON.stringify(pubContent || "[]");
         let parsedOk = true;
         let blockCount = 0;
@@ -6896,7 +7305,7 @@ Rules:
       const isBlogType = contentType.includes("blog");
       if (isBlogType && (isPublishing || isUpdatingPublished) && !contentData.forcePublish) {
         const blogMinWords = parseInt(process.env.BLOG_MIN_WORDS || "1500", 10);
-        const bodyText = extractTextFromContent(contentData.body || contentData.content || existing?.body || existing?.content);
+        const bodyText = extractTextFromContent(contentData.body || contentData.content || existing?.content);
         const wc = countWords(bodyText);
         if (wc < blogMinWords) {
           return res.status(422).json({
@@ -6920,7 +7329,7 @@ Rules:
           return res.status(422).json({ error: "Lesson slug is required for publishing.", code: "LESSON_MISSING_SLUG" });
         }
         const lessonMinWords = parseInt(process.env.LESSON_MIN_WORDS || "100", 10);
-        const lessonBodyText = extractTextFromContent(contentData.body || contentData.content || existing?.body || existing?.content);
+        const lessonBodyText = extractTextFromContent(contentData.body || contentData.content || existing?.content);
         const lessonWc = countWords(lessonBodyText);
         if (lessonWc < lessonMinWords) {
           return res.status(422).json({
@@ -6935,7 +7344,7 @@ Rules:
       if (isPublishing && !contentData.forcePublish) {
         try {
           const requiredFields = ["title", "summary"];
-          const translationCheck = await checkTranslationCompleteness("content_item", req.params.id, requiredFields);
+          const translationCheck = await checkTranslationCompleteness("content_item", routeParamString(req.params.id), requiredFields);
           if (!translationCheck.complete) {
             const incompleteLangs = Object.entries(translationCheck.languages)
               .filter(([_, info]) => info.status !== "complete")
@@ -6974,12 +7383,12 @@ Rules:
         }
 
         if (Object.keys(updatedSourceFields).length > 0) {
-          const markedCount = await markTranslationsOutdated("content_item", req.params.id, updatedSourceFields);
+          const markedCount = await markTranslationsOutdated("content_item", routeParamString(req.params.id), updatedSourceFields);
           if (markedCount > 0) {
-            console.log(`[i18n-versioning] Marked ${markedCount} translations as outdated for content ${req.params.id}`);
+            console.log(`[i18n-versioning] Marked ${markedCount} translations as outdated for content ${routeParamString(req.params.id)}`);
           }
           try {
-            await incrementSourceVersionAndMarkStale("content_items", req.params.id);
+            await incrementSourceVersionAndMarkStale("content_items", routeParamString(req.params.id));
           } catch (svErr: any) {
             console.error("[i18n-versioning] source_version increment error:", svErr.message);
           }
@@ -7003,13 +7412,13 @@ Rules:
         }
       }
 
-      const item = await storage.updateContentItem(req.params.id, repairedContentData);
+      const item = await storage.updateContentItem(routeParamString(req.params.id), repairedContentData);
       if (repairedContentData.status === "published" || existing?.status === "published") {
         heroStatsCache = null;
       }
 
       if (updateRepairs.length > 0) {
-        await logAutoRepairs(updateContentType, req.params.id, updateRepairs);
+        await logAutoRepairs(updateContentType, routeParamString(req.params.id), updateRepairs);
       }
 
       cacheInvalidate("lessons:");
@@ -7019,7 +7428,7 @@ Rules:
       if (contentData.status === "published") {
         try {
           const { createVersionOnPublish } = await import("./content-version-service");
-          await createVersionOnPublish(req.params.id, contentType || "content_item", item, {
+          await createVersionOnPublish(routeParamString(req.params.id), contentType || "content_item", item, {
             tier: item.tier || undefined,
             region: item.regionScope || undefined,
             createdBy: (admin as any)?.id || (admin as any)?.username,
@@ -7029,7 +7438,7 @@ Rules:
         }
       }
 
-      await logAudit(req, admin, "content", req.params.id, "update",
+      await logAudit(req, admin, "content", routeParamString(req.params.id), "update",
         existing ? { title: existing.title, status: existing.status } : null,
         { title: item.title, status: item.status, autoRepairs: updateRepairs.length }
       );
@@ -7055,7 +7464,7 @@ Rules:
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const existing = await storage.getContentItem(req.params.id);
+      const existing = await storage.getContentItem(routeParamString(req.params.id));
       await storage.deleteContentItem(req.params.id);
       cacheInvalidate("lessons:");
       cacheInvalidate("flashcard-sets:");
@@ -7223,7 +7632,7 @@ Rules:
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const item = await storage.getContentItem(req.params.id);
+      const item = await storage.getContentItem(routeParamString(req.params.id));
       if (!item) return res.status(404).json({ error: "Content not found" });
 
       const fullText = [item.title || "", item.summary || "", extractTextFromContent(item.content)].join(" ");
@@ -7271,7 +7680,7 @@ Rules:
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const adminRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+      const adminRole: AdminRole = (admin.adminRole || (admin as any).admin_role || "super_admin") as AdminRole;
       if (!hasPermission(adminRole, "read_audit_logs")) {
         return res.status(403).json({ error: "Insufficient permissions to view audit logs" });
       }
@@ -7357,7 +7766,7 @@ Rules:
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const adminRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+      const adminRole: AdminRole = (admin.adminRole || (admin as any).admin_role || "super_admin") as AdminRole;
       if (!hasPermission(adminRole, "read_audit_logs")) {
         return res.status(403).json({ error: "Insufficient permissions to view audit logs" });
       }
@@ -7374,7 +7783,7 @@ Rules:
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const adminRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+      const adminRole: AdminRole = (admin.adminRole || (admin as any).admin_role || "super_admin") as AdminRole;
       if (!hasPermission(adminRole, "read_audit_logs")) {
         return res.status(403).json({ error: "Insufficient permissions to view audit logs" });
       }
@@ -7411,7 +7820,7 @@ Rules:
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const adminRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+      const adminRole: AdminRole = (admin.adminRole || (admin as any).admin_role || "super_admin") as AdminRole;
       if (adminRole !== "super_admin") {
         return res.status(403).json({ error: "Only super admins can change user roles" });
       }
@@ -8261,7 +8670,7 @@ Rules:
       const revResult = await pool.query(`SELECT * FROM content_revisions WHERE id = $1 AND content_id = $2`, [req.params.revId, req.params.id]);
       if (revResult.rows.length === 0) return res.status(404).json({ error: "Revision not found" });
       const rev = snakeToCamel(revResult.rows[0]) as any;
-      const existing = await storage.getContentItem(req.params.id);
+      const existing = await storage.getContentItem(routeParamString(req.params.id));
       if (existing) await saveRevision(req.params.id, existing, admin);
       const updates: any = {};
       if (rev.title) updates.title = rev.title;
@@ -8335,7 +8744,11 @@ Rules:
 
   app.get("/api/flashcard-usage/:userId", requireAnyPaidTier(), async (req: any, res) => {
     try {
-      const entitlement = await getUserCardEntitlement(req.params.userId);
+      const userId = routeParamString(req.params.userId);
+      if (!userId) {
+        return res.status(400).json({ error: "userId required" });
+      }
+      const entitlement = await getUserCardEntitlement(userId);
       res.json({
         used: entitlement.totalFreeCards,
         limit: entitlement.limit,
@@ -8352,8 +8765,9 @@ Rules:
   // Flashcard Preview System (Freemium)
   // --------------------
 
-  // Create tables if not exist
-  await pool.query(`
+  // Create tables if not exist (non-fatal: matches other registerRoutes DDL helpers; preview routes need DB anyway)
+  try {
+    await pool.query(`
     CREATE TABLE IF NOT EXISTS flashcard_preview_config (
       id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
       content_type TEXT NOT NULL UNIQUE DEFAULT 'flashcards',
@@ -8376,6 +8790,10 @@ Rules:
     VALUES ('flashcards', 5, 10, 'Unlock the Full Flashcard Library', 'Get unlimited flashcards, adaptive review, weak areas mode, and saved progress with a premium plan.')
     ON CONFLICT (content_type) DO NOTHING;
   `);
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : String(e);
+    console.error("[FlashcardPreview] Table init error:", msg);
+  }
 
   const previewSessionCounters = new Map<string, number>();
 
@@ -8546,10 +8964,9 @@ Rules:
     }
   });
 
-  app.post("/api/flashcard-upgrade/checkout", async (req, res) => {
+  app.post("/api/flashcard-upgrade/checkout", validateBody(flashcardUpgradeCheckoutBodySchema), async (req, res) => {
     try {
       const { userId, plan } = req.body;
-      if (!userId) return res.status(400).json({ error: "userId required" });
       const userResult = await pool.query(`SELECT * FROM users WHERE id = $1`, [userId]);
       if (userResult.rows.length === 0) return res.status(404).json({ error: "User not found" });
       const user = userResult.rows[0];
@@ -8599,10 +9016,9 @@ Rules:
     }
   });
 
-  app.post("/api/flashcard-upgrade/verify", async (req, res) => {
+  app.post("/api/flashcard-upgrade/verify", validateBody(flashcardUpgradeVerifyBodySchema), async (req, res) => {
     try {
       const { sessionId, userId } = req.body;
-      if (!sessionId || !userId) return res.status(400).json({ error: "sessionId and userId required" });
 
       const { getUncachableStripeClient } = await import("./stripeClient");
       const stripe = await getUncachableStripeClient();
@@ -8633,7 +9049,7 @@ Rules:
       const search = req.query.search as string;
       const limit = Math.min(Math.max(parseInt(req.query.limit as string) || 50, 1), 100);
       const offset = Math.max(parseInt(req.query.offset as string) || 0, 0);
-      let query = `SELECT d.*, u.username as owner_username FROM flashcard_decks d LEFT JOIN users u ON d.owner_id = u.id`;
+      let query = `SELECT ${FLASHCARD_DECK_SELECT_D}, u.username as owner_username FROM flashcard_decks d LEFT JOIN users u ON d.owner_id = u.id`;
       const params: any[] = [];
       const conditions: string[] = [];
       if (userId) {
@@ -8671,7 +9087,7 @@ Rules:
   app.get("/api/decks/by-slug/:slug", async (req, res) => {
     try {
       const result = await pool.query(
-        `SELECT d.*, u.username as owner_username FROM flashcard_decks d LEFT JOIN users u ON d.owner_id = u.id WHERE d.slug = $1`,
+        `SELECT ${FLASHCARD_DECK_SELECT_D}, u.username as owner_username FROM flashcard_decks d LEFT JOIN users u ON d.owner_id = u.id WHERE d.slug = $1`,
         [req.params.slug]
       );
       if (result.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
@@ -8690,7 +9106,7 @@ Rules:
   app.get("/api/decks/:id", async (req, res) => {
     try {
       const result = await pool.query(
-        `SELECT d.*, u.username as owner_username FROM flashcard_decks d LEFT JOIN users u ON d.owner_id = u.id WHERE d.id = $1`,
+        `SELECT ${FLASHCARD_DECK_SELECT_D}, u.username as owner_username FROM flashcard_decks d LEFT JOIN users u ON d.owner_id = u.id WHERE d.id = $1`,
         [req.params.id]
       );
       if (result.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
@@ -8776,7 +9192,7 @@ Rules:
       const limit = Math.min(Math.max(parseInt(req.query.limit as string) || 500, 1), 500);
       const offset = Math.max(parseInt(req.query.offset as string) || 0, 0);
       const result = await timedQuery(
-        `SELECT * FROM deck_flashcards WHERE deck_id = $1 ORDER BY sort_order ASC, created_at ASC LIMIT $2 OFFSET $3`,
+        `SELECT ${DECK_FLASHCARD_LIST_COLS} FROM deck_flashcards WHERE deck_id = $1 ORDER BY sort_order ASC, created_at ASC LIMIT $2 OFFSET $3`,
         [req.params.id, limit, offset],
         { label: "deck-cards/fetch", timeoutMs: 5000 }
       );
@@ -8959,10 +9375,9 @@ Rules:
     }
   });
 
-  app.post("/api/decks/:id/ai-check", async (req, res) => {
+  app.post("/api/decks/:id/ai-check", validateBody(deckAiCheckBodySchema), async (req, res) => {
     try {
       const { front, back, rationale, tier, tags } = req.body;
-      if (!front || !back) return res.status(400).json({ error: "front and back required" });
       const apiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY;
       if (!apiKey) return res.json({ status: "unknown", explanation: "AI validation unavailable", confidence: 0 });
       const { default: OpenAI } = await import("openai");
@@ -8988,11 +9403,10 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
-  app.post("/api/decks/:id/ai-generate", requireAnyPaidTier(), async (req: any, res) => {
+  app.post("/api/decks/:id/ai-generate", requireAnyPaidTier(), validateBody(deckAiGenerateBodySchema), async (req: any, res) => {
     try {
       const userId = req.authUser.id;
       const { prompt, count } = req.body;
-      if (!prompt?.trim()) return res.status(400).json({ error: "prompt required" });
       const deckId = req.params.id;
       const deckResult = await pool.query(`SELECT * FROM flashcard_decks WHERE id = $1 AND owner_id = $2`, [deckId, userId]);
       if (deckResult.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
@@ -9090,12 +9504,10 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
-  app.post("/api/decks/:id/ai-generate-from-notes", requireAnyPaidTier(), async (req: any, res) => {
+  app.post("/api/decks/:id/ai-generate-from-notes", requireAnyPaidTier(), validateBody(deckAiGenerateFromNotesBodySchema), async (req: any, res) => {
     try {
       const userId = req.authUser.id;
       const { notes, count } = req.body;
-      if (!notes?.trim()) return res.status(400).json({ error: "notes text required" });
-      if (notes.length > 50000) return res.status(400).json({ error: "Notes too long. Please limit to 50,000 characters." });
       const deckId = req.params.id;
       const deckResult = await pool.query(`SELECT * FROM flashcard_decks WHERE id = $1 AND owner_id = $2`, [deckId, userId]);
       if (deckResult.rows.length === 0) return res.status(404).json({ error: "Deck not found" });
@@ -9216,7 +9628,8 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     try {
       const userId = req.query.userId as string;
       const deckId = req.query.deckId as string;
-      let query = `SELECT * FROM study_sessions WHERE user_id = $1`;
+      let query = `SELECT id, user_id, deck_id, mode, total_cards, correct_count, incorrect_count, time_seconds, missed_card_ids, started_at, ended_at
+                   FROM study_sessions WHERE user_id = $1`;
       const params: any[] = [userId];
       if (deckId) {
         query += ` AND deck_id = $2`;
@@ -9234,50 +9647,115 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     try {
       const userId = req.query.userId as string;
       if (!userId) return res.status(400).json({ error: "userId required" });
-      const sessions = await pool.query(
-        `SELECT * FROM study_sessions WHERE user_id = $1 AND deck_id = $2 ORDER BY started_at DESC`,
-        [userId, req.params.id]
+      const deckId = req.params.id;
+
+      const aggRes = await pool.query(
+        `SELECT
+          (SELECT COUNT(*)::int FROM study_sessions WHERE user_id = $1 AND deck_id = $2) AS total_sessions,
+          (SELECT COALESCE(SUM(total_cards), 0)::bigint FROM study_sessions WHERE user_id = $1 AND deck_id = $2 AND ended_at IS NOT NULL) AS total_reviews,
+          (SELECT COALESCE(SUM(correct_count), 0)::bigint FROM study_sessions WHERE user_id = $1 AND deck_id = $2 AND ended_at IS NOT NULL) AS total_correct,
+          (SELECT COALESCE(SUM(incorrect_count), 0)::bigint FROM study_sessions WHERE user_id = $1 AND deck_id = $2 AND ended_at IS NOT NULL) AS total_incorrect,
+          (SELECT COALESCE(SUM(time_seconds), 0)::bigint FROM study_sessions WHERE user_id = $1 AND deck_id = $2 AND ended_at IS NOT NULL) AS total_time_seconds,
+          (
+            SELECT COALESCE(s.ended_at, s.started_at)
+            FROM study_sessions s
+            WHERE s.user_id = $1 AND s.deck_id = $2 AND s.ended_at IS NOT NULL
+            ORDER BY s.started_at DESC
+            LIMIT 1
+          ) AS last_studied_at,
+          (
+            SELECT COUNT(*)::int FROM (
+              SELECT DISTINCT elem
+              FROM study_sessions ss
+              CROSS JOIN LATERAL jsonb_array_elements_text(
+                CASE jsonb_typeof(COALESCE(ss.missed_card_ids, '[]'::jsonb))
+                  WHEN 'array' THEN COALESCE(ss.missed_card_ids, '[]'::jsonb)
+                  ELSE '[]'::jsonb
+                END
+              ) AS elem
+              WHERE ss.user_id = $1 AND ss.deck_id = $2 AND ss.ended_at IS NOT NULL
+            ) x
+            WHERE elem IS NOT NULL AND elem <> ''
+          ) AS unique_missed_count`,
+        [userId, deckId],
       );
-      const rows = sessions.rows;
-      const totalSessions = rows.length;
-      const completedSessions = rows.filter((r: any) => r.ended_at);
-      const totalReviews = completedSessions.reduce((sum: number, r: any) => sum + (r.total_cards || 0), 0);
-      const totalCorrect = completedSessions.reduce((sum: number, r: any) => sum + (r.correct_count || 0), 0);
-      const totalIncorrect = completedSessions.reduce((sum: number, r: any) => sum + (r.incorrect_count || 0), 0);
+
+      // Streak dates: SQL uses started_at::date (date boundary = DB session TimeZone). JS compares to
+      // Date().toDateString() / yesterday (Node process local TZ). Same mix as legacy all-JS path; can
+      // disagree by one calendar day near UTC midnight for travelers—intentionally unchanged.
+      const streakDaysRes = await pool.query(
+        `SELECT d AS study_day
+         FROM (
+           SELECT started_at::date AS d, MIN(ord) AS first_rn
+           FROM (
+             SELECT started_at, ROW_NUMBER() OVER (ORDER BY started_at DESC) AS ord
+             FROM study_sessions
+             WHERE user_id = $1 AND deck_id = $2 AND ended_at IS NOT NULL
+           ) s
+           GROUP BY d
+         ) t
+         ORDER BY first_rn ASC`,
+        [userId, deckId],
+      );
+
+      const recentRes = await pool.query(
+        `SELECT id, user_id, deck_id, mode, total_cards, correct_count, incorrect_count, time_seconds, missed_card_ids, started_at, ended_at
+         FROM study_sessions
+         WHERE user_id = $1 AND deck_id = $2 AND ended_at IS NOT NULL
+         ORDER BY started_at DESC
+         LIMIT 5`,
+        [userId, deckId],
+      );
+
+      const cardCountRes = await pool.query(`SELECT COUNT(*)::int AS cnt FROM deck_flashcards WHERE deck_id = $1`, [deckId]);
+
+      const row = aggRes.rows[0];
+      const totalSessions = Number(row?.total_sessions ?? 0);
+      const totalReviews = Number(row?.total_reviews ?? 0);
+      const totalCorrect = Number(row?.total_correct ?? 0);
+      const totalIncorrect = Number(row?.total_incorrect ?? 0);
       const accuracy = totalReviews > 0 ? Math.round((totalCorrect / totalReviews) * 100) : 0;
-      const totalTimeSeconds = completedSessions.reduce((sum: number, r: any) => sum + (r.time_seconds || 0), 0);
-      const lastStudiedAt = completedSessions.length > 0 ? completedSessions[0].ended_at || completedSessions[0].started_at : null;
+      const totalTimeSeconds = Number(row?.total_time_seconds ?? 0);
+      const lastStudiedAt = row?.last_studied_at ?? null;
+      const learningCount = Number(row?.unique_missed_count ?? 0);
+      const totalCards = Number(cardCountRes.rows[0]?.cnt ?? 0);
+      const masteredCount = Math.max(0, totalCards - learningCount);
+
       let streak = 0;
-      if (completedSessions.length > 0) {
-        const dates = completedSessions.map((r: any) => new Date(r.started_at).toDateString());
-        const uniqueDates = [...new Set(dates)];
+      if (streakDaysRes.rows.length > 0) {
+        const uniqueDateStrings = streakDaysRes.rows.map((r: { study_day: Date | string }) => {
+          const v = r.study_day;
+          const d = v instanceof Date ? v : new Date(v as string);
+          if (Number.isNaN(d.getTime())) return "";
+          return d.toDateString();
+        }).filter((s) => s.length > 0);
         const today = new Date().toDateString();
         const yesterday = new Date(Date.now() - 86400000).toDateString();
-        if (uniqueDates[0] === today || uniqueDates[0] === yesterday) {
+        if (uniqueDateStrings[0] === today || uniqueDateStrings[0] === yesterday) {
           streak = 1;
-          for (let i = 1; i < uniqueDates.length; i++) {
-            const prev = new Date(uniqueDates[i - 1]);
-            const curr = new Date(uniqueDates[i]);
+          for (let i = 1; i < uniqueDateStrings.length; i++) {
+            const prev = new Date(uniqueDateStrings[i - 1]);
+            const curr = new Date(uniqueDateStrings[i]);
             const diff = Math.abs(prev.getTime() - curr.getTime()) / 86400000;
             if (diff <= 1.5) streak++;
             else break;
           }
         }
       }
-      const allMissedIds: string[] = [];
-      completedSessions.forEach((r: any) => {
-        const missed = Array.isArray(r.missed_card_ids) ? r.missed_card_ids : [];
-        missed.forEach((id: string) => { if (!allMissedIds.includes(id)) allMissedIds.push(id); });
-      });
-      const cardCountRes = await pool.query(`SELECT COUNT(*) as cnt FROM deck_flashcards WHERE deck_id = $1`, [req.params.id]);
-      const totalCards = parseInt(cardCountRes.rows[0]?.cnt || "0");
-      const masteredCount = Math.max(0, totalCards - allMissedIds.length);
 
       res.json({
-        totalSessions, totalReviews, totalCorrect, totalIncorrect, accuracy,
-        totalTimeSeconds, streak, masteredCount, learningCount: allMissedIds.length,
-        totalCards, lastStudiedAt,
-        recentSessions: snakeToCamel(completedSessions.slice(0, 5)),
+        totalSessions,
+        totalReviews,
+        totalCorrect,
+        totalIncorrect,
+        accuracy,
+        totalTimeSeconds,
+        streak,
+        masteredCount,
+        learningCount,
+        totalCards,
+        lastStudiedAt,
+        recentSessions: snakeToCamel(recentRes.rows),
       });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -9313,7 +9791,7 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     try {
       const userId = req.query.userId as string;
       const result = await pool.query(
-        `SELECT d.*, u.username as owner_username FROM saved_decks s JOIN flashcard_decks d ON s.deck_id = d.id LEFT JOIN users u ON d.owner_id = u.id WHERE s.user_id = $1 ORDER BY s.saved_at DESC`,
+        `SELECT ${FLASHCARD_DECK_SELECT_D}, u.username as owner_username FROM saved_decks s JOIN flashcard_decks d ON s.deck_id = d.id LEFT JOIN users u ON d.owner_id = u.id WHERE s.user_id = $1 ORDER BY s.saved_at DESC`,
         [userId]
       );
       res.json(snakeToCamel(result.rows));
@@ -9536,10 +10014,9 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
-  app.post("/api/billing/deck-upgrade/create-checkout", async (req, res) => {
+  app.post("/api/billing/deck-upgrade/create-checkout", validateBody(billingDeckUpgradeCheckoutBodySchema), async (req, res) => {
     try {
       const { userId, deckId } = req.body;
-      if (!userId || !deckId) return res.status(400).json({ error: "userId and deckId required" });
       const deckCheck = await pool.query(`SELECT * FROM flashcard_decks WHERE id = $1 AND owner_id = $2`, [deckId, userId]);
       if (deckCheck.rows.length === 0) return res.status(404).json({ error: "Deck not found or not owned by you" });
       if (deckCheck.rows[0].is_upgraded) return res.status(400).json({ error: "Deck already upgraded" });
@@ -9624,7 +10101,7 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
-  app.post("/api/lesson-translations/:lessonId", async (req, res) => {
+  app.post("/api/lesson-translations/:lessonId", validateBody(translationSaveBodySchema), async (req, res) => {
     try {
       const requestingUserTier = await extractUserTier(req);
       if (requestingUserTier !== "admin") {
@@ -9633,9 +10110,6 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
 
       const { lessonId } = req.params;
       const { lang, translations } = req.body;
-      if (!lang || !translations || typeof translations !== "object") {
-        return res.status(400).json({ error: "lang and translations object required" });
-      }
 
       for (const [fieldName, translatedText] of Object.entries(translations)) {
         if (typeof translatedText !== "string" || !translatedText.trim()) continue;
@@ -9655,12 +10129,12 @@ Be conservative: if uncertain, use "unknown". Only "pass" for clearly accurate c
     }
   });
 
-  app.post("/api/lesson-translations/:lessonId/generate", requireLanguage, async (req, res) => {
+  app.post("/api/lesson-translations/:lessonId/generate", requireLanguage, validateBody(translationGenerateBodySchema), async (req, res) => {
     try {
       const { lessonId } = req.params;
       const { lang, fields } = req.body;
       const targetLang = (res as any).locals.targetLanguage || lang;
-      if (!targetLang || !fields || typeof fields !== "object") {
+      if (!targetLang) {
         return res.status(400).json({ error: "lang and fields object required" });
       }
 
@@ -9734,15 +10208,12 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
     }
   });
 
-  app.post("/api/content-translations/:id/save", async (req, res) => {
+  app.post("/api/content-translations/:id/save", validateBody(translationSaveBodySchema), async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
       const { id } = req.params;
       const { lang, translations } = req.body;
-      if (!lang || !translations || typeof translations !== "object") {
-        return res.status(400).json({ error: "lang and translations object required" });
-      }
       for (const [fieldName, translatedText] of Object.entries(translations)) {
         if (typeof translatedText !== "string" || !translatedText.trim()) continue;
         await pool.query(
@@ -9759,14 +10230,14 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
     }
   });
 
-  app.post("/api/content-translations/:id/generate", requireLanguage, async (req, res) => {
+  app.post("/api/content-translations/:id/generate", requireLanguage, validateBody(translationGenerateBodySchema), async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
       const { id } = req.params;
       const { lang, fields } = req.body;
       const targetLang = (res as any).locals.targetLanguage || lang;
-      if (!targetLang || !fields || typeof fields !== "object") {
+      if (!targetLang) {
         return res.status(400).json({ error: "lang and fields object required" });
       }
       const fieldsToTranslate = Object.entries(fields)
@@ -9843,13 +10314,13 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
    *   overrides: { ... }
    * }
    */
-  app.put("/api/lesson-overrides/:lessonId", async (req, res) => {
+  app.put("/api/lesson-overrides/:lessonId", validateBody(lessonOverridesPutBodySchema), async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
       const { lessonId } = req.params;
-      const { username, password, ...overrides } = req.body || {};
+      const { username, password, ...overrides } = req.body;
 
       if (!overrides || typeof overrides !== "object") {
         return res.status(400).json({ error: "Invalid overrides data" });
@@ -9965,7 +10436,7 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const aiCheck = checkAiLimits({ role: "admin" });
+      const aiCheck = await checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { lessonId, section, prompt, caption } = req.body;
@@ -10005,7 +10476,7 @@ ${fieldsToTranslate.map(f => `"${f.field}": ${JSON.stringify(f.text)}`).join(",\
         [lessonId, objectPath, `ai-generated-${Date.now()}.png`, section || "general", caption || null, position]
       );
 
-      recordAiUsage(1, 0);
+      recordAiUsageFireAndForget(1, 0, undefined, { route: "POST /api/ai/generate-lesson-image", requestId: req.requestId });
       res.json(result.rows[0]);
     } catch (e: any) {
       console.error("AI image generation error:", e);
@@ -10382,8 +10853,17 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const { eq } = await import("drizzle-orm");
       const [project] = await db.select().from(designProjects).where(eq(designProjects.id, req.params.id)).limit(1);
       if (!project) return res.status(404).json({ error: "Project not found" });
-      const pages = await db.select().from(designPages).where(eq(designPages.projectId, req.params.id)).orderBy(designPages.pageNumber);
-      const assets = await db.select().from(designAssets).where(eq(designAssets.projectId, req.params.id));
+      const pages = await db
+        .select()
+        .from(designPages)
+        .where(eq(designPages.projectId, req.params.id))
+        .orderBy(designPages.pageNumber)
+        .limit(500);
+      const assets = await db
+        .select()
+        .from(designAssets)
+        .where(eq(designAssets.projectId, req.params.id))
+        .limit(500);
       res.json({ ...project, pages, assets });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -10447,11 +10927,15 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       if (!admin) return;
       const { db } = await import("./storage");
       const { designPages } = await import("@shared/schema");
-      const { eq } = await import("drizzle-orm");
-      const existing = await db.select().from(designPages).where(eq(designPages.projectId, req.params.projectId));
+      const { eq, max } = await import("drizzle-orm");
+      const [agg] = await db
+        .select({ maxPage: max(designPages.pageNumber) })
+        .from(designPages)
+        .where(eq(designPages.projectId, req.params.projectId));
+      const nextPageNumber = (typeof agg?.maxPage === "number" ? agg.maxPage : Number(agg?.maxPage) || 0) + 1;
       const [page] = await db.insert(designPages).values({
         projectId: req.params.projectId,
-        pageNumber: existing.length + 1,
+        pageNumber: nextPageNumber,
         canvasJson: req.body.canvasJson || { objects: [], version: "5.3.0" },
         backgroundColor: req.body.backgroundColor || "#ffffff",
       }).returning();
@@ -10685,7 +11169,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     const elapsed = Date.now() - startTime;
     console.log(JSON.stringify({
       route, method, userId: String(userId || "anon"), elapsed,
-      memoryRSS: process.memoryUsage.rss(), timestamp: new Date().toISOString(),
+      memoryRSS: process.memoryUsage().rss, timestamp: new Date().toISOString(),
       ...extra,
     }));
   }
@@ -12682,7 +13166,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
             tier: question.tier,
             questionText: question.question,
             options: question.options as any,
-            correctIndex: question.correct,
+            correctIndex: typeof question.correct === "number" ? question.correct : 0,
             rationale: question.rationale,
             bodySystem: question.bodySystem,
             lessonId: question.lessonId,
@@ -14416,8 +14900,10 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       }
 
       const result = await pool.query(
-        `SELECT * FROM exam_followup_responses WHERE user_id = $1`,
-        [userId]
+        `SELECT exam_result_status, exam_weak_areas, exam_result_date, coupon_code, coupon_expires_at, new_exam_date
+         FROM exam_followup_responses
+         WHERE user_id = $1`,
+        [userId],
       );
       if (result.rows.length === 0) {
         return res.json({ hasResponse: false });
@@ -15132,7 +15618,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const lang = req.query.language || "en";
       const pageType = req.query.pageType;
       const exam = req.query.exam;
-      let query = `SELECT * FROM seo_pages WHERE is_public = true AND language_code = $1`;
+      let query = `SELECT ${SEO_PAGE_INDEX_COLS} FROM seo_pages WHERE is_public = true AND language_code = $1`;
       const params: any[] = [lang];
       if (pageType) { query += ` AND page_type = $${params.length + 1}`; params.push(pageType); }
       if (exam) { query += ` AND exam = $${params.length + 1}`; params.push(exam); }
@@ -15383,7 +15869,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const adminRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+      const adminRole: AdminRole = (admin.adminRole || (admin as any).admin_role || "super_admin") as AdminRole;
       if (!hasPermission(adminRole, "subscriber_management")) {
         return res.status(403).json({ error: "Insufficient permissions" });
       }
@@ -15407,7 +15893,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const adminRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+      const adminRole: AdminRole = (admin.adminRole || (admin as any).admin_role || "super_admin") as AdminRole;
       if (!hasPermission(adminRole, "subscriber_management")) {
         return res.status(403).json({ error: "Insufficient permissions" });
       }
@@ -15449,7 +15935,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const adminRole: AdminRole = admin.admin_role || admin.adminRole || "super_admin";
+      const adminRole: AdminRole = (admin.adminRole || (admin as any).admin_role || "super_admin") as AdminRole;
       if (!hasPermission(adminRole, "content_management")) {
         return res.status(403).json({ error: "Insufficient permissions" });
       }
@@ -17401,7 +17887,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       res.json({ data: snakeToCamel(content), _deliveryTier: "primary" });
     },
     {
-      getContentId: (req) => req.params.contentId,
+      getContentId: (req) => routeParamString(req.params.contentId) || null,
       staticFallbackData: { message: "Content temporarily unavailable. Please try again later.", unavailable: true },
     },
   ));
@@ -17469,8 +17955,23 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
         hasMore: offset + limit < (countResult.rows[0]?.total || 0),
       });
     } catch (e: any) {
-      console.error("[flashcard-bank] Endpoint error:", { error: e.message, query: req.originalUrl });
-      res.status(500).json({ error: "Failed to load flashcard bank" });
+      const msg = e?.message || String(e);
+      emitStructuredLog(
+        {
+          level: "error",
+          type: "flashcard_bank_failure",
+          route: "GET /api/flashcard-bank",
+          message: msg,
+          path: req.originalUrl,
+        },
+        "error",
+      );
+      console.error("[flashcard-bank] Endpoint error:", { error: msg, query: req.originalUrl });
+      const isTimeout = /timeout|timed out|Query read timeout/i.test(msg);
+      res.status(isTimeout ? 503 : 500).json({
+        error: isTimeout ? "Database timeout loading flashcard bank" : "Failed to load flashcard bank",
+        code: isTimeout ? "FLASHCARD_BANK_TIMEOUT" : "FLASHCARD_BANK_ERROR",
+      });
     }
   });
 
@@ -17556,7 +18057,7 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const aiCheck = checkAiLimits({ role: "admin" });
+      const aiCheck = await checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { sourcePageId, targetLanguage } = req.body;
@@ -17616,7 +18117,7 @@ Return ONLY valid JSON with this exact structure:
 
       const text = response.choices[0]?.message?.content || "{}";
       const totalTokens = response.usage?.total_tokens || 0;
-      recordAiUsage(1, totalTokens);
+      recordAiUsageFireAndForget(1, totalTokens, undefined, { route: "POST /api/ai/generate-localized-seo", requestId: req.requestId });
       let localized;
       try {
         const jsonMatch = text.match(/\{[\s\S]*\}/);
@@ -18889,7 +19390,7 @@ Return ONLY valid JSON with this exact structure:
         try {
           const { createVersionOnPublish } = await import("./content-version-service");
           await createVersionOnPublish(req.params.id, "digital_product", updated, {
-            tier: updated.tier || undefined,
+            tier: updated.tierTarget || undefined,
             createdBy: (admin as any)?.id || (admin as any)?.username,
           });
         } catch (vErr: any) {
@@ -18921,8 +19422,8 @@ Return ONLY valid JSON with this exact structure:
     const admin = await requireAdmin(req, res);
     if (!admin) return;
     try {
-      const products = await storage.getAllDigitalProducts();
-      const exportData = products.map(p => ({
+      const products = await storage.listDigitalProducts(false);
+      const exportData = products.map((p) => ({
         slug: p.slug,
         title: p.title,
         description: p.description,
@@ -18949,18 +19450,40 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.options("/api/admin/shop/products/import", (_req, res) => {
+  app.options("/api/admin/shop/products/import", (req, res) => {
+    const raw = process.env.ADMIN_SHOP_IMPORT_CORS_ORIGINS;
+    const fallback =
+      "https://www.nursenest.ca,https://nursenest.ca,http://localhost:5000,http://127.0.0.1:5000";
+    const allowed = (raw || fallback)
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const origin = req.get("origin");
+    if (origin && allowed.includes(origin)) {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+      res.setHeader("Vary", "Origin");
+    }
     res.set({
-      "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
       "Access-Control-Max-Age": "86400",
     });
     res.status(204).end();
   });
 
   app.post("/api/admin/shop/products/import", async (req, res) => {
-    res.set("Access-Control-Allow-Origin", "*");
+    const raw = process.env.ADMIN_SHOP_IMPORT_CORS_ORIGINS;
+    const fallback =
+      "https://www.nursenest.ca,https://nursenest.ca,http://localhost:5000,http://127.0.0.1:5000";
+    const allowed = (raw || fallback)
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const origin = req.get("origin");
+    if (origin && allowed.includes(origin)) {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+      res.setHeader("Vary", "Origin");
+    }
     const admin = await requireAdmin(req, res);
     if (!admin) return;
     try {
@@ -19268,7 +19791,7 @@ Return ONLY valid JSON with this exact structure:
     const admin = await requireAdmin(req, res);
     if (!admin) return;
     try {
-      const aiCheck = checkAiLimits({ role: "admin" });
+      const aiCheck = await checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { prompt, negativePrompt, size, n, textFree } = req.body;
@@ -19304,7 +19827,7 @@ Return ONLY valid JSON with this exact structure:
         }
       }
 
-      recordAiUsage(count, 0);
+      recordAiUsageFireAndForget(count, 0, undefined, { route: "POST /api/admin/images/generate", requestId: req.requestId });
       await logAudit(req, admin, "ai", null, "image-generate", null, { prompt: prompt.substring(0, 200), count, textFree });
       res.json({ assets });
     } catch (e: any) {
@@ -19942,9 +20465,9 @@ Return ONLY valid JSON with this exact structure:
         mixedBlueprint: recipe.mixedBlueprint || false,
         requestedCount: recipe.requestedCount,
         difficulty: recipe.difficulty,
-        distributionJson: recipe.distributionJson,
+        distributionJson: recipe.distributionJson as unknown as InsertQbankDraft["distributionJson"],
         canadianContext: recipe.canadianContext !== false,
-        editionsJson: recipe.editionsJson || { questionsOnly: true, studyEdition: false },
+        editionsJson: (recipe.editionsJson ?? { questionsOnly: true, studyEdition: false }) as unknown as InsertQbankDraft["editionsJson"],
         price: recipe.price || 1499,
         studyEditionPrice: recipe.studyEditionPrice || 2499,
         status: "draft",
@@ -21165,33 +21688,168 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/admin/institution-leads", async (req, res) => {
+  const handleAdminInstitutionLeadsList = async (req: Request, res: Response) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const leads = await pool.query("SELECT * FROM institution_leads ORDER BY created_at DESC LIMIT 200");
-      res.json(leads.rows.map(snakeToCamel));
+      const { page, limit, offset } = parseAdminPaginationParams(req.query);
+      const conditions: string[] = [];
+      const params: unknown[] = [];
+      let idx = 1;
+      if (req.query.status && String(req.query.status).trim().length > 0) {
+        conditions.push(`status = $${idx++}`);
+        params.push(String(req.query.status).trim());
+      }
+      const whereClause = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
+      const countR = await pool.query(
+        `SELECT COUNT(*)::int AS total FROM institution_leads ${whereClause}`,
+        params,
+      );
+      const total = countR.rows[0]?.total ?? 0;
+      const leads = await pool.query(
+        `SELECT id, institution_name, program_type, estimated_student_count, country, contact_name, email, message, region, status, created_at
+         FROM institution_leads ${whereClause}
+         ORDER BY created_at DESC
+         LIMIT $${idx} OFFSET $${idx + 1}`,
+        [...params, limit, offset],
+      );
+      // Snake_case keys match admin-institutions.tsx Lead interface (not camelCase).
+      res.json({
+        items: leads.rows,
+        pagination: buildAdminPaginationMeta(page, limit, total),
+      });
     } catch (e: any) {
       console.error("Get institution leads error:", e);
       res.status(500).json({ error: "Failed to fetch leads" });
     }
-  });
+  };
 
-  app.get("/api/admin/institutions", async (req, res) => {
+  app.get("/api/admin/institution-leads", handleAdminInstitutionLeadsList);
+
+  const handleAdminInstitutionsList = async (req: Request, res: Response) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
-      const result = await pool.query(`
-        SELECT i.*, COALESCE(s.cnt, 0) as seat_count
+      const { page, limit, offset } = parseAdminPaginationParams(req.query);
+      const conditions: string[] = [];
+      const params: unknown[] = [];
+      let idx = 1;
+      if (req.query.status && String(req.query.status).trim().length > 0) {
+        conditions.push(`i.status = $${idx++}`);
+        params.push(String(req.query.status).trim());
+      }
+      const whereSql = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
+      const countR = await pool.query(
+        `SELECT COUNT(*)::int AS total FROM institutions i ${whereSql}`,
+        params,
+      );
+      const total = countR.rows[0]?.total ?? 0;
+      const result = await pool.query(
+        `
+        SELECT
+          i.id, i.name, i.region, i.license_model, i.seat_limit, i.semester_end_date,
+          i.enrollment_mode, i.status, i.created_at,
+          COALESCE(s.cnt, 0)::int AS seat_count
         FROM institutions i
-        LEFT JOIN (SELECT institution_id, COUNT(*) as cnt FROM institution_seats WHERE active = true GROUP BY institution_id) s
-        ON i.id = s.institution_id
+        LEFT JOIN (
+          SELECT institution_id, COUNT(*)::int AS cnt
+          FROM institution_seats
+          WHERE active = true
+          GROUP BY institution_id
+        ) s ON s.institution_id = i.id
+        ${whereSql}
         ORDER BY i.created_at DESC
-      `);
-      res.json(result.rows.map((r: any) => ({ ...r, seatCount: parseInt(r.seat_count) || 0 })));
+        LIMIT $${idx} OFFSET $${idx + 1}
+      `,
+        [...params, limit, offset],
+      );
+      const items = result.rows.map((r: Record<string, unknown>) => {
+        const { seat_count: seatCountRaw, ...rest } = r;
+        const n = typeof seatCountRaw === "number" ? seatCountRaw : parseInt(String(seatCountRaw ?? "0"), 10);
+        return { ...rest, seatCount: Number.isFinite(n) ? n : 0 };
+      });
+      res.json({
+        items,
+        pagination: buildAdminPaginationMeta(page, limit, total),
+      });
     } catch (e: any) {
       console.error("List institutions error:", e);
       res.status(500).json({ error: "Failed to list institutions" });
+    }
+  };
+
+  app.get("/api/admin/institutions", handleAdminInstitutionsList);
+  /** Audit alias: B2B “employer” orgs map to institutions in this product. */
+  app.get("/api/admin/employers", handleAdminInstitutionsList);
+
+  app.get("/api/admin/candidate-premium", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { page, limit, offset } = parseAdminPaginationParams(req.query);
+      const countR = await pool.query(
+        `SELECT COUNT(*)::int AS total FROM users WHERE tier IS NOT NULL AND tier <> 'free'`,
+      );
+      const total = countR.rows[0]?.total ?? 0;
+      const r = await pool.query(
+        `SELECT id, username, email, tier, career_type, subscription_status, stripe_customer_id,
+                stripe_subscription_id, plan_expires_at, is_lifetime, created_at
+         FROM users
+         WHERE tier IS NOT NULL AND tier <> 'free'
+         ORDER BY created_at DESC NULLS LAST
+         LIMIT $1 OFFSET $2`,
+        [limit, offset],
+      );
+      res.json({
+        items: r.rows.map((row) => snakeToCamel(row)),
+        pagination: buildAdminPaginationMeta(page, limit, total),
+      });
+    } catch (e: any) {
+      console.error("List candidate premium users error:", e);
+      res.status(500).json({ error: "Failed to list premium users" });
+    }
+  });
+
+  /**
+   * Audit name "employer-billing": this product has no employer Stripe entity; returns paginated
+   * `user_subscriptions` joined to users (consumer billing). Filter: ?status=active|...
+   */
+  app.get("/api/admin/employer-billing", async (req: Request, res: Response) => {
+    try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
+      const { page, limit, offset } = parseAdminPaginationParams(req.query);
+      const conditions: string[] = [];
+      const params: unknown[] = [];
+      let idx = 1;
+      if (req.query.status && String(req.query.status).trim().length > 0) {
+        conditions.push(`us.status = $${idx++}`);
+        params.push(String(req.query.status).trim());
+      }
+      const whereSql = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
+      const countR = await pool.query(
+        `SELECT COUNT(*)::int AS total FROM user_subscriptions us ${whereSql}`,
+        params,
+      );
+      const total = countR.rows[0]?.total ?? 0;
+      const r = await pool.query(
+        `SELECT us.id, us.user_id, us.plan_name, us.billing_interval, us.status,
+                us.active_from, us.expires_at, us.stripe_subscription_id, us.stripe_customer_id,
+                u.username, u.email
+         FROM user_subscriptions us
+         LEFT JOIN users u ON u.id = us.user_id
+         ${whereSql}
+         ORDER BY us.active_from DESC NULLS LAST
+         LIMIT $${idx} OFFSET $${idx + 1}`,
+        [...params, limit, offset],
+      );
+      res.json({
+        items: r.rows.map((row) => snakeToCamel(row)),
+        pagination: buildAdminPaginationMeta(page, limit, total),
+      });
+    } catch (e: any) {
+      console.error("List employer billing (subscriptions) error:", e);
+      res.status(500).json({ error: "Failed to list subscription billing rows" });
     }
   });
 
@@ -24795,6 +25453,7 @@ Rules:
         status: (status as string) || "published",
         limit: limit ? parseInt(limit as string) : 50,
         offset: offset ? parseInt(offset as string) : 0,
+        metadataOnly: true,
       });
       const total = await storage.getLessonCount({
         category: category as string,
@@ -25256,19 +25915,15 @@ Rules:
     }
   });
 
-  app.post("/api/explanations/generate-batch", async (req, res) => {
+  app.post("/api/explanations/generate-batch", validateBody(explanationsGenerateBatchBodySchema), async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const aiCheck = checkAiLimits({ role: "admin" });
+      const aiCheck = await checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { source, batchSize = 5 } = req.body;
-      const validSources = ["exam_questions", "allied_questions", "imaging_questions"];
-      if (!source || !validSources.includes(source)) {
-        return res.status(400).json({ error: "Valid source required: exam_questions, allied_questions, or imaging_questions" });
-      }
       const limit = Math.min(Number(batchSize) || 5, 20);
       const missing = await storage.listMissingExplanations(source, limit);
       if (missing.length === 0) {
@@ -25282,6 +25937,8 @@ Rules:
       });
 
       const results: any[] = [];
+      let usageCalls = 0;
+      let usageTokens = 0;
       for (const q of missing) {
         try {
           const optionsText = Array.isArray(q.options)
@@ -25312,8 +25969,26 @@ Rules:
             response_format: { type: "json_object" },
           });
 
+          usageCalls += 1;
+          usageTokens += response.usage?.total_tokens || 0;
+
           const content = response.choices[0]?.message?.content;
-          if (!content) continue;
+          if (!content) {
+            emitStructuredLog(
+              {
+                level: "warn",
+                type: "ai_partial_failure",
+                provider: "openai",
+                route: "POST /api/explanations/generate-batch",
+                requestId: req.requestId,
+                reason: "empty_completion",
+                questionId: q.id,
+              },
+              "warn",
+            );
+            results.push({ questionId: q.id, error: "empty_completion" });
+            continue;
+          }
 
           const parsed = JSON.parse(content);
           const qualityScore = scoreExplanationQuality(parsed);
@@ -25333,11 +26008,29 @@ Rules:
             generatedBy: "ai",
           });
           results.push(explanation);
-          recordAiUsage(1, response.usage?.total_tokens || 0);
         } catch (err: any) {
+          emitStructuredLog(
+            {
+              level: "warn",
+              type: "explanation_batch_item_failed",
+              provider: "openai",
+              route: "POST /api/explanations/generate-batch",
+              requestId: req.requestId,
+              questionId: q.id,
+              msg: err.message,
+            },
+            "warn",
+          );
           console.error(`[Explanation Gen] Failed for question ${q.id}:`, err.message);
           results.push({ questionId: q.id, error: err.message });
         }
+      }
+
+      if (usageCalls > 0) {
+        recordAiUsageFireAndForget(usageCalls, usageTokens, undefined, {
+          route: "POST /api/explanations/generate-batch",
+          requestId: req.requestId,
+        });
       }
 
       res.json({ generated: results.filter((r: any) => !r.error).length, failed: results.filter((r: any) => r.error).length, results });
@@ -25776,19 +26469,15 @@ Rules:
     }
   });
 
-  app.post("/api/admin/explanations/batch-generate-by-career", async (req, res) => {
+  app.post("/api/admin/explanations/batch-generate-by-career", validateBody(adminExplanationsBatchByCareerBodySchema), async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const aiCheck = checkAiLimits({ role: "admin" });
+      const aiCheck = await checkAiLimits({ role: "admin" });
       if (!aiCheck.allowed) return res.status(429).json({ error: aiCheck.reason, code: aiCheck.code });
 
       const { source, careerType, batchSize = 5 } = req.body;
-      const validSources = ["exam_questions", "allied_questions", "imaging_questions"];
-      if (!source || !validSources.includes(source)) {
-        return res.status(400).json({ error: "Valid source required" });
-      }
 
       const limit = Math.min(Number(batchSize) || 5, 20);
 
@@ -25823,6 +26512,8 @@ Rules:
       });
 
       const results: any[] = [];
+      let usageCalls = 0;
+      let usageTokens = 0;
       for (const q of missing.rows) {
         try {
           const optionsText = Array.isArray(q.options)
@@ -25853,8 +26544,26 @@ Rules:
             response_format: { type: "json_object" },
           });
 
+          usageCalls += 1;
+          usageTokens += response.usage?.total_tokens || 0;
+
           const content = response.choices[0]?.message?.content;
-          if (!content) continue;
+          if (!content) {
+            emitStructuredLog(
+              {
+                level: "warn",
+                type: "ai_partial_failure",
+                provider: "openai",
+                route: "POST /api/admin/explanations/batch-generate-by-career",
+                requestId: req.requestId,
+                reason: "empty_completion",
+                questionId: q.id,
+              },
+              "warn",
+            );
+            results.push({ questionId: q.id, error: "empty_completion" });
+            continue;
+          }
 
           const parsed = JSON.parse(content);
           const qualityScore = scoreExplanationQuality(parsed);
@@ -25874,10 +26583,28 @@ Rules:
             generatedBy: "ai",
           });
           results.push(explanation);
-          recordAiUsage(1, response.usage?.total_tokens || 0);
         } catch (err: any) {
+          emitStructuredLog(
+            {
+              level: "warn",
+              type: "explanation_batch_item_failed",
+              provider: "openai",
+              route: "POST /api/admin/explanations/batch-generate-by-career",
+              requestId: req.requestId,
+              questionId: q.id,
+              msg: err.message,
+            },
+            "warn",
+          );
           results.push({ questionId: q.id, error: err.message });
         }
+      }
+
+      if (usageCalls > 0) {
+        recordAiUsageFireAndForget(usageCalls, usageTokens, undefined, {
+          route: "POST /api/admin/explanations/batch-generate-by-career",
+          requestId: req.requestId,
+        });
       }
 
       res.json({ generated: results.filter((r: any) => !r.error).length, failed: results.filter((r: any) => r.error).length, results });

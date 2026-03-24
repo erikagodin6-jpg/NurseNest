@@ -18,7 +18,7 @@ export const chatStorage: IChatStorage = {
   },
 
   async getAllConversations() {
-    return db.select().from(conversations).orderBy(desc(conversations.createdAt));
+    return db.select().from(conversations).orderBy(desc(conversations.createdAt)).limit(500);
   },
 
   async createConversation(title: string) {
@@ -32,7 +32,12 @@ export const chatStorage: IChatStorage = {
   },
 
   async getMessagesByConversation(conversationId: number) {
-    return db.select().from(messages).where(eq(messages.conversationId, conversationId)).orderBy(messages.createdAt);
+    return db
+      .select()
+      .from(messages)
+      .where(eq(messages.conversationId, conversationId))
+      .orderBy(messages.createdAt)
+      .limit(500);
   },
 
   async createMessage(conversationId: number, role: string, content: string) {

@@ -335,7 +335,7 @@ export function registerInstitutionalRoutes(app: Express) {
           [req.params.studentId]
         ),
         pool.query(
-          "SELECT * FROM study_sessions WHERE user_id = $1 ORDER BY started_at DESC LIMIT 30",
+          "SELECT id, user_id, deck_id, mode, total_cards, correct_count, incorrect_count, time_seconds, missed_card_ids, started_at, ended_at FROM study_sessions WHERE user_id = $1 ORDER BY started_at DESC LIMIT 30",
           [req.params.studentId]
         ),
       ]);

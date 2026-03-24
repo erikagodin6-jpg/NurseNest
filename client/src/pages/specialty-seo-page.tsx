@@ -38,6 +38,7 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
 }
 
 function SeoNotFound() {
+  const { t } = useI18n();
   return (
     <div data-testid="page-seo-not-found">
       <Navigation />
@@ -56,10 +57,22 @@ function SeoNotFound() {
 }
 
 function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
+  const { t } = useI18n();
   const Icon = specialty.icon;
-  const faqStructuredData = buildFaqStructuredData(specialty.faq);
-  const seoTitle = `${specialty.name} Guide - Complete Study Resource | NurseNest`;
-  const seoDescription = `Comprehensive ${specialty.name.toLowerCase()} study guide with pathophysiology lessons, practice questions, flashcards, and ${specialty.certifications.join("/")} certification prep. Free resources available.`;
+  const name = specialty.name?.trim() || "Nursing specialty";
+  const faqList = Array.isArray(specialty.faq) ? specialty.faq.filter((f) => f && (f.question || f.answer)) : [];
+  const certifications = Array.isArray(specialty.certifications) ? specialty.certifications.filter(Boolean) : [];
+  const topics = Array.isArray(specialty.topics) ? specialty.topics : [];
+  const relatedSpecialties = Array.isArray(specialty.relatedSpecialties) ? specialty.relatedSpecialties : [];
+  const longDescription =
+    typeof specialty.longDescription === "string" && specialty.longDescription.trim()
+      ? specialty.longDescription
+      : `${name} nursing resources and study guidance on NurseNest.`;
+
+  const faqStructuredData = faqList.length > 0 ? buildFaqStructuredData(faqList) : null;
+  const certPhrase = certifications.length > 0 ? certifications.join("/") : "certification";
+  const seoTitle = `${name} Guide - Complete Study Resource | NurseNest`;
+  const seoDescription = `Comprehensive ${name.toLowerCase()} study guide with pathophysiology lessons, practice questions, flashcards, and ${certPhrase} prep. Free resources available.`;
 
   const medicalWebPageSchema = {
     "@context": "https://schema.org",
@@ -69,7 +82,7 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
     "url": `https://www.nursenest.ca/${specialty.seoSlug}`,
     "about": {
       "@type": "MedicalSpecialty",
-      "name": specialty.name,
+      "name": name,
     },
     "provider": {
       "@type": "EducationalOrganization",
@@ -81,7 +94,7 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
         "url": PARENT_EDUCATIONAL_ORG.url,
       },
     },
-    "specialty": specialty.certifications.join(", "),
+    "specialty": certifications.length > 0 ? certifications.join(", ") : name,
     "educationalLevel": "Advanced",
     "inLanguage": "en",
     "isAccessibleForFree": false,
@@ -90,15 +103,15 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
   const courseSchema = {
     "@context": "https://schema.org",
     "@type": "Course",
-    "name": `${specialty.name} Specialty Track`,
-    "description": specialty.longDescription,
+    "name": `${name} Specialty Track`,
+    "description": longDescription,
     "provider": {
       "@type": "EducationalOrganization",
       "name": "NurseNest",
       "url": "https://www.nursenest.ca",
     },
     "educationalLevel": "Advanced",
-    "about": specialty.name,
+    "about": name,
     "hasCourseInstance": {
       "@type": "CourseInstance",
       "courseMode": "online",
@@ -106,20 +119,26 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
     },
   };
 
+  const slugSafe = specialty.slug || specialty.seoSlug || "specialty";
+  const newGradTitle = specialty.newGradGuideTitle?.trim() || `${name} — New grad guide`;
+  const newGradDesc =
+    specialty.newGradGuideDescription?.trim() ||
+    `Orientation tips and resources for nurses starting in ${name.toLowerCase()}.`;
+
   return (
     <div data-testid={`page-seo-${specialty.seoSlug}`}>
       <Navigation />
       <SEO
         title={seoTitle}
         description={seoDescription}
-        keywords={`${specialty.name.toLowerCase()} guide, ${specialty.name.toLowerCase()} study guide, ${specialty.certifications.join(" ").toLowerCase()} prep, ${specialty.slug} nursing, nursing specialty guide, ${specialty.name.toLowerCase()} certification`}
+        keywords={`${name.toLowerCase()} guide, ${name.toLowerCase()} study guide, ${certifications.join(" ").toLowerCase()} prep, ${slugSafe} nursing, nursing specialty guide, ${name.toLowerCase()} certification`}
         canonicalPath={`/${specialty.seoSlug}`}
         structuredData={medicalWebPageSchema}
-        additionalStructuredData={[faqStructuredData, courseSchema]}
+        additionalStructuredData={faqStructuredData ? [faqStructuredData, courseSchema] : [courseSchema]}
         breadcrumbs={[
           { name: "Home", url: "https://www.nursenest.ca" },
           { name: "Nursing Specialties", url: "https://www.nursenest.ca/nursing-specialties" },
-          { name: `${specialty.name} Guide`, url: `https://www.nursenest.ca/${specialty.seoSlug}` },
+          { name: `${name} Guide`, url: `https://www.nursenest.ca/${specialty.seoSlug}` },
         ]}
       />
 
@@ -131,7 +150,7 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
             <ChevronRight className="w-3.5 h-3.5" />
             <Link href="/nursing-specialties" className="hover:text-blue-600">{t("pages.specialtySeoPage.specialties")}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-blue-700 font-medium">{specialty.name} Guide</span>
+            <span className="text-blue-700 font-medium">{name} Guide</span>
           </div>
           <div className="max-w-3xl">
             <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${specialty.bgColor} ${specialty.iconColor} mb-4`} data-testid="badge-guide-type">
@@ -139,16 +158,16 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
               Complete Study Guide
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="text-page-title">
-              {specialty.name}: Complete Nursing Study Guide
+              {name}: Complete Nursing Study Guide
             </h1>
             <p className="text-lg text-gray-600 mb-4" data-testid="text-page-subtitle">
-              {specialty.longDescription}
+              {longDescription}
             </p>
             <p className="text-base text-gray-500 mb-6" data-testid="text-seo-intro">
-              Master {specialty.name.toLowerCase()} with comprehensive pathophysiology lessons, certification-aligned practice questions, clinical scenarios, and flashcards. This guide covers everything from core clinical skills to {specialty.certifications.join("/")} exam preparation and career development.
+              Master {name.toLowerCase()} with comprehensive pathophysiology lessons, certification-aligned practice questions, clinical scenarios, and flashcards. This guide covers everything from core clinical skills to {certifications.length > 0 ? certifications.join("/") : "certification"} exam preparation and career development.
             </p>
             <div className="flex flex-wrap gap-2 mb-8">
-              {specialty.certifications.map((cert) => (
+              {certifications.map((cert) => (
                 <span key={cert} className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700" data-testid={`badge-cert-${cert}`}>
                   <Star className="w-3 h-3" />
                   {cert} Aligned
@@ -156,11 +175,11 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
               ))}
             </div>
             <div className="flex flex-wrap gap-4">
-              <Link href={`/preview/${specialty.slug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-go-to-specialty">
+              <Link href={`/preview/${slugSafe}`} className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200" data-testid="button-go-to-specialty">
                 Try Practice Questions <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href={`/${specialty.slug}`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="button-view-pricing">
-                Explore {specialty.name} Track
+              <Link href={`/${slugSafe}`} className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200" data-testid="button-view-pricing">
+                Explore {name} Track
               </Link>
             </div>
           </div>
@@ -171,11 +190,11 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div data-testid="stat-topics">
-              <div className="text-2xl font-bold text-gray-900">{specialty.topics.length}+</div>
+              <div className="text-2xl font-bold text-gray-900">{topics.length}+</div>
               <div className="text-sm text-gray-500">{t("pages.specialtySeoPage.coreTopics")}</div>
             </div>
             <div data-testid="stat-certifications">
-              <div className="text-2xl font-bold text-gray-900">{specialty.certifications.length}</div>
+              <div className="text-2xl font-bold text-gray-900">{certifications.length}</div>
               <div className="text-sm text-gray-500">{t("pages.specialtySeoPage.certificationsCovered")}</div>
             </div>
             <div data-testid="stat-questions">
@@ -194,10 +213,10 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-learn-heading">{t("pages.specialtySeoPage.whatYouWillLearnIn")}</h2>
-            <p className="text-gray-600">Comprehensive clinical content aligned to {specialty.certifications.join(" & ")} certification exam blueprints.</p>
+            <p className="text-gray-600">Comprehensive clinical content aligned to {certifications.length > 0 ? certifications.join(" & ") : "nursing"} certification exam blueprints.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {specialty.topics.map((topic, i) => (
+            {topics.map((topic, i) => (
               <div key={i} className="flex items-start gap-3 bg-white rounded-xl border border-gray-100 p-4" data-testid={`card-learn-topic-${i}`}>
                 <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
                 <span className="text-sm text-gray-700 font-medium">{topic}</span>
@@ -211,7 +230,7 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-included-heading">{t("pages.specialtySeoPage.whatsIncluded")}</h2>
-            <p className="text-gray-600">Everything you need to master {specialty.name.toLowerCase()} — lessons, questions, and flashcards.</p>
+            <p className="text-gray-600">Everything you need to master {name.toLowerCase()} — lessons, questions, and flashcards.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div className="bg-white rounded-xl border border-gray-200 p-6 text-center" data-testid="card-included-lessons">
@@ -219,14 +238,14 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
                 <BookOpen className="w-7 h-7 text-blue-600" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">{t("pages.specialtySeoPage.specialtyLessons")}</h3>
-              <p className="text-sm text-gray-500">In-depth pathophysiology, pharmacology, and clinical management lessons for {specialty.name.toLowerCase()}.</p>
+              <p className="text-sm text-gray-500">In-depth pathophysiology, pharmacology, and clinical management lessons for {name.toLowerCase()}.</p>
             </div>
             <div className="bg-white rounded-xl border border-gray-200 p-6 text-center" data-testid="card-included-qbank">
               <div className="w-14 h-14 rounded-xl bg-green-50 flex items-center justify-center mx-auto mb-4">
                 <ClipboardList className="w-7 h-7 text-green-600" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">{t("pages.specialtySeoPage.testBank")}</h3>
-              <p className="text-sm text-gray-500">Practice questions written at the {specialty.certifications[0]} certification exam level with full rationales.</p>
+              <p className="text-sm text-gray-500">Practice questions written at the {certifications[0] || "RN"} certification exam level with full rationales.</p>
             </div>
             <div className="bg-white rounded-xl border border-gray-200 p-6 text-center" data-testid="card-included-flashcards">
               <div className="w-14 h-14 rounded-xl bg-purple-50 flex items-center justify-center mx-auto mb-4">
@@ -247,14 +266,14 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
                 <GraduationCap className="w-6 h-6 text-blue-600" />
               </div>
               <div className="flex-1">
-                <h2 className="text-xl font-bold text-gray-900 mb-2" data-testid="text-new-grad-cta-heading">{specialty.newGradGuideTitle}</h2>
-                <p className="text-gray-600 mb-4" data-testid="text-new-grad-cta-desc">{specialty.newGradGuideDescription}</p>
+                <h2 className="text-xl font-bold text-gray-900 mb-2" data-testid="text-new-grad-cta-heading">{newGradTitle}</h2>
+                <p className="text-gray-600 mb-4" data-testid="text-new-grad-cta-desc">{newGradDesc}</p>
                 <div className="flex flex-wrap gap-3">
                   <Link href="/new-grad" className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors text-sm" data-testid="link-new-grad-hub">
                     New Grad Hub <ArrowRight className="w-4 h-4" />
                   </Link>
-                  <Link href={`/${specialty.slug}`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200 text-sm" data-testid="link-specialty-page">
-                    {specialty.name} Track
+                  <Link href={`/${slugSafe}`} className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors border border-blue-200 text-sm" data-testid="link-specialty-page">
+                    {name} Track
                   </Link>
                 </div>
               </div>
@@ -263,15 +282,15 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
         </div>
       </section>
 
-      {specialty.relatedSpecialties.length > 0 && (
+      {relatedSpecialties.length > 0 && (
         <section className="py-16 bg-gray-50" data-testid="section-related-specialties">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
               <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-related-heading">{t("pages.specialtySeoPage.relatedNursingSpecialties")}</h2>
-              <p className="text-gray-600">Explore other nursing specialties that complement {specialty.name.toLowerCase()}</p>
+              <p className="text-gray-600">Explore other nursing specialties that complement {name.toLowerCase()}</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {SPECIALTY_CONFIGS.filter(s => specialty.relatedSpecialties.includes(s.slug)).map((related) => {
+              {SPECIALTY_CONFIGS.filter(s => relatedSpecialties.includes(s.slug)).map((related) => {
                 const RelIcon = related.icon;
                 return (
                   <Link key={related.slug} href={`/${related.seoSlug}`} className="group" data-testid={`card-related-specialty-${related.slug}`}>
@@ -298,31 +317,33 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
         </section>
       )}
 
+      {faqList.length > 0 ? (
       <section className="py-16 bg-white" data-testid="section-faq">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="text-2xl font-bold text-gray-900 mb-3" data-testid="text-faq-heading">{t("pages.specialtySeoPage.frequentlyAskedQuestions")}</h2>
-            <p className="text-gray-600">Common questions about {specialty.name.toLowerCase()}</p>
+            <p className="text-gray-600">Common questions about {name.toLowerCase()}</p>
           </div>
           <div className="space-y-3">
-            {specialty.faq.map((faq, i) => (
-              <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />
+            {faqList.map((faq, i) => (
+              <FAQItem key={i} question={faq.question || ""} answer={faq.answer || ""} index={i} />
             ))}
           </div>
         </div>
       </section>
+      ) : null}
 
       <section className="py-12 bg-white border-t border-gray-100" data-testid="section-eeat">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid sm:grid-cols-2 gap-6">
             <MedicalReviewBadge />
-            <MedicalReferences lessonId={specialty.slug} pageType="specialty" />
+            <MedicalReferences lessonId={slugSafe} pageType="specialty" />
           </div>
         </div>
       </section>
 
       <MedicalReviewJsonLd
-        title={`${specialty.name} Complete Study Guide`}
+        title={`${name} Complete Study Guide`}
         slug={specialty.seoSlug}
         description={seoDescription}
         pageUrl={`https://www.nursenest.ca/${specialty.seoSlug}`}
@@ -331,20 +352,20 @@ function SeoContent({ specialty }: { specialty: SpecialtyConfig }) {
       <section className="py-16 bg-gradient-to-br from-blue-600 to-indigo-700" data-testid="section-cta">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4" data-testid="text-cta-heading">
-            Start Your {specialty.name} Journey
+            Start Your {name} Journey
           </h2>
           <p className="text-blue-100 mb-4 text-lg">
-            Join thousands of nurses mastering {specialty.name.toLowerCase()} with NurseNest.
+            Join thousands of nurses mastering {name.toLowerCase()} with NurseNest.
           </p>
           <p className="text-blue-200 mb-8 text-sm">
             All specialty tracks included with your subscription. Starting at $19/month.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href={`/preview/${specialty.slug}`} className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-blue-700 rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-lg" data-testid="button-cta-pricing">
+            <Link href={`/preview/${slugSafe}`} className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-blue-700 rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-lg" data-testid="button-cta-pricing">
               Try Practice Questions <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href={`/${specialty.slug}`} className="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-400 transition-colors border border-blue-400" data-testid="button-cta-explore">
-              Explore {specialty.name}
+            <Link href={`/${slugSafe}`} className="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-400 transition-colors border border-blue-400" data-testid="button-cta-explore">
+              Explore {name}
             </Link>
           </div>
         </div>

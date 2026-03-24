@@ -51,10 +51,14 @@ async function getCheckedProductionPool() {
 
 function resolveCountryTag(discipline: string, countryTrack: "canada" | "usa" | "both"): string {
   if (countryTrack === "canada") {
-    const cat = MLT_CANADA_BLUEPRINT_CATEGORIES.find((c) => c.disciplines.includes(discipline as any));
+    const cat = MLT_CANADA_BLUEPRINT_CATEGORIES.find((c) =>
+      (c.disciplines as readonly string[]).includes(discipline)
+    );
     return `${cat?.name || discipline} [canada/csmls]`;
   } else if (countryTrack === "usa") {
-    const area = MLT_USA_CONTENT_AREAS.find((c) => c.disciplines.includes(discipline as any));
+    const area = MLT_USA_CONTENT_AREAS.find((c) =>
+      (c.disciplines as readonly string[]).includes(discipline)
+    );
     return `${area?.name || discipline} [usa/ascp]`;
   }
   return `${discipline} [both]`;
@@ -144,10 +148,10 @@ function buildMltPrompt(
 ): { systemPrompt: string; userPrompt: string } {
   const subdisciplines = MLT_SUBDISCIPLINES[discipline] || [];
   const canadaCategory = MLT_CANADA_BLUEPRINT_CATEGORIES.find((c) =>
-    c.disciplines.includes(discipline as any)
+    (c.disciplines as readonly string[]).includes(discipline)
   );
   const usaArea = MLT_USA_CONTENT_AREAS.find((c) =>
-    c.disciplines.includes(discipline as any)
+    (c.disciplines as readonly string[]).includes(discipline)
   );
 
   const countryContext =
@@ -375,7 +379,7 @@ function generateFlashcardsFromMltQuestion(q: any, lessonLink?: string): Array<{
     front: frontText,
     back: backText,
     rationale: (q.rationaleLong || "").substring(0, 500),
-    clinicalPearl: q.clinicalPearls?.[0] || null,
+    clinicalPearl: q.clinicalPearls?.[0] || undefined,
   });
 
   if (q.clinicalPearls && Array.isArray(q.clinicalPearls) && q.clinicalPearls.length > 0) {
@@ -394,7 +398,7 @@ function generateFlashcardsFromMltQuestion(q: any, lessonLink?: string): Array<{
       front: `Red Flag: ${q.subdiscipline || q.discipline} - What safety concern must you remember?`,
       back: q.safetyNote + lessonSuffix,
       rationale: `From: ${q.blueprintCategory || q.discipline}`,
-      clinicalPearl: null,
+      clinicalPearl: undefined,
     });
   }
 
@@ -450,10 +454,10 @@ async function generateQuestionBatch(
   const batchStems: string[] = [];
 
   const canadaCategory = MLT_CANADA_BLUEPRINT_CATEGORIES.find((c) =>
-    c.disciplines.includes(req.discipline as any)
+    (c.disciplines as readonly string[]).includes(req.discipline)
   );
   const usaArea = MLT_USA_CONTENT_AREAS.find((c) =>
-    c.disciplines.includes(req.discipline as any)
+    (c.disciplines as readonly string[]).includes(req.discipline)
   );
 
   for (const q of parsed) {
@@ -538,10 +542,14 @@ function planDisciplineDistribution(
 
 function resolveBlueprint(discipline: string, countryTrack: "canada" | "usa" | "both"): string {
   if (countryTrack === "canada") {
-    const cat = MLT_CANADA_BLUEPRINT_CATEGORIES.find((c) => c.disciplines.includes(discipline as any));
+    const cat = MLT_CANADA_BLUEPRINT_CATEGORIES.find((c) =>
+      (c.disciplines as readonly string[]).includes(discipline)
+    );
     return cat?.name || discipline;
   } else if (countryTrack === "usa") {
-    const area = MLT_USA_CONTENT_AREAS.find((c) => c.disciplines.includes(discipline as any));
+    const area = MLT_USA_CONTENT_AREAS.find((c) =>
+      (c.disciplines as readonly string[]).includes(discipline)
+    );
     return area?.name || discipline;
   }
   return discipline;

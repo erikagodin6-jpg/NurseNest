@@ -1,42 +1,53 @@
-import { Resend } from 'resend';
+import { Resend } from "resend";
 
-let connectionSettings: any;
+type ResendConfig = {
+  apiKey: string;
+  fromEmail: string;
+};
 
-async function getCredentials() {
-  const hostname = process.env.REPLIT_CONNECTORS_HOSTNAME;
-  const xReplitToken = process.env.REPL_IDENTITY
-    ? 'repl ' + process.env.REPL_IDENTITY
-    : process.env.WEB_REPL_RENEWAL
-    ? 'depl ' + process.env.WEB_REPL_RENEWAL
-    : null;
+let cachedConfig: ResendConfig | null = null;
+let cachedClient: Resend | null = null;
 
-  if (!xReplitToken) {
-    throw new Error('X-Replit-Token not found for repl/depl');
+function loadResendConfig(): ResendConfig {
+  if (cachedConfig) return cachedConfig;
+
+  const apiKey = process.env.RESEND_API_KEY;
+  const fromEmail = process.env.RESEND_FROM_EMAIL;
+
+  if (!apiKey) {
+    throw new Error("Resend misconfigured: missing RESEND_API_KEY");
   }
 
-  connectionSettings = await fetch(
-    'https://' + hostname + '/api/v2/connection?include_secrets=true&connector_names=resend',
-    {
-      headers: {
-        'Accept': 'application/json',
-        'X-Replit-Token': xReplitToken
-      }
-    }
-  ).then(res => res.json()).then(data => data.items?.[0]);
-
-  if (!connectionSettings || !connectionSettings.settings.api_key) {
-    throw new Error('Resend not connected');
+  if (!fromEmail) {
+    throw new Error("Resend misconfigured: missing RESEND_FROM_EMAIL");
   }
+
+  cachedConfig = { apiKey, fromEmail };
+  return cachedConfig;
+}
+
+export function getResendClient(): { client: Resend; fromEmail: string } {
+  const { apiKey, fromEmail } = loadResendConfig();
+
+  if (!cachedClient) {
+    cachedClient = new Resend(apiKey);
+  }
+
   return {
-    apiKey: connectionSettings.settings.api_key,
-    fromEmail: connectionSettings.settings.from_email
+    client: cachedClient,
+    fromEmail,
   };
 }
 
-export async function getResendClient() {
-  const { apiKey } = await getCredentials();
-  return {
-    client: new Resend(apiKey),
-    fromEmail: connectionSettings.settings.from_email
-  };
+export async function validateResendConnection(): Promise<boolean> {
+  try {
+    const { client } = getResendClient();
+
+    await client.domains.list();
+
+    return true;
+  } catch (err: any) {
+    console.error("[Resend] Connection failed:", err.message);
+    return false;
+  }
 }

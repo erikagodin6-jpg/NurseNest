@@ -1,6 +1,7 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { pool } from "./storage";
 import { requireAdmin, resolveAuthUser } from "./admin-auth";
+import { routeParamString } from "./route-params";
 
 function snakeToCamel(obj: any): any {
   if (Array.isArray(obj)) return obj.map(snakeToCamel);
@@ -631,7 +632,7 @@ export function registerContentFailoverRoutes(app: Express): void {
 
       const result = await pool.query(
         "SELECT id, content_id, version, title, slug, snapshot_type, created_at FROM content_snapshots WHERE content_id = $1 ORDER BY version DESC LIMIT 20",
-        [req.params.contentId]
+        [routeParamString(req.params.contentId)]
       );
 
       res.json(snakeToCamel(result.rows));
@@ -642,7 +643,7 @@ export function registerContentFailoverRoutes(app: Express): void {
 
   app.get("/api/content-failover/render/:contentId", async (req: Request, res: Response) => {
     try {
-      const contentId = req.params.contentId;
+      const contentId = routeParamString(req.params.contentId);
       const payload = await getVerifiedPayload(contentId);
 
       if (payload) {
@@ -694,7 +695,7 @@ export function registerContentFailoverRoutes(app: Express): void {
 
   app.get("/api/content-failover/substitute/:contentId", async (req: Request, res: Response) => {
     try {
-      const contentId = req.params.contentId;
+      const contentId = routeParamString(req.params.contentId);
 
       let originalItem: any = null;
       try {

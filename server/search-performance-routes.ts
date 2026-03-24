@@ -2,6 +2,18 @@ import type { Express } from "express";
 import { pool } from "./storage";
 import { requireAdmin } from "./admin-auth";
 
+const EXTERNAL_FETCH_TIMEOUT_MS = Math.min(
+  Math.max(parseInt(process.env.EXTERNAL_FETCH_TIMEOUT_MS || "25000", 10), 5000),
+  120_000,
+);
+
+function fetchWithTimeout(url: string, init: RequestInit): Promise<Response> {
+  return fetch(url, {
+    ...init,
+    signal: AbortSignal.timeout(EXTERNAL_FETCH_TIMEOUT_MS),
+  });
+}
+
 export async function getInternalSearchMetrics() {
   const [
     indexedPagesResult,
@@ -84,7 +96,7 @@ export async function tryGoogleSearchConsole(): Promise<any | null> {
     const jwt = await createGscJwt(keyData);
     if (!jwt) return null;
 
-    const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+    const tokenRes = await fetchWithTimeout("https://oauth2.googleapis.com/token", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({
@@ -101,7 +113,7 @@ export async function tryGoogleSearchConsole(): Promise<any | null> {
     const startDate = new Date(Date.now() - 28 * 86400000).toISOString().split("T")[0];
 
     const [queryRes, pageRes] = await Promise.all([
-      fetch(`https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(siteUrl)}/searchAnalytics/query`, {
+      fetchWithTimeout(`https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(siteUrl)}/searchAnalytics/query`, {
         method: "POST",
         headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -111,7 +123,7 @@ export async function tryGoogleSearchConsole(): Promise<any | null> {
           dataState: "final",
         }),
       }).catch(() => null),
-      fetch(`https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(siteUrl)}/searchAnalytics/query`, {
+      fetchWithTimeout(`https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(siteUrl)}/searchAnalytics/query`, {
         method: "POST",
         headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -1,29 +1,43 @@
 import type { Express } from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 import { requireAdmin, resolveAuthUser } from "./admin-auth";
+import { importClientDataAbsolute } from "./client-data-import";
+
+const __dirnameNewGrad = path.dirname(fileURLToPath(import.meta.url));
 import { ACTIVE_BUILD_PRIORITY, NEW_GRAD_CATEGORY_GROUPS } from "../shared/new-grad-categories";
 
 let cachedQuestions: any[] | null = null;
 let cachedSimulations: any[] | null = null;
 let cachedMockTests: any[] | null = null;
 
-async function loadScenarioQuestions() {
-  if (cachedQuestions) return cachedQuestions;
-  const mod = await import("../client/src/data/newgrad/scenario-questions/index");
-  cachedQuestions = mod.allScenarioQuestions;
+async function loadScenarioQuestions(): Promise<any[]> {
+  if (cachedQuestions !== null) return cachedQuestions;
+  const mod = await importClientDataAbsolute(
+    path.resolve(__dirnameNewGrad, "../client/src/data/newgrad/scenario-questions/index"),
+  );
+  const list = mod.allScenarioQuestions;
+  cachedQuestions = Array.isArray(list) ? list : [];
   return cachedQuestions;
 }
 
-async function loadSimulations() {
-  if (cachedSimulations) return cachedSimulations;
-  const mod = await import("../client/src/data/newgrad/interview-simulations");
-  cachedSimulations = mod.interviewSimulationSets;
+async function loadSimulations(): Promise<any[]> {
+  if (cachedSimulations !== null) return cachedSimulations;
+  const mod = await importClientDataAbsolute(
+    path.resolve(__dirnameNewGrad, "../client/src/data/newgrad/interview-simulations"),
+  );
+  const list = mod.interviewSimulationSets;
+  cachedSimulations = Array.isArray(list) ? list : [];
   return cachedSimulations;
 }
 
-async function loadMockTests() {
-  if (cachedMockTests) return cachedMockTests;
-  const mod = await import("../client/src/data/newgrad/mock-interview-tests");
-  cachedMockTests = mod.mockInterviewTests;
+async function loadMockTests(): Promise<any[]> {
+  if (cachedMockTests !== null) return cachedMockTests;
+  const mod = await importClientDataAbsolute(
+    path.resolve(__dirnameNewGrad, "../client/src/data/newgrad/mock-interview-tests"),
+  );
+  const list = mod.mockInterviewTests;
+  cachedMockTests = Array.isArray(list) ? list : [];
   return cachedMockTests;
 }
 

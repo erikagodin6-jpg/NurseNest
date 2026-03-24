@@ -1,5 +1,12 @@
 import type { Express } from "express";
+import { z } from "zod";
 import { pool } from "./storage";
+import { validateBody } from "./validate-request";
+
+const applynestLeadCaptureSchema = z.object({
+  email: z.string().trim().email().max(254),
+  profession: z.string().trim().max(200).optional().nullable(),
+});
 
 export function registerApplyNestRoutes(app: Express) {
   app.get("/api/applynest/career-profiles", async (_req, res) => {
@@ -90,22 +97,15 @@ export function registerApplyNestRoutes(app: Express) {
     }
   });
 
-  app.post("/api/applynest/lead-capture", async (req, res) => {
+  app.post("/api/applynest/lead-capture", validateBody(applynestLeadCaptureSchema), async (req, res) => {
     try {
-      const { email, profession } = req.body;
-      if (!email || typeof email !== "string") {
-        return res.status(400).json({ error: "Email is required" });
-      }
+      const { email, profession } = req.body as z.infer<typeof applynestLeadCaptureSchema>;
       const trimmed = email.trim().toLowerCase();
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(trimmed) || trimmed.length > 254) {
-        return res.status(400).json({ error: "Valid email required" });
-      }
       await pool.query(
         `INSERT INTO applynest_leads (email, profession, source)
          VALUES ($1, $2, 'applynest')
          ON CONFLICT (email) DO UPDATE SET profession = COALESCE($2, applynest_leads.profession)`,
-        [trimmed, profession || null]
+        [trimmed, profession ?? null]
       );
       res.json({ success: true });
     } catch (e: any) {

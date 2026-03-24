@@ -1,9 +1,38 @@
 import type { Express, Request, Response } from "express";
+import { queryParamString, routeParamString } from "./route-params";
+import path from "path";
+import { fileURLToPath } from "url";
 import { adaptLessonContent } from "./region-adapt-content";
+import { ClientDataImportError, importClientDataAbsolute } from "./client-data-import";
+import { emitStructuredLog } from "./log-sink";
+
+const __dirnameLessonApi = path.dirname(fileURLToPath(import.meta.url));
 import { resolveAuthUser, logPaywallAudit } from "./admin-auth";
 import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware } from "./abuse-protection";
 
 const FREE_LESSON_PREVIEW_LIMIT = 5;
+
+function lessonApiFailureResponse(err: unknown): { status: number; body: Record<string, unknown> } {
+  if (err instanceof ClientDataImportError) {
+    return {
+      status: 503,
+      body: {
+        error: "Lesson content module could not be loaded",
+        code: "CONTENT_MODULE_UNAVAILABLE",
+        details: { resolvedFile: err.resolvedFile },
+      },
+    };
+  }
+  const msg = err instanceof Error ? err.message : String(err);
+  return {
+    status: 500,
+    body: {
+      error: "Lesson service error",
+      code: "LESSON_API_ERROR",
+      details: process.env.NODE_ENV === "production" ? undefined : { message: msg },
+    },
+  };
+}
 
 function getPreviewFromToken(token: string): { mode: string } | null {
   if (!token) return null;
@@ -82,7 +111,9 @@ function evictLessonLRU(): void {
 }
 
 async function loadContentMapOnce(): Promise<Record<string, any>> {
-  const mod = await import("../client/src/data/lessons/index");
+  const mod = await importClientDataAbsolute(
+    path.resolve(__dirnameLessonApi, "../client/src/data/lessons/index"),
+  );
   if (typeof mod.loadNpGeneratedBatches === "function") {
     await mod.loadNpGeneratedBatches();
   }
@@ -380,14 +411,28 @@ export function setupLessonContentRoutes(app: Express): void {
       res.setHeader("Cache-Control", "private, max-age=60");
       res.json(filtered);
     } catch (err: any) {
-      console.error("[LessonAPI] meta error:", err.message);
-      res.status(500).json({ error: "Failed to load lesson metadata" });
+      const { status, body } = lessonApiFailureResponse(err);
+      emitStructuredLog(
+        {
+          level: status >= 500 ? "error" : "warn",
+          type: "lesson_load_failure",
+          route: "GET /api/lessons/meta",
+          category: "meta",
+          message: err instanceof Error ? err.message : String(err),
+        },
+        status >= 500 ? "error" : "warn",
+      );
+      console.error("[LessonAPI] meta error:", err?.message || err);
+      res.status(status).json(body);
     }
   });
 
   app.get("/api/lessons/content/:slug", async (req: Request, res: Response) => {
     try {
-      let slug = req.params.slug;
+      let slug = routeParamString(req.params.slug).trim();
+      if (!slug) {
+        return res.status(400).json({ error: "Missing lesson slug", code: "INVALID_LESSON_SLUG" });
+      }
       let lesson = await getLessonById(slug);
 
       if (!lesson) {
@@ -413,12 +458,15 @@ export function setupLessonContentRoutes(app: Express): void {
       }
 
       if (!lesson) {
-        return res.status(404).json({ error: "Lesson not found" });
+        return res.status(404).json({ error: "Lesson not found", code: "LESSON_NOT_FOUND" });
       }
 
       const userTier = await extractLessonUserTier(req);
       if (userTier !== "admin" && isLessonIncomplete(slug, lesson)) {
-        return res.status(404).json({ error: "Lesson not found" });
+        return res.status(404).json({
+          error: "Lesson not found or not yet available",
+          code: "LESSON_NOT_FOUND",
+        });
       }
 
       const lessonTier = deriveTier(slug);
@@ -497,18 +545,38 @@ export function setupLessonContentRoutes(app: Express): void {
       res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
       res.json({ id: slug, tier: lessonTier, isPreviewOnly: false, ...adapted });
     } catch (err: any) {
-      console.error("[LessonAPI] content error:", err.message);
+      const slug = routeParamString(req.params?.slug);
+      const { status, body } = lessonApiFailureResponse(err);
+      emitStructuredLog(
+        {
+          level: status >= 500 ? "error" : "warn",
+          type: "lesson_load_failure",
+          route: "GET /api/lessons/content/:slug",
+          category: "content",
+          slug: slug || null,
+          message: err instanceof Error ? err.message : String(err),
+        },
+        status >= 500 ? "error" : "warn",
+      );
+      console.error("[LessonAPI] content error:", err?.message || err);
       try {
         const { logIncident } = await import("./incident-monitor");
-        logIncident({ category: "lesson_load_failure", severity: "warning", title: "Lesson Load Failure", message: `Failed to load lesson: ${err.message}`, errorKey: `lesson_load:${err.message?.slice(0, 50)}`, metadata: { slug: req.params?.slug } });
+        logIncident({
+          category: "lesson_load_failure",
+          severity: "warning",
+          title: "Lesson Load Failure",
+          message: `Failed to load lesson: ${err?.message || err}`,
+          errorKey: `lesson_load:${String(err?.message || err).slice(0, 50)}`,
+          metadata: { slug },
+        });
       } catch {}
-      res.status(500).json({ error: "Failed to load lesson content" });
+      res.status(status).json(body);
     }
   });
 
   app.get("/api/lessons/search", searchLimiter, async (req: Request, res: Response) => {
     try {
-      const q = ((req.query.q as string) || "").toLowerCase().trim();
+      const q = (queryParamString(req.query.q as string | string[] | undefined) || "").toLowerCase().trim();
       if (!q || q.length < 2) {
         return res.json([]);
       }
@@ -564,8 +632,19 @@ export function setupLessonContentRoutes(app: Express): void {
       res.setHeader("Cache-Control", "private, max-age=60");
       res.json(results);
     } catch (err: any) {
-      console.error("[LessonAPI] search error:", err.message);
-      res.status(500).json({ error: "Search failed" });
+      const { status, body } = lessonApiFailureResponse(err);
+      emitStructuredLog(
+        {
+          level: "error",
+          type: "lesson_load_failure",
+          route: "GET /api/lessons/search",
+          category: "search",
+          message: err instanceof Error ? err.message : String(err),
+        },
+        "error",
+      );
+      console.error("[LessonAPI] search error:", err?.message || err);
+      res.status(status).json(body);
     }
   });
 
@@ -583,7 +662,18 @@ export function setupLessonContentRoutes(app: Express): void {
       res.setHeader("Cache-Control", "public, max-age=300");
       res.json({ lessons: meta.length, questions: questionCount });
     } catch (err: any) {
-      res.status(500).json({ error: "Failed to count" });
+      const { status, body } = lessonApiFailureResponse(err);
+      emitStructuredLog(
+        {
+          level: "error",
+          type: "lesson_load_failure",
+          route: "GET /api/lessons/count",
+          category: "count",
+          message: err instanceof Error ? err.message : String(err),
+        },
+        "error",
+      );
+      res.status(status).json(body);
     }
   });
 }

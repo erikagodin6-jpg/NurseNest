@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Search, X, BookOpen, Stethoscope, Pill, FileText, ArrowRight, Layers, Newspaper } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useI18n } from "@/lib/i18n";
+import { readApiJsonResponse, BackendErrorCodes } from "@/lib/api-error";
 
 type SearchResult = {
   id: string;
@@ -43,8 +44,14 @@ export function GlobalSearch({ compact = false }: { compact?: boolean } = {}) {
     queryFn: async () => {
       if (!query || query.length < 2) return [];
       const res = await fetch(`/api/lessons/search?q=${encodeURIComponent(query)}`);
-      if (!res.ok) return [];
-      const items = await res.json();
+      const parsed = await readApiJsonResponse<unknown[]>(res);
+      if (!parsed.ok) {
+        if (parsed.code === BackendErrorCodes.CONTENT_MODULE_UNAVAILABLE) {
+          console.warn("[GlobalSearch] lesson search degraded:", parsed.message);
+        }
+        return [];
+      }
+      const items = Array.isArray(parsed.data) ? parsed.data : [];
       return items.map((m: any) => ({
         id: m.id,
         title: m.title,

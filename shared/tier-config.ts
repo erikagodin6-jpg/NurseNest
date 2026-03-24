@@ -350,7 +350,7 @@ const newgradTierConfig: TierUiConfig = {
   shortLabel: "New Grad",
   examPrepLabel: "Career Prep",
   readinessLabel: "Career Readiness",
-  questionBankLabel: "Interview Question Bank",
+  testBankLabel: "Interview Question Bank",
   dashboardTitle: "Your Career Launch Dashboard",
   dashboardSubtitle: "Career tools, interview prep, and professional development resources",
   progressLabel: "Career Progress",

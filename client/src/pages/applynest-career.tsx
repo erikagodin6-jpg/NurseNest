@@ -4,20 +4,111 @@ import { APPLYNEST_PROFESSIONS } from "@shared/schema";
 import { ArrowLeft, DollarSign, Building2, Shield, FileText, MessageSquare, CheckSquare, MapPin, Briefcase, ArrowRight } from "lucide-react";
 
 import { useI18n } from "@/lib/i18n";
+import { fetchWithOptionalRetry } from "@/lib/fetch-utils";
+
+type CareerProfileView = {
+  professionLabel: string;
+  jobMarketOverview: string;
+  salaryRangeJson: { entry?: string; mid?: string; senior?: string; note?: string };
+  topEmployers: string[];
+  licensingRequirements: { region: string; requirements: string[] }[];
+  resumeTips: string[];
+  interviewQuestions: { q: string; a: string }[];
+  firstJobChecklist: string[];
+};
+
+type CareerLoadResult =
+  | { status: "ok"; profile: CareerProfileView }
+  | { status: "not_found" }
+  | { status: "unavailable" }
+  | { status: "network" };
+
+function strArr(v: unknown): string[] {
+  return Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : [];
+}
+
+function normalizeCareerProfile(raw: unknown, profession: string): CareerProfileView | null {
+  if (!raw || typeof raw !== "object") return null;
+  const p = raw as Record<string, unknown>;
+  const label =
+    typeof p.professionLabel === "string" && p.professionLabel.trim()
+      ? p.professionLabel.trim()
+      : profession.replace(/-/g, " ");
+  const overview = typeof p.jobMarketOverview === "string" ? p.jobMarketOverview : "";
+  const salaryRaw = p.salaryRangeJson;
+  const salaryRangeJson =
+    salaryRaw && typeof salaryRaw === "object" && !Array.isArray(salaryRaw)
+      ? (() => {
+          const s = salaryRaw as Record<string, unknown>;
+          return {
+            entry: typeof s.entry === "string" ? s.entry : undefined,
+            mid: typeof s.mid === "string" ? s.mid : undefined,
+            senior: typeof s.senior === "string" ? s.senior : undefined,
+            note: typeof s.note === "string" ? s.note : undefined,
+          };
+        })()
+      : {};
+
+  const licensingRaw = Array.isArray(p.licensingRequirements) ? p.licensingRequirements : [];
+  const licensingRequirements = licensingRaw
+    .map((block: unknown) => {
+      const b = block && typeof block === "object" ? (block as Record<string, unknown>) : {};
+      const region = typeof b.region === "string" ? b.region : "Requirements";
+      const requirements = strArr(b.requirements);
+      return { region, requirements };
+    })
+    .filter((x) => x.requirements.length > 0 || x.region !== "Requirements");
+
+  const iqRaw = Array.isArray(p.interviewQuestions) ? p.interviewQuestions : [];
+  const interviewQuestions = iqRaw
+    .map((x: unknown) => {
+      const o = x && typeof x === "object" ? (x as Record<string, unknown>) : {};
+      const q = typeof o.q === "string" ? o.q : typeof o.question === "string" ? o.question : "";
+      const a = typeof o.a === "string" ? o.a : typeof o.answer === "string" ? o.answer : "";
+      return { q, a };
+    })
+    .filter((x) => x.q || x.a);
+
+  return {
+    professionLabel: label,
+    jobMarketOverview: overview || "Career overview is being updated. Check back soon, or explore other professions below.",
+    salaryRangeJson,
+    topEmployers: strArr(p.topEmployers),
+    licensingRequirements,
+    resumeTips: strArr(p.resumeTips),
+    interviewQuestions,
+    firstJobChecklist: strArr(p.firstJobChecklist),
+  };
+}
+
+async function loadCareerProfile(profession: string): Promise<CareerLoadResult> {
+  let res: Response;
+  try {
+    res = await fetchWithOptionalRetry(`/api/applynest/career-profiles/${encodeURIComponent(profession)}`);
+  } catch {
+    return { status: "network" };
+  }
+  if (res.status === 404) return { status: "not_found" };
+  if (!res.ok) return { status: "unavailable" };
+  let raw: unknown;
+  try {
+    raw = await res.json();
+  } catch {
+    return { status: "unavailable" };
+  }
+  const profile = normalizeCareerProfile(raw, profession);
+  if (!profile) return { status: "not_found" };
+  return { status: "ok", profile };
+}
+
 export default function ApplyNestCareerPage() {
   const { t } = useI18n();
   const [, params] = useRoute("/applynest/careers/:profession");
   const profession = params?.profession || "";
 
-  const profInfo = APPLYNEST_PROFESSIONS.find((p) => p.slug === profession);
-
-  const { data: profile, isLoading } = useQuery({
+  const { data, isLoading, refetch, isFetching } = useQuery({
     queryKey: ["/api/applynest/career-profiles", profession],
-    queryFn: async () => {
-      const res = await fetch(`/api/applynest/career-profiles/${profession}`);
-      if (!res.ok) throw new Error("Not found");
-      return res.json();
-    },
+    queryFn: () => loadCareerProfile(profession),
     enabled: !!profession,
   });
 
@@ -29,16 +120,48 @@ export default function ApplyNestCareerPage() {
     );
   }
 
-  if (!profile) {
+  if (!data) {
+    return null;
+  }
+
+  if (data.status === "not_found") {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 px-4">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("pages.applynestCareer.careerProfileNotFound")}</h1>
-        <Link href="/applynest" className="text-teal-600 hover:underline">{t("pages.applynestCareer.backToApplynest")}</Link>
+        <Link href="/applynest" className="text-teal-600 hover:underline">
+          {t("pages.applynestCareer.backToApplynest")}
+        </Link>
       </div>
     );
   }
 
-  const salary = profile.salaryRangeJson || {};
+  if (data.status !== "ok") {
+    const isNet = data.status === "network";
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 px-4">
+        <h1 className="text-xl font-bold text-gray-900 dark:text-white text-center">
+          {isNet ? "Connection problem" : "We couldn’t load this career profile"}
+        </h1>
+        <p className="text-gray-600 dark:text-gray-400 text-sm text-center max-w-md">
+          {isNet ? "Check your connection and try again." : "The server was unavailable. Please try again shortly."}
+        </p>
+        <button
+          type="button"
+          className="px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-medium hover:bg-teal-700 disabled:opacity-60"
+          onClick={() => refetch()}
+          disabled={isFetching}
+        >
+          {isFetching ? "Retrying…" : "Try again"}
+        </button>
+        <Link href="/applynest" className="text-teal-600 hover:underline text-sm">
+          {t("pages.applynestCareer.backToApplynest")}
+        </Link>
+      </div>
+    );
+  }
+
+  const profile = data.profile;
+  const salary = profile.salaryRangeJson;
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
@@ -107,7 +230,7 @@ export default function ApplyNestCareerPage() {
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t("pages.applynestCareer.topEmployers")}</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {(profile.topEmployers || []).map((employer: string, i: number) => (
+            {profile.topEmployers.map((employer, i: number) => (
               <div key={i} className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800" data-testid={`text-employer-${i}`}>
                 <MapPin className="w-4 h-4 text-blue-500 flex-shrink-0" />
                 <span className="text-gray-700 dark:text-gray-300">{employer}</span>
@@ -124,11 +247,11 @@ export default function ApplyNestCareerPage() {
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t("pages.applynestCareer.licensingRequirements")}</h2>
           </div>
           <div className="space-y-4">
-            {(profile.licensingRequirements || []).map((lic: any, i: number) => (
+            {profile.licensingRequirements.map((lic, i: number) => (
               <div key={i} className="p-5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900" data-testid={`card-licensing-${i}`}>
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-3">{lic.region}</h3>
                 <ul className="space-y-2">
-                  {(lic.requirements || []).map((req: string, j: number) => (
+                  {lic.requirements.map((req, j: number) => (
                     <li key={j} className="flex items-start gap-2 text-gray-700 dark:text-gray-300">
                       <CheckSquare className="w-4 h-4 text-teal-500 mt-0.5 flex-shrink-0" />
                       <span>{req}</span>
@@ -148,7 +271,7 @@ export default function ApplyNestCareerPage() {
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t("pages.applynestCareer.resumeTips")}</h2>
           </div>
           <ul className="space-y-3">
-            {(profile.resumeTips || []).map((tip: string, i: number) => (
+            {profile.resumeTips.map((tip, i: number) => (
               <li key={i} className="flex items-start gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-900" data-testid={`text-resume-tip-${i}`}>
                 <CheckSquare className="w-4 h-4 text-purple-500 mt-0.5 flex-shrink-0" />
                 <span className="text-gray-700 dark:text-gray-300">{tip}</span>
@@ -168,10 +291,10 @@ export default function ApplyNestCareerPage() {
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t("pages.applynestCareer.sampleInterviewQuestions")}</h2>
           </div>
           <div className="space-y-4">
-            {(profile.interviewQuestions || []).map((iq: any, i: number) => (
+            {profile.interviewQuestions.map((iq, i: number) => (
               <div key={i} className="p-5 rounded-xl border border-gray-200 dark:border-gray-700" data-testid={`card-interview-${i}`}>
-                <p className="font-semibold text-gray-900 dark:text-white mb-2">Q: {iq.q}</p>
-                <p className="text-gray-600 dark:text-gray-400 text-sm"><span className="font-medium text-gray-700 dark:text-gray-300">{t("pages.applynestCareer.sampleApproach")}</span> {iq.a}</p>
+                <p className="font-semibold text-gray-900 dark:text-white mb-2">Q: {iq.q || "—"}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm"><span className="font-medium text-gray-700 dark:text-gray-300">{t("pages.applynestCareer.sampleApproach")}</span> {iq.a || "—"}</p>
               </div>
             ))}
           </div>
@@ -189,7 +312,7 @@ export default function ApplyNestCareerPage() {
           </div>
           <div className="p-6 rounded-xl border-2 border-teal-200 dark:border-teal-800 bg-teal-50 dark:bg-teal-900/20">
             <ol className="space-y-3">
-              {(profile.firstJobChecklist || []).map((item: string, i: number) => (
+              {profile.firstJobChecklist.map((item, i: number) => (
                 <li key={i} className="flex items-start gap-3" data-testid={`text-checklist-${i}`}>
                   <span className="w-6 h-6 rounded-full bg-teal-600 text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i + 1}</span>
                   <span className="text-gray-700 dark:text-gray-300">{item}</span>

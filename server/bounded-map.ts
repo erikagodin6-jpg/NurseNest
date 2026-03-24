@@ -1,45 +1,60 @@
 export class BoundedMap<K, V> {
-  private map = new Map<K, { value: V; accessedAt: number; createdAt: number }>();
-  private maxSize: number;
-  private ttlMs: number | null;
+  private readonly map = new Map<K, { value: V; accessedAt: number; createdAt: number }>();
+  private readonly maxSize: number;
+  private readonly ttlMs: number | null;
 
   constructor(maxSize: number, ttlMs?: number) {
-    this.maxSize = maxSize;
-    this.ttlMs = ttlMs ?? null;
+    this.maxSize = Math.max(1, Number(maxSize) || 1);
+    this.ttlMs = typeof ttlMs === "number" && ttlMs > 0 ? ttlMs : null;
   }
 
   get(key: K): V | undefined {
     const entry = this.map.get(key);
     if (!entry) return undefined;
-    if (this.ttlMs && Date.now() - entry.createdAt > this.ttlMs) {
+
+    if (this.isExpired(entry)) {
       this.map.delete(key);
       return undefined;
     }
+
     entry.accessedAt = Date.now();
     return entry.value;
   }
 
   set(key: K, value: V): this {
-    if (this.map.has(key)) {
-      const entry = this.map.get(key)!;
-      entry.value = value;
-      entry.accessedAt = Date.now();
+    const now = Date.now();
+    const existing = this.map.get(key);
+
+    if (existing) {
+      existing.value = value;
+      existing.accessedAt = now;
       return this;
     }
+
+    this.pruneExpired();
+
     if (this.map.size >= this.maxSize) {
-      this.evict();
+      this.evictLeastRecentlyUsed();
     }
-    this.map.set(key, { value, accessedAt: Date.now(), createdAt: Date.now() });
+
+    this.map.set(key, {
+      value,
+      accessedAt: now,
+      createdAt: now,
+    });
+
     return this;
   }
 
   has(key: K): boolean {
-    if (!this.map.has(key)) return false;
-    const entry = this.map.get(key)!;
-    if (this.ttlMs && Date.now() - entry.createdAt > this.ttlMs) {
+    const entry = this.map.get(key);
+    if (!entry) return false;
+
+    if (this.isExpired(entry)) {
       this.map.delete(key);
       return false;
     }
+
     return true;
   }
 
@@ -47,17 +62,18 @@ export class BoundedMap<K, V> {
     return this.map.delete(key);
   }
 
-  get size(): number {
-    return this.map.size;
-  }
-
   clear(): void {
     this.map.clear();
   }
 
+  get size(): number {
+    this.pruneExpired();
+    return this.map.size;
+  }
+
   values(): V[] {
     this.pruneExpired();
-    return Array.from(this.map.values()).map(e => e.value);
+    return Array.from(this.map.values(), entry => entry.value);
   }
 
   keys(): K[] {
@@ -67,64 +83,84 @@ export class BoundedMap<K, V> {
 
   entries(): [K, V][] {
     this.pruneExpired();
-    return Array.from(this.map.entries()).map(([k, e]) => [k, e.value]);
+    return Array.from(this.map.entries(), ([key, entry]) => [key, entry.value]);
   }
 
   forEach(fn: (value: V, key: K) => void): void {
     this.pruneExpired();
-    for (const [key, entry] of this.map) {
+    for (const [key, entry] of this.map.entries()) {
       fn(entry.value, key);
     }
   }
 
   [Symbol.iterator](): IterableIterator<[K, V]> {
     this.pruneExpired();
-    const entries = this.entries();
-    let i = 0;
-    const iter: IterableIterator<[K, V]> = {
-      next(): IteratorResult<[K, V], undefined> {
-        if (i < entries.length) {
-          return { value: entries[i++], done: false } as IteratorYieldResult<[K, V]>;
+
+    const snapshot = this.entries();
+    let index = 0;
+
+    return {
+      next(): IteratorResult<[K, V]> {
+        if (index < snapshot.length) {
+          return {
+            value: snapshot[index++],
+            done: false,
+          };
         }
-        return { value: undefined, done: true } as IteratorReturnResult<undefined>;
+
+        return {
+          value: undefined as never,
+          done: true,
+        };
       },
-      [Symbol.iterator]() { return iter; },
+      [Symbol.iterator]() {
+        return this;
+      },
     };
-    return iter;
   }
 
   prune(): number {
     return this.pruneExpired();
   }
 
-  private evict(): void {
-    let oldestKey: K | null = null;
-    let oldestTime = Infinity;
-    for (const [key, entry] of this.map) {
-      if (this.ttlMs && Date.now() - entry.createdAt > this.ttlMs) {
+  private isExpired(entry: { value: V; accessedAt: number; createdAt: number }): boolean {
+    return this.ttlMs !== null && Date.now() - entry.createdAt > this.ttlMs;
+  }
+
+  private evictLeastRecentlyUsed(): void {
+    let oldestKey: K | undefined;
+    let oldestAccessedAt = Infinity;
+
+    for (const [key, entry] of this.map.entries()) {
+      if (this.isExpired(entry)) {
         this.map.delete(key);
         return;
       }
-      if (entry.accessedAt < oldestTime) {
-        oldestTime = entry.accessedAt;
+
+      if (entry.accessedAt < oldestAccessedAt) {
+        oldestAccessedAt = entry.accessedAt;
         oldestKey = key;
       }
     }
-    if (oldestKey !== null) {
+
+    if (oldestKey !== undefined) {
       this.map.delete(oldestKey);
     }
   }
 
   private pruneExpired(): number {
-    if (!this.ttlMs) return 0;
+    if (this.ttlMs === null) return 0;
+
     let pruned = 0;
     const now = Date.now();
-    for (const [key, entry] of this.map) {
+
+    for (const [key, entry] of this.map.entries()) {
       if (now - entry.createdAt > this.ttlMs) {
         this.map.delete(key);
         pruned++;
       }
     }
+
     return pruned;
   }
 }

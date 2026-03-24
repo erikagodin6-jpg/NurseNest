@@ -1,5 +1,7 @@
 import { pool } from "./storage";
 import crypto from "crypto";
+import { checkAiLimits, recordAiUsage } from "./ai-safety";
+import { emitStructuredLog } from "./log-sink";
 
 export type SM2Rating = "again" | "hard" | "good" | "easy";
 export type SM2CardState = "new" | "learning" | "review" | "mastered";
@@ -50,7 +52,10 @@ function computeInterval(repetitions: number, easeFactor: number, rating: SM2Rat
 
   const baseInterval = intervals[intervals.length - 1];
   const multiplier = rating === "easy" ? easeFactor * 1.3 : easeFactor;
-  return Math.min(Math.round(baseInterval * Math.pow(multiplier, repetitions - intervals.length + 1)), 180);
+  return Math.min(
+    Math.round(baseInterval * Math.pow(multiplier, repetitions - intervals.length + 1)),
+    180
+  );
 }
 
 function computeCardState(repetitions: number, interval: number, rating: SM2Rating): SM2CardState {
@@ -68,13 +73,11 @@ export async function processSM2Review(input: SM2ReviewInput): Promise<SM2Review
 
   let oldEF = 2.5;
   let oldReps = 0;
-  let oldInterval = 0;
 
   if (existing.rows.length > 0) {
     const row = existing.rows[0];
     oldEF = row.ease_factor || 2.5;
     oldReps = row.repetitions || 0;
-    oldInterval = row.interval || 0;
   }
 
   const quality = RATING_QUALITY[input.rating];
@@ -91,13 +94,30 @@ export async function processSM2Review(input: SM2ReviewInput): Promise<SM2Review
         ease_factor = $1, interval = $2, repetitions = $3,
         next_review_at = $4, last_reviewed_at = NOW(), status = $5, updated_at = NOW()
        WHERE user_id = $6 AND card_id = $7`,
-      [newEF, Math.round(newInterval * 100) / 100, newReps, nextReviewAt, cardState, input.userId, input.cardId]
+      [
+        newEF,
+        Math.round(newInterval * 100) / 100,
+        newReps,
+        nextReviewAt,
+        cardState,
+        input.userId,
+        input.cardId,
+      ]
     );
   } else {
     await pool.query(
       `INSERT INTO spaced_repetition_cards (id, user_id, card_id, deck_id, ease_factor, interval, repetitions, next_review_at, last_reviewed_at, status, updated_at)
        VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, NOW(), $8, NOW())`,
-      [input.userId, input.cardId, input.deckId || null, newEF, Math.round(newInterval * 100) / 100, newReps, nextReviewAt, cardState]
+      [
+        input.userId,
+        input.cardId,
+        input.deckId || null,
+        newEF,
+        Math.round(newInterval * 100) / 100,
+        newReps,
+        nextReviewAt,
+        cardState,
+      ]
     );
   }
 
@@ -118,7 +138,13 @@ export async function processSM2Review(input: SM2ReviewInput): Promise<SM2Review
   );
 
   const isCorrect = input.rating !== "again";
-  const confMap: Record<SM2Rating, string> = { again: "guess", hard: "unsure", good: "unsure", easy: "confident" };
+  const confMap: Record<SM2Rating, string> = {
+    again: "guess",
+    hard: "unsure",
+    good: "unsure",
+    easy: "confident",
+  };
+
   const { recordCardResponse } = await import("./adaptive-engine");
   await recordCardResponse({
     userId: input.userId,
@@ -191,7 +217,7 @@ export async function getSM2Dashboard(userId: string): Promise<{
   for (const row of stateResult.rows) {
     const state = (row.status || "new") as SM2CardState;
     const count = parseInt(row.cnt);
-    if (byState.hasOwnProperty(state)) {
+    if (Object.prototype.hasOwnProperty.call(byState, state)) {
       byState[state] = count;
     }
     totalCards += count;
@@ -201,6 +227,7 @@ export async function getSM2Dashboard(userId: string): Promise<{
   let streakDays = 0;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+
   for (const row of streakResult.rows) {
     const d = new Date(row.d);
     d.setHours(0, 0, 0, 0);
@@ -248,7 +275,7 @@ export async function getFlashcardAnalytics(userId: string): Promise<{
       [userId]
     ),
     pool.query(
-      `SELECT fb.topic, 
+      `SELECT fb.topic,
               SUM(CASE WHEN src.status = 'mastered' THEN 1 ELSE 0 END) as mastered,
               COUNT(*) as total
        FROM spaced_repetition_cards src
@@ -260,13 +287,27 @@ export async function getFlashcardAnalytics(userId: string): Promise<{
   ]);
 
   return {
-    reviewFrequency: freqResult.rows.map((r: any) => ({ date: r.date, count: parseInt(r.cnt) })),
-    difficultyDistribution: diffResult.rows.map((r: any) => ({ rating: r.rating, count: parseInt(r.cnt) })),
-    retentionRate: retentionResult.rows.map((r: any) => ({ week: r.week, retention: parseFloat(r.retention || "0") })),
+    reviewFrequency: freqResult.rows.map((r: any) => ({
+      date: r.date,
+      count: parseInt(r.cnt),
+    })),
+    difficultyDistribution: diffResult.rows.map((r: any) => ({
+      rating: r.rating,
+      count: parseInt(r.cnt),
+    })),
+    retentionRate: retentionResult.rows.map((r: any) => ({
+      week: r.week,
+      retention: parseFloat(r.retention || "0"),
+    })),
     topicMastery: topicResult.rows.map((r: any) => {
       const total = parseInt(r.total);
       const mastered = parseInt(r.mastered);
-      return { topic: r.topic, mastered, total, percentage: total > 0 ? Math.round((mastered / total) * 100) : 0 };
+      return {
+        topic: r.topic,
+        mastered,
+        total,
+        percentage: total > 0 ? Math.round((mastered / total) * 100) : 0,
+      };
     }),
   };
 }
@@ -286,17 +327,17 @@ export async function getAdminFlashcardAnalytics(): Promise<{
     pool.query(`SELECT COUNT(DISTINCT user_id) as cnt FROM flashcard_reviews`),
     pool.query(
       `SELECT COUNT(*) as cnt FROM (
-        SELECT content_hash FROM flashcard_bank WHERE content_hash IS NOT NULL 
+        SELECT content_hash FROM flashcard_bank WHERE content_hash IS NOT NULL
         GROUP BY content_hash HAVING COUNT(*) > 1
       ) dupes`
     ),
     pool.query(
-      `SELECT COUNT(*) as cnt FROM flashcard_bank 
-       WHERE status IN ('published', 'approved') 
+      `SELECT COUNT(*) as cnt FROM flashcard_bank
+       WHERE status IN ('published', 'approved')
        AND (LENGTH(front) < 10 OR LENGTH(back) < 10)`
     ),
     pool.query(
-      `SELECT COALESCE(source_type, 'manual') as source, COUNT(*) as cnt 
+      `SELECT COALESCE(source_type, 'manual') as source, COUNT(*) as cnt
        FROM flashcard_bank GROUP BY source_type ORDER BY cnt DESC`
     ),
     pool.query(
@@ -310,8 +351,14 @@ export async function getAdminFlashcardAnalytics(): Promise<{
     activeUsers: parseInt(usersResult.rows[0]?.cnt || "0"),
     duplicateCount: parseInt(dupResult.rows[0]?.cnt || "0"),
     lowQualityCount: parseInt(lowQResult.rows[0]?.cnt || "0"),
-    generationStats: genResult.rows.map((r: any) => ({ source: r.source, count: parseInt(r.cnt) })),
-    stateDistribution: stateResult.rows.map((r: any) => ({ state: r.status, count: parseInt(r.cnt) })),
+    generationStats: genResult.rows.map((r: any) => ({
+      source: r.source,
+      count: parseInt(r.cnt),
+    })),
+    stateDistribution: stateResult.rows.map((r: any) => ({
+      state: r.status,
+      count: parseInt(r.cnt),
+    })),
   };
 }
 
@@ -340,7 +387,11 @@ export async function flagLowQualityCards(): Promise<number> {
   return result.rowCount || 0;
 }
 
-export async function bulkGenerateFromContent(sourceType: "study_guides" | "question_explanations" | "topic_summaries", tier: string, limit = 50): Promise<{ generated: number; skipped: number }> {
+export async function bulkGenerateFromContent(
+  sourceType: "study_guides" | "question_explanations" | "topic_summaries",
+  tier: string,
+  limit = 50
+): Promise<{ generated: number; skipped: number }> {
   const OpenAI = (await import("openai")).default;
   const openai = new OpenAI({
     apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
@@ -350,7 +401,7 @@ export async function bulkGenerateFromContent(sourceType: "study_guides" | "ques
   let sourceQuery: string;
   if (sourceType === "question_explanations") {
     sourceQuery = `SELECT id, stem as content, rationale as extra, topic, subtopic, body_system, difficulty
-                   FROM exam_questions WHERE tier = $1 AND status = 'published' 
+                   FROM exam_questions WHERE tier = $1 AND status = 'published'
                    AND id NOT IN (SELECT source_question_id FROM flashcard_bank WHERE source_question_id IS NOT NULL)
                    ORDER BY RANDOM() LIMIT $2`;
   } else {
@@ -370,6 +421,11 @@ export async function bulkGenerateFromContent(sourceType: "study_guides" | "ques
 Content: ${source.content}
 ${source.extra ? `Additional context: ${source.extra}` : ""}`;
 
+      const check = await checkAiLimits({ userId: "system_flashcard_generator" });
+      if (!check.allowed) {
+        throw new Error(`AI limit reached: ${check.reason}`);
+      }
+
       const completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [{ role: "user", content: prompt }],
@@ -377,24 +433,67 @@ ${source.extra ? `Additional context: ${source.extra}` : ""}`;
         max_tokens: 500,
       });
 
+      const tokensUsed =
+        completion.usage?.total_tokens ||
+        Math.ceil((completion.choices?.[0]?.message?.content?.length || 200) / 4);
+
+      await recordAiUsage(1, tokensUsed, {
+        userId: "system_flashcard_generator",
+        endpoint: "flashcard-generation",
+      }).catch((err: unknown) => {
+        emitStructuredLog(
+          {
+            level: "error",
+            type: "ai_usage_record_failed",
+            provider: "openai",
+            route: "sm2-engine",
+            job: "flashcard-generation",
+            userId: "system_flashcard_generator",
+            msg: err instanceof Error ? err.message : String(err),
+          },
+          "error",
+        );
+      });
+
       const parsed = JSON.parse(completion.choices[0]?.message?.content || "{}");
-      if (!parsed.front || !parsed.back) { skipped++; continue; }
+      if (!parsed.front || !parsed.back) {
+        skipped++;
+        continue;
+      }
 
-      const contentHash = crypto.createHash("sha256").update((parsed.front + parsed.back).toLowerCase().trim()).digest("hex");
+      const contentHash = crypto
+        .createHash("sha256")
+        .update((parsed.front + parsed.back).toLowerCase().trim())
+        .digest("hex");
 
-      const dupCheck = await pool.query(`SELECT id FROM flashcard_bank WHERE content_hash = $1`, [contentHash]);
-      if (dupCheck.rows.length > 0) { skipped++; continue; }
+      const dupCheck = await pool.query(
+        `SELECT id FROM flashcard_bank WHERE content_hash = $1`,
+        [contentHash]
+      );
+      if (dupCheck.rows.length > 0) {
+        skipped++;
+        continue;
+      }
 
       await pool.query(
         `INSERT INTO flashcard_bank (id, tier, front, back, topic, subtopic, body_system, difficulty, source_type, source_question_id, content_hash, clinical_takeaway, exam_pearl, status, flashcard_enabled, created_at, updated_at)
          VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, 'needs_review', false, NOW(), NOW())`,
         [
-          tier, parsed.front, parsed.back,
-          source.topic || null, source.subtopic || null, source.body_system || null,
-          source.difficulty || 3, `ai_${sourceType}`, source.id, contentHash,
-          parsed.clinicalPearl || null, parsed.examPearl || null,
+          tier,
+          parsed.front,
+          parsed.back,
+          source.topic || null,
+          source.subtopic || null,
+          source.body_system || null,
+          source.difficulty || 3,
+          `ai_${sourceType}`,
+          source.id,
+          contentHash,
+          parsed.clinicalPearl || null,
+          parsed.examPearl || null,
         ]
       );
+
       generated++;
     } catch {
       skipped++;
@@ -407,6 +506,7 @@ ${source.extra ? `Additional context: ${source.extra}` : ""}`;
 function snakeToCamel(obj: any): any {
   if (!obj || typeof obj !== "object") return obj;
   if (Array.isArray(obj)) return obj.map(snakeToCamel);
+
   const result: any = {};
   for (const key in obj) {
     const camelKey = key.replace(/_([a-z])/g, (_: string, c: string) => c.toUpperCase());

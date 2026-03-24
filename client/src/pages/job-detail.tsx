@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRoute, Link } from "wouter";
 import { SEO } from "@/components/seo";
 import { useI18n } from "@/lib/i18n";
+import { fetchWithOptionalRetry } from "@/lib/fetch-utils";
 import {
   MapPin, Building2, DollarSign, Clock, Briefcase, GraduationCap,
   CheckCircle2, ArrowLeft, FileText, MessageSquare, ArrowRight,
@@ -89,18 +90,39 @@ function buildJobPostingJsonLd(job: any) {
   return data;
 }
 
+type JobLoadResult =
+  | { status: "ok"; job: Record<string, unknown> }
+  | { status: "not_found" }
+  | { status: "unavailable" }
+  | { status: "network" };
+
+async function loadJob(slug: string): Promise<JobLoadResult> {
+  let res: Response;
+  try {
+    res = await fetchWithOptionalRetry(`/api/jobs/by-slug/${encodeURIComponent(slug)}`);
+  } catch {
+    return { status: "network" };
+  }
+  if (res.status === 404) return { status: "not_found" };
+  if (!res.ok) return { status: "unavailable" };
+  let raw: unknown;
+  try {
+    raw = await res.json();
+  } catch {
+    return { status: "unavailable" };
+  }
+  if (!raw || typeof raw !== "object") return { status: "not_found" };
+  return { status: "ok", job: raw as Record<string, unknown> };
+}
+
 export default function JobDetail() {
   const { t } = useI18n();
-  const [match, params] = useRoute("/jobs/:slug");
+  const [, params] = useRoute("/jobs/:slug");
   const slug = params?.slug || "";
 
-  const { data: job, isLoading, error } = useQuery<any>({
+  const { data, isLoading, refetch, isFetching } = useQuery({
     queryKey: ["job", slug],
-    queryFn: async () => {
-      const res = await fetch(`/api/jobs/by-slug/${slug}`);
-      if (!res.ok) throw new Error("Job not found");
-      return res.json();
-    },
+    queryFn: () => loadJob(slug),
     enabled: !!slug,
   });
 
@@ -119,7 +141,11 @@ export default function JobDetail() {
     );
   }
 
-  if (!job || error) {
+  if (!data) {
+    return null;
+  }
+
+  if (data.status === "not_found") {
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-gray-950 dark:to-gray-900 flex items-center justify-center">
         <div className="text-center">
@@ -136,18 +162,102 @@ export default function JobDetail() {
     );
   }
 
-  const salary = formatSalary(job.salaryMin, job.salaryMax, job.salaryCurrency, job.salaryPeriod);
-  const daysAgo = Math.floor((Date.now() - new Date(job.postedAt).getTime()) / (1000 * 60 * 60 * 24));
+  if (data.status !== "ok") {
+    const isNet = data.status === "network";
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-gray-950 dark:to-gray-900 flex items-center justify-center px-4">
+        <div className="text-center max-w-md">
+          <Briefcase className="w-16 h-16 text-amber-200 mx-auto mb-4" />
+          <h1 className="text-xl font-bold text-gray-700 dark:text-gray-300 mb-2">
+            {isNet ? "Connection problem" : "Job couldn’t be loaded"}
+          </h1>
+          <p className="text-gray-500 mb-6 text-sm">
+            {isNet ? "Check your connection and try again." : "Please try again in a moment."}
+          </p>
+          <button
+            type="button"
+            className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60 mr-3"
+            onClick={() => refetch()}
+            disabled={isFetching}
+          >
+            {isFetching ? "Retrying…" : "Try again"}
+          </button>
+          <Link href="/jobs" className="text-blue-600 hover:text-blue-700 font-medium text-sm" data-testid="link-back-to-jobs-error">
+            {t("jobs.backToJobs")}
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const job = data.job;
+  const title = typeof job.title === "string" ? job.title : "Job posting";
+  const employer = typeof job.employer === "string" ? job.employer : "Employer";
+  const profession = typeof job.profession === "string" ? job.profession : "";
+  const specialty = typeof job.specialty === "string" ? job.specialty : "";
+  const location = typeof job.location === "string" ? job.location : "";
+  const description = typeof job.description === "string" ? job.description : "";
+  const slugOut = typeof job.slug === "string" ? job.slug : slug;
+  const postedAtRaw = job.postedAt;
+  const postedDate =
+    typeof postedAtRaw === "string" || postedAtRaw instanceof Date ? new Date(postedAtRaw as string | Date) : null;
+  const postedMs = postedDate && !Number.isNaN(postedDate.getTime()) ? postedDate.getTime() : Date.now();
+  const daysAgo = Math.floor((Date.now() - postedMs) / (1000 * 60 * 60 * 24));
   const postedLabel = daysAgo === 0 ? "Posted today" : daysAgo === 1 ? "Posted yesterday" : `Posted ${daysAgo} days ago`;
-  const jsonLd = buildJobPostingJsonLd(job);
+
+  const salary = formatSalary(
+    typeof job.salaryMin === "number" ? job.salaryMin : undefined,
+    typeof job.salaryMax === "number" ? job.salaryMax : undefined,
+    typeof job.salaryCurrency === "string" ? job.salaryCurrency : undefined,
+    typeof job.salaryPeriod === "string" ? job.salaryPeriod : undefined,
+  );
+  const jsonLd = buildJobPostingJsonLd({
+    ...job,
+    title,
+    employer,
+    description,
+    profession,
+    specialty,
+    location,
+    postedAt: postedDate && !Number.isNaN(postedDate.getTime()) ? postedDate.toISOString() : job.postedAt,
+    employmentType: typeof job.employmentType === "string" ? job.employmentType : "full_time",
+    salaryMin: typeof job.salaryMin === "number" ? job.salaryMin : undefined,
+    salaryMax: typeof job.salaryMax === "number" ? job.salaryMax : undefined,
+    salaryCurrency: typeof job.salaryCurrency === "string" ? job.salaryCurrency : undefined,
+    salaryPeriod: typeof job.salaryPeriod === "string" ? job.salaryPeriod : undefined,
+    state: typeof job.state === "string" ? job.state : undefined,
+    country: typeof job.country === "string" ? job.country : undefined,
+    qualifications: Array.isArray(job.qualifications) ? job.qualifications : undefined,
+    experienceLevel: typeof job.experienceLevel === "string" ? job.experienceLevel : "",
+    expiresAt: job.expiresAt,
+    employerDescription: typeof job.employerDescription === "string" ? job.employerDescription : undefined,
+  });
+
+  const responsibilities = Array.isArray(job.responsibilities)
+    ? job.responsibilities.filter((x): x is string => typeof x === "string")
+    : [];
+  const requirements = Array.isArray(job.requirements)
+    ? job.requirements.filter((x): x is string => typeof x === "string")
+    : [];
+  const qualificationsList = Array.isArray(job.qualifications)
+    ? job.qualifications.filter((x): x is string => typeof x === "string")
+    : [];
+  const benefits = Array.isArray(job.benefits) ? job.benefits.filter((x): x is string => typeof x === "string") : [];
+  const employerDescription =
+    typeof job.employerDescription === "string" ? job.employerDescription : "";
+  const experienceLevelStr = typeof job.experienceLevel === "string" ? job.experienceLevel : "";
+  const employmentTypeStr = typeof job.employmentType === "string" ? job.employmentType : "full_time";
+  const featured = Boolean(job.featured);
+  const descSnippet = description ? `${description.slice(0, 120)}${description.length > 120 ? "…" : ""}` : "";
+  const kwProfession = profession || "nursing";
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-gray-950 dark:to-gray-900">
       <SEO
-        title={`${job.title} at ${job.employer} | NurseNest Jobs`}
-        description={`${job.title} - ${job.employer} in ${job.location}. ${job.description?.slice(0, 120)}...`}
-        keywords={`${job.profession} jobs, ${job.specialty || ""} jobs, ${job.location} healthcare jobs, new grad ${job.profession.toLowerCase()} jobs`}
-        canonicalPath={`/jobs/${job.slug}`}
+        title={`${title} at ${employer} | NurseNest Jobs`}
+        description={`${title} - ${employer} in ${location}. ${descSnippet}`}
+        keywords={`${kwProfession} jobs, ${specialty ? `${specialty} jobs, ` : ""}${location} healthcare jobs, new grad ${kwProfession.toLowerCase()} jobs`}
+        canonicalPath={`/jobs/${slugOut}`}
         structuredData={jsonLd}
       />
 
@@ -160,31 +270,33 @@ export default function JobDetail() {
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border overflow-hidden">
           <div className="p-6 sm:p-8 border-b">
             <div className="flex flex-wrap gap-2 mb-3">
-              {job.featured && (
+              {featured && (
                 <span className="inline-flex items-center gap-1 text-xs font-semibold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 px-2.5 py-1 rounded-full">
                   <Star className="w-3 h-3" /> Featured
                 </span>
               )}
-              <span className="text-xs px-2.5 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full font-medium">
-                {job.profession}
-              </span>
-              {job.specialty && (
-                <span className="text-xs px-2.5 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full font-medium">
-                  {job.specialty}
+              {profession ? (
+                <span className="text-xs px-2.5 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full font-medium">
+                  {profession}
                 </span>
-              )}
+              ) : null}
+              {specialty ? (
+                <span className="text-xs px-2.5 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full font-medium">
+                  {specialty}
+                </span>
+              ) : null}
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-3" data-testid="text-job-detail-title">
-              {job.title}
+              {title}
             </h1>
 
             <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400 mb-4">
               <span className="flex items-center gap-1.5">
-                <Building2 className="w-4 h-4" /> {job.employer}
+                <Building2 className="w-4 h-4" /> {employer}
               </span>
               <span className="flex items-center gap-1.5">
-                <MapPin className="w-4 h-4" /> {job.location}
+                <MapPin className="w-4 h-4" /> {location || "Location TBD"}
               </span>
               {salary && (
                 <span className="flex items-center gap-1.5 font-medium text-gray-900 dark:text-gray-100">
@@ -195,10 +307,10 @@ export default function JobDetail() {
 
             <div className="flex flex-wrap gap-3 text-sm text-gray-500 dark:text-gray-400">
               <span className="flex items-center gap-1">
-                <GraduationCap className="w-4 h-4" /> {formatExperienceLevel(job.experienceLevel)}
+                <GraduationCap className="w-4 h-4" /> {formatExperienceLevel(experienceLevelStr)}
               </span>
               <span className="flex items-center gap-1">
-                <Briefcase className="w-4 h-4" /> {formatEmploymentType(job.employmentType)}
+                <Briefcase className="w-4 h-4" /> {formatEmploymentType(employmentTypeStr)}
               </span>
               <span className="flex items-center gap-1">
                 <Clock className="w-4 h-4" /> {postedLabel}
@@ -209,14 +321,14 @@ export default function JobDetail() {
           <div className="p-6 sm:p-8 space-y-8">
             <section>
               <h2 className="text-lg font-semibold mb-3" data-testid="text-section-about">{t("jobs.aboutRole")}</h2>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">{job.description}</p>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">{description || "—"}</p>
             </section>
 
-            {job.responsibilities && job.responsibilities.length > 0 && (
+            {responsibilities.length > 0 && (
               <section>
                 <h2 className="text-lg font-semibold mb-3" data-testid="text-section-responsibilities">{t("jobs.responsibilities")}</h2>
                 <ul className="space-y-2">
-                  {job.responsibilities.map((item: string, i: number) => (
+                  {responsibilities.map((item, i: number) => (
                     <li key={i} className="flex items-start gap-2 text-gray-700 dark:text-gray-300">
                       <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
                       <span>{item}</span>
@@ -226,11 +338,11 @@ export default function JobDetail() {
               </section>
             )}
 
-            {job.requirements && job.requirements.length > 0 && (
+            {requirements.length > 0 && (
               <section>
                 <h2 className="text-lg font-semibold mb-3" data-testid="text-section-requirements">{t("jobs.requirements")}</h2>
                 <ul className="space-y-2">
-                  {job.requirements.map((item: string, i: number) => (
+                  {requirements.map((item, i: number) => (
                     <li key={i} className="flex items-start gap-2 text-gray-700 dark:text-gray-300">
                       <CheckCircle2 className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
                       <span>{item}</span>
@@ -240,11 +352,11 @@ export default function JobDetail() {
               </section>
             )}
 
-            {job.qualifications && job.qualifications.length > 0 && (
+            {qualificationsList.length > 0 && (
               <section>
                 <h2 className="text-lg font-semibold mb-3" data-testid="text-section-qualifications">{t("jobs.qualifications")}</h2>
                 <ul className="space-y-2">
-                  {job.qualifications.map((item: string, i: number) => (
+                  {qualificationsList.map((item, i: number) => (
                     <li key={i} className="flex items-start gap-2 text-gray-700 dark:text-gray-300">
                       <CheckCircle2 className="w-4 h-4 text-purple-500 shrink-0 mt-0.5" />
                       <span>{item}</span>
@@ -254,11 +366,11 @@ export default function JobDetail() {
               </section>
             )}
 
-            {job.benefits && job.benefits.length > 0 && (
+            {benefits.length > 0 && (
               <section>
                 <h2 className="text-lg font-semibold mb-3" data-testid="text-section-benefits">{t("jobs.benefits")}</h2>
                 <div className="flex flex-wrap gap-2">
-                  {job.benefits.map((benefit: string, i: number) => (
+                  {benefits.map((benefit, i: number) => (
                     <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-full text-sm">
                       <Heart className="w-3.5 h-3.5" /> {benefit}
                     </span>
@@ -267,12 +379,12 @@ export default function JobDetail() {
               </section>
             )}
 
-            {job.employerDescription && (
+            {employerDescription ? (
               <section>
                 <h2 className="text-lg font-semibold mb-3" data-testid="text-section-employer">{t("jobs.aboutEmployer")}</h2>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{job.employerDescription}</p>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{employerDescription}</p>
               </section>
-            )}
+            ) : null}
           </div>
         </div>
 

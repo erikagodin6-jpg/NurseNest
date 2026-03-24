@@ -1,0 +1,13 @@
+# Minimal Render blueprint: single Node web service (Express + built Vite client).
+# Set env vars in the Render dashboard; do not commit secrets.
+services:
+  - type: web
+    name: nursenest-web
+    runtime: node
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production

@@ -1,645 +1,216 @@
-import { pool } from "./storage";
+#!/usr/bin/env npx tsx
 
-const JOB_SEED_DATA = [
-  {
-    title: "New Graduate Registered Nurse — Medical-Surgical Unit",
-    slug: "new-grad-rn-med-surg-boston",
-    description: "Join our award-winning medical-surgical unit as a new graduate RN. This position offers a comprehensive 12-week orientation program with dedicated preceptorship, ongoing education opportunities, and a supportive team environment. You will care for adult patients with a wide range of medical and post-surgical conditions, developing critical thinking and clinical skills that will serve you throughout your career.",
-    requirements: ["Current RN license or eligible for licensure", "BLS certification required", "BSN preferred", "Strong communication and teamwork skills"],
-    qualifications: ["Graduate of an accredited nursing program", "Passed or scheduled to take NCLEX-RN", "Clinical rotation experience in medical-surgical nursing preferred"],
-    responsibilities: ["Provide direct patient care for 4-6 patients per shift", "Perform comprehensive assessments and develop care plans", "Administer medications and treatments safely", "Collaborate with interdisciplinary team members", "Document patient care accurately in the EMR"],
-    location: "Boston, MA",
-    state: "Massachusetts",
-    country: "US",
-    profession: "Registered Nurse",
-    specialty: "Medical-Surgical",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 72000,
-    salaryMax: 85000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Massachusetts General Hospital",
-    employerDescription: "Massachusetts General Hospital is a world-renowned academic medical center committed to delivering exceptional patient care, pioneering research, and training the next generation of healthcare leaders.",
-    benefits: ["Sign-on bonus", "Tuition reimbursement", "Health/dental/vision insurance", "401(k) with employer match", "Paid time off", "New grad residency program"],
-    featured: true,
-  },
-  {
-    title: "Entry Level RN — Emergency Department",
-    slug: "entry-level-rn-ed-chicago",
-    description: "Exciting opportunity for new graduate RNs passionate about emergency nursing. Our Level 1 Trauma Center offers a 16-week emergency nursing residency program designed specifically for new graduates. You'll develop skills in triage, trauma care, and critical decision-making under the guidance of experienced emergency nurses.",
-    requirements: ["Active Illinois RN license or pending", "BLS and ACLS certification (can obtain during orientation)", "Ability to work rotating shifts including nights and weekends"],
-    qualifications: ["BSN or ADN from accredited program", "NCLEX-RN passed or scheduled", "Emergency department clinical rotation a plus"],
-    responsibilities: ["Triage and assess patients presenting to the ED", "Provide emergency nursing care for acute and critical patients", "Assist with procedures including IV insertion, wound care, splinting", "Monitor cardiac rhythms and interpret ECGs", "Coordinate patient transfers and admissions"],
-    location: "Chicago, IL",
-    state: "Illinois",
-    country: "US",
-    profession: "Registered Nurse",
-    specialty: "Emergency",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 68000,
-    salaryMax: 82000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Northwestern Memorial Hospital",
-    employerDescription: "Northwestern Memorial Hospital is consistently ranked among the top hospitals in the nation, known for its commitment to clinical excellence and innovation.",
-    benefits: ["Comprehensive benefits package", "Student loan repayment assistance", "Professional development funds", "Free parking", "Employee wellness program"],
-    featured: true,
-  },
-  {
-    title: "New Grad LPN — Long-Term Care",
-    slug: "new-grad-lpn-ltc-dallas",
-    description: "We are seeking compassionate new graduate LPNs to join our long-term care team. This role provides an excellent foundation for your nursing career with mentorship from experienced nurses and a manageable patient assignment to support your transition from student to professional nurse.",
-    requirements: ["Current LPN/LVN license in Texas", "BLS certification", "Genuine passion for geriatric care"],
-    qualifications: ["Graduate of accredited LPN/LVN program", "NCLEX-PN passed", "Long-term care clinical experience preferred"],
-    responsibilities: ["Provide direct nursing care to residents", "Administer medications and treatments", "Perform wound care and assessments", "Communicate with families about resident care", "Supervise CNAs and delegate tasks appropriately"],
-    location: "Dallas, TX",
-    state: "Texas",
-    country: "US",
-    profession: "Licensed Practical Nurse",
-    specialty: "Long-Term Care",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 48000,
-    salaryMax: 56000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Sunrise Senior Living",
-    employerDescription: "Sunrise Senior Living is a leading provider of senior care services, committed to championing the quality of life for all seniors.",
-    benefits: ["Health insurance", "Dental and vision coverage", "Paid training period", "Career advancement opportunities", "Flexible scheduling"],
-    featured: false,
-  },
-  {
-    title: "Graduate Nurse — Pediatric Unit",
-    slug: "graduate-nurse-peds-seattle",
-    description: "Seattle Children's Hospital is hiring new graduate RNs for our inpatient pediatric unit. Work alongside a dedicated team caring for children from infancy through adolescence. Our renowned nurse residency program includes simulation labs, classroom education, and one-on-one preceptorship.",
-    requirements: ["Washington state RN license or compact license", "BLS and PALS certification", "Pediatric clinical rotation experience"],
-    qualifications: ["BSN from accredited nursing program", "NCLEX-RN passed", "Pediatric nursing interest demonstrated through clinical or volunteer work"],
-    responsibilities: ["Assess and care for pediatric patients ages 0-18", "Administer age-appropriate medications", "Provide family-centered care and education", "Monitor vital signs and growth parameters", "Collaborate with pediatric specialists"],
-    location: "Seattle, WA",
-    state: "Washington",
-    country: "US",
-    profession: "Registered Nurse",
-    specialty: "Pediatrics",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 75000,
-    salaryMax: 90000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Seattle Children's Hospital",
-    employerDescription: "Seattle Children's is one of the nation's top children's hospitals, offering hope, care, and cures to help every child live the healthiest and most fulfilling life possible.",
-    benefits: ["Nurse residency program", "Tuition assistance", "Comprehensive health benefits", "Employee assistance program", "Public transit subsidy"],
-    featured: true,
-  },
-  {
-    title: "New Grad RN — ICU Residency Program",
-    slug: "new-grad-rn-icu-residency-houston",
-    description: "Houston Methodist is offering an intensive 6-month ICU nurse residency for new graduates. This program combines didactic learning with hands-on clinical experience in our state-of-the-art critical care units. Ideal for new grads who are eager to develop advanced assessment and critical care skills.",
-    requirements: ["Texas RN license", "BLS certification", "ACLS within 6 months of hire", "Strong academic record (GPA 3.0+)"],
-    qualifications: ["BSN required", "NCLEX-RN passed", "Critical care clinical rotation preferred"],
-    responsibilities: ["Manage critically ill patients with complex care needs", "Monitor hemodynamic status and ventilator settings", "Administer vasoactive drips and titrate to parameters", "Perform head-to-toe assessments every 2 hours", "Participate in code blue responses"],
-    location: "Houston, TX",
-    state: "Texas",
-    country: "US",
-    profession: "Registered Nurse",
-    specialty: "Intensive Care Unit",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 70000,
-    salaryMax: 88000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Houston Methodist Hospital",
-    employerDescription: "Houston Methodist is a leading academic medical center recognized for excellence in patient care, research, and education.",
-    benefits: ["$10,000 sign-on bonus", "Relocation assistance", "Certification bonus pay", "Retirement plan with match", "On-site childcare"],
-    featured: true,
-  },
-  {
-    title: "New Graduate NP — Family Practice",
-    slug: "new-grad-np-family-practice-denver",
-    description: "Seeking a newly graduated Family Nurse Practitioner to join our thriving primary care practice. This is an excellent opportunity to build your patient panel with mentorship from experienced providers. We offer a collaborative practice model with physician support and a gradual ramp-up schedule.",
-    requirements: ["Colorado NP license or eligible", "DEA license", "National certification (AANP or ANCC)", "BLS certification"],
-    qualifications: ["MSN or DNP with FNP specialization", "500+ clinical hours completed", "EMR proficiency"],
-    responsibilities: ["Conduct comprehensive health assessments", "Diagnose and manage acute and chronic conditions", "Prescribe medications and order diagnostic tests", "Provide patient education and health promotion", "Manage a panel of 12-15 patients per day"],
-    location: "Denver, CO",
-    state: "Colorado",
-    country: "US",
-    profession: "Nurse Practitioner",
-    specialty: "Family Practice",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 95000,
-    salaryMax: 115000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Rocky Mountain Health Partners",
-    employerDescription: "Rocky Mountain Health Partners is a physician-owned multi-specialty group committed to providing accessible, high-quality healthcare to the Denver metro community.",
-    benefits: ["Malpractice insurance", "CME allowance", "Student loan repayment program", "Health/dental/vision", "Generous PTO"],
-    featured: false,
-  },
-  {
-    title: "Entry Level Respiratory Therapist",
-    slug: "entry-level-respiratory-therapist-phoenix",
-    description: "Join our respiratory care team at Banner Health. This position is ideal for new graduates who want to develop expertise across multiple care settings including the ED, ICU, and general medical floors. Our mentorship program pairs you with experienced RTs for your first 90 days.",
-    requirements: ["Arizona RT license", "RRT credential or CRT with RRT eligible", "BLS and ACLS certification"],
-    qualifications: ["Associate or Bachelor's degree in Respiratory Therapy", "Graduate of CoARC-accredited program", "Clinical rotation experience in acute care"],
-    responsibilities: ["Administer oxygen therapy and aerosol treatments", "Manage mechanical ventilation", "Perform ABG analysis and pulmonary function tests", "Respond to rapid responses and code blues", "Educate patients on inhaler technique and respiratory care"],
-    location: "Phoenix, AZ",
-    state: "Arizona",
-    country: "US",
-    profession: "Respiratory Therapist",
-    specialty: "Acute Care",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 55000,
-    salaryMax: 68000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Banner Health",
-    employerDescription: "Banner Health is one of the largest nonprofit healthcare systems in the country, operating 30 hospitals and numerous specialized facilities across six states.",
-    benefits: ["Comprehensive benefits on day one", "Education reimbursement", "Career ladder program", "Employee discount programs"],
-    featured: false,
-  },
-  {
-    title: "New Grad RN — Labor and Delivery",
-    slug: "new-grad-rn-labor-delivery-atlanta",
-    description: "Emory Healthcare is seeking passionate new graduate RNs for our Labor and Delivery unit. Experience the joy of helping families welcome new members while developing expertise in maternal-fetal nursing. Our structured orientation program includes classroom education, simulation, and clinical mentorship.",
-    requirements: ["Georgia RN license", "BLS and NRP certification", "Willingness to work 12-hour shifts"],
-    qualifications: ["BSN preferred", "NCLEX-RN passed", "OB/L&D clinical rotation experience preferred"],
-    responsibilities: ["Care for laboring patients through all stages", "Monitor fetal heart rate tracings", "Assist with cesarean sections and vaginal deliveries", "Provide postpartum care and breastfeeding support", "Administer oxytocin and magnesium sulfate per protocol"],
-    location: "Atlanta, GA",
-    state: "Georgia",
-    country: "US",
-    profession: "Registered Nurse",
-    specialty: "Labor and Delivery",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 65000,
-    salaryMax: 78000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Emory Healthcare",
-    employerDescription: "Emory Healthcare is Georgia's most comprehensive academic health system, committed to providing the best care for our patients and training the next generation of healthcare professionals.",
-    benefits: ["New grad residency", "Tuition reimbursement", "Retirement savings plan", "Wellness programs", "Employee assistance program"],
-    featured: false,
-  },
-  {
-    title: "Graduate Nurse — Oncology Unit",
-    slug: "graduate-nurse-oncology-nyc",
-    description: "Memorial Sloan Kettering Cancer Center is looking for dedicated new graduate RNs to join our inpatient oncology nursing team. Work at the forefront of cancer care while developing specialized skills in chemotherapy administration, symptom management, and compassionate end-of-life care.",
-    requirements: ["New York state RN license", "BLS certification", "ONS/ONCC Chemotherapy Biotherapy Certificate within 6 months"],
-    qualifications: ["BSN required", "NCLEX-RN passed", "Oncology clinical experience a plus"],
-    responsibilities: ["Administer chemotherapy and biotherapy agents", "Manage symptoms including pain, nausea, and neutropenic fever", "Provide psychosocial support to patients and families", "Monitor lab values and report critical findings", "Coordinate with oncologists, pharmacists, and social workers"],
-    location: "New York, NY",
-    state: "New York",
-    country: "US",
-    profession: "Registered Nurse",
-    specialty: "Oncology",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 85000,
-    salaryMax: 98000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Memorial Sloan Kettering Cancer Center",
-    employerDescription: "Memorial Sloan Kettering Cancer Center is the world's oldest and largest private cancer center, devoted to patient care, research, and educational programs.",
-    benefits: ["Competitive NYC salary", "Comprehensive medical benefits", "Retirement plan", "Professional development", "Transit benefits"],
-    featured: true,
-  },
-  {
-    title: "New Graduate Medical Lab Technician",
-    slug: "new-grad-mlt-lab-technician-minneapolis",
-    description: "Mayo Clinic is seeking new graduate Medical Lab Technicians to join our clinical laboratory team. You'll gain experience across multiple departments including hematology, chemistry, microbiology, and blood bank. Our comprehensive training program ensures you're confident in all testing platforms.",
-    requirements: ["ASCP certification or eligible", "State licensure if required", "Ability to work rotating shifts"],
-    qualifications: ["Associate or Bachelor's degree in Medical Laboratory Technology", "Clinical rotation experience in a hospital lab", "Knowledge of quality control procedures"],
-    responsibilities: ["Perform routine and specialized lab testing", "Operate and maintain laboratory instruments", "Review and release test results", "Troubleshoot instrument and quality control issues", "Follow all safety and compliance protocols"],
-    location: "Minneapolis, MN",
-    state: "Minnesota",
-    country: "US",
-    profession: "Medical Lab Technician",
-    specialty: "Clinical Laboratory",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 50000,
-    salaryMax: 62000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Mayo Clinic",
-    employerDescription: "Mayo Clinic is a nonprofit academic medical center focused on integrated clinical practice, education, and research, providing expertise and answers to patients worldwide.",
-    benefits: ["Comprehensive benefits package", "Continuing education support", "Relocation assistance", "Employee wellness center", "Retirement savings plan"],
-    featured: false,
-  },
-  {
-    title: "New Grad RN — Cardiac Telemetry",
-    slug: "new-grad-rn-cardiac-telemetry-la",
-    description: "Cedars-Sinai Medical Center invites new graduate RNs to apply for our cardiac telemetry unit. You'll develop expertise in cardiac monitoring, rhythm interpretation, and management of patients with heart failure, arrhythmias, and post-cardiac procedure care.",
-    requirements: ["California RN license", "BLS certification", "ACLS within 90 days of hire"],
-    qualifications: ["BSN preferred", "NCLEX-RN passed", "Cardiac clinical rotation experience beneficial"],
-    responsibilities: ["Monitor and interpret cardiac rhythms", "Care for patients with heart failure, MI, and arrhythmias", "Administer cardiac medications and titrate drips", "Perform cardiac assessments and 12-lead ECGs", "Educate patients on heart-healthy lifestyle modifications"],
-    location: "Los Angeles, CA",
-    state: "California",
-    country: "US",
-    profession: "Registered Nurse",
-    specialty: "Cardiac Telemetry",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 82000,
-    salaryMax: 96000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Cedars-Sinai Medical Center",
-    employerDescription: "Cedars-Sinai Medical Center is a nonprofit academic healthcare organization and one of the largest hospitals in the western United States.",
-    benefits: ["Nurse residency program", "Sign-on bonus", "Tuition assistance", "Comprehensive benefits", "Employee housing assistance"],
-    featured: false,
-  },
-  {
-    title: "Entry Level Nurse Practitioner — Urgent Care",
-    slug: "entry-level-np-urgent-care-miami",
-    description: "Fast-paced urgent care practice seeking a newly graduated Nurse Practitioner. Ideal for NPs who thrive in a dynamic environment treating a variety of acute conditions. Collaborative physician support available at all times with a focus on professional growth.",
-    requirements: ["Florida APRN license", "National certification (AANP or ANCC)", "DEA license", "BLS certification"],
-    qualifications: ["MSN or DNP with FNP or ACNP specialization", "Completed required clinical hours", "Experience with minor procedures a plus"],
-    responsibilities: ["Evaluate and treat patients with acute illnesses and injuries", "Order and interpret diagnostic tests", "Perform minor procedures (laceration repair, splinting, I&D)", "Prescribe medications appropriately", "Manage 20-25 patients per shift"],
-    location: "Miami, FL",
-    state: "Florida",
-    country: "US",
-    profession: "Nurse Practitioner",
-    specialty: "Urgent Care",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 100000,
-    salaryMax: 120000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "CareSpot Urgent Care",
-    employerDescription: "CareSpot provides convenient, quality healthcare services to communities across Florida with a focus on patient satisfaction and clinical excellence.",
-    benefits: ["Competitive salary plus productivity bonus", "Malpractice coverage", "CME allowance", "Health/dental/vision insurance", "Flexible scheduling"],
-    featured: false,
-  },
-  {
-    title: "New Graduate RN — Psychiatric/Mental Health",
-    slug: "new-grad-rn-psych-mental-health-portland",
-    description: "Providence Health is hiring new graduate RNs for our inpatient psychiatric unit. If you're passionate about mental health nursing, this is your opportunity to develop specialized skills in therapeutic communication, de-escalation techniques, and psychiatric medication management.",
-    requirements: ["Oregon RN license", "BLS certification", "CPI or equivalent de-escalation training (can obtain during orientation)"],
-    qualifications: ["BSN or ADN from accredited program", "NCLEX-RN passed", "Mental health clinical rotation experience"],
-    responsibilities: ["Conduct psychiatric assessments and safety screenings", "Administer psychotropic medications and monitor effects", "Facilitate therapeutic groups and activities", "Implement behavior management plans", "Coordinate discharge planning with community resources"],
-    location: "Portland, OR",
-    state: "Oregon",
-    country: "US",
-    profession: "Registered Nurse",
-    specialty: "Psychiatric/Mental Health",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 70000,
-    salaryMax: 83000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Providence Health & Services",
-    employerDescription: "Providence is a not-for-profit Catholic health care system operating across seven states, committed to serving all people with compassion.",
-    benefits: ["Sign-on bonus available", "Comprehensive benefits", "Education assistance", "Employee assistance program", "Retirement plan"],
-    featured: false,
-  },
-  {
-    title: "New Grad RN — NICU",
-    slug: "new-grad-rn-nicu-philadelphia",
-    description: "Children's Hospital of Philadelphia (CHOP) is looking for compassionate new graduate RNs for our Level IV NICU. Care for the most vulnerable patients — premature and critically ill newborns — while developing specialized neonatal nursing skills through our comprehensive residency program.",
-    requirements: ["Pennsylvania RN license", "BLS and NRP certification", "Commitment to 12-month residency program"],
-    qualifications: ["BSN required", "NCLEX-RN passed", "NICU or newborn nursery clinical rotation experience"],
-    responsibilities: ["Provide direct care to neonates from 22 weeks gestation", "Monitor vital signs and respiratory support devices", "Administer IV medications and TPN", "Support families through the NICU journey", "Participate in multidisciplinary rounds"],
-    location: "Philadelphia, PA",
-    state: "Pennsylvania",
-    country: "US",
-    profession: "Registered Nurse",
-    specialty: "Neonatal ICU",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 72000,
-    salaryMax: 86000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Children's Hospital of Philadelphia",
-    employerDescription: "CHOP is the nation's first hospital devoted exclusively to the care of children and is consistently ranked as one of the best children's hospitals in the world.",
-    benefits: ["Nurse residency program", "Tuition forgiveness", "Comprehensive health benefits", "Child care assistance", "Public transit subsidy"],
-    featured: false,
-  },
-  {
-    title: "New Graduate RPN — Community Health",
-    slug: "new-grad-rpn-community-health-toronto",
-    description: "Sunnybrook Health Sciences Centre is seeking new graduate Registered Practical Nurses for our community health programs. This role offers diverse experience in home visits, chronic disease management, and health promotion in the Greater Toronto Area.",
-    requirements: ["Current CNO registration as RPN", "BLS certification", "Valid driver's license and reliable vehicle"],
-    qualifications: ["Graduate of accredited Practical Nursing program", "REx-PN passed", "Community health placement experience preferred"],
-    responsibilities: ["Conduct home visits for chronically ill patients", "Perform assessments and wound care", "Administer medications including insulin and injections", "Educate patients on disease self-management", "Collaborate with community health team members"],
-    location: "Toronto, ON",
-    state: "Ontario",
-    country: "Canada",
-    profession: "Registered Practical Nurse",
-    specialty: "Community Health",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 52000,
-    salaryMax: 60000,
-    salaryCurrency: "CAD",
-    salaryPeriod: "year",
-    employer: "Sunnybrook Health Sciences Centre",
-    employerDescription: "Sunnybrook is a fully affiliated teaching hospital of the University of Toronto, pioneering research and education to improve the lives of people in our community and beyond.",
-    benefits: ["HOOPP pension plan", "Extended health benefits", "Professional development funding", "Paid vacation", "Employee wellness program"],
-    featured: false,
-  },
-  {
-    title: "New Grad Occupational Therapist",
-    slug: "new-grad-occupational-therapist-san-francisco",
-    description: "UCSF Medical Center is hiring a new graduate Occupational Therapist to join our rehabilitation team. Work with diverse patient populations including stroke, traumatic brain injury, and orthopedic rehabilitation. Our mentorship program supports your transition into clinical practice.",
-    requirements: ["California OT license or eligible", "NBCOT certification", "BLS certification"],
-    qualifications: ["Master's or Doctoral degree in Occupational Therapy", "Clinical fieldwork completed in acute care or rehab setting"],
-    responsibilities: ["Evaluate patients' functional abilities and limitations", "Develop and implement individualized treatment plans", "Provide training in activities of daily living", "Fabricate custom splints and recommend adaptive equipment", "Document patient progress and participate in team conferences"],
-    location: "San Francisco, CA",
-    state: "California",
-    country: "US",
-    profession: "Occupational Therapist",
-    specialty: "Acute Rehabilitation",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 80000,
-    salaryMax: 95000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "UCSF Medical Center",
-    employerDescription: "UCSF Medical Center is consistently ranked among the top 10 hospitals in the nation, combining advanced medical care with cutting-edge research.",
-    benefits: ["UC benefits package", "Retirement plan", "Tuition remission", "Housing assistance", "Professional development"],
-    featured: false,
-  },
-  {
-    title: "Entry Level Physical Therapist",
-    slug: "entry-level-physical-therapist-nashville",
-    description: "Vanderbilt University Medical Center is seeking an entry-level Physical Therapist for our outpatient orthopedic clinic. Great opportunity for new DPT graduates to develop clinical skills in musculoskeletal evaluation and treatment with mentorship from board-certified specialists.",
-    requirements: ["Tennessee PT license or eligible", "BLS certification", "DPT degree from accredited program"],
-    qualifications: ["Doctor of Physical Therapy degree", "NPTE passed", "Orthopedic clinical affiliation preferred"],
-    responsibilities: ["Perform comprehensive musculoskeletal evaluations", "Develop evidence-based treatment plans", "Provide manual therapy and therapeutic exercise prescription", "Educate patients on injury prevention and home programs", "Maintain productivity standards while delivering quality care"],
-    location: "Nashville, TN",
-    state: "Tennessee",
-    country: "US",
-    profession: "Physical Therapist",
-    specialty: "Outpatient Orthopedics",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 68000,
-    salaryMax: 82000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Vanderbilt University Medical Center",
-    employerDescription: "Vanderbilt University Medical Center is a comprehensive academic medical center known for its innovative approach to patient care, research, and education.",
-    benefits: ["Health/dental/vision insurance", "Retirement plan with match", "CME allowance", "Student loan repayment assistance", "Relocation assistance"],
-    featured: false,
-  },
-  {
-    title: "New Grad RN — Operating Room",
-    slug: "new-grad-rn-operating-room-san-diego",
-    description: "Scripps Health offers a 6-month Perioperative Nurse Residency for new graduates interested in surgical nursing. Learn circulating and scrub roles across multiple surgical specialties. This competitive program prepares you for a rewarding career in the operating room.",
-    requirements: ["California RN license", "BLS certification", "CNOR certification encouraged within 2 years"],
-    qualifications: ["BSN preferred", "NCLEX-RN passed", "Perioperative clinical or observation experience a plus"],
-    responsibilities: ["Circulate and scrub for surgical procedures", "Maintain sterile technique and OR safety standards", "Prepare operating rooms with proper instruments and supplies", "Monitor patients during procedures", "Count instruments, needles, and sponges per protocol"],
-    location: "San Diego, CA",
-    state: "California",
-    country: "US",
-    profession: "Registered Nurse",
-    specialty: "Operating Room",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 78000,
-    salaryMax: 92000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Scripps Health",
-    employerDescription: "Scripps Health is a nonprofit integrated health system that is consistently ranked among the nation's best in quality, safety, and patient satisfaction.",
-    benefits: ["Perioperative residency program", "Comprehensive benefits", "Education reimbursement", "Retirement plan", "Employee wellness program"],
-    featured: false,
-  },
-  {
-    title: "New Graduate RN — Home Health",
-    slug: "new-grad-rn-home-health-raleigh",
-    description: "UNC Health is seeking new graduate RNs for our expanding home health program. Enjoy the autonomy of one-on-one patient care while building strong clinical assessment skills. Ideal for nurses who value independence and patient relationships.",
-    requirements: ["North Carolina RN license", "BLS certification", "Valid driver's license and reliable transportation", "Comfortable with independent practice"],
-    qualifications: ["BSN or ADN from accredited program", "NCLEX-RN passed", "Home health or community nursing clinical rotation preferred"],
-    responsibilities: ["Conduct comprehensive home visits and assessments", "Develop and implement care plans", "Perform wound care, IV therapy, and medication management", "Coordinate with physicians and other home health team members", "Document care using point-of-care technology"],
-    location: "Raleigh, NC",
-    state: "North Carolina",
-    country: "US",
-    profession: "Registered Nurse",
-    specialty: "Home Health",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 62000,
-    salaryMax: 74000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "UNC Health",
-    employerDescription: "UNC Health is a state-owned, not-for-profit integrated healthcare system affiliated with the University of North Carolina at Chapel Hill School of Medicine.",
-    benefits: ["State employee benefits", "Retirement plan", "Mileage reimbursement", "Flexible scheduling", "Professional development"],
-    featured: false,
-  },
-  {
-    title: "New Grad Paramedic — EMS",
-    slug: "new-grad-paramedic-ems-austin",
-    description: "Austin-Travis County EMS is hiring new graduate paramedics for our award-winning emergency medical services system. Join one of the busiest and most progressive EMS systems in the country with a comprehensive field training program and ongoing education opportunities.",
-    requirements: ["Texas paramedic certification", "NREMT-P certification", "Valid driver's license", "BLS, ACLS, PALS, and PHTLS certification"],
-    qualifications: ["Graduate of accredited paramedic program", "Associate degree or higher preferred", "Field internship completed"],
-    responsibilities: ["Respond to 911 calls and provide advanced life support", "Perform patient assessments and clinical decision-making", "Administer medications and perform advanced procedures", "Operate emergency vehicles safely", "Complete accurate patient care reports"],
-    location: "Austin, TX",
-    state: "Texas",
-    country: "US",
-    profession: "Paramedic",
-    specialty: "Emergency Medical Services",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 52000,
-    salaryMax: 64000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Austin-Travis County EMS",
-    employerDescription: "ATCEMS is a nationally recognized, high-performance EMS system serving over 1.2 million residents in the Austin metropolitan area.",
-    benefits: ["City of Austin benefits", "Pension plan", "Paid continuing education", "Overtime opportunities", "Wellness program"],
-    featured: false,
-  },
-  {
-    title: "New Grad RN — Rehabilitation Unit",
-    slug: "new-grad-rn-rehab-unit-pittsburgh",
-    description: "UPMC is seeking new graduate RNs for our inpatient rehabilitation unit. Care for patients recovering from stroke, spinal cord injury, traumatic brain injury, and orthopedic conditions. Develop expertise in functional restoration and interdisciplinary team collaboration.",
-    requirements: ["Pennsylvania RN license", "BLS certification", "CRRN certification encouraged within 2 years"],
-    qualifications: ["BSN or ADN from accredited program", "NCLEX-RN passed", "Rehab or neuro clinical rotation experience preferred"],
-    responsibilities: ["Provide comprehensive nursing care to rehabilitation patients", "Assess functional progress and modify care plans", "Administer medications and manage bowel/bladder programs", "Coordinate with PT, OT, SLP, and other team members", "Educate patients and families on self-care techniques"],
-    location: "Pittsburgh, PA",
-    state: "Pennsylvania",
-    country: "US",
-    profession: "Registered Nurse",
-    specialty: "Rehabilitation",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 62000,
-    salaryMax: 75000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "UPMC",
-    employerDescription: "UPMC is a world-renowned healthcare provider and insurer headquartered in Pittsburgh, with a network of 40+ hospitals and 800+ outpatient sites.",
-    benefits: ["Nurse residency program", "Tuition assistance", "Comprehensive health benefits", "Retirement plan", "Employee discounts"],
-    featured: false,
-  },
-  {
-    title: "New Graduate RN — Public Health",
-    slug: "new-grad-rn-public-health-vancouver",
-    description: "Vancouver Coastal Health is hiring new graduate RNs for community public health nursing positions. This role involves immunization clinics, well-baby visits, communicable disease follow-up, and health promotion in diverse communities across Vancouver.",
-    requirements: ["BCCNM registration as RN", "BLS certification", "Canadian immunization competency certification", "Valid BC driver's license"],
-    qualifications: ["BSN from accredited Canadian nursing program", "NCLEX-RN passed", "Public health or community nursing practicum experience"],
-    responsibilities: ["Conduct well-baby clinics and developmental assessments", "Administer routine and catch-up immunizations", "Provide postpartum home visits", "Participate in communicable disease surveillance", "Deliver health education programs in community settings"],
-    location: "Vancouver, BC",
-    state: "British Columbia",
-    country: "Canada",
-    profession: "Registered Nurse",
-    specialty: "Public Health",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 68000,
-    salaryMax: 78000,
-    salaryCurrency: "CAD",
-    salaryPeriod: "year",
-    employer: "Vancouver Coastal Health",
-    employerDescription: "Vancouver Coastal Health is one of British Columbia's largest health authorities, providing care to 1.25 million people across Vancouver and surrounding communities.",
-    benefits: ["BC public sector pension", "Extended health and dental", "Professional development funding", "Paid vacation and sick leave", "Employee wellness support"],
-    featured: false,
-  },
-  {
-    title: "Entry Level Diagnostic Medical Sonographer",
-    slug: "entry-level-sonographer-charlotte",
-    description: "Atrium Health is seeking a new graduate Diagnostic Medical Sonographer. Perform ultrasound examinations across multiple specialties including abdominal, OB/GYN, and vascular. Our department values quality imaging and provides ongoing education opportunities.",
-    requirements: ["ARDMS certification or registry eligible", "BLS certification", "Ability to work rotating shifts"],
-    qualifications: ["Associate or Bachelor's degree in Diagnostic Medical Sonography", "CAAHEP or JRC-DMS accredited program graduate", "Clinical externship experience"],
-    responsibilities: ["Perform diagnostic ultrasound examinations", "Produce high-quality images for physician interpretation", "Recognize normal and abnormal sonographic findings", "Maintain ultrasound equipment and quality standards", "Communicate findings to radiologists and ordering providers"],
-    location: "Charlotte, NC",
-    state: "North Carolina",
-    country: "US",
-    profession: "Diagnostic Sonographer",
-    specialty: "General Sonography",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 58000,
-    salaryMax: 72000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "Atrium Health",
-    employerDescription: "Atrium Health is a nationally recognized leader in shaping health outcomes through innovative research, education, and compassionate patient care.",
-    benefits: ["Comprehensive benefits", "Education reimbursement", "Retirement plan with match", "Employee wellness programs", "Career advancement opportunities"],
-    featured: false,
-  },
-  {
-    title: "New Grad RN — Ambulatory Care / Clinic",
-    slug: "new-grad-rn-ambulatory-care-minneapolis",
-    description: "HealthPartners is seeking new graduate RNs for our outpatient clinic network. This is an ideal role for nurses who prefer a daytime schedule and enjoy building long-term patient relationships. Work across multiple specialties including primary care, cardiology, and endocrinology.",
-    requirements: ["Minnesota RN license", "BLS certification", "EMR proficiency"],
-    qualifications: ["BSN or ADN from accredited program", "NCLEX-RN passed", "Ambulatory care clinical rotation experience a plus"],
-    responsibilities: ["Triage patient phone calls and in-person visits", "Prepare patients for provider appointments", "Administer immunizations and medications", "Coordinate referrals and follow-up care", "Provide patient education on chronic disease management"],
-    location: "Minneapolis, MN",
-    state: "Minnesota",
-    country: "US",
-    profession: "Registered Nurse",
-    specialty: "Ambulatory Care",
-    experienceLevel: "entry_level",
-    employmentType: "full_time",
-    salaryMin: 60000,
-    salaryMax: 72000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "HealthPartners",
-    employerDescription: "HealthPartners is an integrated, nonprofit healthcare organization providing care, insurance, research, and education to improve health and well-being.",
-    benefits: ["Monday-Friday schedule", "No weekends or holidays", "Comprehensive benefits", "Retirement plan", "Continuing education support"],
-    featured: false,
-  },
-  {
-    title: "New Graduate RN — Stepdown / Progressive Care",
-    slug: "new-grad-rn-stepdown-progressive-care-dc",
-    description: "MedStar Georgetown University Hospital is hiring new graduate RNs for our Progressive Care Unit (PCU). Bridge the gap between med-surg and ICU nursing by caring for patients who require close monitoring but not full intensive care. Excellent stepping stone for nurses considering future ICU careers.",
-    requirements: ["DC or Maryland RN license", "BLS certification", "ACLS within 6 months of hire"],
-    qualifications: ["BSN required", "NCLEX-RN passed", "Telemetry or critical care clinical rotation experience preferred"],
-    responsibilities: ["Care for patients requiring continuous cardiac monitoring", "Manage post-surgical patients and those with complex medical conditions", "Administer IV medications including vasoactive drips", "Recognize and respond to clinical deterioration", "Collaborate with rapid response and ICU teams"],
-    location: "Washington, DC",
-    state: "District of Columbia",
-    country: "US",
-    profession: "Registered Nurse",
-    specialty: "Progressive Care / Stepdown",
-    experienceLevel: "new_grad",
-    employmentType: "full_time",
-    salaryMin: 72000,
-    salaryMax: 88000,
-    salaryCurrency: "USD",
-    salaryPeriod: "year",
-    employer: "MedStar Georgetown University Hospital",
-    employerDescription: "MedStar Georgetown is a not-for-profit, acute-care teaching and research hospital with a long tradition of medical excellence.",
-    benefits: ["Nurse residency program", "Tuition assistance", "Metro transit subsidy", "Comprehensive health benefits", "Sign-on bonus"],
-    featured: true,
-  },
-];
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
-export async function seedJobListings(): Promise<number> {
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS job_listings (
-      id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
-      title TEXT NOT NULL,
-      slug TEXT NOT NULL UNIQUE,
-      description TEXT NOT NULL,
-      requirements TEXT[] DEFAULT '{}',
-      qualifications TEXT[] DEFAULT '{}',
-      responsibilities TEXT[] DEFAULT '{}',
-      location TEXT NOT NULL,
-      state TEXT,
-      country TEXT DEFAULT 'US',
-      profession TEXT NOT NULL,
-      specialty TEXT,
-      experience_level TEXT NOT NULL DEFAULT 'new_grad',
-      employment_type TEXT DEFAULT 'full_time',
-      salary_min INTEGER,
-      salary_max INTEGER,
-      salary_currency TEXT DEFAULT 'USD',
-      salary_period TEXT DEFAULT 'year',
-      employer TEXT NOT NULL,
-      employer_description TEXT,
-      benefits TEXT[] DEFAULT '{}',
-      application_url TEXT,
-      status TEXT DEFAULT 'published',
-      featured BOOLEAN DEFAULT false,
-      posted_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-      expires_at TIMESTAMPTZ,
-      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-    )
-  `);
+/**
+ * ------------------------------
+ * PATH SETUP
+ * ------------------------------
+ */
 
-  const existing = await pool.query(`SELECT COUNT(*) as cnt FROM job_listings`);
-  if (parseInt(existing.rows[0].cnt) > 0) {
-    return parseInt(existing.rows[0].cnt);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const SERVER_DIR = path.resolve(__dirname, "../server");
+
+/**
+ * ------------------------------
+ * CONFIG
+ * ------------------------------
+ */
+
+function getThresholdKb(): number {
+  const arg = process.argv.find(a => a.startsWith("--threshold-kb="));
+  const val = arg?.split("=")[1];
+
+  if (!val) return 100;
+
+  const parsed = parseInt(val, 10);
+  if (isNaN(parsed) || parsed <= 0) {
+    console.warn(`Invalid threshold "${val}", defaulting to 100KB`);
+    return 100;
   }
 
-  let count = 0;
-  for (const job of JOB_SEED_DATA) {
-    try {
-      await pool.query(
-        `INSERT INTO job_listings (title, slug, description, requirements, qualifications, responsibilities, location, state, country, profession, specialty, experience_level, employment_type, salary_min, salary_max, salary_currency, salary_period, employer, employer_description, benefits, status, featured)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22)
-         ON CONFLICT (slug) DO NOTHING`,
-        [
-          job.title, job.slug, job.description,
-          job.requirements, job.qualifications, job.responsibilities,
-          job.location, job.state, job.country,
-          job.profession, job.specialty, job.experienceLevel,
-          job.employmentType, job.salaryMin, job.salaryMax,
-          job.salaryCurrency, job.salaryPeriod,
-          job.employer, job.employerDescription, job.benefits,
-          "published", job.featured,
-        ]
-      );
-      count++;
-    } catch (err: any) {
-      console.error(`[JobSeed] Error inserting ${job.slug}:`, err.message);
+  return parsed;
+}
+
+const THRESHOLD_KB = getThresholdKb();
+const THRESHOLD_BYTES = THRESHOLD_KB * 1024;
+
+/**
+ * ------------------------------
+ * FILTERS
+ * ------------------------------
+ */
+
+const EXCLUDE_PATTERNS: RegExp[] = [
+  /[\/\\]scripts[\/\\]/,
+  /[\/\\]seeds[\/\\]/,
+  /^seeds[\/\\]/,
+  /[\/\\]seed-data[\/\\]/,
+  /^seed-/,
+  /^__tests__[\/\\]/,
+  /^run-seed-/,
+  /^data[\/\\]/,
+  /-seed\./,
+  /-seed-/,
+];
+
+const ALLOWED_LARGE_IMPORTS = new Set<string>([
+  "storage", "./storage", "../storage",
+  "@shared/schema", "../shared/schema",
+  "seo-meta", "./seo-meta",
+  "../platform-resilience",
+  "./routes",
+]);
+
+/**
+ * ------------------------------
+ * REGEX
+ * ------------------------------
+ */
+
+const IMPORT_RE = /import\s+(?:type\s+)?[\s\S]*?\s+from\s+['"]([^'"]+)['"]/g;
+const REQUIRE_RE = /require\(['"]([^'"]+)['"]\)/g;
+
+/**
+ * ------------------------------
+ * HELPERS
+ * ------------------------------
+ */
+
+function shouldExclude(rel: string): boolean {
+  return EXCLUDE_PATTERNS.some(p => p.test(rel));
+}
+
+function getFiles(dir: string, base = ""): string[] {
+  const out: string[] = [];
+
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const rel = path.join(base, entry.name);
+
+    if (entry.isDirectory()) {
+      if (!shouldExclude(rel + "/")) {
+        out.push(...getFiles(path.join(dir, entry.name), rel));
+      }
+      continue;
+    }
+
+    if (entry.isFile() && /\.(ts|tsx)$/.test(entry.name) && !shouldExclude(rel)) {
+      out.push(rel);
     }
   }
 
-  return count;
+  return out;
 }
+
+function extractImports(content: string): string[] {
+  const out: string[] = [];
+  let m: RegExpExecArray | null;
+
+  while ((m = IMPORT_RE.exec(content))) out.push(m[1]);
+  while ((m = REQUIRE_RE.exec(content))) out.push(m[1]);
+
+  return out;
+}
+
+function resolveImport(fromFile: string, spec: string): string | null {
+  if (!spec.startsWith(".") && !spec.startsWith("/")) return null;
+
+  const baseDir = path.dirname(path.join(SERVER_DIR, fromFile));
+  const base = path.resolve(baseDir, spec);
+
+  const candidates = [
+    base,
+    `${base}.ts`,
+    `${base}.tsx`,
+    `${base}.js`,
+    `${base}.json`,
+    path.join(base, "index.ts"),
+    path.join(base, "index.tsx"),
+  ];
+
+  for (const c of candidates) {
+    if (fs.existsSync(c) && fs.statSync(c).isFile()) return c;
+  }
+
+  return null;
+}
+
+function getSize(file: string): number | null {
+  try {
+    return fs.statSync(file).size;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * ------------------------------
+ * MAIN
+ * ------------------------------
+ */
+
+function main() {
+  if (!fs.existsSync(SERVER_DIR)) {
+    console.error("Server directory not found");
+    process.exit(1);
+  }
+
+  const files = getFiles(SERVER_DIR);
+  const violations: any[] = [];
+
+  for (const file of files) {
+    const full = path.join(SERVER_DIR, file);
+
+    let content = "";
+    try {
+      content = fs.readFileSync(full, "utf-8");
+    } catch {
+      continue;
+    }
+
+    const imports = extractImports(content);
+
+    for (const spec of imports) {
+      if (ALLOWED_LARGE_IMPORTS.has(spec)) continue;
+
+      const resolved = resolveImport(file, spec);
+      if (!resolved) continue;
+
+      const size = getSize(resolved);
+      if (!size) continue;
+
+      if (size > THRESHOLD_BYTES) {
+        violations.push({
+          file,
+          spec,
+          resolved: path.relative(SERVER_DIR, resolved),
+          sizeKB: Math.round(size / 1024),
+        });
+      }
+    }
+  }
+
+  /**
+   * OUTPUT
+   */
+
+  if (violations.length > 0) {
+    console.error(`\nOversized imports (> ${THRESHOLD_KB}KB):\n`);
+
+    for (const v of violations) {
+      console.error(`• ${v.file}`);
+      console.error(`  → ${v.spec} (${v.sizeKB}KB)`);
+      console.error(`  → ${v.resolved}\n`);
+    }
+
+    process.exit(1);
+  }
+
+  console.log(`OK: No oversized imports. (${files.length} files scanned)`);
+  process.exit(0);
+}
+
+main();

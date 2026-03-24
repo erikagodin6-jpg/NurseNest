@@ -64,6 +64,12 @@ export function getClientIp(req: Request): string {
   return String(req.headers["x-forwarded-for"] || req.ip || "unknown").split(",")[0].trim();
 }
 
+function isLocalDevRequest(req: Request): boolean {
+  if ((process.env.NODE_ENV || "development") !== "development") return false;
+  const ip = getClientIp(req);
+  return ip === "127.0.0.1" || ip === "::1" || ip === "::ffff:127.0.0.1";
+}
+
 async function logAbuseEvent(
   userId: string | null,
   ip: string,
@@ -138,6 +144,11 @@ function isManuallyBlocked(key: string): { blocked: boolean; reason?: string } {
 }
 
 export function botDetectionMiddleware(req: Request, res: Response, next: NextFunction): void {
+  if (isLocalDevRequest(req)) {
+    next();
+    return;
+  }
+
   const ua = req.headers["user-agent"];
   const uaCheck = isSuspiciousUserAgent(ua);
 
@@ -172,6 +183,11 @@ export function botDetectionMiddleware(req: Request, res: Response, next: NextFu
 }
 
 export function abuseEscalationMiddleware(req: Request, res: Response, next: NextFunction): void {
+  if (isLocalDevRequest(req)) {
+    next();
+    return;
+  }
+
   const key = getTrackerKey(req);
   const ip = getClientIp(req);
   const userId = (req as any).authUser?.id || null;
@@ -281,6 +297,7 @@ export function createRateLimiter(
   return rateLimit({
     windowMs: preset.windowMs,
     max: preset.max,
+    skip: (req) => isLocalDevRequest(req),
     message: { error: preset.message },
     standardHeaders: true,
     legacyHeaders: false,

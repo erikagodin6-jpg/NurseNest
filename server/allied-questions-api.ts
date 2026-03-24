@@ -1,5 +1,15 @@
 import type { Express, Request, Response } from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware } from "./abuse-protection";
+import { importClientDataAbsolute } from "./client-data-import";
+
+const __dirnameAlliedApi = path.dirname(fileURLToPath(import.meta.url));
+
+/** Avoid string-literal paths under client/ so server `tsc` does not trace career-question modules. */
+function alliedCareerQuestionModule(stem: string): string {
+  return ["..", "client", "src", "data", "career-questions", stem].join("/");
+}
 
 function slugify(text: string): string {
   return text
@@ -22,124 +32,124 @@ const PROFESSIONS: ProfessionConfig[] = [
     key: "rrt",
     label: "Respiratory Therapy",
     examNames: "NBRC TMC/CSE, CSRT",
-    importPath: "../client/src/data/career-questions/rrt-questions",
+    importPath: alliedCareerQuestionModule("rrt-questions"),
     exportName: "rrtQuestions",
     additionalImports: [
-      { importPath: "../client/src/data/career-questions/rrt-questions-batch1", exportName: "rrtQuestionsBatch1" },
-      { importPath: "../client/src/data/career-questions/rrt-questions-batch2", exportName: "rrtQuestionsBatch2" },
-      { importPath: "../client/src/data/career-questions/rrt-questions-batch3", exportName: "rrtQuestionsBatch3" },
+      { importPath: alliedCareerQuestionModule("rrt-questions-batch1"), exportName: "rrtQuestionsBatch1" },
+      { importPath: alliedCareerQuestionModule("rrt-questions-batch2"), exportName: "rrtQuestionsBatch2" },
+      { importPath: alliedCareerQuestionModule("rrt-questions-batch3"), exportName: "rrtQuestionsBatch3" },
     ],
   },
   {
     key: "mlt",
     label: "Medical Laboratory Technology",
     examNames: "ASCP BOC, CSMLS CMLTO",
-    importPath: "../client/src/data/career-questions/mlt-questions",
+    importPath: alliedCareerQuestionModule("mlt-questions"),
     exportName: "mltQuestions",
     additionalImports: [
-      { importPath: "../client/src/data/career-questions/mlt-questions-batch2", exportName: "mltQuestionsBatch2" },
-      { importPath: "../client/src/data/career-questions/mlt-questions-expansion", exportName: "mltQuestionsExpansion" },
+      { importPath: alliedCareerQuestionModule("mlt-questions-batch2"), exportName: "mltQuestionsBatch2" },
+      { importPath: alliedCareerQuestionModule("mlt-questions-expansion"), exportName: "mltQuestionsExpansion" },
     ],
   },
   {
     key: "imaging",
     label: "Medical Imaging",
     examNames: "ARRT, CAMRT",
-    importPath: "../client/src/data/career-questions/imaging-questions",
+    importPath: alliedCareerQuestionModule("imaging-questions"),
     exportName: "imagingQuestions",
     additionalImports: [
-      { importPath: "../client/src/data/career-questions/imaging-questions-expansion", exportName: "imagingQuestionsExpansion" },
-      { importPath: "../client/src/data/career-questions/imaging-questions-expansion-2", exportName: "imagingQuestionsExpansion2" },
+      { importPath: alliedCareerQuestionModule("imaging-questions-expansion"), exportName: "imagingQuestionsExpansion" },
+      { importPath: alliedCareerQuestionModule("imaging-questions-expansion-2"), exportName: "imagingQuestionsExpansion2" },
     ],
   },
   {
     key: "occupationalTherapy",
     label: "Occupational Therapy Assistant",
     examNames: "NBCOT COTA",
-    importPath: "../client/src/data/career-questions/ota-questions",
+    importPath: alliedCareerQuestionModule("ota-questions"),
     exportName: "otaQuestions",
     additionalImports: [
-      { importPath: "../client/src/data/career-questions/ota-questions-expansion", exportName: "otaQuestionsExpansion" },
+      { importPath: alliedCareerQuestionModule("ota-questions-expansion"), exportName: "otaQuestionsExpansion" },
     ],
   },
   {
     key: "physicalTherapy",
     label: "Physical Therapy Assistant",
     examNames: "NPTE-PTA, FSBPT",
-    importPath: "../client/src/data/career-questions/pta-questions",
+    importPath: alliedCareerQuestionModule("pta-questions"),
     exportName: "ptaQuestions",
     additionalImports: [
-      { importPath: "../client/src/data/career-questions/pta-questions-expansion", exportName: "ptaQuestionsExpansion" },
+      { importPath: alliedCareerQuestionModule("pta-questions-expansion"), exportName: "ptaQuestionsExpansion" },
     ],
   },
   {
     key: "surgicalTechnologist",
     label: "Surgical Technologist",
     examNames: "CST, NBSTSA",
-    importPath: "../client/src/data/career-questions/surgical-technologist-questions",
+    importPath: alliedCareerQuestionModule("surgical-technologist-questions"),
     exportName: "surgicalTechnologistQuestions",
     additionalImports: [
-      { importPath: "../client/src/data/career-questions/surgical-technologist-questions-2", exportName: "surgicalTechnologistQuestionsPart2" },
-      { importPath: "../client/src/data/career-questions/surgical-technologist-questions-3", exportName: "surgicalTechnologistQuestionsPart3" },
-      { importPath: "../client/src/data/career-questions/surgical-technologist-questions-4", exportName: "surgicalTechnologistQuestionsPart4" },
-      { importPath: "../client/src/data/career-questions/surgical-technologist-questions-5", exportName: "surgicalTechnologistQuestionsPart5" },
-      { importPath: "../client/src/data/career-questions/surgical-technologist-questions-6", exportName: "surgicalTechnologistQuestionsPart6" },
-      { importPath: "../client/src/data/career-questions/surgical-technologist-questions-7", exportName: "surgicalTechnologistQuestionsPart7" },
+      { importPath: alliedCareerQuestionModule("surgical-technologist-questions-2"), exportName: "surgicalTechnologistQuestionsPart2" },
+      { importPath: alliedCareerQuestionModule("surgical-technologist-questions-3"), exportName: "surgicalTechnologistQuestionsPart3" },
+      { importPath: alliedCareerQuestionModule("surgical-technologist-questions-4"), exportName: "surgicalTechnologistQuestionsPart4" },
+      { importPath: alliedCareerQuestionModule("surgical-technologist-questions-5"), exportName: "surgicalTechnologistQuestionsPart5" },
+      { importPath: alliedCareerQuestionModule("surgical-technologist-questions-6"), exportName: "surgicalTechnologistQuestionsPart6" },
+      { importPath: alliedCareerQuestionModule("surgical-technologist-questions-7"), exportName: "surgicalTechnologistQuestionsPart7" },
     ],
   },
   {
     key: "healthInfoMgmt",
     label: "Health Information Management",
     examNames: "RHIT, RHIA, AHIMA",
-    importPath: "../client/src/data/career-questions/him-questions",
+    importPath: alliedCareerQuestionModule("him-questions"),
     exportName: "himQuestions",
     additionalImports: [
-      { importPath: "../client/src/data/career-questions/him-questions-batch2", exportName: "himQuestionsBatch2" },
+      { importPath: alliedCareerQuestionModule("him-questions-batch2"), exportName: "himQuestionsBatch2" },
     ],
   },
   {
     key: "diagnosticSonography",
     label: "Diagnostic Sonography",
     examNames: "ARDMS SPI, RDMS",
-    importPath: "../client/src/data/career-questions/sonography-questions",
+    importPath: alliedCareerQuestionModule("sonography-questions"),
     exportName: "sonographyQuestions",
     additionalImports: [
-      { importPath: "../client/src/data/career-questions/sonography-questions-batch2", exportName: "sonographyQuestionsBatch2" },
+      { importPath: alliedCareerQuestionModule("sonography-questions-batch2"), exportName: "sonographyQuestionsBatch2" },
     ],
   },
   {
     key: "cardiacSonographer",
     label: "Cardiac Sonography",
     examNames: "ARDMS RDCS, CCI RCS",
-    importPath: "../client/src/data/career-questions/cardiac-sonographer-questions",
+    importPath: alliedCareerQuestionModule("cardiac-sonographer-questions"),
     exportName: "cardiacSonographerQuestions",
     additionalImports: [
-      { importPath: "../client/src/data/career-questions/cardiac-sonographer-questions-batch2", exportName: "cardiacSonographerQuestionsBatch2" },
+      { importPath: alliedCareerQuestionModule("cardiac-sonographer-questions-batch2"), exportName: "cardiacSonographerQuestionsBatch2" },
     ],
   },
   {
     key: "paramedic",
     label: "Paramedic",
     examNames: "NREMT Paramedic",
-    importPath: "../client/src/data/career-questions/paramedic-questions",
+    importPath: alliedCareerQuestionModule("paramedic-questions"),
     exportName: "paramedicQuestions",
     additionalImports: [
-      { importPath: "../client/src/data/career-questions/paramedic-questions-expansion", exportName: "paramedicQuestionsExpansion" },
+      { importPath: alliedCareerQuestionModule("paramedic-questions-expansion"), exportName: "paramedicQuestionsExpansion" },
     ],
   },
   {
     key: "pharmacyTech",
     label: "Pharmacy Technician",
     examNames: "PTCB CPHT, ExCPT",
-    importPath: "../client/src/data/career-questions/pharmacy-tech-questions",
+    importPath: alliedCareerQuestionModule("pharmacy-tech-questions"),
     exportName: "pharmacyTechQuestions",
     additionalImports: [
-      { importPath: "../client/src/data/career-questions/pharmacy-tech-questions-batch2", exportName: "pharmacyTechQuestionsBatch2" },
-      { importPath: "../client/src/data/career-questions/pharmacy-tech-questions-batch3", exportName: "pharmacyTechQuestionsBatch3" },
-      { importPath: "../client/src/data/career-questions/pharmacy-tech-questions-batch4", exportName: "pharmacyTechQuestionsBatch4" },
-      { importPath: "../client/src/data/career-questions/pharmacy-tech-questions-extended", exportName: "pharmacyTechQuestionsExtended" },
-      { importPath: "../client/src/data/career-questions/pharmacy-tech-questions-pebc", exportName: "pharmacyTechQuestionsPEBC" },
-      { importPath: "../client/src/data/career-questions/pharmacy-tech-questions-expansion", exportName: "pharmacyTechQuestionsExpansion" },
+      { importPath: alliedCareerQuestionModule("pharmacy-tech-questions-batch2"), exportName: "pharmacyTechQuestionsBatch2" },
+      { importPath: alliedCareerQuestionModule("pharmacy-tech-questions-batch3"), exportName: "pharmacyTechQuestionsBatch3" },
+      { importPath: alliedCareerQuestionModule("pharmacy-tech-questions-batch4"), exportName: "pharmacyTechQuestionsBatch4" },
+      { importPath: alliedCareerQuestionModule("pharmacy-tech-questions-extended"), exportName: "pharmacyTechQuestionsExtended" },
+      { importPath: alliedCareerQuestionModule("pharmacy-tech-questions-pebc"), exportName: "pharmacyTechQuestionsPEBC" },
+      { importPath: alliedCareerQuestionModule("pharmacy-tech-questions-expansion"), exportName: "pharmacyTechQuestionsExpansion" },
     ],
   },
 ];
@@ -248,7 +258,8 @@ export function pruneAlliedCachesUnderPressure(): void {
 async function assembleBatches(batches: BatchRef[]): Promise<any[]> {
   const result: any[] = [];
   for (const batch of batches) {
-    const mod = await import(batch.importPath);
+    const abs = path.resolve(__dirnameAlliedApi, batch.importPath);
+    const mod = await importClientDataAbsolute(abs);
     const arr = mod[batch.exportName] as any[];
     result.push(...arr);
   }

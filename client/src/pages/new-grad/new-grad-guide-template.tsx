@@ -98,6 +98,13 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
   const faqs = Array.isArray(guide.faqs) ? guide.faqs : [];
   const relatedLinks = Array.isArray(guide.relatedLinks) ? guide.relatedLinks : [];
 
+  const displayTitle = guide.title?.trim() || "Guide";
+  const seoTitleSafe = guide.seoTitle?.trim() || displayTitle;
+  const seoDescriptionSafe =
+    guide.seoDescription?.trim() || guide.subtitle?.trim() || "New graduate nursing guide from NurseNest.";
+  const professionDisplay = guide.profession?.trim() || "New graduates";
+  const professionSlugSafe = guide.professionSlug?.trim() || "nursing";
+
   const tocItems: GuideTOCItem[] = sections.map(s => ({ id: s.id, title: s.title }));
   if (faqs.length > 0) {
     tocItems.push({ id: "faq", title: "Frequently Asked Questions" });
@@ -110,8 +117,8 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
   const articleStructuredData = {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": guide.seoTitle,
-    "description": guide.seoDescription,
+    "headline": seoTitleSafe,
+    "description": seoDescriptionSafe,
     "author": { "@type": "Organization", "name": "NurseNest" },
     "publisher": { "@type": "Organization", "name": "NurseNest", "url": "https://www.nursenest.ca" },
     "inLanguage": "en",
@@ -122,17 +129,17 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
   const breadcrumbItems = [
     { name: "Home", url: "https://www.nursenest.ca" },
     { name: "New Grad Hub", url: "https://www.nursenest.ca/new-grad" },
-    { name: guide.profession, url: `https://www.nursenest.ca/new-grad/${guide.professionSlug}` },
-    { name: guide.title, url: `https://www.nursenest.ca/${guide.slug}` },
+    { name: professionDisplay, url: `https://www.nursenest.ca/new-grad/${professionSlugSafe}` },
+    { name: displayTitle, url: `https://www.nursenest.ca/${guide.slug}` },
   ];
 
   return (
     <div data-testid={`guide-page-${guide.slug}`}>
       <Navigation />
       <SEO
-        title={guide.seoTitle}
-        description={guide.seoDescription}
-        keywords={guide.seoKeywords}
+        title={seoTitleSafe}
+        description={seoDescriptionSafe}
+        keywords={guide.seoKeywords?.trim() || displayTitle}
         canonicalPath={`/${guide.slug}`}
         structuredData={articleStructuredData}
         additionalStructuredData={faqStructuredData ? [faqStructuredData] : undefined}
@@ -146,9 +153,9 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
             <ChevronRight className="w-3 h-3" />
             <Link href="/new-grad" className="hover:text-blue-600">{t("pages.newGrad.newGradGuideTemplate.newGradHub")}</Link>
             <ChevronRight className="w-3 h-3" />
-            <Link href={`/new-grad/${guide.professionSlug}`} className="hover:text-blue-600">{guide.profession}</Link>
+            <Link href={`/new-grad/${professionSlugSafe}`} className="hover:text-blue-600">{professionDisplay}</Link>
             <ChevronRight className="w-3 h-3" />
-            <span className="text-gray-800 font-medium truncate">{guide.title}</span>
+            <span className="text-gray-800 font-medium truncate">{displayTitle}</span>
           </nav>
 
           <div className="flex flex-col lg:flex-row gap-8">
@@ -170,13 +177,13 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
                 </div>
 
                 <FlashcardCTA
-                  profession={guide.profession.toLowerCase()}
+                  profession={professionDisplay.toLowerCase()}
                   href={guide.flashcardHref || "/flashcards"}
                   variant="sidebar"
                 />
 
                 <PracticeQuestionCTA
-                  profession={guide.profession.toLowerCase()}
+                  profession={professionDisplay.toLowerCase()}
                   href={guide.questionBankHref || "/free-practice"}
                   variant="sidebar"
                 />
@@ -194,16 +201,16 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
               </div>
 
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4" data-testid="heading-title">
-                {guide.title}
+                {displayTitle}
               </h1>
 
               <p className="text-lg text-gray-600 mb-6 leading-relaxed" data-testid="text-subtitle">
-                {guide.subtitle}
+                {guide.subtitle?.trim() || ""}
               </p>
 
               <div className="flex items-center gap-4 text-sm text-gray-400 mb-8 pb-8 border-b border-gray-200">
                 <span className="flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5" /> {guide.author}
+                  <User className="w-3.5 h-3.5" /> {guide.author?.trim() || "NurseNest"}
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Calendar className="w-3.5 h-3.5" /> {guide.publishDate}
@@ -211,12 +218,17 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
               </div>
 
               {sections.map((section, i) => (
-                <section key={section.id} id={section.id} className="mb-10" data-testid={`section-${section.id}`}>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">{section.title}</h2>
-                  <p className="text-gray-700 leading-relaxed mb-4">{section.content}</p>
-                  {section.items && section.items.length > 0 && (
+                <section
+                  key={section.id || `section-${i}`}
+                  id={section.id || `section-${i}`}
+                  className="mb-10"
+                  data-testid={`section-${section.id || i}`}
+                >
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">{section.title?.trim() || "Section"}</h2>
+                  <p className="text-gray-700 leading-relaxed mb-4">{section.content?.trim() || ""}</p>
+                  {Array.isArray(section.items) && section.items.length > 0 && (
                     <ul className="space-y-2 pl-1">
-                      {section.items.map((item, j) => (
+                      {section.items.filter((item): item is string => typeof item === "string").map((item, j) => (
                         <li key={j} className="flex items-start gap-2 text-gray-700">
                           <List className="w-4 h-4 text-blue-500 shrink-0 mt-1" />
                           <span>{item}</span>
@@ -228,9 +240,9 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
                   {i === 1 && (
                     <div className="mt-6">
                       <ChecklistGate
-                        title={`Download Your ${guide.profession} Survival Checklist`}
+                        title={`Download Your ${professionDisplay} Survival Checklist`}
                         description={t("pages.newGrad.newGradGuideTemplate.getAPrintableDaybydayChecklist")}
-                        checklistName={`${guide.professionSlug}-guide-checklist`}
+                        checklistName={`${professionSlugSafe}-guide-checklist`}
                       />
                     </div>
                   )}
@@ -238,7 +250,7 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
                   {i === Math.floor(sections.length / 2) && (
                     <div className="mt-6">
                       <FlashcardCTA
-                        profession={guide.profession.toLowerCase()}
+                        profession={professionDisplay.toLowerCase()}
                         href={guide.flashcardHref || "/flashcards"}
                         variant="banner"
                       />
@@ -254,7 +266,12 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
                   </h2>
                   <div className="space-y-3">
                     {faqs.map((faq, i) => (
-                      <FAQItem key={i} question={faq.question} answer={faq.answer} index={i} />
+                      <FAQItem
+                        key={i}
+                        question={faq.question?.trim() || ""}
+                        answer={faq.answer?.trim() || ""}
+                        index={i}
+                      />
                     ))}
                   </div>
                 </section>
@@ -262,7 +279,7 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
 
               <div className="mb-12">
                 <PracticeQuestionCTA
-                  profession={guide.profession.toLowerCase()}
+                  profession={professionDisplay.toLowerCase()}
                   href={guide.questionBankHref || "/free-practice"}
                   variant="banner"
                 />
@@ -271,8 +288,8 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
               <AutoRelatedContent
                 slug={guide.slug}
                 contentType="new-grad-guide"
-                title={guide.title}
-                profession={guide.profession}
+                title={displayTitle}
+                profession={professionDisplay}
                 category={guide.type}
                 className="mb-12 pt-8 border-t border-gray-200"
                 sectionTitle="Related Lessons & Study Resources"
@@ -300,11 +317,11 @@ export function NewGradGuide({ guideData }: NewGradGuideProps) {
 
               <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 text-center" data-testid="section-bottom-cta">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{t("pages.newGrad.newGradGuideTemplate.readyToBuildYourCareer")}</h3>
-                <p className="text-gray-600 mb-4">Explore our complete {guide.profession.toLowerCase()} resource hub for more guides, exam prep, and career tools.</p>
+                <p className="text-gray-600 mb-4">Explore our complete {professionDisplay.toLowerCase()} resource hub for more guides, exam prep, and career tools.</p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Link href={`/new-grad/${guide.professionSlug}`}>
+                  <Link href={`/new-grad/${professionSlugSafe}`}>
                     <button className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors" data-testid="button-cta-hub">
-                      {guide.profession} Hub <ArrowRight className="w-4 h-4" />
+                      {professionDisplay} Hub <ArrowRight className="w-4 h-4" />
                     </button>
                   </Link>
                   <Link href="/pricing">

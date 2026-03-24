@@ -55,7 +55,11 @@ export const EXAM_ERROR_USER_MESSAGES: Record<string, { title: string; descripti
   [EXAM_FAILURE_CODES.EXAM_UNAVAILABLE_FOR_REGION]: { title: "Not Available in Your Region", description: "This exam is not available in your region. Please choose a different exam." },
   [EXAM_FAILURE_CODES.FEATURE_DISABLED]: { title: "Temporarily Disabled", description: "This feature is temporarily disabled for maintenance. Please try again later." },
   [EXAM_FAILURE_CODES.ASSEMBLY_CAPACITY]: { title: "Server Busy", description: "Too many exams are being prepared. Please wait a moment and try again." },
-  [EXAM_FAILURE_CODES.ZERO_VALID_ITEMS]: { title: "No Valid Questions", description: "No valid questions could be assembled for this exam. Please try a different configuration." },
+  [EXAM_FAILURE_CODES.ZERO_VALID_ITEMS]: {
+    title: "No questions in this pool yet",
+    description:
+      "This exam template does not have questions available right now. Try another mock exam, open practice questions, or browse lessons — then check back later.",
+  },
   [EXAM_FAILURE_CODES.REGION_UNAVAILABLE]: { title: "Not Available in Your Region", description: "This exam is not currently available in your region. Please choose a different exam." },
   [EXAM_FAILURE_CODES.UNKNOWN]: { title: "Unable to Start Exam", description: "An unexpected issue occurred. Please retry — if it persists, contact support." },
 };
@@ -99,6 +103,16 @@ export function classifyHttpError(status: number, body?: any): ClassifiedExamErr
       "ASSEMBLY_FAILED": EXAM_FAILURE_CODES.ASSEMBLY_FAILED,
       "INVALID_PAYLOAD": EXAM_FAILURE_CODES.INVALID_PAYLOAD,
       "ZERO_VALID_ITEMS": EXAM_FAILURE_CODES.ZERO_VALID_ITEMS,
+      // Standardized backend codes (exam-delivery / entitlements)
+      AUTH_REQUIRED: EXAM_FAILURE_CODES.ENTITLEMENT_FAILURE,
+      ENTITLEMENT_DENIED: EXAM_FAILURE_CODES.NOT_ENTITLED,
+      PREMIUM_REQUIRED: EXAM_FAILURE_CODES.SUBSCRIPTION_REQUIRED,
+      PAYWALL_PREMIUM_REQUIRED: EXAM_FAILURE_CODES.SUBSCRIPTION_REQUIRED,
+      EXAM_TEMPLATE_NOT_FOUND: EXAM_FAILURE_CODES.EXAM_NOT_FOUND,
+      QUESTION_POOL_EMPTY: EXAM_FAILURE_CODES.ZERO_VALID_ITEMS,
+      ATTEMPT_NOT_FOUND: EXAM_FAILURE_CODES.MISSING_SESSION,
+      EMPTY_QUESTION_SET: EXAM_FAILURE_CODES.QUESTION_BATCH_MISSING,
+      ASSEMBLY_CAPACITY_EXCEEDED: EXAM_FAILURE_CODES.ASSEMBLY_CAPACITY,
     };
     const mapped = codeMap[body.code];
     if (mapped) {

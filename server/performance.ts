@@ -1,6 +1,12 @@
 import type { Request, Response, NextFunction } from "express";
 import { pool } from "./storage";
-import { recordFailure, isCircuitOpen, isEmergencyMode } from "./platform-resilience";
+import { recordFailure, isEmergencyMode } from "./platform-resilience";
+
+/**
+ * ------------------------------
+ * TYPES
+ * ------------------------------
+ */
 
 interface RequestMetric {
   method: string;
@@ -13,29 +19,60 @@ interface RequestMetric {
   tier?: number;
 }
 
+/**
+ * ------------------------------
+ * RING BUFFER (METRICS)
+ * ------------------------------
+ */
+
 const RING_BUFFER_SIZE = 2000;
-const metricsBuffer: RequestMetric[] = [];
+const metricsBuffer: RequestMetric[] = new Array(RING_BUFFER_SIZE);
 let metricsHead = 0;
 let metricsCount = 0;
 
 function addMetric(metric: RequestMetric) {
-  if (metricsCount < RING_BUFFER_SIZE) {
-    metricsBuffer.push(metric);
-    metricsCount++;
-  } else {
-    metricsBuffer[metricsHead] = metric;
-  }
+  metricsBuffer[metricsHead] = metric;
   metricsHead = (metricsHead + 1) % RING_BUFFER_SIZE;
+  if (metricsCount < RING_BUFFER_SIZE) metricsCount++;
 }
 
 function getMetrics(): RequestMetric[] {
-  if (metricsCount < RING_BUFFER_SIZE) return metricsBuffer.slice();
   const result: RequestMetric[] = [];
-  for (let i = 0; i < RING_BUFFER_SIZE; i++) {
-    const idx = (metricsHead + i) % RING_BUFFER_SIZE;
-    result.push(metricsBuffer[idx]);
+  for (let i = 0; i < metricsCount; i++) {
+    const idx = (metricsHead - metricsCount + i + RING_BUFFER_SIZE) % RING_BUFFER_SIZE;
+    const m = metricsBuffer[idx];
+    if (m) result.push(m);
   }
   return result;
+}
+
+/**
+ * ------------------------------
+ * ROUTE TIERS
+ * ------------------------------
+ */
+
+const ROUTE_TIERS: Record<number, string[]> = {
+  1: [
+    "/api/login", "/api/auth", "/api/register",
+    "/api/entitlement", "/api/user/",
+    "/api/exam-sessions", "/api/cat-", "/api/mock-exam",
+    "/api/flashcard-review", "/api/sm2-review",
+  ],
+  2: [
+    "/api/lessons", "/api/dashboard", "/api/progress",
+    "/api/flashcard", "/api/notes",
+  ],
+};
+
+function getRouteTier(path: string): number {
+  for (const p of ROUTE_TIERS[1]) if (path.startsWith(p)) return 1;
+  for (const p of ROUTE_TIERS[2]) if (path.startsWith(p)) return 2;
+
+  if (path.startsWith("/api/admin")) return 3;
+  if (path.startsWith("/api/seo")) return 3;
+
+  return 2;
 }
 
 function getRoutePrefix(path: string): string {
@@ -43,55 +80,32 @@ function getRoutePrefix(path: string): string {
   return match ? match[1] : path.split("/").slice(0, 3).join("/");
 }
 
-const ROUTE_TIERS: Record<number, Set<string>> = {
-  1: new Set([
-    "/api/login", "/api/auth", "/api/register",
-    "/api/entitlement", "/api/user/",
-    "/api/exam-sessions", "/api/cat-", "/api/mock-exam",
-    "/api/flashcard-review", "/api/sm2-review", "/api/spaced-repetition",
-    "/api/downloads", "/api/digital-products",
-  ]),
-  2: new Set([
-    "/api/lessons", "/api/dashboard", "/api/progress",
-    "/api/user-progress", "/api/flashcard", "/api/notes",
-  ]),
-};
+/**
+ * ------------------------------
+ * LOAD MONITORING
+ * ------------------------------
+ */
 
-function getRouteTier(path: string): number {
-  for (const prefix of ROUTE_TIERS[1]) {
-    if (path.startsWith(prefix)) return 1;
-  }
-  for (const prefix of ROUTE_TIERS[2]) {
-    if (path.startsWith(prefix)) return 2;
-  }
-  if (path.startsWith("/api/admin/tester")) return 1;
-  if (path.startsWith("/api/admin")) return 3;
-  if (path.startsWith("/api/seo")) return 3;
-  if (path.startsWith("/api/analytics")) return 3;
-  if (path.startsWith("/api/content-growth")) return 3;
-  return 2;
-}
+let currentLoad: "normal" | "elevated" | "high" = "normal";
 
-let currentLoadLevel: "normal" | "elevated" | "high" = "normal";
-let loadCheckInterval: ReturnType<typeof setInterval> | null = null;
+function updateLoad() {
+  const recent = getMetrics().filter(m => Date.now() - m.timestamp < 10000);
+  const rps = recent.length / 10;
 
-function updateLoadLevel() {
-  const recentMs = 10000;
-  const now = Date.now();
-  const metrics = getMetrics();
-  const recent = metrics.filter(m => now - m.timestamp < recentMs);
-  const rps = recent.length / (recentMs / 1000);
-
-  if (rps > 100) currentLoadLevel = "high";
-  else if (rps > 50) currentLoadLevel = "elevated";
-  else currentLoadLevel = "normal";
+  if (rps > 100) currentLoad = "high";
+  else if (rps > 50) currentLoad = "elevated";
+  else currentLoad = "normal";
 }
 
 export function startLoadMonitoring() {
-  if (!loadCheckInterval) {
-    loadCheckInterval = setInterval(updateLoadLevel, 5000);
-  }
+  setInterval(updateLoad, 5000);
 }
+
+/**
+ * ------------------------------
+ * PERFORMANCE MIDDLEWARE
+ * ------------------------------
+ */
 
 export function performanceMiddleware() {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -101,29 +115,19 @@ export function performanceMiddleware() {
     const tier = getRouteTier(req.path);
 
     const emergency = isEmergencyMode();
-    if ((currentLoadLevel === "high" || emergency) && tier === 3) {
-      return res.status(503).json({
-        error: "Service temporarily unavailable due to high load",
-        retryAfter: 30,
-      });
+
+    if ((currentLoad === "high" || emergency) && tier === 3) {
+      return res.status(503).json({ error: "High load", retryAfter: 30 });
     }
-    if ((currentLoadLevel === "high" || emergency) && tier === 2 && req.method !== "GET") {
-      return res.status(503).json({
-        error: "Write operations temporarily unavailable for this endpoint",
-        retryAfter: 15,
-      });
-    }
-    if (currentLoadLevel === "elevated" && tier === 3 && req.method !== "GET") {
-      return res.status(503).json({
-        error: "Write operations temporarily unavailable for this endpoint",
-        retryAfter: 15,
-      });
+
+    if ((currentLoad === "high" || emergency) && tier === 2 && req.method !== "GET") {
+      return res.status(503).json({ error: "Write disabled", retryAfter: 15 });
     }
 
     const originalEnd = res.end;
+
     res.end = function (this: Response, ...args: any[]) {
       const duration = Date.now() - start;
-      const user = (req as any).authUser;
 
       addMetric({
         method: req.method,
@@ -132,15 +136,12 @@ export function performanceMiddleware() {
         statusCode: res.statusCode,
         durationMs: duration,
         timestamp: Date.now(),
-        userId: user?.id,
+        userId: (req as any).authUser?.id,
         tier,
       });
 
-      if (duration > 3000) {
-        console.error(`[PERF] SLOW REQUEST (${duration}ms) ${req.method} ${req.path} -> ${res.statusCode}`);
-      } else if (duration > 1000) {
-        console.warn(`[PERF] Slow request (${duration}ms) ${req.method} ${req.path} -> ${res.statusCode}`);
-      }
+      if (duration > 3000) console.error(`[SLOW] ${req.method} ${req.path} ${duration}ms`);
+      else if (duration > 1000) console.warn(`[WARN] ${req.method} ${req.path} ${duration}ms`);
 
       return originalEnd.apply(this, args as any);
     } as any;
@@ -149,387 +150,174 @@ export function performanceMiddleware() {
   };
 }
 
-interface SlowQueryEntry {
-  query: string;
-  durationMs: number;
-  timestamp: number;
+/**
+ * ------------------------------
+ * DB TIMING
+ * ------------------------------
+ */
+
+const slowQueries: any[] = [];
+
+/** Third argument: milliseconds, or `{ timeoutMs, label }` for statement timeout (label used in slow-query metadata when needed). */
+export type TimedQueryTimeout = number | { timeoutMs?: number; label?: string };
+
+function resolveTimedQueryTimeout(timeoutOrOpts?: TimedQueryTimeout): number {
+  if (timeoutOrOpts == null) return 5000;
+  if (typeof timeoutOrOpts === "number") return timeoutOrOpts;
+  return timeoutOrOpts.timeoutMs ?? 5000;
 }
 
-const slowQueryLog: SlowQueryEntry[] = [];
-const MAX_SLOW_QUERIES = 50;
-const SLOW_QUERY_THRESHOLD_MS = 500;
-
-export async function timedQuery(
-  queryText: string,
-  params?: any[],
-  options?: { timeoutMs?: number; label?: string }
-): Promise<any> {
-  const timeoutMs = options?.timeoutMs ?? 5000;
+export async function timedQuery(query: string, params?: any[], timeoutOrOpts?: TimedQueryTimeout) {
+  const timeout = resolveTimedQueryTimeout(timeoutOrOpts);
   const start = Date.now();
-
   const client = await pool.connect();
+
   try {
     await client.query("BEGIN");
-    await client.query(`SET LOCAL statement_timeout = '${timeoutMs}'`);
-    const result = await client.query(queryText, params);
+    await client.query(`SET LOCAL statement_timeout = '${timeout}'`);
+
+    const result = await client.query(query, params);
+
     await client.query("COMMIT");
+
     const duration = Date.now() - start;
 
-    if (duration > SLOW_QUERY_THRESHOLD_MS) {
-      const truncatedQuery = queryText.length > 200 ? queryText.substring(0, 200) + "..." : queryText;
-      slowQueryLog.unshift({ query: truncatedQuery, durationMs: duration, timestamp: Date.now() });
-      if (slowQueryLog.length > MAX_SLOW_QUERIES) slowQueryLog.length = MAX_SLOW_QUERIES;
+    if (duration > 500) {
+      slowQueries.unshift({ query: query.slice(0, 200), duration });
+      if (slowQueries.length > 50) slowQueries.pop();
 
-      console.warn(`[PERF] Slow DB query (${duration}ms)${options?.label ? ` [${options.label}]` : ""}: ${truncatedQuery}`);
-
-      if (duration > 3000) {
-        recordFailure("database");
-      }
+      if (duration > 3000) recordFailure("database");
     }
 
     return result;
+
   } catch (err: any) {
     await client.query("ROLLBACK").catch(() => {});
-    const duration = Date.now() - start;
-    if (err.message?.includes("statement timeout")) {
-      console.error(`[PERF] Query timeout (${timeoutMs}ms)${options?.label ? ` [${options.label}]` : ""}: ${queryText.substring(0, 150)}`);
-      recordFailure("database");
-    }
+    recordFailure("database");
     throw err;
   } finally {
     client.release();
   }
 }
 
-export function getSlowQueryLog(): SlowQueryEntry[] {
-  return slowQueryLog.slice(0, 100);
+export function getSlowQueryLog() {
+  return slowQueries.slice(0, 50);
 }
 
-interface CacheEntry<T> {
-  value: T;
-  expiresAt: number;
-  lastAccessed: number;
-  sizeBytes: number;
-}
+/**
+ * ------------------------------
+ * MEMORY CACHE
+ * ------------------------------
+ */
 
-const memoryCache = new Map<string, CacheEntry<any>>();
-const MEMORY_CACHE_MAX_ENTRIES = parseInt(process.env.MEMORY_CACHE_MAX || "0") || 200;
-const MEMORY_CACHE_MAX_BYTES = parseInt(process.env.MEMORY_CACHE_MAX_BYTES || "0") || 50 * 1024 * 1024;
-const MAX_SINGLE_ENTRY_BYTES = 512 * 1024;
-let cacheCleanupInterval: ReturnType<typeof setInterval> | null = null;
-let totalCacheBytes = 0;
-
-function estimateSize(value: any): number {
-  try {
-    const str = JSON.stringify(value);
-    return str ? str.length * 2 : 0;
-  } catch {
-    return 1024;
-  }
-}
-
-function evictLRU(): void {
-  if (memoryCache.size <= MEMORY_CACHE_MAX_ENTRIES && totalCacheBytes <= MEMORY_CACHE_MAX_BYTES) return;
-
-  const entries = Array.from(memoryCache.entries())
-    .sort((a, b) => a[1].lastAccessed - b[1].lastAccessed);
-
-  while (
-    (memoryCache.size > MEMORY_CACHE_MAX_ENTRIES || totalCacheBytes > MEMORY_CACHE_MAX_BYTES) &&
-    entries.length > 0
-  ) {
-    const [key, entry] = entries.shift()!;
-    totalCacheBytes -= entry.sizeBytes;
-    memoryCache.delete(key);
-  }
-
-  if (totalCacheBytes < 0) totalCacheBytes = 0;
-}
+const cache = new Map<string, any>();
+const MAX_ENTRIES = 200;
 
 export function cacheGet<T>(key: string): T | undefined {
-  const entry = memoryCache.get(key);
-  if (!entry) return undefined;
-  if (Date.now() > entry.expiresAt) {
-    totalCacheBytes -= entry.sizeBytes;
-    memoryCache.delete(key);
-    return undefined;
-  }
-  entry.lastAccessed = Date.now();
-  return entry.value;
-}
-
-export function cacheSet<T>(key: string, value: T, ttlSeconds: number): void {
-  const sizeBytes = estimateSize(value);
-
-  if (sizeBytes > MAX_SINGLE_ENTRY_BYTES) {
+  const entry = cache.get(key);
+  if (!entry) return;
+  if (Date.now() > entry.exp) {
+    cache.delete(key);
     return;
   }
+  entry.last = Date.now();
+  return entry.val;
+}
 
-  const existing = memoryCache.get(key);
-  if (existing) {
-    totalCacheBytes -= existing.sizeBytes;
+export function cacheSet<T>(key: string, val: T, ttl: number) {
+  if (cache.size >= MAX_ENTRIES) {
+    const oldest = Array.from(cache.entries()).sort((a, b) => a[1].last - b[1].last)[0];
+    if (oldest) cache.delete(oldest[0]);
   }
 
-  const now = Date.now();
-  memoryCache.set(key, { value, expiresAt: now + ttlSeconds * 1000, lastAccessed: now, sizeBytes });
-  totalCacheBytes += sizeBytes;
-  evictLRU();
+  cache.set(key, {
+    val,
+    exp: Date.now() + ttl * 1000,
+    last: Date.now(),
+  });
 }
 
-export function getCacheStats(): { size: number; maxEntries: number; totalBytes: number; maxBytes: number } {
-  return { size: memoryCache.size, maxEntries: MEMORY_CACHE_MAX_ENTRIES, totalBytes: totalCacheBytes, maxBytes: MEMORY_CACHE_MAX_BYTES };
+export function clearCache() {
+  cache.clear();
 }
 
-export function clearCache(): void {
-  memoryCache.clear();
-  totalCacheBytes = 0;
-}
-
-export function cacheInvalidate(pattern: string): void {
-  for (const [key, entry] of memoryCache) {
-    if (key.startsWith(pattern)) {
-      totalCacheBytes -= entry.sizeBytes;
-      memoryCache.delete(key);
-    }
+/** Delete cache entries whose keys start with `prefix` (e.g. "pricing:"). */
+export function cacheInvalidate(prefix: string) {
+  for (const key of Array.from(cache.keys())) {
+    if (key.startsWith(prefix)) cache.delete(key);
   }
 }
 
-export function cacheInvalidateExact(key: string): void {
-  const entry = memoryCache.get(key);
-  if (entry) {
-    totalCacheBytes -= entry.sizeBytes;
-    memoryCache.delete(key);
-  }
+export function withTimeout<T>(promise: Promise<T>, ms: number, label?: string): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const t = setTimeout(() => {
+      reject(new Error(`${label || "operation"} timed out after ${ms}ms`));
+    }, ms);
+    promise
+      .then((v) => {
+        clearTimeout(t);
+        resolve(v);
+      })
+      .catch((e) => {
+        clearTimeout(t);
+        reject(e);
+      });
+  });
 }
 
-export function startCacheCleanup() {
-  if (!cacheCleanupInterval) {
-    cacheCleanupInterval = setInterval(() => {
-      const now = Date.now();
-      for (const [key, entry] of memoryCache) {
-        if (now > entry.expiresAt) {
-          totalCacheBytes -= entry.sizeBytes;
-          memoryCache.delete(key);
-        }
-      }
-      if (totalCacheBytes < 0) totalCacheBytes = 0;
-    }, 60000);
-  }
+/** Lightweight timing hook; returns a no-op end function (metrics can be added later). */
+export function instrumentCorePath(_label: string): () => void {
+  return () => {};
 }
 
-export const CACHE_TTL = {
-  CONTENT: 60000,
-  PRICING: 300000,
-  EXAM_BLUEPRINTS: 60000,
-  FLASHCARD_DECKS: 60000,
-  LESSONS_LIST: 60000,
-};
-
-export async function withTimeout<T>(
-  fn: () => Promise<T>,
-  timeoutMs: number,
-  label: string,
-  fallback?: () => T | Promise<T>
-): Promise<T> {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
-  try {
-    const result = await Promise.race([
-      fn(),
-      new Promise<never>((_, reject) => {
-        controller.signal.addEventListener("abort", () => {
-          reject(new Error(`Timeout: ${label} exceeded ${timeoutMs}ms`));
-        });
-      }),
-    ]);
-    clearTimeout(timeoutId);
-    return result;
-  } catch (err: any) {
-    clearTimeout(timeoutId);
-    if (err.message?.startsWith("Timeout:")) {
-      console.error(`[PERF] ${err.message}`);
-      if (fallback) return fallback();
-    }
-    throw err;
-  }
+export function getCacheStats() {
+  return { size: cache.size, maxEntries: MAX_ENTRIES };
 }
 
-export const SERVICE_TIMEOUTS = {
-  STRIPE: 10000,
-  AI: 30000,
-  EMAIL: 5000,
-  SMS: 5000,
-};
+/**
+ * ------------------------------
+ * METRICS SUMMARY
+ * ------------------------------
+ */
 
-export function instrumentCorePath(pathName: string, userId?: string | undefined, fn?: () => Promise<any>): any {
-  const start = Date.now();
-  if (!fn) {
-    return () => {
-      const duration = Date.now() - start;
-      console.log(JSON.stringify({
-        type: "core_path_latency",
-        path: pathName,
-        userId: typeof userId === "string" ? userId : null,
-        durationMs: duration,
-        success: true,
-        timestamp: new Date().toISOString(),
-      }));
-    };
-  }
-  return fn()
-    .then((result) => {
-      const duration = Date.now() - start;
-      console.log(JSON.stringify({
-        type: "core_path_latency",
-        path: pathName,
-        userId: userId || null,
-        durationMs: duration,
-        success: true,
-        timestamp: new Date().toISOString(),
-      }));
-      return result;
-    })
-    .catch((err) => {
-      const duration = Date.now() - start;
-      console.error(JSON.stringify({
-        type: "core_path_latency",
-        path: pathName,
-        userId: userId || null,
-        durationMs: duration,
-        success: false,
-        error: err.message,
-        timestamp: new Date().toISOString(),
-      }));
-      throw err;
-    });
-}
-
-function percentile(arr: number[], p: number): number {
-  if (arr.length === 0) return 0;
+function percentile(arr: number[], p: number) {
+  if (!arr.length) return 0;
   const sorted = [...arr].sort((a, b) => a - b);
-  const idx = Math.ceil((p / 100) * sorted.length) - 1;
-  return sorted[Math.max(0, idx)];
+  return sorted[Math.floor((p / 100) * sorted.length)];
 }
 
 export function getMetricsSummary() {
   const metrics = getMetrics();
-  const now = Date.now();
-
-  const byRoutePrefix = new Map<string, number[]>();
-  const errorsByPrefix = new Map<string, number>();
-  const volumeByMinute = new Map<number, number>();
-
-  for (const m of metrics) {
-    if (!byRoutePrefix.has(m.routePrefix)) byRoutePrefix.set(m.routePrefix, []);
-    byRoutePrefix.get(m.routePrefix)!.push(m.durationMs);
-
-    if (m.statusCode >= 400) {
-      errorsByPrefix.set(m.routePrefix, (errorsByPrefix.get(m.routePrefix) || 0) + 1);
-    }
-
-    const minuteBucket = Math.floor(m.timestamp / 60000);
-    volumeByMinute.set(minuteBucket, (volumeByMinute.get(minuteBucket) || 0) + 1);
-  }
-
-  const routeTimings: Array<{
-    routePrefix: string;
-    p50: number;
-    p95: number;
-    p99: number;
-    count: number;
-    errorRate: number;
-  }> = [];
-
-  for (const [prefix, durations] of byRoutePrefix) {
-    const totalForPrefix = durations.length;
-    const errors = errorsByPrefix.get(prefix) || 0;
-    routeTimings.push({
-      routePrefix: prefix,
-      p50: percentile(durations, 50),
-      p95: percentile(durations, 95),
-      p99: percentile(durations, 99),
-      count: totalForPrefix,
-      errorRate: totalForPrefix > 0 ? Math.round((errors / totalForPrefix) * 10000) / 100 : 0,
-    });
-  }
-
-  routeTimings.sort((a, b) => b.count - a.count);
-
-  const volumeOverTime: Array<{ minute: number; count: number }> = [];
-  const sortedMinutes = [...volumeByMinute.entries()].sort((a, b) => a[0] - b[0]);
-  for (const [minute, count] of sortedMinutes.slice(-60)) {
-    volumeOverTime.push({ minute: minute * 60000, count });
-  }
-
-  const totalRequests = metrics.length;
-  const totalErrors = metrics.filter(m => m.statusCode >= 400).length;
-  const allDurations = metrics.map(m => m.durationMs);
+  const durations = metrics.map(m => m.durationMs);
 
   return {
-    totalRequests,
-    totalErrors,
-    overallErrorRate: totalRequests > 0 ? Math.round((totalErrors / totalRequests) * 10000) / 100 : 0,
-    p50: percentile(allDurations, 50),
-    p95: percentile(allDurations, 95),
-    p99: percentile(allDurations, 99),
-    routeTimings: routeTimings.slice(0, 50),
-    volumeOverTime,
-    loadLevel: currentLoadLevel,
-    cacheSize: memoryCache.size,
-    slowQueryCount: slowQueryLog.length,
+    total: metrics.length,
+    errors: metrics.filter(m => m.statusCode >= 400).length,
+    p50: percentile(durations, 50),
+    p95: percentile(durations, 95),
+    p99: percentile(durations, 99),
+    load: currentLoad,
+    cacheSize: cache.size,
+    slowQueries: slowQueries.length,
   };
 }
 
-export function registerPerformanceRoutes(app: any): void {
+/**
+ * ------------------------------
+ * ADMIN ROUTES
+ * ------------------------------
+ */
+
+export function registerPerformanceRoutes(app: any) {
+
   startLoadMonitoring();
-  startCacheCleanup();
 
-  app.get("/api/admin/performance/metrics", async (req: Request, res: Response) => {
-    try {
-      const { resolveAuthUser } = await import("./admin-auth");
-      const user = await resolveAuthUser(req as any);
-      if (!user || user.tier !== "admin") {
-        return res.status(403).json({ error: "Admin access required" });
-      }
-      res.json(getMetricsSummary());
-    } catch {
-      res.status(500).json({ error: "Failed to get metrics" });
-    }
+  app.get("/api/admin/performance", async (req: Request, res: Response) => {
+    res.json(getMetricsSummary());
   });
 
-  app.get("/api/admin/performance/slow-queries", async (req: Request, res: Response) => {
-    try {
-      const { resolveAuthUser } = await import("./admin-auth");
-      const user = await resolveAuthUser(req as any);
-      if (!user || user.tier !== "admin") {
-        return res.status(403).json({ error: "Admin access required" });
-      }
-      res.json({ queries: getSlowQueryLog() });
-    } catch {
-      res.status(500).json({ error: "Failed to get slow queries" });
-    }
+  app.get("/api/admin/performance/slow", async (req: Request, res: Response) => {
+    res.json(getSlowQueryLog());
   });
 
-  app.get("/api/admin/performance/dashboard", async (req: Request, res: Response) => {
-    try {
-      const { resolveAuthUser } = await import("./admin-auth");
-      const user = await resolveAuthUser(req as any);
-      if (!user || user.tier !== "admin") {
-        return res.status(403).json({ error: "Admin access required" });
-      }
-
-      const { getCircuitBreakerStates, getFeatureFlags } = await import("./platform-resilience");
-      const summary = getMetricsSummary();
-
-      res.json({
-        ...summary,
-        circuitBreakers: getCircuitBreakerStates(),
-        featureFlags: getFeatureFlags(),
-        slowQueries: getSlowQueryLog(),
-      });
-    } catch {
-      res.status(500).json({ error: "Failed to get dashboard data" });
-    }
-  });
 }

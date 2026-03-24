@@ -1,31 +1,50 @@
 #!/usr/bin/env npx tsx
-/**
- * Bundle Guard — Oversized Import Checker
- *
- * Scans server/*.ts (excluding scripts/seeds/seed-* dirs) for static
- * import/require of files exceeding a configurable size threshold.
- * Exits non-zero if violations are found. Suitable for CI.
- *
- * Usage:
- *   npx tsx scripts/check-server-imports.ts [--threshold-kb=100]
- */
 
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+/**
+ * ------------------------------
+ * PATH SETUP
+ * ------------------------------
+ */
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const THRESHOLD_KB = parseInt(
-  process.argv.find(a => a.startsWith("--threshold-kb="))?.split("=")[1] || "100",
-  10
-);
-const THRESHOLD_BYTES = THRESHOLD_KB * 1024;
-
 const SERVER_DIR = path.resolve(__dirname, "../server");
 
-const EXCLUDE_PATTERNS = [
+/**
+ * ------------------------------
+ * CONFIG
+ * ------------------------------
+ */
+
+function getThresholdKb(): number {
+  const arg = process.argv.find(a => a.startsWith("--threshold-kb="));
+  const val = arg?.split("=")[1];
+
+  if (!val) return 100;
+
+  const parsed = parseInt(val, 10);
+  if (isNaN(parsed) || parsed <= 0) {
+    console.warn(`Invalid threshold "${val}", defaulting to 100KB`);
+    return 100;
+  }
+
+  return parsed;
+}
+
+const THRESHOLD_KB = getThresholdKb();
+const THRESHOLD_BYTES = THRESHOLD_KB * 1024;
+
+/**
+ * ------------------------------
+ * FILTERS
+ * ------------------------------
+ */
+
+const EXCLUDE_PATTERNS: RegExp[] = [
   /[\/\\]scripts[\/\\]/,
   /[\/\\]seeds[\/\\]/,
   /^seeds[\/\\]/,
@@ -38,125 +57,160 @@ const EXCLUDE_PATTERNS = [
   /-seed-/,
 ];
 
-const ALLOWED_LARGE_IMPORTS = new Set([
-  "storage.ts",
-  "storage",
-  "./storage",
-  "../storage",
-  "../shared/schema",
-  "../shared/schema.ts",
-  "../../shared/schema",
-  "@shared/schema",
-  "seo-meta.ts",
-  "seo-meta",
-  "./seo-meta",
-  "../seo-meta",
-  "../shared/locales",
-  "./routes",
-  "./platform-resilience",
+const ALLOWED_LARGE_IMPORTS = new Set<string>([
+  "storage", "./storage", "../storage",
+  "@shared/schema", "../shared/schema",
+  "seo-meta", "./seo-meta",
   "../platform-resilience",
-  "./qbank-expansion-engine",
+  "./routes",
 ]);
 
-function shouldExcludeFile(relPath: string): boolean {
-  return EXCLUDE_PATTERNS.some(p => p.test(relPath));
+/**
+ * ------------------------------
+ * REGEX
+ * ------------------------------
+ */
+
+const IMPORT_RE = /import\s+(?:type\s+)?[\s\S]*?\s+from\s+['"]([^'"]+)['"]/g;
+const REQUIRE_RE = /require\(['"]([^'"]+)['"]\)/g;
+
+/**
+ * ------------------------------
+ * HELPERS
+ * ------------------------------
+ */
+
+function shouldExclude(rel: string): boolean {
+  return EXCLUDE_PATTERNS.some(p => p.test(rel));
 }
 
-function getServerTsFiles(dir: string, base: string = ""): string[] {
-  const files: string[] = [];
+function getFiles(dir: string, base = ""): string[] {
+  const out: string[] = [];
+
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const rel = path.join(base, entry.name);
+
     if (entry.isDirectory()) {
-      if (!shouldExcludeFile(rel + "/")) {
-        files.push(...getServerTsFiles(path.join(dir, entry.name), rel));
+      if (!shouldExclude(rel + "/")) {
+        out.push(...getFiles(path.join(dir, entry.name), rel));
       }
-    } else if (entry.isFile() && /\.ts$/.test(entry.name) && !shouldExcludeFile(rel)) {
-      files.push(rel);
+      continue;
+    }
+
+    if (entry.isFile() && /\.(ts|tsx)$/.test(entry.name) && !shouldExclude(rel)) {
+      out.push(rel);
     }
   }
-  return files;
+
+  return out;
 }
 
-const STATIC_IMPORT_RE = /(?:^|\n)\s*import\s+.*from\s+['"]([^'"]+)['"]/g;
-const REQUIRE_RE = /require\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
-
-function extractStaticImports(content: string): string[] {
-  const imports: string[] = [];
+function extractImports(content: string): string[] {
+  const out: string[] = [];
   let m: RegExpExecArray | null;
 
-  STATIC_IMPORT_RE.lastIndex = 0;
-  while ((m = STATIC_IMPORT_RE.exec(content)) !== null) {
-    imports.push(m[1]);
-  }
+  while ((m = IMPORT_RE.exec(content))) out.push(m[1]);
+  while ((m = REQUIRE_RE.exec(content))) out.push(m[1]);
 
-  REQUIRE_RE.lastIndex = 0;
-  while ((m = REQUIRE_RE.exec(content)) !== null) {
-    imports.push(m[1]);
-  }
-
-  return imports;
+  return out;
 }
 
-function resolveImportPath(fromFile: string, importSpec: string): string | null {
-  if (!importSpec.startsWith(".") && !importSpec.startsWith("/")) return null;
+function resolveImport(fromFile: string, spec: string): string | null {
+  if (!spec.startsWith(".") && !spec.startsWith("/")) return null;
 
-  const fromDir = path.dirname(path.join(SERVER_DIR, fromFile));
-  let resolved = path.resolve(fromDir, importSpec);
+  const baseDir = path.dirname(path.join(SERVER_DIR, fromFile));
+  const base = path.resolve(baseDir, spec);
 
-  const extensions = ["", ".ts", ".js", ".json", "/index.ts", "/index.js"];
-  for (const ext of extensions) {
-    const candidate = resolved + ext;
-    if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) {
-      return candidate;
-    }
+  const candidates = [
+    base,
+    `${base}.ts`,
+    `${base}.tsx`,
+    `${base}.js`,
+    `${base}.json`,
+    path.join(base, "index.ts"),
+    path.join(base, "index.tsx"),
+  ];
+
+  for (const c of candidates) {
+    if (fs.existsSync(c) && fs.statSync(c).isFile()) return c;
   }
+
   return null;
 }
 
-interface Violation {
-  sourceFile: string;
-  importSpec: string;
-  resolvedPath: string;
-  sizeKB: number;
+function getSize(file: string): number | null {
+  try {
+    return fs.statSync(file).size;
+  } catch {
+    return null;
+  }
 }
 
-const violations: Violation[] = [];
-const files = getServerTsFiles(SERVER_DIR);
+/**
+ * ------------------------------
+ * MAIN
+ * ------------------------------
+ */
 
-for (const file of files) {
-  const fullPath = path.join(SERVER_DIR, file);
-  const content = fs.readFileSync(fullPath, "utf-8");
-  const imports = extractStaticImports(content);
+function main() {
+  if (!fs.existsSync(SERVER_DIR)) {
+    console.error("Server directory not found");
+    process.exit(1);
+  }
 
-  for (const imp of imports) {
-    if (ALLOWED_LARGE_IMPORTS.has(imp)) continue;
-    const resolved = resolveImportPath(file, imp);
-    if (!resolved) continue;
+  const files = getFiles(SERVER_DIR);
+  const violations: any[] = [];
 
+  for (const file of files) {
+    const full = path.join(SERVER_DIR, file);
+
+    let content = "";
     try {
-      const stat = fs.statSync(resolved);
-      if (stat.size > THRESHOLD_BYTES) {
+      content = fs.readFileSync(full, "utf-8");
+    } catch {
+      continue;
+    }
+
+    const imports = extractImports(content);
+
+    for (const spec of imports) {
+      if (ALLOWED_LARGE_IMPORTS.has(spec)) continue;
+
+      const resolved = resolveImport(file, spec);
+      if (!resolved) continue;
+
+      const size = getSize(resolved);
+      if (!size) continue;
+
+      if (size > THRESHOLD_BYTES) {
         violations.push({
-          sourceFile: file,
-          importSpec: imp,
-          resolvedPath: path.relative(SERVER_DIR, resolved),
-          sizeKB: Math.round(stat.size / 1024),
+          file,
+          spec,
+          resolved: path.relative(SERVER_DIR, resolved),
+          sizeKB: Math.round(size / 1024),
         });
       }
-    } catch {}
+    }
   }
-}
 
-if (violations.length > 0) {
-  console.error(`\n❌ Found ${violations.length} oversized import(s) exceeding ${THRESHOLD_KB}KB:\n`);
-  for (const v of violations) {
-    console.error(`  ${v.sourceFile}`);
-    console.error(`    → imports "${v.importSpec}" (${v.sizeKB}KB)`);
-    console.error(`    resolved: ${v.resolvedPath}\n`);
+  /**
+   * OUTPUT
+   */
+
+  if (violations.length > 0) {
+    console.error(`\nOversized imports (> ${THRESHOLD_KB}KB):\n`);
+
+    for (const v of violations) {
+      console.error(`• ${v.file}`);
+      console.error(`  → ${v.spec} (${v.sizeKB}KB)`);
+      console.error(`  → ${v.resolved}\n`);
+    }
+
+    process.exit(1);
   }
-  console.error("Fix: Use dynamic import() gated behind shouldRunSeeding() or lazy loading.\n");
-  process.exit(1);
-} else {
-  console.log(`✅ No oversized imports found (threshold: ${THRESHOLD_KB}KB, scanned ${files.length} files)`);
+
+  console.log(`OK: No oversized imports. (${files.length} files scanned)`);
   process.exit(0);
 }
+
+main();

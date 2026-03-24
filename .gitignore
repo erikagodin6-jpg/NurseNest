@@ -13,3 +13,36 @@ vite.config.ts.*
 scripts/i18n-scan-report.json
 client/src/data/**/*.js
 i18n-violations-report.json
+
+# Logs and local diagnostics
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Temp / cache
+tmp/
+temp/
+.cache/
+.turbo/
+coverage/
+.nyc_output/
+
+# Local tooling / IDE
+.local/
+.idea/
+*.swp
+*.swo
+
+# Keys and local auth artifacts (never commit secrets)
+*.pem
+*.p12
+.id_rsa
+*.key
+
+# Optional local exports / scans (keep out of git)
+artifacts/
+scan.txt
+hardcoded-strings-report.json

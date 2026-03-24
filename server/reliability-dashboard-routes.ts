@@ -920,8 +920,10 @@ export function registerReliabilityDashboardRoutes(app: Express): void {
       try {
         const { validateForPublish } = await import("./content-integrity-validation");
         const content = await pool.query(`SELECT * FROM content_items WHERE id = $1`, [contentId]);
-        if (content.rows[0]) {
-          validationResult = await validateForPublish(content.rows[0]);
+        const row = content.rows[0];
+        if (row) {
+          const contentType = String(row.type ?? "lesson");
+          validationResult = validateForPublish(contentType, row);
         }
       } catch (e: any) {
         console.warn("[ReliabilityDashboard] Validation module unavailable:", e.message);

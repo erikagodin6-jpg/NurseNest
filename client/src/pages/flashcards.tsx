@@ -1,5 +1,14 @@
 import { getAssetUrl } from "@/lib/asset-url";
-import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { getAuthHeaders } from "@/lib/queryClient";
+import {
+  readApiJsonResponse,
+  getLearnerMessageForCode,
+  BackendErrorCodes,
+  isEntitlementErrorCode,
+  isAuthRequiredCode,
+} from "@/lib/api-error";
+import { useState, useEffect, useMemo, useCallback, useRef, Fragment } from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { fisherYatesShuffle } from "@shared/shuffle";
 import { Navigation } from "@/components/navigation";
 import { ProtectedContent } from "@/components/protected-content";
@@ -2059,6 +2068,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
   const [previewConfig, setPreviewConfig] = useState<{ upgradeHeadline: string; upgradeBody: string } | null>(null);
 
   const [degradedMode, setDegradedMode] = useState<DegradedMode>("live");
+  const [flashcardBankError, setFlashcardBankError] = useState<{ code?: string; message: string } | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
 
   const activateEmergencyMode = useCallback(() => {
@@ -2686,20 +2696,40 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
   const fetchExamFlashcards = useCallback(async () => {
     if (!isPaid) return;
     setExamFlashcardsLoading(true);
+    setFlashcardBankError(null);
     try {
       const tierParam = effectiveTier === "admin" ? "" : `&tier=${effectiveTier}`;
       const batchSize = 200;
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 15000);
-      const res = await fetch(`/api/flashcard-bank?sourceType=cat_exam&limit=${batchSize}&offset=0${tierParam}`, { signal: controller.signal });
+      const res = await fetch(`/api/flashcard-bank?sourceType=cat_exam&limit=${batchSize}&offset=0${tierParam}`, {
+        signal: controller.signal,
+        headers: getAuthHeaders(),
+        credentials: "include",
+      });
       clearTimeout(timeout);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      const items = data.items || [];
-      setExamFlashcards(items);
-      cacheExamFlashcards(effectiveTier || "all", items);
+      const parsed = await readApiJsonResponse<{ items?: unknown[] }>(res);
+      if (!parsed.ok) {
+        const msg = getLearnerMessageForCode(parsed.code, parsed.message);
+        setFlashcardBankError({ code: parsed.code, message: msg });
+        if (isEntitlementErrorCode(parsed.code) || isAuthRequiredCode(parsed.code, parsed.status)) {
+          setShowUpgradeModal(true);
+        }
+        const cached = getCachedExamFlashcards(effectiveTier || "all");
+        if (cached) {
+          setExamFlashcards(cached);
+          setDegradedMode("cached");
+        }
+        return;
+      }
+      const data = parsed.data;
+      const items = (data && typeof data === "object" && "items" in data ? (data as { items?: unknown[] }).items : null) || [];
+      setExamFlashcards(items as any[]);
+      cacheExamFlashcards(effectiveTier || "all", items as any[]);
+      setDegradedMode("live");
     } catch (err: any) {
       console.warn("[Flashcards] fetchExamFlashcards failed:", err.message);
+      setFlashcardBankError({ message: "Could not load exam flashcards. Please try again." });
       const cached = getCachedExamFlashcards(effectiveTier || "all");
       if (cached) {
         setExamFlashcards(cached);
@@ -2708,7 +2738,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
     } finally {
       setExamFlashcardsLoading(false);
     }
-  }, [effectiveTier]);
+  }, [effectiveTier, isPaid]);
 
   useEffect(() => {
     fetchExamFlashcardCounts();
@@ -3039,6 +3069,49 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
     }
     return filtered;
   }, [allCards, selectedType, selectedCategories, mastered, includeMastered, cardSortBy]);
+
+  /** My Cards: filter + sort (sort select applied here; previously only search ran on this view). */
+  const MYCARDS_VIRTUAL_THRESHOLD = 35;
+  const mycardsDisplayCards = useMemo(() => {
+    if (view !== "mycards") return [] as CustomCard[];
+    let list = customCards.filter(c => {
+      if (!customSearch) return true;
+      const s = customSearch.toLowerCase();
+      return (
+        c.question.toLowerCase().includes(s) ||
+        c.answer.toLowerCase().includes(s) ||
+        c.category.toLowerCase().includes(s)
+      );
+    });
+    switch (cardSortBy) {
+      case "alpha-asc":
+        list = [...list].sort((a, b) => (a.question || "").localeCompare(b.question || ""));
+        break;
+      case "alpha-desc":
+        list = [...list].sort((a, b) => (b.question || "").localeCompare(a.question || ""));
+        break;
+      case "category":
+        list = [...list].sort((a, b) => (a.category || "").localeCompare(b.category || ""));
+        break;
+      case "shuffle":
+        list = fisherYatesShuffle([...list]);
+        break;
+      default:
+        break;
+    }
+    return list;
+  }, [view, customCards, customSearch, cardSortBy]);
+
+  const mycardsListScrollRef = useRef<HTMLDivElement>(null);
+  const mycardsVirtualizer = useVirtualizer({
+    count:
+      view === "mycards" && mycardsDisplayCards.length >= MYCARDS_VIRTUAL_THRESHOLD
+        ? mycardsDisplayCards.length
+        : 0,
+    getScrollElement: () => mycardsListScrollRef.current,
+    estimateSize: () => 140,
+    overscan: 10,
+  });
 
   const sessionCards = adaptiveOverrideCards || filteredCards;
 
@@ -3421,6 +3494,27 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                       ? "Tier-calibrated clinical scenarios with full rationales, distractor analysis, adaptive difficulty, and clinical pearls. Practice the way your exam tests you."
                       : "Tier-specific clinical scenarios with full rationales, clinical pearls, and distractor analysis. Built for how nursing exams actually test you."}
                   </p>
+
+                  {!isTestBank && (
+                    <div
+                      className="mb-6 p-4 rounded-xl border border-violet-200/70 bg-white/80 shadow-sm max-w-xl"
+                      data-testid="flashcards-recommended-path"
+                    >
+                      <p className="text-sm font-semibold text-foreground mb-1">{t("flashcards.recommendedPathTitle")}</p>
+                      <p className="text-xs text-muted-foreground mb-3 leading-relaxed">{t("flashcards.recommendedPathDesc")}</p>
+                      <Button
+                        size="sm"
+                        className="rounded-lg bg-violet-600 hover:bg-violet-700 text-white"
+                        onClick={() => {
+                          setDeckTab(user ? "my" : "browse");
+                          setView("decks");
+                        }}
+                        data-testid="button-recommended-open-decks"
+                      >
+                        {t("flashcards.recommendedPathCta")}
+                      </Button>
+                    </div>
+                  )}
 
                   <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs text-muted-foreground mb-8">
                     <span className="flex items-center gap-1.5">
@@ -4586,12 +4680,43 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
   }
 
   if (view === "mycards") {
-    const filteredCards = customCards.filter(c => {
-      if (!customSearch) return true;
-      const s = customSearch.toLowerCase();
-      return c.question.toLowerCase().includes(s) || c.answer.toLowerCase().includes(s) || c.category.toLowerCase().includes(s);
-    });
     const customCategories = Array.from(new Set(customCards.map(c => c.category)));
+
+    const renderMycardsListCard = (card: CustomCard) => (
+      <Card className="border border-border shadow-sm bg-card rounded-2xl overflow-hidden hover:shadow-md transition-shadow" data-testid={`card-custom-${card.id}`}>
+        <div className="p-5">
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-[10px] font-bold text-primary uppercase tracking-widest">{catLabel(card.category)}</span>
+              </div>
+              <h4 className="font-bold text-foreground text-sm mb-1" data-testid={`text-question-${card.id}`}>{card.question}</h4>
+              <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2" data-testid={`text-answer-${card.id}`}>{card.answer}</p>
+            </div>
+            <div className="flex gap-1 shrink-0">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="w-8 h-8 p-0 text-muted-foreground hover:text-primary"
+                onClick={() => { setEditingCard(card); setValidationResult(null); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                data-testid={`button-edit-${card.id}`}
+              >
+                <Pencil className="w-3.5 h-3.5" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="w-8 h-8 p-0 text-muted-foreground hover:text-red-500"
+                onClick={() => handleDeleteCard(card.id)}
+                data-testid={`button-delete-${card.id}`}
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Card>
+    );
 
     if (!user) {
       return (
@@ -4949,45 +5074,41 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
                 )}
               </div>
 
-              <div className="grid gap-3">
-                {filteredCards.map(card => (
-                  <Card key={card.id} className="border border-border shadow-sm bg-card rounded-2xl overflow-hidden hover:shadow-md transition-shadow" data-testid={`card-custom-${card.id}`}>
-                    <div className="p-5">
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="text-[10px] font-bold text-primary uppercase tracking-widest">{catLabel(card.category)}</span>
-                          </div>
-                          <h4 className="font-bold text-foreground text-sm mb-1" data-testid={`text-question-${card.id}`}>{card.question}</h4>
-                          <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2" data-testid={`text-answer-${card.id}`}>{card.answer}</p>
+              {mycardsDisplayCards.length >= MYCARDS_VIRTUAL_THRESHOLD ? (
+                <div
+                  ref={mycardsListScrollRef}
+                  className="max-h-[min(70vh,860px)] overflow-y-auto rounded-2xl border border-border/40 bg-muted/15"
+                  data-testid="mycards-list-virtual-scroll"
+                >
+                  <div
+                    className="relative w-full"
+                    style={{ height: `${mycardsVirtualizer.getTotalSize()}px` }}
+                  >
+                    {mycardsVirtualizer.getVirtualItems().map(vRow => {
+                      const card = mycardsDisplayCards[vRow.index];
+                      return (
+                        <div
+                          key={card.id}
+                          data-index={vRow.index}
+                          ref={mycardsVirtualizer.measureElement}
+                          className="absolute top-0 left-0 w-full pb-3 px-0.5 box-border"
+                          style={{ transform: `translateY(${vRow.start}px)` }}
+                        >
+                          {renderMycardsListCard(card)}
                         </div>
-                        <div className="flex gap-1 shrink-0">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="w-8 h-8 p-0 text-muted-foreground hover:text-primary"
-                            onClick={() => { setEditingCard(card); setValidationResult(null); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-                            data-testid={`button-edit-${card.id}`}
-                          >
-                            <Pencil className="w-3.5 h-3.5" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="w-8 h-8 p-0 text-muted-foreground hover:text-red-500"
-                            onClick={() => handleDeleteCard(card.id)}
-                            data-testid={`button-delete-${card.id}`}
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : (
+                <div className="grid gap-3">
+                  {mycardsDisplayCards.map(card => (
+                    <Fragment key={card.id}>{renderMycardsListCard(card)}</Fragment>
+                  ))}
+                </div>
+              )}
 
-              {filteredCards.length === 0 && customSearch && (
+              {mycardsDisplayCards.length === 0 && customSearch && (
                 <p className="text-center text-muted-foreground text-sm py-8">{t("flashcards.noCardsMatch")} "{customSearch}"</p>
               )}
             </>
@@ -5711,9 +5832,40 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           <Navigation />
           <main className="max-w-4xl mx-auto px-4 py-24 w-full flex-1 text-center">
             <ShieldAlert className="w-12 h-12 text-muted-foreground/60 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-foreground mb-2">{t("pages.flashcards.noExamCardsAvailable")}</h2>
-            <p className="text-muted-foreground mb-6">{t("pages.flashcards.examFlashcardsHaventBeenSynced")}</p>
-            <Button onClick={() => setView("setup")} data-testid="button-back-exam">{t("pages.flashcards.backToFlashcards")}</Button>
+            {flashcardBankError ? (
+              <>
+                <h2 className="text-2xl font-bold text-foreground mb-2">
+                  {flashcardBankError.code === BackendErrorCodes.FLASHCARD_BANK_TIMEOUT
+                    ? "Connection timed out"
+                    : flashcardBankError.code && isEntitlementErrorCode(flashcardBankError.code)
+                      ? "Upgrade required"
+                      : "Could not load flashcards"}
+                </h2>
+                <p className="text-muted-foreground mb-6 max-w-md mx-auto">{flashcardBankError.message}</p>
+                <div className="flex flex-wrap gap-3 justify-center">
+                  {(flashcardBankError.code === BackendErrorCodes.FLASHCARD_BANK_TIMEOUT ||
+                    flashcardBankError.code === BackendErrorCodes.FLASHCARD_BANK_ERROR) && (
+                    <Button onClick={() => void fetchExamFlashcards()} data-testid="button-retry-exam-bank">
+                      Try again
+                    </Button>
+                  )}
+                  {(isEntitlementErrorCode(flashcardBankError.code) || isAuthRequiredCode(flashcardBankError.code)) && (
+                    <Button variant="default" onClick={() => setLocation("/pricing")}>
+                      View plans
+                    </Button>
+                  )}
+                  <Button variant="outline" onClick={() => setView("setup")} data-testid="button-back-exam">
+                    {t("pages.flashcards.backToFlashcards")}
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 className="text-2xl font-bold text-foreground mb-2">{t("pages.flashcards.noExamCardsAvailable")}</h2>
+                <p className="text-muted-foreground mb-6">{t("pages.flashcards.examFlashcardsHaventBeenSynced")}</p>
+                <Button onClick={() => setView("setup")} data-testid="button-back-exam">{t("pages.flashcards.backToFlashcards")}</Button>
+              </>
+            )}
           </main>
           <Footer />
         </div>

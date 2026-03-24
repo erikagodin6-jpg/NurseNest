@@ -1,4 +1,5 @@
 import type { Express, Request, Response } from "express";
+import { routeParamString } from "./route-params";
 import { pool } from "./storage";
 
 export interface SeoContentBlock {
@@ -1362,7 +1363,8 @@ function getPageBySlug(slug: string): SeoContentPage | undefined {
 export function registerSeoContentRoutes(app: Express): void {
   app.get("/api/seo-content/:cluster/:pageSlug", async (req: Request, res: Response) => {
     try {
-      const { cluster, pageSlug } = req.params;
+      const cluster = routeParamString(req.params.cluster);
+      const pageSlug = routeParamString(req.params.pageSlug);
       const slug = `${cluster}/${pageSlug}`;
 
       const staticPage = getPageBySlug(slug);

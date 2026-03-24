@@ -1,8 +1,12 @@
-// PayPal Web SDK Integration
-// Blueprint: javascript_paypal
-
 import paypalSdk from "@paypal/paypal-server-sdk";
-const { Client, Environment, LogLevel, OAuthAuthorizationController, OrdersController } = paypalSdk as any;
+const {
+  Client,
+  Environment,
+  LogLevel,
+  OAuthAuthorizationController,
+  OrdersController,
+} = paypalSdk as any;
+
 import { Request, Response } from "express";
 
 const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET } = process.env;
@@ -10,74 +14,109 @@ const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET } = process.env;
 let ordersController: any = null;
 let oAuthAuthorizationController: any = null;
 
+/* -------------------------
+   INIT PAYPAL CLIENT
+------------------------- */
+
 if (PAYPAL_CLIENT_ID && PAYPAL_CLIENT_SECRET) {
-  const client = new Client({
-    clientCredentialsAuthCredentials: {
-      oAuthClientId: PAYPAL_CLIENT_ID,
-      oAuthClientSecret: PAYPAL_CLIENT_SECRET,
-    },
-    timeout: 0,
-    environment:
-      process.env.NODE_ENV === "production"
-        ? Environment.Production
-        : Environment.Sandbox,
-    logging: {
-      logLevel: LogLevel.Info,
-      logRequest: {
-        logBody: true,
+  try {
+    const client = new Client({
+      clientCredentialsAuthCredentials: {
+        oAuthClientId: PAYPAL_CLIENT_ID,
+        oAuthClientSecret: PAYPAL_CLIENT_SECRET,
       },
-      logResponse: {
-        logHeaders: true,
+      timeout: 10000, // ✅ prevent hanging requests
+      environment:
+        process.env.NODE_ENV === "production"
+          ? Environment.Production
+          : Environment.Sandbox,
+      logging: {
+        logLevel: LogLevel.Info,
+        logRequest: { logBody: false },
+        logResponse: { logHeaders: false },
       },
-    },
-  });
-  ordersController = new OrdersController(client);
-  oAuthAuthorizationController = new OAuthAuthorizationController(client);
+    });
+
+    ordersController = new OrdersController(client);
+    oAuthAuthorizationController = new OAuthAuthorizationController(client);
+
+    console.log("[PayPal] Initialized");
+  } catch (err) {
+    console.error("[PayPal] Init failed:", err);
+  }
 }
+
+/* -------------------------
+   SAFE JSON PARSE
+------------------------- */
+
+function safeParse(body: any) {
+  try {
+    return typeof body === "string" ? JSON.parse(body) : body;
+  } catch (err) {
+    console.error("[PayPal] JSON parse failed:", err);
+    return null;
+  }
+}
+
+/* -------------------------
+   CLIENT TOKEN
+------------------------- */
 
 export async function getClientToken() {
   if (!PAYPAL_CLIENT_ID || !PAYPAL_CLIENT_SECRET || !oAuthAuthorizationController) {
     throw new Error("PayPal not configured");
   }
-  const auth = Buffer.from(
-    `${PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`,
-  ).toString("base64");
 
-  const { result } = await oAuthAuthorizationController.requestToken(
-    {
-      authorization: `Basic ${auth}`,
-    },
-    { intent: "sdk_init", response_type: "client_token" },
-  );
+  try {
+    const auth = Buffer.from(
+      `${PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`
+    ).toString("base64");
 
-  return result.accessToken;
+    const { result } = await oAuthAuthorizationController.requestToken(
+      { authorization: `Basic ${auth}` },
+      { intent: "sdk_init", response_type: "client_token" }
+    );
+
+    return result?.accessToken;
+  } catch (err) {
+    console.error("[PayPal] getClientToken failed:", err);
+    throw new Error("Failed to get PayPal client token");
+  }
 }
+
+/* -------------------------
+   CREATE ORDER
+------------------------- */
 
 export async function createPaypalOrder(req: Request, res: Response) {
   try {
     if (!ordersController) {
       return res.status(503).json({ error: "PayPal not configured" });
     }
+
     const { amount, currency, intent } = req.body;
 
     if (!amount || isNaN(parseFloat(amount)) || parseFloat(amount) <= 0) {
-      return res.status(400).json({ error: "Invalid amount." });
+      return res.status(400).json({ error: "Invalid amount" });
     }
-    if (!currency) {
-      return res.status(400).json({ error: "Currency is required." });
+
+    if (!currency || typeof currency !== "string") {
+      return res.status(400).json({ error: "Invalid currency" });
     }
-    if (!intent) {
-      return res.status(400).json({ error: "Intent is required." });
+
+    if (!intent || typeof intent !== "string") {
+      return res.status(400).json({ error: "Invalid intent" });
     }
 
     const collect = {
       body: {
-        intent: intent,
+        intent,
         purchaseUnits: [
           {
             amount: {
               currencyCode: currency,
-              value: amount,
+              value: String(amount),
             },
           },
         ],
@@ -85,48 +124,81 @@ export async function createPaypalOrder(req: Request, res: Response) {
       prefer: "return=minimal",
     };
 
-    const { body, ...httpResponse } =
-      await ordersController.createOrder(collect);
+    const response = await ordersController.createOrder(collect);
 
-    const jsonResponse = JSON.parse(String(body));
-    res.status(httpResponse.statusCode).json(jsonResponse);
+    const json = safeParse(response.body);
+
+    if (!json) {
+      return res.status(500).json({ error: "Invalid PayPal response" });
+    }
+
+    res.status(response.statusCode || 200).json(json);
+
   } catch (error) {
-    console.error("Failed to create order:", error);
-    res.status(500).json({ error: "Failed to create order." });
+    console.error("[PayPal] Create order failed:", error);
+    res.status(500).json({ error: "Failed to create order" });
   }
 }
+
+/* -------------------------
+   CAPTURE ORDER
+------------------------- */
 
 export async function capturePaypalOrder(req: Request, res: Response) {
   try {
     if (!ordersController) {
       return res.status(503).json({ error: "PayPal not configured" });
     }
+
     const { orderID } = req.params;
-    const collect = {
-      id: orderID as string,
+
+    if (!orderID) {
+      return res.status(400).json({ error: "Missing orderID" });
+    }
+
+    const response = await ordersController.captureOrder({
+      id: orderID,
       prefer: "return=minimal",
-    };
+    });
 
-    const { body, ...httpResponse } =
-      await ordersController.captureOrder(collect);
+    const json = safeParse(response.body);
 
-    const jsonResponse = JSON.parse(String(body));
-    res.status(httpResponse.statusCode).json(jsonResponse);
+    if (!json) {
+      return res.status(500).json({ error: "Invalid PayPal response" });
+    }
+
+    res.status(response.statusCode || 200).json(json);
+
   } catch (error) {
-    console.error("Failed to capture order:", error);
-    res.status(500).json({ error: "Failed to capture order." });
+    console.error("[PayPal] Capture failed:", error);
+    res.status(500).json({ error: "Failed to capture order" });
   }
 }
 
-export async function loadPaypalDefault(req: Request, res: Response) {
+/* -------------------------
+   LOAD CLIENT TOKEN
+------------------------- */
+
+export async function loadPaypalDefault(_req: Request, res: Response) {
   try {
     const clientToken = await getClientToken();
+
+    if (!clientToken) {
+      return res.status(500).json({ error: "Failed to get token" });
+    }
+
     res.json({ clientToken });
+
   } catch (error) {
+    console.error("[PayPal] load default failed:", error);
     res.status(503).json({ error: "PayPal not configured" });
   }
 }
 
+/* -------------------------
+   CHECK CONFIG
+------------------------- */
+
 export function isPaypalConfigured(): boolean {
-  return !!(PAYPAL_CLIENT_ID && PAYPAL_CLIENT_SECRET);
+  return Boolean(PAYPAL_CLIENT_ID && PAYPAL_CLIENT_SECRET);
 }

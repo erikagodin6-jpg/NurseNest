@@ -1,11 +1,16 @@
+import path from "path";
+import { fileURLToPath } from "url";
 import { pool } from "../storage";
 import { storage } from "../storage";
+import { importClientDataAbsolute } from "../client-data-import";
 import {
   getSiteBase, todayDate, toLastmod, simpleUrl, localizedUrl,
   getIndexableLocales, SITEMAP_SPLIT_LIMIT, splitIntoChunks,
   getSharedStaticRoutes, LEARN_REDIRECTS, COMPARE_PAGES, NURSING_QUESTION_TIERS,
   hasTimestampSuffix, isLowValueTranslatedPage
 } from "./helpers";
+
+const __dirnameMainSitemap = path.dirname(fileURLToPath(import.meta.url));
 
 export async function generateMainPages(): Promise<string[]> {
   const base = getSiteBase();
@@ -458,7 +463,9 @@ export async function generateMainTopics(): Promise<string[]> {
   const urls: string[] = [];
 
   try {
-    const { internalLinkMap } = await import("../../client/src/data/internal-links");
+    const { internalLinkMap } = await importClientDataAbsolute(
+      path.resolve(__dirnameMainSitemap, "../../client/src/data/internal-links"),
+    );
     const topicSlugs = Object.keys(internalLinkMap);
     for (const slug of topicSlugs) {
       urls.push(localizedUrl(base, `/topics/${slug}`, "0.7", "monthly", locales, today));
@@ -466,7 +473,9 @@ export async function generateMainTopics(): Promise<string[]> {
   } catch {}
 
   try {
-    const { seoConditions: condData } = await import("../../client/src/data/seo-conditions");
+    const { seoConditions: condData } = await importClientDataAbsolute(
+      path.resolve(__dirnameMainSitemap, "../../client/src/data/seo-conditions"),
+    );
     for (const c of condData) {
       urls.push(localizedUrl(base, `/conditions/${c.slug}`, "0.8", "monthly", locales, today));
     }
@@ -478,7 +487,9 @@ export async function generateMainTopics(): Promise<string[]> {
   }
 
   try {
-    const { seoMedications: medData } = await import("../../client/src/data/seo-medications");
+    const { seoMedications: medData } = await importClientDataAbsolute(
+      path.resolve(__dirnameMainSitemap, "../../client/src/data/seo-medications"),
+    );
     for (const m of medData) {
       urls.push(localizedUrl(base, `/medications/${m.slug}`, "0.8", "monthly", locales, today));
     }
@@ -490,7 +501,9 @@ export async function generateMainTopics(): Promise<string[]> {
   }
 
   try {
-    const { seoLabValues: labData } = await import("../../client/src/data/seo-lab-values");
+    const { seoLabValues: labData } = await importClientDataAbsolute(
+      path.resolve(__dirnameMainSitemap, "../../client/src/data/seo-lab-values"),
+    );
     for (const l of labData) {
       urls.push(localizedUrl(base, `/lab-values/${l.slug}`, "0.8", "monthly", locales, today));
     }

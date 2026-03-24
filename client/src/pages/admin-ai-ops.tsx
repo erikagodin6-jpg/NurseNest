@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { adminFetch } from "@/lib/admin-fetch";
+import { adminFetch, adminJson } from "@/lib/admin-fetch";
+import { ApiError, getAdminOpsMessageForCode } from "@/lib/api-error";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -24,9 +25,9 @@ function StatusDot({ healthy, enabled }: { healthy: boolean; enabled: boolean })
 
 function KillSwitchCard() {
   const queryClient = useQueryClient();
-  const { data: status } = useQuery({
+  const { data: status, isError, error, refetch } = useQuery({
     queryKey: ["/api/admin/ai-ops/status"],
-    queryFn: () => adminFetch("/api/admin/ai-ops/status").then(r => r.json()),
+    queryFn: () => adminJson("/api/admin/ai-ops/status"),
     refetchInterval: 15000,
   });
 
@@ -40,6 +41,23 @@ function KillSwitchCard() {
   });
 
   const isKilled = status?.killSwitch === true;
+
+  if (isError) {
+    const msg =
+      error instanceof ApiError
+        ? getAdminOpsMessageForCode(error.code, error.message)
+        : "Failed to load AI ops status.";
+    return (
+      <Card className="border-amber-200 bg-amber-50" data-testid="card-kill-switch-error">
+        <CardContent className="py-4 space-y-2">
+          <p className="text-sm text-amber-900">{msg}</p>
+          <Button size="sm" variant="outline" onClick={() => refetch()}>
+            Retry
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className={isKilled ? "border-red-500 bg-red-50" : "border-green-200"} data-testid="card-kill-switch">
@@ -68,13 +86,27 @@ function KillSwitchCard() {
 }
 
 function CostDashboard() {
-  const { data: cost, isLoading } = useQuery({
+  const { data: cost, isLoading, isError, error, refetch } = useQuery({
     queryKey: ["/api/admin/ai-ops/cost-summary"],
-    queryFn: () => adminFetch("/api/admin/ai-ops/cost-summary").then(r => r.json()),
+    queryFn: () => adminJson("/api/admin/ai-ops/cost-summary"),
     refetchInterval: 30000,
   });
 
   if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> {t("pages.adminAiOps.loadingCostData")}</div>;
+  if (isError) {
+    const msg =
+      error instanceof ApiError
+        ? getAdminOpsMessageForCode(error.code, error.message)
+        : "Failed to load cost summary.";
+    return (
+      <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 space-y-2">
+        <p>{msg}</p>
+        <Button size="sm" variant="outline" onClick={() => refetch()}>
+          Retry
+        </Button>
+      </div>
+    );
+  }
   if (!cost) return null;
 
   return (
@@ -172,9 +204,9 @@ function ProvidersPanel() {
     maxConcurrency: "5", rateLimit: "60", priority: "100", taskTypes: "",
   });
 
-  const { data: providers, isLoading } = useQuery({
+  const { data: providers, isLoading, isError, error, refetch } = useQuery({
     queryKey: ["/api/admin/ai-ops/providers"],
-    queryFn: () => adminFetch("/api/admin/ai-ops/providers").then(r => r.json()),
+    queryFn: () => adminJson("/api/admin/ai-ops/providers"),
     refetchInterval: 30000,
   });
 
@@ -211,6 +243,20 @@ function ProvidersPanel() {
   });
 
   if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> {t("pages.adminAiOps.loadingProviders")}</div>;
+  if (isError) {
+    const msg =
+      error instanceof ApiError
+        ? getAdminOpsMessageForCode(error.code, error.message)
+        : "Failed to load providers.";
+    return (
+      <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 space-y-2">
+        <p>{msg}</p>
+        <Button size="sm" variant="outline" onClick={() => refetch()}>
+          Retry
+        </Button>
+      </div>
+    );
+  }
 
   const providerList = Array.isArray(providers) ? providers : [];
 
@@ -370,13 +416,27 @@ function ProvidersPanel() {
 
 function RequestLogsPanel() {
   const [logLimit, setLogLimit] = useState(50);
-  const { data: logs, isLoading } = useQuery({
+  const { data: logs, isLoading, isError, error, refetch } = useQuery({
     queryKey: ["/api/admin/ai-ops/request-logs", logLimit],
-    queryFn: () => adminFetch(`/api/admin/ai-ops/request-logs?limit=${logLimit}`).then(r => r.json()),
+    queryFn: () => adminJson(`/api/admin/ai-ops/request-logs?limit=${logLimit}`),
     refetchInterval: 30000,
   });
 
   if (isLoading) return <div className="flex items-center gap-2 py-4"><Loader2 className="animate-spin w-4 h-4" /> {t("pages.adminAiOps.loadingLogs")}</div>;
+  if (isError) {
+    const msg =
+      error instanceof ApiError
+        ? getAdminOpsMessageForCode(error.code, error.message)
+        : "Failed to load request logs.";
+    return (
+      <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 space-y-2">
+        <p>{msg}</p>
+        <Button size="sm" variant="outline" onClick={() => refetch()}>
+          Retry
+        </Button>
+      </div>
+    );
+  }
 
   const logList = Array.isArray(logs) ? logs : [];
 

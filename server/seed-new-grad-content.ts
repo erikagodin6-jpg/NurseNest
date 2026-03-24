@@ -492,10 +492,20 @@ function getClinicalSkillsGuides(): ContentInsert[] {
     tier: "free",
     status: "published",
     tags: ["clinical-skills", "new-grad", "guide"],
-    summary: s.content.find((b: any) => b.type === "paragraph")?.text?.substring(0, 250) + "..." || "",
+    summary: (() => {
+      const p = s.content.find(
+        (b): b is { type: string; text: string } => b.type === "paragraph" && typeof (b as { text?: string }).text === "string"
+      );
+      return p ? `${p.text.substring(0, 250)}...` : "";
+    })(),
     content: s.content,
     seoTitle: s.title + " | NurseNest",
-    seoDescription: s.content.find((b: any) => b.type === "paragraph")?.text?.substring(0, 155) || "",
+    seoDescription: (() => {
+      const p = s.content.find(
+        (b): b is { type: string; text: string } => b.type === "paragraph" && typeof (b as { text?: string }).text === "string"
+      );
+      return p ? p.text.substring(0, 155) : "";
+    })(),
     seoKeywords: [s.keyword, "new grad", "clinical skills", "healthcare guide"],
     primaryKeyword: s.keyword,
     authorName: AUTHOR,

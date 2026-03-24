@@ -12,6 +12,7 @@ import { BreadcrumbNav } from "@/components/breadcrumb-nav";
 import { getPoolStats } from "@/lib/question-pool";
 import { SILO_CONFIGS } from "@/lib/silo-config";
 import { useI18n } from "@/lib/i18n";
+import { readApiJsonResponse } from "@/lib/api-error";
 import {
   ArrowRight, Target, BookOpen, Layers, Stethoscope, FileText,
   ChevronDown, ChevronUp, FlaskConical, Brain, Activity, Shield,
@@ -191,8 +192,9 @@ function LessonSection({ sections }: { sections: { title: string; lessons: strin
     queryKey: ["/api/lessons/meta"],
     queryFn: async () => {
       const res = await fetch("/api/lessons/meta");
-      if (!res.ok) return [];
-      return res.json();
+      const parsed = await readApiJsonResponse<{ id: string; title: string }[]>(res);
+      if (!parsed.ok) return [];
+      return Array.isArray(parsed.data) ? parsed.data : [];
     },
     staleTime: 5 * 60 * 1000,
   });

@@ -1,4 +1,5 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
+import { ApiError, readApiJsonResponse } from "./api-error";
 
 export function getAuthHeaders(): Record<string, string> {
   const headers: Record<string, string> = {};
@@ -19,16 +20,16 @@ export function getAuthHeaders(): Record<string, string> {
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
+    const parsed = await readApiJsonResponse(res);
+    const message = `${parsed.status}: ${parsed.message}`;
+    const payload = { ...parsed.errorBody, code: parsed.code ?? parsed.errorBody.code };
     if (res.status === 503) {
       const retryAfter = res.headers.get("Retry-After");
-      const text = (await res.text()) || res.statusText;
-      const err = new Error(`${res.status}: ${text}`) as any;
-      err.status = 503;
-      err.retryAfter = retryAfter ? parseInt(retryAfter) : 30;
+      const err = new ApiError(message, 503, payload) as ApiError & { retryAfter?: number };
+      (err as any).retryAfter = retryAfter ? parseInt(retryAfter, 10) : 30;
       throw err;
     }
-    const text = (await res.text()) || res.statusText;
-    throw new Error(`${res.status}: ${text}`);
+    throw new ApiError(message, parsed.status, payload);
   }
 }
 

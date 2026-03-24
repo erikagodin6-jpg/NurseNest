@@ -30,6 +30,20 @@ import {
   Trash2,
 } from "lucide-react";
 
+/** Paginated admin lists return `{ items, pagination }`; this also accepts legacy bare arrays. */
+function normalizeAdminListPayload<T>(data: unknown): T[] {
+  if (Array.isArray(data)) return data as T[];
+  if (
+    data !== null &&
+    typeof data === "object" &&
+    "items" in data &&
+    Array.isArray((data as { items: unknown }).items)
+  ) {
+    return (data as { items: T[] }).items;
+  }
+  return [];
+}
+
 function adminFetch(url: string, options?: RequestInit) {
   const { t } = useI18n();
   const creds = JSON.parse(localStorage.getItem("nursenest-credentials") || "{}");
@@ -43,23 +57,24 @@ function adminFetch(url: string, options?: RequestInit) {
   });
 }
 
+/** List rows from GET /api/admin/institutions omit some columns; POST create returns full row. */
 interface Institution {
   id: string;
   name: string;
   region: string;
-  career_scope: string;
   license_model: string;
   seat_limit: number;
   semester_end_date: string | null;
-  default_duration_days: number | null;
-  tier_level: string;
-  add_ons: any;
   enrollment_mode: string;
-  allowed_email_domains: string[] | null;
-  require_email_verified: boolean;
   status: string;
-  created_at: string;
   seatCount?: number;
+  career_scope?: string;
+  default_duration_days?: number | null;
+  tier_level?: string;
+  add_ons?: unknown;
+  allowed_email_domains?: string[] | null;
+  require_email_verified?: boolean;
+  created_at?: string;
 }
 
 interface Lead {
@@ -70,7 +85,7 @@ interface Lead {
   country: string;
   contact_name: string;
   email: string;
-  phone: string;
+  phone?: string | null;
   message: string;
   region: string;
   status: string;
@@ -134,16 +149,16 @@ export default function AdminInstitutions() {
     setLoading(true);
     try {
       const [instRes, leadsRes] = await Promise.all([
-        adminFetch("/api/admin/institutions"),
-        adminFetch("/api/admin/institution-leads"),
+        adminFetch("/api/admin/institutions?page=1&limit=100"),
+        adminFetch("/api/admin/institution-leads?page=1&limit=100"),
       ]);
       if (instRes.ok) {
         const data = await instRes.json();
-        setInstitutions(Array.isArray(data) ? data : []);
+        setInstitutions(normalizeAdminListPayload<Institution>(data));
       }
       if (leadsRes.ok) {
         const data = await leadsRes.json();
-        setLeads(Array.isArray(data) ? data : []);
+        setLeads(normalizeAdminListPayload<Lead>(data));
       }
     } catch (e) {
       console.error("Failed to load institutions data", e);

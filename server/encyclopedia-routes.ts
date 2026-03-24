@@ -1,5 +1,6 @@
 import type { Express, Request, Response } from "express";
 import { pool } from "./storage";
+import { routeParamString } from "./route-params";
 import { requireAdmin } from "./admin-auth";
 import { analyzeAndPopulateCrossLinks, getCrossLinksForEntry, getCrossLinkStats } from "./encyclopedia-cross-linker";
 import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware } from "./abuse-protection";
@@ -182,7 +183,8 @@ export function registerEncyclopediaRoutes(app: Express): void {
 
   app.get("/api/encyclopedia/:profession/:slug", async (req: Request, res: Response) => {
     try {
-      const { profession, slug } = req.params;
+      const profession = routeParamString(req.params.profession);
+      const slug = routeParamString(req.params.slug);
       const fullSlug = `${profession}-${slug}`;
       const result = await pool.query(
         `SELECT * FROM encyclopedia_entries WHERE slug = $1 AND status = 'published'`,
@@ -362,7 +364,7 @@ export function registerEncyclopediaRoutes(app: Express): void {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
     try {
-      const links = await getCrossLinksForEntry(req.params.entryId);
+      const links = await getCrossLinksForEntry(routeParamString(req.params.entryId));
       res.json({ links });
     } catch (err: any) {
       res.status(500).json({ error: err.message });

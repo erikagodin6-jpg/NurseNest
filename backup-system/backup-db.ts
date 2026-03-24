@@ -225,9 +225,9 @@ async function exportAllTablesAsJson(
       }
     }
 
-    const drizzleConfig = path.join(ROOT, "drizzle.config.ts");
+    const drizzleConfig = path.join(PROJECT_ROOT, "drizzle.config.ts");
     if (fs.existsSync(drizzleConfig)) {
-      fs.copyFileSync(drizzleConfig, path.join(outputDir, "drizzle.config.ts"));
+      fs.copyFileSync(drizzleConfig, path.join(backupDir, "drizzle.config.ts"));
       fileCount++;
     }
 
@@ -238,7 +238,7 @@ async function exportAllTablesAsJson(
       );
       if (pricingResult.rows.length > 0) {
         fs.writeFileSync(
-          path.join(outputDir, "stripe-pricing-config.json"),
+          path.join(backupDir, "stripe-pricing-config.json"),
           JSON.stringify({
             exportedAt: new Date().toISOString(),
             plans: pricingResult.rows,
@@ -257,7 +257,7 @@ async function exportAllTablesAsJson(
       );
       if (snapshotResult.rows.length > 0) {
         fs.writeFileSync(
-          path.join(outputDir, "content-snapshots-index.json"),
+          path.join(backupDir, "content-snapshots-index.json"),
           JSON.stringify({
             exportedAt: new Date().toISOString(),
             totalSnapshots: snapshotResult.rows.length,
@@ -277,7 +277,7 @@ async function exportAllTablesAsJson(
       );
       if (payloadResult.rows.length > 0) {
         fs.writeFileSync(
-          path.join(outputDir, "render-payloads-index.json"),
+          path.join(backupDir, "render-payloads-index.json"),
           JSON.stringify({
             exportedAt: new Date().toISOString(),
             totalPayloads: payloadResult.rows.length,

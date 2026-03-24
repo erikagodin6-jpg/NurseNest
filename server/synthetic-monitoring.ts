@@ -97,9 +97,9 @@ const examOpenTest: SyntheticTestConfig = {
       const timeMs = Date.now() - start;
       if (resp.status === 200) {
         try {
-          const body = await resp.json();
-          if (body?._degraded) {
-            return { status: "fail", responseTimeMs: timeMs, errorDetails: `Exam endpoint returned degraded response: ${body._reason || "unknown"}` };
+          const body = resp.body;
+          if (body && typeof body === "object" && (body as any)?._degraded) {
+            return { status: "fail", responseTimeMs: timeMs, errorDetails: `Exam endpoint returned degraded response: ${(body as any)._reason || "unknown"}` };
           }
         } catch {}
         return { status: "pass", responseTimeMs: timeMs, metadata: { statusCode: resp.status } };

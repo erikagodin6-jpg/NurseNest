@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useLocation } from "wouter";
 import { getAuthHeaders } from "@/lib/queryClient";
+import { BackendErrorCodes, getLearnerMessageForCode, readApiJsonResponse } from "@/lib/api-error";
 import { Navigation } from "@/components/navigation";
 import { SEO } from "@/components/seo";
 import { AdminEditButton } from "@/components/admin-edit-button";
@@ -247,7 +248,24 @@ export default function Lessons() {
     if (authLoading) return;
     refreshOverrides();
     fetch("/api/lessons/meta", { headers: getAuthHeaders() })
-      .then((r) => r.ok ? r.json() : [])
+      .then(async (r) => {
+        const parsed = await readApiJsonResponse<{ id: string; isComplete: boolean }[]>(r);
+        if (!parsed.ok) {
+          if (parsed.code === BackendErrorCodes.CONTENT_MODULE_UNAVAILABLE) {
+            toast({
+              title: "Lessons temporarily unavailable",
+              description: getLearnerMessageForCode(parsed.code, parsed.message),
+            });
+          } else if (parsed.status === 401 || parsed.code === BackendErrorCodes.AUTH_REQUIRED) {
+            toast({
+              title: "Sign in required",
+              description: getLearnerMessageForCode(parsed.code, parsed.message),
+            });
+          }
+          return [];
+        }
+        return Array.isArray(parsed.data) ? parsed.data : [];
+      })
       .then((meta: { id: string; isComplete: boolean }[]) => {
         const complete = new Set<string>();
         for (const m of meta) {

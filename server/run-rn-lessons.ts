@@ -1,33 +1,45 @@
 import { generateRnLessons } from "./rn-lesson-generator";
 
-async function main() {
+type GenerationResult = {
+  lessonsInserted: number;
+  flashcardsInserted: number;
+  questionsLinked: number;
+  errors: string[];
+};
+
+function printReport(result: GenerationResult, elapsedSeconds: string): void {
+  console.log("\n========================================");
+  console.log("  RN Lesson Library Generation Report");
+  console.log("========================================");
+  console.log(`  Lessons inserted:    ${result.lessonsInserted}`);
+  console.log(`  Flashcards inserted: ${result.flashcardsInserted}`);
+  console.log(`  Questions linked:    ${result.questionsLinked}`);
+  console.log(`  Errors:              ${result.errors.length}`);
+  console.log(`  Time elapsed:        ${elapsedSeconds}s`);
+  console.log("========================================\n");
+
+  if (result.errors.length > 0) {
+    console.log("Errors:");
+    result.errors.forEach((error, index) => {
+      console.log(`  ${index + 1}. ${error}`);
+    });
+  }
+}
+
+async function main(): Promise<void> {
   console.log("[Runner] Starting RN Lesson Library Generation...");
-  const start = Date.now();
+  const startTime = Date.now();
 
   try {
-    const result = await generateRnLessons();
-    const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-    
-    console.log("\n========================================");
-    console.log("  RN Lesson Library Generation Report");
-    console.log("========================================");
-    console.log(`  Lessons inserted:    ${result.lessonsInserted}`);
-    console.log(`  Flashcards inserted: ${result.flashcardsInserted}`);
-    console.log(`  Questions linked:    ${result.questionsLinked}`);
-    console.log(`  Errors:              ${result.errors.length}`);
-    console.log(`  Time elapsed:        ${elapsed}s`);
-    console.log("========================================\n");
-    
-    if (result.errors.length > 0) {
-      console.log("Errors:");
-      result.errors.forEach((e, i) => console.log(`  ${i + 1}. ${e}`));
-    }
-    
+    const result = (await generateRnLessons()) as GenerationResult;
+    const elapsedSeconds = ((Date.now() - startTime) / 1000).toFixed(1);
+
+    printReport(result, elapsedSeconds);
     process.exit(0);
-  } catch (err) {
-    console.error("[Runner] Fatal error:", err);
+  } catch (error) {
+    console.error("[Runner] Fatal error:", error);
     process.exit(1);
   }
 }
 
-main();
+void main();

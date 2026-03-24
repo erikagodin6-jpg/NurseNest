@@ -79,12 +79,14 @@ export async function runStripeBackup(): Promise<BackupResult> {
     let subscriptions: any[] = [];
     try {
       for await (const sub of stripe.subscriptions.list({ limit: 100, status: "active" })) {
+        // Stripe SDK typings omit period fields on some narrowed Subscription shapes; backup reads runtime API.
+        const s = sub as any;
         subscriptions.push({
           id: sub.id,
           customer: sub.customer,
           status: sub.status,
-          current_period_start: sub.current_period_start,
-          current_period_end: sub.current_period_end,
+          current_period_start: s.current_period_start,
+          current_period_end: s.current_period_end,
           items: sub.items.data.map((item: any) => ({
             id: item.id,
             price: item.price.id,

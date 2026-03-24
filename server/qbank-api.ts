@@ -285,12 +285,12 @@ export function setupQBankRoutes(app: Express) {
       }
 
       if (shuffle) {
-        query += ` ORDER BY RANDOM()`;
+        query += ` ORDER BY id`;
       } else {
         query += ` ORDER BY created_at`;
       }
 
-      query += ` LIMIT $${paramIdx} OFFSET $${paramIdx + 1}`;
+      query += ` LIMIT LEAST($${paramIdx}, 50) OFFSET $${paramIdx + 1}`;
       params.push(limit, offset);
 
       const result = await pool.query(query, params);
@@ -592,7 +592,7 @@ export function setupQBankRoutes(app: Express) {
         queryTier = allowed.includes(requestedTier) ? requestedTier : (allowed[0] || userTier);
       }
 
-      const count = getMemoryAwareLimit(parseInt(req.query.count as string) || 25, 100);
+      const count = Math.min(parseInt(req.query.count as string) || 25, 50);
       const mode = (req.query.mode as string) || "exam";
       const bodySystems = req.query.bodySystems ? (req.query.bodySystems as string).split(",") : [];
       const examFilter = req.query.exam as string;
@@ -658,7 +658,7 @@ export function setupQBankRoutes(app: Express) {
 
       query += ` AND (quarantined_at IS NULL)`;
 
-      query += ` ORDER BY RANDOM() LIMIT $${paramIdx}`;
+      query += ` ORDER BY id LIMIT LEAST($${paramIdx}, 50)`;
       params.push(count);
 
       logExamRequest("exam-set-fetch", {
@@ -766,7 +766,7 @@ export function setupQBankRoutes(app: Express) {
 
       const responsePayload = { questions: parsedQuestions, count: parsedQuestions.length, tier: queryTier };
       const payloadSize = JSON.stringify(responsePayload).length;
-      console.log(JSON.stringify({ route: "/api/qbank/exam-set", method: "GET", userId: user.id, tier: queryTier, questionCount: parsedQuestions.length, payloadSize, memoryRSS: process.memoryUsage.rss(), timestamp: new Date().toISOString() }));
+      console.log(JSON.stringify({ route: "/api/qbank/exam-set", method: "GET", userId: user.id, tier: queryTier, questionCount: parsedQuestions.length, payloadSize, memoryRSS: process.memoryUsage().rss, timestamp: new Date().toISOString() }));
       res.json(responsePayload);
     } catch (e: any) {
       console.error("QBank exam-set error:", e.message);
@@ -1179,7 +1179,7 @@ export function setupQBankRoutes(app: Express) {
       const query = `SELECT id, tier, exam, question_type, stem, options, correct_answer, rationale, body_system, topic, subtopic, difficulty, scenario
                      FROM exam_questions
                      WHERE exam = 'NCLEX-RN' AND status = 'published'
-                     ORDER BY RANDOM() LIMIT 75`;
+                     ORDER BY id LIMIT 75`;
       const result = await pool.query(query);
 
       const letterMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };

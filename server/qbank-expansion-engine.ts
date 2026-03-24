@@ -1051,6 +1051,7 @@ export async function runCriticalCareSubspecialty(
 
   const openai = getOpenAI();
   const existingHashes = await getExistingStemHashes(dbPool);
+  const expansionTier = "rn";
   const topics = CRITICAL_CARE_TOPICS[subspecialty] || CRITICAL_CARE_TOPICS["ICU Nursing"];
   const startedAt = new Date().toISOString();
   const batches: ExpansionProgress[] = [];
@@ -1153,7 +1154,7 @@ export async function runCriticalCareSubspecialty(
           continue;
         }
 
-        const dupCheck = await checkDuplicateStem(item.stem, tier);
+        const dupCheck = await checkDuplicateStem(item.stem, expansionTier);
         if (dupCheck.isDuplicate) {
           batchDuplicates++;
           continue;
@@ -1821,6 +1822,7 @@ export async function runProceduralSurgicalSubspecialty(
 
   const openai = getOpenAI();
   const existingHashes = await getExistingStemHashes(dbPool);
+  const expansionTier = "rn";
   const topics = PROCEDURAL_SURGICAL_TOPICS[subspecialty] || PROCEDURAL_SURGICAL_TOPICS["Perioperative Nursing"];
   const startedAt = new Date().toISOString();
   const batches: ExpansionProgress[] = [];
@@ -1923,7 +1925,7 @@ export async function runProceduralSurgicalSubspecialty(
           continue;
         }
 
-        const dupCheck = await checkDuplicateStem(item.stem, tier);
+        const dupCheck = await checkDuplicateStem(item.stem, expansionTier);
         if (dupCheck.isDuplicate) {
           batchDuplicates++;
           continue;
@@ -2294,7 +2296,7 @@ export async function runAutoTriggeredExpansions(
 
     try {
       const summary = await runExpansionForTier(d.tier, batchTarget);
-      const actualInserted = summary?.totalInserted ?? summary?.questionsGenerated ?? batchTarget;
+      const actualInserted = summary?.totalQuestionsInserted ?? batchTarget;
       results[d.tier] = { status: "complete", requested: batchTarget, inserted: actualInserted, summary };
       onProgress?.({ tier: d.tier, status: `complete (${actualInserted} inserted)` });
     } catch (err: any) {

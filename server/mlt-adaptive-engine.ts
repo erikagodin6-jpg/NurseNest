@@ -318,11 +318,42 @@ function generateRecommendations(
   return recs;
 }
 
+function summarizeCatSimulation(responses: QuestionResponse[]): {
+  totalCorrect: number;
+  totalIncorrect: number;
+  overallScore: number;
+  categoryBreakdown: Record<string, { correct: number; incorrect: number }>;
+} {
+  let totalCorrect = 0;
+  let totalIncorrect = 0;
+  const categoryBreakdown: Record<string, { correct: number; incorrect: number }> = {};
+  for (const r of responses) {
+    if (r.isCorrect) totalCorrect++;
+    else totalIncorrect++;
+    const cat = r.category || "general";
+    if (!categoryBreakdown[cat]) categoryBreakdown[cat] = { correct: 0, incorrect: 0 };
+    if (r.isCorrect) categoryBreakdown[cat].correct++;
+    else categoryBreakdown[cat].incorrect++;
+  }
+  const n = totalCorrect + totalIncorrect;
+  const overallScore = n === 0 ? 0 : (totalCorrect / n) * 100;
+  return { totalCorrect, totalIncorrect, overallScore, categoryBreakdown };
+}
+
 export function simulateCAT(
   profile: SimulationProfile,
   questions: QuestionCandidate[],
   catParams: CATParameters
-): { responses: QuestionResponse[]; finalAbility: number; questionsUsed: number; stoppedReason: string } {
+): {
+  responses: QuestionResponse[];
+  finalAbility: number;
+  questionsUsed: number;
+  stoppedReason: string;
+  totalCorrect: number;
+  totalIncorrect: number;
+  overallScore: number;
+  categoryBreakdown: Record<string, { correct: number; incorrect: number }>;
+} {
   const state: ExamSessionState = {
     sessionId: "sim-" + Date.now(),
     mode: "usa_cat",
@@ -377,19 +408,23 @@ export function simulateCAT(
 
     const stopCheck = shouldStopCAT(state, catParams);
     if (stopCheck.stop) {
+      const stats = summarizeCatSimulation(simResponses);
       return {
         responses: simResponses,
         finalAbility: state.ability.theta,
         questionsUsed: simResponses.length,
         stoppedReason: stopCheck.reason,
+        ...stats,
       };
     }
   }
 
+  const stats = summarizeCatSimulation(simResponses);
   return {
     responses: simResponses,
     finalAbility: state.ability.theta,
     questionsUsed: simResponses.length,
     stoppedReason: "max_questions_reached",
+    ...stats,
   };
 }

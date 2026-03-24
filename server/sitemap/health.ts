@@ -1,318 +1,268 @@
 import type { Request, Response } from "express";
 import {
-  getSiteBase, getAlliedBase, getNewGradBase, todayDate,
-  wrapUrlset, splitIntoChunks, SITEMAP_SPLIT_LIMIT
+  getSiteBase,
+  splitIntoChunks,
+  SITEMAP_SPLIT_LIMIT,
 } from "./helpers";
-import {
-  generateMainPages, generateMainLessons, generateMainQuestions,
-  generateMainFlashcards, generateMainSpecialties, generateMainGlossary,
-  generateMainMedicalAbbreviations, generateMainNursingSkillChecklists,
-  generateMainClinicalClarity, generateMainBlog, generateMainMedicalImaging,
-  generateMainSeoContent, generateMainTopics, generateMainProgrammatic,
-  generateSeoContentPages
-} from "./main-site";
-import {
-  generateAlliedPages, generateAlliedDatabaseContent,
-  generateAlliedCareers, generateAlliedExams, generateAlliedTools,
-  generateAlliedTopics, generateAlliedSeoLanding
-} from "./allied-site";
-import { generateNewGradPages } from "./newgrad-site";
-import { isTimestampSlug, NOINDEX_UTILITY_PAGES, buildCanonicalUrl } from "@shared/seo-utils";
 
-interface ValidationResult {
-  totalUrls: number;
-  checked: number;
-  passed: number;
-  failed: number;
-  duplicates: number;
-  errors: { url: string; status: number; error?: string }[];
-  duplicateUrls: string[];
-  duration: number;
+import {
+  generateMainPages,
+  generateMainLessons,
+  generateMainQuestions,
+  generateMainFlashcards,
+  generateMainSpecialties,
+  generateMainGlossary,
+  generateMainMedicalAbbreviations,
+  generateMainNursingSkillChecklists,
+  generateMainClinicalClarity,
+  generateMainBlog,
+  generateMainMedicalImaging,
+  generateMainSeoContent,
+  generateMainTopics,
+  generateMainProgrammatic,
+  generateSeoContentPages,
+} from "./main-site";
+
+import {
+  generateAlliedCareers,
+  generateAlliedExams,
+  generateAlliedTools,
+  generateAlliedTopics,
+  generateAlliedSeoLanding,
+} from "./allied-site";
+
+import { generateNewGradPages } from "./newgrad-site";
+
+import {
+  isTimestampSlug,
+  NOINDEX_UTILITY_PAGES,
+  buildCanonicalUrl,
+} from "@shared/seo-utils";
+
+/* =========================
+   CONSTANTS
+========================= */
+
+const MAX_CONCURRENT_REQUESTS = 10;
+const REQUEST_TIMEOUT_MS = 4000;
+
+/* =========================
+   HELPERS
+========================= */
+
+function extractUrlsFromXml(xmlEntries: string[]): string[] {
+  const urls: string[] = [];
+  const seen = new Set<string>();
+
+  for (const xml of xmlEntries) {
+    const matches = xml.match(/<loc>([^<]+)<\/loc>/g);
+    if (!matches) continue;
+
+    for (const m of matches) {
+      const url = m.replace(/<\/?loc>/g, "").trim();
+      if (!url) continue;
+
+      if (!seen.has(url)) {
+        seen.add(url);
+        urls.push(url);
+      }
+    }
+  }
+
+  return urls;
 }
 
+function createLimiter(limit: number) {
+  let active = 0;
+  const queue: (() => void)[] = [];
+
+  const next = () => {
+    active--;
+    if (queue.length > 0) {
+      const fn = queue.shift();
+      if (fn) fn();
+    }
+  };
+
+  return async function run<T>(fn: () => Promise<T>): Promise<T> {
+    if (active >= limit) {
+      await new Promise<void>((resolve) => queue.push(resolve));
+    }
+
+    active++;
+
+    try {
+      return await fn();
+    } finally {
+      next();
+    }
+  };
+}
+
+const limitFetch = createLimiter(MAX_CONCURRENT_REQUESTS);
+
+async function checkUrl(url: string): Promise<{ ok: boolean; status: number; error?: string }> {
+  try {
+    const urlObj = new URL(url);
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+    const res = await fetch(`http://localhost:${process.env.PORT || 3000}${urlObj.pathname}`, {
+      method: "HEAD",
+      signal: controller.signal,
+      headers: { Host: urlObj.hostname },
+    });
+
+    clearTimeout(timeout);
+
+    return {
+      ok: res.ok || res.status === 301 || res.status === 302,
+      status: res.status,
+    };
+  } catch (e: any) {
+    return {
+      ok: false,
+      status: 0,
+      error: e.name === "AbortError" ? "timeout" : e.message,
+    };
+  }
+}
+
+/* =========================
+   SITEMAP VALIDATION
+========================= */
+
 export async function sitemapValidate(req: Request, res: Response) {
-  const startTime = Date.now();
-  const requestedLimit = parseInt(String(req.query.limit || "0"));
-  const maxCheck = requestedLimit > 0 ? requestedLimit : Infinity;
+  const start = Date.now();
+
+  const limit = Math.min(parseInt(String(req.query.limit || "0")) || Infinity, 2000);
   const domain = String(req.query.domain || "main");
 
   try {
-    let allXmlUrls: string[] = [];
+    const xml: string[] = [];
 
     if (domain === "main" || domain === "all") {
-      const generators = [
-        generateMainPages, generateMainLessons, generateMainQuestions,
-        generateMainFlashcards, generateMainSpecialties, generateMainGlossary,
-        generateMainMedicalAbbreviations, generateMainNursingSkillChecklists,
-        generateMainClinicalClarity, generateMainBlog, generateMainMedicalImaging,
-        generateMainSeoContent, generateMainTopics, generateMainProgrammatic,
+      const gens = [
+        generateMainPages,
+        generateMainLessons,
+        generateMainQuestions,
+        generateMainFlashcards,
+        generateMainSpecialties,
+        generateMainGlossary,
+        generateMainMedicalAbbreviations,
+        generateMainNursingSkillChecklists,
+        generateMainClinicalClarity,
+        generateMainBlog,
+        generateMainMedicalImaging,
+        generateMainSeoContent,
+        generateMainTopics,
+        generateMainProgrammatic,
         generateSeoContentPages,
       ];
-      for (const gen of generators) {
+
+      for (const g of gens) {
         try {
-          const urls = await gen();
-          allXmlUrls.push(...urls);
+          xml.push(...(await g()));
         } catch (e) {
-          console.error(`Sitemap validate: generator ${gen.name} error:`, e);
+          console.error(`[Sitemap] main generator error:`, e);
         }
       }
     }
 
     if (domain === "allied" || domain === "all") {
-      const alliedGenerators = [
-        generateAlliedCareers, generateAlliedExams, generateAlliedTools,
-        generateAlliedTopics, generateAlliedSeoLanding,
+      const gens = [
+        generateAlliedCareers,
+        generateAlliedExams,
+        generateAlliedTools,
+        generateAlliedTopics,
+        generateAlliedSeoLanding,
       ];
-      for (const gen of alliedGenerators) {
+
+      for (const g of gens) {
         try {
-          const urls = await gen();
-          allXmlUrls.push(...urls);
+          xml.push(...(await g()));
         } catch (e) {
-          console.error(`Sitemap validate: allied generator ${gen.name} error:`, e);
+          console.error(`[Sitemap] allied generator error:`, e);
         }
       }
     }
 
     if (domain === "newgrad" || domain === "all") {
       try {
-        const urls = await generateNewGradPages();
-        allXmlUrls.push(...urls);
+        xml.push(...(await generateNewGradPages()));
       } catch (e) {
-        console.error("Sitemap validate: newgrad pages error:", e);
+        console.error(`[Sitemap] newgrad error:`, e);
       }
     }
 
-    const extractedUrls: string[] = [];
-    const urlSet = new Set<string>();
-    const duplicateUrls: string[] = [];
-    for (const xmlEntry of allXmlUrls) {
-      const locMatches = xmlEntry.match(/<loc>([^<]+)<\/loc>/g);
-      if (locMatches) {
-        for (const m of locMatches) {
-          const url = m.replace(/<\/?loc>/g, "");
-          if (urlSet.has(url)) {
-            if (!duplicateUrls.includes(url)) {
-              duplicateUrls.push(url);
-            }
-          } else {
-            urlSet.add(url);
-            extractedUrls.push(url);
-          }
-        }
-      }
-    }
+    const urls = extractUrlsFromXml(xml);
+    const toCheck = limit === Infinity ? urls : urls.slice(0, limit);
 
-    const totalUrls = extractedUrls.length;
-    const urlsToCheck = maxCheck === Infinity
-      ? extractedUrls
-      : extractedUrls.slice(0, maxCheck);
-
-    const errors: { url: string; status: number; error?: string }[] = [];
     let passed = 0;
+    const errors: any[] = [];
 
-    for (const url of urlsToCheck) {
-      try {
-        const urlObj = new URL(url);
-        const internalPath = urlObj.pathname + urlObj.search;
+    await Promise.all(
+      toCheck.map((url) =>
+        limitFetch(async () => {
+          const result = await checkUrl(url);
 
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 5000);
-
-        try {
-          const response = await fetch(`http://localhost:${process.env.PORT || 3000}${internalPath}`, {
-            method: "HEAD",
-            signal: controller.signal,
-            headers: { "Host": urlObj.hostname },
-            redirect: "follow",
-          });
-          clearTimeout(timeout);
-
-          if (response.ok || response.status === 301 || response.status === 302) {
+          if (result.ok) {
             passed++;
           } else {
-            errors.push({ url, status: response.status });
+            errors.push({ url, ...result });
           }
-        } catch (fetchErr: any) {
-          clearTimeout(timeout);
-          if (fetchErr.name === "AbortError") {
-            errors.push({ url, status: 0, error: "timeout" });
-          } else {
-            errors.push({ url, status: 0, error: fetchErr.message });
-          }
-        }
-      } catch (e: any) {
-        errors.push({ url, status: 0, error: e.message });
-      }
-    }
+        }),
+      ),
+    );
 
-    const result: ValidationResult = {
-      totalUrls,
-      checked: urlsToCheck.length,
+    res.json({
+      totalUrls: urls.length,
+      checked: toCheck.length,
       passed,
       failed: errors.length,
-      duplicates: duplicateUrls.length,
       errors: errors.slice(0, 50),
-      duplicateUrls: duplicateUrls.slice(0, 50),
-      duration: Date.now() - startTime,
-    };
-
-    res.json(result);
+      duration: Date.now() - start,
+    });
   } catch (e: any) {
-    res.status(500).json({ error: e.message, duration: Date.now() - startTime });
+    res.status(500).json({ error: e.message });
   }
 }
 
-interface HealthReport {
-  status: "ok" | "warning" | "error";
-  generatedAt: string;
-  domains: {
-    main: DomainReport;
-    allied: DomainReport;
-    newgrad: DomainReport;
-  };
-  issues: string[];
-}
-
-interface DomainReport {
-  totalUrls: number;
-  sitemapCount: number;
-  childSitemaps: { name: string; urlCount: number }[];
-}
+/* =========================
+   SITEMAP HEALTH
+========================= */
 
 export async function sitemapHealthCheck(_req: Request, res: Response) {
   const issues: string[] = [];
 
   try {
-    const mainGenerators = [
-      { name: "pages", fn: generateMainPages },
-      { name: "lessons", fn: generateMainLessons },
-      { name: "questions", fn: generateMainQuestions },
-      { name: "flashcards", fn: generateMainFlashcards },
-      { name: "specialties", fn: generateMainSpecialties },
-      { name: "glossary", fn: generateMainGlossary },
-      { name: "medical-abbreviations", fn: generateMainMedicalAbbreviations },
-      { name: "nursing-skill-checklists", fn: generateMainNursingSkillChecklists },
-      { name: "clinical-clarity", fn: generateMainClinicalClarity },
-      { name: "blog", fn: generateMainBlog },
-      { name: "medical-imaging", fn: generateMainMedicalImaging },
-      { name: "seo-content", fn: generateMainSeoContent },
-      { name: "topics", fn: generateMainTopics },
-      { name: "programmatic", fn: generateMainProgrammatic },
-    ];
+    const mainUrls = extractUrlsFromXml(await generateMainPages().catch(() => []));
+    const alliedUrls = extractUrlsFromXml(await generateAlliedCareers().catch(() => []));
+    const newgradUrls = extractUrlsFromXml(await generateNewGradPages().catch(() => []));
 
-    const mainChildSitemaps: { name: string; urlCount: number }[] = [];
-    let mainTotalUrls = 0;
-    let mainSitemapCount = 0;
-    const allMainUrls = new Set<string>();
+    if (mainUrls.length === 0) issues.push("Main sitemap empty");
+    if (alliedUrls.length === 0) issues.push("Allied sitemap empty");
+    if (newgradUrls.length === 0) issues.push("NewGrad sitemap empty");
 
-    for (const gen of mainGenerators) {
-      try {
-        const urls = await gen.fn();
-        const chunks = splitIntoChunks(urls, SITEMAP_SPLIT_LIMIT);
-        for (let i = 0; i < chunks.length; i++) {
-          const suffix = chunks.length > 1 ? `-${i + 1}` : "";
-          mainChildSitemaps.push({ name: `sitemap-${gen.name}${suffix}.xml`, urlCount: chunks[i].length });
-          mainSitemapCount++;
-        }
-        mainTotalUrls += urls.length;
-
-        for (const urlXml of urls) {
-          const locMatch = urlXml.match(/<loc>([^<]+)<\/loc>/g);
-          if (locMatch) {
-            for (const m of locMatch) {
-              const loc = m.replace(/<\/?loc>/g, "");
-              if (allMainUrls.has(loc)) {
-                issues.push(`Duplicate URL on main site: ${loc}`);
-              }
-              allMainUrls.add(loc);
-            }
-          }
-        }
-      } catch (e: any) {
-        issues.push(`Error generating main/${gen.name}: ${e.message}`);
-      }
-    }
-
-    const alliedGenerators = [
-      { name: "allied-careers", fn: generateAlliedCareers },
-      { name: "allied-exams", fn: generateAlliedExams },
-      { name: "allied-tools", fn: generateAlliedTools },
-      { name: "allied-topics", fn: generateAlliedTopics },
-      { name: "allied-seo-landing", fn: generateAlliedSeoLanding },
-    ];
-
-    const alliedChildSitemaps: { name: string; urlCount: number }[] = [];
-    let alliedTotalUrls = 0;
-    let alliedSitemapCount = 0;
-    const allAlliedUrls = new Set<string>();
-
-    for (const gen of alliedGenerators) {
-      try {
-        const urls = await gen.fn();
-        const chunks = splitIntoChunks(urls, SITEMAP_SPLIT_LIMIT);
-        for (let i = 0; i < chunks.length; i++) {
-          const suffix = chunks.length > 1 ? `-${i + 1}` : "";
-          alliedChildSitemaps.push({ name: `sitemap-${gen.name}${suffix}.xml`, urlCount: chunks[i].length });
-          alliedSitemapCount++;
-        }
-        alliedTotalUrls += urls.length;
-
-        for (const urlXml of urls) {
-          const locMatch = urlXml.match(/<loc>([^<]+)<\/loc>/g);
-          if (locMatch) {
-            for (const m of locMatch) {
-              const loc = m.replace(/<\/?loc>/g, "");
-              if (allAlliedUrls.has(loc)) {
-                issues.push(`Duplicate URL on allied site: ${loc}`);
-              }
-              allAlliedUrls.add(loc);
-            }
-          }
-        }
-      } catch (e: any) {
-        issues.push(`Error generating allied/${gen.name}: ${e.message}`);
-      }
-    }
-
-    const newgradUrls = await generateNewGradPages().catch(() => []);
-    const newgradChunks = splitIntoChunks(newgradUrls, SITEMAP_SPLIT_LIMIT);
-    const newgradChildSitemaps = newgradChunks.map((chunk, i) => ({
-      name: `sitemap-newgrad-content${newgradChunks.length > 1 ? `-${i + 1}` : ""}.xml`,
-      urlCount: chunk.length,
-    }));
-
-    if (mainTotalUrls === 0) issues.push("Main site has 0 URLs - possible database issue");
-    if (alliedTotalUrls === 0) issues.push("Allied site has 0 URLs - possible database issue");
-    if (newgradUrls.length === 0) issues.push("NewGrad site has 0 URLs");
-
-    const report: HealthReport = {
+    res.json({
       status: issues.length === 0 ? "ok" : "warning",
       generatedAt: new Date().toISOString(),
       domains: {
-        main: {
-          totalUrls: mainTotalUrls,
-          sitemapCount: mainSitemapCount,
-          childSitemaps: mainChildSitemaps,
-        },
-        allied: {
-          totalUrls: alliedTotalUrls,
-          sitemapCount: alliedSitemapCount,
-          childSitemaps: alliedChildSitemaps,
-        },
-        newgrad: {
-          totalUrls: newgradUrls.length,
-          sitemapCount: newgradChildSitemaps.length,
-          childSitemaps: newgradChildSitemaps,
-        },
+        main: { totalUrls: mainUrls.length },
+        allied: { totalUrls: alliedUrls.length },
+        newgrad: { totalUrls: newgradUrls.length },
       },
       issues,
-    };
-
-    res.json(report);
+    });
   } catch (e: any) {
-    res.status(500).json({ status: "error", message: e.message, issues: [e.message] });
+    res.status(500).json({ error: e.message });
   }
 }
+
+/* =========================
+   SEO DEBUG
+========================= */
 
 export async function seoDebug(req: Request, res: Response) {
   const path = String(req.query.path || "/");
@@ -321,44 +271,22 @@ export async function seoDebug(req: Request, res: Response) {
 
   const canonical = buildCanonicalUrl(path, locale, base);
   const isUtilityPage = NOINDEX_UTILITY_PAGES.has(path);
-  const utilityNoindex = isUtilityPage && locale !== "en";
 
-  const { isLocaleIndexable, getIndexableLocales, getHreflangCode } = await import("../translation-audit");
+  const { isLocaleIndexable, getIndexableLocales, getHreflangCode } =
+    await import("../translation-audit");
+
   const localeIndexable = isLocaleIndexable(locale);
-  const indexableLocales = getIndexableLocales();
-
-  const hreflangLocales = isUtilityPage ? ["en"] : indexableLocales;
-
-  const timestampCheck = {
-    isTimestamp: isTimestampSlug(path.split("/").pop() || ""),
-    slug: path.split("/").pop() || "",
-  };
-
-  const allSitemapUrls: string[] = [];
-  try {
-    const generators = [generateMainPages, generateMainBlog];
-    for (const gen of generators) {
-      const urls = await gen();
-      for (const xml of urls) {
-        const locMatches = xml.match(/<loc>([^<]+)<\/loc>/);
-        if (locMatches) allSitemapUrls.push(locMatches[1]);
-      }
-    }
-  } catch {}
-
-  const inSitemap = allSitemapUrls.some(u => u.includes(path));
+  const hreflangs = (isUtilityPage ? ["en"] : getIndexableLocales()).map((l) => ({
+    locale: l,
+    hreflang: getHreflangCode(l),
+  }));
 
   res.json({
     path,
     locale,
     canonical,
-    isUtilityPage,
-    utilityNoindex,
-    localeIndexable,
-    shouldNoindex: utilityNoindex || !localeIndexable,
-    hreflangLocales: hreflangLocales.map(l => ({ locale: l, hreflang: getHreflangCode(l) })),
-    timestampCheck,
-    inSitemap,
-    noindexUtilityPages: Array.from(NOINDEX_UTILITY_PAGES),
+    noindex: isUtilityPage || !localeIndexable,
+    hreflangs,
+    timestamp: isTimestampSlug(path.split("/").pop() || ""),
   });
 }

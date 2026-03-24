@@ -1,203 +1,238 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import pg from "pg";
 import { requireAdmin } from "./admin-auth";
-import { getAlertThresholds, setAlertThresholds, runAlertingChecks, fireAlert } from "./alerting-engine";
-import { runAllSyntheticTests, runSyntheticTest, getAvailableTests } from "./synthetic-monitoring";
+import {
+  getAlertThresholds,
+  setAlertThresholds,
+  runAlertingChecks,
+} from "./alerting-engine";
+import {
+  runAllSyntheticTests,
+  runSyntheticTest,
+  getAvailableTests,
+} from "./synthetic-monitoring";
+
+/* =========================
+   HELPERS
+========================= */
+
+function parseNumber(value: any, def: number, min: number, max: number) {
+  const n = parseInt(value);
+  if (isNaN(n)) return def;
+  return Math.min(Math.max(n, min), max);
+}
+
+function handleError(res: Response, label: string, e: any) {
+  if (e.message?.includes("does not exist")) {
+    return res.json({ items: [], total: 0 });
+  }
+  console.error(`[AlertRoutes] ${label}:`, e.message);
+  res.status(500).json({ error: "Internal server error" });
+}
+
+/* =========================
+   QUERY BUILDER
+========================= */
+
+function buildWhere(filters: Record<string, any>) {
+  const clauses: string[] = [];
+  const params: any[] = [];
+  let i = 1;
+
+  for (const [key, value] of Object.entries(filters)) {
+    if (value === undefined) continue;
+
+    clauses.push(`${key} = $${i++}`);
+    params.push(value);
+  }
+
+  return {
+    where: clauses.length ? `WHERE ${clauses.join(" AND ")}` : "",
+    params,
+    nextIndex: i,
+  };
+}
+
+/* =========================
+   ROUTES
+========================= */
 
 export function registerAlertingRoutes(app: Express, pool: pg.Pool) {
+
+  /* ===== ALERT LIST ===== */
+
   app.get("/api/admin/reliability/alerts", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
+
     try {
-      const limit = Math.min(Math.max(parseInt(req.query.limit as string) || 50, 1), 200);
-      const offset = Math.max(parseInt(req.query.offset as string) || 0, 0);
-      const severity = req.query.severity as string | undefined;
-      const alertType = req.query.type as string | undefined;
-      const acknowledged = req.query.acknowledged as string | undefined;
+      const limit = parseNumber(req.query.limit, 50, 1, 200);
+      const offset = parseNumber(req.query.offset, 0, 0, 10000);
 
-      let whereClause = "WHERE 1=1";
-      const params: any[] = [];
-      let paramIdx = 1;
+      const filters = {
+        severity: req.query.severity,
+        alert_type: req.query.type,
+        ...(req.query.acknowledged === "true" || req.query.acknowledged === "false"
+          ? { acknowledged: req.query.acknowledged === "true" }
+          : {}),
+      };
 
-      if (severity) {
-        whereClause += ` AND severity = $${paramIdx++}`;
-        params.push(severity);
-      }
-      if (alertType) {
-        whereClause += ` AND alert_type = $${paramIdx++}`;
-        params.push(alertType);
-      }
-      if (acknowledged === "true" || acknowledged === "false") {
-        whereClause += ` AND acknowledged = $${paramIdx++}`;
-        params.push(acknowledged === "true");
-      }
+      const { where, params, nextIndex } = buildWhere(filters);
 
-      const countResult = await pool.query(
-        `SELECT COUNT(*)::int AS total FROM reliability_alerts ${whereClause}`,
+      const total = await pool.query(
+        `SELECT COUNT(*)::int AS total FROM reliability_alerts ${where}`,
         params
       );
-      const result = await pool.query(
-        `SELECT * FROM reliability_alerts ${whereClause} ORDER BY created_at DESC LIMIT $${paramIdx++} OFFSET $${paramIdx++}`,
+
+      const data = await pool.query(
+        `SELECT * FROM reliability_alerts
+         ${where}
+         ORDER BY created_at DESC
+         LIMIT $${nextIndex} OFFSET $${nextIndex + 1}`,
         [...params, limit, offset]
       );
 
       res.json({
-        items: result.rows,
-        total: countResult.rows[0]?.total || 0,
+        items: data.rows,
+        total: total.rows[0]?.total || 0,
         limit,
         offset,
       });
+
     } catch (e: any) {
-      if (e.message?.includes("does not exist")) {
-        return res.json({ items: [], total: 0, limit: 50, offset: 0 });
-      }
-      console.error("[AlertRoutes] GET alerts error:", e.message);
-      res.status(500).json({ error: "Internal server error" });
+      handleError(res, "GET alerts", e);
     }
   });
+
+  /* ===== SUMMARY ===== */
 
   app.get("/api/admin/reliability/alerts/summary", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
+
     try {
-      const hours = Math.min(Math.max(parseInt(req.query.hours as string) || 24, 1), 168);
-      const result = await pool.query(`
-        SELECT 
-          alert_type,
-          severity,
-          COUNT(*)::int AS count,
-          MAX(created_at) AS latest
+      const hours = parseNumber(req.query.hours, 24, 1, 168);
+
+      const summary = await pool.query(`
+        SELECT alert_type, severity, COUNT(*)::int AS count, MAX(created_at) AS latest
         FROM reliability_alerts
         WHERE created_at > NOW() - ($1 || ' hours')::interval
         GROUP BY alert_type, severity
         ORDER BY count DESC
       `, [hours]);
-      const unackResult = await pool.query(
+
+      const unack = await pool.query(
         `SELECT COUNT(*)::int AS count FROM reliability_alerts WHERE acknowledged = false`
       );
+
       res.json({
-        summary: result.rows,
-        unacknowledgedCount: unackResult.rows[0]?.count || 0,
+        summary: summary.rows,
+        unacknowledgedCount: unack.rows[0]?.count || 0,
         hours,
       });
+
     } catch (e: any) {
-      if (e.message?.includes("does not exist")) {
-        return res.json({ summary: [], unacknowledgedCount: 0, hours: 24 });
-      }
-      console.error("[AlertRoutes] GET summary error:", e.message);
-      res.status(500).json({ error: "Internal server error" });
+      handleError(res, "GET summary", e);
     }
   });
+
+  /* ===== ACK ===== */
 
   app.post("/api/admin/reliability/alerts/:id/acknowledge", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
+
     try {
-      const { id } = req.params;
       const result = await pool.query(
-        `UPDATE reliability_alerts SET acknowledged = true, acknowledged_by = $1, acknowledged_at = NOW()
-         WHERE id = $2 RETURNING *`,
-        [admin.username || admin.id || "admin", id]
+        `UPDATE reliability_alerts
+         SET acknowledged = true,
+             acknowledged_by = $1,
+             acknowledged_at = NOW()
+         WHERE id = $2
+         RETURNING *`,
+        [admin.username || admin.id, req.params.id]
       );
-      if (result.rows.length === 0) {
+
+      if (!result.rows.length) {
         return res.status(404).json({ error: "Alert not found" });
       }
+
       res.json(result.rows[0]);
+
     } catch (e: any) {
-      console.error("[AlertRoutes] acknowledge error:", e.message);
-      res.status(500).json({ error: "Internal server error" });
+      handleError(res, "ACK alert", e);
     }
   });
 
-  app.post("/api/admin/reliability/alerts/acknowledge-all", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      const { alertType, severity } = req.body || {};
-      let whereClause = "WHERE acknowledged = false";
-      const params: any[] = [admin.username || admin.id || "admin"];
-      let paramIdx = 2;
-
-      if (alertType) {
-        whereClause += ` AND alert_type = $${paramIdx++}`;
-        params.push(alertType);
-      }
-      if (severity) {
-        whereClause += ` AND severity = $${paramIdx++}`;
-        params.push(severity);
-      }
-
-      const result = await pool.query(
-        `UPDATE reliability_alerts SET acknowledged = true, acknowledged_by = $1, acknowledged_at = NOW()
-         ${whereClause} RETURNING id`,
-        params
-      );
-      res.json({ acknowledged: result.rows.length });
-    } catch (e: any) {
-      console.error("[AlertRoutes] acknowledge-all error:", e.message);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
+  /* ===== THRESHOLDS ===== */
 
   app.get("/api/admin/reliability/thresholds", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
+
     res.json(getAlertThresholds());
   });
 
   app.put("/api/admin/reliability/thresholds", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
+
     try {
-      const updates: Record<string, number> = {};
-      const allowedKeys = [
-        "failureRatePercent", "fallbackRatePercent", "quarantineCountPerHour",
-        "protectedRecoveryCountPerHour", "backupFailureCountPerHour",
-        "entitlementMismatchCountPerHour", "cooldownMinutes"
+      const allowed = [
+        "failureRatePercent",
+        "fallbackRatePercent",
+        "quarantineCountPerHour",
+        "protectedRecoveryCountPerHour",
+        "backupFailureCountPerHour",
+        "entitlementMismatchCountPerHour",
+        "cooldownMinutes",
       ];
-      for (const key of allowedKeys) {
-        if (key in req.body && typeof req.body[key] === "number" && req.body[key] >= 0) {
+
+      const updates: Record<string, number> = {};
+
+      for (const key of allowed) {
+        if (typeof req.body[key] === "number" && req.body[key] >= 0) {
           updates[key] = req.body[key];
         }
       }
-      const result = await setAlertThresholds(updates, pool);
-      res.json(result);
+
+      res.json(await setAlertThresholds(updates, pool));
+
     } catch (e: any) {
-      console.error("[AlertRoutes] PUT thresholds error:", e.message);
-      res.status(500).json({ error: "Internal server error" });
+      handleError(res, "PUT thresholds", e);
     }
   });
+
+  /* ===== CHECK NOW ===== */
 
   app.post("/api/admin/reliability/check-now", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
+
     try {
       await runAlertingChecks(pool);
-      res.json({ success: true, message: "Alerting checks completed" });
+      res.json({ success: true });
     } catch (e: any) {
-      console.error("[AlertRoutes] check-now error:", e.message);
-      res.status(500).json({ error: "Internal server error" });
+      handleError(res, "check-now", e);
     }
   });
 
-  app.get("/api/admin/reliability/synthetic/tests", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    res.json(getAvailableTests());
-  });
+  /* ===== SYNTHETIC ===== */
 
   app.post("/api/admin/reliability/synthetic/run", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
+
     try {
-      const port = process.env.PORT || "5000";
-      const baseUrl = `http://127.0.0.1:${port}`;
+      const baseUrl = `http://127.0.0.1:${process.env.PORT || "5000"}`;
       const { testName } = req.body || {};
+
       if (testName) {
-        const result = await runSyntheticTest(pool, testName, baseUrl);
-        return res.json(result);
+        return res.json(await runSyntheticTest(pool, testName, baseUrl));
       }
+
       const results = await runAllSyntheticTests(pool, baseUrl);
+
       res.json({
         results,
         summary: {
@@ -206,103 +241,16 @@ export function registerAlertingRoutes(app: Express, pool: pg.Pool) {
           failed: results.filter(r => r.status === "fail").length,
         },
       });
+
     } catch (e: any) {
-      console.error("[AlertRoutes] synthetic run error:", e.message);
-      res.status(500).json({ error: "Internal server error" });
+      handleError(res, "synthetic run", e);
     }
   });
 
-  app.get("/api/admin/reliability/synthetic/results", async (req, res) => {
+  app.get("/api/admin/reliability/synthetic/tests", async (req, res) => {
     const admin = await requireAdmin(req, res);
     if (!admin) return;
-    try {
-      const limit = Math.min(Math.max(parseInt(req.query.limit as string) || 50, 1), 200);
-      const offset = Math.max(parseInt(req.query.offset as string) || 0, 0);
-      const testName = req.query.testName as string | undefined;
 
-      let whereClause = "";
-      const params: any[] = [];
-      let paramIdx = 1;
-
-      if (testName) {
-        whereClause = `WHERE test_name = $${paramIdx++}`;
-        params.push(testName);
-      }
-
-      const countResult = await pool.query(
-        `SELECT COUNT(*)::int AS total FROM synthetic_test_results ${whereClause}`,
-        params
-      );
-      const result = await pool.query(
-        `SELECT * FROM synthetic_test_results ${whereClause} ORDER BY created_at DESC LIMIT $${paramIdx++} OFFSET $${paramIdx++}`,
-        [...params, limit, offset]
-      );
-
-      res.json({
-        items: result.rows,
-        total: countResult.rows[0]?.total || 0,
-        limit,
-        offset,
-      });
-    } catch (e: any) {
-      if (e.message?.includes("does not exist")) {
-        return res.json({ items: [], total: 0, limit: 50, offset: 0 });
-      }
-      console.error("[AlertRoutes] synthetic results error:", e.message);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.get("/api/admin/reliability/synthetic/latest", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      const result = await pool.query(`
-        SELECT DISTINCT ON (test_name) *
-        FROM synthetic_test_results
-        ORDER BY test_name, created_at DESC
-      `);
-      const passed = result.rows.filter(r => r.status === "pass").length;
-      const failed = result.rows.filter(r => r.status === "fail").length;
-      res.json({
-        tests: result.rows,
-        summary: { total: result.rows.length, passed, failed },
-      });
-    } catch (e: any) {
-      if (e.message?.includes("does not exist")) {
-        return res.json({ tests: [], summary: { total: 0, passed: 0, failed: 0 } });
-      }
-      console.error("[AlertRoutes] synthetic latest error:", e.message);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.get("/api/admin/reliability/synthetic/history", async (req, res) => {
-    const admin = await requireAdmin(req, res);
-    if (!admin) return;
-    try {
-      const hours = Math.min(Math.max(parseInt(req.query.hours as string) || 24, 1), 168);
-      const result = await pool.query(`
-        SELECT 
-          test_name,
-          COUNT(*)::int AS total_runs,
-          COUNT(*) FILTER (WHERE status = 'pass')::int AS passes,
-          COUNT(*) FILTER (WHERE status = 'fail')::int AS failures,
-          ROUND(AVG(response_time_ms))::int AS avg_response_ms,
-          MAX(response_time_ms)::int AS max_response_ms,
-          MIN(response_time_ms)::int AS min_response_ms
-        FROM synthetic_test_results
-        WHERE created_at > NOW() - ($1 || ' hours')::interval
-        GROUP BY test_name
-        ORDER BY test_name
-      `, [hours]);
-      res.json({ history: result.rows, hours });
-    } catch (e: any) {
-      if (e.message?.includes("does not exist")) {
-        return res.json({ history: [], hours: 24 });
-      }
-      console.error("[AlertRoutes] synthetic history error:", e.message);
-      res.status(500).json({ error: "Internal server error" });
-    }
+    res.json(getAvailableTests());
   });
 }

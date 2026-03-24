@@ -85,10 +85,10 @@ async function main() {
 
     const subdisciplines = MLT_SUBDISCIPLINES[chunk.name] || [];
     const canadaCat = MLT_CANADA_BLUEPRINT_CATEGORIES.find((c) =>
-      c.disciplines.includes(chunk.name as any)
+      (c.disciplines as readonly string[]).includes(chunk.name)
     );
     const usaArea = MLT_USA_CONTENT_AREAS.find((c) =>
-      c.disciplines.includes(chunk.name as any)
+      (c.disciplines as readonly string[]).includes(chunk.name)
     );
 
     const countryContext =

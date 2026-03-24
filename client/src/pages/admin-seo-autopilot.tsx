@@ -38,7 +38,9 @@ import {
   RefreshCw,
   ArrowRight,
 } from "lucide-react";
-import { adminFetch } from "@/lib/admin-fetch";
+import { adminFetch, adminJson } from "@/lib/admin-fetch";
+import { ApiError, getAdminOpsMessageForCode } from "@/lib/api-error";
+import { useToast } from "@/hooks/use-toast";
 
 import { useI18n } from "@/lib/i18n";
 const STATUS_COLORS: Record<string, string> = {
@@ -64,6 +66,7 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 function OverviewTab({ siteContext, careerTrack }: { siteContext: string; careerTrack: string | null }) {
+  const { t } = useI18n();
   const { data: stats, isLoading } = useQuery({
     queryKey: ["/api/admin/seo-engine/stats", siteContext, careerTrack],
     queryFn: () => adminFetch(`/api/admin/seo-engine/stats?siteContext=${siteContext}${careerTrack ? `&careerTrack=${careerTrack}` : ""}`).then(r => r.json()),
@@ -155,6 +158,7 @@ function OverviewTab({ siteContext, careerTrack }: { siteContext: string; career
 }
 
 function ClustersTab({ siteContext, careerTrack }: { siteContext: string; careerTrack: string | null }) {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [statusFilter, setStatusFilter] = useState("all");
   const [newKeyword, setNewKeyword] = useState("");
@@ -269,6 +273,7 @@ function ClustersTab({ siteContext, careerTrack }: { siteContext: string; career
 }
 
 function ArticlesTab({ siteContext, careerTrack }: { siteContext: string; careerTrack: string | null }) {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [statusFilter, setStatusFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
@@ -364,6 +369,7 @@ function ArticlesTab({ siteContext, careerTrack }: { siteContext: string; career
 }
 
 function InfographicsTab({ siteContext, careerTrack }: { siteContext: string; careerTrack: string | null }) {
+  const { t } = useI18n();
   const { data: infographics, isLoading } = useQuery({
     queryKey: ["/api/admin/seo-engine/infographics", siteContext, careerTrack],
     queryFn: () => adminFetch(`/api/admin/seo-engine/infographics?siteContext=${siteContext}${careerTrack ? `&careerTrack=${careerTrack}` : ""}`).then(r => r.json()),
@@ -403,6 +409,7 @@ function InfographicsTab({ siteContext, careerTrack }: { siteContext: string; ca
 }
 
 function TemplatesTab({ siteContext, careerTrack }: { siteContext: string; careerTrack: string | null }) {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [newKey, setNewKey] = useState("");
   const [newName, setNewName] = useState("");
@@ -470,6 +477,7 @@ function TemplatesTab({ siteContext, careerTrack }: { siteContext: string; caree
 }
 
 function PinsTab({ siteContext, careerTrack }: { siteContext: string; careerTrack: string | null }) {
+  const { t } = useI18n();
   const { data: pins, isLoading } = useQuery({
     queryKey: ["/api/admin/seo-engine/pins", siteContext, careerTrack],
     queryFn: () => adminFetch(`/api/admin/seo-engine/pins?siteContext=${siteContext}${careerTrack ? `&careerTrack=${careerTrack}` : ""}`).then(r => r.json()),
@@ -505,6 +513,7 @@ function PinsTab({ siteContext, careerTrack }: { siteContext: string; careerTrac
 }
 
 function InternalLinksTab({ siteContext, careerTrack }: { siteContext: string; careerTrack: string | null }) {
+  const { t } = useI18n();
   const { data: links, isLoading } = useQuery({
     queryKey: ["/api/admin/seo-engine/internal-links", siteContext, careerTrack],
     queryFn: () => adminFetch(`/api/admin/seo-engine/internal-links`).then(r => r.json()),
@@ -542,6 +551,7 @@ function InternalLinksTab({ siteContext, careerTrack }: { siteContext: string; c
 }
 
 function PublishQueueTab({ siteContext, careerTrack }: { siteContext: string; careerTrack: string | null }) {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [statusFilter, setStatusFilter] = useState("all");
 
@@ -616,6 +626,7 @@ function PublishQueueTab({ siteContext, careerTrack }: { siteContext: string; ca
 }
 
 function QcTab({ siteContext, careerTrack }: { siteContext: string; careerTrack: string | null }) {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
 
   const { data: runs, isLoading } = useQuery({
@@ -679,6 +690,8 @@ function QcTab({ siteContext, careerTrack }: { siteContext: string; careerTrack:
 }
 
 function PageTemplatesTab() {
+  const { t } = useI18n();
+  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [newKey, setNewKey] = useState("");
   const [newName, setNewName] = useState("");
@@ -704,8 +717,13 @@ function PageTemplatesTab() {
   });
 
   const seedMutation = useMutation({
-    mutationFn: () => adminFetch("/api/admin/seo-engine/seed-page-templates", { method: "POST" }).then(r => r.json()),
+    mutationFn: () => adminJson("/api/admin/seo-engine/seed-page-templates", { method: "POST" }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-engine/page-templates"] }),
+    onError: (err) => {
+      const description =
+        err instanceof ApiError ? getAdminOpsMessageForCode(err.code, err.message) : (err as Error).message;
+      toast({ title: "Seed failed", description, variant: "destructive" });
+    },
   });
 
   const list = Array.isArray(templates) ? templates : [];
@@ -776,6 +794,8 @@ function PageTemplatesTab() {
 }
 
 function BlogTemplatesTab() {
+  const { t } = useI18n();
+  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [newKey, setNewKey] = useState("");
   const [newName, setNewName] = useState("");
@@ -799,8 +819,13 @@ function BlogTemplatesTab() {
   });
 
   const seedMutation = useMutation({
-    mutationFn: () => adminFetch("/api/admin/seo-engine/seed-blog-templates", { method: "POST" }).then(r => r.json()),
+    mutationFn: () => adminJson("/api/admin/seo-engine/seed-blog-templates", { method: "POST" }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-engine/blog-templates"] }),
+    onError: (err) => {
+      const description =
+        err instanceof ApiError ? getAdminOpsMessageForCode(err.code, err.message) : (err as Error).message;
+      toast({ title: "Seed failed", description, variant: "destructive" });
+    },
   });
 
   const list = Array.isArray(templates) ? templates : [];
@@ -871,6 +896,7 @@ function BlogTemplatesTab() {
 }
 
 function BulkGenerationTab({ siteContext, careerTrack }: { siteContext: string; careerTrack: string | null }) {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [keywordsText, setKeywordsText] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState("");
@@ -1005,6 +1031,7 @@ function BulkGenerationTab({ siteContext, careerTrack }: { siteContext: string; 
 }
 
 function ContentPipelineTab({ siteContext, careerTrack }: { siteContext: string; careerTrack: string | null }) {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
@@ -1183,6 +1210,7 @@ function ContentPipelineTab({ siteContext, careerTrack }: { siteContext: string;
 }
 
 function SettingsTab() {
+  const { t } = useI18n();
   return (
     <div className="space-y-6" data-testid="tab-settings">
       <Card>
@@ -1233,6 +1261,7 @@ function SettingsTab() {
 }
 
 export default function AdminSeoAutopilot() {
+  const { t } = useI18n();
   const [siteContext, setSiteContext] = useState("nursing");
   const [careerTrack, setCareerTrack] = useState<string | null>(null);
 
@@ -1271,8 +1300,8 @@ export default function AdminSeoAutopilot() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="">{t("pages.adminSeoAutopilot.allCareers")}</SelectItem>
-                  {tracks.map((t: any) => (
-                    <SelectItem key={t.slug} value={t.slug}>{t.label}</SelectItem>
+                  {tracks.map((track: any) => (
+                    <SelectItem key={track.slug} value={track.slug}>{track.label}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

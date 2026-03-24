@@ -1,4 +1,9 @@
 import type { Express, Request, Response } from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import { importClientDataAbsolute } from "./client-data-import";
+
+const __dirnameParamedicApi = path.dirname(fileURLToPath(import.meta.url));
 
 function slugify(text: string): string {
   return text
@@ -31,7 +36,9 @@ async function loadQuestions(): Promise<any[]> {
       return questionsCache;
     }
   }
-  const { paramedicQuestions } = await import("../client/src/data/career-questions/paramedic-questions");
+  const { paramedicQuestions } = await importClientDataAbsolute(
+    path.resolve(__dirnameParamedicApi, "../client/src/data/career-questions/paramedic-questions"),
+  );
   const allQuestions = paramedicQuestions as any[];
   questionsCache = allQuestions.length > MAX_PARAMEDIC_CACHED_QUESTIONS
     ? allQuestions.slice(0, MAX_PARAMEDIC_CACHED_QUESTIONS)

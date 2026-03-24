@@ -255,10 +255,7 @@ export function registerIncidentResponseRoutes(app: Express) {
 
       try {
         const { getUncachableStripeClient } = await import("./stripeClient");
-        const stripe = getUncachableStripeClient();
-        if (!stripe) {
-          return res.status(503).json({ error: "Stripe not configured" });
-        }
+        const stripe = await getUncachableStripeClient();
 
         const subscriptions = await stripe.subscriptions.list({
           customer: user.stripe_customer_id,

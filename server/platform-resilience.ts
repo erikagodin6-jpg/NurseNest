@@ -1,6 +1,7 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { pool } from "./storage";
 import { BoundedMap } from "./bounded-map";
+import { routeParamString } from "./route-params";
 
 async function auditSensitiveAction(req: any, admin: any, action: string, entityType: string, entityId: string | null, before?: any, after?: any, reason?: string, severity?: string) {
   try {
@@ -1789,6 +1790,11 @@ const SAFE_MODE_CORE_READ_PATHS = new Set([
   "/api/daily-goals",
   "/api/dashboard",
   "/api/exam-planner",
+  "/api/decks",
+  "/api/flashcard-bank",
+  "/api/flashcard-preview",
+  "/api/progress",
+  "/api/flashcard-usage",
 ]);
 
 const SAFE_MODE_INFRA_PATHS = new Set([
@@ -1827,6 +1833,7 @@ const SAFE_MODE_ADMIN_WRITE_EXCEPTIONS = new Set([
   "/api/v1/lessons",
   "/api/v1/analytics/events",
   "/api/v1/question-history",
+  "/api/exam/",
 ]);
 
 const SAFE_MODE_STATIC_FALLBACKS: Record<string, any> = {
@@ -3261,7 +3268,7 @@ export function registerResilienceRoutes(app: Express): void {
     if (!admin) return;
     if (!(await checkAdminPermission(admin, "feature_flag", res))) return;
     if (!requireConfirmToken(req, res, admin, "feature_flag_toggle")) return;
-    const { key } = req.params;
+    const key = routeParamString(req.params.key);
     const { enabled, reason } = req.body;
     if (typeof enabled !== "boolean") {
       return res.status(400).json({ error: "enabled must be a boolean" });
@@ -3276,7 +3283,7 @@ export function registerResilienceRoutes(app: Express): void {
     const admin = await resolveAdminWithRole(req, res, "super_admin");
     if (!admin) return;
     if (!(await checkAdminPermission(admin, "feature_flag", res))) return;
-    const key = req.params.key;
+    const key = routeParamString(req.params.key);
     const beforeState = featureFlags.get(key);
     resetFeatureErrors(key);
     auditSensitiveAction(req, admin, "feature_flag_error_reset", "feature_flag", key, { errorCount: beforeState?.errorCount }, { errorCount: 0 }, "Error count reset");
@@ -3307,7 +3314,7 @@ export function registerResilienceRoutes(app: Express): void {
     if (!admin) return;
     if (!(await checkAdminPermission(admin, "system_config", res))) return;
     if (!requireConfirmToken(req, res, admin, "circuit_breaker_reset")) return;
-    const name = req.params.name;
+    const name = routeParamString(req.params.name);
     const before = circuitBreakers.get(name);
     resetCircuitBreaker(name);
     auditSensitiveAction(req, admin, "circuit_breaker_reset", "circuit_breaker", name, { state: before?.state, failureCount: before?.failureCount }, { state: "closed", failureCount: 0 }, "Manual circuit breaker reset");
@@ -3380,7 +3387,7 @@ export function registerResilienceRoutes(app: Express): void {
   app.post("/api/admin/resilience/alerts/:id/acknowledge", async (req: Request, res: Response) => {
     const admin = await resolveAdminWithRole(req, res, "super_admin", "support_admin");
     if (!admin) return;
-    const alertId = req.params.id as string;
+    const alertId = routeParamString(req.params.id);
     const memAlert = alertEvents.find(a => a.id === alertId);
     if (memAlert) memAlert.acknowledged = true;
     try {
@@ -3414,7 +3421,7 @@ export function registerResilienceRoutes(app: Express): void {
   app.post("/api/admin/resilience/feature-flags/:key/scope", async (req: Request, res: Response) => {
     const admin = await resolveAdminWithRole(req, res, "super_admin");
     if (!admin) return;
-    const { key } = req.params;
+    const key = routeParamString(req.params.key);
     const { scopeMode, scope } = req.body;
     if (!scopeMode || !["global", "include", "exclude"].includes(scopeMode)) {
       return res.status(400).json({ error: "scopeMode must be global, include, or exclude" });
@@ -3480,9 +3487,10 @@ export function registerResilienceRoutes(app: Express): void {
     const admin = await resolveAdminWithRole(req, res, "super_admin");
     if (!admin) return;
     if (!(await checkAdminPermission(admin, "system_config", res))) return;
-    resetErrorBudget(req.params.subsystem);
-    addResilienceAudit("error_budget_reset", "error_budget", req.params.subsystem, {}, admin.username || admin.id);
-    auditSensitiveAction(req, admin, "error_budget_reset", "error_budget", req.params.subsystem, null, { reset: true }, "Error budget manually reset", "warning");
+    const subsystem = routeParamString(req.params.subsystem);
+    resetErrorBudget(subsystem);
+    addResilienceAudit("error_budget_reset", "error_budget", subsystem, {}, admin.username || admin.id);
+    auditSensitiveAction(req, admin, "error_budget_reset", "error_budget", subsystem, null, { reset: true }, "Error budget manually reset", "warning");
     res.json({ success: true });
   });
 
@@ -3627,8 +3635,9 @@ export function registerResilienceRoutes(app: Express): void {
     if (fallbackEnabled !== undefined && typeof fallbackEnabled !== "boolean") {
       return res.status(400).json({ error: "fallbackEnabled must be a boolean" });
     }
-    updateTimeoutConfig(req.params.operation, { timeoutMs, fallbackEnabled });
-    addResilienceAudit("timeout_config_update", "timeout", req.params.operation, { timeoutMs, fallbackEnabled }, admin.username || admin.id);
+    const operation = routeParamString(req.params.operation);
+    updateTimeoutConfig(operation, { timeoutMs, fallbackEnabled });
+    addResilienceAudit("timeout_config_update", "timeout", operation, { timeoutMs, fallbackEnabled }, admin.username || admin.id);
     res.json({ success: true, timeouts: getTimeoutConfigs() });
   });
 
@@ -3859,7 +3868,7 @@ export function registerResilienceRoutes(app: Express): void {
       let memoryTrend: any[] = [];
       try {
         const { getMemoryTrend } = await import("./memory-monitor");
-        memoryTrend = getMemoryTrend().slice(-60);
+        memoryTrend = getMemoryTrend().spikes.slice(-60);
       } catch {}
 
       const routeLatency = getRouteLatencyStats().slice(0, 30);

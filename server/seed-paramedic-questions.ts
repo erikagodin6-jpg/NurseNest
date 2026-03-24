@@ -1,7 +1,22 @@
+import path from "path";
+import { fileURLToPath } from "url";
 import { pool } from "./storage";
-import { paramedicQuestions } from "../client/src/data/career-questions/paramedic-questions";
+import { importClientDataAbsolute } from "./client-data-import";
+
+const __dirnameSeedParamedic = path.dirname(fileURLToPath(import.meta.url));
 
 export async function seedParamedicQuestions() {
+  let paramedicQuestions: any[];
+  try {
+    const mod = await importClientDataAbsolute(
+      path.resolve(__dirnameSeedParamedic, "../client/src/data/career-questions/paramedic-questions"),
+    );
+    paramedicQuestions = mod.paramedicQuestions;
+  } catch (e: any) {
+    console.error("[Paramedic Q-Seed] Failed to load question module:", e?.message);
+    return;
+  }
+
   try {
     const existing = await pool.query(
       `SELECT COUNT(*) FROM allied_questions WHERE career_type = 'paramedic'`

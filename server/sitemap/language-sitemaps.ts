@@ -1,10 +1,15 @@
+import path from "path";
+import { fileURLToPath } from "url";
 import { pool } from "../storage";
 import { storage } from "../storage";
+import { importClientDataAbsolute } from "../client-data-import";
 import {
   getSiteBase, todayDate, toLastmod, singleLocaleUrl, getIndexableLocales,
   getSharedStaticRoutes, LEARN_REDIRECTS, COMPARE_PAGES, NURSING_QUESTION_TIERS,
   hasTimestampSuffix, isLowValueTranslatedPage, isNoindexPath
 } from "./helpers";
+
+const __dirnameLangSitemap = path.dirname(fileURLToPath(import.meta.url));
 
 function isLangLessonThinForSitemap(lesson: any): boolean {
   const title = (lesson.title || "").toLowerCase();
@@ -193,7 +198,9 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
   } catch {}
 
   try {
-    const { internalLinkMap } = await import("../../client/src/data/internal-links");
+    const { internalLinkMap } = await importClientDataAbsolute(
+      path.resolve(__dirnameLangSitemap, "../../client/src/data/internal-links"),
+    );
     const topicSlugs = Object.keys(internalLinkMap);
     for (const slug of topicSlugs) {
       urls.push(singleLocaleUrl(base, `/topics/${slug}`, targetLocale, indexableLocales, "0.7", "monthly", today));
@@ -201,7 +208,9 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
   } catch {}
 
   try {
-    const { seoConditions: condData } = await import("../../client/src/data/seo-conditions");
+    const { seoConditions: condData } = await importClientDataAbsolute(
+      path.resolve(__dirnameLangSitemap, "../../client/src/data/seo-conditions"),
+    );
     for (const c of condData) {
       urls.push(singleLocaleUrl(base, `/conditions/${c.slug}`, targetLocale, indexableLocales, "0.8", "monthly", today));
     }
@@ -213,7 +222,9 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
   }
 
   try {
-    const { seoMedications: medData } = await import("../../client/src/data/seo-medications");
+    const { seoMedications: medData } = await importClientDataAbsolute(
+      path.resolve(__dirnameLangSitemap, "../../client/src/data/seo-medications"),
+    );
     for (const m of medData) {
       urls.push(singleLocaleUrl(base, `/medications/${m.slug}`, targetLocale, indexableLocales, "0.8", "monthly", today));
     }
@@ -225,7 +236,9 @@ export async function generateLanguageSitemap(targetLocale: string): Promise<str
   }
 
   try {
-    const { seoLabValues: labData } = await import("../../client/src/data/seo-lab-values");
+    const { seoLabValues: labData } = await importClientDataAbsolute(
+      path.resolve(__dirnameLangSitemap, "../../client/src/data/seo-lab-values"),
+    );
     for (const l of labData) {
       urls.push(singleLocaleUrl(base, `/lab-values/${l.slug}`, targetLocale, indexableLocales, "0.8", "monthly", today));
     }

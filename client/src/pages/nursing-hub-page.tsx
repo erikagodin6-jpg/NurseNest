@@ -1,11 +1,12 @@
 import { Link, useRoute } from "wouter";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { SEO } from "@/components/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { buildFaqStructuredData, buildBreadcrumbStructuredData } from "@/lib/structured-data";
+import { buildFaqStructuredData } from "@/lib/structured-data";
 import { useI18n } from "@/lib/i18n";
+import { fetchWithOptionalRetry } from "@/lib/fetch-utils";
 import {
   ArrowRight, ChevronRight, HelpCircle, ExternalLink,
   BookOpen, Award, Route as RouteIcon, Clock, FileText,
@@ -39,6 +40,104 @@ const TYPE_TO_URL_PREFIX: Record<string, string> = {
   "study-pathway": "study-pathways",
 };
 
+type HubLoadResult =
+  | { status: "ok"; page: HubPageData }
+  | { status: "not_found" }
+  | { status: "unavailable" }
+  | { status: "network" };
+
+function normalizeHubPage(raw: unknown, slug: string, pageType: string): HubPageData | null {
+  if (!raw || typeof raw !== "object") return null;
+  const p = raw as Record<string, unknown>;
+  const title = typeof p.title === "string" ? p.title.trim() : "";
+  const pageSlug = typeof p.slug === "string" ? p.slug : slug;
+  if (!title) return null;
+
+  const tocJson = Array.isArray(p.tocJson)
+    ? p.tocJson
+        .map((row: unknown) => {
+          const r = row && typeof row === "object" ? (row as Record<string, unknown>) : {};
+          const id = typeof r.id === "string" ? r.id : "";
+          const label = typeof r.label === "string" ? r.label : id;
+          const level = typeof r.level === "number" ? r.level : 1;
+          return { id, label, level };
+        })
+        .filter((x) => x.id || x.label)
+    : [];
+
+  const faqJson = Array.isArray(p.faqJson)
+    ? p.faqJson
+        .map((row: unknown) => {
+          const r = row && typeof row === "object" ? (row as Record<string, unknown>) : {};
+          const question = typeof r.question === "string" ? r.question : "";
+          const answer = typeof r.answer === "string" ? r.answer : "";
+          return { question, answer };
+        })
+        .filter((x) => x.question || x.answer)
+    : [];
+
+  const internalLinksJson = Array.isArray(p.internalLinksJson)
+    ? p.internalLinksJson
+        .map((row: unknown) => {
+          const r = row && typeof row === "object" ? (row as Record<string, unknown>) : {};
+          const url = typeof r.url === "string" ? r.url : "#";
+          const anchor = typeof r.anchor === "string" ? r.anchor : "";
+          const context = typeof r.context === "string" ? r.context : "content";
+          return { url, anchor, context };
+        })
+        .filter((x) => x.url !== "#" || x.anchor)
+    : [];
+
+  const relatedPages = Array.isArray(p.relatedPages)
+    ? p.relatedPages
+        .map((row: unknown) => {
+          const r = row && typeof row === "object" ? (row as Record<string, unknown>) : {};
+          const s = typeof r.slug === "string" ? r.slug : "";
+          const pt = typeof r.pageType === "string" ? r.pageType : pageType;
+          const tl = typeof r.title === "string" ? r.title : "";
+          const description = typeof r.description === "string" ? r.description : "";
+          return { slug: s, pageType: pt, title: tl, description };
+        })
+        .filter((x) => x.slug && x.title)
+    : undefined;
+
+  return {
+    id: typeof p.id === "string" ? p.id : pageSlug,
+    pageType: typeof p.pageType === "string" ? p.pageType : pageType,
+    exam: typeof p.exam === "string" ? p.exam : "",
+    title,
+    slug: pageSlug,
+    metaTitle: typeof p.metaTitle === "string" ? p.metaTitle : title,
+    metaDescription: typeof p.metaDescription === "string" ? p.metaDescription : "",
+    contentHtml: typeof p.contentHtml === "string" ? p.contentHtml : "",
+    tocJson,
+    faqJson,
+    internalLinksJson,
+    relatedPages,
+  };
+}
+
+async function loadHubPage(slug: string, pageType: string): Promise<HubLoadResult> {
+  const qs = new URLSearchParams({ pageType });
+  let res: Response;
+  try {
+    res = await fetchWithOptionalRetry(`/api/nursing-hub/pages/${encodeURIComponent(slug)}?${qs.toString()}`);
+  } catch {
+    return { status: "network" };
+  }
+  if (res.status === 404) return { status: "not_found" };
+  if (!res.ok) return { status: "unavailable" };
+  let raw: unknown;
+  try {
+    raw = await res.json();
+  } catch {
+    return { status: "unavailable" };
+  }
+  const page = normalizeHubPage(raw, slug, pageType);
+  if (!page) return { status: "not_found" };
+  return { status: "ok", page };
+}
+
 export default function NursingHubPage({ pageType }: { pageType: string }) {
   const { t } = useI18n();
   const urlPrefix = TYPE_TO_URL_PREFIX[pageType] || pageType;
@@ -47,13 +146,9 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
 
   const config = TYPE_CONFIG[pageType] || TYPE_CONFIG.certification;
 
-  const { data: page, isLoading, error } = useQuery<HubPageData>({
+  const { data, isLoading, refetch, isFetching } = useQuery({
     queryKey: ["nursing-hub-page", slug, pageType],
-    queryFn: async () => {
-      const res = await fetch(`/api/nursing-hub/pages/${slug}?pageType=${pageType}`);
-      if (!res.ok) throw new Error("Page not found");
-      return res.json();
-    },
+    queryFn: () => loadHubPage(slug, pageType),
     enabled: !!slug,
   });
 
@@ -72,7 +167,11 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
     );
   }
 
-  if (error || !page) {
+  if (!data) {
+    return null;
+  }
+
+  if (data.status === "not_found") {
     return (
       <div data-testid="page-nursing-hub-error">
         <Navigation />
@@ -90,9 +189,48 @@ export default function NursingHubPage({ pageType }: { pageType: string }) {
     );
   }
 
+  if (data.status !== "ok") {
+    const isNet = data.status === "network";
+    return (
+      <div data-testid="page-nursing-hub-unavailable">
+        <Navigation />
+        <div className="min-h-screen flex items-center justify-center px-4">
+          <div className="text-center space-y-4 max-w-md mx-auto">
+            <h1 className="text-xl font-bold text-gray-900">
+              {isNet ? "Connection problem" : "This page couldn’t be loaded"}
+            </h1>
+            <p className="text-gray-600 text-sm">
+              {isNet
+                ? "Check your network connection, then try again."
+                : "The server was busy or returned an error. Please try again shortly."}
+            </p>
+            <button
+              type="button"
+              className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-60"
+              onClick={() => refetch()}
+              disabled={isFetching}
+            >
+              {isFetching ? "Retrying…" : "Try again"}
+            </button>
+            <div>
+              <Link href={config.parentPath} className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700">
+                <ArrowLeft className="w-4 h-4" /> Back to {config.parentLabel}
+              </Link>
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  const page = data.page;
+
   const faqItems = Array.isArray(page.faqJson) ? page.faqJson : [];
   const tocItems = Array.isArray(page.tocJson) ? page.tocJson : [];
-  const internalLinks = Array.isArray(page.internalLinksJson) ? page.internalLinksJson : [];
+  const internalLinks = (Array.isArray(page.internalLinksJson) ? page.internalLinksJson : []).filter(
+    (l) => l && typeof l.url === "string" && typeof l.anchor === "string",
+  );
   const relatedPages = Array.isArray(page.relatedPages) ? page.relatedPages : [];
   const contentHtml = page.contentHtml || "";
 

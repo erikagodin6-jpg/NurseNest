@@ -3,8 +3,15 @@ import path from "path";
 import crypto from "crypto";
 import { pool } from "./storage";
 
+/**
+ * ------------------------------
+ * CONSTANTS
+ * ------------------------------
+ */
+
 const DIFFICULTY_MAP: Record<string, number> = { easy: 2, moderate: 3, hard: 4 };
 const ANSWER_INDEX: Record<string, number> = { A: 0, B: 1, C: 2, D: 3, E: 4 };
+
 const EXAM_TO_TIER: Record<string, string> = {
   "NCLEX-PN": "rpn",
   "REx-PN": "rpn",
@@ -13,340 +20,207 @@ const EXAM_TO_TIER: Record<string, string> = {
   "ANCC": "np",
   PN: "rpn",
 };
+
 const COUNTRY_TO_REGION: Record<string, string> = {
   US: "US",
   Canada: "CAN",
   Both: "BOTH",
 };
 
+/**
+ * ------------------------------
+ * HELPERS
+ * ------------------------------
+ */
+
+function stemHash(text: string): string {
+  return crypto
+    .createHash("md5")
+    .update(text.trim().toLowerCase().replace(/\s+/g, " "))
+    .digest("hex");
+}
+
 function normalizeExam(raw: string): string[] {
   if (!raw) return ["NCLEX-PN"];
-  const trimmed = raw.trim();
-  if (trimmed === "PN") return ["NCLEX-PN", "REx-PN"];
-  if (trimmed.includes("|")) {
-    return trimmed.split("|").map((e) => e.trim()).filter(Boolean);
-  }
-  return [trimmed];
+  if (raw === "PN") return ["NCLEX-PN", "REx-PN"];
+  return raw.includes("|") ? raw.split("|").map(s => s.trim()) : [raw.trim()];
 }
 
 function normalizeCountry(raw: string): string[] {
   if (!raw) return ["US"];
-  const trimmed = raw.trim();
-  if (trimmed === "Both") return ["US", "Canada"];
-  if (trimmed.includes("|")) {
-    return trimmed.split("|").map((c) => c.trim()).filter(Boolean);
-  }
-  return [trimmed];
+  if (raw === "Both") return ["US", "Canada"];
+  return raw.includes("|") ? raw.split("|").map(s => s.trim()) : [raw.trim()];
 }
 
 function normalizeQuestionType(raw: string): string {
   if (!raw) return "standard";
-  let qt = raw.trim().toLowerCase().replace(/_/g, " ");
-  if (qt.includes("|")) qt = qt.split("|")[0].trim();
-  return qt;
+  return raw.toLowerCase().split("|")[0].replace(/_/g, " ").trim();
 }
 
-function stemHash(text: string): string {
-  const normalized = text.trim().toLowerCase().replace(/\s+/g, " ");
-  return crypto.createHash("md5").update(normalized).digest("hex");
-}
+/**
+ * ------------------------------
+ * SAFE PARSING
+ * ------------------------------
+ */
 
-interface ParsedQuestion {
-  stem: string;
-  options: string[];
-  correctAnswer: number[];
-  rationale: string;
-  difficulty: number;
-  bodySystem: string | null;
-  topic: string | null;
-  subtopic: string | null;
-  questionType: string;
-  exam: string;
-  tier: string;
-  regionScope: string;
-  stemHashVal: string;
-  scenario: string | null;
-  exhibitData: any;
-}
-
-function parseStandardQuestion(q: any, exam: string, country: string): ParsedQuestion | null {
-  if (!q.question || typeof q.question !== "string" || q.question.trim().length < 10) return null;
-  if (!q.option_a || !q.option_b || !q.option_c || !q.option_d) return null;
-  if (!q.rationale || typeof q.rationale !== "string") return null;
-
-  const options = [q.option_a.trim(), q.option_b.trim(), q.option_c.trim(), q.option_d.trim()];
-  if (q.option_e) options.push(q.option_e.trim());
-  if (q.option_f) options.push(q.option_f.trim());
-
-  let correctAnswer: number[];
-  if (Array.isArray(q.correct_answer)) {
-    correctAnswer = q.correct_answer.map((a: string) => ANSWER_INDEX[a.toUpperCase()]).filter((i: number) => i !== undefined);
-  } else if (typeof q.correct_answer === "string") {
-    const upper = q.correct_answer.toUpperCase();
-    if (ANSWER_INDEX[upper] !== undefined) {
-      correctAnswer = [ANSWER_INDEX[upper]];
-    } else {
-      return null;
+function safeJsonParse(content: string): any[] {
+  try {
+    return JSON.parse(content);
+  } catch {
+    try {
+      return JSON.parse(`[${content.replace(/,\s*$/, "")}]`);
+    } catch {
+      return [];
     }
+  }
+}
+
+/**
+ * ------------------------------
+ * QUESTION PARSERS
+ * ------------------------------
+ */
+
+function parseStandard(q: any, exam: string, country: string) {
+  if (!q.question || !q.option_a || !q.option_b || !q.option_c || !q.option_d) return null;
+
+  const options = [
+    q.option_a,
+    q.option_b,
+    q.option_c,
+    q.option_d,
+    q.option_e,
+    q.option_f,
+  ].filter(Boolean).map((o: string) => o.trim());
+
+  let correct: number[] = [];
+
+  if (Array.isArray(q.correct_answer)) {
+    correct = q.correct_answer.map((a: string) => ANSWER_INDEX[a]);
   } else {
-    return null;
+    const idx = ANSWER_INDEX[q.correct_answer];
+    if (idx !== undefined) correct = [idx];
   }
 
-  if (correctAnswer.length === 0) return null;
-
-  const tier = EXAM_TO_TIER[exam] || "rpn";
-  const regionScope = COUNTRY_TO_REGION[country] || "BOTH";
-  const diff = typeof q.difficulty === "string" ? DIFFICULTY_MAP[q.difficulty.toLowerCase()] || 3 : 3;
+  if (!correct.length) return null;
 
   return {
     stem: q.question.trim(),
     options,
-    correctAnswer,
-    rationale: q.rationale.trim(),
-    difficulty: diff,
+    correctAnswer: correct,
+    rationale: q.rationale || "",
+    difficulty: DIFFICULTY_MAP[q.difficulty] || 3,
     bodySystem: q.category || null,
     topic: q.client_needs || null,
     subtopic: q.topic || null,
     questionType: normalizeQuestionType(q.question_type),
     exam,
-    tier,
-    regionScope,
+    tier: EXAM_TO_TIER[exam] || "rpn",
+    regionScope: COUNTRY_TO_REGION[country] || "BOTH",
     stemHashVal: stemHash(q.question),
     scenario: null,
     exhibitData: null,
   };
 }
 
-function parseBowtieQuestion(q: any, exam: string, country: string): ParsedQuestion | null {
-  if (!q.scenario || typeof q.scenario !== "string" || q.scenario.trim().length < 10) return null;
-  if (!q.condition_options || !q.action_options || !q.monitor_options) return null;
-  if (!q.correct_condition || !q.correct_action || !q.correct_monitor) return null;
+function parseBowtie(q: any, exam: string, country: string) {
+  if (!q.scenario || !q.condition_options) return null;
 
-  const stemText = `Bowtie: ${q.scenario.trim()}`;
-  const allOptions = [
+  const options = [
     ...q.condition_options,
     ...q.action_options,
     ...q.monitor_options,
   ];
 
-  const correctIndices: number[] = [];
+  const correct = [];
+
   const condIdx = q.condition_options.indexOf(q.correct_condition);
   const actIdx = q.action_options.indexOf(q.correct_action);
   const monIdx = q.monitor_options.indexOf(q.correct_monitor);
-  if (condIdx >= 0) correctIndices.push(condIdx);
-  if (actIdx >= 0) correctIndices.push(q.condition_options.length + actIdx);
-  if (monIdx >= 0) correctIndices.push(q.condition_options.length + q.action_options.length + monIdx);
 
-  const tier = EXAM_TO_TIER[exam] || "rpn";
-  const regionScope = COUNTRY_TO_REGION[country] || "BOTH";
-  const diff = typeof q.difficulty === "string" ? DIFFICULTY_MAP[q.difficulty.toLowerCase()] || 3 : 3;
+  if (condIdx >= 0) correct.push(condIdx);
+  if (actIdx >= 0) correct.push(q.condition_options.length + actIdx);
+  if (monIdx >= 0)
+    correct.push(q.condition_options.length + q.action_options.length + monIdx);
 
   return {
-    stem: stemText,
-    options: allOptions,
-    correctAnswer: correctIndices,
-    rationale: q.rationale?.trim() || "",
-    difficulty: diff,
+    stem: `Bowtie: ${q.scenario}`,
+    options,
+    correctAnswer: correct,
+    rationale: q.rationale || "",
+    difficulty: DIFFICULTY_MAP[q.difficulty] || 3,
     bodySystem: q.category || null,
     topic: q.client_needs || null,
     subtopic: q.topic || null,
     questionType: "bowtie",
     exam,
-    tier,
-    regionScope,
-    stemHashVal: stemHash(stemText),
-    scenario: q.scenario.trim(),
-    exhibitData: {
-      type: "bowtie",
-      conditionOptions: q.condition_options,
-      actionOptions: q.action_options,
-      monitorOptions: q.monitor_options,
-      correctCondition: q.correct_condition,
-      correctAction: q.correct_action,
-      correctMonitor: q.correct_monitor,
-    },
+    tier: EXAM_TO_TIER[exam] || "rpn",
+    regionScope: COUNTRY_TO_REGION[country] || "BOTH",
+    stemHashVal: stemHash(q.scenario),
+    scenario: q.scenario,
+    exhibitData: q,
   };
 }
 
-function extractQuestionsFromFile1(content: string): any[] {
-  const cleaned = "[" + content.replace(/,\s*$/, "") + "]";
-  try {
-    return JSON.parse(cleaned);
-  } catch {
-    const objects: any[] = [];
-    let i = 0;
-    while (i < content.length) {
-      if (content[i] === "{") {
-        let depth = 0;
-        const start = i;
-        for (let j = i; j < content.length; j++) {
-          if (content[j] === "{") depth++;
-          else if (content[j] === "}") {
-            depth--;
-            if (depth === 0) {
-              try {
-                objects.push(JSON.parse(content.slice(start, j + 1)));
-              } catch {
-                /* skip malformed */
-              }
-              i = j + 1;
-              break;
-            }
-          }
-        }
-        if (depth !== 0) break;
-      } else {
-        i++;
-      }
-    }
-    return objects;
-  }
-}
+/**
+ * ------------------------------
+ * MAIN SEED FUNCTION
+ * ------------------------------
+ */
 
-function extractQuestionsFromFile2(content: string): any[] {
-  try {
-    const parsed = JSON.parse(content);
-    const all: any[] = [];
-    for (const key of Object.keys(parsed)) {
-      if (Array.isArray(parsed[key])) {
-        all.push(...parsed[key]);
-      }
-    }
-    return all;
-  } catch {
-    return [];
-  }
-}
+export async function seedQuestions() {
+  const filePath = path.resolve("attached_assets/questions.txt");
 
-function isTemplate(q: any): boolean {
-  if (q.scenario === "string") return true;
-  if (q.question_type && typeof q.question_type === "string" && q.question_type.includes("|") && q.question_type.split("|").length > 3) return true;
-  const vals = Object.values(q);
-  const templateStrings = vals.filter(
-    (v) => v === "string" || v === "moderate | hard" || v === "easy | moderate | hard"
-  );
-  return templateStrings.length > 3;
-}
-
-export async function seedQuestions(): Promise<{
-  total: number;
-  inserted: number;
-  skipped: number;
-  errors: number;
-  details: string[];
-}> {
-  const file1Path = path.resolve(
-    "attached_assets/Pasted--question-Which-finding-indicates-fluid-volume-overload_1773240845323.txt"
-  );
-  const file2Path = path.resolve(
-    "attached_assets/Pasted--american-lvn-batch-1-question-A-nurse-is-caring-for-a-_1773241093301.txt"
-  );
-
-  const rawQuestions: any[] = [];
-  const details: string[] = [];
-
-  if (fs.existsSync(file1Path)) {
-    const content = fs.readFileSync(file1Path, "utf-8");
-    const parsed = extractQuestionsFromFile1(content);
-    rawQuestions.push(...parsed);
-    details.push(`File 1: parsed ${parsed.length} objects`);
-  } else {
-    details.push("File 1: not found");
+  if (!fs.existsSync(filePath)) {
+    return { error: "File not found", total: 0, processed: 0, inserted: 0, skipped: 0, errors: 0 };
   }
 
-  if (fs.existsSync(file2Path)) {
-    const content = fs.readFileSync(file2Path, "utf-8");
-    const parsed = extractQuestionsFromFile2(content);
-    rawQuestions.push(...parsed);
-    details.push(`File 2: parsed ${parsed.length} objects`);
-  } else {
-    details.push("File 2: not found");
-  }
+  const content = fs.readFileSync(filePath, "utf-8");
+  const raw = safeJsonParse(content);
 
-  const allParsed: ParsedQuestion[] = [];
-  let templateSkips = 0;
-  let parseErrors = 0;
+  const parsed: any[] = [];
+  const seen = new Set<string>();
 
-  for (const q of rawQuestions) {
-    if (!q || typeof q !== "object") {
-      parseErrors++;
-      continue;
-    }
-
-    if (isTemplate(q)) {
-      templateSkips++;
-      continue;
-    }
-
+  for (const q of raw) {
     const exams = normalizeExam(q.exam);
     const countries = normalizeCountry(q.country);
 
-    const isBowtie =
-      q.question_type === "bowtie" ||
-      (q.condition_options && q.action_options && q.monitor_options);
+    for (let i = 0; i < exams.length; i++) {
+      const exam = exams[i];
+      const country = countries[i] || countries[0];
 
-    const hasStandardFields = q.question && q.option_a;
+      const obj = q.condition_options
+        ? parseBowtie(q, exam, country)
+        : parseStandard(q, exam, country);
 
-    for (let eIdx = 0; eIdx < exams.length; eIdx++) {
-      const exam = exams[eIdx];
-      const country = countries[Math.min(eIdx, countries.length - 1)];
+      if (!obj) continue;
 
-      let parsed: ParsedQuestion | null = null;
+      const key = `${obj.stemHashVal}_${obj.exam}`;
+      if (seen.has(key)) continue;
 
-      if (isBowtie) {
-        parsed = parseBowtieQuestion(q, exam, country);
-      } else if (hasStandardFields) {
-        parsed = parseStandardQuestion(q, exam, country);
-      }
-
-      if (parsed) {
-        allParsed.push(parsed);
-      } else {
-        parseErrors++;
-      }
+      seen.add(key);
+      parsed.push(obj);
     }
   }
-
-  details.push(`Templates skipped: ${templateSkips}`);
-  details.push(`Parse errors: ${parseErrors}`);
-  details.push(`Questions to process: ${allParsed.length}`);
-
-  const seenHashes = new Set<string>();
-  const deduplicated: ParsedQuestion[] = [];
-  for (const q of allParsed) {
-    const key = `${q.stemHashVal}_${q.exam}`;
-    if (!seenHashes.has(key)) {
-      seenHashes.add(key);
-      deduplicated.push(q);
-    }
-  }
-  details.push(`After in-batch dedup: ${deduplicated.length}`);
 
   let inserted = 0;
   let skipped = 0;
 
-  for (const q of deduplicated) {
+  for (const q of parsed) {
     try {
-      const existing = await pool.query(
-        `SELECT id FROM exam_questions WHERE stem_hash = $1 AND exam = $2`,
-        [q.stemHashVal, q.exam]
-      );
-      if (existing.rows.length > 0) {
-        skipped++;
-        continue;
-      }
-
       await pool.query(
         `INSERT INTO exam_questions (
-          tier, exam, question_type, status, published_at, stem, options, correct_answer,
-          rationale, difficulty, body_system, topic, subtopic, region_scope, career_type,
+          tier, exam, question_type, status, published_at,
+          stem, options, correct_answer, rationale, difficulty,
+          body_system, topic, subtopic, region_scope, career_type,
           stem_hash, scenario, exhibit_data
-        ) VALUES ($1, $2, $3, $4, NOW(), $5, $6, $7, $8, $9, $10, $11, $12, $13, 'nursing', $14, $15, $16)`,
+        )
+        VALUES ($1,$2,$3,'published',NOW(),$4,$5,$6,$7,$8,$9,$10,$11,$12,'nursing',$13,$14,$15)
+        ON CONFLICT (stem_hash, exam) DO NOTHING`,
         [
           q.tier,
           q.exam,
           q.questionType,
-          "published",
           q.stem,
           JSON.stringify(q.options),
           JSON.stringify(q.correctAnswer),
@@ -361,21 +235,19 @@ export async function seedQuestions(): Promise<{
           q.exhibitData ? JSON.stringify(q.exhibitData) : null,
         ]
       );
+
       inserted++;
-    } catch (dbErr: any) {
-      parseErrors++;
-      details.push(`DB error: ${dbErr.message.substring(0, 100)}`);
+    } catch {
+      skipped++;
     }
   }
 
-  details.push(`Inserted: ${inserted}`);
-  details.push(`Skipped (existing): ${skipped}`);
-
   return {
-    total: rawQuestions.length,
+    total: raw.length,
+    processed: parsed.length,
     inserted,
     skipped,
-    errors: parseErrors,
-    details,
+    /** Rows that failed insert (same counter as `skipped` in this implementation). */
+    errors: skipped,
   };
 }

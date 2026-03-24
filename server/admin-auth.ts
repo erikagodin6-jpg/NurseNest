@@ -21,6 +21,37 @@ import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { pool } from "./storage";
 
+/**
+ * Caches `SELECT * FROM users WHERE id = $1` for resolveAuthUser (Bearer / x-user-token / x-user-id).
+ * Set USER_AUTH_CACHE_TTL_MS=0 to disable. Default 30000. Also caches short-lived "not found" rows.
+ */
+const AUTH_USER_CACHE_TTL_MS = (() => {
+  const v = Number(process.env.USER_AUTH_CACHE_TTL_MS);
+  if (!Number.isFinite(v) || v < 0) return 30_000;
+  return Math.floor(v);
+})();
+
+const authUserRowCache = new Map<string, { user: unknown; ts: number }>();
+
+async function getUserRowByIdCached(id: string): Promise<any | null> {
+  if (AUTH_USER_CACHE_TTL_MS === 0) {
+    const r = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
+    return r.rows[0] || null;
+  }
+  const now = Date.now();
+  const hit = authUserRowCache.get(id);
+  if (hit && now - hit.ts < AUTH_USER_CACHE_TTL_MS) {
+    return hit.user ?? null;
+  }
+  const r = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
+  const user = r.rows[0] || null;
+  if (authUserRowCache.size > 10_000) {
+    authUserRowCache.clear();
+  }
+  authUserRowCache.set(id, { user, ts: now });
+  return user;
+}
+
 function getJwtSecret(): string {
   const secret = process.env.ADMIN_JWT_SECRET;
   if (!secret) {
@@ -157,7 +188,7 @@ export async function requireAdmin(req: any, res: any): Promise<any> {
     }
   }
 
-  res.status(401).json({ error: "Unauthorized" });
+  res.status(401).json({ error: "Unauthorized", code: "ADMIN_UNAUTHORIZED" });
   return null;
 }
 
@@ -192,13 +223,13 @@ export async function resolveAuthUser(req: any): Promise<any | null> {
     const token = authHeader.slice(7).trim();
     const decoded = verifyAdminToken(token);
     if (decoded) {
-      const r = await pool.query("SELECT * FROM users WHERE id = $1", [decoded.sub]);
-      if (r.rows[0]) return r.rows[0];
+      const row = await getUserRowByIdCached(decoded.sub);
+      if (row) return row;
     }
     const userDecoded = verifyUserToken(token);
     if (userDecoded) {
-      const r = await pool.query("SELECT * FROM users WHERE id = $1", [userDecoded.sub]);
-      if (r.rows[0]) return r.rows[0];
+      const row = await getUserRowByIdCached(userDecoded.sub);
+      if (row) return row;
     }
   }
 
@@ -206,8 +237,8 @@ export async function resolveAuthUser(req: any): Promise<any | null> {
   if (userToken) {
     const decoded = verifyUserToken(userToken);
     if (decoded) {
-      const r = await pool.query("SELECT * FROM users WHERE id = $1", [decoded.sub]);
-      if (r.rows[0]) return r.rows[0];
+      const row = await getUserRowByIdCached(decoded.sub);
+      if (row) return row;
     }
   }
 
@@ -228,8 +259,8 @@ export async function resolveAuthUser(req: any): Promise<any | null> {
 
   const xUserId = String(req.headers?.["x-user-id"] || "");
   if (xUserId) {
-    const r = await pool.query("SELECT * FROM users WHERE id = $1", [xUserId]);
-    if (r.rows[0]) return r.rows[0];
+    const row = await getUserRowByIdCached(xUserId);
+    if (row) return row;
   }
 
   return null;
@@ -287,7 +318,7 @@ export function requireAnyPaidTier() {
         contentTier: null,
         granted: false,
       });
-      return res.status(401).json({ error: "Not authenticated" });
+      return res.status(401).json({ error: "Not authenticated", code: "AUTH_REQUIRED" });
     }
 
     const userTier = user.tier || "free";
@@ -305,6 +336,7 @@ export function requireAnyPaidTier() {
       });
       return res.status(403).json({
         error: "Premium feature - upgrade required",
+        code: "PAYWALL_PREMIUM_REQUIRED",
         upgradeRequired: true,
       });
     }

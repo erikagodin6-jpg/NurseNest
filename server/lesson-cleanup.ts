@@ -29,85 +29,174 @@ const CATEGORY_CORRECTIONS: Record<string, { bodySystem: string; category: strin
   "tardive-dyskinesia-2-rpn": { bodySystem: "neurological", category: "Neurological" },
 };
 
-function cleanTitle(title: string): string {
+type CleanupStats = {
+  totalLessons: number;
+  lessonsUpdated: number;
+  titlesCleaned: number;
+  bodySystemsCorrected: number;
+  categoriesCorrected: number;
+  draftsSet: number;
+  skipped: number;
+};
+
+function cleanTitle(title: unknown): string {
+  if (typeof title !== "string") return "";
+
   let cleaned = title;
   for (const pattern of TIER_PATTERNS) {
     cleaned = cleaned.replace(pattern, "");
   }
-  return cleaned.trim();
+
+  return cleaned.replace(/\s{2,}/g, " ").trim();
 }
 
-export async function runLessonCleanup() {
+function safeJsonStringify(value: unknown): string {
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return "__INVALID_JSON__";
+  }
+}
+
+function isEmptyContent(content: unknown): boolean {
+  if (content === null || content === undefined) return true;
+  if (content === "") return true;
+  if (content === "null") return true;
+  if (content === "[]") return true;
+  if (content === "{}") return true;
+  if (content === '""') return true;
+
+  if (Array.isArray(content)) {
+    return content.length === 0;
+  }
+
+  if (typeof content === "object") {
+    return Object.keys(content as Record<string, unknown>).length === 0;
+  }
+
+  if (typeof content === "string") {
+    const trimmed = content.trim();
+    if (!trimmed) return true;
+    if (trimmed === "null" || trimmed === "[]" || trimmed === "{}" || trimmed === '""') return true;
+
+    try {
+      const parsed = JSON.parse(trimmed);
+
+      if (parsed === null) return true;
+      if (Array.isArray(parsed)) return parsed.length === 0;
+      if (typeof parsed === "object") return Object.keys(parsed).length === 0;
+
+      return false;
+    } catch {
+      return trimmed.length === 0;
+    }
+  }
+
+  return false;
+}
+
+function getDryRunEnabled(): boolean {
+  return String(process.env.LESSON_CLEANUP_DRY_RUN || "").toLowerCase() === "true";
+}
+
+export async function runLessonCleanup(options?: { dryRun?: boolean }) {
   const pool = getDevPool();
   const client = await pool.connect();
+  const dryRun = options?.dryRun ?? getDryRunEnabled();
+
+  const stats: CleanupStats = {
+    totalLessons: 0,
+    lessonsUpdated: 0,
+    titlesCleaned: 0,
+    bodySystemsCorrected: 0,
+    categoriesCorrected: 0,
+    draftsSet: 0,
+    skipped: 0,
+  };
 
   try {
     await client.query("BEGIN");
 
     const { rows: allLessons } = await client.query(
-      `SELECT id, title, slug, body_system, category, status, content FROM content_items WHERE type = 'lesson'`
+      `
+      SELECT id, title, slug, body_system, category, status, content
+      FROM content_items
+      WHERE type = 'lesson'
+      `
     );
 
-    let titlesCleaned = 0;
-    let categoriesCorrected = 0;
-    let draftsSet = 0;
+    stats.totalLessons = allLessons.length;
 
     for (const lesson of allLessons) {
       const updates: string[] = [];
       const values: any[] = [];
       let paramIdx = 1;
 
-      const cleaned = cleanTitle(lesson.title);
-      if (cleaned !== lesson.title) {
+      const originalTitle = typeof lesson.title === "string" ? lesson.title : "";
+      const cleanedTitle = cleanTitle(originalTitle);
+
+      if (cleanedTitle && cleanedTitle !== originalTitle) {
         updates.push(`title = $${paramIdx++}`);
-        values.push(cleaned);
-        titlesCleaned++;
+        values.push(cleanedTitle);
+        stats.titlesCleaned++;
       }
 
-      const correction = CATEGORY_CORRECTIONS[lesson.slug];
+      const correction = CATEGORY_CORRECTIONS[String(lesson.slug || "")];
       if (correction) {
         if (lesson.body_system !== correction.bodySystem) {
           updates.push(`body_system = $${paramIdx++}`);
           values.push(correction.bodySystem);
+          stats.bodySystemsCorrected++;
         }
+
         if (lesson.category !== correction.category) {
           updates.push(`category = $${paramIdx++}`);
           values.push(correction.category);
-          categoriesCorrected++;
+          stats.categoriesCorrected++;
         }
       }
 
-      const contentArr = lesson.content;
-      const contentStr = typeof contentArr === "string" ? contentArr : JSON.stringify(contentArr);
-      const isEmpty = !contentArr
-        || contentStr === "[]"
-        || contentStr === "{}"
-        || contentStr === '""'
-        || contentStr === "null"
-        || contentStr === ""
-        || (Array.isArray(contentArr) && contentArr.length === 0)
-        || (typeof contentArr === "object" && !Array.isArray(contentArr) && Object.keys(contentArr).length === 0);
-      if (isEmpty && lesson.status === "published") {
+      const emptyContent = isEmptyContent(lesson.content);
+      if (emptyContent && lesson.status === "published") {
         updates.push(`status = $${paramIdx++}`);
         values.push("draft");
-        draftsSet++;
+        stats.draftsSet++;
       }
 
-      if (updates.length > 0) {
-        updates.push(`updated_at = NOW()`);
-        values.push(lesson.id);
+      if (updates.length === 0) {
+        stats.skipped++;
+        continue;
+      }
+
+      updates.push(`updated_at = NOW()`);
+      values.push(lesson.id);
+
+      if (!dryRun) {
         await client.query(
           `UPDATE content_items SET ${updates.join(", ")} WHERE id = $${paramIdx}`,
           values
         );
       }
+
+      stats.lessonsUpdated++;
     }
 
-    await client.query("COMMIT");
-    console.log(`[lesson-cleanup] Titles cleaned: ${titlesCleaned}`);
-    console.log(`[lesson-cleanup] Categories corrected: ${categoriesCorrected}`);
-    console.log(`[lesson-cleanup] Empty content set to draft: ${draftsSet}`);
-    console.log(`[lesson-cleanup] Total lessons processed: ${allLessons.length}`);
+    if (dryRun) {
+      await client.query("ROLLBACK");
+      console.log("[lesson-cleanup] DRY RUN enabled. No database changes were committed.");
+    } else {
+      await client.query("COMMIT");
+    }
+
+    console.log(`[lesson-cleanup] Total lessons processed: ${stats.totalLessons}`);
+    console.log(`[lesson-cleanup] Lessons updated: ${stats.lessonsUpdated}`);
+    console.log(`[lesson-cleanup] Titles cleaned: ${stats.titlesCleaned}`);
+    console.log(`[lesson-cleanup] Body systems corrected: ${stats.bodySystemsCorrected}`);
+    console.log(`[lesson-cleanup] Categories corrected: ${stats.categoriesCorrected}`);
+    console.log(`[lesson-cleanup] Empty content set to draft: ${stats.draftsSet}`);
+    console.log(`[lesson-cleanup] Skipped (no changes needed): ${stats.skipped}`);
+
+    return stats;
   } catch (err) {
     await client.query("ROLLBACK");
     console.error("[lesson-cleanup] Error:", err);

@@ -1,6 +1,7 @@
 import type { Express, Request, Response } from "express";
 import { pool } from "./storage";
 import { requireAdmin } from "./admin-auth";
+import { queryParamString, routeParamString } from "./route-params";
 
 const ALLIED_PROFESSIONS = [
   { slug: "pharmacy-tech", label: "Pharmacy Technician", exam: "PTCB/ExCPT", shortLabel: "PharmTech" },
@@ -176,28 +177,29 @@ export function setupAlliedMarketingRoutes(app: Express): void {
   });
 
   app.get("/api/allied-marketing/blog-topics", (req: Request, res: Response) => {
-    const { profession } = req.query;
-    if (profession && BLOG_TOPICS[String(profession)]) {
-      res.json({ profession, topics: BLOG_TOPICS[String(profession)] });
+    const profession = queryParamString(req.query.profession as string | string[] | undefined);
+    if (profession && BLOG_TOPICS[profession]) {
+      res.json({ profession, topics: BLOG_TOPICS[profession] });
     } else {
       res.json(BLOG_TOPICS);
     }
   });
 
   app.get("/api/allied-marketing/authority-pages", (req: Request, res: Response) => {
-    const { profession } = req.query;
-    if (profession && AUTHORITY_PAGES[String(profession)]) {
-      res.json({ profession, pages: AUTHORITY_PAGES[String(profession)] });
+    const profession = queryParamString(req.query.profession as string | string[] | undefined);
+    if (profession && AUTHORITY_PAGES[profession]) {
+      res.json({ profession, pages: AUTHORITY_PAGES[profession] });
     } else {
       res.json(AUTHORITY_PAGES);
     }
   });
 
   app.get("/api/allied-marketing/authority-page/:profession/:type", (req: Request, res: Response) => {
-    const { profession, type } = req.params;
+    const profession = routeParamString(req.params.profession);
+    const type = routeParamString(req.params.type);
     const pages = AUTHORITY_PAGES[profession];
     if (!pages) return res.status(404).json({ error: "Profession not found" });
-    const page = pages.find(p => p.type === type);
+    const page = pages.find((p: { type: string }) => p.type === type);
     if (!page) return res.status(404).json({ error: "Page type not found" });
 
     const prof = ALLIED_PROFESSIONS.find(p => p.slug === profession);
@@ -246,12 +248,13 @@ export function setupAlliedMarketingRoutes(app: Express): void {
   });
 
   app.get("/api/allied-marketing/social-templates", (req: Request, res: Response) => {
-    const { profession, platform } = req.query;
+    const profession = queryParamString(req.query.profession as string | string[] | undefined);
+    const platform = queryParamString(req.query.platform as string | string[] | undefined);
     let templates = SOCIAL_MEDIA_TEMPLATES;
-    if (profession && templates[String(profession)]) {
-      const filtered = templates[String(profession)];
+    if (profession && templates[profession]) {
+      const filtered = templates[profession];
       if (platform) {
-        res.json(filtered.filter(t => t.platform === String(platform)));
+        res.json(filtered.filter((t) => t.platform === platform));
       } else {
         res.json(filtered);
       }
@@ -460,7 +463,7 @@ export function setupAlliedMarketingRoutes(app: Express): void {
   });
 
   app.get("/api/allied-marketing/structured-data/:profession", (req: Request, res: Response) => {
-    const { profession } = req.params;
+    const profession = routeParamString(req.params.profession);
     const prof = ALLIED_PROFESSIONS.find(p => p.slug === profession);
     if (!prof) return res.status(404).json({ error: "Profession not found" });
 

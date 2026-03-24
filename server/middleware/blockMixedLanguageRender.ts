@@ -38,11 +38,14 @@ function extractTextFields(obj: any): string[] {
 }
 
 export function blockMixedLanguageRender(req: Request, res: Response, next: NextFunction): void {
+  const paramLocale = req.params.locale;
+  const paramLocaleStr = Array.isArray(paramLocale) ? paramLocale[0] : paramLocale;
+
   const rawLocale =
-    req.query.locale as string ||
-    req.query.lang as string ||
-    req.params.locale ||
-    req.headers["x-locale"] as string ||
+    (req.query.locale as string) ||
+    (req.query.lang as string) ||
+    paramLocaleStr ||
+    (req.headers["x-locale"] as string) ||
     req.headers["accept-language"]?.split(",")[0]?.split(";")[0];
 
   const locale = resolveLocale(rawLocale);

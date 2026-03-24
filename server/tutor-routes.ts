@@ -1,281 +1,260 @@
 import type { Express, Request, Response } from "express";
-import OpenAI from "openai";
 import { resolveAuthUser } from "./admin-auth";
+import { getOpenAIClient, isOpenAIConfigured } from "./openai-client";
 import { pool, storage } from "./storage";
-
-const openai = new OpenAI({
-  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-});
+import { routeParamString } from "./route-params";
 
 const FREE_TIER_DAILY_LIMIT = 5;
 const TUTOR_FEATURE_KEY = "ai_tutor";
 
-function getTodayDateString(): string {
-  return new Date().toISOString().split("T")[0];
-}
+const getToday = () => new Date().toISOString().split("T")[0];
 
-function buildSafetyPreamble(): string {
-  return `You are an AI Tutoring Assistant for NurseNest, a nursing exam preparation platform. Your role is strictly educational and exam-focused.
+/* =========================
+   PROMPT BUILDERS
+========================= */
 
-CRITICAL SAFETY RULES:
-- NEVER provide clinical treatment advice, medical diagnoses, or patient care recommendations for real patients.
-- NEVER advise on medication dosages for actual patient situations.
-- Always frame your answers in the context of exam preparation and studying.
-- If asked about real patient scenarios, redirect to "For exam purposes..." framing.
-- You are helping students PREPARE FOR EXAMS, not practice medicine.
+const buildSystemPrompt = (contextType: string, contextData: any, language: string) => {
+  const base = `
+You are an AI Tutor for NurseNest.
 
-YOUR CAPABILITIES:
-- Walk through practice questions step-by-step
-- Explain nursing concepts in simple terms
-- Provide mnemonics and memory aids
-- Suggest what topics to study next based on weak areas
-- Break down complex clinical scenarios for exam understanding
-- Explain why incorrect answer choices are wrong
-- Provide test-taking strategies`;
-}
+STRICT RULES:
+- You are for exam prep only
+- Never give real clinical advice
+- Always frame answers as "for exam purposes"
+- No real-world treatment guidance
 
-function buildContextPrompt(contextType: string, contextData: any): string {
-  switch (contextType) {
-    case "practice_question":
-      return `\n\nCONTEXT: The student is working on a practice question.
-Question: ${contextData.question || "N/A"}
-Options: ${(contextData.options || []).map((o: string, i: number) => `${String.fromCharCode(65 + i)}. ${o}`).join("\n")}
-${contextData.correct !== undefined ? `Correct Answer: ${String.fromCharCode(65 + contextData.correct)}` : ""}
-${contextData.rationale ? `Rationale: ${contextData.rationale}` : ""}
-${contextData.bodySystem ? `Body System: ${contextData.bodySystem}` : ""}
-${contextData.tier ? `Exam Tier: ${contextData.tier}` : ""}
+Your job:
+- Explain concepts clearly
+- Walk through questions step-by-step
+- Give rationales
+- Provide test-taking strategies
+`;
 
-Help the student understand this question. If they haven't answered yet, guide them without giving away the answer directly.`;
+  let context = "";
 
-    case "flashcard":
-      return `\n\nCONTEXT: The student is studying a flashcard.
-Front: ${contextData.question || contextData.front || "N/A"}
-Back: ${contextData.answer || contextData.back || "N/A"}
-Category: ${contextData.category || "N/A"}
-${contextData.clinicalPearl ? `Clinical Pearl: ${contextData.clinicalPearl}` : ""}
-
-Help the student deeply understand this concept. Offer mnemonics, related topics, and exam tips.`;
-
-    case "study_guide":
-      return `\n\nCONTEXT: The student is reading a study guide.
-Guide Title: ${contextData.title || "N/A"}
-Section: ${contextData.section || "N/A"}
-${contextData.content ? `Content excerpt: ${contextData.content.substring(0, 500)}` : ""}
-
-Help the student understand this study material. Offer explanations, key takeaways, and exam-relevant highlights.`;
-
-    case "mock_exam":
-      return `\n\nCONTEXT: The student is reviewing a mock exam.
-${contextData.score !== undefined ? `Score: ${contextData.score}/${contextData.total}` : ""}
-${contextData.tier ? `Exam Tier: ${contextData.tier}` : ""}
-${contextData.weakAreas ? `Weak Areas: ${contextData.weakAreas.join(", ")}` : ""}
-
-Help the student understand their performance and suggest areas for improvement.`;
-
-    default:
-      return "\n\nThe student is asking a general nursing exam preparation question. Help them study effectively.";
+  if (contextType === "practice_question") {
+    context = `
+Question: ${contextData?.question || ""}
+Options:
+${(contextData?.options || [])
+  .map((o: string, i: number) => `${String.fromCharCode(65 + i)}. ${o}`)
+  .join("\n")}
+`;
   }
-}
 
-function getLanguageInstruction(language: string): string {
-  const langMap: Record<string, string> = {
-    en: "",
-    fr: "\n\nIMPORTANT: Respond in French (Français). Use French for all explanations and terminology where possible.",
-    es: "\n\nIMPORTANT: Respond in Spanish (Español). Use Spanish for all explanations and terminology where possible.",
-  };
-  return langMap[language] || "";
-}
+  if (contextType === "flashcard") {
+    context = `
+Flashcard:
+${contextData?.question || ""}
+Answer: ${contextData?.answer || ""}
+`;
+  }
+
+  const lang =
+    language === "fr"
+      ? "Respond in French."
+      : language === "es"
+      ? "Respond in Spanish."
+      : "";
+
+  return base + context + "\n" + lang;
+};
+
+/* =========================
+   ROUTES
+========================= */
 
 export function registerTutorRoutes(app: Express): void {
-  app.post("/api/tutor/conversations", async (req: Request, res: Response) => {
+  /* CREATE CONVERSATION */
+  app.post("/api/tutor/conversations", async (req, res) => {
     try {
       const user = await resolveAuthUser(req as any);
-      if (!user) {
-        return res.status(401).json({ error: "Authentication required" });
-      }
+      if (!user) return res.status(401).json({ error: "Unauthorized" });
 
       const { contextType, contextId, language, title } = req.body;
+
       const result = await pool.query(
-        `INSERT INTO tutor_conversations (user_id, context_type, context_id, language, title, created_at)
-         VALUES ($1, $2, $3, $4, $5, NOW()) RETURNING *`,
-        [user.id, contextType || "general", contextId || null, language || "en", title || "AI Tutor Chat"]
+        `INSERT INTO tutor_conversations (user_id, context_type, context_id, language, title)
+         VALUES ($1, $2, $3, $4, $5)
+         RETURNING *`,
+        [
+          user.id,
+          contextType || "general",
+          contextId || null,
+          language || "en",
+          title || "AI Tutor",
+        ]
       );
 
-      res.status(201).json(result.rows[0]);
-    } catch (error) {
-      console.error("Error creating tutor conversation:", error);
+      res.json(result.rows[0]);
+    } catch (err) {
+      console.error("Create conversation error:", err);
       res.status(500).json({ error: "Failed to create conversation" });
     }
   });
 
-  app.get("/api/tutor/conversations/:id/messages", async (req: Request, res: Response) => {
+  /* GET MESSAGES */
+  app.get("/api/tutor/conversations/:id/messages", async (req, res) => {
     try {
       const user = await resolveAuthUser(req as any);
-      if (!user) {
-        return res.status(401).json({ error: "Authentication required" });
+      if (!user) return res.status(401).json({ error: "Unauthorized" });
+
+      const id = Number(routeParamString(req.params.id));
+      if (!Number.isFinite(id)) {
+        return res.status(400).json({ error: "Invalid conversation id" });
       }
 
-      const conversationId = parseInt(req.params.id);
-      const convResult = await pool.query(
-        "SELECT * FROM tutor_conversations WHERE id = $1 AND user_id = $2",
-        [conversationId, user.id]
+      const conv = await pool.query(
+        "SELECT id FROM tutor_conversations WHERE id=$1 AND user_id=$2",
+        [id, user.id]
       );
-      if (convResult.rows.length === 0) {
-        return res.status(404).json({ error: "Conversation not found" });
+
+      if (!conv.rows.length) {
+        return res.status(404).json({ error: "Not found" });
       }
 
-      const msgResult = await pool.query(
-        "SELECT * FROM tutor_messages WHERE conversation_id = $1 ORDER BY created_at ASC",
-        [conversationId]
+      const messages = await pool.query(
+        "SELECT role, content FROM tutor_messages WHERE conversation_id=$1 ORDER BY created_at ASC LIMIT 50",
+        [id]
       );
 
-      res.json(msgResult.rows);
-    } catch (error) {
-      console.error("Error fetching tutor messages:", error);
+      res.json(messages.rows);
+    } catch (err) {
+      console.error("Fetch messages error:", err);
       res.status(500).json({ error: "Failed to fetch messages" });
     }
   });
 
-  app.get("/api/tutor/usage", async (req: Request, res: Response) => {
+  /* USAGE */
+  app.get("/api/tutor/usage", async (req, res) => {
     try {
       const user = await resolveAuthUser(req as any);
-      if (!user) {
-        return res.status(401).json({ error: "Authentication required" });
-      }
+      if (!user) return res.status(401).json({ error: "Unauthorized" });
 
-      const userTier = user.tier || "free";
-      const isPremium = userTier !== "free";
-      const today = getTodayDateString();
+      const isPremium = user.tier !== "free";
+      const usage = await storage.getFeatureUsage(
+        user.id,
+        TUTOR_FEATURE_KEY,
+        getToday()
+      );
 
-      const usage = await storage.getFeatureUsage(user.id, TUTOR_FEATURE_KEY, today);
-      const usedToday = usage?.count || 0;
+      const used = usage?.count || 0;
 
       res.json({
-        usedToday,
-        dailyLimit: isPremium ? null : FREE_TIER_DAILY_LIMIT,
+        usedToday: used,
+        remaining: isPremium ? null : Math.max(0, FREE_TIER_DAILY_LIMIT - used),
         isPremium,
-        remaining: isPremium ? null : Math.max(0, FREE_TIER_DAILY_LIMIT - usedToday),
       });
-    } catch (error) {
-      console.error("Error fetching tutor usage:", error);
+    } catch (err) {
+      console.error("Usage error:", err);
       res.status(500).json({ error: "Failed to fetch usage" });
     }
   });
 
-  app.post("/api/tutor/conversations/:id/messages", async (req: Request, res: Response) => {
+  /* SEND MESSAGE */
+  app.post("/api/tutor/conversations/:id/messages", async (req, res) => {
     try {
       const user = await resolveAuthUser(req as any);
-      if (!user) {
-        return res.status(401).json({ error: "Authentication required" });
-      }
+      if (!user) return res.status(401).json({ error: "Unauthorized" });
 
-      const userTier = user.tier || "free";
-      const isPremium = userTier !== "free";
-      const today = getTodayDateString();
+      const isPremium = user.tier !== "free";
+      const today = getToday();
 
+      /* RATE LIMIT */
       if (!isPremium) {
-        const usageResult = await pool.query(
-          `INSERT INTO feature_usage (id, user_id, feature, usage_date, count)
-           VALUES (gen_random_uuid(), $1, $2, $3, 1)
-           ON CONFLICT (user_id, feature, usage_date) DO UPDATE SET count = feature_usage.count + 1
+        const result = await pool.query(
+          `INSERT INTO feature_usage (user_id, feature, usage_date, count)
+           VALUES ($1,$2,$3,1)
+           ON CONFLICT (user_id, feature, usage_date)
+           DO UPDATE SET count = feature_usage.count + 1
            RETURNING count`,
           [user.id, TUTOR_FEATURE_KEY, today]
         );
-        const newCount = usageResult.rows[0]?.count || 1;
-        if (newCount > FREE_TIER_DAILY_LIMIT) {
-          await pool.query(
-            `UPDATE feature_usage SET count = count - 1 WHERE user_id = $1 AND feature = $2 AND usage_date = $3`,
-            [user.id, TUTOR_FEATURE_KEY, today]
-          );
-          return res.status(429).json({
-            error: "Daily tutor limit reached",
-            upgradeRequired: true,
-            usedToday: newCount - 1,
-            dailyLimit: FREE_TIER_DAILY_LIMIT,
-          });
+
+        const count = result.rows[0].count;
+
+        if (count > FREE_TIER_DAILY_LIMIT) {
+          return res.status(429).json({ error: "Limit reached" });
         }
       }
 
-      const conversationId = parseInt(req.params.id);
+      const id = Number(routeParamString(req.params.id));
+      if (!Number.isFinite(id)) {
+        return res.status(400).json({ error: "Invalid conversation id" });
+      }
+
       const { content, contextType, contextData, language } = req.body;
 
-      if (!content || typeof content !== "string" || content.trim().length === 0) {
-        return res.status(400).json({ error: "Message content is required" });
+      if (!content?.trim()) {
+        return res.status(400).json({ error: "Content required" });
       }
 
-      const convResult = await pool.query(
-        "SELECT * FROM tutor_conversations WHERE id = $1 AND user_id = $2",
-        [conversationId, user.id]
-      );
-      if (convResult.rows.length === 0) {
-        return res.status(404).json({ error: "Conversation not found" });
+      if (!isOpenAIConfigured()) {
+        return res.status(503).json({
+          error: "AI tutor is not configured (missing OpenAI API key).",
+        });
       }
 
-      const conversation = convResult.rows[0];
-
+      /* SAVE USER MESSAGE */
       await pool.query(
-        "INSERT INTO tutor_messages (conversation_id, role, content, created_at) VALUES ($1, $2, $3, NOW())",
-        [conversationId, "user", content.trim()]
+        "INSERT INTO tutor_messages (conversation_id, role, content) VALUES ($1,$2,$3)",
+        [id, "user", content.trim()]
       );
 
-      const historyResult = await pool.query(
-        "SELECT role, content FROM tutor_messages WHERE conversation_id = $1 ORDER BY created_at ASC LIMIT 20",
-        [conversationId]
+      /* LOAD HISTORY (LIMITED FOR MEMORY SAFETY) */
+      const history = await pool.query(
+        "SELECT role, content FROM tutor_messages WHERE conversation_id=$1 ORDER BY created_at DESC LIMIT 10",
+        [id]
       );
 
-      const systemPrompt = buildSafetyPreamble()
-        + buildContextPrompt(contextType || conversation.context_type, contextData || {})
-        + getLanguageInstruction(language || conversation.language || "en");
-
-      const chatMessages: { role: "system" | "user" | "assistant"; content: string }[] = [
-        { role: "system", content: systemPrompt },
-        ...historyResult.rows.map((m: any) => ({
-          role: m.role as "user" | "assistant",
-          content: m.content,
-        })),
+      const messages = [
+        {
+          role: "system",
+          content: buildSystemPrompt(contextType, contextData, language),
+        },
+        ...history.rows.reverse(),
       ];
 
+      /* STREAM RESPONSE */
       res.setHeader("Content-Type", "text/event-stream");
-      res.setHeader("Cache-Control", "no-cache");
-      res.setHeader("Connection", "keep-alive");
 
+      const openai = getOpenAIClient();
       const stream = await openai.chat.completions.create({
         model: "gpt-4o-mini",
-        messages: chatMessages,
+        messages,
         stream: true,
-        max_completion_tokens: 2048,
-        temperature: 0.7,
+        temperature: 0.6,
       });
 
-      const responseChunks: string[] = [];
+      let full = "";
 
       for await (const chunk of stream) {
-        const delta = chunk.choices[0]?.delta?.content || "";
-        if (delta) {
-          responseChunks.push(delta);
-          res.write(`data: ${JSON.stringify({ content: delta })}\n\n`);
-        }
+        const text = chunk.choices[0]?.delta?.content;
+        if (!text) continue;
+
+        full += text;
+        res.write(`data: ${JSON.stringify({ content: text })}\n\n`);
       }
 
-      const fullResponse = responseChunks.join("");
-      responseChunks.length = 0;
-
+      /* SAVE AI RESPONSE */
       await pool.query(
-        "INSERT INTO tutor_messages (conversation_id, role, content, created_at) VALUES ($1, $2, $3, NOW())",
-        [conversationId, "assistant", fullResponse]
+        "INSERT INTO tutor_messages (conversation_id, role, content) VALUES ($1,$2,$3)",
+        [id, "assistant", full]
       );
 
       res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
       res.end();
-    } catch (error) {
-      console.error("Error in tutor chat:", error);
+    } catch (err) {
+      console.error("Tutor error:", err);
       if (res.headersSent) {
-        res.write(`data: ${JSON.stringify({ error: "An error occurred while generating the response" })}\n\n`);
-        res.end();
-      } else {
-        res.status(500).json({ error: "Failed to process message" });
+        try {
+          res.end();
+        } catch {
+          /* ignore */
+        }
+        return;
       }
+      res.status(500).json({ error: "Failed to process request" });
     }
   });
 }

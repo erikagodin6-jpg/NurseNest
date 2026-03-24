@@ -294,9 +294,9 @@ export function registerMltRemediationRoutes(app: Express) {
       if (result.rows.length === 0) {
         const autoResult = await findRemediationContent(questionId);
         return res.json({
-          questionId,
           autoLinked: true,
           ...autoResult,
+          questionId,
         });
       }
 

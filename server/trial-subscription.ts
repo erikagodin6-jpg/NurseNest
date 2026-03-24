@@ -4,6 +4,7 @@ import crypto from "crypto";
 import { pool } from "./storage";
 import { resolveAuthUser } from "./admin-auth";
 import { getUncachableStripeClient } from "./stripeClient";
+import type Stripe from "stripe";
 
 const TRIAL_DURATION_HOURS = () => parseInt(process.env.TRIAL_DURATION_HOURS || "24", 10);
 const TRIAL_MAX_QUESTIONS = () => parseInt(process.env.TRIAL_MAX_QUESTIONS || "50", 10);
@@ -562,19 +563,22 @@ export function setupTrialSubscriptionRoutes(app: Express): void {
       };
       const unitAmount = tierPriceMap[trial.selected_tier] || 2999;
 
-      const subscription = await stripe.subscriptions.create({
+      // Stripe SDK `Item.PriceData` types require `product` id; API still accepts inline `product_data` for subscription items.
+      const subscriptionParams = {
         customer: trial.stripe_customer_id,
-        items: [{
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: `NurseNest ${trial.selected_tier.toUpperCase()} - 24hr Trial`,
-              metadata: { tier: trial.selected_tier, trialId },
+        items: [
+          {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: `NurseNest ${trial.selected_tier.toUpperCase()} - 24hr Trial`,
+                metadata: { tier: trial.selected_tier, trialId: String(trialId) },
+              },
+              recurring: { interval: "month" as const },
+              unit_amount: unitAmount,
             },
-            recurring: { interval: "month" },
-            unit_amount: unitAmount,
           },
-        }],
+        ],
         trial_period_days: Math.max(1, Math.ceil(TRIAL_DURATION_HOURS() / 24)),
         payment_settings: {
           save_default_payment_method: "on_subscription",
@@ -585,7 +589,8 @@ export function setupTrialSubscriptionRoutes(app: Express): void {
           trialTier: trial.selected_tier,
           isTrial: "true",
         },
-      });
+      } as unknown as Stripe.SubscriptionCreateParams;
+      const subscription = await stripe.subscriptions.create(subscriptionParams);
 
       const durationHours = TRIAL_DURATION_HOURS();
       const trialEndsAt = new Date(Date.now() + durationHours * 60 * 60 * 1000);

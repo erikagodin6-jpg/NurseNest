@@ -54,6 +54,7 @@ function getOpenAI() {
   return new OpenAI({
     apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
     baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+    timeout: 30_000,
   });
 }
 
@@ -256,7 +257,18 @@ async function generateExamQuestionsBatch(
   count: number,
   difficultyBias?: string,
   targetLanguage: string = "en"
-): Promise<Array<{ stem: string; options: any; correctAnswer: any; rationale: string; difficulty: number; topic: string; bodySystem: string }>> {
+): Promise<
+  Array<{
+    stem: string;
+    options: any;
+    correctAnswer: any;
+    rationale: string;
+    difficulty: number;
+    topic: string;
+    bodySystem: string;
+    distractorRationales?: unknown;
+  }>
+> {
   const openai = getOpenAI();
   const tierLabel = tier.toUpperCase();
   const scopeNote = tier === "rpn" ? "Practical nursing scope (LPN/RPN)" : tier === "rn" ? "Registered Nurse scope" : "Nurse Practitioner scope with advanced pharmacology and diagnostics";
@@ -282,7 +294,7 @@ Return JSON array. Each question must be clinically accurate, unique, and test c
   try {
     const baseCacheKey = hashContent(`eq_${tier}_${system}_${count}_${todayString()}_${difficultyBias || "default"}`);
     const cacheKey = buildLanguageScopedCacheKey(baseCacheKey, targetLanguage);
-    const cached = await db.select().from(aiCache).where(eq(aiCache.cacheKey, cacheKey));
+    const cached = await db.select().from(aiCache).where(eq(aiCache.cacheKey, cacheKey)).limit(1);
     if (cached.length > 0) {
       return cached[0].outputJson as any;
     }
@@ -313,6 +325,7 @@ Return JSON array. Each question must be clinically accurate, unique, and test c
       difficulty: q.difficulty || 3,
       topic: q.topic || system,
       bodySystem: system,
+      distractorRationales: q.distractorRationales ?? q.distractor_rationales,
     }));
 
     await db.insert(aiCache).values({ cacheKey, outputJson: results }).onConflictDoNothing();
@@ -552,7 +565,7 @@ ${distractorRationales ? '- distractorRationales: translated distractor rational
 }
 
 export async function runGenerationJob(jobId: string) {
-  const [job] = await db.select().from(generationJobs).where(eq(generationJobs.id, jobId));
+  const [job] = await db.select().from(generationJobs).where(eq(generationJobs.id, jobId)).limit(1);
   if (!job) throw new Error(`Job ${jobId} not found`);
   if (job.status !== "queued") return { skipped: true, reason: `Job status is ${job.status}` };
 
