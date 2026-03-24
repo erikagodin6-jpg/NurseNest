@@ -46,3 +46,4 @@ coverage/
 artifacts/
 scan.txt
 hardcoded-strings-report.json
+attached_assets/
