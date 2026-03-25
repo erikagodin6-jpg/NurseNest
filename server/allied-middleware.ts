@@ -1,10 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import path from "path";
-import { fileURLToPath } from "url";
 import { getCanonicalRoute } from "@shared/careers";
-import { importClientDataAbsolute } from "./client-data-import";
-
-const __dirnameAlliedMw = path.dirname(fileURLToPath(import.meta.url));
 
 declare global {
   namespace Express {
@@ -307,20 +302,29 @@ export async function generateAlliedSitemapAsync(baseUrl: string): Promise<strin
   } catch {}
 
   try {
-    const { paramedicQuestions } = await importClientDataAbsolute(
-      path.resolve(__dirnameAlliedMw, "../client/src/data/career-questions/paramedic-questions"),
-    );
+    const { pool: dbPoolParamedic } = require("./storage");
+    const result = await dbPoolParamedic.query(
+      `SELECT DISTINCT subtopic
+       FROM allied_questions
+       WHERE career_type = 'paramedic' AND COALESCE(subtopic, '') <> ''`,
+    ).catch(() => ({ rows: [] as any[] }));
     const topicSlugs = new Set<string>();
-    for (const q of paramedicQuestions as any[]) {
-      const slug = q.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-      topicSlugs.add(slug);
+    for (const r of result.rows) {
+      const raw = String(r.subtopic || "");
+      if (!raw) continue;
+      const slug = raw.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+      if (slug) topicSlugs.add(slug);
     }
-    const now = new Date().toISOString().split("T")[0];
-    urls.push(`<url><loc>${baseUrl}/paramedic/questions</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
-    for (const slug of topicSlugs) {
-      urls.push(`<url><loc>${baseUrl}/paramedic/questions/${slug}</loc><changefreq>weekly</changefreq><priority>0.6</priority><lastmod>${now}</lastmod></url>`);
+    if (topicSlugs.size > 0) {
+      const now = new Date().toISOString().split("T")[0];
+      urls.push(`<url><loc>${baseUrl}/paramedic/questions</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
+      for (const slug of topicSlugs) {
+        urls.push(`<url><loc>${baseUrl}/paramedic/questions/${slug}</loc><changefreq>weekly</changefreq><priority>0.6</priority><lastmod>${now}</lastmod></url>`);
+      }
     }
-  } catch {}
+  } catch {
+    // Non-blocking sitemap enhancement; keep static sitemap on failure.
+  }
 
   const encyclopediaProfessions = [
     "paramedic", "respiratory-therapy", "mlt", "imaging",
@@ -343,26 +347,36 @@ export async function generateAlliedSitemapAsync(baseUrl: string): Promise<strin
     }
   } catch {}
 
-  const alliedQuestionSources: { key: string; importPath: string; exportName: string }[] = [
-    { key: "rrt", importPath: "../client/src/data/career-questions/rrt-questions", exportName: "rrtQuestions" },
-    { key: "mlt", importPath: "../client/src/data/career-questions/mlt-questions", exportName: "mltQuestions" },
-    { key: "imaging", importPath: "../client/src/data/career-questions/imaging-questions", exportName: "imagingQuestions" },
-  ];
-  for (const source of alliedQuestionSources) {
-    try {
-      const mod = await import(source.importPath);
-      const questions = mod[source.exportName] as any[];
+  try {
+    const { pool: dbPoolQ } = require("./storage");
+    const sources = [
+      { key: "rrt", careerType: "rrt" },
+      { key: "mlt", careerType: "mlt" },
+      { key: "imaging", careerType: "imaging" },
+    ];
+    for (const source of sources) {
+      const result = await dbPoolQ.query(
+        `SELECT DISTINCT subtopic
+         FROM allied_questions
+         WHERE career_type = $1 AND COALESCE(subtopic, '') <> ''`,
+        [source.careerType],
+      ).catch(() => ({ rows: [] as any[] }));
+      if (result.rows.length === 0) continue;
       const slugSet = new Set<string>();
-      for (const q of questions) {
-        const slug = q.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-        slugSet.add(slug);
+      for (const row of result.rows) {
+        const topic = String(row.subtopic || "");
+        const slug = topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+        if (slug) slugSet.add(slug);
       }
+      if (slugSet.size === 0) continue;
       const now = new Date().toISOString().split("T")[0];
       urls.push(`<url><loc>${baseUrl}/${source.key}/questions</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>${now}</lastmod></url>`);
       for (const slug of slugSet) {
         urls.push(`<url><loc>${baseUrl}/${source.key}/questions/${slug}</loc><changefreq>weekly</changefreq><priority>0.6</priority><lastmod>${now}</lastmod></url>`);
       }
-    } catch {}
+    }
+  } catch {
+    // Non-blocking sitemap enhancement.
   }
 
   try {

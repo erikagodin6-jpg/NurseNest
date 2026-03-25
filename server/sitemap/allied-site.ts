@@ -6,7 +6,8 @@ import {
   getSiteBase, todayDate, toLastmod, localizedUrl, getIndexableLocales
 } from "./helpers";
 
-const __dirnameAlliedSitemap = path.dirname(fileURLToPath(import.meta.url));
+const __dirnameAlliedSitemap =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
 /** Avoid literal `../../client/...` strings so server `tsc` does not trace client modules. */
 function alliedSiteClientDataModule(...segments: string[]): string {
@@ -230,13 +231,16 @@ export async function generateAlliedTopics(): Promise<string[]> {
   }
 
   try {
-    const { paramedicQuestions } = await importClientDataAbsolute(
-      alliedSiteClientDataModule("career-questions", "paramedic-questions"),
+    const result = await pool.query(
+      `SELECT DISTINCT subtopic
+       FROM allied_questions
+       WHERE career_type = 'paramedic' AND COALESCE(subtopic, '') <> ''`,
     );
     const topicSlugs = new Set<string>();
-    for (const q of paramedicQuestions as any[]) {
-      const slug = q.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-      topicSlugs.add(slug);
+    for (const row of result.rows) {
+      const raw = String(row.subtopic || "");
+      const slug = raw.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+      if (slug) topicSlugs.add(slug);
     }
     urls.push(localizedUrl(base, `${ALLIED_PREFIX}/paramedic/questions`, "0.6", "weekly", locales, STATIC_CONTENT_DATE));
     for (const slug of topicSlugs) {
@@ -253,25 +257,24 @@ export async function generateAlliedTopics(): Promise<string[]> {
     }
   } catch {}
 
-  const alliedQuestionSources: { key: string; stem: string; exportName: string }[] = [
-    { key: "rrt", stem: "rrt-questions", exportName: "rrtQuestions" },
-    { key: "mlt", stem: "mlt-questions", exportName: "mltQuestions" },
-    { key: "imaging", stem: "imaging-questions", exportName: "imagingQuestions" },
-  ];
-  for (const source of alliedQuestionSources) {
+  const alliedQuestionCareerTypes: string[] = ["rrt", "mlt", "imaging"];
+  for (const careerType of alliedQuestionCareerTypes) {
     try {
-      const mod = await importClientDataAbsolute(
-        alliedSiteClientDataModule("career-questions", source.stem),
+      const result = await pool.query(
+        `SELECT DISTINCT subtopic
+         FROM allied_questions
+         WHERE career_type = $1 AND COALESCE(subtopic, '') <> ''`,
+        [careerType],
       );
-      const questions = mod[source.exportName] as any[];
       const slugSet = new Set<string>();
-      for (const q of questions) {
-        const slug = q.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-        slugSet.add(slug);
+      for (const row of result.rows) {
+        const raw = String(row.subtopic || "");
+        const slug = raw.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+        if (slug) slugSet.add(slug);
       }
-      urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${source.key}/questions`, "0.6", "weekly", locales, STATIC_CONTENT_DATE));
+      urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${careerType}/questions`, "0.6", "weekly", locales, STATIC_CONTENT_DATE));
       for (const slug of slugSet) {
-        urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${source.key}/questions/${slug}`, "0.6", "weekly", locales, STATIC_CONTENT_DATE));
+        urls.push(localizedUrl(base, `${ALLIED_PREFIX}/${careerType}/questions/${slug}`, "0.6", "weekly", locales, STATIC_CONTENT_DATE));
       }
     } catch {}
   }

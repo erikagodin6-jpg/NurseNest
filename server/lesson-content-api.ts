@@ -6,7 +6,8 @@ import { adaptLessonContent } from "./region-adapt-content";
 import { ClientDataImportError, importClientDataAbsolute } from "./client-data-import";
 import { emitStructuredLog } from "./log-sink";
 
-const __dirnameLessonApi = path.dirname(fileURLToPath(import.meta.url));
+const __dirnameLessonApi =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 import { resolveAuthUser, logPaywallAudit } from "./admin-auth";
 import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware } from "./abuse-protection";
 

@@ -4,7 +4,8 @@ import { fileURLToPath } from "url";
 import { requireAdmin, resolveAuthUser } from "./admin-auth";
 import { importClientDataAbsolute } from "./client-data-import";
 
-const __dirnameNewGrad = path.dirname(fileURLToPath(import.meta.url));
+const __dirnameNewGrad =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 import { ACTIVE_BUILD_PRIORITY, NEW_GRAD_CATEGORY_GROUPS } from "../shared/new-grad-categories";
 
 let cachedQuestions: any[] | null = null;

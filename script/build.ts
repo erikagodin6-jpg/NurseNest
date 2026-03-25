@@ -108,22 +108,33 @@ async function getExternals() {
   return allDeps.filter((dep) => !allowlist.includes(dep));
 }
 
-async function buildServer() {
+async function buildServer(externalizeHeavyModules: boolean) {
   const externals = await getExternals();
+  const plugins: NonNullable<Parameters<typeof esbuild>[0]["plugins"]> = [];
+  plugins.push({
+    name: "externalize-career-question-data",
+    setup(build) {
+      build.onResolve({ filter: /\.\.\/client\/src\/data\/career-questions\// }, (args) => ({
+        path: args.path,
+        external: true,
+      }));
+    },
+  });
+  plugins.push({
+    name: "externalize-lazy-routes",
+    setup(build) {
+      build.onResolve({ filter: /^\.\/[a-z]/ }, (args) => {
+        const moduleName = args.path.replace(/^\.\//, "");
+        if (LAZY_ROUTE_MODULES.has(moduleName)) {
+          return { path: `./${moduleName}.cjs`, external: true };
+        }
+        return null;
+      });
+    },
+  });
 
-  return esbuild({
-    entryPoints: ["server/index.ts"],
-    platform: "node",
-    bundle: true,
-    format: "cjs",
-    outfile: "dist/index.cjs",
-    define: { "process.env.NODE_ENV": '"production"' },
-    minify: true,
-    external: [...externals, ...TRANSITIVE_EXTERNALS],
-    logLevel: "warning",
-    logOverride: { "import-meta": "silent" },
-    loader: ASSET_LOADER,
-    plugins: [
+  if (externalizeHeavyModules) {
+    plugins.push(
       {
         name: "redirect-lessons-data",
         setup(build) {
@@ -155,19 +166,22 @@ async function buildServer() {
           });
         },
       },
-      {
-        name: "externalize-lazy-routes",
-        setup(build) {
-          build.onResolve({ filter: /^\.\/[a-z]/ }, (args) => {
-            const moduleName = args.path.replace(/^\.\//, "");
-            if (LAZY_ROUTE_MODULES.has(moduleName)) {
-              return { path: `./${moduleName}.cjs`, external: true };
-            }
-            return null;
-          });
-        },
-      },
-    ],
+    );
+  }
+
+  return esbuild({
+    entryPoints: ["server/index.ts"],
+    platform: "node",
+    bundle: true,
+    format: "cjs",
+    outfile: "dist/index.cjs",
+    define: { "process.env.NODE_ENV": '"production"' },
+    minify: true,
+    external: [...externals, ...TRANSITIVE_EXTERNALS],
+    logLevel: "warning",
+    logOverride: { "import-meta": "silent" },
+    loader: ASSET_LOADER,
+    plugins,
   });
 }
 
@@ -391,8 +405,15 @@ async function generateCoverageReport(log: (msg: string) => void): Promise<void>
 async function buildAll() {
   const t0 = Date.now();
   const log = (msg: string) => console.log(`[${((Date.now() - t0) / 1000).toFixed(1)}s] ${msg}`);
+  const timing = (phase: string, start: number) =>
+    console.log(`[deploy-timing] ${phase}_s=${((Date.now() - start) / 1000).toFixed(2)}`);
+  const isProduction = process.env.NODE_ENV === "production";
+  const runHeavyBuildTasks = process.env.RUN_HEAVY_BUILD_TASKS === "1";
+  const target = process.env.BUILD_TARGET || "all";
 
-  const skipValidation = process.env.SKIP_I18N_VALIDATION === "1";
+  const skipValidation = isProduction || process.env.SKIP_I18N_VALIDATION === "1";
+  const skipI18nCompile = isProduction || process.env.SKIP_I18N_COMPILE === "1";
+  const skipBuildReports = isProduction || process.env.SKIP_BUILD_REPORTS === "1";
 
   if (!skipValidation) {
     log("=== Pre-build i18n validation ===");
@@ -412,7 +433,9 @@ async function buildAll() {
     log("skipping i18n validation (SKIP_I18N_VALIDATION=1)");
   }
 
-  await rm("dist", { recursive: true, force: true });
+  if (target === "all" || target === "server" || target === "client") {
+    await rm("dist", { recursive: true, force: true });
+  }
 
   if (!skipValidation) {
     log("scanning for hardcoded strings...");
@@ -434,8 +457,23 @@ async function buildAll() {
     log("i18n scan passed");
   }
 
-  log("building i18n...");
-  await compileI18n();
+  if (target === "all" || target === "client") {
+    const i18nCompileT = Date.now();
+    if (skipI18nCompile) {
+      const enPath = path.resolve("client/public/i18n/en.json");
+      if (!existsSync(enPath)) {
+        console.error(
+          "[build] SKIP_I18N_COMPILE=1 but client/public/i18n/en.json is missing. Commit i18n JSON or run a full build without SKIP_I18N_COMPILE.",
+        );
+        process.exit(1);
+      }
+      log("skipping i18n compile (production deploy path)");
+    } else {
+      log("building i18n...");
+      await compileI18n();
+    }
+    timing("i18n_compile", i18nCompileT);
+  }
 
   if (!skipValidation) {
     runValidationStep(
@@ -445,41 +483,64 @@ async function buildAll() {
     );
   }
 
-  log("building server + data (NP batches in parallel)...");
-  const lessonsDir = path.resolve("client/src/data/lessons");
-  const npBatchFiles = (await readdir(lessonsDir))
-    .filter((f: string) => /^np-generated-batch-\d+\.ts$/.test(f))
-    .map((f: string) => parseInt(f.match(/np-generated-batch-(\d+)\.ts/)![1], 10))
-    .sort((a: number, b: number) => a - b);
-  log(`discovered np-generated-batch files: ${npBatchFiles.join(", ")}`);
+  if (target === "all" || target === "server") {
+    const serverT = Date.now();
+    log(`building server (required, RUN_HEAVY_BUILD_TASKS=${runHeavyBuildTasks ? "1" : "0"})...`);
+    await buildServer(runHeavyBuildTasks);
+    timing("server_esbuild", serverT);
 
-  await copySeedData();
-  log("seed data done");
+    const lazyRoutesT = Date.now();
+    await buildLazyRouteModules();
+    timing("build_lazy_route_modules_required", lazyRoutesT);
+  }
 
-  await buildLessonsData();
-  log("lessons data done");
-  await Promise.all(npBatchFiles.map((i) => buildNpBatch(i)));
-  log("np batches done");
+  if ((target === "all" || target === "heavy") && runHeavyBuildTasks) {
+    const heavyT = Date.now();
+    log("running heavy build tasks (seed/lesson/data artifacts)...");
 
-  await buildServer();
-  log("server done");
+    const copySeedT = Date.now();
+    await copySeedData();
+    timing("copy_seed_data", copySeedT);
 
-  await buildSeedModules();
-  log("seed modules done");
+    const lessonsT = Date.now();
+    await buildLessonsData();
+    timing("build_lessons_data", lessonsT);
 
-  await buildLazyRouteModules();
-  log("lazy route modules done");
+    const lessonsDir = path.resolve("client/src/data/lessons");
+    const npBatchFiles = (await readdir(lessonsDir))
+      .filter((f: string) => /^np-generated-batch-\d+\.ts$/.test(f))
+      .map((f: string) => parseInt(f.match(/np-generated-batch-(\d+)\.ts/)![1], 10))
+      .sort((a: number, b: number) => a - b);
+    log(`discovered np-generated-batch files: ${npBatchFiles.join(", ")}`);
 
-  await buildClientDataModules();
-  log("client data modules done");
+    const npBatchT = Date.now();
+    await Promise.all(npBatchFiles.map((i) => buildNpBatch(i)));
+    timing("build_np_batches", npBatchT);
+
+    const seedModulesT = Date.now();
+    await buildSeedModules();
+    timing("build_seed_modules", seedModulesT);
+
+    const clientDataT = Date.now();
+    await buildClientDataModules();
+    timing("build_client_data_modules", clientDataT);
+
+    timing("heavy_tasks_total", heavyT);
+  } else if (target === "all" || target === "heavy") {
+    log("skipping heavy build tasks (RUN_HEAVY_BUILD_TASKS != 1)");
+  }
 
   if (global.gc) global.gc();
 
   await removeShadowingJsNextToTs(path.resolve("client/src"));
   log("pruned shadowing .js next to TS sources under client/src");
 
-  await viteBuild();
-  log("client done");
+  if (target === "all" || target === "client") {
+    const viteT = Date.now();
+    await viteBuild();
+    log("client done");
+    timing("vite_client", viteT);
+  }
 
   log("removing bundled assets...");
   await Promise.all([
@@ -487,15 +548,20 @@ async function buildAll() {
     rm("dist/public/translations", { recursive: true, force: true }),
   ]);
 
-  log("running bundle size report...");
-  try {
-    execSync("node scripts/report-bundle-size.js", { stdio: "inherit", encoding: "utf-8" });
-  } catch (err: any) {
-    console.warn("\n⚠️  Bundle size report failed:", err.message || err);
+  if ((target === "all" || target === "client") && !skipBuildReports) {
+    log("running bundle size report...");
+    try {
+      execSync("node scripts/report-bundle-size.js", { stdio: "inherit", encoding: "utf-8" });
+    } catch (err: any) {
+      console.warn("\n⚠️  Bundle size report failed:", err.message || err);
+    }
+
+    await generateCoverageReport(log);
+  } else if (target === "all" || target === "client") {
+    log("skipping bundle report + i18n coverage artifact (production deploy path)");
   }
 
-  await generateCoverageReport(log);
-
+  timing("build_total", t0);
   log(`build complete`);
 }
 

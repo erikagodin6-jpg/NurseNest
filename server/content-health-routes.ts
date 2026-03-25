@@ -4,7 +4,8 @@ import { fileURLToPath } from "url";
 import { pool } from "./storage";
 import { importClientDataAbsolute } from "./client-data-import";
 
-const __dirnameContentHealth = path.dirname(fileURLToPath(import.meta.url));
+const __dirnameContentHealth =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 import { storage } from "./storage";
 import { requireAdmin } from "./admin-auth";
 import { emitStructuredLog } from "./log-sink";

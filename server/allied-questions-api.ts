@@ -1,10 +1,14 @@
 import type { Express, Request, Response } from "express";
 import path from "path";
 import { fileURLToPath } from "url";
+import { existsSync } from "fs";
+import { readFile } from "fs/promises";
 import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware } from "./abuse-protection";
 import { importClientDataAbsolute } from "./client-data-import";
+import { pool } from "./storage";
 
-const __dirnameAlliedApi = path.dirname(fileURLToPath(import.meta.url));
+const __dirnameAlliedApi =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
 /** Avoid string-literal paths under client/ so server `tsc` does not trace career-question modules. */
 function alliedCareerQuestionModule(stem: string): string {
@@ -162,6 +166,7 @@ interface BatchRef {
 interface CacheEntry {
   batches: BatchRef[];
   totalCount: number;
+  questions: any[];
   accessedAt: number;
   createdAt: number;
 }
@@ -255,7 +260,62 @@ export function pruneAlliedCachesUnderPressure(): void {
   }
 }
 
-async function assembleBatches(batches: BatchRef[]): Promise<any[]> {
+function stemFromCareerQuestionImportPath(importPath: string): string {
+  // importPath like "../client/src/data/career-questions/rrt-questions-batch2"
+  const last = importPath.split("/").pop() || importPath;
+  return last.trim();
+}
+
+function careerQuestionJsonPath(stem: string): string {
+  return path.resolve(process.cwd(), "data", "career-questions", `${stem}.json`);
+}
+
+async function assembleBatchesFromJson(batches: BatchRef[]): Promise<any[] | null> {
+  const result: any[] = [];
+
+  for (const batch of batches) {
+    const stem = stemFromCareerQuestionImportPath(batch.importPath);
+    const jsonPath = careerQuestionJsonPath(stem);
+    if (!existsSync(jsonPath)) return null;
+    const raw = await readFile(jsonPath, "utf-8");
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return null;
+    result.push(...parsed);
+  }
+
+  return result;
+}
+
+async function assembleBatchesFromDb(careerType: string): Promise<any[]> {
+  const result = await pool.query(
+    `SELECT
+       blueprint_id AS id,
+       stem,
+       options,
+       correct_answer AS "correctIndex",
+       rationale_long AS rationale,
+       difficulty,
+       blueprint_category AS category,
+       subtopic AS topic
+     FROM allied_questions
+     WHERE career_type = $1
+     ORDER BY blueprint_id`,
+    [careerType],
+  );
+
+  return result.rows.map((r: any) => ({
+    id: r.id,
+    stem: r.stem,
+    options: Array.isArray(r.options) ? r.options : JSON.parse(r.options || "[]"),
+    correctIndex: r.correctIndex,
+    rationale: r.rationale,
+    difficulty: r.difficulty,
+    category: r.category,
+    topic: r.topic,
+  }));
+}
+
+async function assembleBatchesFromTs(batches: BatchRef[]): Promise<any[]> {
   const result: any[] = [];
   for (const batch of batches) {
     const abs = path.resolve(__dirnameAlliedApi, batch.importPath);
@@ -274,7 +334,7 @@ async function loadQuestions(profession: ProfessionConfig): Promise<any[]> {
     } else {
       cached.accessedAt = Date.now();
       cacheHits++;
-      const questions = await assembleBatches(cached.batches);
+      const questions = cached.questions;
       console.log(`[AlliedCache] HIT: ${profession.key} | assembled=${questions.length} | cacheSize=${Object.keys(batchCache).length} | totalCachedCount=${getTotalCachedQuestionCount()} | hits=${cacheHits} misses=${cacheMisses} evictions=${cacheEvictions}`);
       return questions;
     }
@@ -290,11 +350,31 @@ async function loadQuestions(profession: ProfessionConfig): Promise<any[]> {
     }
   }
 
-  const questions = await assembleBatches(batches);
+  let questions: any[] = [];
+  try {
+    const jsonQuestions = await assembleBatchesFromJson(batches);
+    if (jsonQuestions && jsonQuestions.length > 0) {
+      questions = jsonQuestions;
+    }
+  } catch {}
+
+  if (questions.length === 0) {
+    try {
+      questions = await assembleBatchesFromDb(profession.key);
+    } catch {}
+  }
+
+  if (questions.length === 0) {
+    // Temporary fallback for local dev or during JSON/DB migration.
+    questions = await assembleBatchesFromTs(batches);
+  }
+
+  if (!Array.isArray(questions)) questions = [];
 
   batchCache[profession.key] = {
     batches,
     totalCount: questions.length,
+    questions,
     accessedAt: Date.now(),
     createdAt: Date.now(),
   };
@@ -458,9 +538,8 @@ export async function getAlliedQuestionTopicSlugs(): Promise<{ profession: strin
     const cached = batchCache[profession.key];
     if (cached) {
       try {
-        const questions = await assembleBatches(cached.batches);
         const slugSet = new Set<string>();
-        for (const q of questions) {
+        for (const q of cached.questions) {
           slugSet.add(slugify(q.topic));
         }
         results.push({ profession: profession.key, slugs: Array.from(slugSet) });

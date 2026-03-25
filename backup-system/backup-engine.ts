@@ -2,8 +2,11 @@ import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { execSync } from "child_process";
+import { fileURLToPath } from "url";
 
-export const PROJECT_ROOT = path.resolve(import.meta.dirname, "..");
+const __dirnameBackupEngine =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
+export const PROJECT_ROOT = path.resolve(__dirnameBackupEngine, "..");
 
 const EXCLUDE_PATTERNS = [
   "node_modules",

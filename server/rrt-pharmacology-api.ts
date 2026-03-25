@@ -4,7 +4,8 @@ import { fileURLToPath } from "url";
 import { resolveAuthUser } from "./admin-auth";
 import { importClientDataAbsolute } from "./client-data-import";
 
-const __dirnameRrtPharm = path.dirname(fileURLToPath(import.meta.url));
+const __dirnameRrtPharm =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 import { checkEntitlement } from "./entitlements";
 
 interface PharmacologyTopicFull {

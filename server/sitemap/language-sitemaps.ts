@@ -9,7 +9,8 @@ import {
   hasTimestampSuffix, isLowValueTranslatedPage, isNoindexPath
 } from "./helpers";
 
-const __dirnameLangSitemap = path.dirname(fileURLToPath(import.meta.url));
+const __dirnameLangSitemap =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
 function isLangLessonThinForSitemap(lesson: any): boolean {
   const title = (lesson.title || "").toLowerCase();

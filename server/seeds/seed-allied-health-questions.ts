@@ -1,4 +1,7 @@
 import type { Pool } from "pg";
+import path from "path";
+import { existsSync } from "fs";
+import { readFile } from "fs/promises";
 
 interface CareerQuestionInput {
   id: string;
@@ -17,11 +20,33 @@ interface SeedConfig {
   importFn: () => Promise<CareerQuestionInput[]>;
 }
 
+function careerQuestionJsonPath(stem: string): string {
+  return path.resolve(process.cwd(), "data", "career-questions", `${stem}.json`);
+}
+
+async function tryLoadCareerQuestionsFromJson(stems: string[]): Promise<CareerQuestionInput[] | null> {
+  const out: CareerQuestionInput[] = [];
+
+  for (const stem of stems) {
+    const jsonPath = careerQuestionJsonPath(stem);
+    if (!existsSync(jsonPath)) return null;
+    const raw = await readFile(jsonPath, "utf-8");
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return null;
+    if (parsed.length === 0) return null;
+    out.push(...parsed);
+  }
+
+  return out;
+}
+
 const SEED_CONFIGS: SeedConfig[] = [
   {
     careerType: "occupationalTherapy",
     examTag: "NBCOT COTA",
     importFn: async () => {
+      const json = await tryLoadCareerQuestionsFromJson(["ota-questions", "ota-questions-expansion"]);
+      if (json) return json;
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/ota-questions").then(m => m.otaQuestions),
         import("../../client/src/data/career-questions/ota-questions-expansion").then(m => m.otaQuestionsExpansion),
@@ -33,6 +58,25 @@ const SEED_CONFIGS: SeedConfig[] = [
     careerType: "occupationalTherapyAssistant",
     examTag: "NBCOT COTA",
     importFn: async () => {
+      const json = await tryLoadCareerQuestionsFromJson([
+        "ota-questions",
+        "ota-questions-batch2",
+        "ota-questions-batch3",
+        "ota-questions-batch4",
+        "ota-questions-batch5",
+        "ota-questions-batch6",
+        "ota-questions-batch7",
+        "ota-questions-batch8",
+        "ota-questions-batch9",
+        "ota-questions-batch10",
+        "ota-questions-batch11",
+        "ota-questions-batch12",
+        "ota-questions-batch13",
+        "ota-questions-batch14",
+        "ota-questions-batch15",
+        "ota-questions-expansion",
+      ]);
+      if (json) return json;
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/ota-questions").then(m => m.otaQuestions),
         import("../../client/src/data/career-questions/ota-questions-batch2").then(m => m.otaQuestionsBatch2),
@@ -58,6 +102,8 @@ const SEED_CONFIGS: SeedConfig[] = [
     careerType: "physicalTherapy",
     examTag: "FSBPT PTA",
     importFn: async () => {
+      const json = await tryLoadCareerQuestionsFromJson(["pta-questions", "pta-questions-expansion"]);
+      if (json) return json;
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/pta-questions").then(m => m.ptaQuestions),
         import("../../client/src/data/career-questions/pta-questions-expansion").then(m => m.ptaQuestionsExpansion),
@@ -69,6 +115,46 @@ const SEED_CONFIGS: SeedConfig[] = [
     careerType: "physiotherapyAssistant",
     examTag: "FSBPT PTA",
     importFn: async () => {
+      const json = await tryLoadCareerQuestionsFromJson([
+        "pta-questions",
+        "pta-questions-batch1",
+        "pta-questions-batch2",
+        "pta-questions-batch3",
+        "pta-questions-batch4",
+        "pta-questions-batch5",
+        "pta-questions-batch6",
+        "pta-questions-batch7",
+        "pta-questions-batch8",
+        "pta-questions-batch9",
+        "pta-questions-batch10",
+        "pta-questions-batch11",
+        "pta-questions-batch12",
+        "pta-questions-batch13",
+        "pta-questions-batch14",
+        "pta-questions-batch15",
+        "pta-questions-batch16",
+        "pta-questions-batch17",
+        "pta-questions-batch18",
+        "pta-questions-batch19",
+        "pta-questions-batch20",
+        "pta-questions-batch21",
+        "pta-questions-batch22",
+        "pta-questions-batch23",
+        "pta-questions-batch24",
+        "pta-questions-batch25",
+        "pta-questions-batch26",
+        "pta-questions-batch27",
+        "pta-questions-batch28",
+        "pta-questions-batch29",
+        "pta-questions-batch30",
+        "pta-questions-batch31",
+        "pta-questions-batch32",
+        "pta-questions-batch33",
+        "pta-questions-batch34",
+        "pta-questions-batch35",
+        "pta-questions-expansion",
+      ]);
+      if (json) return json;
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/pta-questions").then(m => m.ptaQuestions),
         import("../../client/src/data/career-questions/pta-questions-batch1").then(m => m.ptaQuestionsBatch1),
@@ -115,6 +201,16 @@ const SEED_CONFIGS: SeedConfig[] = [
     careerType: "healthInfoMgmt",
     examTag: "AHIMA RHIT",
     importFn: async () => {
+      const json = await tryLoadCareerQuestionsFromJson([
+        "him-questions",
+        "him-questions-batch2",
+        "him-questions-batch3",
+        "him-questions-batch4",
+        "him-questions-batch5",
+        "him-questions-batch6",
+        "him-questions-batch7",
+      ]);
+      if (json) return json;
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/him-questions").then(m => m.himQuestions),
         import("../../client/src/data/career-questions/him-questions-batch2").then(m => m.himQuestionsBatch2),
@@ -131,6 +227,20 @@ const SEED_CONFIGS: SeedConfig[] = [
     careerType: "surgicalTechnologist",
     examTag: "NBSTSA CST",
     importFn: async () => {
+      const json = await tryLoadCareerQuestionsFromJson([
+        "surgical-technologist-questions",
+        "surgical-technologist-questions-2",
+        "surgical-technologist-questions-3",
+        "surgical-technologist-questions-4",
+        "surgical-technologist-questions-5",
+        "surgical-technologist-questions-6",
+        "surgical-technologist-questions-7",
+        "surgical-technologist-questions-8",
+        "surgical-technologist-questions-9",
+        "surgical-technologist-questions-10",
+        "surgical-technologist-questions-11",
+      ]);
+      if (json) return json;
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/surgical-technologist-questions").then(m => m.surgicalTechnologistQuestions),
         import("../../client/src/data/career-questions/surgical-technologist-questions-2").then(m => m.surgicalTechnologistQuestionsPart2),
@@ -151,6 +261,16 @@ const SEED_CONFIGS: SeedConfig[] = [
     careerType: "diagnosticSonography",
     examTag: "ARDMS SPI",
     importFn: async () => {
+      const json = await tryLoadCareerQuestionsFromJson([
+        "sonography-questions",
+        "sonography-questions-batch2",
+        "sonography-questions-batch3",
+        "sonography-questions-batch4",
+        "sonography-questions-batch5",
+        "sonography-questions-batch6",
+        "sonography-questions-batch7",
+      ]);
+      if (json) return json;
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/sonography-questions").then(m => m.sonographyQuestions),
         import("../../client/src/data/career-questions/sonography-questions-batch2").then(m => m.sonographyQuestionsBatch2),
@@ -167,6 +287,16 @@ const SEED_CONFIGS: SeedConfig[] = [
     careerType: "cardiacSonographer",
     examTag: "ARDMS RDCS",
     importFn: async () => {
+      const json = await tryLoadCareerQuestionsFromJson([
+        "cardiac-sonographer-questions",
+        "cardiac-sonographer-questions-batch2",
+        "cardiac-sonographer-questions-batch3",
+        "cardiac-sonographer-questions-batch4",
+        "cardiac-sonographer-questions-batch5",
+        "cardiac-sonographer-questions-batch6",
+        "cardiac-sonographer-questions-batch7",
+      ]);
+      if (json) return json;
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/cardiac-sonographer-questions").then(m => m.cardiacSonographerQuestions),
         import("../../client/src/data/career-questions/cardiac-sonographer-questions-batch2").then(m => m.cardiacSonographerQuestionsBatch2),
@@ -183,6 +313,13 @@ const SEED_CONFIGS: SeedConfig[] = [
     careerType: "psychotherapist",
     examTag: "RP Qualifying",
     importFn: async () => {
+      const json = await tryLoadCareerQuestionsFromJson([
+        "psychotherapist-questions",
+        "psychotherapist-questions-batch2",
+        "psychotherapist-questions-batch3",
+        "psychotherapist-questions-batch4",
+      ]);
+      if (json) return json;
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/psychotherapist-questions").then(m => m.psychotherapistQuestions),
         import("../../client/src/data/career-questions/psychotherapist-questions-batch2").then(m => m.psychotherapistQuestionsBatch2),
@@ -196,6 +333,13 @@ const SEED_CONFIGS: SeedConfig[] = [
     careerType: "addictionsCounsellor",
     examTag: "IC&RC CAC",
     importFn: async () => {
+      const json = await tryLoadCareerQuestionsFromJson([
+        "addictions-counsellor-questions",
+        "addictions-counsellor-questions-batch2",
+        "addictions-counsellor-questions-batch3",
+        "addictions-counsellor-questions-batch4",
+      ]);
+      if (json) return json;
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/addictions-counsellor-questions").then(m => m.addictionsCounsellorQuestions),
         import("../../client/src/data/career-questions/addictions-counsellor-questions-batch2").then(m => m.addictionsCounsellorQuestionsBatch2),
@@ -209,6 +353,16 @@ const SEED_CONFIGS: SeedConfig[] = [
     careerType: "imaging",
     examTag: "ARRT Radiography",
     importFn: async () => {
+      const json = await tryLoadCareerQuestionsFromJson([
+        "imaging-questions",
+        "imaging-questions-expansion",
+        "imaging-questions-batch2",
+        "imaging-questions-batch3",
+        "imaging-questions-batch4",
+        "imaging-questions-batch5",
+        "imaging-questions-batch6",
+      ]);
+      if (json) return json;
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/imaging-questions").then(m => m.imagingQuestions),
         import("../../client/src/data/career-questions/imaging-questions-expansion").then(m => m.imagingQuestionsExpansion),
@@ -225,6 +379,18 @@ const SEED_CONFIGS: SeedConfig[] = [
     careerType: "rrt",
     examTag: "NBRC TMC/CSE",
     importFn: async () => {
+      const json = await tryLoadCareerQuestionsFromJson([
+        "rrt-questions",
+        "rrt-questions-batch1",
+        "rrt-questions-batch2",
+        "rrt-questions-batch3",
+        "rrt-questions-batch4",
+        "rrt-questions-batch5",
+        "rrt-questions-batch6",
+        "rrt-questions-batch7",
+        "rrt-questions-batch8",
+      ]);
+      if (json) return json;
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/rrt-questions").then(m => m.rrtQuestions),
         import("../../client/src/data/career-questions/rrt-questions-batch1").then(m => m.rrtQuestionsBatch1),
@@ -243,6 +409,16 @@ const SEED_CONFIGS: SeedConfig[] = [
     careerType: "paramedic",
     examTag: "NREMT Paramedic",
     importFn: async () => {
+      const json = await tryLoadCareerQuestionsFromJson([
+        "paramedic-questions",
+        "paramedic-questions-expansion",
+        "paramedic-questions-batch2",
+        "paramedic-questions-batch3",
+        "paramedic-questions-batch4",
+        "paramedic-questions-batch5",
+        "paramedic-questions-batch6",
+      ]);
+      if (json) return json;
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/paramedic-questions").then(m => m.paramedicQuestions),
         import("../../client/src/data/career-questions/paramedic-questions-expansion").then(m => m.paramedicQuestionsExpansion),
@@ -259,6 +435,21 @@ const SEED_CONFIGS: SeedConfig[] = [
     careerType: "pharmacyTech",
     examTag: "PTCB CPHT",
     importFn: async () => {
+      const json = await tryLoadCareerQuestionsFromJson([
+        "pharmacy-tech-questions",
+        "pharmacy-tech-questions-batch2",
+        "pharmacy-tech-questions-batch3",
+        "pharmacy-tech-questions-batch4",
+        "pharmacy-tech-questions-batch5",
+        "pharmacy-tech-questions-batch6",
+        "pharmacy-tech-questions-batch7",
+        "pharmacy-tech-questions-batch8",
+        "pharmacy-tech-questions-batch9",
+        "pharmacy-tech-questions-extended",
+        "pharmacy-tech-questions-pebc",
+        "pharmacy-tech-questions-expansion",
+      ]);
+      if (json) return json;
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/pharmacy-tech-questions").then(m => m.pharmacyTechQuestions),
         import("../../client/src/data/career-questions/pharmacy-tech-questions-batch2").then(m => m.pharmacyTechQuestionsBatch2),
@@ -280,6 +471,17 @@ const SEED_CONFIGS: SeedConfig[] = [
     careerType: "mlt",
     examTag: "ASCP MLT",
     importFn: async () => {
+      const json = await tryLoadCareerQuestionsFromJson([
+        "mlt-questions",
+        "mlt-questions-batch2",
+        "mlt-questions-expansion",
+        "mlt-questions-batch3",
+        "mlt-questions-batch4",
+        "mlt-questions-batch5",
+        "mlt-questions-batch6",
+        "mlt-questions-batch7",
+      ]);
+      if (json) return json;
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/mlt-questions").then(m => m.mltQuestions),
         import("../../client/src/data/career-questions/mlt-questions-batch2").then(m => m.mltQuestionsBatch2),
@@ -297,6 +499,36 @@ const SEED_CONFIGS: SeedConfig[] = [
     careerType: "socialWorker",
     examTag: "ASWB Clinical",
     importFn: async () => {
+      const json = await tryLoadCareerQuestionsFromJson([
+        "social-worker-questions",
+        "social-worker-questions-batch2",
+        "social-worker-questions-batch3",
+        "social-worker-questions-batch4",
+        "social-worker-questions-batch5",
+        "social-worker-questions-batch6",
+        "social-worker-questions-batch7",
+        "social-worker-questions-batch8",
+        "social-worker-questions-batch9",
+        "social-worker-questions-batch10",
+        "social-worker-questions-batch11",
+        "social-worker-questions-batch12",
+        "social-worker-questions-batch13",
+        "social-worker-questions-batch14",
+        "social-worker-questions-batch15",
+        "social-worker-questions-batch16",
+        "social-worker-questions-batch17",
+        "social-worker-questions-batch18",
+        "social-worker-questions-batch19",
+        "social-worker-questions-batch20",
+        "social-worker-questions-batch21",
+        "social-worker-questions-batch22",
+        "social-worker-questions-batch23",
+        "social-worker-questions-batch24",
+        "social-worker-questions-batch25",
+        "social-worker-questions-batch26",
+        "social-worker-questions-batch27",
+      ]);
+      if (json) return json;
       const parts = await Promise.all([
         import("../../client/src/data/career-questions/social-worker-questions").then(m => m.socialWorkerQuestions),
         import("../../client/src/data/career-questions/social-worker-questions-batch2").then(m => m.socialWorkerQuestionsBatch2),

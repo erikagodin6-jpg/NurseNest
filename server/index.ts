@@ -201,6 +201,7 @@ app.get("/api/test", (_req, res) => {
 const httpServer = createServer(app);
 
 const port = parseInt(process.env.PORT || "5000", 10);
+const deployBootT0 = Date.now();
 
 async function startServer() {
   initOptionalLogSinks();
@@ -219,11 +220,14 @@ async function startServer() {
     process.exit(1);
   }
 
+  const routesT0 = Date.now();
   await registerRoutes(httpServer, app);
+  console.log(`[deploy-timing] register_routes_ms=${Date.now() - routesT0}`);
   // 404 + global error handler MUST be registered after all routes (including registerRoutes).
   installApiNotFoundHandler(app);
   installGlobalErrorHandler(app);
   httpServer.listen(port, "0.0.0.0", () => {
+    console.log(`[deploy-timing] listen_ready_ms=${Date.now() - deployBootT0}`);
     emitStructuredLog({
       level: "info",
       type: "server_listen",

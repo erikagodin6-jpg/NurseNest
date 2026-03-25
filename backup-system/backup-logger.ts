@@ -1,7 +1,10 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
-const ROOT = path.resolve(import.meta.dirname, "..");
+const __dirnameBackupLogger =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirnameBackupLogger, "..");
 const LOGS_DIR = path.join(ROOT, "backups", "logs");
 
 export interface BackupLogEntry {

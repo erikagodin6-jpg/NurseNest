@@ -1,0 +1,20 @@
+# Deploy / image context (also useful for local Docker experiments)
+node_modules
+dist
+.git
+.github
+*.log
+logs
+tmp
+temp
+.cache
+coverage
+.nyc_output
+backups
+exports
+artifacts
+attached_assets
+*.mp4
+.env
+.env.*
+!.env.example

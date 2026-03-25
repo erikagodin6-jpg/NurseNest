@@ -3,7 +3,8 @@ import { fileURLToPath } from "url";
 import { pool } from "./storage";
 import { importClientDataAbsolute } from "./client-data-import";
 
-const __dirnameContentRel = path.dirname(fileURLToPath(import.meta.url));
+const __dirnameContentRel =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
 export interface RelatedContentItem {
   type: "lesson" | "blog" | "flashcard" | "exam-question" | "clinical-clarity" | "glossary" | "medication" | "lab-value" | "condition";

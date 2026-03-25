@@ -10,7 +10,8 @@ import {
   hasTimestampSuffix, isLowValueTranslatedPage
 } from "./helpers";
 
-const __dirnameMainSitemap = path.dirname(fileURLToPath(import.meta.url));
+const __dirnameMainSitemap =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
 export async function generateMainPages(): Promise<string[]> {
   const base = getSiteBase();

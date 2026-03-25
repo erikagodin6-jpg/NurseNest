@@ -1,20 +1,38 @@
 import path from "path";
 import { fileURLToPath } from "url";
+import { existsSync } from "fs";
+import { readFile } from "fs/promises";
 import { pool } from "./storage";
 import { importClientDataAbsolute } from "./client-data-import";
 
-const __dirnameSeedParamedic = path.dirname(fileURLToPath(import.meta.url));
+const __dirnameSeedParamedic =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
 export async function seedParamedicQuestions() {
   let paramedicQuestions: any[];
   try {
-    const mod = await importClientDataAbsolute(
-      path.resolve(__dirnameSeedParamedic, "../client/src/data/career-questions/paramedic-questions"),
-    );
-    paramedicQuestions = mod.paramedicQuestions;
+    const jsonPath = path.resolve(process.cwd(), "data", "career-questions", "paramedic-questions.json");
+    if (existsSync(jsonPath)) {
+      const raw = await readFile(jsonPath, "utf-8");
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        paramedicQuestions = parsed;
+      } else {
+        throw new Error("JSON present but empty/invalid");
+      }
+    } else {
+      throw new Error("JSON file missing");
+    }
   } catch (e: any) {
-    console.error("[Paramedic Q-Seed] Failed to load question module:", e?.message);
-    return;
+    try {
+      const mod = await importClientDataAbsolute(
+        path.resolve(__dirnameSeedParamedic, "../client/src/data/career-questions/paramedic-questions"),
+      );
+      paramedicQuestions = mod.paramedicQuestions;
+    } catch (e2: any) {
+      console.error("[Paramedic Q-Seed] Failed to load question source:", e2?.message || e?.message);
+      return;
+    }
   }
 
   try {

@@ -6,7 +6,8 @@ import { requireAdmin } from "./admin-auth";
 import { ClientDataImportError, importTsModuleAbsolute } from "./client-data-import";
 import { emitStructuredLog } from "./log-sink";
 
-const __dirnameAdminSeed = path.dirname(fileURLToPath(import.meta.url));
+const __dirnameAdminSeed =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
 export function registerAdminSeedRoutes(app: Express) {
   app.post("/api/admin/run-seeds", async (req: Request, res: Response) => {

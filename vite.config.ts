@@ -9,10 +9,11 @@ import circularDependency from "vite-plugin-circular-dependency";
 export default defineConfig({
   plugins: [
     react(),
-    runtimeErrorOverlay(),
+    ...(process.env.NODE_ENV !== "production" ? [runtimeErrorOverlay()] : []),
     tailwindcss(),
     metaImagesPlugin(),
-    ...(process.env.NODE_ENV === "production"
+    ...(process.env.NODE_ENV === "production" &&
+    process.env.VITE_SKIP_CIRCULAR_CHECK !== "1"
       ? [
           circularDependency({
             exclude: [/[\\/]node_modules[\\/]/],
@@ -54,6 +55,7 @@ export default defineConfig({
     chunkSizeWarningLimit: 500,
     cssMinify: "esbuild",
     minify: "esbuild",
+    reportCompressedSize: false,
     modulePreload: {
       polyfill: true,
       resolveDependencies: (filename, deps, { hostId, hostType }) => {

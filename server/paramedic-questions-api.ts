@@ -1,9 +1,13 @@
 import type { Express, Request, Response } from "express";
+import { existsSync } from "fs";
+import { readFile } from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 import { importClientDataAbsolute } from "./client-data-import";
+import { pool } from "./storage";
 
-const __dirnameParamedicApi = path.dirname(fileURLToPath(import.meta.url));
+const __dirnameParamedicApi =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
 function slugify(text: string): string {
   return text
@@ -36,10 +40,56 @@ async function loadQuestions(): Promise<any[]> {
       return questionsCache;
     }
   }
-  const { paramedicQuestions } = await importClientDataAbsolute(
-    path.resolve(__dirnameParamedicApi, "../client/src/data/career-questions/paramedic-questions"),
-  );
-  const allQuestions = paramedicQuestions as any[];
+  let allQuestions: any[] = [];
+
+  // Preferred file-based runtime path when pre-exported JSON exists.
+  const jsonPath = path.resolve(process.cwd(), "data/career-questions/paramedic-questions.json");
+  if (existsSync(jsonPath)) {
+    try {
+      const raw = await readFile(jsonPath, "utf-8");
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        allQuestions = parsed;
+      }
+    } catch {
+      // Fall through to DB/file fallbacks.
+    }
+  }
+
+  try {
+    if (allQuestions.length === 0) {
+      const result = await pool.query(
+        `SELECT
+           blueprint_id AS id,
+           stem,
+           options,
+           correct_answer AS "correctIndex",
+           rationale_long AS rationale,
+           difficulty,
+           blueprint_category AS category,
+           subtopic AS topic
+         FROM allied_questions
+         WHERE career_type = 'paramedic'
+         ORDER BY id`,
+      );
+      if (result.rows.length > 0) {
+        allQuestions = result.rows.map((r) => ({
+          ...r,
+          options: Array.isArray(r.options) ? r.options : JSON.parse(r.options || "[]"),
+        }));
+      }
+    }
+  } catch {
+    // Fallback to file-based source for local/dev environments without populated DB.
+  }
+
+  if (allQuestions.length === 0) {
+    const { paramedicQuestions } = await importClientDataAbsolute(
+      path.resolve(__dirnameParamedicApi, "../client/src/data/career-questions/paramedic-questions"),
+    );
+    allQuestions = paramedicQuestions as any[];
+  }
+
   questionsCache = allQuestions.length > MAX_PARAMEDIC_CACHED_QUESTIONS
     ? allQuestions.slice(0, MAX_PARAMEDIC_CACHED_QUESTIONS)
     : allQuestions;
