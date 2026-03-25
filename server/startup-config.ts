@@ -11,14 +11,10 @@ export function validateCriticalStartupConfig(): { ok: boolean; errors: string[]
   const nodeEnv = process.env.NODE_ENV || "development";
   const prodUrl = process.env.PROD_DATABASE_URL?.trim();
   const devUrl = process.env.DATABASE_URL?.trim();
-  const allowFallback =
-    String(process.env.ALLOW_PROD_FALLBACK_TO_DATABASE_URL || "").toLowerCase() === "true";
 
   if (nodeEnv === "production") {
-    if (!prodUrl && !(allowFallback && devUrl)) {
-      errors.push(
-        "Production requires PROD_DATABASE_URL (or ALLOW_PROD_FALLBACK_TO_DATABASE_URL=true with DATABASE_URL)",
-      );
+    if (!prodUrl && !devUrl) {
+      errors.push("Production requires DATABASE_URL or PROD_DATABASE_URL");
     }
   } else if (!devUrl) {
     errors.push("DATABASE_URL is required for non-production (see server/db.ts)");

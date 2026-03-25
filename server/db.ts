@@ -47,16 +47,14 @@ function getRequiredUrl(target: DatabaseTarget): string {
   if (target === "production") {
     if (PROD_URL) return PROD_URL;
 
-    if (ALLOW_PROD_FALLBACK_TO_DATABASE_URL && DEV_URL) {
+    if (DEV_URL) {
       console.warn(
-        "[DB] PROD_DATABASE_URL is not set. Falling back to DATABASE_URL because ALLOW_PROD_FALLBACK_TO_DATABASE_URL=true",
+        "[DB] PROD_DATABASE_URL is not set; using DATABASE_URL for the production pool",
       );
       return DEV_URL;
     }
 
-    throw new Error(
-      "PROD_DATABASE_URL is not set. Refusing to use DATABASE_URL for production unless ALLOW_PROD_FALLBACK_TO_DATABASE_URL=true",
-    );
+    throw new Error("Neither PROD_DATABASE_URL nor DATABASE_URL is set");
   }
 
   if (!DEV_URL) {
@@ -206,9 +204,7 @@ export function getDbInfo() {
 
 export function logDatabaseTarget(operation: string, target: DatabaseTarget): void {
   const url =
-    target === "production"
-      ? PROD_URL || (ALLOW_PROD_FALLBACK_TO_DATABASE_URL ? DEV_URL : undefined)
-      : DEV_URL;
+    target === "production" ? PROD_URL || DEV_URL : DEV_URL;
 
   console.log(
     `[DB] ${operation} → targeting ${target.toUpperCase()} database (${maskUrl(url)})`,
