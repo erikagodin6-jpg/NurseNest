@@ -1578,6 +1578,12 @@
     "type": "jsx-text"
   },
   {
+    "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/allied/pages/pta-topic-bank-page.tsx",
+    "line": 122,
+    "text": "Loading practice questions...",
+    "type": "jsx-text"
+  },
+  {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/components/ObjectUploader.tsx",
     "line": 21,
     "text": "Promise",
@@ -7687,31 +7693,31 @@
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/flashcards.tsx",
-    "line": 3457,
+    "line": 3494,
     "text": "Save $20.88/year",
     "type": "jsx-text"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/flashcards.tsx",
-    "line": 4784,
+    "line": 4821,
     "text": "e.g., What are the signs of right-sided heart failure?",
     "type": "string-prop"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/flashcards.tsx",
-    "line": 4794,
+    "line": 4831,
     "text": "e.g., Peripheral edema, jugular venous distension (JVD), hepatomegaly, weight ga",
     "type": "string-prop"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/flashcards.tsx",
-    "line": 4804,
+    "line": 4841,
     "text": "e.g., Cardiac, Pharmacology, Maternity",
     "type": "string-prop"
   },
   {
     "file": "/Users/erikagodin/Downloads/NurseNest-4/client/src/pages/flashcards.tsx",
-    "line": 4916,
+    "line": 4953,
     "text": "e.g., Cardiac medications and their side effects",
     "type": "string-prop"
   },
