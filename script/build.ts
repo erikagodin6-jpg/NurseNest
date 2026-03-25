@@ -90,7 +90,8 @@ const LAZY_ROUTE_MODULES = new Set([
   "profession-routes", "profession-practice-questions-routes",
   "question-preview-api", "environment-routes",
   "platform-resilience", "performance", "deployment-protection",
-  "memory-middleware", "content-health-gate", "memory-monitor", "job-queue",
+  // Keep memory-monitor in the main bundle (avoid missing dist/memory-monitor.cjs on deploy).
+  "memory-middleware", "content-health-gate", "job-queue",
   "entitlement-api", "analytics-events-routes", "translation-audit",
   "startup-data-migrations", "adaptive-engine", "sm2-engine",
   "lesson-content-api", "content-version-service", "taxonomy-normalizer",
