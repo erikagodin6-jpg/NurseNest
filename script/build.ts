@@ -108,7 +108,7 @@ async function getExternals() {
   return allDeps.filter((dep) => !allowlist.includes(dep));
 }
 
-async function buildServer(externalizeHeavyModules: boolean) {
+async function buildServer(externalizeHeavyModules: boolean, buildProof: string) {
   const externals = await getExternals();
   const plugins: NonNullable<Parameters<typeof esbuild>[0]["plugins"]> = [];
   plugins.push({
@@ -176,6 +176,8 @@ async function buildServer(externalizeHeavyModules: boolean) {
     format: "cjs",
     outfile: "dist/index.cjs",
     define: { "process.env.NODE_ENV": '"production"' },
+    // Provenance: lets us confirm Render is running the bundle produced by this build.
+    banner: { js: `console.log(${JSON.stringify(buildProof)});` },
     minify: true,
     external: [...externals, ...TRANSITIVE_EXTERNALS],
     logLevel: "warning",
@@ -418,6 +420,15 @@ async function buildAll() {
   } catch {}
   log(`[build-freshness] git_sha=${gitSha} build_started_at=${new Date().toISOString()}`);
 
+  const buildProof = `FRESH_BUILD_PROOF=${gitSha}:${new Date().toISOString()}`;
+
+  // Always wipe dist so the output bundle can't be stale.
+  // Also clear common bundler caches that could otherwise make artifacts linger.
+  await rm("dist", { recursive: true, force: true });
+  await rm("node_modules/.cache", { recursive: true, force: true });
+  await rm("node_modules/.vite", { recursive: true, force: true });
+  await rm("node_modules/.esbuild", { recursive: true, force: true });
+
   const skipValidation = isProduction || process.env.SKIP_I18N_VALIDATION === "1";
   const skipI18nCompile = isProduction || process.env.SKIP_I18N_COMPILE === "1";
   const skipBuildReports = isProduction || process.env.SKIP_BUILD_REPORTS === "1";
@@ -439,9 +450,6 @@ async function buildAll() {
   } else {
     log("skipping i18n validation (SKIP_I18N_VALIDATION=1)");
   }
-
-  // Always wipe dist so the output bundle can't be stale.
-  await rm("dist", { recursive: true, force: true });
 
   if (!skipValidation) {
     log("scanning for hardcoded strings...");
@@ -492,7 +500,7 @@ async function buildAll() {
   if (target === "all" || target === "server") {
     const serverT = Date.now();
     log(`building server (required, RUN_HEAVY_BUILD_TASKS=${runHeavyBuildTasks ? "1" : "0"})...`);
-    await buildServer(runHeavyBuildTasks);
+    await buildServer(runHeavyBuildTasks, buildProof);
     timing("server_esbuild", serverT);
 
     const lazyRoutesT = Date.now();

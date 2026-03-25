@@ -12,7 +12,7 @@
     "build:client": "BUILD_TARGET=client NODE_OPTIONS=--max-old-space-size=4096 npx tsx script/build.ts",
     "build:heavy": "BUILD_TARGET=heavy RUN_HEAVY_BUILD_TASKS=1 NODE_OPTIONS=--max-old-space-size=4096 npx tsx script/build.ts",
     "content:export:question-banks": "tsx scripts/export-question-bank-json.ts",
-    "start": "NODE_ENV=production node dist/index.cjs",
+    "start": "node scripts/start-with-fresh-dist.mjs",
     "check": "tsc",
     "check:server": "tsc --noEmit -p tsconfig.server.json",
     "check:storage": "tsx scripts/check-storage-sanity.ts",
