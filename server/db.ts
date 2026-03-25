@@ -43,6 +43,9 @@ function shouldUseSsl(connectionString: string): boolean {
   );
 }
 
+/** Local placeholder when no env URL — pool starts; queries fail until DATABASE_URL / PROD_DATABASE_URL are set. */
+const MISSING_DB_PLACEHOLDER = "postgresql://127.0.0.1:1/nurse_nest_db_not_configured";
+
 function getRequiredUrl(target: DatabaseTarget): string {
   if (target === "production") {
     if (PROD_URL) return PROD_URL;
@@ -54,14 +57,18 @@ function getRequiredUrl(target: DatabaseTarget): string {
       return DEV_URL;
     }
 
-    throw new Error("Neither PROD_DATABASE_URL nor DATABASE_URL is set");
+    console.error(
+      "[DB] Neither PROD_DATABASE_URL nor DATABASE_URL is set. Server will start; database calls will fail until a URL is configured.",
+    );
+    return MISSING_DB_PLACEHOLDER;
   }
 
-  if (!DEV_URL) {
-    throw new Error("DATABASE_URL is not set");
-  }
+  if (DEV_URL) return DEV_URL;
 
-  return DEV_URL;
+  console.error(
+    "[DB] DATABASE_URL is not set. Server will start; database calls will fail until DATABASE_URL is configured.",
+  );
+  return MISSING_DB_PLACEHOLDER;
 }
 
 function getPoolLabel(target: DatabaseTarget): string {
