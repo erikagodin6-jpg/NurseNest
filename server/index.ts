@@ -204,6 +204,17 @@ const port = parseInt(process.env.PORT || "5000", 10);
 const deployBootT0 = Date.now();
 
 async function startServer() {
+  // Unmistakable deploy fingerprint: lets us confirm Render is running the newest startup code.
+  console.log(
+    JSON.stringify({
+      STARTUP_FINGERPRINT: "STARTUP_FINGERPRINT=2026-03-25-db-fix-v1",
+      NODE_ENV: process.env.NODE_ENV || null,
+      DATABASE_URL_present: Boolean(process.env.DATABASE_URL),
+      PROD_DATABASE_URL_present: Boolean(process.env.PROD_DATABASE_URL),
+      ALLOW_PROD_FALLBACK_TO_DATABASE_URL: process.env.ALLOW_PROD_FALLBACK_TO_DATABASE_URL || null,
+    }),
+  );
+
   initOptionalLogSinks();
 
   const startup = validateCriticalStartupConfig();

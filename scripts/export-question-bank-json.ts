@@ -70,6 +70,7 @@ const STEMS_TO_EXPORT: string[] = [
   // Imaging
   "imaging-questions",
   "imaging-questions-expansion",
+  "imaging-questions-expansion-2",
   "imaging-questions-batch2",
   "imaging-questions-batch3",
   "imaging-questions-batch4",

@@ -16,6 +16,7 @@ const ALLOW_PROD_FALLBACK_TO_DATABASE_URL =
   String(process.env.ALLOW_PROD_FALLBACK_TO_DATABASE_URL || "").toLowerCase() === "true";
 
 const NODE_ENV = process.env.NODE_ENV || "development";
+const IS_PROD_RUNTIME = NODE_ENV === "production" || process.env.REPLIT_DEPLOYMENT === "1";
 
 function getEnvInt(name: string, fallback: number): number {
   const raw = process.env[name];
@@ -167,6 +168,12 @@ let prodPool: pg.Pool | null = null;
 let isClosingPools = false;
 
 export function getDevPool(): pg.Pool {
+  // In production, some startup-time code paths may (indirectly) call getDevPool().
+  // If DATABASE_URL is missing but PROD_DATABASE_URL is configured, route those
+  // calls to the production pool so boot does not require dev configuration.
+  if (IS_PROD_RUNTIME && !DEV_URL && PROD_URL) {
+    return getProdPool();
+  }
   if (!devPool) {
     devPool = createPool("development");
   }

@@ -427,10 +427,51 @@ export interface IStorage {
   deleteMockExamSessionProgress(id: string): Promise<void>;
 }
 
-import { getDevPool } from "./db";
-const pool = getDevPool();
-export { pool };
-export const db = drizzle(pool);
+import { getPool as getDbPool, type DatabaseTarget } from "./db";
+
+// IMPORTANT: storage.ts must not create any DB pool at module import time.
+// Render sometimes starts without DATABASE_URL; production must not touch the dev pool.
+const isProduction =
+  process.env.NODE_ENV === "production" || process.env.REPLIT_DEPLOYMENT === "1";
+const STORAGE_DB_TARGET: DatabaseTarget = isProduction ? "production" : "development";
+
+let realPool: pg.Pool | null = null;
+let realDb: any | null = null;
+
+function getRealPool(): pg.Pool {
+  if (!realPool) {
+    realPool = getDbPool(STORAGE_DB_TARGET);
+  }
+  return realPool;
+}
+
+function getRealDb(): any {
+  if (!realDb) {
+    // drizzle instance is expensive; build it lazily only on first DB access.
+    realDb = drizzle(getRealPool());
+  }
+  return realDb;
+}
+
+// `pool` is accessed throughout the codebase. Use a Proxy to keep lazy init
+// while preserving the existing `import { pool } from "./storage"` call sites.
+export const pool = new Proxy({} as pg.Pool, {
+  get(_target, propKey) {
+    const p = getRealPool() as any;
+    const value = p[propKey as any];
+    if (typeof value === "function") return value.bind(p);
+    return value;
+  },
+}) as pg.Pool;
+
+export const db = new Proxy({} as any, {
+  get(_target, propKey) {
+    const d = getRealDb() as any;
+    const value = d[propKey as any];
+    if (typeof value === "function") return value.bind(d);
+    return value;
+  },
+});
 
 export class DatabaseStorage implements IStorage {
   async getUser(id: string): Promise<User | undefined> {
