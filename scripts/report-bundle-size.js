@@ -8,12 +8,22 @@ if (!fs.existsSync(distDir)) {
   process.exit(0);
 }
 
-const files = fs.readdirSync(distDir);
-const chunks = files
-  .filter((f) => f.endsWith(".js") || f.endsWith(".css"))
-  .map((f) => {
-    const stat = fs.statSync(path.join(distDir, f));
-    return { name: f, size: stat.size };
+function collectAssetFiles(dir) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  const out = [];
+  for (const e of entries) {
+    const full = path.join(dir, e.name);
+    if (e.isDirectory()) out.push(...collectAssetFiles(full));
+    else if (e.isFile() && (e.name.endsWith(".js") || e.name.endsWith(".css"))) out.push(full);
+  }
+  return out;
+}
+
+const chunkFiles = collectAssetFiles(distDir);
+const chunks = chunkFiles
+  .map((full) => {
+    const stat = fs.statSync(full);
+    return { name: path.relative(distDir, full), size: stat.size };
   })
   .sort((a, b) => b.size - a.size);
 

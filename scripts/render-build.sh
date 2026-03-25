@@ -25,6 +25,11 @@ npm run build
 echo "[deploy-timing] npm_run_build_s=$(( $(date +%s) - t ))"
 
 t=$(date +%s)
+echo "[deploy-timing] check_bundle_size_s=$(date +%s)"
+npm run check:bundle-size
+echo "[deploy-timing] check_bundle_size_done_s=$(( $(date +%s) - t ))"
+
+t=$(date +%s)
 # Hard fail if dist/index.cjs doesn't match the expected "fresh" runtime logic.
 node -e "const fs=require('fs');
 if(!fs.existsSync('dist/index.cjs')){console.error('[fresh-build-check] dist/index.cjs missing'); process.exit(10);}

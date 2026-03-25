@@ -1137,6 +1137,59 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     }
   });
 
+  // Generic career question pool endpoint for allied diagnostic/qbank flows.
+  // This removes massive question datasets from frontend JS bundles.
+  app.get("/api/allied/career-question-pool", async (req: any, res) => {
+    try {
+      const careerType = String(req.query.careerType || "").trim();
+      if (!careerType || !/^[A-Za-z0-9_-]{2,64}$/.test(careerType)) {
+        res.json({ questions: [], total: 0 });
+        return;
+      }
+
+      const limit = Math.min(Math.max(parseInt(String(req.query.limit || "1200"), 10), 1), 2000);
+      const offset = Math.max(parseInt(String(req.query.offset || "0"), 10), 0);
+
+      const [countResult, result] = await Promise.all([
+        pool.query(
+          `SELECT COUNT(*)::int as total
+           FROM allied_questions
+           WHERE career_type = $1 AND status IN ('approved', 'pending')`,
+          [careerType],
+        ),
+        pool.query(
+          `SELECT id, stem, options, correct_answer, rationale_long, blueprint_category, subtopic, difficulty,
+                  cognitive_level, question_type, clinical_pearls
+           FROM allied_questions
+           WHERE career_type = $1 AND status IN ('approved', 'pending')
+           ORDER BY difficulty, blueprint_category, id
+           LIMIT $2 OFFSET $3`,
+          [careerType, limit, offset],
+        ),
+      ]);
+
+      const total = countResult.rows[0]?.total || 0;
+      const questions = (result.rows || []).map((row: any) => ({
+        id: row.id,
+        stem: row.stem,
+        options: typeof row.options === "string" ? JSON.parse(row.options) : (row.options || []),
+        correctIndex: row.correct_answer || 0,
+        rationale: row.rationale_long || "",
+        category: row.blueprint_category || "General",
+        topic: row.subtopic || row.blueprint_category || "General",
+        difficulty: row.difficulty || 3,
+        cognitiveLevel: row.cognitive_level || "application",
+        questionType: row.question_type || "MCQ_SINGLE",
+        clinicalPearls: typeof row.clinical_pearls === "string" ? JSON.parse(row.clinical_pearls) : (row.clinical_pearls || []),
+      }));
+
+      res.json({ questions, total });
+    } catch (e: any) {
+      console.error("[career-question-pool] Endpoint error:", e?.message || e);
+      res.json({ questions: [], total: 0 });
+    }
+  });
+
   app.post("/api/admin/preview-mode", async (req, res) => {
     try {
       const admin = await requireAdmin(req, res);
@@ -17997,6 +18050,115 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     } catch (e: any) {
       console.error("[flashcard-bank/counts] Error:", e.message);
       res.status(500).json({ error: "Failed to load flashcard counts" });
+    }
+  });
+
+  // ====== PUBLIC FLASHCARDS STATIC ASSETS ======
+  // This endpoint provides the "static" flashcard datasets (rn/np/etc) behind an API,
+  // so the client never has to bundle giant flashcard arrays.
+  const FLASHCARDS_STATIC_KEYS = new Set([
+    "rn",
+    "icuCriticalCare",
+    "np",
+    "npPatho",
+    "npEnrichment1",
+    "npEnrichment2",
+    "npEnrichment3",
+    "npEnrichment4",
+    "npEnrichment5",
+    "npEnrichment6",
+    "npSubspecialty",
+    "rpnExpansion",
+    "rnExpansion2",
+  ]);
+
+  app.get("/api/flashcards/static", async (req: any, res) => {
+    try {
+      const key = String(req.query.key || "").trim();
+      if (!key || !FLASHCARDS_STATIC_KEYS.has(key)) {
+        res.json([]);
+        return;
+      }
+
+      // Default to a very large limit so the client keeps its current "load entire static dataset" behavior.
+      const limit = Math.min(Math.max(parseInt(String(req.query.limit || "200000"), 10), 1), 250000);
+      const offset = Math.max(parseInt(String(req.query.offset || "0"), 10), 0);
+
+      const cacheKey = `${key}:${offset}:${limit}`;
+      if (!("flashcardsStaticCache" in globalThis)) (globalThis as any).flashcardsStaticCache = new Map<string, any[]>();
+      if (!("flashcardsStaticFullCache" in globalThis)) (globalThis as any).flashcardsStaticFullCache = new Map<string, any[]>();
+      if (!("flashcardsStaticImportPromises" in globalThis)) (globalThis as any).flashcardsStaticImportPromises = new Map<string, Promise<any[]>>();
+
+      const sliceCache: Map<string, any[]> = (globalThis as any).flashcardsStaticCache;
+      const fullCache: Map<string, any[]> = (globalThis as any).flashcardsStaticFullCache;
+      const importPromises: Map<string, Promise<any[]>> = (globalThis as any).flashcardsStaticImportPromises;
+
+      const hit = sliceCache.get(cacheKey);
+      if (hit) {
+        res.json(hit);
+        return;
+      }
+
+      const importers: Record<string, { modulePath: string; exportName: string }> = {
+        rn: { modulePath: "../client/src/data/flashcards-rn", exportName: "rnFlashcards" },
+        icuCriticalCare: { modulePath: "../client/src/data/flashcards-icu-critical-care", exportName: "icuCriticalCareFlashcards" },
+        np: { modulePath: "../client/src/data/flashcards-np", exportName: "npFlashcards" },
+        npPatho: { modulePath: "../client/src/data/flashcards-np-patho", exportName: "npPathoFlashcards" },
+        npEnrichment1: { modulePath: "../client/src/data/flashcards-np-enrichment-1", exportName: "npFlashcardsEnrichment1" },
+        npEnrichment2: { modulePath: "../client/src/data/flashcards-np-enrichment-2", exportName: "npFlashcardsEnrichment2" },
+        npEnrichment3: { modulePath: "../client/src/data/flashcards-np-enrichment-3", exportName: "npFlashcardsEnrichment3" },
+        npEnrichment4: { modulePath: "../client/src/data/flashcards-np-enrichment-4", exportName: "npFlashcardsEnrichment4" },
+        npEnrichment5: { modulePath: "../client/src/data/flashcards-np-enrichment-5", exportName: "npFlashcardsEnrichment5" },
+        npEnrichment6: { modulePath: "../client/src/data/flashcards-np-enrichment-6", exportName: "npFlashcardsEnrichment6" },
+        npSubspecialty: { modulePath: "../client/src/data/flashcards-np-subspecialties", exportName: "npSubspecialtyFlashcards" },
+        rpnExpansion: { modulePath: "../client/src/data/flashcards-rpn-expansion", exportName: "rpnExpansionFlashcards" },
+        rnExpansion2: { modulePath: "../client/src/data/flashcards-rn-expansion-2", exportName: "rnExpansion2Flashcards" },
+      };
+
+      const importer = importers[key];
+      if (!importer) {
+        res.json([]);
+        return;
+      }
+
+      // Dynamic import so server can start without immediately parsing every flashcard dataset.
+      let allCards = fullCache.get(key);
+      if (!allCards) {
+        let importPromise = importPromises.get(key);
+        if (!importPromise) {
+          importPromise = (async () => {
+            const mod: any = await import(importer.modulePath);
+            const extracted = mod?.[importer.exportName];
+            const cards = Array.isArray(extracted) ? extracted : [];
+            if (cards.length === 0) {
+              console.warn("[flashcards-static] Imported dataset is empty:", { key, module: importer.modulePath, exportName: importer.exportName });
+            }
+            return cards;
+          })();
+          importPromises.set(key, importPromise);
+          importPromise
+            .then((cards) => {
+              fullCache.set(key, cards);
+            })
+            .catch(() => {
+              fullCache.set(key, []);
+            })
+            .finally(() => {
+              importPromises.delete(key);
+            });
+        }
+
+        allCards = await importPromise;
+      }
+
+      const cards = Array.isArray(allCards) ? allCards : [];
+      const sliced = cards.slice(offset, offset + limit);
+
+      sliceCache.set(cacheKey, sliced);
+      res.json(sliced);
+    } catch (e: any) {
+      console.error("[flashcards-static] Endpoint error:", e?.message || e);
+      res.json([]);
     }
   });
 

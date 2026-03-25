@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { fisherYatesShuffle } from "@shared/shuffle";
 import { useParams, Link, useLocation } from "wouter";
 import { getCareerByRouteSlug, getCanonicalRoute } from "@shared/careers";
 import { FileText, Clock, BarChart3, ChevronRight, Play, Lock, CheckCircle2, Target, AlertTriangle, Zap } from "lucide-react";
 import { useAuth } from "@/lib/auth";
-import { getCareerQuestionPool } from "@/data/career-questions";
+import { getCareerQuestionPool, prefetchCareerQuestionPool } from "@/data/career-questions";
 import { AlliedSEO } from "@/allied/allied-seo";
 import { ComingSoonFallback } from "@/allied/components/coming-soon-fallback";
 
@@ -54,8 +54,35 @@ export default function AlliedMockExamsPage() {
     return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">{t("allied.alliedMockExams.careerNotFound")}</h1></div>;
   }
 
-  const questionPool = getCareerQuestionPool(career.id) || [];
-  if (questionPool.length === 0) {
+  const [questionPool, setQuestionPool] = useState<any[]>([]);
+  const [poolLoading, setPoolLoading] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      setPoolLoading(true);
+      try {
+        await prefetchCareerQuestionPool(career.id, { limit: 2000 });
+        if (cancelled) return;
+        setQuestionPool(getCareerQuestionPool(career.id) || []);
+      } finally {
+        if (!cancelled) setPoolLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [career.id]);
+
+  if (poolLoading && questionPool.length === 0) {
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-16 text-center">
+        <p className="text-muted-foreground">{t("allied.alliedMockExams.loading") || "Loading question bank..."}</p>
+      </div>
+    );
+  }
+
+  if (!poolLoading && questionPool.length === 0) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-16" data-testid="mock-exams-page">
         <AlliedSEO

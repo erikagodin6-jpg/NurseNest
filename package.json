@@ -15,6 +15,7 @@
     "start": "node scripts/start-with-fresh-dist.mjs",
     "check": "tsc",
     "check:server": "tsc --noEmit -p tsconfig.server.json",
+    "check:bundle-size": "node scripts/check-bundle-size.mjs",
     "check:storage": "tsx scripts/check-storage-sanity.ts",
     "check:server:isolation": "tsx scripts/check-server-isolation.ts",
     "check:server:guardrails": "npm run check:storage && npm run check:server:isolation && npm run check:server",

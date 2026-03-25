@@ -1973,42 +1973,77 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
     async function loadFlashcardData() {
       const mapToStatic = (cards: any[]) =>
         cards.filter((c: any) => c.type === "question").map((c: any) => ({ ...c, source: "static" as const }));
-      const [
-        { rnFlashcards: _rn },
-        { npFlashcards: _np },
-        { icuCriticalCareFlashcards: _icu },
-        { npPathoFlashcards: _npPatho },
-        { npFlashcardsEnrichment1: _e1 },
-        { npFlashcardsEnrichment2: _e2 },
-        { npFlashcardsEnrichment3: _e3 },
-        { npFlashcardsEnrichment4: _e4 },
-        { npFlashcardsEnrichment5: _e5 },
-        { npFlashcardsEnrichment6: _e6 },
-        { npSubspecialtyFlashcards: _sub },
-        { rpnExpansionFlashcards: _rpnExp },
-        { rnExpansion2Flashcards: _rnExp2 },
-      ] = await Promise.all([
-        import("@/data/flashcards-rn"),
-        import("@/data/flashcards-np"),
-        import("@/data/flashcards-icu-critical-care"),
-        import("@/data/flashcards-np-patho"),
-        import("@/data/flashcards-np-enrichment-1"),
-        import("@/data/flashcards-np-enrichment-2"),
-        import("@/data/flashcards-np-enrichment-3"),
-        import("@/data/flashcards-np-enrichment-4"),
-        import("@/data/flashcards-np-enrichment-5"),
-        import("@/data/flashcards-np-enrichment-6"),
-        import("@/data/flashcards-np-subspecialties"),
-        import("@/data/flashcards-rpn-expansion"),
-        import("@/data/flashcards-rn-expansion-2"),
-      ]);
-      if (cancelled) return;
-      const all = [
-        ...mapToStatic(_rn), ...mapToStatic(_icu), ...mapToStatic(_npPatho), ...mapToStatic(_np),
-        ...mapToStatic([..._e1, ..._e2, ..._e3, ..._e4, ..._e5, ..._e6]),
-        ...mapToStatic(_sub), ...mapToStatic(_rpnExp), ...mapToStatic(_rnExp2),
-      ];
-      setStaticFlashcardData(all);
+
+      const fetchKey = async (key: string): Promise<any[]> => {
+        // Retry once to reduce white-screen risk from transient deploy/network hiccups.
+        for (let attempt = 0; attempt < 2; attempt++) {
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 15000);
+          try {
+            const resp = await fetch(`/api/flashcards/static?key=${encodeURIComponent(key)}`, { signal: controller.signal });
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            const parsed = await resp.json();
+            return Array.isArray(parsed) ? parsed : [];
+          } catch (e: any) {
+            if (attempt === 1) throw e;
+            console.warn(`[Flashcards] fetchKey retry (${attempt + 2}/2) for key=${key}:`, e?.message || e);
+            await new Promise((r) => setTimeout(r, 300));
+          } finally {
+            clearTimeout(timeout);
+          }
+        }
+        return [];
+      };
+
+      try {
+        const [
+          _rn,
+          _np,
+          _icu,
+          _npPatho,
+          _e1,
+          _e2,
+          _e3,
+          _e4,
+          _e5,
+          _e6,
+          _sub,
+          _rpnExp,
+          _rnExp2,
+        ] = await Promise.all([
+          fetchKey("rn"),
+          fetchKey("np"),
+          fetchKey("icuCriticalCare"),
+          fetchKey("npPatho"),
+          fetchKey("npEnrichment1"),
+          fetchKey("npEnrichment2"),
+          fetchKey("npEnrichment3"),
+          fetchKey("npEnrichment4"),
+          fetchKey("npEnrichment5"),
+          fetchKey("npEnrichment6"),
+          fetchKey("npSubspecialty"),
+          fetchKey("rpnExpansion"),
+          fetchKey("rnExpansion2"),
+        ]);
+
+        if (cancelled) return;
+        const all = [
+          ...mapToStatic(_rn),
+          ...mapToStatic(_icu),
+          ...mapToStatic(_npPatho),
+          ...mapToStatic(_np),
+          ...mapToStatic([..._e1, ..._e2, ..._e3, ..._e4, ..._e5, ..._e6]),
+          ...mapToStatic(_sub),
+          ...mapToStatic(_rpnExp),
+          ...mapToStatic(_rnExp2),
+        ];
+        // If the backend returns empty datasets for all keys, treat it as a fetch failure.
+        if (all.length === 0) throw new Error("[Flashcards] Static flashcard datasets were empty");
+        setStaticFlashcardData(all);
+      } catch (err: any) {
+        console.warn("[Flashcards] Failed to load static flashcards:", err?.message || err);
+        activateEmergencyMode();
+      }
     }
     loadFlashcardData();
     return () => { cancelled = true; };
@@ -5881,7 +5916,7 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
               <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground" data-testid="text-exam-session-title">{t("pages.flashcards.catExamStudyCards")}</h1>
               <QuestionContextHeader
                 focusArea={examCard.bodySystem || examCard.category}
-                topic={examCard.topic}
+                topic={examCard.topic ?? undefined}
                 className="mt-2"
                 data-testid="context-exam-header"
               />

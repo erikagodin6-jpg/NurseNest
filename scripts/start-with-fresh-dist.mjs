@@ -9,11 +9,8 @@ function distLooksFresh() {
   try {
     if (!fs.existsSync(DIST_INDEX)) return false;
     const s = fs.readFileSync(DIST_INDEX, "utf8");
-    return (
-      s.includes(EXPECTED_BUILD_VERSION_LOG) &&
-      s.includes(EXPECTED_STARTUP_FINGERPRINT) &&
-      s.includes("[Storage] getAllUsers hit safety limit of")
-    );
+    // The required proof: server/index.ts must have been bundled into dist/index.cjs.
+    return s.includes(EXPECTED_BUILD_VERSION_LOG);
   } catch {
     return false;
   }

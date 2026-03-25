@@ -4,7 +4,7 @@ import { Link, useSearch } from "wouter";
 import { CAREER_CONFIGS, type CareerConfig, getCanonicalRoute } from "@shared/careers";
 import { BookOpen, Filter, ChevronRight, CheckCircle2, XCircle, Clock, Zap, ChevronLeft, Lock, RotateCcw, Flag, Bookmark, AlertTriangle } from "lucide-react";
 import { useAuth } from "@/lib/auth";
-import { getCareerQuestionPool } from "@/data/career-questions";
+import { getCareerQuestionPool, prefetchCareerQuestionPool } from "@/data/career-questions";
 import { AlliedSEO } from "@/allied/allied-seo";
 
 import { useI18n } from "@/lib/i18n";
@@ -39,6 +39,7 @@ export default function AlliedQBankPage() {
   const [rapidDrill, setRapidDrill] = useState(false);
   const [drillTimer, setDrillTimer] = useState(0);
   const [streak, setStreak] = useState(0);
+  const [poolLoading, setPoolLoading] = useState(false);
 
   const FREE_LIMIT = 5;
   const isPro = user?.tier === "admin" || user?.subscriptionStatus === "active";
@@ -51,16 +52,31 @@ export default function AlliedQBankPage() {
 
   useEffect(() => {
     if (!career) return;
-    const pool = getCareerQuestionPool(career.id);
-    let filtered = pool || [];
-    if (difficulty) filtered = filtered.filter((q: any) => q.difficulty === difficulty);
-    if (topic) filtered = filtered.filter((q: any) => q.category === topic);
-    const limit = isPro ? filtered.length : Math.min(FREE_LIMIT - freeUsed, filtered.length);
-    setQuestions(filtered.slice(0, Math.max(0, limit)));
-    setCurrentIndex(0);
-    setSelectedAnswer(null);
-    setAnswered(false);
-    setScore({ correct: 0, total: 0 });
+    let cancelled = false;
+    setPoolLoading(true);
+    (async () => {
+      try {
+        await prefetchCareerQuestionPool(career.id, { limit: 2000 });
+        if (cancelled) return;
+        const pool = getCareerQuestionPool(career.id) || [];
+        let filtered = pool || [];
+        if (difficulty) filtered = filtered.filter((q: any) => q.difficulty === difficulty);
+        if (topic) filtered = filtered.filter((q: any) => q.category === topic);
+        const limit = isPro ? filtered.length : Math.min(FREE_LIMIT - freeUsed, filtered.length);
+        setQuestions(filtered.slice(0, Math.max(0, limit)));
+        setCurrentIndex(0);
+        setSelectedAnswer(null);
+        setAnswered(false);
+        setScore({ correct: 0, total: 0 });
+      } catch {
+        if (!cancelled) setQuestions([]);
+      } finally {
+        if (!cancelled) setPoolLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, [career?.id, difficulty, topic, isPro, freeUsed]);
 
   useEffect(() => {
@@ -79,6 +95,14 @@ export default function AlliedQBankPage() {
         />
         <div className="max-w-2xl mx-auto px-4 py-20 text-center"><h1 className="text-2xl font-bold">{t("allied.alliedQbank.careerNotFound")}</h1><Link href="/careers" className="text-teal-600 mt-4 inline-block">{t("allied.alliedQbank.browseCareers")}</Link></div>
       </>
+    );
+  }
+
+  if (poolLoading && questions.length === 0) {
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-16 text-center">
+        <p className="text-muted-foreground">{t("allied.alliedQbank.loading") || "Loading question bank..."}</p>
+      </div>
     );
   }
 

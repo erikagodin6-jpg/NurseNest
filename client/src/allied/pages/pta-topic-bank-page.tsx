@@ -1,7 +1,7 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useParams, Link } from "wouter";
 import { AlliedSEO } from "@/allied/allied-seo";
-import { getCareerQuestionPool } from "@/data/career-questions/career-question-pool";
+import { getCareerQuestionPool, prefetchCareerQuestionPool } from "@/data/career-questions/career-question-pool";
 import type { CareerQuestion } from "@/data/career-questions/rrt-questions";
 import { useAuth } from "@/lib/auth";
 import type { LucideIcon } from "lucide-react";
@@ -62,7 +62,25 @@ export default function PtaTopicBankPage() {
   const { user } = useAuth();
   const isPro = user?.tier === "admin" || user?.subscriptionStatus === "active";
 
-  const pool = useMemo(() => getCareerQuestionPool("physiotherapyAssistant"), []);
+  const [pool, setPool] = useState<CareerQuestion[]>([]);
+  const [poolLoading, setPoolLoading] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      setPoolLoading(true);
+      try {
+        await prefetchCareerQuestionPool("physiotherapyAssistant", { limit: 2000 });
+        if (cancelled) return;
+        setPool(getCareerQuestionPool("physiotherapyAssistant"));
+      } finally {
+        if (!cancelled) setPoolLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const categoryQuestions = useMemo((): CareerQuestion[] => {
     if (!meta) return [];
@@ -98,6 +116,14 @@ export default function PtaTopicBankPage() {
     );
   }
 
+  if (poolLoading && pool.length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-muted-foreground">Loading practice questions...</p>
+      </div>
+    );
+  }
+
   const Icon = meta.icon;
   const currentQ = sampleQuestions[currentQIdx];
 
@@ -123,7 +149,7 @@ export default function PtaTopicBankPage() {
       <AlliedSEO
         title={`${meta.title} — PTA Practice Questions | NPTE-PTA Exam Prep`}
         description={meta.description}
-        canonical={`/allied-health/physiotherapy-assistant/topic/${slug}`}
+        canonicalPath={`/physiotherapy-assistant/topic/${slug}`}
       />
 
       <div className={`bg-gradient-to-br ${meta.gradient} border-b border-gray-100`}>

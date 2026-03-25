@@ -1,100 +1,70 @@
 import type { CareerQuestion } from "./rrt-questions";
 import type { CareerType } from "@shared/careers";
-import { rrtQuestions } from "./rrt-questions";
-import { rrtQuestionsBatch1 } from "./rrt-questions-batch1";
-import { rrtQuestionsBatch3 } from "./rrt-questions-batch3";
-import { rrtPharmacologyQuestions } from "./rrt-pharmacology-questions";
-import { rrtQuestionsBatch2 } from "./rrt-questions-batch2";
-import { paramedicQuestions } from "./paramedic-questions";
-import { paramedicQuestionsBatch7 } from "./paramedic-questions-batch7";
-import { paramedicQuestionsBatch8 } from "./paramedic-questions-batch8";
-import { paramedicQuestionsBatch9 } from "./paramedic-questions-batch9";
-import { paramedicQuestionsBatch10 } from "./paramedic-questions-batch10";
-import { paramedicQuestionsBatch11 } from "./paramedic-questions-batch11";
-import { paramedicQuestionsBatch12 } from "./paramedic-questions-batch12";
-import { pharmacyTechQuestions } from "./pharmacy-tech-questions";
-import { pharmacyTechQuestionsExtended } from "./pharmacy-tech-questions-extended";
-import { pharmacyTechQuestionsBatch2 } from "./pharmacy-tech-questions-batch2";
-import { pharmacyTechQuestionsBatch3 } from "./pharmacy-tech-questions-batch3";
-import { pharmacyTechQuestionsBatch4 } from "./pharmacy-tech-questions-batch4";
-import { pharmacyTechQuestionsPEBC } from "./pharmacy-tech-questions-pebc";
-import { mltQuestions } from "./mlt-questions";
-import { mltQuestionsBatch2 } from "./mlt-questions-batch2";
-import { imagingQuestions } from "./imaging-questions";
-import { otaQuestions } from "./ota-questions";
-import { otaQuestionsBatch2 } from "./ota-questions-batch2";
-import { otaQuestionsBatch3 } from "./ota-questions-batch3";
-import { otaQuestionsBatch4 } from "./ota-questions-batch4";
-import { otaQuestionsBatch5 } from "./ota-questions-batch5";
-import { otaQuestionsBatch6 } from "./ota-questions-batch6";
-import { otaQuestionsBatch7 } from "./ota-questions-batch7";
-import { otaQuestionsBatch8 } from "./ota-questions-batch8";
-import { otaQuestionsBatch9 } from "./ota-questions-batch9";
-import { otaQuestionsBatch10 } from "./ota-questions-batch10";
-import { ptaQuestions } from "./pta-questions";
-import { himQuestions } from "./him-questions";
-import { sonographyQuestions } from "./sonography-questions";
-import { cardiacSonographerQuestions } from "./cardiac-sonographer-questions";
-import { surgicalTechnologistQuestions } from "./surgical-technologist-questions";
-import { surgicalTechnologistQuestionsPart2 } from "./surgical-technologist-questions-2";
-import { surgicalTechnologistQuestionsPart3 } from "./surgical-technologist-questions-3";
-import { surgicalTechnologistQuestionsPart4 } from "./surgical-technologist-questions-4";
-import { surgicalTechnologistQuestionsPart5 } from "./surgical-technologist-questions-5";
-import { surgicalTechnologistQuestionsPart6 } from "./surgical-technologist-questions-6";
-import { surgicalTechnologistQuestionsPart7 } from "./surgical-technologist-questions-7";
-import { ptaQuestionsBatch1 } from "./pta-questions-batch1";
-import { ptaQuestionsBatch2 } from "./pta-questions-batch2";
-import { ptaQuestionsBatch3 } from "./pta-questions-batch3";
-import { ptaQuestionsBatch4 } from "./pta-questions-batch4";
-import { ptaQuestionsBatch5 } from "./pta-questions-batch5";
-import { ptaQuestionsBatch6 } from "./pta-questions-batch6";
-import { ptaQuestionsBatch7 } from "./pta-questions-batch7";
-import { ptaQuestionsBatch8 } from "./pta-questions-batch8";
-import { ptaQuestionsBatch9 } from "./pta-questions-batch9";
-import { ptaQuestionsBatch10 } from "./pta-questions-batch10";
-import { ptaQuestionsBatch11 } from "./pta-questions-batch11";
-import { ptaQuestionsBatch12 } from "./pta-questions-batch12";
-import { ptaQuestionsBatch13 } from "./pta-questions-batch13";
-import { ptaQuestionsBatch14 } from "./pta-questions-batch14";
-import { ptaQuestionsBatch15 } from "./pta-questions-batch15";
-import { ptaQuestionsBatch16 } from "./pta-questions-batch16";
-import { ptaQuestionsBatch17 } from "./pta-questions-batch17";
-import { ptaQuestionsBatch18 } from "./pta-questions-batch18";
-import { ptaQuestionsBatch19 } from "./pta-questions-batch19";
-import { ptaQuestionsBatch20 } from "./pta-questions-batch20";
-import { ptaQuestionsBatch21 } from "./pta-questions-batch21";
-import { ptaQuestionsBatch22 } from "./pta-questions-batch22";
-import { ptaQuestionsBatch23 } from "./pta-questions-batch23";
-import { ptaQuestionsBatch24 } from "./pta-questions-batch24";
-import { ptaQuestionsBatch25 } from "./pta-questions-batch25";
-import { ptaQuestionsBatch26 } from "./pta-questions-batch26";
-import { ptaQuestionsBatch27 } from "./pta-questions-batch27";
-import { ptaQuestionsBatch28 } from "./pta-questions-batch28";
-import { ptaQuestionsBatch29 } from "./pta-questions-batch29";
-import { ptaQuestionsBatch30 } from "./pta-questions-batch30";
-import { ptaQuestionsBatch31 } from "./pta-questions-batch31";
-import { ptaQuestionsBatch32 } from "./pta-questions-batch32";
-import { ptaQuestionsBatch33 } from "./pta-questions-batch33";
-import { ptaQuestionsBatch34 } from "./pta-questions-batch34";
-import { ptaQuestionsBatch35 } from "./pta-questions-batch35";
-import { ptaQuestionsExpansion } from "./pta-questions-expansion";
 
-const pools: Record<string, CareerQuestion[]> = {
-  rrt: [...rrtQuestions, ...rrtQuestionsBatch1, ...rrtQuestionsBatch2, ...rrtQuestionsBatch3, ...rrtPharmacologyQuestions],
-  paramedic: [...paramedicQuestions, ...paramedicQuestionsBatch7, ...paramedicQuestionsBatch8, ...paramedicQuestionsBatch9, ...paramedicQuestionsBatch10, ...paramedicQuestionsBatch11, ...paramedicQuestionsBatch12],
-  pharmacyTech: [...pharmacyTechQuestions, ...pharmacyTechQuestionsExtended, ...pharmacyTechQuestionsBatch2, ...pharmacyTechQuestionsBatch3, ...pharmacyTechQuestionsBatch4, ...pharmacyTechQuestionsPEBC],
-  mlt: [...mltQuestions, ...mltQuestionsBatch2],
-  imaging: imagingQuestions,
-  occupationalTherapyAssistant: [...otaQuestions, ...otaQuestionsBatch2, ...otaQuestionsBatch3, ...otaQuestionsBatch4, ...otaQuestionsBatch5, ...otaQuestionsBatch6, ...otaQuestionsBatch7, ...otaQuestionsBatch8, ...otaQuestionsBatch9, ...otaQuestionsBatch10],
-  occupationalTherapy: otaQuestions,
-  physiotherapyAssistant: [...ptaQuestions, ...ptaQuestionsBatch1, ...ptaQuestionsBatch2, ...ptaQuestionsBatch3, ...ptaQuestionsBatch4, ...ptaQuestionsBatch5, ...ptaQuestionsBatch6, ...ptaQuestionsBatch7, ...ptaQuestionsBatch8, ...ptaQuestionsBatch9, ...ptaQuestionsBatch10, ...ptaQuestionsBatch11, ...ptaQuestionsBatch12, ...ptaQuestionsBatch13, ...ptaQuestionsBatch14, ...ptaQuestionsBatch15, ...ptaQuestionsBatch16, ...ptaQuestionsBatch17, ...ptaQuestionsBatch18, ...ptaQuestionsBatch19, ...ptaQuestionsBatch20, ...ptaQuestionsBatch21, ...ptaQuestionsBatch22, ...ptaQuestionsBatch23, ...ptaQuestionsBatch24, ...ptaQuestionsBatch25, ...ptaQuestionsBatch26, ...ptaQuestionsBatch27, ...ptaQuestionsBatch28, ...ptaQuestionsBatch29, ...ptaQuestionsBatch30, ...ptaQuestionsBatch31, ...ptaQuestionsBatch32, ...ptaQuestionsBatch33, ...ptaQuestionsBatch34, ...ptaQuestionsBatch35, ...ptaQuestionsExpansion],
-  physicalTherapy: [...ptaQuestions, ...ptaQuestionsBatch1, ...ptaQuestionsBatch2, ...ptaQuestionsBatch3, ...ptaQuestionsBatch4, ...ptaQuestionsBatch5, ...ptaQuestionsBatch6, ...ptaQuestionsBatch7, ...ptaQuestionsBatch8, ...ptaQuestionsBatch9, ...ptaQuestionsBatch10, ...ptaQuestionsBatch11, ...ptaQuestionsBatch12, ...ptaQuestionsBatch13, ...ptaQuestionsBatch14, ...ptaQuestionsBatch15, ...ptaQuestionsBatch16, ...ptaQuestionsBatch17, ...ptaQuestionsBatch18, ...ptaQuestionsBatch19, ...ptaQuestionsBatch20, ...ptaQuestionsBatch21, ...ptaQuestionsBatch22, ...ptaQuestionsBatch23, ...ptaQuestionsBatch24, ...ptaQuestionsBatch25, ...ptaQuestionsBatch26, ...ptaQuestionsBatch27, ...ptaQuestionsBatch28, ...ptaQuestionsBatch29, ...ptaQuestionsBatch30, ...ptaQuestionsBatch31, ...ptaQuestionsBatch32, ...ptaQuestionsBatch33, ...ptaQuestionsBatch34, ...ptaQuestionsBatch35, ...ptaQuestionsExpansion],
-  surgicalTechnologist: [...surgicalTechnologistQuestions, ...surgicalTechnologistQuestionsPart2, ...surgicalTechnologistQuestionsPart3, ...surgicalTechnologistQuestionsPart4, ...surgicalTechnologistQuestionsPart5, ...surgicalTechnologistQuestionsPart6, ...surgicalTechnologistQuestionsPart7],
-  healthInfoMgmt: himQuestions,
-  diagnosticSonography: sonographyQuestions,
-  cardiacSonographer: cardiacSonographerQuestions,
-};
+const cache: Record<string, CareerQuestion[] | undefined> = {};
+const inFlight: Record<string, Promise<CareerQuestion[]> | undefined> = {};
+
+function normalizeCareerType(careerType: CareerType | string): string {
+  return String(careerType || "").trim();
+}
+
+function isSafeCareerType(careerType: string): boolean {
+  return /^[A-Za-z0-9_-]{2,64}$/.test(careerType);
+}
+
+async function fetchCareerQuestionPoolFromApi(
+  careerType: CareerType | string,
+  limit: number,
+  offset: number,
+): Promise<CareerQuestion[]> {
+  const ct = normalizeCareerType(careerType);
+  if (!isSafeCareerType(ct)) return [];
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+  try {
+    const params = new URLSearchParams({
+      careerType: ct,
+      limit: String(limit),
+      offset: String(offset),
+    });
+    const resp = await fetch(`/api/allied/career-question-pool?${params.toString()}`, { signal: controller.signal });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const json = await resp.json();
+    const questions = Array.isArray(json?.questions) ? json.questions : [];
+    return questions as CareerQuestion[];
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+export async function prefetchCareerQuestionPool(
+  careerType: CareerType | string,
+  opts?: { limit?: number; offset?: number },
+): Promise<CareerQuestion[]> {
+  const ct = normalizeCareerType(careerType);
+  if (!ct) return [];
+
+  if (cache[ct]) return cache[ct] || [];
+  if (inFlight[ct]) return inFlight[ct] || [];
+
+  const limit = Math.min(Math.max(opts?.limit ?? 1200, 1), 2000);
+  const offset = Math.max(opts?.offset ?? 0, 0);
+
+  inFlight[ct] = fetchCareerQuestionPoolFromApi(ct, limit, offset).then((q) => {
+    cache[ct] = q;
+    delete inFlight[ct];
+    return q;
+  }).catch(() => {
+    cache[ct] = [];
+    delete inFlight[ct];
+    return [];
+  });
+
+  return inFlight[ct];
+}
 
 export function getCareerQuestionPool(careerType: CareerType | string): CareerQuestion[] {
-  return pools[careerType] || [];
+  const ct = normalizeCareerType(careerType);
+  return cache[ct] || [];
 }

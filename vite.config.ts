@@ -95,6 +95,7 @@ export default defineConfig({
           if (id.includes("node_modules/jspdf") || id.includes("node_modules/html2canvas")) return "pdf-export";
           if (id.includes("node_modules/dompurify") || id.includes("node_modules/marked")) return "markdown";
           if (id.includes("node_modules/wouter")) return "router";
+          if (id.includes("node_modules/@uppy/") || id.includes("node_modules/uppy")) return "uploader";
           if (id.includes("node_modules/cmdk")) return "cmdk";
           if (id.includes("node_modules/embla-carousel")) return "carousel";
           if (id.includes("node_modules/react-resizable-panels")) return "panels";
@@ -102,6 +103,10 @@ export default defineConfig({
           if (id.includes("node_modules/vaul")) return "vaul";
           if (id.includes("node_modules/class-variance-authority") || id.includes("node_modules/clsx") || id.includes("node_modules/tailwind-merge")) return "styling";
         },
+        // Stable, debuggable output naming.
+        chunkFileNames: "assets/chunks/[name]-[hash].js",
+        entryFileNames: "assets/chunks/[name]-[hash].js",
+        assetFileNames: "assets/[name]-[hash][extname]",
       },
     },
   },

@@ -1,7 +1,7 @@
 import { Link, useSearch } from "wouter";
 import { CAREER_CONFIGS, type CareerConfig } from "@shared/careers";
 import { useState, useCallback, useMemo } from "react";
-import { getCareerQuestionPool } from "@/data/career-questions/career-question-pool";
+import { getCareerQuestionPool, prefetchCareerQuestionPool } from "@/data/career-questions/career-question-pool";
 import type { CareerQuestion } from "@/data/career-questions/rrt-questions";
 import {
   ArrowRight, ArrowLeft, CheckCircle2, XCircle, Lock, Mail,
@@ -74,6 +74,7 @@ export default function AlliedDiagnostic() {
 
   const [phase, setPhase] = useState<Phase>("intro");
   const [questions, setQuestions] = useState<CareerQuestion[]>([]);
+  const [poolLoading, setPoolLoading] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -83,18 +84,30 @@ export default function AlliedDiagnostic() {
   const [submittingEmail, setSubmittingEmail] = useState(false);
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [startTime, setStartTime] = useState(0);
+  const { t } = useI18n();
 
-  const startDiagnostic = useCallback(() => {
-    const pool = getCareerQuestionPool(career?.id || "");
-    const selected = selectDiagnosticQuestions(pool);
-    setQuestions(selected);
-    setCurrentIdx(0);
-    setAnswers({});
-    setSelectedOption(null);
-    setShowFeedback(false);
-    setStartTime(Date.now());
-    setPhase("exam");
-  }, [career]);
+  const startDiagnostic = useCallback(async () => {
+    if (poolLoading) return;
+    setPoolLoading(true);
+    try {
+      await prefetchCareerQuestionPool(career?.id || careerSlug);
+      const pool = getCareerQuestionPool(career?.id || careerSlug);
+      if (!pool || pool.length === 0) {
+        console.warn("[AlliedDiagnostic] Career question pool empty after prefetch");
+        return;
+      }
+      const selected = selectDiagnosticQuestions(pool);
+      setQuestions(selected);
+      setCurrentIdx(0);
+      setAnswers({});
+      setSelectedOption(null);
+      setShowFeedback(false);
+      setStartTime(Date.now());
+      setPhase("exam");
+    } finally {
+      setPoolLoading(false);
+    }
+  }, [career, careerSlug, poolLoading]);
 
   const handleSelectOption = (optIdx: number) => {
     if (showFeedback) return;
@@ -252,10 +265,11 @@ export default function AlliedDiagnostic() {
 
           <button
             onClick={startDiagnostic}
+            disabled={poolLoading}
             className="inline-flex items-center gap-2 px-8 py-3.5 bg-teal-600 text-white rounded-xl text-base font-semibold hover:bg-teal-700 shadow-lg shadow-teal-600/20 transition-all"
             data-testid="button-start-diagnostic"
           >
-            Start Free Diagnostic <ArrowRight className="w-5 h-5" />
+            {poolLoading ? "Loading questions..." : "Start Free Diagnostic"} <ArrowRight className="w-5 h-5" />
           </button>
 
           <p className="text-xs text-gray-400">{t("allied.alliedDiagnostic.noAccountRequiredSeeYour")}</p>
