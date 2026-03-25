@@ -6,6 +6,7 @@
   "scripts": {
     "dev:client": "vite dev --port 5000",
     "dev": "NODE_ENV=development tsx server/index.ts",
+    "prebuild": "node scripts/ensure-build-toolchain.mjs",
     "build": "NODE_OPTIONS=--max-old-space-size=4096 npx tsx script/build.ts",
     "build:server": "BUILD_TARGET=server NODE_OPTIONS=--max-old-space-size=4096 npx tsx script/build.ts",
     "build:client": "BUILD_TARGET=client NODE_OPTIONS=--max-old-space-size=4096 npx tsx script/build.ts",

@@ -411,6 +411,13 @@ async function buildAll() {
   const runHeavyBuildTasks = process.env.RUN_HEAVY_BUILD_TASKS === "1";
   const target = process.env.BUILD_TARGET || "all";
 
+  // Build freshness proof for Render deploy debugging.
+  let gitSha = "unknown";
+  try {
+    gitSha = execSync("git rev-parse HEAD", { encoding: "utf-8" }).trim();
+  } catch {}
+  log(`[build-freshness] git_sha=${gitSha} build_started_at=${new Date().toISOString()}`);
+
   const skipValidation = isProduction || process.env.SKIP_I18N_VALIDATION === "1";
   const skipI18nCompile = isProduction || process.env.SKIP_I18N_COMPILE === "1";
   const skipBuildReports = isProduction || process.env.SKIP_BUILD_REPORTS === "1";
@@ -433,9 +440,8 @@ async function buildAll() {
     log("skipping i18n validation (SKIP_I18N_VALIDATION=1)");
   }
 
-  if (target === "all" || target === "server" || target === "client") {
-    await rm("dist", { recursive: true, force: true });
-  }
+  // Always wipe dist so the output bundle can't be stale.
+  await rm("dist", { recursive: true, force: true });
 
   if (!skipValidation) {
     log("scanning for hardcoded strings...");
