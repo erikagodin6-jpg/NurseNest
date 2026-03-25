@@ -3,13 +3,17 @@ import { execSync } from "node:child_process";
 
 const DIST_INDEX = "dist/index.cjs";
 const EXPECTED_STARTUP_FINGERPRINT = "STARTUP_FINGERPRINT=2026-03-25-final-proof";
-const EXPECTED_FRESH_PROOF_PREFIX = "FRESH_BUILD_PROOF=";
+const EXPECTED_BUILD_VERSION_LOG = "BUILD_VERSION=2026-03-25-FORCE-REBUILD";
 
 function distLooksFresh() {
   try {
     if (!fs.existsSync(DIST_INDEX)) return false;
     const s = fs.readFileSync(DIST_INDEX, "utf8");
-    return s.includes(EXPECTED_FRESH_PROOF_PREFIX) && s.includes(EXPECTED_STARTUP_FINGERPRINT);
+    return (
+      s.includes(EXPECTED_BUILD_VERSION_LOG) &&
+      s.includes(EXPECTED_STARTUP_FINGERPRINT) &&
+      s.includes("[Storage] getAllUsers hit safety limit of")
+    );
   } catch {
     return false;
   }

@@ -6,6 +6,9 @@ import { gzipSync } from "zlib";
 import { compileI18n } from "./compile-i18n";
 import { execSync } from "child_process";
 import { runI18nScan } from "./scan-hardcoded-strings-lib";
+
+const EXPECTED_BUILD_VERSION = "2026-03-25-FORCE-REBUILD";
+const EXPECTED_BUILD_VERSION_LOG = `BUILD_VERSION=${EXPECTED_BUILD_VERSION}`;
 import path from "path";
 
 const allowlist = [
@@ -502,6 +505,26 @@ async function buildAll() {
     log(`building server (required, RUN_HEAVY_BUILD_TASKS=${runHeavyBuildTasks ? "1" : "0"})...`);
     await buildServer(runHeavyBuildTasks, buildProof);
     timing("server_esbuild", serverT);
+
+    // Post-build proof: fail hard if dist/index.cjs is missing or outdated.
+    const distIndexPath = path.resolve("dist/index.cjs");
+    if (!existsSync(distIndexPath)) {
+      throw new Error(`[build] dist/index.cjs missing after server build (${distIndexPath})`);
+    }
+    const distIndex = await readFile(distIndexPath, "utf-8");
+    if (!distIndex.includes(EXPECTED_BUILD_VERSION_LOG)) {
+      throw new Error(
+        `[build] dist/index.cjs is missing expected build proof (${EXPECTED_BUILD_VERSION_LOG}). ` +
+          `This usually means the bundle wasn't rebuilt from the current source.`,
+      );
+    }
+    // Signature checks to ensure we bundled current DB + storage logic.
+    if (!distIndex.includes("selected_db_target=production_prod_url")) {
+      throw new Error(`[build] dist/index.cjs missing DB target marker selected_db_target=production_prod_url`);
+    }
+    if (!distIndex.includes("[Storage] getAllUsers hit safety limit of")) {
+      throw new Error(`[build] dist/index.cjs missing storage marker string`);
+    }
 
     const lazyRoutesT = Date.now();
     await buildLazyRouteModules();

@@ -10,15 +10,6 @@ t=$(date +%s)
 npm ci --omit=dev
 echo "[deploy-timing] npm_ci_prod_s=$(( $(date +%s) - t ))"
 
-if [ "${USE_PREBUILT_DIST:-0}" = "1" ] && [ -f "dist/index.cjs" ]; then
-  if node -e "const fs=require('fs');const s=fs.readFileSync('dist/index.cjs','utf8');process.exit(s.includes('STARTUP_FINGERPRINT=2026-03-25-final-proof')?0:1)"; then
-    echo "[deploy-timing] using_prebuilt_dist=1 (fingerprint match)"
-    exit 0
-  else
-    echo "[deploy-timing] prebuilt_dist fingerprint mismatch; rebuilding"
-  fi
-fi
-
 # Install only the build toolchain needed for this deploy.
 t=$(date +%s)
 npm install --no-save \
@@ -35,16 +26,18 @@ echo "[deploy-timing] npm_run_build_s=$(( $(date +%s) - t ))"
 
 t=$(date +%s)
 # Hard fail if dist/index.cjs doesn't match the expected "fresh" runtime logic.
-node -e "const fs=require('fs'); const s=fs.readFileSync('dist/index.cjs','utf8');
-const hasFreshProof=s.includes('FRESH_BUILD_PROOF=');
-if(!hasFreshProof){console.error('[fresh-build-check] Missing FRESH_BUILD_PROOF injected marker'); process.exit(11);}
+node -e "const fs=require('fs');
+if(!fs.existsSync('dist/index.cjs')){console.error('[fresh-build-check] dist/index.cjs missing'); process.exit(10);}
+const s=fs.readFileSync('dist/index.cjs','utf8');
+const hasBuildVersion=s.includes('BUILD_VERSION=2026-03-25-FORCE-REBUILD');
+if(!hasBuildVersion){console.error('[fresh-build-check] Missing BUILD_VERSION proof in dist/index.cjs'); process.exit(11);}
 const hasFingerprint=s.includes('STARTUP_FINGERPRINT=2026-03-25-final-proof');
 if(!hasFingerprint){console.error('[fresh-build-check] Missing STARTUP_FINGERPRINT proof'); process.exit(12);}
 const hasSelectedProd=s.includes('selected_db_target=production_prod_url')||s.includes('selected_db_target=production_database_url_fallback');
 if(!hasSelectedProd){console.error('[fresh-build-check] Missing selected_db_target production marker'); process.exit(13);}
 const hasStorageSafetyLog=s.includes('[Storage] getAllUsers hit safety limit of');
 if(!hasStorageSafetyLog){console.error('[fresh-build-check] Missing storage module log string'); process.exit(14);}
-console.log('[fresh-build-check] dist/index.cjs contains fresh build proof + startup fingerprint');"
+console.log('[fresh-build-check] dist/index.cjs contains BUILD_VERSION + DB/storage signature strings');"
 echo "[deploy-timing] fresh_build_check_s=$(( $(date +%s) - t ))"
 
 t=$(date +%s)

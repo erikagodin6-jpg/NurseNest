@@ -220,6 +220,9 @@ async function startServer() {
         ? "selected_db_target=production_database_url_fallback"
         : "selected_db_target=missing";
 
+  // Build-time proof that Render/CI is running a dist bundle built from current source.
+  console.log("BUILD_VERSION=2026-03-25-FORCE-REBUILD");
+
   console.log(
     JSON.stringify({
       STARTUP_FINGERPRINT: "STARTUP_FINGERPRINT=2026-03-25-final-proof",
