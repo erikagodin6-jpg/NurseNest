@@ -1980,10 +1980,12 @@ export default function Flashcards({ isTestBank = false }: { isTestBank?: boolea
           const controller = new AbortController();
           const timeout = setTimeout(() => controller.abort(), 15000);
           try {
-            const resp = await fetch(`/api/flashcards/static?key=${encodeURIComponent(key)}`, { signal: controller.signal });
+            const resp = await fetch(`/api/flashcards?deck=${encodeURIComponent(key)}&limit=250000&offset=0`, { signal: controller.signal });
             if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
             const parsed = await resp.json();
-            return Array.isArray(parsed) ? parsed : [];
+            if (Array.isArray(parsed)) return parsed;
+            if (parsed && Array.isArray(parsed.items)) return parsed.items;
+            return [];
           } catch (e: any) {
             if (attempt === 1) throw e;
             console.warn(`[Flashcards] fetchKey retry (${attempt + 2}/2) for key=${key}:`, e?.message || e);

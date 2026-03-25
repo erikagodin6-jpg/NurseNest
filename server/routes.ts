@@ -18053,6 +18053,359 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
     }
   });
 
+  // ====== PUBLIC FLASHCARDS DB API ======
+  // This endpoint is the long-term replacement for `/api/flashcards/static`.
+  // It serves flashcards from `flashcard_bank` with filtering + pagination.
+  //
+  // Transitional safety: if the DB returns no cards for a known deck key yet,
+  // we fall back to importing the TS dataset modules. This fallback is logged
+  // and is designed to be removed after migration/seed is run successfully.
+  const FLASHCARDS_DECK_KEYS = new Set([
+    "rn",
+    "icuCriticalCare",
+    "np",
+    "npPatho",
+    "npEnrichment1",
+    "npEnrichment2",
+    "npEnrichment3",
+    "npEnrichment4",
+    "npEnrichment5",
+    "npEnrichment6",
+    "npSubspecialty",
+    "rpnExpansion",
+    "rnExpansion2",
+  ]);
+
+  const FLASHCARDS_DECK_KEY_TO_SOURCE_TYPE: Record<string, string> = {
+    rn: "static_rn",
+    icuCriticalCare: "static_icuCriticalCare",
+    np: "static_np",
+    npPatho: "static_npPatho",
+    npEnrichment1: "static_npEnrichment1",
+    npEnrichment2: "static_npEnrichment2",
+    npEnrichment3: "static_npEnrichment3",
+    npEnrichment4: "static_npEnrichment4",
+    npEnrichment5: "static_npEnrichment5",
+    npEnrichment6: "static_npEnrichment6",
+    npSubspecialty: "static_npSubspecialty",
+    rpnExpansion: "static_rpnExpansion",
+    rnExpansion2: "static_rnExpansion2",
+  };
+
+  const FLASHCARDS_TS_IMPORTERS: Record<string, { modulePath: string; exportName: string }> = {
+    rn: { modulePath: "../client/src/data/flashcards-rn", exportName: "rnFlashcards" },
+    icuCriticalCare: { modulePath: "../client/src/data/flashcards-icu-critical-care", exportName: "icuCriticalCareFlashcards" },
+    np: { modulePath: "../client/src/data/flashcards-np", exportName: "npFlashcards" },
+    npPatho: { modulePath: "../client/src/data/flashcards-np-patho", exportName: "npPathoFlashcards" },
+    npEnrichment1: { modulePath: "../client/src/data/flashcards-np-enrichment-1", exportName: "npFlashcardsEnrichment1" },
+    npEnrichment2: { modulePath: "../client/src/data/flashcards-np-enrichment-2", exportName: "npFlashcardsEnrichment2" },
+    npEnrichment3: { modulePath: "../client/src/data/flashcards-np-enrichment-3", exportName: "npFlashcardsEnrichment3" },
+    npEnrichment4: { modulePath: "../client/src/data/flashcards-np-enrichment-4", exportName: "npFlashcardsEnrichment4" },
+    npEnrichment5: { modulePath: "../client/src/data/flashcards-np-enrichment-5", exportName: "npFlashcardsEnrichment5" },
+    npEnrichment6: { modulePath: "../client/src/data/flashcards-np-enrichment-6", exportName: "npFlashcardsEnrichment6" },
+    npSubspecialty: { modulePath: "../client/src/data/flashcards-np-subspecialties", exportName: "npSubspecialtyFlashcards" },
+    rpnExpansion: { modulePath: "../client/src/data/flashcards-rpn-expansion", exportName: "rpnExpansionFlashcards" },
+    rnExpansion2: { modulePath: "../client/src/data/flashcards-rn-expansion-2", exportName: "rnExpansion2Flashcards" },
+  };
+
+  function normalizeOptions(input: any): string[] {
+    if (!Array.isArray(input)) return [];
+    const out: string[] = [];
+    for (const opt of input) {
+      if (typeof opt === "string") out.push(opt);
+      else if (opt && typeof opt === "object") {
+        const maybe = (opt as any).text ?? (opt as any).label ?? (opt as any).value;
+        if (typeof maybe === "string") out.push(maybe);
+        else out.push(String(opt));
+      } else if (opt !== null && opt !== undefined) {
+        out.push(String(opt));
+      }
+    }
+    return out;
+  }
+
+  function parseCorrectIndex(correctAnswer: any): number | undefined {
+    if (Array.isArray(correctAnswer) && correctAnswer.length > 0) {
+      const v = correctAnswer[0];
+      if (typeof v === "number" && Number.isFinite(v)) return v;
+      if (typeof v === "string" && v.trim()) {
+        const n = Number(v);
+        if (Number.isFinite(n)) return n;
+      }
+    }
+    if (typeof correctAnswer === "number" && Number.isFinite(correctAnswer)) return correctAnswer;
+    if (typeof correctAnswer === "string" && correctAnswer.trim()) {
+      const n = Number(correctAnswer);
+      if (Number.isFinite(n)) return n;
+    }
+    if (correctAnswer && typeof correctAnswer === "object") {
+      const v = (correctAnswer as any).correctIndex ?? (correctAnswer as any).correct_index ?? (correctAnswer as any).correct;
+      if (typeof v === "number" && Number.isFinite(v)) return v;
+    }
+    return undefined;
+  }
+
+  function mapFlashcardBankRowToClientCard(row: any): any {
+    const options = normalizeOptions(row.options);
+    const correctIndex = parseCorrectIndex(row.correct_answer);
+    const rationaleCorrect = typeof row.rationale_correct === "string" ? row.rationale_correct : "";
+
+    const distractorRationalesRaw =
+      row.distractor_rationales && typeof row.distractor_rationales === "object" ? row.distractor_rationales : null;
+
+    const optionRationales =
+      options.length > 0
+        ? options.map((_, i) => {
+            if (correctIndex !== undefined && i === correctIndex) return rationaleCorrect || "";
+            const letterKey = String.fromCharCode(65 + i);
+            const dr = distractorRationalesRaw as Record<string, any> | null;
+            const byLetter = dr ? dr[letterKey] : undefined;
+            const byIndex = dr ? dr[String(i)] : undefined;
+            const v = (typeof byLetter === "string" && byLetter) || (typeof byIndex === "string" && byIndex) || "";
+            return v;
+          })
+        : undefined;
+
+    const rationaleMedia = Array.isArray(row.rationale_media) ? row.rationale_media : [];
+    const firstImage = rationaleMedia.find((m: any) => m && typeof m === "object" && typeof m.imageUrl === "string")?.imageUrl;
+
+    return {
+      id: String(row.id),
+      type: "question",
+      question: row.front,
+      options,
+      correctIndex,
+      answer: row.back,
+      category: row.category ?? row.body_system ?? "General",
+      difficulty: typeof row.difficulty === "number" ? row.difficulty : row.difficulty ? Number(row.difficulty) : undefined,
+      clinicalPearl: row.clinical_takeaway ?? undefined,
+      optionRationales,
+      detailedRationale: undefined,
+      image: firstImage,
+      distractorRationales: distractorRationalesRaw,
+      bodySystem: row.body_system ?? undefined,
+      topic: row.topic ?? undefined,
+      // Preserve legacy rendering behavior: the client tags these cards as `source:"static"`.
+    };
+  }
+
+  async function queryFlashcardsFromDb(params: {
+    deckKey?: string;
+    tier?: string;
+    topic?: string;
+    tag?: string;
+    difficulty?: number;
+    search?: string;
+    limit: number;
+    offset: number;
+    includeTotal?: boolean;
+  }): Promise<{ items: any[]; total: number }> {
+    const where: string[] = ["status = 'published'", "flashcard_enabled = true"];
+    const sqlParams: any[] = [];
+    let idx = 1;
+
+    const deckKey = params.deckKey?.trim();
+    if (deckKey) {
+      const sourceType = FLASHCARDS_DECK_KEY_TO_SOURCE_TYPE[deckKey] || deckKey;
+      where.push(`source_type = $${idx++}`);
+      sqlParams.push(sourceType);
+    }
+
+    if (params.tier) {
+      const allowedTiers = ["free", "rpn", "rn", "np", "admin"];
+      if (allowedTiers.includes(params.tier)) {
+        where.push(`tier = $${idx++}`);
+        sqlParams.push(params.tier);
+      }
+    }
+
+    if (params.topic) {
+      where.push(`(topic_tag ILIKE $${idx} OR body_system ILIKE $${idx} OR topic ILIKE $${idx} OR category ILIKE $${idx})`);
+      sqlParams.push(`%${params.topic}%`);
+      idx++;
+    }
+
+    if (params.tag) {
+      // tags_json is a jsonb array of strings; we check for array containment.
+      where.push(`COALESCE(tags_json, '[]'::jsonb) @> $${idx++}::jsonb`);
+      sqlParams.push(JSON.stringify([params.tag]));
+    }
+
+    if (typeof params.difficulty === "number" && Number.isFinite(params.difficulty)) {
+      where.push(`difficulty = $${idx++}`);
+      sqlParams.push(params.difficulty);
+    }
+
+    if (params.search?.trim()) {
+      where.push(`(front ILIKE $${idx} OR back ILIKE $${idx})`);
+      sqlParams.push(`%${params.search.trim()}%`);
+      idx++;
+    }
+
+    const whereClause = where.join(" AND ");
+
+    let total = 0;
+    if (params.includeTotal) {
+      const countRes = await pool.query(`SELECT COUNT(*)::int as total FROM flashcard_bank WHERE ${whereClause}`, sqlParams);
+      total = countRes.rows[0]?.total || 0;
+    }
+
+    const limit = Math.max(1, params.limit);
+    const offset = Math.max(0, params.offset);
+
+    let itemsRes: any;
+    try {
+      itemsRes = await pool.query(
+        `SELECT
+          id, front, back, category, tier, difficulty, source_type, question_type,
+          options, correct_answer, rationale_correct, distractor_rationales,
+          clinical_takeaway, rationale_media, body_system, topic, subtopic,
+          tags_json
+         FROM flashcard_bank
+         WHERE ${whereClause}
+         ORDER BY COALESCE(sort_order, 0) ASC, id ASC
+         LIMIT $${idx++} OFFSET $${idx++}`,
+        [...sqlParams, limit, offset]
+      );
+    } catch (e: any) {
+      // Backwards compatibility: if sort_order wasn't added yet, fall back to deterministic ordering.
+      itemsRes = await pool.query(
+        `SELECT
+          id, front, back, category, tier, difficulty, source_type, question_type,
+          options, correct_answer, rationale_correct, distractor_rationales,
+          clinical_takeaway, rationale_media, body_system, topic, subtopic,
+          tags_json
+         FROM flashcard_bank
+         WHERE ${whereClause}
+         ORDER BY id ASC
+         LIMIT $${idx++} OFFSET $${idx++}`,
+        [...sqlParams, limit, offset]
+      );
+    }
+
+    const rows = Array.isArray(itemsRes.rows) ? itemsRes.rows : [];
+    return { items: rows.map(mapFlashcardBankRowToClientCard), total };
+  }
+
+  async function loadFlashcardsFromTsFallback(deckKey: string, params: { limit: number; offset: number; topic?: string; tag?: string; difficulty?: number; search?: string }): Promise<{ items: any[] }> {
+    const importer = FLASHCARDS_TS_IMPORTERS[deckKey];
+    if (!importer) return { items: [] };
+
+    const mod: any = await import(importer.modulePath);
+    const extracted = mod?.[importer.exportName];
+    const cards: any[] = Array.isArray(extracted) ? extracted : [];
+
+    // Mirror the filters we support at the DB layer (best-effort).
+    let filtered = cards.filter((c) => c?.type === "question");
+    if (params.topic?.trim()) {
+      filtered = filtered.filter((c) => typeof c.category === "string" && c.category.toLowerCase().includes(params.topic!.trim().toLowerCase()));
+    }
+    if (params.tag?.trim()) {
+      filtered = filtered.filter((c) => typeof c.category === "string" && c.category.toLowerCase().includes(params.tag!.trim().toLowerCase()));
+    }
+    if (typeof params.difficulty === "number" && Number.isFinite(params.difficulty)) {
+      filtered = filtered.filter((c) => Number(c.difficulty) === params.difficulty);
+    }
+    if (params.search?.trim()) {
+      const q = params.search.trim().toLowerCase();
+      filtered = filtered.filter((c) => String(c.question ?? "").toLowerCase().includes(q) || String(c.answer ?? "").toLowerCase().includes(q));
+    }
+
+    const sliced = filtered.slice(Math.max(0, params.offset), Math.max(0, params.offset) + Math.max(1, params.limit));
+    return { items: sliced };
+  }
+
+  app.get("/api/flashcards", async (req: any, res) => {
+    try {
+      const rawDeck = String(req.query.deck || req.query.key || "").trim();
+      const deckKey = rawDeck && FLASHCARDS_DECK_KEYS.has(rawDeck) ? rawDeck : rawDeck || undefined;
+
+      const limit = Math.min(Math.max(parseInt(String(req.query.limit || "5000"), 10) || 5000, 1), 250000);
+      const offset = Math.max(parseInt(String(req.query.offset || "0"), 10) || 0, 0);
+
+      const tier = req.query.tier ? String(req.query.tier).trim() : undefined;
+      const topic = req.query.topic ? String(req.query.topic).trim() : undefined;
+      const tag = req.query.tag ? String(req.query.tag).trim() : undefined;
+      const search = req.query.search ? String(req.query.search).trim() : undefined;
+
+      const difficultyRaw = req.query.difficulty ? String(req.query.difficulty).trim() : undefined;
+      const difficulty = difficultyRaw ? Number(difficultyRaw) : undefined;
+
+      const includeTotal =
+        String(req.query.includeTotal || "").toLowerCase() === "true" ||
+        String(req.query.includeTotal || "") === "1";
+
+      const canCache =
+        !includeTotal &&
+        !!deckKey &&
+        !tier &&
+        !topic &&
+        !tag &&
+        !search &&
+        (difficulty === undefined || !Number.isFinite(difficulty)) &&
+        offset === 0;
+
+      if (canCache) {
+        const cacheKey = `flashcardsDb:${deckKey}:${offset}:${limit}`;
+        if (!("flashcardsDbCache" in globalThis)) (globalThis as any).flashcardsDbCache = new Map<string, any[]>();
+        const cache: Map<string, any[]> = (globalThis as any).flashcardsDbCache;
+        const hit = cache.get(cacheKey);
+        if (hit && hit.length > 0) {
+          res.json({ items: hit, total: 0, hasMore: false, _cache: true });
+          return;
+        }
+      }
+
+      const fromDb = await queryFlashcardsFromDb({
+        deckKey,
+        tier,
+        topic,
+        tag,
+        difficulty: typeof difficulty === "number" && Number.isFinite(difficulty) ? difficulty : undefined,
+        search,
+        limit,
+        offset,
+        includeTotal,
+      });
+
+      if (fromDb.items.length > 0) {
+        if (canCache && fromDb.items.length > 0) {
+          const cacheKey = `flashcardsDb:${deckKey}:${offset}:${limit}`;
+          if (!("flashcardsDbCache" in globalThis)) (globalThis as any).flashcardsDbCache = new Map<string, any[]>();
+          const cache: Map<string, any[]> = (globalThis as any).flashcardsDbCache;
+          cache.set(cacheKey, fromDb.items);
+        }
+        res.json({
+          items: fromDb.items,
+          total: includeTotal ? fromDb.total : 0,
+          hasMore: includeTotal ? offset + limit < fromDb.total : false,
+        });
+        return;
+      }
+
+      // DB empty fallback for transitional deployments (logged).
+      if (deckKey && FLASHCARDS_TS_IMPORTERS[deckKey]) {
+        console.warn("[flashcards] DB empty; falling back to TS dataset import (transitional):", { deckKey });
+        const fallback = await loadFlashcardsFromTsFallback(deckKey, {
+          limit,
+          offset,
+          topic,
+          tag,
+          difficulty: typeof difficulty === "number" && Number.isFinite(difficulty) ? difficulty : undefined,
+          search,
+        });
+        res.json({ items: fallback.items, total: fallback.items.length, hasMore: false, _dbFallback: true });
+        return;
+      }
+
+      res.json({ items: [], total: 0, hasMore: false });
+    } catch (e: any) {
+      const msg = e?.message || String(e);
+      console.error("[flashcards] Endpoint error:", msg);
+      res.status(500).json({ error: "Failed to load flashcards", code: "FLASHCARDS_LOAD_ERROR" });
+    }
+  });
+
   // ====== PUBLIC FLASHCARDS STATIC ASSETS ======
   // This endpoint provides the "static" flashcard datasets (rn/np/etc) behind an API,
   // so the client never has to bundle giant flashcard arrays.
@@ -18083,6 +18436,43 @@ Generate 8-15 slides and 10-20 flashcards. Be thorough and clinically accurate.`
       // Default to a very large limit so the client keeps its current "load entire static dataset" behavior.
       const limit = Math.min(Math.max(parseInt(String(req.query.limit || "200000"), 10), 1), 250000);
       const offset = Math.max(parseInt(String(req.query.offset || "0"), 10), 0);
+
+      // DB-first transitional path. If the deck exists in Postgres, we use it.
+      // If the deck isn't migrated yet, we fall back to TS imports.
+      const dbSourceType = FLASHCARDS_DECK_KEY_TO_SOURCE_TYPE[key] || `static_${key}`;
+      const whereClause = `status = 'published' AND flashcard_enabled = true AND source_type = $1`;
+      let dbRes: any;
+      try {
+        dbRes = await pool.query(
+          `SELECT
+            id, front, back, category, tier, difficulty, source_type, question_type,
+            options, correct_answer, rationale_correct, distractor_rationales,
+            clinical_takeaway, rationale_media, body_system, topic, subtopic, tags_json
+           FROM flashcard_bank
+           WHERE ${whereClause}
+           ORDER BY COALESCE(sort_order, 0) ASC, id ASC
+           LIMIT $2 OFFSET $3`,
+          [dbSourceType, limit, offset]
+        );
+      } catch {
+        // Backwards compatibility: sort_order added by migration script.
+        dbRes = await pool.query(
+          `SELECT
+            id, front, back, category, tier, difficulty, source_type, question_type,
+            options, correct_answer, rationale_correct, distractor_rationales,
+            clinical_takeaway, rationale_media, body_system, topic, subtopic, tags_json
+           FROM flashcard_bank
+           WHERE ${whereClause}
+           ORDER BY id ASC
+           LIMIT $2 OFFSET $3`,
+          [dbSourceType, limit, offset]
+        );
+      }
+
+      if (Array.isArray(dbRes.rows) && dbRes.rows.length > 0) {
+        res.json(dbRes.rows.map(mapFlashcardBankRowToClientCard));
+        return;
+      }
 
       const cacheKey = `${key}:${offset}:${limit}`;
       if (!("flashcardsStaticCache" in globalThis)) (globalThis as any).flashcardsStaticCache = new Map<string, any[]>();

@@ -16,6 +16,7 @@
     "check": "tsc",
     "check:server": "tsc --noEmit -p tsconfig.server.json",
     "check:bundle-size": "node scripts/check-bundle-size.mjs",
+    "migrate:flashcards": "tsx scripts/migrate-flashcards-to-postgres.ts",
     "check:storage": "tsx scripts/check-storage-sanity.ts",
     "check:server:isolation": "tsx scripts/check-server-isolation.ts",
     "check:server:guardrails": "npm run check:storage && npm run check:server:isolation && npm run check:server",
