@@ -44,32 +44,27 @@ function shouldUseSsl(connectionString: string): boolean {
   );
 }
 
-/** Local placeholder when no env URL — pool starts; queries fail until DATABASE_URL / PROD_DATABASE_URL are set. */
-const MISSING_DB_PLACEHOLDER = "postgresql://127.0.0.1:1/nurse_nest_db_not_configured";
-
 function getRequiredUrl(target: DatabaseTarget): string {
   if (target === "production") {
-    if (PROD_URL) return PROD_URL;
+    if (PROD_URL) {
+      console.log("selected_db_target=production_prod_url");
+      return PROD_URL;
+    }
 
     if (DEV_URL) {
-      console.warn(
-        "[DB] PROD_DATABASE_URL is not set; using DATABASE_URL for the production pool",
-      );
+      console.log("selected_db_target=production_database_url_fallback");
       return DEV_URL;
     }
 
-    console.error(
-      "[DB] Neither PROD_DATABASE_URL nor DATABASE_URL is set. Server will start; database calls will fail until a URL is configured.",
-    );
-    return MISSING_DB_PLACEHOLDER;
+    // Production must fail fast if no DB is configured.
+    throw new Error("DATABASE_URL is not set (production requires PROD_DATABASE_URL or DATABASE_URL)");
   }
 
   if (DEV_URL) return DEV_URL;
 
-  console.error(
-    "[DB] DATABASE_URL is not set. Server will start; database calls will fail until DATABASE_URL is configured.",
-  );
-  return MISSING_DB_PLACEHOLDER;
+  // Dev/test environments may intentionally run without DB; keep behavior non-fatal.
+  console.error("[DB] DATABASE_URL is not set. Development DB calls will fail until DATABASE_URL is configured.");
+  return "postgresql://127.0.0.1:1/nurse_nest_db_not_configured";
 }
 
 function getPoolLabel(target: DatabaseTarget): string {
@@ -168,10 +163,9 @@ let prodPool: pg.Pool | null = null;
 let isClosingPools = false;
 
 export function getDevPool(): pg.Pool {
-  // In production, some startup-time code paths may (indirectly) call getDevPool().
-  // If DATABASE_URL is missing but PROD_DATABASE_URL is configured, route those
-  // calls to the production pool so boot does not require dev configuration.
-  if (IS_PROD_RUNTIME && !DEV_URL && PROD_URL) {
+  // In production runtime we never want to create/use a "dev" pool.
+  // Some code paths still call getDevPool(); route them to prod pool instead.
+  if (IS_PROD_RUNTIME) {
     return getProdPool();
   }
   if (!devPool) {

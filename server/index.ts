@@ -60,7 +60,11 @@ app.get("/readyz", async (_req, res) => {
       : undefined;
 
     if (String(process.env.READYZ_CHECK_DB || "").toLowerCase() === "true") {
-      const db = await testDatabaseConnection("development");
+      const target =
+        process.env.NODE_ENV === "production" || process.env.REPLIT_DEPLOYMENT === "1"
+          ? "production"
+          : "development";
+      const db = await testDatabaseConnection(target);
       if (!db.ok) {
         return res.status(503).json({
           status: "degraded",
@@ -205,15 +209,27 @@ const deployBootT0 = Date.now();
 
 async function startServer() {
   // Unmistakable deploy fingerprint: lets us confirm Render is running the newest startup code.
+  const nodeEnv = process.env.NODE_ENV || null;
+  const hasDatabaseUrl = Boolean(process.env.DATABASE_URL);
+  const hasProdDatabaseUrl = Boolean(process.env.PROD_DATABASE_URL);
+  const allowProdFallback = process.env.ALLOW_PROD_FALLBACK_TO_DATABASE_URL || null;
+  const selectedDbTarget =
+    hasProdDatabaseUrl
+      ? "selected_db_target=production_prod_url"
+      : hasDatabaseUrl
+        ? "selected_db_target=production_database_url_fallback"
+        : "selected_db_target=missing";
+
   console.log(
     JSON.stringify({
-      STARTUP_FINGERPRINT: "STARTUP_FINGERPRINT=2026-03-25-db-fix-v1",
-      NODE_ENV: process.env.NODE_ENV || null,
-      DATABASE_URL_present: Boolean(process.env.DATABASE_URL),
-      PROD_DATABASE_URL_present: Boolean(process.env.PROD_DATABASE_URL),
-      ALLOW_PROD_FALLBACK_TO_DATABASE_URL: process.env.ALLOW_PROD_FALLBACK_TO_DATABASE_URL || null,
+      STARTUP_FINGERPRINT: "STARTUP_FINGERPRINT=2026-03-25-final-proof",
+      NODE_ENV: nodeEnv,
+      DATABASE_URL_present: hasDatabaseUrl,
+      PROD_DATABASE_URL_present: hasProdDatabaseUrl,
+      ALLOW_PROD_FALLBACK_TO_DATABASE_URL: allowProdFallback,
     }),
   );
+  console.log(selectedDbTarget);
 
   initOptionalLogSinks();
 
