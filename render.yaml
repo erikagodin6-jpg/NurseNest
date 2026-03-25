@@ -5,7 +5,8 @@ services:
     name: nursenest-web
     runtime: node
     plan: starter
-    buildCommand: npm ci && npm run build
+    # NODE_ENV=production (below) would otherwise omit devDependencies; build needs tsx, vite, esbuild, etc.
+    buildCommand: npm ci --include=dev && npm run build
     startCommand: npm start
     healthCheckPath: /healthz
     envVars:
