@@ -8,10 +8,14 @@ This is the easiest path for this repo because it uses your `Dockerfile` directl
 2. Choose branch `main`.
 3. For source type, select Dockerfile (App Platform will auto-detect).
 4. Set HTTP port to `5000`.
-5. Add runtime secrets:
+5. Add runtime secrets (set scope to `Run time`, not build time):
    - `ADMIN_JWT_SECRET`
    - `DATABASE_URL` (or use `PROD_DATABASE_URL` instead)
 6. Deploy.
+
+Important:
+- Do not mark secret env vars as build-time in App Platform.
+- This Docker build does not need `ADMIN_JWT_SECRET` or `DATABASE_URL`.
 
 ## Optional: use app spec from this repo
 
@@ -33,6 +37,8 @@ Notes:
 - One of:
   - `PROD_DATABASE_URL`, or
   - `DATABASE_URL`
+
+Scope: runtime only.
 
 ## Local production test (Docker)
 
