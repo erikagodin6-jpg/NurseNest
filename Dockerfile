@@ -3,7 +3,7 @@ FROM node:20-bookworm-slim AS build
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --no-audit --no-fund && npm cache clean --force
 
 COPY tsconfig.json tsconfig.server.json ./
 COPY vite.config.ts postcss.config.js components.json ./
@@ -34,7 +34,7 @@ ENV NODE_ENV=production
 ENV PORT=8080
 
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev --no-audit --no-fund && npm cache clean --force
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/scripts ./scripts
 
