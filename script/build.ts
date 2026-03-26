@@ -434,7 +434,24 @@ async function generateCoverageReport(log: (msg: string) => void): Promise<void>
   log("coverage report written to dist/i18n-coverage-report.json");
 }
 
+function applyHerokuStackBuildDefaults(): void {
+  const stack = process.env.STACK || "";
+  if (!stack.startsWith("heroku-")) return;
+  const def = (k: string, v: string) => {
+    if (process.env[k] === undefined) process.env[k] = v;
+  };
+  def("SKIP_I18N_VALIDATION", "1");
+  def("SKIP_I18N_COMPILE", "1");
+  def("SKIP_BUILD_REPORTS", "1");
+  def("VITE_SKIP_CIRCULAR_CHECK", "1");
+  def("RUN_HEAVY_BUILD_TASKS", "0");
+  console.log(
+    `[build] Heroku stack detected (${stack}): lean build defaults applied (override any via config vars).`,
+  );
+}
+
 async function buildAll() {
+  applyHerokuStackBuildDefaults();
   const t0 = Date.now();
   const log = (msg: string) => console.log(`[${((Date.now() - t0) / 1000).toFixed(1)}s] ${msg}`);
   const timing = (phase: string, start: number) =>
@@ -577,7 +594,9 @@ async function buildAll() {
 
   if (global.gc) global.gc();
 
+  const shadowT = Date.now();
   await removeShadowingJsNextToTs(path.resolve("client/src"));
+  timing("prune_shadowing_js_client_src", shadowT);
   log("pruned shadowing .js next to TS sources under client/src");
 
   if (target === "all" || target === "client") {

@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distDir = path.join(root, "dist");
+const verifyT0 = Date.now();
 
 function die(msg) {
   console.error(`[verify-dist] FAIL: ${msg}`);
@@ -125,7 +126,9 @@ if (meta.buildTarget === "all" || meta.buildTarget === "server") {
   if (!hasIndex) {
     die(`dist/index.cjs is missing for buildTarget=${meta.buildTarget}.`);
   }
+  const tGraph = Date.now();
   verifyCjsGraph(path.resolve(indexPath));
+  console.log(`[deploy-timing] verify_cjs_graph_ms=${Date.now() - tGraph}`);
 
   const chunkManifestPath = path.join(distDir, "server-chunk-manifest.json");
   if (!fs.existsSync(chunkManifestPath)) {
@@ -140,6 +143,7 @@ if (meta.buildTarget === "all" || meta.buildTarget === "server") {
   if (manifest.schemaVersion !== 1 || !Array.isArray(manifest.lazyChunks)) {
     die("dist/server-chunk-manifest.json must have schemaVersion 1 and lazyChunks array.");
   }
+  const tManifest = Date.now();
   for (const name of manifest.lazyChunks) {
     if (typeof name !== "string" || !name.endsWith(".cjs")) {
       die(`dist/server-chunk-manifest.json: invalid chunk name: ${String(name)}`);
@@ -149,12 +153,15 @@ if (meta.buildTarget === "all" || meta.buildTarget === "server") {
       die(`Lazy server chunk was not emitted: ${name} (listed in server-chunk-manifest.json)`);
     }
   }
+  console.log(`[deploy-timing] verify_lazy_manifest_ms=${Date.now() - tManifest}`);
   console.log(`[verify-dist] Lazy chunk manifest: ${manifest.lazyChunks.length} file(s) on disk.`);
 }
 
 const needsClient = meta.buildTarget === "all" || meta.buildTarget === "client";
 if (needsClient) {
+  const tClient = Date.now();
   assertClientArtifacts();
+  console.log(`[deploy-timing] verify_client_artifacts_ms=${Date.now() - tClient}`);
 }
 
 if (!hasIndex && meta.buildTarget !== "client" && meta.buildTarget !== "heavy") {
@@ -173,3 +180,6 @@ if (meta.buildTarget === "heavy" && !hasIndex) {
 }
 
 console.log("[verify-dist] OK");
+console.log(
+  `[deploy-timing] verify_dist_total_s=${((Date.now() - verifyT0) / 1000).toFixed(2)}`,
+);
