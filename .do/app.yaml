@@ -5,16 +5,16 @@ services:
   - name: web
     environment_slug: docker
     source_dir: /
-    http_port: 5000
+    http_port: 8080
     internal_ports:
-      - "5000"
+      - 8080
     instance_count: 1
     instance_size_slug: basic-xxs
     routes:
       - path: /
     health_check:
       http_path: /health
-      port: 5000
+      port: 8080
       initial_delay_seconds: 30
       period_seconds: 15
       timeout_seconds: 5
@@ -25,7 +25,7 @@ services:
         value: production
         scope: RUN_TIME
       - key: PORT
-        value: "5000"
+        value: "8080"
         scope: RUN_TIME
       - key: ADMIN_JWT_SECRET
         scope: RUN_TIME
