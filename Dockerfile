@@ -5,7 +5,18 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
-COPY . .
+COPY tsconfig.json tsconfig.server.json ./
+COPY vite.config.ts postcss.config.js components.json ./
+COPY drizzle.config.ts i18n-scan.config.json vite-plugin-meta-images.ts ./
+COPY server ./server
+COPY client ./client
+COPY shared ./shared
+COPY scripts ./scripts
+COPY script ./script
+COPY public ./public
+COPY config ./config
+COPY migrations ./migrations
+COPY backup-system ./backup-system
 
 ENV NODE_ENV=production
 ENV SKIP_I18N_VALIDATION=1

@@ -16,6 +16,30 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            Dockerfile
+            .dockerignore
+            package.json
+            package-lock.json
+            tsconfig.json
+            tsconfig.server.json
+            vite.config.ts
+            postcss.config.js
+            components.json
+            drizzle.config.ts
+            i18n-scan.config.json
+            vite-plugin-meta-images.ts
+            client
+            server
+            shared
+            script
+            scripts
+            public
+            config
+            migrations
+            backup-system
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
