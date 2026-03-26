@@ -23,6 +23,9 @@ import { withWebhookIdempotency } from "./webhook-idempotency";
 
 const app = express();
 app.set("trust proxy", 1);
+type DbHealth = "connected" | "disconnected" | "unknown";
+let dbHealth: DbHealth = "unknown";
+let systemDegraded = false;
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const headerId = req.headers["x-request-id"];
@@ -46,7 +49,11 @@ app.get("/healthz", (_req, res) => {
 });
 
 app.get("/health", (_req, res) => {
-  res.status(200).type("text/plain").send("ok");
+  res.status(200).json({
+    status: "ok",
+    db: dbHealth,
+    degraded: systemDegraded,
+  });
 });
 
 // Keep a lightweight root response for platform health checks.
@@ -257,28 +264,7 @@ async function startServer() {
       }),
     );
 
-    diagPhase("PHASE 1: config validation");
     initOptionalLogSinks();
-
-    const startup = validateCriticalStartupConfig();
-    if (!startup.ok) {
-      console.error(
-        "[startup] Cannot boot — fix the following and redeploy:\n  - " + startup.errors.join("\n  - "),
-      );
-      emitStructuredLog(
-        {
-          level: "error",
-          type: "startup_config",
-          msg: "Invalid or missing critical configuration",
-          errors: startup.errors,
-        },
-        "error",
-      );
-      throw new Error("Startup configuration invalid (see log above).");
-    }
-
-    logStartupDatabaseResolution();
-    diagPhase("PHASE 2: server initialization");
 
     httpServer.once("error", (err: NodeJS.ErrnoException) => {
       console.error("[FATAL STARTUP] HTTP server error:", err?.message || err);
@@ -316,6 +302,18 @@ async function startServer() {
         port,
       });
 
+      diagPhase("PHASE 1: config validation");
+      const startup = validateCriticalStartupConfig();
+      if (!startup.ok) {
+        systemDegraded = true;
+        console.warn(
+          "[startup] SYSTEM DEGRADED: critical config warnings (continuing to serve /health):\n  - " +
+            startup.errors.join("\n  - "),
+        );
+      }
+      logStartupDatabaseResolution();
+      diagPhase("PHASE 2: server initialization");
+
       // DB connectivity is allowed to fail; the service should still start listening
       // so DigitalOcean readiness can pass. We probe and log asynchronously.
       void (async () => {
@@ -323,6 +321,8 @@ async function startServer() {
         try {
           const dbProbe = await testDatabaseConnection();
           if (dbProbe.ok) {
+            dbHealth = "connected";
+            console.log("DB CONNECTED");
             console.log(
               JSON.stringify({
                 type: "db_startup_probe",
@@ -332,6 +332,10 @@ async function startServer() {
               }),
             );
           } else {
+            dbHealth = "disconnected";
+            systemDegraded = true;
+            console.error("DB FAILED");
+            console.warn("SYSTEM DEGRADED");
             console.error(
               JSON.stringify({
                 type: "db_startup_probe",
@@ -342,10 +346,41 @@ async function startServer() {
             );
           }
         } catch (e: unknown) {
+          dbHealth = "disconnected";
+          systemDegraded = true;
           const msg = e instanceof Error ? e.message : String(e);
+          console.error("DB FAILED");
+          console.warn("SYSTEM DEGRADED");
           console.error("[db_startup_probe] unexpected error:", msg);
         }
       })();
+
+      // Keep probing in the background so DB recovery is reflected without restarts.
+      setInterval(async () => {
+        try {
+          const dbProbe = await testDatabaseConnection();
+          if (dbProbe.ok) {
+            if (dbHealth !== "connected") {
+              console.log("DB CONNECTED");
+            }
+            dbHealth = "connected";
+          } else {
+            if (dbHealth !== "disconnected") {
+              console.error("DB FAILED");
+              console.warn("SYSTEM DEGRADED");
+            }
+            dbHealth = "disconnected";
+            systemDegraded = true;
+          }
+        } catch {
+          if (dbHealth !== "disconnected") {
+            console.error("DB FAILED");
+            console.warn("SYSTEM DEGRADED");
+          }
+          dbHealth = "disconnected";
+          systemDegraded = true;
+        }
+      }, 30000).unref();
     });
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
