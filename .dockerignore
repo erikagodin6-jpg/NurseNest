@@ -2,6 +2,7 @@
 node_modules
 dist
 client/dist
+client/src/assets
 .git
 .github
 .local

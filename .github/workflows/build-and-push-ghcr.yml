@@ -18,6 +18,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+          sparse-checkout-cone-mode: false
           sparse-checkout: |
             Dockerfile
             .dockerignore
@@ -31,7 +32,8 @@ jobs:
             drizzle.config.ts
             i18n-scan.config.json
             vite-plugin-meta-images.ts
-            client
+            client/**
+            !client/src/assets/**
             server
             shared
             script
