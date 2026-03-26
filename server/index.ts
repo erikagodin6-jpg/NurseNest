@@ -8,7 +8,7 @@ import { asyncHandler } from "./async-handler";
 import { HttpError } from "./http-error";
 import { installApiNotFoundHandler, installGlobalErrorHandler } from "./global-error-handler";
 import { createPublicApiRateLimiter } from "./api-rate-limit";
-import { testDatabaseConnection } from "./db";
+import { testDatabaseConnection, isProductionLikeRuntime } from "./db";
 import { structuredRequestLogMiddleware } from "./structured-request-log";
 import { validateCriticalStartupConfig } from "./startup-config";
 import { emitStructuredLog, initOptionalLogSinks } from "./log-sink";
@@ -60,10 +60,7 @@ app.get("/readyz", async (_req, res) => {
       : undefined;
 
     if (String(process.env.READYZ_CHECK_DB || "").toLowerCase() === "true") {
-      const target =
-        process.env.NODE_ENV === "production" || process.env.REPLIT_DEPLOYMENT === "1"
-          ? "production"
-          : "development";
+      const target = isProductionLikeRuntime() ? "production" : "development";
       const db = await testDatabaseConnection(target);
       if (!db.ok) {
         return res.status(503).json({
@@ -208,36 +205,29 @@ const port = parseInt(process.env.PORT || "5000", 10);
 const deployBootT0 = Date.now();
 
 async function startServer() {
-  // Unmistakable deploy fingerprint: lets us confirm Render is running the newest startup code.
   const nodeEnv = process.env.NODE_ENV || null;
-  const hasDatabaseUrl = Boolean(process.env.DATABASE_URL);
-  const hasProdDatabaseUrl = Boolean(process.env.PROD_DATABASE_URL);
+  const hasDatabaseUrl = Boolean(process.env.DATABASE_URL?.trim());
+  const hasProdDatabaseUrl = Boolean(process.env.PROD_DATABASE_URL?.trim());
   const allowProdFallback = process.env.ALLOW_PROD_FALLBACK_TO_DATABASE_URL || null;
-  const selectedDbTarget =
-    hasProdDatabaseUrl
-      ? "selected_db_target=production_prod_url"
-      : hasDatabaseUrl
-        ? "selected_db_target=production_database_url_fallback"
-        : "selected_db_target=missing";
-
-  // Build-time proof that Render/CI is running a dist bundle built from current source.
-  console.log("BUILD_VERSION=2026-03-25-FORCE-REBUILD");
 
   console.log(
     JSON.stringify({
-      STARTUP_FINGERPRINT: "STARTUP_FINGERPRINT=2026-03-25-final-proof",
-      NODE_ENV: nodeEnv,
-      DATABASE_URL_present: hasDatabaseUrl,
-      PROD_DATABASE_URL_present: hasProdDatabaseUrl,
-      ALLOW_PROD_FALLBACK_TO_DATABASE_URL: allowProdFallback,
+      type: "nursenest_startup",
+      nodeEnv,
+      port,
+      hasDatabaseUrl,
+      hasProdDatabaseUrl,
+      allowProdFallbackToDatabaseUrl: allowProdFallback,
     }),
   );
-  console.log(selectedDbTarget);
 
   initOptionalLogSinks();
 
   const startup = validateCriticalStartupConfig();
   if (!startup.ok) {
+    console.error(
+      "[startup] Cannot boot — fix the following and redeploy:\n  - " + startup.errors.join("\n  - "),
+    );
     emitStructuredLog(
       {
         level: "error",

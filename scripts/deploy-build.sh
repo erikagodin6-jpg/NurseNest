@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Includes optional DB pre-migration steps. For a standard image build (Render/Railway),
+# prefer scripts/production-build.sh unless you explicitly need this migration hook.
 set -e
 
 START_SECONDS=$SECONDS

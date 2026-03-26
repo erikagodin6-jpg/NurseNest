@@ -427,13 +427,11 @@ export interface IStorage {
   deleteMockExamSessionProgress(id: string): Promise<void>;
 }
 
-import { getPool as getDbPool, type DatabaseTarget } from "./db";
+import { getPool as getDbPool, type DatabaseTarget, isProductionLikeRuntime } from "./db";
 
 // IMPORTANT: storage.ts must not create any DB pool at module import time.
-// Render sometimes starts without DATABASE_URL; production must not touch the dev pool.
-const isProduction =
-  process.env.NODE_ENV === "production" || process.env.REPLIT_DEPLOYMENT === "1";
-const STORAGE_DB_TARGET: DatabaseTarget = isProduction ? "production" : "development";
+// Use the same hosted-production detection as db.ts (NODE_ENV alone is not enough on Railway).
+const STORAGE_DB_TARGET: DatabaseTarget = isProductionLikeRuntime() ? "production" : "development";
 
 let realPool: pg.Pool | null = null;
 let realDb: any | null = null;

@@ -16,7 +16,22 @@ const ALLOW_PROD_FALLBACK_TO_DATABASE_URL =
   String(process.env.ALLOW_PROD_FALLBACK_TO_DATABASE_URL || "").toLowerCase() === "true";
 
 const NODE_ENV = process.env.NODE_ENV || "development";
-const IS_PROD_RUNTIME = NODE_ENV === "production" || process.env.REPLIT_DEPLOYMENT === "1";
+
+/**
+ * Use the production DB pool for all generic app access. Wider than NODE_ENV alone so
+ * Railway/Render do not hit getDevPool() → DATABASE_URL when NODE_ENV is unset.
+ */
+export function isProductionLikeRuntime(): boolean {
+  if (NODE_ENV === "production") return true;
+  if (process.env.REPLIT_DEPLOYMENT === "1") return true;
+  if (String(process.env.RENDER || "").toLowerCase() === "true") return true;
+  if (String(process.env.RAILWAY_ENVIRONMENT || "").toLowerCase() === "production") return true;
+  // Any deployed Railway replica (NODE_ENV is often unset on default templates).
+  if (Boolean(process.env.RAILWAY_SERVICE_ID?.trim())) return true;
+  return false;
+}
+
+const IS_PROD_RUNTIME = isProductionLikeRuntime();
 
 function getEnvInt(name: string, fallback: number): number {
   const raw = process.env[name];
@@ -46,18 +61,26 @@ function shouldUseSsl(connectionString: string): boolean {
 
 function getRequiredUrl(target: DatabaseTarget): string {
   if (target === "production") {
-    if (PROD_URL) {
+    const prod = PROD_URL?.trim();
+    const dev = DEV_URL?.trim();
+
+    if (prod) {
       console.log("selected_db_target=production_prod_url");
-      return PROD_URL;
+      return prod;
     }
 
-    if (DEV_URL) {
-      console.log("selected_db_target=production_database_url_fallback");
-      return DEV_URL;
+    if (dev) {
+      if (ALLOW_PROD_FALLBACK_TO_DATABASE_URL) {
+        console.log("selected_db_target=production_database_url_fallback_flag");
+      } else {
+        console.log("selected_db_target=production_database_url_singleton");
+      }
+      return dev;
     }
 
-    // Production must fail fast if no DB is configured.
-    throw new Error("DATABASE_URL is not set (production requires PROD_DATABASE_URL or DATABASE_URL)");
+    throw new Error(
+      "Production database URL missing: set PROD_DATABASE_URL (recommended) or DATABASE_URL.",
+    );
   }
 
   if (DEV_URL) return DEV_URL;
@@ -181,8 +204,9 @@ export function getProdPool(): pg.Pool {
   return prodPool;
 }
 
-export function getPool(target: DatabaseTarget = "development"): pg.Pool {
-  return target === "production" ? getProdPool() : getDevPool();
+export function getPool(target?: DatabaseTarget): pg.Pool {
+  const resolved = target ?? (IS_PROD_RUNTIME ? "production" : "development");
+  return resolved === "production" ? getProdPool() : getDevPool();
 }
 
 export function hasSeparateProdDb(): boolean {
@@ -224,23 +248,24 @@ export function logRowCount(operation: string, count: number): void {
 }
 
 export async function testDatabaseConnection(
-  target: DatabaseTarget = "development",
+  target?: DatabaseTarget,
 ): Promise<{ ok: boolean; target: DatabaseTarget; timeMs: number; now?: string; error?: string }> {
-  const pool = getPool(target);
+  const resolved = target ?? (IS_PROD_RUNTIME ? "production" : "development");
+  const pool = getPool(resolved);
   const started = Date.now();
 
   try {
     const result = await pool.query("SELECT NOW() AS now");
     return {
       ok: true,
-      target,
+      target: resolved,
       timeMs: Date.now() - started,
       now: result.rows[0]?.now?.toISOString?.() || String(result.rows[0]?.now || ""),
     };
   } catch (error: any) {
     return {
       ok: false,
-      target,
+      target: resolved,
       timeMs: Date.now() - started,
       error: error?.message || "Unknown database connection error",
     };

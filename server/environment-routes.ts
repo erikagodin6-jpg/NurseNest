@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { requireAdmin } from "./admin-auth";
-import { getDevPool } from "./db";
+import { getPool } from "./db";
 import {
   getEnvironmentInfo,
   runDiagnosticChecks,
@@ -11,7 +11,7 @@ import {
 import type { EnvironmentTarget } from "@shared/schema";
 
 export function registerEnvironmentRoutes(app: Express) {
-  const pool = getDevPool();
+  const pool = getPool();
 
   app.get("/api/admin/environment/info", async (req, res) => {
     try {

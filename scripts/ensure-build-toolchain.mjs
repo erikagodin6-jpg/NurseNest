@@ -17,7 +17,7 @@ if (missing.length > 0) {
     [
       "npm install --no-save",
       "--include=dev",
-      // Keep the list aligned with scripts/render-build.sh so `npm run build` and Render build behave identically.
+      // Keep the list aligned with scripts/production-build.sh (canonical prod install + build).
       "tsx typescript esbuild vite",
       "@vitejs/plugin-react @tailwindcss/vite",
       "tailwindcss vite-plugin-circular-dependency",

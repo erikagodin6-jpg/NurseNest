@@ -7,8 +7,6 @@ import { compileI18n } from "./compile-i18n";
 import { execSync } from "child_process";
 import { runI18nScan } from "./scan-hardcoded-strings-lib";
 
-const EXPECTED_BUILD_VERSION = "2026-03-25-FORCE-REBUILD";
-const EXPECTED_BUILD_VERSION_LOG = `BUILD_VERSION=${EXPECTED_BUILD_VERSION}`;
 import path from "path";
 
 const allowlist = [
@@ -90,7 +88,6 @@ const LAZY_ROUTE_MODULES = new Set([
   "profession-routes", "profession-practice-questions-routes",
   "question-preview-api", "environment-routes",
   "platform-resilience", "performance", "deployment-protection",
-  // Keep memory-monitor in the main bundle (avoid missing dist/memory-monitor.cjs on deploy).
   "memory-middleware", "content-health-gate", "job-queue",
   "entitlement-api", "analytics-events-routes", "translation-audit",
   "startup-data-migrations", "adaptive-engine", "sm2-engine",
@@ -112,7 +109,7 @@ async function getExternals() {
   return allDeps.filter((dep) => !allowlist.includes(dep));
 }
 
-async function buildServer(externalizeHeavyModules: boolean, buildProof: string) {
+async function buildServer(externalizeHeavyModules: boolean) {
   const externals = await getExternals();
   const plugins: NonNullable<Parameters<typeof esbuild>[0]["plugins"]> = [];
   plugins.push({
@@ -180,8 +177,6 @@ async function buildServer(externalizeHeavyModules: boolean, buildProof: string)
     format: "cjs",
     outfile: "dist/index.cjs",
     define: { "process.env.NODE_ENV": '"production"' },
-    // Provenance: lets us confirm Render is running the bundle produced by this build.
-    banner: { js: `console.log(${JSON.stringify(buildProof)});` },
     minify: true,
     external: [...externals, ...TRANSITIVE_EXTERNALS],
     logLevel: "warning",
@@ -270,7 +265,20 @@ async function buildSeedModules() {
 }
 
 async function buildLazyRouteModules() {
-  return buildExternalModules(await discoverLazyRouteEntryPoints(), "lazy route modules");
+  const entries = await discoverLazyRouteEntryPoints();
+  await buildExternalModules(entries, "lazy route modules");
+  const lazyChunks = entries
+    .map((entry) =>
+      `${entry
+        .replace(/^server\//, "")
+        .replace(/\.ts$/, "")
+        .replace(/\//g, "__")}.cjs`,
+    )
+    .sort();
+  await writeFile(
+    path.join("dist", "server-chunk-manifest.json"),
+    JSON.stringify({ schemaVersion: 1, lazyChunks }, null, 2) + "\n",
+  );
 }
 
 async function buildClientDataModules() {
@@ -380,6 +388,24 @@ function runValidationStep(name: string, command: string, log: (msg: string) => 
   }
 }
 
+async function writeBuildManifest(
+  log: (msg: string) => void,
+  opts: { gitSha: string; buildTarget: string; runHeavyBuildTasks: boolean },
+): Promise<void> {
+  const pkg = JSON.parse(await readFile("package.json", "utf-8"));
+  const meta = {
+    schemaVersion: 1,
+    builtAt: new Date().toISOString(),
+    gitSha: opts.gitSha,
+    packageVersion: pkg.version || "0.0.0",
+    buildTarget: opts.buildTarget,
+    runHeavyBuildTasks: opts.runHeavyBuildTasks,
+  };
+  await mkdir("dist", { recursive: true });
+  await writeFile("dist/build-meta.json", JSON.stringify(meta, null, 2) + "\n");
+  log("wrote dist/build-meta.json");
+}
+
 async function generateCoverageReport(log: (msg: string) => void): Promise<void> {
   log("generating coverage report...");
   const reportFiles = [
@@ -424,14 +450,10 @@ async function buildAll() {
   } catch {}
   log(`[build-freshness] git_sha=${gitSha} build_started_at=${new Date().toISOString()}`);
 
-  const buildProof = `FRESH_BUILD_PROOF=${gitSha}:${new Date().toISOString()}`;
-
   // Always wipe dist so the output bundle can't be stale.
-  // Also clear common bundler caches that could otherwise make artifacts linger.
+  // Do not delete node_modules/.cache (or .vite/.esbuild): causes EBUSY on some hosts and is not required for correctness.
   await rm("dist", { recursive: true, force: true });
-  await rm("node_modules/.cache", { recursive: true, force: true });
-  await rm("node_modules/.vite", { recursive: true, force: true });
-  await rm("node_modules/.esbuild", { recursive: true, force: true });
+  log("skipping node_modules cache dirs (platform-safe build)");
 
   const skipValidation = isProduction || process.env.SKIP_I18N_VALIDATION === "1";
   const skipI18nCompile = isProduction || process.env.SKIP_I18N_COMPILE === "1";
@@ -504,27 +526,12 @@ async function buildAll() {
   if (target === "all" || target === "server") {
     const serverT = Date.now();
     log(`building server (required, RUN_HEAVY_BUILD_TASKS=${runHeavyBuildTasks ? "1" : "0"})...`);
-    await buildServer(runHeavyBuildTasks, buildProof);
+    await buildServer(runHeavyBuildTasks);
     timing("server_esbuild", serverT);
 
-    // Post-build proof: fail hard if dist/index.cjs is missing or outdated.
     const distIndexPath = path.resolve("dist/index.cjs");
     if (!existsSync(distIndexPath)) {
       throw new Error(`[build] dist/index.cjs missing after server build (${distIndexPath})`);
-    }
-    const distIndex = await readFile(distIndexPath, "utf-8");
-    if (!distIndex.includes(EXPECTED_BUILD_VERSION_LOG)) {
-      throw new Error(
-        `[build] dist/index.cjs is missing expected build proof (${EXPECTED_BUILD_VERSION_LOG}). ` +
-          `This usually means the bundle wasn't rebuilt from the current source.`,
-      );
-    }
-    // Signature checks to ensure we bundled current DB + storage logic.
-    if (!distIndex.includes("selected_db_target=production_prod_url")) {
-      throw new Error(`[build] dist/index.cjs missing DB target marker selected_db_target=production_prod_url`);
-    }
-    if (!distIndex.includes("[Storage] getAllUsers hit safety limit of")) {
-      throw new Error(`[build] dist/index.cjs missing storage marker string`);
     }
 
     const lazyRoutesT = Date.now();
@@ -598,6 +605,12 @@ async function buildAll() {
   } else if (target === "all" || target === "client") {
     log("skipping bundle report + i18n coverage artifact (production deploy path)");
   }
+
+  await writeBuildManifest(log, {
+    gitSha,
+    buildTarget: target,
+    runHeavyBuildTasks,
+  });
 
   timing("build_total", t0);
   log(`build complete`);

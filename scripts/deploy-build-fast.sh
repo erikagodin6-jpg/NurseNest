@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Legacy fast path (custom esbuild flags). For production deploys on Render/Railway,
+# use scripts/production-build.sh so behavior matches package.json "build" + verify.
 set -e
 
 START_SECONDS=$SECONDS

@@ -1,11 +1,31 @@
 /**
- * Fail-fast checks before accepting traffic. Database URLs are resolved in db.ts (no startup abort for missing DB).
+ * Centralized production boot validation. Keep checks here — avoid duplicate
+ * env rules scattered across db/session code.
  */
-export function validateCriticalStartupConfig(): { ok: boolean; errors: string[] } {
+
+import { isProductionLikeRuntime } from "./db";
+
+export type StartupValidationResult = { ok: boolean; errors: string[] };
+
+/**
+ * Required env for any production deploy. Fails fast with a single list of errors.
+ */
+export function validateCriticalStartupConfig(): StartupValidationResult {
   const errors: string[] = [];
 
   if (!process.env.ADMIN_JWT_SECRET?.trim()) {
-    errors.push("ADMIN_JWT_SECRET is required (admin-auth)");
+    errors.push(
+      "Required for production boot: ADMIN_JWT_SECRET — set a non-empty secret in your host env (e.g. Railway/Render dashboard).",
+    );
+  }
+
+  if (isProductionLikeRuntime()) {
+    const hasDb = Boolean(process.env.PROD_DATABASE_URL?.trim() || process.env.DATABASE_URL?.trim());
+    if (!hasDb) {
+      errors.push(
+        "Required for production boot: PROD_DATABASE_URL or DATABASE_URL — PostgreSQL connection string is missing.",
+      );
+    }
   }
 
   return { ok: errors.length === 0, errors };
