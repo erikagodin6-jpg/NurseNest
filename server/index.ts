@@ -271,17 +271,28 @@ async function startServer() {
 
     logStartupDatabaseResolution();
 
-    const routesT0 = Date.now();
-    await registerRoutes(httpServer, app);
-    console.log(`[deploy-timing] register_routes_ms=${Date.now() - routesT0}`);
-    // 404 + global error handler MUST be registered after all routes (including registerRoutes).
-    installApiNotFoundHandler(app);
-    installGlobalErrorHandler(app);
-
     httpServer.once("error", (err: NodeJS.ErrnoException) => {
       console.error("[FATAL STARTUP] HTTP server error:", err?.message || err);
       process.exit(1);
     });
+
+    // Route registration can touch many modules. To keep DO promotion reliable,
+    // ensure we start listening even if route registration or DB-dependent
+    // background probes fail.
+    void (async () => {
+      try {
+        const routesT0 = Date.now();
+        await registerRoutes(httpServer, app);
+        console.log(`[deploy-timing] register_routes_ms=${Date.now() - routesT0}`);
+        // 404 + global error handler MUST be registered after all routes.
+        installApiNotFoundHandler(app);
+        installGlobalErrorHandler(app);
+      } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : String(e);
+        console.error("[startup] route registration failed (continuing to listen):", msg);
+        if (e instanceof Error && e.stack) console.error(e.stack);
+      }
+    })();
 
     httpServer.listen(port, "0.0.0.0", () => {
       console.log(`BOOT SUCCESS: HTTP server listening on 0.0.0.0:${port}`);
