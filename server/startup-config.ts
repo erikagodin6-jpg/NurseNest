@@ -20,10 +20,11 @@ export function validateCriticalStartupConfig(): StartupValidationResult {
   }
 
   if (isProductionLikeRuntime()) {
+    // Either variable alone is enough; both are not required.
     const hasDb = Boolean(process.env.PROD_DATABASE_URL?.trim() || process.env.DATABASE_URL?.trim());
     if (!hasDb) {
       errors.push(
-        "Required for production boot: PROD_DATABASE_URL or DATABASE_URL — PostgreSQL connection string is missing.",
+        "Required for production boot: set PROD_DATABASE_URL or DATABASE_URL (at least one PostgreSQL URL).",
       );
     }
   }

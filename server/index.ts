@@ -8,7 +8,11 @@ import { asyncHandler } from "./async-handler";
 import { HttpError } from "./http-error";
 import { installApiNotFoundHandler, installGlobalErrorHandler } from "./global-error-handler";
 import { createPublicApiRateLimiter } from "./api-rate-limit";
-import { testDatabaseConnection, isProductionLikeRuntime } from "./db";
+import {
+  testDatabaseConnection,
+  isProductionLikeRuntime,
+  logStartupDatabaseResolution,
+} from "./db";
 import { structuredRequestLogMiddleware } from "./structured-request-log";
 import { validateCriticalStartupConfig } from "./startup-config";
 import { emitStructuredLog, initOptionalLogSinks } from "./log-sink";
@@ -201,73 +205,131 @@ app.get("/api/test", (_req, res) => {
 
 const httpServer = createServer(app);
 
-const port = parseInt(process.env.PORT || "5000", 10);
 const deployBootT0 = Date.now();
 
-async function startServer() {
-  const nodeEnv = process.env.NODE_ENV || null;
-  const hasDatabaseUrl = Boolean(process.env.DATABASE_URL?.trim());
-  const hasProdDatabaseUrl = Boolean(process.env.PROD_DATABASE_URL?.trim());
-  const allowProdFallback = process.env.ALLOW_PROD_FALLBACK_TO_DATABASE_URL || null;
-
-  console.log(
-    JSON.stringify({
-      type: "nursenest_startup",
-      nodeEnv,
-      port,
-      hasDatabaseUrl,
-      hasProdDatabaseUrl,
-      allowProdFallbackToDatabaseUrl: allowProdFallback,
-    }),
-  );
-
-  initOptionalLogSinks();
-
-  const startup = validateCriticalStartupConfig();
-  if (!startup.ok) {
-    console.error(
-      "[startup] Cannot boot — fix the following and redeploy:\n  - " + startup.errors.join("\n  - "),
-    );
-    emitStructuredLog(
-      {
-        level: "error",
-        type: "startup_config",
-        msg: "Invalid or missing critical configuration",
-        errors: startup.errors,
-      },
-      "error",
-    );
-    process.exit(1);
+function resolveListenPort(): number {
+  const raw = process.env.PORT;
+  if (raw === undefined || String(raw).trim() === "") {
+    return 5000;
   }
-
-  const routesT0 = Date.now();
-  await registerRoutes(httpServer, app);
-  console.log(`[deploy-timing] register_routes_ms=${Date.now() - routesT0}`);
-  // 404 + global error handler MUST be registered after all routes (including registerRoutes).
-  installApiNotFoundHandler(app);
-  installGlobalErrorHandler(app);
-  httpServer.listen(port, "0.0.0.0", () => {
-    console.log(`[deploy-timing] listen_ready_ms=${Date.now() - deployBootT0}`);
-    emitStructuredLog({
-      level: "info",
-      type: "server_listen",
-      msg: "Server running",
-      port,
-    });
-  });
+  const n = parseInt(String(raw).trim(), 10);
+  if (!Number.isFinite(n) || n < 1 || n > 65535) {
+    throw new Error(`Invalid PORT env (must be 1–65535): ${JSON.stringify(raw)}`);
+  }
+  return n;
 }
 
-startServer().catch((err: any) => {
-  emitStructuredLog(
-    {
-      level: "error",
-      type: "startup_routes_failed",
-      msg: err?.message || String(err),
-    },
-    "error",
-  );
-  process.exit(1);
-});
+async function startServer() {
+  try {
+    const port = resolveListenPort();
+
+    const nodeEnv = process.env.NODE_ENV || null;
+    const hasDatabaseUrl = Boolean(process.env.DATABASE_URL?.trim());
+    const hasProdDatabaseUrl = Boolean(process.env.PROD_DATABASE_URL?.trim());
+    const allowProdFallback = process.env.ALLOW_PROD_FALLBACK_TO_DATABASE_URL || null;
+
+    console.log(
+      JSON.stringify({
+        type: "nursenest_startup",
+        nodeEnv,
+        port,
+        portFromEnv: process.env.PORT !== undefined && String(process.env.PORT).trim() !== "",
+        hasDatabaseUrl,
+        hasProdDatabaseUrl,
+        allowProdFallbackToDatabaseUrl: allowProdFallback,
+      }),
+    );
+
+    initOptionalLogSinks();
+
+    const startup = validateCriticalStartupConfig();
+    if (!startup.ok) {
+      console.error(
+        "[startup] Cannot boot — fix the following and redeploy:\n  - " + startup.errors.join("\n  - "),
+      );
+      emitStructuredLog(
+        {
+          level: "error",
+          type: "startup_config",
+          msg: "Invalid or missing critical configuration",
+          errors: startup.errors,
+        },
+        "error",
+      );
+      throw new Error("Startup configuration invalid (see log above).");
+    }
+
+    logStartupDatabaseResolution();
+
+    const routesT0 = Date.now();
+    await registerRoutes(httpServer, app);
+    console.log(`[deploy-timing] register_routes_ms=${Date.now() - routesT0}`);
+    // 404 + global error handler MUST be registered after all routes (including registerRoutes).
+    installApiNotFoundHandler(app);
+    installGlobalErrorHandler(app);
+
+    const dbProbe = await testDatabaseConnection();
+    if (dbProbe.ok) {
+      console.log(
+        JSON.stringify({
+          type: "db_startup_probe",
+          ok: true,
+          target: dbProbe.target,
+          timeMs: dbProbe.timeMs,
+        }),
+      );
+    } else {
+      console.error(
+        JSON.stringify({
+          type: "db_startup_probe",
+          ok: false,
+          target: dbProbe.target,
+          error: dbProbe.error,
+        }),
+      );
+      if (isProductionLikeRuntime()) {
+        throw new Error(`Database connection failed at startup: ${dbProbe.error}`);
+      }
+    }
+
+    httpServer.once("error", (err: NodeJS.ErrnoException) => {
+      console.error("[FATAL STARTUP] HTTP server error:", err?.message || err);
+      process.exit(1);
+    });
+
+    httpServer.listen(port, "0.0.0.0", () => {
+      console.log(`SERVER STARTED port=${port} bind=0.0.0.0`);
+      console.log(`[deploy-timing] listen_ready_ms=${Date.now() - deployBootT0}`);
+      emitStructuredLog({
+        level: "info",
+        type: "server_listen",
+        msg: "Server running",
+        port,
+      });
+    });
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[FATAL STARTUP]", msg);
+    if (err instanceof Error && err.stack) {
+      console.error(err.stack);
+    }
+    try {
+      emitStructuredLog(
+        {
+          level: "error",
+          type: "fatal_startup",
+          msg,
+        },
+        "error",
+      );
+    } catch {
+      /* optional sinks may not be initialized */
+    }
+    process.exit(1);
+  }
+}
+
+void startServer();
 
 /* -------------------------
    GRACEFUL SHUTDOWN

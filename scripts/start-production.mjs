@@ -20,6 +20,8 @@ if (!fs.existsSync(index)) {
   process.exit(1);
 }
 
+console.log(`[start] launching ${path.relative(root, index)} (Render/npm start entry)`);
+
 const child = spawn(process.execPath, [index], {
   stdio: "inherit",
   env: process.env,

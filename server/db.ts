@@ -228,6 +228,51 @@ export function hasSeparateProdDb(): boolean {
   return !!(PROD_URL && PROD_URL !== DEV_URL);
 }
 
+/**
+ * One-line startup log: which connection string drives the primary pool in this process.
+ * Does not throw; safe before pools are created.
+ */
+export function logStartupDatabaseResolution(): void {
+  const productionLike = isProductionLikeRuntime();
+  const hasProd = Boolean(PROD_URL?.trim());
+  const hasDev = Boolean(DEV_URL?.trim());
+
+  let primaryLabel: string;
+  let maskedPrimary: string;
+
+  if (productionLike) {
+    if (hasProd) {
+      primaryLabel = "PROD_DATABASE_URL";
+      maskedPrimary = maskUrl(PROD_URL);
+    } else if (hasDev) {
+      primaryLabel = "DATABASE_URL (PROD_DATABASE_URL unset)";
+      maskedPrimary = maskUrl(DEV_URL);
+    } else {
+      primaryLabel = "none";
+      maskedPrimary = "(not set)";
+    }
+  } else if (hasDev) {
+    primaryLabel = "DATABASE_URL";
+    maskedPrimary = maskUrl(DEV_URL);
+  } else {
+    primaryLabel = "none";
+    maskedPrimary = "(not set)";
+  }
+
+  console.log(
+    JSON.stringify({
+      type: "db_config_startup",
+      productionLikeRuntime: productionLike,
+      primaryPoolUses: primaryLabel,
+      maskedPrimaryUrl: maskedPrimary,
+      hasDatabaseUrl: hasDev,
+      hasProdDatabaseUrl: hasProd,
+      separateProdDbConfigured: hasSeparateProdDb(),
+      note: "Exactly one of DATABASE_URL or PROD_DATABASE_URL is sufficient for production; both are optional to set together.",
+    }),
+  );
+}
+
 export function getDbInfo() {
   return {
     devUrl: maskUrl(DEV_URL),
