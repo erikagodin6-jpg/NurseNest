@@ -13,7 +13,6 @@ coverage
 backups
 exports
 artifacts
-attached_assets
 *.mp4
 .env
 .env.*

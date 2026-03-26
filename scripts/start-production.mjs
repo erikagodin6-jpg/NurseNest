@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const indexAbs = path.join(root, "dist", "index.cjs");
 
-console.log("STARTING HEROKU WEB PROCESS");
+console.log("STARTING WEB PROCESS");
 console.log(`NODE_ENV=${process.env.NODE_ENV ?? "(unset)"}`);
 console.log(`PORT=${process.env.PORT ?? "(unset; app defaults to 5000 if still unset)"}`);
 console.log(`cwd=${process.cwd()}`);
