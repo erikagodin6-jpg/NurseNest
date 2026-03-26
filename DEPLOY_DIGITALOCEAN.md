@@ -1,42 +1,34 @@
 # DigitalOcean App Platform Deployment
 
-This is the easiest path for this repo because it uses your `Dockerfile` directly (no Node buildpack quirks).
+Use a prebuilt container image for deterministic deploys.
 
-## One-time setup in DigitalOcean UI
+## Recommended path (bypass App Platform source builds)
 
-1. Create app from GitHub repo `erikagodin6-jpg/NurseNest`.
-2. Choose branch `main`.
-3. For source type, select Dockerfile (App Platform will auto-detect).
-4. Set HTTP port to `5000`.
-5. Add runtime secrets (set scope to `Run time`, not build time):
-   - `ADMIN_JWT_SECRET`
-   - `DATABASE_URL` (or use `PROD_DATABASE_URL` instead)
-6. Deploy.
+This repo includes a GitHub Actions workflow:
+- `.github/workflows/build-and-push-ghcr.yml`
 
-Important:
-- Do not mark secret env vars as build-time in App Platform.
-- This Docker build does not need `ADMIN_JWT_SECRET` or `DATABASE_URL`.
+On each push to `main`, it builds and pushes:
+- `ghcr.io/erikagodin6-jpg/nursenest:latest`
+- `ghcr.io/erikagodin6-jpg/nursenest:sha-<short>`
 
-## Optional: use app spec from this repo
+In DigitalOcean App Platform, choose source type **Container Registry / External image** and use the GHCR image tag above instead of building from source.
 
-This repo includes `.do/app.yaml` with sane defaults. Import it in App Platform or deploy with `doctl`.
+## App Platform settings
 
-Notes:
-- Region in the spec is `tor` (Toronto). Change if needed.
-- Instance size is `basic-xxs` for low cost.
+- Run command: `node scripts/start-production.mjs` (or leave blank if image entrypoint is used)
+- HTTP port: `8080`
+- Readiness check: `/health`
+- Liveness check: `/health`
+- Initial delay: `60s`
 
-## Runtime target
+## Required runtime environment variables
 
-- Entrypoint: `node scripts/start-production.mjs`
-- HTTP port: `PORT=5000`
-- Bind address: `0.0.0.0` (already handled by server code)
-
-## Required environment variables
-
-- `ADMIN_JWT_SECRET` (non-empty)
+- `NODE_ENV=production`
+- `PORT=8080`
+- `ADMIN_JWT_SECRET` (secret)
 - One of:
-  - `PROD_DATABASE_URL`, or
-  - `DATABASE_URL`
+  - `DATABASE_URL` (secret), or
+  - `PROD_DATABASE_URL` (secret)
 
 Scope: runtime only.
 
@@ -44,16 +36,17 @@ Scope: runtime only.
 
 ```bash
 docker build -t nursenest .
-docker run --rm -p 5000:5000 \
-  -e PORT=5000 \
+docker run --rm -p 8080:8080 \
+  -e PORT=8080 \
   -e NODE_ENV=production \
   -e ADMIN_JWT_SECRET=change_me \
   -e DATABASE_URL=postgresql://user:pass@host:5432/dbname \
   nursenest
 ```
 
-## Local production test (non-Docker)
+## Local production smoke test
 
 ```bash
-PORT=5000 NODE_ENV=production node scripts/start-production.mjs
+PORT=8080 NODE_ENV=production ADMIN_JWT_SECRET=change_me DATABASE_URL=postgresql://user:pass@host:5432/dbname \
+node scripts/smoke-test-production.mjs
 ```
