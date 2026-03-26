@@ -14,7 +14,7 @@ ENV SKIP_BUILD_REPORTS=1
 ENV VITE_SKIP_CIRCULAR_CHECK=1
 ENV RUN_HEAVY_BUILD_TASKS=0
 
-RUN npm run build
+RUN npm run build && rm -rf node_modules
 
 FROM node:20-bookworm-slim AS runtime
 
@@ -23,8 +23,9 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=5000
 
-COPY --from=build /app/package.json /app/package-lock.json ./
-COPY --from=build /app/node_modules ./node_modules
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/scripts ./scripts
 
