@@ -601,7 +601,8 @@ async function buildAll() {
 
   if (target === "all" || target === "client") {
     const viteT = Date.now();
-    await viteBuild();
+    // Keep CI/Heroku logs concise; huge chunk listings can slow hosted builds.
+    await viteBuild({ logLevel: "warn" });
     log("client done");
     timing("vite_client", viteT);
   }
