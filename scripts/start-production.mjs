@@ -9,7 +9,7 @@ const indexAbs = path.join(root, "dist", "index.cjs");
 
 console.log("STARTING WEB PROCESS");
 console.log(`NODE_ENV=${process.env.NODE_ENV ?? "(unset)"}`);
-console.log(`PORT=${process.env.PORT ?? "(unset; app defaults to 5000 if still unset)"}`);
+console.log(`PORT=${process.env.PORT ?? "(unset; app defaults to 8080 if still unset)"}`);
 console.log(`cwd=${process.cwd()}`);
 console.log(`app_root=${root}`);
 console.log(`server_entry=${indexAbs}`);

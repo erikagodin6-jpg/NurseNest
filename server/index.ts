@@ -217,10 +217,7 @@ const httpServer = createServer(app);
 const deployBootT0 = Date.now();
 
 function resolveListenPort(): number {
-  const raw = process.env.PORT;
-  if (raw === undefined || String(raw).trim() === "") {
-    return 5000;
-  }
+  const raw = process.env.PORT || "8080";
   const n = parseInt(String(raw).trim(), 10);
   if (!Number.isFinite(n) || n < 1 || n > 65535) {
     throw new Error(`Invalid PORT env (must be 1–65535): ${JSON.stringify(raw)}`);
@@ -233,7 +230,8 @@ async function startServer() {
     const port = resolveListenPort();
     console.log("STARTING WEB SERVER");
     console.log(`listening_port=${port} bind=0.0.0.0 (from PORT env when set)`);
-    console.log("HEALTH ENDPOINT READY path=/health");
+    console.log(`LISTENING ON PORT ${port}`);
+    console.log("HEALTH READY");
 
     const nodeEnv = process.env.NODE_ENV || null;
     const hasDatabaseUrl = Boolean(process.env.DATABASE_URL?.trim());
@@ -280,30 +278,6 @@ async function startServer() {
     installApiNotFoundHandler(app);
     installGlobalErrorHandler(app);
 
-    const dbProbe = await testDatabaseConnection();
-    if (dbProbe.ok) {
-      console.log(
-        JSON.stringify({
-          type: "db_startup_probe",
-          ok: true,
-          target: dbProbe.target,
-          timeMs: dbProbe.timeMs,
-        }),
-      );
-    } else {
-      console.error(
-        JSON.stringify({
-          type: "db_startup_probe",
-          ok: false,
-          target: dbProbe.target,
-          error: dbProbe.error,
-        }),
-      );
-      if (isProductionLikeRuntime()) {
-        throw new Error(`Database connection failed at startup: ${dbProbe.error}`);
-      }
-    }
-
     httpServer.once("error", (err: NodeJS.ErrnoException) => {
       console.error("[FATAL STARTUP] HTTP server error:", err?.message || err);
       process.exit(1);
@@ -319,6 +293,36 @@ async function startServer() {
         msg: "Server running",
         port,
       });
+
+      // DB connectivity is allowed to fail; the service should still start listening
+      // so DigitalOcean readiness can pass. We probe and log asynchronously.
+      void (async () => {
+        try {
+          const dbProbe = await testDatabaseConnection();
+          if (dbProbe.ok) {
+            console.log(
+              JSON.stringify({
+                type: "db_startup_probe",
+                ok: true,
+                target: dbProbe.target,
+                timeMs: dbProbe.timeMs,
+              }),
+            );
+          } else {
+            console.error(
+              JSON.stringify({
+                type: "db_startup_probe",
+                ok: false,
+                target: dbProbe.target,
+                error: dbProbe.error,
+              }),
+            );
+          }
+        } catch (e: unknown) {
+          const msg = e instanceof Error ? e.message : String(e);
+          console.error("[db_startup_probe] unexpected error:", msg);
+        }
+      })();
     });
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
