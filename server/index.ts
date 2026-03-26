@@ -45,6 +45,18 @@ app.get("/healthz", (_req, res) => {
   });
 });
 
+app.get("/health", (_req, res) => {
+  res.status(200).json({
+    status: "ok",
+    uptime: process.uptime(),
+  });
+});
+
+// Keep a lightweight root response for platform health checks.
+app.get("/", (_req, res) => {
+  res.status(200).type("text/plain").send("ok");
+});
+
 app.get("/readyz", async (_req, res) => {
   try {
     const mem = process.memoryUsage();
