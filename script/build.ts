@@ -39,8 +39,8 @@ function buildLessonsData() {
     outfile: "dist/lessons-data.cjs",
     define: { "process.env.NODE_ENV": '"production"' },
     minify: true,
-    logLevel: "warning",
-    logOverride: { "import-meta": "silent" },
+    logLevel: "error",
+    logOverride: { "import-meta": "silent", "empty-import-meta": "silent", "duplicate-case": "silent" },
     loader: ASSET_LOADER,
     alias: CLIENT_ALIAS,
     plugins: [{
@@ -64,8 +64,8 @@ function buildNpBatch(i: number) {
     outfile: `dist/np-generated-batch-${i}.cjs`,
     define: { "process.env.NODE_ENV": '"production"' },
     minify: true,
-    logLevel: "warning",
-    logOverride: { "import-meta": "silent" },
+    logLevel: "error",
+    logOverride: { "import-meta": "silent", "empty-import-meta": "silent", "duplicate-case": "silent" },
     loader: ASSET_LOADER,
     alias: CLIENT_ALIAS,
   });
@@ -179,8 +179,8 @@ async function buildServer(externalizeHeavyModules: boolean) {
     define: { "process.env.NODE_ENV": '"production"' },
     minify: true,
     external: [...externals, ...TRANSITIVE_EXTERNALS],
-    logLevel: "warning",
-    logOverride: { "import-meta": "silent" },
+    logLevel: "error",
+    logOverride: { "import-meta": "silent", "empty-import-meta": "silent", "duplicate-case": "silent" },
     loader: ASSET_LOADER,
     plugins,
   });
@@ -249,8 +249,8 @@ async function buildExternalModules(entries: string[], label: string) {
           define: { "process.env.NODE_ENV": '"production"' },
           minify: true,
           external: [...externals, ...TRANSITIVE_EXTERNALS],
-          logLevel: "warning",
-          logOverride: { "import-meta": "silent" },
+          logLevel: "error",
+          logOverride: { "import-meta": "silent", "empty-import-meta": "silent", "duplicate-case": "silent" },
           loader: ASSET_LOADER,
           alias: CLIENT_ALIAS,
         });
@@ -312,8 +312,8 @@ async function buildClientDataModules() {
     outbase: "client/src/data",
     define: { "process.env.NODE_ENV": '"production"' },
     minify: true,
-    logLevel: "warning",
-    logOverride: { "import-meta": "silent" },
+    logLevel: "error",
+    logOverride: { "import-meta": "silent", "empty-import-meta": "silent", "duplicate-case": "silent" },
     loader: ASSET_LOADER,
   });
   console.log(`  Built ${clientDataFiles.length} client data modules`);
