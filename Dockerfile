@@ -13,7 +13,6 @@ COPY client ./client
 COPY shared ./shared
 COPY scripts ./scripts
 COPY script ./script
-COPY public ./public
 COPY config ./config
 COPY migrations ./migrations
 COPY backup-system ./backup-system
