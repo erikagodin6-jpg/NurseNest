@@ -14,7 +14,6 @@ services:
       - path: /
     health_check:
       http_path: /health
-      port: 8080
       initial_delay_seconds: 30
       period_seconds: 15
       timeout_seconds: 5
