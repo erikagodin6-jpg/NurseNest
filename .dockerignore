@@ -1,8 +1,10 @@
 # Deploy / image context (also useful for local Docker experiments)
 node_modules
 dist
+client/dist
 .git
 .github
+.local
 *.log
 logs
 tmp
