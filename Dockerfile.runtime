@@ -1,0 +1,16 @@
+FROM node:20-bookworm-slim
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV PORT=8080
+
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev --no-audit --no-fund && npm cache clean --force
+
+COPY dist ./dist
+COPY scripts/start-production.mjs ./scripts/start-production.mjs
+
+EXPOSE 8080
+
+ENTRYPOINT ["sh", "-c", "echo STARTING CONTAINER && node scripts/start-production.mjs"]

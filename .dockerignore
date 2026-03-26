@@ -1,8 +1,18 @@
 # Deploy / image context (also useful for local Docker experiments)
 node_modules
 dist
+!dist/**
 client/dist
 client/src/assets
+client
+server
+shared
+script
+scripts
+!scripts/start-production.mjs
+config
+migrations
+backup-system
 .git
 .github
 .local
