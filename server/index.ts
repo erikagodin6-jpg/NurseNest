@@ -46,10 +46,7 @@ app.get("/healthz", (_req, res) => {
 });
 
 app.get("/health", (_req, res) => {
-  res.status(200).json({
-    status: "ok",
-    uptime: process.uptime(),
-  });
+  res.status(200).type("text/plain").send("ok");
 });
 
 // Keep a lightweight root response for platform health checks.
@@ -236,6 +233,7 @@ async function startServer() {
     const port = resolveListenPort();
     console.log("STARTING WEB SERVER");
     console.log(`listening_port=${port} bind=0.0.0.0 (from PORT env when set)`);
+    console.log("HEALTH ENDPOINT READY path=/health");
 
     const nodeEnv = process.env.NODE_ENV || null;
     const hasDatabaseUrl = Boolean(process.env.DATABASE_URL?.trim());
