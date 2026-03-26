@@ -222,6 +222,8 @@ function resolveListenPort(): number {
 async function startServer() {
   try {
     const port = resolveListenPort();
+    console.log("STARTING WEB SERVER");
+    console.log(`listening_port=${port} bind=0.0.0.0 (from PORT env when set)`);
 
     const nodeEnv = process.env.NODE_ENV || null;
     const hasDatabaseUrl = Boolean(process.env.DATABASE_URL?.trim());
@@ -298,6 +300,7 @@ async function startServer() {
     });
 
     httpServer.listen(port, "0.0.0.0", () => {
+      console.log(`BOOT SUCCESS: HTTP server listening on 0.0.0.0:${port}`);
       console.log(`SERVER STARTED port=${port} bind=0.0.0.0`);
       console.log(`[deploy-timing] listen_ready_ms=${Date.now() - deployBootT0}`);
       emitStructuredLog({
@@ -309,6 +312,7 @@ async function startServer() {
     });
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
+    console.error("BOOT FAILED: web server did not start");
     console.error("[FATAL STARTUP]", msg);
     if (err instanceof Error && err.stack) {
       console.error(err.stack);

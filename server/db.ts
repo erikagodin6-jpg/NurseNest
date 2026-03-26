@@ -23,6 +23,7 @@ const NODE_ENV = process.env.NODE_ENV || "development";
  */
 export function isProductionLikeRuntime(): boolean {
   if (NODE_ENV === "production") return true;
+  if (Boolean(process.env.DYNO?.trim())) return true;
   if (process.env.REPLIT_DEPLOYMENT === "1") return true;
   if (String(process.env.RENDER || "").toLowerCase() === "true") return true;
   if (String(process.env.RAILWAY_ENVIRONMENT || "").toLowerCase() === "production") return true;

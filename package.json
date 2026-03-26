@@ -13,6 +13,7 @@
     "build:heavy": "BUILD_TARGET=heavy RUN_HEAVY_BUILD_TASKS=1 NODE_OPTIONS=--max-old-space-size=4096 npx tsx script/build.ts && node scripts/verify-dist-artifacts.mjs",
     "content:export:question-banks": "tsx scripts/export-question-bank-json.ts",
     "start": "node scripts/start-production.mjs",
+    "heroku:local": "node scripts/start-production.mjs",
     "verify:dist": "node scripts/verify-dist-artifacts.mjs",
     "production:build": "bash scripts/production-build.sh",
     "check": "tsc",
