@@ -215,6 +215,13 @@ app.get("/api/test", (_req, res) => {
 const httpServer = createServer(app);
 
 const deployBootT0 = Date.now();
+const STARTUP_DIAGNOSTICS = String(process.env.STARTUP_DIAGNOSTICS || "").toLowerCase() === "1" || String(process.env.STARTUP_DIAGNOSTICS || "").toLowerCase() === "true";
+
+function diagPhase(label: string): void {
+  if (STARTUP_DIAGNOSTICS) {
+    console.log(label);
+  }
+}
 
 function resolveListenPort(): number {
   const raw = process.env.PORT || "8080";
@@ -231,7 +238,7 @@ async function startServer() {
     console.log("STARTING WEB SERVER");
     console.log(`listening_port=${port} bind=0.0.0.0 (from PORT env when set)`);
     console.log(`LISTENING ON PORT ${port}`);
-    console.log("HEALTH READY");
+    console.log("HEALTH ENDPOINT READY");
 
     const nodeEnv = process.env.NODE_ENV || null;
     const hasDatabaseUrl = Boolean(process.env.DATABASE_URL?.trim());
@@ -250,6 +257,7 @@ async function startServer() {
       }),
     );
 
+    diagPhase("PHASE 1: config validation");
     initOptionalLogSinks();
 
     const startup = validateCriticalStartupConfig();
@@ -270,6 +278,7 @@ async function startServer() {
     }
 
     logStartupDatabaseResolution();
+    diagPhase("PHASE 2: server initialization");
 
     httpServer.once("error", (err: NodeJS.ErrnoException) => {
       console.error("[FATAL STARTUP] HTTP server error:", err?.message || err);
@@ -294,10 +303,12 @@ async function startServer() {
       }
     })();
 
+    diagPhase("PHASE 3: app.listen");
     httpServer.listen(port, "0.0.0.0", () => {
       console.log(`BOOT SUCCESS: HTTP server listening on 0.0.0.0:${port}`);
       console.log(`SERVER STARTED port=${port} bind=0.0.0.0`);
       console.log(`[deploy-timing] listen_ready_ms=${Date.now() - deployBootT0}`);
+      diagPhase("PHASE 4: health endpoint ready");
       emitStructuredLog({
         level: "info",
         type: "server_listen",
@@ -308,6 +319,7 @@ async function startServer() {
       // DB connectivity is allowed to fail; the service should still start listening
       // so DigitalOcean readiness can pass. We probe and log asynchronously.
       void (async () => {
+        diagPhase("PHASE 5: optional DB probe");
         try {
           const dbProbe = await testDatabaseConnection();
           if (dbProbe.ok) {

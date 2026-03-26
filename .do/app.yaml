@@ -5,6 +5,7 @@ services:
   - name: web
     environment_slug: docker
     source_dir: /
+    run_command: node scripts/start-production.mjs
     http_port: 8080
     internal_ports:
       - 8080
@@ -14,7 +15,14 @@ services:
       - path: /
     health_check:
       http_path: /health
-      initial_delay_seconds: 30
+      initial_delay_seconds: 60
+      period_seconds: 15
+      timeout_seconds: 5
+      success_threshold: 1
+      failure_threshold: 6
+    liveness_health_check:
+      http_path: /health
+      initial_delay_seconds: 60
       period_seconds: 15
       timeout_seconds: 5
       success_threshold: 1
