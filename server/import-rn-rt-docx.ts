@@ -1,9 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as crypto from "crypto";
-import { getDevPool } from "./db";
+import { createLazyPrimaryPoolProxy } from "./db";
 
-const pool = getDevPool();
+const pool = createLazyPrimaryPoolProxy();
 
 function stemHash(stem: string): string {
   return crypto.createHash("sha256").update(stem.trim().toLowerCase()).digest("hex");

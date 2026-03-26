@@ -2,8 +2,8 @@ import pg from "pg";
 
 export async function runQuerySafetyIndexMigration(pool?: pg.Pool) {
   if (!pool) {
-    const { getDevPool } = await import("../db");
-    pool = getDevPool();
+    const { getPool } = await import("../db");
+    pool = getPool();
   }
   console.log("[Query Safety Indexes] Adding performance indexes...");
 

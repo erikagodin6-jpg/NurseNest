@@ -209,6 +209,21 @@ export function getPool(target?: DatabaseTarget): pg.Pool {
   return resolved === "production" ? getProdPool() : getDevPool();
 }
 
+/**
+ * pg.Pool proxy that resolves {@link getPool} on first property access.
+ * Prefer this over `const pool = getPool()` at module scope so merely importing a module never connects to the DB.
+ */
+export function createLazyPrimaryPoolProxy(): pg.Pool {
+  return new Proxy({} as pg.Pool, {
+    get(_target, propKey) {
+      const p = getPool() as any;
+      const value = p[propKey as keyof pg.Pool];
+      if (typeof value === "function") return (value as (...a: unknown[]) => unknown).bind(p);
+      return value;
+    },
+  }) as pg.Pool;
+}
+
 export function hasSeparateProdDb(): boolean {
   return !!(PROD_URL && PROD_URL !== DEV_URL);
 }

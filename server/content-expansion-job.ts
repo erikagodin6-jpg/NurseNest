@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import crypto from "crypto";
 import { requireAdmin } from "./admin-auth";
-import { getProdPool, hasSeparateProdDb, getDbInfo, getDevPool } from "./db";
+import { getProdPool, hasSeparateProdDb, getDbInfo } from "./db";
 import pg from "pg";
 import { runPreflightChecks, getPreflightCheckedPool, type PreflightResult } from "./environment-write-service";
 

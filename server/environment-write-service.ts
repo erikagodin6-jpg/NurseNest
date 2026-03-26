@@ -1,6 +1,6 @@
 import pg from "pg";
 import crypto from "crypto";
-import { getDevPool, getProdPool, hasSeparateProdDb, getDbInfo, type DatabaseTarget } from "./db";
+import { getPool, getDevPool, getProdPool, hasSeparateProdDb, getDbInfo, type DatabaseTarget } from "./db";
 import type { EnvironmentTarget } from "@shared/schema";
 
 const productionConfirmNonces = new Map<string, {
@@ -319,19 +319,19 @@ export async function executeEnvironmentAwareWrite(
   request: WriteRequest,
   writeFn: (pool: pg.Pool) => Promise<{ count: number; tableName: string; verificationQuery?: string }>,
 ): Promise<WriteResult> {
-  const devPool = getDevPool();
+  const auditPool = getPool();
 
   if (request.selectedTarget === "production" && !request.dryRun) {
     if (!request.productionConfirmNonce || !request.actorId) {
       const blockReason = "Production write requires a valid confirmation nonce and actor ID";
       const preflightResult = await runPreflightChecks(request.selectedTarget);
-      const auditId = await logAuditEntry(devPool, request, preflightResult, null, false, undefined, blockReason);
+      const auditId = await logAuditEntry(auditPool, request, preflightResult, null, false, undefined, blockReason);
       return { success: false, auditId, preflightResult, postWriteResult: null, blockedReason: blockReason };
     }
     if (!validateProductionConfirmNonce(request.productionConfirmNonce, request.actorId, request.selectedTarget, request.contentType, request.actionType)) {
       const blockReason = "Invalid, expired, or already-used production confirmation nonce";
       const preflightResult = await runPreflightChecks(request.selectedTarget);
-      const auditId = await logAuditEntry(devPool, request, preflightResult, null, false, undefined, blockReason);
+      const auditId = await logAuditEntry(auditPool, request, preflightResult, null, false, undefined, blockReason);
       return { success: false, auditId, preflightResult, postWriteResult: null, blockedReason: blockReason };
     }
   }
@@ -340,7 +340,7 @@ export async function executeEnvironmentAwareWrite(
 
   if (!preflightResult.passed) {
     const blockReason = preflightResult.errors.join("; ");
-    const auditId = await logAuditEntry(devPool, request, preflightResult, null, false, undefined, blockReason);
+    const auditId = await logAuditEntry(auditPool, request, preflightResult, null, false, undefined, blockReason);
 
     return {
       success: false,
@@ -352,7 +352,7 @@ export async function executeEnvironmentAwareWrite(
   }
 
   if (request.dryRun) {
-    const auditId = await logAuditEntry(devPool, request, preflightResult, null, true);
+    const auditId = await logAuditEntry(auditPool, request, preflightResult, null, true);
     return {
       success: true,
       auditId,
@@ -377,7 +377,7 @@ export async function executeEnvironmentAwareWrite(
 
       if (!postWriteResult.passed) {
         const auditId = await logAuditEntry(
-          devPool, request, preflightResult, postWriteResult, false,
+          auditPool, request, preflightResult, postWriteResult, false,
           "FAILED_VERIFICATION: " + postWriteResult.errors.join("; "),
         );
         return {
@@ -390,7 +390,7 @@ export async function executeEnvironmentAwareWrite(
       }
     }
 
-    const auditId = await logAuditEntry(devPool, request, preflightResult, postWriteResult, true);
+    const auditId = await logAuditEntry(auditPool, request, preflightResult, postWriteResult, true);
 
     return {
       success: true,
@@ -399,7 +399,7 @@ export async function executeEnvironmentAwareWrite(
       postWriteResult,
     };
   } catch (err: any) {
-    const auditId = await logAuditEntry(devPool, request, preflightResult, null, false, err.message);
+    const auditId = await logAuditEntry(auditPool, request, preflightResult, null, false, err.message);
     return {
       success: false,
       auditId,
@@ -466,8 +466,8 @@ export async function runDiagnosticChecks() {
   }
 
   try {
-    const devPool = getDevPool();
-    await devPool.query(`
+    const auditPool = getPool();
+    await auditPool.query(`
       CREATE TABLE IF NOT EXISTS environment_write_audit (
         id VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
         actor_id VARCHAR,
@@ -498,8 +498,8 @@ export async function runDiagnosticChecks() {
   }
 
   try {
-    const devPool = getDevPool();
-    const result = await devPool.query(
+    const auditPool = getPool();
+    const result = await auditPool.query(
       `SELECT id, selected_target, success, created_at FROM environment_write_audit
        WHERE selected_target = 'production' AND success = true
        ORDER BY created_at DESC LIMIT 1`

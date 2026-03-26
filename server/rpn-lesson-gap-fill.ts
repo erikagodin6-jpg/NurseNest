@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import crypto from "crypto";
-import { getDevPool } from "./db";
+import { getPool } from "./db";
 
 function getOpenAI() {
   return new OpenAI({
@@ -239,7 +239,7 @@ async function linkToExamQuestions(pool: any, lessonTitle: string, bodySystem: s
 }
 
 export async function runRpnLessonGapFill() {
-  const pool = getDevPool();
+  const pool = getPool();
   console.log(`[Gap Fill] Starting RPN lesson gap fill - ${GAP_LESSONS.length} lessons to generate`);
 
   let totalLessons = 0;

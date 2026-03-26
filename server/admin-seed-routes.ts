@@ -15,6 +15,7 @@ export function registerAdminSeedRoutes(app: Express) {
     if (!admin) return;
 
     try {
+    const { getPool } = await import("./db");
     const startTime = Date.now();
     const results: Record<string, { status: string; duration: number; error?: string }> = {};
 
@@ -57,26 +58,22 @@ export function registerAdminSeedRoutes(app: Express) {
 
     await runSeed("studyDecks", async () => {
       const { seedStudyDecks } = await import("./seed-study-decks");
-      const { getDevPool } = await import("./db");
-      await seedStudyDecks(getDevPool());
+      await seedStudyDecks(getPool());
     });
 
     await runSeed("seoCluster", async () => {
       const { seedSEOClusters } = await import("./seed-seo-clusters");
-      const { getDevPool } = await import("./db");
-      await seedSEOClusters(getDevPool());
+      await seedSEOClusters(getPool());
     });
 
     await runSeed("seoCtrPages", async () => {
       const { seedSeoCtrPages } = await import("./seed-seo-ctr-pages");
-      const { getDevPool } = await import("./db");
-      await seedSeoCtrPages(getDevPool());
+      await seedSeoCtrPages(getPool());
     });
 
     await runSeed("paramedicContent", async () => {
       const { seedParamedicContent } = await import("./seed-paramedic-content");
-      const { getDevPool } = await import("./db");
-      await seedParamedicContent(getDevPool());
+      await seedParamedicContent(getPool());
     });
 
     await runSeed("paramedicQuestions", async () => {
@@ -184,26 +181,22 @@ export function registerAdminSeedRoutes(app: Express) {
 
     await runSeed("imagingQuestions", async () => {
       const { seedImagingQuestions } = await import("./seed-imaging-startup-data");
-      const { getDevPool } = await import("./db");
-      await seedImagingQuestions(getDevPool());
+      await seedImagingQuestions(getPool());
     });
 
     await runSeed("positioningEntries", async () => {
       const { seedPositioningEntries } = await import("./seed-imaging-startup-data");
-      const { getDevPool } = await import("./db");
-      await seedPositioningEntries(getDevPool());
+      await seedPositioningEntries(getPool());
     });
 
     await runSeed("physicsTopics", async () => {
       const { seedPhysicsTopics } = await import("./seed-imaging-startup-data");
-      const { getDevPool } = await import("./db");
-      await seedPhysicsTopics(getDevPool());
+      await seedPhysicsTopics(getPool());
     });
 
     await runSeed("imagingFlashcards", async () => {
       const { seedImagingFlashcards } = await import("./seed-imaging-startup-data");
-      const { getDevPool } = await import("./db");
-      await seedImagingFlashcards(getDevPool());
+      await seedImagingFlashcards(getPool());
     });
 
     await runSeed("waveformData", async () => {

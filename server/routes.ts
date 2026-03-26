@@ -4688,8 +4688,8 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
       const admin = await requireAdmin(req, res);
       if (!admin) return;
 
-      const { getDevPool } = await import("./db");
-      const dbPool = getDevPool();
+      const { getPool } = await import("./db");
+      const dbPool = getPool();
 
       const totalActive = await dbPool.query("SELECT COUNT(*) as count FROM users WHERE subscription_status = 'active'");
       const totalLifetime = await dbPool.query("SELECT COUNT(*) as count FROM users WHERE is_lifetime = true");

@@ -1,4 +1,4 @@
-import { getDevPool } from "./db";
+import { getPool } from "./db";
 
 const TIER_PATTERNS = [
   /\s+Rpn$/i,
@@ -100,7 +100,7 @@ function getDryRunEnabled(): boolean {
 }
 
 export async function runLessonCleanup(options?: { dryRun?: boolean }) {
-  const pool = getDevPool();
+  const pool = getPool();
   const client = await pool.connect();
   const dryRun = options?.dryRun ?? getDryRunEnabled();
 

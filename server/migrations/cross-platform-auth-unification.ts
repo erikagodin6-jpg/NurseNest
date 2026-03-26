@@ -2,8 +2,8 @@ import pg from "pg";
 
 export async function runCrossPlatformAuthMigration(pool?: pg.Pool) {
   if (!pool) {
-    const { getDevPool } = await import("../db");
-    pool = getDevPool();
+    const { getPool } = await import("../db");
+    pool = getPool();
   }
   console.log("[Auth Migration] Running cross-platform auth unification migration...");
 

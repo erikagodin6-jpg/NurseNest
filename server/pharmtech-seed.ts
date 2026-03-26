@@ -1,7 +1,7 @@
-import { getDevPool } from "./db";
+import { createLazyPrimaryPoolProxy } from "./db";
 import { fisherYatesShuffle } from "../shared/shuffle";
 
-const pool = getDevPool();
+const pool = createLazyPrimaryPoolProxy();
 
 /* =========================
    TYPES

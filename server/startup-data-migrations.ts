@@ -139,8 +139,8 @@ const FLASHCARDS_DATA = [
 ] as const;
 
 export async function runStartupDataMigrations() {
-  const { getDevPool } = await import("./db");
-  const pool = getDevPool();
+  const { getPool } = await import("./db");
+  const pool = getPool();
 
   try {
     const client = await pool.connect();
