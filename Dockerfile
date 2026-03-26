@@ -21,7 +21,7 @@ FROM node:20-bookworm-slim AS runtime
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV PORT=5000
+ENV PORT=8080
 
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
@@ -29,6 +29,6 @@ RUN npm ci --omit=dev
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/scripts ./scripts
 
-EXPOSE 5000
+EXPOSE 8080
 
 CMD ["node", "scripts/start-production.mjs"]
