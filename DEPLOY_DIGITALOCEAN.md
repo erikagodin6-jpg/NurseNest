@@ -1,9 +1,31 @@
 # DigitalOcean App Platform Deployment
 
+This is the easiest path for this repo because it uses your `Dockerfile` directly (no Node buildpack quirks).
+
+## One-time setup in DigitalOcean UI
+
+1. Create app from GitHub repo `erikagodin6-jpg/NurseNest`.
+2. Choose branch `main`.
+3. For source type, select Dockerfile (App Platform will auto-detect).
+4. Set HTTP port to `5000`.
+5. Add runtime secrets:
+   - `ADMIN_JWT_SECRET`
+   - `DATABASE_URL` (or use `PROD_DATABASE_URL` instead)
+6. Deploy.
+
+## Optional: use app spec from this repo
+
+This repo includes `.do/app.yaml` with sane defaults. Import it in App Platform or deploy with `doctl`.
+
+Notes:
+- Region in the spec is `tor` (Toronto). Change if needed.
+- Instance size is `basic-xxs` for low cost.
+
 ## Runtime target
 
-- Container command: `node scripts/start-production.mjs`
-- HTTP port: `PORT` (app binds to `0.0.0.0`)
+- Entrypoint: `node scripts/start-production.mjs`
+- HTTP port: `PORT=5000`
+- Bind address: `0.0.0.0` (already handled by server code)
 
 ## Required environment variables
 
@@ -11,11 +33,6 @@
 - One of:
   - `PROD_DATABASE_URL`, or
   - `DATABASE_URL`
-
-## Optional environment variables
-
-- `NODE_ENV=production`
-- `ALLOW_PROD_FALLBACK_TO_DATABASE_URL=true` (only if you intentionally use `DATABASE_URL` for production target fallback)
 
 ## Local production test (Docker)
 
