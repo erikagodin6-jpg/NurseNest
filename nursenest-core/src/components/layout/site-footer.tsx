@@ -1,89 +1,130 @@
 import Link from "next/link";
 import { marketingT as t } from "@/lib/marketing-i18n";
+import { mapLegacyMarketingHref, resolveMarketingHref } from "@/lib/legacy-marketing-routes";
+import { EmailSignupBanner } from "@/components/marketing/email-signup-banner";
+import { MARKETING_LANGUAGES } from "@/lib/i18n/marketing-languages";
+
+const PUBLIC_SITE =
+  process.env.NEXT_PUBLIC_NURSENEST_ASSETS_BASE?.replace(/\/$/, "") ?? "https://www.nursenest.ca";
+
+function FLink({ href, children }: { href: string; children: React.ReactNode }) {
+  const to = href.startsWith("http") ? href : resolveMarketingHref(href);
+  const external = to.startsWith("http");
+  if (external) {
+    return (
+      <a href={to} className="transition-colors hover:text-primary" rel="noopener noreferrer">
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link href={to} className="transition-colors hover:text-primary">
+      {children}
+    </Link>
+  );
+}
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-[var(--theme-nav-border)] bg-[var(--theme-card-bg)] py-12">
+    <footer className="mt-auto border-t border-[var(--theme-nav-border)] bg-[var(--theme-card-bg)] py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+        <div className="mb-8">
+          <EmailSignupBanner />
+        </div>
+
+        <div className="mb-8 grid grid-cols-2 gap-8 md:grid-cols-4">
           <div>
             <h3 className="mb-3 text-sm font-semibold text-[var(--theme-heading-text)]">{t("footer.studyTools")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
-              <li><Link href="/app/lessons" className="transition-colors hover:text-primary">{t("footer.clinicalLessons")}</Link></li>
-              <li><Link href="/app/questions" className="transition-colors hover:text-primary">{t("footer.testBank")}</Link></li>
-              <li><Link href="/app/exams" className="transition-colors hover:text-primary">{t("footer.mockExams")}</Link></li>
-              <li><Link href="/app/lessons" className="transition-colors hover:text-primary">{t("footer.preNursing")}</Link></li>
-              <li><Link href="/app/lessons" className="transition-colors hover:text-primary">{t("footer.anatomyExplorer")}</Link></li>
+              <li><FLink href="/lessons">{t("footer.clinicalLessons")}</FLink></li>
+              <li><FLink href="/flashcards">{t("nav.flashcards")}</FLink></li>
+              <li><FLink href="/pre-nursing">{t("footer.preNursing")}</FLink></li>
+              <li><FLink href="/med-math">{t("footer.medMath")}</FLink></li>
+              <li><FLink href="/anatomy">{t("footer.anatomyExplorer")}</FLink></li>
+              <li><FLink href="/mock-exams">{t("footer.mockExams")}</FLink></li>
+              <li><FLink href="/free-practice">{t("footer.testBank")}</FLink></li>
             </ul>
           </div>
 
           <div>
             <h3 className="mb-3 text-sm font-semibold text-[var(--theme-heading-text)]">{t("footer.examPrep")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
-              <li><Link href="/pricing" className="transition-colors hover:text-primary">{t("components.footer.nursingExamPrepHub")}</Link></li>
-              <li><Link href="/pricing" className="transition-colors hover:text-primary">{t("components.footer.nclexrnPrep")}</Link></li>
-              <li><Link href="/pricing" className="transition-colors hover:text-primary">{t("components.footer.rexpnNclexpnPrep")}</Link></li>
-              <li><Link href="/pricing" className="transition-colors hover:text-primary">{t("components.footer.npExamPrepHub")}</Link></li>
-              <li><Link href="/pricing" className="transition-colors hover:text-primary">{t("components.footer.alliedHealthExamPrep")}</Link></li>
+              <li><FLink href="/exam-prep">{t("components.footer.nursingExamPrepHub")}</FLink></li>
+              <li><FLink href="/nclex-rn">{t("components.footer.nclexrnPrep")}</FLink></li>
+              <li><FLink href="/rex-pn">{t("components.footer.rexpnNclexpnPrep")}</FLink></li>
+              <li><FLink href="/np-exam-practice-questions">{t("components.footer.npExamPrepHub")}</FLink></li>
+              <li><FLink href="/question-of-the-day">{t("footer.questionOfTheDay")}</FLink></li>
             </ul>
-
             <h3 className="mb-3 mt-6 text-sm font-semibold text-[var(--theme-heading-text)]">{t("footer.newGradSupportSection")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
-              <li><Link href="/pricing" className="transition-colors hover:text-primary">{t("footer.newGradHub")}</Link></li>
-              <li><Link href="/pricing" className="transition-colors hover:text-primary">{t("footer.nursing")}</Link></li>
-              <li><Link href="/pricing" className="transition-colors hover:text-primary">{t("footer.paramedic")}</Link></li>
-              <li><Link href="/pricing" className="transition-colors hover:text-primary">{t("footer.respiratoryTherapy")}</Link></li>
+              <li><FLink href="/newgrad">{t("footer.newGradHub")}</FLink></li>
+              <li><FLink href="/new-grad/nursing">{t("footer.nursing")}</FLink></li>
+              <li><FLink href="/new-grad/paramedic">{t("footer.paramedic")}</FLink></li>
+              <li><FLink href="/new-grad/respiratory-therapy">{t("footer.respiratoryTherapy")}</FLink></li>
             </ul>
           </div>
 
           <div>
             <h3 className="mb-3 text-sm font-semibold text-[var(--theme-heading-text)]">{t("footer.resources")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
-              <li><Link href="/pricing" className="transition-colors hover:text-primary">{t("footer.pricing")}</Link></li>
-              <li><Link href="/faq" className="transition-colors hover:text-primary">{t("footer.faq")}</Link></li>
-              <li><Link href="/login" className="transition-colors hover:text-primary">{t("footer.contact")}</Link></li>
-              <li><Link href="/" className="transition-colors hover:text-primary">{t("footer.about")}</Link></li>
-              <li><Link href="/pricing" className="transition-colors hover:text-primary">{t("footer.forSchools")}</Link></li>
+              <li><FLink href="/shop">{t("nav.store")}</FLink></li>
+              <li><FLink href="/pricing">{t("footer.pricing")}</FLink></li>
+              <li><FLink href="/faq">{t("footer.faq")}</FLink></li>
+              <li><FLink href="/contact">{t("footer.contact")}</FLink></li>
+              <li><FLink href="/about">{t("footer.about")}</FLink></li>
+              <li><FLink href="/for-institutions">{t("footer.forSchools")}</FLink></li>
             </ul>
-
             <h3 className="mb-3 mt-6 text-sm font-semibold text-[var(--theme-heading-text)]">{t("footer.nursingSpecialties")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
-              <li><Link href="/pricing" className="transition-colors hover:text-primary">{t("footer.allSpecialties")}</Link></li>
-              <li><Link href="/pricing" className="transition-colors hover:text-primary">{t("footer.icuGuide")}</Link></li>
-              <li><Link href="/pricing" className="transition-colors hover:text-primary">{t("footer.nicuGuide")}</Link></li>
+              <li><FLink href="/nursing-specialties">{t("footer.allSpecialties")}</FLink></li>
+              <li><FLink href="/guides/icu-nursing-ultimate-guide">{t("footer.icuGuide")}</FLink></li>
+              <li><FLink href="/guides/nicu-nursing-ultimate-guide">{t("footer.nicuGuide")}</FLink></li>
             </ul>
           </div>
 
           <div>
             <h3 className="mb-3 text-sm font-semibold text-[var(--theme-heading-text)]">{t("footer.legal")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
-              <li><Link href="/terms" className="transition-colors hover:text-primary">{t("footer.terms")}</Link></li>
-              <li><Link href="/privacy" className="transition-colors hover:text-primary">{t("footer.privacy")}</Link></li>
-              <li><Link href="/disclaimer" className="transition-colors hover:text-primary">{t("footer.disclaimer")}</Link></li>
-              <li><Link href="/refund-policy" className="transition-colors hover:text-primary">{t("footer.refundPolicy")}</Link></li>
+              <li><FLink href="/terms">{t("footer.terms")}</FLink></li>
+              <li><FLink href="/privacy">{t("footer.privacy")}</FLink></li>
+              <li><FLink href="/disclaimer">{t("footer.disclaimer")}</FLink></li>
+              <li><FLink href="/refund-policy">{t("footer.refundPolicy")}</FLink></li>
             </ul>
-
+            <h3 className="mb-3 mt-6 text-sm font-semibold text-[var(--theme-heading-text)]">{t("footer.alliedHealth")}</h3>
+            <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
+              <li><FLink href="/allied-health">{t("footer.alliedHealthExamPrep")}</FLink></li>
+              <li><FLink href="/allied-health/rrt">{t("components.footer.respiratoryTherapist")}</FLink></li>
+              <li><FLink href="/allied-health/paramedic">{t("components.footer.paramedic")}</FLink></li>
+            </ul>
             <h3 className="mb-3 mt-6 text-sm font-semibold text-[var(--theme-heading-text)]">{t("footer.educationEcosystem")}</h3>
             <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
-              <li><Link href="/" className="transition-colors hover:text-primary">NurseNest</Link></li>
-              <li><a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-primary">ApplyNest</a></li>
+              <li><FLink href="/">{t("components.footer.nursenestNursingAndHealthcareExam")}</FLink></li>
+              <li>
+                <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-primary">
+                  {t("components.footer.applynestHealthcareProgramApplicationsAnd")}
+                </a>
+              </li>
             </ul>
           </div>
         </div>
 
-        <div className="mb-6 mt-8 border-t border-[var(--theme-separator)] pb-6 pt-6">
-          <h3 className="mb-3 text-sm font-semibold text-[var(--theme-heading-text)]">
-            {t("footer.studyInYourLanguage") || "Study Nursing in Your Language"}
-          </h3>
-          <div className="mb-3 flex flex-wrap gap-2 text-xs text-[var(--theme-muted-text)]">
-            {["English", "Français", "Español", "Tagalog", "中文", "العربية", "한국어", "Português"].map((name) => (
-              <span key={name} className="inline-flex items-center rounded-full border border-[var(--theme-separator)] px-2 py-1">
-                {name}
-              </span>
+        <div className="mb-6 border-t border-[var(--theme-separator)] pb-6 pt-6">
+          <h3 className="mb-3 text-sm font-semibold text-[var(--theme-heading-text)]">{t("footer.studyInYourLanguage")}</h3>
+          <div className="mb-3 flex flex-wrap gap-2">
+            {MARKETING_LANGUAGES.map(({ code, flag, name }) => (
+              <a
+                key={code}
+                href={code === "en" ? "/" : `${PUBLIC_SITE}/${code}`}
+                className="inline-flex items-center gap-1 text-xs text-[var(--theme-muted-text)] hover:text-primary"
+                rel={code === "en" ? undefined : "noopener noreferrer"}
+              >
+                <span>{flag}</span>
+                <span>{name}</span>
+              </a>
             ))}
           </div>
-          <Link href="/pricing" className="text-xs text-primary hover:underline">
-            {t("footer.viewAllLanguages") || "View all languages →"}
+          <Link href={mapLegacyMarketingHref("/languages")} className="text-xs text-primary hover:underline">
+            {t("footer.viewAllLanguages")}
           </Link>
         </div>
 
@@ -91,11 +132,15 @@ export function SiteFooter() {
           <h3 className="mb-3 text-sm font-semibold text-[var(--theme-heading-text)]">{t("components.footer.ourEducationEcosystem")}</h3>
           <ul className="space-y-2 text-sm text-[var(--theme-muted-text)]">
             <li>
-              <Link href="/" className="font-medium transition-colors hover:text-primary">NurseNest</Link>
+              <Link href="/" className="font-medium transition-colors hover:text-primary">
+                NurseNest
+              </Link>
               <span className="ml-1">{t("components.footer.nursingExamPrepClinicalTools")}</span>
             </li>
             <li>
-              <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="font-medium transition-colors hover:text-primary">ApplyNest</a>
+              <a href="https://applynest.ca" target="_blank" rel="noopener noreferrer" className="font-medium transition-colors hover:text-primary">
+                ApplyNest
+              </a>
               <span className="ml-1">{t("components.footer.healthcareProgramApplicationsAdmissionsAnd")}</span>
             </li>
           </ul>
@@ -103,9 +148,11 @@ export function SiteFooter() {
 
         <div className="flex flex-col items-center justify-between gap-4 border-t border-[var(--theme-separator)] pt-6 md:flex-row">
           <div>
-            <p className="text-lg font-extrabold tracking-tight text-[var(--theme-heading-text)]">NurseNest</p>
+            <p className="text-xl font-extrabold tracking-tight text-primary">NurseNest</p>
           </div>
-          <div className="text-sm text-[var(--theme-muted-text)]">© {new Date().getFullYear()} NurseNest. {t("footer.rights")}</div>
+          <div className="text-sm text-[var(--theme-muted-text)]">
+            © {new Date().getFullYear()} NurseNest. {t("footer.rights")}
+          </div>
         </div>
 
         <div className="mx-auto mt-4 max-w-3xl text-center text-xs leading-relaxed text-[var(--theme-muted-text)] opacity-70">

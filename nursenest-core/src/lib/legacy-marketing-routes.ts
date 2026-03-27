@@ -1,0 +1,76 @@
+/**
+ * Maps legacy SPA paths from `shared/platform-manifest` and marketing copy to NurseNest Core routes.
+ * External deep links fall back to the public marketing site when not implemented in Core.
+ */
+const PUBLIC_SITE = process.env.NEXT_PUBLIC_NURSENEST_ASSETS_BASE?.replace(/\/$/, "") ?? "https://www.nursenest.ca";
+
+const EXACT: Record<string, string> = {
+  "/exam-prep": "/pricing",
+  "/register": "/signup",
+  "/rex-pn": "/pricing",
+  "/nclex-rn": "/pricing",
+  "/np-exam-practice-questions": "/pricing",
+  "/nursing-certifications": `${PUBLIC_SITE}/nursing-certifications`,
+  "/newgrad": `${PUBLIC_SITE}/newgrad`,
+  "/new-grad": `${PUBLIC_SITE}/new-grad`,
+  "/lessons": "/app/lessons",
+  "/flashcards": "/app/questions",
+  "/mock-exams": "/app/exams",
+  "/mock-exam": "/app/exams",
+  "/study": "/app/questions",
+  "/test-bank": "/app/questions",
+  "/analytics": "/app",
+  "/clinical-scenarios": "/app/lessons",
+  "/languages": `${PUBLIC_SITE}/languages`,
+  "/free-practice": "/app/questions",
+  "/study-plan": "/app",
+  "/reports": "/app",
+  "/career-journey": `${PUBLIC_SITE}/career-journey`,
+  "/career-journey/nursing": `${PUBLIC_SITE}/career-journey/nursing`,
+  "/start-free": "/signup",
+  "/faq": `${PUBLIC_SITE}/faq`,
+  "/rex-pn-guide": `${PUBLIC_SITE}/rex-pn-guide`,
+  "/nclex-rn-guide": `${PUBLIC_SITE}/nclex-rn-guide`,
+  "/shop": `${PUBLIC_SITE}/shop`,
+  "/pre-nursing": "/app/lessons",
+  "/rex-pn-practice-questions": "/pricing",
+  "/nclex-rn-practice-questions": "/pricing",
+  "/nursing-specialties": "/app/lessons",
+  "/new-graduate-support": `${PUBLIC_SITE}/new-graduate-support`,
+  "/healthcare-careers": `${PUBLIC_SITE}/healthcare-careers`,
+  "/allied-health": `${PUBLIC_SITE}/allied-health`,
+  "/paramedic": `${PUBLIC_SITE}/allied-health/paramedic`,
+  "/rrt": `${PUBLIC_SITE}/allied-health/rrt`,
+  "/mlt": `${PUBLIC_SITE}/allied-health/mlt`,
+  "/imaging": `${PUBLIC_SITE}/allied-health/imaging`,
+};
+
+export function mapLegacyMarketingHref(href: string): string {
+  if (href.startsWith("/allied-health") || href.startsWith("/shop")) {
+    return `${PUBLIC_SITE}${href}`;
+  }
+  return EXACT[href] ?? href;
+}
+
+/** Prefer Core routes for app/pricing/auth; send other marketing paths to the public site to avoid 404s. */
+export function resolveMarketingHref(href: string): string {
+  if (href.startsWith("http")) return href;
+  const mapped = mapLegacyMarketingHref(href);
+  if (mapped.startsWith("http")) return mapped;
+  if (
+    mapped.startsWith("/app/") ||
+    mapped === "/app" ||
+    mapped === "/pricing" ||
+    mapped === "/login" ||
+    mapped === "/signup" ||
+    mapped === "/"
+  ) {
+    return mapped;
+  }
+  return `${PUBLIC_SITE}${mapped.startsWith("/") ? mapped : `/${mapped}`}`;
+}
+
+export function marketingAssetUrl(path: string): string {
+  if (path.startsWith("http")) return path;
+  return `${PUBLIC_SITE}${path.startsWith("/") ? path : `/${path}`}`;
+}
