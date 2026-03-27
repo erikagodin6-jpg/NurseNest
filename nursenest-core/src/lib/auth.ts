@@ -1,12 +1,24 @@
 import "./auth-trust-env";
+import { Auth } from "@auth/core";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { compare } from "bcryptjs";
 import NextAuth, { type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { NextRequest } from "next/server";
 import { prisma } from "@/lib/db";
 
-const authConfigBase: Omit<NextAuthConfig, "trustHost"> & { trustHost?: boolean } = {
+/** Same behavior as next-auth/lib/env `reqWithEnvURL` (not a public export). */
+function reqWithEnvURL(req: NextRequest): NextRequest {
+  const url = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL;
+  if (!url) return req;
+  const { origin: envOrigin } = new URL(url);
+  const { href, origin } = req.nextUrl;
+  return new NextRequest(href.replace(origin, envOrigin), req);
+}
+
+export const authConfig: NextAuthConfig = {
   adapter: PrismaAdapter(prisma),
+  trustHost: true,
   session: { strategy: "jwt" },
   pages: { signIn: "/login" },
   providers: [
@@ -60,24 +72,18 @@ const authConfigBase: Omit<NextAuthConfig, "trustHost"> & { trustHost?: boolean 
   },
 };
 
-/**
- * @auth/core setEnvDefaults() can assign trustHost from AUTH_URL/AUTH_TRUST_HOST.
- * An empty AUTH_URL yields !!( "") === false and breaks hosted deploys. A getter
- * prevents any assignment from clearing trust on DigitalOcean and similar hosts.
- */
-export const authConfig: NextAuthConfig = Object.defineProperty(
-  authConfigBase,
-  "trustHost",
-  {
-    configurable: true,
-    enumerable: true,
-    get(): boolean {
-      return true;
-    },
-    set() {
-      /* ignore — must stay trusted behind reverse proxies */
-    },
-  },
-) as NextAuthConfig;
+const { auth, signIn, signOut } = NextAuth(authConfig);
 
-export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
+export { auth, signIn, signOut };
+
+/**
+ * Turbopack production builds can drop or mishandle config passed into the default
+ * next-auth handler closure. Call @auth/core Auth() with an object literal that
+ * ends in trustHost: true so assertConfig always sees a plain boolean.
+ */
+export const handlers = {
+  GET: (req: NextRequest) =>
+    Auth(reqWithEnvURL(req), { ...authConfig, trustHost: true }),
+  POST: (req: NextRequest) =>
+    Auth(reqWithEnvURL(req), { ...authConfig, trustHost: true }),
+};
