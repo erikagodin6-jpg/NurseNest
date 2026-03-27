@@ -1,14 +1,25 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import Stripe from "stripe";
+import type Stripe from "stripe";
 import { prisma } from "@/lib/db";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
+/** Dynamic import so Next build (collect page data) never loads Stripe without a key. */
+async function getStripeClient(): Promise<Stripe | null> {
+  const key = process.env.STRIPE_SECRET_KEY?.trim();
+  if (!key) return null;
+  const { default: Stripe } = await import("stripe");
+  return new Stripe(key);
+}
 
 export async function POST(req: Request) {
   const signature = (await headers()).get("stripe-signature");
   if (!signature || !process.env.STRIPE_WEBHOOK_SECRET) {
     return NextResponse.json({ error: "Webhook not configured" }, { status: 400 });
+  }
+
+  const stripe = await getStripeClient();
+  if (!stripe) {
+    return NextResponse.json({ error: "Billing unavailable" }, { status: 503 });
   }
 
   const body = await req.text();
