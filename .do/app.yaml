@@ -14,14 +14,15 @@ services:
     routes:
       - path: /
     health_check:
-      http_path: /health
+      # Lightweight endpoint; matches root Express server/index.ts
+      http_path: /healthz
       initial_delay_seconds: 60
       period_seconds: 15
       timeout_seconds: 5
       success_threshold: 1
       failure_threshold: 6
     liveness_health_check:
-      http_path: /health
+      http_path: /healthz
       initial_delay_seconds: 60
       period_seconds: 15
       timeout_seconds: 5
@@ -40,3 +41,7 @@ services:
       - key: DATABASE_URL
         scope: RUN_TIME
         type: SECRET
+      # Auth.js (nursenest-core): required when Next.js is deployed behind a proxy
+      - key: AUTH_TRUST_HOST
+        value: "true"
+        scope: RUN_TIME
