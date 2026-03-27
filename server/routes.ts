@@ -4289,6 +4289,33 @@ Return ONLY a JSON array of flashcard objects, no other text.`;
     }
   });
 
+  // Compatibility endpoint for clients/monitors expecting NextAuth-style session checks.
+  // This runtime uses JWT auth from server/admin-auth.ts, not NextAuth.
+  app.get("/api/auth/session", async (req, res) => {
+    try {
+      const user = await resolveAuthUser(req);
+      if (!user) {
+        return res.status(401).json({
+          authenticated: false,
+          user: null,
+        });
+      }
+
+      const { buildAuthUserResponse } = await import("./auth-response");
+      const userResponse = await buildAuthUserResponse(user);
+      return res.status(200).json({
+        authenticated: true,
+        user: userResponse,
+      });
+    } catch (e: any) {
+      return res.status(401).json({
+        authenticated: false,
+        user: null,
+        error: "Invalid or expired token",
+      });
+    }
+  });
+
   app.post("/api/auth/refresh", async (req, res) => {
     try {
       const user = await resolveAuthUser(req);
