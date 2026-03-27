@@ -1,12 +1,4 @@
-import { SiteHeader } from "@/components/layout/site-header";
-import { SiteFooter } from "@/components/layout/site-footer";
-
+/** Student segment: no marketing chrome (learner shell is under `app/(learner)`; exams under `app/exams`). */
 export default function StudentGroupLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      <SiteHeader />
-      {children}
-      <SiteFooter />
-    </>
-  );
+  return children;
 }
