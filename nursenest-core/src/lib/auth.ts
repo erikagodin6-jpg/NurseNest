@@ -1,3 +1,4 @@
+import "./auth-trust-env";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { compare } from "bcryptjs";
 import NextAuth, { type NextAuthConfig } from "next-auth";
