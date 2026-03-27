@@ -6,6 +6,12 @@ import { prisma } from "@/lib/db";
 
 export const authConfig: NextAuthConfig = {
   adapter: PrismaAdapter(prisma),
+  /**
+   * Required on managed platforms (DigitalOcean/Render/etc.) where requests are
+   * proxied and host headers may differ between release checks and public URLs.
+   * Prevents Auth.js UntrustedHost during runtime health/readiness traffic.
+   */
+  trustHost: true,
   session: { strategy: "jwt" },
   pages: { signIn: "/login" },
   providers: [
