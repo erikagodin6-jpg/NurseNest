@@ -9,7 +9,8 @@ import {
 } from "@/lib/theme/theme-registry";
 
 /**
- * Single root for NurseNest theming. Default is lavender (brand baseline).
+ * Single root for NurseNest theming (do not nest a second ThemeProvider).
+ * Default is lavender (brand baseline).
  * Persistence: localStorage via next-themes; first-visit preference is seeded in root layout script.
  */
 export function AppThemeProvider({ children }: { children: ReactNode }) {

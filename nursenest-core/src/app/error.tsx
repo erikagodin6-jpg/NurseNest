@@ -7,15 +7,23 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const digest = error.digest;
+  const showDetail = process.env.NODE_ENV === "development";
+
   return (
     <main className="mx-auto mt-16 w-full max-w-xl px-6">
       <div className="nn-card p-8">
         <h1 className="text-2xl font-bold">Something went wrong</h1>
         <p className="mt-3 text-sm text-muted">
-          A recoverable runtime issue occurred. Core navigation and data protection remain server-controlled.
+          A recoverable runtime issue occurred. You can retry; access rules are enforced on the server.
         </p>
-        <p className="mt-3 text-xs text-muted">{error.message}</p>
-        <button className="mt-5 rounded-xl bg-primary px-4 py-2 font-semibold" onClick={reset}>
+        {digest ? (
+          <p className="mt-3 text-xs text-muted" suppressHydrationWarning>
+            Reference: {digest}
+          </p>
+        ) : null}
+        {showDetail ? <p className="mt-3 text-xs text-muted">{error.message}</p> : null}
+        <button type="button" className="mt-5 rounded-xl bg-primary px-4 py-2 font-semibold" onClick={() => reset()}>
           Try again
         </button>
       </div>

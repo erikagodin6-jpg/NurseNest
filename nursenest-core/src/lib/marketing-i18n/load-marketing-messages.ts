@@ -1,6 +1,7 @@
 import marketingEn from "@/content/marketing-en.json";
 import type { MarketingMessages } from "@/lib/marketing-i18n-core";
 import { DEFAULT_MARKETING_LOCALE } from "@/lib/i18n/marketing-locale-policy";
+import { safeServerLog } from "@/lib/observability/safe-server-log";
 
 const base = marketingEn as MarketingMessages;
 
@@ -8,8 +9,8 @@ const base = marketingEn as MarketingMessages;
 async function importOverlay(locale: string): Promise<MarketingMessages> {
   try {
     return await importOverlayInner(locale);
-  } catch (e) {
-    console.error(`[loadMarketingMessages] overlay failed for locale "${locale}", using English base only`, e);
+  } catch {
+    safeServerLog("i18n", "marketing_overlay_failed", { locale });
     return {};
   }
 }

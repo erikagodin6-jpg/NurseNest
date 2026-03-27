@@ -56,3 +56,17 @@ export function lessonAccessWhere(entitlement: AccessScope): Prisma.LessonWhereI
     tier: { in: accessibleTiersForUserTier(tier) },
   };
 }
+
+/** Whether the learner may record an attempt for this published exam row (backend paywall). */
+export function userCanAccessExam(
+  entitlement: AccessScope,
+  exam: { published: boolean; country: CountryCode; tier: TierCode },
+): boolean {
+  if (!exam.published || !entitlement.hasAccess) return false;
+  if (entitlement.reason === "admin_override") return true;
+  const country = entitlement.country as CountryCode | null;
+  const tier = entitlement.tier as TierCode | null;
+  if (!country || !tier) return false;
+  if (exam.country !== country) return false;
+  return accessibleTiersForUserTier(tier).includes(exam.tier);
+}
