@@ -3,36 +3,70 @@
 import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";
 import { THEME_OPTIONS } from "@/lib/theme/theme-registry";
-import { marketingT as t } from "@/lib/marketing-i18n";
 
-/** Lightweight theme control; no heavy UI deps. Keeps exam/student bundles free if tree-shaken from exam entry. */
-export function ThemePicker({ className = "" }: { className?: string }) {
+const DEFAULT_THEME_LABELS = {
+  navTheme: "Theme",
+  themeGroupLight: "Light",
+  themeGroupDark: "Dark",
+} as const;
+
+export type ThemePickerLabels = Partial<Record<keyof typeof DEFAULT_THEME_LABELS, string>>;
+
+/** Lightweight theme control. Pass `labels` from marketing `useMarketingI18n`; learner shell omits labels (English defaults, no marketing JSON). */
+export function ThemePicker({ className = "", labels }: { className?: string; labels?: ThemePickerLabels }) {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onDoc = (e: MouseEvent) => {
-      if (!ref.current?.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("click", onDoc);
-    return () => document.removeEventListener("click", onDoc);
+    setMounted(true);
   }, []);
 
-  const current = resolvedTheme ?? theme ?? "lavender";
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: PointerEvent) => {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", onDown, true);
+    return () => document.removeEventListener("pointerdown", onDown, true);
+  }, [open]);
+
+  const current = mounted ? (resolvedTheme ?? theme ?? "lavender") : "lavender";
   const currentLabel = THEME_OPTIONS.find((o) => o.id === current)?.label ?? current;
+  const L = { ...DEFAULT_THEME_LABELS, ...labels };
+
+  if (!mounted) {
+    return (
+      <div className={`relative ${className}`}>
+        <button
+          type="button"
+          disabled
+          className="flex items-center gap-1.5 rounded-full border border-[var(--theme-nav-border)] bg-[var(--theme-nav-bg)] px-2.5 py-1.5 text-xs font-semibold text-[var(--theme-menu-text)] opacity-80"
+          aria-label={L.navTheme}
+        >
+          <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#9d82dd]" />
+          <span className="max-w-[7rem] truncate">{L.navTheme}</span>
+          <span className="text-[10px] opacity-70">▾</span>
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className={`relative ${className}`} ref={ref}>
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpen((o) => !o);
+        }}
         className="flex items-center gap-1.5 rounded-full border border-[var(--theme-nav-border)] bg-[var(--theme-nav-bg)] px-2.5 py-1.5 text-xs font-semibold text-[var(--theme-menu-text)] hover:bg-[var(--theme-menu-hover-bg)] hover:text-[var(--theme-menu-hover-text)]"
         aria-expanded={open}
         aria-haspopup="listbox"
       >
         <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: THEME_OPTIONS.find((o) => o.id === current)?.color ?? "#9d82dd" }} />
-        <span className="max-w-[7rem] truncate">{t("nav.theme")}</span>
+        <span className="max-w-[7rem] truncate">{L.navTheme}</span>
         <span className="text-[10px] opacity-70">▾</span>
       </button>
       {open && (
@@ -43,7 +77,7 @@ export function ThemePicker({ className = "" }: { className?: string }) {
           {(["light", "dark"] as const).map((group) => (
             <div key={group}>
               <p className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[var(--theme-muted-text)]">
-                {group === "light" ? t("nav.themeGroupLight") : t("nav.themeGroupDark")}
+                {group === "light" ? L.themeGroupLight : L.themeGroupDark}
               </p>
               {THEME_OPTIONS.filter((o) => o.group === group).map((opt) => (
                 <button
@@ -51,7 +85,8 @@ export function ThemePicker({ className = "" }: { className?: string }) {
                   type="button"
                   role="option"
                   aria-selected={opt.id === current}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setTheme(opt.id);
                     setOpen(false);
                   }}

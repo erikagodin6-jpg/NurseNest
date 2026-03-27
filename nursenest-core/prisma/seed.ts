@@ -80,6 +80,17 @@ async function main() {
         published: true,
         categoryId: fundamentals.id,
       },
+      {
+        stem: "A CA hospital unit is short-staffed. Which duty aligns with RN scope first?",
+        rationale: "Prioritize safe patient assignments and escalate staffing per policy.",
+        options: ["Accept all additional patients alone", "Delegate assessments to unlicensed staff without supervision", "Report unsafe staffing and stabilize current assignments", "Leave the unit"],
+        answerKey: ["Report unsafe staffing and stabilize current assignments"],
+        questionType: "MCQ",
+        country: "CA",
+        tier: "RN",
+        published: true,
+        categoryId: fundamentals.id,
+      },
     ],
     skipDuplicates: true,
   });

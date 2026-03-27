@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { resolveEntitlement } from "@/lib/entitlements/resolve-entitlement";
+import { questionAccessWhere } from "@/lib/entitlements/content-access-scope";
 import { prisma } from "@/lib/db";
 
 export default async function QuestionBankPage() {
@@ -11,11 +12,7 @@ export default async function QuestionBankPage() {
   }
 
   const questions = await prisma.question.findMany({
-    where: {
-      published: true,
-      country: entitlement.country as any,
-      tier: entitlement.tier as any,
-    },
+    where: questionAccessWhere(entitlement),
     select: { id: true, stem: true, questionType: true, rationale: true },
     orderBy: { updatedAt: "desc" },
     take: 15,
@@ -24,6 +21,11 @@ export default async function QuestionBankPage() {
   return (
     <main>
       <h1 className="text-3xl font-bold">Question bank</h1>
+      {questions.length === 0 ? (
+        <p className="nn-card mt-4 p-6 text-sm text-muted">
+          No questions match your region and tier yet. If you expect content here, confirm your profile country/tier or contact support.
+        </p>
+      ) : null}
       <div className="mt-4 space-y-3">
         {questions.map((question) => (
           <article className="nn-card p-4" key={question.id}>

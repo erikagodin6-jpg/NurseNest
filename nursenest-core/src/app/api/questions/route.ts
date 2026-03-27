@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { resolveEntitlement } from "@/lib/entitlements/resolve-entitlement";
+import { questionAccessWhere } from "@/lib/entitlements/content-access-scope";
 
 export async function GET(req: NextRequest) {
   const session = await auth();
@@ -19,11 +20,7 @@ export async function GET(req: NextRequest) {
   const pageSize = Math.min(25, Math.max(5, Number(searchParams.get("pageSize") ?? "10")));
 
   const questions = await prisma.question.findMany({
-    where: {
-      country: entitlement.country as any,
-      tier: entitlement.tier as any,
-      published: true,
-    },
+    where: questionAccessWhere(entitlement),
     select: {
       id: true,
       stem: true,
