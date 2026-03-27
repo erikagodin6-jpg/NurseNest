@@ -40,4 +40,5 @@ COPY --from=build /app/scripts ./scripts
 
 EXPOSE 8080
 
-ENTRYPOINT ["sh", "-c", "echo STARTING CONTAINER && node scripts/start-production.mjs"]
+# App Platform run_command overrides CMD; keep a plain exec form (no shell) for predictable behavior.
+CMD ["node", "scripts/start-production.mjs"]
