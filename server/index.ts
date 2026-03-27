@@ -3,7 +3,6 @@ import compression from "compression";
 import cookieParser from "cookie-parser";
 import { randomUUID } from "crypto";
 import { createServer } from "http";
-import { registerRoutes } from "./routes";
 import { asyncHandler } from "./async-handler";
 import { HttpError } from "./http-error";
 import { installApiNotFoundHandler, installGlobalErrorHandler } from "./global-error-handler";
@@ -20,6 +19,61 @@ import Stripe from "stripe";
 import { getStripeClient } from "./stripeClient";
 import { WebhookHandlers } from "./webhookHandlers";
 import { withWebhookIdempotency } from "./webhook-idempotency";
+
+const LOG_TIMEZONE = "America/Toronto";
+const TZ_PARTS = new Intl.DateTimeFormat("sv-SE", {
+  timeZone: LOG_TIMEZONE,
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+  hour12: false,
+});
+const TZ_OFFSET = new Intl.DateTimeFormat("en-US", {
+  timeZone: LOG_TIMEZONE,
+  timeZoneName: "longOffset",
+});
+
+function getTorontoIsoTimestamp(date = new Date()): string {
+  const parts = TZ_PARTS.formatToParts(date);
+  const get = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((part) => part.type === type)?.value ?? "00";
+  const tzName =
+    TZ_OFFSET.formatToParts(date).find((part) => part.type === "timeZoneName")?.value ?? "GMT-00:00";
+  const offset = tzName.replace("GMT", "");
+  return `${get("year")}-${get("month")}-${get("day")}T${get("hour")}:${get("minute")}:${get("second")}${offset}`;
+}
+
+function installTimestampedConsole(): void {
+  const marker = "__nursenestTimestampedConsole";
+  if ((globalThis as Record<string, unknown>)[marker]) return;
+  (globalThis as Record<string, unknown>)[marker] = true;
+
+  const base = {
+    log: console.log.bind(console),
+    info: console.info.bind(console),
+    warn: console.warn.bind(console),
+    error: console.error.bind(console),
+  };
+
+  const withTs = (...args: unknown[]) => {
+    const toronto = getTorontoIsoTimestamp();
+    const utc = new Date().toISOString();
+    return [`[ts_local=${toronto} ts_utc=${utc}]`, ...args];
+  };
+
+  console.log = (...args: unknown[]) => base.log(...withTs(...args));
+  console.info = (...args: unknown[]) => base.info(...withTs(...args));
+  console.warn = (...args: unknown[]) => base.warn(...withTs(...args));
+  console.error = (...args: unknown[]) => base.error(...withTs(...args));
+}
+
+if (!process.env.TZ || !process.env.TZ.trim()) {
+  process.env.TZ = LOG_TIMEZONE;
+}
+installTimestampedConsole();
 
 const app = express();
 app.set("trust proxy", 1);
@@ -271,24 +325,6 @@ async function startServer() {
       process.exit(1);
     });
 
-    // Route registration can touch many modules. To keep DO promotion reliable,
-    // ensure we start listening even if route registration or DB-dependent
-    // background probes fail.
-    void (async () => {
-      try {
-        const routesT0 = Date.now();
-        await registerRoutes(httpServer, app);
-        console.log(`[deploy-timing] register_routes_ms=${Date.now() - routesT0}`);
-        // 404 + global error handler MUST be registered after all routes.
-        installApiNotFoundHandler(app);
-        installGlobalErrorHandler(app);
-      } catch (e: unknown) {
-        const msg = e instanceof Error ? e.message : String(e);
-        console.error("[startup] route registration failed (continuing to listen):", msg);
-        if (e instanceof Error && e.stack) console.error(e.stack);
-      }
-    })();
-
     diagPhase("PHASE 3: app.listen");
     httpServer.listen(port, "0.0.0.0", () => {
       console.log(`BOOT SUCCESS: HTTP server listening on 0.0.0.0:${port}`);
@@ -313,6 +349,24 @@ async function startServer() {
       }
       logStartupDatabaseResolution();
       diagPhase("PHASE 2: server initialization");
+
+      // Route registration can trigger heavy module evaluation. Defer loading
+      // until after listen so readiness can pass on lightweight health routes.
+      void (async () => {
+        try {
+          const routesT0 = Date.now();
+          const { registerRoutes } = await import("./routes");
+          await registerRoutes(httpServer, app);
+          console.log(`[deploy-timing] register_routes_ms=${Date.now() - routesT0}`);
+          // 404 + global error handler MUST be registered after all routes.
+          installApiNotFoundHandler(app);
+          installGlobalErrorHandler(app);
+        } catch (e: unknown) {
+          const msg = e instanceof Error ? e.message : String(e);
+          console.error("[startup] route registration failed (continuing to listen):", msg);
+          if (e instanceof Error && e.stack) console.error(e.stack);
+        }
+      })();
 
       // DB connectivity is allowed to fail; the service should still start listening
       // so DigitalOcean readiness can pass. We probe and log asynchronously.
