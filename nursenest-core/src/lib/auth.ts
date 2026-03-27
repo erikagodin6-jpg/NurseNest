@@ -5,14 +5,8 @@ import NextAuth, { type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@/lib/db";
 
-export const authConfig: NextAuthConfig = {
+const authConfigBase: Omit<NextAuthConfig, "trustHost"> & { trustHost?: boolean } = {
   adapter: PrismaAdapter(prisma),
-  /**
-   * Required on managed platforms (DigitalOcean/Render/etc.) where requests are
-   * proxied and host headers may differ between release checks and public URLs.
-   * Prevents Auth.js UntrustedHost during runtime health/readiness traffic.
-   */
-  trustHost: true,
   session: { strategy: "jwt" },
   pages: { signIn: "/login" },
   providers: [
@@ -65,5 +59,25 @@ export const authConfig: NextAuthConfig = {
     },
   },
 };
+
+/**
+ * @auth/core setEnvDefaults() can assign trustHost from AUTH_URL/AUTH_TRUST_HOST.
+ * An empty AUTH_URL yields !!( "") === false and breaks hosted deploys. A getter
+ * prevents any assignment from clearing trust on DigitalOcean and similar hosts.
+ */
+export const authConfig: NextAuthConfig = Object.defineProperty(
+  authConfigBase,
+  "trustHost",
+  {
+    configurable: true,
+    enumerable: true,
+    get(): boolean {
+      return true;
+    },
+    set() {
+      /* ignore — must stay trusted behind reverse proxies */
+    },
+  },
+) as NextAuthConfig;
 
 export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
