@@ -7,18 +7,9 @@ import { asyncHandler } from "./async-handler";
 import { HttpError } from "./http-error";
 import { installApiNotFoundHandler, installGlobalErrorHandler } from "./global-error-handler";
 import { createPublicApiRateLimiter } from "./api-rate-limit";
-import {
-  testDatabaseConnection,
-  isProductionLikeRuntime,
-  logStartupDatabaseResolution,
-} from "./db";
 import { structuredRequestLogMiddleware } from "./structured-request-log";
 import { validateCriticalStartupConfig } from "./startup-config";
 import { emitStructuredLog, initOptionalLogSinks } from "./log-sink";
-import Stripe from "stripe";
-import { getStripeClient } from "./stripeClient";
-import { WebhookHandlers } from "./webhookHandlers";
-import { withWebhookIdempotency } from "./webhook-idempotency";
 
 const LOG_TIMEZONE = "America/Toronto";
 const TZ_PARTS = new Intl.DateTimeFormat("sv-SE", {
@@ -74,6 +65,34 @@ if (!process.env.TZ || !process.env.TZ.trim()) {
   process.env.TZ = LOG_TIMEZONE;
 }
 installTimestampedConsole();
+
+type DbModule = typeof import("./db");
+let dbModulePromise: Promise<DbModule> | null = null;
+function loadDbModule(): Promise<DbModule> {
+  if (!dbModulePromise) dbModulePromise = import("./db");
+  return dbModulePromise;
+}
+
+type StripeRuntime = {
+  getStripeClient: typeof import("./stripeClient")["getStripeClient"];
+  WebhookHandlers: typeof import("./webhookHandlers")["WebhookHandlers"];
+  withWebhookIdempotency: typeof import("./webhook-idempotency")["withWebhookIdempotency"];
+};
+let stripeRuntimePromise: Promise<StripeRuntime> | null = null;
+function loadStripeRuntime(): Promise<StripeRuntime> {
+  if (!stripeRuntimePromise) {
+    stripeRuntimePromise = Promise.all([
+      import("./stripeClient"),
+      import("./webhookHandlers"),
+      import("./webhook-idempotency"),
+    ]).then(([stripeClient, webhookHandlers, webhookIdempotency]) => ({
+      getStripeClient: stripeClient.getStripeClient,
+      WebhookHandlers: webhookHandlers.WebhookHandlers,
+      withWebhookIdempotency: webhookIdempotency.withWebhookIdempotency,
+    }));
+  }
+  return stripeRuntimePromise;
+}
 
 const app = express();
 app.set("trust proxy", 1);
@@ -134,8 +153,9 @@ app.get("/readyz", async (_req, res) => {
       : undefined;
 
     if (String(process.env.READYZ_CHECK_DB || "").toLowerCase() === "true") {
-      const target = isProductionLikeRuntime() ? "production" : "development";
-      const db = await testDatabaseConnection(target);
+      const dbModule = await loadDbModule();
+      const target = dbModule.isProductionLikeRuntime() ? "production" : "development";
+      const db = await dbModule.testDatabaseConnection(target);
       if (!db.ok) {
         return res.status(503).json({
           status: "degraded",
@@ -192,6 +212,8 @@ app.post(
   "/api/stripe/webhook",
   express.raw({ type: "application/json" }),
   asyncHandler(async (req, res) => {
+    const { getStripeClient, WebhookHandlers, withWebhookIdempotency } =
+      await loadStripeRuntime();
     const signature = req.headers["stripe-signature"];
 
     if (!signature || typeof signature !== "string") {
@@ -231,7 +253,7 @@ app.post(
     }
 
     const stripe = await getStripeClient();
-    let event: Stripe.Event;
+    let event: { id: string; type: string; livemode: boolean };
     try {
       event = stripe.webhooks.constructEvent(req.body, signature, secret);
     } catch {
@@ -326,7 +348,7 @@ async function startServer() {
     });
 
     diagPhase("PHASE 3: app.listen");
-    httpServer.listen(port, "0.0.0.0", () => {
+    httpServer.listen(port, "0.0.0.0", async () => {
       console.log(`BOOT SUCCESS: HTTP server listening on 0.0.0.0:${port}`);
       console.log(`SERVER STARTED port=${port} bind=0.0.0.0`);
       console.log(`[deploy-timing] listen_ready_ms=${Date.now() - deployBootT0}`);
@@ -347,7 +369,8 @@ async function startServer() {
             startup.errors.join("\n  - "),
         );
       }
-      logStartupDatabaseResolution();
+      const dbModule = await loadDbModule();
+      dbModule.logStartupDatabaseResolution();
       diagPhase("PHASE 2: server initialization");
 
       // Route registration can trigger heavy module evaluation. Defer loading
@@ -373,7 +396,7 @@ async function startServer() {
       void (async () => {
         diagPhase("PHASE 5: optional DB probe");
         try {
-          const dbProbe = await testDatabaseConnection();
+          const dbProbe = await dbModule.testDatabaseConnection();
           if (dbProbe.ok) {
             dbHealth = "connected";
             console.log("DB CONNECTED");
@@ -412,7 +435,7 @@ async function startServer() {
       // Keep probing in the background so DB recovery is reflected without restarts.
       setInterval(async () => {
         try {
-          const dbProbe = await testDatabaseConnection();
+          const dbProbe = await dbModule.testDatabaseConnection();
           if (dbProbe.ok) {
             if (dbHealth !== "connected") {
               console.log("DB CONNECTED");
