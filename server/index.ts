@@ -11,6 +11,8 @@ import { structuredRequestLogMiddleware } from "./structured-request-log";
 import { validateCriticalStartupConfig } from "./startup-config";
 import { emitStructuredLog, initOptionalLogSinks } from "./log-sink";
 
+console.log("[STARTUP_VIS] server/index.ts: first line of module body (after static imports)");
+
 const LOG_TIMEZONE = "America/Toronto";
 const TZ_PARTS = new Intl.DateTimeFormat("sv-SE", {
   timeZone: LOG_TIMEZONE,
@@ -94,6 +96,7 @@ function loadStripeRuntime(): Promise<StripeRuntime> {
   return stripeRuntimePromise;
 }
 
+console.log("[STARTUP_VIS] server/index.ts: immediately BEFORE express() app creation");
 const app = express();
 app.set("trust proxy", 1);
 type DbHealth = "connected" | "disconnected" | "unknown";
@@ -295,6 +298,7 @@ app.get("/api/test", (_req, res) => {
    SERVER START
 ------------------------- */
 
+console.log("[STARTUP_VIS] server/index.ts: immediately BEFORE createServer(app)");
 const httpServer = createServer(app);
 
 const deployBootT0 = Date.now();
@@ -317,7 +321,15 @@ function resolveListenPort(): number {
 
 async function startServer() {
   try {
-    const port = resolveListenPort();
+    console.log("[STARTUP_VIS] server/index.ts: immediately BEFORE resolveListenPort()");
+    let port: number;
+    try {
+      port = resolveListenPort();
+    } catch (e: unknown) {
+      console.error("[STARTUP_VIS] server/index.ts: resolveListenPort() threw", e);
+      throw e;
+    }
+    console.log("[STARTUP_VIS] server/index.ts: immediately AFTER resolveListenPort()", { port });
     console.log("STARTING WEB SERVER");
     console.log(`listening_port=${port} bind=0.0.0.0 (from PORT env when set)`);
     console.log(`LISTENING ON PORT ${port}`);
@@ -340,7 +352,14 @@ async function startServer() {
       }),
     );
 
-    initOptionalLogSinks();
+    console.log("[STARTUP_VIS] server/index.ts: immediately BEFORE initOptionalLogSinks()");
+    try {
+      initOptionalLogSinks();
+    } catch (e: unknown) {
+      console.error("[STARTUP_VIS] server/index.ts: initOptionalLogSinks() threw", e);
+      throw e;
+    }
+    console.log("[STARTUP_VIS] server/index.ts: immediately AFTER initOptionalLogSinks()");
 
     httpServer.once("error", (err: NodeJS.ErrnoException) => {
       console.error("[FATAL STARTUP] HTTP server error:", err?.message || err);
@@ -348,100 +367,114 @@ async function startServer() {
     });
 
     diagPhase("PHASE 3: app.listen");
-    httpServer.listen(port, "0.0.0.0", async () => {
-      console.log(`BOOT SUCCESS: HTTP server listening on 0.0.0.0:${port}`);
-      console.log(`SERVER STARTED port=${port} bind=0.0.0.0`);
-      console.log(`[deploy-timing] listen_ready_ms=${Date.now() - deployBootT0}`);
-      diagPhase("PHASE 4: health endpoint ready");
-      emitStructuredLog({
-        level: "info",
-        type: "server_listen",
-        msg: "Server running",
-        port,
-      });
+    console.log("[STARTUP_VIS] server/index.ts: immediately BEFORE httpServer.listen(...)", {
+      port,
+      bind: "0.0.0.0",
+    });
+    try {
+      httpServer.listen(port, "0.0.0.0", async () => {
+        console.log("[STARTUP_VIS] server/index.ts: first line INSIDE listen callback");
+        console.log(`BOOT SUCCESS: HTTP server listening on 0.0.0.0:${port}`);
+        console.log(`SERVER STARTED port=${port} bind=0.0.0.0`);
+        console.log(`[deploy-timing] listen_ready_ms=${Date.now() - deployBootT0}`);
+        diagPhase("PHASE 4: health endpoint ready");
+        emitStructuredLog({
+          level: "info",
+          type: "server_listen",
+          msg: "Server running",
+          port,
+        });
 
-      diagPhase("PHASE 1: config validation");
-      const startup = validateCriticalStartupConfig();
-      if (!startup.ok) {
-        systemDegraded = true;
-        console.warn(
-          "[startup] SYSTEM DEGRADED: critical config warnings (continuing to serve /health):\n  - " +
-            startup.errors.join("\n  - "),
-        );
-      }
-      const dbModule = await loadDbModule();
-      dbModule.logStartupDatabaseResolution();
-      diagPhase("PHASE 2: server initialization");
-
-      // Route registration can trigger heavy module evaluation. Defer loading
-      // until after listen so readiness can pass on lightweight health routes.
-      void (async () => {
-        try {
-          const routesT0 = Date.now();
-          const { registerRoutes } = await import("./routes");
-          await registerRoutes(httpServer, app);
-          console.log(`[deploy-timing] register_routes_ms=${Date.now() - routesT0}`);
-          // 404 + global error handler MUST be registered after all routes.
-          installApiNotFoundHandler(app);
-          installGlobalErrorHandler(app);
-        } catch (e: unknown) {
-          const msg = e instanceof Error ? e.message : String(e);
-          console.error("[startup] route registration failed (continuing to listen):", msg);
-          if (e instanceof Error && e.stack) console.error(e.stack);
+        diagPhase("PHASE 1: config validation");
+        const startup = validateCriticalStartupConfig();
+        if (!startup.ok) {
+          systemDegraded = true;
+          console.warn(
+            "[startup] SYSTEM DEGRADED: critical config warnings (continuing to serve /health):\n  - " +
+              startup.errors.join("\n  - "),
+          );
         }
-      })();
+        const dbModule = await loadDbModule();
+        dbModule.logStartupDatabaseResolution();
+        diagPhase("PHASE 2: server initialization");
 
-      // DB connectivity is allowed to fail; the service should still start listening
-      // so DigitalOcean readiness can pass. We probe and log asynchronously.
-      void (async () => {
-        diagPhase("PHASE 5: optional DB probe");
-        try {
-          const dbProbe = await dbModule.testDatabaseConnection();
-          if (dbProbe.ok) {
-            dbHealth = "connected";
-            console.log("DB CONNECTED");
-            console.log(
-              JSON.stringify({
-                type: "db_startup_probe",
-                ok: true,
-                target: dbProbe.target,
-                timeMs: dbProbe.timeMs,
-              }),
-            );
-          } else {
+        // Route registration can trigger heavy module evaluation. Defer loading
+        // until after listen so readiness can pass on lightweight health routes.
+        void (async () => {
+          try {
+            const routesT0 = Date.now();
+            const { registerRoutes } = await import("./routes");
+            await registerRoutes(httpServer, app);
+            console.log(`[deploy-timing] register_routes_ms=${Date.now() - routesT0}`);
+            // 404 + global error handler MUST be registered after all routes.
+            installApiNotFoundHandler(app);
+            installGlobalErrorHandler(app);
+          } catch (e: unknown) {
+            const msg = e instanceof Error ? e.message : String(e);
+            console.error("[startup] route registration failed (continuing to listen):", msg);
+            if (e instanceof Error && e.stack) console.error(e.stack);
+          }
+        })();
+
+        // DB connectivity is allowed to fail; the service should still start listening
+        // so DigitalOcean readiness can pass. We probe and log asynchronously.
+        void (async () => {
+          diagPhase("PHASE 5: optional DB probe");
+          try {
+            const dbProbe = await dbModule.testDatabaseConnection();
+            if (dbProbe.ok) {
+              dbHealth = "connected";
+              console.log("DB CONNECTED");
+              console.log(
+                JSON.stringify({
+                  type: "db_startup_probe",
+                  ok: true,
+                  target: dbProbe.target,
+                  timeMs: dbProbe.timeMs,
+                }),
+              );
+            } else {
+              dbHealth = "disconnected";
+              systemDegraded = true;
+              console.error("DB FAILED");
+              console.warn("SYSTEM DEGRADED");
+              console.error(
+                JSON.stringify({
+                  type: "db_startup_probe",
+                  ok: false,
+                  target: dbProbe.target,
+                  error: dbProbe.error,
+                }),
+              );
+            }
+          } catch (e: unknown) {
             dbHealth = "disconnected";
             systemDegraded = true;
+            const msg = e instanceof Error ? e.message : String(e);
             console.error("DB FAILED");
             console.warn("SYSTEM DEGRADED");
-            console.error(
-              JSON.stringify({
-                type: "db_startup_probe",
-                ok: false,
-                target: dbProbe.target,
-                error: dbProbe.error,
-              }),
-            );
+            console.error("[db_startup_probe] unexpected error:", msg);
           }
-        } catch (e: unknown) {
-          dbHealth = "disconnected";
-          systemDegraded = true;
-          const msg = e instanceof Error ? e.message : String(e);
-          console.error("DB FAILED");
-          console.warn("SYSTEM DEGRADED");
-          console.error("[db_startup_probe] unexpected error:", msg);
-        }
-      })();
+        })();
 
-      // Keep probing in the background so DB recovery is reflected without restarts.
-      setInterval(async () => {
-        try {
-          const dbProbe = await dbModule.testDatabaseConnection();
-          if (dbProbe.ok) {
-            if (dbHealth !== "connected") {
-              console.log("DB CONNECTED");
+        // Keep probing in the background so DB recovery is reflected without restarts.
+        setInterval(async () => {
+          try {
+            const dbProbe = await dbModule.testDatabaseConnection();
+            if (dbProbe.ok) {
+              if (dbHealth !== "connected") {
+                console.log("DB CONNECTED");
+              }
+              dbHealth = "connected";
+            } else {
+              if (dbHealth !== "disconnected") {
+                console.error("DB FAILED");
+                console.warn("SYSTEM DEGRADED");
+              }
+              dbHealth = "disconnected";
+              systemDegraded = true;
             }
-            dbHealth = "connected";
-          } else {
+          } catch {
             if (dbHealth !== "disconnected") {
               console.error("DB FAILED");
               console.warn("SYSTEM DEGRADED");
@@ -449,16 +482,12 @@ async function startServer() {
             dbHealth = "disconnected";
             systemDegraded = true;
           }
-        } catch {
-          if (dbHealth !== "disconnected") {
-            console.error("DB FAILED");
-            console.warn("SYSTEM DEGRADED");
-          }
-          dbHealth = "disconnected";
-          systemDegraded = true;
-        }
-      }, 30000).unref();
-    });
+        }, 30000).unref();
+      });
+    } catch (e: unknown) {
+      console.error("[STARTUP_VIS] server/index.ts: httpServer.listen(...) threw synchronously", e);
+      throw e;
+    }
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     console.error("BOOT FAILED: web server did not start");
@@ -482,6 +511,7 @@ async function startServer() {
   }
 }
 
+console.log("[STARTUP_VIS] server/index.ts: immediately BEFORE startServer()");
 void startServer();
 
 /* -------------------------
