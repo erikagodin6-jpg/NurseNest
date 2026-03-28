@@ -7,6 +7,7 @@ import {
   THEME_OPTIONS,
   THEME_STORAGE_KEY,
 } from "@/lib/theme/theme-registry";
+import { ThemeStateHydration } from "@/components/theme/theme-state-hydration";
 
 /**
  * Single root for NurseNest theming (do not nest a second ThemeProvider).
@@ -24,6 +25,7 @@ export function AppThemeProvider({ children }: { children: ReactNode }) {
       storageKey={THEME_STORAGE_KEY}
       disableTransitionOnChange
     >
+      <ThemeStateHydration />
       {children}
     </ThemeProvider>
   );

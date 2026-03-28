@@ -25,11 +25,12 @@ export function ThemePicker({ className = "", labels }: { className?: string; la
 
   useEffect(() => {
     if (!open) return;
+    /** Bubble phase so theme option clicks run before outside-close logic. */
     const onDown = (e: PointerEvent) => {
       if (!ref.current?.contains(e.target as Node)) setOpen(false);
     };
-    document.addEventListener("pointerdown", onDown, true);
-    return () => document.removeEventListener("pointerdown", onDown, true);
+    document.addEventListener("pointerdown", onDown, false);
+    return () => document.removeEventListener("pointerdown", onDown, false);
   }, [open]);
 
   const current = mounted ? (resolvedTheme ?? theme ?? "lavender") : "lavender";
