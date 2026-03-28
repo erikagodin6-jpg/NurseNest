@@ -20,6 +20,20 @@ This document records a **structured audit** of where Replit-era behavior lives 
 
 ---
 
+## Restoration workflow (reuse old code first)
+
+When bringing back legacy behavior, **do not re-implement from memory**. Follow this order:
+
+1. **Find the original** — Search the repo (including `nursenest-core/src/legacy/`, `client/src/components/`, `server/`, `scripts/`) and, when needed, **`git log -p -- path`** or a **`subrepl-*`** remote for the last known Replit-era version of the feature.
+2. **Compare** — Read old vs current side by side: completeness, edge cases, error handling, and any comments or tests that show production hardening.
+3. **Prefer adapt and restore** — If the old code is **more complete** or **production-proven**, **adapt it** into the current architecture (same hooks, types, and file layout as surrounding code). Wire it through existing integration points (e.g. `home-restored-client.tsx` for marketing, server middleware for paywall).
+4. **Only then write new code** — New code is justified when no usable original exists, or when the original is incompatible with non-negotiable safeguards below (without a focused refactor).
+5. **Still obey safeguards** — Reused code must respect [Performance protections](#performance-protections-do-not-regress) (lazy boundaries, i18n pipeline, SW/cache behavior, server-side access checks).
+
+This workflow is also captured for the agent in `.cursor/rules/legacy-restoration.mdc`.
+
+---
+
 ## Performance protections (do not regress)
 
 | Risk (historical) | Current mitigation |
