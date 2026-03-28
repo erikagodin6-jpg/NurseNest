@@ -414,6 +414,9 @@
   [data-theme="berry"]
 ) {
   --theme-primary-foreground: #ffffff;
+  /* Promo top bar follows the active accent (some per-theme blocks omitted these). */
+  --theme-topbar-bg: var(--theme-primary);
+  --theme-topbar-text: #ffffff;
   --theme-page-bg: #fdfcfa;
   --theme-nav-bg: #ffffff;
   --theme-nav-text: #6b7280;

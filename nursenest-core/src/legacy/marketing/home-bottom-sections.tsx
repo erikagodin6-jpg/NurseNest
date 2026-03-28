@@ -120,7 +120,7 @@ export function HomeBottomSections({
 
   return (
     <>
-                <section className="border-t border-gray-100" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-study-tools">
+                <section className="border-t border-border" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-study-tools">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
               <div className="nn-accent-soft-ring mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1.5">
@@ -130,14 +130,14 @@ export function HomeBottomSections({
               <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-study-tools-heading">
                 Your Personalized Exam Toolkit
               </h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              <p className="text-lg text-foreground max-w-3xl mx-auto">
                 Every student's journey is unique. NurseNest adapts to your strengths, targets your weak areas, and tracks your progress toward exam readiness.
               </p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               <div
-                className="relative bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
+                className="relative bg-card rounded-2xl border border-border/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
                 onClick={() => router.push(mapLegacyMarketingHref("/study-plan"))}
                 data-testid="card-promo-study-planner"
               >
@@ -149,7 +149,7 @@ export function HomeBottomSections({
                   <Brain className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{t("components.homeBottomSections.customStudyPlanner")}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">
+                <p className="text-sm text-foreground leading-relaxed mb-3">
                   Get a personalized study schedule built around your exam date, available hours, and weak areas. Your plan adapts as you progress.
                 </p>
                 <div className="flex flex-wrap gap-1.5 mb-3">
@@ -164,7 +164,7 @@ export function HomeBottomSections({
               </div>
 
               <div
-                className="relative bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
+                className="relative bg-card rounded-2xl border border-border/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
                 onClick={() => router.push(mapLegacyMarketingHref("/mock-exams"))}
                 data-testid="card-promo-readiness-exam"
               >
@@ -176,7 +176,7 @@ export function HomeBottomSections({
                   <ShieldCheck className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{t("components.homeBottomSections.freeReadinessExam")}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">
+                <p className="text-sm text-foreground leading-relaxed mb-3">
                   Take a 25-question readiness check to gauge your exam preparedness. Instant results with a detailed performance breakdown. No account required.
                 </p>
                 <div className="mb-3 flex flex-wrap gap-1.5">
@@ -191,7 +191,7 @@ export function HomeBottomSections({
               </div>
 
               <div
-                className="relative bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
+                className="relative bg-card rounded-2xl border border-border/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group overflow-hidden"
                 onClick={() => router.push(mapLegacyMarketingHref("/reports"))}
                 data-testid="card-promo-report-card"
               >
@@ -200,7 +200,7 @@ export function HomeBottomSections({
                   <BarChart3 className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{t("components.homeBottomSections.performanceReportCard")}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">
+                <p className="text-sm text-foreground leading-relaxed mb-3">
                   Track your progress across every body system and competency domain. Identify strengths, target weaknesses, and watch your readiness score climb.
                 </p>
                 <div className="mb-3 flex flex-wrap gap-1.5">
@@ -232,7 +232,7 @@ export function HomeBottomSections({
         {/* trust-showcase omitted in Core */}
 
         {/* Choose Your Exam Path */}
-        <section className="py-16 bg-gradient-to-b from-white to-primary/5 relative z-10 border-t border-gray-100" data-testid="section-exam-path">
+        <section className="py-16 bg-gradient-to-b from-[var(--theme-page-bg)] to-primary/5 relative z-10 border-t border-border" data-testid="section-exam-path">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
@@ -240,11 +240,11 @@ export function HomeBottomSections({
                 <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.examPath.badge")}</span>
               </div>
               <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-exam-path-heading">{t("home.examPath.heading")}</h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">{t("home.examPath.subtitle")}</p>
+              <p className="text-lg text-foreground max-w-3xl mx-auto">{t("home.examPath.subtitle")}</p>
             </div>
             <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
               <Card
-                className={`group relative cursor-pointer overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${region === "CA" ? "ring-2 ring-primary shadow-lg" : "border-gray-200 hover:border-primary/35"}`}
+                className={`group relative cursor-pointer overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${region === "CA" ? "ring-2 ring-primary shadow-lg" : "border-border hover:border-primary/35"}`}
                 onClick={() => router.push(mapLegacyMarketingHref("/rex-pn-guide"))}
                 data-testid="card-exam-path-ca"
               >
@@ -260,10 +260,10 @@ export function HomeBottomSections({
                     </div>
                     <div>
                       <h3 className="font-bold text-[var(--theme-heading-text)] text-lg" data-testid="text-exam-path-ca-title">{t("home.examPath.ca.title")}</h3>
-                      <p className="text-xs text-gray-500 font-medium">{t("home.examPath.ca.subtitle")}</p>
+                      <p className="text-xs text-muted-foreground font-medium">{t("home.examPath.ca.subtitle")}</p>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-600 leading-relaxed mb-4" data-testid="text-exam-path-ca-desc">{t("home.examPath.ca.desc")}</p>
+                  <p className="text-sm text-foreground leading-relaxed mb-4" data-testid="text-exam-path-ca-desc">{t("home.examPath.ca.desc")}</p>
                   <div className="mb-4 flex flex-wrap gap-2">
                     <span className="rounded-full border border-primary/20 bg-primary/10 px-2 py-1 text-[10px] font-medium text-primary">{t("home.examPath.ca.pill1")}</span>
                     <span className="rounded-full border border-primary/20 bg-primary/10 px-2 py-1 text-[10px] font-medium text-primary">{t("home.examPath.ca.pill2")}</span>
@@ -277,7 +277,7 @@ export function HomeBottomSections({
               </Card>
 
               <Card
-                className={`group relative cursor-pointer overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${region === "US" ? "ring-2 ring-primary shadow-lg" : "border-gray-200 hover:border-primary/35"}`}
+                className={`group relative cursor-pointer overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${region === "US" ? "ring-2 ring-primary shadow-lg" : "border-border hover:border-primary/35"}`}
                 onClick={() => router.push(mapLegacyMarketingHref("/nclex-rn-guide"))}
                 data-testid="card-exam-path-us"
               >
@@ -293,10 +293,10 @@ export function HomeBottomSections({
                     </div>
                     <div>
                       <h3 className="font-bold text-[var(--theme-heading-text)] text-lg" data-testid="text-exam-path-us-title">{t("home.examPath.us.title")}</h3>
-                      <p className="text-xs text-gray-500 font-medium">{t("home.examPath.us.subtitle")}</p>
+                      <p className="text-xs text-muted-foreground font-medium">{t("home.examPath.us.subtitle")}</p>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-600 leading-relaxed mb-4" data-testid="text-exam-path-us-desc">{t("home.examPath.us.desc")}</p>
+                  <p className="text-sm text-foreground leading-relaxed mb-4" data-testid="text-exam-path-us-desc">{t("home.examPath.us.desc")}</p>
                   <div className="mb-4 flex flex-wrap gap-2">
                     <span className="rounded-full border border-primary/20 bg-primary/10 px-2 py-1 text-[10px] font-medium text-primary">{t("home.examPath.us.pill1")}</span>
                     <span className="rounded-full border border-primary/20 bg-primary/10 px-2 py-1 text-[10px] font-medium text-primary">{t("home.examPath.us.pill2")}</span>
@@ -309,12 +309,12 @@ export function HomeBottomSections({
                 </CardContent>
               </Card>
             </div>
-            <p className="text-center text-xs text-gray-400 mt-6">{t("home.examPath.bothNote")}</p>
+            <p className="text-center text-xs text-muted-foreground mt-6">{t("home.examPath.bothNote")}</p>
           </div>
         </section>
 
         {/* 3-Step How It Works */}
-        <section className="py-16 bg-gradient-to-b from-primary/5 to-white relative z-10 border-t border-primary/10" data-testid="section-how-it-works">
+        <section className="py-16 bg-gradient-to-b from-primary/5 to-[var(--theme-page-bg)] relative z-10 border-t border-primary/10" data-testid="section-how-it-works">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
@@ -322,7 +322,7 @@ export function HomeBottomSections({
                 <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.howItWorks.badge")}</span>
               </div>
               <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-how-it-works-heading">{t("home.howItWorks.heading")}</h2>
-              <p className="text-lg text-gray-600">{t("home.howItWorks.subtitle")}</p>
+              <p className="text-lg text-foreground">{t("home.howItWorks.subtitle")}</p>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               {[
@@ -332,15 +332,15 @@ export function HomeBottomSections({
               ].map((item, i) => (
                 <div key={i} className="relative text-center" data-testid={`step-how-it-works-${i}`}>
                   {i < 2 && (
-                    <div className="hidden md:block absolute top-10 left-[60%] w-[80%] h-px bg-gradient-to-r from-gray-300 to-transparent z-0" />
+                    <div className="hidden md:block absolute top-10 left-[60%] w-[80%] h-px bg-gradient-to-r from-muted-foreground/30 to-transparent z-0" />
                   )}
                   <div className="relative z-10">
                     <div className="nn-theme-gradient-br mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-2xl shadow-lg">
                       <item.icon className="h-9 w-9 text-white" />
                     </div>
-                    <div className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gray-900 text-white text-xs font-bold mb-3">{item.step}</div>
+                    <div className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-bold mb-3">{item.step}</div>
                     <h3 className="text-xl font-bold text-[var(--theme-heading-text)] mb-2">{item.title}</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed max-w-xs mx-auto">{item.desc}</p>
+                    <p className="text-sm text-foreground leading-relaxed max-w-xs mx-auto">{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -349,7 +349,7 @@ export function HomeBottomSections({
         </section>
 
         {/* Social Proof Section */}
-        <section className="py-14 bg-white border-y border-gray-100" data-testid="section-social-proof">
+        <section className="py-14 bg-card border-y border-border" data-testid="section-social-proof">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
               <div className="nn-accent-soft-ring mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1.5">
@@ -359,29 +359,29 @@ export function HomeBottomSections({
               <h2 className="font-bold text-[var(--theme-heading-text)]" style={{ fontSize: 'var(--text-section)' }} data-testid="text-social-proof-heading">{t("home.socialProof.heading")}</h2>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-white p-5 text-center" data-testid="stat-social-students">
+              <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-[var(--theme-page-bg)] p-5 text-center" data-testid="stat-social-students">
                 <Users className="mx-auto mb-2 h-7 w-7 text-primary" />
                 <div className="text-3xl font-extrabold text-[var(--theme-heading-text)]">5,000+</div>
-                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{t("home.socialProof.students")}</div>
+                <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mt-1">{t("home.socialProof.students")}</div>
               </div>
-              <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-white p-5 text-center" data-testid="stat-social-pass-rate">
+              <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-[var(--theme-page-bg)] p-5 text-center" data-testid="stat-social-pass-rate">
                 <BadgeCheck className="mx-auto mb-2 h-7 w-7 text-primary" />
                 <div className="text-3xl font-extrabold text-[var(--theme-heading-text)]">{t("home.socialProof.passRateValue")}</div>
-                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{t("home.socialProof.passRate")}</div>
+                <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mt-1">{t("home.socialProof.passRate")}</div>
               </div>
-              <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-white p-5 text-center" data-testid="stat-social-questions">
+              <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-[var(--theme-page-bg)] p-5 text-center" data-testid="stat-social-questions">
                 <Target className="mx-auto mb-2 h-7 w-7 text-primary" />
                 <div className="text-3xl font-extrabold text-[var(--theme-heading-text)]">{formatCount(questionCount)}</div>
-                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{t("home.socialProof.questions")}</div>
+                <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mt-1">{t("home.socialProof.questions")}</div>
               </div>
-              <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-white p-5 text-center" data-testid="stat-social-lessons">
+              <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-[var(--theme-page-bg)] p-5 text-center" data-testid="stat-social-lessons">
                 <BookOpen className="mx-auto mb-2 h-7 w-7 text-primary" />
                 <div className="text-3xl font-extrabold text-[var(--theme-heading-text)]">{formatCount(lessonCount)}</div>
-                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{t("home.socialProof.lessons")}</div>
+                <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mt-1">{t("home.socialProof.lessons")}</div>
               </div>
             </div>
             <div className="text-center mt-6">
-              <div className="inline-flex items-center gap-2 text-sm text-gray-500">
+              <div className="inline-flex items-center gap-2 text-sm text-muted-foreground">
                 <TrendingUp className="h-4 w-4 text-primary" />
                 <span>{t("home.socialProof.updatedDesc")}</span>
               </div>
@@ -390,7 +390,7 @@ export function HomeBottomSections({
         </section>
 
         {/* What's New Section */}
-        <section className="relative z-10 border-t border-primary/15 bg-gradient-to-b from-primary/5 to-white py-12" data-testid="section-whats-new">
+        <section className="relative z-10 border-t border-primary/15 bg-gradient-to-b from-primary/5 to-[var(--theme-page-bg)] py-12" data-testid="section-whats-new">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
             <div className="mb-8 flex items-center justify-center gap-3">
               <div className="h-px max-w-[60px] flex-1 bg-gradient-to-r from-transparent to-primary/35" />
@@ -403,7 +403,7 @@ export function HomeBottomSections({
 
             <div className="grid gap-5 md:grid-cols-3">
               <div
-                className="group cursor-pointer rounded-2xl border border-gray-100/80 bg-white p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
+                className="group cursor-pointer rounded-2xl border border-border/80 bg-card p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
                 onClick={() => router.push(mapLegacyMarketingHref("/flashcards"))}
                 data-testid="card-new-decks"
               >
@@ -414,11 +414,11 @@ export function HomeBottomSections({
                   <span className="rounded-full bg-primary px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary-foreground">{t("home.new.label")}</span>
                 </div>
                 <h3 className="text-base font-bold text-[var(--theme-heading-text)] mb-1.5">{t("home.new.decks.title")}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{t("home.new.decks.desc")}</p>
+                <p className="text-sm text-foreground leading-relaxed">{t("home.new.decks.desc")}</p>
               </div>
 
               <div
-                className="group cursor-pointer rounded-2xl border border-gray-100/80 bg-white p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
+                className="group cursor-pointer rounded-2xl border border-border/80 bg-card p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
                 onClick={() => router.push(mapLegacyMarketingHref("/blog"))}
                 data-testid="card-new-blog"
               >
@@ -429,11 +429,11 @@ export function HomeBottomSections({
                   <span className="rounded-full bg-primary px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary-foreground">{t("home.new.label")}</span>
                 </div>
                 <h3 className="text-base font-bold text-[var(--theme-heading-text)] mb-1.5">{t("home.new.blog.title")}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{t("home.new.blog.desc")}</p>
+                <p className="text-sm text-foreground leading-relaxed">{t("home.new.blog.desc")}</p>
               </div>
 
               <div
-                className="group cursor-pointer rounded-2xl border border-gray-100/80 bg-white p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
+                className="group cursor-pointer rounded-2xl border border-border/80 bg-card p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
                 onClick={() => router.push(mapLegacyMarketingHref("/lessons"))}
                 data-testid="card-new-languages"
               >
@@ -444,14 +444,14 @@ export function HomeBottomSections({
                   <span className="rounded-full bg-primary px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary-foreground">{t("home.new.label")}</span>
                 </div>
                 <h3 className="text-base font-bold text-[var(--theme-heading-text)] mb-1.5">{t("home.new.languages.title")}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{t("home.new.languages.desc")}</p>
+                <p className="text-sm text-foreground leading-relaxed">{t("home.new.languages.desc")}</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* Platform Features Showcase */}
-        <section className="py-20 bg-gradient-to-b from-white via-primary/3 to-white relative z-10" data-testid="section-platform-features">
+        <section className="py-20 bg-gradient-to-b from-[var(--theme-page-bg)] via-primary/3 to-[var(--theme-page-bg)] relative z-10" data-testid="section-platform-features">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-14">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-5">
@@ -461,7 +461,7 @@ export function HomeBottomSections({
               <h2 className="font-bold text-[var(--theme-heading-text)] mb-5" style={{ fontSize: 'var(--text-section)' }} data-testid="text-features-heading">
                 {t("home.features.title")}
               </h2>
-              <p className="text-lg text-gray-600 leading-relaxed">
+              <p className="text-lg text-foreground leading-relaxed">
                 {t("home.features.subtitle")}
               </p>
             </div>
@@ -478,13 +478,13 @@ export function HomeBottomSections({
                 },
                 { value: "7+", label: t("home.stats.modes"), icon: Layers },
               ].map((stat, i) => (
-                <div key={i} className="group relative overflow-hidden rounded-2xl border border-gray-100/80 bg-white p-5 text-center shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]" data-testid={`stat-feature-${i}`}>
+                <div key={i} className="group relative overflow-hidden rounded-2xl border border-border/80 bg-card p-5 text-center shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]" data-testid={`stat-feature-${i}`}>
                   <div className="nn-theme-gradient-br absolute left-0 top-0 h-1 w-full" />
                   <div className="nn-accent-icon-wrap mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
                     <stat.icon className="nn-accent-icon h-5 w-5" />
                   </div>
                   <div className="text-2xl sm:text-3xl font-extrabold text-[var(--theme-heading-text)]">{stat.value}</div>
-                  <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{stat.label}</div>
+                  <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mt-1">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -493,7 +493,7 @@ export function HomeBottomSections({
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
               {/* Mock Exams */}
               <div
-                className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-card rounded-2xl border border-border/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => router.push(mapLegacyMarketingHref("/mock-exams"))}
                 data-testid="card-feature-mock-exams"
               >
@@ -502,7 +502,7 @@ export function HomeBottomSections({
                   <ClipboardCheck className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{t("home.exams.title")}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.exams.desc")}</p>
+                <p className="text-sm text-foreground leading-relaxed mb-3">{t("home.exams.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.examFormat")}</span>
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.scoreTrends")}</span>
@@ -512,7 +512,7 @@ export function HomeBottomSections({
 
               {/* Clinical Simulators */}
               <div
-                className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-card rounded-2xl border border-border/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => router.push(mapLegacyMarketingHref("/first-action-simulator"))}
                 data-testid="card-feature-simulators"
               >
@@ -521,7 +521,7 @@ export function HomeBottomSections({
                   <Stethoscope className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{t("home.simulators.title")}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.simulators.desc")}</p>
+                <p className="text-sm text-foreground leading-relaxed mb-3">{t("home.simulators.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.branching")}</span>
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.instantFeedback")}</span>
@@ -531,7 +531,7 @@ export function HomeBottomSections({
 
               {/* Test Bank */}
               <div
-                className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-card rounded-2xl border border-border/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => router.push(mapLegacyMarketingHref("/free-practice"))}
                 data-testid="card-feature-test-bank"
               >
@@ -540,7 +540,7 @@ export function HomeBottomSections({
                   <Target className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{formatCount(questionCount)} {t("home.qbank.title")}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.qbank.desc")}</p>
+                <p className="text-sm text-foreground leading-relaxed mb-3">{t("home.qbank.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">
                     RPN/LVN/RN/NP {t("home.feature.tierLevels")}
@@ -552,7 +552,7 @@ export function HomeBottomSections({
 
               {/* Flashcard Decks */}
               <div
-                className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-card rounded-2xl border border-border/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => router.push(mapLegacyMarketingHref("/flashcards"))}
                 data-testid="card-feature-flashcards"
               >
@@ -562,7 +562,7 @@ export function HomeBottomSections({
                   <Layers className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{t("home.flashcards.title")}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.flashcards.desc")}</p>
+                <p className="text-sm text-foreground leading-relaxed mb-3">{t("home.flashcards.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.learnMode")}</span>
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.testMode")}</span>
@@ -573,7 +573,7 @@ export function HomeBottomSections({
 
               {/* Med Math & Lab Values */}
               <div
-                className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-card rounded-2xl border border-border/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => router.push(mapLegacyMarketingHref("/med-math"))}
                 data-testid="card-feature-med-math"
               >
@@ -582,7 +582,7 @@ export function HomeBottomSections({
                   <Calculator className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{t("home.tools.title")}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.tools.desc")}</p>
+                <p className="text-sm text-foreground leading-relaxed mb-3">{t("home.tools.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.stepwise")}</span>
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.abg")}</span>
@@ -592,7 +592,7 @@ export function HomeBottomSections({
 
               {/* Video Lectures */}
               <div
-                className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
+                className="bg-card rounded-2xl border border-border/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group relative overflow-hidden"
                 onClick={() => router.push(mapLegacyMarketingHref("/lectures"))}
                 data-testid="card-feature-lectures"
               >
@@ -601,7 +601,7 @@ export function HomeBottomSections({
                   <PlayCircle className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-[var(--theme-heading-text)] mb-2">{t("home.lessons.title")}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.lessons.desc")}</p>
+                <p className="text-sm text-foreground leading-relaxed mb-3">{t("home.lessons.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.videoLectures")}</span>
                   <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.clinicalPearls")}</span>
@@ -612,50 +612,50 @@ export function HomeBottomSections({
 
             {/* Secondary Features Strip */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100/80 shadow-[var(--shadow-card)] p-4 hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 cursor-pointer" onClick={() => router.push(mapLegacyMarketingHref("/dashboard"))} data-testid="card-feature-dashboard">
+              <div className="flex items-center gap-3 bg-card rounded-xl border border-border/80 shadow-[var(--shadow-card)] p-4 hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 cursor-pointer" onClick={() => router.push(mapLegacyMarketingHref("/dashboard"))} data-testid="card-feature-dashboard">
                 <div className="nn-accent-icon-wrap flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
                   <LayoutDashboard className="nn-accent-icon h-5 w-5" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.secondary.dashboard")}</h4>
-                  <p className="text-xs text-gray-500">{t("home.secondary.dashboardDesc")}</p>
+                  <p className="text-xs text-muted-foreground">{t("home.secondary.dashboardDesc")}</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100/80 shadow-[var(--shadow-card)] p-4 hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 cursor-pointer" onClick={() => router.push(mapLegacyMarketingHref("/reports"))} data-testid="card-feature-analytics">
+              <div className="flex items-center gap-3 bg-card rounded-xl border border-border/80 shadow-[var(--shadow-card)] p-4 hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 cursor-pointer" onClick={() => router.push(mapLegacyMarketingHref("/reports"))} data-testid="card-feature-analytics">
                 <div className="nn-accent-icon-wrap flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
                   <BarChart3 className="nn-accent-icon h-5 w-5" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.secondary.analytics")}</h4>
-                  <p className="text-xs text-gray-500">{t("home.secondary.analyticsDesc")}</p>
+                  <p className="text-xs text-muted-foreground">{t("home.secondary.analyticsDesc")}</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100/80 shadow-[var(--shadow-card)] p-4 hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 cursor-pointer" onClick={() => router.push(mapLegacyMarketingHref("/question-of-the-day"))} data-testid="card-feature-qotd">
+              <div className="flex items-center gap-3 bg-card rounded-xl border border-border/80 shadow-[var(--shadow-card)] p-4 hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 cursor-pointer" onClick={() => router.push(mapLegacyMarketingHref("/question-of-the-day"))} data-testid="card-feature-qotd">
                 <div className="nn-accent-icon-wrap flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
                   <MessageSquareQuote className="nn-accent-icon h-5 w-5" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.secondary.qotd")}</h4>
-                  <p className="text-xs text-gray-500">{t("home.secondary.qotdDesc")}</p>
+                  <p className="text-xs text-muted-foreground">{t("home.secondary.qotdDesc")}</p>
                 </div>
               </div>
 
-              <div className="relative flex cursor-pointer items-center gap-3 overflow-hidden rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md" onClick={() => router.push(mapLegacyMarketingHref("/blog"))} data-testid="card-feature-blog">
+              <div className="relative flex cursor-pointer items-center gap-3 overflow-hidden rounded-xl border border-border bg-card p-4 shadow-sm transition-shadow hover:shadow-md" onClick={() => router.push(mapLegacyMarketingHref("/blog"))} data-testid="card-feature-blog">
                 <div className="absolute right-1.5 top-1.5 rounded-full bg-primary px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-wider text-primary-foreground">{t("home.new.label")}</div>
                 <div className="nn-accent-icon-wrap flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
                   <Newspaper className="nn-accent-icon h-5 w-5" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.secondary.blog")}</h4>
-                  <p className="text-xs text-gray-500">{t("home.secondary.blogDesc")}</p>
+                  <p className="text-xs text-muted-foreground">{t("home.secondary.blogDesc")}</p>
                 </div>
               </div>
             </div>
 
             {/* Differentiators Row */}
-            <div className="bg-gradient-to-r from-primary/5 via-white to-primary/5 rounded-2xl border border-primary/10 p-6 sm:p-8">
+            <div className="bg-gradient-to-r from-primary/5 via-[var(--theme-page-bg)] to-primary/5 rounded-2xl border border-primary/10 p-6 sm:p-8">
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center shrink-0 mt-0.5">
@@ -663,7 +663,7 @@ export function HomeBottomSections({
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.diff.region")}</h4>
-                    <p className="text-xs text-gray-500 mt-0.5">{t("home.diff.regionDesc")}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{t("home.diff.regionDesc")}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -672,7 +672,7 @@ export function HomeBottomSections({
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.diff.patho")}</h4>
-                    <p className="text-xs text-gray-500 mt-0.5">{t("home.diff.pathoDesc")}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{t("home.diff.pathoDesc")}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -681,7 +681,7 @@ export function HomeBottomSections({
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.diff.scope")}</h4>
-                    <p className="text-xs text-gray-500 mt-0.5">RPN/LVN {t("home.diff.scopeDesc")}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">RPN/LVN {t("home.diff.scopeDesc")}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -690,7 +690,7 @@ export function HomeBottomSections({
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-[var(--theme-heading-text)]">{t("home.diff.languages")}</h4>
-                    <p className="text-xs text-gray-500 mt-0.5">{t("home.diff.languagesDesc")}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{t("home.diff.languagesDesc")}</p>
                   </div>
                 </div>
               </div>
@@ -711,7 +711,7 @@ export function HomeBottomSections({
         </section>
 
         {/* Free Interactive Learning Section */}
-        <section className="py-20 bg-gradient-to-b from-white to-primary/5 relative z-10" data-testid="section-free-learning">
+        <section className="py-20 bg-gradient-to-b from-[var(--theme-page-bg)] to-primary/5 relative z-10" data-testid="section-free-learning">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-12">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
@@ -719,41 +719,41 @@ export function HomeBottomSections({
                 <span className="text-xs font-semibold text-primary uppercase tracking-wide">{t("home.free.badge")}</span>
               </div>
               <h2 className="font-bold text-[var(--theme-heading-text)] mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-free-learning-heading">{t("home.free.title")}</h2>
-              <p className="text-lg text-gray-600 leading-relaxed">
+              <p className="text-lg text-foreground leading-relaxed">
                 {t("home.free.subtitle")}
               </p>
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              <Card className="border border-primary/15 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 overflow-hidden bg-white cursor-pointer group" onClick={() => router.push(mapLegacyMarketingHref("/pre-nursing"))} data-testid="card-free-pre-nursing">
+              <Card className="border border-primary/15 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 overflow-hidden bg-card cursor-pointer group" onClick={() => router.push(mapLegacyMarketingHref("/pre-nursing"))} data-testid="card-free-pre-nursing">
                 <CardContent className="p-6">
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <GraduationCap className="w-6 h-6 text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold text-[var(--theme-heading-text)] mb-2">{t("home.free.preNursing")}</h3>
-                  <p className="text-sm text-gray-600 mb-3">{t("home.free.preNursingDesc")}</p>
+                  <p className="text-sm text-foreground mb-3">{t("home.free.preNursingDesc")}</p>
                   <span className="text-xs text-primary font-medium">{t("home.free.preNursingMeta")}</span>
                 </CardContent>
               </Card>
 
-              <Card className="border border-primary/15 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 overflow-hidden bg-white cursor-pointer group" onClick={() => router.push(mapLegacyMarketingHref("/anatomy"))} data-testid="card-free-anatomy">
+              <Card className="border border-primary/15 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 overflow-hidden bg-card cursor-pointer group" onClick={() => router.push(mapLegacyMarketingHref("/anatomy"))} data-testid="card-free-anatomy">
                 <CardContent className="p-6">
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <HeartPulse className="w-6 h-6 text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold text-[var(--theme-heading-text)] mb-2">{t("home.free.anatomy")}</h3>
-                  <p className="text-sm text-gray-600 mb-3">{t("home.free.anatomyDesc")}</p>
+                  <p className="text-sm text-foreground mb-3">{t("home.free.anatomyDesc")}</p>
                   <span className="text-xs text-primary font-medium">{t("home.free.anatomyMeta")}</span>
                 </CardContent>
               </Card>
 
-              <Card className="border border-primary/15 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 overflow-hidden bg-white cursor-pointer group" onClick={() => router.push(mapLegacyMarketingHref("/clinical-clarity"))} data-testid="card-free-clinical-clarity">
+              <Card className="border border-primary/15 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 overflow-hidden bg-card cursor-pointer group" onClick={() => router.push(mapLegacyMarketingHref("/clinical-clarity"))} data-testid="card-free-clinical-clarity">
                 <CardContent className="p-6">
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <Lightbulb className="w-6 h-6 text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold text-[var(--theme-heading-text)] mb-2">{t("home.free.clarity")}</h3>
-                  <p className="text-sm text-gray-600 mb-3">{t("home.free.clarityDesc")}</p>
+                  <p className="text-sm text-foreground mb-3">{t("home.free.clarityDesc")}</p>
                   <span className="text-xs text-primary font-medium">{t("home.free.clarityMeta")}</span>
                 </CardContent>
               </Card>
@@ -769,16 +769,16 @@ export function HomeBottomSections({
         </section>
 
         {/* What You Can Study Section */}
-        <section className="py-24 bg-white/50 backdrop-blur-sm relative z-10" data-testid="section-study-topics">
+        <section className="py-24 bg-card/50 backdrop-blur-sm relative z-10" data-testid="section-study-topics">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-6">
               <h2 className="font-bold text-[var(--theme-heading-text)] mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-study-heading">{t("home.study.heading")}</h2>
-              <p className="text-lg text-gray-600 leading-relaxed">
+              <p className="text-lg text-foreground leading-relaxed">
                 {t("home.study.subtitle")}
               </p>
             </div>
 
-            <p className="text-center text-sm text-gray-500 mb-12 max-w-2xl mx-auto">
+            <p className="text-center text-sm text-muted-foreground mb-12 max-w-2xl mx-auto">
               {t("home.study.subtext")}
             </p>
 
@@ -794,20 +794,20 @@ export function HomeBottomSections({
                 { icon: Stethoscope, title: t("home.study.cases"), desc: t("home.study.casesDesc") },
                 { icon: GraduationCap, title: t("home.study.patho"), desc: t("home.study.pathoDesc") },
               ].map((topic, i) => (
-                <Card key={i} className="border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/20 transition-[transform,box-shadow] duration-300 hover:-translate-y-1 overflow-hidden group bg-white cursor-pointer" onClick={() => router.push(mapLegacyMarketingHref("/lessons"))} data-testid={`card-topic-${i}`}>
+                <Card key={i} className="border border-border shadow-sm hover:shadow-lg hover:border-primary/20 transition-[transform,box-shadow] duration-300 hover:-translate-y-1 overflow-hidden group bg-card cursor-pointer" onClick={() => router.push(mapLegacyMarketingHref("/lessons"))} data-testid={`card-topic-${i}`}>
                   <CardContent className="p-6">
                     <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110">
                       <topic.icon className="nn-accent-icon h-6 w-6" />
                     </div>
                     <h3 className="text-lg font-semibold text-[var(--theme-heading-text)] mb-2">{topic.title}</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">{topic.desc}</p>
+                    <p className="text-sm text-foreground leading-relaxed">{topic.desc}</p>
                   </CardContent>
                 </Card>
               ))}
             </div>
 
             <div className="text-center mt-12">
-              <Button variant="outline" className="rounded-full px-6 border-primary/20 hover:bg-primary/5 text-gray-700" onClick={() => router.push(mapLegacyMarketingHref("/lessons"))} data-testid="button-browse-all-topics">
+              <Button variant="outline" className="rounded-full px-6 border-primary/20 hover:bg-primary/5 text-[var(--theme-heading-text)]" onClick={() => router.push(mapLegacyMarketingHref("/lessons"))} data-testid="button-browse-all-topics">
                 {t("home.study.browseAll")} ({formatCount(lessonCount)})
                 <ChevronRight className="ml-1 w-4 h-4" />
               </Button>
@@ -815,7 +815,7 @@ export function HomeBottomSections({
           </div>
         </section>
 
-        <section className="py-16 bg-white border-b border-gray-100" data-testid="section-most-tested">
+        <section className="py-16 bg-card border-b border-border" data-testid="section-most-tested">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-10">
               <div className="nn-accent-soft-ring mb-4 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 shadow-sm">
@@ -823,7 +823,7 @@ export function HomeBottomSections({
                 <span className="text-xs font-semibold uppercase tracking-wide text-primary">{t("home.mostTested.badge")}</span>
               </div>
               <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-most-tested-heading">{t("home.mostTested.heading")}</h2>
-              <p className="text-gray-600">{t("home.mostTested.subtitle")}</p>
+              <p className="text-foreground">{t("home.mostTested.subtitle")}</p>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
@@ -836,7 +836,7 @@ export function HomeBottomSections({
               ].map((topic, i) => (
                 <Card 
                   key={i} 
-                  className="border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300 hover:-translate-y-1 overflow-hidden group bg-white cursor-pointer" 
+                  className="border border-border shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300 hover:-translate-y-1 overflow-hidden group bg-card cursor-pointer" 
                   onClick={() => router.push(mapLegacyMarketingHref(topic.href))} 
                   data-testid={`card-most-tested-${i}`}
                 >
@@ -847,7 +847,7 @@ export function HomeBottomSections({
                       </div>
                       <div className="min-w-0">
                         <h3 className="font-semibold text-[var(--theme-heading-text)] text-sm mb-1">{topic.title}</h3>
-                        <p className="text-xs text-gray-500 leading-relaxed">{topic.desc}</p>
+                        <p className="text-xs text-muted-foreground leading-relaxed">{topic.desc}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -862,14 +862,14 @@ export function HomeBottomSections({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-primary/20 shadow-sm mb-6">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-card border border-primary/20 shadow-sm mb-6">
                   <Users className="w-3.5 h-3.5 text-primary" />
                   <span className="text-xs font-semibold text-primary uppercase tracking-wide">{t("home.nurses.badge")}</span>
                 </div>
                 <h2 className="font-bold text-[var(--theme-heading-text)] mb-6" style={{ fontSize: 'var(--text-section)' }} data-testid="text-new-nurses-heading">
                   {t("home.nurses.heading")}
                 </h2>
-                <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                <p className="text-lg text-foreground mb-6 leading-relaxed">
                   {t("home.nurses.subtitle")}
                 </p>
                 <div className="space-y-4">
@@ -885,7 +885,7 @@ export function HomeBottomSections({
                       </div>
                       <div>
                         <h4 className="font-semibold text-[var(--theme-heading-text)] text-sm">{item.title}</h4>
-                        <p className="text-sm text-gray-600">{item.desc}</p>
+                        <p className="text-sm text-foreground">{item.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -898,12 +898,12 @@ export function HomeBottomSections({
                   { value: "15+", label: t("home.nurses.bodySystems"), icon: HeartPulse },
                   { value: "7+", label: t("home.nurses.studyModes"), icon: Layers },
                 ].map((stat, i) => (
-                  <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-primary/5 text-center" data-testid={`stat-${i}`}>
+                  <div key={i} className="bg-card rounded-2xl p-6 shadow-sm border border-primary/5 text-center" data-testid={`stat-${i}`}>
                     <div className="mx-auto w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-3">
                       <stat.icon className="w-5 h-5" />
                     </div>
                     <div className="text-2xl font-bold text-[var(--theme-heading-text)]">{stat.value}</div>
-                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mt-1">{stat.label}</div>
+                    <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide mt-1">{stat.label}</div>
                   </div>
                 ))}
               </div>
@@ -912,11 +912,11 @@ export function HomeBottomSections({
         </section>
 
         {/* Why NurseNest Section */}
-        <section className="py-24 bg-white" data-testid="section-why-nursenest">
+        <section className="py-24 bg-card" data-testid="section-why-nursenest">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-16">
               <h2 className="font-bold text-[var(--theme-heading-text)] mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-why-heading">{t("home.why.heading")}</h2>
-              <p className="text-lg text-gray-600 leading-relaxed">
+              <p className="text-lg text-foreground leading-relaxed">
                 {t("home.why.subtitle")}
               </p>
             </div>
@@ -930,12 +930,12 @@ export function HomeBottomSections({
                 { icon: BarChart3, title: t("home.why.analytics"), desc: t("home.why.analyticsDesc") },
                 { icon: Zap, title: t("home.why.noFiller"), desc: t("home.why.noFillerDesc") },
               ].map((feature, i) => (
-                <div key={i} className="bg-gray-50/80 rounded-2xl p-8 hover:shadow-md transition-shadow duration-300 border border-gray-100" data-testid={`card-feature-${i}`}>
+                <div key={i} className="bg-muted/80 rounded-2xl p-8 hover:shadow-md transition-shadow duration-300 border border-border" data-testid={`card-feature-${i}`}>
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-5">
                     <feature.icon className="w-6 h-6 text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold text-[var(--theme-heading-text)] mb-3">{feature.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">{feature.desc}</p>
+                  <p className="text-foreground text-sm leading-relaxed">{feature.desc}</p>
                 </div>
               ))}
             </div>
@@ -943,7 +943,7 @@ export function HomeBottomSections({
         </section>
 
         {/* Flashcard Trust Section */}
-        <section className="py-24 bg-gradient-to-b from-gray-50 to-white" data-testid="section-flashcard-trust">
+        <section className="py-24 bg-gradient-to-b from-muted to-[var(--theme-page-bg)]" data-testid="section-flashcard-trust">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-16">
               <div className="nn-accent-soft-ring mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold text-primary" data-testid="badge-flashcard-warning">
@@ -953,16 +953,16 @@ export function HomeBottomSections({
               <h2 className="font-bold text-[var(--theme-heading-text)] mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-flashcard-trust-heading">
                 {t("home.flashcardTrust.heading")}
               </h2>
-              <p className="text-lg text-gray-600 leading-relaxed" data-testid="text-flashcard-trust-subtitle">
+              <p className="text-lg text-foreground leading-relaxed" data-testid="text-flashcard-trust-subtitle">
                 {t("home.flashcardTrust.subtitle")}
               </p>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
-              <div className="rounded-2xl border border-gray-200 bg-gray-50/80 p-8" data-testid="card-other-platforms">
+              <div className="rounded-2xl border border-border bg-muted/80 p-8" data-testid="card-other-platforms">
                 <div className="mb-6 flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-200/80">
-                    <XCircle className="h-5 w-5 text-gray-600" aria-hidden="true" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted/80">
+                    <XCircle className="h-5 w-5 text-foreground" aria-hidden="true" />
                   </div>
                   <h3 className="text-lg font-bold text-[var(--theme-heading-text)]">{t("home.flashcardTrust.otherPlatforms")}</h3>
                 </div>
@@ -974,8 +974,8 @@ export function HomeBottomSections({
                     t("home.flashcardTrust.issue4"),
                   ].map((issue, i) => (
                     <li key={i} className="flex items-start gap-3" data-testid={`text-issue-${i}`}>
-                      <XCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                      <span className="text-sm text-gray-700 leading-relaxed">{issue}</span>
+                      <XCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-muted-foreground" aria-hidden="true" />
+                      <span className="text-sm text-[var(--theme-heading-text)] leading-relaxed">{issue}</span>
                     </li>
                   ))}
                 </ul>
@@ -997,7 +997,7 @@ export function HomeBottomSections({
                   ].map((benefit, i) => (
                     <li key={i} className="flex items-start gap-3" data-testid={`text-benefit-${i}`}>
                       <CircleCheck className="nn-trust-check mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
-                      <span className="text-sm text-gray-700 leading-relaxed">{benefit}</span>
+                      <span className="text-sm text-[var(--theme-heading-text)] leading-relaxed">{benefit}</span>
                     </li>
                   ))}
                 </ul>
@@ -1013,7 +1013,7 @@ export function HomeBottomSections({
                   {t("home.flashcardTrust.userCreated.heading")}
                 </h3>
               </div>
-              <p className="text-sm text-gray-600 leading-relaxed mb-5" data-testid="text-flashcard-user-created-desc">
+              <p className="text-sm text-foreground leading-relaxed mb-5" data-testid="text-flashcard-user-created-desc">
                 {t("home.flashcardTrust.userCreated.desc")}
               </p>
               <ul className="space-y-3">
@@ -1023,7 +1023,7 @@ export function HomeBottomSections({
                   t("home.flashcardTrust.userCreated.benefit3"),
                   t("home.flashcardTrust.userCreated.benefit4"),
                 ].map((text, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-gray-700" data-testid={`text-flashcard-user-benefit-${i}`}>
+                  <li key={i} className="flex items-start gap-3 text-sm text-[var(--theme-heading-text)]" data-testid={`text-flashcard-user-benefit-${i}`}>
                     <CircleCheck className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" aria-hidden="true" />
                     <span>{text}</span>
                   </li>
@@ -1031,12 +1031,12 @@ export function HomeBottomSections({
               </ul>
             </div>
 
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 max-w-3xl mx-auto text-center" data-testid="card-flashcard-trust-cta">
+            <div className="bg-card rounded-2xl border border-border shadow-sm p-8 max-w-3xl mx-auto text-center" data-testid="card-flashcard-trust-cta">
               <ShieldCheck className="w-10 h-10 text-primary mx-auto mb-4" aria-hidden="true" />
               <h3 className="text-xl font-bold text-[var(--theme-heading-text)] mb-3" data-testid="text-flashcard-trust-cta">
                 {t("home.flashcardTrust.ctaTitle")}
               </h3>
-              <p className="text-sm text-gray-600 leading-relaxed mb-6" data-testid="text-flashcard-trust-cta-desc">
+              <p className="text-sm text-foreground leading-relaxed mb-6" data-testid="text-flashcard-trust-cta-desc">
                 {t("home.flashcardTrust.ctaDesc")}
               </p>
               <button
@@ -1052,7 +1052,7 @@ export function HomeBottomSections({
         </section>
 
         {/* Competitive Positioning */}
-        <section className="py-20 bg-gradient-to-b from-gray-50 to-white" data-testid="section-competitive">
+        <section className="py-20 bg-gradient-to-b from-muted to-[var(--theme-page-bg)]" data-testid="section-competitive">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <div className="nn-accent-soft-ring mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1.5">
@@ -1060,16 +1060,16 @@ export function HomeBottomSections({
                 <span className="text-xs font-bold uppercase tracking-wider text-primary">{t("home.competitive.badge")}</span>
               </div>
               <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-competitive-heading">{t("home.competitive.heading")}</h2>
-              <p className="text-lg text-gray-600">{t("home.competitive.subtitle")}</p>
+              <p className="text-lg text-foreground">{t("home.competitive.subtitle")}</p>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full bg-white rounded-2xl border border-gray-200 shadow-md overflow-hidden" data-testid="table-competitive">
+              <table className="w-full bg-card rounded-2xl border border-border shadow-md overflow-hidden" data-testid="table-competitive">
                 <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="text-left py-4 px-5 text-sm font-semibold text-gray-500">{t("home.competitive.feature")}</th>
+                  <tr className="border-b border-border">
+                    <th className="text-left py-4 px-5 text-sm font-semibold text-muted-foreground">{t("home.competitive.feature")}</th>
                     <th className="text-center py-4 px-5 text-sm font-bold text-primary bg-primary/5">{t("home.competitive.nursenest")}</th>
-                    <th className="text-center py-4 px-5 text-sm font-semibold text-gray-500">{t("home.competitive.uworld")}</th>
-                    <th className="text-center py-4 px-5 text-sm font-semibold text-gray-500">{t("home.competitive.archer")}</th>
+                    <th className="text-center py-4 px-5 text-sm font-semibold text-muted-foreground">{t("home.competitive.uworld")}</th>
+                    <th className="text-center py-4 px-5 text-sm font-semibold text-muted-foreground">{t("home.competitive.archer")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1084,14 +1084,14 @@ export function HomeBottomSections({
                     { feature: t("home.competitive.freeContent"), nn: "yes", uw: "no", ar: "no" },
                   ] as Array<{ feature: string; nn: string; uw: string; ar: string; isPrice?: true }>).map((row, i) => {
                     const renderCell = (val: string, highlight?: boolean) => {
-                      if (row.isPrice) return <span className={`text-sm ${highlight ? "font-bold text-primary" : "text-gray-600"}`}>{val}</span>;
+                      if (row.isPrice) return <span className={`text-sm ${highlight ? "font-bold text-primary" : "text-foreground"}`}>{val}</span>;
                       if (val === "yes") return <CircleCheck className="nn-trust-check mx-auto h-5 w-5" />;
-                      if (val === "limited") return <span className="text-xs text-gray-400">{t("home.competitive.limited")}</span>;
-                      return <XCircle className="w-5 h-5 text-gray-300 mx-auto" />;
+                      if (val === "limited") return <span className="text-xs text-muted-foreground">{t("home.competitive.limited")}</span>;
+                      return <XCircle className="w-5 h-5 text-muted-foreground/40 mx-auto" />;
                     };
                     return (
-                    <tr key={i} className="border-b border-gray-100 last:border-0" data-testid={`row-competitive-${i}`}>
-                      <td className="py-3.5 px-5 text-sm font-medium text-gray-700">{row.feature}</td>
+                    <tr key={i} className="border-b border-border last:border-0" data-testid={`row-competitive-${i}`}>
+                      <td className="py-3.5 px-5 text-sm font-medium text-[var(--theme-heading-text)]">{row.feature}</td>
                       <td className="py-3.5 px-5 text-center bg-primary/5">{renderCell(row.nn, true)}</td>
                       <td className="py-3.5 px-5 text-center">{renderCell(row.uw)}</td>
                       <td className="py-3.5 px-5 text-center">{renderCell(row.ar)}</td>
@@ -1106,14 +1106,14 @@ export function HomeBottomSections({
                 <ShieldCheck className="h-5 w-5 text-primary" />
                 <span className="text-sm font-bold text-primary">{t("home.guarantee.badge")}</span>
               </div>
-              <p className="text-sm text-gray-500">{t("home.guarantee.desc")}</p>
+              <p className="text-sm text-muted-foreground">{t("home.guarantee.desc")}</p>
             </div>
           </div>
         </section>
 
         {/* Featured Study Resources */}
         {featuredProducts.length > 0 && (
-          <section className="py-20 bg-gradient-to-b from-white to-primary/5 border-t border-gray-100" data-testid="section-featured-resources">
+          <section className="py-20 bg-gradient-to-b from-[var(--theme-page-bg)] to-primary/5 border-t border-border" data-testid="section-featured-resources">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-12">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
@@ -1121,18 +1121,18 @@ export function HomeBottomSections({
                   <span className="text-xs font-bold text-primary uppercase tracking-wider">{t("home.featured.badge")}</span>
                 </div>
                 <h2 className="font-bold text-[var(--theme-heading-text)] mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-featured-heading">{t("home.featured.heading")}</h2>
-                <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t("home.featured.subtitle")}</p>
+                <p className="text-lg text-foreground max-w-2xl mx-auto">{t("home.featured.subtitle")}</p>
               </div>
               <div className={`grid gap-6 ${featuredProducts.length === 1 ? 'max-w-sm mx-auto' : featuredProducts.length === 2 ? 'md:grid-cols-2 max-w-2xl mx-auto' : featuredProducts.length === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-4'}`}>
                 {featuredProducts.map((product) => (
                   <div
                     key={product.id}
-                    className="bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 overflow-hidden cursor-pointer group"
+                    className="bg-card rounded-2xl border border-border shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 overflow-hidden cursor-pointer group"
                     onClick={() => router.push(mapLegacyMarketingHref(`/shop/${product.slug}`))}
                     data-testid={`card-featured-product-${product.slug}`}
                   >
                     {product.coverImageUrl && (
-                      <div className="aspect-[4/3] overflow-hidden bg-gray-50">
+                      <div className="aspect-[4/3] overflow-hidden bg-muted">
                         <img
                           src={product.coverImageUrl}
                           alt={product.title}
@@ -1148,15 +1148,15 @@ export function HomeBottomSections({
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded-full">{product.category}</span>
                         {product.tierTarget && product.tierTarget !== "all" && (
-                          <span className="text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">{product.tierTarget}</span>
+                          <span className="text-[10px] font-bold uppercase tracking-wider bg-muted text-muted-foreground px-2 py-0.5 rounded-full">{product.tierTarget}</span>
                         )}
                       </div>
                       <h3 className="text-base font-bold text-[var(--theme-heading-text)] mb-1.5 line-clamp-2 group-hover:text-primary transition-colors">{product.title}</h3>
-                      <p className="text-sm text-gray-600 line-clamp-2 mb-3">{product.shortDescription || product.description}</p>
+                      <p className="text-sm text-foreground line-clamp-2 mb-3">{product.shortDescription || product.description}</p>
                       <div className="flex items-center gap-2">
                         <span className="text-lg font-extrabold text-primary">${(product.price / 100).toFixed(2)}</span>
                         {product.compareAtPrice && product.compareAtPrice > product.price && (
-                          <span className="text-sm text-gray-400 line-through">${(product.compareAtPrice / 100).toFixed(2)}</span>
+                          <span className="text-sm text-muted-foreground line-through">${(product.compareAtPrice / 100).toFixed(2)}</span>
                         )}
                       </div>
                     </div>
@@ -1166,7 +1166,7 @@ export function HomeBottomSections({
               <div className="text-center mt-10">
                 <Button
                   variant="outline"
-                  className="rounded-full px-6 border-primary/20 hover:bg-primary/5 text-gray-700"
+                  className="rounded-full px-6 border-primary/20 hover:bg-primary/5 text-[var(--theme-heading-text)]"
                   onClick={() => router.push(mapLegacyMarketingHref("/shop"))}
                   data-testid="button-view-all-resources"
                 >
@@ -1179,152 +1179,152 @@ export function HomeBottomSections({
         )}
 
         {/* FAQ Section */}
-        <section className="py-24 bg-gradient-to-b from-white to-gray-50" data-testid="section-faq-home">
+        <section className="py-24 bg-gradient-to-b from-[var(--theme-page-bg)] to-muted" data-testid="section-faq-home">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="font-bold text-[var(--theme-heading-text)] mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-faq-heading">{t("home.faq.heading")}</h2>
-              <p className="text-lg text-gray-600">{t("home.faq.subtitle")}</p>
+              <p className="text-lg text-foreground">{t("home.faq.subtitle")}</p>
             </div>
 
             <Accordion type="single" collapsible className="space-y-3">
-              <AccordionItem value="faq-1" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+              <AccordionItem value="faq-1" className="bg-card rounded-xl border border-border shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q1")}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                <AccordionContent className="text-foreground pb-5 leading-relaxed">
                   {t("home.faq.a1")}
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="faq-2" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+              <AccordionItem value="faq-2" className="bg-card rounded-xl border border-border shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q2")}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                <AccordionContent className="text-foreground pb-5 leading-relaxed">
                   {t("home.faq.a2")}
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="faq-3" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+              <AccordionItem value="faq-3" className="bg-card rounded-xl border border-border shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q3")}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                <AccordionContent className="text-foreground pb-5 leading-relaxed">
                   {t("home.faq.a3")}
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="faq-4" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+              <AccordionItem value="faq-4" className="bg-card rounded-xl border border-border shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q4")}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                <AccordionContent className="text-foreground pb-5 leading-relaxed">
                   {t("home.faq.a4")}
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="faq-5" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+              <AccordionItem value="faq-5" className="bg-card rounded-xl border border-border shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q5")}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                <AccordionContent className="text-foreground pb-5 leading-relaxed">
                   {t("home.faq.a5")}
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="faq-6" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+              <AccordionItem value="faq-6" className="bg-card rounded-xl border border-border shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q6")}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                <AccordionContent className="text-foreground pb-5 leading-relaxed">
                   {t("home.faq.a6")}
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="faq-6b" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+              <AccordionItem value="faq-6b" className="bg-card rounded-xl border border-border shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q6b")}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                <AccordionContent className="text-foreground pb-5 leading-relaxed">
                   {t("home.faq.a6b")}
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="faq-7" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+              <AccordionItem value="faq-7" className="bg-card rounded-xl border border-border shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q7")}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                <AccordionContent className="text-foreground pb-5 leading-relaxed">
                   {t("home.faq.a7")}
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="faq-8" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+              <AccordionItem value="faq-8" className="bg-card rounded-xl border border-border shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q8")}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                <AccordionContent className="text-foreground pb-5 leading-relaxed">
                   {t("home.faq.a8")}
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="faq-9" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+              <AccordionItem value="faq-9" className="bg-card rounded-xl border border-border shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q9")}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                <AccordionContent className="text-foreground pb-5 leading-relaxed">
                   {t("home.faq.a9prefix")} {formatCount(questionCount).replace('+', '')} {t("home.faq.a9suffix")}
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="faq-10" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+              <AccordionItem value="faq-10" className="bg-card rounded-xl border border-border shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q10")}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                <AccordionContent className="text-foreground pb-5 leading-relaxed">
                   {t("home.faq.a10")}
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="faq-11" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+              <AccordionItem value="faq-11" className="bg-card rounded-xl border border-border shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q11")}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                <AccordionContent className="text-foreground pb-5 leading-relaxed">
                   {t("home.faq.a11")}
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="faq-12" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+              <AccordionItem value="faq-12" className="bg-card rounded-xl border border-border shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q12")}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                <AccordionContent className="text-foreground pb-5 leading-relaxed">
                   {t("home.faq.a12")}
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="faq-13" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+              <AccordionItem value="faq-13" className="bg-card rounded-xl border border-border shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q13")}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                <AccordionContent className="text-foreground pb-5 leading-relaxed">
                   {t("home.faq.a13")}
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="faq-14" className="bg-white rounded-xl border border-gray-100 shadow-sm px-6">
+              <AccordionItem value="faq-14" className="bg-card rounded-xl border border-border shadow-sm px-6">
                 <AccordionTrigger className="text-left font-semibold text-[var(--theme-heading-text)] hover:no-underline py-5">
                   {t("home.faq.q14")}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-5 leading-relaxed">
+                <AccordionContent className="text-foreground pb-5 leading-relaxed">
                   {t("home.faq.a14")}
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
 
             <div className="text-center mt-8">
-              <Button variant="outline" className="rounded-full px-6 border-primary/20 hover:bg-primary/5 text-gray-700" onClick={() => router.push(mapLegacyMarketingHref("/faq"))} data-testid="button-view-all-faq">
+              <Button variant="outline" className="rounded-full px-6 border-primary/20 hover:bg-primary/5 text-[var(--theme-heading-text)]" onClick={() => router.push(mapLegacyMarketingHref("/faq"))} data-testid="button-view-all-faq">
                 {t("home.faq.viewAll")}
                 <ChevronRight className="ml-1 w-4 h-4" />
               </Button>
@@ -1333,14 +1333,14 @@ export function HomeBottomSections({
         </section>
 
         {/* Email Capture Section */}
-        <section className="py-20 bg-white" data-testid="section-email-capture">
+        <section className="py-20 bg-card" data-testid="section-email-capture">
           <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="bg-gradient-to-br from-primary/5 to-accent-foreground/5 rounded-2xl shadow-lg border border-primary/10 p-8 sm:p-12">
               <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-6">
                 <Mail className="w-7 h-7 text-primary" />
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold text-[var(--theme-heading-text)] mb-3" data-testid="text-email-heading">{t("home.email.title")}</h2>
-              <p className="text-gray-600 mb-8 leading-relaxed">
+              <p className="text-foreground mb-8 leading-relaxed">
                 {t("home.email.subtitle")}
               </p>
               {emailStatus === "success" ? (
@@ -1357,15 +1357,15 @@ export function HomeBottomSections({
                       onChange={(e) => { setEmail(e.target.value); if (emailStatus === "error") setEmailStatus("idle"); }}
                       onKeyDown={(e) => { if (e.key === "Enter") handleEmailSubscribe(); }}
                       placeholder={t("home.email.placeholder")} 
-                      className="h-12 px-4 rounded-full border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm bg-white"
+                      className="h-12 px-4 rounded-full border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm bg-card"
                       data-testid="input-email"
                     />
                     <div className="flex items-center gap-2 justify-center">
-                      <label className="text-sm text-gray-500">{t("home.email.frequencyLabel")}</label>
+                      <label className="text-sm text-muted-foreground">{t("home.email.frequencyLabel")}</label>
                       <select
                         value={emailFrequency}
                         onChange={(e) => setEmailFrequency(e.target.value)}
-                        className="h-10 px-3 rounded-full border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm bg-white"
+                        className="h-10 px-3 rounded-full border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm bg-card"
                         data-testid="select-frequency"
                       >
                         <option value="daily">{t("home.email.freq.daily")}</option>
@@ -1391,18 +1391,18 @@ export function HomeBottomSections({
                   )}
                 </>
               )}
-              <p className="text-xs text-gray-400 mt-4">{t("home.email.disclaimer")}</p>
+              <p className="text-xs text-muted-foreground mt-4">{t("home.email.disclaimer")}</p>
             </div>
           </div>
         </section>
 
         {/* Final CTA Section */}
-        <section className="py-24 relative overflow-hidden bg-gradient-to-b from-white to-primary/5" data-testid="section-final-cta">
+        <section className="py-24 relative overflow-hidden bg-gradient-to-b from-[var(--theme-page-bg)] to-primary/5" data-testid="section-final-cta">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <h2 className="font-bold text-[var(--theme-heading-text)] mb-6" style={{ fontSize: 'var(--text-section)' }} data-testid="text-cta-heading">
               {t("home.cta.title")}
             </h2>
-            <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xl text-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
               {t("home.cta.subtitle")}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -1418,7 +1418,7 @@ export function HomeBottomSections({
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="h-14 px-8 text-lg rounded-full border-2 border-primary/20 hover:bg-primary/5 text-gray-700" 
+                className="h-14 px-8 text-lg rounded-full border-2 border-primary/20 hover:bg-primary/5 text-[var(--theme-heading-text)]" 
                 onClick={() => router.push(mapLegacyMarketingHref("/pricing"))}
                 data-testid="button-cta-pricing"
               >
@@ -1429,7 +1429,7 @@ export function HomeBottomSections({
               <ShieldCheck className="h-5 w-5 text-primary" />
               <span className="text-sm font-semibold text-primary">{t("home.guarantee.badge")}</span>
             </div>
-            <p className="text-sm text-gray-400">{t("home.cta.disclaimer")}</p>
+            <p className="text-sm text-muted-foreground">{t("home.cta.disclaimer")}</p>
           </div>
           
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-primary/5 to-accent-foreground/5 rounded-full blur-3xl -z-10 opacity-40" />

@@ -17,13 +17,22 @@ export const COMMITTED_MARKETING_SCREENSHOTS_PREFIX =
 
 export const LOGO_LEGACY_FALLBACK_URL = catalog.logo.legacyFallbackUrl;
 
-type LogoCatalog = Omit<typeof catalog.logo, "primaryBrandMarkObjectKey"> & {
+type LogoCatalog = Omit<typeof catalog.logo, "primaryBrandMarkObjectKey" | "spacesBlueBrandLogoObjectKey"> & {
   primaryBrandMarkObjectKey?: string | null;
+  spacesBlueBrandLogoObjectKey?: string | null;
 };
 
 /** Single Spaces key for optional mask-tinted mark (disabled when null). */
 export function getPrimaryBrandMarkObjectKey(): string | null {
   const raw = (catalog.logo as LogoCatalog).primaryBrandMarkObjectKey;
+  if (raw == null || typeof raw !== "string") return null;
+  const k = raw.trim();
+  return k || null;
+}
+
+/** Documented Spaces key for the blue brand asset (e.g. `bluebrandlogo.jpg`) — tried first in the header load chain when tinting is on. */
+export function getSpacesBlueBrandLogoObjectKey(): string | null {
+  const raw = (catalog.logo as LogoCatalog).spacesBlueBrandLogoObjectKey;
   if (raw == null || typeof raw !== "string") return null;
   const k = raw.trim();
   return k || null;

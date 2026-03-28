@@ -24,7 +24,7 @@ function ProgressRow({
           {current > 0 ? current.toLocaleString() : "---"} / {goal.toLocaleString()}
         </span>
       </div>
-      <div className="h-2 w-full overflow-hidden rounded-full bg-gray-100">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
         <div className={`h-full rounded-full ${color} transition-all duration-700`} style={{ width: `${current > 0 ? Math.max(pct, 3) : 0}%` }} />
       </div>
       {current > 0 && <div className="text-right text-[10px] text-[var(--theme-muted-text)]">{pct}% of goal</div>}

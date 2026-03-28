@@ -90,6 +90,9 @@ body {
   --color-accent-foreground: var(--theme-accent-foreground);
   --color-border: var(--theme-border);
   --color-ring: var(--theme-ring);
+  /* Muted surfaces/text — Tailwind `bg-muted`, `text-muted-foreground` track active theme */
+  --color-muted: color-mix(in srgb, var(--theme-body-text) 6%, var(--theme-page-bg));
+  --color-muted-foreground: var(--theme-muted-text);
 }
 
 * {

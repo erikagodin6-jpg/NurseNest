@@ -144,7 +144,7 @@ export function PricingPageClient({
             type="button"
             onClick={() => setSegment(id)}
             className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-              segment === id ? "bg-primary text-primary-foreground" : "border border-border bg-white hover:bg-gray-50"
+              segment === id ? "bg-primary text-primary-foreground" : "border border-border bg-card hover:bg-muted/80"
             }`}
           >
             {label}

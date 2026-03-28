@@ -28,7 +28,7 @@ export default function HeroAlliedHealth() {
 
   return (
     <section
-      className="bg-white"
+      className="bg-[var(--theme-page-bg)]"
       style={{ paddingTop: "var(--space-block)", paddingBottom: "var(--space-block)" }}
       data-testid="section-allied-health-hero"
     >
@@ -46,16 +46,16 @@ export default function HeroAlliedHealth() {
             </div>
             <div className="mb-3 flex items-baseline gap-1">
               <span className="text-3xl font-extrabold text-[var(--theme-heading-text)]">{PRE_NURSING_GOAL.goalQuestions.toLocaleString()}+</span>
-              <span className="text-sm text-gray-500">{t("components.heroAlliedHealth.questionsGoal")}</span>
+              <span className="text-sm text-muted-foreground">{t("components.heroAlliedHealth.questionsGoal")}</span>
             </div>
             <div className="mb-4 flex flex-wrap gap-1.5">
               {PRE_NURSING_GOAL.subjects.map((s) => (
-                <span key={s} className="rounded-md border border-primary/15 bg-white/80 px-2 py-1 text-xs font-medium text-gray-600">
+                <span key={s} className="rounded-md border border-primary/15 bg-card/80 px-2 py-1 text-xs font-medium text-foreground">
                   {s}
                 </span>
               ))}
             </div>
-            <p className="mb-4 text-sm text-gray-500">{t("components.heroAlliedHealth.prepareForNursingSchoolSuccess")}</p>
+            <p className="mb-4 text-sm text-muted-foreground">{t("components.heroAlliedHealth.prepareForNursingSchoolSuccess")}</p>
             <Link
               href={mapLegacyMarketingHref(PRE_NURSING_GOAL.route)}
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary no-underline hover:underline"
@@ -77,16 +77,16 @@ export default function HeroAlliedHealth() {
             </div>
             <div className="mb-3 flex items-baseline gap-1">
               <span className="text-3xl font-extrabold text-[var(--theme-heading-text)]">{NEW_GRAD_GOAL.goalScenarios.toLocaleString()}+</span>
-              <span className="text-sm text-gray-500">{t("components.heroAlliedHealth.careerreadinessScenariosGoal")}</span>
+              <span className="text-sm text-muted-foreground">{t("components.heroAlliedHealth.careerreadinessScenariosGoal")}</span>
             </div>
             <div className="mb-4 flex flex-wrap gap-1.5">
               {NEW_GRAD_GOAL.sections.map((s) => (
-                <span key={s} className="rounded-md border border-primary/15 bg-white/80 px-2 py-1 text-xs font-medium text-gray-600">
+                <span key={s} className="rounded-md border border-primary/15 bg-card/80 px-2 py-1 text-xs font-medium text-foreground">
                   {s}
                 </span>
               ))}
             </div>
-            <p className="mb-4 text-sm text-gray-500">{t("components.heroAlliedHealth.transitionFromStudentToConfident")}</p>
+            <p className="mb-4 text-sm text-muted-foreground">{t("components.heroAlliedHealth.transitionFromStudentToConfident")}</p>
             <Link
               href={mapLegacyMarketingHref(NEW_GRAD_GOAL.route)}
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary no-underline hover:underline"
@@ -102,14 +102,14 @@ export default function HeroAlliedHealth() {
             <h2 className="mb-2 font-bold text-[var(--theme-heading-text)]" style={{ fontSize: "var(--text-section)" }} data-testid="text-allied-health-heading">
               Allied Health Exam Prep
             </h2>
-            <p className="mx-auto max-w-2xl text-base text-gray-500 lg:text-lg">
+            <p className="mx-auto max-w-2xl text-base text-muted-foreground lg:text-lg">
               Targeted question banks for major and mid-size allied health careers — from respiratory therapy to psychotherapy.
             </p>
           </div>
 
           <div className="space-y-6">
             <div>
-              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-400">
+              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
                 Major Careers — {computeCountRange(majorCareers)}
               </h3>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -121,7 +121,7 @@ export default function HeroAlliedHealth() {
                     <Link
                       key={career.label}
                       href={mapLegacyMarketingHref(career.route)}
-                      className="group flex items-center gap-4 rounded-xl border border-gray-100 bg-white p-4 no-underline shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card-hover)]"
+                      className="group flex items-center gap-4 rounded-xl border border-border bg-card p-4 no-underline shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card-hover)]"
                       data-testid={`allied-card-${career.label.toLowerCase().replace(/[\s()/]/g, "-")}`}
                     >
                       <div className="nn-accent-icon-wrap flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
@@ -129,17 +129,17 @@ export default function HeroAlliedHealth() {
                       </div>
                       <div className="min-w-0 flex-1">
                         <h4 className="truncate text-sm font-bold text-[var(--theme-heading-text)]">{career.label}</h4>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-muted-foreground">
                           {count > 0 ? (
                             <>
-                              <span className="font-semibold text-gray-700">{display}</span> {t("components.heroAlliedHealth.questions")}
+                              <span className="font-semibold text-[var(--theme-heading-text)]">{display}</span> {t("components.heroAlliedHealth.questions")}
                             </>
                           ) : (
                             <span className="font-semibold text-primary">{t("components.heroAlliedHealth.comingSoon")}</span>
                           )}
                         </p>
                       </div>
-                      <ArrowRight className="h-4 w-4 shrink-0 text-gray-300 transition-colors group-hover:text-primary" />
+                      <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground/50 transition-colors group-hover:text-primary" />
                     </Link>
                   );
                 })}
@@ -147,7 +147,7 @@ export default function HeroAlliedHealth() {
             </div>
 
             <div>
-              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-400">
+              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
                 Mid-Size Careers — {computeCountRange(midCareers)}
               </h3>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -159,7 +159,7 @@ export default function HeroAlliedHealth() {
                     <Link
                       key={career.label}
                       href={mapLegacyMarketingHref(career.route)}
-                      className="group flex items-center gap-4 rounded-xl border border-gray-100 bg-white p-4 no-underline shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card-hover)]"
+                      className="group flex items-center gap-4 rounded-xl border border-border bg-card p-4 no-underline shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card-hover)]"
                       data-testid={`allied-card-${career.label.toLowerCase().replace(/[\s()/]/g, "-")}`}
                     >
                       <div className="nn-accent-icon-wrap flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
@@ -167,17 +167,17 @@ export default function HeroAlliedHealth() {
                       </div>
                       <div className="min-w-0 flex-1">
                         <h4 className="truncate text-sm font-bold text-[var(--theme-heading-text)]">{career.label}</h4>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-muted-foreground">
                           {count > 0 ? (
                             <>
-                              <span className="font-semibold text-gray-700">{display}</span> {t("components.heroAlliedHealth.questions2")}
+                              <span className="font-semibold text-[var(--theme-heading-text)]">{display}</span> {t("components.heroAlliedHealth.questions2")}
                             </>
                           ) : (
                             <span className="font-semibold text-primary">{t("components.heroAlliedHealth.comingSoon2")}</span>
                           )}
                         </p>
                       </div>
-                      <ArrowRight className="h-4 w-4 shrink-0 text-gray-300 transition-colors group-hover:text-primary" />
+                      <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground/50 transition-colors group-hover:text-primary" />
                     </Link>
                   );
                 })}

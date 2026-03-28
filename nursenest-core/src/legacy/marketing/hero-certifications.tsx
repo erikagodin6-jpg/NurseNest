@@ -10,7 +10,7 @@ export default function HeroCertifications() {
   const { t } = useMarketingI18n();
   return (
     <section
-      className="bg-gradient-to-b from-gray-50/80 to-white"
+      className="bg-gradient-to-b from-muted/80 to-[var(--theme-card-bg)]"
       style={{ paddingTop: "var(--space-block)", paddingBottom: "var(--space-block)" }}
       data-testid="section-certifications-hero"
     >
@@ -29,7 +29,7 @@ export default function HeroCertifications() {
             <Link
               key={cert.label}
               href={mapLegacyMarketingHref(cert.route)}
-              className="group no-underline rounded-xl border border-gray-100 bg-white p-4 shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card-hover)]"
+              className="group no-underline rounded-xl border border-border bg-card p-4 shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card-hover)]"
               data-testid={`cert-card-${cert.label.toLowerCase().replace(/[\s()]/g, "-")}`}
             >
               <div className="mb-2.5 flex items-center gap-2.5">
@@ -38,8 +38,8 @@ export default function HeroCertifications() {
                 </div>
                 <h3 className="text-sm font-bold leading-tight text-[var(--theme-heading-text)]">{cert.label}</h3>
               </div>
-              <p className="text-xs text-gray-500">
-                <span className="font-semibold text-gray-700">{cert.goalQuestions.toLocaleString()}+</span> questions
+              <p className="text-xs text-muted-foreground">
+                <span className="font-semibold text-[var(--theme-heading-text)]">{cert.goalQuestions.toLocaleString()}+</span> questions
               </p>
               <div className="mt-2 flex items-center text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
                 <span>{t("components.heroCertifications.startPrep")}</span>

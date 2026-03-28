@@ -5,6 +5,7 @@
  */
 import {
   getPrimaryBrandMarkObjectKey,
+  getSpacesBlueBrandLogoObjectKey,
   headerUsesThemeTintedBrandMark,
   nursenestImagesSpaceObjectUrl,
 } from "@/config/marketing-cdn.catalog";
@@ -69,25 +70,33 @@ function stemFromObjectKey(objectKey: string): string {
   return objectKey.replace(/\.[^/.]+$/, "");
 }
 
+function pushKeyVariants(out: string[], objectKey: string) {
+  const pub = nursenestImagesSpaceObjectUrl(objectKey);
+  const proxy = marketingProxyPathForKey(objectKey);
+  if (marketingImageUsesProxy()) {
+    out.push(proxy, pub);
+  } else if (marketingProxyFallbackEnabled()) {
+    out.push(pub, proxy);
+  } else {
+    out.push(pub);
+  }
+}
+
 /**
- * Mask-tinted mark: URLs for `primaryBrandMarkObjectKey` stem with multiple extensions (Spaces upload may differ).
+ * Mask-tinted mark: canonical `spacesBlueBrandLogoObjectKey` first, then stem from
+ * `primaryBrandMarkObjectKey` with extension probing (.svg … .jpg).
  */
 export function getBlueBrandMarkLoadChain(): string[] {
   const key = getPrimaryBrandMarkObjectKey();
   if (!key) return [];
   const stem = stemFromObjectKey(key);
   const out: string[] = [];
+  const canonicalBlue = getSpacesBlueBrandLogoObjectKey();
+  if (canonicalBlue && canonicalBlue !== key) {
+    pushKeyVariants(out, canonicalBlue);
+  }
   for (const ext of PRIMARY_BRAND_MARK_EXTENSIONS) {
-    const k = `${stem}${ext}`;
-    const pub = nursenestImagesSpaceObjectUrl(k);
-    const proxy = marketingProxyPathForKey(k);
-    if (marketingImageUsesProxy()) {
-      out.push(proxy, pub);
-    } else if (marketingProxyFallbackEnabled()) {
-      out.push(pub, proxy);
-    } else {
-      out.push(pub);
-    }
+    pushKeyVariants(out, `${stem}${ext}`);
   }
   return uniqueStrings(out);
 }
