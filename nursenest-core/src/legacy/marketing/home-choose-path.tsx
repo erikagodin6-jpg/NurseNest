@@ -21,8 +21,6 @@ export default function HomeChoosePath() {
     {
       id: "nursing-students",
       icon: BookOpen,
-      iconBg: "bg-blue-50",
-      iconColor: "text-blue-600",
       title: "Nursing Exam Prep",
       subtitle: "RPN / LVN / RN",
       desc: "Prepare for REx-PN and NCLEX-RN with practice questions, flashcards, clinical lessons, and adaptive mock exams tailored to your tier.",
@@ -34,8 +32,6 @@ export default function HomeChoosePath() {
     {
       id: "np-certification",
       icon: Stethoscope,
-      iconBg: "bg-violet-50",
-      iconColor: "text-violet-600",
       title: "Nurse Practitioner Prep",
       subtitle: "AANP / ANCC / FNP-BC & More",
       desc: "Advanced NP certification exam prep covering FNP-BC, AGPCNP-BC, AGACNP-BC, PMHNP-BC, PNP-BC, NNP-BC, ENP-C, and CNM exams.",
@@ -47,8 +43,6 @@ export default function HomeChoosePath() {
     {
       id: "allied-health",
       icon: Users,
-      iconBg: "bg-green-50",
-      iconColor: "text-green-600",
       title: "Allied Health Prep",
       subtitle: "RT / MLT / Paramedic & More",
       desc: "Study for respiratory therapy, paramedic, pharmacy technician, medical lab, diagnostic imaging, social work, and OT/PT certifications.",
@@ -60,8 +54,6 @@ export default function HomeChoosePath() {
     {
       id: "certifications",
       icon: Award,
-      iconBg: "bg-amber-50",
-      iconColor: "text-amber-600",
       title: "Certifications & Specialties",
       subtitle: "ICU / NICU / Trauma & More",
       desc: "Targeted prep for nursing specialty certifications and continuing education — CCRN, CEN, PCCN, and clinical specialty guides.",
@@ -73,8 +65,6 @@ export default function HomeChoosePath() {
     {
       id: "new-grad",
       icon: GraduationCap,
-      iconBg: "bg-purple-50",
-      iconColor: "text-purple-600",
       title: "New Graduate Hub",
       subtitle: "Your First Year in Practice",
       desc: "Clinical survival guides, certification pathways, resume tools, and career development resources for new nursing and allied health graduates.",
@@ -86,8 +76,6 @@ export default function HomeChoosePath() {
     {
       id: "pharmacology",
       icon: Trophy,
-      iconBg: "bg-rose-50",
-      iconColor: "text-rose-600",
       title: "Pharmacology & Study Tools",
       subtitle: "Flashcards / Mock Exams / Med Math",
       desc: "Master medications with flashcard decks, spaced repetition, med math calculators, lab value references, and pharmacology-focused question banks.",
@@ -114,8 +102,8 @@ export default function HomeChoosePath() {
               data-testid={path.testId}
             >
               <div className="mb-1 flex items-center gap-3">
-                <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${path.iconBg}`}>
-                  <path.icon className={`h-5 w-5 ${path.iconColor}`} />
+                <div className="nn-accent-icon-wrap flex h-10 w-10 items-center justify-center rounded-xl">
+                  <path.icon className="nn-accent-icon h-5 w-5" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900">{path.title}</h3>
               </div>

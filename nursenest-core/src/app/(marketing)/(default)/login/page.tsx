@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Login",
   description: "Login to NurseNest Core",
   alternates: { canonical: "/login" },
+  robots: { index: false, follow: true },
 };
 
 export default function LoginPage() {

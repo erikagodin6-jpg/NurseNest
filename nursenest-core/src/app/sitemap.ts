@@ -3,12 +3,13 @@ import { prisma } from "@/lib/db";
 import { CORE_HOSTED_MARKETING_LOCALES } from "@/lib/i18n/marketing-locale-policy";
 import { getAllProgrammaticSlugs } from "@/lib/seo/programmatic-registry";
 import { MARKETING_SITE_ORIGIN } from "@/lib/seo/site-origin";
+import { getAllToolSlugs } from "@/lib/tools/tool-registry";
 
 const base = MARKETING_SITE_ORIGIN;
 
 /**
- * Split sitemaps for scale: (0) core marketing surfaces, (1) programmatic SEO + localized mirrors.
- * Add more IDs when lesson/blog URLs are generated from the database (keep under 50k URLs per file).
+ * Split sitemaps for scale: (0) core marketing + blog + tools, (1) programmatic SEO + localized mirrors.
+ * Excludes: /app/*, /admin/*, auth pages (use noindex), /api/*, draft content.
  */
 export async function generateSitemaps(): Promise<{ id: number }[]> {
   return [{ id: 0 }, { id: 1 }];
@@ -19,13 +20,28 @@ export default async function sitemap(props: { id: Promise<number> }): Promise<M
   const now = new Date();
 
   if (id === 0) {
-    const paths = ["/", "/pricing", "/login", "/signup", "/blog"];
-    const entries: MetadataRoute.Sitemap = paths.map((path) => ({
+    /** Canonical public marketing (default locale = no /en prefix). Login/signup omitted — use noindex, not sitemap. */
+    const corePaths: { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[0]["changeFrequency"] }[] = [
+      { path: "/", priority: 1, changeFrequency: "daily" },
+      { path: "/pricing", priority: 0.85, changeFrequency: "weekly" },
+      { path: "/blog", priority: 0.85, changeFrequency: "weekly" },
+      { path: "/tools", priority: 0.85, changeFrequency: "weekly" },
+    ];
+    const entries: MetadataRoute.Sitemap = corePaths.map(({ path, priority, changeFrequency }) => ({
       url: `${base}${path}`,
       lastModified: now,
-      changeFrequency: path === "/" ? "daily" : "weekly",
-      priority: path === "/" ? 1 : path === "/blog" ? 0.85 : 0.8,
+      changeFrequency,
+      priority,
     }));
+
+    for (const slug of getAllToolSlugs()) {
+      entries.push({
+        url: `${base}/tools/${slug}`,
+        lastModified: now,
+        changeFrequency: "monthly",
+        priority: 0.78,
+      });
+    }
 
     let blogPosts: { slug: string; updatedAt: Date }[] = [];
     try {
@@ -59,18 +75,20 @@ export default async function sitemap(props: { id: Promise<number> }): Promise<M
           priority: 0.75,
         },
         {
-          url: `${base}/${loc}/login`,
-          lastModified: now,
-          changeFrequency: "monthly",
-          priority: 0.5,
-        },
-        {
-          url: `${base}/${loc}/signup`,
+          url: `${base}/${loc}/tools`,
           lastModified: now,
           changeFrequency: "weekly",
-          priority: 0.75,
+          priority: 0.8,
         },
       );
+      for (const slug of getAllToolSlugs()) {
+        entries.push({
+          url: `${base}/${loc}/tools/${slug}`,
+          lastModified: now,
+          changeFrequency: "monthly",
+          priority: 0.72,
+        });
+      }
     }
     return entries;
   }

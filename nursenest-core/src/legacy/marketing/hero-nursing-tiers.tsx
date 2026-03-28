@@ -17,7 +17,7 @@ function ProgressBar({ current, goal }: { current: number; goal: number }) {
   const pct = Math.min(100, Math.round((current / goal) * 100));
   return (
     <div className="h-2.5 w-full overflow-hidden rounded-full bg-gray-100">
-      <div className="h-full rounded-full bg-gradient-to-r from-primary to-blue-500 transition-all duration-700" style={{ width: `${pct}%` }} data-testid="progress-bar-fill" />
+      <div className="h-full rounded-full bg-gradient-to-r from-primary to-primary/75 transition-all duration-700" style={{ width: `${pct}%` }} data-testid="progress-bar-fill" />
     </div>
   );
 }
@@ -27,11 +27,12 @@ function formatK(n: number): string {
   return String(n);
 }
 
-const TIER_COLORS: Record<string, { border: string; bg: string; accent: string }> = {
-  rpn: { border: "border-emerald-200", bg: "bg-emerald-50", accent: "text-emerald-700" },
-  rn: { border: "border-blue-200", bg: "bg-blue-50", accent: "text-blue-700" },
-  np: { border: "border-violet-200", bg: "bg-violet-50", accent: "text-violet-700" },
-};
+/** All tiers use the active theme accent (no per-tier fixed hues). */
+const TIER_SURFACE = {
+  border: "border-primary/25",
+  bg: "bg-primary/[0.08]",
+  accent: "text-primary",
+} as const;
 
 export default function HeroNursingTiers() {
   const { t } = useMarketingI18n();
@@ -55,17 +56,16 @@ export default function HeroNursingTiers() {
 
         <div className="grid gap-6 md:grid-cols-3">
           {Object.entries(NURSING_TIERS).map(([key, tier]) => {
-            const colors = TIER_COLORS[key] || TIER_COLORS.rn;
             const current = currentCounts[key] || 0;
 
             return (
               <div
                 key={key}
-                className={`overflow-hidden rounded-2xl border ${colors.border} shadow-[var(--shadow-card)] transition-shadow duration-200 hover:shadow-[var(--shadow-card-hover)]`}
+                className={`overflow-hidden rounded-2xl border ${TIER_SURFACE.border} shadow-[var(--shadow-card)] transition-shadow duration-200 hover:shadow-[var(--shadow-card-hover)]`}
                 data-testid={`tier-card-${key}`}
               >
-                <div className={`${colors.bg} px-6 py-5`}>
-                  <h3 className={`text-lg font-bold ${colors.accent}`}>{tier.label}</h3>
+                <div className={`${TIER_SURFACE.bg} px-6 py-5`}>
+                  <h3 className={`text-lg font-bold ${TIER_SURFACE.accent}`}>{tier.label}</h3>
                   <div className="mt-1 flex items-baseline gap-1">
                     <span className="text-3xl font-extrabold text-gray-900">{formatK(tier.goalQuestions)}+</span>
                     <span className="text-sm text-gray-500">{t("components.heroNursingTiers.questionsGoal")}</span>

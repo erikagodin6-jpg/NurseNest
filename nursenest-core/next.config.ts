@@ -1,9 +1,21 @@
 import type { NextConfig } from "next";
 import { getAllProgrammaticSlugs } from "./src/lib/seo/programmatic-registry";
-
 const programmaticSeoRewrites = getAllProgrammaticSlugs().map((slug) => ({
   source: `/${slug}`,
   destination: `/seo/${slug}`,
+}));
+
+const legacyMedMathRedirect = {
+  source: "/med-math",
+  destination: "/tools/med-math",
+  permanent: true,
+} as const;
+
+/** Consolidate on public programmatic URLs (`/{slug}`); `/seo/{slug}` is internal rewrite target only. */
+const seoCanonicalRedirects = getAllProgrammaticSlugs().map((slug) => ({
+  source: `/seo/${slug}`,
+  destination: `/${slug}`,
+  permanent: true,
 }));
 
 const nextConfig: NextConfig = {
@@ -16,6 +28,9 @@ const nextConfig: NextConfig = {
   // Allow importing shared monolith modules (`../shared/*`) without publishing a package.
   experimental: {
     externalDir: true,
+  },
+  async redirects() {
+    return [legacyMedMathRedirect, ...seoCanonicalRedirects];
   },
   async rewrites() {
     return { beforeFiles: programmaticSeoRewrites };

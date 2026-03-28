@@ -123,9 +123,9 @@ export function HomeBottomSections({
                 <section className="border-t border-gray-100" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-study-tools">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50 border border-violet-200 mb-4">
-                <Sparkles className="w-3.5 h-3.5 text-violet-600" />
-                <span className="text-xs font-bold text-violet-700 uppercase tracking-wider">{t("components.homeBottomSections.builtForYou")}</span>
+              <div className="nn-accent-soft-ring mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1.5">
+                <Sparkles className="h-3.5 w-3.5 text-primary" />
+                <span className="text-xs font-bold uppercase tracking-wider text-primary">{t("components.homeBottomSections.builtForYou")}</span>
               </div>
               <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-study-tools-heading">
                 Your Personalized Exam Toolkit
@@ -141,21 +141,23 @@ export function HomeBottomSections({
                 onClick={() => router.push(mapLegacyMarketingHref("/study-plan"))}
                 data-testid="card-promo-study-planner"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-violet-100/50 to-transparent rounded-bl-full" />
-                <div className="absolute top-3 right-3 text-[9px] font-bold uppercase tracking-wider bg-violet-500 text-white px-2 py-0.5 rounded-full z-10">{t("components.homeBottomSections.personalized")}</div>
-                <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Brain className="w-6 h-6 text-violet-600" />
+                <div className="absolute top-0 right-0 h-24 w-24 rounded-bl-full bg-gradient-to-bl from-primary/15 to-transparent" />
+                <div className="absolute top-3 right-3 z-10 rounded-full bg-primary px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary-foreground">
+                  {t("components.homeBottomSections.personalized")}
+                </div>
+                <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
+                  <Brain className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{t("components.homeBottomSections.customStudyPlanner")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">
                   Get a personalized study schedule built around your exam date, available hours, and weak areas. Your plan adapts as you progress.
                 </p>
                 <div className="flex flex-wrap gap-1.5 mb-3">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-50 text-violet-600">{t("components.homeBottomSections.dailyTasks")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-50 text-violet-600">{t("components.homeBottomSections.adaptive")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-violet-50 text-violet-600">{t("components.homeBottomSections.progressTracking")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("components.homeBottomSections.dailyTasks")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("components.homeBottomSections.adaptive")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("components.homeBottomSections.progressTracking")}</span>
                 </div>
-                <div className="flex items-center text-sm font-medium text-violet-600 group-hover:gap-2 transition-all">
+                <div className="flex items-center text-sm font-medium text-primary transition-all group-hover:gap-2">
                   <span>{t("components.homeBottomSections.createYourPlan")}</span>
                   <ArrowRight className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
@@ -166,21 +168,23 @@ export function HomeBottomSections({
                 onClick={() => router.push(mapLegacyMarketingHref("/mock-exams"))}
                 data-testid="card-promo-readiness-exam"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-emerald-100/50 to-transparent rounded-bl-full" />
-                <div className="absolute top-3 right-3 text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full z-10">{t("components.homeBottomSections.free")}</div>
-                <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <ShieldCheck className="w-6 h-6 text-emerald-600" />
+                <div className="absolute top-0 right-0 h-24 w-24 rounded-bl-full bg-gradient-to-bl from-primary/15 to-transparent" />
+                <div className="absolute top-3 right-3 z-10 rounded-full bg-primary px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary-foreground">
+                  {t("components.homeBottomSections.free")}
+                </div>
+                <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
+                  <ShieldCheck className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{t("components.homeBottomSections.freeReadinessExam")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">
                   Take a 25-question readiness check to gauge your exam preparedness. Instant results with a detailed performance breakdown. No account required.
                 </p>
-                <div className="flex flex-wrap gap-1.5 mb-3">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">{t("components.homeBottomSections.25Questions")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">{t("components.homeBottomSections.instantResults")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">{t("components.homeBottomSections.noCost")}</span>
+                <div className="mb-3 flex flex-wrap gap-1.5">
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("components.homeBottomSections.25Questions")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("components.homeBottomSections.instantResults")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("components.homeBottomSections.noCost")}</span>
                 </div>
-                <div className="flex items-center text-sm font-medium text-emerald-600 group-hover:gap-2 transition-all">
+                <div className="flex items-center text-sm font-medium text-primary transition-all group-hover:gap-2">
                   <span>{t("components.homeBottomSections.takeTheFreeExam")}</span>
                   <ArrowRight className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
@@ -191,20 +195,20 @@ export function HomeBottomSections({
                 onClick={() => router.push(mapLegacyMarketingHref("/reports"))}
                 data-testid="card-promo-report-card"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-100/50 to-transparent rounded-bl-full" />
-                <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <BarChart3 className="w-6 h-6 text-amber-600" />
+                <div className="absolute top-0 right-0 h-24 w-24 rounded-bl-full bg-gradient-to-bl from-primary/15 to-transparent" />
+                <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
+                  <BarChart3 className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{t("components.homeBottomSections.performanceReportCard")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">
                   Track your progress across every body system and competency domain. Identify strengths, target weaknesses, and watch your readiness score climb.
                 </p>
-                <div className="flex flex-wrap gap-1.5 mb-3">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">{t("components.homeBottomSections.scoreTrends")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">{t("components.homeBottomSections.domainAnalysis")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">{t("components.homeBottomSections.weakAreaDetection")}</span>
+                <div className="mb-3 flex flex-wrap gap-1.5">
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("components.homeBottomSections.scoreTrends")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("components.homeBottomSections.domainAnalysis")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("components.homeBottomSections.weakAreaDetection")}</span>
                 </div>
-                <div className="flex items-center text-sm font-medium text-amber-600 group-hover:gap-2 transition-all">
+                <div className="flex items-center text-sm font-medium text-primary transition-all group-hover:gap-2">
                   <span>{t("components.homeBottomSections.viewYourReportCard")}</span>
                   <ArrowRight className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
@@ -239,19 +243,19 @@ export function HomeBottomSections({
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">{t("home.examPath.subtitle")}</p>
             </div>
             <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              <Card 
-                className={`relative overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group ${region === "CA" ? "ring-2 ring-red-400 shadow-lg" : "border-gray-200 hover:border-red-300"}`}
+              <Card
+                className={`group relative cursor-pointer overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${region === "CA" ? "ring-2 ring-primary shadow-lg" : "border-gray-200 hover:border-primary/35"}`}
                 onClick={() => router.push(mapLegacyMarketingHref("/rex-pn-guide"))}
                 data-testid="card-exam-path-ca"
               >
                 {region === "CA" && (
                   <div className="absolute top-3 right-3">
-                    <Badge className="bg-red-500 text-white text-[10px]">{t("home.examPath.yourRegion")}</Badge>
+                    <Badge className="bg-primary text-[10px] text-primary-foreground">{t("home.examPath.yourRegion")}</Badge>
                   </div>
                 )}
                 <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center">
+                  <div className="mb-4 flex items-center gap-3">
+                    <div className="nn-accent-icon-wrap flex h-12 w-12 items-center justify-center rounded-xl">
                       <span className="text-2xl" role="img" aria-label={t("components.homeBottomSections.canada")}>🍁</span>
                     </div>
                     <div>
@@ -260,31 +264,31 @@ export function HomeBottomSections({
                     </div>
                   </div>
                   <p className="text-sm text-gray-600 leading-relaxed mb-4" data-testid="text-exam-path-ca-desc">{t("home.examPath.ca.desc")}</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="text-[10px] font-medium px-2 py-1 rounded-full bg-red-50 text-red-700 border border-red-100">{t("home.examPath.ca.pill1")}</span>
-                    <span className="text-[10px] font-medium px-2 py-1 rounded-full bg-red-50 text-red-700 border border-red-100">{t("home.examPath.ca.pill2")}</span>
-                    <span className="text-[10px] font-medium px-2 py-1 rounded-full bg-red-50 text-red-700 border border-red-100">{t("home.examPath.ca.pill3")}</span>
+                  <div className="mb-4 flex flex-wrap gap-2">
+                    <span className="rounded-full border border-primary/20 bg-primary/10 px-2 py-1 text-[10px] font-medium text-primary">{t("home.examPath.ca.pill1")}</span>
+                    <span className="rounded-full border border-primary/20 bg-primary/10 px-2 py-1 text-[10px] font-medium text-primary">{t("home.examPath.ca.pill2")}</span>
+                    <span className="rounded-full border border-primary/20 bg-primary/10 px-2 py-1 text-[10px] font-medium text-primary">{t("home.examPath.ca.pill3")}</span>
                   </div>
-                  <Button variant="outline" className="w-full rounded-full border-red-200 text-red-700 hover:bg-red-50 group-hover:border-red-400" data-testid="button-exam-path-ca">
+                  <Button variant="outline" className="w-full rounded-full border-primary/25 text-primary hover:bg-primary/5 group-hover:border-primary/40" data-testid="button-exam-path-ca">
                     {t("home.examPath.ca.cta")}
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </CardContent>
               </Card>
 
-              <Card 
-                className={`relative overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group ${region === "US" ? "ring-2 ring-blue-400 shadow-lg" : "border-gray-200 hover:border-blue-300"}`}
+              <Card
+                className={`group relative cursor-pointer overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${region === "US" ? "ring-2 ring-primary shadow-lg" : "border-gray-200 hover:border-primary/35"}`}
                 onClick={() => router.push(mapLegacyMarketingHref("/nclex-rn-guide"))}
                 data-testid="card-exam-path-us"
               >
                 {region === "US" && (
                   <div className="absolute top-3 right-3">
-                    <Badge className="bg-blue-500 text-white text-[10px]">{t("home.examPath.yourRegion")}</Badge>
+                    <Badge className="bg-primary text-[10px] text-primary-foreground">{t("home.examPath.yourRegion")}</Badge>
                   </div>
                 )}
                 <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center">
+                  <div className="mb-4 flex items-center gap-3">
+                    <div className="nn-accent-icon-wrap flex h-12 w-12 items-center justify-center rounded-xl">
                       <span className="text-2xl" role="img" aria-label={t("components.homeBottomSections.unitedStates")}>🇺🇸</span>
                     </div>
                     <div>
@@ -293,12 +297,12 @@ export function HomeBottomSections({
                     </div>
                   </div>
                   <p className="text-sm text-gray-600 leading-relaxed mb-4" data-testid="text-exam-path-us-desc">{t("home.examPath.us.desc")}</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="text-[10px] font-medium px-2 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100">{t("home.examPath.us.pill1")}</span>
-                    <span className="text-[10px] font-medium px-2 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100">{t("home.examPath.us.pill2")}</span>
-                    <span className="text-[10px] font-medium px-2 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100">{t("home.examPath.us.pill3")}</span>
+                  <div className="mb-4 flex flex-wrap gap-2">
+                    <span className="rounded-full border border-primary/20 bg-primary/10 px-2 py-1 text-[10px] font-medium text-primary">{t("home.examPath.us.pill1")}</span>
+                    <span className="rounded-full border border-primary/20 bg-primary/10 px-2 py-1 text-[10px] font-medium text-primary">{t("home.examPath.us.pill2")}</span>
+                    <span className="rounded-full border border-primary/20 bg-primary/10 px-2 py-1 text-[10px] font-medium text-primary">{t("home.examPath.us.pill3")}</span>
                   </div>
-                  <Button variant="outline" className="w-full rounded-full border-blue-200 text-blue-700 hover:bg-blue-50 group-hover:border-blue-400" data-testid="button-exam-path-us">
+                  <Button variant="outline" className="w-full rounded-full border-primary/25 text-primary hover:bg-primary/5 group-hover:border-primary/40" data-testid="button-exam-path-us">
                     {t("home.examPath.us.cta")}
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
@@ -322,17 +326,17 @@ export function HomeBottomSections({
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               {[
-                { step: "1", icon: BookOpen, title: t("home.howItWorks.step1.title"), desc: t("home.howItWorks.step1.desc"), color: "from-blue-500 to-indigo-600" },
-                { step: "2", icon: Target, title: t("home.howItWorks.step2.title"), desc: t("home.howItWorks.step2.desc"), color: "from-purple-500 to-violet-600" },
-                { step: "3", icon: Trophy, title: t("home.howItWorks.step3.title"), desc: t("home.howItWorks.step3.desc"), color: "from-emerald-500 to-teal-600" },
+                { step: "1", icon: BookOpen, title: t("home.howItWorks.step1.title"), desc: t("home.howItWorks.step1.desc") },
+                { step: "2", icon: Target, title: t("home.howItWorks.step2.title"), desc: t("home.howItWorks.step2.desc") },
+                { step: "3", icon: Trophy, title: t("home.howItWorks.step3.title"), desc: t("home.howItWorks.step3.desc") },
               ].map((item, i) => (
                 <div key={i} className="relative text-center" data-testid={`step-how-it-works-${i}`}>
                   {i < 2 && (
                     <div className="hidden md:block absolute top-10 left-[60%] w-[80%] h-px bg-gradient-to-r from-gray-300 to-transparent z-0" />
                   )}
                   <div className="relative z-10">
-                    <div className={`mx-auto w-20 h-20 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-5 shadow-lg`}>
-                      <item.icon className="w-9 h-9 text-white" />
+                    <div className="nn-theme-gradient-br mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-2xl shadow-lg">
+                      <item.icon className="h-9 w-9 text-white" />
                     </div>
                     <div className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gray-900 text-white text-xs font-bold mb-3">{item.step}</div>
                     <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
@@ -348,37 +352,37 @@ export function HomeBottomSections({
         <section className="py-14 bg-white border-y border-gray-100" data-testid="section-social-proof">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 border border-amber-200 mb-4">
-                <Star className="w-3.5 h-3.5 text-amber-500" />
-                <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">{t("home.socialProof.badge")}</span>
+              <div className="nn-accent-soft-ring mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1.5">
+                <Star className="h-3.5 w-3.5 fill-primary text-primary" />
+                <span className="text-xs font-bold uppercase tracking-wider text-primary">{t("home.socialProof.badge")}</span>
               </div>
               <h2 className="font-bold text-gray-900" style={{ fontSize: 'var(--text-section)' }} data-testid="text-social-proof-heading">{t("home.socialProof.heading")}</h2>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="text-center p-5 rounded-2xl bg-gradient-to-b from-blue-50 to-white border border-blue-100" data-testid="stat-social-students">
-                <Users className="w-7 h-7 text-blue-600 mx-auto mb-2" />
+              <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-white p-5 text-center" data-testid="stat-social-students">
+                <Users className="mx-auto mb-2 h-7 w-7 text-primary" />
                 <div className="text-3xl font-extrabold text-gray-900">5,000+</div>
                 <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{t("home.socialProof.students")}</div>
               </div>
-              <div className="text-center p-5 rounded-2xl bg-gradient-to-b from-emerald-50 to-white border border-emerald-100" data-testid="stat-social-pass-rate">
-                <BadgeCheck className="w-7 h-7 text-emerald-600 mx-auto mb-2" />
+              <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-white p-5 text-center" data-testid="stat-social-pass-rate">
+                <BadgeCheck className="mx-auto mb-2 h-7 w-7 text-primary" />
                 <div className="text-3xl font-extrabold text-gray-900">{t("home.socialProof.passRateValue")}</div>
                 <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{t("home.socialProof.passRate")}</div>
               </div>
-              <div className="text-center p-5 rounded-2xl bg-gradient-to-b from-purple-50 to-white border border-purple-100" data-testid="stat-social-questions">
-                <Target className="w-7 h-7 text-purple-600 mx-auto mb-2" />
+              <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-white p-5 text-center" data-testid="stat-social-questions">
+                <Target className="mx-auto mb-2 h-7 w-7 text-primary" />
                 <div className="text-3xl font-extrabold text-gray-900">{formatCount(questionCount)}</div>
                 <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{t("home.socialProof.questions")}</div>
               </div>
-              <div className="text-center p-5 rounded-2xl bg-gradient-to-b from-amber-50 to-white border border-amber-100" data-testid="stat-social-lessons">
-                <BookOpen className="w-7 h-7 text-amber-600 mx-auto mb-2" />
+              <div className="rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-white p-5 text-center" data-testid="stat-social-lessons">
+                <BookOpen className="mx-auto mb-2 h-7 w-7 text-primary" />
                 <div className="text-3xl font-extrabold text-gray-900">{formatCount(lessonCount)}</div>
                 <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{t("home.socialProof.lessons")}</div>
               </div>
             </div>
             <div className="text-center mt-6">
               <div className="inline-flex items-center gap-2 text-sm text-gray-500">
-                <TrendingUp className="w-4 h-4 text-emerald-500" />
+                <TrendingUp className="h-4 w-4 text-primary" />
                 <span>{t("home.socialProof.updatedDesc")}</span>
               </div>
             </div>
@@ -386,58 +390,58 @@ export function HomeBottomSections({
         </section>
 
         {/* What's New Section */}
-        <section className="py-12 bg-gradient-to-b from-emerald-50/50 to-white relative z-10 border-t border-emerald-100/50" data-testid="section-whats-new">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-center gap-3 mb-8">
-              <div className="h-px flex-1 max-w-[60px] bg-gradient-to-r from-transparent to-emerald-300" />
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200">
-                <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-                <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">{t("home.new.badge")}</span>
+        <section className="relative z-10 border-t border-primary/15 bg-gradient-to-b from-primary/5 to-white py-12" data-testid="section-whats-new">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="mb-8 flex items-center justify-center gap-3">
+              <div className="h-px max-w-[60px] flex-1 bg-gradient-to-r from-transparent to-primary/35" />
+              <div className="nn-accent-soft-ring inline-flex items-center gap-2 rounded-full border px-4 py-1.5">
+                <Sparkles className="h-3.5 w-3.5 text-primary" />
+                <span className="text-xs font-bold uppercase tracking-wider text-primary">{t("home.new.badge")}</span>
               </div>
-              <div className="h-px flex-1 max-w-[60px] bg-gradient-to-l from-transparent to-emerald-300" />
+              <div className="h-px max-w-[60px] flex-1 bg-gradient-to-l from-transparent to-primary/35" />
             </div>
 
-            <div className="grid md:grid-cols-3 gap-5">
+            <div className="grid gap-5 md:grid-cols-3">
               <div
-                className="bg-white rounded-2xl border border-emerald-100/60 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
+                className="group cursor-pointer rounded-2xl border border-gray-100/80 bg-white p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
                 onClick={() => router.push(mapLegacyMarketingHref("/flashcards"))}
                 data-testid="card-new-decks"
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-9 h-9 bg-amber-100 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Layers className="w-5 h-5 text-amber-600" />
+                <div className="mb-3 flex items-center gap-2">
+                  <div className="nn-accent-icon-wrap flex h-9 w-9 items-center justify-center rounded-lg transition-transform group-hover:scale-110">
+                    <Layers className="nn-accent-icon h-5 w-5" />
                   </div>
-                  <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full">{t("home.new.label")}</span>
+                  <span className="rounded-full bg-primary px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary-foreground">{t("home.new.label")}</span>
                 </div>
                 <h3 className="text-base font-bold text-gray-900 mb-1.5">{t("home.new.decks.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">{t("home.new.decks.desc")}</p>
               </div>
 
               <div
-                className="bg-white rounded-2xl border border-emerald-100/60 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
+                className="group cursor-pointer rounded-2xl border border-gray-100/80 bg-white p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
                 onClick={() => router.push(mapLegacyMarketingHref("/blog"))}
                 data-testid="card-new-blog"
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-9 h-9 bg-teal-100 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <FileText className="w-5 h-5 text-teal-600" />
+                <div className="mb-3 flex items-center gap-2">
+                  <div className="nn-accent-icon-wrap flex h-9 w-9 items-center justify-center rounded-lg transition-transform group-hover:scale-110">
+                    <FileText className="nn-accent-icon h-5 w-5" />
                   </div>
-                  <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full">{t("home.new.label")}</span>
+                  <span className="rounded-full bg-primary px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary-foreground">{t("home.new.label")}</span>
                 </div>
                 <h3 className="text-base font-bold text-gray-900 mb-1.5">{t("home.new.blog.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">{t("home.new.blog.desc")}</p>
               </div>
 
               <div
-                className="bg-white rounded-2xl border border-emerald-100/60 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-6 cursor-pointer group"
+                className="group cursor-pointer rounded-2xl border border-gray-100/80 bg-white p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
                 onClick={() => router.push(mapLegacyMarketingHref("/lessons"))}
                 data-testid="card-new-languages"
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-9 h-9 bg-indigo-100 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Globe className="w-5 h-5 text-indigo-600" />
+                <div className="mb-3 flex items-center gap-2">
+                  <div className="nn-accent-icon-wrap flex h-9 w-9 items-center justify-center rounded-lg transition-transform group-hover:scale-110">
+                    <Globe className="nn-accent-icon h-5 w-5" />
                   </div>
-                  <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full">{t("home.new.label")}</span>
+                  <span className="rounded-full bg-primary px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary-foreground">{t("home.new.label")}</span>
                 </div>
                 <h3 className="text-base font-bold text-gray-900 mb-1.5">{t("home.new.languages.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">{t("home.new.languages.desc")}</p>
@@ -465,15 +469,19 @@ export function HomeBottomSections({
             {/* Headline Stats Row */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14 max-w-4xl mx-auto">
               {[
-                { value: formatCount(questionCount), label: t("home.stats.questions"), icon: Target, color: "from-blue-500 to-indigo-600" },
-                { value: formatCount(lessonCount), label: t("home.stats.lessons"), icon: BookOpen, color: "from-emerald-500 to-teal-600" },
-                { value: storeProductCount > 0 ? `${storeProductCount}+` : "9", label: storeProductCount > 0 ? t("home.stats.studyPacks") : t("home.stats.simulators"), icon: storeProductCount > 0 ? ShoppingBag : Gamepad2, color: "from-purple-500 to-violet-600" },
-                { value: "7+", label: t("home.stats.modes"), icon: Layers, color: "from-amber-500 to-orange-600" },
+                { value: formatCount(questionCount), label: t("home.stats.questions"), icon: Target },
+                { value: formatCount(lessonCount), label: t("home.stats.lessons"), icon: BookOpen },
+                {
+                  value: storeProductCount > 0 ? `${storeProductCount}+` : "9",
+                  label: storeProductCount > 0 ? t("home.stats.studyPacks") : t("home.stats.simulators"),
+                  icon: storeProductCount > 0 ? ShoppingBag : Gamepad2,
+                },
+                { value: "7+", label: t("home.stats.modes"), icon: Layers },
               ].map((stat, i) => (
-                <div key={i} className="relative overflow-hidden bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-5 text-center group" data-testid={`stat-feature-${i}`}>
-                  <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${stat.color}`} />
-                  <div className="mx-auto w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <stat.icon className="w-5 h-5 text-primary" />
+                <div key={i} className="group relative overflow-hidden rounded-2xl border border-gray-100/80 bg-white p-5 text-center shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]" data-testid={`stat-feature-${i}`}>
+                  <div className="nn-theme-gradient-br absolute left-0 top-0 h-1 w-full" />
+                  <div className="nn-accent-icon-wrap mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
+                    <stat.icon className="nn-accent-icon h-5 w-5" />
                   </div>
                   <div className="text-2xl sm:text-3xl font-extrabold text-gray-900">{stat.value}</div>
                   <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">{stat.label}</div>
@@ -489,16 +497,16 @@ export function HomeBottomSections({
                 onClick={() => router.push(mapLegacyMarketingHref("/mock-exams"))}
                 data-testid="card-feature-mock-exams"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-indigo-100/50 to-transparent rounded-bl-full" />
-                <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <ClipboardCheck className="w-6 h-6 text-indigo-600" />
+                <div className="absolute right-0 top-0 h-24 w-24 rounded-bl-full bg-gradient-to-bl from-primary/15 to-transparent" />
+                <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
+                  <ClipboardCheck className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.exams.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.exams.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">{t("home.feature.examFormat")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">{t("home.feature.scoreTrends")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">{t("home.feature.autoSave")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.examFormat")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.scoreTrends")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.autoSave")}</span>
                 </div>
               </div>
 
@@ -508,16 +516,16 @@ export function HomeBottomSections({
                 onClick={() => router.push(mapLegacyMarketingHref("/first-action-simulator"))}
                 data-testid="card-feature-simulators"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-purple-100/50 to-transparent rounded-bl-full" />
-                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Stethoscope className="w-6 h-6 text-purple-600" />
+                <div className="absolute right-0 top-0 h-24 w-24 rounded-bl-full bg-gradient-to-bl from-primary/15 to-transparent" />
+                <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
+                  <Stethoscope className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.simulators.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.simulators.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">{t("home.feature.branching")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">{t("home.feature.instantFeedback")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-50 text-green-600">{t("home.feature.free2")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.branching")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.instantFeedback")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.free2")}</span>
                 </div>
               </div>
 
@@ -527,16 +535,18 @@ export function HomeBottomSections({
                 onClick={() => router.push(mapLegacyMarketingHref("/free-practice"))}
                 data-testid="card-feature-test-bank"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-blue-100/50 to-transparent rounded-bl-full" />
-                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Target className="w-6 h-6 text-blue-600" />
+                <div className="absolute right-0 top-0 h-24 w-24 rounded-bl-full bg-gradient-to-bl from-primary/15 to-transparent" />
+                <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
+                  <Target className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{formatCount(questionCount)} {t("home.qbank.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.qbank.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">RPN/LVN/RN/NP {t("home.feature.tierLevels")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">{t("home.feature.deepRationales")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">{t("home.feature.progressTracking")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">
+                    RPN/LVN/RN/NP {t("home.feature.tierLevels")}
+                  </span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.deepRationales")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.progressTracking")}</span>
                 </div>
               </div>
 
@@ -546,18 +556,18 @@ export function HomeBottomSections({
                 onClick={() => router.push(mapLegacyMarketingHref("/flashcards"))}
                 data-testid="card-feature-flashcards"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-100/50 to-transparent rounded-bl-full" />
-                <div className="absolute top-3 right-3 text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full z-10">{t("home.new.label")}</div>
-                <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Layers className="w-6 h-6 text-amber-600" />
+                <div className="absolute right-0 top-0 h-24 w-24 rounded-bl-full bg-gradient-to-bl from-primary/15 to-transparent" />
+                <div className="absolute right-3 top-3 z-10 rounded-full bg-primary px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary-foreground">{t("home.new.label")}</div>
+                <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
+                  <Layers className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.flashcards.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.flashcards.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">{t("home.feature.learnMode")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">{t("home.feature.testMode")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">{t("home.feature.accuracyCheck")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">{t("home.feature.csvImport")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.learnMode")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.testMode")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.accuracyCheck")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.csvImport")}</span>
                 </div>
               </div>
 
@@ -567,16 +577,16 @@ export function HomeBottomSections({
                 onClick={() => router.push(mapLegacyMarketingHref("/med-math"))}
                 data-testid="card-feature-med-math"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-emerald-100/50 to-transparent rounded-bl-full" />
-                <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Calculator className="w-6 h-6 text-emerald-600" />
+                <div className="absolute right-0 top-0 h-24 w-24 rounded-bl-full bg-gradient-to-bl from-primary/15 to-transparent" />
+                <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
+                  <Calculator className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.tools.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.tools.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">{t("home.feature.stepwise")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">{t("home.feature.abg")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">{t("home.feature.labClusters")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.stepwise")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.abg")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.labClusters")}</span>
                 </div>
               </div>
 
@@ -586,16 +596,16 @@ export function HomeBottomSections({
                 onClick={() => router.push(mapLegacyMarketingHref("/lectures"))}
                 data-testid="card-feature-lectures"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-rose-100/50 to-transparent rounded-bl-full" />
-                <div className="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <PlayCircle className="w-6 h-6 text-rose-600" />
+                <div className="absolute right-0 top-0 h-24 w-24 rounded-bl-full bg-gradient-to-bl from-primary/15 to-transparent" />
+                <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110">
+                  <PlayCircle className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{t("home.lessons.title")}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-3">{t("home.lessons.desc")}</p>
                 <div className="flex flex-wrap gap-1.5">
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-rose-50 text-rose-600">{t("home.feature.videoLectures")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-rose-50 text-rose-600">{t("home.feature.clinicalPearls")}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-50 text-green-600">{t("home.feature.freeContent")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.videoLectures")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.clinicalPearls")}</span>
+                  <span className="rounded-full border border-primary/15 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">{t("home.feature.freeContent")}</span>
                 </div>
               </div>
             </div>
@@ -603,8 +613,8 @@ export function HomeBottomSections({
             {/* Secondary Features Strip */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
               <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100/80 shadow-[var(--shadow-card)] p-4 hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 cursor-pointer" onClick={() => router.push(mapLegacyMarketingHref("/dashboard"))} data-testid="card-feature-dashboard">
-                <div className="w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center shrink-0">
-                  <LayoutDashboard className="w-5 h-5 text-sky-600" />
+                <div className="nn-accent-icon-wrap flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+                  <LayoutDashboard className="nn-accent-icon h-5 w-5" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-gray-900">{t("home.secondary.dashboard")}</h4>
@@ -613,8 +623,8 @@ export function HomeBottomSections({
               </div>
 
               <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100/80 shadow-[var(--shadow-card)] p-4 hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 cursor-pointer" onClick={() => router.push(mapLegacyMarketingHref("/reports"))} data-testid="card-feature-analytics">
-                <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center shrink-0">
-                  <BarChart3 className="w-5 h-5 text-orange-600" />
+                <div className="nn-accent-icon-wrap flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+                  <BarChart3 className="nn-accent-icon h-5 w-5" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-gray-900">{t("home.secondary.analytics")}</h4>
@@ -623,8 +633,8 @@ export function HomeBottomSections({
               </div>
 
               <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100/80 shadow-[var(--shadow-card)] p-4 hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200 cursor-pointer" onClick={() => router.push(mapLegacyMarketingHref("/question-of-the-day"))} data-testid="card-feature-qotd">
-                <div className="w-10 h-10 bg-violet-100 rounded-lg flex items-center justify-center shrink-0">
-                  <MessageSquareQuote className="w-5 h-5 text-violet-600" />
+                <div className="nn-accent-icon-wrap flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+                  <MessageSquareQuote className="nn-accent-icon h-5 w-5" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-gray-900">{t("home.secondary.qotd")}</h4>
@@ -632,10 +642,10 @@ export function HomeBottomSections({
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-shadow cursor-pointer relative overflow-hidden" onClick={() => router.push(mapLegacyMarketingHref("/blog"))} data-testid="card-feature-blog">
-                <div className="absolute top-1.5 right-1.5 text-[8px] font-bold uppercase tracking-wider bg-emerald-500 text-white px-1.5 py-0.5 rounded-full">{t("home.new.label")}</div>
-                <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center shrink-0">
-                  <Newspaper className="w-5 h-5 text-teal-600" />
+              <div className="relative flex cursor-pointer items-center gap-3 overflow-hidden rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md" onClick={() => router.push(mapLegacyMarketingHref("/blog"))} data-testid="card-feature-blog">
+                <div className="absolute right-1.5 top-1.5 rounded-full bg-primary px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-wider text-primary-foreground">{t("home.new.label")}</div>
+                <div className="nn-accent-icon-wrap flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+                  <Newspaper className="nn-accent-icon h-5 w-5" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-gray-900">{t("home.secondary.blog")}</h4>
@@ -774,20 +784,20 @@ export function HomeBottomSections({
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
-                { icon: HeartPulse, title: t("home.study.medsurg"), desc: t("home.study.medsurgDesc"), color: "bg-red-50 text-red-600" },
-                { icon: Pill, title: t("home.study.pharm"), desc: t("home.study.pharmDesc"), color: "bg-blue-50 text-blue-600" },
-                { icon: Baby, title: t("home.study.maternal"), desc: t("home.study.maternalDesc"), color: "bg-pink-50 text-pink-600" },
-                { icon: Brain, title: t("home.study.mental"), desc: t("home.study.mentalDesc"), color: "bg-purple-50 text-purple-600" },
-                { icon: FlaskConical, title: t("home.study.lab"), desc: t("home.study.labDesc"), color: "bg-emerald-50 text-emerald-600" },
-                { icon: Activity, title: t("home.study.critical"), desc: t("home.study.criticalDesc"), color: "bg-orange-50 text-orange-600" },
-                { icon: Target, title: t("home.study.priority"), desc: t("home.study.priorityDesc"), color: "bg-indigo-50 text-indigo-600" },
-                { icon: Stethoscope, title: t("home.study.cases"), desc: t("home.study.casesDesc"), color: "bg-teal-50 text-teal-600" },
-                { icon: GraduationCap, title: t("home.study.patho"), desc: t("home.study.pathoDesc"), color: "bg-amber-50 text-amber-600" },
+                { icon: HeartPulse, title: t("home.study.medsurg"), desc: t("home.study.medsurgDesc") },
+                { icon: Pill, title: t("home.study.pharm"), desc: t("home.study.pharmDesc") },
+                { icon: Baby, title: t("home.study.maternal"), desc: t("home.study.maternalDesc") },
+                { icon: Brain, title: t("home.study.mental"), desc: t("home.study.mentalDesc") },
+                { icon: FlaskConical, title: t("home.study.lab"), desc: t("home.study.labDesc") },
+                { icon: Activity, title: t("home.study.critical"), desc: t("home.study.criticalDesc") },
+                { icon: Target, title: t("home.study.priority"), desc: t("home.study.priorityDesc") },
+                { icon: Stethoscope, title: t("home.study.cases"), desc: t("home.study.casesDesc") },
+                { icon: GraduationCap, title: t("home.study.patho"), desc: t("home.study.pathoDesc") },
               ].map((topic, i) => (
                 <Card key={i} className="border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/20 transition-[transform,box-shadow] duration-300 hover:-translate-y-1 overflow-hidden group bg-white cursor-pointer" onClick={() => router.push(mapLegacyMarketingHref("/lessons"))} data-testid={`card-topic-${i}`}>
                   <CardContent className="p-6">
-                    <div className={`w-12 h-12 ${topic.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                      <topic.icon className="w-6 h-6" />
+                    <div className="nn-accent-icon-wrap mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110">
+                      <topic.icon className="nn-accent-icon h-6 w-6" />
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">{topic.title}</h3>
                     <p className="text-sm text-gray-600 leading-relaxed">{topic.desc}</p>
@@ -808,21 +818,21 @@ export function HomeBottomSections({
         <section className="py-16 bg-white border-b border-gray-100" data-testid="section-most-tested">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-50 border border-red-100 shadow-sm mb-4">
-                <AlertTriangle className="w-3.5 h-3.5 text-red-500" />
-                <span className="text-xs font-semibold text-red-600 uppercase tracking-wide">{t("home.mostTested.badge")}</span>
+              <div className="nn-accent-soft-ring mb-4 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 shadow-sm">
+                <AlertTriangle className="h-3.5 w-3.5 text-primary" />
+                <span className="text-xs font-semibold uppercase tracking-wide text-primary">{t("home.mostTested.badge")}</span>
               </div>
               <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-most-tested-heading">{t("home.mostTested.heading")}</h2>
               <p className="text-gray-600">{t("home.mostTested.subtitle")}</p>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                { icon: Droplets, title: t("home.mostTested.electrolytes"), desc: t("home.mostTested.electrolytesDesc"), href: "/study-guide/electrolytes-acid-base-nursing-guide", color: "bg-blue-50 text-blue-600" },
-                { icon: HeartPulse, title: t("home.mostTested.ecg"), desc: t("home.mostTested.ecgDesc"), href: "/study-guide/cardiac-emergencies-nursing-guide", color: "bg-red-50 text-red-600" },
-                { icon: Thermometer, title: t("home.mostTested.sepsis"), desc: t("home.mostTested.sepsisDesc"), href: "/study-guide/sepsis-shock-nursing-guide", color: "bg-orange-50 text-orange-600" },
-                { icon: Baby, title: t("home.mostTested.ob"), desc: t("home.mostTested.obDesc"), href: "/study-guide/ob-emergencies-nursing-guide", color: "bg-pink-50 text-pink-600" },
-                { icon: FlaskConical, title: t("home.mostTested.pharm"), desc: t("home.mostTested.pharmDesc"), href: "/study-guide/pharmacology-high-yield-nursing-guide", color: "bg-emerald-50 text-emerald-600" },
-                { icon: Brain, title: t("home.mostTested.neuro"), desc: t("home.mostTested.neuroDesc"), href: "/lessons/stroke", color: "bg-purple-50 text-purple-600" },
+                { icon: Droplets, title: t("home.mostTested.electrolytes"), desc: t("home.mostTested.electrolytesDesc"), href: "/study-guide/electrolytes-acid-base-nursing-guide" },
+                { icon: HeartPulse, title: t("home.mostTested.ecg"), desc: t("home.mostTested.ecgDesc"), href: "/study-guide/cardiac-emergencies-nursing-guide" },
+                { icon: Thermometer, title: t("home.mostTested.sepsis"), desc: t("home.mostTested.sepsisDesc"), href: "/study-guide/sepsis-shock-nursing-guide" },
+                { icon: Baby, title: t("home.mostTested.ob"), desc: t("home.mostTested.obDesc"), href: "/study-guide/ob-emergencies-nursing-guide" },
+                { icon: FlaskConical, title: t("home.mostTested.pharm"), desc: t("home.mostTested.pharmDesc"), href: "/study-guide/pharmacology-high-yield-nursing-guide" },
+                { icon: Brain, title: t("home.mostTested.neuro"), desc: t("home.mostTested.neuroDesc"), href: "/lessons/stroke" },
               ].map((topic, i) => (
                 <Card 
                   key={i} 
@@ -832,8 +842,8 @@ export function HomeBottomSections({
                 >
                   <CardContent className="p-5">
                     <div className="flex items-start gap-4">
-                      <div className={`w-11 h-11 ${topic.color} rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300`}>
-                        <topic.icon className="w-5 h-5" />
+                      <div className="nn-accent-icon-wrap flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110">
+                        <topic.icon className="nn-accent-icon h-5 w-5" />
                       </div>
                       <div className="min-w-0">
                         <h3 className="font-semibold text-gray-900 text-sm mb-1">{topic.title}</h3>
@@ -936,8 +946,8 @@ export function HomeBottomSections({
         <section className="py-24 bg-gradient-to-b from-gray-50 to-white" data-testid="section-flashcard-trust">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <div className="inline-flex items-center gap-2 bg-red-50 text-red-700 text-sm font-semibold px-4 py-2 rounded-full mb-6" data-testid="badge-flashcard-warning">
-                <AlertTriangle className="w-4 h-4" aria-hidden="true" />
+              <div className="nn-accent-soft-ring mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold text-primary" data-testid="badge-flashcard-warning">
+                <AlertTriangle className="h-4 w-4" aria-hidden="true" />
                 {t("home.flashcardTrust.warningBadge")}
               </div>
               <h2 className="font-bold text-gray-900 mb-4" style={{ fontSize: 'var(--text-section)' }} data-testid="text-flashcard-trust-heading">
@@ -949,10 +959,10 @@ export function HomeBottomSections({
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
-              <div className="bg-red-50/60 rounded-2xl border border-red-100 p-8" data-testid="card-other-platforms">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
-                    <XCircle className="w-5 h-5 text-red-500" aria-hidden="true" />
+              <div className="rounded-2xl border border-gray-200 bg-gray-50/80 p-8" data-testid="card-other-platforms">
+                <div className="mb-6 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-200/80">
+                    <XCircle className="h-5 w-5 text-gray-600" aria-hidden="true" />
                   </div>
                   <h3 className="text-lg font-bold text-gray-900">{t("home.flashcardTrust.otherPlatforms")}</h3>
                 </div>
@@ -964,17 +974,17 @@ export function HomeBottomSections({
                     t("home.flashcardTrust.issue4"),
                   ].map((issue, i) => (
                     <li key={i} className="flex items-start gap-3" data-testid={`text-issue-${i}`}>
-                      <XCircle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                      <XCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-gray-400" aria-hidden="true" />
                       <span className="text-sm text-gray-700 leading-relaxed">{issue}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="bg-emerald-50/60 rounded-2xl border border-emerald-100 p-8" data-testid="card-nursenest-flashcards">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
-                    <ShieldCheck className="w-5 h-5 text-emerald-600" aria-hidden="true" />
+              <div className="rounded-2xl border border-primary/20 bg-primary/5 p-8" data-testid="card-nursenest-flashcards">
+                <div className="mb-6 flex items-center gap-3">
+                  <div className="nn-accent-icon-wrap flex h-10 w-10 items-center justify-center rounded-xl">
+                    <ShieldCheck className="nn-accent-icon h-5 w-5" aria-hidden="true" />
                   </div>
                   <h3 className="text-lg font-bold text-gray-900">{t("home.flashcardTrust.nurseNest")}</h3>
                 </div>
@@ -986,7 +996,7 @@ export function HomeBottomSections({
                     t("home.flashcardTrust.benefit4"),
                   ].map((benefit, i) => (
                     <li key={i} className="flex items-start gap-3" data-testid={`text-benefit-${i}`}>
-                      <CircleCheck className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                      <CircleCheck className="nn-trust-check mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
                       <span className="text-sm text-gray-700 leading-relaxed">{benefit}</span>
                     </li>
                   ))}
@@ -994,7 +1004,7 @@ export function HomeBottomSections({
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-indigo-50 to-primary/5 rounded-2xl border border-primary/10 shadow-sm p-8 max-w-3xl mx-auto" data-testid="card-flashcard-user-created">
+            <div className="mx-auto max-w-3xl rounded-2xl border border-primary/10 bg-gradient-to-br from-primary/8 to-primary/5 p-8 shadow-sm" data-testid="card-flashcard-user-created">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
                   <Sparkles className="w-5 h-5 text-primary" aria-hidden="true" />
@@ -1045,9 +1055,9 @@ export function HomeBottomSections({
         <section className="py-20 bg-gradient-to-b from-gray-50 to-white" data-testid="section-competitive">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 mb-4">
-                <BarChart3 className="w-3.5 h-3.5 text-indigo-600" />
-                <span className="text-xs font-bold text-indigo-700 uppercase tracking-wider">{t("home.competitive.badge")}</span>
+              <div className="nn-accent-soft-ring mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1.5">
+                <BarChart3 className="h-3.5 w-3.5 text-primary" />
+                <span className="text-xs font-bold uppercase tracking-wider text-primary">{t("home.competitive.badge")}</span>
               </div>
               <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-competitive-heading">{t("home.competitive.heading")}</h2>
               <p className="text-lg text-gray-600">{t("home.competitive.subtitle")}</p>
@@ -1075,7 +1085,7 @@ export function HomeBottomSections({
                   ] as Array<{ feature: string; nn: string; uw: string; ar: string; isPrice?: true }>).map((row, i) => {
                     const renderCell = (val: string, highlight?: boolean) => {
                       if (row.isPrice) return <span className={`text-sm ${highlight ? "font-bold text-primary" : "text-gray-600"}`}>{val}</span>;
-                      if (val === "yes") return <CircleCheck className="w-5 h-5 text-emerald-500 mx-auto" />;
+                      if (val === "yes") return <CircleCheck className="nn-trust-check mx-auto h-5 w-5" />;
                       if (val === "limited") return <span className="text-xs text-gray-400">{t("home.competitive.limited")}</span>;
                       return <XCircle className="w-5 h-5 text-gray-300 mx-auto" />;
                     };
@@ -1092,9 +1102,9 @@ export function HomeBottomSections({
               </table>
             </div>
             <div className="text-center mt-8 space-y-4">
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-50 border border-emerald-200 shadow-sm" data-testid="badge-guarantee">
-                <ShieldCheck className="w-5 h-5 text-emerald-600" />
-                <span className="text-sm font-bold text-emerald-700">{t("home.guarantee.badge")}</span>
+              <div className="nn-accent-soft-ring inline-flex items-center gap-2 rounded-full border px-5 py-2.5 shadow-sm" data-testid="badge-guarantee">
+                <ShieldCheck className="h-5 w-5 text-primary" />
+                <span className="text-sm font-bold text-primary">{t("home.guarantee.badge")}</span>
               </div>
               <p className="text-sm text-gray-500">{t("home.guarantee.desc")}</p>
             </div>
@@ -1415,9 +1425,9 @@ export function HomeBottomSections({
                 {t("home.hero.cta2")}
               </Button>
             </div>
-            <div className="flex items-center justify-center gap-2 mt-6 mb-2">
-              <ShieldCheck className="w-5 h-5 text-emerald-600" />
-              <span className="text-sm font-semibold text-emerald-700">{t("home.guarantee.badge")}</span>
+            <div className="mb-2 mt-6 flex items-center justify-center gap-2">
+              <ShieldCheck className="h-5 w-5 text-primary" />
+              <span className="text-sm font-semibold text-primary">{t("home.guarantee.badge")}</span>
             </div>
             <p className="text-sm text-gray-400">{t("home.cta.disclaimer")}</p>
           </div>

@@ -116,14 +116,45 @@ a {
 .nn-card-interactive:hover {
   transform: translateY(-1px);
   box-shadow: var(--shadow-card-hover);
-  border-color: #dfd5fa;
+  border-color: color-mix(in srgb, var(--theme-primary) 32%, transparent);
+}
+
+/* Accent surfaces — use instead of scattered bg-*-50 / text-*-600 Tailwind palettes */
+.nn-accent-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--theme-primary) 13%, var(--theme-card-bg));
+}
+.nn-accent-icon {
+  color: var(--theme-primary);
+}
+.nn-accent-pill {
+  background: color-mix(in srgb, var(--theme-primary) 10%, var(--theme-card-bg));
+  border: 1px solid color-mix(in srgb, var(--theme-primary) 22%, transparent);
+  color: color-mix(in srgb, var(--theme-primary) 88%, var(--theme-heading-text));
+}
+.nn-accent-soft-ring {
+  border-color: color-mix(in srgb, var(--theme-primary) 28%, transparent);
+  background: color-mix(in srgb, var(--theme-primary) 8%, var(--theme-card-bg));
+}
+.nn-theme-gradient-br {
+  background-image: linear-gradient(
+    to bottom right,
+    var(--theme-primary),
+    color-mix(in srgb, var(--theme-primary) 68%, var(--theme-heading-text))
+  );
+}
+.nn-trust-check {
+  color: color-mix(in srgb, var(--theme-primary) 92%, #0f172a);
 }
 
 .nn-btn-primary {
   background: var(--theme-primary);
   color: var(--theme-primary-foreground);
   border-radius: 9999px;
-  box-shadow: 0 8px 24px rgba(157, 130, 221, 0.25);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--theme-primary) 35%, transparent);
 }
 
 .nn-btn-primary:hover {

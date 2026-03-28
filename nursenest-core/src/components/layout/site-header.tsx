@@ -92,7 +92,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-transparent bg-[var(--theme-nav-bg)]/90 shadow-sm backdrop-blur-xl transition-all duration-300">
-      <div className="hidden md:block" style={{ background: "var(--theme-topbar-bg)", color: "var(--theme-topbar-text)" }}>
+      <div className="hidden bg-[var(--theme-topbar-bg)] text-[var(--theme-topbar-text)] md:block">
         <div className="mx-auto flex h-7 max-w-7xl items-center justify-center gap-1 px-2 text-[10px] font-medium sm:h-8 sm:gap-6 sm:px-4 sm:text-xs lg:px-8">
           {topLinks.map((item, index) => (
             <div key={item.href} className="flex items-center gap-1 sm:gap-6">
@@ -115,7 +115,7 @@ export function SiteHeader() {
           {LOGO_PRIMARY ? (
             <img
               src={LOGO_PRIMARY}
-              alt=""
+              alt="NurseNest"
               width={32}
               height={32}
               className="h-8 w-8 shrink-0 object-contain"
@@ -173,7 +173,7 @@ export function SiteHeader() {
             }}
           />
 
-          <div className="relative hidden xl:block" ref={langRef}>
+          <div className="relative hidden lg:flex" ref={langRef}>
             <button
               type="button"
               onClick={() => setLangOpen((o) => !o)}
@@ -284,7 +284,7 @@ export function SiteHeader() {
                   type="button"
                   onClick={() => setRegion("US")}
                   className={`flex flex-1 items-center justify-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold ${
-                    region === "US" ? "border-blue-600 bg-blue-50 text-blue-700" : "border-gray-200 text-gray-600"
+                    region === "US" ? "border-primary bg-primary/10 text-primary" : "border-gray-200 text-gray-600"
                   }`}
                 >
                   {t("home.region.us")}
@@ -294,7 +294,7 @@ export function SiteHeader() {
                   type="button"
                   onClick={() => setRegion("CA")}
                   className={`flex flex-1 items-center justify-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold ${
-                    region === "CA" ? "border-red-600 bg-red-50 text-red-700" : "border-gray-200 text-gray-600"
+                    region === "CA" ? "border-primary bg-primary/10 text-primary" : "border-gray-200 text-gray-600"
                   }`}
                 >
                   {t("home.region.ca")}
@@ -306,6 +306,24 @@ export function SiteHeader() {
                 {region === "US" ? t("home.region.usDesc") : t("home.region.caDesc")}
               </p>
               <hr className="my-3 border-[var(--theme-separator)]" />
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-primary">{t("nav.language")}</p>
+              <div className="mb-4 max-h-40 space-y-0.5 overflow-y-auto rounded-xl border border-[var(--theme-card-border)] bg-[var(--theme-page-bg)] p-1">
+                {MARKETING_LANGUAGES.map((lang) => (
+                  <Link
+                    key={lang.code}
+                    href={
+                      lang.code === DEFAULT_MARKETING_LOCALE
+                        ? pathForLanguageSwitch
+                        : withMarketingLocale(lang.code, pathForLanguageSwitch)
+                    }
+                    className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-[var(--theme-menu-text)] hover:bg-[var(--theme-menu-hover-bg)]"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    <span>{lang.flag}</span>
+                    {lang.name}
+                  </Link>
+                ))}
+              </div>
               {[
                 { href: localizeHref("/"), label: t("nav.home") },
                 { href: localizeHref("/lessons"), label: t("nav.lessons") },

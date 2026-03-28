@@ -5,7 +5,9 @@ import { compare } from "bcryptjs";
 import NextAuth, { type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { NextRequest } from "next/server";
+import { authCallbacks } from "@/lib/auth-callbacks";
 import { prisma } from "@/lib/db";
+import { safeServerLog, safeServerLogCritical } from "@/lib/observability/safe-server-log";
 
 /** Same behavior as next-auth/lib/env `reqWithEnvURL` (not a public export). */
 function reqWithEnvURL(req: NextRequest): NextRequest {
@@ -30,15 +32,31 @@ export const authConfig: NextAuthConfig = {
       async authorize(credentials) {
         const email = String(credentials.email ?? "").toLowerCase();
         const password = String(credentials.password ?? "");
-        if (!email || !password) return null;
+        if (!email || !password) {
+          safeServerLog("auth", "credentials_rejected", { reason: "missing_fields" });
+          return null;
+        }
 
-        const user = await prisma.user.findUnique({
-          where: { email },
-        });
-        if (!user?.passwordHash) return null;
+        let user;
+        try {
+          user = await prisma.user.findUnique({
+            where: { email },
+          });
+        } catch (e) {
+          safeServerLogCritical("auth", "user_lookup_failed", { surface: "credentials" }, e);
+          return null;
+        }
+
+        if (!user?.passwordHash) {
+          safeServerLog("auth", "credentials_rejected", { reason: "no_account_or_no_password" });
+          return null;
+        }
 
         const ok = await compare(password, user.passwordHash);
-        if (!ok) return null;
+        if (!ok) {
+          safeServerLog("auth", "credentials_rejected", { reason: "invalid_password" });
+          return null;
+        }
 
         return {
           id: user.id,
@@ -51,25 +69,7 @@ export const authConfig: NextAuthConfig = {
       },
     }),
   ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.role = (user as any).role;
-        token.country = (user as any).country;
-        token.tier = (user as any).tier;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (session.user) {
-        (session.user as any).id = token.sub;
-        (session.user as any).role = token.role;
-        (session.user as any).country = token.country;
-        (session.user as any).tier = token.tier;
-      }
-      return session;
-    },
-  },
+  callbacks: authCallbacks,
 };
 
 const { auth, signIn, signOut } = NextAuth(authConfig);

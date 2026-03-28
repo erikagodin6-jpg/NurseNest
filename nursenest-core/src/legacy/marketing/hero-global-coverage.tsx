@@ -40,8 +40,8 @@ export default function HeroGlobalCoverage() {
         <div className="grid gap-6 md:grid-cols-2 lg:gap-8">
           <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-[var(--shadow-card)] lg:p-8" data-testid="panel-countries">
             <div className="mb-5 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50">
-                <Globe className="h-5 w-5 text-teal-600" />
+              <div className="nn-accent-icon-wrap flex h-10 w-10 items-center justify-center rounded-xl">
+                <Globe className="nn-accent-icon h-5 w-5" />
               </div>
               <h3 className="text-lg font-bold text-gray-900">{t("components.heroGlobalCoverage.supportedCountries")}</h3>
             </div>
@@ -63,8 +63,8 @@ export default function HeroGlobalCoverage() {
 
           <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-[var(--shadow-card)] lg:p-8" data-testid="panel-languages">
             <div className="mb-5 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-50">
-                <Languages className="h-5 w-5 text-purple-600" />
+              <div className="nn-accent-icon-wrap flex h-10 w-10 items-center justify-center rounded-xl">
+                <Languages className="nn-accent-icon h-5 w-5" />
               </div>
               <h3 className="text-lg font-bold text-gray-900">{t("components.heroGlobalCoverage.supportedLanguages")}</h3>
             </div>
@@ -72,7 +72,7 @@ export default function HeroGlobalCoverage() {
               {SUPPORTED_LANGUAGES.map((lang) => (
                 <span
                   key={lang}
-                  className="inline-flex items-center rounded-full border border-purple-100 bg-purple-50 px-3 py-1.5 text-xs font-medium text-purple-700"
+                  className="inline-flex items-center rounded-full border border-primary/20 bg-primary/[0.08] px-3 py-1.5 text-xs font-medium text-primary"
                   data-testid={`lang-${lang.toLowerCase()}`}
                 >
                   {lang}

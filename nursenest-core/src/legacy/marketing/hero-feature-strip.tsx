@@ -4,10 +4,10 @@ import { Brain, RefreshCw, Stethoscope, Target } from "lucide-react";
 import { useMarketingI18n } from "@/lib/marketing-i18n";
 
 const features = [
-  { icon: Brain, labelKey: "hero.featureStrip.activeRecall", fallback: "Active Recall Learning", color: "text-violet-600", bg: "bg-violet-50" },
-  { icon: RefreshCw, labelKey: "hero.featureStrip.spacedRepetition", fallback: "Spaced Repetition", color: "text-blue-600", bg: "bg-blue-50" },
-  { icon: Stethoscope, labelKey: "hero.featureStrip.clinicalDecision", fallback: "Clinical Decision Training", color: "text-emerald-600", bg: "bg-emerald-50" },
-  { icon: Target, labelKey: "hero.featureStrip.examBlueprint", fallback: "Exam Blueprint Alignment", color: "text-amber-600", bg: "bg-amber-50" },
+  { icon: Brain, labelKey: "hero.featureStrip.activeRecall", fallback: "Active Recall Learning" },
+  { icon: RefreshCw, labelKey: "hero.featureStrip.spacedRepetition", fallback: "Spaced Repetition" },
+  { icon: Stethoscope, labelKey: "hero.featureStrip.clinicalDecision", fallback: "Clinical Decision Training" },
+  { icon: Target, labelKey: "hero.featureStrip.examBlueprint", fallback: "Exam Blueprint Alignment" },
 ];
 
 /** Restored from `client/src/components/hero-feature-strip.tsx` */
@@ -30,8 +30,8 @@ export default function HeroFeatureStrip() {
                 className="flex items-center gap-2"
                 data-testid={`feature-strip-${label.toLowerCase().replace(/\s+/g, "-")}`}
               >
-                <div className={`w-8 h-8 rounded-lg ${f.bg} flex shrink-0 items-center justify-center`}>
-                  <f.icon className={`h-4 w-4 ${f.color}`} />
+                <div className="nn-accent-icon-wrap h-8 w-8 shrink-0">
+                  <f.icon className="nn-accent-icon h-4 w-4" />
                 </div>
                 <span className="whitespace-nowrap text-xs font-medium text-gray-700 sm:text-sm">{label}</span>
               </div>

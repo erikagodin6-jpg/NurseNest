@@ -28,7 +28,7 @@ import { useMarketingI18n } from "@/lib/marketing-i18n";
 import { mapLegacyMarketingHref } from "@/lib/legacy-marketing-routes";
 import { useNursenestRegion } from "@/lib/region/use-nursenest-region";
 import { LazySection } from "@/legacy/marketing/lazy-section";
-import { MARKETING_HERO_CAROUSEL_SLIDES } from "@/lib/marketing-assets";
+import { MARKETING_HERO_CAROUSEL_SLIDES, MARKETING_HERO_IMAGE_FALLBACK } from "@/lib/marketing-assets";
 
 const HERO_CAROUSEL_ALTS = [
   "NurseNest question interface",
@@ -91,6 +91,7 @@ const HomeBottomSections = dynamic(() => import("@/legacy/marketing/home-bottom-
 function HeroCarousel() {
   const [current, setCurrent] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [failedSlide, setFailedSlide] = useState<Record<number, true>>({});
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const startTimer = useCallback(() => {
@@ -117,29 +118,36 @@ function HeroCarousel() {
   }, []);
 
   return (
-    <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} data-testid="hero-carousel">
+    <div className="relative w-full min-w-0" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} data-testid="hero-carousel">
       <div
-        className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-gray-100/80 bg-white shadow-[var(--shadow-elevated)]"
+        className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-[var(--theme-card-border)] bg-[var(--theme-card-bg)] shadow-[var(--shadow-elevated)]"
         style={{ overflowAnchor: "none" }}
       >
-        {heroCarouselSlides.map((slide, index) => (
-          <img
-            key={index}
-            srcSet={slide.srcSet}
-            sizes="(max-width: 768px) 480px, 600px"
-            src={slide.fallback}
-            alt={slide.alt}
-            width={1200}
-            height={750}
-            decoding={index === 0 ? "sync" : "async"}
-            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out will-change-[opacity] ${
-              index === current ? "opacity-100" : "opacity-0"
-            }`}
-            loading={index === 0 ? "eager" : "lazy"}
-            fetchPriority={index === 0 ? "high" : "low"}
-            data-testid={`img-hero-slide-${index}`}
-          />
-        ))}
+        {heroCarouselSlides.map((slide, index) => {
+          const useFallback = !!failedSlide[index];
+          const src = useFallback ? MARKETING_HERO_IMAGE_FALLBACK : slide.fallback;
+          return (
+            <img
+              key={index}
+              srcSet={useFallback ? undefined : slide.srcSet}
+              sizes="(max-width: 768px) 100vw, min(600px, 45vw)"
+              src={src}
+              alt={slide.alt}
+              width={1200}
+              height={750}
+              decoding={index === 0 ? "sync" : "async"}
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out will-change-[opacity] ${
+                index === current ? "opacity-100" : "opacity-0"
+              }`}
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchPriority={index === 0 ? "high" : "low"}
+              data-testid={`img-hero-slide-${index}`}
+              onError={() => {
+                setFailedSlide((prev) => ({ ...prev, [index]: true }));
+              }}
+            />
+          );
+        })}
       </div>
       <div className="mt-3 flex justify-center gap-2" data-testid="hero-carousel-dots">
         {heroCarouselSlides.map((_, index) => (
@@ -259,8 +267,8 @@ export default function HomeRestoredClient() {
           </div>
 
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid items-center gap-8 lg:grid-cols-2 lg:items-start lg:gap-12">
-              <div className="hero-motion-enter space-y-6 lg:space-y-5">
+            <div className="grid items-center gap-8 md:grid-cols-2 md:items-start md:gap-10 lg:gap-12">
+              <div className="hero-motion-enter min-w-0 space-y-6 md:space-y-5">
                 <div className="flex flex-wrap items-center gap-2">
                   <div
                     className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-3 py-1.5 sm:px-4"
@@ -269,9 +277,9 @@ export default function HomeRestoredClient() {
                     <Award className="h-3.5 w-3.5 shrink-0 text-primary" />
                     <span className="text-xs font-semibold text-primary sm:text-sm">{t("home.hero.trustMicroBadge")}</span>
                   </div>
-                  <div className="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1.5 sm:px-4" data-testid="badge-authority">
-                    <Sparkles className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
-                    <span className="text-xs font-semibold text-emerald-700 sm:text-sm">{t("home.hero.authorityBadge")}</span>
+                  <div className="nn-accent-pill inline-flex items-center gap-2 rounded-full px-3 py-1.5 sm:px-4" data-testid="badge-authority">
+                    <Sparkles className="h-3.5 w-3.5 shrink-0 text-primary" />
+                    <span className="text-xs font-semibold text-primary sm:text-sm">{t("home.hero.authorityBadge")}</span>
                   </div>
                 </div>
 
@@ -292,10 +300,10 @@ export default function HomeRestoredClient() {
                 <div className="grid grid-cols-2 gap-3" data-testid="hero-feature-strip">
                   {(
                     [
-                      { icon: Brain, key: "featureActiveRecall", descKey: "featureActiveRecallDesc", color: "text-violet-600", bg: "bg-violet-50" },
-                      { icon: ClipboardList, key: "featureNGN", descKey: "featureNGNDesc", color: "text-blue-600", bg: "bg-blue-50" },
-                      { icon: Target, key: "featureBlueprint", descKey: "featureBlueprintDesc", color: "text-amber-600", bg: "bg-amber-50" },
-                      { icon: Stethoscope, key: "featureClinicalDecision", descKey: "featureClinicalDecisionDesc", color: "text-emerald-600", bg: "bg-emerald-50" },
+                      { icon: Brain, key: "featureActiveRecall", descKey: "featureActiveRecallDesc" },
+                      { icon: ClipboardList, key: "featureNGN", descKey: "featureNGNDesc" },
+                      { icon: Target, key: "featureBlueprint", descKey: "featureBlueprintDesc" },
+                      { icon: Stethoscope, key: "featureClinicalDecision", descKey: "featureClinicalDecisionDesc" },
                     ] as const
                   ).map((feat) => (
                     <div
@@ -303,8 +311,8 @@ export default function HomeRestoredClient() {
                       className="flex items-start gap-2.5 rounded-xl border border-gray-100 bg-white p-3 shadow-[var(--shadow-card)]"
                       data-testid={`feature-${feat.key}`}
                     >
-                      <div className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${feat.bg}`}>
-                        <feat.icon className={`h-4 w-4 ${feat.color}`} />
+                      <div className="nn-accent-icon-wrap mt-0.5 h-8 w-8 shrink-0">
+                        <feat.icon className="nn-accent-icon h-4 w-4" />
                       </div>
                       <div className="min-w-0">
                         <p className="text-xs font-semibold leading-tight text-gray-900 sm:text-sm">{t(`home.hero.${feat.key}`)}</p>
@@ -321,7 +329,7 @@ export default function HomeRestoredClient() {
                       onClick={() => setRegion("US")}
                       className={`relative flex flex-1 items-center justify-center gap-2.5 px-4 py-3.5 text-sm font-semibold transition-all duration-200 sm:py-4 sm:text-base ${
                         region === "US"
-                          ? "border-b-2 border-blue-600 bg-blue-50 text-blue-700"
+                          ? "border-b-2 border-primary bg-primary/10 text-primary"
                           : "border-b-2 border-transparent text-gray-500 hover:bg-gray-50 hover:text-gray-600"
                       }`}
                       data-testid="button-region-us"
@@ -330,7 +338,7 @@ export default function HomeRestoredClient() {
                         🇺🇸
                       </span>
                       <span>{t("home.region.us")}</span>
-                      {region === "US" && <CheckCircle2 className="h-4 w-4 shrink-0 text-blue-600" />}
+                      {region === "US" && <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />}
                     </button>
                     <div className="w-px bg-gray-200" />
                     <button
@@ -338,7 +346,7 @@ export default function HomeRestoredClient() {
                       onClick={() => setRegion("CA")}
                       className={`relative flex flex-1 items-center justify-center gap-2.5 px-4 py-3.5 text-sm font-semibold transition-all duration-200 sm:py-4 sm:text-base ${
                         region === "CA"
-                          ? "border-b-2 border-red-600 bg-red-50 text-red-700"
+                          ? "border-b-2 border-primary bg-primary/10 text-primary"
                           : "border-b-2 border-transparent text-gray-500 hover:bg-gray-50 hover:text-gray-600"
                       }`}
                       data-testid="button-region-ca"
@@ -347,7 +355,7 @@ export default function HomeRestoredClient() {
                         🇨🇦
                       </span>
                       <span>{t("home.region.ca")}</span>
-                      {region === "CA" && <CheckCircle2 className="h-4 w-4 shrink-0 text-red-600" />}
+                      {region === "CA" && <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />}
                     </button>
                   </div>
                   <div className="border-t border-gray-100 bg-gray-50/80 px-4 py-3">
@@ -385,15 +393,15 @@ export default function HomeRestoredClient() {
 
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-gray-600 sm:gap-x-5">
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
                     <span>{t("home.hero.noCreditCard")}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Shield className="h-4 w-4 shrink-0 text-emerald-600" />
+                    <Shield className="h-4 w-4 shrink-0 text-primary" />
                     <span>{t("home.hero.guarantee")}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
                     <span>{t("home.hero.cancelAnytime")}</span>
                   </div>
                 </div>
@@ -463,11 +471,11 @@ export default function HomeRestoredClient() {
                 </div>
               </div>
 
-              <div className="relative hidden lg:block" style={{ overflowAnchor: "none" }}>
+              <div className="relative hidden min-w-0 md:block" style={{ overflowAnchor: "none" }}>
                 <HeroCarousel />
                 <div className="absolute -bottom-5 -left-5 z-10 flex items-center gap-3 rounded-2xl border border-gray-100/80 bg-white px-5 py-3.5 shadow-[var(--shadow-card-hover)]">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-50">
-                    <CheckCircle2 className="text-emerald-600 h-4.5 w-4.5" />
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10">
+                    <CheckCircle2 className="h-4.5 w-4.5 text-primary" />
                   </div>
                   <div>
                     <div className="text-sm font-bold text-gray-900">{t("home.hero.passRate")}</div>
@@ -476,7 +484,7 @@ export default function HomeRestoredClient() {
                 </div>
                 <div className="absolute -right-3 -top-3 z-10 flex items-center gap-2 rounded-2xl border border-gray-100/80 bg-white px-4 py-2.5 shadow-[var(--shadow-card-hover)]">
                   <div className="flex -space-x-1.5">
-                    {["bg-blue-400", "bg-emerald-400", "bg-purple-400"].map((bg, i) => (
+                    {["bg-primary/60", "bg-primary/45", "bg-primary/70"].map((bg, i) => (
                       <div
                         key={bg}
                         className={`flex h-6 w-6 items-center justify-center rounded-full border-2 border-white text-[9px] font-bold text-white ${bg}`}
@@ -488,15 +496,15 @@ export default function HomeRestoredClient() {
                   <span className="text-xs font-semibold text-gray-700">{t("home.hero.studentCount")}</span>
                 </div>
                 <div
-                  className="pointer-events-none absolute -bottom-10 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-4 py-2 shadow-sm"
+                  className="nn-accent-soft-ring pointer-events-none absolute -bottom-10 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full px-4 py-2 shadow-sm"
                   data-testid="badge-students-studying"
                 >
                   <div className="flex -space-x-1">
-                    {["bg-blue-400", "bg-pink-400", "bg-amber-400"].map((bg) => (
+                    {["bg-primary/55", "bg-primary/40", "bg-primary/65"].map((bg) => (
                       <div key={bg} className={`h-4 w-4 rounded-full border-[1.5px] border-white ${bg}`} />
                     ))}
                   </div>
-                  <span className="text-xs font-medium text-emerald-700">{t("home.hero.studentsStudying")}</span>
+                  <span className="text-xs font-medium text-primary">{t("home.hero.studentsStudying")}</span>
                 </div>
               </div>
             </div>
@@ -538,10 +546,10 @@ export default function HomeRestoredClient() {
             <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
               {(
                 [
-                  { key: "benefit1", icon: Stethoscope, color: "text-emerald-600", bg: "bg-emerald-50" },
-                  { key: "benefit2", icon: Brain, color: "text-violet-600", bg: "bg-violet-50" },
-                  { key: "benefit3", icon: ClipboardList, color: "text-blue-600", bg: "bg-blue-50" },
-                  { key: "benefit4", icon: Target, color: "text-amber-600", bg: "bg-amber-50" },
+                  { key: "benefit1", icon: Stethoscope },
+                  { key: "benefit2", icon: Brain },
+                  { key: "benefit3", icon: ClipboardList },
+                  { key: "benefit4", icon: Target },
                 ] as const
               ).map((item) => (
                 <div
@@ -549,8 +557,8 @@ export default function HomeRestoredClient() {
                   className="flex items-start gap-3 rounded-xl border border-gray-100 bg-white p-3.5 shadow-[var(--shadow-card)]"
                   data-testid={`hero-${item.key}`}
                 >
-                  <div className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${item.bg}`}>
-                    <item.icon className={`h-4 w-4 ${item.color}`} />
+                  <div className="nn-accent-icon-wrap mt-0.5 h-8 w-8 shrink-0">
+                    <item.icon className="nn-accent-icon h-4 w-4" />
                   </div>
                   <p className="text-sm leading-relaxed text-gray-700">{t(`home.hero.${item.key}`)}</p>
                 </div>
@@ -642,8 +650,8 @@ export default function HomeRestoredClient() {
           </Suspense>
         </LazySection>
 
-        <LazySection minHeight="800px" rootMargin="400px">
-          <Suspense fallback={<div className="min-h-[800px]" />}>
+        <LazySection minHeight="420px" rootMargin="400px">
+          <Suspense fallback={<div className="min-h-[420px]" />}>
             <HomeBottomSections
               region={region}
               heroStats={undefined}

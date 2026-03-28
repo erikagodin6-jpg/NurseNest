@@ -178,46 +178,16 @@ function DynamicTrustCounters({
 }) {
   const { t } = useMarketingI18n();
   const counters = [
-    {
-      icon: Target,
-      value: formatMarketingCount(questions),
-      label: "Practice Questions",
-      gradient: "from-blue-500 to-indigo-600",
-      border: "border-blue-100",
-    },
-    {
-      icon: Layers,
-      value: formatMarketingCount(flashcards),
-      label: "Flashcards",
-      gradient: "from-amber-500 to-orange-600",
-      border: "border-amber-100",
-    },
-    {
-      icon: BookOpen,
-      value: formatMarketingCount(decks),
-      label: "Study Decks",
-      gradient: "from-emerald-500 to-teal-600",
-      border: "border-emerald-100",
-    },
-    {
-      icon: Stethoscope,
-      value: formatMarketingCount(lessons),
-      label: "Clinical Lessons",
-      gradient: "from-rose-500 to-pink-600",
-      border: "border-rose-100",
-    },
+    { icon: Target, value: formatMarketingCount(questions), label: "Practice Questions" },
+    { icon: Layers, value: formatMarketingCount(flashcards), label: "Flashcards" },
+    { icon: BookOpen, value: formatMarketingCount(decks), label: "Study Decks" },
+    { icon: Stethoscope, value: formatMarketingCount(lessons), label: "Clinical Lessons" },
   ];
 
   const badges = [
-    ...(hasCatExams
-      ? [{ icon: ClipboardCheck, label: "Adaptive CAT Exams", color: "text-violet-600", bg: "bg-violet-50", border: "border-violet-200" }]
-      : []),
-    ...(hasClinicalImages
-      ? [{ icon: ImageIcon, label: "Clinical Images", color: "text-teal-600", bg: "bg-teal-50", border: "border-teal-200" }]
-      : []),
-    ...(hasMultiTier
-      ? [{ icon: Users, label: "Multi-Tier Support", color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-200" }]
-      : []),
+    ...(hasCatExams ? [{ icon: ClipboardCheck, label: "Adaptive CAT Exams" }] : []),
+    ...(hasClinicalImages ? [{ icon: ImageIcon, label: "Clinical Images" }] : []),
+    ...(hasMultiTier ? [{ icon: Users, label: "Multi-Tier Support" }] : []),
   ];
 
   return (
@@ -253,8 +223,8 @@ function DynamicTrustCounters({
                   className="text-center p-6 rounded-2xl bg-white border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-200"
                   data-testid={`trust-counter-${counter.label.toLowerCase().replace(/\s+/g, "-")}`}
                 >
-                  <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${counter.gradient} flex items-center justify-center mx-auto mb-4 shadow-sm`}>
-                    <counter.icon className="w-5 h-5 text-white" />
+                  <div className="nn-theme-gradient-br mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl shadow-sm">
+                    <counter.icon className="h-5 w-5 text-white" />
                   </div>
                   <div className="text-2xl sm:text-3xl font-extrabold text-gray-900">{counter.value}</div>
                   <div className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-1.5">{counter.label}</div>
@@ -266,10 +236,10 @@ function DynamicTrustCounters({
           {badges.map((badge) => (
             <div
               key={badge.label}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-full ${badge.bg} border ${badge.border} text-xs font-medium ${badge.color} shadow-[var(--shadow-card)]`}
+              className="nn-accent-soft-ring flex items-center gap-2 rounded-full px-3.5 py-2 text-xs font-medium text-primary shadow-[var(--shadow-card)]"
               data-testid={`badge-trust-${badge.label.toLowerCase().replace(/\s+/g, "-")}`}
             >
-              <badge.icon className="w-3.5 h-3.5" />
+              <badge.icon className="h-3.5 w-3.5" />
               <span>{badge.label}</span>
             </div>
           ))}
@@ -299,9 +269,9 @@ function ConversionProofBlock({
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50/80 border border-violet-200/40 shadow-[var(--shadow-card)] mb-5">
-            <Sparkles className="w-3.5 h-3.5 text-violet-600" />
-            <span className="text-xs font-bold text-violet-700 uppercase tracking-wider">{t("components.homeConversionSections.everythingYouNeed")}</span>
+          <div className="nn-accent-soft-ring mb-5 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 shadow-[var(--shadow-card)]">
+            <Sparkles className="h-3.5 w-3.5 text-primary" />
+            <span className="text-xs font-bold uppercase tracking-wider text-primary">{t("components.homeConversionSections.everythingYouNeed")}</span>
           </div>
           <h2
             className="font-bold text-gray-900 mb-3"
@@ -323,37 +293,31 @@ function ConversionProofBlock({
               icon: Target,
               title: "Exam-Ready Questions",
               desc: "Realistic questions across nursing, NP, and allied health scopes with step-by-step rationales that teach you how to think — not just what to memorize.",
-              accent: "from-blue-500 to-indigo-600",
             },
             {
               icon: Layers,
               title: "Flashcards & Decks",
               desc: "Organized flashcard decks for pharmacology, pathophysiology, clinical concepts, and allied health topics — built for spaced repetition and active recall.",
-              accent: "from-amber-500 to-orange-600",
             },
             {
               icon: Brain,
               title: "Adaptive CAT Exams",
               desc: "Computer-adaptive testing that mirrors real licensure and certification exams. Questions adjust to your performance in real time.",
-              accent: "from-violet-500 to-purple-600",
             },
             {
               icon: ImageIcon,
               title: "Clinical Images & Visuals",
               desc: "Visual learning resources including clinical images, diagrams, and illustrated rationales for hands-on readiness across all disciplines.",
-              accent: "from-teal-500 to-emerald-600",
             },
             {
               icon: BookOpen,
               title: "Lessons & Rationales",
               desc: "In-depth clinical lessons organized by body system and discipline — each with pre-tests, post-tests, and detailed explanations.",
-              accent: "from-rose-500 to-pink-600",
             },
             {
               icon: GraduationCap,
               title: "Multi-Discipline Coverage",
               desc: "Purpose-built content for every healthcare path — practical nursing, registered nursing, nurse practitioner, respiratory therapy, paramedics, and more.",
-              accent: "from-indigo-500 to-blue-600",
             },
           ].map((item) => (
             <div
@@ -361,8 +325,8 @@ function ConversionProofBlock({
               className="bg-white rounded-2xl border border-gray-100/80 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:-translate-y-1 p-7"
               data-testid={`card-proof-${item.title.toLowerCase().replace(/\s+/g, "-")}`}
             >
-              <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${item.accent} flex items-center justify-center mb-4 shadow-sm`}>
-                <item.icon className="w-5 h-5 text-white" />
+              <div className="nn-theme-gradient-br mb-4 flex h-11 w-11 items-center justify-center rounded-xl shadow-sm">
+                <item.icon className="h-5 w-5 text-white" />
               </div>
               <h3 className="font-bold text-gray-900 mb-2" style={{ fontSize: 'var(--text-card-title)' }}>{item.title}</h3>
               <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
@@ -444,9 +408,9 @@ function CompetitivePositioningSection({
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50/80 border border-emerald-200/40 shadow-[var(--shadow-card)] mb-5">
-            <Shield className="w-3.5 h-3.5 text-emerald-600" />
-            <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">{t("components.homeConversionSections.whyNursenest")}</span>
+          <div className="nn-accent-soft-ring mb-5 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 shadow-[var(--shadow-card)]">
+            <Shield className="h-3.5 w-3.5 text-primary" />
+            <span className="text-xs font-bold uppercase tracking-wider text-primary">{t("components.homeConversionSections.whyNursenest")}</span>
           </div>
           <h2
             className="font-bold text-gray-900 mb-3"
@@ -468,14 +432,14 @@ function CompetitivePositioningSection({
               data-testid={`card-compare-${item.feature.toLowerCase().replace(/\s+/g, "-")}`}
             >
               <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-9 h-9 rounded-xl bg-emerald-50/80 flex items-center justify-center shrink-0">
-                  <item.icon className="w-4 h-4 text-emerald-600" />
+                <div className="nn-accent-icon-wrap flex h-9 w-9 shrink-0 items-center justify-center rounded-xl">
+                  <item.icon className="nn-accent-icon h-4 w-4" />
                 </div>
                 <h3 className="font-bold text-gray-900 text-sm">{item.feature}</h3>
               </div>
               <div className="space-y-2.5">
                 <div className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="nn-trust-check mt-0.5 h-4 w-4 shrink-0" />
                   <p className="text-sm text-gray-700 leading-relaxed">{item.ours}</p>
                 </div>
                 <div className="flex items-start gap-2 opacity-50">
@@ -490,7 +454,7 @@ function CompetitivePositioningSection({
         <div className="text-center">
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-9 py-3 font-medium text-emerald-700 shadow-[var(--shadow-card)] hover:border-emerald-300 hover:bg-emerald-50"
+            className="inline-flex items-center justify-center rounded-full border border-primary/25 bg-white px-9 py-3 font-medium text-primary shadow-[var(--shadow-card)] hover:border-primary/40 hover:bg-primary/5"
             onClick={() => router.push(mapLegacyMarketingHref("/pricing"))}
             data-testid="button-competitive-cta"
           >
@@ -511,21 +475,18 @@ function HowItWorksSection() {
       icon: BookOpen,
       title: "Learn",
       desc: "Study thousands of pathophysiology lessons, pharmacology guides, and clinical content organized by body system and exam tier.",
-      color: "from-blue-500 to-indigo-600",
     },
     {
       step: "2",
       icon: Target,
       title: "Practice",
       desc: "Test your knowledge with exam-style questions, mock exams, flashcards, and interactive case studies with detailed rationales.",
-      color: "from-purple-500 to-violet-600",
     },
     {
       step: "3",
       icon: Trophy,
       title: "Track Progress",
       desc: "Monitor your readiness score, identify weak areas, and follow a personalized study plan that adapts as you improve.",
-      color: "from-emerald-500 to-teal-600",
     },
   ];
 
@@ -549,8 +510,8 @@ function HowItWorksSection() {
                 <div className="hidden md:block absolute top-12 left-[60%] w-[80%] h-px bg-gradient-to-r from-gray-200 to-transparent z-0" />
               )}
               <div className="relative z-10">
-                <div className={`mx-auto w-20 h-20 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-6 shadow-[var(--shadow-elevated)]`}>
-                  <item.icon className="w-9 h-9 text-white" />
+                <div className="nn-theme-gradient-br mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl shadow-[var(--shadow-elevated)]">
+                  <item.icon className="h-9 w-9 text-white" />
                 </div>
                 <div className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gray-900 text-white text-xs font-bold mb-3">{item.step}</div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
@@ -572,8 +533,6 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
       icon: Target,
       title: "Exam Questions",
       desc: `${formatCount(questionCount)} practice questions covering all exam domains with detailed rationales that teach clinical reasoning — not just the right answer.`,
-      color: "bg-blue-100",
-      iconColor: "text-blue-600",
       tags: ["Multiple Choice", "SATA", "NGN", "Rationales"],
       href: "/free-practice",
     },
@@ -581,8 +540,6 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
       icon: Layers,
       title: "Flashcards",
       desc: "140+ pre-built decks with learn mode, test mode, and spaced repetition. Create your own decks or import from CSV. Track mastery across every topic.",
-      color: "bg-amber-100",
-      iconColor: "text-amber-600",
       tags: ["Learn Mode", "Test Mode", "Spaced Repetition"],
       href: "/flashcards",
     },
@@ -590,8 +547,6 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
       icon: ClipboardCheck,
       title: "Mock Exams",
       desc: "Full-length timed exams that mirror the real test format. Strict mode, auto-save, and instant score breakdowns show you exactly where you stand.",
-      color: "bg-indigo-100",
-      iconColor: "text-indigo-600",
       tags: ["Timed", "Strict Mode", "Score Trends"],
       href: "/mock-exams",
     },
@@ -599,8 +554,6 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
       icon: Lightbulb,
       title: "Detailed Rationales",
       desc: "Every question includes a comprehensive rationale explaining why each answer is correct or incorrect, building the clinical judgment skills exams test.",
-      color: "bg-emerald-100",
-      iconColor: "text-emerald-600",
       tags: ["Clinical Reasoning", "Evidence-Based", "Learning Focus"],
       href: "/free-practice",
     },
@@ -631,8 +584,8 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
               data-testid={`card-feature-${i}`}
             >
               <div className="p-7">
-                <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-xl ${feature.color} transition-transform group-hover:scale-110`}>
-                  <feature.icon className={`h-6 w-6 ${feature.iconColor}`} />
+                <div className="nn-accent-icon-wrap mb-5 flex h-12 w-12 items-center justify-center transition-transform group-hover:scale-110">
+                  <feature.icon className="nn-accent-icon h-6 w-6" />
                 </div>
                 <h3 className="mb-2 font-bold text-gray-900" style={{ fontSize: "var(--text-card-title)" }}>
                   {feature.title}
@@ -814,13 +767,13 @@ function ProfessionSelectorSection() {
   const router = useRouter();
 
   const professions = [
-    { id: "nursing", label: "RPN / LPN", sublabel: "Practical Nursing", icon: Stethoscope, color: "#6C63FF", accent: "#E8E6FF", href: "/rex-pn-practice-questions" },
-    { id: "rn", label: "RN", sublabel: "Registered Nurse", icon: Stethoscope, color: "#10B981", accent: "#D1FAE5", href: "/nclex-rn-practice-questions" },
-    { id: "np", label: "NP", sublabel: "Nurse Practitioner", icon: Stethoscope, color: "#8B5CF6", accent: "#EDE9FE", href: "/np-exam-practice-questions" },
-    { id: "paramedic", label: "Paramedic", sublabel: "PCP / ACP", icon: Ambulance, color: "#F44336", accent: "#FFEBEE", href: "/paramedic" },
-    { id: "rrt", label: "Respiratory Therapy", sublabel: "RRT", icon: Wind, color: "#2196F3", accent: "#E3F2FD", href: "/rrt" },
-    { id: "mlt", label: "MLT", sublabel: "Medical Lab Tech", icon: Microscope, color: "#9C27B0", accent: "#F3E5F5", href: "/mlt" },
-    { id: "imaging", label: "Imaging", sublabel: "Diagnostic Imaging", icon: ScanLine, color: "#FF9800", accent: "#FFF3E0", href: "/imaging" },
+    { id: "nursing", label: "RPN / LPN", sublabel: "Practical Nursing", icon: Stethoscope, href: "/rex-pn-practice-questions" },
+    { id: "rn", label: "RN", sublabel: "Registered Nurse", icon: Stethoscope, href: "/nclex-rn-practice-questions" },
+    { id: "np", label: "NP", sublabel: "Nurse Practitioner", icon: Stethoscope, href: "/np-exam-practice-questions" },
+    { id: "paramedic", label: "Paramedic", sublabel: "PCP / ACP", icon: Ambulance, href: "/paramedic" },
+    { id: "rrt", label: "Respiratory Therapy", sublabel: "RRT", icon: Wind, href: "/rrt" },
+    { id: "mlt", label: "MLT", sublabel: "Medical Lab Tech", icon: Microscope, href: "/mlt" },
+    { id: "imaging", label: "Imaging", sublabel: "Diagnostic Imaging", icon: ScanLine, href: "/imaging" },
   ];
 
   return (
@@ -861,18 +814,17 @@ function ProfessionSelectorSection() {
               >
                 {isAllied && (
                   <div className="absolute top-3 right-3">
-                    <span className="text-[8px] font-bold uppercase tracking-wider bg-teal-500 text-white px-2 py-0.5 rounded-full">{t("components.homeConversionSections.allied")}</span>
+                    <span className="rounded-full bg-primary px-2 py-0.5 text-[8px] font-bold uppercase tracking-wider text-primary-foreground">
+                      {t("components.homeConversionSections.allied")}
+                    </span>
                   </div>
                 )}
-                <div
-                  className="w-11 h-11 rounded-xl flex items-center justify-center mb-4"
-                  style={{ backgroundColor: prof.accent }}
-                >
-                  <IconComp className="w-5 h-5" style={{ color: prof.color }} />
+                <div className="nn-accent-icon-wrap mb-4 flex h-11 w-11 items-center justify-center rounded-xl">
+                  <IconComp className="nn-accent-icon h-5 w-5" />
                 </div>
                 <h3 className="font-bold text-gray-900 text-base mb-0.5">{prof.label}</h3>
                 <p className="text-xs text-gray-400">{prof.sublabel}</p>
-                <div className="flex items-center text-xs font-medium mt-3 group-hover:gap-1.5 transition-all" style={{ color: prof.color }}>
+                <div className="mt-3 flex items-center text-xs font-medium text-primary transition-all group-hover:gap-1.5">
                   <span>{t("components.homeConversionSections.explore")}</span>
                   <ArrowRight className="w-3.5 h-3.5 ml-0.5 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
@@ -910,9 +862,9 @@ function SampleQuestionSection() {
     <section className="border-t border-gray-100" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-sample-question">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50/80 border border-emerald-200/40 shadow-[var(--shadow-card)] mb-5">
-            <FileText className="w-3.5 h-3.5 text-emerald-600" />
-            <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">{t("components.homeConversionSections.tryItFree")}</span>
+          <div className="nn-accent-soft-ring mb-5 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 shadow-[var(--shadow-card)]">
+            <FileText className="h-3.5 w-3.5 text-primary" />
+            <span className="text-xs font-bold uppercase tracking-wider text-primary">{t("components.homeConversionSections.tryItFree")}</span>
           </div>
           <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-sample-question-heading">
             Sample Exam Question
@@ -947,8 +899,8 @@ function SampleQuestionSection() {
 
                 if (revealed) {
                   if (option.id === sampleQuestion.correctAnswer) {
-                    borderClass = "border-emerald-400 ring-2 ring-emerald-200";
-                    bgClass = "bg-emerald-50";
+                    borderClass = "border-primary ring-2 ring-primary/25";
+                    bgClass = "bg-primary/10";
                   } else if (selectedAnswer === option.id) {
                     borderClass = "border-red-300 ring-2 ring-red-200";
                     bgClass = "bg-red-50";
@@ -992,16 +944,19 @@ function SampleQuestionSection() {
 
             {revealed && (
               <div className="mt-6 space-y-4">
-                <div className={`p-5 rounded-xl border ${
-                  selectedAnswer === sampleQuestion.correctAnswer
-                    ? "bg-emerald-50 border-emerald-200"
-                    : "bg-amber-50 border-amber-200"
-                }`} data-testid="card-sample-rationale">
-                  <div className="flex items-center gap-2 mb-2">
+                <div
+                  className={`rounded-xl border p-5 ${
+                    selectedAnswer === sampleQuestion.correctAnswer
+                      ? "border-primary/25 bg-primary/8"
+                      : "border-primary/20 bg-primary/5"
+                  }`}
+                  data-testid="card-sample-rationale"
+                >
+                  <div className="mb-2 flex items-center gap-2">
                     {selectedAnswer === sampleQuestion.correctAnswer ? (
-                      <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                      <CheckCircle2 className="h-5 w-5 text-primary" />
                     ) : (
-                      <Lightbulb className="w-5 h-5 text-amber-600" />
+                      <Lightbulb className="h-5 w-5 text-primary" />
                     )}
                     <span className="font-bold text-gray-900">
                       {selectedAnswer === sampleQuestion.correctAnswer ? "Correct!" : `Correct Answer: ${sampleQuestion.correctAnswer}`}
@@ -1053,9 +1008,9 @@ function TestimonialsSection() {
     <section className="border-t border-gray-100" style={{ paddingTop: 'var(--space-section)', paddingBottom: 'var(--space-section)' }} data-testid="section-testimonials">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50/80 border border-amber-200/40 shadow-[var(--shadow-card)] mb-5">
-            <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-            <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">{t("components.homeConversionSections.studentReviews")}</span>
+          <div className="nn-accent-soft-ring mb-5 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 shadow-[var(--shadow-card)]">
+            <Star className="h-3.5 w-3.5 fill-primary text-primary" />
+            <span className="text-xs font-bold uppercase tracking-wider text-primary">{t("components.homeConversionSections.studentReviews")}</span>
           </div>
           <h2 className="font-bold text-gray-900 mb-3" style={{ fontSize: 'var(--text-section)' }} data-testid="text-testimonials-heading">
             Trusted by Nursing Students Across North America
@@ -1075,7 +1030,7 @@ function TestimonialsSection() {
               <div className="p-6">
                 <div className="mb-4 flex items-center gap-1">
                   {Array.from({ length: 5 }).map((_, s) => (
-                    <Star key={s} className={`h-4 w-4 ${s < review.rating ? "fill-amber-400 text-amber-400" : "text-gray-200"}`} />
+                    <Star key={s} className={`h-4 w-4 ${s < review.rating ? "fill-primary text-primary" : "text-gray-200"}`} />
                   ))}
                 </div>
                 <p className="mb-5 text-sm leading-relaxed text-gray-600" data-testid={`text-testimonial-${i}`}>
@@ -1105,7 +1060,7 @@ function TestimonialsSection() {
             <span>{t("components.homeConversionSections.join5000Students")}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+            <Star className="h-4 w-4 fill-primary text-primary" />
             <span className="font-semibold text-gray-700">4.9/5</span>
             <span>{t("components.homeConversionSections.averageRating")}</span>
           </div>
@@ -1148,8 +1103,8 @@ function FinalCTASection() {
           </button>
         </div>
         <div className="flex items-center justify-center gap-2 mt-8 mb-2">
-          <ShieldCheck className="w-5 h-5 text-emerald-600" />
-          <span className="text-sm font-semibold text-emerald-700">{t("components.homeConversionSections.7dayMoneybackGuarantee")}</span>
+          <ShieldCheck className="h-5 w-5 text-primary" />
+          <span className="text-sm font-semibold text-primary">{t("components.homeConversionSections.7dayMoneybackGuarantee")}</span>
         </div>
         <p className="text-sm text-gray-400">{t("components.homeConversionSections.freeAccountIncludesPracticeQuestions")}</p>
       </div>

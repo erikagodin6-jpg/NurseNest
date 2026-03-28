@@ -11,6 +11,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: m["pages.login.title"],
     description: m["pages.login.description"],
     alternates: { canonical: `/${locale}/login` },
+    robots: { index: false, follow: true },
   };
 }
 

@@ -26,42 +26,36 @@ const GRID_ITEMS = [
     title: "Clinical Reasoning Engine",
     description:
       "Every question builds clinical judgment — not rote memorization. Rationales explain the reasoning behind each answer so you learn to think like a clinician.",
-    gradient: "from-violet-500 to-purple-600",
   },
   {
     icon: Target,
     title: "Adaptive Difficulty",
     description:
       "Our CAT-style practice engine mirrors real licensure exams. Questions adjust to your performance in real time, targeting weak areas for maximum efficiency.",
-    gradient: "from-blue-500 to-indigo-600",
   },
   {
     icon: Layers,
     title: "Integrated Study System",
     description:
       "Questions, flashcards, lessons, mock exams, and analytics in one platform. No juggling multiple apps or paying for separate tools.",
-    gradient: "from-amber-500 to-orange-600",
   },
   {
     icon: Users,
     title: "Multi-Discipline Coverage",
     description:
       "Purpose-built content for RPN/LPN, RN, NP, and allied health professions — not generic content repurposed across exams.",
-    gradient: "from-emerald-500 to-teal-600",
   },
   {
     icon: BarChart3,
     title: "Readiness Analytics",
     description:
       "Real-time performance tracking with domain-level insights, percentile comparisons, and targeted study recommendations.",
-    gradient: "from-rose-500 to-pink-600",
   },
   {
     icon: RefreshCw,
     title: "Spaced Repetition Built In",
     description:
       "Smart flashcard scheduling surfaces weak concepts at optimal intervals. Retention rates improve without extra effort.",
-    gradient: "from-indigo-500 to-blue-600",
   },
 ];
 
@@ -107,7 +101,7 @@ function WhyNurseNestGrid({ headline, subtitle, context = "general" }: WhyNurseN
               className="rounded-2xl border border-gray-100/80 bg-white p-7 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
               data-testid={`card-why-${item.title.toLowerCase().replace(/\s+/g, "-")}`}
             >
-              <div className={`mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${item.gradient} shadow-sm`}>
+              <div className="nn-theme-gradient-br mb-4 flex h-11 w-11 items-center justify-center rounded-xl shadow-sm">
                 <item.icon className="h-5 w-5 text-white" />
               </div>
               <h3 className="mb-2 font-bold text-gray-900" style={{ fontSize: "var(--text-card-title)" }}>
@@ -180,9 +174,9 @@ function ComparisonTable({ headline, subtitle }: ComparisonTableProps) {
     >
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="mb-10 text-center">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-200/40 bg-emerald-50/80 px-4 py-1.5 shadow-[var(--shadow-card)]">
-            <Shield className="h-3.5 w-3.5 text-emerald-600" />
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">
+          <div className="nn-accent-soft-ring mb-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 shadow-[var(--shadow-card)]">
+            <Shield className="h-3.5 w-3.5 text-primary" />
+            <span className="text-xs font-bold uppercase tracking-wider text-primary">
               {t("components.competitiveDifferentiation.platformComparison")}
             </span>
           </div>
@@ -209,7 +203,7 @@ function ComparisonTable({ headline, subtitle }: ComparisonTableProps) {
                   <td className="px-6 py-4 font-semibold text-gray-800">{row.feature}</td>
                   <td className="bg-primary/[0.02] px-6 py-4">
                     <div className="flex items-start gap-2">
-                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                       <span className="text-gray-700">{row.nursenest}</span>
                     </div>
                   </td>
@@ -235,9 +229,9 @@ function ComparisonTable({ headline, subtitle }: ComparisonTableProps) {
               <h4 className="mb-3 text-sm font-bold text-gray-900">{row.feature}</h4>
               <div className="space-y-2">
                 <div className="flex items-start gap-2">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                   <div>
-                    <span className="mb-0.5 block text-xs font-semibold text-emerald-700">NurseNest</span>
+                    <span className="mb-0.5 block text-xs font-semibold text-primary">NurseNest</span>
                     <span className="text-sm text-gray-700">{row.nursenest}</span>
                   </div>
                 </div>

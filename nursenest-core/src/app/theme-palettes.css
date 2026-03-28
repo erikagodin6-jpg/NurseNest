@@ -39,6 +39,8 @@
   --theme-accent-foreground: #5ed3ae;
   --theme-border: #c2f0e1;
   --theme-ring: #5ed3ae;
+  --theme-topbar-bg: var(--theme-primary);
+  --theme-topbar-text: #ffffff;
 }
 
 [data-theme="blush"] {
@@ -49,6 +51,8 @@
   --theme-accent-foreground: #f4909f;
   --theme-border: #fcd9de;
   --theme-ring: #f4909f;
+  --theme-topbar-bg: var(--theme-primary);
+  --theme-topbar-text: #ffffff;
 }
 
 [data-theme="slate"] {
@@ -69,6 +73,8 @@
   --theme-accent-foreground: #1e293b;
   --theme-border: #cbd5e1;
   --theme-ring: #1e293b;
+  --theme-topbar-bg: var(--theme-primary);
+  --theme-topbar-text: #ffffff;
 }
 
 [data-theme="ocean"] {
@@ -79,6 +85,8 @@
   --theme-accent-foreground: #0ea5e9;
   --theme-border: #bae6fd;
   --theme-ring: #0ea5e9;
+  --theme-topbar-bg: var(--theme-primary);
+  --theme-topbar-text: #ffffff;
 }
 
 [data-theme="forest"] {
@@ -89,6 +97,8 @@
   --theme-accent-foreground: #10b981;
   --theme-border: #a7f3d0;
   --theme-ring: #10b981;
+  --theme-topbar-bg: var(--theme-primary);
+  --theme-topbar-text: #ffffff;
 }
 
 [data-theme="clinical-light"] {
@@ -100,6 +110,8 @@
   --theme-accent-foreground: #3b82f6;
   --theme-border: #bfdbfe;
   --theme-ring: #3b82f6;
+  --theme-topbar-bg: var(--theme-primary);
+  --theme-topbar-text: #ffffff;
 }
 
 [data-theme="dark-clinical"] {

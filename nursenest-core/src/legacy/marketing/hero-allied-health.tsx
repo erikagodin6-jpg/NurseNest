@@ -34,10 +34,13 @@ export default function HeroAlliedHealth() {
     >
       <div className="mx-auto max-w-6xl space-y-12 px-4 sm:px-6 lg:px-8">
         <div className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-2xl border border-sky-100 bg-gradient-to-br from-sky-50 to-blue-50 p-6 lg:p-8" data-testid="panel-pre-nursing">
+          <div
+            className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/[0.06] to-secondary/50 p-6 lg:p-8"
+            data-testid="panel-pre-nursing"
+          >
             <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-100">
-                <BookOpen className="h-5 w-5 text-sky-600" />
+              <div className="nn-accent-icon-wrap flex h-10 w-10 items-center justify-center rounded-xl">
+                <BookOpen className="nn-accent-icon h-5 w-5" />
               </div>
               <h3 className="text-lg font-bold text-gray-900">{t("components.heroAlliedHealth.prenursing")}</h3>
             </div>
@@ -47,7 +50,7 @@ export default function HeroAlliedHealth() {
             </div>
             <div className="mb-4 flex flex-wrap gap-1.5">
               {PRE_NURSING_GOAL.subjects.map((s) => (
-                <span key={s} className="rounded-md border border-sky-100 bg-white/80 px-2 py-1 text-xs font-medium text-gray-600">
+                <span key={s} className="rounded-md border border-primary/15 bg-white/80 px-2 py-1 text-xs font-medium text-gray-600">
                   {s}
                 </span>
               ))}
@@ -62,10 +65,13 @@ export default function HeroAlliedHealth() {
             </Link>
           </div>
 
-          <div className="rounded-2xl border border-purple-100 bg-gradient-to-br from-purple-50 to-violet-50 p-6 lg:p-8" data-testid="panel-new-grad">
+          <div
+            className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/[0.05] to-secondary/45 p-6 lg:p-8"
+            data-testid="panel-new-grad"
+          >
             <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-100">
-                <GraduationCap className="h-5 w-5 text-purple-600" />
+              <div className="nn-accent-icon-wrap flex h-10 w-10 items-center justify-center rounded-xl">
+                <GraduationCap className="nn-accent-icon h-5 w-5" />
               </div>
               <h3 className="text-lg font-bold text-gray-900">{t("components.heroAlliedHealth.newGraduate")}</h3>
             </div>
@@ -75,7 +81,7 @@ export default function HeroAlliedHealth() {
             </div>
             <div className="mb-4 flex flex-wrap gap-1.5">
               {NEW_GRAD_GOAL.sections.map((s) => (
-                <span key={s} className="rounded-md border border-purple-100 bg-white/80 px-2 py-1 text-xs font-medium text-gray-600">
+                <span key={s} className="rounded-md border border-primary/15 bg-white/80 px-2 py-1 text-xs font-medium text-gray-600">
                   {s}
                 </span>
               ))}
@@ -118,8 +124,8 @@ export default function HeroAlliedHealth() {
                       className="group flex items-center gap-4 rounded-xl border border-gray-100 bg-white p-4 no-underline shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card-hover)]"
                       data-testid={`allied-card-${career.label.toLowerCase().replace(/[\s()/]/g, "-")}`}
                     >
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-teal-50">
-                        <Briefcase className="h-5 w-5 text-teal-600" />
+                      <div className="nn-accent-icon-wrap flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+                        <Briefcase className="nn-accent-icon h-5 w-5" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <h4 className="truncate text-sm font-bold text-gray-900">{career.label}</h4>
@@ -129,7 +135,7 @@ export default function HeroAlliedHealth() {
                               <span className="font-semibold text-gray-700">{display}</span> {t("components.heroAlliedHealth.questions")}
                             </>
                           ) : (
-                            <span className="font-semibold text-amber-600">{t("components.heroAlliedHealth.comingSoon")}</span>
+                            <span className="font-semibold text-primary">{t("components.heroAlliedHealth.comingSoon")}</span>
                           )}
                         </p>
                       </div>
@@ -156,8 +162,8 @@ export default function HeroAlliedHealth() {
                       className="group flex items-center gap-4 rounded-xl border border-gray-100 bg-white p-4 no-underline shadow-[var(--shadow-card)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card-hover)]"
                       data-testid={`allied-card-${career.label.toLowerCase().replace(/[\s()/]/g, "-")}`}
                     >
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-50">
-                        <Briefcase className="h-5 w-5 text-amber-600" />
+                      <div className="nn-accent-icon-wrap flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+                        <Briefcase className="nn-accent-icon h-5 w-5" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <h4 className="truncate text-sm font-bold text-gray-900">{career.label}</h4>
@@ -167,7 +173,7 @@ export default function HeroAlliedHealth() {
                               <span className="font-semibold text-gray-700">{display}</span> {t("components.heroAlliedHealth.questions2")}
                             </>
                           ) : (
-                            <span className="font-semibold text-amber-600">{t("components.heroAlliedHealth.comingSoon2")}</span>
+                            <span className="font-semibold text-primary">{t("components.heroAlliedHealth.comingSoon2")}</span>
                           )}
                         </p>
                       </div>

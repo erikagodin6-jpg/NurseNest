@@ -12,10 +12,10 @@ export default function HomeCareerCta() {
   return (
     <section className="border-t border-gray-100" style={{ paddingTop: "var(--space-block)", paddingBottom: "var(--space-block)" }} data-testid="section-career-journey-cta">
       <div className="mx-auto max-w-5xl px-4 text-center sm:px-6">
-        <div className="rounded-3xl border border-blue-100/60 bg-gradient-to-r from-blue-50/60 via-indigo-50/40 to-purple-50/30 p-8 shadow-[var(--shadow-card)] sm:p-12">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-200/60 bg-white px-3 py-1.5 shadow-[var(--shadow-card)]">
-            <ArrowRight className="h-3.5 w-3.5 text-blue-600" />
-            <span className="text-xs font-medium text-blue-700 sm:text-sm">{t("home.career.journeyBadge")}</span>
+        <div className="rounded-3xl border border-primary/20 bg-gradient-to-r from-primary/[0.08] via-primary/[0.04] to-secondary/40 p-8 shadow-[var(--shadow-card)] sm:p-12">
+          <div className="nn-accent-soft-ring mb-5 inline-flex items-center gap-2 rounded-full px-3 py-1.5 shadow-[var(--shadow-card)]">
+            <ArrowRight className="h-3.5 w-3.5 text-primary" />
+            <span className="text-xs font-medium text-primary sm:text-sm">{t("home.career.journeyBadge")}</span>
           </div>
           <h2 className="mb-3 font-bold text-gray-900" style={{ fontSize: "var(--text-section)" }}>
             {t("home.career.journeyTitle")}
@@ -24,7 +24,7 @@ export default function HomeCareerCta() {
           <div className="flex flex-wrap justify-center gap-3">
             <button
               type="button"
-              className="inline-flex items-center rounded-full bg-blue-600 px-6 py-3 font-semibold text-white shadow-[var(--shadow-card)] hover:bg-blue-700"
+              className="nn-btn-primary inline-flex items-center rounded-full px-6 py-3 font-semibold shadow-[var(--shadow-card)]"
               onClick={() => router.push(mapLegacyMarketingHref("/career-journey"))}
               data-testid="button-career-journey-home"
             >
@@ -33,7 +33,7 @@ export default function HomeCareerCta() {
             </button>
             <button
               type="button"
-              className="inline-flex items-center rounded-full border border-blue-200 px-6 py-3 font-medium text-blue-700 hover:bg-blue-50"
+              className="inline-flex items-center rounded-full border border-primary/30 px-6 py-3 font-medium text-primary hover:bg-primary/10"
               onClick={() => router.push(mapLegacyMarketingHref("/career-journey/nursing"))}
               data-testid="button-career-journey-nursing"
             >
