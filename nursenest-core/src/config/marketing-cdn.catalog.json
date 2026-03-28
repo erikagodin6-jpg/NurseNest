@@ -1,32 +1,32 @@
 {
-  "description": "Marketing CDN facts and legacy fallbacks. Homepage hero carousel: `src/config/home-hero-carousel.ts` — DigitalOcean Spaces `screenshots/screenshot1.webp` … `screenshot15.webp` under nursenest-images.tor1.digitaloceanspaces.com.",
+  "description": "Marketing CDN facts and legacy fallbacks. Homepage hero carousel: `src/config/home-hero-carousel.ts` — `screenshot1.png` … `screenshot15.png` at CDN root (nursenest-images.tor1.cdn.digitaloceanspaces.com).",
   "homepageHeroCarousel": {
-    "notes": "Canonical mapping and captions: `src/config/home-hero-carousel.ts`. Public URL pattern: {digitalOceanSpaces.nursenestImages.publicBaseUrl}/screenshots/screenshot{N}.webp. Browsers use /api/marketing-assets/... when NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY is not false.",
+    "notes": "Canonical mapping and captions: `src/config/home-hero-carousel.ts`. Public URL pattern: {digitalOceanSpaces.nursenestImages.publicBaseUrl}/screenshot{N}.png. Default: direct HTTPS; optional /api/marketing-assets/... when NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY=true or FALLBACK=true (see marketing-resolve-image-url.ts).",
     "canonicalPublicFallbackUrls": [
-      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot1.webp",
-      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2.webp",
-      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3.webp",
-      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot4.webp",
-      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5.webp",
-      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6.webp",
-      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot7.webp",
-      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot8.webp",
-      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9.webp",
-      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10.webp",
-      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11.webp",
-      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot12.webp",
-      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot13.webp",
-      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot14.webp",
-      "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot15.webp"
+      "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot1.png",
+      "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot2.png",
+      "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot3.png",
+      "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot4.png",
+      "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot5.png",
+      "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot6.png",
+      "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot7.png",
+      "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot8.png",
+      "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot9.png",
+      "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot10.png",
+      "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot11.png",
+      "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot12.png",
+      "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot13.png",
+      "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot14.png",
+      "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot15.png"
     ]
   },
   "digitalOceanSpaces": {
     "nursenestImages": {
-      "publicBaseUrl": "https://nursenest-images.tor1.digitaloceanspaces.com",
+      "publicBaseUrl": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com",
       "bucket": "nursenest-images",
       "region": "tor1",
       "objectUrlPattern": "{publicBaseUrl}/{objectKey}",
-      "notes": "Anonymous GET to this hostname often returns 403 until the bucket is public. nursenest-core serves the same keys through /api/marketing-assets/... using SPACES_KEY/SPACES_SECRET (see marketing-resolve-image-url.ts). Set NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY=false only for a fully public bucket."
+      "notes": "Prefer CDN hostname `*.cdn.digitaloceanspaces.com` for public assets. Private buckets: set NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY=true and SPACES_KEY/SPACES_SECRET so /api/marketing-assets/... can stream objects."
     }
   },
   "committedMarketingAssets": {
@@ -37,37 +37,12 @@
   "logo": {
     "generatedPrimary": null,
     "defaultFallbackThemeId": "lavender",
-    "primaryBrandMarkObjectKey": "branding/bluebrandlogo.png",
-    "primaryBrandMarkThemeTinted": true,
-    "notes": "Header uses one Spaces key (`bluebrandlogo`) masked and filled with `var(--theme-primary)` (see SiteBrandLogoMark). PNG must use transparency around the mark (alpha mask). Per-theme `themeBrandLogoObjectKeys` are fallback when tinting is off. Proxy: /api/marketing-assets/branding/...",
+    "primaryBrandMarkObjectKey": null,
+    "primaryBrandMarkThemeTinted": false,
+    "notes": "Theme logos: source of truth is `src/config/theme-brand-logo-cdn.ts` (full CDN URLs). No CSS mask or tint. Optional same-origin proxy when NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY is set.",
     "legacyFallbackUrl": "https://www.nursenest.ca/brand-logo.gif",
     "discoveryFilenamePattern": "Objects whose key matches /logo/i (see scripts/generate-marketing-assets.mjs CATEGORY_TESTS.LOGO_PRIMARY).",
-    "themeBrandLogoObjectKeys": {
-      "lavender": "branding/themes/logo-lavender.png",
-      "mint": "branding/themes/logo-mint.png",
-      "blush": "branding/themes/logo-blush.png",
-      "slate": "branding/themes/logo-slate.png",
-      "midnight": "branding/themes/logo-midnight.png",
-      "ocean": "branding/themes/logo-ocean.png",
-      "forest": "branding/themes/logo-forest.png",
-      "clinical-light": "branding/themes/logo-clinical-light.png",
-      "pastel-blush": "branding/themes/logo-pastel-blush.png",
-      "pastel-lavender": "branding/themes/logo-pastel-lavender.png",
-      "pastel-mint": "branding/themes/logo-pastel-mint.png",
-      "pastel-lilac": "branding/themes/logo-pastel-lilac.png",
-      "lavender-dream": "branding/themes/logo-lavender-dream.png",
-      "soft-sage": "branding/themes/logo-soft-sage.png",
-      "neutral-sand": "branding/themes/logo-neutral-sand.png",
-      "neutral-slate": "branding/themes/logo-neutral-slate.png",
-      "rose-gold": "branding/themes/logo-rose-gold.png",
-      "coral": "branding/themes/logo-coral.png",
-      "indigo": "branding/themes/logo-indigo.png",
-      "teal": "branding/themes/logo-teal.png",
-      "berry": "branding/themes/logo-berry.png",
-      "dark-mode": "branding/themes/logo-dark-mode.png",
-      "dark-clinical": "branding/themes/logo-dark-clinical.png",
-      "dark-academia": "branding/themes/logo-dark-academia.png"
-    }
+    "themeBrandLogoObjectKeys": {}
   },
   "homepageScreenshots": {
     "responsiveFilenameSuffixes": ["-480w.webp", "-768w.webp", "-1200w.webp", "-full.webp", "-thumb-160w.webp", "-thumb-240w.webp"],

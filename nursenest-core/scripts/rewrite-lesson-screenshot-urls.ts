@@ -14,7 +14,7 @@ loadEnv({ path: path.join(__dirname, "../.env") });
 loadEnv({ path: path.join(__dirname, "../../.env") });
 
 const MARKETING_CDN_BASE =
-  process.env.NEXT_PUBLIC_MARKETING_CDN_BASE?.replace(/\/$/, "") ?? "https://nursenest-images.tor1.digitaloceanspaces.com";
+  process.env.NEXT_PUBLIC_MARKETING_CDN_BASE?.replace(/\/$/, "") ?? "https://nursenest-images.tor1.cdn.digitaloceanspaces.com";
 const NEW_PREFIX = `${MARKETING_CDN_BASE}/screenshots/`;
 
 const prisma = new PrismaClient();

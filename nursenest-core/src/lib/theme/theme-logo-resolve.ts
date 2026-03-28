@@ -1,22 +1,21 @@
 /**
  * Normalizes arbitrary theme strings (URL segments, legacy labels, aliases) to a canonical
- * theme id that exists in `theme-logo-map.ts` / `marketing-cdn.catalog.json`.
+ * theme id that exists in `theme-brand-logo-cdn.ts`.
  */
-import { THEME_LOGO_OBJECT_KEYS } from "@/config/theme-logo-map";
+import { THEME_BRAND_LOGO_CDN_BY_ID } from "@/config/theme-brand-logo-cdn";
 import { NURSENEST_DEFAULT_THEME, THEME_OPTIONS } from "@/lib/theme/theme-registry";
 
 const CANONICAL_IDS = new Set(THEME_OPTIONS.map((t) => t.id));
 
-const LOGO_KEYS = THEME_LOGO_OBJECT_KEYS as Record<string, string>;
-
 /**
- * Human-friendly and legacy aliases → canonical `themeBrandLogoObjectKeys` entry.
- * Extend here when adding nicknames; actual file names stay in the JSON map only.
+ * Human-friendly and legacy aliases → canonical theme id with a CDN logo mapping.
+ * Extend here when adding nicknames; actual URLs stay in `theme-brand-logo-cdn.ts` only.
  */
 export const THEME_LOGO_ALIASES: Readonly<Record<string, string>> = {
   black: "midnight",
   /** Common spoken labels */
   pink: "blush",
+  blue: "clinical-light",
   grey: "slate",
   gray: "slate",
   sage: "soft-sage",
@@ -46,8 +45,8 @@ export function normalizeThemeIdForLogo(raw: string | undefined | null): string 
   const viaAlias = THEME_LOGO_ALIASES[slug];
   const candidate = viaAlias ?? slug;
 
-  if (CANONICAL_IDS.has(candidate) && LOGO_KEYS[candidate]) return candidate;
-  if (LOGO_KEYS[candidate]) return candidate;
+  if (CANONICAL_IDS.has(candidate) && candidate in THEME_BRAND_LOGO_CDN_BY_ID) return candidate;
+  if (candidate in THEME_BRAND_LOGO_CDN_BY_ID) return candidate;
 
   return NURSENEST_DEFAULT_THEME;
 }

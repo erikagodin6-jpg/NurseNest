@@ -1,25 +1,12 @@
 /**
- * Canonical theme → DigitalOcean Spaces object keys for pre-colored header logos.
- *
- * **Source of truth:** `marketing-cdn.catalog.json` → `logo.themeBrandLogoObjectKeys`
- * (edit there when new themes or assets are added).
- *
- * **Public URL pattern** (anonymous GET may 403; app uses `/api/marketing-assets/...` proxy):
- *   `https://nursenest-images.tor1.digitaloceanspaces.com/{objectKey}`
- *
- * Filename pattern in bucket: `branding/themes/logo-<canonical-theme-id>.png`
+ * Theme logo URLs: canonical mapping lives in `theme-brand-logo-cdn.ts`.
  */
-import catalog from "./marketing-cdn.catalog.json";
+import { NURSENEST_DEFAULT_THEME } from "@/lib/theme/theme-registry";
+import { MARKETING_CDN_PUBLIC_BASE, THEME_BRAND_LOGO_CDN_BY_ID } from "@/config/theme-brand-logo-cdn";
 
-export const NURSENEST_SPACES_PUBLIC_ORIGIN = catalog.digitalOceanSpaces.nursenestImages.publicBaseUrl.replace(
-  /\/$/,
-  "",
-);
+/** @deprecated Prefer `THEME_BRAND_LOGO_CDN_BY_ID` — values are full CDN URLs. */
+export const THEME_LOGO_OBJECT_KEYS = THEME_BRAND_LOGO_CDN_BY_ID;
 
-/** Committed map: theme id → object key under the nursenest-images bucket. */
-export const THEME_LOGO_OBJECT_KEYS = catalog.logo.themeBrandLogoObjectKeys as Readonly<
-  Record<string, string>
->;
+export const NURSENEST_SPACES_PUBLIC_ORIGIN = MARKETING_CDN_PUBLIC_BASE;
 
-export const THEME_LOGO_DEFAULT_FALLBACK_ID =
-  (catalog.logo as { defaultFallbackThemeId?: string }).defaultFallbackThemeId ?? "lavender";
+export const THEME_LOGO_DEFAULT_FALLBACK_ID = NURSENEST_DEFAULT_THEME;

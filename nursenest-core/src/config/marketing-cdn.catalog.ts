@@ -3,8 +3,6 @@
  * legacy marketing origins, and documentation for lesson images.
  */
 import catalog from "./marketing-cdn.catalog.json";
-import { NURSENEST_DEFAULT_THEME } from "@/lib/theme/theme-registry";
-import { normalizeThemeIdForLogo } from "@/lib/theme/theme-logo-resolve";
 
 export const DIGITALOCEAN_SPACES_NURSENEST_IMAGES = catalog.digitalOceanSpaces.nursenestImages;
 
@@ -19,38 +17,21 @@ export const COMMITTED_MARKETING_SCREENSHOTS_PREFIX =
 
 export const LOGO_LEGACY_FALLBACK_URL = catalog.logo.legacyFallbackUrl;
 
-type LogoCatalog = typeof catalog.logo & {
-  primaryBrandMarkObjectKey?: string;
-  primaryBrandMarkThemeTinted?: boolean;
+type LogoCatalog = Omit<typeof catalog.logo, "primaryBrandMarkObjectKey"> & {
+  primaryBrandMarkObjectKey?: string | null;
 };
 
-/** Single Spaces key for `bluebrandlogo` (mask + theme primary). */
+/** Single Spaces key for optional mask-tinted mark (disabled when null). */
 export function getPrimaryBrandMarkObjectKey(): string | null {
-  const k = (catalog.logo as LogoCatalog).primaryBrandMarkObjectKey?.trim();
+  const raw = (catalog.logo as LogoCatalog).primaryBrandMarkObjectKey;
+  if (raw == null || typeof raw !== "string") return null;
+  const k = raw.trim();
   return k || null;
 }
 
 /** When true, header uses one mask-tinted mark; per-theme PNG map is not used for the header. */
 export function headerUsesThemeTintedBrandMark(): boolean {
   return Boolean((catalog.logo as LogoCatalog).primaryBrandMarkThemeTinted && getPrimaryBrandMarkObjectKey());
-}
-
-/**
- * Spaces object key for the pre-colored header logo for `themeId` (`data-theme` / next-themes).
- * Aliases: `theme-logo-resolve.ts` → `THEME_LOGO_ALIASES`. Falls back to `defaultFallbackThemeId`.
- * Skipped when `headerUsesThemeTintedBrandMark()` — use `getPrimaryBrandMarkObjectKey()` instead.
- */
-export function getThemeLogoObjectKey(themeId: string): string {
-  if (headerUsesThemeTintedBrandMark()) {
-    return getPrimaryBrandMarkObjectKey() as string;
-  }
-  const map = catalog.logo.themeBrandLogoObjectKeys as Record<string, string>;
-  const fallbackId =
-    (catalog.logo as { defaultFallbackThemeId?: string }).defaultFallbackThemeId ?? NURSENEST_DEFAULT_THEME;
-  const normalized = normalizeThemeIdForLogo(themeId);
-  const key = map[normalized] ?? map[fallbackId];
-  if (key) return key;
-  return map[fallbackId] ?? map[NURSENEST_DEFAULT_THEME];
 }
 
 export const HOMEPAGE_SCREENSHOT_SLOT_STEMS = catalog.homepageScreenshots.slotToLegacyStem;

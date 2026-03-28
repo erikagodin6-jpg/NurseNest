@@ -23,13 +23,13 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "nursenest-images.tor1.digitaloceanspaces.com",
-        pathname: "/branding/**",
+        hostname: "nursenest-images.tor1.cdn.digitaloceanspaces.com",
+        pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "nursenest-images.tor1.digitaloceanspaces.com",
-        pathname: "/screenshots/**",
+        pathname: "/**",
       },
       {
         protocol: "https",

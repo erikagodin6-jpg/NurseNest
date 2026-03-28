@@ -1,8 +1,8 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useSyncExternalStore } from "react";
-import { getThemeLogo, getThemeLogoPublicUrl } from "@/lib/theme/theme-logo-url";
+import { useMemo, useSyncExternalStore } from "react";
+import { getThemeLogoLoadChain } from "@/lib/theme/theme-logo-url";
 import { normalizeThemeIdForLogo } from "@/lib/theme/theme-logo-resolve";
 import { NURSENEST_DEFAULT_THEME, THEME_STORAGE_KEY } from "@/lib/theme/theme-registry";
 
@@ -46,21 +46,16 @@ function getServerSnapshot(): string {
  */
 export function useThemeLogo(): {
   themeId: string;
-  src: string;
-  fallbackSrc: string;
-  /** Canonical Spaces HTTPS URL (no proxy) — used if `/api/marketing-assets/...` fails but the bucket allows anonymous GET. */
-  directSrc: string;
-  directFallbackSrc: string;
+  /** Ordered URLs: public CDN (`nursenest-images.tor1.cdn.digitaloceanspaces.com`) first by default; proxy only when configured. */
+  loadChain: string[];
 } {
   const { resolvedTheme, theme } = useTheme();
   const domThemeId = useSyncExternalStore(subscribe, readDomThemeId, getServerSnapshot);
   const activeId = normalizeThemeIdForLogo(resolvedTheme ?? theme ?? domThemeId);
+  const loadChain = useMemo(() => getThemeLogoLoadChain(activeId), [activeId]);
 
   return {
     themeId: activeId,
-    src: getThemeLogo(activeId),
-    fallbackSrc: getThemeLogo(NURSENEST_DEFAULT_THEME),
-    directSrc: getThemeLogoPublicUrl(activeId),
-    directFallbackSrc: getThemeLogoPublicUrl(NURSENEST_DEFAULT_THEME),
+    loadChain,
   };
 }

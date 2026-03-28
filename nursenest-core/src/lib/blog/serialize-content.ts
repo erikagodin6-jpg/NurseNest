@@ -3,7 +3,7 @@
  */
 const DEFAULT_ASSET_BASE = process.env.NEXT_PUBLIC_NURSENEST_ASSETS_BASE?.replace(/\/$/, "") ?? "https://www.nursenest.ca";
 const MARKETING_CDN_BASE =
-  process.env.NEXT_PUBLIC_MARKETING_CDN_BASE?.replace(/\/$/, "") ?? "https://nursenest-images.tor1.digitaloceanspaces.com";
+  process.env.NEXT_PUBLIC_MARKETING_CDN_BASE?.replace(/\/$/, "") ?? "https://nursenest-images.tor1.cdn.digitaloceanspaces.com";
 
 export function normalizeBlogAssetUrls(html: string): string {
   let s = html;

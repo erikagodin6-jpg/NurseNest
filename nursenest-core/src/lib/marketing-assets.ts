@@ -64,16 +64,22 @@ export {
   HOMEPAGE_SCREENSHOT_SLOT_STEMS,
   LESSON_IMAGES_RESOLUTION,
   LOGO_LEGACY_FALLBACK_URL,
-  getThemeLogoObjectKey,
   nursenestImagesSpaceObjectUrl,
 } from "@/config/marketing-cdn.catalog";
+
+export { MARKETING_CDN_PUBLIC_BASE, THEME_BRAND_LOGO_CDN_BY_ID } from "@/config/theme-brand-logo-cdn";
 
 /** @deprecated Use `getThemeLogo` from `@/lib/theme/theme-logo-url` */
 export function getResolvedThemeLogoUrl(themeId: string): string {
   return getThemeLogo(themeId);
 }
 
-export { getThemeLogo, getThemeLogoPublicUrl } from "@/lib/theme/theme-logo-url";
+export {
+  getThemeLogo,
+  getThemeLogoLoadChain,
+  getThemeLogoObjectKey,
+  getThemeLogoPublicUrl,
+} from "@/lib/theme/theme-logo-url";
 export { useThemeLogo } from "@/lib/theme/use-theme-logo";
 export { normalizeThemeIdForLogo, THEME_LOGO_ALIASES } from "@/lib/theme/theme-logo-resolve";
 export {
@@ -95,6 +101,8 @@ export function marketingOpenGraphImageUrl(): string {
 
 export {
   marketingImageUsesProxy,
+  marketingProxyFallbackEnabled,
+  marketingProxyPathForKey,
   resolveMarketingAbsoluteUrl,
   resolveMarketingSrcSet,
   getMarketingCdnBaseForDirectFallback,

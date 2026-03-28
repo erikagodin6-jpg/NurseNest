@@ -3,10 +3,10 @@
  * Homepage hero carousel: `src/config/home-hero-carousel.ts` (DigitalOcean Spaces screenshot1–15).
  */
 
-export const MARKETING_CDN_BASE = "https://nursenest-images.tor1.digitaloceanspaces.com";
+export const MARKETING_CDN_BASE = "https://nursenest-images.tor1.cdn.digitaloceanspaces.com";
 
 const HERO_DASHBOARD_CANONICAL =
-  "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot1.webp";
+  "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot1.png";
 
 export type MarketingResponsiveImage = {
   src: string;
@@ -41,66 +41,66 @@ export const PROGRESS_DASHBOARD_SCREENSHOT_SRCSET: string | null = null;
 
 export const MARKETING_SCREENSHOT_SOURCES: Record<string, MarketingScreenshotBundle> = {
   "screenshot2": {
-    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-full.webp 2730w",
-    "thumbSrcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-thumb-240w.webp 240w",
-    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-768w.webp",
-    "thumbFallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-thumb-160w.webp",
+    "srcSet": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-480w.webp 480w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-768w.webp 768w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-full.webp 2730w",
+    "thumbSrcSet": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-thumb-240w.webp 240w",
+    "fallback": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-768w.webp",
+    "thumbFallback": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-thumb-160w.webp",
     "width": 2730,
     "height": 1588
   },
   "screenshot9": {
-    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-full.webp 2282w",
-    "thumbSrcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-thumb-240w.webp 240w",
-    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-768w.webp",
-    "thumbFallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-thumb-160w.webp",
+    "srcSet": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-480w.webp 480w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-768w.webp 768w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-full.webp 2282w",
+    "thumbSrcSet": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-thumb-240w.webp 240w",
+    "fallback": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-768w.webp",
+    "thumbFallback": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-thumb-160w.webp",
     "width": 2282,
     "height": 1186
   },
   "screenshotTest": {
-    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-full.webp 2048w",
-    "thumbSrcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-thumb-240w.webp 240w",
-    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-768w.webp",
-    "thumbFallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-thumb-160w.webp",
+    "srcSet": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-480w.webp 480w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-768w.webp 768w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-full.webp 2048w",
+    "thumbSrcSet": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-thumb-240w.webp 240w",
+    "fallback": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-768w.webp",
+    "thumbFallback": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-thumb-160w.webp",
     "width": 2048,
     "height": 1590
   },
   "screenshot6": {
-    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-full.webp 2524w",
-    "thumbSrcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-thumb-240w.webp 240w",
-    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-768w.webp",
-    "thumbFallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-thumb-160w.webp",
+    "srcSet": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-480w.webp 480w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-768w.webp 768w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-full.webp 2524w",
+    "thumbSrcSet": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-thumb-240w.webp 240w",
+    "fallback": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-768w.webp",
+    "thumbFallback": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-thumb-160w.webp",
     "width": 2524,
     "height": 1448
   },
   "screenshot11": {
-    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-full.webp 2510w",
-    "thumbSrcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-thumb-240w.webp 240w",
-    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-768w.webp",
-    "thumbFallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-thumb-160w.webp",
+    "srcSet": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-480w.webp 480w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-768w.webp 768w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-full.webp 2510w",
+    "thumbSrcSet": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-thumb-240w.webp 240w",
+    "fallback": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-768w.webp",
+    "thumbFallback": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-thumb-160w.webp",
     "width": 2510,
     "height": 1588
   },
   "screenshot3": {
-    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-full.webp 2528w",
-    "thumbSrcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-thumb-240w.webp 240w",
-    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-768w.webp",
-    "thumbFallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-thumb-160w.webp",
+    "srcSet": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-480w.webp 480w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-768w.webp 768w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-full.webp 2528w",
+    "thumbSrcSet": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-thumb-240w.webp 240w",
+    "fallback": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-768w.webp",
+    "thumbFallback": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-thumb-160w.webp",
     "width": 2528,
     "height": 1602
   },
   "screenshot5": {
-    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-full.webp 2538w",
-    "thumbSrcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-thumb-240w.webp 240w",
-    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-768w.webp",
-    "thumbFallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-thumb-160w.webp",
+    "srcSet": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-480w.webp 480w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-768w.webp 768w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-full.webp 2538w",
+    "thumbSrcSet": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-thumb-240w.webp 240w",
+    "fallback": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-768w.webp",
+    "thumbFallback": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-thumb-160w.webp",
     "width": 2538,
     "height": 1610
   },
   "screenshot10": {
-    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-full.webp 2264w",
-    "thumbSrcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-thumb-240w.webp 240w",
-    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-768w.webp",
-    "thumbFallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-thumb-160w.webp",
+    "srcSet": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-480w.webp 480w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-768w.webp 768w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-full.webp 2264w",
+    "thumbSrcSet": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-thumb-240w.webp 240w",
+    "fallback": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-768w.webp",
+    "thumbFallback": "https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-thumb-160w.webp",
     "width": 2264,
     "height": 1580
   }

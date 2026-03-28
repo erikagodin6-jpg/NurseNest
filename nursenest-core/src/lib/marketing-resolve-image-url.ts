@@ -24,15 +24,24 @@ export function isForbiddenBrowserImageScheme(url: string): boolean {
 }
 
 /**
- * When true (default), hero and marketing images use same-origin `/api/marketing-assets/...`
- * so the server can stream objects from DigitalOcean Spaces with SPACES_KEY/SPACES_SECRET.
- * The public `*.digitaloceanspaces.com` host often returns 403 for anonymous GET until the bucket is public.
- * Set to `"false"` only if the Space is fully public and you want browsers to load CDN URLs directly.
+ * When `true`, absolute Spaces/CDN URLs are rewritten to same-origin `/api/marketing-assets/...`
+ * so the server can stream objects using SPACES_KEY/SPACES_SECRET (private bucket).
+ * Default is `false`: browsers load public `https://…digitaloceanspaces.com/...` URLs directly (no server credentials).
  *
- * Google Cloud Storage public URLs (`storage.googleapis.com/...`) are never rewritten to the proxy — that API only serves Spaces keys.
+ * Set `NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY=true` only when the bucket is private and you intentionally use the proxy.
+ *
+ * Google Cloud Storage public URLs (`storage.googleapis.com/...`) are never rewritten to the proxy.
  */
 export function marketingImageUsesProxy(): boolean {
-  return process.env.NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY !== "false";
+  return process.env.NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY === "true";
+}
+
+/**
+ * After a direct public URL fails to load, retry via `/api/marketing-assets/...` (requires SPACES_* on the server).
+ * Default `false`. Set `NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY_FALLBACK=true` to enable.
+ */
+export function marketingProxyFallbackEnabled(): boolean {
+  return process.env.NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY_FALLBACK === "true";
 }
 
 /** Same-origin path for S3 key `screenshots/foo.webp` → `/api/marketing-assets/screenshots/foo.webp` */
@@ -45,7 +54,7 @@ export function marketingProxyPathForKey(objectKey: string): string {
   return `${PROXY_PREFIX}/${enc}`;
 }
 
-/** Rewrite an absolute Spaces/CDN URL to the local proxy path when proxy mode is on. */
+/** Rewrite an absolute Spaces/CDN URL to the local proxy path only when proxy-as-primary is enabled. */
 export function resolveMarketingAbsoluteUrl(absoluteUrl: string): string {
   if (isForbiddenBrowserImageScheme(absoluteUrl)) {
     return "/marketing/hero-fallback.svg";

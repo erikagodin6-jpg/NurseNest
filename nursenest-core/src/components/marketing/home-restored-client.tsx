@@ -32,13 +32,23 @@ import {
   HOMEPAGE_HERO_SLIDES,
   isForbiddenBrowserImageScheme,
   marketingImageUsesProxy,
-  resolveMarketingAbsoluteUrl,
+  marketingProxyFallbackEnabled,
+  marketingProxyPathForKey,
 } from "@/lib/marketing-assets";
 
-/** HTTPS (or same-origin) only — never `gs://` / blob / file in `<img src>`. */
-function resolveHeroImgSrc(publicUrl: string): string {
-  if (isForbiddenBrowserImageScheme(publicUrl)) return "/marketing/hero-fallback.svg";
-  return marketingImageUsesProxy() ? resolveMarketingAbsoluteUrl(publicUrl) : publicUrl;
+/** Primary: public Spaces HTTPS; alternate tier: proxy path when configured (see `marketing-resolve-image-url.ts`). */
+function getHeroSlideSrc(slide: { publicUrl: string; objectKey: string }, tier: number): string {
+  if (isForbiddenBrowserImageScheme(slide.publicUrl)) return "/marketing/hero-fallback.svg";
+  const proxy = marketingProxyPathForKey(slide.objectKey);
+  if (marketingImageUsesProxy()) {
+    return tier === 0 ? proxy : slide.publicUrl;
+  }
+  return tier === 0 ? slide.publicUrl : proxy;
+}
+
+function heroCanRetryAlternateTier(): boolean {
+  if (marketingImageUsesProxy()) return true;
+  return marketingProxyFallbackEnabled();
 }
 
 const HeroFeatureStrip = dynamic(() => import("@/legacy/marketing/hero-feature-strip"), {
@@ -93,8 +103,8 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
   const [isHovered, setIsHovered] = useState(false);
   const [failed, setFailed] = useState<Set<number>>(() => new Set());
   const failedRef = useRef(failed);
-  /** After same-origin proxy fails (e.g. missing SPACES_*), retry canonical HTTPS URL (works if the Space is public). */
-  const [directUrlFallback, setDirectUrlFallback] = useState<Set<number>>(() => new Set());
+  /** 0 = primary URL; 1 = alternate (direct↔proxy) when `heroCanRetryAlternateTier()` allows. */
+  const [heroTierByIndex, setHeroTierByIndex] = useState<Record<number, number>>({});
   const [hasLoaded, setHasLoaded] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const unavailableReported = useRef(false);
@@ -192,12 +202,12 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
         ) : null}
         {slides.map((slide, index) => {
           if (failed.has(index)) return null;
-          const proxied = resolveHeroImgSrc(slide.publicUrl);
-          const src = directUrlFallback.has(index) ? slide.publicUrl : proxied;
+          const tier = heroTierByIndex[index] ?? 0;
+          const src = getHeroSlideSrc(slide, tier);
           const active = index === current;
             return (
             <img
-              key={`${slide.objectKey}-${directUrlFallback.has(index) ? "direct" : "proxy"}`}
+              key={`${slide.objectKey}-${tier}`}
               src={src}
               alt={slide.alt}
               width={1200}
@@ -212,8 +222,8 @@ function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void 
               aria-hidden={!active}
               referrerPolicy="no-referrer"
               onError={() => {
-                if (marketingImageUsesProxy() && !directUrlFallback.has(index)) {
-                  setDirectUrlFallback((prev) => new Set(prev).add(index));
+                if (tier === 0 && heroCanRetryAlternateTier()) {
+                  setHeroTierByIndex((prev) => ({ ...prev, [index]: 1 }));
                   return;
                 }
                 handleImgError(index);

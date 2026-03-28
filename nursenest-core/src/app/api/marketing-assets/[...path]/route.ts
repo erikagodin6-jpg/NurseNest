@@ -7,9 +7,16 @@ const NO_STORE = { "Cache-Control": "no-store" } as const;
 /** Allowed object key prefixes in the marketing bucket (screens + brand marks). */
 const ALLOW_PREFIXES = ["screenshots/", "brand/", "branding/"] as const;
 
+/** Root-level public marketing files (e.g. `blackbrandlogo.gif`). */
+function isAllowedRootMarketingKey(key: string): boolean {
+  if (key.includes("/") || key.includes("..")) return false;
+  return /^[a-zA-Z0-9][a-zA-Z0-9._-]*\.(gif|png|webp|jpe?g|svg)$/i.test(key);
+}
+
 function isAllowedKey(key: string): boolean {
   if (key.includes("..")) return false;
-  return ALLOW_PREFIXES.some((p) => key.startsWith(p));
+  if (ALLOW_PREFIXES.some((p) => key.startsWith(p))) return true;
+  return isAllowedRootMarketingKey(key);
 }
 
 function getS3Client(): S3Client | null {
@@ -53,7 +60,7 @@ function resolvedImageContentType(s3ContentType: string | undefined, key: string
 
 /**
  * Streams marketing images from DigitalOcean Spaces (private bucket safe).
- * Path must start with `screenshots/`, `brand/`, or `branding/` — matches keys in `nursenest-images`.
+ * Allowed keys: `screenshots/…`, `brand/…`, `branding/…`, or a single-segment root filename (e.g. `blackbrandlogo.gif`).
  */
 export async function GET(
   _req: Request,
@@ -73,7 +80,7 @@ export async function GET(
     return NextResponse.json(
       {
         error: "Marketing asset proxy not configured",
-        hint: "Set SPACES_KEY and SPACES_SECRET on the server, or set NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY=false and make the Space public.",
+        hint: "Set SPACES_KEY and SPACES_SECRET for the proxy, or use public Spaces URLs (default) without NEXT_PUBLIC_MARKETING_USE_SPACES_PROXY=true.",
       },
       { status: 503, headers: NO_STORE },
     );

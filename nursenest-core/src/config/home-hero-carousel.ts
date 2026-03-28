@@ -1,26 +1,24 @@
 /**
- * Homepage hero carousel — canonical DigitalOcean Spaces assets only.
+ * Homepage hero carousel — public DigitalOcean Spaces CDN assets (PNG at bucket root).
  *
- * Public URL pattern (HTTPS, `nursenest-images` bucket, Toronto region):
- *   {NURSENEST_IMAGES_SPACE_PUBLIC_BASE_URL}/screenshots/screenshot{N}.webp
- *   e.g. https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot1.webp
+ * Pattern: {NURSENEST_IMAGES_SPACE_PUBLIC_BASE_URL}/screenshot{N}.png
+ * e.g. https://nursenest-images.tor1.cdn.digitaloceanspaces.com/screenshot1.png
  *
- * When the bucket blocks anonymous GET (403), the app serves the same object keys via
- * `/api/marketing-assets/...` (see `resolveMarketingAbsoluteUrl` in `marketing-resolve-image-url.ts`).
+ * Optional proxy / fallback: see `marketing-resolve-image-url.ts` and `home-restored-client.tsx`.
  */
 import { nursenestImagesSpaceObjectUrl } from "./marketing-cdn.catalog";
 
 export const HOME_HERO_SCREENSHOT_COUNT = 15 as const;
 
-/** Object key segment: `screenshots/screenshot1.webp` … `screenshots/screenshot15.webp` (no other stems). */
+/** Object key at bucket root: `screenshot1.png` … `screenshot15.png`. */
 export function homeHeroScreenshotObjectKey(index1To15: number): string {
   if (!Number.isInteger(index1To15) || index1To15 < 1 || index1To15 > HOME_HERO_SCREENSHOT_COUNT) {
     throw new Error(`homeHeroScreenshotObjectKey: expected 1–${HOME_HERO_SCREENSHOT_COUNT}, got ${index1To15}`);
   }
-  return `screenshots/screenshot${index1To15}.webp`;
+  return `screenshot${index1To15}.png`;
 }
 
-/** Canonical public URL on DigitalOcean Spaces for `screenshot{N}.webp`. */
+/** Canonical public CDN URL for `screenshot{N}.png`. */
 export function homeHeroScreenshotPublicUrl(index1To15: number): string {
   return nursenestImagesSpaceObjectUrl(homeHeroScreenshotObjectKey(index1To15));
 }
@@ -28,7 +26,7 @@ export function homeHeroScreenshotPublicUrl(index1To15: number): string {
 export type HomeHeroSlide = {
   index: number;
   objectKey: string;
-  /** Canonical `https://…digitaloceanspaces.com/screenshots/screenshot{N}.webp` */
+  /** Canonical `https://…cdn.digitaloceanspaces.com/screenshot{N}.png` */
   publicUrl: string;
   title: string;
   caption: string;
