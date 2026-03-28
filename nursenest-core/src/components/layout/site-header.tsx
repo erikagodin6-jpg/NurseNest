@@ -278,8 +278,9 @@ export function SiteHeader() {
       {mobileOpen && (
         <div className="fixed inset-0 z-[200] md:hidden">
           <button type="button" className="absolute inset-0 bg-black/40" aria-label={t("nav.closeMenu")} onClick={() => setMobileOpen(false)} />
-          <div className="absolute right-0 top-0 flex h-full w-[min(100%,20rem)] flex-col border-l border-[var(--theme-separator)] bg-[var(--theme-card-bg)] shadow-xl">
-            <div className="flex items-center justify-between border-b border-[var(--theme-separator)] p-4">
+          {/* h-[100dvh] + min-h-0 scroll region: avoids clipped menu on mobile browsers with dynamic toolbars */}
+          <div className="absolute right-0 top-0 flex h-[100dvh] max-h-[100dvh] w-[min(100%,20rem)] flex-col border-l border-[var(--theme-separator)] bg-[var(--theme-card-bg)] shadow-xl">
+            <div className="flex shrink-0 items-center justify-between border-b border-[var(--theme-separator)] p-4 pt-[max(1rem,env(safe-area-inset-top))]">
               <span className="flex items-center gap-2">
                 <HeaderBrandWordmark wordmarkClassName="text-lg font-extrabold text-primary">NurseNest</HeaderBrandWordmark>
               </span>
@@ -287,7 +288,7 @@ export function SiteHeader() {
                 <X className="h-5 w-5" />
               </Button>
             </div>
-            <div className="flex-1 space-y-1 overflow-y-auto p-4">
+            <div className="min-h-0 flex-1 space-y-1 overflow-y-auto overscroll-y-contain p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
               <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-primary">{t("nav.regionLabel")}</p>
               <div className="mb-4 flex gap-2">
                 <button
@@ -317,7 +318,7 @@ export function SiteHeader() {
               </p>
               <hr className="my-3 border-[var(--theme-separator)]" />
               <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-primary">{t("nav.language")}</p>
-              <div className="mb-4 max-h-40 space-y-0.5 overflow-y-auto rounded-xl border border-[var(--theme-card-border)] bg-[var(--theme-page-bg)] p-1">
+              <div className="mb-4 max-h-[min(50vh,20rem)] space-y-0.5 overflow-y-auto rounded-xl border border-[var(--theme-card-border)] bg-[var(--theme-page-bg)] p-1">
                 {MARKETING_LANGUAGES.map((lang) => (
                   <Link
                     key={lang.code}
