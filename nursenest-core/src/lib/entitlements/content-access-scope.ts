@@ -19,7 +19,7 @@ export function examQuestionTiersForUserTier(userTier: TierCode): string[] {
     case "NP":
       return ["rpn", "lvn", "rn", "np"];
     case "ALLIED":
-      return ["rpn", "rn", "allied"];
+      return ["allied"];
     default:
       return [];
   }
@@ -158,7 +158,7 @@ export function accessibleTiersForUserTier(userTier: TierCode): TierCode[] {
     case "NP":
       return ["RPN", "LVN_LPN", "RN", "NP"];
     case "ALLIED":
-      return ["RPN", "LVN_LPN", "RN"];
+      return ["ALLIED"];
     default:
       return [];
   }
