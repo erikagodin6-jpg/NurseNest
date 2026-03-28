@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { isDatabaseUrlConfigured } from "@/lib/db/safe-database";
 
 function requiredEnvOk(): { ok: boolean; missing: string[] } {
   const missing: string[] = [];
@@ -16,11 +17,14 @@ export async function GET() {
   const env = requiredEnvOk();
   const mem = process.memoryUsage();
   let db: "connected" | "disconnected" = "disconnected";
-  try {
-    await prisma.$queryRaw`SELECT 1`;
-    db = "connected";
-  } catch {
-    db = "disconnected";
+  // Avoid Prisma engine/query when DATABASE_URL is absent (deploy probes, misconfigured previews).
+  if (isDatabaseUrlConfigured()) {
+    try {
+      await prisma.$queryRaw`SELECT 1`;
+      db = "connected";
+    } catch {
+      db = "disconnected";
+    }
   }
 
   const degraded = !env.ok || db === "disconnected";
