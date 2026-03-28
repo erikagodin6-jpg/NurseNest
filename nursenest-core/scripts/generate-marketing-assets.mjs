@@ -6,7 +6,7 @@
  * Env: SPACES_KEY, SPACES_SECRET, SPACES_REGION, SPACES_BUCKET
  * Optional: SPACES_PREFIX (key prefix), SPACES_ENDPOINT, MARKETING_CDN_BASE (public URL override)
  *
- * On failure or --fallback-only, writes legacy nursenest.ca screenshot URLs (current production behavior).
+ * On failure or --fallback-only, writes screenshot URLs on the public Spaces host (same paths as legacy /screenshots/).
  */
 
 import "dotenv/config";
@@ -30,8 +30,6 @@ function loadMarketingCdnCatalog() {
 }
 
 const marketingCdnCatalog = loadMarketingCdnCatalog();
-
-const LEGACY_BASE = marketingCdnCatalog.committedMarketingAssets.origin;
 
 /** Public CDN hostname for nursenest-images (DigitalOcean Spaces, tor1). Single source: marketing-cdn.catalog.json */
 const DEFAULT_MARKETING_CDN_BASE =
@@ -182,7 +180,7 @@ function buildResponsiveBundle(clusterObjects, baseUrl, defaultW, defaultH) {
 }
 
 function legacyScreenshotBundle(stem, w, h) {
-  const base = `${LEGACY_BASE}/screenshots/${stem}`;
+  const base = `${DEFAULT_MARKETING_CDN_BASE}/screenshots/${stem}`;
   return {
     srcSet: `${base}-480w.webp 480w, ${base}-768w.webp 768w, ${base}-1200w.webp 1200w, ${base}-full.webp ${w}w`,
     thumbSrcSet: `${base}-thumb-160w.webp 160w, ${base}-thumb-240w.webp 240w`,
@@ -361,22 +359,23 @@ function emitTs({
 }
 
 async function writeLegacyOnly(reason) {
+  const B = DEFAULT_MARKETING_CDN_BASE;
   const heroCarousel = [
     {
-      srcSet: `${LEGACY_BASE}/screenshots/screenshottest_1773379293573-480w.webp 480w, ${LEGACY_BASE}/screenshots/screenshottest_1773379293573-768w.webp 768w, ${LEGACY_BASE}/screenshots/screenshottest_1773379293573-1200w.webp 1200w`,
-      fallback: `${LEGACY_BASE}/screenshots/screenshottest_1773379293573-768w.webp`,
+      srcSet: `${B}/screenshots/screenshottest_1773379293573-480w.webp 480w, ${B}/screenshots/screenshottest_1773379293573-768w.webp 768w, ${B}/screenshots/screenshottest_1773379293573-1200w.webp 1200w`,
+      fallback: `${B}/screenshots/screenshottest_1773379293573-768w.webp`,
     },
     {
-      srcSet: `${LEGACY_BASE}/screenshots/screenshot6_1773379293573-480w.webp 480w, ${LEGACY_BASE}/screenshots/screenshot6_1773379293573-768w.webp 768w, ${LEGACY_BASE}/screenshots/screenshot6_1773379293573-1200w.webp 1200w`,
-      fallback: `${LEGACY_BASE}/screenshots/screenshot6_1773379293573-768w.webp`,
+      srcSet: `${B}/screenshots/screenshot6_1773379293573-480w.webp 480w, ${B}/screenshots/screenshot6_1773379293573-768w.webp 768w, ${B}/screenshots/screenshot6_1773379293573-1200w.webp 1200w`,
+      fallback: `${B}/screenshots/screenshot6_1773379293573-768w.webp`,
     },
     {
-      srcSet: `${LEGACY_BASE}/screenshots/screenshot5_1773379293573-480w.webp 480w, ${LEGACY_BASE}/screenshots/screenshot5_1773379293573-768w.webp 768w, ${LEGACY_BASE}/screenshots/screenshot5_1773379293573-1200w.webp 1200w`,
-      fallback: `${LEGACY_BASE}/screenshots/screenshot5_1773379293573-768w.webp`,
+      srcSet: `${B}/screenshots/screenshot5_1773379293573-480w.webp 480w, ${B}/screenshots/screenshot5_1773379293573-768w.webp 768w, ${B}/screenshots/screenshot5_1773379293573-1200w.webp 1200w`,
+      fallback: `${B}/screenshots/screenshot5_1773379293573-768w.webp`,
     },
     {
-      srcSet: `${LEGACY_BASE}/screenshots/screenshot2_1773379293573-480w.webp 480w, ${LEGACY_BASE}/screenshots/screenshot2_1773379293573-768w.webp 768w, ${LEGACY_BASE}/screenshots/screenshot2_1773379293573-1200w.webp 1200w`,
-      fallback: `${LEGACY_BASE}/screenshots/screenshot2_1773379293573-768w.webp`,
+      srcSet: `${B}/screenshots/screenshot2_1773379293573-480w.webp 480w, ${B}/screenshots/screenshot2_1773379293573-768w.webp 768w, ${B}/screenshots/screenshot2_1773379293573-1200w.webp 1200w`,
+      fallback: `${B}/screenshots/screenshot2_1773379293573-768w.webp`,
     },
   ];
   const screenshotBundles = {};
@@ -399,7 +398,7 @@ async function writeLegacyOnly(reason) {
     screenshotBundles,
     todos: [
       reason ||
-        "Image URLs use legacy nursenest.ca screenshots until SPACES_* is set and this script is re-run. MARKETING_CDN_BASE targets DigitalOcean Spaces.",
+        "Screenshot URLs use public Spaces host; run with SPACES_* to discover objects and refresh bundles.",
     ],
     unmatchedKeys: [],
   });
@@ -432,7 +431,7 @@ async function main() {
   if (fallbackOnly || !key || !secret || !region || !bucket) {
     await writeLegacyOnly(
       !key || !secret || !region || !bucket
-        ? "Missing SPACES_* credentials — wrote legacy nursenest.ca asset map."
+        ? "Missing SPACES_* credentials — wrote Spaces-hosted screenshot fallback map."
         : "--fallback-only",
     );
     return;
@@ -516,7 +515,7 @@ async function main() {
       "screenshot5_1773379293573",
       "screenshot2_1773379293573",
     ][padIdx];
-    const base = `${LEGACY_BASE}/screenshots/${legacy}`;
+    const base = `${DEFAULT_MARKETING_CDN_BASE}/screenshots/${legacy}`;
     heroCarousel.push({
       srcSet: `${base}-480w.webp 480w, ${base}-768w.webp 768w, ${base}-1200w.webp 1200w`,
       fallback: `${base}-768w.webp`,

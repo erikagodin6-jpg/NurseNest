@@ -5,6 +5,14 @@
  * For production numbers, set DATABASE_URL to the production Postgres connection
  * (read-only recommended) and run locally or in CI.
  */
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { config as loadEnv } from "dotenv";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+loadEnv({ path: path.join(__dirname, "../.env") });
+loadEnv({ path: path.join(__dirname, "../../.env") });
+
 import { ContentStatus, CountryCode, TierCode } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
 import { questionBankWhereForProfile } from "../src/lib/entitlements/content-access-scope";

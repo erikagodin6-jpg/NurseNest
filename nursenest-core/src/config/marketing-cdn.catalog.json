@@ -12,7 +12,7 @@
   "committedMarketingAssets": {
     "origin": "https://www.nursenest.ca",
     "screenshotsPathPrefix": "/screenshots/",
-    "notes": "Until `generate-marketing-assets.mjs` runs with SPACES_* credentials, marketing-assets.generated.ts points image src/srcSet URLs at this origin (legacy production), not at digitalOceanSpaces.nursenestImages.publicBaseUrl."
+    "notes": "Homepage screenshot URLs in committed marketing-assets.generated.ts use digitalOceanSpaces.nursenestImages.publicBaseUrl + /screenshots/ (same paths as legacy site). Logo may still use legacyFallbackUrl until SPACES discovery runs."
   },
   "logo": {
     "generatedPrimary": null,

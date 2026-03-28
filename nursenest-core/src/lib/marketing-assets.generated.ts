@@ -18,8 +18,8 @@ export type MarketingScreenshotBundle = {
 
 export const LOGO_PRIMARY: string | null = null;
 export const LOGO_PRIMARY_SRCSET: string | null = null;
-export const HERO_DASHBOARD_SCREENSHOT: string | null = "https://www.nursenest.ca/screenshots/screenshottest_1773379293573-768w.webp";
-export const HERO_DASHBOARD_SCREENSHOT_SRCSET: string | null = "https://www.nursenest.ca/screenshots/screenshottest_1773379293573-480w.webp 480w, https://www.nursenest.ca/screenshots/screenshottest_1773379293573-768w.webp 768w, https://www.nursenest.ca/screenshots/screenshottest_1773379293573-1200w.webp 1200w";
+export const HERO_DASHBOARD_SCREENSHOT: string | null = "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-768w.webp";
+export const HERO_DASHBOARD_SCREENSHOT_SRCSET: string | null = "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-1200w.webp 1200w";
 export const HERO_REPORT_CARD_SCREENSHOT: string | null = null;
 export const HERO_REPORT_CARD_SCREENSHOT_SRCSET: string | null = null;
 export const PRICING_SCREENSHOT: string | null = null;
@@ -35,92 +35,92 @@ export const PROGRESS_DASHBOARD_SCREENSHOT_SRCSET: string | null = null;
 
 export const MARKETING_HERO_CAROUSEL_SLIDES: readonly { srcSet: string; fallback: string }[] = [
   {
-    "srcSet": "https://www.nursenest.ca/screenshots/screenshottest_1773379293573-480w.webp 480w, https://www.nursenest.ca/screenshots/screenshottest_1773379293573-768w.webp 768w, https://www.nursenest.ca/screenshots/screenshottest_1773379293573-1200w.webp 1200w",
-    "fallback": "https://www.nursenest.ca/screenshots/screenshottest_1773379293573-768w.webp"
+    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-1200w.webp 1200w",
+    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-768w.webp"
   },
   {
-    "srcSet": "https://www.nursenest.ca/screenshots/screenshot6_1773379293573-480w.webp 480w, https://www.nursenest.ca/screenshots/screenshot6_1773379293573-768w.webp 768w, https://www.nursenest.ca/screenshots/screenshot6_1773379293573-1200w.webp 1200w",
-    "fallback": "https://www.nursenest.ca/screenshots/screenshot6_1773379293573-768w.webp"
+    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-1200w.webp 1200w",
+    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-768w.webp"
   },
   {
-    "srcSet": "https://www.nursenest.ca/screenshots/screenshot5_1773379293573-480w.webp 480w, https://www.nursenest.ca/screenshots/screenshot5_1773379293573-768w.webp 768w, https://www.nursenest.ca/screenshots/screenshot5_1773379293573-1200w.webp 1200w",
-    "fallback": "https://www.nursenest.ca/screenshots/screenshot5_1773379293573-768w.webp"
+    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-1200w.webp 1200w",
+    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-768w.webp"
   },
   {
-    "srcSet": "https://www.nursenest.ca/screenshots/screenshot2_1773379293573-480w.webp 480w, https://www.nursenest.ca/screenshots/screenshot2_1773379293573-768w.webp 768w, https://www.nursenest.ca/screenshots/screenshot2_1773379293573-1200w.webp 1200w",
-    "fallback": "https://www.nursenest.ca/screenshots/screenshot2_1773379293573-768w.webp"
+    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-1200w.webp 1200w",
+    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-768w.webp"
   }
 ] as const;
 
 export const MARKETING_SCREENSHOT_SOURCES: Record<string, MarketingScreenshotBundle> = {
   "screenshot2": {
-    "srcSet": "https://www.nursenest.ca/screenshots/screenshot2_1773379293573-480w.webp 480w, https://www.nursenest.ca/screenshots/screenshot2_1773379293573-768w.webp 768w, https://www.nursenest.ca/screenshots/screenshot2_1773379293573-1200w.webp 1200w, https://www.nursenest.ca/screenshots/screenshot2_1773379293573-full.webp 2730w",
-    "thumbSrcSet": "https://www.nursenest.ca/screenshots/screenshot2_1773379293573-thumb-160w.webp 160w, https://www.nursenest.ca/screenshots/screenshot2_1773379293573-thumb-240w.webp 240w",
-    "fallback": "https://www.nursenest.ca/screenshots/screenshot2_1773379293573-768w.webp",
-    "thumbFallback": "https://www.nursenest.ca/screenshots/screenshot2_1773379293573-thumb-160w.webp",
+    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-full.webp 2730w",
+    "thumbSrcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-thumb-240w.webp 240w",
+    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-768w.webp",
+    "thumbFallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot2_1773379293573-thumb-160w.webp",
     "width": 2730,
     "height": 1588
   },
   "screenshot9": {
-    "srcSet": "https://www.nursenest.ca/screenshots/screenshot9_1773379293573-480w.webp 480w, https://www.nursenest.ca/screenshots/screenshot9_1773379293573-768w.webp 768w, https://www.nursenest.ca/screenshots/screenshot9_1773379293573-1200w.webp 1200w, https://www.nursenest.ca/screenshots/screenshot9_1773379293573-full.webp 2282w",
-    "thumbSrcSet": "https://www.nursenest.ca/screenshots/screenshot9_1773379293573-thumb-160w.webp 160w, https://www.nursenest.ca/screenshots/screenshot9_1773379293573-thumb-240w.webp 240w",
-    "fallback": "https://www.nursenest.ca/screenshots/screenshot9_1773379293573-768w.webp",
-    "thumbFallback": "https://www.nursenest.ca/screenshots/screenshot9_1773379293573-thumb-160w.webp",
+    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-full.webp 2282w",
+    "thumbSrcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-thumb-240w.webp 240w",
+    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-768w.webp",
+    "thumbFallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot9_1773379293573-thumb-160w.webp",
     "width": 2282,
     "height": 1186
   },
   "screenshotTest": {
-    "srcSet": "https://www.nursenest.ca/screenshots/screenshottest_1773379293573-480w.webp 480w, https://www.nursenest.ca/screenshots/screenshottest_1773379293573-768w.webp 768w, https://www.nursenest.ca/screenshots/screenshottest_1773379293573-1200w.webp 1200w, https://www.nursenest.ca/screenshots/screenshottest_1773379293573-full.webp 2048w",
-    "thumbSrcSet": "https://www.nursenest.ca/screenshots/screenshottest_1773379293573-thumb-160w.webp 160w, https://www.nursenest.ca/screenshots/screenshottest_1773379293573-thumb-240w.webp 240w",
-    "fallback": "https://www.nursenest.ca/screenshots/screenshottest_1773379293573-768w.webp",
-    "thumbFallback": "https://www.nursenest.ca/screenshots/screenshottest_1773379293573-thumb-160w.webp",
+    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-full.webp 2048w",
+    "thumbSrcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-thumb-240w.webp 240w",
+    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-768w.webp",
+    "thumbFallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshottest_1773379293573-thumb-160w.webp",
     "width": 2048,
     "height": 1590
   },
   "screenshot6": {
-    "srcSet": "https://www.nursenest.ca/screenshots/screenshot6_1773379293573-480w.webp 480w, https://www.nursenest.ca/screenshots/screenshot6_1773379293573-768w.webp 768w, https://www.nursenest.ca/screenshots/screenshot6_1773379293573-1200w.webp 1200w, https://www.nursenest.ca/screenshots/screenshot6_1773379293573-full.webp 2524w",
-    "thumbSrcSet": "https://www.nursenest.ca/screenshots/screenshot6_1773379293573-thumb-160w.webp 160w, https://www.nursenest.ca/screenshots/screenshot6_1773379293573-thumb-240w.webp 240w",
-    "fallback": "https://www.nursenest.ca/screenshots/screenshot6_1773379293573-768w.webp",
-    "thumbFallback": "https://www.nursenest.ca/screenshots/screenshot6_1773379293573-thumb-160w.webp",
+    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-full.webp 2524w",
+    "thumbSrcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-thumb-240w.webp 240w",
+    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-768w.webp",
+    "thumbFallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot6_1773379293573-thumb-160w.webp",
     "width": 2524,
     "height": 1448
   },
   "screenshot11": {
-    "srcSet": "https://www.nursenest.ca/screenshots/screenshot11_1773379293573-480w.webp 480w, https://www.nursenest.ca/screenshots/screenshot11_1773379293573-768w.webp 768w, https://www.nursenest.ca/screenshots/screenshot11_1773379293573-1200w.webp 1200w, https://www.nursenest.ca/screenshots/screenshot11_1773379293573-full.webp 2510w",
-    "thumbSrcSet": "https://www.nursenest.ca/screenshots/screenshot11_1773379293573-thumb-160w.webp 160w, https://www.nursenest.ca/screenshots/screenshot11_1773379293573-thumb-240w.webp 240w",
-    "fallback": "https://www.nursenest.ca/screenshots/screenshot11_1773379293573-768w.webp",
-    "thumbFallback": "https://www.nursenest.ca/screenshots/screenshot11_1773379293573-thumb-160w.webp",
+    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-full.webp 2510w",
+    "thumbSrcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-thumb-240w.webp 240w",
+    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-768w.webp",
+    "thumbFallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot11_1773379293573-thumb-160w.webp",
     "width": 2510,
     "height": 1588
   },
   "screenshot3": {
-    "srcSet": "https://www.nursenest.ca/screenshots/screenshot3_1773379293573-480w.webp 480w, https://www.nursenest.ca/screenshots/screenshot3_1773379293573-768w.webp 768w, https://www.nursenest.ca/screenshots/screenshot3_1773379293573-1200w.webp 1200w, https://www.nursenest.ca/screenshots/screenshot3_1773379293573-full.webp 2528w",
-    "thumbSrcSet": "https://www.nursenest.ca/screenshots/screenshot3_1773379293573-thumb-160w.webp 160w, https://www.nursenest.ca/screenshots/screenshot3_1773379293573-thumb-240w.webp 240w",
-    "fallback": "https://www.nursenest.ca/screenshots/screenshot3_1773379293573-768w.webp",
-    "thumbFallback": "https://www.nursenest.ca/screenshots/screenshot3_1773379293573-thumb-160w.webp",
+    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-full.webp 2528w",
+    "thumbSrcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-thumb-240w.webp 240w",
+    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-768w.webp",
+    "thumbFallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot3_1773379293573-thumb-160w.webp",
     "width": 2528,
     "height": 1602
   },
   "screenshot5": {
-    "srcSet": "https://www.nursenest.ca/screenshots/screenshot5_1773379293573-480w.webp 480w, https://www.nursenest.ca/screenshots/screenshot5_1773379293573-768w.webp 768w, https://www.nursenest.ca/screenshots/screenshot5_1773379293573-1200w.webp 1200w, https://www.nursenest.ca/screenshots/screenshot5_1773379293573-full.webp 2538w",
-    "thumbSrcSet": "https://www.nursenest.ca/screenshots/screenshot5_1773379293573-thumb-160w.webp 160w, https://www.nursenest.ca/screenshots/screenshot5_1773379293573-thumb-240w.webp 240w",
-    "fallback": "https://www.nursenest.ca/screenshots/screenshot5_1773379293573-768w.webp",
-    "thumbFallback": "https://www.nursenest.ca/screenshots/screenshot5_1773379293573-thumb-160w.webp",
+    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-full.webp 2538w",
+    "thumbSrcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-thumb-240w.webp 240w",
+    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-768w.webp",
+    "thumbFallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot5_1773379293573-thumb-160w.webp",
     "width": 2538,
     "height": 1610
   },
   "screenshot10": {
-    "srcSet": "https://www.nursenest.ca/screenshots/screenshot10_1773379293573-480w.webp 480w, https://www.nursenest.ca/screenshots/screenshot10_1773379293573-768w.webp 768w, https://www.nursenest.ca/screenshots/screenshot10_1773379293573-1200w.webp 1200w, https://www.nursenest.ca/screenshots/screenshot10_1773379293573-full.webp 2264w",
-    "thumbSrcSet": "https://www.nursenest.ca/screenshots/screenshot10_1773379293573-thumb-160w.webp 160w, https://www.nursenest.ca/screenshots/screenshot10_1773379293573-thumb-240w.webp 240w",
-    "fallback": "https://www.nursenest.ca/screenshots/screenshot10_1773379293573-768w.webp",
-    "thumbFallback": "https://www.nursenest.ca/screenshots/screenshot10_1773379293573-thumb-160w.webp",
+    "srcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-480w.webp 480w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-768w.webp 768w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-1200w.webp 1200w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-full.webp 2264w",
+    "thumbSrcSet": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-thumb-160w.webp 160w, https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-thumb-240w.webp 240w",
+    "fallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-768w.webp",
+    "thumbFallback": "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/screenshot10_1773379293573-thumb-160w.webp",
     "width": 2264,
     "height": 1580
   }
 };
 
 export const MARKETING_ASSETS_TODOS: readonly string[] = [
-  "Missing SPACES_* credentials — wrote legacy nursenest.ca asset map."
+  "Run generate:marketing-assets with SPACES_* to discover objects; screenshots use public Spaces URLs."
 ] as const;
 export const MARKETING_ASSETS_UNMATCHED_KEYS: readonly string[] = [] as const;
 
