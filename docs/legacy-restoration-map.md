@@ -2,6 +2,21 @@
 
 This document records a **structured audit** of where Replit-era behavior lives today, what is **preserved**, what is **partial / duplicated**, and what must stay **out** of the hot path to avoid historical failures (white screens, blocking loads, stale SW caches, oversized i18n payloads).
 
+**Do not flatten everything into one giant rewrite.** Restore in **controlled layers**, in order—each layer can ship independently; skip ahead only when a downstream layer has nothing to do yet.
+
+| # | Layer | Purpose | Where in this doc |
+|---|--------|---------|-------------------|
+| **1** | **Audit** | Find originals (`legacy/`, monolith, `git`, remotes), note gaps and risks | [Sources](#legacy-sources-in-repo) below; search per [Restoration workflow](#restoration-workflow-reuse-old-code-first) |
+| **2** | **Feature matrix** | Map feature → old path → current path → status → action → priority | [Feature matrix](#feature-matrix-summary) |
+| **3** | **Critical user-facing restoration** | Smallest vertical slices (nav, paywall, key flows); **reuse/adapt** old code first | [Restoration workflow](#restoration-workflow-reuse-old-code-first) |
+| **4** | **Reliability / performance protections** | SW, i18n pipeline, lazy boundaries, server-side access—**before** or **with** code changes | [Performance protections](#performance-protections-do-not-regress) |
+| **5** | **Validation** | Typecheck, build, targeted tests, route sanity | [Validation](#validation) |
+| **6** | **Commit and push** | Prefer one logical commit per layer or per vertical slice; push when that slice is green | — |
+
+---
+
+## Legacy sources (in-repo)
+
 **Sources inspected (in-repo):**
 
 | Source | Role |
@@ -153,6 +168,8 @@ Columns: **feature** | **old / legacy location** | **current location** | **stat
 ---
 
 ## Validation
+
+Layer **5** — run after each meaningful restoration slice, not only at the end.
 
 | Check | Command / note |
 |-------|----------------|

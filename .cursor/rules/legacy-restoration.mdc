@@ -1,9 +1,18 @@
 ---
-description: When restoring legacy NurseNest behavior, search for and adapt proven old code before writing new implementations.
+description: Legacy restoration in controlled layers—no monolithic rewrite; reuse old code when better.
 alwaysApply: true
 ---
 
-# Legacy restoration: reuse before reinventing
+# Legacy restoration: controlled layers
+
+**Do not flatten work into one giant rewrite.** Follow `docs/legacy-restoration-map.md` in order:
+
+1. **Audit** — locate originals and gaps.  
+2. **Feature matrix** — old vs current, status, action, priority.  
+3. **Critical user-facing restoration** — small vertical slices; adapt proven old code first.  
+4. **Reliability / performance protections** — SW, i18n, lazy load, server paywall (do not regress).  
+5. **Validation** — typecheck, build, targeted checks after each slice.  
+6. **Commit and push** — logical commits per layer or slice; push when green.
 
 ## Before writing or pasting new logic
 
