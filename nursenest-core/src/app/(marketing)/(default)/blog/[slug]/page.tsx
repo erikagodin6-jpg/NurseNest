@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { prisma } from "@/lib/db";
+import { getBlogPostMetaBySlug, getPublishedBlogPostBySlug } from "@/lib/blog/safe-blog-queries";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -10,10 +10,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = await prisma.blogPost.findUnique({
-    where: { slug },
-    select: { title: true, excerpt: true, published: true },
-  });
+  const post = await getBlogPostMetaBySlug(slug);
   if (!post?.published) return {};
   return {
     title: post.title,
@@ -24,9 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = await prisma.blogPost.findUnique({
-    where: { slug },
-  });
+  const post = await getPublishedBlogPostBySlug(slug);
   if (!post?.published) notFound();
 
   return (

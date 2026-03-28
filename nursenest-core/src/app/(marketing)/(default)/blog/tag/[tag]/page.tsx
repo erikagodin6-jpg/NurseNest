@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { prisma } from "@/lib/db";
+import { countPublishedPostsWithTag, getPublishedBlogPostsByTag } from "@/lib/blog/safe-blog-queries";
 
 type Props = { params: Promise<{ tag: string }> };
 
@@ -10,9 +10,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tag } = await params;
   const decoded = decodeURIComponent(tag).trim();
-  const count = await prisma.blogPost.count({
-    where: { published: true, tags: { has: decoded } },
-  });
+  const count = await countPublishedPostsWithTag(decoded);
   return {
     title: `Posts tagged “${decoded}” | NurseNest blog`,
     alternates: { canonical: `/blog/tag/${encodeURIComponent(decoded)}` },
@@ -25,11 +23,7 @@ export default async function BlogTagPage({ params }: Props) {
   const decoded = decodeURIComponent(tag).trim();
   if (!decoded) notFound();
 
-  const posts = await prisma.blogPost.findMany({
-    where: { published: true, tags: { has: decoded } },
-    orderBy: { createdAt: "desc" },
-    select: { slug: true, title: true, excerpt: true, createdAt: true },
-  });
+  const posts = await getPublishedBlogPostsByTag(decoded);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">

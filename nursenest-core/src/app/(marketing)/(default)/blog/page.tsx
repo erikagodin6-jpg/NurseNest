@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { prisma } from "@/lib/db";
+import { getPublishedBlogPostsForIndex } from "@/lib/blog/safe-blog-queries";
 
 export const metadata: Metadata = {
   title: "Clinical education blog | NurseNest",
@@ -11,11 +11,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function BlogIndexPage() {
-  const posts = await prisma.blogPost.findMany({
-    where: { published: true },
-    orderBy: { createdAt: "desc" },
-    select: { slug: true, title: true, excerpt: true, category: true, createdAt: true },
-  });
+  const posts = await getPublishedBlogPostsForIndex();
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">

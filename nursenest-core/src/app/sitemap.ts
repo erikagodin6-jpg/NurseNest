@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
-import { prisma } from "@/lib/db";
+import { getSitemapBlogTagRows, getSitemapPublishedBlogSlugs } from "@/lib/blog/safe-blog-queries";
 import { CORE_HOSTED_MARKETING_LOCALES } from "@/lib/i18n/marketing-locale-policy";
 import { getAllProgrammaticSlugs } from "@/lib/seo/programmatic-registry";
 import { MARKETING_SITE_ORIGIN } from "@/lib/seo/site-origin";
 import { getAllToolSlugs } from "@/lib/tools/tool-registry";
+import { PRE_NURSING_MODULE_REGISTRY } from "@/content/pre-nursing/pre-nursing-registry";
 
 const base = MARKETING_SITE_ORIGIN;
 
@@ -23,6 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/for-institutions", priority: 0.8, changeFrequency: "monthly" },
     { path: "/blog", priority: 0.85, changeFrequency: "weekly" },
     { path: "/tools", priority: 0.85, changeFrequency: "weekly" },
+    { path: "/pre-nursing", priority: 0.82, changeFrequency: "weekly" },
   ];
   const entries: MetadataRoute.Sitemap = corePaths.map(({ path, priority, changeFrequency }) => ({
     url: `${base}${path}`,
@@ -40,15 +42,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   }
 
-  let blogPosts: { slug: string; updatedAt: Date }[] = [];
-  try {
-    blogPosts = await prisma.blogPost.findMany({
-      where: { published: true },
-      select: { slug: true, updatedAt: true },
+  for (const m of PRE_NURSING_MODULE_REGISTRY) {
+    entries.push({
+      url: `${base}/pre-nursing/${m.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.76,
     });
-  } catch {
-    /* e.g. migrate not applied or no DATABASE_URL at build */
   }
+
+  const blogPosts = await getSitemapPublishedBlogSlugs();
   for (const p of blogPosts) {
     entries.push({
       url: `${base}/blog/${p.slug}`,
@@ -58,28 +61,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   }
 
-  try {
-    const tagRows = await prisma.blogPost.findMany({
-      where: { published: true },
-      select: { tags: true },
+  const tagRows = await getSitemapBlogTagRows();
+  const tagSet = new Set<string>();
+  for (const r of tagRows) {
+    for (const t of r.tags) {
+      const s = t.trim();
+      if (s) tagSet.add(s);
+    }
+  }
+  for (const t of tagSet) {
+    entries.push({
+      url: `${base}/blog/tag/${encodeURIComponent(t)}`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.55,
     });
-    const tagSet = new Set<string>();
-    for (const r of tagRows) {
-      for (const t of r.tags) {
-        const s = t.trim();
-        if (s) tagSet.add(s);
-      }
-    }
-    for (const t of tagSet) {
-      entries.push({
-        url: `${base}/blog/tag/${encodeURIComponent(t)}`,
-        lastModified: now,
-        changeFrequency: "weekly",
-        priority: 0.55,
-      });
-    }
-  } catch {
-    /* DB unavailable at build */
   }
 
   for (const loc of CORE_HOSTED_MARKETING_LOCALES) {
