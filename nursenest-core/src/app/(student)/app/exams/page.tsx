@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ContentStatus } from "@prisma/client";
 import { auth } from "@/lib/auth";
 import { getFreemiumSnapshot } from "@/lib/entitlements/freemium";
@@ -116,9 +117,15 @@ export default async function ExamsPage() {
       {primaryExam ? (
         <ExamPracticeClient examId={primaryExam.id} examTitle={primaryExam.title} />
       ) : (
-        <p className="mt-4 text-sm text-muted">
-          No published exam is configured for your country and tier yet. Use the question bank for practice.
-        </p>
+        <aside className="nn-card mt-4 border-amber-200/80 bg-amber-50/50 p-4 text-sm text-foreground">
+          <p className="font-semibold">No published exam for your region and tier yet</p>
+          <p className="mt-1 text-muted">
+            Practice questions are still available — your tier filter is enforced on the server.
+          </p>
+          <Link href="/app/questions" className="mt-3 inline-flex text-sm font-semibold text-primary underline underline-offset-2">
+            Open question bank →
+          </Link>
+        </aside>
       )}
       <div className="mt-4 space-y-3">
         {attempts.map((attempt) => (
