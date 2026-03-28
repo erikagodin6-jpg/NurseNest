@@ -9,6 +9,7 @@ import { emitStructuredLog } from "./log-sink";
 const __dirnameLessonApi =
   typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 import { resolveAuthUser, logPaywallAudit } from "./admin-auth";
+import { allowedLessonContentTiersForUser } from "./paywall-tier-rules";
 import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware } from "./abuse-protection";
 
 const FREE_LESSON_PREVIEW_LIMIT = 5;
@@ -65,11 +66,8 @@ async function extractLessonUserTier(req: Request): Promise<string> {
 }
 
 function getAllowedLessonTiers(userTier: string): string[] {
-  if (userTier === "admin") return ["free", "rpn", "rn", "np", "allied", "imaging", "newgrad"];
-  if (userTier === "free" || !userTier) return ["free"];
-  if (userTier === "rn") return ["free", "rn", "rpn"];
-  if (userTier === "np") return ["free", "np", "rn"];
-  return ["free", userTier];
+  if (userTier === "admin") return allowedLessonContentTiersForUser("admin");
+  return allowedLessonContentTiersForUser(userTier);
 }
 
 function canUserAccessLesson(userTier: string, lessonTier: string): boolean {

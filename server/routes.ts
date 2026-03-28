@@ -117,6 +117,7 @@ import { requireAdmin, requireAdminRole, signAdminToken, signUserToken, verifyAd
 import { parseAdminPaginationParams, buildAdminPaginationMeta } from "./pagination-query";
 import type { AdminRole, OperatorActionParams } from "./admin-auth";
 import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEntitlementDebug, handleEntitlementResolve, resolveEntitlementSync } from "./entitlements";
+import { allowedNursingFlashcardBankTiersForUser } from "./paywall-tier-rules";
 import { wrapWithOrchestrator, getOrchestratorStats } from "./access-delivery-orchestrator";
 import { validateQuestionBankImport, getCountryForUserRegion, getExamTypeForCountry } from "./question-bank-validation";
 import { examRequestIdMiddleware, getExamRequestId, withAssemblyConcurrencyLimit, timedExamQuery, buildExamShell, examDeliveryLog, getAssemblyStats } from "./exam-delivery";
@@ -25013,10 +25014,10 @@ Return ONLY valid JSON with this exact structure:
       const user = await resolveAuthUser(req);
       if (!user) return res.status(401).json({ error: "Authentication required" });
 
-      const tier = user.tier || "free";
-      const allowedTiers = ["free"];
-      if (tier === "rpn" || tier === "rn" || tier === "np" || tier === "admin") allowedTiers.push(tier);
-      if (tier === "admin") allowedTiers.push("rpn", "rn", "np");
+      const allowedTiers = allowedNursingFlashcardBankTiersForUser(user.tier || "free");
+      if (allowedTiers.length === 0) {
+        return res.json([]);
+      }
 
       const count = Math.min(parseInt(req.query.count as string) || 10, 50);
       const category = req.query.category as string;

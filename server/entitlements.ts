@@ -33,6 +33,8 @@ const PAID_TIERS = new Set([
   "rpn",
   "rn",
   "np",
+  "allied",
+  "imaging",
   "new_grad_toolkit",
   "certification_prep",
   "full_access",

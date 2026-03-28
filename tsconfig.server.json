@@ -19,6 +19,7 @@
     "backup-system/**",
     "scripts/**",
     "server/seeds/**",
-    "server/sitemap/**"
+    "server/sitemap/**",
+    "server/seed-replit-json-imports.ts"
   ]
 }

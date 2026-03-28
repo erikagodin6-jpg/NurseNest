@@ -1,7 +1,12 @@
 import type { Express } from "express";
 import { pool } from "./storage";
 import { resolveAuthUser, requireAnyPaidTier } from "./admin-auth";
-import { requireEntitlement } from "./entitlements";
+import { requireEntitlement, isActiveTester } from "./entitlements";
+import {
+  allowedNursingExamQuestionTiersForUser,
+  practiceSessionIncludeAlliedPool,
+  practiceSessionIncludeNursingPool,
+} from "./paywall-tier-rules";
 import { createRateLimiter, abuseEscalationMiddleware, botDetectionMiddleware, antiScrapingHeaders } from "./abuse-protection";
 import {
   updateAbilityEstimate,
@@ -294,6 +299,9 @@ export function registerPremiumStudyRoutes(app: Express) {
       const limit = getMemoryAwareLimit(Math.max(questionCount, 5), 100);
       let questions: any[] = [];
 
+      const userTierLc = String(user.tier || "free").toLowerCase();
+      const tester = isActiveTester(user);
+
       if (bookmarkedOnly) {
         const bmResult = await pool.query(
           `SELECT question_id, question_source FROM question_bookmarks WHERE user_id = $1`,
@@ -306,13 +314,41 @@ export function registerPremiumStudyRoutes(app: Express) {
             questions.push({ ...q.rows[0], _source: bm.question_source });
           }
         }
+        const nursingAllowed = tester ? null : allowedNursingExamQuestionTiersForUser(user.tier || "free");
+        questions = questions.filter((q: any) => {
+          if (q._source === "allied_questions") {
+            return tester || practiceSessionIncludeAlliedPool(userTierLc);
+          }
+          if (q._source === "exam_questions") {
+            if (tester || nursingAllowed === null) return true;
+            if (!nursingAllowed.length) return false;
+            const qt = String(q.tier || "").toLowerCase();
+            return nursingAllowed.map((t) => t.toLowerCase()).includes(qt);
+          }
+          return false;
+        });
       } else {
-        const examQs = await buildQuestionQuery("exam_questions", {
-          topics, difficultyMin, difficultyMax, incorrectOnly, profession, userId: user.id, limit: limit * 2,
-        });
-        const alliedQs = await buildQuestionQuery("allied_questions", {
-          topics, difficultyMin, difficultyMax, incorrectOnly, profession, userId: user.id, limit: limit * 2,
-        });
+        let examQs: any[] = [];
+        let alliedQs: any[] = [];
+        const baseFilters = {
+          topics,
+          difficultyMin,
+          difficultyMax,
+          incorrectOnly,
+          profession,
+          userId: user.id,
+          limit: limit * 2,
+        };
+        if (tester || practiceSessionIncludeNursingPool(userTierLc)) {
+          const nursingTierFilter = tester ? null : allowedNursingExamQuestionTiersForUser(user.tier || "free");
+          examQs = await buildQuestionQuery("exam_questions", {
+            ...baseFilters,
+            nursingTierFilter,
+          });
+        }
+        if (tester || practiceSessionIncludeAlliedPool(userTierLc)) {
+          alliedQs = await buildQuestionQuery("allied_questions", baseFilters);
+        }
         questions = [
           ...examQs.map((q: any) => ({ ...q, _source: "exam_questions" })),
           ...alliedQs.map((q: any) => ({ ...q, _source: "allied_questions" })),
@@ -976,13 +1012,23 @@ async function buildQuestionQuery(
     profession?: string;
     userId?: string;
     limit?: number;
+    /** Nursing pool only: `null` = no tier predicate (admin/tester); `[]` = no rows; else `tier = ANY(...)` */
+    nursingTierFilter?: string[] | null;
   }
 ): Promise<any[]> {
   const isExam = table === "exam_questions";
+  if (isExam && filters.nursingTierFilter !== undefined && filters.nursingTierFilter !== null) {
+    if (filters.nursingTierFilter.length === 0) return [];
+  }
   const statusField = isExam ? "status = 'published'" : "status = 'active'";
   let query = `SELECT * FROM ${table} WHERE ${statusField}`;
   const params: any[] = [];
   let idx = 1;
+
+  if (isExam && filters.nursingTierFilter && filters.nursingTierFilter.length > 0) {
+    query += ` AND tier = ANY($${idx++})`;
+    params.push(filters.nursingTierFilter);
+  }
 
   if (filters.topics && filters.topics.length > 0) {
     if (isExam) {
