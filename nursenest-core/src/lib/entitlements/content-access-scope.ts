@@ -43,6 +43,19 @@ export function questionAccessWhere(entitlement: AccessScope): Prisma.QuestionWh
   };
 }
 
+/**
+ * Learner-facing pool: published scope plus quality gate. Items with `needsReview` stay in the catalog for admins
+ * but never appear in banks, exams, or freemium previews until cleared.
+ */
+export function questionLearnerPoolWhere(entitlement: AccessScope): Prisma.QuestionWhereInput {
+  const base = questionAccessWhere(entitlement);
+  if (!entitlement.hasAccess) return base;
+  if (entitlement.reason === "admin_override") {
+    return base;
+  }
+  return { AND: [base, { needsReview: false }] };
+}
+
 /** Prisma filter for lessons the entitlement may load (admin override mirrors question behavior). */
 export function lessonAccessWhere(entitlement: AccessScope): Prisma.LessonWhereInput {
   if (!entitlement.hasAccess) return { id: { in: [] } };
@@ -65,6 +78,13 @@ export function questionBankWhereForProfile(country: CountryCode, tier: TierCode
     status: ContentStatus.PUBLISHED,
     country,
     tier: { in: accessibleTiersForUserTier(tier) },
+  };
+}
+
+/** Freemium / profile-scoped bank rows that passed quality review. */
+export function questionBankLearnerWhereForProfile(country: CountryCode, tier: TierCode): Prisma.QuestionWhereInput {
+  return {
+    AND: [questionBankWhereForProfile(country, tier), { needsReview: false }],
   };
 }
 
@@ -93,11 +113,26 @@ export function flashcardAccessWhere(entitlement: AccessScope): Prisma.Flashcard
   };
 }
 
+export function flashcardLearnerPoolWhere(entitlement: AccessScope): Prisma.FlashcardWhereInput {
+  const base = flashcardAccessWhere(entitlement);
+  if (!entitlement.hasAccess) return base;
+  if (entitlement.reason === "admin_override") {
+    return base;
+  }
+  return { AND: [base, { needsReview: false }] };
+}
+
 export function flashcardBankWhereForProfile(country: CountryCode, tier: TierCode): Prisma.FlashcardWhereInput {
   return {
     status: ContentStatus.PUBLISHED,
     country,
     tier: { in: accessibleTiersForUserTier(tier) },
+  };
+}
+
+export function flashcardBankLearnerWhereForProfile(country: CountryCode, tier: TierCode): Prisma.FlashcardWhereInput {
+  return {
+    AND: [flashcardBankWhereForProfile(country, tier), { needsReview: false }],
   };
 }
 

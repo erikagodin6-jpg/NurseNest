@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { questionAccessWhere, questionBankWhereForProfile } from "@/lib/entitlements/content-access-scope";
+import {
+  questionBankLearnerWhereForProfile,
+  questionLearnerPoolWhere,
+} from "@/lib/entitlements/content-access-scope";
 import { getFreemiumSnapshot } from "@/lib/entitlements/freemium";
 import { requireSubscriberSession } from "@/lib/entitlements/require-subscriber-session";
 import { resolveEntitlement } from "@/lib/entitlements/resolve-entitlement";
@@ -8,7 +11,10 @@ import { prisma } from "@/lib/db";
 import { safeServerLogCritical } from "@/lib/observability/safe-server-log";
 import { setSentryServerContext } from "@/lib/observability/sentry-server-context";
 import { withRetry } from "@/lib/resilience/with-retry";
-import type { CountryCode, TierCode } from "@prisma/client";
+import { rankStudyQuestions } from "@/lib/learning/adaptive-study-order";
+import { buildLearningSignals } from "@/lib/learning/learning-signals";
+import { parseLearningProfileRow } from "@/lib/learning/profile-shape";
+import type { CountryCode, Prisma, TierCode } from "@prisma/client";
 
 export async function GET(req: NextRequest) {
   const session = await auth();
@@ -22,6 +28,7 @@ export async function GET(req: NextRequest) {
   const pageSize = Math.min(25, Math.max(5, Number(searchParams.get("pageSize") ?? "10")));
   /** summary = card metadata only; full = stem + rationale + options (larger payloads). */
   const mode = searchParams.get("mode") === "full" ? "full" : "summary";
+  const strategy = searchParams.get("strategy") === "adaptive" ? "adaptive" : "recent";
 
   let entitlement;
   try {
@@ -43,26 +50,87 @@ export async function GET(req: NextRequest) {
         difficulty: true,
         examFamily: true,
         categoryId: true,
+        systemTag: true,
         category: { select: { name: true, slug: true } },
       } as const;
       const fullSelect = {
         id: true,
         stem: true,
         questionType: true,
+        difficulty: true,
         rationale: true,
         options: true,
+        categoryId: true,
+        systemTag: true,
         category: { select: { name: true } },
       } as const;
 
-      const questions = await withRetry(() =>
-        prisma.question.findMany({
-          where: questionAccessWhere(gate.entitlement),
-          select: mode === "full" ? fullSelect : summarySelect,
-          orderBy: { updatedAt: "desc" },
-          skip: (page - 1) * pageSize,
-          take: pageSize,
-        }),
-      );
+      const ADAPTIVE_WINDOW = 160;
+
+      type SummaryRow = Prisma.QuestionGetPayload<{ select: typeof summarySelect }>;
+      type FullRow = Prisma.QuestionGetPayload<{ select: typeof fullSelect }>;
+      let questions: SummaryRow[] | FullRow[];
+
+      if (strategy === "adaptive") {
+        const select = mode === "full" ? fullSelect : summarySelect;
+        const [pool, profileRow] = await Promise.all([
+          withRetry(() =>
+            prisma.question.findMany({
+              where: questionLearnerPoolWhere(gate.entitlement),
+              select,
+              take: ADAPTIVE_WINDOW,
+              orderBy: { updatedAt: "desc" },
+            }),
+          ),
+          prisma.userLearningProfile.findUnique({
+            where: { userId: gate.userId },
+            select: {
+              aggregatesBySystem: true,
+              aggregatesByDifficulty: true,
+              aggregatesByCategory: true,
+              recentQuestionIds: true,
+              examScoreHistory: true,
+              totalPracticeAttempts: true,
+            },
+          }),
+        ]);
+        const profile = profileRow
+          ? parseLearningProfileRow({
+              aggregatesBySystem: profileRow.aggregatesBySystem,
+              aggregatesByDifficulty: profileRow.aggregatesByDifficulty,
+              aggregatesByCategory: profileRow.aggregatesByCategory,
+              recentQuestionIds: profileRow.recentQuestionIds,
+              examScoreHistory: profileRow.examScoreHistory,
+              totalPracticeAttempts: profileRow.totalPracticeAttempts,
+            })
+          : null;
+        const sig = buildLearningSignals(profile);
+        const ranked = rankStudyQuestions(
+          pool.map((q) => ({
+            id: q.id,
+            questionType: q.questionType,
+            difficulty: q.difficulty,
+            systemTag: q.systemTag ?? null,
+            categoryId: q.categoryId,
+          })),
+          sig,
+        );
+        const idOrder = new Map(ranked.map((r, i) => [r.id, i]));
+        const sorted = [...pool].sort((a, b) => (idOrder.get(a.id) ?? 0) - (idOrder.get(b.id) ?? 0));
+        const start = (page - 1) * pageSize;
+        questions = sorted.slice(start, start + pageSize) as SummaryRow[] | FullRow[];
+      } else {
+        const rows = await withRetry(() =>
+          prisma.question.findMany({
+            where: questionLearnerPoolWhere(gate.entitlement),
+            select: mode === "full" ? fullSelect : summarySelect,
+            orderBy: { updatedAt: "desc" },
+            skip: (page - 1) * pageSize,
+            take: pageSize,
+          }),
+        );
+        questions = rows as SummaryRow[] | FullRow[];
+      }
 
       const payload =
         mode === "summary"
@@ -78,6 +146,7 @@ export async function GET(req: NextRequest) {
         questions: payload,
         mode: "subscriber" as const,
         fields: mode,
+        strategy,
       });
     } catch (e) {
       safeServerLogCritical("api_questions", "prisma_find_failed", { page }, e);
@@ -111,7 +180,7 @@ export async function GET(req: NextRequest) {
   const take = Math.min(pageSize, snap.questionRemaining);
 
   try {
-    const where = questionBankWhereForProfile(user.country as CountryCode, user.tier as TierCode);
+    const where = questionBankLearnerWhereForProfile(user.country as CountryCode, user.tier as TierCode);
     const freemiumMode = searchParams.get("mode") === "full" ? "full" : "summary";
     const questions = await withRetry(() =>
       prisma.question.findMany({

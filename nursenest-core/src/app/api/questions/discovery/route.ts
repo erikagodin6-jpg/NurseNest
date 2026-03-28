@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireSubscriberSession } from "@/lib/entitlements/require-subscriber-session";
-import { questionAccessWhere } from "@/lib/entitlements/content-access-scope";
+import { questionLearnerPoolWhere } from "@/lib/entitlements/content-access-scope";
 import { prisma } from "@/lib/db";
 import { safeServerLogCritical } from "@/lib/observability/safe-server-log";
 import { setSentryServerContext } from "@/lib/observability/sentry-server-context";
@@ -15,7 +15,7 @@ export async function GET() {
 
   setSentryServerContext({ route: "/api/questions/discovery", feature: "question", userId: gate.userId });
 
-  const base = questionAccessWhere(gate.entitlement);
+  const base = questionLearnerPoolWhere(gate.entitlement);
 
   try {
     const byCategory = await withRetry(() =>

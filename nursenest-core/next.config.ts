@@ -18,7 +18,13 @@ const nextConfig: NextConfig = {
     externalDir: true,
   },
   async rewrites() {
-    return { beforeFiles: programmaticSeoRewrites };
+    // When NEXT_PUBLIC_MARKETING_CDN_BASE is the public site origin, image URLs become
+    // /screenshots/... — proxy to Spaces so those paths resolve (bucket must allow public GET).
+    const screenshotProxy = {
+      source: "/screenshots/:path*",
+      destination: "https://nursenest-images.tor1.digitaloceanspaces.com/screenshots/:path*",
+    };
+    return { beforeFiles: [screenshotProxy, ...programmaticSeoRewrites] };
   },
 };
 

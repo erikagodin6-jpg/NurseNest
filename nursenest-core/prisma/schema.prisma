@@ -96,6 +96,23 @@ model User {
   attempts                ExamAttempt[]
   examSessions            ExamSession[]
   progress                Progress[]
+  learningProfile         UserLearningProfile?
+}
+
+model UserLearningProfile {
+  id                     String   @id @default(cuid())
+  userId                 String   @unique
+  user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  aggregatesBySystem     Json     @default("{}")
+  aggregatesByDifficulty Json     @default("{}")
+  aggregatesByCategory   Json     @default("{}")
+  recentQuestionIds      Json     @default("[]")
+  examScoreHistory       Json     @default("[]")
+  totalPracticeAttempts  Int      @default(0)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@index([userId])
 }
 
 model Subscription {
@@ -181,6 +198,7 @@ model Question {
   @@index([lessonId])
   @@index([examFamily])
   @@index([stemHash])
+  @@index([needsReview, status])
 }
 
 model Flashcard {
@@ -191,6 +209,7 @@ model Flashcard {
   tier        TierCode
   status      ContentStatus @default(DRAFT)
   examFamily  ExamFamily    @default(GENERIC)
+  needsReview Boolean       @default(false)
   categoryId  String
   category    Category      @relation(fields: [categoryId], references: [id])
   lessonId    String?
@@ -200,6 +219,7 @@ model Flashcard {
 
   @@index([status, country, tier])
   @@index([lessonId])
+  @@index([needsReview, status])
 }
 
 model Exam {
@@ -244,6 +264,7 @@ model ExamSession {
   status       ExamSessionStatus @default(IN_PROGRESS)
   attemptId    String?           @unique
   attempt      ExamAttempt?      @relation("ExamSessionAttempt", fields: [attemptId], references: [id], onDelete: SetNull)
+  sessionMeta  Json?
   createdAt    DateTime          @default(now())
   updatedAt    DateTime          @updatedAt
 

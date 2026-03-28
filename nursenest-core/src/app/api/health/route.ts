@@ -1,12 +1,16 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { isValidPostgresqlDatabaseUrl } from "@/lib/env/validate-database-url";
 
-function requiredEnvOk(): { ok: boolean; missing: string[] } {
+function requiredEnvOk(): { ok: boolean; missing: string[]; invalid: string[] } {
   const missing: string[] = [];
-  if (!process.env.DATABASE_URL?.trim()) missing.push("DATABASE_URL");
+  const invalid: string[] = [];
+  const db = process.env.DATABASE_URL?.trim() ?? "";
+  if (!db) missing.push("DATABASE_URL");
+  else if (!isValidPostgresqlDatabaseUrl(db)) invalid.push("DATABASE_URL");
   const authSecret = process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET;
   if (!authSecret?.trim()) missing.push("AUTH_SECRET");
-  return { ok: missing.length === 0, missing };
+  return { ok: missing.length === 0 && invalid.length === 0, missing, invalid };
 }
 
 /**
@@ -32,7 +36,7 @@ export async function GET() {
       service: "nursenest-core",
       degraded,
       db,
-      env: { requiredPresent: env.ok, missingKeys: env.missing },
+      env: { requiredPresent: env.ok, missingKeys: env.missing, invalidKeys: env.invalid },
       memory: {
         heapUsedMb: Math.round((mem.heapUsed / 1024 / 1024) * 10) / 10,
         rssMb: Math.round((mem.rss / 1024 / 1024) * 10) / 10,

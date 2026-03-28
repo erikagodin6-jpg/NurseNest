@@ -1,18 +1,15 @@
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db";
-import { questionAccessWhere } from "@/lib/entitlements/content-access-scope";
+import { questionLearnerPoolWhere } from "@/lib/entitlements/content-access-scope";
 import type { AccessScope } from "@/lib/entitlements/resolve-entitlement";
 import { safeServerLog } from "@/lib/observability/safe-server-log";
 
 /**
  * Returns a where clause that restricts to this question id if and only if the learner may read it.
  */
-export function questionIdWhereIfAllowed(
-  questionId: string,
-  entitlement: AccessScope,
-): Prisma.QuestionWhereInput {
+export function questionIdWhereIfAllowed(questionId: string, entitlement: AccessScope): Prisma.QuestionWhereInput {
   return {
-    AND: [{ id: questionId }, questionAccessWhere(entitlement)],
+    AND: [{ id: questionId }, questionLearnerPoolWhere(entitlement)],
   };
 }
 

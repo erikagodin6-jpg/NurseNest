@@ -22,8 +22,6 @@ const OUT_REPORT = path.join(__dirname, "marketing-assets-report.json");
 
 const IMAGE_EXT = /\.(png|jpe?g|webp|svg)$/i;
 
-const LEGACY_BASE = "https://www.nursenest.ca";
-
 /** Public CDN hostname for nursenest-images (DigitalOcean Spaces, tor1). */
 const DEFAULT_MARKETING_CDN_BASE = "https://nursenest-images.tor1.digitaloceanspaces.com";
 
@@ -176,7 +174,7 @@ function buildResponsiveBundle(clusterObjects, baseUrl, defaultW, defaultH) {
 }
 
 function legacyScreenshotBundle(stem, w, h) {
-  const base = `${LEGACY_BASE}/screenshots/${stem}`;
+  const base = `${DEFAULT_MARKETING_CDN_BASE}/screenshots/${stem}`;
   return {
     srcSet: `${base}-480w.webp 480w, ${base}-768w.webp 768w, ${base}-1200w.webp 1200w, ${base}-full.webp ${w}w`,
     thumbSrcSet: `${base}-thumb-160w.webp 160w, ${base}-thumb-240w.webp 240w`,
@@ -355,22 +353,23 @@ function emitTs({
 }
 
 async function writeLegacyOnly(reason) {
+  const B = DEFAULT_MARKETING_CDN_BASE;
   const heroCarousel = [
     {
-      srcSet: `${LEGACY_BASE}/screenshots/screenshottest_1773379293573-480w.webp 480w, ${LEGACY_BASE}/screenshots/screenshottest_1773379293573-768w.webp 768w, ${LEGACY_BASE}/screenshots/screenshottest_1773379293573-1200w.webp 1200w`,
-      fallback: `${LEGACY_BASE}/screenshots/screenshottest_1773379293573-768w.webp`,
+      srcSet: `${B}/screenshots/screenshottest_1773379293573-480w.webp 480w, ${B}/screenshots/screenshottest_1773379293573-768w.webp 768w, ${B}/screenshots/screenshottest_1773379293573-1200w.webp 1200w`,
+      fallback: `${B}/screenshots/screenshottest_1773379293573-768w.webp`,
     },
     {
-      srcSet: `${LEGACY_BASE}/screenshots/screenshot6_1773379293573-480w.webp 480w, ${LEGACY_BASE}/screenshots/screenshot6_1773379293573-768w.webp 768w, ${LEGACY_BASE}/screenshots/screenshot6_1773379293573-1200w.webp 1200w`,
-      fallback: `${LEGACY_BASE}/screenshots/screenshot6_1773379293573-768w.webp`,
+      srcSet: `${B}/screenshots/screenshot6_1773379293573-480w.webp 480w, ${B}/screenshots/screenshot6_1773379293573-768w.webp 768w, ${B}/screenshots/screenshot6_1773379293573-1200w.webp 1200w`,
+      fallback: `${B}/screenshots/screenshot6_1773379293573-768w.webp`,
     },
     {
-      srcSet: `${LEGACY_BASE}/screenshots/screenshot5_1773379293573-480w.webp 480w, ${LEGACY_BASE}/screenshots/screenshot5_1773379293573-768w.webp 768w, ${LEGACY_BASE}/screenshots/screenshot5_1773379293573-1200w.webp 1200w`,
-      fallback: `${LEGACY_BASE}/screenshots/screenshot5_1773379293573-768w.webp`,
+      srcSet: `${B}/screenshots/screenshot5_1773379293573-480w.webp 480w, ${B}/screenshots/screenshot5_1773379293573-768w.webp 768w, ${B}/screenshots/screenshot5_1773379293573-1200w.webp 1200w`,
+      fallback: `${B}/screenshots/screenshot5_1773379293573-768w.webp`,
     },
     {
-      srcSet: `${LEGACY_BASE}/screenshots/screenshot2_1773379293573-480w.webp 480w, ${LEGACY_BASE}/screenshots/screenshot2_1773379293573-768w.webp 768w, ${LEGACY_BASE}/screenshots/screenshot2_1773379293573-1200w.webp 1200w`,
-      fallback: `${LEGACY_BASE}/screenshots/screenshot2_1773379293573-768w.webp`,
+      srcSet: `${B}/screenshots/screenshot2_1773379293573-480w.webp 480w, ${B}/screenshots/screenshot2_1773379293573-768w.webp 768w, ${B}/screenshots/screenshot2_1773379293573-1200w.webp 1200w`,
+      fallback: `${B}/screenshots/screenshot2_1773379293573-768w.webp`,
     },
   ];
   const screenshotBundles = {};
@@ -393,7 +392,7 @@ async function writeLegacyOnly(reason) {
     screenshotBundles,
     todos: [
       reason ||
-        "Image URLs use legacy nursenest.ca screenshots until SPACES_* is set and this script is re-run. MARKETING_CDN_BASE targets DigitalOcean Spaces.",
+        "Image URLs use MARKETING_CDN_BASE (DigitalOcean Spaces). Re-run with SPACES_* to discover logo and live keys.",
     ],
     unmatchedKeys: [],
   });
@@ -510,7 +509,7 @@ async function main() {
       "screenshot5_1773379293573",
       "screenshot2_1773379293573",
     ][padIdx];
-    const base = `${LEGACY_BASE}/screenshots/${legacy}`;
+    const base = `${DEFAULT_MARKETING_CDN_BASE}/screenshots/${legacy}`;
     heroCarousel.push({
       srcSet: `${base}-480w.webp 480w, ${base}-768w.webp 768w, ${base}-1200w.webp 1200w`,
       fallback: `${base}-768w.webp`,

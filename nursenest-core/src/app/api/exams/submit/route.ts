@@ -8,6 +8,7 @@ import { safeServerLogCritical } from "@/lib/observability/safe-server-log";
 import { setSentryServerContext } from "@/lib/observability/sentry-server-context";
 import { withRetry } from "@/lib/resilience/with-retry";
 import { scoreSessionAnswers } from "@/lib/exams/score-session-answers";
+import { appendExamHistoryOnly, recordExamPerformance } from "@/lib/learning/record-exam-performance";
 import { productEvent } from "@/lib/observability/product-events";
 
 const schema = z
@@ -131,7 +132,11 @@ export async function POST(req: Request) {
             attemptId: attempt.id,
           },
         });
-        return { kind: "created" as const, attempt };
+        return {
+          kind: "created" as const,
+          attempt,
+          questionIds: session.questionIds as string[],
+        };
       });
 
       if (result.kind === "not_found") {
@@ -147,6 +152,20 @@ export async function POST(req: Request) {
         return NextResponse.json({ attempt: result.attempt, idempotent: true });
       }
       if (result.kind === "created" && result.attempt) {
+        if (parsed.data.answers) {
+          try {
+            await recordExamPerformance({
+              userId: gate.userId,
+              questionIds: result.questionIds,
+              answers: parsed.data.answers,
+              score,
+              total,
+            });
+          } catch (e) {
+            safeServerLogCritical("api_exams_submit", "learning_record_failed", { sessionId: parsed.data.sessionId }, e);
+          }
+        }
+        productEvent("exam_submit", { score, total });
         return NextResponse.json({ attempt: result.attempt });
       }
     } catch (e) {
@@ -164,6 +183,11 @@ export async function POST(req: Request) {
         total,
       },
     });
+    try {
+      await appendExamHistoryOnly(gate.userId, score, total);
+    } catch (e) {
+      safeServerLogCritical("api_exams_submit", "learning_history_failed", {}, e);
+    }
     productEvent("exam_submit", { score, total });
     return NextResponse.json({ attempt });
   } catch (e) {

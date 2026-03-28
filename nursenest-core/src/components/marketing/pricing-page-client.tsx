@@ -252,7 +252,6 @@ export function PricingPageClient({
         </div>
       </section>
 
-      <p className="mt-10 text-center text-xs text-muted">{SOCIAL_PROOF.testimonialPlaceholder}</p>
     </main>
   );
 }

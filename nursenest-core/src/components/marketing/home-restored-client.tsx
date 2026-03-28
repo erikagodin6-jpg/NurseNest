@@ -28,7 +28,10 @@ import { useMarketingI18n } from "@/lib/marketing-i18n";
 import { mapLegacyMarketingHref } from "@/lib/legacy-marketing-routes";
 import { useNursenestRegion } from "@/lib/region/use-nursenest-region";
 import { LazySection } from "@/legacy/marketing/lazy-section";
-import { MARKETING_HERO_CAROUSEL_SLIDES } from "@/lib/marketing-assets";
+import { getMarketingHeroCarouselSlides } from "@/lib/marketing-assets";
+
+const RESOLVED_HERO_SLIDES = getMarketingHeroCarouselSlides();
+const HERO_CAROUSEL_FALLBACK = RESOLVED_HERO_SLIDES[0]?.fallback ?? "";
 
 const HERO_CAROUSEL_ALTS = [
   "NurseNest question interface",
@@ -37,7 +40,7 @@ const HERO_CAROUSEL_ALTS = [
   "NurseNest progress analytics dashboard",
 ] as const;
 
-const heroCarouselSlides = MARKETING_HERO_CAROUSEL_SLIDES.map((slide, index) => ({
+const heroCarouselSlides = RESOLVED_HERO_SLIDES.map((slide, index) => ({
   ...slide,
   alt: HERO_CAROUSEL_ALTS[index] ?? "NurseNest product screenshot",
 }));
@@ -88,17 +91,29 @@ const HomeBottomSections = dynamic(() => import("@/legacy/marketing/home-bottom-
   loading: () => <div className="min-h-[800px]" />,
 });
 
-function HeroCarousel() {
-  const [current, setCurrent] = useState(0);
+function HeroCarousel({ onAllSlidesFailed }: { onAllSlidesFailed?: () => void }) {
+  const [slidePos, setSlidePos] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  /** Slides that failed after primary + fallback URL attempt — hide from UI. */
+  const [dead, setDead] = useState<Set<number>>(new Set());
+  const [useFallback, setUseFallback] = useState<Set<number>>(new Set());
+  const useFallbackRef = useRef(useFallback);
+  useFallbackRef.current = useFallback;
+
+  const aliveIndices = heroCarouselSlides
+    .map((_, i) => i)
+    .filter((i) => !dead.has(i));
+  const n = aliveIndices.length;
+  const current = n > 0 ? (aliveIndices[slidePos % n] ?? 0) : 0;
 
   const startTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
+    if (n < 2) return;
     timerRef.current = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % heroCarouselSlides.length);
+      setSlidePos((p) => (p + 1) % n);
     }, 5000);
-  }, []);
+  }, [n]);
 
   useEffect(() => {
     if (!isHovered) startTimer();
@@ -106,6 +121,16 @@ function HeroCarousel() {
       if (timerRef.current) clearInterval(timerRef.current);
     };
   }, [isHovered, startTimer]);
+
+  useEffect(() => {
+    if (heroCarouselSlides.length > 0 && dead.size >= heroCarouselSlides.length) {
+      onAllSlidesFailed?.();
+    }
+  }, [dead, onAllSlidesFailed, heroCarouselSlides.length]);
+
+  useEffect(() => {
+    setSlidePos(0);
+  }, [n]);
 
   const handleMouseEnter = useCallback(() => {
     setIsHovered(true);
@@ -116,37 +141,55 @@ function HeroCarousel() {
     setIsHovered(false);
   }, []);
 
+  const handleImgError = useCallback((index: number) => {
+    if (!useFallbackRef.current.has(index) && HERO_CAROUSEL_FALLBACK) {
+      setUseFallback((prev) => new Set(prev).add(index));
+      return;
+    }
+    setDead((prev) => new Set(prev).add(index));
+  }, []);
+
+  if (n < 1) {
+    return null;
+  }
+
   return (
     <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} data-testid="hero-carousel">
       <div
-        className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-gray-100/80 bg-white shadow-[var(--shadow-elevated)]"
+        className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-[var(--theme-card-border)] bg-[var(--theme-card-bg)] shadow-[var(--shadow-elevated)]"
         style={{ overflowAnchor: "none" }}
       >
-        {heroCarouselSlides.map((slide, index) => (
-          <img
-            key={index}
-            srcSet={slide.srcSet}
-            sizes="(max-width: 768px) 480px, 600px"
-            src={slide.fallback}
-            alt={slide.alt}
-            width={1200}
-            height={750}
-            decoding={index === 0 ? "sync" : "async"}
-            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out will-change-[opacity] ${
-              index === current ? "opacity-100" : "opacity-0"
-            }`}
-            loading={index === 0 ? "eager" : "lazy"}
-            fetchPriority={index === 0 ? "high" : "low"}
-            data-testid={`img-hero-slide-${index}`}
-          />
-        ))}
+        {heroCarouselSlides.map((slide, index) => {
+          if (dead.has(index)) return null;
+          const src = useFallback.has(index) ? HERO_CAROUSEL_FALLBACK : slide.fallback;
+          const srcSet = useFallback.has(index) ? undefined : slide.srcSet;
+          return (
+            <img
+              key={`${index}-${useFallback.has(index) ? "fb" : "p"}`}
+              srcSet={srcSet}
+              sizes="(max-width: 768px) 480px, 600px"
+              src={src}
+              alt={slide.alt}
+              width={1200}
+              height={750}
+              decoding={index === 0 ? "sync" : "async"}
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out will-change-[opacity] ${
+                index === current ? "opacity-100" : "opacity-0"
+              }`}
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchPriority={index === 0 ? "high" : "low"}
+              data-testid={`img-hero-slide-${index}`}
+              onError={() => handleImgError(index)}
+            />
+          );
+        })}
       </div>
       <div className="mt-3 flex justify-center gap-2" data-testid="hero-carousel-dots">
-        {heroCarouselSlides.map((_, index) => (
+        {aliveIndices.map((index) => (
           <button
             key={index}
             type="button"
-            onClick={() => setCurrent(index)}
+            onClick={() => setSlidePos(aliveIndices.indexOf(index))}
             className={`h-2 rounded-full transition-all duration-300 ${
               index === current ? "w-6 bg-primary" : "w-2 bg-gray-300 hover:bg-gray-400"
             }`}
@@ -194,6 +237,7 @@ export default function HomeRestoredClient() {
   const [emailFrequency, setEmailFrequency] = useState("weekly");
   const [emailStatus, setEmailStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [emailMessage, setEmailMessage] = useState("");
+  const [heroMediaVisible, setHeroMediaVisible] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -246,7 +290,7 @@ export default function HomeRestoredClient() {
   const enabledCareers = getEnabledCareers();
 
   return (
-    <div className="font-sans md:animate-page-enter flex min-h-screen flex-col overflow-x-hidden bg-warmwhite">
+    <div className="font-sans md:animate-page-enter flex min-h-screen flex-col overflow-x-hidden bg-[var(--theme-page-bg)]">
       <main className="flex-grow overflow-x-hidden">
         <section
           className="relative overflow-hidden"
@@ -259,8 +303,10 @@ export default function HomeRestoredClient() {
           </div>
 
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid items-center gap-8 lg:grid-cols-2 lg:items-start lg:gap-12">
-              <div className="hero-motion-enter space-y-6 lg:space-y-5">
+            <div
+              className={`grid items-center gap-8 lg:gap-12 ${heroMediaVisible ? "lg:grid-cols-2 lg:items-start" : "grid-cols-1"}`}
+            >
+              <div className="hero-motion-enter min-w-0 space-y-6 lg:space-y-5">
                 <div className="flex flex-wrap items-center gap-2">
                   <div
                     className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-3 py-1.5 sm:px-4"
@@ -463,8 +509,8 @@ export default function HomeRestoredClient() {
                 </div>
               </div>
 
-              <div className="relative hidden lg:block" style={{ overflowAnchor: "none" }}>
-                <HeroCarousel />
+              <div className={`relative ${heroMediaVisible ? "hidden lg:block" : "hidden"}`} style={{ overflowAnchor: "none" }}>
+                <HeroCarousel onAllSlidesFailed={() => setHeroMediaVisible(false)} />
                 <div className="absolute -bottom-5 -left-5 z-10 flex items-center gap-3 rounded-2xl border border-gray-100/80 bg-white px-5 py-3.5 shadow-[var(--shadow-card-hover)]">
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-50">
                     <CheckCircle2 className="text-emerald-600 h-4.5 w-4.5" />

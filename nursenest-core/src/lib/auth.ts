@@ -1,22 +1,16 @@
 import "./auth-trust-env";
-import { Auth } from "@auth/core";
+import NextAuth, { type NextAuthConfig } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { compare } from "bcryptjs";
-import NextAuth, { type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { NextRequest } from "next/server";
 import { prisma } from "@/lib/db";
 
-/** Same behavior as next-auth/lib/env `reqWithEnvURL` (not a public export). */
-function reqWithEnvURL(req: NextRequest): NextRequest {
-  const url = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL;
-  if (!url) return req;
-  const { origin: envOrigin } = new URL(url);
-  const { href, origin } = req.nextUrl;
-  return new NextRequest(href.replace(origin, envOrigin), req);
-}
-
-export const authConfig: NextAuthConfig = {
+/**
+ * One NextAuth instance: same config for `auth()`, `handlers` (GET/POST /api/auth/*),
+ * middleware, and signIn/signOut. Do not construct parallel `Auth()` handlers elsewhere —
+ * that was splitting `setEnvDefaults`/session behavior between RSC and the session endpoint.
+ */
+export const authConfig = {
   adapter: PrismaAdapter(prisma),
   trustHost: true,
   session: { strategy: "jwt" },
@@ -54,36 +48,53 @@ export const authConfig: NextAuthConfig = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as any).role;
-        token.country = (user as any).country;
-        token.tier = (user as any).tier;
+        const u = user as {
+          id: string;
+          email: string;
+          name: string;
+          role: string;
+          country: string;
+          tier: string;
+        };
+        token.sub = u.id;
+        token.email = u.email;
+        token.name = u.name;
+        token.role = u.role;
+        token.country = u.country;
+        token.tier = u.tier;
+      }
+      // Keep JWT claims in sync with DB (e.g. ADMIN promotion) without requiring a password reset.
+      if (token.sub) {
+        try {
+          const row = await prisma.user.findUnique({
+            where: { id: token.sub as string },
+            select: { role: true, country: true, tier: true, name: true, email: true },
+          });
+          if (row) {
+            token.role = row.role;
+            token.country = row.country;
+            token.tier = row.tier;
+            token.name = row.name;
+            token.email = row.email;
+          }
+        } catch {
+          // Edge / transient DB: keep existing token claims.
+        }
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).id = token.sub;
-        (session.user as any).role = token.role;
-        (session.user as any).country = token.country;
-        (session.user as any).tier = token.tier;
+        (session.user as { id: string }).id = token.sub as string;
+        session.user.email = (token.email as string) ?? session.user.email;
+        session.user.name = (token.name as string) ?? session.user.name;
+        (session.user as { role?: string }).role = token.role as string;
+        (session.user as { country?: string }).country = token.country as string;
+        (session.user as { tier?: string }).tier = token.tier as string;
       }
       return session;
     },
   },
-};
+} satisfies NextAuthConfig;
 
-const { auth, signIn, signOut } = NextAuth(authConfig);
-
-export { auth, signIn, signOut };
-
-/**
- * Turbopack production builds can drop or mishandle config passed into the default
- * next-auth handler closure. Call @auth/core Auth() with an object literal that
- * ends in trustHost: true so assertConfig always sees a plain boolean.
- */
-export const handlers = {
-  GET: (req: NextRequest) =>
-    Auth(reqWithEnvURL(req), { ...authConfig, trustHost: true }),
-  POST: (req: NextRequest) =>
-    Auth(reqWithEnvURL(req), { ...authConfig, trustHost: true }),
-};
+export const { auth, handlers, signIn, signOut } = NextAuth(authConfig);

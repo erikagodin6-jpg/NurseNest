@@ -1,7 +1,9 @@
 import * as Sentry from "@sentry/nextjs";
+import { assertValidDatabaseUrl } from "@/lib/env/validate-database-url";
 
 export async function register() {
   if (process.env.NEXT_RUNTIME === "nodejs") {
+    assertValidDatabaseUrl();
     await import("./sentry.server.config");
     process.on("unhandledRejection", (reason) => {
       const msg = reason instanceof Error ? reason.message : String(reason);

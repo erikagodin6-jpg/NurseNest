@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
-import { ContentStatus, ExamSessionStatus } from "@prisma/client";
+import { ContentStatus, ExamFamily, ExamSessionStatus } from "@prisma/client";
 import { prisma } from "@/lib/db";
-import { questionAccessWhere, userCanAccessExam } from "@/lib/entitlements/content-access-scope";
+import { buildLearningSignals } from "@/lib/learning/learning-signals";
+import { parseLearningProfileRow } from "@/lib/learning/profile-shape";
+import { pickAdaptiveCatQuestionIds } from "@/lib/learning/adaptive-cat";
+import { computeReadiness } from "@/lib/learning/readiness";
+import { questionLearnerPoolWhere, userCanAccessExam } from "@/lib/entitlements/content-access-scope";
 import { requireSubscriberSession } from "@/lib/entitlements/require-subscriber-session";
 import { logPaywallDeny } from "@/lib/entitlements/assert-question-access";
 import { safeServerLogCritical } from "@/lib/observability/safe-server-log";
@@ -10,6 +14,7 @@ import { setSentryServerContext } from "@/lib/observability/sentry-server-contex
 import { withRetry } from "@/lib/resilience/with-retry";
 
 const POOL_LIMIT = 20;
+const CANDIDATE_POOL = 320;
 
 export async function POST(req: Request) {
   const gate = await requireSubscriberSession();
@@ -27,11 +32,13 @@ export async function POST(req: Request) {
     /* optional body */
   }
 
+  let examFamily: ExamFamily = ExamFamily.GENERIC;
+
   if (examId) {
     const exam = await withRetry(() =>
       prisma.exam.findUnique({
         where: { id: examId! },
-        select: { id: true, status: true, country: true, tier: true },
+        select: { id: true, status: true, country: true, tier: true, examFamily: true },
       }),
     );
     if (!exam || exam.status !== ContentStatus.PUBLISHED) {
@@ -41,16 +48,76 @@ export async function POST(req: Request) {
       logPaywallDeny("/api/exams/start", "exam_out_of_scope", { examId: examId ?? "" });
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
+    examFamily = exam.examFamily;
   }
 
   try {
+    const baseWhere = questionLearnerPoolWhere(gate.entitlement);
+    const [candidates, profileRow] = await Promise.all([
+      withRetry(() =>
+        prisma.question.findMany({
+          where: baseWhere,
+          select: {
+            id: true,
+            questionType: true,
+            difficulty: true,
+            systemTag: true,
+            categoryId: true,
+          },
+          take: CANDIDATE_POOL,
+          orderBy: { updatedAt: "desc" },
+        }),
+      ),
+      prisma.userLearningProfile.findUnique({
+        where: { userId: gate.userId },
+        select: {
+          aggregatesBySystem: true,
+          aggregatesByDifficulty: true,
+          aggregatesByCategory: true,
+          recentQuestionIds: true,
+          examScoreHistory: true,
+          totalPracticeAttempts: true,
+        },
+      }),
+    ]);
+
+    const profile = profileRow ? parseLearningProfileRow(profileRow) : null;
+    const signals = buildLearningSignals(profile);
+    const readiness = computeReadiness(profile);
+    const pickedIds = pickAdaptiveCatQuestionIds(candidates, examFamily, POOL_LIMIT, signals);
     const questionPool = await withRetry(() =>
       prisma.question.findMany({
-        where: questionAccessWhere(gate.entitlement),
+        where: { id: { in: pickedIds } },
         select: { id: true, stem: true, options: true, questionType: true },
-        take: POOL_LIMIT,
       }),
     );
+    const order = new Map(pickedIds.map((id, i) => [id, i]));
+    questionPool.sort((a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0));
+
+    const catConfidence = readiness.confidence;
+    const earlyStopping =
+      readiness.band === "ready" &&
+      readiness.score0to100 >= 70 &&
+      (profile?.examScoreHistory.length ?? 0) >= 2
+        ? {
+            optionalMinQuestions: Math.max(12, Math.ceil(POOL_LIMIT * 0.7)),
+            note: "High readiness: a shorter scored block may suffice; full session still supported.",
+          }
+        : null;
+
+    const sessionMeta = {
+      adaptive: {
+        v: 1 as const,
+        examFamily,
+        targetDifficulty: signals.targetDifficulty,
+        coldStart: profile === null,
+        weakSystems: [...signals.weakSystems].slice(0, 6),
+        readinessBand: readiness.band,
+        readinessScore: readiness.score0to100,
+        catConfidence,
+        earlyStopping,
+      },
+    };
 
     const session = await prisma.examSession.create({
       data: {
@@ -60,6 +127,7 @@ export async function POST(req: Request) {
         answers: {},
         currentIndex: 0,
         status: ExamSessionStatus.IN_PROGRESS,
+        sessionMeta,
       },
     });
 
@@ -79,6 +147,7 @@ export async function POST(req: Request) {
         questions: questionPool.length ? [questionPool[0]] : [],
         poolEmpty: questionPool.length === 0,
         hydrate: "window" as const,
+        adaptive: sessionMeta.adaptive,
       });
     }
 
@@ -90,6 +159,7 @@ export async function POST(req: Request) {
       questions: questionPool,
       poolEmpty: questionPool.length === 0,
       hydrate: "full" as const,
+      adaptive: sessionMeta.adaptive,
     });
   } catch (e) {
     safeServerLogCritical("api_exams_start", "failed", {}, e);

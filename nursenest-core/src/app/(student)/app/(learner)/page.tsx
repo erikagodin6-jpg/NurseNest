@@ -3,6 +3,12 @@ import { auth } from "@/lib/auth";
 import { resolveEntitlementForPage } from "@/lib/entitlements/resolve-entitlement-for-page";
 import { prisma } from "@/lib/db";
 import { SOCIAL_PROOF } from "@/lib/conversion/pricing-catalog";
+import { buildRecommendations } from "@/lib/learning/recommendations";
+import { computeReadiness } from "@/lib/learning/readiness";
+import { buildLearningSignals } from "@/lib/learning/learning-signals";
+import { parseLearningProfileRow } from "@/lib/learning/profile-shape";
+import { DIFFICULTY_TIER_LABELS } from "@/lib/learning/adaptive-study-order";
+import { computeExamTrend, topStrongSystems } from "@/lib/learning/performance-insights";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -30,9 +36,19 @@ export default async function DashboardPage() {
     dailyStudyMinutes: number | null;
   } | null = null;
 
+  let readinessSummary: {
+    label: string;
+    band: string;
+    confidence: string;
+    targetDifficulty: string;
+    topRecommendations: { title: string; href: string }[];
+    examTrend: "improving" | "steady" | "declining" | null;
+    topStrength: { key: string; accuracy: number; attempts: number } | null;
+  } | null = null;
+
   if (userId) {
     try {
-      const [userRow, progressCount, incomplete, attemptsN] = await Promise.all([
+      const [userRow, progressCount, incomplete, attemptsN, learningRow] = await Promise.all([
         prisma.user.findUnique({
           where: { id: userId },
           select: { examFocus: true, studyGoal: true, dailyStudyMinutes: true },
@@ -44,6 +60,19 @@ export default async function DashboardPage() {
           select: { lessonId: true },
         }),
         prisma.examAttempt.count({ where: { userId } }),
+        entitlement.hasAccess
+          ? prisma.userLearningProfile.findUnique({
+              where: { userId },
+              select: {
+                aggregatesBySystem: true,
+                aggregatesByDifficulty: true,
+                aggregatesByCategory: true,
+                recentQuestionIds: true,
+                examScoreHistory: true,
+                totalPracticeAttempts: true,
+              },
+            })
+          : Promise.resolve(null),
       ]);
       userPrefs = userRow;
       completedLessons = progressCount;
@@ -55,6 +84,33 @@ export default async function DashboardPage() {
         : null;
       nextLessonTitle = lessonRow?.title ?? null;
       attemptCount = attemptsN;
+
+      if (entitlement.hasAccess) {
+        const profile = learningRow
+          ? parseLearningProfileRow({
+              aggregatesBySystem: learningRow.aggregatesBySystem,
+              aggregatesByDifficulty: learningRow.aggregatesByDifficulty,
+              aggregatesByCategory: learningRow.aggregatesByCategory,
+              recentQuestionIds: learningRow.recentQuestionIds,
+              examScoreHistory: learningRow.examScoreHistory,
+              totalPracticeAttempts: learningRow.totalPracticeAttempts,
+            })
+          : null;
+        const readiness = computeReadiness(profile);
+        const recs = buildRecommendations(profile);
+        const sig = buildLearningSignals(profile);
+        const tier = DIFFICULTY_TIER_LABELS[sig.targetDifficulty];
+        const strength = topStrongSystems(profile, { limit: 1 })[0] ?? null;
+        readinessSummary = {
+          label: readiness.label,
+          band: readiness.band,
+          confidence: readiness.confidence,
+          targetDifficulty: tier.label,
+          topRecommendations: recs.slice(0, 3).map((r) => ({ title: r.title, href: r.href })),
+          examTrend: computeExamTrend(profile),
+          topStrength: strength,
+        };
+      }
     } catch {
       /* keep dashboard usable */
     }
@@ -79,6 +135,51 @@ export default async function DashboardPage() {
 
       {entitlement.hasAccess ? (
         <>
+          {readinessSummary ? (
+            <section className="nn-card p-6">
+              <h2 className="text-xl font-semibold">Personalized readiness</h2>
+              <p className="mt-2 text-sm text-muted">
+                Estimated band:{" "}
+                <span className="font-semibold text-foreground">{readinessSummary.label}</span>
+                <span className="text-muted"> ({readinessSummary.band.replace(/_/g, " ")})</span>
+              </p>
+              <p className="mt-1 text-xs text-muted">
+                Confidence: {readinessSummary.confidence} — based on your scored practice and recent mock attempts. Complete
+                more timed mocks to tighten this estimate.
+              </p>
+              <p className="mt-2 text-sm text-muted">
+                Suggested difficulty focus:{" "}
+                <span className="font-medium text-foreground">{readinessSummary.targetDifficulty}</span> (CAT sessions auto-balance
+                with your weak areas).
+              </p>
+              {readinessSummary.examTrend ? (
+                <p className="mt-1 text-xs text-muted">
+                  Recent mock trend: <span className="font-medium text-foreground">{readinessSummary.examTrend}</span>
+                </p>
+              ) : null}
+              {readinessSummary.topStrength ? (
+                <p className="mt-1 text-xs text-muted">
+                  Strong area to maintain:{" "}
+                  <span className="font-medium text-foreground">
+                    {readinessSummary.topStrength.key.replace(/_/g, " ")}
+                  </span>{" "}
+                  ({Math.round(readinessSummary.topStrength.accuracy * 100)}% over {readinessSummary.topStrength.attempts} scored items)
+                </p>
+              ) : null}
+              {readinessSummary.topRecommendations.length > 0 ? (
+                <ul className="mt-3 space-y-2 text-sm">
+                  {readinessSummary.topRecommendations.map((r) => (
+                    <li key={r.title}>
+                      <Link className="font-medium text-primary underline" href={r.href}>
+                        {r.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </section>
+          ) : null}
+
           <section className="nn-card p-6">
             <h2 className="text-xl font-semibold">Continue where you left off</h2>
             {nextLessonTitle ? (
@@ -106,7 +207,7 @@ export default async function DashboardPage() {
             <ul className="mt-3 list-inside list-disc space-y-1 text-sm text-muted">
               <li>Lessons completed: {completedLessons}</li>
               <li>Mock exam attempts logged: {attemptCount}</li>
-              <li>Weak-area nudges: review your latest mock score on the exams page.</li>
+              <li>The question bank supports adaptive ordering for subscribers (weak areas first) via the same APIs you already use.</li>
             </ul>
           </section>
 

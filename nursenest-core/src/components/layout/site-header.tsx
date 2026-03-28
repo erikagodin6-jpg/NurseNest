@@ -22,7 +22,7 @@ import { DEFAULT_MARKETING_LOCALE } from "@/lib/i18n/marketing-locale-policy";
 import { stripMarketingLocalePrefix, withMarketingLocale } from "@/lib/i18n/marketing-path";
 import { ThemePicker } from "@/components/theme/theme-picker";
 import { Button } from "@/components/ui/button";
-import { LOGO_PRIMARY } from "@/lib/marketing-assets";
+import { getMarketingLogo } from "@/lib/marketing-assets";
 
 function NavDetails({
   label,
@@ -60,6 +60,8 @@ function NavLinkItem({ href, children }: { href: string; children: React.ReactNo
 }
 
 export function SiteHeader() {
+  const logo = getMarketingLogo();
+  const [logoFailed, setLogoFailed] = useState(false);
   const pathname = usePathname() ?? "/";
   const { pathname: pathWithoutLocale } = stripMarketingLocalePrefix(pathname);
   const pathForLanguageSwitch = pathWithoutLocale || "/";
@@ -92,7 +94,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-transparent bg-[var(--theme-nav-bg)]/90 shadow-sm backdrop-blur-xl transition-all duration-300">
-      <div className="hidden md:block" style={{ background: "var(--theme-topbar-bg)", color: "var(--theme-topbar-text)" }}>
+      <div className="hidden md:block bg-[var(--theme-topbar-bg)] text-[var(--theme-topbar-text)]">
         <div className="mx-auto flex h-7 max-w-7xl items-center justify-center gap-1 px-2 text-[10px] font-medium sm:h-8 sm:gap-6 sm:px-4 sm:text-xs lg:px-8">
           {topLinks.map((item, index) => (
             <div key={item.href} className="flex items-center gap-1 sm:gap-6">
@@ -112,18 +114,24 @@ export function SiteHeader() {
 
       <div className="mx-auto flex h-11 max-w-7xl items-center justify-between gap-2 px-2 sm:h-16 sm:px-4 lg:px-8">
         <Link href={localizeHref("/")} className="group flex min-w-0 items-center gap-2">
-          {LOGO_PRIMARY ? (
+          {logo.src && !logoFailed ? (
             <img
-              src={LOGO_PRIMARY}
+              src={logo.src}
+              srcSet={logo.srcSet}
+              sizes="(max-width: 640px) 32px, 40px"
               alt=""
-              width={32}
-              height={32}
-              className="h-8 w-8 shrink-0 object-contain"
+              width={40}
+              height={40}
+              className="h-8 w-8 shrink-0 object-contain sm:h-9 sm:w-9"
               loading="eager"
               decoding="async"
+              aria-hidden
+              onError={() => setLogoFailed(true)}
             />
           ) : null}
-          <span className="truncate text-xl font-extrabold tracking-tight text-primary group-hover:text-[var(--theme-menu-hover-text)]">NurseNest</span>
+          <span className="truncate text-xl font-extrabold tracking-tight text-[var(--theme-heading-text)] group-hover:text-[var(--theme-menu-hover-text)]">
+            NurseNest
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-0.5 md:flex lg:gap-1">
@@ -173,7 +181,7 @@ export function SiteHeader() {
             }}
           />
 
-          <div className="relative hidden xl:block" ref={langRef}>
+          <div className="relative hidden lg:block" ref={langRef}>
             <button
               type="button"
               onClick={() => setLangOpen((o) => !o)}
@@ -305,6 +313,32 @@ export function SiteHeader() {
                 <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0" />
                 {region === "US" ? t("home.region.usDesc") : t("home.region.caDesc")}
               </p>
+              <hr className="my-3 border-[var(--theme-separator)]" />
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-primary">{t("nav.language")}</p>
+              <div className="mb-4 flex flex-col gap-1">
+                {MARKETING_LANGUAGES.map((lang) => (
+                  <Link
+                    key={lang.code}
+                    href={
+                      lang.code === DEFAULT_MARKETING_LOCALE
+                        ? pathForLanguageSwitch
+                        : withMarketingLocale(lang.code, pathForLanguageSwitch)
+                    }
+                    className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-[var(--theme-menu-text)] hover:bg-[var(--theme-menu-hover-bg)]"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    <span>{lang.flag}</span>
+                    {lang.name}
+                  </Link>
+                ))}
+                <Link
+                  href={mapLegacyMarketingHref("/languages")}
+                  className="px-3 py-2 text-xs font-semibold text-primary hover:underline"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {t("footer.viewAllLanguages")}
+                </Link>
+              </div>
               <hr className="my-3 border-[var(--theme-separator)]" />
               {[
                 { href: localizeHref("/"), label: t("nav.home") },

@@ -142,6 +142,4 @@ export const TRUST_BLOCK = {
 export const SOCIAL_PROOF = {
   passRateLine:
     "Candidates who complete weekly timed practice and review every rationale tend to report higher confidence approaching their authorization-to-test window.",
-  testimonialPlaceholder:
-    "Add your first cohort testimonial here when ready—structure is wired for a rotating quote slot.",
 } as const;

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { getAppSession } from "@/lib/auth/server-session";
 import { resolveEntitlement, type AccessScope } from "@/lib/entitlements/resolve-entitlement";
 import { safeServerLog, safeServerLogCritical } from "@/lib/observability/safe-server-log";
 import { setSentryServerContext } from "@/lib/observability/sentry-server-context";
@@ -13,7 +13,7 @@ export type SubscriberSessionResult = SubscriberSessionOk | SubscriberSessionFai
  * Avoid duplicating auth/403 logic across route handlers.
  */
 export async function requireSubscriberSession(): Promise<SubscriberSessionResult> {
-  const session = await auth();
+  const session = await getAppSession();
   const userId = (session?.user as { id?: string } | undefined)?.id;
   if (!userId) {
     return { ok: false, response: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };

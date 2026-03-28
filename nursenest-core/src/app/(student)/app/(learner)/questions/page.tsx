@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import { questionAccessWhere } from "@/lib/entitlements/content-access-scope";
+import { questionLearnerPoolWhere } from "@/lib/entitlements/content-access-scope";
 import { getFreemiumSnapshot } from "@/lib/entitlements/freemium";
 import { resolveEntitlementForPage } from "@/lib/entitlements/resolve-entitlement-for-page";
 import { prisma } from "@/lib/db";
@@ -42,7 +42,7 @@ export default async function QuestionBankPage() {
   let questions: { id: string; stem: string; questionType: string; rationale: string }[] = [];
   try {
     const raw = await prisma.question.findMany({
-      where: questionAccessWhere(entitlement),
+      where: questionLearnerPoolWhere(entitlement),
       select: { id: true, stem: true, questionType: true, rationale: true },
       orderBy: { updatedAt: "desc" },
       take: 15,

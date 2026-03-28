@@ -5,7 +5,9 @@ import { resolveEntitlementForPage } from "@/lib/entitlements/resolve-entitlemen
 import { prisma } from "@/lib/db";
 import { safeServerLog } from "@/lib/observability/safe-server-log";
 import { FreemiumLessonPeek } from "@/components/student/freemium-lesson-peek";
+import { LessonCoverImage } from "@/components/student/lesson-cover-image";
 import { SubscriptionPaywall } from "@/components/student/subscription-paywall";
+import { resolveLessonCoverThumb } from "@/lib/lesson-cover-image";
 
 export default async function LessonsPage() {
   const session = await auth();
@@ -36,11 +38,27 @@ export default async function LessonsPage() {
     );
   }
 
-  let lessons: { id: string; title: string; summary: string }[] = [];
+  let lessons: {
+    id: string;
+    slug: string;
+    title: string;
+    summary: string;
+    systemTag: string | null;
+    topicTag: string | null;
+    category: { slug: string };
+  }[] = [];
   try {
     lessons = await prisma.lesson.findMany({
       where: lessonAccessWhere(entitlement),
-      select: { id: true, title: true, summary: true },
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        summary: true,
+        systemTag: true,
+        topicTag: true,
+        category: { select: { slug: true } },
+      },
       orderBy: { updatedAt: "desc" },
       take: 15,
     });
@@ -70,12 +88,32 @@ export default async function LessonsPage() {
         </p>
       ) : null}
       <div className="mt-4 space-y-3">
-        {lessons.map((lesson) => (
-          <article className="nn-card p-4" key={lesson.id}>
-            <h2 className="font-semibold">{lesson.title}</h2>
-            <p className="mt-2 text-sm text-muted">{lesson.summary}</p>
-          </article>
-        ))}
+        {lessons.map((lesson) => {
+          const cover = resolveLessonCoverThumb({
+            slug: lesson.slug,
+            title: lesson.title,
+            systemTag: lesson.systemTag,
+            topicTag: lesson.topicTag,
+            categorySlug: lesson.category.slug,
+          });
+          return (
+            <article className="nn-card flex gap-4 overflow-hidden p-4" key={lesson.id}>
+              <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-border/60 bg-muted/30">
+                <LessonCoverImage
+                  src={cover.src}
+                  srcSet={cover.srcSet}
+                  alt={`Illustration for ${lesson.title}`}
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="min-w-0 flex-1">
+                <h2 className="font-semibold">{lesson.title}</h2>
+                <p className="mt-2 text-sm text-muted">{lesson.summary}</p>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </main>
   );

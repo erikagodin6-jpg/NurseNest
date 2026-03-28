@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export function LoginForm() {
@@ -17,7 +17,10 @@ export function LoginForm() {
       setError("Invalid email/password.");
       return;
     }
-    router.push("/app");
+    router.refresh();
+    const session = await getSession();
+    const role = (session?.user as { role?: string } | undefined)?.role;
+    router.push(role === "ADMIN" ? "/admin" : "/app");
   }
 
   return (

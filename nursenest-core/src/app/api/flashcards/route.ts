@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { flashcardAccessWhere } from "@/lib/entitlements/content-access-scope";
+import { flashcardLearnerPoolWhere } from "@/lib/entitlements/content-access-scope";
 import { requireSubscriberSession } from "@/lib/entitlements/require-subscriber-session";
 import { resolveEntitlement } from "@/lib/entitlements/resolve-entitlement";
 import { prisma } from "@/lib/db";
@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
   try {
     const flashcards = await withRetry(() =>
       prisma.flashcard.findMany({
-        where: flashcardAccessWhere(gate.entitlement),
+        where: flashcardLearnerPoolWhere(gate.entitlement),
         select: {
           id: true,
           front: true,

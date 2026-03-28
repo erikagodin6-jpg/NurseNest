@@ -8,7 +8,44 @@ import { prisma } from "@/lib/db";
 import { safeServerLogCritical } from "@/lib/observability/safe-server-log";
 import { setSentryServerContext } from "@/lib/observability/sentry-server-context";
 import { withRetry } from "@/lib/resilience/with-retry";
+import { resolveLessonCoverThumb } from "@/lib/lesson-cover-image";
 import type { CountryCode, TierCode } from "@prisma/client";
+
+const lessonSelect = {
+  id: true,
+  slug: true,
+  title: true,
+  summary: true,
+  systemTag: true,
+  topicTag: true,
+  category: { select: { slug: true } },
+} as const;
+
+function attachLessonCovers<
+  T extends {
+    id: string;
+    slug: string;
+    title: string;
+    summary: string;
+    systemTag: string | null;
+    topicTag: string | null;
+    category: { slug: string };
+  },
+>(rows: T[]) {
+  return rows.map((l) => ({
+    id: l.id,
+    slug: l.slug,
+    title: l.title,
+    summary: l.summary,
+    coverImage: resolveLessonCoverThumb({
+      slug: l.slug,
+      title: l.title,
+      systemTag: l.systemTag,
+      topicTag: l.topicTag,
+      categorySlug: l.category.slug,
+    }),
+  }));
+}
 
 export async function GET(req: NextRequest) {
   const session = await auth();
@@ -35,16 +72,17 @@ export async function GET(req: NextRequest) {
     setSentryServerContext({ route: "/api/lessons", feature: "lesson", userId: gate.userId });
 
     try {
-      const lessons = await withRetry(() =>
+      const rows = await withRetry(() =>
         prisma.lesson.findMany({
           where: lessonAccessWhere(gate.entitlement),
-          select: { id: true, slug: true, title: true, summary: true },
+          select: lessonSelect,
           orderBy: { updatedAt: "desc" },
           skip: (page - 1) * pageSize,
           take: pageSize,
         }),
       );
 
+      const lessons = attachLessonCovers(rows);
       return NextResponse.json({ page, pageSize, lessons, mode: "subscriber" as const });
     } catch (e) {
       safeServerLogCritical("api_lessons", "prisma_find_failed", { page }, e);
@@ -79,17 +117,17 @@ export async function GET(req: NextRequest) {
 
   try {
     const where = lessonBankWhereForProfile(user.country as CountryCode, user.tier as TierCode);
-    const lessons = await withRetry(() =>
+    const rows = await withRetry(() =>
       prisma.lesson.findMany({
         where,
-        select: { id: true, slug: true, title: true, summary: true },
+        select: lessonSelect,
         orderBy: { updatedAt: "desc" },
         skip: 0,
         take,
       }),
     );
 
-    const used = lessons.length;
+    const used = rows.length;
     if (used > 0) {
       await prisma.user.update({
         where: { id: userId },
@@ -98,7 +136,8 @@ export async function GET(req: NextRequest) {
     }
 
     const remaining = Math.max(0, snap.lessonRemaining - used);
-    const trimmedSummary = lessons.map((l) => ({
+    const withCovers = attachLessonCovers(rows);
+    const trimmedSummary = withCovers.map((l) => ({
       ...l,
       summary:
         l.summary.length > 220 ? `${l.summary.slice(0, 220).trim()}… — unlock full lessons with a subscription.` : l.summary,
