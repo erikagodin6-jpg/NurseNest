@@ -17,6 +17,7 @@
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
     "content:inventory": "tsx scripts/content-inventory.ts",
+    "content:audit": "tsx scripts/content-audit-authoritative.ts",
     "import:blog": "tsx scripts/import-blog.ts"
   },
   "dependencies": {
