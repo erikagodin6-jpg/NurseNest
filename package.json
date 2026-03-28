@@ -25,6 +25,8 @@
     "check:server:guardrails": "npm run check:storage && npm run check:server:isolation && npm run check:server",
     "verify:api": "tsx scripts/verify-core-api.ts",
     "seed:local-verify": "node scripts/seed-local-verify-data.mjs",
+    "seed:career-questions": "npx tsx scripts/seed-career-questions.ts",
+    "seed:mlt-lessons": "npx tsx scripts/seed-mlt-structured-lessons.ts",
     "db:push": "drizzle-kit push",
     "backup:full": "tsx backup-system/backup-full.ts",
     "backup:db": "tsx backup-system/backup-db.ts",

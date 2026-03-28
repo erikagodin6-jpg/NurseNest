@@ -2,6 +2,7 @@ import type { Pool } from "pg";
 import path from "path";
 import { existsSync } from "fs";
 import { readFile } from "fs/promises";
+import { logStartupDatabaseResolution } from "../db";
 
 interface CareerQuestionInput {
   id: string;
@@ -24,20 +25,26 @@ function careerQuestionJsonPath(stem: string): string {
   return path.resolve(process.cwd(), "data", "career-questions", `${stem}.json`);
 }
 
+/**
+ * Loads question arrays from `data/career-questions/<stem>.json` for each stem.
+ * Missing files are skipped; non-empty arrays are concatenated. Returns null only
+ * when no JSON file in the list contributed any questions (falls back to TS modules).
+ */
 async function tryLoadCareerQuestionsFromJson(stems: string[]): Promise<CareerQuestionInput[] | null> {
   const out: CareerQuestionInput[] = [];
+  let loadedAny = false;
 
   for (const stem of stems) {
     const jsonPath = careerQuestionJsonPath(stem);
-    if (!existsSync(jsonPath)) return null;
+    if (!existsSync(jsonPath)) continue;
     const raw = await readFile(jsonPath, "utf-8");
     const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return null;
-    if (parsed.length === 0) return null;
+    if (!Array.isArray(parsed) || parsed.length === 0) continue;
     out.push(...parsed);
+    loadedAny = true;
   }
 
-  return out;
+  return loadedAny ? out : null;
 }
 
 const SEED_CONFIGS: SeedConfig[] = [
@@ -564,6 +571,13 @@ const SEED_CONFIGS: SeedConfig[] = [
 ];
 
 export async function seedAlliedHealthQuestions(pool: Pool): Promise<void> {
+  logStartupDatabaseResolution();
+
+  let careerTypesSkippedUpToDate = 0;
+  let careerTypesSkippedImportFail = 0;
+  let careerTypesAttempted = 0;
+  let rowsInsertedTotal = 0;
+
   for (const config of SEED_CONFIGS) {
     try {
       const existingCount = await pool.query(
@@ -577,18 +591,21 @@ export async function seedAlliedHealthQuestions(pool: Pool): Promise<void> {
         questions = await config.importFn();
       } catch {
         console.log(`[AlliedSeed] Skipping ${config.careerType}: import failed`);
+        careerTypesSkippedImportFail++;
         continue;
       }
 
       if (dbCount >= questions.length) {
         console.log(`[AlliedSeed] ${config.careerType}: ${dbCount} questions in DB (>= ${questions.length} in source), skipping`);
+        careerTypesSkippedUpToDate++;
         continue;
       }
 
       console.log(`[AlliedSeed] Seeding ${questions.length} questions for ${config.careerType}...`);
+      careerTypesAttempted++;
 
       const BATCH_SIZE = 50;
-      let inserted = 0;
+      let rowsInsertedThisCareer = 0;
 
       for (let i = 0; i < questions.length; i += BATCH_SIZE) {
         const batch = questions.slice(i, i + BATCH_SIZE);
@@ -617,19 +634,40 @@ export async function seedAlliedHealthQuestions(pool: Pool): Promise<void> {
           );
         }
 
-        await pool.query(
+        const ins = await pool.query(
           `INSERT INTO allied_questions (career_type, blueprint_id, stem, options, correct_answer, rationale_long, learning_objective, blueprint_category, subtopic, difficulty, cognitive_level, question_type, exam_tag)
            VALUES ${placeholders.join(", ")}
            ON CONFLICT DO NOTHING`,
           values
         );
-        inserted += batch.length;
+        rowsInsertedThisCareer += ins.rowCount ?? 0;
       }
 
-      console.log(`[AlliedSeed] ${config.careerType}: inserted up to ${inserted} questions`);
+      rowsInsertedTotal += rowsInsertedThisCareer;
+      console.log(
+        `[AlliedSeed] ${config.careerType}: rows inserted this run (ON CONFLICT excluded): ${rowsInsertedThisCareer} (batches covered ${questions.length} source rows)`,
+      );
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
       console.error(`[AlliedSeed] Error seeding ${config.careerType}:`, message);
     }
   }
+
+  const byCareer = await pool.query(
+    `SELECT career_type, COUNT(*)::int AS cnt FROM allied_questions GROUP BY career_type ORDER BY career_type`,
+  );
+  const totalRow = await pool.query(`SELECT COUNT(*)::bigint AS c FROM allied_questions`);
+  console.log("\n=== Allied seed verification ===");
+  console.log(
+    JSON.stringify({
+      type: "allied_seed_verification",
+      success: true,
+      careerTypesSkippedUpToDate,
+      careerTypesSkippedImportFail,
+      careerTypesAttempted,
+      rowsInsertedThisRun: rowsInsertedTotal,
+      alliedQuestionsTotal: String(totalRow.rows[0]?.c ?? "0"),
+      countsByCareerType: Object.fromEntries(byCareer.rows.map((r: { career_type: string; cnt: number }) => [r.career_type, r.cnt])),
+    }),
+  );
 }

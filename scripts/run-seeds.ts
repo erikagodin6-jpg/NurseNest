@@ -1,9 +1,47 @@
 #!/usr/bin/env npx tsx
 import { config } from "dotenv";
 config();
+import "../server/load-env";
+import type { Pool } from "pg";
+import { logStartupDatabaseResolution } from "../server/db";
+
+/** Whitelisted tables touched by one or more seeds in this runner; counts are diagnostic only. */
+const POST_SEED_COUNT_TABLES = [
+  "pricing_plans",
+  "allied_questions",
+  "exam_questions",
+  "flashcard_decks",
+  "deck_flashcards",
+  "flashcard_bank",
+  "seo_pages",
+  "digital_products",
+  "content_items",
+  "encyclopedia_entries",
+  "imaging_questions",
+  "imaging_flashcards",
+  "imaging_positioning_entries",
+  "imaging_physics_topics",
+  "mlt_lessons",
+  "mlt_flashcards",
+] as const;
+
+async function logPostSeedTableCounts(pool: Pool) {
+  const tables: Record<string, string> = {};
+  for (const table of POST_SEED_COUNT_TABLES) {
+    try {
+      const r = await pool.query(`SELECT COUNT(*)::bigint AS c FROM ${table}`);
+      tables[table] = String(r.rows[0].c);
+    } catch {
+      tables[table] = "(query failed or table missing)";
+    }
+  }
+  console.log("\n=== Post-seed verification (row counts) ===");
+  console.log(JSON.stringify({ type: "run_seeds_verification", tables }));
+}
 
 async function main() {
   console.log("=== NurseNest Seed Runner ===");
+  logStartupDatabaseResolution();
   console.log("Starting all seed operations...\n");
 
   const startTime = Date.now();
@@ -201,6 +239,23 @@ async function main() {
   }
 
   const { pool } = await import("../server/storage");
+  try {
+    await logPostSeedTableCounts(pool);
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : String(e);
+    console.error("\nPost-seed verification failed:", message);
+  }
+
+  console.log(
+    JSON.stringify({
+      type: "run_seeds_summary",
+      success: errorCount === 0,
+      totalSeeds: results.length,
+      succeeded: successCount,
+      failed: errorCount,
+    }),
+  );
+
   await pool.end();
   process.exit(errorCount > 0 ? 1 : 0);
 }

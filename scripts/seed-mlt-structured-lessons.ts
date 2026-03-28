@@ -1,7 +1,7 @@
-import pg from "pg";
-const { Pool } = pg;
+import "../server/load-env";
+import { getPool, logStartupDatabaseResolution } from "../server/db";
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const pool = getPool();
 
 interface LessonSection {
   sectionTitle: string;
@@ -1558,6 +1558,7 @@ function generateFlashcardsForLesson(lesson: MltStructuredLesson): MltFlashcardD
 
 async function seedMltStructuredLessons() {
   console.log("\n=== MLT Structured Lessons & Flashcards Seeder ===\n");
+  logStartupDatabaseResolution();
 
   const tableCheck = await pool.query(
     `SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'mlt_lessons')`
@@ -1713,11 +1714,27 @@ async function seedMltStructuredLessons() {
     console.log(`  ${row.deck_title}: ${row.count}`);
   }
 
-  console.log("\n=== Seeding complete! ===\n");
+  const success = errors === 0;
+  console.log("\n=== Seeding complete! ===");
+  console.log(
+    JSON.stringify({
+      type: "mlt_seed_verification",
+      success,
+      lessonsInserted,
+      lessonsSkipped,
+      flashcardsInserted,
+      errors,
+      publishedMltLessons: lessonCount.rows[0].count,
+      publishedMltFlashcards: flashcardCount.rows[0].count,
+    }),
+  );
+  console.log("\n");
+
+  return success;
 }
 
 seedMltStructuredLessons()
-  .then(() => process.exit(0))
+  .then((ok) => process.exit(ok ? 0 : 1))
   .catch((err) => {
     console.error("Seeding failed:", err);
     process.exit(1);

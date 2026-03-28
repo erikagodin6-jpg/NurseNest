@@ -19,6 +19,25 @@ const seoCanonicalRedirects = getAllProgrammaticSlugs().map((slug) => ({
 }));
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "storage.googleapis.com",
+        pathname: "/nursenest/**",
+      },
+      {
+        protocol: "https",
+        hostname: "nursenest-images.tor1.digitaloceanspaces.com",
+        pathname: "/screenshots/**",
+      },
+      {
+        protocol: "https",
+        hostname: "www.nursenest.ca",
+        pathname: "/**",
+      },
+    ],
+  },
   // Auth.js reads AUTH_TRUST_HOST in proxied environments (e.g. DigitalOcean).
   // Ensures UntrustedHost does not occur if platform env is missing at deploy time.
   env: {

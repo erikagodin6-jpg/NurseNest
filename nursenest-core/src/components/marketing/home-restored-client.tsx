@@ -28,13 +28,26 @@ import { useMarketingI18n } from "@/lib/marketing-i18n";
 import { mapLegacyMarketingHref } from "@/lib/legacy-marketing-routes";
 import { useNursenestRegion } from "@/lib/region/use-nursenest-region";
 import { LazySection } from "@/legacy/marketing/lazy-section";
-import { MARKETING_HERO_CAROUSEL_SLIDES, MARKETING_HERO_IMAGE_FALLBACK } from "@/lib/marketing-assets";
+import {
+  MARKETING_HERO_CAROUSEL_SLIDES,
+  MARKETING_HERO_IMAGE_FALLBACK,
+  marketingImageUsesProxy,
+  resolveMarketingAbsoluteUrl,
+  resolveMarketingSrcSet,
+} from "@/lib/marketing-assets";
 
 const HERO_CAROUSEL_ALTS = [
   "NurseNest question interface",
   "NurseNest flashcard deck",
   "NurseNest mock exam report",
   "NurseNest progress analytics dashboard",
+  "NurseNest study dashboard screenshot",
+  "NurseNest practice exam screenshot",
+  "NurseNest review screen",
+  "NurseNest analytics view",
+  "NurseNest content browser",
+  "NurseNest learning path",
+  "NurseNest product screenshot",
 ] as const;
 
 const heroCarouselSlides = MARKETING_HERO_CAROUSEL_SLIDES.map((slide, index) => ({
@@ -88,11 +101,70 @@ const HomeBottomSections = dynamic(() => import("@/legacy/marketing/home-bottom-
   loading: () => <div className="min-h-[800px]" />,
 });
 
-function HeroCarousel() {
+type HeroLoadPhase = "proxy" | "direct" | "heroFbProxy" | "heroFbDirect" | "local" | "dead";
+
+function nextHeroPhase(p: HeroLoadPhase, useSpacesProxy: boolean): HeroLoadPhase {
+  if (useSpacesProxy) {
+    switch (p) {
+      case "proxy":
+        return "direct";
+      case "direct":
+        return "heroFbProxy";
+      case "heroFbProxy":
+        return "heroFbDirect";
+      case "heroFbDirect":
+        return "local";
+      case "local":
+        return "dead";
+      default:
+        return "dead";
+    }
+  }
+  switch (p) {
+    case "direct":
+      return "heroFbDirect";
+    case "heroFbDirect":
+      return "local";
+    case "local":
+      return "dead";
+    default:
+      return "dead";
+  }
+}
+
+function heroSlideSrc(
+  slide: (typeof heroCarouselSlides)[0],
+  phase: HeroLoadPhase,
+): { src: string; srcSet?: string } | null {
+  const fb = MARKETING_HERO_IMAGE_FALLBACK;
+
+  if (phase === "dead") return null;
+  if (phase === "proxy") {
+    return { src: resolveMarketingAbsoluteUrl(slide.fallback), srcSet: resolveMarketingSrcSet(slide.srcSet) };
+  }
+  if (phase === "direct") {
+    return { src: slide.fallback, srcSet: slide.srcSet };
+  }
+  if (phase === "heroFbProxy" && fb) {
+    return { src: resolveMarketingAbsoluteUrl(fb), srcSet: undefined };
+  }
+  if (phase === "heroFbDirect" && fb) {
+    return { src: fb, srcSet: undefined };
+  }
+  if (phase === "local") {
+    return { src: "/marketing/hero-fallback.svg", srcSet: undefined };
+  }
+  return null;
+}
+
+function HeroCarousel({ onMediaUnavailable }: { onMediaUnavailable?: () => void }) {
   const [current, setCurrent] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const [failedSlide, setFailedSlide] = useState<Record<number, true>>({});
+  const [phaseBySlide, setPhaseBySlide] = useState<Record<number, HeroLoadPhase>>({});
+  const [hasSuccessfulLoad, setHasSuccessfulLoad] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const unavailableReported = useRef(false);
+  const useSpacesProxy = marketingImageUsesProxy();
 
   const startTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
@@ -102,11 +174,12 @@ function HeroCarousel() {
   }, []);
 
   useEffect(() => {
+    if (!hasSuccessfulLoad || heroCarouselSlides.length === 0) return;
     if (!isHovered) startTimer();
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isHovered, startTimer]);
+  }, [isHovered, startTimer, hasSuccessfulLoad]);
 
   const handleMouseEnter = useCallback(() => {
     setIsHovered(true);
@@ -117,52 +190,103 @@ function HeroCarousel() {
     setIsHovered(false);
   }, []);
 
+  useEffect(() => {
+    const allDead = heroCarouselSlides.every((_, index) => {
+      const p = phaseBySlide[index] ?? (useSpacesProxy ? "proxy" : "direct");
+      return p === "dead";
+    });
+    if (allDead && heroCarouselSlides.length > 0 && !unavailableReported.current) {
+      unavailableReported.current = true;
+      onMediaUnavailable?.();
+    }
+  }, [phaseBySlide, onMediaUnavailable, useSpacesProxy]);
+
+  /** Skip slides with no renderable URL (e.g. all phases exhausted) so we never show an empty frame. */
+  useEffect(() => {
+    if (heroCarouselSlides.length === 0) return;
+    const p = phaseBySlide[current] ?? (useSpacesProxy ? "proxy" : "direct");
+    if (heroSlideSrc(heroCarouselSlides[current], p) !== null) return;
+    for (let step = 1; step < heroCarouselSlides.length; step++) {
+      const idx = (current + step) % heroCarouselSlides.length;
+      const p2 = phaseBySlide[idx] ?? (useSpacesProxy ? "proxy" : "direct");
+      if (heroSlideSrc(heroCarouselSlides[idx], p2) !== null) {
+        setCurrent(idx);
+        return;
+      }
+    }
+  }, [current, phaseBySlide, useSpacesProxy]);
+
+  const handleImgError = useCallback(
+    (index: number) => {
+      setPhaseBySlide((prev) => {
+        const cur = prev[index] ?? (useSpacesProxy ? "proxy" : "direct");
+        const next = nextHeroPhase(cur, useSpacesProxy);
+        return { ...prev, [index]: next };
+      });
+    },
+    [useSpacesProxy],
+  );
+
+  const handleImgLoad = useCallback(() => {
+    setHasSuccessfulLoad(true);
+  }, []);
+
   return (
     <div className="relative w-full min-w-0" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} data-testid="hero-carousel">
       <div
-        className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-[var(--theme-card-border)] bg-[var(--theme-card-bg)] shadow-[var(--shadow-elevated)]"
+        className={
+          hasSuccessfulLoad
+            ? "relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-[var(--theme-card-border)] bg-[var(--theme-card-bg)] shadow-[var(--shadow-elevated)]"
+            : "relative h-0 max-h-0 w-full overflow-hidden border-0 shadow-none"
+        }
         style={{ overflowAnchor: "none" }}
+        aria-busy={!hasSuccessfulLoad}
       >
         {heroCarouselSlides.map((slide, index) => {
-          const useFallback = !!failedSlide[index];
-          const src = useFallback ? MARKETING_HERO_IMAGE_FALLBACK : slide.fallback;
+          const p = phaseBySlide[index] ?? (useSpacesProxy ? "proxy" : "direct");
+          const resolved = heroSlideSrc(slide, p);
+          if (!resolved) {
+            return null;
+          }
           return (
             <img
-              key={index}
-              srcSet={useFallback ? undefined : slide.srcSet}
+              key={`${index}-${p}`}
+              srcSet={resolved.srcSet}
               sizes="(max-width: 768px) 100vw, min(600px, 45vw)"
-              src={src}
+              src={resolved.src}
               alt={slide.alt}
               width={1200}
               height={750}
               decoding={index === 0 ? "sync" : "async"}
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out will-change-[opacity] ${
+              className={`pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out will-change-[opacity] ${
                 index === current ? "opacity-100" : "opacity-0"
               }`}
               loading={index === 0 ? "eager" : "lazy"}
               fetchPriority={index === 0 ? "high" : "low"}
               data-testid={`img-hero-slide-${index}`}
-              onError={() => {
-                setFailedSlide((prev) => ({ ...prev, [index]: true }));
-              }}
+              aria-hidden={index !== current}
+              onError={() => handleImgError(index)}
+              onLoad={handleImgLoad}
             />
           );
         })}
       </div>
-      <div className="mt-3 flex justify-center gap-2" data-testid="hero-carousel-dots">
-        {heroCarouselSlides.map((_, index) => (
-          <button
-            key={index}
-            type="button"
-            onClick={() => setCurrent(index)}
-            className={`h-2 rounded-full transition-all duration-300 ${
-              index === current ? "w-6 bg-primary" : "w-2 bg-gray-300 hover:bg-gray-400"
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-            data-testid={`button-carousel-dot-${index}`}
-          />
-        ))}
-      </div>
+      {hasSuccessfulLoad ? (
+        <div className="mt-3 flex justify-center gap-2" data-testid="hero-carousel-dots">
+          {heroCarouselSlides.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => setCurrent(index)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                index === current ? "w-6 bg-primary" : "w-2 bg-gray-300 hover:bg-gray-400"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+              data-testid={`button-carousel-dot-${index}`}
+            />
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -197,6 +321,7 @@ export default function HomeRestoredClient() {
   const [questionCount, setQuestionCount] = useState(0);
   const [storeProductCount, setStoreProductCount] = useState(0);
   const [flashcardCount, setFlashcardCount] = useState(10_000);
+  const [heroMediaVisible, setHeroMediaVisible] = useState(() => MARKETING_HERO_CAROUSEL_SLIDES.length > 0);
 
   const [email, setEmail] = useState("");
   const [emailFrequency, setEmailFrequency] = useState("weekly");
@@ -267,7 +392,9 @@ export default function HomeRestoredClient() {
           </div>
 
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid items-center gap-8 md:grid-cols-2 md:items-start md:gap-10 lg:gap-12">
+            <div
+              className={`grid items-center gap-8 md:items-start md:gap-10 lg:gap-12 ${heroMediaVisible ? "md:grid-cols-2" : "md:grid-cols-1"}`}
+            >
               <div className="hero-motion-enter min-w-0 space-y-6 md:space-y-5">
                 <div className="flex flex-wrap items-center gap-2">
                   <div
@@ -471,8 +598,11 @@ export default function HomeRestoredClient() {
                 </div>
               </div>
 
-              <div className="relative hidden min-w-0 md:block" style={{ overflowAnchor: "none" }}>
-                <HeroCarousel />
+              <div
+                className={heroMediaVisible ? "relative hidden min-w-0 md:block" : "hidden"}
+                style={{ overflowAnchor: "none" }}
+              >
+                <HeroCarousel onMediaUnavailable={() => setHeroMediaVisible(false)} />
                 <div className="absolute -bottom-5 -left-5 z-10 flex items-center gap-3 rounded-2xl border border-gray-100/80 bg-white px-5 py-3.5 shadow-[var(--shadow-card-hover)]">
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10">
                     <CheckCircle2 className="h-4.5 w-4.5 text-primary" />
