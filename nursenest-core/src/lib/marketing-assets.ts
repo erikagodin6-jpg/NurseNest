@@ -76,6 +76,11 @@ export function getResolvedThemeLogoUrl(themeId: string): string {
 export { getThemeLogo, getThemeLogoPublicUrl } from "@/lib/theme/theme-logo-url";
 export { useThemeLogo } from "@/lib/theme/use-theme-logo";
 export { normalizeThemeIdForLogo, THEME_LOGO_ALIASES } from "@/lib/theme/theme-logo-resolve";
+export {
+  THEME_LOGO_OBJECT_KEYS,
+  NURSENEST_SPACES_PUBLIC_ORIGIN,
+  THEME_LOGO_DEFAULT_FALLBACK_ID,
+} from "@/config/theme-logo-map";
 
 /** Legacy OG still if Spaces hero screenshot is unset. */
 const OG_FALLBACK =

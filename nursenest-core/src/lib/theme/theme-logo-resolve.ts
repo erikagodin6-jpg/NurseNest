@@ -1,13 +1,13 @@
 /**
  * Normalizes arbitrary theme strings (URL segments, legacy labels, aliases) to a canonical
- * theme id that exists in `marketing-cdn.catalog.json` → `logo.themeBrandLogoObjectKeys`.
+ * theme id that exists in `theme-logo-map.ts` / `marketing-cdn.catalog.json`.
  */
-import catalog from "@/config/marketing-cdn.catalog.json";
+import { THEME_LOGO_OBJECT_KEYS } from "@/config/theme-logo-map";
 import { NURSENEST_DEFAULT_THEME, THEME_OPTIONS } from "@/lib/theme/theme-registry";
 
 const CANONICAL_IDS = new Set(THEME_OPTIONS.map((t) => t.id));
 
-const LOGO_KEYS = catalog.logo.themeBrandLogoObjectKeys as Record<string, string>;
+const LOGO_KEYS = THEME_LOGO_OBJECT_KEYS as Record<string, string>;
 
 /**
  * Human-friendly and legacy aliases → canonical `themeBrandLogoObjectKeys` entry.
