@@ -24,35 +24,23 @@ import {
   Sparkles,
 } from "lucide-react";
 import { getEnabledCareers } from "@shared/careers";
-import { marketingT as t } from "@/lib/marketing-i18n";
+import { useMarketingI18n } from "@/lib/marketing-i18n";
 import { mapLegacyMarketingHref } from "@/lib/legacy-marketing-routes";
 import { useNursenestRegion } from "@/lib/region/use-nursenest-region";
 import { LazySection } from "@/legacy/marketing/lazy-section";
+import { MARKETING_HERO_CAROUSEL_SLIDES } from "@/lib/marketing-assets";
 
-const ASSET_BASE = process.env.NEXT_PUBLIC_NURSENEST_ASSETS_BASE ?? "https://www.nursenest.ca";
+const HERO_CAROUSEL_ALTS = [
+  "NurseNest question interface",
+  "NurseNest flashcard deck",
+  "NurseNest mock exam report",
+  "NurseNest progress analytics dashboard",
+] as const;
 
-const heroCarouselSlides = [
-  {
-    srcSet: `${ASSET_BASE}/screenshots/screenshottest_1773379293573-480w.webp 480w, ${ASSET_BASE}/screenshots/screenshottest_1773379293573-768w.webp 768w, ${ASSET_BASE}/screenshots/screenshottest_1773379293573-1200w.webp 1200w`,
-    fallback: `${ASSET_BASE}/screenshots/screenshottest_1773379293573-768w.webp`,
-    alt: "NurseNest question interface",
-  },
-  {
-    srcSet: `${ASSET_BASE}/screenshots/screenshot6_1773379293573-480w.webp 480w, ${ASSET_BASE}/screenshots/screenshot6_1773379293573-768w.webp 768w, ${ASSET_BASE}/screenshots/screenshot6_1773379293573-1200w.webp 1200w`,
-    fallback: `${ASSET_BASE}/screenshots/screenshot6_1773379293573-768w.webp`,
-    alt: "NurseNest flashcard deck",
-  },
-  {
-    srcSet: `${ASSET_BASE}/screenshots/screenshot5_1773379293573-480w.webp 480w, ${ASSET_BASE}/screenshots/screenshot5_1773379293573-768w.webp 768w, ${ASSET_BASE}/screenshots/screenshot5_1773379293573-1200w.webp 1200w`,
-    fallback: `${ASSET_BASE}/screenshots/screenshot5_1773379293573-768w.webp`,
-    alt: "NurseNest mock exam report",
-  },
-  {
-    srcSet: `${ASSET_BASE}/screenshots/screenshot2_1773379293573-480w.webp 480w, ${ASSET_BASE}/screenshots/screenshot2_1773379293573-768w.webp 768w, ${ASSET_BASE}/screenshots/screenshot2_1773379293573-1200w.webp 1200w`,
-    fallback: `${ASSET_BASE}/screenshots/screenshot2_1773379293573-768w.webp`,
-    alt: "NurseNest progress analytics dashboard",
-  },
-];
+const heroCarouselSlides = MARKETING_HERO_CAROUSEL_SLIDES.map((slide, index) => ({
+  ...slide,
+  alt: HERO_CAROUSEL_ALTS[index] ?? "NurseNest product screenshot",
+}));
 
 const HeroFeatureStrip = dynamic(() => import("@/legacy/marketing/hero-feature-strip"), {
   loading: () => <div className="min-h-[60px]" />,
@@ -195,6 +183,7 @@ type HomeStatsPayload = {
 };
 
 export default function HomeRestoredClient() {
+  const { t } = useMarketingI18n();
   const { region, setRegion } = useNursenestRegion();
   const [lessonCount, setLessonCount] = useState(0);
   const [questionCount, setQuestionCount] = useState(0);
@@ -252,7 +241,7 @@ export default function HomeRestoredClient() {
       setEmailStatus("error");
       setEmailMessage(e instanceof Error ? e.message : t("home.email.somethingWrong"));
     }
-  }, [email, emailFrequency]);
+  }, [email, emailFrequency, t]);
 
   const enabledCareers = getEnabledCareers();
 

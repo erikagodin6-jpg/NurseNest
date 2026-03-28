@@ -1,6 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { ContentStatus } from "@prisma/client";
 import { z } from "zod";
-import { auth } from "@/lib/auth";
+import { requireAdmin } from "@/lib/admin/ensure-admin";
+import { validateLessonForPublish } from "@/lib/content/publish-validation";
 import { prisma } from "@/lib/db";
 
 const createSchema = z.object({
@@ -9,30 +11,71 @@ const createSchema = z.object({
   summary: z.string().min(10),
   body: z.string().min(20),
   country: z.enum(["CA", "US"]),
-  tier: z.enum(["RPN", "LVN_LPN", "RN", "NP"]),
+  tier: z.enum(["RPN", "LVN_LPN", "RN", "NP", "ALLIED"]),
   categoryId: z.string().min(5),
-  published: z.boolean().default(false),
+  status: z.nativeEnum(ContentStatus).default(ContentStatus.DRAFT),
+  examFamily: z.enum(["NCLEX_RN", "NCLEX_PN", "REX_PN", "NP", "ALLIED", "GENERIC"]).optional(),
+  difficulty: z.enum(["FOUNDATION", "INTERMEDIATE", "ADVANCED"]).optional(),
+  topicTag: z.string().optional(),
+  systemTag: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  sourceNotes: z.string().optional(),
 });
 
-async function ensureAdmin() {
-  const session = await auth();
-  return (session?.user as any)?.role === "ADMIN";
-}
+export async function GET(req: NextRequest) {
+  const gate = await requireAdmin();
+  if (!gate.ok) return gate.response;
 
-export async function GET() {
-  if (!(await ensureAdmin())) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  const lessons = await prisma.lesson.findMany({
-    select: { id: true, title: true, slug: true, published: true, tier: true, country: true, updatedAt: true },
-    orderBy: { updatedAt: "desc" },
-    take: 100,
-  });
-  return NextResponse.json({ lessons });
+  const sp = req.nextUrl.searchParams;
+  const page = Math.max(1, Number(sp.get("page") ?? "1"));
+  const pageSize = Math.min(100, Math.max(10, Number(sp.get("pageSize") ?? "50")));
+  const status = sp.get("status") as ContentStatus | null;
+
+  const where = status ? { status } : {};
+
+  const [total, lessons] = await Promise.all([
+    prisma.lesson.count({ where }),
+    prisma.lesson.findMany({
+      where,
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        status: true,
+        tier: true,
+        country: true,
+        categoryId: true,
+        updatedAt: true,
+      },
+      orderBy: { updatedAt: "desc" },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    }),
+  ]);
+
+  return NextResponse.json({ page, pageSize, total, lessons });
 }
 
 export async function POST(req: Request) {
-  if (!(await ensureAdmin())) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  const gate = await requireAdmin();
+  if (!gate.ok) return gate.response;
+
   const parsed = createSchema.safeParse(await req.json());
   if (!parsed.success) return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
-  const lesson = await prisma.lesson.create({ data: parsed.data });
+
+  const data = parsed.data;
+  if (data.status === ContentStatus.PUBLISHED) {
+    const v = validateLessonForPublish({ title: data.title, summary: data.summary, body: data.body });
+    if (!v.ok) return NextResponse.json({ error: "Publish validation failed", reasons: v.reasons }, { status: 400 });
+  }
+
+  const lesson = await prisma.lesson.create({
+    data: {
+      ...data,
+      examFamily: data.examFamily ?? "GENERIC",
+      tags: data.tags ?? [],
+    },
+  });
+
   return NextResponse.json({ lesson }, { status: 201 });
 }

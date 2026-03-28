@@ -1,12 +1,13 @@
 import type { MetadataRoute } from "next";
+import { absoluteUrl } from "@/lib/seo/site-origin";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
-      allow: ["/", "/pricing", "/login", "/signup"],
-      disallow: ["/app", "/admin", "/api"],
+      allow: "/",
+      disallow: ["/app/", "/admin/", "/api/"],
     },
-    sitemap: "https://www.nursenest.ca/sitemap.xml",
+    sitemap: absoluteUrl("/sitemap.xml"),
   };
 }

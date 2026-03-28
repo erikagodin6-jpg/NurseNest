@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { marketingT as t } from "@/lib/marketing-i18n";
+import { useMarketingI18n } from "@/lib/marketing-i18n";
 import { mapLegacyMarketingHref } from "@/lib/legacy-marketing-routes";
 import type { HeroStats } from "@shared/lesson-stats";
 
@@ -115,6 +115,7 @@ export function HomeBottomSections({
   setEmailStatus,
   handleEmailSubscribe,
 }: HomeBottomSectionsProps) {
+  const { t } = useMarketingI18n();
   const router = useRouter();
 
   return (

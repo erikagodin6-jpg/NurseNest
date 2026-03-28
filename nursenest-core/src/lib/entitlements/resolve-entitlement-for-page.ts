@@ -1,5 +1,6 @@
 import { resolveEntitlement, type AccessScope } from "@/lib/entitlements/resolve-entitlement";
-import { safeServerLog } from "@/lib/observability/safe-server-log";
+import { safeServerLogCritical } from "@/lib/observability/safe-server-log";
+import { productEvent } from "@/lib/observability/product-events";
 
 export type PageEntitlementResult = AccessScope | "error";
 
@@ -12,8 +13,9 @@ export async function resolveEntitlementForPage(userId: string): Promise<PageEnt
   }
   try {
     return await resolveEntitlement(userId);
-  } catch {
-    safeServerLog("entitlement", "resolve_failed_page", {});
+  } catch (e) {
+    productEvent("entitlement_resolve_failed", { surface: "page" });
+    safeServerLogCritical("entitlement", "resolve_failed_page", { page: "server_component" }, e);
     return "error";
   }
 }

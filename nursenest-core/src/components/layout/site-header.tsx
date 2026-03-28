@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   BookOpen,
@@ -15,22 +16,13 @@ import {
 } from "lucide-react";
 import { mapLegacyMarketingHref } from "@/lib/legacy-marketing-routes";
 import { useNursenestRegion } from "@/lib/region/use-nursenest-region";
-import { marketingT as t } from "@/lib/marketing-i18n";
+import { useMarketingI18n } from "@/lib/marketing-i18n";
 import { MARKETING_LANGUAGES } from "@/lib/i18n/marketing-languages";
+import { DEFAULT_MARKETING_LOCALE } from "@/lib/i18n/marketing-locale-policy";
+import { stripMarketingLocalePrefix, withMarketingLocale } from "@/lib/i18n/marketing-path";
 import { ThemePicker } from "@/components/theme/theme-picker";
 import { Button } from "@/components/ui/button";
-
-const PUBLIC_SITE =
-  (typeof process !== "undefined" && process.env.NEXT_PUBLIC_NURSENEST_ASSETS_BASE?.replace(/\/$/, "")) || "https://www.nursenest.ca";
-
-function ecosystemTopLinks() {
-  return [
-    { href: mapLegacyMarketingHref("/exam-prep"), label: t("nav.examPrep"), icon: BookOpen },
-    { href: mapLegacyMarketingHref("/new-graduate-support"), label: t("nav.newGradSupport"), icon: GraduationCap },
-    { href: mapLegacyMarketingHref("/healthcare-careers"), label: t("nav.healthcareCareers"), icon: Briefcase },
-    { href: mapLegacyMarketingHref("/allied-health"), label: t("nav.alliedHealth"), icon: Heart },
-  ];
-}
+import { LOGO_PRIMARY } from "@/lib/marketing-assets";
 
 function NavDetails({
   label,
@@ -60,7 +52,7 @@ function NavLinkItem({ href, children }: { href: string; children: React.ReactNo
   return (
     <Link
       href={href}
-      className="block px-3 py-2 text-sm text-gray-700 hover:bg-primary/5 hover:text-primary"
+      className="block px-3 py-2 text-sm text-[var(--theme-menu-text)] hover:bg-primary/5 hover:text-primary"
     >
       {children}
     </Link>
@@ -68,10 +60,20 @@ function NavLinkItem({ href, children }: { href: string; children: React.ReactNo
 }
 
 export function SiteHeader() {
+  const pathname = usePathname() ?? "/";
+  const { pathname: pathWithoutLocale } = stripMarketingLocalePrefix(pathname);
+  const pathForLanguageSwitch = pathWithoutLocale || "/";
+  const { t, locale } = useMarketingI18n();
   const { region, setRegion } = useNursenestRegion();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const langRef = useRef<HTMLDivElement>(null);
+
+  const localizeHref = (href: string) => {
+    const mapped = mapLegacyMarketingHref(href);
+    if (mapped.startsWith("http://") || mapped.startsWith("https://")) return mapped;
+    return withMarketingLocale(locale, mapped);
+  };
 
   useEffect(() => {
     const close = (e: MouseEvent) => {
@@ -81,7 +83,12 @@ export function SiteHeader() {
     return () => document.removeEventListener("click", close);
   }, []);
 
-  const topLinks = ecosystemTopLinks();
+  const topLinks = [
+    { href: localizeHref("/exam-prep"), label: t("nav.examPrep"), icon: BookOpen },
+    { href: localizeHref("/new-graduate-support"), label: t("nav.newGradSupport"), icon: GraduationCap },
+    { href: localizeHref("/healthcare-careers"), label: t("nav.healthcareCareers"), icon: Briefcase },
+    { href: localizeHref("/allied-health"), label: t("nav.alliedHealth"), icon: Heart },
+  ];
 
   return (
     <header className="sticky top-0 z-50 border-b border-transparent bg-[var(--theme-nav-bg)]/90 shadow-sm backdrop-blur-xl transition-all duration-300">
@@ -104,29 +111,40 @@ export function SiteHeader() {
       </div>
 
       <div className="mx-auto flex h-11 max-w-7xl items-center justify-between gap-2 px-2 sm:h-16 sm:px-4 lg:px-8">
-        <Link href="/" className="group flex min-w-0 items-center gap-2">
+        <Link href={localizeHref("/")} className="group flex min-w-0 items-center gap-2">
+          {LOGO_PRIMARY ? (
+            <img
+              src={LOGO_PRIMARY}
+              alt=""
+              width={32}
+              height={32}
+              className="h-8 w-8 shrink-0 object-contain"
+              loading="eager"
+              decoding="async"
+            />
+          ) : null}
           <span className="truncate text-xl font-extrabold tracking-tight text-primary group-hover:text-[var(--theme-menu-hover-text)]">NurseNest</span>
         </Link>
 
         <nav className="hidden items-center gap-0.5 md:flex lg:gap-1">
           <Link
-            href="/"
+            href={localizeHref("/")}
             className="rounded-full px-3 py-2 text-sm font-medium text-[var(--theme-menu-text)] hover:bg-[var(--theme-menu-hover-bg)] hover:text-[var(--theme-menu-hover-text)]"
           >
             {t("nav.home")}
           </Link>
 
           <NavDetails label={t("nav.study")}>
-            <NavLinkItem href={mapLegacyMarketingHref("/lessons")}>{t("nav.lessons")}</NavLinkItem>
-            <NavLinkItem href={mapLegacyMarketingHref("/test-bank")}>{t("nav.questionBank")}</NavLinkItem>
-            <NavLinkItem href={mapLegacyMarketingHref("/mock-exams")}>{t("nav.practiceExams")}</NavLinkItem>
-            <NavLinkItem href={mapLegacyMarketingHref("/flashcards")}>{t("nav.flashcards")}</NavLinkItem>
+            <NavLinkItem href={localizeHref("/lessons")}>{t("nav.lessons")}</NavLinkItem>
+            <NavLinkItem href={localizeHref("/test-bank")}>{t("nav.questionBank")}</NavLinkItem>
+            <NavLinkItem href={localizeHref("/mock-exams")}>{t("nav.practiceExams")}</NavLinkItem>
+            <NavLinkItem href={localizeHref("/flashcards")}>{t("nav.flashcards")}</NavLinkItem>
           </NavDetails>
 
           <NavDetails label={t("nav.resources")}>
-            <NavLinkItem href="/pricing">{t("nav.pricing")}</NavLinkItem>
-            <NavLinkItem href={mapLegacyMarketingHref("/faq")}>{t("footer.faq")}</NavLinkItem>
-            <NavLinkItem href={mapLegacyMarketingHref("/shop")}>{t("nav.store")}</NavLinkItem>
+            <NavLinkItem href={localizeHref("/pricing")}>{t("nav.pricing")}</NavLinkItem>
+            <NavLinkItem href={localizeHref("/faq")}>{t("footer.faq")}</NavLinkItem>
+            <NavLinkItem href={localizeHref("/shop")}>{t("nav.store")}</NavLinkItem>
           </NavDetails>
 
           <div className="mx-1 flex items-center gap-1 rounded-full border border-[var(--theme-nav-border)] px-1 py-0.5">
@@ -146,7 +164,14 @@ export function SiteHeader() {
             </button>
           </div>
 
-          <ThemePicker className="hidden lg:block" />
+          <ThemePicker
+            className="hidden lg:block"
+            labels={{
+              navTheme: t("nav.theme"),
+              themeGroupLight: t("nav.themeGroupLight"),
+              themeGroupDark: t("nav.themeGroupDark"),
+            }}
+          />
 
           <div className="relative hidden xl:block" ref={langRef}>
             <button
@@ -160,15 +185,19 @@ export function SiteHeader() {
             {langOpen && (
               <div className="absolute right-0 z-[100] mt-1 max-h-64 w-52 overflow-y-auto rounded-xl border border-[var(--theme-card-border)] bg-[var(--theme-card-bg)] py-1 shadow-lg">
                 {MARKETING_LANGUAGES.map((lang) => (
-                  <a
+                  <Link
                     key={lang.code}
-                    href={lang.code === "en" ? "/" : `${PUBLIC_SITE}/${lang.code}`}
+                    href={
+                      lang.code === DEFAULT_MARKETING_LOCALE
+                        ? pathForLanguageSwitch
+                        : withMarketingLocale(lang.code, pathForLanguageSwitch)
+                    }
                     className="flex items-center gap-2 px-3 py-2 text-sm text-[var(--theme-menu-text)] hover:bg-[var(--theme-menu-hover-bg)]"
-                    rel={lang.code === "en" ? undefined : "noopener noreferrer"}
+                    onClick={() => setLangOpen(false)}
                   >
                     <span>{lang.flag}</span>
                     {lang.name}
-                  </a>
+                  </Link>
                 ))}
                 <Link
                   href={mapLegacyMarketingHref("/languages")}
@@ -183,14 +212,21 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <ThemePicker className="lg:hidden" />
+          <ThemePicker
+            className="lg:hidden"
+            labels={{
+              navTheme: t("nav.theme"),
+              themeGroupLight: t("nav.themeGroupLight"),
+              themeGroupDark: t("nav.themeGroupDark"),
+            }}
+          />
           <Link
-            href="/login"
+            href={localizeHref("/login")}
             className="hidden rounded-full px-3 py-2 text-sm font-medium text-[var(--theme-menu-text)] hover:bg-[var(--theme-menu-hover-bg)] hover:text-[var(--theme-menu-hover-text)] sm:inline-flex"
           >
             {t("nav.logIn")}
           </Link>
-          <Link href="/signup" className="hidden nn-btn-primary px-4 py-2 text-sm font-bold sm:inline-flex">
+          <Link href={localizeHref("/signup")} className="hidden nn-btn-primary px-4 py-2 text-sm font-bold sm:inline-flex">
             {t("nav.signUp")}
           </Link>
           <Button
@@ -208,16 +244,16 @@ export function SiteHeader() {
       <div className="hidden border-t border-primary/10 bg-primary/5 md:block">
         <div className="mx-auto flex h-9 max-w-7xl flex-wrap items-center gap-x-1 gap-y-1 px-2 sm:px-4 lg:px-8">
           <NavDetails label={t("nav.learningTools")} subBar>
-            <NavLinkItem href={mapLegacyMarketingHref("/lessons")}>{t("nav.lessons")}</NavLinkItem>
-            <NavLinkItem href={mapLegacyMarketingHref("/flashcards")}>{t("nav.flashcards")}</NavLinkItem>
-            <NavLinkItem href={mapLegacyMarketingHref("/test-bank")}>{t("nav.questionBank")}</NavLinkItem>
+            <NavLinkItem href={localizeHref("/lessons")}>{t("nav.lessons")}</NavLinkItem>
+            <NavLinkItem href={localizeHref("/flashcards")}>{t("nav.flashcards")}</NavLinkItem>
+            <NavLinkItem href={localizeHref("/test-bank")}>{t("nav.questionBank")}</NavLinkItem>
           </NavDetails>
           <NavDetails label={t("nav.examPrepShort")} subBar>
-            <NavLinkItem href={mapLegacyMarketingHref("/mock-exams")}>{t("nav.practiceExams")}</NavLinkItem>
-            <NavLinkItem href="/pricing">{t("nav.pricing")}</NavLinkItem>
+            <NavLinkItem href={localizeHref("/mock-exams")}>{t("nav.practiceExams")}</NavLinkItem>
+            <NavLinkItem href={localizeHref("/pricing")}>{t("nav.pricing")}</NavLinkItem>
           </NavDetails>
           <Link
-            href="/pricing"
+            href={localizeHref("/pricing")}
             className="px-1.5 py-1 text-xs font-medium text-primary/70 hover:text-primary lg:px-2"
           >
             {t("nav.pricing")}
@@ -271,11 +307,11 @@ export function SiteHeader() {
               </p>
               <hr className="my-3 border-[var(--theme-separator)]" />
               {[
-                { href: "/", label: t("nav.home") },
-                { href: mapLegacyMarketingHref("/lessons"), label: t("nav.lessons") },
-                { href: mapLegacyMarketingHref("/test-bank"), label: t("nav.questionBank") },
-                { href: mapLegacyMarketingHref("/mock-exams"), label: t("nav.practiceExams") },
-                { href: "/pricing", label: t("nav.pricing") },
+                { href: localizeHref("/"), label: t("nav.home") },
+                { href: localizeHref("/lessons"), label: t("nav.lessons") },
+                { href: localizeHref("/test-bank"), label: t("nav.questionBank") },
+                { href: localizeHref("/mock-exams"), label: t("nav.practiceExams") },
+                { href: localizeHref("/pricing"), label: t("nav.pricing") },
               ].map((item) => (
                 <Link
                   key={item.href}
@@ -288,13 +324,17 @@ export function SiteHeader() {
               ))}
               <div className="mt-4 flex gap-2">
                 <Link
-                  href="/login"
+                  href={localizeHref("/login")}
                   className="flex-1 rounded-full border border-[var(--theme-nav-border)] py-2 text-center text-sm font-semibold"
                   onClick={() => setMobileOpen(false)}
                 >
                   {t("nav.logIn")}
                 </Link>
-                <Link href="/signup" className="nn-btn-primary flex-1 py-2 text-center text-sm font-bold" onClick={() => setMobileOpen(false)}>
+                <Link
+                  href={localizeHref("/signup")}
+                  className="nn-btn-primary flex-1 py-2 text-center text-sm font-bold"
+                  onClick={() => setMobileOpen(false)}
+                >
                   {t("nav.signUp")}
                 </Link>
               </div>

@@ -1,11 +1,18 @@
 import Link from "next/link";
+import { auth } from "@/lib/auth";
 import { requireUser } from "@/lib/auth/guards";
 import { signOut } from "@/lib/auth";
+import { CheckoutSuccessBanner } from "@/components/student/checkout-success-banner";
 import { LearnerThemeControl } from "@/components/student/learner-theme-control";
+import { SentryLearnerShell } from "@/components/observability/sentry-learner-shell";
 
 export default async function LearnerShellLayout({ children }: { children: React.ReactNode }) {
   await requireUser();
+  const session = await auth();
+  const userId = (session?.user as { id?: string })?.id ?? "";
+
   return (
+    <SentryLearnerShell userId={userId}>
     <div className="mx-auto w-full max-w-6xl px-6 py-8">
       <header className="nn-card mb-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl p-4">
         <nav className="flex flex-wrap items-center gap-2 text-sm font-medium">
@@ -36,7 +43,9 @@ export default async function LearnerShellLayout({ children }: { children: React
           </form>
         </div>
       </header>
+      <CheckoutSuccessBanner />
       {children}
     </div>
+    </SentryLearnerShell>
   );
 }

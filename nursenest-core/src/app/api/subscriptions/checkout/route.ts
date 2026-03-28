@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
+import { z } from "zod";
 import { auth } from "@/lib/auth";
-import { priceMap } from "@/lib/stripe/pricing-map";
+import { findPriceEntry, type BillingDuration } from "@/lib/stripe/pricing-map";
+import type { TierCode } from "@prisma/client";
 
 /** Dynamic import so Next build (collect page data) never loads Stripe without a key. */
 async function getStripeClient(): Promise<Stripe | null> {
@@ -11,19 +13,34 @@ async function getStripeClient(): Promise<Stripe | null> {
   return new Stripe(key);
 }
 
+const bodySchema = z.object({
+  country: z.enum(["CA", "US"]),
+  tier: z.enum(["RPN", "LVN_LPN", "RN", "NP", "ALLIED"]),
+  duration: z.enum(["monthly", "3-month", "6-month", "yearly"]),
+});
+
+function sessionUserId(session: { user?: unknown } | null): string | undefined {
+  const u = session?.user;
+  if (u && typeof u === "object" && "id" in u && typeof (u as { id: unknown }).id === "string") {
+    return (u as { id: string }).id;
+  }
+  return undefined;
+}
+
 export async function POST(req: Request) {
   const session = await auth();
-  const userId = (session?.user as any)?.id;
+  const userId = sessionUserId(session);
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = await req.json();
-  const country = body.country as "CA" | "US";
-  const tier = body.tier as "RPN" | "LVN_LPN" | "RN" | "NP";
-  const duration = body.duration as "monthly" | "3-month" | "6-month" | "yearly";
+  const parsed = bodySchema.safeParse(await req.json());
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+  }
 
-  const price = priceMap.find((p) => p.country === country && p.tier === tier && p.duration === duration);
+  const { country, tier, duration } = parsed.data;
+  const price = findPriceEntry(country, tier as TierCode, duration as BillingDuration);
   if (!price) {
     return NextResponse.json({ error: "Plan unavailable" }, { status: 400 });
   }
@@ -33,12 +50,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Billing unavailable" }, { status: 503 });
   }
 
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") ?? "http://localhost:3000";
+
   const checkoutSession = await stripe.checkout.sessions.create({
     mode: "subscription",
     line_items: [{ price: price.priceId, quantity: 1 }],
-    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/app?checkout=success`,
-    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing?checkout=cancelled`,
-    metadata: { userId, country, tier, duration },
+    success_url: `${appUrl}/app?checkout=success`,
+    cancel_url: `${appUrl}/pricing?checkout=cancelled`,
+    client_reference_id: userId,
+    metadata: {
+      userId,
+      country,
+      tier,
+      duration,
+      app: "nursenest-core",
+    },
   });
 
   return NextResponse.json({ url: checkoutSession.url });

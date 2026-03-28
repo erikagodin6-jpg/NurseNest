@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { marketingT as t } from "@/lib/marketing-i18n";
+import { useMarketingI18n } from "@/lib/marketing-i18n";
 
 /** Legacy `EmailSignupPrompt` banner variant — structure parity; submit wired in PHASE 2. */
 export function EmailSignupBanner() {
+  const { t } = useMarketingI18n();
   const [email, setEmail] = useState("");
   const [msg, setMsg] = useState<string | null>(null);
 

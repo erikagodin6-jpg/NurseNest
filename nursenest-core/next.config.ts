@@ -1,4 +1,10 @@
 import type { NextConfig } from "next";
+import { getAllProgrammaticSlugs } from "./src/lib/seo/programmatic-registry";
+
+const programmaticSeoRewrites = getAllProgrammaticSlugs().map((slug) => ({
+  source: `/${slug}`,
+  destination: `/seo/${slug}`,
+}));
 
 const nextConfig: NextConfig = {
   // Auth.js reads AUTH_TRUST_HOST in proxied environments (e.g. DigitalOcean).
@@ -10,6 +16,9 @@ const nextConfig: NextConfig = {
   // Allow importing shared monolith modules (`../shared/*`) without publishing a package.
   experimental: {
     externalDir: true,
+  },
+  async rewrites() {
+    return { beforeFiles: programmaticSeoRewrites };
   },
 };
 

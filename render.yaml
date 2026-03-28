@@ -16,6 +16,8 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: TZ
+        value: America/Toronto
       - key: SKIP_I18N_VALIDATION
         value: "1"
       - key: SKIP_I18N_COMPILE

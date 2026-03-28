@@ -2,6 +2,11 @@ import { PrismaClient } from "@prisma/client";
 
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
+/**
+ * Connection pool sizing: prefer `DATABASE_URL` query params, e.g.
+ * `postgresql://...?connection_limit=15&pool_timeout=20` (values depend on host + traffic).
+ * Prisma does not set a universal default; tune alongside your Postgres max_connections.
+ */
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({

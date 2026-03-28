@@ -1,4 +1,5 @@
 import { hash } from "bcryptjs";
+import { ContentStatus } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -7,7 +8,7 @@ async function main() {
   const fundamentals = await prisma.category.upsert({
     where: { slug: "fundamentals" },
     update: {},
-    create: { name: "Fundamentals", slug: "fundamentals" },
+    create: { name: "Fundamentals", slug: "fundamentals", topicCode: "fundamentals" },
   });
 
   await prisma.lesson.createMany({
@@ -19,7 +20,7 @@ async function main() {
         body: "Sample lesson content for CA RPN.",
         country: "CA",
         tier: "RPN",
-        published: true,
+        status: ContentStatus.PUBLISHED,
         categoryId: fundamentals.id,
       },
       {
@@ -29,7 +30,7 @@ async function main() {
         body: "Sample lesson content for US LVN/LPN.",
         country: "US",
         tier: "LVN_LPN",
-        published: true,
+        status: ContentStatus.PUBLISHED,
         categoryId: fundamentals.id,
       },
       {
@@ -39,7 +40,7 @@ async function main() {
         body: "Sample lesson content for RN.",
         country: "CA",
         tier: "RN",
-        published: true,
+        status: ContentStatus.PUBLISHED,
         categoryId: fundamentals.id,
       },
       {
@@ -49,7 +50,7 @@ async function main() {
         body: "Sample lesson content for NP.",
         country: "US",
         tier: "NP",
-        published: true,
+        status: ContentStatus.PUBLISHED,
         categoryId: fundamentals.id,
       },
     ],
@@ -66,7 +67,7 @@ async function main() {
         questionType: "MCQ",
         country: "CA",
         tier: "RPN",
-        published: true,
+        status: ContentStatus.PUBLISHED,
         categoryId: fundamentals.id,
       },
       {
@@ -77,7 +78,7 @@ async function main() {
         questionType: "SATA",
         country: "US",
         tier: "RN",
-        published: true,
+        status: ContentStatus.PUBLISHED,
         categoryId: fundamentals.id,
       },
       {
@@ -88,7 +89,7 @@ async function main() {
         questionType: "MCQ",
         country: "CA",
         tier: "RN",
-        published: true,
+        status: ContentStatus.PUBLISHED,
         categoryId: fundamentals.id,
       },
     ],
@@ -96,7 +97,7 @@ async function main() {
   });
 
   const exam = await prisma.exam.create({
-    data: { title: "Core Readiness Exam", country: "CA", tier: "RN", published: true },
+    data: { title: "Core Readiness Exam", country: "CA", tier: "RN", status: ContentStatus.PUBLISHED },
   });
 
   const adminHash = await hash("AdminPass123!", 12);

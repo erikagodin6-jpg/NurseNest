@@ -1,5 +1,8 @@
 "use client";
 
+import { useEffect } from "react";
+import * as Sentry from "@sentry/nextjs";
+
 export default function LearnerError({
   error,
   reset,
@@ -7,6 +10,10 @@ export default function LearnerError({
   error: Error;
   reset: () => void;
 }) {
+  useEffect(() => {
+    Sentry.captureException(error, { tags: { route: "student_app_error", feature: "react_error_boundary" } });
+  }, [error]);
+
   return (
     <div className="nn-card p-6">
       <h2 className="text-xl font-semibold">Unable to load this section</h2>

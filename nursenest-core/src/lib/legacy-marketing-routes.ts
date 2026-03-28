@@ -1,3 +1,5 @@
+import { isProgrammaticSeoSlug } from "@/lib/seo/programmatic-registry";
+
 /**
  * Maps legacy SPA paths from `shared/platform-manifest` and marketing copy to NurseNest Core routes.
  * External deep links fall back to the public marketing site when not implemented in Core.
@@ -9,7 +11,7 @@ const EXACT: Record<string, string> = {
   "/register": "/signup",
   "/rex-pn": "/pricing",
   "/nclex-rn": "/pricing",
-  "/np-exam-practice-questions": "/pricing",
+  "/np-exam-practice-questions": "/np-exam-practice-questions",
   "/nursing-certifications": `${PUBLIC_SITE}/nursing-certifications`,
   "/newgrad": `${PUBLIC_SITE}/newgrad`,
   "/new-grad": `${PUBLIC_SITE}/new-grad`,
@@ -33,8 +35,8 @@ const EXACT: Record<string, string> = {
   "/nclex-rn-guide": `${PUBLIC_SITE}/nclex-rn-guide`,
   "/shop": `${PUBLIC_SITE}/shop`,
   "/pre-nursing": "/app/lessons",
-  "/rex-pn-practice-questions": "/pricing",
-  "/nclex-rn-practice-questions": "/pricing",
+  "/rex-pn-practice-questions": "/rex-pn-practice-questions",
+  "/nclex-rn-practice-questions": "/nclex-rn-practice-questions",
   "/nursing-specialties": "/app/lessons",
   "/new-graduate-support": `${PUBLIC_SITE}/new-graduate-support`,
   "/healthcare-careers": `${PUBLIC_SITE}/healthcare-careers`,
@@ -57,6 +59,10 @@ export function resolveMarketingHref(href: string): string {
   if (href.startsWith("http")) return href;
   const mapped = mapLegacyMarketingHref(href);
   if (mapped.startsWith("http")) return mapped;
+  const segments = mapped.split("/").filter(Boolean);
+  if (segments.length === 1 && isProgrammaticSeoSlug(segments[0]!)) {
+    return `/${segments[0]}`;
+  }
   if (
     mapped.startsWith("/app/") ||
     mapped === "/app" ||

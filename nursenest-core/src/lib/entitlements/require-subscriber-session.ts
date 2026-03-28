@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { resolveEntitlement, type AccessScope } from "@/lib/entitlements/resolve-entitlement";
-import { safeServerLog } from "@/lib/observability/safe-server-log";
+import { safeServerLog, safeServerLogCritical } from "@/lib/observability/safe-server-log";
+import { setSentryServerContext } from "@/lib/observability/sentry-server-context";
 
 export type SubscriberSessionOk = { ok: true; userId: string; entitlement: AccessScope };
 export type SubscriberSessionFail = { ok: false; response: NextResponse };
@@ -18,11 +19,13 @@ export async function requireSubscriberSession(): Promise<SubscriberSessionResul
     return { ok: false, response: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
   }
 
+  setSentryServerContext({ route: "requireSubscriberSession", feature: "entitlement", userId });
+
   let entitlement: AccessScope;
   try {
     entitlement = await resolveEntitlement(userId);
-  } catch {
-    safeServerLog("entitlement", "resolve_failed", {});
+  } catch (e) {
+    safeServerLogCritical("entitlement", "resolve_failed", { api: "subscriber_gate" }, e);
     return {
       ok: false,
       response: NextResponse.json({ error: "Unable to verify access. Try again shortly." }, { status: 503 }),
@@ -30,6 +33,7 @@ export async function requireSubscriberSession(): Promise<SubscriberSessionResul
   }
 
   if (!entitlement.hasAccess) {
+    safeServerLog("access", "denied", { reason: "no_active_entitlement", surface: "subscriber_gate" });
     return { ok: false, response: NextResponse.json({ error: "Subscription required" }, { status: 403 }) };
   }
 

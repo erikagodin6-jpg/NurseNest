@@ -2,6 +2,8 @@
  * Structured server logs without secrets, tokens, or raw user identifiers.
  * Use for production diagnosis (platform log drains pick up stderr).
  */
+import * as Sentry from "@sentry/nextjs";
+
 const PREFIX = "[nursenest-core]";
 
 export type SafeLogMeta = Record<string, string | number | boolean | undefined>;
@@ -9,4 +11,22 @@ export type SafeLogMeta = Record<string, string | number | boolean | undefined>;
 export function safeServerLog(scope: string, event: string, meta?: SafeLogMeta): void {
   const payload = meta && Object.keys(meta).length > 0 ? ` ${JSON.stringify(meta)}` : "";
   console.error(`${PREFIX} ${scope} ${event}${payload}`);
+}
+
+/**
+ * Log + forward operational failures to Sentry (deduped by scope/event). Use sparingly.
+ */
+export function safeServerLogCritical(
+  scope: string,
+  event: string,
+  meta?: SafeLogMeta,
+  error?: unknown,
+): void {
+  safeServerLog(scope, event, meta);
+  const err = error instanceof Error ? error : error ? new Error(String(error)) : new Error(`${scope}:${event}`);
+  Sentry.captureException(err, {
+    tags: { scope, event, critical: "true" },
+    extra: (meta ?? {}) as Record<string, unknown>,
+    level: "error",
+  });
 }

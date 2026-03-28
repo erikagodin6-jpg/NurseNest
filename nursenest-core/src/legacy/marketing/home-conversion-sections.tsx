@@ -2,8 +2,9 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { marketingT as t } from "@/lib/marketing-i18n";
-import { mapLegacyMarketingHref, marketingAssetUrl } from "@/lib/legacy-marketing-routes";
+import { useMarketingI18n } from "@/lib/marketing-i18n";
+import { mapLegacyMarketingHref } from "@/lib/legacy-marketing-routes";
+import { MARKETING_SCREENSHOT_SOURCES } from "@/lib/marketing-assets";
 import {
   ArrowRight,
   Star,
@@ -72,28 +73,7 @@ interface ScreenshotSources {
   height: number;
 }
 
-function getScreenshotSources(name: string, origWidth: number, origHeight: number): ScreenshotSources {
-  const base = marketingAssetUrl(`/screenshots/${name}`);
-  return {
-    srcSet: `${base}-480w.webp 480w, ${base}-768w.webp 768w, ${base}-1200w.webp 1200w, ${base}-full.webp ${origWidth}w`,
-    thumbSrcSet: `${base}-thumb-160w.webp 160w, ${base}-thumb-240w.webp 240w`,
-    fallback: `${base}-768w.webp`,
-    thumbFallback: `${base}-thumb-160w.webp`,
-    width: origWidth,
-    height: origHeight,
-  };
-}
-
-const screenshotData: Record<string, ScreenshotSources> = {
-  screenshot2: getScreenshotSources("screenshot2_1773379293573", 2730, 1588),
-  screenshot9: getScreenshotSources("screenshot9_1773379293573", 2282, 1186),
-  screenshotTest: getScreenshotSources("screenshottest_1773379293573", 2048, 1590),
-  screenshot6: getScreenshotSources("screenshot6_1773379293573", 2524, 1448),
-  screenshot11: getScreenshotSources("screenshot11_1773379293573", 2510, 1588),
-  screenshot3: getScreenshotSources("screenshot3_1773379293573", 2528, 1602),
-  screenshot5: getScreenshotSources("screenshot5_1773379293573", 2538, 1610),
-  screenshot10: getScreenshotSources("screenshot10_1773379293573", 2264, 1580),
-};
+const screenshotData: Record<string, ScreenshotSources> = MARKETING_SCREENSHOT_SOURCES;
 
 const screenshotItems = [
   { id: "adaptive-performance", imageKey: "screenshot2", title: "See exactly where you stand", blurb: "Real-time readiness insights help learners identify strengths, weak areas, and next steps." },
@@ -196,6 +176,7 @@ function DynamicTrustCounters({
   hasMultiTier: boolean;
   isLoading: boolean;
 }) {
+  const { t } = useMarketingI18n();
   const counters = [
     {
       icon: Target,
@@ -307,6 +288,7 @@ function ConversionProofBlock({
   flashcards: number;
   decks: number;
 }) {
+  const { t } = useMarketingI18n();
   const router = useRouter();
 
   return (
@@ -412,6 +394,7 @@ function CompetitivePositioningSection({
   questions: number;
   flashcards: number;
 }) {
+  const { t } = useMarketingI18n();
   const router = useRouter();
 
   const comparisons = [
@@ -521,6 +504,7 @@ function CompetitivePositioningSection({
 }
 
 function HowItWorksSection() {
+  const { t } = useMarketingI18n();
   const steps = [
     {
       step: "1",
@@ -674,6 +658,7 @@ function FeatureCardsSection({ questionCount }: { questionCount: number }) {
 }
 
 function ScreenshotCarouselSection() {
+  const { t } = useMarketingI18n();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const thumbnailStripRef = useRef<HTMLDivElement>(null);
@@ -825,6 +810,7 @@ function ScreenshotCarouselSection() {
 }
 
 function ProfessionSelectorSection() {
+  const { t } = useMarketingI18n();
   const router = useRouter();
 
   const professions = [
@@ -900,6 +886,7 @@ function ProfessionSelectorSection() {
 }
 
 function SampleQuestionSection() {
+  const { t } = useMarketingI18n();
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [revealed, setRevealed] = useState(false);
   const router = useRouter();
@@ -1052,6 +1039,7 @@ function SampleQuestionSection() {
 }
 
 function TestimonialsSection() {
+  const { t } = useMarketingI18n();
   const reviews = [
     { name: "Priya S.", role: "RPN Student, Ontario", rating: 5, text: "I passed my practical nursing exam on the first attempt. The question bank and clinical lessons covered everything I saw on exam day. The rationales actually teach you how to think through each question.", tier: "RPN" },
     { name: "James K.", role: "RN Student, British Columbia", rating: 5, text: "The mock exams with strict mode were a game changer. I felt completely prepared walking into the NCLEX-RN. The flashcard decks helped me memorize medications faster than any textbook.", tier: "RN" },
@@ -1128,6 +1116,7 @@ function TestimonialsSection() {
 }
 
 function FinalCTASection() {
+  const { t } = useMarketingI18n();
   const router = useRouter();
 
   return (

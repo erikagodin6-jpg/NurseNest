@@ -34,4 +34,12 @@ export const publicPlanCards: PlanCard[] = [
     tier: "NP",
     monthlyPriceLabel: "$39.99 CAD/mo",
   },
+  {
+    slug: "allied",
+    title: "Allied health",
+    description: "Reasoning-heavy prep for RT, paramedic, lab, and imaging pathways.",
+    country: "CA",
+    tier: "ALLIED",
+    monthlyPriceLabel: "From RN-tier billing until dedicated SKUs ship",
+  },
 ];

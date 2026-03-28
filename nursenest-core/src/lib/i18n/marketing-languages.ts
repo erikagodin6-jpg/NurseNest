@@ -1,4 +1,7 @@
-/** Locale codes aligned with legacy `client/src/lib/i18n.tsx` for marketing shell links. */
+/**
+ * Locale codes aligned with legacy `client/src/lib/i18n.tsx` for marketing shell links.
+ * Core-hosted locales use `/{code}/…` routes; see `marketing-locale-policy.ts` and `LOCALE_REGION_THEME.md`.
+ */
 export const MARKETING_LANGUAGES: { code: string; name: string; flag: string }[] = [
   { code: "en", name: "English", flag: "\uD83C\uDDEC\uD83C\uDDE7" },
   { code: "fr", name: "Fran\u00e7ais", flag: "\uD83C\uDDEB\uD83C\uDDF7" },

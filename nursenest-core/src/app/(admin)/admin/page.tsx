@@ -1,19 +1,40 @@
+import Link from "next/link";
 import { requireAdmin } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
+import { ContentStatus, JobStatus } from "@prisma/client";
 
 export default async function AdminPage() {
   await requireAdmin();
 
-  const [lessonCount, questionCount] = await Promise.all([
+  const [lessonCount, questionCount, draftQuestions, reviewQuestions, jobPending] = await Promise.all([
     prisma.lesson.count(),
     prisma.question.count(),
+    prisma.question.count({ where: { status: ContentStatus.DRAFT } }),
+    prisma.question.count({ where: { needsReview: true } }),
+    prisma.backgroundJob.count({ where: { status: JobStatus.PENDING } }).catch(() => 0),
   ]);
+
+  const api = [
+    { href: "/api/admin/insights", label: "Insights JSON" },
+    { href: "/api/admin/qa", label: "QA summary" },
+    { href: "/api/admin/gaps", label: "Coverage gaps" },
+    { href: "/api/admin/questions?page=1&pageSize=20", label: "Questions (paged)" },
+    { href: "/api/admin/lessons?page=1&pageSize=20", label: "Lessons (paged)" },
+    { href: "/api/admin/exams?page=1&pageSize=20", label: "Exams (paged)" },
+    { href: "/api/admin/flashcards", label: "Flashcards" },
+    { href: "/api/admin/jobs", label: "Background jobs" },
+    { href: "/api/admin/export/content?take=100", label: "Export sample" },
+  ];
 
   return (
     <main className="mx-auto w-full max-w-6xl px-6 py-10">
-      <h1 className="text-3xl font-bold">Admin panel</h1>
-      <p className="mt-2 text-muted">Manage lessons, questions, publishing, and exam mappings.</p>
-      <section className="mt-6 grid gap-4 sm:grid-cols-2">
+      <h1 className="text-3xl font-bold">Operations & content</h1>
+      <p className="mt-2 text-muted">
+        Admin APIs are authenticated (ADMIN role). Use these endpoints from your CMS, scripts, or API client — wire a richer UI when
+        ready without changing learner flows.
+      </p>
+
+      <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <article className="nn-card p-6">
           <p className="text-sm text-muted">Lessons</p>
           <p className="mt-1 text-3xl font-bold">{lessonCount}</p>
@@ -22,6 +43,47 @@ export default async function AdminPage() {
           <p className="text-sm text-muted">Questions</p>
           <p className="mt-1 text-3xl font-bold">{questionCount}</p>
         </article>
+        <article className="nn-card p-6">
+          <p className="text-sm text-muted">Draft questions</p>
+          <p className="mt-1 text-3xl font-bold">{draftQuestions}</p>
+        </article>
+        <article className="nn-card p-6">
+          <p className="text-sm text-muted">Needs review</p>
+          <p className="mt-1 text-3xl font-bold">{reviewQuestions}</p>
+        </article>
+      </section>
+
+      <section className="mt-8 nn-card p-6">
+        <h2 className="text-lg font-semibold">Background jobs</h2>
+        <p className="mt-1 text-sm text-muted">Pending: {jobPending}</p>
+        <p className="mt-2 text-sm text-muted">
+          Schedule <code className="rounded bg-black/5 px-1">POST /api/cron/jobs</code> with{" "}
+          <code className="rounded bg-black/5 px-1">Authorization: Bearer $CRON_SECRET</code> to drain the queue.
+        </p>
+      </section>
+
+      <section className="mt-8">
+        <h2 className="text-lg font-semibold">API quick links</h2>
+        <ul className="mt-3 space-y-2 text-sm">
+          {api.map((x) => (
+            <li key={x.href}>
+              <Link className="text-primary underline" href={x.href}>
+                {x.label}
+              </Link>
+              <span className="ml-2 text-muted">{x.href}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-8 nn-card p-6 text-sm text-muted">
+        <h2 className="text-base font-semibold text-foreground">Scale notes</h2>
+        <ul className="mt-2 list-inside list-disc space-y-1">
+          <li>Content uses ContentStatus + exam family + tags; publish validates rationales and option shapes.</li>
+          <li>Heavy work runs via BackgroundJob + cron worker (retries + failure states).</li>
+          <li>Admin list endpoints paginate; export uses cursor pagination.</li>
+          <li>Separate dev/staging/prod via DATABASE_URL and CRON_SECRET — never share production DB credentials.</li>
+        </ul>
       </section>
     </main>
   );
