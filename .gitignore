@@ -45,6 +45,9 @@ coverage/
 .id_rsa
 *.key
 
+# Generated i18n diagnostics (large; regenerate with npm run i18n:status or dashboard refresh)
+reports/i18n-status.json
+
 # Optional local exports / scans (keep out of git)
 artifacts/
 scan.txt

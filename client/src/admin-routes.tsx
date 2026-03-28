@@ -39,6 +39,7 @@ const AdminSeoPerformance = lazy(() => import("@/pages/admin-seo-performance"));
 const AdminTranslationDashboard = lazy(() => import("@/pages/admin-translation-dashboard"));
 const AdminTranslationCoverage = lazy(() => import("@/pages/admin-translation-coverage"));
 const AdminTranslationHealth = lazy(() => import("@/pages/admin-translation-health"));
+const AdminI18nDiagnostics = lazy(() => import("@/pages/admin-i18n-diagnostics"));
 const AdminLanguageHealth = lazy(() => import("@/pages/admin-language-health"));
 const AdminSeoInspector = lazy(() => import("@/pages/admin-seo-inspector"));
 const AdminContentIntelligence = lazy(() => import("@/pages/admin-content-intelligence"));
@@ -191,6 +192,7 @@ export function AdminRoutes() {
         <Route path="/admin/translations" component={AdminTranslationDashboard} />
         <Route path="/admin/translation-coverage" component={AdminTranslationCoverage} />
         <Route path="/admin/translation-health" component={AdminTranslationHealth} />
+        <Route path="/admin/i18n" component={AdminI18nDiagnostics} />
         <Route path="/admin/language-health" component={AdminLanguageHealth} />
         <Route path="/admin/seo-inspector" component={AdminSeoInspector} />
         <Route path="/admin/content-intelligence" component={AdminContentIntelligence} />
@@ -295,6 +297,7 @@ export function AdminRoutes() {
         <Route path="/:locale/admin/data-migration" component={AdminDataMigration} />
         <Route path="/:locale/admin/generator-v2" component={GeneratorV2Page} />
         <Route path="/:locale/admin/taxonomy-review" component={AdminTaxonomyReview} />
+        <Route path="/:locale/admin/i18n" component={AdminI18nDiagnostics} />
         <Route>{() => <AdminNotFound />}</Route>
       </Switch>
     </Suspense>

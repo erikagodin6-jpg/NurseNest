@@ -876,6 +876,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       import("./taxonomy-routes").then(m => m.registerTaxonomyRoutes(app)),
       import("./translation-audit-routes").then(m => m.registerTranslationAuditRoutes(app)),
       import("./translation-health-routes").then(m => m.registerTranslationHealthRoutes(app)),
+      import("./i18n-diagnostics-routes").then(m => m.registerI18nDiagnosticsRoutes(app)),
       import("./translation-completeness-routes").then(m => m.registerTranslationCompletenessRoutes(app)),
       import("./i18n-missing-keys-routes").then(m => m.registerI18nMissingKeysRoutes(app)),
       import("./imaging-monetization-routes").then(m => m.registerImagingMonetizationRoutes(app)),
