@@ -1,19 +1,20 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProgrammaticSeoPage } from "@/components/seo/programmatic-seo-page";
-import { CORE_HOSTED_MARKETING_LOCALES } from "@/lib/i18n/marketing-locale-policy";
 import { buildProgrammaticMetadata } from "@/lib/seo/programmatic-metadata";
-import { getAllProgrammaticSlugs, getProgrammaticSeoPage } from "@/lib/seo/programmatic-registry";
+import { getProgrammaticSeoPage } from "@/lib/seo/programmatic-registry";
+
+/**
+ * English canonical programmatic URLs are fully prerendered at build under `/seo/[slug]`.
+ * A full locale×slug matrix here (~19 locales × ~23 slugs) dominated `.next` artifact size and
+ * contributed to ENOSPC in disk-limited CI. Non-default locales are generated on first request
+ * and cached (ISR); URLs and metadata are unchanged, only build-time static output is reduced.
+ */
+export const dynamicParams = true;
+export const revalidate = 86400;
 
 export function generateStaticParams(): { locale: string; slug: string }[] {
-  const slugs = getAllProgrammaticSlugs();
-  const out: { locale: string; slug: string }[] = [];
-  for (const locale of CORE_HOSTED_MARKETING_LOCALES) {
-    for (const slug of slugs) {
-      out.push({ locale, slug });
-    }
-  }
-  return out;
+  return [];
 }
 
 export async function generateMetadata({
