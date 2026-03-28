@@ -48,10 +48,8 @@ import {
   COMMITTED_MARKETING_SCREENSHOTS_PREFIX,
   HOMEPAGE_SCREENSHOT_SLOT_STEMS,
   LOGO_LEGACY_FALLBACK_URL,
-  getThemeLogoObjectKey,
-  nursenestImagesSpaceObjectUrl,
 } from "@/config/marketing-cdn.catalog";
-import { resolveMarketingAbsoluteUrl } from "./marketing-resolve-image-url";
+import { getThemeLogo } from "@/lib/theme/theme-logo-url";
 
 /** Legacy brand mark when generated discovery has not set `LOGO_PRIMARY` yet (matches monolith SEO references). */
 const LOGO_PRIMARY_FALLBACK = LOGO_LEGACY_FALLBACK_URL;
@@ -70,11 +68,14 @@ export {
   nursenestImagesSpaceObjectUrl,
 } from "@/config/marketing-cdn.catalog";
 
-/** Resolved URL for the theme-specific uploaded logo (not a shared asset tinted per theme). */
+/** @deprecated Use `getThemeLogo` from `@/lib/theme/theme-logo-url` */
 export function getResolvedThemeLogoUrl(themeId: string): string {
-  const key = getThemeLogoObjectKey(themeId);
-  return resolveMarketingAbsoluteUrl(nursenestImagesSpaceObjectUrl(key));
+  return getThemeLogo(themeId);
 }
+
+export { getThemeLogo, getThemeLogoPublicUrl } from "@/lib/theme/theme-logo-url";
+export { useThemeLogo } from "@/lib/theme/use-theme-logo";
+export { normalizeThemeIdForLogo, THEME_LOGO_ALIASES } from "@/lib/theme/theme-logo-resolve";
 
 /** Legacy OG still if Spaces hero screenshot is unset. */
 const OG_FALLBACK =
@@ -95,4 +96,5 @@ export {
   resolveMarketingAbsoluteUrl,
   resolveMarketingSrcSet,
   getMarketingCdnBaseForDirectFallback,
+  isForbiddenBrowserImageScheme,
 } from "./marketing-resolve-image-url";

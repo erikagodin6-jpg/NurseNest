@@ -8,6 +8,7 @@ import { EmailSignupBanner } from "@/components/marketing/email-signup-banner";
 import { MARKETING_LANGUAGES } from "@/lib/i18n/marketing-languages";
 import { DEFAULT_MARKETING_LOCALE } from "@/lib/i18n/marketing-locale-policy";
 import { stripMarketingLocalePrefix, withMarketingLocale } from "@/lib/i18n/marketing-path";
+import { SiteBrandLogoMark } from "@/components/brand/site-brand-logo";
 
 function FLink({
   href,
@@ -233,7 +234,8 @@ export function SiteFooter() {
         </div>
 
         <div className="flex flex-col items-center justify-between gap-4 border-t border-[var(--theme-separator)] pt-6 md:flex-row">
-          <div>
+          <div className="flex items-center gap-2">
+            <SiteBrandLogoMark className="h-9 w-9" />
             <p className="text-xl font-extrabold tracking-tight text-primary">NurseNest</p>
           </div>
           <div className="text-sm text-[var(--theme-muted-text)]">

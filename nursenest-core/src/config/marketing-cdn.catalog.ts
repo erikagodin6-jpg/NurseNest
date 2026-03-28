@@ -4,6 +4,7 @@
  */
 import catalog from "./marketing-cdn.catalog.json";
 import { NURSENEST_DEFAULT_THEME } from "@/lib/theme/theme-registry";
+import { normalizeThemeIdForLogo } from "@/lib/theme/theme-logo-resolve";
 
 export const DIGITALOCEAN_SPACES_NURSENEST_IMAGES = catalog.digitalOceanSpaces.nursenestImages;
 
@@ -18,20 +19,35 @@ export const COMMITTED_MARKETING_SCREENSHOTS_PREFIX =
 
 export const LOGO_LEGACY_FALLBACK_URL = catalog.logo.legacyFallbackUrl;
 
-/** Optional aliases when a label maps to an existing theme file (e.g. “black” → midnight). */
-const THEME_LOGO_THEME_ALIASES: Record<string, string> = {
-  black: "midnight",
+type LogoCatalog = typeof catalog.logo & {
+  primaryBrandMarkObjectKey?: string;
+  primaryBrandMarkThemeTinted?: boolean;
 };
+
+/** Single Spaces key for `bluebrandlogo` (mask + theme primary). */
+export function getPrimaryBrandMarkObjectKey(): string | null {
+  const k = (catalog.logo as LogoCatalog).primaryBrandMarkObjectKey?.trim();
+  return k || null;
+}
+
+/** When true, header uses one mask-tinted mark; per-theme PNG map is not used for the header. */
+export function headerUsesThemeTintedBrandMark(): boolean {
+  return Boolean((catalog.logo as LogoCatalog).primaryBrandMarkThemeTinted && getPrimaryBrandMarkObjectKey());
+}
 
 /**
  * Spaces object key for the pre-colored header logo for `themeId` (`data-theme` / next-themes).
- * Falls back to `defaultFallbackThemeId` (lavender) when unknown.
+ * Aliases: `theme-logo-resolve.ts` → `THEME_LOGO_ALIASES`. Falls back to `defaultFallbackThemeId`.
+ * Skipped when `headerUsesThemeTintedBrandMark()` — use `getPrimaryBrandMarkObjectKey()` instead.
  */
 export function getThemeLogoObjectKey(themeId: string): string {
+  if (headerUsesThemeTintedBrandMark()) {
+    return getPrimaryBrandMarkObjectKey() as string;
+  }
   const map = catalog.logo.themeBrandLogoObjectKeys as Record<string, string>;
   const fallbackId =
     (catalog.logo as { defaultFallbackThemeId?: string }).defaultFallbackThemeId ?? NURSENEST_DEFAULT_THEME;
-  const normalized = THEME_LOGO_THEME_ALIASES[themeId] ?? themeId;
+  const normalized = normalizeThemeIdForLogo(themeId);
   const key = map[normalized] ?? map[fallbackId];
   if (key) return key;
   return map[fallbackId] ?? map[NURSENEST_DEFAULT_THEME];

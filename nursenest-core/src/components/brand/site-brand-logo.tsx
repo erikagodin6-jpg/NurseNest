@@ -1,30 +1,38 @@
 "use client";
 
-import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { getResolvedThemeLogoUrl } from "@/lib/marketing-assets";
-import { NURSENEST_DEFAULT_THEME } from "@/lib/theme/theme-registry";
+import { headerUsesThemeTintedBrandMark } from "@/config/marketing-cdn.catalog";
+import { useThemeLogo } from "@/lib/theme/use-theme-logo";
+
+function maskStyleUrl(href: string): string {
+  return `url("${href.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}")`;
+}
 
 /**
- * Header brand mark: separate Spaces asset per theme (`logo.themeBrandLogoObjectKeys`).
- * No dynamic tinting and no single bluebrandlogo for all themes—only `<img src>` to the mapped file.
- * Theme source: next-themes `resolvedTheme` / `theme` (`data-theme` on `<html>`).
+ * Header brand mark: either a single Spaces asset (`bluebrandlogo`) tinted with `var(--theme-primary)` via CSS mask,
+ * or per-theme PNGs from the catalog when tinting is off.
  */
 export function SiteBrandLogoMark({ className = "" }: { className?: string }) {
-  const { resolvedTheme, theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
-  const fallbackUrl = getResolvedThemeLogoUrl(NURSENEST_DEFAULT_THEME);
-  const [src, setSrc] = useState(fallbackUrl);
+  const { src, fallbackSrc } = useThemeLogo();
+  const tinted = headerUsesThemeTintedBrandMark();
+  const [imgSrc, setImgSrc] = useState(src);
   const [failedFinal, setFailedFinal] = useState(false);
+  const [maskReady, setMaskReady] = useState(false);
 
   useEffect(() => {
-    if (!mounted) return;
-    const id = (resolvedTheme ?? theme ?? NURSENEST_DEFAULT_THEME) as string;
-    setSrc(getResolvedThemeLogoUrl(id));
+    setImgSrc(src);
     setFailedFinal(false);
-  }, [mounted, resolvedTheme, theme]);
+    setMaskReady(false);
+  }, [src]);
+
+  useEffect(() => {
+    if (!tinted) return;
+    const img = new Image();
+    img.decoding = "async";
+    img.onload = () => setMaskReady(true);
+    img.onerror = () => setFailedFinal(true);
+    img.src = src;
+  }, [src, tinted]);
 
   if (failedFinal) {
     return (
@@ -37,9 +45,38 @@ export function SiteBrandLogoMark({ className = "" }: { className?: string }) {
     );
   }
 
+  if (tinted && maskReady) {
+    return (
+      <span
+        role="img"
+        aria-label="NurseNest"
+        className={`inline-block h-8 w-8 shrink-0 bg-[var(--theme-primary)] ${className}`}
+        style={{
+          WebkitMaskImage: maskStyleUrl(src),
+          maskImage: maskStyleUrl(src),
+          WebkitMaskSize: "contain",
+          maskSize: "contain",
+          WebkitMaskRepeat: "no-repeat",
+          maskRepeat: "no-repeat",
+          WebkitMaskPosition: "center",
+          maskPosition: "center",
+        }}
+      />
+    );
+  }
+
+  if (tinted && !maskReady) {
+    return (
+      <span
+        className={`inline-block h-8 w-8 shrink-0 rounded-md bg-[color-mix(in_srgb,var(--theme-primary)_12%,var(--theme-card-bg))] ${className}`}
+        aria-hidden
+      />
+    );
+  }
+
   return (
     <img
-      src={src}
+      src={imgSrc}
       alt=""
       width={32}
       height={32}
@@ -48,8 +85,8 @@ export function SiteBrandLogoMark({ className = "" }: { className?: string }) {
       decoding="async"
       suppressHydrationWarning
       onError={() => {
-        if (src !== fallbackUrl) {
-          setSrc(fallbackUrl);
+        if (imgSrc !== fallbackSrc) {
+          setImgSrc(fallbackSrc);
         } else {
           setFailedFinal(true);
         }
