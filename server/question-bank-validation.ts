@@ -290,3 +290,26 @@ export function getCountryForUserRegion(userRegion: string | null | undefined): 
 export function getExamTypeForCountry(country: string): string {
   return country === "US" ? "NCLEX-PN" : "REx-PN";
 }
+
+/**
+ * Legacy `question_bank` rows have no subscription-tier column. Non-admin learners may only
+ * receive rows for their profile region's exam (US → NCLEX-PN, CA → REx-PN). Cross-region and
+ * IDOR access must be blocked server-side until tier metadata exists.
+ */
+export type LegacyQuestionBankScope = { country: string; examType: string };
+
+export function getLegacyQuestionBankScopeForUser(
+  user: { region?: string | null } | null | undefined,
+): LegacyQuestionBankScope | null {
+  const country = getCountryForUserRegion(user?.region);
+  if (!country) return null;
+  return { country, examType: getExamTypeForCountry(country) };
+}
+
+export function legacyQuestionBankItemMatchesUserScope(
+  item: { country: string; examType: string },
+  scope: LegacyQuestionBankScope | null,
+): boolean {
+  if (!scope) return false;
+  return item.country === scope.country && item.examType === scope.examType;
+}

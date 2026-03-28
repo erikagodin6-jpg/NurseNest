@@ -69,6 +69,10 @@ export default function QBankPreviewPage() {
   const [tab, setTab] = useState<"browse" | "analytics">("browse");
 
   useEffect(() => {
+    if (user && user.tier !== "admin" && tab === "analytics") setTab("browse");
+  }, [user, tab]);
+
+  useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -76,16 +80,17 @@ export default function QBankPreviewPage() {
         if (filterCategory) params.set("category", filterCategory);
         if (filterDifficulty) params.set("difficulty", filterDifficulty);
         params.set("status", "active");
-        const [qResp, aResp] = await Promise.all([
-          fetch(`/api/question-bank/items?${params}`, {
-            headers: getAuthHeaders(),
-          }),
-          fetch("/api/question-bank/analytics"),
-        ]);
+        const headers = getAuthHeaders();
+        const qResp = await fetch(`/api/question-bank/items?${params}`, { headers });
         const qData = await qResp.json();
-        const aData = await aResp.json();
         setQuestions(Array.isArray(qData) ? qData : []);
-        setAnalytics(Array.isArray(aData) ? aData : []);
+        if (user?.tier === "admin") {
+          const aResp = await fetch("/api/question-bank/analytics", { headers });
+          const aData = await aResp.json();
+          setAnalytics(Array.isArray(aData) ? aData : []);
+        } else {
+          setAnalytics([]);
+        }
       } catch {
         setQuestions([]);
         setAnalytics([]);
@@ -131,9 +136,11 @@ export default function QBankPreviewPage() {
             <Button variant={tab === "browse" ? "default" : "outline"} size="sm" onClick={() => setTab("browse")} data-testid="button-tab-browse">
               <BookOpen className="h-4 w-4 mr-1" />Browse
             </Button>
-            <Button variant={tab === "analytics" ? "default" : "outline"} size="sm" onClick={() => setTab("analytics")} data-testid="button-tab-analytics">
-              <BarChart3 className="h-4 w-4 mr-1" />Analytics
-            </Button>
+            {user?.tier === "admin" ? (
+              <Button variant={tab === "analytics" ? "default" : "outline"} size="sm" onClick={() => setTab("analytics")} data-testid="button-tab-analytics">
+                <BarChart3 className="h-4 w-4 mr-1" />Analytics
+              </Button>
+            ) : null}
           </div>
         </div>
 

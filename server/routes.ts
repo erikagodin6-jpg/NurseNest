@@ -119,7 +119,13 @@ import type { AdminRole, OperatorActionParams } from "./admin-auth";
 import { requireEntitlement, requireAnyPremium, requireAuthenticated, handleEntitlementDebug, handleEntitlementResolve, resolveEntitlementSync } from "./entitlements";
 import { allowedNursingFlashcardBankTiersForUser } from "./paywall-tier-rules";
 import { wrapWithOrchestrator, getOrchestratorStats } from "./access-delivery-orchestrator";
-import { validateQuestionBankImport, getCountryForUserRegion, getExamTypeForCountry } from "./question-bank-validation";
+import {
+  validateQuestionBankImport,
+  getCountryForUserRegion,
+  getExamTypeForCountry,
+  getLegacyQuestionBankScopeForUser,
+  legacyQuestionBankItemMatchesUserScope,
+} from "./question-bank-validation";
 import { examRequestIdMiddleware, getExamRequestId, withAssemblyConcurrencyLimit, timedExamQuery, buildExamShell, examDeliveryLog, getAssemblyStats } from "./exam-delivery";
 import { isCircuitOpen, recordExamFailure, recordExamSuccess, getCircuitStatus } from "./exam-resilience-engine";
 import { getAllowedContentTiers } from "../shared/tier-config";
@@ -24848,18 +24854,25 @@ Return ONLY valid JSON with this exact structure:
     try {
       const user = await resolveAuthUser(req);
       const filters: any = {};
-      if (req.query.category) filters.category = req.query.category;
-      if (req.query.difficulty) filters.difficulty = req.query.difficulty;
-      if (req.query.topic) filters.topic = req.query.topic;
-      if (req.query.status) filters.status = req.query.status;
-      if (req.query.examType) filters.examType = req.query.examType;
-      if (req.query.country) filters.country = req.query.country;
-      if (user?.region && !req.query.country) {
-        const country = getCountryForUserRegion(user.region);
-        if (country) {
-          filters.country = country;
-          filters.examType = getExamTypeForCountry(country);
+      const admin = await isAdminUser(req);
+      if (admin) {
+        if (req.query.category) filters.category = req.query.category;
+        if (req.query.difficulty) filters.difficulty = req.query.difficulty;
+        if (req.query.topic) filters.topic = req.query.topic;
+        if (req.query.status) filters.status = req.query.status;
+        if (req.query.examType) filters.examType = req.query.examType;
+        if (req.query.country) filters.country = req.query.country;
+      } else {
+        const scope = getLegacyQuestionBankScopeForUser(user);
+        if (!scope) {
+          return res.status(400).json({ error: "User region not set. Please update your profile." });
         }
+        filters.country = scope.country;
+        filters.examType = scope.examType;
+        if (req.query.category) filters.category = req.query.category;
+        if (req.query.difficulty) filters.difficulty = req.query.difficulty;
+        if (req.query.topic) filters.topic = req.query.topic;
+        if (req.query.status) filters.status = req.query.status;
       }
       const items = await storage.getQuestionBankItems(filters);
       res.json(items);
@@ -24870,8 +24883,15 @@ Return ONLY valid JSON with this exact structure:
 
   app.get("/api/question-bank/items/:id", requireAnyPaidTier(), async (req: any, res) => {
     try {
+      const user = await resolveAuthUser(req);
       const item = await storage.getQuestionBankItem(req.params.id);
       if (!item) return res.status(404).json({ error: "Question not found" });
+      if (!(await isAdminUser(req))) {
+        const scope = getLegacyQuestionBankScopeForUser(user);
+        if (!legacyQuestionBankItemMatchesUserScope(item, scope)) {
+          return res.status(404).json({ error: "Question not found" });
+        }
+      }
       res.json(item);
     } catch (e: any) {
       res.status(500).json({ error: e.message });
@@ -25159,8 +25179,10 @@ Return ONLY valid JSON with this exact structure:
     }
   });
 
-  app.get("/api/question-bank/analytics", requireAnyPaidTier(), async (req: any, res) => {
+  app.get("/api/question-bank/analytics", async (req: any, res) => {
     try {
+      const admin = await requireAdmin(req, res);
+      if (!admin) return;
       const analytics = await storage.getQuestionBankAnalytics();
       res.json(analytics);
     } catch (e: any) {
