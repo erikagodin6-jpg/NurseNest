@@ -1,0 +1,44 @@
+{
+  "description": "Single source for DigitalOcean Spaces marketing CDN facts and legacy fallbacks used by nursenest-core. Regenerate marketing-assets.generated.ts via `npm run generate:marketing-assets` (requires SPACES_*).",
+  "digitalOceanSpaces": {
+    "nursenestImages": {
+      "publicBaseUrl": "https://nursenest-images.tor1.digitaloceanspaces.com",
+      "bucket": "nursenest-images",
+      "region": "tor1",
+      "objectUrlPattern": "{publicBaseUrl}/{objectKey}",
+      "notes": "Public URL joins the base (no trailing slash) with the S3 object key; path segments are encoded per segment. Matches DEFAULT_MARKETING_CDN_BASE in scripts/generate-marketing-assets.mjs when bucket is nursenest-images in tor1."
+    }
+  },
+  "committedMarketingAssets": {
+    "origin": "https://www.nursenest.ca",
+    "screenshotsPathPrefix": "/screenshots/",
+    "notes": "Until `generate-marketing-assets.mjs` runs with SPACES_* credentials, marketing-assets.generated.ts points image src/srcSet URLs at this origin (legacy production), not at digitalOceanSpaces.nursenestImages.publicBaseUrl."
+  },
+  "logo": {
+    "generatedPrimary": null,
+    "legacyFallbackUrl": "https://www.nursenest.ca/brand-logo.gif",
+    "discoveryFilenamePattern": "Objects whose key matches /logo/i (see scripts/generate-marketing-assets.mjs CATEGORY_TESTS.LOGO_PRIMARY)."
+  },
+  "homepageScreenshots": {
+    "responsiveFilenameSuffixes": ["-480w.webp", "-768w.webp", "-1200w.webp", "-full.webp", "-thumb-160w.webp", "-thumb-240w.webp"],
+    "slotToLegacyStem": {
+      "screenshot2": { "stem": "screenshot2_1773379293573", "width": 2730, "height": 1588 },
+      "screenshot9": { "stem": "screenshot9_1773379293573", "width": 2282, "height": 1186 },
+      "screenshotTest": { "stem": "screenshottest_1773379293573", "width": 2048, "height": 1590 },
+      "screenshot6": { "stem": "screenshot6_1773379293573", "width": 2524, "height": 1448 },
+      "screenshot11": { "stem": "screenshot11_1773379293573", "width": 2510, "height": 1588 },
+      "screenshot3": { "stem": "screenshot3_1773379293573", "width": 2528, "height": 1602 },
+      "screenshot5": { "stem": "screenshot5_1773379293573", "width": 2538, "height": 1610 },
+      "screenshot10": { "stem": "screenshot10_1773379293573", "width": 2264, "height": 1580 }
+    }
+  },
+  "lessonImages": {
+    "inNursenestCore": "No static DigitalOcean Spaces map. Lesson media is not hard-coded in this package.",
+    "database": {
+      "table": "lesson_images",
+      "pathColumn": "object_path"
+    },
+    "monolithUrlPattern": "/api/object-storage/{bucketId}/{objectPath}",
+    "notes": "The main application server resolves stored object_path values to this relative API path (see server/routes.ts). Bucket id comes from deployment env (e.g. Replit object storage), not from marketing-cdn.catalog.json."
+  }
+}

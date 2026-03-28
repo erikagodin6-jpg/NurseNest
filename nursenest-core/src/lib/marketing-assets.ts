@@ -3,12 +3,13 @@
  * `npm run generate:marketing-assets` (requires SPACES_KEY, SPACES_SECRET, SPACES_REGION, SPACES_BUCKET).
  *
  * Committed `marketing-assets.generated.ts` uses legacy nursenest.ca screenshots until discovery runs.
+ *
+ * Canonical bucket hostname, legacy stems, and lesson-image documentation: `src/config/marketing-cdn.catalog.json`.
  */
 export {
   MARKETING_CDN_BASE,
   type MarketingResponsiveImage,
   type MarketingScreenshotBundle,
-  LOGO_PRIMARY,
   LOGO_PRIMARY_SRCSET,
   HERO_DASHBOARD_SCREENSHOT,
   HERO_DASHBOARD_SCREENSHOT_SRCSET,
@@ -31,14 +32,41 @@ export {
 } from "./marketing-assets.generated";
 
 import {
-  LOGO_PRIMARY,
+  LOGO_PRIMARY as LOGO_PRIMARY_GENERATED,
   MARKETING_HERO_CAROUSEL_SLIDES,
 } from "./marketing-assets.generated";
 
-const OG_FALLBACK =
-  "https://www.nursenest.ca/screenshots/screenshottest_1773379293573-1200w.webp";
+import {
+  COMMITTED_MARKETING_ASSET_ORIGIN,
+  COMMITTED_MARKETING_SCREENSHOTS_PREFIX,
+  HOMEPAGE_SCREENSHOT_SLOT_STEMS,
+  LOGO_LEGACY_FALLBACK_URL,
+} from "@/config/marketing-cdn.catalog";
+
+/** Legacy brand mark when generated discovery has not set `LOGO_PRIMARY` yet (matches monolith SEO references). */
+const LOGO_PRIMARY_FALLBACK = LOGO_LEGACY_FALLBACK_URL;
+
+export const LOGO_PRIMARY = LOGO_PRIMARY_GENERATED ?? LOGO_PRIMARY_FALLBACK;
+
+export {
+  DIGITALOCEAN_SPACES_NURSENEST_IMAGES,
+  NURSENEST_IMAGES_SPACE_PUBLIC_BASE_URL,
+  COMMITTED_MARKETING_ASSET_ORIGIN,
+  COMMITTED_MARKETING_SCREENSHOTS_PREFIX,
+  HOMEPAGE_SCREENSHOT_SLOT_STEMS,
+  LESSON_IMAGES_RESOLUTION,
+  LOGO_LEGACY_FALLBACK_URL,
+  nursenestImagesSpaceObjectUrl,
+} from "@/config/marketing-cdn.catalog";
+
+/** OG default still; path matches `homepageScreenshots.slotToLegacyStem.screenshotTest` in the catalog. */
+const OG_FALLBACK = `${COMMITTED_MARKETING_ASSET_ORIGIN}${COMMITTED_MARKETING_SCREENSHOTS_PREFIX}${HOMEPAGE_SCREENSHOT_SLOT_STEMS.screenshotTest.stem}-1200w.webp`;
 
 /** Absolute URL for Open Graph / Twitter cards (server-safe). */
 export function marketingOpenGraphImageUrl(): string {
   return LOGO_PRIMARY ?? MARKETING_HERO_CAROUSEL_SLIDES[0]?.fallback ?? OG_FALLBACK;
 }
+
+/** First carousel still image; used when a slide URL fails in production. */
+export const MARKETING_HERO_IMAGE_FALLBACK =
+  MARKETING_HERO_CAROUSEL_SLIDES[0]?.fallback ?? OG_FALLBACK;

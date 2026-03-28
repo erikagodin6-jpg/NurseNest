@@ -11,6 +11,7 @@
 
 import "dotenv/config";
 import fs from "node:fs/promises";
+import fsSync from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { S3Client, ListObjectsV2Command } from "@aws-sdk/client-s3";
@@ -19,24 +20,29 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 const OUT_TS = path.join(ROOT, "src/lib/marketing-assets.generated.ts");
 const OUT_REPORT = path.join(__dirname, "marketing-assets-report.json");
+const CATALOG_PATH = path.join(ROOT, "src/config/marketing-cdn.catalog.json");
 
 const IMAGE_EXT = /\.(png|jpe?g|webp|svg)$/i;
 
-const LEGACY_BASE = "https://www.nursenest.ca";
+function loadMarketingCdnCatalog() {
+  const raw = fsSync.readFileSync(CATALOG_PATH, "utf8");
+  return JSON.parse(raw);
+}
 
-/** Public CDN hostname for nursenest-images (DigitalOcean Spaces, tor1). */
-const DEFAULT_MARKETING_CDN_BASE = "https://nursenest-images.tor1.digitaloceanspaces.com";
+const marketingCdnCatalog = loadMarketingCdnCatalog();
 
-const LEGACY_SCREENSHOT_STEMS = {
-  screenshot2: { stem: "screenshot2_1773379293573", w: 2730, h: 1588 },
-  screenshot9: { stem: "screenshot9_1773379293573", w: 2282, h: 1186 },
-  screenshotTest: { stem: "screenshottest_1773379293573", w: 2048, h: 1590 },
-  screenshot6: { stem: "screenshot6_1773379293573", w: 2524, h: 1448 },
-  screenshot11: { stem: "screenshot11_1773379293573", w: 2510, h: 1588 },
-  screenshot3: { stem: "screenshot3_1773379293573", w: 2528, h: 1602 },
-  screenshot5: { stem: "screenshot5_1773379293573", w: 2538, h: 1610 },
-  screenshot10: { stem: "screenshot10_1773379293573", w: 2264, h: 1580 },
-};
+const LEGACY_BASE = marketingCdnCatalog.committedMarketingAssets.origin;
+
+/** Public CDN hostname for nursenest-images (DigitalOcean Spaces, tor1). Single source: marketing-cdn.catalog.json */
+const DEFAULT_MARKETING_CDN_BASE =
+  marketingCdnCatalog.digitalOceanSpaces.nursenestImages.publicBaseUrl;
+
+const LEGACY_SCREENSHOT_STEMS = Object.fromEntries(
+  Object.entries(marketingCdnCatalog.homepageScreenshots.slotToLegacyStem).map(([k, v]) => [
+    k,
+    { stem: v.stem, w: v.width, h: v.height },
+  ]),
+);
 
 const SCREENSHOT_SEMANTICS = {
   screenshot2: ["progress", "performance", "adaptive", "analytics", "readiness", "dashboard"],
